@@ -97,6 +97,15 @@ class SiTests(unittest.TestCase):
         self.assertEqual(si.laid_date, datetime.date(2026, 5, 20))
 
 
+class SiDetailTests(unittest.TestCase):
+    def test_detail_carries_text_link_enabling_act_and_tracker_url(self):
+        si = sis.parse_si_detail(load_json("si_detail-G6pPGK1m"))
+        self.assertEqual(si.text_link, "https://www.legislation.gov.uk/ukdsi/2026/9780348283426")
+        self.assertEqual(si.enabling_acts, ["Children's Wellbeing and Schools Act 2026"])
+        self.assertEqual(si.tracker_url,
+                         "https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m")
+
+
 class DivisionTests(unittest.TestCase):
     def test_division_51_369_102_and_entity_match(self):  # acceptance 9.7
         rows = divisions.parse_commons_response(load_json("division_commons-2026-07-08"))
@@ -106,6 +115,8 @@ class DivisionTests(unittest.TestCase):
         # Entity match, not keyword (handoff 4.6).
         matched = divisions.matches_watchlist(d51.title, ["Children's Wellbeing and Schools"])
         self.assertEqual(matched, ["Children's Wellbeing and Schools"])
+        # Public page, never the JSON API endpoint.
+        self.assertEqual(d51.url, "https://votes.parliament.uk/Votes/Commons/Division/2402")
 
 
 class WhatsOnTests(unittest.TestCase):

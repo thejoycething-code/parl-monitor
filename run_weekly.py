@@ -220,11 +220,19 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
             r = filt.filter_item(tax, wl, si.name)
             if not r.matched():
                 continue
-            note = "SI: {0}, {1}, laid {2}".format(si.name, si.procedure, si.laid_date)
+            detail = sis.fetch_si_detail(client, si.id)  # text link + enabling Act
+            facts = [si.procedure or "procedure TBC"]
+            if detail.enabling_acts:
+                facts.append("made under the " + " and ".join(detail.enabling_acts))
+            if si.laid_date:
+                facts.append("laid {0}".format(si.laid_date))
+            note = "[{0}]({1}) ({2})".format(si.name, detail.tracker_url, "; ".join(facts))
             if div51 and divisions.matches_watchlist(div51.title, [e[0] for e in wl.act_shorts]):
-                note += "; approved by Commons division #{0} ({1}-{2} on {3})".format(
-                    div51.number, div51.aye_count, div51.no_count, div51.date)
-            store_item(conn, "si:" + str(si.id), "si", "si", note, div51.url if div51 else None, r,
+                note += "; approved by the Commons [{0} to {1}, {2}]({3})".format(
+                    div51.aye_count, div51.no_count, div51.date, div51.url)
+            if detail.text_link:
+                note += "; [full text]({0})".format(detail.text_link)
+            store_item(conn, "si:" + str(si.id), "si", "si", note, detail.tracker_url, r,
                        event_date=si.laid_date.isoformat() if si.laid_date else None)
 
     def _whatson():
@@ -348,11 +356,9 @@ def sections_from_store(conn, edition):
             })
             continue
         if feed == "si":
-            # The SI's identity leads; the editorial why-line annotates it.
-            title = r["title"]
-            if title.startswith("SI: "):
-                title = title[len("SI: "):]
-            text = "[{0}]({1})".format(title, r["url"]) if r["url"] else title
+            # Titles from the SI ingester carry their own links (name -> the
+            # public tracker page); never re-wrap, nested links break markdown.
+            text = r["title"]
             if r["why_it_matters"]:
                 text += " " + r["why_it_matters"]
             edition.si_notes.append(digest.Line(text=text))

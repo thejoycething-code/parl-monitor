@@ -30,9 +30,9 @@ class Division:
 
     @property
     def url(self):
-        if self.house == "Lords":
-            return "https://lordsvotes-api.parliament.uk/data/Division/{0}".format(self.id)
-        return "https://commonsvotes-api.parliament.uk/data/division/{0}.json".format(self.id)
+        """Public division page (votes.parliament.uk), not the JSON API."""
+        house = "Lords" if self.house == "Lords" else "Commons"
+        return "https://votes.parliament.uk/Votes/{0}/Division/{1}".format(house, self.id)
 
 
 def parse_commons_division(row):

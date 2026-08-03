@@ -25,6 +25,13 @@ class StatutoryInstrument:
     commons_laying_date: datetime.date
     lords_laying_date: datetime.date
     paper_made_date: datetime.date
+    text_link: str = None        # legislation.gov.uk instrument text (detail only)
+    enabling_acts: list = None   # parent Act names (detail only)
+
+    @property
+    def tracker_url(self):
+        """Public status page: timeline, procedure, dates (not the JSON API)."""
+        return "https://statutoryinstruments.parliament.uk/instrument/{0}".format(self.id)
 
     @property
     def laid_date(self):
@@ -48,6 +55,20 @@ def parse_si(value):
 
 def parse_response(payload):
     return [parse_si(item.get("value") or {}) for item in (payload.get("items") or [])]
+
+
+def parse_si_detail(payload):
+    """Detail adds the legislation.gov.uk text link and the enabling Act(s)."""
+    v = payload.get("value") or payload
+    si = parse_si(v)
+    si.text_link = v.get("link")
+    si.enabling_acts = [a.get("name") for a in (v.get("enablingActs") or [])]
+    return si
+
+
+def fetch_si_detail(client, si_id):
+    url = "{0}/{1}".format(SI_API, si_id)
+    return parse_si_detail(client.get_json(url, "si", "detail-{0}".format(si_id)))
 
 
 def fetch_sis(client, name, take=25):
