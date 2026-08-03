@@ -113,6 +113,13 @@ class SiteTests(unittest.TestCase):
         self.assertIn('<span class="due far">Tue 1 Sep', html)       # 29 days: grey at the &le;21 band
         self.assertIn('<span class="due far">Thu 24 Sep', html)
 
+    def test_procedure_chip_carries_hover_explanation(self):
+        md = ("| Instrument | Procedure | Status |\n|---|---|---|\n"
+              "| [X](https://x) | Draft affirmative | Laid 2026-05-20 |")
+        html = partner.to_html(md, "t")
+        self.assertIn('class="proc" title="Laid as a draft: it cannot become law', html)
+        self.assertIn(">Draft affirmative</span>", html)
+
     def test_build_site_writes_index_archive_and_middleware(self):
         tmp = tempfile.mkdtemp()
         partner.build_site(tmp, "2026-08-10", partner.redact(EDITION), ["2026-08-10", "2026-08-03"])

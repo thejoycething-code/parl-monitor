@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Secondary legislation: four mockups</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; background:#FFF;
+       max-width: 60rem; margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.35rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+.option{margin:2.4rem 0;} .option>h2{color:#4285f4;font-size:1.05rem;margin-bottom:.15rem;}
+.verdict{font-size:.85em;opacity:.8;margin:.2rem 0 .9rem;}
+.demo{border:1px dashed #C8D0DC;border-radius:6px;padding:1rem 1.2rem;}
+a{color:#4285f4;text-decoration:none;} a:hover{text-decoration:underline;}
+.ex{opacity:.65;}
+.linkrow a{margin-right:.9rem;font-size:.85em;white-space:nowrap;}
+.linkrow a::before{content:"\2192\00a0";}
+
+/* B table */
+table{border-collapse:collapse;width:100%;font-size:.92em;}
+th,td{border:1px solid #EEEEEE;padding:.45rem .6rem;text-align:left;vertical-align:top;}
+th{background:#4285f4;color:#FFF;font-weight:500;}
+.proc{font-size:.78em;font-weight:700;color:#4285f4;border:1px solid #4285f4;
+      border-radius:3px;padding:.08em .45em;white-space:nowrap;}
+
+/* C pipeline */
+.si{padding:.75rem 0;border-bottom:1px solid #EEEEEE;}
+.si h4{margin:0 0 .15rem;font-weight:500;font-size:.98em;}
+.si .meta{font-size:.83em;opacity:.85;margin-bottom:.5rem;}
+.steps{display:flex;align-items:center;gap:0;flex-wrap:wrap;font-size:.78em;}
+.step{display:flex;align-items:center;}
+.dot{width:.95em;height:.95em;border-radius:50%;border:2px solid #C8D0DC;background:#FFF;
+     display:inline-block;margin-right:.35em;}
+.done .dot{background:#55B159;border-color:#55B159;}
+.now .dot{background:#FFF;border-color:#4285f4;border-width:3px;}
+.step .lbl{white-space:nowrap;} .done .lbl{font-weight:700;}
+.now .lbl{font-weight:700;color:#4285f4;}
+.bar{width:2.2rem;height:2px;background:#C8D0DC;margin:0 .5rem;}
+.done + .step .bar-done{background:#55B159;}
+
+/* D grouped by Act */
+.act{margin:.4rem 0 1rem;}
+.act h4{margin:.6rem 0 .3rem;font-size:.95em;color:#52575C;}
+.act h4 .why{font-weight:400;font-size:.88em;opacity:.8;}
+.act .row{display:flex;gap:.8rem;align-items:baseline;padding:.4rem 0 .4rem .9rem;
+          border-left:3px solid #4285f4;}
+.status{font-size:.75em;font-weight:700;padding:.12em .55em;border-radius:999px;white-space:nowrap;}
+.status.lords{background:#FFEBAD;color:#52575C;}
+.status.force{background:#55B159;color:#FFF;}
+.status.laid{background:#EEEEEE;color:#52575C;}
+</style></head><body>
+<h1>Secondary legislation, four ways <span style="font-weight:400;font-size:.7em">(real CWSA data; second rows illustrative)</span></h1>
+
+<div class="option"><h2>Option A — today's format (baseline)</h2>
+<p class="verdict">Accurate but a wall: name, parenthetical facts, three inline links and the why-line in one breath.</p>
+<div class="demo" style="font-size:.93em">
+<strong>Secondary legislation:</strong> <a href="#">Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026</a> (Draft affirmative; made under the Children's Wellbeing and Schools Act 2026; laid 2026-05-20); approved by the Commons <a href="#">369 to 102, 2026-07-08</a>; <a href="#">full text</a> The Act's first implementing regulations; further commencement regulations expected on the September order paper.
+</div></div>
+
+<div class="option"><h2>Option B — companion table (same language as the deadline table)</h2>
+<p class="verdict">Instrument leads, procedure as an outlined chip, status column says where it is, links live on their own line. Consistent with section 5's table above it.</p>
+<div class="demo"><table>
+<tr><th>Instrument</th><th>Procedure</th><th>Status</th></tr>
+<tr><td><a href="#">CWSA 2026 (Establishment of Schools) (Consequential Amendments) Regulations</a><br>
+<span style="font-size:.85em;opacity:.85">Under the Children's Wellbeing and Schools Act 2026. First implementing regulations; more commencement regulations expected in September.</span>
+<div class="linkrow"><a href="#">tracker</a><a href="#">Commons vote 369-102</a><a href="#">full text</a></div></td>
+<td><span class="proc">Draft affirmative</span></td>
+<td>Laid 20 May; Commons approved 8 Jul; <strong>awaiting the Lords</strong></td></tr>
+<tr class="ex"><td><a href="#">(example) Crime and Policing Act 2026 (Commencement No. 2) Regulations</a><br>
+<span style="font-size:.85em;opacity:.85">Under the Crime and Policing Act 2026. Would commence the s.242 pardons scheme.</span>
+<div class="linkrow"><a href="#">tracker</a><a href="#">full text</a></div></td>
+<td><span class="proc">Made negative</span></td>
+<td>Laid 28 Aug; <strong>prayer period to 8 Oct</strong></td></tr>
+</table></div></div>
+
+<div class="option"><h2>Option C — procedure pipeline</h2>
+<p class="verdict">Each instrument shows its actual journey as steps: filled green = done (with date), blue ring = where it is now, hollow = to come. The steps are the real draft-affirmative sequence, not decoration. Richest read; most rendering work; needs per-procedure step logic.</p>
+<div class="demo">
+<div class="si"><h4><a href="#">CWSA 2026 (Establishment of Schools) (Consequential Amendments) Regulations</a></h4>
+<div class="meta">Draft affirmative &middot; under the Children's Wellbeing and Schools Act 2026 &middot; <a href="#">Commons vote</a> &middot; <a href="#">full text</a></div>
+<div class="steps">
+<span class="step done"><span class="dot"></span><span class="lbl">Laid 20 May</span></span><span class="bar"></span>
+<span class="step done"><span class="dot"></span><span class="lbl">Commons approved 8 Jul</span></span><span class="bar"></span>
+<span class="step now"><span class="dot"></span><span class="lbl">Awaiting the Lords</span></span><span class="bar"></span>
+<span class="step"><span class="dot"></span><span class="lbl">Made</span></span><span class="bar"></span>
+<span class="step"><span class="dot"></span><span class="lbl">In force</span></span>
+</div></div>
+<div class="si ex"><h4><a href="#">(example) Crime and Policing Act 2026 (Commencement No. 2) Regulations</a></h4>
+<div class="meta">Made negative &middot; under the Crime and Policing Act 2026</div>
+<div class="steps">
+<span class="step done"><span class="dot"></span><span class="lbl">Made</span></span><span class="bar"></span>
+<span class="step done"><span class="dot"></span><span class="lbl">Laid 28 Aug</span></span><span class="bar"></span>
+<span class="step now"><span class="dot"></span><span class="lbl">Prayer period to 8 Oct</span></span><span class="bar"></span>
+<span class="step"><span class="dot"></span><span class="lbl">In force 1 Nov</span></span>
+</div></div>
+</div></div>
+
+<div class="option"><h2>Option D — grouped by parent Act (implementation ledger)</h2>
+<p class="verdict">The Act is the organising unit — matching how you actually track implementation (acts_watch). Each watched Act gets a header with its why-line; instruments nest under it with a status pill. Strongest once CPA and Border Security instruments start arriving; overkill while there is one SI.</p>
+<div class="demo">
+<div class="act"><h4>Children's Wellbeing and Schools Act 2026 <span class="why">— home education registers and school powers; implementation watch</span></h4>
+<div class="row"><span class="status lords">awaiting Lords</span><span><a href="#">Establishment of Schools (Consequential Amendments) Regulations</a> — Draft affirmative; laid 20 May; Commons approved <a href="#">369-102</a>. <a href="#">full text</a></span></div>
+</div>
+<div class="act ex"><h4>(example) Crime and Policing Act 2026 <span class="why">— carried abortion decriminalisation (s.241); implementation and pardons watch</span></h4>
+<div class="row"><span class="status laid">prayer to 8 Oct</span><span><a href="#">Commencement No. 2 Regulations</a> — Made negative; would commence the s.242 pardons scheme.</span></div>
+<div class="row"><span class="status force">in force</span><span><a href="#">Commencement No. 1 Regulations</a> — brought s.241 into force at Royal Assent.</span></div>
+</div>
+</div></div>
+
+<p style="font-size:.85em;opacity:.75">Status data note: "awaiting the Lords" is derived honestly from what we hold (laid both Houses, Commons division carried, paperMadeDate still null). The pipeline steps in C/D use only real recorded events; nothing is invented. B and D can share the same status wording.</p>
+</body></html>

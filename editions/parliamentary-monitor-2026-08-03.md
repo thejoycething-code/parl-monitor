@@ -14,7 +14,11 @@
 | **Consultation** [SEND reform: education otherwise than at school](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school). Government plans to reshape education outside school; closes 18 September. Direct bearing on home-educating families. Held at NOTE pending a decision on a supporter response. | Fri 18 Sep · 46 days |
 | **Consultation** [Tying the Knot: Reforming weddings law in England and Wales](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales). Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live under Zuzana; response push through recess. | Thu 24 Sep · 52 days |
 
-- **Secondary legislation:** [Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026](https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m) (Draft affirmative; made under the Children's Wellbeing and Schools Act 2026; laid 2026-05-20); approved by the Commons [369 to 102, 2026-07-08](https://votes.parliament.uk/Votes/Commons/Division/2402); [full text](https://www.legislation.gov.uk/ukdsi/2026/9780348283426) The Act's first implementing regulations; further commencement regulations expected on the September order paper.
+**Secondary legislation**
+
+| Instrument | Procedure | Status |
+|---|---|---|
+| [Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026](https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m) Under the Children's Wellbeing and Schools Act 2026. The Act's first implementing regulations; further commencement regulations expected on the September order paper. [Commons vote 369 to 102](https://votes.parliament.uk/Votes/Commons/Division/2402) · [full text](https://www.legislation.gov.uk/ukdsi/2026/9780348283426) | Draft affirmative | Laid 2026-05-20; Commons approved 2026-07-08; awaiting the Lords |
 
 ## 9. Active bills board
 

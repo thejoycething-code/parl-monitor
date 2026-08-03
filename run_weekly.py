@@ -106,7 +106,7 @@ def load_settings():
 
 
 def store_item(conn, item_id, feed, item_type, title, url, result, event_date=None, deadline=None,
-               date_tabled=None):
+               date_tabled=None, extra=None):
     """Store a matched item with triage_score NULL (= pending triage).
 
     Scoring is a separate pass (stub, session, or live) over pending items;
@@ -118,16 +118,16 @@ def store_item(conn, item_id, feed, item_type, title, url, result, event_date=No
     # so re-running a pull cannot wipe scoring or review decisions.
     conn.execute(
         "INSERT INTO items (id, captured_at, source_feed, item_type, title, url, "
-        "event_date, deadline, date_tabled, issue_areas, matched_terms, tier, triage_score) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL) "
+        "event_date, deadline, date_tabled, issue_areas, matched_terms, tier, triage_score, extra) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?) "
         "ON CONFLICT(id) DO UPDATE SET captured_at=excluded.captured_at, title=excluded.title, "
         "url=excluded.url, event_date=excluded.event_date, deadline=excluded.deadline, "
         "date_tabled=excluded.date_tabled, issue_areas=excluded.issue_areas, "
-        "matched_terms=excluded.matched_terms, tier=excluded.tier",
+        "matched_terms=excluded.matched_terms, tier=excluded.tier, extra=excluded.extra",
         (item_id, datetime.date.today().isoformat(), feed, item_type, title, url, event_date, deadline,
          date_tabled,
          json.dumps(result.issue_areas), json.dumps(result.matched_terms + result.watchlist_hits),
-         result.tier),
+         result.tier, json.dumps(extra) if extra else None),
     )
     conn.commit()
 
@@ -221,19 +221,27 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
             if not r.matched():
                 continue
             detail = sis.fetch_si_detail(client, si.id)  # text link + enabling Act
-            facts = [si.procedure or "procedure TBC"]
-            if detail.enabling_acts:
-                facts.append("made under the " + " and ".join(detail.enabling_acts))
-            if si.laid_date:
-                facts.append("laid {0}".format(si.laid_date))
-            note = "[{0}]({1}) ({2})".format(si.name, detail.tracker_url, "; ".join(facts))
+            approved = None
+            division = None
             if div51 and divisions.matches_watchlist(div51.title, [e[0] for e in wl.act_shorts]):
-                note += "; approved by the Commons [{0} to {1}, {2}]({3})".format(
-                    div51.aye_count, div51.no_count, div51.date, div51.url)
-            if detail.text_link:
-                note += "; [full text]({0})".format(detail.text_link)
-            store_item(conn, "si:" + str(si.id), "si", "si", note, detail.tracker_url, r,
-                       event_date=si.laid_date.isoformat() if si.laid_date else None)
+                approved = div51.date.isoformat() if div51.date else None
+                division = {"result": "{0} to {1}".format(div51.aye_count, div51.no_count),
+                            "date": approved, "url": div51.url}
+            extra = {
+                "procedure": si.procedure,
+                "act": ", ".join(detail.enabling_acts or []),
+                "laid": si.laid_date.isoformat() if si.laid_date else None,
+                "made": si.paper_made_date.isoformat() if si.paper_made_date else None,
+                "division": division,
+                "text_link": detail.text_link,
+                "status": sis.status_line(si.procedure,
+                                          si.laid_date.isoformat() if si.laid_date else None,
+                                          approved,
+                                          si.paper_made_date.isoformat() if si.paper_made_date else None),
+            }
+            store_item(conn, "si:" + str(si.id), "si", "si", si.name, detail.tracker_url, r,
+                       event_date=si.laid_date.isoformat() if si.laid_date else None,
+                       extra=extra)
 
     def _whatson():
         for e in whatson.fetch_events(client, week_start, week_end):
@@ -334,7 +342,7 @@ SECTION_FOR_FEED = {
 def sections_from_store(conn, edition):
     """Build edition sections by querying reviewed items (digest as byproduct)."""
     rows = conn.execute(
-        "SELECT id, source_feed, title, url, event_date, deadline, priority_tag, owner, why_it_matters "
+        "SELECT id, source_feed, title, url, event_date, deadline, priority_tag, owner, why_it_matters, extra "
         "FROM items WHERE priority_tag IS NOT NULL ORDER BY source_feed, event_date, id"
     ).fetchall()
     for r in rows:
@@ -356,12 +364,13 @@ def sections_from_store(conn, edition):
             })
             continue
         if feed == "si":
-            # Titles from the SI ingester carry their own links (name -> the
-            # public tracker page); never re-wrap, nested links break markdown.
-            text = r["title"]
-            if r["why_it_matters"]:
-                text += " " + r["why_it_matters"]
-            edition.si_notes.append(digest.Line(text=text))
+            extra = json.loads(r["extra"]) if r["extra"] else {}
+            edition.si_rows.append({
+                "name": r["title"], "url": r["url"], "why": r["why_it_matters"] or "",
+                "procedure": extra.get("procedure"), "act": extra.get("act"),
+                "status": extra.get("status"), "division": extra.get("division"),
+                "text_link": extra.get("text_link"),
+            })
             continue
         target = SECTION_FOR_FEED.get(feed)
         if not target:

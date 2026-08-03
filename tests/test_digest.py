@@ -115,15 +115,26 @@ class FooterTests(unittest.TestCase):
         self.assertIn("No coverage gaps", digest.render(base_edition()))
 
 
-class SiNoteTests(unittest.TestCase):
-    def test_si_note_names_the_instrument_not_just_the_why_line(self):
-        e = base_edition(si_notes=[digest.Line(
-            text="[CWSA (Establishment of Schools) Regulations 2026](https://x), "
-                 "Draft affirmative, laid 2026-05-20 The Act's first implementing regulations.")])
+class SiTableTests(unittest.TestCase):
+    def test_si_table_names_instrument_procedure_and_status(self):
+        e = base_edition(si_rows=[{
+            "name": "CWSA (Establishment of Schools) Regulations 2026",
+            "url": "https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m",
+            "why": "First implementing regulations.",
+            "procedure": "Draft affirmative",
+            "act": "Children's Wellbeing and Schools Act 2026",
+            "status": "Laid 2026-05-20; Commons approved 2026-07-08; awaiting the Lords",
+            "division": {"result": "369 to 102", "date": "2026-07-08",
+                         "url": "https://votes.parliament.uk/Votes/Commons/Division/2402"},
+            "text_link": "https://www.legislation.gov.uk/ukdsi/2026/9780348283426",
+        }])
         md = digest.render(e)
-        self.assertIn("CWSA (Establishment of Schools) Regulations 2026", md)
-        self.assertIn("**Secondary legislation:**", md)
-
+        self.assertIn("| Instrument | Procedure | Status |", md)
+        self.assertIn("[CWSA (Establishment of Schools) Regulations 2026](https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m)", md)
+        self.assertIn("Under the Children's Wellbeing and Schools Act 2026.", md)
+        self.assertIn("| Draft affirmative |", md)
+        self.assertIn("awaiting the Lords", md)
+        self.assertIn("[Commons vote 369 to 102](https://votes.parliament.uk/Votes/Commons/Division/2402)", md)
 
 if __name__ == "__main__":
     unittest.main()

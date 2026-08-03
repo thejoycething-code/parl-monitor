@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS items (
   why_it_matters TEXT,            -- <=35 words, drafted by triage, edited by human
   owner TEXT, action_status TEXT DEFAULT 'none',
   mp_refs TEXT, bill_ref INTEGER,
-  raw_path TEXT                   -- provenance pointer into data/raw/
+  raw_path TEXT,                  -- provenance pointer into data/raw/
+  extra TEXT                      -- feed-specific structured payload (json)
 );
 CREATE TABLE IF NOT EXISTS bills_board (
   bill_id INTEGER PRIMARY KEY, title TEXT, sponsor TEXT,
@@ -67,7 +68,10 @@ def connect(path):
 
 
 def init_db(conn):
-    """Create all tables if absent. Idempotent."""
+    """Create all tables if absent, and apply column migrations. Idempotent."""
     conn.executescript(SCHEMA)
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(items)")}
+    if "extra" not in cols:
+        conn.execute("ALTER TABLE items ADD COLUMN extra TEXT")
     conn.commit()
     return conn

@@ -106,6 +106,23 @@ class SiDetailTests(unittest.TestCase):
                          "https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m")
 
 
+class SiStatusTests(unittest.TestCase):
+    def test_draft_affirmative_journey(self):
+        self.assertEqual(
+            sis.status_line("Draft affirmative", "2026-05-20", "2026-07-08"),
+            "Laid 2026-05-20; Commons approved 2026-07-08; awaiting the Lords")
+        self.assertEqual(
+            sis.status_line("Draft affirmative", "2026-05-20"),
+            "Laid 2026-05-20; awaiting approval by both Houses")
+        self.assertEqual(
+            sis.status_line("Draft affirmative", "2026-05-20", "2026-07-08", "2026-09-01"),
+            "Laid 2026-05-20; made 2026-09-01")
+
+    def test_unknown_procedure_reports_facts_only(self):
+        self.assertEqual(sis.status_line("Made negative", "2026-08-28"), "Laid 2026-08-28")
+        self.assertEqual(sis.status_line(None), "status not yet recorded")
+
+
 class DivisionTests(unittest.TestCase):
     def test_division_51_369_102_and_entity_match(self):  # acceptance 9.7
         rows = divisions.parse_commons_response(load_json("division_commons-2026-07-08"))

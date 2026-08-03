@@ -84,6 +84,23 @@ def _inline(text):
 
 _DAYS = re.compile(r"(\d+) days")
 
+# Hover explanations for parliamentary procedure terms (title attribute:
+# native browser tooltip, works without JavaScript).
+PROCEDURES = {
+    "Draft affirmative": "Laid as a draft: it cannot become law until both Houses have voted to approve it.",
+    "Made affirmative": "Already law when laid, but it lapses unless both Houses approve it within the statutory period (usually 28 or 40 days).",
+    "Draft negative": "Laid as a draft: it becomes law unless either House objects within 40 days.",
+    "Made negative": "Already law when laid: it stays law unless either House annuls it within the praying period (usually 40 days).",
+}
+
+
+def _proc_chip(cell_html):
+    for name, blurb in PROCEDURES.items():
+        if cell_html.strip() == name:
+            return ('<span class="proc" title="{0}">{1}</span>'.format(
+                html_lib.escape(blurb, quote=True), name))
+    return cell_html
+
 
 def _due_chip(cell_html):
     """Urgency-tinted deadline chip: red <=8 days, amber <=21, grey beyond."""
@@ -111,11 +128,14 @@ def to_html(markdown, title):
         body.append('<div class="tablewrap"><table>')
         headers = table[0]
         is_deadline_table = headers and headers[-1].strip().lower() == "closes"
+        is_si_table = headers and headers[0].strip().lower() == "instrument"
         body.append("<tr>" + "".join("<th>%s</th>" % _inline(c) for c in headers) + "</tr>")
         for row in table[2:]:  # skip separator row
             cells = [_inline(c) for c in row]
             if is_deadline_table and cells:
                 cells[-1] = _due_chip(cells[-1])
+            if is_si_table and len(cells) >= 2:
+                cells[1] = _proc_chip(cells[1])
             body.append("<tr>" + "".join("<td>%s</td>" % c for c in cells) + "</tr>")
         body.append("</table></div>")
         table.clear()
@@ -190,6 +210,9 @@ h3 {{ font-weight: 500; color: #52575C; }}
 .due.far {{ background: #EEEEEE; color: #52575C; }}
 .due.mid {{ background: #FFEBAD; color: #52575C; }}
 .due.soon {{ background: #DB544F; color: #FFFFFF; }}
+.proc {{ display: inline-block; font-size: .78em; font-weight: 700; color: #4285f4;
+        border: 1px solid #4285f4; border-radius: 3px; padding: .08em .45em;
+        white-space: nowrap; cursor: help; border-bottom-style: dotted; }}
 .tablewrap {{ overflow-x: auto; }}
 table {{ border-collapse: collapse; width: 100%; font-size: .92em; }}
 th, td {{ border: 1px solid #EEEEEE; padding: .5rem .65rem; text-align: left;

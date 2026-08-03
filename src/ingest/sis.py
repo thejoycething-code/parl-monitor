@@ -74,3 +74,30 @@ def fetch_si_detail(client, si_id):
 def fetch_sis(client, name, take=25):
     url = "{0}?Name={1}&Take={2}".format(SI_API, quote(name), take)
     return parse_response(client.get_json(url, "si", "search-{0}".format(name)))
+
+
+def status_line(procedure, laid_date=None, commons_approved=None, made_date=None):
+    """Where the instrument is in its journey, from recorded events only.
+
+    Draft affirmative is fully modelled (laid -> approved by each House ->
+    made); other procedures fall back to the facts we hold rather than
+    guessing stages we cannot verify.
+    """
+    parts = []
+    if laid_date:
+        parts.append("laid {0}".format(laid_date))
+    proc = (procedure or "").lower()
+    if made_date:
+        parts.append("made {0}".format(made_date))
+        joined = "; ".join(parts)
+        return joined[0].upper() + joined[1:]
+    if proc == "draft affirmative":
+        if commons_approved:
+            parts.append("Commons approved {0}".format(commons_approved))
+            parts.append("awaiting the Lords")
+        else:
+            parts.append("awaiting approval by both Houses")
+    if not parts:
+        return "status not yet recorded"
+    joined = "; ".join(parts)
+    return joined[0].upper() + joined[1:]

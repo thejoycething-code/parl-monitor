@@ -48,7 +48,7 @@ class Edition:
     votes: list = field(default_factory=list)
     pqs: list = field(default_factory=list)
     deadlines: list = field(default_factory=list)   # dicts: type/title/url/why/deadline
-    si_notes: list = field(default_factory=list)     # Lines: SIs (events, not deadlines)
+    si_rows: list = field(default_factory=list)      # dicts: name/url/procedure/act/status/...
     edms: list = field(default_factory=list)
     devolved: list = field(default_factory=list)
     statements: list = field(default_factory=list)
@@ -66,7 +66,7 @@ class DigestError(Exception):
 def validate(edition):
     """Refuse to render an ACT line without an owner (handoff section 8)."""
     for section in (edition.top_lines, edition.week_ahead, edition.votes, edition.pqs,
-                    edition.si_notes, edition.edms,
+                    edition.edms,
                     edition.devolved, edition.statements, edition.mp_notes):
         for line in section:
             if line.tag == "ACT" and not line.owner:
@@ -198,7 +198,7 @@ def render_deadlines(edition):
     not appear here: this section is purely what-closes-when, urgency belongs
     in Top lines. SIs (events, not deadlines) follow as note lines.
     """
-    if not edition.deadlines and not edition.si_notes:
+    if not edition.deadlines and not edition.si_rows:
         return None
     out = ["## 5. Consultations and calls for evidence", ""]
     if edition.deadlines:
@@ -211,9 +211,30 @@ def render_deadlines(edition):
                 r["type"], r["title"], r["url"] or "#", why,
                 _fmt_close(r.get("deadline"), edition.week_commencing)))
         out.append("")
-    for line in edition.si_notes:
-        out.append("- **Secondary legislation:** " + line.text)
-    if edition.si_notes:
+    if edition.si_rows:
+        out.append("**Secondary legislation**")
+        out.append("")
+        out.append("| Instrument | Procedure | Status |")
+        out.append("|---|---|---|")
+        for r in edition.si_rows:
+            cell = "[{0}]({1})".format(r["name"], r["url"] or "#")
+            context = []
+            if r.get("act"):
+                context.append("Under the {0}.".format(r["act"]))
+            if r.get("why"):
+                context.append(r["why"])
+            if context:
+                cell += " " + " ".join(context)
+            links = []
+            if r.get("division"):
+                d = r["division"]
+                links.append("[Commons vote {0}]({1})".format(d.get("result"), d.get("url") or "#"))
+            if r.get("text_link"):
+                links.append("[full text]({0})".format(r["text_link"]))
+            if links:
+                cell += " " + " \u00b7 ".join(links)
+            out.append("| {0} | {1} | {2} |".format(
+                cell, r.get("procedure") or "TBC", r.get("status") or ""))
         out.append("")
     return "\n".join(out)
 
