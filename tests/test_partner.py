@@ -77,6 +77,14 @@ class SiteTests(unittest.TestCase):
         self.assertIn("#4285f4", html)
         self.assertIn("noindex", html)
 
+    def test_link_text_containing_brackets_parses(self):
+        # "Complications from Abortions (Annual Report) Bill [HL]" broke the
+        # first regex: nested ] in link text rendered as raw markdown.
+        md = "| [A Bill [HL]](https://bills.parliament.uk/bills/4144) | x |\n|---|---|\n| y | z |"
+        html = partner.to_html(md, "t")
+        self.assertIn('<a href="https://bills.parliament.uk/bills/4144">A Bill [HL]</a>', html)
+        self.assertNotIn("](https", html)
+
     def test_build_site_writes_index_archive_and_middleware(self):
         tmp = tempfile.mkdtemp()
         partner.build_site(tmp, "2026-08-10", partner.redact(EDITION), ["2026-08-10", "2026-08-03"])

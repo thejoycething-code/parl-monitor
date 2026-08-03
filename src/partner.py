@@ -54,7 +54,7 @@ def redact(markdown, extra_names=()):
 
 # -- minimal markdown -> HTML for the edition subset --------------------------
 
-_INLINE_LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+_INLINE_LINK = re.compile(r"\[((?:[^\[\]]|\[[^\]]*\])+)\]\((https?://[^)\s]+)\)")
 _BOLD = re.compile(r"\*\*([^*]+)\*\*")
 
 
@@ -127,15 +127,15 @@ _PAGE = """<!doctype html>
 <meta name="robots" content="noindex, nofollow">
 <title>{title}</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 /* CitizenGO brand: Roboto; principal palette #4285f4 / #FFFFFF / #EEEEEE / #52575C;
    secondary palette (#DB544F, #55B159, #FFEBAD) reserved for UX elements (tags). */
 body {{ font: 16px/1.6 Roboto, -apple-system, "Segoe UI", sans-serif; color: #52575C;
        background: #FFFFFF; max-width: 62rem; margin: 0 auto; padding: 0 1.5rem 2rem; }}
-.masthead {{ display: flex; align-items: baseline; gap: .6rem; padding: 1.1rem 0;
+.masthead {{ display: flex; align-items: center; gap: .6rem; padding: 1.1rem 0;
              border-bottom: 4px solid #4285f4; margin-bottom: 1.2rem; }}
-.masthead .go {{ font-size: 1.5rem; font-weight: 700; color: #4285f4; letter-spacing: -.02em; }}
+.masthead .logo {{ height: 2.6rem; width: auto; }}
 .masthead .product {{ font-size: 1.05rem; font-weight: 500; color: #52575C; }}
 h1 {{ font-weight: 700; color: #52575C; font-size: 1.55rem; margin: .2rem 0 .4rem; }}
 h2 {{ font-weight: 700; color: #4285f4; margin-top: 2rem; font-size: 1.2rem; }}
@@ -160,7 +160,7 @@ nav {{ margin: .8rem 0 1.6rem; font-size: .9em; }}
 ul {{ padding-left: 1.3rem; }}
 li {{ margin: .45rem 0; }}
 </style></head><body>
-<div class="masthead"><span class="go">CitizenGO</span><span class="product">Parliamentary Monitor</span></div>
+<div class="masthead"><svg class="logo" viewBox="0 0 350 120" role="img" aria-label="CitizenGO"><g transform="rotate(-8 175 60)"><text x="6" y="80" font-family="Roboto, sans-serif" font-weight="900" font-size="54" letter-spacing="1.5" fill="#4285f4">CITIZEN</text><circle cx="292" cy="56" r="45" fill="#4285f4"/><text x="292" y="74" text-anchor="middle" font-family="Roboto, sans-serif" font-weight="900" font-size="46" fill="#FFFFFF">GO</text></g></svg><span class="product">Parliamentary Monitor</span></div>
 {body}
 </body></html>
 """
