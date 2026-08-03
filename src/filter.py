@@ -31,7 +31,22 @@ def _norm(text):
     return _fold(text).lower()
 
 
-_ACRONYM = re.compile(r"[A-Z]{2,}")
+_ACRONYM = re.compile(r"[A-Z][A-Za-z]{1,7}")  # see _is_acronym
+
+
+def _is_acronym(raw):
+    """Terms that must match case-sensitively.
+
+    All-caps terms (CARE, RSE, EOTAS) and short single-word mixed-case
+    acronyms with an internal capital (MAiD, FoRB) - so "maid" and "forb"
+    never match. Hyphenated terms (self-ID) stay case-insensitive so
+    sentence-case variants still match.
+    """
+    if " " in raw or "-" in raw:
+        return False
+    if raw.isupper():
+        return True
+    return len(raw) <= 6 and sum(1 for c in raw[1:] if c.isupper()) >= 1 and raw[0].isupper() and not raw[1:].islower()
 
 
 def _compile_term(term):
@@ -43,7 +58,7 @@ def _compile_term(term):
     """
     stem = term.endswith("*")
     raw = (term[:-1] if stem else term).strip()
-    if _ACRONYM.fullmatch(raw):
+    if _is_acronym(raw):
         core = _fold(raw)  # preserve case
         left, right = r"(?<![A-Za-z0-9])", ("" if stem else r"(?![A-Za-z0-9])")
         return re.compile(left + re.escape(core) + right), True

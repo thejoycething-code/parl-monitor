@@ -96,6 +96,34 @@ class FilterTests(unittest.TestCase):
         self.assertIn(3, self.match("The PATHWAYS gender pilot").issue_areas)
         self.assertFalse(self.match("Clinical care pathways review").matched())
 
+
+    def test_v03_additions(self):
+        # Vocabulary gaps closed 2026-08-03 (Christopher approved the set).
+        self.assertIn(1, self.match("Decriminalisation of abortion: pardons scheme").issue_areas)
+        self.assertIn(6, self.match("Support for home schooling families").issue_areas)
+        self.assertIn(6, self.match("Homeschooling registration proposals").issue_areas)
+        self.assertIn(8, self.match("A threat to religious liberty").issue_areas)
+        self.assertIn(5, self.match("EHRC guidance on single-sex services").issue_areas)
+        self.assertIn(3, self.match("Social transition of pupils in schools").issue_areas)
+        self.assertIn(5, self.match("The gender reassignment protected characteristic").issue_areas)
+        self.assertIn(2, self.match("Lessons from MAiD in Canada").issue_areas)
+        self.assertIn(10, self.match("Polygenic screening of embryos").issue_areas)
+
+    def test_islam_related_additions_scoped_to_existing_areas(self):
+        self.assertIn(7, self.match("A statutory definition of Islamophobia").issue_areas)
+        self.assertIn(7, self.match("Islamist pressure on schools").issue_areas)
+        self.assertIn(6, self.match("The grooming gangs national inquiry").issue_areas)
+        self.assertIn(9, self.match("Sharia councils and marriage law").issue_areas)
+
+    def test_new_terms_do_not_reintroduce_noise(self):
+        # Bare excluded words still never match alone.
+        self.assertFalse(self.match("Energy transition targets").matched())
+        # "maid" should not ride in on MAiD (case-insensitive fallback risk).
+        self.assertFalse(self.match("The maid service industry").matched())
+        # Plain migration/immigration items stay out: not a taxonomy area.
+        self.assertFalse(self.match("Net migration statistics for 2026").matched())
+        self.assertFalse(self.match("Asylum accommodation costs").matched())
+
     def test_loose_pq_noise_is_suppressed(self):
         # "British Steel: Jingye Group" is a real loose-search PQ hit; filter drops it.
         self.assertFalse(self.match("British Steel: Jingye Group").matched())

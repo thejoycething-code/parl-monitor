@@ -14,6 +14,9 @@ pq_sweep_terms:
   - puberty blockers
   - age assurance
   - anti-Muslim hostility
+  - Islamophobia
+  - grooming gangs
+  - home schooling
   - conversion therapy
   - surrogacy
   - PATHWAYS
@@ -22,6 +25,7 @@ pq_sweep_terms:
 # Early Day Motions sweep (fast API). Matched EDMs are stored as items and
 # their signature counts recorded per edition for week-on-week deltas.
 edm_sweep_terms:
+  - Islamophobia
   - assisted dying
   - abortion
   - home education
