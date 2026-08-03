@@ -35,34 +35,34 @@
 - **[WATCH]** [(example) Online Safety Act: age assurance, answered 2026-09-08. Ofcom timetable slips to 2027.](https://questions-statements.parliament.uk/EXAMPLE)
 - **[WATCH]** [(example) Surrogacy: Law Commission response, answered 2026-09-08. Government still to publish its response.](https://questions-statements.parliament.uk/EXAMPLE)
 
-## 5. Committee corner
+## 5. Consultations and calls for evidence
 
-- **[ACT]** (example) Health and Social Care Committee: palliative care inquiry, written evidence closes 2026-10-03. Submission drafted, needs sign-off. (Deadline: 2026-10-03; Owner: Christopher)
-- **[WATCH]** (example) Women and Equalities Committee: single-sex spaces inquiry, call for evidence open. (Deadline: 2026-10-17)
+| Consultation / call for evidence | Closes |
+|---|---|
+| **Consultation** [(example) SEND reform: education otherwise than at school](https://example.gov.uk/EXAMPLE2). | Fri 18 Sep · 4 days |
+| **Consultation** [(example) RSE statutory guidance](https://example.gov.uk/EXAMPLE). Supporter-response campaign live; 3,120 responses. | Wed 23 Sep · 9 days |
+| **Evidence** [(example) Palliative care inquiry](https://committees.parliament.uk/EXAMPLE). Health and Social Care Committee; submission drafted, needs sign-off. | Sat 3 Oct · 19 days |
+| **Evidence** [(example) Single-sex spaces inquiry](https://committees.parliament.uk/EXAMPLE2). Women and Equalities Committee; call for evidence open. | Sat 17 Oct · 33 days |
 
-## 6. Consultations and secondary legislation
+- **Secondary legislation:** (example) The Abortion (Safe Access Zones) Regulations laid, negative procedure, prayer deadline 2026-10-01.
 
-- **[ACT]** (example) DfE: RSE statutory guidance, closes 2026-09-23 (9 days). Supporter-response campaign live; 3,120 responses. (Deadline: 2026-09-23; Owner: Christopher)
-- **[WATCH]** (example) SEND reform: education otherwise than at school, closes 2026-09-18. (Deadline: 2026-09-18)
-- **[WATCH]** (example) SI laid: The Abortion (Safe Access Zones) Regulations, negative procedure, prayer deadline 2026-10-01. (Deadline: 2026-10-01)
-
-## 7. EDMs and petitions
+## 6. EDMs and petitions
 
 - **[NOTE]** [(example) EDM 603 (Antoniazzi): foetal viability and the 24-week limit, 6 signatures (+2 this week).](https://edm.parliament.uk/early-day-motion/603)
 - **[NOTE]** [(example) EDM 536: single-sex wards in NHS hospitals, 41 signatures (+9).](https://edm.parliament.uk/early-day-motion/536)
 - **[NOTE]** [(example) EDM 342: protection of freedom of religion for street preachers, 28 signatures (+3).](https://edm.parliament.uk/early-day-motion/342)
 
-## 8. Devolved round-up
+## 7. Devolved round-up
 
 - **[WATCH]** (example) Holyrood, Tuesday: members' debate on hospice funding in Scotland.
 - **[NOTE]** (example) Senedd: petition on parental rights in RSE reaches committee, 5,400 signatures.
 
-## 9. Statements and announcements
+## 8. Statements and announcements
 
 - **[WATCH]** (example) WMS, DHSC: Cass Review implementation update. Confirms private-prescription route remains under review.
 - **[NOTE]** (example) WMS, MoJ: Tying the Knot weddings-law reform, government response timetable.
 
-## 10. Active bills board
+## 9. Active bills board
 
 | Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |
 |---|---|---|---|---|---|---|
@@ -75,7 +75,7 @@
 
 *Movement: NEW = first appearance on the board; ▲ moved = stage or next date changed since last edition; no change = as last edition; closing = final entry, the bill leaves the board next week.*
 
-## 11. MP intelligence notes
+## 10. MP intelligence notes
 
 - **[NOTE]** (example) Baroness Grey-Thompson (Crossbench) spoke against broadening eligibility at Lords committee, citing coercion evidence. 5CA input flagged.
 - **[NOTE]** (example) Danny Kruger (Con, East Wiltshire) led the Conversion Practices Bill opposition, parental-consent focus. Profile updated.

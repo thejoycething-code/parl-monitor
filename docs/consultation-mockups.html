@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Refined Option B: four variants</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; background:#FFF;
+       max-width: 58rem; margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.35rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+.option{margin:2.3rem 0;} .option>h2{color:#4285f4;font-size:1.05rem;margin-bottom:.15rem;}
+.verdict{font-size:.85em;opacity:.8;margin:.2rem 0 .9rem;}
+.demo{border:1px dashed #C8D0DC;border-radius:6px;padding:1rem 1.2rem;}
+a{color:#4285f4;text-decoration:none;} a:hover{text-decoration:underline;}
+.why{font-size:.85em;opacity:.85;display:block;margin-top:.1rem;}
+table{border-collapse:collapse;width:100%;font-size:.93em;}
+th,td{padding:.5rem .6rem;text-align:left;vertical-align:top;}
+th{background:#4285f4;color:#FFF;font-weight:500;}
+
+/* type markers */
+.kind{display:inline-block;font-size:.68em;font-weight:700;letter-spacing:.05em;
+      border-radius:3px;padding:.14em .5em;white-space:nowrap;text-transform:uppercase;}
+.kind.consult{background:#4285f4;color:#FFF;}
+.kind.evidence{background:#FFF;color:#4285f4;border:1px solid #4285f4;}
+
+/* B1 bordered grid */
+.b1 td,.b1 th{border:1px solid #EEEEEE;}
+.b1 tr:nth-child(even){background:#EEEEEE44;}
+.b1 .when{white-space:nowrap;} .b1 .when b{display:block;}
+.b1 .days{font-size:.8em;font-weight:700;opacity:.75;}
+
+/* B2 inline pill in merged cell */
+.b2 td{border-bottom:1px solid #EEEEEE;} .b2 th{border:0;}
+.pill{display:inline-block;font-weight:700;font-size:.75em;padding:.12em .55em;border-radius:999px;
+      background:#EEEEEE;color:#52575C;white-space:nowrap;}
+.b2 .when{white-space:nowrap;font-weight:700;}
+
+/* B3 urgency-tinted date cell */
+.b3 td{border-bottom:1px solid #EEEEEE;} .b3 th{border:0;}
+.due{display:inline-block;font-weight:700;font-size:.85em;padding:.2em .65em;border-radius:4px;white-space:nowrap;}
+.due.far{background:#EEEEEE;color:#52575C;}
+.due.mid{background:#FFEBAD;color:#52575C;}
+.due.soon{background:#DB544F;color:#FFF;}
+
+/* B4 editorial, no grid */
+.b4 .row{display:flex;gap:1rem;padding:.55rem 0;border-bottom:1px solid #EEEEEE;align-items:baseline;}
+.b4 .body{flex:1;} .b4 .when{min-width:9.5rem;text-align:right;white-space:nowrap;font-weight:700;}
+.b4 .when small{display:block;font-weight:500;opacity:.7;}
+</style></head><body>
+<h1>Refined Option B <span style="font-weight:400;font-size:.7em">— consultation leads, type marker, merged deadline (days as of Mon 3 Aug)</span></h1>
+
+<div class="option"><h2>B1 — bordered table, stacked date cell</h2>
+<p class="verdict">Full grid like the bills board. Closes cell stacks day-date over the countdown. Filled chip = consultation, outlined = evidence call, so the two types separate even in greyscale print.</p>
+<div class="demo"><table class="b1">
+<tr><th>Consultation / call for evidence</th><th>Type</th><th>Closes</th></tr>
+<tr><td><a href="#">Legislative Scrutiny: Immigration and Asylum Bill</a><span class="why">Joint Committee on Human Rights; amendments touching family life and conversion claims.</span></td><td><span class="kind evidence">Evidence</span></td><td class="when"><b>Tue 1 Sep</b><span class="days">29 days</span></td></tr>
+<tr><td><a href="#">Improving help and child protection: revised framework</a><span class="why">Watch intervention thresholds and drift toward monitoring lawful home education.</span></td><td><span class="kind consult">Consultation</span></td><td class="when"><b>Fri 4 Sep</b><span class="days">32 days</span></td></tr>
+<tr><td><a href="#">The Online Safety Act: implementation and impact</a><span class="why">Communications and Digital Committee; how the Act polices lawful speech.</span></td><td><span class="kind evidence">Evidence</span></td><td class="when"><b>Mon 7 Sep</b><span class="days">35 days</span></td></tr>
+<tr><td><a href="#">Updating foster care standards and guidance</a><span class="why">Who may care for children, and on what terms; watch faith-based carers.</span></td><td><span class="kind consult">Consultation</span></td><td class="when"><b>Wed 16 Sep</b><span class="days">44 days</span></td></tr>
+<tr><td><a href="#">SEND reform: education otherwise than at school</a><span class="why">Direct bearing on home-educating families.</span></td><td><span class="kind consult">Consultation</span></td><td class="when"><b>Fri 18 Sep</b><span class="days">46 days</span></td></tr>
+<tr><td><a href="#">Tying the Knot: reforming weddings law</a><span class="why">Celebrant-led and outdoor ceremonies risk detaching marriage from its safeguards. Campaign live.</span></td><td><span class="kind consult">Consultation</span></td><td class="when"><b>Thu 24 Sep</b><span class="days">52 days</span></td></tr>
+</table></div></div>
+
+<div class="option"><h2>B2 — two columns only, type chip rides with the title</h2>
+<p class="verdict">Leanest: the type marker sits before the title, freeing a whole column. Merged closes cell reads date first, countdown pill after. Best on mobile.</p>
+<div class="demo"><table class="b2">
+<tr><th>Consultation / call for evidence</th><th>Closes</th></tr>
+<tr><td><span class="kind evidence">Evidence</span> <a href="#">Legislative Scrutiny: Immigration and Asylum Bill</a><span class="why">JCHR; amendments touching family life and conversion claims.</span></td><td class="when">Tue 1 Sep <span class="pill">29 days</span></td></tr>
+<tr><td><span class="kind consult">Consultation</span> <a href="#">Improving help and child protection: revised framework</a><span class="why">Watch intervention thresholds and drift toward monitoring home education.</span></td><td class="when">Fri 4 Sep <span class="pill">32 days</span></td></tr>
+<tr><td><span class="kind evidence">Evidence</span> <a href="#">The Online Safety Act: implementation and impact</a><span class="why">Communications and Digital Committee; how the Act polices lawful speech.</span></td><td class="when">Mon 7 Sep <span class="pill">35 days</span></td></tr>
+<tr><td><span class="kind consult">Consultation</span> <a href="#">Updating foster care standards and guidance</a><span class="why">Who may care for children; watch faith-based carers.</span></td><td class="when">Wed 16 Sep <span class="pill">44 days</span></td></tr>
+<tr><td><span class="kind consult">Consultation</span> <a href="#">SEND reform: education otherwise than at school</a><span class="why">Direct bearing on home-educating families.</span></td><td class="when">Fri 18 Sep <span class="pill">46 days</span></td></tr>
+<tr><td><span class="kind consult">Consultation</span> <a href="#">Tying the Knot: reforming weddings law</a><span class="why">Marriage detached from its safeguards. Campaign live.</span></td><td class="when">Thu 24 Sep <span class="pill">52 days</span></td></tr>
+</table></div></div>
+
+<div class="option"><h2>B3 — merged deadline as one urgency-tinted chip</h2>
+<p class="verdict">Date and countdown fuse into a single chip ("Fri 4 Sep &middot; 32 days") whose tint is the urgency band: red &le;14 days, amber &le;30, grey beyond. The JCHR call at 29 days shows amber live. Colour never speaks alone; the number is inside the chip.</p>
+<div class="demo"><table class="b3">
+<tr><th>Consultation / call for evidence</th><th>Type</th><th>Closes</th></tr>
+<tr><td><a href="#">Legislative Scrutiny: Immigration and Asylum Bill</a><span class="why">JCHR; amendments touching family life and conversion claims.</span></td><td><span class="kind evidence">Evidence</span></td><td><span class="due mid">Tue 1 Sep &middot; 29 days</span></td></tr>
+<tr><td><a href="#">Improving help and child protection: revised framework</a><span class="why">Watch intervention thresholds and drift toward monitoring home education.</span></td><td><span class="kind consult">Consultation</span></td><td><span class="due far">Fri 4 Sep &middot; 32 days</span></td></tr>
+<tr><td><a href="#">The Online Safety Act: implementation and impact</a><span class="why">Communications and Digital Committee; how the Act polices lawful speech.</span></td><td><span class="kind evidence">Evidence</span></td><td><span class="due far">Mon 7 Sep &middot; 35 days</span></td></tr>
+<tr><td><a href="#">Updating foster care standards and guidance</a><span class="why">Who may care for children; watch faith-based carers.</span></td><td><span class="kind consult">Consultation</span></td><td><span class="due far">Wed 16 Sep &middot; 44 days</span></td></tr>
+<tr><td><a href="#">SEND reform: education otherwise than at school</a><span class="why">Direct bearing on home-educating families.</span></td><td><span class="kind consult">Consultation</span></td><td><span class="due far">Fri 18 Sep &middot; 46 days</span></td></tr>
+<tr><td><a href="#">Tying the Knot: reforming weddings law</a><span class="why">Marriage detached from its safeguards. Campaign live.</span></td><td><span class="kind consult">Consultation</span></td><td><span class="due soon" style="opacity:.7">example band: 9 days</span></td></tr>
+</table></div></div>
+
+<div class="option"><h2>B4 — editorial rows, right-aligned deadline</h2>
+<p class="verdict">Same content, no table chrome: newsletter-feel rows, deadline right-aligned with the countdown beneath. Reads most like the rest of the digest; weakest for fast vertical scanning.</p>
+<div class="demo b4">
+<div class="row"><span class="kind evidence">Evidence</span><span class="body"><a href="#">Legislative Scrutiny: Immigration and Asylum Bill</a><span class="why">JCHR; amendments touching family life and conversion claims.</span></span><span class="when">Tue 1 Sep<small>29 days</small></span></div>
+<div class="row"><span class="kind consult">Consultation</span><span class="body"><a href="#">Improving help and child protection: revised framework</a><span class="why">Watch intervention thresholds and drift toward monitoring home education.</span></span><span class="when">Fri 4 Sep<small>32 days</small></span></div>
+<div class="row"><span class="kind evidence">Evidence</span><span class="body"><a href="#">The Online Safety Act: implementation and impact</a><span class="why">Communications and Digital Committee; how the Act polices lawful speech.</span></span><span class="when">Mon 7 Sep<small>35 days</small></span></div>
+<div class="row"><span class="kind consult">Consultation</span><span class="body"><a href="#">Updating foster care standards and guidance</a><span class="why">Who may care for children; watch faith-based carers.</span></span><span class="when">Wed 16 Sep<small>44 days</small></span></div>
+<div class="row"><span class="kind consult">Consultation</span><span class="body"><a href="#">SEND reform: education otherwise than at school</a><span class="why">Direct bearing on home-educating families.</span></span><span class="when">Fri 18 Sep<small>46 days</small></span></div>
+<div class="row"><span class="kind consult">Consultation</span><span class="body"><a href="#">Tying the Knot: reforming weddings law</a><span class="why">Marriage detached from its safeguards. Campaign live.</span></span><span class="when">Thu 24 Sep<small>52 days</small></span></div>
+</div></div>
+
+<p style="font-size:.85em;opacity:.75">All variants: date-sorted; SIs move to a one-line note under the table (they carry events, not deadlines). Dropping ACT/WATCH/NOTE here means urgency/ownership signals live in Top lines instead — this section becomes purely "what closes when".</p>
+</body></html>

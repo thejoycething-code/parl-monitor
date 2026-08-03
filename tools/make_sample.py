@@ -65,15 +65,22 @@ e.pqs = [
     L("(example) Surrogacy: Law Commission response, answered 2026-09-08. Government still to publish its response.", "WATCH", url="https://questions-statements.parliament.uk/EXAMPLE"),
 ]
 
-e.committee = [
-    L("(example) Health and Social Care Committee: palliative care inquiry, written evidence closes 2026-10-03. Submission drafted, needs sign-off.", "ACT", owner="Christopher", deadline="2026-10-03"),
-    L("(example) Women and Equalities Committee: single-sex spaces inquiry, call for evidence open.", "WATCH", deadline="2026-10-17"),
+e.deadlines = [
+    {"type": "Evidence", "title": "(example) Palliative care inquiry",
+     "url": "https://committees.parliament.uk/EXAMPLE",
+     "why": "Health and Social Care Committee; submission drafted, needs sign-off",
+     "deadline": "2026-10-03"},
+    {"type": "Consultation", "title": "(example) RSE statutory guidance",
+     "url": "https://example.gov.uk/EXAMPLE",
+     "why": "Supporter-response campaign live; 3,120 responses", "deadline": "2026-09-23"},
+    {"type": "Consultation", "title": "(example) SEND reform: education otherwise than at school",
+     "url": "https://example.gov.uk/EXAMPLE2", "why": "", "deadline": "2026-09-18"},
+    {"type": "Evidence", "title": "(example) Single-sex spaces inquiry",
+     "url": "https://committees.parliament.uk/EXAMPLE2",
+     "why": "Women and Equalities Committee; call for evidence open", "deadline": "2026-10-17"},
 ]
-
-e.consultations_si = [
-    L("(example) DfE: RSE statutory guidance, closes 2026-09-23 (9 days). Supporter-response campaign live; 3,120 responses.", "ACT", owner="Christopher", deadline="2026-09-23"),
-    L("(example) SEND reform: education otherwise than at school, closes 2026-09-18.", "WATCH", deadline="2026-09-18"),
-    L("(example) SI laid: The Abortion (Safe Access Zones) Regulations, negative procedure, prayer deadline 2026-10-01.", "WATCH", deadline="2026-10-01"),
+e.si_notes = [
+    L("(example) The Abortion (Safe Access Zones) Regulations laid, negative procedure, prayer deadline 2026-10-01."),
 ]
 
 e.edms = [

@@ -21,7 +21,7 @@ import os
 import re
 
 OWNER_FIELD = re.compile(r";?\s*Owner: [^);\n]+")
-MP_SECTION = re.compile(r"\n## 11\. MP intelligence notes\n.*?(?=\n## |\n---)", re.S)
+MP_SECTION = re.compile(r"\n## \d+\. MP intelligence notes\n.*?(?=\n## |\n---)", re.S)
 EMPTY_PARENS = re.compile(r" \(\s*\)")
 
 BANNER = ("> **Coalition partner edition**, prepared by CitizenGO UK from Parliament's "
@@ -30,8 +30,19 @@ BANNER = ("> **Coalition partner edition**, prepared by CitizenGO UK from Parlia
 
 
 def owner_names(markdown):
-    """Names appearing in Owner fields (to scrub from prose as well)."""
+    """Names appearing in Owner fields.
+
+    NOT sufficient on its own: sections that no longer print Owner fields
+    (the deadline table) can still carry names in prose, so callers must also
+    pass extra_names from the store (items.owner) -- see owners_from_store."""
     return sorted(set(re.findall(r"Owner: ([^);\n]+)", markdown)))
+
+
+def owners_from_store(conn):
+    """Every owner name ever recorded: the authoritative scrub list."""
+    rows = conn.execute("SELECT DISTINCT owner FROM items WHERE owner IS NOT NULL "
+                        "AND owner != ''").fetchall()
+    return [r[0] for r in rows]
 
 
 def redact(markdown, extra_names=()):
@@ -65,7 +76,24 @@ def _inline(text):
     for tag, cls in (("ACT", "act"), ("WATCH", "watch"), ("NOTE", "note")):
         text = text.replace("<strong>[%s]</strong>" % tag,
                             '<span class="tag %s">%s</span>' % (cls, tag))
+    for kind, cls in (("Consultation", "consult"), ("Evidence", "evidence")):
+        text = text.replace("<strong>%s</strong>" % kind,
+                            '<span class="kind %s">%s</span>' % (cls, kind.upper()))
     return text
+
+
+_DAYS = re.compile(r"(\d+) days")
+
+
+def _due_chip(cell_html):
+    """Urgency-tinted deadline chip: red <=8 days, amber <=21, grey beyond."""
+    m = _DAYS.search(cell_html)
+    if m:
+        days = int(m.group(1))
+        cls = "soon" if days <= 8 else ("mid" if days <= 21 else "far")
+    else:
+        cls = "far"  # rolling / no countdown
+    return '<span class="due %s">%s</span>' % (cls, cell_html)
 
 
 def to_html(markdown, title):
@@ -81,9 +109,14 @@ def to_html(markdown, title):
         if not table:
             return
         body.append('<div class="tablewrap"><table>')
-        body.append("<tr>" + "".join("<th>%s</th>" % _inline(c) for c in table[0]) + "</tr>")
+        headers = table[0]
+        is_deadline_table = headers and headers[-1].strip().lower() == "closes"
+        body.append("<tr>" + "".join("<th>%s</th>" % _inline(c) for c in headers) + "</tr>")
         for row in table[2:]:  # skip separator row
-            body.append("<tr>" + "".join("<td>%s</td>" % _inline(c) for c in row) + "</tr>")
+            cells = [_inline(c) for c in row]
+            if is_deadline_table and cells:
+                cells[-1] = _due_chip(cells[-1])
+            body.append("<tr>" + "".join("<td>%s</td>" % c for c in cells) + "</tr>")
         body.append("</table></div>")
         table.clear()
 
@@ -148,6 +181,15 @@ h3 {{ font-weight: 500; color: #52575C; }}
 .tag.act {{ background: #DB544F; color: #FFFFFF; }}
 .tag.watch {{ background: #FFEBAD; color: #52575C; }}
 .tag.note {{ background: #EEEEEE; color: #52575C; }}
+.kind {{ display: inline-block; font-size: .68em; font-weight: 700; letter-spacing: .05em;
+        border-radius: 3px; padding: .14em .5em; white-space: nowrap; }}
+.kind.consult {{ background: #4285f4; color: #FFFFFF; }}
+.kind.evidence {{ background: #FFFFFF; color: #4285f4; border: 1px solid #4285f4; }}
+.due {{ display: inline-block; font-weight: 700; font-size: .85em; padding: .2em .65em;
+       border-radius: 4px; white-space: nowrap; }}
+.due.far {{ background: #EEEEEE; color: #52575C; }}
+.due.mid {{ background: #FFEBAD; color: #52575C; }}
+.due.soon {{ background: #DB544F; color: #FFFFFF; }}
 .tablewrap {{ overflow-x: auto; }}
 table {{ border-collapse: collapse; width: 100%; font-size: .92em; }}
 th, td {{ border: 1px solid #EEEEEE; padding: .5rem .65rem; text-align: left;

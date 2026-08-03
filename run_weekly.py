@@ -16,6 +16,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import re
 import sys
 
 import yaml
@@ -317,9 +318,8 @@ def assent_topline(client, wl, closure_row, week_start=None):
 
 
 SECTION_FOR_FEED = {
-    "consultation": "consultations_si", "si": "consultations_si",
     "whatson": "week_ahead", "division": "votes", "wms": "statements",
-    "pq": "pqs", "edm": "edms", "committee": "committee",
+    "pq": "pqs", "edm": "edms",
 }
 
 
@@ -330,7 +330,27 @@ def sections_from_store(conn, edition):
         "FROM items WHERE priority_tag IS NOT NULL ORDER BY source_feed, event_date, id"
     ).fetchall()
     for r in rows:
-        target = SECTION_FOR_FEED.get(r["source_feed"])
+        feed = r["source_feed"]
+        if feed in ("consultation", "committee"):
+            title = r["title"]
+            if feed == "consultation" and title.startswith("Consultation: "):
+                title = title[len("Consultation: "):]
+            why = r["why_it_matters"] or ""
+            if feed == "committee":
+                # Stored label: "{committees}: {title} ({type}), evidence closes {date}"
+                m = re.match(r"^(?P<cmte>[^:]+): (?P<rest>.+) \((?P<kind>[^)]+)\), evidence closes .+$", title)
+                if m:
+                    title = m.group("rest")
+                    why = (m.group("cmte") + ("; " + why if why else "")).strip()
+            edition.deadlines.append({
+                "type": "Consultation" if feed == "consultation" else "Evidence",
+                "title": title, "url": r["url"], "why": why, "deadline": r["deadline"],
+            })
+            continue
+        if feed == "si":
+            edition.si_notes.append(digest.Line(text=r["why_it_matters"] or r["title"], url=r["url"]))
+            continue
+        target = SECTION_FOR_FEED.get(feed)
         if not target:
             continue
         line = digest.Line(

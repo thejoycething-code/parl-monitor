@@ -35,15 +35,7 @@ def summarise_edition(markdown, week):
         if clean not in all_acts:
             all_acts.append(clean)
 
-    deadlines = []
-    horizon = datetime.date.fromisoformat(week) + datetime.timedelta(days=21)
-    for m in re.finditer(r"Deadline: (\d{4}-\d{2}-\d{2})", markdown):
-        d = datetime.date.fromisoformat(m.group(1))
-        if d <= horizon:
-            line_start = markdown.rfind("\n", 0, m.start()) + 1
-            line = markdown[line_start:markdown.find("\n", m.start())]
-            clean = re.sub(r"\[([^]]+)\]\([^)]*\)", r"\1", line).lstrip("- *")
-            deadlines.append(clean[:160])
+    deadlines = []  # populated from the store by deadlines_from_store()
 
     bullet_lines = []
     for tag, text in top[:4]:
@@ -64,6 +56,17 @@ def edition_number(conn):
     return conn.execute("SELECT COUNT(*) FROM editions").fetchone()[0]
 
 
+def deadlines_from_store(conn, week, days=21):
+    """Reviewed items whose deadline falls within the horizon, for the task."""
+    import datetime as _dt
+    horizon = (_dt.date.fromisoformat(week) + _dt.timedelta(days=days)).isoformat()
+    rows = conn.execute(
+        "SELECT title, deadline FROM items WHERE priority_tag IS NOT NULL "
+        "AND deadline IS NOT NULL AND deadline >= ? AND deadline <= ? ORDER BY deadline",
+        (week, horizon)).fetchall()
+    return ["{0} (closes {1})".format(r["title"], r["deadline"]) for r in rows]
+
+
 def main():
     week = sys.argv[1] if len(sys.argv) > 1 else (
         datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
@@ -76,6 +79,8 @@ def main():
     from src import db
     conn = db.connect(os.path.join(ROOT, "data", run_weekly._db_name(week)))
     number = edition_number(conn)
+    store_deadlines = deadlines_from_store(conn, week)
+    scrub_names = partner.owners_from_store(conn)
     conn.close()
 
     secrets = publish.load_secrets()
@@ -88,14 +93,14 @@ def main():
     print("slack: {0}".format(slack))
 
     canvas_url = slack.get("canvas_url", "(not posted to Slack)")
-    asana = publish.asana_create_reading_task(secrets, week, canvas_url, acts, deadlines)
+    asana = publish.asana_create_reading_task(secrets, week, canvas_url, acts, store_deadlines)
     print("asana: {0}".format(asana))
 
     # Partner edition: redacted static site, committed alongside the edition.
     import glob
     weeks = sorted(os.path.basename(f)[len("parliamentary-monitor-"):-3]
                    for f in glob.glob(os.path.join(ROOT, "editions", "parliamentary-monitor-*.md")))
-    partner_md = partner.redact(markdown)
+    partner_md = partner.redact(markdown, extra_names=scrub_names)
     site = partner.build_site(os.path.join(ROOT, "partner_site"), week, partner_md, weeks)
     print("partner site: {0}".format(site))
 

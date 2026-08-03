@@ -47,8 +47,8 @@ class Edition:
     week_ahead: list = field(default_factory=list)
     votes: list = field(default_factory=list)
     pqs: list = field(default_factory=list)
-    committee: list = field(default_factory=list)
-    consultations_si: list = field(default_factory=list)
+    deadlines: list = field(default_factory=list)   # dicts: type/title/url/why/deadline
+    si_notes: list = field(default_factory=list)     # Lines: SIs (events, not deadlines)
     edms: list = field(default_factory=list)
     devolved: list = field(default_factory=list)
     statements: list = field(default_factory=list)
@@ -66,7 +66,7 @@ class DigestError(Exception):
 def validate(edition):
     """Refuse to render an ACT line without an owner (handoff section 8)."""
     for section in (edition.top_lines, edition.week_ahead, edition.votes, edition.pqs,
-                    edition.committee, edition.consultations_si, edition.edms,
+                    edition.si_notes, edition.edms,
                     edition.devolved, edition.statements, edition.mp_notes):
         for line in section:
             if line.tag == "ACT" and not line.owner:
@@ -128,7 +128,7 @@ MOVEMENT_KEY = ("*Movement: NEW = first appearance on the board; ▲ moved = sta
 
 
 def render_board(rows):
-    lines = ["## 10. Active bills board", "",
+    lines = ["## 9. Active bills board", "",
              "| Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |",
              "|---|---|---|---|---|---|---|"]
     live = [r for r in rows if r.status == "live"]
@@ -178,6 +178,46 @@ def render_week_ahead(lines):
     return "\n".join(out)
 
 
+def _fmt_close(deadline_iso, week_start):
+    """'Fri 4 Sep . 32 days' merged cell; 'rolling' when no deadline."""
+    import datetime
+    if not deadline_iso:
+        return "rolling"
+    d = datetime.date.fromisoformat(deadline_iso)
+    days = (d - datetime.date.fromisoformat(week_start)).days
+    return "{0} {1} {2} \u00b7 {3} days".format(
+        ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][d.weekday()], d.day,
+        ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.month], days)
+
+
+def render_deadlines(edition):
+    """Section 5: consultations + calls for evidence, one date-sorted table.
+
+    Two columns (B2 layout): the item leads with a bold type marker riding in
+    front of the title; Closes merges day-date and countdown. Priority tags do
+    not appear here: this section is purely what-closes-when, urgency belongs
+    in Top lines. SIs (events, not deadlines) follow as note lines.
+    """
+    if not edition.deadlines and not edition.si_notes:
+        return None
+    out = ["## 5. Consultations and calls for evidence", ""]
+    if edition.deadlines:
+        out.append("| Consultation / call for evidence | Closes |")
+        out.append("|---|---|")
+        rows = sorted(edition.deadlines, key=lambda r: r.get("deadline") or "9999")
+        for r in rows:
+            why = (" " + r["why"].rstrip(".") + ".") if r.get("why") else ""
+            out.append("| **{0}** [{1}]({2}).{3} | {4} |".format(
+                r["type"], r["title"], r["url"] or "#", why,
+                _fmt_close(r.get("deadline"), edition.week_commencing)))
+        out.append("")
+    for line in edition.si_notes:
+        out.append("- **Secondary legislation:** " + line.text)
+    if edition.si_notes:
+        out.append("")
+    return "\n".join(out)
+
+
 def _render_section(number, title, lines, cap=None):
     if cap is not None:
         lines = _cap(lines, cap)
@@ -206,15 +246,11 @@ def render(edition):
     if recess:
         # Recess status + return dates render once, as a top line (composed via
         # recess_line() by the orchestrator); no separate banner or footer.
-        for number, title, lines, cap in [
-            (5, "Committee corner", edition.committee, None),
-            (6, "Consultations and secondary legislation", edition.consultations_si, None),
-        ]:
-            section = _render_section(number, title, lines, cap)
-            if section:
-                parts.append(section)
+        deadlines = render_deadlines(edition)
+        if deadlines:
+            parts.append(deadlines)
         parts.append(render_board(edition.board_rows))
-        mp = _render_section(11, "MP intelligence notes", edition.mp_notes)
+        mp = _render_section(10, "MP intelligence notes", edition.mp_notes)
         if mp:
             parts.append(mp)
     else:
@@ -224,17 +260,23 @@ def render(edition):
         for number, title, lines, cap in [
             (3, "Votes and amendments", edition.votes, None),
             (4, "Written questions worth reading", edition.pqs, 5),
-            (5, "Committee corner", edition.committee, None),
-            (6, "Consultations and secondary legislation", edition.consultations_si, None),
-            (7, "EDMs and petitions", edition.edms, 5),
-            (8, "Devolved round-up", edition.devolved, None),
-            (9, "Statements and announcements", edition.statements, None),
+        ]:
+            section = _render_section(number, title, lines, cap)
+            if section:
+                parts.append(section)
+        deadlines = render_deadlines(edition)
+        if deadlines:
+            parts.append(deadlines)
+        for number, title, lines, cap in [
+            (6, "EDMs and petitions", edition.edms, 5),
+            (7, "Devolved round-up", edition.devolved, None),
+            (8, "Statements and announcements", edition.statements, None),
         ]:
             section = _render_section(number, title, lines, cap)
             if section:
                 parts.append(section)
         parts.append(render_board(edition.board_rows))
-        mp = _render_section(11, "MP intelligence notes", edition.mp_notes)
+        mp = _render_section(10, "MP intelligence notes", edition.mp_notes)
         if mp:
             parts.append(mp)
 

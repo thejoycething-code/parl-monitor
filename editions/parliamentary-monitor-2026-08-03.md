@@ -5,15 +5,18 @@
 
 - **[NOTE]** Recess: neither House sits this week. Both Houses return 2026-09-01. Deadlines still apply.
 
-## 6. Consultations and secondary legislation
+## 5. Consultations and calls for evidence
 
-- **[NOTE]** [Revised child protection framework closes 4 September, the nearest deadline on the board. Watch intervention thresholds and any drift toward monitoring lawful home education.](https://www.gov.uk/government/consultations/improving-help-and-child-protection-revised-framework) (Deadline: 2026-09-04)
-- **[NOTE]** [Government plans to reshape education outside school; closes 18 September. Direct bearing on home-educating families. Held at NOTE pending a decision on a supporter response.](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school) (Deadline: 2026-09-18)
-- **[ACT]** [Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live under Zuzana; response push through recess.](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales) (Deadline: 2026-09-24; Owner: Zuzana)
-- **[NOTE]** [Foster care standards rewrite closes 16 September. Shapes who may care for children and on what terms; watch the position of faith-based carers.](https://www.gov.uk/government/consultations/updating-foster-care-standards-and-guidance) (Deadline: 2026-09-16)
-- **[NOTE]** [The Act's first implementing regulations, approved 369 to 102 on 8 July. Implementation machinery is moving through recess; further commencement SIs likely on the September order paper.](https://commonsvotes-api.parliament.uk/data/division/2402.json)
+| Consultation / call for evidence | Closes |
+|---|---|
+| **Consultation** [Improving help and child protection: revised framework](https://www.gov.uk/government/consultations/improving-help-and-child-protection-revised-framework). Revised child protection framework closes 4 September, the nearest deadline on the board. Watch intervention thresholds and any drift toward monitoring lawful home education. | Fri 4 Sep · 32 days |
+| **Consultation** [Updating foster care standards and guidance](https://www.gov.uk/government/consultations/updating-foster-care-standards-and-guidance). Foster care standards rewrite closes 16 September. Shapes who may care for children and on what terms; watch the position of faith-based carers. | Wed 16 Sep · 44 days |
+| **Consultation** [SEND reform: education otherwise than at school](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school). Government plans to reshape education outside school; closes 18 September. Direct bearing on home-educating families. Held at NOTE pending a decision on a supporter response. | Fri 18 Sep · 46 days |
+| **Consultation** [Tying the Knot: Reforming weddings law in England and Wales](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales). Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live under Zuzana; response push through recess. | Thu 24 Sep · 52 days |
 
-## 10. Active bills board
+- **Secondary legislation:** The Act's first implementing regulations, approved 369 to 102 on 8 July. Implementation machinery is moving through recess; further commencement SIs likely on the September order paper.
+
+## 9. Active bills board
 
 | Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |
 |---|---|---|---|---|---|---|

@@ -35,10 +35,24 @@ class SummariseTests(unittest.TestCase):
         self.assertEqual(len(acts), 1)
         self.assertIn("Owner: Zuzana", acts[0])
 
-    def test_deadlines_respect_three_week_horizon(self):
-        _, _, deadlines = run_monday.summarise_edition(EDITION, "2026-08-10")
-        self.assertEqual(len(deadlines), 1)               # only 2026-08-20 within 21 days
-        self.assertIn("Child protection framework", deadlines[0])
+    def test_deadlines_come_from_store_within_horizon(self):
+        from src import db
+        conn = db.init_db(db.connect(":memory:"))
+        try:
+            for i, (title, deadline, tag) in enumerate([
+                ("Near thing", "2026-08-20", "NOTE"),        # within 21 days
+                ("Far thing", "2026-12-01", "NOTE"),         # beyond horizon
+                ("Unreviewed thing", "2026-08-15", None),    # no priority set
+            ]):
+                conn.execute(
+                    "INSERT INTO items (id, captured_at, source_feed, item_type, title, deadline, priority_tag) "
+                    "VALUES (?, '2026-08-10', 'consultation', 'consultation', ?, ?, ?)",
+                    ("t:%d" % i, title, deadline, tag))
+            conn.commit()
+            deadlines = run_monday.deadlines_from_store(conn, "2026-08-10")
+            self.assertEqual(deadlines, ["Near thing (closes 2026-08-20)"])
+        finally:
+            conn.close()
 
 
 class SlackPublishTests(unittest.TestCase):

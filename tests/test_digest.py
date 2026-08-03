@@ -26,12 +26,13 @@ class RecessRenderTests(unittest.TestCase):
     def test_recess_renders_allowed_sections_only(self):
         e = base_edition(
             top_lines=[digest.Line(digest.recess_line({"Commons": "2026-09-01", "Lords": "2026-09-01"}), "NOTE")],
-            consultations_si=[digest.Line("A consultation", "WATCH", deadline="2026-09-18")],
+            deadlines=[{"type": "Consultation", "title": "A consultation",
+                        "url": "https://x", "why": "", "deadline": "2026-09-18"}],
             mp_notes=[digest.Line("An MP note", "NOTE")],
         )
         md = digest.render(e)
-        for present in ("## 1. Top lines", "## 10. Active bills board",
-                        "## 6. Consultations", "## 11. MP intelligence"):
+        for present in ("## 1. Top lines", "## 9. Active bills board",
+                        "## 5. Consultations and calls for evidence", "## 10. MP intelligence"):
             self.assertIn(present, md)
         for absent in ("## 2. Week ahead", "## 4. Votes", "## 5. Written questions",
                        "## 8. EDMs", "## 9. Devolved", "## 10. Statements",
@@ -53,7 +54,7 @@ class RecessRenderTests(unittest.TestCase):
 
     def test_board_always_renders_even_when_empty_elsewhere(self):
         md = digest.render(base_edition())
-        self.assertIn("## 10. Active bills board", md)
+        self.assertIn("## 9. Active bills board", md)
         self.assertIn("bills/4157", md)
 
     def test_westminster_rows_use_bills_parliament_uk(self):

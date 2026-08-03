@@ -27,10 +27,20 @@ EDITION = """# Parliamentary Monitor
 
 - **[ACT]** [OSA inquiry, evidence closes 2026-09-07.](https://committees.parliament.uk/work/9955/) (Deadline: 2026-09-07; Owner: Christopher)
 
-## 7. Consultations and secondary legislation
+## 5. Consultations and calls for evidence
 
-- **[ACT]** [Weddings reform closes 24 September. Campaign live under Zuzana; response push through recess.](https://example.gov.uk/x) (Deadline: 2026-09-24; Owner: Zuzana)
-- **[NOTE]** [Foster care standards rewrite.](https://example.gov.uk/y) (Deadline: 2026-09-16)
+| Consultation / call for evidence | Closes |
+|---|---|
+| **Evidence** [Immigration scrutiny](https://example.gov.uk/j). JCHR. | Tue 1 Sep · 29 days |
+| **Evidence** [Mid-band thing](https://example.gov.uk/m). Soonish. | Tue 18 Aug · 15 days |
+| **Consultation** [Weddings reform](https://example.gov.uk/x). Campaign live under Zuzana; response push through recess. | Thu 24 Sep · 52 days |
+| **Consultation** [Urgent thing](https://example.gov.uk/u). Closing fast. | Fri 7 Aug · 4 days |
+
+- **Secondary legislation:** CWSA regs approved 369 to 102 on 8 July.
+
+## 7. Consultations extra
+
+- **[ACT]** [OSA push.](https://example.gov.uk/z) (Deadline: 2026-09-07; Owner: Zuzana)
 
 ## 11. MP intelligence notes
 
@@ -49,13 +59,21 @@ class RedactTests(unittest.TestCase):
     def test_owner_fields_stripped_but_tags_and_deadlines_kept(self):
         self.assertNotIn("Owner:", self.out)
         self.assertIn("**[ACT]**", self.out)
-        self.assertIn("(Deadline: 2026-09-24)", self.out)
         self.assertIn("(Deadline: 2026-09-07)", self.out)
+        self.assertIn("Thu 24 Sep", self.out)
 
     def test_owner_names_scrubbed_from_prose(self):
         self.assertNotIn("Zuzana", self.out)
         self.assertNotIn("Christopher", self.out)
         self.assertIn("Campaign live under the team", self.out)
+
+    def test_prose_names_scrub_without_owner_fields(self):
+        # The deadline table prints no Owner fields, so names must come from
+        # the store scrub list, not from parsing the page.
+        md = "# T\n### W\n\n| A | Closes |\n|---|---|\n| **Consultation** [X](https://x). Campaign live under Zuzana. | Fri 4 Sep \u00b7 32 days |\n"
+        out = partner.redact(md, extra_names=["Zuzana"])
+        self.assertNotIn("Zuzana", out)
+        self.assertIn("under the team", out)
 
     def test_mp_intelligence_section_dropped(self):
         self.assertNotIn("MP intelligence", self.out)
@@ -84,6 +102,16 @@ class SiteTests(unittest.TestCase):
         html = partner.to_html(md, "t")
         self.assertIn('<a href="https://bills.parliament.uk/bills/4144">A Bill [HL]</a>', html)
         self.assertNotIn("](https", html)
+
+    def test_deadline_table_chips_and_urgency_bands(self):
+        html = partner.to_html(partner.redact(EDITION), "t")
+        self.assertIn('<span class="kind evidence">EVIDENCE</span>', html)
+        self.assertIn('<span class="kind consult">CONSULTATION</span>', html)
+        # bands: red <=8, amber <=21, grey beyond
+        self.assertIn('<span class="due soon">Fri 7 Aug', html)      # 4 days
+        self.assertIn('<span class="due mid">Tue 18 Aug', html)      # 15 days
+        self.assertIn('<span class="due far">Tue 1 Sep', html)       # 29 days: grey at the &le;21 band
+        self.assertIn('<span class="due far">Thu 24 Sep', html)
 
     def test_build_site_writes_index_archive_and_middleware(self):
         tmp = tempfile.mkdtemp()
