@@ -6,3 +6,5 @@ data/pull-logs/
 __pycache__/
 *.pyc
 .DS_Store
+partner_site/.vercel/
+partner_site/.env.local

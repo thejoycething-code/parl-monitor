@@ -49,6 +49,18 @@ jobs:
       - name: Render and publish
         if: env.SKIP != '1'
         run: python3 run_monday.py
+      - name: Deploy partner site
+        if: env.SKIP != '1'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: team_rpnwoDBcJ5Wz1K5P8UCTGY2k
+          VERCEL_PROJECT_ID: prj_S8GXaZdccVrPLzoXQdWaiq1MyZGr
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "VERCEL_TOKEN secret not set - partner site deploy skipped (deploy in-session instead)"
+          else
+            npx --yes vercel@latest deploy partner_site --prod --yes --token "$VERCEL_TOKEN"
+          fi
       - name: Commit state
         if: env.SKIP != '1'
         run: |

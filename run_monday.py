@@ -19,7 +19,7 @@ import re
 import sys
 
 import run_weekly
-from src import publish
+from src import partner, publish
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -90,6 +90,14 @@ def main():
     canvas_url = slack.get("canvas_url", "(not posted to Slack)")
     asana = publish.asana_create_reading_task(secrets, week, canvas_url, acts, deadlines)
     print("asana: {0}".format(asana))
+
+    # Partner edition: redacted static site, committed alongside the edition.
+    import glob
+    weeks = sorted(os.path.basename(f)[len("parliamentary-monitor-"):-3]
+                   for f in glob.glob(os.path.join(ROOT, "editions", "parliamentary-monitor-*.md")))
+    partner_md = partner.redact(markdown)
+    site = partner.build_site(os.path.join(ROOT, "partner_site"), week, partner_md, weeks)
+    print("partner site: {0}".format(site))
 
     print("edition: {0}".format(path))
     failures = [s for s in (slack, asana) if "error" in s]
