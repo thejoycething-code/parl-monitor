@@ -52,6 +52,12 @@ Fully unattended (option B, chosen 2026-08-03). Repo lives at
   ACT requires a human-set owner by hard validation.
 - Credentials in config/secrets.yaml (gitignored; template in
   config/secrets.yaml.example). Logs in data/pull-logs/.
+- **Interim Slack arrangement (until the workspace approves the bot app,
+  requested 2026-08-03):** the Monday job skips the Slack step (no token).
+  The post happens in a Monday Claude Code session via the claude.ai Slack
+  connector, as Christopher, with his explicit go-ahead each week ("post
+  it"): Canvas + summary to #campaigns-en-gb, same format as run_monday.py
+  would produce. Once the bot token lands in secrets.yaml, this note dies.
 
 A Claude Code session can still run any step by hand (see run_weekly.py /
 run_monday.py); the session ritual is the fallback, not the default.
