@@ -1,7 +1,8 @@
-# Operational state: the SQLite store and the raw provenance archive live on
-# disk (and in backups), not in git. Everything reproducible stays tracked.
-data/
+# Secrets never enter the repo. State (store + raw archive) is deliberately
+# TRACKED: workflow runs commit their own results, making provenance durable
+# and versioned. Only logs and scratch stay out.
+config/secrets.yaml
+data/pull-logs/
 __pycache__/
 *.pyc
 .DS_Store
-config/secrets.yaml

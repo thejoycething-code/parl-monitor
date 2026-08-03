@@ -1,0 +1,64 @@
+name: Sunday pull
+on:
+  schedule:
+    # Target: 21:04 Europe/London every Sunday. Actions cron is UTC-only, so
+    # both candidate UTC slots fire and the London-hour guard picks the right
+    # one across BST/GMT.
+    - cron: "4 20 * * 0"
+    - cron: "4 21 * * 0"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: London-hour guard (scheduled runs only)
+        if: github.event_name == 'schedule'
+        run: |
+          HOUR=$(TZ=Europe/London date +%H)
+          if [ "$HOUR" != "21" ]; then
+            echo "London hour is $HOUR, not 21 - this is the off-DST duplicate slot; exiting."
+            echo "SKIP=1" >> "$GITHUB_ENV"
+          fi
+      - uses: actions/checkout@v4
+        if: env.SKIP != '1'
+      - uses: actions/setup-python@v5
+        if: env.SKIP != '1'
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        if: env.SKIP != '1'
+        run: pip install pyyaml
+      - name: Write secrets file
+        if: env.SKIP != '1'
+        run: |
+          cat > config/secrets.yaml <<EOF
+          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
+          asana_pat: "${{ secrets.ASANA_PAT }}"
+          asana_workspace: "826488630492934"
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_channel_id: C9RH217PZ
+          slack_team_id: T066M0LAJ
+          EOF
+      - name: Pull for the coming week
+        if: env.SKIP != '1'
+        run: |
+          WEEK=$(python3 -c "import datetime; t=datetime.date.today(); d=(0-t.weekday())%7 or 7; print((t+datetime.timedelta(days=d)).isoformat())")
+          echo "Pulling for week commencing $WEEK"
+          TRIAGE=auto python3 run_weekly.py --pull "$WEEK"
+      - name: Commit state
+        if: env.SKIP != '1'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ reviews/
+          git diff --cached --quiet || git commit -m "Sunday pull: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git push
