@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 0.2 | 3 August 2026 | Owner: Christopher**
+**Version 0.3 | 3 August 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -86,6 +86,12 @@ Every item that survives the filter is written to the store with its issue tags 
 - **Tier 1:** surrogacy; surrogate; "Surrogacy Arrangements Act"; "Human Fertilisation and Embryology"; HFEA; "commercial surrogacy"; "embryo research"; "14-day rule"; "gamete donation"; "egg donation"
 - **Tier 2:** "fertility treatment"; IVF; "donor conception"; "donor-conceived"; "mitochondrial donation"; "genome editing"; "embryo screening"; "polygenic screening"; "artificial womb*"
 - **Notes:** Ties to the Bought and Broken documentary workstream; any Law Commission surrogacy implementation signal is an automatic score 3.
+
+### 11. Migration {#11_migration}
+
+- **Tier 1:** "Immigration and Asylum Bill"; "illegal migration"; "Illegal Migration Act"; "small boats"; "Channel crossing*"; "asylum hotel*"; "net migration"; "border security"; "asylum backlog"; "safe and legal routes"; "foreign national offender*"; "deportation*"; "indefinite leave to remain"
+- **Tier 2:** migration; immigration; asylum; "asylum seeker*"; refugee*; "leave to remain"; citizenship; "community cohesion"; "immigration detention"; "illegal working"
+- **Notes:** New area, added 3 August 2026 by Christopher's decision. Bare migration/immigration/asylum sit at tier 2 deliberately: they are common words (data migration, asylum in history debates) and the triage pass gates them. Cross-tags: religious conversion in asylum claims stays in area 8; Islamophobia and community-speech items in area 7.
 
 ## Global exclusions
 

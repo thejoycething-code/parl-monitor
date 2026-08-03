@@ -22,6 +22,7 @@ AREA_NAMES = {
     4: "Conversion practices", 5: "Sex-based rights", 6: "Parental rights and education",
     7: "Free speech and online safety", 8: "Freedom of religion", 9: "Marriage and family",
     10: "Surrogacy and embryology",
+    11: "Migration",
 }
 TAG_ORDER = {"ACT": 0, "WATCH": 1, "NOTE": 2}
 

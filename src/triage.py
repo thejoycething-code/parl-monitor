@@ -23,7 +23,9 @@ on: abortion (pro-life), assisted dying (opposed), youth gender medicine (oppose
 paediatric transition), conversion practices bans (concerned re therapy/parental/religious
 freedom), single-sex spaces (sex-based rights), parental rights in education, free speech
 and online safety overreach, freedom of religion or belief, marriage and family, surrogacy
-(opposed to commercial surrogacy).
+(opposed to commercial surrogacy), and migration (border control and integrity, opposed
+to illegal migration; watching impacts on community cohesion, religious freedom and
+family life).
 
 For each item, return JSON: {"id": ..., "score": 0-3, "areas": [..],
 "why_it_matters": "..."}.

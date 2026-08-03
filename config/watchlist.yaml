@@ -11,6 +11,8 @@ bills:                    # Westminster, by ID (never by title). `why` renders o
          why: "Palliative care funding; the positive alternative to assisted suicide"}
   4171: {title: "Relationships and Sex Education (FE Sector) Bill", areas: [6],
          why: "Extends RSE rules into further education; parental rights watch"}
+  4254: {title: "Immigration and Asylum Bill", areas: [11],
+         why: "Government migration bill in committee; watch amendments touching family life, religious conversion claims and free speech"}
 fallen_bills:             # prior-session bills whose closing entries the board owns
   3774: {title: "Terminally Ill Adults (End of Life) Bill", areas: [2],
          why: "Leadbeater assisted suicide bill; fell at prorogation in Lords committee"}
@@ -19,6 +21,8 @@ acts_watch:               # implementation tracking via SI name sweeps + legisla
      why: "Carried abortion decriminalisation (s.241); implementation and pardons watch"}
   - {short: "Children's Wellbeing and Schools", chapter: "ukpga/2026/21", bill_id: 3909, areas: [6],
      why: "Home education registers and school powers; implementation watch"}
+  - {short: "Border Security, Asylum and Immigration", areas: [11],
+     why: "2025 Act; implementation SIs tracked"}
 holyrood:                 # status is scraped from the bill page, not trusted from here
   - {slug: assisted-dying-for-terminally-ill-adults-scotland-bill,
      title: "Assisted Dying for Terminally Ill Adults (Scotland) Bill",

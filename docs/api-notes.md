@@ -150,3 +150,14 @@ entry for any that is terminal (Act, or session-excluded) and has no
 bill, acceptance 9.2's fourth close) is deferred to the Scotland ingester
 (section 4.11) and is NOT in this discovery path yet. So the cold run currently
 surfaces three closures (3774, 3938, 3909), not four.
+
+## Spec deviation: area 11 (migration), 2026-08-03
+
+Christopher's decision: migration is a standing campaign area. The handoff
+section 7 system prompt (spec says verbatim) is extended with a migration
+clause so triage scores the new area rather than discarding its items; the
+taxonomy master gains area 11 (bare migration/immigration/asylum at tier 2,
+triage-gated); bill 4254 (Immigration and Asylum Bill) joins the board; the
+Border Security, Asylum and Immigration Act 2025 joins acts_watch for SI
+implementation tracking (no bill_id on purpose: its 2025 assent predates the
+monitor, so no closing entry).

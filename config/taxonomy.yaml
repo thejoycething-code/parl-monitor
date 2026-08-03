@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy.md
 # Regenerate: python3 tools/generate_taxonomy.py
-version: 0.2
+version: 0.3
 areas:
   1_abortion:
     tier1: [abortion, "Abortion Act 1967", "termination of pregnancy", "safe access zone*", "buffer zone*", "abortion time limit", "foetal viability", "fetal viability", "pills by post", "telemedicine abortion", "sex-selective abortion", "Offences against the Person Act 1861", "Infant Life (Preservation)", "Ground E", "disability-selective", BPAS, "MSI Reproductive Choices"]
@@ -42,4 +42,8 @@ areas:
     tier1: [surrogacy, surrogate, "Surrogacy Arrangements Act", "Human Fertilisation and Embryology", HFEA, "commercial surrogacy", "embryo research", "14-day rule", "gamete donation", "egg donation"]
     tier2: ["fertility treatment", IVF, "donor conception", "donor-conceived", "mitochondrial donation", "genome editing", "embryo screening", "polygenic screening", "artificial womb*"]
     # note: Ties to the Bought and Broken documentary workstream; any Law Commission surrogacy implementation signal is an automatic score 3.
+  11_migration:
+    tier1: ["Immigration and Asylum Bill", "illegal migration", "Illegal Migration Act", "small boats", "Channel crossing*", "asylum hotel*", "net migration", "border security", "asylum backlog", "safe and legal routes", "foreign national offender*", "deportation*", "indefinite leave to remain"]
+    tier2: [migration, immigration, asylum, "asylum seeker*", "refugee*", "leave to remain", citizenship, "community cohesion", "immigration detention", "illegal working"]
+    # note: New area, added 3 August 2026 by Christopher's decision. Bare migration/immigration/asylum sit at tier 2 deliberately: they are common words (data migration, asylum in history debates) and the triage pass gates them. Cross-tags: religious conversion in asylum claims stays in area 8; Islamophobia and community-speech items in area 7.
 exclusions_global: [termination, conversion, transition, blocker, gender, safeguarding, education, equality]

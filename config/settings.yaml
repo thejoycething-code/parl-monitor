@@ -16,6 +16,8 @@ pq_sweep_terms:
   - anti-Muslim hostility
   - Islamophobia
   - grooming gangs
+  - illegal migration
+  - small boats
   - home schooling
   - conversion therapy
   - surrogacy
@@ -25,6 +27,7 @@ pq_sweep_terms:
 # Early Day Motions sweep (fast API). Matched EDMs are stored as items and
 # their signature counts recorded per edition for week-on-week deltas.
 edm_sweep_terms:
+  - migration
   - Islamophobia
   - assisted dying
   - abortion

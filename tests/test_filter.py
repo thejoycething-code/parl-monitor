@@ -120,9 +120,21 @@ class FilterTests(unittest.TestCase):
         self.assertFalse(self.match("Energy transition targets").matched())
         # "maid" should not ride in on MAiD (case-insensitive fallback risk).
         self.assertFalse(self.match("The maid service industry").matched())
-        # Plain migration/immigration items stay out: not a taxonomy area.
-        self.assertFalse(self.match("Net migration statistics for 2026").matched())
-        self.assertFalse(self.match("Asylum accommodation costs").matched())
+        # "data migration" style noise reaches triage as tier 2 only, never tier 1.
+        r = self.match("Data migration for NHS records systems")
+        self.assertEqual(r.tier, 2)
+
+    def test_area_11_migration(self):
+        # Scope decision reversed 2026-08-03: migration is now area 11.
+        r = self.match("Net migration statistics for 2026")
+        self.assertIn(11, r.issue_areas)
+        self.assertEqual(r.tier, 1)
+        self.assertIn(11, self.match("Asylum accommodation costs").issue_areas)
+        self.assertIn(11, self.match("Small boats arrivals in the Channel").issue_areas)
+        self.assertIn(11, self.match("Legislative Scrutiny: Immigration and Asylum Bill").issue_areas)
+        # Watchlist: the live bill matches as an entity too.
+        self.assertIn("Immigration and Asylum Bill",
+                      self.match("Committee stage of the Immigration and Asylum Bill").watchlist_hits)
 
     def test_loose_pq_noise_is_suppressed(self):
         # "British Steel: Jingye Group" is a real loose-search PQ hit; filter drops it.
