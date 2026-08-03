@@ -7,7 +7,7 @@ Rendered through the real src/digest.py so the layout is authentic.
 import os
 import sys
 
-ROOT = "/Users/chrisjoyce/Downloads/Parliamenary Monitor"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import board, digest

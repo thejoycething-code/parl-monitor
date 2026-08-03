@@ -340,7 +340,17 @@ def run_triage_pass(conn, wl, week_commencing, mode=None):
                scores are applied at render time
     live    -- Claude API scoring (needs ANTHROPIC_API_KEY)
     """
-    mode = mode or os.environ.get("TRIAGE", "stub")
+    mode = mode or os.environ.get("TRIAGE", "auto")
+    if mode == "auto":
+        # Unattended default: live scoring when a key is configured, else the
+        # deterministic stub (a queue file would block an unattended Monday).
+        from src import publish
+        key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
+        if key:
+            os.environ.setdefault("ANTHROPIC_API_KEY", key)
+            mode = "live"
+        else:
+            mode = "stub"
     items = triage.pending_items(conn, wl)
     if not items:
         return "no pending items"

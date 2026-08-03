@@ -1,10 +1,10 @@
 #!/bin/zsh
 # Unattended Sunday pull (handoff section 8: Sunday 21:00 pull + triage queue).
 #
-# Deterministic only: fetches all feeds, archives raw responses, filters,
-# stores, and emits the triage queue + review file for the coming week's
-# edition. No model and no API key involved; scoring happens Monday in a
-# Claude Code session (TRIAGE=session) or by hand.
+# Fetches all feeds, archives raw responses, filters, stores, and triages.
+# TRIAGE=auto: live Claude scoring when config/secrets.yaml carries an
+# anthropic_api_key, deterministic stub otherwise. The review file is ready
+# by ~21:30 for optional human edits before Monday's unattended publish.
 #
 # Scheduled via launchd: ~/Library/LaunchAgents/net.citizengo.parlmonitor.pull.plist
 # (launchd runs a missed slot on wake, unlike cron).
@@ -28,5 +28,5 @@ LOG="$REPO/data/pull-logs"
 mkdir -p "$LOG"
 
 echo "[$(date -Iseconds)] pull for week commencing $WEEK" >> "$LOG/$WEEK.log"
-TRIAGE=session python3 run_weekly.py --pull "$WEEK" >> "$LOG/$WEEK.log" 2>&1
+TRIAGE=auto python3 run_weekly.py --pull "$WEEK" >> "$LOG/$WEEK.log" 2>&1
 echo "[$(date -Iseconds)] done (exit $?)" >> "$LOG/$WEEK.log"
