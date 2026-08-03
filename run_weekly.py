@@ -22,7 +22,7 @@ import yaml
 
 from src import board, db, digest, filter as filt, review, triage
 from src.http import FetchError, HttpClient
-from src.ingest import bills, consultations, divisions, edms, legislation, pqs, scotland, sis, whatson, wms
+from src.ingest import bills, committees, consultations, divisions, edms, legislation, pqs, scotland, sis, whatson, wms
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -259,9 +259,23 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                            "WMS ({0}): {1}".format(st.house, st.title), None, r,
                            event_date=st.made_when.isoformat())
 
+    def _committees():
+        for call in committees.fetch_open_calls(client):
+            r = filt.filter_item(tax, wl, call.title or "")
+            if not r.matched():
+                continue
+            names = committees.resolve_committees(client, call.id)
+            label = "{0}: {1} ({2}), evidence closes {3}".format(
+                ", ".join(names) or "Committee", call.title, call.type_name,
+                call.deadline.isoformat() if call.deadline else "rolling")
+            store_item(conn, "committee:{0}".format(call.id), "committee", "inquiry",
+                       label, call.url, r,
+                       deadline=call.deadline.isoformat() if call.deadline else None)
+
     # One failing feed degrades to a disclosed gap; the pull continues.
     for feed_name, fetch in [("consultation", _consultations), ("si", _sis),
-                             ("whatson", _whatson), ("division", _divisions), ("wms", _wms)]:
+                             ("whatson", _whatson), ("division", _divisions), ("wms", _wms),
+                             ("committee", _committees)]:
         try:
             fetch()
         except FetchError as exc:
