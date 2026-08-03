@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>net.citizengo.parlmonitor.pull</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>/Users/chrisjoyce/parl-monitor/tools/sunday_pull.sh</string>
+    </array>
+    <!-- Sunday 21:04 local (handoff section 8: Sunday 21:00 pull; off-peak minute) -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>21</integer>
+        <key>Minute</key>
+        <integer>4</integer>
+    </dict>
+    <!-- launchd runs a missed slot once on wake; if the Mac is shut down all
+         Sunday the run is skipped and Monday's session can run the pull manually. -->
+    <key>StandardOutPath</key>
+    <string>/Users/chrisjoyce/parl-monitor/data/pull-logs/launchd.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/chrisjoyce/parl-monitor/data/pull-logs/launchd.err</string>
+</dict>
+</plist>

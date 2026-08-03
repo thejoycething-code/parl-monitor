@@ -35,32 +35,26 @@ Follow handoff §10 strictly, in order. There are two hard stops for human revie
 
 ## Weekly operations
 
-Fully unattended (option B, chosen 2026-08-03). Repo lives at
-`~/parl-monitor` (moved out of ~/Downloads: macOS TCC blocks launchd there).
+**Primary runtime: GitHub Actions** (repo `thejoycething-code/parl-monitor`,
+private; migrated 2026-08-03 after a green test run). The laptop is a dev
+machine and manual fallback only -- its launchd jobs are retired (plists
+archived in tools/launchd-retired/). State (store, raw archive, editions,
+reviews) is committed by each workflow run; **always `git pull` before local
+work**, the bot commits to main.
 
-- **Sunday 21:04** (`net.citizengo.parlmonitor.pull` -> tools/sunday_pull.sh):
-  pull all feeds, archive raw, filter, triage with TRIAGE=auto (live Claude
-  scoring when config/secrets.yaml has anthropic_api_key, stub otherwise),
-  emit review file for the coming week.
-- **Optional human window, Sunday evening to Monday 06:30**: edit
-  reviews/review-<week>.md to set ACT/owner or adjust WHY lines. Decisions
-  are merge-preserved; nothing blocks if untouched.
-- **Monday 06:30** (`net.citizengo.parlmonitor.monday` -> tools/monday_publish.sh
-  -> run_monday.py): render, post summary + canvas to #campaigns-en-gb, create
-  the week's Asana reading task. Missing credentials skip that step with a log
-  line, never fail the render. An unreviewed edition ships WATCH/NOTE only:
-  ACT requires a human-set owner by hard validation.
-- Credentials in config/secrets.yaml (gitignored; template in
-  config/secrets.yaml.example). Logs in data/pull-logs/.
-- **Interim Slack arrangement (until the workspace approves the bot app,
-  requested 2026-08-03):** the Monday job skips the Slack step (no token).
-  The post happens in a Monday Claude Code session via the claude.ai Slack
-  connector, as Christopher, with his explicit go-ahead each week ("post
-  it"): Canvas + summary to #campaigns-en-gb, same format as run_monday.py
-  would produce. Once the bot token lands in secrets.yaml, this note dies.
-
-A Claude Code session can still run any step by hand (see run_weekly.py /
-run_monday.py); the session ritual is the fallback, not the default.
+- **Sunday 21:04 London** (.github/workflows/sunday-pull.yml): pull all feeds,
+  archive raw, filter, triage (TRIAGE=auto: live scoring via ANTHROPIC_API_KEY
+  Actions secret), emit review file for the coming week, commit state.
+- **Optional human window until Monday 06:30**: edit reviews/review-<week>.md
+  (via laptop + push, or the GitHub web editor). Decisions merge-preserve.
+- **Monday 06:30 London** (.github/workflows/monday-publish.yml): render, post
+  to Slack (skipped until SLACK_BOT_TOKEN secret exists -- bot app awaiting
+  workspace admin approval; interim: post in-session as Christopher with his
+  explicit weekly go-ahead), create the Asana reading task (ASANA_PAT secret),
+  commit state.
+- Cron is UTC with a London-hour guard step (BST/GMT drift); duplicate slots
+  self-skip. Local manual runs still work: run_weekly.py / run_monday.py with
+  config/secrets.yaml (gitignored; template in secrets.yaml.example).
 
 ## When uncertain
 
