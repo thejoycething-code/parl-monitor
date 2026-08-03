@@ -128,7 +128,7 @@ MOVEMENT_KEY = ("*Movement: NEW = first appearance on the board; ▲ moved = sta
 
 
 def render_board(rows):
-    lines = ["## 2. Active bills board", "",
+    lines = ["## 10. Active bills board", "",
              "| Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |",
              "|---|---|---|---|---|---|---|"]
     live = [r for r in rows if r.status == "live"]
@@ -167,7 +167,7 @@ def render_week_ahead(lines):
     """Section 3: the diary, grouped by day (handoff digest-template section 3)."""
     if not lines:
         return None
-    out = ["## 3. Week ahead", ""]
+    out = ["## 2. Week ahead", ""]
     current = object()
     for line in sorted(lines, key=lambda l: (l.date or "")):
         if line.date != current:
@@ -203,36 +203,40 @@ def render(edition):
     if top:
         parts.append(top)
 
-    parts.append(render_board(edition.board_rows))
-
     if recess:
         # Recess status + return dates render once, as a top line (composed via
         # recess_line() by the orchestrator); no separate banner or footer.
         for number, title, lines, cap in [
-            (6, "Committee corner", edition.committee, None),
-            (7, "Consultations and secondary legislation", edition.consultations_si, None),
-            (11, "MP intelligence notes", edition.mp_notes, None),
+            (5, "Committee corner", edition.committee, None),
+            (6, "Consultations and secondary legislation", edition.consultations_si, None),
         ]:
             section = _render_section(number, title, lines, cap)
             if section:
                 parts.append(section)
+        parts.append(render_board(edition.board_rows))
+        mp = _render_section(11, "MP intelligence notes", edition.mp_notes)
+        if mp:
+            parts.append(mp)
     else:
         week_ahead = render_week_ahead(edition.week_ahead)
         if week_ahead:
             parts.append(week_ahead)
         for number, title, lines, cap in [
-            (4, "Votes and amendments", edition.votes, None),
-            (5, "Written questions worth reading", edition.pqs, 5),
-            (6, "Committee corner", edition.committee, None),
-            (7, "Consultations and secondary legislation", edition.consultations_si, None),
-            (8, "EDMs and petitions", edition.edms, 5),
-            (9, "Devolved round-up", edition.devolved, None),
-            (10, "Statements and announcements", edition.statements, None),
-            (11, "MP intelligence notes", edition.mp_notes, None),
+            (3, "Votes and amendments", edition.votes, None),
+            (4, "Written questions worth reading", edition.pqs, 5),
+            (5, "Committee corner", edition.committee, None),
+            (6, "Consultations and secondary legislation", edition.consultations_si, None),
+            (7, "EDMs and petitions", edition.edms, 5),
+            (8, "Devolved round-up", edition.devolved, None),
+            (9, "Statements and announcements", edition.statements, None),
         ]:
             section = _render_section(number, title, lines, cap)
             if section:
                 parts.append(section)
+        parts.append(render_board(edition.board_rows))
+        mp = _render_section(11, "MP intelligence notes", edition.mp_notes)
+        if mp:
+            parts.append(mp)
 
     # Footer: disclose gaps.
     parts.append("---")

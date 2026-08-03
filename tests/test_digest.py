@@ -30,10 +30,10 @@ class RecessRenderTests(unittest.TestCase):
             mp_notes=[digest.Line("An MP note", "NOTE")],
         )
         md = digest.render(e)
-        for present in ("## 1. Top lines", "## 2. Active bills board",
-                        "## 7. Consultations", "## 11. MP intelligence"):
+        for present in ("## 1. Top lines", "## 10. Active bills board",
+                        "## 6. Consultations", "## 11. MP intelligence"):
             self.assertIn(present, md)
-        for absent in ("## 3. Week ahead", "## 4. Votes", "## 5. Written questions",
+        for absent in ("## 2. Week ahead", "## 4. Votes", "## 5. Written questions",
                        "## 8. EDMs", "## 9. Devolved", "## 10. Statements",
                        "Return dates below", "**Return dates:**"):
             self.assertNotIn(absent, md)
@@ -53,7 +53,7 @@ class RecessRenderTests(unittest.TestCase):
 
     def test_board_always_renders_even_when_empty_elsewhere(self):
         md = digest.render(base_edition())
-        self.assertIn("## 2. Active bills board", md)
+        self.assertIn("## 10. Active bills board", md)
         self.assertIn("bills/4157", md)
 
     def test_westminster_rows_use_bills_parliament_uk(self):

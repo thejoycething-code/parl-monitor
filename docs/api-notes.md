@@ -161,3 +161,12 @@ triage-gated); bill 4254 (Immigration and Asylum Bill) joins the board; the
 Border Security, Asylum and Immigration Act 2025 joins acts_watch for SI
 implementation tracking (no bill_id on purpose: its 2025 assent predates the
 monitor, so no closing entry).
+
+## Format deviation: section order (owner decision, 2026-08-03)
+
+The digest-template's original order (board as section 2) is superseded:
+Top lines lead, the week's diary (Week ahead) comes second, and the Active
+bills board renders as section 10, before MP intelligence notes. Rationale:
+the briefing should open with what is happening and close with standing
+reference material. Renderer, tests, sample reference and both published
+editions updated; docs/digest-template.md left as the historical spec.
