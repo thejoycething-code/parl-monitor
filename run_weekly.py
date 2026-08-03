@@ -112,10 +112,17 @@ def store_item(conn, item_id, feed, item_type, title, url, result, event_date=No
     baking a score in at ingest would let the crude keyword tier make the
     editorial call the section 7 triage pass is supposed to make.
     """
+    # Upsert: feed-sourced fields refresh on re-pull; editorial fields
+    # (triage_score, priority_tag, owner, why_it_matters) are never touched,
+    # so re-running a pull cannot wipe scoring or review decisions.
     conn.execute(
-        "INSERT OR REPLACE INTO items (id, captured_at, source_feed, item_type, title, url, "
+        "INSERT INTO items (id, captured_at, source_feed, item_type, title, url, "
         "event_date, deadline, date_tabled, issue_areas, matched_terms, tier, triage_score) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)",
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL) "
+        "ON CONFLICT(id) DO UPDATE SET captured_at=excluded.captured_at, title=excluded.title, "
+        "url=excluded.url, event_date=excluded.event_date, deadline=excluded.deadline, "
+        "date_tabled=excluded.date_tabled, issue_areas=excluded.issue_areas, "
+        "matched_terms=excluded.matched_terms, tier=excluded.tier",
         (item_id, datetime.date.today().isoformat(), feed, item_type, title, url, event_date, deadline,
          date_tabled,
          json.dumps(result.issue_areas), json.dumps(result.matched_terms + result.watchlist_hits),

@@ -105,5 +105,29 @@ class SettingsTests(unittest.TestCase):
         self.assertIn("abortion", settings.get("edm_sweep_terms", []))
 
 
+class StoreItemUpsertTests(unittest.TestCase):
+    """Re-pulling must never wipe editorial state (scores, priorities, owners)."""
+
+    def test_repull_preserves_editorial_fields(self):
+        conn = db.init_db(db.connect(":memory:"))
+        try:
+            r = filt.FilterResult(matched_terms=["weddings law"], issue_areas=[9], tier=1)
+            run_weekly.store_item(conn, "consultation:x", "consultation", "consultation",
+                                  "Old title", "https://old", r)
+            conn.execute("UPDATE items SET triage_score=3, priority_tag='ACT', owner='Zuzana', "
+                         "why_it_matters='Campaign live' WHERE id='consultation:x'")
+            conn.commit()
+            run_weekly.store_item(conn, "consultation:x", "consultation", "consultation",
+                                  "New title", "https://new", r)
+            row = conn.execute("SELECT * FROM items WHERE id='consultation:x'").fetchone()
+            self.assertEqual(row["title"], "New title")          # feed data refreshed
+            self.assertEqual(row["triage_score"], 3)             # editorial preserved
+            self.assertEqual(row["priority_tag"], "ACT")
+            self.assertEqual(row["owner"], "Zuzana")
+            self.assertEqual(row["why_it_matters"], "Campaign live")
+        finally:
+            conn.close()
+
+
 if __name__ == "__main__":
     unittest.main()

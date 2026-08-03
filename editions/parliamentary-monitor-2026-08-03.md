@@ -30,7 +30,7 @@
 
 ---
 **Coverage gaps this edition:**
-- pq: Taxonomy PQ sweeps returned no matching questions in the current live feed; clusters not reproducible this edition.
-- edm: EDM feed returned no tagged motions for this window; signature tracking deferred.
+- pq: sweep term 'home education' failed after 4 attempts; results missing this week
+- pq: sweep term 'safe access zones' failed after 4 attempts; results missing this week
 
 *Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v0.2 with human review.*

@@ -37,7 +37,19 @@ def suggested_tag(tier):
 
 
 def generate_review_file(conn, week, path):
-    """Write the checklist of score>=2, not-yet-reviewed items for the edition."""
+    """Write the checklist of score>=2, not-yet-reviewed items for the edition.
+
+    Merge-preserving: if the file already exists, PRIORITY/OWNER/WHY the human
+    has set are carried into the regenerated file, never overwritten. A pull
+    re-run must not cost the reviewer their morning's decisions.
+    """
+    existing = {}
+    if os.path.exists(path):
+        try:
+            existing = {d.item_id: d for d in parse_review_file(path)}
+        except Exception:
+            existing = {}
+
     rows = conn.execute(
         "SELECT id, source_feed, title, issue_areas, matched_terms, tier, triage_score, why_it_matters "
         "FROM items WHERE triage_score >= 2 AND priority_tag IS NULL ORDER BY source_feed, id"
@@ -51,9 +63,12 @@ def generate_review_file(conn, week, path):
         blocks.append("- feed: {0} | areas: {1} | score: {2}".format(r["source_feed"], areas, r["triage_score"]))
         blocks.append("- matched: {0}".format(matched))
         blocks.append("- title: {0}".format(r["title"]))
-        blocks.append("PRIORITY: {0}".format(suggested_tag(r["tier"])))
-        blocks.append("OWNER: ")
-        blocks.append("WHY: {0}".format(r["why_it_matters"] or ""))
+        prior = existing.get(r["id"])
+        blocks.append("PRIORITY: {0}".format(
+            (prior.priority if prior and prior.priority else None) or suggested_tag(r["tier"])))
+        blocks.append("OWNER: {0}".format(prior.owner if prior and prior.owner else ""))
+        blocks.append("WHY: {0}".format(
+            (prior.why if prior and prior.why else None) or r["why_it_matters"] or ""))
         blocks.append("")
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
