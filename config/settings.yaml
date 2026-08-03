@@ -1,0 +1,31 @@
+# Operational settings (handoff section 2). Edit freely; no code changes needed.
+
+# Written-questions sweep (questions-statements-api is slow and flaky: each term
+# can take 7-30s and may fail even after retries; failures land in the gaps
+# table and the edition footer). Keep this list curated, not exhaustive -- the
+# taxonomy filter runs over the results, so terms here only decide what gets
+# fetched, not what gets published.
+pq_sweep_terms:
+  - assisted dying
+  - home education
+  - safe access zones
+  - Cass Review
+  - hospices
+  - puberty blockers
+  - age assurance
+  - anti-Muslim hostility
+  - conversion therapy
+  - surrogacy
+  - PATHWAYS
+  - single-sex spaces
+
+# Early Day Motions sweep (fast API). Matched EDMs are stored as items and
+# their signature counts recorded per edition for week-on-week deltas.
+edm_sweep_terms:
+  - assisted dying
+  - abortion
+  - home education
+  - free speech
+  - surrogacy
+  - single-sex
+  - conversion therapy

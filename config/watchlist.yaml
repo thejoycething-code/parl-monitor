@@ -1,0 +1,44 @@
+# Watchlist (handoff section 6). The board state machine keeps bills current.
+# Any item mentioning a watchlist entity is included at minimum score 2,
+# regardless of keyword match. Division titles are matched against bills: titles
+# and acts_watch.short values explicitly.
+bills:                    # Westminster, by ID (never by title). `why` renders on the board.
+  4157: {title: "Terminally Ill Adults (End of Life) Bill", areas: [2],
+         why: "The assisted suicide bill; our core opposition priority this session"}
+  4144: {title: "Complications from Abortions (Annual Report) Bill [HL]", areas: [1],
+         why: "Would require annual reporting of abortion complications; transparency we back"}
+  4178: {title: "Hospice Funding Bill", areas: [2],
+         why: "Palliative care funding; the positive alternative to assisted suicide"}
+  4171: {title: "Relationships and Sex Education (FE Sector) Bill", areas: [6],
+         why: "Extends RSE rules into further education; parental rights watch"}
+fallen_bills:             # prior-session bills whose closing entries the board owns
+  3774: {title: "Terminally Ill Adults (End of Life) Bill", areas: [2],
+         why: "Leadbeater assisted suicide bill; fell at prorogation in Lords committee"}
+acts_watch:               # implementation tracking via SI name sweeps + legislation.gov.uk
+  - {short: "Crime and Policing", chapter: "ukpga/2026/20", bill_id: 3938, sections: [241, 242], areas: [1],
+     why: "Carried abortion decriminalisation (s.241); implementation and pardons watch"}
+  - {short: "Children's Wellbeing and Schools", chapter: "ukpga/2026/21", bill_id: 3909, areas: [6],
+     why: "Home education registers and school powers; implementation watch"}
+holyrood:                 # status is scraped from the bill page, not trusted from here
+  - {slug: assisted-dying-for-terminally-ill-adults-scotland-bill,
+     title: "Assisted Dying for Terminally Ill Adults (Scotland) Bill",
+     scot_id: 445, areas: [2],
+     why: "Scottish assisted suicide bill; defeated at Stage 3"}
+processes: ["Cass Review", "Sullivan Review", "PATHWAYS", "Tying the Knot",
+            "Modern Service Framework", "anti-Muslim hostility definition",
+            "Online Safety Act codes"]
+organisations: [Right To Life UK, SPUC, CARE, Christian Concern, ADF International,
+                Care Not Killing, Sex Matters, Christian Institute, Coalition for Marriage,
+                BPAS, MSI Reproductive Choices, Dignity in Dying, Humanists UK, Stonewall, Mermaids]
+parliamentarians:         # seed only; extended from voting tracker + EDM signatories
+  - Kim Leadbeater
+  - Lauren Edwards
+  - Danny Kruger
+  - Tonia Antoniazzi
+  - Andrew Snowden
+  - Carla Lockhart
+  - Jim Shannon
+  - Lord Moylan
+  - Lord Falconer of Thoroton
+  - Baroness Grey-Thompson
+  - Baroness Maclean of Redditch

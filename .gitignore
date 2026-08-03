@@ -1,0 +1,6 @@
+# Operational state: the SQLite store and the raw provenance archive live on
+# disk (and in backups), not in git. Everything reproducible stays tracked.
+data/
+__pycache__/
+*.pyc
+.DS_Store
