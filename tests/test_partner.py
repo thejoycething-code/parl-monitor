@@ -71,7 +71,10 @@ class SiteTests(unittest.TestCase):
         html = partner.to_html(partner.redact(EDITION), "Test title")
         self.assertIn("<table>", html)
         self.assertIn('<a href="https://bills.parliament.uk/bills/1">A Bill</a>', html)
-        self.assertIn("<strong>[ACT]</strong>", html)
+        s = html
+        self.assertIn('<span class="tag act">ACT</span>', html)
+        self.assertIn("Roboto", html)
+        self.assertIn("#4285f4", html)
         self.assertIn("noindex", html)
 
     def test_build_site_writes_index_archive_and_middleware(self):
