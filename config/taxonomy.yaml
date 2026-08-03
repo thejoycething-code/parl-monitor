@@ -1,66 +1,45 @@
-# GENERATED CONFIG — source of truth for matching (handoff section 6).
-# Produced from docs/keyword-taxonomy.md; includes the four v0.2 pilot patches.
-# Do NOT hand-edit for content changes: edit docs/keyword-taxonomy.md and
-# regenerate (the md->yaml regenerator is a step-8 task; see docs/api-notes.md).
+# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
+# Source of truth: docs/keyword-taxonomy.md
+# Regenerate: python3 tools/generate_taxonomy.py
 version: 0.2
 areas:
   1_abortion:
-    tier1: [abortion, "Abortion Act 1967", "termination of pregnancy", "safe access zone*",
-            "buffer zone*", "abortion time limit", "foetal viability", "fetal viability",
-            "pills by post", "telemedicine abortion", "sex-selective abortion",
-            "Offences against the Person Act 1861", "Infant Life (Preservation)",
-            "Ground E", "disability-selective", BPAS, "MSI Reproductive Choices"]
-    tier2: ["reproductive rights", "reproductive healthcare", "crisis pregnancy",
-            "conscientious objection", "gestational limit", "foetal pain", "silent prayer"]
-    note: decriminalisation now law (CPA 2026 s241, in force 11 May 2026); watch = implementation, pardons scheme s242, amendment vehicles on any Home Office/MoJ bill
+    tier1: [abortion, "Abortion Act 1967", "termination of pregnancy", "safe access zone*", "buffer zone*", "abortion time limit", "foetal viability", "fetal viability", "pills by post", "telemedicine abortion", "sex-selective abortion", "Offences against the Person Act 1861", "Infant Life (Preservation)", "Ground E", "disability-selective", BPAS, "MSI Reproductive Choices"]
+    tier2: ["reproductive rights", "reproductive healthcare", "crisis pregnancy", "conscientious objection", "gestational limit", "foetal pain", "silent prayer"]
+    # note: Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill.
   2_assisted_dying:
-    tier1: ["assisted dying", "assisted suicide", euthanasia, "Terminally Ill Adults",
-            "End of Life Bill", "Suicide Act 1961", "physician-assisted", "assisted death"]
-    tier2: ["palliative care", hospice, "end of life care", "terminal illness",
-            "mental capacity", "right to die", coercion, anorexia]
+    tier1: ["assisted dying", "assisted suicide", euthanasia, "Terminally Ill Adults", "End of Life Bill", "Suicide Act 1961", "physician-assisted", "assisted death"]
+    tier2: ["palliative care", hospice, "end of life care", "terminal illness", "mental capacity", "right to die", coercion, anorexia]
+    # note: Palliative care and hospice funding items are the positive-agenda flank of this area and useful for coalition framing.
   3_gender_medicine_children:
-    tier1: ["puberty blocker*", "puberty-suppressing hormones", "puberty suppressing hormones",
-            "cross-sex hormones", "Cass Review", Tavistock, GIDS, "gender identity service*",
-            "gender dysphoria", "gender questioning children", "youth gender", PATHWAYS]
-    tier2: [detransition*, "gender-affirming", "Gillick competence", "gender clinic*",
-            "private prescriptions", "indefinite ban"]
+    tier1: ["puberty blocker*", "puberty-suppressing hormones", "puberty suppressing hormones", "cross-sex hormones", "Cass Review", Tavistock, GIDS, "gender identity service*", "gender dysphoria", "gender questioning children", "youth gender", PATHWAYS]
+    tier2: ["detransition*", "gender-affirming", "Gillick competence", "gender clinic*", "private prescriptions", "indefinite ban"]
   4_conversion_practices:
     tier1: ["conversion therapy", "conversion practices", "Conversion Practices Bill"]
     tier2: ["gender exploratory therapy", "talking therap*", "religious exemption", "affirmation-only"]
+    # note: Cross-tag with area 3 (a ban drafted to cover gender identity is the live risk to exploratory therapy) and area 8 (prayer and pastoral care exemptions).
   5_sex_based_rights:
-    tier1: ["single-sex space*", "single-sex service*", "single-sex ward*",
-            "Gender Recognition Act", "gender recognition certificate", "self-identification",
-            "self-ID", "biological sex", "legal definition of woman", "For Women Scotland",
-            "women's sport", "female category"]
-    tier2: ["Equality Act 2010", "Sullivan Review", "sex and gender data", "changing room*",
-            "toilet provision", transgender, "protected characteristic", "women's prison*"]
+    tier1: ["single-sex space*", "single-sex service*", "single-sex ward*", "Gender Recognition Act", "gender recognition certificate", "self-identification", "self-ID", "biological sex", "legal definition of woman", "For Women Scotland", "women's sport", "female category"]
+    tier2: ["Equality Act 2010", "Sullivan Review", "sex and gender data", "changing room*", "toilet provision", transgender, "protected characteristic", "women's prison*"]
+    # note: Equality Act mentions are extremely frequent; triage should score 2+ only where sex/gender definitions, single-sex exceptions or guidance revisions are at stake.
   6_parental_rights_education:
-    tier1: ["relationships and sex education", RSE, "sex education guidance",
-            "parental consent", "parental rights", "right to withdraw", "home education",
-            "elective home education", "children not in school",
-            "education otherwise than at school", EOTAS]          # v0.2 patch
-    tier2: [PSHE, "curriculum review", "external providers", "smartphone* in schools",
-            "faith school*", "collective worship", "child protection", "foster care"]  # v0.2 broadened
+    tier1: ["relationships and sex education", RSE, "sex education guidance", "parental consent", "parental rights", "right to withdraw", "home education", "elective home education", "children not in school", "education otherwise than at school", EOTAS]
+    tier2: [PSHE, "curriculum review", "external providers", "smartphone* in schools", "faith school*", "collective worship", "child protection", "foster care"]
+    # note: EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary.
   7_free_speech_online_safety:
-    tier1: ["Online Safety Act", "age verification", "age assurance", "free speech",
-            "freedom of expression", "non-crime hate incident*", "silent prayer",
-            "Higher Education (Freedom of Speech)", censorship,
-            "anti-Muslim hostility", "Islamophobia definition"]   # v0.2 patch
-    tier2: [Ofcom, misinformation, disinformation, "harmful content", "hate speech",
-            blasphemy, "client-side scanning", encryption, "street preacher*"]
+    tier1: ["Online Safety Act", "age verification", "age assurance", "free speech", "freedom of expression", "non-crime hate incident*", "silent prayer", "Higher Education (Freedom of Speech)", censorship, "anti-Muslim hostility", "Islamophobia definition"]
+    tier2: [Ofcom, misinformation, disinformation, "harmful content", "hate speech", blasphemy, "client-side scanning", encryption, "street preacher*"]
+    # note: anti-Muslim hostility and the Islamophobia definition are v0.2 pilot patches. Powers granted for child protection can migrate toward viewpoint censorship; scope-expansion language scores 3.
   8_freedom_of_religion:
-    tier1: ["freedom of religion or belief", FoRB, "Christian persecution",
-            "persecution of Christians", "religious persecution", "Truro Review",
-            "Special Envoy for Freedom of Religion", apostasy, "blasphemy law*"]
-    tier2: ["religious minorit*", "religious conversion", chaplain*, "places of worship"]
+    tier1: ["freedom of religion or belief", FoRB, "Christian persecution", "persecution of Christians", "religious persecution", "Truro Review", "Special Envoy for Freedom of Religion", apostasy, "blasphemy law*"]
+    tier2: ["religious minorit*", "religious conversion", "chaplain*", "places of worship"]
+    # note: Includes domestic manifestation cases (street preaching arrests, employment cases), which cross-tag with area 7.
   9_marriage_family:
-    tier1: ["marriage law", "weddings law", "Tying the Knot", "Law Commission",
-            "cohabitation reform", "cohabitation rights", "marriage allowance",
-            "family breakdown", "no-fault divorce"]               # v0.2: Tying the Knot
+    tier1: ["marriage law", "weddings law", "Tying the Knot", "Law Commission", "cohabitation reform", "cohabitation rights", "marriage allowance", "family breakdown", "no-fault divorce"]
     tier2: ["civil partnership*", "family hub*", fatherhood, "forced marriage", "humanist marriage"]
+    # note: Deliberately lean; childcare and general family-benefit items are excluded. Tying the Knot is a v0.2 pilot patch.
   10_surrogacy_embryology:
-    tier1: [surrogacy, surrogate, "Surrogacy Arrangements Act", "Human Fertilisation and Embryology",
-            HFEA, "commercial surrogacy", "embryo research", "14-day rule", "gamete donation", "egg donation"]
-    tier2: ["fertility treatment", IVF, "donor conception", "donor-conceived",
-            "mitochondrial donation", "genome editing"]
+    tier1: [surrogacy, surrogate, "Surrogacy Arrangements Act", "Human Fertilisation and Embryology", HFEA, "commercial surrogacy", "embryo research", "14-day rule", "gamete donation", "egg donation"]
+    tier2: ["fertility treatment", IVF, "donor conception", "donor-conceived", "mitochondrial donation", "genome editing"]
+    # note: Ties to the Bought and Broken documentary workstream; any Law Commission surrogacy implementation signal is an automatic score 3.
 exclusions_global: [termination, conversion, transition, blocker, gender, safeguarding, education, equality]
