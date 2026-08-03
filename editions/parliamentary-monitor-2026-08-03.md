@@ -14,7 +14,7 @@
 | **Consultation** [SEND reform: education otherwise than at school](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school). Government plans to reshape education outside school; closes 18 September. Direct bearing on home-educating families. Held at NOTE pending a decision on a supporter response. | Fri 18 Sep · 46 days |
 | **Consultation** [Tying the Knot: Reforming weddings law in England and Wales](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales). Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live under Zuzana; response push through recess. | Thu 24 Sep · 52 days |
 
-- **Secondary legislation:** The Act's first implementing regulations, approved 369 to 102 on 8 July. Implementation machinery is moving through recess; further commencement SIs likely on the September order paper.
+- **Secondary legislation:** [Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026, Draft affirmative, laid 2026-05-20; approved by Commons division #51 (369-102 on 2026-07-08)](https://commonsvotes-api.parliament.uk/data/division/2402.json) The Act's first implementing regulations; further commencement regulations expected on the September order paper.
 
 ## 9. Active bills board
 

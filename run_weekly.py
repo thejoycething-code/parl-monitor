@@ -348,7 +348,14 @@ def sections_from_store(conn, edition):
             })
             continue
         if feed == "si":
-            edition.si_notes.append(digest.Line(text=r["why_it_matters"] or r["title"], url=r["url"]))
+            # The SI's identity leads; the editorial why-line annotates it.
+            title = r["title"]
+            if title.startswith("SI: "):
+                title = title[len("SI: "):]
+            text = "[{0}]({1})".format(title, r["url"]) if r["url"] else title
+            if r["why_it_matters"]:
+                text += " " + r["why_it_matters"]
+            edition.si_notes.append(digest.Line(text=text))
             continue
         target = SECTION_FOR_FEED.get(feed)
         if not target:

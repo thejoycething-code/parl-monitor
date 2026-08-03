@@ -115,5 +115,15 @@ class FooterTests(unittest.TestCase):
         self.assertIn("No coverage gaps", digest.render(base_edition()))
 
 
+class SiNoteTests(unittest.TestCase):
+    def test_si_note_names_the_instrument_not_just_the_why_line(self):
+        e = base_edition(si_notes=[digest.Line(
+            text="[CWSA (Establishment of Schools) Regulations 2026](https://x), "
+                 "Draft affirmative, laid 2026-05-20 The Act's first implementing regulations.")])
+        md = digest.render(e)
+        self.assertIn("CWSA (Establishment of Schools) Regulations 2026", md)
+        self.assertIn("**Secondary legislation:**", md)
+
+
 if __name__ == "__main__":
     unittest.main()
