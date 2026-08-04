@@ -32,6 +32,23 @@
 |---|---|---|
 | [Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026](https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m) Under the Children's Wellbeing and Schools Act 2026. The Act's first implementing regulations; further commencement regulations expected on the September order paper. [Commons vote 369 to 102](https://votes.parliament.uk/Votes/Commons/Division/2402) · [full text](https://www.legislation.gov.uk/ukdsi/2026/9780348283426) | Draft affirmative | Laid 2026-05-20; Commons approved 2026-07-08; awaiting the Lords |
 
+## Parliamentarians on our issues
+
+*Questions, debates, votes and motions from any member of either House touching our campaign areas this week.*
+
+- **Lord Bailey of Paddington (Conservative, Life peer)**: **PQ** Anti-social Behaviour and Shoplifting
+- **Lord Jackson of Peterborough (Conservative, Life peer)**: **PQ** Anti-Muslim Hatred/Islamophobia Definition Working Group
+- **Baroness Owen of Alderley Edge (Conservative, Life peer)**: **PQ** Internet: Compensation
+- **Chris Philp (Conservative, Croydon South)**: **PQ** Home Office: Written Questions
+- **Lord Black of Brentwood (Conservative, Life peer)**: **PQ** Internet: Age Assurance
+- **Lord Pearson of Rannoch (Non-affiliated, Life peer)**: **PQ** Anti-Muslim Hostility (x2); **PQ** Islamophobia
+- **Baroness Lister of Burtersett (Labour, Life peer)**: **PQ** Immigration
+- **Baroness Maclean of Redditch (Conservative, Life peer)**: **PQ** Gender Dysphoria: Health Services (x2)
+- **David Simmonds (Conservative, Ruislip, Northwood and Pinner)**: **PQ** Anti-muslim Hatred/islamophobia Definition Working Group
+- **The Lord Bishop of Sheffield (Bishops, Bishops)**: **PQ** Immigration and Asylum Bill
+- **Baroness Anelay of St Johns (Conservative, Life peer)**: **PQ** Undocumented Migrants: Deportation
+- **Baroness Benjamin (Liberal Democrat, Life peer)**: **PQ** Children in Care: Relationships and Sex Education
+
 ---
 **Coverage gaps this edition:**
 - pq: sweep term 'home education' failed after 4 attempts; results missing this week

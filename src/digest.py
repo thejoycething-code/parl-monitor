@@ -65,9 +65,9 @@ class DigestError(Exception):
 
 def validate(edition):
     """Refuse to render an ACT line without an owner (handoff section 8)."""
+    # mp_notes are plain strings from the ledger (no tags); not validated here.
     for section in (edition.top_lines, edition.week_ahead, edition.votes, edition.pqs,
-                    edition.edms,
-                    edition.devolved, edition.statements, edition.mp_notes):
+                    edition.edms, edition.devolved, edition.statements):
         for line in section:
             if line.tag == "ACT" and not line.owner:
                 raise DigestError("ACT line without owner: %r" % line.text)
