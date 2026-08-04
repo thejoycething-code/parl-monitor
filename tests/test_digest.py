@@ -32,7 +32,7 @@ class RecessRenderTests(unittest.TestCase):
         )
         md = digest.render(e)
         for present in ("## Top lines", "## Active bills board",
-                        "## Consultations and calls for evidence", "## MP intelligence"):
+                        "## Consultations and calls for evidence", "## Parliamentarians on our issues"):
             self.assertIn(present, md)
         for absent in ("## Week ahead", "## Votes", "## Written questions",
                        "## EDMs", "## Devolved", "## Statements",
@@ -135,6 +135,39 @@ class SiTableTests(unittest.TestCase):
         self.assertIn("| Draft affirmative |", md)
         self.assertIn("awaiting the Lords", md)
         self.assertIn("[Commons vote 369 to 102](https://votes.parliament.uk/Votes/Commons/Division/2402)", md)
+
+class MpSectionTests(unittest.TestCase):
+    """V1: one line per member, merged; votes ledgered but never listed."""
+
+    def _ev(self, mid, name, kind, line, date="2026-08-01", party="Con", seat="Somewhere"):
+        return {"member_id": mid, "name": name, "kind": kind, "line": line,
+                "date": date, "party": party, "seat": seat, "house": "Commons", "ref": "x"}
+
+    def test_one_line_per_member_with_merge_and_counts(self):
+        events = [
+            self._ev(1, "Lord Pearson of Rannoch", "pq", "Anti-Muslim hostility"),
+            self._ev(1, "Lord Pearson of Rannoch", "pq", "Anti-Muslim hostility"),
+            self._ev(2, "Lord Black of Brentwood", "pq", "Age assurance rollout"),
+        ]
+        lines = digest.mp_lines_from_events(events)
+        self.assertEqual(len(lines), 2)
+        self.assertIn("**Lord Pearson of Rannoch (Con, Somewhere)**: **PQ** Anti-Muslim hostility (x2)", lines[0])
+
+    def test_votes_are_excluded_from_the_section(self):
+        events = [self._ev(1, "A Member", "vote", "Voted No: TIA Bill")]
+        self.assertEqual(digest.mp_lines_from_events(events), [])
+
+    def test_cap_with_overflow_line(self):
+        events = [self._ev(i, "Member %d" % i, "pq", "Q%d" % i) for i in range(15)]
+        lines = digest.mp_lines_from_events(events, max_members=12)
+        self.assertEqual(len(lines), 13)
+        self.assertIn("...and 3 more members active this week", lines[-1])
+
+    def test_unresolved_member_still_renders(self):
+        events = [self._ev(999, None, "pq", "A question", party=None, seat=None)]
+        lines = digest.mp_lines_from_events(events)
+        self.assertIn("Member 999", lines[0])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -21,7 +21,8 @@ import os
 import re
 
 OWNER_FIELD = re.compile(r";?\s*Owner: [^);\n]+")
-MP_SECTION = re.compile(r"\n## (?:\d+\. )?MP intelligence notes\n.*?(?=\n## |\n---)", re.S)
+MP_SECTION = re.compile(r"\n## (?:\d+\. )?(?:MP intelligence notes|Parliamentarians on our issues)\n"
+                        r".*?(?=\n## |\n---)", re.S)
 EMPTY_PARENS = re.compile(r" \(\s*\)")
 
 BANNER = ("> **Coalition partner edition**, prepared by CitizenGO UK from Parliament's "
@@ -76,6 +77,9 @@ def _inline(text):
     for tag, cls in (("ACT", "act"), ("WATCH", "watch"), ("NOTE", "note")):
         text = text.replace("<strong>[%s]</strong>" % tag,
                             '<span class="tag %s">%s</span>' % (cls, tag))
+    for k in ("PQ", "DEBATE", "VOTE", "EDM"):
+        text = text.replace("<strong>%s</strong>" % k,
+                            '<span class="kindchip">%s</span>' % k)
     for kind, cls in (("Consultation", "consult"), ("Evidence", "evidence")):
         text = text.replace("<strong>%s</strong>" % kind,
                             '<span class="kind %s">%s</span>' % (cls, kind.upper()))
@@ -210,6 +214,9 @@ h3 {{ font-weight: 500; color: #52575C; }}
 .due.far {{ background: #EEEEEE; color: #52575C; }}
 .due.mid {{ background: #FFEBAD; color: #52575C; }}
 .due.soon {{ background: #DB544F; color: #FFFFFF; }}
+.kindchip {{ display: inline-block; font-size: .68em; font-weight: 700; letter-spacing: .04em;
+            border-radius: 999px; padding: .1em .6em; background: #4285f4; color: #FFFFFF;
+            white-space: nowrap; vertical-align: .09em; }}
 .proc {{ display: inline-block; font-size: .78em; font-weight: 700; color: #4285f4;
         border: 1px solid #4285f4; border-radius: 3px; padding: .08em .45em;
         white-space: nowrap; cursor: help; border-bottom-style: dotted; }}

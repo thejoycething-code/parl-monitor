@@ -26,6 +26,7 @@ class EDM:
     sponsor_constituency: str
     signature_count: int
     date_tabled: datetime.date
+    member_id: int = None      # primary sponsor's member id (ledger capture)
 
     @property
     def url(self):
@@ -43,6 +44,7 @@ def parse_edm(row):
         sponsor_constituency=sponsor.get("Constituency"),
         signature_count=row.get("SponsorsCount"),
         date_tabled=parse_api_date(row.get("DateTabled")),
+        member_id=row.get("MemberId"),
     )
 
 

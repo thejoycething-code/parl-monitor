@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MP intelligence notes: display variants</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; background:#FFF;
+       max-width: 60rem; margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.35rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+.option{margin:2.4rem 0;} .option>h2{color:#4285f4;font-size:1.05rem;margin-bottom:.15rem;}
+.verdict{font-size:.85em;opacity:.8;margin:.2rem 0 .9rem;}
+.demo{border:1px dashed #C8D0DC;border-radius:6px;padding:1rem 1.2rem;}
+a{color:#4285f4;text-decoration:none;} a:hover{text-decoration:underline;}
+.demo h3{color:#4285f4;font-size:1em;margin:.1rem 0 .1rem;}
+.sub{font-size:.82em;opacity:.75;font-style:italic;margin:0 0 .8rem;}
+.member{font-weight:700;}
+.chip{display:inline-block;font-size:.7em;font-weight:700;border-radius:3px;
+      padding:.1em .5em;white-space:nowrap;vertical-align:.09em;}
+.chip.party{background:#EEEEEE;color:#52575C;font-weight:500;}
+.chip.area{background:#FFF;color:#4285f4;border:1px solid #4285f4;}
+.kind{display:inline-block;font-size:.68em;font-weight:700;letter-spacing:.04em;
+      border-radius:999px;padding:.1em .6em;background:#4285f4;color:#FFF;white-space:nowrap;}
+.kind.q{background:#4285f4;} .kind.m{background:#FFF;color:#4285f4;border:1px solid #4285f4;}
+.kind.d{background:#52575C;} .kind.v{background:#EEEEEE;color:#52575C;}
+.demo ul{padding-left:1.2rem;} .demo li{margin:.55rem 0;}
+.ex{opacity:.6;}
+table{border-collapse:collapse;width:100%;font-size:.9em;}
+th,td{border:1px solid #EEEEEE;padding:.45rem .6rem;text-align:left;vertical-align:top;}
+th{background:#4285f4;color:#FFF;font-weight:500;}
+.areahead{font-weight:700;color:#52575C;margin:.7rem 0 .2rem;font-size:.85em;
+          text-transform:uppercase;letter-spacing:.04em;}
+</style></head><body>
+<h1>The weekly member-activity section, three ways <span style="font-weight:400;font-size:.7em">(this week's real captures; greyed rows illustrate other activity kinds)</span></h1>
+<p style="font-size:.88em">Common to all three: the section is renamed so it stops sounding like a PQ digest, a standing subtitle declares the full coverage, activity-type chips do the per-line signalling, and there is <strong>no watched/unwatched distinction</strong> — any parliamentarian active on our issues earns their line.</p>
+
+<div class="option"><h2>V1 — By member (one line each, activities merged)</h2>
+<p class="verdict">Closest to today's list shape. Strong when the week's story is <em>who</em>; a busy member gets one readable line, not four. The Pearson line shows the merge working.</p>
+<div class="demo">
+<h3>Parliamentarians on our issues</h3>
+<p class="sub">Questions, debates, votes and motions from any member of either House touching our campaign areas this week.</p>
+<ul>
+<li><span class="kind q">PQ</span> <span class="member">Lord Black of Brentwood</span> <span class="chip party">Con, peer</span> pressed on <a href="#">age assurance rollout</a> under the Online Safety Act. <span class="chip area">Online safety</span></li>
+<li><span class="kind q">PQ</span> <span class="member">Lord Pearson of Rannoch</span> <span class="chip party">Non-affiliated, peer</span> tabled two questions on <a href="#">anti-Muslim hostility</a>. <span class="chip area">Free speech</span></li>
+<li><span class="kind q">PQ</span> <span class="member">Lord Jackson of Peterborough</span> <span class="chip party">Con, peer</span> questioned the <a href="#">Islamophobia definition working group</a>. <span class="chip area">Free speech</span></li>
+<li><span class="kind q">PQ</span> <span class="member">David Simmonds</span> <span class="chip party">Con, Ruislip</span> raised the <a href="#">definition working group</a> in the Commons. <span class="chip area">Free speech</span></li>
+<li class="ex"><span class="kind d">DEBATE</span> <span class="member">(example) Rachael Maskell</span> <span class="chip party">Lab, York Central</span> spoke on hospice funding in Westminster Hall. <span class="chip area">Assisted dying</span></li>
+<li class="ex"><span class="kind m">EDM</span> <span class="member">(example) Jim Shannon</span> <span class="chip party">DUP, Strangford</span> sponsored a motion on street preachers, 14 signatures. <span class="chip area">Religion</span></li>
+</ul>
+</div></div>
+
+<div class="option"><h2>V2 — Grouped by issue area</h2>
+<p class="verdict">Strong when the week's story is <em>what</em> — this week it makes the pattern jump out: four parliamentarians independently pressing the same Islamophobia-definition question. Weaker for scanning individual names.</p>
+<div class="demo">
+<h3>Parliamentarians on our issues</h3>
+<p class="sub">Questions, debates, votes and motions from any member of either House touching our campaign areas this week.</p>
+<div class="areahead">Free speech and online safety</div>
+<ul>
+<li><span class="kind q">PQ</span> <span class="member">Lord Pearson of Rannoch</span>, <span class="member">Lord Jackson of Peterborough</span> and <span class="member">David Simmonds MP</span> pressed the <a href="#">anti-Muslim hostility / Islamophobia definition</a> from both Houses: four questions in four days.</li>
+<li><span class="kind q">PQ</span> <span class="member">Lord Black of Brentwood</span> on <a href="#">age assurance rollout</a> under the Online Safety Act.</li>
+</ul>
+<div class="areahead ex">Assisted dying (example)</div>
+<ul class="ex">
+<li><span class="kind d">DEBATE</span> <span class="member">Rachael Maskell</span> on hospice funding in Westminster Hall.</li>
+</ul>
+</div></div>
+
+<div class="option"><h2>V3 — Activity table</h2>
+<p class="verdict">Maximum scan-ability and matches the edition's other tables; best once volume grows (a sitting week could carry 15+ rows). Least room for editorial phrasing.</p>
+<div class="demo">
+<h3>Parliamentarians on our issues</h3>
+<p class="sub">Questions, debates, votes and motions from any member of either House touching our campaign areas this week.</p>
+<table>
+<tr><th>Member</th><th>Activity</th><th>Area</th></tr>
+<tr><td><span class="member">Lord Black of Brentwood</span><br><span style="font-size:.82em;opacity:.75">Con, peer</span></td><td><span class="kind q">PQ</span> <a href="#">Age assurance rollout under the OSA</a></td><td>Online safety</td></tr>
+<tr><td><span class="member">Lord Pearson of Rannoch</span><br><span style="font-size:.82em;opacity:.75">Non-affiliated, peer</span></td><td><span class="kind q">PQ</span> <a href="#">Anti-Muslim hostility</a> (two questions)</td><td>Free speech</td></tr>
+<tr><td><span class="member">Lord Jackson of Peterborough</span><br><span style="font-size:.82em;opacity:.75">Con, peer</span></td><td><span class="kind q">PQ</span> <a href="#">Islamophobia definition working group</a></td><td>Free speech</td></tr>
+<tr><td><span class="member">David Simmonds</span><br><span style="font-size:.82em;opacity:.75">Con, Ruislip, Northwood &amp; Pinner</span></td><td><span class="kind q">PQ</span> <a href="#">Definition working group</a></td><td>Free speech</td></tr>
+<tr class="ex"><td><span class="member">(example) Jim Shannon</span><br><span style="font-size:.82em;opacity:.75">DUP, Strangford</span></td><td><span class="kind m">EDM</span> Street preachers motion, 14 signatures</td><td>Religion</td></tr>
+</table>
+</div></div>
+
+<p style="font-size:.85em;opacity:.75">Kind chips across all variants: <span class="kind q">PQ</span> written question · <span class="kind d">DEBATE</span> spoken contribution (Hansard, from September) · <span class="kind v">VOTE</span> division (from September) · <span class="kind m">EDM</span> motion sponsored. The subtitle line renders every week so readers never assume the section is questions-only.</p>
+</body></html>

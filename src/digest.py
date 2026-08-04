@@ -214,6 +214,56 @@ def render_deadlines(edition):
     return "\n".join(out)
 
 
+MP_SECTION_MAX = 12
+MP_SUBTITLE = ("*Questions, debates, votes and motions from any member of either House "
+               "touching our campaign areas this week.*")
+
+
+def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
+    """V1 lines: one per member, activities merged; votes never listed.
+
+    Division votes are recorded to the ledger for profiles and 5CA, but a
+    single tagged division would otherwise flood this section with hundreds
+    of lines -- the division renders once in Votes and amendments instead
+    (Christopher, 2026-08-03).
+    """
+    members_seen = []   # ordered member ids
+    grouped = {}        # member_id -> {"who": str, "acts": ordered {(kind, line): count}}
+    for e in events:
+        if e["kind"] == "vote":
+            continue
+        mid = e["member_id"]
+        if mid not in grouped:
+            members_seen.append(mid)
+            who = e["name"] or "Member {0}".format(mid)
+            detail = ", ".join(x for x in (e["party"], e["seat"]) if x)
+            grouped[mid] = {"who": who + (" ({0})".format(detail) if detail else ""), "acts": {}}
+        key = (e["kind"].upper(), e["line"] or "")
+        grouped[mid]["acts"][key] = grouped[mid]["acts"].get(key, 0) + 1
+
+    lines = []
+    for mid in members_seen[:max_members]:
+        g = grouped[mid]
+        acts = []
+        for (kind, line), count in g["acts"].items():
+            suffix = " (x{0})".format(count) if count > 1 else ""
+            acts.append("**{0}** {1}{2}".format(kind, line, suffix))
+        lines.append("**{0}**: {1}".format(g["who"], "; ".join(acts)))
+    overflow = len(members_seen) - max_members
+    if overflow > 0:
+        lines.append("...and {0} more members active this week; all recorded to profiles.".format(overflow))
+    return lines
+
+
+def render_mp_section(mp_lines):
+    if not mp_lines:
+        return None
+    out = ["## Parliamentarians on our issues", "", MP_SUBTITLE, ""]
+    out.extend("- " + (line.text if hasattr(line, "text") else line) for line in mp_lines)
+    out.append("")
+    return "\n".join(out)
+
+
 def render_si(edition):
     """Secondary legislation: the bills board's sibling. Primary legislation
     sits on the board; the instruments implementing it sit here."""
@@ -279,7 +329,7 @@ def render(edition):
         si = render_si(edition)
         if si:
             parts.append(si)
-        mp = _render_section("MP intelligence notes", edition.mp_notes)
+        mp = render_mp_section(edition.mp_notes)
         if mp:
             parts.append(mp)
     else:
@@ -308,7 +358,7 @@ def render(edition):
         si = render_si(edition)
         if si:
             parts.append(si)
-        mp = _render_section("MP intelligence notes", edition.mp_notes)
+        mp = render_mp_section(edition.mp_notes)
         if mp:
             parts.append(mp)
 

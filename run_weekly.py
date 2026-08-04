@@ -21,7 +21,7 @@ import sys
 
 import yaml
 
-from src import board, db, digest, filter as filt, review, triage
+from src import board, db, digest, filter as filt, intel, members, review, triage
 from src.http import FetchError, HttpClient
 from src.ingest import bills, committees, consultations, divisions, edms, legislation, pqs, scotland, sis, whatson, wms
 
@@ -106,7 +106,7 @@ def load_settings():
 
 
 def store_item(conn, item_id, feed, item_type, title, url, result, event_date=None, deadline=None,
-               date_tabled=None, extra=None):
+               date_tabled=None, extra=None, mp_refs=None):
     """Store a matched item with triage_score NULL (= pending triage).
 
     Scoring is a separate pass (stub, session, or live) over pending items;
@@ -118,16 +118,18 @@ def store_item(conn, item_id, feed, item_type, title, url, result, event_date=No
     # so re-running a pull cannot wipe scoring or review decisions.
     conn.execute(
         "INSERT INTO items (id, captured_at, source_feed, item_type, title, url, "
-        "event_date, deadline, date_tabled, issue_areas, matched_terms, tier, triage_score, extra) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?) "
+        "event_date, deadline, date_tabled, issue_areas, matched_terms, tier, triage_score, extra, mp_refs) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?) "
         "ON CONFLICT(id) DO UPDATE SET captured_at=excluded.captured_at, title=excluded.title, "
         "url=excluded.url, event_date=excluded.event_date, deadline=excluded.deadline, "
         "date_tabled=excluded.date_tabled, issue_areas=excluded.issue_areas, "
-        "matched_terms=excluded.matched_terms, tier=excluded.tier, extra=excluded.extra",
+        "matched_terms=excluded.matched_terms, tier=excluded.tier, extra=excluded.extra, "
+        "mp_refs=excluded.mp_refs",
         (item_id, datetime.date.today().isoformat(), feed, item_type, title, url, event_date, deadline,
          date_tabled,
          json.dumps(result.issue_areas), json.dumps(result.matched_terms + result.watchlist_hits),
-         result.tier, json.dumps(extra) if extra else None),
+         result.tier, json.dumps(extra) if extra else None,
+         str(mp_refs) if mp_refs else None),
     )
     conn.commit()
 
@@ -163,7 +165,16 @@ def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
                 q.uin, q.house, q.heading, q.date_answered)
             store_item(conn, "pq:{0}".format(q.id), "pq", "question", title, q.url, r,
                        event_date=q.date_answered.isoformat() if q.date_answered else None,
-                       date_tabled=q.date_tabled.isoformat() if q.date_tabled else None)
+                       date_tabled=q.date_tabled.isoformat() if q.date_tabled else None,
+                       mp_refs=q.asking_member_id)
+            if q.asking_member_id:
+                try:
+                    members.resolve(conn, client, q.asking_member_id)
+                except Exception:
+                    pass  # resolution is best-effort; ledger row still lands
+                intel.record_event(conn, q.asking_member_id,
+                                   q.date_answered.isoformat() if q.date_answered else edition,
+                                   "pq", "pq:{0}".format(q.id), q.heading)
 
 
 def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
@@ -186,6 +197,14 @@ def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
             if not r.matched():
                 continue
             edms.record_signatures(conn, e, edition)  # delta tracking, any age
+            if e.member_id and e.date_tabled:
+                try:
+                    members.resolve(conn, client, e.member_id)
+                except Exception:
+                    pass  # resolution is best-effort
+                intel.record_event(conn, e.member_id, e.date_tabled.isoformat(),
+                                   "edm", "edm:{0}".format(e.id),
+                                   "Sponsored EDM: {0}".format(e.title))
             if e.date_tabled and e.date_tabled >= since:
                 title = "EDM {0}: {1} ({2}, {3} signatures)".format(
                     e.uin, e.title, e.sponsor_name, e.signature_count)
@@ -520,6 +539,10 @@ def render_edition(week_commencing, db_name, draft=False):
     board.apply_snapshots(conn, edition.board_rows, week_commencing)
 
     sections_from_store(conn, edition)
+
+    window_start = (week_start - datetime.timedelta(days=7)).isoformat()
+    edition.mp_notes = digest.mp_lines_from_events(
+        intel.events_for_week(conn, window_start, week_end.isoformat()))
 
     # Royal Assent trigger: in-force verification renders only in the edition
     # that carries the Act's closing entry, never again.

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MP intelligence: implementation mockup</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; background:#FFF;
+       max-width: 60rem; margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.35rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+.block{margin:2.4rem 0;} .block>h2{color:#4285f4;font-size:1.05rem;margin-bottom:.15rem;}
+.verdict{font-size:.85em;opacity:.8;margin:.2rem 0 .9rem;}
+.demo{border:1px dashed #C8D0DC;border-radius:6px;padding:1rem 1.2rem;}
+a{color:#4285f4;text-decoration:none;} a:hover{text-decoration:underline;}
+.internal{background:#FFEBAD;border-left:4px solid #DB544F;padding:.6rem 1rem;font-size:.88em;
+          border-radius:0 4px 4px 0;margin-bottom:1.2rem;}
+.member{font-weight:700;}
+.chip{display:inline-block;font-size:.72em;font-weight:700;border-radius:3px;
+      padding:.1em .5em;white-space:nowrap;vertical-align:.08em;}
+.chip.watched{background:#DB544F;color:#FFF;}
+.chip.party{background:#EEEEEE;color:#52575C;font-weight:500;}
+.chip.area{background:#FFF;color:#4285f4;border:1px solid #4285f4;}
+.demo ul{padding-left:1.2rem;} .demo li{margin:.55rem 0;}
+.ex{opacity:.6;}
+
+/* profile cards */
+.profiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+.card{border:1px solid #EEEEEE;border-radius:6px;padding:.9rem 1.1rem;}
+.card h4{margin:0;font-size:1.02em;} .card .role{font-size:.82em;opacity:.8;margin-bottom:.5rem;}
+.tl{border-left:2px solid #EEEEEE;margin:.6rem 0 .2rem .35rem;padding-left:.9rem;}
+.ev{position:relative;font-size:.86em;margin:.45rem 0;}
+.ev::before{content:"";position:absolute;left:-1.22rem;top:.35em;width:.55em;height:.55em;
+            border-radius:50%;background:#4285f4;}
+.ev .d{font-weight:700;opacity:.75;margin-right:.4rem;}
+.stat{display:flex;gap:1.2rem;margin:.5rem 0;font-size:.82em;}
+.stat b{display:block;font-size:1.5em;color:#4285f4;}
+.fivec{background:#EEEEEE;border-radius:4px;padding:.45rem .7rem;font-size:.82em;margin-top:.6rem;}
+
+table{border-collapse:collapse;width:100%;font-size:.88em;}
+th,td{border:1px solid #EEEEEE;padding:.4rem .55rem;text-align:left;}
+th{background:#4285f4;color:#FFF;font-weight:500;}
+code{background:#EEEEEE;padding:.05em .35em;border-radius:3px;font-size:.9em;}
+</style></head><body>
+<h1>MP intelligence: what the implementation produces</h1>
+<p class="internal"><strong>Internal only.</strong> Everything on this page stays out of the partner edition (the redactor already drops this section). Profiles and 5CA inputs are CitizenGO working intelligence.</p>
+
+<div class="block"><h2>1 — The weekly section, populated (this week's real captures)</h2>
+<p class="verdict">Every line below is real: these are the actual askers of the PQs already in our store, resolved through the members cache this afternoon. Names carry party/seat chips; watched parliamentarians (from the watchlist) get the red chip and always log, others appear only when their activity matched the taxonomy.</p>
+<div class="demo">
+<h3 style="color:#4285f4;font-size:1em">MP intelligence notes</h3>
+<ul>
+<li><span class="member">Lord Black of Brentwood</span> <span class="chip party">Con, Life peer</span> pressed on <a href="#">age assurance rollout</a> under the Online Safety Act, answered 30 Jul. <span class="chip area">Free speech &amp; online safety</span></li>
+<li><span class="member">Lord Pearson of Rannoch</span> <span class="chip party">Non-affiliated, Life peer</span> tabled two PQs on <a href="#">anti-Muslim hostility</a>, answered 29 Jul. <span class="chip area">Free speech &amp; online safety</span></li>
+<li><span class="member">Lord Jackson of Peterborough</span> <span class="chip party">Con, Life peer</span> questioned the <a href="#">Islamophobia definition working group</a>, answered 31 Jul. <span class="chip area">Free speech &amp; online safety</span></li>
+<li><span class="member">David Simmonds</span> <span class="chip party">Con, Ruislip, Northwood &amp; Pinner</span> raised the <a href="#">definition working group</a> in the Commons, answered 28 Jul. <span class="chip area">Free speech &amp; online safety</span></li>
+<li class="ex"><span class="member">Danny Kruger</span> <span class="chip watched">WATCHED</span> <span class="chip party">Con, East Wiltshire</span> (example: watched members log on any tagged activity) sponsored an EDM on assisted dying safeguards, 12 signatures. <span class="chip area">Assisted dying</span></li>
+</ul>
+</div></div>
+
+<div class="block"><h2>2 — What accumulates: the MP profile</h2>
+<p class="verdict">Each weekly line is also an <code>mp_events</code> row. Over months they build a per-member ledger: the left card is real (from this week's two captures); the right shows a watched member after a season of accumulation (illustrative). This is the raw material for 5CA scoring in Phase 3.</p>
+<div class="demo"><div class="profiles">
+<div class="card">
+<h4>Lord Pearson of Rannoch</h4><div class="role">Non-affiliated, Life peer</div>
+<div class="stat"><span><b>2</b>events</span><span><b>1</b>area</span><span><b>Jul 2026</b>first seen</span></div>
+<div class="tl">
+<div class="ev"><span class="d">29 Jul</span>PQ: anti-Muslim hostility (HL2157)</div>
+<div class="ev"><span class="d">29 Jul</span>PQ: anti-Muslim hostility (HL2158)</div>
+</div>
+<div class="fivec">5CA input: engages on Islam/free speech definitions; no recorded activity in our other areas yet.</div>
+</div>
+<div class="card ex">
+<h4>Danny Kruger <span class="chip watched">WATCHED</span></h4><div class="role">Conservative, East Wiltshire (illustrative accumulation)</div>
+<div class="stat"><span><b>14</b>events</span><span><b>3</b>areas</span><span><b>Sep 2026</b>most active</span></div>
+<div class="tl">
+<div class="ev"><span class="d">17 Sep</span>Spoke against TIA Bill 2nd reading; coercion focus</div>
+<div class="ev"><span class="d">16 Sep</span>Voted No, TIA Bill division (287-263)</div>
+<div class="ev"><span class="d">9 Sep</span>PQ: palliative care funding settlement</div>
+<div class="ev"><span class="d">2 Sep</span>Sponsored EDM: assisted dying safeguards (12 sigs)</div>
+</div>
+<div class="fivec">5CA input: consistent opposition lead on assisted dying; reliable ally on areas 2 and 6; untested on area 10.</div>
+</div>
+</div></div></div>
+
+<div class="block"><h2>3 — The ledger underneath (what actually gets stored)</h2>
+<p class="verdict">One <code>mp_events</code> row per contribution: already in the schema, currently empty. The weekly section and the profiles are both just queries over this table, exactly like the digest is a query over <code>items</code>.</p>
+<div class="demo"><table>
+<tr><th>member_id</th><th>date</th><th>kind</th><th>ref</th><th>line</th></tr>
+<tr><td>4877</td><td>2026-07-30</td><td>pq</td><td>pq:1929061</td><td>Age assurance rollout under the OSA (HL2182)</td></tr>
+<tr><td>3697</td><td>2026-07-29</td><td>pq</td><td>pq:1928501</td><td>Anti-Muslim hostility (HL2157)</td></tr>
+<tr><td>3697</td><td>2026-07-29</td><td>pq</td><td>pq:1928502</td><td>Anti-Muslim hostility (HL2158)</td></tr>
+<tr class="ex"><td>4514</td><td>2026-09-02</td><td>edm</td><td>edm:66412</td><td>(example) Sponsored: assisted dying safeguards</td></tr>
+<tr class="ex"><td>4514</td><td>2026-09-16</td><td>division</td><td>division:2511</td><td>(example) Voted No: TIA Bill second reading</td></tr>
+</table>
+<p style="font-size:.85em;opacity:.8;margin-bottom:0">Sources now: PQ askers, EDM sponsors. September adds division member-breakdowns and Hansard speeches — same rows, richer kinds.</p>
+</div></div>
+</body></html>
