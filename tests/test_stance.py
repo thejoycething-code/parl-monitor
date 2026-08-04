@@ -140,6 +140,27 @@ class VoteEvidenceTests(unittest.TestCase):
         self.assertEqual(refs, ["div:c9:aye", "div:c9:no"])
 
 
+class HansardTests(unittest.TestCase):
+    ROW = {"ContributionExtId": "ABC-123", "MemberId": 4511,
+           "MemberName": "Dr Rupa Huq", "SittingDate": "2024-03-26T00:00:00",
+           "House": "Commons", "DebateSection": "Topical Questions",
+           "ContributionTextFull": "Full speech text about abortion clinics.",
+           "DebateSectionExtId": "DEF-456"}
+
+    def test_parse_and_public_deep_link(self):
+        from src.ingest import hansard
+        c = hansard.parse_contribution(self.ROW)
+        self.assertEqual((c.member_id, c.date.isoformat()), (4511, "2024-03-26"))
+        self.assertEqual(
+            c.url,
+            "https://hansard.parliament.uk/Commons/2024-03-26/debates/DEF-456/#contribution-ABC-123")
+        self.assertIn("Full speech", c.text)
+
+    def test_speech_outranks_edm_sponsorship_but_not_vote(self):
+        self.assertGreater(stance.KIND_WEIGHT["debate"], stance.KIND_WEIGHT["edm"])
+        self.assertGreater(stance.KIND_WEIGHT["vote"], stance.KIND_WEIGHT["debate"])
+
+
 class BreakdownParseTests(unittest.TestCase):
     def test_commons_breakdown(self):
         from src.ingest import divisions

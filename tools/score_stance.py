@@ -47,6 +47,17 @@ def build_text_map(raw_root):
             if qid:
                 texts["pq:{0}".format(qid)] = "{0}\n{1}".format(
                     value.get("heading") or "", value.get("questionText") or "")
+    for path in sorted(glob.glob(os.path.join(raw_root, "*", "hansard_*.json.gz"))):
+        try:
+            payload = _read_payload(path)
+        except Exception:
+            continue
+        for row in (payload.get("Results") or []):
+            ext = row.get("ContributionExtId")
+            if ext:
+                texts["hansard:{0}".format(ext)] = "{0}\n{1}".format(
+                    row.get("DebateSection") or "",
+                    row.get("ContributionTextFull") or row.get("ContributionText") or "")
     for path in sorted(glob.glob(os.path.join(raw_root, "*", "edm_*.json.gz"))):
         try:
             payload = _read_payload(path)

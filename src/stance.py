@@ -34,9 +34,11 @@ opposed to illegal migration).
 
 Each input is a parliamentary action BY A MEMBER: a written question they asked
 (text = the member's own question, never the government's answer), an Early Day
-Motion they sponsored or signed (text = the motion they endorsed), or a division
+Motion they sponsored or signed (text = the motion they endorsed), a division
 vote (the line states which way they voted on the division title; judge what a
-vote that way means for the underlying question).
+vote that way means for the underlying question), or a spoken debate
+contribution (text = the member's own words in the chamber -- usually the
+clearest personal stance signal).
 
 Score the member's action relative to CitizenGO's position on the areas given:
  +2 clearly advances/aligns with the position (strong ally signal)
@@ -272,10 +274,10 @@ def whip_note(title, ref, whip_map, free_vote_titles):
 COLUMNS = ("++", "+", "0", "-", "--")
 
 # Evidence hierarchy (docs/5ca-notes.md): a recorded vote is ground truth and
-# outranks everything text-derived; sponsoring a motion outranks signing one,
-# which outranks question framing. Speeches will slot in between votes and
-# sponsorship when the Hansard ingester lands.
-KIND_WEIGHT = {"vote": 4, "edm": 3, "edm-signed": 2, "pq": 1}
+# outranks everything text-derived; a speech is a chosen personal act and
+# outranks sponsoring a motion, which outranks signing one, which outranks
+# question framing.
+KIND_WEIGHT = {"vote": 5, "debate": 4, "edm": 3, "edm-signed": 2, "pq": 1}
 
 
 def stance_to_column(stance):
