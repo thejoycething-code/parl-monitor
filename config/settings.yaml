@@ -23,6 +23,12 @@ pq_sweep_terms:
   - surrogacy
   - PATHWAYS
   - single-sex spaces
+  # historic-vocabulary terms (v0.4): serve the 2020+ backfill; low weekly volume
+  - Tavistock
+  - Rwanda
+  - Online Safety Bill
+  - buffer zones
+  - Nationality and Borders
 
 # Early Day Motions sweep (fast API). Matched EDMs are stored as items and
 # their signature counts recorded per edition for week-on-week deltas.
@@ -36,6 +42,30 @@ edm_sweep_terms:
   - surrogacy
   - single-sex
   - conversion therapy
+  - Rwanda
+  - online safety
+
+# Division-title sweep (both votes APIs). Division titles are bill names plus
+# motion/amendment wording, so these are bill-title vocabulary, not the PQ
+# phrases above. Used by tools/backfill_divisions.py and (from September) the
+# weekly division member-breakdown capture.
+division_sweep_terms:
+  - abortion
+  - assisted dying
+  - Terminally Ill Adults
+  - online safety
+  - Rwanda
+  - illegal migration
+  - Nationality and Borders
+  - immigration
+  - asylum
+  - gender recognition
+  - conversion therapy
+  - surrogacy
+  - marriage
+  - free speech
+  - freedom of speech
+  - puberty
 
 # A bill's closing entry renders only while the terminal event (Royal Assent
 # or fall) is within this many days of the edition; older closures are

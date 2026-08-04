@@ -81,7 +81,13 @@ def main():
 
     cards = []
     for t in tops:
-        events = intel.member_timeline(conn, t["member_id"], limit=8)
+        # Votes are counted, never listed (Christopher's flooding rule): a
+        # single division would fill every card slot with identical lines.
+        events = [e for e in intel.member_timeline(conn, t["member_id"], limit=60)
+                  if e["kind"] != "vote"][:8]
+        n_votes = conn.execute(
+            "SELECT COUNT(*) FROM mp_events WHERE member_id = ? AND kind = 'vote'",
+            (t["member_id"],)).fetchone()[0]
         rows = "\n".join(
             '<div class="ev"><span class="d">{0}</span><span class="kind {3}">{1}</span>{2}</div>'.format(
                 e["date"], KIND_LABEL.get(e["kind"], e["kind"].upper()),
@@ -94,8 +100,9 @@ def main():
             '<span class="area">{0} &times;{1}</span>'.format(
                 html.escape(names.get(a, "Area {0}".format(a))), n)
             for a, n in sorted(per.items(), key=lambda kv: -kv[1]))
+        stat = str(t["n"]) + (" (incl. {0} division votes)".format(n_votes) if n_votes else "")
         cards.append(CARD.format(name=html.escape(t["name"] or "Member %d" % t["member_id"]),
-                                 role=html.escape(role), n=t["n"], events=rows,
+                                 role=html.escape(role), n=stat, events=rows,
                                  areas=chips or "&nbsp;"))
     conn.close()
 

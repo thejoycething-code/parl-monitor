@@ -33,8 +33,10 @@ surrogacy (opposed to commercial surrogacy), migration (border control and integ
 opposed to illegal migration).
 
 Each input is a parliamentary action BY A MEMBER: a written question they asked
-(text = the member's own question, never the government's answer) or an Early Day
-Motion they sponsored or signed (text = the motion they endorsed).
+(text = the member's own question, never the government's answer), an Early Day
+Motion they sponsored or signed (text = the motion they endorsed), or a division
+vote (the line states which way they voted on the division title; judge what a
+vote that way means for the underlying question).
 
 Score the member's action relative to CitizenGO's position on the areas given:
  +2 clearly advances/aligns with the position (strong ally signal)
@@ -46,7 +48,9 @@ Score the member's action relative to CitizenGO's position on the areas given:
 Rules: judge only the text supplied; most written questions are neutral
 information-seeking and score 0 -- only score direction the framing itself shows.
 Never infer stance from the member's party or name. An EDM's text is an endorsed
-position, so motions usually carry direction.
+position, so motions usually carry direction. Division votes on second/third
+readings carry clear direction; procedural or amendment ping-pong motions whose
+effect is unclear from the title alone score 0.
 
 For each input return JSON: {"ref": ..., "stance": -2..2, "why": "..."}.
 why: maximum 20 words, concrete, British spelling, no em dashes.
@@ -79,16 +83,18 @@ def ensure_table(conn):
 
 
 def unscored_refs(conn):
-    """Distinct text-bearing ledger refs with no stance row yet.
+    """Distinct ledger refs with no stance row yet.
 
     One representative row per ref: sponsor/signatory events share their
-    motion's ref and therefore its (single) stance classification.
+    motion's ref and therefore its (single) stance classification, and vote
+    refs encode direction (div:c123:aye vs :no) so each side classifies
+    separately -- every Aye voter inherits the aye ref's score.
     """
     ensure_table(conn)
     return conn.execute(
         "SELECT e.ref, MIN(e.kind) AS kind, MIN(e.line) AS line, MIN(e.areas) AS areas "
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
-        "WHERE s.ref IS NULL AND e.kind != 'vote' GROUP BY e.ref").fetchall()
+        "WHERE s.ref IS NULL GROUP BY e.ref").fetchall()
 
 
 def store_scores(conn, results, scored_at, model=STANCE_MODEL):
@@ -179,10 +185,11 @@ def classify_live(evidence, api_key=None, transport=None):
 
 COLUMNS = ("++", "+", "0", "-", "--")
 
-# Evidence hierarchy (docs/5ca-notes.md): sponsoring a motion outranks signing
-# one, which outranks question framing. Votes/speeches will slot in above all
-# three when September lands them in the ledger.
-KIND_WEIGHT = {"edm": 3, "edm-signed": 2, "pq": 1}
+# Evidence hierarchy (docs/5ca-notes.md): a recorded vote is ground truth and
+# outranks everything text-derived; sponsoring a motion outranks signing one,
+# which outranks question framing. Speeches will slot in between votes and
+# sponsorship when the Hansard ingester lands.
+KIND_WEIGHT = {"vote": 4, "edm": 3, "edm-signed": 2, "pq": 1}
 
 
 def stance_to_column(stance):

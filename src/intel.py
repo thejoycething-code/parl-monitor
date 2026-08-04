@@ -39,12 +39,15 @@ def annotated_line(line, matched_terms):
     return "{0} (re: {1})".format(base, terms[0])
 
 
-def record_event(conn, member_id, date, kind, ref, line, areas=None):
+def record_event(conn, member_id, date, kind, ref, line, areas=None, commit=True):
     """Upsert a ledger row; idempotent on re-runs and backfills.
 
     On conflict the line/areas/date refresh from the new capture -- unlike
     items, mp_events carries no editorial state, so a re-run stamping areas
     onto pre-areas rows (or improving an annotation) is always safe.
+
+    commit=False lets bulk writers (a 600-voter division) batch the fsync;
+    the caller commits once per unit of work.
     """
     ensure_index(conn)
     conn.execute(
@@ -54,7 +57,8 @@ def record_event(conn, member_id, date, kind, ref, line, areas=None):
         "date=excluded.date, line=excluded.line, areas=excluded.areas",
         (member_id, date, kind, ref, (line or "")[:200],
          json.dumps(sorted(areas)) if areas else None))
-    conn.commit()
+    if commit:
+        conn.commit()
 
 
 def events_for_week(conn, week_start, week_end):

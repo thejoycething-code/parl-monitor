@@ -54,13 +54,16 @@ class ClassificationPlumbingTests(unittest.TestCase):
         results = stance._parse_reply(reply)
         self.assertEqual([r.ref for r in results], ["pq:1", "pq:2"])
 
-    def test_unscored_refs_dedupe_shared_edm_ref_and_skip_votes(self):
+    def test_unscored_refs_dedupe_shared_refs(self):
         conn = fresh_conn()
         intel.record_event(conn, 1, "2026-08-01", "edm", "edm:9", "Sponsored", areas=[2])
         intel.record_event(conn, 2, "2026-08-01", "edm-signed", "edm:9", "Signed", areas=[2])
-        intel.record_event(conn, 3, "2026-08-01", "vote", "div:5", "Aye")
-        refs = [r["ref"] for r in stance.unscored_refs(conn)]
-        self.assertEqual(refs, ["edm:9"])  # one row for the shared motion; vote skipped
+        intel.record_event(conn, 3, "2026-08-01", "vote", "div:c5:aye", "Voted Aye: X")
+        intel.record_event(conn, 4, "2026-08-01", "vote", "div:c5:aye", "Voted Aye: X")
+        refs = sorted(r["ref"] for r in stance.unscored_refs(conn))
+        # One row per motion (sponsor + signer share it) and per vote
+        # direction (both Aye voters share it).
+        self.assertEqual(refs, ["div:c5:aye", "edm:9"])
 
     def test_rescoring_is_idempotent(self):
         conn = fresh_conn()
@@ -110,6 +113,58 @@ class SuggestRowsTests(unittest.TestCase):
         self.seed(2, "pq", "pq:2", "Abortion q", areas=(1,))
         rows = stance.suggest_rows(self.conn, 11)
         self.assertEqual(len(rows), 1)
+
+
+class VoteEvidenceTests(unittest.TestCase):
+    """Division votes: direction-encoded refs, top of the evidence hierarchy."""
+
+    def setUp(self):
+        self.conn = fresh_conn()
+        member(self.conn, 1, "Voting MP")
+
+    def test_vote_outranks_contrary_edm_signature(self):
+        intel.record_event(self.conn, 1, "2026-05-01", "edm-signed", "edm:1",
+                           "Signed EDM", areas=[11])
+        stance.store_scores(self.conn, [stance.StanceResult("edm:1", 2, "pro")], "d")
+        intel.record_event(self.conn, 1, "2026-03-01", "vote", "div:c9:aye",
+                           "Voted Aye: Safety of Rwanda Bill", areas=[11])
+        stance.store_scores(self.conn, [stance.StanceResult("div:c9:aye", -2, "anti")], "d")
+        rows = stance.suggest_rows(self.conn, 11)
+        self.assertEqual(rows[0]["column"], "--")  # equal |stance|: vote weight wins
+
+    def test_aye_and_no_refs_classify_independently(self):
+        member(self.conn, 2, "Other MP")
+        intel.record_event(self.conn, 1, "2026-03-01", "vote", "div:c9:aye", "Voted Aye: X", areas=[11])
+        intel.record_event(self.conn, 2, "2026-03-01", "vote", "div:c9:no", "Voted No: X", areas=[11])
+        refs = sorted(r["ref"] for r in stance.unscored_refs(self.conn))
+        self.assertEqual(refs, ["div:c9:aye", "div:c9:no"])
+
+
+class BreakdownParseTests(unittest.TestCase):
+    def test_commons_breakdown(self):
+        from src.ingest import divisions
+        payload = {"DivisionId": 1798, "Number": 1, "Title": "Rwanda Bill",
+                   "Date": "2024-04-22T00:00:00", "AyeCount": 1, "NoCount": 1,
+                   "Ayes": [{"MemberId": 14, "Name": "A MP", "Party": "Con",
+                             "MemberFrom": "Wokingham"}],
+                   "Noes": [{"MemberId": 15, "Name": "B MP", "Party": "Lab",
+                             "MemberFrom": "Leeds"}]}
+        division, voters = divisions.parse_commons_breakdown(payload)
+        self.assertEqual(division.id, 1798)
+        self.assertEqual([(v.member_id, v.vote) for v in voters],
+                         [(14, "aye"), (15, "no")])
+
+    def test_lords_breakdown_normalises_content(self):
+        from src.ingest import divisions
+        payload = {"divisionId": 3128, "number": 1, "title": "Rwanda Bill",
+                   "date": "2024-04-22T00:00:00",
+                   "contents": [{"memberId": 147, "name": "Lord A",
+                                 "party": "Lab", "memberFrom": "Life peer"}],
+                   "notContents": [{"memberId": 148, "name": "Lord B",
+                                    "party": "Con", "memberFrom": "Life peer"}]}
+        division, voters = divisions.parse_lords_breakdown(payload)
+        self.assertEqual([(v.member_id, v.vote) for v in voters],
+                         [(147, "aye"), (148, "no")])
 
 
 class FullRosterTests(unittest.TestCase):

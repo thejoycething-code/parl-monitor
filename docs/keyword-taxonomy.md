@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 0.3 | 3 August 2026 | Owner: Christopher**
+**Version 0.4 | 4 August 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -31,7 +31,7 @@ Every item that survives the filter is written to the store with its issue tags 
 ### 1. Abortion {#1_abortion}
 
 - **Tier 1:** abortion; "Abortion Act 1967"; "termination of pregnancy"; "safe access zone*"; "buffer zone*"; "abortion time limit"; "foetal viability"; "fetal viability"; "pills by post"; "telemedicine abortion"; "sex-selective abortion"; "Offences against the Person Act 1861"; "Infant Life (Preservation)"; "Ground E"; "disability-selective"; BPAS; "MSI Reproductive Choices"
-- **Tier 2:** "reproductive rights"; "reproductive healthcare"; "crisis pregnancy"; "conscientious objection"; "gestational limit"; "foetal pain"; "silent prayer"; "decriminalis*"
+- **Tier 2:** "reproductive rights"; "reproductive healthcare"; "crisis pregnancy"; "conscientious objection"; "gestational limit"; "foetal pain"; "silent prayer"; "decriminalis*"; "DIY abortion"; "early medical abortion"
 - **Notes:** Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill.
 
 ### 2. Assisted dying and end of life {#2_assisted_dying}
@@ -42,7 +42,7 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 3. Gender medicine and children {#3_gender_medicine_children}
 
-- **Tier 1:** "puberty blocker*"; "puberty-suppressing hormones"; "puberty suppressing hormones"; "cross-sex hormones"; "Cass Review"; Tavistock; GIDS; "gender identity service*"; "gender dysphoria"; "gender questioning children"; "youth gender"; PATHWAYS
+- **Tier 1:** "puberty blocker*"; "puberty-suppressing hormones"; "puberty suppressing hormones"; "cross-sex hormones"; "Cass Review"; Tavistock; GIDS; "gender identity service*"; "gender dysphoria"; "gender questioning children"; "youth gender"; PATHWAYS; "Keira Bell"
 - **Tier 2:** "detransition*"; "gender-affirming"; "Gillick competence"; "gender clinic*"; "private prescriptions"; "indefinite ban"; "social transition*"
 
 ### 4. Conversion practices {#4_conversion_practices}
@@ -53,7 +53,7 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 5. Sex-based rights and single-sex spaces {#5_sex_based_rights}
 
-- **Tier 1:** "single-sex space*"; "single-sex service*"; "single-sex ward*"; "Gender Recognition Act"; "gender recognition certificate"; "self-identification"; "self-ID"; "biological sex"; "legal definition of woman"; "For Women Scotland"; "women's sport"; "female category"
+- **Tier 1:** "single-sex space*"; "single-sex service*"; "single-sex ward*"; "Gender Recognition Act"; "gender recognition certificate"; "self-identification"; "self-ID"; "biological sex"; "legal definition of woman"; "For Women Scotland"; "women's sport"; "female category"; "GRA reform"; "Gender Recognition Reform"
 - **Tier 2:** "Equality Act 2010"; "Sullivan Review"; "sex and gender data"; "changing room*"; "toilet provision"; transgender; "protected characteristic"; "women's prison*"; EHRC; "gender reassignment"
 - **Notes:** Equality Act mentions are extremely frequent; triage should score 2+ only where sex/gender definitions, single-sex exceptions or guidance revisions are at stake.
 
@@ -65,9 +65,9 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 7. Free speech and online safety {#7_free_speech_online_safety}
 
-- **Tier 1:** "Online Safety Act"; "age verification"; "age assurance"; "free speech"; "freedom of expression"; "non-crime hate incident*"; "silent prayer"; "Higher Education (Freedom of Speech)"; censorship; "anti-Muslim hostility"; "Islamophobia definition"; Islamophobia
+- **Tier 1:** "Online Safety Act"; "Online Safety Bill"; "Online Harms"; "age verification"; "age assurance"; "free speech"; "freedom of expression"; "non-crime hate incident*"; "silent prayer"; "Higher Education (Freedom of Speech)"; censorship; "anti-Muslim hostility"; "Islamophobia definition"; Islamophobia
 - **Tier 2:** Ofcom; misinformation; disinformation; "harmful content"; "hate speech"; blasphemy; "client-side scanning"; encryption; "street preacher*"; "Islamis*"
-- **Notes:** anti-Muslim hostility and the Islamophobia definition are v0.2 pilot patches. Powers granted for child protection can migrate toward viewpoint censorship; scope-expansion language scores 3.
+- **Notes:** anti-Muslim hostility and the Islamophobia definition are v0.2 pilot patches. Online Safety Bill and Online Harms (White Paper era) are v0.4 historic-vocabulary patches: the 2020-23 debates never say "Online Safety Act". Powers granted for child protection can migrate toward viewpoint censorship; scope-expansion language scores 3.
 
 ### 8. Freedom of religion or belief {#8_freedom_of_religion}
 
@@ -89,9 +89,9 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 11. Migration {#11_migration}
 
-- **Tier 1:** "Immigration and Asylum Bill"; "illegal migration"; "Illegal Migration Act"; "small boats"; "Channel crossing*"; "asylum hotel*"; "net migration"; "border security"; "asylum backlog"; "safe and legal routes"; "foreign national offender*"; "deportation*"; "indefinite leave to remain"
-- **Tier 2:** migration; immigration; asylum; "asylum seeker*"; refugee*; "leave to remain"; citizenship; "community cohesion"; "immigration detention"; "illegal working"
-- **Notes:** New area, added 3 August 2026 by Christopher's decision. Bare migration/immigration/asylum sit at tier 2 deliberately: they are common words (data migration, asylum in history debates) and the triage pass gates them. Cross-tags: religious conversion in asylum claims stays in area 8; Islamophobia and community-speech items in area 7.
+- **Tier 1:** "Immigration and Asylum Bill"; "illegal migration"; "Illegal Migration Act"; "small boats"; "Channel crossing*"; "asylum hotel*"; "net migration"; "border security"; "asylum backlog"; "safe and legal routes"; "foreign national offender*"; "deportation*"; "indefinite leave to remain"; "Nationality and Borders"; "Safety of Rwanda"; "Rwanda plan"; "Rwanda scheme"
+- **Tier 2:** migration; immigration; asylum; "asylum seeker*"; refugee*; "leave to remain"; citizenship; "community cohesion"; "immigration detention"; "illegal working"; Rwanda
+- **Notes:** New area, added 3 August 2026 by Christopher's decision. Nationality and Borders and the Rwanda terms are v0.4 historic-vocabulary patches for the 2021-24 debates; bare Rwanda sits at tier 2 (it is also just a country) and triage gates it. Bare migration/immigration/asylum sit at tier 2 deliberately: they are common words (data migration, asylum in history debates) and the triage pass gates them. Cross-tags: religious conversion in asylum claims stays in area 8; Islamophobia and community-speech items in area 7.
 
 ## Global exclusions
 

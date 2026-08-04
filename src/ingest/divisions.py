@@ -72,6 +72,84 @@ def fetch_lords_divisions(client, start, end):
     return [parse_lords_division(row) for row in (payload or [])]
 
 
+@dataclass
+class Voter:
+    member_id: int
+    name: str
+    party: str
+    seat: str
+    vote: str            # 'aye' | 'no' (Lords content/not-content normalised)
+
+
+def parse_commons_breakdown(payload):
+    """(Division, [Voter...]) from a Commons division detail response."""
+    division = parse_commons_division(payload)
+    voters = []
+    for side, vote in (("Ayes", "aye"), ("Noes", "no")):
+        for m in (payload.get(side) or []):
+            voters.append(Voter(member_id=m.get("MemberId"), name=m.get("Name"),
+                                party=m.get("Party"), seat=m.get("MemberFrom"),
+                                vote=vote))
+    return division, voters
+
+
+def parse_lords_breakdown(payload):
+    """(Division, [Voter...]); Lords contents/notContents map to aye/no."""
+    division = parse_lords_division(payload)
+    voters = []
+    for side, vote in (("contents", "aye"), ("notContents", "no")):
+        for m in (payload.get(side) or []):
+            voters.append(Voter(member_id=m.get("memberId"), name=m.get("name"),
+                                party=m.get("party"), seat=m.get("memberFrom"),
+                                vote=vote))
+    return division, voters
+
+
+def fetch_commons_breakdown(client, division_id):
+    url = "{0}/division/{1}.json".format(COMMONS_API, division_id)
+    return parse_commons_breakdown(
+        client.get_json(url, "division", "cdetail-{0}".format(division_id)))
+
+
+def fetch_lords_breakdown(client, division_id):
+    url = "{0}/Divisions/{1}".format(LORDS_API, division_id)
+    return parse_lords_breakdown(
+        client.get_json(url, "division", "ldetail-{0}".format(division_id)))
+
+
+def search_commons_divisions(client, term, start, end, page_size=100):
+    """All Commons divisions matching a title term in a date range (paged)."""
+    from urllib.parse import quote
+    out, skip = [], 0
+    while True:
+        url = ("{0}/divisions.json/search?queryParameters.searchTerm={1}"
+               "&queryParameters.startDate={2}&queryParameters.endDate={3}"
+               "&queryParameters.skip={4}&queryParameters.take={5}").format(
+                   COMMONS_API, quote(term), start, end, skip, page_size)
+        batch = parse_commons_response(client.get_json(
+            url, "division", "csearch-{0}-{1}-{2}".format(term, start, skip)))
+        out.extend(batch)
+        if len(batch) < page_size:
+            return out
+        skip += page_size
+
+
+def search_lords_divisions(client, term, start, end, page_size=100):
+    from urllib.parse import quote
+    out, skip = [], 0
+    while True:
+        url = ("{0}/Divisions/search?SearchTerm={1}&StartDate={2}&EndDate={3}"
+               "&skip={4}&take={5}").format(LORDS_API, quote(term), start, end,
+                                            skip, page_size)
+        payload = client.get_json(
+            url, "division", "lsearch-{0}-{1}-{2}".format(term, start, skip))
+        batch = [parse_lords_division(row) for row in (payload or [])]
+        out.extend(batch)
+        if len(batch) < page_size:
+            return out
+        skip += page_size
+
+
 def _norm(text):
     """Lowercase and fold smart quotes so 'Children's' matches 'Children's'."""
     if not text:

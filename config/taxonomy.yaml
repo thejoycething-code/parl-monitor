@@ -1,25 +1,25 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy.md
 # Regenerate: python3 tools/generate_taxonomy.py
-version: 0.3
+version: 0.4
 areas:
   1_abortion:
     tier1: [abortion, "Abortion Act 1967", "termination of pregnancy", "safe access zone*", "buffer zone*", "abortion time limit", "foetal viability", "fetal viability", "pills by post", "telemedicine abortion", "sex-selective abortion", "Offences against the Person Act 1861", "Infant Life (Preservation)", "Ground E", "disability-selective", BPAS, "MSI Reproductive Choices"]
-    tier2: ["reproductive rights", "reproductive healthcare", "crisis pregnancy", "conscientious objection", "gestational limit", "foetal pain", "silent prayer", "decriminalis*"]
+    tier2: ["reproductive rights", "reproductive healthcare", "crisis pregnancy", "conscientious objection", "gestational limit", "foetal pain", "silent prayer", "decriminalis*", "DIY abortion", "early medical abortion"]
     # note: Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill.
   2_assisted_dying:
     tier1: ["assisted dying", "assisted suicide", euthanasia, "Terminally Ill Adults", "End of Life Bill", "Suicide Act 1961", "physician-assisted", "assisted death"]
     tier2: ["palliative care", hospice, "end of life care", "terminal illness", "mental capacity", "right to die", coercion, anorexia, "medical assistance in dying", MAiD]
     # note: Palliative care and hospice funding items are the positive-agenda flank of this area and useful for coalition framing.
   3_gender_medicine_children:
-    tier1: ["puberty blocker*", "puberty-suppressing hormones", "puberty suppressing hormones", "cross-sex hormones", "Cass Review", Tavistock, GIDS, "gender identity service*", "gender dysphoria", "gender questioning children", "youth gender", PATHWAYS]
+    tier1: ["puberty blocker*", "puberty-suppressing hormones", "puberty suppressing hormones", "cross-sex hormones", "Cass Review", Tavistock, GIDS, "gender identity service*", "gender dysphoria", "gender questioning children", "youth gender", PATHWAYS, "Keira Bell"]
     tier2: ["detransition*", "gender-affirming", "Gillick competence", "gender clinic*", "private prescriptions", "indefinite ban", "social transition*"]
   4_conversion_practices:
     tier1: ["conversion therapy", "conversion practices", "Conversion Practices Bill"]
     tier2: ["gender exploratory therapy", "talking therap*", "religious exemption", "affirmation-only"]
     # note: Cross-tag with area 3 (a ban drafted to cover gender identity is the live risk to exploratory therapy) and area 8 (prayer and pastoral care exemptions).
   5_sex_based_rights:
-    tier1: ["single-sex space*", "single-sex service*", "single-sex ward*", "Gender Recognition Act", "gender recognition certificate", "self-identification", "self-ID", "biological sex", "legal definition of woman", "For Women Scotland", "women's sport", "female category"]
+    tier1: ["single-sex space*", "single-sex service*", "single-sex ward*", "Gender Recognition Act", "gender recognition certificate", "self-identification", "self-ID", "biological sex", "legal definition of woman", "For Women Scotland", "women's sport", "female category", "GRA reform", "Gender Recognition Reform"]
     tier2: ["Equality Act 2010", "Sullivan Review", "sex and gender data", "changing room*", "toilet provision", transgender, "protected characteristic", "women's prison*", EHRC, "gender reassignment"]
     # note: Equality Act mentions are extremely frequent; triage should score 2+ only where sex/gender definitions, single-sex exceptions or guidance revisions are at stake.
   6_parental_rights_education:
@@ -27,9 +27,9 @@ areas:
     tier2: [PSHE, "curriculum review", "external providers", "smartphone* in schools", "faith school*", "collective worship", "child protection", "foster care", "sex education", "grooming gang*"]
     # note: EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary.
   7_free_speech_online_safety:
-    tier1: ["Online Safety Act", "age verification", "age assurance", "free speech", "freedom of expression", "non-crime hate incident*", "silent prayer", "Higher Education (Freedom of Speech)", censorship, "anti-Muslim hostility", "Islamophobia definition", Islamophobia]
+    tier1: ["Online Safety Act", "Online Safety Bill", "Online Harms", "age verification", "age assurance", "free speech", "freedom of expression", "non-crime hate incident*", "silent prayer", "Higher Education (Freedom of Speech)", censorship, "anti-Muslim hostility", "Islamophobia definition", Islamophobia]
     tier2: [Ofcom, misinformation, disinformation, "harmful content", "hate speech", blasphemy, "client-side scanning", encryption, "street preacher*", "Islamis*"]
-    # note: anti-Muslim hostility and the Islamophobia definition are v0.2 pilot patches. Powers granted for child protection can migrate toward viewpoint censorship; scope-expansion language scores 3.
+    # note: anti-Muslim hostility and the Islamophobia definition are v0.2 pilot patches. Online Safety Bill and Online Harms (White Paper era) are v0.4 historic-vocabulary patches: the 2020-23 debates never say "Online Safety Act". Powers granted for child protection can migrate toward viewpoint censorship; scope-expansion language scores 3.
   8_freedom_of_religion:
     tier1: ["freedom of religion or belief", FoRB, "Christian persecution", "persecution of Christians", "religious persecution", "Truro Review", "Special Envoy for Freedom of Religion", apostasy, "blasphemy law*"]
     tier2: ["religious minorit*", "religious conversion", "chaplain*", "places of worship", "religious freedom", "religious liberty"]
@@ -43,7 +43,7 @@ areas:
     tier2: ["fertility treatment", IVF, "donor conception", "donor-conceived", "mitochondrial donation", "genome editing", "embryo screening", "polygenic screening", "artificial womb*"]
     # note: Ties to the Bought and Broken documentary workstream; any Law Commission surrogacy implementation signal is an automatic score 3.
   11_migration:
-    tier1: ["Immigration and Asylum Bill", "illegal migration", "Illegal Migration Act", "small boats", "Channel crossing*", "asylum hotel*", "net migration", "border security", "asylum backlog", "safe and legal routes", "foreign national offender*", "deportation*", "indefinite leave to remain"]
-    tier2: [migration, immigration, asylum, "asylum seeker*", "refugee*", "leave to remain", citizenship, "community cohesion", "immigration detention", "illegal working"]
-    # note: New area, added 3 August 2026 by Christopher's decision. Bare migration/immigration/asylum sit at tier 2 deliberately: they are common words (data migration, asylum in history debates) and the triage pass gates them. Cross-tags: religious conversion in asylum claims stays in area 8; Islamophobia and community-speech items in area 7.
+    tier1: ["Immigration and Asylum Bill", "illegal migration", "Illegal Migration Act", "small boats", "Channel crossing*", "asylum hotel*", "net migration", "border security", "asylum backlog", "safe and legal routes", "foreign national offender*", "deportation*", "indefinite leave to remain", "Nationality and Borders", "Safety of Rwanda", "Rwanda plan", "Rwanda scheme"]
+    tier2: [migration, immigration, asylum, "asylum seeker*", "refugee*", "leave to remain", citizenship, "community cohesion", "immigration detention", "illegal working", Rwanda]
+    # note: New area, added 3 August 2026 by Christopher's decision. Nationality and Borders and the Rwanda terms are v0.4 historic-vocabulary patches for the 2021-24 debates; bare Rwanda sits at tier 2 (it is also just a country) and triage gates it. Bare migration/immigration/asylum sit at tier 2 deliberately: they are common words (data migration, asylum in history debates) and the triage pass gates them. Cross-tags: religious conversion in asylum claims stays in area 8; Islamophobia and community-speech items in area 7.
 exclusions_global: [termination, conversion, transition, blocker, gender, safeguarding, education, equality]
