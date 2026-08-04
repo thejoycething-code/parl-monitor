@@ -53,9 +53,15 @@ def parse_response(payload):
     return [parse_edm(row) for row in (payload.get("Response") or [])]
 
 
-def fetch_edms(client, term, take=10):
-    url = "{0}?parameters.searchTerm={1}&parameters.take={2}".format(EDM_API, quote(term), take)
-    return parse_response(client.get_json(url, "edm", "search-{0}".format(term)))
+def fetch_edms(client, term, take=10, skip=0, tabled_from=None, tabled_to=None):
+    url = "{0}?parameters.searchTerm={1}&parameters.take={2}&parameters.skip={3}".format(
+        EDM_API, quote(term), take, skip)
+    slug = "search-{0}".format(term)
+    if tabled_from:
+        url += "&parameters.tabledStartDate={0}&parameters.tabledEndDate={1}".format(
+            tabled_from, tabled_to)
+        slug = "search-{0}-{1}-s{2}".format(term, tabled_from, skip)
+    return parse_response(client.get_json(url, "edm", slug))
 
 
 @dataclass

@@ -1,14 +1,18 @@
-"""One-off six-month backfill of the MP intelligence ledger.
+"""Historic backfill of the MP intelligence ledger (PQs + EDMs).
 
-Sweeps every configured PQ term through the (slow) written-questions API,
-paging back to the cutoff, plus EDM terms; taxonomy-filters each hit; writes
-mp_events rows for the asker/sponsor and caches member resolutions.
+Sweeps every configured PQ term through the (slow) written-questions API and
+every EDM term through the motions API, in YEAR WINDOWS from the cutoff --
+both APIs take date filters, so each term-year pages independently and no
+window needs deep skip pagination. Taxonomy-filters each hit (tier-1 or
+watchlist precision gate); writes mp_events rows for askers, sponsors and
+EDM co-signatories; caches member resolutions.
 
-Idempotent: record_event dedupes on (member, kind, ref), so re-running after
-a network failure only fills gaps. Items are NOT written -- the ledger is
-history; the items store remains the weekly editorial flow.
+Idempotent: record_event upserts on (member, kind, ref), so re-running after
+a network failure only fills gaps, and re-runs refresh annotations. Items
+are NOT written -- the ledger is history; the items store remains the weekly
+editorial flow.
 
-  python3 tools/backfill_mp_ledger.py 2026-02-03
+  python3 tools/backfill_mp_ledger.py 2020-01-01
 """
 
 from __future__ import annotations
@@ -24,7 +28,17 @@ from src import db, filter as filt, intel, members
 from src.http import FetchError, HttpClient
 from src.ingest import edms, pqs
 
-MAX_PAGES_PER_TERM = 5   # 5 x 100 answered PQs per term is ample for 6 months
+MAX_PAGES_PER_WINDOW = 10   # 1000 answered PQs per term-year is ample
+
+
+def year_windows(cutoff, end):
+    """[(from, to)] ISO date pairs, one per calendar year in the range."""
+    windows = []
+    for year in range(cutoff.year, end.year + 1):
+        start = max(cutoff, datetime.date(year, 1, 1))
+        stop = min(end, datetime.date(year, 12, 31))
+        windows.append((start.isoformat(), stop.isoformat()))
+    return windows
 
 
 def load_settings():
@@ -44,50 +58,71 @@ def resolve(conn, client, member_id, cache):
     return member
 
 
-def backfill_pqs(conn, client, tax, wl, terms, cutoff, cache):
+def backfill_pqs(conn, client, tax, wl, terms, cutoff, end, cache):
     from urllib.parse import quote
     written = 0
+    windows = year_windows(cutoff, end)
     for term in terms:
-        for page in range(MAX_PAGES_PER_TERM):
-            url = ("https://questions-statements-api.parliament.uk/api/writtenquestions/questions"
-                   "?searchTerm={0}&answered=Answered&take=100&skip={1}").format(quote(term), page * 100)
-            try:
-                payload = client.get_json(url, "pq", "backfill-{0}-p{1}".format(term, page))
-            except FetchError as exc:
-                print("  [gap] '{0}' page {1}: {2}".format(term, page, exc.cause))
-                break
-            batch = pqs.parse_response(payload)
-            if not batch:
-                break
-            oldest = min((q.date_answered for q in batch if q.date_answered), default=None)
-            for q in batch:
-                if not q.date_answered or q.date_answered < cutoff:
-                    continue
-                r = filt.filter_item(tax, wl, q.heading or "", q.question_text or "", q.answer_text or "")
-                if not (r.tier == 1 or r.watchlist_hits) or not q.asking_member_id:
-                    continue  # tier-2-only matches are untriaged noise here
-                if resolve(conn, client, q.asking_member_id, cache) is None:
-                    continue
-                intel.record_event(conn, q.asking_member_id, q.date_answered.isoformat(),
-                                   "pq", "pq:{0}".format(q.id),
-                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits),
-                                   areas=r.issue_areas)
-                written += 1
-            if oldest and oldest < cutoff:
-                break
+        for w_from, w_to in windows:
+            for page in range(MAX_PAGES_PER_WINDOW):
+                url = ("https://questions-statements-api.parliament.uk/api/writtenquestions/questions"
+                       "?searchTerm={0}&answered=Answered&take=100&skip={1}"
+                       "&answeredWhenFrom={2}&answeredWhenTo={3}").format(
+                           quote(term), page * 100, w_from, w_to)
+                try:
+                    payload = client.get_json(
+                        url, "pq", "backfill-{0}-{1}-p{2}".format(term, w_from[:4], page))
+                except FetchError as exc:
+                    print("  [gap] '{0}' {1} page {2}: {3}".format(term, w_from[:4], page, exc.cause))
+                    break
+                batch = pqs.parse_response(payload)
+                if not batch:
+                    break
+                for q in batch:
+                    if not q.date_answered:
+                        continue
+                    r = filt.filter_item(tax, wl, q.heading or "", q.question_text or "", q.answer_text or "")
+                    if not (r.tier == 1 or r.watchlist_hits) or not q.asking_member_id:
+                        continue  # tier-2-only matches are untriaged noise here
+                    if resolve(conn, client, q.asking_member_id, cache) is None:
+                        continue
+                    intel.record_event(conn, q.asking_member_id, q.date_answered.isoformat(),
+                                       "pq", "pq:{0}".format(q.id),
+                                       intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits),
+                                       areas=r.issue_areas)
+                    written += 1
+                if len(batch) < 100:
+                    break
         print("  pq '{0}' done ({1} events so far)".format(term, written))
     return written
 
 
-def backfill_edms(conn, client, tax, wl, terms, cutoff, cache):
+def backfill_edms(conn, client, tax, wl, terms, cutoff, end, cache):
     written = 0
     for term in terms:
-        try:
-            motions = edms.fetch_edms(client, term, take=100)
-        except FetchError as exc:
-            print("  [gap] edm '{0}': {1}".format(term, exc.cause))
-            continue
+        motions, skip = [], 0
+        failed = False
+        for w_from, w_to in year_windows(cutoff, end):
+            skip = 0
+            while True:
+                try:
+                    batch = edms.fetch_edms(client, term, take=100, skip=skip,
+                                            tabled_from=w_from, tabled_to=w_to)
+                except FetchError as exc:
+                    print("  [gap] edm '{0}' {1}: {2}".format(term, w_from[:4], exc.cause))
+                    failed = True
+                    break
+                motions.extend(batch)
+                if len(batch) < 100:
+                    break
+                skip += 100
+            if failed:
+                break
+        seen = set()
         for e in motions:
+            if e.id in seen:
+                continue
+            seen.add(e.id)
             if not e.date_tabled or e.date_tabled < cutoff:
                 continue
             r = filt.filter_item(tax, wl, e.title or "", e.motion_text or "")
@@ -128,6 +163,7 @@ def backfill_edms(conn, client, tax, wl, terms, cutoff, cache):
 
 def main():
     cutoff = datetime.date.fromisoformat(sys.argv[1] if len(sys.argv) > 1 else "2026-02-03")
+    end = datetime.date.fromisoformat(sys.argv[2]) if len(sys.argv) > 2 else datetime.date.today()
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
@@ -135,9 +171,9 @@ def main():
     settings = load_settings()
     cache = {}
 
-    print("backfilling ledger since {0}".format(cutoff))
-    n_pq = backfill_pqs(conn, client, tax, wl, settings.get("pq_sweep_terms") or [], cutoff, cache)
-    n_edm = backfill_edms(conn, client, tax, wl, settings.get("edm_sweep_terms") or [], cutoff, cache)
+    print("backfilling ledger {0} -> {1}".format(cutoff, end))
+    n_pq = backfill_pqs(conn, client, tax, wl, settings.get("pq_sweep_terms") or [], cutoff, end, cache)
+    n_edm = backfill_edms(conn, client, tax, wl, settings.get("edm_sweep_terms") or [], cutoff, end, cache)
     print("done: {0} pq events, {1} edm events".format(n_pq, n_edm))
     print("ledger:", intel.ledger_stats(conn))
     conn.close()
