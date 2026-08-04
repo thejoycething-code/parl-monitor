@@ -174,7 +174,8 @@ def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
                     pass  # resolution is best-effort; ledger row still lands
                 intel.record_event(conn, q.asking_member_id,
                                    q.date_answered.isoformat() if q.date_answered else edition,
-                                   "pq", "pq:{0}".format(q.id), q.heading)
+                                   "pq", "pq:{0}".format(q.id),
+                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits))
 
 
 def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
@@ -204,7 +205,8 @@ def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
                     pass  # resolution is best-effort
                 intel.record_event(conn, e.member_id, e.date_tabled.isoformat(),
                                    "edm", "edm:{0}".format(e.id),
-                                   "Sponsored EDM: {0}".format(e.title))
+                                   intel.annotated_line("Sponsored EDM: {0}".format(e.title),
+                                                        r.matched_terms + r.watchlist_hits))
             if e.date_tabled and e.date_tabled >= since:
                 title = "EDM {0}: {1} ({2}, {3} signatures)".format(
                     e.uin, e.title, e.sponsor_name, e.signature_count)

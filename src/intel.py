@@ -18,6 +18,25 @@ def ensure_index(conn):
     conn.commit()
 
 
+def annotated_line(line, matched_terms):
+    """Append the matched term when the line does not already show it.
+
+    A tier-1 match can live in a PQ's answer text while the heading reads
+    "Home Office: Written Questions" -- opaque in the weekly section. If no
+    matched term appears in the line itself, annotate with the first one.
+    """
+    base = (line or "").strip()
+    low = base.lower()
+
+    def clean(term):
+        return term.strip('"').rstrip("*").strip()
+
+    terms = [clean(t) for t in matched_terms if clean(t)]
+    if not terms or any(t.lower() in low for t in terms):
+        return base
+    return "{0} (re: {1})".format(base, terms[0])
+
+
 def record_event(conn, member_id, date, kind, ref, line):
     """Insert a ledger row; silently idempotent on re-runs and backfills."""
     ensure_index(conn)

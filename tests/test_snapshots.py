@@ -108,5 +108,23 @@ class StaleClosureTests(unittest.TestCase):
         self.assertEqual([r.bill_id for r in stale], [1])
 
 
+class AnnotatedLineTests(unittest.TestCase):
+    def test_opaque_heading_gets_matched_term(self):
+        from src import intel
+        self.assertEqual(
+            intel.annotated_line("Home Office: Written Questions", ['"asylum hotel*"']),
+            "Home Office: Written Questions (re: asylum hotel)")
+
+    def test_self_explanatory_heading_left_alone(self):
+        from src import intel
+        self.assertEqual(
+            intel.annotated_line("Anti-Muslim Hostility", ["anti-Muslim hostility"]),
+            "Anti-Muslim Hostility")
+
+    def test_no_terms_no_change(self):
+        from src import intel
+        self.assertEqual(intel.annotated_line("A heading", []), "A heading")
+
+
 if __name__ == "__main__":
     unittest.main()

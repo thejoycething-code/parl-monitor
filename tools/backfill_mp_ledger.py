@@ -69,7 +69,8 @@ def backfill_pqs(conn, client, tax, wl, terms, cutoff, cache):
                 if resolve(conn, client, q.asking_member_id, cache) is None:
                     continue
                 intel.record_event(conn, q.asking_member_id, q.date_answered.isoformat(),
-                                   "pq", "pq:{0}".format(q.id), q.heading)
+                                   "pq", "pq:{0}".format(q.id),
+                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits))
                 written += 1
             if oldest and oldest < cutoff:
                 break
@@ -96,7 +97,9 @@ def backfill_edms(conn, client, tax, wl, terms, cutoff, cache):
                 continue
             intel.record_event(conn, member_id, e.date_tabled.isoformat(),
                                "edm", "edm:{0}".format(e.id),
-                               "Sponsored EDM: {0} ({1} signatures)".format(e.title, e.signature_count))
+                               intel.annotated_line(
+                                   "Sponsored EDM: {0} ({1} signatures)".format(e.title, e.signature_count),
+                                   r.matched_terms + r.watchlist_hits))
             written += 1
         print("  edm '{0}' done ({1} events so far)".format(term, written))
     return written
