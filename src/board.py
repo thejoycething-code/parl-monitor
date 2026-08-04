@@ -64,6 +64,7 @@ class BoardRow:
     status: str                   # live | closed
     transition: str               # NEW | MOVED | UNCHANGED | ROYAL_ASSENT | FALLEN
     closed_note: str = None
+    closed_date: str = None       # ISO date of the terminal event (RA / fall)
     triggers: list = field(default_factory=list)  # e.g. ["acts_watch", "legislation_check"]
     areas: str = None             # csv of issue-area numbers, set from the watchlist
     why: str = None               # one-line "why we track it", from watchlist.yaml
@@ -101,6 +102,7 @@ def build_row(bill, session_id, run_date, prior_snapshot=None):
             house=bill.current_house, stage=bill.current_stage,
             next_key_date=TBA, status="closed", transition=ROYAL_ASSENT,
             closed_note="Royal Assent {0}".format(_date_str(ra)),
+            closed_date=ra.isoformat() if ra else None,
             triggers=["acts_watch", "legislation_check"],
         )
 
@@ -112,6 +114,7 @@ def build_row(bill, session_id, run_date, prior_snapshot=None):
             next_key_date=TBA, status="closed", transition=FALLEN,
             closed_note="Fell at prorogation; frozen at {0} ({1})".format(
                 bill.current_stage, _date_str(last)),
+            closed_date=last.isoformat() if last else None,
         )
 
     # -- live bill: next key date + movement marker -----------------------

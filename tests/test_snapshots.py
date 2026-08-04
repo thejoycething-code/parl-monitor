@@ -78,5 +78,35 @@ class SnapshotTests(unittest.TestCase):
             "SELECT board_snapshot FROM bills_board WHERE bill_id=3938").fetchone())
 
 
+class StaleClosureTests(unittest.TestCase):
+    """Closures render only while the terminal event is fresh (Chris, 2026-08-03)."""
+
+    def _closure(self, bill_id, closed_date=None, note=""):
+        return board.BoardRow(bill_id, "A Bill", None, "Commons", "Stage", "-",
+                              "closed", board.FALLEN, closed_note=note,
+                              closed_date=closed_date)
+
+    def test_months_old_closures_are_stale(self):
+        import datetime, run_weekly
+        week = datetime.date(2026, 8, 3)
+        rows = [
+            self._closure(3774, "2026-04-24"),                       # fell in April
+            self._closure(3938, "2026-04-29"),                       # RA in April
+            self._closure(-445, None, "Fell on 2026-03-17 at Stage 3"),  # date only in note
+            self._closure(5000, "2026-07-20"),                       # fell 2 weeks ago: fresh
+            self._closure(5001, None, "no date recorded"),           # unknown: fresh by policy
+        ]
+        fresh, stale = run_weekly.split_stale_closures(rows, week)
+        self.assertEqual(sorted(r.bill_id for r in stale), [-445, 3774, 3938])
+        self.assertEqual(sorted(r.bill_id for r in fresh), [5000, 5001])
+
+    def test_window_is_configurable(self):
+        import datetime, run_weekly
+        week = datetime.date(2026, 8, 3)
+        rows = [self._closure(1, "2026-07-20")]  # 14 days before the week
+        fresh, stale = run_weekly.split_stale_closures(rows, week, fresh_days=7)
+        self.assertEqual([r.bill_id for r in stale], [1])
+
+
 if __name__ == "__main__":
     unittest.main()

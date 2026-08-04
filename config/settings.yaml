@@ -36,3 +36,8 @@ edm_sweep_terms:
   - surrogacy
   - single-sex
   - conversion therapy
+
+# A bill's closing entry renders only while the terminal event (Royal Assent
+# or fall) is within this many days of the edition; older closures are
+# recorded silently. Keeps cold-start catch-ups off the board.
+closure_fresh_days: 28

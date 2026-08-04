@@ -302,6 +302,27 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
 
 
 ASSENT_FRESH_DAYS = 14
+CLOSURE_FRESH_DAYS = 28  # settings.yaml closure_fresh_days overrides
+
+
+def split_stale_closures(closures, week_start, fresh_days=CLOSURE_FRESH_DAYS):
+    """(fresh, stale) closing rows by terminal-event date.
+
+    A closing entry is news when the bill fell or gained assent recently; a
+    cold-start or backfill catch-up months later is not -- it is recorded in
+    bills_board (the once-ever guard) but never rendered. Rows with no
+    parseable terminal date count as fresh: better an odd obituary than a
+    silent disappearance.
+    """
+    cutoff = (week_start - datetime.timedelta(days=fresh_days)).isoformat()
+    fresh, stale = [], []
+    for row in closures:
+        closed = row.closed_date
+        if not closed:
+            m = re.search(r"(\d{4}-\d{2}-\d{2})", row.closed_note or "")
+            closed = m.group(1) if m else None
+        (stale if (closed and closed < cutoff) else fresh).append(row)
+    return fresh, stale
 
 
 def assent_topline(client, wl, closure_row, week_start=None):
@@ -484,8 +505,15 @@ def render_edition(week_commencing, db_name, draft=False):
     edition.board_rows.extend(r for r in hr_rows if r.bill_id not in already_closed)
     closures = closures + [r for r in hr_closures if r.bill_id not in already_closed]
 
+    # Stale closures (terminal event older than the freshness window) are
+    # recorded for the once-ever guard but never rendered.
+    fresh_days = load_settings().get("closure_fresh_days") or CLOSURE_FRESH_DAYS
+    fresh_closures, stale_closures = split_stale_closures(closures, week_start, fresh_days)
     for row in closures:
         board.record_closure(conn, row, week_commencing)
+    if stale_closures:
+        stale_ids = {r.bill_id for r in stale_closures}
+        edition.board_rows = [r for r in edition.board_rows if r.bill_id not in stale_ids]
 
     # Movement markers: diff live rows against last edition's stored snapshots
     # and persist this edition's (idempotent within an edition).
