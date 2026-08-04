@@ -14,6 +14,7 @@ from urllib.parse import quote
 from src.ingest.bills import parse_api_date
 
 EDM_API = "https://oralquestionsandmotions-api.parliament.uk/EarlyDayMotions/list"
+EDM_DETAIL_API = "https://oralquestionsandmotions-api.parliament.uk/EarlyDayMotion"
 
 
 @dataclass
@@ -55,6 +56,40 @@ def parse_response(payload):
 def fetch_edms(client, term, take=10):
     url = "{0}?parameters.searchTerm={1}&parameters.take={2}".format(EDM_API, quote(term), take)
     return parse_response(client.get_json(url, "edm", "search-{0}".format(term)))
+
+
+@dataclass
+class Sponsor:
+    member_id: int
+    name: str
+    party: str
+    seat: str
+    order: int          # 1 = primary sponsor; >1 = co-signatory
+    withdrawn: bool
+
+
+def parse_sponsors(payload):
+    """Sponsor rows from an EDM detail response, live signatures only."""
+    detail = payload.get("Response") or {}
+    out = []
+    for s in (detail.get("Sponsors") or []):
+        m = s.get("Member") or {}
+        out.append(Sponsor(
+            member_id=s.get("MemberId"),
+            name=m.get("Name"),
+            party=m.get("Party"),
+            seat=m.get("Constituency"),
+            order=s.get("SponsoringOrder"),
+            withdrawn=bool(s.get("IsWithdrawn")),
+        ))
+    return out
+
+
+def fetch_sponsors(client, edm_id):
+    """Full sponsor list for one EDM (one API call; embeds member details,
+    so co-signatories never need Members API resolution)."""
+    url = "{0}/{1}".format(EDM_DETAIL_API, edm_id)
+    return parse_sponsors(client.get_json(url, "edm", "detail-{0}".format(edm_id)))
 
 
 def record_signatures(conn, edm, edition):

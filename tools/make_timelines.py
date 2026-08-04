@@ -42,6 +42,10 @@ h1 {{ color:#52575C; font-size:1.3rem; border-bottom:4px solid #4285f4; padding-
 .ev .d {{ font-weight:700; opacity:.7; margin-right:.4rem; }}
 .kind {{ font-size:.68em; font-weight:700; border-radius:999px; padding:.05em .5em;
         background:#4285f4; color:#FFF; margin-right:.3em; }}
+.kind.signed {{ background:#FFF; color:#4285f4; border:1px solid #4285f4; }}
+.areas {{ font-size:.75em; margin:.1rem 0 .4rem; }}
+.area {{ display:inline-block; border:1px solid #4285f4; color:#4285f4; border-radius:3px;
+        padding:.05em .45em; margin:.1em .2em .1em 0; }}
 </style></head><body>
 <h1>MP timelines - six-month ledger</h1>
 <p class="internal"><strong>Internal only.</strong> Working intelligence from the mp_events ledger
@@ -55,15 +59,20 @@ scoring; never appears in any edition or the partner site.</p>
 CARD = """<div class="card">
 <h4>{name}</h4><div class="role">{role}</div>
 <div class="stat"><b>{n}</b> recorded contributions</div>
+<div class="areas">{areas}</div>
 <div class="tl">
 {events}
 </div></div>"""
+
+KIND_LABEL = {"edm-signed": "SIGNED"}
 
 
 def main():
     top_n = int(sys.argv[1]) if len(sys.argv) > 1 else 9
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
     stats = intel.ledger_stats(conn)
+    names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    activity = intel.area_activity(conn)
 
     tops = conn.execute(
         "SELECT e.member_id, m.name, m.party, m.seat, COUNT(*) n FROM mp_events e "
@@ -74,12 +83,20 @@ def main():
     for t in tops:
         events = intel.member_timeline(conn, t["member_id"], limit=8)
         rows = "\n".join(
-            '<div class="ev"><span class="d">{0}</span><span class="kind">{1}</span>{2}</div>'.format(
-                e["date"], e["kind"].upper(), html.escape(e["line"] or ""))
+            '<div class="ev"><span class="d">{0}</span><span class="kind {3}">{1}</span>{2}</div>'.format(
+                e["date"], KIND_LABEL.get(e["kind"], e["kind"].upper()),
+                html.escape(e["line"] or ""),
+                "signed" if e["kind"] == "edm-signed" else "")
             for e in events)
         role = ", ".join(x for x in (t["party"], t["seat"]) if x) or "unresolved"
+        per = activity.get(t["member_id"], {})
+        chips = "".join(
+            '<span class="area">{0} &times;{1}</span>'.format(
+                html.escape(names.get(a, "Area {0}".format(a))), n)
+            for a, n in sorted(per.items(), key=lambda kv: -kv[1]))
         cards.append(CARD.format(name=html.escape(t["name"] or "Member %d" % t["member_id"]),
-                                 role=html.escape(role), n=t["n"], events=rows))
+                                 role=html.escape(role), n=t["n"], events=rows,
+                                 areas=chips or "&nbsp;"))
     conn.close()
 
     out = os.path.join(ROOT, "docs", "mp-timelines.html")

@@ -70,7 +70,8 @@ def backfill_pqs(conn, client, tax, wl, terms, cutoff, cache):
                     continue
                 intel.record_event(conn, q.asking_member_id, q.date_answered.isoformat(),
                                    "pq", "pq:{0}".format(q.id),
-                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits))
+                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits),
+                                   areas=r.issue_areas)
                 written += 1
             if oldest and oldest < cutoff:
                 break
@@ -93,14 +94,34 @@ def backfill_edms(conn, client, tax, wl, terms, cutoff, cache):
             if not (r.tier == 1 or r.watchlist_hits):
                 continue
             member_id = getattr(e, "member_id", None)
-            if not member_id or resolve(conn, client, member_id, cache) is None:
-                continue
-            intel.record_event(conn, member_id, e.date_tabled.isoformat(),
-                               "edm", "edm:{0}".format(e.id),
-                               intel.annotated_line(
-                                   "Sponsored EDM: {0} ({1} signatures)".format(e.title, e.signature_count),
-                                   r.matched_terms + r.watchlist_hits))
-            written += 1
+            if member_id and resolve(conn, client, member_id, cache) is not None:
+                intel.record_event(conn, member_id, e.date_tabled.isoformat(),
+                                   "edm", "edm:{0}".format(e.id),
+                                   intel.annotated_line(
+                                       "Sponsored EDM: {0} ({1} signatures)".format(e.title, e.signature_count),
+                                       r.matched_terms + r.watchlist_hits),
+                                   areas=r.issue_areas)
+                written += 1
+            # Co-signatories: one detail call per matched EDM; member details
+            # are embedded so the cache seeds without Members API traffic.
+            try:
+                sponsors = edms.fetch_sponsors(client, e.id)
+            except FetchError as exc:
+                print("  [gap] edm {0} sponsors: {1}".format(e.id, exc.cause))
+                sponsors = []
+            for s in sponsors:
+                if s.withdrawn or not s.member_id or (s.order or 0) <= 1:
+                    continue
+                if s.name and not members.cache_get(conn, s.member_id):
+                    members.cache_put(conn, members.Member(
+                        id=s.member_id, name=s.name, party=s.party,
+                        seat=s.seat, house="Commons"))
+                intel.record_event(conn, s.member_id, e.date_tabled.isoformat(),
+                                   "edm-signed", "edm:{0}".format(e.id),
+                                   intel.annotated_line("Signed EDM: {0}".format(e.title),
+                                                        r.matched_terms + r.watchlist_hits),
+                                   areas=r.issue_areas)
+                written += 1
         print("  edm '{0}' done ({1} events so far)".format(term, written))
     return written
 

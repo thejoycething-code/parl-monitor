@@ -175,7 +175,8 @@ def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
                 intel.record_event(conn, q.asking_member_id,
                                    q.date_answered.isoformat() if q.date_answered else edition,
                                    "pq", "pq:{0}".format(q.id),
-                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits))
+                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits),
+                                   areas=r.issue_areas)
 
 
 def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
@@ -198,15 +199,36 @@ def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
             if not r.matched():
                 continue
             edms.record_signatures(conn, e, edition)  # delta tracking, any age
-            if e.member_id and e.date_tabled and (r.tier == 1 or r.watchlist_hits):
+            if e.date_tabled and (r.tier == 1 or r.watchlist_hits):
+                if e.member_id:
+                    try:
+                        members.resolve(conn, client, e.member_id)
+                    except Exception:
+                        pass  # resolution is best-effort
+                    intel.record_event(conn, e.member_id, e.date_tabled.isoformat(),
+                                       "edm", "edm:{0}".format(e.id),
+                                       intel.annotated_line("Sponsored EDM: {0}".format(e.title),
+                                                            r.matched_terms + r.watchlist_hits),
+                                       areas=r.issue_areas)
+                # Every live co-signature is a cheap, unambiguous endorsement --
+                # exactly the stance signal 5CA placement needs. Ledgered for
+                # profiles; never listed in the weekly section (same rule as votes).
                 try:
-                    members.resolve(conn, client, e.member_id)
+                    sponsors = edms.fetch_sponsors(client, e.id)
                 except Exception:
-                    pass  # resolution is best-effort
-                intel.record_event(conn, e.member_id, e.date_tabled.isoformat(),
-                                   "edm", "edm:{0}".format(e.id),
-                                   intel.annotated_line("Sponsored EDM: {0}".format(e.title),
-                                                        r.matched_terms + r.watchlist_hits))
+                    sponsors = []  # best-effort enrichment; sponsor event already landed
+                for s in sponsors:
+                    if s.withdrawn or not s.member_id or (s.order or 0) <= 1:
+                        continue
+                    if s.name and not members.cache_get(conn, s.member_id):
+                        members.cache_put(conn, members.Member(
+                            id=s.member_id, name=s.name, party=s.party,
+                            seat=s.seat, house="Commons"))
+                    intel.record_event(conn, s.member_id, e.date_tabled.isoformat(),
+                                       "edm-signed", "edm:{0}".format(e.id),
+                                       intel.annotated_line("Signed EDM: {0}".format(e.title),
+                                                            r.matched_terms + r.watchlist_hits),
+                                       areas=r.issue_areas)
             if e.date_tabled and e.date_tabled >= since:
                 title = "EDM {0}: {1} ({2}, {3} signatures)".format(
                     e.uin, e.title, e.sponsor_name, e.signature_count)

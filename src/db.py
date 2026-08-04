@@ -39,7 +39,9 @@ CREATE TABLE IF NOT EXISTS bills_board (
   session_ids TEXT, last_update TEXT, board_snapshot TEXT -- json of prior edition row for movement marker
 );
 CREATE TABLE IF NOT EXISTS members (id INTEGER PRIMARY KEY, name TEXT, party TEXT, seat TEXT, house TEXT);
-CREATE TABLE IF NOT EXISTS mp_events (member_id INTEGER, date TEXT, kind TEXT, ref TEXT, line TEXT);
+CREATE TABLE IF NOT EXISTS mp_events (member_id INTEGER, date TEXT, kind TEXT, ref TEXT, line TEXT,
+  areas TEXT                      -- json list of area numbers (5CA per-area scoring)
+);
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
@@ -73,5 +75,8 @@ def init_db(conn):
     cols = {r[1] for r in conn.execute("PRAGMA table_info(items)")}
     if "extra" not in cols:
         conn.execute("ALTER TABLE items ADD COLUMN extra TEXT")
+    ev_cols = {r[1] for r in conn.execute("PRAGMA table_info(mp_events)")}
+    if "areas" not in ev_cols:
+        conn.execute("ALTER TABLE mp_events ADD COLUMN areas TEXT")
     conn.commit()
     return conn

@@ -219,18 +219,23 @@ MP_SUBTITLE = ("*Questions, debates, votes and motions from any member of either
                "touching our campaign areas this week.*")
 
 
-def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
-    """V1 lines: one per member, activities merged; votes never listed.
+BULK_KINDS = {"vote", "edm-signed"}
 
-    Division votes are recorded to the ledger for profiles and 5CA, but a
-    single tagged division would otherwise flood this section with hundreds
-    of lines -- the division renders once in Votes and amendments instead
-    (Christopher, 2026-08-03).
+
+def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
+    """V1 lines: one per member, activities merged; bulk kinds never listed.
+
+    Division votes and EDM co-signatures are recorded to the ledger for
+    profiles and 5CA, but a single tagged division (hundreds of votes) or a
+    popular motion (dozens of signatures) would flood this section -- the
+    division renders once in Votes and amendments, the motion once with its
+    signature count (Christopher, 2026-08-03: truncate or link, never a big
+    list).
     """
     members_seen = []   # ordered member ids
     grouped = {}        # member_id -> {"who": str, "acts": ordered {(kind, line): count}}
     for e in events:
-        if e["kind"] == "vote":
+        if e["kind"] in BULK_KINDS:
             continue
         mid = e["member_id"]
         if mid not in grouped:

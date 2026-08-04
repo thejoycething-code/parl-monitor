@@ -89,6 +89,27 @@ class EdmSweepTests(unittest.TestCase):
         items = [r["id"] for r in self.conn.execute("SELECT id FROM items").fetchall()]
         self.assertEqual(items, ["edm:700"])
 
+    def test_matched_edm_cosignatories_ledgered_with_areas(self):
+        motions = [edm(700, "Assisted dying safeguards", "2026-08-01", sigs=3)]
+        sponsors = [
+            edms.Sponsor(5244, "Prime Mover", "Labour", "Seat A", 1, False),
+            edms.Sponsor(5319, "Co Signer", "Conservative", "Seat B", 2, False),
+            edms.Sponsor(5400, "With Drawn", "Labour", "Seat C", 3, True),
+        ]
+        with mock.patch.object(edms, "fetch_edms", return_value=motions), \
+                mock.patch.object(edms, "fetch_sponsors", return_value=sponsors):
+            run_weekly.sweep_edms(None, self.conn, TAX, WL, WEEK, "2026-08-03",
+                                  ["assisted dying"])
+        rows = self.conn.execute(
+            "SELECT member_id, kind, areas FROM mp_events ORDER BY member_id").fetchall()
+        # Order-1 primary and withdrawn signatures never ledger as co-signatories.
+        self.assertEqual([(r["member_id"], r["kind"]) for r in rows],
+                         [(5319, "edm-signed")])
+        self.assertIn("2", rows[0]["areas"])  # assisted dying = area 2, stamped
+        cached = self.conn.execute(
+            "SELECT name, house FROM members WHERE id = 5319").fetchone()
+        self.assertEqual((cached["name"], cached["house"]), ("Co Signer", "Commons"))
+
     def test_duplicate_motions_across_terms_stored_once(self):
         motions = [edm(700, "Assisted dying safeguards", "2026-08-01")]
         with mock.patch.object(edms, "fetch_edms", return_value=motions):
