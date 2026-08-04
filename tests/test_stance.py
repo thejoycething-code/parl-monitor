@@ -167,6 +167,68 @@ class BreakdownParseTests(unittest.TestCase):
                          [(147, "aye"), (148, "no")])
 
 
+class EditorialOverrideTests(unittest.TestCase):
+    """Christopher, 2026-08-04: the org's judgement on named bills outranks
+    the classifier; Border Security Bill votes carry no enforcement weight."""
+
+    CFG = {"overrides": [
+        {"match": "Illegal Migration Bill",
+         "when_any": ["motion to disagree", "Second Reading"],
+         "unless_any": ["amendment to second reading"],
+         "aye": 2, "no": -2,
+         "why_aye": "Backed the deterrence framework",
+         "why_no": "Voted against enforcement"},
+        {"match": "Border Security, Asylum and Immigration Bill",
+         "aye": 0, "no": 0,
+         "why_aye": "No enforcement weight", "why_no": "No enforcement weight"},
+    ], "free_vote_titles": ["Terminally Ill Adults (End of Life) Bill"]}
+
+    def setUp(self):
+        self.conn = fresh_conn()
+        member(self.conn, 1, "Swing MP", party="Lab")
+
+    def seed_vote(self, ref, line, claude_stance):
+        intel.record_event(self.conn, 1, "2023-07-11", "vote", ref, line, areas=[11])
+        stance.store_scores(self.conn, [stance.StanceResult(ref, claude_stance, "claude why")], "d")
+
+    def test_against_enforcement_scores_badly_regardless_of_claude(self):
+        self.seed_vote("div:c100:no",
+                       "Voted No: Illegal Migration Bill: motion to disagree with Lords Amendment 9",
+                       0)  # classifier called it procedural
+        stance.apply_overrides(self.conn, self.CFG, "2026-08-04")
+        row = self.conn.execute("SELECT stance, why, model FROM stance").fetchone()
+        self.assertEqual((row["stance"], row["model"]), (-2, "override"))
+        self.assertIn("against enforcement", row["why"])
+
+    def test_border_security_bill_zeroed_never_offsets(self):
+        self.seed_vote("div:c100:no", "Voted No: Illegal Migration Bill: motion to disagree with Lords Amendment 9", 0)
+        self.seed_vote("div:c200:aye", "Voted Aye: Border Security, Asylum and Immigration Bill: Third Reading", 2)
+        stance.apply_overrides(self.conn, self.CFG, "2026-08-04")
+        rows = stance.suggest_rows(self.conn, 11, overrides_cfg=self.CFG)
+        self.assertEqual(rows[0]["column"], "--")     # the anti-enforcement record dominates
+        self.assertFalse(rows[0]["conflict"])         # BSB aye no longer manufactures a conflict
+
+    def test_wrecking_amendment_excluded_from_override(self):
+        self.seed_vote("div:c300:aye",
+                       "Voted Aye: Illegal Migration Bill amendment to second reading", -1)
+        stance.apply_overrides(self.conn, self.CFG, "2026-08-04")
+        row = self.conn.execute("SELECT stance, model FROM stance").fetchone()
+        self.assertEqual((row["stance"], row["model"]), (-1, stance.STANCE_MODEL))
+
+    def test_free_vote_noted_in_comments_and_preferred(self):
+        self.seed_vote("div:c400:no",
+                       "Voted No: Terminally Ill Adults (End of Life) Bill: Third Reading", 2)
+        rows = stance.suggest_rows(self.conn, 11, overrides_cfg=self.CFG)
+        self.assertIn("; free vote]", rows[0]["comments"])
+
+    def test_lords_whip_flag_noted(self):
+        stance.ensure_whip_table(self.conn)
+        self.conn.execute("INSERT INTO division_whip VALUES ('div:l500', 1)")
+        self.seed_vote("div:l500:aye", "Voted Aye: Some Lords Division", 1)
+        rows = stance.suggest_rows(self.conn, 11, overrides_cfg=self.CFG)
+        self.assertIn("; whipped]", rows[0]["comments"])
+
+
 class FullRosterTests(unittest.TestCase):
     """Christopher, 2026-08-04: the 5CA sheet covers all sitting MPs."""
 

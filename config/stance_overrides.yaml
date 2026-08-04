@@ -1,0 +1,63 @@
+# CitizenGO editorial stance rules for division votes.
+#
+# These OVERRIDE the Claude classification wherever they match: the
+# organisation's settled judgement on named bills outranks per-title
+# inference (Christopher, 2026-08-04: voting against sensible measures to
+# curb illegal migration scores badly; Labour's Border Security Bill does
+# not get equal weight as enforcement evidence).
+#
+# Matching: `match` is a case-insensitive substring of the division title.
+# `when_any` (optional): at least one must also appear -- used to restrict a
+# rule to direction-safe motion types (readings, motions to disagree) where
+# Aye is unambiguously the pro-bill side. `unless_any` (optional): none may
+# appear -- excludes wrecking/reasoned amendments and committee stand-parts,
+# where Aye means the opposite or nothing. Unmatched divisions keep their
+# Claude score.
+#
+# aye/no: the stance (-2..2) for voting that way. why_aye/why_no: the
+# rationale written into the stance row (shown in 5CA Comments).
+
+overrides:
+  - match: "Illegal Migration Bill"
+    when_any: ["Second Reading", "Third Reading", "motion to disagree", "Government Amendments"]
+    unless_any: ["amendment to second reading", "Reasoned Amendment", "Committee"]
+    aye: 2
+    no: -2
+    why_aye: "Backed the Illegal Migration Act's deterrence framework"
+    why_no: "Voted against the Illegal Migration Act's enforcement measures"
+
+  - match: "Safety of Rwanda"
+    when_any: ["Second Reading", "Third Reading", "motion to disagree", "disagrees with the Lords", "Reasons Committee"]
+    unless_any: ["Reasoned Amendment", "Bill Committee"]
+    aye: 2
+    no: -2
+    why_aye: "Backed the Rwanda removals deterrent"
+    why_no: "Voted against the Rwanda removals scheme"
+
+  - match: "Nationality and Borders"
+    when_any: ["Second Reading", "Third Reading", "disagree"]
+    unless_any: ["Reasoned Amendment", "amendment to second reading"]
+    aye: 2
+    no: -2
+    why_aye: "Backed the Nationality and Borders Act's enforcement measures"
+    why_no: "Voted against the Nationality and Borders Act's enforcement measures"
+
+  # Labour's bill repealed the Illegal Migration Act and scrapped the Rwanda
+  # scheme; supporting it is not evidence of backing enforcement, and
+  # opposing it is ambiguous (either flank). All its divisions sit at 0 so
+  # the record on the bills above dominates a member's placement. Specific
+  # BSB amendment divisions (e.g. opposition new clauses for tougher
+  # measures) can earn their own targeted rules later.
+  - match: "Border Security, Asylum and Immigration Bill"
+    aye: 0
+    no: 0
+    why_aye: "Border Security Bill votes carry no enforcement weight (editorial rule: the bill repealed the Illegal Migration Act and Rwanda scheme)"
+    why_no: "Border Security Bill votes carry no enforcement weight (editorial rule: the bill repealed the Illegal Migration Act and Rwanda scheme)"
+
+# Conscience-issue bills where the major parties conventionally grant free
+# votes: the vote is the member's own position, not the whip's, and 5CA
+# comments say so. (Lords divisions additionally carry an explicit
+# isWhipped flag from the votes API, captured by tools/annotate_whips.py.)
+free_vote_titles:
+  - "Terminally Ill Adults (End of Life) Bill"
+  - "Abortion"

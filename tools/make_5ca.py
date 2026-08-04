@@ -50,7 +50,9 @@ def main():
         print("no Commons roster in the members cache - "
               "run: python3 tools/pull_commons_roster.py")
         sys.exit(1)
-    rows = stance.suggest_rows(conn, area, full_roster=not active_only)
+    cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+    rows = stance.suggest_rows(conn, area, full_roster=not active_only,
+                               overrides_cfg=cfg)
     conn.close()
     if not rows:
         print("no ledger activity for {0}".format(label))

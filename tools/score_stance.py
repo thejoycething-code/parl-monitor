@@ -105,6 +105,12 @@ def main():
         dist[col] = dist.get(col, 0) + 1
     print("scored {0}: ".format(len(results)) +
           "  ".join("{0} x{1}".format(c, dist[c]) for c in stance.COLUMNS if c in dist))
+
+    # Editorial rules outrank the classifier wherever they match, and re-apply
+    # on every run so newly scored refs pick them up too.
+    cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+    n_over = stance.apply_overrides(conn, cfg, today)
+    print("editorial overrides applied to {0} vote refs".format(n_over))
     conn.close()
 
 

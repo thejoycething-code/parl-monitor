@@ -181,6 +181,92 @@ def classify_live(evidence, api_key=None, transport=None):
     return results
 
 
+# -- editorial overrides ------------------------------------------------------
+
+def load_overrides(path):
+    """config/stance_overrides.yaml -> {'overrides': [...], 'free_vote_titles': [...]}"""
+    import yaml
+    if not os.path.exists(path):
+        return {"overrides": [], "free_vote_titles": []}
+    with open(path, "r", encoding="utf-8") as handle:
+        raw = yaml.safe_load(handle) or {}
+    overrides = []
+    for rule in (raw.get("overrides") or []):
+        # YAML 1.1 parses a bare `no:` key as boolean False; normalise so
+        # rules read naturally in the config file.
+        if False in rule:
+            rule["no"] = rule.pop(False)
+        if True in rule:
+            rule["aye"] = rule.pop(True)
+        overrides.append(rule)
+    return {"overrides": overrides,
+            "free_vote_titles": list(raw.get("free_vote_titles") or [])}
+
+
+def _rule_matches(rule, title):
+    low = (title or "").lower()
+    if (rule.get("match") or "").lower() not in low:
+        return False
+    when = rule.get("when_any")
+    if when and not any(w.lower() in low for w in when):
+        return False
+    unless = rule.get("unless_any")
+    if unless and any(u.lower() in low for u in unless):
+        return False
+    return True
+
+
+def apply_overrides(conn, cfg, scored_at):
+    """Stamp editorial stances onto matching vote refs. Idempotent; the
+    organisation's settled judgement on named bills outranks the classifier
+    (Christopher, 2026-08-04). Returns the number of refs overridden."""
+    ensure_table(conn)
+    rows = conn.execute(
+        "SELECT s.ref, MIN(e.line) AS line FROM stance s "
+        "JOIN mp_events e ON e.ref = s.ref WHERE e.kind = 'vote' "
+        "GROUP BY s.ref").fetchall()
+    n = 0
+    for r in rows:
+        direction = "aye" if r["ref"].endswith(":aye") else "no"
+        title = (r["line"] or "").split(": ", 1)[-1]
+        for rule in cfg["overrides"]:
+            if not _rule_matches(rule, title):
+                continue
+            conn.execute(
+                "UPDATE stance SET stance = ?, why = ?, model = 'override', "
+                "scored_at = ? WHERE ref = ?",
+                (max(-2, min(2, int(rule[direction]))),
+                 rule.get("why_" + direction) or "", scored_at, r["ref"]))
+            n += 1
+            break
+    conn.commit()
+    return n
+
+
+# -- whip status ---------------------------------------------------------------
+
+def ensure_whip_table(conn):
+    conn.execute("CREATE TABLE IF NOT EXISTS division_whip ("
+                 "ref_base TEXT PRIMARY KEY, whipped INTEGER)")
+    conn.commit()
+
+
+def whip_note(title, ref, whip_map, free_vote_titles):
+    """'free vote' / 'whipped' / None for one vote evidence line.
+
+    Conscience-convention titles are free votes in both Houses; Lords
+    divisions additionally carry the API's explicit isWhipped flag.
+    """
+    low = (title or "").lower()
+    if any(t.lower() in low for t in free_vote_titles):
+        return "free vote"
+    base = ref.rsplit(":", 1)[0] if ref else None
+    flag = whip_map.get(base)
+    if flag is None:
+        return None
+    return "whipped" if flag else "free vote"
+
+
 # -- 5CA sheet generation -----------------------------------------------------
 
 COLUMNS = ("++", "+", "0", "-", "--")
@@ -196,7 +282,7 @@ def stance_to_column(stance):
     return {2: "++", 1: "+", 0: "0", -1: "-", -2: "--"}[max(-2, min(2, stance or 0))]
 
 
-def suggest_rows(conn, area, full_roster=False):
+def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
     """5CA Plan rows for `area`, strongest evidence first.
 
     full_roster=False: one row per member (either House) with ledger
@@ -212,12 +298,21 @@ def suggest_rows(conn, area, full_roster=False):
     campaigner decides, the tool never averages opposing signals away.
     """
     ensure_table(conn)
+    ensure_whip_table(conn)
+    free_titles = (overrides_cfg or {}).get("free_vote_titles") or []
+    whip_map = {r["ref_base"]: r["whipped"]
+                for r in conn.execute("SELECT ref_base, whipped FROM division_whip")}
     rows = conn.execute(
         "SELECT e.member_id, e.date, e.kind, e.ref, e.line, e.areas, "
         "s.stance, s.why, m.name, m.party, m.seat, m.house "
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
         "LEFT JOIN members m ON m.id = e.member_id "
         "ORDER BY e.date DESC").fetchall()
+
+    def _whip(r):
+        if r["kind"] != "vote":
+            return None
+        return whip_note(r["line"], r["ref"], whip_map, free_titles)
 
     per_member = {}
     for r in rows:
@@ -234,8 +329,11 @@ def suggest_rows(conn, area, full_roster=False):
 
     out = []
     for mid, evs in per_member.items():
+        # A free vote is the member's own conviction; at equal strength and
+        # kind it outranks whipped or unknown-whip evidence.
         best = max(evs, key=lambda r: (abs(r["stance"] or 0),
                                        KIND_WEIGHT.get(r["kind"], 0),
+                                       1 if _whip(r) == "free vote" else 0,
                                        r["date"]))
         stance = best["stance"] or 0
         signs = {(1 if (r["stance"] or 0) > 0 else -1)
@@ -248,9 +346,12 @@ def suggest_rows(conn, area, full_roster=False):
         if conflict:
             comments.append("CONFLICTING SIGNALS - review all evidence")
         for r in sorted(evs, key=lambda r: r["date"], reverse=True):
-            note = " [{0}{1}]".format(
+            whip = _whip(r)
+            why = (r["why"] or "").rstrip(".")
+            note = " [{0}{1}{2}]".format(
                 stance_to_column(r["stance"]) if r["stance"] is not None else "unscored",
-                ": " + r["why"] if r["why"] else "")
+                ": " + why if why else "",
+                "; {0}".format(whip) if whip else "")
             comments.append("{0} {1}: {2}{3}".format(
                 r["date"], r["kind"].upper(), r["line"], note))
         out.append({
