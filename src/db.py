@@ -78,5 +78,10 @@ def init_db(conn):
     ev_cols = {r[1] for r in conn.execute("PRAGMA table_info(mp_events)")}
     if "areas" not in ev_cols:
         conn.execute("ALTER TABLE mp_events ADD COLUMN areas TEXT")
+    m_cols = {r[1] for r in conn.execute("PRAGMA table_info(members)")}
+    if "current_mp" not in m_cols:
+        # 1 = sitting MP per the Commons roster pull; peers and former
+        # members stay NULL. Full-roster 5CA sheets select on this flag.
+        conn.execute("ALTER TABLE members ADD COLUMN current_mp INTEGER")
     conn.commit()
     return conn

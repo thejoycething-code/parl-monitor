@@ -189,8 +189,15 @@ def stance_to_column(stance):
     return {2: "++", 1: "+", 0: "0", -1: "-", -2: "--"}[max(-2, min(2, stance or 0))]
 
 
-def suggest_rows(conn, area):
-    """One 5CA Plan row per member active on `area`, strongest evidence first.
+def suggest_rows(conn, area, full_roster=False):
+    """5CA Plan rows for `area`, strongest evidence first.
+
+    full_roster=False: one row per member (either House) with ledger
+    activity on the area. full_roster=True: one row per sitting MP from the
+    Commons roster (members.current_mp=1, ~650) -- the actual voting body a
+    Commons-division 5CA targets; MPs the ledger has never seen sit at 0
+    with "No recorded activity", and active peers are excluded (they do not
+    vote in the Commons).
 
     Placement rule: the most directional evidence wins, ties broken by kind
     weight then recency; members whose evidence is all-neutral sit at 0. A
@@ -211,6 +218,12 @@ def suggest_rows(conn, area):
         if area not in areas:
             continue
         per_member.setdefault(r["member_id"], []).append(r)
+
+    roster = {}
+    if full_roster:
+        roster = {r["id"]: r for r in conn.execute(
+            "SELECT id, name, party, seat FROM members WHERE current_mp = 1")}
+        per_member = {mid: evs for mid, evs in per_member.items() if mid in roster}
 
     out = []
     for mid, evs in per_member.items():
@@ -241,6 +254,21 @@ def suggest_rows(conn, area):
             "conflict": conflict,
             "n_events": len(evs),
             "comments": " | ".join(comments),
+        })
+
+    for mid, m in roster.items():
+        if mid in per_member:
+            continue
+        detail = ", ".join(x for x in (m["party"], m["seat"]) if x)
+        out.append({
+            "member_id": mid,
+            "decision_maker": (m["name"] or "Member {0}".format(mid))
+                              + (" ({0})".format(detail) if detail else ""),
+            "house": "Commons",
+            "column": "0",
+            "conflict": False,
+            "n_events": 0,
+            "comments": "No recorded activity on this area (ledger from 2026-02-03)",
         })
 
     order = {c: i for i, c in enumerate(COLUMNS)}

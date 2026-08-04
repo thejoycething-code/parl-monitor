@@ -112,5 +112,35 @@ class SuggestRowsTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
 
 
+class FullRosterTests(unittest.TestCase):
+    """Christopher, 2026-08-04: the 5CA sheet covers all sitting MPs."""
+
+    def setUp(self):
+        self.conn = fresh_conn()
+        member(self.conn, 1, "Active MP")
+        member(self.conn, 2, "Quiet MP")
+        member(self.conn, 3, "Active Peer", house="Lords", seat="Life peer")
+        self.conn.execute("UPDATE members SET current_mp = 1 WHERE id IN (1, 2)")
+        for mid in (1, 3):
+            intel.record_event(self.conn, mid, "2026-07-01", "pq",
+                               "pq:{0}".format(mid), "Q", areas=[11])
+            stance.store_scores(self.conn,
+                                [stance.StanceResult("pq:{0}".format(mid), 1, "w")],
+                                "2026-08-04")
+
+    def test_every_sitting_mp_gets_a_row_peers_excluded(self):
+        rows = {r["decision_maker"].split(" (")[0]: r
+                for r in stance.suggest_rows(self.conn, 11, full_roster=True)}
+        self.assertEqual(set(rows), {"Active MP", "Quiet MP"})
+        self.assertEqual(rows["Active MP"]["column"], "+")
+        self.assertEqual(rows["Quiet MP"]["column"], "0")
+        self.assertIn("No recorded activity", rows["Quiet MP"]["comments"])
+
+    def test_active_only_mode_still_includes_peers(self):
+        names = {r["decision_maker"].split(" (")[0]
+                 for r in stance.suggest_rows(self.conn, 11)}
+        self.assertEqual(names, {"Active MP", "Active Peer"})
+
+
 if __name__ == "__main__":
     unittest.main()

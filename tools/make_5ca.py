@@ -1,12 +1,17 @@
 """Generate a pre-filled 5CA Plan sheet for one issue area.
 
-    python3 tools/make_5ca.py <area-number> [out.csv]
+    python3 tools/make_5ca.py <area-number> [out.csv] [--active-only]
 
 Emits the Campaigns Brief Five Column Analysis columns (Decision-Maker,
-++/+/0/-/--, Target Y/N, Comments) as CSV for direct paste-in: one row per
-parliamentarian active on the area, suggested column from the strongest
-stance evidence, dated evidence lines as the Comments rationale. Target is
+++/+/0/-/--, Target Y/N, Comments) as CSV for direct paste-in. Default is
+the FULL COMMONS ROSTER (Christopher, 2026-08-04): one row per sitting MP
+(~650, the body a Commons-division 5CA actually targets), suggested column
+from the strongest stance evidence, "No recorded activity" at 0 otherwise;
+peers are excluded (they do not vote in the Commons). --active-only keeps
+the old view: only members of either House with ledger evidence. Target is
 left blank -- that is the campaigner's call, never the tool's.
+
+Run tools/pull_commons_roster.py first (and after by-elections).
 
 Placements are SUGGESTIONS from ledger evidence (docs/5ca-notes.md evidence
 hierarchy). Until September's votes and speeches land, most PQ-only members
@@ -34,17 +39,24 @@ def main():
             print("  {0:>2}  {1}".format(n, label))
         sys.exit(1)
     area = int(sys.argv[1])
+    active_only = "--active-only" in sys.argv
+    args = [a for a in sys.argv[2:] if not a.startswith("--")]
     names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
     label = names.get(area, "area {0}".format(area))
 
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
-    rows = stance.suggest_rows(conn, area)
+    if not active_only and not conn.execute(
+            "SELECT COUNT(*) FROM members WHERE current_mp = 1").fetchone()[0]:
+        print("no Commons roster in the members cache - "
+              "run: python3 tools/pull_commons_roster.py")
+        sys.exit(1)
+    rows = stance.suggest_rows(conn, area, full_roster=not active_only)
     conn.close()
     if not rows:
         print("no ledger activity for {0}".format(label))
         sys.exit(1)
 
-    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(
+    out = args[0] if args else os.path.join(
         ROOT, "data", "5ca",
         "5ca-{0}-{1}.csv".format(label.lower().replace(" ", "-"),
                                  datetime.date.today().isoformat()))
@@ -60,7 +72,9 @@ def main():
     for r in rows:
         dist[r["column"]] = dist.get(r["column"], 0) + 1
     conflicts = sum(1 for r in rows if r["conflict"])
-    print("5CA ({0}): {1} decision-makers -> {2}".format(label, len(rows), out))
+    active = sum(1 for r in rows if r["n_events"])
+    print("5CA ({0}): {1} decision-makers ({2} with ledger evidence) -> {3}".format(
+        label, len(rows), active, out))
     print("  " + "  ".join("{0} x{1}".format(c, dist[c]) for c in stance.COLUMNS if c in dist)
           + ("  ({0} conflicting - flagged in Comments)".format(conflicts) if conflicts else ""))
 

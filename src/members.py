@@ -43,6 +43,40 @@ def search_members(client, name, take=5):
     return [parse_member(item.get("value") or {}) for item in (payload.get("items") or [])]
 
 
+def fetch_commons_roster(client):
+    """Every current MP (the full-roster 5CA needs all ~650, not just the
+    active ones the ledger has met). Pages the Search endpoint at its
+    20-per-page cap; ~33 calls."""
+    roster, skip = [], 0
+    while True:
+        url = ("{0}/Members/Search?House=1&IsCurrentMember=true"
+               "&skip={1}&take=20").format(MEMBERS_API, skip)
+        payload = client.get_json(url, "members", "roster-{0}".format(skip))
+        items = payload.get("items") or []
+        if not items:
+            break
+        roster.extend(parse_member(item.get("value") or {}) for item in items)
+        skip += len(items)
+        if skip >= (payload.get("totalResults") or 0):
+            break
+    return roster
+
+
+def mark_roster(conn, roster):
+    """Refresh the cache from the roster and flag its members current_mp=1.
+    Previous flags are cleared first so departed MPs drop off full-roster
+    sheets on the next pull."""
+    conn.execute("UPDATE members SET current_mp = NULL")
+    for m in roster:
+        conn.execute(
+            "INSERT INTO members (id, name, party, seat, house, current_mp) "
+            "VALUES (?, ?, ?, ?, ?, 1) "
+            "ON CONFLICT(id) DO UPDATE SET name=excluded.name, party=excluded.party, "
+            "seat=excluded.seat, house=excluded.house, current_mp=1",
+            (m.id, m.name, m.party, m.seat, m.house))
+    conn.commit()
+
+
 # -- cache ------------------------------------------------------------------
 
 def cache_get(conn, member_id):
