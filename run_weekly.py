@@ -167,7 +167,7 @@ def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
                        event_date=q.date_answered.isoformat() if q.date_answered else None,
                        date_tabled=q.date_tabled.isoformat() if q.date_tabled else None,
                        mp_refs=q.asking_member_id)
-            if q.asking_member_id:
+            if q.asking_member_id and (r.tier == 1 or r.watchlist_hits):
                 try:
                     members.resolve(conn, client, q.asking_member_id)
                 except Exception:
@@ -197,7 +197,7 @@ def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
             if not r.matched():
                 continue
             edms.record_signatures(conn, e, edition)  # delta tracking, any age
-            if e.member_id and e.date_tabled:
+            if e.member_id and e.date_tabled and (r.tier == 1 or r.watchlist_hits):
                 try:
                     members.resolve(conn, client, e.member_id)
                 except Exception:

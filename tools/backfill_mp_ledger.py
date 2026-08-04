@@ -64,8 +64,8 @@ def backfill_pqs(conn, client, tax, wl, terms, cutoff, cache):
                 if not q.date_answered or q.date_answered < cutoff:
                     continue
                 r = filt.filter_item(tax, wl, q.heading or "", q.question_text or "", q.answer_text or "")
-                if not r.matched() or not q.asking_member_id:
-                    continue
+                if not (r.tier == 1 or r.watchlist_hits) or not q.asking_member_id:
+                    continue  # tier-2-only matches are untriaged noise here
                 if resolve(conn, client, q.asking_member_id, cache) is None:
                     continue
                 intel.record_event(conn, q.asking_member_id, q.date_answered.isoformat(),
@@ -89,7 +89,7 @@ def backfill_edms(conn, client, tax, wl, terms, cutoff, cache):
             if not e.date_tabled or e.date_tabled < cutoff:
                 continue
             r = filt.filter_item(tax, wl, e.title or "", e.motion_text or "")
-            if not r.matched():
+            if not (r.tier == 1 or r.watchlist_hits):
                 continue
             member_id = getattr(e, "member_id", None)
             if not member_id or resolve(conn, client, member_id, cache) is None:
