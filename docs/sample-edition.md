@@ -4,14 +4,14 @@
 > **SAMPLE / ILLUSTRATIVE EDITION. FABRICATED DATA.** Every entry below is a made-up example to preview the full-density format. None of it is real parliamentary data. Marked with (example) throughout.
 
 
-## 1. Top lines
+## Top lines
 
 - **[ACT]** (example) Lords committee day 4 on the assisted dying bill Thursday; coercion-safeguard amendments expected. Supporter email primed for the outcome. (Owner: Christopher)
 - **[ACT]** (example) Conversion Practices Bill gets its second reading Tuesday; drafting covers gender identity, a live risk to exploratory therapy and parental consent. (Owner: Maria)
 - **[WATCH]** (example) RSE statutory guidance consultation closes in 9 days; evidence submission in final review.
 - **[NOTE]** (example) Home Office still gives no commencement date for revised safe-access-zone guidance; the delay itself is the story.
 
-## 2. Week ahead
+## Week ahead
 
 **Tuesday 2026-09-15**
 - **[NOTE]** (example) 11.30am, Commons chamber. Justice oral questions: family court and parental involvement likely.
@@ -22,12 +22,12 @@
 - **[ACT]** [(example) From 11am, Lords chamber. Terminally Ill Adults Bill, committee day 4: coercion-safeguard amendments.](https://bills.parliament.uk/bills/4157) (Owner: Christopher)
 - **[NOTE]** (example) 1.00pm, Westminster Hall. e-petition debate on surrogacy law reform.
 
-## 3. Votes and amendments
+## Votes and amendments
 
 - **[WATCH]** [(example) Tabled: amendment 42 to the Conversion Practices Bill adding an explicit parental-conversation carve-out. Signatory count updating daily.](https://bills.parliament.uk/EXAMPLE)
 - **[WATCH]** [(example) Last week: Lords amendment 7 to restore in-person consultation for abortion pills, agreed 214-188. 12 watched peers switched.](https://lordsvotes-api.parliament.uk/EXAMPLE)
 
-## 4. Written questions worth reading
+## Written questions worth reading
 
 - **[NOTE]** [(example) Abortion: safe access zones, answered 2026-09-10. Home Office gives no commencement date for revised enforcement guidance.](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/HL2262)
 - **[WATCH]** [(example) Gender identity services: waiting lists, answered 2026-09-09. DHSC confirms private-prescription route remains under review.](https://questions-statements.parliament.uk/EXAMPLE)
@@ -35,7 +35,7 @@
 - **[WATCH]** [(example) Online Safety Act: age assurance, answered 2026-09-08. Ofcom timetable slips to 2027.](https://questions-statements.parliament.uk/EXAMPLE)
 - **[WATCH]** [(example) Surrogacy: Law Commission response, answered 2026-09-08. Government still to publish its response.](https://questions-statements.parliament.uk/EXAMPLE)
 
-## 5. Consultations and calls for evidence
+## Consultations and calls for evidence
 
 | Consultation / call for evidence | Closes |
 |---|---|
@@ -44,25 +44,23 @@
 | **Evidence** [(example) Palliative care inquiry](https://committees.parliament.uk/EXAMPLE). Health and Social Care Committee; submission drafted, needs sign-off. | Sat 3 Oct · 19 days |
 | **Evidence** [(example) Single-sex spaces inquiry](https://committees.parliament.uk/EXAMPLE2). Women and Equalities Committee; call for evidence open. | Sat 17 Oct · 33 days |
 
-- **Secondary legislation:** (example) The Abortion (Safe Access Zones) Regulations laid, negative procedure, prayer deadline 2026-10-01.
-
-## 6. EDMs and petitions
+## EDMs and petitions
 
 - **[NOTE]** [(example) EDM 603 (Antoniazzi): foetal viability and the 24-week limit, 6 signatures (+2 this week).](https://edm.parliament.uk/early-day-motion/603)
 - **[NOTE]** [(example) EDM 536: single-sex wards in NHS hospitals, 41 signatures (+9).](https://edm.parliament.uk/early-day-motion/536)
 - **[NOTE]** [(example) EDM 342: protection of freedom of religion for street preachers, 28 signatures (+3).](https://edm.parliament.uk/early-day-motion/342)
 
-## 7. Devolved round-up
+## Devolved round-up
 
 - **[WATCH]** (example) Holyrood, Tuesday: members' debate on hospice funding in Scotland.
 - **[NOTE]** (example) Senedd: petition on parental rights in RSE reaches committee, 5,400 signatures.
 
-## 8. Statements and announcements
+## Statements and announcements
 
 - **[WATCH]** (example) WMS, DHSC: Cass Review implementation update. Confirms private-prescription route remains under review.
 - **[NOTE]** (example) WMS, MoJ: Tying the Knot weddings-law reform, government response timetable.
 
-## 9. Active bills board
+## Active bills board
 
 | Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |
 |---|---|---|---|---|---|---|
@@ -75,7 +73,7 @@
 
 *Movement: NEW = first appearance on the board; ▲ moved = stage or next date changed since last edition; no change = as last edition; closing = final entry, the bill leaves the board next week.*
 
-## 10. MP intelligence notes
+## MP intelligence notes
 
 - **[NOTE]** (example) Baroness Grey-Thompson (Crossbench) spoke against broadening eligibility at Lords committee, citing coercion evidence. 5CA input flagged.
 - **[NOTE]** (example) Danny Kruger (Con, East Wiltshire) led the Conversion Practices Bill opposition, parental-consent focus. Profile updated.

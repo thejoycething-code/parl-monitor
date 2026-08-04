@@ -1,28 +1,28 @@
 # Parliamentary Monitor
 ### Week commencing Monday 2026-07-06 | Edition 1
 
-## 1. Top lines
+## Top lines
 
 - **[NOTE]** Crime and Policing Act 2026 s.241 (abortion decriminalisation) is in force at royal assent; watch implementation and the s.242 pardons scheme.
 
-## 2. Week ahead
+## Week ahead
 
 **Tuesday 2026-07-07**
 - **[NOTE]** after other business, Lords Orders and regulations. Children’s Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026
 **Thursday 2026-07-09**
 - **[NOTE]** after other business, Lords Short debate. Modern Service Framework for Dementia and Frailty will improve dementia diagnosis, ensure robust and acceptable clinical data and performance metrics and enable access to innovative treatments
 
-## 3. Votes and amendments
+## Votes and amendments
 
 - **[NOTE]** [Division #51 (369-102): Draft Children’s Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026](https://commonsvotes-api.parliament.uk/data/division/2402.json)
 
-## 6. Consultations and secondary legislation
+## Consultations and secondary legislation
 
 - **[WATCH]** [Consultation: SEND reform: education otherwise than at school](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school) (Deadline: 2026-09-18)
 - **[WATCH]** [Consultation: Tying the Knot: Reforming weddings law in England and Wales](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales) (Deadline: 2026-09-24)
 - **[NOTE]** [SI: Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026, Draft affirmative, laid 2026-05-20; approved by Commons division #51 (369-102 on 2026-07-08)](https://commonsvotes-api.parliament.uk/data/division/2402.json)
 
-## 10. Active bills board
+## Active bills board
 
 | Bill | House and stage | Next key date | What happens next | Areas | Movement |
 |---|---|---|---|---|---|
@@ -35,7 +35,7 @@
 | [Children’s Wellbeing and Schools Act 2026](https://bills.parliament.uk/bills/3909) | Unassigned, Royal Assent | - | Royal Assent 2026-04-29 | Parental rights and education | closing |
 | [Assisted Dying for Terminally Ill Adults (Scotland) Bill](https://www.parliament.scot/bills-and-laws/bills/s6/assisted-dying-for-terminally-ill-adults-scotland-bill) | Holyrood, Stage 3 | - | Fell on 2026-03-17 at Stage 3 | Assisted dying | closing |
 
-## 11. MP intelligence notes
+## MP intelligence notes
 
 - **[NOTE]** Members resolution live (cache seeded). Example: Mr Andrew Snowden (Conservative, Fylde).
 

@@ -21,7 +21,7 @@ import os
 import re
 
 OWNER_FIELD = re.compile(r";?\s*Owner: [^);\n]+")
-MP_SECTION = re.compile(r"\n## \d+\. MP intelligence notes\n.*?(?=\n## |\n---)", re.S)
+MP_SECTION = re.compile(r"\n## (?:\d+\. )?MP intelligence notes\n.*?(?=\n## |\n---)", re.S)
 EMPTY_PARENS = re.compile(r" \(\s*\)")
 
 BANNER = ("> **Coalition partner edition**, prepared by CitizenGO UK from Parliament's "

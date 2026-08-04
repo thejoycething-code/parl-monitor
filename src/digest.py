@@ -128,7 +128,7 @@ MOVEMENT_KEY = ("*Movement: NEW = first appearance on the board; ▲ moved = sta
 
 
 def render_board(rows):
-    lines = ["## 9. Active bills board", "",
+    lines = ["## Active bills board", "",
              "| Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |",
              "|---|---|---|---|---|---|---|"]
     live = [r for r in rows if r.status == "live"]
@@ -167,7 +167,7 @@ def render_week_ahead(lines):
     """Section 3: the diary, grouped by day (handoff digest-template section 3)."""
     if not lines:
         return None
-    out = ["## 2. Week ahead", ""]
+    out = ["## Week ahead", ""]
     current = object()
     for line in sorted(lines, key=lambda l: (l.date or "")):
         if line.date != current:
@@ -198,10 +198,10 @@ def render_deadlines(edition):
     not appear here: this section is purely what-closes-when, urgency belongs
     in Top lines. SIs (events, not deadlines) follow as note lines.
     """
-    if not edition.deadlines and not edition.si_rows:
+    if not edition.deadlines:
         return None
-    out = ["## 5. Consultations and calls for evidence", ""]
-    if edition.deadlines:
+    out = ["## Consultations and calls for evidence", ""]
+    if True:
         out.append("| Consultation / call for evidence | Closes |")
         out.append("|---|---|")
         rows = sorted(edition.deadlines, key=lambda r: r.get("deadline") or "9999")
@@ -211,40 +211,45 @@ def render_deadlines(edition):
                 r["type"], r["title"], r["url"] or "#", why,
                 _fmt_close(r.get("deadline"), edition.week_commencing)))
         out.append("")
-    if edition.si_rows:
-        out.append("**Secondary legislation**")
-        out.append("")
-        out.append("| Instrument | Procedure | Status |")
-        out.append("|---|---|---|")
-        for r in edition.si_rows:
-            cell = "[{0}]({1})".format(r["name"], r["url"] or "#")
-            context = []
-            if r.get("act"):
-                context.append("Under the {0}.".format(r["act"]))
-            if r.get("why"):
-                context.append(r["why"])
-            if context:
-                cell += " " + " ".join(context)
-            links = []
-            if r.get("division"):
-                d = r["division"]
-                links.append("[Commons vote {0}]({1})".format(d.get("result"), d.get("url") or "#"))
-            if r.get("text_link"):
-                links.append("[full text]({0})".format(r["text_link"]))
-            if links:
-                cell += " " + " \u00b7 ".join(links)
-            out.append("| {0} | {1} | {2} |".format(
-                cell, r.get("procedure") or "TBC", r.get("status") or ""))
-        out.append("")
     return "\n".join(out)
 
 
-def _render_section(number, title, lines, cap=None):
+def render_si(edition):
+    """Secondary legislation: the bills board's sibling. Primary legislation
+    sits on the board; the instruments implementing it sit here."""
+    if not edition.si_rows:
+        return None
+    out = ["## Secondary legislation", ""]
+    out.append("| Instrument | Procedure | Status |")
+    out.append("|---|---|---|")
+    for r in edition.si_rows:
+        cell = "[{0}]({1})".format(r["name"], r["url"] or "#")
+        context = []
+        if r.get("act"):
+            context.append("Under the {0}.".format(r["act"]))
+        if r.get("why"):
+            context.append(r["why"])
+        if context:
+            cell += " " + " ".join(context)
+        links = []
+        if r.get("division"):
+            d = r["division"]
+            links.append("[Commons vote {0}]({1})".format(d.get("result"), d.get("url") or "#"))
+        if r.get("text_link"):
+            links.append("[full text]({0})".format(r["text_link"]))
+        if links:
+            cell += " " + " \u00b7 ".join(links)
+        out.append("| {0} | {1} | {2} |".format(cell, r.get("procedure") or "TBC", r.get("status") or ""))
+    out.append("")
+    return "\n".join(out)
+
+
+def _render_section(title, lines, cap=None):
     if cap is not None:
         lines = _cap(lines, cap)
     if not lines:
         return None
-    out = ["## {0}. {1}".format(number, title), ""]
+    out = ["## {0}".format(title), ""]
     out.extend(_fmt_line(l) for l in lines)
     out.append("")
     return "\n".join(out)
@@ -260,7 +265,7 @@ def render(edition):
                  edition.week_commencing, edition.number, " | RECESS" if recess else ""),
              ""]
 
-    top = _render_section(1, "Top lines", _cap(edition.top_lines, 5))
+    top = _render_section("Top lines", _cap(edition.top_lines, 5))
     if top:
         parts.append(top)
 
@@ -271,33 +276,39 @@ def render(edition):
         if deadlines:
             parts.append(deadlines)
         parts.append(render_board(edition.board_rows))
-        mp = _render_section(10, "MP intelligence notes", edition.mp_notes)
+        si = render_si(edition)
+        if si:
+            parts.append(si)
+        mp = _render_section("MP intelligence notes", edition.mp_notes)
         if mp:
             parts.append(mp)
     else:
         week_ahead = render_week_ahead(edition.week_ahead)
         if week_ahead:
             parts.append(week_ahead)
-        for number, title, lines, cap in [
-            (3, "Votes and amendments", edition.votes, None),
-            (4, "Written questions worth reading", edition.pqs, 5),
+        for title, lines, cap in [
+            ("Votes and amendments", edition.votes, None),
+            ("Written questions worth reading", edition.pqs, 5),
         ]:
-            section = _render_section(number, title, lines, cap)
+            section = _render_section(title, lines, cap)
             if section:
                 parts.append(section)
         deadlines = render_deadlines(edition)
         if deadlines:
             parts.append(deadlines)
-        for number, title, lines, cap in [
-            (6, "EDMs and petitions", edition.edms, 5),
-            (7, "Devolved round-up", edition.devolved, None),
-            (8, "Statements and announcements", edition.statements, None),
+        for title, lines, cap in [
+            ("EDMs and petitions", edition.edms, 5),
+            ("Devolved round-up", edition.devolved, None),
+            ("Statements and announcements", edition.statements, None),
         ]:
-            section = _render_section(number, title, lines, cap)
+            section = _render_section(title, lines, cap)
             if section:
                 parts.append(section)
         parts.append(render_board(edition.board_rows))
-        mp = _render_section(10, "MP intelligence notes", edition.mp_notes)
+        si = render_si(edition)
+        if si:
+            parts.append(si)
+        mp = _render_section("MP intelligence notes", edition.mp_notes)
         if mp:
             parts.append(mp)
 
