@@ -36,10 +36,10 @@
 
 *Questions, debates, votes and motions from any member of either House touching our campaign areas this week.*
 
-- **Lord Bailey of Paddington (Conservative, Life peer)**: **PQ** Anti-social Behaviour and Shoplifting
+- **Lord Bailey of Paddington (Conservative, Life peer)**: **PQ** Anti-social Behaviour and Shoplifting (re: Crime and Policing)
 - **Lord Jackson of Peterborough (Conservative, Life peer)**: **PQ** Anti-Muslim Hatred/Islamophobia Definition Working Group
-- **Baroness Owen of Alderley Edge (Conservative, Life peer)**: **PQ** Internet: Compensation
-- **Chris Philp (Conservative, Croydon South)**: **PQ** Home Office: Written Questions
+- **Baroness Owen of Alderley Edge (Conservative, Life peer)**: **PQ** Internet: Compensation (re: Online Safety Act)
+- **Chris Philp (Conservative, Croydon South)**: **PQ** Home Office: Written Questions (re: border security)
 - **Lord Black of Brentwood (Conservative, Life peer)**: **PQ** Internet: Age Assurance
 - **Lord Pearson of Rannoch (Non-affiliated, Life peer)**: **PQ** Anti-Muslim Hostility (x2); **PQ** Islamophobia
 - **Baroness Lister of Burtersett (Labour, Life peer)**: **PQ** Immigration
