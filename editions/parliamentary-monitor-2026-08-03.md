@@ -14,6 +14,28 @@
 | **Consultation** [SEND reform: education otherwise than at school](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school). Government plans to reshape education outside school; closes 18 September. Direct bearing on home-educating families. Held at NOTE pending a decision on a supporter response. | Fri 18 Sep · 46 days |
 | **Consultation** [Tying the Knot: Reforming weddings law in England and Wales](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales). Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live under Zuzana; response push through recess. | Thu 24 Sep · 52 days |
 
+## Written questions
+
+*6 questions matched our areas this week.*
+
+**Free speech online safety** (5)
+
+| Member | Question | Asked of | Answered |
+|---|---|---|---|
+| David Simmonds (Conservative, Ruislip, Northwood and Pinner) | [Anti-muslim Hatred/islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-07-13/18195) Commons end of the definition cluster; cross-House pressure suggests movement on the working group this autumn. | Home Office | 28 Jul |
+| Lord Pearson of Rannoch (Non-affiliated, Life peer) | [Anti-Muslim Hostility](https://questions-statements.parliament.uk/written-questions/detail/2026-07-15/HL2158) Part of the same definition cluster in the Lords; scrutiny is building before any government response. | Ministry of Housing, Communities and Local Government | 29 Jul |
+| Lord Pearson of Rannoch (Non-affiliated, Life peer) | [Anti-Muslim Hostility](https://questions-statements.parliament.uk/written-questions/detail/2026-07-15/HL2157) Companion question in the Lords definition cluster; same free speech risk. | Ministry of Housing, Communities and Local Government | 29 Jul |
+| Lord Black of Brentwood (Conservative, Life peer) | [Internet: Age Assurance](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/HL2182) **WATCH** Peers pressing on age assurance rollout under the Online Safety Act; answered 30 July. Watch for slippage in Ofcom's code timetable. | Department for Digital, Culture, Media and Sport | 30 Jul |
+| Lord Jackson of Peterborough (Conservative, Life peer) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/HL2208) **WATCH** The anti-Muslim hatred definition working group is drawing questions in both Houses. A statutory Islamophobia definition risks chilling lawful speech on religion. | Ministry of Housing, Communities and Local Government | 31 Jul |
+
+**Abortion** (1)
+
+| Member | Question | Asked of | Answered |
+|---|---|---|---|
+| Lord Bailey of Paddington (Conservative, Life peer) | [Anti-social Behaviour and Shoplifting](https://questions-statements.parliament.uk/written-questions/detail/2026-07-17/HL2238) | Ministry of Housing, Communities and Local Government | 31 Jul |
+
+*Every question in full, including the text as asked, is on the [companion data page](https://parl-monitor-partner.vercel.app/questions.html).*
+
 ## Active bills board
 
 | Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |

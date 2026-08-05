@@ -67,6 +67,11 @@ division_sweep_terms:
   - freedom of speech
   - puberty
 
+# Partner site root. The weekly edition links its written-questions section
+# here for the full detail, so the link must be absolute: it is read from a
+# Slack canvas and an Asana task as well as from the site itself.
+partner_site_url: https://parl-monitor-partner.vercel.app
+
 # Weekly stance-scoring ceiling: the most evidence refs one Sunday pull will
 # send to the Claude API. Cost tracks refs, not volume (a 600-voter division
 # is two refs, one per direction), so a normal sitting week uses 50-100 and

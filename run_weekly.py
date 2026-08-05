@@ -484,6 +484,9 @@ def sections_from_store(conn, edition):
         "FROM items WHERE priority_tag IS NOT NULL ORDER BY source_feed, event_date, id"
     ).fetchall()
     area_labels = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    edition.companion_url = (load_settings().get("partner_site_url") or "").rstrip("/")
+    edition.companion_url = (edition.companion_url + "/questions.html"
+                             if edition.companion_url else None)
     for r in rows:
         feed = r["source_feed"]
         if feed == "pq":

@@ -74,7 +74,10 @@ def redact(markdown, extra_names=()):
 
 # -- minimal markdown -> HTML for the edition subset --------------------------
 
-_INLINE_LINK = re.compile(r"\[((?:[^\[\]]|\[[^\]]*\])+)\]\((https?://[^)\s]+)\)")
+# Absolute or same-site relative targets: the companion page is linked as
+# questions.html, which an http-only pattern left as literal markdown.
+_INLINE_LINK = re.compile(
+    r"\[((?:[^\[\]]|\[[^\]]*\])+)\]\(((?:https?://|/|[\w.-]+\.html)[^)\s]*)\)")
 _BOLD = re.compile(r"\*\*([^*]+)\*\*")
 
 

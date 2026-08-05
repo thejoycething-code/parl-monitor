@@ -50,6 +50,7 @@ class Edition:
     votes: list = field(default_factory=list)
     pqs: list = field(default_factory=list)
     pq_rows: list = field(default_factory=list)   # dicts: member/party/seat/heading/url/department/area/date/tag/why
+    companion_url: str = None                     # full-detail questions page
     deadlines: list = field(default_factory=list)   # dicts: type/title/url/why/deadline
     si_rows: list = field(default_factory=list)      # dicts: name/url/procedure/act/status/...
     edms: list = field(default_factory=list)
@@ -218,8 +219,14 @@ def render_deadlines(edition):
 
 
 PQ_HEADER = ("| Member | Question | Asked of | Answered |", "|---|---|---|---|")
-COMPANION_NOTE = ("*Full detail for every question, including the text asked and the "
-                  "department's answer, is on the [companion data page](questions.html).*")
+# Absolute by default so the link works from a Slack canvas and an Asana task
+# as well as from the partner site itself; settings.partner_site_url overrides.
+COMPANION_URL = "https://parl-monitor-partner.vercel.app/questions.html"
+
+
+def companion_note(url):
+    return ("*Every question in full, including the text as asked, is on the "
+            "[companion data page]({0}).*".format(url or COMPANION_URL))
 
 
 def _fmt_pq_date(iso):
@@ -269,7 +276,7 @@ def render_pqs(edition, companion=True):
                 who, question, r["department"] or "-", _fmt_pq_date(r["date"])))
         out.append("")
     if companion:
-        out.extend([COMPANION_NOTE, ""])
+        out.extend([companion_note(edition.companion_url), ""])
     return "\n".join(out)
 
 
