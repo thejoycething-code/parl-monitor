@@ -6,10 +6,12 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+import run_weekly
 from src import db, filter as filt, review, triage
 
 WATCHLIST = os.path.join(ROOT, "config", "watchlist.yaml")
@@ -38,6 +40,22 @@ class PendingPassTests(unittest.TestCase):
         by_id = {i.id: i for i in triage.pending_items(self.conn, self.wl)}
         self.assertTrue(by_id["a:1"].watchlist_hit)
         self.assertFalse(by_id["b:2"].watchlist_hit)
+
+    def test_live_failure_falls_back_to_stub_with_a_disclosed_gap(self):
+        """A capped or exhausted API must cost us the scoring quality, not
+        the whole pull (API usage cap hit live, 2026-08-05)."""
+        seed_pending(self.conn, "a:1", "Assisted dying safeguards", 1, areas=(2,))
+        with mock.patch.object(triage, "triage",
+                               side_effect=RuntimeError("HTTP 400: usage limits")):
+            status = run_weekly.run_triage_pass(self.conn, self.wl, "2026-08-10",
+                                                mode="live")
+        self.assertIn("stub", status)
+        row = self.conn.execute("SELECT triage_score FROM items WHERE id='a:1'").fetchone()
+        self.assertIsNotNone(row["triage_score"])          # scored, not left NULL
+        gap = self.conn.execute(
+            "SELECT feed, detail FROM gaps WHERE feed='triage'").fetchone()
+        self.assertIn("usage limits", gap["detail"])
+        self.assertIn("human review", gap["detail"])
 
     def test_tier2_items_reach_the_scoring_pass(self):
         # Regression: tier-2 matches were silently dropped before any triage ran.

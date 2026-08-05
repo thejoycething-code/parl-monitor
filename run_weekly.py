@@ -531,7 +531,22 @@ def run_triage_pass(conn, wl, week_commencing, mode=None):
     if mode == "session":
         path, count = triage.generate_queue_file(conn, wl, week_commencing, queue_path(week_commencing))
         return "queue file for session scoring: {0} ({1} items)".format(path, count)
-    results = triage.triage(items, mode=mode)
+    if mode == "live":
+        # A capped or exhausted API must not cost us the whole pull: fall back
+        # to the deterministic stub and disclose it. Everything downstream is
+        # built to work on stub scores (CLAUDE.md).
+        try:
+            results = triage.triage(items, mode="live")
+        except Exception as exc:
+            record_gap(conn, week_commencing, "triage",
+                       "live scoring failed ({0}); deterministic stub scores "
+                       "used instead, so this edition needs a human review "
+                       "pass".format(str(exc)[:160]))
+            print("triage: live failed ({0}); falling back to stub".format(exc))
+            mode = "stub"
+            results = triage.score_stub(items)
+    else:
+        results = triage.triage(items, mode=mode)
     scored, discards = triage.apply_scores(conn, items, results)
     review.log_discards(conn, week_commencing,
                         [(i, t, None) for i, t in discards])
