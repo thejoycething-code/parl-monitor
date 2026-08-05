@@ -246,13 +246,17 @@ def render_pqs(edition, companion=True):
     middle of a long section always knows what the columns are. Nothing is
     capped; the companion page carries the question and answer text.
     """
-    if not edition.pq_rows:
+    # An issue area is the precondition for appearing in the edition, the same
+    # rule the MP section applies: a question the taxonomy could not place on
+    # any of our areas is a false positive, not a finding.
+    rows_with_area = [r for r in edition.pq_rows if r.get("area")]
+    if not rows_with_area:
         return None
     grouped = {}
-    for row in edition.pq_rows:
+    for row in rows_with_area:
         grouped.setdefault(row["area_label"] or "Other", []).append(row)
 
-    total = len(edition.pq_rows)
+    total = len(rows_with_area)
     out = ["## Written questions", "",
            "*{0} question{1} matched our areas this week.*".format(
                total, "" if total == 1 else "s"), ""]

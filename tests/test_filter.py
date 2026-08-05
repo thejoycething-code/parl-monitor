@@ -141,6 +141,37 @@ class FilterTests(unittest.TestCase):
         self.assertFalse(r.matched())
         self.assertIn("Kim Leadbeater", filt.load_watchlist(WATCHLIST).people)
 
+    def test_broad_act_mentioned_in_passing_lends_no_area(self):
+        """A shoplifting question citing the Crime and Policing Act was being
+        filed under abortion, because that Act carried decriminalisation
+        (Christopher, 2026-08-05)."""
+        r = self.match("Anti-social Behaviour and Shoplifting",
+                       "Asked what the Crime and Policing Act 2026 does about retail theft.")
+        self.assertIn("Crime and Policing", r.watchlist_hits)
+        self.assertEqual(r.issue_areas, [])        # no abortion tag
+
+    def test_broad_act_in_a_mid_text_passage_lends_no_area(self):
+        """Passage matching must not treat every passage as a title, or a
+        broad Act cited anywhere in a speech lends its areas again."""
+        tax = filt.load_taxonomy(TAXONOMY)
+        wl = filt.load_watchlist(WATCHLIST)
+        matches = filt.match_passages(
+            tax, wl,
+            "We must act on retail theft.\n\nThe Crime and Policing Act 2026 "
+            "gives police new powers over shoplifting gangs.",
+            title="Retail Crime")
+        areas, terms, excerpt = filt.aggregate_passages(matches)
+        self.assertNotIn(1, areas)
+
+    def test_broad_act_in_the_title_is_the_subject_and_does_lend_its_area(self):
+        r = self.match("Crime and Policing Act 2026 (Commencement No. 2) Regulations")
+        self.assertIn(1, r.issue_areas)
+
+    def test_broad_act_with_corroborating_term_lends_its_area(self):
+        r = self.match("Abortion: Prosecutions",
+                       "Asked about section 241 of the Crime and Policing Act 2026.")
+        self.assertIn(1, r.issue_areas)
+
     def test_division_entity_match_with_smart_quote(self):  # acceptance 9.7 path
         title = "Draft Children’s Wellbeing and Schools Act 2026 (Establishment of Schools) Regulations"
         r = self.match(title)

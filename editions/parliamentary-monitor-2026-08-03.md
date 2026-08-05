@@ -16,7 +16,7 @@
 
 ## Written questions
 
-*6 questions matched our areas this week.*
+*5 questions matched our areas this week.*
 
 **Free speech online safety** (5)
 
@@ -27,12 +27,6 @@
 | Lord Pearson of Rannoch (Non-affiliated, Life peer) | [Anti-Muslim Hostility](https://questions-statements.parliament.uk/written-questions/detail/2026-07-15/HL2157) Companion question in the Lords definition cluster; same free speech risk. | Ministry of Housing, Communities and Local Government | 29 Jul |
 | Lord Black of Brentwood (Conservative, Life peer) | [Internet: Age Assurance](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/HL2182) **WATCH** Peers pressing on age assurance rollout under the Online Safety Act; answered 30 July. Watch for slippage in Ofcom's code timetable. | Department for Digital, Culture, Media and Sport | 30 Jul |
 | Lord Jackson of Peterborough (Conservative, Life peer) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/HL2208) **WATCH** The anti-Muslim hatred definition working group is drawing questions in both Houses. A statutory Islamophobia definition risks chilling lawful speech on religion. | Ministry of Housing, Communities and Local Government | 31 Jul |
-
-**Abortion** (1)
-
-| Member | Question | Asked of | Answered |
-|---|---|---|---|
-| Lord Bailey of Paddington (Conservative, Life peer) | [Anti-social Behaviour and Shoplifting](https://questions-statements.parliament.uk/written-questions/detail/2026-07-17/HL2238) | Ministry of Housing, Communities and Local Government | 31 Jul |
 
 *Every question in full, including the text as asked, is on the [companion data page](https://parl-monitor-partner.vercel.app/questions.html).*
 
@@ -58,19 +52,17 @@
 
 *Questions, debates, votes and motions from any member of either House touching our campaign areas this week.*
 
-- **Mr Andrew Snowden (Conservative, Fylde)**: **PQ** Immigration Controls: EU Countries
 - **Pippa Heylings (Liberal Democrat, South Cambridgeshire)**: **PQ** Pupils: Absenteeism (re: children not in school)
 - **Lord Cameron of Lochiel (Conservative, Life peer)**: **PQ** Deportation; **PQ** Immigration
-- **Lord Taylor of Warwick (Non-affiliated, Life peer)**: **PQ** Fraud: Artificial Intelligence (re: Online Safety Act)
-- **Lord Bailey of Paddington (Conservative, Life peer)**: **PQ** Anti-social Behaviour and Shoplifting (re: Crime and Policing)
 - **Lord Jackson of Peterborough (Conservative, Life peer)**: **PQ** Anti-Muslim Hatred/Islamophobia Definition Working Group
-- **Baroness Owen of Alderley Edge (Conservative, Life peer)**: **PQ** Internet: Compensation (re: Online Safety Act)
-- **Chris Philp (Conservative, Croydon South)**: **PQ** Home Office: Written Questions (re: border security)
 - **Lord Black of Brentwood (Conservative, Life peer)**: **PQ** Internet: Age Assurance
 - **Lord Pearson of Rannoch (Non-affiliated, Life peer)**: **PQ** Anti-Muslim Hostility (x2); **PQ** Islamophobia
 - **Baroness Lister of Burtersett (Labour, Life peer)**: **PQ** Immigration
 - **Baroness Maclean of Redditch (Conservative, Life peer)**: **PQ** Gender Dysphoria: Health Services (x2)
-- ...and 4 more members active this week; all recorded to profiles.
+- **David Simmonds (Conservative, Ruislip, Northwood and Pinner)**: **PQ** Anti-muslim Hatred/islamophobia Definition Working Group
+- **The Lord Bishop of Sheffield (Bishops, Bishops)**: **PQ** Immigration and Asylum Bill
+- **Baroness Anelay of St Johns (Conservative, Life peer)**: **PQ** Undocumented Migrants: Deportation
+- **Baroness Benjamin (Liberal Democrat, Life peer)**: **PQ** Children in Care: Relationships and Sex Education
 
 ---
 **Coverage gaps this edition:**

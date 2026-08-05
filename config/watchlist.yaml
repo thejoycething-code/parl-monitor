@@ -16,12 +16,20 @@ bills:                    # Westminster, by ID (never by title). `why` renders o
 fallen_bills:             # prior-session bills whose closing entries the board owns
   3774: {title: "Terminally Ill Adults (End of Life) Bill", areas: [2],
          why: "Leadbeater assisted suicide bill; fell at prorogation in Lords committee"}
+# broad: true marks an omnibus Act whose name alone says nothing about our
+# issues. The Crime and Policing Act carried abortion decriminalisation, but it
+# also covers shoplifting and anti-social behaviour, so every mention was
+# inheriting area 1 and questions about retail crime were filed under abortion.
+# A broad entity still admits the item, but contributes its areas only when a
+# taxonomy term corroborates the subject.
 acts_watch:               # implementation tracking via SI name sweeps + legislation.gov.uk
   - {short: "Crime and Policing", chapter: "ukpga/2026/20", bill_id: 3938, sections: [241, 242], areas: [1],
+     broad: true,
      why: "Carried abortion decriminalisation (s.241); implementation and pardons watch"}
   - {short: "Children's Wellbeing and Schools", chapter: "ukpga/2026/21", bill_id: 3909, areas: [6],
+     broad: true,
      why: "Home education registers and school powers; implementation watch"}
-  - {short: "Border Security, Asylum and Immigration", areas: [11],
+  - {short: "Border Security, Asylum and Immigration", areas: [11], broad: true,
      why: "2025 Act; implementation SIs tracked"}
 holyrood:                 # status is scraped from the bill page, not trusted from here
   - {slug: assisted-dying-for-terminally-ill-adults-scotland-bill,

@@ -113,16 +113,16 @@ def load_watchlist(path):
         raw = yaml.safe_load(handle)
     entities, bill_titles, act_shorts = [], [], []
 
-    def entry(term, areas):
+    def entry(term, areas, broad=False):
         pattern, cs = _compile_term(term)
-        return (term, pattern, cs, areas)
+        return (term, pattern, cs, areas, broad)
 
     for _bill_id, spec in (raw.get("bills") or {}).items():
         e = entry(spec.get("title"), spec.get("areas") or [])
         entities.append(e)
         bill_titles.append(e)
     for act in (raw.get("acts_watch") or []):
-        e = entry(act.get("short"), act.get("areas") or [])
+        e = entry(act.get("short"), act.get("areas") or [], broad=bool(act.get("broad")))
         entities.append(e)
         act_shorts.append(e)
     for group in ("processes", "organisations"):
@@ -177,11 +177,20 @@ def _scan_taxonomy(text_lower, text_orig, taxonomy):
     return hits
 
 
-def _scan_watchlist(text_lower, text_orig, watchlist):
-    hits = []  # (term, areas)
-    for term, pattern, cs, areas in watchlist.entities:
-        if pattern.search(text_orig if cs else text_lower):
-            hits.append((term, areas))
+def _scan_watchlist(text_lower, text_orig, watchlist, title=""):
+    """hits as (term, areas, broad, in_title).
+
+    in_title distinguishes an entity that IS the item's subject from one
+    merely mentioned in passing, which is what decides whether a broad
+    omnibus Act lends its areas.
+    """
+    title_lower, title_orig = (title or "").lower(), (title or "")
+    hits = []
+    for term, pattern, cs, areas, broad in watchlist.entities:
+        if not pattern.search(text_orig if cs else text_lower):
+            continue
+        in_title = bool(pattern.search(title_orig if cs else title_lower))
+        hits.append((term, areas, broad, in_title))
     return hits
 
 
@@ -231,10 +240,14 @@ def match_passages(taxonomy, watchlist, text, title=None):
     support, instead of every area it brushes against once. The title is
     treated as a passage in its own right: a debate title match is real.
     """
-    passages = ([title] if title else []) + split_passages(text)
     matches = []
-    for passage in passages:
-        result = filter_item(taxonomy, watchlist, passage)
+    # The title is a passage in its own right (a debate title match is real),
+    # but a mid-text passage is NOT a title: passing it as one would let a
+    # broad omnibus Act cited anywhere lend its areas.
+    for passage, is_title in ([(title, True)] if title else []) + \
+            [(p, False) for p in split_passages(text)]:
+        result = (filter_item(taxonomy, watchlist, passage) if is_title
+                  else filter_item(taxonomy, watchlist, passage, title=""))
         if result.tier == 1 or result.watchlist_hits:
             matches.append(PassageMatch(passage=passage, result=result))
     return matches
@@ -265,13 +278,23 @@ def aggregate_passages(matches, max_excerpt=260):
     return sorted(areas), terms, excerpt
 
 
-def filter_item(taxonomy, watchlist, *text_fields):
-    """Match an item's text fields. Returns a FilterResult (matched() may be False)."""
+def filter_item(taxonomy, watchlist, *text_fields, **kwargs):
+    """Match an item's text fields. Returns a FilterResult (matched() may be False).
+
+    By convention the FIRST field is the title or heading: a broad watchlist
+    entity named there is the item's subject, not a passing citation. Pass
+    title="" for a body fragment with no title of its own (a mid-speech
+    passage), or title="..." to name one explicitly.
+    """
     text_orig = _fold(" \n ".join(f for f in text_fields if f))
     text_lower = text_orig.lower()
+    if "title" in kwargs:
+        title = _fold(kwargs["title"] or "")
+    else:
+        title = _fold(text_fields[0] if text_fields else "")
 
     tax_hits = _scan_taxonomy(text_lower, text_orig, taxonomy)
-    wl_hits = _scan_watchlist(text_lower, text_orig, watchlist)
+    wl_hits = _scan_watchlist(text_lower, text_orig, watchlist, title=title)
 
     areas = set()
     matched_terms = []
@@ -283,9 +306,15 @@ def filter_item(taxonomy, watchlist, *text_fields):
             matched_terms.append(term)
 
     watchlist_hits = []
-    for term, wl_areas in wl_hits:
+    for term, wl_areas, broad, in_title in wl_hits:
         if term not in watchlist_hits:
             watchlist_hits.append(term)
+        # A broad omnibus Act lends its areas when it IS the subject (named in
+        # the title, as an implementing SI is) or when a taxonomy term
+        # corroborates. A passing mention -- a shoplifting question citing the
+        # Crime and Policing Act -- lends nothing.
+        if broad and not in_title and not tax_hits:
+            continue
         areas.update(wl_areas)
 
     result = FilterResult(

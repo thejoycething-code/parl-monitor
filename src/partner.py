@@ -264,10 +264,13 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None):
     would swamp the edition. Same passphrase gate as the rest of the site;
     no owner names, since the rows carry none.
     """
-    if not pq_rows:
+    # Same precondition as the edition: no issue area, no appearance. An
+    # "Other" heading would only advertise our false positives to allies.
+    rows = [r for r in (pq_rows or []) if r.get("area")]
+    if not rows:
         return None
     grouped = {}
-    for row in pq_rows:
+    for row in rows:
         grouped.setdefault(row.get("area_label") or "Other", []).append(row)
 
     header = ("| Member | Question | Asked of | House | Answered | The question as asked |",

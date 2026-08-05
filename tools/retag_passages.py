@@ -66,7 +66,14 @@ def main():
             continue
         areas, _terms, excerpt = derived
         if not areas:
-            name_only.append(r)      # watchlist-name capture; left untouched
+            # The re-derivation is authoritative: a row that no longer
+            # supports any area has its areas CLEARED, not left stale.
+            # Leaving them was what kept mis-tagged rows (a shoplifting
+            # question under abortion) alive through a retag. The row itself
+            # is kept, renders nowhere, and a future taxonomy fix can
+            # re-derive it.
+            name_only.append(r)
+            updates.append((None, excerpt, r["rowid"]))
             continue
         old = json.loads(r["areas"]) if r["areas"] else []
         if len(areas) < len(old):
