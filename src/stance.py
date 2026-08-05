@@ -294,7 +294,7 @@ def load_overrides(path):
     """config/stance_overrides.yaml -> {'overrides': [...], 'free_vote_titles': [...]}"""
     import yaml
     if not os.path.exists(path):
-        return {"overrides": [], "free_vote_titles": []}
+        return {"overrides": [], "free_vote_titles": [], "excluded_from_5ca": []}
     with open(path, "r", encoding="utf-8") as handle:
         raw = yaml.safe_load(handle) or {}
     overrides = []
@@ -307,7 +307,8 @@ def load_overrides(path):
             rule["aye"] = rule.pop(True)
         overrides.append(rule)
     return {"overrides": overrides,
-            "free_vote_titles": list(raw.get("free_vote_titles") or [])}
+            "free_vote_titles": list(raw.get("free_vote_titles") or []),
+            "excluded_from_5ca": [int(a) for a in (raw.get("excluded_from_5ca") or [])]}
 
 
 def _rule_matches(rule, title):

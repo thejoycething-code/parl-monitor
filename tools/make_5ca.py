@@ -32,17 +32,23 @@ from src import db, intel, stance
 
 
 def main():
+    names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+    excluded = cfg.get("excluded_from_5ca") or []
     if len(sys.argv) < 2 or not sys.argv[1].isdigit():
-        names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
         print("usage: python3 tools/make_5ca.py <area-number> [out.csv]\nareas:")
         for n, label in sorted(names.items()):
-            print("  {0:>2}  {1}".format(n, label))
+            print("  {0:>2}  {1}{2}".format(
+                n, label, "   (collated only, not a 5CA area)" if n in excluded else ""))
         sys.exit(1)
     area = int(sys.argv[1])
     active_only = "--active-only" in sys.argv
     args = [a for a in sys.argv[2:] if not a.startswith("--")]
-    names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
     label = names.get(area, "area {0}".format(area))
+    if area in excluded:
+        print("{0} is collated for MP intelligence but excluded from 5CA "
+              "(config/stance_overrides.yaml: excluded_from_5ca).".format(label))
+        sys.exit(1)
 
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
     if not active_only and not conn.execute(
@@ -50,7 +56,6 @@ def main():
         print("no Commons roster in the members cache - "
               "run: python3 tools/pull_commons_roster.py")
         sys.exit(1)
-    cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
     rows = stance.suggest_rows(conn, area, full_roster=not active_only,
                                overrides_cfg=cfg)
     conn.close()

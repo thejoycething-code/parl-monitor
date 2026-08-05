@@ -196,6 +196,18 @@ class BreakdownParseTests(unittest.TestCase):
                          [(147, "aye"), (148, "no")])
 
 
+class ExcludedAreaTests(unittest.TestCase):
+    def test_excluded_areas_parsed_from_config(self):
+        cfg = stance.load_overrides(os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "config", "stance_overrides.yaml"))
+        # Migration is collated but never a 5CA sheet (Christopher, 2026-08-05).
+        self.assertIn(11, cfg["excluded_from_5ca"])
+
+    def test_missing_key_defaults_empty(self):
+        self.assertEqual(stance.load_overrides("/nonexistent")["excluded_from_5ca"], [])
+
+
 class WeeklyScoringPassTests(unittest.TestCase):
     """The weekly pass must be cost-bounded and never silently truncate."""
 

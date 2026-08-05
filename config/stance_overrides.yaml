@@ -54,6 +54,15 @@ overrides:
     why_aye: "Border Security Bill votes carry no enforcement weight (editorial rule: the bill repealed the Illegal Migration Act and Rwanda scheme)"
     why_no: "Border Security Bill votes carry no enforcement weight (editorial rule: the bill repealed the Illegal Migration Act and Rwanda scheme)"
 
+# Areas collated in the ledger but NOT turned into 5CA sheets (Christopher,
+# 2026-08-05). Migration evidence keeps accruing for MP intelligence,
+# timelines and the weekly edition; it simply does not drive campaign
+# targeting, so our other issues feed the 5CA instead. Whipped enforcement
+# ping-pong across two governments also made migration the noisiest area to
+# place: hardliners who rebelled for a tougher bill scored as opponents.
+excluded_from_5ca:
+  - 11   # migration
+
 # Conscience-issue bills where the major parties conventionally grant free
 # votes: the vote is the member's own position, not the whip's, and 5CA
 # comments say so. (Lords divisions additionally carry an explicit
