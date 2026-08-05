@@ -54,6 +54,15 @@ class ClassificationPlumbingTests(unittest.TestCase):
         reply = {"content": [{"text": '```json\n[{"ref": "pq:1", "stance": 1, "why": "w"}]\n```'}]}
         self.assertEqual(stance._parse_reply(reply)[0].ref, "pq:1")
 
+    def test_parse_reply_salvages_break_inside_a_string(self):
+        """A cut landing mid-string defeated the old last-'}' salvage, which
+        lost 39 whole batches (2026-08-05)."""
+        reply = {"content": [{"text":
+            '[{"ref": "pq:1", "stance": 1, "why": "fine"}, '
+            '{"ref": "pq:2", "stance": 0, "why": "broken } mid string'}]}
+        results = stance._parse_reply(reply)
+        self.assertEqual([r.ref for r in results], ["pq:1"])
+
     def test_parse_reply_salvages_truncated_array(self):
         """A max_tokens cut mid-array keeps every complete object (live
         failure 2026-08-04: batch reply truncated, whole run died)."""

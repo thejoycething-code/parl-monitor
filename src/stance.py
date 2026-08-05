@@ -133,7 +133,9 @@ def _build_payload(batch):
              "line": ev.line, "text": (ev.text or "")[:1500]} for ev in batch]
     return {
         "model": STANCE_MODEL,
-        "max_tokens": 4000,  # 20 whys at ~20 words never approaches this
+        # Long speech batches were truncating at 4000 and losing whole
+        # batches to unparseable replies (34% of the tail, 2026-08-05).
+        "max_tokens": 8000,
         "system": SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": json.dumps(user)}],
     }
@@ -166,6 +168,31 @@ def _default_transport(payload, api_key):  # pragma: no cover - real network
         raise RuntimeError("HTTP {0}: {1}".format(exc.code, detail)) from exc
 
 
+def _salvage_objects(text):
+    """Every complete JSON object at the start of a broken array.
+
+    A max_tokens cut can land inside a string, so scanning for the last '}'
+    is not enough (it may sit inside the unterminated value). Decoding
+    object by object keeps everything intact and stops at the first break;
+    the rest is picked up by the idempotent re-run.
+    """
+    decoder = json.JSONDecoder()
+    out, i = [], 0
+    if text.startswith("["):
+        i = 1
+    while i < len(text):
+        while i < len(text) and text[i] in " \t\r\n,":
+            i += 1
+        if i >= len(text) or text[i] != "{":
+            break
+        try:
+            obj, i = decoder.raw_decode(text, i)
+        except ValueError:
+            break
+        out.append(obj)
+    return out
+
+
 def _parse_reply(reply):
     """Extract results, tolerating markdown fences and truncated arrays.
 
@@ -182,10 +209,9 @@ def _parse_reply(reply):
     try:
         data = json.loads(text)
     except ValueError:
-        cut = text.rfind("}")
-        if cut < 0:
+        data = _salvage_objects(text)
+        if not data:
             raise
-        data = json.loads(text[:cut + 1] + "]")
     return [StanceResult(ref=row.get("ref"), stance=row.get("stance"),
                          why=row.get("why") or "")
             for row in data]
