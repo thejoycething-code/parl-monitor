@@ -48,11 +48,36 @@ overrides:
   # the record on the bills above dominates a member's placement. Specific
   # BSB amendment divisions (e.g. opposition new clauses for tougher
   # measures) can earn their own targeted rules later.
+  # Voting to extend abortion services to Northern Ireland is a genuinely bad
+  # vote, but it was government business implementing a legal obligation and
+  # it must not by itself brand a member a strong opponent (Christopher,
+  # 2026-08-05). Scored as a real but non-decisive negative, and capped
+  # below ++ by the `caps` rule below, so a member with an otherwise good
+  # record lands at + rather than --.
+  #
+  # NOTE, deliberately absent: no discount for ministerial or whipped votes
+  # on conscience issues. Christopher, 2026-08-05, on Stephen Kinnock voting
+  # for assisted suicide: "Regardless of 'ministerial duty' he was wrong to
+  # do so." A vote is the vote.
+  - match: "Abortion (Northern Ireland)"
+    aye: -1
+    why_aye: "Voted to extend abortion services to Northern Ireland"
+
   - match: "Border Security, Asylum and Immigration Bill"
     aye: 0
     no: 0
     why_aye: "Border Security Bill votes carry no enforcement weight (editorial rule: the bill repealed the Illegal Migration Act and Rwanda scheme)"
     why_no: "Border Security Bill votes carry no enforcement weight (editorial rule: the bill repealed the Illegal Migration Act and Rwanda scheme)"
+
+# Ceilings: evidence that limits how favourably a member can be placed, no
+# matter how good the rest of their record. A capped member keeps all their
+# positive evidence in the Comments column -- the cap only stops the sheet
+# calling them a strong ally, and the note says why.
+caps:
+  - match: "Abortion (Northern Ireland)"
+    direction: aye
+    ceiling: 1       # + at best, never ++
+    note: "CAPPED at + : voted for the Northern Ireland abortion regulations"
 
 # Areas collated in the ledger but NOT turned into 5CA sheets (Christopher,
 # 2026-08-05). Migration evidence keeps accruing for MP intelligence,

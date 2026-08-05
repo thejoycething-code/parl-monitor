@@ -196,6 +196,59 @@ class BreakdownParseTests(unittest.TestCase):
                          [(147, "aye"), (148, "no")])
 
 
+class CapTests(unittest.TestCase):
+    """Christopher, 2026-08-05: voting for the Northern Ireland abortion
+    regulations must not read as strong support, but a member with an
+    otherwise good record must not be branded a strong opponent either."""
+
+    CFG = {"overrides": [{"match": "Abortion (Northern Ireland)", "aye": -1,
+                          "why_aye": "Voted to extend abortion services to NI"}],
+           "caps": [{"match": "Abortion (Northern Ireland)", "direction": "aye",
+                     "ceiling": 1, "note": "CAPPED at + : NI regulations"}],
+           "free_vote_titles": [], "excluded_from_5ca": []}
+
+    def setUp(self):
+        self.conn = fresh_conn()
+        member(self.conn, 1, "Good Record MP")
+        member(self.conn, 2, "Only NI Vote MP")
+        member(self.conn, 3, "Genuine Opponent MP")
+
+    def seed(self, mid, ref, line, st, date="2026-01-01"):
+        intel.record_event(self.conn, mid, date, "vote" if ref.startswith("div") else "edm",
+                           ref, line, areas=[1])
+        stance.store_scores(self.conn, [stance.StanceResult(ref, st, "w")], date)
+
+    def test_good_record_capped_to_plus_not_double_plus(self):
+        self.seed(1, "edm:1", "Sponsored EDM: defend the unborn", 2)
+        self.seed(1, "div:c9:aye", "Voted Aye: Abortion (Northern Ireland) Regulations 2021", -2)
+        stance.apply_overrides(self.conn, self.CFG, "2026-08-05")
+        row = next(r for r in stance.suggest_rows(self.conn, 1, overrides_cfg=self.CFG)
+                   if r["member_id"] == 1)
+        self.assertEqual(row["column"], "+")
+        self.assertIn("CAPPED", row["comments"])
+
+    def test_ni_vote_alone_is_minus_not_double_minus(self):
+        self.seed(2, "div:c9:aye", "Voted Aye: Abortion (Northern Ireland) Regulations 2021", -2)
+        stance.apply_overrides(self.conn, self.CFG, "2026-08-05")
+        row = next(r for r in stance.suggest_rows(self.conn, 1, overrides_cfg=self.CFG)
+                   if r["member_id"] == 2)
+        self.assertEqual(row["column"], "-")
+
+    def test_cap_never_rescues_a_genuine_opponent(self):
+        self.seed(3, "div:c9:aye", "Voted Aye: Abortion (Northern Ireland) Regulations 2021", -2)
+        self.seed(3, "edm:2", "Sponsored EDM: decriminalise abortion fully", -2)
+        stance.apply_overrides(self.conn, self.CFG, "2026-08-05")
+        row = next(r for r in stance.suggest_rows(self.conn, 1, overrides_cfg=self.CFG)
+                   if r["member_id"] == 3)
+        self.assertEqual(row["column"], "--")  # caps limit the upside only
+
+    def test_single_direction_rule_leaves_the_other_side_alone(self):
+        self.seed(1, "div:c9:no", "Voted No: Abortion (Northern Ireland) Regulations 2021", 2)
+        stance.apply_overrides(self.conn, self.CFG, "2026-08-05")
+        row = self.conn.execute("SELECT stance, model FROM stance WHERE ref='div:c9:no'").fetchone()
+        self.assertEqual((row["stance"], row["model"]), (2, stance.STANCE_MODEL))
+
+
 class ExcludedAreaTests(unittest.TestCase):
     def test_excluded_areas_parsed_from_config(self):
         cfg = stance.load_overrides(os.path.join(

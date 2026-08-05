@@ -294,7 +294,8 @@ def load_overrides(path):
     """config/stance_overrides.yaml -> {'overrides': [...], 'free_vote_titles': [...]}"""
     import yaml
     if not os.path.exists(path):
-        return {"overrides": [], "free_vote_titles": [], "excluded_from_5ca": []}
+        return {"overrides": [], "caps": [], "free_vote_titles": [],
+                "excluded_from_5ca": []}
     with open(path, "r", encoding="utf-8") as handle:
         raw = yaml.safe_load(handle) or {}
     overrides = []
@@ -307,6 +308,7 @@ def load_overrides(path):
             rule["aye"] = rule.pop(True)
         overrides.append(rule)
     return {"overrides": overrides,
+            "caps": list(raw.get("caps") or []),
             "free_vote_titles": list(raw.get("free_vote_titles") or []),
             "excluded_from_5ca": [int(a) for a in (raw.get("excluded_from_5ca") or [])]}
 
@@ -338,8 +340,8 @@ def apply_overrides(conn, cfg, scored_at):
         direction = "aye" if r["ref"].endswith(":aye") else "no"
         title = (r["line"] or "").split(": ", 1)[-1]
         for rule in cfg["overrides"]:
-            if not _rule_matches(rule, title):
-                continue
+            if direction not in rule or not _rule_matches(rule, title):
+                continue  # a rule may score only one direction
             conn.execute(
                 "UPDATE stance SET stance = ?, why = ?, model = 'override', "
                 "scored_at = ? WHERE ref = ?",
@@ -384,6 +386,26 @@ COLUMNS = ("++", "+", "0", "-", "--")
 # outranks sponsoring a motion, which outranks signing one, which outranks
 # question framing.
 KIND_WEIGHT = {"vote": 5, "debate": 4, "edm": 3, "edm-signed": 2, "pq": 1}
+
+
+def applicable_caps(evidence_rows, caps):
+    """Cap rules triggered by a member's evidence -> [(ceiling, note)].
+
+    A cap limits the upside only: a bad vote that must not read as strong
+    support, without erasing the good record that sits alongside it.
+    """
+    hits = []
+    for rule in caps or []:
+        want = (rule.get("direction") or "").lower()
+        for r in evidence_rows:
+            ref = r["ref"] or ""
+            if want and not ref.endswith(":" + want):
+                continue
+            title = (r["line"] or "").split(": ", 1)[-1]
+            if (rule.get("match") or "").lower() in title.lower():
+                hits.append((int(rule.get("ceiling", 2)), rule.get("note") or ""))
+                break
+    return hits
 
 
 def stance_to_column(stance):
@@ -444,6 +466,12 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
                                        1 if _whip(r) == "free vote" else 0,
                                        r["date"]))
         stance = best["stance"] or 0
+        cap_notes = []
+        for ceiling, note in applicable_caps(evs, (overrides_cfg or {}).get("caps")):
+            if stance > ceiling:
+                stance = ceiling
+                if note:
+                    cap_notes.append(note)
         signs = {(1 if (r["stance"] or 0) > 0 else -1)
                  for r in evs if (r["stance"] or 0) != 0}
         conflict = len(signs) > 1
@@ -451,6 +479,7 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
         name = first["name"] or "Member {0}".format(mid)
         detail = ", ".join(x for x in (first["party"], first["seat"]) if x)
         comments = []
+        comments.extend(cap_notes)
         if conflict:
             comments.append("CONFLICTING SIGNALS - review all evidence")
         for r in sorted(evs, key=lambda r: r["date"], reverse=True):
