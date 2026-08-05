@@ -165,10 +165,29 @@ def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
                 continue
             title = "PQ {0} ({1}): {2}, answered {3}".format(
                 q.uin, q.house, q.heading, q.date_answered)
+            # The asker and the department are what make a question readable:
+            # resolve the member now so the edition can name them (the store
+            # kept neither, which is why lines used to be anonymous).
+            asker = None
+            if q.asking_member_id:
+                try:
+                    asker = members.resolve(conn, client, q.asking_member_id)
+                except Exception:
+                    asker = None
+            extra = {
+                "heading": q.heading,
+                "uin": q.uin,
+                "house": q.house,
+                "department": q.answering_body,
+                "member": asker.name if asker else None,
+                "party": asker.party if asker else None,
+                "seat": asker.seat if asker else None,
+                "question_text": (q.question_text or "")[:600],
+            }
             store_item(conn, "pq:{0}".format(q.id), "pq", "question", title, q.url, r,
                        event_date=q.date_answered.isoformat() if q.date_answered else None,
                        date_tabled=q.date_tabled.isoformat() if q.date_tabled else None,
-                       mp_refs=q.asking_member_id)
+                       extra=extra, mp_refs=q.asking_member_id)
             if q.asking_member_id and (r.tier == 1 or r.watchlist_hits):
                 try:
                     members.resolve(conn, client, q.asking_member_id)
@@ -453,18 +472,34 @@ def assent_topline(client, wl, closure_row, week_start=None):
 
 SECTION_FOR_FEED = {
     "whatson": "week_ahead", "division": "votes", "wms": "statements",
-    "pq": "pqs", "edm": "edms",
+    "edm": "edms",
 }
 
 
 def sections_from_store(conn, edition):
     """Build edition sections by querying reviewed items (digest as byproduct)."""
     rows = conn.execute(
-        "SELECT id, source_feed, title, url, event_date, deadline, priority_tag, owner, why_it_matters, extra "
+        "SELECT id, source_feed, title, url, event_date, deadline, priority_tag, owner, "
+        "why_it_matters, extra, issue_areas "
         "FROM items WHERE priority_tag IS NOT NULL ORDER BY source_feed, event_date, id"
     ).fetchall()
+    area_labels = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
     for r in rows:
         feed = r["source_feed"]
+        if feed == "pq":
+            extra = json.loads(r["extra"]) if r["extra"] else {}
+            areas = json.loads(r["issue_areas"] or "[]")
+            edition.pq_rows.append({
+                "member": extra.get("member"), "party": extra.get("party"),
+                "seat": extra.get("seat"), "house": extra.get("house"),
+                "heading": extra.get("heading") or r["title"],
+                "department": extra.get("department"), "url": r["url"],
+                "date": r["event_date"], "tag": r["priority_tag"],
+                "why": r["why_it_matters"] or "",
+                "area": areas[0] if areas else None,
+                "area_label": area_labels.get(areas[0]) if areas else "Other",
+            })
+            continue
         if feed in ("consultation", "committee"):
             title = r["title"]
             if feed == "consultation" and title.startswith("Consultation: "):

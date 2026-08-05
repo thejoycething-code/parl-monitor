@@ -75,9 +75,19 @@ class RedactTests(unittest.TestCase):
         self.assertNotIn("Zuzana", out)
         self.assertIn("under the team", out)
 
-    def test_mp_intelligence_section_dropped(self):
-        self.assertNotIn("MP intelligence", self.out)
-        self.assertNotIn("5CA", self.out)
+    def test_mp_intelligence_section_kept(self):
+        """Christopher, 2026-08-05, reversing the 3 August scoping: allies see
+        the parliamentary activity, which is public record. What stays inside
+        is who owns a campaign."""
+        self.assertIn("MP intelligence", self.out)
+        self.assertIn("Somebody (Party, Seat)", self.out)
+
+    def test_owner_names_scrubbed_everywhere_including_the_mp_section(self):
+        md = ("# T\n### W\n\n## MP intelligence notes\n\n"
+              "- **[NOTE]** A member spoke. Campaign run by Zuzana; profile updated.\n")
+        out = partner.redact(md, extra_names=["Zuzana"])
+        self.assertIn("MP intelligence", out)
+        self.assertNotIn("Zuzana", out)
 
     def test_banner_and_gaps_footer_present(self):
         self.assertIn("Coalition partner edition", self.out)

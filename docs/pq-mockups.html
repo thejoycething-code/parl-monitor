@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Written questions: fuller data, four ways</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; background:#FFF;
+       max-width: 64rem; margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.35rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+.intro { font-size:.9em; }
+.option { margin:2.6rem 0; }
+.option > h2 { color:#4285f4; font-size:1.08rem; margin-bottom:.15rem; }
+.verdict { font-size:.86em; opacity:.85; margin:.2rem 0 .9rem; }
+.slack { font-size:.8em; background:#EEEEEE; border-radius:4px; padding:.35rem .6rem;
+         display:inline-block; margin-bottom:.8rem; }
+.slack b { color:#52575C; }
+.demo { border:1px dashed #C8D0DC; border-radius:6px; padding:1rem 1.2rem; }
+.demo h3 { color:#4285f4; font-size:1em; margin:.1rem 0 .5rem; }
+a { color:#4285f4; text-decoration:none; } a:hover { text-decoration:underline; }
+table { border-collapse:collapse; width:100%; font-size:.84em; margin:.4rem 0 .2rem; }
+th, td { border:1px solid #EEEEEE; padding:.4rem .55rem; text-align:left; vertical-align:top; }
+th { background:#4285f4; color:#FFF; font-weight:500; white-space:nowrap; }
+td.who { white-space:nowrap; }
+td.who span { display:block; font-size:.86em; opacity:.72; }
+.chip { display:inline-block; font-size:.72em; font-weight:700; border-radius:3px;
+        padding:.08em .45em; white-space:nowrap; }
+.chip.area { background:#FFF; color:#4285f4; border:1px solid #4285f4; }
+.chip.dept { background:#EEEEEE; color:#52575C; font-weight:500; }
+.chip.act { background:#DB544F; color:#FFF; }
+.chip.watch { background:#FFEBAD; color:#52575C; }
+.chip.note { background:#EEEEEE; color:#52575C; }
+details { border-left:3px solid #4285f4; padding:.1rem 0 .1rem .7rem; margin:.7rem 0; }
+summary { cursor:pointer; font-weight:700; font-size:.9em; color:#4285f4; }
+summary:hover { text-decoration:underline; }
+.areahead { font-weight:700; color:#52575C; margin:.9rem 0 .1rem; font-size:.82em;
+            text-transform:uppercase; letter-spacing:.04em; }
+.q { font-size:.88em; margin:.5rem 0; }
+.q .ask { display:block; opacity:.8; font-size:.94em; margin-top:.1rem; }
+.count { font-size:.82em; opacity:.75; }
+ul.tight { padding-left:1.1rem; margin:.3rem 0; } ul.tight li { margin:.3rem 0; }
+.note { font-size:.85em; opacity:.8; }
+</style></head><body>
+<h1>Written questions: fuller data, four ways</h1>
+
+<p class="intro">Today the edition prints a <strong>capped list of five</strong> written questions as one-line entries with no asker, no department and no sense of how many were found. A sitting week typically matches <strong>30 to 60</strong>, so most of what we gather is invisible. All four options below hyperlink every question to its page on parliament.uk and name the member who asked it. They differ in how they handle volume.</p>
+
+<p class="note"><strong>One constraint to note.</strong> Collapsible blocks work on the partner site and in the repo's markdown, but a Slack canvas renders a plainer markdown subset, so the "expandable" options need a fallback there: either the section stays flat with a cap and links out, or the full data lives on a linked page (option D). Every option below states its Slack behaviour.</p>
+
+<div class="option"><h2>A &mdash; Full table, grouped by issue area</h2>
+<p class="verdict">Everything gathered, nothing hidden, sorted so the week's clusters are obvious. Honest and complete; the risk is a 47-row table dominating the edition when the rest of the week is quiet.</p>
+<p class="slack"><b>In Slack:</b> works as-is &mdash; canvases render tables. Long weeks make for a long scroll.</p>
+<div class="demo">
+<h3>Written questions (47 this week)</h3>
+<div class="areahead">Free speech and online safety &mdash; 12 questions</div>
+<table>
+<tr><th>Member</th><th>Question</th><th>Asked of</th><th>Answered</th></tr>
+<tr><td class="who">Lord Jackson of Peterborough<span>Con, peer</span></td>
+    <td><a href="#">Anti-Muslim Hatred / Islamophobia Definition Working Group</a> <span class="chip watch">WATCH</span><span class="ask">Asked what representations the working group has received on free expression.</span></td>
+    <td><span class="chip dept">Home Office</span></td><td>31 Jul</td></tr>
+<tr><td class="who">Baroness Owen of Alderley Edge<span>Con, peer</span></td>
+    <td><a href="#">Internet: Compensation</a><span class="ask">Asked about redress for victims of intimate image abuse under the Online Safety Act.</span></td>
+    <td><span class="chip dept">DSIT</span></td><td>30 Jul</td></tr>
+<tr><td class="who">Lord Taylor of Warwick<span>Non-affiliated, peer</span></td>
+    <td><a href="#">Fraud: Artificial Intelligence</a><span class="ask">Asked what steps are being taken on AI-generated fraud under the Act's codes.</span></td>
+    <td><span class="chip dept">DSIT</span></td><td>3 Aug</td></tr>
+</table>
+<div class="areahead">Migration &mdash; 9 questions</div>
+<table>
+<tr><td class="who">Lord Cameron of Lochiel<span>Con, peer</span></td>
+    <td><a href="#">Deportation</a><span class="ask">Asked how many foreign national offenders were removed in the last quarter.</span></td>
+    <td><span class="chip dept">Home Office</span></td><td>3 Aug</td></tr>
+<tr><td class="who">Mr Andrew Snowden<span>Con, Fylde</span></td>
+    <td><a href="#">Immigration Controls: EU Countries</a><span class="ask">Asked about reciprocal returns arrangements with EU member states.</span></td>
+    <td><span class="chip dept">Home Office</span></td><td>4 Aug</td></tr>
+</table>
+<p class="count">&hellip; and 26 further questions across parental rights, abortion, assisted dying and surrogacy.</p>
+</div></div>
+
+<div class="option"><h2>B &mdash; Highlights, then an expandable full list</h2>
+<p class="verdict">My recommendation. The reader gets three or four questions that matter with a why-line each, and the complete set is one click away rather than omitted. The edition stays the length it is today; nothing gathered is lost.</p>
+<p class="slack"><b>In Slack:</b> the highlights render normally and the collapsed block becomes a link to the full-data page (option D), so the canvas stays short.</p>
+<div class="demo">
+<h3>Written questions</h3>
+<p class="q"><strong>Lord Jackson of Peterborough</strong> (Con, peer) pressed the Home Office on the <a href="#">Islamophobia definition working group</a>, asking what representations it has received on free expression. <span class="chip watch">WATCH</span><br>
+<span class="ask">Fourth question on this from three peers and one MP in eight days: cross-House pressure is building and a definition would bear directly on speech about religion.</span></p>
+<p class="q"><strong>Baroness Owen of Alderley Edge</strong> (Con, peer) asked DSIT about <a href="#">compensation for victims of intimate image abuse</a> under the Online Safety Act. <span class="chip note">NOTE</span></p>
+<p class="q"><strong>Lord Cameron of Lochiel</strong> (Con, peer) asked the Home Office for <a href="#">quarterly removals figures</a> for foreign national offenders. <span class="chip note">NOTE</span></p>
+<details open><summary>&#9662; All 47 written questions this week</summary>
+<table>
+<tr><th>Member</th><th>Question</th><th>Asked of</th><th>Area</th><th>Answered</th></tr>
+<tr><td class="who">Lord Jackson of Peterborough</td><td><a href="#">Anti-Muslim Hatred / Islamophobia Definition Working Group</a></td><td><span class="chip dept">Home Office</span></td><td><span class="chip area">Free speech</span></td><td>31 Jul</td></tr>
+<tr><td class="who">Baroness Owen of Alderley Edge</td><td><a href="#">Internet: Compensation</a></td><td><span class="chip dept">DSIT</span></td><td><span class="chip area">Free speech</span></td><td>30 Jul</td></tr>
+<tr><td class="who">Lord Taylor of Warwick</td><td><a href="#">Fraud: Artificial Intelligence</a></td><td><span class="chip dept">DSIT</span></td><td><span class="chip area">Free speech</span></td><td>3 Aug</td></tr>
+<tr><td class="who">Lord Cameron of Lochiel</td><td><a href="#">Deportation</a></td><td><span class="chip dept">Home Office</span></td><td><span class="chip area">Migration</span></td><td>3 Aug</td></tr>
+<tr><td class="who">Mr Andrew Snowden</td><td><a href="#">Immigration Controls: EU Countries</a></td><td><span class="chip dept">Home Office</span></td><td><span class="chip area">Migration</span></td><td>4 Aug</td></tr>
+<tr><td class="who">Pippa Heylings</td><td><a href="#">Pupils: Absenteeism</a></td><td><span class="chip dept">DfE</span></td><td><span class="chip area">Parental rights</span></td><td>4 Aug</td></tr>
+<tr><td class="who">Chris Philp</td><td><a href="#">Home Office: Written Questions</a></td><td><span class="chip dept">Home Office</span></td><td><span class="chip area">Migration</span></td><td>30 Jul</td></tr>
+</table>
+<p class="count">(41 more rows in the real edition)</p>
+</details>
+</div></div>
+
+<div class="option"><h2>C &mdash; Clustered by what's being pushed</h2>
+<p class="verdict">Leads with the pattern rather than the paperwork: four questions on one definition from both Houses is a story, five unrelated questions are not. Strongest for spotting coordinated pressure; weakest when a week is genuinely miscellaneous, and it needs the clustering to be right.</p>
+<p class="slack"><b>In Slack:</b> cluster headlines render fine; the per-cluster detail collapses to a link.</p>
+<div class="demo">
+<h3>Written questions &mdash; 47 questions, 6 clusters</h3>
+<details open><summary>&#9662; Islamophobia definition &mdash; 4 questions, 4 members, both Houses <span class="chip watch">WATCH</span></summary>
+<p class="q">Pressure is building on the working group's terms. Lords and Commons within eight days.</p>
+<ul class="tight">
+<li><strong>Lord Jackson of Peterborough</strong> &mdash; <a href="#">representations on free expression</a> <span class="chip dept">Home Office</span> 31 Jul</li>
+<li><strong>Lord Pearson of Rannoch</strong> &mdash; <a href="#">anti-Muslim hostility</a> (two questions) <span class="chip dept">Home Office</span> 29 Jul</li>
+<li><strong>David Simmonds MP</strong> &mdash; <a href="#">working group membership</a> <span class="chip dept">Home Office</span> 28 Jul</li>
+</ul>
+</details>
+<details><summary>&#9656; Online Safety Act implementation &mdash; 8 questions, 6 members</summary>
+<ul class="tight">
+<li><strong>Baroness Owen of Alderley Edge</strong> &mdash; <a href="#">compensation for image abuse</a> <span class="chip dept">DSIT</span> 30 Jul</li>
+<li><strong>Lord Taylor of Warwick</strong> &mdash; <a href="#">AI-generated fraud</a> <span class="chip dept">DSIT</span> 3 Aug</li>
+</ul>
+</details>
+<details><summary>&#9656; Deportations and returns &mdash; 9 questions, 7 members</summary>
+<ul class="tight"><li><strong>Lord Cameron of Lochiel</strong> &mdash; <a href="#">quarterly removals</a> <span class="chip dept">Home Office</span> 3 Aug</li></ul>
+</details>
+<details><summary>&#9656; School absence and home education &mdash; 5 questions</summary>
+<ul class="tight"><li><strong>Pippa Heylings</strong> &mdash; <a href="#">pupil absenteeism</a> <span class="chip dept">DfE</span> 4 Aug</li></ul>
+</details>
+<p class="count">Plus assisted dying (3), surrogacy (2) and 16 single questions listed in full below.</p>
+</details>
+</div></div>
+
+<div class="option"><h2>D &mdash; Tight edition, complete companion page</h2>
+<p class="verdict">The structural answer, and the only one that solves Slack properly. The edition and canvas keep the highlights; every single thing gathered lives on an internal page that regenerates each week, sortable and filterable, linked from the section heading. Also the natural home for everything else we collect and never print &mdash; background-scored items, discards, and the full ledger week.</p>
+<p class="slack"><b>In Slack:</b> ideal &mdash; short canvas, one link to everything.</p>
+<div class="demo">
+<h3>Written questions <span class="count">&mdash; 3 highlighted below · <a href="#">all 47, with departments and full text &rarr;</a></span></h3>
+<p class="q"><strong>Lord Jackson of Peterborough</strong> (Con, peer) pressed the Home Office on the <a href="#">Islamophobia definition working group</a>. <span class="chip watch">WATCH</span><br><span class="ask">Fourth question from four members in eight days; a definition would bear directly on speech about religion.</span></p>
+<p class="q"><strong>Baroness Owen of Alderley Edge</strong> (Con, peer) asked DSIT about <a href="#">compensation for intimate image abuse</a>. <span class="chip note">NOTE</span></p>
+<p class="note" style="margin-top:1rem">The companion page would carry, per week: every matched question with member, party, seat, department, dates, full question text and answer; every EDM and signatory; the full ledger week including votes; and the items scored as background or discarded, so "what did we see and not report?" is answerable in one click.</p>
+</div></div>
+
+<h2 style="color:#52575C;font-size:1rem;border-top:1px solid #EEEEEE;padding-top:1rem">What each needs from the pipeline</h2>
+<ul class="note">
+<li><strong>All four:</strong> store the asking member and the answering department on the item row. Both are already in the API response and the member is already in the ledger; the item store just doesn't keep them, which is why today's lines can't name anyone.</li>
+<li><strong>A, B, C:</strong> remove the cap of five and render the fuller row.</li>
+<li><strong>C:</strong> a clustering step &mdash; cheapest version groups by shared matched term plus area, which would have found the Islamophobia cluster without any AI.</li>
+<li><strong>D:</strong> a new weekly page generator, and a decision about where it is hosted &mdash; behind the partner site's passphrase would be wrong, since this is internal data; it wants either the repo or a separate gated page.</li>
+</ul>
+<p class="note">Real members, real questions and real dates from the ledger; volumes and answer summaries illustrative.</p>
+</body></html>

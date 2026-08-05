@@ -80,6 +80,60 @@ class RecessRenderTests(unittest.TestCase):
         self.assertNotIn("—", digest.render(e))  # em dash
 
 
+class PqSectionTests(unittest.TestCase):
+    """Christopher, 2026-08-05: group by topic, repeat the header on every
+    table, link out for the rest, cap nothing."""
+
+    def _edition(self):
+        ed = digest.Edition(week_commencing="2026-08-10", number=3, mode="normal")
+        ed.pq_rows = [
+            {"member": "Lord Jackson of Peterborough", "party": "Con", "seat": "peer",
+             "house": "Lords", "heading": "Islamophobia Definition Working Group",
+             "department": "Home Office", "url": "https://q/1", "date": "2026-07-31",
+             "tag": "WATCH", "why": "Cross-House pressure building",
+             "area": 7, "area_label": "Free speech online safety"},
+            {"member": "Baroness Owen of Alderley Edge", "party": "Con", "seat": "peer",
+             "house": "Lords", "heading": "Internet: Compensation",
+             "department": "DSIT", "url": "https://q/2", "date": "2026-07-30",
+             "tag": "NOTE", "why": "", "area": 7,
+             "area_label": "Free speech online safety"},
+            {"member": "Lord Cameron of Lochiel", "party": "Con", "seat": "peer",
+             "house": "Lords", "heading": "Deportation", "department": "Home Office",
+             "url": "https://q/3", "date": "2026-08-03", "tag": "NOTE", "why": "",
+             "area": 11, "area_label": "Migration"},
+        ]
+        return ed
+
+    def test_one_table_per_area_each_with_its_own_header(self):
+        out = digest.render_pqs(self._edition())
+        self.assertEqual(out.count("| Member | Question | Asked of | Answered |"), 2)
+        self.assertIn("**Free speech online safety** (2)", out)
+        self.assertIn("**Migration** (1)", out)
+
+    def test_biggest_group_leads_and_rows_carry_member_and_department(self):
+        out = digest.render_pqs(self._edition())
+        self.assertLess(out.index("Free speech"), out.index("Migration"))
+        self.assertIn("Lord Jackson of Peterborough (Con, peer)", out)
+        self.assertIn("| Home Office |", out)
+        self.assertIn("[Islamophobia Definition Working Group](https://q/1)", out)
+        self.assertIn("31 Jul", out)
+
+    def test_total_declared_and_companion_page_linked(self):
+        out = digest.render_pqs(self._edition())
+        self.assertIn("3 questions matched our areas this week", out)
+        self.assertIn("questions.html", out)
+
+    def test_nothing_is_capped(self):
+        ed = self._edition()
+        ed.pq_rows = ed.pq_rows * 20          # 60 questions
+        out = digest.render_pqs(ed)
+        self.assertEqual(out.count("https://q/1"), 20)
+
+    def test_no_rows_no_section(self):
+        ed = digest.Edition(week_commencing="2026-08-10", number=3, mode="normal")
+        self.assertIsNone(digest.render_pqs(ed))
+
+
 class ValidationTests(unittest.TestCase):
     def test_act_without_owner_refused(self):
         e = base_edition(top_lines=[digest.Line("Do this", "ACT")])

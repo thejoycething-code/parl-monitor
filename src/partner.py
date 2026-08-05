@@ -47,9 +47,17 @@ def owners_from_store(conn):
 
 
 def redact(markdown, extra_names=()):
+    """Strip internal ownership, keep the parliamentary substance.
+
+    The MP intelligence section IS included (Christopher, 2026-08-05,
+    reversing the 3 August scoping): it reports public-record activity by
+    named parliamentarians, which allies can see. What never leaves the
+    building is who internally owns a campaign, so owner fields and owner
+    names in prose are still removed. Stance placements and 5CA sheets are
+    a separate matter and are not part of any edition.
+    """
     names = set(owner_names(markdown)) | set(extra_names)
-    out = MP_SECTION.sub("", markdown)
-    out = OWNER_FIELD.sub("", out)
+    out = OWNER_FIELD.sub("", markdown)
     out = EMPTY_PARENS.sub("", out)
     for name in sorted(names, key=len, reverse=True):
         for token in {name} | set(name.split()):
@@ -237,9 +245,59 @@ li {{ margin: .45rem 0; }}
 </body></html>
 """
 
-def build_site(site_dir, week, partner_markdown, archive_weeks):
+QUESTIONS_PAGE = """# Written questions in full - w/c {week}
+
+Every question that matched our campaign areas this week, with the text as
+asked. The weekly edition groups these by area and links here for detail.
+
+{tables}
+"""
+
+
+def build_questions_page(site_dir, week, pq_rows, area_labels=None):
+    """The companion page the edition's question tables link to.
+
+    Holds every matched question with the text as asked -- the detail that
+    would swamp the edition. Same passphrase gate as the rest of the site;
+    no owner names, since the rows carry none.
+    """
+    if not pq_rows:
+        return None
+    grouped = {}
+    for row in pq_rows:
+        grouped.setdefault(row.get("area_label") or "Other", []).append(row)
+
+    blocks = []
+    for label in sorted(grouped, key=lambda k: (-len(grouped[k]), k)):
+        rows = grouped[label]
+        blocks.append("## {0} ({1})\n".format(label, len(rows)))
+        for r in rows:
+            who = r.get("member") or "A member"
+            detail = ", ".join(x for x in (r.get("party"), r.get("seat")) if x)
+            heading = r.get("heading") or "Question"
+            link = "[{0}]({1})".format(heading, r["url"]) if r.get("url") else heading
+            blocks.append("**{0}**{1} - {2}".format(
+                who, " ({0})".format(detail) if detail else "", link))
+            meta = [x for x in (r.get("department"), r.get("house"), r.get("date")) if x]
+            if meta:
+                blocks.append("*{0}*".format(" · ".join(meta)))
+            if r.get("question_text"):
+                blocks.append("> {0}".format(" ".join(r["question_text"].split())))
+            if r.get("why"):
+                blocks.append(r["why"].rstrip(".") + ".")
+            blocks.append("")
+    markdown = QUESTIONS_PAGE.format(week=week, tables="\n".join(blocks))
+    page = to_html(markdown, "Written questions in full - w/c {0}".format(week))
+    path = os.path.join(site_dir, "questions.html")
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(page)
+    return path
+
+
+def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None):
     """Write index.html (latest) + archive/<week>.html + auth middleware."""
     os.makedirs(os.path.join(site_dir, "archive"), exist_ok=True)
+    build_questions_page(site_dir, week, pq_rows or [])
     title = "Parliamentary Monitor (partner edition) - w/c {0}".format(week)
     page = to_html(partner_markdown, title)
 

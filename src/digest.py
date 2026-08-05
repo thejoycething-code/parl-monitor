@@ -13,6 +13,7 @@ into the Monday markdown edition. Rules enforced here:
 
 from __future__ import annotations
 
+import datetime
 import json
 from dataclasses import dataclass, field
 
@@ -48,6 +49,7 @@ class Edition:
     week_ahead: list = field(default_factory=list)
     votes: list = field(default_factory=list)
     pqs: list = field(default_factory=list)
+    pq_rows: list = field(default_factory=list)   # dicts: member/party/seat/heading/url/department/area/date/tag/why
     deadlines: list = field(default_factory=list)   # dicts: type/title/url/why/deadline
     si_rows: list = field(default_factory=list)      # dicts: name/url/procedure/act/status/...
     edms: list = field(default_factory=list)
@@ -215,6 +217,62 @@ def render_deadlines(edition):
     return "\n".join(out)
 
 
+PQ_HEADER = ("| Member | Question | Asked of | Answered |", "|---|---|---|---|")
+COMPANION_NOTE = ("*Full detail for every question, including the text asked and the "
+                  "department's answer, is on the [companion data page](questions.html).*")
+
+
+def _fmt_pq_date(iso):
+    if not iso:
+        return "-"
+    try:
+        d = datetime.date.fromisoformat(iso)
+    except ValueError:
+        return iso
+    return "{0} {1}".format(d.day, d.strftime("%b"))
+
+
+def render_pqs(edition, companion=True):
+    """Written questions as one table per issue area (Christopher, 2026-08-05).
+
+    Each area's table repeats the header, so a reader scrolling into the
+    middle of a long section always knows what the columns are. Nothing is
+    capped; the companion page carries the question and answer text.
+    """
+    if not edition.pq_rows:
+        return None
+    grouped = {}
+    for row in edition.pq_rows:
+        grouped.setdefault(row["area_label"] or "Other", []).append(row)
+
+    total = len(edition.pq_rows)
+    out = ["## Written questions", "",
+           "*{0} question{1} matched our areas this week.*".format(
+               total, "" if total == 1 else "s"), ""]
+    for label in sorted(grouped, key=lambda k: (-len(grouped[k]), k)):
+        rows = grouped[label]
+        out.append("**{0}** ({1})".format(label, len(rows)))
+        out.append("")
+        out.extend(PQ_HEADER)
+        for r in rows:
+            who = r["member"] or "-"
+            detail = ", ".join(x for x in (r["party"], r["seat"]) if x)
+            if detail:
+                who = "{0} ({1})".format(who, detail)
+            heading = r["heading"] or "-"
+            question = "[{0}]({1})".format(heading, r["url"]) if r["url"] else heading
+            if r["tag"] and r["tag"] != "NOTE":
+                question += " **{0}**".format(r["tag"])
+            if r["why"]:
+                question += " {0}".format(r["why"].rstrip(".") + ".")
+            out.append("| {0} | {1} | {2} | {3} |".format(
+                who, question, r["department"] or "-", _fmt_pq_date(r["date"])))
+        out.append("")
+    if companion:
+        out.extend([COMPANION_NOTE, ""])
+    return "\n".join(out)
+
+
 MP_SECTION_MAX = 12
 MP_SUBTITLE = ("*Questions, debates, votes and motions from any member of either House "
                "touching our campaign areas this week.*")
@@ -359,13 +417,12 @@ def render(edition):
         week_ahead = render_week_ahead(edition.week_ahead)
         if week_ahead:
             parts.append(week_ahead)
-        for title, lines, cap in [
-            ("Votes and amendments", edition.votes, None),
-            ("Written questions worth reading", edition.pqs, 5),
-        ]:
-            section = _render_section(title, lines, cap)
-            if section:
-                parts.append(section)
+        section = _render_section("Votes and amendments", edition.votes, None)
+        if section:
+            parts.append(section)
+        pqs = render_pqs(edition)
+        if pqs:
+            parts.append(pqs)
         deadlines = render_deadlines(edition)
         if deadlines:
             parts.append(deadlines)
