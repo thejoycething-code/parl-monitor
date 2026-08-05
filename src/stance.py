@@ -94,10 +94,13 @@ def unscored_refs(conn):
     separately -- every Aye voter inherits the aye ref's score.
     """
     ensure_table(conn)
+    # No issue area, no scoring: those rows render nowhere, so paying to be
+    # told a dementia question is irrelevant is pure waste.
     return conn.execute(
         "SELECT e.ref, MIN(e.kind) AS kind, MIN(e.line) AS line, MIN(e.areas) AS areas "
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
-        "WHERE s.ref IS NULL GROUP BY e.ref").fetchall()
+        "WHERE s.ref IS NULL AND e.areas IS NOT NULL AND e.areas != '[]' "
+        "GROUP BY e.ref").fetchall()
 
 
 def store_scores(conn, results, scored_at, model=STANCE_MODEL):

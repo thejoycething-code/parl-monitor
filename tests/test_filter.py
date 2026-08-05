@@ -128,10 +128,18 @@ class FilterTests(unittest.TestCase):
     # -- watchlist ---------------------------------------------------------
 
     def test_watchlist_entity_min_score_2_without_keyword(self):
-        r = self.match("Kim Leadbeater made remarks about the weather")
-        self.assertIn("Kim Leadbeater", r.watchlist_hits)
+        r = self.match("SPUC published a briefing about the weather")
+        self.assertIn("SPUC", r.watchlist_hits)
         self.assertEqual(r.min_score, 2)
         self.assertTrue(r.to_triage)
+
+    def test_parliamentarian_names_are_not_matching_entities(self):
+        """Christopher, 2026-08-05: Hansard prints members' names
+        structurally, so a name must not admit an item on its own."""
+        r = self.match("Kim Leadbeater made remarks about the weather")
+        self.assertEqual(r.watchlist_hits, [])
+        self.assertFalse(r.matched())
+        self.assertIn("Kim Leadbeater", filt.load_watchlist(WATCHLIST).people)
 
     def test_division_entity_match_with_smart_quote(self):  # acceptance 9.7 path
         title = "Draft Children’s Wellbeing and Schools Act 2026 (Establishment of Schools) Regulations"

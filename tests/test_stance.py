@@ -66,11 +66,13 @@ class ClassificationPlumbingTests(unittest.TestCase):
         conn = fresh_conn()
         intel.record_event(conn, 1, "2026-08-01", "edm", "edm:9", "Sponsored", areas=[2])
         intel.record_event(conn, 2, "2026-08-01", "edm-signed", "edm:9", "Signed", areas=[2])
-        intel.record_event(conn, 3, "2026-08-01", "vote", "div:c5:aye", "Voted Aye: X")
-        intel.record_event(conn, 4, "2026-08-01", "vote", "div:c5:aye", "Voted Aye: X")
+        intel.record_event(conn, 3, "2026-08-01", "vote", "div:c5:aye", "Voted Aye: X", areas=[2])
+        intel.record_event(conn, 4, "2026-08-01", "vote", "div:c5:aye", "Voted Aye: X", areas=[2])
+        intel.record_event(conn, 5, "2026-08-01", "pq", "pq:7", "No area at all")
         refs = sorted(r["ref"] for r in stance.unscored_refs(conn))
         # One row per motion (sponsor + signer share it) and per vote
-        # direction (both Aye voters share it).
+        # direction (both Aye voters share it). The area-less row is skipped:
+        # it renders nowhere, so scoring it would be paying for nothing.
         self.assertEqual(refs, ["div:c5:aye", "edm:9"])
 
     def test_rescoring_is_idempotent(self):
@@ -194,6 +196,27 @@ class BreakdownParseTests(unittest.TestCase):
         division, voters = divisions.parse_lords_breakdown(payload)
         self.assertEqual([(v.member_id, v.vote) for v in voters],
                          [(147, "aye"), (148, "no")])
+
+
+class WeeklySectionAreaGuardTests(unittest.TestCase):
+    """An issue area is the precondition for appearing in a section headed
+    "on our issues" (Christopher, 2026-08-05)."""
+
+    def _event(self, kind, areas, line="L", mid=1):
+        return {"member_id": mid, "kind": kind, "line": line, "name": "N",
+                "party": "P", "seat": "S", "areas": areas}
+
+    def test_area_less_rows_never_render(self):
+        from src import digest
+        events = [self._event("debate", None, "Spoke: Extreme Heat: Preparedness"),
+                  self._event("pq", "[]", "Dementia: Health Services", mid=2)]
+        self.assertEqual(digest.mp_lines_from_events(events), [])
+
+    def test_tagged_rows_still_render(self):
+        from src import digest
+        lines = digest.mp_lines_from_events([self._event("debate", "[2]", "Spoke: Hospices")])
+        self.assertEqual(len(lines), 1)
+        self.assertIn("Spoke: Hospices", lines[0])
 
 
 class CapTests(unittest.TestCase):

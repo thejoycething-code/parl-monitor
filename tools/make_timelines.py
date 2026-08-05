@@ -77,14 +77,17 @@ def main():
     tops = conn.execute(
         "SELECT e.member_id, m.name, m.party, m.seat, COUNT(*) n FROM mp_events e "
         "LEFT JOIN members m ON m.id = e.member_id "
+        "WHERE e.kind != 'vote' AND e.areas IS NOT NULL AND e.areas != '[]' "
         "GROUP BY e.member_id ORDER BY n DESC LIMIT ?", (top_n,)).fetchall()
 
     cards = []
     for t in tops:
         # Votes are counted, never listed (Christopher's flooding rule): a
         # single division would fill every card slot with identical lines.
+        # Votes are counted not listed, and a row with no issue area belongs
+        # on no profile: both would misrepresent the member's activity.
         events = [e for e in intel.member_timeline(conn, t["member_id"], limit=60)
-                  if e["kind"] != "vote"][:8]
+                  if e["kind"] != "vote" and e["areas"] and e["areas"] != "[]"][:8]
         n_votes = conn.execute(
             "SELECT COUNT(*) FROM mp_events WHERE member_id = ? AND kind = 'vote'",
             (t["member_id"],)).fetchone()[0]

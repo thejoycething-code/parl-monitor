@@ -105,6 +105,7 @@ class Watchlist:
     bills_raw: dict = None   # raw bills: {bill_id: {title, areas, why}} for the board
     fallen_raw: dict = None  # raw fallen_bills: same shape, closure candidates
     acts_raw: list = None    # raw acts_watch entries (short/chapter/bill_id/areas/why)
+    people: list = None      # parliamentarian names: reference only, never matched
 
 
 def load_watchlist(path):
@@ -124,9 +125,16 @@ def load_watchlist(path):
         e = entry(act.get("short"), act.get("areas") or [])
         entities.append(e)
         act_shorts.append(e)
-    for group in ("processes", "organisations", "parliamentarians"):
+    for group in ("processes", "organisations"):
         for name in (raw.get(group) or []):
             entities.append(entry(name, []))
+    # Parliamentarian names are deliberately NOT matching entities
+    # (Christopher, 2026-08-05). Hansard prints members' names structurally,
+    # so a name is a poor relevance signal: it was admitting speeches on drug
+    # deaths and extreme heat to the ledger. The monitor treats every
+    # parliamentarian equally, so the list confers no special status; it is
+    # carried through for reference only.
+    people = list(raw.get("parliamentarians") or [])
     # Holyrood bills are tracked by slug via the Scotland ingester (their status
     # comes from the bill page, not from keyword matching), so they are carried
     # through as raw entries rather than compiled into the matching entity list.
@@ -134,7 +142,8 @@ def load_watchlist(path):
                      holyrood=list(raw.get("holyrood") or []),
                      bills_raw=dict(raw.get("bills") or {}),
                      fallen_raw=dict(raw.get("fallen_bills") or {}),
-                     acts_raw=list(raw.get("acts_watch") or []))
+                     acts_raw=list(raw.get("acts_watch") or []),
+                     people=people)
 
 
 @dataclass

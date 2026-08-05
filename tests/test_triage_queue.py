@@ -33,7 +33,7 @@ class PendingPassTests(unittest.TestCase):
         self.conn.close()
 
     def test_pending_items_marks_watchlist_hits(self):
-        seed_pending(self.conn, "a:1", "Kim Leadbeater remarks", 2, terms=("Kim Leadbeater",))
+        seed_pending(self.conn, "a:1", "SPUC briefing", 2, terms=("SPUC",))
         seed_pending(self.conn, "b:2", "Palliative care debate", 2)
         by_id = {i.id: i for i in triage.pending_items(self.conn, self.wl)}
         self.assertTrue(by_id["a:1"].watchlist_hit)
@@ -45,7 +45,7 @@ class PendingPassTests(unittest.TestCase):
         self.assertEqual(len(triage.pending_items(self.conn, self.wl)), 1)
 
     def test_apply_scores_enforces_watchlist_floor_and_logs_discards(self):
-        seed_pending(self.conn, "a:1", "Watchlist item scored low", 2, terms=("Kim Leadbeater",))
+        seed_pending(self.conn, "a:1", "Watchlist item scored low", 2, terms=("SPUC",))
         seed_pending(self.conn, "b:2", "Irrelevant item", 2)
         items = triage.pending_items(self.conn, self.wl)
         results = [triage.TriageResult("a:1", 1, [2], "x"),   # floor lifts to 2

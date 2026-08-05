@@ -13,6 +13,7 @@ into the Monday markdown edition. Rules enforced here:
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 
 from src.board import TBA, order_board
@@ -222,6 +223,17 @@ MP_SUBTITLE = ("*Questions, debates, votes and motions from any member of either
 BULK_KINDS = {"vote", "edm-signed"}
 
 
+def _has_area(event):
+    """True when a ledger row carries at least one issue area."""
+    try:
+        areas = event["areas"]
+    except (KeyError, IndexError, TypeError):
+        return True          # callers without the column (older fixtures)
+    if not areas:
+        return False
+    return bool(json.loads(areas) if isinstance(areas, str) else areas)
+
+
 def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
     """V1 lines: one per member, activities merged; bulk kinds never listed.
 
@@ -236,6 +248,12 @@ def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
     grouped = {}        # member_id -> {"who": str, "acts": ordered {(kind, line): count}}
     for e in events:
         if e["kind"] in BULK_KINDS:
+            continue
+        # An issue area is the precondition for appearing in a section headed
+        # "on our issues". Watchlist name/process hits admit rows to the
+        # ledger without one, and a routine dementia question printed here
+        # would discredit the whole section.
+        if not _has_area(e):
             continue
         mid = e["member_id"]
         if mid not in grouped:
