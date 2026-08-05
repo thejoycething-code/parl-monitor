@@ -61,6 +61,34 @@ def record_event(conn, member_id, date, kind, ref, line, areas=None, commit=True
         conn.commit()
 
 
+def record_votes(conn, division, voters, prefix, areas=None):
+    """Ledger every voter of one division; one commit for the lot.
+
+    Direction lives in the ref (div:c1798:aye vs :no) because stance
+    classification is per-ref and the two sides carry opposite stances.
+    Voter payloads embed name/party/seat, so the members cache seeds here
+    without any Members API traffic.
+    """
+    from src import members
+
+    title = " ".join((division.title or "").split())  # source carries double spaces
+    n = 0
+    for v in voters:
+        if not v.member_id:
+            continue
+        if v.name and not members.cache_get(conn, v.member_id):
+            members.cache_put(conn, members.Member(
+                id=v.member_id, name=v.name, party=v.party,
+                seat=v.seat, house=division.house))
+        record_event(conn, v.member_id, division.date.isoformat(), "vote",
+                     "div:{0}{1}:{2}".format(prefix, division.id, v.vote),
+                     "Voted {0}: {1}".format("Aye" if v.vote == "aye" else "No", title),
+                     areas=areas, commit=False)
+        n += 1
+    conn.commit()
+    return n
+
+
 def events_for_week(conn, week_start, week_end):
     """Ledger rows in a date window, joined to the members cache."""
     return conn.execute(

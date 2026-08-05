@@ -119,6 +119,73 @@ class EdmSweepTests(unittest.TestCase):
         self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM edm_signatures").fetchone()[0], 1)
 
 
+class DeadClient:
+    """Every unmocked feed fails as a disclosed gap, so these tests exercise
+    one capture path at a time without reaching the network."""
+
+    def get_json(self, url, feed, slug, timeout=None):
+        raise FetchError(url, feed, slug, 1, TimeoutError("offline"))
+
+
+class WeeklyLedgerCaptureTests(unittest.TestCase):
+    """From September the weekly pull must keep the ledger's two strongest
+    evidence tiers growing: division breakdowns and Hansard speeches."""
+
+    def setUp(self):
+        self.conn = db.init_db(db.connect(":memory:"))
+
+    def tearDown(self):
+        self.conn.close()
+
+    def test_division_breakdown_ledgered_and_item_stored(self):
+        from src.ingest import divisions
+        dv = divisions.Division(id=1798, house="Commons", number=51,
+                                title="Terminally Ill Adults (End of Life) Bill: Third Reading",
+                                date=datetime.date(2026, 8, 4), aye_count=1, no_count=1)
+        voters = [divisions.Voter(14, "Aye MP", "Con", "Wokingham", "aye"),
+                  divisions.Voter(15, "No MP", "Lab", "Leeds", "no")]
+        with mock.patch.object(divisions, "fetch_commons_divisions",
+                               side_effect=lambda c, d: [dv] if d == "2026-08-04" else []), \
+                mock.patch.object(divisions, "fetch_lords_divisions", return_value=[]), \
+                mock.patch.object(divisions, "fetch_commons_breakdown",
+                                  return_value=(dv, voters)), \
+                mock.patch.object(run_weekly, "load_settings", return_value={}):
+            run_weekly.ingest_all(DeadClient(), self.conn, TAX, WL, WEEK,
+                                  WEEK + datetime.timedelta(days=6))
+        rows = self.conn.execute(
+            "SELECT member_id, kind, ref, areas FROM mp_events ORDER BY member_id").fetchall()
+        self.assertEqual([(r["member_id"], r["ref"]) for r in rows],
+                         [(14, "div:c1798:aye"), (15, "div:c1798:no")])
+        self.assertIn("2", rows[0]["areas"])  # assisted dying area stamped
+        self.assertEqual(
+            self.conn.execute("SELECT COUNT(*) FROM items WHERE source_feed='division'"
+                              ).fetchone()[0], 1)
+        # Voter details seed the members cache without Members API traffic.
+        self.assertEqual(
+            self.conn.execute("SELECT name FROM members WHERE id=14").fetchone()["name"],
+            "Aye MP")
+
+    def test_hansard_speech_ledgered_with_areas(self):
+        from src.ingest import hansard
+        speech = hansard.Contribution(
+            ext_id="ABC", member_id=99, member_name="Speaking MP",
+            date=datetime.date(2026, 8, 5), house="Commons",
+            debate_title="Assisted Dying", text="I oppose assisted suicide.",
+            debate_ext_id="DEF")
+        with mock.patch.object(hansard, "search_contributions",
+                               return_value=[speech]), \
+                mock.patch.object(pqs, "fetch_questions", return_value=[]), \
+                mock.patch.object(run_weekly, "load_settings",
+                                  return_value={"pq_sweep_terms": ["assisted dying"]}), \
+                mock.patch.object(run_weekly.members, "resolve", return_value=None):
+            run_weekly.ingest_all(DeadClient(), self.conn, TAX, WL, WEEK,
+                                  WEEK + datetime.timedelta(days=6))
+        row = self.conn.execute(
+            "SELECT member_id, kind, ref, line FROM mp_events WHERE kind='debate'").fetchone()
+        self.assertEqual((row["member_id"], row["ref"]), (99, "hansard:ABC"))
+        self.assertIn("Spoke: Assisted Dying", row["line"])
+
+
 class SettingsTests(unittest.TestCase):
     def test_settings_load_with_sweep_terms(self):
         settings = run_weekly.load_settings()

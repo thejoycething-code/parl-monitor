@@ -130,6 +130,7 @@ def _build_payload(batch):
 
 
 def _default_transport(payload, api_key):  # pragma: no cover - real network
+    import urllib.error
     import urllib.request
 
     request = urllib.request.Request(
@@ -141,8 +142,18 @@ def _default_transport(payload, api_key):  # pragma: no cover - real network
             "anthropic-version": "2023-06-01",
         },
     )
-    with urllib.request.urlopen(request, timeout=120) as response:
-        return json.loads(response.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        # The body carries the actual reason (credit exhausted, oversized
+        # request, invalid field); a bare "HTTP Error 400" wasted a run.
+        detail = ""
+        try:
+            detail = exc.read().decode("utf-8")[:300]
+        except Exception:
+            pass
+        raise RuntimeError("HTTP {0}: {1}".format(exc.code, detail)) from exc
 
 
 def _parse_reply(reply):

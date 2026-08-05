@@ -26,7 +26,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt, intel, members
+from src import db, filter as filt, intel
 from src.http import FetchError, HttpClient
 from src.ingest import divisions
 
@@ -40,27 +40,6 @@ def load_settings():
     import yaml
     with open(os.path.join(ROOT, "config", "settings.yaml"), encoding="utf-8") as handle:
         return yaml.safe_load(handle) or {}
-
-
-def ledger_division(conn, division, voters, prefix, result):
-    """All voters of one matched division -> mp_events, one commit."""
-    n = 0
-    for v in voters:
-        if not v.member_id:
-            continue
-        if v.name and not members.cache_get(conn, v.member_id):
-            members.cache_put(conn, members.Member(
-                id=v.member_id, name=v.name, party=v.party,
-                seat=v.seat, house=division.house))
-        line = "Voted {0}: {1}".format("Aye" if v.vote == "aye" else "No",
-                                       division.title)
-        intel.record_event(
-            conn, v.member_id, division.date.isoformat(), "vote",
-            "div:{0}{1}:{2}".format(prefix, division.id, v.vote),
-            line, areas=result.issue_areas, commit=False)
-        n += 1
-    conn.commit()
-    return n
 
 
 def main():
@@ -95,7 +74,7 @@ def main():
                     print("  [gap] {0} division {1}: {2}".format(house, d.id, exc.cause))
                     continue
                 division.house = house
-                n = ledger_division(conn, division, voters, prefix, r)
+                n = intel.record_votes(conn, division, voters, prefix, r.issue_areas)
                 total += n
                 matched_n += 1
                 print("  {0} {1} {2} ({3} voters): {4}".format(

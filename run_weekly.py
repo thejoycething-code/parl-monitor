@@ -23,7 +23,8 @@ import yaml
 
 from src import board, db, digest, filter as filt, intel, members, review, triage
 from src.http import FetchError, HttpClient
-from src.ingest import bills, committees, consultations, divisions, edms, legislation, pqs, scotland, sis, whatson, wms
+from src.ingest import (bills, committees, consultations, divisions, edms, hansard,
+                        legislation, pqs, scotland, sis, whatson, wms)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -298,16 +299,64 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                        "whatson", "event", label, None, r, event_date=event_date)
 
     def _divisions():
+        found = []
         day = week_start
         while day <= week_end:
-            for dv in divisions.fetch_commons_divisions(client, day.isoformat()):
-                r = filt.filter_item(tax, wl, dv.title or "")
-                if r.matched():
-                    title = " ".join((dv.title or "").split())  # source carries double spaces
-                    store_item(conn, "division:{0}".format(dv.id), "division", "division",
-                               "Division #{0} ({1}-{2}): {3}".format(dv.number, dv.aye_count, dv.no_count, title),
-                               dv.url, r, event_date=dv.date.isoformat() if dv.date else None)
+            found.extend(("Commons", "c", divisions.fetch_commons_breakdown, dv)
+                         for dv in divisions.fetch_commons_divisions(client, day.isoformat()))
             day += datetime.timedelta(days=1)
+        found.extend(("Lords", "l", divisions.fetch_lords_breakdown, dv) for dv in
+                     divisions.fetch_lords_divisions(client, week_start.isoformat(),
+                                                     week_end.isoformat()))
+        for house, prefix, breakdown, dv in found:
+            r = filt.filter_item(tax, wl, dv.title or "")
+            if not r.matched():
+                continue
+            title = " ".join((dv.title or "").split())  # source carries double spaces
+            store_item(conn, "division:{0}".format(dv.id), "division", "division",
+                       "Division #{0} ({1}-{2}): {3}".format(dv.number, dv.aye_count, dv.no_count, title),
+                       dv.url, r, event_date=dv.date.isoformat() if dv.date else None)
+            # Member-level breakdown -> ledger (profiles, timelines, 5CA).
+            # Precision-gated like every other ledger path; never listed in
+            # the weekly section, only counted (Christopher's flooding rule).
+            if not (r.tier == 1 or r.watchlist_hits) or not dv.date:
+                continue
+            try:
+                division, voters = breakdown(client, dv.id)
+            except Exception as exc:
+                record_gap(conn, edition, "division",
+                           "division {0} breakdown unavailable: {1}".format(dv.id, exc))
+                continue
+            division.house = house
+            intel.record_votes(conn, division, voters, prefix, r.issue_areas)
+
+    def _hansard():
+        """Spoken contributions -> ledger. The MP section's standing subtitle
+        promises debates, so this is what makes good on it each week."""
+        for term in (settings.get("pq_sweep_terms") or []):
+            try:
+                speeches = hansard.search_contributions(
+                    client, term, week_start.isoformat(), week_end.isoformat())
+            except FetchError as exc:
+                record_gap(conn, edition, "hansard",
+                           "term '{0}' failed after {1} attempts".format(term, exc.attempts))
+                continue
+            for s in speeches:
+                if not (s.member_id and s.date):
+                    continue
+                r = filt.filter_item(tax, wl, s.debate_title or "", s.text or "")
+                if not (r.tier == 1 or r.watchlist_hits):
+                    continue
+                try:
+                    members.resolve(conn, client, s.member_id)
+                except Exception:
+                    pass  # resolution is best-effort; the ledger row still lands
+                intel.record_event(
+                    conn, s.member_id, s.date.isoformat(), "debate",
+                    "hansard:{0}".format(s.ext_id),
+                    intel.annotated_line("Spoke: {0}".format(s.debate_title),
+                                         r.matched_terms + r.watchlist_hits),
+                    areas=r.issue_areas)
 
     def _wms():
         for st in wms.fetch_statements(client, week_start.isoformat(), take=80):
@@ -335,7 +384,7 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
     # One failing feed degrades to a disclosed gap; the pull continues.
     for feed_name, fetch in [("consultation", _consultations), ("si", _sis),
                              ("whatson", _whatson), ("division", _divisions), ("wms", _wms),
-                             ("committee", _committees)]:
+                             ("committee", _committees), ("hansard", _hansard)]:
         try:
             fetch()
         except FetchError as exc:
