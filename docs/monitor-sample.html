@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CitizenGO Parliamentary Monitor - sample pack</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; max-width:66rem;
+       margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.4rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+h2 { color:#4285f4; font-size:1.1rem; margin-top:2.2rem; }
+.internal { background:#FFEBAD; border-left:4px solid #DB544F; padding:.6rem 1rem;
+            font-size:.88em; border-radius:0 4px 4px 0; }
+.stats { display:flex; gap:1rem; flex-wrap:wrap; margin:1.2rem 0; }
+.stat-box { border:1px solid #EEEEEE; border-radius:6px; padding:.7rem 1.1rem; text-align:center; }
+.stat-box b { display:block; font-size:1.5em; color:#4285f4; }
+table { border-collapse:collapse; width:100%; font-size:.8em; }
+th,td { border:1px solid #EEEEEE; padding:.45rem .55rem; text-align:left; vertical-align:top; }
+th { background:#4285f4; color:#FFF; font-weight:500; white-space:nowrap; }
+td.c { text-align:center; width:2rem; font-weight:700; }
+td.dm { white-space:nowrap; font-weight:700; max-width:14rem; overflow:hidden; text-overflow:ellipsis; }
+.ev { display:block; margin:.12rem 0; } .ev.more { opacity:.6; font-style:italic; }
+.how { font-size:.88em; }
+.how li { margin:.35rem 0; }
+.profiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+.card { border:1px solid #EEEEEE; border-radius:6px; padding:.9rem 1.1rem; }
+.card h4 { margin:0; font-size:1em; }
+.card .role { font-size:.8em; opacity:.8; }
+.card .stat { font-size:.78em; margin:.3rem 0; color:#4285f4; font-weight:700; }
+.areas { font-size:.72em; margin:.1rem 0 .4rem; }
+.area { display:inline-block; border:1px solid #4285f4; color:#4285f4; border-radius:3px;
+        padding:.05em .45em; margin:.1em .2em .1em 0; }
+.tl { border-left:2px solid #EEEEEE; margin:.4rem 0 .2rem .35rem; padding-left:.9rem; }
+.tev { position:relative; font-size:.8em; margin:.4rem 0; }
+.tev::before { content:""; position:absolute; left:-1.22rem; top:.35em; width:.5em;
+              height:.5em; border-radius:50%; background:#4285f4; }
+.tev .d { font-weight:700; opacity:.7; margin-right:.35rem; }
+.kind { font-size:.68em; font-weight:700; border-radius:999px; padding:.05em .5em;
+        background:#4285f4; color:#FFF; margin-right:.3em; }
+.kind.signed { background:#FFF; color:#4285f4; border:1px solid #4285f4; }
+</style></head><body>
+<h1>CitizenGO Parliamentary Monitor</h1>
+<p class="internal"><strong>Internal sample pack.</strong> Live data, 4 August 2026. The MP
+intelligence shown here never appears in the partner edition.</p>
+
+<p>An automated pipeline that watches Westminster every week (bills, questions, motions,
+divisions, consultations, secondary legislation), files everything a parliamentarian does on
+our campaign areas into a continuous intelligence ledger, and generates campaign tools from
+it on demand. It runs unattended on a weekly cycle; a Claude scoring pass reads each piece of
+evidence and places it on CitizenGO's side of the argument or against it.</p>
+
+<div class="stats">
+<div class="stat-box"><b>119,470</b>ledger events</div>
+<div class="stat-box"><b>1,914</b>parliamentarians</div>
+<div class="stat-box"><b>104,982</b>division votes</div>
+<div class="stat-box"><b>642/649</b>sitting MPs covered</div>
+<div class="stat-box"><b>2020&ndash;2026</b>evidence window</div>
+</div>
+
+<h2>1 &mdash; The 5CA generator</h2>
+<p class="how">One command produces a pre-filled Five Column Analysis for any campaign area:
+all 649 sitting MPs, each placed on the ++/+/0/&minus;/&minus;&minus; gradient by their
+<em>strongest evidence</em> (votes outrank speeches, speeches outrank motions, motions outrank
+questions; free votes outrank whipped ones), with dated, deep-linked evidence as the Comments
+rationale. Target stays blank &mdash; that call belongs to the campaigner. Editorial rules
+outrank the AI: voting against the Illegal Migration, Rwanda or Nationality and Borders
+enforcement measures scores badly whatever the party context, and Border Security Bill votes
+carry no enforcement weight. Sample rows from the live <strong>Migration</strong> sheet:</p>
+<table>
+<tr><th>Decision-Maker</th><th>++</th><th>+</th><th>0</th><th>&minus;</th><th>&minus;&minus;</th><th>Target</th><th>Comments (evidence)</th></tr>
+<tr><td class="dm">Priti Patel (Conservative, Witham)</td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td><span class="ev">2026-07-13 VOTE: Voted Aye: Immigration and Asylum Bill: Reasoned Amendment to Second Reading [0: Reasoned amendment to Immigration Bill; direction unclear from</span><span class="ev">2025-12-16 DEBATE: Spoke: Africa: New Approach (re: illegal migration) [unscored]</span><span class="ev more">... and 179 more evidence lines</span></td></tr>
+<tr><td class="dm">Chris Philp (Conservative, Croydon South)</td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td><span class="ev">2026-07-30 PQ: Home Office: Written Questions (re: border security) [0: Purely procedural question about delayed written question responses]</span><span class="ev">2026-07-13 VOTE: Voted Aye: Immigration and Asylum Bill: Reasoned Amendment to Second Reading [0: Reasoned amendment to Immigration Bill; direction unclear from</span><span class="ev more">... and 153 more evidence lines</span></td></tr>
+<tr><td class="dm">James McMurdock (Independent, South Basildon and East Thurrock)</td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td><span class="ev">2026-07-24 PQ: Deportation [+: Probes scope of deportation exceptions, supports firmer immigration enforcement]</span><span class="ev">2026-07-24 PQ: Asylum [0: Neutral fact-finding on unpaid contributions&#x27; effects]</span><span class="ev more">... and 37 more evidence lines</span></td></tr>
+<tr><td class="dm">Chris Murray (Labour, Edinburgh East and Musselburgh)</td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td><span class="ev">2026-07-13 VOTE: Voted Aye: Immigration and Asylum Bill: Second Reading [+: Backed passage of Immigration and Asylum Bill at second reading, supporting border c</span><span class="ev">2026-07-13 VOTE: Voted No: Immigration and Asylum Bill: Reasoned Amendment to Second Reading [0: Reasoned amendment to Immigration Bill; direction unclear from </span><span class="ev more">... and 36 more evidence lines</span></td></tr>
+<tr><td class="dm">Katie Lam (Conservative, Weald of Kent)</td><td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td><span class="ev">2026-07-13 VOTE: Voted Aye: Immigration and Asylum Bill: Reasoned Amendment to Second Reading [0: Reasoned amendment to Immigration Bill; direction unclear from</span><span class="ev">2026-06-24 PQ: Visas: Northern Ireland (re: border security) [0: Neutral inquiry about extending visa scheme nationalities]</span><span class="ev more">... and 18 more evidence lines</span></td></tr>
+<tr><td class="dm">Max Wilkinson (Liberal Democrat, Cheltenham)</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td><span class="ev">2026-07-13 VOTE: Voted No: Immigration and Asylum Bill: Second Reading [-: Opposed passage of Immigration and Asylum Bill at second reading]</span><span class="ev">2026-07-13 VOTE: Voted No: Immigration and Asylum Bill: Reasoned Amendment to Second Reading [0: Reasoned amendment to Immigration Bill; direction unclear from </span><span class="ev more">... and 15 more evidence lines</span></td></tr>
+<tr><td class="dm">Mr Will Forster (Liberal Democrat, Woking)</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td><span class="ev">2026-07-13 VOTE: Voted No: Immigration and Asylum Bill: Second Reading [-: Opposed passage of Immigration and Asylum Bill at second reading]</span><span class="ev">2026-07-13 VOTE: Voted No: Immigration and Asylum Bill: Reasoned Amendment to Second Reading [0: Reasoned amendment to Immigration Bill; direction unclear from </span><span class="ev more">... and 15 more evidence lines</span></td></tr>
+<tr><td class="dm">Robert Jenrick (Reform UK, Newark)</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td><span class="ev">2026-07-13 VOTE: Voted No: Immigration and Asylum Bill: Second Reading [-: Opposed passage of Immigration and Asylum Bill at second reading]</span><span class="ev">2026-07-13 VOTE: Voted Aye: Immigration and Asylum Bill: Reasoned Amendment to Second Reading [0: Reasoned amendment to Immigration Bill; direction unclear from</span><span class="ev more">... and 262 more evidence lines</span></td></tr>
+<tr><td class="dm">Stephen Kinnock (Labour, Aberafan Maesteg)</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td><span class="ev">2025-11-19 VOTE: Voted Aye: Border Security, Asylum and Immigration Bill: motion to disagree with Lords Amendment 37 [0: Border Security Bill votes carry no enf</span><span class="ev">2025-05-12 VOTE: Voted Aye: Border Security, Asylum and Immigration Bill: Third Reading [0: Border Security Bill votes carry no enforcement weight (editorial ru</span><span class="ev more">... and 197 more evidence lines</span></td></tr>
+<tr><td class="dm">Yvette Cooper (Labour, Pontefract, Castleford and Knottingley)</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td><span class="ev">2025-09-01 DEBATE: Spoke: Borders and Asylum [unscored]</span><span class="ev">2025-09-01 DEBATE: Spoke: Borders and Asylum [unscored]</span><span class="ev more">... and 191 more evidence lines</span></td></tr>
+</table>
+<p class="how">The full sheet is a CSV that pastes straight into the Campaigns Brief. Current
+coverage: <strong>637 of 649</strong> sitting MPs carry evidence on migration; sheets exist for
+all 11 campaign areas and regenerate in seconds as new evidence arrives.</p>
+
+<h2>2 &mdash; MP timelines</h2>
+<p class="how">Every parliamentarian active on our issues gets a running timeline &mdash;
+questions, speeches, motions sponsored and signed, with division votes counted separately so
+they never drown the narrative. The most active profiles right now:</p>
+<div class="profiles">
+<div class="card"><h4>Robert Jenrick</h4><div class="role">Reform UK, Newark</div>
+<div class="stat">206 contributions + 80 division votes</div><div class="areas"><span class="area">Migration &times;263</span><span class="area">Free speech online safety &times;15</span><span class="area">Assisted dying &times;9</span></div><div class="tl"><div class="tev"><span class="d">2026-06-01</span><span class="kind ">DEBATE</span>Spoke: Child Sexual Offender Data (re: grooming gang)</div>
+<div class="tev"><span class="d">2026-05-18</span><span class="kind ">DEBATE</span>Spoke: Backing Business to Create Economic Growth (re: illegal migration)</div>
+<div class="tev"><span class="d">2026-05-18</span><span class="kind ">DEBATE</span>Spoke: Backing Business to Create Economic Growth (re: illegal migration)</div>
+<div class="tev"><span class="d">2026-04-20</span><span class="kind ">DEBATE</span>Spoke: Security Vetting (re: small boats)</div>
+<div class="tev"><span class="d">2025-10-27</span><span class="kind ">DEBATE</span>Spoke: Prisoner Release Checks (re: small boats)</div></div></div>
+<div class="card"><h4>Stephen Kinnock</h4><div class="role">Labour, Aberafan Maesteg</div>
+<div class="stat">195 contributions + 110 division votes</div><div class="areas"><span class="area">Migration &times;199</span><span class="area">Assisted dying &times;80</span><span class="area">Free speech online safety &times;21</span></div><div class="tl"><div class="tev"><span class="d">2026-06-23</span><span class="kind ">DEBATE</span>Spoke:  Puberty Blockers</div>
+<div class="tev"><span class="d">2026-06-23</span><span class="kind ">DEBATE</span>Spoke:  Puberty Blockers</div>
+<div class="tev"><span class="d">2025-12-17</span><span class="kind ">DEBATE</span>Spoke: Palliative Care: North Derbyshire</div>
+<div class="tev"><span class="d">2025-06-20</span><span class="kind ">DEBATE</span>Spoke: Terminally Ill Adults (End of Life) Bill</div>
+<div class="tev"><span class="d">2025-06-13</span><span class="kind ">DEBATE</span>Spoke: Terminally Ill Adults (End of Life) Bill</div></div></div>
+<div class="card"><h4>Danny Kruger</h4><div class="role">Reform UK, East Wiltshire</div>
+<div class="stat">173 contributions + 106 division votes</div><div class="areas"><span class="area">Assisted dying &times;173</span><span class="area">Migration &times;85</span><span class="area">Free speech online safety &times;15</span></div><div class="tl"><div class="tev"><span class="d">2025-12-18</span><span class="kind ">PQ</span>Euthanasia: Scotland</div>
+<div class="tev"><span class="d">2025-12-18</span><span class="kind ">PQ</span>Euthanasia: Scotland</div>
+<div class="tev"><span class="d">2025-11-17</span><span class="kind ">DEBATE</span>Spoke: Asylum Policy</div>
+<div class="tev"><span class="d">2025-04-01</span><span class="kind ">DEBATE</span>Spoke: Eating Disorder Awareness (re: assisted dying)</div>
+<div class="tev"><span class="d">2025-03-25</span><span class="kind ">DEBATE</span>Spoke: Terminally Ill Adults (End of Life) Bill (Twenty-eighth sitting)</div></div></div>
+<div class="card"><h4>Lord Parkinson of Whitley Bay</h4><div class="role">Conservative, Life peer</div>
+<div class="stat">152 contributions + 120 division votes</div><div class="areas"><span class="area">Free speech online safety &times;151</span><span class="area">Migration &times;115</span><span class="area">Abortion &times;9</span></div><div class="tl"><div class="tev"><span class="d">2026-01-27</span><span class="kind ">DEBATE</span>Spoke: Crime and Policing Bill</div>
+<div class="tev"><span class="d">2025-02-24</span><span class="kind ">DEBATE</span>Spoke: Online Safety Act 2023 (Category 1, Category 2A and Category 2B Threshold Condition</div>
+<div class="tev"><span class="d">2024-12-16</span><span class="kind ">DEBATE</span>Spoke: Football Governance Bill [HL] (re: Online Safety Act)</div>
+<div class="tev"><span class="d">2024-12-13</span><span class="kind ">DEBATE</span>Spoke: Non-Consensual Sexually Explicit Images and Videos (Offences) Bill [HL] (re: Online</div>
+<div class="tev"><span class="d">2024-12-11</span><span class="kind ">DEBATE</span>Spoke: House of Lords (Hereditary Peers) Bill (re: Online Safety Act)</div></div></div>
+</div>
+
+<h2>3 &mdash; How it fits together</h2>
+<ul class="how">
+<li><strong>Sunday, unattended:</strong> the pipeline sweeps every source, files matched items, and a Claude pass triages them.</li>
+<li><strong>Monday, unattended:</strong> the weekly edition publishes to Slack and Asana, and a redacted partner edition (no owners, no MP intelligence) deploys to the passphrase-gated partner site.</li>
+<li><strong>Continuously:</strong> every capture also lands in the ledger with its issue areas, feeding the timelines and 5CA sheets above. Six years of history (2020&ndash;2026) is backfilled: questions, motions and signatures, 245 tagged divisions with full member breakdowns, and Hansard speeches.</li>
+<li><strong>Cost:</strong> runs on free parliamentary APIs and GitHub Actions; the AI scoring costs roughly a coffee per year.</li>
+</ul>
+<p style="font-size:.8em;opacity:.7">CitizenGO UK &mdash; internal. Questions: Christopher Joyce.</p>
+</body></html>

@@ -42,6 +42,13 @@ class ClassificationPlumbingTests(unittest.TestCase):
         rows = {r["ref"]: r["stance"] for r in conn.execute("SELECT ref, stance FROM stance")}
         self.assertEqual(rows, {"pq:1": 2, "edm:2": -1})  # 5 clamped to +2
 
+    def test_parse_reply_tolerates_preamble_prose(self):
+        """Live failure 2026-08-04: occasional replies opened with prose
+        before the JSON array and the whole batch was lost."""
+        reply = {"content": [{"text":
+            'Here are the classifications:\n[{"ref": "pq:1", "stance": 0, "why": "w"}]'}]}
+        self.assertEqual(stance._parse_reply(reply)[0].ref, "pq:1")
+
     def test_parse_reply_strips_markdown_fences(self):
         reply = {"content": [{"text": '```json\n[{"ref": "pq:1", "stance": 1, "why": "w"}]\n```'}]}
         self.assertEqual(stance._parse_reply(reply)[0].ref, "pq:1")

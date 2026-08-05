@@ -155,6 +155,9 @@ def _parse_reply(reply):
     text = "".join(block.get("text", "") for block in (reply.get("content") or [])).strip()
     if text.startswith("```"):
         text = text.strip("`").lstrip("json").strip()
+    start = text.find("[")
+    if start > 0:
+        text = text[start:]  # tolerate preamble prose before the array
     try:
         data = json.loads(text)
     except ValueError:
