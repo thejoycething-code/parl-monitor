@@ -108,10 +108,16 @@ def store_scores(conn, results, scored_at, model=STANCE_MODEL):
     for r in results:
         if r.ref is None or r.stance is None:
             continue
+        try:
+            value = max(-2, min(2, int(r.stance)))
+        except (TypeError, ValueError):
+            # A malformed row (stance as a list, a word, ...) must not kill
+            # the run: skip it and the idempotent re-run scores it properly.
+            continue
         conn.execute(
             "INSERT OR REPLACE INTO stance (ref, stance, why, model, scored_at) "
             "VALUES (?, ?, ?, ?, ?)",
-            (r.ref, max(-2, min(2, int(r.stance))), r.why or "", model, scored_at))
+            (r.ref, value, r.why or "", model, scored_at))
     conn.commit()
 
 
