@@ -21,6 +21,63 @@ def load_json(slug):
         return json.loads(h.read().decode("utf-8"))
 
 
+class PassageMatchingTests(unittest.TestCase):
+    """Stage 1 of the cross-tagging fix: a long speech is tagged with the
+    areas its passages support, not every area it brushes against."""
+
+    def setUp(self):
+        self.tax = filt.load_taxonomy(TAXONOMY)
+        self.wl = filt.load_watchlist(WATCHLIST)
+
+    def test_paragraphs_split_and_markup_stripped(self):
+        text = ('First paragraph about nothing.\r\n\r\n'
+                'Second <span class="column-number">1712</span>paragraph.')
+        parts = filt.split_passages(text)
+        self.assertEqual(len(parts), 2)
+        self.assertNotIn("<span", parts[1])
+        self.assertIn("1712paragraph", parts[1].replace(" ", ""))
+
+    def test_long_paragraph_broken_on_sentences(self):
+        para = " ".join("Sentence number {0} here.".format(n) for n in range(200))
+        parts = filt.split_passages(para, max_chars=300)
+        self.assertGreater(len(parts), 1)
+        self.assertTrue(all(len(p) <= 320 for p in parts))
+
+    def test_unrelated_speech_mentioning_one_term_is_not_tagged_everywhere(self):
+        """The Diana Johnson case: a knife-crime speech that mentions the
+        Online Safety Act must not land on the abortion sheet."""
+        text = ("I rise to speak about knife crime in my constituency.\r\n\r\n"
+                "Retailers must do more, and the Online Safety Act gives "
+                "Ofcom powers we should use.\r\n\r\n"
+                "Youth services need funding.")
+        matches = filt.match_passages(self.tax, self.wl, text, title="Knife Crime")
+        areas, terms, excerpt = filt.aggregate_passages(matches)
+        self.assertIn(7, areas)          # free speech / online safety: real
+        self.assertNotIn(1, areas)       # abortion: never mentioned
+        self.assertIn("Online Safety Act", excerpt)
+
+    def test_excerpt_is_the_matching_passage_not_the_title(self):
+        text = ("Opening remarks on procedure.\r\n\r\n"
+                "Women attending an abortion clinic deserve protection from "
+                "intimidation, which is why safe access zones matter.")
+        matches = filt.match_passages(self.tax, self.wl, text, title="Topical Questions")
+        _areas, _terms, excerpt = filt.aggregate_passages(matches)
+        self.assertIn("safe access zones", excerpt)
+        self.assertNotIn("Topical Questions", excerpt)
+
+    def test_title_match_counts_as_its_own_passage(self):
+        matches = filt.match_passages(self.tax, self.wl, "Nothing relevant here.",
+                                      title="Abortion Clinics: Buffer Zones")
+        areas, _terms, _excerpt = filt.aggregate_passages(matches)
+        self.assertIn(1, areas)
+
+    def test_no_qualifying_passage_returns_nothing(self):
+        matches = filt.match_passages(self.tax, self.wl,
+                                      "Hedgerow buffer strips on farmland.",
+                                      title="Agriculture Bill")
+        self.assertEqual(filt.aggregate_passages(matches), ([], [], None))
+
+
 class FilterTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

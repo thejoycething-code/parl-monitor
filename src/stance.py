@@ -433,7 +433,7 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
     whip_map = {r["ref_base"]: r["whipped"]
                 for r in conn.execute("SELECT ref_base, whipped FROM division_whip")}
     rows = conn.execute(
-        "SELECT e.member_id, e.date, e.kind, e.ref, e.line, e.areas, "
+        "SELECT e.member_id, e.date, e.kind, e.ref, e.line, e.areas, e.excerpt, "
         "s.stance, s.why, m.name, m.party, m.seat, m.house "
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
         "LEFT JOIN members m ON m.id = e.member_id "
@@ -489,8 +489,12 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
                 stance_to_column(r["stance"]) if r["stance"] is not None else "unscored",
                 ": " + why if why else "",
                 "; {0}".format(whip) if whip else "")
-            comments.append("{0} {1}: {2}{3}".format(
-                r["date"], r["kind"].upper(), r["line"], note))
+            # The excerpt is the passage that put this row here, which is what
+            # a campaigner needs to see -- a debate title alone can be about
+            # something else entirely.
+            quote = ' "{0}"'.format(r["excerpt"]) if r["excerpt"] else ""
+            comments.append("{0} {1}: {2}{3}{4}".format(
+                r["date"], r["kind"].upper(), r["line"], quote, note))
         out.append({
             "member_id": mid,
             "decision_maker": name + (" ({0})".format(detail) if detail else ""),

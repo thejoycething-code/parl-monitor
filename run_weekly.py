@@ -345,9 +345,14 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
             for s in speeches:
                 if not (s.member_id and s.date):
                     continue
-                r = filt.filter_item(tax, wl, s.debate_title or "", s.text or "")
-                if not (r.tier == 1 or r.watchlist_hits):
+                # Passage-level: a long speech is tagged with the areas its
+                # passages actually support, and the strongest passage becomes
+                # the excerpt the 5CA Comments column quotes.
+                matches = filt.match_passages(tax, wl, s.text or "",
+                                              title=s.debate_title or "")
+                if not matches:
                     continue
+                areas, terms, excerpt = filt.aggregate_passages(matches)
                 try:
                     members.resolve(conn, client, s.member_id)
                 except Exception:
@@ -355,9 +360,8 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                 intel.record_event(
                     conn, s.member_id, s.date.isoformat(), "debate",
                     "hansard:{0}".format(s.ext_id),
-                    intel.annotated_line("Spoke: {0}".format(s.debate_title),
-                                         r.matched_terms + r.watchlist_hits),
-                    areas=r.issue_areas)
+                    intel.annotated_line("Spoke: {0}".format(s.debate_title), terms),
+                    areas=areas, excerpt=excerpt)
 
     def _wms():
         for st in wms.fetch_statements(client, week_start.isoformat(), take=80):

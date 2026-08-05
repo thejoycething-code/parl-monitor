@@ -77,17 +77,18 @@ def main():
                 seen.add(s.ext_id)
                 if not s.member_id or not s.date:
                     continue
-                r = filt.filter_item(tax, wl, s.debate_title or "", s.text or "")
-                if not (r.tier == 1 or r.watchlist_hits):
+                matches = filt.match_passages(tax, wl, s.text or "",
+                                              title=s.debate_title or "")
+                if not matches:
                     continue
+                areas, terms, excerpt = filt.aggregate_passages(matches)
                 if resolve(s.member_id) is None:
                     continue
                 intel.record_event(
                     conn, s.member_id, s.date.isoformat(), "debate",
                     "hansard:{0}".format(s.ext_id),
-                    intel.annotated_line("Spoke: {0}".format(s.debate_title),
-                                         r.matched_terms + r.watchlist_hits),
-                    areas=r.issue_areas)
+                    intel.annotated_line("Spoke: {0}".format(s.debate_title), terms),
+                    areas=areas, excerpt=excerpt)
                 written += 1
         print("  hansard '{0}' done ({1} events so far)".format(term, written))
     print("done: {0} debate events".format(written))

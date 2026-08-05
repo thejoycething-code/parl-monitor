@@ -39,7 +39,8 @@ def annotated_line(line, matched_terms):
     return "{0} (re: {1})".format(base, terms[0])
 
 
-def record_event(conn, member_id, date, kind, ref, line, areas=None, commit=True):
+def record_event(conn, member_id, date, kind, ref, line, areas=None, commit=True,
+                 excerpt=None):
     """Upsert a ledger row; idempotent on re-runs and backfills.
 
     On conflict the line/areas/date refresh from the new capture -- unlike
@@ -51,12 +52,13 @@ def record_event(conn, member_id, date, kind, ref, line, areas=None, commit=True
     """
     ensure_index(conn)
     conn.execute(
-        "INSERT INTO mp_events (member_id, date, kind, ref, line, areas) "
-        "VALUES (?, ?, ?, ?, ?, ?) "
+        "INSERT INTO mp_events (member_id, date, kind, ref, line, areas, excerpt) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT(member_id, kind, ref) DO UPDATE SET "
-        "date=excluded.date, line=excluded.line, areas=excluded.areas",
+        "date=excluded.date, line=excluded.line, areas=excluded.areas, "
+        "excerpt=COALESCE(excluded.excerpt, mp_events.excerpt)",
         (member_id, date, kind, ref, (line or "")[:200],
-         json.dumps(sorted(areas)) if areas else None))
+         json.dumps(sorted(areas)) if areas else None, excerpt))
     if commit:
         conn.commit()
 

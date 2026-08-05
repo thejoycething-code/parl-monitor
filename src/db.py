@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS bills_board (
 );
 CREATE TABLE IF NOT EXISTS members (id INTEGER PRIMARY KEY, name TEXT, party TEXT, seat TEXT, house TEXT);
 CREATE TABLE IF NOT EXISTS mp_events (member_id INTEGER, date TEXT, kind TEXT, ref TEXT, line TEXT,
-  areas TEXT                      -- json list of area numbers (5CA per-area scoring)
+  areas TEXT,                     -- json list of area numbers (5CA per-area scoring)
+  excerpt TEXT                    -- the matching passage: why this row exists
 );
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
@@ -81,6 +82,8 @@ def init_db(conn):
     ev_cols = {r[1] for r in conn.execute("PRAGMA table_info(mp_events)")}
     if "areas" not in ev_cols:
         conn.execute("ALTER TABLE mp_events ADD COLUMN areas TEXT")
+    if "excerpt" not in ev_cols:
+        conn.execute("ALTER TABLE mp_events ADD COLUMN excerpt TEXT")
     m_cols = {r[1] for r in conn.execute("PRAGMA table_info(members)")}
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former

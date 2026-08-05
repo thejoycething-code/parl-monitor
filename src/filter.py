@@ -176,6 +176,86 @@ def _scan_watchlist(text_lower, text_orig, watchlist):
     return hits
 
 
+_TAG_RE = re.compile(r"<[^>]+>")
+_SENTENCE_RE = re.compile(r"(?<=[.!?])\s+")
+
+
+def split_passages(text, max_chars=1200):
+    """Split a long contribution into passages for per-passage matching.
+
+    Hansard separates paragraphs with blank lines and embeds column-number
+    markup; both are handled here. A paragraph longer than max_chars is
+    broken on sentence boundaries, so one wall of text cannot defeat
+    passage-level precision.
+    """
+    clean = _TAG_RE.sub(" ", text or "")
+    out = []
+    for para in re.split(r"[\r\n]+", clean):
+        para = " ".join(para.split())
+        if not para:
+            continue
+        if len(para) <= max_chars:
+            out.append(para)
+            continue
+        chunk = ""
+        for sentence in _SENTENCE_RE.split(para):
+            if chunk and len(chunk) + len(sentence) + 1 > max_chars:
+                out.append(chunk)
+                chunk = sentence
+            else:
+                chunk = (chunk + " " + sentence).strip()
+        if chunk:
+            out.append(chunk)
+    return out
+
+
+@dataclass
+class PassageMatch:
+    passage: str
+    result: object      # FilterResult for this passage alone
+
+
+def match_passages(taxonomy, watchlist, text, title=None):
+    """Filter each passage of a long text separately (qualifying ones only).
+
+    A 3,000-word speech is then tagged with the areas its passages actually
+    support, instead of every area it brushes against once. The title is
+    treated as a passage in its own right: a debate title match is real.
+    """
+    passages = ([title] if title else []) + split_passages(text)
+    matches = []
+    for passage in passages:
+        result = filter_item(taxonomy, watchlist, passage)
+        if result.tier == 1 or result.watchlist_hits:
+            matches.append(PassageMatch(passage=passage, result=result))
+    return matches
+
+
+def aggregate_passages(matches, max_excerpt=260):
+    """(areas, terms, excerpt) from qualifying passages.
+
+    The excerpt is the strongest-matching passage: what a 5CA Comments cell
+    should quote as the reason this member is listed, rather than a debate
+    title that may be about something else entirely.
+    """
+    if not matches:
+        return [], [], None
+    areas, terms = set(), []
+    for m in matches:
+        areas.update(m.result.issue_areas)
+        for term in m.result.matched_terms + m.result.watchlist_hits:
+            if term not in terms:
+                terms.append(term)
+    best = max(matches, key=lambda m: (
+        1 if m.result.tier == 1 else 0,
+        len(m.result.matched_terms) + len(m.result.watchlist_hits),
+        -len(m.passage)))
+    excerpt = " ".join(best.passage.split())
+    if len(excerpt) > max_excerpt:
+        excerpt = excerpt[:max_excerpt].rsplit(" ", 1)[0] + "..."
+    return sorted(areas), terms, excerpt
+
+
 def filter_item(taxonomy, watchlist, *text_fields):
     """Match an item's text fields. Returns a FilterResult (matched() may be False)."""
     text_orig = _fold(" \n ".join(f for f in text_fields if f))
