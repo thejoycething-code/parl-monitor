@@ -80,6 +80,46 @@ def slack_publish_edition(secrets, week, edition_number, canvas_markdown, summar
     return {"canvas_id": canvas_id, "canvas_url": canvas_url, "message_ts": message.get("ts")}
 
 
+def slack_publish_canvas(secrets, title, canvas_markdown, summary_mrkdwn,
+                         transport=None):
+    """Post any canvas to the channel: 5CA sheets, briefings, one-offs.
+
+    Same three-step dance as the weekly edition (create, grant channel read,
+    post the linking message), without the edition-specific titling.
+    """
+    token = secrets.get("slack_bot_token")
+    channel = secrets.get("slack_channel_id")
+    if not token or not channel:
+        return {"skipped": "slack_bot_token/slack_channel_id missing from config/secrets.yaml"}
+    transport = transport or _post_json
+    auth = {"Authorization": "Bearer {0}".format(token)}
+
+    canvas = transport("https://slack.com/api/canvases.create", {
+        "title": title,
+        "document_content": {"type": "markdown", "markdown": canvas_markdown},
+    }, auth)
+    if not canvas.get("ok"):
+        return {"error": "canvases.create failed: {0}".format(canvas.get("error"))}
+    canvas_id = canvas["canvas_id"]
+
+    access = transport("https://slack.com/api/canvases.access.set", {
+        "canvas_id": canvas_id, "access_level": "read", "channel_ids": [channel],
+    }, auth)
+    if not access.get("ok"):
+        return {"error": "canvases.access.set failed: {0}".format(access.get("error"))}
+
+    team = secrets.get("slack_team_id", "T066M0LAJ")
+    canvas_url = "https://citizengo.slack.com/docs/{0}/{1}".format(team, canvas_id)
+    message = transport("https://slack.com/api/chat.postMessage", {
+        "channel": channel,
+        "text": summary_mrkdwn + "\n\n" + canvas_url,
+        "unfurl_links": False,
+    }, auth)
+    if not message.get("ok"):
+        return {"error": "chat.postMessage failed: {0}".format(message.get("error"))}
+    return {"canvas_id": canvas_id, "canvas_url": canvas_url, "message_ts": message.get("ts")}
+
+
 # -- Asana --------------------------------------------------------------------
 
 def asana_create_reading_task(secrets, week, canvas_url, act_lines, deadline_lines,
