@@ -4,7 +4,12 @@ on:
     # Target: 06:30 Europe/London every Monday (UTC duplicate + guard, as Sunday).
     - cron: "30 5 * * 1"
     - cron: "30 6 * * 1"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Skip the Slack post and Asana task (still deploys the partner site)"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -48,6 +53,10 @@ jobs:
           EOF
       - name: Render and publish
         if: env.SKIP != '1'
+        env:
+          # Manual runs default to a dry run: the partner site still deploys,
+          # but nothing lands in #campaigns-en-gb unless dry_run is unticked.
+          NO_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '1' || '0' }}
         run: python3 run_monday.py
       - name: Deploy partner site
         if: env.SKIP != '1'

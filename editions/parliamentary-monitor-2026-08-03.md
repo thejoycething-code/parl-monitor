@@ -36,6 +36,10 @@
 
 *Questions, debates, votes and motions from any member of either House touching our campaign areas this week.*
 
+- **Mr Andrew Snowden (Conservative, Fylde)**: **PQ** Immigration Controls: EU Countries
+- **Pippa Heylings (Liberal Democrat, South Cambridgeshire)**: **PQ** Pupils: Absenteeism (re: children not in school)
+- **Lord Cameron of Lochiel (Conservative, Life peer)**: **PQ** Deportation; **PQ** Immigration
+- **Lord Taylor of Warwick (Non-affiliated, Life peer)**: **PQ** Fraud: Artificial Intelligence (re: Online Safety Act)
 - **Lord Bailey of Paddington (Conservative, Life peer)**: **PQ** Anti-social Behaviour and Shoplifting (re: Crime and Policing)
 - **Lord Jackson of Peterborough (Conservative, Life peer)**: **PQ** Anti-Muslim Hatred/Islamophobia Definition Working Group
 - **Baroness Owen of Alderley Edge (Conservative, Life peer)**: **PQ** Internet: Compensation (re: Online Safety Act)
@@ -44,10 +48,7 @@
 - **Lord Pearson of Rannoch (Non-affiliated, Life peer)**: **PQ** Anti-Muslim Hostility (x2); **PQ** Islamophobia
 - **Baroness Lister of Burtersett (Labour, Life peer)**: **PQ** Immigration
 - **Baroness Maclean of Redditch (Conservative, Life peer)**: **PQ** Gender Dysphoria: Health Services (x2)
-- **David Simmonds (Conservative, Ruislip, Northwood and Pinner)**: **PQ** Anti-muslim Hatred/islamophobia Definition Working Group
-- **The Lord Bishop of Sheffield (Bishops, Bishops)**: **PQ** Immigration and Asylum Bill
-- **Baroness Anelay of St Johns (Conservative, Life peer)**: **PQ** Undocumented Migrants: Deportation
-- **Baroness Benjamin (Liberal Democrat, Life peer)**: **PQ** Children in Care: Relationships and Sex Education
+- ...and 4 more members active this week; all recorded to profiles.
 
 ---
 **Coverage gaps this edition:**

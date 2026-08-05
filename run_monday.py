@@ -68,7 +68,12 @@ def deadlines_from_store(conn, week, days=21):
 
 
 def main():
-    week = sys.argv[1] if len(sys.argv) > 1 else (
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    # --no-publish renders, redacts and builds the partner site but posts
+    # nothing to Slack and creates no Asana task: the way to exercise the
+    # pipeline (and the Vercel deploy) without anything team-visible.
+    no_publish = "--no-publish" in sys.argv or os.environ.get("NO_PUBLISH") == "1"
+    week = args[0] if args else (
         datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
     ).isoformat()
 
@@ -89,12 +94,17 @@ def main():
     # Canvas carries the edition body (strip the file's H1; canvas has a title).
     canvas_md = re.sub(r"^# Parliamentary Monitor\n", "", markdown, count=1)
 
-    slack = publish.slack_publish_edition(secrets, week, number, canvas_md, summary)
-    print("slack: {0}".format(slack))
-
-    canvas_url = slack.get("canvas_url", "(not posted to Slack)")
-    asana = publish.asana_create_reading_task(secrets, week, canvas_url, acts, store_deadlines)
-    print("asana: {0}".format(asana))
+    if no_publish:
+        slack = {"skipped": "dry run (--no-publish): nothing posted to Slack"}
+        asana = {"skipped": "dry run (--no-publish): no reading task created"}
+        print("slack: {0}\nasana: {1}".format(slack["skipped"], asana["skipped"]))
+        canvas_url = "(dry run)"
+    else:
+        slack = publish.slack_publish_edition(secrets, week, number, canvas_md, summary)
+        print("slack: {0}".format(slack))
+        canvas_url = slack.get("canvas_url", "(not posted to Slack)")
+        asana = publish.asana_create_reading_task(secrets, week, canvas_url, acts, store_deadlines)
+        print("asana: {0}".format(asana))
 
     # Partner edition: redacted static site, committed alongside the edition.
     import glob
