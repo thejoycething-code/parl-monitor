@@ -406,6 +406,12 @@ def render(edition):
         deadlines = render_deadlines(edition)
         if deadlines:
             parts.append(deadlines)
+        # Departments answer written questions through recess, so the section
+        # belongs here too: omitting it hid a whole week of real activity
+        # (Christopher, 2026-08-05 -- show everything gathered).
+        pqs = render_pqs(edition)
+        if pqs:
+            parts.append(pqs)
         parts.append(render_board(edition.board_rows))
         si = render_si(edition)
         if si:

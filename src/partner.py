@@ -267,25 +267,25 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None):
     for row in pq_rows:
         grouped.setdefault(row.get("area_label") or "Other", []).append(row)
 
+    header = ("| Member | Question | Asked of | House | Answered | The question as asked |",
+              "|---|---|---|---|---|---|")
     blocks = []
     for label in sorted(grouped, key=lambda k: (-len(grouped[k]), k)):
         rows = grouped[label]
         blocks.append("## {0} ({1})\n".format(label, len(rows)))
+        blocks.extend(header)       # every table repeats its header
         for r in rows:
             who = r.get("member") or "A member"
             detail = ", ".join(x for x in (r.get("party"), r.get("seat")) if x)
+            if detail:
+                who = "{0} ({1})".format(who, detail)
             heading = r.get("heading") or "Question"
             link = "[{0}]({1})".format(heading, r["url"]) if r.get("url") else heading
-            blocks.append("**{0}**{1} - {2}".format(
-                who, " ({0})".format(detail) if detail else "", link))
-            meta = [x for x in (r.get("department"), r.get("house"), r.get("date")) if x]
-            if meta:
-                blocks.append("*{0}*".format(" · ".join(meta)))
-            if r.get("question_text"):
-                blocks.append("> {0}".format(" ".join(r["question_text"].split())))
-            if r.get("why"):
-                blocks.append(r["why"].rstrip(".") + ".")
-            blocks.append("")
+            asked = " ".join((r.get("question_text") or "").split()) or "-"
+            blocks.append("| {0} | {1} | {2} | {3} | {4} | {5} |".format(
+                who, link, r.get("department") or "-", r.get("house") or "-",
+                r.get("date") or "-", asked))
+        blocks.append("")
     markdown = QUESTIONS_PAGE.format(week=week, tables="\n".join(blocks))
     page = to_html(markdown, "Written questions in full - w/c {0}".format(week))
     path = os.path.join(site_dir, "questions.html")
