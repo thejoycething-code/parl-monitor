@@ -16,6 +16,7 @@ Mirrors triage.py: stub-free live pass, injectable transport, batches of 20.
 
 from __future__ import annotations
 
+import datetime
 import json
 import os
 from dataclasses import dataclass, field
@@ -195,6 +196,96 @@ def classify_live(evidence, api_key=None, transport=None):
     for batch in _batches(evidence):
         results.extend(classify_batch(batch, api_key=api_key, transport=transport))
     return results
+
+
+# -- evidence text recovery ---------------------------------------------------
+
+def build_text_map(raw_dir, since_days=None):
+    """{ref: full evidence text} from the archived payloads in data/raw.
+
+    Recovered OFFLINE: every fetch already wrote its response, so scoring
+    never re-hits the source APIs. since_days limits the scan to recent
+    archive dates, which keeps the weekly pass quick as the archive grows.
+    """
+    import glob
+    import gzip
+
+    dates = "*"
+    if since_days:
+        keep = {(datetime.date.today() - datetime.timedelta(days=n)).isoformat()
+                for n in range(since_days + 1)}
+        dates = None
+    texts = {}
+
+    def each(pattern):
+        for path in sorted(glob.glob(os.path.join(raw_dir, "*", pattern))):
+            if dates is None:
+                if os.path.basename(os.path.dirname(path)) not in keep:
+                    continue
+            try:
+                with gzip.open(path, "rb") as handle:
+                    yield json.loads(handle.read().decode("utf-8"))
+            except Exception:
+                continue  # a truncated archive file must not stop scoring
+
+    for payload in each("pq_*.json.gz"):
+        for row in (payload.get("results") or []):
+            value = row.get("value") or row
+            if value.get("id"):
+                texts["pq:{0}".format(value["id"])] = "{0}\n{1}".format(
+                    value.get("heading") or "", value.get("questionText") or "")
+    for payload in each("hansard_*.json.gz"):
+        for row in (payload.get("Results") or []):
+            if row.get("ContributionExtId"):
+                texts["hansard:{0}".format(row["ContributionExtId"])] = "{0}\n{1}".format(
+                    row.get("DebateSection") or "",
+                    row.get("ContributionTextFull") or row.get("ContributionText") or "")
+    for payload in each("edm_*.json.gz"):
+        rows = payload.get("Response")
+        rows = rows if isinstance(rows, list) else ([rows] if rows else [])
+        for row in rows:
+            if row.get("Id"):
+                texts["edm:{0}".format(row["Id"])] = "{0}\n{1}".format(
+                    row.get("Title") or "", row.get("MotionText") or "")
+    return texts
+
+
+def score_pending(conn, raw_dir, api_key, scored_at, max_refs=None,
+                  overrides_cfg=None, since_days=None, log=None):
+    """Score every unscored ref, then apply editorial overrides.
+
+    Stores per batch, so a crash or credit exhaustion keeps what was scored
+    and the next run resumes. max_refs caps one run's spend; the remainder
+    is reported (never silently dropped) and picked up next time.
+    """
+    log = log or (lambda _msg: None)
+    pending = unscored_refs(conn)
+    deferred = 0
+    if max_refs and len(pending) > max_refs:
+        deferred = len(pending) - max_refs
+        pending = pending[:max_refs]
+    if not pending:
+        return {"scored": 0, "failed_batches": 0, "deferred": 0, "overridden": 0}
+
+    texts = build_text_map(raw_dir, since_days=since_days)
+    evidence = [Evidence(ref=r["ref"], kind=r["kind"], line=r["line"] or "",
+                         areas=json.loads(r["areas"]) if r["areas"] else [],
+                         text=texts.get(r["ref"], ""))
+                for r in pending]
+
+    scored, failed = 0, 0
+    for batch in _batches(evidence):
+        try:
+            results = classify_batch(batch, api_key=api_key)
+        except Exception as exc:
+            failed += 1
+            log("stance batch of {0} failed: {1}".format(len(batch), exc))
+            continue
+        store_scores(conn, results, scored_at)
+        scored += len(results)
+    overridden = apply_overrides(conn, overrides_cfg or {"overrides": []}, scored_at)
+    return {"scored": scored, "failed_batches": failed, "deferred": deferred,
+            "overridden": overridden}
 
 
 # -- editorial overrides ------------------------------------------------------

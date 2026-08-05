@@ -67,6 +67,13 @@ division_sweep_terms:
   - freedom of speech
   - puberty
 
+# Weekly stance-scoring ceiling: the most evidence refs one Sunday pull will
+# send to the Claude API. Cost tracks refs, not volume (a 600-voter division
+# is two refs, one per direction), so a normal sitting week uses 50-100 and
+# costs pennies. Anything over the cap is disclosed in the edition's gaps and
+# scored on the next run, so a freak week cannot produce a surprise bill.
+stance_weekly_max_refs: 400
+
 # A bill's closing entry renders only while the terminal event (Royal Assent
 # or fall) is within this many days of the edition; older closures are
 # recorded silently. Keeps cold-start catch-ups off the board.

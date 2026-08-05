@@ -21,7 +21,8 @@ import sys
 
 import yaml
 
-from src import board, db, digest, filter as filt, intel, members, review, triage
+from src import (board, db, digest, filter as filt, intel, members, publish, review,
+                 stance, triage)
 from src.http import FetchError, HttpClient
 from src.ingest import (bills, committees, consultations, divisions, edms, hansard,
                         legislation, pqs, scotland, sis, whatson, wms)
@@ -547,6 +548,38 @@ def apply_queue_if_scored(conn, wl, week_commencing):
     return "{0} queue scores applied, {1} discarded".format(scored, len(discards))
 
 
+def run_stance_pass(conn, week_commencing):
+    """Place this week's new ledger evidence on the 5CA gradient.
+
+    Unattended by necessity (Christopher, 2026-08-05: session scoring needs a
+    human, so the API it is). Cost tracks refs, not volume: a 600-voter
+    division is two refs, one per direction. A sitting week is typically
+    3-5 batches, pennies; settings.stance_weekly_max_refs caps a freak week
+    and the remainder is disclosed, never dropped, then scored next run.
+    """
+    key = (publish.load_secrets().get("anthropic_api_key")
+           or os.environ.get("ANTHROPIC_API_KEY"))
+    if not key:
+        return "skipped: no anthropic_api_key (5CA sheets keep their existing scores)"
+    settings = load_settings()
+    cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+    messages = []
+    stats = stance.score_pending(
+        conn, os.path.join(ROOT, "data", "raw"), key,
+        datetime.date.today().isoformat(),
+        max_refs=settings.get("stance_weekly_max_refs") or 400,
+        overrides_cfg=cfg, since_days=14,
+        log=messages.append)
+    for msg in messages:
+        record_gap(conn, week_commencing, "stance", msg)
+    if stats["deferred"]:
+        record_gap(conn, week_commencing, "stance",
+                   "{0} refs over the weekly cap; they score on the next run".format(
+                       stats["deferred"]))
+    return ("{scored} evidence refs placed, {failed_batches} batch(es) failed, "
+            "{deferred} deferred, overrides on {overridden}".format(**stats))
+
+
 def pull(week_commencing, db_name):
     """Phase 1: ingest, filter, triage pass, store; emit the review checklist."""
     week_start = datetime.date.fromisoformat(week_commencing)
@@ -562,6 +595,13 @@ def pull(week_commencing, db_name):
 
     ingest_all(client, conn, tax, wl, week_start, week_end)
     triage_status = run_triage_pass(conn, wl, week_commencing)
+    try:
+        print("stance: " + run_stance_pass(conn, week_commencing))
+    except Exception as exc:
+        # The edition never depends on stance scores; a failure here is a
+        # disclosed gap, not a lost pull.
+        record_gap(conn, week_commencing, "stance", "pass failed: {0}".format(exc))
+        print("stance: failed ({0}); recorded as a gap".format(exc))
 
     path = os.path.join(ROOT, "reviews", "review-{0}.md".format(week_commencing))
     path, count = review.generate_review_file(conn, week_commencing, path)

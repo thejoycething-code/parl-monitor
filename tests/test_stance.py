@@ -1,6 +1,7 @@
 """Stance layer + 5CA sheet generation (docs/5ca-notes.md)."""
 
 import json
+import unittest.mock
 import os
 import sqlite3
 import sys
@@ -193,6 +194,52 @@ class BreakdownParseTests(unittest.TestCase):
         division, voters = divisions.parse_lords_breakdown(payload)
         self.assertEqual([(v.member_id, v.vote) for v in voters],
                          [(147, "aye"), (148, "no")])
+
+
+class WeeklyScoringPassTests(unittest.TestCase):
+    """The weekly pass must be cost-bounded and never silently truncate."""
+
+    def setUp(self):
+        self.conn = fresh_conn()
+        member(self.conn, 1, "Some MP")
+        for n in range(50):
+            intel.record_event(self.conn, 1, "2026-08-01", "pq",
+                               "pq:{0}".format(n), "Question {0}".format(n), areas=[11])
+
+    def _fake_transport(self, payload, api_key):
+        body = json.loads(payload["messages"][0]["content"])
+        return {"content": [{"text": json.dumps(
+            [{"ref": row["ref"], "stance": 0, "why": "neutral"} for row in body])}]}
+
+    def test_cap_defers_the_remainder_and_reports_it(self):
+        with unittest.mock.patch.object(stance, "_default_transport", self._fake_transport):
+            stats = stance.score_pending(self.conn, "/nonexistent", "key",
+                                         "2026-08-05", max_refs=20)
+        self.assertEqual(stats["scored"], 20)
+        self.assertEqual(stats["deferred"], 30)
+        self.assertEqual(len(stance.unscored_refs(self.conn)), 30)
+
+    def test_second_run_picks_up_the_deferred_refs(self):
+        with unittest.mock.patch.object(stance, "_default_transport", self._fake_transport):
+            stance.score_pending(self.conn, "/nonexistent", "key", "2026-08-05", max_refs=20)
+            stats = stance.score_pending(self.conn, "/nonexistent", "key", "2026-08-05")
+        self.assertEqual(stats["scored"], 30)
+        self.assertEqual(stance.unscored_refs(self.conn), [])
+
+    def test_failed_batch_keeps_earlier_batches(self):
+        calls = {"n": 0}
+
+        def flaky(payload, api_key):
+            calls["n"] += 1
+            if calls["n"] == 2:
+                raise RuntimeError("HTTP 400: credit balance is too low")
+            return self._fake_transport(payload, api_key)
+
+        with unittest.mock.patch.object(stance, "_default_transport", flaky):
+            stats = stance.score_pending(self.conn, "/nonexistent", "key", "2026-08-05")
+        self.assertEqual(stats["failed_batches"], 1)
+        self.assertEqual(stats["scored"], 30)          # 20 lost, the rest banked
+        self.assertEqual(len(stance.unscored_refs(self.conn)), 20)
 
 
 class EditorialOverrideTests(unittest.TestCase):
