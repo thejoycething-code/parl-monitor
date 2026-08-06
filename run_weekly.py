@@ -483,6 +483,14 @@ def sections_from_store(conn, edition):
         "why_it_matters, extra, issue_areas "
         "FROM items WHERE priority_tag IS NOT NULL ORDER BY source_feed, event_date, id"
     ).fetchall()
+    # Background-scored questions (triage 1) never reach the review file and so
+    # carry no tag. They are real captures all the same, so the companion page
+    # lists them: with questions dropped from the MP section, this is the only
+    # place they would otherwise be invisible.
+    background = conn.execute(
+        "SELECT id, title, url, event_date, extra, issue_areas FROM items "
+        "WHERE source_feed = 'pq' AND priority_tag IS NULL AND triage_score = 1 "
+        "ORDER BY event_date, id").fetchall()
     area_labels = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
     edition.companion_url = (load_settings().get("partner_site_url") or "").rstrip("/")
     edition.companion_url = (edition.companion_url + "/questions.html"
@@ -537,6 +545,21 @@ def sections_from_store(conn, edition):
             deadline=r["deadline"], date=r["event_date"],
         )
         getattr(edition, target).append(line)
+
+    for r in background:
+        extra = json.loads(r["extra"]) if r["extra"] else {}
+        areas = json.loads(r["issue_areas"] or "[]")
+        if not areas:
+            continue
+        edition.pq_background.append({
+            "member": extra.get("member"), "party": extra.get("party"),
+            "seat": extra.get("seat"), "house": extra.get("house"),
+            "heading": extra.get("heading") or r["title"],
+            "department": extra.get("department"), "url": r["url"],
+            "date": r["event_date"], "tag": None, "why": "",
+            "question_text": extra.get("question_text"),
+            "area": areas[0], "area_label": area_labels.get(areas[0]) or "Other",
+        })
     return edition
 
 

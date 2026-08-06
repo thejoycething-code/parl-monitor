@@ -50,6 +50,7 @@ class Edition:
     votes: list = field(default_factory=list)
     pqs: list = field(default_factory=list)
     pq_rows: list = field(default_factory=list)   # dicts: member/party/seat/heading/url/department/area/date/tag/why
+    pq_background: list = field(default_factory=list)  # triage-1 questions: companion page only
     companion_url: str = None                     # full-detail questions page
     deadlines: list = field(default_factory=list)   # dicts: type/title/url/why/deadline
     si_rows: list = field(default_factory=list)      # dicts: name/url/procedure/act/status/...
@@ -285,11 +286,19 @@ def render_pqs(edition, companion=True):
 
 
 MP_SECTION_MAX = 12
-MP_SUBTITLE = ("*Questions, debates, votes and motions from any member of either House "
-               "touching our campaign areas this week.*")
+MP_SUBTITLE = ("*Debates and motions from any member of either House touching our "
+               "campaign areas this week. Written questions have their own section "
+               "above; division votes are counted on member profiles rather than "
+               "listed here.*")
 
 
 BULK_KINDS = {"vote", "edm-signed"}
+# Kinds that have a section of their own: repeating them here would print the
+# same question twice in one edition, the second time with less detail
+# (Christopher, 2026-08-05). Every captured question reaches the Written
+# questions section or its companion page, so nothing is lost by omitting
+# them, and the section is simply quiet in recess.
+OWN_SECTION_KINDS = {"pq"}
 
 
 def _has_area(event):
@@ -316,7 +325,7 @@ def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
     members_seen = []   # ordered member ids
     grouped = {}        # member_id -> {"who": str, "acts": ordered {(kind, line): count}}
     for e in events:
-        if e["kind"] in BULK_KINDS:
+        if e["kind"] in BULK_KINDS or e["kind"] in OWN_SECTION_KINDS:
             continue
         # An issue area is the precondition for appearing in a section headed
         # "on our issues". Watchlist name/process hits admit rows to the

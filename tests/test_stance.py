@@ -221,6 +221,17 @@ class WeeklySectionAreaGuardTests(unittest.TestCase):
                   self._event("pq", "[]", "Dementia: Health Services", mid=2)]
         self.assertEqual(digest.mp_lines_from_events(events), [])
 
+    def test_questions_omitted_they_have_their_own_section(self):
+        """Christopher, 2026-08-05: every captured question reaches the Written
+        questions section or its companion page, so repeating them here printed
+        the same item twice with less detail."""
+        from src import digest
+        events = [self._event("pq", "[7]", "Internet: Age Assurance"),
+                  self._event("debate", "[7]", "Spoke: Online Safety Act", mid=2)]
+        lines = digest.mp_lines_from_events(events)
+        self.assertEqual(len(lines), 1)
+        self.assertIn("Spoke: Online Safety Act", lines[0])
+
     def test_tagged_rows_still_render(self):
         from src import digest
         lines = digest.mp_lines_from_events([self._event("debate", "[2]", "Spoke: Hospices")])

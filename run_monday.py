@@ -113,11 +113,12 @@ def main():
     partner_md = partner.redact(markdown, extra_names=scrub_names)
     # The question tables link to a companion page carrying the full text.
     pq_conn = db.connect(os.path.join(ROOT, "data", run_weekly._db_name(week)))
-    pq_rows = run_weekly.sections_from_store(
-        pq_conn, digest.Edition(week_commencing=week, number=number, mode="normal")).pq_rows
+    pq_edition = run_weekly.sections_from_store(
+        pq_conn, digest.Edition(week_commencing=week, number=number, mode="normal"))
     pq_conn.close()
     site = partner.build_site(os.path.join(ROOT, "partner_site"), week, partner_md, weeks,
-                              pq_rows=pq_rows)
+                              pq_rows=pq_edition.pq_rows,
+                              pq_background=pq_edition.pq_background)
     print("partner site: {0}".format(site))
 
     print("edition: {0}".format(path))

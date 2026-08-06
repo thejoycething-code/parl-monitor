@@ -199,26 +199,26 @@ class MpSectionTests(unittest.TestCase):
 
     def test_one_line_per_member_with_merge_and_counts(self):
         events = [
-            self._ev(1, "Lord Pearson of Rannoch", "pq", "Anti-Muslim hostility"),
-            self._ev(1, "Lord Pearson of Rannoch", "pq", "Anti-Muslim hostility"),
-            self._ev(2, "Lord Black of Brentwood", "pq", "Age assurance rollout"),
+            self._ev(1, "Lord Pearson of Rannoch", "debate", "Anti-Muslim hostility"),
+            self._ev(1, "Lord Pearson of Rannoch", "debate", "Anti-Muslim hostility"),
+            self._ev(2, "Lord Black of Brentwood", "debate", "Age assurance rollout"),
         ]
         lines = digest.mp_lines_from_events(events)
         self.assertEqual(len(lines), 2)
-        self.assertIn("**Lord Pearson of Rannoch (Con, Somewhere)**: **PQ** Anti-Muslim hostility (x2)", lines[0])
+        self.assertIn("**Lord Pearson of Rannoch (Con, Somewhere)**: **DEBATE** Anti-Muslim hostility (x2)", lines[0])
 
     def test_votes_are_excluded_from_the_section(self):
         events = [self._ev(1, "A Member", "vote", "Voted No: TIA Bill")]
         self.assertEqual(digest.mp_lines_from_events(events), [])
 
     def test_cap_with_overflow_line(self):
-        events = [self._ev(i, "Member %d" % i, "pq", "Q%d" % i) for i in range(15)]
+        events = [self._ev(i, "Member %d" % i, "debate", "Q%d" % i) for i in range(15)]
         lines = digest.mp_lines_from_events(events, max_members=12)
         self.assertEqual(len(lines), 13)
         self.assertIn("...and 3 more members active this week", lines[-1])
 
     def test_unresolved_member_still_renders(self):
-        events = [self._ev(999, None, "pq", "A question", party=None, seat=None)]
+        events = [self._ev(999, None, "debate", "A question", party=None, seat=None)]
         lines = digest.mp_lines_from_events(events)
         self.assertIn("Member 999", lines[0])
 

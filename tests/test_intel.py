@@ -87,10 +87,15 @@ class WeeklySectionBulkKindsTests(unittest.TestCase):
             [self._event("edm-signed"), self._event("vote", 2)])
         self.assertEqual(lines, [])
 
-    def test_pq_still_listed(self):
-        lines = digest.mp_lines_from_events([self._event("pq")])
+    def test_debates_still_listed(self):
+        """Questions moved to their own section; debates remain the substance
+        of this one (Christopher, 2026-08-05)."""
+        lines = digest.mp_lines_from_events([self._event("debate")])
         self.assertEqual(len(lines), 1)
-        self.assertIn("**PQ** L", lines[0])
+        self.assertIn("**DEBATE** L", lines[0])
+
+    def test_questions_not_listed_here(self):
+        self.assertEqual(digest.mp_lines_from_events([self._event("pq")]), [])
 
 
 class AreaNamesTests(unittest.TestCase):

@@ -257,7 +257,7 @@ asked. The weekly edition groups these by area and links here for detail.
 """
 
 
-def build_questions_page(site_dir, week, pq_rows, area_labels=None):
+def build_questions_page(site_dir, week, pq_rows, area_labels=None, background=None):
     """The companion page the edition's question tables link to.
 
     Holds every matched question with the text as asked -- the detail that
@@ -292,6 +292,25 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None):
                 who, link, r.get("department") or "-", r.get("house") or "-",
                 r.get("date") or "-", asked))
         blocks.append("")
+    bg = [r for r in (background or []) if r.get("area")]
+    if bg:
+        blocks.append("## Also captured, scored as background ({0})\n".format(len(bg)))
+        blocks.append("These matched our areas but were judged background rather "
+                      "than digest material, so they do not appear in the edition.\n")
+        blocks.extend(header)
+        for r in bg:
+            who = r.get("member") or "A member"
+            detail = ", ".join(x for x in (r.get("party"), r.get("seat")) if x)
+            if detail:
+                who = "{0} ({1})".format(who, detail)
+            heading = r.get("heading") or "Question"
+            link = "[{0}]({1})".format(heading, r["url"]) if r.get("url") else heading
+            asked = " ".join((r.get("question_text") or "").split()) or "-"
+            blocks.append("| {0} | {1} | {2} | {3} | {4} | {5} |".format(
+                who, link, r.get("department") or "-", r.get("house") or "-",
+                r.get("date") or "-", asked))
+        blocks.append("")
+
     markdown = QUESTIONS_PAGE.format(week=week, tables="\n".join(blocks))
     page = to_html(markdown, "Written questions in full - w/c {0}".format(week))
     path = os.path.join(site_dir, "questions.html")
@@ -300,10 +319,10 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None):
     return path
 
 
-def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None):
+def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq_background=None):
     """Write index.html (latest) + archive/<week>.html + auth middleware."""
     os.makedirs(os.path.join(site_dir, "archive"), exist_ok=True)
-    build_questions_page(site_dir, week, pq_rows or [])
+    build_questions_page(site_dir, week, pq_rows or [], background=pq_background)
     title = "Parliamentary Monitor (partner edition) - w/c {0}".format(week)
     page = to_html(partner_markdown, title)
 
