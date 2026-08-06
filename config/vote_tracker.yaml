@@ -83,10 +83,16 @@ issues:
     area: 6
     bill: Various
     note: >-
-      Parliament has not divided on a bill dedicated to parental rights in
-      education. These are the two occasions the Commons voted on the question
-      directly: a Ten-Minute Rule Bill and an opposition day motion.
-    status: Neither proposal became law.
+      The register of children not in school was debated at length during the
+      Children's Wellbeing and Schools Bill, but the Commons never divided on
+      it: every vote at those stages was on academies, free school meals,
+      mobile phones or SEND. The Bill's Third Reading is shown here because it
+      enacted the register, with the caveat that the Bill covered much else
+      besides. The other two entries are the only occasions the Commons voted
+      on parental rights in education directly.
+    status: >-
+      The register became law in the Children's Wellbeing and Schools Act 2026.
+      The Ten-Minute Rule Bill and the opposition day motion both failed.
 
   - id: abortion-ni
     name: Abortion services in Northern Ireland
@@ -351,3 +357,32 @@ divisions:
       Supported the motion calling for a national register of children not in school.
     meaning_no: >-
       Opposed the motion for a national register.
+
+  # Whole-bill vote, included at Christopher's decision (2026-08-06) with the
+  # scope stated in the meaning lines. The Commons never divided on the
+  # register itself, so this is the only vote that touched it -- but the Bill
+  # also carried academies, free school meals, breakfast clubs, uniform costs
+  # and safeguarding, and the meaning lines must not pretend otherwise.
+  # our_side is "no" because of the register, and is the weakest such call on
+  # the tracker for exactly that reason.
+  - id: 1957
+    issue: parental-rights
+    stage: Third Reading
+    stage_group: Third Reading
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: "Children's Wellbeing and Schools Bill: Third Reading"
+    context: >-
+      The Bill that created the register of children not in school, alongside
+      much else.
+    meaning_aye: >-
+      Approved the Bill as a whole at its final Commons stage. The Bill created
+      the register of children not in school, including a requirement to record
+      how much time a child is taught by a parent. It also covered academy
+      reform, free school meals, breakfast clubs, uniform costs and
+      safeguarding, so a vote for it was not only a vote on home education.
+    meaning_no: >-
+      Voted against the Bill as a whole at its final Commons stage. Because the
+      Bill covered much besides the register, a vote against it was not
+      necessarily a vote against the register.
