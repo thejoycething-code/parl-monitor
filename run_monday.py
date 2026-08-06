@@ -125,6 +125,16 @@ def main():
     # from are never staler than an edition. Written to docs/, never to
     # partner_site/ -- stance placements are our analysis, not public record.
     import subprocess
+    # Refresh the Commons roster before anything that depends on it: a
+    # by-election MP is otherwise absent from the vote tracker, and a departed
+    # one still counted, until somebody remembers to run the tool by hand.
+    for label, argv in (("roster", ["tools/pull_commons_roster.py"]),
+                        ("vote tracker", ["tools/make_vote_tracker.py"])):
+        try:
+            subprocess.run([sys.executable, os.path.join(ROOT, *argv[0].split("/"))],
+                           check=True, cwd=ROOT, stdout=subprocess.DEVNULL)
+        except Exception as exc:
+            print("{0}: failed ({1}); edition unaffected".format(label, exc))
     try:
         subprocess.run([sys.executable,
                         os.path.join(ROOT, "tools", "make_5ca_tracker.py"), week],
