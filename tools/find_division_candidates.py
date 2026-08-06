@@ -206,6 +206,15 @@ def main():
         print("\n  ...and {0} more".format(len(fresh) - 40))
     print("\nNothing here is published. Add the ones that belong to "
           "config/vote_tracker.yaml with a meaning line a human has written.")
+
+    # Structured output so the review worksheet does not have to re-enumerate
+    # (66 paged calls) every time it is regenerated.
+    out_path = os.path.join(ROOT, "data", "division-candidates.json")
+    with open(out_path, "w", encoding="utf-8") as handle:
+        json.dump({"start": start, "end": end,
+                   "enumerated": len(divisions),
+                   "candidates": candidates}, handle, indent=1)
+    print("structured queue: {0}".format(out_path))
     conn.close()
 
 
