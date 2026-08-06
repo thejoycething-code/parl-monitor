@@ -100,14 +100,14 @@ MEANING_NO:
 ### division: 1368
 - 2022-10-18 | Public Order Bill Report Stage: New Clause 11
 - record: https://votes.parliament.uk/Votes/Commons/Division/1368
-INCLUDE: 
-ISSUE: 
-SHORT: 
-CONTEXT: 
-LANDMARK: 
-OUR_SIDE: 
-MEANING_AYE: 
-MEANING_NO: 
+INCLUDE: yes
+ISSUE: buffer-zones
+SHORT: 150-metre buffer zones outside abortion clinics
+CONTEXT: New Clause 11 to the Public Order Bill, tabled by Stella Creasy MP.
+LANDMARK: yes
+OUR_SIDE: no
+MEANING_AYE: Supported creating 150-metre buffer zones outside abortion clinics, within which all activity interfering with a person's access to abortion services would be prohibited.
+MEANING_NO: Opposed creating buffer zones outside abortion clinics.
 
 ### division: 1367
 - 2022-10-18 | Public Order Bill Report Stage: New Clause 5
@@ -184,14 +184,14 @@ MEANING_NO:
 ### division: 1491
 - 2023-03-07 | Public Order Bill: Amendment (a) to Lords Amendment 5
 - record: https://votes.parliament.uk/Votes/Commons/Division/1491
-INCLUDE: 
-ISSUE: 
-SHORT: 
-CONTEXT: 
+INCLUDE: yes
+ISSUE: buffer-zones
+SHORT: Silent prayer exemption within buffer zones
+CONTEXT: Amendment (a) to Lords Amendment 5 to the Public Order Bill.
 LANDMARK: 
-OUR_SIDE: 
-MEANING_AYE: 
-MEANING_NO: 
+OUR_SIDE: aye
+MEANING_AYE: Supported exempting silent prayer and consensual communication from the new offence of interfering with access to abortion services, so that neither could be prosecuted inside a buffer zone.
+MEANING_NO: Opposed the exemption, leaving silent prayer and consensual communication within the scope of the offence.
 
 ## Children's Wellbeing and Schools Bill  (21 divisions)
 *Areas in this debate: Parental rights education (25 speeches), Free speech online safety (2 speeches)*
@@ -458,14 +458,14 @@ MEANING_NO:
 ### division: 2059
 - 2025-06-17 | Crime and Policing Bill Report Stage: New Clause 106
 - record: https://votes.parliament.uk/Votes/Commons/Division/2059
-INCLUDE: 
-ISSUE: 
-SHORT: 
-CONTEXT: 
+INCLUDE: yes
+ISSUE: abortion
+SHORT: In-person consultation before pills by post
+CONTEXT: New Clause 106 to the Crime and Policing Bill, tabled by Dr Caroline Johnson MP.
 LANDMARK: 
-OUR_SIDE: 
-MEANING_AYE: 
-MEANING_NO: 
+OUR_SIDE: aye
+MEANING_AYE: Supported requiring a woman to attend an in-person consultation at a hospital or clinic before self-administering abortion medicine at home, rather than the consultation being remote throughout.
+MEANING_NO: Opposed the in-person consultation requirement, leaving telemedicine abortion as it stands.
 
 ### division: 2057
 - 2025-06-17 | Crime and Policing Bill Report Stage: Amendment 160
@@ -578,14 +578,14 @@ MEANING_NO:
 ### division: 2060
 - 2025-06-18 | Crime and Policing Bill Report Stage: New Clause 7
 - record: https://votes.parliament.uk/Votes/Commons/Division/2060
-INCLUDE: 
-ISSUE: 
-SHORT: 
-CONTEXT: 
-LANDMARK: 
-OUR_SIDE: 
-MEANING_AYE: 
-MEANING_NO: 
+INCLUDE: yes
+ISSUE: non-crime-hate
+SHORT: Abolition of non-crime hate incidents
+CONTEXT: New Clause 7 to the Crime and Policing Bill.
+LANDMARK: yes
+OUR_SIDE: aye
+MEANING_AYE: Supported abolishing non-crime hate incidents as a category recorded by police forces against named individuals who have committed no crime.
+MEANING_NO: Opposed abolishing non-crime hate incident recording.
 
 ### division: 2311
 - 2026-04-14 | Crime and Policing Bill: motion to agree with all remaining Lords Amendments
@@ -1131,14 +1131,14 @@ MEANING_NO:
 ### division: 1580
 - 2023-06-27 | Schools (Gender and Parental Rights): Ten-Minute Rule Bill
 - record: https://votes.parliament.uk/Votes/Commons/Division/1580
-INCLUDE: 
-ISSUE: 
-SHORT: 
-CONTEXT: 
+INCLUDE: yes
+ISSUE: parental-rights
+SHORT: Schools (Gender and Parental Rights) Bill
+CONTEXT: Ten-Minute Rule Bill: leave to introduce.
 LANDMARK: 
-OUR_SIDE: 
-MEANING_AYE: 
-MEANING_NO: 
+OUR_SIDE: aye
+MEANING_AYE: Supported introducing a Bill on gender and parental rights in schools.
+MEANING_NO: Opposed leave to introduce the Bill.
 
 ## Draft Children’s Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026  (1 division)
 *Areas in this debate: title match only*
@@ -1243,14 +1243,14 @@ MEANING_NO:
 ### division: 1727
 - 2024-01-23 | Opposition day: Children not in school (national register and support)
 - record: https://votes.parliament.uk/Votes/Commons/Division/1727
-INCLUDE: 
-ISSUE: 
-SHORT: 
-CONTEXT: 
+INCLUDE: yes
+ISSUE: parental-rights
+SHORT: Children not in school: national register
+CONTEXT: Opposition day motion on a national register of children not in school and support for home-educating families.
 LANDMARK: 
-OUR_SIDE: 
-MEANING_AYE: 
-MEANING_NO: 
+OUR_SIDE: no
+MEANING_AYE: Supported the motion calling for a national register of children not in school.
+MEANING_NO: Opposed the motion for a national register.
 
 ## Queen's Speech debate (Opposition amendment v)  (1 division)  -- GENERAL DEBATE: our issues were discussed, but the House was not voting on them. Likely skip.
 *Areas in this debate: Conversion practices (3 speeches), Parental rights education (2 speeches), Gender medicine children (2 speeches), Sex based rights (2 speeches), Free speech online safety (1 speeches)*

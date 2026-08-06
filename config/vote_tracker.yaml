@@ -54,6 +54,40 @@ issues:
       Readings were not abortion votes and are deliberately not shown here.
     status: Agreed by the Commons 379-137 on 17 June 2025 and added to the Bill.
 
+  - id: buffer-zones
+    name: Abortion clinic buffer zones
+    area: 1
+    bill: Public Order Act 2023
+    note: >-
+      Buffer zones (formally "safe access zones") outside abortion clinics were
+      added to the Public Order Bill by amendment, not by a bill of their own.
+      The Bill's own Second and Third Readings were votes on protest powers
+      generally and are deliberately not shown here.
+    status: >-
+      Buffer zones were agreed by the Commons in October 2022 and are now
+      section 9 of the Public Order Act 2023. An amendment to exempt silent
+      prayer was rejected in March 2023.
+
+  - id: non-crime-hate
+    name: Non-crime hate incidents
+    area: 7
+    bill: Crime and Policing Bill - New Clause 7
+    note: >-
+      Non-crime hate incidents are recorded by police against named individuals
+      who have committed no offence. A free-vote amendment to abolish the
+      category was moved during the Crime and Policing Bill's report stage.
+    status: Rejected by the Commons in June 2025.
+
+  - id: parental-rights
+    name: Parental rights in education
+    area: 6
+    bill: Various
+    note: >-
+      Parliament has not divided on a bill dedicated to parental rights in
+      education. These are the two occasions the Commons voted on the question
+      directly: a Ten-Minute Rule Bill and an opposition day motion.
+    status: Neither proposal became law.
+
   - id: abortion-ni
     name: Abortion services in Northern Ireland
     area: 1
@@ -227,3 +261,93 @@ divisions:
     context: Approval motion for the 2022 regulations (SI 2022 No. 554).
     meaning_aye: Voted to approve the 2022 regulations.
     meaning_no: Voted against approving the 2022 regulations.
+
+  # added from the division review worksheet
+  - id: 1368
+    issue: buffer-zones
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "150-metre buffer zones outside abortion clinics"
+    context: "New Clause 11 to the Public Order Bill, tabled by Stella Creasy MP."
+    meaning_aye: >-
+      Supported creating 150-metre buffer zones outside abortion clinics, within which all activity interfering with a person's access to abortion services would be prohibited.
+    meaning_no: >-
+      Opposed creating buffer zones outside abortion clinics.
+
+  # added from the division review worksheet
+  - id: 1491
+    issue: buffer-zones
+    stage: Division
+    stage_group: Division
+    landmark: false
+    signed_off: false
+    our_side: "aye"
+    short: "Silent prayer exemption within buffer zones"
+    context: "Amendment (a) to Lords Amendment 5 to the Public Order Bill."
+    meaning_aye: >-
+      Supported exempting silent prayer and consensual communication from the new offence of interfering with access to abortion services, so that neither could be prosecuted inside a buffer zone.
+    meaning_no: >-
+      Opposed the exemption, leaving silent prayer and consensual communication within the scope of the offence.
+
+  # added from the division review worksheet
+  - id: 2059
+    issue: abortion
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: false
+    signed_off: false
+    our_side: "aye"
+    short: "In-person consultation before pills by post"
+    context: "New Clause 106 to the Crime and Policing Bill, tabled by Dr Caroline Johnson MP."
+    meaning_aye: >-
+      Supported requiring a woman to attend an in-person consultation at a hospital or clinic before self-administering abortion medicine at home, rather than the consultation being remote throughout.
+    meaning_no: >-
+      Opposed the in-person consultation requirement, leaving telemedicine abortion as it stands.
+
+  # added from the division review worksheet
+  - id: 2060
+    issue: non-crime-hate
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: true
+    signed_off: false
+    our_side: "aye"
+    short: "Abolition of non-crime hate incidents"
+    context: "New Clause 7 to the Crime and Policing Bill."
+    meaning_aye: >-
+      Supported abolishing non-crime hate incidents as a category recorded by police forces against named individuals who have committed no crime.
+    meaning_no: >-
+      Opposed abolishing non-crime hate incident recording.
+
+  # added from the division review worksheet
+  - id: 1580
+    issue: parental-rights
+    stage: Division
+    stage_group: Division
+    landmark: false
+    signed_off: false
+    our_side: "aye"
+    short: "Schools (Gender and Parental Rights) Bill"
+    context: "Ten-Minute Rule Bill: leave to introduce."
+    meaning_aye: >-
+      Supported introducing a Bill on gender and parental rights in schools.
+    meaning_no: >-
+      Opposed leave to introduce the Bill.
+
+  # added from the division review worksheet
+  - id: 1727
+    issue: parental-rights
+    stage: Division
+    stage_group: Division
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: "Children not in school: national register"
+    context: "Opposition day motion on a national register of children not in school and support for home-educating families."
+    meaning_aye: >-
+      Supported the motion calling for a national register of children not in school.
+    meaning_no: >-
+      Opposed the motion for a national register.
