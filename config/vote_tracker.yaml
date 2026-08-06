@@ -1,0 +1,220 @@
+# MP vote tracker: which divisions the public tracker shows, and what each
+# vote MEANT in plain English.
+#
+# This file is editorial, not automatic. The monitor holds 245 matched
+# divisions, but most are whipped ping-pong motions where "what did an Aye
+# mean" has no honest one-line answer, and publishing a guess would cost us
+# the credibility the tool exists to have. So divisions are added here
+# deliberately, with meaning lines a human has written.
+#
+#   signed_off: false  -> the tracker renders it with the pending-sign-off
+#                         notice. Set true only when the wording has been
+#                         checked against Hansard by a person.
+#   landmark: true     -> shown under "Key votes"; everything else sits in
+#                         the collapsible "Amendment votes" section.
+#   our_side           -> which way was CitizenGO's side. Drives nothing in
+#                         the public view (which states facts, not verdicts)
+#                         but lets the internal build show alignment.
+#
+# Division ids are Commons division ids: the number in div:cNNNN in the
+# ledger, and in votes.parliament.uk/Votes/Commons/Division/NNNN.
+# Candidates the ledger can offer: python3 tools/make_vote_tracker.py --candidates
+
+issues:
+  - id: assisted-suicide
+    name: Assisted suicide
+    area: 2
+    bill: Terminally Ill Adults (End of Life) Bill
+    note: >-
+      A Private Member's Bill introduced by Kim Leadbeater MP to legalise
+      assisted suicide for terminally ill adults in England and Wales. All
+      divisions were free votes: MPs voted according to personal conviction,
+      not a party whip.
+    status: >-
+      Passed all Commons stages (Third Reading 314-291, 20 June 2025).
+      Considered by the House of Lords from September 2025; after 14 days in
+      committee it ran out of time at the end of the parliamentary session.
+
+  - id: abortion
+    name: Abortion decriminalisation
+    area: 1
+    bill: Crime and Policing Bill - New Clause 1
+    note: >-
+      A landmark free-vote amendment (New Clause 1) to the Crime and Policing
+      Bill, a wider Government bill. The host bill's own Second and Third
+      Readings were not abortion votes and are deliberately not shown here.
+    status: Agreed by the Commons 379-137 on 17 June 2025 and added to the Bill.
+
+  - id: abortion-ni
+    name: Abortion services in Northern Ireland
+    area: 1
+    bill: Abortion (Northern Ireland) Regulations
+    note: >-
+      Regulations made by the Northern Ireland Office to commission abortion
+      services in Northern Ireland, following the Westminster legislation of
+      2019. Approval motions rather than legislation of the Commons' own
+      making, which is why the same question returns in successive years.
+    status: All three approval motions were agreed by the Commons.
+
+divisions:
+  # -- Assisted suicide: carried over from the prototype, wording checked
+  #    against Hansard in July 2026 but not yet signed off editorially.
+  - id: 1877
+    issue: assisted-suicide
+    stage: Second Reading
+    stage_group: Second Reading
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: Second Reading
+    context: ""
+    meaning_aye: >-
+      Supported the Bill continuing to its next stage (in principle, in favour
+      of legalising assisted suicide for terminally ill adults in England and
+      Wales).
+    meaning_no: Voted to stop the Bill at its first Commons hurdle.
+
+  - id: 2071
+    issue: assisted-suicide
+    stage: Third Reading
+    stage_group: Third Reading
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: Third Reading
+    context: ""
+    meaning_aye: Approved the Bill as a whole, sending it to the House of Lords.
+    meaning_no: Voted to reject the Bill at its final Commons stage.
+
+  - id: 2029
+    issue: assisted-suicide
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: false
+    signed_off: false
+    our_side: aye
+    short: Organisational opt-out - Amendment (a) to New Clause 10
+    context: ""
+    meaning_aye: >-
+      Supported Rebecca Paul's amendment to extend the opt-out beyond
+      individuals, so that employers and organisations such as hospices and
+      care homes could decline to take part in assisted suicide.
+    meaning_no: Opposed extending the opt-out to organisations and employers.
+
+  - id: 2052
+    issue: assisted-suicide
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: false
+    signed_off: false
+    our_side: aye
+    short: Doctors raising assisted suicide first - New Clause 1
+    context: ""
+    meaning_aye: >-
+      Supported Dame Meg Hillier's clause preventing health professionals from
+      raising assisted suicide with a patient unless the patient raised it first.
+    meaning_no: >-
+      Opposed the restriction, leaving doctors able to raise assisted suicide
+      with patients.
+
+  - id: 2053
+    issue: assisted-suicide
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: false
+    signed_off: false
+    our_side: aye
+    short: No discussion with under-18s - New Clause 2
+    context: ""
+    meaning_aye: >-
+      Supported Dame Meg Hillier's clause preventing health professionals from
+      discussing assisted suicide with a person under 18 (added to the Bill).
+    meaning_no: Opposed the ban on raising assisted suicide with under-18s.
+
+  - id: 2066
+    issue: assisted-suicide
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: false
+    signed_off: false
+    our_side: aye
+    short: Excluding 'burden' and related motivations - New Clause 16
+    context: ""
+    meaning_aye: >-
+      Supported Rebecca Paul's clause making a person ineligible if their wish
+      was substantially motivated by feeling a burden, a mental disorder, a
+      disability, financial considerations, lack of access to care, or suicidal
+      ideation.
+    meaning_no: Opposed adding this eligibility exclusion to the Bill.
+
+  - id: 2067
+    issue: assisted-suicide
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: false
+    signed_off: false
+    our_side: aye
+    short: Removing the presumption of capacity - Amendment 24
+    context: ""
+    meaning_aye: >-
+      Supported Daniel Francis's amendment requiring a person's mental capacity
+      to be established, rather than presumed, before they could be found
+      eligible.
+    meaning_no: Opposed removing the Mental Capacity Act presumption of capacity.
+
+  # -- Abortion: the amendment IS the headline; the host bill is context only.
+  - id: 2058
+    issue: abortion
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: Abortion decriminalisation
+    context: >-
+      New Clause 1 to the Crime and Policing Bill - a free-vote amendment to a
+      wider Government bill.
+    meaning_aye: >-
+      Supported Tonia Antoniazzi's clause removing women from criminal
+      liability for ending their own pregnancy at any stage. It did not change
+      the law for medical professionals or clinical settings.
+    meaning_no: Opposed decriminalising women who end their own pregnancies.
+
+  # -- Northern Ireland regulations: DRAFT wording, added 2026-08-06 from the
+  #    ledger. Every line below needs checking against Hansard before this
+  #    issue is shown publicly.
+  - id: 798
+    issue: abortion-ni
+    stage: Approval motion
+    stage_group: Third Reading
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: Abortion (Northern Ireland) (No. 2) Regulations 2020
+    context: Approval motion for the regulations commissioning abortion services in Northern Ireland.
+    meaning_aye: Voted to approve the 2020 regulations commissioning abortion services in Northern Ireland.
+    meaning_no: Voted against approving the 2020 regulations.
+
+  - id: 1022
+    issue: abortion-ni
+    stage: Approval motion
+    stage_group: Third Reading
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: Abortion (Northern Ireland) Regulations 2021
+    context: Approval motion directing the Northern Ireland Executive to commission services.
+    meaning_aye: Voted to approve the 2021 regulations.
+    meaning_no: Voted against approving the 2021 regulations.
+
+  - id: 1324
+    issue: abortion-ni
+    stage: Approval motion
+    stage_group: Third Reading
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: Abortion (Northern Ireland) Regulations 2022
+    context: Approval motion for the 2022 regulations (SI 2022 No. 554).
+    meaning_aye: Voted to approve the 2022 regulations.
+    meaning_no: Voted against approving the 2022 regulations.

@@ -19,6 +19,8 @@ class Member:
     party: str
     seat: str
     house: str
+    since: str = None      # start of the CURRENT membership period (ISO date)
+    list_as: str = None    # "Surname, First": how Parliament sorts them
 
 
 def parse_member(value):
@@ -28,7 +30,17 @@ def parse_member(value):
     seat = membership.get("membershipFrom")
     house_id = membership.get("house")
     house = {1: "Commons", 2: "Lords"}.get(house_id, house_id)
-    return Member(id=value.get("id"), name=value.get("nameDisplayAs"), party=party, seat=seat, house=house)
+    # API quirk: for continuously-serving members statusStartDate is the current
+    # period and membershipStartDate their first entry; for returning members
+    # (a by-election after time away) the two are reversed. The LATER of the two
+    # is the start of the current period under both patterns -- which is what
+    # "Not yet an MP for this division" depends on.
+    status_start = (membership.get("membershipStatus") or {}).get("statusStartDate") or ""
+    member_start = membership.get("membershipStartDate") or ""
+    since = max(status_start, member_start)[:10] or None
+    return Member(id=value.get("id"), name=value.get("nameDisplayAs"), party=party,
+                  seat=seat, house=house, since=since,
+                  list_as=value.get("nameListAs"))
 
 
 def fetch_member(client, member_id):
@@ -69,27 +81,38 @@ def mark_roster(conn, roster):
     conn.execute("UPDATE members SET current_mp = NULL")
     for m in roster:
         conn.execute(
-            "INSERT INTO members (id, name, party, seat, house, current_mp) "
-            "VALUES (?, ?, ?, ?, ?, 1) "
+            "INSERT INTO members (id, name, party, seat, house, since, list_as, current_mp) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, 1) "
             "ON CONFLICT(id) DO UPDATE SET name=excluded.name, party=excluded.party, "
-            "seat=excluded.seat, house=excluded.house, current_mp=1",
-            (m.id, m.name, m.party, m.seat, m.house))
+            "seat=excluded.seat, house=excluded.house, since=excluded.since, "
+            "list_as=excluded.list_as, current_mp=1",
+            (m.id, m.name, m.party, m.seat, m.house, m.since, m.list_as))
     conn.commit()
 
 
 # -- cache ------------------------------------------------------------------
 
 def cache_get(conn, member_id):
-    row = conn.execute("SELECT id, name, party, seat, house FROM members WHERE id = ?", (member_id,)).fetchone()
+    row = conn.execute("SELECT id, name, party, seat, house, since, list_as "
+                       "FROM members WHERE id = ?", (member_id,)).fetchone()
     if row is None:
         return None
-    return Member(id=row["id"], name=row["name"], party=row["party"], seat=row["seat"], house=row["house"])
+    return Member(id=row["id"], name=row["name"], party=row["party"], seat=row["seat"],
+                  house=row["house"], since=row["since"], list_as=row["list_as"])
 
 
 def cache_put(conn, member):
+    # COALESCE: a voter payload carries name/party/seat but no start date, so
+    # seeding from a division must not blank a date the roster pull established.
     conn.execute(
-        "INSERT OR REPLACE INTO members (id, name, party, seat, house) VALUES (?, ?, ?, ?, ?)",
-        (member.id, member.name, member.party, member.seat, member.house),
+        "INSERT INTO members (id, name, party, seat, house, since, list_as) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?) "
+        "ON CONFLICT(id) DO UPDATE SET name=excluded.name, party=excluded.party, "
+        "seat=excluded.seat, house=excluded.house, "
+        "since=COALESCE(excluded.since, members.since), "
+        "list_as=COALESCE(excluded.list_as, members.list_as)",
+        (member.id, member.name, member.party, member.seat, member.house,
+         member.since, member.list_as),
     )
     conn.commit()
 

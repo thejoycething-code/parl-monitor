@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How did your MP vote? — CitizenGO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Principal palette (Brand Guidelines) */
+  --blue:#4285f4;            /* Pantone 2727 C */
+  --white:#FFFFFF;
+  --grey-100:#EEEEEE;        /* Pantone 4280 UP tint */
+  --grey-300:#C4C4C4;        /* Pantone 420 C */
+  --ink:#52575C;             /* Pantone 4280 UP */
+  /* Secondary palette — UX elements only (data viz / chips) */
+  --green:#55B159;
+  --red:#DB544F;
+  --yellow:#FFEBAD;
+  /* derived */
+  --blue-deep:#2f6fe0;
+  --blue-tint:#EAF1FE;
+  --line:#E4E6E9;
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--white);color:var(--ink);font-family:var(--font);font-weight:400;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--blue-deep);text-decoration:underline}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+h1,h2,h3{color:#20242a;font-weight:700;letter-spacing:-.01em}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+
+/* ---------- top bar / logo (upper-left, per guidelines) ---------- */
+.topbar{border-bottom:1px solid var(--line);background:var(--white)}
+.topbar .wrap{display:flex;align-items:center;gap:14px;height:64px}
+/* Placeholder lockup — replace with official asset from the CitizenGO brand kit */
+.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:20px;letter-spacing:.04em;color:var(--blue);text-transform:uppercase}
+.logo:hover{text-decoration:none}
+.logo .go{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-size:14px;font-weight:900;letter-spacing:.02em}
+.logo .tm{font-size:9px;font-weight:500;color:var(--grey-300);letter-spacing:.1em;align-self:flex-start;margin-top:2px}
+.topbar .tag{margin-left:auto;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-300)}
+
+/* ---------- hero ---------- */
+header.hero{padding:54px 0 10px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f24;margin:12px 0 16px}
+.sub{max-width:58ch;font-weight:300;font-size:17px;color:#5c626a}
+.sub b{font-weight:500;color:var(--ink)}
+
+/* ---------- search ---------- */
+.searchbox{position:relative;margin:30px 0 10px}
+.searchbox label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:9px}
+#q{width:100%;font-family:var(--font);font-weight:400;font-size:17px;padding:16px 18px;border:2px solid var(--grey-300);
+  background:var(--white);color:#20242a;border-radius:8px;transition:border-color .15s}
+#q::placeholder{color:#A9AEB4;font-weight:300}
+#q:focus{border-color:var(--blue);outline:3px solid var(--blue-tint)}
+.dropdown{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--white);
+  border:1px solid var(--grey-300);border-radius:8px;z-index:30;max-height:352px;overflow-y:auto;
+  box-shadow:0 12px 32px rgba(32,38,45,.14);display:none}
+.dropdown.open{display:block}
+.opt{display:flex;align-items:center;gap:12px;padding:11px 15px;cursor:pointer;border-bottom:1px solid var(--grey-100)}
+.opt:last-child{border-bottom:0}
+.opt.active,.opt:hover{background:var(--blue-tint)}
+.opt .badge{font-size:10px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--grey-300);
+  padding:3px 7px;border-radius:4px;flex:none;min-width:48px;text-align:center}
+.opt .badge.mp{background:var(--blue)}
+.opt .badge.pc{background:var(--ink)}
+.opt .lbl{font-weight:500;color:#20242a}
+.opt small{color:#8b9098;font-weight:300}
+.examples{font-size:13.5px;color:#8b9098;font-weight:300;margin:8px 2px 0}
+.examples button{font-family:var(--font);font-size:12.5px;font-weight:500;color:var(--blue-deep);
+  background:var(--blue-tint);border:1px solid #cfe0fc;border-radius:20px;padding:4px 12px;margin:0 3px;cursor:pointer}
+.examples button:hover{border-color:var(--blue);background:#e0ecfe}
+.notice{margin:16px 0 0;padding:13px 16px;background:var(--yellow);border:1px solid #e9d488;border-radius:8px;
+  font-size:14.5px;color:#6b5a1e;font-weight:400;display:none}
+.notice.show{display:block}
+.notice b{font-weight:700}
+
+/* ---------- empty / landing state ---------- */
+.empty{margin:40px 0 10px}
+.empty-card{border:1px solid var(--line);border-radius:12px;background:var(--white);padding:34px 32px;
+  box-shadow:0 1px 0 var(--grey-100)}
+.empty-card .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-300)}
+.empty-card h2{font-size:22px;font-weight:700;margin:8px 0 8px;color:#20242a}
+.empty-card p{font-weight:300;color:#5c626a;max-width:64ch}
+.tracking{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.tracking .t-label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-300)}
+.issue-pill{display:inline-flex;align-items:center;gap:8px;background:var(--blue-tint);border:1px solid #d3e2fc;
+  border-radius:22px;padding:7px 15px 7px 12px;font-weight:500;font-size:14px;color:var(--blue-deep)}
+.issue-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.issue-pill small{font-weight:300;color:#7c93b8}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:26px 0 4px}
+.step{padding:2px 2px 2px 0}
+.step .n{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;
+  background:var(--blue);color:#fff;font-weight:700;font-size:13px;margin-bottom:10px}
+.step h3{font-size:15px;font-weight:500;color:#20242a;margin-bottom:3px}
+.step p{font-size:13.5px;font-weight:300;color:#6b717a;line-height:1.5}
+
+/* ---------- MP card ---------- */
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;margin:34px 0;overflow:hidden;
+  box-shadow:0 8px 30px rgba(32,38,45,.08)}
+.card-head{display:flex;gap:20px;align-items:center;padding:26px 28px;background:var(--blue);color:#fff;flex-wrap:wrap}
+.avatar{position:relative;width:78px;height:78px;border-radius:50%;flex:none;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:26px;color:var(--blue);
+  border:3px solid #fff;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card-head h2{font-family:var(--font);font-weight:700;font-size:30px;line-height:1.08;color:#fff}
+.mp-meta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:7px;font-size:14.5px;font-weight:300;color:#eaf1fe}
+.mp-meta .party{font-weight:500;color:#fff}
+.pdot{display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);margin-right:6px;vertical-align:-1px}
+.mp-meta .since{font-size:12.5px;color:#cfe0fc}
+.backlink{margin-left:auto;font-size:13.5px;font-weight:500;color:#fff;flex:none;border:1px solid rgba(255,255,255,.55);
+  padding:8px 14px;border-radius:7px}
+.backlink:hover{background:rgba(255,255,255,.14);text-decoration:none;color:#fff}
+.rolebanner{padding:13px 28px;background:var(--yellow);border-bottom:1px solid #e9d488;font-size:14.5px;color:#6b5a1e}
+.card-summary{padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--grey-300);border-bottom:1px solid var(--line);background:#FBFCFD}
+.card-summary b{color:var(--blue)}
+
+.issuehead{margin:24px 28px 6px}
+.issuehead h2{font-size:20px;font-weight:700;color:#20242a}
+.issuehead .bill{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-top:3px}
+.issuehead .status{font-size:13px;font-weight:300;font-style:italic;color:#8b9098;margin-top:5px;max-width:70ch}
+
+.divrow{display:grid;grid-template-columns:96px 1fr 178px;gap:18px;align-items:start;
+  margin:0 28px;padding:17px 0;border-top:1px solid var(--line)}
+.divrow:first-of-type{border-top:2px solid var(--grey-100)}
+.divrow:last-of-type{margin-bottom:12px}
+.divrow .date{font-size:12.5px;font-weight:500;color:var(--ink);padding-top:2px}
+.divrow .date span{display:block;font-weight:300;color:#9aa0a8;font-size:11.5px;margin-top:2px}
+.divrow h3{font-size:16px;font-weight:500;line-height:1.35;color:#20242a}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:5px 11px;border-radius:5px;margin:8px 0 2px;white-space:nowrap}
+.chip.A{background:var(--green);color:#fff}
+.chip.N{background:var(--red);color:#fff}
+.chip.T{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.chip.X{background:var(--grey-100);color:#7b818a}
+.chip.S{background:var(--yellow);color:#6b5a1e}
+.meaning{font-size:14px;font-weight:300;color:#5c626a;max-width:60ch;margin-top:2px}
+.meaning b{font-weight:500;color:#20242a}
+.official{font-size:11.5px;font-weight:500;margin-top:6px;display:inline-block}
+.official:after{content:" \2197"}
+
+/* tally (secondary-palette UX element) */
+.tallywrap{padding-top:2px}
+.result{font-size:11.5px;font-weight:700;letter-spacing:.05em;margin-bottom:7px;color:var(--ink)}
+.result .passed{color:var(--green)}
+.result .rejected{color:var(--red)}
+.tally{position:relative;height:10px;border-radius:3px;overflow:visible;background:var(--red)}
+.tally .aye{position:absolute;left:0;top:0;bottom:0;background:var(--green);border-radius:3px 0 0 3px}
+.tally .flag{position:absolute;top:-8px;width:0;height:0;border-left:5px solid transparent;
+  border-right:5px solid transparent;border-top:8px solid var(--ink);transform:translateX(-50%)}
+.tally-nums{display:flex;justify-content:space-between;font-size:11px;font-weight:500;color:#9aa0a8;margin-top:5px}
+
+/* ---------- about / footer ---------- */
+.about{margin:46px 0 10px}
+.about h2{font-size:20px;font-weight:700;color:#20242a;margin-bottom:12px}
+.about p{margin:9px 0;font-weight:300;font-size:14.5px;color:#5c626a;max-width:76ch}
+.about .k{font-weight:500;color:#20242a}
+hr.rule{border:0;border-top:1px solid var(--line);margin:30px 0}
+footer{border-top:1px solid var(--line);margin-top:34px;padding:22px 0 52px;font-size:12px;font-weight:300;color:#9aa0a8;line-height:1.8}
+footer .proto{display:inline-block;background:var(--ink);color:#fff;font-weight:700;padding:3px 9px;border-radius:5px;letter-spacing:.12em;font-size:10px;margin-bottom:10px}
+footer a{color:var(--blue);font-weight:400}
+
+@media(max-width:640px){
+  header.hero{padding:38px 0 6px}
+  .steps{grid-template-columns:1fr;gap:14px}
+  .divrow{grid-template-columns:1fr;gap:7px}
+  .tallywrap{max-width:340px}
+  .card-head{padding:22px 18px}
+  .issuehead,.divrow{margin-left:18px;margin-right:18px}
+  .card-summary,.rolebanner{padding-left:18px;padding-right:18px}
+  .backlink{margin-left:0;margin-top:6px}
+  .empty-card{padding:26px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <!-- Placeholder logo lockup. Swap for the official CitizenGO asset from the brand kit. -->
+    <a class="logo" href="#" id="home"><span class="go">GO</span>CITIZEN<span class="tm">&reg;</span></a>
+    <span class="tag">Voting records</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Westminster &middot; House of Commons division records</div>
+  <h1>How did your MP vote?</h1>
+  <p class="sub">Every vote we track is a <b>free vote</b>, recorded in the official division lists of the House of Commons.
+  Search by postcode, constituency, or MP name to see exactly where your representative stood.</p>
+</header>
+
+<div class="searchbox">
+  <label for="q">Find your MP</label>
+  <input id="q" type="text" autocomplete="off" spellcheck="false"
+    placeholder="Postcode, constituency, or MP name&hellip;" aria-label="Search by postcode, constituency, or MP name"
+    role="combobox" aria-expanded="false" aria-controls="dd">
+  <div class="dropdown" id="dd" role="listbox"></div>
+</div>
+<div class="examples">Try:
+  <button data-ex="SW1A 0AA">SW1A 0AA</button>
+  <button data-ex="Runcorn and Helsby">Runcorn and Helsby</button>
+  <button data-ex="Kim Leadbeater">Kim Leadbeater</button></div>
+<div class="notice" id="notice"></div>
+
+<main id="main"></main>
+
+<section class="about">
+  <hr class="rule">
+  <h2>About this record</h2>
+  <p><span class="k">Free votes.</span> Every division tracked here was a free vote: MPs voted according to
+  personal conviction, with no party whip applied. A vote therefore reflects the member's own judgement.</p>
+  <p><span class="k">&ldquo;No vote recorded&rdquo; is not an abstention.</span> The Commons does not record
+  abstentions. An MP may have no recorded vote because of illness, ministerial or constituency duties,
+  an agreed pairing arrangement, or a deliberate decision not to vote &mdash; the record does not say which.</p>
+  <p><span class="k">Who doesn't vote.</span> By convention the Speaker and the three Deputy Speakers do not vote.
+  Sinn F&eacute;in members do not take their seats at Westminster and so cast no votes.</p>
+  <p><span class="k">New MPs.</span> Members elected at by-elections after a division are shown as
+  &ldquo;Not yet an MP&rdquo; for that division. This tool shows the record of each constituency's
+  <em>current</em> MP.</p>
+  <p><span class="k">Totals and lists.</span> Results show the totals announced in the Chamber, which are the
+  official result. The name-by-name lists are occasionally corrected afterwards, so a list may differ from the
+  announced total by one or two &mdash; a feature of the official record, not an error in this tool.</p>
+  <p><span class="k">Plain-English summaries.</span> The &ldquo;an Aye vote&rdquo; lines were drafted from
+  Hansard and the Hansard Society's Report Stage briefings. Each row links to the official division record so
+  every entry can be checked at source. <em>Prototype: summaries pending editorial sign-off.</em></p>
+</section>
+
+<footer>
+  <span class="proto">PROTOTYPE</span><br>
+  Sources: House of Commons Votes API &middot; UK Parliament Members API &middot; postcodes.io (ONS / OS open data).<br>
+  Contains Parliamentary information licensed under the Open Parliament Licence v3.0.<br>
+  Data generated <span id="stamp"></span>. Postcode lookups run in your browser and are not stored.
+</footer>
+
+</div>
+<script>
+const DATA = __DATASET__;
+
+/* ---------- party colours (external identity — factual, not CitizenGO brand) ---------- */
+const PARTY_C = {"Labour":"#C0293B","Conservative":"#1B63A8","Liberal Democrat":"#E8A33D",
+"Scottish National Party":"#E3CF57","Green Party":"#5FA33E","Reform UK":"#2AA8BF",
+"Plaid Cymru":"#0E5C50","Democratic Unionist Party":"#B65A43","Sinn Féin":"#2E6157",
+"Social Democratic & Labour Party":"#3E8F4A","Alliance":"#D8B93B","Ulster Unionist Party":"#4E93CF",
+"Traditional Unionist Voice":"#26436B","Independent":"#8A8F8A","Speaker":"#5B6055"};
+const pc = p => PARTY_C[p] || "#5B6770";
+
+/* ---------- helpers ---------- */
+const norm = s => (s||"").normalize("NFD").replace(/\p{M}/gu,"").toLowerCase()
+  .replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").trim();
+const esc = s => (s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtD = iso => { const [y,m,d]=iso.split("-");
+  return d.replace(/^0/,"")+" "+["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m-1]+" "+y; };
+const initials = n => n.replace(/^(Ms|Mr|Mrs|Dr|Dame|Sir|Rt Hon)\.? /g,"").split(" ")
+  .filter(Boolean).map(w=>w[0]).slice(0,2).join("").toUpperCase();
+
+const byId = {}; DATA.members.forEach(m => byId[m.id]=m);
+const constIndex = {}; DATA.members.forEach(m => constIndex[norm(m.constituency)]=m.id);
+const divsByIssue = {}; DATA.divisions.forEach(d => (divsByIssue[d.issue]=divsByIssue[d.issue]||[]).push(d));
+document.getElementById("stamp").textContent = DATA.generated;
+
+/* ---------- vote presentation ---------- */
+function voteInfo(m, d){
+  const v = m.votes[d.id];
+  if (v==="A")  return {chip:"AYE", cls:"A", side:"aye",
+    text:`<b>${esc(m.name)} voted Aye.</b> ${esc(d.meaning_aye)}`};
+  if (v==="N")  return {chip:"NO", cls:"N", side:"no",
+    text:`<b>${esc(m.name)} voted No.</b> ${esc(d.meaning_no)}`};
+  if (v==="TA") return {chip:"TELLER (AYES)", cls:"T", side:"aye",
+    text:`<b>Acted as a teller for the Ayes</b> &mdash; by convention, indicating support. ${esc(d.meaning_aye)}`};
+  if (v==="TN") return {chip:"TELLER (NOES)", cls:"T", side:"no",
+    text:`<b>Acted as a teller for the Noes</b> &mdash; by convention, indicating opposition. ${esc(d.meaning_no)}`};
+  if (!v && m.since && m.since > d.date)
+    return {chip:"NOT YET AN MP", cls:"S", side:null,
+      text:`${esc(m.name)} became the MP for ${esc(m.constituency)} on ${fmtD(m.since)}, after this division.`};
+  if (m.role==="speaker") return {chip:"DOES NOT VOTE", cls:"S", side:null,
+    text:"As Speaker of the House, by convention, does not vote in divisions."};
+  if (m.role==="deputy") return {chip:"DOES NOT VOTE", cls:"S", side:null,
+    text:"As a Deputy Speaker, by convention, does not vote in divisions."};
+  if (m.role==="sf") return {chip:"SEAT NOT TAKEN", cls:"S", side:null,
+    text:"Sinn F\u00e9in members do not take their seats at Westminster and cast no votes."};
+  return {chip:"NO VOTE RECORDED", cls:"X", side:null,
+    text:"No vote is recorded for this division. The Commons does not record abstentions, so the reason is not stated in the record."};
+}
+
+function tallyHTML(d, side){
+  const pct = 100*d.ayes/(d.ayes+d.noes);
+  const flag = side ? `<div class="flag" style="left:${side==="aye"?pct/2:pct+(100-pct)/2}%"></div>` : "";
+  return `<div class="result">${d.passed?'<span class="passed">PASSED</span>':'<span class="rejected">REJECTED</span>'}
+    &nbsp;&middot;&nbsp;Ayes ${d.ayes} &ndash; Noes ${d.noes}</div>
+    <div class="tally"><div class="aye" style="width:${pct}%"></div>${flag}</div>
+    <div class="tally-nums"><span>AYE</span><span>NO</span></div>`;
+}
+
+/* ---------- empty / landing state (NO divisions shown until an MP is chosen) ---------- */
+function renderEmpty(){
+  const pills = DATA.issues.map(i =>
+    `<span class="issue-pill"><span class="dot"></span>${esc(i.name)}
+      <small>${divsByIssue[i.id].length} vote${divsByIssue[i.id].length>1?"s":""}</small></span>`).join("");
+  document.getElementById("main").innerHTML = `
+  <div class="empty">
+    <div class="empty-card">
+      <div class="kicker">Start here</div>
+      <h2>Search for an MP to see their voting record</h2>
+      <p>Enter a <b>postcode</b>, <b>constituency</b>, or an <b>MP's name</b> in the box above.
+      We'll show how that MP voted on each issue we track, in plain English, with a link to the official record.</p>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><h3>Search</h3><p>Postcode, constituency, or MP name &mdash; whichever you have.</p></div>
+        <div class="step"><span class="n">2</span><h3>See the record</h3><p>Each vote is shown as Aye, No, or no vote recorded, with what it meant.</p></div>
+        <div class="step"><span class="n">3</span><h3>Check the source</h3><p>Every row links straight to the official Commons division.</p></div>
+      </div>
+      <div class="tracking">
+        <span class="t-label">Currently tracking</span>
+        ${pills}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- MP card ---------- */
+function renderMP(id){
+  const m = byId[id]; if(!m) return;
+  const took = DATA.divisions.filter(d=>["A","N","TA","TN"].includes(m.votes[d.id])).length;
+  let banner = "";
+  if (m.role==="speaker") banner = "As Speaker of the House of Commons, "+esc(m.name)+" does not vote in divisions, by convention.";
+  if (m.role==="deputy")  banner = esc(m.name)+" serves as a Deputy Speaker and, by convention, does not vote in divisions.";
+  if (m.role==="sf")      banner = "Sinn F\u00e9in members do not take their seats at Westminster, so no votes are cast or recorded.";
+  let rows = "";
+  for (const issue of DATA.issues){
+    rows += `<div class="issuehead"><h2>${esc(issue.name)}</h2>
+      <div class="bill">${esc(issue.bill)}</div>
+      <div class="status">${esc(issue.status)}</div></div>`;
+    for (const d of divsByIssue[issue.id]){
+      const vi = voteInfo(m,d);
+      rows += `<div class="divrow">
+        <div class="date">${fmtD(d.date)}<span>${esc(d.stage)}</span></div>
+        <div><h3>${esc(d.short)}</h3>
+          <div><span class="chip ${vi.cls}">${vi.chip}</span></div>
+          <div class="meaning">${vi.text}</div>
+          <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+        </div>
+        <div class="tallywrap">${tallyHTML(d,vi.side)}</div></div>`;
+    }
+  }
+  document.getElementById("main").innerHTML = `
+  <div class="card">
+    <div class="card-head">
+      <div class="avatar"><span>${initials(m.name)}</span>
+        <img src="https://members-api.parliament.uk/api/Members/${m.id}/Thumbnail" alt="" onerror="this.remove()"></div>
+      <div style="flex:1;min-width:220px">
+        <h2>${esc(m.name)}</h2>
+        <div class="mp-meta">
+          <span class="party"><span class="pdot" style="background:${pc(m.party)}"></span>${esc(m.party)}</span>
+          <span>${esc(m.constituency)}</span>
+          <span class="since">MP since ${fmtD(m.since)}</span>
+        </div>
+      </div>
+      <a href="#" class="backlink" id="back">&larr; New search</a>
+    </div>
+    ${banner?`<div class="rolebanner">${banner}</div>`:""}
+    <div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions &middot; all free votes</div>
+    ${rows}
+  </div>`;
+  document.getElementById("back").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
+  location.hash = "mp-"+m.id;
+  document.querySelector(".card").scrollIntoView({block:"start",behavior:"smooth"});
+}
+
+function resetToEmpty(){
+  q.value=""; hideNotice();
+  history.replaceState(null,"",location.pathname+location.search);
+  renderEmpty(); window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ---------- search ---------- */
+const q = document.getElementById("q"), dd = document.getElementById("dd"), notice = document.getElementById("notice");
+const PC_RE = /^([A-Za-z]{1,2}\d[A-Za-z\d]?)\s*(\d[A-Za-z]{2})$/;
+let opts = [], active = -1;
+
+function showNotice(msg){ notice.innerHTML = msg; notice.classList.add("show"); }
+function hideNotice(){ notice.classList.remove("show"); }
+
+function buildOpts(val){
+  const t = norm(val), out = [];
+  const pcm = val.trim().match(PC_RE);
+  if (pcm) out.push({type:"pc", label:"Look up postcode "+pcm[1].toUpperCase()+" "+pcm[2].toUpperCase(),
+                     pcv:(pcm[1]+pcm[2]).toUpperCase()});
+  if (t.length>=2){
+    for (const m of DATA.members){
+      if (out.length>=9) break;
+      const nm = norm(m.name), cn = norm(m.constituency);
+      if (nm.includes(t)) out.push({type:"mp", id:m.id, label:m.name, small:m.constituency+" \u00b7 "+m.party});
+      else if (cn.includes(t)) out.push({type:"seat", id:m.id, label:m.constituency, small:"MP: "+m.name});
+    }
+  }
+  return out.slice(0,9);
+}
+function renderDD(){
+  if (!opts.length){ dd.classList.remove("open"); q.setAttribute("aria-expanded","false"); return; }
+  dd.innerHTML = opts.map((o,i)=>`<div class="opt ${i===active?"active":""}" role="option" data-i="${i}">
+    <span class="badge ${o.type==="mp"?"mp":o.type==="pc"?"pc":""}">${o.type==="mp"?"MP":o.type==="pc"?"POST":"SEAT"}</span>
+    <span class="lbl">${esc(o.label)}${o.small?` <small>&mdash; ${esc(o.small)}</small>`:""}</span></div>`).join("");
+  dd.classList.add("open"); q.setAttribute("aria-expanded","true");
+  dd.querySelectorAll(".opt").forEach(el=>el.addEventListener("mousedown",e=>{e.preventDefault();choose(+el.dataset.i);}));
+}
+function choose(i){
+  const o = opts[i]; if(!o) return;
+  dd.classList.remove("open"); active=-1;
+  if (o.type==="pc") return lookupPostcode(o.pcv);
+  q.value = o.label; hideNotice(); renderMP(o.id);
+}
+async function lookupPostcode(pcv){
+  hideNotice(); q.value = pcv.slice(0,-3)+" "+pcv.slice(-3);
+  try{
+    const r = await fetch("https://api.postcodes.io/postcodes/"+encodeURIComponent(pcv));
+    if (r.status===404) return showNotice("That postcode wasn't found. Check it, or search by constituency or MP name instead.");
+    if (!r.ok) throw new Error("http "+r.status);
+    const j = await r.json(), res = j.result||{};
+    const cname = res.parliamentary_constituency_2024 || res.parliamentary_constituency;
+    const id = constIndex[norm(cname)];
+    if (id===undefined) return showNotice("Postcode found (constituency: <b>"+esc(cname)+"</b>) but no sitting MP matched &mdash; the seat may currently be vacant.");
+    renderMP(id);
+  }catch(e){
+    showNotice("Postcode lookup needs a live connection to postcodes.io and may be blocked in this preview. <b>Download the file and open it in your browser</b>, or search by constituency or MP name instead.");
+  }
+}
+q.addEventListener("input", ()=>{ opts=buildOpts(q.value); active=opts.length?0:-1; renderDD(); });
+q.addEventListener("focus", ()=>{ if(q.value){opts=buildOpts(q.value);active=opts.length?0:-1;renderDD();} });
+q.addEventListener("blur", ()=>setTimeout(()=>dd.classList.remove("open"),150));
+q.addEventListener("keydown", e=>{
+  if (e.key==="ArrowDown"){e.preventDefault(); if(opts.length){active=(active+1)%opts.length;renderDD();}}
+  else if (e.key==="ArrowUp"){e.preventDefault(); if(opts.length){active=(active-1+opts.length)%opts.length;renderDD();}}
+  else if (e.key==="Enter"){e.preventDefault(); if(active>=0) choose(active);}
+  else if (e.key==="Escape"){dd.classList.remove("open");}
+});
+document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("click",()=>{
+  q.value=b.dataset.ex; opts=buildOpts(q.value); active=0;
+  if(opts.length) choose(0); else renderDD();
+}));
+document.getElementById("home").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
+
+/* ---------- boot ---------- */
+const h = location.hash.match(/^#mp-(\d+)$/);
+if (h && byId[+h[1]]) renderMP(+h[1]); else renderEmpty();
+</script>
+</body>
+</html>

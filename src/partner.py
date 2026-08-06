@@ -326,7 +326,8 @@ def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq
     title = "Parliamentary Monitor (partner edition) - w/c {0}".format(week)
     page = to_html(partner_markdown, title)
 
-    nav = ('<nav><a href="/5ca.html">Five Column Analysis tracker</a> | '
+    nav = ('<nav><a href="/mp-votes.html">How did my MP vote?</a> | '
+           '<a href="/5ca.html">Five Column Analysis tracker</a> | '
            '<a href="/questions.html">Written questions in full</a><br>Archive: ' +
            " | ".join('<a href="/archive/{0}.html">{0}</a>'.format(w)
                       for w in sorted(archive_weeks, reverse=True)) + "</nav>")

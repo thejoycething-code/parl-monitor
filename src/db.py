@@ -85,6 +85,12 @@ def init_db(conn):
     if "excerpt" not in ev_cols:
         conn.execute("ALTER TABLE mp_events ADD COLUMN excerpt TEXT")
     m_cols = {r[1] for r in conn.execute("PRAGMA table_info(members)")}
+    for column in ("since", "list_as"):
+        if column not in m_cols:
+            # since = start of the current membership period, which is what
+            # "Not yet an MP for this division" depends on; list_as = how
+            # Parliament sorts names.
+            conn.execute("ALTER TABLE members ADD COLUMN {0} TEXT".format(column))
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former
         # members stay NULL. Full-roster 5CA sheets select on this flag.
