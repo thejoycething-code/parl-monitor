@@ -121,6 +121,17 @@ def main():
                               pq_background=pq_edition.pq_background)
     print("partner site: {0}".format(site))
 
+    # Internal 5CA tracker: regenerated weekly so the placements the team works
+    # from are never staler than an edition. Written to docs/, never to
+    # partner_site/ -- stance placements are our analysis, not public record.
+    try:
+        import subprocess
+        subprocess.run([sys.executable,
+                        os.path.join(ROOT, "tools", "make_5ca_tracker.py"), week],
+                       check=True, cwd=ROOT)
+    except Exception as exc:
+        print("5ca tracker: failed ({0}); edition unaffected".format(exc))
+
     print("edition: {0}".format(path))
     failures = [s for s in (slack, asana) if "error" in s]
     return 1 if failures else 0

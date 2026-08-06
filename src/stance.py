@@ -67,6 +67,7 @@ class Evidence:
     line: str
     areas: list = field(default_factory=list)
     text: str = ""       # full question / motion text where recoverable
+    excerpt: str = ""    # the matching passage: what actually earned the capture
 
 
 @dataclass
@@ -97,7 +98,8 @@ def unscored_refs(conn):
     # No issue area, no scoring: those rows render nowhere, so paying to be
     # told a dementia question is irrelevant is pure waste.
     return conn.execute(
-        "SELECT e.ref, MIN(e.kind) AS kind, MIN(e.line) AS line, MIN(e.areas) AS areas "
+        "SELECT e.ref, MIN(e.kind) AS kind, MIN(e.line) AS line, MIN(e.areas) AS areas, "
+        "MAX(e.excerpt) AS excerpt "
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
         "WHERE s.ref IS NULL AND e.areas IS NOT NULL AND e.areas != '[]' "
         "GROUP BY e.ref").fetchall()
@@ -129,8 +131,12 @@ def _batches(items, size=BATCH_SIZE):
 
 
 def _build_payload(batch):
-    user = [{"ref": ev.ref, "kind": ev.kind, "areas": ev.areas,
-             "line": ev.line, "text": (ev.text or "")[:1500]} for ev in batch]
+    # Prefer the matching passage over a prefix of the whole contribution: the
+    # median speech is 3,100 characters, so a 1,500-character prefix often cut
+    # off before the passage that caused the capture, and ~2,300 speeches were
+    # scored without the classifier ever seeing the relevant words.
+    user = [{"ref": ev.ref, "kind": ev.kind, "areas": ev.areas, "line": ev.line,
+             "text": (ev.excerpt or ev.text or "")[:1500]} for ev in batch]
     return {
         "model": STANCE_MODEL,
         # Long speech batches were truncating at 4000 and losing whole
@@ -305,7 +311,8 @@ def score_pending(conn, raw_dir, api_key, scored_at, max_refs=None,
     texts = build_text_map(raw_dir, since_days=since_days)
     evidence = [Evidence(ref=r["ref"], kind=r["kind"], line=r["line"] or "",
                          areas=json.loads(r["areas"]) if r["areas"] else [],
-                         text=texts.get(r["ref"], ""))
+                         text=texts.get(r["ref"], ""),
+                         excerpt=(r["excerpt"] if "excerpt" in r.keys() else "") or "")
                 for r in pending]
 
     scored, failed = 0, 0
@@ -421,6 +428,34 @@ COLUMNS = ("++", "+", "0", "-", "--")
 # outranks sponsoring a motion, which outranks signing one, which outranks
 # question framing.
 KIND_WEIGHT = {"vote": 5, "debate": 4, "edm": 3, "edm-signed": 2, "pq": 1}
+
+
+def ensure_snapshot_table(conn):
+    conn.execute("CREATE TABLE IF NOT EXISTS ca_snapshots ("
+                 "area INTEGER, edition TEXT, counts TEXT, "
+                 "PRIMARY KEY (area, edition))")
+    conn.commit()
+
+
+def record_snapshot(conn, area, edition, counts):
+    """Store one area's gradient counts for an edition (idempotent)."""
+    ensure_snapshot_table(conn)
+    conn.execute("INSERT OR REPLACE INTO ca_snapshots (area, edition, counts) "
+                 "VALUES (?, ?, ?)", (area, edition, json.dumps(counts)))
+    conn.commit()
+
+
+def previous_snapshot(conn, area, before_edition):
+    """The most recent stored counts for an area before this edition, or None.
+
+    Week-on-week movement is the point of a tracker: a count is a fact, a
+    change is a story.
+    """
+    ensure_snapshot_table(conn)
+    row = conn.execute(
+        "SELECT counts FROM ca_snapshots WHERE area = ? AND edition < ? "
+        "ORDER BY edition DESC LIMIT 1", (area, before_edition)).fetchone()
+    return json.loads(row["counts"]) if row else None
 
 
 def applicable_caps(evidence_rows, caps):
