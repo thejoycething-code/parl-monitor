@@ -12,9 +12,10 @@ members separated out rather than presented as persuadable). Decisive columns
 expand to full member lists; the bulk of the 0 column does not, since 600
 rows of "no evidence" is noise.
 
-INTERNAL ONLY. Stance placements are CitizenGO's own analysis of named
-parliamentarians, not public record, so this page must never be served from
-the partner site's passphrase, which allies hold.
+Two audiences, same content, different banner (Christopher, 2026-08-05
+decided the 5CA is fine for allies): docs/5ca-tracker.html for the team, and
+partner_site/5ca.html behind the partner passphrase. Neither carries owner
+names -- the rows have none.
 """
 
 from __future__ import annotations
@@ -37,6 +38,19 @@ DEVOLVED = ("Scottish National Party", "Social Democratic & Labour Party",
 
 COLUMN_LABEL = {"++": "Strong ally", "+": "Leans our way", "0": "No position",
                 "-": "Leans against", "--": "Strong opponent"}
+
+BANNER_INTERNAL = (
+    "<strong>Internal.</strong> CitizenGO's own stance placements for named "
+    "parliamentarians, derived from the evidence ledger. Suggestions for a "
+    "campaigner to confirm, not published positions.")
+
+BANNER_PARTNER = (
+    "<strong>Coalition partner edition.</strong> Prepared by CitizenGO UK from "
+    "Parliament's open data: every placement below is derived from a member's own "
+    "votes, speeches, motions and questions. The gradient reflects CitizenGO's "
+    "campaign assessment, not the member's stated position, and is a working "
+    "draft rather than a published claim. Please do not circulate beyond your "
+    "organisation.")
 
 PAGE = """<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8">
@@ -77,10 +91,7 @@ li {{ margin:.16rem 0; }}
         margin-top:2rem; padding-top:.8rem; }}
 </style></head><body>
 <h1>5CA tracker <span style="font-weight:400;font-size:.68em">week commencing {week}</span></h1>
-<p class="internal"><strong>Internal only.</strong> These are CitizenGO's own stance
-placements for named parliamentarians, derived from the evidence ledger. They are
-suggestions for a campaigner to confirm, not published positions, and they must not
-be shared outside the organisation or served from the partner site.</p>
+<p class="internal">{banner}</p>
 
 <div class="stats">
 <div class="stat"><b>{events:,}</b><span>ledger events</span></div>
@@ -206,15 +217,22 @@ def main():
         block.append("</div>")
         blocks.append("\n".join(block))
 
-    out = os.path.join(ROOT, "docs", "5ca-tracker.html")
-    with open(out, "w", encoding="utf-8") as handle:
-        handle.write(PAGE.format(
-            week=week, events=ledger["events"], members=ledger["members"],
-            scored=scored, areas=tracked, earliest=ledger["earliest"],
-            latest=ledger["latest"], areas_html="\n".join(blocks),
-            stamp=datetime.date.today().isoformat()))
+    def render(banner):
+        return PAGE.format(
+            week=week, banner=banner, events=ledger["events"],
+            members=ledger["members"], scored=scored, areas=tracked,
+            earliest=ledger["earliest"], latest=ledger["latest"],
+            areas_html="\n".join(blocks), stamp=datetime.date.today().isoformat())
+
+    written = []
+    for path, banner in ((os.path.join(ROOT, "docs", "5ca-tracker.html"), BANNER_INTERNAL),
+                         (os.path.join(ROOT, "partner_site", "5ca.html"), BANNER_PARTNER)):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(render(banner))
+        written.append(path)
     conn.close()
-    print("{0} ({1} areas)".format(out, tracked))
+    print("{0} areas -> {1}".format(tracked, ", ".join(written)))
 
 
 if __name__ == "__main__":
