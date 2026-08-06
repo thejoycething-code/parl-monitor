@@ -20,6 +20,15 @@
 # ledger, and in votes.parliament.uk/Votes/Commons/Division/NNNN.
 # Candidates the ledger can offer: python3 tools/make_vote_tracker.py --candidates
 
+# Areas tracked in the ledger but never shown on the tracker (Christopher,
+# 2026-08-06). Migration's Commons record is almost entirely whipped
+# motions-to-disagree during ping-pong, where "what did an Aye mean" has no
+# honest one-line answer, and it is already out of the 5CA. We keep capturing
+# it -- the candidate finder still lists it, marked HIDDEN -- and publish
+# nothing.
+hidden_areas:
+  - 11   # migration
+
 issues:
   - id: assisted-suicide
     name: Assisted suicide

@@ -1,0 +1,93 @@
+enumerating Commons divisions 2020-01-01 to 2026-08-06...
+1641 divisions found; 113 already in the ledger, 11 on the tracker
+
+451 candidates, of which 348 are NOT already in the ledger.
+  250 concern hidden areas only (tracked, never displayed)
+  98 touch a displayable area -- these are the review queue
+  by area: Free speech online safety 46, Abortion 38, Parental rights education 26, Gender medicine children 3, Conversion practices 2, Assisted dying 1
+Sorted by evidence strength: title match first, then weight of same-debate speeches.
+
+  id  1900  2025-01-08  Reasoned amendment on Children's Wellbeing and Schools Bill
+        title: Parental rights education | same debate: Parental rights education x52
+  id  1957  2025-03-18  Children's Wellbeing and Schools Bill: Third Reading
+        title: Parental rights education | same debate: Parental rights education x25
+  id  1956  2025-03-18  Children's Wellbeing and Schools Bill Report Stage: Amendment 210
+        title: Parental rights education | same debate: Parental rights education x25
+  id  1955  2025-03-18  Children's Wellbeing and Schools Bill Report Stage: Amendment 209
+        title: Parental rights education | same debate: Parental rights education x25
+  id  1954  2025-03-18  Children's Wellbeing and Schools Bill Report Stage: New Clause 34
+        title: Parental rights education | same debate: Parental rights education x25
+  id  1953  2025-03-18  Children's Wellbeing and Schools Bill Report Stage: New Clause 7
+        title: Parental rights education | same debate: Parental rights education x25
+  id  2065  2025-06-18  Crime and Policing Bill: Third Reading
+        title: Abortion | same debate: Abortion x8, Free speech online safety x6, Migration x2
+  id  2064  2025-06-18  Crime and Policing Bill Report Stage: New Clause 130
+        title: Abortion | same debate: Abortion x8, Free speech online safety x6, Migration x2
+  id  2063  2025-06-18  Crime and Policing Bill Report Stage: New Clause 121
+        title: Abortion | same debate: Abortion x8, Free speech online safety x6, Migration x2
+  id  2062  2025-06-18  Crime and Policing Bill Report Stage: New Clause 88
+        title: Abortion | same debate: Abortion x8, Free speech online safety x6, Migration x2
+  id  2061  2025-06-18  Crime and Policing Bill Report Stage: New Clause 43
+        title: Abortion | same debate: Abortion x8, Free speech online safety x6, Migration x2
+  id  2060  2025-06-18  Crime and Policing Bill Report Stage: New Clause 7
+        title: Abortion | same debate: Abortion x8, Free speech online safety x6, Migration x2
+  id  1727  2024-01-23  Opposition day: Children not in school (national register and support)
+        title: Parental rights education | same debate: Parental rights education x11
+  id  2059  2025-06-17  Crime and Policing Bill Report Stage: New Clause 106
+        title: Abortion | same debate: Abortion x7, Assisted dying x1
+  id  2057  2025-06-17  Crime and Policing Bill Report Stage: Amendment 160
+        title: Abortion | same debate: Abortion x7, Assisted dying x1
+  id  2056  2025-06-17  Crime and Policing Bill Report Stage: Amendment 19
+        title: Abortion | same debate: Abortion x7, Assisted dying x1
+  id  2055  2025-06-17  Crime and Policing Bill Report Stage: Amendment 175
+        title: Abortion | same debate: Abortion x7, Assisted dying x1
+  id  2054  2025-06-17  Crime and Policing Bill Report Stage: Amendment 174
+        title: Abortion | same debate: Abortion x7, Assisted dying x1
+  id  1952  2025-03-17  Children's Wellbeing and Schools Bill Report Stage: Amendment 171
+        title: Parental rights education | same debate: Parental rights education x7
+  id  1951  2025-03-17  Children's Wellbeing and Schools Bill Report Stage: Amendment 188
+        title: Parental rights education | same debate: Parental rights education x7
+  id  1950  2025-03-17  Children's Wellbeing and Schools Bill Report Stage: New Clause 36
+        title: Parental rights education | same debate: Parental rights education x7
+  id  2323  2026-04-15  Children's Wellbeing and Schools Bill: Amendments (a) to (c) in lieu o
+        title: Parental rights education | same debate: Parental rights education x3, Free speech online safety x2
+  id  2322  2026-04-15  Children's Wellbeing and Schools Bill: Amendments (a) to (e) in lieu o
+        title: Parental rights education | same debate: Parental rights education x3, Free speech online safety x2
+  id  2321  2026-04-15  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x3, Free speech online safety x2
+  id  2320  2026-04-15  Children's Wellbeing and Schools Bill: Amendments (a) to (f) in lieu o
+        title: Parental rights education | same debate: Parental rights education x3, Free speech online safety x2
+  id  2275  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2274  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2273  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2272  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2271  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2270  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2269  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2268  2026-03-09  Children's Wellbeing and Schools Bill: motion to disagree with Lords A
+        title: Parental rights education | same debate: Parental rights education x4, Free speech online safety x1
+  id  2311  2026-04-14  Crime and Policing Bill: motion to agree with all remaining Lords Amen
+        title: Abortion | same debate: Abortion x2, Gender medicine children x1, Free speech online safety x1
+  id  2310  2026-04-14  Crime and Policing Bill: motion to disagree with Lords Amendment 359
+        title: Abortion | same debate: Abortion x2, Gender medicine children x1, Free speech online safety x1
+  id  2309  2026-04-14  Crime and Policing Bill: motion to disagree with Lords Amendment 357
+        title: Abortion | same debate: Abortion x2, Gender medicine children x1, Free speech online safety x1
+  id  2308  2026-04-14  Crime and Policing Bill: motion to disagree with Lords Amendment 342
+        title: Abortion | same debate: Abortion x2, Gender medicine children x1, Free speech online safety x1
+  id  2306  2026-04-14  Crime and Policing Bill: motion to disagree with Lords Amendment 334
+        title: Abortion | same debate: Abortion x2, Gender medicine children x1, Free speech online safety x1
+  id  2305  2026-04-14  Crime and Policing Bill: motion to disagree with Lords Amendment 333
+        title: Abortion | same debate: Abortion x2, Gender medicine children x1, Free speech online safety x1
+  id  2304  2026-04-14  Crime and Policing Bill: motion to disagree with Lords Amendment 311
+        title: Abortion | same debate: Abortion x2, Gender medicine children x1, Free speech online safety x1
+
+  ...and 58 more
+
+Nothing here is published. Add the ones that belong to config/vote_tracker.yaml with a meaning line a human has written.
