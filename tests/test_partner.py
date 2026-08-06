@@ -135,9 +135,15 @@ class SiteTests(unittest.TestCase):
         partner.build_site(tmp, "2026-08-10", partner.redact(EDITION), ["2026-08-10", "2026-08-03"])
         self.assertTrue(os.path.exists(os.path.join(tmp, "index.html")))
         self.assertTrue(os.path.exists(os.path.join(tmp, "archive", "2026-08-10.html")))
-        middleware = open(os.path.join(tmp, "middleware.js")).read()
+        with open(os.path.join(tmp, "middleware.js")) as handle:
+            middleware = handle.read()
         self.assertIn("PARTNER_PASSPHRASE", middleware)
         self.assertIn("401", middleware)
+        # Password-only gate (Christopher, 2026-08-05): one box, no username,
+        # and it fails closed when the passphrase is not configured.
+        self.assertNotIn("WWW-Authenticate", middleware)
+        self.assertIn('type="password"', middleware)
+        self.assertIn("503", middleware)
         index = open(os.path.join(tmp, "index.html")).read()
         self.assertIn('href="/archive/2026-08-03.html"', index)
 
