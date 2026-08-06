@@ -158,6 +158,20 @@ class CapTests(unittest.TestCase):
         self.assertEqual(md.count("**[NOTE]** note"), 3)
 
 
+class FooterVersionTests(unittest.TestCase):
+    """The footer sat at v0.2 while the taxonomy was on v0.4, on a page
+    partners read (found 2026-08-05). It is now read, never written."""
+
+    def test_version_comes_from_the_edition(self):
+        e = base_edition(taxonomy_version="0.4")
+        self.assertIn("taxonomy v0.4", digest.render(e))
+
+    def test_absent_version_omits_the_claim_entirely(self):
+        md = digest.render(base_edition())
+        self.assertIn("CitizenGO issue taxonomy with human review", md)
+        self.assertNotIn("v0.2", md)
+
+
 class FooterTests(unittest.TestCase):
     def test_gaps_disclosed_in_footer(self):
         e = base_edition(gaps=[("pq", "PATHWAYS sweep failed after retries")])

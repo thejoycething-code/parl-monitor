@@ -52,6 +52,7 @@ class Edition:
     pq_rows: list = field(default_factory=list)   # dicts: member/party/seat/heading/url/department/area/date/tag/why
     pq_background: list = field(default_factory=list)  # triage-1 questions: companion page only
     companion_url: str = None                     # full-detail questions page
+    taxonomy_version: str = None                  # read from taxonomy.yaml, never hardcoded
     deadlines: list = field(default_factory=list)   # dicts: type/title/url/why/deadline
     si_rows: list = field(default_factory=list)      # dicts: name/url/procedure/act/status/...
     edms: list = field(default_factory=list)
@@ -477,7 +478,11 @@ def render(edition):
     else:
         parts.append("*No coverage gaps recorded this edition.*")
     parts.append("")
-    parts.append("*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v0.2 with human review.*")
+    # The version is read from the taxonomy, never hardcoded: the footer sat at
+    # v0.2 while the taxonomy had moved to v0.4, on a page partners read.
+    parts.append("*Compiled from Parliament's open data feeds via the CitizenGO issue "
+                 "taxonomy{0} with human review.*".format(
+                     " v" + edition.taxonomy_version if edition.taxonomy_version else ""))
     return "\n".join(parts) + "\n"
 
 
