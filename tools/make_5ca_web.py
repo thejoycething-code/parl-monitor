@@ -99,11 +99,6 @@ tfoot td { background:#F7F9FC; font-weight:700; }
 tfoot tr.sel td { border-top:2px solid #4285f4; }
 tfoot tr.all td { opacity:.75; }
 tfoot td.lab { font-weight:500; font-size:.94em; }
-td.mv { white-space:nowrap; font-size:.94em; cursor:help;
-        border-bottom:1px solid #EEEEEE; }
-td.mv .mvd { opacity:.7; }
-td.mv .basis { display:block; opacity:.62; font-size:.9em; }
-td.mv.none { opacity:.5; font-style:italic; }
 td.mv .up { color:#55B159; font-weight:700; }
 td.mv .down { color:#DB544F; font-weight:700; }
 td.mv .ours { background:#EEEEEE; border-radius:3px; padding:.05em .35em; font-size:.92em; }
@@ -130,14 +125,7 @@ td.mv .flat { opacity:.5; }
 
 <div id="out"></div>
 
-<p class="note"><strong>Moved:</strong> NEW = first appearance on this sheet;
-moved up / moved down = the member did something that changed their placement;
-<em>reassessed</em> = our scoring of the same evidence changed, the member did not;
-no change = as last week; <em>no record</em> = nothing at all on this issue, so there is no
-placement to move. The second line of each cell names the single strongest piece of evidence
-behind the placement and how old it is, so you can see at a glance whether a judgement rests
-on last month's division or a speech from 2020.<br>
-Click a gradient column heading to filter to it. Placements are suggestions
+<p class="note">Click a gradient column heading to filter to it. Placements are suggestions
 from the evidence ledger, strongest evidence first: a recorded vote outranks a speech, a
 speech a motion, a motion a question, and a free vote outranks a whipped one. Target is left
 blank deliberately, because that call belongs to the campaigner. The dated evidence behind
@@ -153,32 +141,11 @@ const areaSel = document.getElementById("area"), q = document.getElementById("q"
 const byId = {}; DATA.members.forEach(m => byId[m.i] = m);
 let party = new Set(), placement = new Set(), pcConstituency = null;
 
-const MVCLS = {"moved up":"up","moved down":"down","reassessed":"ours","NEW":"new"};
-function movedCell(r){
-  if (!r.mv) return '<td></td>';
-  // Most members have no activity in most areas, so a hover-only basis was
-  // vacuous on the majority of rows ("Based on no evidence"). The basis is
-  // now always visible as a second line, the way the name cell shows party
-  // and seat, and a row with nothing recorded says so instead of claiming
-  // "no change" (Christopher spotted the empty hover, 2026-08-07).
-  if (!r.n) {
-    return '<td class="mv none" title="Nothing recorded on this issue in the ' +
-           'evidence ledger, which runs from January 2020.">no record</td>';
-  }
-  const cls = MVCLS[r.mv[0]] || "flat";
-  const tip = "Based on " + r.b + (r.mv[1] ? " (" + r.mv[1] + ")" : "");
-  return '<td class="mv" title="' + tip.replace(/"/g,"&quot;") + '">' +
-         '<span class="' + cls + '">' + r.mv[0] + '</span>' +
-         (r.mv[1] ? ' <span class="mvd">' + r.mv[1] + '</span>' : '') +
-         '<span class="basis">' + r.b + '</span></td>';
-}
 function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\\s+/g," ").trim(); }
 
 function allRows(){
   const p = DATA.placements[areaSel.value] || {};
-  return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1],
-                                    mv: DATA.moves[p[id][2]] || null,
-                                    b: DATA.bases[p[id][3]] || ""}))
+  return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1]}))
                        .filter(r => r.m);
 }
 
@@ -235,24 +202,24 @@ function render(){
   const head = '<thead><tr><th>Decision-Maker</th>' + COLS.map(c =>
       '<th class="c' + (placement.has(c) ? " on" : "") + '" data-col="' + c +
       '" title="Click to filter to this column">' + c + '</th>').join("") +
-    '<th class="c">Target</th><th>Moved</th></tr></thead>';
+    '<th class="c">Target</th></tr></thead>';
   const body = rows.length ? '<tbody>' + rows.map(r =>
       '<tr class="' + CLS[r.c] + '"><td class="dm"><a href="mp-votes.html#mp-' + r.m.i +
       '">' + r.m.n + '</a><span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
-      '<td class="c"></td>' + movedCell(r) + '</tr>').join("") + '</tbody>' : "";
+      '<td class="c"></td></tr>').join("") + '</tbody>' : "";
   // Two totals rows when filtered; one when everything is shown.
   let foot = '<tfoot>';
   if (isFiltered) {
     foot += '<tr class="sel"><td class="lab">Selected &mdash; ' + rows.length +
       ' decision-maker' + (rows.length === 1 ? "" : "s") + '</td>' +
       COLS.map(c => '<td class="c">' + tSel[c] + '</td>').join("") +
-      '<td class="c">0</td><td></td></tr>';
+      '<td class="c">0</td></tr>';
   }
   foot += '<tr class="all' + (isFiltered ? "" : " sel") + '"><td class="lab">All decision-makers &mdash; ' +
     every.length + '</td>' + COLS.map(c => '<td class="c">' + tAll[c] + '</td>').join("") +
-    '<td class="c">0</td><td></td></tr></tfoot>';
+    '<td class="c">0</td></tr></tfoot>';
   out.innerHTML = '<table>' + head + body + foot + '</table>' +
     (rows.length ? "" : '<p class="empty">No decision-makers match.</p>');
   out.querySelectorAll("th[data-col]").forEach(th => th.onclick = () => {
@@ -314,16 +281,6 @@ buildPartyPanel(); syncPartyBtn(); render();
 """
 
 
-def intern_one(table, value):
-    if value not in table:
-        table[value] = len(table)
-    return table[value]
-
-
-def intern_pair(table, a, b):
-    return intern_one(table, (a, b))
-
-
 def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
@@ -333,16 +290,19 @@ def main():
 
     today = datetime.date.today().isoformat()
     members, placements, areas = {}, {}, []
-    moves, bases = {}, {}   # value -> index, for interning
     for area in sorted(names):
         if area in excluded:
             continue
         rows = stance.suggest_rows(conn, area, full_roster=True, overrides_cfg=cfg)
         if not rows:
             continue
-        # Diff against the stored state BEFORE rendering, so "moved" reflects
-        # this run's comparison and the state is updated for next week.
-        state = stance.update_member_state(conn, area, rows, today)
+        # Movement is still RECORDED every week so the history accumulates,
+        # but it is no longer shown. Because a recorded vote outranks every
+        # other kind of evidence, the deciding evidence is usually an old
+        # division: a member with 155 recent speeches read "a vote, 6 years
+        # ago", which looked like stale tracking when the opposite was true
+        # (Christopher, 2026-08-07).
+        stance.update_member_state(conn, area, rows, today)
         key = str(area)
         areas.append({"id": key, "name": names[area]})
         placements[key] = {}
@@ -355,28 +315,14 @@ def main():
                     party, _, seat = detail.partition(", ")
                 members[mid] = {"i": r["member_id"], "n": name,
                                 "p": party or "Unknown", "s": seat or "-"}
-            st = state.get(r["member_id"], {})
-            label, detail = stance.movement_label(
-                st.get("movement"), st.get("prev"), r["column"], st.get("changed_at"))
-            placements[key][mid] = [
-                cols.index(r["column"]), r["n_events"],
-                intern_pair(moves, label, detail),
-                intern_one(bases, stance.based_on(r["decided_kind"], r["decided_date"]))]
+            placements[key][mid] = [cols.index(r["column"]), r["n_events"]]
     conn.close()
 
     if not areas:
         print("no areas to render")
         return 1
-    def unintern(table):
-        out = [None] * len(table)
-        for value, idx in table.items():
-            out[idx] = list(value) if isinstance(value, tuple) else value
-        return out
-
     dataset = json.dumps({"members": list(members.values()),
-                          "placements": placements,
-                          "moves": unintern(moves),
-                          "bases": unintern(bases)}, separators=(",", ":"))
+                          "placements": placements}, separators=(",", ":"))
     options = "".join('<option value="{0}">{1}</option>'.format(a["id"], a["name"])
                       for a in areas)
     for path, banner in ((OUTPUTS[0], BANNER_PARTNER), (OUTPUTS[1], BANNER_INTERNAL)):
