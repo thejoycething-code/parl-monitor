@@ -132,15 +132,34 @@ def main():
                         ("vote tracker", ["tools/make_vote_tracker.py"]),
                         ("5ca sheets", ["tools/make_5ca_web.py"]),
                         ("5ca matrix", ["tools/make_5ca_matrix.py"])):
+        # Each tool prints its own one-line summary; relay it rather than
+        # discarding it. A log that is silent on success cannot be used to
+        # tell "ran and rebuilt" from "never ran" -- and an unattended run is
+        # read only through its log.
         try:
-            subprocess.run([sys.executable, os.path.join(ROOT, *argv[0].split("/"))],
-                           check=True, cwd=ROOT, stdout=subprocess.DEVNULL)
+            done = subprocess.run([sys.executable, os.path.join(ROOT, *argv[0].split("/"))],
+                                  check=True, cwd=ROOT, stdout=subprocess.PIPE,
+                                  stderr=subprocess.STDOUT)
+            out = (done.stdout or b"").decode("utf-8", "replace").strip().splitlines()
+            head = out[0].strip() if out else "ok (no output)"
+            if head.lower().startswith(label.lower() + ":"):
+                head = head[len(label) + 1:].strip()
+            print("{0}: {1}".format(label, head))
+            # Detail lines are mostly tallies and output paths, but the ones
+            # naming a caveat (unsigned divisions, missing data) are the whole
+            # reason to read the log at all.
+            for line in out[1:]:
+                if re.search(r"\bNOT\b|missing|no recorded|gap|stale|gaps", line):
+                    print("  {0}".format(line.strip()))
         except Exception as exc:
             print("{0}: failed ({1}); edition unaffected".format(label, exc))
     try:
-        subprocess.run([sys.executable,
-                        os.path.join(ROOT, "tools", "make_5ca_tracker.py"), week],
-                       check=True, cwd=ROOT)
+        done = subprocess.run([sys.executable,
+                               os.path.join(ROOT, "tools", "make_5ca_tracker.py"), week],
+                              check=True, cwd=ROOT, stdout=subprocess.PIPE,
+                              stderr=subprocess.STDOUT)
+        tracker_out = (done.stdout or b"").decode("utf-8", "replace").strip().splitlines()
+        print("5ca tracker: {0}".format(tracker_out[0].strip() if tracker_out else "ok"))
     except Exception as exc:
         print("5ca tracker: failed ({0}); edition unaffected".format(exc))
 

@@ -53,4 +53,4 @@
 - pq: sweep term 'home education' failed after 4 attempts; results missing this week
 - pq: sweep term 'safe access zones' failed after 4 attempts; results missing this week
 
-*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v0.2 with human review.*
+*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v0.4 with human review.*
