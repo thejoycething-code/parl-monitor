@@ -102,9 +102,8 @@ tfoot td.lab { font-weight:500; font-size:.94em; }
 td.mv { white-space:nowrap; font-size:.94em; cursor:help;
         border-bottom:1px solid #EEEEEE; }
 td.mv .mvd { opacity:.7; }
-td.mv .basis { display:none; }
-@media (hover: none) { td.mv .basis { display:block; opacity:.6; font-size:.9em;
-        white-space:normal; } }
+td.mv .basis { display:block; opacity:.62; font-size:.9em; }
+td.mv.none { opacity:.5; font-style:italic; }
 td.mv .up { color:#55B159; font-weight:700; }
 td.mv .down { color:#DB544F; font-weight:700; }
 td.mv .ours { background:#EEEEEE; border-radius:3px; padding:.05em .35em; font-size:.92em; }
@@ -134,8 +133,10 @@ td.mv .flat { opacity:.5; }
 <p class="note"><strong>Moved:</strong> NEW = first appearance on this sheet;
 moved up / moved down = the member did something that changed their placement;
 <em>reassessed</em> = our scoring of the same evidence changed, the member did not;
-no change = as last week. <strong>Hover a Moved status</strong> to see what the placement
-rests on and how old that evidence is, for example "a vote, 14 months ago".<br>
+no change = as last week; <em>no record</em> = nothing at all on this issue, so there is no
+placement to move. The second line of each cell names the single strongest piece of evidence
+behind the placement and how old it is, so you can see at a glance whether a judgement rests
+on last month's division or a speech from 2020.<br>
 Click a gradient column heading to filter to it. Placements are suggestions
 from the evidence ledger, strongest evidence first: a recorded vote outranks a speech, a
 speech a motion, a motion a question, and a free vote outranks a whipped one. Target is left
@@ -155,15 +156,21 @@ let party = new Set(), placement = new Set(), pcConstituency = null;
 const MVCLS = {"moved up":"up","moved down":"down","reassessed":"ours","NEW":"new"};
 function movedCell(r){
   if (!r.mv) return '<td></td>';
+  // Most members have no activity in most areas, so a hover-only basis was
+  // vacuous on the majority of rows ("Based on no evidence"). The basis is
+  // now always visible as a second line, the way the name cell shows party
+  // and seat, and a row with nothing recorded says so instead of claiming
+  // "no change" (Christopher spotted the empty hover, 2026-08-07).
+  if (!r.n) {
+    return '<td class="mv none" title="Nothing recorded on this issue in the ' +
+           'evidence ledger, which runs from January 2020.">no record</td>';
+  }
   const cls = MVCLS[r.mv[0]] || "flat";
-  // The basis for the placement lives here as a tooltip rather than its own
-  // column (Christopher, 2026-08-07): hover the status to see what it rests on.
-  const tip = "Based on " + (r.b || "no evidence") +
-              (r.mv[1] ? " (" + r.mv[1] + ")" : "");
+  const tip = "Based on " + r.b + (r.mv[1] ? " (" + r.mv[1] + ")" : "");
   return '<td class="mv" title="' + tip.replace(/"/g,"&quot;") + '">' +
          '<span class="' + cls + '">' + r.mv[0] + '</span>' +
          (r.mv[1] ? ' <span class="mvd">' + r.mv[1] + '</span>' : '') +
-         '<span class="basis">' + (r.b || "no evidence") + '</span></td>';
+         '<span class="basis">' + r.b + '</span></td>';
 }
 function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\\s+/g," ").trim(); }
 
