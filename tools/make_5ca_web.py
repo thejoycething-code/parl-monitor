@@ -99,8 +99,12 @@ tfoot td { background:#F7F9FC; font-weight:700; }
 tfoot tr.sel td { border-top:2px solid #4285f4; }
 tfoot tr.all td { opacity:.75; }
 tfoot td.lab { font-weight:500; font-size:.94em; }
-td.mv, td.based { white-space:nowrap; font-size:.94em; }
-td.mv .mvd, td.based { opacity:.7; }
+td.mv { white-space:nowrap; font-size:.94em; cursor:help;
+        border-bottom:1px solid #EEEEEE; }
+td.mv .mvd { opacity:.7; }
+td.mv .basis { display:none; }
+@media (hover: none) { td.mv .basis { display:block; opacity:.6; font-size:.9em;
+        white-space:normal; } }
 td.mv .up { color:#55B159; font-weight:700; }
 td.mv .down { color:#DB544F; font-weight:700; }
 td.mv .ours { background:#EEEEEE; border-radius:3px; padding:.05em .35em; font-size:.92em; }
@@ -130,8 +134,8 @@ td.mv .flat { opacity:.5; }
 <p class="note"><strong>Moved:</strong> NEW = first appearance on this sheet;
 moved up / moved down = the member did something that changed their placement;
 <em>reassessed</em> = our scoring of the same evidence changed, the member did not;
-no change = as last week. <strong>Based on</strong> names the single strongest piece of
-evidence behind the placement and how old it is.<br>
+no change = as last week. <strong>Hover a Moved status</strong> to see what the placement
+rests on and how old that evidence is, for example "a vote, 14 months ago".<br>
 Click a gradient column heading to filter to it. Placements are suggestions
 from the evidence ledger, strongest evidence first: a recorded vote outranks a speech, a
 speech a motion, a motion a question, and a free vote outranks a whipped one. Target is left
@@ -152,8 +156,14 @@ const MVCLS = {"moved up":"up","moved down":"down","reassessed":"ours","NEW":"ne
 function movedCell(r){
   if (!r.mv) return '<td></td>';
   const cls = MVCLS[r.mv[0]] || "flat";
-  return '<td class="mv"><span class="' + cls + '">' + r.mv[0] + '</span>' +
-         (r.mv[1] ? ' <span class="mvd">' + r.mv[1] + '</span>' : '') + '</td>';
+  // The basis for the placement lives here as a tooltip rather than its own
+  // column (Christopher, 2026-08-07): hover the status to see what it rests on.
+  const tip = "Based on " + (r.b || "no evidence") +
+              (r.mv[1] ? " (" + r.mv[1] + ")" : "");
+  return '<td class="mv" title="' + tip.replace(/"/g,"&quot;") + '">' +
+         '<span class="' + cls + '">' + r.mv[0] + '</span>' +
+         (r.mv[1] ? ' <span class="mvd">' + r.mv[1] + '</span>' : '') +
+         '<span class="basis">' + (r.b || "no evidence") + '</span></td>';
 }
 function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\\s+/g," ").trim(); }
 
@@ -218,25 +228,24 @@ function render(){
   const head = '<thead><tr><th>Decision-Maker</th>' + COLS.map(c =>
       '<th class="c' + (placement.has(c) ? " on" : "") + '" data-col="' + c +
       '" title="Click to filter to this column">' + c + '</th>').join("") +
-    '<th class="c">Target</th><th>Moved</th><th>Based on</th></tr></thead>';
+    '<th class="c">Target</th><th>Moved</th></tr></thead>';
   const body = rows.length ? '<tbody>' + rows.map(r =>
       '<tr class="' + CLS[r.c] + '"><td class="dm"><a href="mp-votes.html#mp-' + r.m.i +
       '">' + r.m.n + '</a><span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
-      '<td class="c"></td>' + movedCell(r) + '<td class="based">' + r.b + '</td>' +
-      '</tr>').join("") + '</tbody>' : "";
+      '<td class="c"></td>' + movedCell(r) + '</tr>').join("") + '</tbody>' : "";
   // Two totals rows when filtered; one when everything is shown.
   let foot = '<tfoot>';
   if (isFiltered) {
     foot += '<tr class="sel"><td class="lab">Selected &mdash; ' + rows.length +
       ' decision-maker' + (rows.length === 1 ? "" : "s") + '</td>' +
       COLS.map(c => '<td class="c">' + tSel[c] + '</td>').join("") +
-      '<td class="c">0</td><td></td><td></td></tr>';
+      '<td class="c">0</td><td></td></tr>';
   }
   foot += '<tr class="all' + (isFiltered ? "" : " sel") + '"><td class="lab">All decision-makers &mdash; ' +
     every.length + '</td>' + COLS.map(c => '<td class="c">' + tAll[c] + '</td>').join("") +
-    '<td class="c">0</td><td></td><td></td></tr></tfoot>';
+    '<td class="c">0</td><td></td></tr></tfoot>';
   out.innerHTML = '<table>' + head + body + foot + '</table>' +
     (rows.length ? "" : '<p class="empty">No decision-makers match.</p>');
   out.querySelectorAll("th[data-col]").forEach(th => th.onclick = () => {
