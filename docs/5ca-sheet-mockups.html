@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>5CA sheet: design options</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; background:#FFF;
+       max-width: 72rem; margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.35rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+.option { margin:2.6rem 0; }
+.option > h2 { color:#4285f4; font-size:1.08rem; margin-bottom:.15rem; }
+.verdict { font-size:.86em; opacity:.85; margin:.2rem 0 .9rem; }
+.demo { border:1px dashed #C8D0DC; border-radius:6px; padding:1rem 1.1rem; }
+a { color:#4285f4; text-decoration:none; } a:hover { text-decoration:underline; }
+table { border-collapse:collapse; width:100%; font-size:.82em; }
+th, td { border:1px solid #EEEEEE; padding:.4rem .5rem; text-align:left; vertical-align:middle; }
+th { background:#4285f4; color:#FFF; font-weight:500; white-space:nowrap; }
+td.c { text-align:center; width:1.9rem; font-weight:700; }
+td.n { text-align:right; white-space:nowrap; }
+.dm { font-weight:700; white-space:nowrap; }
+.dm span { display:block; font-weight:400; font-size:.86em; opacity:.72; }
+.kinds { font-size:.9em; white-space:nowrap; }
+.k { display:inline-block; border-radius:3px; padding:.02em .32em; margin-right:.15em;
+     font-size:.84em; font-weight:700; }
+.k.v { background:#52575C; color:#FFF; }
+.k.s { background:#4285f4; color:#FFF; }
+.k.m { background:#FFF; color:#4285f4; border:1px solid #4285f4; }
+.k.q { background:#EEEEEE; color:#52575C; }
+.pill { display:inline-block; font-size:.76em; border-radius:999px; padding:.1em .55em;
+        background:#EEEEEE; }
+.pill.free { background:#FFEBAD; }
+.pill.conflict { background:#DB544F; color:#FFF; }
+.facets { display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-start;
+          border:1px solid #EEEEEE; border-radius:6px; padding:.7rem .9rem; margin-bottom:.8rem; }
+.facet { font-size:.82em; }
+.facet b { display:block; font-size:.9em; margin-bottom:.2rem; }
+.facet label { display:block; }
+.facet .count { opacity:.6; }
+select, input[type=search] { font:inherit; font-size:.88em; padding:.3rem .4rem;
+        border:1px solid #C8D0DC; border-radius:4px; }
+.bar { display:flex; height:.85rem; border-radius:3px; overflow:hidden; width:7rem; }
+.seg.pp{background:#55B159}.seg.p{background:#9ccf9e}.seg.z{background:#EEEEEE}
+.seg.m{background:#e9a09d}.seg.mm{background:#DB544F}
+.matrix td { text-align:center; font-weight:700; font-size:.9em; }
+.matrix td.dm { text-align:left; }
+.pp{color:#3d8040}.p{color:#6aa46c}.z{color:#B0B0B0}.m{color:#c2726f}.mm{color:#DB544F}
+.note { font-size:.85em; opacity:.8; }
+ul.ideas li { margin:.4rem 0; font-size:.92em; }
+.toolbar { display:flex; gap:.6rem; align-items:center; font-size:.84em; margin-bottom:.5rem; }
+.btn { border:1px solid #4285f4; color:#4285f4; border-radius:4px; padding:.25rem .6rem;
+       background:#FFF; font:inherit; font-size:.9em; cursor:pointer; }
+.btn.primary { background:#4285f4; color:#FFF; }
+</style></head><body>
+<h1>5CA sheet: design options <span style="font-weight:400;font-size:.7em">(real assisted-dying data)</span></h1>
+
+<p class="note">Common to all four: a <strong>totals column</strong> showing how much evidence
+sits behind each placement and what kind it is, and every member's name linking to their
+profile in the vote tracker. That link works today &mdash; the tracker already deep-links as
+<code>mp-votes.html#mp-4858</code> and opens on that member's card.</p>
+
+<div class="option"><h2>A &mdash; Enhanced table (CSV parity)</h2>
+<p class="verdict">The current sheet plus a totals column and a linked name. Deliberately
+boring: this is the layout the CSV keeps, so what a campaigner pastes into the Campaigns
+Brief matches what they saw on screen. Totals break down by evidence kind, because "173
+items" and "11 of them recorded votes" are different facts.</p>
+<div class="demo">
+<table>
+<tr><th>Decision-Maker</th><th>++</th><th>+</th><th>0</th><th>&minus;</th><th>&minus;&minus;</th>
+    <th>Target</th><th>Evidence</th><th>Latest</th><th>Comments</th></tr>
+<tr><td class="dm"><a href="#">Danny Kruger</a><span>Reform UK, East Wiltshire</span></td>
+ <td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
+ <td class="c"></td>
+ <td class="kinds"><b>173</b> &nbsp;<span class="k v">11</span><span class="k s">155</span><span class="k q">7</span></td>
+ <td class="n">18 Dec 25</td>
+ <td>Voted No at Third Reading <span class="pill free">free vote</span></td></tr>
+<tr><td class="dm"><a href="#">Naz Shah</a><span>Labour, Bradford West</span></td>
+ <td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
+ <td class="c"></td>
+ <td class="kinds"><b>130</b> &nbsp;<span class="k v">11</span><span class="k s">119</span></td>
+ <td class="n">13 May 26</td><td>Voted No at Third Reading <span class="pill free">free vote</span></td></tr>
+<tr><td class="dm"><a href="#">Tim Farron</a><span>Liberal Democrat, Westmorland</span></td>
+ <td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td>
+ <td class="c"></td>
+ <td class="kinds"><b>17</b> &nbsp;<span class="k v">11</span><span class="k s">5</span><span class="k m">1</span></td>
+ <td class="n">20 Jun 25</td><td>Voted No at Third Reading <span class="pill free">free vote</span></td></tr>
+<tr><td class="dm"><a href="#">Andy Burnham</a><span>Labour (Co-op), Makerfield</span></td>
+ <td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td>
+ <td class="c"></td>
+ <td class="kinds"><b>0</b></td><td class="n">&mdash;</td>
+ <td>No recorded activity on this area</td></tr>
+<tr><td class="dm"><a href="#">Kit Malthouse</a><span>Conservative, North West Hampshire</span></td>
+ <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">1</td>
+ <td class="c"></td>
+ <td class="kinds"><b>44</b> &nbsp;<span class="k v">11</span><span class="k s">33</span></td>
+ <td class="n">8 Jun 26</td>
+ <td><span class="pill conflict">conflicting</span> Voted Aye at Third Reading</td></tr>
+</table>
+<p class="note" style="margin-top:.6rem"><span class="k v">n</span> division votes &nbsp;
+<span class="k s">n</span> speeches &nbsp; <span class="k m">n</span> motions &nbsp;
+<span class="k q">n</span> written questions</p>
+</div></div>
+
+<div class="option"><h2>B &mdash; Filterable web view</h2>
+<p class="verdict">My recommendation for the hosted version. The facet panel answers the
+question a campaigner actually arrives with: <em>show me the Labour members who have no
+recorded position</em>. Counts update live, and the export button writes a CSV of exactly
+what is on screen, so a filtered set drops straight into a Brief.</p>
+<div class="demo">
+<div class="facets">
+<div class="facet"><b>Party</b>
+ <label><input type="checkbox" checked> Labour <span class="count">(362)</span></label>
+ <label><input type="checkbox" checked> Conservative <span class="count">(118)</span></label>
+ <label><input type="checkbox"> Liberal Democrat <span class="count">(71)</span></label>
+ <label><input type="checkbox"> Reform UK <span class="count">(7)</span></label>
+ <label><input type="checkbox"> Other <span class="count">(91)</span></label></div>
+<div class="facet"><b>Placement</b>
+ <label><input type="checkbox"> ++ strong ally <span class="count">(296)</span></label>
+ <label><input type="checkbox"> + leans our way <span class="count">(2)</span></label>
+ <label><input type="checkbox" checked> 0 no position <span class="count">(24)</span></label>
+ <label><input type="checkbox"> &minus;&minus; strong opponent <span class="count">(327)</span></label></div>
+<div class="facet"><b>Evidence</b>
+ <label><input type="checkbox"> Has a recorded vote <span class="count">(628)</span></label>
+ <label><input type="checkbox"> Free vote only <span class="count">(624)</span></label>
+ <label><input type="checkbox"> Spoke in debate <span class="count">(214)</span></label>
+ <label><input type="checkbox"> No evidence at all <span class="count">(21)</span></label></div>
+<div class="facet"><b>Flags</b>
+ <label><input type="checkbox"> Conflicting evidence <span class="count">(63)</span></label>
+ <label><input type="checkbox"> Capped placement <span class="count">(13)</span></label>
+ <label><input type="checkbox"> Not a Commons voter <span class="count">(15)</span></label></div>
+<div class="facet"><b>Nation</b>
+ <label><input type="checkbox"> England <span class="count">(543)</span></label>
+ <label><input type="checkbox"> Scotland <span class="count">(57)</span></label>
+ <label><input type="checkbox"> Wales <span class="count">(32)</span></label>
+ <label><input type="checkbox"> Northern Ireland <span class="count">(18)</span></label></div>
+</div>
+<div class="toolbar">
+ <input type="search" placeholder="Find a member or constituency">
+ <select><option>Sort: placement</option><option>Sort: most evidence</option>
+   <option>Sort: name</option><option>Sort: most recent activity</option></select>
+ <span style="flex:1"></span>
+ <span class="note"><b>9 of 649</b> match</span>
+ <button class="btn">Copy names</button>
+ <button class="btn primary">Export these 9 as CSV</button>
+</div>
+<table>
+<tr><th>Decision-Maker</th><th>Placement</th><th>Evidence</th><th>Latest</th><th>Why</th></tr>
+<tr><td class="dm"><a href="#">Andy Burnham</a><span>Labour (Co-op), Makerfield</span></td>
+ <td><span class="z">0 no position</span></td><td class="kinds"><b>0</b></td><td class="n">&mdash;</td>
+ <td>Nothing on record either way</td></tr>
+<tr><td class="dm"><a href="#">Caroline Nokes</a><span>Conservative, Romsey</span></td>
+ <td><span class="z">0 no position</span></td><td class="kinds"><b>0</b></td><td class="n">&mdash;</td>
+ <td>Nothing on record either way</td></tr>
+<tr><td class="dm"><a href="#">Judith Cummins</a><span>Labour, Bradford South</span></td>
+ <td><span class="z">0 no position</span></td><td class="kinds"><b>0</b></td><td class="n">&mdash;</td>
+ <td>Deputy Speaker: does not vote</td></tr>
+</table>
+</div></div>
+
+<div class="option"><h2>C &mdash; Cross-issue matrix</h2>
+<p class="verdict">A different question, and the one no current view answers: <em>where does
+this member stand across everything we campaign on?</em> One row per member, one column per
+area. This is how you spot the member who is with us on four issues and against on one, which
+is exactly who is worth a conversation. Best as a companion to B, not a replacement.</p>
+<div class="demo">
+<table class="matrix">
+<tr><th>Decision-Maker</th><th>Abortion</th><th>Assisted dying</th><th>Gender med.</th>
+    <th>Conversion</th><th>Sex-based</th><th>Parental</th><th>Free speech</th><th>FoRB</th>
+    <th>Marriage</th><th>Surrogacy</th><th>Evidence</th></tr>
+<tr><td class="dm"><a href="#">Danny Kruger</a></td>
+ <td class="pp">++</td><td class="pp">++</td><td class="pp">++</td><td class="z">0</td>
+ <td class="pp">++</td><td class="p">+</td><td class="pp">++</td><td class="z">0</td>
+ <td class="z">0</td><td class="z">0</td><td class="n">312</td></tr>
+<tr><td class="dm"><a href="#">Naz Shah</a></td>
+ <td class="mm">&minus;&minus;</td><td class="pp">++</td><td class="z">0</td><td class="m">&minus;</td>
+ <td class="z">0</td><td class="z">0</td><td class="m">&minus;</td><td class="p">+</td>
+ <td class="z">0</td><td class="z">0</td><td class="n">198</td></tr>
+<tr><td class="dm"><a href="#">Tim Farron</a></td>
+ <td class="z">0</td><td class="pp">++</td><td class="z">0</td><td class="z">0</td>
+ <td class="z">0</td><td class="p">+</td><td class="p">+</td><td class="pp">++</td>
+ <td class="z">0</td><td class="z">0</td><td class="n">61</td></tr>
+<tr><td class="dm"><a href="#">Kit Malthouse</a></td>
+ <td class="mm">&minus;&minus;</td><td class="mm">&minus;&minus;</td><td class="z">0</td><td class="z">0</td>
+ <td class="z">0</td><td class="z">0</td><td class="m">&minus;</td><td class="z">0</td>
+ <td class="z">0</td><td class="z">0</td><td class="n">83</td></tr>
+</table>
+<p class="note" style="margin-top:.6rem">Naz Shah is the case for this view: a strong ally on
+assisted dying and against us on abortion and free speech. A single-area sheet shows you one
+half of that and hides the other.</p>
+</div></div>
+
+<div class="option"><h2>D &mdash; Target-working view</h2>
+<p class="verdict">The Target column is the one field the tool deliberately leaves blank, and
+right now filling it means editing a CSV by hand. This view exists to do that job: filter to
+the persuadables, tick who you are working, and export the sheet with Target filled in.
+Everything else on screen is read-only.</p>
+<div class="demo">
+<div class="toolbar">
+ <span class="note"><b>Assisted dying</b> &mdash; 24 with no position, 9 genuinely
+ persuadable once non-voters are set aside</span>
+ <span style="flex:1"></span>
+ <span class="note"><b>3</b> targeted</span>
+ <button class="btn primary">Export Brief sheet</button>
+</div>
+<table>
+<tr><th style="width:2rem">Target</th><th>Decision-Maker</th><th>Placement</th>
+    <th>Evidence</th><th>Nearest thing to a position</th></tr>
+<tr><td class="c"><input type="checkbox" checked></td>
+ <td class="dm"><a href="#">Andy Burnham</a><span>Labour (Co-op), Makerfield</span></td>
+ <td><span class="z">0</span></td><td class="kinds"><b>0</b></td>
+ <td class="note">Nothing on record</td></tr>
+<tr><td class="c"><input type="checkbox" checked></td>
+ <td class="dm"><a href="#">Caroline Nokes</a><span>Conservative, Romsey</span></td>
+ <td><span class="z">0</span></td><td class="kinds"><b>0</b></td>
+ <td class="note">Nothing on record</td></tr>
+<tr><td class="c"><input type="checkbox"></td>
+ <td class="dm"><a href="#">Alex Sobel</a><span>Labour (Co-op), Leeds Central</span></td>
+ <td><span class="z">0</span></td><td class="kinds"><b>5</b> <span class="k s">5</span></td>
+ <td class="note">Spoke on hospice funding, no stance shown</td></tr>
+<tr><td class="c"><input type="checkbox" checked></td>
+ <td class="dm"><a href="#">Bambos Charalambous</a><span>Labour, Southgate</span></td>
+ <td><span class="p">+</span></td><td class="kinds"><b>4</b> <span class="k s">4</span></td>
+ <td class="note">Leans our way on weak evidence &mdash; worth confirming</td></tr>
+</table>
+</div></div>
+
+<h2 style="color:#52575C;font-size:1rem;border-top:1px solid #EEEEEE;padding-top:1rem">
+Other improvements worth making</h2>
+<ul class="ideas">
+<li><strong>"Last moved" column.</strong> When a member's placement last changed. We store
+per-area counts each week but not per-member placements, so this needs a per-member snapshot
+&mdash; small table, and it turns the sheet into a genuine tracker rather than a photograph.</li>
+<li><strong>Free-vote weighting shown, not just used.</strong> The generator already prefers
+free votes; the sheet should say so on the row, since "voted against on a free vote" and
+"voted against under a whip" are different claims about a person.</li>
+<li><strong>Evidence recency.</strong> A placement resting on a 2020 speech deserves less
+confidence than one from June. Showing the latest date invites that judgement without us
+having to score it.</li>
+<li><strong>Confidence, stated plainly.</strong> One recorded vote is strong; four neutral
+questions are weak. A three-level marker (strong / moderate / thin) drawn from the evidence
+hierarchy would stop thin placements reading as firm ones.</li>
+<li><strong>Peers.</strong> The sheets cover 649 MPs and no peers, while 902 peers have
+evidence in the ledger and the Terminally Ill Adults Bill actually died in the Lords.</li>
+<li><strong>Print stylesheet.</strong> These get taken into meetings. One page per area,
+targets first, evidence trimmed.</li>
+<li><strong>Deep links both ways.</strong> The sheet links to the vote tracker; the tracker
+should link back to the member's placement on each issue.</li>
+</ul>
+<p class="note">Real placements, evidence counts and dates from the ledger; facet counts and
+matrix values beyond assisted dying are illustrative.</p>
+</body></html>

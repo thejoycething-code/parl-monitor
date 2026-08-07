@@ -70,10 +70,17 @@ def main():
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)
-        writer.writerow(["Decision-Maker"] + list(stance.COLUMNS) + ["Target (Y/N)", "Comments"])
+        # Total = how much evidence sits behind the placement. Comments keep the
+        # dated evidence lines: the sheet is the record even though the web
+        # table does not show them (Christopher, 2026-08-06).
+        writer.writerow(["Decision-Maker"] + list(stance.COLUMNS)
+                        + ["Target (Y/N)", "Total", "Profile", "Comments"])
         for r in rows:
             marks = ["1" if c == r["column"] else "" for c in stance.COLUMNS]
-            writer.writerow([r["decision_maker"]] + marks + ["", r["comments"]])
+            writer.writerow([r["decision_maker"]] + marks
+                            + ["", r["n_events"],
+                               "mp-votes.html#mp-{0}".format(r["member_id"]),
+                               r["comments"]])
 
     dist = {}
     for r in rows:
