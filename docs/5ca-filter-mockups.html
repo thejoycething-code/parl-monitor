@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>5CA sheet: compact filters + totals row</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font:15px/1.55 Roboto, sans-serif; color:#52575C; max-width:66rem;
+       margin:0 auto; padding:1rem 1.4rem 3rem; }
+h1 { color:#52575C; font-size:1.3rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+h2 { color:#4285f4; font-size:1.04rem; margin:2rem 0 .1rem; }
+.verdict { font-size:.86em; opacity:.85; margin:.2rem 0 .7rem; }
+.demo { border:1px dashed #C8D0DC; border-radius:6px; padding:.85rem 1rem; }
+a { color:#4285f4; text-decoration:none; }
+table { border-collapse:collapse; width:100%; font-size:.83em; }
+th,td { border:1px solid #EEEEEE; padding:.36rem .5rem; text-align:left; }
+th { background:#4285f4; color:#FFF; font-weight:500; white-space:nowrap; }
+th.c,td.c { text-align:center; width:2.2rem; }
+td.c { font-weight:700; }
+.dm { font-weight:700; white-space:nowrap; }
+.dm span { display:block; font-weight:400; font-size:.86em; opacity:.72; }
+tr.tot td { background:#F7F9FC; font-weight:700; border-top:2px solid #4285f4; }
+tr.tot td.c { color:#52575C; }
+tr.tot td.lab { font-weight:500; opacity:.8; font-size:.92em; }
+.pill { display:inline-block; font-size:.8em; border:1px solid #C8D0DC; border-radius:999px;
+        padding:.12em .6em; margin:.12em .18em .12em 0; cursor:pointer; white-space:nowrap; }
+.pill.on { background:#4285f4; color:#FFF; border-color:#4285f4; }
+.pill .n { opacity:.6; } .pill.on .n { opacity:.85; }
+select,input[type=search] { font:inherit; font-size:.88em; padding:.3rem .4rem;
+   border:1px solid #C8D0DC; border-radius:4px; }
+input[type=search] { width:15rem; }
+.bar { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; font-size:.85em;
+       margin-bottom:.55rem; }
+.note { font-size:.84em; opacity:.8; }
+.clickable th.c { cursor:pointer; }
+.clickable th.c:hover { background:#2f6fd8; }
+.filterrow td { background:#FFF; padding:.25rem .4rem; }
+.filterrow select { width:100%; font-size:.82em; padding:.15rem; }
+</style></head><body>
+<h1>Compact filters, and totals as a row</h1>
+
+<p class="note"><strong>The totals row.</strong> In all four options it sits at the foot of
+the table (and sticks there when scrolling), counting how many members are in each column, as
+the Campaigns Brief does for a party row. The per-member Total column is gone.</p>
+
+<h2>A &mdash; Totals row doubles as the placement filter (my recommendation)</h2>
+<p class="verdict">Click a gradient heading, or its total, to filter to that column. That
+removes the placement control entirely: the numbers you were going to read anyway become the
+control. Party drops to one dropdown. The whole filter apparatus is then a single line.</p>
+<div class="demo">
+<div class="bar">
+  <select><option>All issues</option><option selected>Assisted dying</option></select>
+  <input type="search" placeholder="Name, constituency or postcode">
+  <select><option>All parties</option><option>Labour (362)</option>
+    <option>Conservative (118)</option><option>Liberal Democrat (71)</option></select>
+  <span style="flex:1"></span><span><b>649</b> shown</span>
+  <span class="pill">Export CSV</span>
+</div>
+<table class="clickable">
+<thead><tr><th>Decision-Maker</th><th class="c" title="Click to filter">++</th>
+  <th class="c">+</th><th class="c">0</th><th class="c">&minus;</th><th class="c">&minus;&minus;</th>
+  <th class="c">Target</th></tr></thead>
+<tbody>
+<tr><td class="dm"><a href="#">Danny Kruger</a><span>Reform UK, East Wiltshire</span></td>
+ <td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+<tr><td class="dm"><a href="#">Kim Leadbeater</a><span>Labour, Spen Valley</span></td>
+ <td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td></tr>
+<tr><td class="dm"><a href="#">Andy Burnham</a><span>Labour (Co-op), Makerfield</span></td>
+ <td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+<tr class="tot"><td class="lab">Totals &mdash; 649 decision-makers</td>
+ <td class="c">296</td><td class="c">2</td><td class="c">24</td><td class="c">0</td>
+ <td class="c">327</td><td class="c">0</td></tr>
+</tbody></table>
+</div>
+
+<h2>B &mdash; Pill row</h2>
+<p class="verdict">Both filters as togglable pills on one wrapping line, counts inline. Keeps
+multi-select, which the dropdown loses, and every option stays visible. Costs two lines on a
+narrow screen; parties beyond the big four need an "other" pill or they run away with it.</p>
+<div class="demo">
+<div class="bar">
+  <input type="search" placeholder="Name, constituency or postcode">
+  <span class="pill on">Labour <span class="n">362</span></span>
+  <span class="pill">Conservative <span class="n">118</span></span>
+  <span class="pill">Lib Dem <span class="n">71</span></span>
+  <span class="pill">Other <span class="n">98</span></span>
+  <span style="opacity:.4">|</span>
+  <span class="pill">++ <span class="n">296</span></span>
+  <span class="pill on">0 <span class="n">24</span></span>
+  <span class="pill">&minus;&minus; <span class="n">327</span></span>
+</div>
+<table><thead><tr><th>Decision-Maker</th><th class="c">++</th><th class="c">+</th>
+  <th class="c">0</th><th class="c">&minus;</th><th class="c">&minus;&minus;</th><th class="c">Target</th></tr></thead>
+<tbody>
+<tr><td class="dm"><a href="#">Judith Cummins</a><span>Labour, Bradford South</span></td>
+ <td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+<tr><td class="dm"><a href="#">Carolyn Harris</a><span>Labour, Neath and Swansea East</span></td>
+ <td class="c"></td><td class="c"></td><td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+<tr class="tot"><td class="lab">Totals &mdash; 3 shown of 649</td><td class="c">0</td>
+ <td class="c">0</td><td class="c">3</td><td class="c">0</td><td class="c">0</td><td class="c">0</td></tr>
+</tbody></table>
+</div>
+
+<h2>C &mdash; Filters inside the header</h2>
+<p class="verdict">Spreadsheet convention: a filter row under the headings, so the controls
+live in the column they filter and cost no vertical space above the table. Familiar to anyone
+who uses Excel. Slightly cramped, and the placement filter has nowhere natural to sit since it
+spans five columns.</p>
+<div class="demo">
+<table><thead>
+<tr><th>Decision-Maker</th><th class="c">++</th><th class="c">+</th><th class="c">0</th>
+  <th class="c">&minus;</th><th class="c">&minus;&minus;</th><th class="c">Target</th></tr>
+<tr class="filterrow"><td><select><option>All parties</option><option>Labour</option>
+  <option>Conservative</option></select></td>
+ <td class="c" colspan="5"><select><option>Any placement</option><option>++ strong ally</option>
+  <option>0 no position</option></select></td><td></td></tr>
+</thead><tbody>
+<tr><td class="dm"><a href="#">Naz Shah</a><span>Labour, Bradford West</span></td>
+ <td class="c">1</td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+<tr class="tot"><td class="lab">Totals</td><td class="c">296</td><td class="c">2</td>
+ <td class="c">24</td><td class="c">0</td><td class="c">327</td><td class="c">0</td></tr>
+</tbody></table>
+</div>
+
+<h2>D &mdash; Search does everything</h2>
+<p class="verdict">One box, no filter controls at all: typing "labour" narrows by party,
+"++" by placement, "SW1A 1AA" by postcode. Smallest possible footprint and nothing to learn
+if you guess right &mdash; but it hides what is filterable, and you cannot see the party
+breakdown without typing. Good as an addition to A, weak on its own.</p>
+<div class="demo">
+<div class="bar">
+  <input type="search" style="width:22rem" placeholder="Try: labour · conservative · ++ · no position · Spen Valley · SW1A 1AA">
+  <span style="flex:1"></span><span><b>362</b> of 649</span>
+</div>
+<table><thead><tr><th>Decision-Maker</th><th class="c">++</th><th class="c">+</th>
+  <th class="c">0</th><th class="c">&minus;</th><th class="c">&minus;&minus;</th><th class="c">Target</th></tr></thead>
+<tbody><tr class="tot"><td class="lab">Totals &mdash; 362 Labour members shown</td>
+ <td class="c">141</td><td class="c">1</td><td class="c">9</td><td class="c">0</td>
+ <td class="c">211</td><td class="c">0</td></tr></tbody></table>
+</div>
+
+<h2>What I would build</h2>
+<p class="note"><strong>A, with D's cleverness folded into the search box.</strong> Making the
+totals row the placement filter is the move that actually saves space, because it deletes a
+control rather than shrinking one: the numbers a campaigner reads anyway become the thing they
+click. Party then fits in one dropdown, and the search box can additionally understand a party
+name or a placement typed in, so the fast path exists without advertising itself.</p>
+<p class="note">One behaviour worth deciding: should the totals row show the counts for
+<em>everyone</em> (a constant 296/2/24/0/327, useful as context) or for the <em>filtered</em>
+set (which changes as you filter, useful as an answer)? I would show the filtered counts with
+the full-set figure beside it in the label, so you always see both: <em>"Totals &mdash; 9
+shown of 649"</em>.</p>
+<p class="note">Real counts throughout, from the assisted dying sheet.</p>
+</body></html>
