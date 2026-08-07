@@ -1,5 +1,6 @@
 """Stance layer + 5CA sheet generation (docs/5ca-notes.md)."""
 
+import datetime
 import json
 import unittest.mock
 import os
@@ -237,6 +238,80 @@ class WeeklySectionAreaGuardTests(unittest.TestCase):
         lines = digest.mp_lines_from_events([self._event("debate", "[2]", "Spoke: Hospices")])
         self.assertEqual(len(lines), 1)
         self.assertIn("Spoke: Hospices", lines[0])
+
+
+class MemberStateTests(unittest.TestCase):
+    """The distinction that makes the Moved column honest: the member moving
+    versus us reassessing the same evidence (Christopher, 2026-08-07)."""
+
+    def setUp(self):
+        self.conn = fresh_conn()
+
+    def row(self, mid, column, ref, n=3):
+        return {"member_id": mid, "column": column, "decided_ref": ref, "n_events": n}
+
+    def test_first_run_is_a_baseline(self):
+        state = stance.update_member_state(self.conn, 2, [self.row(1, "++", "div:c9:no")],
+                                          "2026-08-07")
+        self.assertEqual(state[1]["movement"], stance.NEW)
+        self.assertEqual(stance.movement_label(stance.NEW, None, "++", "2026-08-07"),
+                         ("NEW", "first sheet"))
+
+    def test_unchanged_keeps_the_original_change_date(self):
+        stance.update_member_state(self.conn, 2, [self.row(1, "++", "div:c9:no")], "2026-08-01")
+        state = stance.update_member_state(self.conn, 2, [self.row(1, "++", "div:c9:no")],
+                                          "2026-08-08")
+        self.assertEqual(state[1]["movement"], stance.UNCHANGED)
+        self.assertEqual(state[1]["changed_at"], "2026-08-01")
+
+    def test_new_deciding_evidence_means_the_member_moved(self):
+        stance.update_member_state(self.conn, 2, [self.row(1, "0", "pq:1")], "2026-08-01")
+        state = stance.update_member_state(self.conn, 2, [self.row(1, "++", "div:c9:no")],
+                                           "2026-08-08")
+        self.assertEqual(state[1]["movement"], stance.MOVED_UP)
+        label, detail = stance.movement_label(state[1]["movement"], state[1]["prev"],
+                                              "++", state[1]["changed_at"])
+        self.assertEqual(label, "moved up")
+        self.assertIn("0 to ++", detail)
+
+    def test_same_deciding_evidence_rescored_means_WE_moved(self):
+        """Tonight's rescore shifted ~460 speeches. Without this branch the
+        column would have reported hundreds of members changing position."""
+        stance.update_member_state(self.conn, 2, [self.row(1, "0", "hansard:A")], "2026-08-01")
+        state = stance.update_member_state(self.conn, 2, [self.row(1, "++", "hansard:A")],
+                                           "2026-08-08")
+        self.assertEqual(state[1]["movement"], stance.REASSESSED)
+        self.assertEqual(stance.movement_label(state[1]["movement"], "0", "++", None)[0],
+                         "reassessed")
+
+    def test_downward_movement_detected(self):
+        stance.update_member_state(self.conn, 2, [self.row(1, "+", "pq:1")], "2026-08-01")
+        state = stance.update_member_state(self.conn, 2, [self.row(1, "--", "div:c1:aye")],
+                                           "2026-08-08")
+        self.assertEqual(state[1]["movement"], stance.MOVED_DOWN)
+
+    def test_areas_are_tracked_independently(self):
+        stance.update_member_state(self.conn, 1, [self.row(1, "++", "pq:1")], "2026-08-01")
+        stance.update_member_state(self.conn, 2, [self.row(1, "--", "pq:2")], "2026-08-01")
+        state = stance.update_member_state(self.conn, 1, [self.row(1, "++", "pq:1")],
+                                           "2026-08-08")
+        self.assertEqual(state[1]["movement"], stance.UNCHANGED)
+
+
+class BasedOnTests(unittest.TestCase):
+    def test_names_the_kind_and_the_age(self):
+        today = datetime.date(2026, 8, 7)
+        self.assertEqual(stance.based_on("vote", "2026-08-05", today), "a vote, this week")
+        self.assertEqual(stance.based_on("debate", "2026-07-01", today), "a speech, 5 weeks ago")
+        self.assertEqual(stance.based_on("edm-signed", "2025-06-20", today),
+                         "a motion signed, 14 months ago")
+        self.assertEqual(stance.based_on("vote", "2020-06-17", today), "a vote, 6 years ago")
+
+    def test_no_evidence_says_so(self):
+        self.assertEqual(stance.based_on(None, None), "no evidence")
+
+    def test_a_bad_date_still_names_the_kind(self):
+        self.assertEqual(stance.based_on("pq", "not-a-date"), "a question")
 
 
 class CapTests(unittest.TestCase):

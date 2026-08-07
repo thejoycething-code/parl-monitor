@@ -99,6 +99,14 @@ tfoot td { background:#F7F9FC; font-weight:700; }
 tfoot tr.sel td { border-top:2px solid #4285f4; }
 tfoot tr.all td { opacity:.75; }
 tfoot td.lab { font-weight:500; font-size:.94em; }
+td.mv, td.based { white-space:nowrap; font-size:.94em; }
+td.mv .mvd, td.based { opacity:.7; }
+td.mv .up { color:#55B159; font-weight:700; }
+td.mv .down { color:#DB544F; font-weight:700; }
+td.mv .ours { background:#EEEEEE; border-radius:3px; padding:.05em .35em; font-size:.92em; }
+td.mv .new { background:#4285f4; color:#FFF; border-radius:3px; padding:.05em .35em;
+             font-size:.9em; font-weight:700; }
+td.mv .flat { opacity:.5; }
 .empty { padding:1.4rem; text-align:center; opacity:.7; font-size:.9em; }
 .note { font-size:.82em; opacity:.78; margin-top:.9rem; }
 @media print { .bar { display:none; } th { position:static; } }
@@ -119,7 +127,12 @@ tfoot td.lab { font-weight:500; font-size:.94em; }
 
 <div id="out"></div>
 
-<p class="note">Click a gradient column heading to filter to it. Placements are suggestions
+<p class="note"><strong>Moved:</strong> NEW = first appearance on this sheet;
+moved up / moved down = the member did something that changed their placement;
+<em>reassessed</em> = our scoring of the same evidence changed, the member did not;
+no change = as last week. <strong>Based on</strong> names the single strongest piece of
+evidence behind the placement and how old it is.<br>
+Click a gradient column heading to filter to it. Placements are suggestions
 from the evidence ledger, strongest evidence first: a recorded vote outranks a speech, a
 speech a motion, a motion a question, and a free vote outranks a whipped one. Target is left
 blank deliberately, because that call belongs to the campaigner. The dated evidence behind
@@ -135,11 +148,20 @@ const areaSel = document.getElementById("area"), q = document.getElementById("q"
 const byId = {}; DATA.members.forEach(m => byId[m.i] = m);
 let party = new Set(), placement = new Set(), pcConstituency = null;
 
+const MVCLS = {"moved up":"up","moved down":"down","reassessed":"ours","NEW":"new"};
+function movedCell(r){
+  if (!r.mv) return '<td></td>';
+  const cls = MVCLS[r.mv[0]] || "flat";
+  return '<td class="mv"><span class="' + cls + '">' + r.mv[0] + '</span>' +
+         (r.mv[1] ? ' <span class="mvd">' + r.mv[1] + '</span>' : '') + '</td>';
+}
 function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\\s+/g," ").trim(); }
 
 function allRows(){
   const p = DATA.placements[areaSel.value] || {};
-  return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1]}))
+  return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1],
+                                    mv: DATA.moves[p[id][2]] || null,
+                                    b: DATA.bases[p[id][3]] || ""}))
                        .filter(r => r.m);
 }
 
@@ -196,23 +218,25 @@ function render(){
   const head = '<thead><tr><th>Decision-Maker</th>' + COLS.map(c =>
       '<th class="c' + (placement.has(c) ? " on" : "") + '" data-col="' + c +
       '" title="Click to filter to this column">' + c + '</th>').join("") +
-    '<th class="c">Target</th></tr></thead>';
+    '<th class="c">Target</th><th>Moved</th><th>Based on</th></tr></thead>';
   const body = rows.length ? '<tbody>' + rows.map(r =>
       '<tr class="' + CLS[r.c] + '"><td class="dm"><a href="mp-votes.html#mp-' + r.m.i +
       '">' + r.m.n + '</a><span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
-      '<td class="c"></td></tr>').join("") + '</tbody>' : "";
+      '<td class="c"></td>' + movedCell(r) + '<td class="based">' + r.b + '</td>' +
+      '</tr>').join("") + '</tbody>' : "";
   // Two totals rows when filtered; one when everything is shown.
   let foot = '<tfoot>';
   if (isFiltered) {
     foot += '<tr class="sel"><td class="lab">Selected &mdash; ' + rows.length +
       ' decision-maker' + (rows.length === 1 ? "" : "s") + '</td>' +
-      COLS.map(c => '<td class="c">' + tSel[c] + '</td>').join("") + '<td class="c">0</td></tr>';
+      COLS.map(c => '<td class="c">' + tSel[c] + '</td>').join("") +
+      '<td class="c">0</td><td></td><td></td></tr>';
   }
   foot += '<tr class="all' + (isFiltered ? "" : " sel") + '"><td class="lab">All decision-makers &mdash; ' +
     every.length + '</td>' + COLS.map(c => '<td class="c">' + tAll[c] + '</td>').join("") +
-    '<td class="c">0</td></tr></tfoot>';
+    '<td class="c">0</td><td></td><td></td></tr></tfoot>';
   out.innerHTML = '<table>' + head + body + foot + '</table>' +
     (rows.length ? "" : '<p class="empty">No decision-makers match.</p>');
   out.querySelectorAll("th[data-col]").forEach(th => th.onclick = () => {
@@ -254,11 +278,13 @@ document.getElementById("clear").addEventListener("click", () => {
 });
 document.getElementById("export").addEventListener("click", () => {
   const rows = filtered(), t = tally(rows);
-  const head = ["Decision-Maker"].concat(COLS).concat(["Target (Y/N)"]);
+  const head = ["Decision-Maker"].concat(COLS).concat(["Target (Y/N)","Moved","Based on"]);
   const body = rows.map(r => ['"' + r.m.n + " (" + r.m.p + ", " + r.m.s + ')"']
-    .concat(COLS.map(c => c === r.c ? "1" : "")).concat([""]).join(","));
+    .concat(COLS.map(c => c === r.c ? "1" : ""))
+    .concat(["", '"' + (r.mv ? (r.mv[0] + (r.mv[1] ? " " + r.mv[1] : "")) : "") + '"',
+             '"' + r.b + '"']).join(","));
   const totals = ['"Totals - ' + rows.length + ' decision-makers"']
-    .concat(COLS.map(c => t[c])).concat([""]).join(",");
+    .concat(COLS.map(c => t[c])).concat(["","",""]).join(",");
   const csv = [head.join(",")].concat(body).concat([totals]).join("\\n");
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv"}));
@@ -272,6 +298,16 @@ buildPartyPanel(); syncPartyBtn(); render();
 """
 
 
+def intern_one(table, value):
+    if value not in table:
+        table[value] = len(table)
+    return table[value]
+
+
+def intern_pair(table, a, b):
+    return intern_one(table, (a, b))
+
+
 def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
@@ -279,13 +315,18 @@ def main():
     excluded = set(cfg.get("excluded_from_5ca") or [])
     cols = list(stance.COLUMNS)
 
+    today = datetime.date.today().isoformat()
     members, placements, areas = {}, {}, []
+    moves, bases = {}, {}   # value -> index, for interning
     for area in sorted(names):
         if area in excluded:
             continue
         rows = stance.suggest_rows(conn, area, full_roster=True, overrides_cfg=cfg)
         if not rows:
             continue
+        # Diff against the stored state BEFORE rendering, so "moved" reflects
+        # this run's comparison and the state is updated for next week.
+        state = stance.update_member_state(conn, area, rows, today)
         key = str(area)
         areas.append({"id": key, "name": names[area]})
         placements[key] = {}
@@ -298,14 +339,28 @@ def main():
                     party, _, seat = detail.partition(", ")
                 members[mid] = {"i": r["member_id"], "n": name,
                                 "p": party or "Unknown", "s": seat or "-"}
-            placements[key][mid] = [cols.index(r["column"]), r["n_events"]]
+            st = state.get(r["member_id"], {})
+            label, detail = stance.movement_label(
+                st.get("movement"), st.get("prev"), r["column"], st.get("changed_at"))
+            placements[key][mid] = [
+                cols.index(r["column"]), r["n_events"],
+                intern_pair(moves, label, detail),
+                intern_one(bases, stance.based_on(r["decided_kind"], r["decided_date"]))]
     conn.close()
 
     if not areas:
         print("no areas to render")
         return 1
+    def unintern(table):
+        out = [None] * len(table)
+        for value, idx in table.items():
+            out[idx] = list(value) if isinstance(value, tuple) else value
+        return out
+
     dataset = json.dumps({"members": list(members.values()),
-                          "placements": placements}, separators=(",", ":"))
+                          "placements": placements,
+                          "moves": unintern(moves),
+                          "bases": unintern(bases)}, separators=(",", ":"))
     options = "".join('<option value="{0}">{1}</option>'.format(a["id"], a["name"])
                       for a in areas)
     for path, banner in ((OUTPUTS[0], BANNER_PARTNER), (OUTPUTS[1], BANNER_INTERNAL)):

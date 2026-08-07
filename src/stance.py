@@ -458,6 +458,115 @@ def previous_snapshot(conn, area, before_edition):
     return json.loads(row["counts"]) if row else None
 
 
+KIND_LABEL = {"vote": "a vote", "debate": "a speech", "edm": "a motion sponsored",
+              "edm-signed": "a motion signed", "pq": "a question"}
+
+
+def based_on(kind, date, today=None):
+    """"a vote, 14 months ago": what the placement rests on, and how old it is.
+
+    A placement resting on a 2020 speech and one resting on last month's
+    division look identical in every column but this one.
+    """
+    if not kind:
+        return "no evidence"
+    label = KIND_LABEL.get(kind, kind)
+    if not date:
+        return label
+    today = today or datetime.date.today()
+    try:
+        then = datetime.date.fromisoformat(date)
+    except ValueError:
+        return label
+    days = (today - then).days
+    if days < 14:
+        age = "this week" if days < 7 else "last week"
+    elif days < 60:
+        age = "{0} weeks ago".format(days // 7)
+    elif days < 730:
+        age = "{0} months ago".format(max(2, round(days / 30.44)))
+    else:
+        years = days / 365.25
+        age = "{0:.0f} years ago".format(years)
+    return "{0}, {1}".format(label, age)
+
+
+# -- per-member state: what moved, and whether the member or we moved ---------
+
+MEMBER_STATE = """
+CREATE TABLE IF NOT EXISTS ca_member_state (
+  area INTEGER, member_id INTEGER, placement TEXT, decided_ref TEXT,
+  changed_at TEXT, prev_placement TEXT, movement TEXT,
+  PRIMARY KEY (area, member_id)
+);
+"""
+
+NEW, MOVED_UP, MOVED_DOWN, REASSESSED, UNCHANGED = (
+    "NEW", "UP", "DOWN", "REASSESSED", "UNCHANGED")
+
+
+def ensure_member_state(conn):
+    conn.executescript(MEMBER_STATE)
+    conn.commit()
+
+
+def _rank(column):
+    return {"++": 2, "+": 1, "0": 0, "-": -1, "--": -2}.get(column, 0)
+
+
+def update_member_state(conn, area, rows, today):
+    """Diff this run's placements against the stored ones.
+
+    The distinction that makes this column honest: if the DECIDING EVIDENCE
+    changed, the member did something new and moved. If the deciding evidence
+    is the same piece rescored, WE moved and the member did not. Tonight's
+    rescore shifted ~460 speeches; without this split the column would have
+    reported hundreds of members changing position when none had.
+    """
+    ensure_member_state(conn)
+    prior = {r["member_id"]: r for r in conn.execute(
+        "SELECT member_id, placement, decided_ref, changed_at, movement "
+        "FROM ca_member_state WHERE area = ?", (area,))}
+    out = {}
+    for r in rows:
+        mid, placement, ref = r["member_id"], r["column"], r["decided_ref"]
+        was = prior.get(mid)
+        if was is None:
+            movement, changed_at, prev = NEW, today, None
+        elif was["placement"] == placement:
+            movement = UNCHANGED
+            changed_at, prev = was["changed_at"], was["placement"]
+        elif ref and was["decided_ref"] and ref == was["decided_ref"]:
+            movement, changed_at, prev = REASSESSED, today, was["placement"]
+        else:
+            movement = MOVED_UP if _rank(placement) > _rank(was["placement"]) else MOVED_DOWN
+            changed_at, prev = today, was["placement"]
+        out[mid] = {"movement": movement, "changed_at": changed_at, "prev": prev}
+        conn.execute(
+            "INSERT INTO ca_member_state (area, member_id, placement, decided_ref, "
+            "changed_at, prev_placement, movement) VALUES (?, ?, ?, ?, ?, ?, ?) "
+            "ON CONFLICT(area, member_id) DO UPDATE SET placement=excluded.placement, "
+            "decided_ref=excluded.decided_ref, changed_at=excluded.changed_at, "
+            "prev_placement=excluded.prev_placement, movement=excluded.movement",
+            (area, mid, placement, ref, changed_at, prev, movement))
+    conn.commit()
+    return out
+
+
+def movement_label(movement, prev, placement, changed_at):
+    """The words shown in the Moved column, in the bills board's vocabulary."""
+    if movement == NEW:
+        return "NEW", "first sheet"
+    if movement == UNCHANGED:
+        return "no change", ""
+    detail = "{0} to {1}".format(prev or "?", placement)
+    if changed_at:
+        detail += " · " + changed_at
+    if movement == REASSESSED:
+        return "reassessed", detail
+    return ("moved up" if movement == MOVED_UP else "moved down"), detail
+
+
 def applicable_caps(evidence_rows, caps):
     """Cap rules triggered by a member's evidence -> [(ceiling, note)].
 
@@ -573,6 +682,12 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
             "conflict": conflict,
             "n_events": len(evs),
             "comments": " | ".join(comments),
+            # What actually decided the placement. Both the "moved" and the
+            # "based on" columns depend on this: a change of deciding evidence
+            # means the member moved, the same evidence rescored means we did.
+            "decided_kind": best["kind"],
+            "decided_date": best["date"],
+            "decided_ref": best["ref"],
         })
 
     for mid, m in roster.items():
@@ -588,6 +703,7 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
             "conflict": False,
             "n_events": 0,
             "comments": "No recorded activity on this area (ledger from 2026-02-03)",
+            "decided_kind": None, "decided_date": None, "decided_ref": None,
         })
 
     order = {c: i for i, c in enumerate(COLUMNS)}
