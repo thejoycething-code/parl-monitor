@@ -130,7 +130,8 @@ def main():
     # one still counted, until somebody remembers to run the tool by hand.
     for label, argv in (("roster", ["tools/pull_commons_roster.py"]),
                         ("vote tracker", ["tools/make_vote_tracker.py"]),
-                        ("5ca sheets", ["tools/make_5ca_web.py"])):
+                        ("5ca sheets", ["tools/make_5ca_web.py"]),
+                        ("5ca matrix", ["tools/make_5ca_matrix.py"])):
         try:
             subprocess.run([sys.executable, os.path.join(ROOT, *argv[0].split("/"))],
                            check=True, cwd=ROOT, stdout=subprocess.DEVNULL)
