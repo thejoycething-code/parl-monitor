@@ -195,6 +195,17 @@ def main():
     with open(TEMPLATE, encoding="utf-8") as handle:
         template = handle.read()
     page = template.replace("__DATASET__", json.dumps(dataset, separators=(",", ":")))
+    # The sign-off line is derived, never hardcoded: a fixed "pending sign-off"
+    # sentence stayed on the page after every division had been signed off,
+    # telling readers the summaries were unchecked when they had been.
+    pending = [d["id"] for d in dataset["divisions"] if not d["signed_off"]]
+    if pending:
+        signoff = ("{0} of {1} summaries are still pending editorial sign-off."
+                   .format(len(pending), len(dataset["divisions"])))
+    else:
+        signoff = ("Every summary on this page has been checked against Hansard "
+                   "and the official division record, and signed off editorially.")
+    page = page.replace("__SIGNOFF__", signoff)
     for path in OUTPUTS:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as handle:

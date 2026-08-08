@@ -39,10 +39,17 @@ issues:
       assisted suicide for terminally ill adults in England and Wales. All
       divisions were free votes: MPs voted according to personal conviction,
       not a party whip.
+    # Every date and count here is from the Bills API: Lords 2nd reading
+    # 2025-09-12, Lords committee 2025-11-14, and the new session's Bill
+    # (4157) awaiting Commons 2nd reading on 2026-09-11. The previous wording
+    # said "after 14 days in committee", which nothing on the record supports
+    # (Christopher, 2026-08-07).
     status: >-
-      Passed all Commons stages (Third Reading 314-291, 20 June 2025).
-      Considered by the House of Lords from September 2025; after 14 days in
-      committee it ran out of time at the end of the parliamentary session.
+      Passed all Commons stages (Third Reading 314-291, 20 June 2025). Given a
+      Second Reading by the House of Lords on 12 September 2025 and considered
+      in committee from 14 November 2025, but it ran out of time before the end
+      of the parliamentary session. A fresh Bill was introduced in the current
+      session and awaits its Commons Second Reading on 11 September 2026.
 
   - id: abortion
     name: Abortion decriminalisation
@@ -72,24 +79,42 @@ issues:
     name: Non-crime hate incidents
     area: 7
     bill: Crime and Policing Bill - New Clause 7
+    # The note previously called this a free vote. The division record refutes
+    # that: Labour 0 aye / 306 no, Conservative 93 aye / 0 no, with only
+    # Independents splitting. A genuine free vote on the same Bill (NC1,
+    # abortion) split four parties both ways. Corrected 2026-08-07 -- the
+    # tracker's whole claim is that it can tell conviction from obedience.
     note: >-
       Non-crime hate incidents are recorded by police against named individuals
-      who have committed no offence. A free-vote amendment to abolish the
-      category was moved during the Crime and Policing Bill's report stage.
+      who have committed no offence. New Clause 7 would have abolished the
+      category. Unlike the abortion and assisted suicide votes on this tracker,
+      this was a whipped party vote: every Conservative who voted backed it and
+      every Labour and Liberal Democrat member who voted opposed it, so a vote
+      here reflects a party position as much as a personal one.
     status: Rejected by the Commons in June 2025.
 
   - id: parental-rights
     name: Parental rights in education
     area: 6
     bill: Various
+    # "Never divided on the register" verified 2026-08-07 by walking all 22
+    # Commons divisions on the Bill. The register is clause 26; no division
+    # touched it. Report stage divisions were mobile phones (NC36), inspection
+    # (188), SEND (171), free school meals (NC7, NC34) and the deletion of
+    # clauses 45 and 51. The 2026 ping-pong rounds were on safeguarding,
+    # staying-put funding, care leavers, kinship care, a Child Protection
+    # Authority and screen use. Re-check if the Bill returns to the Commons.
     note: >-
       The register of children not in school was debated at length during the
       Children's Wellbeing and Schools Bill, but the Commons never divided on
-      it: every vote at those stages was on academies, free school meals,
-      mobile phones or SEND. The Bill's Third Reading is shown here because it
-      enacted the register, with the caveat that the Bill covered much else
-      besides. The other two entries are the only occasions the Commons voted
-      on parental rights in education directly.
+      the register itself. Every division on the Bill - twenty-two of them,
+      from Second Reading in January 2025 to the last exchange with the Lords
+      in April 2026 - was on something else: school inspection, free school
+      meals, SEND provision, mobile phones, safeguarding, care leavers or
+      kinship care. The Bill's Third Reading is shown here because it enacted
+      the register, with the caveat that the Bill covered much else besides.
+      The other two entries are the only occasions the Commons voted on
+      parental rights in education directly.
     status: >-
       The register became law in the Children's Wellbeing and Schools Act 2026.
       The Ten-Minute Rule Bill and the opposition day motion both failed.
@@ -99,10 +124,14 @@ issues:
     area: 1
     bill: Abortion (Northern Ireland) Regulations
     note: >-
-      Regulations made by the Northern Ireland Office to commission abortion
-      services in Northern Ireland, following the Westminster legislation of
-      2019. Approval motions rather than legislation of the Commons' own
-      making, which is why the same question returns in successive years.
+      Three approval motions under the Northern Ireland (Executive Formation
+      etc) Act 2019, each going further than the last. The 2020 regulations set
+      the grounds and time limits. The 2021 regulations gave the Secretary of
+      State power to direct Northern Ireland ministers and health bodies to
+      commission services. The 2022 regulations removed the need for Northern
+      Ireland Executive agreement and required the Department of Health to fund
+      them. That escalation is why the same question returned three years
+      running, and why the three votes are not interchangeable.
     status: All three approval motions were agreed by the Commons.
 
 divisions:
@@ -113,7 +142,7 @@ divisions:
     stage: Second Reading
     stage_group: Second Reading
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: Second Reading
     context: ""
@@ -128,7 +157,7 @@ divisions:
     stage: Third Reading
     stage_group: Third Reading
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: Third Reading
     context: ""
@@ -140,7 +169,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: Organisational opt-out - Amendment (a) to New Clause 10
     context: ""
@@ -155,7 +184,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: Doctors raising assisted suicide first - New Clause 1
     context: ""
@@ -171,7 +200,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: No discussion with under-18s - New Clause 2
     context: ""
@@ -185,7 +214,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: Excluding 'burden' and related motivations - New Clause 16
     context: ""
@@ -201,7 +230,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: Removing the presumption of capacity - Amendment 24
     context: ""
@@ -217,7 +246,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: Abortion decriminalisation
     context: >-
@@ -237,36 +266,75 @@ divisions:
     stage: Approval motion
     stage_group: Third Reading
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: Abortion (Northern Ireland) (No. 2) Regulations 2020
-    context: Approval motion for the regulations commissioning abortion services in Northern Ireland.
-    meaning_aye: Voted to approve the 2020 regulations commissioning abortion services in Northern Ireland.
-    meaning_no: Voted against approving the 2020 regulations.
+    # The 2020 regulations set the GROUNDS; they commissioned nothing. The
+    # previous wording said "commissioning", which is what the 2021 and 2022
+    # regulations did. Grounds taken from SI 2020/503 Parts 2 and 3.
+    context: >-
+      Approval motion for the Abortion (Northern Ireland) (No. 2) Regulations
+      2020 (SI 2020/503), which set the legal framework for abortion in Northern
+      Ireland after section 9 of the Northern Ireland (Executive Formation etc)
+      Act 2019 repealed sections 58 and 59 of the Offences against the Person
+      Act 1861. Members of both main parties voted on both sides - Conservatives
+      split 104 to 124 - so this was not a whipped vote.
+    meaning_aye: >-
+      Voted to approve the framework permitting abortion in Northern Ireland on
+      request up to 12 weeks; up to 24 weeks where two doctors judge the risk of
+      injury to the woman's physical or mental health greater than termination,
+      taking account of her actual or reasonably foreseeable circumstances; and
+      with no time limit where there is a risk to life, a risk of grave permanent
+      injury, or a substantial risk of severe fetal impairment or fatal fetal
+      abnormality.
+    meaning_no: >-
+      Voted against approving the framework setting the grounds and time limits
+      for abortion in Northern Ireland.
 
   - id: 1022
     issue: abortion-ni
     stage: Approval motion
     stage_group: Third Reading
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: Abortion (Northern Ireland) Regulations 2021
-    context: Approval motion directing the Northern Ireland Executive to commission services.
-    meaning_aye: Voted to approve the 2021 regulations.
-    meaning_no: Voted against approving the 2021 regulations.
+    context: >-
+      Approval motion for the Abortion (Northern Ireland) Regulations 2021 (SI
+      2021/365). Members of both main parties voted on both sides, so this was
+      not a whipped vote.
+    meaning_aye: >-
+      Voted to approve regulations giving the Secretary of State power to direct
+      the First Minister, deputy First Minister, Northern Ireland ministers and
+      departments, and the regional health bodies, to implement the CEDAW
+      recommendations - that is, power to compel them to commission abortion
+      services.
+    meaning_no: >-
+      Voted against giving the Secretary of State power to direct Northern
+      Ireland ministers and health bodies to commission abortion services.
 
   - id: 1324
     issue: abortion-ni
     stage: Approval motion
     stage_group: Third Reading
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: Abortion (Northern Ireland) Regulations 2022
-    context: Approval motion for the 2022 regulations (SI 2022 No. 554).
-    meaning_aye: Voted to approve the 2022 regulations.
-    meaning_no: Voted against approving the 2022 regulations.
+    context: >-
+      Approval motion for the Abortion (Northern Ireland) Regulations 2022 (SI
+      2022/554), which amended the 2021 regulations. Members of both main
+      parties voted on both sides, so this was not a whipped vote.
+    meaning_aye: >-
+      Voted to approve regulations removing the last obstacle to those
+      directions: agreement by the Northern Ireland Executive Committee is to be
+      disregarded, a direction must be complied with whether or not the Executive
+      has agreed it, and the Department of Health in Northern Ireland must
+      allocate the money needed to implement the CEDAW recommendations.
+    meaning_no: >-
+      Voted against overriding the requirement for Northern Ireland Executive
+      agreement, and against obliging the Department of Health to fund the
+      services.
 
   # added from the division review worksheet
   - id: 1368
@@ -274,10 +342,17 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "150-metre buffer zones outside abortion clinics"
-    context: "New Clause 11 to the Public Order Bill, tabled by Stella Creasy MP."
+    # Free vote confirmed from the record: a member thanked the Minister "for
+    # having indicated from the Dispatch Box that this is to be a free vote"
+    # (Hansard, 18 October 2022). Stated because 110 members opposing without a
+    # whip is a far stronger signal than the same number under one.
+    context: >-
+      New Clause 11 to the Public Order Bill, tabled by Stella Creasy MP. This
+      was a free vote: the Government confirmed from the Dispatch Box that
+      members were not whipped, so each vote reflects personal conviction.
     meaning_aye: >-
       Supported creating 150-metre buffer zones outside abortion clinics, within which all activity interfering with a person's access to abortion services would be prohibited.
     meaning_no: >-
@@ -289,14 +364,24 @@ divisions:
     stage: Division
     stage_group: Division
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "aye"
     short: "Silent prayer exemption within buffer zones"
-    context: "Amendment (a) to Lords Amendment 5 to the Public Order Bill."
+    # All three exempted categories are named, from the mover's own words:
+    # "consensual communication, silent prayer, and peaceful presence"
+    # (Hansard, 7 March 2023). Peaceful presence was previously omitted, and it
+    # is the conduct most often at issue outside a clinic.
+    context: >-
+      Amendment (a) to Lords Amendment 5 to the Public Order Bill, moved by
+      Andrew Lewer MP.
     meaning_aye: >-
-      Supported exempting silent prayer and consensual communication from the new offence of interfering with access to abortion services, so that neither could be prosecuted inside a buffer zone.
+      Supported Andrew Lewer's amendment exempting consensual communication,
+      silent prayer and peaceful presence from the new offence of interfering
+      with access to abortion services, so that none of the three could be
+      prosecuted inside a buffer zone.
     meaning_no: >-
-      Opposed the exemption, leaving silent prayer and consensual communication within the scope of the offence.
+      Opposed the exemption, leaving consensual communication, silent prayer and
+      peaceful presence within the scope of the offence.
 
   # added from the division review worksheet
   - id: 2059
@@ -304,7 +389,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "aye"
     short: "In-person consultation before pills by post"
     context: "New Clause 106 to the Crime and Policing Bill, tabled by Dr Caroline Johnson MP."
@@ -319,7 +404,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "aye"
     short: "Abolition of non-crime hate incidents"
     context: "New Clause 7 to the Crime and Policing Bill."
@@ -334,14 +419,28 @@ divisions:
     stage: Division
     stage_group: Division
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "aye"
     short: "Schools (Gender and Parental Rights) Bill"
-    context: "Ten-Minute Rule Bill: leave to introduce."
+    # Sponsor named for consistency with every other amendment line, and the
+    # turnout stated because a Ten-Minute Rule division is lightly attended by
+    # nature: without the note, 576 members showing "no record" reads as
+    # evasion rather than as never having been asked (Christopher, 2026-08-07).
+    context: >-
+      Ten-Minute Rule Bill: leave to introduce, moved by Andrew Bridgen MP
+      (Reclaim). Only 74 members voted, which is normal for a Ten-Minute Rule
+      division - most are decided without one at all. Unusually, this Bill was
+      opposed on the floor, so those who did vote made a deliberate choice.
+      Conservative members voted on both sides, 25 for and 10 against, while
+      Labour members voting all opposed: this was not a whipped vote, so a
+      member's vote here reflects personal conviction rather than instruction.
     meaning_aye: >-
-      Supported introducing a Bill on gender and parental rights in schools.
+      Supported Andrew Bridgen's Bill to require schools to tell parents if a
+      child had begun or intended to begin social transition, to give parents a
+      right to see lesson materials, and to restrict the promotion of social
+      transition and the teaching of gender identity in schools.
     meaning_no: >-
-      Opposed leave to introduce the Bill.
+      Opposed leave to introduce the Bill, which was defeated 34 to 40.
 
   # added from the division review worksheet
   - id: 1727
@@ -349,10 +448,14 @@ divisions:
     stage: Division
     stage_group: Division
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Children not in school: national register"
-    context: "Opposition day motion on a national register of children not in school and support for home-educating families."
+    context: >-
+      Opposition day motion on a national register of children not in school
+      and support for home-educating families. This was a whipped party vote:
+      Labour members voted for the motion and Conservative members against, so
+      a vote here reflects a party position as much as a personal one.
     meaning_aye: >-
       Supported the motion calling for a national register of children not in school.
     meaning_no: >-
@@ -370,12 +473,19 @@ divisions:
     stage: Third Reading
     stage_group: Third Reading
     landmark: false
-    signed_off: false
-    our_side: "no"
+    signed_off: true
+    # Neutralised (Christopher, 2026-08-07). The Bill covered academy reform,
+    # free school meals, breakfast clubs, uniform costs and safeguarding as
+    # well as the register, so a Third Reading vote is not a clean signal on
+    # parental rights. Shown on the tracker as a fact, with no side attached:
+    # the same reasoning applied to the omnibus migration bills.
+    our_side: none
     short: "Children's Wellbeing and Schools Bill: Third Reading"
     context: >-
       The Bill that created the register of children not in school, alongside
-      much else.
+      much else. This was a whipped party vote: Labour members voted for the
+      Bill and Conservative members against, so a vote here reflects a party
+      position as much as a personal one.
     meaning_aye: >-
       Approved the Bill as a whole at its final Commons stage. The Bill created
       the register of children not in school, including a requirement to record
