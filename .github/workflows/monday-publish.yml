@@ -25,10 +25,14 @@ jobs:
     steps:
       - name: London-hour guard (scheduled runs only)
         if: github.event_name == 'schedule'
+        # Same delay-proof guard as the Sunday pull: decide by which cron
+        # fired, not by the hour at run time (see 2026-08-09 skipped pull).
         run: |
-          HOUR=$(TZ=Europe/London date +%H)
-          if [ "$HOUR" != "06" ]; then
-            echo "London hour is $HOUR, not 06 - off-DST duplicate slot; exiting."
+          OFFSET=$(TZ=Europe/London date +%z)   # +0100 during BST, +0000 GMT
+          WANT="30 6 * * 1"
+          [ "$OFFSET" = "+0100" ] && WANT="30 5 * * 1"
+          if [ "${{ github.event.schedule }}" != "$WANT" ]; then
+            echo "Fired by '${{ github.event.schedule }}' but London (UTC$OFFSET) wants '$WANT' - off-DST duplicate slot; exiting."
             echo "SKIP=1" >> "$GITHUB_ENV"
           fi
       - uses: actions/checkout@v4
