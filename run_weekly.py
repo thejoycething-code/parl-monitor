@@ -526,6 +526,15 @@ def sections_from_store(conn, edition):
                 "type": "Consultation" if feed == "consultation" else "Evidence",
                 "title": title, "url": r["url"], "why": why, "deadline": r["deadline"],
             })
+            # The deadline table carries no tag or owner, so an ACT decided at
+            # review was rendering as an ordinary row: urgency the edition (and
+            # the Slack summary, which reads the [ACT] bullets) never showed.
+            # ACT deadline items therefore also emit a top line.
+            if r["priority_tag"] == "ACT":
+                edition.top_lines.append(digest.Line(
+                    text="{0} - {1}".format(title, r["why_it_matters"] or why),
+                    tag="ACT", owner=r["owner"], url=r["url"],
+                    deadline=r["deadline"], date=r["event_date"]))
             continue
         if feed == "si":
             extra = json.loads(r["extra"]) if r["extra"] else {}

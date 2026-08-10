@@ -4,6 +4,8 @@
 ## Top lines
 
 - **[NOTE]** Recess: neither House sits this week. Both Houses return 2026-09-01. Deadlines still apply.
+- **[ACT]** [The Online Safety Act: implementation and impact - This Lords inquiry shapes how the Online Safety Act polices lawful speech online. Written evidence closes 5pm on 7 September; a CitizenGO submission is in preparation.](https://committees.parliament.uk/work/9955/) (Deadline: 2026-09-07; Owner: Christopher)
+- **[ACT]** [Tying the Knot: Reforming weddings law in England and Wales - Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live under Zuzana; response push through recess.](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales) (Deadline: 2026-09-24; Owner: Zuzana)
 
 ## Consultations and calls for evidence
 
