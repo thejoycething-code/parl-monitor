@@ -31,11 +31,12 @@ ${retry ? '<p class="err">That password was not recognised.</p>' : ''}
 </div></body></html>`;
 
 export default async function middleware(request) {
-  // TEMPORARY OPEN WINDOW (Christopher, 2026-08-11): the site is public,
-  // without a password, until the date below. After it, the gate returns by
-  // itself -- and the next Monday publish rewrites this file to the standard
-  // password-only version anyway, whichever comes first.
-  if (Date.now() < Date.parse("2026-08-18T09:00:00Z")) {
+  // TEMPORARY OPEN WINDOW (Christopher, 2026-08-11): the site is public until
+  // the end of Tuesday 18 August 2026 (London). This lives in the scaffold
+  // because the Monday publish rewrites middleware.js from here - a window
+  // only in the deployed file would be closed a day early by that rewrite.
+  // The check is inert once the date passes; delete this block any time after.
+  if (Date.now() < Date.parse("2026-08-18T23:00:00Z")) {
     return; // open window: serve the static page
   }
   const phrase = process.env.PARTNER_PASSPHRASE;

@@ -1,18 +1,1 @@
-{
- "version": 2,
- "public": false,
- "github": {
-  "enabled": false
- },
- "headers": [
-  {
-   "source": "/(.*)",
-   "headers": [
-    {
-     "key": "X-Robots-Tag",
-     "value": "noindex, noarchive"
-    }
-   ]
-  }
- ]
-}
+{ "version": 2, "public": false, "github": { "enabled": false } }
