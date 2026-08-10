@@ -86,7 +86,26 @@ def main():
     number = edition_number(conn)
     store_deadlines = deadlines_from_store(conn, week)
     scrub_names = partner.owners_from_store(conn)
-    conn.close()
+
+    # Publishing is idempotent per week. The 2026-08-10 edition went out twice:
+    # a local run after the scheduled slot failed to start, then the delayed
+    # cron arrived four hours late and posted again - the delay-proof guard
+    # correctly identified it as the legitimate slot, because it was. Whether
+    # a run is a duplicate is a fact about what has already been published,
+    # not about clocks or cron identities, so it is recorded here in the store
+    # (committed by every publish, so a later runner sees an earlier one).
+    conn.execute("CREATE TABLE IF NOT EXISTS publish_log ("
+                 "week TEXT PRIMARY KEY, message_ts TEXT, canvas_id TEXT, "
+                 "asana_gid TEXT, published_at TEXT)")
+    already = conn.execute("SELECT published_at, canvas_id FROM publish_log "
+                           "WHERE week = ?", (week,)).fetchone()
+    force = "--force" in sys.argv
+    if already and not no_publish and not force:
+        print("already published for w/c {0} at {1} (canvas {2}); skipping the "
+              "Slack post and Asana task. Site artefacts still regenerate. "
+              "Use --force to publish again.".format(
+                  week, already["published_at"], already["canvas_id"]))
+        no_publish = True
 
     secrets = publish.load_secrets()
     summary, acts, deadlines = summarise_edition(markdown, week)
@@ -105,6 +124,15 @@ def main():
         canvas_url = slack.get("canvas_url", "(not posted to Slack)")
         asana = publish.asana_create_reading_task(secrets, week, canvas_url, acts, store_deadlines)
         print("asana: {0}".format(asana))
+        if "error" not in slack:
+            conn.execute("INSERT OR REPLACE INTO publish_log "
+                         "(week, message_ts, canvas_id, asana_gid, published_at) "
+                         "VALUES (?, ?, ?, ?, ?)",
+                         (week, slack.get("message_ts"), slack.get("canvas_id"),
+                          asana.get("task_gid"),
+                          datetime.datetime.now().isoformat(timespec="seconds")))
+            conn.commit()
+    conn.close()
 
     # Partner edition: redacted static site, committed alongside the edition.
     import glob
