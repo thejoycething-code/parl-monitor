@@ -31,6 +31,13 @@ ${retry ? '<p class="err">That password was not recognised.</p>' : ''}
 </div></body></html>`;
 
 export default async function middleware(request) {
+  // TEMPORARY OPEN WINDOW (Christopher, 2026-08-11): the site is public,
+  // without a password, until the date below. After it, the gate returns by
+  // itself -- and the next Monday publish rewrites this file to the standard
+  // password-only version anyway, whichever comes first.
+  if (Date.now() < Date.parse("2026-08-18T09:00:00Z")) {
+    return; // open window: serve the static page
+  }
   const phrase = process.env.PARTNER_PASSPHRASE;
   if (!phrase) {
     return new Response("Access is not configured.", { status: 503 });
