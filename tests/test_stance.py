@@ -92,6 +92,31 @@ class ClassificationPlumbingTests(unittest.TestCase):
         self.assertEqual(stance.unscored_refs(conn), [])
 
 
+class EvidenceTextTests(unittest.TestCase):
+    """The classifier sees the matched passage in context, never alone."""
+
+    def test_excerpt_centred_in_surrounding_text(self):
+        text = ("A" * 1000) + "the matched words" + ("B" * 1000)
+        ev = stance.Evidence(ref="h:1", kind="debate", line="L",
+                             text=text, excerpt="the matched words")
+        out = stance._evidence_text(ev)
+        self.assertIn("the matched words", out)
+        self.assertIn("A", out)   # context before survives
+        self.assertIn("B", out)   # context after survives
+        self.assertLessEqual(len(out), 1500)
+
+    def test_excerpt_not_in_text_sends_both(self):
+        ev = stance.Evidence(ref="h:2", kind="debate", line="L",
+                             text="full contribution", excerpt="matched bit")
+        out = stance._evidence_text(ev)
+        self.assertTrue(out.startswith("matched bit"))
+        self.assertIn("full contribution", out)
+
+    def test_prefix_when_no_excerpt(self):
+        ev = stance.Evidence(ref="h:3", kind="pq", line="L", text="Q" * 2000)
+        self.assertEqual(len(stance._evidence_text(ev)), 1500)
+
+
 class SuggestRowsTests(unittest.TestCase):
     def setUp(self):
         self.conn = fresh_conn()

@@ -130,13 +130,33 @@ def _batches(items, size=BATCH_SIZE):
         yield items[i:i + size]
 
 
+def _evidence_text(ev, cap=1500):
+    """The matched passage IN its surroundings, not instead of them.
+
+    Two failure modes bracketed this design. A bare 1,500-character prefix
+    often ended before the passage that caused the capture (~2,300 speeches
+    scored blind, fixed 2026-08-05). Then excerpt-ONLY stripped the context
+    that gave the passage its direction: Lord Farmer's excerpt read as
+    support for the assisted dying Bill when the surrounding speech was
+    plainly against it, and one such misread flipped his placement
+    (found in the peers spot-check, 2026-08-11). So: centre the window on
+    the excerpt when it sits inside the full text; otherwise send excerpt
+    then text within the same budget.
+    """
+    excerpt = ev.excerpt or ""
+    text = ev.text or ""
+    if excerpt and text:
+        i = text.find(excerpt)
+        if i >= 0:
+            start = max(0, i - (cap - len(excerpt)) // 2)
+            return text[start:start + cap]
+        return (excerpt + " ... " + text)[:cap]
+    return (excerpt or text)[:cap]
+
+
 def _build_payload(batch):
-    # Prefer the matching passage over a prefix of the whole contribution: the
-    # median speech is 3,100 characters, so a 1,500-character prefix often cut
-    # off before the passage that caused the capture, and ~2,300 speeches were
-    # scored without the classifier ever seeing the relevant words.
     user = [{"ref": ev.ref, "kind": ev.kind, "areas": ev.areas, "line": ev.line,
-             "text": (ev.excerpt or ev.text or "")[:1500]} for ev in batch]
+             "text": _evidence_text(ev)} for ev in batch]
     return {
         "model": STANCE_MODEL,
         # Long speech batches were truncating at 4000 and losing whole
