@@ -145,7 +145,8 @@ function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replac
 
 function allRows(){
   const p = DATA.placements[areaSel.value] || {};
-  return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1]}))
+  return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1],
+                                    f: p[id][2], fr: p[id][3]}))
                        .filter(r => r.m);
 }
 
@@ -203,9 +204,14 @@ function render(){
       '<th class="c' + (placement.has(c) ? " on" : "") + '" data-col="' + c +
       '" title="Click to filter to this column">' + c + '</th>').join("") +
     '<th class="c">Target</th></tr></thead>';
+  const TIER = ["strong","moderate","thin"], DOT = ["\u25CF","\u25D0","\u25CB"];
+  const conf = r => r.f < 0 ? "" :
+      '<span class="cf cf' + r.f + '" title="' +
+      (TIER[r.f] + ": " + (DATA.reasons[r.fr] || "")).replace(/"/g, "&quot;") +
+      '">' + DOT[r.f] + '</span>';
   const body = rows.length ? '<tbody>' + rows.map(r =>
       '<tr class="' + CLS[r.c] + '"><td class="dm"><a href="mp-votes.html#mp-' + r.m.i +
-      '">' + r.m.n + '</a><span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
+      '">' + r.m.n + '</a>' + conf(r) + '<span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
       '<td class="c"></td></tr>').join("") + '</tbody>' : "";
@@ -261,11 +267,12 @@ document.getElementById("clear").addEventListener("click", () => {
 });
 document.getElementById("export").addEventListener("click", () => {
   const rows = filtered(), t = tally(rows);
-  const head = ["Decision-Maker"].concat(COLS).concat(["Target (Y/N)","Moved","Based on"]);
+  const TIER = ["strong","moderate","thin"];
+  const head = ["Decision-Maker"].concat(COLS).concat(["Target (Y/N)","Confidence","Evidence items"]);
   const body = rows.map(r => ['"' + r.m.n + " (" + r.m.p + ", " + r.m.s + ')"']
     .concat(COLS.map(c => c === r.c ? "1" : ""))
-    .concat(["", '"' + (r.mv ? (r.mv[0] + (r.mv[1] ? " " + r.mv[1] : "")) : "") + '"',
-             '"' + r.b + '"']).join(","));
+    .concat(["", '"' + (r.f >= 0 ? TIER[r.f] + " (" + (DATA.reasons[r.fr] || "") + ")" : "") + '"',
+             r.n]).join(","));
   const totals = ['"Totals - ' + rows.length + ' decision-makers"']
     .concat(COLS.map(c => t[c])).concat(["","",""]).join(",");
   const csv = [head.join(",")].concat(body).concat([totals]).join("\\n");
@@ -290,6 +297,7 @@ def main():
 
     today = datetime.date.today().isoformat()
     members, placements, areas = {}, {}, []
+    reasons, reason_ix = [], {}
     for area in sorted(names):
         if area in excluded:
             continue
@@ -315,14 +323,22 @@ def main():
                     party, _, seat = detail.partition(", ")
                 members[mid] = {"i": r["member_id"], "n": name,
                                 "p": party or "Unknown", "s": seat or "-"}
-            placements[key][mid] = [cols.index(r["column"]), r["n_events"]]
+            tier = ["strong", "moderate", "thin"].index(r["confidence"]) \
+                if r["confidence"] else -1
+            why = r["confidence_why"] or ""
+            if why and why not in reason_ix:
+                reason_ix[why] = len(reasons)
+                reasons.append(why)
+            placements[key][mid] = [cols.index(r["column"]), r["n_events"],
+                                    tier, reason_ix.get(why, -1)]
     conn.close()
 
     if not areas:
         print("no areas to render")
         return 1
     dataset = json.dumps({"members": list(members.values()),
-                          "placements": placements}, separators=(",", ":"))
+                          "placements": placements,
+                          "reasons": reasons}, separators=(",", ":"))
     options = "".join('<option value="{0}">{1}</option>'.format(a["id"], a["name"])
                       for a in areas)
     for path, banner in ((OUTPUTS[0], BANNER_PARTNER), (OUTPUTS[1], BANNER_INTERNAL)):

@@ -517,5 +517,72 @@ class FullRosterTests(unittest.TestCase):
         self.assertEqual(names, {"Active MP", "Active Peer"})
 
 
+class ConfidenceTests(unittest.TestCase):
+    """suggest_confidence encodes the evidence philosophy; each rule pinned."""
+
+    def tier(self, **kw):
+        args = {"column": "+", "decided_kind": "vote", "decided_whip": None,
+                "n_events": 5, "n_directional": 3, "conflict": False,
+                "n_minority": 0}
+        args.update(kw)
+        return stance.suggest_confidence(**args)
+
+    def test_no_evidence_has_no_marker(self):
+        self.assertEqual(self.tier(n_events=0), (None, None))
+
+    def test_genuine_split_is_thin_regardless_of_volume(self):
+        tier, why = self.tier(conflict=True, n_events=40, n_directional=20,
+                              n_minority=8)
+        self.assertEqual(tier, "thin")
+        self.assertIn("split", why)
+
+    def test_blemish_under_ten_percent_keeps_tier_but_says_so(self):
+        # Danny Kruger: 134 with-us, 6 misread committee speeches (4%).
+        tier, why = self.tier(conflict=True, decided_whip="free vote",
+                              n_events=173, n_directional=140, n_minority=6)
+        self.assertEqual(tier, "strong")
+        self.assertIn("6 contrary items", why)
+
+    def test_ten_to_twentyfive_percent_contrary_downgrades_one_tier(self):
+        tier, why = self.tier(conflict=True, decided_whip="free vote",
+                              n_events=30, n_directional=20, n_minority=3)
+        self.assertEqual(tier, "moderate")
+        self.assertIn("contrary", why)
+
+    def test_free_vote_is_strong_even_alone(self):
+        # Two Terminally Ill Adults (End of Life) Bill free votes say more
+        # than twenty whipped ones: volume rules do not apply.
+        tier, why = self.tier(decided_whip="free vote", n_events=2,
+                              n_directional=2)
+        self.assertEqual(tier, "strong")
+        self.assertIn("free vote", why)
+
+    def test_whipped_vote_without_corroboration_caps_at_moderate(self):
+        tier, why = self.tier(decided_whip="whipped", n_directional=1)
+        self.assertEqual(tier, "moderate")
+        self.assertIn("whipped", why)
+
+    def test_corroborated_vote_is_strong(self):
+        tier, _ = self.tier(n_directional=4)
+        self.assertEqual(tier, "strong")
+
+    def test_two_items_are_thin_unless_free_vote(self):
+        self.assertEqual(self.tier(n_events=2, n_directional=2)[0], "thin")
+
+    def test_neutral_scales_with_volume(self):
+        self.assertEqual(self.tier(column="0", n_events=10, n_directional=0)[0],
+                         "moderate")
+        self.assertEqual(self.tier(column="0", n_events=3, n_directional=0)[0],
+                         "thin")
+
+    def test_speeches_never_reach_strong(self):
+        tier, _ = self.tier(decided_kind="debate", n_events=30, n_directional=15)
+        self.assertEqual(tier, "moderate")
+
+    def test_questions_only_are_thin(self):
+        self.assertEqual(self.tier(decided_kind="pq", n_events=8,
+                                   n_directional=3)[0], "thin")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -74,20 +74,22 @@ def main():
         # dated evidence lines: the sheet is the record even though the web
         # table does not show them (Christopher, 2026-08-06).
         writer.writerow(["Decision-Maker"] + list(stance.COLUMNS)
-                        + ["Target (Y/N)", "Based on", "Evidence items",
-                           "Profile", "Comments"])
+                        + ["Target (Y/N)", "Based on", "Confidence",
+                           "Evidence items", "Profile", "Comments"])
         tally = {c: 0 for c in stance.COLUMNS}
         for r in rows:
             marks = ["1" if c == r["column"] else "" for c in stance.COLUMNS]
             tally[r["column"]] += 1
+            confidence = ("{0} ({1})".format(r["confidence"], r["confidence_why"])
+                          if r["confidence"] else "")
             writer.writerow([r["decision_maker"]] + marks
                             + ["", stance.based_on(r["decided_kind"], r["decided_date"]),
-                               r["n_events"],
+                               confidence, r["n_events"],
                                "mp-votes.html#mp-{0}".format(r["member_id"]),
                                r["comments"]])
         # Totals as a row, as the Brief does for a party (Christopher, 2026-08-07).
         writer.writerow(["Totals - {0} decision-makers".format(len(rows))]
-                        + [tally[c] for c in stance.COLUMNS] + ["", "", "", "", ""])
+                        + [tally[c] for c in stance.COLUMNS] + ["", "", "", "", "", ""])
 
     dist = {}
     for r in rows:

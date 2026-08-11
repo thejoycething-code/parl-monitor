@@ -587,6 +587,78 @@ def applicable_caps(evidence_rows, caps):
     return hits
 
 
+def suggest_confidence(column, decided_kind, decided_whip, n_events,
+                       n_directional, conflict, n_minority=0):
+    """(tier, reason) for a placement: 'strong' | 'moderate' | 'thin'.
+
+    Deterministic and explainable -- a campaigner reading the marker must be
+    able to see why, so every tier carries its reason. The ordering encodes
+    the evidence philosophy:
+
+      * a genuinely split record is thin no matter how much evidence exists,
+        but a sliver of contrary evidence only downgrades one tier: Danny
+        Kruger at 134 items against 6 misread committee speeches is not
+        "thin", he is strong-with-an-asterisk;
+      * a FREE vote is the member's own conviction on the record and is
+        strong on its own -- two Terminally Ill Adults (End of Life) Bill
+        free votes say more than twenty whipped ones;
+      * a whipped vote proves obedience, not conviction, so it caps at
+        moderate without corroboration (the NC7 lesson: 93 members were
+        being credited for following a whip);
+      * an all-neutral record is a real placement (the 5CA's 0 column) but
+        its confidence scales with volume: one neutral question is nothing,
+        ten neutral items is a consistently neutral member.
+    """
+    if not n_events:
+        return None, None
+    if conflict and n_minority >= 2 and n_minority * 4 >= n_directional:
+        return "thin", ("genuinely split record - {0} of {1} directional items "
+                        "run the other way".format(n_minority, n_directional))
+
+    def _conflicted(tier, reason):
+        """Contrary evidence, graded by its share of the directional record.
+
+        Under 10% is a blemish: stated, never downgraded -- Danny Kruger at
+        6 misread committee speeches against 134 aligned items must not read
+        "moderate" or campaigners will stop trusting the marker. 10-25% costs
+        one tier. Above 25% never reaches here (genuine split, thin)."""
+        if not conflict:
+            return tier, reason
+        note = "{0}; {1} contrary item{2} on record".format(
+            reason, n_minority, "" if n_minority == 1 else "s")
+        if n_minority * 10 < n_directional:
+            return tier, note
+        down = {"strong": "moderate", "moderate": "thin", "thin": "thin"}[tier]
+        return down, note
+
+    if decided_kind == "vote" and decided_whip == "free vote":
+        return _conflicted("strong", "decided by a free vote")
+    if column == "0":
+        if n_events >= 5:
+            return "moderate", "consistently neutral across {0} items".format(n_events)
+        return "thin", "little on record, none of it directional"
+    if n_events <= 2:
+        return "thin", "only {0} evidence item{1} on record".format(
+            n_events, "" if n_events == 1 else "s")
+    if decided_kind == "vote":
+        if n_directional >= 3:
+            return _conflicted("strong",
+                               "a vote corroborated by {0} further directional item{1}".format(
+                                   n_directional - 1, "" if n_directional == 2 else "s"))
+        if decided_whip == "whipped":
+            return _conflicted("moderate", "decided by a whipped vote")
+        return _conflicted("moderate", "a vote with little corroboration")
+    if decided_kind == "debate":
+        if n_directional >= 3:
+            return _conflicted("moderate", "consistent speeches, but no vote on record")
+        return "thin", "speeches only, and few of them directional"
+    if decided_kind == "edm":
+        if n_directional >= 3:
+            return _conflicted("moderate", "sponsored motions, but no vote on record")
+        return "thin", "motion sponsorship only"
+    return "thin", "weak evidence kinds only (questions or co-signatures)"
+
+
 def stance_to_column(stance):
     return {2: "++", 1: "+", 0: "0", -1: "-", -2: "--"}[max(-2, min(2, stance or 0))]
 
@@ -674,13 +746,21 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
             quote = ' "{0}"'.format(r["excerpt"]) if r["excerpt"] else ""
             comments.append("{0} {1}: {2}{3}{4}".format(
                 r["date"], r["kind"].upper(), r["line"], quote, note))
+        column = stance_to_column(stance)
+        n_pos = sum(1 for r in evs if (r["stance"] or 0) > 0)
+        n_neg = sum(1 for r in evs if (r["stance"] or 0) < 0)
+        tier, tier_why = suggest_confidence(column, best["kind"], _whip(best),
+                                            len(evs), n_pos + n_neg, conflict,
+                                            n_minority=min(n_pos, n_neg))
         out.append({
             "member_id": mid,
             "decision_maker": name + (" ({0})".format(detail) if detail else ""),
             "house": first["house"] or "",
-            "column": stance_to_column(stance),
+            "column": column,
             "conflict": conflict,
             "n_events": len(evs),
+            "confidence": tier,
+            "confidence_why": tier_why,
             "comments": " | ".join(comments),
             # What actually decided the placement. Both the "moved" and the
             # "based on" columns depend on this: a change of deciding evidence
@@ -702,6 +782,8 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None):
             "column": "0",
             "conflict": False,
             "n_events": 0,
+            "confidence": None,
+            "confidence_why": None,
             "comments": "No recorded activity on this area (ledger from 2026-02-03)",
             "decided_kind": None, "decided_date": None, "decided_ref": None,
         })

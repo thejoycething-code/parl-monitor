@@ -94,6 +94,7 @@ td.pp { background:#dff0e0; color:#2f6b33; } td.p { background:#eff7f0; color:#4
 td.z  { background:#F4F4F4; color:#7a7a7a; } td.m { background:#fbeceb; color:#a85450; }
 td.mm { background:#f6d9d8; color:#a3302c; }
 td.none { color:#C4C4C4; }
+td.thin { opacity:.55; cursor:help; }
 td.total { font-weight:700; border-left:2px solid #4285f4; }
 td.total .split { display:block; font-weight:400; font-size:.85em; opacity:.65; }
 .pos { color:#3d8040; } .neg { color:#DB544F; }
@@ -213,9 +214,11 @@ function render(){
     '<th data-sort="net">Total</th></tr></thead><tbody>' +
     rows.map(m => '<tr><td class="name"><a href="mp-votes.html#mp-' + m.i + '">' + m.n +
       '</a><span>' + m.p + ', ' + m.s + '</span></td>' +
-      m.c.map(v => v === null
+      m.c.map((v,i) => v === null
         ? '<td class="cell none" title="Nothing recorded">&middot;</td>'
-        : '<td class="cell ' + CLS[COLS[v]] + '">' + COLS[v] + '</td>').join("") +
+        : '<td class="cell ' + CLS[COLS[v]] + (m.f[i] === 2 ? " thin" : "") +
+          '" title="confidence: ' + (["strong","moderate","thin"][m.f[i]] || "n/a") +
+          '">' + COLS[v] + (m.f[i] === 2 ? "?" : "") + '</td>').join("") +
       '<td class="total"><span class="' + (m.t > 0 ? "pos" : (m.t < 0 ? "neg" : "")) + '">' +
       (m.t > 0 ? "+" : "") + m.t + '</span><span class="split">' + m.w + ' with &middot; ' +
       m.a + ' against</span></td></tr>').join("") + '</tbody>';
@@ -305,11 +308,15 @@ def main():
                     name, detail = name[:name.rindex(" (")], name[name.rindex(" (") + 2:-1]
                     party, _, seat = detail.partition(", ")
                 members[mid] = {"i": mid, "n": name, "p": party or "Unknown",
-                                "s": seat or "-", "c": [None] * len(areas), "e": 0}
+                                "s": seat or "-", "c": [None] * len(areas),
+                                "f": [None] * len(areas), "e": 0}
             # A member with no evidence on an area gets a dash, never a zero:
             # absence of evidence is not evidence of neutrality.
             if r["n_events"]:
                 members[mid]["c"][index] = cols.index(r["column"])
+                members[mid]["f"][index] = (["strong", "moderate", "thin"]
+                                            .index(r["confidence"])
+                                            if r["confidence"] else None)
                 members[mid]["e"] += r["n_events"]
     conn.close()
 
