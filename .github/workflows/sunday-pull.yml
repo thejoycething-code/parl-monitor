@@ -6,6 +6,12 @@ on:
     # one across BST/GMT.
     - cron: "4 20 * * 0"
     - cron: "4 21 * * 0"
+    # Retry slots. The pull is idempotent per week (pull_log), so extra slots
+    # are free: if the primary ran, these find the marker and exit in seconds;
+    # if it was dropped or died, the week still gets pulled. The last one runs
+    # early Monday so a bad Sunday is recovered before the 06:30 publish.
+    - cron: "4 22 * * 0"
+    - cron: "30 3 * * 1"
   workflow_dispatch: {}
 
 permissions:
@@ -27,7 +33,12 @@ jobs:
         # 20:04 UTC run starting after 21:00 UTC read as London hour 22, was
         # "not 21", and the whole Sunday was skipped with a green tick
         # (2026-08-09). The offset check below is stable under delay.
+        # Retry slots pass unconditionally: idempotency makes a duplicate
+        # harmless, so only the paired primary slots still need the DST pick.
         run: |
+          case "${{ github.event.schedule }}" in
+            "4 22 * * 0"|"30 3 * * 1") echo "retry slot; idempotency decides"; exit 0 ;;
+          esac
           OFFSET=$(TZ=Europe/London date +%z)   # +0100 during BST, +0000 GMT
           WANT="4 21 * * 0"
           [ "$OFFSET" = "+0100" ] && WANT="4 20 * * 0"

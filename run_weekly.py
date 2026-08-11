@@ -669,11 +669,26 @@ def run_stance_pass(conn, week_commencing):
             "{deferred} deferred, overrides on {overridden}".format(**stats))
 
 
-def pull(week_commencing, db_name):
-    """Phase 1: ingest, filter, triage pass, store; emit the review checklist."""
+def pull(week_commencing, db_name, force=False):
+    """Phase 1: ingest, filter, triage pass, store; emit the review checklist.
+
+    Idempotent per week, like the Monday publish: a completed pull writes a
+    pull_log row (committed with the run's state), and a later run for the
+    same week skips. This is what makes retry cron slots safe -- extras find
+    the marker and exit, only a genuinely failed week gets re-pulled.
+    """
     week_start = datetime.date.fromisoformat(week_commencing)
     week_end = week_start + datetime.timedelta(days=6)
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", db_name)))
+    conn.execute("CREATE TABLE IF NOT EXISTS pull_log ("
+                 "week TEXT PRIMARY KEY, completed_at TEXT)")
+    done = conn.execute("SELECT completed_at FROM pull_log WHERE week = ?",
+                        (week_commencing,)).fetchone()
+    if done and not force:
+        conn.close()
+        return ("(already pulled for w/c {0} at {1}; use --force to re-pull)"
+                .format(week_commencing, done["completed_at"]), 0,
+                "skipped: already pulled")
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))  # archives under today's date
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
@@ -694,6 +709,9 @@ def pull(week_commencing, db_name):
 
     path = os.path.join(ROOT, "reviews", "review-{0}.md".format(week_commencing))
     path, count = review.generate_review_file(conn, week_commencing, path)
+    conn.execute("INSERT OR REPLACE INTO pull_log (week, completed_at) VALUES (?, ?)",
+                 (week_commencing, datetime.datetime.now().isoformat(timespec="seconds")))
+    conn.commit()
     conn.close()
     return path, count, triage_status
 
@@ -793,7 +811,7 @@ def main(argv=None):
     db_name = _db_name(week)
 
     if phase == "--pull":
-        path, count, triage_status = pull(week, db_name)
+        path, count, triage_status = pull(week, db_name, force="--force" in argv)
         return "triage: {0}\nreview file: {1} ({2} items awaiting review)".format(triage_status, path, count)
     if phase == "--render":
         return "edition: {0}".format(render_edition(week, db_name, draft=False))
