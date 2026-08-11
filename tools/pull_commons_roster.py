@@ -25,10 +25,12 @@ def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     roster = members.fetch_commons_roster(client)
     members.mark_roster(conn, roster)
+    peers = members.fetch_lords_roster(client)
+    members.mark_roster(conn, peers, flag="current_peer")
+    print("roster: {0} sitting MPs, {1} sitting peers".format(len(roster), len(peers)))
     parties = {}
     for m in roster:
         parties[m.party] = parties.get(m.party, 0) + 1
-    print("roster: {0} sitting MPs".format(len(roster)))
     for party, n in sorted(parties.items(), key=lambda kv: -kv[1]):
         print("  {0}: {1}".format(party, n))
     conn.close()

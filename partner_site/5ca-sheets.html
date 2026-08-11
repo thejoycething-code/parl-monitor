@@ -162,9 +162,13 @@ function render(){
       '<span class="cf cf' + r.f + '" title="' +
       (TIER[r.f] + ": " + (DATA.reasons[r.fr] || "")).replace(/"/g, "&quot;") +
       '">' + DOT[r.f] + '</span>';
+  const PP = "mp-votes.html#mp-";  // empty when no profile page exists (peers)
+  const nameCell = r => PP
+      ? '<a href="' + PP + r.m.i + '">' + r.m.n + '</a>'
+      : r.m.n;
   const body = rows.length ? '<tbody>' + rows.map(r =>
-      '<tr class="' + CLS[r.c] + '"><td class="dm"><a href="mp-votes.html#mp-' + r.m.i +
-      '">' + r.m.n + '</a>' + conf(r) + '<span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
+      '<tr class="' + CLS[r.c] + '"><td class="dm">' + nameCell(r) +
+      conf(r) + '<span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
       '<td class="c"></td></tr>').join("") + '</tbody>' : "";

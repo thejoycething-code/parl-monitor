@@ -43,6 +43,8 @@ def main():
         sys.exit(1)
     area = int(sys.argv[1])
     active_only = "--active-only" in sys.argv
+    peers = "--peers" in sys.argv
+    house = "Lords" if peers else "Commons"
     args = [a for a in sys.argv[2:] if not a.startswith("--")]
     label = names.get(area, "area {0}".format(area))
     if area in excluded:
@@ -51,13 +53,14 @@ def main():
         sys.exit(1)
 
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
+    flag = "current_peer" if peers else "current_mp"
     if not active_only and not conn.execute(
-            "SELECT COUNT(*) FROM members WHERE current_mp = 1").fetchone()[0]:
-        print("no Commons roster in the members cache - "
-              "run: python3 tools/pull_commons_roster.py")
+            "SELECT COUNT(*) FROM members WHERE {0} = 1".format(flag)).fetchone()[0]:
+        print("no {0} roster in the members cache - "
+              "run: python3 tools/pull_commons_roster.py".format(house))
         sys.exit(1)
     rows = stance.suggest_rows(conn, area, full_roster=not active_only,
-                               overrides_cfg=cfg)
+                               overrides_cfg=cfg, house=house)
     conn.close()
     if not rows:
         print("no ledger activity for {0}".format(label))
@@ -65,8 +68,9 @@ def main():
 
     out = args[0] if args else os.path.join(
         ROOT, "data", "5ca",
-        "5ca-{0}-{1}.csv".format(label.lower().replace(" ", "-"),
-                                 datetime.date.today().isoformat()))
+        "5ca-{0}{1}-{2}.csv".format(label.lower().replace(" ", "-"),
+                                    "-peers" if peers else "",
+                                    datetime.date.today().isoformat()))
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)

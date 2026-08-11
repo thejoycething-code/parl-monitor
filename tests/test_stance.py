@@ -517,6 +517,22 @@ class FullRosterTests(unittest.TestCase):
         self.assertEqual(names, {"Active MP", "Active Peer"})
 
 
+class LordsRosterTests(unittest.TestCase):
+    def test_full_roster_selects_by_house(self):
+        conn = fresh_conn()
+        member(conn, 1, "Sitting MP")
+        member(conn, 2, "Sitting Peer", house="Lords", seat="Life peer")
+        conn.execute("UPDATE members SET current_mp=1 WHERE id=1")
+        conn.execute("UPDATE members SET current_peer=1 WHERE id=2")
+        intel.record_event(conn, 1, "2026-07-01", "pq", "pq:1", "Q", areas=[11])
+        intel.record_event(conn, 2, "2026-07-01", "pq", "pq:2", "Q", areas=[11])
+        commons = stance.suggest_rows(conn, 11, full_roster=True)
+        lords = stance.suggest_rows(conn, 11, full_roster=True, house="Lords")
+        self.assertEqual([r["member_id"] for r in commons], [1])
+        self.assertEqual([r["member_id"] for r in lords], [2])
+        self.assertEqual(lords[0]["house"], "Lords")
+
+
 class ConfidenceTests(unittest.TestCase):
     """suggest_confidence encodes the evidence philosophy; each rule pinned."""
 

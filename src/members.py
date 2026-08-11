@@ -56,14 +56,25 @@ def search_members(client, name, take=5):
 
 
 def fetch_commons_roster(client):
-    """Every current MP (the full-roster 5CA needs all ~650, not just the
-    active ones the ledger has met). Pages the Search endpoint at its
-    20-per-page cap; ~33 calls."""
+    """Every current MP; see fetch_roster."""
+    return fetch_roster(client, house=1)
+
+
+def fetch_lords_roster(client):
+    """Every current peer (~800); see fetch_roster."""
+    return fetch_roster(client, house=2)
+
+
+def fetch_roster(client, house):
+    """Every current member of one House (1=Commons, 2=Lords). The
+    full-roster 5CA needs the whole chamber, not just the members the
+    ledger has met. Pages the Search endpoint at its 20-per-page cap."""
     roster, skip = [], 0
     while True:
-        url = ("{0}/Members/Search?House=1&IsCurrentMember=true"
-               "&skip={1}&take=20").format(MEMBERS_API, skip)
-        payload = client.get_json(url, "members", "roster-{0}".format(skip))
+        url = ("{0}/Members/Search?House={1}&IsCurrentMember=true"
+               "&skip={2}&take=20").format(MEMBERS_API, house, skip)
+        payload = client.get_json(url, "members",
+                                  "roster{0}-{1}".format("" if house == 1 else "-lords", skip))
         items = payload.get("items") or []
         if not items:
             break
@@ -74,18 +85,21 @@ def fetch_commons_roster(client):
     return roster
 
 
-def mark_roster(conn, roster):
-    """Refresh the cache from the roster and flag its members current_mp=1.
-    Previous flags are cleared first so departed MPs drop off full-roster
-    sheets on the next pull."""
-    conn.execute("UPDATE members SET current_mp = NULL")
+def mark_roster(conn, roster, flag="current_mp"):
+    """Refresh the cache from a roster and set its currency flag. Previous
+    flags are cleared first so departed members drop off full-roster sheets
+    on the next pull. flag is a column name and is whitelisted, never
+    interpolated from input."""
+    if flag not in ("current_mp", "current_peer"):
+        raise ValueError("unknown roster flag: {0!r}".format(flag))
+    conn.execute("UPDATE members SET {0} = NULL".format(flag))
     for m in roster:
         conn.execute(
-            "INSERT INTO members (id, name, party, seat, house, since, list_as, current_mp) "
+            "INSERT INTO members (id, name, party, seat, house, since, list_as, {0}) "
             "VALUES (?, ?, ?, ?, ?, ?, ?, 1) "
             "ON CONFLICT(id) DO UPDATE SET name=excluded.name, party=excluded.party, "
             "seat=excluded.seat, house=excluded.house, since=excluded.since, "
-            "list_as=excluded.list_as, current_mp=1",
+            "list_as=excluded.list_as, {0}=1".format(flag),
             (m.id, m.name, m.party, m.seat, m.house, m.since, m.list_as))
     conn.commit()
 

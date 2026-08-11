@@ -35,6 +35,8 @@ from src import db, intel, stance
 
 OUTPUTS = (os.path.join(ROOT, "partner_site", "5ca-sheets.html"),
            os.path.join(ROOT, "docs", "5ca-sheets.html"))
+PEERS_OUTPUTS = (os.path.join(ROOT, "partner_site", "5ca-peers.html"),
+                 os.path.join(ROOT, "docs", "5ca-peers.html"))
 
 BANNER_PARTNER = (
     "<strong>Coalition partner edition.</strong> Every placement is derived from a member's "
@@ -49,7 +51,7 @@ PAGE = """<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Five Column Analysis sheets</title>
+<title>__TITLE__</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 * { box-sizing:border-box; }
@@ -109,7 +111,7 @@ td.mv .flat { opacity:.5; }
 .note { font-size:.82em; opacity:.78; margin-top:.9rem; }
 @media print { .bar { display:none; } th { position:static; } }
 </style></head><body>
-<h1>Five Column Analysis <span style="font-weight:400;font-size:.7em">working sheets</span></h1>
+<h1>Five Column Analysis <span style="font-weight:400;font-size:.7em">__SUBTITLE__</span></h1>
 <p class="banner">__BANNER__</p>
 
 <div class="bar">
@@ -209,9 +211,13 @@ function render(){
       '<span class="cf cf' + r.f + '" title="' +
       (TIER[r.f] + ": " + (DATA.reasons[r.fr] || "")).replace(/"/g, "&quot;") +
       '">' + DOT[r.f] + '</span>';
+  const PP = "__PROFILE_PREFIX__";  // empty when no profile page exists (peers)
+  const nameCell = r => PP
+      ? '<a href="' + PP + r.m.i + '">' + r.m.n + '</a>'
+      : r.m.n;
   const body = rows.length ? '<tbody>' + rows.map(r =>
-      '<tr class="' + CLS[r.c] + '"><td class="dm"><a href="mp-votes.html#mp-' + r.m.i +
-      '">' + r.m.n + '</a>' + conf(r) + '<span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
+      '<tr class="' + CLS[r.c] + '"><td class="dm">' + nameCell(r) +
+      conf(r) + '<span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
       '<td class="c"></td></tr>').join("") + '</tbody>' : "";
@@ -296,12 +302,16 @@ def main():
     cols = list(stance.COLUMNS)
 
     today = datetime.date.today().isoformat()
-    members, placements, areas = {}, {}, []
-    reasons, reason_ix = [], {}
-    for area in sorted(names):
+    made = []
+    for house, outputs, subtitle in (("Commons", OUTPUTS, "working sheets"),
+                                     ("Lords", PEERS_OUTPUTS, "peers")):
+      members, placements, areas = {}, {}, []
+      reasons, reason_ix = [], {}
+      for area in sorted(names):
         if area in excluded:
             continue
-        rows = stance.suggest_rows(conn, area, full_roster=True, overrides_cfg=cfg)
+        rows = stance.suggest_rows(conn, area, full_roster=True, overrides_cfg=cfg,
+                                   house=house)
         if not rows:
             continue
         # Movement is still RECORDED every week so the history accumulates,
@@ -331,37 +341,42 @@ def main():
                 reasons.append(why)
             placements[key][mid] = [cols.index(r["column"]), r["n_events"],
                                     tier, reason_ix.get(why, -1)]
+      if not areas:
+          print("no areas to render for the {0}".format(house))
+          continue
+      # Confidence is internal-only (Christopher, 2026-08-11): the tiers grade
+      # our own classifier's certainty, which is a working note, not something
+      # the partner build - public this week - should carry. The partner
+      # dataset ships the same shape with the tier fields blanked, so the page
+      # JS needs no branching.
+      dataset_internal = json.dumps({"members": list(members.values()),
+                                     "placements": placements,
+                                     "reasons": reasons}, separators=(",", ":"))
+      placements_bare = {a: {m: [v[0], v[1], -1, -1] for m, v in p.items()}
+                         for a, p in placements.items()}
+      dataset_partner = json.dumps({"members": list(members.values()),
+                                    "placements": placements_bare,
+                                    "reasons": []}, separators=(",", ":"))
+      options = "".join('<option value="{0}">{1}</option>'.format(a["id"], a["name"])
+                        for a in areas)
+      title = ("Five Column Analysis sheets" if house == "Commons"
+               else "Five Column Analysis - Peers")
+      for path, banner, dataset in ((outputs[0], BANNER_PARTNER, dataset_partner),
+                                    (outputs[1], BANNER_INTERNAL, dataset_internal)):
+          os.makedirs(os.path.dirname(path), exist_ok=True)
+          page = (PAGE.replace("__BANNER__", banner)
+                      .replace("__PROFILE_PREFIX__",
+                               "mp-votes.html#mp-" if house == "Commons" else "")
+                      .replace("__TITLE__", title)
+                      .replace("__SUBTITLE__", subtitle)
+                      .replace("__AREA_OPTIONS__", options)
+                      .replace("__STAMP__", datetime.date.today().isoformat())
+                      .replace("__DATASET__", dataset))
+          with open(path, "w", encoding="utf-8") as handle:
+              handle.write(page)
+      made.append("{0}: {1} areas, {2} members".format(house, len(areas), len(members)))
     conn.close()
-
-    if not areas:
-        print("no areas to render")
-        return 1
-    # Confidence is internal-only (Christopher, 2026-08-11): the tiers grade
-    # our own classifier's certainty, which is a working note, not something
-    # the partner build - public this week - should carry. The partner
-    # dataset ships the same shape with the tier fields blanked, so the page
-    # JS needs no branching.
-    dataset_internal = json.dumps({"members": list(members.values()),
-                                   "placements": placements,
-                                   "reasons": reasons}, separators=(",", ":"))
-    placements_bare = {a: {m: [v[0], v[1], -1, -1] for m, v in p.items()}
-                       for a, p in placements.items()}
-    dataset_partner = json.dumps({"members": list(members.values()),
-                                  "placements": placements_bare,
-                                  "reasons": []}, separators=(",", ":"))
-    options = "".join('<option value="{0}">{1}</option>'.format(a["id"], a["name"])
-                      for a in areas)
-    for path, banner, dataset in ((OUTPUTS[0], BANNER_PARTNER, dataset_partner),
-                                  (OUTPUTS[1], BANNER_INTERNAL, dataset_internal)):
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        page = (PAGE.replace("__BANNER__", banner)
-                    .replace("__AREA_OPTIONS__", options)
-                    .replace("__STAMP__", datetime.date.today().isoformat())
-                    .replace("__DATASET__", dataset))
-        with open(path, "w", encoding="utf-8") as handle:
-            handle.write(page)
-    print("{0} areas, {1} decision-makers -> {2}".format(
-        len(areas), len(members), ", ".join(OUTPUTS)))
+    print("; ".join(made) + " -> " + ", ".join(OUTPUTS + PEERS_OUTPUTS))
     return 0
 
 

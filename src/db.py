@@ -91,6 +91,8 @@ def init_db(conn):
             # "Not yet an MP for this division" depends on; list_as = how
             # Parliament sorts names.
             conn.execute("ALTER TABLE members ADD COLUMN {0} TEXT".format(column))
+    if "current_peer" not in m_cols:
+        conn.execute("ALTER TABLE members ADD COLUMN current_peer INTEGER")
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former
         # members stay NULL. Full-roster 5CA sheets select on this flag.

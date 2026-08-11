@@ -328,6 +328,7 @@ def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq
 
     nav = ('<nav><a href="/mp-votes.html">How did my MP vote?</a> | '
            '<a href="/5ca-sheets.html">5CA sheets</a> | '
+           '<a href="/5ca-peers.html">5CA peers</a> | '
            '<a href="/5ca-matrix.html">Cross-issue matrix</a> | '
            '<a href="/5ca.html">Five Column Analysis tracker</a> | '
            '<a href="/questions.html">Written questions in full</a><br>Archive: ' +
