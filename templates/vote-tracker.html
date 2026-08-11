@@ -240,7 +240,8 @@ footer a{color:var(--blue);font-weight:400}
   announced total by one or two &mdash; a feature of the official record, not an error in this tool.</p>
   <p><span class="k">Plain-English summaries.</span> The &ldquo;an Aye vote&rdquo; lines were drafted from
   Hansard and the Hansard Society's Report Stage briefings. Each row links to the official division record so
-  every entry can be checked at source. <em>__SIGNOFF__</em></p>
+  every entry can be checked at source. <em>__SIGNOFF__</em>
+  <span id="verdictnote"></span></p>
 </section>
 
 <footer>
@@ -274,6 +275,13 @@ const byId = {}; DATA.members.forEach(m => byId[m.id]=m);
 const constIndex = {}; DATA.members.forEach(m => constIndex[norm(m.constituency)]=m.id);
 const divsByIssue = {}; DATA.divisions.forEach(d => (divsByIssue[d.issue]=divsByIssue[d.issue]||[]).push(d));
 document.getElementById("stamp").textContent = DATA.generated;
+if (DATA.divisions.some(d => d.good)) {
+  document.getElementById("verdictnote").innerHTML =
+    " <strong>Good vote</strong> and <strong>bad vote</strong> reflect CitizenGO\u2019s " +
+    "position on each division, stated in plain English beside every vote. The vote " +
+    "itself (Aye or No) is always given in the line beneath the verdict and in the " +
+    "official division record.";
+}
 
 /* ---------- vote presentation ---------- */
 /* Verdict layer: present only in builds whose dataset carries d.good
@@ -285,7 +293,8 @@ function withVerdict(info, d, side, factLabel){
   const ours = side === d.good;
   return Object.assign({}, info, {
     cls: ours ? "G" : "B",
-    chip: (ours ? "GOOD VOTE" : "BAD VOTE") + " \u00b7 " + factLabel,
+    chip: ours ? "GOOD VOTE" : "BAD VOTE",
+    title: factLabel,  // the fact, one hover away; also stated in the line below
   });
 }
 
@@ -393,7 +402,7 @@ function renderMP(id){
       rows += `<div class="divrow">
         <div class="date">${fmtD(d.date)}<span>${esc(d.stage)}</span></div>
         <div><h3>${esc(d.short)}</h3>
-          <div><span class="chip ${vi.cls}">${vi.chip}</span></div>
+          <div><span class="chip ${vi.cls}"${vi.title ? ` title="${esc(vi.title)}"` : ""}>${vi.chip}</span></div>
           <div class="meaning">${vi.text}</div>
           <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
         </div>

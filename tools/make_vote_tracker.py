@@ -258,13 +258,12 @@ def main():
     else:
         signoff = ("Every summary on this page has been checked against Hansard "
                    "and the official division record, and signed off editorially.")
-    # Two audiences, one factual record. The partner/public build carries no
-    # 'good' sides, so its chips stay AYE/NO: the page states what members did.
-    # The internal build keeps them and renders GOOD VOTE / BAD VOTE with the
-    # Aye/No preserved inside the chip. To take verdicts public, stop
-    # stripping here - one decision, not a redesign.
-    partner_dataset = dict(dataset,
-                           divisions=[dict(d, good=None) for d in dataset["divisions"]])
+    # Verdicts are PUBLIC (Christopher, 2026-08-12): both builds carry the
+    # 'good' sides and render GOOD VOTE / BAD VOTE, with the Aye/No stated in
+    # the meaning line under every chip, on hover, and in the official record
+    # link. The per-audience split is kept so reverting the public build to
+    # facts-only is one line here, as going public was.
+    partner_dataset = dataset
     for path, ds in ((OUTPUTS[0], partner_dataset), (OUTPUTS[1], dataset)):
         page = (template.replace("__DATASET__", json.dumps(ds, separators=(",", ":")))
                         .replace("__SIGNOFF__", signoff))
