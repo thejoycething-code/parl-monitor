@@ -173,9 +173,15 @@ def build(conn, cfg, payloads):
             for m in (payload.get(key) or []):
                 votes.setdefault(m["MemberId"], {})[d["id"]] = code
         splits = party_splits(payload)
+        our = str(d.get("our_side") or "").lower()
         divisions.append({
             "splits": splits,
             "whip": whip_label(d, issue_notes.get(d["issue"]), splits),
+            # 'good' drives the internal build's GOOD/BAD VOTE chips. The
+            # partner build strips it before writing (facts only in public),
+            # so flipping the public page later is a one-line decision, not
+            # a rebuild of anything.
+            "good": our if our in ("aye", "no") else None,
             "id": d["id"], "issue": d["issue"], "date": (payload.get("Date") or "")[:10],
             "stage": d["stage"], "stage_group": d.get("stage_group", d["stage"]),
             "landmark": bool(d.get("landmark")), "context": d.get("context", ""),
@@ -242,7 +248,6 @@ def main():
 
     with open(TEMPLATE, encoding="utf-8") as handle:
         template = handle.read()
-    page = template.replace("__DATASET__", json.dumps(dataset, separators=(",", ":")))
     # The sign-off line is derived, never hardcoded: a fixed "pending sign-off"
     # sentence stayed on the page after every division had been signed off,
     # telling readers the summaries were unchecked when they had been.
@@ -253,8 +258,16 @@ def main():
     else:
         signoff = ("Every summary on this page has been checked against Hansard "
                    "and the official division record, and signed off editorially.")
-    page = page.replace("__SIGNOFF__", signoff)
-    for path in OUTPUTS:
+    # Two audiences, one factual record. The partner/public build carries no
+    # 'good' sides, so its chips stay AYE/NO: the page states what members did.
+    # The internal build keeps them and renders GOOD VOTE / BAD VOTE with the
+    # Aye/No preserved inside the chip. To take verdicts public, stop
+    # stripping here - one decision, not a redesign.
+    partner_dataset = dict(dataset,
+                           divisions=[dict(d, good=None) for d in dataset["divisions"]])
+    for path, ds in ((OUTPUTS[0], partner_dataset), (OUTPUTS[1], dataset)):
+        page = (template.replace("__DATASET__", json.dumps(ds, separators=(",", ":")))
+                        .replace("__SIGNOFF__", signoff))
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as handle:
             handle.write(page)

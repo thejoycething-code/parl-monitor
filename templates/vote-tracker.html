@@ -140,6 +140,10 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 .chip.T{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
 .chip.X{background:var(--grey-100);color:#7b818a}
 .chip.S{background:var(--yellow);color:#6b5a1e}
+.chip.G{background:var(--green);color:#fff}
+.chip.B{background:var(--red);color:#fff}
+.vsum .g{color:var(--green);font-weight:700}
+.vsum .b{color:var(--red);font-weight:700}
 .meaning{font-size:14px;font-weight:300;color:#5c626a;max-width:60ch;margin-top:2px}
 .meaning b{font-weight:500;color:#20242a}
 .official{font-size:11.5px;font-weight:500;margin-top:6px;display:inline-block}
@@ -272,16 +276,29 @@ const divsByIssue = {}; DATA.divisions.forEach(d => (divsByIssue[d.issue]=divsBy
 document.getElementById("stamp").textContent = DATA.generated;
 
 /* ---------- vote presentation ---------- */
+/* Verdict layer: present only in builds whose dataset carries d.good
+   (CitizenGO's side per division). The FACT never leaves the page: the
+   chip keeps the Aye/No inside it, the meaning line states the vote, the
+   tally and the official record link stay untouched. */
+function withVerdict(info, d, side, factLabel){
+  if (!d.good || !side) return info;
+  const ours = side === d.good;
+  return Object.assign({}, info, {
+    cls: ours ? "G" : "B",
+    chip: (ours ? "GOOD VOTE" : "BAD VOTE") + " \u00b7 " + factLabel,
+  });
+}
+
 function voteInfo(m, d){
   const v = m.votes[d.id];
-  if (v==="A")  return {chip:"AYE", cls:"A", side:"aye",
-    text:`<b>${esc(m.name)} voted Aye.</b> ${esc(d.meaning_aye)}`};
-  if (v==="N")  return {chip:"NO", cls:"N", side:"no",
-    text:`<b>${esc(m.name)} voted No.</b> ${esc(d.meaning_no)}`};
-  if (v==="TA") return {chip:"TELLER (AYES)", cls:"T", side:"aye",
-    text:`<b>Acted as a teller for the Ayes</b> &mdash; by convention, indicating support. ${esc(d.meaning_aye)}`};
-  if (v==="TN") return {chip:"TELLER (NOES)", cls:"T", side:"no",
-    text:`<b>Acted as a teller for the Noes</b> &mdash; by convention, indicating opposition. ${esc(d.meaning_no)}`};
+  if (v==="A")  return withVerdict({chip:"AYE", cls:"A", side:"aye",
+    text:`<b>${esc(m.name)} voted Aye.</b> ${esc(d.meaning_aye)}`}, d, "aye", "Aye");
+  if (v==="N")  return withVerdict({chip:"NO", cls:"N", side:"no",
+    text:`<b>${esc(m.name)} voted No.</b> ${esc(d.meaning_no)}`}, d, "no", "No");
+  if (v==="TA") return withVerdict({chip:"TELLER (AYES)", cls:"T", side:"aye",
+    text:`<b>Acted as a teller for the Ayes</b> &mdash; by convention, indicating support. ${esc(d.meaning_aye)}`}, d, "aye", "Teller (Ayes)");
+  if (v==="TN") return withVerdict({chip:"TELLER (NOES)", cls:"T", side:"no",
+    text:`<b>Acted as a teller for the Noes</b> &mdash; by convention, indicating opposition. ${esc(d.meaning_no)}`}, d, "no", "Teller (Noes)");
   if (!v && m.since && m.since > d.date)
     return {chip:"NOT YET AN MP", cls:"S", side:null,
       text:`${esc(m.name)} became the MP for ${esc(m.constituency)} on ${fmtD(m.since)}, after this division.`};
@@ -353,6 +370,15 @@ function renderEmpty(){
 function renderMP(id){
   const m = byId[id]; if(!m) return;
   const took = DATA.divisions.filter(d=>["A","N","TA","TN"].includes(m.votes[d.id])).length;
+  const hasVerdicts = DATA.divisions.some(d=>d.good);
+  let verdictLine = "";
+  if (hasVerdicts){
+    const sideOf = v => v==="A"||v==="TA" ? "aye" : (v==="N"||v==="TN" ? "no" : null);
+    let good=0, bad=0;
+    DATA.divisions.forEach(d=>{ const sd=sideOf(m.votes[d.id]);
+      if (d.good && sd) (sd===d.good ? good++ : bad++); });
+    verdictLine = `<span class="vsum"><span class="g">${good} good vote${good===1?"":"s"}</span> \u00b7 <span class="b">${bad} bad vote${bad===1?"":"s"}</span></span>`;
+  }
   let banner = "";
   if (m.role==="speaker") banner = "As Speaker of the House of Commons, "+esc(m.name)+" does not vote in divisions, by convention.";
   if (m.role==="deputy")  banner = esc(m.name)+" serves as a Deputy Speaker and, by convention, does not vote in divisions.";
@@ -390,7 +416,7 @@ function renderMP(id){
       <a href="#" class="backlink" id="back">&larr; New search</a>
     </div>
     ${banner?`<div class="rolebanner">${banner}</div>`:""}
-    <div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions &middot; all free votes</div>
+    <div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}</div>
     ${rows}
   </div>`;
   document.getElementById("back").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
