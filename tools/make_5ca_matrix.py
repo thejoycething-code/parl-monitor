@@ -214,11 +214,13 @@ function render(){
     '<th data-sort="net">Total</th></tr></thead><tbody>' +
     rows.map(m => '<tr><td class="name"><a href="mp-votes.html#mp-' + m.i + '">' + m.n +
       '</a><span>' + m.p + ', ' + m.s + '</span></td>' +
-      m.c.map((v,i) => v === null
-        ? '<td class="cell none" title="Nothing recorded">&middot;</td>'
-        : '<td class="cell ' + CLS[COLS[v]] + (m.f[i] === 2 ? " thin" : "") +
-          '" title="confidence: ' + (["strong","moderate","thin"][m.f[i]] || "n/a") +
-          '">' + COLS[v] + (m.f[i] === 2 ? "?" : "") + '</td>').join("") +
+      m.c.map((v,i) => {
+        if (v === null) return '<td class="cell none" title="Nothing recorded">&middot;</td>';
+        const t = m.f && m.f[i] != null ? m.f[i] : null;
+        return '<td class="cell ' + CLS[COLS[v]] + (t === 2 ? " thin" : "") +
+          (t != null ? '" title="confidence: ' + ["strong","moderate","thin"][t] : "") +
+          '">' + COLS[v] + (t === 2 ? "?" : "") + '</td>';
+      }).join("") +
       '<td class="total"><span class="' + (m.t > 0 ? "pos" : (m.t < 0 ? "neg" : "")) + '">' +
       (m.t > 0 ? "+" : "") + m.t + '</span><span class="split">' + m.w + ' with &middot; ' +
       m.a + ' against</span></td></tr>').join("") + '</tbody>';
@@ -326,10 +328,16 @@ def main():
         m["w"] = sum(1 for p in placed if RANK[p] > 0)
         m["a"] = sum(1 for p in placed if RANK[p] < 0)
 
-    dataset = json.dumps({"areas": [names[a] for a in areas],
-                          "members": sorted(members.values(), key=lambda m: -m["t"])},
-                         separators=(",", ":"))
-    for path, banner in ((OUTPUTS[0], BANNER_PARTNER), (OUTPUTS[1], BANNER_INTERNAL)):
+    ordered = sorted(members.values(), key=lambda m: -m["t"])
+    # Confidence is internal-only (Christopher, 2026-08-11): the partner build
+    # ships the same member shape with the tier array blanked.
+    dataset_internal = json.dumps({"areas": [names[a] for a in areas],
+                                   "members": ordered}, separators=(",", ":"))
+    bare = [dict(m, f=[None] * len(m["f"])) for m in ordered]
+    dataset_partner = json.dumps({"areas": [names[a] for a in areas],
+                                  "members": bare}, separators=(",", ":"))
+    for path, banner, dataset in ((OUTPUTS[0], BANNER_PARTNER, dataset_partner),
+                                  (OUTPUTS[1], BANNER_INTERNAL, dataset_internal)):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         page = (PAGE.replace("__BANNER__", banner)
                     .replace("__STAMP__", datetime.date.today().isoformat())

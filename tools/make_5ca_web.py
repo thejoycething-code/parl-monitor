@@ -336,12 +336,23 @@ def main():
     if not areas:
         print("no areas to render")
         return 1
-    dataset = json.dumps({"members": list(members.values()),
-                          "placements": placements,
-                          "reasons": reasons}, separators=(",", ":"))
+    # Confidence is internal-only (Christopher, 2026-08-11): the tiers grade
+    # our own classifier's certainty, which is a working note, not something
+    # the partner build - public this week - should carry. The partner
+    # dataset ships the same shape with the tier fields blanked, so the page
+    # JS needs no branching.
+    dataset_internal = json.dumps({"members": list(members.values()),
+                                   "placements": placements,
+                                   "reasons": reasons}, separators=(",", ":"))
+    placements_bare = {a: {m: [v[0], v[1], -1, -1] for m, v in p.items()}
+                       for a, p in placements.items()}
+    dataset_partner = json.dumps({"members": list(members.values()),
+                                  "placements": placements_bare,
+                                  "reasons": []}, separators=(",", ":"))
     options = "".join('<option value="{0}">{1}</option>'.format(a["id"], a["name"])
                       for a in areas)
-    for path, banner in ((OUTPUTS[0], BANNER_PARTNER), (OUTPUTS[1], BANNER_INTERNAL)):
+    for path, banner, dataset in ((OUTPUTS[0], BANNER_PARTNER, dataset_partner),
+                                  (OUTPUTS[1], BANNER_INTERNAL, dataset_internal)):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         page = (PAGE.replace("__BANNER__", banner)
                     .replace("__AREA_OPTIONS__", options)
