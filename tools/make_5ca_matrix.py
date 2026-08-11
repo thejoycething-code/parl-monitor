@@ -28,6 +28,8 @@ sys.path.insert(0, ROOT)
 
 from src import db, intel, stance
 
+PEERS_OUTPUTS = (os.path.join(ROOT, "partner_site", "5ca-peers-matrix.html"),
+                 os.path.join(ROOT, "docs", "5ca-peers-matrix.html"))
 OUTPUTS = (os.path.join(ROOT, "partner_site", "5ca-matrix.html"),
            os.path.join(ROOT, "docs", "5ca-matrix.html"))
 
@@ -46,7 +48,7 @@ PAGE = """<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Cross-issue matrix</title>
+<title>__TITLE__</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 * { box-sizing:border-box; }
@@ -105,7 +107,7 @@ tfoot td.lab { text-align:left; font-weight:500; }
 .note { font-size:.82em; opacity:.78; margin-top:.9rem; }
 @media print { .bar { display:none; } thead th, th.name, td.name { position:static; } }
 </style></head><body>
-<h1>Cross-issue matrix <span style="font-weight:400;font-size:.7em">all campaign areas at once</span></h1>
+<h1>__TITLE__ <span style="font-weight:400;font-size:.7em">all campaign areas at once</span></h1>
 <p class="banner">__BANNER__</p>
 
 <div class="bar">
@@ -145,6 +147,7 @@ voting record. Generated __STAMP__.</p>
 
 <script>
 const DATA = __DATASET__;
+const PP = "__PROFILE_PREFIX__";  // empty when no profile page exists (peers)
 const COLS = ["++","+","0","-","--"];
 const CLS = {"++":"pp","+":"p","0":"z","-":"m","--":"mm"};
 const q = document.getElementById("q"), out = document.getElementById("out"),
@@ -212,8 +215,9 @@ function render(){
     DATA.areas.map((a,i) => '<th class="area" data-area="' + i + '" title="' + a +
                             '">' + a + '</th>').join("") +
     '<th data-sort="net">Total</th></tr></thead><tbody>' +
-    rows.map(m => '<tr><td class="name"><a href="mp-votes.html#mp-' + m.i + '">' + m.n +
-      '</a><span>' + m.p + ', ' + m.s + '</span></td>' +
+    rows.map(m => '<tr><td class="name">' +
+      (PP ? '<a href="' + PP + m.i + '">' + m.n + '</a>' : m.n) +
+      '<span>' + m.p + ', ' + m.s + '</span></td>' +
       m.c.map((v,i) => {
         if (v === null) return '<td class="cell none" title="Nothing recorded">&middot;</td>';
         const t = m.f && m.f[i] != null ? m.f[i] : null;
@@ -300,9 +304,13 @@ def main():
     cols = list(stance.COLUMNS)
 
     areas = [a for a in sorted(names) if a not in excluded]
-    members = {}
-    for index, area in enumerate(areas):
-        for r in stance.suggest_rows(conn, area, full_roster=True, overrides_cfg=cfg):
+    made = []
+    for house, outputs, title in (("Commons", OUTPUTS, "Cross-issue matrix"),
+                                  ("Lords", PEERS_OUTPUTS, "Cross-issue matrix - Peers")):
+      members = {}
+      for index, area in enumerate(areas):
+        for r in stance.suggest_rows(conn, area, full_roster=True, overrides_cfg=cfg,
+                                     house=house):
             mid = r["member_id"]
             if mid not in members:
                 name, party, seat = r["decision_maker"], "", ""
@@ -320,32 +328,34 @@ def main():
                                             .index(r["confidence"])
                                             if r["confidence"] else None)
                 members[mid]["e"] += r["n_events"]
+      for m in members.values():
+          placed = [cols[v] for v in m["c"] if v is not None]
+          m["t"] = sum(RANK[p] for p in placed)
+          m["w"] = sum(1 for p in placed if RANK[p] > 0)
+          m["a"] = sum(1 for p in placed if RANK[p] < 0)
+
+      ordered = sorted(members.values(), key=lambda m: -m["t"])
+      # Confidence is internal-only (Christopher, 2026-08-11): the partner
+      # build ships the same member shape with the tier array blanked.
+      dataset_internal = json.dumps({"areas": [names[a] for a in areas],
+                                     "members": ordered}, separators=(",", ":"))
+      bare = [dict(m, f=[None] * len(m["f"])) for m in ordered]
+      dataset_partner = json.dumps({"areas": [names[a] for a in areas],
+                                    "members": bare}, separators=(",", ":"))
+      for path, banner, dataset in ((outputs[0], BANNER_PARTNER, dataset_partner),
+                                    (outputs[1], BANNER_INTERNAL, dataset_internal)):
+          os.makedirs(os.path.dirname(path), exist_ok=True)
+          page = (PAGE.replace("__BANNER__", banner)
+                      .replace("__TITLE__", title)
+                      .replace("__PROFILE_PREFIX__",
+                               "mp-votes.html#mp-" if house == "Commons" else "")
+                      .replace("__STAMP__", datetime.date.today().isoformat())
+                      .replace("__DATASET__", dataset))
+          with open(path, "w", encoding="utf-8") as handle:
+              handle.write(page)
+      made.append("{0}: {1} areas x {2} members".format(house, len(areas), len(members)))
     conn.close()
-
-    for m in members.values():
-        placed = [cols[v] for v in m["c"] if v is not None]
-        m["t"] = sum(RANK[p] for p in placed)
-        m["w"] = sum(1 for p in placed if RANK[p] > 0)
-        m["a"] = sum(1 for p in placed if RANK[p] < 0)
-
-    ordered = sorted(members.values(), key=lambda m: -m["t"])
-    # Confidence is internal-only (Christopher, 2026-08-11): the partner build
-    # ships the same member shape with the tier array blanked.
-    dataset_internal = json.dumps({"areas": [names[a] for a in areas],
-                                   "members": ordered}, separators=(",", ":"))
-    bare = [dict(m, f=[None] * len(m["f"])) for m in ordered]
-    dataset_partner = json.dumps({"areas": [names[a] for a in areas],
-                                  "members": bare}, separators=(",", ":"))
-    for path, banner, dataset in ((OUTPUTS[0], BANNER_PARTNER, dataset_partner),
-                                  (OUTPUTS[1], BANNER_INTERNAL, dataset_internal)):
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        page = (PAGE.replace("__BANNER__", banner)
-                    .replace("__STAMP__", datetime.date.today().isoformat())
-                    .replace("__DATASET__", dataset))
-        with open(path, "w", encoding="utf-8") as handle:
-            handle.write(page)
-    print("{0} areas x {1} members -> {2}".format(
-        len(areas), len(members), ", ".join(OUTPUTS)))
+    print("; ".join(made) + " -> " + ", ".join(OUTPUTS + PEERS_OUTPUTS))
     return 0
 
 
