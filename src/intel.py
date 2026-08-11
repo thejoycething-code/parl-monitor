@@ -85,7 +85,8 @@ def record_votes(conn, division, voters, prefix, areas=None):
         record_event(conn, v.member_id, division.date.isoformat(), "vote",
                      "div:{0}{1}:{2}".format(prefix, division.id, v.vote),
                      "Voted {0}: {1}".format("Aye" if v.vote == "aye" else "No", title),
-                     areas=areas, commit=False)
+                     areas=areas, commit=False,
+                     excerpt=getattr(division, "notes", None))
         n += 1
     conn.commit()
     return n

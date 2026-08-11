@@ -27,6 +27,12 @@ class Division:
     date: datetime.date
     aye_count: int
     no_count: int
+    # Lords only. Lords division titles name the BILL, not the question:
+    # "Online Safety Bill" was really Baroness Kidron's amendment 35, and an
+    # Aye there meant widening the Act. The motion notes carry the actual
+    # question, so stance classification without them reads amendment votes
+    # as verdicts on the bill (found 2026-08-11 via the OSA committee brief).
+    notes: str = None
 
     @property
     def url(self):
@@ -43,6 +49,14 @@ def parse_commons_division(row):
     )
 
 
+def clean_motion_notes(raw):
+    """amendmentMotionNotes arrives as HTML; keep a plain, bounded line."""
+    import re as _re
+    text = " ".join(_re.sub(r"<[^>]+>", " ", raw or "").split())
+    text = text.replace("The House divided:", "").strip()
+    return text[:500] or None
+
+
 def parse_lords_division(row):
     # Lords list view: content/notContent counts are null; fetch detail when shortlisted.
     return Division(
@@ -52,6 +66,8 @@ def parse_lords_division(row):
         date=parse_api_date(row.get("date") or row.get("Date")),
         aye_count=row.get("contentCount") or row.get("ContentCount"),
         no_count=row.get("notContentCount") or row.get("NotContentCount"),
+        notes=clean_motion_notes(row.get("amendmentMotionNotes")
+                                 or row.get("AmendmentMotionNotes")),
     )
 
 
