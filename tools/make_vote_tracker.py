@@ -114,8 +114,53 @@ def fetch_missing(payloads, cfg):
     return got
 
 
+MERGE_PARTY = {"Labour (Co-op)": "Labour"}  # whips together, reads together
+
+
+def party_splits(payload, top=4):
+    """[[party, ayes, noes], ...] for the largest parties in a division."""
+    tally = {}
+    for key, side in (("Ayes", 0), ("Noes", 1)):
+        for m in (payload.get(key) or []):
+            party = MERGE_PARTY.get(m.get("Party") or "?", m.get("Party") or "?")
+            tally.setdefault(party, [0, 0])[side] += 1
+    ranked = sorted(tally.items(), key=lambda kv: -(kv[1][0] + kv[1][1]))
+    return [[p, a, n] for p, (a, n) in ranked[:top]]
+
+
+def whip_label(d, issue_note, splits):
+    """'free' | 'whipped' | None, editorial text first, arithmetic second.
+
+    The signed-off wording is authoritative where it speaks (the config
+    review checked every claim against the record). Where it is silent,
+    the bloc test decides: the two largest parties each voting >=98% one
+    way, on opposite sides, is a party-line vote whatever anyone says.
+    """
+    text = " ".join([d.get("context") or "", issue_note or ""]).lower()
+    # Negations first: the signed-off NI contexts say "this was NOT a whipped
+    # vote", and a bare substring test read that as whipped (caught on the
+    # first build, 2026-08-12).
+    if ("not a whipped vote" in text or "not whipped" in text
+            or "free vote" in text or "free-vote" in text or "free votes" in text):
+        return "free"
+    if "whipped" in text:
+        return "whipped"
+    two = [x for x in splits[:2] if x[1] + x[2] >= 20]
+    if len(two) == 2:
+        sides = []
+        for _, a, n in two:
+            if a >= (a + n) * 0.98:
+                sides.append("aye")
+            elif n >= (a + n) * 0.98:
+                sides.append("no")
+        if len(sides) == 2 and sides[0] != sides[1]:
+            return "whipped"
+    return None
+
+
 def build(conn, cfg, payloads):
     issues = cfg.get("issues") or []
+    issue_notes = {i["id"]: i.get("note", "") for i in issues}
     used_issues, divisions, votes = set(), [], {}
     missing = []
     for d in cfg.get("divisions") or []:
@@ -127,7 +172,10 @@ def build(conn, cfg, payloads):
         for key, code in CODES:
             for m in (payload.get(key) or []):
                 votes.setdefault(m["MemberId"], {})[d["id"]] = code
+        splits = party_splits(payload)
         divisions.append({
+            "splits": splits,
+            "whip": whip_label(d, issue_notes.get(d["issue"]), splits),
             "id": d["id"], "issue": d["issue"], "date": (payload.get("Date") or "")[:10],
             "stage": d["stage"], "stage_group": d.get("stage_group", d["stage"]),
             "landmark": bool(d.get("landmark")), "context": d.get("context", ""),
