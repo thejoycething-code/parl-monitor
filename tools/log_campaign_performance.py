@@ -248,13 +248,15 @@ def main():
     if series:
         conn.commit()
         print("logged {0} fundraising series".format(len(series)))
-    # A campaign quiet for 60+ days at logging time is CLOSED: its start-to-
-    # end record is final and later pulls never touch it again (Christopher,
-    # 2026-08-13 - the monthly check is for newly closed campaigns, not a
-    # re-sweep of settled history).
+    # A campaign is CLOSED - its start-to-end record final, never re-swept -
+    # when it has been quiet for 60+ days OR is two years past launch
+    # (Christopher, 2026-08-13: an evergreen petition trickling one signer a
+    # week is not an open campaign). The monthly check is for newly closed
+    # campaigns, not a re-sweep of settled history.
     settled = {r["petition_id"] for r in conn.execute(
         "SELECT petition_id FROM campaign_performance WHERE final = 1")}
     cutoff = (datetime.date.today() - datetime.timedelta(days=60)).isoformat()
+    two_years = (datetime.date.today() - datetime.timedelta(days=730)).isoformat()
     skipped_final = 0
     for r in rows:
         if r["petition_id"] in settled:
@@ -282,7 +284,9 @@ def main():
              "Signatures 3.0 + fundraising attribution", now,
              r.get("raised_eur"), r.get("donations_once"),
              r.get("donations_monthly"), r.get("monthly_12mo_eur")))
-        if r["last_activity"] and r["last_activity"] < cutoff:
+        closed = ((r["last_activity"] and r["last_activity"] < cutoff)
+                  or (r["launch_date"] and r["launch_date"] < two_years))
+        if closed:
             conn.execute("UPDATE campaign_performance SET final = 1 "
                          "WHERE petition_id = ?", (r["petition_id"],))
     conn.commit()
