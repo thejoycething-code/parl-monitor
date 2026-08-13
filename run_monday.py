@@ -159,7 +159,8 @@ def main():
     for label, argv in (("roster", ["tools/pull_commons_roster.py"]),
                         ("vote tracker", ["tools/make_vote_tracker.py"]),
                         ("5ca sheets", ["tools/make_5ca_web.py"]),
-                        ("5ca matrix", ["tools/make_5ca_matrix.py"])):
+                        ("5ca matrix", ["tools/make_5ca_matrix.py"]),
+                        ("briefs", ["tools/make_briefs.py"])):
         # Each tool prints its own one-line summary; relay it rather than
         # discarding it. A log that is silent on success cannot be used to
         # tell "ran and rebuilt" from "never ran" -- and an unattended run is

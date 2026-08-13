@@ -1,0 +1,465 @@
+"""Generate Campaigns Brief drafts for newly surfaced bills and activity.
+
+    python3 tools/make_briefs.py              # all new subjects since last run
+    python3 tools/make_briefs.py --list       # show subjects without writing
+    python3 tools/make_briefs.py --force SLUG # regenerate one brief
+
+Subjects: live bills on the board and ACT-tagged items (consultations,
+committee inquiries). Migration (area 11) is excluded: collated, never
+campaigned. One brief per subject EVER (brief_log) -- a campaigner's edits
+must not be overwritten by a Monday run, so re-generation is --force only.
+
+The output mirrors the Campaigns Brief template (Cheat Sheet + Christopher's
+own briefs as house style): General Information, the Plan/Prepare AI prompt
+fields, Red Fox Four, Timeline, and the Five Column Analysis tally with a
+pointer at the full sheets. What the store knows is filled deterministically.
+Narrative fields (key injustice, arguments, outcomes) are drafted by the
+model in CitizenGO voice when an API key is present, and left as marked
+[CAMPAIGNER] placeholders otherwise -- the same stub-not-silence pattern as
+triage. RF4 SCORES are never auto-filled: the Cheat Sheet is explicit that
+scoring is the campaigner's judgement, so each question gets an evidence
+hint and an empty score.
+
+Written to briefs/<slug>.md (readable) and briefs/<slug>.csv (paste-in,
+matching the Brief spreadsheet's row layout). Internal only: never copied
+to partner_site or docs.
+"""
+
+from __future__ import annotations
+
+import csv
+import datetime
+import json
+import os
+import re
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+
+from src import db, intel, stance
+
+BRIEFS_DIR = os.path.join(ROOT, "briefs")
+EXCLUDED_AREAS = {11}  # migration: collated, never campaigned
+
+# CitizenGO Brief "Topic" per taxonomy area.
+AREA_TOPIC = {1: "Life", 2: "Life", 3: "Family", 4: "Freedom", 5: "Family",
+              6: "Family", 7: "Freedom", 8: "Freedom", 9: "Family", 10: "Life"}
+
+RF4 = [
+    ("RF#1", "Win or lose, just by fighting this fight, will it bring people "
+             "or money to our cause?"),
+    ("RF#2", "Win or lose, just by fighting this fight, will it help our "
+             "friends or allies?"),
+    ("RF#3", "Win or lose, just by fighting this fight, will it hurt our "
+             "enemies and their allies?"),
+    ("RF#4/1", "What's the gain for freedom and our values if we win?"),
+    ("RF#4/2", "What's the cost to freedom and our values if we lose?"),
+]
+
+NARRATIVE_FIELDS = [
+    ("ask", "What are we asking for in the petition?"),
+    ("injustice", "What is the key point of injustice that is at stake here?"),
+    ("arguments", "What are some arguments supporting our point of view?"),
+    ("urgency", "Why is it urgent that we take action now?"),
+    ("listen", "Why would they listen to us?"),
+    ("bad_outcome", "Describe a bad outcome if we do not win this campaign:"),
+    ("good_outcome", "Describe a good outcome if we do win this campaign:"),
+]
+
+DRAFT_SYSTEM = """You draft Campaigns Brief narrative fields for CitizenGO UK,
+a conservative advocacy organisation defending life, family and freedom.
+Voice: urgent, direct, conviction-led, emotionally resonant, never corporate.
+British spelling. No em dashes. Audience: values-driven supporters motivated
+by faith and family.
+
+You are given a parliamentary subject (a bill, consultation or inquiry), the
+facts the monitoring pipeline holds about it, and CitizenGO's position areas
+it touches. Draft the requested fields. Ground every claim in the supplied
+facts; where a claim would need evidence the facts do not contain, write the
+claim conservatively or flag it with [VERIFY]. Never assert that a
+parliamentary stage has been passed, a vote has happened, or a decision has
+been made unless the facts state it explicitly: "at 2nd reading" means
+AWAITING that stage, not through it. Return a JSON object whose keys are
+exactly the field ids requested."""
+
+
+def ensure_log(conn):
+    conn.execute("CREATE TABLE IF NOT EXISTS brief_log ("
+                 "slug TEXT PRIMARY KEY, subject TEXT, generated_at TEXT, path TEXT)")
+    conn.commit()
+
+
+def slugify(text):
+    return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", text.lower())).strip("-")[:60]
+
+
+def subjects(conn):
+    """Brief-worthy subjects: live board bills + ACT items, minus migration."""
+    names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    out = []
+    for r in conn.execute("SELECT * FROM bills_board WHERE status != 'closed'").fetchall():
+        # bills_board.areas is a bare string ('2', '1,6'), not the ledger's
+        # JSON-list format.
+        raw = r["areas"] or ""
+        areas = [int(x) for x in re.findall(r"\d+", str(raw))]
+        areas = [a for a in areas if a not in EXCLUDED_AREAS]
+        if r["areas"] and not areas:
+            continue  # migration-only bill: tracked, not campaigned
+        out.append({
+            "kind": "bill", "slug": "bill-" + slugify(r["title"]),
+            "title": r["title"], "areas": areas,
+            "area_labels": [names.get(a) for a in areas],
+            "sponsor": r["sponsor"], "house": r["house"], "stage": r["stage"],
+            "next_key_date": r["next_key_date"], "what_next": r["what_next"],
+            "status": r["status"],
+            "url": ("https://bills.parliament.uk/bills/{0}".format(r["bill_id"])
+                    if (r["bill_id"] or 0) > 0 else None),
+            "deadline": r["next_key_date"] if (r["next_key_date"] or "").count("-") == 2 else None,
+        })
+    for r in conn.execute("SELECT * FROM items WHERE priority_tag = 'ACT'").fetchall():
+        areas = [a for a in json.loads(r["issue_areas"] or "[]") if a not in EXCLUDED_AREAS]
+        if not areas:
+            continue
+        out.append({
+            "kind": r["source_feed"], "slug": r["source_feed"] + "-" + slugify(r["title"]),
+            "title": r["title"], "areas": areas,
+            "area_labels": [names.get(a) for a in areas],
+            "sponsor": None, "house": None, "stage": None,
+            "next_key_date": r["deadline"], "what_next": None, "status": "open",
+            "url": r["url"], "deadline": r["deadline"],
+            "why": r["why_it_matters"],
+        })
+    return out
+
+
+def ledger_context(conn, areas, since_days=180):
+    """What Parliament has been doing on these areas lately, from the ledger."""
+    if not areas:
+        return {}
+    cutoff = (datetime.date.today() - datetime.timedelta(days=since_days)).isoformat()
+    rows = conn.execute("SELECT kind, areas FROM mp_events WHERE date >= ?", (cutoff,)).fetchall()
+    counts = {}
+    for r in rows:
+        evs = json.loads(r["areas"]) if r["areas"] else []
+        if any(a in areas for a in evs):
+            counts[r["kind"]] = counts.get(r["kind"], 0) + 1
+    return counts
+
+
+def fca_tally(conn, area, cfg, house="Commons"):
+    rows = stance.suggest_rows(conn, area, full_roster=True, overrides_cfg=cfg, house=house)
+    tally = {c: 0 for c in stance.COLUMNS}
+    for r in rows:
+        tally[r["column"]] += 1
+    top_for = [r["decision_maker"] for r in rows if r["column"] == "++"][:5]
+    top_against = [r["decision_maker"] for r in rows if r["column"] == "--"][:5]
+    return tally, top_for, top_against, len(rows)
+
+
+def addressed_to(subject):
+    if subject["kind"] == "bill":
+        if (subject["house"] or "").lower() == "lords":
+            return "Members of the House of Lords ahead of the Bill's next stage"
+        return ("Individual MPs who could be persuaded ahead of the Bill's "
+                "next Commons stage")
+    if subject["kind"] == "consultation":
+        return "The responsible department, via the consultation response"
+    if subject["kind"] == "committee":
+        return "The committee, via written evidence, and its members directly"
+    return "[CAMPAIGNER: decision-maker]"
+
+
+def urgency_of(subject, today):
+    d = subject.get("deadline")
+    if d and d.count("-") == 2:
+        days = (datetime.date.fromisoformat(d) - today).days
+        if days <= 30:
+            return "Urgent Campaign ({0} days to {1})".format(days, d)
+    return "Non-Urgent Campaign (by default)"
+
+
+def background(subject, activity):
+    bits = []
+    if subject["kind"] == "bill":
+        bits.append("{0}{1} is at {2} in the {3}.".format(
+            subject["title"],
+            " (sponsor: {0})".format(subject["sponsor"]) if subject["sponsor"] else "",
+            subject["stage"] or "an unknown stage", subject["house"] or "?"))
+        if subject["next_key_date"]:
+            bits.append("Next key date: {0}.".format(subject["next_key_date"]))
+        if subject["what_next"]:
+            bits.append(subject["what_next"] + ".")
+    else:
+        bits.append(subject["title"] + ".")
+        if subject.get("why"):
+            bits.append(subject["why"])
+        if subject["deadline"]:
+            bits.append("Deadline: {0}.".format(subject["deadline"]))
+    if activity:
+        order = ["vote", "debate", "edm", "edm-signed", "pq"]
+        label = {"vote": "division votes", "debate": "debate contributions",
+                 "edm": "motions", "edm-signed": "motion signatures",
+                 "pq": "written questions"}
+        parts = ["{0} {1}".format(activity[k], label[k]) for k in order if activity.get(k)]
+        if parts:
+            bits.append("Parliamentary activity on this issue in the last six "
+                        "months (from the monitor's ledger): " + ", ".join(parts) + ".")
+    return " ".join(bits)
+
+
+def draft_narrative(subject, facts, api_key):
+    """Model-drafted narrative fields; None on any failure (caller stubs)."""
+    if not api_key:
+        return None
+    prompt = {
+        "subject": subject["title"], "kind": subject["kind"],
+        "areas": subject["area_labels"], "facts": facts,
+        "fields": {fid: q for fid, q in NARRATIVE_FIELDS},
+    }
+    payload = {
+        # The reply may open with a thinking block that spends from the same
+        # budget; 2000 truncated mid-JSON on live runs.
+        "model": stance.STANCE_MODEL, "max_tokens": 6000,
+        "system": DRAFT_SYSTEM,
+        "messages": [{"role": "user", "content": json.dumps(prompt)}],
+    }
+    try:
+        reply = stance._default_transport(payload, api_key)
+        # The model may lead with a thinking block; join the text blocks, as
+        # stance._parse_reply does.
+        text = "".join(b.get("text", "") for b in (reply.get("content") or [])).strip()
+        text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.M).strip()
+        start = text.find("{")
+        if start > 0:
+            text = text[start:]
+        try:
+            data = json.loads(text)
+        except ValueError:
+            # literal newlines inside string values (seen live: two of six
+            # briefs, 2026-08-12) -- retry with control characters tolerated
+            data = json.loads(text, strict=False)
+        out = {}
+        for fid, _ in NARRATIVE_FIELDS:
+            v = data.get(fid)
+            if isinstance(v, list):
+                # arguments often arrive as an array of points
+                v = "\n".join("- " + str(x) for x in v)
+            if v:
+                out[fid] = str(v)
+        return out
+    except Exception as exc:
+        print("  narrative draft failed ({0}); placeholders used".format(exc))
+        return None
+
+
+def render_markdown(subject, fields, rf4_hints, fca, timeline, today):
+    lines = ["# Campaigns Brief (DRAFT): {0}".format(subject["title"]), ""]
+    lines.append("> Generated by parl-monitor on {0}. Facts come from the store; "
+                 "narrative fields are drafts for the campaigner to own; RF4 "
+                 "scores are deliberately blank. This file is never regenerated "
+                 "once written (edit freely); `--force` rebuilds it.".format(today))
+    lines.append("")
+    lines.append("## General information")
+    lines.append("")
+    lines.append("| Field | Value |")
+    lines.append("|---|---|")
+    for k, v in fields["general"]:
+        lines.append("| {0} | {1} |".format(k, str(v).replace("|", "/").replace("\n", " ")))
+    lines.append("")
+    lines.append("## Plan phase prompts")
+    lines.append("")
+    for label, value in fields["plan"]:
+        lines.append("**{0}**".format(label))
+        lines.append("")
+        lines.append(value)
+        lines.append("")
+    lines.append("## Prepare phase prompts")
+    lines.append("")
+    for label, value in fields["prepare"]:
+        lines.append("**{0}**".format(label))
+        lines.append("")
+        lines.append(value)
+        lines.append("")
+    lines.append("## Red Fox Four (scores are the campaigner's call)")
+    lines.append("")
+    lines.append("| # | Question | Score (-10..+10) | Evidence hint |")
+    lines.append("|---|---|---|---|")
+    for (code, q), hint in zip(RF4, rf4_hints):
+        lines.append("| {0} | {1} | | {2} |".format(code, q, hint))
+    lines.append("| | TOTAL IF WE WIN / TOTAL IF WE LOSE | | |")
+    lines.append("")
+    lines.append("## Timeline of major actions")
+    lines.append("")
+    lines.append("| Date | Action | Comment |")
+    lines.append("|---|---|---|")
+    for row in timeline:
+        lines.append("| {0} | {1} | {2} |".format(*row))
+    lines.append("")
+    if fca:
+        lines.append("## Five Column Analysis")
+        lines.append("")
+        lines.append(fca)
+        lines.append("")
+    lines.append("## Evaluate (fill after the campaign)")
+    lines.append("")
+    lines.append("Political impact; signatures and delivery; funds raised/spent; "
+                 "was it a good decision; practices to repeat; improvement areas. "
+                 "For tracked divisions the Evaluate 5CA can be generated with "
+                 "tools/ca_campaign.py.")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def write_csv(path, subject, fields, rf4_hints, today):
+    with open(path, "w", encoding="utf-8", newline="") as handle:
+        w = csv.writer(handle)
+        w.writerow(["Campaign Name", subject["title"] + " (DRAFT)"])
+        for k, v in fields["general"]:
+            w.writerow([k, v])
+        w.writerow([])
+        w.writerow(["PROMPTS FOR AI - PLAN PHASE"])
+        for label, value in fields["plan"]:
+            w.writerow([label, value])
+        w.writerow([])
+        w.writerow(["PROMPTS FOR AI - PREPARE PHASE"])
+        for label, value in fields["prepare"]:
+            w.writerow([label, value])
+        w.writerow([])
+        w.writerow(["RED FOX FOUR"])
+        w.writerow(["#", "Question", "Scoring (-10 to +10)", "Comments"])
+        for (code, q), hint in zip(RF4, rf4_hints):
+            w.writerow([code, q, "", hint])
+
+
+def main():
+    force = None
+    if "--force" in sys.argv:
+        force = sys.argv[sys.argv.index("--force") + 1]
+    list_only = "--list" in sys.argv
+
+    conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
+    ensure_log(conn)
+    cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+    today = datetime.date.today()
+
+    api_key = None
+    secrets_path = os.path.join(ROOT, "config", "secrets.yaml")
+    if os.path.exists(secrets_path):
+        import yaml
+        api_key = (yaml.safe_load(open(secrets_path)) or {}).get("anthropic_api_key")
+    api_key = os.environ.get("ANTHROPIC_API_KEY") or api_key
+
+    subs = subjects(conn)
+    done = {r["slug"] for r in conn.execute("SELECT slug FROM brief_log")}
+    todo = [s for s in subs if s["slug"] == force or (not force and s["slug"] not in done)]
+
+    if list_only or (not todo):
+        for s in subs:
+            print("  {0} {1:12} {2}".format(
+                "NEW " if s["slug"] not in done else "done", s["kind"], s["title"][:70]))
+        if not todo:
+            print("briefs: nothing new")
+        return 0
+
+    os.makedirs(BRIEFS_DIR, exist_ok=True)
+    made = []
+    for s in todo:
+        activity = ledger_context(conn, s["areas"])
+        bg = background(s, activity)
+        facts = {"background": bg, "url": s["url"], "deadline": s.get("deadline"),
+                 "stage": s.get("stage"), "house": s.get("house"),
+                 "activity_6mo": activity}
+        drafted = draft_narrative(s, facts, api_key) or {}
+
+        def field(fid, question):
+            v = drafted.get(fid)
+            return (question, v if v else "[CAMPAIGNER: draft needed]")
+
+        general = [
+            ("Campaigner", "cjoyce@citizengo.net"),
+            ("Date of Submission", today.isoformat()),
+            ("Urgency", urgency_of(s, today)),
+            ("List", "EN GB"),
+            ("Type of Campaign", "[CAMPAIGNER: Obligatory / Opportunity / Survival]"),
+            ("Topic", " / ".join(sorted({AREA_TOPIC.get(a, "Freedom") for a in s["areas"]}))),
+            ("Main Purpose", "Political Impact"),
+            ("Background / Context", bg),
+            ("Estimated Launch date", "[CAMPAIGNER]"),
+            ("Source", s["url"] or ""),
+        ]
+        plan = [
+            ("What is the language for this petition?", "English"),
+            ("Who will sign the emails for this petition?", "Christopher Joyce"),
+            ("Who is the petition addressed to?", addressed_to(s)),
+            field("ask", "What are we asking for in the petition?"),
+            ("What is happening that we are responding to?", bg),
+            field("injustice", "What is the key point of injustice that is at stake here?"),
+        ]
+        prepare = [
+            field("arguments", "What are some arguments supporting our point of view?"),
+            field("urgency", "Why is it urgent that we take action now?"),
+            field("listen", "Why would they listen to us?"),
+            field("bad_outcome", "Describe a bad outcome if we do not win this campaign:"),
+            field("good_outcome", "Describe a good outcome if we do win this campaign:"),
+            ("Which sources do you want to include?",
+             " | ".join(x for x in [s["url"],
+                                    "https://parl-monitor-partner.vercel.app/mp-votes.html"] if x)),
+        ]
+
+        fca_block = ""
+        rf4_ally_hint = "See the 5CA sheets for allies on this area."
+        if s["areas"]:
+            area = s["areas"][0]
+            house = "Lords" if (s.get("house") or "").lower() == "lords" else "Commons"
+            tally, top_for, top_against, n = fca_tally(conn, area, cfg, house)
+            fca_block = (
+                "Suggested gradient for **{0}** ({1}, {2} decision-makers): "
+                "{3}\n\nStrongest allies: {4}\n\nStrongest opponents: {5}\n\n"
+                "Full sheet: docs/5ca-sheets.html (Commons) / docs/5ca-peers.html "
+                "(Lords); paste-in CSV via `python3 tools/make_5ca.py {6}{7}`."
+            ).format(
+                intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml")).get(area),
+                house, n,
+                "  ".join("{0} x{1}".format(c, tally[c]) for c in stance.COLUMNS),
+                "; ".join(top_for) or "none placed ++",
+                "; ".join(top_against) or "none placed --",
+                area, " --peers" if house == "Lords" else "")
+            rf4_ally_hint = ("5CA {0}: {1} with us (++/+), {2} against (-/--)."
+                             .format(house, tally["++"] + tally["+"],
+                                     tally["-"] + tally["--"]))
+
+        rf4_hints = [
+            "Recent supporter response on this topic is in the EOS dashboard, not here.",
+            rf4_ally_hint,
+            "Opponent organisations are not tracked by the monitor; campaigner's knowledge.",
+            "If we win: see 'good outcome' above. Score the value, not the odds.",
+            "If we lose: see 'bad outcome' above. Usually 0 unless losing accelerates harm.",
+        ]
+        timeline = []
+        if s.get("next_key_date"):
+            timeline.append((s["next_key_date"],
+                             "Key parliamentary date" if s["kind"] == "bill" else "Deadline",
+                             s.get("stage") or s["kind"]))
+        timeline.append(("[CAMPAIGNER]", "Launch", ""))
+
+        fields = {"general": general, "plan": plan, "prepare": prepare}
+        md_path = os.path.join(BRIEFS_DIR, s["slug"] + ".md")
+        csv_path = os.path.join(BRIEFS_DIR, s["slug"] + ".csv")
+        with open(md_path, "w", encoding="utf-8") as handle:
+            handle.write(render_markdown(s, fields, rf4_hints, fca_block, timeline,
+                                         today.isoformat()))
+        write_csv(csv_path, s, fields, rf4_hints, today)
+        conn.execute("INSERT OR REPLACE INTO brief_log VALUES (?, ?, ?, ?)",
+                     (s["slug"], s["title"], today.isoformat(), md_path))
+        conn.commit()
+        made.append((s["slug"], bool(drafted)))
+        print("  brief: {0} ({1})".format(
+            s["slug"], "narrative drafted" if drafted else "placeholders"))
+
+    print("briefs: {0} generated -> {1}".format(len(made), BRIEFS_DIR))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
