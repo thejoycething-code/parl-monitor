@@ -115,6 +115,10 @@ exactly the field ids requested."""
 def ensure_log(conn):
     conn.execute("CREATE TABLE IF NOT EXISTS brief_log ("
                  "slug TEXT PRIMARY KEY, subject TEXT, generated_at TEXT, path TEXT)")
+    cols = [c[1] for c in conn.execute("PRAGMA table_info(brief_log)")]
+    for col in ("status", "asana_gid"):
+        if col not in cols:
+            conn.execute("ALTER TABLE brief_log ADD COLUMN {0} TEXT".format(col))
     conn.commit()
 
 
@@ -487,6 +491,13 @@ def main():
 
     subs = subjects(conn)
     done = {r["slug"] for r in conn.execute("SELECT slug FROM brief_log")}
+    rejected = {r["slug"] for r in conn.execute(
+        "SELECT slug FROM brief_log WHERE status = 'rejected'")}
+    if force and force in rejected:
+        print("{0} was REJECTED at review and archived; not regenerating. "
+              "Clear its brief_log row deliberately if that decision has "
+              "changed.".format(force))
+        return 1
     todo = [s for s in subs if s["slug"] == force or (not force and s["slug"] not in done)]
 
     if list_only or (not todo):
@@ -589,22 +600,46 @@ def main():
         write_csv(csv_path, s, fields, rf4_hints, timeline, today)
         if write_5ca_csv(fca_path, conn, s, cfg):
             print("  5ca:   {0}".format(os.path.basename(fca_path)))
-        conn.execute("INSERT OR REPLACE INTO brief_log VALUES (?, ?, ?, ?)",
-                     (s["slug"], s["title"], today.isoformat(), md_path))
+        approval = {}
+        try:
+            from src import publish
+            secrets = publish.load_secrets()
+            approval = publish.asana_create_brief_approval(
+                secrets, s["title"], s["slug"], deadline=s.get("deadline"))
+        except Exception as exc:
+            approval = {"error": str(exc)}
+        if approval.get("error"):
+            print("  approval task FAILED: {0} (brief kept; create the task "
+                  "by hand)".format(approval["error"]))
+        else:
+            print("  approval task: {0}".format(approval.get("permalink") or
+                                                approval.get("task_gid")))
+        conn.execute("INSERT OR REPLACE INTO brief_log "
+                     "(slug, subject, generated_at, path, status, asana_gid) "
+                     "VALUES (?, ?, ?, ?, ?, ?)",
+                     (s["slug"], s["title"], today.isoformat(), md_path,
+                      "pending", approval.get("task_gid")))
         conn.commit()
         made.append((s["slug"], bool(drafted)))
         print("  brief: {0} ({1})".format(
             s["slug"], "narrative drafted" if drafted else "placeholders"))
 
     print("briefs: {0} generated -> {1}".format(len(made), BRIEFS_DIR))
+    # Monthly check is for NEWLY CLOSED campaigns (Christopher, 2026-08-13):
+    # a closed campaign's numbers are final and never re-swept; what goes
+    # stale is the record of campaigns that closed since the last pull.
     row = conn.execute("SELECT MAX(logged_at) m FROM campaign_performance").fetchone()
     if row and row["m"]:
         age = (datetime.date.today()
                - datetime.date.fromisoformat(row["m"][:10])).days
         if age > 35:
-            print("  campaign performance baseline is stale ({0} days old) - "
-                  "ask Max in #campaigns-en-gb for a fresh lifetime pull and "
-                  "re-run tools/log_campaign_performance.py".format(age))
+            n_final = conn.execute("SELECT COUNT(*) FROM campaign_performance "
+                                   "WHERE final = 1").fetchone()[0]
+            print("  monthly EOS check due - stats stale for campaigns closed "
+                  "since {0}: ask Max for lifetime numbers on campaigns "
+                  "launched or active since then and re-run "
+                  "tools/log_campaign_performance.py ({1} settled campaigns "
+                  "are final and need no re-sweep)".format(row["m"][:10], n_final))
     return 0
 
 

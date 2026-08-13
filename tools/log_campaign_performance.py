@@ -52,6 +52,30 @@ KEYWORD_AREAS = [
     (r"reassignment|mutilat|groom", [3]),
     (r"withdrawing treatment|let me live", [2]),
     (r"thought.*criminal|criminalis.*thought|hate crime|non-crime", [7]),
+    # 2026-08-13 sweep of the unmapped list (Christopher). Explicit, auditable;
+    # WHO/UN/pandemic-treaty, digital ID/CBDC, election tools, boycott-only and
+    # foreign-policy campaigns stay unmapped as genuinely out-of-taxonomy.
+    (r"suicide pod|sarco|care,? not killing|starved|let (archie|pippa)|"
+     r"right to life for everyone", [2]),
+    (r"pills.by.post|unborn|standing for life", [1]),
+    (r"\bivf\b", [10]),
+    (r"women'?s (sport|space|shelter|changing)|men out of women|erasing women|"
+     r"what is a woman|male and female|joan of arc|male jail|"
+     r"men going into women|darlington nurse|\bfeminine\b", [5]),
+    (r"pregnant m[ae]n|cross-sex hormone|sutcliffe|detransition", [3]),
+    (r"lawful (speech|facebook posts)|linehan|open justice|courtdesk|"
+     r"twitter suspends|debate.*silenced|student authoritarians|"
+     r"biological facts criminal|police accountable|manhandling|"
+     r"banking (discrimination|betrayal)|discriminatory banking|"
+     r"language control|harassing caroline", [7]),
+    (r"religious freedom|conscien|pastor|jesus|chaplain|sabbath|"
+     r"deborah samuel|reverend|rev richard|blasphem", [8]),
+    (r"porn|sexualis|sexualiz|summer of sex|bonnie|cuties|family sex show", [6]),
+    (r"rshe|ofsted|stonewall|indoctrination|bela bill|"
+     r"lgbt.*(children|kids|toddler)|children.*lgbt|"
+     r"(disney|netflix|bbc|lego|strictly).*(lgbt|agenda|lifestyle)|"
+     r"lgbtq\+? (concert|films|set|agenda)", [6]),
+    (r"deport|border|ceuta|dover|asylum|illegal migration", [11]),
 ]
 
 # Fundraising arrives at SERIES grain (Looker Express Donations by Programs),
@@ -93,7 +117,7 @@ def ensure_table(conn):
     # columns migrate on first touch so older stores upgrade in place.
     for col, typ in (("raised_eur", "REAL"), ("donations_once", "INTEGER"),
                      ("donations_monthly", "INTEGER"),
-                     ("monthly_12mo_eur", "REAL")):
+                     ("monthly_12mo_eur", "REAL"), ("final", "INTEGER")):
         if col not in cols:
             conn.execute("ALTER TABLE campaign_performance ADD COLUMN {0} {1}".format(col, typ))
     conn.execute("CREATE TABLE IF NOT EXISTS fundraising_series ("
@@ -224,7 +248,18 @@ def main():
     if series:
         conn.commit()
         print("logged {0} fundraising series".format(len(series)))
+    # A campaign quiet for 60+ days at logging time is CLOSED: its start-to-
+    # end record is final and later pulls never touch it again (Christopher,
+    # 2026-08-13 - the monthly check is for newly closed campaigns, not a
+    # re-sweep of settled history).
+    settled = {r["petition_id"] for r in conn.execute(
+        "SELECT petition_id FROM campaign_performance WHERE final = 1")}
+    cutoff = (datetime.date.today() - datetime.timedelta(days=60)).isoformat()
+    skipped_final = 0
     for r in rows:
+        if r["petition_id"] in settled:
+            skipped_final += 1
+            continue
         conn.execute(
             "INSERT INTO campaign_performance (petition_id, name, launch_date, "
             "last_activity, new_members, reactivated, signatures, areas, source, "
@@ -247,8 +282,14 @@ def main():
              "Signatures 3.0 + fundraising attribution", now,
              r.get("raised_eur"), r.get("donations_once"),
              r.get("donations_monthly"), r.get("monthly_12mo_eur")))
+        if r["last_activity"] and r["last_activity"] < cutoff:
+            conn.execute("UPDATE campaign_performance SET final = 1 "
+                         "WHERE petition_id = ?", (r["petition_id"],))
     conn.commit()
-    print("logged {0} campaigns".format(len(rows)))
+    n_final = conn.execute("SELECT COUNT(*) FROM campaign_performance "
+                           "WHERE final = 1").fetchone()[0]
+    print("logged {0} campaigns ({1} already final, untouched; {2} now "
+          "marked final)".format(len(rows) - skipped_final, skipped_final, n_final))
     collate(conn)
     return 0
 

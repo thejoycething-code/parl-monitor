@@ -122,6 +122,45 @@ def slack_publish_canvas(secrets, title, canvas_markdown, summary_mrkdwn,
 
 # -- Asana --------------------------------------------------------------------
 
+BRIEF_APPROVAL_PROJECT = "1211423235936092"  # EN GB Weekly Meeting agenda
+
+
+def asana_create_brief_approval(secrets, subject, slug, deadline=None,
+                                transport=None):
+    """Approval task for a generated Campaigns Brief draft.
+
+    Convention stated in the task itself: complete WITH A COMMENT saying
+    "approved" to take it forward or "rejected" to archive it; the Monday
+    run reads the outcome (tools/check_brief_approvals.py) and a rejected
+    brief is archived and never touched again.
+    """
+    transport = transport or _post_json
+    notes = ("An automated Campaigns Brief draft is ready for review.\n\n"
+             "Subject: {0}\n"
+             "Files: briefs/{1}.md (readable), briefs/{1}.csv (Brief tab "
+             "paste-in), briefs/{1}-5ca.csv (Five Columns Analysis tab)\n\n"
+             "To decide: complete this task with a comment saying APPROVED "
+             "(take it forward via the normal Asana submission form) or "
+             "REJECTED (the brief is archived and will not be regenerated)."
+             ).format(subject, slug)
+    payload = {"data": {
+        "name": "Review Campaigns Brief draft: {0}".format(subject[:120]),
+        "notes": notes,
+        "projects": [BRIEF_APPROVAL_PROJECT],
+        "assignee": "cjoyce@citizengo.net",
+    }}
+    if deadline:
+        payload["data"]["due_on"] = deadline
+    reply = transport("https://app.asana.com/api/1.0/tasks", payload,
+                      {"Authorization": "Bearer " + secrets["asana_pat"],
+                       "Content-Type": "application/json"})
+    data = reply.get("data") or {}
+    if not data.get("gid"):
+        return {"error": "task create failed: {0}".format(reply.get("errors"))}
+    return {"task_gid": data["gid"],
+            "permalink": data.get("permalink_url", "")}
+
+
 def asana_create_reading_task(secrets, week, canvas_url, act_lines, deadline_lines,
                               transport=None):
     """Create the week's reading task in My Tasks. Returns a status dict."""
