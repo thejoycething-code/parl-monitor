@@ -10,12 +10,14 @@
 | Date of Submission | 2026-08-13 |
 | Urgency | Urgent Campaign (25 days to 2026-09-07) |
 | List | EN GB |
-| Type of Campaign | [CAMPAIGNER: Obligatory / Opportunity / Survival] |
+| Type of Campaign | [CAMPAIGNER: Survival / Obligatory / Opportunity] |
 | Topic | Freedom |
-| Main Purpose | Political Impact |
+| Main Purposes | Political Impact |
 | Background / Context | Communications and Digital Committee: The Online Safety Act: implementation and impact (Inquiry), evidence closes 2026-09-07. This Lords inquiry shapes how the Online Safety Act polices lawful speech online. Written evidence closes 5pm on 7 September; a CitizenGO submission is in preparation. Deadline: 2026-09-07. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 214 debate contributions, 4 motions, 45 motion signatures, 94 written questions. |
 | Estimated Launch date | [CAMPAIGNER] |
-| Source | https://committees.parliament.uk/work/9955/ |
+| Estimated date for Delivering Signatures | Before 2026-09-07 |
+| Ideas for eventual Offline Actions | Encourage supporters to write personally to members of the Lords Communications and Digital Committee ahead of the deadline. Organise a short letter-writing drive or template-based email campaign timed to land before 7 September. Consider a small gathering or vigil outside Parliament to mark the closing date and hand deliver a summary of supporter testimonies about online censorship. |
+| Petitions related TIM project (Targeting Inactive Members) |  |
 
 ## Plan phase prompts
 
@@ -33,7 +35,7 @@ The committee, via written evidence, and its members directly
 
 **What are we asking for in the petition?**
 
-We are asking the House of Lords Communications and Digital Committee to use this inquiry to demand that Ofcom's enforcement of the Online Safety Act stops treating lawful speech as if it were illegal content. The Act must be reined in so that legitimate debate on faith, family and moral conviction cannot be censored under vague "safety" duties. CitizenGO is preparing written evidence for the 7 September deadline and is asking supporters to add their voice before then.
+We are asking the House of Lords Communications and Digital Committee to use its inquiry into the Online Safety Act to expose how the Act is being used to police lawful speech, and to recommend real safeguards for free expression before the law does further damage. CitizenGO UK is preparing written evidence for the 7 September deadline and is calling on supporters to demand the Committee hears this side of the story.
 
 **What is happening that we are responding to?**
 
@@ -41,33 +43,37 @@ Communications and Digital Committee: The Online Safety Act: implementation and 
 
 **What is the key point of injustice that is at stake here?**
 
-The Online Safety Act was sold to the public as a shield against genuine harms, yet in practice it hands platforms and regulators sweeping power to police lawful opinion. Christians, conservatives and anyone who defends the family or the unborn risk being flagged, throttled or silenced online, not because they have broken the law, but because their views are unfashionable. That is not safety. That is censorship dressed up as protection, and it strikes at the heart of a free society.
+The Online Safety Act was sold to the public as protection for children. In practice it hands platforms and regulators sweeping power to remove and suppress lawful speech, including views on faith, family and conscience that Ofcom or a tech company simply disapproves of. Christians, conservatives and ordinary families are being caught in a net built for something else entirely, with no proper mechanism to challenge what is silenced or why.
 
 ## Prepare phase prompts
 
 **What are some arguments supporting our point of view?**
 
-The Act's duties on "legal but harmful" style content encourage platforms to over-censor rather than risk fines, meaning lawful, respectful speech gets removed to be safe rather than sorry. Ofcom has been handed enormous discretionary power without proper democratic accountability for how it defines and enforces harm. A free society must draw a hard line between what is illegal and what is merely disagreeable, and the current framework blurs that line dangerously. Genuine child protection and tackling real criminal content does not require silencing adults debating marriage, life or faith. The scale of parliamentary attention already given to this issue, 214 debate contributions and 94 written questions in six months, shows MPs and peers know something is badly wrong.
+The Act's vague duties around 'legal but harmful' style content invite platforms to over-censor rather than risk fines, meaning lawful opinions on marriage, sex and faith are removed as a precaution. Ofcom is not accountable to Parliament in the way a democratic safeguard on speech should be. The scale of parliamentary activity on this issue, with 214 debate contributions and 94 written questions in six months, shows even Westminster recognises something is seriously wrong with how this law is working. An inquiry that hears only from tech-safety campaigners and not from those actually losing their voice online will produce a one-sided and misleading picture.
 
 **Why is it urgent that we take action now?**
 
-Written evidence to this inquiry closes at 5pm on 7 September 2026, and once it closes the committee's window for hearing from ordinary citizens rather than well-funded lobbyists shuts too. [VERIFY: confirm whether the Committee accepts late or supplementary evidence]. This is one of the few formal moments where Parliament is actively reviewing how the Act is working in practice, before enforcement patterns harden further and become normalised. If conservative and faith voices do not speak now, the record will be shaped entirely by those who want the Act tightened further against lawful dissent.
+The Committee's evidence window closes at 5pm on 7 September 2026. Once it shuts, the record is fixed. If conservative and faith voices are not represented in this evidence now, the Committee's findings and any recommendations that follow will be built without ever hearing how the Act is silencing lawful speech. There will be no second chance at this stage.
 
 **Why would they listen to us?**
 
-This is a Lords committee explicitly tasked with examining implementation and impact, meaning it is actively seeking evidence of how the Act affects real people and real speech, not just its intended targets. The volume of parliamentary activity already recorded, four motions, 45 signatures and dozens of debates, shows this is a live and contested issue that peers are watching closely. A clear, well-evidenced submission from CitizenGO stands a genuine chance of being read and cited precisely because the committee needs concrete examples of lawful speech being caught in the net.
+This is a live Lords inquiry actively gathering evidence, not a closed decision. The Committee has a formal duty to weigh submitted evidence, and the sheer volume of parliamentary attention on this issue, 214 debate contributions and 4 motions in six months, shows peers are already alert to problems with implementation. A well-evidenced, clearly argued submission from CitizenGO, backed by public pressure, is exactly the kind of input such inquiries are designed to consider.
 
 **Describe a bad outcome if we do not win this campaign:**
 
-If this inquiry concludes without challenge, Ofcom's expansive reading of the Act will be treated as settled and effectively endorsed by Parliament. Platforms will have every incentive to keep erring on the side of censorship, removing sermons, pro-life posts and traditional family content rather than risk regulatory penalty. Millions of law-abiding citizens will find their voice quietly diminished online, with no clear route of appeal, while the actual harms the Act was meant to address remain largely untouched.
+The Committee's report is shaped only by voices who want the Online Safety Act enforced more aggressively, and its findings recommend even broader powers for Ofcom and platforms to remove lawful speech. Faith and family voices are pushed further out of the public square, with no parliamentary record acknowledging the harm being done in the name of 'safety'.
 
 **Describe a good outcome if we do win this campaign:**
 
-If the committee hears our evidence and takes it seriously, it could recommend real safeguards for lawful speech and tighter constraints on Ofcom's discretion. That would mark a genuine course correction, restoring the Act to its original purpose of tackling real harm rather than policing opinion. A strong CitizenGO submission, backed by supporters, helps ensure Parliament cannot claim it never heard the case for protecting free speech online.
+The Committee hears clear evidence from CitizenGO and supporters about how the Act is silencing lawful speech, and its report calls for tighter safeguards, real accountability for Ofcom, and protection for legitimate expression of faith-based and conservative views online.
 
-**Which sources do you want to include?**
+**Which sources do you want to include? Please provide the titles plus URLs:**
 
 https://committees.parliament.uk/work/9955/ | https://parl-monitor-partner.vercel.app/mp-votes.html
+
+**What should the image for this campaign look like?**
+
+A single smartphone screen shown mid-scroll, with a message reading something like 'This content has been removed' overlaid on a family photo or a simple cross, set against the backdrop of the Palace of Westminster fading into shadow. Sombre, direct, no clutter, conveying silence and loss rather than anger.
 
 ## Red Fox Four (scores are the campaigner's call)
 
@@ -96,6 +102,8 @@ Strongest allies: Chris Philp (Conservative, Croydon South); Jim Shannon (Democr
 Strongest opponents: Apsana Begum (Labour, Poplar and Limehouse); Lucy Powell (Labour (Co-op), Manchester Central); Yvette Cooper (Labour, Pontefract, Castleford and Knottingley); John McDonnell (Labour, Hayes and Harlington); Bell Ribeiro-Addy (Labour, Clapham and Brixton Hill)
 
 Full sheet: docs/5ca-sheets.html (Commons) / docs/5ca-peers.html (Lords); paste-in CSV via `python3 tools/make_5ca.py 7`.
+
+The filled 5CA sheet in the Brief template's exact columns is beside this file as `committee-communications-and-digital-committee-the-online-safety-act-i-5ca.csv` - paste it into the Five Columns Analysis tab as-is.
 
 ## Evaluate (fill after the campaign)
 

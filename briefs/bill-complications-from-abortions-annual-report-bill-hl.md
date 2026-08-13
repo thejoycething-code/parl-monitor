@@ -10,12 +10,14 @@
 | Date of Submission | 2026-08-13 |
 | Urgency | Non-Urgent Campaign (by default) |
 | List | EN GB |
-| Type of Campaign | [CAMPAIGNER: Obligatory / Opportunity / Survival] |
+| Type of Campaign | [CAMPAIGNER: Survival / Obligatory / Opportunity] |
 | Topic | Life |
-| Main Purpose | Political Impact |
+| Main Purposes | Political Impact |
 | Background / Context | Complications from Abortions (Annual Report) Bill [HL] (sponsor: Lord Moylan) is at 2nd reading in the Lords. Next key date: TBA. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 70 debate contributions, 2 motions, 9 motion signatures, 7 written questions. |
 | Estimated Launch date | [CAMPAIGNER] |
-| Source | https://bills.parliament.uk/bills/4144 |
+| Estimated date for Delivering Signatures | [CAMPAIGNER] |
+| Ideas for eventual Offline Actions | - Write personal letters to peers in the House of Lords urging them to support the Bill at its next stage. - Organise a small letter-writing gathering at a local church or community hall focused on this Bill. - Share the campaign with pro-life doctors, nurses and midwives and ask them to write in their professional capacity. - Encourage supporters to raise the Bill with any peers they may know personally or through local networks. - Distribute simple printed leaflets outlining the Bill and the ask at pro-life events and church gatherings. |
+| Petitions related TIM project (Targeting Inactive Members) |  |
 
 ## Plan phase prompts
 
@@ -33,7 +35,7 @@ Members of the House of Lords ahead of the Bill's next stage
 
 **What are we asking for in the petition?**
 
-We are calling on supporters to urge members of the House of Lords to back the Complications from Abortions (Annual Report) Bill and ensure it progresses swiftly through Parliament. We want peers to demand that the Government commit to publishing a full, honest annual account of the physical and psychological complications women suffer after abortion.
+We are calling on members of the House of Lords to support the Complications from Abortions (Annual Report) Bill [HL] as it moves through the Lords. This Bill, brought forward by Lord Moylan, would require an annual report on the complications arising from abortions carried out in this country. We are asking supporters to write to peers urging them to back this modest but vital measure for transparency.
 
 **What is happening that we are responding to?**
 
@@ -41,37 +43,40 @@ Complications from Abortions (Annual Report) Bill [HL] (sponsor: Lord Moylan) is
 
 **What is the key point of injustice that is at stake here?**
 
-Right now there is no proper national record of the harm abortion does to women. Complications go unreported, unmeasured and unaccounted for. Women are told abortion is safe, yet the system that performs it keeps no honest ledger of the damage it causes. That silence is not protection, it is concealment, and women deserve better than being kept in the dark about the risks to their own bodies.
+Right now, there is no proper annual accounting of the physical and psychological harm abortion can cause to women. Every other significant medical procedure in this country is subject to outcome monitoring and public reporting, yet abortion providers face no equivalent duty. Women considering abortion are being denied the full picture, and policymakers are left without the evidence they need to protect women's health. That silence is itself a form of injustice.
 
 ## Prepare phase prompts
 
 **What are some arguments supporting our point of view?**
 
-- Transparency is the bare minimum patients deserve before undergoing any medical procedure, and abortion should be no exception.
-- An annual report would allow doctors, regulators and women themselves to understand the true risks involved, supporting genuine informed consent.
-- Other areas of medicine are held to rigorous reporting standards. Abortion providers should not be shielded from the same scrutiny.
-- Accurate data protects women's safety by allowing patterns of harm to be identified and addressed rather than buried.
-- Honest reporting would finally test the claim that abortion is simply a safe, routine procedure with no lasting consequences.
+- Informed consent requires honest information. Women cannot make a truly informed choice if the risks and complications of abortion are not properly recorded and reported.
+- Transparency protects patients. Annual reporting on complications would bring abortion in line with the accountability expected of every other area of medicine.
+- Current data is patchy at best. Without a statutory duty to report, complications can go unrecorded, leaving the true scale of harm hidden from Parliament and the public.
+- This is a modest, proportionate ask. The Bill does not restrict access to abortion; it simply asks for honesty about its consequences, something reasonable people across the debate should be able to support.
 
 **Why is it urgent that we take action now?**
 
-The Bill has already reached second reading in the House of Lords and Parliament is actively debating this issue, with 70 debate contributions and 7 written questions logged in just the last six months. This is a live, moving process. If we do not act while the Bill is before the Lords, the opportunity to secure proper transparency could be lost for years.
+The Bill is currently at 2nd reading in the House of Lords, an early and critical stage where peers form their first impressions and decide whether a Bill deserves further scrutiny. With 70 debate contributions and 9 motion signatures already logged on this issue in the last six months, interest is building. Supporters need to make their voices heard now, before the next stages are scheduled, so that peers understand there is real public appetite for transparency on this issue.
 
 **Why would they listen to us?**
 
-Parliament is already paying close attention to this issue, with sustained debate, written questions and motions over recent months showing real engagement from peers. Lord Moylan has brought this Bill forward precisely because there is momentum and appetite in the Lords to address the current lack of transparency. A strong, visible show of public support now can help tip wavering peers towards backing genuine accountability.
+Peers in the House of Lords are actively debating and considering this Bill right now, which means they are open to hearing from the public before further stages proceed. Lord Moylan, as sponsor, needs visible public backing to demonstrate that this call for transparency has genuine support beyond Westminster. A strong show of public concern can influence how peers approach the Bill at its next stage.
 
 **Describe a bad outcome if we do not win this campaign:**
 
-If this Bill fails, the complications women suffer after abortion will continue to go unrecorded and unspoken. Women will keep being told abortion carries little risk, with no official data to challenge that claim. The true human cost will remain hidden, and future women will be denied the honest information they need to make a genuinely informed choice.
+If this Bill fails to progress, abortion will remain the only major area of medical practice in the UK without a statutory duty to report complications annually. Women will continue to be denied full information about the risks they face, and the true human cost of abortion will remain hidden from both Parliament and the public, making it harder to ever safeguard women's health properly.
 
 **Describe a good outcome if we do win this campaign:**
 
-If this Bill passes, the Government will be required to publish a clear, honest annual report on abortion complications. For the first time, the true toll on women's health will be visible, informed consent will mean something real, and the culture of silence around abortion's harms will begin to break down. It would be a vital first step towards protecting women from a procedure too often presented as risk free.
+If this Bill succeeds, the UK will finally have an annual, transparent record of abortion complications. Women will be better informed before making one of the most significant decisions of their lives, policymakers will have real evidence to work from, and abortion services will be held to the same standard of accountability as every other area of medicine.
 
-**Which sources do you want to include?**
+**Which sources do you want to include? Please provide the titles plus URLs:**
 
 https://bills.parliament.uk/bills/4144 | https://parl-monitor-partner.vercel.app/mp-votes.html
+
+**What should the image for this campaign look like?**
+
+A simple, sober image of an open medical report or clipboard with a blank data page, perhaps with a subtle shadow of a woman's silhouette in the background, conveying the theme of missing information and the need for honest, transparent reporting. Avoid graphic or distressing imagery; the tone should be serious and dignified rather than sensational.
 
 ## Red Fox Four (scores are the campaigner's call)
 
@@ -100,6 +105,8 @@ Strongest allies: Lord Jackson of Peterborough (Conservative, Life peer); Lord Y
 Strongest opponents: Lord Davies of Gower (Conservative, Life peer); Baroness Sugg (Conservative, Life peer); Lord Clement-Jones (Liberal Democrat, Life peer); Lord Paddick (Non-affiliated, Life peer); Baroness Deech (Crossbench, Life peer)
 
 Full sheet: docs/5ca-sheets.html (Commons) / docs/5ca-peers.html (Lords); paste-in CSV via `python3 tools/make_5ca.py 1 --peers`.
+
+The filled 5CA sheet in the Brief template's exact columns is beside this file as `bill-complications-from-abortions-annual-report-bill-hl-5ca.csv` - paste it into the Five Columns Analysis tab as-is.
 
 ## Evaluate (fill after the campaign)
 

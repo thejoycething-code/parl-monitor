@@ -10,12 +10,14 @@
 | Date of Submission | 2026-08-13 |
 | Urgency | Non-Urgent Campaign (by default) |
 | List | EN GB |
-| Type of Campaign | [CAMPAIGNER: Obligatory / Opportunity / Survival] |
-| Topic | Family |
-| Main Purpose | Political Impact |
+| Type of Campaign | [CAMPAIGNER: Survival / Obligatory / Opportunity] |
+| Topic | Family & Education |
+| Main Purposes | Political Impact |
 | Background / Context | Consultation: Tying the Knot: Reforming weddings law in England and Wales. Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live under Zuzana; response push through recess. Deadline: 2026-09-24. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 9 debate contributions, 4 written questions. |
 | Estimated Launch date | [CAMPAIGNER] |
-| Source | https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales |
+| Estimated date for Delivering Signatures | Before 2026-09-24 |
+| Ideas for eventual Offline Actions | Church noticeboard flyers explaining the consultation deadline and how to respond. A simple printed response guide handed out after services during the weeks before 24 September. Local prayer and information evenings on marriage law reform. Letters to constituency MPs asking them to raise the issue given the recent debate contributions and written questions already logged on this topic. A postcard campaign to the Ministry of Justice reinforcing the message during the consultation's final weeks. |
+| Petitions related TIM project (Targeting Inactive Members) |  |
 
 ## Plan phase prompts
 
@@ -33,7 +35,7 @@ The responsible department, via the consultation response
 
 **What are we asking for in the petition?**
 
-We are asking supporters to respond to the Law Commission's consultation before it closes on 24 September, telling ministers that any reform of weddings law must strengthen, not strip away, the legal safeguards that make marriage the protected, publicly recognised institution it has always been. We want registration, accountability and proper legal oversight kept at the heart of every wedding, whatever the venue or officiant.
+We are asking supporters to respond to the Law Commission's consultation before it closes on 24 September 2026, calling on ministers to reject proposals that would let marriage be conducted by unregulated celebrants in unlicensed outdoor settings, and to keep marriage law properly safeguarded rather than opened up to piecemeal, informal ceremonies.
 
 **What is happening that we are responding to?**
 
@@ -41,36 +43,37 @@ Consultation: Tying the Knot: Reforming weddings law in England and Wales. Law C
 
 **What is the key point of injustice that is at stake here?**
 
-Marriage is not just a private party. It is a legal bond that protects spouses, children and families, recorded and recognised by the state. This consultation risks quietly detaching that legal protection from the ceremony itself. If celebrant-led and outdoor weddings are waved through without the same rigorous safeguards as traditional ceremonies, couples could walk away believing they are legally married when the protections they assume are simply not there. That is not modernisation. That is a stealth downgrading of marriage.
+Marriage is not just a private ceremony. It is a legal institution that protects spouses, children and families through clear rules on consent, capacity, and registration. This consultation proposes celebrant-led and outdoor weddings that risk stripping away those legal safeguards, leaving couples exposed and the meaning of marriage diluted by informality. Families deserve certainty, not a system reformed to suit convenience at the expense of protection.
 
 ## Prepare phase prompts
 
 **What are some arguments supporting our point of view?**
 
-- Marriage carries legal weight precisely because the state takes care to register it properly, with witnesses and accountable officiants. Weaken that chain and you weaken the protection every married person relies on.
-- Flexibility in where and how a ceremony is held should never come at the cost of certainty over whether a marriage is legally valid. Families need to know where they stand.
-- Nine debate contributions and four written questions on this issue in six months show this is not a settled, technical matter. Parliament itself is still wrestling with the implications.
-- Reform is not the enemy. Reform that quietly erodes legal safeguards while dressing itself up as choice and inclusivity is the real danger.
+Marriage law exists to protect people, not merely to record a ceremony. Removing the requirement for a licensed venue and a registered officiant weakens the checks that currently guard against forced marriage, fraud, and confusion over legal status. A wedding without proper legal safeguards is a wedding without proper legal protection. Reform should strengthen these safeguards, not loosen them in the name of flexibility. Other jurisdictions that have relaxed these rules offer no clear evidence that couples are better served [VERIFY]. Parliament itself has shown sustained interest in this issue, with nine debate contributions and four written questions in the last six months, showing this is a live and contested matter, not a settled technical tidy-up.
 
 **Why is it urgent that we take action now?**
 
-The consultation closes on 24 September 2026, and much of the response window falls across recess, when public attention drops and campaigners have to work hardest to be heard. With nine debate contributions and four written questions already logged in the last six months, this issue is live in Parliament right now. If we do not get our response in during this window, the Law Commission's final recommendations could be shaped without a single voice raised for marriage's legal protections.
+The consultation closes on 24 September 2026. Once it closes, the window for the public to shape this reform is gone, and the Law Commission's recommendations could move straight into government policy. If we do not respond now, decisions about the legal foundation of marriage in England and Wales will be made without the voice of families who understand what is truly at stake.
 
 **Why would they listen to us?**
 
-This is a formal government consultation process, which means every properly submitted response is recorded and must be considered before recommendations go forward. The level of parliamentary activity already logged on this issue, nine debate contributions and four written questions in six months, shows MPs are engaged and the door to influence is still open. Now is the moment to make our voice part of that record, before the Law Commission finalises its advice to ministers.
+The Law Commission is required to consider public responses as part of a formal consultation process, and continued parliamentary activity on this issue, including recent debate contributions and written questions, shows government is still weighing these proposals rather than treating them as settled. A strong, well-argued response from concerned citizens adds real weight at a stage when the outcome is genuinely open.
 
 **Describe a bad outcome if we do not win this campaign:**
 
-The Law Commission's reforms go through unchallenged, celebrant-led and outdoor ceremonies are legally validated without the safeguards that protect married couples today, and marriage in England and Wales becomes just one more informal lifestyle choice, detached from clear legal recognition. Families discover too late that the wedding they believed was legally binding left them without the protections they assumed they had.
+Marriage law is reformed to allow celebrant-led ceremonies in unlicensed outdoor settings without the legal safeguards that currently protect couples. The line between a legally recognised marriage and an informal ceremony blurs, leaving families vulnerable to disputes over legal status, weakening protections against forced marriage, and reducing marriage in law to little more than a personalised event rather than a protected institution.
 
 **Describe a good outcome if we do win this campaign:**
 
-Enough responses land in defence of marriage's legal safeguards that the Law Commission's final recommendations preserve proper registration, accountable officiants and clear legal certainty, whatever the venue. Couples still gain sensible flexibility in how they marry, but marriage itself remains what it has always been in law: a protected, publicly recognised institution that families can rely on.
+The Law Commission and government recognise the value of the legal safeguards built into marriage law and reject proposals that would strip them away. Any reform that proceeds keeps registration, licensed venues, and proper oversight intact, ensuring marriage remains both meaningful and legally secure for every couple and every family it protects.
 
-**Which sources do you want to include?**
+**Which sources do you want to include? Please provide the titles plus URLs:**
 
 https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales | https://parl-monitor-partner.vercel.app/mp-votes.html
+
+**What should the image for this campaign look like?**
+
+A traditional wedding scene, a couple exchanging vows in a church or registry office doorway, hands joined, with warm natural light suggesting permanence and protection. Overlaid text should be minimal and urgent, such as a simple deadline reminder, avoiding anything twee or overly soft. The tone should feel solid and safeguarded, not celebratory or commercial.
 
 ## Red Fox Four (scores are the campaigner's call)
 
@@ -99,6 +102,8 @@ Strongest allies: Jim Shannon (Democratic Unionist Party, Strangford); Jess Brow
 Strongest opponents: Dame Caroline Dinenage (Conservative, Gosport); Alex Norris (Labour (Co-op), Nottingham North and Kimberley); Anneliese Dodds (Labour (Co-op), Oxford East); Stephen Doughty (Labour (Co-op), Cardiff South and Penarth); Amanda Martin (Labour, Portsmouth North)
 
 Full sheet: docs/5ca-sheets.html (Commons) / docs/5ca-peers.html (Lords); paste-in CSV via `python3 tools/make_5ca.py 9`.
+
+The filled 5CA sheet in the Brief template's exact columns is beside this file as `consultation-consultation-tying-the-knot-reforming-weddings-law-in-englan-5ca.csv` - paste it into the Five Columns Analysis tab as-is.
 
 ## Evaluate (fill after the campaign)
 
