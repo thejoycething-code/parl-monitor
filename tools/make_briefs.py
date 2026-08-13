@@ -185,6 +185,58 @@ def fca_tally(conn, area, cfg, house="Commons"):
     return tally, top_for, top_against, len(rows)
 
 
+def rf1_hint(conn, areas):
+    """What comparable campaigns on this topic actually did (RF#1 evidence).
+
+    Christopher (2026-08-13): individual campaign performance and acquisition
+    rates predict a new campaign far better than lifetime topic totals, so
+    the top comparables lead, each with its acquisition rate (new members as
+    a share of signatures); the topic rollup closes the line. Money comes
+    from fundraising_series ONLY via an explicit petition join - the source
+    is series-grain, starts 2025-01-23, and absence means not-available,
+    never zero (Max's own caveat).
+    """
+    try:
+        rows = conn.execute("SELECT petition_id, name, new_members, reactivated, "
+                            "signatures, areas, logged_at FROM campaign_performance").fetchall()
+        series = conn.execute("SELECT related_petition_id, value_eur "
+                              "FROM fundraising_series WHERE related_petition_id "
+                              "IS NOT NULL").fetchall()
+    except Exception:
+        rows, series = [], []
+    money_by_pid = {r["related_petition_id"]: r["value_eur"] for r in series}
+    hits = [r for r in rows
+            if any(a in areas for a in json.loads(r["areas"] or "[]"))]
+    if not hits:
+        return ("No lifetime record logged for this topic yet - run "
+                "tools/log_campaign_performance.py; interim: EOS dashboard.")
+
+    def acq(r):
+        if r["signatures"] and r["new_members"] is not None:
+            return 100.0 * r["new_members"] / r["signatures"]
+        return None
+
+    top = sorted(hits, key=lambda r: -(r["new_members"] or 0))[:3]
+    parts = []
+    for r in top:
+        a = acq(r)
+        m = money_by_pid.get(r["petition_id"])
+        parts.append("{0}: {1:,} new / {2:,} sigs{3}{4}".format(
+            r["name"][:60], r["new_members"] or 0, r["signatures"] or 0,
+            " ({0:.1f}% acquired)".format(a) if a is not None else "",
+            ", \u20ac{0:,.0f} attributed".format(m) if m else ""))
+    rates = [acq(r) for r in hits if acq(r) is not None]
+    rates.sort()
+    median = rates[len(rates) // 2] if rates else None
+    logged = max((r["logged_at"] or "")[:10] for r in hits)
+    return ("Comparable campaigns on this topic - {0}. Topic lifetime: {1} "
+            "campaigns, {2:,} new members{3}. Baseline logged {4}.".format(
+                " | ".join(parts), len(hits),
+                sum(r["new_members"] or 0 for r in hits),
+                ", median acquisition {0:.1f}%".format(median) if median else "",
+                logged))
+
+
 def addressed_to(subject):
     if subject["kind"] == "bill":
         if (subject["house"] or "").lower() == "lords":
@@ -513,7 +565,7 @@ def main():
                                      tally["-"] + tally["--"]))
 
         rf4_hints = [
-            "Recent supporter response on this topic is in the EOS dashboard, not here.",
+            rf1_hint(conn, s["areas"]),
             rf4_ally_hint,
             "Opponent organisations are not tracked by the monitor; campaigner's knowledge.",
             "If we win: see 'good outcome' above. Score the value, not the odds.",
@@ -545,6 +597,14 @@ def main():
             s["slug"], "narrative drafted" if drafted else "placeholders"))
 
     print("briefs: {0} generated -> {1}".format(len(made), BRIEFS_DIR))
+    row = conn.execute("SELECT MAX(logged_at) m FROM campaign_performance").fetchone()
+    if row and row["m"]:
+        age = (datetime.date.today()
+               - datetime.date.fromisoformat(row["m"][:10])).days
+        if age > 35:
+            print("  campaign performance baseline is stale ({0} days old) - "
+                  "ask Max in #campaigns-en-gb for a fresh lifetime pull and "
+                  "re-run tools/log_campaign_performance.py".format(age))
     return 0
 
 

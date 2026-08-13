@@ -16,7 +16,7 @@
 | Background / Context | Relationships and Sex Education (Further Education Sector) Bill (sponsor: Alistair Strathern) is at 2nd reading in the Commons. Next key date: 2026-12-04. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 59 debate contributions, 2 written questions. |
 | Estimated Launch date | [CAMPAIGNER] |
 | Estimated date for Delivering Signatures | Before 2026-12-04 |
-| Ideas for eventual Offline Actions | Organise supporters to write personal letters (not just emails) to their MP ahead of 4 December 2026. Encourage local church and family groups to raise the Bill at any upcoming MP surgery or town hall event. Distribute a simple briefing card outlining the parental rights concern for supporters to hand to their MP in person. Consider a small prayer vigil or letter-writing evening timed before the next Commons date. |
+| Ideas for eventual Offline Actions | - Encourage supporters to write directly to their MP ahead of the 4 December 2026 date, asking how they intend to vote and why. - Organise a letter-writing evening at local churches focused on parental rights in education. - Distribute simple briefing cards outside FE college open days explaining the Bill and asking parents to contact their MP. - Coordinate a small prayer vigil or gathering outside Parliament timed to the next key date. - Ask sympathetic MPs to raise parental consultation amendments and publicly thank those who do. |
 | Petitions related TIM project (Targeting Inactive Members) |  |
 
 ## Plan phase prompts
@@ -35,7 +35,7 @@ Individual MPs who could be persuaded ahead of the Bill's next Commons stage
 
 **What are we asking for in the petition?**
 
-We are asking supporters to write to their MP urging them to insist that the Relationships and Sex Education (Further Education Sector) Bill includes explicit, cast-iron protections for parental rights before it goes any further, specifically the right of parents to be informed about RSE content and to withdraw their under-18 child from lessons they judge unsuitable. Where the Bill does not guarantee this, we are asking MPs to oppose it at the next stage.
+We are asking MPs to oppose the Relationships and Sex Education (Further Education Sector) Bill in its current form at 2nd reading, and to insist that no RSE mandate be extended into further education colleges unless it guarantees parents a right to know what is being taught, a right to be consulted, and full transparency over curriculum content for any student still under 18.
 
 **What is happening that we are responding to?**
 
@@ -43,29 +43,33 @@ Relationships and Sex Education (Further Education Sector) Bill (sponsor: Alista
 
 **What is the key point of injustice that is at stake here?**
 
-This Bill would extend Relationships and Sex Education requirements into the further education sector, a setting that includes thousands of 16 and 17 year olds who are still legally minors. Yet the exact detail of what safeguards for parental involvement and consent will apply in FE colleges is not yet confirmed [VERIFY]. Parents whose children move from school into sixth form or college could find themselves shut out of decisions about deeply moral and personal content their own children are taught, simply because the setting has changed from 'school' to 'college'.
+This Bill would push compulsory relationships and sex education into further education colleges, sweeping up thousands of 16 and 17 year olds who are still legally children and still under their parents' care and responsibility. Yet the Bill, as it stands, offers no clear guarantee of parental notification, consultation or consent for these younger students. Parents who have raised, taught and cared for their children have a right to know what worldview is being placed in front of them once they walk through a college gate, not just a school gate.
 
 ## Prepare phase prompts
 
 **What are some arguments supporting our point of view?**
 
-Parents, not the state, bear the primary responsibility for guiding their children's understanding of relationships, sexuality and family life. Sixteen and seventeen year olds in further education are still children in law and still their parents' responsibility. Any legislation extending RSE into FE must therefore carry the same transparency and opt-out safeguards that apply in schools, not weaker ones. Removing or diluting these protections simply because a young person has left secondary school is arbitrary and unjust. Genuine respect for family life means parents are told what is being taught and retain the right to say no.
+- Many further education students are 16 or 17 years old, minors whose parents retain legal and moral responsibility for their upbringing, including their moral and relational education.
+- The right of parents to be informed about, and where appropriate withdraw their child from, contested RSE content should not simply vanish the moment a child moves from school to college.
+- RSE in schools has already proven highly controversial, with concerns [VERIFY specific content of this Bill] about ideologically driven material on gender and relationships being presented as settled fact rather than open for legitimate debate.
+- Extending a compulsory framework without transparency safeguards risks embedding the same problems into a new sector, at a larger scale, with less parental visibility.
+- Family, not the state, is the first and primary educator in matters of relationships, love and sexuality. Legislation should support that role, not sideline it.
 
 **Why is it urgent that we take action now?**
 
-The Bill is currently at 2nd reading in the Commons, with the next key date set for 4 December 2026. Parliamentary interest is already significant, with 59 debate contributions and 2 written questions on this issue in the last six months alone. This shows the Bill has real momentum. If parental safeguards are not secured now, before the Bill progresses further, they may never be written in at all.
+The Bill is currently at 2nd reading in the House of Commons, with the next key parliamentary date set for 4 December 2026. Parliamentary interest is already significant, with 59 debate contributions and 2 written questions logged on this issue in the last six months alone. This is precisely the moment when MPs are forming their views and deciding how to vote. Once a Bill like this progresses further, the opportunity to shape or stop it narrows sharply. Concerned parents and supporters need to speak now, before positions harden.
 
 **Why would they listen to us?**
 
-MPs sponsoring and debating this Bill are still at an early legislative stage, where amendments and safeguards can realistically be added. A strong, visible wave of constituent letters ahead of the next Commons date will show MPs that families are watching closely and that silence on parental rights will not go unnoticed. Sustained public pressure has previously secured opt-out protections in RSE policy for schools, and the same pressure can be brought to bear here.
+MPs are elected representatives who must answer to constituents, especially parents, ahead of votes on Bills that directly affect their children's education. The volume of debate already generated (59 contributions in six months) shows this issue is live and contested within Parliament, meaning MPs are actively weighing arguments and can still be moved. A clear, well-supported public voice from families raises the political cost of ignoring parental concerns and gives sympathetic MPs the evidence they need to press for amendments or opposition.
 
 **Describe a bad outcome if we do not win this campaign:**
 
-Further education colleges begin delivering Relationships and Sex Education to 16 and 17 year old students with no requirement to inform parents of the content, and no right for families to withdraw their child from material they find inappropriate or contrary to their values. Parental authority over their own children's moral formation is quietly erased the moment a young person turns sixteen and enters college, with no debate and no consent.
+If this Bill passes unamended, further education colleges could be required to deliver relationships and sex education to 16 and 17 year old students with no clear duty to inform or consult parents, and no transparency obligation over curriculum content. Parents could find their children taught contested material on relationships, identity and sexuality with no chance to see it, question it, or object beforehand. This would mark a further erosion of the family's proper authority over how children are raised, extending state reach further into adolescence with fewer safeguards than exist in schools.
 
 **Describe a good outcome if we do win this campaign:**
 
-The Bill is amended, or MPs successfully insist, so that any RSE provision extended into further education carries the same transparency and parental opt-out rights that exist in schools. Parents of under-18 FE students retain the right to know what is being taught and to withdraw their child if they judge it necessary. Family authority over moral and relational education is respected regardless of whether a young person is in a school or a college.
+A good outcome sees MPs amend the Bill, or reject it at this stage, so that any RSE requirement in further education is bound by clear parental notification and consultation rights for under-18 students, together with full transparency over what is taught. This would preserve the principle that parents remain the primary authority over their children's moral and relational education right up to adulthood, and would set a precedent resisting further erosion of family rights in future legislation.
 
 **Which sources do you want to include? Please provide the titles plus URLs:**
 
@@ -73,13 +77,13 @@ https://bills.parliament.uk/bills/4171 | https://parl-monitor-partner.vercel.app
 
 **What should the image for this campaign look like?**
 
-A parent and their teenage child sitting together at a kitchen table, the parent's hand resting gently on an open exercise book or laptop, warm domestic lighting, conveying trust and involvement rather than conflict. Avoid classroom or clinical imagery. Tone should be tender and serious, not corporate or clinical, reinforcing that this is about the parent-child bond being protected.
+A protective, warm image of a parent and their teenage son or daughter sitting together looking at a college prospectus or laptop at the kitchen table, with the Houses of Parliament faintly visible through a window in the background. The tone should feel personal and safeguarding rather than political, emphasising the parent-child bond under quiet threat from a distant, impersonal institution.
 
 ## Red Fox Four (scores are the campaigner's call)
 
 | # | Question | Score (-10..+10) | Evidence hint |
 |---|---|---|---|
-| RF#1 | Win or lose, just by fighting this fight, will it bring people or money to our cause? | | Recent supporter response on this topic is in the EOS dashboard, not here. |
+| RF#1 | Win or lose, just by fighting this fight, will it bring people or money to our cause? | | Comparable campaigns on this topic - Justice for Jennifer: Nurse disciplined and could lose job f: 7,159 new / 77,608 sigs (9.2% acquired) | Stop LGBT indoctrination clubs in schools: 4,417 new / 57,029 sigs (7.7% acquired) | End LGBT Indoctrination In GCSE Exams: 3,509 new / 26,400 sigs (13.3% acquired). Topic lifetime: 30 campaigns, 29,357 new members, median acquisition 5.5%. Baseline logged 2026-08-13. |
 | RF#2 | Win or lose, just by fighting this fight, will it help our friends or allies? | | 5CA Commons: 80 with us (++/+), 32 against (-/--). |
 | RF#3 | Win or lose, just by fighting this fight, will it hurt our enemies and their allies? | | Opponent organisations are not tracked by the monitor; campaigner's knowledge. |
 | RF#4/1 | What's the gain for freedom and our values if we win? | | If we win: see 'good outcome' above. Score the value, not the odds. |

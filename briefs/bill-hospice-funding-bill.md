@@ -16,7 +16,7 @@
 | Background / Context | Hospice Funding Bill (sponsor: Mr Paul Foster) is at 2nd reading in the Commons. Next key date: 2026-11-27. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 345 debate contributions, 1 written questions. |
 | Estimated Launch date | [CAMPAIGNER] |
 | Estimated date for Delivering Signatures | Before 2026-11-27 |
-| Ideas for eventual Offline Actions | - Organise a peaceful vigil outside Parliament on or before 27 November 2026 to mark the Bill's progress. - Collect handwritten postcards from families and hospice volunteers describing what good end-of-life care meant to them, and deliver them to MPs' offices. - Ask local churches to hold a prayer vigil or dedicate a Sunday service to the dignity of the dying. - Write letters to local newspapers highlighting hospice funding shortfalls in your area [VERIFY local figures before publishing]. - Invite hospice chaplains or volunteers to speak at community meetings about the difference real palliative care makes. |
+| Ideas for eventual Offline Actions | - Encourage supporters to write directly to their MP ahead of the 2nd reading, asking them to back the Bill and press for guaranteed funding. - Organise prayer vigils or church-based awareness events highlighting the value of hospice and palliative care. - Gather signed postcards or letters at local hospices, churches and community centres to hand to MPs. - Share personal testimonies from families who have experienced hospice care, with consent, to put a human face on the campaign. - Arrange a small delegation to visit a local hospice with the MP to see the funding gap first-hand. |
 | Petitions related TIM project (Targeting Inactive Members) |  |
 
 ## Plan phase prompts
@@ -35,7 +35,7 @@ Individual MPs who could be persuaded ahead of the Bill's next Commons stage
 
 **What are we asking for in the petition?**
 
-Write to your MP now and ask them to back the Hospice Funding Bill at its 2nd reading in the Commons, and to vote for guaranteed, ring-fenced funding for hospices and palliative care across the UK.
+We are asking supporters to write to their MP now, before the Hospice Funding Bill's 2nd reading, urging them to back Paul Foster's Bill and demand it delivers real, sustainable funding for hospices, not empty promises.
 
 **What is happening that we are responding to?**
 
@@ -43,33 +43,32 @@ Hospice Funding Bill (sponsor: Mr Paul Foster) is at 2nd reading in the Commons.
 
 **What is the key point of injustice that is at stake here?**
 
-Dying people deserve real care and dignity, not a postcode lottery. Right now, hospices across Britain are propped up by jumble sales, bake sales and the goodwill of volunteers, while the state refuses to guarantee their funding. When proper end-of-life care is scarce or unreliable, vulnerable people and their families are left with fewer real options. That is the injustice at the heart of this: a failure to properly fund compassionate care leaves the door open for assisted dying to be presented as the only 'solution' to suffering.
+Hospices caring for the dying in their final weeks are left to survive on jumble sales, sponsored walks and the generosity of volunteers, while the state fails to properly fund the care that gives dying people dignity. When good palliative care is starved of resources, the argument for assisted dying grows louder by default, not because death is kinder, but because care has been made scarce. That is the injustice: dying people deserve real care, not a state that quietly makes death cheaper to provide than comfort.
 
 ## Prepare phase prompts
 
 **What are some arguments supporting our point of view?**
 
-- Hospices provide expert pain relief and emotional, spiritual support that helps people live their final days with dignity, not end them prematurely.
-- Secure, guaranteed funding for palliative care is the true compassionate response to suffering, not legalised killing.
-- Every pound invested in hospice care is a pound spent affirming that every life, however fragile, matters to the very end.
-- If our lawmakers are serious about resisting the drift towards assisted suicide, they must first ensure hospices have the resources to offer real, life-affirming alternatives.
-- This Bill, sponsored by Mr Paul Foster, gives MPs a concrete chance to put money behind the principle that dying well means being cared for, not helped to die.
+- Where hospice and palliative care is properly funded and available, evidence and experience consistently show less demand for assisted death, because people are not choosing between suffering and dying, they are being properly cared for.
+- Hospices in the UK rely heavily on charitable fundraising rather than guaranteed state support, an unstable foundation for something as vital as end-of-life care.
+- The debate around death should start with making good care universally available, not with expanding the ways people can be helped to die.
+- A properly funded hospice sector is the practical, compassionate answer to the false choice being offered by assisted dying campaigners: fund care, not death.
 
 **Why is it urgent that we take action now?**
 
-The Hospice Funding Bill is currently at 2nd reading in the House of Commons, with the next key date set for 27 November 2026. MPs are about to decide whether this Bill moves forward. Parliament has already seen intense engagement on this wider issue, with 345 debate contributions in the last six months alone. That means MPs' attention is on this now. If supporters of proper palliative care stay silent while this window is open, the momentum could easily shift towards assisted dying instead of real investment in care for the dying.
+The Hospice Funding Bill is awaiting its 2nd reading in the Commons, with the next key date set for 27 November 2026. Parliamentary attention on end-of-life issues is intense right now, with 345 debate contributions logged in the last six months alone. If supporters of proper hospice care stay silent while that debate is dominated by assisted dying campaigners, the moment to secure real funding could be lost. We need MPs to hear from us before that date, not after.
 
 **Why would they listen to us?**
 
-MPs have shown they are engaged, with 345 debate contributions on this issue in just six months, evidence that this is live territory in Parliament right now. The Bill has already reached 2nd reading under its sponsor, Mr Paul Foster, meaning it has cross-party attention and a real chance of progressing. A strong, visible show of public support at this stage can tip wavering MPs towards backing hospice funding rather than looking past it towards assisted dying as a cheaper alternative.
+MPs are already deeply engaged on end-of-life issues, shown by the scale of recent debate activity in Parliament. A Bill with a named sponsor is now moving through the Commons, giving supporters a live, concrete opportunity to influence its progress before the next stage. A clear, well-organised show of public support for proper hospice funding gives MPs who agree with us the confidence, and the cover, to speak up and vote accordingly.
 
 **Describe a bad outcome if we do not win this campaign:**
 
-If this Bill fails to progress or hospice funding remains inadequate, more hospices will be forced to close wards, cut beds and turn away dying patients. Families will be left without the support they desperately need at the hardest moment of their lives, and the pressure to see assisted suicide as the only 'compassionate' option will grow stronger.
+If this Bill stalls or is watered down, hospices remain underfunded and forced to turn away patients or ration care. Families are left with the impression that dying at home or with dignity depends on luck and charity, not on the state doing its duty. Into that gap, the case for assisted dying grows stronger, framed as compassion when it is really the absence of proper care.
 
 **Describe a good outcome if we do win this campaign:**
 
-If we win, hospices gain guaranteed, reliable funding, meaning every terminally ill person in the UK, whatever their means or postcode, can access genuine palliative care. Dying people are given real dignity and comfort in their final days, not pushed towards ending their lives early because proper care was never made available.
+If this Bill succeeds and hospices receive proper, lasting funding, dying people across the UK gain access to real dignified care in their final days, regardless of their means. Families are supported, not abandoned. And the argument that death is the only compassionate option loses its force, because genuine care is there instead.
 
 **Which sources do you want to include? Please provide the titles plus URLs:**
 
@@ -77,13 +76,13 @@ https://bills.parliament.uk/bills/4178 | https://parl-monitor-partner.vercel.app
 
 **What should the image for this campaign look like?**
 
-A quiet, warmly lit hospice room: an elderly patient resting peacefully, a family member gently holding their hand, a nurse or chaplain nearby. The image should convey calm, dignity and love, not clinical coldness, reinforcing the message that proper care, not assisted death, is the true answer to suffering.
+A gentle, warm-toned photograph of a family member's hand resting over an elderly or terminally ill patient's hand in a softly lit hospice room, conveying comfort, dignity and presence rather than a clinical or sterile hospital setting.
 
 ## Red Fox Four (scores are the campaigner's call)
 
 | # | Question | Score (-10..+10) | Evidence hint |
 |---|---|---|---|
-| RF#1 | Win or lose, just by fighting this fight, will it bring people or money to our cause? | | Recent supporter response on this topic is in the EOS dashboard, not here. |
+| RF#1 | Win or lose, just by fighting this fight, will it bring people or money to our cause? | | Comparable campaigns on this topic - No To Assisted Suicide!: Urge your MP to reject the Bill: 3,502 new / 50,906 sigs (6.9% acquired) | Parliament is being asked to legalise assisted suicide. Agai: 1,659 new / 23,130 sigs (7.2% acquired) | No to Assisted Suicide: Stop the NHS from becoming the Natio: 1,410 new / 31,178 sigs (4.5% acquired). Topic lifetime: 37 campaigns, 7,491 new members, median acquisition 5.1%. Baseline logged 2026-08-13. |
 | RF#2 | Win or lose, just by fighting this fight, will it help our friends or allies? | | 5CA Commons: 299 with us (++/+), 327 against (-/--). |
 | RF#3 | Win or lose, just by fighting this fight, will it hurt our enemies and their allies? | | Opponent organisations are not tracked by the monitor; campaigner's knowledge. |
 | RF#4/1 | What's the gain for freedom and our values if we win? | | If we win: see 'good outcome' above. Score the value, not the odds. |
