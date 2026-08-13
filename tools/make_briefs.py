@@ -598,8 +598,27 @@ def main():
             handle.write(render_markdown(s, fields, rf4_hints, fca_block, timeline,
                                          today.isoformat()))
         write_csv(csv_path, s, fields, rf4_hints, timeline, today)
-        if write_5ca_csv(fca_path, conn, s, cfg):
+        has_5ca = write_5ca_csv(fca_path, conn, s, cfg)
+        if has_5ca:
             print("  5ca:   {0}".format(os.path.basename(fca_path)))
+        # One spreadsheet per brief, Default Brief section then Five Columns
+        # Analysis, mirroring how the team's real Briefs are shaped
+        # (Christopher, 2026-08-13: "they should look like sheets"). This is
+        # the file that goes to Drive for review; the split CSVs stay for
+        # tab-by-tab paste-in.
+        sheet_path = os.path.join(BRIEFS_DIR, s["slug"] + "-sheet.csv")
+        with open(sheet_path, "w", encoding="utf-8", newline="") as handle:
+            w = csv.writer(handle)
+            for src in ([csv_path] + ([fca_path] if has_5ca else [])):
+                with open(src, encoding="utf-8", newline="") as inp:
+                    for r in csv.reader(inp):
+                        # The evidence column is megabytes of dated trails: it
+                        # belongs in the paste-in CSV, not the review sheet.
+                        if len(r) >= 11:
+                            r = r[:8] + ["(evidence in briefs/{0}-5ca.csv)".format(s["slug"])] + r[9:11]
+                        w.writerow(r)
+                w.writerow([])
+        print("  sheet: {0}".format(os.path.basename(sheet_path)))
         approval = {}
         try:
             from src import publish

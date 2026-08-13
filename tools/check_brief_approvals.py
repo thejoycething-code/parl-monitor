@@ -2,19 +2,20 @@
 
     python3 tools/check_brief_approvals.py
 
-Runs in the Monday pipeline. Each generated brief has an Asana approval
-task (EN GB Weekly Meeting agenda project) whose convention is stated in
-the task: complete it with a comment saying APPROVED or REJECTED.
+Runs in the Monday pipeline. Each generated brief has a native Asana
+APPROVAL task (resource_subtype "approval") in the EN GB Weekly Meeting
+agenda project; the verdict is the approval_status set by the Approve /
+Request changes / Reject buttons.
 
-  pending   task not completed yet -> nothing happens
-  approved  completed, latest substantive comment contains "approv"
-            -> status recorded; the brief stays where it is (the normal
-               Asana submission form takes it forward from here)
-  rejected  completed, latest substantive comment contains "reject"
-            -> the brief's files move to briefs/archive/ and the slug is
-               never regenerated (make_briefs refuses --force on it)
-  unclear   completed with no readable verdict -> flagged in the log for
-            a human, nothing destructive happens
+  pending            -> nothing happens
+  approved           -> status recorded; the normal Asana submission form
+                        takes it forward from here
+  rejected           -> files move to briefs/archive/ and the slug is
+                        never regenerated (make_briefs refuses --force)
+  changes_requested  -> flagged for a human conversation; nothing automatic
+
+Legacy fallback: a plain task completed with an APPROVED/REJECTED comment
+still counts (how the loop worked before tasks were approvals).
 
 Archiving moves files, never deletes them.
 """
@@ -43,9 +44,16 @@ def _get(url, pat):
 
 
 def verdict(secrets, gid):
-    """(completed, 'approved'|'rejected'|None) from the task and its stories."""
-    task = _get("https://app.asana.com/api/1.0/tasks/{0}?opt_fields=completed"
+    """(decided, 'approved'|'rejected'|'changes_requested'|None)."""
+    task = _get("https://app.asana.com/api/1.0/tasks/{0}"
+                "?opt_fields=completed,resource_subtype,approval_status"
                 .format(gid), secrets["asana_pat"]).get("data") or {}
+    if task.get("resource_subtype") == "approval":
+        status = task.get("approval_status")
+        if status in ("approved", "rejected", "changes_requested"):
+            return True, status
+        return False, None
+    # legacy comment convention
     if not task.get("completed"):
         return False, None
     stories = _get("https://app.asana.com/api/1.0/tasks/{0}/stories"
@@ -64,7 +72,7 @@ def verdict(secrets, gid):
 def archive(slug):
     os.makedirs(ARCHIVE_DIR, exist_ok=True)
     moved = 0
-    for suffix in (".md", ".csv", "-5ca.csv"):
+    for suffix in (".md", ".csv", "-5ca.csv", "-sheet.csv"):
         src = os.path.join(BRIEFS_DIR, slug + suffix)
         if os.path.exists(src):
             shutil.move(src, os.path.join(ARCHIVE_DIR, slug + suffix))
@@ -98,9 +106,12 @@ def main():
             conn.execute("UPDATE brief_log SET status = 'approved' WHERE slug = ?",
                          (r["slug"],))
             print("  approved: {0}".format(r["slug"]))
+        elif decision == "changes_requested":
+            print("  CHANGES REQUESTED: {0} - waiting on a human conversation, "
+                  "nothing automatic".format(r["slug"]))
         else:
-            print("  {0}: task completed but no APPROVED/REJECTED comment found "
-                  "- leaving pending for a human".format(r["slug"]))
+            print("  {0}: task completed but no readable verdict - leaving "
+                  "pending for a human".format(r["slug"]))
     conn.commit()
     still = conn.execute("SELECT COUNT(*) FROM brief_log WHERE status = 'pending'"
                          ).fetchone()[0]

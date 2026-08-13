@@ -139,13 +139,15 @@ def asana_create_brief_approval(secrets, subject, slug, deadline=None,
              "Subject: {0}\n"
              "Files: briefs/{1}.md (readable), briefs/{1}.csv (Brief tab "
              "paste-in), briefs/{1}-5ca.csv (Five Columns Analysis tab)\n\n"
-             "To decide: complete this task with a comment saying APPROVED "
-             "(take it forward via the normal Asana submission form) or "
-             "REJECTED (the brief is archived and will not be regenerated)."
+             "Use the approval buttons: Approve takes it forward via the "
+             "normal Asana submission form; Reject archives the draft and it "
+             "is never regenerated. 'Request changes' pauses it for a human "
+             "conversation - nothing automatic happens."
              ).format(subject, slug)
     payload = {"data": {
         "name": "Review Campaigns Brief draft: {0}".format(subject[:120]),
         "notes": notes,
+        "resource_subtype": "approval",
         "projects": [BRIEF_APPROVAL_PROJECT],
         "assignee": "cjoyce@citizengo.net",
     }}
