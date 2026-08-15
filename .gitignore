@@ -10,3 +10,5 @@ partner_site/.vercel/
 partner_site/.env.local
 .vercel
 .env*
+# Google service account key: never commit
+config/google-service-account.json

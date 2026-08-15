@@ -161,7 +161,8 @@ def main():
                         ("5ca sheets", ["tools/make_5ca_web.py"]),
                         ("5ca matrix", ["tools/make_5ca_matrix.py"]),
                         ("briefs", ["tools/make_briefs.py"]),
-                        ("brief approvals", ["tools/check_brief_approvals.py"])):
+                        ("brief approvals", ["tools/check_brief_approvals.py"]),
+                        ("brief sheets", ["tools/publish_briefs_to_drive.py"])):
         # Each tool prints its own one-line summary; relay it rather than
         # discarding it. A log that is silent on success cannot be used to
         # tell "ran and rebuilt" from "never ran" -- and an unattended run is

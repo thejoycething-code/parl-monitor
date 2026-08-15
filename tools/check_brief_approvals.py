@@ -69,6 +69,32 @@ def verdict(secrets, gid):
     return True, None
 
 
+def trash_drive_sheet(conn, slug):
+    """Bin the published Sheet too. Trashed, never hard-deleted: a rejected
+    brief is a decision, not a mistake, and Drive's bin keeps it recoverable."""
+    row = conn.execute("SELECT drive_file_id FROM brief_log WHERE slug = ?",
+                       (slug,)).fetchone()
+    if not row or not row["drive_file_id"]:
+        return
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "pbd", os.path.join(ROOT, "tools", "publish_briefs_to_drive.py"))
+        pbd = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(pbd)
+        token, why = pbd.load_credentials()
+        if not token:
+            print("    (sheet left in Drive: {0})".format(why))
+            return
+        pbd.api(token, "https://www.googleapis.com/drive/v3/files/{0}"
+                       .format(row["drive_file_id"]),
+                {"trashed": True}, method="PATCH")
+        print("    drive sheet moved to bin")
+    except Exception as exc:
+        print("    (could not bin the drive sheet: {0})".format(exc))
+
+
 def archive(slug):
     os.makedirs(ARCHIVE_DIR, exist_ok=True)
     moved = 0
@@ -98,6 +124,7 @@ def main():
             continue
         if decision == "rejected":
             moved = archive(r["slug"])
+            trash_drive_sheet(conn, r["slug"])
             conn.execute("UPDATE brief_log SET status = 'rejected' WHERE slug = ?",
                          (r["slug"],))
             print("  REJECTED: {0} - {1} file(s) archived, never regenerated"
