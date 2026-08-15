@@ -172,14 +172,22 @@ def main():
                                   check=True, cwd=ROOT, stdout=subprocess.PIPE,
                                   stderr=subprocess.STDOUT)
             out = (done.stdout or b"").decode("utf-8", "replace").strip().splitlines()
-            head = out[0].strip() if out else "ok (no output)"
+            # Skip library noise: a DeprecationWarning on stderr once masked
+            # the Drive step's real result, which is the whole point of the
+            # relay (2026-08-16).
+            def _noise(line):
+                low = line.lower()
+                return ("warning:" in low or line.startswith((" ", "\t"))
+                        or ".py:" in line.split(" ")[0])
+            speaking = [l for l in out if l.strip() and not _noise(l)]
+            head = speaking[0].strip() if speaking else "ok (no output)"
             if head.lower().startswith(label.lower() + ":"):
                 head = head[len(label) + 1:].strip()
             print("{0}: {1}".format(label, head))
             # Detail lines are mostly tallies and output paths, but the ones
             # naming a caveat (unsigned divisions, missing data) are the whole
             # reason to read the log at all.
-            for line in out[1:]:
+            for line in speaking[1:]:
                 if re.search(r"\bNOT\b|missing|no recorded|gap|stale|gaps", line):
                     print("  {0}".format(line.strip()))
         except Exception as exc:
