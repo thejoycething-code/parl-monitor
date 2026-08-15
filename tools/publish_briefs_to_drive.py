@@ -36,6 +36,7 @@ import json
 import os
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -147,9 +148,51 @@ def read_csv_rows(path):
         return [row for row in csv.reader(handle)]
 
 
-def a1(tab_title):
+def a1(tab_title, cell="A1"):
     """Quote a tab name for an A1 range (tab names contain spaces)."""
-    return "'{0}'!A1".format(tab_title.replace("'", "''"))
+    return "'{0}'!{1}".format(tab_title.replace("'", "''"), cell)
+
+
+def parse_brief_csv(rows):
+    """The generated brief CSV as (header_values, {label: value}, rf4, timeline).
+
+    Values are placed against the TEMPLATE's own labels rather than written
+    as a block from A1: the template merges cells in the Red Fox Four block,
+    so a block write lands a row out and separates each RF number from its
+    question (seen live, 2026-08-15).
+    """
+    header, fields, rf4, timeline = [], {}, {}, []
+    section = None
+    for row in rows:
+        if not row or not row[0]:
+            continue
+        key = row[0].strip()
+        if key == "Campaign Name":
+            section = "header"
+            continue
+        if section == "header" and not header:
+            header = row
+            section = None
+            continue
+        if key.startswith("RF#"):
+            rf4[key] = row[3] if len(row) > 3 else ""
+            continue
+        if key in ("TIMELINE OF MAJOR ACTIONS", "Date"):
+            section = "timeline" if key == "Date" else section
+            continue
+        if key in ("EVALUATE DASHBOARD", "RED FOX FOUR", "PLAN STAGE"):
+            section = None
+            continue
+        if section == "timeline":
+            timeline.append(row[:3])
+            continue
+        if len(row) > 1 and row[1]:
+            fields[key] = row[1]
+    return header, fields, rf4, timeline
+
+
+def norm_label(text):
+    return " ".join((text or "").lower().replace("\u20ac", "").split())[:40]
 
 
 def publish_one(token, slug, subject, dry_run=False):
@@ -197,9 +240,48 @@ def publish_one(token, slug, subject, dry_run=False):
         if not match:
             unmatched.append(keys[0])
             continue
-        width = max(len(r) for r in rows)
-        updates.append({"range": a1(match),
-                        "values": [r + [""] * (width - len(r)) for r in rows]})
+
+        if keys[0] == "aa classical series":
+            # Label-driven: read the template's own rows and write each value
+            # beside its label, never as a block.
+            got = api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}"
+                             "/values/{1}".format(
+                                 file_id, urllib.parse.quote(a1(match, "A1:A80"))))
+            labels = {norm_label(r[0]): i + 1
+                      for i, r in enumerate(got.get("values", [])) if r and r[0]}
+            header, fields, rf4, timeline = parse_brief_csv(rows)
+            if header:
+                updates.append({"range": a1(match, "A2"), "values": [header]})
+            for label, value in fields.items():
+                row_no = labels.get(norm_label(label))
+                if row_no:
+                    updates.append({"range": a1(match, "B{0}".format(row_no)),
+                                    "values": [[value]]})
+                else:
+                    unmatched.append("field: " + label[:38])
+            for code, hint in rf4.items():          # hint belongs in Comments
+                row_no = labels.get(norm_label(code))
+                if row_no:
+                    updates.append({"range": a1(match, "D{0}".format(row_no)),
+                                    "values": [[hint]]})
+            start = labels.get("date")
+            if start and timeline:
+                updates.append({"range": a1(match, "A{0}".format(start + 1)),
+                                "values": [r + [""] * (3 - len(r)) for r in timeline]})
+            filled.append(match)
+            continue
+
+        # 5CA and narrative are tables: write below the template's header row
+        # rather than over it.
+        anchor = 4 if keys[0] == "five column" else 1
+        body = [r for r in rows if r and r[0] not in
+                ("FIVE COLUMNS ANALYSIS (ONLY IF APPROPRIATE)", "PLAN STAGE",
+                 "Decision-Maker", "CAMPAIGN NARRATIVE")]
+        if not body:
+            continue
+        width = max(len(r) for r in body)
+        updates.append({"range": a1(match, "A{0}".format(anchor)),
+                        "values": [r + [""] * (width - len(r)) for r in body]})
         filled.append(match)
     if updates:
         api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}/values"
