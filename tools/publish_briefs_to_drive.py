@@ -195,6 +195,43 @@ def norm_label(text):
     return " ".join((text or "").lower().replace("\u20ac", "").split())[:40]
 
 
+# 5CA columns, zero-based: A Decision-Maker, B # Seats, C-G gradient,
+# H Target, I Comments, J Vote, K Comments.
+COMMENTS_COLS = (8, 10)
+
+
+def polish_5ca(token, file_id, tab_title, sheet_id, last_row):
+    """Clip the Comments columns and carry the row formatting to the bottom.
+
+    Two problems a plain values write leaves behind: the evidence in Comments
+    is long enough to spill across the sheet unless the column clips it, and
+    the template only styles its handful of sample rows, so a 650-member 5CA
+    runs off the end of the banding (Christopher, 2026-08-16).
+    """
+    requests = [{
+        # Take the first data row's formatting and carry it down.
+        "copyPaste": {
+            "source": {"sheetId": sheet_id, "startRowIndex": 3,
+                       "endRowIndex": 4, "startColumnIndex": 0,
+                       "endColumnIndex": 11},
+            "destination": {"sheetId": sheet_id, "startRowIndex": 3,
+                            "endRowIndex": last_row, "startColumnIndex": 0,
+                            "endColumnIndex": 11},
+            "pasteType": "PASTE_FORMAT",
+        }
+    }]
+    for col in COMMENTS_COLS:
+        requests.append({"repeatCell": {
+            "range": {"sheetId": sheet_id, "startRowIndex": 2,
+                      "endRowIndex": last_row, "startColumnIndex": col,
+                      "endColumnIndex": col + 1},
+            "cell": {"userEnteredFormat": {"wrapStrategy": "CLIP"}},
+            "fields": "userEnteredFormat.wrapStrategy",
+        }})
+    api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}:batchUpdate"
+               .format(file_id), {"requests": requests})
+
+
 def publish_one(token, slug, subject, dry_run=False):
     """Copy the template, fill its tabs, share it back. Returns (id, url)."""
     title = "{0} EN GB Brief DRAFT: {1}".format(
@@ -287,6 +324,12 @@ def publish_one(token, slug, subject, dry_run=False):
         api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}/values"
                    ":batchUpdate".format(file_id),
             {"valueInputOption": "RAW", "data": updates})
+
+    fca_tab = next((t for t in tabs if "five column" in t.lower()), None)
+    if fca_tab:
+        rows_written = len(sources.get(("five column", "5ca", "column analysis"), []))
+        polish_5ca(token, file_id, fca_tab, props[fca_tab],
+                   max(rows_written + 4, 12))
 
     # A service account owns what it creates; without this the team cannot
     # edit its own brief.
