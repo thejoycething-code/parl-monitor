@@ -11,7 +11,13 @@ Sheets API gives both.
 
 Auth: a Google service account with the Sheets and Drive APIs enabled, and
 EDITOR access to the target folder only -- no project-level roles, so its
-reach is exactly one folder. The key is read from, in order:
+reach is exactly one folder.
+
+The folder MUST live in a Shared Drive. A service account has no Drive
+storage quota of its own, so creating a file in a My Drive folder fails with
+"The user's Drive storage quota has been exceeded" no matter how much space
+the human owner has (observed 2026-08-15). In a Shared Drive the files are
+owned by the drive, not the account, and the quota question disappears. The key is read from, in order:
   * GOOGLE_SERVICE_ACCOUNT_JSON (env, the whole JSON) -- how CI supplies it
   * config/google-service-account.json (git-ignored) -- how a laptop does
 
@@ -39,8 +45,8 @@ from src import db
 
 BRIEFS_DIR = os.path.join(ROOT, "briefs")
 KEY_PATH = os.path.join(ROOT, "config", "google-service-account.json")
-FOLDER_ID = "17fzLEauzkVhanrIRNZkq09IkKlwFzeL3"          # Automated Briefs
-TEMPLATE_ID = "116QJt2pTnY3YRUaE2sGp3N6rOHHYCBhQY0jmCnSwUlQ"  # styled master
+FOLDER_ID = "0AD06aVPwSAYYUk9PVA"      # Automated Briefs SHARED DRIVE
+TEMPLATE_ID = "1tllzaKWVeCSLKJiqTRaKmzKk3HePcKDij2CTkBbSZSY"  # styled master, in the shared drive
 OWNER_EMAIL = "cjoyce@citizengo.net"
 SCOPES = ["https://www.googleapis.com/auth/drive",
           "https://www.googleapis.com/auth/spreadsheets"]
@@ -50,10 +56,22 @@ SCOPES = ["https://www.googleapis.com/auth/drive",
 # because a template edit that reorders tabs would then silently write the
 # 5CA into the brief.
 TAB_SOURCES = [
-    (("default brief", "brief"), "{slug}.csv"),
+    # The brief itself lives on the template's FIRST tab, named for the email
+    # series it plans ("AA Classical Series" = audience acquisition). Matched
+    # by name with a first-tab fallback, so renaming it does not silently
+    # write the brief nowhere.
+    (("aa classical series", "default brief"), "{slug}.csv"),
     (("five column", "5ca", "column analysis"), "{slug}-5ca.csv"),
-    (("narrative",), "{slug}-narrative.csv"),
+    (("campaign narrative", "narrative"), "{slug}-narrative.csv"),
 ]
+
+# Tabs kept in a generated brief. Everything else in the template is a
+# relaunch or fundraising variant belonging to a later campaign stage, and
+# Christopher asked for the brief plus 5CA and narrative only. "Values" is
+# kept deliberately though unasked: it backs the dropdown validation on the
+# brief tab, and deleting it turns Type of Campaign and Topic into free text.
+KEEP_TAB_HINTS = ("aa classical series", "default brief", "five column",
+                  "campaign narrative", "values")
 
 
 def load_credentials():
@@ -66,16 +84,38 @@ def load_credentials():
         return None, ("no service account key: set GOOGLE_SERVICE_ACCOUNT_JSON "
                       "or place config/google-service-account.json")
     try:
-        from google.oauth2 import service_account
-        import google.auth.transport.requests
+        from google.auth import crypt, jwt
     except ImportError:
         return None, "google-auth is not installed (pip install google-auth)"
     try:
+        # The JWT-bearer flow by hand: google-auth's own transports pull in
+        # requests or urllib3, and the rest of this project speaks urllib.
+        # Signing is the only part that genuinely needs a crypto library.
+        import time
+        import urllib.parse
         info = json.loads(raw)
-        creds = service_account.Credentials.from_service_account_info(
-            info, scopes=SCOPES)
-        creds.refresh(google.auth.transport.requests.Request())
-        return creds.token, None
+        now = int(time.time())
+        signer = crypt.RSASigner.from_service_account_info(info)
+        assertion = jwt.encode(signer, {
+            "iss": info["client_email"], "scope": " ".join(SCOPES),
+            "aud": info["token_uri"], "iat": now, "exp": now + 3600,
+        })
+        body = urllib.parse.urlencode({
+            "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+            "assertion": assertion.decode() if isinstance(assertion, bytes) else assertion,
+        }).encode()
+        request = urllib.request.Request(
+            info["token_uri"], data=body,
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.loads(response.read().decode())["access_token"], None
+    except urllib.error.HTTPError as exc:
+        detail = ""
+        try:
+            detail = exc.read().decode()[:300]
+        except Exception:
+            pass
+        return None, "token request failed: HTTP {0} {1}".format(exc.code, detail)
     except Exception as exc:
         return None, "could not authenticate: {0}".format(exc)
 
@@ -136,10 +176,24 @@ def publish_one(token, slug, subject, dry_run=False):
                       "?fields=sheets.properties".format(file_id))
     tabs = [s["properties"]["title"] for s in meta.get("sheets", [])]
 
+    # Drop the relaunch/fundraising variants: a new brief needs the brief,
+    # the 5CA and the narrative, nothing else.
+    props = {s["properties"]["title"]: s["properties"]["sheetId"]
+             for s in meta.get("sheets", [])}
+    doomed = [sid for title, sid in props.items()
+              if not any(h in title.lower() for h in KEEP_TAB_HINTS)]
+    if doomed:
+        api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}"
+                   ":batchUpdate".format(file_id),
+            {"requests": [{"deleteSheet": {"sheetId": sid}} for sid in doomed]})
+        tabs = [t for t in tabs if props[t] not in doomed]
+
     updates, filled, unmatched = [], [], []
     for keys, rows in sources.items():
         match = next((t for t in tabs
                       if any(k in t.lower() for k in keys)), None)
+        if not match and keys[0] == "aa classical series" and tabs:
+            match = tabs[0]  # the brief tab, whatever it has been renamed to
         if not match:
             unmatched.append(keys[0])
             continue
@@ -155,7 +209,7 @@ def publish_one(token, slug, subject, dry_run=False):
     # A service account owns what it creates; without this the team cannot
     # edit its own brief.
     api(token, "https://www.googleapis.com/drive/v3/files/{0}/permissions"
-               "?sendNotificationEmail=false".format(file_id),
+               "?sendNotificationEmail=false&supportsAllDrives=true".format(file_id),
         {"type": "user", "role": "writer", "emailAddress": OWNER_EMAIL})
 
     url = "https://docs.google.com/spreadsheets/d/{0}/edit".format(file_id)
