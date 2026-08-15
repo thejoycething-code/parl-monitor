@@ -92,7 +92,34 @@ EVALUATE_ROWS = [
     "do better in future campaigns?",
     "Which specific conclusions can you draw analyzing data of this campaign?",
     "Top 3 Sources of New Members (by channel & % of total)",
-    "Social Media Strategy in One Line", "Other comments", "Moving forward",
+    "Social Media Strategy in One Line",
+    "Top 5 signature sources (% each) and Top 5 new list member sources (% each)",
+    "Paid vs. Organic: spend, signups, cost per paid signup, and most efficient "
+    "channel",
+    "Best-performing post: link + why it worked + one transferable learning",
+    "Political impact: how social media was used to increase pressure or "
+    "influence decision-makers?",
+    "Other comments", "Moving forward",
+]
+
+# The Campaign Narrative tab. The Cheat Sheet is explicit that "a standardized
+# format for it hasn't been established yet" and that it is used when a
+# campaign goes to an Evaluation Meeting, so this is a scaffold carrying the
+# guidance, never auto-filled prose.
+NARRATIVE_SCAFFOLD = [
+    ["CAMPAIGN NARRATIVE"],
+    ["Used when a campaign is selected for an Evaluation Meeting, or whenever "
+     "the campaigner wants the fuller story on record. Compile in "
+     "chronological order and in low-context communication: the reader will "
+     "know far less than you, possibly years later."],
+    [],
+    ["Date", "What happened / what we decided", "Why, and what it changed"],
+    ["", "", ""], ["", "", ""], ["", "", ""], ["", "", ""], ["", "", ""],
+    [],
+    ["Prompts (delete what does not apply): campaign actions online and "
+     "offline; decisions made and their rationale; data analysis; reports on "
+     "offline activities; breaking news that changed the scenario; reactions "
+     "by stakeholders; the campaign's outcome."],
 ]
 
 DRAFT_SYSTEM = """You draft Campaigns Brief narrative fields for CitizenGO UK,
@@ -538,13 +565,13 @@ def main():
             ("Who will sign the emails for this petition?", "Christopher Joyce"),
             ("Who is the petition addressed to?", addressed_to(s)),
             field("ask", "What are we asking for in the petition?"),
+            field("listen", "Why would they listen to us?"),
             ("What is happening that we are responding to?", bg),
             field("injustice", "What is the key point of injustice that is at stake here?"),
         ]
         prepare = [
             field("arguments", "What are some arguments supporting our point of view?"),
             field("urgency", "Why is it urgent that we take action now?"),
-            field("listen", "Why would they listen to us?"),
             field("bad_outcome", "Describe a bad outcome if we do not win this campaign:"),
             field("good_outcome", "Describe a good outcome if we do win this campaign:"),
             ("Which sources do you want to include? Please provide the titles plus URLs:",
@@ -606,6 +633,9 @@ def main():
         # (Christopher, 2026-08-13: "they should look like sheets"). This is
         # the file that goes to Drive for review; the split CSVs stay for
         # tab-by-tab paste-in.
+        narr_path = os.path.join(BRIEFS_DIR, s["slug"] + "-narrative.csv")
+        with open(narr_path, "w", encoding="utf-8", newline="") as handle:
+            csv.writer(handle).writerows(NARRATIVE_SCAFFOLD)
         sheet_path = os.path.join(BRIEFS_DIR, s["slug"] + "-sheet.csv")
         with open(sheet_path, "w", encoding="utf-8", newline="") as handle:
             w = csv.writer(handle)
@@ -618,6 +648,12 @@ def main():
                             r = r[:8] + ["(evidence in briefs/{0}-5ca.csv)".format(s["slug"])] + r[9:11]
                         w.writerow(r)
                 w.writerow([])
+            # Only three tabs are reproduced: Default Brief, Five Column
+            # Analysis and Campaign Narrative (Christopher, 2026-08-14). The
+            # template's relaunch tabs belong to later relaunches, not to a
+            # new brief.
+            for row in NARRATIVE_SCAFFOLD:
+                w.writerow(row)
         print("  sheet: {0}".format(os.path.basename(sheet_path)))
         approval = {}
         try:

@@ -72,7 +72,7 @@ def verdict(secrets, gid):
 def archive(slug):
     os.makedirs(ARCHIVE_DIR, exist_ok=True)
     moved = 0
-    for suffix in (".md", ".csv", "-5ca.csv", "-sheet.csv"):
+    for suffix in (".md", ".csv", "-5ca.csv", "-sheet.csv", "-narrative.csv"):
         src = os.path.join(BRIEFS_DIR, slug + suffix)
         if os.path.exists(src):
             shutil.move(src, os.path.join(ARCHIVE_DIR, slug + suffix))
