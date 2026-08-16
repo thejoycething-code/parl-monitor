@@ -47,7 +47,15 @@ pq_sweep_terms:
   # historic-vocabulary terms (v0.4): serve the 2020+ backfill; low weekly volume
   - Tavistock
   - Rwanda
-  - Online Safety Bill
+  # Online safety, retuned 2026-08-17. "Online Safety Bill" (spaced) returned
+  # 105,581 matches led by a DWP pay question; every hyphenated form of the
+  # Act or Bill name answers HTTP 500, so the legislation cannot be searched
+  # by name at all. Covered instead by the regulator and the mechanisms,
+  # which is where the questions actually are. Measured since 1 June: Ofcom
+  # 179, age-verification 13, internet-safety live in July.
+  - Ofcom                  # 3,874; newest "Internet: Age Assurance"
+  - age-verification       # 248
+  - internet-safety        # 495; newest "Internet: Safety", July
   - buffer zones
   - Nationality and Borders
 
