@@ -114,3 +114,35 @@ class AsanaPublishTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SlackDmTests(unittest.TestCase):
+    """DM delivery for the weekly UN calls."""
+
+    def test_posts_straight_to_the_user_id(self):
+        calls = []
+
+        def transport(url, payload, headers):
+            calls.append((url, payload))
+            return {"ok": True, "ts": "1.2"}
+
+        result = publish.slack_dm(
+            {"slack_bot_token": "xoxb-x", "slack_dm_user_id": "U123"},
+            "hello", transport=transport)
+        self.assertEqual(result["message_ts"], "1.2")
+        # One call, not two: conversations.open needs im:write, which this
+        # app does not have (measured 2026-08-17).
+        self.assertEqual(len(calls), 1)
+        self.assertIn("chat.postMessage", calls[0][0])
+        self.assertEqual(calls[0][1]["channel"], "U123")
+
+    def test_missing_recipient_is_skipped_not_raised(self):
+        result = publish.slack_dm({"slack_bot_token": "xoxb-x"}, "hello",
+                                  transport=lambda *a: {"ok": True})
+        self.assertIn("skipped", result)
+
+    def test_error_names_the_scope_fix(self):
+        result = publish.slack_dm(
+            {"slack_bot_token": "x", "slack_dm_user_id": "U1"}, "hi",
+            transport=lambda *a: {"ok": False, "error": "channel_not_found"})
+        self.assertIn("im:write", result["error"])

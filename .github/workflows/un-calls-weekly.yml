@@ -1,0 +1,52 @@
+name: UN calls weekly
+
+on:
+  schedule:
+    # 07:00 UTC Thursday. Weekly, unlike the monthly UPR harvest, because
+    # these carry deadlines: a fortnight's silence can be the difference
+    # between making a submission and reading about one. Thursday keeps it
+    # clear of the Sunday pull and Monday publish, which share the
+    # parl-monitor-state concurrency group.
+    - cron: "0 7 * * 4"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print the message instead of sending the DM"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  calls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Write secrets file
+        run: |
+          cat > config/secrets.yaml <<EOF
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_channel_id: C9RH217PZ
+          slack_team_id: T066M0LAJ
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: Post the week's open calls
+        # No commit step: this reads a live page and sends a message. It
+        # stores nothing, so there is no state to push and nothing to make
+        # idempotent -- a duplicate run costs one duplicate DM, not a
+        # corrupted store.
+        env:
+          NO_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '1' || '0' }}
+        run: |
+          if [ "$NO_PUBLISH" = "1" ]; then
+            python3 tools/post_un_calls.py --dry-run
+          else
+            python3 tools/post_un_calls.py
+          fi

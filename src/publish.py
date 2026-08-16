@@ -120,6 +120,36 @@ def slack_publish_canvas(secrets, title, canvas_markdown, summary_mrkdwn,
     return {"canvas_id": canvas_id, "canvas_url": canvas_url, "message_ts": message.get("ts")}
 
 
+def slack_dm(secrets, text, transport=None):
+    """Direct message the configured recipient.
+
+    Posts straight to the user id. chat.postMessage accepts one as `channel`
+    where a DM conversation already exists, and ours does. The tidier
+    conversations.open route is NOT used because this app lacks the im:write
+    scope for it (missing_scope, measured 2026-08-17); if the DM is ever
+    deleted and this starts failing with channel_not_found, adding im:write
+    to the Slack app is the fix, not a code change.
+
+    Recipient is slack_dm_user_id in secrets.yaml. A missing one reports
+    itself skipped rather than raising, as everything else here does: a
+    scheduled job must still do its work and disclose what it could not send.
+    """
+    token = secrets.get("slack_bot_token")
+    user = secrets.get("slack_dm_user_id")
+    if not token or not user:
+        return {"skipped": "slack_bot_token/slack_dm_user_id missing from config/secrets.yaml"}
+    transport = transport or _post_json
+    auth = {"Authorization": "Bearer {0}".format(token)}
+
+    message = transport("https://slack.com/api/chat.postMessage", {
+        "channel": user, "text": text, "unfurl_links": False,
+    }, auth)
+    if not message.get("ok"):
+        return {"error": "chat.postMessage failed: {0} (channel_not_found here "
+                         "means the DM needs the im:write scope)".format(message.get("error"))}
+    return {"channel": user, "message_ts": message.get("ts")}
+
+
 # -- Asana --------------------------------------------------------------------
 
 BRIEF_APPROVAL_PROJECT = "1211423235936092"  # EN GB Weekly Meeting agenda
