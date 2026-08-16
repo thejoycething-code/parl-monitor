@@ -2,16 +2,16 @@
 
 Universal Periodic Review recommendations touching our issues, all areas. Source: UPR Info. "Noted" is the diplomatic form of refusal and is counted as such.
 
-2317 recommendations, 190 states reviewed, 137 states recommending.
+2331 recommendations, 190 states reviewed, 137 states recommending.
 
 ### By state under review — who was asked, and who agreed
 
 | State | Recommendations | Supported | Refused | Refusal rate |
 |---|---:|---:|---:|---:|
 | Pakistan | 50 | 21 | 29 | 58% |
-| Korea, Republic of | 36 | 11 | 25 | 69% |
+| Korea, Republic of | 37 | 11 | 26 | 70% |
 | Türkiye | 36 | 18 | 18 | 50% |
-| Indonesia | 35 | 22 | 13 | 37% |
+| Indonesia | 36 | 23 | 13 | 36% |
 | Myanmar | 33 | 7 | 26 | 79% |
 | Germany | 33 | 27 | 6 | 18% |
 | China | 31 | 16 | 15 | 48% |
@@ -33,12 +33,13 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Uganda | 21 | 0 | 21 | 100% |
 | Malawi | 21 | 6 | 15 | 71% |
 | Mexico | 21 | 21 | 0 | 0% |
+| Ghana | 20 | 1 | 19 | 95% |
 | Peru | 20 | 15 | 5 | 25% |
 | Cameroon | 19 | 8 | 11 | 58% |
 | United Kingdom of Great Britain and Northern Ireland | 19 | 12 | 7 | 37% |
 | Russian Federation | 19 | 13 | 6 | 32% |
-| Ghana | 18 | 1 | 17 | 94% |
 | Hungary | 18 | 6 | 12 | 67% |
+| Latvia | 18 | 10 | 8 | 44% |
 | Netherlands, Kingdom of the | 18 | 12 | 6 | 33% |
 | Luxembourg | 18 | 15 | 3 | 17% |
 | Viet Nam | 18 | 16 | 2 | 11% |
@@ -49,7 +50,6 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Dominican Republic | 17 | 16 | 1 | 6% |
 | Moldova, Republic of | 17 | 16 | 1 | 6% |
 | Nigeria | 16 | 8 | 8 | 50% |
-| Latvia | 16 | 9 | 7 | 44% |
 | Bolivia, Plurinational State of | 16 | 10 | 6 | 38% |
 | Austria | 16 | 14 | 2 | 12% |
 | Slovakia | 16 | 14 | 2 | 12% |
@@ -107,6 +107,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Saint Kitts and Nevis | 10 | 1 | 9 | 90% |
 | Tajikistan | 10 | 2 | 8 | 80% |
 | Togo | 10 | 4 | 6 | 60% |
+| Namibia | 10 | 6 | 4 | 40% |
 | Guinea-Bissau | 10 | 8 | 2 | 20% |
 | Brazil | 10 | 10 | 0 | 0% |
 | Montenegro | 10 | 10 | 0 | 0% |
@@ -130,9 +131,9 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Uruguay | 9 | 9 | 0 | 0% |
 | Afghanistan | 9 | 9 | 0 | 0% |
 | Dominica | 8 | 0 | 8 | 100% |
+| Azerbaijan | 8 | 1 | 7 | 88% |
 | Antigua and Barbuda | 8 | 1 | 7 | 88% |
 | Belarus | 8 | 2 | 6 | 75% |
-| Namibia | 8 | 4 | 4 | 50% |
 | Nepal | 8 | 6 | 2 | 25% |
 | Mali | 8 | 7 | 1 | 12% |
 | Guinea | 8 | 7 | 1 | 12% |
@@ -140,13 +141,15 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | San Marino | 7 | 0 | 7 | 100% |
 | Vanuatu | 7 | 0 | 7 | 100% |
 | Grenada | 7 | 1 | 6 | 86% |
-| Azerbaijan | 7 | 1 | 6 | 86% |
 | Tonga | 7 | 1 | 6 | 86% |
 | Monaco | 7 | 1 | 6 | 86% |
 | Qatar | 7 | 2 | 5 | 71% |
+| Benin | 7 | 3 | 4 | 57% |
+| Tuvalu | 7 | 3 | 4 | 57% |
 | Burundi | 7 | 3 | 4 | 57% |
 | Ethiopia | 7 | 3 | 4 | 57% |
 | Lesotho | 7 | 4 | 3 | 43% |
+| Morocco | 7 | 4 | 3 | 43% |
 | Comoros | 7 | 4 | 3 | 43% |
 | Bosnia and Herzegovina
  | 7 | 5 | 2 | 29% |
@@ -160,9 +163,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Tanzania, United Republic of | 6 | 1 | 5 | 83% |
 | Sierra Leone | 6 | 2 | 4 | 67% |
 | Madagascar | 6 | 3 | 3 | 50% |
-| Benin | 6 | 3 | 3 | 50% |
-| Tuvalu | 6 | 3 | 3 | 50% |
-| Morocco | 6 | 4 | 2 | 33% |
+| Timor-Leste | 6 | 3 | 3 | 50% |
 | South Africa | 6 | 5 | 1 | 17% |
 | Libya | 6 | 5 | 1 | 17% |
 | Thailand | 6 | 5 | 1 | 17% |
@@ -173,7 +174,6 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | United Arab Emirates | 5 | 1 | 4 | 80% |
 | Kuwait | 5 | 1 | 4 | 80% |
 | Singapore | 5 | 1 | 4 | 80% |
-| Timor-Leste | 5 | 2 | 3 | 60% |
 | Republic of Congo | 5 | 2 | 3 | 60% |
 | Samoa | 5 | 2 | 3 | 60% |
 | Cape Verde | 5 | 3 | 2 | 40% |
@@ -186,13 +186,13 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Palau | 3 | 0 | 3 | 100% |
 | Sao Tome & Principe | 3 | 2 | 1 | 33% |
 | Venezuela, Bolivarian Republic of | 3 | 2 | 1 | 33% |
+| Somalia | 3 | 2 | 1 | 33% |
 | Iceland | 3 | 2 | 1 | 33% |
 | Equatorial Guinea | 3 | 2 | 1 | 33% |
 | Korea, Democratic People's Republic of | 2 | 0 | 2 | 100% |
 | Papua New Guinea | 2 | 0 | 2 | 100% |
 | Niger | 2 | 1 | 1 | 50% |
 | Micronesia, Federated States of | 2 | 1 | 1 | 50% |
-| Somalia | 2 | 2 | 0 | 0% |
 | Cambodia | 2 | 2 | 0 | 0% |
 | Nauru | 2 | 2 | 0 | 0% |
 | Congo, Democratic Republic of the | 1 | 0 | 1 | 100% |
@@ -206,19 +206,19 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | State | Recommendations | Supported | Refused | Refusal rate |
 |---|---:|---:|---:|---:|
 | Iceland | 128 | 59 | 69 | 54% |
-| France | 110 | 54 | 56 | 51% |
-| Canada | 102 | 53 | 49 | 48% |
+| France | 112 | 54 | 58 | 52% |
+| Canada | 103 | 53 | 50 | 49% |
 | Italy | 93 | 58 | 35 | 38% |
 | Mexico | 85 | 44 | 41 | 48% |
+| Australia | 85 | 47 | 38 | 45% |
 | United States of America | 83 | 29 | 54 | 65% |
-| Australia | 83 | 45 | 38 | 46% |
-| Argentina | 80 | 40 | 40 | 50% |
+| Argentina | 81 | 41 | 40 | 49% |
 | Netherlands, Kingdom of the | 79 | 35 | 44 | 56% |
 | Spain | 76 | 29 | 47 | 62% |
-| Uruguay | 67 | 34 | 33 | 49% |
+| Uruguay | 68 | 34 | 34 | 50% |
 | Norway | 58 | 28 | 30 | 52% |
 | Germany | 55 | 27 | 28 | 51% |
-| Chile | 51 | 25 | 26 | 51% |
+| Chile | 52 | 25 | 27 | 52% |
 | Brazil | 46 | 25 | 21 | 46% |
 | Ireland | 44 | 23 | 21 | 48% |
 | Slovenia | 41 | 16 | 25 | 61% |
@@ -236,12 +236,13 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Holy See | 21 | 13 | 8 | 38% |
 | Iran, Islamic Republic of | 21 | 16 | 5 | 24% |
 | Poland | 20 | 17 | 3 | 15% |
+| Switzerland | 19 | 7 | 12 | 63% |
 | Honduras | 19 | 9 | 10 | 53% |
 | Slovakia | 19 | 12 | 7 | 37% |
-| Switzerland | 18 | 7 | 11 | 61% |
+| Costa Rica | 18 | 12 | 6 | 33% |
 | Finland | 18 | 13 | 5 | 28% |
 | Greece | 17 | 12 | 5 | 29% |
-| Costa Rica | 17 | 12 | 5 | 29% |
+| Colombia | 16 | 8 | 8 | 50% |
 | Estonia | 15 | 8 | 7 | 47% |
 | Türkiye | 15 | 10 | 5 | 33% |
 | Thailand | 15 | 11 | 4 | 27% |
@@ -249,7 +250,6 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Egypt | 15 | 12 | 3 | 20% |
 | Pakistan | 15 | 12 | 3 | 20% |
 | Namibia | 15 | 13 | 2 | 13% |
-| Colombia | 14 | 8 | 6 | 43% |
 | Ecuador | 14 | 11 | 3 | 21% |
 | Venezuela, Bolivarian Republic of | 14 | 13 | 1 | 7% |
 | South Africa | 12 | 6 | 6 | 50% |
@@ -261,6 +261,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Croatia | 10 | 4 | 6 | 60% |
 | Indonesia | 10 | 8 | 2 | 20% |
 | United Arab Emirates | 10 | 10 | 0 | 0% |
+| Dominican Republic | 9 | 3 | 6 | 67% |
 | Bahrain | 9 | 6 | 3 | 33% |
 | Ukraine | 9 | 9 | 0 | 0% |
 | Bangladesh | 9 | 9 | 0 | 0% |
@@ -268,7 +269,6 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Russian Federation | 8 | 3 | 5 | 62% |
 | Afghanistan | 8 | 6 | 2 | 25% |
 | Myanmar | 8 | 7 | 1 | 12% |
-| Dominican Republic | 7 | 1 | 6 | 86% |
 | Iraq | 7 | 6 | 1 | 14% |
 | Maldives | 7 | 7 | 0 | 0% |
 | Lithuania | 6 | 2 | 4 | 67% |
@@ -360,6 +360,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 - **Azerbaijan** declined Argentina's recommendation (Noted): "Take the necessary measures to combat acts of violence and discrimination, such as stigmatization, against persons pertaining to the lesbian, gay, bisexual, transgender and intersex community, and enc" [source](https://upr-info-database.uwazi.io/entity/aemib4d00wv)
 - **Azerbaijan** declined Canada's recommendation (Noted): "Ensure that lesbian, gay, bisexual, transgender and intersex people are protected against all forms of discrimination and violence in both law and practice" [source](https://upr-info-database.uwazi.io/entity/7id3yklcdbf)
 - **Azerbaijan** declined Iceland's recommendation (Noted): "Introduce a transparent self-identification process for legal gender recognition, free from medical or diagnostic requirements" [source](https://upr-info-database.uwazi.io/entity/1milmjvihxi)
+- **Azerbaijan** declined France's recommendation (Noted): "Ensure the rights and freedoms of lesbian, gay, bisexual, transgender and intersex persons against all forms of discrimination and violence" [source](https://upr-info-database.uwazi.io/entity/4j8c20vgyre)
 - **Bahamas** declined Iceland's recommendation (Noted): "Decriminalize abortion and legalize it in cases of rape, incest and foetal impairment" [source](https://upr-info-database.uwazi.io/entity/tg3cxnrbra)
 - **Bahamas** declined Indonesia's recommendation (Noted): "Continue enhancing the protection of the rights of the child, in particular to ensure every child’s right to nationality and citizenship" [source](https://upr-info-database.uwazi.io/entity/tcanxtbqpej)
 - **Bahamas** declined France's recommendation (Noted): "Fight discrimination against lesbian, gay, bisexual, transgender and intersex persons" [source](https://upr-info-database.uwazi.io/entity/fdan98m6zy6)
@@ -385,6 +386,5 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 - **Barbados** declined France's recommendation (Noted): "Decriminalize same-sex relationships and combat discrimination against lesbian, gay, bisexual, transgender and intersex persons" [source](https://upr-info-database.uwazi.io/entity/rqgpc971r5)
 - **Barbados** declined Uruguay's recommendation (Noted): "Include lesbian, gay, bisexual, transgender and intersex persons in new legislation to prohibit any type of discrimination or violence based on sexual orientation or gender identity" [source](https://upr-info-database.uwazi.io/entity/cufttjx9wk)
 - **Barbados** declined Timor-Leste's recommendation (Noted): "Engage in public education and sensitization campaigns about the rights of lesbian, gay, bisexual and transgender persons" [source](https://upr-info-database.uwazi.io/entity/9323pp35kc9)
-- **Barbados** declined Australia's recommendation (Noted): "Amend its criminal code to decriminalize consensual same-sex acts, and to take steps to implement legislative and public policy measures to protect the rights of lesbian, gay, bisexual, transgender an" [source](https://upr-info-database.uwazi.io/entity/arodqkka4b)
 
-_...and 964 more._
+_...and 973 more._

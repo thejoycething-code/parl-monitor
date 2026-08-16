@@ -74,13 +74,18 @@ upr_search_terms:
   - '"gender-affirming"'                    # 17
   - '"gender reassignment"'                 # 14
   - '"change of gender"'                    # 4
+  - '"intersex"'                            # 1,032 (Christopher, 2026-08-17)
 #
 # Rejected as too broad to be worth the fetch, with the numbers so nobody
 # re-adds them blind: "reproductive rights" (1,182, largely restating the
 # abortion terms), "gender identity" (4,330) and "sexual orientation and
 # gender identity" (4,277 -- barely narrower than the bare term).
-# "intersex" (1,032) is precise but a different subject; add it deliberately
-# if that becomes an area, not as SOGI coverage.
+# "intersex" was initially left out as a distinct subject; added on request
+# 2026-08-17. Two things the harvest then showed, both against expectation:
+# its rows map overwhelmingly to area 5 (750 of 751), not to area 3 as
+# guessed; and it added only 14 recommendations the store did not already
+# hold, because "transgender" had captured the rest. Kept for the explicit
+# coverage, but read as ~98% overlap rather than as a new seam.
 # "gender ideology" returns ZERO. It is our vocabulary and the sector's, not
 # the UN's, and searching for it would have looked like an issue nobody
 # raises. Search what the source says, not what we say about it.
