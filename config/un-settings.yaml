@@ -113,37 +113,12 @@ upr_search_terms:
 upr_page_size: 100
 upr_max_pages: 40        # 4,000 per term; every term above fits except religion
 
-# Flag terms for OHCHR calls for input. A SEPARATE list from taxonomy.yaml,
-# for a measured reason: run against the 15 open calls on 2026-08-17, the
-# parliamentary taxonomy matched ZERO -- including "Child rights and safety
-# digital environment" and "International solidarity and faith-based and
-# humanist organisations", both plainly ours. The taxonomy works well on UPR
-# recommendation TEXT, which uses our vocabulary; it fails on UN thematic
-# TITLES, which do not. Different surface, different word list.
-# Deliberately generous: there are only ever ~15 open calls, this marks rather
-# than filters, and a missed call is a closed door nobody saw.
-un_flag_terms:
-  - child
-  - children
-  - digital environment
-  - online
-  - religion
-  - religious
-  - belief
-  - faith
-  - conscience
-  - conscientious
-  - family
-  - families
-  - parent
-  - women
-  - girls
-  - sexual
-  - reproductive
-  - abortion
-  - education
-  - marriage
-  - gender
-  - trafficking
-  - surrogacy
-  - life
+# un_flag_terms was retired 2026-08-17, one afternoon after being written.
+# It was 24 crude words matched against titles, and it could never say WHICH
+# area a call touched. config/un-taxonomy.yaml replaces it: the same eleven
+# areas in the UN's own vocabulary, read by src/filter.py like any taxonomy,
+# so a match carries an area number and can use guarded terms.
+# The one thing the word list caught that the taxonomy does not is the
+# "violence against women and girls" country visit, via the bare word
+# "women". That is arguably the right outcome: VAWG is not one of the eleven
+# areas, and a match that cannot name an area is a hunch, not a flag.

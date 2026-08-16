@@ -25,26 +25,27 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-import yaml
-
+from src import filter as filt
 from src.http import FetchError, HttpClient
 from src.ingest import ohchr_calls
 
-
-def flag_terms():
-    with open(os.path.join(ROOT, "config", "un-settings.yaml"), encoding="utf-8") as fh:
-        return [t.lower() for t in (yaml.safe_load(fh) or {}).get("un_flag_terms") or []]
+UN_TAXONOMY = os.path.join(ROOT, "config", "un-taxonomy.yaml")
+WATCHLIST = os.path.join(ROOT, "config", "watchlist.yaml")
 
 
-def matches(call, terms):
-    """Flag terms found in the title, issuing body or URL slug.
+def load_un_filter():
+    """The UN taxonomy, not the parliamentary one.
 
-    Not the parliamentary taxonomy: run against the live listing it matched
-    none of fifteen calls, including two that were plainly ours. It reads
-    British legislative vocabulary, and these are UN thematic titles.
+    taxonomy.yaml matched ZERO of the fifteen calls open on 2026-08-17: it
+    encodes British legislative vocabulary and these are UN thematic titles.
+    un-taxonomy.yaml carries the same eleven areas in the UN's words, so a
+    match also says WHICH area, which a flat word list never could.
     """
-    haystack = " ".join((call.title, call.body, call.url)).lower()
-    return [t for t in terms if t in haystack]
+    return filt.load_taxonomy(UN_TAXONOMY), filt.load_watchlist(WATCHLIST)
+
+
+def areas_for(call, tax, wl):
+    return filt.filter_item(tax, wl, ohchr_calls.match_text(call)).issue_areas
 
 
 def main():
@@ -54,7 +55,7 @@ def main():
     ours_only = "--ours" in sys.argv
 
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
-    terms = flag_terms()
+    tax, wl = load_un_filter()
 
     try:
         calls = ohchr_calls.fetch_calls(client)
@@ -75,14 +76,14 @@ def main():
     print("{0} call(s) open{1}, of {2} listed\n".format(
         len(live), " within {0} days".format(days) if days else "", len(calls)))
     for call in live:
-        hits = matches(call, terms)
+        hits = areas_for(call, tax, wl)
         ours = bool(hits)
         if ours:
             flagged += 1
         elif ours_only:
             continue
         mark = "OURS" if ours else "    "
-        areas = ("  <- " + ", ".join(hits[:4])) if ours else ""
+        areas = ("  areas " + ", ".join(str(a) for a in hits)) if ours else ""
         print("{0}  {1}  {2:>4}d  {3}{4}".format(
             mark, call.deadline, call.days_left, call.title[:64], areas))
         print("        {0} | {1}".format(call.body[:44], call.url))

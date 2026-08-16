@@ -27,13 +27,13 @@ from src.http import FetchError, HttpClient
 from src.ingest import ohchr_calls
 
 sys.path.insert(0, os.path.join(ROOT, "tools"))
-from pull_un_calls import flag_terms, matches  # noqa: E402
+from pull_un_calls import areas_for, load_un_filter  # noqa: E402
 
 URGENT_DAYS = 21
 
 
-def build_message(calls, terms):
-    ours = [(c, matches(c, terms)) for c in calls]
+def build_message(calls, tax, wl):
+    ours = [(c, areas_for(c, tax, wl)) for c in calls]
     flagged = [(c, h) for c, h in ours if h]
     urgent = [c for c in calls if c.days_left <= URGENT_DAYS]
 
@@ -47,7 +47,8 @@ def build_message(calls, terms):
         for call, hits in flagged:
             lines.append("• *{0}* — closes {1} (_{2} days_)".format(
                 call.title, call.deadline.strftime("%d %B %Y"), call.days_left))
-            lines.append("   {0} · matched: {1}".format(call.body, ", ".join(hits[:4])))
+            lines.append("   {0} · areas {1}".format(
+                call.body, ", ".join(str(a) for a in hits)))
             lines.append("   {0}".format(call.url))
         lines.append("")
 
@@ -83,7 +84,8 @@ def main():
         return 1
 
     live = ohchr_calls.open_calls(calls)
-    text = build_message(live, flag_terms())
+    tax, wl = load_un_filter()
+    text = build_message(live, tax, wl)
     if dry_run:
         print(text)
         return 0

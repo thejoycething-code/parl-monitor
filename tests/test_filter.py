@@ -283,3 +283,48 @@ class FilterTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UnTaxonomyTests(unittest.TestCase):
+    """The UN taxonomy: same eleven areas, the UN's vocabulary.
+
+    Exists because taxonomy.yaml matched ZERO of the fifteen OHCHR calls open
+    on 2026-08-17 -- it reads British legislative vocabulary, and these are UN
+    thematic titles.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.un = filt.load_taxonomy(os.path.join(ROOT, "config", "un-taxonomy.yaml"))
+        cls.uk = filt.load_taxonomy(TAXONOMY)
+        cls.wl = filt.load_watchlist(WATCHLIST)
+
+    def areas(self, text, tax=None):
+        return filt.filter_item(tax or self.un, self.wl, text).issue_areas
+
+    def test_reads_un_set_phrases_the_uk_taxonomy_misses(self):
+        for text, area in [
+                ("comprehensive sexuality education in schools", 6),
+                ("child, early and forced marriage", 9),
+                ("sexual and reproductive health and rights", 1),
+                ("freedom of religion or belief", 8),
+                ("legal gender recognition based on self-identification", 5)]:
+            with self.subTest(text):
+                self.assertIn(area, self.areas(text))
+
+    def test_right_to_life_needs_the_unborn_context(self):
+        """In UN usage "right to life" is overwhelmingly death-penalty work,
+        so the term is guarded rather than claimed for area 1."""
+        self.assertEqual(self.areas("abolish the death penalty and protect the right to life"), [])
+        self.assertIn(1, self.areas("protect the right to life from conception"))
+
+    def test_migrant_workers_no_longer_fires(self):
+        """Removed after measuring: 11 hits in 299 unfiltered recommendations,
+        every one a generic treaty-accession line."""
+        self.assertEqual(
+            self.areas("Accede to the Convention on the Rights of All Migrant Workers"), [])
+
+    def test_areas_match_the_parliamentary_taxonomy_exactly(self):
+        """Two vocabularies, one set of areas -- otherwise a UN item could
+        not be filed alongside a Westminster one."""
+        self.assertEqual(sorted(self.un.terms), sorted(self.uk.terms))

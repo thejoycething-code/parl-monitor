@@ -104,6 +104,21 @@ def parse_calls(html):
     return sorted(calls, key=lambda c: c.deadline)
 
 
+def match_text(call):
+    """The text to run the taxonomy over.
+
+    Includes the URL slug BOTH with and without hyphens, which is not
+    decoration: the listing gives no description, titles are derived from the
+    slug, and detail pages return 403 to non-browser clients (measured
+    2026-08-17) so there is no prose to match on. The hyphenated form is what
+    lets "faith-based" match; the spaced form catches terms written as
+    separate words. Losing the hyphens dropped the faith-based organisations
+    call from the results entirely.
+    """
+    slug = call.url.rstrip("/").rsplit("/", 1)[-1]
+    return " ".join((call.title, call.body, slug, slug.replace("-", " ")))
+
+
 def fetch_calls(client):
     html = client.get_text(LISTING, "ohchr", "calls-for-input")
     return parse_calls(html)
