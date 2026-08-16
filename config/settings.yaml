@@ -14,14 +14,17 @@
 # are retried once at the end of the pull by run_weekly.resweep_pq_gaps,
 # which is where the useful separation in time comes from.
 # The taxonomy filter runs over whatever comes back, so a broader term costs
-# nothing but a few discarded rows -- but it is not free in TIME. Every term
-# is swept twice, once here and once by the Hansard sweep, which reads this
-# same list.
-# Runtime is dominated by how warm the API's cache is, not by term count. Three
-# forced full pulls on 2026-08-17: 40m05s (36 terms), 33m47s (36), 17m38s (39).
-# The list grew while the time halved, because a repeat call for a term the API
-# has already computed returns in 1-2s against 27-50s cold. Treat the Sunday
-# figure as the real one: it runs a week cold.
+# nothing but a few discarded rows. It costs TIME here, though: this is much
+# the slowest feed. The Hansard sweep reads the same list, but measured at
+# 221.7s for all 39 terms against roughly twenty minutes for the same terms
+# here, so it is about a tenth of the cost and adding a term is effectively
+# a written-questions decision.
+# Runtime is dominated by how warm the API's cache is, not by term count. A
+# repeat call for a term the API has already computed returns in 1-2s against
+# 27-50s cold. Forced full pulls on 2026-08-17: 40m05s (36 terms, three retry
+# attempts), 33m47s (36), 17m38s (39), 17m54s (39), then 12m13s (39) once the
+# fetch went parallel. Treat none of those as the cold cost: the Sunday run
+# comes a week cold and is the only honest figure.
 pq_sweep_terms:
   # Two precise terms replace "assisted dying", which returned 12,480 matches
   # whose newest was about fuel oil. Measured twice each, 2026-08-17:
@@ -111,8 +114,10 @@ pq_sweep_terms:
   # headings matter more than the total.
   # safe-access-zones (45, above) already carries the statutory name; this
   # adds the plain one. Rejected: "silent-prayer" (8 ever, 0 since 1 June --
-  # it would re-fetch the same historic items every week, and every term
-  # costs two sweeps because Hansard reads this list too).
+  # it would re-fetch the same historic items every week). That rejection
+  # originally also cited a "two sweeps" cost, which was wrong: the Hansard
+  # sweep is about a tenth of the price. The thin weekly yield is the reason
+  # on its own, and worth revisiting if clinic-zone prosecutions return.
   - abortion-clinics       # 145 / 4 since June; "Prayer: Public Places"
   # Migration, retuned 2026-08-17. "Nationality and Borders" returned 14,523
   # matches led by a benefits question, and the hyphenated form returns ZERO -
