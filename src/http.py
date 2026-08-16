@@ -50,6 +50,12 @@ DEFAULT_BACKOFF = (2.0, 8.0, 20.0)
 DEFAULT_MAX_RETRIES = 3
 DEFAULT_THROTTLE = 0.2
 DEFAULT_HOST_CONCURRENCY = 4
+# Never actually contended today: every sweep in run_weekly.py is a sequential
+# `for term in terms` loop and the phases run one after another, so the
+# semaphore below always has a free slot. Worth knowing before blaming it for
+# anything -- a commit message on 2026-08-17 wrongly attributed the Written
+# Questions 500s to our own parallelism. Tuning this number changes nothing
+# until a caller genuinely fetches in parallel.
 
 # 4xx errors are the caller's fault (e.g. What's On returns 400 on ranges over
 # four weeks); never retry those. 5xx and 429 are transient; retry them.
