@@ -5,17 +5,23 @@
 # table and the edition footer). Keep this list curated, not exhaustive -- the
 # taxonomy filter runs over the results, so terms here only decide what gets
 # fetched, not what gets published.
-# Some terms make the API return HTTP 500 after 30-60s. An earlier note here
-# called these deterministic and per-term; repeated measurement on 2026-08-17
-# DISPROVED that. Every term tested failed on one call and answered on the
-# next: "Cass-Review" went 500, 177, 177 -- and a second call usually returns
-# in 1-2s, so the API is caching what it just computed. The 500s track load,
-# not vocabulary. Two consequences: measure a term at least twice before
-# rejecting it, and note that src/http.py currently gives a 500 only TWO
-# attempts, a policy chosen when they looked deterministic. It now converts
-# transient failures into logged gaps.
+# Some terms answer HTTP 500 after 30-60s. Measured repeatedly on 2026-08-17,
+# and two earlier explanations here were wrong: they are neither deterministic
+# per term nor caused by our own parallelism (there is none -- every sweep is
+# a sequential loop). They cluster on a term for a WINDOW of minutes:
+# "border-security" failed 4/4 in ten minutes and answered 3/3 in the next
+# ten. So measure a term at least twice before rejecting it. Terms that gap
+# are retried once at the end of the pull by run_weekly.resweep_pq_gaps,
+# which is where the useful separation in time comes from.
 # The taxonomy filter runs over whatever comes back, so a broader term costs
-# nothing but a few discarded rows.
+# nothing but a few discarded rows -- but it is not free in TIME. Every term
+# is swept twice, once here and once by the Hansard sweep, which reads this
+# same list.
+# Runtime is dominated by how warm the API's cache is, not by term count. Three
+# forced full pulls on 2026-08-17: 40m05s (36 terms), 33m47s (36), 17m38s (39).
+# The list grew while the time halved, because a repeat call for a term the API
+# has already computed returns in 1-2s against 27-50s cold. Treat the Sunday
+# figure as the real one: it runs a week cold.
 pq_sweep_terms:
   # Two precise terms replace "assisted dying", which returned 12,480 matches
   # whose newest was about fuel oil. Measured twice each, 2026-08-17:
