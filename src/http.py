@@ -59,18 +59,20 @@ DEFAULT_HOST_CONCURRENCY = 4
 
 # 4xx errors are the caller's fault (e.g. What's On returns 400 on ranges over
 # four weeks); never retry those. 5xx and 429 are transient; retry them.
-# 500 gets three attempts: fewer than the four a gateway error gets, more
-# than the one retry it had until 2026-08-17. That earlier cap assumed the
-# Written Questions API returned a 500 deterministically for certain search
-# terms. Repeated measurement disproved it -- every term tested failed on one
-# call and answered on the next ("Cass-Review": 500, 177, 177) -- so the cap
-# was turning transient failures into logged gaps. A retry is also cheap
-# where it matters: the API caches what it just computed, so a second call
-# typically returns in 1-2s against 27-35s for the first.
+# 500 gets TWO attempts. It was briefly raised to three on 2026-08-17 and the
+# measurement did not support it: across twelve terms, ten answered first
+# time and the two that did not failed every attempt, so the third rescued
+# nothing while costing ~45s each time it was spent. The second attempt does
+# earn its place ("Cass-Review": 500, then 177).
+# Retrying harder is the wrong shape of fix anyway. Written Questions
+# failures cluster on a term for a WINDOW rather than for good --
+# "border-security" failed 4/4 in ten minutes and succeeded 3/3 in the next
+# ten -- so what rescues a term is distance in time, not another try ten
+# seconds later. That is run_weekly.resweep_pq_gaps, at the end of the pull.
 # 429 and the gateway errors stay fully retryable; those were never in doubt.
 _RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
 _LIMITED_RETRY_STATUS = frozenset({500})
-_LIMITED_RETRY_ATTEMPTS = 3
+_LIMITED_RETRY_ATTEMPTS = 2
 
 
 class FetchError(Exception):

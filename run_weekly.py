@@ -142,6 +142,12 @@ def record_gap(conn, edition, feed, detail):
     conn.commit()
 
 
+def _pq_gap_detail(term, attempts):
+    """The gaps row for a failed PQ term. One place, so resweep can match it."""
+    return ("sweep term '{0}' failed after {1} attempts; results missing this "
+            "week".format(term, attempts))
+
+
 def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
     """Weekly written-questions sweep (handoff 4.2, 3).
 
@@ -149,55 +155,94 @@ def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
     gaps and disclosed in the footer, never silently dropped. Results are
     filtered client-side on dateAnswered (never answeredWhenFrom) and then
     through the taxonomy: Parliament's search relevance is loose.
+
+    Returns the terms that failed, for resweep_pq_gaps to try again later.
     """
     since = week_start - datetime.timedelta(days=7)
+    failed = []
     for term in terms:
         try:
             questions = pqs.fetch_questions(client, term)
         except FetchError as exc:
-            record_gap(conn, edition, "pq",
-                       "sweep term '{0}' failed after {1} attempts; results missing this week".format(
-                           term, exc.attempts))
+            record_gap(conn, edition, "pq", _pq_gap_detail(term, exc.attempts))
+            failed.append(term)
             continue
-        for q in pqs.since(questions, since):
-            r = filt.filter_item(tax, wl, q.heading or "", q.question_text or "", q.answer_text or "")
-            if not r.matched():
-                continue
-            title = "PQ {0} ({1}): {2}, answered {3}".format(
-                q.uin, q.house, q.heading, q.date_answered)
-            # The asker and the department are what make a question readable:
-            # resolve the member now so the edition can name them (the store
-            # kept neither, which is why lines used to be anonymous).
-            asker = None
-            if q.asking_member_id:
-                try:
-                    asker = members.resolve(conn, client, q.asking_member_id)
-                except Exception:
-                    asker = None
-            extra = {
-                "heading": q.heading,
-                "uin": q.uin,
-                "house": q.house,
-                "department": q.answering_body,
-                "member": asker.name if asker else None,
-                "party": asker.party if asker else None,
-                "seat": asker.seat if asker else None,
-                "question_text": (q.question_text or "")[:600],
-            }
-            store_item(conn, "pq:{0}".format(q.id), "pq", "question", title, q.url, r,
-                       event_date=q.date_answered.isoformat() if q.date_answered else None,
-                       date_tabled=q.date_tabled.isoformat() if q.date_tabled else None,
-                       extra=extra, mp_refs=q.asking_member_id)
-            if q.asking_member_id and (r.tier == 1 or r.watchlist_hits):
-                try:
-                    members.resolve(conn, client, q.asking_member_id)
-                except Exception:
-                    pass  # resolution is best-effort; ledger row still lands
-                intel.record_event(conn, q.asking_member_id,
-                                   q.date_answered.isoformat() if q.date_answered else edition,
-                                   "pq", "pq:{0}".format(q.id),
-                                   intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits),
-                                   areas=r.issue_areas)
+        _store_pq_questions(client, conn, tax, wl, since, edition, questions)
+    return failed
+
+
+def resweep_pq_gaps(client, conn, tax, wl, week_start, edition, terms):
+    """One more attempt at the terms that gapped, at the END of the pull.
+
+    Written Questions failures cluster on a term for a window of minutes
+    rather than for good: "border-security" failed four times in ten minutes
+    and answered three times in the next ten (2026-08-17). Retrying inside
+    the sweep cannot exploit that -- the attempts are seconds apart -- so this
+    runs after every other feed, which puts twenty-odd minutes between the
+    two tries without adding a single second of waiting.
+
+    Costs nothing on a clean week: no gaps, no calls. On a bad one it costs
+    one call per gapped term. A rescued term has its gaps row deleted, so the
+    edition footer stops disclosing a gap that no longer exists.
+    """
+    if not terms:
+        return 0
+    since = week_start - datetime.timedelta(days=7)
+    rescued = 0
+    for term in terms:
+        try:
+            questions = pqs.fetch_questions(client, term)
+        except FetchError:
+            continue          # the gaps row stands; the footer discloses it
+        _store_pq_questions(client, conn, tax, wl, since, edition, questions)
+        conn.execute("DELETE FROM gaps WHERE edition = ? AND feed = 'pq' "
+                     "AND detail LIKE ?", (edition, "sweep term '%s' failed%%" % term))
+        conn.commit()
+        rescued += 1
+    return rescued
+
+
+def _store_pq_questions(client, conn, tax, wl, since, edition, questions):
+    """Filter a term's questions through the taxonomy and store what survives."""
+    for q in pqs.since(questions, since):
+        r = filt.filter_item(tax, wl, q.heading or "", q.question_text or "", q.answer_text or "")
+        if not r.matched():
+            continue
+        title = "PQ {0} ({1}): {2}, answered {3}".format(
+            q.uin, q.house, q.heading, q.date_answered)
+        # The asker and the department are what make a question readable:
+        # resolve the member now so the edition can name them (the store
+        # kept neither, which is why lines used to be anonymous).
+        asker = None
+        if q.asking_member_id:
+            try:
+                asker = members.resolve(conn, client, q.asking_member_id)
+            except Exception:
+                asker = None
+        extra = {
+            "heading": q.heading,
+            "uin": q.uin,
+            "house": q.house,
+            "department": q.answering_body,
+            "member": asker.name if asker else None,
+            "party": asker.party if asker else None,
+            "seat": asker.seat if asker else None,
+            "question_text": (q.question_text or "")[:600],
+        }
+        store_item(conn, "pq:{0}".format(q.id), "pq", "question", title, q.url, r,
+                   event_date=q.date_answered.isoformat() if q.date_answered else None,
+                   date_tabled=q.date_tabled.isoformat() if q.date_tabled else None,
+                   extra=extra, mp_refs=q.asking_member_id)
+        if q.asking_member_id and (r.tier == 1 or r.watchlist_hits):
+            try:
+                members.resolve(conn, client, q.asking_member_id)
+            except Exception:
+                pass  # resolution is best-effort; ledger row still lands
+            intel.record_event(conn, q.asking_member_id,
+                               q.date_answered.isoformat() if q.date_answered else edition,
+                               "pq", "pq:{0}".format(q.id),
+                               intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits),
+                               areas=r.issue_areas)
 
 
 def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
@@ -267,7 +312,8 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
     settings = load_settings()
 
     # Sweeps are already per-term resilient (a failed term -> gaps row).
-    sweep_pqs(client, conn, tax, wl, week_start, edition, settings.get("pq_sweep_terms") or [])
+    pq_failed = sweep_pqs(client, conn, tax, wl, week_start, edition,
+                          settings.get("pq_sweep_terms") or [])
     sweep_edms(client, conn, tax, wl, week_start, edition, settings.get("edm_sweep_terms") or [])
 
     def _consultations():
@@ -415,6 +461,15 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
             record_gap(conn, edition, feed_name,
                        "feed unavailable after {0} attempts; items missing this week ({1})".format(
                            exc.attempts, exc.cause))
+
+    # Last thing in the pull, deliberately: every feed above has now put
+    # twenty-odd minutes between the failed attempt and this one, which is
+    # the only separation observed to rescue a windowed Written Questions
+    # failure. No gaps -> no calls.
+    if pq_failed:
+        rescued = resweep_pq_gaps(client, conn, tax, wl, week_start, edition, pq_failed)
+        print("pq resweep: {0} of {1} gapped term(s) recovered ({2})".format(
+            rescued, len(pq_failed), ", ".join(pq_failed)))
 
 
 ASSENT_FRESH_DAYS = 14

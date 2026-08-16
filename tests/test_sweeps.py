@@ -51,6 +51,56 @@ class PqSweepTests(unittest.TestCase):
         self.assertIn("Cass Review", gap["detail"])
         self.assertIn("4 attempts", gap["detail"])
 
+    def test_sweep_reports_which_terms_failed(self):
+        def flaky(client, term):
+            if term == "border-security":
+                raise FetchError("u", "pq", term, 2, TimeoutError("slow"))
+            return []
+
+        with mock.patch.object(pqs, "fetch_questions", side_effect=flaky):
+            failed = run_weekly.sweep_pqs(None, self.conn, TAX, WL, WEEK, "2026-08-03",
+                                          ["hospices", "border-security"])
+        self.assertEqual(failed, ["border-security"])
+
+    def test_resweep_clears_the_gap_and_stores_what_it_recovers(self):
+        """A rescued term must stop being disclosed as a gap (2026-08-17).
+
+        Written Questions failures cluster in a window, so the term that
+        500ed during the sweep often answers at the end of the pull. If the
+        gaps row survived, the footer would report missing results that are
+        in fact stored.
+        """
+        with mock.patch.object(pqs, "fetch_questions",
+                               side_effect=FetchError("u", "pq", "t", 2, TimeoutError("x"))):
+            failed = run_weekly.sweep_pqs(None, self.conn, TAX, WL, WEEK, "2026-08-03",
+                                          ["safe access zones"])
+        self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0], 1)
+
+        recovered = [pq(2, "Abortion: safe access zones", "2026-08-01")]
+        with mock.patch.object(pqs, "fetch_questions", return_value=recovered):
+            rescued = run_weekly.resweep_pq_gaps(None, self.conn, TAX, WL, WEEK,
+                                                 "2026-08-03", failed)
+        self.assertEqual(rescued, 1)
+        self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0], 0)
+        self.assertEqual([r["id"] for r in self.conn.execute("SELECT id FROM items")], ["pq:2"])
+
+    def test_resweep_leaves_the_gap_when_the_term_fails_again(self):
+        with mock.patch.object(pqs, "fetch_questions",
+                               side_effect=FetchError("u", "pq", "t", 2, TimeoutError("x"))):
+            failed = run_weekly.sweep_pqs(None, self.conn, TAX, WL, WEEK, "2026-08-03",
+                                          ["safe access zones"])
+            rescued = run_weekly.resweep_pq_gaps(None, self.conn, TAX, WL, WEEK,
+                                                 "2026-08-03", failed)
+        self.assertEqual(rescued, 0)
+        self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0], 1)
+
+    def test_resweep_costs_nothing_on_a_clean_week(self):
+        calls = []
+        with mock.patch.object(pqs, "fetch_questions", side_effect=lambda *a: calls.append(a)):
+            self.assertEqual(
+                run_weekly.resweep_pq_gaps(None, self.conn, TAX, WL, WEEK, "2026-08-03", []), 0)
+        self.assertEqual(calls, [], "no gaps should mean no API calls")
+
     def test_loose_matches_filtered_and_relevant_stored_with_deep_link_fields(self):
         results = [
             pq(1, "British Steel: Jingye Group", "2026-08-01"),      # loose noise
