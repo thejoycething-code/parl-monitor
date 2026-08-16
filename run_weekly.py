@@ -155,6 +155,20 @@ def _pq_gap_detail(term, attempts):
 # HttpClient's per-host semaphore had never once been contended.
 # Only the FETCH is parallel. Storing stays on the calling thread: the sqlite
 # connection is not shared across threads, and member resolution writes to it.
+# THREE, but do NOT read a speed claim into it. Full measurements, forced
+# pulls on 2026-08-17, every one clean (zero gaps, the same 21 items):
+#     sequential      17m54s
+#     concurrency 3   12m13s   then 17m45s on a repeat
+#     concurrency 6   16m47s
+# The spread WITHIN one setting (12m13s to 17m45s) is larger than any gap
+# between settings, so this run-to-run noise swamps the effect and none of
+# these differences is real on this evidence. An earlier commit here claimed
+# "32% off" from the 12m13s figure alone; that was one sample and it did not
+# reproduce. Parallel fetching is kept because three clean runs show it costs
+# nothing and the mechanism is sound on a slow I/O-bound API -- not because it
+# has been shown to help. The cold Sunday run is the first honest test.
+# HttpClient's per-host semaphore is wired to this number below; leaving it at
+# its own default of 4 silently capped a 6-worker pool at 4.
 PQ_SWEEP_CONCURRENCY = 3
 
 
@@ -784,7 +798,8 @@ def pull(week_commencing, db_name, force=False):
         return ("(already pulled for w/c {0} at {1}; use --force to re-pull)"
                 .format(week_commencing, done["completed_at"]), 0,
                 "skipped: already pulled")
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))  # archives under today's date
+    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"),  # archives under today's date
+                        host_concurrency=PQ_SWEEP_CONCURRENCY)
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
 
@@ -816,7 +831,8 @@ def render_edition(week_commencing, db_name, draft=False):
     week_start = datetime.date.fromisoformat(week_commencing)
     week_end = week_start + datetime.timedelta(days=6)
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", db_name)))
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))  # archives under today's date
+    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"),  # archives under today's date
+                        host_concurrency=PQ_SWEEP_CONCURRENCY)
 
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     apply_queue_if_scored(conn, wl, week_commencing)  # session-scored triage, if present

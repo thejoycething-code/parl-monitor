@@ -22,9 +22,11 @@
 # Runtime is dominated by how warm the API's cache is, not by term count. A
 # repeat call for a term the API has already computed returns in 1-2s against
 # 27-50s cold. Forced full pulls on 2026-08-17: 40m05s (36 terms, three retry
-# attempts), 33m47s (36), 17m38s (39), 17m54s (39), then 12m13s (39) once the
-# fetch went parallel. Treat none of those as the cold cost: the Sunday run
-# comes a week cold and is the only honest figure.
+# attempts), 33m47s (36), 17m38s (39), 17m54s (39), 12m13s, 16m47s and 17m45s
+# (39, various fetch concurrencies). Read that spread as noise, not as a
+# ranking: repeats of the SAME setting ranged 12m13s to 17m45s. Treat none of
+# them as the cold cost either -- the Sunday run comes a week cold and is the
+# only honest figure.
 pq_sweep_terms:
   # Two precise terms replace "assisted dying", which returned 12,480 matches
   # whose newest was about fuel oil. Measured twice each, 2026-08-17:
