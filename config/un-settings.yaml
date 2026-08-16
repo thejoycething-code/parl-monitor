@@ -61,12 +61,29 @@ upr_search_terms:
   - '"child marriage"'                      # 555
   - '"forced marriage"'                     # 540
   - '"trafficking in women"'                # 180
+  # Gender identity, measured 2026-08-17 to replace the 4,330-row
+  # '"gender identity"'. These name the actual mechanisms states are asked to
+  # change, which is also what makes them usable: a recommendation to
+  # introduce self-identification is a concrete legislative ask, where
+  # "gender identity" mostly returns generic anti-discrimination language.
+  - '"transgender"'                         # 1,142; the widest of these, all on-topic
+  - '"gender identity and expression"'      # 86
+  - '"gender recognition"'                  # 74; superset of "legal gender recognition" (63)
+  - '"self-identification"'                 # 42; the self-ID mechanism itself
+  - '"trans persons"'                       # 23
+  - '"gender-affirming"'                    # 17
+  - '"gender reassignment"'                 # 14
+  - '"change of gender"'                    # 4
 #
 # Rejected as too broad to be worth the fetch, with the numbers so nobody
 # re-adds them blind: "reproductive rights" (1,182, largely restating the
-# abortion terms) and "gender identity" (4,330). SOGI coverage currently
-# rests on the narrower terms above; if that proves thin, measure
-# '"sexual orientation and gender identity"' before reaching for the broad one.
+# abortion terms), "gender identity" (4,330) and "sexual orientation and
+# gender identity" (4,277 -- barely narrower than the bare term).
+# "intersex" (1,032) is precise but a different subject; add it deliberately
+# if that becomes an area, not as SOGI coverage.
+# "gender ideology" returns ZERO. It is our vocabulary and the sector's, not
+# the UN's, and searching for it would have looked like an issue nobody
+# raises. Search what the source says, not what we say about it.
 
 upr_page_size: 100
 upr_max_pages: 40        # 4,000 per term; every term above fits except religion

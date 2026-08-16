@@ -1,264 +1,270 @@
 cut,state,recommendations,supported,refused,refusal_rate
-under review,Pakistan,45,19,26,0.58
+under review,Pakistan,50,21,29,0.58
+under review,"Korea, Republic of",36,11,25,0.69
 under review,Türkiye,36,18,18,0.50
-under review,Germany,31,25,6,0.19
-under review,Indonesia,31,21,10,0.32
-under review,China,30,16,14,0.47
-under review,Myanmar,30,4,26,0.87
-under review,France,28,22,6,0.21
+under review,Indonesia,35,22,13,0.37
+under review,Germany,33,27,6,0.18
+under review,Myanmar,33,7,26,0.79
+under review,China,31,16,15,0.48
+under review,Romania,30,20,10,0.33
+under review,France,29,22,7,0.24
+under review,Lithuania,28,26,2,0.07
+under review,Honduras,27,24,3,0.11
+under review,Poland,27,7,20,0.74
+under review,Serbia,27,21,6,0.22
+under review,El Salvador,26,5,21,0.81
+under review,Albania,26,23,3,0.12
 under review,"Iran, Islamic Republic of",26,4,22,0.85
 under review,Malaysia,25,3,22,0.88
 under review,Sweden,25,20,5,0.20
-under review,"Korea, Republic of",24,11,13,0.54
-under review,Romania,23,16,7,0.30
-under review,Albania,23,20,3,0.13
-under review,Maldives,22,5,17,0.77
-under review,Bangladesh,21,11,10,0.48
-under review,El Salvador,20,1,19,0.95
-under review,Israel,20,7,13,0.65
-under review,Georgia,20,18,2,0.10
-under review,Mexico,19,19,0,0.00
+under review,Maldives,25,5,20,0.80
+under review,Georgia,25,23,2,0.08
+under review,Bangladesh,23,11,12,0.52
+under review,Israel,23,9,14,0.61
+under review,Uganda,21,0,21,1.00
+under review,Mexico,21,21,0,0.00
+under review,Malawi,21,6,15,0.71
+under review,Peru,20,15,5,0.25
+under review,Cameroon,19,8,11,0.58
+under review,United Kingdom of Great Britain and Northern Ireland,19,12,7,0.37
+under review,Russian Federation,19,13,6,0.32
+under review,Luxembourg,18,15,3,0.17
 under review,Viet Nam,18,16,2,0.11
-under review,Cameroon,18,8,10,0.56
 under review,Portugal,18,17,1,0.06
 under review,Spain,18,17,1,0.06
-under review,Serbia,18,14,4,0.22
+under review,"Netherlands, Kingdom of the",18,12,6,0.33
+under review,Hungary,18,6,12,0.67
+under review,Ghana,18,1,17,0.94
+under review,Dominican Republic,17,16,1,0.06
 under review,Kyrgyzstan,17,14,3,0.18
-under review,Russian Federation,17,11,6,0.35
 under review,Eritrea,17,5,12,0.71
+under review,"Moldova, Republic of",17,16,1,0.06
 under review,Nigeria,16,8,8,0.50
-under review,Honduras,16,13,3,0.19
-under review,Luxembourg,15,12,3,0.20
+under review,"Bolivia, Plurinational State of",16,10,6,0.38
+under review,Austria,16,14,2,0.12
+under review,Slovakia,16,14,2,0.12
+under review,Latvia,16,9,7,0.44
 under review,Kenya,15,7,8,0.53
 under review,Guyana,15,10,5,0.33
-under review,Austria,15,14,1,0.07
+under review,Italy,15,15,0,0.00
+under review,Croatia,15,13,2,0.13
+under review,Jamaica,15,5,10,0.67
+under review,Saint Lucia,15,4,11,0.73
+under review,Ecuador,15,15,0,0.00
+under review,Sri Lanka,15,9,6,0.40
 under review,Uzbekistan,15,8,7,0.47
 under review,Norway,15,15,0,0.00
 under review,Armenia,15,15,0,0.00
+under review,Bulgaria,15,13,2,0.13
+under review,India,15,4,11,0.73
+under review,Ukraine,15,8,7,0.47
 under review,Costa Rica,15,12,3,0.20
 under review,Senegal,14,5,9,0.64
-under review,Slovakia,14,12,2,0.14
+under review,Fiji,14,7,7,0.50
+under review,Panama,14,9,5,0.36
+under review,Japan,14,1,13,0.93
+under review,Jordan,14,3,11,0.79
+under review,Iraq,14,10,4,0.29
 under review,Greece,14,11,3,0.21
+under review,Switzerland,14,4,10,0.71
 under review,Malta,13,2,11,0.85
-under review,Poland,13,4,9,0.69
+under review,Tunisia,13,7,6,0.46
+under review,Argentina,13,11,2,0.15
 under review,Turkmenistan,13,6,7,0.54
-under review,Jordan,13,3,10,0.77
+under review,Paraguay,13,10,3,0.23
 under review,Saudi Arabia,13,8,5,0.38
-under review,"Netherlands, Kingdom of the",13,8,5,0.38
+under review,Czechia,13,12,1,0.08
+under review,Botswana,13,2,11,0.85
+under review,Belize,13,10,3,0.23
+under review,Colombia,12,9,3,0.25
 under review,Lao People's Democratic Republic,12,11,1,0.08
 under review,Canada,12,10,2,0.17
-under review,"Bolivia, Plurinational State of",12,6,6,0.50
+under review,Finland,12,6,6,0.50
+under review,Guatemala,12,2,10,0.83
+under review,Liechtenstein,12,7,5,0.42
 under review,Bhutan,12,2,10,0.83
+under review,Barbados,12,2,10,0.83
 under review,Belgium,12,7,5,0.42
-under review,Latvia,12,9,3,0.25
-under review,Belize,12,9,3,0.25
-under review,Colombia,11,8,3,0.27
-under review,Liechtenstein,11,6,5,0.45
-under review,Paraguay,11,8,3,0.27
+under review,North Macedonia,12,12,0,0.00
+under review,Gambia,11,10,1,0.09
+under review,United States of America,11,8,3,0.27
+under review,Mongolia,11,10,1,0.09
+under review,Suriname,11,8,3,0.27
+under review,Algeria,11,5,6,0.55
 under review,Brunei Darussalam,11,2,9,0.82
-under review,Iraq,11,10,1,0.09
-under review,Malawi,11,6,5,0.45
-under review,Dominican Republic,10,9,1,0.10
-under review,United States of America,10,7,3,0.30
+under review,Denmark,11,7,4,0.36
+under review,Lebanon,11,3,8,0.73
+under review,Zimbabwe,11,6,5,0.45
+under review,Saint Kitts and Nevis,10,1,9,0.90
+under review,Togo,10,4,6,0.60
+under review,Brazil,10,10,0,0.00
+under review,Montenegro,10,10,0,0.00
 under review,Cyprus,10,10,0,0.00
-under review,Bulgaria,10,10,0,0.00
-under review,Denmark,10,6,4,0.40
-under review,India,10,2,8,0.80
-under review,North Macedonia,10,10,0,0.00
-under review,Botswana,10,0,10,1.00
+under review,Tajikistan,10,2,8,0.80
 under review,Guinea-Bissau,10,8,2,0.20
+under review,Angola,9,9,0,0.00
 under review,Andorra,9,1,8,0.89
-under review,Algeria,9,5,4,0.44
-under review,Argentina,9,7,2,0.22
-under review,Japan,9,1,8,0.89
-under review,Barbados,9,2,7,0.78
+under review,Liberia,9,5,4,0.44
+under review,"Trinidad and Tobago
+",9,1,8,0.89
+under review,Zambia,9,1,8,0.89
+under review,Bahamas,9,4,5,0.56
 under review,Chile,9,3,6,0.67
 under review,Uruguay,9,9,0,0.00
 under review,Afghanistan,9,9,0,0.00
 under review,Nicaragua,9,5,4,0.44
+under review,Egypt,9,6,3,0.33
+under review,Kazakhstan,9,6,3,0.33
+under review,Estonia,9,7,2,0.22
+under review,Sudan,9,5,4,0.44
 under review,Ireland,9,6,3,0.33
-under review,Ukraine,9,4,5,0.56
-under review,Czechia,9,9,0,0.00
+under review,Saint Vincent and the Grenadines,9,0,9,1.00
 under review,Mauritius,9,5,4,0.44
-under review,Angola,8,8,0,0.00
-under review,Lithuania,8,6,2,0.25
-under review,United Kingdom of Great Britain and Northern Ireland,8,8,0,0.00
-under review,Finland,8,6,2,0.25
-under review,Sri Lanka,8,7,1,0.12
-under review,Montenegro,8,8,0,0.00
-under review,Egypt,8,6,2,0.25
+under review,Namibia,8,4,4,0.50
+under review,Slovenia,8,8,0,0.00
+under review,Nepal,8,6,2,0.25
 under review,Mali,8,7,1,0.12
+under review,Belarus,8,2,6,0.75
 under review,Guinea,8,7,1,0.12
-under review,Lebanon,8,1,7,0.88
 under review,Dominica,8,0,8,1.00
-under review,Peru,7,3,4,0.57
+under review,Antigua and Barbuda,8,1,7,0.88
 under review,Lesotho,7,4,3,0.43
 under review,Grenada,7,1,6,0.86
-under review,Gambia,7,6,1,0.14
-under review,Italy,7,7,0,0.00
+under review,Azerbaijan,7,1,6,0.86
 under review,San Marino,7,0,7,1.00
-under review,Saint Lucia,7,3,4,0.57
-under review,Bahamas,7,4,3,0.43
+under review,Tonga,7,1,6,0.86
+under review,Monaco,7,1,6,0.86
 under review,Burundi,7,3,4,0.57
 under review,Yemen,7,7,0,0.00
 under review,Comoros,7,4,3,0.43
 under review,Qatar,7,2,5,0.71
-under review,Sudan,7,5,2,0.29
-under review,Switzerland,7,4,3,0.43
+under review,"Bosnia and Herzegovina
+",7,5,2,0.29
 under review,Ethiopia,7,3,4,0.57
 under review,Burkina Faso,7,7,0,0.00
 under review,Vanuatu,7,0,7,1.00
 under review,Kiribati,6,1,5,0.83
-under review,Azerbaijan,6,1,5,0.83
-under review,Jamaica,6,2,4,0.67
-under review,Panama,6,5,1,0.17
-under review,Liberia,6,5,1,0.17
-under review,Togo,6,4,2,0.33
-under review,Tunisia,6,5,1,0.17
+under review,Madagascar,6,3,3,0.50
+under review,Eswatini,6,0,6,1.00
+under review,Morocco,6,4,2,0.33
+under review,South Africa,6,5,1,0.17
+under review,Benin,6,3,3,0.50
 under review,Tuvalu,6,3,3,0.50
+under review,Solomon Islands,6,0,6,1.00
 under review,Sierra Leone,6,2,4,0.67
-under review,Kazakhstan,6,4,2,0.33
+under review,Mauritania,6,1,5,0.83
 under review,Australia,6,6,0,0.00
-under review,Nepal,6,5,1,0.17
-under review,Tajikistan,6,2,4,0.67
 under review,Libya,6,5,1,0.17
-under review,Saint Vincent and the Grenadines,6,0,6,1.00
-under review,"Moldova, Republic of",6,6,0,0.00
+under review,Seychelles,6,6,0,0.00
 under review,Cote d'Ivoire,6,0,6,1.00
-under review,Antigua and Barbuda,6,1,5,0.83
-under review,Madagascar,5,3,2,0.40
-under review,Saint Kitts and Nevis,5,0,5,1.00
-under review,Suriname,5,3,2,0.40
-under review,"Trinidad and Tobago
-",5,1,4,0.80
-under review,Benin,5,3,2,0.40
-under review,Tonga,5,1,4,0.80
+under review,Thailand,6,5,1,0.17
+under review,"Tanzania, United Republic of",6,1,5,0.83
+under review,Rwanda,5,0,5,1.00
+under review,Timor-Leste,5,2,3,0.60
 under review,United Arab Emirates,5,1,4,0.80
-under review,Monaco,5,0,5,1.00
+under review,Cape Verde,5,3,2,0.40
+under review,Republic of Congo,5,2,3,0.60
 under review,Djibouti,5,4,1,0.20
-under review,"Bosnia and Herzegovina
-",5,3,2,0.40
 under review,Kuwait,5,1,4,0.80
-under review,Estonia,5,4,1,0.20
-under review,Belarus,5,2,3,0.60
-under review,Hungary,5,4,1,0.20
-under review,Fiji,4,4,0,0.00
-under review,Croatia,4,2,2,0.50
-under review,Timor-Leste,4,1,3,0.75
-under review,Uganda,4,0,4,1.00
-under review,Ecuador,4,4,0,0.00
-under review,Guatemala,4,0,4,1.00
-under review,Solomon Islands,4,0,4,1.00
+under review,Samoa,5,2,3,0.60
+under review,Mozambique,5,0,5,1.00
+under review,Singapore,5,1,4,0.80
+under review,Oman,4,0,4,1.00
+under review,Bahrain,4,1,3,0.75
+under review,Philippines,4,1,3,0.75
 under review,Cuba,4,2,2,0.50
-under review,Slovenia,4,4,0,0.00
-under review,Mauritania,4,1,3,0.75
-under review,Seychelles,4,4,0,0.00
-under review,Ghana,4,0,4,1.00
-under review,Singapore,4,1,3,0.75
-under review,Thailand,4,4,0,0.00
-under review,Mongolia,3,3,0,0.00
-under review,Rwanda,3,0,3,1.00
-under review,Eswatini,3,0,3,1.00
-under review,Bahrain,3,1,2,0.67
-under review,Philippines,3,0,3,1.00
-under review,South Africa,3,2,1,0.33
-under review,Cape Verde,3,2,1,0.33
-under review,Republic of Congo,3,2,1,0.33
+under review,Syrian Arab Republic,3,0,3,1.00
+under review,Sao Tome & Principe,3,2,1,0.33
+under review,"Venezuela, Bolivarian Republic of",3,2,1,0.33
 under review,Iceland,3,2,1,0.33
 under review,Equatorial Guinea,3,2,1,0.33
-under review,Zimbabwe,3,2,1,0.33
-under review,Syrian Arab Republic,2,0,2,1.00
-under review,Oman,2,0,2,1.00
-under review,"Venezuela, Bolivarian Republic of",2,2,0,0.00
-under review,Morocco,2,2,0,0.00
-under review,Brazil,2,2,0,0.00
-under review,Zambia,2,1,1,0.50
+under review,Palau,3,0,3,1.00
 under review,Somalia,2,2,0,0.00
-under review,Namibia,2,1,1,0.50
+under review,Niger,2,1,1,0.50
 under review,"Korea, Democratic People's Republic of",2,0,2,1.00
-under review,Samoa,2,2,0,0.00
 under review,Cambodia,2,2,0,0.00
-under review,Mozambique,2,0,2,1.00
-under review,Palau,2,0,2,1.00
+under review,"Micronesia, Federated States of",2,1,1,0.50
 under review,Nauru,2,2,0,0.00
-under review,Sao Tome & Principe,1,1,0,0.00
-under review,Niger,1,1,0,0.00
+under review,Papua New Guinea,2,0,2,1.00
 under review,"Congo, Democratic Republic of the",1,0,1,1.00
-under review,"Micronesia, Federated States of",1,1,0,0.00
 under review,South Sudan,1,1,0,0.00
-under review,"Tanzania, United Republic of",1,1,0,0.00
 under review,Central African Republic,1,1,0,0.00
-recommending,Iceland,93,42,51,0.55
-recommending,Canada,79,46,33,0.42
-recommending,France,78,40,38,0.49
-recommending,Italy,78,53,25,0.32
-recommending,United States of America,66,25,41,0.62
-recommending,Mexico,57,31,26,0.46
-recommending,"Netherlands, Kingdom of the",55,22,33,0.60
-recommending,Argentina,50,25,25,0.50
-recommending,Australia,46,25,21,0.46
-recommending,Spain,45,17,28,0.62
-recommending,Uruguay,44,29,15,0.34
-recommending,Germany,42,20,22,0.52
-recommending,Norway,40,17,23,0.57
-recommending,Brazil,39,22,17,0.44
-recommending,Slovenia,36,14,22,0.61
-recommending,Sweden,33,14,19,0.58
-recommending,Austria,32,13,19,0.59
-recommending,Belgium,27,13,14,0.52
-recommending,United Kingdom of Great Britain and Northern Ireland,27,15,12,0.44
-recommending,Chile,27,15,12,0.44
-recommending,Ireland,27,13,14,0.52
-recommending,Czechia,25,9,16,0.64
+under review,Haiti,1,0,1,1.00
+under review,Gabon,1,1,0,0.00
+recommending,Iceland,128,59,69,0.54
+recommending,France,110,54,56,0.51
+recommending,Canada,102,53,49,0.48
+recommending,Italy,93,58,35,0.38
+recommending,Mexico,85,44,41,0.48
+recommending,Australia,83,45,38,0.46
+recommending,United States of America,83,29,54,0.65
+recommending,Argentina,80,40,40,0.50
+recommending,"Netherlands, Kingdom of the",79,35,44,0.56
+recommending,Spain,76,29,47,0.62
+recommending,Uruguay,67,34,33,0.49
+recommending,Norway,58,28,30,0.52
+recommending,Germany,55,27,28,0.51
+recommending,Chile,51,25,26,0.51
+recommending,Brazil,46,25,21,0.46
+recommending,Ireland,44,23,21,0.48
+recommending,Slovenia,41,16,25,0.61
+recommending,Sweden,39,16,23,0.59
+recommending,Austria,36,16,20,0.56
+recommending,Israel,36,26,10,0.28
+recommending,Belgium,33,18,15,0.45
+recommending,United Kingdom of Great Britain and Northern Ireland,33,18,15,0.45
+recommending,Czechia,30,12,18,0.60
+recommending,Portugal,28,11,17,0.61
+recommending,Malta,26,14,12,0.46
+recommending,New Zealand,24,11,13,0.54
+recommending,Denmark,22,11,11,0.50
+recommending,Luxembourg,22,11,11,0.50
 recommending,Holy See,21,13,8,0.38
 recommending,"Iran, Islamic Republic of",21,16,5,0.24
 recommending,Poland,20,17,3,0.15
-recommending,Denmark,19,10,9,0.47
+recommending,Honduras,19,9,10,0.53
 recommending,Slovakia,19,12,7,0.37
-recommending,New Zealand,18,8,10,0.56
-recommending,Malta,17,12,5,0.29
-recommending,Luxembourg,16,8,8,0.50
-recommending,Israel,16,9,7,0.44
+recommending,Switzerland,18,7,11,0.61
+recommending,Finland,18,13,5,0.28
+recommending,Greece,17,12,5,0.29
+recommending,Costa Rica,17,12,5,0.29
 recommending,Türkiye,15,10,5,0.33
 recommending,Egypt,15,12,3,0.20
-recommending,Switzerland,15,5,10,0.67
+recommending,Estonia,15,8,7,0.47
 recommending,Pakistan,15,12,3,0.20
+recommending,Thailand,15,11,4,0.27
 recommending,Malaysia,15,11,4,0.27
 recommending,Namibia,15,13,2,0.13
-recommending,Honduras,14,9,5,0.36
-recommending,Finland,14,10,4,0.29
-recommending,Greece,13,9,4,0.31
-recommending,Estonia,13,8,5,0.38
-recommending,Thailand,13,9,4,0.31
-recommending,Costa Rica,12,9,3,0.25
-recommending,Portugal,11,6,5,0.45
+recommending,"Venezuela, Bolivarian Republic of",14,13,1,0.07
+recommending,Ecuador,14,11,3,0.21
+recommending,Colombia,14,8,6,0.43
+recommending,South Africa,12,6,6,0.50
+recommending,Montenegro,11,8,3,0.27
 recommending,Algeria,11,9,2,0.18
 recommending,Libya,11,8,3,0.27
 recommending,Sierra Leone,11,8,3,0.27
 recommending,Ghana,11,6,5,0.45
-recommending,Ecuador,11,10,1,0.09
+recommending,Croatia,10,4,6,0.60
 recommending,Indonesia,10,8,2,0.20
-recommending,Colombia,10,7,3,0.30
 recommending,United Arab Emirates,10,10,0,0.00
 recommending,Ukraine,9,9,0,0.00
-recommending,South Africa,9,4,5,0.56
 recommending,Bangladesh,9,9,0,0.00
 recommending,Bahrain,9,6,3,0.33
+recommending,Myanmar,8,7,1,0.12
 recommending,Afghanistan,8,6,2,0.25
 recommending,Saudi Arabia,8,2,6,0.75
-recommending,Croatia,8,2,6,0.75
 recommending,Russian Federation,8,3,5,0.62
-recommending,Montenegro,7,5,2,0.29
 recommending,Iraq,7,6,1,0.14
 recommending,Maldives,7,7,0,0.00
+recommending,Dominican Republic,7,1,6,0.86
 recommending,Solomon Islands,6,4,2,0.33
-recommending,Myanmar,6,6,0,0.00
+recommending,Lithuania,6,2,4,0.67
 recommending,Azerbaijan,6,6,0,0.00
 recommending,Cyprus,6,5,1,0.17
 recommending,Belarus,6,5,1,0.17
 recommending,Peru,5,2,3,0.60
-recommending,Lithuania,5,1,4,0.80
 recommending,Panama,5,5,0,0.00
+recommending,India,5,4,1,0.20
 recommending,Tunisia,5,5,0,0.00
 recommending,Haiti,5,3,2,0.40
 recommending,Hungary,5,2,3,0.60
@@ -267,46 +273,43 @@ recommending,"Korea, Republic of",5,4,1,0.20
 recommending,Lebanon,5,4,1,0.20
 recommending,Cape Verde,5,3,2,0.40
 recommending,Nigeria,4,3,1,0.25
-recommending,India,4,3,1,0.25
 recommending,Syrian Arab Republic,4,3,1,0.25
 recommending,Kyrgyzstan,4,4,0,0.00
+recommending,Liechtenstein,4,1,3,0.75
 recommending,Jordan,4,3,1,0.25
 recommending,Sudan,4,3,1,0.25
 recommending,"Palestine, State of",4,3,1,0.25
+recommending,Bulgaria,4,4,0,0.00
 recommending,Morocco,4,2,2,0.50
+recommending,Romania,4,3,1,0.25
 recommending,Kenya,4,1,3,0.75
 recommending,Philippines,4,3,1,0.25
 recommending,Rwanda,4,4,0,0.00
+recommending,Albania,4,3,1,0.25
 recommending,Latvia,4,3,1,0.25
 recommending,Angola,3,2,1,0.33
 recommending,Togo,3,2,1,0.33
 recommending,Paraguay,3,1,2,0.67
 recommending,Cote d'Ivoire,3,3,0,0.00
+recommending,Cuba,3,3,0,0.00
 recommending,Serbia,3,1,2,0.67
-recommending,"Venezuela, Bolivarian Republic of",3,3,0,0.00
 recommending,Japan,3,3,0,0.00
 recommending,Botswana,3,3,0,0.00
-recommending,Romania,3,3,0,0.00
 recommending,Georgia,3,3,0,0.00
-recommending,Albania,3,2,1,0.33
+recommending,Timor-Leste,3,2,1,0.33
+recommending,Fiji,2,1,1,0.50
 recommending,Gambia,2,1,1,0.50
 recommending,"Moldova, Republic of",2,2,0,0.00
 recommending,Senegal,2,2,0,0.00
 recommending,Kazakhstan,2,2,0,0.00
-recommending,Cuba,2,2,0,0.00
 recommending,Cambodia,2,2,0,0.00
-recommending,Bulgaria,2,2,0,0.00
 recommending,Chad,2,2,0,0.00
 recommending,Viet Nam,2,2,0,0.00
 recommending,Qatar,2,0,2,1.00
 recommending,Uzbekistan,2,2,0,0.00
 recommending,Zambia,2,1,1,0.50
 recommending,Uganda,2,2,0,0.00
-recommending,Timor-Leste,2,1,1,0.50
-recommending,Dominican Republic,2,1,1,0.50
-recommending,Fiji,1,0,1,1.00
 recommending,Eswatini,1,1,0,0.00
-recommending,Liechtenstein,1,1,0,0.00
 recommending,Benin,1,1,0,0.00
 recommending,Tajikistan,1,1,0,0.00
 recommending,Guatemala,1,1,0,0.00
@@ -324,3 +327,4 @@ recommending,Bhutan,1,1,0,0.00
 recommending,Mauritius,1,1,0,0.00
 recommending,Bahamas,1,1,0,0.00
 recommending,Oman,1,1,0,0.00
+recommending,North Macedonia,1,1,0,0.00
