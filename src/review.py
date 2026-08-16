@@ -55,6 +55,18 @@ def generate_review_file(conn, week, path):
         "FROM items WHERE triage_score >= 2 AND priority_tag IS NULL ORDER BY source_feed, id"
     ).fetchall()
 
+    # An item admitted only by a BROAD watchlist entity carries no issue area,
+    # so it has no section to belong to and renders as "Other" - two questions
+    # about e-bike safety reached a reviewer that way, admitted by the Crime
+    # and Policing Act and corroborated by nothing (2026-08-17). They are
+    # recorded as discards, so the monthly false-negative review still sees
+    # them, and kept out of the reviewer's queue.
+    arealess = [r for r in rows if not json.loads(r["issue_areas"] or "[]")]
+    if arealess:
+        log_discards(conn, week, [(r["id"], r["title"], r["matched_terms"] or "")
+                                  for r in arealess])
+        rows = [r for r in rows if json.loads(r["issue_areas"] or "[]")]
+
     blocks = [REVIEW_HEADER.format(week=week)]
     for r in rows:
         areas = ", ".join(str(a) for a in json.loads(r["issue_areas"] or "[]"))

@@ -29,7 +29,13 @@ class ParseTests(unittest.TestCase):
         self.calls = committees.parse_response(load_fixture("committee_accepting-evidence"))
 
     def test_parses_open_calls(self):
-        self.assertEqual(len(self.calls), 25)
+        # Assert against the payload's own item count, never a hardcoded one:
+        # the fixture is the newest live capture, so a committee closing its
+        # call for evidence turned 25 into 24 and failed a test about the
+        # PARSER (2026-08-17). The parser's job is to lose nothing.
+        payload = load_fixture("committee_accepting-evidence")
+        self.assertEqual(len(self.calls), len(payload.get("items") or []))
+        self.assertTrue(self.calls, "fixture carried no calls for evidence")
         self.assertTrue(all(c.id and c.title for c in self.calls))
 
     def test_deadline_from_submission_period(self):
