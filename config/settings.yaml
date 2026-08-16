@@ -5,14 +5,17 @@
 # table and the edition footer). Keep this list curated, not exhaustive -- the
 # taxonomy filter runs over the results, so terms here only decide what gets
 # fetched, not what gets published.
-# Three terms make the Written Questions API return HTTP 500 after 30-60s of
-# trying, every time: "home education", "safe access zones" and "Cass Review".
-# It is the term, not the phrase length -- "assisted dying" and "age
-# assurance" are fine. Hyphenating fixes two of them, and "Cass" alone works
-# where both "Cass Review" and "Cass-Review" fail. Verified 2026-08-17:
-# home-education 444 results, safe-access-zones 45, Cass 459. The taxonomy
-# filter runs over whatever comes back, so a broader term costs nothing but
-# a few discarded rows.
+# Some terms make the API return HTTP 500 after 30-60s. An earlier note here
+# called these deterministic and per-term; repeated measurement on 2026-08-17
+# DISPROVED that. Every term tested failed on one call and answered on the
+# next: "Cass-Review" went 500, 177, 177 -- and a second call usually returns
+# in 1-2s, so the API is caching what it just computed. The 500s track load,
+# not vocabulary. Two consequences: measure a term at least twice before
+# rejecting it, and note that src/http.py currently gives a 500 only TWO
+# attempts, a policy chosen when they looked deterministic. It now converts
+# transient failures into logged gaps.
+# The taxonomy filter runs over whatever comes back, so a broader term costs
+# nothing but a few discarded rows.
 pq_sweep_terms:
   # Two precise terms replace "assisted dying", which returned 12,480 matches
   # whose newest was about fuel oil. Measured twice each, 2026-08-17:
@@ -30,9 +33,30 @@ pq_sweep_terms:
   - palliative-care        # 1,012 total, newest on terminal illness diagnosis
   - home-education          # 444, was a 500 as "home education"
   - safe-access-zones       # 45, was a 500
-  - Cass                    # 459; "Cass Review" and "Cass-Review" both 500
   - hospices
-  - puberty-blockers        # 78, from 221
+  # Gender medicine, retuned 2026-08-17. "PATHWAYS" was the worst term in the
+  # list for a reason the others do not share: the sweep API is CASE-
+  # INSENSITIVE, so the all-caps trial name matched "care pathways",
+  # "referral pathways" and "employment pathways" -- 9,844 results led by
+  # electric goods vehicles. src/filter.py matches acronyms case-sensitively
+  # and so does NOT have this problem, which is why PATHWAYS stays in
+  # taxonomy.yaml and watchlist.yaml. Fetching and filtering are different
+  # jobs; only the fetch term had to change.
+  # Bare "Cass" goes the same way: 459 results whose newest were workplace
+  # pensions and prisoner release, because it is also a surname.
+  # Measured (total / since 1 June): gender-dysphoria 387/29,
+  # gender-reassignment 182/9, Cass-Review 177/8,
+  # puberty-suppressing-hormones 108/4, gender-clinics 40/4,
+  # pathways-trial 41/0. Rejected: "gender identity services",
+  # "gender-questioning" and "children and young people's gender services"
+  # (500 on every attempt); "youth-gender" (1 result, a climate conference).
+  - puberty-blockers        # 78, from 221; the plain name
+  - puberty-suppressing-hormones  # 108; the NHS's own formal name
+  - gender-dysphoria        # 387; best recency in this family
+  - gender-reassignment     # 182; Gender Recognition, equality duties
+  - Cass-Review             # 177, from 459 of surname noise
+  - gender-clinics          # 40
+  - pathways-trial          # 41; the trial itself, all on-topic
   - age-assurance           # 258, from 77,980 of near-random matches
   - home-schooling          # 203, was a 500 as "home schooling"
   - anti-Muslim hostility   # hyphenated form 500s
@@ -42,7 +66,6 @@ pq_sweep_terms:
   - small-boats             # 782, from 23,398
   - conversion-therapy      # 289, from 6,342
   - surrogacy
-  - PATHWAYS
   - single-sex spaces
   # historic-vocabulary terms (v0.4): serve the 2020+ backfill; low weekly volume
   - Tavistock
