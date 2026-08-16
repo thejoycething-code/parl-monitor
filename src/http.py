@@ -53,14 +53,18 @@ DEFAULT_HOST_CONCURRENCY = 4
 
 # 4xx errors are the caller's fault (e.g. What's On returns 400 on ranges over
 # four weeks); never retry those. 5xx and 429 are transient; retry them.
-# 500 is retried ONCE, not to exhaustion: the Written Questions API answers
-# some search terms with a deterministic 500 after 30-60s of computation, so
-# four attempts spend four minutes learning what the first attempt already
-# said (2026-08-17). 429 and the gateway errors stay fully retryable - those
-# really are transient.
+# 500 gets three attempts: fewer than the four a gateway error gets, more
+# than the one retry it had until 2026-08-17. That earlier cap assumed the
+# Written Questions API returned a 500 deterministically for certain search
+# terms. Repeated measurement disproved it -- every term tested failed on one
+# call and answered on the next ("Cass-Review": 500, 177, 177) -- so the cap
+# was turning transient failures into logged gaps. A retry is also cheap
+# where it matters: the API caches what it just computed, so a second call
+# typically returns in 1-2s against 27-35s for the first.
+# 429 and the gateway errors stay fully retryable; those were never in doubt.
 _RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
 _LIMITED_RETRY_STATUS = frozenset({500})
-_LIMITED_RETRY_ATTEMPTS = 2
+_LIMITED_RETRY_ATTEMPTS = 3
 
 
 class FetchError(Exception):

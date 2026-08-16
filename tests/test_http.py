@@ -211,11 +211,12 @@ if __name__ == "__main__":
 
 
 class LimitedRetryTests(unittest.TestCase):
-    """A deterministic 500 must not be retried to exhaustion (2026-08-17).
+    """A 500 is retried, but not to exhaustion (revised 2026-08-17).
 
-    The Written Questions API answers certain search terms with a 500 after
-    30-60s of computation, every time. Four attempts spent four minutes
-    learning what the first attempt already said.
+    The Written Questions API 500s under load rather than per search term:
+    the same term fails on one call and answers on the next. Three attempts
+    ride that out; a fourth would mostly spend a 20s backoff on a term that
+    is genuinely unanswerable. Gateway errors keep the full budget.
     """
 
     def _run(self, status):
@@ -227,11 +228,11 @@ class LimitedRetryTests(unittest.TestCase):
             client.get_json("https://example.test/x", "pq", "slug")
         return len(opener.requests), caught.exception.attempts
 
-    def test_500_gives_up_after_two_attempts(self):
+    def test_500_gives_up_after_three_attempts(self):
         calls, attempts = self._run(500)
-        self.assertEqual(calls, 2, "a 500 should cost two attempts, not four")
-        self.assertEqual(attempts, 2)
+        self.assertEqual(calls, 3, "a 500 should cost three attempts, not four")
+        self.assertEqual(attempts, 3)
 
     def test_503_still_retries_fully(self):
         calls, _ = self._run(503)
-        self.assertGreater(calls, 2, "gateway errors are transient; keep retrying")
+        self.assertGreater(calls, 3, "gateway errors are transient; keep retrying")

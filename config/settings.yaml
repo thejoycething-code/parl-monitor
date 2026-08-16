@@ -57,6 +57,13 @@ pq_sweep_terms:
   - Cass-Review             # 177, from 459 of surname noise
   - gender-clinics          # 40
   - pathways-trial          # 41; the trial itself, all on-topic
+  # Detransition (Christopher, 2026-08-17). Tiny and entirely on-topic:
+  # detransitioners 4 total, detransitioned 16 total / 5 since 1 June, newest
+  # "Gender Dysphoria: Surgery". Both measured twice. taxonomy.yaml already
+  # carries "detransition*" in area 3 tier2, so what these fetch will map and
+  # score as supporting evidence -- no taxonomy change needed.
+  - detransitioners
+  - detransitioned
   - age-assurance           # 258, from 77,980 of near-random matches
   - home-schooling          # 203, was a 500 as "home schooling"
   - anti-Muslim hostility   # hyphenated form 500s
