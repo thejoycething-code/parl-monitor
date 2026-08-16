@@ -1,0 +1,34 @@
+# UN monitor settings. Separate from settings.yaml: the UN runs on sessions,
+# not sitting weeks, and shares none of Westminster's vocabulary.
+
+# UPR Info issue tags to harvest. These are LABELS from the Issues thesaurus
+# at /api/thesauris (68 values); the uuids they resolve to are fetched every
+# run, never pinned here -- a stale uuid returns totalRows=0 with HTTP 200,
+# which reads as "nobody raised this" rather than as a bug.
+#
+# Probed 2026-08-16. Nine of the 68 touch our areas. Read these as a NET, not
+# as a verdict: the UN's "Right to life" is mostly death-penalty work, so
+# every recommendation still goes through the taxonomy filter on its text.
+upr_issues:
+  - Right to life                          # 132 recommendations; incl. death penalty
+  - Sexual and reproductive rights
+  - Freedom of religion and belief
+  - Rights of the Child
+  - Right to education
+  - Sexual Orientation and Gender Identity
+  - Gender-based violence
+  - Trafficking
+  - Human rights education and training
+
+# Rejected at the probe, with reasons, so nobody re-adds them blind:
+#   the other 59 issue tags -- disability, minorities, torture, detention and
+#   so on. Real human rights work, no overlap with our areas; adding them
+#   would mean filtering thousands of rows to keep none.
+
+# Recommendation responses. Three values, not two: "Noted" is the diplomatic
+# form of refusal and is the single most useful signal in the dataset.
+# src/ingest/upr.py encodes this; listed here for readers.
+#   Supported | Noted | Not Supported
+
+upr_page_size: 100
+upr_max_pages: 20        # 2,000 recommendations per issue before truncating

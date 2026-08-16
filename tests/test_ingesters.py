@@ -19,7 +19,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, members
 from src.ingest import (pqs, edms, sis, divisions, whatson, consultations, wms,
-                        legislation, hansard)
+                        legislation, hansard, upr)
 
 RAW = os.path.join(ROOT, "data", "raw", "2026-08-01")
 
@@ -242,3 +242,57 @@ class HansardSpokenFormTests(unittest.TestCase):
     def test_exceptions_are_left_alone(self):
         with mock.patch.object(hansard, "NO_RELAX", frozenset({"single-sex"})):
             self.assertEqual(hansard.spoken_form("single-sex"), "single-sex")
+
+
+class UprTests(unittest.TestCase):
+    """UPR Info ingester, against fixtures probed live on 2026-08-16."""
+
+    def setUp(self):
+        self.page = load_json("upr_search-right-to-life-p0")
+        self.recs = upr.parse_response(self.page)
+
+    def test_parses_the_fields_that_make_a_recommendation_readable(self):
+        r = self.recs[0]
+        self.assertTrue(r.id)
+        self.assertTrue(r.text)
+        self.assertTrue(r.state_under_review)
+        self.assertTrue(r.recommending_state)
+        self.assertIn(r.response, ("Supported", "Noted", "Not Supported"))
+        self.assertTrue(r.url.startswith("https://upr-info-database.uwazi.io/entity/"))
+
+    def test_noted_and_not_supported_both_count_as_refused(self):
+        """`response` has THREE values. Treating it as accepted/not would
+        misfile one of them, and 'Noted' is the diplomatic form of refusal --
+        the whole point of the dataset."""
+        self.assertTrue(upr.Recommendation(id="1", text="", state_under_review="X",
+                                           recommending_state="Y", response="Noted").refused)
+        self.assertTrue(upr.Recommendation(id="2", text="", state_under_review="X",
+                                           recommending_state="Y", response="Not Supported").refused)
+        self.assertFalse(upr.Recommendation(id="3", text="", state_under_review="X",
+                                            recommending_state="Y", response="Supported").refused)
+
+    def test_issues_are_multivalued_and_include_off_topic_tags(self):
+        """The UN's "Right to life" is largely DEATH PENALTY work. The issue
+        filter narrows the field; the taxonomy still decides relevance."""
+        all_issues = {i for r in self.recs for i in r.issues}
+        self.assertIn("Right to life", all_issues)
+        self.assertTrue(any(len(r.issues) > 1 for r in self.recs),
+                        "issues is a multi-value field")
+
+    def test_by_state_tallies_support_against_refusal(self):
+        tally = upr.by_state(self.recs)
+        self.assertTrue(tally)
+        for state, row in tally.items():
+            self.assertEqual(row["supported"] + row["refused"],
+                             sum(1 for r in self.recs if r.state_under_review == state))
+
+    def test_thesaurus_ids_are_full_uuids(self):
+        """An abbreviated id returns totalRows=0 with HTTP 200 -- a silent
+        empty result that reads as "nobody raised this issue" (observed while
+        building this, 2026-08-16)."""
+        class FakeClient:
+            def get_json(self, url, feed, slug):
+                return load_json("upr_thesauri")
+        ids = upr.fetch_issue_ids(FakeClient())
+        self.assertIn("Right to life", ids)
+        self.assertEqual(len(ids["Right to life"]), 36, "must be a full UUID")
