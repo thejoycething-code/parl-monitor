@@ -38,8 +38,13 @@ from urllib.parse import urlsplit
 DEFAULT_CONTACT = "cjoyce@citizengo.net"
 USER_AGENT_TEMPLATE = "CitizenGO-ParlMonitor/1.0 (contact: {contact})"
 
-# handoff section 3: 35s per-request timeout for the slow WQ/statements API.
-DEFAULT_TIMEOUT = 35.0
+# 60s per-request timeout for the slow WQ/statements API (Christopher,
+# 2026-08-17). Measured, not guessed: multi-word PQ search terms routinely
+# exceed 35s, so five of them failed after four attempts each in the 17 August
+# pull. In a timed test "age assurance" succeeded only after 115s of attempts
+# and backoff, while single-word terms returned in 14-18s. 35s was cutting off
+# queries that were going to answer.
+DEFAULT_TIMEOUT = 60.0
 # handoff section 3: exponential backoff with jitter, 2s/8s/20s between tries.
 DEFAULT_BACKOFF = (2.0, 8.0, 20.0)
 DEFAULT_MAX_RETRIES = 3
