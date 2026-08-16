@@ -14,20 +14,20 @@
 # filter runs over whatever comes back, so a broader term costs nothing but
 # a few discarded rows.
 pq_sweep_terms:
-  - assisted dying
-  - home-education
-  - safe-access-zones
-  - Cass
+  - assisted dying          # hyphenated form 500s; loose but works
+  - home-education          # 444, was a 500 as "home education"
+  - safe-access-zones       # 45, was a 500
+  - Cass                    # 459; "Cass Review" and "Cass-Review" both 500
   - hospices
-  - puberty blockers
-  - age assurance
-  - anti-Muslim hostility
+  - puberty-blockers        # 78, from 221
+  - age-assurance           # 258, from 77,980 of near-random matches
+  - home-schooling          # 203, was a 500 as "home schooling"
+  - anti-Muslim hostility   # hyphenated form 500s
   - Islamophobia
-  - grooming gangs
-  - illegal migration
-  - small boats
-  - home schooling
-  - conversion therapy
+  - grooming-gangs          # 234, from 1,583
+  - illegal-migration       # 747, from 14,118
+  - small-boats             # 782, from 23,398
+  - conversion-therapy      # 289, from 6,342
   - surrogacy
   - PATHWAYS
   - single-sex spaces
@@ -49,7 +49,7 @@ edm_sweep_terms:
   - free speech
   - surrogacy
   - single-sex
-  - conversion therapy
+  - conversion-therapy      # 289, from 6,342
   - Rwanda
   - online safety
 
@@ -68,7 +68,7 @@ division_sweep_terms:
   - immigration
   - asylum
   - gender recognition
-  - conversion therapy
+  - conversion-therapy      # 289, from 6,342
   - surrogacy
   - marriage
   - free speech
