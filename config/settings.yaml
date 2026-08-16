@@ -73,7 +73,18 @@ pq_sweep_terms:
   - small-boats             # 782, from 23,398
   - conversion-therapy      # 289, from 6,342
   - surrogacy
-  - single-sex spaces
+  # Sex-based rights, retuned 2026-08-17. "single-sex spaces" returned 8,518
+  # matches whose newest was "Electricity: Northern Ireland" -- the API
+  # loose-matches, so it was really searching for "spaces". Measured
+  # (total / since 1 June): gender-recognition 545/10, single-sex 237/7,
+  # changing-rooms 84/1, single-sex-wards 14. Rejected: "female-only" (5,715,
+  # newest "Armed Forces: Body Armour"), "sex-based-rights" (7, and all of
+  # them conversion therapy, which area 4 already covers), "womens-refuges"
+  # (0 results).
+  - single-sex              # 237; newest "Women: Public Places"
+  - gender-recognition      # 545; Gender Recognition, passports and sex
+  - changing-rooms          # 84; newest "NHS Trusts: Gender"
+  - single-sex-wards        # 14; newest "Hospital Wards: Gender"
   # historic-vocabulary terms (v0.4): serve the 2020+ backfill; low weekly volume
   - Tavistock
   - Rwanda
@@ -86,7 +97,17 @@ pq_sweep_terms:
   - Ofcom                  # 3,874; newest "Internet: Age Assurance"
   - age-verification       # 248
   - internet-safety        # 495; newest "Internet: Safety", July
-  - buffer zones
+  # Abortion clinic zones, retuned 2026-08-17. "buffer zones" returned 3,234
+  # matches led by "Universal Credit: Foreign Nationals". The hyphenated form
+  # is precise and belongs to the WRONG SUBJECT: "buffer-zones" returns 103
+  # results about pesticides, newest "Bees and Butterflies". A term can be
+  # tight and still be searching someone else's policy area, so on-topic
+  # headings matter more than the total.
+  # safe-access-zones (45, above) already carries the statutory name; this
+  # adds the plain one. Rejected: "silent-prayer" (8 ever, 0 since 1 June --
+  # it would re-fetch the same historic items every week, and every term
+  # costs two sweeps because Hansard reads this list too).
+  - abortion-clinics       # 145 / 4 since June; "Prayer: Public Places"
   # Migration, retuned 2026-08-17. "Nationality and Borders" returned 14,523
   # matches led by a benefits question, and the hyphenated form returns ZERO -
   # that Act is from 2022 and is no longer what questions name. Replaced by
