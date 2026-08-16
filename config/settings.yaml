@@ -57,7 +57,17 @@ pq_sweep_terms:
   - age-verification       # 248
   - internet-safety        # 495; newest "Internet: Safety", July
   - buffer zones
-  - Nationality and Borders
+  # Migration, retuned 2026-08-17. "Nationality and Borders" returned 14,523
+  # matches led by a benefits question, and the hyphenated form returns ZERO -
+  # that Act is from 2022 and is no longer what questions name. Replaced by
+  # the live vocabulary, measured since 1 June: asylum-seekers 120,
+  # asylum-accommodation 117, border-security 49, deportation 37. Migration
+  # is collated for MP intelligence only, never campaigned, so these feed the
+  # ledger and the written-questions page, not the 5CA or briefs.
+  - asylum-seekers         # 4,574; newest "Asylum: Housing"
+  - asylum-accommodation   # 1,498; newest "Asylum: MOD Bicester"
+  - deportation            # 1,699; newest "Deportation", 3 August
+  - border-security        # 764; newest "Immigration Controls: EU Countries"
 
 # Early Day Motions sweep (fast API). Matched EDMs are stored as items and
 # their signature counts recorded per edition for week-on-week deltas.
@@ -70,7 +80,7 @@ edm_sweep_terms:
   - free speech
   - surrogacy
   - single-sex
-  - conversion-therapy      # 289, from 6,342
+  - conversion therapy
   - Rwanda
   - online safety
 
@@ -89,7 +99,7 @@ division_sweep_terms:
   - immigration
   - asylum
   - gender recognition
-  - conversion-therapy      # 289, from 6,342
+  - conversion therapy
   - surrogacy
   - marriage
   - free speech
