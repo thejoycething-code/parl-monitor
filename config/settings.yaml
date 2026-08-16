@@ -5,11 +5,19 @@
 # table and the edition footer). Keep this list curated, not exhaustive -- the
 # taxonomy filter runs over the results, so terms here only decide what gets
 # fetched, not what gets published.
+# Three terms make the Written Questions API return HTTP 500 after 30-60s of
+# trying, every time: "home education", "safe access zones" and "Cass Review".
+# It is the term, not the phrase length -- "assisted dying" and "age
+# assurance" are fine. Hyphenating fixes two of them, and "Cass" alone works
+# where both "Cass Review" and "Cass-Review" fail. Verified 2026-08-17:
+# home-education 444 results, safe-access-zones 45, Cass 459. The taxonomy
+# filter runs over whatever comes back, so a broader term costs nothing but
+# a few discarded rows.
 pq_sweep_terms:
   - assisted dying
-  - home education
-  - safe access zones
-  - Cass Review
+  - home-education
+  - safe-access-zones
+  - Cass
   - hospices
   - puberty blockers
   - age assurance

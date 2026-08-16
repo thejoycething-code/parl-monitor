@@ -53,7 +53,14 @@ DEFAULT_HOST_CONCURRENCY = 4
 
 # 4xx errors are the caller's fault (e.g. What's On returns 400 on ranges over
 # four weeks); never retry those. 5xx and 429 are transient; retry them.
+# 500 is retried ONCE, not to exhaustion: the Written Questions API answers
+# some search terms with a deterministic 500 after 30-60s of computation, so
+# four attempts spend four minutes learning what the first attempt already
+# said (2026-08-17). 429 and the gateway errors stay fully retryable - those
+# really are transient.
 _RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
+_LIMITED_RETRY_STATUS = frozenset({500})
+_LIMITED_RETRY_ATTEMPTS = 2
 
 
 class FetchError(Exception):
@@ -208,6 +215,9 @@ class HttpClient:
             except urllib.error.HTTPError as exc:
                 last_error = exc
                 if exc.code not in _RETRYABLE_STATUS:
+                    raise FetchError(url, feed, slug, attempts, exc)
+                if (exc.code in _LIMITED_RETRY_STATUS
+                        and attempts >= _LIMITED_RETRY_ATTEMPTS):
                     raise FetchError(url, feed, slug, attempts, exc)
             except (urllib.error.URLError, socket.timeout, TimeoutError, OSError) as exc:
                 last_error = exc

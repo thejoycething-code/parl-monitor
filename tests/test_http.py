@@ -208,3 +208,30 @@ class ConcurrencyCapTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LimitedRetryTests(unittest.TestCase):
+    """A deterministic 500 must not be retried to exhaustion (2026-08-17).
+
+    The Written Questions API answers certain search terms with a 500 after
+    30-60s of computation, every time. Four attempts spent four minutes
+    learning what the first attempt already said.
+    """
+
+    def _run(self, status):
+        opener = ScriptedOpener([
+            urllib.error.HTTPError("https://example.test/x", status, "boom", {}, None)
+            for _ in range(6)])
+        client, _rec = make_client(tempfile.mkdtemp(), opener, throttle=0.0)
+        with self.assertRaises(http.FetchError) as caught:
+            client.get_json("https://example.test/x", "pq", "slug")
+        return len(opener.requests), caught.exception.attempts
+
+    def test_500_gives_up_after_two_attempts(self):
+        calls, attempts = self._run(500)
+        self.assertEqual(calls, 2, "a 500 should cost two attempts, not four")
+        self.assertEqual(attempts, 2)
+
+    def test_503_still_retries_fully(self):
+        calls, _ = self._run(503)
+        self.assertGreater(calls, 2, "gateway errors are transient; keep retrying")
