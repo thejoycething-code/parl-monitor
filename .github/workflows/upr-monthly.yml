@@ -1,0 +1,47 @@
+name: UPR monthly
+
+on:
+  schedule:
+    # 06:00 UTC on the 3rd of each month. Monthly, not weekly, because the UPR
+    # Info database trails the live UPR calendar by roughly nine months (see
+    # config/un-settings.yaml): a weekly run would re-read the same rows and
+    # put pointless load on a small NGO's server for no new information.
+    # No DST guard: nothing downstream cares which hour this lands in, unlike
+    # the Monday publish.
+    - cron: "0 6 3 * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  upr:
+    runs-on: ubuntu-latest
+    # 30 terms, each paging at 100 rows; the broad ones ("freedom of religion",
+    # 2,943) dominate. Measured at well under 20 minutes.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Harvest UPR recommendations
+        # The tool prints "NEW this run: n" followed by each new
+        # recommendation. On a typical month that is the entire signal -- the
+        # store total barely moves -- so it is what the log is read for.
+        run: python3 tools/pull_upr.py
+      - name: Rebuild the tracker
+        run: python3 tools/make_upr_tracker.py --csv
+      - name: Commit state
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ docs/upr-tracker.md docs/upr-tracker.csv
+          git diff --cached --quiet || git commit -m "UPR monthly: $(date -u +%Y-%m-%d)"
+          git push

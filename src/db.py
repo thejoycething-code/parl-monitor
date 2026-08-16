@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated
 -- pressing, not who is receiving it.
 CREATE TABLE IF NOT EXISTS upr_recommendations (
   id TEXT PRIMARY KEY,            -- uwazi sharedId, stable across edits
+  first_seen TEXT,                -- set once; what makes "new this month" answerable
   captured_at TEXT NOT NULL,
   text TEXT,
   state_under_review TEXT, sur_group TEXT,
@@ -112,6 +113,15 @@ def init_db(conn):
             conn.execute("ALTER TABLE members ADD COLUMN {0} TEXT".format(column))
     if "current_peer" not in m_cols:
         conn.execute("ALTER TABLE members ADD COLUMN current_peer INTEGER")
+    u_cols = {r[1] for r in conn.execute("PRAGMA table_info(upr_recommendations)")}
+    if u_cols and "first_seen" not in u_cols:
+        # Added 2026-08-17. captured_at is refreshed on every upsert, so it
+        # cannot answer "what arrived since last month" -- which is the whole
+        # point of a monthly run. Backfilled from captured_at: those rows
+        # were genuinely first seen at the initial harvest.
+        conn.execute("ALTER TABLE upr_recommendations ADD COLUMN first_seen TEXT")
+        conn.execute("UPDATE upr_recommendations SET first_seen = captured_at "
+                     "WHERE first_seen IS NULL")
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former
         # members stay NULL. Full-roster 5CA sheets select on this flag.

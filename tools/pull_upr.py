@@ -45,15 +45,18 @@ def store(conn, rec, result):
     """
     import datetime
     conn.execute(
-        "INSERT INTO upr_recommendations (id, captured_at, text, state_under_review, "
+        "INSERT INTO upr_recommendations (id, first_seen, captured_at, text, state_under_review, "
         "sur_group, recommending_state, rs_group, response, refused, issues, "
         "issue_areas, matched_terms, cycle, session, action_category, url) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        # first_seen is deliberately NOT in the update list: it records when a
+        # recommendation entered our store, and a re-read must not move it.
         "ON CONFLICT(id) DO UPDATE SET captured_at=excluded.captured_at, "
         "text=excluded.text, response=excluded.response, refused=excluded.refused, "
         "issues=excluded.issues, issue_areas=excluded.issue_areas, "
         "matched_terms=excluded.matched_terms",
-        (rec.id, datetime.date.today().isoformat(), rec.text, rec.state_under_review,
+        (rec.id, datetime.date.today().isoformat(),
+         datetime.date.today().isoformat(), rec.text, rec.state_under_review,
          rec.sur_group, rec.recommending_state, rec.rs_group, rec.response,
          1 if rec.refused else 0, json.dumps(rec.issues),
          json.dumps(result.issue_areas),
@@ -89,6 +92,12 @@ def main():
         if not issue_ids:
             print("Issues thesaurus came back empty; refusing to harvest blind")
             return 1
+
+    # Snapshot the ids we already hold. "New" is then a set difference, not a
+    # date comparison: first_seen was backfilled for existing rows when the
+    # column was added, so on that day every row carried the current date and
+    # a date test reported the entire store as new.
+    before = {r["id"] for r in conn.execute("SELECT id FROM upr_recommendations")}
 
     kept, discarded, gaps = [], 0, []
     for label in wanted:
@@ -152,6 +161,22 @@ def main():
 
     stored = conn.execute("SELECT COUNT(*) FROM upr_recommendations").fetchone()[0]
     print("\nstored: {0} recommendation(s) in upr_recommendations".format(stored))
+
+    # What actually arrived this run. The database trails the UPR calendar by
+    # roughly nine months (see un-settings.yaml), so a monthly run is mostly
+    # re-reads: the handful of genuinely new rows is the whole signal, and
+    # printing the total alone would bury it.
+    after = {r["id"] for r in conn.execute("SELECT id FROM upr_recommendations")}
+    new_ids = after - before
+    fresh = [r for r in conn.execute(
+        "SELECT id, state_under_review s, recommending_state r, response p, text t, url u "
+        "FROM upr_recommendations ORDER BY s") if r["id"] in new_ids]
+    print("NEW this run: {0}".format(len(fresh)))
+    for row in fresh[:25]:
+        print("  {0} <- {1} [{2}]".format(row["s"], row["r"], row["p"]))
+        print("    {0}".format((row["t"] or "").strip()[:100]))
+    if len(fresh) > 25:
+        print("  ...and {0} more".format(len(fresh) - 25))
 
     print("\nsample:")
     for rec in recs[:5]:
