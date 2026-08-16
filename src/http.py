@@ -29,6 +29,7 @@ import json
 import os
 import re
 import socket
+import ssl
 import threading
 import time
 import urllib.error
@@ -257,13 +258,47 @@ class HttpClient:
                 "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",
             },
         )
-        response = self._opener.open(request, timeout=timeout)
+        try:
+            response = self._opener.open(request, timeout=timeout)
+        except (ssl.SSLError, urllib.error.URLError) as exc:
+            # urllib wraps the SSLError in a URLError, so the handshake
+            # failure arrives as a URLError whose reason is the SSL one.
+            # Match on the message rather than the class for that reason.
+            if "TLSV1_ALERT_PROTOCOL_VERSION" not in str(exc):
+                raise
+            return self._fetch_via_curl(url, timeout, exc)
         try:
             return response.read()
         finally:
             close = getattr(response, "close", None)
             if close:
                 close()
+
+    def _fetch_via_curl(self, url, timeout, cause):
+        """Last resort for hosts this Python's TLS cannot negotiate.
+
+        www.ohchr.org requires a TLS version that the macOS system Python's
+        LibreSSL 2.8.3 will not offer, so every request fails with
+        TLSV1_ALERT_PROTOCOL_VERSION while curl on the same machine gets a
+        200 (measured 2026-08-17). CI runs a modern OpenSSL and never takes
+        this path -- which is exactly the danger: without the fallback the
+        OHCHR feeds would work in the scheduled run and be untestable on the
+        laptop that maintains them.
+
+        Narrow on purpose: only this one TLS error, never a general shell-out.
+        """
+        import shutil
+        import subprocess
+        curl = shutil.which("curl")
+        if not curl:
+            raise cause
+        done = subprocess.run(
+            [curl, "-sS", "--fail", "--max-time", str(int(timeout)),
+             "-A", self.user_agent, url],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if done.returncode != 0:
+            raise cause
+        return done.stdout
 
     def _archive(self, raw, feed, slug):
         """Write raw bytes to data/raw/<date>/<feed>_<slug>.json.gz."""

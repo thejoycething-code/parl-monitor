@@ -10,6 +10,7 @@ import datetime
 import gzip
 import json
 import os
+import re
 import sys
 import unittest
 from unittest import mock
@@ -19,7 +20,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, members
 from src.ingest import (pqs, edms, sis, divisions, whatson, consultations, wms,
-                        legislation, hansard, upr)
+                        legislation, hansard, upr, ohchr_calls)
 
 RAW = os.path.join(ROOT, "data", "raw", "2026-08-01")
 
@@ -319,3 +320,36 @@ class UprHarvestTests(unittest.TestCase):
         self.assertIn("searchTerm=", seen["url"])
         self.assertIn("%22sexuality+education%22", seen["url"])
         self.assertNotIn("filters=", seen["url"])
+
+
+class OhchrCallsTests(unittest.TestCase):
+    """OHCHR calls for input, against a fixture captured live 2026-08-17."""
+
+    def setUp(self):
+        self.calls = ohchr_calls.parse_calls(load_text("ohchr_calls-for-input"))
+
+    def test_parses_every_call_on_the_page(self):
+        """15 call links on the page, 15 parsed. A deadline feed that quietly
+        drops rows is worse than none: the missing one is the closed door."""
+        html = load_text("ohchr_calls-for-input")
+        links = set(re.findall(r'href="(/en/calls-for-input/[^"#?]+)"', html))
+        parsed = {c.url.replace(ohchr_calls.BASE, "") for c in self.calls}
+        self.assertEqual(len(parsed), len(links))
+        self.assertFalse(links - parsed)
+
+    def test_reads_deadlines_and_sorts_by_them(self):
+        self.assertTrue(self.calls)
+        for call in self.calls:
+            self.assertIsInstance(call.deadline, datetime.date)
+        self.assertEqual(self.calls, sorted(self.calls, key=lambda c: c.deadline))
+
+    def test_open_calls_respects_a_horizon(self):
+        day = datetime.date(2026, 8, 17)
+        self.assertGreater(len(ohchr_calls.open_calls(self.calls, today=day)),
+                           len(ohchr_calls.open_calls(self.calls, today=day, horizon_days=30)))
+
+    def test_titles_come_from_the_url_slug(self):
+        """The slug survives layout changes; the visible title markup has not."""
+        titles = [c.title for c in self.calls]
+        self.assertTrue(any("Child rights" in t for t in titles))
+        self.assertFalse(any("<" in t for t in titles), "no markup should leak in")
