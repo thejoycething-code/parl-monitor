@@ -12,12 +12,14 @@ import json
 import os
 import sys
 import unittest
+from unittest import mock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import db, members
-from src.ingest import pqs, edms, sis, divisions, whatson, consultations, wms, legislation
+from src.ingest import (pqs, edms, sis, divisions, whatson, consultations, wms,
+                        legislation, hansard)
 
 RAW = os.path.join(ROOT, "data", "raw", "2026-08-01")
 
@@ -220,3 +222,23 @@ class LegislationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class HansardSpokenFormTests(unittest.TestCase):
+    """The sweep list is hyphenated for the Written Questions API; Hansard is
+    a different API and the hyphens were costing hits (2026-08-17:
+    "abortion-clinics" 0, "abortion clinics" 3)."""
+
+    def test_hyphens_relax_to_spaces(self):
+        self.assertEqual(hansard.spoken_form("abortion-clinics"), "abortion clinics")
+        self.assertEqual(hansard.spoken_form("puberty-suppressing-hormones"),
+                         "puberty suppressing hormones")
+
+    def test_untouched_when_already_spoken(self):
+        self.assertEqual(hansard.spoken_form("surrogacy"), "surrogacy")
+        self.assertEqual(hansard.spoken_form("anti-Muslim hostility"),
+                         "anti Muslim hostility")
+
+    def test_exceptions_are_left_alone(self):
+        with mock.patch.object(hansard, "NO_RELAX", frozenset({"single-sex"})):
+            self.assertEqual(hansard.spoken_form("single-sex"), "single-sex")

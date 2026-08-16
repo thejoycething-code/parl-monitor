@@ -52,6 +52,32 @@ def parse_response(payload):
     return [parse_contribution(row) for row in (payload.get("Results") or [])]
 
 
+def spoken_form(term):
+    """A sweep term as Hansard wants it: hyphens back to spaces.
+
+    config/settings.yaml is hyphenated for the Written Questions API, which
+    needs it to force a phrase match ("age assurance" returned 77,980 near-
+    random results; "age-assurance" returned 258). Hansard is a different API
+    and did not ask for any of that. Mostly it does not care -- measured
+    2026-08-17, "assisted-dying" 501 against "assisted dying" 522 -- but
+    "abortion-clinics" returned 0 where "abortion clinics" returned 3, so the
+    hyphens we added for one API were quietly costing hits in the other.
+
+    Only hyphens BETWEEN words are relaxed. A term is left alone if the
+    de-hyphenated form measured worse (see NO_RELAX), because a hyphen is
+    sometimes part of the word rather than a phrase separator.
+    """
+    if term in NO_RELAX:
+        return term
+    return " ".join(term.replace("-", " ").split())
+
+
+# Terms whose de-hyphenated form measured no better in Hansard and reads
+# wrong as separate words. Kept explicit rather than inferred: this is a
+# measured exception list, not a rule.
+NO_RELAX = frozenset()
+
+
 def search_contributions(client, term, start, end, page_size=100, max_pages=20):
     """All spoken contributions matching a term in a date range (both Houses,
     paged)."""

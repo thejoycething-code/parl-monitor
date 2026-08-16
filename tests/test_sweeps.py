@@ -51,6 +51,50 @@ class PqSweepTests(unittest.TestCase):
         self.assertIn("Cass Review", gap["detail"])
         self.assertIn("4 attempts", gap["detail"])
 
+    def test_parallel_fetch_attributes_each_failure_to_the_right_term(self):
+        """Which term gapped must not depend on which thread finished first.
+
+        The fetch runs three at a time (2026-08-17); results come back in
+        completion order, so the sweep re-reads them in term order before
+        deciding anything.
+        """
+        import time
+
+        def slow_and_flaky(client, term):
+            # The failing term is also the SLOWEST, so a naive implementation
+            # that zipped results onto terms in completion order would blame
+            # the wrong one.
+            if term == "grooming-gangs":
+                time.sleep(0.05)
+                raise FetchError("u", "pq", term, 2, TimeoutError("slow"))
+            return []
+
+        with mock.patch.object(pqs, "fetch_questions", side_effect=slow_and_flaky):
+            failed = run_weekly.sweep_pqs(
+                None, self.conn, TAX, WL, WEEK, "2026-08-03",
+                ["hospices", "grooming-gangs", "surrogacy", "Rwanda"])
+        self.assertEqual(failed, ["grooming-gangs"])
+        gap = self.conn.execute("SELECT detail FROM gaps").fetchone()
+        self.assertIn("grooming-gangs", gap["detail"])
+
+    def test_parallel_and_sequential_store_the_same_items(self):
+        results = {
+            "safe access zones": [pq(2, "Abortion: safe access zones", "2026-08-01")],
+            "hospices": [pq(3, "Hospices: funding", "2026-08-02")],
+        }
+        stored = {}
+        for workers in (1, 3):
+            conn = db.init_db(db.connect(":memory:"))
+            with mock.patch.object(run_weekly, "PQ_SWEEP_CONCURRENCY", workers), \
+                 mock.patch.object(pqs, "fetch_questions",
+                                   side_effect=lambda c, t: results.get(t, [])):
+                run_weekly.sweep_pqs(None, conn, TAX, WL, WEEK, "2026-08-03",
+                                     list(results))
+            stored[workers] = [r["id"] for r in conn.execute("SELECT id FROM items ORDER BY id")]
+            conn.close()
+        self.assertEqual(stored[1], stored[3])
+        self.assertTrue(stored[1], "fixture should store something to compare")
+
     def test_sweep_reports_which_terms_failed(self):
         def flaky(client, term):
             if term == "border-security":

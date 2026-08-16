@@ -1,16 +1,18 @@
 name: Sunday pull
 on:
   schedule:
-    # Target: 21:04 Europe/London every Sunday. Actions cron is UTC-only, so
-    # both candidate UTC slots fire and the London-hour guard picks the right
-    # one across BST/GMT.
-    - cron: "4 20 * * 0"
-    - cron: "4 21 * * 0"
+    # Target: 05:00 Europe/London every Sunday (Christopher, 2026-08-17; was
+    # 21:04). Actions cron is UTC-only, so both candidate UTC slots fire and
+    # the London-hour guard picks the right one across BST/GMT.
+    - cron: "0 4 * * 0"
+    - cron: "0 5 * * 0"
     # Retry slots. The pull is idempotent per week (pull_log), so extra slots
     # are free: if the primary ran, these find the marker and exit in seconds;
-    # if it was dropped or died, the week still gets pulled. The last one runs
-    # early Monday so a bad Sunday is recovered before the 06:30 publish.
-    - cron: "4 22 * * 0"
+    # if it was dropped or died, the week still gets pulled. A 05:00 start
+    # leaves the whole of Sunday for recovery, which the old evening slot did
+    # not. The last one runs early Monday, before the 06:30 publish.
+    - cron: "0 9 * * 0"
+    - cron: "0 18 * * 0"
     - cron: "30 3 * * 1"
   workflow_dispatch: {}
 
@@ -24,7 +26,10 @@ concurrency:
 jobs:
   pull:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # 60min (Christopher, 2026-08-17). A cold pull measured 40m05s and the
+    # weekly run is always cold; this covers the whole job, not just the
+    # pull, so checkout and pip come out of the same budget.
+    timeout-minutes: 60
     steps:
       - name: London-hour guard (scheduled runs only)
         if: github.event_name == 'schedule'
@@ -37,11 +42,11 @@ jobs:
         # harmless, so only the paired primary slots still need the DST pick.
         run: |
           case "${{ github.event.schedule }}" in
-            "4 22 * * 0"|"30 3 * * 1") echo "retry slot; idempotency decides"; exit 0 ;;
+            "0 9 * * 0"|"0 18 * * 0"|"30 3 * * 1") echo "retry slot; idempotency decides"; exit 0 ;;
           esac
           OFFSET=$(TZ=Europe/London date +%z)   # +0100 during BST, +0000 GMT
-          WANT="4 21 * * 0"
-          [ "$OFFSET" = "+0100" ] && WANT="4 20 * * 0"
+          WANT="0 5 * * 0"
+          [ "$OFFSET" = "+0100" ] && WANT="0 4 * * 0"
           if [ "${{ github.event.schedule }}" != "$WANT" ]; then
             echo "Fired by '${{ github.event.schedule }}' but London (UTC$OFFSET) wants '$WANT' - off-DST duplicate slot; exiting."
             echo "SKIP=1" >> "$GITHUB_ENV"
@@ -69,7 +74,7 @@ jobs:
       - name: Pull for the coming week
         if: env.SKIP != '1'
         run: |
-          # Monday of the week this Sunday evening belongs to: tomorrow on a
+          # Monday of the week this Sunday belongs to: tomorrow on a
           # Sunday, today if a delayed run crosses midnight into Monday. The
           # old "next Monday" formula would pull a week ahead after midnight.
           WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t + datetime.timedelta(days=1) if t.weekday() == 6 else t - datetime.timedelta(days=t.weekday())).isoformat())")

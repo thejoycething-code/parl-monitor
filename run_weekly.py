@@ -18,6 +18,7 @@ import json
 import os
 import re
 import sys
+from concurrent import futures
 
 import yaml
 
@@ -148,6 +149,42 @@ def _pq_gap_detail(term, attempts):
             "week".format(term, attempts))
 
 
+# Terms fetched at once in the PQ sweep. Written questions dominate the pull
+# -- 39 terms at 30-50s each, one at a time, is most of it -- and until
+# 2026-08-17 nothing in the pipeline fetched in parallel at all, so the
+# HttpClient's per-host semaphore had never once been contended.
+# Only the FETCH is parallel. Storing stays on the calling thread: the sqlite
+# connection is not shared across threads, and member resolution writes to it.
+PQ_SWEEP_CONCURRENCY = 3
+
+
+def _fetch_terms(client, terms, workers=PQ_SWEEP_CONCURRENCY):
+    """{term: questions | FetchError}, fetched `workers` at a time.
+
+    Exceptions are returned rather than raised so the caller decides, in
+    deterministic term order, what is a gap -- otherwise which term failed
+    would depend on which thread finished first.
+    """
+    out = {}
+    if workers <= 1 or len(terms) <= 1:
+        for term in terms:
+            try:
+                out[term] = pqs.fetch_questions(client, term)
+            except FetchError as exc:
+                out[term] = exc
+        return out
+    with futures.ThreadPoolExecutor(max_workers=workers) as pool:
+        submitted = {pool.submit(pqs.fetch_questions, client, term): term
+                     for term in terms}
+        for future in futures.as_completed(submitted):
+            term = submitted[future]
+            try:
+                out[term] = future.result()
+            except FetchError as exc:
+                out[term] = exc
+    return out
+
+
 def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
     """Weekly written-questions sweep (handoff 4.2, 3).
 
@@ -160,14 +197,14 @@ def sweep_pqs(client, conn, tax, wl, week_start, edition, terms):
     """
     since = week_start - datetime.timedelta(days=7)
     failed = []
-    for term in terms:
-        try:
-            questions = pqs.fetch_questions(client, term)
-        except FetchError as exc:
-            record_gap(conn, edition, "pq", _pq_gap_detail(term, exc.attempts))
+    fetched = _fetch_terms(client, terms)
+    for term in terms:                     # deterministic, whatever finished first
+        outcome = fetched.get(term)
+        if isinstance(outcome, FetchError):
+            record_gap(conn, edition, "pq", _pq_gap_detail(term, outcome.attempts))
             failed.append(term)
             continue
-        _store_pq_questions(client, conn, tax, wl, since, edition, questions)
+        _store_pq_questions(client, conn, tax, wl, since, edition, outcome or [])
     return failed
 
 
@@ -401,8 +438,11 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
         promises debates, so this is what makes good on it each week."""
         for term in (settings.get("pq_sweep_terms") or []):
             try:
+                # The list is hyphenated for the Written Questions API's
+                # benefit; Hansard wants the spoken form (hansard.spoken_form).
                 speeches = hansard.search_contributions(
-                    client, term, week_start.isoformat(), week_end.isoformat())
+                    client, hansard.spoken_form(term),
+                    week_start.isoformat(), week_end.isoformat())
             except FetchError as exc:
                 record_gap(conn, edition, "hansard",
                            "term '{0}' failed after {1} attempts".format(term, exc.attempts))
