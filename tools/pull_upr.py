@@ -16,6 +16,7 @@ Rows the filter rejects are counted and reported, never silently dropped.
 
 from __future__ import annotations
 
+import json
 import os
 import sys
 
@@ -24,7 +25,7 @@ sys.path.insert(0, ROOT)
 
 import yaml
 
-from src import filter as filt
+from src import db, filter as filt
 from src.http import FetchError, HttpClient
 from src.ingest import upr
 
@@ -34,36 +35,81 @@ def load_settings():
         return yaml.safe_load(fh) or {}
 
 
+def store(conn, rec, result):
+    """Upsert one recommendation with the taxonomy verdict that admitted it.
+
+    Upsert rather than insert: a recommendation's response can change (a state
+    can revisit a "Noted" at the next cycle) and re-running must refresh it
+    without duplicating. issue_areas and matched_terms are stored because the
+    taxonomy is maintained by reading back what it actually matched.
+    """
+    import datetime
+    conn.execute(
+        "INSERT INTO upr_recommendations (id, captured_at, text, state_under_review, "
+        "sur_group, recommending_state, rs_group, response, refused, issues, "
+        "issue_areas, matched_terms, cycle, session, action_category, url) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        "ON CONFLICT(id) DO UPDATE SET captured_at=excluded.captured_at, "
+        "text=excluded.text, response=excluded.response, refused=excluded.refused, "
+        "issues=excluded.issues, issue_areas=excluded.issue_areas, "
+        "matched_terms=excluded.matched_terms",
+        (rec.id, datetime.date.today().isoformat(), rec.text, rec.state_under_review,
+         rec.sur_group, rec.recommending_state, rec.rs_group, rec.response,
+         1 if rec.refused else 0, json.dumps(rec.issues),
+         json.dumps(result.issue_areas),
+         json.dumps(result.matched_terms + result.watchlist_hits),
+         rec.cycle, rec.session, rec.action_category, rec.url))
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     refused_only = "--refused-only" in sys.argv
     settings = load_settings()
-    wanted = args or (settings.get("upr_issues") or [])
+    # Terms first: quoted phrases narrow server-side, where issue tags mean
+    # fetching thousands to keep dozens. Issue tags stay available via
+    # --by-issue for coverage checks against the terms.
+    by_issue = "--by-issue" in sys.argv
+    if by_issue:
+        wanted = args or (settings.get("upr_issues") or [])
+    else:
+        wanted = args or (settings.get("upr_search_terms") or [])
 
+    conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
 
-    try:
-        issue_ids = upr.fetch_issue_ids(client)
-    except FetchError as exc:
-        print("could not read the Issues thesaurus: {0}".format(exc))
-        return 1
-    if not issue_ids:
-        print("Issues thesaurus came back empty; refusing to harvest blind")
-        return 1
+    issue_ids = {}
+    if by_issue:
+        try:
+            issue_ids = upr.fetch_issue_ids(client)
+        except FetchError as exc:
+            print("could not read the Issues thesaurus: {0}".format(exc))
+            return 1
+        if not issue_ids:
+            print("Issues thesaurus came back empty; refusing to harvest blind")
+            return 1
 
     kept, discarded, gaps = [], 0, []
     for label in wanted:
-        issue_id = issue_ids.get(label)
-        if not issue_id:
-            # Louder than a silent skip: a renamed tag would otherwise look
-            # like an issue nobody has raised.
-            gaps.append("{0}: no such issue tag (renamed upstream?)".format(label))
-            continue
+        issue_id, term = None, None
+        if by_issue:
+            issue_id = issue_ids.get(label)
+            if not issue_id:
+                # Louder than a silent skip: a renamed tag would otherwise
+                # look like an issue nobody has raised.
+                gaps.append("{0}: no such issue tag (renamed upstream?)".format(label))
+                continue
+        else:
+            term = label
+            if not (label.startswith('"') and label.endswith('"')):
+                # Unquoted multi-word terms match loosely and return the whole
+                # database. Refuse rather than harvest 10,000 rows by accident.
+                gaps.append("{0}: not a quoted phrase; skipped".format(label))
+                continue
         try:
             recs, total, truncated = upr.fetch_recommendations(
-                client, issue_id, label,
+                client, issue_id=issue_id, issue_label=label, search_term=term,
                 page_size=settings.get("upr_page_size") or 100,
                 max_pages=settings.get("upr_max_pages") or 20)
         except FetchError as exc:
@@ -71,10 +117,13 @@ def main():
             continue
         on_topic = []
         for rec in recs:
-            if filt.filter_item(tax, wl, rec.text).matched():
+            result = filt.filter_item(tax, wl, rec.text)
+            if result.matched():
                 on_topic.append(rec)
+                store(conn, rec, result)
             else:
                 discarded += 1
+        conn.commit()
         kept.extend(on_topic)
         note = " (TRUNCATED at max_pages)" if truncated else ""
         print("{0:<38} {1:>4} fetched, {2:>3} on-topic{3}".format(
@@ -101,12 +150,16 @@ def main():
                                  key=lambda kv: -(kv[1]["refused"] + kv[1]["supported"])):
             print("{0:<28} {1:>9} {2:>8}".format(state[:28], row["supported"], row["refused"]))
 
+    stored = conn.execute("SELECT COUNT(*) FROM upr_recommendations").fetchone()[0]
+    print("\nstored: {0} recommendation(s) in upr_recommendations".format(stored))
+
     print("\nsample:")
     for rec in recs[:5]:
         print("  {0} -> {1} [{2}]".format(
             rec.recommending_state, rec.state_under_review, rec.response))
         print("    {0}".format((rec.text or "")[:96]))
         print("    {0}".format(rec.url))
+    conn.close()
     return 0
 
 

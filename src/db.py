@@ -45,6 +45,24 @@ CREATE TABLE IF NOT EXISTS mp_events (member_id INTEGER, date TEXT, kind TEXT, r
 );
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
+-- UN monitor. A UPR recommendation is a position taken by one state towards
+-- another, so both states are first-class here rather than one being an
+-- attribute of the other: the interesting cut is often who is DOING the
+-- pressing, not who is receiving it.
+CREATE TABLE IF NOT EXISTS upr_recommendations (
+  id TEXT PRIMARY KEY,            -- uwazi sharedId, stable across edits
+  captured_at TEXT NOT NULL,
+  text TEXT,
+  state_under_review TEXT, sur_group TEXT,
+  recommending_state TEXT, rs_group TEXT,
+  response TEXT,                  -- Supported | Noted | Not Supported
+  refused INTEGER,                -- 1 for Noted or Not Supported; see upr.py
+  issues TEXT,                    -- json list of UPR issue tags
+  issue_areas TEXT,               -- json list of OUR area numbers
+  matched_terms TEXT,             -- json list, for taxonomy maintenance
+  cycle TEXT, session TEXT, action_category TEXT,
+  url TEXT
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -59,6 +77,7 @@ TABLES = (
     "editions",
     "gaps",
     "discards",
+    "upr_recommendations",
 )
 
 

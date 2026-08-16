@@ -296,3 +296,26 @@ class UprTests(unittest.TestCase):
         ids = upr.fetch_issue_ids(FakeClient())
         self.assertIn("Right to life", ids)
         self.assertEqual(len(ids["Right to life"]), 36, "must be a full UUID")
+
+
+class UprHarvestTests(unittest.TestCase):
+    """Harvest mechanics: quoting, and refusing to guess."""
+
+    def test_needs_an_issue_or_a_term(self):
+        with self.assertRaises(ValueError):
+            upr.fetch_recommendations(None)
+
+    def test_search_term_is_passed_through_quoted(self):
+        """Quoting is load-bearing: unquoted "sexuality education" returns
+        10,000 rows (the whole database), quoted returns 228."""
+        seen = {}
+
+        class FakeClient:
+            def get_json(self, url, feed, slug):
+                seen["url"] = url
+                return {"rows": [], "totalRows": 0}
+
+        upr.fetch_recommendations(FakeClient(), search_term='"sexuality education"')
+        self.assertIn("searchTerm=", seen["url"])
+        self.assertIn("%22sexuality+education%22", seen["url"])
+        self.assertNotIn("filters=", seen["url"])

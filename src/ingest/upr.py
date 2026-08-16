@@ -124,22 +124,35 @@ def fetch_issue_ids(client):
     return {}
 
 
-def fetch_recommendations(client, issue_id, issue_label=None, page_size=100,
-                          max_pages=20):
-    """Every recommendation tagged with one issue, paged.
+def fetch_recommendations(client, issue_id=None, issue_label=None, search_term=None,
+                          page_size=100, max_pages=20):
+    """Recommendations matching a search term and/or an issue tag, paged.
+
+    Prefer search_term. QUOTE the phrase: unquoted multi-word terms match
+    loosely, exactly as Parliament's Written Questions API does.
+    Measured 2026-08-16:
+        sexuality education     -> 10,000 (i.e. everything)
+        "sexuality education"   ->    228
+    Harvesting by issue tag alone means fetching thousands to keep dozens --
+    "Rights of the Child" is 10,000+ rows of which ~127 are ours -- and hits
+    max_pages long before it finishes.
 
     max_pages caps a runaway harvest; the caller is told when it bites rather
     than silently receiving a truncated set (see the return value).
     """
+    if not issue_id and not search_term:
+        raise ValueError("need an issue_id or a search_term to harvest")
     out, offset, total = [], 0, None
     slug_base = "search-{0}".format(
-        (issue_label or issue_id).lower().replace(" ", "-")[:40])
+        (search_term or issue_label or issue_id).lower()
+        .replace('"', "").replace(" ", "-")[:40])
     for page in range(max_pages):
-        query = urlencode({
-            "filters": json.dumps({"issues": {"values": [issue_id]}}),
-            "limit": str(page_size),
-            "from": str(offset),
-        })
+        params = {"limit": str(page_size), "from": str(offset)}
+        if issue_id:
+            params["filters"] = json.dumps({"issues": {"values": [issue_id]}})
+        if search_term:
+            params["searchTerm"] = search_term
+        query = urlencode(params)
         payload = client.get_json("{0}/search?{1}".format(UPR_API, query),
                                   "upr", "{0}-p{1}".format(slug_base, page))
         if total is None:

@@ -30,5 +30,43 @@ upr_issues:
 # src/ingest/upr.py encodes this; listed here for readers.
 #   Supported | Noted | Not Supported
 
+# Quoted search phrases, which is how this is actually harvested. Measured
+# 2026-08-16, and the quoting is not decoration: an UNQUOTED multi-word term
+# matches loosely and returns everything, exactly as Parliament's Written
+# Questions API does.
+#     sexuality education      -> 10,000 (the whole database)
+#     "sexuality education"    ->    228
+# Harvesting by issue tag alone fetched 13,166 rows to keep 1,775 and still
+# truncated six of nine tags. Terms fetch ~3,100 for a comparable yield.
+# Counts below are totalRows at the time of measurement.
+upr_search_terms:
+  - '"abortion"'                            # 571
+  - '"sexual and reproductive health"'      # 746
+  - '"sexuality education"'                 # 228; superset of "comprehensive sexuality education" (189)
+  - '"decriminalize abortion"'              # 195
+  - '"safe abortion"'                       # 101
+  - '"therapeutic abortion"'                # 22
+  - '"sex-selective"'                       # 4
+  - '"euthanasia"'                          # 7
+  - '"assisted suicide"'                    # 8
+  - '"surrogacy"'                           # 1
+  - '"conscientious objection"'             # 79; mostly military service, taxonomy sorts it
+  - '"blasphemy"'                           # 68
+  - '"freedom of religion"'                 # 2,943; broad but a core area
+  - '"same-sex marriage"'                   # 87
+  - '"conversion therapy"'                  # 33
+  - '"parental rights"'                     # 14
+  - '"rights of parents"'                   # 14
+  - '"home education"'                      # 2
+  - '"child marriage"'                      # 555
+  - '"forced marriage"'                     # 540
+  - '"trafficking in women"'                # 180
+#
+# Rejected as too broad to be worth the fetch, with the numbers so nobody
+# re-adds them blind: "reproductive rights" (1,182, largely restating the
+# abortion terms) and "gender identity" (4,330). SOGI coverage currently
+# rests on the narrower terms above; if that proves thin, measure
+# '"sexual orientation and gender identity"' before reaching for the broad one.
+
 upr_page_size: 100
-upr_max_pages: 20        # 2,000 recommendations per issue before truncating
+upr_max_pages: 40        # 4,000 per term; every term above fits except religion
