@@ -14,6 +14,11 @@ Markdown conventions parsed here:
   * term lines are semicolon-separated:  - **Tier 1:** abortion; "buffer zone*"
   * quoted terms keep their quotes (phrase match); trailing * is a stem;
     all-caps terms match case-sensitively (filter-side heuristic, no flag here)
+  * a term may require company:          "buffer zone*" [with: clinic*, abortion]
+    which matches only when the text also contains one of the listed guards.
+    For terms whose words belong to more than one policy area -- a buffer zone
+    is an abortion clinic zone, a pesticide margin and a military perimeter --
+    the guard is what keeps someone else's subject out of ours.
   * - **Notes:** lines become YAML comments (the loader ignores prose)
   * global exclusions:                   - **Terms:** termination; conversion
   * version from the header line:        **Version 0.2 | ...**
@@ -83,12 +88,30 @@ def parse_master(text):
     return version, areas, exclusions
 
 
+WITH = re.compile(r'^(?P<term>.+?)\s*\[with:\s*(?P<guards>[^\]]+)\]\s*$')
+
+
+def _split_guarded(term):
+    """('term', ['guard', ...]) for `"buffer zone*" [with: clinic*, abortion]`."""
+    m = WITH.match(term)
+    if not m:
+        return term, []
+    guards = [g.strip() for g in m.group("guards").split(",") if g.strip()]
+    return m.group("term").strip(), guards
+
+
 def _yaml_term(term):
     """Serialise one term for a YAML flow list.
 
     Terms already carrying double quotes keep them (phrase markers); bare
-    terms are emitted bare unless YAML would misread them.
+    terms are emitted bare unless YAML would misread them. A guarded term
+    becomes a mapping, which is what the filter reads to require company.
     """
+    bare, guards = _split_guarded(term)
+    if guards:
+        return "{{term: {0}, with: [{1}]}}".format(
+            _yaml_term(bare), ", ".join(_yaml_term(g) for g in guards))
+    term = bare
     if term.startswith('"') and term.endswith('"'):
         return term
     if re.search(r"[:#\[\]{},&*!|>'\"%@`]", term) or term != term.strip():

@@ -4,7 +4,7 @@
 version: 0.4
 areas:
   1_abortion:
-    tier1: [abortion, "Abortion Act 1967", "termination of pregnancy", "safe access zone*", "buffer zone*", "abortion time limit", "foetal viability", "fetal viability", "pills by post", "telemedicine abortion", "sex-selective abortion", "Offences against the Person Act 1861", "Infant Life (Preservation)", "Ground E", "disability-selective", BPAS, "MSI Reproductive Choices"]
+    tier1: [abortion, "Abortion Act 1967", "termination of pregnancy", "safe access zone*", {term: "buffer zone*", with: ["clinic*", abortion, "termination*"]}, "abortion time limit", "foetal viability", "fetal viability", "pills by post", "telemedicine abortion", "sex-selective abortion", "Offences against the Person Act 1861", "Infant Life (Preservation)", "Ground E", "disability-selective", BPAS, "MSI Reproductive Choices"]
     tier2: ["reproductive rights", "reproductive healthcare", "crisis pregnancy", "conscientious objection", "gestational limit", "foetal pain", "silent prayer", "decriminalis*", "DIY abortion", "early medical abortion"]
     # note: Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill.
   2_assisted_dying:

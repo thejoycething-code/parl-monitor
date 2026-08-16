@@ -89,8 +89,16 @@ def load_taxonomy(path):
         for tier_name, tier_num in (("tier1", 1), ("tier2", 2)):
             compiled = []
             for t in (spec.get(tier_name) or []):
+                # A term may be a mapping {term, with: [...]}: it matches only
+                # when the text also contains one of the guards. See the
+                # docstring -- some vocabulary belongs to several policy areas
+                # at once and needs company to disambiguate.
+                guards = []
+                if isinstance(t, dict):
+                    guards = [_compile_term(g) for g in (t.get("with") or [])]
+                    t = t.get("term")
                 pattern, cs = _compile_term(t)
-                compiled.append((t, pattern, cs))
+                compiled.append((t, pattern, cs, guards))
             terms[area][tier_num] = compiled
     exclusions = {str(e).lower() for e in (raw.get("exclusions_global") or [])}
     return Taxonomy(version=str(raw.get("version")), terms=terms, exclusions=exclusions)
@@ -171,9 +179,18 @@ def _scan_taxonomy(text_lower, text_orig, taxonomy):
     hits = []  # (area, tier, term)
     for area, tiers in taxonomy.terms.items():
         for tier_num, compiled_terms in tiers.items():
-            for term, pattern, cs in compiled_terms:
-                if pattern.search(text_orig if cs else text_lower):
-                    hits.append((area, tier_num, term))
+            for term, pattern, cs, guards in compiled_terms:
+                if not pattern.search(text_orig if cs else text_lower):
+                    continue
+                # A guarded term needs one of its guards present too. Scoped
+                # to the text being scanned, so in match_passages the company
+                # must be kept in the SAME passage -- a speech that mentions
+                # abortion in one paragraph and pesticide buffer zones in
+                # another does not thereby become an abortion item.
+                if guards and not any(
+                        g.search(text_orig if gcs else text_lower) for g, gcs in guards):
+                    continue
+                hits.append((area, tier_num, term))
     return hits
 
 

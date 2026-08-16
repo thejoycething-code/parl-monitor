@@ -16,6 +16,8 @@ Every item that survives the filter is written to the store with its issue tags 
 - A trailing asterisk (`*`) is a stem wildcard: `"safe access zone*"` matches zone and zones.
 - Smart quotes in source text are folded to straight quotes before matching ("Children's" matches "Children’s").
 - US spellings are included where Hansard or witnesses may use them (fetal/foetal).
+- A term can require company: `"buffer zone*" [with: clinic*, abortion, termination*]` matches only where the text also contains one of the guards. Use this for vocabulary that belongs to more than one policy area — a buffer zone is an abortion clinic zone, a pesticide margin and a military perimeter, and until 17 August 2026 the unguarded term filed all three as abortion at tier 1. Guards are checked against the same text as the term, so in a long speech the company must be kept in the same passage.
+- Prefer a guard to deletion when the term is the only way an item might be phrased: "buffer zones around clinics providing terminations" never says "abortion", and deleting the term would have lost it.
 - Term lines below are semicolon-separated; the `{#key}` anchor on each heading is the area's yaml key. Both are parsed by the generator: keep the format.
 
 ## Tiers and triage
@@ -30,7 +32,7 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 1. Abortion {#1_abortion}
 
-- **Tier 1:** abortion; "Abortion Act 1967"; "termination of pregnancy"; "safe access zone*"; "buffer zone*"; "abortion time limit"; "foetal viability"; "fetal viability"; "pills by post"; "telemedicine abortion"; "sex-selective abortion"; "Offences against the Person Act 1861"; "Infant Life (Preservation)"; "Ground E"; "disability-selective"; BPAS; "MSI Reproductive Choices"
+- **Tier 1:** abortion; "Abortion Act 1967"; "termination of pregnancy"; "safe access zone*"; "buffer zone*" [with: clinic*, abortion, termination*]; "abortion time limit"; "foetal viability"; "fetal viability"; "pills by post"; "telemedicine abortion"; "sex-selective abortion"; "Offences against the Person Act 1861"; "Infant Life (Preservation)"; "Ground E"; "disability-selective"; BPAS; "MSI Reproductive Choices"
 - **Tier 2:** "reproductive rights"; "reproductive healthcare"; "crisis pregnancy"; "conscientious objection"; "gestational limit"; "foetal pain"; "silent prayer"; "decriminalis*"; "DIY abortion"; "early medical abortion"
 - **Notes:** Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill.
 

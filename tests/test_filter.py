@@ -87,6 +87,50 @@ class FilterTests(unittest.TestCase):
     def match(self, *fields):
         return filt.filter_item(self.tax, self.wl, *fields)
 
+    # -- guarded terms ("buffer zone*" needs company) -----------------------
+
+    def test_buffer_zone_needs_abortion_context(self):
+        """A buffer zone is also a pesticide margin and a military perimeter.
+
+        Until 2026-08-17 "buffer zone*" was an unguarded TIER 1 term for area
+        1, so a question about pesticide margins was classified as an abortion
+        item at top confidence -- WATCH in the edition, and a row in the area 1
+        5CA.
+        """
+        for title, body in [
+                ("Bees and Butterflies: Pesticides", "pesticide buffer zones near watercourses"),
+                ("Military Land: Salisbury", "buffer zones around the training estate")]:
+            with self.subTest(title):
+                self.assertEqual(self.match(title, body).issue_areas, [],
+                                 "someone else's buffer zone is not our subject")
+
+    def test_buffer_zone_still_matches_when_company_is_kept(self):
+        # Including the euphemism: an item can be about clinic zones without
+        # ever using the word "abortion", which is why the guard list carries
+        # "clinic*" and "termination*" and not "abortion" alone.
+        for title, body in [
+                ("Abortion: Clinics", "buffer zones outside abortion clinics"),
+                ("Public Order", "buffer zones around clinics providing terminations")]:
+            with self.subTest(title):
+                self.assertIn(1, self.match(title, body).issue_areas)
+
+    def test_guard_must_be_in_the_same_passage(self):
+        """A speech mentioning both, paragraphs apart, is not thereby ours.
+
+        The guard is evaluated against whatever text is being scanned, so in
+        match_passages the company has to be kept in the same passage. A
+        long speech brushing against abortion once must not retrospectively
+        qualify its pesticide paragraph.
+        """
+        speech = ("I turn to the pesticide regulations. Buffer zones near "
+                  "watercourses remain too narrow to protect pollinators.\n\n"
+                  "Separately, I congratulate the Minister on the abortion "
+                  "statistics published last week.")
+        matched = [t for m in filt.match_passages(self.tax, self.wl, speech)
+                   for t in m.result.matched_terms]
+        self.assertIn("abortion", matched)          # the second paragraph is real
+        self.assertNotIn("buffer zone*", matched)   # the first is somebody else's
+
     # -- tiering -----------------------------------------------------------
 
     def test_tier1_phrase_auto_includes(self):
