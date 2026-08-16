@@ -1,6 +1,26 @@
 # UN monitor settings. Separate from settings.yaml: the UN runs on sessions,
 # not sitting weeks, and shares none of Westminster's vocabulary.
 
+# HOW FRESH IS THIS DATA? Measured from the API on 2026-08-17 rather than
+# asked, because the answer is in the data:
+#   * the database is actively maintained. Sorting by creationDate desc
+#     (sort=creationDate&order=desc, which the API supports) puts the newest
+#     records at 2026-08-12 -- five days old at the time of measuring;
+#   * those newest records are Fourth Cycle reviews (Congo, Argentina,
+#     Nigeria) and they already carry responses, so Supported/Noted is not
+#     added in a separate later pass;
+#   * but the /api/thesauris Sessions list ends at "50 - November 2025".
+#     Sessions 51 and 52, which fall in 2026, are absent entirely. That is
+#     the coverage frontier, and it is roughly nine months behind.
+#   * much of the recent write activity is BACKFILL of older cycles, not new
+#     sessions: 119 of the 200 most recently created records were Dominican
+#     Republic Third Cycle.
+# Read that as: a reliable research archive that trails the live calendar by
+# something like two to three sessions, not a same-week monitor. Schedule
+# accordingly -- monthly is ample, weekly would mostly re-read the same rows.
+# This is inferred from coverage, not a published policy; if the frontier
+# matters for a campaign decision, confirm it with UPR Info directly.
+
 # UPR Info issue tags to harvest. These are LABELS from the Issues thesaurus
 # at /api/thesauris (68 values); the uuids they resolve to are fetched every
 # run, never pinned here -- a stale uuid returns totalRows=0 with HTTP 200,
