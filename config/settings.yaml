@@ -14,7 +14,20 @@
 # filter runs over whatever comes back, so a broader term costs nothing but
 # a few discarded rows.
 pq_sweep_terms:
-  - assisted dying          # hyphenated form 500s; loose but works
+  # Two precise terms replace "assisted dying", which returned 12,480 matches
+  # whose newest was about fuel oil. Measured twice each, 2026-08-17:
+  # terminally-ill-adults 82 (the Bill itself), assisted-suicide 44 (the wider
+  # debate: euthanasia, prosecutions). Rejected: "terminally-ill" (527, but
+  # the newest are disability benefit questions), "assisted-dying-bill" and
+  # "end-of-life-bill" (500s), "Leadbeater" (5, subsumed by the first).
+  - terminally-ill-adults
+  - assisted-suicide
+  - assisted-dying         # 60 (the HYPHENATED form; spaced returned 12,480)
+  # Recency insurance for this issue (Christopher, 2026-08-17). The three
+  # terms above returned NOTHING answered since 1 June: the Bill was dormant
+  # between sessions, so questions moved to the adjacent ground. Measured
+  # since 1 June: palliative-care 57, hospices 32, the assisted-dying terms 0.
+  - palliative-care        # 1,012 total, newest on terminal illness diagnosis
   - home-education          # 444, was a 500 as "home education"
   - safe-access-zones       # 45, was a 500
   - Cass                    # 459; "Cass Review" and "Cass-Review" both 500

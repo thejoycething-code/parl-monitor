@@ -189,8 +189,27 @@ class WeeklyLedgerCaptureTests(unittest.TestCase):
 class SettingsTests(unittest.TestCase):
     def test_settings_load_with_sweep_terms(self):
         settings = run_weekly.load_settings()
-        self.assertIn("assisted dying", settings.get("pq_sweep_terms", []))
-        self.assertIn("abortion", settings.get("edm_sweep_terms", []))
+        pq = settings.get("pq_sweep_terms", [])
+        edm = settings.get("edm_sweep_terms", [])
+        self.assertTrue(pq, "no PQ sweep terms configured")
+        self.assertTrue(edm, "no EDM sweep terms configured")
+        # Assert COVERAGE, not a literal term: the exact wording is editorial
+        # and changes as the API's matching behaviour is measured. "assisted
+        # dying" was replaced by terminally-ill-adults and assisted-suicide
+        # because the original returned 12,480 matches led by a question about
+        # fuel oil (2026-08-17).
+        self.assertTrue(
+            any("assisted" in t.lower() or "terminally" in t.lower() for t in pq),
+            "no sweep term covers assisted dying, our core opposition issue")
+        self.assertIn("abortion", edm)
+
+    def test_sweep_terms_are_unique(self):
+        """A duplicated term costs a slow API call and returns the same rows;
+        one crept in while terms were being retuned (2026-08-17)."""
+        for key in ("pq_sweep_terms", "edm_sweep_terms"):
+            terms = run_weekly.load_settings().get(key, [])
+            dupes = sorted({t for t in terms if terms.count(t) > 1})
+            self.assertFalse(dupes, "duplicate {0}: {1}".format(key, dupes))
 
 
 class StoreItemUpsertTests(unittest.TestCase):
