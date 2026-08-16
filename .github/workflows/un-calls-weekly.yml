@@ -1,13 +1,17 @@
 name: UN calls weekly
 
+# PAUSED 2026-08-17 (Christopher): nothing UN-related publishes until the
+# monitor covers the issues and the forward calendar properly. The schedule
+# below is deliberately commented out rather than deleted -- the cadence
+# reasoning is the part worth keeping, and re-enabling should be one edit.
+#
+# When it comes back: 07:00 UTC Thursday. Weekly, unlike the monthly UPR
+# harvest, because these carry deadlines. Thursday keeps it clear of the
+# Sunday pull and Monday publish, which share the parl-monitor-state
+# concurrency group.
 on:
-  schedule:
-    # 07:00 UTC Thursday. Weekly, unlike the monthly UPR harvest, because
-    # these carry deadlines: a fortnight's silence can be the difference
-    # between making a submission and reading about one. Thursday keeps it
-    # clear of the Sunday pull and Monday publish, which share the
-    # parl-monitor-state concurrency group.
-    - cron: "0 7 * * 4"
+  # schedule:
+  #   - cron: "0 7 * * 4"
   workflow_dispatch:
     inputs:
       dry_run:
