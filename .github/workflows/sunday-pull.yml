@@ -1,19 +1,21 @@
 name: Sunday pull
 on:
   schedule:
-    # Target: 05:00 Europe/London every Sunday (Christopher, 2026-08-17; was
-    # 21:04). Actions cron is UTC-only, so both candidate UTC slots fire and
-    # the London-hour guard picks the right one across BST/GMT.
-    - cron: "0 4 * * 0"
-    - cron: "0 5 * * 0"
+    # Target: 02:00 Europe/London every Sunday (Christopher, 2026-08-17; was
+    # 05:00, and 21:04 before that). Actions cron is UTC-only, so both
+    # candidate UTC slots fire and the London-hour guard picks the right one
+    # across BST/GMT.
+    - cron: "0 1 * * 0"
+    - cron: "0 2 * * 0"
     # Retry slots. The pull is idempotent per week (pull_log), so extra slots
     # are free: if the primary ran, these find the marker and exit in seconds;
-    # if it was dropped or died, the week still gets pulled. A 05:00 start
-    # leaves the whole of Sunday for recovery, which the old evening slot did
-    # not. The last one runs early Monday, before the 06:30 publish.
-    - cron: "0 9 * * 0"
-    - cron: "0 18 * * 0"
-    - cron: "30 3 * * 1"
+    # if it was dropped or died, the week still gets pulled.
+    # The Monday slot is deliberately 02:00 UTC: the publish now starts at
+    # 03:00 UTC in summer, so a last-chance pull has to finish before it. A
+    # cold pull measured 40 minutes, which fits in the hour.
+    - cron: "0 6 * * 0"
+    - cron: "0 15 * * 0"
+    - cron: "0 2 * * 1"
   workflow_dispatch: {}
 
 permissions:
@@ -38,15 +40,17 @@ jobs:
         # 20:04 UTC run starting after 21:00 UTC read as London hour 22, was
         # "not 21", and the whole Sunday was skipped with a green tick
         # (2026-08-09). The offset check below is stable under delay.
+        # Sunday retries are 06:00 and 15:00 London; the Monday one is timed to
+        # finish before the publish rather than to spread evenly.
         # Retry slots pass unconditionally: idempotency makes a duplicate
         # harmless, so only the paired primary slots still need the DST pick.
         run: |
           case "${{ github.event.schedule }}" in
-            "0 9 * * 0"|"0 18 * * 0"|"30 3 * * 1") echo "retry slot; idempotency decides"; exit 0 ;;
+            "0 6 * * 0"|"0 15 * * 0"|"0 2 * * 1") echo "retry slot; idempotency decides"; exit 0 ;;
           esac
           OFFSET=$(TZ=Europe/London date +%z)   # +0100 during BST, +0000 GMT
-          WANT="0 5 * * 0"
-          [ "$OFFSET" = "+0100" ] && WANT="0 4 * * 0"
+          WANT="0 2 * * 0"
+          [ "$OFFSET" = "+0100" ] && WANT="0 1 * * 0"
           if [ "${{ github.event.schedule }}" != "$WANT" ]; then
             echo "Fired by '${{ github.event.schedule }}' but London (UTC$OFFSET) wants '$WANT' - off-DST duplicate slot; exiting."
             echo "SKIP=1" >> "$GITHUB_ENV"

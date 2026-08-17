@@ -1,13 +1,14 @@
 name: Monday publish
 on:
   schedule:
-    # Target: 06:30 Europe/London every Monday (UTC duplicate + guard, as Sunday).
-    - cron: "30 5 * * 1"
-    - cron: "30 6 * * 1"
+    # Target: 04:00 Europe/London every Monday (Christopher, 2026-08-17; was
+    # 06:30). UTC duplicate + guard, as Sunday.
+    - cron: "0 3 * * 1"
+    - cron: "0 4 * * 1"
     # Retry slots: the publish is idempotent per week (publish_log), so these
     # cost nothing when the primary ran and save the morning when it did not.
-    - cron: "30 7 * * 1"
-    - cron: "0 9 * * 1"
+    - cron: "30 5 * * 1"
+    - cron: "0 7 * * 1"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -31,15 +32,17 @@ jobs:
         if: github.event_name == 'schedule'
         # Same delay-proof guard as the Sunday pull: decide by which cron
         # fired, not by the hour at run time (see 2026-08-09 skipped pull).
+        # Retries are 06:30 and 08:00 London, so a delayed primary still has
+        # two chances before the working day.
         # Retry slots pass unconditionally: publish_log makes duplicates
         # impossible, so only the paired primary slots need the DST pick.
         run: |
           case "${{ github.event.schedule }}" in
-            "30 7 * * 1"|"0 9 * * 1") echo "retry slot; idempotency decides"; exit 0 ;;
+            "30 5 * * 1"|"0 7 * * 1") echo "retry slot; idempotency decides"; exit 0 ;;
           esac
           OFFSET=$(TZ=Europe/London date +%z)   # +0100 during BST, +0000 GMT
-          WANT="30 6 * * 1"
-          [ "$OFFSET" = "+0100" ] && WANT="30 5 * * 1"
+          WANT="0 4 * * 1"
+          [ "$OFFSET" = "+0100" ] && WANT="0 3 * * 1"
           if [ "${{ github.event.schedule }}" != "$WANT" ]; then
             echo "Fired by '${{ github.event.schedule }}' but London (UTC$OFFSET) wants '$WANT' - off-DST duplicate slot; exiting."
             echo "SKIP=1" >> "$GITHUB_ENV"
