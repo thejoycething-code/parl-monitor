@@ -24,6 +24,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+from src import db, un_store
 from src.http import FetchError, HttpClient
 from src.ingest import ohchr_calls, un_calendar
 
@@ -34,6 +35,24 @@ from pull_un_calls import areas_for, load_un_filter  # noqa: E402
 # Six months. Without a default the UPR list alone runs to January 2031,
 # which is a schedule rather than a forward look. --days 3650 for everything.
 DEFAULT_HORIZON_DAYS = 180
+
+
+def to_item(row):
+    """One calendar row as a store record."""
+    when, kind, title, _detail, areas, url, ident, obj = row
+    ends = getattr(obj, "ends", None) or getattr(obj, "deadline", None) or when
+    if hasattr(ends, "date"):
+        ends = ends.date()
+    return {
+        "id": ident, "kind": kind.lower(), "title": title,
+        "body": getattr(obj, "body", None) or getattr(obj, "organ", None)
+                or getattr(obj, "treaty", None),
+        "starts": when.isoformat(), "ends": ends.isoformat(),
+        "approximate": getattr(obj, "approximate", False),
+        # Only real area numbers are stored; "committee" is a display marker.
+        "areas": [int(a) for a in areas.split(",") if a.strip().isdigit()],
+        "url": url,
+    }
 
 
 def main():
@@ -50,7 +69,8 @@ def main():
         if not sessions:
             gaps.append("HRC sessions: page parsed to nothing (layout change?)")
         for s in un_calendar.upcoming(sessions, today=today, horizon_days=days):
-            rows.append((s.starts, "SESSION", s.name, s.when, "", s.url))
+            rows.append((s.starts, "SESSION", s.name, s.when, "", s.url,
+                         un_store.item_id("session", s.body, s.number), s))
     except FetchError as exc:
         gaps.append("HRC sessions: {0}".format(exc.cause))
 
@@ -58,7 +78,8 @@ def main():
         csw, csw_failures = un_calendar.fetch_csw_sessions(client, today=today)
         gaps.extend(csw_failures)
         for s in un_calendar.upcoming(csw, today=today, horizon_days=days):
-            rows.append((s.starts, "SESSION", s.name, s.when, "committee", s.url))
+            rows.append((s.starts, "SESSION", s.name, s.when, "committee", s.url,
+                         un_store.item_id("session", s.body, s.number), s))
     except FetchError as exc:
         gaps.append("CSW sessions: {0}".format(exc.cause))
 
@@ -70,7 +91,9 @@ def main():
             rows.append((m.starts.date(), "MEETING",
                          "{0}: {1}".format(m.organ, m.title),
                          m.starts.strftime("%Y-%m-%d %H:%M") + " " + m.kind,
-                         "committee", m.url))
+                         "committee", m.url,
+                         un_store.item_id("meeting", m.organ, m.title,
+                                          m.starts.strftime("%Y%m%d%H%M")), m))
     except FetchError as exc:
         gaps.append("Third Committee meetings: {0}".format(exc.cause))
 
@@ -80,7 +103,8 @@ def main():
             gaps.append("UPR sessions: parsed to nothing (layout change?)")
         for s in un_calendar.upcoming(upr, today=today, horizon_days=days):
             rows.append((s.starts, "SESSION", s.name,
-                         s.when + " (month only)", "committee", s.url))
+                         s.when + " (month only)", "committee", s.url,
+                         un_store.item_id("session", s.body, s.number), s))
     except FetchError as exc:
         gaps.append("UPR sessions: {0}".format(exc.cause))
 
@@ -89,7 +113,8 @@ def main():
         if ga and ga.ends >= today and not (days and ga.days_until > days):
             rows.append((ga.starts, "SESSION", ga.name,
                          "{0} to {1} (Third Committee sits within this)".format(
-                             ga.starts, ga.ends), "", ga.url))
+                             ga.starts, ga.ends), "", ga.url,
+                         un_store.item_id("session", ga.body, ga.number), ga))
         elif not ga:
             gaps.append("GA session: page loaded but no session window found")
     except FetchError as exc:
@@ -104,7 +129,8 @@ def main():
                 continue
             rows.append((d.due, "TREATY", "{0}: {1} ({2})".format(
                 d.treaty, d.country, d.document[:40]),
-                "due {0}".format(d.due), "committee" if d.ours else "", d.url))
+                "due {0}".format(d.due), "committee" if d.ours else "", d.url,
+                un_store.item_id("treaty", d.treaty, d.country, d.document), d))
     except FetchError as exc:
         gaps.append("treaty body calendar: {0}".format(exc.cause))
 
@@ -116,14 +142,28 @@ def main():
             areas = areas_for(c, tax, wl)
             rows.append((c.deadline, "DEADLINE", c.title,
                          "closes {0}".format(c.deadline),
-                         ",".join(str(a) for a in areas), c.url))
+                         ",".join(str(a) for a in areas), c.url,
+                         un_store.item_id("call", c.url.rsplit("/", 1)[-1]), c))
     except FetchError as exc:
         gaps.append("calls for input: {0}".format(exc.cause))
 
     rows.sort(key=lambda r: r[0])
+
+    # Store, then diff. --no-store makes this a pure read, which is what a
+    # dry run wants: recording items would make the NEXT run think it had
+    # already seen them and report nothing new.
+    changes = []
+    if "--no-store" not in sys.argv:
+        conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
+        items = [to_item(r) for r in rows]
+        new_ids, moved = un_store.record(conn, items, today=today)
+        gone = un_store.mark_gone(conn, today + datetime.timedelta(days=days),
+                                  today=today, seen_ids={i["id"] for i in items})
+        changes = un_store.summarise(conn, new_ids, moved, gone)
+        conn.close()
     horizon = " (next {0} days)".format(days)
     print("UN forward look{0} — {1} item(s)\n".format(horizon, len(rows)))
-    for when, kind, title, detail, areas, url in rows:
+    for when, kind, title, detail, areas, url, _id, _obj in rows:
         left = (when - today).days
         flag = "OURS" if areas else "    "
         print("{0}  {1:>4}d  {2:<8} {3}".format(flag, left, kind, title[:60]))
@@ -136,6 +176,13 @@ def main():
             suffix = "  areas " + areas
         print("            {0}{1}".format(detail, suffix))
         print("            {0}".format(url))
+
+    if changes:
+        print("\n--- CHANGES SINCE THE LAST RUN ---")
+        for line in changes:
+            print(line)
+    elif "--no-store" not in sys.argv:
+        print("\nNo changes since the last run.")
 
     print("\nCoverage: Human Rights Council, CSW and UPR working group "
           "sessions, the General Assembly window, treaty body reporting "

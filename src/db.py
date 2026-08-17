@@ -64,6 +64,24 @@ CREATE TABLE IF NOT EXISTS upr_recommendations (
   cycle TEXT, session TEXT, action_category TEXT,
   url TEXT
 );
+-- UN forward calendar. One row per dated thing the UN has announced, so a
+-- weekly message can report what is NEW and what has DISAPPEARED rather than
+-- re-listing the same fifteen calls every week.
+-- Ids are constructed to be stable across runs but NOT to include the date,
+-- so a deadline that moves shows up as a change to one row instead of as one
+-- row vanishing and another appearing.
+CREATE TABLE IF NOT EXISTS un_calendar (
+  id TEXT PRIMARY KEY,            -- 'call:<slug>' | 'session:<body>:<n>' | 'treaty:<treaty>:<country>:<doc>' | 'meeting:<uuid>'
+  kind TEXT NOT NULL,             -- session|call|treaty|meeting
+  title TEXT, body TEXT,
+  starts TEXT, ends TEXT,         -- ISO; starts may carry a time for meetings
+  approximate INTEGER,            -- 1 when only the month is published
+  areas TEXT,                     -- json list of OUR area numbers, or null
+  url TEXT,
+  first_seen TEXT NOT NULL,       -- set once; never moved by a re-read
+  last_seen TEXT NOT NULL,
+  gone_at TEXT                    -- set when a still-future item stops being listed
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -79,6 +97,7 @@ TABLES = (
     "gaps",
     "discards",
     "upr_recommendations",
+    "un_calendar",
 )
 
 
