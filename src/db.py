@@ -97,6 +97,17 @@ CREATE TABLE IF NOT EXISTS un_documents (
   areas TEXT,                     -- json list of OUR area numbers
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Recorded votes from HRC session reports. One row per state per vote, which
+-- is what makes "how did Nigeria vote on every SRHR text" a single query --
+-- the same shape as mp_events for Westminster divisions.
+CREATE TABLE IF NOT EXISTS un_votes (
+  report TEXT NOT NULL,           -- 'A/HRC/58/2'
+  draft TEXT,                     -- 'A/HRC/58/L.30/Rev.1'; joins to un_documents
+  state TEXT NOT NULL,
+  position TEXT NOT NULL,         -- for | against | abstain
+  captured_at TEXT NOT NULL,
+  PRIMARY KEY (report, draft, state)
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -114,6 +125,7 @@ TABLES = (
     "upr_recommendations",
     "un_calendar",
     "un_documents",
+    "un_votes",
 )
 
 

@@ -71,21 +71,26 @@ host is not challenged, and a nonexistent OHCHR path returns 404, which is
 how the 403 was confirmed as a real decision rather than a wrong URL.
 Answered by using UPR Info instead.
 
-## Legitimate routes to voting data, not yet taken
+## Voting records — SOLVED via session reports
 
-Ranked by how much work they are, not by preference:
+Route 3 below was the one that worked, and it was reachable all along once
+`?direct=true` and pypdf were in hand. `A/HRC/{session}/2` is the session
+report: 219 pages for session 58, carrying 16 recorded votes in a fixed form.
+Each vote is anchored to the nearest preceding draft symbol, and tallies are
+counted from the name lists rather than read from prose, because the prose
+form varies between sections while the lists are always there.
 
-1. **Ask the Dag Hammarskjöld Library.** They curate the voting data
-   collection and are the people who would know whether an API or a bulk
-   export exists. A single email, and the only route that gets *current* HRC
-   and GA votes.
-2. **Academic bulk datasets.** UN General Assembly plenary voting has been
-   collated and published for decades in research archives, updated annually.
-   Genuinely usable for state-position analysis, but historical rather than
-   live, and GA plenary rather than Third Committee.
-3. **Parse session report PDFs.** HRC session outcomes (`A/HRC/NN/2`) record
-   each resolution's vote. Reliable and public, but PDF parsing, and only
-   after a session closes.
+**The validator that proved the parse:** the Council has 47 members, so a
+correct parse yields at most 47 names per vote and exactly 47 distinct states
+across a session. The first version produced 48 — the 48th being
+`A/HRC/58/2 GE.25-11364`, a page footer glued into a country list at a page
+break. Tallies of 45 and 46 are legitimate: an absent member appears in none
+of the three lists.
+
+Still open, if GA votes are ever wanted: **academic bulk datasets** collate GA
+plenary voting going back decades, updated annually — historical rather than
+live, and plenary rather than Third Committee. And the **Dag Hammarskjöld
+Library** would know whether a bulk export exists, which is one email.
 
 ## Two rules earned the hard way
 
