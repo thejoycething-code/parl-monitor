@@ -40,9 +40,23 @@ is covered, because it is the only body whose calendar could be read:
     us. UPR Info publishes the whole schedule to January 2031 in a session
     dropdown, at MONTH precision only.
 
-Still missing: the Third Committee's item-level schedule, which exists only
-as a programme-of-work document. Recorded here rather than hidden, so nobody
-mistakes this for the whole UN.
+  * Third Committee item-level meetings -- YES, added 2026-08-17, via the UN
+    Journal's own JSON API. Found by reading the Journal web app: its runtime
+    config at journal.un.org/assets/config.json names the API base, and the
+    bundle names the endpoints. GlobalCalendar takes a POST of
+    {locationValue, startDate, endDate, organs} with ISO DATETIMES -- plain
+    dates return 400 "Incorrect parameters" -- and organ UUIDs come from
+    AdvancedSearch/Organs (3,495 of them; Third Committee is
+    38e3d777-d53c-e711-84fb-0050569f00b6).
+
+    IMPORTANT LIMIT: it only serves dates already covered by a published
+    Journal issue. October 2025 returns 36 Third Committee meetings with
+    times; October 2026 returns 400 because that Journal does not exist yet.
+    So this is a NEAR-TERM feed of days to a few weeks, not a months-ahead
+    calendar, and it will fill in once the 81st session is under way.
+
+Nothing on the original list is now missing. Recorded here rather than hidden,
+so nobody mistakes near-term Journal coverage for a long-range schedule.
 """
 
 from __future__ import annotations
@@ -75,6 +89,16 @@ GA_SESSION_URL = "https://www.un.org/en/ga/{0}/"
 GA_EPOCH = 1945
 
 UPR_SESSIONS = "https://www.upr-info.org/en/presessions"
+
+# UN Journal API. Base from journal.un.org/assets/config.json; endpoints from
+# the app bundle. See the module docstring for the POST contract.
+JOURNAL_API = "https://journal-api.un.org/api/"
+JOURNAL_ORGANS = JOURNAL_API + "AdvancedSearch/Organs"
+JOURNAL_CALENDAR = JOURNAL_API + "GlobalCalendar"
+JOURNAL_LOCATION = "New York"
+# Third Committee (Social, Humanitarian & Cultural) -- the GA committee that
+# takes the family, SRHR and religious-freedom resolutions.
+THIRD_COMMITTEE = "38e3d777-d53c-e711-84fb-0050569f00b6"
 
 MONTHS = ("January February March April May June July August September "
           "October November December").split()
@@ -343,6 +367,73 @@ def parse_upr_sessions(html):
 
 def fetch_upr_sessions(client):
     return parse_upr_sessions(client.get_text(UPR_SESSIONS, "uncal", "upr-sessions"))
+
+
+@dataclass
+class Meeting:
+    organ: str
+    title: str
+    starts: datetime.datetime
+    kind: str                    # "Official" | "Informal"
+    url: str = "https://journal.un.org/en/new-york/all"
+
+    @property
+    def days_until(self):
+        return (self.starts.date() - datetime.date.today()).days
+
+
+def parse_journal_meetings(payload, organ_filter="Third"):
+    """Meetings from a GlobalCalendar response.
+
+    The payload nests group -> organGroup -> meetings, repeated per day, and
+    a query filtered to one organ still returns its parent's plenaries, so
+    rows are filtered on organ/primaryOrgan rather than trusted.
+    """
+    out = []
+    for group in payload or []:
+        for og in group.get("organGroup", []) or []:
+            for m in og.get("meetings", []) or []:
+                organ = og.get("organ") or ""
+                primary = m.get("primaryOrgan") or ""
+                if organ_filter and organ_filter not in (organ + primary):
+                    continue
+                raw = (m.get("startDate") or "")[:16]
+                try:
+                    starts = datetime.datetime.strptime(raw, "%Y-%m-%dT%H:%M")
+                except ValueError:
+                    continue
+                title = re.sub(r"\s+", " ", _TAGS.sub(" ", m.get("title") or "")).strip()
+                out.append(Meeting(organ=primary or organ, title=title,
+                                   starts=starts, kind=m.get("type") or ""))
+    return sorted(out, key=lambda x: x.starts)
+
+
+def fetch_journal_meetings(client, organ=THIRD_COMMITTEE, start=None, days=21,
+                           organ_filter="Third"):
+    """Near-term meetings for one organ, or ([], reason) beyond the horizon.
+
+    A 400 means the range reaches past the last published Journal issue, not
+    that the request was malformed -- so it is reported as a horizon limit
+    rather than raised as an error.
+    """
+    import json as _json
+    start = start or datetime.date.today()
+    end = start + datetime.timedelta(days=days)
+    body = _json.dumps({"locationValue": JOURNAL_LOCATION,
+                        "startDate": start.isoformat() + "T00:00:00",
+                        "endDate": end.isoformat() + "T00:00:00",
+                        "organs": [organ]})
+    try:
+        payload = client.post_json(JOURNAL_CALENDAR, body, "uncal",
+                                   "journal-{0}".format(start.isoformat()),
+                                   headers={"location": JOURNAL_LOCATION,
+                                            "language": "en"})
+    except Exception as exc:
+        if "400" in str(exc):
+            return [], ("Journal has no issue covering {0} to {1} yet "
+                        "(near-term feed only)".format(start, end))
+        raise
+    return parse_journal_meetings(payload, organ_filter), None
 
 
 def fetch_sessions(client):

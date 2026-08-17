@@ -478,3 +478,49 @@ class UprSessionTests(unittest.TestCase):
         s63 = next(s for s in hrc if s.number == 63)
         self.assertFalse(s63.approximate)
         self.assertIn(" to ", s63.when)
+
+
+class JournalMeetingTests(unittest.TestCase):
+    """UN Journal GlobalCalendar: the Third Committee's item-level schedule.
+
+    Found by reading the Journal web app rather than guessing: its runtime
+    config names the API base and the bundle names the endpoints. The POST
+    needs ISO DATETIMES -- plain dates return 400 "Incorrect parameters".
+    """
+
+    PAYLOAD = [{"group": "official", "organGroup": [{"organ": "General Assembly",
+                "meetings": [
+                    {"title": "<p>Third Committee, 5th meeting</p>", "type": "Official",
+                     "primaryOrgan": "Third Committee",
+                     "startDate": "2025-10-07T10:00:00"},
+                    {"title": "1st plenary meeting", "type": "Official",
+                     "primaryOrgan": "General Assembly",
+                     "startDate": "2025-10-07T15:00:00"},
+                ]}]}]
+
+    def test_filters_to_the_organ_asked_for(self):
+        """A query filtered to one organ still returns its parent's
+        plenaries, so rows are filtered rather than trusted."""
+        got = un_calendar.parse_journal_meetings(self.PAYLOAD, organ_filter="Third")
+        self.assertEqual(len(got), 1)
+        self.assertEqual(got[0].organ, "Third Committee")
+        self.assertNotIn("<p>", got[0].title)
+
+    def test_keeps_time_of_day(self):
+        got = un_calendar.parse_journal_meetings(self.PAYLOAD, organ_filter="Third")
+        self.assertEqual(got[0].starts, datetime.datetime(2025, 10, 7, 10, 0))
+
+    def test_unparseable_dates_are_skipped(self):
+        bad = [{"organGroup": [{"organ": "Third Committee",
+                "meetings": [{"title": "x", "startDate": "not-a-date"}]}]}]
+        self.assertEqual(un_calendar.parse_journal_meetings(bad), [])
+
+    def test_out_of_range_is_a_horizon_not_an_error(self):
+        """A 400 means the range reaches past the last published Journal
+        issue, which is a limit to report rather than a fault to raise."""
+        class Failing:
+            def post_json(self, *a, **k):
+                raise RuntimeError("HTTP 400: Incorrect parameters")
+        rows, why = un_calendar.fetch_journal_meetings(Failing(), days=400)
+        self.assertEqual(rows, [])
+        self.assertIn("near-term", why)

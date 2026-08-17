@@ -63,6 +63,18 @@ def main():
         gaps.append("CSW sessions: {0}".format(exc.cause))
 
     try:
+        meetings, why = un_calendar.fetch_journal_meetings(client, days=min(days, 30))
+        if why:
+            gaps.append("Third Committee: {0}".format(why))
+        for m in meetings:
+            rows.append((m.starts.date(), "MEETING",
+                         "{0}: {1}".format(m.organ, m.title),
+                         m.starts.strftime("%Y-%m-%d %H:%M") + " " + m.kind,
+                         "committee", m.url))
+    except FetchError as exc:
+        gaps.append("Third Committee meetings: {0}".format(exc.cause))
+
+    try:
         upr = un_calendar.fetch_upr_sessions(client)
         if not upr:
             gaps.append("UPR sessions: parsed to nothing (layout change?)")
@@ -128,10 +140,11 @@ def main():
     print("\nCoverage: Human Rights Council, CSW and UPR working group "
           "sessions, the General Assembly window, treaty body reporting "
           "deadlines (CEDAW/CRC/CCPR flagged), and OHCHR calls for input.")
-    print("NOT covered: the Third Committee's item-level schedule, which "
-          "exists only as a programme-of-work document. UPR sessions are "
-          "MONTH precision only -- the source publishes no days. See "
-          "src/ingest/un_calendar.py.")
+    print("Third Committee meetings come from the UN Journal API and are "
+          "NEAR-TERM only: it serves dates a published Journal issue covers, "
+          "so an empty result during recess is expected and fills in once the "
+          "session sits. UPR sessions are MONTH precision -- the source "
+          "publishes no days. See src/ingest/un_calendar.py.")
     if gaps:
         print("\nGAPS ({0}):".format(len(gaps)))
         for g in gaps:

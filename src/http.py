@@ -181,6 +181,33 @@ class HttpClient:
         raw = self._fetch(url, feed, slug, timeout)
         return raw.decode("utf-8", errors="replace")
 
+    def post_json(self, url, body, feed, slug, headers=None, timeout=None):
+        """POST a JSON body and parse the JSON response, archiving the reply.
+
+        Added for the UN Journal's GlobalCalendar, which is POST-only. Kept
+        deliberately thin: it reuses the throttle, the per-host cap and the
+        archive, but NOT the retry ladder, because a POST is not obviously
+        safe to repeat and this one answers 400 for a legitimately
+        out-of-range request rather than as a transient fault.
+        """
+        timeout = self.default_timeout if timeout is None else timeout
+        state = self._host_state(urlsplit(url).netloc)
+        payload = body.encode("utf-8") if isinstance(body, str) else body
+        request = urllib.request.Request(
+            url, data=payload, method="POST",
+            headers={"User-Agent": self.user_agent,
+                     "Content-Type": "application/json",
+                     "Accept": "application/json", **(headers or {})})
+        with state.semaphore:
+            self._throttle(state)
+            try:
+                response = self._opener.open(request, timeout=timeout)
+                raw = response.read()
+            except urllib.error.HTTPError as exc:
+                raise FetchError(url, feed, slug, 1, exc)
+        self._archive(raw, feed, slug)
+        return json.loads(raw.decode("utf-8"))
+
     # -- internals ----------------------------------------------------------
 
     def _host_state(self, host):
