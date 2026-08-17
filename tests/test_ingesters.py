@@ -20,7 +20,8 @@ sys.path.insert(0, ROOT)
 
 from src import db, members
 from src.ingest import (pqs, edms, sis, divisions, whatson, consultations, wms,
-                        legislation, hansard, upr, ohchr_calls)
+                        legislation, hansard, upr, ohchr_calls,
+                        un_calendar)
 
 RAW = os.path.join(ROOT, "data", "raw", "2026-08-01")
 
@@ -353,3 +354,34 @@ class OhchrCallsTests(unittest.TestCase):
         titles = [c.title for c in self.calls]
         self.assertTrue(any("Child rights" in t for t in titles))
         self.assertFalse(any("<" in t for t in titles), "no markup should leak in")
+
+
+class UnCalendarTests(unittest.TestCase):
+    """HRC session calendar, fixture captured live 2026-08-17."""
+
+    def setUp(self):
+        self.sessions = un_calendar.parse_hrc_sessions(load_text("uncal_hrc-sessions"))
+
+    def test_parses_sessions_with_date_ranges(self):
+        self.assertTrue(self.sessions)
+        s63 = next(s for s in self.sessions if s.number == 63)
+        self.assertEqual(s63.starts, datetime.date(2026, 9, 7))
+        self.assertEqual(s63.ends, datetime.date(2026, 10, 9))
+
+    def test_ordinals_are_right(self):
+        """"63th session" is how the first version read."""
+        self.assertIn("63rd session", next(s for s in self.sessions if s.number == 63).name)
+        self.assertEqual(un_calendar._ordinal_suffix(61), "st")
+        self.assertEqual(un_calendar._ordinal_suffix(62), "nd")
+        self.assertEqual(un_calendar._ordinal_suffix(12), "th")
+
+    def test_past_sessions_are_returned_not_dropped(self):
+        """Keeping them is what lets 'nothing announced yet' be told apart
+        from 'the page changed and nothing parsed'."""
+        self.assertTrue([s for s in self.sessions if s.ends < datetime.date(2026, 1, 1)])
+
+    def test_a_session_under_way_counts_as_upcoming(self):
+        mid = datetime.date(2026, 9, 20)          # inside the 63rd
+        live = un_calendar.upcoming(self.sessions, today=mid)
+        self.assertIn(63, [s.number for s in live])
+        self.assertTrue(next(s for s in live if s.number == 63).starts <= mid)

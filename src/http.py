@@ -293,12 +293,22 @@ class HttpClient:
         if not curl:
             raise cause
         done = subprocess.run(
-            [curl, "-sS", "--fail", "--max-time", str(int(timeout)),
-             "-A", self.user_agent, url],
+            [curl, "-sS", "--max-time", str(int(timeout)),
+             "-w", "\n%{http_code}", "-A", self.user_agent, url],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if done.returncode != 0:
-            raise cause
-        return done.stdout
+        body, _, status = done.stdout.rpartition(b"\n")
+        code = status.decode(errors="replace").strip()
+        if done.returncode != 0 or not code.startswith("2"):
+            # Report what curl actually saw. Re-raising the TLS error here
+            # would blame the handshake for an HTTP 403 or 404, which is
+            # exactly the wrong place to look (it misled me on the OHCHR UPR
+            # pages, 2026-08-17).
+            raise urllib.error.URLError(
+                "TLS fallback via curl failed: HTTP {0}{1} for {2}".format(
+                    code or "?",
+                    " (curl exit {0})".format(done.returncode) if done.returncode else "",
+                    url))
+        return body
 
     def _archive(self, raw, feed, slug):
         """Write raw bytes to data/raw/<date>/<feed>_<slug>.json.gz."""
