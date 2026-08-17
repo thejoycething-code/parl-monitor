@@ -50,6 +50,26 @@ def main():
         gaps.append("HRC sessions: {0}".format(exc.cause))
 
     try:
+        csw, csw_failures = un_calendar.fetch_csw_sessions(client, today=today)
+        gaps.extend(csw_failures)
+        for s in un_calendar.upcoming(csw, today=today, horizon_days=days):
+            rows.append((s.starts, "SESSION", s.name,
+                         "{0} to {1}".format(s.starts, s.ends), "committee", s.url))
+    except FetchError as exc:
+        gaps.append("CSW sessions: {0}".format(exc.cause))
+
+    try:
+        ga = un_calendar.fetch_ga_session(client, today=today)
+        if ga and ga.ends >= today and not (days and ga.days_until > days):
+            rows.append((ga.starts, "SESSION", ga.name,
+                         "{0} to {1} (Third Committee sits within this)".format(
+                             ga.starts, ga.ends), "", ga.url))
+        elif not ga:
+            gaps.append("GA session: page loaded but no session window found")
+    except FetchError as exc:
+        gaps.append("GA session: {0}".format(exc.cause))
+
+    try:
         deadlines = un_calendar.fetch_treaty_deadlines(client)
         if not deadlines:
             gaps.append("treaty body calendar: parsed to nothing (layout change?)")
@@ -91,11 +111,14 @@ def main():
         print("            {0}{1}".format(detail, suffix))
         print("            {0}".format(url))
 
-    print("\nCoverage: Human Rights Council sessions, treaty body reporting "
-          "deadlines (CEDAW/CRC/CCPR flagged), and OHCHR calls for input.")
-    print("NOT covered: UPR working groups (OHCHR returns 403), CSW, Third "
-          "Committee. See src/ingest/un_calendar.py -- a quiet stretch here "
-          "does not mean a quiet UN.")
+    print("\nCoverage: Human Rights Council and CSW sessions, the General "
+          "Assembly session window, treaty body reporting deadlines "
+          "(CEDAW/CRC/CCPR flagged), and OHCHR calls for input.")
+    print("NOT covered: UPR working group sessions (OHCHR returns 403 to "
+          "non-browser clients) and the Third Committee's item-level "
+          "schedule, which exists only as a programme-of-work document. "
+          "See src/ingest/un_calendar.py -- a quiet stretch here does not "
+          "mean a quiet UN.")
     if gaps:
         print("\nGAPS ({0}):".format(len(gaps)))
         for g in gaps:

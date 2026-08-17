@@ -20,13 +20,21 @@ is covered, because it is the only body whose calendar could be read:
     DEADLINES -- when each state's report or list of issues is due to each
     committee -- which is more actionable than sitting dates: a deadline is
     when a shadow submission can land.
-  * Commission on the Status of Women -- NO. The UN Women page carries only
-    one dated reference and it is in the past.
-  * Third Committee -- NO. The UNGA page carries no dates at all.
+  * Commission on the Status of Women -- YES, added 2026-08-17. The landing
+    page carries almost no dates, which is why it was first written off, but
+    it LINKS to per-session pages (cswNN-YYYY) and those carry the range:
+    CSW71 is 8-19 March 2027.
+  * UN General Assembly, as the Third Committee's anchor -- PARTLY. The GA
+    session page gives the session window (the 81st opens 8 September 2026,
+    closes 7 September 2027). The Third Committee's own schedule is not
+    published as data anywhere found: it exists as a programme-of-work
+    document (A/C.3/NN/L.1), and undocs.org serves only a redirect shell for
+    it. So the calendar can say when the GA is sitting, not when the Third
+    Committee takes a given item.
 
-That is four of five bodies missing, and the gaps are recorded here rather
-than hidden so nobody mistakes an HRC-only calendar for the UN's calendar.
-Each needs its own solution and none of them is a scrape of a listing page.
+Still missing: UPR working group sessions (every OHCHR UPR URL returns 403
+to a non-browser client) and the Third Committee's item-level schedule.
+Recorded here rather than hidden, so nobody mistakes this for the whole UN.
 """
 
 from __future__ import annotations
@@ -49,6 +57,14 @@ TB_CALENDAR = ("https://tbinternet.ohchr.org/_layouts/15/TreatyBodyExternal/"
 # workers" from the UN taxonomy -- a flag that fires on everything is not a
 # flag. CAT, CED, CERD, CMW and CESCR are listed but never flagged.
 TB_OURS = ("CEDAW", "CRC", "CCPR")
+
+CSW_INDEX = ("https://www.unwomen.org/en/how-we-work/"
+             "commission-on-the-status-of-women")
+GA_SESSION_URL = "https://www.un.org/en/ga/{0}/"
+# GA sessions are numbered from 1946, so the session opening in September of
+# year Y is Y - 1945. Derived rather than hardcoded so this does not quietly
+# rot in September.
+GA_EPOCH = 1945
 
 MONTHS = ("January February March April May June July August September "
           "October November December").split()
@@ -179,6 +195,101 @@ def parse_treaty_deadlines(html):
 
 def fetch_treaty_deadlines(client):
     return parse_treaty_deadlines(client.get_text(TB_CALENDAR, "uncal", "tb-calendar"))
+
+
+# UN Women writes it in prose: "from 8 to 19 March 2027". Hyphen and en-dash
+# forms are accepted too, but "to" is the one actually used -- the first
+# version matched only dashes and silently found nothing.
+_RANGE = re.compile(
+    r"(\d{1,2})\s*(?:to|[-\u2013])\s*(\d{1,2})\s+("
+    + "|".join(MONTHS) + r")\s+(20\d\d)", re.I)
+_CSW_LINK = re.compile(r'href="([^"]*csw(\d{2})-(20\d\d)[^"]*)"', re.I)
+
+
+def parse_csw_range(html, number):
+    """The sitting dates for one CSW session page, or None.
+
+    The page is a long article; the first day-range with a month and year is
+    the session itself. Returns None rather than guessing when no range is
+    found -- a session with invented dates is worse than an absent one.
+    """
+    text = re.sub(r"\s+", " ", _TAGS.sub(" ", html or ""))
+    m = _RANGE.search(text)
+    if not m:
+        return None
+    first, last, month, year = m.groups()
+    try:
+        starts = _date(first, month, year)
+        ends = _date(last, month, year)
+    except ValueError:
+        return None
+    if ends < starts:
+        return None
+    return Session(body="Commission on the Status of Women", number=number,
+                   starts=starts, ends=ends, url=CSW_INDEX)
+
+
+def fetch_csw_sessions(client, today=None):
+    """CSW sessions from the index page's per-session links.
+
+    The landing page carries almost no dates itself, which is why it was
+    first written off; the session pages it links to carry the range.
+    Only sessions in the current year or later are fetched, so this costs
+    one or two extra requests rather than one per session ever held.
+    """
+    today = today or datetime.date.today()
+    index = client.get_text(CSW_INDEX, "uncal", "csw-index")
+    wanted = {}
+    for href, number, year in _CSW_LINK.findall(index):
+        if int(year) >= today.year:
+            url = href if href.startswith("http") else "https://www.unwomen.org" + href
+            wanted.setdefault(int(number), url)
+    out, failures = [], []
+    for number, url in sorted(wanted.items()):
+        try:
+            page = client.get_text(url, "uncal", "csw-{0}".format(number))
+        except Exception as exc:
+            # Not a silent skip: a session page that will not load is a gap
+            # in the calendar, and the caller decides what to do about it.
+            failures.append("CSW{0}: {1}".format(number, str(exc)[:80]))
+            continue
+        session = parse_csw_range(page, number)
+        if session:
+            out.append(session)
+        else:
+            failures.append("CSW{0}: page loaded but no date range found".format(number))
+    return sorted(out, key=lambda s: s.starts), failures
+
+
+def parse_ga_session(html, number):
+    """The General Assembly session window: "will open on X and close on Y".
+
+    This is the Third Committee's anchor, not its schedule. The committee's
+    own programme of work is a document (A/C.3/NN/L.1) that is not served as
+    data, so the calendar can say the GA is sitting and no more.
+    """
+    text = re.sub(r"\s+", " ", _TAGS.sub(" ", html or ""))
+    m = re.search(r"will open on (\d{1,2}\s+\w+\s+20\d\d) and close on "
+                  r"(\d{1,2}\s+\w+\s+20\d\d)", text, re.I)
+    if not m:
+        return None
+    def parse(value):
+        day, month, year = value.split()
+        return _date(day, month, year)
+    try:
+        return Session(body="General Assembly", number=number,
+                       starts=parse(m.group(1)), ends=parse(m.group(2)),
+                       url=GA_SESSION_URL.format(number))
+    except ValueError:
+        return None
+
+
+def fetch_ga_session(client, today=None):
+    today = today or datetime.date.today()
+    number = today.year - GA_EPOCH
+    html = client.get_text(GA_SESSION_URL.format(number), "uncal",
+                           "ga-{0}".format(number))
+    return parse_ga_session(html, number)
 
 
 def fetch_sessions(client):

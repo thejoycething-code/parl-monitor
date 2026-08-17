@@ -415,3 +415,31 @@ class TreatyDeadlineTests(unittest.TestCase):
                 self.assertFalse(row.ours, "%s should not be flagged" % row.treaty)
             if row.treaty in ("CEDAW", "CRC", "CCPR"):
                 self.assertTrue(row.ours)
+
+
+class CswAndGaTests(unittest.TestCase):
+    """CSW and General Assembly session windows, fixtures 2026-08-17."""
+
+    def test_csw_range_is_written_in_prose(self):
+        """"from 8 to 19 March 2027" -- the first version matched only
+        dashes and silently found nothing."""
+        s = un_calendar.parse_csw_range(load_text("uncal_csw-71"), 71)
+        self.assertIsNotNone(s)
+        self.assertEqual((s.starts, s.ends),
+                         (datetime.date(2027, 3, 8), datetime.date(2027, 3, 19)))
+        self.assertIn("71st session", s.name)
+
+    def test_csw_returns_none_rather_than_guessing(self):
+        self.assertIsNone(un_calendar.parse_csw_range("<p>no dates here</p>", 99))
+
+    def test_ga_session_window(self):
+        ga = un_calendar.parse_ga_session(load_text("uncal_ga-81"), 81)
+        self.assertIsNotNone(ga)
+        self.assertEqual(ga.starts, datetime.date(2026, 9, 8))
+        self.assertEqual(ga.ends, datetime.date(2027, 9, 7))
+
+    def test_ga_session_number_is_derived_from_the_year(self):
+        """Session N opens in September of year N + 1945; hardcoding it would
+        rot every September."""
+        self.assertEqual(2026 - un_calendar.GA_EPOCH, 81)
+        self.assertEqual(2027 - un_calendar.GA_EPOCH, 82)
