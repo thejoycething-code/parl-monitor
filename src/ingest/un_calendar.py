@@ -32,9 +32,17 @@ is covered, because it is the only body whose calendar could be read:
     it. So the calendar can say when the GA is sitting, not when the Third
     Committee takes a given item.
 
-Still missing: UPR working group sessions (every OHCHR UPR URL returns 403
-to a non-browser client) and the Third Committee's item-level schedule.
-Recorded here rather than hidden, so nobody mistakes this for the whole UN.
+  * UPR working group sessions -- YES, added 2026-08-17, from UPR Info
+    rather than OHCHR. The OHCHR UPR pages are behind a Cloudflare bot
+    challenge (cf-mitigated: challenge, "Just a moment..."), which is a
+    thing to route around rather than defeat: the HRC branch of the same
+    host is not challenged, so this is a policy on that path, not a block on
+    us. UPR Info publishes the whole schedule to January 2031 in a session
+    dropdown, at MONTH precision only.
+
+Still missing: the Third Committee's item-level schedule, which exists only
+as a programme-of-work document. Recorded here rather than hidden, so nobody
+mistakes this for the whole UN.
 """
 
 from __future__ import annotations
@@ -66,6 +74,8 @@ GA_SESSION_URL = "https://www.un.org/en/ga/{0}/"
 # rot in September.
 GA_EPOCH = 1945
 
+UPR_SESSIONS = "https://www.upr-info.org/en/presessions"
+
 MONTHS = ("January February March April May June July August September "
           "October November December").split()
 
@@ -84,11 +94,19 @@ class Session:
     starts: datetime.date
     ends: datetime.date
     url: str
+    approximate: bool = False    # True when only the MONTH is published
 
     @property
     def name(self):
         return "{0}{1} session of the {2}".format(
             self.number, _ordinal_suffix(self.number), self.body)
+
+    @property
+    def when(self):
+        """Human phrasing that does not imply precision we do not have."""
+        if self.approximate:
+            return self.starts.strftime("%B %Y")
+        return "{0} to {1}".format(self.starts, self.ends)
 
     @property
     def days_until(self):
@@ -290,6 +308,41 @@ def fetch_ga_session(client, today=None):
     html = client.get_text(GA_SESSION_URL.format(number), "uncal",
                            "ga-{0}".format(number))
     return parse_ga_session(html, number)
+
+
+_UPR_OPTION = re.compile(
+    r"Session\s+(\d{2})\s*-\s*(" + "|".join(MONTHS) + r")\s+(20\d\d)", re.I)
+
+
+def parse_upr_sessions(html):
+    """UPR working group sessions from UPR Info's session dropdown.
+
+    MONTH precision only -- the dropdown says "Session 53 - November 2026"
+    and no more. Sessions are dated to the first of the month and marked
+    approximate, so nothing downstream can print a day the source never gave.
+    """
+    text = re.sub(r"\s+", " ", _TAGS.sub(" ", html or ""))
+    out, seen = [], set()
+    for number, month, year in _UPR_OPTION.findall(text):
+        n = int(number)
+        if n in seen:
+            continue
+        seen.add(n)
+        try:
+            first = _date(1, month.capitalize(), year)
+        except ValueError:
+            continue
+        # End of month without calendar arithmetic imports.
+        nxt = datetime.date(first.year + (first.month == 12),
+                            1 if first.month == 12 else first.month + 1, 1)
+        out.append(Session(body="UPR Working Group", number=n, starts=first,
+                           ends=nxt - datetime.timedelta(days=1),
+                           url=UPR_SESSIONS, approximate=True))
+    return sorted(out, key=lambda s: s.starts)
+
+
+def fetch_upr_sessions(client):
+    return parse_upr_sessions(client.get_text(UPR_SESSIONS, "uncal", "upr-sessions"))
 
 
 def fetch_sessions(client):

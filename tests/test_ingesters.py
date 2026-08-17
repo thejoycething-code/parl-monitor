@@ -443,3 +443,38 @@ class CswAndGaTests(unittest.TestCase):
         rot every September."""
         self.assertEqual(2026 - un_calendar.GA_EPOCH, 81)
         self.assertEqual(2027 - un_calendar.GA_EPOCH, 82)
+
+
+class UprSessionTests(unittest.TestCase):
+    """UPR working group sessions, from UPR Info (fixture 2026-08-17).
+
+    OHCHR's own UPR pages sit behind a Cloudflare bot challenge, so the
+    schedule is taken from UPR Info instead -- routed around, not defeated.
+    """
+
+    def setUp(self):
+        self.sessions = un_calendar.parse_upr_sessions(load_text("uncal_upr-sessions"))
+
+    def test_parses_the_published_schedule(self):
+        self.assertGreater(len(self.sessions), 50)
+        s53 = next(s for s in self.sessions if s.number == 53)
+        self.assertEqual((s53.starts.year, s53.starts.month), (2026, 11))
+
+    def test_month_precision_is_declared_not_faked(self):
+        """The source publishes "Session 53 - November 2026" and no day, so
+        nothing downstream may print one."""
+        s53 = next(s for s in self.sessions if s.number == 53)
+        self.assertTrue(s53.approximate)
+        self.assertEqual(s53.when, "November 2026")
+        self.assertNotIn("2026-11-01", s53.when)
+
+    def test_month_end_is_the_last_day_not_the_28th(self):
+        for s in self.sessions:
+            nxt = s.ends + datetime.timedelta(days=1)
+            self.assertEqual(nxt.day, 1, "ends should be the last day of its month")
+
+    def test_precise_sessions_still_render_a_range(self):
+        hrc = un_calendar.parse_hrc_sessions(load_text("uncal_hrc-sessions"))
+        s63 = next(s for s in hrc if s.number == 63)
+        self.assertFalse(s63.approximate)
+        self.assertIn(" to ", s63.when)

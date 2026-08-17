@@ -1,7 +1,8 @@
 """The UN forward look: what is coming, and what closes before it.
 
-    python3 tools/un_forward.py             # sessions + open calls, by date
-    python3 tools/un_forward.py --days 90   # next 90 days only
+    python3 tools/un_forward.py             # next 180 days
+    python3 tools/un_forward.py --days 90   # a shorter horizon
+    python3 tools/un_forward.py --days 3650 # everything published
 
 One chronological list, because that is how a campaign is planned: a call for
 input closing three weeks before a Council session is a different thing from
@@ -30,8 +31,13 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 from pull_un_calls import areas_for, load_un_filter  # noqa: E402
 
 
+# Six months. Without a default the UPR list alone runs to January 2031,
+# which is a schedule rather than a forward look. --days 3650 for everything.
+DEFAULT_HORIZON_DAYS = 180
+
+
 def main():
-    days = None
+    days = DEFAULT_HORIZON_DAYS
     if "--days" in sys.argv:
         days = int(sys.argv[sys.argv.index("--days") + 1])
     today = datetime.date.today()
@@ -44,8 +50,7 @@ def main():
         if not sessions:
             gaps.append("HRC sessions: page parsed to nothing (layout change?)")
         for s in un_calendar.upcoming(sessions, today=today, horizon_days=days):
-            rows.append((s.starts, "SESSION", s.name,
-                         "{0} to {1}".format(s.starts, s.ends), "", s.url))
+            rows.append((s.starts, "SESSION", s.name, s.when, "", s.url))
     except FetchError as exc:
         gaps.append("HRC sessions: {0}".format(exc.cause))
 
@@ -53,10 +58,19 @@ def main():
         csw, csw_failures = un_calendar.fetch_csw_sessions(client, today=today)
         gaps.extend(csw_failures)
         for s in un_calendar.upcoming(csw, today=today, horizon_days=days):
-            rows.append((s.starts, "SESSION", s.name,
-                         "{0} to {1}".format(s.starts, s.ends), "committee", s.url))
+            rows.append((s.starts, "SESSION", s.name, s.when, "committee", s.url))
     except FetchError as exc:
         gaps.append("CSW sessions: {0}".format(exc.cause))
+
+    try:
+        upr = un_calendar.fetch_upr_sessions(client)
+        if not upr:
+            gaps.append("UPR sessions: parsed to nothing (layout change?)")
+        for s in un_calendar.upcoming(upr, today=today, horizon_days=days):
+            rows.append((s.starts, "SESSION", s.name,
+                         s.when + " (month only)", "committee", s.url))
+    except FetchError as exc:
+        gaps.append("UPR sessions: {0}".format(exc.cause))
 
     try:
         ga = un_calendar.fetch_ga_session(client, today=today)
@@ -95,7 +109,7 @@ def main():
         gaps.append("calls for input: {0}".format(exc.cause))
 
     rows.sort(key=lambda r: r[0])
-    horizon = " (next {0} days)".format(days) if days else ""
+    horizon = " (next {0} days)".format(days)
     print("UN forward look{0} — {1} item(s)\n".format(horizon, len(rows)))
     for when, kind, title, detail, areas, url in rows:
         left = (when - today).days
@@ -111,14 +125,13 @@ def main():
         print("            {0}{1}".format(detail, suffix))
         print("            {0}".format(url))
 
-    print("\nCoverage: Human Rights Council and CSW sessions, the General "
-          "Assembly session window, treaty body reporting deadlines "
-          "(CEDAW/CRC/CCPR flagged), and OHCHR calls for input.")
-    print("NOT covered: UPR working group sessions (OHCHR returns 403 to "
-          "non-browser clients) and the Third Committee's item-level "
-          "schedule, which exists only as a programme-of-work document. "
-          "See src/ingest/un_calendar.py -- a quiet stretch here does not "
-          "mean a quiet UN.")
+    print("\nCoverage: Human Rights Council, CSW and UPR working group "
+          "sessions, the General Assembly window, treaty body reporting "
+          "deadlines (CEDAW/CRC/CCPR flagged), and OHCHR calls for input.")
+    print("NOT covered: the Third Committee's item-level schedule, which "
+          "exists only as a programme-of-work document. UPR sessions are "
+          "MONTH precision only -- the source publishes no days. See "
+          "src/ingest/un_calendar.py.")
     if gaps:
         print("\nGAPS ({0}):".format(len(gaps)))
         for g in gaps:
