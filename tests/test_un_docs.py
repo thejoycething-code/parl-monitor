@@ -172,3 +172,37 @@ class SponsorWrapTests(unittest.TestCase):
                        "The Human Rights Council,\n")
         self.assertEqual(d.topic, "Freedom of religion or belief")
         self.assertNotEqual(d.topic, d.subject)
+
+
+class AmendmentInstructionTests(unittest.TestCase):
+    """An amendment's operative text is where the contested language is."""
+
+    BURUNDI = ("Agenda item 67\nPromotion and protection of the rights of children\n"
+               "Burundi: amendment to revised draft resolution A/C.3/80/L.20/Rev.1\n"
+               "Rights of the child\n"
+               "1. In operative paragraph 13, delete “sexual and reproductive "
+               "health,”. 2. In operative paragraphs 27 and 43, delete "
+               "“sexual and reproductive”.\n")
+
+    def setUp(self):
+        self.draft = un_docs.parse_draft("A/C.3/80/L.64", self.BURUNDI)
+
+    def test_revised_targets_are_recognised(self):
+        """"amendment to REVISED draft resolution" -- a pattern expecting only
+        "amendment to draft resolution" silently dropped four amendments to
+        session 80's children's rights resolution."""
+        self.assertEqual(self.draft.kind, "amendment")
+        self.assertEqual(self.draft.amends, "A/C.3/80/L.20/Rev.1")
+
+    def test_title_stays_clean(self):
+        self.assertEqual(self.draft.title, "Rights of the child")
+
+    def test_instruction_is_kept_separately(self):
+        self.assertIn("sexual and reproductive", self.draft.instruction)
+        self.assertNotIn("sexual and reproductive", self.draft.title)
+
+    def test_classify_on_includes_the_instruction(self):
+        """Title alone reads as children's rights; the instruction is what
+        makes it an abortion-language fight."""
+        self.assertIn("Rights of the child", self.draft.classify_on)
+        self.assertIn("sexual and reproductive", self.draft.classify_on)

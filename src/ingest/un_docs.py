@@ -108,9 +108,15 @@ _DATE = re.compile(r"^(\d{1,2}\s+\w+\s+20\d\d)$")
 # A/HRC/58/L.7". So the leading colon is optional.
 # ":*" occurs where a single sponsor carries the not-a-member footnote:
 # "Ghana:* draft resolution". The asterisk sits between colon and phrase.
+# "REVISED" appears in both branches: a text that has already been revised is
+# by definition the fought-over one, and "amendment to revised draft
+# resolution A/C.3/80/L.20/Rev.1" was missed entirely by a pattern that
+# expected only "amendment to draft resolution" -- which silently dropped the
+# four amendments to session 80's children's rights resolution.
 _SPONSOR_FLAT = re.compile(
-    r":\**\s*(?:(?P<amend>amendment)\s+to\s+draft\s+(?:resolution|decision)"
-    r"\s*(?P<target>A/[A-Z0-9./]+?)(?=\s+\d+/)|draft\s+(?P<kind>resolution|decision))\s+",
+    r":\**\s*(?:(?P<amend>amendment)\s+to\s+(?:revised\s+)?draft\s+"
+    r"(?:resolution|decision)\s*(?P<target>A/[A-Z0-9./]+?)(?=\s+\d+/|\s*$|\s+[A-Z])"
+    r"|(?:revised\s+)?draft\s+(?P<kind>resolution|decision))\s+",
     re.I)
 _BODY_FLAT = re.compile(
     r"The (?:Human Rights Council|General Assembly|Third Committee)\s*,|After paragraph",
@@ -130,8 +136,22 @@ class Draft:
     title: str = None            # the draft's OWN title, where it has one
     kind: str = None             # resolution | decision | amendment
     amends: str = None           # the draft an amendment attacks
+    instruction: str = None      # an amendment's operative text
     dated: str = None
     sponsors: str = None
+
+    @property
+    def classify_on(self):
+        """Title AND an amendment's operative text.
+
+        The title alone is not enough for an amendment. A/C.3/80/L.64 is
+        titled "Rights of the child" and its instruction reads: delete
+        "sexual and reproductive health" from operative paragraphs 13, 27, 43
+        and 46. Classified on the title it is area 6; on the instruction too
+        it is areas 1 and 6, which is the truth and the reason to read it.
+        Contested language lives in the instruction, not the heading.
+        """
+        return " ".join(p for p in (self.topic, self.instruction) if p)
 
     @property
     def topic(self):
@@ -214,6 +234,14 @@ def parse_draft(symbol, text):
         candidate = _TITLE_PREFIX.sub("", candidate.strip())
         # Footnote markers and the running header get glued on at page breaks.
         candidate = re.split(r"\s*\*\s|United Nations A/", candidate)[0]
+        # An amendment's title is followed by its operative instruction
+        # ("1. In the fourteenth preambular paragraph..."). Keep the title.
+        parts = re.split(
+            r"(\s+\d+\.\s|\s+(?:In|After|Before|Replace|Delete)\s+(?:the|operative|paragraph)\b)",
+            candidate, maxsplit=1)
+        candidate = parts[0]
+        if len(parts) > 2:
+            draft.instruction = ("".join(parts[1:])).strip()[:400]
         if 8 < len(candidate) < 260:
             draft.title = candidate.strip(" :,.")
     return draft

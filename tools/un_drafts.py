@@ -1,6 +1,7 @@
 """Discover draft resolutions for a session, and report the new ones.
 
     python3 tools/un_drafts.py                 # Third Committee, current session
+    python3 tools/un_drafts.py 80              # Third Committee, session 80
     python3 tools/un_drafts.py --hrc 63        # HRC session 63
     python3 tools/un_drafts.py --max 40        # cap the walk
 
@@ -62,14 +63,20 @@ def main():
     argv = sys.argv[1:]
     hrc = "--hrc" in argv
     max_n = int(argv[argv.index("--max") + 1]) if "--max" in argv else 120
+    if "--max" in argv:                      # the value is not a session number
+        argv = [a for i, a in enumerate(argv)
+                if i not in (argv.index("--max"), argv.index("--max") + 1)]
     today = datetime.date.today()
     if hrc:
         idx = argv.index("--hrc")
         session = int(argv[idx + 1]) if len(argv) > idx + 1 and argv[idx + 1].isdigit() else 63
         pattern, body = un_docs.HRC_DRAFTS, "Human Rights Council"
     else:
-        # The GA session opening in September of year Y is Y - 1945.
-        session = today.year - GA_EPOCH
+        # A positional argument wins; otherwise the GA session opening in
+        # September of year Y is Y - 1945. Without the override the tool could
+        # only ever read the current session, which is empty during recess.
+        positional = [a for a in argv if a.isdigit()]
+        session = int(positional[0]) if positional else today.year - GA_EPOCH
         pattern, body = un_docs.THIRD_COMMITTEE_DRAFTS, "Third Committee"
 
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
@@ -97,7 +104,11 @@ def main():
         # Classify on the draft's own title where it has one: the HRC's agenda
         # item 3 is an omnibus whose title matches nothing, which made every
         # HRC draft unclassifiable in the first version.
-        areas = filt.filter_item(tax, wl, draft.topic or "").issue_areas
+        # Title AND an amendment's operative text: L.64 is titled "Rights of
+        # the child" and its instruction deletes "sexual and reproductive
+        # health" from four paragraphs. Title alone made it area 6; both make
+        # it areas 1 and 6, which is why it matters.
+        areas = filt.filter_item(tax, wl, draft.classify_on).issue_areas
         rows.append((doc, draft, areas))
 
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
@@ -110,8 +121,11 @@ def main():
         print("{0}  {1:<16} item {2:<5} {3}".format(
             mark, doc.symbol, draft.agenda_item or "-", (draft.topic or "?")[:52]))
         if areas:
-            print("        areas {0}  {1}".format(
-                ",".join(str(a) for a in areas), doc.url))
+            print("        areas {0}{1}  {2}".format(
+                ",".join(str(a) for a in areas),
+                "  amends " + draft.amends if draft.amends else "", doc.url))
+            if draft.instruction:
+                print("        {0}".format(draft.instruction[:88]))
     print("\nNEW since the last run: {0}".format(len(fresh)))
     for doc, draft, _areas in fresh:
         print("  {0}  {1}".format(doc.symbol, (draft.topic or "?")[:60]))
