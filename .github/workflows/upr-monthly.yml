@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install pyyaml
+        run: pip install pyyaml pypdf
       - name: Harvest UPR recommendations
         # The tool prints "NEW this run: n" followed by each new
         # recommendation. On a typical month that is the entire signal -- the

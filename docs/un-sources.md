@@ -45,18 +45,25 @@ others, not solved. Five routes, each closed for a different reason:
   Third Committee draft resolution. Draft resolutions are now discoverable by
   symbol — see below.
 
-**Third Committee agenda items.** Attempted and not viable. The Journal gives
-meeting times but titles are only "5th plenary meeting", there is no agenda
-endpoint (the meetings page chunk makes no HTTP calls of its own — it reuses
-the services in main.js, which fetch only GlobalCalendar and the daily list),
-and the archive PDF path is built from minified constants that do not resolve
-statically. Even with the PDF in hand, the body text uses subset fonts whose
-bytes need the embedded ToUnicode map, so stdlib extraction returns markup
-artefacts — a first attempt produced a page of "en-GB". Getting agendas or
-resolution titles needs a PDF library, which is a dependency decision.
+**Third Committee agenda items — SOLVED, from an unexpected direction.** There
+is no agenda endpoint: the meetings page chunk makes no HTTP calls of its own,
+and the Journal archive PDF path is built from minified constants. But
+`A/C.3/{session}/L.1` is not a draft resolution at all — it is the
+Organization of Work note, and its annex is the committee's dated PROGRAMME OF
+WORK, item by item ("Thursday, 9 October, 10 a.m. — Item 25 Social
+development"). One document, fetched by symbol.
 
-**Draft resolution TEXT and titles.** Same reason: the documents are
-retrievable, the text inside them is not, without a PDF library.
+**Reading PDFs** needs pypdf, approved 2026-08-17. A stdlib attempt returned a
+page of "en-GB": the body text uses subset fonts whose bytes need the embedded
+ToUnicode map. With pypdf, every draft's first page yields its agenda item,
+subject, date and type in a fixed order.
+
+Note that resolution TITLES are a third distinct matching surface, after UPR
+recommendation text and call-for-input titles. The annual omnibus resolutions
+are called "Rights of the child" and "Advancement of women" — deliberately
+generic, and matched nothing until those exact phrases were added to the UN
+taxonomy as tier 2. Generic is the point: the omnibus is the vehicle CSE and
+SRHR language gets inserted into.
 
 **OHCHR UPR pages.** Cloudflare bot challenge (`cf-mitigated: challenge`,
 "Just a moment..."). Note this is path-specific: the HRC branch of the same

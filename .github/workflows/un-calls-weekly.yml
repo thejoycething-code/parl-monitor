@@ -32,7 +32,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install pyyaml
+        run: pip install pyyaml pypdf
       - name: Write secrets file
         run: |
           cat > config/secrets.yaml <<EOF

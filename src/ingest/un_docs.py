@@ -15,12 +15,19 @@ session can be discovered by walking L.1, L.2, ... until the misses run on.
 Existence is decided by CONTENT TYPE, not status: a missing symbol still
 answers 200, with a 1.3KB text/html not-found page instead of a PDF.
 
-WHAT THIS DOES NOT DO: read the documents. The titles are in the PDF body,
-using subset fonts whose bytes need the embedded ToUnicode map to decode, so
-stdlib-only extraction produces markup artefacts rather than text (tried, and
-it returned a page of "en-GB"). Getting subjects out needs a PDF library,
-which is a dependency decision for the repo owner -- this module deliberately
-stops at "this draft exists, here it is".
+Reading them needs pypdf (Christopher approved the dependency 2026-08-17).
+A stdlib attempt returned a page of "en-GB": the body text uses subset fonts
+whose bytes need the embedded ToUnicode map, which is a PDF library's job.
+
+Two things the text gives that the symbol alone cannot:
+
+  * every draft names its AGENDA ITEM and subject on the first page, in a
+    fixed order, so the taxonomy can finally decide whether a draft is ours.
+    A/C.3/80/L.20 is "Agenda item 67 / Promotion and protection of the
+    rights of children" -- area 6.
+  * L.1 of a session is not a draft at all: it is the Organization of Work
+    note, and its annex is the committee's dated PROGRAMME OF WORK. That is
+    the agenda, which had been written off as unavailable an hour earlier.
 """
 
 from __future__ import annotations
@@ -66,6 +73,86 @@ def head(client, symbol, lang="en"):
     raw = client.get_bytes(url, "undocs", symbol.replace("/", "-"), first_bytes=64)
     kind = "application/pdf" if raw[:5] == b"%PDF-" else "text/html"
     return Document(symbol=symbol, url=url, size=len(raw), content_type=kind)
+
+
+def document_text(client, symbol, lang="en", pages=None):
+    """Full text of a document, via pypdf.
+
+    Fetches the whole PDF, so it is not the existence check -- use head() for
+    that. `pages` limits extraction to the first N, which is all a draft's
+    metadata needs.
+    """
+    import io
+    import pypdf
+    raw = client.get_bytes(doc_url(symbol, lang), "undocs",
+                           "text-" + symbol.replace("/", "-"))
+    if raw[:5] != b"%PDF-":
+        return ""
+    reader = pypdf.PdfReader(io.BytesIO(raw))
+    wanted = reader.pages if pages is None else reader.pages[:pages]
+    return "\n".join((p.extract_text() or "") for p in wanted)
+
+
+_ITEM = re.compile(r"Agenda item[s]?\s+(\d+)", re.I)
+_SUBMITTED = re.compile(r"^Draft (resolution|decision)\s+submitted by", re.I)
+_DATE = re.compile(r"^(\d{1,2}\s+\w+\s+20\d\d)$")
+
+
+@dataclass
+class Draft:
+    symbol: str
+    agenda_item: int = None
+    subject: str = None
+    kind: str = None             # resolution | decision
+    dated: str = None
+    sponsors: str = None
+
+    @property
+    def is_programme_of_work(self):
+        """L.1 is the Organization of Work note, not a draft."""
+        return bool(self.subject and "organization of the work" in self.subject.lower())
+
+
+def parse_draft(symbol, text):
+    """Agenda item, subject and type from a draft's first page.
+
+    The first page has a fixed shape: masthead, distribution, date, session,
+    committee, "Agenda item N", then THE SUBJECT, then either a sponsor list
+    or "Draft resolution submitted by ...". The subject is taken as the lines
+    between the agenda item and whichever of those comes first, because it is
+    sometimes wrapped over two lines.
+    """
+    lines = [re.sub(r"\s+", " ", l).strip() for l in (text or "").split("\n")]
+    lines = [l for l in lines if l]
+    draft = Draft(symbol=symbol)
+    for i, line in enumerate(lines):
+        if draft.dated is None and _DATE.match(line):
+            draft.dated = line
+        found = _ITEM.search(line)
+        if found and draft.agenda_item is None:
+            draft.agenda_item = int(found.group(1))
+            subject = []
+            for nxt in lines[i + 1:i + 5]:
+                if _SUBMITTED.match(nxt):
+                    draft.kind = _SUBMITTED.match(nxt).group(1).lower()
+                    draft.sponsors = nxt
+                    break
+                # A sponsor list is a run of comma-separated country names;
+                # the subject is not, so a comma-heavy line ends the subject.
+                if nxt.count(",") >= 3:
+                    draft.sponsors = nxt
+                    break
+                subject.append(nxt)
+            if subject:
+                draft.subject = " ".join(subject).strip(" :")
+            break
+    if draft.subject is None:
+        # Organization-of-work notes carry no agenda item; use the heading.
+        for line in lines[:12]:
+            if "organization of the work" in line.lower():
+                draft.subject = line
+                break
+    return draft
 
 
 def enumerate_drafts(client, pattern, session, max_n=120, stop_after_misses=5):

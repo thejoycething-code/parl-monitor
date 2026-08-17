@@ -62,3 +62,63 @@ class UnDocsTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DraftParsingTests(unittest.TestCase):
+    """First-page parsing, against text extracted from real documents."""
+
+    RESOLUTION = """United Nations A/C.3/80/L.20
+General Assembly
+Distr.: Limited
+22 October 2025
+Original: English
+25-17035 (E)
+Eightieth session
+Third Committee
+Agenda item 67
+Promotion and protection of the rights of children
+Andorra, Antigua and Barbuda, Argentina, Austria, Bahamas (The),
+"""
+
+    DECISION = """United Nations A/C.3/80/L.60
+General Assembly
+Distr.: Limited
+16 November 2025
+Eightieth session
+Third Committee
+Agenda item 121
+Revitalization of the work of the General Assembly
+Draft decision submitted by the Chair of the Committee
+"""
+
+    ORG_OF_WORK = """United Nations A/C.3/80/L.1
+General Assembly
+4 September 2025
+Third Committee
+Organization of the work of the Third Committee
+Note by the Secretariat
+"""
+
+    def test_agenda_item_and_subject(self):
+        d = un_docs.parse_draft("A/C.3/80/L.20", self.RESOLUTION)
+        self.assertEqual(d.agenda_item, 67)
+        self.assertEqual(d.subject, "Promotion and protection of the rights of children")
+        self.assertEqual(d.dated, "22 October 2025")
+
+    def test_a_sponsor_list_ends_the_subject(self):
+        """Subjects wrap over two lines, so the parser reads on -- but a run
+        of comma-separated country names is a sponsor list, not a subject."""
+        d = un_docs.parse_draft("A/C.3/80/L.20", self.RESOLUTION)
+        self.assertNotIn("Andorra", d.subject)
+
+    def test_draft_kind_is_read_when_stated(self):
+        d = un_docs.parse_draft("A/C.3/80/L.60", self.DECISION)
+        self.assertEqual(d.kind, "decision")
+        self.assertEqual(d.subject, "Revitalization of the work of the General Assembly")
+
+    def test_l1_is_the_programme_of_work_not_a_draft(self):
+        """L.1 of a session is the Organization of Work note, and its annex is
+        the committee's dated agenda."""
+        d = un_docs.parse_draft("A/C.3/80/L.1", self.ORG_OF_WORK)
+        self.assertIsNone(d.agenda_item)
+        self.assertTrue(d.is_programme_of_work)
