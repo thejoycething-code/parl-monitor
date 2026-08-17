@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS un_documents (
   subject TEXT,                   -- the AGENDA ITEM title
   title TEXT,                     -- the draft's OWN title, where it has one
   amends TEXT,                    -- the draft an amendment attacks
+  instruction TEXT,               -- an amendment's operative text
   kind TEXT,                      -- resolution | decision | note
   dated TEXT,
   areas TEXT,                     -- json list of OUR area numbers
@@ -176,7 +177,8 @@ def init_db(conn):
         # Added 2026-08-17 once pypdf made subjects readable: the table was
         # created a few hours earlier holding symbols only.
         for column, decl in (("agenda_item", "INTEGER"), ("subject", "TEXT"),
-                             ("title", "TEXT"), ("amends", "TEXT"), ("kind", "TEXT"),
+                             ("title", "TEXT"), ("amends", "TEXT"),
+                             ("instruction", "TEXT"), ("kind", "TEXT"),
                              ("dated", "TEXT"), ("areas", "TEXT")):
             if column not in d_cols:
                 conn.execute("ALTER TABLE un_documents ADD COLUMN {0} {1}"

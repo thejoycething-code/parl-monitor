@@ -43,18 +43,21 @@ def store(conn, rows, body, session, today):
     for doc, draft, areas in rows:
         conn.execute(
             "INSERT INTO un_documents (symbol, body, session, url, size, "
-            "agenda_item, subject, title, amends, kind, dated, areas, first_seen, last_seen) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+            "agenda_item, subject, title, amends, instruction, kind, dated, areas, "
+            "first_seen, last_seen) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
             # first_seen never moves on a re-read; the rest refresh, because a
             # draft can be revised in place.
             "ON CONFLICT(symbol) DO UPDATE SET url=excluded.url, "
             "agenda_item=excluded.agenda_item, subject=excluded.subject, "
-            "title=excluded.title, amends=excluded.amends, kind=excluded.kind, dated=excluded.dated, "
+            "title=excluded.title, amends=excluded.amends, "
+            "instruction=excluded.instruction, kind=excluded.kind, dated=excluded.dated, "
             "areas=excluded.areas, "
             "last_seen=excluded.last_seen",
             (doc.symbol, body, session, doc.url, doc.size,
              draft.agenda_item, draft.subject, draft.title, draft.amends,
-             draft.kind, draft.dated, json.dumps(areas), today, today))
+             draft.instruction, draft.kind, draft.dated, json.dumps(areas),
+             today, today))
     conn.commit()
     return [r for r in rows if r[0].symbol not in before]
 

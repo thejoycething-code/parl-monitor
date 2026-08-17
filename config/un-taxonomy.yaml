@@ -41,7 +41,15 @@ areas:
     tier2: ["gender exploratory therapy", "reparative therapy"]
   5_sex_based_rights:
     tier1: ["sexual orientation and gender identity", SOGI, LGBTI, LGBTIQ, "LGBTIQ+", "lesbian, gay, bisexual", "legal gender recognition", "gender recognition", "intersex persons", {term: "self-identification", with: ["gender", "sex", "trans"]}, "single-sex"]
-    tier2: ["gender identity", "transgender", "trans persons", "gender expression", "sex characteristics", "advancement of women"]
+    tier2: ["gender identity", "transgender", "trans persons", "gender expression", "sex characteristics", "advancement of women", "self-defined", "self-declared", {term: "self-determination", with: ["gender", "trans", "sex", "identity", "recognition", "legal"]}, {term: "legal recognition", with: ["gender", "sex", "trans", "identity"]}, {term: "bodily integrity", with: ["gender", "trans", "sex", "intersex", "surger"]}]
+    # note: HIJACKED TERMS. "self-determination" at the UN means decolonisation
+    # -- "the right of peoples to self-determination" -- so it cannot simply be
+    # added; guarded, it catches "legal recognition based on self-determination"
+    # while staying silent on Palestine. Same for "legal recognition" and
+    # "bodily integrity". This is the mechanism built for "buffer zone*" and it
+    # is the answer to a new framing arriving inside a word we already exclude.
+    # "self-defined" and "self-declared" are new coinages and unambiguous, so
+    # they go in bare.
     # note: "advancement of women" is the other annual omnibus title, tier2 for
     # the same reason as the child-rights one.
     # note: "lesbian gay bisexual transgender and intersex" written out in full is the commonest phrasing in the store (mined), not the acronym.
