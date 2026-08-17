@@ -181,6 +181,23 @@ class HttpClient:
         raw = self._fetch(url, feed, slug, timeout)
         return raw.decode("utf-8", errors="replace")
 
+    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None):
+        """Fetch and archive a response, returning the raw bytes.
+
+        first_bytes issues a Range request. docs.un.org honours it (206 with
+        exactly that many bytes), which turns an existence check from a
+        250-400KB PDF download into 64 bytes -- and existence is all the
+        caller needs, since %PDF- and <!doct tell a document from a
+        not-found page. Ranged replies are NOT archived: a 64-byte fragment
+        is not provenance, and writing it under the document's slug would
+        overwrite a real copy with a stub.
+        """
+        if first_bytes:
+            return self._request_with_retries(
+                url, feed, slug, timeout or self.default_timeout,
+                extra_headers={"Range": "bytes=0-{0}".format(int(first_bytes) - 1)})
+        return self._fetch(url, feed, slug, timeout)
+
     def post_json(self, url, body, feed, slug, headers=None, timeout=None):
         """POST a JSON body and parse the JSON response, archiving the reply.
 
@@ -244,14 +261,14 @@ class HttpClient:
                     now = self._clock()
             state.last_request_at = now
 
-    def _request_with_retries(self, url, feed, slug, timeout):
+    def _request_with_retries(self, url, feed, slug, timeout, extra_headers=None):
         attempts = 0
         last_error = None
         # 1 initial attempt + up to max_retries further attempts.
         for attempt in range(self.max_retries + 1):
             attempts = attempt + 1
             try:
-                return self._request_once(url, timeout)
+                return self._request_once(url, timeout, extra_headers)
             except urllib.error.HTTPError as exc:
                 last_error = exc
                 if exc.code not in _RETRYABLE_STATUS:
@@ -277,12 +294,13 @@ class HttpClient:
         base = self.backoff[min(attempt, len(self.backoff) - 1)]
         return base + self._rng() * (base * 0.25)
 
-    def _request_once(self, url, timeout):
+    def _request_once(self, url, timeout, extra_headers=None):
         request = urllib.request.Request(
             url,
             headers={
                 "User-Agent": self.user_agent,
                 "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",
+                **(extra_headers or {}),
             },
         )
         try:

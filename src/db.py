@@ -82,6 +82,16 @@ CREATE TABLE IF NOT EXISTS un_calendar (
   last_seen TEXT NOT NULL,
   gone_at TEXT                    -- set when a still-future item stops being listed
 );
+-- UN documents discovered by symbol (draft resolutions). Separate from
+-- un_calendar because a draft has no date: what matters is that it exists and
+-- when we first saw it, which is what makes "new drafts this week" answerable.
+CREATE TABLE IF NOT EXISTS un_documents (
+  symbol TEXT PRIMARY KEY,        -- 'A/C.3/81/L.7'
+  body TEXT,                      -- 'Third Committee' | 'Human Rights Council'
+  session INTEGER,
+  url TEXT, size INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -98,6 +108,7 @@ TABLES = (
     "discards",
     "upr_recommendations",
     "un_calendar",
+    "un_documents",
 )
 
 

@@ -17,6 +17,7 @@ client code that fetches it.
 | Treaty body master calendar | 49 reporting deadlines by country and committee | `MasterCalendar.aspx`. `SessionsList.aspx` is a Telerik postback grid that stays empty — that difference cost an hour. |
 | UN Women CSW pages | CSW session ranges (CSW71: 8–19 March 2027) | The landing page has almost no dates; the **per-session pages** carry them in prose ("from 8 to 19 March 2027"). |
 | UN GA session page | Session window (81st: 8 Sep 2026 – 7 Sep 2027) | Session number = year − 1945, derived not hardcoded. |
+| docs.un.org | Draft resolutions by symbol (`A/C.3/81/L.7`, `A/HRC/63/L.4`) | Needs `?direct=true`. Existence is decided by **content type**, not status: a missing symbol answers 200 with an HTML page. Range requests honoured, so a check costs 64 bytes — but ~10s each, which is server latency not transfer. |
 | UN Journal API | Third Committee meetings with times, official/informal | Base from `journal.un.org/assets/config.json`. `GlobalCalendar` is **POST** with `{locationValue, startDate, endDate, organs}` and **ISO datetimes** — plain dates return 400. Organ UUIDs from `AdvancedSearch/Organs` (3,495). |
 
 ## Not available, with the reason
@@ -37,12 +38,25 @@ others, not solved. Five routes, each closed for a different reason:
   sit behind the e-delegate login.
 - **UN Journal daily list** — real and open, but it is a "documents issued"
   feed of 12–20 items a day and carries no committee L-documents.
-- **undocs.org / docs.un.org** — serve a ~4KB redirect shell for a document
-  symbol, not the document.
+- ~~**undocs.org / docs.un.org** — serve a ~4KB redirect shell~~ **WRONG,
+  corrected the same day.** `docs.un.org/en/{symbol}?direct=true` serves the
+  actual PDF. The `direct=true` is everything, and it was named in the
+  Journal app's own config file (`undocsUrl`). `A/C.3/80/L.1` is a 256KB
+  Third Committee draft resolution. Draft resolutions are now discoverable by
+  symbol — see below.
 
-**Third Committee agenda items.** The Journal gives meeting times but titles
-are only "5th plenary meeting". The agenda is in the Journal's daily PDF,
-which has not been attempted.
+**Third Committee agenda items.** Attempted and not viable. The Journal gives
+meeting times but titles are only "5th plenary meeting", there is no agenda
+endpoint (the meetings page chunk makes no HTTP calls of its own — it reuses
+the services in main.js, which fetch only GlobalCalendar and the daily list),
+and the archive PDF path is built from minified constants that do not resolve
+statically. Even with the PDF in hand, the body text uses subset fonts whose
+bytes need the embedded ToUnicode map, so stdlib extraction returns markup
+artefacts — a first attempt produced a page of "en-GB". Getting agendas or
+resolution titles needs a PDF library, which is a dependency decision.
+
+**Draft resolution TEXT and titles.** Same reason: the documents are
+retrievable, the text inside them is not, without a PDF library.
 
 **OHCHR UPR pages.** Cloudflare bot challenge (`cf-mitigated: challenge`,
 "Just a moment..."). Note this is path-specific: the HRC branch of the same
