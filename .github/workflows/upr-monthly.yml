@@ -25,8 +25,8 @@ jobs:
     # 2,943) dominate. Measured at well under 20 minutes.
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
       - name: Install dependencies

@@ -51,9 +51,9 @@ jobs:
             echo "Fired by '${{ github.event.schedule }}' but London (UTC$OFFSET) wants '$WANT' - off-DST duplicate slot; exiting."
             echo "SKIP=1" >> "$GITHUB_ENV"
           fi
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: env.SKIP != '1'
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         if: env.SKIP != '1'
         with:
           python-version: "3.11"
