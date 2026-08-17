@@ -71,3 +71,22 @@ class UnVotesTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RevisionJoinTests(unittest.TestCase):
+    """Votes are taken on the REVISED text; the harvest only holds the base."""
+
+    def test_revision_suffix_is_stripped(self):
+        self.assertEqual(un_votes.base_symbol("A/HRC/58/L.30/Rev.1"),
+                         "A/HRC/58/L.30")
+
+    def test_unrevised_symbols_are_untouched(self):
+        self.assertEqual(un_votes.base_symbol("A/HRC/58/L.6"), "A/HRC/58/L.6")
+
+    def test_multiple_revisions_collapse_to_the_base(self):
+        self.assertEqual(un_votes.base_symbol("A/C.3/80/L.20/Rev.2"),
+                         "A/C.3/80/L.20")
+
+    def test_none_is_survivable(self):
+        """A vote block with no preceding symbol has draft=None."""
+        self.assertEqual(un_votes.base_symbol(None), "")

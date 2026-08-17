@@ -67,16 +67,43 @@ def main():
 
     suspect = [v for v in votes if sum(v.tally) > COUNCIL_SIZE]
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
-    subjects = {r["symbol"]: r["subject"] for r in
-                conn.execute("SELECT symbol, subject FROM un_documents")}
+    stored = {r["symbol"]: r for r in
+              conn.execute("SELECT symbol, subject, title, kind, amends, areas, "
+                           "agenda_item FROM un_documents")}
+
+    def lookup(draft):
+        """Topic/areas for a draft, falling back to the unrevised symbol.
+
+        Prefers the draft's OWN title over the agenda item title: HRC item 3
+        is an omnibus, so the item title says nothing about the text voted on.
+        """
+        row = stored.get(draft) or stored.get(votes_mod.base_symbol(draft))
+        if not row:
+            return (None, None, None, None, None)
+        return (row["title"] or row["subject"], row["areas"], row["agenda_item"],
+                row["kind"], row["amends"])
     store(conn, report, votes, datetime.date.today().isoformat())
 
+    import json
     print("\n{0} recorded vote(s) in {1}\n".format(len(votes), report))
+    joined = 0
     for v in votes:
-        subject = subjects.get(v.draft) or "(subject unknown - run un_drafts.py)"
-        print("  {0:<22} {1:>2} for / {2:>2} against / {3:>2} abstaining".format(
-            v.draft or "?", *v.tally))
-        print("      {0}".format(subject[:72]))
+        subject, areas_json, item, kind, amends = lookup(v.draft)
+        areas = json.loads(areas_json or "[]")
+        if subject:
+            joined += 1
+        mark = "OURS" if areas else "    "
+        print("{0}  {1:<22} {2:>2} for / {3:>2} against / {4:>2} abstaining".format(
+            mark, v.draft or "?", *v.tally))
+        label = kind or "?"
+        if amends:
+            label += " to " + amends
+        print("        {0:<28} {1}".format(
+            label, (subject or "(unknown - run un_drafts.py)")[:56]))
+        if areas:
+            print("        areas {0}   against: {1}".format(
+                ",".join(str(a) for a in areas), ", ".join(v.against[:6]) or "none"))
+    print("\njoined to a subject: {0} of {1}".format(joined, len(votes)))
     if suspect:
         print("\nWARNING: {0} block(s) exceed the {1}-member Council, which means "
               "the parse picked up something that is not a state.".format(
@@ -91,7 +118,7 @@ def main():
             print("  not recorded in this session -- absent, or not a member.")
         for r in rows:
             print("  {0:<22} {1:<8} {2}".format(
-                r["draft"], r["position"], (subjects.get(r["draft"]) or "")[:50]))
+                r["draft"], r["position"], (lookup(r["draft"])[0] or "")[:50]))
     conn.close()
     return 0
 

@@ -42,17 +42,18 @@ def store(conn, rows, body, session, today):
     for doc, draft, areas in rows:
         conn.execute(
             "INSERT INTO un_documents (symbol, body, session, url, size, "
-            "agenda_item, subject, kind, dated, areas, first_seen, last_seen) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+            "agenda_item, subject, title, amends, kind, dated, areas, first_seen, last_seen) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
             # first_seen never moves on a re-read; the rest refresh, because a
             # draft can be revised in place.
             "ON CONFLICT(symbol) DO UPDATE SET url=excluded.url, "
             "agenda_item=excluded.agenda_item, subject=excluded.subject, "
-            "kind=excluded.kind, dated=excluded.dated, areas=excluded.areas, "
+            "title=excluded.title, amends=excluded.amends, kind=excluded.kind, dated=excluded.dated, "
+            "areas=excluded.areas, "
             "last_seen=excluded.last_seen",
             (doc.symbol, body, session, doc.url, doc.size,
-             draft.agenda_item, draft.subject, draft.kind, draft.dated,
-             json.dumps(areas), today, today))
+             draft.agenda_item, draft.subject, draft.title, draft.amends,
+             draft.kind, draft.dated, json.dumps(areas), today, today))
     conn.commit()
     return [r for r in rows if r[0].symbol not in before]
 
@@ -93,7 +94,10 @@ def main():
             rows.append((doc, un_docs.Draft(symbol=doc.symbol), []))
             continue
         draft = un_docs.parse_draft(doc.symbol, text)
-        areas = filt.filter_item(tax, wl, draft.subject or "").issue_areas
+        # Classify on the draft's own title where it has one: the HRC's agenda
+        # item 3 is an omnibus whose title matches nothing, which made every
+        # HRC draft unclassifiable in the first version.
+        areas = filt.filter_item(tax, wl, draft.topic or "").issue_areas
         rows.append((doc, draft, areas))
 
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
@@ -104,13 +108,13 @@ def main():
     for doc, draft, areas in rows:
         mark = "OURS" if areas else "    "
         print("{0}  {1:<16} item {2:<5} {3}".format(
-            mark, doc.symbol, draft.agenda_item or "-", (draft.subject or "?")[:52]))
+            mark, doc.symbol, draft.agenda_item or "-", (draft.topic or "?")[:52]))
         if areas:
             print("        areas {0}  {1}".format(
                 ",".join(str(a) for a in areas), doc.url))
     print("\nNEW since the last run: {0}".format(len(fresh)))
     for doc, draft, _areas in fresh:
-        print("  {0}  {1}".format(doc.symbol, (draft.subject or "?")[:60]))
+        print("  {0}  {1}".format(doc.symbol, (draft.topic or "?")[:60]))
     if not fresh:
         print("  (all of these were already known)")
     conn.close()

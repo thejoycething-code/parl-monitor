@@ -106,6 +106,18 @@ def _states(blob):
     return out
 
 
+def base_symbol(symbol):
+    """'A/HRC/58/L.30/Rev.1' -> 'A/HRC/58/L.30'.
+
+    Votes are taken on the REVISED text, so a vote cites L.30/Rev.1 while the
+    draft harvest walks L.1, L.2, ... and only ever holds L.30. A revision is
+    the same draft on the same agenda item, so the base symbol is the right
+    key for looking up a subject -- without this, every revised draft joins to
+    nothing, and revised drafts are the contested ones.
+    """
+    return re.sub(r"/Rev\.\d+$", "", symbol or "")
+
+
 def parse_votes(text, symbol_pattern=_SYMBOL):
     """Every recorded vote in a session report, anchored to its draft."""
     votes = []

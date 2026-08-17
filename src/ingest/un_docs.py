@@ -96,16 +96,57 @@ def document_text(client, symbol, lang="en", pages=None):
 _ITEM = re.compile(r"Agenda item[s]?\s+(\d+)", re.I)
 _SUBMITTED = re.compile(r"^Draft (resolution|decision)\s+submitted by", re.I)
 _DATE = re.compile(r"^(\d{1,2}\s+\w+\s+20\d\d)$")
+# HRC drafts end their sponsor list with ": draft resolution" and then give
+# the draft's own title, prefixed with the session number.
+# A sponsor list ends in one of three ways, and the third is the interesting
+# one: an AMENDMENT names the draft it attacks. Amendments are how language
+# gets inserted or stripped, so they are usually the contested moment, and
+# seven of session 58's thirty-seven "drafts" were amendments -- all of them
+# unclassifiable until this was handled.
+# The colon and the phrase are often on SEPARATE lines, because the sponsor
+# list wraps: "... and Zimbabwe* :" then "amendment to draft resolution
+# A/HRC/58/L.7". So the leading colon is optional.
+# ":*" occurs where a single sponsor carries the not-a-member footnote:
+# "Ghana:* draft resolution". The asterisk sits between colon and phrase.
+_SPONSOR_FLAT = re.compile(
+    r":\**\s*(?:(?P<amend>amendment)\s+to\s+draft\s+(?:resolution|decision)"
+    r"\s*(?P<target>A/[A-Z0-9./]+?)(?=\s+\d+/)|draft\s+(?P<kind>resolution|decision))\s+",
+    re.I)
+_BODY_FLAT = re.compile(
+    r"The (?:Human Rights Council|General Assembly|Third Committee)\s*,|After paragraph",
+    re.I)
+_SPONSOR_END = re.compile(
+    r"(?::\s*|^)(?:(?P<amend>amendment)\s+to\s+draft\s+(?:resolution|decision)"
+    r"\s*(?P<target>A/[A-Z0-9./]+)?|draft\s+(?P<kind>resolution|decision))\s*$", re.I)
+_TITLE_PREFIX = re.compile(r"^\d+/[\u2026.]+\s*")
+_BODY_START = re.compile(r"^The (Human Rights Council|General Assembly|Third Committee)\s*,", re.I)
 
 
 @dataclass
 class Draft:
     symbol: str
     agenda_item: int = None
-    subject: str = None
-    kind: str = None             # resolution | decision
+    subject: str = None          # the AGENDA ITEM title
+    title: str = None            # the draft's OWN title, where it has one
+    kind: str = None             # resolution | decision | amendment
+    amends: str = None           # the draft an amendment attacks
     dated: str = None
     sponsors: str = None
+
+    @property
+    def topic(self):
+        """What to classify on.
+
+        The two bodies differ, and getting this wrong made every HRC draft
+        unclassifiable. In a Third Committee draft the agenda item title IS
+        the topic ("Agenda item 67 / Promotion and protection of the rights of
+        children"). In an HRC draft, item 3 is an omnibus covering most
+        thematic resolutions -- "Promotion and protection of all human rights,
+        civil, political, economic, social and cultural rights, including the
+        right to development" -- and the draft's real title comes AFTER the
+        sponsor list, prefixed "58/...". Prefer the specific one.
+        """
+        return self.title or self.subject
 
     @property
     def is_programme_of_work(self):
@@ -134,7 +175,7 @@ def parse_draft(symbol, text):
             subject = []
             for nxt in lines[i + 1:i + 5]:
                 if _SUBMITTED.match(nxt):
-                    draft.kind = _SUBMITTED.match(nxt).group(1).lower()
+                    draft.kind = draft.kind or _SUBMITTED.match(nxt).group(1).lower()
                     draft.sponsors = nxt
                     break
                 # A sponsor list is a run of comma-separated country names;
@@ -152,6 +193,29 @@ def parse_draft(symbol, text):
             if "organization of the work" in line.lower():
                 draft.subject = line
                 break
+
+    # The draft's OWN title, from the whole text rather than line by line.
+    # The sponsor list wraps unpredictably: ": draft" can end one line with
+    # "resolution" beginning the next, and ":" can end a line with "amendment
+    # to draft resolution A/HRC/58/L.7" on the next. Matching per line missed
+    # five of session 58's thirty-seven drafts, each silently falling back to
+    # the omnibus agenda-item title.
+    flat = re.sub(r"\s+", " ", text or "")
+    marker = _SPONSOR_FLAT.search(flat)
+    if marker:
+        if marker.group("amend"):
+            draft.kind = "amendment"
+            draft.amends = (marker.group("target") or "").rstrip(".") or None
+        else:
+            draft.kind = draft.kind or (marker.group("kind") or "").lower()
+        tail = flat[marker.end():]
+        stop = _BODY_FLAT.search(tail)
+        candidate = tail[:stop.start()] if stop else tail[:220]
+        candidate = _TITLE_PREFIX.sub("", candidate.strip())
+        # Footnote markers and the running header get glued on at page breaks.
+        candidate = re.split(r"\s*\*\s|United Nations A/", candidate)[0]
+        if 8 < len(candidate) < 260:
+            draft.title = candidate.strip(" :,.")
     return draft
 
 

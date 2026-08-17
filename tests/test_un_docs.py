@@ -122,3 +122,53 @@ Note by the Secretariat
         d = un_docs.parse_draft("A/C.3/80/L.1", self.ORG_OF_WORK)
         self.assertIsNone(d.agenda_item)
         self.assertTrue(d.is_programme_of_work)
+
+
+class SponsorWrapTests(unittest.TestCase):
+    """Where the draft's OWN title begins, across the shapes the PDF produces.
+
+    Each of these silently fell back to the agenda-item title in an earlier
+    version. That matters most for the HRC, whose item 3 is an omnibus
+    ("Promotion and protection of all human rights, civil, political...")
+    covering most thematic resolutions, so the item title says nothing about
+    the text being voted on.
+    """
+
+    def parse(self, text):
+        return un_docs.parse_draft("A/HRC/58/L.9", text)
+
+    def test_phrase_split_across_lines(self):
+        """"... and Ukraine* : draft" / "resolution" -- the phrase itself wraps."""
+        d = self.parse("Agenda item 4\nHuman rights situations that require attention\n"
+                       "Albania, Belgium and Ukraine* : draft\nresolution\n"
+                       "58/... Promotion and protection of human rights in Nicaragua\n"
+                       "The Human Rights Council,\n")
+        self.assertEqual(d.kind, "resolution")
+        self.assertEqual(d.title, "Promotion and protection of human rights in Nicaragua")
+
+    def test_single_sponsor_with_footnote_asterisk(self):
+        """"Ghana:* draft resolution" -- the asterisk sits inside the colon."""
+        d = self.parse("Agenda item 10\nTechnical assistance\n"
+                       "Ghana:* draft resolution\n"
+                       "58/... Technical assistance and capacity-building for Mali\n"
+                       "The Human Rights Council,\n")
+        self.assertEqual(d.kind, "resolution")
+        self.assertIn("Mali", d.title)
+
+    def test_amendment_names_the_draft_it_attacks(self):
+        """Amendments are how language is inserted or stripped, so the target
+        matters as much as the text."""
+        d = self.parse("Agenda item 3\nPromotion and protection of all human rights\n"
+                       "Belarus,* Eritrea* :\namendment to draft resolution A/HRC/58/L.7\n"
+                       "58/... Question of the realization in all countries\n"
+                       "After paragraph 21, insert a new paragraph\n")
+        self.assertEqual(d.kind, "amendment")
+        self.assertEqual(d.amends, "A/HRC/58/L.7")
+        self.assertIn("realization", d.title)
+
+    def test_topic_prefers_the_specific_title(self):
+        d = self.parse("Agenda item 3\nPromotion and protection of all human rights\n"
+                       "Ghana:* draft resolution\n58/... Freedom of religion or belief\n"
+                       "The Human Rights Council,\n")
+        self.assertEqual(d.topic, "Freedom of religion or belief")
+        self.assertNotEqual(d.topic, d.subject)
