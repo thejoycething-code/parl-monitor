@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import db, intel
-from src.ingest import un_votes as votes_mod
+from src.ingest import treaty_comments, un_votes as votes_mod
 
 BAR = "-" * 78
 
@@ -89,6 +89,37 @@ def main():
             label[:30], ",".join(str(a) for a in areas_of(r)), r["dated"] or ""))
     total = conn.execute("SELECT COUNT(*) FROM un_documents").fetchone()[0]
     print("\n  {0} of {1} stored drafts touch our areas.".format(len(drafts), total))
+
+    # -- campaign triggers --------------------------------------------------
+    head("CAMPAIGN TRIGGERS", "tools/un_drafts.py, tools/un_comments.py")
+    print("  A campaign needs a date, a decider, and a decision that can still")
+    print("  go either way. These are the events that offer all three.\n")
+    trig = [r for r in conn.execute(
+        "SELECT symbol, body, title, kind, event, areas, dated FROM un_documents "
+        "WHERE event IS NOT NULL ORDER BY event, symbol")]
+    if want is not None:
+        trig = [r for r in trig if want in areas_of(r) or r["event"] != "mandate"]
+    if not trig:
+        print("  none stored.")
+    for r in trig:
+        # A general comment is ours by COMMITTEE, not by being a general
+        # comment: the first version flagged CERD and CMW as ours, which is the
+        # over-flagging this codebase keeps having to design out.
+        ours = bool(areas_of(r))
+        if r["event"] == "interpretation" and r["body"]:
+            ours = ours or any(r["body"].upper().startswith(t)
+                               for t in treaty_comments.OURS)
+        mark = "OURS" if ours else "    "
+        print("  {0}  {1:<14} {2:<14} {3}".format(
+            mark, (r["event"] or "").upper()[:14], r["symbol"][:14],
+            (r["title"] or "")[:44]))
+    print("\n  MANDATE      a rapporteur post created, renewed or ended. Renewal")
+    print("               runs on a three-year cycle, so the vote is knowable")
+    print("               years ahead -- the most predictable moment there is.")
+    print("  INTERPRETATION a treaty body general comment. GC36 read abortion")
+    print("               into the right to life; this outlasts any resolution.")
+    print("  NOT TRACKED  appointments and elections -- the Bachelet class. Every")
+    print("               OHCHR vacancies and elections page answers 403.")
 
     # -- votes --------------------------------------------------------------
     head("HOW STATES VOTED", "tools/un_votes.py")

@@ -93,6 +93,18 @@ def document_text(client, symbol, lang="en", pages=None):
     return "\n".join((p.extract_text() or "") for p in wanted)
 
 
+# A mandate resolution creates, renews or ends a Special Rapporteur, Independent
+# Expert or Working Group. These are the most PREDICTABLE campaign moments in
+# the system -- mandates run on three-year cycles, so the renewal vote is
+# knowable years ahead -- and they were sitting in the store as ordinary
+# resolutions until 2026-08-17.
+_MANDATE = re.compile(
+    r"mandate of (?:the )?(?:special rapporteur|independent expert|"
+    r"working group|special representative)"
+    r"|renewal of the mandate"
+    r"|(?:establish\w*|creation of) (?:a |the )?(?:new )?"
+    r"(?:special rapporteur|mandate|independent expert)", re.I)
+
 _ITEM = re.compile(r"Agenda item[s]?\s+(\d+)", re.I)
 _SUBMITTED = re.compile(r"^Draft (resolution|decision)\s+submitted by", re.I)
 _DATE = re.compile(r"^(\d{1,2}\s+\w+\s+20\d\d)$")
@@ -139,6 +151,19 @@ class Draft:
     instruction: str = None      # an amendment's operative text
     dated: str = None
     sponsors: str = None
+
+    @property
+    def event(self):
+        """The campaign-relevant EVENT type, where the text is one.
+
+        A campaign needs a date, a decider and a decision that can still go
+        either way. "mandate" is the clearest of those in the UN system: the
+        holder of a mandate writes the reports that shift norms, and the
+        renewal vote is a fixed, recurring, winnable moment.
+        """
+        if _MANDATE.search(self.topic or ""):
+            return "mandate"
+        return None
 
     @property
     def classify_on(self):

@@ -206,3 +206,28 @@ class AmendmentInstructionTests(unittest.TestCase):
         makes it an abortion-language fight."""
         self.assertIn("Rights of the child", self.draft.classify_on)
         self.assertIn("sexual and reproductive", self.draft.classify_on)
+
+
+class MandateEventTests(unittest.TestCase):
+    """Mandate resolutions are campaign triggers, not ordinary resolutions.
+
+    A mandate holder writes the reports that shift norms, and renewal runs on a
+    three-year cycle -- so the vote is knowable years ahead. These were sitting
+    in the store as ordinary resolutions until 2026-08-17.
+    """
+
+    def event_for(self, title):
+        return un_docs.Draft(symbol="x", title=title).event
+
+    def test_rapporteur_mandates_are_flagged(self):
+        for title in ("Mandate of Special Rapporteur on the right to food",
+                      "Mandate of the Independent Expert on older persons",
+                      "Renewal of the mandate of the Working Group on discrimination"):
+            with self.subTest(title):
+                self.assertEqual(self.event_for(title), "mandate")
+
+    def test_ordinary_resolutions_are_not_flagged(self):
+        for title in ("Rights of the child", "Freedom of religion or belief",
+                      "Human rights situation in Belarus"):
+            with self.subTest(title):
+                self.assertIsNone(self.event_for(title))
