@@ -387,7 +387,15 @@ def parse_journal_meetings(payload, organ_filter="Third"):
 
     The payload nests group -> organGroup -> meetings, repeated per day, and
     a query filtered to one organ still returns its parent's plenaries, so
-    rows are filtered on organ/primaryOrgan rather than trusted.
+    rows have to be filtered rather than trusted.
+
+    Match on relatedOrganizations as well as organ/primaryOrgan. This is not
+    belt-and-braces: a committee's OFFICIAL meetings are filed under organ
+    "General Assembly" with the committee only in relatedOrganizations, while
+    the rows whose organ IS the committee are its informal notices. Checking
+    organ alone kept 36 informal items and dropped all 55 official ones --
+    precisely backwards, since the official meetings are the substantive
+    ones (observed 2026-08-17).
     """
     out = []
     for group in payload or []:
@@ -395,7 +403,9 @@ def parse_journal_meetings(payload, organ_filter="Third"):
             for m in og.get("meetings", []) or []:
                 organ = og.get("organ") or ""
                 primary = m.get("primaryOrgan") or ""
-                if organ_filter and organ_filter not in (organ + primary):
+                related = " ".join(
+                    str(r.get("value")) for r in (m.get("relatedOrganizations") or []))
+                if organ_filter and organ_filter not in (organ + primary + related):
                     continue
                 raw = (m.get("startDate") or "")[:16]
                 try:
@@ -403,7 +413,14 @@ def parse_journal_meetings(payload, organ_filter="Third"):
                 except ValueError:
                     continue
                 title = re.sub(r"\s+", " ", _TAGS.sub(" ", m.get("title") or "")).strip()
-                out.append(Meeting(organ=primary or organ, title=title,
+                # Prefer the related organisation when it is the one asked
+                # for: an official Third Committee meeting says organ
+                # "General Assembly", which would be misleading to display.
+                label = organ
+                if organ_filter and organ_filter in related and organ_filter not in organ:
+                    label = next((str(r.get("value")) for r in (m.get("relatedOrganizations") or [])
+                                  if organ_filter in str(r.get("value"))), organ)
+                out.append(Meeting(organ=label or primary, title=title,
                                    starts=starts, kind=m.get("type") or ""))
     return sorted(out, key=lambda x: x.starts)
 

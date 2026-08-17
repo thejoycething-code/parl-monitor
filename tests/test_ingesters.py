@@ -488,23 +488,34 @@ class JournalMeetingTests(unittest.TestCase):
     needs ISO DATETIMES -- plain dates return 400 "Incorrect parameters".
     """
 
+    # Shaped like the real payload: an OFFICIAL committee meeting is filed
+    # under organ "General Assembly" with the committee only in
+    # relatedOrganizations, while the rows whose organ IS the committee are
+    # its informal notices.
     PAYLOAD = [{"group": "official", "organGroup": [{"organ": "General Assembly",
                 "meetings": [
-                    {"title": "<p>Third Committee, 5th meeting</p>", "type": "Official",
-                     "primaryOrgan": "Third Committee",
+                    {"title": "<p>5th plenary meeting</p>", "type": "Official",
+                     "primaryOrgan": "General Assembly",
+                     "relatedOrganizations": [{"value": "Third Committee"}],
                      "startDate": "2025-10-07T10:00:00"},
                     {"title": "1st plenary meeting", "type": "Official",
                      "primaryOrgan": "General Assembly",
+                     "relatedOrganizations": [{"value": "Fourth Committee"}],
                      "startDate": "2025-10-07T15:00:00"},
                 ]}]}]
 
-    def test_filters_to_the_organ_asked_for(self):
-        """A query filtered to one organ still returns its parent's
-        plenaries, so rows are filtered rather than trusted."""
+    def test_official_meetings_are_found_via_related_organizations(self):
+        """Filtering on organ alone kept 36 informal notices and dropped all
+        55 official meetings -- backwards, since the official ones matter."""
         got = un_calendar.parse_journal_meetings(self.PAYLOAD, organ_filter="Third")
         self.assertEqual(len(got), 1)
-        self.assertEqual(got[0].organ, "Third Committee")
+        self.assertEqual(got[0].kind, "Official")
         self.assertNotIn("<p>", got[0].title)
+
+    def test_the_committee_is_displayed_not_its_parent(self):
+        """The row says organ "General Assembly"; showing that would mislead."""
+        got = un_calendar.parse_journal_meetings(self.PAYLOAD, organ_filter="Third")
+        self.assertEqual(got[0].organ, "Third Committee")
 
     def test_keeps_time_of_day(self):
         got = un_calendar.parse_journal_meetings(self.PAYLOAD, organ_filter="Third")
