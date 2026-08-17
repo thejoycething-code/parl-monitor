@@ -12,8 +12,14 @@ is covered, because it is the only body whose calendar could be read:
     lists every session with its date range in a stable, parseable form.
   * UPR working group sessions -- NO. Every OHCHR UPR calendar URL tried
     returns HTTP 403 to a non-browser client.
-  * Treaty bodies (CEDAW, CRC) -- NO. The sessions list renders its dates
-    client-side; the served HTML carries none.
+  * Treaty bodies (CEDAW, CRC, CRPD...) -- YES, via the master calendar,
+    added 2026-08-17. An earlier note here said the dates rendered
+    client-side; that was wrong. SessionsList.aspx is a Telerik postback grid
+    that stays empty without a treaty selected, but MasterCalendar.aspx
+    serves 50 dated rows in plain HTML. What it lists is REPORTING
+    DEADLINES -- when each state's report or list of issues is due to each
+    committee -- which is more actionable than sitting dates: a deadline is
+    when a shadow submission can land.
   * Commission on the Status of Women -- NO. The UN Women page carries only
     one dated reference and it is in the past.
   * Third Committee -- NO. The UNGA page carries no dates at all.
@@ -30,6 +36,19 @@ import re
 from dataclasses import dataclass
 
 HRC_SESSIONS = "https://www.ohchr.org/en/hr-bodies/hrc/regular-sessions"
+TB_CALENDAR = ("https://tbinternet.ohchr.org/_layouts/15/TreatyBodyExternal/"
+               "MasterCalendar.aspx?Lang=en")
+
+# The committees whose work touches our areas. CEDAW and CRC are where
+# abortion and sexuality education get read into treaties; CCPR is where
+# conscience, religion and (via General Comment 36) abortion sit.
+# CRPD was included at first and REMOVED after looking at the output: the
+# disability-selective abortion angle is real but rare, while the committee's
+# calendar is dominated by general disability reporting, and it supplied most
+# of the "ours" rows in the first run. Same judgement as dropping "migrant
+# workers" from the UN taxonomy -- a flag that fires on everything is not a
+# flag. CAT, CED, CERD, CMW and CESCR are listed but never flagged.
+TB_OURS = ("CEDAW", "CRC", "CCPR")
 
 MONTHS = ("January February March April May June July August September "
           "October November December").split()
@@ -105,6 +124,61 @@ def parse_hrc_sessions(html):
                            starts=starts, ends=ends,
                            url=HRC_SESSIONS))
     return sorted(out, key=lambda s: s.starts)
+
+
+@dataclass
+class TreatyDeadline:
+    country: str
+    region: str
+    treaty: str                  # CEDAW | CRC | CRPD | CCPR | ...
+    document: str                # "State party's report", "List of issues"
+    due: datetime.date
+    url: str = TB_CALENDAR
+
+    @property
+    def days_until(self):
+        return (self.due - datetime.date.today()).days
+
+    @property
+    def ours(self):
+        return self.treaty.upper() in TB_OURS
+
+
+_TB_DATE = re.compile(r"^(\d{1,2})\s+(\w{3})\s+(20\d\d)$")
+_MONTH3 = [m[:3] for m in MONTHS]
+
+
+def parse_treaty_deadlines(html):
+    """Reporting deadlines from the treaty body master calendar.
+
+    One row per country/treaty/document, with the date the report or list of
+    issues is due. Rows without a parseable date are skipped -- as with calls
+    for input, an undated row would sit in a deadline feed forever.
+    """
+    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", html or "", re.S)
+    out = []
+    for row in rows:
+        cells = [re.sub(r"\s+", " ", _TAGS.sub("", c)).replace("\xa0", " ").strip()
+                 for c in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, re.S)]
+        if len(cells) < 5:
+            continue
+        due = None
+        for cell in cells:
+            m = _TB_DATE.match(cell)
+            if m and m.group(2).capitalize() in _MONTH3:
+                due = datetime.date(int(m.group(3)),
+                                    _MONTH3.index(m.group(2).capitalize()) + 1,
+                                    int(m.group(1)))
+                break
+        if not due or not cells[1] or cells[1] == "&nbsp;":
+            continue
+        out.append(TreatyDeadline(region=cells[0], country=cells[1],
+                                  treaty=cells[2], document=cells[3], due=due))
+    return sorted(out, key=lambda d: d.due)
+
+
+def fetch_treaty_deadlines(client):
+    return parse_treaty_deadlines(client.get_text(TB_CALENDAR, "uncal", "tb-calendar"))
 
 
 def fetch_sessions(client):

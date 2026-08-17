@@ -50,6 +50,19 @@ def main():
         gaps.append("HRC sessions: {0}".format(exc.cause))
 
     try:
+        deadlines = un_calendar.fetch_treaty_deadlines(client)
+        if not deadlines:
+            gaps.append("treaty body calendar: parsed to nothing (layout change?)")
+        for d in deadlines:
+            if d.due < today or (days and (d.due - today).days > days):
+                continue
+            rows.append((d.due, "TREATY", "{0}: {1} ({2})".format(
+                d.treaty, d.country, d.document[:40]),
+                "due {0}".format(d.due), "committee" if d.ours else "", d.url))
+    except FetchError as exc:
+        gaps.append("treaty body calendar: {0}".format(exc.cause))
+
+    try:
         calls = ohchr_calls.fetch_calls(client)
         if not calls:
             gaps.append("calls for input: parsed to nothing (layout change?)")
@@ -68,15 +81,21 @@ def main():
         left = (when - today).days
         flag = "OURS" if areas else "    "
         print("{0}  {1:>4}d  {2:<8} {3}".format(flag, left, kind, title[:60]))
-        print("            {0}{1}".format(
-            detail, "  areas " + areas if areas else ""))
+        # The marker is an area list for calls and the word "committee" for
+        # treaty rows; label it rather than printing "areas committee".
+        suffix = ""
+        if areas == "committee":
+            suffix = "  (one of our committees)"
+        elif areas:
+            suffix = "  areas " + areas
+        print("            {0}{1}".format(detail, suffix))
         print("            {0}".format(url))
 
-    print("\nCoverage: Human Rights Council sessions and OHCHR calls for "
-          "input only.")
-    print("NOT covered: UPR working groups, treaty bodies (CEDAW/CRC), CSW, "
-          "Third Committee. See src/ingest/un_calendar.py for why each is "
-          "missing -- a quiet stretch here does not mean a quiet UN.")
+    print("\nCoverage: Human Rights Council sessions, treaty body reporting "
+          "deadlines (CEDAW/CRC/CCPR flagged), and OHCHR calls for input.")
+    print("NOT covered: UPR working groups (OHCHR returns 403), CSW, Third "
+          "Committee. See src/ingest/un_calendar.py -- a quiet stretch here "
+          "does not mean a quiet UN.")
     if gaps:
         print("\nGAPS ({0}):".format(len(gaps)))
         for g in gaps:

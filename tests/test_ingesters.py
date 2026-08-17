@@ -385,3 +385,33 @@ class UnCalendarTests(unittest.TestCase):
         live = un_calendar.upcoming(self.sessions, today=mid)
         self.assertIn(63, [s.number for s in live])
         self.assertTrue(next(s for s in live if s.number == 63).starts <= mid)
+
+
+class TreatyDeadlineTests(unittest.TestCase):
+    """Treaty body reporting deadlines, fixture captured live 2026-08-17."""
+
+    def setUp(self):
+        self.rows = un_calendar.parse_treaty_deadlines(load_text("uncal_tb-calendar"))
+
+    def test_parses_country_treaty_and_due_date(self):
+        self.assertTrue(self.rows)
+        row = self.rows[0]
+        self.assertTrue(row.country and row.treaty)
+        self.assertIsInstance(row.due, datetime.date)
+        self.assertEqual(self.rows, sorted(self.rows, key=lambda r: r.due))
+
+    def test_undated_and_headerless_rows_are_skipped(self):
+        """A row with no due date would sit in a deadline feed forever."""
+        for row in self.rows:
+            self.assertIsNotNone(row.due)
+            self.assertNotIn(row.country, ("", "&nbsp;"))
+
+    def test_only_our_committees_are_flagged(self):
+        """CRPD was flagged at first and dropped: its calendar is dominated by
+        general disability reporting, and it supplied most of the hits."""
+        self.assertTrue(any(r.treaty == "CEDAW" for r in self.rows))
+        for row in self.rows:
+            if row.treaty in ("CAT", "CERD", "CED", "CRPD"):
+                self.assertFalse(row.ours, "%s should not be flagged" % row.treaty)
+            if row.treaty in ("CEDAW", "CRC", "CCPR"):
+                self.assertTrue(row.ours)
