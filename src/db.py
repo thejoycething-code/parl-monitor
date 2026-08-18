@@ -129,7 +129,46 @@ CREATE TABLE IF NOT EXISTS ni_items (
   areas TEXT,                     -- json list of OUR area numbers
   matched_terms TEXT,             -- json list, for taxonomy maintenance
   url TEXT,
+  tabler_person_id TEXT,          -- joins to ni_members; null until enriched
+  tabler TEXT, tabler_seat TEXT,
+  minister TEXT, department TEXT,
+  answered TEXT, answer TEXT,     -- answer stored whole, displayed truncated
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+-- The 90 sitting MLAs. Needed because no question or division payload carries
+-- a party: they give a PersonId and expect you to join.
+CREATE TABLE IF NOT EXISTS ni_members (
+  person_id TEXT PRIMARY KEY,
+  name TEXT, display_name TEXT, party TEXT, constituency TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+-- Assembly divisions. `bill` is DERIVED from the subject (see bill_of) because
+-- the subject names an amendment number, not what the amendment says, and is
+-- truncated at 100 characters. Grouping by bill is the only usable unit.
+CREATE TABLE IF NOT EXISTS ni_divisions (
+  doc_id TEXT PRIMARY KEY,
+  event_id TEXT,
+  subject TEXT,                   -- verbatim, truncated by the API at 100 chars
+  bill TEXT,                      -- derived group key
+  dated TEXT,
+  kind TEXT,                      -- 'Simple Majority' | 'Cross-Community'
+  areas TEXT,                     -- json list; from the BILL, not the amendment
+  matched_terms TEXT,
+  watched INTEGER,                -- 1 when a human listed the bill in ni_watch.yaml
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+-- One row per MLA per division: the same shape as mp_events for Westminster
+-- divisions, so "how did this MLA vote on every X" is a single query.
+-- `designation` is NI-specific and load-bearing: a cross-community vote needs
+-- majorities in both, so a bare for/against tally misreads it.
+CREATE TABLE IF NOT EXISTS ni_votes (
+  doc_id TEXT NOT NULL,
+  person_id TEXT NOT NULL,
+  member TEXT,
+  vote TEXT NOT NULL,             -- aye | no | abstain | (verbatim if unknown)
+  designation TEXT,               -- Unionist | Nationalist | Other
+  captured_at TEXT NOT NULL,
+  PRIMARY KEY (doc_id, person_id)
 );
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
@@ -150,6 +189,9 @@ TABLES = (
     "un_documents",
     "un_votes",
     "ni_items",
+    "ni_members",
+    "ni_divisions",
+    "ni_votes",
 )
 
 
@@ -205,6 +247,16 @@ def init_db(conn):
             if column not in d_cols:
                 conn.execute("ALTER TABLE un_documents ADD COLUMN {0} {1}"
                              .format(column, decl))
+    n_cols = {r[1] for r in conn.execute("PRAGMA table_info(ni_items)")}
+    if n_cols:
+        # Added 2026-08-18 with MLA attribution: the table was created earlier
+        # the same day holding no tabler, because the question SEARCH endpoint
+        # returns no member name. GetQuestionDetails supplies these.
+        for column in ("tabler_person_id", "tabler", "tabler_seat", "minister",
+                       "department", "answered", "answer"):
+            if column not in n_cols:
+                conn.execute("ALTER TABLE ni_items ADD COLUMN {0} TEXT"
+                             .format(column))
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former
         # members stay NULL. Full-roster 5CA sheets select on this flag.

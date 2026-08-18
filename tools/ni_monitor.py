@@ -88,11 +88,29 @@ def main():
     hidden_only = [r for r in qs if not set(areas_of(r)) - hidden]
     if not qs:
         print("  no classified questions stored.")
+    roster = {r["person_id"]: (r["party"], r["constituency"]) for r in
+              conn.execute("SELECT person_id, party, constituency FROM ni_members")}
     for r in visible[:limit]:
         print("  {0:<16} {1:<10} areas {2}".format(
             (r["reference"] or "?")[:16], r["dated"] or "undated",
             ",".join(str(a) for a in sorted(set(areas_of(r)) - hidden))))
         print("        {0}".format((r["title"] or "")[:68]))
+        who = r["tabler"] or ""
+        if who:
+            party, seat = roster.get(r["tabler_person_id"] or "", ("", ""))
+            # Party comes from the roster join, not the question: no question
+            # payload carries one. A blank party means a former member.
+            print("        asked by {0}{1}{2}".format(
+                who, " ({0})".format(party) if party else "",
+                " — {0}".format(seat or r["tabler_seat"] or "") if
+                (seat or r["tabler_seat"]) else ""))
+        if r["minister"]:
+            print("        of {0}".format(r["minister"][:60]))
+        if r["answer"]:
+            # Truncated on purpose: the CLAUDE.md rule against pasting full PQ
+            # answers is about editions, but the reasoning holds here too.
+            print("        ANSWER: {0}...".format(
+                " ".join((r["answer"] or "").split())[:74]))
     if len(visible) > limit:
         print("\n  ...and {0} more. --n {1} to show them."
               .format(len(visible) - limit, len(visible)))
@@ -137,20 +155,90 @@ def main():
     if len(diary) > 12:
         print("  ...and {0} more within the stored horizon".format(len(diary) - 12))
 
+    # -- divisions ----------------------------------------------------------
+    head("HOW MLAs VOTED", "tools/ni_divisions.py")
+    dtotal = conn.execute("SELECT COUNT(*) FROM ni_divisions").fetchone()[0]
+    if not dtotal:
+        print("  no divisions stored. Run tools/ni_divisions.py --review.")
+    else:
+        watched = conn.execute(
+            "SELECT COUNT(*) FROM ni_divisions WHERE watched = 1").fetchone()[0]
+        auto = conn.execute("SELECT COUNT(*) FROM ni_divisions "
+                            "WHERE areas IS NOT NULL AND areas != '[]'").fetchone()[0]
+        print("  {0} division(s) stored; {1} on watched bills; {2} matched the "
+              "taxonomy\n  on their own subject line.".format(dtotal, watched, auto))
+        rows_v = conn.execute(
+            "SELECT d.bill, d.doc_id, d.dated, d.kind, d.subject, "
+            "  SUM(CASE WHEN v.vote='aye' THEN 1 ELSE 0 END) ayes, "
+            "  SUM(CASE WHEN v.vote='no' THEN 1 ELSE 0 END) noes, "
+            "  COUNT(v.person_id) n "
+            "FROM ni_divisions d JOIN ni_votes v ON v.doc_id = d.doc_id "
+            "GROUP BY d.doc_id ORDER BY d.dated DESC, d.doc_id").fetchall()
+        if not rows_v:
+            print("\n  No member votes harvested yet. A bill must be listed in")
+            print("  config/ni_watch.yaml first -- a division's subject names an")
+            print("  amendment number, not its content, so the choice of which")
+            print("  bills matter is a human one. Start with:")
+            print("      python3 tools/ni_divisions.py --review")
+        for r in rows_v[:12]:
+            flag = "  CROSS-COMMUNITY" if "cross" in (r["kind"] or "").lower() else ""
+            print("\n  {0}  {1}{2}".format(r["dated"] or "undated",
+                                           (r["bill"] or "?")[:44], flag))
+            print("        {0}".format((r["subject"] or "")[:68]))
+            print("        {0} aye / {1} no  of {2} voting".format(
+                r["ayes"], r["noes"], r["n"]))
+        if len(rows_v) > 12:
+            print("\n  ...and {0} more with votes stored.".format(len(rows_v) - 12))
+        # Party comes from the roster join: no division payload carries one.
+        # Aggregated across watched divisions rather than per-division, because
+        # 34 amendment votes on one bill is a pattern, not 34 findings.
+        splits = conn.execute(
+            "SELECT m.party, v.vote, COUNT(*) n FROM ni_votes v "
+            "JOIN ni_members m ON m.person_id = v.person_id "
+            "JOIN ni_divisions d ON d.doc_id = v.doc_id AND d.watched = 1 "
+            "GROUP BY m.party, v.vote").fetchall()
+        if splits:
+            tally = {}
+            for r in splits:
+                tally.setdefault(r["party"], {})[r["vote"]] = r["n"]
+            print("\n  ACROSS ALL WATCHED DIVISIONS, by party (aye/no):")
+            for party, counts in sorted(tally.items(),
+                                        key=lambda kv: -sum(kv[1].values())):
+                total = sum(counts.values())
+                print("     {0:<34} {1:>4} aye / {2:>4} no   ({3} positions)"
+                      .format(party[:34], counts.get("aye", 0),
+                              counts.get("no", 0), total))
+            print("  A party voting both ways across a bill is normal: these are")
+            print("  amendment votes, so aye and no both cut both ways. Read the")
+            print("  individual division before drawing any conclusion.")
+        elif rows_v:
+            print("\n  No party split available: the MLA roster is empty. Run "
+                  "tools/ni_pull.py.")
+        # Designation only matters where a vote is cross-community, so it is
+        # reported there rather than on every row.
+        cc = conn.execute(
+            "SELECT COUNT(*) FROM ni_divisions WHERE watched = 1 AND "
+            "LOWER(kind) LIKE '%cross%'").fetchone()[0]
+        if cc:
+            print("\n  {0} watched division(s) are cross-community: they need a "
+                  "majority in\n  BOTH designations, so a bare aye/no tally "
+                  "misreads them.".format(cc))
+
     # -- honesty ------------------------------------------------------------
     head("WHAT THIS DOES NOT KNOW", "src/ingest/niassembly.py")
-    print("  * NO MLA ATTRIBUTION on questions. The search endpoint returns no")
-    print("    member name, so naming one costs a fetch per question. The 5CA")
-    print("    scores Westminster members; a partial MLA ledger would be worse")
-    print("    than none.")
-    print("  * NO DIVISIONS. GetDivisionMemberVoting_JSON exists and is the")
-    print("    high-value evidence (a vote outranks a question 5:1 in the 5CA),")
-    print("    but it is not built yet. This is the obvious next step.")
-    print("  * The diary carries a committee name, no subject text, so an OURS")
-    print("    mark there means the committee is ours -- not the agenda.")
+    print("  * DIVISIONS CANNOT BE AUTO-CLASSIFIED. A subject names an amendment")
+    print("    number, not its content, and the API truncates it at 100 chars.")
+    print("    0 of 139 matched in the year to 2026-08-18. Which bills matter is")
+    print("    a human call, made in config/ni_watch.yaml.")
     print("  * MOTIONS CANNOT BE CLASSIFIED from title alone (see above). The")
     print("    Order Paper carries the full text; that is the route in.")
-    print("  * Nothing here is scheduled. Refreshed only by tools/ni_pull.py.")
+    print("  * The diary carries a committee name, no subject text, so an OURS")
+    print("    mark there means the committee is ours -- not the agenda.")
+    print("  * NO MLA SCORING. Attribution and votes are now stored, but there")
+    print("    is no NI equivalent of the 5CA: RF4 placement is a human")
+    print("    judgement and nothing here estimates a stance.")
+    print("  * Nothing here is scheduled. Refreshed only by tools/ni_pull.py")
+    print("    and tools/ni_divisions.py.")
     print("\n  {0} row(s) stored in ni_items. Not in `items`, so structurally "
           "cannot\n  reach the Slack digest.".format(total))
     conn.close()

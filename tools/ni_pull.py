@@ -16,6 +16,12 @@ the monitor, not to a score computed here.
 
 Gaps are recorded rather than raised. A sweep of forty terms must not lose
 thirty-nine because one timed out, and the run prints what it failed to fetch.
+
+DO NOT RUN THIS ALONGSIDE tools/ni_divisions.py. Both write the same SQLite
+file, and running them concurrently on 2026-08-18 cost the roster with
+"database is locked" -- reported as a gap, which is how it was noticed, but
+the roster is the join table everything else depends on. They are quick; run
+them one after the other.
 """
 
 from __future__ import annotations
@@ -62,15 +68,31 @@ def store(conn, row, today):
     first_seen = existing["first_seen"] if existing else today
     conn.execute(
         "INSERT OR REPLACE INTO ni_items (id, kind, reference, title, dated, "
-        "tablers, parties, category, areas, matched_terms, url, first_seen, "
-        "last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "tablers, parties, category, areas, matched_terms, url, "
+        "tabler_person_id, tabler, tabler_seat, minister, department, "
+        "answered, answer, first_seen, last_seen) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (row["id"], row["kind"], row.get("reference"), row.get("title"),
          row.get("dated"), row.get("tablers"),
          json.dumps(row.get("parties") or []), row.get("category"),
          json.dumps(row.get("areas") or []),
          json.dumps(row.get("matched_terms") or []),
-         row.get("url"), first_seen, today))
+         row.get("url"), row.get("tabler_person_id"), row.get("tabler"),
+         row.get("tabler_seat"), row.get("minister"), row.get("department"),
+         row.get("answered"), row.get("answer"), first_seen, today))
     return existing is None
+
+
+def store_members(conn, members, today):
+    for m in members:
+        existing = conn.execute(
+            "SELECT first_seen FROM ni_members WHERE person_id = ?",
+            (m.person_id,)).fetchone()
+        conn.execute(
+            "INSERT OR REPLACE INTO ni_members (person_id, name, display_name, "
+            "party, constituency, first_seen, last_seen) VALUES (?,?,?,?,?,?,?)",
+            (m.person_id, m.name, m.display_name, m.party, m.constituency,
+             existing["first_seen"] if existing else today, today))
 
 
 def main():
@@ -91,6 +113,16 @@ def main():
 
     gaps, new, seen = [], 0, 0
 
+    # -- roster -------------------------------------------------------------
+    # Fetched first: no question or division payload carries a party, only a
+    # PersonId, so attribution is worthless without this join table.
+    try:
+        members = niassembly.fetch_members(client)
+        store_members(conn, members, today.isoformat())
+        print("{0} sitting MLAs stored.".format(len(members)))
+    except Exception as exc:                        # noqa: BLE001
+        gaps.append("member roster: {0}: {1}".format(type(exc).__name__, exc))
+
     # -- questions ----------------------------------------------------------
     stored_q = {}
     for term in terms:
@@ -102,17 +134,37 @@ def main():
             # One question can match several sweep terms; classify once and
             # let the taxonomy decide the areas rather than the search term.
             stored_q[q.doc_id] = q
+    matched = []
     for q in stored_q.values():
         res = filt.filter_item(tax, wl, q.text)
-        if not res.matched():
-            continue
+        if res.matched():
+            matched.append((q, res))
+    # ENRICH ONLY THE MATCHES. The search endpoint returns no member name, so
+    # attribution costs one GetQuestionDetails call per question. Classifying
+    # first keeps that bill proportional to what we actually care about --
+    # measured 2026-08-18: 20 detail calls, versus 90 calls and ~36MB to pull
+    # every MLA's full question history via GetQuestionsByMember.
+    print("enriching {0} matched question(s) with tabler and answer..."
+          .format(len(matched)))
+    for q, res in matched:
+        detail, err = niassembly.fetch_question_detail(client, q.doc_id)
+        if err:
+            gaps.append("question detail {0}: {1}".format(q.reference, err))
         seen += 1
         new += store(conn, {
             "id": q.id, "kind": "question", "reference": q.reference,
             "title": q.text, "dated": q.tabled.isoformat() if q.tabled else None,
             "category": "oral" if q.oral else "written",
             "areas": res.issue_areas, "matched_terms": res.matched_terms,
-            "url": q.url}, today.isoformat())
+            "url": q.url,
+            "tabler_person_id": detail.tabler_person_id if detail else None,
+            "tabler": detail.tabler if detail else None,
+            "tabler_seat": detail.constituency if detail else None,
+            "minister": detail.minister if detail else None,
+            "department": detail.department if detail else None,
+            "answered": (detail.answered.isoformat()
+                         if detail and detail.answered else None),
+            "answer": detail.answer if detail else None}, today.isoformat())
 
     # -- motions ------------------------------------------------------------
     try:

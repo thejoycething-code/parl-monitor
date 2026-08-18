@@ -214,3 +214,98 @@ watching brief, so it is stored in its own `ni_items` table and read through
 items`, so a separate table -- not a flag on a row -- is what makes it
 structurally impossible for NI to reach Slack. `tests/test_niassembly.py`
 asserts `tools/ni_pull.py` contains no write to `items`.
+
+## NI Assembly: attribution and divisions (probed 2026-08-18)
+
+**Attribution route chosen by measurement, not preference.** Two ways exist to
+put a member's name on a question:
+
+| Route | Cost for our use | Extra data |
+| --- | --- | --- |
+| `GetQuestionDetails_JSON?documentId=` | 1 request per MATCHED question (20) at 1.3KB | minister, department, **full answer text**, answered date |
+| `GetQuestionsByMember_JSON?personId=` | 90 requests, ~36MB (670 questions / 399KB for one member) | no answer text |
+
+Detail-per-match wins on both count and richness, because we classify first
+and enrich only what matched. `TablerPersonId` joins to
+`members.asmx/GetAllCurrentMembers_JSON` (90 MLAs) for party and constituency
+-- no question or division payload carries a party.
+
+**Divisions.** `plenary.asmx/GetVotesOnDivision_JSON?startDate=&endDate=`
+enumerates them (139 in the twelve months to 2026-08-18: 132 Simple Majority,
+7 Cross-Community). `GetDivisionMemberVoting_JSON?documentId=` gives per-MLA
+positions with `Designation` (Unionist/Nationalist/Other), which is
+load-bearing: a cross-community vote needs a majority in BOTH designations, so
+a bare aye/no tally misreads it.
+
+Three traps:
+
+1. **`DivisionSubject` is truncated at 100 characters** -- 49 of 139 rows sit
+   exactly on the cap. The proposer's closing `]` is therefore often missing
+   ("... (Day 4) [Minister of Justice - D"). Any tidy-up regex that requires a
+   closing bracket leaves a different fake suffix on each amendment and the
+   grouping shatters: "Justice Bill" split into five variants before this was
+   handled in `bill_of()`.
+2. **Their own field name is misspelled `DivisonType`** (no second "i").
+   `parse_divisions` reads both spellings so an upstream fix cannot silently
+   blank the column and hide cross-community votes.
+3. **The subject names an amendment NUMBER, never its content.** 0 of 139
+   divisions matched the taxonomy on their subject line. This is not a broken
+   filter -- "Amendment 97 - Consideration Stage: Justice Bill" simply does not
+   say what amendment 97 does.
+
+Consequence for design: the unit of interest is the BILL, derived by
+`bill_of()`, and which bills matter is a human judgement recorded in
+`config/ni_watch.yaml` with a `why` line. This is deliberately the same
+discipline as `config/vote_tracker.yaml` on the Westminster side, where a
+division only becomes trackable once somebody writes down what it means.
+`tools/ni_divisions.py --review` prints the ranked candidate list and fetches
+nothing per-member.
+
+Still not built: no NI equivalent of the 5CA. Attribution and votes are stored,
+but nothing estimates a stance -- same rule as RF4 never being auto-filled.
+
+### NI bill-name matching: prefix, not equality (fixed 2026-08-18)
+
+The 100-character cap cuts the bill NAME, not only the trailing furniture, so
+one Act arrives under several spellings:
+
+    Inquiry (Mother and Baby Institutions, Magdalene Laundrie
+    Inquiry (Mother and Baby Institutions, Magdalene Laundries and W
+
+An exact-match watch list found NEITHER, and did so silently. Two fixes:
+
+  * `bill_matches()` compares by PREFIX (truncation only removes a suffix, so
+    prefix matching is its inverse) and ALSO accepts 50 identical leading
+    characters, because truncation can land mid-name and leave two strings
+    diverging rather than nesting. Thresholds: 12-char stem for a clean prefix,
+    50 chars for a divergent pair. Verified against near-miss real pairs
+    ("The Executive's Approach to Hate" vs "The Executive's Multi-Year Budget")
+    which correctly do NOT match.
+  * `tools/ni_divisions.py` now WARNS when a watch entry matches no division in
+    the window. A silently-ignored watch line is a bill you believe you are
+    monitoring and are not. This is what surfaced the error above: the config
+    name had been written "...Magdalene Laundries) Bill" from memory, when the
+    Act is "...Magdalene Laundries and Workhouses) Bill".
+
+Recovered 3 divisions (34 -> 37) and 198 member positions.
+
+A follow-on mistake worth keeping, because the shape of it recurs. Having
+learned that an unclosed trailing `]` is truncation furniture, I generalised
+to "an unclosed trailing `(` is too". It is not: "Inquiry (Mother and Baby
+Institutions, Magdalene Laundrie" carries an unclosed paren that is part of
+the NAME, and the blanket rule cut it to "Inquiry", quietly dropping the two
+divisions the prefix fix had just recovered (37 -> 35). Only the bill
+REFERENCE is furniture when unclosed, so the pattern is `\(NIA[^)]*$` -- "NIA"
+rather than the full "NIA Bill" because the cap can fall mid-word ("(NIA Bil").
+Caught only because the unmatched-watch WARNING fired; without that print the
+count would have slid from 37 to 35 in silence. Covered by a regression test.
+
+Canonical naming, same fix: when a division matches a watch entry, the stored
+`bill` becomes the ni_watch.yaml name rather than the derived one. Otherwise
+one Act sits in three groups, since every amendment truncates at a different
+point.
+
+**Do not run ni_pull.py and ni_divisions.py concurrently.** Both write the same
+SQLite file; doing so cost the roster fetch with "database is locked". It was
+reported as a gap rather than swallowed, which is how it was caught, but the
+roster is the join table party attribution depends on.

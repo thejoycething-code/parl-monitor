@@ -1,0 +1,44 @@
+# Northern Ireland Assembly: bills whose divisions we collect member votes for.
+#
+# WHY THIS FILE HAS TO EXIST. A division's subject reads "Amendment 97 -
+# Consideration Stage: Justice Bill (NIA Bill 7/22-27) (Day 4) [Mr Timothy
+# Gaston]". It names the amendment NUMBER but never what the amendment says,
+# and the API truncates it at 100 characters. So no classifier can decide
+# whether amendment 97 is about abortion clinic buffer zones or court fees --
+# only a human who has read the marshalled list can.
+#
+# Measured on 2026-08-18: of 139 divisions in the twelve months to date, ZERO
+# matched the taxonomy on their subject line. That is not a broken filter, it
+# is what the subject line contains.
+#
+# So: list a bill here and every one of its divisions gets per-MLA votes
+# harvested. Same discipline as config/vote_tracker.yaml on the Westminster
+# side -- a vote enters the ledger because somebody decided it counts, not
+# because a keyword fired.
+#
+# Run `python3 tools/ni_divisions.py --review` for the ranked candidate list.
+
+bills:
+  # 24 divisions in 2025-26, the Assembly's most-divided bill of the session.
+  # A Justice Bill is where safe-access-zone and sentencing amendments land in
+  # NI, so it is watched on the strength of the vehicle, not a keyword hit.
+  - name: "Justice Bill"
+    why: "Most-divided bill of the session; the usual vehicle for safe access zone and sentencing amendments."
+
+  # Life-adjacent on its face. Three divisions.
+  - name: "Deaths, Still-Births and Baby Loss Bill"
+    why: "Directly touches how the law treats an unborn or newly-born child."
+
+  # Historic institutional abuse. Adjacent rather than core, watched because
+  # the inquiry's framing tends to reach into conscience and church matters.
+  # NB the name here was wrong on the first pass -- "Magdalene Laundries) Bill"
+  # instead of "...and Workhouses) Bill" -- and matched nothing. Because the
+  # API truncates subjects at 100 characters, no stored spelling is complete
+  # enough to check a name against by eye; use --review output, and note that
+  # tools/ni_divisions.py now WARNS when a watch entry matches no division.
+  - name: "Inquiry (Mother and Baby Institutions, Magdalene Laundries and Workhouses) Bill"
+    why: "Framing of church-run institutions; conscience and religious liberty adjacent."
+
+  # Parental rights in education is a standing area for us.
+  - name: "School Uniforms (Guidelines and Allowances) Bill"
+    why: "Statutory guidance to schools; the mechanism parental-rights amendments use."
