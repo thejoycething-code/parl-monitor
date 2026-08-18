@@ -40,16 +40,48 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
       - name: Pull questions, motions, diary and the forward Order Paper
-        run: python3 tools/ni_pull.py
+        run: python3 tools/ni_pull.py | tee /tmp/ni-pull.log
       - name: Harvest divisions, member votes and Hansard
         # SEQUENTIAL with the step above on purpose: both write the same
         # SQLite file, and a concurrent run has already cost the roster once
         # ("database is locked", 2026-08-18).
-        run: python3 tools/ni_divisions.py
+        run: python3 tools/ni_divisions.py | tee /tmp/ni-divisions.log
       - name: Reclassify divisions from archived Hansard (offline)
         # Idempotent and free: reads data/raw, so a taxonomy regeneration
         # between weeks lands here without any extra fetching.
-        run: python3 tools/ni_classify.py --apply
+        run: python3 tools/ni_classify.py --apply | tee /tmp/ni-classify.log
+      - name: Health summary
+        # The tools print their gaps and then exit 0, so a PARTIAL refresh is
+        # a green tick with the detail buried in the log. Lifting the gap lines
+        # into the run summary makes the Actions page answer "did this week
+        # work" at a glance -- the same reasoning as printing gaps at all: a
+        # feed that fails quietly is worse than one that fails loudly.
+        if: always()
+        run: |
+          {
+            echo "## NI weekly refresh"
+            for f in pull divisions classify; do
+              echo "### $f"
+              if [ -f "/tmp/ni-$f.log" ]; then
+                echo '```'
+                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area" \
+                  "/tmp/ni-$f.log" | head -20 || echo "(no summary lines)"
+                echo '```'
+              else
+                echo "step did not run"
+              fi
+            done
+            TOTAL=$(grep -ho "[0-9]\+ gap(s)" /tmp/ni-*.log 2>/dev/null \
+                    | awk '{s+=$1} END {print s+0}')
+            echo ""
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step logs. A gap is a"
+              echo "source that did not answer, not a crash: the rest of the"
+              echo "refresh still landed."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Commit state
         run: |
           git config user.name "parl-monitor bot"

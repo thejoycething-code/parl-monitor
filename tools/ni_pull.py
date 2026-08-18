@@ -131,9 +131,21 @@ def main():
     # Fetched first: no question or division payload carries a party, only a
     # PersonId, so attribution is worthless without this join table.
     try:
-        members = niassembly.fetch_members(client)
+        members, source = niassembly.fetch_members(client, today=today)
         store_members(conn, members, today.isoformat())
-        print("{0} sitting MLAs stored.".format(len(members)))
+        print("{0} sitting MLAs stored ({1}).".format(len(members), source))
+        if not members:
+            # AN EMPTY ROSTER IS A GAP, not a zero. It answered HTTP 200 with
+            # null content, so nothing raised and the run would otherwise
+            # report "no gaps" while the join table everything else depends on
+            # went unrefreshed. resolve_dates already applies this rule to the
+            # by-date roster; the current roster was the inconsistent one.
+            gaps.append("member roster: both GetAllCurrentMembers and the "
+                        "by-date fallback returned no members ({0})".format(
+                            source))
+        elif source != "current":
+            gaps.append("member roster: primary endpoint empty, used {0}"
+                        .format(source))
     except Exception as exc:                        # noqa: BLE001
         gaps.append("member roster: {0}: {1}".format(type(exc).__name__, exc))
 
@@ -158,27 +170,55 @@ def main():
     # first keeps that bill proportional to what we actually care about --
     # measured 2026-08-18: 20 detail calls, versus 90 calls and ~36MB to pull
     # every MLA's full question history via GetQuestionsByMember.
-    print("enriching {0} matched question(s) with tabler and answer..."
-          .format(len(matched)))
+    #
+    # AN ANSWERED QUESTION IS FINAL, so its detail is fetched ONCE. Without
+    # this the weekly run re-fetched all 213 details every Saturday to learn
+    # nothing: measured 2026-08-19, 203 of 217 stored questions (94%) already
+    # held an answer, and the enrichment loop was 8 of the run's 10.5 minutes.
+    # A question with no answer yet is deliberately re-fetched -- the answer
+    # arrives later and that is the one case where the row can still change.
+    held = {r["id"]: r for r in conn.execute(
+        "SELECT id, tabler_person_id, tabler, tabler_seat, minister, "
+        "department, answered, answer FROM ni_items WHERE kind = 'question'")}
+    fresh = [(q, res) for q, res in matched
+             if not (held.get(q.id) and held[q.id]["answer"])]
+    print("enriching {0} of {1} matched question(s); {2} already answered and "
+          "final.".format(len(fresh), len(matched), len(matched) - len(fresh)))
     for q, res in matched:
-        detail, err = niassembly.fetch_question_detail(client, q.doc_id)
-        if err:
-            gaps.append("question detail {0}: {1}".format(q.reference, err))
+        prior = held.get(q.id)
+        if prior is not None and prior["answer"]:
+            detail, err = None, None          # final: keep what is stored
+        else:
+            detail, err = niassembly.fetch_question_detail(client, q.doc_id)
+            if err:
+                gaps.append("question detail {0}: {1}".format(q.reference, err))
         seen += 1
+
+        def carry(field, value):
+            """The fetched value, or what is already stored. A skipped fetch
+            must not blank a column that a previous run filled."""
+            if value:
+                return value
+            return prior[field] if prior is not None else None
+
         new += store(conn, {
             "id": q.id, "kind": "question", "reference": q.reference,
             "title": q.text, "dated": q.tabled.isoformat() if q.tabled else None,
             "category": q.series,
             "areas": res.issue_areas, "matched_terms": res.matched_terms,
             "url": q.url,
-            "tabler_person_id": detail.tabler_person_id if detail else None,
-            "tabler": detail.tabler if detail else None,
-            "tabler_seat": detail.constituency if detail else None,
-            "minister": detail.minister if detail else None,
-            "department": detail.department if detail else None,
-            "answered": (detail.answered.isoformat()
-                         if detail and detail.answered else None),
-            "answer": detail.answer if detail else None}, today.isoformat())
+            "tabler_person_id": carry(
+                "tabler_person_id", detail.tabler_person_id if detail else None),
+            "tabler": carry("tabler", detail.tabler if detail else None),
+            "tabler_seat": carry(
+                "tabler_seat", detail.constituency if detail else None),
+            "minister": carry("minister", detail.minister if detail else None),
+            "department": carry(
+                "department", detail.department if detail else None),
+            "answered": carry("answered", detail.answered.isoformat()
+                              if detail and detail.answered else None),
+            "answer": carry("answer", detail.answer if detail else None)},
+            today.isoformat())
 
     # -- motions ------------------------------------------------------------
     try:

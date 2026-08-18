@@ -77,6 +77,10 @@ MIN_SEARCH = 3          # the endpoint rejects shorter terms
 # calling two DIVERGING names the same bill. See bill_matches.
 MIN_BILL_STEM = 12
 MIN_BILL_COMMON = 50
+# How far back fetch_members steps when the current-members endpoint is empty.
+# A week: the by-date roster lags by at least a day and the Assembly does not
+# change composition often enough for a stale-by-days roster to mislead.
+MEMBER_FALLBACK_DAYS = 7
 
 # Party appears parenthesised after each name: "Ms Kellie Armstrong (APNI)".
 _TABLER = re.compile(r"([^/(]+?)\s*\(([A-Z][A-Za-z]*)\)")
@@ -363,9 +367,47 @@ def parse_members(payload):
     return out
 
 
-def fetch_members(client, timeout=60):
-    return parse_members(client.get_json(ALL_MEMBERS, "niassembly", "members",
-                                        timeout=timeout))
+def fetch_members(client, timeout=60, today=None):
+    """The current roster. Returns (members, source).
+
+    FALLS BACK because the primary operation is broken upstream. Measured
+    2026-08-19: GetAllCurrentMembers_JSON answers HTTP 200 with
+    {"AllMembersList": null} -- a success carrying nothing, three times in a
+    row -- while GetAllMembers_JSON, GetAllConstituencies_JSON and
+    GetAllMembersByGivenDate_JSON all still return data. So it is that one
+    operation, not the service.
+
+    GetAllMembersByGivenDate for TODAY is the same payload shape and the same
+    ~40KB, so parse_members serves it unchanged and "the roster now" is
+    recoverable. `source` is returned rather than hidden: a caller that showed
+    a fallback roster as though it were the primary would be repeating the
+    unmarked-fallback bug this codebase keeps designing out.
+    """
+    members = parse_members(client.get_json(ALL_MEMBERS, "niassembly",
+                                            "members", timeout=timeout))
+    if members:
+        return members, "current"
+    # STEP BACK from today, because the by-date roster LAGS: measured
+    # 2026-08-19, that date returned 0 members while the 18th, 17th, 15th and
+    # 12th all returned 90. Asking only for today would have left the weekly
+    # run -- which fires at 06:00 on a Saturday -- with an empty roster from
+    # both endpoints and no roster refresh at all, silently.
+    start = today or datetime.date.today()
+    problems = []
+    for back in range(MEMBER_FALLBACK_DAYS + 1):
+        day = start - datetime.timedelta(days=back)
+        members, err = fetch_members_at(client, day, timeout=timeout)
+        if err:
+            problems.append("{0}: {1}".format(day.isoformat(), err))
+            continue
+        # fetch_members_at returns ([], None) for an empty-but-errorless reply,
+        # so an empty day must not read as a successful fallback carrying
+        # nobody -- the same empty-is-not-success trap one level down.
+        if members:
+            return members, "by-date fallback ({0})".format(day.isoformat())
+    detail = "; ".join(problems) if problems else "all empty"
+    return [], "current-empty and no by-date roster in {0} days ({1})".format(
+        MEMBER_FALLBACK_DAYS, detail)
 
 
 def fetch_members_at(client, when, timeout=60):

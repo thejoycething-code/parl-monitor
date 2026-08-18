@@ -490,3 +490,51 @@ reading it in the aftermath.
 Stored as ni_items kind='plenary' by tools/ni_pull.py, whole window (an Order
 Paper is small and "what is the Assembly doing next week" wants the whole
 answer), classified on title for the OURS mark.
+
+### GetAllCurrentMembers is BROKEN upstream, and the fallback lags (2026-08-19)
+
+Found by rehearsing the weekly workflow, which is exactly what a rehearsal is
+for: the run printed "0 sitting MLAs stored" and then "no gaps".
+
+`members.asmx/GetAllCurrentMembers_JSON` answers **HTTP 200 with
+`{"AllMembersList": null}`** -- a success carrying nothing, three times in a
+row. It is that one operation, not the service: `GetAllMembers_JSON` (161KB),
+`GetAllConstituencies_JSON` and `GetAllMembersByGivenDate_JSON` all still
+return data. This is the "block disguised as success" class already recorded
+for the UN sources, and it is the most dangerous shape of failure because
+nothing raises.
+
+`GetAllMembersByGivenDate_JSON` for today is the same payload shape, so
+`parse_members` serves it unchanged -- but it **LAGS**:
+
+| specificDate | members |
+| --- | --- |
+| 2026-08-19 (today) | **0** |
+| 2026-08-18 | 90 |
+| 2026-08-17 | 90 |
+| 2026-08-15 | 90 |
+| 2026-08-12 | 90 |
+
+So a fallback that asked only for today would ALSO have come back empty, and
+the Saturday 06:00 run would never have refreshed the roster -- the join table
+every attribution depends on -- while reporting no gaps. `fetch_members` now
+steps back up to `MEMBER_FALLBACK_DAYS = 7`, stops at the first populated day,
+and returns its SOURCE ("by-date fallback (2026-08-18)") so a fallback roster
+can never read as the primary. Verified live: 90 members, correct party split.
+
+Two rules restated, because this broke both:
+  * An empty-but-errorless reply is a GAP, not a zero. `resolve_dates` already
+    applied this to the by-date roster; the current roster was the
+    inconsistent one, and `ni_pull` now records a gap for an empty roster AND
+    for a successful-but-fallback one.
+  * An empty fallback is not a successful fallback. The first version of the
+    fix returned `([], "by-date fallback (...)")` when the fallback was also
+    empty -- the same trap one level down, caught by a test.
+
+Also fixed in the same rehearsal: an ANSWERED question is final, so its
+GetQuestionDetails call is made once. 203 of 217 stored questions (94%)
+already held an answer and were being re-fetched every week to learn nothing;
+the enrichment loop was 8 of the run's 10.5 minutes. Unanswered questions are
+still re-fetched -- the answer arrives later and that is the one case a row can
+change. A `carry` helper keeps a skipped fetch from blanking a column a
+previous run filled. Measured: ni_pull 509s -> 285s.

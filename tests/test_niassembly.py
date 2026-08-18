@@ -210,6 +210,104 @@ class MemberTests(unittest.TestCase):
         self.assertEqual(m.party, "Ulster Unionist Party")
         self.assertEqual(m.constituency, "South Antrim")
 
+    def test_a_null_envelope_parses_to_empty_not_a_crash(self):
+        """The live failure: HTTP 200 with {"AllMembersList": null}."""
+        self.assertEqual(niassembly.parse_members({"AllMembersList": None}), [])
+
+
+class MemberFallbackTests(unittest.TestCase):
+    """GetAllCurrentMembers is broken upstream; the by-date roster is not."""
+
+    class _Client:
+        """Answers the current-members call empty and the by-date call full --
+        exactly what was measured on 2026-08-19."""
+
+        def __init__(self):
+            self.asked = []
+
+        def get_json(self, url, *a, **k):
+            self.asked.append(url)
+            if "GetAllCurrentMembers" in url:
+                return {"AllMembersList": None}
+            return MEMBERS
+
+    def test_falls_back_to_the_by_date_roster(self):
+        client = self._Client()
+        members, source = niassembly.fetch_members(
+            client, today=datetime.date(2026, 8, 19))
+        self.assertEqual(len(members), 1)
+        self.assertIn("2026-08-19", source)
+        self.assertIn("fallback", source)
+        self.assertEqual(len(client.asked), 2, "primary tried first")
+
+    def test_the_primary_is_used_when_it_works(self):
+        class _Good:
+            def get_json(self, *a, **k):
+                return MEMBERS
+        members, source = niassembly.fetch_members(_Good())
+        self.assertEqual((len(members), source), (1, "current"))
+
+    def test_both_empty_reports_a_failure_source(self):
+        class _Empty:
+            def get_json(self, *a, **k):
+                return {"AllMembersList": None}
+        members, source = niassembly.fetch_members(
+            _Empty(), today=datetime.date(2026, 8, 19))
+        self.assertEqual(members, [])
+        self.assertIn("current-empty", source)
+        self.assertIn("no by-date roster", source,
+                      "an empty fallback is not a successful one")
+
+    def test_the_fallback_steps_back_because_the_by_date_roster_lags(self):
+        """Measured 2026-08-19: that date returned 0 members while the 18th and
+        earlier returned 90. Asking only for today would leave the Saturday run
+        with no roster from either endpoint, silently."""
+        class _Lagging:
+            def __init__(self):
+                self.dates = []
+
+            def get_json(self, url, *a, **k):
+                if "GetAllCurrentMembers" in url:
+                    return {"AllMembersList": None}
+                day = url.rsplit("=", 1)[1]
+                self.dates.append(day)
+                if day == "2026-08-19":
+                    return {"AllMembersList": None}      # today lags
+                return MEMBERS
+        client = _Lagging()
+        members, source = niassembly.fetch_members(
+            client, today=datetime.date(2026, 8, 19))
+        self.assertEqual(len(members), 1)
+        self.assertIn("2026-08-18", source, "stepped back exactly one day")
+        self.assertEqual(client.dates, ["2026-08-19", "2026-08-18"],
+                         "stops at the first populated day")
+
+    def test_the_step_back_is_bounded(self):
+        class _AlwaysEmpty:
+            def __init__(self):
+                self.calls = 0
+
+            def get_json(self, url, *a, **k):
+                self.calls += 1
+                return {"AllMembersList": None}
+        client = _AlwaysEmpty()
+        members, _source = niassembly.fetch_members(
+            client, today=datetime.date(2026, 8, 19))
+        self.assertEqual(members, [])
+        self.assertEqual(client.calls,
+                         niassembly.MEMBER_FALLBACK_DAYS + 2,
+                         "one primary plus a bounded walk, never unbounded")
+
+    def test_an_empty_roster_is_recorded_as_a_gap(self):
+        """It answered 200 with null content, so nothing raises. Without this
+        the run reports "no gaps" while the join table everything else depends
+        on goes unrefreshed."""
+        source = open(os.path.join(os.path.dirname(os.path.dirname(
+            os.path.abspath(__file__))), "tools", "ni_pull.py"),
+            encoding="utf-8").read()
+        self.assertIn("AN EMPTY ROSTER IS A GAP", source)
+        self.assertIn("if not members:", source)
+
 
 class BillOfTests(unittest.TestCase):
     """bill_of is the grouping key for divisions, so its edge cases matter."""
@@ -483,6 +581,17 @@ class SeparationTests(unittest.TestCase):
                 for verb in ("INTO {0}", "UPDATE {0}", "INTO  {0}"):
                     self.assertNotIn(verb.format(table), source,
                                      "{0} must not write {1}".format(name, table))
+
+    def test_an_answered_question_is_not_refetched_weekly(self):
+        """An answered question is final, so its detail is fetched once. The
+        weekly run was spending 8 of its 10.5 minutes re-fetching 203 of 217
+        details to learn nothing. The guard must skip on a stored ANSWER, and
+        must still re-fetch where none has arrived yet."""
+        source = self._source("ni_pull.py")
+        self.assertIn('prior["answer"]', source)
+        self.assertIn("def carry", source,
+                      "a skipped fetch must not blank a column a previous run "
+                      "filled")
 
     def test_the_weekly_workflow_has_no_publish_step(self):
         """NI is a watching brief: the scheduled refresh pulls and classifies,
