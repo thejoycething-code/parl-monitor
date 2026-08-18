@@ -33,7 +33,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, filter as filt, ni_store
 from src.http import HttpClient
 from src.ingest import niassembly
 
@@ -186,8 +186,16 @@ def main():
                 (v.doc_id or d.doc_id, v.person_id, v.member, v.vote,
                  v.designation, today.isoformat()))
             rows += 1
+    # Party as at the DIVISION date, for the same reason questions need it: a
+    # vote belongs to the party the member held when they cast it.
+    vdates = {d.when.isoformat() for d in targets if d.when}
+    fetched, aff_gaps = ni_store.resolve_dates(
+        conn, client, vdates, today.isoformat(), niassembly.fetch_members_at)
+    gaps.extend(aff_gaps)
     conn.commit()
     print("{0} member position(s) stored.".format(rows))
+    print("party resolved for {0} new division date(s); {1} held in total."
+          .format(fetched, len(ni_store.dates_present(conn))))
     if gaps:
         print("\n{0} gap(s) -- printed, never swallowed:".format(len(gaps)))
         for g in gaps:

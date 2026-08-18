@@ -320,10 +320,26 @@ flag is now only a fallback for an unreadable reference. `Question.series`
 replaces the inline ternary; two stored rows were corrected from the archived
 responses rather than re-fetched.
 
-### NI party is as-at-today, not as-at-the-event
+### NI party per-date: WIRED IN (2026-08-18)
 
 `GetAllCurrentMembers_JSON` is current members only, so the party on a question
-or vote is the member's party NOW. Doug Beattie asked as UUP leader and reads
-"Independent". `members.asmx/GetAllMembersByGivenDate_JSON` would resolve party
-per-date and is NOT wired in; the limitation is printed by ni_monitor.py rather
-than left for someone to discover in a briefing.
+or vote was the member's party NOW. Doug Beattie asked as UUP leader and read
+"Independent". Now resolved via
+`members.asmx/GetAllMembersByGivenDate_JSON?specificDate=YYYY-MM-DD`.
+
+  * **Identical payload shape** to GetAllCurrentMembers (same 14 keys), so
+    `parse_members` serves both -- no second parser.
+  * **Confirmed on the real case:** Beattie returns "Ulster Unionist Party" for
+    2025-09-19 and 2026-02-26, against "Independent" on the current roster.
+  * **One request per distinct date, cached.** Measured 25 for the current
+    store: 18 question dates, 9 watched-division dates, 2 shared. Each response
+    carries all 90 members, so the whole roster is stored per date and "who was
+    in which party when" becomes answerable generally.
+
+`src/ni_store.py` holds the resolution (mirroring `src/un_store.py`).
+`party_at()` returns a SOURCE alongside the party -- `as-at`, `current` or
+`unknown` -- and `label()` renders a `current` fallback as "(party today)".
+The source is returned rather than optional on purpose: an unmarked party is
+exactly what filed Beattie's UUP questions under Independent, so a caller
+cannot reintroduce the bug by forgetting to ask. A test asserts ni_monitor.py
+contains no `JOIN ni_members` for party.

@@ -34,7 +34,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, filter as filt, ni_store
 from src.http import HttpClient
 from src.ingest import niassembly
 
@@ -203,6 +203,22 @@ def main():
             "dated": d.starts.isoformat() if d.starts else None,
             "category": d.event_type, "areas": res.issue_areas,
             "matched_terms": res.matched_terms, "url": None}, today.isoformat())
+
+    # -- party as at the tabling date ---------------------------------------
+    # Done AFTER the questions are stored, because the set of dates to resolve
+    # is exactly the set of dates we ended up keeping. Fetching the current
+    # roster alone would attribute a 2025 question to the party the member
+    # sits in today, which is how Doug Beattie's UUP questions read
+    # "Independent" before this was wired in.
+    qdates = {r[0] for r in conn.execute(
+        "SELECT DISTINCT dated FROM ni_items WHERE kind = 'question' "
+        "AND dated IS NOT NULL")}
+    fetched, aff_gaps = ni_store.resolve_dates(
+        conn, client, qdates, today.isoformat(), niassembly.fetch_members_at)
+    gaps.extend(aff_gaps)
+    conn.commit()
+    print("party resolved for {0} new date(s); {1} date(s) held in total."
+          .format(fetched, len(ni_store.dates_present(conn))))
 
     conn.commit()
     print("{0} classified row(s) stored, {1} of them new.".format(seen, new))

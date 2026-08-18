@@ -48,6 +48,11 @@ MOTIONS_NDN = BASE + "/plenary.asmx/GetNoDayNamedMotions_JSON"
 BUSINESS_DIARY = (BASE + "/plenary.asmx/GetBusinessDiary_JSON"
                   "?startDate={start}&endDate={end}")
 ALL_MEMBERS = BASE + "/members.asmx/GetAllCurrentMembers_JSON"
+# The roster AS AT a date. Same payload shape as GetAllCurrentMembers, so
+# parse_members serves both. This is what makes party-at-the-time answerable:
+# Doug Beattie reads "Ulster Unionist Party" on 2025-09-19 and "Independent"
+# on the current roster, and only the first is true of a 2025 question.
+MEMBERS_AT = BASE + "/members.asmx/GetAllMembersByGivenDate_JSON?specificDate={date}"
 DIVISIONS = (BASE + "/plenary.asmx/GetVotesOnDivision_JSON"
              "?startDate={start}&endDate={end}")
 MEMBER_VOTING = BASE + "/plenary.asmx/GetDivisionMemberVoting_JSON?documentId={doc}"
@@ -352,6 +357,21 @@ def parse_members(payload):
 def fetch_members(client, timeout=60):
     return parse_members(client.get_json(ALL_MEMBERS, "niassembly", "members",
                                         timeout=timeout))
+
+
+def fetch_members_at(client, when, timeout=60):
+    """The roster as at `when`. Returns (members, error_or_None).
+
+    Errors are returned rather than raised: resolving twenty-five dates must
+    not lose twenty-four because one failed, and the caller records the gap.
+    """
+    day = when.isoformat() if hasattr(when, "isoformat") else str(when)
+    try:
+        payload = client.get_json(MEMBERS_AT.format(date=day), "niassembly",
+                                  "members-at-{0}".format(day), timeout=timeout)
+    except Exception as exc:                      # noqa: BLE001 - reported up
+        return [], "{0}: {1}".format(type(exc).__name__, exc)
+    return parse_members(payload), None
 
 
 # -- divisions --------------------------------------------------------------

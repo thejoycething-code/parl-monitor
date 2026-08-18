@@ -25,7 +25,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, intel
+from src import db, intel, ni_store
 
 BAR = "-" * 78
 
@@ -88,8 +88,11 @@ def main():
     hidden_only = [r for r in qs if not set(areas_of(r)) - hidden]
     if not qs:
         print("  no classified questions stored.")
-    roster = {r["person_id"]: (r["party"], r["constituency"]) for r in
-              conn.execute("SELECT person_id, party, constituency FROM ni_members")}
+    # Two maps, not one: party AS AT the tabling date where we have it, the
+    # current roster only as a marked fallback. No question payload carries a
+    # party at all, so this join is the whole of attribution.
+    as_at = ni_store.affiliation_map(conn)
+    current = ni_store.current_map(conn)
     for r in visible[:limit]:
         print("  {0:<16} {1:<10} areas {2}".format(
             (r["reference"] or "?")[:16], r["dated"] or "undated",
@@ -97,17 +100,12 @@ def main():
         print("        {0}".format((r["title"] or "")[:68]))
         who = r["tabler"] or ""
         if who:
-            party, seat = roster.get(r["tabler_person_id"] or "", ("", ""))
-            # Party comes from the roster join, not the question: no question
-            # payload carries one. Two consequences: a blank party means a
-            # former member, and the party shown is the member's party NOW, not
-            # when the question was asked. Doug Beattie asked as UUP leader and
-            # reads "Independent" here, which is correct today and wrong for
-            # the question. GetAllMembersByGivenDate would fix it per-date.
-            print("        asked by {0}{1}{2}".format(
-                who, " ({0})".format(party) if party else "",
-                " — {0}".format(seat or r["tabler_seat"] or "") if
-                (seat or r["tabler_seat"]) else ""))
+            party, seat, source = ni_store.party_at(
+                r["tabler_person_id"], r["dated"], as_at, current)
+            seat = seat or r["tabler_seat"] or ""
+            print("        asked by {0} ({1}){2}".format(
+                who, ni_store.label(party, source),
+                " — {0}".format(seat) if seat else ""))
         if r["minister"]:
             print("        of {0}".format(r["minister"][:60]))
         if r["answer"]:
@@ -193,19 +191,26 @@ def main():
                 r["ayes"], r["noes"], r["n"]))
         if len(rows_v) > 12:
             print("\n  ...and {0} more with votes stored.".format(len(rows_v) - 12))
-        # Party comes from the roster join: no division payload carries one.
-        # Aggregated across watched divisions rather than per-division, because
-        # 34 amendment votes on one bill is a pattern, not 34 findings.
-        splits = conn.execute(
-            "SELECT m.party, v.vote, COUNT(*) n FROM ni_votes v "
-            "JOIN ni_members m ON m.person_id = v.person_id "
-            "JOIN ni_divisions d ON d.doc_id = v.doc_id AND d.watched = 1 "
-            "GROUP BY m.party, v.vote").fetchall()
-        if splits:
-            tally = {}
-            for r in splits:
-                tally.setdefault(r["party"], {})[r["vote"]] = r["n"]
-            print("\n  ACROSS ALL WATCHED DIVISIONS, by party (aye/no):")
+        # Party is resolved AS AT THE DIVISION DATE, not from the current
+        # roster: a vote belongs to the party the member held when they cast
+        # it. Joining ni_members instead would file every Beattie vote before
+        # his resignation under "Independent".
+        positions = conn.execute(
+            "SELECT v.person_id, v.vote, d.dated FROM ni_votes v "
+            "JOIN ni_divisions d ON d.doc_id = v.doc_id AND d.watched = 1"
+        ).fetchall()
+        tally, fallbacks = {}, 0
+        for r in positions:
+            party, _seat, source = ni_store.party_at(
+                r["person_id"], r["dated"], as_at, current)
+            if source != ni_store.AS_AT:
+                fallbacks += 1
+            key = ni_store.label(party, source)
+            tally.setdefault(key, {})[r["vote"]] = \
+                tally.setdefault(key, {}).get(r["vote"], 0) + 1
+        if tally:
+            print("\n  ACROSS ALL WATCHED DIVISIONS, by party AT THE TIME "
+                  "(aye/no):")
             for party, counts in sorted(tally.items(),
                                         key=lambda kv: -sum(kv[1].values())):
                 total = sum(counts.values())
@@ -215,8 +220,11 @@ def main():
             print("  A party voting both ways across a bill is normal: these are")
             print("  amendment votes, so aye and no both cut both ways. Read the")
             print("  individual division before drawing any conclusion.")
+            if fallbacks:
+                print("  {0} position(s) could not be dated and use today's "
+                      "party.".format(fallbacks))
         elif rows_v:
-            print("\n  No party split available: the MLA roster is empty. Run "
+            print("\n  No party split available: no roster stored. Run "
                   "tools/ni_pull.py.")
         # Designation only matters where a vote is cross-community, so it is
         # reported there rather than on every row.
@@ -238,11 +246,13 @@ def main():
     print("    Order Paper carries the full text; that is the route in.")
     print("  * The diary carries a committee name, no subject text, so an OURS")
     print("    mark there means the committee is ours -- not the agenda.")
-    print("  * PARTY IS AS AT TODAY, not as at the question or vote. The roster")
-    print("    is current-members-only, so a member who crossed the floor reads")
-    print("    under their party now (Doug Beattie shows Independent for")
-    print("    questions he asked as UUP leader). GetAllMembersByGivenDate")
-    print("    would resolve party per-date; it is not wired in.")
+    held = len(ni_store.dates_present(conn))
+    print("  * PARTY IS AS AT THE EVENT for the {0} date(s) resolved via "
+          "GetAllMembersByGivenDate.".format(held))
+    print("    Anything on an unresolved date falls back to today's roster and")
+    print("    is marked \"(party today)\" -- never shown bare, because an")
+    print("    unmarked party is what filed Doug Beattie's UUP questions under")
+    print("    Independent. Run tools/ni_pull.py to resolve new dates.")
     print("  * NO MLA SCORING. Attribution and votes are now stored, but there")
     print("    is no NI equivalent of the 5CA: RF4 placement is a human")
     print("    judgement and nothing here estimates a stance.")

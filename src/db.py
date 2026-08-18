@@ -142,6 +142,20 @@ CREATE TABLE IF NOT EXISTS ni_members (
   name TEXT, display_name TEXT, party TEXT, constituency TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Party AS AT a date, one row per member per date we have had reason to ask
+-- about. ni_members holds the CURRENT roster and answers "who is an MLA now";
+-- this answers "whose party was what when they said it", which is the only
+-- honest basis for attributing a question or a vote. A floor-crosser reads
+-- differently in the two tables by design: Doug Beattie asked as UUP leader
+-- and sits as an Independent now, and the row must show the party he held on
+-- the day. Sparse on purpose -- dates are fetched only when needed.
+CREATE TABLE IF NOT EXISTS ni_affiliations (
+  person_id TEXT NOT NULL,
+  as_at TEXT NOT NULL,            -- the date asked about, not a term boundary
+  party TEXT, constituency TEXT, display_name TEXT,
+  captured_at TEXT NOT NULL,
+  PRIMARY KEY (person_id, as_at)
+);
 -- Assembly divisions. `bill` is DERIVED from the subject (see bill_of) because
 -- the subject names an amendment number, not what the amendment says, and is
 -- truncated at 100 characters. Grouping by bill is the only usable unit.
@@ -190,6 +204,7 @@ TABLES = (
     "un_votes",
     "ni_items",
     "ni_members",
+    "ni_affiliations",
     "ni_divisions",
     "ni_votes",
 )
