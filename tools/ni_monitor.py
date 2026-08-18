@@ -167,10 +167,12 @@ def main():
             "SELECT COUNT(*) FROM ni_divisions WHERE watched = 1").fetchone()[0]
         auto = conn.execute("SELECT COUNT(*) FROM ni_divisions "
                             "WHERE areas IS NOT NULL AND areas != '[]'").fetchone()[0]
-        print("  {0} division(s) stored; {1} on watched bills; {2} matched the "
-              "taxonomy\n  on their own subject line.".format(dtotal, watched, auto))
+        print("  {0} division(s) stored; {1} on watched bills; {2} carry an "
+              "issue area,\n  derived from the amendment's own wording in "
+              "Hansard.".format(dtotal, watched, auto))
         rows_v = conn.execute(
-            "SELECT d.bill, d.doc_id, d.dated, d.kind, d.subject, "
+            "SELECT d.bill, d.doc_id, d.dated, d.kind, d.subject, d.item_name, "
+            "  d.amendment_no, d.excerpt, d.evidence, d.evidence_source, d.areas, "
             "  SUM(CASE WHEN v.vote='aye' THEN 1 ELSE 0 END) ayes, "
             "  SUM(CASE WHEN v.vote='no' THEN 1 ELSE 0 END) noes, "
             "  COUNT(v.person_id) n "
@@ -182,13 +184,35 @@ def main():
             print("  amendment number, not its content, so the choice of which")
             print("  bills matter is a human one. Start with:")
             print("      python3 tools/ni_divisions.py --review")
-        for r in rows_v[:12]:
+        # OURS-first, then by date: with 37 rows and a 12-row budget, sorting by
+        # date alone buried the four classified divisions -- which are the only
+        # ones anybody opened this section to find.
+        ordered = sorted(rows_v, key=lambda r: (
+            not areas_of(r), r["dated"] or ""), reverse=False)
+        ordered = sorted(ordered, key=lambda r: (bool(areas_of(r)),
+                                                 r["dated"] or ""), reverse=True)
+        for r in ordered[:12]:
             flag = "  CROSS-COMMUNITY" if "cross" in (r["kind"] or "").lower() else ""
-            print("\n  {0}  {1}{2}".format(r["dated"] or "undated",
-                                           (r["bill"] or "?")[:44], flag))
-            print("        {0}".format((r["subject"] or "")[:68]))
+            areas = areas_of(r)
+            mark = "OURS  " if areas else "      "
+            # The UNTRUNCATED item name from Hansard, where classification found
+            # one: `bill` is derived from a subject the API cuts at 100 chars.
+            print("\n  {0}{1}  {2}{3}".format(
+                mark, r["dated"] or "undated",
+                (r["item_name"] or r["bill"] or "?")[:44], flag))
+            if areas:
+                print("        areas {0}".format(
+                    ",".join(str(a) for a in areas)))
             print("        {0} aye / {1} no  of {2} voting".format(
                 r["ayes"], r["noes"], r["n"]))
+            shown = r["excerpt"] or r["evidence"]
+            if shown:
+                # Labelled with its source so a motion-derived area can never
+                # read as though it came from the amendment.
+                label = ("amendment {0}".format(r["amendment_no"])
+                         if r["amendment_no"] is not None
+                         else (r["evidence_source"] or "text"))
+                print("        {0}: {1}".format(label, shown[:60]))
         if len(rows_v) > 12:
             print("\n  ...and {0} more with votes stored.".format(len(rows_v) - 12))
         # Party is resolved AS AT THE DIVISION DATE, not from the current
@@ -238,10 +262,21 @@ def main():
 
     # -- honesty ------------------------------------------------------------
     head("WHAT THIS DOES NOT KNOW", "src/ingest/niassembly.py")
-    print("  * DIVISIONS CANNOT BE AUTO-CLASSIFIED. A subject names an amendment")
-    print("    number, not its content, and the API truncates it at 100 chars.")
-    print("    0 of 139 matched in the year to 2026-08-18. Which bills matter is")
-    print("    a human call, made in config/ni_watch.yaml.")
+    ev = conn.execute(
+        "SELECT COUNT(*) FROM ni_divisions WHERE evidence_source = "
+        "'amendment-text'").fetchone()[0]
+    nt = conn.execute(
+        "SELECT COUNT(*) FROM ni_divisions WHERE evidence_source = 'no-text'"
+    ).fetchone()[0]
+    print("  * DIVISIONS ARE CLASSIFIED FROM THE AMENDMENT'S OWN WORDING, read")
+    print("    from Hansard: {0} of 139 carry their amendment text, {1} carry".format(
+        ev, nt))
+    print("    none at all. A subject line alone yielded 0 of 139, because it")
+    print("    names an amendment NUMBER and is cut at 100 characters.")
+    print("    Refresh with tools/ni_classify.py.")
+    print("  * A FALSE NEGATIVE IS INVISIBLE. An amendment whose wording is")
+    print("    anodyne but whose effect is on our ground will not classify, which")
+    print("    is why config/ni_watch.yaml still gates what gets harvested.")
     print("  * MOTIONS CANNOT BE CLASSIFIED from title alone (see above). The")
     print("    Order Paper carries the full text; that is the route in.")
     print("  * The diary carries a committee name, no subject text, so an OURS")

@@ -88,7 +88,7 @@ def _iso_date(value):
         return None
 
 
-def _rows(payload, *path):
+def rows(payload, *path):
     """Dig out a list from the API's nested single-key envelopes.
 
     Every endpoint wraps its rows twice ({"QuestionsList": {"Question": [...]}})
@@ -199,7 +199,7 @@ def parse_questions(payload, since=None):
     the failure mode this codebase keeps designing against.
     """
     out = []
-    for row in _rows(payload, "QuestionsList", "Question"):
+    for row in rows(payload, "QuestionsList", "Question"):
         tabled = _iso_date(row.get("TabledDate"))
         if since and tabled and tabled < since:
             continue
@@ -216,7 +216,7 @@ def parse_questions(payload, since=None):
 
 def parse_motions(payload, since=None):
     out = []
-    for row in _rows(payload, "PlenaryList", "Plenary"):
+    for row in rows(payload, "PlenaryList", "Plenary"):
         tabled = _iso_date(row.get("TabledDate"))
         if since and tabled and tabled < since:
             continue
@@ -233,7 +233,7 @@ def parse_motions(payload, since=None):
 
 def parse_diary(payload):
     out = []
-    for row in _rows(payload, "BusinessDiary", "DiaryItem"):
+    for row in rows(payload, "BusinessDiary", "DiaryItem"):
         out.append(DiaryItem(
             event_id=str(row.get("EventId") or ""),
             starts=_iso_date(row.get("EventDate")),
@@ -303,10 +303,10 @@ class QuestionDetail:
 
 
 def parse_question_detail(payload):
-    rows = _rows(payload, "QuestionsList", "Question")
-    if not rows:
+    found = rows(payload, "QuestionsList", "Question")
+    if not found:
         return None
-    row = rows[0]
+    row = found[0]
     return QuestionDetail(
         doc_id=str(row.get("DocumentId") or ""),
         tabler=(row.get("TablerName") or "").strip(),
@@ -344,7 +344,7 @@ class Member:
 
 def parse_members(payload):
     out = []
-    for row in _rows(payload, "AllMembersList", "Member"):
+    for row in rows(payload, "AllMembersList", "Member"):
         out.append(Member(
             person_id=str(row.get("PersonId") or ""),
             name=(row.get("MemberName") or "").strip(),
@@ -466,6 +466,28 @@ def bill_matches(stored, watched):
     return common >= MIN_BILL_COMMON
 
 
+def canonical_bill(bill, watched_names):
+    """The watch-list spelling of `bill`, or None when it is not watched.
+
+    Returning the watch-list NAME is what makes grouping work: the 100-char cap
+    truncates each amendment at a different point, so one Act otherwise sits in
+    three groups. The human-authored name is the one complete spelling.
+
+    LONGEST match wins, ties broken by sort. The first version returned the
+    first match in YAML file order, which meant two watch entries that both
+    prefix-match one stored bill gave an answer that depended on how the file
+    happened to be arranged. The longest name is also the most specific.
+    """
+    hits = [name for name in (watched_names or []) if bill_matches(bill, name)]
+    if not hits:
+        return None
+    return sorted(hits, key=lambda n: (-len(n), n))[0]
+
+
+def is_watched(bill, watched_names):
+    return canonical_bill(bill, watched_names) is not None
+
+
 @dataclass
 class Division:
     doc_id: str
@@ -493,7 +515,7 @@ class Division:
 
 def parse_divisions(payload, since=None):
     out = []
-    for row in _rows(payload, "DivisionList", "Division"):
+    for row in rows(payload, "DivisionList", "Division"):
         when = _iso_date(row.get("DivisionDate"))
         if since and when and when < since:
             continue
@@ -538,7 +560,7 @@ def parse_member_voting(payload):
     the one thing the ledger must never do.
     """
     out = []
-    for row in _rows(payload, "MemberVoting", "Member"):
+    for row in rows(payload, "MemberVoting", "Member"):
         raw = (row.get("Vote") or "").strip()
         out.append(MemberVote(
             doc_id=str(row.get("DocumentID") or ""),

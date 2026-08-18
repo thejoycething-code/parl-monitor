@@ -68,6 +68,37 @@ def resolve_dates(conn, client, dates, captured_at, fetch):
     return fetched, gaps
 
 
+def sittings_present(conn):
+    """Sitting dates whose Hansard is already archived."""
+    return {r[0] for r in conn.execute("SELECT dated FROM ni_sittings")}
+
+
+def resolve_sittings(conn, client, dates, captured_at, fetch):
+    """Fetch and archive any sitting not already held. -> (fetched, gaps).
+
+    Same shape as resolve_dates, and `fetch` is injected for the same reason:
+    the caller can be tested without a network. The archive is what makes
+    re-classification free afterwards, so this is called once per date ever.
+    """
+    have = sittings_present(conn)
+    want = sorted({d for d in dates if d and d not in have})
+    fetched, gaps = 0, []
+    for day in want:
+        sitting, err = fetch(client, day)
+        if err:
+            gaps.append("hansard {0}: {1}".format(day, err))
+            continue
+        if sitting is None or not sitting.components:
+            gaps.append("hansard {0}: no components returned".format(day))
+            continue
+        conn.execute(
+            "INSERT OR REPLACE INTO ni_sittings (dated, components, divisions, "
+            "captured_at) VALUES (?,?,?,?)",
+            (day, len(sitting.components), len(sitting.anchors()), captured_at))
+        fetched += 1
+    return fetched, gaps
+
+
 def affiliation_map(conn):
     """{(person_id, as_at): (party, constituency)} for every resolved date."""
     return {(r["person_id"], r["as_at"]): (r["party"], r["constituency"])

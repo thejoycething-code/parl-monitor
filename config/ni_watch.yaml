@@ -1,22 +1,37 @@
 # Northern Ireland Assembly: bills whose divisions we collect member votes for.
 #
-# WHY THIS FILE HAS TO EXIST. A division's subject reads "Amendment 97 -
-# Consideration Stage: Justice Bill (NIA Bill 7/22-27) (Day 4) [Mr Timothy
-# Gaston]". It names the amendment NUMBER but never what the amendment says,
-# and the API truncates it at 100 characters. So no classifier can decide
-# whether amendment 97 is about abortion clinic buffer zones or court fees --
-# only a human who has read the marshalled list can.
+# WHY THIS FILE STILL HAS TO EXIST -- corrected 2026-08-18, because the first
+# version of this note asserted something that is now measurably false.
 #
-# Measured on 2026-08-18: of 139 divisions in the twelve months to date, ZERO
-# matched the taxonomy on their subject line. That is not a broken filter, it
-# is what the subject line contains.
+# The SUBJECT LINE cannot be classified: "Amendment 97 - Consideration Stage:
+# Justice Bill (NIA Bill 7/22-27) (Day 4) [Mr Timothy Gaston]" names the
+# amendment NUMBER and never its content, and is truncated at 100 characters.
+# Zero of 139 divisions matched on it.
+#
+# The AMENDMENT'S OWN WORDING often can be, and tools/ni_classify.py now reads
+# it from Hansard: amendment 97 is "Accommodation of women prisoners", which is
+# area 5. So the earlier claim that "no classifier can decide whether amendment
+# 97 is about abortion clinic buffer zones or court fees" was wrong, and leaving
+# it would stop the next reader from looking.
+#
+# What is still human, and why this file is not replaced by the classifier:
+#
+#   * A FALSE NEGATIVE IS INVISIBLE. An amendment whose wording is anodyne but
+#     whose effect is on our ground classifies to nothing, and nothing says so.
+#   * The yield is small and honest -- 4 of 139 in the year to 2026-08-18 -- so
+#     gating vote harvesting on a taxonomy match would have collected 4
+#     divisions instead of 37 and lost the Justice Bill almost entirely.
+#   * 3 of those 4 are on bills already listed here. The hand-picked list was
+#     right; classification CORROBORATES the judgement rather than superseding
+#     it, and the 4th was a motion nothing else would have surfaced.
 #
 # So: list a bill here and every one of its divisions gets per-MLA votes
 # harvested. Same discipline as config/vote_tracker.yaml on the Westminster
 # side -- a vote enters the ledger because somebody decided it counts, not
 # because a keyword fired.
 #
-# Run `python3 tools/ni_divisions.py --review` for the ranked candidate list.
+# Run `python3 tools/ni_divisions.py --review` for the ranked candidate list
+# and the "classified but not watched" section, which is the feedback loop.
 
 bills:
   # 24 divisions in 2025-26, the Assembly's most-divided bill of the session.

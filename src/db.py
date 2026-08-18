@@ -159,6 +159,12 @@ CREATE TABLE IF NOT EXISTS ni_affiliations (
 -- Assembly divisions. `bill` is DERIVED from the subject (see bill_of) because
 -- the subject names an amendment number, not what the amendment says, and is
 -- truncated at 100 characters. Grouping by bill is the only usable unit.
+-- COLUMN OWNERSHIP, and why it is written down. tools/ni_divisions.py owns
+-- identity and `watched`; tools/ni_classify.py owns everything derived from
+-- Hansard (areas, matched_terms, evidence*, excerpt, item*, amendment_no,
+-- on_amendment, classified_at). The harvester upserts by NAME rather than
+-- INSERT OR REPLACE precisely so a later harvest cannot blank a classification
+-- -- which it did, and which would have looked exactly like the bug being fixed.
 CREATE TABLE IF NOT EXISTS ni_divisions (
   doc_id TEXT PRIMARY KEY,
   event_id TEXT,
@@ -166,10 +172,26 @@ CREATE TABLE IF NOT EXISTS ni_divisions (
   bill TEXT,                      -- derived group key
   dated TEXT,
   kind TEXT,                      -- 'Simple Majority' | 'Cross-Community'
-  areas TEXT,                     -- json list; from the BILL, not the amendment
+  areas TEXT,                     -- json list, from the AMENDMENT TEXT via Hansard
   matched_terms TEXT,
   watched INTEGER,                -- 1 when a human listed the bill in ni_watch.yaml
+  item_id TEXT,                   -- Hansard plenary item id: an ID, not a title
+  item_name TEXT,                 -- Header text, UNTRUNCATED, with stage
+  amendment_no INTEGER,           -- from the Hansard 'Question put' line
+  on_amendment INTEGER,           -- 1 = amendment vote, 0 = whole question
+  evidence TEXT,                  -- the amendment's own wording, stored whole
+  evidence_source TEXT,           -- amendment-text | item-text | no-text
+  excerpt TEXT,                   -- strongest passage, for display
+  classified_at TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+-- One row per Hansard sitting already fetched, so a re-run costs nothing --
+-- the same job ni_store.dates_present does for rosters.
+CREATE TABLE IF NOT EXISTS ni_sittings (
+  dated TEXT PRIMARY KEY,
+  components INTEGER,             -- a sudden drop is a signal, not noise
+  divisions INTEGER,
+  captured_at TEXT NOT NULL
 );
 -- One row per MLA per division: the same shape as mp_events for Westminster
 -- divisions, so "how did this MLA vote on every X" is a single query.
@@ -206,6 +228,7 @@ TABLES = (
     "ni_members",
     "ni_affiliations",
     "ni_divisions",
+    "ni_sittings",
     "ni_votes",
 )
 
@@ -272,6 +295,19 @@ def init_db(conn):
             if column not in n_cols:
                 conn.execute("ALTER TABLE ni_items ADD COLUMN {0} TEXT"
                              .format(column))
+    nd_cols = {r[1] for r in conn.execute("PRAGMA table_info(ni_divisions)")}
+    if nd_cols:
+        # Added 2026-08-18 with Hansard classification: the table was created
+        # earlier the same day, when a division's areas could only come from its
+        # subject line -- which yielded 0 of 139.
+        for column, decl in (("item_id", "TEXT"), ("item_name", "TEXT"),
+                             ("amendment_no", "INTEGER"),
+                             ("on_amendment", "INTEGER"), ("evidence", "TEXT"),
+                             ("evidence_source", "TEXT"), ("excerpt", "TEXT"),
+                             ("classified_at", "TEXT")):
+            if column not in nd_cols:
+                conn.execute("ALTER TABLE ni_divisions ADD COLUMN {0} {1}"
+                             .format(column, decl))
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former
         # members stay NULL. Full-roster 5CA sheets select on this flag.

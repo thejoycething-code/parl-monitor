@@ -343,3 +343,80 @@ The source is returned rather than optional on purpose: an unmarked party is
 exactly what filed Beattie's UUP questions under Independent, so a caller
 cannot reintroduce the bug by forgetting to ask. A test asserts ni_monitor.py
 contains no `JOIN ni_members` for party.
+
+### NI Hansard: classifying a division by its amendment's wording (2026-08-18)
+
+`hansard.asmx/GetHansardComponentsByPlenaryDate_JSON?plenaryDate=YYYY-MM-DD`.
+~700KB mean, 806KB max, 182KB gzipped, one request per sitting date, keyless.
+An ordered component tree, not rows of records.
+
+**TWO EXACT KEYS. Neither is a string match, and that is why this is reliable.**
+
+  * `ComponentType == "Division"` carries `RelatedItemId` == the division's
+    `DocumentID`. Verified 7 of 7 on 2026-06-30 and 139 of 139 across every
+    division date. This IDENTIFIES the division -- no amendment-number regex is
+    needed for that job.
+  * That component's `ParentComponentId` is the `ComponentId` of its enclosing
+    `Header`. This SCOPES the window.
+
+Three traps, each of which produced a wrong answer before being fixed:
+
+1. **Do not scan backwards for the nearest Header.** A division can sit hundreds
+   of components after its own header. On 2026-04-20, nearest-preceding-header
+   attributed division 477724 ("Final Stage: Hospital Parking Charges Bill") to a
+   Marriage and Civil Partnership Bill motion and classified it **area 9** on
+   `civil partnership`. The parent pointer resolves it.
+2. **Do not gate on a name comparison.** Hansard inverts word order -- header
+   "Hate: Executive Approach" against subject "The Executive's Approach to Hate"
+   -- so `bill_matches(bill_of(subject), header)` rejected 23 of 139 CORRECT
+   windows. A name mismatch is worth reporting, never worth acting on.
+3. **`ComponentHeader` is not a scope key.** It is header DEPTH: "level 1",
+   "level 2", "level 3" and a time. The scope is the component whose
+   `ComponentType` is `Header`, a different field. `ParentComponentId` and
+   `RelatedItemId` are also ABSENT (key omitted, not null) on most components.
+
+**FOUR amendment openers, all needed.** Finding only the first two left 25 of 83
+amendment votes unexplained; all four together leave 4.
+
+| Opener | Component | Wording carrier |
+| --- | --- | --- |
+| `Amendment No 97 proposed:` (or `... proposed on 15 June 2026:`) | Procedure Line | `Bill Text` |
+| `Which amendments were:` / `Which amendment was:` | Procedure Line | `Plenary Item Text`, `No 1:`-prefixed |
+| `I beg to move amendment No 1:` | **Spoken Text** | `Plenary Item Text` |
+| `I beg to move the following amendment:` (UNNUMBERED) | **Spoken Text** | `Plenary Item Text` |
+
+The `Question put...` line states what was actually voted on and disagrees with
+the subject (83 amendment votes either way, but not the same 83). Where it is
+unnumbered ("That the amendment be made") the subject's number is the fallback
+-- and a single unnumbered candidate wins even when a subject hint exists, since
+requiring the hint to be absent disqualified the very case it was meant to help.
+
+**Classify with `filter_item`, NOT `match_passages`.** The passage gate keeps only
+tier-1-or-watchlist passages, which is right for one stray term in a 3,000-word
+speech and wrong here: an amendment IS the whole document and it is short.
+Measured -- the gate drops amendment 97 (area 5, tier 2, `Equality Act 2010`) and
+amendment 73 (area 7, `blasphemy`), precisely the interesting ones.
+`split_passages`/`aggregate_passages` are still used, but only for the excerpt.
+
+**Never label an empty amendment body as amendment text.** Doing so left
+`classify_fields` returning the MOTION under an amendment label: division 476834
+classified area 5 off its motion while reporting `source=amendment-text`. This is
+the same unmarked-fallback bug as `ni_store.party_at`, and it recurred here in a
+new place. Regression test in `tests/test_ni_hansard.py`.
+
+**Yield, 139 divisions over 54 dates:** 139 scoped, 83 on an amendment, 79 with
+amendment text, 55 item-text-only, 5 no text, 4 gaps, and **4 divisions carry an
+issue area against a baseline of 0** -- Justice Bill amendment 97 (area 5,
+accommodation of women prisoners), Justice Bill amendment 73 (area 7, blasphemy),
+Deaths/Still-Births/Baby Loss amendment 5 (area 1, termination of pregnancy) and
+one unwatched motion (area 5). Three of the four are on bills already in
+`config/ni_watch.yaml`: classification corroborates the hand-picked list rather
+than replacing it.
+
+`HttpClient` is WRITE-ONLY -- it archives every response and never reads one
+back -- so `ni_hansard.load_sitting` reads `data/raw` directly, the same offline
+route as `stance.build_text_map`. Without it the classifier re-fetched all 54
+sittings on every run. Column ownership is written on the table in `src/db.py`:
+`ni_divisions.py` owns identity and `watched`, `ni_classify.py` owns everything
+derived. The harvester was changed from `INSERT OR REPLACE` to a named upsert
+because the former blanked classified areas on every harvest.

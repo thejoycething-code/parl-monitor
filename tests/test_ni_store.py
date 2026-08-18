@@ -115,6 +115,60 @@ class ResolveTests(unittest.TestCase):
         self.assertEqual(ni_store.dates_present(self.conn), set())
 
 
+class ResolveSittingsTests(unittest.TestCase):
+    """Hansard archiving, so classification is free to re-run."""
+
+    class _Sitting:
+        def __init__(self, n=10, divs=2):
+            self.components = list(range(n))
+            self._divs = divs
+
+        def anchors(self):
+            return {str(i): i for i in range(self._divs)}
+
+    def setUp(self):
+        self.conn = db.init_db(db.connect(":memory:"))
+        self.asked = []
+
+    def tearDown(self):
+        self.conn.close()
+
+    def _fetch(self, _client, day):
+        self.asked.append(day)
+        return self._Sitting(), None
+
+    def test_records_component_and_division_counts(self):
+        fetched, gaps = ni_store.resolve_sittings(
+            self.conn, None, ["2026-06-30"], "2026-08-18", self._fetch)
+        self.assertEqual((fetched, gaps), (1, []))
+        row = self.conn.execute("SELECT * FROM ni_sittings").fetchone()
+        self.assertEqual((row["components"], row["divisions"]), (10, 2))
+
+    def test_second_run_fetches_nothing(self):
+        ni_store.resolve_sittings(self.conn, None, ["2026-06-30"],
+                                  "2026-08-18", self._fetch)
+        self.asked.clear()
+        fetched, _ = ni_store.resolve_sittings(
+            self.conn, None, ["2026-06-30"], "2026-08-18", self._fetch)
+        self.assertEqual((fetched, self.asked), (0, []))
+
+    def test_one_failed_date_does_not_lose_the_others(self):
+        def flaky(_c, day):
+            return (None, "HTTPError: 500") if day == "a" else (self._Sitting(), None)
+        fetched, gaps = ni_store.resolve_sittings(
+            self.conn, None, ["a", "2026-06-30"], "2026-08-18", flaky)
+        self.assertEqual(fetched, 1)
+        self.assertIn("500", gaps[0])
+
+    def test_empty_sitting_is_a_gap_not_a_stored_blank(self):
+        fetched, gaps = ni_store.resolve_sittings(
+            self.conn, None, ["2026-06-30"], "2026-08-18",
+            lambda _c, _d: (self._Sitting(n=0), None))
+        self.assertEqual(fetched, 0)
+        self.assertIn("no components", gaps[0])
+        self.assertEqual(ni_store.sittings_present(self.conn), set())
+
+
 class PartyAtTests(unittest.TestCase):
     AS_AT = {(BEATTIE, "2025-09-19"): ("Ulster Unionist Party", "Upper Bann")}
     CURRENT = {BEATTIE: ("Independent", "Upper Bann"),
@@ -175,6 +229,12 @@ class WiringTests(unittest.TestCase):
             source = self._source(name)
             self.assertIn("ni_store.resolve_dates", source, name)
             self.assertIn("fetch_members_at", source, name)
+
+    def test_the_division_harvester_archives_hansard(self):
+        """Without this the classifier has nothing offline to read."""
+        source = self._source("ni_divisions.py")
+        self.assertIn("ni_store.resolve_sittings", source)
+        self.assertIn("ni_hansard.fetch_sitting", source)
 
     def test_monitor_does_not_join_current_roster_for_party(self):
         """Joining ni_members for a party is exactly the bug. The monitor must

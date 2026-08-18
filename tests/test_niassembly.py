@@ -315,6 +315,45 @@ class BillMatchesTests(unittest.TestCase):
         self.assertFalse(niassembly.bill_matches("Justice Bill", ""))
 
 
+class CanonicalBillTests(unittest.TestCase):
+    """This decides `watched`, and it has broken silently once already."""
+
+    WATCH = ["Justice Bill",
+             "Deaths, Still-Births and Baby Loss Bill",
+             "Inquiry (Mother and Baby Institutions, Magdalene Laundries and "
+             "Workhouses) Bill",
+             "School Uniforms (Guidelines and Allowances) Bill"]
+
+    def test_returns_the_watch_list_spelling_not_the_stored_one(self):
+        """That is what makes grouping work: each amendment truncates at a
+        different point, so the human-authored name is the only complete one."""
+        self.assertEqual(
+            niassembly.canonical_bill(
+                "Inquiry (Mother and Baby Institutions, Magdalene Laundrie",
+                self.WATCH), self.WATCH[2])
+
+    def test_unwatched_bill_returns_none(self):
+        self.assertIsNone(niassembly.canonical_bill("Sign Language Bill",
+                                                    self.WATCH))
+        self.assertFalse(niassembly.is_watched("Sign Language Bill", self.WATCH))
+
+    def test_longest_match_wins_not_file_order(self):
+        """The first version returned the first match in YAML order, so two
+        entries that both prefix-match gave an answer that depended on how the
+        file happened to be arranged."""
+        watch = ["Justice Bill", "Justice Bill (No. 2)"]
+        self.assertEqual(
+            niassembly.canonical_bill("Justice Bill (No. 2)", watch),
+            "Justice Bill (No. 2)")
+        self.assertEqual(
+            niassembly.canonical_bill("Justice Bill (No. 2)", list(reversed(watch))),
+            "Justice Bill (No. 2)")
+
+    def test_empty_watch_list_matches_nothing(self):
+        self.assertIsNone(niassembly.canonical_bill("Justice Bill", []))
+        self.assertIsNone(niassembly.canonical_bill("Justice Bill", None))
+
+
 class DivisionTests(unittest.TestCase):
     RAW = {"DivisionList": {"Division": [
         {"EventID": "19798", "DocumentID": "493329",
