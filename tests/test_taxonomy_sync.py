@@ -27,11 +27,17 @@ class TaxonomySyncTests(unittest.TestCase):
     def test_master_parses_eleven_areas(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "0.4")
+        self.assertEqual(version, "0.5")
         self.assertEqual(len(areas), 11)
         self.assertEqual(len(exclusions), 8)
         self.assertIn("EOTAS", areas["6_parental_rights_education"]["tier1"])
         self.assertIn("\"small boats\"", areas["11_migration"]["tier1"])
+        # v0.5: NI vocabulary, measured against the NIA corpus 2026-08-18.
+        self.assertIn("\"relationships and sexuality education\"",
+                      areas["6_parental_rights_education"]["tier1"])
+        self.assertIn("\"Knowing Our Identity\"",
+                      areas["3_gender_medicine_children"]["tier1"])
+        self.assertIn("unborn", areas["1_abortion"]["tier2"])
 
 
 if __name__ == "__main__":

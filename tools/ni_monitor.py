@@ -288,9 +288,18 @@ def main():
     print("    is marked \"(party today)\" -- never shown bare, because an")
     print("    unmarked party is what filed Doug Beattie's UUP questions under")
     print("    Independent. Run tools/ni_pull.py to resolve new dates.")
-    print("  * NO MLA SCORING. Attribution and votes are now stored, but there")
-    print("    is no NI equivalent of the 5CA: RF4 placement is a human")
-    print("    judgement and nothing here estimates a stance.")
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import ni_5ca
+        entries = ni_5ca.load_stance()
+        drafts = sum(1 for e in entries.values() if e.get("draft"))
+    except Exception:                               # noqa: BLE001
+        entries, drafts = {}, 0
+    print("  * NO ESTIMATED STANCE. tools/ni_5ca.py builds a 5CA sheet, but an")
+    print("    MLA is placed in a column ONLY by their vote on a division whose")
+    print("    meaning a human has confirmed in config/ni_stance.yaml --")
+    print("    {0} of {1} meaning line(s) there are still DRAFT and place "
+          "nobody.".format(drafts, len(entries)))
     print("  * Nothing here is scheduled. Refreshed only by tools/ni_pull.py")
     print("    and tools/ni_divisions.py.")
     print("\n  {0} row(s) stored in ni_items. Not in `items`, so structurally "

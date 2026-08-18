@@ -420,3 +420,48 @@ sittings on every run. Column ownership is written on the table in `src/db.py`:
 `ni_divisions.py` owns identity and `watched`, `ni_classify.py` owns everything
 derived. The harvester was changed from `INSERT OR REPLACE` to a named upsert
 because the former blanked classified areas on every harvest.
+
+### NI vocabulary (taxonomy v0.5) and the hyphen bug (2026-08-18)
+
+**Every hyphenated sweep term returned ZERO from the NI question search.** The
+endpoint is a literal substring match: "puberty-blockers" 0 against "puberty
+blockers" 32; "assisted-dying" 0 against "assisted dying" 4; "gender-dysphoria"
+0 against "gender dysphoria" 4. The 20 questions stored before this fix had all
+come from single-word terms. `ni_pull.sweep_terms` now passes every term
+through `hansard.spoken_form` -- the helper that exists because the same
+hyphens were quietly costing hits in Westminster Hansard.
+
+**Taxonomy v0.5** adds NI vocabulary, every term measured against a year of
+plenary Hansard (54 archived sittings, 20.7M chars) and the 18-year question
+index before earning a place. Headlines: "relationships and sexuality
+education" is the NI statutory term (47 questions, 28 since 2024 -- the
+existing GB wording "relationships and sex education" matched none of them);
+"Knowing Our Identity" and "Brackenburn" are NI's youth and adult gender
+services (the Tavistock/GIDS vocabulary misses both entirely). NI-only terms
+are swept via a separate `ni_sweep_terms` list in settings.yaml so the
+Westminster PQ sweep is untouched.
+
+Probed and deliberately NOT added: **CEDAW** -- zero hits in a year of plenary
+and zero questions in eighteen years. The framework Westminster cited to
+impose the 2019 abortion law is never named in NIA discourse, which is itself
+a finding: the argument there is not conducted on the UN's terms. Also "both
+lives" (1 plenary + 0 questions).
+
+### NI 5CA (2026-08-18): placement only from human-confirmed meaning lines
+
+`tools/ni_5ca.py` builds a make_5ca.py-shaped CSV (same header, plus a
+DESIGNATION column -- a cross-community vote needs majorities in both
+designations, so "48 of 90" can still lose). The Westminster engine places
+members from the Claude-scored `stance` table; NI forbids estimated stances,
+so the transferable mechanism is the human-authored `overrides` pattern:
+`config/ni_stance.yaml` records what an aye MEANS per division, and the tool
+merely applies it. An entry carrying `draft: true` places NOBODY -- the three
+seeded entries are Claude drafts awaiting Christopher's review, and until each
+flag is removed the sheet is evidence-only. Questions never place anyone
+(activity, not direction). Conflicts are flagged, never averaged. The sheet is
+never posted anywhere.
+
+YAML trap in ni_stance.yaml: an unquoted `no:` key parses as boolean False
+(YAML 1.1), so `ni_5ca.load_stance` normalises both spellings -- covered by a
+test, because an edit that drops the quotes would otherwise silently lose the
+no-lobby meaning.

@@ -27,6 +27,31 @@
 # ranking: repeats of the SAME setting ranged 12m13s to 17m45s. Treat none of
 # them as the cold cost either -- the Sunday run comes a week cold and is the
 # only honest figure.
+# NI Assembly sweep additions. These are searched ONLY by tools/ni_pull.py, on
+# top of pq_sweep_terms -- they are NI vocabulary that would return noise or
+# nothing at Westminster. Each earned its place by measurement against the NIA
+# corpus on 2026-08-18 (question counts are the full 18-year index):
+#   relationships-and-sexuality-education  47 questions, 28 since 2024 (the NI
+#                                          statutory term; RSHE is GB-only)
+#   unborn                                 17 questions, 13 plenary mentions/yr
+#   brackenburn                            11 questions (the NI adult GIC)
+#   knowing-our-identity                    6 questions (the NI youth gender
+#                                          service -- NI's Tavistock)
+#   christian-ethos                         8 questions, 21 plenary mentions/yr
+#   fatal-foetal-abnormality               27 questions 2014-17 (historic depth)
+#   ashers                                 13 questions 2013-20 (Lee v Ashers)
+#   integrated-education                   63 plenary mentions/yr (Christopher,
+#                                          2026-08-18: include, triage-gated)
+ni_sweep_terms:
+  - relationships-and-sexuality-education
+  - unborn
+  - brackenburn
+  - knowing-our-identity
+  - christian-ethos
+  - fatal-foetal-abnormality
+  - ashers
+  - integrated-education
+
 pq_sweep_terms:
   # Two precise terms replace "assisted dying", which returned 12,480 matches
   # whose newest was about fuel oil. Measured twice each, 2026-08-17:

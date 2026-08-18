@@ -1,0 +1,92 @@
+# NI Assembly divisions: what an aye MEANS, written by a human.
+#
+# This file is the NI mirror of the `overrides` block in stance_overrides.yaml,
+# and it exists because of the same rule that keeps RF4 scores empty: reading a
+# division's direction is the campaigner's judgement, and no tool here may
+# estimate a stance (tools/ni_monitor.py, tools/ni_pull.py both state this).
+# tools/ni_classify.py can say an amendment touches area 5; only a person can
+# say which lobby was our lobby.
+#
+# An entry carries `aye:` / `no:` values on the Westminster stance scale
+# (-2..2) plus why lines. While `draft: true` is present the entry places
+# NOBODY -- tools/ni_5ca.py shows the evidence but leaves every column blank
+# until Christopher confirms the reading by deleting the draft flag. The three
+# entries below were DRAFTED BY CLAUDE on 2026-08-18 from the amendment texts
+# and are awaiting that review.
+#
+# YAML trap, handled by the loader: an unquoted `no:` key parses as boolean
+# False in YAML 1.1. Quote it ("no":) or not -- ni_5ca.load_stance normalises
+# both spellings, so an edit that drops the quotes cannot silently lose the
+# no-lobby meaning.
+
+divisions:
+  - doc_id: "493329"
+    draft: true          # remove this line to confirm the reading
+    bill: "Justice Bill"
+    amendment: 97
+    dated: 2026-06-30
+    tabled_by: "Mr Timothy Gaston (TUV)"
+    result: "32 aye / 48 no -- not made"
+    text: >
+      After clause 30 insert -- "Accommodation of women prisoners 30A. In Rule
+      90 of the Prison and Young Offenders Centre Rules (Northern Ireland)
+      1995 at end insert -- (3A) The Department of Justice must issue guidance
+      on the operation of this rule. (3B) Nothing in this rule shall prevent
+      the Department of Justice from making individualised accommodation
+      arrangements for a prisoner, in accordance with the Equality Act 2010..."
+    aye: 2
+    why_aye: >
+      Voted to require guidance on single-sex accommodation for women
+      prisoners -- the women's-prison-estate safeguard, area 5's core ground.
+    "no": -2
+    why_no: >
+      Voted against requiring the Department to issue guidance protecting
+      single-sex accommodation for women prisoners.
+
+  - doc_id: "456935"
+    draft: true          # remove this line to confirm the reading
+    bill: "Deaths, Still-Births and Baby Loss Bill"
+    amendment: 5
+    dated: 2025-11-04
+    tabled_by: "Mr Timothy Gaston (TUV)"
+    result: "23 aye / 53 no -- not made"
+    text: >
+      In page 5, line 37, at end insert -- "(3A) The regulations must provide
+      for the issue of a certificate following a termination of pregnancy."
+    aye: 2
+    why_aye: >
+      Voted to extend baby-loss certification to lives ended by termination --
+      official recognition that a termination ends the life the rest of the
+      Bill exists to mourn.
+    "no": -1
+    why_no: >
+      Voted against extending baby-loss certificates to terminations. Drafted
+      at -1 rather than -2: some no-votes will have been about certificate
+      administration rather than the principle -- the debate speeches decide.
+
+  - doc_id: "488823"
+    draft: true          # remove this line to confirm the reading
+    bill: "Justice Bill"
+    amendment: 73
+    dated: 2026-06-09
+    tabled_by: "Ms Connie Egan (Alliance)"
+    result: "57 aye / 24 no -- made"
+    text: >
+      After clause 23 insert -- "Abolition of offences of blasphemy and
+      blasphemous libel 23A. The common law offences of blasphemy and
+      blasphemous libel are abolished."
+    # LOW CONFIDENCE DRAFT -- this one cuts across allied positions and the
+    # two readings point opposite ways. Reading A: abolition strips a legal
+    # acknowledgement of the sacred and the 24 noes were the traditionalist
+    # bloc defending it (drafted below). Reading B: dead-letter blasphemy laws
+    # legitimise blasphemy laws abroad that persecute Christians (the area 8
+    # Truro/FoRB line), so abolition is OUR position and the signs flip.
+    # Read the Day 2 speeches before confirming; consider ceiling 1 either way.
+    aye: -1
+    why_aye: >
+      Voted to abolish the blasphemy offences (DRAFT reading A -- see comment;
+      reading B would make this +1).
+    "no": 1
+    why_no: >
+      Voted to retain the blasphemy offences (DRAFT reading A -- see comment;
+      reading B would make this -1).

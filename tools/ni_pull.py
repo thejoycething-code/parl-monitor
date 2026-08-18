@@ -8,8 +8,8 @@ Writes to `ni_items`, NEVER to `items`. The published edition is built by
 "SELECT ... FROM items", so keeping NI in a separate table is what guarantees
 it cannot appear in the Slack digest -- see the schema comment in src/db.py.
 
-Classification reuses the WESTMINSTER taxonomy and the same `pq_sweep_terms`,
-because the vocabulary is the same vocabulary. What differs is the ground: an
+Classification reuses the WESTMINSTER taxonomy plus the v0.5 NI vocabulary,
+and sweeps `pq_sweep_terms` plus the NI-only `ni_sweep_terms`. What differs is the ground: an
 NI question about abortion is asking about a law imposed from outside, so the
 same term carries different weight. That judgement belongs to a human reading
 the monitor, not to a score computed here.
@@ -36,7 +36,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, filter as filt, ni_store
 from src.http import HttpClient
-from src.ingest import niassembly
+from src.ingest import hansard, niassembly
 
 # Questions run to 2008. Two years is enough to read the current Assembly
 # without making every run re-classify eighteen years of history; --since
@@ -52,13 +52,27 @@ def load_filter():
 
 
 def sweep_terms():
+    """pq_sweep_terms plus the NI-only ni_sweep_terms, ready for the search.
+
+    THE HYPHEN BUG, measured 2026-08-18: the NI question search is a literal
+    substring match, so a hyphenated term returns ZERO where its spoken form
+    returns everything -- "puberty-blockers" 0 against "puberty blockers" 32,
+    "assisted-dying" 0 against "assisted dying" 4. Every multi-word sweep term
+    silently found nothing until this run; the 20 questions stored to that
+    point had all come from single-word terms. hansard.spoken_form exists for
+    exactly this shape (the same hyphens cost hits in Westminster Hansard),
+    so it is reused rather than re-derived.
+    """
     import yaml
     with open(os.path.join(ROOT, "config", "settings.yaml"), encoding="utf-8") as fh:
         settings = yaml.safe_load(fh) or {}
-    terms = settings.get("pq_sweep_terms") or []
+    terms = list(settings.get("pq_sweep_terms") or [])
+    terms += [t for t in (settings.get("ni_sweep_terms") or [])
+              if t not in terms]
     # The endpoint rejects anything shorter than three characters, so filter
     # here rather than burning a request to be told.
-    return [t for t in terms if len(t) >= niassembly.MIN_SEARCH]
+    return [hansard.spoken_form(t) for t in terms
+            if len(t) >= niassembly.MIN_SEARCH]
 
 
 def store(conn, row, today):

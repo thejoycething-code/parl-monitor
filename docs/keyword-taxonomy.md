@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 0.4 | 4 August 2026 | Owner: Christopher**
+**Version 0.5 | 18 August 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -32,9 +32,9 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 1. Abortion {#1_abortion}
 
-- **Tier 1:** abortion; "Abortion Act 1967"; "termination of pregnancy"; "safe access zone*"; "buffer zone*" [with: clinic*, abortion, termination*]; "abortion time limit"; "foetal viability"; "fetal viability"; "pills by post"; "telemedicine abortion"; "sex-selective abortion"; "Offences against the Person Act 1861"; "Infant Life (Preservation)"; "Ground E"; "disability-selective"; BPAS; "MSI Reproductive Choices"
-- **Tier 2:** "reproductive rights"; "reproductive healthcare"; "crisis pregnancy"; "conscientious objection"; "gestational limit"; "foetal pain"; "silent prayer"; "decriminalis*"; "DIY abortion"; "early medical abortion"
-- **Notes:** Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill.
+- **Tier 1:** abortion; "Abortion Act 1967"; "termination of pregnancy"; "safe access zone*"; "buffer zone*" [with: clinic*, abortion, termination*]; "abortion time limit"; "foetal viability"; "fetal viability"; "pills by post"; "telemedicine abortion"; "sex-selective abortion"; "Offences against the Person Act 1861"; "Infant Life (Preservation)"; "Ground E"; "disability-selective"; BPAS; "MSI Reproductive Choices"; "fatal foetal abnormality"; "fatal fetal abnormality"; "severe fetal impairment"; "severe foetal impairment"
+- **Tier 2:** "reproductive rights"; "reproductive healthcare"; "crisis pregnancy"; "conscientious objection"; "gestational limit"; "foetal pain"; "silent prayer"; "decriminalis*"; "DIY abortion"; "early medical abortion"; unborn
+- **Notes:** Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill. NI vocabulary (v0.5, measured against the NIA corpus): fatal foetal abnormality carried 27 Assembly questions 2014-17 and names the pre-2019 NI fight; severe fetal impairment names the Severe Fetal Impairment Abortion (Amendment) Bill; bare "unborn" (13 plenary mentions in the year, 17 questions over 18 years) sits at tier 2 because "unborn generations" is also fiscal rhetoric. CEDAW was probed and deliberately NOT added: zero hits in a year of plenary and zero questions ever -- the framework Westminster cited to impose the 2019 law is never named in NIA discourse.
 
 ### 2. Assisted dying and end of life {#2_assisted_dying}
 
@@ -44,7 +44,7 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 3. Gender medicine and children {#3_gender_medicine_children}
 
-- **Tier 1:** "puberty blocker*"; "puberty-suppressing hormones"; "puberty suppressing hormones"; "cross-sex hormones"; "Cass Review"; Tavistock; GIDS; "gender identity service*"; "gender dysphoria"; "gender questioning children"; "youth gender"; PATHWAYS; "Keira Bell"
+- **Tier 1:** "puberty blocker*"; "puberty-suppressing hormones"; "puberty suppressing hormones"; "cross-sex hormones"; "Cass Review"; Tavistock; GIDS; "gender identity service*"; "gender dysphoria"; "gender questioning children"; "youth gender"; PATHWAYS; "Keira Bell"; "Knowing Our Identity"; Brackenburn
 - **Tier 2:** "detransition*"; "gender-affirming"; "Gillick competence"; "gender clinic*"; "private prescriptions"; "indefinite ban"; "social transition*"
 
 ### 4. Conversion practices {#4_conversion_practices}
@@ -61,9 +61,9 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 6. Parental rights and education {#6_parental_rights_education}
 
-- **Tier 1:** "relationships and sex education"; RSE; "sex education guidance"; "parental consent"; "parental rights"; "right to withdraw"; "home education"; "elective home education"; "children not in school"; "education otherwise than at school"; EOTAS; "home schooling"; "homeschool*"
-- **Tier 2:** PSHE; "curriculum review"; "external providers"; "smartphone* in schools"; "faith school*"; "collective worship"; "child protection"; "foster care"; "sex education"; "grooming gang*"
-- **Notes:** EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary.
+- **Tier 1:** "relationships and sex education"; "relationships and sexuality education"; RSE; "sex education guidance"; "parental consent"; "parental rights"; "right to withdraw"; "home education"; "elective home education"; "children not in school"; "education otherwise than at school"; EOTAS; "home schooling"; "homeschool*"
+- **Tier 2:** PSHE; "curriculum review"; "external providers"; "smartphone* in schools"; "faith school*"; "collective worship"; "child protection"; "foster care"; "sex education"; "grooming gang*"; "Christian ethos"; "integrated education"
+- **Notes:** EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary. NI vocabulary (v0.5): "relationships and sexuality education" is the NI statutory term -- 47 Assembly questions over 18 years, 28 since 2024, none of which the Westminster wording matches. Christian ethos (21 plenary mentions in the year) carries the faith-schools angle; integrated education (63 mentions, the most-debated education topic in the NIA corpus) is included at tier 2 by Christopher's decision 2026-08-18, triage-gated because much of that debate is school structure rather than ours.
 
 ### 7. Free speech and online safety {#7_free_speech_online_safety}
 
@@ -73,9 +73,9 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 8. Freedom of religion or belief {#8_freedom_of_religion}
 
-- **Tier 1:** "freedom of religion or belief"; FoRB; "Christian persecution"; "persecution of Christians"; "religious persecution"; "Truro Review"; "Special Envoy for Freedom of Religion"; apostasy; "blasphemy law*"
-- **Tier 2:** "religious minorit*"; "religious conversion"; "chaplain*"; "places of worship"; "religious freedom"; "religious liberty"
-- **Notes:** Includes domestic manifestation cases (street preaching arrests, employment cases), which cross-tag with area 7.
+- **Tier 1:** "freedom of religion or belief"; FoRB; "Christian persecution"; "persecution of Christians"; "religious persecution"; "Truro Review"; "Special Envoy for Freedom of Religion"; apostasy; "blasphemy law*"; Ashers
+- **Tier 2:** "religious minorit*"; "religious conversion"; "chaplain*"; "places of worship"; "religious freedom"; "religious liberty"; "conscience clause"
+- **Notes:** Includes domestic manifestation cases (street preaching arrests, employment cases), which cross-tag with area 7. NI vocabulary (v0.5): Ashers (Lee v Ashers, the NI conscience case -- 13 Assembly questions 2013-20, still cited in plenary); conscience clause names the 2015 NI Private Member's Bill and is zero-noise.
 
 ### 9. Marriage and family {#9_marriage_family}
 
