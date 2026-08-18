@@ -170,3 +170,47 @@ bills board renders as section 10, before MP intelligence notes. Rationale:
 the briefing should open with what is happening and close with standing
 reference material. Renderer, tests, sample reference and both published
 editions updated; docs/digest-template.md left as the historical spec.
+
+## Northern Ireland Assembly (probed 2026-08-18)
+
+The handoff (§8, phase 2) lists `aims.niassembly.gov.uk` as "research needed".
+That host is NOT the open data service and will waste time: `/api/` there
+301s to https and then 404s. The service is **`data.niassembly.gov.uk`**, five
+.asmx endpoints each offering XML, JSON and JSONP variants. Keyless, no
+registration, HTTP (not HTTPS-only). `aims.niassembly.gov.uk` is still useful
+as the human-facing page for a question by document id.
+
+Services: `questions`, `plenary`, `members`, `hansard`, `organisations`.
+
+What was probed and works:
+
+| Call | Params | Notes |
+| --- | --- | --- |
+| `questions.asmx/GetQuestionsBySearchText_JSON` | `searchText` (3+ chars) | 242 rows for "abortion", 2008-03-07 to 2026-06-04 |
+| `plenary.asmx/GetNoDayNamedMotions_JSON` | none | tablers WITH party in one field |
+| `plenary.asmx/GetBusinessDiary_JSON` | `startDate`, `endDate` | forward sittings + committee meetings |
+
+Three traps, all of which shaped `src/ingest/niassembly.py`:
+
+1. **No date parameter and no paging on the question search.** It returns the
+   entire history in one response every time. The window is therefore applied
+   client-side after the fetch. This is not waste -- it is the only cheap way
+   to ask what the Assembly has said about an issue over eighteen years.
+2. **A one-row result collapses to a bare object, not a list of one.** Every
+   envelope is doubly nested (`{"QuestionsList": {"Question": ...}}`) and the
+   inner value is a list for 2+ rows and an object for exactly 1. Code that
+   assumes a list silently sees nothing on single-hit terms.
+3. **Search results carry no member name.** Only DocumentId, Reference,
+   TabledDate, QuestionText. Attributing a question to an MLA costs one
+   `GetQuestionDetails` call each, so no MLA ledger is built.
+
+Not built: `plenary.asmx/GetDivisionMemberVoting_JSON` and
+`GetVotesOnDivision_JSON`. These are the high-value 5CA-equivalent evidence (a
+vote outranks a question 5:1) and are the obvious next step.
+
+**Kept out of the digest deliberately** (Christopher, 2026-08-18). NI is a
+watching brief, so it is stored in its own `ni_items` table and read through
+`tools/ni_monitor.py`. The published edition is built by `SELECT ... FROM
+items`, so a separate table -- not a flag on a row -- is what makes it
+structurally impossible for NI to reach Slack. `tests/test_niassembly.py`
+asserts `tools/ni_pull.py` contains no write to `items`.

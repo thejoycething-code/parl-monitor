@@ -112,6 +112,25 @@ CREATE TABLE IF NOT EXISTS un_votes (
   captured_at TEXT NOT NULL,
   PRIMARY KEY (report, draft, state)
 );
+-- Northern Ireland Assembly. A SEPARATE table from `items` on purpose: the
+-- published edition is built by "SELECT ... FROM items", so anything stored
+-- there can reach the Slack digest. NI is a watching brief (Christopher,
+-- 2026-08-18) and must stay off that report, so the separation is structural
+-- rather than a flag on a row that a later query could forget to filter.
+CREATE TABLE IF NOT EXISTS ni_items (
+  id TEXT PRIMARY KEY,            -- 'ni-question:21109' | 'ni-motion:448545' | 'ni-diary:19841'
+  kind TEXT NOT NULL,             -- question|motion|diary
+  reference TEXT,                 -- 'AQW 4832/08'; motions and diary have none
+  title TEXT,                     -- motion title, diary organisation, question text
+  dated TEXT,                     -- tabled date, or the event date for diary rows
+  tablers TEXT,                   -- motions: raw "Name (PARTY) / Name (PARTY)"
+  parties TEXT,                   -- json list, motions only
+  category TEXT,                  -- motion category, or diary event type
+  areas TEXT,                     -- json list of OUR area numbers
+  matched_terms TEXT,             -- json list, for taxonomy maintenance
+  url TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -130,6 +149,7 @@ TABLES = (
     "un_calendar",
     "un_documents",
     "un_votes",
+    "ni_items",
 )
 
 
