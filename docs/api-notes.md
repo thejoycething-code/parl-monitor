@@ -465,3 +465,28 @@ YAML trap in ni_stance.yaml: an unquoted `no:` key parses as boolean False
 (YAML 1.1), so `ni_5ca.load_stance` normalises both spellings -- covered by a
 test, because an edit that drops the quotes would otherwise silently lose the
 no-lobby meaning.
+
+### NI forward Order Paper (probed 2026-08-18)
+
+`plenary.asmx/GetPlenaryItemsPlenaryDate_JSON?startDate=&endDate=` accepts
+FUTURE ranges and returns the scheduled plenary business by sitting date:
+DocumentID, Title, PlenaryType, PlenaryDate (the sitting), TabledDate (the
+announcement). This is the NI equivalent of Westminster's What's On, and it is
+what the business diary is not -- the diary names committees and rooms, this
+names the business. Measured: one sitting week (2026-06-29) carried 31 titled
+items (18 motions, 6 petitions of concern, oral and written statements);
+during recess only WMSs are tabled ahead, with motions arriving roughly four
+weeks out per TabledDate.
+
+The parameter is a RANGE (startDate/endDate), not the single plenaryDate the
+operation name suggests -- probing `?plenaryDate=` returns 500 "Missing
+parameter: startDate".
+
+Petitions of concern appear as their own PlenaryType and are flagged in the
+monitor: a petition of concern turns the affected vote cross-community, so a
+simple majority stops being enough. Seeing one COMING is worth more than
+reading it in the aftermath.
+
+Stored as ni_items kind='plenary' by tools/ni_pull.py, whole window (an Order
+Paper is small and "what is the Assembly doing next week" wants the whole
+answer), classified on title for the OURS mark.

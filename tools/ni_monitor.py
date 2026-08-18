@@ -144,18 +144,42 @@ def main():
 
     # -- forward diary ------------------------------------------------------
     head("WHAT IS COMING", "tools/ni_pull.py")
+    # TWO SOURCES, in order of substance. The Order Paper (kind='plenary')
+    # names the BUSINESS -- motions, bill stages, petitions of concern -- and
+    # is the NI equivalent of Westminster's What's On. The business diary
+    # (kind='diary') names committees and rooms only, so it renders second, as
+    # calendar rather than agenda.
+    plenary = [r for r in conn.execute(
+        "SELECT * FROM ni_items WHERE kind = 'plenary' AND dated >= ? "
+        "ORDER BY dated", (today.isoformat(),))]
+    if want is not None:
+        plenary = [r for r in plenary if want in areas_of(r)]
+    if not plenary:
+        print("  no plenary business stored ahead of today. During recess only")
+        print("  Written Ministerial Statements are tabled ahead; motions and")
+        print("  bill stages arrive roughly four weeks out. Run tools/ni_pull.py.")
+    for r in plenary[:14]:
+        left = (datetime.date.fromisoformat(r["dated"]) - today).days
+        mark = "OURS" if areas_of(r) else "    "
+        poc = "  PETITION OF CONCERN" if "petition of concern" in (
+            r["category"] or "").lower() else ""
+        print("  {0} {1:>4}d  {2:<24} {3}{4}".format(
+            mark, left, (r["category"] or "")[:24], (r["title"] or "")[:40],
+            poc))
+    if len(plenary) > 14:
+        print("  ...and {0} more within the stored horizon".format(
+            len(plenary) - 14))
     diary = [r for r in conn.execute(
         "SELECT * FROM ni_items WHERE kind = 'diary' AND dated >= ? "
         "ORDER BY dated", (today.isoformat(),))]
-    if not diary:
-        print("  nothing stored ahead of today. Run tools/ni_pull.py.")
-    for r in diary[:12]:
+    if diary:
+        print("\n  committee calendar (names only -- the diary carries no "
+              "agenda):")
+    for r in diary[:8]:
         left = (datetime.date.fromisoformat(r["dated"]) - today).days
-        mark = "OURS" if areas_of(r) else "    "
-        print("  {0} {1:>4}d  {2:<18} {3}".format(
-            mark, left, (r["category"] or "")[:18], (r["title"] or "")[:38]))
-    if len(diary) > 12:
-        print("  ...and {0} more within the stored horizon".format(len(diary) - 12))
+        print("       {0:>4}d  {1}".format(left, (r["title"] or "")[:52]))
+    if len(diary) > 8:
+        print("       ...and {0} more".format(len(diary) - 8))
 
     # -- divisions ----------------------------------------------------------
     head("HOW MLAs VOTED", "tools/ni_divisions.py")
@@ -300,8 +324,10 @@ def main():
     print("    meaning a human has confirmed in config/ni_stance.yaml --")
     print("    {0} of {1} meaning line(s) there are still DRAFT and place "
           "nobody.".format(drafts, len(entries)))
-    print("  * Nothing here is scheduled. Refreshed only by tools/ni_pull.py")
-    print("    and tools/ni_divisions.py.")
+    print("  * REFRESHED WEEKLY: Saturday 06:00 UTC via")
+    print("    .github/workflows/ni-weekly.yml (pull, divisions, reclassify --")
+    print("    no publish step exists; the watching brief stays off Slack).")
+    print("    Run tools/ni_pull.py by hand for a mid-week refresh.")
     print("\n  {0} row(s) stored in ni_items. Not in `items`, so structurally "
           "cannot\n  reach the Slack digest.".format(total))
     conn.close()

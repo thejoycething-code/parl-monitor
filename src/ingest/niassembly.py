@@ -55,6 +55,15 @@ ALL_MEMBERS = BASE + "/members.asmx/GetAllCurrentMembers_JSON"
 MEMBERS_AT = BASE + "/members.asmx/GetAllMembersByGivenDate_JSON?specificDate={date}"
 DIVISIONS = (BASE + "/plenary.asmx/GetVotesOnDivision_JSON"
              "?startDate={start}&endDate={end}")
+# The forward Order Paper: plenary items BY SITTING DATE, and the range may
+# run into the future. This is what the business diary is not -- the diary
+# names committees and rooms, this names the BUSINESS ("Consideration Stage:
+# Justice Bill", "Petition of Concern: ..."). Measured 2026-08-18: one sitting
+# week carries ~31 titled items; during recess only Written Ministerial
+# Statements are tabled ahead, with motions arriving nearer the day
+# (TabledDate shows roughly a four-week horizon).
+PLENARY_FORWARD = (BASE + "/plenary.asmx/GetPlenaryItemsPlenaryDate_JSON"
+                   "?startDate={start}&endDate={end}")
 MEMBER_VOTING = BASE + "/plenary.asmx/GetDivisionMemberVoting_JSON?documentId={doc}"
 
 # A question's public page. The API's own QuestionDetails link returns raw XML,
@@ -464,6 +473,54 @@ def bill_matches(stored, watched):
             break
         common += 1
     return common >= MIN_BILL_COMMON
+
+
+@dataclass
+class PlenaryItem:
+    doc_id: str
+    title: str
+    kind: str                   # 'Motion' | 'Petition of Concern' | ...
+    when: datetime.date         # the SITTING date, not the tabled date
+    tabled: datetime.date = None
+    areas: list = field(default_factory=list)
+    matched_terms: list = field(default_factory=list)
+
+    @property
+    def id(self):
+        return "ni-plenary:{0}".format(self.doc_id)
+
+    @property
+    def petition_of_concern(self):
+        """Flagged because it changes the arithmetic: a petition of concern
+        turns the affected vote cross-community, so a simple majority stops
+        being enough. Worth seeing coming."""
+        return "petition of concern" in (self.kind or "").lower()
+
+
+def parse_plenary_items(payload, since=None):
+    """Order Paper items, soonest first."""
+    out = []
+    for row in rows(payload, "PlenaryList", "Plenary"):
+        when = _iso_date(row.get("PlenaryDate"))
+        if since and when and when < since:
+            continue
+        out.append(PlenaryItem(
+            doc_id=str(row.get("DocumentID") or row.get("DocumentId") or ""),
+            title=(row.get("Title") or "").strip(),
+            kind=(row.get("PlenaryType") or "").strip(),
+            when=when,
+            tabled=_iso_date(row.get("TabledDate"))))
+    out.sort(key=lambda p: p.when or datetime.date.max)
+    return out
+
+
+def fetch_plenary_forward(client, start, end, timeout=60):
+    """The Order Paper for a date range. Called once per run, so it raises
+    (the looped fetches return errors); the caller wraps it as a gap."""
+    url = PLENARY_FORWARD.format(start=start.isoformat(), end=end.isoformat())
+    return parse_plenary_items(client.get_json(
+        url, "niassembly", "plenary-fwd-{0}".format(start.isoformat()),
+        timeout=timeout))
 
 
 def canonical_bill(bill, watched_names):

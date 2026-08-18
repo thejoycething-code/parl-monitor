@@ -315,6 +315,56 @@ class BillMatchesTests(unittest.TestCase):
         self.assertFalse(niassembly.bill_matches("Justice Bill", ""))
 
 
+PLENARY_FWD = {"PlenaryList": {"Plenary": [
+    {"DocumentID": "496072", "Session": "2025-2026",
+     "Title": "Covid Inquiry - Module 5: Publication and Written Ministerial "
+              "Statement",
+     "TabledDate": "2026-08-11T00:00:00+01:00",
+     "PlenaryDate": "2026-09-07T00:00:00+01:00",
+     "PlenaryType": "Written Ministerial Statement"},
+    {"DocumentID": "493400", "Session": "2025-2026",
+     "Title": "Petition of Concern: Amendment 97",
+     "TabledDate": "2026-06-24T00:00:00+01:00",
+     "PlenaryDate": "2026-08-30T00:00:00+01:00",
+     "PlenaryType": "Petition of Concern"},
+]}}
+
+
+class PlenaryForwardTests(unittest.TestCase):
+    """The forward Order Paper -- the NI What's On."""
+
+    def test_items_carry_title_type_and_sitting_date(self):
+        items = niassembly.parse_plenary_items(PLENARY_FWD)
+        self.assertEqual(items[0].id, "ni-plenary:493400")   # soonest first
+        self.assertEqual(items[1].when, datetime.date(2026, 9, 7))
+        self.assertEqual(items[1].kind, "Written Ministerial Statement")
+        self.assertEqual(items[1].tabled, datetime.date(2026, 8, 11))
+
+    def test_the_sitting_date_orders_not_the_tabled_date(self):
+        """PlenaryDate is when the business happens; TabledDate is when it was
+        announced. Sorting on the wrong one buries next week's business under
+        long-tabled statements."""
+        items = niassembly.parse_plenary_items(PLENARY_FWD)
+        self.assertEqual([i.doc_id for i in items], ["493400", "496072"])
+
+    def test_a_petition_of_concern_is_flagged(self):
+        """It changes the arithmetic: the affected vote becomes
+        cross-community, so a simple majority stops being enough."""
+        items = niassembly.parse_plenary_items(PLENARY_FWD)
+        self.assertTrue(items[0].petition_of_concern)
+        self.assertFalse(items[1].petition_of_concern)
+
+    def test_since_filters_on_the_sitting_date(self):
+        items = niassembly.parse_plenary_items(
+            PLENARY_FWD, since=datetime.date(2026, 9, 1))
+        self.assertEqual([i.doc_id for i in items], ["496072"])
+
+    def test_single_row_collapses_to_a_bare_object(self):
+        payload = {"PlenaryList": {"Plenary":
+                   dict(PLENARY_FWD["PlenaryList"]["Plenary"][0])}}
+        self.assertEqual(len(niassembly.parse_plenary_items(payload)), 1)
+
+
 class CanonicalBillTests(unittest.TestCase):
     """This decides `watched`, and it has broken silently once already."""
 
@@ -433,6 +483,24 @@ class SeparationTests(unittest.TestCase):
                 for verb in ("INTO {0}", "UPDATE {0}", "INTO  {0}"):
                     self.assertNotIn(verb.format(table), source,
                                      "{0} must not write {1}".format(name, table))
+
+    def test_the_weekly_workflow_has_no_publish_step(self):
+        """NI is a watching brief: the scheduled refresh pulls and classifies,
+        and nothing in it may reach Slack or need a secret. A publish step
+        added here would out-flank the table-level separation."""
+        path = os.path.join(self.ROOT, ".github", "workflows", "ni-weekly.yml")
+        with open(path, encoding="utf-8") as fh:
+            # Comments legitimately SAY "publish" while explaining why there is
+            # no publishing (the first version of this test tripped over its
+            # own workflow's prose). Strip them: the guard is about what the
+            # workflow RUNS, not what it discusses.
+            source = "\n".join(line for line in fh.read().splitlines()
+                               if not line.strip().startswith("#"))
+        for banned in ("slack", "secrets.yaml", "post_", "publish",
+                       "ANTHROPIC", "SLACK"):
+            self.assertNotIn(banned, source, banned)
+        self.assertIn("group: parl-monitor-state", source,
+                      "must serialise with the other state-committing bots")
 
     def test_ni_pull_writes_its_own_tables(self):
         source = self._source("ni_pull.py")

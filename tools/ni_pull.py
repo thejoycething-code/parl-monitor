@@ -218,6 +218,27 @@ def main():
             "category": d.event_type, "areas": res.issue_areas,
             "matched_terms": res.matched_terms, "url": None}, today.isoformat())
 
+    # -- forward Order Paper --------------------------------------------------
+    # The diary above names committees and rooms; this names the BUSINESS. All
+    # items in the window are stored (an Order Paper is small and "what is the
+    # Assembly doing next week" wants the whole answer), with areas where the
+    # title matches so the monitor can mark OURS.
+    try:
+        plenary = niassembly.fetch_plenary_forward(
+            client, today, today + datetime.timedelta(days=days))
+    except Exception as exc:                        # noqa: BLE001
+        plenary = []
+        gaps.append("forward order paper: {0}: {1}".format(
+            type(exc).__name__, exc))
+    for p in plenary:
+        res = filt.filter_item(tax, wl, p.title)
+        seen += 1
+        new += store(conn, {
+            "id": p.id, "kind": "plenary", "title": p.title,
+            "dated": p.when.isoformat() if p.when else None,
+            "category": p.kind, "areas": res.issue_areas,
+            "matched_terms": res.matched_terms, "url": None}, today.isoformat())
+
     # -- party as at the tabling date ---------------------------------------
     # Done AFTER the questions are stored, because the set of dates to resolve
     # is exactly the set of dates we ended up keeping. Fetching the current
