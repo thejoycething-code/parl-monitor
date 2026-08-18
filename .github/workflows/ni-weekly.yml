@@ -1,0 +1,59 @@
+name: NI Assembly weekly
+on:
+  schedule:
+    # Saturday 06:00 UTC, retry 14:00. The Assembly sits Monday and Tuesday,
+    # so by Saturday the week's divisions and Hansard components are
+    # published, and the slot is clear of the Sunday pull (01:00-15:00 Sun),
+    # the Monday publish (02:00-07:00 Mon) and the monthly UPR (3rd, 06:00).
+    #
+    # Deliberately SIMPLER than sunday-pull.yml, and why is worth recording:
+    # no DST guard pair, because this is a pull with no publish attached and
+    # nobody's morning depends on the London hour; no secrets file, because
+    # every NI endpoint is keyless and the filter is regex, not triage; no
+    # last-chance Monday slot, because a stale NI store costs a week of
+    # watching-brief freshness, not a missed edition.
+    - cron: "0 6 * * 6"
+    - cron: "0 14 * * 6"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+# The same group as the Sunday pull and Monday publish: every workflow that
+# commits data/ must serialise, or two bots race on parl-monitor.db -- the
+# binary-merge conflict this repo has already paid for twice.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    # A full run measured ~12 minutes cold (the question enrichment is one
+    # throttled request per matched question); 30 covers checkout and pip too.
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Pull questions, motions, diary and the forward Order Paper
+        run: python3 tools/ni_pull.py
+      - name: Harvest divisions, member votes and Hansard
+        # SEQUENTIAL with the step above on purpose: both write the same
+        # SQLite file, and a concurrent run has already cost the roster once
+        # ("database is locked", 2026-08-18).
+        run: python3 tools/ni_divisions.py
+      - name: Reclassify divisions from archived Hansard (offline)
+        # Idempotent and free: reads data/raw, so a taxonomy regeneration
+        # between weeks lands here without any extra fetching.
+        run: python3 tools/ni_classify.py --apply
+      - name: Commit state
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "NI weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git push
