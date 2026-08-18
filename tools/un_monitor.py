@@ -19,7 +19,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, intel
+from src import db, emerging, filter as filt, intel
 from src.ingest import treaty_comments, un_votes as votes_mod
 
 BAR = "-" * 78
@@ -33,6 +33,15 @@ def head(title, refreshed_by):
 
 def areas_of(row):
     return json.loads(row["areas"] or "[]")
+
+
+def area_terms(tax, areas):
+    """The configured terms for the given areas, for rights-claim co-occurrence."""
+    out = []
+    for area in areas:
+        for tier in (tax.terms.get(area) or {}).values():
+            out.extend(term for term, _p, _cs, _g in tier)
+    return [t.rstrip("*") for t in out]
 
 
 def main():
@@ -173,6 +182,47 @@ def main():
     for r in conn.execute(sql):
         print("     {0:<34} {1}/{2} refused ({3:.0%})".format(
             r["s"][:34], r["f"], r["n"], r["f"] / r["n"]))
+
+    # -- emerging language ----------------------------------------------------
+    head("EMERGING LANGUAGE", "tools/un_emerging.py")
+    print("  Phrases the corpus has barely seen, in drafts already on our ground.")
+    corpus = [r["text"] for r in conn.execute(
+        "SELECT text FROM upr_recommendations WHERE text IS NOT NULL")]
+    corpus += [" ".join(filter(None, (r["title"], r["instruction"])))
+               for r in conn.execute("SELECT title, instruction FROM un_documents")]
+    baseline = emerging.build_baseline(corpus)
+    tax = filt.load_taxonomy(os.path.join(ROOT, "config", "un-taxonomy.yaml"))
+    edocs = [r for r in conn.execute(
+        "SELECT symbol, title, subject, instruction, areas FROM un_documents "
+        "WHERE areas IS NOT NULL AND areas != '[]'")]
+    if want is not None:
+        edocs = [r for r in edocs if want in areas_of(r)]
+    scanned = flagged = shown = 0
+    for r in edocs:
+        scanned += 1
+        text = " ".join(filter(None, (r["title"], r["instruction"])))
+        novel = emerging.longest_novel(text, baseline, max_df=1, limit=3)
+        claims = emerging.rights_claims(text, area_terms(tax, areas_of(r)))
+        if not novel and not claims:
+            continue
+        flagged += 1
+        if shown >= 6:
+            continue
+        shown += 1
+        print("  {0:<16} areas {1}".format(r["symbol"], ",".join(
+            str(a) for a in areas_of(r))))
+        for phrase in novel:
+            print("        NEW PHRASE   {0}".format(phrase[:64]))
+        for sentence, terms in claims:
+            print("        RIGHTS CLAIM {0}".format(sentence[:60]))
+    if not scanned:
+        print("  no classified drafts to scan.")
+    elif not flagged:
+        print("  {0} draft(s) scanned, nothing novel found.".format(scanned))
+    else:
+        print("\n  {0} of {1} scanned raised something (top {2} shown). Full "
+              "queue, tunable df: tools/un_emerging.py".format(
+                  flagged, scanned, shown))
 
     # -- honesty ------------------------------------------------------------
     head("WHAT THIS DOES NOT KNOW", "docs/un-sources.md")
