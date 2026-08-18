@@ -118,6 +118,22 @@ class Question:
     def id(self):
         return "ni-question:{0}".format(self.doc_id)
 
+    @property
+    def series(self):
+        """'oral' or 'written', from the REFERENCE PREFIX.
+
+        AQO is the oral series and AQW the written one, and that designation is
+        authoritative. `QOralAnswerRequested` disagreed with it on 2 of 20
+        matched questions (AQO 2937 and AQO 3230, both flagged false), so the
+        flag is only a fallback for a reference we cannot read.
+        """
+        prefix = (self.reference or "").strip()[:3].upper()
+        if prefix == "AQO":
+            return "oral"
+        if prefix == "AQW":
+            return "written"
+        return "oral" if self.oral else "written"
+
 
 @dataclass
 class Motion:

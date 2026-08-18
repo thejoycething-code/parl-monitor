@@ -52,6 +52,26 @@ class ParseQuestionTests(unittest.TestCase):
         self.assertEqual(qs[0].id, "ni-question:99001")
         self.assertIn("99001", qs[0].url)
 
+    def test_series_from_reference_prefix_beats_the_flag(self):
+        """AQO is the oral series. QOralAnswerRequested disagreed with the
+        prefix on 2 of 20 real questions, so the prefix wins."""
+        payload = {"QuestionsList": {"Question": [
+            {"DocumentId": "1", "Reference": "AQO 3230/22-27",
+             "TabledDate": "2026-02-26T00:00:00+00:00", "QuestionText": "x",
+             "QOralAnswerRequested": "false"},
+            {"DocumentId": "2", "Reference": "AQW 1/26",
+             "TabledDate": "2026-02-26T00:00:00+00:00", "QuestionText": "y",
+             "QOralAnswerRequested": "false"}]}}
+        qs = {q.reference: q.series for q in niassembly.parse_questions(payload)}
+        self.assertEqual(qs["AQO 3230/22-27"], "oral")
+        self.assertEqual(qs["AQW 1/26"], "written")
+
+    def test_series_falls_back_to_flag_when_reference_unreadable(self):
+        payload = {"QuestionsList": {"Question": [
+            {"DocumentId": "3", "Reference": "", "TabledDate": None,
+             "QuestionText": "z", "QOralAnswerRequested": "true"}]}}
+        self.assertEqual(niassembly.parse_questions(payload)[0].series, "oral")
+
     def test_since_filters_client_side(self):
         """The endpoint has no date parameter, so the window is applied here."""
         qs = niassembly.parse_questions(QUESTIONS, since=datetime.date(2020, 1, 1))

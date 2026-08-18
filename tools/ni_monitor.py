@@ -99,7 +99,11 @@ def main():
         if who:
             party, seat = roster.get(r["tabler_person_id"] or "", ("", ""))
             # Party comes from the roster join, not the question: no question
-            # payload carries one. A blank party means a former member.
+            # payload carries one. Two consequences: a blank party means a
+            # former member, and the party shown is the member's party NOW, not
+            # when the question was asked. Doug Beattie asked as UUP leader and
+            # reads "Independent" here, which is correct today and wrong for
+            # the question. GetAllMembersByGivenDate would fix it per-date.
             print("        asked by {0}{1}{2}".format(
                 who, " ({0})".format(party) if party else "",
                 " — {0}".format(seat or r["tabler_seat"] or "") if
@@ -234,6 +238,11 @@ def main():
     print("    Order Paper carries the full text; that is the route in.")
     print("  * The diary carries a committee name, no subject text, so an OURS")
     print("    mark there means the committee is ours -- not the agenda.")
+    print("  * PARTY IS AS AT TODAY, not as at the question or vote. The roster")
+    print("    is current-members-only, so a member who crossed the floor reads")
+    print("    under their party now (Doug Beattie shows Independent for")
+    print("    questions he asked as UUP leader). GetAllMembersByGivenDate")
+    print("    would resolve party per-date; it is not wired in.")
     print("  * NO MLA SCORING. Attribution and votes are now stored, but there")
     print("    is no NI equivalent of the 5CA: RF4 placement is a human")
     print("    judgement and nothing here estimates a stance.")

@@ -154,7 +154,7 @@ def main():
         new += store(conn, {
             "id": q.id, "kind": "question", "reference": q.reference,
             "title": q.text, "dated": q.tabled.isoformat() if q.tabled else None,
-            "category": "oral" if q.oral else "written",
+            "category": q.series,
             "areas": res.issue_areas, "matched_terms": res.matched_terms,
             "url": q.url,
             "tabler_person_id": detail.tabler_person_id if detail else None,

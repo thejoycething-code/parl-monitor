@@ -309,3 +309,21 @@ point.
 SQLite file; doing so cost the roster fetch with "database is locked". It was
 reported as a gap rather than swallowed, which is how it was caught, but the
 roster is the join table party attribution depends on.
+
+### NI question series: trust the reference prefix (fixed 2026-08-18)
+
+`category` was derived from `QOralAnswerRequested`, which disagreed with the
+reference prefix on 2 of 20 matched questions (AQO 2937/22-27 and AQO
+3230/22-27, both flagged false while carrying an AQO reference). AQO **is** the
+oral series and AQW the written one, so the prefix is authoritative and the
+flag is now only a fallback for an unreadable reference. `Question.series`
+replaces the inline ternary; two stored rows were corrected from the archived
+responses rather than re-fetched.
+
+### NI party is as-at-today, not as-at-the-event
+
+`GetAllCurrentMembers_JSON` is current members only, so the party on a question
+or vote is the member's party NOW. Doug Beattie asked as UUP leader and reads
+"Independent". `members.asmx/GetAllMembersByGivenDate_JSON` would resolve party
+per-date and is NOT wired in; the limitation is printed by ni_monitor.py rather
+than left for someone to discover in a briefing.
