@@ -19,9 +19,13 @@
 #              Division 456935 (baby-loss certificates after a termination) is
 #              also confirmed, with its `no` rationale CORRECTED against the
 #              Day 1 speeches -- see the note on that entry.
-#   DRAFT      division 488823 (blasphemy abolition) alone, carrying an explicit
-#              low-confidence note: read the Day 2 speeches before confirming
-#              it, as the two honest readings point in opposite directions.
+#   NOT PLACEABLE  division 488823 (blasphemy abolition). The speeches were
+#              read and the division cannot discriminate between ally and
+#              opponent -- both lobbies argue from our own premises. It carries
+#              no aye/no values, so it renders as evidence and places nobody.
+#              See the note on that entry; do not re-open it without reading it.
+#
+#   NOTHING IS DRAFT. Every entry has been read and settled.
 #
 # YAML trap, handled by the loader: an unquoted `no:` key parses as boolean
 # False in YAML 1.1. Quote it ("no":) or not -- ni_5ca.load_stance normalises
@@ -128,7 +132,6 @@ divisions:
       retraumatise bereaved women, not that the loss should go unrecognised.
 
   - doc_id: "488823"
-    draft: true          # remove this line to confirm the reading
     bill: "Justice Bill"
     amendment: 73
     dated: 2026-06-09
@@ -138,18 +141,49 @@ divisions:
       After clause 23 insert -- "Abolition of offences of blasphemy and
       blasphemous libel 23A. The common law offences of blasphemy and
       blasphemous libel are abolished."
-    # LOW CONFIDENCE DRAFT -- this one cuts across allied positions and the
-    # two readings point opposite ways. Reading A: abolition strips a legal
-    # acknowledgement of the sacred and the 24 noes were the traditionalist
-    # bloc defending it (drafted below). Reading B: dead-letter blasphemy laws
-    # legitimise blasphemy laws abroad that persecute Christians (the area 8
-    # Truro/FoRB line), so abolition is OUR position and the signs flip.
-    # Read the Day 2 speeches before confirming; consider ceiling 1 either way.
-    aye: -1
-    why_aye: >
-      Voted to abolish the blasphemy offences (DRAFT reading A -- see comment;
-      reading B would make this +1).
-    "no": 1
-    why_no: >
-      Voted to retain the blasphemy offences (DRAFT reading A -- see comment;
-      reading B would make this -1).
+    #
+    # DELIBERATELY NOT PLACEABLE. No aye/no values, so this division renders as
+    # evidence and places nobody -- the same treatment as the two motions above
+    # that read neither for nor against us.
+    #
+    # The speeches were read (2026-06-08, the debate day; the division was put
+    # on the 9th, so "read the Day 2 speeches" in the earlier draft pointed at
+    # the wrong sitting). They do not support either of the two readings I had
+    # drafted, because BOTH LOBBIES ARGUE FROM OUR OWN PREMISES:
+    #
+    #   FOR repeal -- the Truro/FoRB argument, verbatim. Naomi Long (Alliance,
+    #   Minister of Justice): "The fact that blasphemy laws are on the books
+    #   here is held up as an example by other countries whose blasphemy laws
+    #   are more draconian and are regularly used to persecute those who dissent
+    #   by having either no faith or a different faith from that of the state."
+    #   Connie Egan, proposing: "One of the key reasons why I wanted to table
+    #   the amendment was to promote equal standards of faith protections
+    #   globally. Across the world, many people are persecuted for their faith
+    #   under blasphemy laws." Jon Burrows (UUP): "I agree with the need to
+    #   repeal the blasphemy laws", tying it to the right of Christian preachers
+    #   to preach the gospel across Northern Ireland.
+    #
+    #   AGAINST repeal -- the public-square argument. Brian Kingston (DUP): "we
+    #   will always speak up for the place of faith in the public square ...
+    #   their repeal will be seen, in public messaging, as a victory for those
+    #   who wish to diminish respect for belief". Timothy Gaston (TUV): "the
+    #   latest attempt to further diminish our Christian country", citing Lord
+    #   Scarman that blasphemy law "still served a purpose in maintaining public
+    #   order and protecting religious believers from grave offence".
+    #
+    # The vote split confirms it is not a left/right division at all: the 24
+    # noes are DUP 23 + TUV 1 -- the bloc most aligned with us on areas 1 and 5
+    # -- while the ayes include UUP 7 alongside Sinn Fein, Alliance and the SDLP.
+    #
+    # So a placement here would score our closest allies as opponents on area 8
+    # for defending faith in the public square, and parties that oppose us on
+    # areas 1 and 5 as allies for citing Christian persecution abroad. That is
+    # the same failure that got migration excluded from the Westminster 5CA:
+    # "hardliners who rebelled for a tougher bill scored as opponents"
+    # (config/stance_overrides.yaml). A vote that cannot discriminate between
+    # ally and opponent is not evidence of stance, however clearly it is
+    # recorded, and inventing a direction to fill the cell is what this file
+    # exists to prevent.
+    #
+    # If a campaign ever needs a position on this, it needs the ARGUMENT, not
+    # the division: both quotes above are on our ground and they conflict.
