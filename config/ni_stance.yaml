@@ -13,11 +13,15 @@
 # until Christopher confirms the reading by deleting the draft flag.
 #
 # STATE, 2026-08-19:
-#   CONFIRMED  motion 491925, Women's Rights in Northern Ireland Prisons.
-#   DRAFT      the three divisions below, drafted by Claude from the amendment
-#              texts on 2026-08-18 and still awaiting review. Amendment 73
-#              (blasphemy) carries an explicit low-confidence note: read the
-#              Day 2 speeches before confirming that one.
+#   CONFIRMED  motion 491925 (Women's Rights in Northern Ireland Prisons) and
+#              division 493329 (Justice Bill amendment 97, accommodation of
+#              women prisoners). Together these place 80 MLAs on area 5.
+#   DRAFT      division 456935 (baby-loss certificates after a termination --
+#              the `no` is drafted at -1 rather than -2 because some noes may
+#              have been about certificate administration) and division 488823
+#              (blasphemy abolition), which carries an explicit low-confidence
+#              note: read the Day 2 speeches before confirming that one, as the
+#              two honest readings point in opposite directions.
 #
 # YAML trap, handled by the loader: an unquoted `no:` key parses as boolean
 # False in YAML 1.1. Quote it ("no":) or not -- ni_5ca.load_stance normalises
@@ -60,7 +64,9 @@ motions:
 
 divisions:
   - doc_id: "493329"
-    draft: true          # remove this line to confirm the reading
+    # CONFIRMED by Christopher, 2026-08-19. No draft flag: this entry places
+    # all 80 MLAs who voted, and supersedes the motion signature for the four
+    # who did both -- a recorded vote outranks putting a name to a text.
     bill: "Justice Bill"
     amendment: 97
     dated: 2026-06-30
