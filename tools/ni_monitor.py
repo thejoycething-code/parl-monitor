@@ -125,22 +125,29 @@ def main():
     # -- motions ------------------------------------------------------------
     head("WHAT IS BEING MOVED", "tools/ni_pull.py")
     print("  Motions tabled but not yet scheduled -- the nearest thing NI has")
-    print("  to an EDM. Unlike a Westminster EDM these name their tablers.\n")
+    print("  to an EDM, and unlike a Westminster EDM these name their tablers.")
+    print("  Classified on the motion's TEXT, not its title: a title runs three")
+    print("  to six words and matched 0 of 33 for as long as the feed existed.\n")
     ms = rows("motion")
     if not ms:
-        print("  no motions matched. This is a MEASURED zero, not a quiet feed:")
-        print("  33 current motions parse correctly and none match the taxonomy.")
-        print("  Titles run three to six words -- \"Women's Health\", \"Modernising")
-        print("  Divorce Laws\" -- which is too little text to classify on, and the")
-        print("  endpoint gives no motion body. Loosening the taxonomy to catch")
-        print("  them would misfire everywhere else; the fix is the motion text.")
+        print("  no motions matched. Run tools/ni_pull.py -- if this is still")
+        print("  empty afterwards it is a real zero, since the operative")
+        print("  wording is now fetched and classified.")
     for r in ms:
         parties = json.loads(r["parties"] or "[]")
-        print("  {0:<10} {1:<28} areas {2}".format(
-            r["dated"] or "undated", (r["title"] or "")[:28],
+        print("  {0:<10} {1:<34} areas {2}".format(
+            r["dated"] or "undated", (r["title"] or "")[:34],
             ",".join(str(a) for a in areas_of(r))))
-        print("        {0}   {1}".format(
-            (r["category"] or "")[:34], "/".join(parties) or "unattributed"))
+        print("        {0}   tabled by {1}".format(
+            (r["category"] or "")[:30], "/".join(parties) or "unattributed"))
+        terms = json.loads(r["matched_terms"] or "[]")
+        if terms:
+            print("        on: {0}".format(", ".join(terms[:4])))
+        # The wording is why the row is here, so show it rather than making
+        # someone open the Assembly site to find out what the motion says.
+        if r["body"]:
+            print("        \"{0}...\"".format(
+                " ".join(r["body"].split())[:96]))
 
     # -- forward diary ------------------------------------------------------
     head("WHAT IS COMING", "tools/ni_pull.py")

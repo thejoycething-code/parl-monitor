@@ -538,3 +538,40 @@ the enrichment loop was 8 of the run's 10.5 minutes. Unanswered questions are
 still re-fetched -- the answer arrives later and that is the one case a row can
 change. A `carry` helper keeps a skipped fetch from blanking a column a
 previous run filled. Measured: ni_pull 509s -> 285s.
+
+### NI motion text: GetPlenaryDetails closes the motions zero (2026-08-19)
+
+`plenary.asmx/GetPlenaryDetails_JSON?documentid=` returns a plenary item's
+operative **Text**. `GetNoDayNamedMotions_JSON` gives only DocumentID,
+MotionCategory, Title, TabledDate and MotionTablers -- a three-to-six-word
+title and no body -- which is why 0 of 33 motions classified for as long as the
+feed existed. The monitor's own honesty text named this: "the endpoint gives no
+motion body... the fix is the motion text."
+
+Measured after the fix: **3 of 33 match on their wording, 0 of 33 matched on
+their title.** The best find is the case for the whole exercise:
+
+  "Women's Rights in Northern Ireland Prisons" (Independent, unscheduled)
+  -> area 5 on single-sex space*, For Women Scotland, transgender,
+     women's prison*
+
+The title alone misses it because "women's prison" is not contiguous in
+"Northern Ireland Prisons"; the body cites the For Women Scotland judgment
+directly. It is also the same subject as Justice Bill amendment 97
+(accommodation of women prisoners) -- one issue, two vehicles, which is the
+kind of thread a watching brief exists to see. Also caught: "Modernising
+Divorce Laws" -> area 9 (no-fault divorce) and "Standing up to Racism" ->
+areas 7, 11.
+
+The fetch CANNOT be gated on a prior match the way question enrichment is: the
+title is the thing that fails to classify, so there is nothing to gate on. It
+is 33 requests, and a motion already holding its `body` is skipped -- a tabled
+text does not change, and a scheduled motion leaves the no-day-named list
+rather than being rewritten in place. Stored in the new `ni_items.body` column
+whole, so re-classification after a taxonomy regeneration is offline.
+
+Classified with `filter_item` on (title, body), not `match_passages`: a motion
+is a whole short document, the same reasoning as an amendment in ni_classify.
+
+Still unclassifiable from this route: nothing. The remaining motions genuinely
+are not ours -- rural transport, childhood cancer awareness, waiting lists.

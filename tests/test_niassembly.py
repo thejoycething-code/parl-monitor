@@ -12,7 +12,10 @@ import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from src import filter as filt
 from src.ingest import niassembly
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 QUESTIONS = {"QuestionsList": {"Question": [
@@ -119,6 +122,59 @@ class ParseMotionTests(unittest.TestCase):
         payload = {"PlenaryList": {"Plenary": [dict(
             MOTIONS["PlenaryList"]["Plenary"][0], MotionTablers=None)]}}
         self.assertEqual(niassembly.parse_motions(payload)[0].tablers, [])
+
+
+class PlenaryTextTests(unittest.TestCase):
+    """The motion body -- what turned the motions feed from 0 of 33 to 3."""
+
+    DETAILS = {"PlenaryList": {"Plenary": {
+        "DocumentID": "448545", "DocumentType": "Motion",
+        "Title": "Rural Transport Needs",
+        "Text": "That this Assembly recognises the valuable contribution\n"
+                "   the Community Transport Association provides   to the "
+                "rural population.",
+        "TabledDate": "2025-09-08T00:00:00+01:00"}}}
+
+    def test_text_is_returned_with_whitespace_collapsed(self):
+        text = niassembly.parse_plenary_text(self.DETAILS)
+        self.assertTrue(text.startswith("That this Assembly recognises"))
+        self.assertIn("Association provides to the rural", text,
+                      "runs of whitespace must collapse")
+        self.assertNotIn("\n", text)
+
+    def test_a_missing_text_field_is_empty_string_not_none(self):
+        """A caller stores this straight into a column; None would write the
+        literal word "None" as a motion's wording."""
+        payload = {"PlenaryList": {"Plenary": {"DocumentID": "1"}}}
+        self.assertEqual(niassembly.parse_plenary_text(payload), "")
+
+    def test_an_empty_envelope_is_empty_string(self):
+        self.assertEqual(niassembly.parse_plenary_text({"PlenaryList": None}), "")
+        self.assertEqual(niassembly.parse_plenary_text({}), "")
+
+    def test_the_error_is_returned_not_raised(self):
+        """33 motions must not be lost because one timed out."""
+        class _Boom:
+            def get_json(self, *a, **k):
+                raise RuntimeError("timed out")
+        text, err = niassembly.fetch_plenary_text(_Boom(), "448545")
+        self.assertEqual(text, "")
+        self.assertIn("timed out", err)
+
+    def test_the_title_alone_would_not_have_matched(self):
+        """The whole point: "Women's Rights in Northern Ireland Prisons" does
+        not contain "women's prison" contiguously, so the title missed a motion
+        citing For Women Scotland. The body catches it."""
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        title = "Women's Rights in Northern Ireland Prisons"
+        body = ("That this Assembly affirms its support for women's rights; "
+                "notes both the Supreme Court judgment in For Women Scotland "
+                "Ltd v The Scottish Ministers and the need for single-sex "
+                "spaces in the women's prison estate.")
+        self.assertFalse(filt.filter_item(tax, wl, title).matched())
+        self.assertIn(5, filt.filter_item(tax, wl, title, body,
+                                          title=title).issue_areas)
 
 
 class ParseDiaryTests(unittest.TestCase):

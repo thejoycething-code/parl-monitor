@@ -84,8 +84,8 @@ def store(conn, row, today):
         "INSERT OR REPLACE INTO ni_items (id, kind, reference, title, dated, "
         "tablers, parties, category, areas, matched_terms, url, "
         "tabler_person_id, tabler, tabler_seat, minister, department, "
-        "answered, answer, first_seen, last_seen) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "answered, answer, body, first_seen, last_seen) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (row["id"], row["kind"], row.get("reference"), row.get("title"),
          row.get("dated"), row.get("tablers"),
          json.dumps(row.get("parties") or []), row.get("category"),
@@ -93,7 +93,8 @@ def store(conn, row, today):
          json.dumps(row.get("matched_terms") or []),
          row.get("url"), row.get("tabler_person_id"), row.get("tabler"),
          row.get("tabler_seat"), row.get("minister"), row.get("department"),
-         row.get("answered"), row.get("answer"), first_seen, today))
+         row.get("answered"), row.get("answer"), row.get("body"),
+         first_seen, today))
     return existing is None
 
 
@@ -226,17 +227,52 @@ def main():
     except Exception as exc:                        # noqa: BLE001
         motions = []
         gaps.append("no-day-named motions: {0}: {1}".format(type(exc).__name__, exc))
+    # CLASSIFY ON THE MOTION TEXT, not the title. A no-day-named motion's title
+    # runs three to six words ("Rural Transport Needs", "Women's Health") and
+    # 0 of 33 ever matched -- too little text to classify on, and loosening the
+    # taxonomy to catch them would misfire everywhere else. GetPlenaryDetails
+    # carries the operative wording, several hundred characters of exactly the
+    # language the taxonomy is built for, so the text is fetched FIRST and the
+    # classification is done on it.
+    #
+    # Unlike questions, the fetch cannot be gated on a prior match: the title
+    # is what fails to classify, so there is nothing to gate on. It is 33
+    # requests, and a motion already holding its body is skipped -- a tabled
+    # text does not change, and a scheduled motion leaves this list rather than
+    # being rewritten in place.
+    held_bodies = {r["id"]: r["body"] for r in conn.execute(
+        "SELECT id, body FROM ni_items WHERE kind = 'motion'")}
+    fetched = matched_motions = with_body = 0
     for m in motions:
-        res = filt.filter_item(tax, wl, m.title)
+        body = held_bodies.get(m.id) or ""
+        if not body:
+            body, err = niassembly.fetch_plenary_text(client, m.doc_id)
+            fetched += 1
+            if err:
+                gaps.append("motion text {0} ({1}): {2}".format(
+                    m.doc_id, m.title[:40], err))
+            elif not body:
+                gaps.append("motion text {0} ({1}): no Text field".format(
+                    m.doc_id, m.title[:40]))
+        # Title AS the title, body as the field that decides. A motion is a
+        # whole short document, so filter_item is right here for the same
+        # reason it is right for an amendment in ni_classify.
+        if body:
+            with_body += 1
+        res = filt.filter_item(tax, wl, m.title, body, title=m.title)
         if not res.matched():
             continue
+        matched_motions += 1
         seen += 1
         new += store(conn, {
-            "id": m.id, "kind": "motion", "title": m.title,
+            "id": m.id, "kind": "motion", "title": m.title, "body": body,
             "dated": m.tabled.isoformat() if m.tabled else None,
             "tablers": m.tablers_raw, "parties": m.parties,
             "category": m.category, "areas": res.issue_areas,
             "matched_terms": res.matched_terms, "url": None}, today.isoformat())
+    print("{0} motion(s): {1} with text ({2} newly fetched), {3} matched on "
+          "their wording.".format(len(motions), with_body, fetched,
+                                  matched_motions))
 
     # -- forward diary ------------------------------------------------------
     try:

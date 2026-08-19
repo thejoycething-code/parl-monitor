@@ -133,6 +133,10 @@ CREATE TABLE IF NOT EXISTS ni_items (
   tabler TEXT, tabler_seat TEXT,
   minister TEXT, department TEXT,
   answered TEXT, answer TEXT,     -- answer stored whole, displayed truncated
+  body TEXT,                      -- a motion's operative TEXT, stored whole so
+                                  -- re-classification never re-fetches. `title`
+                                  -- is the 3-6 word label that classified 0 of
+                                  -- 33; this is what actually carries meaning.
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 -- The 90 sitting MLAs. Needed because no question or division payload carries
@@ -291,7 +295,7 @@ def init_db(conn):
         # the same day holding no tabler, because the question SEARCH endpoint
         # returns no member name. GetQuestionDetails supplies these.
         for column in ("tabler_person_id", "tabler", "tabler_seat", "minister",
-                       "department", "answered", "answer"):
+                       "department", "answered", "answer", "body"):
             if column not in n_cols:
                 conn.execute("ALTER TABLE ni_items ADD COLUMN {0} TEXT"
                              .format(column))

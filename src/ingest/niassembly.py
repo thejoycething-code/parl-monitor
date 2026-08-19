@@ -45,6 +45,11 @@ BASE = "http://data.niassembly.gov.uk"
 QUESTIONS_SEARCH = BASE + "/questions.asmx/GetQuestionsBySearchText_JSON?searchText={term}"
 QUESTION_DETAIL = BASE + "/questions.asmx/GetQuestionDetails_JSON?documentId={doc}"
 MOTIONS_NDN = BASE + "/plenary.asmx/GetNoDayNamedMotions_JSON"
+# One plenary item's FULL TEXT. The motion list gives a three-to-six-word title
+# ("Rural Transport Needs") and no body, which is why 0 of 33 motions classified
+# for as long as the feed existed; this gives the operative wording, which is
+# several hundred characters of exactly the language the taxonomy is built for.
+PLENARY_DETAILS = BASE + "/plenary.asmx/GetPlenaryDetails_JSON?documentid={doc}"
 BUSINESS_DIARY = (BASE + "/plenary.asmx/GetBusinessDiary_JSON"
                   "?startDate={start}&endDate={end}")
 ALL_MEMBERS = BASE + "/members.asmx/GetAllCurrentMembers_JSON"
@@ -281,6 +286,33 @@ def fetch_motions(client, since=None, timeout=60):
     payload = client.get_json(MOTIONS_NDN, "niassembly", "motions-ndn",
                               timeout=timeout)
     return parse_motions(payload, since=since)
+
+
+def parse_plenary_text(payload):
+    """The operative text of one plenary item, or '' when it carries none.
+
+    Returns the empty string rather than None so a caller storing it cannot
+    accidentally write the word "None" into the body column.
+    """
+    found = rows(payload, "PlenaryList", "Plenary")
+    if not found:
+        return ""
+    return re.sub(r"\s+", " ", (found[0].get("Text") or "")).strip()
+
+
+def fetch_plenary_text(client, doc_id, timeout=45):
+    """One item's full text. Returns (text, error_or_None).
+
+    Called once per motion in a loop, so it returns its error: thirty-two
+    motions must not be lost because one timed out.
+    """
+    try:
+        payload = client.get_json(PLENARY_DETAILS.format(doc=doc_id),
+                                  "niassembly", "pd-{0}".format(doc_id),
+                                  timeout=timeout)
+    except Exception as exc:                      # noqa: BLE001 - reported up
+        return "", "{0}: {1}".format(type(exc).__name__, exc)
+    return parse_plenary_text(payload), None
 
 
 def fetch_diary(client, start, end, timeout=60):
