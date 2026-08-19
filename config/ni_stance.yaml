@@ -16,12 +16,12 @@
 #   CONFIRMED  motion 491925 (Women's Rights in Northern Ireland Prisons) and
 #              division 493329 (Justice Bill amendment 97, accommodation of
 #              women prisoners). Together these place 80 MLAs on area 5.
-#   DRAFT      division 456935 (baby-loss certificates after a termination --
-#              the `no` is drafted at -1 rather than -2 because some noes may
-#              have been about certificate administration) and division 488823
-#              (blasphemy abolition), which carries an explicit low-confidence
-#              note: read the Day 2 speeches before confirming that one, as the
-#              two honest readings point in opposite directions.
+#              Division 456935 (baby-loss certificates after a termination) is
+#              also confirmed, with its `no` rationale CORRECTED against the
+#              Day 1 speeches -- see the note on that entry.
+#   DRAFT      division 488823 (blasphemy abolition) alone, carrying an explicit
+#              low-confidence note: read the Day 2 speeches before confirming
+#              it, as the two honest readings point in opposite directions.
 #
 # YAML trap, handled by the loader: an unquoted `no:` key parses as boolean
 # False in YAML 1.1. Quote it ("no":) or not -- ni_5ca.load_stance normalises
@@ -89,7 +89,8 @@ divisions:
       single-sex accommodation for women prisoners.
 
   - doc_id: "456935"
-    draft: true          # remove this line to confirm the reading
+    # CONFIRMED by Christopher, 2026-08-19. The `no` stays at -1 rather than -2;
+    # see the note below, which the Day-1 speeches were checked against.
     bill: "Deaths, Still-Births and Baby Loss Bill"
     amendment: 5
     dated: 2025-11-04
@@ -104,10 +105,27 @@ divisions:
       official recognition that a termination ends the life the rest of the
       Bill exists to mourn.
     "no": -1
+    # RATIONALE CORRECTED 2026-08-19 after reading the Day 1 speeches, which
+    # the earlier draft had only guessed at. It said the noes "will have been
+    # about certificate administration"; they were not. The leading opposition
+    # speech was Kellie Armstrong (Alliance), a bereavement counsellor who had
+    # herself lost a child through medical abortion: "I have sat in more than
+    # enough rooms as a bereavement counsellor ... with women who have had to
+    # struggle with the term 'abortion' being used in respect of their
+    # miscarriage. While I absolutely, 100%, respect a woman's right to choose,
+    # I also absolutely respect a woman's right to grieve." The objection was to
+    # the WORDING appearing in the Act and to retraumatising bereaved women, not
+    # to recognising the loss.
+    #
+    # -1 is kept rather than -2 because of that, and the reason now matches the
+    # record: a no here blocked naming terminations in baby-loss certification,
+    # which is our ground, but a bereavement-care motive is not opposition on
+    # our issue. If you would rather this read 0 for the mixed-motive noes, that
+    # is a defensible change and a one-line edit.
     why_no: >
-      Voted against extending baby-loss certificates to terminations. Drafted
-      at -1 rather than -2: some no-votes will have been about certificate
-      administration rather than the principle -- the debate speeches decide.
+      Voted against naming terminations in baby-loss certification. Held at -1
+      rather than -2: the leading opposition speech argued the wording would
+      retraumatise bereaved women, not that the loss should go unrecognised.
 
   - doc_id: "488823"
     draft: true          # remove this line to confirm the reading
