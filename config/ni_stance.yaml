@@ -1,4 +1,4 @@
-# NI Assembly divisions: what an aye MEANS, written by a human.
+# NI Assembly: what a vote or a signature MEANS, written by a human.
 #
 # This file is the NI mirror of the `overrides` block in stance_overrides.yaml,
 # and it exists because of the same rule that keeps RF4 scores empty: reading a
@@ -18,6 +18,40 @@
 # False in YAML 1.1. Quote it ("no":) or not -- ni_5ca.load_stance normalises
 # both spellings, so an edit that drops the quotes cannot silently lose the
 # no-lobby meaning.
+
+# MOTIONS work the same way, under `motions:`. Sponsoring a motion is a chosen
+# act of advancing a specific text -- which is why Westminster weights an EDM
+# sponsored (3) above one signed (2) -- but WHAT it advances is still a human
+# reading. `sponsored:` is the stance for the proposer and for a co-signatory
+# alike; the sequence changes the evidence WEIGHT, not its direction. A draft
+# entry places nobody, exactly as for a division.
+motions:
+  - doc_id: "491925"
+    draft: true          # remove this line to confirm the reading
+    title: "Women's Rights in Northern Ireland Prisons"
+    dated: 2026-06-22
+    tabled_by: "Mr Doug Beattie MC (Independent; UUP until c. 2026-06-08)"
+    # CORROBORATION, not a second reading of the same act: Beattie PROPOSED this
+    # motion on 22 June and then voted AYE on Justice Bill amendment 97
+    # (accommodation of women prisoners) on 30 June. Two independent acts on one
+    # subject, eight days apart, in two different vehicles -- and he had left
+    # the UUP a fortnight before, which the as-at party resolution shows.
+    text: >
+      That this Assembly affirms its support for women's rights; notes both the
+      Supreme Court judgment in For Women Scotland Ltd v The Scottish Ministers
+      and the need for single-sex provision in the women's prison estate.
+    sponsored: 2
+    why_sponsored: >
+      Put their name to a motion affirming single-sex provision in the women's
+      prison estate and citing For Women Scotland -- the same ground as Justice
+      Bill amendment 97, in a different vehicle.
+
+  # NOT DRAFTED. "Standing up to Racism" (SDLP, 2026-06-16) and "Modernising
+  # Divorce Laws" (SF, 2026-05-29) also classify -- areas 7/11 and 9 -- but
+  # neither reads as ours or against us from its text, and inventing a
+  # direction to fill a cell is the thing this file exists to prevent. They
+  # appear in the sheet as evidence with no placement. Add entries here if you
+  # judge otherwise.
 
 divisions:
   - doc_id: "493329"

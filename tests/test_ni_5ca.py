@@ -89,10 +89,48 @@ class VoteStanceTests(unittest.TestCase):
         self.assertEqual(ni_5ca.vote_stance(GASTON_97, "abstain"), (None, None))
 
 
+MOTION_491925 = {"doc_id": "491925", "title": "Women's Rights in NI Prisons",
+                 "sponsored": 2, "why_sponsored": "single-sex provision"}
+
+
+class SponsorStanceTests(unittest.TestCase):
+    def test_a_draft_motion_places_nobody(self):
+        entry = dict(MOTION_491925, draft=True)
+        self.assertEqual(ni_5ca.sponsor_stance(entry, 1), (None, None))
+        self.assertEqual(ni_5ca.sponsor_stance(entry, 3), (None, None))
+
+    def test_sequence_changes_the_role_not_the_direction(self):
+        """A co-signatory advances the same text as the proposer, just less
+        prominently -- so the stance is identical and only the weight differs."""
+        proposer, why_p = ni_5ca.sponsor_stance(MOTION_491925, 1)
+        signer, why_s = ni_5ca.sponsor_stance(MOTION_491925, 4)
+        self.assertEqual(proposer, signer)
+        self.assertIn("proposed", why_p)
+        self.assertIn("co-signed", why_s)
+
+    def test_an_entry_with_no_sponsored_value_places_nobody(self):
+        """Two of the three classified motions are deliberately left without a
+        reading: neither is ours or against us from its text, and inventing a
+        direction to fill a cell is what ni_stance.yaml exists to prevent."""
+        self.assertEqual(
+            ni_5ca.sponsor_stance({"doc_id": "490491", "title": "x"}, 1),
+            (None, None))
+
+
+class KindWeightTests(unittest.TestCase):
+    def test_ordering_mirrors_the_westminster_hierarchy(self):
+        """vote > motion sponsored > motion signed > question, the same shape
+        as KIND_WEIGHT's vote 5 > edm 3 > edm-signed 2 > pq 1."""
+        w = ni_5ca.NI_KIND_WEIGHT
+        self.assertGreater(w["vote"], w["motion"])
+        self.assertGreater(w["motion"], w["motion-signed"])
+        self.assertGreater(w["motion-signed"], w["question"])
+
+
 class PlaceTests(unittest.TestCase):
     def test_most_directional_wins(self):
         column, conflict, decided = ni_5ca.place(
-            [(1, "2026-01-01", "a"), (2, "2025-01-01", "b")])
+            [(1, "2026-01-01", "a", "vote"), (2, "2025-01-01", "b", "vote")])
         self.assertEqual(column, "++")
         self.assertFalse(conflict)
         self.assertEqual(decided[2], "b")
@@ -101,12 +139,21 @@ class PlaceTests(unittest.TestCase):
         """+2 and -1 is a flagged ++, not a quiet +0.5 -- the stance.py
         discipline: the tool will not cancel a vote against a vote."""
         column, conflict, _ = ni_5ca.place(
-            [(2, "2026-01-01", "a"), (-1, "2026-02-01", "b")])
+            [(2, "2026-01-01", "a", "vote"), (-1, "2026-02-01", "b", "motion")])
         self.assertEqual(column, "++")
         self.assertTrue(conflict)
 
     def test_no_scored_votes_is_the_zero_column(self):
         self.assertEqual(ni_5ca.place([]), ("0", False, None))
+
+
+    def test_a_vote_outranks_a_signature_of_equal_magnitude(self):
+        """A recorded vote is ground truth; a signature of the same magnitude
+        must not decide the placement over it."""
+        _c, _f, decided = ni_5ca.place(
+            [(2, "2025-01-01", "the vote", "vote"),
+             (2, "2026-06-01", "the signature", "motion-signed")])
+        self.assertEqual(decided[2], "the vote")
 
 
 class BuildRowsTests(unittest.TestCase):
@@ -153,6 +200,30 @@ class BuildRowsTests(unittest.TestCase):
                          "activity is not direction; a question must not place")
         self.assertIn("activity, not direction",
                       " | ".join(aiken["comments"]))
+
+    def test_sponsorship_is_evidence_and_places_when_confirmed(self):
+        self.conn.execute(
+            "INSERT INTO ni_items (id, kind, title, dated, areas, body, "
+            "first_seen, last_seen) VALUES ('ni-motion:491925','motion',"
+            "\'Women\'\'s Rights in NI Prisons\','2026-06-22','[5]','text',"
+            "'2026-08-19','2026-08-19')")
+        self.conn.execute(
+            "INSERT INTO ni_sponsors (doc_id, person_id, sequence, name, seat, "
+            "first_seen, last_seen) VALUES ('491925','5797',1,'Dr Steve Aiken "
+            "OBE','South Antrim','2026-08-19','2026-08-19')")
+        self.conn.commit()
+        # draft -> evidence only
+        rows = ni_5ca.build_rows(self.conn, 5, {},
+                                 {"491925": dict(MOTION_491925, draft=True)})
+        aiken = next(r for r in rows if "Aiken" in r["decision_maker"])
+        self.assertEqual(aiken["column"], "0")
+        self.assertIn("PROPOSED", " | ".join(aiken["comments"]))
+        self.assertIn("DRAFT", " | ".join(aiken["comments"]))
+        # confirmed -> placed
+        rows = ni_5ca.build_rows(self.conn, 5, {}, {"491925": MOTION_491925})
+        aiken = next(r for r in rows if "Aiken" in r["decision_maker"])
+        self.assertEqual(aiken["column"], "++")
+        self.assertIn("proposed", " | ".join(aiken["comments"]))
 
     def test_wrong_area_contributes_nothing(self):
         rows = ni_5ca.build_rows(self.conn, 1, {"493329": GASTON_97})

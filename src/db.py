@@ -189,6 +189,23 @@ CREATE TABLE IF NOT EXISTS ni_divisions (
   classified_at TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Who tabled a motion. The 5CA's missing middle: NI had votes (which need a
+-- human meaning line) and questions (activity, never direction) but nothing
+-- between them. Sponsoring a motion is a chosen act of advancing a specific
+-- text, which is why Westminster weights an EDM sponsored above one signed --
+-- and `sequence` carries exactly that split, 1 being the proposer.
+--
+-- The motion list's MotionTablers string cannot replace this: no PersonId, so
+-- no join to the roster, and its order after the first name is not the tabling
+-- sequence.
+CREATE TABLE IF NOT EXISTS ni_sponsors (
+  doc_id TEXT NOT NULL,           -- the motion's DocumentID
+  person_id TEXT NOT NULL,        -- joins to ni_members / ni_affiliations
+  sequence INTEGER,               -- 1 = proposer, 2+ = co-signatory
+  name TEXT, seat TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+  PRIMARY KEY (doc_id, person_id)
+);
 -- Committee agenda items, one row per SLOT in a meeting. The business diary
 -- names the committee and the room; this names the subject being taken, which
 -- is the difference between "the Health Committee meets on Thursday" and "the
@@ -252,6 +269,7 @@ TABLES = (
     "ni_members",
     "ni_affiliations",
     "ni_divisions",
+    "ni_sponsors",
     "ni_agenda",
     "ni_sittings",
     "ni_votes",

@@ -280,6 +280,54 @@ def main():
           "their wording.".format(len(motions), with_body, fetched,
                                   matched_motions))
 
+    # -- who tabled them ------------------------------------------------------
+    # Sponsorship is the 5CA's missing middle for NI: votes need a human
+    # meaning line, questions are activity and never direction, and nothing sat
+    # between. Fetched only for motions ON OUR GROUND -- the same
+    # classify-first discipline as question enrichment, and here it is genuinely
+    # gateable because the motion is already classified by this point.
+    ours = [m for m in motions
+            if json.loads((conn.execute(
+                "SELECT areas FROM ni_items WHERE id = ?", (m.id,)).fetchone()
+                or {"areas": "[]"})["areas"] or "[]")]
+    held_sponsors = {r[0] for r in conn.execute(
+        "SELECT DISTINCT doc_id FROM ni_sponsors")}
+    sponsor_rows = proposers = 0
+    for m in ours:
+        if m.doc_id in held_sponsors:
+            continue
+        tablers, err = niassembly.fetch_tablers(client, m.doc_id)
+        if err:
+            gaps.append("motion tablers {0} ({1}): {2}".format(
+                m.doc_id, m.title[:34], err))
+            continue
+        if not tablers:
+            gaps.append("motion tablers {0} ({1}): none returned".format(
+                m.doc_id, m.title[:34]))
+            continue
+        for t in tablers:
+            if not t.person_id:
+                continue
+            existing = conn.execute(
+                "SELECT first_seen FROM ni_sponsors WHERE doc_id = ? AND "
+                "person_id = ?", (m.doc_id, t.person_id)).fetchone()
+            conn.execute(
+                "INSERT OR REPLACE INTO ni_sponsors (doc_id, person_id, "
+                "sequence, name, seat, first_seen, last_seen) "
+                "VALUES (?,?,?,?,?,?,?)",
+                (m.doc_id, t.person_id, t.sequence, t.name, t.constituency,
+                 existing["first_seen"] if existing else today.isoformat(),
+                 today.isoformat()))
+            sponsor_rows += 1
+            if t.proposer:
+                proposers += 1
+    conn.commit()
+    total_sponsors = conn.execute(
+        "SELECT COUNT(*) FROM ni_sponsors").fetchone()[0]
+    print("sponsorship: {0} new row(s) ({1} proposer(s)) across {2} motion(s) "
+          "on our ground; {3} held in total.".format(
+              sponsor_rows, proposers, len(ours), total_sponsors))
+
     # -- forward diary ------------------------------------------------------
     try:
         diary = niassembly.fetch_diary(client, today,

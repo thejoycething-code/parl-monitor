@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src import db, ni_store
 from src.ingest.niassembly import Member
 
-BEATTIE = "5340"
+BEATTIE = "5786"   # verified against the live roster 2026-08-19
 OTHER = "5797"
 
 

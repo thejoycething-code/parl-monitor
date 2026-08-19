@@ -60,6 +60,18 @@ PLENARY_DETAILS = BASE + "/plenary.asmx/GetPlenaryDetails_JSON?documentid={doc}"
 # this gives the subjects actually being taken.
 COMMITTEE_AGENDA = (BASE + "/plenary.asmx/"
                     "GetCommitteeAgendaItemsCommitteeMeetingId?eventId={event}")
+# Who tabled a plenary item, with PersonIds and -- the part that matters -- a
+# TablerSequence. Sequence 1 is the PROPOSER and the rest are co-signatories,
+# which is the same distinction Westminster draws between sponsoring an EDM
+# (weight 3) and signing one (weight 2).
+#
+# The motion list's own MotionTablers string cannot do this job twice over: it
+# carries no PersonId, so it cannot be joined to the roster, and its order
+# after the first name is NOT the tabling sequence -- measured on motion
+# 448545, the string reads Armstrong/Donnelly/McReynolds/McMurray where the
+# real sequence is Armstrong/McMurray/McReynolds/Donnelly.
+PLENARY_TABLERS = (BASE + "/plenary.asmx/"
+                   "GetPlenaryTablers_JSON?documentId={doc}")
 BUSINESS_DIARY = (BASE + "/plenary.asmx/GetBusinessDiary_JSON"
                   "?startDate={start}&endDate={end}")
 ALL_MEMBERS = BASE + "/members.asmx/GetAllCurrentMembers_JSON"
@@ -296,6 +308,60 @@ def fetch_motions(client, since=None, timeout=60):
     payload = client.get_json(MOTIONS_NDN, "niassembly", "motions-ndn",
                               timeout=timeout)
     return parse_motions(payload, since=since)
+
+
+@dataclass
+class Tabler:
+    doc_id: str
+    sequence: int               # 1 = the proposer; 2+ = co-signatories
+    person_id: str              # joins to ni_members / ni_affiliations
+    name: str
+    title: str = ""             # 'MLA - Strangford'
+
+    @property
+    def proposer(self):
+        return self.sequence == 1
+
+    @property
+    def kind(self):
+        """The 5CA evidence kind. Mirrors the Westminster split: sponsoring is
+        a stronger act than adding your name to somebody else's text."""
+        return "motion" if self.proposer else "motion-signed"
+
+    @property
+    def constituency(self):
+        _, _, seat = (self.title or "").partition("-")
+        return seat.strip()
+
+
+def parse_tablers(payload):
+    """Tablers of one item, proposer first."""
+    out = []
+    for row in rows(payload, "TablerList", "Tabler"):
+        try:
+            sequence = int(row.get("TablerSequence") or 0)
+        except ValueError:
+            sequence = 0
+        out.append(Tabler(
+            doc_id=str(row.get("DocumentID") or row.get("DocumentId") or ""),
+            sequence=sequence,
+            person_id=str(row.get("TablerPersonID")
+                          or row.get("TablerPersonId") or ""),
+            name=(row.get("TablerName") or "").strip(),
+            title=(row.get("TablerTitle") or "").strip()))
+    out.sort(key=lambda t: t.sequence)
+    return out
+
+
+def fetch_tablers(client, doc_id, timeout=45):
+    """One item's tablers. Returns (tablers, error_or_None) -- looped call."""
+    try:
+        payload = client.get_json(PLENARY_TABLERS.format(doc=doc_id),
+                                  "niassembly", "tablers-{0}".format(doc_id),
+                                  timeout=timeout)
+    except Exception as exc:                      # noqa: BLE001 - reported up
+        return [], "{0}: {1}".format(type(exc).__name__, exc)
+    return parse_tablers(payload), None
 
 
 @dataclass

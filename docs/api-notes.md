@@ -621,3 +621,53 @@ fetched" -- and a taxonomy regeneration could not re-test a motion whose
 wording had been discarded. The monitor filters on `areas` at display time and
 prints how many of the tabled motions matched, so a small hit count reads as
 the filter working rather than as a thin feed.
+
+### NI motion sponsorship: the 5CA's missing middle (2026-08-19)
+
+`plenary.asmx/GetPlenaryTablers_JSON?documentId=` gives who tabled a plenary
+item, with `TablerPersonID` and -- the part that matters -- a
+**`TablerSequence`**. Sequence 1 is the PROPOSER; 2+ are co-signatories, which
+is the same distinction Westminster draws between sponsoring an EDM (weight 3)
+and signing one (weight 2). NI previously had votes (which need a human meaning
+line) and questions (activity, never direction) and nothing in between.
+
+The motion list's own `MotionTablers` string cannot do this job, twice over:
+
+  * It carries no PersonId, so it cannot be joined to the roster or to
+    ni_affiliations for party-as-at-date.
+  * **Its order after the first name is NOT the tabling sequence.** Measured on
+    motion 448545: the string reads Armstrong / Donnelly / McReynolds /
+    McMurray, where the real sequence is Armstrong(1) / McMurray(2) /
+    McReynolds(3) / Donnelly(4). The proposer happens to come first in both, so
+    inferring sequence from the string looks right and is wrong from position 2.
+
+Fetched only for motions already classified into an area -- genuinely gateable
+here, unlike the motion body, because classification has happened by that point.
+
+THE FINDING THAT JUSTIFIES IT. The women's-prisons motion (491925) was PROPOSED
+by Mr Doug Beattie MC on 2026-06-22, and Beattie then voted AYE on Justice Bill
+amendment 97 (accommodation of women prisoners) on 2026-06-30. Two independent
+acts on one subject, eight days apart, in two different vehicles -- and the
+as-at party resolution shows he had left the UUP a fortnight earlier (UUP on
+2026-06-08, Independent by 2026-06-22). A vote alone is one data point; a vote
+plus the motion the member authored is a pattern, which is what a 5CA column is
+supposed to rest on.
+
+Sponsorship enters the 5CA through `motions:` in config/ni_stance.yaml, on the
+same terms as divisions: a human writes what sponsoring the text MEANS, and a
+`draft: true` entry places nobody. The SEQUENCE changes the evidence weight,
+never the direction -- a co-signatory advances the same text as the proposer,
+just less prominently -- so `NI_KIND_WEIGHT` is vote 5 > motion 3 >
+motion-signed 2 > question 1, and a recorded vote outranks a signature of equal
+magnitude because it is the only act with a recorded direction.
+
+Two of the three classified motions are deliberately left WITHOUT a reading:
+"Standing up to Racism" (areas 7, 11) and "Modernising Divorce Laws" (area 9)
+are neither ours nor against us on their text, and inventing a direction to
+fill a cell is what that file exists to prevent. They appear as evidence with
+no placement.
+
+Fixture correction found while doing this: tests/test_ni_store.py used person id
+5340 for Beattie under a docstring claiming "his real person id". His real id is
+5786. The tests passed because they were self-consistent, but the docstring was
+false; corrected and verified against the live roster.
