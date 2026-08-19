@@ -671,3 +671,62 @@ Fixture correction found while doing this: tests/test_ni_store.py used person id
 5340 for Beattie under a docstring claiming "his real person id". His real id is
 5786. The tests passed because they were self-consistent, but the docstring was
 false; corrected and verified against the live roster.
+
+### NI ministerial answers: read the refusals (2026-08-19)
+
+203 of 217 stored questions already hold their answer, so reading them costs no
+fetches. What that is worth is NOT what it first looks like.
+
+**Area discovery is nearly worthless here.** Classifying the answer text finds
+7 of 203 answers carrying an area the question lacked -- one per area, spread
+evenly, i.e. noise. Measured before building, and it is why this feature is not
+"classify the answers".
+
+**The SHAPE of the answer is the value.** 28 of 203 (14%) decline: the data is
+not held, no guidance was issued, the matter is not Northern Ireland's, or no
+position has settled. No answer matches two shapes, so 28 pattern hits means 28
+distinct answers -- checked, because the first version of this module scored
+only 14 and the gap turned out to be two phrases dropped when the patterns were
+rewritten from the measuring probe: `responsibility of/rests with/lies with`
+(8 answers, "not a policy or legislative responsibility of my Department") and
+`in due course` (6). Both restored, both now carrying a regression test. The
+lesson is the one this repo keeps relearning: a rewrite that narrows a pattern
+looks identical until you compare its count against the measurement it came
+from. Those are the quotable ones, and the phrasings recur, so
+they are matched structurally -- the same approach as emerging.rights_claims,
+a pattern over how government answers rather than a list of subjects:
+
+| shape | count | real example |
+| --- | --- | --- |
+| not our remit | 10 | EHRC guidance is from "a body which does not have functions in Northern Ireland" |
+| no settled position | 8 | a draft report's contents "do not represent the Department's settled position" |
+| no policy issued | 5 | "My Department has not issued standalone guidance" (chaplaincy + safe access zones) |
+| data not held | 4 | "does not hold information on the indication for which drugs have been prescribed" (puberty blockers) |
+| passed to another body | 1 | responsibility "transferred ... to local councils in 2015" |
+
+175 answers carry no shape at all, which is the correct result: they are
+substantive. `shape()` returning '' is a real answer, not an unclassified one.
+
+Ordered most-specific first, so an answer that declines BOTH the remit and the
+data reads as the remit refusal -- the harder wall.
+
+`quote()` returns the SENTENCE carrying the refusal rather than a slice: an
+answer averages 980 characters and runs to 4,733, and the opening sentence is
+usually a pleasantry ("I recognise the valuable role that chaplaincy services
+play...") while the refusal is two sentences later.
+
+**answer_areas / answer_terms / answer_shape are stored SEPARATELY from
+`areas`**, and must stay that way. `areas` is the MLA's evidence and feeds the
+5CA; a Minister's reply is not the asker's position, and merging them would
+credit a member with ground they never took. A test asserts tools/ni_5ca.py
+contains neither answer_areas nor answer_shape.
+
+Known limitation, recorded rather than papered over: only answers to questions
+that ALREADY matched the taxonomy are held, because detail is fetched only for
+matches. An answer on our ground to a question that is not would be missed.
+Catching that would mean a detail fetch for every swept question -- thousands --
+and since the sweep terms ARE our vocabulary, a swept question that fails the
+taxonomy but whose answer passes it is a narrow case. Not built.
+
+Classification happens at store time in ni_pull, so it backfills with no fetch:
+every matched question is re-stored on each run.

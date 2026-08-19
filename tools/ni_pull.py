@@ -34,7 +34,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt, ni_store
+from src import db, filter as filt, ni_answers, ni_store
 from src.http import HttpClient
 from src.ingest import hansard, niassembly
 
@@ -84,8 +84,9 @@ def store(conn, row, today):
         "INSERT OR REPLACE INTO ni_items (id, kind, reference, title, dated, "
         "tablers, parties, category, areas, matched_terms, url, "
         "tabler_person_id, tabler, tabler_seat, minister, department, "
-        "answered, answer, body, first_seen, last_seen) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "answered, answer, body, answer_areas, answer_terms, answer_shape, "
+        "first_seen, last_seen) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (row["id"], row["kind"], row.get("reference"), row.get("title"),
          row.get("dated"), row.get("tablers"),
          json.dumps(row.get("parties") or []), row.get("category"),
@@ -94,7 +95,9 @@ def store(conn, row, today):
          row.get("url"), row.get("tabler_person_id"), row.get("tabler"),
          row.get("tabler_seat"), row.get("minister"), row.get("department"),
          row.get("answered"), row.get("answer"), row.get("body"),
-         first_seen, today))
+         json.dumps(row.get("answer_areas") or []),
+         json.dumps(row.get("answer_terms") or []),
+         row.get("answer_shape"), first_seen, today))
     return existing is None
 
 
@@ -202,6 +205,12 @@ def main():
                 return value
             return prior[field] if prior is not None else None
 
+        # The Minister's answer, classified SEPARATELY from the question. This
+        # backfills without a fetch: every matched question is re-stored each
+        # run, so the 203 already-answered rows pick it up on the next pass.
+        answer_text = carry("answer", detail.answer if detail else None)
+        a_areas, a_terms, a_shape = ni_answers.classify(
+            tax, wl, answer_text, filt.filter_item)
         new += store(conn, {
             "id": q.id, "kind": "question", "reference": q.reference,
             "title": q.text, "dated": q.tabled.isoformat() if q.tabled else None,
@@ -218,7 +227,11 @@ def main():
                 "department", detail.department if detail else None),
             "answered": carry("answered", detail.answered.isoformat()
                               if detail and detail.answered else None),
-            "answer": carry("answer", detail.answer if detail else None)},
+            "answer": answer_text,
+            # The MINISTER'S areas, kept apart from the question's. Costs no
+            # fetch: the answer is already in hand.
+            "answer_areas": a_areas, "answer_terms": a_terms,
+            "answer_shape": a_shape},
             today.isoformat())
 
     # -- motions ------------------------------------------------------------

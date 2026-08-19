@@ -25,7 +25,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, intel, ni_store
+from src import db, intel, ni_answers, ni_store
 
 BAR = "-" * 78
 
@@ -156,6 +156,48 @@ def main():
         print("\n  {0} of {1} tabled motion(s) match our areas. The rest are "
               "held with their\n  wording so a taxonomy change can re-test them "
               "without re-fetching.".format(len(ms), len(all_motions)))
+
+    # -- ministerial answers --------------------------------------------------
+    head("WHAT MINISTERS SAY", "tools/ni_pull.py")
+    print("  The only GOVERNMENT position in this monitor -- everything else is")
+    print("  what members do. Grouped by department, and led by the answers")
+    print("  where a Minister DECLINED: those are the quotable ones.\n")
+    ans = [r for r in conn.execute(
+        "SELECT reference, dated, department, minister, title, answer, "
+        "answer_shape, areas FROM ni_items WHERE kind = 'question' "
+        "AND answer IS NOT NULL AND answer != '' ORDER BY dated DESC")]
+    if want is not None:
+        ans = [r for r in ans if want in areas_of(r)]
+    shaped = [r for r in ans if r["answer_shape"]]
+    if not ans:
+        print("  no answers stored. Run tools/ni_pull.py.")
+    elif not shaped:
+        print("  {0} answer(s) held, none of them a refusal or a data gap. That")
+        print("  is a real result: a substantive answer carries no shape."
+              .format(len(ans)))
+    for r in shaped[:8]:
+        print("  {0}  {1:<34} {2}".format(
+            r["dated"] or "undated", (r["department"] or "?")[:34],
+            r["answer_shape"].upper()))
+        print("        Q: {0}".format(" ".join((r["title"] or "").split())[:66]))
+        # The sentence that declines, not an arbitrary slice of 980 characters.
+        print("        A: \"{0}\"".format(
+            ni_answers.quote(r["answer"], r["answer_shape"], limit=104)))
+    if len(shaped) > 8:
+        print("\n  ...and {0} more declined answer(s).".format(len(shaped) - 8))
+    if ans:
+        by_dept = {}
+        for r in ans:
+            d = by_dept.setdefault(r["department"] or "?", [0, 0])
+            d[0] += 1
+            if r["answer_shape"]:
+                d[1] += 1
+        print("\n  {0} of {1} answer(s) decline, across {2} department(s):".format(
+            len(shaped), len(ans), len(by_dept)))
+        for dept, (total, declined) in sorted(
+                by_dept.items(), key=lambda kv: -kv[1][1])[:6]:
+            print("     {0:<44} {1:>3} answers, {2} declined".format(
+                dept[:44], total, declined))
 
     # -- forward diary ------------------------------------------------------
     head("WHAT IS COMING", "tools/ni_pull.py")

@@ -133,6 +133,12 @@ CREATE TABLE IF NOT EXISTS ni_items (
   tabler TEXT, tabler_seat TEXT,
   minister TEXT, department TEXT,
   answered TEXT, answer TEXT,     -- answer stored whole, displayed truncated
+  answer_areas TEXT,              -- areas from the MINISTER'S answer. SEPARATE
+  answer_terms TEXT,              -- from `areas` on purpose: `areas` is the
+  answer_shape TEXT,              -- MLA's evidence and feeds the 5CA, and a
+                                  -- Minister's words are not the asker's
+                                  -- position. answer_shape names the kind of
+                                  -- refusal where there is one (see ni_answers).
   body TEXT,                      -- a motion's operative TEXT, stored whole so
                                   -- re-classification never re-fetches. `title`
                                   -- is the 3-6 word label that classified 0 of
@@ -334,7 +340,8 @@ def init_db(conn):
         # the same day holding no tabler, because the question SEARCH endpoint
         # returns no member name. GetQuestionDetails supplies these.
         for column in ("tabler_person_id", "tabler", "tabler_seat", "minister",
-                       "department", "answered", "answer", "body"):
+                       "department", "answered", "answer", "body",
+                       "answer_areas", "answer_terms", "answer_shape"):
             if column not in n_cols:
                 conn.execute("ALTER TABLE ni_items ADD COLUMN {0} TEXT"
                              .format(column))
