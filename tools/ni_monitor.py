@@ -194,10 +194,12 @@ def main():
                 d[1] += 1
         print("\n  {0} of {1} answer(s) decline, across {2} department(s):".format(
             len(shaped), len(ans), len(by_dept)))
-        for dept, (total, declined) in sorted(
+        # `answered`, not `total`: the outer `total` is the ni_items count and
+        # unpacking into it here was the second site of the same shadowing bug.
+        for dept, (answered, declined) in sorted(
                 by_dept.items(), key=lambda kv: -kv[1][1])[:6]:
             print("     {0:<44} {1:>3} answers, {2} declined".format(
-                dept[:44], total, declined))
+                dept[:44], answered, declined))
 
     # -- forward diary ------------------------------------------------------
     head("WHAT IS COMING", "tools/ni_pull.py")
@@ -340,10 +342,14 @@ def main():
                   "(aye/no):")
             for party, counts in sorted(tally.items(),
                                         key=lambda kv: -sum(kv[1].values())):
-                total = sum(counts.values())
+                # NOT `total`: that name holds the ni_items count from line 74
+                # and reassigning it here made the closing line report the last
+                # party's vote positions as the store size ("34 rows" for a
+                # 275-row table). The same shadowing bug as parties/roster.
+                positions = sum(counts.values())
                 print("     {0:<34} {1:>4} aye / {2:>4} no   ({3} positions)"
                       .format(party[:34], counts.get("aye", 0),
-                              counts.get("no", 0), total))
+                              counts.get("no", 0), positions))
             print("  A party voting both ways across a bill is normal: these are")
             print("  amendment votes, so aye and no both cut both ways. Read the")
             print("  individual division before drawing any conclusion.")
@@ -401,7 +407,8 @@ def main():
     try:
         sys.path.insert(0, os.path.join(ROOT, "tools"))
         import ni_5ca
-        entries = ni_5ca.load_stance()
+        entries = dict(ni_5ca.load_stance(section="divisions"))
+        entries.update(ni_5ca.load_stance(section="motions"))
         drafts = sum(1 for e in entries.values() if e.get("draft"))
     except Exception:                               # noqa: BLE001
         entries, drafts = {}, 0
@@ -414,8 +421,17 @@ def main():
     print("    .github/workflows/ni-weekly.yml (pull, divisions, reclassify --")
     print("    no publish step exists; the watching brief stays off Slack).")
     print("    Run tools/ni_pull.py by hand for a mid-week refresh.")
-    print("\n  {0} row(s) stored in ni_items. Not in `items`, so structurally "
-          "cannot\n  reach the Slack digest.".format(total))
+    # Re-queried rather than reusing the `total` from the top of main(): that
+    # name was clobbered twice by loop variables between here and there, and a
+    # count this line asserts as a fact should not depend on 300 lines of
+    # intervening scope staying clean.
+    stored = conn.execute("SELECT COUNT(*) FROM ni_items").fetchone()[0]
+    by_kind = ", ".join(
+        "{0} {1}".format(n, k) for k, n in conn.execute(
+            "SELECT kind, COUNT(*) FROM ni_items GROUP BY kind ORDER BY 2 DESC"))
+    print("\n  {0} row(s) stored in ni_items ({1}). Not in `items`, so "
+          "structurally\n  cannot reach the Slack digest.".format(
+              stored, by_kind))
     conn.close()
     return 0
 
