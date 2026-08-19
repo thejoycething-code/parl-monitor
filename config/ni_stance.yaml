@@ -10,9 +10,14 @@
 # An entry carries `aye:` / `no:` values on the Westminster stance scale
 # (-2..2) plus why lines. While `draft: true` is present the entry places
 # NOBODY -- tools/ni_5ca.py shows the evidence but leaves every column blank
-# until Christopher confirms the reading by deleting the draft flag. The three
-# entries below were DRAFTED BY CLAUDE on 2026-08-18 from the amendment texts
-# and are awaiting that review.
+# until Christopher confirms the reading by deleting the draft flag.
+#
+# STATE, 2026-08-19:
+#   CONFIRMED  motion 491925, Women's Rights in Northern Ireland Prisons.
+#   DRAFT      the three divisions below, drafted by Claude from the amendment
+#              texts on 2026-08-18 and still awaiting review. Amendment 73
+#              (blasphemy) carries an explicit low-confidence note: read the
+#              Day 2 speeches before confirming that one.
 #
 # YAML trap, handled by the loader: an unquoted `no:` key parses as boolean
 # False in YAML 1.1. Quote it ("no":) or not -- ni_5ca.load_stance normalises
@@ -27,7 +32,7 @@
 # entry places nobody, exactly as for a division.
 motions:
   - doc_id: "491925"
-    draft: true          # remove this line to confirm the reading
+    # CONFIRMED by Christopher, 2026-08-19. No draft flag: this entry places.
     title: "Women's Rights in Northern Ireland Prisons"
     dated: 2026-06-22
     tabled_by: "Mr Doug Beattie MC (Independent; UUP until c. 2026-06-08)"
