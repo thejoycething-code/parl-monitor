@@ -50,6 +50,16 @@ MOTIONS_NDN = BASE + "/plenary.asmx/GetNoDayNamedMotions_JSON"
 # for as long as the feed existed; this gives the operative wording, which is
 # several hundred characters of exactly the language the taxonomy is built for.
 PLENARY_DETAILS = BASE + "/plenary.asmx/GetPlenaryDetails_JSON?documentid={doc}"
+# A committee meeting's AGENDA, keyed on the diary's own event id. XML ONLY:
+# this operation has no _JSON sibling and asking for one returns 500 "Web
+# Service method name is not valid" -- the three GetCommitteeAgendaItems*
+# operations are the only ones on plenary.asmx without JSON variants.
+#
+# This is what the business diary is not. The diary gives a committee NAME and
+# a room, so an OURS mark on it means the committee is ours, never the agenda;
+# this gives the subjects actually being taken.
+COMMITTEE_AGENDA = (BASE + "/plenary.asmx/"
+                    "GetCommitteeAgendaItemsCommitteeMeetingId?eventId={event}")
 BUSINESS_DIARY = (BASE + "/plenary.asmx/GetBusinessDiary_JSON"
                   "?startDate={start}&endDate={end}")
 ALL_MEMBERS = BASE + "/members.asmx/GetAllCurrentMembers_JSON"
@@ -286,6 +296,86 @@ def fetch_motions(client, since=None, timeout=60):
     payload = client.get_json(MOTIONS_NDN, "niassembly", "motions-ndn",
                               timeout=timeout)
     return parse_motions(payload, since=since)
+
+
+@dataclass
+class AgendaItem:
+    event_id: str
+    item_id: str                # identifies the SUBJECT, repeats across slots
+    order: int                  # the slot within the meeting; unique per event
+    committee: str
+    business: str
+    item_type: str              # 'Committee Business' | 'Published EU Act...' | ...
+    session: str                # 'Public, 10:00 AM - 10:05 AM'
+    when: datetime.date = None
+    areas: list = field(default_factory=list)
+    matched_terms: list = field(default_factory=list)
+
+    @property
+    def id(self):
+        # Keyed on ORDER, not item_id. One subject occupies several slots -- the
+        # 20 August meeting ran three EU regulations in public and then the same
+        # three in closed session, so ItemId repeated and nine slots would have
+        # collapsed to four, losing the public/closed distinction with them.
+        return "ni-agenda:{0}:{1}".format(self.event_id, self.order)
+
+    @property
+    def closed(self):
+        """A closed session cannot be observed, which changes what a campaign
+        can do about it -- worth surfacing rather than flattening away."""
+        return "closed" in (self.session or "").lower()
+
+
+def parse_agenda_items(xml_text):
+    """Agenda items from the XML payload, in meeting order.
+
+    Parsed with ElementTree rather than regex: this is the only NI feed that
+    is XML, and a malformed reply should fail here rather than silently yield
+    half a meeting.
+    """
+    import xml.etree.ElementTree as ET
+    try:
+        root = ET.fromstring(xml_text or "")
+    except ET.ParseError:
+        return []
+
+    def text(node, tag):
+        found = node.find(tag)
+        return (found.text or "").strip() if found is not None and found.text else ""
+
+    out = []
+    for node in root.findall("Committee"):
+        try:
+            order = int(text(node, "ItemOrder") or 0)
+        except ValueError:
+            order = 0
+        out.append(AgendaItem(
+            event_id=text(node, "EventId"),
+            item_id=text(node, "ItemId"),
+            order=order,
+            committee=text(node, "CommitteeName"),
+            business=re.sub(r"\s+", " ", text(node, "ItemOfBusiness")),
+            item_type=text(node, "ItemType"),
+            session=text(node, "Session"),
+            when=_iso_date(text(node, "MeetingDate"))))
+    out.sort(key=lambda a: a.order)
+    return out
+
+
+def fetch_agenda_items(client, event_id, timeout=45):
+    """One meeting's agenda. Returns (items, error_or_None).
+
+    Called once per diary event in a loop, so it returns its error. An EMPTY
+    agenda is not an error: a meeting several weeks out often has none
+    published yet, and the caller counts those separately.
+    """
+    try:
+        raw = client.get_text(COMMITTEE_AGENDA.format(event=event_id),
+                              "niassembly", "agenda-{0}".format(event_id),
+                              timeout=timeout)
+    except Exception as exc:                      # noqa: BLE001 - reported up
+        return [], "{0}: {1}".format(type(exc).__name__, exc)
+    return parse_agenda_items(raw), None
 
 
 def parse_plenary_text(payload):

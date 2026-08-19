@@ -575,3 +575,49 @@ is a whole short document, the same reasoning as an amendment in ni_classify.
 
 Still unclassifiable from this route: nothing. The remaining motions genuinely
 are not ours -- rural transport, childhood cancer awareness, waiting lists.
+
+### NI committee agendas: the subject, not just the room (2026-08-19)
+
+`plenary.asmx/GetCommitteeAgendaItemsCommitteeMeetingId?eventId=` returns a
+committee meeting's agenda, keyed on the event id the business diary already
+stores. This closes the gap the monitor named: the diary gives a committee NAME
+and a room, so an OURS mark on it meant the committee was ours, never the
+agenda.
+
+**XML ONLY.** This operation has no `_JSON` sibling -- asking for one returns
+500 "Web Service method name is not valid". The three `GetCommitteeAgendaItems*`
+operations are the only ones on plenary.asmx without JSON variants, so this is
+the one NI feed parsed with ElementTree.
+
+**The key is (event_id, ItemOrder), NOT ItemId.** One subject occupies several
+slots because a committee commonly runs an item in public and then again in
+closed session: the 20 August meeting listed three EU regulations in public and
+the same three closed, so ItemId repeated and keying on it collapsed nine slots
+to four -- taking the public/closed distinction with them. `AgendaItem.closed`
+surfaces that, because a closed session cannot be observed and that changes what
+a campaign can do about it.
+
+Measured across the stored 60-day diary: **80 slots over 11 meetings, 1 on our
+ground, 6 meetings with no agenda published yet** (correctly reported as such
+rather than as an empty agenda -- a meeting weeks out often has none).
+
+The one hit is the argument for the feature:
+
+  2026-09-09  Committee for FINANCE
+  -> "Marriage and Civil Partnership Bill - Committee Deliberation"  area 9
+
+Nobody would think to look for a marriage bill at the Finance committee, and
+"Committee for Finance" classifies to nothing. Three weeks' notice of a
+committee deliberation on it is exactly what a forward view is for.
+
+An empty agenda is NOT a gap; a fetch error is. Yield will be low most weeks --
+committee business is overwhelmingly budgets, EU regulations and departmental
+briefings -- which is an argument for the OURS filter, not against the feed.
+
+Motions are stored WHETHER OR NOT they match, like the business diary. Storing
+only matches meant the body cache held only matches, so the 30 non-matching
+motions were re-fetched every week -- the second run reported "30 newly
+fetched" -- and a taxonomy regeneration could not re-test a motion whose
+wording had been discarded. The monitor filters on `areas` at display time and
+prints how many of the tabled motions matched, so a small hit count reads as
+the filter working rather than as a thin feed.

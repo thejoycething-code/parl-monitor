@@ -260,9 +260,15 @@ def main():
         if body:
             with_body += 1
         res = filt.filter_item(tax, wl, m.title, body, title=m.title)
-        if not res.matched():
-            continue
-        matched_motions += 1
+        if res.matched():
+            matched_motions += 1
+        # STORED WHETHER OR NOT IT MATCHES, like the diary above and for two
+        # reasons. Storing only matches meant `held_bodies` held only matches,
+        # so the 30 non-matching motions were re-fetched every single week --
+        # measured "30 newly fetched" on the second run. And it made
+        # re-classification impossible offline: a taxonomy regeneration could
+        # not re-test a motion whose wording had been thrown away. The monitor
+        # filters on `areas` at display time.
         seen += 1
         new += store(conn, {
             "id": m.id, "kind": "motion", "title": m.title, "body": body,
@@ -293,6 +299,47 @@ def main():
             "dated": d.starts.isoformat() if d.starts else None,
             "category": d.event_type, "areas": res.issue_areas,
             "matched_terms": res.matched_terms, "url": None}, today.isoformat())
+
+    # -- committee agendas ----------------------------------------------------
+    # The diary above gives a committee NAME, so an OURS mark on it means the
+    # committee is ours and never the agenda. This gives the subjects actually
+    # being taken. One request per diary event (~10 in a 60-day window), and an
+    # EMPTY agenda is not a gap: a meeting weeks out often has none published.
+    agenda_rows = agenda_ours = agenda_empty = 0
+    for d in diary:
+        event_id = d.event_id
+        items, err = niassembly.fetch_agenda_items(client, event_id)
+        if err:
+            gaps.append("committee agenda {0} ({1}): {2}".format(
+                event_id, (d.organisation or "")[:34], err))
+            continue
+        if not items:
+            agenda_empty += 1
+            continue
+        for a in items:
+            res = filt.filter_item(tax, wl, a.business)
+            if res.matched():
+                agenda_ours += 1
+            existing = conn.execute(
+                "SELECT first_seen FROM ni_agenda WHERE event_id = ? AND "
+                "item_order = ?", (a.event_id, a.order)).fetchone()
+            conn.execute(
+                "INSERT OR REPLACE INTO ni_agenda (event_id, item_order, "
+                "item_id, committee, business, item_type, session, dated, "
+                "areas, matched_terms, first_seen, last_seen) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                (a.event_id, a.order, a.item_id, a.committee, a.business,
+                 a.item_type, a.session,
+                 a.when.isoformat() if a.when else None,
+                 json.dumps(res.issue_areas), json.dumps(res.matched_terms),
+                 existing["first_seen"] if existing else today.isoformat(),
+                 today.isoformat()))
+            agenda_rows += 1
+    conn.commit()
+    print("{0} agenda item(s) across {1} meeting(s); {2} match our areas, "
+          "{3} meeting(s) have no agenda published yet.".format(
+              agenda_rows, len(diary) - agenda_empty, agenda_ours,
+              agenda_empty))
 
     # -- forward Order Paper --------------------------------------------------
     # The diary above names committees and rooms; this names the BUSINESS. All

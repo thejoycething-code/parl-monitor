@@ -128,7 +128,11 @@ def main():
     print("  to an EDM, and unlike a Westminster EDM these name their tablers.")
     print("  Classified on the motion's TEXT, not its title: a title runs three")
     print("  to six words and matched 0 of 33 for as long as the feed existed.\n")
-    ms = rows("motion")
+    # Motions are stored UNFILTERED (so a taxonomy change can re-test them
+    # offline, and so their wording is not re-fetched weekly), so the filter
+    # happens here. `rows` already narrows to --area when one is given.
+    all_motions = rows("motion")
+    ms = [r for r in all_motions if areas_of(r)]
     if not ms:
         print("  no motions matched. Run tools/ni_pull.py -- if this is still")
         print("  empty afterwards it is a real zero, since the operative")
@@ -148,6 +152,10 @@ def main():
         if r["body"]:
             print("        \"{0}...\"".format(
                 " ".join(r["body"].split())[:96]))
+    if all_motions:
+        print("\n  {0} of {1} tabled motion(s) match our areas. The rest are "
+              "held with their\n  wording so a taxonomy change can re-test them "
+              "without re-fetching.".format(len(ms), len(all_motions)))
 
     # -- forward diary ------------------------------------------------------
     head("WHAT IS COMING", "tools/ni_pull.py")
@@ -179,14 +187,36 @@ def main():
     diary = [r for r in conn.execute(
         "SELECT * FROM ni_items WHERE kind = 'diary' AND dated >= ? "
         "ORDER BY dated", (today.isoformat(),))]
+    # Committee agendas, keyed on the diary's event id. An agenda item's SUBJECT
+    # is classified, so an OURS mark here means the business is ours -- which is
+    # what the committee name alone could never tell you.
+    agenda = {}
+    for r in conn.execute(
+            "SELECT event_id, item_order, business, item_type, session, areas "
+            "FROM ni_agenda ORDER BY event_id, item_order"):
+        agenda.setdefault(r["event_id"], []).append(r)
     if diary:
-        print("\n  committee calendar (names only -- the diary carries no "
-              "agenda):")
+        print("\n  committee meetings, with the business they are taking:")
     for r in diary[:8]:
         left = (datetime.date.fromisoformat(r["dated"]) - today).days
+        event_id = (r["id"] or "").split(":")[-1]
+        items = agenda.get(event_id, [])
+        ours = [i for i in items if areas_of(i)]
         print("       {0:>4}d  {1}".format(left, (r["title"] or "")[:52]))
+        if not items:
+            print("              (no agenda published yet)")
+        for i in ours:
+            print("         OURS  areas {0}  {1}{2}".format(
+                ",".join(str(a) for a in areas_of(i)), (i["business"] or "")[:46],
+                "  [CLOSED SESSION]"
+                if "closed" in (i["session"] or "").lower() else ""))
+        # Everything else as a count, not a list: a meeting can run nine slots
+        # and listing them all would bury the OURS rows this section exists for.
+        rest = len(items) - len(ours)
+        if rest:
+            print("              +{0} other item(s)".format(rest))
     if len(diary) > 8:
-        print("       ...and {0} more".format(len(diary) - 8))
+        print("       ...and {0} more meeting(s)".format(len(diary) - 8))
 
     # -- divisions ----------------------------------------------------------
     head("HOW MLAs VOTED", "tools/ni_divisions.py")
@@ -310,8 +340,15 @@ def main():
     print("    is why config/ni_watch.yaml still gates what gets harvested.")
     print("  * MOTIONS CANNOT BE CLASSIFIED from title alone (see above). The")
     print("    Order Paper carries the full text; that is the route in.")
-    print("  * The diary carries a committee name, no subject text, so an OURS")
-    print("    mark there means the committee is ours -- not the agenda.")
+    ag = conn.execute("SELECT COUNT(*) FROM ni_agenda").fetchone()[0]
+    ag_ours = conn.execute("SELECT COUNT(*) FROM ni_agenda WHERE areas IS NOT "
+                           "NULL AND areas != '[]'").fetchone()[0]
+    print("  * COMMITTEE AGENDAS are held for {0} slot(s), {1} on our ground, so"
+          .format(ag, ag_ours))
+    print("    an OURS mark on a committee item means the BUSINESS is ours. The")
+    print("    diary row above it still carries only a committee name.")
+    print("    A meeting weeks out often has no agenda published yet; that is")
+    print("    shown as such rather than as an empty agenda.")
     held = len(ni_store.dates_present(conn))
     print("  * PARTY IS AS AT THE EVENT for the {0} date(s) resolved via "
           "GetAllMembersByGivenDate.".format(held))

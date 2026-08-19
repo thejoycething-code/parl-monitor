@@ -124,6 +124,98 @@ class ParseMotionTests(unittest.TestCase):
         self.assertEqual(niassembly.parse_motions(payload)[0].tablers, [])
 
 
+AGENDA_XML = """<?xml version="1.0" encoding="utf-8"?>
+<ItemList>
+  <Committee>
+    <EventId>19841</EventId><ItemId>387465</ItemId>
+    <ItemOfBusiness>Committee Business</ItemOfBusiness>
+    <ItemType>Committee Business</ItemType><ItemOrder>1</ItemOrder>
+    <CommitteeName>Committee for Health</CommitteeName>
+    <MeetingDate>2026-08-20T00:00:00+01:00</MeetingDate>
+    <Session>Public, 10:00 AM - 10:05 AM</Session>
+  </Committee>
+  <Committee>
+    <EventId>19841</EventId><ItemId>495758</ItemId>
+    <ItemOfBusiness>Briefing on   puberty blockers
+       and gender services</ItemOfBusiness>
+    <ItemType>Oral Evidence</ItemType><ItemOrder>2</ItemOrder>
+    <CommitteeName>Committee for Health</CommitteeName>
+    <MeetingDate>2026-08-20T00:00:00+01:00</MeetingDate>
+    <Session>Public, 10:05 AM - 10:15 AM</Session>
+  </Committee>
+  <Committee>
+    <EventId>19841</EventId><ItemId>495758</ItemId>
+    <ItemOfBusiness>Briefing on puberty blockers and gender services</ItemOfBusiness>
+    <ItemType>Oral Evidence</ItemType><ItemOrder>3</ItemOrder>
+    <CommitteeName>Committee for Health</CommitteeName>
+    <MeetingDate>2026-08-20T00:00:00+01:00</MeetingDate>
+    <Session>Closed, 10:45 AM - 11:05 AM</Session>
+  </Committee>
+</ItemList>"""
+
+
+class AgendaTests(unittest.TestCase):
+    """Committee agendas -- the subject, where the diary gives only a name."""
+
+    def test_items_parse_in_meeting_order(self):
+        items = niassembly.parse_agenda_items(AGENDA_XML)
+        self.assertEqual([a.order for a in items], [1, 2, 3])
+        self.assertEqual(items[0].committee, "Committee for Health")
+        self.assertEqual(items[1].when, datetime.date(2026, 8, 20))
+
+    def test_the_key_is_the_slot_not_the_item(self):
+        """One subject occupies several slots: the 20 August meeting ran three
+        EU regulations in public and the same three in closed session, so
+        keying on ItemId collapsed nine slots to four and took the
+        public/closed distinction with them."""
+        items = niassembly.parse_agenda_items(AGENDA_XML)
+        self.assertEqual(items[1].item_id, items[2].item_id)
+        self.assertNotEqual(items[1].id, items[2].id)
+        self.assertEqual(items[2].id, "ni-agenda:19841:3")
+
+    def test_a_closed_session_is_flagged(self):
+        """It cannot be observed, which changes what a campaign can do."""
+        items = niassembly.parse_agenda_items(AGENDA_XML)
+        self.assertFalse(items[1].closed)
+        self.assertTrue(items[2].closed)
+
+    def test_business_whitespace_is_collapsed(self):
+        items = niassembly.parse_agenda_items(AGENDA_XML)
+        self.assertEqual(items[1].business,
+                         "Briefing on puberty blockers and gender services")
+
+    def test_the_business_is_what_classifies(self):
+        """The committee NAME could never say this: "Committee for Health"
+        matches nothing, while its business is area 3."""
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        items = niassembly.parse_agenda_items(AGENDA_XML)
+        self.assertFalse(filt.filter_item(tax, wl, items[1].committee).matched())
+        self.assertIn(3, filt.filter_item(tax, wl, items[1].business).issue_areas)
+
+    def test_malformed_xml_yields_nothing_rather_than_half_a_meeting(self):
+        self.assertEqual(niassembly.parse_agenda_items("<ItemList><Committee>"), [])
+        self.assertEqual(niassembly.parse_agenda_items(""), [])
+        self.assertEqual(niassembly.parse_agenda_items(None), [])
+
+    def test_an_empty_agenda_is_not_an_error(self):
+        """A meeting weeks out often has no agenda published yet."""
+        class _Empty:
+            def get_text(self, *a, **k):
+                return "<?xml version='1.0'?><ItemList />"
+        items, err = niassembly.fetch_agenda_items(_Empty(), "19841")
+        self.assertEqual(items, [])
+        self.assertIsNone(err, "no agenda yet is not a failure")
+
+    def test_the_error_is_returned_not_raised(self):
+        class _Boom:
+            def get_text(self, *a, **k):
+                raise RuntimeError("timed out")
+        items, err = niassembly.fetch_agenda_items(_Boom(), "19841")
+        self.assertEqual(items, [])
+        self.assertIn("timed out", err)
+
+
 class PlenaryTextTests(unittest.TestCase):
     """The motion body -- what turned the motions feed from 0 of 33 to 3."""
 

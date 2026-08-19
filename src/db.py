@@ -189,6 +189,26 @@ CREATE TABLE IF NOT EXISTS ni_divisions (
   classified_at TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Committee agenda items, one row per SLOT in a meeting. The business diary
+-- names the committee and the room; this names the subject being taken, which
+-- is the difference between "the Health Committee meets on Thursday" and "the
+-- Health Committee takes X on Thursday".
+--
+-- Keyed on (event_id, item_order), NOT item_id: one subject occupies several
+-- slots, because a committee commonly runs an item in public and then again in
+-- closed session. Keying on item_id collapsed the 20 August meeting's nine
+-- slots to four and took the public/closed distinction with them.
+CREATE TABLE IF NOT EXISTS ni_agenda (
+  event_id TEXT NOT NULL,         -- joins to ni_items 'ni-diary:<event_id>'
+  item_order INTEGER NOT NULL,
+  item_id TEXT,                   -- the SUBJECT id; repeats across slots
+  committee TEXT, business TEXT, item_type TEXT,
+  session TEXT,                   -- 'Public, 10:00 AM - 10:05 AM'
+  dated TEXT,
+  areas TEXT, matched_terms TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+  PRIMARY KEY (event_id, item_order)
+);
 -- One row per Hansard sitting already fetched, so a re-run costs nothing --
 -- the same job ni_store.dates_present does for rosters.
 CREATE TABLE IF NOT EXISTS ni_sittings (
@@ -232,6 +252,7 @@ TABLES = (
     "ni_members",
     "ni_affiliations",
     "ni_divisions",
+    "ni_agenda",
     "ni_sittings",
     "ni_votes",
 )
