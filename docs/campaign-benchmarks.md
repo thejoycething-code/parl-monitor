@@ -685,8 +685,23 @@ brief to work already done. Preserved here in case they are needed:
 * Asana approval task `1217525356065025`
 * Google Drive file `1MBHlm0JUjJFMolzB47q2uutLlrZwmja43IcB_3uj7Hs`
 
-The slug's status is now **pending**, not rejected. If the rejection should
-stand, that row needs setting back.
+The slug's status went to **pending**, and that was not merely bookkeeping.
+`run_monday.py` runs `tools/publish_briefs_to_drive.py`, which selects
+`WHERE status = 'pending' AND drive_file_id IS NULL` — and clearing the row had
+nulled the Drive id. So the scheduled Monday publish would have **uploaded this
+brief to Google Drive**, unrequested, for an inquiry CitizenGO is not
+submitting to.
+
+Restored: `status='rejected'` with both identifiers put back, which blocks the
+upload twice over (the status no longer matches, and the Drive id is no longer
+null). Verified afterwards that nothing is queued for upload.
+
+**The lesson is about the guard, not the brief.** `rejected` is not a label, it
+is load-bearing in two places: `make_briefs` refuses to regenerate, and the
+Drive publisher refuses to publish. Clearing that row to rebuild a brief for
+inspection silently re-armed an outward-facing scheduled job. Anyone clearing a
+`brief_log` row in future should restore it, or set `drive_file_id` to a
+sentinel, before the next Monday run.
 
 **A new `--no-approval` flag.** Regenerating calls
 `publish.asana_create_brief_approval`, which creates a task assigning a
