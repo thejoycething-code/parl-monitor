@@ -37,6 +37,12 @@ CONFIG = os.path.join(ROOT, "config", "taxonomy.yaml")
 HEADING = re.compile(r"^### \d+\. (?P<title>.+?) \{#(?P<key>[a-z0-9_]+)\}\s*$")
 TIER = re.compile(r"^- \*\*Tier (?P<tier>[12]):\*\* (?P<terms>.+)$")
 NOTES = re.compile(r"^- \*\*Notes:\*\* (?P<note>.+)$")
+# An OPTIONAL display-label override. Deliberately opt-in rather than taken
+# from every heading: intel.area_names() otherwise derives the label from the
+# yaml key, and make_5ca.py builds its CSV FILENAMES from that label, so
+# relabelling an area renames its sheets. Ten areas are happy with the derived
+# label and must not move; area 7 needs a comma its key cannot hold.
+NAME = re.compile(r"^- \*\*Name:\*\* (?P<name>.+)$")
 EXCLUSIONS = re.compile(r"^- \*\*Terms:\*\* (?P<terms>.+)$")
 VERSION = re.compile(r"\*\*Version (?P<version>[0-9.]+)")
 
@@ -66,7 +72,8 @@ def parse_master(text):
         m = HEADING.match(line)
         if m:
             current = m.group("key")
-            areas[current] = {"tier1": [], "tier2": [], "note": None}
+            areas[current] = {"name": None, "tier1": [], "tier2": [],
+                              "note": None}
             in_exclusions = False
             continue
         if in_exclusions:
@@ -78,6 +85,10 @@ def parse_master(text):
             m = TIER.match(line)
             if m:
                 areas[current]["tier" + m.group("tier")] = split_terms(m.group("terms"))
+                continue
+            m = NAME.match(line)
+            if m:
+                areas[current]["name"] = m.group("name").strip()
                 continue
             m = NOTES.match(line)
             if m:
@@ -129,6 +140,8 @@ def emit_yaml(version, areas, exclusions):
     ]
     for key, spec in areas.items():
         lines.append("  {0}:".format(key))
+        if spec.get("name"):
+            lines.append("    name: {0}".format(_yaml_term(spec["name"])))
         for tier in ("tier1", "tier2"):
             terms = ", ".join(_yaml_term(t) for t in spec[tier])
             lines.append("    {0}: [{1}]".format(tier, terms))

@@ -23,6 +23,7 @@ from __future__ import annotations
 import csv
 import datetime
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -68,9 +69,14 @@ def main():
 
     out = args[0] if args else os.path.join(
         ROOT, "data", "5ca",
-        "5ca-{0}{1}-{2}.csv".format(label.lower().replace(" ", "-"),
-                                    "-peers" if peers else "",
-                                    datetime.date.today().isoformat()))
+        # Slugify rather than just swapping spaces: an area label may carry
+        # punctuation ("Free speech, privacy and civil liberties") and a comma
+        # has no business in a filename. Labels without punctuation slug to
+        # exactly what they did before, so existing sheet names do not move.
+        "5ca-{0}{1}-{2}.csv".format(
+            re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-"),
+            "-peers" if peers else "",
+            datetime.date.today().isoformat()))
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8", newline="") as handle:
         writer = csv.writer(handle)

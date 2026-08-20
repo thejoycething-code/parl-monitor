@@ -158,6 +158,34 @@ pq_sweep_terms:
   - deportation            # 1,699; newest "Deportation", 3 August
   - border-security        # 764; newest "Immigration Controls: EU Countries"
 
+  # Area 7 widened to civil liberties (taxonomy v0.6, Christopher 2026-08-20),
+  # and he asked for parliamentary monitoring as well as benchmarks. Measured
+  # 2026-08-20 with tools/check_sweep_terms.py; the state the tool prints is
+  # based on the TOTAL only, so each one was judged on its newest headings.
+  # Cost is bounded: pqs.fetch_questions takes 6 per term per run, whatever the
+  # total, so these five add at most 30 items a week to the triage pass.
+  - pandemic-treaty        # 5; "Disease Control: International Cooperation"
+  - pandemic-accord        # 7; "Development Aid: Health" - marginal but tiny
+  - digital-ID             # 430; newest "Digital ID Advisory Group"
+  - digital-identity       # 194; "Proof of Identity: Digital Technology"
+  - CBDC                   # 34; newest "Central Bank Digital Currencies"
+  #
+  # NO TERM FOUND for the International Health Regulations, and the gap is
+  # recorded rather than left to look like coverage:
+  #   international-health-regulations  HTTP 500 - the API cannot serve it,
+  #                                     and so do the spaced form AND the bare
+  #                                     word "international", so this is an API
+  #                                     limit, not our phrasing
+  #   IHR                               95 matches but the newest are
+  #                                     "Antisemitism": the search matches
+  #                                     IHRA, the Holocaust Remembrance
+  #                                     Alliance definition, loosely
+  #   health-regulations                234, newest "Health Hazards: Chemicals"
+  # The taxonomy still CLASSIFIES IHR correctly in anything fetched by another
+  # term -- its "IHR" is case-sensitive and word-anchored, and was tested
+  # against IHRA -- and pandemic-treaty/pandemic-accord overlap the same
+  # material. Retry if the 500 is ever fixed.
+
 # Early Day Motions sweep (fast API). Matched EDMs are stored as items and
 # their signature counts recorded per edition for week-on-week deltas.
 edm_sweep_terms:

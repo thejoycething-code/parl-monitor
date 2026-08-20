@@ -109,15 +109,27 @@ def member_timeline(conn, member_id, limit=50):
 
 
 def area_names(taxonomy_path):
-    """{area_number: display name} from the generated taxonomy's area keys
-    (e.g. 3_gender_medicine_children -> "Gender medicine children")."""
+    """{area_number: display name} for the taxonomy at this path.
+
+    Prefers each area's explicit `name:`, which generate_taxonomy.py carries
+    over from the markdown heading. Falls back to deriving the label from the
+    key (3_gender_medicine_children -> "Gender medicine children") for any
+    taxonomy without one -- config/un-taxonomy.yaml is hand-maintained and has
+    no name field, so it keeps behaving exactly as before.
+
+    The fallback cannot express a label with punctuation, which is why the
+    field exists: area 7 reads "Free speech, privacy and civil liberties" and
+    a key cannot hold the commas. This label is what the weekly digest and the
+    5CA sheets print.
+    """
     import yaml
     with open(taxonomy_path, "r", encoding="utf-8") as handle:
         raw = yaml.safe_load(handle) or {}
     out = {}
-    for key in (raw.get("areas") or {}):
+    for key, spec in (raw.get("areas") or {}).items():
         num, _, rest = str(key).partition("_")
-        out[int(num)] = rest.replace("_", " ").capitalize()
+        name = (spec or {}).get("name") if isinstance(spec, dict) else None
+        out[int(num)] = name or rest.replace("_", " ").capitalize()
     return out
 
 

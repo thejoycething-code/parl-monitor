@@ -67,6 +67,74 @@ class KeywordGapTests(unittest.TestCase):
         self.assertNotIn(5, lcp.areas_for("Justice for women in Nigeria"))
 
 
+class CivilLibertiesTests(unittest.TestCase):
+    """Area 7 widened to civil liberties, Christopher 2026-08-20.
+
+    ~400,000 signatures of EN GB campaigning on health sovereignty, digital ID
+    and UN governance had no benchmark. Widened rather than given a new area
+    because digital ID ALREADY landed in 7: 31 of 32 ledger rows carrying it
+    were tagged via "age verification" and "Online Harms".
+    """
+
+    HEALTH_SOVEREIGNTY = (
+        "Say NO to the WHO's Health Dictatorship-Reject the Pandemic Treaty!",
+        "Break Free from UN Control: Reject the International Health Regulations",
+        "Defund the World Health Organization",
+        "Exit IHR Pandemic",
+        "accelerated push pandemic-INB Meeting 11th",
+    )
+    DIGITAL_ID = (
+        "No Digital ID: Stop the Surveillance State",
+        "Stop Starmer's Stealth Digital ID Scheme Hidden in the Schools Bill",
+        "Digital Totalitarianism",
+    )
+    UN_GOVERNANCE = (
+        "Reject Agenda 2030! Don't Let the UN Rewrite Your Future",
+        "Doha Summit: Stop the UN's Agenda 2030 Power Grab",
+    )
+
+    def test_health_sovereignty_maps_to_seven(self):
+        for name in self.HEALTH_SOVEREIGNTY:
+            self.assertIn(7, lcp.areas_for(name), name)
+
+    def test_digital_id_maps_to_seven(self):
+        for name in self.DIGITAL_ID:
+            self.assertIn(7, lcp.areas_for(name), name)
+
+    def test_un_governance_maps_to_seven(self):
+        """The flagged pair -- UN governance rather than the three issues named,
+        included so 36,000 signatures are not left unmapped. One line to
+        strike in KEYWORD_AREAS if unwanted."""
+        for name in self.UN_GOVERNANCE:
+            self.assertIn(7, lcp.areas_for(name), name)
+
+    def test_acronyms_are_word_anchored_here(self):
+        """This list is a separate LOWERCASE layer and does not inherit the
+        taxonomy's all-caps case-sensitivity -- the same gap that let "rse\\b"
+        match "nurse". So the acronyms must be \\b-anchored."""
+        for name in ("Inbox zero campaign", "Their inbuilt bias",
+                     "Sinbad the sailor"):
+            self.assertNotIn(7, lcp.areas_for(name), name)
+
+    def test_existing_area_seven_campaigns_are_unaffected(self):
+        for name in ("Repeal the Online Safety Act",
+                     "Stand in solidarity with Simon: Teacher sacked over "
+                     "lawful Facebook posts"):
+            self.assertIn(7, lcp.areas_for(name), name)
+
+    def test_islamophobia_campaigns_reach_seven_like_the_taxonomy(self):
+        """The two layers disagreed. config/taxonomy.yaml puts Islamophobia and
+        "Islamophobia definition" in area 7, but KEYWORD_AREAS had no pattern
+        for it, so "Defend the freedom to critique Islam - stop 'Islamophobia'
+        blasphemy law" reached only area 8 via "blasphem". It is both a
+        blasphemy-law and a free-speech campaign, and the campaign layer should
+        not disagree with the parliamentary one about which."""
+        areas = lcp.areas_for("Defend the freedom to critique Islam - stop "
+                              "'Islamophobia' blasphemy law")
+        self.assertIn(7, areas)
+        self.assertIn(8, areas)
+
+
 class ProgramParseTests(unittest.TestCase):
 
     def test_three_letter_topic_code_parses(self):

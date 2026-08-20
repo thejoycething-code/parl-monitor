@@ -27,7 +27,7 @@ class TaxonomySyncTests(unittest.TestCase):
     def test_master_parses_eleven_areas(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "0.5")
+        self.assertEqual(version, "0.6")
         self.assertEqual(len(areas), 11)
         self.assertEqual(len(exclusions), 8)
         self.assertIn("EOTAS", areas["6_parental_rights_education"]["tier1"])
@@ -38,6 +38,22 @@ class TaxonomySyncTests(unittest.TestCase):
         self.assertIn("\"Knowing Our Identity\"",
                       areas["3_gender_medicine_children"]["tier1"])
         self.assertIn("unborn", areas["1_abortion"]["tier2"])
+        # v0.6: area 7 widened to civil liberties, Christopher 2026-08-20.
+        seven = areas["7_free_speech_online_safety"]
+        self.assertIn("\"pandemic treaty\"", seven["tier1"])
+        self.assertIn("\"digital ID\"", seven["tier1"])
+        self.assertIn("IHR", seven["tier1"])
+        # Bare WHO is guarded as well as case-sensitive; the guard must survive
+        # the round trip through the generator.
+        self.assertIn('WHO [with: pandemic, treaty, "health regulations", '
+                      'accord]', seven["tier2"])
+        # The display-label override. Only area 7 declares one: make_5ca.py
+        # builds CSV filenames from the label, so relabelling an area renames
+        # its sheets and the other ten must keep the key-derived label.
+        self.assertEqual(seven["name"],
+                         "Free speech, privacy and civil liberties")
+        named = [k for k, v in areas.items() if v.get("name")]
+        self.assertEqual(named, ["7_free_speech_online_safety"])
 
 
 if __name__ == "__main__":

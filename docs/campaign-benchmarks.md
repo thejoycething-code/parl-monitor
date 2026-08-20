@@ -402,3 +402,91 @@ The genuine residue is small: `Schools Bill Stealth Digital ID` (digital ID
 substance, schools framing -- mapping it to area 6 would misfile it),
 `Fundraising-Stay Out` (an appeal, not a campaign), two more pandemic-treaty
 rounds, and one program with neither an id nor a name.
+
+
+## Area 7 widened to civil liberties (2026-08-20)
+
+Christopher's decision: health sovereignty, the pandemic treaty and digital ID
+are freedom/civil-liberties issues and belong in the existing freedom category,
+by **widening and renaming area 7** rather than adding an area — and they should
+drive **parliamentary monitoring** too, not benchmarks alone.
+
+Area 7 is now **"Free speech, privacy and civil liberties"** (taxonomy v0.6).
+
+### Why widen rather than add an area
+
+Measured first. **Digital ID already landed in area 7**: 31 of 32 `mp_events`
+rows carrying it were tagged, mostly via `age verification` and `Online Harms`,
+and area 7 already held encryption and client-side scanning. A new area would
+have split one campaign family by wording. **Health sovereignty had almost no
+Westminster footprint** — a single ledger row, "International Health Regulations
+2005", already tagged area 7. One UN document of 112 matched.
+
+*Correction:* an earlier draft of this note said that row was mis-filed into
+area 2. That was inferred from the `(re: coercion)` matched-term annotation in
+the line text rather than read from the stored `areas` value, and it was wrong —
+the row reads `[7]`. No backfill is needed. Re-filtering the line today would
+add area 2 via the assisted-dying tier-2 term `coercion`, but that is
+pre-existing behaviour of the annotation text and not something this change
+introduced.
+
+So nothing already stored was reclassified. The new parliamentary surface comes
+from the sweep terms, which is the point of the second decision.
+
+### The rename needed a code change, not just a heading
+
+`intel.area_names()` derived the display label from the yaml **key**, and a key
+cannot hold the commas in "Free speech, privacy and civil liberties". That label
+is what the weekly digest publishes.
+
+The fix is an optional `name:` field per area, which `generate_taxonomy.py`
+reads from an explicit `- **Name:**` line, with the key derivation kept as the
+fallback. It is **opt-in on purpose**: `make_5ca.py` builds its CSV **filenames**
+from the label, so auto-deriving all eleven labels from their headings would have
+renamed every 5CA sheet and orphaned the published ones. Only area 7 declares a
+name; the other ten keep their exact previous labels and filenames, and
+`config/un-taxonomy.yaml` (hand-maintained, no name fields) is untouched.
+
+The area **key stays `7_free_speech_online_safety`**. It also lives in
+un-taxonomy.yaml and `filter.load_taxonomy` reads only its leading number, so
+renaming it would be a two-file migration for nothing. The name/key divergence
+is deliberate and recorded in the md.
+
+`make_5ca.py` now slugifies the label rather than only swapping spaces, so a
+comma cannot reach a filename. Labels without punctuation slug to exactly what
+they did before.
+
+### Bare WHO is both case-sensitive and guarded
+
+`WHO` is an English pronoun. The taxonomy's own convention covers half of it —
+ALL-CAPS terms match case-sensitively, the same rule that stops `RSE` matching
+"nurse" — but case-sensitivity does not survive an ALL-CAPS heading, and most
+WHO mentions are global health aid rather than sovereignty. So the term also
+requires company: `WHO [with: pandemic, treaty, "health regulations", accord]`.
+`IHR`, `INB` and `CBDC` rely on case-sensitivity alone; if triage shows noise,
+guard them rather than delete them, per the file's stated preference.
+
+### The campaign layer does not inherit that protection
+
+`KEYWORD_AREAS` in `log_campaign_performance.py` is a separate **lowercase**
+regex list. It is precisely where `rse\b` came to match "nurse", so the new
+acronyms are `\b`-anchored there by hand.
+
+Re-deriving moved **25 campaigns, all pure additions, no reclassifications** —
+every one a genuine pandemic-treaty, WHO, digital-ID or Agenda 2030 campaign.
+The local table reaches back further than the 2024+ Looker export, so area 7
+gained more than the export alone suggested. Unmapped Looker rows went **30 to
+14**, and area 7's benchmark n went **12 to 28**.
+
+Found while testing: the two layers **disagreed about Islamophobia**. The
+taxonomy carries `Islamophobia` and `"Islamophobia definition"` in area 7, but
+`KEYWORD_AREAS` had no pattern, so "Defend the freedom to critique Islam — stop
+'Islamophobia' blasphemy law" reached only area 8 via `blasphem`. It is both a
+blasphemy-law and a free-speech campaign; the layers now agree.
+
+### Included but flagged
+
+`"Agenda 2030"` and `"sustainable development goal*"` at tier 2, plus the
+matching campaign pattern, covering *Reject Agenda 2030* (20,037) and the *Doha
+Summit* (16,191). These are UN governance rather than one of the three issues
+named, so they are one line to strike in each place if unwanted.

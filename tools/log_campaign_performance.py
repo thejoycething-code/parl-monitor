@@ -113,6 +113,22 @@ KEYWORD_AREAS = [
     #   justice for jennifer  a nurse disciplined over pronouns. Needs a
     #               keyword because the petition id DISAGREES between systems
     #               (15124 in Looker, 15129 locally), so the join misses it.
+    # 2026-08-20, area 7 widened to civil liberties (Christopher's decision;
+    # docs/keyword-taxonomy.md v0.6). ~400,000 signatures of EN GB campaigning
+    # on health sovereignty, digital ID and UN governance had no benchmark.
+    # NOTE this list is a SEPARATE lowercase regex layer from the taxonomy and
+    # does NOT inherit its all-caps case-sensitivity, which is exactly how
+    # "rse\b" came to match "nurse" -- so the acronyms are \b-anchored here.
+    (r"pandemic|\bihr\b|\binb\b|international health regulation|"
+     r"world health organi", [7]),
+    (r"digital id|digital totalitarian|britcard|one login|\bcbdc\b", [7]),
+    # UN governance: the flagged pair, one line to strike if unwanted.
+    (r"agenda 2030|summit for development", [7]),
+    # Aligns the campaign layer with the taxonomy, which already carries
+    # Islamophobia and "Islamophobia definition" in area 7. Without this the
+    # Islam free-speech campaign reached only area 8 via "blasphem", so the two
+    # layers disagreed about the same campaign.
+    (r"islamophobia", [7]),
     (r"\bpupil", [6]),
     (r"primary school", [6]),
     (r"\bkeira\b", [3]),

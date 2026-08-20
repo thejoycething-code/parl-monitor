@@ -730,3 +730,46 @@ taxonomy but whose answer passes it is a narrow case. Not built.
 
 Classification happens at store time in ni_pull, so it backfills with no fetch:
 every matched question is re-stored on each run.
+
+## Written Questions sweep terms for area 7 (2026-08-20)
+
+Measured with `tools/check_sweep_terms.py` when area 7 was widened to civil
+liberties. **Read the tool's `state` with care: it reflects the total only.**
+Every term below was judged on its newest headings, and two that the tool
+called "good" were rejected on topicality.
+
+| term | total | newest headings | verdict |
+|---|---|---|---|
+| `pandemic-treaty` | 5 | Disease Control: International Cooperation | keep |
+| `pandemic-accord` | 7 | Development Aid: Health | keep, marginal but tiny |
+| `digital-ID` | 430 | Digital ID Advisory Group | keep |
+| `digital-identity` | 194 | Proof of Identity: Digital Technology | keep |
+| `CBDC` | 34 | Central Bank Digital Currencies | keep |
+| `IHR` | 95 | **Antisemitism**, Antisemitism | REJECT |
+| `health-regulations` | 234 | **Health Hazards: Chemicals** | REJECT |
+| `international-health-regulations` | — | HTTP 500 | cannot serve |
+| `international health regulations` | — | HTTP 500 | cannot serve |
+| `international` (bare) | — | HTTP 500 | cannot serve |
+
+Two findings worth keeping.
+
+**`IHR` matches IHRA in the search.** 95 results whose newest are about
+antisemitism: the API matches loosely and picks up the International Holocaust
+Remembrance Alliance definition. Our own taxonomy term `IHR` does NOT have this
+problem — it is ALL-CAPS so it matches case-sensitively, and it is
+word-anchored, tested directly against "the IHRA definition of antisemitism"
+and three variants, all correctly rejected. The looseness is the API's, not the
+regex's.
+
+**Anything containing "international" answers HTTP 500.** The hyphenated form,
+the spaced form and the bare word all fail, so there is no phrasing that
+reaches the International Health Regulations through this endpoint. The gap is
+recorded in `config/settings.yaml` rather than left to look like coverage;
+`pandemic-treaty` and `pandemic-accord` overlap the same material, and the
+taxonomy still classifies IHR correctly in anything another term fetches.
+
+**Cost shape of a sweep term.** `pqs.fetch_questions(client, term, take=6)`
+takes six per term per run whatever the total, so a term with 430 matches costs
+the same as one with 5 — six items into the paid triage pass. Adding five terms
+adds at most 30 items a week. This is why a high total is a *precision* problem
+(the six you get are the newest of mostly-irrelevant matches), not a cost one.

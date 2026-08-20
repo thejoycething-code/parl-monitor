@@ -10,6 +10,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import filter as filt
+from src import intel
 
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 WATCHLIST = os.path.join(ROOT, "config", "watchlist.yaml")
@@ -328,3 +329,91 @@ class UnTaxonomyTests(unittest.TestCase):
         """Two vocabularies, one set of areas -- otherwise a UN item could
         not be filed alongside a Westminster one."""
         self.assertEqual(sorted(self.un.terms), sorted(self.uk.terms))
+
+
+class CivilLibertiesTermTests(unittest.TestCase):
+    """Area 7 widened at taxonomy v0.6 (Christopher, 2026-08-20).
+
+    Health sovereignty and digital ID had no home in the eleven areas. The
+    risky term is bare WHO, which is also an English pronoun.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(
+            os.path.join(ROOT, "config", "taxonomy.yaml"))
+        cls.wl = filt.load_watchlist(
+            os.path.join(ROOT, "config", "watchlist.yaml"))
+
+    def _areas(self, text):
+        return filt.filter_item(self.tax, self.wl, text).issue_areas or []
+
+    def test_who_the_pronoun_never_matches(self):
+        """Bare WHO is ALL-CAPS, so it matches case-sensitively -- the same
+        convention that stops RSE matching "nurse"."""
+        for text in ("Members who wish to speak should indicate",
+                     "Ministers who have not yet replied to letters",
+                     "Ask the Secretary of State who is responsible"):
+            self.assertNotIn(7, self._areas(text), text)
+
+    def test_who_alone_is_guarded_as_well_as_case_sensitive(self):
+        """Case-sensitivity does not survive an ALL-CAPS heading, and most WHO
+        mentions are global health aid rather than sovereignty, so the term
+        also requires company."""
+        self.assertNotIn(7, self._areas(
+            "The WHO published guidance on malaria nets"))
+        self.assertIn(7, self._areas(
+            "The WHO pandemic accord was signed in Geneva"))
+
+    def test_health_sovereignty_terms(self):
+        for text in ("Pandemic treaty negotiations resume",
+                     "Withdraw from the International Health Regulations",
+                     "The UK should exit the IHR before the deadline"):
+            self.assertIn(7, self._areas(text), text)
+
+    def test_digital_id_terms(self):
+        for text in ("Digital ID: Public Consultation",
+                     "Plans for a digital identity system",
+                     "Central Bank Digital Currency consultation",
+                     "The BritCard proposal"):
+            self.assertIn(7, self._areas(text), text)
+
+    def test_existing_area_seven_terms_still_match(self):
+        """Regression: widening must not disturb what area 7 already caught."""
+        for text in ("Online Safety Act enforcement by Ofcom",
+                     "non-crime hate incidents recorded by police",
+                     "Higher Education (Freedom of Speech) Act duties",
+                     "age verification for pornography sites"):
+            self.assertIn(7, self._areas(text), text)
+
+    def test_nursing_items_do_not_reach_area_seven(self):
+        self.assertNotIn(7, self._areas("Nurse recruitment in the NHS"))
+
+
+class AreaNameOverrideTests(unittest.TestCase):
+    """area_names() prefers an explicit `name:`, falling back to the key.
+
+    The override exists because make_5ca.py builds CSV FILENAMES from the
+    label, so relabelling an area renames its sheets. Only area 7 declares a
+    name; the other ten must keep the derived label and their filenames.
+    """
+
+    def test_area_seven_uses_the_declared_name(self):
+        names = intel.area_names(
+            os.path.join(ROOT, "config", "taxonomy.yaml"))
+        self.assertEqual(names[7], "Free speech, privacy and civil liberties")
+
+    def test_the_other_ten_keep_the_key_derived_label(self):
+        names = intel.area_names(
+            os.path.join(ROOT, "config", "taxonomy.yaml"))
+        self.assertEqual(names[1], "Abortion")
+        self.assertEqual(names[2], "Assisted dying")
+        self.assertEqual(names[5], "Sex based rights")
+        self.assertEqual(names[11], "Migration")
+
+    def test_a_taxonomy_without_name_fields_is_unchanged(self):
+        """config/un-taxonomy.yaml is hand-maintained and declares no names."""
+        names = intel.area_names(
+            os.path.join(ROOT, "config", "un-taxonomy.yaml"))
+        self.assertEqual(names[7], "Free speech online safety")
+        self.assertEqual(len(names), 11)
