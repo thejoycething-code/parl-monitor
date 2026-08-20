@@ -138,9 +138,49 @@ Look 226 "Donations by campaigns", Look 229 "Donations Gap", dashboard 51
 per-list targets. **Nothing compares a PROPOSED campaign to a category
 baseline** — that is the gap.
 
-## Recommended design
+## BUILT 2026-08-20: the expectation cells
 
-1. **Add the expectation cells first.** RF#1 gains three blank Plan-stage
+`rf1_expectation()` in tools/make_briefs.py, rendered in both the markdown and
+the CSV. Expected / Actual / Delta ship BLANK; the tool supplies only the
+baseline. In the CSV it reuses the existing seven-column Plan / Evaluate /
+Delta geometry, so the paste-in shape of the Brief template is unchanged --
+asserted by a test, because a different column count there would break the
+paste.
+
+**A second data trap, found locally and NOT in Looker.** `campaign_performance`
+holds 366 rows and **129 of them have fewer than ten signatures** -- one is
+named "Petition template EN-GB". The population mixes templates and dormant
+petitions with promoted campaigns, so the all-rows median for area 1 is **3
+signatures** against a p75 of 5,689: two populations, not a skew. Quoting that
+median into a Brief would have been worse than quoting nothing.
+
+Fixed by excluding rows under `MIN_BENCHMARK_SIGNATURES = 100` -- a rule that
+can be stated in the cell, where picking a percentile cannot. The resulting
+baselines are coherent:
+
+| area | n | p25 | median | p75 | median new members |
+| --- | --- | --- | --- | --- | --- |
+| 1 Abortion | 13 | 6,745 | 15,652 | 24,382 | 553 |
+| 3 Gender medicine | 28 | 12,365 | 21,686 | 31,784 | 639 |
+| 5 Sex-based rights | 4 | 35,584 | 38,916 | 80,068 | 1,517 |
+| 6 Parental rights | 32 | 14,221 | 25,069 | 32,951 | 1,311 |
+| 7 Free speech | 16 | 23,844 | 28,499 | 33,099 | 1,493 |
+| 8 FoRB | 28 | 9,261 | 25,979 | 41,057 | 1,338 |
+
+Thin areas (n < 5) are labelled THIN in the cell, and the excluded-row count is
+printed so the reader can see the filter working.
+
+**Money has no local baseline at all**: `raised_eur` is null on all 366 rows, so
+that cell says NOT HELD rather than sitting empty and looking supported. This is
+the first thing Looker would fix.
+
+The RIGHT discriminator is still promotion -- did the campaign get an email
+series -- which `aa_downstream_report.sent_emails` has and the local store does
+not. The 100-signature rule is a proxy for it.
+
+## Remaining design (not built)
+
+1. ~~Add the expectation cells first.~~ DONE, above. RF#1 gains three blank Plan-stage
    fields (expected signatures / new members / € raised) and three Evaluate
    fields, plus a delta. This is Antonio's ask, needs no Looker, and unblocks
    everything downstream. Blank, never pre-filled — same rule that keeps RF4
