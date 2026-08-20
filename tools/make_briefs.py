@@ -219,6 +219,15 @@ def fca_tally(conn, area, cfg, house="Commons"):
 def rf1_hint(conn, areas):
     """What comparable campaigns on this topic actually did (RF#1 evidence).
 
+    PENDING (Antonio, #campaigns 2026-08-19): RF#1 should also carry a
+    NUMERICAL EXPECTATION recorded at Planning -- expected signatures, new
+    members and euros -- so Evaluate compares a number with a number rather
+    than with narrative. Two things are needed and neither is built:
+    blank expectation cells in the RF4 block (needs no data source), and a
+    category BASELINE to write them against. See docs/campaign-benchmarks.md
+    for the Looker survey, the field names, and the verified data-quality trap
+    that makes every topic-level SUM in aa_downstream_report wrong.
+
     Christopher (2026-08-13): individual campaign performance and acquisition
     rates predict a new campaign far better than lifetime topic totals, so
     the top comparables lead, each with its acquisition rate (new members as
