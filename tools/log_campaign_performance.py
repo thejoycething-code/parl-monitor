@@ -167,7 +167,18 @@ KEYWORD_AREAS = [
     (r"\btelford\b|\brotherham\b|\brochdale\b|\boldham\b", [6]),
     (r"paedophilia|pedophilia", [6]),
     (r"rights of the child|children'?s rights", [6]),
-    (r"protected a predator", [6]),
+    # Widened from "protected a predator" to the general noun, Christopher
+    # 2026-08-20. It reaches exactly two campaigns and both are child
+    # protection: "Pride in Surrey Protected a Predator" and "Deport Shabir
+    # Ahmed Now! Protect Our Children From Predators".
+    #
+    # The second is DUAL-TAGGED [11, 6] on purpose. Its ask is deportation so
+    # it sits in migration, which briefs exclude -- but make_briefs strips
+    # excluded areas and keeps the rest (areas = [a for a in areas if a not in
+    # EXCLUDED_AREAS], then skips only if nothing remains), so area 6 makes it
+    # visible in area 6 briefs with the migration framing still hidden. That
+    # visibility is the point of the decision, not a side effect.
+    (r"\bpredators?\b", [6]),
     (r"cancel culture", [7]),
     (r"life and death vote", [2]),
     (r"virgin island", [6]),

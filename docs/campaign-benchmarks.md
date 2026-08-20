@@ -611,14 +611,29 @@ a miss". The principle it protected — a deliberate exclusion must not be
 overruled — now lives in the registry check instead, which is the more direct
 place for it.
 
-### One thing left deliberately alone
+### The deportation campaign, dual-tagged on request
 
 *"Deport Shabir Ahmed Now! Protect Our Children From Predators"* is a
-grooming-gang case, but its ask is deportation and it sits in **area 11**, which
-briefs exclude. No CSE pattern reaches it, so it stays migration-only. That is
-deliberate: dual-tagging it would surface a deliberately hidden campaign in area
-6 briefs, and that is a call for Christopher, not a side effect of a keyword.
-A bare `\bpredators?\b` would have done exactly that.
+grooming-gang case whose ask is deportation, so it sits in **area 11**, which
+briefs exclude. Christopher chose to dual-tag it `[11, 6]` (2026-08-20) after
+being shown what that does.
+
+It makes the campaign **visible**. `make_briefs` strips excluded areas and keeps
+the rest — `areas = [a for a in areas if a not in EXCLUDED_AREAS]`, skipping
+only when nothing remains — so `[11, 6]` reads as `[6]` and appears in area 6
+briefs, while `[11]` alone still reads as `[]` and stays hidden. The migration
+framing is not shown; the child-protection substance is. A test pins that
+mechanism so it cannot drift into an any-match exclusion that would silently
+re-hide the campaign.
+
+The pattern was widened from the narrow `protected a predator` to `\bpredators?\b`,
+which reaches exactly two campaigns — this one and *Pride in Surrey* — both
+correctly child protection.
+
+Benchmark effect: area 6 goes to n=36 locally, and its expected-new-members
+median rises from 1,117 to 1,300, because this campaign recruited 2,123 new
+members against 22,742 signatures — a recruitment rate well above the area
+median. Worth knowing when reading an area 6 expectation.
 
 **Result:** area 6 went 17 to 19 Looker campaigns, unmapped 8 to 7, and every
 remaining row carries a recorded reason. One open question left: *Demand BBC

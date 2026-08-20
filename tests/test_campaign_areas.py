@@ -297,15 +297,24 @@ class ChildSexualExploitationTests(unittest.TestCase):
         self.assertNotIn(6, areas)
         self.assertIn(3, areas, "still area 3, via 'mutilat'")
 
-    def test_the_deportation_campaign_stays_migration_only(self):
+    def test_the_deportation_campaign_is_dual_tagged(self):
         """"Deport Shabir Ahmed Now! Protect Our Children From Predators" is a
-        grooming-gang case, but its ASK is deportation and it sits in area 11 --
-        which briefs exclude. No CSE pattern reaches it, so it stays hidden.
-        Deliberate: dual-tagging it would surface a migration campaign in area 6
-        briefs, and that is Christopher's call, not a side effect."""
+        grooming-gang case whose ASK is deportation, so it sits in area 11 too.
+        Christopher chose to dual-tag it (2026-08-20) after being shown that
+        this makes it VISIBLE: make_briefs strips excluded areas and keeps the
+        rest, so [11, 6] appears in area 6 briefs with migration hidden."""
         areas = lcp.areas_for(
             "Deport Shabir Ahmed Now! Protect Our Children From Predators")
-        self.assertEqual(areas, [11])
+        self.assertIn(11, areas)
+        self.assertIn(6, areas)
+
+    def test_stripping_an_excluded_area_leaves_the_rest(self):
+        """The mechanism the dual-tag relies on, pinned so it cannot drift into
+        an any-match exclusion that would re-hide the campaign."""
+        import make_briefs as mb
+        kept = [a for a in [11, 6] if a not in mb.EXCLUDED_AREAS]
+        self.assertEqual(kept, [6])
+        self.assertEqual([a for a in [11] if a not in mb.EXCLUDED_AREAS], [])
 
     def test_cse_is_no_longer_an_open_question(self):
         self.assertIsNone(lcp.out_of_taxonomy(
