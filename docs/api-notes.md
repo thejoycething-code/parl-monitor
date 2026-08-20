@@ -804,16 +804,63 @@ Combined with summer recess (no questions answered since 17 August on any of
 the 44 terms), the run cost effectively nothing — no items reached the paid
 triage pass at all.
 
-### Observation, pre-existing, not investigated
+### The Hansard sweep returning zero: RESOLVED, it was recess
 
-**Every Hansard search returned zero.** All 44 archives from this run report
-`SpokenResultCount: 0, WrittenResultCount: 0, TotalResultCount: 0`, including
-long-established terms like `assisted-suicide` and `age-verification`. The
-previous run (2026-08-18) is identical: 39 of 39 archives empty. So this is not
-caused by the area 7 work, and it predates it.
+All 44 archives read `TotalResultCount: 0`, including `assisted-suicide` and
+`age-verification`, and the previous run was the same. **Not a bug.** The
+weekly asks Hansard for the EDITION WEEK only:
 
-It may simply be recess plus the 2026-session scoping in the request. But zero
-for `assisted-dying` across the whole 2026 session looks wrong given the Bill's
-September timetable, so the Hansard sweep is worth a deliberate look on its own.
-Recorded here rather than guessed at: it is a separate question from this
-change, and no claim is made about the cause.
+```python
+hansard.search_contributions(client, hansard.spoken_form(term),
+                             week_start.isoformat(), week_end.isoformat())
+```
+
+Probed live to confirm, rather than reasoned about:
+
+| term | range | total | newest |
+|---|---|---|---|
+| assisted dying | 2026-08-24..30 | 0 | — |
+| assisted dying | 2026-08-17..23 | 0 | — |
+| assisted dying | June 2026 | 47 | 2026-06-23 |
+| assisted dying | all 2026 | 522 | 2026-07-03 |
+| digital ID | all 2026 | 1189 | 2026-07-23 |
+
+The last sitting contributions are late July; the House is in summer recess.
+Zero is the correct answer for both weeks pulled.
+
+**What misled me was our own archive filename.** The slug was
+`search-{term}-{start[:4]}-s{skip}`, so a one-week request was filed as
+`hansard_search-digital-id-2026-s0.json.gz` — which reads as a whole-year
+search, making 44 legitimate zeroes look like a broken sweep. The slug now
+carries the full range (`...-2026-08-24-to-2026-08-30-s0`), with a test that two
+weeks in one year cannot share a slug.
+
+### Hansard splits a phrase into words, and the taxonomy catches it
+
+`SearchTerms` in the response for "digital ID" comes back as
+`['digital', 'id']` — the API searches the words separately, which is why the
+term reports 1189 contributions for 2026. The pipeline is self-correcting:
+every contribution is re-filtered through the taxonomy, which wants the exact
+phrase. **Of the first 100 fetched, 11 passed and 89 were dropped.** So the real
+ledger yield for `digital-ID` is roughly 5-6 rows per sitting week, not 50.
+
+Corrected per-term picture for the five new terms, 2026:
+
+| term | Hansard 2026 | newest | written questions |
+|---|---|---|---|
+| `digital-ID` | 1189 raw (~11% survive) | 2026-07-23 | live, 2026-07-17 |
+| `digital-identity` | 72 | 2026-07-23 | live |
+| `pandemic-treaty` | **3** | **2026-07-14** | dormant since 2023 |
+| `pandemic-accord` | **1** | **2026-07-16** | dormant since 2023 |
+| `CBDC` | 0 | — | dormant, 2025-07-24 |
+
+**This corrects the "DORMANT" labels recorded above.** `pandemic-treaty` and
+`pandemic-accord` are dormant only in WRITTEN QUESTIONS; they are live in
+DEBATES as recently as July 2026. A sweep term feeds both APIs, so judging it on
+one of them was measuring half the picture. Only `CBDC` is dormant in both.
+
+**And it corrects the cost claim.** Hansard contributions do NOT go through the
+paid triage pass — `_hansard()` calls `intel.record_event` into the MP ledger,
+never `store_item` — so the "at most 30 items a week" figure for triage stands.
+But it covered only the PQ side: Hansard also adds ledger rows, and those feed
+MP intelligence and area 7's 5CA.

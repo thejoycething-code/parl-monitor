@@ -87,8 +87,14 @@ def search_contributions(client, term, start, end, page_size=100, max_pages=20):
                "&queryParameters.startDate={2}&queryParameters.endDate={3}"
                "&queryParameters.skip={4}&queryParameters.take={5}").format(
                    HANSARD_API, quote(term), start, end, skip, page_size)
+        # The archive slug carries the FULL range, not start[:4]. With just the
+        # year, "hansard_search-digital-id-2026-s0.json.gz" looked like a whole-
+        # year search when the weekly actually asks for one week -- which is how
+        # a run of legitimate recess zeroes got misread as a broken sweep
+        # (2026-08-20). The filename should say what was requested.
         batch = parse_response(client.get_json(
-            url, "hansard", "search-{0}-{1}-s{2}".format(term, start[:4], skip)))
+            url, "hansard", "search-{0}-{1}-to-{2}-s{3}".format(
+                term, start, end, skip)))
         out.extend(batch)
         if len(batch) < page_size:
             break

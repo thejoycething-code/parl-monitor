@@ -168,12 +168,16 @@ pq_sweep_terms:
   # only questions answered within 7 days of the week start, so a term's
   # LIFETIME total says nothing about whether it will ever contribute -- the
   # date of its newest answer is what matters. Recorded per term.
-  - pandemic-treaty        # 5 total, newest ANSWERED 2023-04-24. DORMANT: the
-                           # written-question conversation ended three years
-                           # ago. Kept as cheap insurance for when the treaty
-                           # returns, not because it yields anything today.
-  - pandemic-accord        # 7 total, newest 2023 era. DORMANT, same reason.
-  - CBDC                   # 34 total, newest answered 2025-07-24. DORMANT.
+  # A term feeds BOTH the Written Questions sweep and the Hansard sweep, so
+  # judge it on both. An earlier note here called the pandemic pair dormant on
+  # the PQ evidence alone; they are live in DEBATES (Hansard 2026, newest 14
+  # and 16 July). Only CBDC is dormant in both.
+  - pandemic-treaty        # PQ: 5 total, newest answered 2023-04-24, dormant.
+                           # Hansard 2026: 3, newest 2026-07-14. LIVE in debate.
+  - pandemic-accord        # PQ: 7, 2023 era. Hansard 2026: 1, newest 07-16.
+  - CBDC                   # PQ 34, newest 2025-07-24; Hansard 2026: 0. DORMANT
+                           # in both. Kept as cheap insurance, yields nothing
+                           # today.
   - digital-ID             # 430 total, newest answered 2026-07-17. LIVE.
   - digital-identity       # 194 total, "Proof of Identity: Digital Technology".
                            # LIVE, same recency as digital-ID.

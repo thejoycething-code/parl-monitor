@@ -535,3 +535,38 @@ class JournalMeetingTests(unittest.TestCase):
         rows, why = un_calendar.fetch_journal_meetings(Failing(), days=400)
         self.assertEqual(rows, [])
         self.assertIn("near-term", why)
+
+
+class HansardArchiveSlugTests(unittest.TestCase):
+    """The archive filename must state the range that was actually searched.
+
+    The weekly asks Hansard for ONE WEEK (week_start..week_end), but the slug
+    used to record only start[:4]. A file called
+    "hansard_search-digital-id-2026-s0.json.gz" reads as a whole-year search,
+    and that is how 44 legitimate recess zeroes were misread as a broken sweep
+    on 2026-08-20. Probing confirmed the sweep was fine: "assisted dying"
+    returns 0 for 2026-08-24..30 and 47 for June 2026.
+    """
+
+    class _Client:
+        def __init__(self):
+            self.slugs = []
+
+        def get_json(self, url, feed, slug):
+            self.slugs.append(slug)
+            return {"Results": []}
+
+    def test_slug_carries_the_whole_range(self):
+        client = self._Client()
+        hansard.search_contributions(client, "digital ID",
+                                     "2026-08-24", "2026-08-30")
+        self.assertEqual(client.slugs,
+                         ["search-digital ID-2026-08-24-to-2026-08-30-s0"])
+
+    def test_two_weeks_in_one_year_do_not_share_a_slug(self):
+        client = self._Client()
+        hansard.search_contributions(client, "digital ID",
+                                     "2026-08-17", "2026-08-23")
+        hansard.search_contributions(client, "digital ID",
+                                     "2026-08-24", "2026-08-30")
+        self.assertEqual(len(set(client.slugs)), 2)
