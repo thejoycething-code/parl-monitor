@@ -165,6 +165,18 @@ KEYWORD_AREAS = [
     # are possible now; included because this is the vocabulary these campaigns
     # actually use when they name a place.
     (r"\btelford\b|\brotherham\b|\brochdale\b|\boldham\b", [6]),
+    # "Demand BBC Children In Need CEO Resigns!" (14,583). The title never
+    # says what the campaign is about -- Christopher supplied it on 2026-08-20:
+    # BBC Children in Need funding controversial TRANS YOUTH GROUPS. Area 3
+    # follows the precedent for youth-organisation campaigns: Girlguiding [3]
+    # and CofE Trans Guidance [3]; Scouting is [3, 6] only because schools are
+    # involved, and a charity funder is not a school.
+    #
+    # Anchored to BBC or CEO on purpose. Bare "children in need" is the
+    # STATUTORY social-care term (s17 Children Act, the Children in Need
+    # census), so an unanchored pattern would file a future social-care
+    # campaign under gender medicine.
+    (r"bbc children in need|children in need ceo", [3]),
     (r"paedophilia|pedophilia", [6]),
     (r"rights of the child|children'?s rights", [6]),
     # Widened from "protected a predator" to the general noun, Christopher
@@ -254,9 +266,6 @@ OUT_OF_TAXONOMY = [
      "SETTLED: a fundraising appeal, not a campaign."),
     (r"\btest[- ]",
      "SETTLED: a test program."),
-    (r"children in need",
-     "OPEN QUESTION: the name does not say what the funding objection was, so "
-     "it cannot be mapped without one line of context."),
 ]
 
 

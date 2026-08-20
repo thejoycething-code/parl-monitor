@@ -636,5 +636,37 @@ members against 22,742 signatures — a recruitment rate well above the area
 median. Worth knowing when reading an area 6 expectation.
 
 **Result:** area 6 went 17 to 19 Looker campaigns, unmapped 8 to 7, and every
-remaining row carries a recorded reason. One open question left: *Demand BBC
-Children In Need CEO Resigns!* (14,583), which cannot be mapped from its name.
+remaining row carries a recorded reason.
+
+## Nothing is left open (2026-08-20)
+
+*Demand BBC Children In Need CEO Resigns!* (14,583) maps to **area 3**.
+
+Its title never says what the campaign is about; Christopher supplied it: BBC
+Children in Need **funding controversial trans youth groups**. That is the
+durable value of this note — no future reader can recover the subject from the
+title, and the keyword comment records it too.
+
+Area 3 follows the precedent for youth-organisation campaigns: *Girlguiding*
+`[3]` and *CofE Trans Guidance* `[3]`. *Scouting* is `[3, 6]` only because
+schools are involved, and a charity funder is not a school.
+
+The pattern is anchored to BBC or CEO deliberately. Bare "children in need" is
+the **statutory social-care term** — s17 Children Act, the Children in Need
+census — so an unanchored pattern would file a future social-care campaign under
+gender medicine. Tested both ways.
+
+### Final state of the benchmark
+
+104 Looker campaigns. **98 mapped** across ten areas, **6 recorded as
+deliberate**, **0 unexplained, 0 open questions.**
+
+| | |
+|---|---|
+| Fundraising-Stay Out | an appeal, not a campaign |
+| Two Pride-flag campaigns | civic symbolism; no area covers flags |
+| Two generic election tools | no issue subject to benchmark against |
+| One TEST program | a test |
+
+Every remaining exclusion is SETTLED, and a test asserts the registry contains
+no OPEN QUESTION reasons, so the list cannot quietly regrow.

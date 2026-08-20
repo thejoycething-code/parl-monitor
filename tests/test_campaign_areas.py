@@ -243,18 +243,28 @@ class OutOfTaxonomyTests(unittest.TestCase):
                      "TEST-Stop UN Thought Police"):
             self.assertIsNotNone(lcp.out_of_taxonomy(name), name)
 
-    def test_open_questions_are_labelled_as_such(self):
-        """The CSE entry that used to live here was CLOSED by Christopher on
-        2026-08-20 (area 6, child protection), so it is gone from the registry
-        and those campaigns now carry an area. What remains open is labelled."""
-        reason = lcp.out_of_taxonomy("Demand BBC Children In Need CEO Resigns!")
-        self.assertIsNotNone(reason)
-        self.assertIn("OPEN QUESTION", reason)
-        for closed in ("Telford: End the Sexual Abuse - Enforce the Law",
-                       "Demand Sadiq Khan's Resignation: Failing London and "
-                       "Ignoring Abuse"):
+    def test_nothing_is_left_open(self):
+        """Both open questions were closed by Christopher on 2026-08-20 -- CSE
+        to area 6, and the BBC campaign to area 3 once he said what it was
+        about. Every entry left in the registry is SETTLED, and the campaigns
+        that used to sit there now carry an area."""
+        for _, reason in lcp.OUT_OF_TAXONOMY:
+            self.assertNotIn("OPEN QUESTION", reason, reason[:50])
+        for closed, area in (
+                ("Telford: End the Sexual Abuse - Enforce the Law", 6),
+                ("Demand Sadiq Khan's Resignation: Failing London and "
+                 "Ignoring Abuse", 6),
+                ("Demand BBC Children In Need CEO Resigns!", 3)):
             self.assertIsNone(lcp.out_of_taxonomy(closed), closed)
-            self.assertIn(6, lcp.areas_for(closed), closed)
+            self.assertIn(area, lcp.areas_for(closed), closed)
+
+    def test_children_in_need_is_anchored_to_bbc_or_ceo(self):
+        """Bare "children in need" is the statutory social-care term (s17
+        Children Act, the Children in Need census). Unanchored, it would file a
+        social-care campaign under gender medicine."""
+        self.assertIn(3, lcp.areas_for("Demand BBC Children In Need CEO Resigns!"))
+        self.assertNotIn(3, lcp.areas_for(
+            "Publish the children in need census data in full"))
 
     def test_a_mapped_campaign_is_not_listed_as_out_of_scope(self):
         """The registry must never explain away something that has an area."""
