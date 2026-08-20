@@ -670,3 +670,52 @@ deliberate**, **0 unexplained, 0 open questions.**
 
 Every remaining exclusion is SETTLED, and a test asserts the registry contains
 no OPEN QUESTION reasons, so the list cannot quietly regrow.
+
+## Regenerating the OSA brief (2026-08-20)
+
+Christopher asked for it rebuilt with the RF#1 numerical expectation block. It
+needed three things done deliberately, all recorded here because each undoes a
+guard.
+
+**The rejection had to be cleared.** `make_briefs` refuses `--force` on a
+rejected slug so a rejection survives a Monday run. Clearing the `brief_log`
+row is the documented way back, and it DELETED two identifiers that linked the
+brief to work already done. Preserved here in case they are needed:
+
+* Asana approval task `1217525356065025`
+* Google Drive file `1MBHlm0JUjJFMolzB47q2uutLlrZwmja43IcB_3uj7Hs`
+
+The slug's status is now **pending**, not rejected. If the rejection should
+stand, that row needs setting back.
+
+**A new `--no-approval` flag.** Regenerating calls
+`publish.asana_create_brief_approval`, which creates a task assigning a
+colleague to review the brief. Generating a brief to READ is not the same as
+routing it for review, and asking someone to approve a submission nobody
+intends to make would have been a real outward-facing action nobody requested.
+The flag makes the distinction explicit and is reusable for any inspect-only
+rebuild.
+
+**`why_it_matters` was factually wrong on two counts** and the brief embeds it
+in Background/Context. It said evidence closes "5pm on 7 September" (the
+committee extended to 4pm on 21 September) and that "a CitizenGO submission is
+in preparation" (it is not). Corrected in the store before regenerating, which
+also let the model draft offline actions that do not presuppose a submission.
+
+### What changed in the output
+
+| | 15 August | 20 August |
+|---|---|---|
+| Deadline | 2026-09-07 | **2026-09-21** |
+| Urgency | Urgent (23 days) | Non-Urgent (32 days) |
+| Area label | Free speech online safety | **Free speech, privacy and civil liberties** |
+| RF#1 expectation block | absent | present, n=41 |
+| RF#1 topic lifetime | 31 campaigns, 26,769 new members, median acquisition 2.9% | **58 campaigns, 101,099 new members, median 5.6%** |
+| 5CA decision-makers | 649 | 650 |
+
+The RF#1 lifetime figures nearly doubling is the widened area 7 arriving: the
+comparables now include the WHO/pandemic and digital ID campaigns, and the top
+comparable is the Islamophobia free-speech campaign at 16% acquisition. That is
+the benchmark change doing exactly what it was built to do — but it also means
+an area 7 expectation written last week and one written today are not measuring
+the same population.

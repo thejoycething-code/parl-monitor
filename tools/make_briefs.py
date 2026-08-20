@@ -3,6 +3,8 @@
     python3 tools/make_briefs.py              # all new subjects since last run
     python3 tools/make_briefs.py --list       # show subjects without writing
     python3 tools/make_briefs.py --force SLUG # regenerate one brief
+    python3 tools/make_briefs.py --force SLUG --no-approval   # ...but do not
+                                              # create the Asana review task
 
 Subjects: live bills on the board and ACT-tagged items (consultations,
 committee inquiries). Migration (area 11) is excluded: collated, never
@@ -723,6 +725,7 @@ def main():
     if "--force" in sys.argv:
         force = sys.argv[sys.argv.index("--force") + 1]
     list_only = "--list" in sys.argv
+    no_approval = "--no-approval" in sys.argv
 
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
     ensure_log(conn)
@@ -878,14 +881,23 @@ def main():
                 w.writerow(row)
         print("  sheet: {0}".format(os.path.basename(sheet_path)))
         approval = {}
-        try:
-            from src import publish
-            secrets = publish.load_secrets()
-            approval = publish.asana_create_brief_approval(
-                secrets, s["title"], s["slug"], deadline=s.get("deadline"))
-        except Exception as exc:
-            approval = {"error": str(exc)}
-        if approval.get("error"):
+        if no_approval:
+            # Generating a brief to READ is not the same as routing it for
+            # review. The Asana task assigns a colleague, so regenerating an
+            # old or rejected brief to inspect it would otherwise ask someone
+            # to approve work nobody intends to do.
+            print("  approval task: skipped (--no-approval)")
+        else:
+            try:
+                from src import publish
+                secrets = publish.load_secrets()
+                approval = publish.asana_create_brief_approval(
+                    secrets, s["title"], s["slug"], deadline=s.get("deadline"))
+            except Exception as exc:
+                approval = {"error": str(exc)}
+        if no_approval:
+            pass                      # already reported above
+        elif approval.get("error"):
             print("  approval task FAILED: {0} (brief kept; create the task "
                   "by hand)".format(approval["error"]))
         else:
