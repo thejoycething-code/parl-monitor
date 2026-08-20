@@ -39,8 +39,26 @@ class ParseTests(unittest.TestCase):
         self.assertTrue(all(c.id and c.title for c in self.calls))
 
     def test_deadline_from_submission_period(self):
+        # Assert against the payload's own endDate, never a hardcoded date --
+        # the same lesson as the item count above. This test pinned 2026-09-07
+        # and broke on 2026-08-20 when the committee EXTENDED submission period
+        # id 3964 to 2026-09-21T16:00 (it read 2026-09-07T17:00 in the capture
+        # two days earlier). The parser was right; the constant was stale.
+        # Comparing to the payload still catches a parser reading the wrong
+        # field (startDate) or mishandling the timestamp, and survives the
+        # committee moving its own deadline again.
+        payload = load_fixture("committee_accepting-evidence")
+        item = next(i for i in payload["items"]
+                    if "Online Safety Act" in str(i.get("name") or i.get("title")))
+        expected = datetime.date.fromisoformat(
+            item["openSubmissionPeriods"][0]["endDate"][:10])
         osa = next(c for c in self.calls if "Online Safety Act" in c.title)
-        self.assertEqual(osa.deadline, datetime.date(2026, 9, 7))
+        self.assertEqual(osa.deadline, expected)
+        self.assertNotEqual(
+            osa.deadline,
+            datetime.date.fromisoformat(
+                item["openSubmissionPeriods"][0]["startDate"][:10]),
+            "the parser must read endDate, not startDate")
         self.assertEqual(osa.url, "https://committees.parliament.uk/work/{0}/".format(osa.id))
 
     def test_rolling_calls_have_no_deadline(self):

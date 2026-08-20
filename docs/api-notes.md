@@ -773,3 +773,47 @@ takes six per term per run whatever the total, so a term with 430 matches costs
 the same as one with 5 — six items into the paid triage pass. Adding five terms
 adds at most 30 items a week. This is why a high total is a *precision* problem
 (the six you get are the newest of mostly-irrelevant matches), not a cost one.
+
+### What the first real run taught (w/c 2026-08-24)
+
+The pull ran clean and produced **0 items awaiting review**, which is correct
+and worth understanding.
+
+`run_weekly` keeps only questions answered within **7 days** of the week start
+(`since = week_start - 7`, then `pqs.since()` filters client-side). Every new
+term's newest answer predates that window:
+
+| term | lifetime total | newest ANSWERED | verdict |
+|---|---|---|---|
+| `digital-ID` | 430 | 2026-07-17 | live |
+| `digital-identity` | 194 | 2026-07 era | live |
+| `CBDC` | 34 | 2025-07-24 | dormant |
+| `pandemic-treaty` | 5 | **2023-04-24** | dormant |
+| `pandemic-accord` | 7 | 2023 era | dormant |
+
+**`check_sweep_terms.py` measures the wrong thing for this purpose.** It reports
+a lifetime total and the newest headings, so it catches an imprecise term — but
+it cannot tell a live term from a dormant one, and the weekly only ever sees a
+7-day window. "5 matches, all on topic" read as a good term; in fact Parliament
+stopped asking written questions about the pandemic treaty in 2023, so that
+term will essentially never contribute. Judge a candidate on **the date of its
+newest answer**, not its total. The dormant terms are kept and labelled: they
+cost at most six items in the week they finally fire.
+
+Combined with summer recess (no questions answered since 17 August on any of
+the 44 terms), the run cost effectively nothing — no items reached the paid
+triage pass at all.
+
+### Observation, pre-existing, not investigated
+
+**Every Hansard search returned zero.** All 44 archives from this run report
+`SpokenResultCount: 0, WrittenResultCount: 0, TotalResultCount: 0`, including
+long-established terms like `assisted-suicide` and `age-verification`. The
+previous run (2026-08-18) is identical: 39 of 39 archives empty. So this is not
+caused by the area 7 work, and it predates it.
+
+It may simply be recess plus the 2026-session scoping in the request. But zero
+for `assisted-dying` across the whole 2026 session looks wrong given the Bill's
+September timetable, so the Hansard sweep is worth a deliberate look on its own.
+Recorded here rather than guessed at: it is a separate question from this
+change, and no claim is made about the cause.

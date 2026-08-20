@@ -164,11 +164,19 @@ pq_sweep_terms:
   # based on the TOTAL only, so each one was judged on its newest headings.
   # Cost is bounded: pqs.fetch_questions takes 6 per term per run, whatever the
   # total, so these five add at most 30 items a week to the triage pass.
-  - pandemic-treaty        # 5; "Disease Control: International Cooperation"
-  - pandemic-accord        # 7; "Development Aid: Health" - marginal but tiny
-  - digital-ID             # 430; newest "Digital ID Advisory Group"
-  - digital-identity       # 194; "Proof of Identity: Digital Technology"
-  - CBDC                   # 34; newest "Central Bank Digital Currencies"
+  # DORMANT vs LIVE, from the first real run (w/c 2026-08-24). The sweep keeps
+  # only questions answered within 7 days of the week start, so a term's
+  # LIFETIME total says nothing about whether it will ever contribute -- the
+  # date of its newest answer is what matters. Recorded per term.
+  - pandemic-treaty        # 5 total, newest ANSWERED 2023-04-24. DORMANT: the
+                           # written-question conversation ended three years
+                           # ago. Kept as cheap insurance for when the treaty
+                           # returns, not because it yields anything today.
+  - pandemic-accord        # 7 total, newest 2023 era. DORMANT, same reason.
+  - CBDC                   # 34 total, newest answered 2025-07-24. DORMANT.
+  - digital-ID             # 430 total, newest answered 2026-07-17. LIVE.
+  - digital-identity       # 194 total, "Proof of Identity: Digital Technology".
+                           # LIVE, same recency as digital-ID.
   #
   # NO TERM FOUND for the International Health Regulations, and the gap is
   # recorded rather than left to look like coverage:
