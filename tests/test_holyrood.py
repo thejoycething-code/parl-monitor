@@ -202,15 +202,19 @@ class SP5caTests(unittest.TestCase):
             [(1, "2026-01-01", "m", "motion"), (1, "2026-01-01", "v", "vote")])
         self.assertEqual(best[3], "vote")
 
-    def test_the_seed_file_is_all_draft(self):
-        """Nothing in the repo may place an MSP until Christopher confirms a
-        reading -- the seed entries are proposals, and this test fails the
-        moment one is confirmed WITHOUT someone consciously updating it, which
-        is the point: confirmation must be a decision, not a drift."""
+    def test_stance_file_confirmation_state(self):
+        """Confirmation must be a decision, not a drift: this test pins WHICH
+        entries are confirmed, and fails the moment one changes state without
+        someone consciously updating it. S6M-21005 (Stage 3 passage) was
+        confirmed by Christopher on 2026-08-21 -- the motion text IS the
+        question, so no amendment-reading was required. The other two remain
+        proposals."""
         entries = self.m.load_stance(section="divisions")
         self.assertEqual(len(entries), 3)
-        for ref, e in entries.items():
-            self.assertTrue(e.get("draft"), ref)
+        self.assertFalse(entries["S6M-21005"].get("draft"),
+                         "Stage 3 confirmed 2026-08-21")
+        for ref in ("S6M-17416", "S6M-16755.3"):
+            self.assertTrue(entries[ref].get("draft"), ref)
 
     def test_the_yaml_no_key_trap_is_normalised(self):
         entries = self.m.load_stance(section="divisions")

@@ -1047,3 +1047,30 @@ Findings that shaped the code:
 * Fixed in passing: a stray Arabic character in the Vote dataclass field name
   (`party_abbر`) -- Python accepts unicode identifiers, so it compiled and
   passed tests while being untypeable.
+
+## The corrective ledger backfill (2026-08-21)
+
+The two documented defects in stored Westminster data are fixed, and the
+numbers are large enough to matter.
+
+**The hyphen under-collection was a third of the debate ledger.** Re-running
+backfill_hansard (now via `spoken_form`) over all 44 terms, 2020->today, grew
+debate events from **15,199 to 20,632** -- 5,433 speeches (+36%) that the
+hyphenated searches never returned. The single biggest recoveries were
+home-education (~1,470) and the migration family; abortion-clinics, the term
+that exposed the bug (0 hyphenated vs 3 spaced), recovered ~140.
+
+**The Law Commission / RSE inflation is gone.** retag_passages re-derived
+every pq and debate row offline from data/raw (full text coverage, zero
+rows without archived text). Rows carrying area 9 fell from **368 to 133**
+(debate 342->115, pq 26->18) -- nearly two-thirds of the marriage-and-family
+evidence was leasehold, digital wills, hate-crime and elections material
+admitted by the unguarded "Law Commission". The regenerated area 9 sheet
+reads ++2 +9 0x629 -7 --3 on 54 MPs with evidence: a much smaller, much more
+honest sheet.
+
+Order of operations that worked: re-fetch first (refreshes areas at store
+time AND recovers missing speeches, since record_event upserts on conflict),
+then retag as the offline sweep for anything the re-fetch did not touch.
+The PQ side needed retag alone -- its raw archives held full text for all
+3,846 rows.

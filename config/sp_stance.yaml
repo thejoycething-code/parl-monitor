@@ -19,7 +19,10 @@ divisions:
     text: >
       That the Parliament agrees that the Assisted Dying for Terminally Ill
       Adults (Scotland) Bill be passed.
-    draft: true
+    # CONFIRMED by Christopher, 2026-08-21. No draft flag: this entry places.
+    # The cleanest confirmation the file will ever hold -- the motion text IS
+    # the question ("that the Bill be passed"), so an aye and a no carry their
+    # full weight with no amendment-reading required.
     aye: -2
     why_aye: >
       Voted to pass the assisted dying Bill at its final stage. The cleanest

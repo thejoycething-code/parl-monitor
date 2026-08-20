@@ -13,11 +13,11 @@ not direction. Sign conflicts are flagged, never averaged. Target is blank.
 
 Holyrood gives this sheet two things NI could not:
 
-  * The API stamps each vote row with the voter's party AT THE VOTE and its
-    own whip-agreement flag (MSPSharesParty). A member who broke whip on one
-    of our divisions gets a REBELLED marker on the evidence line -- a chosen
-    act against the party line is the strongest signal short of the vote
-    value itself.
+  * The API stamps each vote row with the voter's party AT THE VOTE and
+    MSPSharesParty -- whether they voted with their party's MAJORITY. That is
+    NOT a whip flag: on a conscience free vote half a party can carry it. The
+    evidence line says "diverged from own party's majority" and leaves the
+    whipped-or-free judgement to the campaigner, who knows which was which.
   * 'Not Voted' and 'Abstain' are first-class values, so absence is data:
     both render as evidence lines, neither places.
 
@@ -118,7 +118,12 @@ def build_rows(conn, area, entries, motion_entries=None):
             continue                     # not a current member
         entry = entries.get(v["reference"])
         s, why = vote_stance(entry, v["vote"])
-        rebel = " REBELLED (voted against own party)" \
+        # MSPSharesParty measures divergence from the party MAJORITY, not
+        # defiance of a whip -- on a conscience free vote (assisted dying was
+        # one) 64 of 129 MSPs carried the flag, and calling that "rebelled"
+        # would overstate every conscience vote in the sheet. Say what the
+        # flag measures; the campaigner knows which votes were whipped.
+        rebel = " [diverged from own party's majority]" \
             if v["shares_party"] == "No" else ""
         label = "{0} VOTE {1}: {2} ({3}){4}".format(
             v["dated"] or "?", (v["vote"] or "?").upper(),
