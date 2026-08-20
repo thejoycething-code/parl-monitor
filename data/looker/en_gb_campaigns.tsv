@@ -5,10 +5,31 @@
 # Refresh procedure and the query filters are in docs/campaign-benchmarks.md.
 #
 # Filters: program starts EN_GB, series_email_number <= 20,
-#          start_date after 2024/01/01, sorted by total_signatures desc, top 60.
-# NOT the full EN_GB population: the table also holds warm-up and test programs
-# under a DIFFERENT naming format (underscore dates, "TEST_WARM_UP", "Warmup",
-# "L1") which all carry zero signatures. This is the 60 largest real campaigns.
+#          start_date after 2024/01/01, total_signatures >= 100.
+#
+# THIS IS THE WHOLE POPULATION, not a top-N slice. total_signatures is a
+# MEASURE, so it cannot go in filter_expression (Looker 400s: "cannot
+# reference aggregate field") -- it filters as a HAVING via the filters map,
+# e.g. "9000 to 20036". Pulled in four bands to stay inside the row cap:
+#   >= 20037 ....... 60 rows
+#   9000-20036 ..... 33
+#   3000-8999 ....... 4
+#   100-2999 ........ 7
+#   total .......... 104
+# The bands are contiguous and the population is exhausted; a wider limit
+# returns nothing further. The mid-range is genuinely near-empty -- only 4
+# EN_GB campaigns since 2024 landed between 3,000 and 9,000 signatures.
+#
+# The 7 rows under 3,000 are NOT weak campaigns, they are a different
+# population: response rates of 0.02%-0.78% against 2.1%-8.4% for every row
+# above. They include one explicit "TEST-" program and one list-segment split
+# (INB_12th_Meeting-Yahoo, 323 signatures, same petition id 14242 as its
+# parent's 22,697). They are KEPT here -- the store is the archive -- and
+# excluded at display by MIN_LOOKER_SIGNATURES in tools/make_briefs.py.
+#
+# Excluded by the >= 100 filter and therefore absent: warm-up and test
+# programs under a DIFFERENT naming format (underscore dates, "TEST_WARM_UP",
+# "Warmup", "L1"), all of which carry zero signatures.
 #
 # money is EUR. otd = one-time donations, md = monthly donations.
 program	bound	looker_topic	start_date	signatures	new_members	otd_eur	md_eur	sent_emails
@@ -72,3 +93,47 @@ EN_GB-2025-10-03-Global-FM-CJO-16640-Stop_Netflix_LGBT_Indoctrination	Global	Fam
 EN_GB-2024-03-20-Local-NA-CJO-12743-Defund_Stonewall	Local		2024-03-27	20541	177	738.98	7.01	628663
 EN_GB-2026-02-12-Local-NA-ZRE-17624-Grooming_Gangs_Stop_the_cover_	Local		2026-02-18	20243	457	0	8.09	546379
 EN_GB-2025-09-01-Global-FR-CJO-16300-Agenda_2030-Summit_for_Development	Global	Freedom	2025-09-01	20037	567	1771.15	32.28	746495
+EN_GB-2025-02-06-Local-FR-CJO-14780-Pandemic_Treaty13th	Local	Freedom	2025-02-06	20017	706	2049.15	8.30	738312
+EN_GB-2025-11-07-Local-NA-CJO-16730-One_Marriage_Law_UK	Local		2025-11-07	19045	243	406.78	16.17	344847
+EN_GB-2025-10-20-Global-FR-CJO-16607-Support-Paivi-Supreme-Court	Global	Freedom	2025-10-20	18516	471	1524.54	17.30	437069
+EN_GB-2026-01-19-Local-NA-CJO-17385-Eva_Vlaardingerbroek_Censored	Local		2026-01-19	18173	98	388.34	8.09	410004
+EN_GB-2024-12-16-Local-NA-CJO-14538-Scouting_Without_Ideology	Local		2024-12-19	18028	263	580.07	0	533900
+EN_GB-2025-06-09-Local-NA-CJO-15666-Ban_Bonnies_Public_Pornography	Local		2025-06-09	17941	1608	917.27	0	192845
+EN_GB-2024-10-03-Global-OT-CJO-14042-UN_Colonialism_Pact-UN_Colonialism_Pact	Global	Other	2024-10-09	17265	212	1988.98	46.25	460466
+EN_GB-2025-11-03-Local-NA-CJO-16798-Truth_in_Death	Local		2025-11-11	16499	149	364.14	11.55	443234
+EN_GB-2024-02-15-Global-FM-CJO-NA-CSW68-CSW68	Global	Family and Education	2024-03-11	16434	34	836.04	0	1005048
+EN_GB-2025-11-03-Global-FR-CJO-16851-Summit_for_Development_2	Global	Freedom	2025-11-03	16191	354	985.25	31.18	440680
+EN_GB-2025-08-29-Local-NA-CJO-16210-Support_Isabel_Vaughan-Spruce	Local		2025-08-29	15897	508	1385.76	31.16	564789
+EN_GB-2024-09-12-Local-NA-CJO-13960-Stop_Sexualised_Ads	Local		2024-09-14	15632	188	354.69	0	241147
+EN_GB-2024-04-09-Local-NA-CJO-12886-Guide_with_Pride__Withdraw_the	Local		2024-04-10	15570	163	278.42	15.28	445871
+EN_GB-2025-01-13-Local-NA-CJO-14540-Stop_pills_by_post	Local		2025-01-13	15392	52	605.23	0	725308
+EN_GB-2024-11-25-Local-LF-CJO-14405-sarco_suicide_pods	Local	Life	2024-11-25	15086	446	635.87	0	304385
+EN_GB-2025-01-13-Global-FR-ZRE-NA-Trump_Reject_Pandemic_Treaty-Trump_Reject_Pandemic_Treaty	Global	Freedom	2025-01-13	14849	183	421.37	0	639663
+EN_GB-2024-05-17-Local-NA-CJO-13127-New_RSHE_guidance_for_schools_	Local		2024-05-22	14681	284	986.00	20.01	383869
+EN_GB-2024-22-11-Local-FAM-ZRE-14402-Children_in_Need_Funding	Local		2024-11-23	14583	259	319.10	0	393005
+EN_GB-2025-09-03-Local-NA-CJO-16360-Join_the_pro_life_fightback	Local		2025-09-06	14118	642	1931.32	19.61	472935
+EN_GB-2025-02-03-Local-NA-ZRE-14807-Extend_child_puberty_blocker_b	Local		2025-02-10	13652	62	56.94	0	372487
+EN_GB-2025-03-25-Local-NA-CJO-15042-Billboard_Chris	Local		2025-03-25	13396	88	705.83	0	457807
+EN_GB-2024-12-04-Local-NA-CJO-14456-Stand_with_Marc_Guehi	Local		2024-12-04	12748	266	348.75	0	302599
+EN_GB-2025-01-30-Local-NA-CJO-14715-no_scrutiny_no_safeguards_assisted_suicide_bill	Local		2025-01-30	12345	265	1072.02	38.51	363859
+EN_GB-2025-05-30-Local-NA-CJO-15583-Mexico_Surrogacy	Local		2025-05-30	12043	171	515.61	28.91	393078
+EN_GB-2024-01-02-Local-NA-CJO-212701-Exposing_Stella_Creasys_danger	Local		2024-01-15	11242	426	2064.97	50.64	1283284
+EN_GB-2025-04-25-Local-NA-CJO-15317-UK_Local_Elections_Open_Letter	Local		2025-04-25	10793	97	581.19	8.22	369165
+EN_GB-2026-02-12-Local-NA-CJO-17586-NI_Puberty_Blocker_Trial	Local		2026-02-12	10793	296	11.52	0	266506
+EN_GB-2024-10-29-Local-NA-CJO-14240-PDC__Protect_Darts_Competition	Local		2024-11-04	10608	383	145.91	3.51	403429
+EN_GB-2025-01-02-Global-FR-CJO-14565-Christians_in_Syria-Christians_in_Syria	Global	Freedom	2025-01-02	10568	235	1724.61	43.28	348520
+EN_GB-2024-12-09-Local-NA-TMA-14510-EN_GB___Stand_for_Stornoway_Sa	Local		2024-12-15	10182	72	453.14	32.74	375647
+EN_GB-2025-10-15-Local-NA-CJO-16729-What_Are_They_Hiding_Puberty_Blockers_Case	Local		2025-11-17	9840	134	397.56	0	218777
+EN_GB-2025-02-17-Local-NA-CJO--2025-Support_James_and_Keira	Local		2025-03-18	9688	9	0	0	200796
+EN_GB-2025-01-06-Local-OT-TMC-14548-Save_our_Statues	Local	Other	2025-01-06	9119	133	252.67	3.57	384249
+EN_GB-2025-09-11-Local-NA-CJO-16443-I_am_Charlie_Kirk	Local		2025-09-12	7240	381	397.56	31.14	187712
+EN_GB-2026-03-02-Local-NA-CJO-17503-Stop_the_Social_Media_Ban	Local		2026-03-02	6344	28	34.57	0	272660
+EN_GB-2024-11-19-Local-NA-CJO-14334-assisted_suicide_bridget_phillipson	Local		2024-11-19	4107	61	217.08	8.19	106034
+EN_GB-2024-11-19-Local-NA-CJO-14337-assisted_suicide_clive_lewis	Local		2024-11-19	3627	39	138.79	0	113228
+EN_GB-2025-04-17-Local-NA-CJO-15233-UK_Local_Elections	Local		2025-04-17	876	2	41.87	5.82	186388
+EN_GB-2024-02-12-Local-NA-CJO-212999-Virgin-Island-Scrap-Show	Local		2024-02-14	870	3	721.14	16.24	872024
+EN_GB-2025-04-17-Local-NA-CJO-15234-UK_By-Election_Runcorn_and_Helsby	Local		2025-04-17	596	1	59.82	0	108512
+EN_GB-2024-02-12-Global-OT-CJO-212385-WHO_Pandemic_Treaty_5-WHO_Pandemic_Treaty_5	Global	Other	2024-02-12	391	33	2078.08	45.35	883063
+EN_GB-2024-11-01-Global-FR-CJO-14242-INB_12th_Meeting-Yahoo	Global	Freedom	2024-11-27	323	8	17.79	0	41560
+EN_GB-2024-01-15-Global-OT-CJO-212648-TEST-Stop_UN_Thought_Police	Global	Other	2024-01-15	176	4	1154.49	30.38	841574
+EN_GB-2024-02-05-International-FM-CJO-212923-Trans_Guidelines	International	Family and Education	2024-02-05	139	3	1012.76	0	676847

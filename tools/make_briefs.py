@@ -230,6 +230,38 @@ def fca_tally(conn, area, cfg, house="Commons"):
 # docs/campaign-benchmarks.md.
 MIN_BENCHMARK_SIGNATURES = 100
 
+# A HIGHER floor for the Looker source, because that export is now the whole
+# EN_GB population and the tail is measurably not campaigns. Of 104 rows, the
+# 7 below 3,000 signatures have response rates (signatures / sent_emails) of
+# 0.02%-0.78%; every row from 3,627 up runs 2.1%-8.4%. Two independent gaps --
+# 4x in signatures (876 -> 3,627) and 4x in response rate -- partition the
+# same 7 rows, so they are a different population, not weak campaigns: a send
+# that reached 677,000 inboxes for 139 signatures did not function as a
+# campaign. That band holds the one explicit "TEST-" program and the one
+# segment split (INB_12th_Meeting-Yahoo, 323 signatures against its own
+# parent's 22,697 under the same petition id 14242). They stay in the table --
+# the store is the archive -- and are excluded HERE, with the count printed.
+MIN_LOOKER_SIGNATURES = 3000
+
+# MONEY ONLY, and only for the Looker source: donation figures are incomplete
+# for campaigns started on or after this date. Measured over the 94 EN_GB
+# campaigns above the floor, one-time donations per 1,000 signatures run:
+#     2024   n=39   EUR 52.86
+#     2025   n=48   EUR 53.27      <- stable to within 1%
+#     2026   n=10   EUR  2.29      <- 23x collapse
+# The break is sharp, not a taper: campaigns started to 2026-01-19 carry money
+# (6,039 / 1,317 / 388 EUR), every one from 2026-02-02 on is under EUR 70.
+# Signature and member counts for the SAME rows are normal (2026 median 24,105
+# signatures), so this is the money columns specifically, not weak campaigns.
+#
+# UNRESOLVED: this is either a broken attribution join or donation asks being
+# dropped from campaign emails -- the data cannot tell which, and whoever owns
+# the money pipeline can. Both readings mean the same thing for a baseline, so
+# the rows are excluded from MONEY only (their signatures still count) and the
+# cell says how many. Revisit if the pipeline is fixed or the cause is a real
+# change in practice, in which case the cutoff should move, not be deleted.
+MONEY_COMPLETE_BEFORE = "2026-02-01"
+
 
 def _quartile(values, pct):
     ordered = sorted(values)
@@ -293,20 +325,34 @@ def rf1_expectation(conn, areas):
     # cell says which.
     try:
         looker = conn.execute(
-            "SELECT signatures, new_members, otd_eur, md_eur, areas "
-            "FROM looker_campaigns WHERE list_name = 'EN_GB'").fetchall()
+            "SELECT signatures, new_members, otd_eur, md_eur, areas, "
+            "start_date FROM looker_campaigns WHERE list_name = 'EN_GB'").fetchall()
     except Exception:
         looker = []
-    lk = [r for r in looker
-          if any(a in areas for a in json.loads(r["areas"] or "[]"))
-          and (r["signatures"] or 0) >= MIN_BENCHMARK_SIGNATURES]
+    lk_hits = [r for r in looker
+               if any(a in areas for a in json.loads(r["areas"] or "[]"))]
+    lk = [r for r in lk_hits
+          if (r["signatures"] or 0) >= MIN_LOOKER_SIGNATURES]
+    lk_excluded = len(lk_hits) - len(lk)
 
-    def lk_band(field, unit=""):
-        vals = [r[field] for r in lk if r[field] is not None]
+    def lk_band(field, unit="", rows=None, dropped=0):
+        vals = [r[field] for r in (lk if rows is None else rows)
+                if r[field] is not None]
         if not vals:
             return None, 0
         note = (" THIN: {0} campaign(s) only, treat as indicative.".format(
             len(vals)) if len(vals) < 5 else "")
+        # Never suppress silently: say what was dropped and why.
+        if lk_excluded:
+            note += (" {0} sub-{1}-signature Looker row(s) excluded as test "
+                     "sends or list segments, not campaigns.".format(
+                         lk_excluded, MIN_LOOKER_SIGNATURES))
+        if dropped:
+            note += (" {0} campaign(s) started on or after {1} excluded: "
+                     "donation attribution is incomplete from that date "
+                     "(EUR 2.29 per 1,000 signatures against 53 before it), "
+                     "so their signatures count but their money cannot."
+                     .format(dropped, MONEY_COMPLETE_BEFORE))
         return ("Looker (email-campaign attributed): median {0}{1} "
                 "(p25 {2}, p75 {3}, n={4}).{5}".format(
                     unit, "{:,}".format(int(_quartile(vals, 50))),
@@ -314,10 +360,11 @@ def rf1_expectation(conn, areas):
                     "{:,}".format(int(_quartile(vals, 75))),
                     len(vals), note)), len(vals)
 
-    def better(field, lk_field, unit=""):
+    def better(field, lk_field, unit="", rows=None, dropped=0):
         """Whichever source has more comparables, labelled."""
         local_n = len([r for r in ranked if r[field] is not None])
-        lk_text, lk_n = lk_band(lk_field, unit=unit)
+        lk_text, lk_n = lk_band(lk_field, unit=unit, rows=rows,
+                                dropped=dropped)
         if lk_n > local_n and lk_text:
             return lk_text
         text = band(field, unit=unit)
@@ -330,17 +377,27 @@ def rf1_expectation(conn, areas):
     # but the column exists and a later Max pull may fill it, and silently
     # ignoring a populated column would be its own bug.
     local_money = [r["raised_eur"] for r in ranked if r["raised_eur"] is not None]
-    looker_money = [r["otd_eur"] for r in lk if r["otd_eur"] is not None]
+    money_rows = [r for r in lk
+                  if (r["start_date"] or "") < MONEY_COMPLETE_BEFORE]
+    money_dropped = len(lk) - len(money_rows)
+    looker_money = [r["otd_eur"] for r in money_rows
+                    if r["otd_eur"] is not None]
     if local_money or looker_money:
-        money_basis = better("raised_eur", "otd_eur", unit="EUR ")
+        money_basis = better("raised_eur", "otd_eur", unit="EUR ",
+                             rows=money_rows, dropped=money_dropped)
         if looker_money and len(looker_money) >= len(local_money):
             money_basis += (" One-time donations only; monthly is a separate "
                             "column and much smaller.")
     else:
         money_basis = ("NOT HELD for this topic: raised_eur is unpopulated on "
                        "every campaign_performance row, and the Looker export "
-                       "has no comparable EN_GB campaign in this area yet. "
-                       "Widen data/looker/en_gb_campaigns.tsv or estimate.")
+                       "has no comparable EN_GB campaign in this area with "
+                       "complete donation attribution. Estimate it.")
+        if money_dropped:
+            money_basis += (" {0} Looker campaign(s) in this area were "
+                            "excluded for starting on or after {1}, when "
+                            "donation attribution stops.".format(
+                                money_dropped, MONEY_COMPLETE_BEFORE))
 
     return [("Expected signatures", better("signatures", "signatures")),
             ("Expected new members", better("new_members", "new_members")),

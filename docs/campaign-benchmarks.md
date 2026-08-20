@@ -263,3 +263,75 @@ only a larger `limit` on the query above.
   campaign benchmarked against Global ones will mislead. Segment on it?
 * The exploded rows are an upstream data bug worth reporting to whoever owns
   `aa_downstream_report`; filtering around it is a workaround, not a fix.
+
+
+## The export is now the whole EN_GB population (2026-08-20)
+
+The first pull was the top 60 by signatures, recorded at the time as a thin
+slice needing a wider `limit`. Widening it showed the slice was 58% of
+everything: with the documented filters there are only **104** EN_GB campaigns
+in `aa_downstream_report` at all.
+
+| band (signatures) | rows |
+|---|---|
+| >= 20,037 | 60 |
+| 9,000-20,036 | 33 |
+| 3,000-8,999 | **4** |
+| 100-2,999 | 7 |
+| total | 104 |
+
+Two findings from that.
+
+**`total_signatures` is a MEASURE, not a dimension.** It cannot go in
+`filter_expression` -- Looker returns `400 Filter expressions cannot reference
+aggregate field` -- so band it through the `filters` map as a HAVING, e.g.
+`"9000 to 20036"`. This is how to page a large explore without a row cap.
+
+**The mid-range is genuinely near-empty.** Four campaigns since 2024 landed
+between 3,000 and 9,000 signatures. EN GB campaigns either clear ~9,000 or
+they are not campaigns.
+
+Per-area coverage after widening: 8 areas -> 10 (areas 9 and 10 appear for the
+first time), area 3 went 5 -> 9, area 2 3 -> 7, area 6 7 -> 10.
+
+### Two floors, both measured
+
+`MIN_LOOKER_SIGNATURES = 3000`, higher than the local `100`. The 7 rows below
+3,000 are not weak campaigns but a different population: response rate
+(signatures / sent_emails) runs **0.02%-0.78%** against **2.1%-8.4%** for every
+row above. Two independent 4x gaps -- signatures (876 -> 3,627) and response
+rate -- partition the same 7 rows. A send that reached 677,000 inboxes for 139
+signatures did not function as a campaign. That band holds the one explicit
+`TEST-` program and the one list-segment split (`INB_12th_Meeting-Yahoo`, 323
+signatures, same petition id 14242 as its parent's 22,697 -- the reason to key
+on date+pid rather than on the program string). The rows stay in the table and
+are excluded at display, with the count printed.
+
+### Donation attribution stops at 2026-02-01 -- UNRESOLVED
+
+One-time donations per 1,000 signatures, over the 94 campaigns above the floor:
+
+| start year | n | EUR per 1,000 signatures |
+|---|---|---|
+| 2024 | 39 | 52.86 |
+| 2025 | 48 | 53.27 |
+| 2026 | 10 | **2.29** |
+
+2024 and 2025 agree to within 1%, so the underlying rate is stable and 2026 is
+an artefact. The break is sharp rather than a taper: campaigns started up to
+2026-01-19 carry money (EUR 6,040 / 1,317 / 388), every one from 2026-02-02 on
+is under EUR 70. Signature and member counts for those same rows are normal
+(2026 median 24,105 signatures), so it is the money columns specifically.
+
+This is either a broken attribution join or donation asks being dropped from
+campaign emails. **The data cannot tell which; whoever owns the money pipeline
+can.** Both readings mean the same thing for a baseline, so `make_briefs.py`
+excludes those rows from MONEY only -- their signatures still count -- and the
+cell says how many and why. It mattered: area 3's money baseline read EUR 56
+with them in and EUR 397 with them out, a 7x understatement that would have
+shipped as a campaigner's expectation.
+
+**To settle:** ask whoever owns `aa_downstream_report`'s donation join whether
+attribution broke around 2026-02-01. If it is fixed, move
+`MONEY_COMPLETE_BEFORE`; if the cause is a real change in practice, the cutoff
+should stay and the reason be recorded here.

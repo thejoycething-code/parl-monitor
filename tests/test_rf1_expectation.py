@@ -188,6 +188,67 @@ class LookerSourceTests(unittest.TestCase):
         money = dict(mb.rf1_expectation(self.conn, [1]))["Expected EUR raised"]
         self.assertIn("NOT HELD", money)
 
+    def test_looker_floor_excludes_the_fragment_band_and_says_so(self):
+        """Sub-3,000 Looker rows are test sends and list segments, not weak
+        campaigns. Measured on the full 104-row EN_GB population: the 7 rows
+        below 3,000 signatures run 0.02%-0.78% response rate against 2.1%-8.4%
+        for every row above. Excluding them must never be SILENT -- a hidden
+        filter is how real data disappears unnoticed."""
+        seed(self.conn, [(20000, 900, None, "[1]")])
+        self._looker([(139, 3, 1012.0),      # 0.02% -- a broken send
+                      (323, 8, 17.0),        # a list segment of a parent
+                      (12345, 265, 1072.0),
+                      (13652, 62, 56.0),
+                      (14118, 642, 1931.0)])
+        sigs = dict(mb.rf1_expectation(self.conn, [1]))["Expected signatures"]
+        self.assertIn("n=3", sigs, "only the three real campaigns count")
+        self.assertIn("2 sub-3000-signature Looker row(s) excluded", sigs)
+        self.assertNotIn("n=5", sigs)
+
+    def test_the_looker_floor_is_higher_than_the_local_floor(self):
+        """The sources need different floors for measured reasons. Local rows
+        are lifetime petition totals where 100 removes templates; Looker rows
+        are per-send attribution where the junk sits an order of magnitude
+        higher, so reusing 100 there would admit every fragment."""
+        self.assertGreater(mb.MIN_LOOKER_SIGNATURES, mb.MIN_BENCHMARK_SIGNATURES)
+
+    def _dated(self, rows, area="[1]"):
+        for n, (sig, otd, start) in enumerate(rows):
+            self.conn.execute(
+                "INSERT INTO looker_campaigns (program, list_name, "
+                "campaign_name, signatures, new_members, otd_eur, areas, "
+                "start_date, logged_at) VALUES (?,'EN_GB','c',?,100,?,?,?,"
+                "'2026-08-20')", ("d%d" % n, sig, otd, area, start))
+        self.conn.commit()
+
+    def test_money_ignores_campaigns_after_attribution_stops(self):
+        """Donation attribution collapses for campaigns started 2026-02-01 on:
+        EUR 2.29 per 1,000 signatures against a stable 52.86 (2024) and 53.27
+        (2025). Including them dragged area 3's real baseline from EUR 397 to
+        EUR 56 -- a 7x understatement shipped into a campaigner's brief."""
+        seed(self.conn, [(20000, 900, None, "[1]")])
+        self._dated([(20000, 1400.0, "2025-06-01"),
+                     (21000, 1200.0, "2025-09-01"),
+                     (22000, 0.0, "2026-03-02"),
+                     (23000, 34.57, "2026-02-12")])
+        out = dict(mb.rf1_expectation(self.conn, [1]))
+        money = out["Expected EUR raised"]
+        self.assertIn("n=2", money, "only the two complete rows count")
+        self.assertIn("1,400", money)   # drawn from the complete rows alone
+        self.assertIn("2 campaign(s) started on or after 2026-02-01 excluded",
+                      money)
+        # The SAME rows still count for signatures -- only money is affected.
+        self.assertIn("n=4", out["Expected signatures"])
+
+    def test_money_says_not_held_when_every_row_is_post_cutoff(self):
+        """A topic whose only Looker campaigns are recent must say so, not
+        report a near-zero median as though it were performance."""
+        seed(self.conn, [(20000, 900, None, "[1]")])
+        self._dated([(22000, 0.0, "2026-03-02"), (23000, 34.57, "2026-02-12")])
+        money = dict(mb.rf1_expectation(self.conn, [1]))["Expected EUR raised"]
+        self.assertIn("NOT HELD", money)
+        self.assertIn("2 Looker campaign(s) in this area were excluded", money)
+
     def test_a_missing_looker_table_does_not_break_the_brief(self):
         conn = fresh()          # no looker_campaigns at all
         seed(conn, [(20000, 900, None, "[1]")])
@@ -266,3 +327,4 @@ class RenderTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
