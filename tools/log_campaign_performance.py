@@ -53,7 +53,11 @@ KEYWORD_AREAS = [
     (r"criminalising parents|parents opposing|parental", [6]),
     (r"lgbt (teaching|agenda|ideology)|woke.*curriculum|leger", [6]),
     (r"christian|blasphemy|persecut|r\u00e4s\u00e4nen|rasanen|pray|church|faith|bible", [8]),
-    (r"reassignment|mutilat|groom", [3]),
+    # "groom" was here and matched GROOMING PRODUCTS -- its only hit was
+    # "Boycott Braun: Grooming brand glamourises mutilation", which still
+    # reaches area 3 through "mutilat". It also filed grooming-gang campaigns
+    # under gender medicine, which is now area 6 above.
+    (r"reassignment|mutilat", [3]),
     (r"withdrawing treatment|let me live", [2]),
     (r"thought.*criminal|criminalis.*thought|hate crime|non-crime", [7]),
     # 2026-08-13 sweep of the unmapped list (Christopher). Explicit, auditable;
@@ -149,6 +153,18 @@ KEYWORD_AREAS = [
     #                 and Makerfield [4,3,7] already are.
     #   virgin island  the Channel 4 show, same family as the Netflix and
     #                 Disney content campaigns.
+    # Child sexual exploitation -> area 6, child protection (Christopher,
+    # 2026-08-20). It previously had FOUR different homes: Telford unmapped,
+    # Sadiq Khan unmapped, the grooming-gangs cover-up campaign at area 7 via
+    # its open-justice ask, and "Deport Shabir Ahmed" under migration (11).
+    # Area 6 tier 2 already carried "grooming gang*" and "child protection" on
+    # the parliamentary side, so this aligns the campaign layer with it.
+    (r"grooming gang|child sexual (abuse|exploitation)|rape gang|"
+     r"sexual abuse|ignoring abuse", [6]),
+    # The named CSE towns. No hits today beyond Telford, so no false positives
+    # are possible now; included because this is the vocabulary these campaigns
+    # actually use when they name a place.
+    (r"\btelford\b|\brotherham\b|\brochdale\b|\boldham\b", [6]),
     (r"paedophilia|pedophilia", [6]),
     (r"rights of the child|children'?s rights", [6]),
     (r"protected a predator", [6]),
@@ -227,11 +243,6 @@ OUT_OF_TAXONOMY = [
      "SETTLED: a fundraising appeal, not a campaign."),
     (r"\btest[- ]",
      "SETTLED: a test program."),
-    (r"sadiq khan|telford|end the sexual abuse",
-     "OPEN QUESTION for Christopher: child sexual exploitation has no area. "
-     "Telford and Sadiq Khan (65,143) are both unmapped, and 'Deport Shabir "
-     "Ahmed' was filed under migration (11). Three different homes for one "
-     "issue. Needs a taxonomy decision, not a keyword."),
     (r"children in need",
      "OPEN QUESTION: the name does not say what the funding objection was, so "
      "it cannot be mapped without one line of context."),

@@ -563,3 +563,63 @@ a taxonomy decision rather than a keyword.
 **Demand BBC Children In Need CEO Resigns!** (14,583) cannot be mapped from its
 name: it does not say what the funding objection was. One line of context would
 settle it.
+
+## Child sexual exploitation goes to area 6 (Christopher, 2026-08-20)
+
+CSE had **four different homes** in the store: *Telford* unmapped, *Sadiq Khan*
+unmapped, the grooming-gangs cover-up campaign at area 7 via its open-justice
+ask, and *Deport Shabir Ahmed* under migration (11). It now maps to **area 6,
+child protection**, in both layers — area 6 tier 2 already carried
+`"grooming gang*"` and `"child protection"`, so this aligns the campaign keyword
+list with the taxonomy rather than inventing a home.
+
+Taxonomy v0.7 adds `"child sexual exploitation"`, `"child sexual abuse"`,
+`"rape gang*"` and `CSE` at area 6 tier 2. `CSE` is all-caps, so it matches
+case-sensitively and cannot fire inside "case" or "course" — verified.
+
+### A false positive removed
+
+The bare `groom` pattern sat in **area 3** and its only hit was *"Boycott Braun:
+Grooming brand glamourises mutilation"* — a razor brand. It was doing two wrong
+things at once: matching grooming *products*, and filing grooming-*gang*
+campaigns under gender medicine. Removed; Boycott Braun still reaches area 3
+through `mutilat`.
+
+### The two titles are different, and both matter
+
+Petition **17624** is *"Lammy, Starmer: Protect Open Justice, Reinstate
+CourtDesk"* publicly and `Grooming_Gangs_Stop_the_cover` internally. Only the
+slug says what the campaign is *about*; only the local name says what it *asks
+for*. Mapping from either alone loses half the picture.
+
+I nearly reported this as a broken petition-id join. It is not: **all 12** rows
+whose slug shares no distinctive word with its local name have matching launch
+dates, most exact. "Support-Paivi-Supreme-Court" really is "On Trial for a Bible
+Verse"; "Cody Gakpo" really is "Stop censoring Christianity on the pitch". Name
+dissimilarity is not evidence of a bad join — **the launch date is the test.**
+
+So `resolve_areas` now **unions** the petition-id areas with the slug's keyword
+areas, and the `area_source` records what contributed. Petition 17624 reads
+`[7, 6]` with source `petition-id join (17624) + slug keywords`.
+
+Two guards keep the earlier discipline intact: `out_of_taxonomy` is the final
+authority, so a settled exclusion cannot be undone by a slug keyword; and a slug
+can only ADD an area, never remove one the curated local mapping recorded.
+
+This supersedes the earlier rule that "an empty local mapping is an answer, not
+a miss". The principle it protected — a deliberate exclusion must not be
+overruled — now lives in the registry check instead, which is the more direct
+place for it.
+
+### One thing left deliberately alone
+
+*"Deport Shabir Ahmed Now! Protect Our Children From Predators"* is a
+grooming-gang case, but its ask is deportation and it sits in **area 11**, which
+briefs exclude. No CSE pattern reaches it, so it stays migration-only. That is
+deliberate: dual-tagging it would surface a deliberately hidden campaign in area
+6 briefs, and that is a call for Christopher, not a side effect of a keyword.
+A bare `\bpredators?\b` would have done exactly that.
+
+**Result:** area 6 went 17 to 19 Looker campaigns, unmapped 8 to 7, and every
+remaining row carries a recorded reason. One open question left: *Demand BBC
+Children In Need CEO Resigns!* (14,583), which cannot be mapped from its name.

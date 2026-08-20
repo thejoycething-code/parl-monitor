@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 0.6 | 20 August 2026 | Owner: Christopher**
+**Version 0.7 | 20 August 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -62,8 +62,8 @@ Every item that survives the filter is written to the store with its issue tags 
 ### 6. Parental rights and education {#6_parental_rights_education}
 
 - **Tier 1:** "relationships and sex education"; "relationships and sexuality education"; RSE; "sex education guidance"; "parental consent"; "parental rights"; "right to withdraw"; "home education"; "elective home education"; "children not in school"; "education otherwise than at school"; EOTAS; "home schooling"; "homeschool*"
-- **Tier 2:** PSHE; "curriculum review"; "external providers"; "smartphone* in schools"; "faith school*"; "collective worship"; "child protection"; "foster care"; "sex education"; "grooming gang*"; "Christian ethos"; "integrated education"
-- **Notes:** EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary. NI vocabulary (v0.5): "relationships and sexuality education" is the NI statutory term -- 47 Assembly questions over 18 years, 28 since 2024, none of which the Westminster wording matches. Christian ethos (21 plenary mentions in the year) carries the faith-schools angle; integrated education (63 mentions, the most-debated education topic in the NIA corpus) is included at tier 2 by Christopher's decision 2026-08-18, triage-gated because much of that debate is school structure rather than ours.
+- **Tier 2:** PSHE; "curriculum review"; "external providers"; "smartphone* in schools"; "faith school*"; "collective worship"; "child protection"; "foster care"; "sex education"; "grooming gang*"; "Christian ethos"; "integrated education"; "child sexual exploitation"; "child sexual abuse"; "rape gang*"; CSE
+- **Notes:** Child sexual exploitation belongs here, in child protection, by Christopher's decision 2026-08-20: it previously had four homes across the campaign store (two unmapped, one at area 7 via an open-justice ask, one under migration). CSE is all-caps so it matches case-sensitively and cannot hit "case" or "cse" inside a word. EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary. NI vocabulary (v0.5): "relationships and sexuality education" is the NI statutory term -- 47 Assembly questions over 18 years, 28 since 2024, none of which the Westminster wording matches. Christian ethos (21 plenary mentions in the year) carries the faith-schools angle; integrated education (63 mentions, the most-debated education topic in the NIA corpus) is included at tier 2 by Christopher's decision 2026-08-18, triage-gated because much of that debate is school structure rather than ours.
 
 ### 7. Free speech, privacy and civil liberties {#7_free_speech_online_safety}
 - **Name:** Free speech, privacy and civil liberties

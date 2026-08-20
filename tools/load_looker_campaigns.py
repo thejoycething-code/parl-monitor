@@ -113,28 +113,50 @@ def parse_program(program):
 
 
 def local_areas(conn):
-    """{petition_id: [areas]} from campaign_performance, for the exact join."""
+    """{petition_id: ([areas], name)} from campaign_performance."""
     try:
-        rows = conn.execute("SELECT petition_id, areas FROM "
+        rows = conn.execute("SELECT petition_id, areas, name FROM "
                             "campaign_performance").fetchall()
     except Exception:
         return {}
-    return {r["petition_id"]: json.loads(r["areas"] or "[]") for r in rows}
+    return {r["petition_id"]: (json.loads(r["areas"] or "[]"), r["name"])
+            for r in rows}
 
 
 def resolve_areas(program, name, by_pid):
-    """([areas], source). The petition id wins; the slug is the fallback."""
+    """([areas], source) from BOTH the petition id and the program slug.
+
+    The two names describe the same campaign differently: the local one is the
+    public petition title, the slug is the internal working title, and either
+    can carry vocabulary the other lacks. The clearest case is petition 17624 --
+    "Lammy, Starmer: Protect Open Justice, Reinstate CourtDesk" publicly,
+    "Grooming_Gangs_Stop_the_cover" internally. Only the slug says what the
+    campaign is ABOUT, so mapping from the local name alone missed area 6
+    entirely. The areas are therefore UNIONED and the source says what
+    contributed.
+
+    Two guards. `out_of_taxonomy` is the final authority, so a settled
+    exclusion cannot be undone by a slug keyword. And a slug can only ADD an
+    area, never remove one the curated local mapping recorded.
+    """
     m = _PROGRAM.match(program or "")
     pid = m.group("pid") if m else ""
-    if pid.isdigit() and int(pid) in by_pid:
-        areas = by_pid[int(pid)]
-        # A local row with no areas is still an ANSWER -- the curated sweep
-        # looked at it and left it out of the taxonomy. Falling through to
-        # keywords there would quietly overrule that decision.
-        return areas, "petition-id join ({0})".format(pid)
-    if not name:
-        return [], "unresolved: no petition id and no parseable name"
-    return lcp.areas_for(name), "keywords on the program slug"
+    joined, local_name = (by_pid.get(int(pid), (None, None))
+                          if pid.isdigit() else (None, None))
+
+    if lcp.out_of_taxonomy(local_name or name or ""):
+        return [], "out of taxonomy (recorded reason)"
+
+    slug = lcp.areas_for(name) if name else []
+    if joined is None:
+        if not name:
+            return [], "unresolved: no petition id and no parseable name"
+        return slug, "keywords on the program slug"
+
+    areas = list(joined) + [a for a in slug if a not in joined]
+    if slug and sorted(areas) != sorted(joined):
+        return areas, ("petition-id join ({0}) + slug keywords".format(pid))
+    return areas, "petition-id join ({0})".format(pid)
 
 
 def read_export(path):

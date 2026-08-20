@@ -154,7 +154,10 @@ class ProgramParseTests(unittest.TestCase):
 class ResolveAreasTests(unittest.TestCase):
     """The petition id is an exact key and beats matching a truncated slug."""
 
-    BY_PID = {13425: [5], 16792: []}
+    # {pid: ([areas], local_name)} -- resolve_areas needs the local NAME too,
+    # so out_of_taxonomy can be checked against the public petition title.
+    BY_PID = {13425: ([5], "Stand with Darlington nurses for safe spaces"),
+              15317: ([], "Sign Our Open Letter to Candidates")}
 
     def test_the_petition_id_wins_over_the_slug(self):
         """'Support NHS nurses in their fi' is cut mid-word; the local row says
@@ -165,14 +168,17 @@ class ResolveAreasTests(unittest.TestCase):
         self.assertEqual(areas, [5])
         self.assertIn("petition-id join", source)
 
-    def test_an_empty_local_mapping_is_an_answer_not_a_miss(self):
-        """The curated sweep looked at Sadiq Khan and left it out of the
-        taxonomy. Falling through to keywords would overrule that silently."""
+    def test_a_settled_exclusion_survives_the_slug(self):
+        """Was "an empty local mapping is an answer", using Sadiq Khan as the
+        example. Christopher's 2026-08-20 decision maps that campaign to area 6
+        (CSE), so the example is superseded -- but the principle still holds and
+        is now enforced by out_of_taxonomy being the final authority, rather
+        than by an empty area list blocking the slug."""
         areas, source = llc.resolve_areas(
-            "EN_GB-2025-10-20-Local-OT-ZRE-16792-Demand_Sadiq_Khans_Resignation",
-            "Demand Sadiq Khans Resignation", self.BY_PID)
+            "EN_GB-2025-04-25-Local-NA-CJO-15317-UK_Local_Elections_Open_Letter",
+            "UK Local Elections Open Letter", self.BY_PID)
         self.assertEqual(areas, [])
-        self.assertIn("petition-id join", source)
+        self.assertIn("out of taxonomy", source)
 
     def test_keywords_are_the_fallback_when_the_id_is_absent(self):
         """Six programs carry no usable id (-NA- or an empty segment), and the
@@ -238,16 +244,17 @@ class OutOfTaxonomyTests(unittest.TestCase):
             self.assertIsNotNone(lcp.out_of_taxonomy(name), name)
 
     def test_open_questions_are_labelled_as_such(self):
-        """Child sexual exploitation has three different homes today -- Telford
-        and Sadiq Khan unmapped, Shabir Ahmed under migration -- so it needs a
-        taxonomy decision, and the reason says so rather than pretending it is
-        closed."""
-        for name in ("Demand Sadiq Khan's Resignation: Failing London and "
-                     "Ignoring Abuse",
-                     "Telford: End the Sexual Abuse - Enforce the Law"):
-            reason = lcp.out_of_taxonomy(name)
-            self.assertIsNotNone(reason, name)
-            self.assertIn("OPEN QUESTION", reason)
+        """The CSE entry that used to live here was CLOSED by Christopher on
+        2026-08-20 (area 6, child protection), so it is gone from the registry
+        and those campaigns now carry an area. What remains open is labelled."""
+        reason = lcp.out_of_taxonomy("Demand BBC Children In Need CEO Resigns!")
+        self.assertIsNotNone(reason)
+        self.assertIn("OPEN QUESTION", reason)
+        for closed in ("Telford: End the Sexual Abuse - Enforce the Law",
+                       "Demand Sadiq Khan's Resignation: Failing London and "
+                       "Ignoring Abuse"):
+            self.assertIsNone(lcp.out_of_taxonomy(closed), closed)
+            self.assertIn(6, lcp.areas_for(closed), closed)
 
     def test_a_mapped_campaign_is_not_listed_as_out_of_scope(self):
         """The registry must never explain away something that has an area."""
@@ -264,3 +271,78 @@ class OutOfTaxonomyTests(unittest.TestCase):
             "Runcorn and Helsby by-election: A life and death vote"))
         self.assertIsNotNone(lcp.out_of_taxonomy(
             "Sign Our Open Letter to Candidates"))
+
+
+class ChildSexualExploitationTests(unittest.TestCase):
+    """CSE belongs in area 6, child protection (Christopher, 2026-08-20).
+
+    It previously had four homes: Telford unmapped, Sadiq Khan unmapped, the
+    grooming-gangs cover-up campaign at area 7 via its open-justice ask, and
+    "Deport Shabir Ahmed" under migration.
+    """
+
+    def test_cse_campaigns_map_to_child_protection(self):
+        for name in ("Telford: End the Sexual Abuse - Enforce the Law",
+                     "Demand Sadiq Khan's Resignation: Failing London and "
+                     "Ignoring Abuse",
+                     "Grooming Gangs Stop the cover",
+                     "Rotherham: rape gang cover-up"):
+            self.assertIn(6, lcp.areas_for(name), name)
+
+    def test_grooming_products_are_not_child_protection(self):
+        """The bare "groom" pattern used to sit in area 3 and its only hit was
+        a razor brand. It must reach neither 3 by that route nor 6."""
+        areas = lcp.areas_for(
+            "Boycott Braun: Grooming brand glamourises mutilation")
+        self.assertNotIn(6, areas)
+        self.assertIn(3, areas, "still area 3, via 'mutilat'")
+
+    def test_the_deportation_campaign_stays_migration_only(self):
+        """"Deport Shabir Ahmed Now! Protect Our Children From Predators" is a
+        grooming-gang case, but its ASK is deportation and it sits in area 11 --
+        which briefs exclude. No CSE pattern reaches it, so it stays hidden.
+        Deliberate: dual-tagging it would surface a migration campaign in area 6
+        briefs, and that is Christopher's call, not a side effect."""
+        areas = lcp.areas_for(
+            "Deport Shabir Ahmed Now! Protect Our Children From Predators")
+        self.assertEqual(areas, [11])
+
+    def test_cse_is_no_longer_an_open_question(self):
+        self.assertIsNone(lcp.out_of_taxonomy(
+            "Telford: End the Sexual Abuse - Enforce the Law"))
+
+
+class ResolveAreasUnionTests(unittest.TestCase):
+    """The public petition title and the internal working title each carry
+    vocabulary the other lacks, so the two are unioned."""
+
+    BY_PID = {17624: ([7], "Lammy, Starmer: Protect Open Justice, Reinstate "
+                           "CourtDesk"),
+              15317: ([], "Sign Our Open Letter to Candidates: Tell Them What "
+                          "Matters To You"),
+              13425: ([5], "Stand with Darlington nurses for safe spaces")}
+
+    def test_the_slug_adds_what_the_public_title_cannot_say(self):
+        """Petition 17624 is "Protect Open Justice" publicly and
+        "Grooming_Gangs_Stop_the_cover" internally. Only the slug says what it
+        is about, so mapping from the local name alone missed area 6."""
+        areas, source = llc.resolve_areas(
+            "EN_GB-2026-02-12-Local-NA-ZRE-17624-Grooming_Gangs_Stop_the_cover",
+            "Grooming Gangs Stop the cover", self.BY_PID)
+        self.assertIn(7, areas)
+        self.assertIn(6, areas)
+        self.assertIn("slug keywords", source)
+
+    def test_a_settled_exclusion_cannot_be_undone_by_a_slug(self):
+        """out_of_taxonomy is the final authority."""
+        areas, source = llc.resolve_areas(
+            "EN_GB-2025-04-25-Local-NA-CJO-15317-UK_Local_Elections_Open_Letter",
+            "UK Local Elections Open Letter", self.BY_PID)
+        self.assertEqual(areas, [])
+        self.assertIn("out of taxonomy", source)
+
+    def test_a_slug_never_removes_a_curated_area(self):
+        areas, _ = llc.resolve_areas(
+            "EN_GB-2024-06-28-Local-NA-ZRE-13425-Support_NHS_nurses_in_their_fi",
+            "Support NHS nurses in their fi", self.BY_PID)
+        self.assertIn(5, areas)

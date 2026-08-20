@@ -27,7 +27,7 @@ class TaxonomySyncTests(unittest.TestCase):
     def test_master_parses_eleven_areas(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "0.6")
+        self.assertEqual(version, "0.7")
         self.assertEqual(len(areas), 11)
         self.assertEqual(len(exclusions), 8)
         self.assertIn("EOTAS", areas["6_parental_rights_education"]["tier1"])
@@ -54,6 +54,12 @@ class TaxonomySyncTests(unittest.TestCase):
                          "Free speech, privacy and civil liberties")
         named = [k for k, v in areas.items() if v.get("name")]
         self.assertEqual(named, ["7_free_speech_online_safety"])
+        # v0.7: child sexual exploitation belongs to area 6, child protection
+        # (Christopher 2026-08-20). CSE is all-caps so it matches
+        # case-sensitively and cannot fire inside "case" or a lowercase word.
+        six = areas["6_parental_rights_education"]
+        for term in ('"child sexual exploitation"', '"rape gang*"', "CSE"):
+            self.assertIn(term, six["tier2"])
 
 
 if __name__ == "__main__":
