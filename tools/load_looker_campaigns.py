@@ -196,8 +196,8 @@ def load(conn, rows, today):
 def show(conn):
     import statistics
     rows = conn.execute(
-        "SELECT campaign_name, signatures, new_members, otd_eur, areas "
-        "FROM looker_campaigns ORDER BY signatures DESC").fetchall()
+        "SELECT campaign_name, signatures, new_members, otd_eur, areas, "
+        "program FROM looker_campaigns ORDER BY signatures DESC").fetchall()
     print("{0} campaign(s) held.".format(len(rows)))
     per = {}
     for r in rows:
@@ -214,15 +214,37 @@ def show(conn):
             int(statistics.median(sigs)) if sigs else "-",
             int(statistics.median(new)) if new else "-",
             int(statistics.median(otd)) if otd else "-"))
+    # Split settled exclusions from real gaps, so a decision already taken
+    # does not read as unfinished work every time somebody runs --show.
     un = [r for r in rows if not json.loads(r["areas"] or "[]")]
-    if un:
-        print("\n{0} campaign(s) map to NO area -- add a keyword to "
-              "log_campaign_performance.KEYWORD_AREAS if any belong to us:"
-              .format(len(un)))
-        for r in un[:12]:
-            print("   {0}".format((r["campaign_name"] or "(unnamed)")[:66]))
-        if len(un) > 12:
-            print("   ...and {0} more".format(len(un) - 12))
+    # Explain against the LOCAL name where the petition id resolves. The Looker
+    # name is a slug and is often worded differently -- "UK Local Elections
+    # Open Letter" for "Sign Our Open Letter to Candidates" -- so testing the
+    # slug alone reported settled decisions as unexplained gaps.
+    local = {}
+    try:
+        local = {r["petition_id"]: r["name"] for r in
+                 conn.execute("SELECT petition_id, name FROM "
+                              "campaign_performance")}
+    except Exception:
+        pass
+    gaps, settled = [], []
+    for r in un:
+        name = r["campaign_name"] or ""
+        m = _PROGRAM.match(r["program"] or "")
+        pid = m.group("pid") if m else ""
+        best = local.get(int(pid)) if pid.isdigit() else None
+        reason = lcp.out_of_taxonomy(best or name) if (best or name) else None
+        (settled if reason else gaps).append((best or name or "(unnamed)", reason))
+    if gaps:
+        print("\n{0} campaign(s) unmapped and UNEXPLAINED -- add a keyword to "
+              "log_campaign_performance.KEYWORD_AREAS:".format(len(gaps)))
+        for name, _ in gaps:
+            print("   {0}".format(name[:66]))
+    if settled:
+        print("\n{0} campaign(s) map nowhere ON PURPOSE:".format(len(settled)))
+        for name, reason in settled:
+            print("   {0}\n       {1}".format(name[:62], reason))
 
 
 def main():

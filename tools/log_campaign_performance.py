@@ -129,6 +129,32 @@ KEYWORD_AREAS = [
     # Islam free-speech campaign reached only area 8 via "blasphem", so the two
     # layers disagreed about the same campaign.
     (r"islamophobia", [7]),
+    # 2026-08-20, clearing the residue of the widened Looker export. Each
+    # pattern is deliberately narrow, with the campaign it exists for named:
+    #   paedophilia   "Stop the UN's Push to Decriminalise Paedophilia"
+    #                 (35,085). The NOUN only -- "paedophile" would also catch
+    #                 Justice for Jennifer, a pronoun disciplinary case that is
+    #                 area 3 and not child protection.
+    #   children's rights  "Don't Let the UN Redefine Children's Rights!"
+    #                 (33,277). UNCRC.
+    #   protected a predator  "Pride in Surrey Protected a Predator" (28,436).
+    #                 Narrow on purpose: a bare \bpredator would reach
+    #                 "Deport Shabir Ahmed... Protect Our Children From
+    #                 Predators", which sits in area 11 -- and area 11 is
+    #                 excluded from briefs, so a second area would leak a
+    #                 deliberately hidden campaign into area 6.
+    #   cancel culture  "Save our Statues: Stop Cancel Culture" (9,119).
+    #   life and death vote  "Runcorn and Helsby by-election". By-elections are
+    #                 mapped by their SUBJECT here, as Gorton and Denton [3,7]
+    #                 and Makerfield [4,3,7] already are.
+    #   virgin island  the Channel 4 show, same family as the Netflix and
+    #                 Disney content campaigns.
+    (r"paedophilia|pedophilia", [6]),
+    (r"rights of the child|children'?s rights", [6]),
+    (r"protected a predator", [6]),
+    (r"cancel culture", [7]),
+    (r"life and death vote", [2]),
+    (r"virgin island", [6]),
     (r"\bpupil", [6]),
     (r"primary school", [6]),
     (r"\bkeira\b", [3]),
@@ -185,12 +211,74 @@ def ensure_table(conn):
     conn.commit()
 
 
+# Campaigns that map to NO area ON PURPOSE. Without this, a settled decision
+# is indistinguishable from an unfixed gap, so the same rows get re-litigated
+# every time somebody reads the list. Each reason states its own status: some
+# are closed, some are open questions for Christopher.
+OUT_OF_TAXONOMY = [
+    (r"open letter to candidates|local councillors have more power",
+     "SETTLED: a generic election tool with no issue subject to benchmark "
+     "against. By-elections that DO name a subject are mapped by it."),
+    (r"pride progress flag|progress pride flag|remove pride progress|"
+     r"divisive.*flag",
+     "SETTLED: civic symbolism in the public square. None of the eleven areas "
+     "covers flags, and the 2026-08-13 sweep left these out deliberately."),
+    (r"^fundraising",
+     "SETTLED: a fundraising appeal, not a campaign."),
+    (r"\btest[- ]",
+     "SETTLED: a test program."),
+    (r"sadiq khan|telford|end the sexual abuse",
+     "OPEN QUESTION for Christopher: child sexual exploitation has no area. "
+     "Telford and Sadiq Khan (65,143) are both unmapped, and 'Deport Shabir "
+     "Ahmed' was filed under migration (11). Three different homes for one "
+     "issue. Needs a taxonomy decision, not a keyword."),
+    (r"children in need",
+     "OPEN QUESTION: the name does not say what the funding objection was, so "
+     "it cannot be mapped without one line of context."),
+]
+
+
+def _variants(name):
+    """The name as written, and with hyphens read as word separators.
+
+    Looker campaign names are program slugs, and punctuation there is arbitrary:
+    "Virgin-Island-Scrap-Show" is hyphen-delimited where others are underscore-
+    delimited (parse_program folds underscores only). Testing BOTH forms and
+    unioning the result fixes the slug case without breaking patterns that want
+    a real hyphen -- "pro-life", "single-sex", "non-crime" still match the
+    unmodified form.
+    """
+    low = _fold(name)
+    return (low, low.replace("-", " ")) if "-" in low else (low,)
+
+
+def out_of_taxonomy(name):
+    """The recorded reason this campaign maps nowhere, or None if it is a gap."""
+    for low in _variants(name or ""):
+        for pattern, reason in OUT_OF_TAXONOMY:
+            if re.search(pattern, low):
+                return reason
+    return None
+
+
+def _fold(name):
+    """Lowercase, and fold smart quotes to straight ones.
+
+    src/filter.py already does this for the taxonomy ("Children's" must match
+    "Children\u2019s"); KEYWORD_AREAS did not, so any pattern containing an
+    apostrophe silently failed on 31 of the 366 campaign names. Nothing was
+    affected by luck alone -- until "children'?s rights" was added and matched
+    nothing.
+    """
+    return (name or "").lower().replace("\u2019", "'").replace("\u2018", "'")
+
+
 def areas_for(name):
-    low = name.lower()
     out = []
-    for pattern, areas in KEYWORD_AREAS:
-        if re.search(pattern, low):
-            out.extend(a for a in areas if a not in out)
+    for low in _variants(name):
+        for pattern, areas in KEYWORD_AREAS:
+            if re.search(pattern, low):
+                out.extend(a for a in areas if a not in out)
     return out
 
 
@@ -265,10 +353,20 @@ def collate(conn):
                   " | \u20ac{0:,.0f} raised".format(g["raised"]) if g["raised"] else "",
                   g["top"][0], g["top"][1]))
     if unmapped:
-        print("\nunmapped campaigns ({0}) - counted nowhere, add keywords to map "
-              "them:".format(len(unmapped)))
+        gaps, settled = [], []
         for n in unmapped:
-            print("  -", n)
+            reason = out_of_taxonomy(n)
+            (settled if reason else gaps).append((n, reason))
+        if gaps:
+            print("\nunmapped and UNEXPLAINED ({0}) - these are gaps, add "
+                  "keywords:".format(len(gaps)))
+            for n, _ in gaps:
+                print("  -", n)
+        if settled:
+            print("\nmap nowhere ON PURPOSE ({0}) - recorded in "
+                  "OUT_OF_TAXONOMY, not gaps:".format(len(settled)))
+            for n, reason in settled:
+                print("  - {0}\n      {1}".format(n[:72], reason))
     return per_area
 
 

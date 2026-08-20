@@ -191,3 +191,76 @@ class ResolveAreasTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SmartQuoteAndSlugTests(unittest.TestCase):
+    """Two silent matching failures, both found on 2026-08-20."""
+
+    def test_curly_apostrophes_are_folded(self):
+        """src/filter.py folds smart quotes for the taxonomy; KEYWORD_AREAS did
+        not. 31 of 366 campaign names carry a curly apostrophe, and nothing was
+        affected only by luck -- until "children'?s rights" was added and
+        matched "Don\u2019t Let the UN Redefine Children\u2019s Rights!" not at all."""
+        self.assertIn(6, lcp.areas_for(
+            "Don\u2019t Let the UN Redefine Children\u2019s Rights!"))
+        self.assertIn(6, lcp.areas_for(
+            "Don't Let the UN Redefine Children's Rights!"))
+
+    def test_hyphen_delimited_slugs_match(self):
+        """Looker names are program slugs and punctuation there is arbitrary:
+        parse_program folds underscores but not hyphens, so
+        "Virgin-Island-Scrap-Show" kept its hyphens and matched nothing."""
+        self.assertIn(6, lcp.areas_for("Virgin-Island-Scrap-Show"))
+        self.assertIn(6, lcp.areas_for("'Virgin Island': Scrap Outrageous Show"))
+
+    def test_real_hyphens_in_patterns_still_match(self):
+        """Regression on the fix: testing a de-hyphenated variant must not stop
+        patterns that want a genuine hyphen from matching the original."""
+        self.assertIn(1, lcp.areas_for("Join the pro-life fightback"))
+        self.assertIn(5, lcp.areas_for("Protect single-sex wards"))
+        self.assertIn(7, lcp.areas_for("Scrap non-crime hate incidents"))
+
+
+class OutOfTaxonomyTests(unittest.TestCase):
+    """A settled decision must not read as an unfixed gap.
+
+    Without this the same rows were re-litigated every time somebody read the
+    unmapped list. Each reason states its own status.
+    """
+
+    def test_settled_exclusions_carry_a_reason(self):
+        for name in ("Sign Our Open Letter to Candidates: Tell Them What "
+                     "Matters To You",
+                     "Your Local Councillors Have More Power Than You Think",
+                     "Stop divisive Progress Pride flag displays",
+                     "Fundraising-Stay Out",
+                     "TEST-Stop UN Thought Police"):
+            self.assertIsNotNone(lcp.out_of_taxonomy(name), name)
+
+    def test_open_questions_are_labelled_as_such(self):
+        """Child sexual exploitation has three different homes today -- Telford
+        and Sadiq Khan unmapped, Shabir Ahmed under migration -- so it needs a
+        taxonomy decision, and the reason says so rather than pretending it is
+        closed."""
+        for name in ("Demand Sadiq Khan's Resignation: Failing London and "
+                     "Ignoring Abuse",
+                     "Telford: End the Sexual Abuse - Enforce the Law"):
+            reason = lcp.out_of_taxonomy(name)
+            self.assertIsNotNone(reason, name)
+            self.assertIn("OPEN QUESTION", reason)
+
+    def test_a_mapped_campaign_is_not_listed_as_out_of_scope(self):
+        """The registry must never explain away something that has an area."""
+        for name in ("Repeal the Online Safety Act",
+                     "No Digital ID: Stop the Surveillance State",
+                     "Runcorn and Helsby by-election: A life and death vote"):
+            self.assertTrue(lcp.areas_for(name), name)
+            self.assertIsNone(lcp.out_of_taxonomy(name), name)
+
+    def test_by_elections_are_mapped_by_subject_not_excluded(self):
+        """Gorton and Denton is [3,7] and Makerfield [4,3,7], so a by-election
+        naming a subject is mapped by it; only generic election tools are out."""
+        self.assertIn(2, lcp.areas_for(
+            "Runcorn and Helsby by-election: A life and death vote"))
+        self.assertIsNotNone(lcp.out_of_taxonomy(
+            "Sign Our Open Letter to Candidates"))

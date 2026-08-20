@@ -490,3 +490,76 @@ blasphemy-law and a free-speech campaign; the layers now agree.
 matching campaign pattern, covering *Reject Agenda 2030* (20,037) and the *Doha
 Summit* (16,191). These are UN governance rather than one of the three issues
 named, so they are one line to strike in each place if unwanted.
+
+## Clearing the last 14 unmapped campaigns (2026-08-20)
+
+Six mapped, eight are recorded decisions, and **zero are unexplained**.
+
+### Mapped, each pattern narrow and named
+
+| campaign | signatures | area |
+|---|---|---|
+| Stop the UN's Push to Decriminalise Paedophilia | 35,085 | 6 |
+| Don't Let the UN Redefine Children's Rights! | 33,277 | 6 |
+| Pride in Surrey Protected a Predator | 28,436 | 6 |
+| Save our Statues: Stop Cancel Culture | 9,119 | 7 |
+| Runcorn and Helsby by-election: A life and death vote | 596 | 2 |
+| 'Virgin Island': Scrap Outrageous Show | 870 | 6 |
+
+Two of those needed care. `paedophilia` is the **noun only**: `paedophile`
+would also catch *Justice for Jennifer*, a pronoun disciplinary case that is
+area 3 and not child protection. And `protected a predator` is deliberately
+narrow — a bare `\bpredator` reaches *Deport Shabir Ahmed... Protect Our
+Children From Predators*, which sits in **area 11**, and area 11 is excluded
+from briefs, so giving it a second area would have leaked a deliberately hidden
+campaign into area 6.
+
+A precedent settled the by-election question: *Gorton and Denton* is `[3,7]`
+and *Makerfield* `[4,3,7]`, so a by-election is mapped by its subject. Only
+generic election tools with no subject are out of scope.
+
+### Two silent matching failures
+
+**KEYWORD_AREAS did not fold smart quotes.** `src/filter.py` does this for the
+taxonomy ("Children's" must match "Children’s"); the campaign layer did not.
+**31 of 366** campaign names carry a curly apostrophe, and two existing
+patterns depend on an apostrophe (`women'?s (sport|space...)`). Nothing was
+affected — by luck — until `children'?s rights` was added and matched the UN
+campaign not at all.
+
+**Looker names are program slugs with arbitrary punctuation.** `parse_program`
+folds underscores but not hyphens, so `Virgin-Island-Scrap-Show` kept its
+hyphens and matched nothing. `areas_for` now tests the name **and** a
+hyphen-as-space variant and unions the result, which fixes slugs without
+breaking patterns that want a real hyphen (`pro-life`, `single-sex`,
+`non-crime` all still match, with tests).
+
+### Settled decisions are now recorded, not re-litigated
+
+`OUT_OF_TAXONOMY` in `log_campaign_performance.py` holds a pattern and a reason
+per excluded campaign, and both display paths split "unmapped and UNEXPLAINED"
+from "maps nowhere ON PURPOSE". Previously every unmapped row printed under
+"add a keyword to map them", which framed a settled decision as unfinished work
+and guaranteed it would be reconsidered by whoever next read the list.
+
+The explanations resolve through the **petition id to the local name**, because
+the Looker slug is often worded differently — "UK Local Elections Open Letter"
+for "Sign Our Open Letter to Candidates" — and testing the slug alone reported
+settled decisions as gaps.
+
+Each reason states its own status. Settled: the two generic election tools, the
+two Pride-flag campaigns (civic symbolism, no area covers flags), the
+fundraising appeal, the TEST program.
+
+### Two open questions, labelled as such
+
+**Child sexual exploitation has no area, and three different homes today.**
+*Telford: End the Sexual Abuse* and *Demand Sadiq Khan's Resignation* (65,143,
+the largest unmapped campaign) are both unmapped, while *Deport Shabir Ahmed
+Now! Protect Our Children From Predators* was filed under **migration (11)** —
+which is the track-but-never-show area. One issue, three treatments. That needs
+a taxonomy decision rather than a keyword.
+
+**Demand BBC Children In Need CEO Resigns!** (14,583) cannot be mapped from its
+name: it does not say what the funding objection was. One line of context would
+settle it.
