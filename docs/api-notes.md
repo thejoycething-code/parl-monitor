@@ -864,3 +864,43 @@ paid triage pass — `_hansard()` calls `intel.record_event` into the MP ledger,
 never `store_item` — so the "at most 30 items a week" figure for triage stands.
 But it covered only the PQ side: Hansard also adds ledger rows, and those feed
 MP intelligence and area 7's 5CA.
+
+## What publishes on a Monday, and two guards worth knowing (2026-08-20)
+
+Audited after clearing a `brief_log` rejection nearly caused an unrequested
+Drive upload. `run_monday.py` has five outward-facing steps and each has its own
+gate:
+
+| step | gate | state on 2026-08-20 |
+|---|---|---|
+| Slack edition + canvas | a `publish_log` row for the week | w/c 08-24 absent -> **will post** |
+| Asana reading task | same as above | will be created |
+| partner site deploy | none (always) | will deploy |
+| new briefs (each creates an Asana approval task) | slug absent from `brief_log` | "nothing new" -> none |
+| `check_brief_approvals` | `status='pending' AND asana_gid IS NOT NULL` | empty |
+| `publish_briefs_to_drive` | `status='pending' AND drive_file_id IS NULL` | empty |
+
+All six briefs are `rejected`, so the two brief-publishing queues are inert.
+
+**`rejected` is load-bearing in two places, not one.** `make_briefs` refuses to
+regenerate it, AND the Drive publisher refuses to publish it. Clearing a
+`brief_log` row to rebuild a brief for inspection re-arms a scheduled
+outward-facing job. Restore the row, or set `drive_file_id` to a sentinel,
+before the next Monday run.
+
+**A manual pull silently disables the scheduled one.** `pull()` guards on
+`pull_log`, and the Sunday workflow runs `run_weekly.py --pull "$WEEK"` with no
+`--force`. On a Sunday `$WEEK` is tomorrow's Monday, so pulling the NEXT week by
+hand mid-week writes the row that Sunday's run then trips over: it prints
+"already pulled", collects nothing, and Monday publishes an edition built from
+the older data. Found here because the next week had been pulled on the Thursday
+to exercise new sweep terms; the row was deleted so Sunday runs normally.
+
+If a mid-week pull of the coming week is ever wanted deliberately, delete its
+`pull_log` row afterwards or expect the Sunday run to no-op.
+
+Other scheduled workflows, checked at the same time: `ni-weekly` (Sat 06:00 and
+14:00 UTC) is a pull with no publish attached, so NI still cannot reach Slack;
+`un-calls-weekly` has its cron **commented out** and is dispatch-only, so nothing
+UN publishes; `upr-monthly` is the 3rd of the month. Only `monday-publish`
+publishes.
