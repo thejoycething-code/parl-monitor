@@ -414,9 +414,24 @@ def main():
         entries, drafts = {}, 0
     print("  * NO ESTIMATED STANCE. tools/ni_5ca.py builds a 5CA sheet, but an")
     print("    MLA is placed in a column ONLY by their vote on a division whose")
-    print("    meaning a human has confirmed in config/ni_stance.yaml --")
-    print("    {0} of {1} meaning line(s) there are still DRAFT and place "
-          "nobody.".format(drafts, len(entries)))
+    print("    meaning a human has confirmed in config/ni_stance.yaml.")
+    # Say it in whichever direction is true, unambiguously. The old sentence
+    # ("0 of 4 meaning line(s) there are still DRAFT and place nobody") was
+    # read twice, in two sessions, as "the lines place nobody" -- ambiguous
+    # exactly when the news was good.
+    if drafts:
+        print("    {0} of {1} meaning line(s) are still DRAFT; a draft places"
+              .format(drafts, len(entries)))
+        print("    nobody until the flag is removed.")
+    elif entries:
+        print("    All {0} meaning line(s) are human-confirmed: the sheet"
+              .format(len(entries)))
+        print("    places MLAs. (A NOT PLACEABLE entry is a confirmed reading")
+        print("    too -- the confirmed reading is that the vote cannot")
+        print("    discriminate.)")
+    else:
+        print("    config/ni_stance.yaml holds no meaning lines yet: the")
+        print("    sheet renders evidence only and places nobody.")
     print("  * REFRESHED WEEKLY: Saturday 06:00 UTC via")
     print("    .github/workflows/ni-weekly.yml (pull, divisions, reclassify --")
     print("    no publish step exists; the watching brief stays off Slack).")
