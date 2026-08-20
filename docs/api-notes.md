@@ -1018,3 +1018,32 @@ Findings that shaped the code:
   and `Abstain` as first-class values -- absence is data. The API also stamps
   each vote row with the voter's party at the time AND `MSPSharesParty`, its
   own whip-agreement flag, which the 5CA phase can use directly.
+
+## Holyrood phase 4: stance file, 5CA, weekly workflow (2026-08-20)
+
+* **config/sp_stance.yaml** -- same contract as NI: a human writes what a vote
+  means, `draft: true` places nobody, sign conflicts flagged never averaged.
+  Seeded with THREE drafts, texts quoted from the words voted on: the Stage 3
+  passage vote (S6M-21005, aye -2 / no +2 -- the vote that killed the Bill),
+  Stage 1 general principles (S6M-17416, aye -1 / no +1, weaker by the
+  allow-scrutiny convention: 13 more ayes than Stage 3), and the wrecking
+  amendment to Protecting Single-sex Spaces (S6M-16755.3, aye -1 / no +1,
+  with a confirmation caution: its Equality Act citation reads differently
+  post-For Women Scotland than it did in March 2025). Two candidates were
+  deliberately NOT seeded -- their stored texts truncate before the operative
+  words, and a meaning line must be drafted from what was voted on.
+* **tools/sp_5ca.py** -- 129 current MSPs, placement only from confirmed
+  meaning lines; questions are activity, not direction. Holyrood adds a
+  REBELLED marker on evidence lines from the API's own MSPSharesParty flag --
+  a chosen act against the party line, free with the data. All-draft run
+  verified: 67 of 129 with evidence, 0 placed. (67 not 129: the assisted
+  dying votes are session-6 divisions, so only re-elected MSPs carry them.)
+* **Motionsquestionsanswerssupports answered 503** twice on 2026-08-20, so
+  co-signatories are not held; proposer sponsorship works via the motion's own
+  msp_id. Retry when adding motion meaning lines.
+* **.github/workflows/sp-weekly.yml** -- Friday 06:00 UTC + 14:00 retry
+  (Holyrood sits Tue-Thu; clear of NI Sat, Sunday pull, Monday publish), same
+  parl-monitor-state concurrency group, NO publish step, separation-tested.
+* Fixed in passing: a stray Arabic character in the Vote dataclass field name
+  (`party_abbر`) -- Python accepts unicode identifiers, so it compiled and
+  passed tests while being untypeable.

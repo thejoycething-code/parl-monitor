@@ -155,6 +155,33 @@ def main():
     print("    so party-as-at-date needs no reconstruction (unlike NI).")
     print("  * ANSWERS are kept only for matched rows; classification runs on")
     print("    the question text, so a taxonomy change still re-tests all.")
+    print("  * NO ESTIMATED STANCE. tools/sp_5ca.py builds a 5CA sheet, but an")
+    print("    MSP is placed ONLY by a vote or proposal whose meaning a human")
+    print("    confirmed in config/sp_stance.yaml.")
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import sp_5ca
+        entries = dict(sp_5ca.load_stance(section="divisions"))
+        entries.update(sp_5ca.load_stance(section="motions"))
+        drafts = sum(1 for e in entries.values() if e.get("draft"))
+    except Exception:                               # noqa: BLE001
+        entries, drafts = {}, 0
+    if drafts:
+        print("    {0} of {1} meaning line(s) are still DRAFT; a draft places"
+              .format(drafts, len(entries)))
+        print("    nobody until the flag is removed.")
+    elif entries:
+        print("    All {0} meaning line(s) are human-confirmed: the sheet"
+              .format(len(entries)))
+        print("    places MSPs.")
+    else:
+        print("    config/sp_stance.yaml holds no meaning lines yet.")
+    print("  * CO-SIGNATORIES are not held: the supports endpoint answered 503")
+    print("    on 2026-08-20. Proposer sponsorship works; retry the endpoint")
+    print("    when adding motion meaning lines.")
+    print("  * REFRESHED WEEKLY: Friday 06:00 UTC via")
+    print("    .github/workflows/sp-weekly.yml (pull + divisions -- no publish")
+    print("    step exists; the watching brief stays off Slack).")
     total = conn.execute("SELECT COUNT(*) FROM sp_items").fetchone()[0]
     kinds = dict(conn.execute(
         "SELECT kind, COUNT(*) FROM sp_items GROUP BY kind").fetchall())

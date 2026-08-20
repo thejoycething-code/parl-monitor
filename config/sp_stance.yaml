@@ -1,0 +1,77 @@
+# Holyrood meaning lines -- what an aye or a no MEANS, per division.
+#
+# Same contract as config/ni_stance.yaml: a HUMAN writes what a vote means;
+# tools/sp_5ca.py merely applies it. An entry carrying `draft: true` places
+# NOBODY -- its divisions render as evidence lines only -- until Christopher
+# confirms the reading by deleting the flag. Stance values are -2..2 from
+# CitizenGO's viewpoint. Sign conflicts are flagged, never averaged.
+#
+# Divisions are keyed on the motion REFERENCE (unique across all 656 stored:
+# 'S6M-21005', 'S7M-00469.5' -- the .N suffix is an amendment, whose own text
+# is in sp_items). Quote the operative text so the confirmation is made
+# against the words voted on, not a title.
+
+divisions:
+  - reference: "S6M-21005"
+    title: "Assisted Dying for Terminally Ill Adults (Scotland) Bill: Stage 3"
+    dated: "2026-03-17"
+    result: "57 aye / 69 no -- Defeated"
+    text: >
+      That the Parliament agrees that the Assisted Dying for Terminally Ill
+      Adults (Scotland) Bill be passed.
+    draft: true
+    aye: -2
+    why_aye: >
+      Voted to pass the assisted dying Bill at its final stage. The cleanest
+      direction a vote can carry: this was the question itself, not an
+      amendment.
+    "no": 2
+    why_no: >
+      Voted to defeat the assisted dying Bill at Stage 3 -- the vote that
+      killed it on 17 March 2026.
+
+  - reference: "S6M-17416"
+    title: "Assisted Dying (Scotland) Bill: Stage 1 general principles"
+    dated: "2025-05-13"
+    result: "70 aye / 56 no -- Carried"
+    text: >
+      That the Parliament agrees to the general principles of the Assisted
+      Dying for Terminally Ill Adults (Scotland) Bill.
+    draft: true
+    aye: -1
+    why_aye: >
+      Supported the general principles at Stage 1. Weaker than the Stage 3
+      vote by convention: some members vote aye at Stage 1 to allow scrutiny
+      while reserving their position -- 13 more ayes here than at Stage 3.
+    "no": 1
+    why_no: >
+      Opposed the Bill from its first vote, before any scrutiny-stage
+      argument was available to justify an aye.
+
+  - reference: "S6M-16755.3"
+    title: "Amendment gutting 'Protecting Single-sex Spaces in the Public Sector'"
+    dated: "2025-03-12"
+    result: "57 aye / 50 no -- Carried"
+    text: >
+      As an amendment to motion S6M-16755 (Russell Findlay, Protecting
+      Single-sex Spaces in the Public Sector), leave out from "believes" to
+      end and insert "notes that the Scottish Government fully upholds the
+      Equality Act 2010, and requires all public bodies to comply with the
+      law..."
+    draft: true
+    aye: -1
+    why_aye: >
+      Voted to strip the operative wording from a motion protecting
+      single-sex spaces and replace it with compliance boilerplate -- the
+      government wrecking amendment.
+    "no": 1
+    why_no: >
+      Voted to keep the single-sex spaces motion's own wording against the
+      wrecking amendment.
+    # CAUTION for confirmation: the replacement text cites the Equality Act
+    # 2010, which post-For Women Scotland reads differently than it did on
+    # the day. Confirm against the March 2025 context, not today's.
+
+# Motion sponsorship (proposer only until the supports endpoint recovers --
+# it answered 503 on 2026-08-20, so co-signatories are not yet held).
+motions: []

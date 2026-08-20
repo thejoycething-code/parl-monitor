@@ -1,0 +1,63 @@
+name: Holyrood weekly
+
+on:
+  schedule:
+    # Friday 06:00 UTC, retry 14:00. Holyrood sits Tuesday-Thursday, so
+    # Friday morning catches the week's questions, motions and divisions.
+    # Clear of the NI slots (Sat 06:00/14:00), the Sunday pull (01:00-15:00
+    # Sun) and the Monday publish (02:00-07:00 Mon). Two slots because the
+    # Actions scheduler drops slots (it lost a Sunday on 9-10 Aug); a pull
+    # with nothing attached needs no DST guard pair.
+    - cron: "0 6 * * 5"
+    - cron: "0 14 * * 5"
+  workflow_dispatch:
+
+# The same group as every workflow that commits state: two bots pushing the
+# same files is a race, not a redundancy.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Pull roster, questions and motions
+        run: python3 tools/sp_pull.py | tee /tmp/sp-pull.log
+      - name: Harvest divisions and member votes
+        if: always()
+        run: python3 tools/sp_divisions.py | tee /tmp/sp-divisions.log
+      - name: Health summary
+        # Gap lines lifted into the run summary so the Actions page answers
+        # "did this week work" at a glance -- same reasoning as ni-weekly.
+        if: always()
+        run: |
+          {
+            echo "## Holyrood weekly refresh"
+            for f in pull divisions; do
+              echo "### $f"
+              if [ -f "/tmp/sp-$f.log" ]; then
+                echo '```'
+                grep -E "gap|no gaps|stored|match our areas|division|member" \
+                  "/tmp/sp-$f.log" | head -15 || echo "(no summary lines)"
+                echo '```'
+              else
+                echo "step did not run"
+              fi
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit state
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/parl-monitor.db data/raw
+          git diff --cached --quiet || git commit -m "Holyrood weekly refresh $(date -u +%F)"
+          git pull --rebase origin main
+          git push origin main

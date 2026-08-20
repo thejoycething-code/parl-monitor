@@ -297,6 +297,8 @@ CREATE TABLE IF NOT EXISTS sp_items (
 CREATE TABLE IF NOT EXISTS sp_members (
   person_id TEXT PRIMARY KEY,
   name TEXT, preferred_name TEXT, is_current INTEGER,
+  party TEXT,                     -- current party, from the null-until range
+  constituency TEXT,              -- Person.ConstituencyRegion off vote rows
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 -- Party membership AS DATE RANGES, straight from /api/memberparties -- unlike

@@ -79,6 +79,13 @@ def main():
                     "INSERT OR REPLACE INTO sp_votes (division_key, person_id, "
                     "vote, party, shares_party) VALUES (?,?,?,?,?)",
                     (d.key, v.person_id, v.vote, v.party, v.shares_party))
+                # The vote row carries ConstituencyRegion; sp_members has no
+                # other source for it. Latest vote wins, which is right: a
+                # member's seat is whatever they last sat for.
+                if v.constituency:
+                    conn.execute(
+                        "UPDATE sp_members SET constituency=? WHERE person_id=?",
+                        (v.constituency, v.person_id))
                 voted += 1
             stored += 1
         conn.commit()

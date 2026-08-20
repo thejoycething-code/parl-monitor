@@ -85,7 +85,7 @@ class SeparationTests(unittest.TestCase):
             return fh.read()
 
     def test_sp_tools_never_write_published_tables(self):
-        for name in ("sp_pull.py", "sp_divisions.py"):
+        for name in ("sp_pull.py", "sp_divisions.py", "sp_5ca.py"):
             source = self._source(name)
             for table in ("items", "mp_events"):
                 for verb in ("INTO {0} ", "INTO {0}(", "UPDATE {0} "):
@@ -101,6 +101,18 @@ class SeparationTests(unittest.TestCase):
         source = self._source("sp_divisions.py")
         self.assertIn("sp_divisions", source)
         self.assertIn("sp_votes", source)
+
+    def test_the_weekly_workflow_has_no_publish_step(self):
+        """Holyrood is a watching brief: the scheduled refresh pulls and
+        harvests, and nothing in it may reach Slack or need a secret."""
+        path = os.path.join(ROOT, ".github", "workflows", "sp-weekly.yml")
+        with open(path, encoding="utf-8") as fh:
+            source = "\n".join(line for line in fh.read().splitlines()
+                               if not line.strip().startswith("#"))
+        for banned in ("slack", "secrets.yaml", "post_", "publish",
+                       "ANTHROPIC", "SLACK"):
+            self.assertNotIn(banned, source, banned)
+        self.assertIn("group: parl-monitor-state", source)
 
     def test_monitor_is_read_only(self):
         source = self._source("sp_monitor.py")
@@ -149,3 +161,58 @@ class VoteTests(unittest.TestCase):
         self.assertEqual(holyrood.base_reference("S7M-00469.5"), "S7M-00469")
         self.assertEqual(holyrood.base_reference("S7M-00469"), "S7M-00469")
         self.assertEqual(holyrood.base_reference(None), "")
+
+
+class SP5caTests(unittest.TestCase):
+    """The placement contract, pinned: a human-confirmed meaning line is the
+    only thing that moves an MSP into a column."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import sp_5ca
+        cls.m = sp_5ca
+
+    ENTRY = {"reference": "S6M-21005", "aye": -2, "why_aye": "passed the bill",
+             "no": 2, "why_no": "defeated the bill"}
+
+    def test_a_draft_places_nobody(self):
+        draft = dict(self.ENTRY, draft=True)
+        self.assertEqual(self.m.vote_stance(draft, "Yes"), (None, None))
+        self.assertEqual(self.m.vote_stance(draft, "No"), (None, None))
+
+    def test_a_confirmed_entry_places_both_lobbies(self):
+        s, why = self.m.vote_stance(self.ENTRY, "Yes")
+        self.assertEqual(s, -2)
+        s, why = self.m.vote_stance(self.ENTRY, "No")
+        self.assertEqual(s, 2)
+
+    def test_absence_is_data_not_direction(self):
+        for v in ("Abstain", "Not Voted"):
+            self.assertEqual(self.m.vote_stance(self.ENTRY, v), (None, None))
+
+    def test_conflicts_are_flagged_never_averaged(self):
+        col, conflict, best = self.m.place(
+            [(2, "2026-03-17", "a", "vote"), (-1, "2025-05-13", "b", "vote")])
+        self.assertTrue(conflict)
+        self.assertEqual(col, "++", "+2 and -1 is a flagged +2, not +0.5")
+
+    def test_a_vote_outranks_a_motion_of_equal_magnitude(self):
+        col, conflict, best = self.m.place(
+            [(1, "2026-01-01", "m", "motion"), (1, "2026-01-01", "v", "vote")])
+        self.assertEqual(best[3], "vote")
+
+    def test_the_seed_file_is_all_draft(self):
+        """Nothing in the repo may place an MSP until Christopher confirms a
+        reading -- the seed entries are proposals, and this test fails the
+        moment one is confirmed WITHOUT someone consciously updating it, which
+        is the point: confirmation must be a decision, not a drift."""
+        entries = self.m.load_stance(section="divisions")
+        self.assertEqual(len(entries), 3)
+        for ref, e in entries.items():
+            self.assertTrue(e.get("draft"), ref)
+
+    def test_the_yaml_no_key_trap_is_normalised(self):
+        entries = self.m.load_stance(section="divisions")
+        for ref, e in entries.items():
+            self.assertIn("no", e, "an unquoted no: parses as False (YAML 1.1)")

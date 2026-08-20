@@ -153,7 +153,8 @@ class Vote:
     person_id: str
     person_name: str
     party: str              # stamped on the vote row by the API itself
-    party_abbر: str = None  # placeholder overwritten below
+    constituency: str = None  # Person.ConstituencyRegion, also on the row
+    party_abbrev: str = None
     vote: str = None        # Yes | No | Abstain | Not Voted
     shares_party: str = None  # the API's own whip-agreement flag
 
@@ -212,7 +213,8 @@ def parse_votes(payload):
             person_id=str(p.get("ID") or ""),
             person_name=clean(p.get("ParliamentaryName")),
             party=clean(p.get("PartyName")) or None,
-            party_abbر=clean(p.get("PartyAbbreviation")) or None,
+            constituency=clean(p.get("ConstituencyRegion")) or None,
+            party_abbrev=clean(p.get("PartyAbbreviation")) or None,
             vote=clean(d.get("VoteMSP")) or None,
             shares_party=clean(d.get("MSPSharesParty")) or None))
     return sorted(divs.values(), key=lambda x: (x.date or "", x.key))
