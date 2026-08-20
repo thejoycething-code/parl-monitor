@@ -1,6 +1,7 @@
 """Historic backfill of Hansard spoken contributions into the ledger.
 
     python3 tools/backfill_hansard.py [cutoff-date] [end-date]
+    python3 tools/backfill_hansard.py 2020-01-01 2026-08-20 --terms digital-ID,CBDC
 
 Sweeps the PQ sweep terms (campaign + historic vocabulary) through the
 Hansard contributions search in year windows, taxonomy-filters each speech
@@ -50,6 +51,16 @@ def main():
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     terms = load_settings().get("pq_sweep_terms") or []
+    # --terms a,b,c restricts the sweep. Without it a backfill for five new
+    # terms would re-sweep all 44, and although record_event is idempotent the
+    # re-fetch itself is an hour of API time for nothing.
+    if "--terms" in sys.argv:
+        wanted = set(sys.argv[sys.argv.index("--terms") + 1].split(","))
+        unknown = wanted - set(terms)
+        if unknown:
+            print("not in pq_sweep_terms: {0}".format(sorted(unknown)))
+            return
+        terms = [t for t in terms if t in wanted]
     cache = {}
 
     def resolve(member_id):
@@ -67,7 +78,12 @@ def main():
     for term in terms:
         for w_from, w_to in year_windows(cutoff, end):
             try:
-                speeches = hansard.search_contributions(client, term, w_from, w_to)
+                # The list is hyphenated for the Written Questions API; Hansard
+                # wants the spoken form ("abortion-clinics" 0, "abortion
+                # clinics" 3). The weekly caller has done this since 2026-08-17;
+                # this tool predated the fix and kept the hyphen bug.
+                speeches = hansard.search_contributions(
+                    client, hansard.spoken_form(term), w_from, w_to)
             except FetchError as exc:
                 print("  [gap] '{0}' {1}: {2}".format(term, w_from[:4], exc.cause))
                 continue
