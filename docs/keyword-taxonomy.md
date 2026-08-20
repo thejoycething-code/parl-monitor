@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 0.8 | 20 August 2026 | Owner: Christopher**
+**Version 0.9 | 20 August 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -61,9 +61,9 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 6. Parental rights and education {#6_parental_rights_education}
 
-- **Tier 1:** "relationships and sex education"; "relationships and sexuality education"; RSE; "sex education guidance"; "parental consent"; "parental rights"; "right to withdraw"; "home education"; "elective home education"; "children not in school"; "education otherwise than at school"; EOTAS; "home schooling"; "homeschool*"
+- **Tier 1:** "relationships and sex education"; "relationships and sexuality education"; RSE [with: relationship*, "sex education", school*, education, curriculum, pupil*, parent*, guidance]; "sex education guidance"; "parental consent"; "parental rights"; "right to withdraw"; "home education"; "elective home education"; "children not in school"; "education otherwise than at school"; EOTAS; "home schooling"; "homeschool*"
 - **Tier 2:** PSHE; "curriculum review"; "external providers"; "smartphone* in schools"; "faith school*"; "collective worship"; "child protection"; "foster care"; "sex education"; "grooming gang*"; "Christian ethos"; "integrated education"; "child sexual exploitation"; "child sexual abuse"; "rape gang*"; CSE
-- **Notes:** Child sexual exploitation belongs here, in child protection, by Christopher's decision 2026-08-20: it previously had four homes across the campaign store (two unmapped, one at area 7 via an open-justice ask, one under migration). CSE is all-caps so it matches case-sensitively and cannot hit "case" or "cse" inside a word. EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary. NI vocabulary (v0.5): "relationships and sexuality education" is the NI statutory term -- 47 Assembly questions over 18 years, 28 since 2024, none of which the Westminster wording matches. Christian ethos (21 plenary mentions in the year) carries the faith-schools angle; integrated education (63 mentions, the most-debated education topic in the NIA corpus) is included at tier 2 by Christopher's decision 2026-08-18, triage-gated because much of that debate is school structure rather than ours.
+- **Notes:** RSE gained a guard at v0.9 for a HOLYROOD collision: in Scotland RSE is also the Royal Society of Edinburgh, and 3 of the first 5 Scottish rows matching the term were the Society (honorary degrees, Dundee scientists). Case-sensitivity protects against "nurse", not against another institution sharing the acronym. Measured cost at Westminster before adding: all 4 ledger excerpts matching RSE keep education company, so nothing real is lost. Child sexual exploitation belongs here, in child protection, by Christopher's decision 2026-08-20: it previously had four homes across the campaign store (two unmapped, one at area 7 via an open-justice ask, one under migration). CSE is all-caps so it matches case-sensitively and cannot hit "case" or "cse" inside a word. EOTAS and the broadened tier 2 (child protection, foster care) are v0.2 pilot patches: government labels rarely match campaign vocabulary. NI vocabulary (v0.5): "relationships and sexuality education" is the NI statutory term -- 47 Assembly questions over 18 years, 28 since 2024, none of which the Westminster wording matches. Christian ethos (21 plenary mentions in the year) carries the faith-schools angle; integrated education (63 mentions, the most-debated education topic in the NIA corpus) is included at tier 2 by Christopher's decision 2026-08-18, triage-gated because much of that debate is school structure rather than ours.
 
 ### 7. Free speech, privacy and civil liberties {#7_free_speech_online_safety}
 - **Name:** Free speech, privacy and civil liberties
@@ -80,9 +80,9 @@ Every item that survives the filter is written to the store with its issue tags 
 
 ### 9. Marriage and family {#9_marriage_family}
 
-- **Tier 1:** "marriage law"; "weddings law"; "Tying the Knot"; "Law Commission"; "cohabitation reform"; "cohabitation rights"; "marriage allowance"; "family breakdown"; "no-fault divorce"
+- **Tier 1:** "marriage law"; "weddings law"; "Tying the Knot"; "Law Commission" [with: marriage, wedding*, cohabit*, surrogac*, family]; "cohabitation reform"; "cohabitation rights"; "marriage allowance"; "family breakdown"; "no-fault divorce"
 - **Tier 2:** "civil partnership*"; "family hub*"; fatherhood; "forced marriage"; "humanist marriage"; sharia
-- **Notes:** Deliberately lean; childcare and general family-benefit items are excluded. Tying the Knot is a v0.2 pilot patch.
+- **Notes:** "Law Commission" gained a guard at v0.9, found via Holyrood but a WESTMINSTER bug: the Commission works on everything, and 141 ledger lines matched the bare term with only 6 keeping marriage/family company -- the rest were leasehold, digital wills and self-harm internet regulation, quietly inflating area 9 evidence. The guard names the Commission work this area actually watches. Deliberately lean; childcare and general family-benefit items are excluded. Tying the Knot is a v0.2 pilot patch.
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 

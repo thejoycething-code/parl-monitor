@@ -929,3 +929,63 @@ remaining three are right: Modernising Divorce Laws [9], Standing up to Racism
 leaving `World Health Organisation` open protected the spelling, not the
 meaning. When a term needs company, every way of writing that term needs the
 same company.
+
+## Holyrood open data, probed 2026-08-20 (phase 1 of the watching brief)
+
+`data.parliament.scot/api/*`, keyless. The full endpoint index is at
+`/api/apilist` (209 entries). Traps found by probing, not reading:
+
+* **The API list lies about votes.** It advertises `Votesmotions` (plural),
+  which 404s for every year. The real endpoint is singular lowercase
+  `votesmotion?year=N` (19MB / 19,473 per-MSP rows for 2026).
+* **The motions endpoint ignores `?year=`.** It accepts the parameter and
+  serves the full 110MB / 84,751-row dump since 1999 either way. Check sizes,
+  not status codes.
+* **No search API exists** -- questions come as whole-year dumps
+  (`Motionsquestionsanswersquestions?year=N`, 7MB / 4,717 rows for 2026). So
+  the Holyrood brief has NO sweep terms: the taxonomy classifies every row,
+  and the entire NI/Westminster family of search-term traps (loose matching,
+  hyphen sensitivity, dormant terms) does not exist here.
+* **Answers arrive inline** on the question row (`AnswerText`), so there is no
+  per-answer fetch to guard -- the thing NI spent 8 minutes a week on until
+  guarded.
+* **Party history is native date ranges** (`/api/memberparties`,
+  `ValidFromDate`/`ValidUntilDate`, null = current; 976 rows, and exactly 129
+  current = the chamber). Party-as-at-date needs no reconstruction.
+* **Year dumps are fetched with `archive=False`** (new HttpClient option):
+  data/raw is committed to git weekly and the API serves these canonically by
+  year, re-fetchable at will. `sp_items.body` stores the text whole, so
+  offline re-classification (`sp_pull.py --reclassify`) never re-fetches.
+* Text carries HTML entities (`&rsquo;`, `&pound;`) -- unescape before
+  classifying or phrase terms fail on the entity.
+* The Official Report is `orsplenarymeeting?year=N` (65MB for 2026) --
+  phase 3, offline classification like NI Hansard. Committee reports are
+  `Orscommitteemeeting?year=N` and the apilist stops advertising it after
+  2024; unverified whether later years exist.
+
+First pull: 15,297 rows (4,717 questions 2026 + 10,580 motions since
+2024-01-01), 146 questions and 113 tier-1 motions on our ground. The chamber is
+session 7 (post-May-2026 election): S7W references, Reform UK MSPs on the
+roster.
+
+### Two taxonomy bugs Holyrood exposed, one of them Westminster's
+
+* **`RSE` is also the Royal Society of Edinburgh.** 3 of the first 5 Scottish
+  rows matching the term were the Society. Guarded with education company at
+  v0.9; measured first -- all 4 real Westminster excerpts keep company.
+* **`Law Commission` was a Westminster false-positive factory.** 141 ledger
+  lines match it and only 6 keep marriage/family company -- the rest are
+  leasehold, digital wills, self-harm internet regulation, quietly inflating
+  area 9 evidence in the Westminster 5CA all along. Guarded at v0.9. The
+  STORED mp_events areas are stale until the next ledger backfill re-runs;
+  recorded here so the inflation is known before it is fixed.
+
+### The tier gate
+
+Holyrood tables thousands of congratulatory motions a year, and tier-2
+vocabulary alone filed a dental-charity fundraiser under assisted dying
+("hospice") and a stoma-friendly airport under sex-based rights ("changing
+room*"). `sp_items.tier` records the match tier; the monitor shows tier 1
+(113 motions, genuinely ours) and counts tier-2-only rows as held. Westminster
+gates tier 2 behind paid triage; the watching brief gates it behind a column,
+for free.

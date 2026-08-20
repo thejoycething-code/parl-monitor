@@ -166,9 +166,18 @@ class HttpClient:
 
     # -- public API ---------------------------------------------------------
 
-    def get_json(self, url, feed, slug, timeout=None):
-        """Fetch, archive, and parse a JSON response."""
-        raw = self._fetch(url, feed, slug, timeout)
+    def get_json(self, url, feed, slug, timeout=None, archive=True):
+        """Fetch, archive, and parse a JSON response.
+
+        archive=False fetches without writing data/raw. For Holyrood's
+        whole-year dumps (110MB of motions, 65MB of Official Report) the raw
+        tree is committed to git weekly, so mirroring them would grow the repo
+        by tens of MB a week to archive what the API itself already serves
+        canonically BY YEAR, re-fetchable at will -- unlike a search snapshot,
+        which is only reproducible from our own copy. The store keeps the text
+        that matters; the provenance is the year-dump URL.
+        """
+        raw = self._fetch(url, feed, slug, timeout, archive=archive)
         return json.loads(raw.decode("utf-8"))
 
     def get_text(self, url, feed, slug, timeout=None):
@@ -235,7 +244,7 @@ class HttpClient:
                 self._hosts[host] = state
             return state
 
-    def _fetch(self, url, feed, slug, timeout):
+    def _fetch(self, url, feed, slug, timeout, archive=True):
         timeout = self.default_timeout if timeout is None else timeout
         host = urlsplit(url).netloc
         state = self._host_state(host)
@@ -246,7 +255,8 @@ class HttpClient:
             self._throttle(state)
             raw = self._request_with_retries(url, feed, slug, timeout)
 
-        self._archive(raw, feed, slug)
+        if archive:
+            self._archive(raw, feed, slug)
         return raw
 
     def _throttle(self, state):

@@ -253,6 +253,63 @@ CREATE TABLE IF NOT EXISTS ni_votes (
   captured_at TEXT NOT NULL,
   PRIMARY KEY (doc_id, person_id)
 );
+-- ============================= HOLYROOD ====================================
+-- Scottish Parliament watching brief (2026-08-20). Same rules as ni_*: its own
+-- tables, never `items`/`mp_events`, so it structurally cannot reach the Slack
+-- digest. Unlike NI there is NO search API -- data.parliament.scot serves
+-- whole-year dumps -- so every row of the fetched years is classified by the
+-- taxonomy directly and NO sweep terms exist to go stale.
+CREATE TABLE IF NOT EXISTS sp_items (
+  id TEXT PRIMARY KEY,            -- 'sp-question:S6W-12345' | 'sp-motion:447623'
+  kind TEXT NOT NULL,             -- question|motion
+  reference TEXT,                 -- 'S6W-12345' event reference where present
+  title TEXT,
+  dated TEXT,                     -- SubmissionDateTime date part
+  msp_id TEXT,                    -- PersonID; joins sp_members
+  party TEXT,                     -- as carried ON THE ROW by the API itself
+  areas TEXT,                     -- json list of OUR area numbers
+  matched_terms TEXT,             -- json list, for taxonomy maintenance
+  body TEXT,                      -- ItemText stored whole: the DB is the
+                                  -- archive here, because the year dumps are
+                                  -- not mirrored into data/raw (110MB of
+                                  -- motions a week has no place in git; the
+                                  -- API serves them canonically by year).
+  answered TEXT,                  -- AnswerDate
+  answer TEXT,                    -- AnswerText, stored ONLY for matched rows:
+                                  -- classification runs on the QUESTION text,
+                                  -- so unmatched rows keep enough to re-test
+                                  -- a taxonomy change without carrying ~7MB a
+                                  -- year of answers nobody will read.
+  answered_by TEXT,               -- AnsweredByMSP id
+  cross_party INTEGER,            -- CrossPartySupport flag on motions
+  tier INTEGER,                   -- 1 = tier-1 match; 2 = tier-2 only. The
+                                  -- monitor shows tier 1 and counts tier 2:
+                                  -- Holyrood motion culture is congratulatory
+                                  -- ("welcomes...", thousands a year), and the
+                                  -- first pull filed a dental-charity
+                                  -- fundraiser under assisted dying via the
+                                  -- tier-2 term "hospice". Westminster gates
+                                  -- tier 2 behind paid triage; the watching
+                                  -- brief gates it behind this column.
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+-- All 416 people who have ever sat; IsCurrent marks the 129 sitting MSPs.
+CREATE TABLE IF NOT EXISTS sp_members (
+  person_id TEXT PRIMARY KEY,
+  name TEXT, preferred_name TEXT, is_current INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+-- Party membership AS DATE RANGES, straight from /api/memberparties -- unlike
+-- NI, where party-as-at had to be reconstructed per date, Holyrood publishes
+-- the ranges natively (ValidFromDate/ValidUntilDate, null until = current).
+-- 976 rows total; a floor-crosser is two rows.
+CREATE TABLE IF NOT EXISTS sp_affiliations (
+  id TEXT PRIMARY KEY,            -- the API's own row ID
+  person_id TEXT NOT NULL,
+  party_id TEXT, party TEXT,
+  valid_from TEXT, valid_until TEXT,   -- null valid_until = current
+  captured_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -271,6 +328,9 @@ TABLES = (
     "un_calendar",
     "un_documents",
     "un_votes",
+    "sp_items",
+    "sp_members",
+    "sp_affiliations",
     "ni_items",
     "ni_members",
     "ni_affiliations",

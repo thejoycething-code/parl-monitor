@@ -151,7 +151,16 @@ class FilterTests(unittest.TestCase):
 
     def test_rse_word_boundary_does_not_match_nurse(self):
         self.assertFalse(self.match("A nurse spoke at length in the course").matched())
+        # v0.9: RSE needs education company (in Scotland it is also the Royal
+        # Society of Edinburgh). "guidance" is in the guard, so this realistic
+        # heading still matches; a bare acronym with no education word at all
+        # no longer does, and the Society's honorary degrees never did carry
+        # one -- measured on the first Holyrood pull, 3 of 5 RSE rows were the
+        # Society.
         self.assertIn(6, self.match("New RSE guidance published").issue_areas)
+        self.assertNotIn(6, self.match(
+            "Royal Society of Edinburgh Recognises Dundee Scientists RSE"
+            ).issue_areas)
 
     def test_stem_wildcard(self):
         self.assertIn(3, self.match("Ban on puberty blockers upheld").issue_areas)
