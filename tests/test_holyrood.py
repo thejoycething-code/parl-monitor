@@ -85,7 +85,7 @@ class SeparationTests(unittest.TestCase):
             return fh.read()
 
     def test_sp_tools_never_write_published_tables(self):
-        for name in ("sp_pull.py",):
+        for name in ("sp_pull.py", "sp_divisions.py"):
             source = self._source(name)
             for table in ("items", "mp_events"):
                 for verb in ("INTO {0} ", "INTO {0}(", "UPDATE {0} "):
@@ -96,6 +96,11 @@ class SeparationTests(unittest.TestCase):
         source = self._source("sp_pull.py")
         self.assertIn("sp_items", source)
         self.assertIn("sp_members", source)
+
+    def test_sp_divisions_writes_its_own_tables(self):
+        source = self._source("sp_divisions.py")
+        self.assertIn("sp_divisions", source)
+        self.assertIn("sp_votes", source)
 
     def test_monitor_is_read_only(self):
         source = self._source("sp_monitor.py")
@@ -114,3 +119,33 @@ class SeparationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class VoteTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.divs = holyrood.parse_votes(load_fixture("holyrood_votes-fixture"))
+
+    def test_both_detail_schemas_produce_divisions(self):
+        """TWO Detail schemas coexist in one dump: most rows carry
+        MotionAgendaItemID, but 1,419 of 19,473 rows in 2026 -- 11 whole
+        divisions -- carry BackupAgendaItemID instead. Keying on the first
+        alone silently dropped those 11, caught only because the division
+        count was cross-checked against an independent (reference, time)
+        grouping. The fixture holds one division of each schema."""
+        self.assertEqual(len(self.divs), 2)
+        keys = {d.key[0] for d in self.divs}
+        self.assertEqual(keys, {"m", "b"}, "one division per schema")
+
+    def test_every_voter_is_kept(self):
+        payload = load_fixture("holyrood_votes-fixture")
+        self.assertEqual(sum(len(d.votes) for d in self.divs), len(payload))
+
+    def test_party_and_whip_flag_ride_the_vote_row(self):
+        v = self.divs[0].votes[0]
+        self.assertTrue(v.party)
+        self.assertIn(v.vote, ("Yes", "No", "Abstain", "Not Voted"))
+
+    def test_base_reference_strips_the_amendment_suffix(self):
+        self.assertEqual(holyrood.base_reference("S7M-00469.5"), "S7M-00469")
+        self.assertEqual(holyrood.base_reference("S7M-00469"), "S7M-00469")
+        self.assertEqual(holyrood.base_reference(None), "")

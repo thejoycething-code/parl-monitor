@@ -310,6 +310,32 @@ CREATE TABLE IF NOT EXISTS sp_affiliations (
   valid_from TEXT, valid_until TEXT,   -- null valid_until = current
   captured_at TEXT NOT NULL
 );
+-- Holyrood divisions. Classification is an EXACT-KEY join: the reference
+-- 'S7M-00469.5' is amendment 5 to motion S7M-00469, and BOTH are rows in the
+-- motions dump with their own full text, already stored in sp_items. So a
+-- division inherits areas from its own amendment's wording -- the thing NI
+-- needed a Hansard parser for arrives here as a foreign key.
+CREATE TABLE IF NOT EXISTS sp_divisions (
+  key TEXT PRIMARY KEY,           -- 'm<MotionAgendaItemID>' or
+                                  -- 'b<BackupAgendaItemID>': two Detail
+                                  -- schemas coexist in the dump and 11 of 151
+                                  -- divisions in 2026 carry only the second.
+  reference TEXT,                 -- 'S7M-00469.5'
+  title TEXT, dated TEXT, session TEXT,
+  vote_for INTEGER, vote_against INTEGER, result TEXT,
+  item_id TEXT,                   -- sp_items id of the amendment/motion voted
+  areas TEXT, matched_terms TEXT, tier INTEGER,   -- from that item's wording
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS sp_votes (
+  division_key TEXT NOT NULL,
+  person_id TEXT NOT NULL,
+  vote TEXT,                      -- Yes | No | Abstain | Not Voted: every MSP
+                                  -- appears, so absence is data, not a gap
+  party TEXT,                     -- stamped on the vote row by the API itself
+  shares_party TEXT,              -- the API's own whip-agreement flag
+  PRIMARY KEY (division_key, person_id)
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -331,6 +357,8 @@ TABLES = (
     "sp_items",
     "sp_members",
     "sp_affiliations",
+    "sp_divisions",
+    "sp_votes",
     "ni_items",
     "ni_members",
     "ni_affiliations",

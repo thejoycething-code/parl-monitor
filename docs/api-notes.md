@@ -989,3 +989,32 @@ room*"). `sp_items.tier` records the match tier; the monitor shows tier 1
 (113 motions, genuinely ours) and counts tier-2-only rows as held. Westminster
 gates tier 2 behind paid triage; the watching brief gates it behind a column,
 for free.
+
+## Holyrood phase 2: divisions (2026-08-20)
+
+`votesmotion?year=N` ingested for 2024-2026: **656 divisions, 84,567 vote
+positions**, 58 classified by their own motion's wording (24 tier-1), zero
+unlinked references. The headline record arrived whole: the Assisted Dying
+(Scotland) Bill's Stage 3 defeat on 2026-03-17, 57-69, with all 129 MSPs'
+positions -- alongside its Stage 1 (70-56) and the financial resolution
+(70-31), so the trajectory is queryable.
+
+Findings that shaped the code:
+
+* **Two Detail schemas coexist in one dump.** Most rows carry
+  `MotionAgendaItemID`; 1,419 of 19,473 rows in 2026 -- 11 whole divisions --
+  carry `BackupAgendaItemID` instead. Keying on the first alone silently
+  dropped those 11, caught only by cross-checking the division count against
+  an independent (reference, time) grouping. The stored key is prefixed
+  (`m<id>` / `b<id>`) so the two ID spaces cannot collide. Regression-tested
+  with one fixture division per schema.
+* **Classification is an exact-key join, not text matching.** A division's
+  reference `S7M-00469.5` IS amendment 5 to motion S7M-00469, and both are
+  rows in the motions dump with their own full text, already in sp_items.
+  The thing NI needed a Hansard amendment parser for arrives here as a
+  foreign key. A division whose reference is absent from sp_items is stored
+  unclassified and counted, never guessed.
+* **Every MSP appears in every division** (129/128 rows), with `Not Voted`
+  and `Abstain` as first-class values -- absence is data. The API also stamps
+  each vote row with the voter's party at the time AND `MSPSharesParty`, its
+  own whip-agreement flag, which the 5CA phase can use directly.

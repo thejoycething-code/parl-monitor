@@ -38,6 +38,9 @@ MOTIONS_URL = API + "/Motionsquestionsanswersmotions"
 MEMBERS_URL = API + "/members"
 MEMBER_PARTIES_URL = API + "/memberparties"
 PARTIES_URL = API + "/parties"
+# Singular lowercase. The portal's own API list advertises "Votesmotions",
+# which 404s for every year -- probed 2026-08-20.
+VOTES_URL = API + "/votesmotion?year={0}"
 
 
 def clean(text):
@@ -143,6 +146,87 @@ def parse_parties(payload):
     return {str(r.get("ID")): clean(r.get("ActualName") or r.get("Name")
                                     or r.get("PreferredName"))
             for r in (payload or []) if r.get("ID")}
+
+
+@dataclass
+class Vote:
+    person_id: str
+    person_name: str
+    party: str              # stamped on the vote row by the API itself
+    party_abbر: str = None  # placeholder overwritten below
+    vote: str = None        # Yes | No | Abstain | Not Voted
+    shares_party: str = None  # the API's own whip-agreement flag
+
+
+@dataclass
+class Division:
+    key: str                # MotionAgendaItemID -- unique per division
+    reference: str          # 'S7M-00469.5': base motion + amendment suffix
+    title: str
+    date: str
+    session: str
+    vote_for: int
+    vote_against: int
+    result: str             # Carried | Defeated ...
+    votes: list             # [Vote]
+
+
+def parse_votes(payload):
+    """Group per-MSP rows into divisions, keyed on MotionAgendaItemID.
+
+    2026 measured: 19,473 rows -> 151 divisions of 128-129 voters each --
+    every MSP appears, with 'Not Voted' and 'Abstain' as first-class values,
+    so absence is data rather than a missing row.
+    """
+    divs = {}
+    for r in payload or []:
+        d = r.get("Detail") or {}
+        m = r.get("Motion") or {}
+        p = r.get("Person") or {}
+        t = r.get("Time") or {}
+        # TWO Detail schemas coexist in one dump: most rows carry
+        # MotionAgendaItemID, but 1,419 of 19,473 in 2026 (11 whole divisions)
+        # carry BackupAgendaItemID instead. Keying on the first alone silently
+        # dropped those 11 -- caught only because the division count was
+        # checked against an independent (reference, time) grouping. The
+        # prefix keeps the two ID spaces from colliding.
+        d_key = d.get("MotionAgendaItemID")
+        b_key = d.get("BackupAgendaItemID")
+        key = ("m{0}".format(d_key) if d_key else
+               "b{0}".format(b_key) if b_key else "")
+        if not key:
+            continue
+        div = divs.get(key)
+        if div is None:
+            div = divs[key] = Division(
+                key=key,
+                reference=clean(m.get("Reference")) or None,
+                title=clean(m.get("Title"))[:300],
+                date=day(t.get("Start")),
+                session=clean(t.get("Session")) or None,
+                vote_for=d.get("VoteFor"),
+                vote_against=d.get("VoteAgainst"),
+                result=clean(d.get("VoteResult")) or None,
+                votes=[])
+        div.votes.append(Vote(
+            person_id=str(p.get("ID") or ""),
+            person_name=clean(p.get("ParliamentaryName")),
+            party=clean(p.get("PartyName")) or None,
+            party_abbر=clean(p.get("PartyAbbreviation")) or None,
+            vote=clean(d.get("VoteMSP")) or None,
+            shares_party=clean(d.get("MSPSharesParty")) or None))
+    return sorted(divs.values(), key=lambda x: (x.date or "", x.key))
+
+
+def base_reference(reference):
+    """'S7M-00469.5' -> 'S7M-00469'; the base motion a division belongs to."""
+    return (reference or "").split(".")[0]
+
+
+def fetch_votes(client, year, timeout=180):
+    return parse_votes(client.get_json(
+        VOTES_URL.format(year), "holyrood", "votes-{0}".format(year),
+        timeout=timeout, archive=False))
 
 
 def fetch_questions(client, year, timeout=120):

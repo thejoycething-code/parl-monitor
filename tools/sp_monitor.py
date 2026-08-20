@@ -105,9 +105,49 @@ def main():
         print("  {0:<2} {1:<42} {2}".format(area, names.get(area, "?"), per[area]))
 
     print(); print(line)
+    print("HOW MSPs VOTED    [tools/sp_divisions.py]"); print(line)
+    dv=conn.execute("SELECT * FROM sp_divisions ORDER BY dated DESC").fetchall()
+    ours=[r for r in dv if r["areas"] and r["areas"] != "[]"
+          and r["tier"] == 1
+          and shown(json.loads(r["areas"]))]
+    print("  {0} division(s) stored with every MSP's position; {1} tier-1 on"
+          .format(len(dv), len(ours)))
+    print("  our ground, classified by their own motion's wording -- an")
+    print("  exact-key join, never text-matched against a truncated subject.\n")
+    for r in ours[:n]:
+        a=shown(json.loads(r["areas"]))
+        print("  OURS  {0}  {1:<12} areas {2}".format(
+            r["dated"], r["reference"], ",".join(map(str, a))))
+        print("        {0}".format((r["title"] or "")[:66]))
+        print("        {0} aye / {1} no -- {2}".format(
+            r["vote_for"], r["vote_against"], r["result"]))
+    if len(ours) > n:
+        print("  ...and {0} more.".format(len(ours) - n))
+    # Party tallies over OUR tier-1 divisions, from the party stamped on each
+    # vote row at the time of the vote.
+    per={}
+    keys=tuple(r["key"] for r in ours)
+    if keys:
+        q=("SELECT party, vote, COUNT(*) FROM sp_votes WHERE division_key IN "
+           "({0}) GROUP BY party, vote".format(",".join("?"*len(keys))))
+        for party, vote, count in conn.execute(q, keys):
+            per.setdefault(party or "?", {})[vote]=count
+        print("\n  ACROSS OUR TIER-1 DIVISIONS, by party AT THE VOTE "
+              "(aye/no/abstain/absent):")
+        for party, tally in sorted(per.items(),
+                                   key=lambda x: -sum(x[1].values())):
+            print("     {0:<42} {1:>4} / {2:>4} / {3:>3} / {4:>3}".format(
+                party[:42], tally.get("Yes",0), tally.get("No",0),
+                tally.get("Abstain",0), tally.get("Not Voted",0)))
+        print("  Amendment votes cut both ways; read the division before")
+        print("  concluding anything from a bare tally.")
+
+    print(); print(line)
     print("WHAT THIS DOES NOT KNOW    [src/ingest/holyrood.py]"); print(line)
-    print("  * NO VOTES YET: votesmotion?year= is probed and shaped (per-MSP")
-    print("    per-motion, 19,473 rows in 2026) but not ingested -- phase 2.")
+    print("  * VOTES: every MSP appears in every division ('Not Voted' and")
+    print("    'Abstain' are first-class values), and the API stamps party AND")
+    print("    a whip-agreement flag on each vote row. A division whose motion")
+    print("    is not in sp_items is stored unclassified, never guessed.")
     print("  * NO OFFICIAL REPORT: orsplenarymeeting?year= (65MB/year) is the")
     print("    Hansard equivalent, for offline classification -- phase 3.")
     print("  * PARTY IS THE ROW'S OWN: the API stamps the asker's party on")
