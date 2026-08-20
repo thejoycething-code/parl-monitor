@@ -904,3 +904,28 @@ Other scheduled workflows, checked at the same time: `ni-weekly` (Sat 06:00 and
 `un-calls-weekly` has its cron **commented out** and is dispatch-only, so nothing
 UN publishes; `upr-monthly` is the 3rd of the month. Only `monday-publish`
 publishes.
+
+## The WHO name needed the same guard as the acronym (v0.8, 2026-08-20)
+
+Found by reading the full NI monitor after widening area 7. The motion
+**"Addressing the Mental Health Crisis"** was showing at area 7, matched on
+`World Health Organisation` — and its text only says its recommendations
+
+> align with recent calls from the World Health Organisation and the United
+> Nations for systematic mental health reform
+
+WHO as a research citation, not health sovereignty. At v0.6 the acronym `WHO`
+was carefully protected — all-caps for case-sensitivity, plus a `[with:
+pandemic, treaty, "health regulations", accord]` guard — and the **spelled-out
+name was left unguarded**, which is the same term with none of the protection.
+Any health motion citing WHO would have matched.
+
+Both spellings now carry the same guard. Blast radius when found: one stored row
+in `ni_items`, none in `mp_events`. NI matched motions went 4 to 3, and the
+remaining three are right: Modernising Divorce Laws [9], Standing up to Racism
+[7, 11], Women's Rights in Northern Ireland Prisons [5].
+
+**The lesson is about guarding a concept, not a string.** Guarding `WHO` while
+leaving `World Health Organisation` open protected the spelling, not the
+meaning. When a term needs company, every way of writing that term needs the
+same company.

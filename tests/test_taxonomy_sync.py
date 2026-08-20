@@ -27,7 +27,7 @@ class TaxonomySyncTests(unittest.TestCase):
     def test_master_parses_eleven_areas(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "0.7")
+        self.assertEqual(version, "0.8")
         self.assertEqual(len(areas), 11)
         self.assertEqual(len(exclusions), 8)
         self.assertIn("EOTAS", areas["6_parental_rights_education"]["tier1"])
@@ -45,8 +45,13 @@ class TaxonomySyncTests(unittest.TestCase):
         self.assertIn("IHR", seven["tier1"])
         # Bare WHO is guarded as well as case-sensitive; the guard must survive
         # the round trip through the generator.
-        self.assertIn('WHO [with: pandemic, treaty, "health regulations", '
-                      'accord]', seven["tier2"])
+        guard = ' [with: pandemic, treaty, "health regulations", accord]'
+        self.assertIn("WHO" + guard, seven["tier2"])
+        # v0.8: the name SPELLED OUT is guarded too. Unguarded it filed the NI
+        # motion "Addressing the Mental Health Crisis" under area 7 for citing
+        # WHO research on mental health.
+        self.assertIn('"World Health Organisation"' + guard, seven["tier2"])
+        self.assertIn('"World Health Organization"' + guard, seven["tier2"])
         # The display-label override. Only area 7 declares one: make_5ca.py
         # builds CSV filenames from the label, so relabelling an area renames
         # its sheets and the other ten must keep the key-derived label.

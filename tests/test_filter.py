@@ -365,6 +365,21 @@ class CivilLibertiesTermTests(unittest.TestCase):
         self.assertIn(7, self._areas(
             "The WHO pandemic accord was signed in Geneva"))
 
+    def test_the_who_name_spelled_out_needs_company_too(self):
+        """v0.8. Unguarded, it filed the NI motion "Addressing the Mental
+        Health Crisis" under area 7: its text only says the recommendations
+        "align with recent calls from the World Health Organisation and the
+        United Nations for systematic mental health reform". WHO as a research
+        citation, not health sovereignty -- and any health motion citing WHO
+        would have done the same."""
+        self.assertNotIn(7, self._areas(
+            "recommendations align with recent calls from the World Health "
+            "Organisation and the United Nations for mental health reform"))
+        self.assertNotIn(7, self._areas(
+            "World Health Organization guidance on malaria nets"))
+        self.assertIn(7, self._areas(
+            "World Health Organisation pandemic treaty negotiations resume"))
+
     def test_health_sovereignty_terms(self):
         for text in ("Pandemic treaty negotiations resume",
                      "Withdraw from the International Health Regulations",
