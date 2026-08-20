@@ -3,6 +3,13 @@
     python3 tools/sp_divisions.py                 # years 2024..today
     python3 tools/sp_divisions.py --year 2026     # one year
 
+Two vote classes exist and BOTH are harvested. votesmotion carries motion
+decisions with per-MSP votes; bill AMENDMENT divisions live only in the
+Official Report as aggregates ("For 47, Against 67") with no roll-call
+anywhere in the open data -- in 2026 that second class was 530 of 672 division
+results, including all 215 of the Assisted Dying Stage 3 amendment fight.
+OR rows citing a motion reference are skipped as duplicates of votesmotion.
+
 Same rules as every sp_/ni_ tool: its own tables, never items/mp_events, so
 nothing here can reach the Slack digest; every failed source is a printed gap.
 
@@ -60,16 +67,16 @@ def main():
                 unlinked += 1
             conn.execute(
                 "INSERT INTO sp_divisions (key, reference, title, dated, "
-                "session, vote_for, vote_against, result, item_id, areas, "
-                "matched_terms, tier, first_seen, last_seen) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+                "session, vote_for, vote_against, result, source, item_id, "
+                "areas, matched_terms, tier, first_seen, last_seen) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
                 "ON CONFLICT(key) DO UPDATE SET vote_for=excluded.vote_for, "
                 "vote_against=excluded.vote_against, result=excluded.result, "
                 "item_id=excluded.item_id, areas=excluded.areas, "
                 "matched_terms=excluded.matched_terms, tier=excluded.tier, "
                 "last_seen=excluded.last_seen",
                 (d.key, d.reference, d.title, d.date, d.session,
-                 d.vote_for, d.vote_against, d.result,
+                 d.vote_for, d.vote_against, d.result, "votesmotion",
                  item["id"] if item else None,
                  item["areas"] if item else None,
                  item["matched_terms"] if item else None,
@@ -91,10 +98,60 @@ def main():
         conn.commit()
         print("{0}: {1} division(s) so far.".format(year, stored))
 
+    # Second class: bill amendment divisions from the Official Report.
+    from src import filter as filt
+    tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+    import json as _json
+    or_stored = or_ours = 0
+    for year in years:
+        try:
+            ordivs = holyrood.fetch_or_divisions(client, year)
+        except FetchError as exc:
+            conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+                         (datetime.date.today().isoformat(), "sp-or-divisions",
+                          "year {0}: {1}".format(year, exc.cause)))
+            conn.commit()
+            print("  [gap] OR divisions {0}: {1}".format(year, exc.cause))
+            gaps += 1
+            continue
+        for d in ordivs:
+            if d.motion_ref:
+                continue        # duplicate of a votesmotion division
+            res = filt.filter_item(tax, wl, d.heading or "")
+            areas = res.issue_areas or []
+            if areas:
+                or_ours += 1
+            title = d.heading
+            if d.amendment_no:
+                title = "{0} -- amendment {1} {2}".format(
+                    d.heading, d.amendment_no, d.outcome or "?")
+            conn.execute(
+                "INSERT INTO sp_divisions (key, reference, title, dated, "
+                "session, vote_for, vote_against, result, abstentions, "
+                "amendment_no, source, areas, matched_terms, tier, "
+                "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+                "ON CONFLICT(key) DO UPDATE SET vote_for=excluded.vote_for, "
+                "vote_against=excluded.vote_against, "
+                "abstentions=excluded.abstentions, title=excluded.title, "
+                "areas=excluded.areas, matched_terms=excluded.matched_terms, "
+                "tier=excluded.tier, last_seen=excluded.last_seen",
+                (d.key, None, title, d.dated, None, d.vote_for,
+                 d.vote_against, (d.outcome or ""), d.abstentions,
+                 d.amendment_no, "official-report", _json.dumps(areas),
+                 _json.dumps(res.matched_terms or []), res.tier, now, now))
+            or_stored += 1
+        conn.commit()
+        print("OR {0}: {1} bill-amendment division(s) so far.".format(
+            year, or_stored))
+    print("{0} OR division(s) stored (aggregate only -- the OR prints no "
+          "roll-call, so these place nobody); {1} on our ground by bill "
+          "heading.".format(or_stored, or_ours))
+
     import json
     ours = conn.execute(
         "SELECT COUNT(*) FROM sp_divisions WHERE areas IS NOT NULL "
-        "AND areas != '[]'").fetchone()[0]
+        "AND areas != '[]' AND source = 'votesmotion'").fetchone()[0]
     print("\n{0} division(s) stored, {1} vote position(s); {2} on our ground "
           "by their own motion's wording.".format(stored, voted, ours))
     if unlinked:

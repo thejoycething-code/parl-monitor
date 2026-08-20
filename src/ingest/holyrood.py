@@ -29,6 +29,7 @@ keeps the text (sp_items.body), so offline re-classification never re-fetches.
 from __future__ import annotations
 
 import html
+import re
 from dataclasses import dataclass
 
 API = "https://data.parliament.scot/api"
@@ -41,6 +42,7 @@ PARTIES_URL = API + "/parties"
 # Singular lowercase. The portal's own API list advertises "Votesmotions",
 # which 404s for every year -- probed 2026-08-20.
 VOTES_URL = API + "/votesmotion?year={0}"
+OR_URL = API + "/orsplenarymeeting?year={0}"
 
 
 def clean(text):
@@ -218,6 +220,69 @@ def parse_votes(payload):
             vote=clean(d.get("VoteMSP")) or None,
             shares_party=clean(d.get("MSPSharesParty")) or None))
     return sorted(divs.values(), key=lambda x: (x.date or "", x.key))
+
+
+# Bill AMENDMENT divisions are the second class of Holyrood vote, and they are
+# NOT in votesmotion: that endpoint carries motion decisions only. In 2026 the
+# Official Report held 672 division results, of which 530 were bill amendments
+# -- including all 215 of the Assisted Dying Bill's Stage 3 amendment battle.
+# The OR prints AGGREGATE results only ("For 47, Against 67, Abstentions 0");
+# no per-member roll exists anywhere in the open data, so these divisions can
+# never place anyone in a 5CA -- they are record and context.
+_OR_RESULT = re.compile(
+    r"result of the division(?: on)?[^:]*is:\s*"
+    r"For\s*(\d+),\s*Against\s*(\d+),\s*Abstentions\s*(\d+)", re.I)
+_OR_AMENDMENT = re.compile(r"Amendment\s+(\d+[A-Z]?)\s+(agreed|disagreed)\s+to", re.I)
+_OR_MOTION = re.compile(r"\b(S\d+M-\d+(?:\.\d+)?)")
+
+
+@dataclass
+class ORDivision:
+    key: str                 # 'or<contribution ID>'
+    dated: str
+    heading: str             # ItemOfBusiness heading, e.g. '... Bill: Stage 3'
+    vote_for: int
+    vote_against: int
+    abstentions: int
+    amendment_no: str        # '266' / '56A'; None when not an amendment
+    outcome: str             # agreed | disagreed | None
+    motion_ref: str          # set when the result cites a motion: those rows
+                             # duplicate votesmotion and the caller skips them
+
+
+def parse_or_divisions(payload):
+    """Division results from a year of the plenary Official Report.
+
+    Measured on 2026 before writing: exactly ONE result per contribution row
+    (672 by finditer == 672 by search), and the amendment outcome sits in the
+    same row's text, so no cross-row stitching is needed.
+    """
+    out = []
+    for r in payload or []:
+        detail = r.get("Detail") or {}
+        text = detail.get("EditedText") or ""
+        m = _OR_RESULT.search(text)
+        if not m:
+            continue
+        amd = _OR_AMENDMENT.search(text)
+        ref = _OR_MOTION.search(text)
+        cid = detail.get("ContributionID") or r.get("ID")
+        out.append(ORDivision(
+            key="or{0}".format(cid),
+            dated=day((r.get("Time") or {}).get("Start")),
+            heading=clean((r.get("ItemOfBusiness") or {}).get("Heading")),
+            vote_for=int(m.group(1)), vote_against=int(m.group(2)),
+            abstentions=int(m.group(3)),
+            amendment_no=amd.group(1) if amd else None,
+            outcome=(amd.group(2).lower() if amd else None),
+            motion_ref=ref.group(1) if ref else None))
+    return out
+
+
+def fetch_or_divisions(client, year, timeout=240):
+    return parse_or_divisions(client.get_json(
+        OR_URL.format(year), "holyrood", "or-{0}".format(year),
+        timeout=timeout, archive=False))
 
 
 def base_reference(reference):

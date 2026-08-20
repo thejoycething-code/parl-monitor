@@ -40,7 +40,9 @@ divisions:
     text: >
       That the Parliament agrees to the general principles of the Assisted
       Dying for Terminally Ill Adults (Scotland) Bill.
-    draft: true
+    # CONFIRMED by Christopher, 2026-08-21. Weights stand at -1/+1: Stage 1
+    # ayes include allow-scrutiny votes (13 more ayes than Stage 3), so this
+    # vote is directional but weaker than the Stage 3 question itself.
     aye: -1
     why_aye: >
       Supported the general principles at Stage 1. Weaker than the Stage 3

@@ -106,14 +106,24 @@ def main():
 
     print(); print(line)
     print("HOW MSPs VOTED    [tools/sp_divisions.py]"); print(line)
-    dv=conn.execute("SELECT * FROM sp_divisions ORDER BY dated DESC").fetchall()
+    dv=conn.execute("SELECT * FROM sp_divisions WHERE source='votesmotion' "
+                    "ORDER BY dated DESC").fetchall()
+    ordv=conn.execute("SELECT COUNT(*), SUM(CASE WHEN areas != '[]' AND areas "
+                      "IS NOT NULL THEN 1 ELSE 0 END) FROM sp_divisions "
+                      "WHERE source='official-report'").fetchone()
     ours=[r for r in dv if r["areas"] and r["areas"] != "[]"
           and r["tier"] == 1
           and shown(json.loads(r["areas"]))]
-    print("  {0} division(s) stored with every MSP's position; {1} tier-1 on"
+    print("  {0} motion division(s) with every MSP's position; {1} tier-1 on"
           .format(len(dv), len(ours)))
     print("  our ground, classified by their own motion's wording -- an")
-    print("  exact-key join, never text-matched against a truncated subject.\n")
+    print("  exact-key join, never text-matched against a truncated subject.")
+    print("  PLUS {0} bill-amendment division(s) from the Official Report"
+          .format(ordv[0] or 0))
+    print("  ({0} on our ground by bill heading) -- AGGREGATE ONLY: the OR"
+          .format(ordv[1] or 0))
+    print("  prints no roll-call, so these are record and context, and can")
+    print("  never place anyone in the 5CA.\n")
     for r in ours[:n]:
         a=shown(json.loads(r["areas"]))
         print("  OURS  {0}  {1:<12} areas {2}".format(

@@ -1074,3 +1074,30 @@ time AND recovers missing speeches, since record_event upserts on conflict),
 then retag as the offline sweep for anything the re-fetch did not touch.
 The PQ side needed retag alone -- its raw archives held full text for all
 3,846 rows.
+
+## Holyrood has TWO vote classes, and votesmotion carries only one (2026-08-21)
+
+Christopher asked why not all votes were included; he was right that they were
+not. `votesmotion` carries MOTION decisions (final passage, amendments to
+motions) with per-MSP votes. **Bill AMENDMENT divisions -- Stage 2/3 amendment
+votes -- exist only in the Official Report, as prose aggregates**: "The result
+of the division is: For 47, Against 67, Abstentions 0. Amendment 6 disagreed
+to." In 2026 that second class was **530 of 672** division results, including
+all **215** of the Assisted Dying Bill's Stage 3 amendment fight on 13 March.
+
+Now harvested into sp_divisions with `source='official-report'` and the
+amendment number and outcome parsed from the same row (measured first: exactly
+one result per contribution row, and the outcome always sits in the same
+text). Rows citing a motion reference (142 in 2026) are skipped as duplicates
+of votesmotion. 1,348 stored for 2024-2026, 217 on our ground by bill heading.
+
+**No per-member roll-call exists anywhere in the open data** for this class --
+the OR prints aggregates only -- so these divisions are record and context and
+can never place anyone in a 5CA. OPEN QUESTION: parliament.scot's
+votes-and-divisions pages may carry the rolls; if per-MSP amendment votes are
+ever wanted (they would be the richest stance evidence Holyrood has), that is
+a website-scrape question, not an API one.
+
+Also confirmed today: S6M-17416 (Stage 1 general principles, aye -1 / no +1 --
+weights stand, Stage 1 ayes include allow-scrutiny votes). Two of three
+meaning lines are now confirmed; the assisted-dying 5CA places from both.

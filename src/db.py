@@ -325,6 +325,12 @@ CREATE TABLE IF NOT EXISTS sp_divisions (
   reference TEXT,                 -- 'S7M-00469.5'
   title TEXT, dated TEXT, session TEXT,
   vote_for INTEGER, vote_against INTEGER, result TEXT,
+  abstentions INTEGER,
+  amendment_no TEXT,              -- bill amendments only, from the OR
+  source TEXT,                    -- 'votesmotion' (per-MSP votes held) or
+                                  -- 'official-report' (AGGREGATE ONLY: the OR
+                                  -- prints no roll-call, so these rows can
+                                  -- never place anyone -- record and context)
   item_id TEXT,                   -- sp_items id of the amendment/motion voted
   areas TEXT, matched_terms TEXT, tier INTEGER,   -- from that item's wording
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL

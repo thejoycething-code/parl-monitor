@@ -211,12 +211,58 @@ class SP5caTests(unittest.TestCase):
         proposals."""
         entries = self.m.load_stance(section="divisions")
         self.assertEqual(len(entries), 3)
-        self.assertFalse(entries["S6M-21005"].get("draft"),
-                         "Stage 3 confirmed 2026-08-21")
-        for ref in ("S6M-17416", "S6M-16755.3"):
-            self.assertTrue(entries[ref].get("draft"), ref)
+        for ref in ("S6M-21005", "S6M-17416"):
+            self.assertFalse(entries[ref].get("draft"),
+                             ref + " confirmed 2026-08-21")
+        self.assertTrue(entries["S6M-16755.3"].get("draft"),
+                        "the wrecking amendment is still a proposal")
 
     def test_the_yaml_no_key_trap_is_normalised(self):
         entries = self.m.load_stance(section="divisions")
         for ref, e in entries.items():
             self.assertIn("no", e, "an unquoted no: parses as False (YAML 1.1)")
+
+
+class ORDivisionTests(unittest.TestCase):
+    """Bill amendment divisions -- the vote class votesmotion does not carry.
+
+    In 2026 the Official Report held 672 division results and 530 were bill
+    amendments, including all 215 of the Assisted Dying Stage 3 amendment
+    fight. The OR prints aggregates only; no roll-call exists in the open
+    data, so these rows can never place anyone.
+    """
+
+    ROW = {"ID": "X", "Detail": {"ContributionID": 3041539, "EditedText":
+           "The result of the division is: For 73, Against 45, Abstentions 4."
+           "Amendment 56 agreed to."},
+           "ItemOfBusiness": {"Heading": "Assisted Dying for Terminally Ill "
+                              "Adults (Scotland) Bill: Stage 3"},
+           "Time": {"Start": "2026-03-13T15:00:00"}}
+    MOTION_ROW = {"ID": "Y", "Detail": {"ContributionID": 1, "EditedText":
+                  "The result of the division on motion S6M-21005, in the "
+                  "name of Liam McArthur, is: For 57, Against 69, "
+                  "Abstentions 1.Motion disagreed to."},
+                  "ItemOfBusiness": {"Heading": "Decision Time"},
+                  "Time": {"Start": "2026-03-17T17:00:00"}}
+
+    def test_amendment_result_parses_whole(self):
+        d = holyrood.parse_or_divisions([self.ROW])[0]
+        self.assertEqual((d.vote_for, d.vote_against, d.abstentions),
+                         (73, 45, 4))
+        self.assertEqual(d.amendment_no, "56")
+        self.assertEqual(d.outcome, "agreed")
+        self.assertEqual(d.key, "or3041539")
+        self.assertIsNone(d.motion_ref)
+
+    def test_motion_results_are_marked_as_duplicates(self):
+        """A result citing S6M-21005 is the same division votesmotion already
+        holds WITH per-MSP votes; the harvester must skip it or the store
+        would carry the Stage 3 vote twice with different keys."""
+        d = holyrood.parse_or_divisions([self.MOTION_ROW])[0]
+        self.assertEqual(d.motion_ref, "S6M-21005")
+
+    def test_non_division_rows_are_ignored(self):
+        rows = holyrood.parse_or_divisions(
+            [{"Detail": {"EditedText": "There will be a division."},
+              "ItemOfBusiness": {}, "Time": {}}])
+        self.assertEqual(rows, [])
