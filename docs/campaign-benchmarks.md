@@ -178,6 +178,57 @@ The RIGHT discriminator is still promotion -- did the campaign get an email
 series -- which `aa_downstream_report.sent_emails` has and the local store does
 not. The 100-signature rule is a proxy for it.
 
+## WIRED 2026-08-20: the Looker feed
+
+`tools/load_looker_campaigns.py` loads `data/looker/en_gb_campaigns.tsv` into a
+new `looker_campaigns` table, and `rf1_expectation` reads it.
+
+**There is no Looker credential in this repo** -- the connection is an MCP tool
+available to Claude in session, not to a scheduled script. So the export is
+pulled by hand and committed, the same shape as `log_campaign_performance.py`
+parsing Max's Slack replies. To refresh, run this through the Looker MCP and
+replace the TSV body:
+
+```
+model  gbq_2_0_reports
+explore aa_downstream_report
+fields  program, bound, topic, start_date, total_signatures,
+        new_members_count, otd_amount, md_amount, sent_emails
+filters program: "EN_GB%", series_email_number: "<=20",
+        start_date: "after 2024/01/01"
+sort    total_signatures desc
+```
+
+**A SEPARATE TABLE, never pooled with campaign_performance**, because they are
+not the same metric: `campaign_performance` holds lifetime PETITION totals,
+Looker holds signatures attributed to an email CAMPAIGN. "Protect Christian
+Teaching in NI Schools" is **129,007 lifetime and 100,521 campaign-attributed**
+-- averaging those would produce a figure describing nothing. `rf1_expectation`
+uses whichever source has more comparables for the area and NAMES it in the
+cell; a test asserts the counts never sum.
+
+**Areas do NOT come from Looker's `topic`.** It is blank on most EN_GB rows
+(the program's own topic code reads `NA`) and is five coarse buckets where
+present. Areas come from `log_campaign_performance.areas_for()`, the existing
+explicit keyword table, applied to the campaign name recovered from `program`.
+36 of 60 map to no area -- digital ID, pandemic treaty, Olympics, Sadiq Khan --
+which is that table's documented intent, not a failure.
+
+**Third instance of the templates-vs-campaigns problem, this time in Looker.**
+The EN_GB population contains a SECOND program naming format -- underscore
+dates, `TEST_WARM_UP`, `Warmup`, `L1` -- and every one of those rows carries
+zero signatures. The `>= 100` signature rule removes them too, so the same
+instrument fixes both sources.
+
+What this bought: **money baselines where there were none.** Area 2 now reads
+"median EUR 2,812 (p25 40, p75 3,811, n=3)" against a previous NOT HELD.
+
+Known thinness, recorded rather than hidden: the export is the **top 60 by
+signatures**, so per-area `n` is small (area 1 has 1 Looker campaign against 13
+local). Signatures and members therefore still come from the local table for
+most areas. Widening the export is the single highest-value follow-up and needs
+only a larger `limit` on the query above.
+
 ## Remaining design (not built)
 
 1. ~~Add the expectation cells first.~~ DONE, above. RF#1 gains three blank Plan-stage

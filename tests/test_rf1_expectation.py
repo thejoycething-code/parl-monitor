@@ -124,6 +124,78 @@ class BaselineShapeTests(unittest.TestCase):
         self.assertNotIn("NOT HELD", money)
 
 
+class LookerSourceTests(unittest.TestCase):
+    """The two sources are different METRICS and must never be pooled."""
+
+    LOOKER = ("CREATE TABLE IF NOT EXISTS looker_campaigns (program TEXT "
+              "PRIMARY KEY, list_name TEXT, campaign_name TEXT, bound TEXT, "
+              "looker_topic TEXT, start_date TEXT, signatures INTEGER, "
+              "new_members INTEGER, otd_eur REAL, md_eur REAL, "
+              "sent_emails INTEGER, areas TEXT, logged_at TEXT)")
+
+    def setUp(self):
+        self.conn = fresh()
+        self.conn.execute(self.LOOKER)
+
+    def tearDown(self):
+        self.conn.close()
+
+    def _looker(self, rows, area="[1]", list_name="EN_GB"):
+        for n, (sig, new, otd) in enumerate(rows):
+            self.conn.execute(
+                "INSERT INTO looker_campaigns (program, list_name, "
+                "campaign_name, signatures, new_members, otd_eur, areas, "
+                "logged_at) VALUES (?,?,?,?,?,?,?,'2026-08-20')",
+                ("p%d" % n, list_name, "c", sig, new, otd, area))
+        self.conn.commit()
+
+    def test_money_comes_from_looker_because_local_has_none(self):
+        """raised_eur is null on all 366 live rows; Looker carries otd_eur."""
+        seed(self.conn, [(20000, 900, None, "[1]")])
+        self._looker([(20000, 900, 1332.0)])
+        money = dict(mb.rf1_expectation(self.conn, [1]))["Expected EUR raised"]
+        self.assertIn("Looker", money)
+        self.assertIn("1,332", money)
+
+    def test_money_says_not_held_when_neither_source_has_it(self):
+        seed(self.conn, [(20000, 900, None, "[1]")])
+        money = dict(mb.rf1_expectation(self.conn, [1]))["Expected EUR raised"]
+        self.assertIn("NOT HELD", money)
+
+    def test_the_source_with_more_comparables_wins_and_is_named(self):
+        """13 local rows against 1 Looker row must not silently become 14: they
+        are lifetime petition totals versus email-campaign attribution, and the
+        same campaign appears in both with different numbers."""
+        seed(self.conn, [(20000 + n, 900, None, "[1]") for n in range(6)])
+        self._looker([(50000, 5000, 100.0)])
+        sigs = dict(mb.rf1_expectation(self.conn, [1]))["Expected signatures"]
+        self.assertIn("n=6", sigs, "the six local rows should win on count")
+        self.assertIn("Looker holds 1 on a different basis", sigs)
+        self.assertNotIn("n=7", sigs, "the sources must never be pooled")
+
+    def test_looker_wins_when_it_has_more(self):
+        seed(self.conn, [(20000, 900, None, "[1]")])
+        self._looker([(30000 + n, 800, 100.0) for n in range(5)])
+        sigs = dict(mb.rf1_expectation(self.conn, [1]))["Expected signatures"]
+        self.assertIn("Looker (email-campaign attributed)", sigs)
+        self.assertIn("n=5", sigs)
+
+    def test_only_en_gb_looker_rows_are_used(self):
+        """A UK brief benchmarked against German campaigns would mislead: list
+        sizes and response rates differ."""
+        seed(self.conn, [(20000, 900, None, "[1]")])
+        self._looker([(90000, 9000, 5000.0)], list_name="DE")
+        money = dict(mb.rf1_expectation(self.conn, [1]))["Expected EUR raised"]
+        self.assertIn("NOT HELD", money)
+
+    def test_a_missing_looker_table_does_not_break_the_brief(self):
+        conn = fresh()          # no looker_campaigns at all
+        seed(conn, [(20000, 900, None, "[1]")])
+        rows = mb.rf1_expectation(conn, [1])
+        self.assertEqual(len(rows), 3)
+        conn.close()
+
+
 class RenderTests(unittest.TestCase):
     """The expected cell must ship BLANK, and the CSV shape must not change."""
 

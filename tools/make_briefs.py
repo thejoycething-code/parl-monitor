@@ -284,19 +284,66 @@ def rf1_expectation(conn, areas):
                              "{:,}".format(int(_quartile(vals, 75))),
                              len(vals), note))
 
-    money = [r["raised_eur"] for r in ranked if r["raised_eur"] is not None]
-    if money:
-        money_basis = band("raised_eur", unit="EUR ")
-    else:
-        # Honest rather than blank-looking-supported: raised_eur is unpopulated
-        # on all 366 rows, so there is no local money baseline at all.
-        money_basis = ("NOT HELD: raised_eur is unpopulated for every logged "
-                       "campaign, so there is no local money baseline. "
-                       "fundraising_series holds 15 rows by series, not by "
-                       "campaign. Use the FR dashboards or your own estimate.")
+    # THE LOOKER SOURCE. Loaded by tools/load_looker_campaigns.py from a
+    # hand-pulled export, and kept in its own table because it is NOT the same
+    # metric: campaign_performance holds lifetime PETITION totals, Looker holds
+    # signatures attributed to an email CAMPAIGN. The same campaign appears in
+    # both with different numbers (129,007 lifetime vs 100,521 attributed), so
+    # they are never pooled -- whichever has more comparables is used, and the
+    # cell says which.
+    try:
+        looker = conn.execute(
+            "SELECT signatures, new_members, otd_eur, md_eur, areas "
+            "FROM looker_campaigns WHERE list_name = 'EN_GB'").fetchall()
+    except Exception:
+        looker = []
+    lk = [r for r in looker
+          if any(a in areas for a in json.loads(r["areas"] or "[]"))
+          and (r["signatures"] or 0) >= MIN_BENCHMARK_SIGNATURES]
 
-    return [("Expected signatures", band("signatures")),
-            ("Expected new members", band("new_members")),
+    def lk_band(field, unit=""):
+        vals = [r[field] for r in lk if r[field] is not None]
+        if not vals:
+            return None, 0
+        note = (" THIN: {0} campaign(s) only, treat as indicative.".format(
+            len(vals)) if len(vals) < 5 else "")
+        return ("Looker (email-campaign attributed): median {0}{1} "
+                "(p25 {2}, p75 {3}, n={4}).{5}".format(
+                    unit, "{:,}".format(int(_quartile(vals, 50))),
+                    "{:,}".format(int(_quartile(vals, 25))),
+                    "{:,}".format(int(_quartile(vals, 75))),
+                    len(vals), note)), len(vals)
+
+    def better(field, lk_field, unit=""):
+        """Whichever source has more comparables, labelled."""
+        local_n = len([r for r in ranked if r[field] is not None])
+        lk_text, lk_n = lk_band(lk_field, unit=unit)
+        if lk_n > local_n and lk_text:
+            return lk_text
+        text = band(field, unit=unit)
+        if lk_n:
+            text += " (Looker holds {0} on a different basis.)".format(lk_n)
+        return text
+
+    # Money follows the SAME source rule as the other two rather than being
+    # pinned to Looker: raised_eur is unpopulated on all 366 local rows today,
+    # but the column exists and a later Max pull may fill it, and silently
+    # ignoring a populated column would be its own bug.
+    local_money = [r["raised_eur"] for r in ranked if r["raised_eur"] is not None]
+    looker_money = [r["otd_eur"] for r in lk if r["otd_eur"] is not None]
+    if local_money or looker_money:
+        money_basis = better("raised_eur", "otd_eur", unit="EUR ")
+        if looker_money and len(looker_money) >= len(local_money):
+            money_basis += (" One-time donations only; monthly is a separate "
+                            "column and much smaller.")
+    else:
+        money_basis = ("NOT HELD for this topic: raised_eur is unpopulated on "
+                       "every campaign_performance row, and the Looker export "
+                       "has no comparable EN_GB campaign in this area yet. "
+                       "Widen data/looker/en_gb_campaigns.tsv or estimate.")
+
+    return [("Expected signatures", better("signatures", "signatures")),
+            ("Expected new members", better("new_members", "new_members")),
             ("Expected EUR raised", money_basis)]
 
 
