@@ -335,3 +335,70 @@ shipped as a campaigner's expectation.
 attribution broke around 2026-02-01. If it is fixed, move
 `MONEY_COMPLETE_BEFORE`; if the cause is a real change in practice, the cutoff
 should stay and the reason be recorded here.
+
+
+## Mapping the unmapped campaigns (2026-08-20)
+
+64 of the 104 Looker rows mapped to no area. Adding keywords turned out to be
+the smaller half of the fix.
+
+### The name in the Looker export is not the campaign name
+
+It is a truncated program slug: `Support NHS nurses in their fi`, `Stand for
+Stornoway Sa`, `Guide with Pride  Withdraw the` -- cut mid-word by the program
+string with punctuation flattened to underscores. Keyword-matching that slug
+loses campaigns whose distinguishing word was the part cut off, and re-derives
+badly what `campaign_performance` already holds well: the full name and a
+curated area mapping.
+
+So `load_looker_campaigns.py` now joins the program's **petition id** to
+`campaign_performance.petition_id` -- an exact key -- and takes that row's
+areas. It resolved 49 of 58, 30 of them to areas already recorded locally.
+`area_source` records the route taken for every row.
+
+Two caveats found while building it, both now in the fallback path: the ids are
+**not aligned between the systems** ("Justice for Jennifer" is 15124 in Looker
+and 15129 locally), and six programs carry no usable id (`-NA-` or an empty
+segment). A local row with an EMPTY area list is treated as an answer, not a
+miss -- the curated sweep looked at it and left it out -- so keywords never
+overrule it.
+
+### Two bugs the join exposed
+
+**`rse\b` matched the end of other words.** Unanchored, it caught *Reverse*,
+*Nurse*, *Verse* and *Morse*, filing four campaigns into area 6 -- a nurse's
+disciplinary case, a blasphemy trial, a DIY-abortion campaign. Area 6 is the
+largest area, so the noise landed where it was least visible. Anchored to
+`\brse\b` all three genuine RSE campaigns still match. `\bpupil` was added so
+"Sacked for Answering a Pupil's Question" keeps area 6 for the real reason;
+`\bteacher` was considered and rejected because it would have added area 6 to
+a free-speech sacking that is area 7.
+
+**The topic code is two OR three letters.** `FM` and `FAM` both occur; the
+parser demanded exactly two, so "Demand BBC Children In Need CEO Resigns!"
+(14,583 signatures) was dropped as unparseable.
+
+**`areas` is a stored column**, so editing `KEYWORD_AREAS` changes nothing
+until `log_campaign_performance.py --rederive` runs. It prints every change
+rather than a count, because a keyword edit that silently reclassified
+campaigns would move a benchmark with no trace. Seven rows moved: four newly
+mapped, three losing the false area 6.
+
+Result: unmapped 64 -> 30, and per-area n went from 1/3/5/1/1/7/3/3 across
+eight areas to 7/7/16/1/4/13/12/17/2/1 across ten.
+
+### The 30 still unmapped are mostly a standing decision
+
+21 of them have a local row that the 2026-08-13 curated sweep deliberately left
+out of the taxonomy -- 601,246 signatures of WHO/pandemic-treaty/IHR/INB,
+digital ID, UN governance (Agenda 2030, Defund the UN, UN Colonialism Pact),
+election tools and a few one-offs. Those are not keyword misses. Mapping them
+needs a taxonomy DECISION, not a regex: the eleven areas have no home for
+health sovereignty or digital ID, and adding areas 12 and 13 would also start
+classifying Westminster and NI parliamentary material into them, which is a
+much larger change than a benchmark fix. Left for Christopher.
+
+The genuine residue is small: `Schools Bill Stealth Digital ID` (digital ID
+substance, schools framing -- mapping it to area 6 would misfile it),
+`Fundraising-Stay Out` (an appeal, not a campaign), two more pandemic-treaty
+rounds, and one program with neither an id nor a name.

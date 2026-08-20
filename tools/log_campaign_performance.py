@@ -39,7 +39,11 @@ KEYWORD_AREAS = [
     (r"abortion|pro-life|buffer zone", [1]),
     (r"wedding|marriage|cohabitation", [9]),
     (r"conversion therapy|conversion practices", [4]),
-    (r"lgbt.*(gcse|school|indoctrination|exam)|sex education|rse\b", [6]),
+    # \brse\b is ANCHORED BOTH ENDS. Unanchored, "rse\b" matched the tail of
+    # Reverse, Nurse, Verse and Morse, filing four campaigns into area 6 --
+    # including a nurse's disciplinary case and a blasphemy trial. Area 6 is
+    # the largest area, so the noise landed where it was hardest to notice.
+    (r"lgbt.*(gcse|school|indoctrination|exam)|sex education|\brse\b", [6]),
     (r"online safety|censor|free speech|police training", [7]),
     (r"christian persecution|street preacher|moodley", [8]),
     (r"surrogacy", [10]),
@@ -76,6 +80,43 @@ KEYWORD_AREAS = [
      r"(disney|netflix|bbc|lego|strictly).*(lgbt|agenda|lifestyle)|"
      r"lgbtq\+? (concert|films|set|agenda)", [6]),
     (r"deport|border|ceuta|dover|asylum|illegal migration", [11]),
+    # 2026-08-20, from the widened Looker export. Each gap is a real campaign
+    # the list missed, named here so the reason is auditable:
+    #   creasy      "Exposing Stella Creasy's danger" -- her decriminalisation
+    #               amendments; no local petition row at all, so keywords are
+    #               the only route.
+    #   csw\d       CSW68/69/70 and CSW67 are one annual series at the UN
+    #               Commission on the Status of Women. CSW69 was already
+    #               mapped [1] by name because it happened to say "Force
+    #               Abortion"; 67, 68 and 70 were unmapped only because their
+    #               titles word it differently. Mapping the series follows the
+    #               precedent rather than the wording.
+    #   parenthood  "Reject EU's Same-Sex Parenthood Certificate" -- the list
+    #               had "marriage" and "parental" but not "parenthood".
+    #   competition/sport for women  "PDC: Protect Darts Competition for
+    #               Women!" -- the existing pattern wanted the possessive
+    #               ("women's sport"), which this title does not use. Kept to
+    #               these three nouns; a bare "for women" would swallow
+    #               anything.
+    (r"creasy", [1]),
+    (r"\bcsw\d", [1]),
+    (r"parenthood", [9]),
+    (r"(competition|category|categories|sport) for women", [5]),
+    #   \bpupil     "Sacked for Answering a Pupil's Question Honestly" held
+    #               area 6 only by the Morse/rse false positive above; this
+    #               keeps it, for the actual reason. One hit, no others.
+    #               (\bteacher was considered and rejected: it would have added
+    #               area 6 to Simon's free-speech sacking, which is area 7.)
+    #   primary school  four local campaigns already map to 6 by other words;
+    #               the Scottish one reached Looker as a slug that lost them.
+    #   keira       "Stand with Keira and James" -- puberty blocker trials.
+    #   justice for jennifer  a nurse disciplined over pronouns. Needs a
+    #               keyword because the petition id DISAGREES between systems
+    #               (15124 in Looker, 15129 locally), so the join misses it.
+    (r"\bpupil", [6]),
+    (r"primary school", [6]),
+    (r"\bkeira\b", [3]),
+    (r"justice for jennifer", [3]),
 ]
 
 # Fundraising arrives at SERIES grain (Looker Express Donations by Programs),
@@ -220,6 +261,26 @@ def main():
     ensure_table(conn)
     if "--show" in sys.argv:
         collate(conn)
+        return 0
+    if "--rederive" in sys.argv:
+        # areas is a STORED column, computed by areas_for() at load time, so
+        # editing KEYWORD_AREAS changes nothing until this runs. Prints every
+        # change rather than a count: a keyword edit that silently reclassified
+        # campaigns would move a benchmark with no trace.
+        changed = 0
+        for r in conn.execute("SELECT petition_id, name, areas FROM "
+                              "campaign_performance").fetchall():
+            new_areas = areas_for(r["name"])
+            if sorted(json.loads(r["areas"] or "[]")) != sorted(new_areas):
+                print("  [{0}] {1}\n      {2} -> {3}".format(
+                    r["petition_id"], r["name"][:70], r["areas"],
+                    json.dumps(new_areas)))
+                conn.execute("UPDATE campaign_performance SET areas = ? "
+                             "WHERE petition_id = ?",
+                             (json.dumps(new_areas), r["petition_id"]))
+                changed += 1
+        conn.commit()
+        print("{0} campaign(s) re-derived.".format(changed))
         return 0
     if len(sys.argv) < 2:
         print(__doc__)

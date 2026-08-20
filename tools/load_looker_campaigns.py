@@ -22,6 +22,22 @@ The same campaign appears in both with different numbers -- "Protect Christian
 Teaching in NI Schools" is 129,007 lifetime and 100,521 campaign-attributed.
 Averaging those two would produce a figure that describes nothing.
 
+AREAS COME FROM THE PETITION ID, not from the campaign name. The name in this
+export is a truncated program SLUG -- "Support NHS nurses in their fi",
+"Stand for Stornoway Sa", "Guide with Pride  Withdraw the" -- cut mid-word by
+the program string, with punctuation flattened to underscores. Keyword-matching
+that slug loses campaigns whose distinguishing word was the part cut off, and
+it re-derives from a mangled string what campaign_performance already holds
+correctly: the full name AND a curated area mapping. So the program's petition
+id is joined to campaign_performance.petition_id -- an exact key -- and that
+row's areas are used. On the widened export this resolved 49 of 58 previously
+unmapped rows, 30 of them to areas already recorded locally.
+
+The ids are NOT perfectly aligned between the two systems ("Justice for
+Jennifer" is 15124 in Looker and 15129 locally), and six programs carry no
+usable id at all (`-NA-` or an empty segment), so keyword matching on the slug
+remains the documented fallback and area_source records which route was taken.
+
 Looker's own `topic` is NOT used for our areas. It is blank on most EN_GB rows
 (the program's own topic code reads NA), and where present it is five coarse
 buckets. Areas come from log_campaign_performance.areas_for(), the explicit
@@ -56,7 +72,8 @@ CREATE TABLE IF NOT EXISTS looker_campaigns (
   start_date TEXT,
   signatures INTEGER, new_members INTEGER,
   otd_eur REAL, md_eur REAL, sent_emails INTEGER,
-  areas TEXT,                     -- OUR taxonomy areas, via areas_for()
+  areas TEXT,                     -- OUR taxonomy areas
+  area_source TEXT,               -- how they were resolved; see resolve_areas
   logged_at TEXT NOT NULL
 );
 """
@@ -72,7 +89,10 @@ _PROGRAM = re.compile(
     r"^(?P<list>[A-Z]{2}(?:_[A-Z]{2,3})?)-"
     r"(?P<date>\d{4}-\d{2}-\d{2})-"
     r"(?P<bound>Local|Global|International)-"
-    r"(?P<code>[A-Z]{2})-"
+    # The topic code is two OR THREE letters -- both FM and FAM occur. When
+    # this demanded exactly two, "Demand BBC Children In Need CEO Resigns!"
+    # (14,583 signatures) failed to parse and was dropped as unnamed.
+    r"(?P<code>[A-Z]{2,3})-"
     r"(?P<owner>[A-Z]{3})-"
     r"(?P<pid>\w*)-"
     r"(?P<name>.*)$")
@@ -90,6 +110,31 @@ def parse_program(program):
     if len(halves) == 2 and halves[0].strip() == halves[1].strip():
         name = halves[0].strip()
     return m.group("list"), name
+
+
+def local_areas(conn):
+    """{petition_id: [areas]} from campaign_performance, for the exact join."""
+    try:
+        rows = conn.execute("SELECT petition_id, areas FROM "
+                            "campaign_performance").fetchall()
+    except Exception:
+        return {}
+    return {r["petition_id"]: json.loads(r["areas"] or "[]") for r in rows}
+
+
+def resolve_areas(program, name, by_pid):
+    """([areas], source). The petition id wins; the slug is the fallback."""
+    m = _PROGRAM.match(program or "")
+    pid = m.group("pid") if m else ""
+    if pid.isdigit() and int(pid) in by_pid:
+        areas = by_pid[int(pid)]
+        # A local row with no areas is still an ANSWER -- the curated sweep
+        # looked at it and left it out of the taxonomy. Falling through to
+        # keywords there would quietly overrule that decision.
+        return areas, "petition-id join ({0})".format(pid)
+    if not name:
+        return [], "unresolved: no petition id and no parseable name"
+    return lcp.areas_for(name), "keywords on the program slug"
 
 
 def read_export(path):
@@ -121,6 +166,7 @@ def _num(value, cast=int):
 def load(conn, rows, today):
     stored = unmapped = 0
     unnamed = []
+    by_pid = local_areas(conn)
     for r in rows:
         program = (r.get("program") or "").strip()
         if not program:
@@ -128,20 +174,20 @@ def load(conn, rows, today):
         list_name, name = parse_program(program)
         if not name:
             unnamed.append(program)
-        areas = lcp.areas_for(name) if name else []
+        areas, source = resolve_areas(program, name, by_pid)
         if not areas:
             unmapped += 1
         conn.execute(
             "INSERT OR REPLACE INTO looker_campaigns (program, list_name, "
             "campaign_name, bound, looker_topic, start_date, signatures, "
-            "new_members, otd_eur, md_eur, sent_emails, areas, logged_at) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "new_members, otd_eur, md_eur, sent_emails, areas, area_source, "
+            "logged_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (program, list_name, name, (r.get("bound") or "").strip(),
              (r.get("looker_topic") or "").strip(),
              (r.get("start_date") or "").strip(),
              _num(r.get("signatures")), _num(r.get("new_members")),
              _num(r.get("otd_eur"), float), _num(r.get("md_eur"), float),
-             _num(r.get("sent_emails")), json.dumps(areas), today))
+             _num(r.get("sent_emails")), json.dumps(areas), source, today))
         stored += 1
     conn.commit()
     return stored, unmapped, unnamed
@@ -194,6 +240,9 @@ def main():
               "query to re-run.".format(os.path.relpath(path, ROOT)))
         conn.close()
         return 1
+    cols = [c[1] for c in conn.execute("PRAGMA table_info(looker_campaigns)")]
+    if "area_source" not in cols:
+        conn.execute("ALTER TABLE looker_campaigns ADD COLUMN area_source TEXT")
     rows = read_export(path)
     stored, unmapped, unnamed = load(
         conn, rows, datetime.date.today().isoformat())
