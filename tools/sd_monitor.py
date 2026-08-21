@@ -70,6 +70,26 @@ def main():
         for a in sorted(per):
             print("  {0:<2} {1:<42} {2}".format(a, names.get(a, "?"), per[a]))
 
+    dv=conn.execute("SELECT COUNT(*) FROM sd_divisions").fetchone()[0]
+    if dv:
+        print(); print(line)
+        print("HOW MSs VOTED    [tools/sd_divisions.py]"); print(line)
+        nours=conn.execute("SELECT COUNT(*) FROM sd_divisions WHERE areas IS "
+                           "NOT NULL AND areas != '[]'").fetchone()[0]
+        nv=conn.execute("SELECT COUNT(*) FROM sd_votes").fetchone()[0]
+        print("  {0} division(s) with per-member votes ({1} positions); {2} "
+              "on our ground".format(dv, nv, nours))
+        print("  by DEBATE TITLE -- coarser than a motion-text join; phase 3")
+        print("  transcripts sharpen it. No meaning lines yet: every division")
+        print("  is evidence, none places (config/sd_stance.yaml when built).\n")
+        for r in conn.execute("SELECT dated,title,total_for,total_against,"
+                              "result FROM sd_divisions WHERE areas IS NOT "
+                              "NULL AND areas != '[]' AND areas NOT IN "
+                              "('[11]') ORDER BY dated DESC LIMIT " + str(n)):
+            print("  OURS  {0}  {1}".format(r["dated"], (r["title"] or "")[:64]))
+            print("        {0} for / {1} against -- {2}".format(
+                r["total_for"], r["total_against"], (r["result"] or "")[:44]))
+
     print(); print(line)
     print("WHAT THIS DOES NOT KNOW    [src/ingest/senedd.py]"); print(line)
     print("  * NO DATA API EXISTS. Discovery is ID-WALKING the Record's")
@@ -89,9 +109,9 @@ def main():
         print("  * PARTY: the parlparse roster loader is built but not yet")
         print("    run (tools/sd_members.py; waits for the question backfill")
         print("    to release the store -- one writer at a time).")
-    print("  * NO VOTES, MOTIONS, OR COMMITTEES YET: phase 2+ (plenary")
-    print("    votes live inside Record meeting pages; committees are")
-    print("    behind the ModernGov SOAP WSDL).")
+    print("  * VOTES come from the undocumented XMLExport (found via")
+    print("    mySociety's scraper); committees remain behind the ModernGov")
+    print("    SOAP WSDL and motions/transcripts are phase 3.")
     print("  * REFRESHED WEEKLY: Thursday 06:00 UTC via")
     print("    .github/workflows/sd-weekly.yml (roster + question walk --")
     print("    no publish step exists; the watching brief stays off Slack).")

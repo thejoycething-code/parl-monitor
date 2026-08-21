@@ -93,3 +93,40 @@ class WeeklyWorkflowTests(unittest.TestCase):
         self.assertIn("group: parl-monitor-state", source)
         self.assertIn("contents: write", source)
         self.assertIn("checkout@v7", source)
+
+
+class VoteTests(unittest.TestCase):
+    def test_both_wrapper_schemas_parse(self):
+        """The row wrapper EMBEDS the parliament name in older exports:
+        XML_Plenary_Vote (Seventh) but XML_Plenary-SixthSenedd_Vote (Sixth).
+        The exact-tag regex silently parsed the Sixth's two years of
+        divisions to zero -- the same silent-suppression class as Holyrood's
+        BackupAgendaItemID."""
+        divs = senedd.parse_votes_xml(load("senedd_votes-fixture"))
+        self.assertEqual(len(divs), 2, "one division per schema")
+
+    def test_the_division_key_is_contribution_id(self):
+        """<ID> is unique PER ROW (member-level): grouping on it produced 480
+        one-voter divisions from a sitting that held 5 of 96 voters each."""
+        divs = senedd.parse_votes_xml(load("senedd_votes-fixture"))
+        for d in divs:
+            self.assertGreater(len(d.votes), 1)
+            self.assertTrue(d.title)
+            self.assertIn(d.votes[0].result, ("For", "Against", "Abstain"))
+
+    def test_vote_index_parses(self):
+        sittings = senedd.parse_vote_index(load("senedd_voteindex-fixture"))
+        self.assertTrue(sittings)
+        s = sittings[0]
+        self.assertEqual(s.meeting_id, 16086)
+        self.assertEqual(s.dated, "2026-07-15")
+        self.assertTrue(s.has_votes)
+
+    def test_sd_divisions_writes_its_own_tables(self):
+        source = open(os.path.join(ROOT, "tools", "sd_divisions.py"),
+                      encoding="utf-8").read()
+        self.assertIn("sd_divisions", source)
+        self.assertIn("sd_votes", source)
+        for table in ("items", "mp_events"):
+            for verb in ("INTO {0} ", "INTO {0}(", "UPDATE {0} "):
+                self.assertNotIn(verb.format(table), source)

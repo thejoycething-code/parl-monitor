@@ -31,6 +31,20 @@ from dataclasses import dataclass
 
 QUESTION_URL = "https://record.senedd.wales/WrittenQuestion/{0}"
 
+# The vote route, found via mySociety's parlparse scraper (pyscraper/wa): an
+# undocumented XML export. The index lists sittings per PARLIAMENT (the
+# `committee` parameter takes a parliament id: 700 = Sixth Senedd,
+# 908 = Seventh); each sitting links transcript XMLs and, where divisions
+# happened, a Votes XML whose <XML_Plenary_Vote> blocks are PER-MEMBER rows:
+# division titles in both languages, totals, result, and each MS's individual
+# For/Against/Abstain. Holyrood-grade data behind an unadvertised door --
+# and record.senedd.wales accepts our honest User-Agent here too.
+XML_INDEX_URL = ("https://record.senedd.wales/XMLExport/?committee={0}&page={1}")
+VOTES_URL = ("https://record.senedd.wales/XMLExport/Download?meetingID={0}"
+             "&xmlDownloadType=Votes")
+SIXTH_SENEDD = 700
+SEVENTH_SENEDD = 908
+
 _TABLED = re.compile(r"Tabled on (\d\d)/(\d\d)/(\d\d\d\d)")
 _ANSWERED = re.compile(
     r"Answered by (.+?) \| Answered on (\d\d)/(\d\d)/(\d\d\d\d)")
@@ -123,3 +137,106 @@ def fetch_question(client, wq_id, timeout=30):
                            "wq-{0}".format(wq_id), timeout=timeout,
                            archive=False)
     return parse_question(page, wq_id)
+
+
+@dataclass
+class Sitting:
+    meeting_id: int
+    dated: str
+    has_votes: bool
+
+
+def parse_vote_index(page):
+    """Sittings from one XMLExport index page, newest first."""
+    out = []
+    for row in re.findall(r"<tr>(.*?)</tr>", page, re.S):
+        mid = re.search(r"meetingID=(\d+)", row)
+        date = re.search(r"(\d\d)/(\d\d)/(\d\d\d\d) \d\d:\d\d", row)
+        if not (mid and date):
+            continue
+        out.append(Sitting(
+            meeting_id=int(mid.group(1)),
+            dated="{0}-{1}-{2}".format(date.group(3), date.group(2),
+                                       date.group(1)),
+            has_votes="xmlDownloadType=Votes" in row))
+    return out
+
+
+def fetch_vote_index(client, parliament, page=1, timeout=60):
+    html_page = client.get_text(XML_INDEX_URL.format(parliament, page),
+                                "senedd", "xmlindex-{0}-{1}".format(
+                                    parliament, page),
+                                timeout=timeout, archive=False)
+    return parse_vote_index(html_page), ("See More" in html_page)
+
+
+@dataclass
+class SdVote:
+    member_id: str
+    member_name: str
+    result: str             # For | Against | Abstain
+
+
+@dataclass
+class SdDivision:
+    key: str                # the export's own vote ID
+    meeting_id: int
+    dated: str
+    title: str              # Vote_Name_English -- what was voted on
+    total_for: int
+    total_against: int
+    total_abstain: int
+    result: str             # "Motion has been agreed" etc.
+    votes: list
+
+
+def _field(block, name):
+    m = re.search(r"<{0}>(.*?)</{0}>".format(name), block, re.S)
+    return _html.unescape(m.group(1)).strip() if m else None
+
+
+def parse_votes_xml(text):
+    """Divisions with per-member votes from one sitting's Votes XML.
+
+    Blocks are one row per (division, member); grouped here on the export's
+    own vote ID. 480 blocks in the probed sitting -> a handful of divisions
+    of ~96 voters each.
+    """
+    divs = {}
+    # The row wrapper EMBEDS the parliament name in older exports:
+    # <XML_Plenary_Vote> for the Seventh Senedd but
+    # <XML_Plenary-SixthSenedd_Vote> for the Sixth -- the exact-tag regex
+    # silently parsed the Sixth's two years of divisions to zero. Match any
+    # XML_Plenary*_Vote wrapper.
+    for block in re.findall(
+            r"<XML_Plenary[^>]*_Vote>(.*?)</XML_Plenary[^>]*_Vote>",
+            text, re.S):
+        # The division key is Contribution_ID: <ID> is unique PER ROW (a
+        # member-level id), and grouping on it produced 480 one-voter
+        # "divisions" from a sitting that actually held 5 of 96 voters each.
+        vid = _field(block, "Contribution_ID")
+        if not vid:
+            continue
+        d = divs.get(vid)
+        if d is None:
+            d = divs[vid] = SdDivision(
+                key=vid,
+                meeting_id=int(_field(block, "Meeting_ID") or 0),
+                dated=(_field(block, "MeetingDate") or "")[:10],
+                title=_field(block, "Vote_Name_English") or "",
+                total_for=int(_field(block, "VotesTotalFor") or 0),
+                total_against=int(_field(block, "VotesTotalAgainst") or 0),
+                total_abstain=int(_field(block, "VotesTotalAbstain") or 0),
+                result=_field(block, "Vote_Result_English") or "",
+                votes=[])
+        d.votes.append(SdVote(
+            member_id=_field(block, "Member_Id") or "",
+            member_name=_field(block, "Member_name_English") or "",
+            result=_field(block, "Results_Result") or ""))
+    return sorted(divs.values(), key=lambda x: (x.dated, x.key))
+
+
+def fetch_votes(client, meeting_id, timeout=90):
+    return parse_votes_xml(client.get_text(
+        VOTES_URL.format(meeting_id), "senedd",
+        "votes-{0}".format(meeting_id), timeout=timeout, archive=False))

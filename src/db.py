@@ -405,6 +405,24 @@ CREATE TABLE IF NOT EXISTS sd_members (
   start_date TEXT, end_date TEXT, -- null end = sitting
   captured_at TEXT NOT NULL
 );
+-- Senedd plenary divisions from the undocumented XMLExport (found via
+-- mySociety's scraper; docs/api-notes.md). Per-member votes, full chamber.
+CREATE TABLE IF NOT EXISTS sd_divisions (
+  key TEXT PRIMARY KEY,           -- the export's Contribution_ID
+  meeting_id INTEGER, dated TEXT,
+  title TEXT,                     -- Vote_Name_English: what was voted on
+  total_for INTEGER, total_against INTEGER, total_abstain INTEGER,
+  result TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,  -- taxonomy over the title
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS sd_votes (
+  division_key TEXT NOT NULL,
+  member_id TEXT NOT NULL,        -- the Record's own member id
+  member_name TEXT,
+  result TEXT,                    -- For | Against | Abstain
+  PRIMARY KEY (division_key, member_id)
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -433,6 +451,8 @@ TABLES = (
     "sp_supports",
     "sd_items",
     "sd_members",
+    "sd_divisions",
+    "sd_votes",
     "ni_items",
     "ni_members",
     "ni_affiliations",

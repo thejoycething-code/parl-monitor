@@ -1192,3 +1192,34 @@ reference and Tabled line, tested on answered/pending/miss fixtures),
 `tools/sd_pull.py` (ID-walker, batch commits per 100 -- the one-writer
 lesson pre-applied), `tools/sd_monitor.py`. Backfill to 2024-01-01 walks
 ~8,000 pages at the client's throttle.
+
+## Senedd phase 2: plenary divisions via the undocumented XMLExport (2026-08-21)
+
+The route came from reading mySociety's parlparse scraper (pyscraper/wa), not
+from any Senedd documentation: `record.senedd.wales/XMLExport/?committee=P&page=N`
+indexes sittings per PARLIAMENT (the parameter is misnamed: 700 = Sixth
+Senedd, 908 = Seventh), each linking transcript XMLs and -- where divisions
+happened -- a Votes XML of PER-MEMBER rows: division titles in both languages,
+totals, result, and each MS's For/Against/Abstain. It accepts our honest
+User-Agent.
+
+Harvested 2024-01-01 onward: **941 divisions, 58,698 vote positions**, 17 on
+our ground by debate title -- including the assisted dying member debate
+(defeated 19-26, Oct 2024), all four Terminally Ill Adults Bill LCM divisions
+(Feb 2026), and the Cass review debate quartet (May 2024) that mirrors
+Holyrood's.
+
+Two parser traps, both regression-tested:
+
+* **The row wrapper embeds the parliament name** in older exports:
+  `<XML_Plenary_Vote>` (Seventh) but `<XML_Plenary-SixthSenedd_Vote>`
+  (Sixth). The exact-tag regex silently parsed the Sixth's two years to ZERO
+  -- the same silent-suppression class as Holyrood's BackupAgendaItemID.
+* **The division key is Contribution_ID.** `<ID>` is unique per ROW
+  (member-level); grouping on it produced 480 one-voter "divisions" from a
+  sitting that held 5 of 96 voters each.
+
+Classification is by DEBATE TITLE -- coarser than Holyrood's motion-text
+join; the vote names carry the subject but not the operative words. Phase 3
+(transcript XMLs from the same index) sharpens it. No sd_stance.yaml yet:
+every division is evidence, none places.
