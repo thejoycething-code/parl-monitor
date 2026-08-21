@@ -76,16 +76,25 @@ def main():
     print("    per-question pages (the /Search endpoint ignores its query;")
     print("    the ModernGov XML exports serve HTML shells). Dense ids mean")
     print("    the taxonomy classifies EVERY question -- no sweep terms.")
-    print("  * NO PARTY. Question pages carry name and constituency only,")
-    print("    and the party source (ModernGov) rejects our honest")
-    print("    User-Agent with a WAF 403. Spoofing a browser is a decision")
-    print("    for Christopher, not a default -- so attribution is by")
-    print("    member and seat until decided.")
+    ros = conn.execute("SELECT COUNT(*) FROM sd_members WHERE end_date IS "
+                       "NULL OR end_date >= date('now')").fetchone()[0]
+    if ros:
+        print("  * PARTY comes from mySociety parlparse ({0} sitting members"
+              .format(ros))
+        print("    held), joined by name at display time -- the Senedd's own")
+        print("    party source WAF-403s our honest User-Agent, and parlparse")
+        print("    is public and maintained. Unmatched names are reported,")
+        print("    never guessed.")
+    else:
+        print("  * PARTY: the parlparse roster loader is built but not yet")
+        print("    run (tools/sd_members.py; waits for the question backfill")
+        print("    to release the store -- one writer at a time).")
     print("  * NO VOTES, MOTIONS, OR COMMITTEES YET: phase 2+ (plenary")
     print("    votes live inside Record meeting pages; committees are")
     print("    behind the ModernGov SOAP WSDL).")
-    print("  * NO WEEKLY WORKFLOW YET: run tools/sd_pull.py by hand; the")
-    print("    cron arrives with phase 2.")
+    print("  * REFRESHED WEEKLY: Thursday 06:00 UTC via")
+    print("    .github/workflows/sd-weekly.yml (roster + question walk --")
+    print("    no publish step exists; the watching brief stays off Slack).")
     total = conn.execute("SELECT COUNT(*) FROM sd_items").fetchone()[0]
     print("\n  {0} row(s) in sd_items. Not in `items`, so structurally "
           "cannot reach\n  the Slack digest.".format(total))
