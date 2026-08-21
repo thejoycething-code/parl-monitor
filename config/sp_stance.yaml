@@ -63,7 +63,17 @@ divisions:
       end and insert "notes that the Scottish Government fully upholds the
       Equality Act 2010, and requires all public bodies to comply with the
       law..."
-    draft: true
+    # CONFIRMED by Christopher, 2026-08-21, after the caution was resolved by
+    # reading the full texts and the party split. The vote (12 March 2025)
+    # predates the For Women Scotland judgment (16 April 2025), but the
+    # meaning comes from what the amendment STRUCK OUT -- a demand that the
+    # Scottish Government direct public bodies to provide single-sex spaces
+    # for biological women and girls -- not from how its Equality Act
+    # boilerplate reads today. The split validates the direction: ayes are
+    # the government lobby (SNP 53, LD 4), noes are Con 25 + Labour 20 +
+    # 3 SNP rebels + Alba; the Greens abstained and place nowhere. Nobody
+    # voted aye from our premises. Weights stay at 1: opposing a wrecker is
+    # a cheaper act than proposing the directive itself.
     aye: -1
     why_aye: >
       Voted to strip the operative wording from a motion protecting
@@ -73,9 +83,6 @@ divisions:
     why_no: >
       Voted to keep the single-sex spaces motion's own wording against the
       wrecking amendment.
-    # CAUTION for confirmation: the replacement text cites the Equality Act
-    # 2010, which post-For Women Scotland reads differently than it did on
-    # the day. Confirm against the March 2025 context, not today's.
 
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).

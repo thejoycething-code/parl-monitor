@@ -211,11 +211,9 @@ class SP5caTests(unittest.TestCase):
         proposals."""
         entries = self.m.load_stance(section="divisions")
         self.assertEqual(len(entries), 3)
-        for ref in ("S6M-21005", "S6M-17416"):
+        for ref in ("S6M-21005", "S6M-17416", "S6M-16755.3"):
             self.assertFalse(entries[ref].get("draft"),
                              ref + " confirmed 2026-08-21")
-        self.assertTrue(entries["S6M-16755.3"].get("draft"),
-                        "the wrecking amendment is still a proposal")
 
     def test_the_yaml_no_key_trap_is_normalised(self):
         entries = self.m.load_stance(section="divisions")
