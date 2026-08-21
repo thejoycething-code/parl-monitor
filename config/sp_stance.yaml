@@ -270,6 +270,48 @@ divisions:
     # direction on OUR issues, so no values -- and this entry doubles as the
     # recorded example of the passing-mention limitation.
 
+  - reference: "S6M-13015"
+    title: "Safe Access Zones Bill: Stage 1 general principles"
+    dated: "2024-04-30"
+    result: "123 aye / 1 no -- Carried"
+    text: >
+      That the Parliament agrees to the general principles of the Abortion
+      Services (Safe Access Zones) (Scotland) Bill.
+    # CONFIRMED 2026-08-21. The lobbies are pure: an aye supports creating
+    # criminal buffer zones around abortion clinics -- the law under which
+    # silent prayer near a clinic is prosecuted -- and the single no is John
+    # Mason, the only MSP on record against at any stage. Near-unanimity
+    # changes the SHAPE of the sheet, not the validity of the direction (the
+    # Cass-final precedent, at maximum strength). Stage 1 weights, mirroring
+    # the assisted dying pair.
+    aye: -1
+    why_aye: >
+      Supported the general principles of criminal buffer zones around
+      abortion clinics at Stage 1.
+    "no": 1
+    why_no: >
+      Opposed the buffer zones Bill from its first vote -- John Mason, alone.
+
+  - reference: "S6M-13571"
+    title: "Safe Access Zones Bill: passage"
+    dated: "2024-06-12"
+    result: "118 aye / 1 no -- Carried"
+    text: >
+      That the Parliament agrees that the Abortion Services (Safe Access
+      Zones) (Scotland) Bill be passed.
+    # CONFIRMED 2026-08-21. Final passage: the question itself, so full
+    # weight, mirroring S6M-21005. The aye lobby spans every party including
+    # all Conservatives -- which is the honest picture of this chamber on
+    # this ground, not a reason to soften the reading.
+    aye: -2
+    why_aye: >
+      Voted to pass the buffer zones law criminalising presence and prayer
+      near abortion clinics.
+    "no": 2
+    why_no: >
+      Voted against passing the buffer zones law -- John Mason, the only MSP
+      to oppose it at every stage.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []
