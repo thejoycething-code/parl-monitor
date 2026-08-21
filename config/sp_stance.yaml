@@ -337,6 +337,83 @@ divisions:
       procedural route to killing it, chosen only by the Bill's most
       committed opponents.
 
+  - reference: "S6M-18016.1"
+    title: "Amendment: stop conflating sex and gender post-For Women Scotland"
+    dated: "2025-06-19"
+    result: "24 aye / 60 no -- Defeated"
+    text: >
+      As an amendment to S6M-18016 (Progressing National Advisory Council on
+      Women and Girls Recommendations): insert at end "...expresses concern
+      that the Scottish Government continues to conflate the terms 'sex' and
+      'gender' following the findings of the Sullivan Review and the UK
+      Supreme Court's judgment in For Women Scotland...; believes that
+      progress towards equality for women and girls has been hampered by the
+      Scottish Government contesting the lawful definition of 'woman'..."
+    # CONFIRMED 2026-08-21. An insert-at-end amendment, so nothing was
+    # struck: the vote is purely on adding the For Women Scotland framing.
+    # The noes (SNP 50, Green 6, LD 3) substantively rejected it under whip;
+    # Labour ABSTAINED rather than reject -- the same issue-alignment tell as
+    # the single-sex final vote. Weight 1: framing amendment, not statute.
+    aye: 1
+    why_aye: >
+      Voted to put the For Women Scotland judgment and the Sullivan Review's
+      sex/gender distinction into the Parliament's position on women's
+      equality.
+    "no": -1
+    why_no: >
+      Voted down the amendment demanding the Scottish Government stop
+      conflating sex and gender after For Women Scotland.
+
+  - reference: "S6M-12867.1"
+    title: "Timetable amendment: demand a ministerial statement on Cass"
+    dated: "2024-04-17"
+    result: "53 aye / 60 no -- Defeated"
+    text: >
+      As an amendment to the Business Programme: insert "Ministerial
+      Statement: Scottish Government Response to the Cass Review".
+    # CONFIRMED 2026-08-21, ONE-SIDED (the S6M-19456 pattern, mirrored). An
+    # aye was a chosen cross-party demand for Cass accountability days after
+    # the Review published -- Con, LABOUR, LD and Alba together, Labour's
+    # most active area-3 act. A no is whip-confounded: governments resist
+    # opposition timetable amendments regardless of subject (the S6M-20898
+    # reasoning), so the no lobby carries no value. Cross-tab kept honest:
+    # 3 of the 53 ayes later voted to SOFTEN Cass implementation, and the
+    # conflict flag catching them is a feature.
+    aye: 1
+    why_aye: >
+      Demanded the Scottish Government come to the chamber and respond to
+      the Cass Review -- a cross-party accountability push the government
+      voted down.
+
+  - reference: "S6M-13692.1"
+    title: "Timetable amendment: demand a statement on APPLYING Cass"
+    dated: "2024-06-18"
+    result: "51 aye / 64 no -- Defeated"
+    text: >
+      As an amendment to the Revision to Business Programme: insert
+      "Ministerial Statement: Applying the Cass Review Recommendations to
+      Scotland".
+    # CONFIRMED 2026-08-21, one-sided, same reasoning as S6M-12867.1 -- the
+    # second demand two months later, its wording stronger ("Applying"), the
+    # government's refusal the same.
+    aye: 1
+    why_aye: >
+      Demanded a ministerial statement on applying the Cass Review's
+      recommendations to Scotland -- the second refused accountability push.
+
+  - reference: "S6M-17437.3"
+    title: "Green replacement of the Programme for Government"
+    dated: "2025-05-07"
+    result: "7 aye / 108 no -- Defeated"
+    # NOT PLACEABLE -- confirmed 2026-08-21. The Greens' wholesale
+    # alternative Programme for Government ("leave out from first 'to grow'
+    # to end"): climate, economy, land use, with a conversion-practices ban
+    # one clause among dozens -- the only reason area 4 matched. The aye
+    # lobby is the seven Greens endorsing their own programme; the no lobby
+    # bundles conversion-ban supporters (the SNP had its own ban plans) with
+    # opponents. The Scotland Needs Reform shape exactly: an omnibus vote
+    # cannot discriminate on one clause.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []

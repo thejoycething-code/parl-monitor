@@ -210,10 +210,11 @@ class SP5caTests(unittest.TestCase):
         question, so no amendment-reading was required. The other two remain
         proposals."""
         entries = self.m.load_stance(section="divisions")
-        self.assertEqual(len(entries), 15)
+        self.assertEqual(len(entries), 19)
         for ref in ("S6M-21005", "S6M-17416", "S6M-16755.3",
                     "S6M-13090.4", "S6M-13090", "S6M-16755",
-                    "S6M-13015", "S6M-13571", "S6M-19456"):
+                    "S6M-13015", "S6M-13571", "S6M-19456",
+                    "S6M-18016.1", "S6M-12867.1", "S6M-13692.1"):
             self.assertFalse(entries[ref].get("draft"),
                              ref + " confirmed 2026-08-21")
 
@@ -226,7 +227,8 @@ class SP5caTests(unittest.TestCase):
         an MSP."""
         entries = self.m.load_stance(section="divisions")
         for ref in ("S7M-00446.2", "S7M-00446", "S6M-20037",
-                    "S6M-21077", "S6M-20898", "S6M-16170.3"):
+                    "S6M-21077", "S6M-20898", "S6M-16170.3",
+                    "S6M-17437.3"):
             e = entries[ref]
             self.assertIsNone(e.get("aye"), ref)
             self.assertIsNone(e.get("no"), ref)
@@ -251,10 +253,15 @@ class SP5caTests(unittest.TestCase):
         entry carrying aye also carries no (a one-lobby meaning line would be
         the trap's fingerprint)."""
         entries = self.m.load_stance(section="divisions")
+        # One-sided lines are legitimate in BOTH directions now (S6M-19456 is
+        # no-only, the Cass timetable amendments are aye-only), so the aye=>no
+        # implication is gone. The trap itself -- an unquoted no: parsing as
+        # boolean False -- is normalised inside load_stance, and THAT is what
+        # this pins: False never survives as a key.
         for ref, e in entries.items():
             self.assertNotIn(False, e, ref)
-            if e.get("aye") is not None:
-                self.assertIn("no", e, ref)
+        self.assertIn("no", entries["S6M-19456"],
+                      "the no-only line proves normalisation still runs")
 
 
 class ORDivisionTests(unittest.TestCase):
