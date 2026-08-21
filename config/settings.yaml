@@ -153,6 +153,13 @@ pq_sweep_terms:
   # asylum-accommodation 117, border-security 49, deportation 37. Migration
   # is collated for MP intelligence only, never campaigned, so these feed the
   # ledger and the written-questions page, not the 5CA or briefs.
+  # DIGEST: Christopher decided 2026-08-21 that migration DOES render in the
+  # Slack digest, full inclusion -- the Written Questions table and the MP
+  # section show it with member names. This was asked, not assumed: it had
+  # never rendered (every edition since area 11 was added on 3 Aug was recess
+  # mode, and PQs skip recess), so the first September edition is the first
+  # time the team sees it. Do NOT "fix" this as a leak: hidden means hidden
+  # from BRIEFS and the 5CA (make_briefs EXCLUDED_AREAS), not from the team.
   - asylum-seekers         # 4,574; newest "Asylum: Housing"
   - asylum-accommodation   # 1,498; newest "Asylum: MOD Bicester"
   - deportation            # 1,699; newest "Deportation", 3 August
