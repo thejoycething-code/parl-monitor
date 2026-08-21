@@ -171,6 +171,58 @@ divisions:
     # NOT PLACEABLE -- confirmed 2026-08-21. All 23 noes are Conservative:
     # a party-whip vote on the week's timetable, zero issue signal.
 
+  - reference: "S6M-13090.4"
+    title: "Amendment softening Cass implementation to 'thoroughly examine'"
+    dated: "2024-05-08"
+    result: "71 aye / 30 no -- Carried"
+    text: >
+      As an amendment to S6M-13090 (Meghan Gallacher, Implementing the Cass
+      Review in Scotland): leave out from "implement" to end and insert
+      "thoroughly examine the recommendations... and update the Parliament on
+      the outcome before the summer recess."
+    # CONFIRMED 2026-08-21 (recorded at Christopher's instruction to do the
+    # Cass pair; reasoning below, one edit to veto). NOT a wrecker: the
+    # amended text still welcomes Cass as valid science. The vote is about
+    # the STRENGTH of the commitment, so weights are 1 not 2. The aye lobby
+    # mixes motives (SNP examine-first + Greens weaken-anything-Cass, shown
+    # by their No on the final vote) but the ACT -- weakening an
+    # implementation commitment -- is directionally against us regardless.
+    # The no lobby (Con 29 + Alba 1) uniformly defended "implement". Labour
+    # abstained and places nowhere.
+    aye: -1
+    why_aye: >
+      Voted to soften the Cass motion from "implement the recommendations" to
+      "thoroughly examine" -- weakening the commitment, whatever the motive.
+    "no": 1
+    why_no: >
+      Voted to keep the demand that the Scottish Government implement the
+      Cass Review's recommendations, against the softening amendment.
+
+  - reference: "S6M-13090"
+    title: "Implementing the Cass Review in Scotland (as amended)"
+    dated: "2024-05-08"
+    result: "113 aye / 7 no -- Carried"
+    text: >
+      (As amended) That the Parliament welcomes the report submitted by
+      Dr Hilary Cass...; recognises the report as a valid scientific
+      document, and calls on the Scottish Government to thoroughly examine
+      the recommendations... and update the Parliament before summer recess.
+    # CONFIRMED 2026-08-21. Near-unanimity usually means a vote cannot
+    # discriminate; here the exception is proven by the noes: ALL SEVEN
+    # Scottish Greens, refusing to recognise the Cass Review as valid
+    # science at all -- the strongest anti-Cass act available that day,
+    # hence -2. An aye affirms Cass's validity: real but weak (+1), since
+    # both implementation camps voted aye.
+    aye: 1
+    why_aye: >
+      Endorsed the Cass Review as a valid scientific document whose
+      recommendations Scotland must examine -- the whole chamber minus the
+      Greens.
+    "no": -2
+    why_no: >
+      Refused to recognise the Cass Review as valid science -- all seven
+      Greens, the strongest available rejection of Cass that day.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []
