@@ -84,6 +84,38 @@ divisions:
       Voted to keep the single-sex spaces motion's own wording against the
       wrecking amendment.
 
+  - reference: "S7M-00446.2"
+    title: "SNP replacement of 'Scotland Needs Reform: Five Years to 2031'"
+    dated: "2026-06-24"
+    result: "75 aye / 25 no -- Carried (and the amended motion then 91-27)"
+    text: >
+      As an amendment to motion S7M-00446 (Malcolm Offord, Scotland Needs
+      Reform): leave out from first "believes" to end and insert "condemns
+      xenophobia, racism and hatred... welcomes the valuable contribution
+      that migrants make..."
+    # NOT PLACEABLE -- recorded 2026-08-21 at Christopher's request for a
+    # meaning line, with the reasoning written down so the question is not
+    # reopened. No aye/no values on purpose: an entry without them places
+    # nobody even though it is not a draft.
+    #
+    # The original motion is an OMNIBUS: tax, net zero, apprenticeships,
+    # literacy -- plus one passage on our ground (Lady Ross's transgender
+    # prison-guidance ruling "must be swiftly complied with", the reason the
+    # taxonomy matched it at area 5) and one on migration (area 11, never
+    # campaigned). The amendment struck THE WHOLE TEXT, so a vote either way
+    # bundles our passage with the entire Reform economic programme: an MSP
+    # could vote No purely on tax policy, or Yes while agreeing with Lady
+    # Ross compliance. The splits confirm bloc voting, not issue voting --
+    # government parties aye (SNP 52, Green 15, LD 8), opposition no
+    # (Reform 16, Con 9), LABOUR ABSTAINED on the amendment and then voted
+    # AYE on the amended text: bundling behaviour, nothing issue-specific.
+    # The final 91-27 was on the REPLACEMENT text, which contains nothing on
+    # our ground at all.
+    #
+    # Same discipline as NI division 488823 (blasphemy): a vote that cannot
+    # discriminate ally from opponent on our issue places nobody, however
+    # tempting the tally looks. Both votes render as evidence lines only.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []

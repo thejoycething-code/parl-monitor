@@ -210,15 +210,36 @@ class SP5caTests(unittest.TestCase):
         question, so no amendment-reading was required. The other two remain
         proposals."""
         entries = self.m.load_stance(section="divisions")
-        self.assertEqual(len(entries), 3)
+        self.assertEqual(len(entries), 4)
         for ref in ("S6M-21005", "S6M-17416", "S6M-16755.3"):
             self.assertFalse(entries[ref].get("draft"),
                              ref + " confirmed 2026-08-21")
 
+    def test_not_placeable_entries_place_nobody(self):
+        """S7M-00446.2 is recorded WITHOUT aye/no values: the SNP amendment
+        struck an entire omnibus motion, so a vote either way bundles the
+        Lady Ross passage with the whole Reform economic programme -- it
+        cannot discriminate ally from opponent on our issue (the NI 488823
+        discipline). The entry documents the reasoning; it must never move
+        an MSP."""
+        entries = self.m.load_stance(section="divisions")
+        e = entries["S7M-00446.2"]
+        self.assertIsNone(e.get("aye"))
+        self.assertIsNone(e.get("no"))
+        self.assertEqual(self.m.vote_stance(e, "Yes"), (None, None))
+        self.assertEqual(self.m.vote_stance(e, "No"), (None, None))
+
     def test_the_yaml_no_key_trap_is_normalised(self):
+        """The trap: an unquoted `no:` key parses as boolean False (YAML 1.1).
+        A NOT PLACEABLE entry has neither aye nor no, legitimately -- so the
+        assertion is that False never survives as a key, and that a directional
+        entry carrying aye also carries no (a one-lobby meaning line would be
+        the trap's fingerprint)."""
         entries = self.m.load_stance(section="divisions")
         for ref, e in entries.items():
-            self.assertIn("no", e, "an unquoted no: parses as False (YAML 1.1)")
+            self.assertNotIn(False, e, ref)
+            if e.get("aye") is not None:
+                self.assertIn("no", e, ref)
 
 
 class ORDivisionTests(unittest.TestCase):
