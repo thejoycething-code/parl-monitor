@@ -151,6 +151,26 @@ divisions:
     # facilitate the bill in any form -- also our side. Allies in every
     # lobby. No aye/no values on purpose.
 
+  - reference: "S6M-21077"
+    title: "Business Programme scheduling the Stage 3 assisted dying day"
+    dated: "2026-03-11"
+    result: "101 aye / 19 no -- Carried"
+    # NOT PLACEABLE -- confirmed 2026-08-21, by arithmetic rather than
+    # ambiguity. 16 of the 19 noes were Stage 3 opponents, so the no lobby
+    # smells like obstruction -- but 3 of the 19 voted FOR the Bill at Stage 3
+    # (scheduling objections), so a "no: +1" line would fire false conflict
+    # flags on them; and every genuine opponent in the lobby already sits at
+    # +/-2 from the Stage 3 vote itself, which outranks a +/-1 under
+    # most-directional-wins. The line would place nobody new and manufacture
+    # three wrong warnings. Pure cost, no yield.
+
+  - reference: "S6M-20898"
+    title: "Business Programme (week including assisted dying scheduling)"
+    dated: "2026-02-25"
+    result: "92 aye / 23 no -- Carried"
+    # NOT PLACEABLE -- confirmed 2026-08-21. All 23 noes are Conservative:
+    # a party-whip vote on the week's timetable, zero issue signal.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []
