@@ -414,6 +414,29 @@ divisions:
     # opponents. The Scotland Needs Reform shape exactly: an omnibus vote
     # cannot discriminate on one clause.
 
-# Motion sponsorship (proposer only until the supports endpoint recovers --
-# it answered 503 on 2026-08-20, so co-signatories are not yet held).
-motions: []
+# Motion sponsorship. Proposing or co-signing scores against `sponsored:`;
+# the SEQUENCE changes evidence weight (proposer > co-signer), never the
+# direction -- the NI rule. Co-signatories arrive per-id via sp_supports.
+motions:
+  - reference: "S7M-00431"
+    title: "Congratulations to For Women Scotland on Landmark Supreme Court Victory"
+    dated: "2026-06-19"
+    proposed_by: "Thomas Kerr (Reform UK)"
+    text: >
+      That the Parliament congratulates For Women Scotland on its successful
+      legal challenge and the landmark Supreme Court ruling...
+    # CONFIRMED 2026-08-21. Putting your name to a motion congratulating For
+    # Women Scotland on the judgment is a chosen public act of alignment with
+    # the sex-based rights side -- the same direction as an aye on the
+    # S6M-18016.1 framing amendment, by a costlier route (a signature is
+    # public and initiated, not whipped). 11 co-signers held in sp_supports.
+    # Weight 1; the vote record still outranks it where both exist.
+    #
+    # An IDENTICAL act family exists from judgment week (April 2025):
+    # S6M-17234 (Gosal, 28 signers), S6M-17241 (White, 23), S6M-17235
+    # (Regan, 2) -- same line ready to copy when wanted; their proposers are
+    # no longer sitting but many signers are.
+    sponsored: 1
+    why_sponsored: >
+      Put their name to congratulating For Women Scotland on the Supreme
+      Court ruling that sex in the Equality Act 2010 means biological sex.

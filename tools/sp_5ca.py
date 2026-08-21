@@ -43,7 +43,7 @@ STANCE_PATH = os.path.join(ROOT, "config", "sp_stance.yaml")
 HEADER = ["Decision-Maker", "++", "+", "0", "-", "--", "Target (Y/N)",
           "Based on", "Confidence", "Evidence items", "Profile", "Comments"]
 
-SP_KIND_WEIGHT = {"vote": 5, "motion": 3, "question": 1}
+SP_KIND_WEIGHT = {"vote": 5, "motion": 3, "motion-signed": 2, "question": 1}
 
 
 def load_stance(path=STANCE_PATH, section="divisions"):
@@ -139,30 +139,38 @@ def build_rows(conn, area, entries, motion_entries=None):
         else:
             rec["lines"].append(label + " [no meaning line -- not placed]")
 
-    # Proposer sponsorship: the motion's own msp_id. Co-signatories arrive
-    # when the supports endpoint recovers (503 on 2026-08-20).
+    # Sponsorship: the proposer from the motion's own msp_id, co-signers from
+    # sp_supports (fetched per-id; the full dump cannot be served). The role
+    # changes the evidence WEIGHT, never the direction -- the NI rule.
     motions = conn.execute(
-        "SELECT reference, title, dated, msp_id, areas FROM sp_items "
+        "SELECT id, reference, title, dated, msp_id, areas FROM sp_items "
         "WHERE kind='motion' AND msp_id IS NOT NULL "
         "AND areas IS NOT NULL AND areas != '[]'").fetchall()
     for m in motions:
         if area not in json.loads(m["areas"] or "[]"):
             continue
-        rec = per.get(m["msp_id"])
-        if rec is None:
-            continue
-        label = "{0} MOTION PROPOSED {1}: {2}".format(
-            m["dated"] or "?", m["reference"] or "?", (m["title"] or "")[:52])
         entry = motion_entries.get(m["reference"])
-        s, why = sponsor_stance(entry)
-        if s is not None:
-            rec["scored"].append((s, m["dated"] or "", label, "motion"))
-            rec["lines"].append("{0} [{1:+d}: {2}]".format(
-                label, s, " ".join((why or "").split())[:110]))
-        elif entry and entry.get("draft"):
-            rec["lines"].append(label + " [meaning line DRAFT -- not placed]")
-        else:
-            rec["lines"].append(label + " [no meaning line -- not placed]")
+        signers = [(m["msp_id"], "PROPOSED", "motion")]
+        uid = m["id"].split(":")[1]
+        for srow in conn.execute(
+                "SELECT person_id FROM sp_supports WHERE motion_uid=?", (uid,)):
+            signers.append((srow["person_id"], "CO-SIGNED", "motion-signed"))
+        for pid, role, kind in signers:
+            rec = per.get(pid)
+            if rec is None:
+                continue
+            label = "{0} MOTION {1} {2}: {3}".format(
+                m["dated"] or "?", role, m["reference"] or "?",
+                (m["title"] or "")[:52])
+            s, why = sponsor_stance(entry)
+            if s is not None:
+                rec["scored"].append((s, m["dated"] or "", label, kind))
+                rec["lines"].append("{0} [{1:+d}: {2}]".format(
+                    label, s, " ".join((why or "").split())[:110]))
+            elif entry and entry.get("draft"):
+                rec["lines"].append(label + " [meaning line DRAFT -- not placed]")
+            else:
+                rec["lines"].append(label + " [no meaning line -- not placed]")
 
     # OR speeches: engagement evidence with a quotable excerpt. Activity,
     # not direction -- a watching brief has no stance scoring, so a speech
@@ -206,11 +214,12 @@ def build_rows(conn, area, entries, motion_entries=None):
             comments.insert(0, "CONFLICTING SIGNALS - review all evidence")
         if decided:
             based = stance.based_on(
-                {"vote": "vote", "motion": "edm"}.get(decided[3], decided[3]),
+                {"vote": "vote", "motion": "edm",
+                 "motion-signed": "edm-signed"}.get(decided[3], decided[3]),
                 decided[1] or today)
             confidence = ("strong (recorded vote, human-confirmed meaning line)"
                           if decided[3] == "vote" else
-                          "moderate (motion proposed, human-confirmed "
+                          "moderate (motion sponsorship, human-confirmed "
                           "meaning line)")
         elif rec["lines"]:
             based = "no confirmed meaning line"
