@@ -395,6 +395,16 @@ CREATE TABLE IF NOT EXISTS sd_items (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Senedd roster from mySociety parlparse (the honest party source: the
+-- Senedd's own party pages sit behind a WAF that rejects our User-Agent, and
+-- parlparse is maintained, public and needs no games -- 96 members stamped
+-- from the May 2026 expansion election).
+CREATE TABLE IF NOT EXISTS sd_members (
+  person_id TEXT PRIMARY KEY,     -- parlparse person id
+  name TEXT, party TEXT, post TEXT,
+  start_date TEXT, end_date TEXT, -- null end = sitting
+  captured_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -422,6 +432,7 @@ TABLES = (
     "sp_bills",
     "sp_supports",
     "sd_items",
+    "sd_members",
     "ni_items",
     "ni_members",
     "ni_affiliations",

@@ -75,3 +75,21 @@ class SeparationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WeeklyWorkflowTests(unittest.TestCase):
+    def test_the_workflow_has_no_publish_step_and_can_push(self):
+        """Copied from ni-weekly rather than written from memory -- the
+        sp-weekly lesson (its day-one double miss was a missing permissions
+        block and sunset action majors)."""
+        path = os.path.join(ROOT, ".github", "workflows", "sd-weekly.yml")
+        with open(path, encoding="utf-8") as fh:
+            raw = fh.read()
+        source = "\n".join(l for l in raw.splitlines()
+                           if not l.strip().startswith("#"))
+        for banned in ("slack", "secrets.yaml", "post_", "publish",
+                       "ANTHROPIC", "SLACK"):
+            self.assertNotIn(banned, source, banned)
+        self.assertIn("group: parl-monitor-state", source)
+        self.assertIn("contents: write", source)
+        self.assertIn("checkout@v7", source)

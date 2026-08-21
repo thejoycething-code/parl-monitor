@@ -1,0 +1,85 @@
+name: Senedd weekly
+on:
+  schedule:
+    # Thursday 06:00 UTC, retry 14:00. The Senedd sits Tuesday and Wednesday,
+    # so by Saturday the week's divisions and Hansard components are
+    # published, and the slot is clear of the Sunday pull (01:00-15:00 Sun),
+    # the Monday publish (02:00-07:00 Mon) and the monthly UPR (3rd, 06:00).
+    #
+    # Deliberately SIMPLER than sunday-pull.yml, and why is worth recording:
+    # no DST guard pair, because this is a pull with no publish attached and
+    # nobody's morning depends on the London hour; no secrets file, because
+    # every NI endpoint is keyless and the filter is regex, not triage; no
+    # last-chance Monday slot, because a stale NI store costs a week of
+    # watching-brief freshness, not a missed edition.
+    - cron: "0 6 * * 4"
+    - cron: "0 14 * * 4"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+# The same group as the Sunday pull and Monday publish: every workflow that
+# commits data/ must serialise, or two bots race on parl-monitor.db -- the
+# binary-merge conflict this repo has already paid for twice.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    # A full run measured ~12 minutes cold (the question enrichment is one
+    # throttled request per matched question); 30 covers checkout and pip too.
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Pull the roster from parlparse
+        run: python3 tools/sd_members.py | tee /tmp/sd-members.log
+      - name: Walk new written questions
+        if: always()
+        run: python3 tools/sd_pull.py | tee /tmp/sd-pull.log
+      - name: Health summary
+        # The tools print their gaps and then exit 0, so a PARTIAL refresh is
+        # a green tick with the detail buried in the log. Lifting the gap lines
+        # into the run summary makes the Actions page answer "did this week
+        # work" at a glance -- the same reasoning as printing gaps at all: a
+        # feed that fails quietly is worse than one that fails loudly.
+        if: always()
+        run: |
+          {
+            echo "## Senedd weekly refresh"
+            for f in members pull; do
+              echo "### $f"
+              if [ -f "/tmp/sd-$f.log" ]; then
+                echo '```'
+                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area" \
+                  "/tmp/sd-$f.log" | head -20 || echo "(no summary lines)"
+                echo '```'
+              else
+                echo "step did not run"
+              fi
+            done
+            TOTAL=$(grep -ho "[0-9]\+ gap(s)" /tmp/sd-*.log 2>/dev/null \
+                    | awk '{s+=$1} END {print s+0}')
+            echo ""
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step logs. A gap is a"
+              echo "source that did not answer, not a crash: the rest of the"
+              echo "refresh still landed."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit state
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "NI weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git push
