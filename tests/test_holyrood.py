@@ -210,7 +210,7 @@ class SP5caTests(unittest.TestCase):
         question, so no amendment-reading was required. The other two remain
         proposals."""
         entries = self.m.load_stance(section="divisions")
-        self.assertEqual(len(entries), 11)
+        self.assertEqual(len(entries), 12)
         for ref in ("S6M-21005", "S6M-17416", "S6M-16755.3",
                     "S6M-13090.4", "S6M-13090", "S6M-16755"):
             self.assertFalse(entries[ref].get("draft"),
@@ -225,7 +225,7 @@ class SP5caTests(unittest.TestCase):
         an MSP."""
         entries = self.m.load_stance(section="divisions")
         for ref in ("S7M-00446.2", "S7M-00446", "S6M-20037",
-                    "S6M-21077", "S6M-20898"):
+                    "S6M-21077", "S6M-20898", "S6M-16170.3"):
             e = entries[ref]
             self.assertIsNone(e.get("aye"), ref)
             self.assertIsNone(e.get("no"), ref)

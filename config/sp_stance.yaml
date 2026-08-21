@@ -253,6 +253,23 @@ divisions:
       Refused to ratify the motion once its single-sex protections had been
       stripped -- including five SNP rebels.
 
+  - reference: "S6M-16170.3"
+    title: "Amendment to 'Delivering School Environments Where it is Safe...'"
+    dated: "2025-01-22"
+    result: "68 aye / 31 no -- Carried"
+    # NOT PLACEABLE -- confirmed 2026-08-21, and here the CLASSIFICATION is
+    # the error, not the ambiguity. This is a school violence and behaviour
+    # dispute (Conservative action-plan motion vs SNP softening; mobile-phone
+    # bans, early years provision). It reached area 7 solely because the SNP
+    # text says children should be "protected from online harms" -- a passing
+    # generic phrase colliding with the "Online Harms" historic-vocabulary
+    # term, whose White-Paper-era intent this is not. Measured before
+    # deciding: the TERM stays (143 of 250 Westminster matches keep
+    # White-Paper company and the rest are genuine online-safety PQs); the
+    # misfire is per-item. Neither lobby of a school-behaviour vote carries a
+    # direction on OUR issues, so no values -- and this entry doubles as the
+    # recorded example of the passing-mention limitation.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []
