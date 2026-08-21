@@ -286,3 +286,42 @@ class ORDivisionTests(unittest.TestCase):
             [{"Detail": {"EditedText": "There will be a division."},
               "ItemOfBusiness": {}, "Time": {}}])
         self.assertEqual(rows, [])
+
+
+class ORSpeechTests(unittest.TestCase):
+    """Speeches ride the same OR payload as divisions -- one 65MB fetch."""
+
+    ROW = {"ID": "Z", "Detail": {"ContributionID": 777, "EditedText":
+           "The Cass Review made clear that puberty blockers required caution."},
+           "Person": {"ID": 1857, "ParliamentaryName": "McNeill, Pauline"},
+           "ItemOfBusiness": {"Heading": "Gender Services"},
+           "Time": {"Start": "2026-02-01T14:00:00"}}
+
+    def test_speech_parses_with_the_speaker(self):
+        sp = holyrood.parse_or_speeches([self.ROW])[0]
+        self.assertEqual(sp.key, "orc777")
+        self.assertEqual(sp.person_id, "1857")
+        self.assertEqual(sp.dated, "2026-02-01")
+        self.assertIn("Cass Review", sp.text)
+
+    def test_speakerless_rows_are_skipped(self):
+        rows = holyrood.parse_or_speeches(
+            [{"Detail": {"EditedText": "text"}, "Person": {},
+              "ItemOfBusiness": {}, "Time": {}}])
+        self.assertEqual(rows, [])
+
+    def test_divisions_and_speeches_share_a_payload(self):
+        """fetch_or_payload exists so the tool downloads the 65MB dump once
+        per year and feeds BOTH parsers; a second fetch would double the
+        weekly transfer for nothing."""
+        calls = []
+        class C:
+            def get_json(self, url, feed, slug, timeout=None, archive=True):
+                calls.append(slug)
+                return []
+        holyrood.fetch_or_payload(C(), 2026)
+        self.assertEqual(calls, ["or-2026"])
+        source = open(os.path.join(ROOT, "tools", "sp_divisions.py"),
+                      encoding="utf-8").read()
+        self.assertIn("fetch_or_payload", source)
+        self.assertNotIn("fetch_or_divisions(client", source)

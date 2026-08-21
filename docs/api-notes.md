@@ -1109,3 +1109,25 @@ aggregate reaches any public surface. Aggregate context is the ceiling.
 Also confirmed today: S6M-17416 (Stage 1 general principles, aye -1 / no +1 --
 weights stand, Stage 1 ayes include allow-scrutiny votes). Two of three
 meaning lines are now confirmed; the assisted-dying 5CA places from both.
+
+## Holyrood phase 3: Official Report speeches (2026-08-21)
+
+Speeches now ride the SAME 65MB-per-year OR fetch as the bill-amendment
+divisions -- `fetch_or_payload` serves both parsers, so the weekly transfer
+did not grow. 3,516 speech events stored for 2025-2026 in `sp_events`,
+passage-matched (the whole-contribution match rate is ~0.5%; median
+contribution is 393 chars), every speaker joining sp_members by Person.ID
+(193 of 193 in 2026).
+
+Speeches are ACTIVITY evidence in the SP 5CA, never direction: the watching
+brief has no Claude stance scoring, so a speech contributes a dated, quotable
+excerpt to an MSP's Comments and can never place them. This is deliberately
+WEAKER than Westminster, where speeches feed the paid stance pass -- the
+watching-brief rule (nothing estimates a stance) outranks evidence richness.
+
+Learned the hard way in the same hour: running this harvest while the
+Westminster stance catch-up was writing crashed the catch-up with "database
+is locked" -- one SQLite file, two writers. The catch-up is idempotent per
+batch so nothing paid for was lost, but the rule is now explicit: ONE WRITER
+AT A TIME against data/parl-monitor.db; long-running scoring gets the store
+to itself.

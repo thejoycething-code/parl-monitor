@@ -176,9 +176,13 @@ def main():
     print("    'Abstain' are first-class values), and the API stamps party AND")
     print("    a whip-agreement flag on each vote row. A division whose motion")
     print("    is not in sp_items is stored unclassified, never guessed.")
-    print("  * OFFICIAL REPORT: division RESULTS are harvested from it (the")
-    print("    bill-amendment class above); SPEECHES are not yet classified")
-    print("    into the ledger -- that is the remaining phase-3 work.")
+    ev=conn.execute("SELECT COUNT(*), COUNT(DISTINCT person_id) FROM "
+                    "sp_events").fetchone()
+    print("  * OFFICIAL REPORT: divisions AND speeches are harvested from one")
+    print("    fetch per year. {0} speech event(s) from {1} MSP(s) sit in"
+          .format(ev[0], ev[1]))
+    print("    sp_events -- passage-matched, quotable, and ACTIVITY ONLY:")
+    print("    a watching brief scores no stances, so a speech never places.")
     print("  * PARTY IS THE ROW'S OWN: the API stamps the asker's party on")
     print("    every question, and sp_affiliations holds full date ranges,")
     print("    so party-as-at-date needs no reconstruction (unlike NI).")

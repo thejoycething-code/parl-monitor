@@ -344,6 +344,19 @@ CREATE TABLE IF NOT EXISTS sp_votes (
   shares_party TEXT,              -- the API's own whip-agreement flag
   PRIMARY KEY (division_key, person_id)
 );
+-- Holyrood speech ledger: Official Report contributions that match the
+-- taxonomy, passage-filtered like the Westminster ledger. Speeches are
+-- ACTIVITY evidence in the SP 5CA -- there is no Claude stance scoring in a
+-- watching brief, so a speech never places anyone; it shows engagement and
+-- gives the campaigner a dated, quotable excerpt.
+CREATE TABLE IF NOT EXISTS sp_events (
+  key TEXT PRIMARY KEY,           -- 'orc<ContributionID>'
+  person_id TEXT NOT NULL,
+  dated TEXT, heading TEXT,
+  areas TEXT, matched_terms TEXT,
+  excerpt TEXT,                   -- the strongest-matching passage
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -367,6 +380,7 @@ TABLES = (
     "sp_affiliations",
     "sp_divisions",
     "sp_votes",
+    "sp_events",
     "ni_items",
     "ni_members",
     "ni_affiliations",

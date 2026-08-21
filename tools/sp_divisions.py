@@ -103,10 +103,11 @@ def main():
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     import json as _json
-    or_stored = or_ours = 0
+    or_stored = or_ours = sp_stored = 0
     for year in years:
         try:
-            ordivs = holyrood.fetch_or_divisions(client, year)
+            payload = holyrood.fetch_or_payload(client, year)
+            ordivs = holyrood.parse_or_divisions(payload)
         except FetchError as exc:
             conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (datetime.date.today().isoformat(), "sp-or-divisions",
@@ -141,12 +142,35 @@ def main():
                  d.amendment_no, "official-report", _json.dumps(areas),
                  _json.dumps(res.matched_terms or []), res.tier, now, now))
             or_stored += 1
+        # SPEECHES from the same payload: one 65MB fetch serves both. Stored
+        # only when a passage matches -- the ledger is engagement evidence
+        # (~0.5% of contributions), never direction.
+        for sp in holyrood.parse_or_speeches(payload):
+            matches = filt.match_passages(tax, wl, sp.text,
+                                          title=sp.heading or "")
+            if not matches:
+                continue
+            areas, terms, excerpt = filt.aggregate_passages(matches)
+            if not areas:
+                continue
+            conn.execute(
+                "INSERT INTO sp_events (key, person_id, dated, heading, "
+                "areas, matched_terms, excerpt, first_seen, last_seen) "
+                "VALUES (?,?,?,?,?,?,?,?,?) "
+                "ON CONFLICT(key) DO UPDATE SET areas=excluded.areas, "
+                "matched_terms=excluded.matched_terms, "
+                "excerpt=excluded.excerpt, last_seen=excluded.last_seen",
+                (sp.key, sp.person_id, sp.dated, sp.heading,
+                 _json.dumps(areas), _json.dumps(terms), excerpt, now, now))
+            sp_stored += 1
         conn.commit()
-        print("OR {0}: {1} bill-amendment division(s) so far.".format(
-            year, or_stored))
+        print("OR {0}: {1} bill-amendment division(s), {2} speech event(s) "
+              "so far.".format(year, or_stored, sp_stored))
     print("{0} OR division(s) stored (aggregate only -- the OR prints no "
           "roll-call, so these place nobody); {1} on our ground by bill "
           "heading.".format(or_stored, or_ours))
+    print("{0} speech event(s) in the sp_events ledger (passage-matched; "
+          "activity evidence, never direction).".format(sp_stored))
 
     import json
     ours = conn.execute(

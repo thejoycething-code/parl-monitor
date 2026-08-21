@@ -279,10 +279,48 @@ def parse_or_divisions(payload):
     return out
 
 
+@dataclass
+class Speech:
+    key: str            # 'orc<ContributionID>'
+    person_id: str
+    dated: str
+    heading: str
+    text: str
+
+
+def parse_or_speeches(payload):
+    """Spoken contributions with a known speaker, for taxonomy classification.
+
+    Same payload as parse_or_divisions -- the caller fetches the 65MB year
+    dump ONCE and feeds both parsers. All 193 distinct 2026 speakers join
+    sp_members by Person.ID; median contribution is 393 chars and the
+    taxonomy match rate is under 1%, so the resulting ledger is small.
+    """
+    out = []
+    for r in payload or []:
+        p = r.get("Person") or {}
+        text = (r.get("Detail") or {}).get("EditedText") or ""
+        if not p.get("ID") or not text:
+            continue
+        out.append(Speech(
+            key="orc{0}".format((r.get("Detail") or {}).get("ContributionID")
+                                or r.get("ID")),
+            person_id=str(p.get("ID")),
+            dated=day((r.get("Time") or {}).get("Start")),
+            heading=clean((r.get("ItemOfBusiness") or {}).get("Heading")),
+            text=text))
+    return out
+
+
+def fetch_or_payload(client, year, timeout=240):
+    """One 65MB fetch serving both OR parsers (divisions and speeches)."""
+    return client.get_json(OR_URL.format(year), "holyrood",
+                           "or-{0}".format(year), timeout=timeout,
+                           archive=False)
+
+
 def fetch_or_divisions(client, year, timeout=240):
-    return parse_or_divisions(client.get_json(
-        OR_URL.format(year), "holyrood", "or-{0}".format(year),
-        timeout=timeout, archive=False))
+    return parse_or_divisions(fetch_or_payload(client, year, timeout=timeout))
 
 
 def base_reference(reference):

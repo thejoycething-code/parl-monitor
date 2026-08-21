@@ -164,6 +164,23 @@ def build_rows(conn, area, entries, motion_entries=None):
         else:
             rec["lines"].append(label + " [no meaning line -- not placed]")
 
+    # OR speeches: engagement evidence with a quotable excerpt. Activity,
+    # not direction -- a watching brief has no stance scoring, so a speech
+    # never places anyone (same rule as questions).
+    speeches = conn.execute(
+        "SELECT person_id, dated, heading, areas, excerpt FROM sp_events "
+        "WHERE areas IS NOT NULL AND areas != '[]'").fetchall()
+    for sp in speeches:
+        if area not in json.loads(sp["areas"] or "[]"):
+            continue
+        rec = per.get(sp["person_id"])
+        if rec is None:
+            continue
+        rec["lines"].append(
+            "{0} SPOKE: {1} \"{2}\" [activity, not direction]".format(
+                sp["dated"] or "?", (sp["heading"] or "?")[:44],
+                " ".join((sp["excerpt"] or "").split())[:90]))
+
     questions = conn.execute(
         "SELECT msp_id, reference, dated, body, areas FROM sp_items "
         "WHERE kind='question' AND msp_id IS NOT NULL "
