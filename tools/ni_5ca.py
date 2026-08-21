@@ -226,8 +226,23 @@ def build_rows(conn, area, entries, motion_entries=None):
         rec = per[pid]
         column, conflict, decided = place(rec["scored"])
         comments = list(reversed(sorted(rec["lines"])))
-        if conflict:
-            comments.insert(0, "CONFLICTING SIGNALS - review all evidence")
+        # Conflict is information, not anomaly (Christopher, 2026-08-21):
+        # whipped members WILL show mixed records, and a CHOSEN act (tabling
+        # or signing a motion) against the voting record is the persuadable
+        # pattern, not a data problem.
+        target_shaped = False
+        if conflict and decided:
+            vote_sign = 1 if decided[0] > 0 else -1
+            for sc in rec["scored"]:
+                if sc[0] and sc[3] in ("motion", "motion-signed")                         and (1 if sc[0] > 0 else -1) != vote_sign:
+                    target_shaped = True
+        if target_shaped:
+            comments.insert(0, "TARGET-SHAPED: chosen acts (motions tabled or "
+                               "signed) diverge from the voting record -- the "
+                               "persuadable pattern")
+        elif conflict:
+            comments.insert(0, "MIXED RECORD: directional evidence on both "
+                               "sides -- read the acts, not the column")
         if decided:
             kind = decided[3]
             based = stance.based_on(

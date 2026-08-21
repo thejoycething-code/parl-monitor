@@ -210,8 +210,25 @@ def build_rows(conn, area, entries, motion_entries=None):
         rec = per[pid]
         column, conflict, decided = place(rec["scored"])
         comments = list(reversed(sorted(rec["lines"])))
-        if conflict:
-            comments.insert(0, "CONFLICTING SIGNALS - review all evidence")
+        # A conflict is information, not an anomaly: members under a whip
+        # WILL show mixed records, and the interesting split is a CHOSEN act
+        # (proposing or signing a motion, nobody makes you) against the
+        # voting record. Christopher, 2026-08-21: those are the people open
+        # to targeting -- Colin Beattie signed the judgment-day For Women
+        # Scotland welcome and voted the government whip on the wrecker.
+        target_shaped = False
+        if conflict and decided:
+            vote_sign = 1 if decided[0] > 0 else -1
+            for sc in rec["scored"]:
+                if sc[0] and sc[3] in ("motion", "motion-signed")                         and (1 if sc[0] > 0 else -1) != vote_sign:
+                    target_shaped = True
+        if target_shaped:
+            comments.insert(0, "TARGET-SHAPED: chosen acts (motions signed or "
+                               "proposed) diverge from the whipped voting "
+                               "record -- the persuadable pattern")
+        elif conflict:
+            comments.insert(0, "MIXED RECORD: directional evidence on both "
+                               "sides -- read the acts, not the column")
         if decided:
             based = stance.based_on(
                 {"vote": "vote", "motion": "edm",
@@ -236,6 +253,7 @@ def build_rows(conn, area, entries, motion_entries=None):
             "column": column, "conflict": conflict,
             "n_events": len(rec["lines"]),
             "based_on": based, "confidence": confidence,
+            "target_shaped": target_shaped,
             "comments": comments})
     order = {c: i for i, c in enumerate(stance.COLUMNS)}
     rows.sort(key=lambda r: (order[r["column"]], -r["n_events"],
@@ -294,6 +312,14 @@ def main():
     print("SP 5CA ({0}): {1} MSPs ({2} with evidence, {3} placed) -> {4}".format(
         label, len(rows), with_evidence, placed, path))
     print("  " + "  ".join("{0} x{1}".format(c, tally[c]) for c in stance.COLUMNS))
+    targets = [r for r in rows if r.get("target_shaped")]
+    if targets:
+        print("\n  TARGET-SHAPED ({0}): chosen acts diverge from the whipped "
+              "voting record --".format(len(targets)))
+        for r in targets:
+            print("     {0}".format(r["decision_maker"][:70]))
+        print("  The Target column stays blank: naming them is the tool's "
+              "job, choosing\n  them is the campaigner's.")
     total = len(entries) + len(motion_entries)
     if drafts:
         print("\n  {0} of {1} meaning line(s) are still DRAFT; a draft places "
