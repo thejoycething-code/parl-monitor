@@ -251,9 +251,15 @@ def main():
         print("    places MSPs.")
     else:
         print("    config/sp_stance.yaml holds no meaning lines yet.")
-    print("  * CO-SIGNATORIES are not held: the supports endpoint answered 503")
-    print("    on 2026-08-20. Proposer sponsorship works; retry the endpoint")
-    print("    when adding motion meaning lines.")
+    sup=conn.execute("SELECT COUNT(*), COUNT(DISTINCT motion_uid) FROM "
+                     "sp_supports").fetchone()
+    print("  * CO-SIGNATORIES: {0} signature(s) across {1} tier-1 motion(s),"
+          .format(sup[0], sup[1]))
+    print("    fetched PER-ID (the full-dump endpoint cannot be served --")
+    print("    503 after ~46s, probed twice; the per-id form answers in")
+    print("    milliseconds). Signing places against a motion's confirmed")
+    print("    sponsored: line; the whole Reform group placed itself this")
+    print("    way on the For Women Scotland congratulation.")
     print("  * REFRESHED WEEKLY: Friday 06:00 UTC via")
     print("    .github/workflows/sp-weekly.yml (pull + divisions -- no publish")
     print("    step exists; the watching brief stays off Slack).")
