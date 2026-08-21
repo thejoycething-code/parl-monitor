@@ -223,6 +223,36 @@ divisions:
       Refused to recognise the Cass Review as valid science -- all seven
       Greens, the strongest available rejection of Cass that day.
 
+  - reference: "S6M-16755"
+    title: "Protecting Single-sex Spaces in the Public Sector (as amended)"
+    dated: "2025-03-12"
+    result: "61 aye / 31 no -- Carried"
+    text: >
+      (As amended by S6M-16755.3) That the Parliament notes that the Scottish
+      Government fully upholds the Equality Act 2010, and requires all public
+      bodies to comply with the law, and welcomes the role of the Equalities
+      and Human Rights Commission in providing codes of practice and guidance.
+    # CONFIRMED 2026-08-21. The same as-amended structure as Scotland Needs
+    # Reform, but here the vote DISCRIMINATES, and Labour's behaviour is the
+    # proof: on SNR they voted aye on the replacement text (bundled, different
+    # subject); here they opposed the gutting and then ABSTAINED rather than
+    # endorse the result -- the lobbies stayed issue-aligned. The no lobby
+    # (Con 24 + 5 SNP rebels + Alba + Ind) uniformly refused to ratify the
+    # dilution; the aye lobby is exactly the government bloc that had voted
+    # to gut the motion minutes earlier, ratifying its own amendment. Weights
+    # 1: same-day corroboration of the .3 line, whose main additions are up
+    # to two SNP rebels who appear only on this vote. Creates no false
+    # conflicts -- every No/No and Aye/Aye pairing is consistent.
+    aye: -1
+    why_aye: >
+      Ratified the gutted text minutes after voting to strip the single-sex
+      protections from it -- endorsing the dilution as the Parliament's
+      position.
+    "no": 1
+    why_no: >
+      Refused to ratify the motion once its single-sex protections had been
+      stripped -- including five SNP rebels.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []

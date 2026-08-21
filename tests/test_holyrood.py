@@ -210,9 +210,9 @@ class SP5caTests(unittest.TestCase):
         question, so no amendment-reading was required. The other two remain
         proposals."""
         entries = self.m.load_stance(section="divisions")
-        self.assertEqual(len(entries), 10)
+        self.assertEqual(len(entries), 11)
         for ref in ("S6M-21005", "S6M-17416", "S6M-16755.3",
-                    "S6M-13090.4", "S6M-13090"):
+                    "S6M-13090.4", "S6M-13090", "S6M-16755"):
             self.assertFalse(entries[ref].get("draft"),
                              ref + " confirmed 2026-08-21")
 
