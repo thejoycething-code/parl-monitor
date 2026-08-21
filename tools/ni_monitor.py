@@ -228,6 +228,36 @@ def main():
     if len(plenary) > 14:
         print("  ...and {0} more within the stored horizon".format(
             len(plenary) - 14))
+    # NEW-BILL FLAG (Christopher, 2026-08-21): forward business naming a Bill
+    # that is not in config/ni_watch.yaml is the earliest machine-visible
+    # signal a new bill exists -- AIMS renders via JavaScript and the open
+    # data host serves no legislation feed, so the Order Paper is the only
+    # route. Flagged for a human watch decision, never auto-added.
+    import re as _re
+    import yaml as _yaml
+    try:
+        with open(os.path.join(ROOT, "config", "ni_watch.yaml"),
+                  encoding="utf-8") as _fh:
+            _watched = [b.get("name", "") for b in
+                        (_yaml.safe_load(_fh) or {}).get("bills", [])]
+    except Exception:                                   # noqa: BLE001
+        _watched = []
+    unwatched = []
+    for r in plenary:
+        for m in _re.finditer(r"([A-Z][A-Za-z,()' -]{3,70}?\bBill)\b",
+                              r["title"] or ""):
+            bill = m.group(1).strip()
+            if not any(w and (w in bill or bill in w) for w in _watched):
+                unwatched.append((r["dated"], bill))
+    if unwatched:
+        seen_b = set()
+        print("\n  BILLS IN FORWARD BUSINESS NOT ON THE WATCH -- add to")
+        print("  config/ni_watch.yaml with a `why` line to harvest their votes:")
+        for dated, bill in unwatched:
+            if bill in seen_b:
+                continue
+            seen_b.add(bill)
+            print("    {0}  {1}".format(dated, bill[:64]))
     diary = [r for r in conn.execute(
         "SELECT * FROM ni_items WHERE kind = 'diary' AND dated >= ? "
         "ORDER BY dated", (today.isoformat(),))]

@@ -357,6 +357,16 @@ CREATE TABLE IF NOT EXISTS sp_events (
   excerpt TEXT,                   -- the strongest-matching passage
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Holyrood bills: identity from /api/bills, latest stage joined from
+-- /api/BillStages. first_seen is the NEW-BILL flag: a bill absent last run
+-- and present now is surfaced by the pull and the monitor.
+CREATE TABLE IF NOT EXISTS sp_bills (
+  bill_id TEXT PRIMARY KEY,
+  reference TEXT, name TEXT, person_id TEXT,
+  latest_stage TEXT, latest_stage_date TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -381,6 +391,7 @@ TABLES = (
     "sp_divisions",
     "sp_votes",
     "sp_events",
+    "sp_bills",
     "ni_items",
     "ni_members",
     "ni_affiliations",

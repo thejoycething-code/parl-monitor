@@ -105,6 +105,48 @@ def main():
         print("  {0:<2} {1:<42} {2}".format(area, names.get(area, "?"), per[area]))
 
     print(); print(line)
+    print("BILLS    [tools/sp_pull.py, /api/bills + /api/BillStages]"); print(line)
+    bills=conn.execute("SELECT * FROM sp_bills WHERE areas IS NOT NULL AND "
+                       "areas != '[]' ORDER BY latest_stage_date DESC").fetchall()
+    for b in bills:
+        print("  {0:<12} {1}".format(b["reference"] or "?", (b["name"] or "")[:62]))
+        print("        latest stage: {0} on {1}   areas {2}".format(
+            b["latest_stage"] or "?", b["latest_stage_date"] or "?",
+            ",".join(map(str, shown(json.loads(b["areas"])))) or "hidden-only"))
+    total_b=conn.execute("SELECT COUNT(*) FROM sp_bills").fetchone()[0]
+    print("\n  {0} of {1} bills match our areas by title. NEW bills are"
+          .format(len(bills), total_b))
+    print("  flagged by the weekly pull the run after they appear.")
+
+    print(); print(line)
+    print("WHAT IS COMING    [the Business Programme motions]"); print(line)
+    # Holyrood publishes no forward-diary API (/api/events is sponsored
+    # exhibitions, zero future rows -- probed 2026-08-21). The forward diary
+    # IS the weekly Business Programme motion, whose full text we already
+    # store: print the newest one and the taxonomy terms its schedule
+    # matches. In recess there is none, and that is said, not hidden.
+    bp=conn.execute("SELECT dated, title, body, matched_terms FROM sp_items "
+                    "WHERE kind='motion' AND title LIKE 'Business Programme%' "
+                    "ORDER BY dated DESC LIMIT 1").fetchone()
+    if bp:
+        import datetime
+        age=(datetime.date.today() -
+             datetime.date.fromisoformat(bp["dated"])).days
+        print("  newest programme motion: {0} ({1} day(s) ago)".format(
+            bp["dated"], age))
+        terms=json.loads(bp["matched_terms"] or "[]")
+        if age > 14:
+            print("  STALE -- the chamber is not sitting; the next programme")
+            print("  motion appears when business resumes.")
+        if terms:
+            print("  its schedule touches our ground on: {0}".format(
+                ", ".join(terms[:6])))
+        else:
+            print("  nothing on our ground in its schedule.")
+    else:
+        print("  no Business Programme motion held.")
+
+    print(); print(line)
     print("HOW MSPs VOTED    [tools/sp_divisions.py]"); print(line)
     dv=conn.execute("SELECT * FROM sp_divisions WHERE source='votesmotion' "
                     "ORDER BY dated DESC").fetchall()

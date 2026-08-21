@@ -1131,3 +1131,26 @@ is locked" -- one SQLite file, two writers. The catch-up is idempotent per
 batch so nothing paid for was lost, but the rule is now explicit: ONE WRITER
 AT A TIME against data/parl-monitor.db; long-running scoring gets the store
 to itself.
+
+## Forward view and new-bill flagging for the devolved briefs (2026-08-21)
+
+Christopher asked whether Holyrood and NI have a what's-coming and new-bill
+flag like Westminster's. They do now, each shaped by what its sources offer.
+
+**Holyrood.** `/api/events` is NOT a forward diary -- it is sponsored
+exhibitions history, zero future rows (probed). The real forward diary is the
+weekly BUSINESS PROGRAMME MOTION, whose full text we already store; the
+monitor prints the newest one, its taxonomy matches, and says STALE honestly
+when the chamber is not sitting. Bills: `/api/bills` (identity only) joined to
+`/api/BillStages` gives every bill's latest stage machine-readably -- the
+thing scotland.py had to scrape a status sentence for. sp_bills holds all 473
+(8 on our ground by title), and the weekly pull prints NEW BILL lines for
+anything absent the previous run. No auto-watching: a human adds the watch.
+
+**NI.** The Order Paper (kind='plenary', already ingested) IS the forward
+diary and already renders. Bills have NO machine route: the open-data host
+serves no legislation feed (probed: only hansard/members/organisations/
+plenary/questions exist) and AIMS renders via JavaScript. So the earliest
+machine-visible signal of a new bill is its first appearance in forward
+business, and ni_monitor now flags any Bill named there that is not in
+config/ni_watch.yaml -- for a human watch decision, never auto-added.

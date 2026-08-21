@@ -43,6 +43,9 @@ PARTIES_URL = API + "/parties"
 # which 404s for every year -- probed 2026-08-20.
 VOTES_URL = API + "/votesmotion?year={0}"
 OR_URL = API + "/orsplenarymeeting?year={0}"
+BILLS_URL = API + "/bills"
+BILL_STAGES_URL = API + "/BillStages"
+BILL_STAGE_TYPES_URL = API + "/BillStageTypes"
 
 
 def clean(text):
@@ -310,6 +313,65 @@ def parse_or_speeches(payload):
             heading=clean((r.get("ItemOfBusiness") or {}).get("Heading")),
             text=text))
     return out
+
+
+@dataclass
+class Bill:
+    bill_id: str
+    reference: str      # 'SP Bill 1'
+    name: str           # FullName -- the classification text
+    person_id: str
+    latest_stage: str = None
+    latest_stage_date: str = None
+
+
+def parse_bills(payload, stages=None, stage_types=None):
+    """All 473+ bills with each one's LATEST stage joined on.
+
+    /api/bills carries identity only (no status -- the scotland.py finding);
+    /api/BillStages carries (BillID, BillStageTypeID, StageDate). Joining the
+    newest stage per bill gives machine-readable progress where scotland.py
+    had to scrape the public bill page for a status sentence.
+    """
+    names = stage_types or {}
+    latest = {}
+    for st in stages or []:
+        bid = str(st.get("BillID") or "")
+        d = day(st.get("StageDate"))
+        if bid and (bid not in latest or (d or "") > (latest[bid][1] or "")):
+            latest[bid] = (str(st.get("BillStageTypeID") or ""), d)
+    out = []
+    for r in payload or []:
+        bid = str(r.get("ID") or "")
+        if not bid:
+            continue
+        stage_id, stage_date = latest.get(bid, (None, None))
+        out.append(Bill(
+            bill_id=bid,
+            reference=clean(r.get("Reference")) or None,
+            name=clean(r.get("FullName") or r.get("ShortName")),
+            person_id=str(r.get("PersonID") or "") or None,
+            latest_stage=names.get(stage_id, stage_id),
+            latest_stage_date=stage_date))
+    return out
+
+
+def parse_stage_types(payload):
+    return {str(r.get("ID")): clean(r.get("Name") or r.get("Description"))
+            for r in (payload or []) if r.get("ID")}
+
+
+def fetch_bills(client, timeout=90):
+    stages = client.get_json(BILL_STAGES_URL, "holyrood", "billstages",
+                             timeout=timeout)
+    try:
+        types = parse_stage_types(client.get_json(
+            BILL_STAGE_TYPES_URL, "holyrood", "billstagetypes",
+            timeout=timeout))
+    except Exception:                                   # noqa: BLE001
+        types = {}
+    return parse_bills(client.get_json(BILLS_URL, "holyrood", "bills-all",
+                                       timeout=timeout), stages, types)
 
 
 def fetch_or_payload(client, year, timeout=240):

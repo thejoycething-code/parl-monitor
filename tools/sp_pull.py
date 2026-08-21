@@ -120,6 +120,46 @@ def reclassify(conn, tax, wl):
     print("{0} row(s) re-tested offline; {1} changed area.".format(total, changed))
 
 
+def store_bills(conn, client, tax, wl, now):
+    """All bills with latest stage; NEW ones (absent last run) are printed --
+    the flag Christopher asked for, mirroring the Westminster board's
+    auto-propose behaviour without the auto-proposing: a human adds a watch."""
+    bills = holyrood.fetch_bills(client)
+    known = {r[0] for r in conn.execute("SELECT bill_id FROM sp_bills")}
+    first_run = not known
+    new = []
+    for b in bills:
+        res = filt.filter_item(tax, wl, b.name or "")
+        conn.execute(
+            "INSERT INTO sp_bills (bill_id, reference, name, person_id, "
+            "latest_stage, latest_stage_date, areas, matched_terms, tier, "
+            "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?) "
+            "ON CONFLICT(bill_id) DO UPDATE SET name=excluded.name, "
+            "latest_stage=excluded.latest_stage, "
+            "latest_stage_date=excluded.latest_stage_date, "
+            "areas=excluded.areas, matched_terms=excluded.matched_terms, "
+            "tier=excluded.tier, last_seen=excluded.last_seen",
+            (b.bill_id, b.reference, b.name, b.person_id, b.latest_stage,
+             b.latest_stage_date, json.dumps(res.issue_areas or []),
+             json.dumps(res.matched_terms or []), res.tier, now, now))
+        if b.bill_id not in known:
+            new.append((b, res.issue_areas or []))
+    conn.commit()
+    ours = conn.execute("SELECT COUNT(*) FROM sp_bills WHERE areas != '[]' "
+                        "AND areas IS NOT NULL").fetchone()[0]
+    print("{0} bill(s) held ({1} on our ground by title).".format(
+        len(bills), ours))
+    if first_run:
+        print("  first run: the whole dataset is 'new'; flagging starts next run.")
+    elif new:
+        for b, areas in new:
+            print("  NEW BILL: {0} ({1}){2}".format(
+                b.name[:64], b.reference,
+                "  areas {0}".format(areas) if areas else ""))
+    else:
+        print("  no new bills since the last run.")
+
+
 def main():
     year = datetime.date.today().year
     if "--year" in sys.argv:
@@ -142,6 +182,11 @@ def main():
         store_roster(conn, client, now)
     except FetchError as exc:
         record_gap(conn, "sp-roster", str(exc.cause)); gaps += 1
+
+    try:
+        store_bills(conn, client, tax, wl, now)
+    except FetchError as exc:
+        record_gap(conn, "sp-bills", str(exc.cause)); gaps += 1
 
     try:
         qs = holyrood.fetch_questions(client, year)
