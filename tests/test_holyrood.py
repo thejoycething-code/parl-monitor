@@ -210,10 +210,10 @@ class SP5caTests(unittest.TestCase):
         question, so no amendment-reading was required. The other two remain
         proposals."""
         entries = self.m.load_stance(section="divisions")
-        self.assertEqual(len(entries), 14)
+        self.assertEqual(len(entries), 15)
         for ref in ("S6M-21005", "S6M-17416", "S6M-16755.3",
                     "S6M-13090.4", "S6M-13090", "S6M-16755",
-                    "S6M-13015", "S6M-13571"):
+                    "S6M-13015", "S6M-13571", "S6M-19456"):
             self.assertFalse(entries[ref].get("draft"),
                              ref + " confirmed 2026-08-21")
 
@@ -232,6 +232,17 @@ class SP5caTests(unittest.TestCase):
             self.assertIsNone(e.get("no"), ref)
             self.assertEqual(self.m.vote_stance(e, "Yes"), (None, None))
             self.assertEqual(self.m.vote_stance(e, "No"), (None, None))
+
+    def test_one_sided_lines_place_one_lobby_only(self):
+        """S6M-19456: a no discriminates (all 31 FR-noes were Stage 3
+        opponents; refusing the FR was the procedural kill-route) but an aye
+        does not (17 of 70 ayes were opponents letting the Bill have its
+        vote). The entry carries only a no value, and an aye must return
+        nothing rather than a default."""
+        entries = self.m.load_stance(section="divisions")
+        e = entries["S6M-19456"]
+        self.assertEqual(self.m.vote_stance(e, "No"), (1, e.get("why_no")))
+        self.assertEqual(self.m.vote_stance(e, "Yes"), (None, None))
 
     def test_the_yaml_no_key_trap_is_normalised(self):
         """The trap: an unquoted `no:` key parses as boolean False (YAML 1.1).

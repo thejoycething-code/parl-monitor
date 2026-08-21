@@ -312,6 +312,31 @@ divisions:
       Voted against passing the buffer zones law -- John Mason, the only MSP
       to oppose it at every stage.
 
+  - reference: "S6M-19456"
+    title: "Assisted Dying Bill: financial resolution"
+    dated: "2025-10-30"
+    result: "70 aye / 31 no / 11 abstain -- Carried"
+    text: >
+      That the Parliament, for the purposes of any Act resulting from the
+      Assisted Dying for Terminally Ill Adults (Scotland) Bill, agrees to any
+      expenditure of a kind referred to in Rule 9.12.3A arising in
+      consequence of the Act.
+    # CONFIRMED 2026-08-21 -- the file's first ONE-SIDED line, from the
+    # cross-tab. A no discriminates perfectly: all 31 FR-noes voted No at
+    # Stage 3, and refusing the financial resolution was an attempt to kill
+    # the Bill procedurally (without one it dies). An aye does NOT: 17 of the
+    # 70 ayes were Stage 3 opponents who held that FRs are routine and the
+    # Bill deserved a fair final vote -- an aye value would fire false
+    # conflict flags on 17 of our own allies. So no aye value, on purpose.
+    # What the line adds is INTENSITY, not placement (all 31 already sit at
+    # +2 from Stage 3): the hard core willing to use procedure, against the
+    # opponents who let the Bill proceed to its vote.
+    "no": 1
+    why_no: >
+      Voted to deny the assisted dying Bill its financial resolution -- the
+      procedural route to killing it, chosen only by the Bill's most
+      committed opponents.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []
