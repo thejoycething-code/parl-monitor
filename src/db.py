@@ -376,6 +376,25 @@ CREATE TABLE IF NOT EXISTS sp_supports (
   fetched_at TEXT NOT NULL,
   PRIMARY KEY (motion_uid, person_id)
 );
+-- ============================== SENEDD =====================================
+-- Welsh Parliament watching brief, phase 1 (2026-08-21): written questions by
+-- ID-walking record.senedd.wales (no data API exists; docs/api-notes.md).
+-- Same rules as ni_*/sp_*: own tables, never items/mp_events, off Slack.
+CREATE TABLE IF NOT EXISTS sd_items (
+  id TEXT PRIMARY KEY,            -- 'sd-question:100032'
+  kind TEXT NOT NULL,             -- question (phase 1)
+  reference TEXT,                 -- 'WQ100032'
+  member_name TEXT,               -- from the page; NO PARTY in phase 1 --
+  constituency TEXT,              -- the party source (ModernGov) rejects our
+                                  -- honest User-Agent, and spoofing a browser
+                                  -- is a decision, not a default
+  dated TEXT, welsh INTEGER,      -- tabled date; tabled-in-Welsh marker
+  body TEXT,                      -- question text, stored whole (the archive)
+  answered TEXT, answered_by TEXT,
+  answer TEXT,                    -- kept only for matched rows (the sp rule)
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -402,6 +421,7 @@ TABLES = (
     "sp_events",
     "sp_bills",
     "sp_supports",
+    "sd_items",
     "ni_items",
     "ni_members",
     "ni_affiliations",

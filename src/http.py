@@ -180,14 +180,16 @@ class HttpClient:
         raw = self._fetch(url, feed, slug, timeout, archive=archive)
         return json.loads(raw.decode("utf-8"))
 
-    def get_text(self, url, feed, slug, timeout=None):
+    def get_text(self, url, feed, slug, timeout=None, archive=True):
         """Fetch and archive a response, returning decoded text.
 
         Used for the HTML/XML feeds (legislation.gov.uk, Holyrood scrape).
         The archive filename still ends .json.gz for a uniform raw tree; the
-        bytes stored are whatever the server returned.
+        bytes stored are whatever the server returned. archive=False for
+        page-per-item scrapes (Senedd questions: ~170KB of site chrome per
+        page; the store keeps the parsed text and the id is the provenance).
         """
-        raw = self._fetch(url, feed, slug, timeout)
+        raw = self._fetch(url, feed, slug, timeout, archive=archive)
         return raw.decode("utf-8", errors="replace")
 
     def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None):

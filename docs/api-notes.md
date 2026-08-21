@@ -1154,3 +1154,41 @@ plenary/questions exist) and AIMS renders via JavaScript. So the earliest
 machine-visible signal of a new bill is its first appearance in forward
 business, and ni_monitor now flags any Bill named there that is not in
 config/ni_watch.yaml -- for a human watch decision, never auto-added.
+
+## Senedd, probed 2026-08-21 (phase 0 + phase 1: written questions)
+
+The messiest of the four estates. What exists and what does not:
+
+* **No data API.** No open-data portal answers; senedd.wales/api 404s; the
+  ModernGov XML exports (`?XML=1`) serve HTML shells; the Record's
+  `/Search/?q=` IGNORES its query server-side -- three different terms
+  returned byte-identical pages with the same 8 links. Do not build on it.
+* **What works: the Record's per-id pages.**
+  `record.senedd.wales/WrittenQuestion/<id>`: dense sequential integers
+  (~93000 = May 2024 -> ~100230 = Aug 2026, ~60/week). A nonexistent id
+  serves the 167KB site shell WITHOUT a "Tabled on" line -- that absence is
+  the miss signature. Discovery is therefore ID-WALKING: forward until 40
+  straight misses, backward until tabled dates pass the floor. No search
+  means no sweep terms; the taxonomy classifies every question (Holyrood's
+  property, by the opposite route).
+* **Answered pages carry the answer inline** ("Answered by <minister> |
+  Answered on <date>" + full text); a "(w)" marker means tabled in Welsh.
+* **The WAF and the honest User-Agent.** record.senedd.wales accepts the
+  project's CitizenGO UA. business.senedd.wales (ModernGov: member pages
+  with PARTY, committees, meetings) rejects it with 403 and answers only to
+  browser UAs. So phase 1 holds NO PARTY -- name and constituency only --
+  because impersonating a browser to route around a WAF is a decision for
+  Christopher, not a quiet default. The ModernGov SOAP WSDL exists
+  (mgWebService.asmx: GetCommittees, GetMeetings, GetAllMeetingsByDate...)
+  behind the same wall.
+* **Votes**: plenary votes live inside Record meeting pages -- unprobed;
+  phase 2.
+* Shell PATH note: this machine's shell lost its PATH mid-session; the
+  Senedd probes ran with absolute paths. Unrelated to the estate.
+
+Phase 1 shipped: `src/ingest/senedd.py` (positional parser anchored on the WQ
+reference and Tabled line, tested on answered/pending/miss fixtures),
+`sd_items` (body stored whole; answers kept for matched rows only),
+`tools/sd_pull.py` (ID-walker, batch commits per 100 -- the one-writer
+lesson pre-applied), `tools/sd_monitor.py`. Backfill to 2024-01-01 walks
+~8,000 pages at the client's throttle.

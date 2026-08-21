@@ -1,0 +1,96 @@
+"""Senedd watching brief -- read-only view over the sd_* tables.
+
+    python3 tools/sd_monitor.py           # the overview
+    python3 tools/sd_monitor.py --n 30    # more rows
+
+NEVER published. Phase 1 holds written questions only; the phase map and the
+honest limits are in the closing section.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+
+from src import db, intel
+
+HIDDEN = {11}
+
+
+def main():
+    n = 10
+    if "--n" in sys.argv:
+        n = int(sys.argv[sys.argv.index("--n") + 1])
+    conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
+    names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    line = "-" * 78
+
+    print("SENEDD (WELSH PARLIAMENT)")
+    print("as at today    (watching brief -- never published to Slack)\n")
+    print(line); print("WHAT IS BEING ASKED    [tools/sd_pull.py]"); print(line)
+    rows = conn.execute("SELECT * FROM sd_items WHERE kind='question' "
+                        "ORDER BY dated DESC").fetchall()
+    ours = [r for r in rows if r["areas"] and
+            [a for a in json.loads(r["areas"]) if a not in HIDDEN]]
+    hidden_only = sum(1 for r in rows if r["areas"] and json.loads(r["areas"])
+                      and not [a for a in json.loads(r["areas"])
+                               if a not in HIDDEN])
+    for r in ours[:n]:
+        a = [x for x in json.loads(r["areas"]) if x not in HIDDEN]
+        print("  {0:<10} {1} areas {2}{3}{4}".format(
+            r["reference"], r["dated"], ",".join(map(str, a)),
+            "" if r["tier"] == 1 else "  (tier 2)",
+            "  [tabled in Welsh]" if r["welsh"] else ""))
+        print("        {0}".format((r["body"] or "")[:92]))
+        print("        asked by {0} ({1})".format(
+            r["member_name"], r["constituency"]))
+        if r["answer"]:
+            print("        ANSWER ({0}, {1}): {2}...".format(
+                r["answered_by"], r["answered"], (r["answer"] or "")[:70]))
+    if len(ours) > n:
+        print("\n  ...and {0} more. --n {1} to show them.".format(
+            len(ours) - n, len(ours)))
+    if hidden_only:
+        print("\n  {0} further question(s) match HIDDEN areas only (11) -- "
+              "tracked,\n  never displayed. Counted here so the silence is "
+              "visible.".format(hidden_only))
+
+    per = {}
+    for r in ours:
+        for a in json.loads(r["areas"]):
+            if a not in HIDDEN:
+                per[a] = per.get(a, 0) + 1
+    if per:
+        print(); print(line)
+        print("PER AREA"); print(line)
+        for a in sorted(per):
+            print("  {0:<2} {1:<42} {2}".format(a, names.get(a, "?"), per[a]))
+
+    print(); print(line)
+    print("WHAT THIS DOES NOT KNOW    [src/ingest/senedd.py]"); print(line)
+    print("  * NO DATA API EXISTS. Discovery is ID-WALKING the Record's")
+    print("    per-question pages (the /Search endpoint ignores its query;")
+    print("    the ModernGov XML exports serve HTML shells). Dense ids mean")
+    print("    the taxonomy classifies EVERY question -- no sweep terms.")
+    print("  * NO PARTY. Question pages carry name and constituency only,")
+    print("    and the party source (ModernGov) rejects our honest")
+    print("    User-Agent with a WAF 403. Spoofing a browser is a decision")
+    print("    for Christopher, not a default -- so attribution is by")
+    print("    member and seat until decided.")
+    print("  * NO VOTES, MOTIONS, OR COMMITTEES YET: phase 2+ (plenary")
+    print("    votes live inside Record meeting pages; committees are")
+    print("    behind the ModernGov SOAP WSDL).")
+    print("  * NO WEEKLY WORKFLOW YET: run tools/sd_pull.py by hand; the")
+    print("    cron arrives with phase 2.")
+    total = conn.execute("SELECT COUNT(*) FROM sd_items").fetchone()[0]
+    print("\n  {0} row(s) in sd_items. Not in `items`, so structurally "
+          "cannot reach\n  the Slack digest.".format(total))
+    conn.close()
+
+
+if __name__ == "__main__":
+    main()
