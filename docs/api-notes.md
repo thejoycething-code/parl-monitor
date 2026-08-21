@@ -1093,10 +1093,18 @@ of votesmotion. 1,348 stored for 2024-2026, 217 on our ground by bill heading.
 
 **No per-member roll-call exists anywhere in the open data** for this class --
 the OR prints aggregates only -- so these divisions are record and context and
-can never place anyone in a 5CA. OPEN QUESTION: parliament.scot's
-votes-and-divisions pages may carry the rolls; if per-MSP amendment votes are
-ever wanted (they would be the richest stance evidence Holyrood has), that is
-a website-scrape question, not an API one.
+can never place anyone in a 5CA.
+
+CLOSED as not-published (probed 2026-08-21, so nobody chases it again): the
+website route does not exist either. parliament.scot's votes-and-motions app
+(a Sitecore search at /api/sitecore/VotesMotionsSearch/SearchVotes) serves
+MOTION references only -- the same class votesmotion already covers with
+per-MSP votes. The assisted dying bill page's Stage 3 documents are marshalled
+lists and groupings, with no results-of-divisions document; the old
+votes-and-divisions URL now redirects to the National Records web archive
+behind a bot challenge. The rolls for bill amendment divisions are simply not
+published: the chamber's electronic voting records them, but only the
+aggregate reaches any public surface. Aggregate context is the ceiling.
 
 Also confirmed today: S6M-17416 (Stage 1 general principles, aye -1 / no +1 --
 weights stand, Stage 1 ayes include allow-scrutiny votes). Two of three
