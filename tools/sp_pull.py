@@ -75,7 +75,12 @@ def store_roster(conn, client, now):
 
 def store_rows(conn, rows, tax, wl, now):
     matched = 0
-    for r in rows:
+    # Batched commits (every 500), per the repo's tiny-transactions rule: one
+    # transaction across 10,588 motions held the write lock long enough to
+    # kill a concurrent stance scorer through a 30s busy_timeout.
+    for i, r in enumerate(rows):
+        if i and i % 500 == 0:
+            conn.commit()
         res = filt.filter_item(tax, wl, r.body or "", r.title or "")
         areas = res.issue_areas or []
         if areas:
@@ -160,6 +165,44 @@ def store_bills(conn, client, tax, wl, now):
         print("  no new bills since the last run.")
 
 
+def store_supports(conn, client, now):
+    """Co-signatories for tier-1 matched motions, per-id (bounded).
+
+    Fetch policy: any tier-1 matched motion never fetched, plus re-fetch for
+    those dated within 120 days (signatures accrue while a motion is live;
+    older ones are settled). The full-dump endpoint cannot be served, so this
+    is the only route, and it is cheap: ~90 requests on first run, a handful
+    weekly after.
+    """
+    import datetime as _dt
+    floor = (_dt.date.today() - _dt.timedelta(days=120)).isoformat()
+    rows = conn.execute(
+        "SELECT id, dated FROM sp_items WHERE kind='motion' AND tier=1 "
+        "AND areas IS NOT NULL AND areas != '[]'").fetchall()
+    fetched = {r[0] for r in conn.execute(
+        "SELECT DISTINCT motion_uid FROM sp_supports")}
+    todo = [r for r in rows
+            if r["id"].split(":")[1] not in fetched or (r["dated"] or "") >= floor]
+    added = failures = 0
+    for r in todo:
+        uid = r["id"].split(":")[1]
+        try:
+            for person_id, lodged in holyrood.fetch_supports(client, uid):
+                conn.execute(
+                    "INSERT OR REPLACE INTO sp_supports (motion_uid, "
+                    "person_id, lodged, fetched_at) VALUES (?,?,?,?)",
+                    (uid, person_id, lodged, now))
+                added += 1
+        except FetchError:
+            failures += 1
+    conn.commit()
+    total = conn.execute("SELECT COUNT(*) FROM sp_supports").fetchone()[0]
+    print("co-signatures: {0} motion(s) checked, {1} row(s) held{2}.".format(
+        len(todo), total,
+        "; {0} fetch failure(s) (retried next run)".format(failures)
+        if failures else ""))
+
+
 def main():
     year = datetime.date.today().year
     if "--year" in sys.argv:
@@ -203,6 +246,11 @@ def main():
             len(motions), MOTIONS_SINCE, m))
     except FetchError as exc:
         record_gap(conn, "sp-motions", str(exc.cause)); gaps += 1
+
+    try:
+        store_supports(conn, client, now)
+    except Exception as exc:                            # noqa: BLE001
+        record_gap(conn, "sp-supports", str(exc)); gaps += 1
 
     print("no gaps." if not gaps else "{0} gap(s) -- printed above.".format(gaps))
     total = conn.execute("SELECT COUNT(*) FROM sp_items").fetchone()[0]

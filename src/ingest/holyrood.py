@@ -43,6 +43,7 @@ PARTIES_URL = API + "/parties"
 # which 404s for every year -- probed 2026-08-20.
 VOTES_URL = API + "/votesmotion?year={0}"
 OR_URL = API + "/orsplenarymeeting?year={0}"
+SUPPORTS_URL = API + "/Motionsquestionsanswerssupports/{0}"
 BILLS_URL = API + "/bills"
 BILL_STAGES_URL = API + "/BillStages"
 BILL_STAGE_TYPES_URL = API + "/BillStageTypes"
@@ -359,6 +360,21 @@ def parse_bills(payload, stages=None, stage_types=None):
 def parse_stage_types(payload):
     return {str(r.get("ID")): clean(r.get("Name") or r.get("Description"))
             for r in (payload or []) if r.get("ID")}
+
+
+def fetch_supports(client, uid, timeout=45):
+    """Co-signatories for ONE motion, by its UniqueID.
+
+    The full-dump endpoint 503s after ~46s (probed twice, 2026-08-20 and -21):
+    the server cannot build it. The per-id form answers in under a second, so
+    supports are fetched per matched motion -- bounded at our tier-1 motions,
+    never the whole dataset. Returns [(person_id, lodged_date)].
+    """
+    payload = client.get_json(SUPPORTS_URL.format(uid), "holyrood",
+                              "supports-{0}".format(uid), timeout=timeout,
+                              archive=False)
+    return [(str(r.get("MSPID") or ""), day(r.get("SupporterDateOfLodging")))
+            for r in (payload or []) if r.get("MSPID")]
 
 
 def fetch_bills(client, timeout=90):

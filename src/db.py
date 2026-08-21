@@ -367,6 +367,15 @@ CREATE TABLE IF NOT EXISTS sp_bills (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Co-signatories of Holyrood motions, fetched per-id for tier-1 matched
+-- motions only (the full-dump endpoint cannot be served; see holyrood.py).
+CREATE TABLE IF NOT EXISTS sp_supports (
+  motion_uid TEXT NOT NULL,       -- sp_items UniqueID (the sp-motion: suffix)
+  person_id TEXT NOT NULL,
+  lodged TEXT,
+  fetched_at TEXT NOT NULL,
+  PRIMARY KEY (motion_uid, person_id)
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -392,6 +401,7 @@ TABLES = (
     "sp_votes",
     "sp_events",
     "sp_bills",
+    "sp_supports",
     "ni_items",
     "ni_members",
     "ni_affiliations",
@@ -410,7 +420,12 @@ def connect(path):
     conn.execute("PRAGMA foreign_keys = ON")
     # Backfills may run concurrently (e.g. Hansard alongside PQ/EDM); both
     # commit in tiny transactions, so a generous busy wait absorbs overlap.
-    conn.execute("PRAGMA busy_timeout = 30000")
+    # 30s was NOT enough on 2026-08-21: sp_pull held one transaction across
+    # 10,588 motion inserts and starved the stance scorer past its patience,
+    # twice. The real fix is batched commits in the bulk writers (done), but
+    # the timeout is also raised so a future long writer degrades a
+    # concurrent job to slow instead of dead.
+    conn.execute("PRAGMA busy_timeout = 120000")
     return conn
 
 
