@@ -440,3 +440,37 @@ motions:
     why_sponsored: >
       Put their name to congratulating For Women Scotland on the Supreme
       Court ruling that sex in the Equality Act 2010 means biological sex.
+
+  # The judgment-week family, April 2025 -- the same act as S7M-00431, signed
+  # the day of (or the day after) the ruling itself. Texts read before adding:
+  # all three welcome the judgment and congratulate For Women Scotland.
+  # CONFIRMED by Christopher, 2026-08-21.
+  - reference: "S6M-17234"
+    title: "Welcoming the Supreme Court's Judgment on the Definition of 'Woman'"
+    dated: "2025-04-16"
+    proposed_by: "Pam Gosal (Conservative); 28 signers, 11 still sitting"
+    sponsored: 1
+    why_sponsored: >
+      Signed a motion welcoming the For Women Scotland judgment on the day it
+      was handed down -- that woman and sex in the Equality Act 2010 mean
+      biological woman and biological sex.
+
+  - reference: "S6M-17241"
+    title: "Supreme Court Judgment on the Definition of 'Woman'"
+    dated: "2025-04-17"
+    proposed_by: "Tess White (Conservative); 23 signers, 10 still sitting"
+    sponsored: 1
+    why_sponsored: >
+      Signed the motion crediting For Women Scotland's challenge for the
+      ruling that the Scottish Government's guidance was incorrect.
+
+  - reference: "S6M-17235"
+    title: "Welcoming the Supreme Court's Judgment in Favour of For Women Scotland"
+    dated: "2025-04-16"
+    proposed_by: "Ash Regan (Alba); 2 signers, none still sitting"
+    # Places nobody today -- Regan, Ewing and Mason have all left -- but the
+    # family stays complete, and the line is ready if any signer returns.
+    sponsored: 1
+    why_sponsored: >
+      Signed Alba's judgment-day motion welcoming the ruling that sex in the
+      Equality Act 2010 is a fixed, biological characteristic.
