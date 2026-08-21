@@ -126,6 +126,31 @@ divisions:
     # anti-xenophobia statement says nothing about any member's position on
     # single-sex spaces. No aye/no values on purpose.
 
+  - reference: "S6M-20037"
+    title: "LCM: Terminally Ill Adults (End of Life) Bill -- advertising provisions"
+    dated: "2025-12-09"
+    result: "103 aye / 2 no / 9 abstain -- Carried"
+    text: >
+      That the Parliament agrees that the relevant provisions of the
+      Terminally Ill Adults (End of Life) Bill... relating to the prohibition
+      on advertising of the England and Wales Voluntary Assisted Dying
+      Service, so far as these matters fall within the legislative competence
+      of the Scottish Parliament, should be considered by the UK Parliament.
+    # NOT PLACEABLE -- recorded 2026-08-21 at Christopher's request for a
+    # meaning line; reading the text reversed the expected reading. This is
+    # NOT Holyrood's position on the Westminster bill: it is a narrow
+    # legislative consent motion on the bill's ADVERTISING PROHIBITION as it
+    # touches devolved competence. Consenting to an advertising ban is not a
+    # pro-assisted-dying act, and the split proves the vote cannot
+    # discriminate: the 103 ayes contain BOTH Stage 3 lobbies (22
+    # Conservatives alongside SNP and Greens -- restricting advertising is
+    # common ground); the 9 abstainers include firm allies Marie McNair and
+    # Clare Adamson (both ++ from the Stage 3 vote) plus Kerr, Sturgeon and
+    # Yousaf, a mix of consent-process objection and refusal to touch the
+    # bill at all; the 2 noes are Conservatives plausibly refusing to
+    # facilitate the bill in any form -- also our side. Allies in every
+    # lobby. No aye/no values on purpose.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []
