@@ -116,6 +116,16 @@ divisions:
     # discriminate ally from opponent on our issue places nobody, however
     # tempting the tally looks. Both votes render as evidence lines only.
 
+  - reference: "S7M-00446"
+    title: "Scotland Needs Reform: Five Years to 2031 (as amended)"
+    dated: "2026-06-24"
+    result: "91 aye / 27 no -- Carried"
+    # NOT PLACEABLE, same reasoning as S7M-00446.2 above: by this vote the
+    # text was the SNP replacement, which contains nothing on our ground --
+    # the Lady Ross passage was already struck. A 91-27 tally on an
+    # anti-xenophobia statement says nothing about any member's position on
+    # single-sex spaces. No aye/no values on purpose.
+
 # Motion sponsorship (proposer only until the supports endpoint recovers --
 # it answered 503 on 2026-08-20, so co-signatories are not yet held).
 motions: []

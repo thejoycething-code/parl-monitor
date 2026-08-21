@@ -124,13 +124,31 @@ def main():
           .format(ordv[1] or 0))
     print("  prints no roll-call, so these are record and context, and can")
     print("  never place anyone in the 5CA.\n")
+    # Meaning-line state per division, so a NOT PLACEABLE tally is never
+    # shown bare -- S7M-00446 reads 91-27 and means nothing for us: the vote
+    # was on a wholesale replacement text (see config/sp_stance.yaml).
+    try:
+        import sp_5ca
+        stance_entries = sp_5ca.load_stance(section="divisions")
+    except Exception:                               # noqa: BLE001
+        stance_entries = {}
+    def meaning(ref):
+        e = stance_entries.get(ref)
+        if not e:
+            return "no meaning line yet: evidence only"
+        if e.get("draft"):
+            return "meaning line DRAFT: places nobody"
+        if e.get("aye") is None and e.get("no") is None:
+            return "NOT PLACEABLE (confirmed): see config/sp_stance.yaml"
+        return "meaning line confirmed: places voters"
     for r in ours[:n]:
         a=shown(json.loads(r["areas"]))
         print("  OURS  {0}  {1:<12} areas {2}".format(
             r["dated"], r["reference"], ",".join(map(str, a))))
         print("        {0}".format((r["title"] or "")[:66]))
-        print("        {0} aye / {1} no -- {2}".format(
-            r["vote_for"], r["vote_against"], r["result"]))
+        print("        {0} aye / {1} no -- {2}   [{3}]".format(
+            r["vote_for"], r["vote_against"], r["result"],
+            meaning(r["reference"])))
     if len(ours) > n:
         print("  ...and {0} more.".format(len(ours) - n))
     # Party tallies over OUR tier-1 divisions, from the party stamped on each
@@ -158,8 +176,9 @@ def main():
     print("    'Abstain' are first-class values), and the API stamps party AND")
     print("    a whip-agreement flag on each vote row. A division whose motion")
     print("    is not in sp_items is stored unclassified, never guessed.")
-    print("  * NO OFFICIAL REPORT: orsplenarymeeting?year= (65MB/year) is the")
-    print("    Hansard equivalent, for offline classification -- phase 3.")
+    print("  * OFFICIAL REPORT: division RESULTS are harvested from it (the")
+    print("    bill-amendment class above); SPEECHES are not yet classified")
+    print("    into the ledger -- that is the remaining phase-3 work.")
     print("  * PARTY IS THE ROW'S OWN: the API stamps the asker's party on")
     print("    every question, and sp_affiliations holds full date ranges,")
     print("    so party-as-at-date needs no reconstruction (unlike NI).")
