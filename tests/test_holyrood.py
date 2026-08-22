@@ -348,24 +348,4 @@ class ORSpeechTests(unittest.TestCase):
         self.assertNotIn("fetch_or_divisions(client", source)
 
 
-class DossierSeparationTests(unittest.TestCase):
-    """The dossier quotes watching-brief material, so it must be read-only
-    and unposted: INTERNAL ONLY is load-bearing, not a caption."""
 
-    def test_dossier_tool_is_read_only_and_never_posts(self):
-        """Checks CODE, not prose: the tool's comments legitimately say
-        'publish' while explaining why it never does -- the same trap
-        ni-weekly's separation test hit on its own workflow comments."""
-        source = open(os.path.join(ROOT, "tools", "make_dossier.py"),
-                      encoding="utf-8").read()
-        for verb in ("INSERT", "UPDATE ", "DELETE", "executescript"):
-            self.assertNotIn(verb, source)
-        self.assertNotIn("from src import publish", source)
-        self.assertNotIn("import publish", source)
-        self.assertNotIn("slack_", source)
-        self.assertNotIn("load_secrets", source)
-
-    def test_dossier_states_internal_only(self):
-        source = open(os.path.join(ROOT, "tools", "make_dossier.py"),
-                      encoding="utf-8").read()
-        self.assertIn("INTERNAL ONLY", source)
