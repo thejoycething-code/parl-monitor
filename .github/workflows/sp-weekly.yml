@@ -41,6 +41,11 @@ jobs:
       - name: Harvest divisions and member votes
         if: always()
         run: python3 tools/sp_divisions.py | tee /tmp/sp-divisions.log
+      - name: Harvest committee scrutiny
+        # Current year only -- the backfill to 2024 ran once on 2026-08-22;
+        # upserts make re-runs safe.
+        if: always()
+        run: python3 tools/sp_committees.py | tee /tmp/sp-committees.log
       - name: Health summary
         # Gap lines lifted into the run summary so the Actions page answers
         # "did this week work" at a glance -- same reasoning as ni-weekly.
@@ -48,11 +53,11 @@ jobs:
         run: |
           {
             echo "## Holyrood weekly refresh"
-            for f in pull divisions; do
+            for f in pull divisions committees; do
               echo "### $f"
               if [ -f "/tmp/sp-$f.log" ]; then
                 echo '```'
-                grep -E "gap|no gaps|stored|match our areas|division|member" \
+                grep -E "gap|no gaps|stored|match our areas|division|member|contribution" \
                   "/tmp/sp-$f.log" | head -15 || echo "(no summary lines)"
                 echo '```'
               else

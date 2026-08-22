@@ -43,6 +43,10 @@ PARTIES_URL = API + "/parties"
 # which 404s for every year -- probed 2026-08-20.
 VOTES_URL = API + "/votesmotion?year={0}"
 OR_URL = API + "/orsplenarymeeting?year={0}"
+# Works for 2025 and 2026 even though the apilist stops advertising it at
+# 2024 -- probed 2026-08-22 (42MB for 2026). Same row shape as the plenary
+# OR plus a Committee block.
+COMMITTEE_OR_URL = API + "/Orscommitteemeeting?year={0}"
 SUPPORTS_URL = API + "/Motionsquestionsanswerssupports/{0}"
 BILLS_URL = API + "/bills"
 BILL_STAGES_URL = API + "/BillStages"
@@ -314,6 +318,53 @@ def parse_or_speeches(payload):
             heading=clean((r.get("ItemOfBusiness") or {}).get("Heading")),
             text=text))
     return out
+
+
+@dataclass
+class CommitteeSpeech:
+    key: str            # 'occ<ContributionID>' -- distinct from plenary 'orc'
+    person_id: str
+    dated: str
+    committee: str      # 'Education, Children and Young People Committee'
+    heading: str        # the item of business, NOT the committee name
+    text: str
+
+
+def parse_committee_speeches(payload):
+    """MSP contributions in committee, for taxonomy classification.
+
+    Witnesses and officials carry a null Person block (their names live only
+    in Detail.SpeakerDisplayName) and are skipped: the ledger records MSP
+    activity. The committee name is returned SEPARATELY from the item
+    heading so classification never runs on the committee's own name --
+    'Equalities, Human Rights and Civil Justice Committee' must not area-tag
+    every word said in that room (the NI 'Committee for Finance' lesson,
+    inverted).
+    """
+    out = []
+    for r in payload or []:
+        if not isinstance(r, dict):
+            continue    # the API intermittently interleaves error strings
+        p = r.get("Person") or {}
+        text = (r.get("Detail") or {}).get("EditedText") or ""
+        if not p.get("ID") or not text:
+            continue
+        out.append(CommitteeSpeech(
+            key="occ{0}".format((r.get("Detail") or {}).get("ContributionID")
+                                or r.get("ID")),
+            person_id=str(p.get("ID")),
+            dated=day((r.get("Time") or {}).get("Start")),
+            committee=clean((r.get("Committee") or {}).get("Name")),
+            heading=clean((r.get("ItemOfBusiness") or {}).get("Heading")),
+            text=text))
+    return out
+
+
+def fetch_committee_or(client, year, timeout=240):
+    """The committee OR year dump (42MB for 2026) -- the db is the archive."""
+    return client.get_json(COMMITTEE_OR_URL.format(year), "holyrood",
+                           "committee-or-{0}".format(year), timeout=timeout,
+                           archive=False)
 
 
 @dataclass

@@ -1282,3 +1282,29 @@ again if forgotten:
   every party. Mabon himself voted AGAINST assisted dying in Oct 2024 and
   moved the LCM amendments in 2026: the same member on "opposite" sides is
   the proof the LCM votes cannot discriminate on our issue.
+
+## Holyrood committee scrutiny (2026-08-22, shortlist item 4)
+
+* `data/api/committees` is IDENTITY ONLY (169 rows, half historical) and
+  `events` is receptions and exhibitions, not business. The real committee
+  surface is **`Orscommitteemeeting?year=N`**, which WORKS for 2025 and 2026
+  even though the apilist stops advertising it at 2024 (42MB for 2026) --
+  same row shape as the plenary OR plus a `Committee` block. Check the
+  data, not the advertised list (the Votesmotions lesson again).
+* The API **intermittently interleaves error strings in the row list** --
+  one run saw a non-dict row where a re-probe saw 65,012 clean dicts.
+  Parsers skip non-dict rows.
+* Witnesses and officials carry a NULL Person block (names only in
+  `Detail.SpeakerDisplayName`); of 157,365 contributions 2024-2026, 53,278
+  are witness/official rows. The ledger keeps MSP rows only.
+* Classification runs on the ITEM heading, never the committee's own name
+  ('Equalities, Human Rights and Civil Justice Committee' must not area-tag
+  every word said in that room -- the NI 'Committee for Finance' lesson,
+  inverted). Stored heading is "Committee -- item" for display; keys are
+  `occ<ContributionID>` to stay out of the plenary `orc` keyspace.
+* Backfill 2024-2026: 2,606 matched MSP contributions across 14 committees.
+  The signal is real: 1,598 are the Health, Social Care and Sport
+  Committee's scrutiny of the Assisted Dying for Terminally Ill Adults
+  (Scotland) Bill; safe access zones (583) and the Crime and Policing Bill
+  LCM at Criminal Justice (a watched Westminster vehicle) follow. Weekly
+  runs fetch the current year only; upserts make re-runs safe.

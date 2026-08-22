@@ -213,6 +213,29 @@ def main():
         print("  concluding anything from a bare tally.")
 
     print(); print(line)
+    print("COMMITTEE SCRUTINY    [tools/sp_committees.py]"); print(line)
+    occ = conn.execute(
+        "SELECT dated, heading, COUNT(*) AS says, "
+        "COUNT(DISTINCT person_id) AS who, areas FROM sp_events "
+        "WHERE key LIKE 'occ%' GROUP BY dated, heading "
+        "ORDER BY dated DESC").fetchall()
+    occ_shown = [r for r in occ if r["areas"] and shown(json.loads(r["areas"]))]
+    total_says = conn.execute("SELECT COUNT(*) FROM sp_events WHERE key "
+                              "LIKE 'occ%'").fetchone()[0]
+    print("  {0} MSP contribution(s) across {1} committee item(s) on our"
+          .format(total_says, len(occ_shown)))
+    print("  ground -- passage-matched from the committee Official Report;")
+    print("  witnesses and officials are skipped. ACTIVITY ONLY: committee")
+    print("  words never place anyone in the 5CA.\n")
+    for r in occ_shown[:n]:
+        a = shown(json.loads(r["areas"]))
+        print("  OURS  {0}  {1}".format(r["dated"], (r["heading"] or "")[:62]))
+        print("        {0} contribution(s) from {1} MSP(s)   areas {2}".format(
+            r["says"], r["who"], ",".join(map(str, a))))
+    if len(occ_shown) > n:
+        print("  ...and {0} more item(s).".format(len(occ_shown) - n))
+
+    print(); print(line)
     print("WHAT THIS DOES NOT KNOW    [src/ingest/holyrood.py]"); print(line)
     print("  * VOTES: every MSP appears in every division ('Not Voted' and")
     print("    'Abstain' are first-class values), and the API stamps party AND")
@@ -220,11 +243,15 @@ def main():
     print("    is not in sp_items is stored unclassified, never guessed.")
     ev=conn.execute("SELECT COUNT(*), COUNT(DISTINCT person_id) FROM "
                     "sp_events").fetchone()
+    occ_n=conn.execute("SELECT COUNT(*) FROM sp_events WHERE key LIKE "
+                       "'occ%'").fetchone()[0]
     print("  * OFFICIAL REPORT: divisions AND speeches are harvested from one")
     print("    fetch per year. {0} speech event(s) from {1} MSP(s) sit in"
           .format(ev[0], ev[1]))
-    print("    sp_events -- passage-matched, quotable, and ACTIVITY ONLY:")
-    print("    a watching brief scores no stances, so a speech never places.")
+    print("    sp_events ({0} in the chamber, {1} in committee) -- passage-"
+          .format(ev[0] - occ_n, occ_n))
+    print("    matched, quotable, and ACTIVITY ONLY: a watching brief scores")
+    print("    no stances, so a speech never places.")
     print("  * PARTY IS THE ROW'S OWN: the API stamps the asker's party on")
     print("    every question, and sp_affiliations holds full date ranges,")
     print("    so party-as-at-date needs no reconstruction (unlike NI).")

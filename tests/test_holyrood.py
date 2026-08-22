@@ -85,7 +85,8 @@ class SeparationTests(unittest.TestCase):
             return fh.read()
 
     def test_sp_tools_never_write_published_tables(self):
-        for name in ("sp_pull.py", "sp_divisions.py", "sp_5ca.py"):
+        for name in ("sp_pull.py", "sp_divisions.py", "sp_5ca.py",
+                     "sp_committees.py"):
             source = self._source(name)
             for table in ("items", "mp_events"):
                 for verb in ("INTO {0} ", "INTO {0}(", "UPDATE {0} "):
@@ -349,3 +350,55 @@ class ORSpeechTests(unittest.TestCase):
 
 
 
+
+
+class CommitteeSpeechTests(unittest.TestCase):
+    """The committee Official Report parser: MSP attribution, witness skip,
+    and the committee-name/item-heading separation that keeps classification
+    off the committee's own name."""
+
+    ROWS = [
+        {"ID": "M1E1", "Committee": {"Name": "Criminal Justice Committee"},
+         "Time": {"Start": "2026-03-18T09:30:00"},
+         "ItemOfBusiness": {"Heading": "Crime and Policing Bill"},
+         "Person": {"ID": 3763, "ParliamentaryName": "McMillan, Stuart"},
+         "Detail": {"ContributionID": 999001,
+                    "EditedText": "The LCM covers abortion clinic buffer "
+                                  "zones."}},
+        {"ID": "W1", "Committee": {"Name": "Criminal Justice Committee"},
+         "Time": {"Start": "2026-03-18T09:35:00"},
+         "ItemOfBusiness": {"Heading": "Crime and Policing Bill"},
+         "Person": {"ID": None, "ParliamentaryName": None},
+         "Detail": {"ContributionID": 999002,
+                    "EditedText": "A witness answering at length."}},
+        "An error has occurred",
+    ]
+
+    def test_msp_rows_parse_witnesses_and_junk_skip(self):
+        out = holyrood.parse_committee_speeches(self.ROWS)
+        self.assertEqual(len(out), 1, "witness (null Person) and stray "
+                                      "string rows must be skipped")
+        sp = out[0]
+        self.assertEqual(sp.key, "occ999001",
+                         "occ prefix keeps committee keys out of the "
+                         "plenary orc keyspace")
+        self.assertEqual(sp.person_id, "3763")
+        self.assertEqual(sp.dated, "2026-03-18")
+        self.assertEqual(sp.committee, "Criminal Justice Committee")
+        self.assertEqual(sp.heading, "Crime and Policing Bill",
+                         "heading is the ITEM, never the committee name -- "
+                         "classification must not run on the room")
+
+    def test_sp_committees_writes_its_own_tables(self):
+        with open(os.path.join(ROOT, "tools", "sp_committees.py"),
+                  encoding="utf-8") as fh:
+            source = fh.read()
+        self.assertIn("sp_events", source)
+        for marker in ("slack", "webhook"):
+            self.assertNotIn(marker, source.lower())
+
+    def test_the_weekly_harvests_committees(self):
+        with open(os.path.join(ROOT, ".github", "workflows",
+                               "sp-weekly.yml"), encoding="utf-8") as fh:
+            wf = fh.read()
+        self.assertIn("tools/sp_committees.py", wf)
