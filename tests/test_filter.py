@@ -441,3 +441,38 @@ class AreaNameOverrideTests(unittest.TestCase):
             os.path.join(ROOT, "config", "un-taxonomy.yaml"))
         self.assertEqual(names[7], "Free speech online safety")
         self.assertEqual(len(names), 11)
+
+
+class ReligiousEducationTermTests(unittest.TestCase):
+    """'religious education' joined area 6 tier 1 at v1.0 (Christopher,
+    2026-08-22), prompted by NI's RE Core Syllabus consultation passing
+    unmarked. Measured before adding: 24 devolved rows + 4 Westminster,
+    every sample on-topic, so no guard is needed."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(
+            os.path.join(ROOT, "config", "taxonomy.yaml"))
+        cls.wl = filt.load_watchlist(
+            os.path.join(ROOT, "config", "watchlist.yaml"))
+
+    def _res(self, text):
+        return filt.filter_item(self.tax, self.wl, text)
+
+    def test_the_term_is_tier_1_area_6(self):
+        r = self._res("Consultation on the Religious Education Core Syllabus")
+        self.assertIn(6, r.issue_areas or [])
+        self.assertEqual(r.tier, 1)
+
+    def test_the_scottish_withdrawal_bill_matches(self):
+        r = self._res("Children (Withdrawal from Religious Education and "
+                      "Amendment of UNCRC Compatibility Duty) (Scotland) "
+                      "Bill")
+        self.assertIn(6, r.issue_areas or [])
+
+    def test_religious_alone_is_not_enough(self):
+        self.assertEqual(
+            self._res("a religious charity funding higher education "
+                      "bursaries").issue_areas or [], [],
+            "the words apart must not match: it is the phrase that is "
+            "precise")

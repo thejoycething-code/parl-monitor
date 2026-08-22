@@ -27,7 +27,7 @@ class TaxonomySyncTests(unittest.TestCase):
     def test_master_parses_eleven_areas(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "0.9")
+        self.assertEqual(version, "1.0")
         self.assertEqual(len(areas), 11)
         self.assertEqual(len(exclusions), 8)
         self.assertIn("EOTAS", areas["6_parental_rights_education"]["tier1"])

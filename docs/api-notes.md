@@ -1343,3 +1343,18 @@ Three EXECUTIVE sources, one table (dg_consultations), one tool
   Core Syllabus consultation missed) and VAWG/justice vocabulary is not
   either (Scotland's "Protections in the justice system for women and
   girls" missed).
+
+## Taxonomy v1.0: "religious education" (2026-08-22)
+
+One term, measured first (24 devolved rows + 4 Westminster, all on-topic),
+and it uncovered a bill the monitor was blind to: **SP Bill 66, Children
+(Withdrawal from Religious Education and Amendment of UNCRC Compatibility
+Duty) (Scotland) Bill -- PASSED Stage 3 66-51 on 2026-02-17**, with a
+per-MSP roll call on all three stage votes (S6M-19866, S6M-20099,
+S6M-20813) plus 24 amendment divisions, 491 committee scrutiny
+contributions, and 13 motions/questions. All reclassified offline; the
+divisions carry NO meaning lines (read-first before any -- the bill's
+direction on parental rights needs the text, not the title). Westminster
+ledger rows never captured under old vocabulary stay uncaptured until a
+backfill re-run; the weekly applies v1.0 going forward. The NI RE Core
+Syllabus consultation (the prompt for the term) closes 2026-09-30.
