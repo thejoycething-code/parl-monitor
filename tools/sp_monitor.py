@@ -9,6 +9,7 @@ Mirrors tools/ni_monitor.py, one legislature over.
 
 from __future__ import annotations
 
+import datetime
 import json
 import os
 import sys
@@ -234,6 +235,13 @@ def main():
             r["says"], r["who"], ",".join(map(str, a))))
     if len(occ_shown) > n:
         print("  ...and {0} more item(s).".format(len(occ_shown) - n))
+
+    print(); print(line)
+    print("GOVERNMENT CONSULTATIONS    [tools/dg_consultations.py]")
+    print(line)
+    from src.ingest import devolved
+    devolved.render_consultations(
+        conn, "scotland", shown, datetime.date.today().isoformat(), n=n)
 
     print(); print(line)
     print("WHAT THIS DOES NOT KNOW    [src/ingest/holyrood.py]"); print(line)

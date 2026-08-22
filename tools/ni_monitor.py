@@ -400,6 +400,12 @@ def main():
                   "misreads them.".format(cc))
 
     # -- honesty ------------------------------------------------------------
+    head("GOVERNMENT CONSULTATIONS", "tools/dg_consultations.py")
+    from src.ingest import devolved
+    devolved.render_consultations(
+        conn, "ni", lambda areas: areas,
+        datetime.date.today().isoformat())
+
     head("WHAT THIS DOES NOT KNOW", "src/ingest/niassembly.py")
     ev = conn.execute(
         "SELECT COUNT(*) FROM ni_divisions WHERE evidence_source = "

@@ -9,6 +9,7 @@ honest limits are in the closing section.
 
 from __future__ import annotations
 
+import datetime
 import json
 import os
 import sys
@@ -117,6 +118,14 @@ def main():
             print("  OURS  {0}  {1}".format(r["dated"], (r["title"] or "")[:64]))
             print("        {0} for / {1} against -- {2}".format(
                 r["total_for"], r["total_against"], (r["result"] or "")[:44]))
+
+    print(); print(line)
+    print("GOVERNMENT CONSULTATIONS    [tools/dg_consultations.py]")
+    print(line)
+    from src.ingest import devolved
+    devolved.render_consultations(
+        conn, "wales", lambda areas: [a for a in areas if a not in HIDDEN],
+        datetime.date.today().isoformat(), n=n)
 
     print(); print(line)
     print("WHAT THIS DOES NOT KNOW    [src/ingest/senedd.py]"); print(line)

@@ -46,6 +46,9 @@ jobs:
         # upserts make re-runs safe.
         if: always()
         run: python3 tools/sp_committees.py | tee /tmp/sp-committees.log
+      - name: Pull open Scottish Government consultations
+        if: always()
+        run: python3 tools/dg_consultations.py --nation scotland | tee /tmp/sp-consultations.log
       - name: Health summary
         # Gap lines lifted into the run summary so the Actions page answers
         # "did this week work" at a glance -- same reasoning as ni-weekly.
@@ -53,11 +56,11 @@ jobs:
         run: |
           {
             echo "## Holyrood weekly refresh"
-            for f in pull divisions committees; do
+            for f in pull divisions committees consultations; do
               echo "### $f"
               if [ -f "/tmp/sp-$f.log" ]; then
                 echo '```'
-                grep -E "gap|no gaps|stored|match our areas|division|member|contribution" \
+                grep -E "gap|no gaps|stored|match our areas|division|member|contribution|consultation" \
                   "/tmp/sp-$f.log" | head -15 || echo "(no summary lines)"
                 echo '```'
               else

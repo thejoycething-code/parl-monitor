@@ -1308,3 +1308,38 @@ again if forgotten:
   (Scotland) Bill; safe access zones (583) and the Crime and Policing Bill
   LCM at Criminal Justice (a watched Westminster vehicle) follow. Weekly
   runs fetch the current year only; upserts make re-runs safe.
+
+## Devolved government consultations (2026-08-22, shortlist item 5)
+
+Three EXECUTIVE sources, one table (dg_consultations), one tool
+(tools/dg_consultations.py), each nation pulled by its own weekly:
+
+* **consult.gov.scot is Citizen Space with the JSON API DISABLED** -- every
+  /api/<version>/consultations 404s (2.3, 2.4, 2.5, 3). The source is the
+  finder page (`consultation_finder/?st=open`), which serves our honest UA.
+* **consultations.nidirect.gov.uk** is the same Citizen Space markup and
+  also serves the honest UA. Caveat: NI departments use the instance for
+  EVERYTHING (staff surveys, job-fair registrations, "Crochet Club Feedback
+  Form"), so the open list is 30 items of which most are not policy
+  consultations -- classification does the sifting, nothing is suppressed.
+* **www.gov.wales blocks every non-browser UA at CloudFront** (honest UA
+  and bare curl both 403; browser UA 200). Christopher authorised the
+  browser UA for this ONE host on 2026-08-22 (second entry in
+  src/http.py's host_user_agents, same terms as business.senedd.wales).
+* **gov.wales's ?status=open is SILENTLY IGNORED** -- the listing mixes
+  open and closed either way. The form's real radio param is
+  `field_consultation_status=1` (open), which also includes "Open call for
+  evidence" items. Filter by the rendered type label, not the URL you
+  wish worked.
+* **No listing shows a closing date on any of the three.** Detail pages do
+  ("Closes 29 Oct 2026" in Citizen Space's sidebar; "Consultation ends:"
+  on gov.wales), so each NEW consultation costs one detail fetch; keys
+  already holding a date are never refetched. Everything fetches
+  archive=False -- gov.wales detail pages are 240KB each and data/raw is
+  committed weekly.
+* First pull: 63 open (11 Scotland, 22 Wales, 30 NI), 1 on our ground
+  (NI refugee/asylum attitudes survey). Two known TAXONOMY gaps surfaced,
+  flagged not silently added: "Religious Education" is not a term (NI's RE
+  Core Syllabus consultation missed) and VAWG/justice vocabulary is not
+  either (Scotland's "Protections in the justice system for women and
+  girls" missed).

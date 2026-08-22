@@ -50,6 +50,9 @@ jobs:
       - name: Refresh the bill register
         if: always()
         run: python3 tools/sd_bills.py | tee /tmp/sd-bills.log
+      - name: Pull open Welsh Government consultations
+        if: always()
+        run: python3 tools/dg_consultations.py --nation wales | tee /tmp/sd-consultations.log
       - name: Health summary
         # The tools print their gaps and then exit 0, so a PARTIAL refresh is
         # a green tick with the detail buried in the log. Lifting the gap lines
@@ -60,11 +63,11 @@ jobs:
         run: |
           {
             echo "## Senedd weekly refresh"
-            for f in members pull divisions bills; do
+            for f in members pull divisions bills consultations; do
               echo "### $f"
               if [ -f "/tmp/sd-$f.log" ]; then
                 echo '```'
-                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area" \
+                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area|consultation" \
                   "/tmp/sd-$f.log" | head -20 || echo "(no summary lines)"
                 echo '```'
               else

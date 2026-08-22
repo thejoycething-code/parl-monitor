@@ -145,16 +145,22 @@ class HttpClient:
         self.contact = contact
         self.user_agent = USER_AGENT_TEMPLATE.format(contact=contact)
         # Per-host User-Agent overrides. The rule remains the honest
-        # CitizenGO UA everywhere; business.senedd.wales is the ONE exception,
-        # authorised by Christopher on 2026-08-21: its WAF rejects tool UAs
-        # generically, it is the only source for Senedd statements of opinion,
-        # bills and committees, and the data is public with no login. Requests
-        # stay throttled at the normal per-host rate.
+        # CitizenGO UA everywhere; each exception is authorised by
+        # Christopher BY HOST, never adopted as a default:
+        #   * business.senedd.wales (2026-08-21): its WAF rejects tool UAs
+        #     generically and it is the only source for Senedd statements of
+        #     opinion, bills and committees.
+        #   * www.gov.wales (2026-08-22): CloudFront blocks every non-browser
+        #     UA (our honest UA and bare curl both 403) and it is the only
+        #     source for Welsh Government consultations.
+        # Data on both is public with no login; requests stay throttled at
+        # the normal per-host rate.
+        _browser_ua = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127 "
+                       "Safari/537.36")
         self.host_user_agents = {
-            "business.senedd.wales": (
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127 "
-                "Safari/537.36"),
+            "business.senedd.wales": _browser_ua,
+            "www.gov.wales": _browser_ua,
         }
         self.archive_date = archive_date  # e.g. "2026-08-01"; None -> today at write time
         self.default_timeout = default_timeout

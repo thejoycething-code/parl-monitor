@@ -50,6 +50,9 @@ jobs:
         # Idempotent and free: reads data/raw, so a taxonomy regeneration
         # between weeks lands here without any extra fetching.
         run: python3 tools/ni_classify.py --apply | tee /tmp/ni-classify.log
+      - name: Pull open NI Executive consultations
+        if: always()
+        run: python3 tools/dg_consultations.py --nation ni | tee /tmp/ni-consultations.log
       - name: Health summary
         # The tools print their gaps and then exit 0, so a PARTIAL refresh is
         # a green tick with the detail buried in the log. Lifting the gap lines
@@ -60,11 +63,11 @@ jobs:
         run: |
           {
             echo "## NI weekly refresh"
-            for f in pull divisions classify; do
+            for f in pull divisions classify consultations; do
               echo "### $f"
               if [ -f "/tmp/ni-$f.log" ]; then
                 echo '```'
-                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area" \
+                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area|consultation" \
                   "/tmp/ni-$f.log" | head -20 || echo "(no summary lines)"
                 echo '```'
               else

@@ -446,6 +446,15 @@ CREATE TABLE IF NOT EXISTS sd_bills (
   areas TEXT, matched_terms TEXT, -- taxonomy over the title
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS dg_consultations (
+  key TEXT PRIMARY KEY,           -- '<nation>:<url path>'
+  nation TEXT NOT NULL,           -- 'scotland' | 'wales' | 'ni'
+  title TEXT, url TEXT,
+  summary TEXT,                   -- listing summary (Citizen Space) or topics (gov.wales)
+  opened TEXT, closes TEXT,       -- ISO dates from the detail page; NULL = not parsed
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -478,6 +487,7 @@ TABLES = (
     "sd_votes",
     "sd_events",
     "sd_bills",
+    "dg_consultations",
     "ni_items",
     "ni_members",
     "ni_affiliations",
