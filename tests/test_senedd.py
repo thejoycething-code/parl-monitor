@@ -167,3 +167,39 @@ class TranscriptTests(unittest.TestCase):
         sp = senedd.parse_transcript(text)
         self.assertEqual(len(sp), 1)
         self.assertEqual(sp[0].key, "sdc7")
+
+
+class BillTests(unittest.TestCase):
+    def test_royal_assent_prose_wins_with_its_date(self):
+        stage, date = senedd.parse_bill_status(
+            "Stage 4 proceedings took place in April. "
+            "Royal Assent was given on 27 April 2026.")
+        self.assertEqual((stage, date), ("Royal Assent", "2026-04-27"))
+
+    def test_highest_stage_mentioned_wins_without_assent(self):
+        stage, date = senedd.parse_bill_status(
+            "Stage 1 concluded. Stage 2 consideration began. Stage 3 next.")
+        self.assertEqual(stage, "Stage 3")
+        self.assertIsNone(date, "bare stage mentions carry no parseable date")
+
+    def test_dead_markers_are_terminal(self):
+        stage, _ = senedd.parse_bill_status("The Bill was withdrawn.")
+        self.assertEqual(stage, "Withdrawn or rejected")
+
+    def test_bill_links_parse(self):
+        page = ('<a href="https://business.senedd.wales/mgIssueHistoryHome'
+                '.aspx?IId=46468">Prohibition of Greyhound Racing '
+                '(Wales) Act 2026</a>')
+        self.assertEqual(senedd.parse_bill_links(page),
+                         [(46468, "Prohibition of Greyhound Racing "
+                                  "(Wales) Act 2026")])
+
+    def test_sd_bills_filters_whatsnew_to_legislation(self):
+        """mgWhatsNew surfaces every ModernGov issue type; the first run put
+        petitions (P-07-...) and cross-party-group papers into the bill
+        register. Discovery-sourced items must look like legislation."""
+        source = open(os.path.join(ROOT, "tools", "sd_bills.py"),
+                      encoding="utf-8").read()
+        self.assertIn("Bill|Act", source)
+        for table in ("items", "mp_events"):
+            self.assertNotIn("INTO {0} ".format(table), source)

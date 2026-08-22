@@ -284,3 +284,66 @@ def fetch_transcript(client, meeting_id, timeout=120):
     return parse_transcript(client.get_text(
         TRANSCRIPT_URL.format(meeting_id), "senedd",
         "transcript-{0}".format(meeting_id), timeout=timeout, archive=False))
+
+
+# -- bills --------------------------------------------------------------------
+# The register route: senedd.wales/senedd-business/legislation/ (honest UA)
+# links per-bill ModernGov tracking pages on business.senedd.wales (the one
+# authorised browser-UA host). The tracking page carries no status FIELD --
+# the stage lives in PROSE ("Royal Assent was given on 27 April 2026",
+# "Stage 4 proceedings took place in..."), the scotland.py pattern exactly.
+LEGISLATION_URL = "https://senedd.wales/senedd-business/legislation/"
+REJECTED_URL = ("https://senedd.wales/senedd-business/legislation/"
+                "rejected-bills-and-withdrawn-bills/")
+BILL_URL = "https://business.senedd.wales/mgIssueHistoryHome.aspx?IId={0}"
+
+_MONTHS = {m: i for i, m in enumerate(
+    ["january", "february", "march", "april", "may", "june", "july",
+     "august", "september", "october", "november", "december"], start=1)}
+_ASSENT = re.compile(r"Royal Assent(?:\s+was)?(?:\s+given)?(?:\s+on)?\s+"
+                     r"\(?(\d{1,2}) (\w+) (\d{4})", re.I)
+_STAGE = re.compile(r"Stage (\d)", re.I)
+_DEAD = re.compile(r"withdrawn|rejected|fell|did not proceed", re.I)
+
+
+def parse_bill_links(page):
+    """[(iid, title)] from a senedd.wales page linking tracking pages."""
+    out = []
+    for iid, title in re.findall(
+            r'href="https://business\.senedd\.wales/mgIssueHistoryHome'
+            r'\.aspx\?IId=(\d+)"[^>]*>([^<]+)', page):
+        out.append((int(iid), _html.unescape(title).strip()))
+    return out
+
+
+def parse_bill_status(page):
+    """(latest_stage, date_iso_or_None) from a tracking page's prose.
+
+    Royal Assent (with its date) wins; otherwise the highest Stage number
+    mentioned; a dead marker (withdrawn/rejected/fell) is its own terminal
+    stage. No date is extractable for bare stage mentions -- the page gives
+    event timelines, not a stage-date field -- so date is None there.
+    """
+    m = _ASSENT.search(page)
+    if m:
+        month = _MONTHS.get(m.group(2).lower())
+        date = ("{0}-{1:02d}-{2:02d}".format(m.group(3), month,
+                                             int(m.group(1)))
+                if month else None)
+        return "Royal Assent", date
+    if _DEAD.search(page):
+        return "Withdrawn or rejected", None
+    stages = [int(x) for x in _STAGE.findall(page)]
+    if stages:
+        return "Stage {0}".format(max(stages)), None
+    return "Introduced", None
+
+
+def fetch_bill(client, iid, timeout=60):
+    page = client.get_text(BILL_URL.format(iid), "senedd",
+                           "bill-{0}".format(iid), timeout=timeout,
+                           archive=False)
+    title = re.search(r"<title>([^<|]+)", page)
+    stage, date = parse_bill_status(page)
+    return (_html.unescape(title.group(1)).strip() if title else "",
+            stage, date)

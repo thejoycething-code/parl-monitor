@@ -435,6 +435,17 @@ CREATE TABLE IF NOT EXISTS sd_events (
   excerpt TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Senedd bill register: iids from the legislation pages plus any tracking
+-- page surfacing in mgWhatsNew (new-bill discovery); stage parsed from the
+-- tracking page's PROSE (the scotland.py pattern -- no status field exists).
+CREATE TABLE IF NOT EXISTS sd_bills (
+  iid INTEGER PRIMARY KEY,        -- ModernGov issue id
+  title TEXT,
+  latest_stage TEXT,              -- 'Stage 3' | 'Royal Assent' | 'Withdrawn or rejected' | 'Introduced'
+  stage_date TEXT,                -- only Royal Assent carries a parseable date
+  areas TEXT, matched_terms TEXT, -- taxonomy over the title
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -466,6 +477,7 @@ TABLES = (
     "sd_divisions",
     "sd_votes",
     "sd_events",
+    "sd_bills",
     "ni_items",
     "ni_members",
     "ni_affiliations",

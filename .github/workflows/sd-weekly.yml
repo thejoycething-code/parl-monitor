@@ -47,6 +47,9 @@ jobs:
       - name: Harvest plenary divisions
         if: always()
         run: python3 tools/sd_divisions.py --parl 908 | tee /tmp/sd-divisions.log
+      - name: Refresh the bill register
+        if: always()
+        run: python3 tools/sd_bills.py | tee /tmp/sd-bills.log
       - name: Health summary
         # The tools print their gaps and then exit 0, so a PARTIAL refresh is
         # a green tick with the detail buried in the log. Lifting the gap lines
@@ -57,7 +60,7 @@ jobs:
         run: |
           {
             echo "## Senedd weekly refresh"
-            for f in members pull divisions; do
+            for f in members pull divisions bills; do
               echo "### $f"
               if [ -f "/tmp/sd-$f.log" ]; then
                 echo '```'

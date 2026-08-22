@@ -70,6 +70,24 @@ def main():
         for a in sorted(per):
             print("  {0:<2} {1:<42} {2}".format(a, names.get(a, "?"), per[a]))
 
+    nb=conn.execute("SELECT COUNT(*) FROM sd_bills").fetchone()[0]
+    if nb:
+        print(); print(line)
+        print("BILLS    [tools/sd_bills.py]"); print(line)
+        for r in conn.execute("SELECT iid, title, latest_stage, stage_date, "
+                              "areas FROM sd_bills ORDER BY "
+                              "CASE WHEN latest_stage LIKE 'Stage%' THEN 0 "
+                              "WHEN latest_stage='Introduced' THEN 1 ELSE 2 "
+                              "END, iid DESC"):
+            mark = "OURS  " if r["areas"] and r["areas"] != "[]" else "      "
+            print("  {0}{1:<58} {2}{3}".format(
+                mark, (r["title"] or "?")[:57], r["latest_stage"],
+                " ({0})".format(r["stage_date"]) if r["stage_date"] else ""))
+        print("\n  {0} bill(s); stage parsed from the tracking page's PROSE"
+              .format(nb))
+        print("  (no status field exists); NEW bills are caught the week")
+        print("  their tracking page first moves in mgWhatsNew.")
+
     dv=conn.execute("SELECT COUNT(*) FROM sd_divisions").fetchone()[0]
     if dv:
         print(); print(line)
