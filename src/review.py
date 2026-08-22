@@ -1,4 +1,9 @@
-"""Review-file round-trip (handoff sections 7, 8).
+"""RETIRED 2026-08-21 (Christopher): the editorial loop is gone. Nothing
+calls generate_review_file / apply_review / apply_draft_defaults at runtime
+any more -- rendering is score-driven. log_discards remains live. Kept for
+history and for parsing old review files if ever needed.
+
+Review-file round-trip (handoff sections 7, 8).
 
 Score>=2 items land in a human-editable checklist `review-<week>.md`. The human
 sets PRIORITY (ACT/WATCH/NOTE), OWNER and WHY per item; those edits are parsed

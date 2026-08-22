@@ -6,7 +6,10 @@ into the Monday markdown edition. Rules enforced here:
   * recess mode (no Commons/Lords chamber events in the edition week): render
     sections 1, 2, 6, 7, 11 plus a return-dates line; deadlines always render;
   * caps: top lines 3-5, PQs 5, EDMs 5, demoting NOTE items first;
-  * every ACT line needs a non-null owner: render is refused otherwise;
+  * the editorial loop (ACT/WATCH/NOTE, owners, review files) was REMOVED at
+    Christopher's decision, 2026-08-21: he creates Asana tasks himself from
+    what the monitor surfaces and the briefs it produces. Inclusion and
+    prominence are score-driven (triage_score 3 = top line, 2 = section);
   * British spelling, no em dashes;
   * footer discloses any gaps rows for the edition.
 """
@@ -26,7 +29,9 @@ AREA_NAMES = {
     10: "Surrogacy and embryology",
     11: "Migration",
 }
-TAG_ORDER = {"ACT": 0, "WATCH": 1, "NOTE": 2}
+# Ordering by triage score, highest first, replacing the retired
+# ACT/WATCH/NOTE editorial tags. Line.tag now carries the SCORE (int or None).
+TAG_ORDER = {3: 0, 2: 1, 1: 2}
 
 
 @dataclass
@@ -70,17 +75,14 @@ class DigestError(Exception):
 # -- validation and caps ----------------------------------------------------
 
 def validate(edition):
-    """Refuse to render an ACT line without an owner (handoff section 8)."""
-    # mp_notes are plain strings from the ledger (no tags); not validated here.
-    for section in (edition.top_lines, edition.week_ahead, edition.votes, edition.pqs,
-                    edition.edms, edition.devolved, edition.statements):
-        for line in section:
-            if line.tag == "ACT" and not line.owner:
-                raise DigestError("ACT line without owner: %r" % line.text)
+    """The ACT-owner refusal is retired with the editorial loop: nothing in an
+    edition is an assignment any more, so there is nothing to refuse. Kept as
+    a hook so render()'s contract (validate first) survives."""
+    return None
 
 
 def _cap(lines, limit):
-    """Enforce a section cap, demoting NOTE (then WATCH) items first."""
+    """Enforce a section cap, demoting the lowest scores first."""
     if len(lines) <= limit:
         return lines
     ordered = sorted(lines, key=lambda l: TAG_ORDER.get(l.tag, 3))
@@ -93,13 +95,10 @@ def _fmt_line(line):
     label = line.text
     if line.url:
         label = "[{0}]({1})".format(line.text, line.url)
-    bits = ["- **[{0}]**".format(line.tag), label]
-    body = " ".join(bits)
+    body = "- " + label
     extras = []
     if line.deadline:
         extras.append("Deadline: {0}".format(line.deadline))
-    if line.owner:
-        extras.append("Owner: {0}".format(line.owner))
     if extras:
         body += " (" + "; ".join(extras) + ")"
     return body
@@ -274,8 +273,8 @@ def render_pqs(edition, companion=True):
                 who = "{0} ({1})".format(who, detail)
             heading = r["heading"] or "-"
             question = "[{0}]({1})".format(heading, r["url"]) if r["url"] else heading
-            if r["tag"] and r["tag"] != "NOTE":
-                question += " **{0}**".format(r["tag"])
+            # score markers are not shown per question: presence in the
+            # table already means the triage pass admitted it
             if r["why"]:
                 question += " {0}".format(r["why"].rstrip(".") + ".")
             out.append("| {0} | {1} | {2} | {3} |".format(

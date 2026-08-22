@@ -26,25 +26,19 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 def summarise_edition(markdown, week):
     """Build the Slack mrkdwn summary + supporting lists from the edition."""
-    top = re.findall(r"^- \*\*\[(ACT|WATCH|NOTE)\]\*\* (.+)$", markdown, re.M)
-    acts = [text for tag, text in top if tag == "ACT"]
-    # ACT lines can appear in any section; collect all, deduped, tag stripped.
+    # Editorial tags retired: the summary quotes the Top lines section as
+    # written -- score-driven, no [ACT]/[WATCH]/[NOTE] and no owners.
+    m = re.search(r"^## (?:\d+\. )?Top lines\n(.*?)(?=^## |\Z)",
+                  markdown, re.M | re.S)
+    top_block = m.group(1) if m else ""
+    top = re.findall(r"^- (.+)$", top_block, re.M)
     all_acts = []
-    for line in re.findall(r"^- \*\*\[ACT\]\*\* (.+)$", markdown, re.M):
-        clean = re.sub(r"\[([^]]+)\]\([^)]*\)", r"\1", line)  # unlink
-        if clean not in all_acts:
-            all_acts.append(clean)
-
-    deadlines = []  # populated from the store by deadlines_from_store()
+    deadlines = []
 
     bullet_lines = []
-    for tag, text in top[:4]:
+    for text in top[:6]:
         clean = re.sub(r"\[([^]]+)\]\([^)]*\)", r"\1", text)
-        bullet_lines.append("• *[{0}]* {1}".format(tag, clean))
-    for act in all_acts:
-        line = "• *[ACT]* {0}".format(act)
-        if line not in bullet_lines:
-            bullet_lines.append(line)
+        bullet_lines.append("• {0}".format(clean))
 
     summary = ("*Parliamentary Monitor - week commencing {0}*\n\n"
                "The weekly briefing on everything moving in Westminster that touches "
@@ -61,7 +55,7 @@ def deadlines_from_store(conn, week, days=21):
     import datetime as _dt
     horizon = (_dt.date.fromisoformat(week) + _dt.timedelta(days=days)).isoformat()
     rows = conn.execute(
-        "SELECT title, deadline FROM items WHERE priority_tag IS NOT NULL "
+        "SELECT title, deadline FROM items WHERE triage_score >= 2 "
         "AND deadline IS NOT NULL AND deadline >= ? AND deadline <= ? ORDER BY deadline",
         (week, horizon)).fetchall()
     return ["{0} (closes {1})".format(r["title"], r["deadline"]) for r in rows]
@@ -122,7 +116,9 @@ def main():
         slack = publish.slack_publish_edition(secrets, week, number, canvas_md, summary)
         print("slack: {0}".format(slack))
         canvas_url = slack.get("canvas_url", "(not posted to Slack)")
-        asana = publish.asana_create_reading_task(secrets, week, canvas_url, acts, store_deadlines)
+        # The Asana reading task is retired with the editorial loop:
+        # Christopher creates his own tasks from the monitor and the briefs.
+        asana = {}
         print("asana: {0}".format(asana))
         if "error" not in slack:
             conn.execute("INSERT OR REPLACE INTO publish_log "
@@ -161,7 +157,6 @@ def main():
                         ("5ca sheets", ["tools/make_5ca_web.py"]),
                         ("5ca matrix", ["tools/make_5ca_matrix.py"]),
                         ("briefs", ["tools/make_briefs.py"]),
-                        ("brief approvals", ["tools/check_brief_approvals.py"]),
                         ("brief sheets", ["tools/publish_briefs_to_drive.py"])):
         # Each tool prints its own one-line summary; relay it rather than
         # discarding it. A log that is silent on success cannot be used to

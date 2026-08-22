@@ -3,10 +3,9 @@
     python3 tools/make_briefs.py              # all new subjects since last run
     python3 tools/make_briefs.py --list       # show subjects without writing
     python3 tools/make_briefs.py --force SLUG # regenerate one brief
-    python3 tools/make_briefs.py --force SLUG --no-approval   # ...but do not
-                                              # create the Asana review task
 
-Subjects: live bills on the board and ACT-tagged items (consultations,
+
+Subjects: live bills on the board and score-3 items (consultations,
 committee inquiries). Migration (area 11) is excluded: collated, never
 campaigned. One brief per subject EVER (brief_log) -- a campaigner's edits
 must not be overwritten by a Monday run, so re-generation is --force only.
@@ -156,7 +155,10 @@ def slugify(text):
 
 
 def subjects(conn):
-    """Brief-worthy subjects: live board bills + ACT items, minus migration."""
+    """Brief-worthy subjects: live board bills + triage-score-3 items, minus
+    migration. Score 3 is the rubric's own campaign-trigger level -- the
+    machine judgement that replaced the retired ACT tag (Christopher,
+    2026-08-21: he creates Asana tasks himself; the loop is gone)."""
     names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
     out = []
     for r in conn.execute("SELECT * FROM bills_board WHERE status != 'closed'").fetchall():
@@ -178,7 +180,7 @@ def subjects(conn):
                     if (r["bill_id"] or 0) > 0 else None),
             "deadline": r["next_key_date"] if (r["next_key_date"] or "").count("-") == 2 else None,
         })
-    for r in conn.execute("SELECT * FROM items WHERE priority_tag = 'ACT'").fetchall():
+    for r in conn.execute("SELECT * FROM items WHERE triage_score = 3").fetchall():
         areas = [a for a in json.loads(r["issue_areas"] or "[]") if a not in EXCLUDED_AREAS]
         if not areas:
             continue
@@ -725,7 +727,6 @@ def main():
     if "--force" in sys.argv:
         force = sys.argv[sys.argv.index("--force") + 1]
     list_only = "--list" in sys.argv
-    no_approval = "--no-approval" in sys.argv
 
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
     ensure_log(conn)
@@ -880,29 +881,12 @@ def main():
             for row in NARRATIVE_SCAFFOLD:
                 w.writerow(row)
         print("  sheet: {0}".format(os.path.basename(sheet_path)))
+        # No Asana approval task: the editorial loop is retired (Christopher,
+        # 2026-08-21). Briefs generate and upload automatically; he creates
+        # his own tasks. Rejection remains a deliberate act via
+        # tools/brief_status.py and is still load-bearing (regeneration guard
+        # + the Drive publisher gate).
         approval = {}
-        if no_approval:
-            # Generating a brief to READ is not the same as routing it for
-            # review. The Asana task assigns a colleague, so regenerating an
-            # old or rejected brief to inspect it would otherwise ask someone
-            # to approve work nobody intends to do.
-            print("  approval task: skipped (--no-approval)")
-        else:
-            try:
-                from src import publish
-                secrets = publish.load_secrets()
-                approval = publish.asana_create_brief_approval(
-                    secrets, s["title"], s["slug"], deadline=s.get("deadline"))
-            except Exception as exc:
-                approval = {"error": str(exc)}
-        if no_approval:
-            pass                      # already reported above
-        elif approval.get("error"):
-            print("  approval task FAILED: {0} (brief kept; create the task "
-                  "by hand)".format(approval["error"]))
-        else:
-            print("  approval task: {0}".format(approval.get("permalink") or
-                                                approval.get("task_gid")))
         conn.execute("INSERT OR REPLACE INTO brief_log "
                      "(slug, subject, generated_at, path, status, asana_gid) "
                      "VALUES (?, ?, ?, ?, ?, ?)",

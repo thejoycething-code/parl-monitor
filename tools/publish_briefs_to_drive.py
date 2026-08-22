@@ -359,7 +359,8 @@ def main():
         return 0  # never fail the weekly run over a Drive credential
 
     rows = conn.execute("SELECT slug, subject, asana_gid FROM brief_log "
-                        "WHERE status = 'pending' AND drive_file_id IS NULL"
+                        "WHERE status IN ('pending','generated') "
+                        "AND drive_file_id IS NULL"
                         ).fetchall()
     if not rows:
         print("drive publish: nothing new")

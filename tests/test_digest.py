@@ -135,27 +135,34 @@ class PqSectionTests(unittest.TestCase):
 
 
 class ValidationTests(unittest.TestCase):
-    def test_act_without_owner_refused(self):
-        e = base_edition(top_lines=[digest.Line("Do this", "ACT")])
-        with self.assertRaises(digest.DigestError):
-            digest.render(e)
+    def test_no_line_carries_editorial_markup(self):
+        """The editorial loop is retired (Christopher, 2026-08-21): no
+        [ACT]/[WATCH]/[NOTE] brackets, no owners, no refusal. He creates
+        Asana tasks himself from what the monitor surfaces."""
+        e = base_edition(top_lines=[digest.Line("Do this", 3,
+                                                owner="Christopher")])
+        md = digest.render(e)
+        self.assertIn("- Do this", md)
+        self.assertNotIn("[ACT]", md)
+        self.assertNotIn("Owner:", md)
 
-    def test_act_with_owner_renders(self):
-        e = base_edition(top_lines=[digest.Line("Do this", "ACT", owner="Christopher")])
-        self.assertIn("Owner: Christopher", digest.render(e))
+    def test_validate_never_refuses(self):
+        e = base_edition(top_lines=[digest.Line("Do this", 3)])
+        self.assertIsNone(digest.validate(e))
 
 
 class CapTests(unittest.TestCase):
-    def test_top_lines_capped_at_five_demoting_notes_first(self):
-        lines = ([digest.Line("act", "ACT", owner="C")]
-                 + [digest.Line("note %d" % i, "NOTE") for i in range(6)]
-                 + [digest.Line("watch", "WATCH")])
+    def test_top_lines_capped_at_five_demoting_low_scores_first(self):
+        """The cap demotes by triage score now that tags are retired: a
+        score-3 line must survive a crowd of score-1s."""
+        lines = ([digest.Line("campaign trigger", 3)]
+                 + [digest.Line("background %d" % i, 1) for i in range(6)]
+                 + [digest.Line("digest-worthy", 2)])
         e = base_edition(top_lines=lines)
         md = digest.render(e)
-        # ACT and WATCH survive; only 3 of the 6 NOTEs fit within the cap of 5.
-        self.assertIn("act", md)
-        self.assertIn("watch", md)
-        self.assertEqual(md.count("**[NOTE]** note"), 3)
+        self.assertIn("campaign trigger", md)
+        self.assertIn("digest-worthy", md)
+        self.assertEqual(md.count("- background"), 3)
 
 
 class FooterVersionTests(unittest.TestCase):

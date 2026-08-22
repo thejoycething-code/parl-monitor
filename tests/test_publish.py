@@ -10,44 +10,45 @@ sys.path.insert(0, ROOT)
 import run_monday
 from src import publish
 
+# The current render shape: score-driven, no editorial tags, no owners
+# (the loop was retired at Christopher's decision, 2026-08-21).
 EDITION = """# Parliamentary Monitor
 ### Week commencing Monday 2026-08-10 | Edition 2
 
-## 1. Top lines
+## Top lines
 
-- **[NOTE]** Recess: neither House sits this week. Both Houses return 2026-09-01. Deadlines still apply.
+- Recess: neither House sits this week. Both Houses return 2026-09-01.
+- [Law Commission weddings reform closes 24 September.](https://example.gov.uk/tying) (Deadline: 2026-09-24)
 
-## 7. Consultations and secondary legislation
+## Consultations and secondary legislation
 
-- **[ACT]** [Law Commission weddings reform closes 24 September.](https://example.gov.uk/tying) (Deadline: 2026-09-24; Owner: Zuzana)
-- **[NOTE]** [Child protection framework.](https://example.gov.uk/cp) (Deadline: 2026-08-20)
-- **[NOTE]** [Far-future thing.](https://example.gov.uk/far) (Deadline: 2026-12-01)
+- [Child protection framework.](https://example.gov.uk/cp) (Deadline: 2026-08-20)
 """
 
 
 class SummariseTests(unittest.TestCase):
-    def test_summary_carries_top_lines_and_all_acts_unlinked(self):
+    def test_summary_quotes_top_lines_untagged_and_unlinked(self):
         summary, acts, deadlines = run_monday.summarise_edition(EDITION, "2026-08-10")
         self.assertIn("*Parliamentary Monitor - week commencing 2026-08-10*", summary)
-        self.assertIn("• *[NOTE]* Recess", summary)
-        self.assertIn("• *[ACT]* Law Commission weddings reform", summary)
+        self.assertIn("• Recess", summary)
+        self.assertIn("• Law Commission weddings reform", summary)
+        self.assertNotIn("[ACT]", summary)
         self.assertNotIn("](https://", summary)          # links stripped for mrkdwn
-        self.assertEqual(len(acts), 1)
-        self.assertIn("Owner: Zuzana", acts[0])
+        self.assertEqual(acts, [])                       # the reading task is retired
 
     def test_deadlines_come_from_store_within_horizon(self):
         from src import db
         conn = db.init_db(db.connect(":memory:"))
         try:
-            for i, (title, deadline, tag) in enumerate([
-                ("Near thing", "2026-08-20", "NOTE"),        # within 21 days
-                ("Far thing", "2026-12-01", "NOTE"),         # beyond horizon
-                ("Unreviewed thing", "2026-08-15", None),    # no priority set
+            for i, (title, deadline, score) in enumerate([
+                ("Near thing", "2026-08-20", 2),      # within 21 days
+                ("Far thing", "2026-12-01", 2),       # beyond horizon
+                ("Sub-digest thing", "2026-08-15", 1),  # score below the bar
             ]):
                 conn.execute(
-                    "INSERT INTO items (id, captured_at, source_feed, item_type, title, deadline, priority_tag) "
+                    "INSERT INTO items (id, captured_at, source_feed, item_type, title, deadline, triage_score) "
                     "VALUES (?, '2026-08-10', 'consultation', 'consultation', ?, ?, ?)",
-                    ("t:%d" % i, title, deadline, tag))
+                    ("t:%d" % i, title, deadline, score))
             conn.commit()
             deadlines = run_monday.deadlines_from_store(conn, "2026-08-10")
             self.assertEqual(deadlines, ["Near thing (closes 2026-08-20)"])

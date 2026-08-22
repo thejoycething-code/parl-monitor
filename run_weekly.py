@@ -588,9 +588,9 @@ SECTION_FOR_FEED = {
 def sections_from_store(conn, edition):
     """Build edition sections by querying reviewed items (digest as byproduct)."""
     rows = conn.execute(
-        "SELECT id, source_feed, title, url, event_date, deadline, priority_tag, owner, "
+        "SELECT id, source_feed, title, url, event_date, deadline, triage_score, "
         "why_it_matters, extra, issue_areas "
-        "FROM items WHERE priority_tag IS NOT NULL ORDER BY source_feed, event_date, id"
+        "FROM items WHERE triage_score >= 2 ORDER BY source_feed, event_date, id"
     ).fetchall()
     # Background-scored questions (triage 1) never reach the review file and so
     # carry no tag. They are real captures all the same, so the companion page
@@ -614,7 +614,7 @@ def sections_from_store(conn, edition):
                 "seat": extra.get("seat"), "house": extra.get("house"),
                 "heading": extra.get("heading") or r["title"],
                 "department": extra.get("department"), "url": r["url"],
-                "date": r["event_date"], "tag": r["priority_tag"],
+                "date": r["event_date"], "tag": r["triage_score"],
                 "why": r["why_it_matters"] or "",
                 "area": areas[0] if areas else None,
                 "area_label": area_labels.get(areas[0]) if areas else "Other",
@@ -639,10 +639,10 @@ def sections_from_store(conn, edition):
             # review was rendering as an ordinary row: urgency the edition (and
             # the Slack summary, which reads the [ACT] bullets) never showed.
             # ACT deadline items therefore also emit a top line.
-            if r["priority_tag"] == "ACT":
+            if r["triage_score"] == 3:
                 edition.top_lines.append(digest.Line(
                     text="{0} - {1}".format(title, r["why_it_matters"] or why),
-                    tag="ACT", owner=r["owner"], url=r["url"],
+                    tag=3, owner=None, url=r["url"],
                     deadline=r["deadline"], date=r["event_date"]))
             continue
         if feed == "si":
@@ -659,7 +659,7 @@ def sections_from_store(conn, edition):
             continue
         line = digest.Line(
             text=r["why_it_matters"] or r["title"],
-            tag=r["priority_tag"], owner=r["owner"], url=r["url"],
+            tag=r["triage_score"], owner=None, url=r["url"],
             deadline=r["deadline"], date=r["event_date"],
         )
         getattr(edition, target).append(line)
@@ -817,8 +817,15 @@ def pull(week_commencing, db_name, force=False):
         record_gap(conn, week_commencing, "stance", "pass failed: {0}".format(exc))
         print("stance: failed ({0}); recorded as a gap".format(exc))
 
-    path = os.path.join(ROOT, "reviews", "review-{0}.md".format(week_commencing))
-    path, count = review.generate_review_file(conn, week_commencing, path)
+    # The editorial loop is retired (Christopher, 2026-08-21): no review file
+    # is written and nothing waits for one. Rendering is score-driven.
+    path = "(editorial loop retired: no review file)"
+    count = conn.execute("SELECT COUNT(*) FROM items WHERE triage_score >= 2 "
+                         "AND first_seen_edition = ?", (week_commencing,)
+                         ).fetchone()[0] if _has_col(conn, "items",
+                                                     "first_seen_edition") \
+        else conn.execute("SELECT COUNT(*) FROM items WHERE triage_score >= 2"
+                          ).fetchone()[0]
     conn.execute("INSERT OR REPLACE INTO pull_log (week, completed_at) VALUES (?, ?)",
                  (week_commencing, datetime.datetime.now().isoformat(timespec="seconds")))
     conn.commit()
@@ -826,8 +833,13 @@ def pull(week_commencing, db_name, force=False):
     return path, count, triage_status
 
 
+def _has_col(conn, table, col):
+    return col in [c[1] for c in conn.execute(
+        "PRAGMA table_info({0})".format(table))]
+
+
 def render_edition(week_commencing, db_name, draft=False):
-    """Phase 2: apply review edits (or draft defaults), render from the store."""
+    """Phase 2: render from the store, score-driven (editorial loop retired)."""
     week_start = datetime.date.fromisoformat(week_commencing)
     week_end = week_start + datetime.timedelta(days=6)
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", db_name)))
@@ -837,11 +849,7 @@ def render_edition(week_commencing, db_name, draft=False):
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     apply_queue_if_scored(conn, wl, week_commencing)  # session-scored triage, if present
 
-    review_path = os.path.join(ROOT, "reviews", "review-{0}.md".format(week_commencing))
-    if draft:
-        review.apply_draft_defaults(conn)
-    elif os.path.exists(review_path):
-        review.apply_review(conn, review.parse_review_file(review_path))
+    # Editorial loop retired: no review edits to apply; scores decide.
 
     week_events = whatson.fetch_events(client, week_start, week_end)
     mode = "recess" if whatson.is_recess(week_events) else "normal"
