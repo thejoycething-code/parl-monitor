@@ -3,6 +3,10 @@
     python3 tools/sd_divisions.py            # walk both parliaments to 2024
     python3 tools/sd_divisions.py --parl 908 # one parliament
 
+Also harvests SPEECHES: the same index links each sitting's English
+transcript XML, so one walk serves votes and speeches (the Holyrood lesson).
+Speeches are passage-classified into sd_events -- activity evidence only.
+
 The route is the undocumented XMLExport behind record.senedd.wales, found via
 mySociety's parlparse scraper: an index of sittings per parliament (700 =
 Sixth Senedd, 908 = Seventh), each linking a Votes XML of per-member rows.
@@ -57,6 +61,48 @@ def main():
                 if s.dated < FLOOR:
                     floor_hit = True
                     continue
+                # SPEECHES for every sitting in range (transcripts exist even
+                # where no division happened); stored only when a passage
+                # matches. Skipped when the sitting is already held, so the
+                # weekly run fetches only new sittings.
+                already = conn.execute(
+                    "SELECT 1 FROM sd_events WHERE key LIKE 'sdc%' AND "
+                    "dated = ? LIMIT 1", (s.dated,)).fetchone()
+                if not already or "--refetch" in sys.argv:
+                    try:
+                        for sp in senedd.fetch_transcript(client, s.meeting_id):
+                            matches = filt.match_passages(
+                                tax, wl, sp.text, title=sp.heading or "")
+                            if not matches:
+                                continue
+                            s_areas, s_terms, excerpt = \
+                                filt.aggregate_passages(matches)
+                            if not s_areas:
+                                continue
+                            conn.execute(
+                                "INSERT INTO sd_events (key, member_id, "
+                                "member_name, dated, heading, areas, "
+                                "matched_terms, excerpt, first_seen, "
+                                "last_seen) VALUES (?,?,?,?,?,?,?,?,?,?) "
+                                "ON CONFLICT(key) DO UPDATE SET "
+                                "areas=excluded.areas, "
+                                "matched_terms=excluded.matched_terms, "
+                                "excerpt=excluded.excerpt, "
+                                "last_seen=excluded.last_seen",
+                                (sp.key, sp.member_id, sp.member_name,
+                                 sp.dated, sp.heading, json.dumps(s_areas),
+                                 json.dumps(s_terms), excerpt, now, now))
+                    except FetchError as exc:
+                        conn.execute(
+                            "INSERT INTO gaps (edition, feed, detail) "
+                            "VALUES (?,?,?)",
+                            (datetime.date.today().isoformat(), "sd-speeches",
+                             "meeting {0}: {1}".format(s.meeting_id,
+                                                       exc.cause)))
+                        conn.commit()
+                        print("  [gap] transcript {0}: {1}".format(
+                            s.meeting_id, exc.cause))
+                        gaps += 1
                 if not s.has_votes:
                     continue
                 try:
@@ -108,6 +154,9 @@ def main():
           "Holyrood's motion-text join, and classification improves when "
           "phase 3 adds the transcript XMLs.".format(
               total, stored, voted, n_ours))
+    sp_n = conn.execute("SELECT COUNT(*) FROM sd_events").fetchone()[0]
+    print("{0} speech event(s) in sd_events (passage-matched; activity "
+          "evidence, never direction).".format(sp_n))
     print("no gaps." if not gaps else "{0} gap(s) -- printed above.".format(gaps))
     print("Written to sd_divisions/sd_votes, not `items`: structurally "
           "cannot reach the Slack digest.")

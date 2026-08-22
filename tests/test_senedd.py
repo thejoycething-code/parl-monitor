@@ -130,3 +130,40 @@ class VoteTests(unittest.TestCase):
         for table in ("items", "mp_events"):
             for verb in ("INTO {0} ", "INTO {0}(", "UPDATE {0} "):
                 self.assertNotIn(verb.format(table), source)
+
+
+class TranscriptTests(unittest.TestCase):
+    def test_speeches_parse_with_attribution(self):
+        # reuse the live probe capture committed as the votes fixture's
+        # sibling: parse the real transcript sample stored below.
+        text = load("senedd_transcript-fixture")
+        speeches = senedd.parse_transcript(text)
+        self.assertTrue(speeches)
+        s = speeches[0]
+        self.assertTrue(s.member_id)
+        self.assertTrue(s.member_name)
+        self.assertTrue(s.text)
+        self.assertEqual(s.dated, "2026-07-15")
+
+    def test_chair_furniture_is_skipped(self):
+        """Blocks without a Member_Id are procedural; they must not become
+        ledger rows."""
+        text = ("<XML_Plenary_English><Meeting_ID>1</Meeting_ID>"
+                "<MeetingDate>2026-07-15T13:30:01</MeetingDate>"
+                "<Contribution_ID>9</Contribution_ID><Member_Id></Member_Id>"
+                "<Contribution_English>Order.</Contribution_English>"
+                "</XML_Plenary_English>")
+        self.assertEqual(senedd.parse_transcript(text), [])
+
+    def test_older_parliament_wrapper_tolerated(self):
+        """The votes trap, pre-applied: older transcript exports embed the
+        parliament name in the wrapper."""
+        text = ("<XML_Plenary-SixthSenedd_English><Meeting_ID>1</Meeting_ID>"
+                "<MeetingDate>2025-01-01T13:30:01</MeetingDate>"
+                "<Contribution_ID>7</Contribution_ID><Member_Id>5</Member_Id>"
+                "<Member_name_English>A Member</Member_name_English>"
+                "<Contribution_English>On the Cass review.</Contribution_English>"
+                "</XML_Plenary-SixthSenedd_English>")
+        sp = senedd.parse_transcript(text)
+        self.assertEqual(len(sp), 1)
+        self.assertEqual(sp[0].key, "sdc7")

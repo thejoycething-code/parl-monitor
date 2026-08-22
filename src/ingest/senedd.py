@@ -42,6 +42,8 @@ QUESTION_URL = "https://record.senedd.wales/WrittenQuestion/{0}"
 XML_INDEX_URL = ("https://record.senedd.wales/XMLExport/?committee={0}&page={1}")
 VOTES_URL = ("https://record.senedd.wales/XMLExport/Download?meetingID={0}"
              "&xmlDownloadType=Votes")
+TRANSCRIPT_URL = ("https://record.senedd.wales/XMLExport/Download?meetingID={0}"
+                  "&xmlDownloadType=EnglishTranscript")
 SIXTH_SENEDD = 700
 SEVENTH_SENEDD = 908
 
@@ -240,3 +242,45 @@ def fetch_votes(client, meeting_id, timeout=90):
     return parse_votes_xml(client.get_text(
         VOTES_URL.format(meeting_id), "senedd",
         "votes-{0}".format(meeting_id), timeout=timeout, archive=False))
+
+
+@dataclass
+class SdSpeech:
+    key: str            # 'sdc<Contribution_ID>'
+    member_id: str
+    member_name: str
+    dated: str
+    heading: str        # Agenda_item_english
+    text: str           # Contribution_English, tags stripped
+
+
+def parse_transcript(text):
+    """Attributed speeches from one sitting's English transcript XML.
+
+    Blocks without a Member_Id are chair/procedural furniture and are
+    skipped. The wrapper embeds the parliament name in older exports, the
+    same trap as the votes XML, so the pattern is tolerant.
+    """
+    out = []
+    for block in re.findall(
+            r"<XML_Plenary[^>]*_English>(.*?)</XML_Plenary[^>]*_English>",
+            text, re.S):
+        mid = _field(block, "Member_Id")
+        body = _field(block, "Contribution_English") or ""
+        if not mid or not body:
+            continue
+        body = _html.unescape(re.sub(r"<[^>]+>", " ", body))
+        out.append(SdSpeech(
+            key="sdc{0}".format(_field(block, "Contribution_ID")),
+            member_id=mid,
+            member_name=_field(block, "Member_name_English") or "",
+            dated=(_field(block, "MeetingDate") or "")[:10],
+            heading=_field(block, "Agenda_item_english") or "",
+            text=" ".join(body.split())))
+    return out
+
+
+def fetch_transcript(client, meeting_id, timeout=120):
+    return parse_transcript(client.get_text(
+        TRANSCRIPT_URL.format(meeting_id), "senedd",
+        "transcript-{0}".format(meeting_id), timeout=timeout, archive=False))

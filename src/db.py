@@ -423,6 +423,18 @@ CREATE TABLE IF NOT EXISTS sd_votes (
   result TEXT,                    -- For | Against | Abstain
   PRIMARY KEY (division_key, member_id)
 );
+-- Senedd speech ledger: attributed plenary contributions matching the
+-- taxonomy, passage-filtered. Activity evidence only -- the watching-brief
+-- rule: no stance scoring, a speech never places, it gives a dated quotable
+-- excerpt.
+CREATE TABLE IF NOT EXISTS sd_events (
+  key TEXT PRIMARY KEY,           -- 'sdc<Contribution_ID>'
+  member_id TEXT NOT NULL, member_name TEXT,
+  dated TEXT, heading TEXT,
+  areas TEXT, matched_terms TEXT,
+  excerpt TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -453,6 +465,7 @@ TABLES = (
     "sd_members",
     "sd_divisions",
     "sd_votes",
+    "sd_events",
     "ni_items",
     "ni_members",
     "ni_affiliations",
