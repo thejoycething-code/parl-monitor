@@ -1,0 +1,65 @@
+# Senedd meaning lines -- what a For or Against MEANS, per division.
+# Same contract as ni_stance/sp_stance: a HUMAN settles what a vote means;
+# `draft: true` places nobody; entries without for/against values are
+# NOT PLACEABLE and place nobody while documenting why. Stance values -2..2
+# from CitizenGO's viewpoint. Divisions are keyed on sd_divisions.key (the
+# export's Contribution_ID), with title, date and result quoted.
+
+divisions:
+  - key: "623756"
+    title: "Member Debate under SO 11.21(iv): assisted dying"
+    dated: "2024-10-23"
+    result: "19 for / 26 against / 9 abstain -- Motion rejected"
+    # CONFIRMED 2026-08-21, direction verified from the transcript (meeting
+    # 14144): Julie Morgan moved the PRO-assisted-dying motion, jointly with
+    # James Evans, Heledd Fychan and Adam Price, explicitly tied to the
+    # Leadbeater Bill then before Westminster. The chamber rejected it on a
+    # free vote (every party split: Labour 12/10, Plaid 6/4, Con 0/10).
+    # Weight 1: an expression-of-view motion, not legislation -- substantive
+    # but below a bill-stage vote. Abstentions and non-votes place nobody.
+    "for": -1
+    why_for: >
+      Voted for the Senedd's cross-party motion supporting assisted dying,
+      moved in step with the Leadbeater Bill at Westminster.
+    against: 1
+    why_against: >
+      Voted down the assisted dying motion -- Wales's only chamber
+      expression on the substance, rejected 19-26.
+
+  - key: "751826"
+    title: "TIA Bill LCM: amendment 1 (Plaid)"
+    dated: "2026-02-24"
+    result: "25 for / 12 against / 16 abstain -- agreed"
+    # NOT PLACEABLE -- the whole LCM family (751826, 751832, 751837, 751866)
+    # is the Scottish S6M-20037 shape with Welsh evidence attached. The
+    # movers DISCLAIMED the moral question in terms (Mabon ap Gwynfor: "It
+    # does not involve deciding whether assisted dying is right or wrong...
+    # this isn't a vote on the principles of the Bill"), the amendments are
+    # Plaid's devolution-framing amendments, and the splits are
+    # constitutional coalitions, not conscience lobbies: amendment 1 carried
+    # by Plaid 11 + Con 13 AGAINST a Labour whip, while the same chamber's
+    # substantive AD vote split every party. The same members sit in
+    # different lobbies across the two questions, which is the proof the
+    # LCM votes cannot discriminate on our issue.
+
+  - key: "751832"
+    title: "TIA Bill LCM: amendment 2 (Plaid)"
+    dated: "2026-02-24"
+    result: "13 for / 25 against / 15 abstain -- rejected"
+    # NOT PLACEABLE -- see 751826.
+
+  - key: "751837"
+    title: "TIA Bill LCM: amendment 3 (Plaid)"
+    dated: "2026-02-24"
+    result: "12 for / 25 against / 16 abstain -- rejected"
+    # NOT PLACEABLE -- see 751826.
+
+  - key: "751866"
+    title: "TIA Bill LCM: motion as amended"
+    dated: "2026-02-24"
+    result: "28 for / 23 against / 2 abstain -- agreed"
+    # NOT PLACEABLE -- see 751826. The final consent split (Labour 21 for,
+    # Con 13 against, Plaid 7/4) bears no resemblance to the free-vote
+    # scatter on the substance: it is a party question about consent
+    # mechanics, and reading it as an assisted dying position would misfile
+    # most of the chamber.

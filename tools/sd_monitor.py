@@ -98,8 +98,18 @@ def main():
         print("  {0} division(s) with per-member votes ({1} positions); {2} "
               "on our ground".format(dv, nv, nours))
         print("  by DEBATE TITLE -- coarser than a motion-text join; phase 3")
-        print("  transcripts sharpen it. No meaning lines yet: every division")
-        print("  is evidence, none places (config/sd_stance.yaml when built).\n")
+        print("  transcripts sharpen it.")
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import sd_5ca
+        entries = sd_5ca.load_stance()
+        placing = sum(1 for e in entries.values()
+                      if not e.get("draft") and (e.get("for") is not None
+                                                 or e.get("against") is not None))
+        drafts = sum(1 for e in entries.values() if e.get("draft"))
+        print("  Meaning lines (config/sd_stance.yaml): {0} entries -- {1} "
+              "place, {2} draft,".format(len(entries), placing, drafts))
+        print("  {0} NOT PLACEABLE; the sheet is tools/sd_5ca.py, never "
+              "posted.\n".format(len(entries) - placing - drafts))
         for r in conn.execute("SELECT dated,title,total_for,total_against,"
                               "result FROM sd_divisions WHERE areas IS NOT "
                               "NULL AND areas != '[]' AND areas NOT IN "

@@ -203,3 +203,86 @@ class BillTests(unittest.TestCase):
         self.assertIn("Bill|Act", source)
         for table in ("items", "mp_events"):
             self.assertNotIn("INTO {0} ".format(table), source)
+
+
+class SD5caTests(unittest.TestCase):
+    """The placement contract, third legislature: a human-confirmed meaning
+    line is the only thing that moves a Member into a column."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import sd_5ca
+        cls.m = sd_5ca
+
+    ENTRY = {"key": "623756", "for": -1, "why_for": "backed the AD motion",
+             "against": 1, "why_against": "voted it down"}
+
+    def test_a_draft_places_nobody(self):
+        draft = dict(self.ENTRY, draft=True)
+        self.assertEqual(self.m.vote_stance(draft, "For"), (None, None))
+        self.assertEqual(self.m.vote_stance(draft, "Against"), (None, None))
+
+    def test_a_confirmed_entry_places_both_lobbies(self):
+        self.assertEqual(self.m.vote_stance(self.ENTRY, "For")[0], -1)
+        self.assertEqual(self.m.vote_stance(self.ENTRY, "Against")[0], 1)
+
+    def test_absence_is_data_not_direction(self):
+        for v in ("Abstain", "DidNotVote"):
+            self.assertEqual(self.m.vote_stance(self.ENTRY, v), (None, None))
+
+    def test_conflicts_are_flagged_never_averaged(self):
+        col, conflict, best = self.m.place(
+            [(1, "2026-03-17", "a"), (-1, "2025-05-13", "b")])
+        self.assertTrue(conflict)
+        self.assertEqual(col, "+", "+1 and -1 is a flagged +1 (recency), "
+                                   "never a zero")
+
+    def test_stance_file_confirmation_state(self):
+        """Pins WHICH entries place. 623756 (the Oct 2024 member debate on
+        assisted dying) is the ONLY placeable Senedd division: direction was
+        verified from the transcript (Julie Morgan moved the pro-AD motion,
+        rejected 19-26 on a free vote). The four TIA Bill LCM divisions are
+        NOT PLACEABLE -- the movers disclaimed the moral question in terms
+        and the splits are constitutional coalitions (the S6M-20037
+        discipline, with Welsh cross-tab evidence). A NOT PLACEABLE entry
+        must never move a Member."""
+        entries = self.m.load_stance()
+        self.assertEqual(len(entries), 5)
+        e = entries["623756"]
+        self.assertFalse(e.get("draft"))
+        self.assertEqual((e["for"], e["against"]), (-1, 1))
+        for key in ("751826", "751832", "751837", "751866"):
+            entry = entries[key]
+            self.assertIsNone(entry.get("for"), key)
+            self.assertIsNone(entry.get("against"), key)
+            for result in ("For", "Against"):
+                self.assertEqual(self.m.vote_stance(entry, result),
+                                 (None, None), key)
+
+    def test_name_join_normalises_and_falls_back(self):
+        """The Record and parlparse disagree on names three ways: diacritics
+        (Sian/Sian-with-a-to-bach), inserted middle names ('Benjamin Hodge
+        Mckenna' vs 'Benjamin McKenna'), and casing. The join must absorb
+        all three -- and must REFUSE the fallback when first+last is
+        ambiguous."""
+        members = {
+            self.m.norm_name("Siân Gwenllian"): {"name": "Siân Gwenllian"},
+            self.m.norm_name("Benjamin McKenna"): {"name": "Benjamin McKenna"},
+            self.m.norm_name("John Smith"): {"name": "John Smith"},
+            self.m.norm_name("John Paul Smith"): {"name": "John Paul Smith"},
+        }
+        roster = self.m.Roster(members)
+        self.assertEqual(roster.lookup("Sian Gwenllian"),
+                         self.m.norm_name("Siân Gwenllian"))
+        self.assertEqual(roster.lookup("Benjamin Hodge Mckenna"),
+                         self.m.norm_name("Benjamin McKenna"))
+        self.assertIsNone(roster.lookup("John Andrew Smith"),
+                          "two Smiths share first+last: a miss, not a guess")
+        self.assertIsNone(roster.lookup("Y Llywydd / The Llywydd"))
+
+    def test_the_sheet_is_never_posted(self):
+        src = open(os.path.join(ROOT, "tools", "sd_5ca.py")).read()
+        for marker in ("slack", "webhook", "requests.post", "asana"):
+            self.assertNotIn(marker, src.lower())
+        self.assertIn("Never posted anywhere", src)

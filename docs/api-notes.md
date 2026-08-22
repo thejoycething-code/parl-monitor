@@ -1247,3 +1247,38 @@ What the probes then established:
   style register + latest-stage build.
 * **Committees: mgListCommittees.aspx answers** under the browser UA --
   the committee layer is unblocked when wanted.
+
+## Senedd 5CA: name join and the placeable-vote record (2026-08-22)
+
+`tools/sd_5ca.py` + `config/sd_stance.yaml` built. Findings that will bite
+again if forgotten:
+
+* **The Record vs parlparse name mismatch has three shapes**: diacritics
+  (`Sian Gwenllian` vs `Siân Gwenllian` — NFKD strip fixes it), inserted
+  middle names (`Benjamin Hodge Mckenna` vs `Benjamin McKenna`,
+  `Dafydd Trystan Davies` vs `Dafydd Davies` — first+last-token fallback,
+  refused when the pairing is ambiguous among sitting Members), and two
+  names with **no roster row at all**: `Y Llywydd / The Llywydd` (the chair,
+  recorded by office) and `Eluned Morgan`, whom parlparse stores as
+  **"Mair Eluned"** with the surname missing entirely (end_date 2026-04-08,
+  so a former Member either way — but the parlparse record itself is
+  malformed, worth remembering if she reappears).
+* **Most unmatched voters are former Members**, not join failures: area 2's
+  divisions predate the May 2026 election (the AD member debate is Oct 2024,
+  the LCM family Feb 2026 — both Sixth Senedd), so 31 of 61 AD voters no
+  longer sit. The sheet reports the two buckets separately.
+* **The one placeable division is 623756** (member debate on assisted dying,
+  2024-10-23, rejected 19-26-9). Direction verified from meeting 14144's
+  transcript: Julie Morgan moved the PRO-assisted-dying motion jointly with
+  James Evans, Heledd Fychan and Adam Price, explicitly tied to the
+  Leadbeater Bill. Cross-check that confirms the sheet: the − column comes
+  out as exactly the surviving co-sponsors plus known supporters; the +
+  column includes all Conservatives (0 For on the day).
+* **The four TIA Bill LCM divisions are NOT PLACEABLE** (751826/751832/
+  751837/751866): Mabon ap Gwynfor disclaimed the moral question in terms
+  ("It does not involve deciding whether assisted dying is right or wrong"),
+  and the splits are constitutional coalitions — amendment 1 carried by
+  Plaid + Con against a Labour whip, while the substantive AD vote split
+  every party. Mabon himself voted AGAINST assisted dying in Oct 2024 and
+  moved the LCM amendments in 2026: the same member on "opposite" sides is
+  the proof the LCM votes cannot discriminate on our issue.
