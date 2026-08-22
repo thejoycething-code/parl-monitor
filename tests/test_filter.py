@@ -476,3 +476,42 @@ class ReligiousEducationTermTests(unittest.TestCase):
                       "bursaries").issue_areas or [], [],
             "the words apart must not match: it is the phrase that is "
             "precise")
+
+
+class VawgTermTests(unittest.TestCase):
+    """VAWG vocabulary joined area 5 tier 2 at v1.1 (Christopher,
+    2026-08-22). Tier 2 on the Equality Act logic: 72 devolved + 103
+    Westminster rows measured, and MOST are strategy administration and
+    awareness weeks -- triage gates them; the definition-of-woman and
+    single-sex-service slice is what scores."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(
+            os.path.join(ROOT, "config", "taxonomy.yaml"))
+        cls.wl = filt.load_watchlist(
+            os.path.join(ROOT, "config", "watchlist.yaml"))
+
+    def _res(self, text):
+        return filt.filter_item(self.tax, self.wl, text)
+
+    def test_the_phrase_is_tier_2_area_5(self):
+        r = self._res("a strategy to prevent violence against women and "
+                      "girls in Scotland")
+        self.assertIn(5, r.issue_areas or [])
+        self.assertEqual(r.tier, 2)
+
+    def test_vawdasv_is_the_welsh_statutory_frame(self):
+        r = self._res("an update on the VAWDASV national indicators")
+        self.assertIn(5, r.issue_areas or [])
+
+    def test_acronyms_are_case_sensitive(self):
+        self.assertEqual(self._res("the vawg conference").issue_areas or [],
+                         [])
+
+    def test_the_bare_shorter_phrase_does_not_match(self):
+        self.assertEqual(
+            self._res("a history of violence against women in "
+                      "literature").issue_areas or [], [],
+            "only the full statutory phrase matches -- 'violence against "
+            "women' alone is not a term")

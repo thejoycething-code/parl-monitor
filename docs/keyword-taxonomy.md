@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 1.0 | 22 August 2026 | Owner: Christopher**
+**Version 1.1 | 22 August 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -56,8 +56,8 @@ Every item that survives the filter is written to the store with its issue tags 
 ### 5. Sex-based rights and single-sex spaces {#5_sex_based_rights}
 
 - **Tier 1:** "single-sex space*"; "single-sex service*"; "single-sex ward*"; "Gender Recognition Act"; "gender recognition certificate"; "self-identification"; "self-ID"; "biological sex"; "legal definition of woman"; "For Women Scotland"; "women's sport"; "female category"; "GRA reform"; "Gender Recognition Reform"
-- **Tier 2:** "Equality Act 2010"; "Sullivan Review"; "sex and gender data"; "changing room*"; "toilet provision"; transgender; "protected characteristic"; "women's prison*"; EHRC; "gender reassignment"
-- **Notes:** Equality Act mentions are extremely frequent; triage should score 2+ only where sex/gender definitions, single-sex exceptions or guidance revisions are at stake.
+- **Tier 2:** "Equality Act 2010"; "Sullivan Review"; "sex and gender data"; "changing room*"; "toilet provision"; transgender; "protected characteristic"; "women's prison*"; EHRC; "gender reassignment"; "violence against women and girls"; VAWG; VAWDASV
+- **Notes:** Equality Act mentions are extremely frequent; triage should score 2+ only where sex/gender definitions, single-sex exceptions or guidance revisions are at stake. VAWG vocabulary joined tier 2 at v1.1 (Christopher, 2026-08-22), prompted by Scotland's "Protections in the justice system for women and girls" criminal-law consultation passing unmarked: measured first -- 72 devolved rows + 103 Westminster ledger rows, and MOST are strategy administration and awareness weeks (16 Days of Activism motions, VAWDASV funding plumbing), so tier 2 on the Equality Act logic; triage should score 2+ only where sex/gender definitions, single-sex services and refuges, or criminal-law protection of women and girls is at stake ("what definition of a woman is the Welsh Government using when it plans to tackle violence against women" is the shape that scores). VAWG and VAWDASV are all-caps case-sensitive; VAWDASV is the Welsh statutory frame ("Violence Against Women, Domestic Abuse and Sexual Violence") that the spelled-out English phrase never matches -- the NI-vocabulary lesson again.
 
 ### 6. Parental rights and education {#6_parental_rights_education}
 

@@ -1358,3 +1358,21 @@ direction on parental rights needs the text, not the title). Westminster
 ledger rows never captured under old vocabulary stay uncaptured until a
 backfill re-run; the weekly applies v1.0 going forward. The NI RE Core
 Syllabus consultation (the prompt for the term) closes 2026-09-30.
+
+## Taxonomy v1.1: VAWG vocabulary at tier 2 (2026-08-22)
+
+"violence against women and girls" + VAWG + VAWDASV, area 5 tier 2 --
+measured first: 72 devolved + 103 Westminster rows, MOSTLY strategy
+administration and awareness weeks, so the Equality Act treatment (triage
+gates; the definition-of-woman / single-sex-services slice scores).
+VAWDASV is the Welsh statutory frame the English phrase never matches.
+Reclassify marked the Scottish "Protections in the justice system for
+women and girls" consultation (the prompt) and surfaced TWO tier-2
+divisions, held from display by the tier gate but stored: S6M-19970.2
+(Conservative amendment to the VAWG motion, defeated 31-71, bundling
+Supreme Court sex-definition compliance + Pam Gosal's Domestic Abuse Bill
++ grooming gangs -- a meaning-line candidate needing a read; possibly the
+S7M-00446.2 omnibus shape, possibly the S6M-18016.1 placeable shape) and
+S7M-00356.5 (third-sector funding, VAWG incidental). The earlier 10-minute
+"hang" on the combined reclassify heredoc did not reproduce -- the same
+pass ran in 0.6s standalone; wedged shell, not a code path.
