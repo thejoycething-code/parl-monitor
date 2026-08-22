@@ -488,6 +488,43 @@ divisions:
       Voted to deny the Bill its financial resolution -- the procedural
       route to killing it, chosen only by its most committed opponents.
 
+  - reference: "S6M-19970.2"
+    title: "Amendment: FWS sex-definition compliance + grooming gangs inquiry"
+    dated: "2025-12-02"
+    result: "31 aye / 71 no / 21 abstain -- Defeated"
+    text: >
+      As an amendment to S6M-19970 (Uniting Local and National Efforts
+      Across Sectors to End Violence Against Women and Girls), insert at
+      end "...urges all public bodies to ensure that they are following
+      the Supreme Court's judgment on the definition of 'sex'; raises
+      concern about the reports of grooming gangs in Scotland, and calls,
+      therefore, on the Scottish Government to urgently establish an
+      inquiry to understand the extent of the abuse and the action
+      necessary to tackle it."
+    # CONFIRMED 2026-08-22 -- the S6M-18016.1 shape, followed deliberately.
+    # Insert-at-end (Tess White, Con), so nothing was struck: the vote is
+    # purely on ADDING the clauses, whose operative content is ours twice
+    # over -- Supreme Court sex-definition compliance (area 5) and the call
+    # for a grooming gangs inquiry (area 6). The partisan-critique clauses
+    # ("questions the lack of Scottish Government support") are the same
+    # weight 18016.1 carried and did not stop that line placing. The
+    # alignment tells repeat exactly: Labour's 20 ABSTAINED rather than
+    # reject (the bundle's critique clauses, not its substance, were their
+    # objection), and the aye lobby beyond the whipped Conservatives is
+    # Fergus Ewing, Ash Regan and Jeremy Balfour -- ex-SNP/Alba and
+    # independent members CHOOSING it, the target-shaped signal. A no is
+    # weaker than an aye (a government lobby votes down opposition-critique
+    # amendments as a matter of course), which is what weight 1 already
+    # expresses; recorded here so nobody re-litigates it upward.
+    aye: 1
+    why_aye: >
+      Voted to commit public bodies to the For Women Scotland sex
+      definition and to demand a grooming gangs inquiry in Scotland.
+    "no": -1
+    why_no: >
+      Voted down the amendment carrying Supreme Court sex-definition
+      compliance and the grooming gangs inquiry call.
+
 # Motion sponsorship. Proposing or co-signing scores against `sponsored:`;
 # the SEQUENCE changes evidence weight (proposer > co-signer), never the
 # direction -- the NI rule. Co-signatories arrive per-id via sp_supports.
