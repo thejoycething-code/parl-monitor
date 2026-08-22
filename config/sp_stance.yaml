@@ -414,6 +414,80 @@ divisions:
     # opponents. The Scotland Needs Reform shape exactly: an omnibus vote
     # cannot discriminate on one clause.
 
+  - reference: "S6M-20813"
+    title: "Children (Withdrawal from Religious Education...) Bill: Stage 3"
+    dated: "2026-02-17"
+    result: "66 aye / 51 no / 7 abstain -- Carried"
+    text: >
+      That the Parliament agrees that the Children (Withdrawal from
+      Religious Education and Amendment of UNCRC Compatibility Duty)
+      (Scotland) Bill be passed.
+    # CONFIRMED 2026-08-22. Read first: the Bill NARROWS the parental
+    # conscience clause in s.9 of the Education (Scotland) Act 1980 --
+    # it removes the parental right of withdrawal from religious and moral
+    # education, subjects the surviving withdrawal right (religious
+    # observance) to the child's opt-back-in over the parents' decision,
+    # and extends the UNCRC compatibility duty (Stephen Kerr at Stage 3:
+    # "It ... subjects the long-standing parental right of withdrawal ...
+    # to the veto of the child"; "The conscience clause ... located the
+    # right of withdrawal with the parent because matters of observance
+    # engage conscience and upbringing"). For Women Scotland briefed
+    # against ahead of the vote. Passage weight, mirroring S6M-21005.
+    # The Green abstention is NOT friendly: their Stage 1 complaint was
+    # that the Bill gave children no INDEPENDENT right to withdraw -- it
+    # did not secularise far enough. Abstentions place nobody either way.
+    aye: -2
+    why_aye: >
+      Voted to pass the Bill narrowing the parental conscience clause:
+      withdrawal from religious and moral education removed, the surviving
+      observance right subject to the child's veto.
+    "no": 2
+    why_no: >
+      Voted against passing the Bill that narrowed parents' right of
+      withdrawal from religious education and observance.
+
+  - reference: "S6M-19866"
+    title: "Children (Withdrawal from Religious Education...) Bill: Stage 1"
+    dated: "2025-11-25"
+    result: "66 aye / 29 no / 21 abstain -- Carried"
+    text: >
+      That the Parliament agrees to the general principles of the Children
+      (Withdrawal from Religious Education and Amendment of UNCRC
+      Compatibility Duty) (Scotland) Bill.
+    # CONFIRMED 2026-08-22. Stage 1 weight mirrors S6M-17416: general
+    # principles, weaker than the passage question. Cross-tab: no Stage 1
+    # aye became a Stage 3 no (60 stayed aye, 6 Greens moved to abstain),
+    # so the direction is clean; Labour's 19 abstentions here place nobody.
+    aye: -1
+    why_aye: >
+      Supported the general principles of the Bill narrowing the parental
+      conscience clause at Stage 1.
+    "no": 1
+    why_no: >
+      Opposed the Bill's general principles at Stage 1 -- before amendment,
+      on the principle itself.
+
+  - reference: "S6M-20099"
+    title: "Children (Withdrawal from RE...) Bill: financial resolution"
+    dated: "2025-12-11"
+    result: "79 aye / 27 no -- Carried"
+    text: >
+      That the Parliament, for the purposes of any Act of the Scottish
+      Parliament resulting from the Children (Withdrawal from Religious
+      Education and Amendment of UNCRC Compatibility Duty) (Scotland) Bill,
+      agrees to any expenditure of a kind referred to in Rule 9.12.3A.
+    # CONFIRMED 2026-08-22 -- ONE-SIDED, the S6M-19456 discipline, and the
+    # cross-tab reproduces it exactly: all 27 FR-noes were Stage 3 noes
+    # (24) or absent (3) -- zero supporters -- while 17 of the 79 FR-ayes
+    # were Labour members who voted the Bill DOWN at Stage 3. An aye value
+    # would fire false conflict flags on 17 allies; a no marks the hard
+    # core willing to kill the Bill procedurally. So no aye value, on
+    # purpose. Intensity, not placement: the 24 already sit at +2.
+    "no": 1
+    why_no: >
+      Voted to deny the Bill its financial resolution -- the procedural
+      route to killing it, chosen only by its most committed opponents.
+
 # Motion sponsorship. Proposing or co-signing scores against `sponsored:`;
 # the SEQUENCE changes evidence weight (proposer > co-signer), never the
 # direction -- the NI rule. Co-signatories arrive per-id via sp_supports.
