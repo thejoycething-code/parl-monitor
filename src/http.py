@@ -144,6 +144,18 @@ class HttpClient:
         self.raw_dir = str(raw_dir)
         self.contact = contact
         self.user_agent = USER_AGENT_TEMPLATE.format(contact=contact)
+        # Per-host User-Agent overrides. The rule remains the honest
+        # CitizenGO UA everywhere; business.senedd.wales is the ONE exception,
+        # authorised by Christopher on 2026-08-21: its WAF rejects tool UAs
+        # generically, it is the only source for Senedd statements of opinion,
+        # bills and committees, and the data is public with no login. Requests
+        # stay throttled at the normal per-host rate.
+        self.host_user_agents = {
+            "business.senedd.wales": (
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127 "
+                "Safari/537.36"),
+        }
         self.archive_date = archive_date  # e.g. "2026-08-01"; None -> today at write time
         self.default_timeout = default_timeout
         self.throttle = throttle
@@ -223,7 +235,7 @@ class HttpClient:
         payload = body.encode("utf-8") if isinstance(body, str) else body
         request = urllib.request.Request(
             url, data=payload, method="POST",
-            headers={"User-Agent": self.user_agent,
+            headers={"User-Agent": self._ua_for(url),
                      "Content-Type": "application/json",
                      "Accept": "application/json", **(headers or {})})
         with state.semaphore:
@@ -245,6 +257,10 @@ class HttpClient:
                 state = _HostState(self.host_concurrency)
                 self._hosts[host] = state
             return state
+
+    def _ua_for(self, url):
+        host = urlsplit(url).netloc
+        return self.host_user_agents.get(host, self.user_agent)
 
     def _fetch(self, url, feed, slug, timeout, archive=True):
         timeout = self.default_timeout if timeout is None else timeout
@@ -310,7 +326,7 @@ class HttpClient:
         request = urllib.request.Request(
             url,
             headers={
-                "User-Agent": self.user_agent,
+                "User-Agent": self._ua_for(url),
                 "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",
                 **(extra_headers or {}),
             },

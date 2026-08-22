@@ -1223,3 +1223,27 @@ Classification is by DEBATE TITLE -- coarser than Holyrood's motion-text
 join; the vote names carry the subject but not the operative words. Phase 3
 (transcript XMLs from the same index) sharpens it. No sd_stance.yaml yet:
 every division is evidence, none places.
+
+## Senedd shortlist probes under the authorised browser UA (2026-08-21)
+
+Christopher authorised a browser User-Agent for business.senedd.wales ONLY
+(the WAF rejects tool UAs generically; public data, no login; requests stay
+throttled). Implemented as HttpClient.host_user_agents -- a per-host override
+with the honest CitizenGO UA remaining the rule everywhere else.
+
+What the probes then established:
+
+* **Statements of Opinion: not found, possibly discontinued.** No route on
+  the Record, no nav entry under senedd.wales/senedd-business/, no recent
+  items in mgWhatsNew, and the site search returns only passing mentions.
+  They existed under Standing Order 10.10 in earlier Senedds; the Seventh may
+  simply not use them. Do not build against a guessed route; revisit if one
+  ever appears in mgWhatsNew.
+* **Bills: route found, buildable.** senedd.wales/senedd-business/legislation/
+  (honest UA!) links per-bill ModernGov tracking pages
+  (business.senedd.wales/mgIssueHistoryHome.aspx?IId=N). The landing page
+  lists recently completed Acts; current bills need the listing one level
+  deeper. Stage history lives on the per-bill pages. This is the Holyrood-
+  style register + latest-stage build.
+* **Committees: mgListCommittees.aspx answers** under the browser UA --
+  the committee layer is unblocked when wanted.
