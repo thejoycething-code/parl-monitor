@@ -853,7 +853,11 @@ def render_edition(week_commencing, db_name, draft=False):
 
     week_events = whatson.fetch_events(client, week_start, week_end)
     mode = "recess" if whatson.is_recess(week_events) else "normal"
-    edition = digest.Edition(week_commencing=week_commencing, number=1, mode=mode)
+    number = 1 + conn.execute("SELECT COUNT(*) FROM editions WHERE "
+                              "week_commencing < ?",
+                              (week_commencing,)).fetchone()[0]
+    edition = digest.Edition(week_commencing=week_commencing, number=number,
+                             mode=mode)
     edition.taxonomy_version = filt.load_taxonomy(
         os.path.join(ROOT, "config", "taxonomy.yaml")).version
 

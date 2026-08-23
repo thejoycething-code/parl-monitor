@@ -46,8 +46,12 @@ def summarise_edition(markdown, week):
     return summary, all_acts, deadlines
 
 
-def edition_number(conn):
-    return conn.execute("SELECT COUNT(*) FROM editions").fetchone()[0]
+def edition_number(conn, week):
+    """1 + editions before this week: order-independent, so a re-render or a
+    post-render call agree (bare COUNT(*) said 'Edition 1' forever in the
+    file header and drifted by call order -- found 2026-08-23)."""
+    return 1 + conn.execute("SELECT COUNT(*) FROM editions WHERE "
+                            "week_commencing < ?", (week,)).fetchone()[0]
 
 
 def deadlines_from_store(conn, week, days=21):
@@ -77,7 +81,7 @@ def main():
 
     from src import db
     conn = db.connect(os.path.join(ROOT, "data", run_weekly._db_name(week)))
-    number = edition_number(conn)
+    number = edition_number(conn, week)
     store_deadlines = deadlines_from_store(conn, week)
     scrub_names = partner.owners_from_store(conn)
 

@@ -246,3 +246,36 @@ class MpSectionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EditionNumberTests(unittest.TestCase):
+    """The header number is 1 + editions BEFORE this week -- order-
+    independent, so a re-render of week 3 says Edition 3 whether its own
+    row exists yet or not. Bare COUNT(*) said 'Edition 1' in every file
+    header (the hardcode) and drifted by call order (the Monday path);
+    both published 2026 editions carry the wrong header as a result."""
+
+    def _conn(self):
+        import sqlite3
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE editions (week_commencing TEXT PRIMARY "
+                     "KEY, generated_at TEXT, mode TEXT, path TEXT)")
+        for w in ("2026-08-03", "2026-08-10", "2026-08-17"):
+            conn.execute("INSERT INTO editions VALUES (?, '', 'recess', '')",
+                         (w,))
+        return conn
+
+    def test_re_render_keeps_its_number(self):
+        import run_monday
+        self.assertEqual(run_monday.edition_number(self._conn(),
+                                                   "2026-08-17"), 3)
+
+    def test_a_new_week_advances(self):
+        import run_monday
+        conn = self._conn()
+        self.assertEqual(run_monday.edition_number(conn, "2026-08-24"), 4)
+        conn.execute("INSERT INTO editions VALUES ('2026-08-24', '', "
+                     "'normal', '')")
+        self.assertEqual(run_monday.edition_number(conn, "2026-08-24"), 4,
+                         "inserting this week's own row must not inflate "
+                         "the number")
