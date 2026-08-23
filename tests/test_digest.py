@@ -281,36 +281,57 @@ class EditionNumberTests(unittest.TestCase):
                          "the number")
 
 
-class PqWindowTests(unittest.TestCase):
-    """Written questions render only when answered in the 7 days before the
-    edition's Monday (Christopher, 2026-08-23). Without the window every
-    scored PQ re-rendered in every edition forever -- the 17 Aug edition
-    showed answers from 28 July. [Monday-7, Monday): a Monday-morning
-    answer rolls forward, never shows twice."""
+class SectionWindowTests(unittest.TestCase):
+    """Dated sections render only within a window before the edition's
+    Monday (Christopher, 2026-08-23). Without one every scored item
+    re-rendered in every edition forever -- the 17 Aug edition showed PQ
+    answers from 28 July. Questions and statements get [Monday-7, Monday);
+    EDMs get [Monday-60, Monday) because they gather signatures over
+    weeks. A Monday-morning event rolls forward, never shows twice, and a
+    dateless row cannot prove it is fresh."""
 
-    def _store(self):
+    def _store(self, feed, dates):
         import sqlite3
         from src import db as _db
         conn = _db.init_db(sqlite3.connect(":memory:"))
         conn.row_factory = sqlite3.Row
-        for iid, answered in (("pq:old", "2026-07-28"),
-                              ("pq:in-window", "2026-08-11"),
-                              ("pq:window-edge-monday", "2026-08-17"),
-                              ("pq:no-date", None)):
+        for iid, when in dates:
             conn.execute(
                 "INSERT INTO items (id, captured_at, source_feed, item_type, "
                 "title, url, event_date, issue_areas, triage_score, extra) "
-                "VALUES (?, '', 'pq', 'pq', ?, '', ?, '[7]', 2, ?)",
-                (iid, iid, answered,
+                "VALUES (?, '', ?, ?, ?, '', ?, '[7]', 2, ?)",
+                (iid, feed, feed, iid, when,
                  '{{"member": "A Member", "heading": "{0}"}}'.format(iid)))
         return conn
 
-    def test_only_the_preceding_week_renders(self):
+    def _render(self, feed, dates):
         import run_weekly
         edition = digest.Edition(week_commencing="2026-08-17", number=3,
                                  mode="recess")
-        run_weekly.sections_from_store(self._store(), edition)
-        shown = [r["heading"] for r in edition.pq_rows]
-        self.assertEqual(shown, ["pq:in-window"],
+        run_weekly.sections_from_store(self._store(feed, dates), edition)
+        return edition
+
+    def test_pqs_render_the_preceding_week_only(self):
+        e = self._render("pq", (("pq:old", "2026-07-28"),
+                                ("pq:in-window", "2026-08-11"),
+                                ("pq:window-edge-monday", "2026-08-17"),
+                                ("pq:no-date", None)))
+        self.assertEqual([r["heading"] for r in e.pq_rows],
+                         ["pq:in-window"],
                          "28 July is stale, a Monday answer rolls forward, "
                          "and a dateless row cannot prove it is fresh")
+
+    def test_statements_get_the_same_week(self):
+        e = self._render("wms", (("wms:old", "2026-08-09"),
+                                 ("wms:in-window", "2026-08-12"),
+                                 ("wms:no-date", None)))
+        self.assertEqual([l.text for l in e.statements], ["wms:in-window"])
+
+    def test_edms_get_sixty_days(self):
+        e = self._render("edm", (("edm:too-old", "2026-06-17"),
+                                 ("edm:weeks-old-still-shown", "2026-07-01"),
+                                 ("edm:fresh", "2026-08-12")))
+        self.assertEqual([l.text for l in e.edms],
+                         ["edm:weeks-old-still-shown", "edm:fresh"],
+                         "an EDM gathering signatures stays on the monitor "
+                         "for 60 days; 18 June has aged out")

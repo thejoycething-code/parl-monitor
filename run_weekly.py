@@ -604,21 +604,31 @@ def sections_from_store(conn, edition):
     edition.companion_url = (load_settings().get("partner_site_url") or "").rstrip("/")
     edition.companion_url = (edition.companion_url + "/questions.html"
                              if edition.companion_url else None)
-    # Written questions render ONLY when answered in the 7 days before this
-    # edition's Monday (Christopher, 2026-08-23): without a window, every
-    # scored PQ re-rendered in every edition forever -- the 17 Aug edition
-    # showed answers from 28 July. The window is [Monday-7, Monday), so a
-    # Monday-morning answer rolls to the next edition instead of showing
-    # twice. Everything stays in the store and the ledger regardless.
+    # Dated sections render ONLY within a window before this edition's
+    # Monday (Christopher, 2026-08-23): without one, every scored item
+    # re-rendered in every edition forever -- the 17 Aug edition showed PQ
+    # answers from 28 July. Windows are [Monday-N, Monday), so a
+    # Monday-morning event rolls to the next edition instead of showing
+    # twice, and a dateless row cannot prove it is fresh so it never
+    # renders. Questions and statements get the week; EDMs get 60 days
+    # (they gather signatures over weeks, so they stay on the monitor
+    # longer -- Christopher, same day). Everything stays in the store and
+    # the ledger regardless.
     week_start = datetime.date.fromisoformat(edition.week_commencing)
-    pq_window = ((week_start - datetime.timedelta(days=7)).isoformat(),
-                 week_start.isoformat())
+    window_days = {"pq": 7, "wms": 7, "edm": 60}
+
+    def in_window(feed, event_date):
+        days = window_days.get(feed)
+        if days is None:
+            return True
+        floor = (week_start - datetime.timedelta(days=days)).isoformat()
+        return bool(event_date) and floor <= event_date < week_start.isoformat()
+
     for r in rows:
         feed = r["source_feed"]
+        if not in_window(feed, r["event_date"]):
+            continue
         if feed == "pq":
-            answered = r["event_date"] or ""
-            if not (pq_window[0] <= answered < pq_window[1]):
-                continue
             extra = json.loads(r["extra"]) if r["extra"] else {}
             areas = json.loads(r["issue_areas"] or "[]")
             edition.pq_rows.append({
