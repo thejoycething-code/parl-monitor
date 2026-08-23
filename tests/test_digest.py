@@ -279,3 +279,38 @@ class EditionNumberTests(unittest.TestCase):
         self.assertEqual(run_monday.edition_number(conn, "2026-08-24"), 4,
                          "inserting this week's own row must not inflate "
                          "the number")
+
+
+class PqWindowTests(unittest.TestCase):
+    """Written questions render only when answered in the 7 days before the
+    edition's Monday (Christopher, 2026-08-23). Without the window every
+    scored PQ re-rendered in every edition forever -- the 17 Aug edition
+    showed answers from 28 July. [Monday-7, Monday): a Monday-morning
+    answer rolls forward, never shows twice."""
+
+    def _store(self):
+        import sqlite3
+        from src import db as _db
+        conn = _db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        for iid, answered in (("pq:old", "2026-07-28"),
+                              ("pq:in-window", "2026-08-11"),
+                              ("pq:window-edge-monday", "2026-08-17"),
+                              ("pq:no-date", None)):
+            conn.execute(
+                "INSERT INTO items (id, captured_at, source_feed, item_type, "
+                "title, url, event_date, issue_areas, triage_score, extra) "
+                "VALUES (?, '', 'pq', 'pq', ?, '', ?, '[7]', 2, ?)",
+                (iid, iid, answered,
+                 '{{"member": "A Member", "heading": "{0}"}}'.format(iid)))
+        return conn
+
+    def test_only_the_preceding_week_renders(self):
+        import run_weekly
+        edition = digest.Edition(week_commencing="2026-08-17", number=3,
+                                 mode="recess")
+        run_weekly.sections_from_store(self._store(), edition)
+        shown = [r["heading"] for r in edition.pq_rows]
+        self.assertEqual(shown, ["pq:in-window"],
+                         "28 July is stale, a Monday answer rolls forward, "
+                         "and a dateless row cannot prove it is fresh")
