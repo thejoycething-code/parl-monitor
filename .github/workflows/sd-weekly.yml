@@ -2,14 +2,14 @@ name: Senedd weekly
 on:
   schedule:
     # Thursday 06:00 UTC, retry 14:00. The Senedd sits Tuesday and Wednesday,
-    # so by Saturday the week's divisions and Hansard components are
-    # published, and the slot is clear of the Sunday pull (01:00-15:00 Sun),
+    # so by Thursday the week's divisions and transcripts are published,
+    # and the slot is clear of the Sunday pull (01:00-15:00 Sun),
     # the Monday publish (02:00-07:00 Mon) and the monthly UPR (3rd, 06:00).
     #
     # Deliberately SIMPLER than sunday-pull.yml, and why is worth recording:
     # no DST guard pair, because this is a pull with no publish attached and
     # nobody's morning depends on the London hour; no secrets file, because
-    # every NI endpoint is keyless and the filter is regex, not triage; no
+    # every Senedd endpoint is keyless and the filter is regex, not triage; no
     # last-chance Monday slot, because a stale NI store costs a week of
     # watching-brief freshness, not a missed edition.
     - cron: "0 6 * * 4"
@@ -105,5 +105,5 @@ jobs:
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/
-          git diff --cached --quiet || git commit -m "NI weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git diff --cached --quiet || git commit -m "Senedd weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           git push

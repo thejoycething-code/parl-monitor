@@ -104,5 +104,46 @@ class SidecarTests(unittest.TestCase):
                              "be committed")
 
 
+
+class CommitLabelTests(unittest.TestCase):
+    """Each workflow must label its own commits.
+
+    sd-weekly was sed-derived from ni-weekly and kept its commit message, so
+    Senedd run 32721990336 -- the very run that bootstrapped the release
+    asset -- landed as "NI weekly: 2026-08-24T11:30Z". Harmless to the data,
+    corrosive to the audit trail: the history said NI touched the store when
+    Wales did. The derivation shortcut is still right (it fixed sp-weekly's
+    day-one double miss); this is the guard that makes it safe.
+    """
+
+    EXPECTED = {
+        "ni-weekly.yml": "NI weekly",
+        "sd-weekly.yml": "Senedd weekly",
+        "sp-weekly.yml": "Holyrood weekly",
+        "sunday-pull.yml": "Sunday pull",
+        "monday-publish.yml": "Monday publish",
+        "upr-monthly.yml": "UPR monthly",
+    }
+
+    def test_each_workflow_names_itself_in_its_commit_message(self):
+        for name, label in self.EXPECTED.items():
+            text = workflow(name)
+            line = next((l for l in text.splitlines()
+                         if "git commit -m" in l), None)
+            self.assertIsNotNone(line, name + " has no commit step")
+            self.assertIn(label, line,
+                          "{0} commits as something else: {1}".format(
+                              name, line.strip()))
+
+    def test_no_workflow_borrows_another_legislature_label(self):
+        others = {"ni-weekly.yml": ("Senedd", "Holyrood"),
+                  "sd-weekly.yml": ("NI weekly", "Holyrood"),
+                  "sp-weekly.yml": ("NI weekly", "Senedd")}
+        for name, wrong in others.items():
+            line = next(l for l in workflow(name).splitlines()
+                        if "git commit -m" in l)
+            for label in wrong:
+                self.assertNotIn(label, line, name)
+
 if __name__ == "__main__":
     unittest.main()

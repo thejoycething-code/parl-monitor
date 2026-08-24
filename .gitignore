@@ -6,9 +6,13 @@
 # sprint, so it moved to a GitHub Release asset (tools/db_state.py). Its
 # provenance lives on as the committed data/parl-monitor.db.json sidecar
 # (size + sha256 + producing run), which is why that file must NEVER be
-# ignored. The ignore line for the db itself is added only once the first
-# asset is published -- untracking it earlier would leave a workflow with
-# no store at all.
+# ignored.
+#
+# Phase 2 done 2026-08-24: the first asset was published by Senedd weekly
+# run 32721990336, so the store itself is now ignored. A workflow gets it
+# from the release (tools/db_state.py --pull), which fails LOUDLY rather
+# than building an empty store if the asset is ever missing.
+data/parl-monitor.db
 config/secrets.yaml
 data/pull-logs/
 __pycache__/
