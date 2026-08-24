@@ -1491,3 +1491,15 @@ that pipes (backfill, ni-weekly, sd-weekly, sp-weekly), and a test asserts
 any workflow containing `| tee` also sets pipefail. If a step ever needs to
 tolerate a failure, say so with `continue-on-error`, which is visible in the
 run, rather than relying on a pipe to hide it.
+
+### Stance scoring after a backfill (2026-08-24)
+
+425 refs scored via `.github/workflows/score-stance.yml` (257 from the
+religious-education re-capture, the rest pre-existing backlog). First run
+scored 402 and lost one batch of 20 to a truncated JSON response -- the
+known `_salvage_objects` failure class; the scorer is idempotent, so a
+re-run picked up exactly the 23 outstanding and paid nothing twice. Final
+ledger distribution: ++ 3,130 / + 4,934 / 0 11,288 / - 4,292 / -- 1,652.
+
+The lesson worth keeping: "scored N; M batch(es) failed" is not an error to
+chase, it is an instruction to re-run. The tool says so itself.
