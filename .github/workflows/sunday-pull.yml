@@ -64,6 +64,13 @@ jobs:
       - name: Install dependencies
         if: env.SKIP != '1'
         run: pip install pyyaml
+      - name: Fetch the store
+        # The store is a release asset, not a tracked file (88MB against a
+        # 100MB hard push limit). The concurrency group above is what makes
+        # this safe: one writer at a time, repo-wide.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
       - name: Write secrets file
         if: env.SKIP != '1'
         run: |
@@ -84,6 +91,11 @@ jobs:
           WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t + datetime.timedelta(days=1) if t.weekday() == 6 else t - datetime.timedelta(days=t.weekday())).isoformat())")
           echo "Pulling for week commencing $WEEK"
           TRIAGE=auto python3 run_weekly.py --pull "$WEEK"
+      - name: Publish the store
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
       - name: Commit state
         if: env.SKIP != '1'
         run: |

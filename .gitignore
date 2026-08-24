@@ -1,6 +1,14 @@
-# Secrets never enter the repo. State (store + raw archive) is deliberately
-# TRACKED: workflow runs commit their own results, making provenance durable
-# and versioned. Only logs and scratch stay out.
+# Secrets never enter the repo. The RAW ARCHIVE is deliberately tracked:
+# workflow runs commit their own results, making provenance durable.
+#
+# The STORE (data/parl-monitor.db) is different as of 2026-08-24: it reached
+# 92MB against GitHub's 100MB hard push limit, growing ~15MB per build
+# sprint, so it moved to a GitHub Release asset (tools/db_state.py). Its
+# provenance lives on as the committed data/parl-monitor.db.json sidecar
+# (size + sha256 + producing run), which is why that file must NEVER be
+# ignored. The ignore line for the db itself is added only once the first
+# asset is published -- untracking it earlier would leave a workflow with
+# no store at all.
 config/secrets.yaml
 data/pull-logs/
 __pycache__/

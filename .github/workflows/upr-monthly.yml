@@ -31,6 +31,13 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: pip install pyyaml pypdf
+      - name: Fetch the store
+        # The store is a release asset, not a tracked file (88MB against a
+        # 100MB hard push limit). The concurrency group above is what makes
+        # this safe: one writer at a time, repo-wide.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
       - name: Harvest UPR recommendations
         # The tool prints "NEW this run: n" followed by each new
         # recommendation. On a typical month that is the entire signal -- the
@@ -38,6 +45,11 @@ jobs:
         run: python3 tools/pull_upr.py
       - name: Rebuild the tracker
         run: python3 tools/make_upr_tracker.py --csv
+      - name: Publish the store
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
       - name: Commit state
         run: |
           git config user.name "parl-monitor bot"

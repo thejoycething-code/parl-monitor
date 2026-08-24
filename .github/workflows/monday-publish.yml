@@ -56,6 +56,13 @@ jobs:
       - name: Install dependencies
         if: env.SKIP != '1'
         run: pip install pyyaml google-auth
+      - name: Fetch the store
+        # The store is a release asset, not a tracked file (88MB against a
+        # 100MB hard push limit). The concurrency group above is what makes
+        # this safe: one writer at a time, repo-wide.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
       - name: Write secrets file
         if: env.SKIP != '1'
         run: |
@@ -89,6 +96,11 @@ jobs:
           else
             npx --yes vercel@latest deploy partner_site --prod --yes --token "$VERCEL_TOKEN"
           fi
+      - name: Publish the store
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
       - name: Commit state
         if: env.SKIP != '1'
         run: |

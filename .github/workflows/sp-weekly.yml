@@ -36,6 +36,13 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: pip install pyyaml
+      - name: Fetch the store
+        # The store is a release asset, not a tracked file (88MB against a
+        # 100MB hard push limit). The concurrency group above is what makes
+        # this safe: one writer at a time, repo-wide.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
       - name: Pull roster, questions and motions
         run: python3 tools/sp_pull.py | tee /tmp/sp-pull.log
       - name: Harvest divisions and member votes
@@ -68,11 +75,16 @@ jobs:
               fi
             done
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the store
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
       - name: Commit state
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
-          git add data/parl-monitor.db data/raw
+          git add data/raw data/parl-monitor.db.json
           git diff --cached --quiet || git commit -m "Holyrood weekly refresh $(date -u +%F)"
           git pull --rebase origin main
           git push origin main
