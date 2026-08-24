@@ -26,7 +26,8 @@ def workflow(name):
 
 class WorkflowWiringTests(unittest.TestCase):
     STATEFUL = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
-                "sunday-pull.yml", "monday-publish.yml", "upr-monthly.yml")
+                "sunday-pull.yml", "monday-publish.yml", "upr-monthly.yml",
+                "backfill.yml")
 
     def test_every_stateful_workflow_pulls_and_pushes(self):
         for name in self.STATEFUL:
@@ -123,6 +124,7 @@ class CommitLabelTests(unittest.TestCase):
         "sunday-pull.yml": "Sunday pull",
         "monday-publish.yml": "Monday publish",
         "upr-monthly.yml": "UPR monthly",
+        "backfill.yml": "Historic backfill",
     }
 
     def test_each_workflow_names_itself_in_its_commit_message(self):
@@ -144,6 +146,25 @@ class CommitLabelTests(unittest.TestCase):
                         if "git commit -m" in l)
             for label in wrong:
                 self.assertNotIn(label, line, name)
+
+class BackfillWorkflowTests(unittest.TestCase):
+    """The backfill re-sweeps a term across years. It must stay MANUAL: on a
+    schedule it would re-walk the whole corpus weekly for nothing, and it
+    holds the state lock while doing it."""
+
+    def test_manual_only(self):
+        text = workflow("backfill.yml")
+        self.assertIn("workflow_dispatch:", text)
+        self.assertNotIn("schedule:", text)
+        self.assertNotIn("cron:", text)
+
+    def test_it_does_not_score_stance(self):
+        """Scoring costs money and is Christopher's call; a dispatchable
+        workflow must not be able to spend it."""
+        text = workflow("backfill.yml")
+        self.assertNotIn("score_stance", text)
+        self.assertNotIn("run_weekly.py", text)
+
 
 if __name__ == "__main__":
     unittest.main()

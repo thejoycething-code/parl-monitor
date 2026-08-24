@@ -1,5 +1,8 @@
 """Historic backfill of the MP intelligence ledger (PQs + EDMs).
 
+    python3 tools/backfill_mp_ledger.py 2020-01-01 2026-08-24
+    python3 tools/backfill_mp_ledger.py 2020-01-01 --terms religious-education
+
 Sweeps every configured PQ term through the (slow) written-questions API and
 every EDM term through the motions API, in YEAR WINDOWS from the cutoff --
 both APIs take date filters, so each term-year pages independently and no
@@ -161,9 +164,27 @@ def backfill_edms(conn, client, tax, wl, terms, cutoff, end, cache):
     return written
 
 
+def _scoped(configured, wanted, label):
+    """Sweep terms narrowed by --terms, so adding ONE taxonomy term does not
+    mean re-sweeping all 44 across seven years. Names are matched exactly and
+    an unknown one is an error, not a silent empty sweep."""
+    if not wanted:
+        return configured
+    unknown = [t for t in wanted if t not in configured]
+    if unknown:
+        raise SystemExit("not in {0}: {1}\nconfigured: {2}".format(
+            label, ", ".join(unknown), ", ".join(map(str, configured))))
+    return [t for t in configured if t in wanted]
+
+
 def main():
-    cutoff = datetime.date.fromisoformat(sys.argv[1] if len(sys.argv) > 1 else "2026-02-03")
-    end = datetime.date.fromisoformat(sys.argv[2]) if len(sys.argv) > 2 else datetime.date.today()
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    wanted = []
+    if "--terms" in sys.argv:
+        wanted = [t.strip() for t in
+                  sys.argv[sys.argv.index("--terms") + 1].split(",") if t.strip()]
+    cutoff = datetime.date.fromisoformat(args[0] if args else "2026-02-03")
+    end = datetime.date.fromisoformat(args[1]) if len(args) > 1 else datetime.date.today()
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
@@ -172,8 +193,16 @@ def main():
     cache = {}
 
     print("backfilling ledger {0} -> {1}".format(cutoff, end))
-    n_pq = backfill_pqs(conn, client, tax, wl, settings.get("pq_sweep_terms") or [], cutoff, end, cache)
-    n_edm = backfill_edms(conn, client, tax, wl, settings.get("edm_sweep_terms") or [], cutoff, end, cache)
+    pq_terms = _scoped(settings.get("pq_sweep_terms") or [], wanted,
+                       "pq_sweep_terms")
+    edm_terms = _scoped(settings.get("edm_sweep_terms") or [], wanted,
+                        "edm_sweep_terms") if not wanted else [
+        t for t in (settings.get("edm_sweep_terms") or []) if t in wanted]
+    if wanted:
+        print("scoped to: pq {0} | edm {1}".format(pq_terms or "-",
+                                                   edm_terms or "-"))
+    n_pq = backfill_pqs(conn, client, tax, wl, pq_terms, cutoff, end, cache)
+    n_edm = backfill_edms(conn, client, tax, wl, edm_terms, cutoff, end, cache)
     print("done: {0} pq events, {1} edm events".format(n_pq, n_edm))
     print("ledger:", intel.ledger_stats(conn))
     conn.close()

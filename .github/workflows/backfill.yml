@@ -1,0 +1,103 @@
+name: Historic backfill
+
+# MANUAL ONLY -- no schedule. Adding a taxonomy term does not retro-capture
+# anything: rows that never matched the old vocabulary were never fetched.
+# This re-sweeps a NAMED term across a date range and ledgers what it finds.
+#
+# It exists because the store is now a release asset (tools/db_state.py):
+# a backfill run on a laptop cannot publish its result without a PAT, so it
+# would be stranded locally and the next weekly would overwrite the shared
+# asset without it. Running the backfill HERE puts it where the store lives.
+on:
+  workflow_dispatch:
+    inputs:
+      terms:
+        description: "Comma-separated sweep terms, exactly as in settings.yaml (blank = ALL, slow)"
+        required: false
+        default: ""
+      cutoff:
+        description: "Start date (YYYY-MM-DD)"
+        required: true
+        default: "2020-01-01"
+      hansard:
+        description: "Also sweep Hansard speeches (slower)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+# The same lock as every other stateful workflow: this one rewrites the
+# ledger, so it must never interleave with a weekly.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Backfill questions and EDMs
+        run: |
+          if [ -n "${{ inputs.terms }}" ]; then
+            python3 tools/backfill_mp_ledger.py "${{ inputs.cutoff }}" \
+              --terms "${{ inputs.terms }}" | tee /tmp/bf-ledger.log
+          else
+            python3 tools/backfill_mp_ledger.py "${{ inputs.cutoff }}" \
+              | tee /tmp/bf-ledger.log
+          fi
+      - name: Backfill Hansard speeches
+        if: inputs.hansard
+        run: |
+          if [ -n "${{ inputs.terms }}" ]; then
+            python3 tools/backfill_hansard.py "${{ inputs.cutoff }}" \
+              "$(date -u +%F)" --terms "${{ inputs.terms }}" \
+              | tee /tmp/bf-hansard.log
+          else
+            python3 tools/backfill_hansard.py "${{ inputs.cutoff }}" \
+              "$(date -u +%F)" | tee /tmp/bf-hansard.log
+          fi
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Historic backfill"
+            echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }}"
+            for f in ledger hansard; do
+              echo "### $f"
+              if [ -f "/tmp/bf-$f.log" ]; then
+                echo '```'
+                grep -E "done:|ledger:|scoped to|events so far" "/tmp/bf-$f.log" \
+                  | tail -12 || echo "(no summary lines)"
+                echo '```'
+              else
+                echo "step did not run"
+              fi
+            done
+            echo "Stance scoring is NOT run here: it costs money and is"
+            echo "Christopher's call. New refs sit unscored until then."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the store
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
+      - name: Commit state
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/raw data/parl-monitor.db.json
+          git diff --cached --quiet || git commit -m "Historic backfill: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git pull --rebase origin main
+          git push origin main

@@ -1443,3 +1443,35 @@ problem the store was, and moving it to a release asset was rejected.
 * Runtime readers, for the record: stance scoring reads only the last 14 days
   (`since_days=14`, written by the same run), and make_vote_tracker globs
   `division_cdetail-*` (121 files, 2.4MB) but self-heals via `fetch_missing()`.
+
+## Historic re-capture for a new taxonomy term (2026-08-24)
+
+Adding a term does NOT retro-capture anything: rows that never matched the
+old vocabulary were never fetched. Two separate lists are involved and
+confusing them wastes a day -- `config/taxonomy.yaml` CLASSIFIES, while
+`settings.yaml`'s `pq_sweep_terms` decides what is SEARCHED.
+
+* Measured first with `tools/check_sweep_terms.py` (free): `religious-education`
+  is good (286 matches, newest on "Religion: Teachers");
+  `violence-against-women-and-girls` **500s hyphenated**; bare `VAWG` answers
+  (816 matches, on-topic headings).
+* **But VAWG cannot be historically re-captured, by design.** Both backfills
+  gate on `r.tier == 1 or r.watchlist_hits` -- "tier-2-only matches are
+  untriaged noise here" -- and the VAWG vocabulary is deliberately tier 2
+  (most mentions are strategy administration and awareness weeks). A VAWG
+  sweep would fetch hundreds and ledger none. The weekly path DOES capture
+  them going forward, because it has a triage pass the backfill lacks.
+* `backfill_mp_ledger.py` gained `--terms` (it previously swept all 44 terms
+  across seven years to add one). Unknown names are an error, never a silent
+  empty sweep.
+* religious-education re-capture: **156 PQ + 482 Hansard events**, ledger
+  130,993 -> 131,424, area 6 rows 1,578 -> 1,905. Range 2020-02-12 to
+  2026-06-26; most active Jim Shannon (22), Luke Pollard (16), Kim
+  Leadbeater (10). One capture cites the NI Supreme Court case JR87 on
+  religious education -- the same ground as NI's open syllabus consultation.
+* **New rows are UNSCORED** (257 refs): stance scoring costs money and is a
+  decision, not a step. They render as evidence and place nobody until then.
+* **`.github/workflows/backfill.yml` (manual only) exists because the store
+  is a release asset**: a laptop backfill cannot publish its result without a
+  PAT, so it would be stranded locally and the next weekly would overwrite
+  the shared asset without it. Run backfills where the store lives.

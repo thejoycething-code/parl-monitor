@@ -68,6 +68,7 @@ pq_sweep_terms:
   # since 1 June: palliative-care 57, hospices 32, the assisted-dying terms 0.
   - palliative-care        # 1,012 total, newest on terminal illness diagnosis
   - home-education          # 444, was a 500 as "home education"
+  - religious-education     # 286, newest on Religion: Teachers (v1.1 term)
   - safe-access-zones       # 45, was a 500
   - hospices
   # Gender medicine, retuned 2026-08-17. "PATHWAYS" was the worst term in the
