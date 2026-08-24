@@ -168,3 +168,24 @@ class BackfillWorkflowTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PipefailTests(unittest.TestCase):
+    """A tool that crashes must fail its step.
+
+    Every workflow pipes its tools through `tee` for the health summary, and
+    a pipeline's exit status is the LAST command's -- so `python3 x.py | tee
+    log` went GREEN when x.py died. That is how the 2026-08-24 backfill run
+    reported success while its questions sweep had crashed on a bad argument.
+    """
+
+    def test_every_piping_workflow_sets_pipefail(self):
+        import glob
+        for path in sorted(glob.glob(os.path.join(WORKFLOWS, "*.yml"))):
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            if "| tee" not in text:
+                continue
+            self.assertIn("pipefail", text,
+                          os.path.basename(path) + " pipes through tee, so a "
+                          "crashed tool would report success")

@@ -178,11 +178,20 @@ def _scoped(configured, wanted, label):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    wanted = []
-    if "--terms" in sys.argv:
-        wanted = [t.strip() for t in
-                  sys.argv[sys.argv.index("--terms") + 1].split(",") if t.strip()]
+    # Parse positionals AND flag values together: --terms takes a value, and
+    # a naive "drop anything starting with --" left that value in the
+    # positional list, so `2020-01-01 --terms religious-education` read the
+    # TERM as the end date and died on it (2026-08-24).
+    argv, args, wanted = sys.argv[1:], [], []
+    i = 0
+    while i < len(argv):
+        if argv[i] == "--terms" and i + 1 < len(argv):
+            wanted = [t.strip() for t in argv[i + 1].split(",") if t.strip()]
+            i += 2
+            continue
+        if not argv[i].startswith("--"):
+            args.append(argv[i])
+        i += 1
     cutoff = datetime.date.fromisoformat(args[0] if args else "2026-02-03")
     end = datetime.date.fromisoformat(args[1]) if len(args) > 1 else datetime.date.today()
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))

@@ -21,6 +21,10 @@ on:
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
 concurrency:
   group: parl-monitor-state
   cancel-in-progress: false

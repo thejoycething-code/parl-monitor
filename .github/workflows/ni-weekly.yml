@@ -19,6 +19,10 @@ on:
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
 # The same group as the Sunday pull and Monday publish: every workflow that
 # commits data/ must serialise, or two bots race on parl-monitor.db -- the
 # binary-merge conflict this repo has already paid for twice.

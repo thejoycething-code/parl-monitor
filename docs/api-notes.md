@@ -1475,3 +1475,19 @@ confusing them wastes a day -- `config/taxonomy.yaml` CLASSIFIES, while
   is a release asset**: a laptop backfill cannot publish its result without a
   PAT, so it would be stranded locally and the next weekly would overwrite
   the shared asset without it. Run backfills where the store lives.
+
+### The tee trap (found 2026-08-24, applies to every workflow)
+
+Every workflow pipes its tools through `tee` so the health summary can grep
+the log. A shell pipeline's exit status is the LAST command's, and GitHub's
+default `run:` shell is `bash -e` WITHOUT pipefail -- so `python3 tool.py |
+tee log` reports SUCCESS when the tool dies. The first Historic backfill run
+went green with its questions sweep crashed on a bad argument; only the empty
+`ledger` block in the run summary gave it away, and a less careful reader
+would have banked a backfill that never happened.
+
+Fixed with `defaults: run: shell: bash -eo pipefail {0}` on every workflow
+that pipes (backfill, ni-weekly, sd-weekly, sp-weekly), and a test asserts
+any workflow containing `| tee` also sets pipefail. If a step ever needs to
+tolerate a failure, say so with `continue-on-error`, which is visible in the
+run, rather than relying on a pipe to hide it.
