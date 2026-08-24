@@ -335,3 +335,55 @@ class SectionWindowTests(unittest.TestCase):
                          ["edm:weeks-old-still-shown", "edm:fresh"],
                          "an EDM gathering signatures stays on the monitor "
                          "for 60 days; 18 June has aged out")
+
+
+class NormalModeFullRenderTests(unittest.TestCase):
+    """The 31 Aug edition is the first NORMAL-mode render since the
+    editorial loop retired (What's On confirmed live 2026-08-24: 96 chamber
+    events that week). Recess mode has three weeks of production evidence;
+    this pins the sitting-week assembly before it runs for real: every
+    section present and ordered, no tags or owners anywhere, the EDM cap."""
+
+    def _full_edition(self):
+        e = digest.Edition(week_commencing="2026-08-31", number=5,
+                           mode="normal")
+        e.top_lines = [digest.Line("Both Houses return", 3)]
+        e.week_ahead = [digest.Line("TIA Bill second reading approaches", 2,
+                                    date="2026-09-11")]
+        e.votes = [digest.Line("A division on our ground", 2,
+                               url="https://votes.parliament.uk/x")]
+        e.pq_rows = [{"member": "A Member", "party": "Con", "seat": "Seat",
+                      "house": "Commons", "heading": "A question",
+                      "department": "DfE", "url": "https://q/1",
+                      "date": "2026-08-27", "tag": 2, "why": "",
+                      "area": 6, "area_label": "Parental rights"}]
+        e.deadlines = [{"type": "Consultation", "title": "A consultation",
+                        "url": "https://c/1", "why": "",
+                        "deadline": "2026-09-18"}]
+        e.edms = [digest.Line("EDM %d" % i, 2) for i in range(7)]
+        e.statements = [digest.Line("A written statement", 2)]
+        e.board_rows = [live_row(4157, "TIA Bill", "2026-09-11")]
+        e.mp_notes = [digest.Line("An MP note", 2)]
+        return e
+
+    def test_all_sitting_week_sections_render_in_order(self):
+        md = digest.render(self._full_edition())
+        order = ["## Top lines", "## Week ahead", "## Votes and amendments",
+                 "## Written questions",
+                 "## Consultations and calls for evidence",
+                 "## EDMs and petitions", "## Statements and announcements",
+                 "## Active bills board", "## Parliamentarians on our issues"]
+        positions = [md.index(h) for h in order]
+        self.assertEqual(positions, sorted(positions),
+                         "sitting-week sections out of order")
+        self.assertNotIn("| RECESS", md)
+
+    def test_no_editorial_markup_survives_anywhere(self):
+        md = digest.render(self._full_edition())
+        for marker in ("[ACT]", "[WATCH]", "[NOTE]", "Owner:"):
+            self.assertNotIn(marker, md)
+
+    def test_edm_cap_holds(self):
+        md = digest.render(self._full_edition())
+        self.assertEqual(sum(1 for i in range(7) if "EDM %d" % i in md), 5,
+                         "EDMs cap at 5 in the section")
