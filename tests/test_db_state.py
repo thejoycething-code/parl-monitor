@@ -92,11 +92,16 @@ class SidecarTests(unittest.TestCase):
         self.assertEqual(len(meta["sha256"]), 64)
 
     def test_sidecar_is_not_ignored(self):
+        """Check the RULES, not the file text: .gitignore's comment names the
+        sidecar precisely to say it must never be ignored, and a naive
+        substring search reads that explanation as a violation."""
         with open(os.path.join(ROOT, ".gitignore"), encoding="utf-8") as fh:
-            ignored = fh.read()
-        self.assertNotIn("parl-monitor.db.json", ignored,
-                         "the sidecar is the provenance record and MUST be "
-                         "committed")
+            rules = [l.strip() for l in fh
+                     if l.strip() and not l.lstrip().startswith("#")]
+        for rule in rules:
+            self.assertNotIn("parl-monitor.db.json", rule,
+                             "the sidecar is the provenance record and MUST "
+                             "be committed")
 
 
 if __name__ == "__main__":
