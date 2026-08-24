@@ -25,6 +25,7 @@ What probing established (2026-08-21, full table in docs/api-notes.md):
 
 from __future__ import annotations
 
+import datetime as _dt
 import html as _html
 import re
 from dataclasses import dataclass
@@ -258,13 +259,16 @@ def parse_transcript(text):
     """Attributed speeches from one sitting's English transcript XML.
 
     Blocks without a Member_Id are chair/procedural furniture and are
-    skipped. The wrapper embeds the parliament name in older exports, the
-    same trap as the votes XML, so the pattern is tolerant.
+    skipped. The wrapper embeds the VENUE name, the same trap as the votes
+    XML: plenary exports say XML_Plenary-SixthSenedd_English, committee
+    exports say XML_HealthAndSocialCareCommittee_English. The pattern
+    matches any venue and backreferences the closing tag, so a wrapper
+    nobody has seen yet still parses (found 2026-08-24: the old
+    Plenary-only pattern silently returned ZERO for every committee).
     """
     out = []
-    for block in re.findall(
-            r"<XML_Plenary[^>]*_English>(.*?)</XML_Plenary[^>]*_English>",
-            text, re.S):
+    for _tag, block in re.findall(
+            r"<(XML_[^>\s]*_English)>(.*?)</\1>", text, re.S):
         mid = _field(block, "Member_Id")
         body = _field(block, "Contribution_English") or ""
         if not mid or not body:
@@ -284,6 +288,89 @@ def fetch_transcript(client, meeting_id, timeout=120):
     return parse_transcript(client.get_text(
         TRANSCRIPT_URL.format(meeting_id), "senedd",
         "transcript-{0}".format(meeting_id), timeout=timeout, archive=False))
+
+
+# -- committees ---------------------------------------------------------------
+# business.senedd.wales is ModernGov. mgListCommittees names every current
+# body; the XMLExport index accepts these SAME ids (Plenary is committee 908,
+# which is why the votes exporter's "committee" param worked all along --
+# found 2026-08-24). A committee's detail page states its NEXT meeting date
+# in prose; the agenda for a future meeting is published later ("The Agenda
+# will be displayed as soon as it is available"), so a forward row carries a
+# date and no subject until then. The ModernGov CALENDAR is a dead end: all
+# three views (month, week, agenda) hold exhibitions only, and Month=/Year=
+# are silently ignored -- the same shape as Holyrood's events API.
+COMMITTEES_URL = "https://business.senedd.wales/mgListCommittees.aspx?bcr=1"
+COMMITTEE_URL = "https://business.senedd.wales/mgCommitteeDetails.aspx?ID={0}"
+
+# Bodies that are not MS scrutiny committees. The Welsh Youth Parliament sits
+# in the same ModernGov instance with its own members, who are not MSs and
+# never join the roster; Plenary is already harvested by sd_divisions.
+_NOT_A_COMMITTEE = re.compile(r"Youth Parliament|WYP\d|^Plenary$", re.I)
+_NEXT_MEETING = re.compile(
+    r"will next meet on\s+(?:[A-Z][a-z]+day),?\s+(\d{1,2})\s+([A-Z][a-z]+)"
+    r"(?:\s+(\d{4}))?", re.I)
+_MONTHS = {m: i + 1 for i, m in enumerate(
+    ("january", "february", "march", "april", "may", "june", "july",
+     "august", "september", "october", "november", "december"))}
+
+
+def parse_committees(html):
+    """(id, name) for every body ModernGov lists, minus the non-committees."""
+    out, seen = [], set()
+    for cid, name in re.findall(
+            r'mgCommitteeDetails\.aspx\?ID=(\d+)"[^>]*>([^<]{3,120})',
+            html or ""):
+        name = " ".join(_html.unescape(name).split())
+        if cid in seen or not name or _NOT_A_COMMITTEE.search(name):
+            continue
+        seen.add(cid)
+        out.append((cid, name))
+    return out
+
+
+def parse_next_meeting(html, today=None):
+    """(meeting_id, iso_date) for a committee's next sitting, or (None, None).
+
+    The date is prose ("will next meet on Thursday 17 September"), often
+    with no year, so the year is inferred as the next occurrence from
+    `today` -- never guessed backwards.
+    """
+    mid = None
+    m = re.search(r'ieListDocuments\.aspx\?CId=\d+&(?:amp;)?MId=(\d+)',
+                  html or "")
+    if m:
+        mid = m.group(1)
+    d = _NEXT_MEETING.search(html or "")
+    if not d:
+        return mid, None
+    month = _MONTHS.get((d.group(2) or "").lower())
+    if not month:
+        return mid, None
+    day = int(d.group(1))
+    if d.group(3):
+        year = int(d.group(3))
+    else:
+        today = today or _dt.date.today()
+        year = today.year
+        if (month, day) < (today.month, today.day):
+            year += 1
+    try:
+        return mid, _dt.date(year, month, day).isoformat()
+    except ValueError:
+        return mid, None
+
+
+def fetch_committees(client, timeout=120):
+    return parse_committees(client.get_text(
+        COMMITTEES_URL, "senedd", "committees", timeout=timeout,
+        archive=False))
+
+
+def fetch_next_meeting(client, committee_id, timeout=120):
+    return parse_next_meeting(client.get_text(
+        COMMITTEE_URL.format(committee_id), "senedd",
+        "committee-{0}".format(committee_id), timeout=timeout, archive=False))
 
 
 # -- bills --------------------------------------------------------------------

@@ -446,6 +446,15 @@ CREATE TABLE IF NOT EXISTS sd_bills (
   areas TEXT, matched_terms TEXT, -- taxonomy over the title
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS sd_committees (
+  committee_id TEXT PRIMARY KEY,  -- ModernGov committee id (Plenary is 908)
+  name TEXT NOT NULL,
+  next_meeting TEXT,              -- ISO date from the detail page's prose; NULL = none announced
+  next_meeting_id TEXT,           -- ModernGov MId for that sitting's agenda page
+  areas TEXT, matched_terms TEXT, -- taxonomy over the committee's NAME (remit, not subject)
+  meetings_seen INTEGER DEFAULT 0,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS dg_consultations (
   key TEXT PRIMARY KEY,           -- '<nation>:<url path>'
   nation TEXT NOT NULL,           -- 'scotland' | 'wales' | 'ni'
@@ -487,6 +496,7 @@ TABLES = (
     "sd_votes",
     "sd_events",
     "sd_bills",
+    "sd_committees",
     "dg_consultations",
     "ni_items",
     "ni_members",

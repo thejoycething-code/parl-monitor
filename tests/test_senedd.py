@@ -1,5 +1,6 @@
 """Senedd ingester tests against live-probed fixtures (2026-08-21)."""
 
+import datetime
 import gzip
 import glob
 import os
@@ -286,3 +287,85 @@ class SD5caTests(unittest.TestCase):
         for marker in ("slack", "webhook", "requests.post", "asana"):
             self.assertNotIn(marker, src.lower())
         self.assertIn("Never posted anywhere", src)
+
+
+class CommitteeTests(unittest.TestCase):
+    """Committees, found 2026-08-24. The XMLExport index accepts ModernGov
+    committee ids -- Plenary IS committee 908, which is why the votes
+    exporter's `committee` param worked all along."""
+
+    LIST = '''
+    <a href="mgCommitteeDetails.aspx?ID=908" title="x">Plenary</a>
+    <a href="mgCommitteeDetails.aspx?ID=985" title="x">Health and Social Care Committee</a>
+    <a href="mgCommitteeDetails.aspx?ID=991" title="x">Llywydd&#39;s Committee</a>
+    <a href="mgCommitteeDetails.aspx?ID=900" title="x">Cost of living and poverty - WYP3</a>
+    <a href="mgCommitteeDetails.aspx?ID=896" title="x">Welsh Youth Parliament 3 - Plenary</a>
+    '''
+
+    DETAIL = ('<a href="https://business.senedd.wales/ieListDocuments.aspx?'
+              'CId=985&MId=16251&Ver=4">The Committee will next meet on '
+              'Thursday 17 September</a>')
+
+    def test_plenary_and_youth_parliament_are_excluded(self):
+        got = senedd.parse_committees(self.LIST)
+        self.assertEqual(
+            [n for _i, n in got],
+            ["Health and Social Care Committee", "Llywydd's Committee"],
+            "Plenary is harvested by sd_divisions; Youth Parliament members "
+            "are not MSs and never join the roster")
+
+    def test_next_meeting_infers_the_year_forward(self):
+        mid, when = senedd.parse_next_meeting(
+            self.DETAIL, today=datetime.date(2026, 8, 24))
+        self.assertEqual(mid, "16251")
+        self.assertEqual(when, "2026-09-17")
+
+    def test_a_date_already_past_this_year_rolls_to_next(self):
+        _mid, when = senedd.parse_next_meeting(
+            self.DETAIL, today=datetime.date(2026, 12, 1))
+        self.assertEqual(when, "2027-09-17",
+                         "a bare '17 September' in December means next year, "
+                         "never a date in the past")
+
+    def test_no_announcement_is_none_not_a_guess(self):
+        mid, when = senedd.parse_next_meeting(
+            '<a href="ieListDocuments.aspx?CId=985&MId=16166">Agenda</a>',
+            today=datetime.date(2026, 8, 24))
+        self.assertEqual(mid, "16166")
+        self.assertIsNone(when)
+
+    def test_committee_transcripts_parse_under_their_own_wrapper(self):
+        """The wrapper embeds the VENUE, so a Plenary-only pattern returned
+        ZERO for every committee -- the bug this build found."""
+        xml = ("<dataroot><XML_HealthAndSocialCareCommittee_English>"
+               "<Meeting_ID>16166</Meeting_ID>"
+               "<Contribution_ID>767159</Contribution_ID>"
+               "<MeetingDate>2026-07-09T09:26:14</MeetingDate>"
+               "<Member_Id>5555</Member_Id>"
+               "<Member_name_English>Jayne Bryant</Member_name_English>"
+               "<Agenda_item_english>3. New Petitions</Agenda_item_english>"
+               "<Contribution_English>Restore parental consent for RVE"
+               "</Contribution_English>"
+               "</XML_HealthAndSocialCareCommittee_English></dataroot>")
+        out = senedd.parse_transcript(xml)
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out[0].member_name, "Jayne Bryant")
+        self.assertEqual(out[0].heading, "3. New Petitions")
+        self.assertEqual(out[0].dated, "2026-07-09")
+
+    def test_sd_committees_writes_its_own_tables(self):
+        with open(os.path.join(ROOT, "tools", "sd_committees.py"),
+                  encoding="utf-8") as fh:
+            source = fh.read()
+        self.assertIn("sd_committees", source)
+        self.assertIn("sd_events", source)
+        for table in ("items", "mp_events"):
+            for verb in ("INTO {0} ", "INTO {0}(", "UPDATE {0} "):
+                self.assertNotIn(verb.format(table), source)
+        for marker in ("slack", "webhook"):
+            self.assertNotIn(marker, source.lower())
+
+    def test_the_weekly_harvests_committees(self):
+        with open(os.path.join(ROOT, ".github", "workflows",
+                               "sd-weekly.yml"), encoding="utf-8") as fh:
+            self.assertIn("tools/sd_committees.py", fh.read())

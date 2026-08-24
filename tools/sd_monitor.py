@@ -119,6 +119,55 @@ def main():
             print("        {0} for / {1} against -- {2}".format(
                 r["total_for"], r["total_against"], (r["result"] or "")[:44]))
 
+    occ = conn.execute("SELECT COUNT(*), COUNT(DISTINCT member_id) FROM "
+                       "sd_events WHERE key LIKE 'sdcc%'").fetchone()
+    ncom = conn.execute("SELECT COUNT(*), SUM(meetings_seen) FROM "
+                        "sd_committees").fetchone()
+    if ncom[0]:
+        print(); print(line)
+        print("COMMITTEE SCRUTINY    [tools/sd_committees.py]"); print(line)
+        print("  {0} committee(s) tracked, {1} sitting(s) read; {2} passage-"
+              .format(ncom[0], ncom[1] or 0, occ[0]))
+        print("  matched contribution(s) from {0} Member(s). The Seventh"
+              .format(occ[1] or 0))
+        print("  Senedd's committees were only established in mid-2026, so")
+        print("  this ledger is thin BY AGE, not by omission. ACTIVITY ONLY.\n")
+        for r in conn.execute("SELECT dated, member_name, heading, areas, "
+                              "excerpt FROM sd_events WHERE key LIKE 'sdcc%' "
+                              "ORDER BY dated DESC LIMIT " + str(n)):
+            a = [x for x in json.loads(r["areas"] or "[]") if x not in HIDDEN]
+            if not a:
+                continue
+            print("  OURS  {0}  {1}".format(r["dated"], (r["heading"] or "")[:60]))
+            print("        {0}   areas {1}".format(
+                r["member_name"], ",".join(map(str, a))))
+            # 180 chars, not 88: a committee contribution buries the
+            # subject mid-paragraph ("...next item, 3.2, P-07-1564,
+            # 'Restore parental consent for RVE lessons'"), so a short
+            # window shows only the chair clearing his throat.
+            print("        \"{0}...\"".format(
+                " ".join((r["excerpt"] or "").split())[:180]))
+
+        print(); print(line)
+        print("WHAT IS COMING    [committee detail pages]"); print(line)
+        upcoming = conn.execute(
+            "SELECT name, next_meeting, next_meeting_id FROM sd_committees "
+            "WHERE next_meeting IS NOT NULL AND next_meeting >= date('now') "
+            "ORDER BY next_meeting").fetchall()
+        silent = conn.execute("SELECT COUNT(*) FROM sd_committees WHERE "
+                              "next_meeting IS NULL OR next_meeting < "
+                              "date('now')").fetchone()[0]
+        for r in upcoming:
+            print("  {0}  {1}".format(r["next_meeting"], (r["name"] or "")[:58]))
+        print("\n  {0} committee(s) have announced a next sitting; {1} have"
+              .format(len(upcoming), silent))
+        print("  not. The AGENDA for a future sitting is published later, so")
+        print("  a date here carries NO subject yet -- the taxonomy cannot")
+        print("  tell you whether it is ours until the agenda appears.")
+        print("  There is no plenary forward diary: the ModernGov calendar")
+        print("  holds exhibitions only (all three views), and its Month and")
+        print("  Year parameters are silently ignored.")
+
     print(); print(line)
     print("GOVERNMENT CONSULTATIONS    [tools/dg_consultations.py]")
     print(line)

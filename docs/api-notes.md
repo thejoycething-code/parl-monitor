@@ -1376,3 +1376,43 @@ S7M-00446.2 omnibus shape, possibly the S6M-18016.1 placeable shape) and
 S7M-00356.5 (third-sector funding, VAWG incidental). The earlier 10-minute
 "hang" on the combined reclassify heredoc did not reproduce -- the same
 pass ran in 0.6s standalone; wedged shell, not a code path.
+
+## Senedd committees and the forward look (2026-08-24, shortlist items 4+5)
+
+* **Plenary IS ModernGov committee 908.** `mgListCommittees.aspx` names every
+  current body, and the XMLExport index accepts those SAME ids -- which is
+  why the votes exporter's `committee=908` parameter worked all along. It was
+  never a "parliament id": 700 and 908 are the Sixth and Seventh Senedd
+  PLENARY committee ids. Committee sittings expose the identical English
+  transcript XML.
+* **The transcript wrapper embeds the VENUE, and the Plenary-only pattern
+  silently returned ZERO for every committee.** Plenary says
+  `XML_Plenary-SixthSenedd_English`, committees say
+  `XML_HealthAndSocialCareCommittee_English`. Fixed with a backreferenced
+  pattern (`<(XML_[^>\s]*_English)>...</\1>`) so an unseen venue still
+  parses. Same trap as the votes XML, third time in this codebase -- when a
+  Senedd wrapper name appears in a regex, assume it varies.
+* **The forward look is the committee DETAIL page, in prose**: "The Committee
+  will next meet on Thursday 17 September", with a `MId` link to that
+  sitting. Often no year, so the year is inferred forward and never
+  backwards. The AGENDA for a future sitting is published later ("The Agenda
+  will be displayed as soon as it is available"), so a forward row carries a
+  date and NO subject -- the taxonomy cannot say whether it is ours yet.
+* **The ModernGov CALENDAR is a dead end.** All three views (month, week,
+  agenda) hold exhibitions only -- 63 links, every one an EXHIBITION -- and
+  `Month=`/`Year=` are SILENTLY IGNORED (asking for September served
+  August). Exactly Holyrood's `/api/events` shape. There is no plenary
+  forward diary; committee dates are the whole forward look.
+* **Agenda pages carry no parseable item list**, past or future. Agenda items
+  come from the transcript's `Agenda_item_english` field instead, which is
+  also what the scrutiny ledger classifies on -- never the committee's own
+  name (the NI "Committee for Finance" lesson).
+* First pull: 19 committees (Plenary and the Welsh Youth Parliament excluded
+  -- WYP members are not MSs and never join the roster), 22 sittings, 7 with
+  announced September dates. ONE passage-matched contribution, and it is a
+  real find: **Petitions Committee, 9 July 2026, petition P-07-1564 "Restore
+  parental consent for Religion, Values and Ethics (RVE) lessons in the
+  Curriculum for Wales"** -- under the Curriculum and Assessment (Wales) Act
+  2021 Welsh parents LOST the right to withdraw children from RVE, including
+  at faith schools. The ledger is thin BY AGE: the Seventh Senedd's
+  committees were only established in mid-2026.

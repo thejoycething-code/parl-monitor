@@ -50,6 +50,9 @@ jobs:
       - name: Refresh the bill register
         if: always()
         run: python3 tools/sd_bills.py | tee /tmp/sd-bills.log
+      - name: Harvest committee scrutiny and the forward look
+        if: always()
+        run: python3 tools/sd_committees.py | tee /tmp/sd-committees.log
       - name: Pull open Welsh Government consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation wales | tee /tmp/sd-consultations.log
@@ -63,11 +66,11 @@ jobs:
         run: |
           {
             echo "## Senedd weekly refresh"
-            for f in members pull divisions bills consultations; do
+            for f in members pull divisions bills committees consultations; do
               echo "### $f"
               if [ -f "/tmp/sd-$f.log" ]; then
                 echo '```'
-                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area|consultation" \
+                grep -E "gap\(s\)|no gaps|^  \* |stored|written|held in total|carry an issue area|consultation|committee|sitting" \
                   "/tmp/sd-$f.log" | head -20 || echo "(no summary lines)"
                 echo '```'
               else
