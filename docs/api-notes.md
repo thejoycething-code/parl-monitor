@@ -1416,3 +1416,30 @@ pass ran in 0.6s standalone; wedged shell, not a code path.
   2021 Welsh parents LOST the right to withdraw children from RVE, including
   at faith schools. The ledger is thin BY AGE: the Seventh Senedd's
   committees were only established in mid-2026.
+
+## Why data/raw stays in git (2026-08-24)
+
+Asked and answered, so nobody re-derives it: the raw archive is NOT the
+problem the store was, and moving it to a release asset was rejected.
+
+* **Largest single file is 1.5MB.** GitHub's 100MiB per-file limit -- the
+  thing that forced the store out -- is nowhere near in play.
+* **It is APPEND-ONLY.** A run adds today's dated directory and never
+  rewrites an older one, so git stores each file exactly once. The store was
+  the opposite: 88MB rewritten every run, 161 times.
+* **Normal growth is under 1MB/week** (~50MB a year). The 210MB total is
+  almost entirely one-off backfill sprints (2026-08-21 = 78MB, 08-04 = 55MB).
+* **A release asset cannot be appended to.** Only replaced wholesale, so
+  every stateful run would download AND re-upload the full archive to add a
+  megabyte -- roughly 17GB of transfer a month across ~40 runs, minutes added
+  per run, for a repo that is not in danger. The store earns that round-trip
+  because every run mutates it; raw does not.
+* **The offline re-derivation tools depend on the historic dirs**:
+  retag_passages, annotate_whips, enrich_lords_divisions,
+  clean_buffer_zone_noise, rescore_blind_speeches. They exist to re-derive
+  areas, excerpts and whip flags for FREE rather than re-fetching, and that
+  capability has already paid for itself twice. Moving raw makes them
+  "download 210MB first".
+* Runtime readers, for the record: stance scoring reads only the last 14 days
+  (`since_days=14`, written by the same run), and make_vote_tracker globs
+  `division_cdetail-*` (121 files, 2.4MB) but self-heals via `fetch_missing()`.
