@@ -27,7 +27,7 @@ def workflow(name):
 class WorkflowWiringTests(unittest.TestCase):
     STATEFUL = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "sunday-pull.yml", "monday-publish.yml", "upr-monthly.yml",
-                "backfill.yml")
+                "backfill.yml", "score-stance.yml")
 
     def test_every_stateful_workflow_pulls_and_pushes(self):
         for name in self.STATEFUL:
@@ -125,6 +125,7 @@ class CommitLabelTests(unittest.TestCase):
         "monday-publish.yml": "Monday publish",
         "upr-monthly.yml": "UPR monthly",
         "backfill.yml": "Historic backfill",
+        "score-stance.yml": "Stance scoring",
     }
 
     def test_each_workflow_names_itself_in_its_commit_message(self):
@@ -164,6 +165,26 @@ class BackfillWorkflowTests(unittest.TestCase):
         text = workflow("backfill.yml")
         self.assertNotIn("score_stance", text)
         self.assertNotIn("run_weekly.py", text)
+
+
+class ScoreStanceWorkflowTests(unittest.TestCase):
+    """Scoring spends money, so the workflow that does it must be manual,
+    must not leave the key on disk, and must not publish a store it did not
+    change (a dry run spends nothing and should write nothing)."""
+
+    def test_manual_only(self):
+        text = workflow("score-stance.yml")
+        self.assertIn("workflow_dispatch:", text)
+        self.assertNotIn("cron:", text)
+
+    def test_the_key_is_removed_afterwards(self):
+        text = workflow("score-stance.yml")
+        self.assertIn("rm -f config/secrets.yaml", text)
+        self.assertIn("if: always()", text)
+
+    def test_a_dry_run_publishes_nothing(self):
+        text = workflow("score-stance.yml")
+        self.assertIn("inputs.dry_run != true", text)
 
 
 if __name__ == "__main__":

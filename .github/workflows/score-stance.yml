@@ -1,0 +1,87 @@
+name: Score stance
+
+# MANUAL ONLY, and it SPENDS MONEY. The weekly pull scores each week's new
+# evidence automatically (capped by settings.stance_weekly_max_refs); this is
+# for backfills and gap-fills, where a historic re-capture has left refs
+# unscored. An unscored ref renders as evidence and places NOBODY in the 5CA,
+# so the sheets understate until this runs.
+#
+# It lives here rather than on a laptop for the same reason the backfill does:
+# the store is a release asset, so local scoring would be stranded and the
+# next weekly would overwrite the shared asset without it.
+on:
+  workflow_dispatch:
+    inputs:
+      max_refs:
+        description: "Cap on refs to score (blank = every outstanding one)"
+        required: false
+        default: ""
+      dry_run:
+        description: "Report what would be sent and spend nothing"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Write secrets file
+        run: |
+          cat > config/secrets.yaml <<EOF
+          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
+          EOF
+      - name: Score
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.max_refs }}" ]; then ARGS="--max ${{ inputs.max_refs }}"; fi
+          if [ "${{ inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          python3 tools/score_stance.py $ARGS | tee /tmp/score.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Stance scoring"
+            echo "max: \`${{ inputs.max_refs }}\` (blank = all) | dry run: ${{ inputs.dry_run }}"
+            echo '```'
+            tail -20 /tmp/score.log 2>/dev/null || echo "(no log)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Remove secrets file
+        if: always()
+        run: rm -f config/secrets.yaml
+      - name: Publish the store
+        if: always() && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
+      - name: Commit state
+        if: inputs.dry_run != true
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/parl-monitor.db.json
+          git diff --cached --quiet || git commit -m "Stance scoring: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git pull --rebase origin main
+          git push origin main
