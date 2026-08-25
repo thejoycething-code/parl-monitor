@@ -1,0 +1,46 @@
+name: Failure alert
+
+# ONE watcher, so the workflows it watches hold no Slack credential.
+#
+# The devolved weeklies are watching briefs whose separation rule is
+# structural, not merely stated: their workflows contain no Slack token, no
+# secrets file and no publish step, and tests assert it. Adding a failure
+# step to each would have put a Slack token into all three -- the exact
+# capability the rule exists to withhold. A workflow_run watcher keeps the
+# credential in one place that touches no parliamentary data at all.
+on:
+  workflow_run:
+    workflows:
+      - "Sunday pull"
+      - "Monday publish"
+      - "NI Assembly weekly"
+      - "Holyrood weekly"
+      - "Senedd weekly"
+      - "UPR monthly"
+      - "UN calls weekly"
+      - "Historic backfill"
+      - "Score stance"
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  alert:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: DM the failure
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+          FAILED_WORKFLOW: ${{ github.event.workflow_run.name }}
+          FAILED_RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: python3 tools/alert_failure.py

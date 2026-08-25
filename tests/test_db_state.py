@@ -187,8 +187,28 @@ class ScoreStanceWorkflowTests(unittest.TestCase):
         self.assertIn("inputs.dry_run != true", text)
 
 
-if __name__ == "__main__":
-    unittest.main()
+
+class PipefailTests(unittest.TestCase):
+    """A tool that crashes must fail its step.
+
+    Every workflow pipes its tools through `tee` for the health summary, and
+    a pipeline's exit status is the LAST command's -- so `python3 x.py | tee
+    log` went GREEN when x.py died. That is how the 2026-08-24 backfill run
+    reported success while its questions sweep had crashed on a bad argument.
+    """
+
+    def test_every_piping_workflow_sets_pipefail(self):
+        import glob
+        for path in sorted(glob.glob(os.path.join(WORKFLOWS, "*.yml"))):
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            if "| tee" not in text:
+                continue
+            self.assertIn("pipefail", text,
+                          os.path.basename(path) + " pipes through tee, so a "
+                          "crashed tool would report success")
+
+
 
 
 class PipefailTests(unittest.TestCase):
@@ -210,3 +230,80 @@ class PipefailTests(unittest.TestCase):
             self.assertIn("pipefail", text,
                           os.path.basename(path) + " pipes through tee, so a "
                           "crashed tool would report success")
+
+
+class FailureAlertTests(unittest.TestCase):
+    """Until 2026-08-24 nothing told anyone a workflow had failed: a broken
+    Sunday pull would have produced a stale Monday edition in silence.
+
+    The alert is ONE watcher (alert.yml, workflow_run) rather than a step in
+    each workflow, and that is the point. A per-workflow step would have put
+    a Slack token into the devolved weeklies -- whose separation rule is
+    structural precisely because they hold no Slack credential at all.
+    """
+
+    WATCHED = ("Sunday pull", "Monday publish", "NI Assembly weekly",
+               "Holyrood weekly", "Senedd weekly", "UPR monthly",
+               "Historic backfill", "Score stance")
+
+    def test_the_watcher_exists_and_fires_only_on_failure(self):
+        text = workflow("alert.yml")
+        self.assertIn("workflow_run:", text)
+        self.assertIn("conclusion == 'failure'", text)
+        self.assertIn("alert_failure.py", text)
+
+    def test_it_watches_every_stateful_workflow(self):
+        text = workflow("alert.yml")
+        for name in self.WATCHED:
+            self.assertIn('"{0}"'.format(name), text,
+                          name + " unwatched: its failures would be silent")
+
+    # Workflows that must hold NO Slack credential. The Westminster
+    # publishing chain (sunday-pull, monday-publish) legitimately does --
+    # sunday-pull writes a full secrets file, monday-publish posts the
+    # edition -- and un-calls-weekly exists to send a message. The rule
+    # protects the DEVOLVED watching briefs, whose separation is structural,
+    # and the manual state tools, which have no reason to speak.
+    NO_SLACK = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
+                "backfill.yml", "score-stance.yml", "upr-monthly.yml")
+
+    def test_the_watching_briefs_hold_no_slack_credential(self):
+        """The property the watcher exists to preserve: had the alert been a
+        step in each workflow, all three devolved weeklies would now carry a
+        Slack token, and the separation would stop being structural."""
+        for name in self.NO_SLACK:
+            text = workflow(name)
+            for banned in ("SLACK_BOT_TOKEN", "slack_bot_token"):
+                self.assertNotIn(banned, text, name)
+
+    def test_the_alert_never_fails_the_job(self):
+        with open(os.path.join(ROOT, "tools", "alert_failure.py"),
+                  encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn("except Exception", text)
+        self.assertIn("return 0", text)
+
+    def test_message_names_the_FAILED_run_not_the_watcher(self):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import alert_failure
+        msg = alert_failure.message({
+            "GITHUB_WORKFLOW": "Failure alert",
+            "FAILED_WORKFLOW": "Sunday pull",
+            "FAILED_RUN_URL": "https://github.com/o/r/actions/runs/42"})
+        self.assertIn("Sunday pull", msg)
+        self.assertNotIn("Failure alert", msg)
+        self.assertIn("runs/42", msg)
+
+    def test_message_does_not_promise_the_store_was_withheld(self):
+        """The publish step runs with if: always(), so partial progress IS
+        published. An alert claiming otherwise sends someone looking for a
+        rollback that never happened."""
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import alert_failure
+        msg = alert_failure.message({"FAILED_WORKFLOW": "x"})
+        self.assertNotIn("was not published", msg)
+        self.assertIn("upsert", msg)
+
+
+if __name__ == "__main__":
+    unittest.main()
