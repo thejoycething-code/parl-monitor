@@ -52,6 +52,7 @@ class Edition:
     top_lines: list = field(default_factory=list)
     board_rows: list = field(default_factory=list)     # board.BoardRow (live + closing)
     week_ahead: list = field(default_factory=list)
+    further_ahead: list = field(default_factory=list)   # the 3 weeks after
     votes: list = field(default_factory=list)
     pqs: list = field(default_factory=list)
     pq_rows: list = field(default_factory=list)   # dicts: member/party/seat/heading/url/department/area/date/tag/why
@@ -166,6 +167,32 @@ def _weekday(iso_date):
         return _WEEKDAYS[datetime.date.fromisoformat(iso_date).weekday()]
     except (ValueError, TypeError):
         return ""
+
+
+
+def render_further_ahead(lines, weeks=3):
+    """Business on our ground in the THREE weeks after this one.
+
+    Week ahead answers "what happens now"; this answers "what is coming
+    while there is still time to act". It sits inside the Week ahead
+    section as a sub-block rather than competing with it as a heading of
+    its own (Christopher, 2026-08-24). Dated, grouped, and never capped --
+    a second reading a fortnight out is exactly the thing that gets missed.
+    """
+    if not lines:
+        return None
+    by_day = {}
+    for line in lines:
+        by_day.setdefault(getattr(line, "date", None) or "date to be announced",
+                          []).append(line)
+    out = ["**Further afield** (next {0} weeks)".format(weeks), ""]
+    for day in sorted(by_day):
+        out.append("**{0} {1}**".format(_weekday(day), day))
+        for line in by_day[day]:
+            text = line.text if hasattr(line, "text") else str(line)
+            out.append("- {0}".format(text))
+        out.append("")
+    return "\n".join(out).rstrip() + "\n"
 
 
 def render_week_ahead(lines):
@@ -494,8 +521,11 @@ def render(edition):
             parts.append(devolved)
     else:
         week_ahead = render_week_ahead(edition.week_ahead)
-        if week_ahead:
-            parts.append(week_ahead)
+        further = render_further_ahead(edition.further_ahead)
+        if week_ahead or further:
+            parts.append("\n\n".join(p for p in (
+                week_ahead or "## Week ahead\n\n*Nothing on our ground in the "
+                "chamber this week.*", further) if p))
         section = _render_section("Votes and amendments", edition.votes, None)
         if section:
             parts.append(section)

@@ -405,15 +405,27 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                        extra=extra)
 
     def _whatson():
-        for e in whatson.fetch_events(client, week_start, week_end):
-            text = whatson.event_text(e)
-            r = filt.filter_item(tax, wl, text)
-            if not r.matched():
-                continue
-            label = whatson.event_label(e)
-            event_date = e.start_date.isoformat() if e.start_date else None
-            store_item(conn, "whatson:{0}:{1}".format(event_date, abs(hash(label)) % 10 ** 8),
-                       "whatson", "event", label, None, r, event_date=event_date)
+        # Two horizons: the edition week (Week ahead) and the THREE weeks
+        # after it (Further afield), so a second reading three weeks out is
+        # visible while there is still time to act on it. Christopher,
+        # 2026-08-24.
+        for horizon, (h_start, h_end) in (
+                ("week", (week_start, week_end)),
+                ("further", (week_end + datetime.timedelta(days=1),
+                             week_end + datetime.timedelta(days=21)))):
+            for e in whatson.fetch_events(client, h_start, h_end):
+                text = whatson.event_text(e)
+                r = filt.filter_item(tax, wl, text)
+                if not r.matched():
+                    continue
+                label = whatson.event_label(e)
+                event_date = e.start_date.isoformat() if e.start_date else None
+                store_item(conn,
+                           "whatson:{0}:{1}".format(event_date,
+                                                    abs(hash(label)) % 10 ** 8),
+                           "whatson", "event", label, None, r,
+                           event_date=event_date,
+                           extra={"horizon": horizon})
 
     def _divisions():
         # A Monday 06:30 edition REPORTS the week just ended and PREVIEWS the
@@ -707,6 +719,7 @@ def sections_from_store(conn, edition):
     # longer -- Christopher, same day). Everything stays in the store and
     # the ledger regardless.
     week_start = datetime.date.fromisoformat(edition.week_commencing)
+    week_end_iso = (week_start + datetime.timedelta(days=6)).isoformat()
     window_days = {"pq": 7, "wms": 7, "edm": 60}
 
     def in_window(feed, event_date):
@@ -771,6 +784,8 @@ def sections_from_store(conn, edition):
         target = SECTION_FOR_FEED.get(feed)
         if not target:
             continue
+        if feed == "whatson" and (r["event_date"] or "") > week_end_iso:
+            target = "further_ahead"
         line = digest.Line(
             text=r["why_it_matters"] or r["title"],
             tag=r["triage_score"], owner=None, url=r["url"],

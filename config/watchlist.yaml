@@ -13,6 +13,15 @@ bills:                    # Westminster, by ID (never by title). `why` renders o
          why: "Extends RSE rules into further education; parental rights watch"}
   4254: {title: "Immigration and Asylum Bill", areas: [11],
          why: "Government migration bill in committee; watch amendments touching family life, religious conversion claims and free speech"}
+  # Added 2026-08-24 after the return-week preview showed all three would
+  # pass unseen: the diary was rich, the taxonomy simply had no term for
+  # them. All three take Second Reading on Friday 4 September.
+  4176: {title: "Child-like Sexual Abuse Dolls (Offences) Bill", areas: [6],
+         why: "Criminalises child-like sex dolls; child protection, and the taxonomy phrase 'child sexual abuse' misses the title's 'Child-like Sexual Abuse'"}
+  4277: {title: "Registration of Stillbirths (England and Wales) Bill", areas: [1],
+         why: "Legal recognition for babies stillborn before 24 weeks; recognition of the unborn, adjacent to our abortion work"}
+  4156: {title: "Infants, Parents and Carers Bill", areas: [6],
+         why: "Duties owed to infants and their parents; parental rights watch"}
 fallen_bills:             # prior-session bills whose closing entries the board owns
   3774: {title: "Terminally Ill Adults (End of Life) Bill", areas: [2],
          why: "Leadbeater assisted suicide bill; fell at prorogation in Lords committee"}

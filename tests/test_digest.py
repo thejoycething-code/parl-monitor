@@ -463,3 +463,48 @@ class DevolvedPayloadTests(unittest.TestCase):
                 (title, "SP", title, "1", stage, dated, '[2]', "", ""))
         out = run_weekly.devolved_from_store(conn, "2026-08-24")
         self.assertEqual([b["title"] for b in out["bills"]], ["Current bill"])
+
+
+class FurtherAfieldTests(unittest.TestCase):
+    """Week ahead answers 'what happens now'; Further afield answers 'what is
+    coming while there is still time to act' (Christopher, 2026-08-24). It is
+    a sub-block of Week ahead, not a competing heading."""
+
+    def _edition(self):
+        e = digest.Edition(week_commencing="2026-08-31", number=5,
+                           mode="normal")
+        e.board_rows = [live_row(4157, "TIA Bill", "2026-09-11")]
+        e.week_ahead = [digest.Line("Commons: this week", 2,
+                                    date="2026-09-02")]
+        e.further_ahead = [digest.Line("Commons: three weeks out", 2,
+                                       date="2026-09-18"),
+                           digest.Line("Lords: a fortnight out", 2,
+                                       date="2026-09-11")]
+        return e
+
+    def test_it_sits_inside_week_ahead_not_as_its_own_heading(self):
+        md = digest.render(self._edition())
+        self.assertIn("## Week ahead", md)
+        self.assertIn("**Further afield** (next 3 weeks)", md)
+        self.assertNotIn("## Further afield", md)
+        self.assertLess(md.index("Commons: this week"),
+                        md.index("Further afield"))
+
+    def test_dates_ascend_and_match_the_week_ahead_format(self):
+        out = digest.render_further_ahead(self._edition().further_ahead)
+        self.assertLess(out.index("2026-09-11"), out.index("2026-09-18"))
+        self.assertIn("**Friday 2026-09-11**", out)
+
+    def test_nothing_further_means_no_block(self):
+        self.assertIsNone(digest.render_further_ahead([]))
+
+    def test_week_ahead_empty_but_further_populated_still_renders(self):
+        """A recess-edge week can have nothing in the week itself and plenty
+        coming: the section must not vanish and take the forward view with
+        it."""
+        e = self._edition()
+        e.week_ahead = []
+        md = digest.render(e)
+        self.assertIn("## Week ahead", md)
+        self.assertIn("Further afield", md)
+        self.assertIn("Nothing on our ground in the chamber this week", md)

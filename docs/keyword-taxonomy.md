@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 1.1 | 22 August 2026 | Owner: Christopher**
+**Version 1.2 | 24 August 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -33,8 +33,8 @@ Every item that survives the filter is written to the store with its issue tags 
 ### 1. Abortion {#1_abortion}
 
 - **Tier 1:** abortion; "Abortion Act 1967"; "termination of pregnancy"; "safe access zone*"; "buffer zone*" [with: clinic*, abortion, termination*]; "abortion time limit"; "foetal viability"; "fetal viability"; "pills by post"; "telemedicine abortion"; "sex-selective abortion"; "Offences against the Person Act 1861"; "Infant Life (Preservation)"; "Ground E"; "disability-selective"; BPAS; "MSI Reproductive Choices"; "fatal foetal abnormality"; "fatal fetal abnormality"; "severe fetal impairment"; "severe foetal impairment"
-- **Tier 2:** "reproductive rights"; "reproductive healthcare"; "crisis pregnancy"; "conscientious objection"; "gestational limit"; "foetal pain"; "silent prayer"; "decriminalis*"; "DIY abortion"; "early medical abortion"; unborn
-- **Notes:** Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill. NI vocabulary (v0.5, measured against the NIA corpus): fatal foetal abnormality carried 27 Assembly questions 2014-17 and names the pre-2019 NI fight; severe fetal impairment names the Severe Fetal Impairment Abortion (Amendment) Bill; bare "unborn" (13 plenary mentions in the year, 17 questions over 18 years) sits at tier 2 because "unborn generations" is also fiscal rhetoric. CEDAW was probed and deliberately NOT added: zero hits in a year of plenary and zero questions ever -- the framework Westminster cited to impose the 2019 law is never named in NIA discourse.
+- **Tier 2:** "reproductive rights"; "reproductive healthcare"; "crisis pregnancy"; "conscientious objection"; "gestational limit"; "foetal pain"; "silent prayer"; "decriminalis*"; "DIY abortion"; "early medical abortion"; unborn; "stillbirth*"; stillborn
+- **Notes:** Decriminalisation is now law (Crime and Policing Act 2026 s.241, in force at Royal Assent); the watch is implementation, the s.242 pardons scheme, and amendment vehicles on any Home Office or MoJ bill. Stillbirth vocabulary joined tier 2 at v1.2 (Christopher, 2026-08-24), prompted by the Registration of Stillbirths (England and Wales) Bill reaching Second Reading on 4 September with nothing in the taxonomy to catch it: 35 corpus rows, and the parliamentary use is mostly bereavement care and registration rather than abortion politics, so tier 2 lets triage decide which mentions are ours. The recognition-of-the-unborn angle is the reason it belongs in area 1 at all. NI vocabulary (v0.5, measured against the NIA corpus): fatal foetal abnormality carried 27 Assembly questions 2014-17 and names the pre-2019 NI fight; severe fetal impairment names the Severe Fetal Impairment Abortion (Amendment) Bill; bare "unborn" (13 plenary mentions in the year, 17 questions over 18 years) sits at tier 2 because "unborn generations" is also fiscal rhetoric. CEDAW was probed and deliberately NOT added: zero hits in a year of plenary and zero questions ever -- the framework Westminster cited to impose the 2019 law is never named in NIA discourse.
 
 ### 2. Assisted dying and end of life {#2_assisted_dying}
 
