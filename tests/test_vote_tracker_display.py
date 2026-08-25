@@ -6,6 +6,7 @@ its reason attached, and cards are grouped by bill in date order.
 """
 
 import os
+import re
 import sys
 import unittest
 
@@ -51,7 +52,12 @@ class WhipLabelTests(unittest.TestCase):
 
     def test_both_blocs_on_opposite_sides_is_whipped(self):
         split = [["Labour", 313, 0], ["Conservative", 0, 95]]
-        self.assertEqual(mvt.whip_label({}, "", split), "whipped")
+        # PER PARTY since 2026-08-26: the bloc test identifies WHICH parties
+        # went through the lobbies as one, and only those are claimed. A
+        # division-wide "whipped" put the label on a Reform UK member's card
+        # for a division whipped by Labour and the Conservatives.
+        self.assertEqual(mvt.whip_label({}, "", split),
+                         {"Labour": "whipped", "Conservative": "whipped"})
 
 
 class TemplateTests(unittest.TestCase):
@@ -481,3 +487,93 @@ class NoVoteBadgeTests(unittest.TestCase):
                 digests.add(hashlib.md5(fh.read()).hexdigest())
         self.assertEqual(len(digests), 1,
                          "the password page and the public page must match")
+
+
+class ServiceAndWhipTests(unittest.TestCase):
+    """Who was sitting, for which party, and who was actually whipped.
+
+    Christopher, 2026-08-26, on Farage's page: "Crime and Policing Bill -
+    New Clause 7 says Whipped for Nigel Farage. Let's amend the rules so we
+    only say whipped if the MP was an MP at the time and if it is clear
+    that the party had whipped the vote. Not just any party but the Party
+    the MP was an MP for at the time."
+    """
+
+    def test_a_bare_whipped_names_the_parties_the_arithmetic_identifies(self):
+        split = [("Labour", 400, 1), ("Conservative", 0, 100)]
+        self.assertEqual(mvt.whip_label({"whip": "whipped"}, "", split),
+                         {"Labour": "whipped", "Conservative": "whipped"})
+
+    def test_a_bare_whipped_with_no_bloc_claims_nothing(self):
+        """A whip was on; the record does not say whose. Claiming it for
+        every party is how a Reform UK member acquired a Labour whip."""
+        self.assertEqual(
+            mvt.whip_label({"whip": "whipped"}, "", [("Labour", 200, 180)]), {})
+
+    def test_a_third_party_voting_the_same_way_is_not_claimed(self):
+        """Unanimity is not evidence of instruction: a party can agree."""
+        split = [("Labour", 400, 1), ("Conservative", 0, 100),
+                 ("Reform UK", 5, 0)]
+        self.assertNotIn("Reform UK", mvt.whip_label({}, "", split))
+
+    def test_an_explicit_map_still_wins(self):
+        split = [("Labour", 400, 1), ("Conservative", 0, 100)]
+        self.assertEqual(
+            mvt.whip_label({"whip": {"Labour": "whipped", "Conservative": "free"}},
+                           "", split),
+            {"Labour": "whipped", "Conservative": "free"})
+
+    def test_free_stays_house_wide(self):
+        """A free vote means no party issued an instruction."""
+        self.assertEqual(mvt.whip_label({"whip": "free"}, "", []), "free")
+
+    # ---- the client-side rule -------------------------------------------
+    def test_the_template_checks_service_before_claiming_a_whip(self):
+        flat = " ".join(template().split())
+        self.assertIn("if (!servedOn(m, d.date)) return {label: null", flat)
+
+    def test_the_template_uses_the_party_held_on_the_day(self):
+        flat = " ".join(template().split())
+        self.assertIn("const mine = w[partyOn(m, d.date)];", flat)
+        self.assertNotIn("w[m && m.party]", flat,
+                         "m.party is today's party; a member who crossed the "
+                         "floor was whipped by whoever they belonged to then")
+
+    def test_unknown_service_never_excuses_an_absence(self):
+        """A member with no service history must not be credited with 'not
+        yet an MP' -- silence in our data is not evidence they were away."""
+        flat = " ".join(template().split())
+        self.assertIn("if (!periods.length) return true;", flat)
+
+
+class BillHeadingTests(unittest.TestCase):
+    """A card heading describes the vote beneath it."""
+
+    ISSUE = {"id": "parental-rights", "name": "Parental rights in education",
+             "bill": "Various"}
+
+    def test_the_stage_suffix_is_removed(self):
+        got = mvt.bill_of({"title": "Children's Wellbeing and Schools Bill: "
+                                    "Third Reading", "stage": "Third Reading"},
+                          self.ISSUE)
+        self.assertEqual(got, "Children's Wellbeing and Schools Bill")
+
+    def test_various_is_never_a_heading(self):
+        """The issue spans three different bills, so its `bill` says
+        "Various" -- honest in config, meaningless as a title over a vote."""
+        got = mvt.bill_of({"title": "", "short": "", "stage": "Division"},
+                          self.ISSUE)
+        self.assertEqual(got, "Parental rights in education")
+        self.assertNotEqual(got, "Various")
+
+    def test_no_shipped_division_is_titled_various(self):
+        import json as _json
+        page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+        if not os.path.exists(page):
+            self.skipTest("page not built")
+        with open(page, encoding="utf-8") as fh:
+            text = fh.read()
+        data = _json.loads(re.search(r"const DATA = (\{.*?\});\n",
+                                     text, re.S).group(1))
+        for d in data["divisions"]:
+            self.assertNotEqual((d.get("bill") or "").lower(), "various")

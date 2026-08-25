@@ -410,29 +410,61 @@ function withVerdict(info, d, side, factLabel){
 }
 
 
+function partyOn(m, date){
+  // The party this member sat for ON THE DAY. A whip is a party
+  // instruction, and m.party is only today's: a member who has crossed the
+  // floor was whipped by whoever they belonged to at the time, not by
+  // whoever they belong to now.
+  for (const [name, from, to] of (m.parties || []))
+    if (from <= date && (!to || date <= to)) return name;
+  return null;
+}
 function whipFor(d, m){
-  // Whipping is PER PARTY: a division can be free for one side and
-  // instructed for another, so d.whip may be a map. Fall back to the
-  // division-wide value, and never invent one.
+  // THREE conditions before this page says a member was whipped
+  // (Christopher, 2026-08-26):
+  //   1. they were sitting when the division was held;
+  //   2. we know which party they sat for that day;
+  //   3. we have evidence that THAT party was whipped -- not that some
+  //      other party was.
+  // Anything less reads WHIP NOT RECORDED. The old rule failed all three
+  // at once: it printed "WHIPPED" on a Reform UK member's card for Crime
+  // and Policing New Clause 7, a division held while he was an MP but
+  // whipped, so far as the record shows, by Labour and the Conservatives.
   const w = d.whip;
+  if (!servedOn(m, d.date)) return {label: null, scope: null};
+  // A free vote is a House-wide fact: no party issued an instruction.
+  if (w === "free") return {label: "free", scope: null};
   if (w && typeof w === "object"){
-    const mine = w[m && m.party];
-    if (mine) return {label: mine, scope: "your party"};
-    const vals = Object.values(w);
-    if (vals.length && vals.every(v => v === vals[0]))
-      return {label: vals[0], scope: null};
-    return {label: "mixed", scope: null};
+    const mine = w[partyOn(m, d.date)];
+    return mine ? {label: mine, scope: "their party"} : {label: null, scope: null};
   }
-  if (w === "free" || w === "whipped") return {label: w, scope: null};
   return {label: null, scope: null};
 }
 function whipChip(d, m){
   const w = whipFor(d, m);
   if (!w.label) return `<span class="whipmark none">WHIP NOT RECORDED</span>`;
   if (w.label === "free")    return `<span class="whipmark free">FREE VOTE</span>`;
-  if (w.label === "whipped") return `<span class="whipmark whipped">WHIPPED${
-    w.scope ? " \u2014 " + w.scope : ""}</span>`;
-  return `<span class="whipmark mixed">WHIPPED FOR SOME PARTIES</span>`;
+  if (w.label === "whipped") return `<span class="whipmark whipped">WHIPPED</span>`;
+  return `<span class="whipmark none">WHIP NOT RECORDED</span>`;
+}
+
+function sinceLine(m){
+  // The first entry to the Commons, not the start of the current period.
+  // A member who left and returned gets both, because "MP since 13 Aug 2026"
+  // beside votes cast in 2024 makes the page look wrong when it is right.
+  const first = m.first || m.since;
+  if (!first) return "";
+  // m.returned is set only for a genuine break in service -- the builder
+  // excludes periods that begin at a general election, which is simply
+  // re-election.
+  if (m.returned) return `MP since ${fmtD(first)} \u00b7 returned ${fmtD(m.returned)}`;
+  return `MP since ${fmtD(first)}`;
+}
+
+function servedOn(m, date){
+  const periods = m.served || [];
+  if (!periods.length) return true;   // unknown service: never excuse an absence
+  return periods.some(([from, to]) => from <= date && (!to || date <= to));
 }
 
 function voteInfo(m, d){
@@ -445,9 +477,14 @@ function voteInfo(m, d){
     text:`<b>Counted the votes for the Ayes (a teller).</b> Tellers do not vote themselves; by long convention an MP only tells for the side they support, so this is read as backing the Ayes. ${esc(d.meaning_aye)}`}, d, "aye", "Teller (Ayes)");
   if (v==="TN") return withVerdict({chip:"TELLER", lobby:"Teller, No", cls:"T", side:"no",
     text:`<b>Counted the votes for the Noes (a teller).</b> Tellers do not vote themselves; by long convention an MP only tells for the side they support, so this is read as opposing. ${esc(d.meaning_no)}`}, d, "no", "Teller (Noes)");
-  if (!v && m.since && m.since > d.date)
+  // Was this member SITTING on the day? Answered from real service history,
+  // not from members.since -- which is the current period only, so it read
+  // 2024-07-04 for members first elected in 1983 and excused their absences
+  // from every earlier division as "not yet an MP".
+  if (!v && !servedOn(m, d.date))
     return {chip:"NOT YET AN MP", cls:"S", side:null,
-      text:`${esc(m.name)} became the MP for ${esc(m.constituency)} on ${fmtD(m.since)}, after this division.`};
+      text:`${esc(m.name)} was not a Member of the House when this division
+        was held${m.first ? `, and first entered the Commons on ${fmtD(m.first)}` : ""}.`};
   if (m.role==="speaker") return {chip:"DOES NOT VOTE", cls:"S", side:null,
     text:"As Speaker of the House, by convention, does not vote in divisions."};
   if (m.role==="deputy") return {chip:"DOES NOT VOTE", cls:"S", side:null,
@@ -566,7 +603,7 @@ function renderMP(id){
       <div class="cardbody">
         ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
         <div class="lbl">DATE VOTED <span class="cal">&#128197;</span> ${d.date}</div>
-        <h3>${esc(g.issue.bill || g.issue.name)} <span class="stage">(${esc(d.stage)})</span></h3>
+        <h3>${esc(d.bill || g.issue.bill || g.issue.name)} <span class="stage">(${esc(d.stage)})</span></h3>
         <div class="meaning">${vi.text}</div>
         ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
           We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
@@ -599,7 +636,8 @@ function renderMP(id){
     // total belongs in "Also on the record" below, and printing it twice
     // made the same number look like two different findings.
     const tally = w.n ? `<p class="wtally">Spoke in ${w.n} debate${
-      w.n > 1 ? "s" : ""} on this bill.</p>` : "";
+      w.n > 1 ? "s" : ""} on ${esc(g.issue.bill && g.issue.bill !== "Various"
+        ? "this bill" : g.issue.name.toLowerCase())}.</p>` : "";
     return `<div class="words">
       <p class="wordshead">In their own words</p>
       ${w.q.map(x => `<div class="wq">
@@ -614,8 +652,14 @@ function renderMP(id){
   for (const g of blocks){
     rows += `<section class="billblock">${bigCard(g.major, g)}`;
     if (g.rest.length){
+      // "on this bill" is only true when they ARE on this bill. The
+      // parental-rights card holds three different bills, so it says what
+      // they actually have in common: the issue.
+      const sameBill = g.rest.every(x => x.bill === g.major.bill);
       rows += `<details class="subvotes"><summary>${g.rest.length} further vote${
-        g.rest.length>1?"s":""} on this bill</summary>${g.rest.map(subRow).join("")}</details>`;
+        g.rest.length>1?"s":""} on ${sameBill ? "this bill"
+          : esc(g.issue.name.toLowerCase())}</summary>${
+        g.rest.map(subRow).join("")}</details>`;
     }
     rows += saidBlock(g);
     rows += `</section>`;
@@ -696,7 +740,7 @@ function renderMP(id){
         <div class="mp-meta">
           <span class="party"><span class="pdot" style="background:${pc(m.party)}"></span>${esc(m.party)}</span>
           <span>${esc(m.constituency)}</span>
-          <span class="since">MP since ${fmtD(m.since)}</span>
+          <span class="since">${sinceLine(m)}</span>
         </div>
       </div>
       <a href="#" class="backlink" id="back">&larr; New search</a>

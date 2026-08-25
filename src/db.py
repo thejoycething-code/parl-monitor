@@ -43,6 +43,32 @@ CREATE TABLE IF NOT EXISTS mp_events (member_id INTEGER, date TEXT, kind TEXT, r
   areas TEXT,                     -- json list of area numbers (5CA per-area scoring)
   excerpt TEXT                    -- the matching passage: why this row exists
 );
+-- Every period a member has served, from Members/History. NOT the same as
+-- members.since, which is only the CURRENT period: 284 sitting members have
+-- votes in our ledger predating theirs, because members.since is 2024-07-04
+-- for everyone re-elected at the general election however long they have
+-- served. Diane Abbott, an MP since 1987, read "MP since 4 July 2024", and
+-- an absence in a 2020 division was excused as "not yet an MP" for members
+-- who were sitting at the time.
+CREATE TABLE IF NOT EXISTS member_service (
+  member_id INTEGER NOT NULL,
+  started TEXT NOT NULL,          -- ISO date
+  ended TEXT,                     -- ISO date, NULL while serving
+  seat TEXT,
+  PRIMARY KEY (member_id, started)
+);
+CREATE INDEX IF NOT EXISTS idx_member_service ON member_service (member_id);
+-- Which party a member sat for, and when. A whip is a PARTY instruction, so
+-- "was this member whipped on this division" cannot be answered without
+-- knowing the party they belonged to ON THAT DAY. Defectors change party
+-- mid-Parliament, and members.party is only today's.
+CREATE TABLE IF NOT EXISTS member_party (
+  member_id INTEGER NOT NULL,
+  party TEXT NOT NULL,
+  started TEXT NOT NULL,
+  ended TEXT,
+  PRIMARY KEY (member_id, started)
+);
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
 -- UN monitor. A UPR recommendation is a position taken by one state towards
@@ -492,6 +518,8 @@ TABLES = (
     "items",
     "bills_board",
     "members",
+    "member_service",
+    "member_party",
     "mp_events",
     "edm_signatures",
     "editions",

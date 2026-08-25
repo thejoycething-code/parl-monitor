@@ -148,7 +148,16 @@ def whip_label(d, issue_note, splits):
     if isinstance(declared, dict):
         return {str(k): str(v).lower() for k, v in declared.items()}
     if isinstance(declared, str) and declared.strip():
-        return declared.strip().lower()
+        value = declared.strip().lower()
+        if value == "whipped":
+            # A bare "whipped" says a whip was on; it does NOT say whose.
+            # Applied division-wide it put "WHIPPED" on the page of a Reform
+            # UK member for Crime and Policing New Clause 7, a claim nothing
+            # in the record supports (Christopher, 2026-08-26). Name the
+            # parties the arithmetic can actually identify; if it cannot
+            # identify any, make no per-party claim at all.
+            return party_line(splits) or {}
+        return value
     text = " ".join([d.get("context") or "", issue_note or ""]).lower()
     # Negations first: the signed-off NI contexts say "this was NOT a whipped
     # vote", and a bare substring test read that as whipped (caught on the
@@ -157,18 +166,70 @@ def whip_label(d, issue_note, splits):
             or "free vote" in text or "free-vote" in text or "free votes" in text):
         return "free"
     if "whipped" in text:
-        return "whipped"
-    two = [x for x in splits[:2] if x[1] + x[2] >= 20]
-    if len(two) == 2:
-        sides = []
-        for _, a, n in two:
-            if a >= (a + n) * 0.98:
-                sides.append("aye")
-            elif n >= (a + n) * 0.98:
-                sides.append("no")
-        if len(sides) == 2 and sides[0] != sides[1]:
-            return "whipped"
+        return party_line(splits) or {}
+    bloc = party_line(splits)
+    if bloc:
+        # PER PARTY, never division-wide (Christopher, 2026-08-26). The bloc
+        # test looks at the two largest parties; saying "WHIPPED" from it on
+        # the page of a Reform UK member -- whose party was not measured and
+        # may not appear in the splits at all -- claims something we have no
+        # evidence for. Only the parties that actually formed the bloc are
+        # named, and every other party reads WHIP NOT RECORDED.
+        return bloc
     return None
+
+
+def bill_of(d, issue):
+    """The bill a division belongs to, for the card heading.
+
+    The parental-rights card carried the heading "Various", because that is
+    what the issue's `bill` says -- and it says that honestly, since the
+    issue spans three different bills (Christopher, 2026-08-26). A heading
+    describes the vote beneath it, so it is taken from the DIVISION: its
+    title with the stage suffix removed, or its short description.
+    """
+    title = (d.get("title") or "").strip()
+    if title:
+        # "Children's Wellbeing and Schools Bill: Third Reading" -> the bill
+        stage = (d.get("stage") or "").strip()
+        if stage and title.lower().endswith(": " + stage.lower()):
+            title = title[:-(len(stage) + 2)].strip()
+        return title
+    short = (d.get("short") or "").strip()
+    if short:
+        return short
+    bill = (issue or {}).get("bill")
+    if bill and bill.lower() != "various":
+        return bill
+    return (issue or {}).get("name") or ""
+
+
+def party_line(splits, floor=20, share=0.98):
+    """{party: 'whipped'} when a division shows the party-line pattern.
+
+    The pattern is the two largest voting parties each going >=98% one way,
+    on OPPOSITE sides. Unanimity alone proves nothing -- a party can agree
+    without being told to -- but two large parties in perfect and opposite
+    unanimity is a party-line vote whatever anyone says.
+
+    Returns only the parties that formed the bloc. A third party voting
+    unanimously alongside them is NOT included: it may simply agree.
+    """
+    two = [x for x in splits[:2] if x[1] + x[2] >= floor]
+    if len(two) != 2:
+        return None
+    sides = []
+    for _name, ayes, noes in two:
+        total = ayes + noes
+        if ayes >= total * share:
+            sides.append("aye")
+        elif noes >= total * share:
+            sides.append("no")
+        else:
+            return None
+    if sides[0] == sides[1]:
+        return None
+    return {str(two[0][0]): "whipped", str(two[1][0]): "whipped"}
 
 
 
@@ -176,6 +237,14 @@ def whip_label(d, issue_note, splits):
 RECORD_AREAS = {1: "Abortion", 2: "Assisted suicide",
                 6: "Parental rights and education",
                 7: "Free speech and civil liberties"}
+# UK general elections. A membership period beginning on one of these is a
+# re-election, not a return from absence.
+GENERAL_ELECTIONS = {
+    "1979-05-03", "1983-06-09", "1987-06-11", "1992-04-09", "1997-05-01",
+    "2001-06-07", "2005-05-05", "2010-05-06", "2015-05-07", "2017-06-08",
+    "2019-12-12", "2024-07-04",
+}
+
 RECORD_CAP = 2          # per MP per area, for receipts NOT tied to a bill;
                         # the counts carry the volume, quotes illustrate it
 BILL_QUOTE_CAP = 2      # quotes shown inside a bill card
@@ -418,6 +487,9 @@ def build(conn, cfg, payloads):
             "stage": d["stage"], "stage_group": d.get("stage_group", d["stage"]),
             "landmark": bool(d.get("landmark")), "context": d.get("context", ""),
             "title": payload.get("Title"), "short": d["short"],
+            "bill": bill_of({"title": payload.get("Title"), "short": d["short"],
+                             "stage": d["stage"]},
+                            next((i for i in issues if i["id"] == d["issue"]), None)),
             "ayes": payload.get("AyeCount"), "noes": payload.get("NoCount"),
             "passed": (payload.get("AyeCount") or 0) > (payload.get("NoCount") or 0),
             "meaning_aye": d["meaning_aye"], "meaning_no": d["meaning_no"],
@@ -430,6 +502,50 @@ def build(conn, cfg, payloads):
     # not a choice.
     deputies = {m["MemberId"] for p in payloads.values() for key, _ in CODES
                 for m in (p.get(key) or []) if m.get("Party") == "Deputy Speaker"}
+
+    # Real service history (member_service), not members.since -- which is
+    # only the CURRENT period and reads "MP since 4 July 2024" on the page of
+    # a member first elected in 1983. Only periods that can touch a tracked
+    # division are shipped; `first` carries the rest.
+    earliest = min([d["date"] for d in divisions] or ["1900-01-01"])
+    service = {}
+    for row in conn.execute(
+            "SELECT member_id, started, ended FROM member_service "
+            "ORDER BY member_id, started"):
+        rec = service.setdefault(row["member_id"], {"first": None, "periods": [],
+                                                    "returned": None})
+        if rec["first"] is None or row["started"] < rec["first"]:
+            rec["first"] = row["started"]
+        if row["ended"] is None or row["ended"] >= earliest:
+            rec["periods"].append([row["started"], row["ended"]])
+    # Parliament records each Parliament as a SEPARATE membership period, so
+    # every member re-elected in 2024 has a period starting 2024-07-04 and a
+    # gap of roughly five weeks before it -- the dissolution. That is not a
+    # break in service, and calling it one put "returned 4 Jul 2024" on 313
+    # pages. The gap tells us nothing: Farage's genuine absence was 36 days,
+    # a dissolution is 35. What distinguishes them is whether the period
+    # begins AT a general election.
+    for rec in service.values():
+        starts = sorted(p[0] for p in rec["periods"]) or []
+        current = starts[-1] if starts else None
+        if (current and current != rec["first"]
+                and current not in GENERAL_ELECTIONS):
+            rec["returned"] = current
+
+    # Party AT THE TIME of each division: a whip is a party instruction, and
+    # members.party is only today's. Spells that cannot touch a tracked
+    # division are dropped.
+    latest = max([d["date"] for d in divisions] or ["2100-01-01"])
+    parties = {}
+    for row in conn.execute(
+            "SELECT member_id, party, started, ended FROM member_party "
+            "ORDER BY member_id, started"):
+        if row["started"] > latest:
+            continue
+        if row["ended"] is not None and row["ended"] < earliest:
+            continue
+        parties.setdefault(row["member_id"], []).append(
+            [row["party"], row["started"], row["ended"]])
 
     members = []
     for r in conn.execute(
@@ -446,6 +562,10 @@ def build(conn, cfg, payloads):
         members.append({
             "id": r["id"], "name": r["name"], "listAs": r["list_as"] or r["name"],
             "party": party, "constituency": r["seat"], "since": r["since"],
+            "first": service.get(r["id"], {}).get("first"),
+            "served": service.get(r["id"], {}).get("periods") or [],
+            "returned": service.get(r["id"], {}).get("returned"),
+            "parties": parties.get(r["id"]) or [],
             "role": role, "votes": votes.get(r["id"], {}),
         })
 
