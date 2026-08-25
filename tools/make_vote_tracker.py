@@ -258,14 +258,17 @@ def main():
     else:
         signoff = ("Every summary on this page has been checked against Hansard "
                    "and the official division record, and signed off editorially.")
-    # Verdicts are INTERNAL for now (Christopher, 2026-08-12, reverting his
-    # same-day decision to take them public while the site is passwordless).
-    # The internal build renders GOOD VOTE / BAD VOTE; the partner/public
-    # build strips the good sides and stays Aye/No. Taking them public again
-    # is this one line.
-    partner_dataset = dict(dataset,
-                           divisions=[dict(d, good=None) for d in dataset["divisions"]])
-    for path, ds in ((OUTPUTS[0], partner_dataset), (OUTPUTS[1], dataset)):
+    # Verdicts are PUBLIC (Christopher, 2026-08-24, reversing his 2026-08-12
+    # decision to keep them internal while the site was passwordless). Both
+    # builds now carry `good`, so the public page names a vote good or bad
+    # rather than reporting the lobby and leaving the reader to judge. That
+    # makes this a campaigning page, not only a transparency one -- a
+    # deliberate change of what the page IS, asked for twice.
+    #
+    # A division with no `our_side` in config/vote_tracker.yaml still shows
+    # no verdict, so the honest gap stays visible rather than defaulting to
+    # a judgement nobody made.
+    for path, ds in ((OUTPUTS[0], dataset), (OUTPUTS[1], dataset)):
         page = (template.replace("__DATASET__", json.dumps(ds, separators=(",", ":")))
                         .replace("__SIGNOFF__", signoff))
         os.makedirs(os.path.dirname(path), exist_ok=True)
