@@ -23,6 +23,9 @@
 
 | Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |
 |---|---|---|---|---|---|---|
+| [Child-like Sexual Abuse Dolls (Offences) Bill](https://bills.parliament.uk/bills/4176) | Criminalises child-like sex dolls; child protection, and the taxonomy phrase 'child sexual abuse' misses the title's 'Child-like Sexual Abuse' | Commons, 2nd reading | 2026-09-04 | Awaiting 2nd reading | Parental rights and education | NEW |
+| [Registration of Stillbirths (England and Wales) Bill](https://bills.parliament.uk/bills/4277) | Legal recognition for babies stillborn before 24 weeks; recognition of the unborn, adjacent to our abortion work | Commons, 2nd reading | 2026-09-04 | Awaiting 2nd reading | Abortion | NEW |
+| [Infants, Parents and Carers Bill](https://bills.parliament.uk/bills/4156) | Duties owed to infants and their parents; parental rights watch | Commons, 2nd reading | 2026-09-04 | Awaiting 2nd reading | Parental rights and education | NEW |
 | [Terminally Ill Adults (End of Life) Bill](https://bills.parliament.uk/bills/4157) | The assisted suicide bill; our core opposition priority this session | Commons, 2nd reading | 2026-09-11 | Awaiting 2nd reading | Assisted dying | no change |
 | [Hospice Funding Bill](https://bills.parliament.uk/bills/4178) | Palliative care funding; the positive alternative to assisted suicide | Commons, 2nd reading | 2026-11-27 | Awaiting 2nd reading | Assisted dying | no change |
 | [Relationships and Sex Education (Further Education Sector) Bill](https://bills.parliament.uk/bills/4171) | Extends RSE rules into further education; parental rights watch | Commons, 2nd reading | 2026-12-04 | Awaiting 2nd reading | Parental rights and education | no change |
@@ -37,7 +40,22 @@
 |---|---|---|
 | [Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026](https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m) Under the Children's Wellbeing and Schools Act 2026. The Act's first implementing regulations; further commencement regulations expected on the September order paper. [Commons vote 369 to 102](https://votes.parliament.uk/Votes/Commons/Division/2402) · [full text](https://www.legislation.gov.uk/ukdsi/2026/9780348283426) | Draft affirmative | Laid 2026-05-20; Commons approved 2026-07-08; awaiting the Lords |
 
+## Devolved
+
+*Scotland, Wales and Northern Ireland. Watching brief: recorded because it bears on our issues, not because it asks anything of us.*
+
+**Open government consultations**
+
+| Consultation | Nation | Closes |
+|---|---|---|
+| [Protections in the justice system for women and girls](https://consult.gov.scot/justice/protections-in-the-justice-system-women-and-girls/) | Scotland | 2026-08-31 (7 days) |
+| [Consultation on the Religious Education Core Syllabus](https://consultations.nidirect.gov.uk/de/re-syllabus-consultation/) | N. Ireland | 2026-09-30 (37 days) |
+
+**Bills on our ground**
+
+- Assisted Dying for Terminally Ill Adults (Scotland) Bill (Holyrood) - Stage 3 on 2026-03-17
+- Children (Withdrawal from Religious Education and Amendment of UNCRC Compatibility Duty) (Scotland) Bill (Holyrood) - Stage 3 on 2026-02-17
 ---
 *No coverage gaps recorded this edition.*
 
-*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.1 with human review.*
+*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.4 with human review.*
