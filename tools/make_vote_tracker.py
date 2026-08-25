@@ -408,8 +408,24 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                               "t": _sitting(it["t"]) or it["t"],
                               "_s": quotes.quotability(q)})
             cands.sort(key=lambda x: (x["_s"], x["d"]), reverse=True)
-            kept = [{k: v for k, v in c.items() if k != "_s"}
-                    for c in cands[:BILL_QUOTE_CAP]]
+            # Spread across DEBATES: both of Kruger's quotes were labelled
+            # "Committee, twenty-ninth sitting", which reads like the same
+            # remark printed twice. A second debate is worth more than a
+            # marginally better sentence from one already quoted.
+            kept, used = [], set()
+            for c in cands:
+                if len(kept) >= BILL_QUOTE_CAP:
+                    break
+                if c["t"] in used:
+                    continue
+                used.add(c["t"])
+                kept.append({k: v for k, v in c.items() if k != "_s"})
+            for c in cands:                    # only one debate available
+                if len(kept) >= BILL_QUOTE_CAP:
+                    break
+                entry = {k: v for k, v in c.items() if k != "_s"}
+                if entry not in kept:
+                    kept.append(entry)
             per_issue[iid] = {"q": kept, "n": per["n"]}
         words[mid] = {k: v for k, v in per_issue.items()
                       if v["q"] or v["n"]}
