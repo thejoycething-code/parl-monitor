@@ -408,6 +408,56 @@ def _render_section(title, lines, cap=None):
 
 # -- edition assembly -------------------------------------------------------
 
+
+def render_devolved(edition):
+    """Devolved matters, at the VERY BOTTOM of the edition.
+
+    Christopher's decision 2026-08-24: the devolved legislatures get a place
+    in the published monitor. The watching-brief SEPARATION still holds and
+    is unchanged -- sp_*/sd_*/ni_* tables still never write items or
+    mp_events. This section is a READ at render time, so the structural
+    guarantee (a devolved tool cannot inject into the Westminster flow) is
+    exactly as it was; only the display changed.
+
+    Deadlines lead, because they are the only part anyone can act on.
+    """
+    d = edition.devolved or {}
+    if not any(d.get(k) for k in ("consultations", "bills", "divisions")):
+        return None
+    out = ["## Devolved", "",
+           "*Scotland, Wales and Northern Ireland. Watching brief: recorded "
+           "because it bears on our issues, not because it asks anything of "
+           "us.*", ""]
+
+    if d.get("consultations"):
+        out.append("**Open government consultations**")
+        out.append("")
+        out.append("| Consultation | Nation | Closes |")
+        out.append("|---|---|---|")
+        for c in d["consultations"]:
+            out.append("| [{0}]({1}) | {2} | {3} |".format(
+                c["title"], c["url"], c["nation"], c["closes"]))
+        out.append("")
+
+    if d.get("bills"):
+        out.append("**Bills on our ground**")
+        out.append("")
+        for b in d["bills"]:
+            out.append("- {0} ({1}) - {2}{3}".format(
+                b["title"], b["where"], b["stage"],
+                " on " + b["date"] if b.get("date") else ""))
+        out.append("")
+
+    if d.get("divisions"):
+        out.append("**Recent votes**")
+        out.append("")
+        for v in d["divisions"]:
+            out.append("- {0} - {1} ({2})".format(
+                v["dated"], v["title"], v["result"]))
+        out.append("")
+    return "\n".join(out).rstrip()
+
+
 def render(edition):
     validate(edition)
     recess = edition.mode == "recess"
@@ -439,6 +489,9 @@ def render(edition):
         mp = render_mp_section(edition.mp_notes)
         if mp:
             parts.append(mp)
+        devolved = render_devolved(edition)
+        if devolved:
+            parts.append(devolved)
     else:
         week_ahead = render_week_ahead(edition.week_ahead)
         if week_ahead:
@@ -454,7 +507,6 @@ def render(edition):
             parts.append(deadlines)
         for title, lines, cap in [
             ("EDMs and petitions", edition.edms, 5),
-            ("Devolved round-up", edition.devolved, None),
             ("Statements and announcements", edition.statements, None),
         ]:
             section = _render_section(title, lines, cap)
@@ -467,6 +519,9 @@ def render(edition):
         mp = render_mp_section(edition.mp_notes)
         if mp:
             parts.append(mp)
+        devolved = render_devolved(edition)
+        if devolved:
+            parts.append(devolved)
 
     # Footer: disclose gaps.
     parts.append("---")

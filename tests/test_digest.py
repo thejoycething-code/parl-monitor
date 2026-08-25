@@ -387,3 +387,79 @@ class NormalModeFullRenderTests(unittest.TestCase):
         md = digest.render(self._full_edition())
         self.assertEqual(sum(1 for i in range(7) if "EDM %d" % i in md), 5,
                          "EDMs cap at 5 in the section")
+
+
+class DevolvedSectionTests(unittest.TestCase):
+    """Devolved matters in the published edition (Christopher, 2026-08-24).
+
+    The watching-brief SEPARATION is unchanged: sp_*/sd_*/ni_* still never
+    write items or mp_events. This section is a READ at render time, so a
+    devolved tool still cannot inject anything into the Westminster flow --
+    only the display changed.
+    """
+
+    PAYLOAD = {
+        "consultations": [{"title": "Protections in the justice system",
+                           "url": "https://c/1", "nation": "Scotland",
+                           "closes": "2026-08-31 (7 days)"}],
+        "bills": [{"title": "A Scottish Bill", "where": "Holyrood",
+                   "stage": "Stage 3", "date": "2026-03-17"}],
+        "divisions": [{"dated": "2026-03-17", "title": "Holyrood: a vote",
+                       "result": "Defeated"}],
+    }
+
+    def test_absent_when_there_is_nothing(self):
+        e = base_edition()
+        e.devolved = {"consultations": [], "bills": [], "divisions": []}
+        self.assertIsNone(digest.render_devolved(e))
+        self.assertNotIn("## Devolved", digest.render(e))
+
+    def test_renders_at_the_very_bottom(self):
+        e = base_edition(mp_notes=[digest.Line("An MP note", 2)])
+        e.devolved = self.PAYLOAD
+        md = digest.render(e)
+        self.assertIn("## Devolved", md)
+        self.assertGreater(md.index("## Devolved"),
+                           md.index("## Parliamentarians on our issues"),
+                           "Devolved belongs at the very bottom, after the "
+                           "Westminster sections")
+
+    def test_bottom_in_sitting_weeks_too(self):
+        e = digest.Edition(week_commencing="2026-08-31", number=5,
+                           mode="normal")
+        e.board_rows = [live_row(4157, "TIA Bill", "2026-09-11")]
+        e.statements = [digest.Line("A statement", 2)]
+        e.devolved = self.PAYLOAD
+        md = digest.render(e)
+        self.assertGreater(md.index("## Devolved"),
+                           md.index("## Statements and announcements"))
+
+    def test_deadlines_lead(self):
+        e = base_edition()
+        e.devolved = self.PAYLOAD
+        out = digest.render_devolved(e)
+        self.assertLess(out.index("Open government consultations"),
+                        out.index("Bills on our ground"))
+        self.assertIn("2026-08-31 (7 days)", out)
+
+
+class DevolvedPayloadTests(unittest.TestCase):
+    def test_a_stage_name_is_not_liveness(self):
+        """sp_bills still says 'Stage 3' for bills that passed in 2011 and
+        2014. Only a bill whose stage MOVED inside the last year is current
+        business -- the first build of this surfaced a 2010 palliative care
+        bill as though it were live."""
+        import sqlite3
+        import run_weekly
+        from src import db as _db
+        conn = _db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        for title, stage, dated in (("Old passed bill", "Stage 3", "2014-02-04"),
+                                    ("Current bill", "Stage 3", "2026-03-17")):
+            conn.execute(
+                "INSERT INTO sp_bills (bill_id, reference, name, person_id, "
+                "latest_stage, latest_stage_date, areas, first_seen, "
+                "last_seen) VALUES (?,?,?,?,?,?,?,?,?)",
+                (title, "SP", title, "1", stage, dated, '[2]', "", ""))
+        out = run_weekly.devolved_from_store(conn, "2026-08-24")
+        self.assertEqual([b["title"] for b in out["bills"]], ["Current bill"])

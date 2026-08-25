@@ -1503,3 +1503,29 @@ ledger distribution: ++ 3,130 / + 4,934 / 0 11,288 / - 4,292 / -- 1,652.
 
 The lesson worth keeping: "scored N; M batch(es) failed" is not an error to
 chase, it is an instruction to re-run. The tool says so itself.
+
+## The sitting-week rehearsal (2026-08-24) and what it caught
+
+Every edition to that date had been RECESS mode -- four of them -- and the
+items store held zero rows for divisions, statements, EDMs or week-ahead. So
+four sections had never rendered from real data even once, and the first
+sitting edition was seven days away (Parliament returns Tue 1 September,
+inside w/c 31 August).
+
+Rehearsed by pulling real sitting weeks into a COPY of the store
+(`PARL_DB=rehearsal.db`) with `TRIAGE=stub NO_STANCE=1`, so it cost nothing
+and could not touch the published asset. Both switches are now permanent.
+
+**The defect it found, one week before it would have shipped.** A Monday
+06:30 edition REPORTS the week just ended and PREVIEWS the week starting.
+PQs and EDMs already swept `[week-7, ...)`, but divisions and written
+statements were fetched for the EDITION WEEK -- which, on publication
+morning, has not happened. Both sections would have rendered empty every
+sitting week while the data sat one week out of reach. Divisions and WMS now
+use `[week-7, week-1]`; What's On still previews the edition week, which is
+correct for a forward diary.
+
+Proof: w/c 2026-07-20 now renders the two Immigration and Asylum Bill
+divisions (reasoned amendment lost 97-358, second reading carried 264-90),
+EDM 603 on the Amnesty anti-rights report, and a Written Statement on Tying
+the Knot -- a live campaign of ours that would have gone unmentioned.

@@ -233,13 +233,19 @@ class WeeklyLedgerCaptureTests(unittest.TestCase):
 
     def test_division_breakdown_ledgered_and_item_stored(self):
         from src.ingest import divisions
+        # A Monday edition REPORTS the week just ended: divisions are fetched
+        # for [week-7, week-1), not the edition week itself, which on
+        # publication morning has not happened yet (fixed 2026-08-24 after a
+        # rehearsal showed the Votes section could never populate).
+        division_day = WEEK - datetime.timedelta(days=4)
         dv = divisions.Division(id=1798, house="Commons", number=51,
                                 title="Terminally Ill Adults (End of Life) Bill: Third Reading",
-                                date=datetime.date(2026, 8, 4), aye_count=1, no_count=1)
+                                date=division_day, aye_count=1, no_count=1)
         voters = [divisions.Voter(14, "Aye MP", "Con", "Wokingham", "aye"),
                   divisions.Voter(15, "No MP", "Lab", "Leeds", "no")]
         with mock.patch.object(divisions, "fetch_commons_divisions",
-                               side_effect=lambda c, d: [dv] if d == "2026-08-04" else []), \
+                               side_effect=lambda c, d: ([dv] if d == division_day.isoformat()
+                                                   else [])), \
                 mock.patch.object(divisions, "fetch_lords_divisions", return_value=[]), \
                 mock.patch.object(divisions, "fetch_commons_breakdown",
                                   return_value=(dv, voters)), \

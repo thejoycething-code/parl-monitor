@@ -416,15 +416,22 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                        "whatson", "event", label, None, r, event_date=event_date)
 
     def _divisions():
+        # A Monday 06:30 edition REPORTS the week just ended and PREVIEWS the
+        # week starting. Divisions were fetched for the edition week itself,
+        # which on publication morning has not happened -- so the Votes
+        # section could never populate in a sitting week. Found by the
+        # 2026-08-24 rehearsal, one week before the first sitting edition.
+        report_start = week_start - datetime.timedelta(days=7)
+        report_end = week_start - datetime.timedelta(days=1)
         found = []
-        day = week_start
-        while day <= week_end:
+        day = report_start
+        while day <= report_end:
             found.extend(("Commons", "c", divisions.fetch_commons_breakdown, dv)
                          for dv in divisions.fetch_commons_divisions(client, day.isoformat()))
             day += datetime.timedelta(days=1)
         found.extend(("Lords", "l", divisions.fetch_lords_breakdown, dv) for dv in
-                     divisions.fetch_lords_divisions(client, week_start.isoformat(),
-                                                     week_end.isoformat()))
+                     divisions.fetch_lords_divisions(client, report_start.isoformat(),
+                                                     report_end.isoformat()))
         for house, prefix, breakdown, dv in found:
             r = filt.filter_item(tax, wl, dv.title or "")
             if not r.matched():
@@ -483,8 +490,11 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                     areas=areas, excerpt=excerpt)
 
     def _wms():
-        for st in wms.fetch_statements(client, week_start.isoformat(), take=80):
-            if not (st.made_when and week_start <= st.made_when <= week_end):
+        report_start = week_start - datetime.timedelta(days=7)
+        report_end = week_start - datetime.timedelta(days=1)
+        for st in wms.fetch_statements(client, report_start.isoformat(), take=80):
+            # made_when is a date, not a string -- compare dates.
+            if not (st.made_when and report_start <= st.made_when <= report_end):
                 continue
             r = filt.filter_item(tax, wl, st.title or "", st.text or "")
             if r.matched():
@@ -583,6 +593,88 @@ SECTION_FOR_FEED = {
     "whatson": "week_ahead", "division": "votes", "wms": "statements",
     "edm": "edms",
 }
+
+
+
+def devolved_from_store(conn, week_commencing, days=30, hidden=(11,)):
+    """The Devolved section's payload, READ from the watching-brief tables.
+
+    Nothing here writes: sp_*/sd_*/ni_*/dg_* remain unable to reach items or
+    mp_events, which is the separation guarantee. Only three things earn a
+    place -- an open consultation (actionable), a bill at a live stage, and a
+    vote in the recent window. Everything else stays in the monitors.
+    """
+    def shown(raw):
+        return [a for a in json.loads(raw or "[]") if a not in hidden]
+
+    since = (datetime.date.fromisoformat(week_commencing)
+             - datetime.timedelta(days=days)).isoformat()
+    live_since = (datetime.date.fromisoformat(week_commencing)
+                  - datetime.timedelta(days=365)).isoformat()
+    nation_label = {"scotland": "Scotland", "wales": "Wales", "ni": "N. Ireland"}
+    out = {"consultations": [], "bills": [], "divisions": []}
+
+    try:
+        rows = conn.execute(
+            "SELECT nation, title, url, closes, areas FROM dg_consultations "
+            "WHERE (closes IS NULL OR closes >= ?) ORDER BY "
+            "COALESCE(closes, '9999')", (week_commencing,)).fetchall()
+    except Exception:                                   # noqa: BLE001
+        rows = []
+    for r in rows:
+        if not shown(r["areas"]):
+            continue
+        closes = r["closes"] or "no date published"
+        if r["closes"]:
+            left = (datetime.date.fromisoformat(r["closes"])
+                    - datetime.date.fromisoformat(week_commencing)).days
+            closes = "{0} ({1} days)".format(r["closes"], left)
+        out["consultations"].append({
+            "title": r["title"], "url": r["url"], "closes": closes,
+            "nation": nation_label.get(r["nation"], r["nation"])})
+
+    for table, where, sql in (
+            ("sp_bills", "Holyrood",
+             "SELECT name AS title, latest_stage AS stage, "
+             "latest_stage_date AS dated, areas FROM sp_bills"),
+            ("sd_bills", "Senedd",
+             "SELECT title, latest_stage AS stage, stage_date AS dated, "
+             "areas FROM sd_bills")):
+        try:
+            rows = conn.execute(sql).fetchall()
+        except Exception:                               # noqa: BLE001
+            continue
+        for r in rows:
+            # A stage NAME is not liveness: sp_bills still carries "Stage 3"
+            # for bills that passed in 2011 and 2014. Only a bill whose
+            # latest stage MOVED inside the last year is current business.
+            if not shown(r["areas"]) or not (r["stage"] or "").startswith(
+                    ("Stage", "Introduced")):
+                continue
+            if not r["dated"] or r["dated"] < live_since:
+                continue
+            out["bills"].append({"title": r["title"], "where": where,
+                                 "stage": r["stage"], "date": r["dated"]})
+
+    for sql, where in (
+            ("SELECT dated, title, result, areas, tier FROM sp_divisions "
+             "WHERE source='votesmotion' AND dated >= ?", "Holyrood"),
+            ("SELECT dated, title, result, areas, 1 AS tier FROM sd_divisions "
+             "WHERE dated >= ?", "Senedd")):
+        try:
+            rows = conn.execute(sql, (since,)).fetchall()
+        except Exception:                               # noqa: BLE001
+            continue
+        for r in rows:
+            if not shown(r["areas"]) or r["tier"] != 1:
+                continue
+            out["divisions"].append({
+                "dated": r["dated"],
+                "title": "{0}: {1}".format(where, (r["title"] or "")[:70]),
+                "result": (r["result"] or "?")[:40]})
+    out["divisions"].sort(key=lambda v: v["dated"], reverse=True)
+    out["divisions"] = out["divisions"][:6]
+    return out
 
 
 def sections_from_store(conn, edition):
@@ -686,6 +778,9 @@ def sections_from_store(conn, edition):
         )
         getattr(edition, target).append(line)
 
+    edition.devolved = devolved_from_store(
+        conn, edition.week_commencing)
+
     for r in background:
         extra = json.loads(r["extra"]) if r["extra"] else {}
         areas = json.loads(r["issue_areas"] or "[]")
@@ -777,6 +872,8 @@ def run_stance_pass(conn, week_commencing):
     3-5 batches, pennies; settings.stance_weekly_max_refs caps a freak week
     and the remainder is disclosed, never dropped, then scored next run.
     """
+    if os.environ.get("NO_STANCE") == "1":
+        return "skipped: NO_STANCE=1 (rehearsal -- scoring spends money)"
     key = (publish.load_secrets().get("anthropic_api_key")
            or os.environ.get("ANTHROPIC_API_KEY"))
     if not key:
@@ -944,7 +1041,7 @@ def _db_name(week):
     EDM signature deltas) all diff this edition against the last, which only
     works if every edition writes to the same database.
     """
-    return "parl-monitor.db"
+    return os.environ.get("PARL_DB") or "parl-monitor.db"
 
 
 def main(argv=None):
