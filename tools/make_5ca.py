@@ -62,7 +62,7 @@ def main():
         sys.exit(1)
     rows = stance.suggest_rows(conn, area, full_roster=not active_only,
                                overrides_cfg=cfg, house=house)
-    conn.close()
+    conn_eval = conn                     # kept open for the Evaluate columns
     if not rows:
         print("no ledger activity for {0}".format(label))
         sys.exit(1)
@@ -83,20 +83,41 @@ def main():
         # Total = how much evidence sits behind the placement. Comments keep the
         # dated evidence lines: the sheet is the record even though the web
         # table does not show them (Christopher, 2026-08-06).
+        # EVALUATE (Christopher, 2026-08-24): the framework's second half.
+        # Plan says where a member is thought to stand; Evaluate records how
+        # they actually voted, so the sheet stops being a prediction nobody
+        # ever marks. Populated by tools/evaluate_5ca.py; blank until a
+        # division on this area has been evaluated.
+        evaluated = {}
+        for e in conn_eval.execute(
+                "SELECT member_id, actual, outcome, predicted, division_ref "
+                "FROM evaluations WHERE area = ?", (area,)):
+            evaluated[str(e["member_id"])] = e
         writer.writerow(["Decision-Maker"] + list(stance.COLUMNS)
                         + ["Target (Y/N)", "Based on", "Confidence",
-                           "Evidence items", "Profile", "Comments"])
+                           "Evidence items", "Profile", "Comments",
+                           "Actual vote", "Evaluate"])
         tally = {c: 0 for c in stance.COLUMNS}
         for r in rows:
             marks = ["1" if c == r["column"] else "" for c in stance.COLUMNS]
             tally[r["column"]] += 1
             confidence = ("{0} ({1})".format(r["confidence"], r["confidence_why"])
                           if r["confidence"] else "")
+            ev = evaluated.get(str(r["member_id"]))
             writer.writerow([r["decision_maker"]] + marks
                             + ["", stance.based_on(r["decided_kind"], r["decided_date"]),
                                confidence, r["n_events"],
                                "mp-votes.html#mp-{0}".format(r["member_id"]),
-                               r["comments"]])
+                               r["comments"],
+                               (ev["actual"] if ev else ""),
+                               # The outcome refers to the placement AS AT
+                               # the vote, not the column on this row: the
+                               # current column includes the vote itself as
+                               # evidence, so "hit" beside a ++ that was 0
+                               # beforehand would read as a contradiction.
+                               ("{0} (was {1})".format(ev["outcome"],
+                                                       ev["predicted"])
+                                if ev else "")])
         # Totals as a row, as the Brief does for a party (Christopher, 2026-08-07).
         writer.writerow(["Totals - {0} decision-makers".format(len(rows))]
                         + [tally[c] for c in stance.COLUMNS] + ["", "", "", "", "", ""])
@@ -106,6 +127,7 @@ def main():
         dist[r["column"]] = dist.get(r["column"], 0) + 1
     conflicts = sum(1 for r in rows if r["conflict"])
     active = sum(1 for r in rows if r["n_events"])
+    conn_eval.close()
     print("5CA ({0}): {1} decision-makers ({2} with ledger evidence) -> {3}".format(
         label, len(rows), active, out))
     print("  " + "  ".join("{0} x{1}".format(c, dist[c]) for c in stance.COLUMNS if c in dist)

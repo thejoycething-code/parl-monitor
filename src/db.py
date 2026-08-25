@@ -464,6 +464,17 @@ CREATE TABLE IF NOT EXISTS dg_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS evaluations (
+  division_ref TEXT NOT NULL,     -- 'div:c2071' (no lobby suffix)
+  area INTEGER NOT NULL,
+  member_id TEXT NOT NULL,
+  predicted TEXT,                 -- the 5CA column as at the day before
+  actual TEXT,                    -- 'aye' | 'no' | 'absent'
+  outcome TEXT NOT NULL,          -- hit | miss | no-prediction | no-vote
+  based_on TEXT,                  -- what the prediction rested on
+  evaluated_at TEXT NOT NULL,
+  PRIMARY KEY (division_ref, area, member_id)
+);
 CREATE TABLE IF NOT EXISTS api_spend (
   dated TEXT NOT NULL,            -- when the call was made
   pass_name TEXT NOT NULL,        -- 'triage' | 'stance'
@@ -507,6 +518,7 @@ TABLES = (
     "sd_committees",
     "dg_consultations",
     "api_spend",
+    "evaluations",
     "ni_items",
     "ni_members",
     "ni_affiliations",

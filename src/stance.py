@@ -694,7 +694,7 @@ def stance_to_column(stance):
 
 
 def suggest_rows(conn, area, full_roster=False, overrides_cfg=None,
-                 house="Commons"):
+                 house="Commons", as_at=None):
     """5CA Plan rows for `area`, strongest evidence first.
 
     full_roster=False: one row per member (either House) with ledger
@@ -714,12 +714,19 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None,
     free_titles = (overrides_cfg or {}).get("free_vote_titles") or []
     whip_map = {r["ref_base"]: r["whipped"]
                 for r in conn.execute("SELECT ref_base, whipped FROM division_whip")}
+    # as_at reconstructs the sheet as it stood BEFORE a date -- the only
+    # honest way to evaluate a prediction against a vote, since after the
+    # vote the vote itself is evidence and the sheet would be marking its
+    # own homework. Strictly earlier: a division on the day is excluded.
+    where, args = "", []
+    if as_at:
+        where, args = "WHERE e.date < ?", [as_at]
     rows = conn.execute(
         "SELECT e.member_id, e.date, e.kind, e.ref, e.line, e.areas, e.excerpt, "
         "s.stance, s.why, m.name, m.party, m.seat, m.house "
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
         "LEFT JOIN members m ON m.id = e.member_id "
-        "ORDER BY e.date DESC").fetchall()
+        "{0} ORDER BY e.date DESC".format(where), args).fetchall()
 
     def _whip(r):
         if r["kind"] != "vote":

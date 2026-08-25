@@ -65,3 +65,49 @@ activity input; stance scoring is the remaining build step.
    suggested column from stance evidence (votes outrank speeches outrank
    signatures outrank PQs), Comments = dated evidence lines, output CSV
    matching the Campaigns Brief 5CA sheet columns for direct paste-in.
+
+## The Evaluate phase (2026-08-24)
+
+The framework has two halves and only Plan was ever built: the sheets were a
+standing prediction nobody marked, so nothing measured whether the evidence
+hierarchy works.
+
+**Recovering the prediction fairly.** `stance.suggest_rows(..., as_at=DATE)`
+rebuilds the sheet from evidence dated STRICTLY BEFORE the division. After a
+vote the vote itself is evidence, and a sheet including it would be marking
+its own homework. No snapshot is needed and none should be built -- the
+ledger carries dates, so any past placement is reconstructable. (An earlier
+plan called for snapshotting sheets before each vote; the as-at rebuild
+supersedes it and removes the need for forethought.)
+
+**Which lobby is ours** comes from the stance already scored on the
+division's own refs (`div:cN:aye` / `:no`) -- the same human-reviewable
+judgement the 5CA places on. An unscored or procedural division (both
+lobbies at 0) is REFUSED rather than guessed.
+
+**What counts as a miss** is most of the design, because a hit rate is a
+number people quote and a generous denominator flatters it:
+
+  * placed at 0 is NOT a miss -- zero means "no evidence", an honest absence
+    of prediction. Counting it would punish the sheet for admitting what it
+    does not know, and would sink the rate on a 650-seat roster where most
+    members never speak on a given issue;
+  * an ABSENCE is not a miss -- paired, ill or abroad contradicts nothing;
+  * only members with BOTH a directional placement and a recorded vote can
+    be right or wrong, and the rate is computed over exactly those.
+
+**First result** (`div:c1877`, Terminally Ill Adults second reading,
+2024-11-29): 52 hit, 4 miss, 592 no-prediction, 2 no-vote -- a **93% hit
+rate** over the 56 members who had both. By what the placement rested on:
+debate 92% (34/37), edm-signed 94% (17/18), pq 100% (1/1). That is the first
+measured evidence of whether the hierarchy is right, rather than the
+reasonable-sounding assumption it was built on.
+
+The sheet gains two columns, `Actual vote` and `Evaluate`. The outcome is
+written as "hit (was ++)" because it refers to the placement AS AT the vote,
+not the column on the row -- today's column includes the vote itself, so a
+bare "hit" beside a ++ that was 0 beforehand reads as a contradiction.
+
+Next: the Terminally Ill Adults second reading on 2026-09-11 is a free vote
+on our core issue with a full roll call -- the best evaluation set of the
+year, and now it will be scored automatically.
