@@ -252,6 +252,24 @@ footer a{color:var(--blue);font-weight:400}
   .subrow{flex-direction:column;gap:8px}
   .minivote{flex:none;width:124px}
 }
+
+/* --- also on the record (receipts, 2026-08-25) --------------------------- */
+.rechead{margin:26px 0 4px;padding-top:18px;border-top:2px solid var(--grey-100)}
+.rechead h2{font-size:19px;font-weight:500;margin:0 0 6px}
+.rechead p{font-size:13.5px;color:var(--ink);margin:0;max-width:72ch}
+.recarea{margin:14px 0 4px}
+.recarea h3{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);margin:0 0 4px}
+.recrow{display:flex;gap:13px;padding:10px 0;border-top:1px solid var(--line)}
+.reckind{flex:0 0 96px;height:fit-content;text-align:center;font-size:9.5px;font-weight:700;
+  letter-spacing:.06em;color:#4a5058;background:#f0f1f3;border:1px solid #e2e5e9;
+  border-radius:4px;padding:4px 3px}
+.recbody{min-width:0}
+.rectitle{font-size:14px;font-weight:500;color:#23282f}
+.recquote{font-size:13.5px;color:#4a5058;margin:4px 0 2px;font-style:italic;
+  border-left:3px solid var(--grey-100);padding-left:11px}
+.recmeta{font-size:12px;color:#9aa1a9;margin-top:3px}
+@media(max-width:560px){.recrow{flex-direction:column;gap:6px}.reckind{width:110px}}
 </style>
 </head>
 <body>
@@ -554,6 +572,40 @@ function renderMP(id){
     }
     rows += `</section>`;
   }
+
+  // ALSO ON THE RECORD -- receipts, not judgements (Christopher, 2026-08-25).
+  // What the member has said, asked and signed on our issues: dated, quoted
+  // in their own words, and sourced. Deliberately carries NO verdict chip
+  // and no colour: these are facts a constituent can weigh, and the page's
+  // judgements stay confined to divisions with a signed-off meaning.
+  const KINDWORD = {debate: "SPOKE", pq: "ASKED", edm: "PROPOSED EDM",
+                    "edm-signed": "SIGNED EDM"};
+  const recLink = (it) => {
+    if (it.e) return ` &middot; <a class="official" href="https://edm.parliament.uk/early-day-motion/${it.e}" target="_blank" rel="noopener">EDM register</a>`;
+    if (it.k === "debate" && it.d) return ` &middot; <a class="official" href="https://hansard.parliament.uk/Commons/${it.d}" target="_blank" rel="noopener">Hansard for that day</a>`;
+    return ` &middot; official written question record`;
+  };
+  const recRow = (it) => `<div class="recrow">
+      <span class="reckind">${KINDWORD[it.k] || it.k.toUpperCase()}</span>
+      <div class="recbody">
+        <div class="rectitle">${esc(it.t)}</div>
+        ${it.q ? `<div class="recquote">&ldquo;${esc(it.q)}&rdquo;</div>` : ""}
+        <div class="recmeta">${fmtD(it.d)}${recLink(it)}</div>
+      </div></div>`;
+  let recHtml = "";
+  const rec = m.record || {};
+  const areaIds = Object.keys(rec).filter(a => (rec[a]||[]).length)
+    .sort((a,b) => rec[b].length - rec[a].length);
+  if (areaIds.length){
+    recHtml = `<div class="rechead"><h2>Also on the record</h2>
+      <p>Beyond the division lobby: what ${esc(m.name)} has said, asked and
+      signed on these issues, in their own words. These are facts from the
+      parliamentary record, not judgements &mdash; a speech is not a vote.</p></div>`;
+    for (const a of areaIds){
+      recHtml += `<div class="recarea"><h3>${esc(DATA.areas[a] || "")}</h3>${
+        rec[a].map(recRow).join("")}</div>`;
+    }
+  }
   document.getElementById("main").innerHTML = `
   <div class="card">
     <div class="card-head">
@@ -572,6 +624,7 @@ function renderMP(id){
     ${banner?`<div class="rolebanner">${banner}</div>`:""}
     <div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}</div>
     ${rows}
+  ${recHtml}
   </div>`;
   document.getElementById("back").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
   location.hash = "mp-"+m.id;

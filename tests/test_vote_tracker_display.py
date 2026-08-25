@@ -153,3 +153,84 @@ class TemplateIntegrityTests(unittest.TestCase):
         t = template()
         self.assertNotIn("Every division tracked here was a free vote", t)
         self.assertNotIn("Every vote we track is a", t)
+
+
+class OnRecordTests(unittest.TestCase):
+    """'Also on the record' is RECEIPTS ONLY (Christopher, 2026-08-25):
+    dated facts in the member's own words with a source. The inference
+    layer -- stance scores, placements, characterisations -- is campaign
+    intelligence and must never reach this public payload."""
+
+    def _store(self):
+        import sqlite3
+        sys.path.insert(0, ROOT)
+        from src import db
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        rows = [
+            ("1", "2025-03-19", "debate", "hansard:AAA",
+             "Spoke: TIA Bill (Twenty-seventh sitting) (re: assisted dying)",
+             "[2]", "Some Members suggested that institutions receiving public funding should deliver the service."),
+            ("1", "2025-03-19", "debate", "hansard:BBB",
+             "Spoke: TIA Bill (Twenty-seventh sitting) (re: assisted dying)",
+             "[2]", "A second contribution in the same sitting."),
+            ("1", "2025-01-01", "debate", "hansard:CCC",
+             "Spoke: Some Debate (re: term)", "[2]", "Some Debate"),
+            ("1", "2024-01-01", "edm-signed", "edm:603",
+             "Signed EDM: Amnesty report", "[2]", ""),
+            ("2", "2025-01-01", "debate", "hansard:DDD",
+             "Spoke: Another (re: t)", "[2]", "Not a sitting member."),
+        ]
+        for r in rows:
+            conn.execute("INSERT INTO mp_events (member_id, date, kind, ref, "
+                         "line, areas, excerpt) VALUES (?,?,?,?,?,?,?)", r)
+        # a stance row exists but must never surface
+        from src import stance as _st
+        _st.ensure_table(conn)
+        conn.execute("INSERT INTO stance (ref, stance, why, scored_at) "
+                     "VALUES ('hansard:AAA', 2, 'ally', '2025-01-01')")
+        return conn
+
+    def test_receipts_carry_no_stance(self):
+        rec = mvt.on_record(self._store(), {"1"})
+        import json
+        flat = json.dumps(rec)
+        self.assertNotIn("stance", flat)
+        # the real guard is the key whitelist below: '2' appears legitimately
+        # as an AREA key, so a naive scan for score-like values false-alarms
+        for items in rec["1"].values():
+            for it in items:
+                self.assertEqual(sorted(it.keys() - {"e"}),
+                                 ["d", "k", "q", "t"],
+                                 "only date, kind, quote, title (and an EDM "
+                                 "id) may ship")
+
+    def test_internal_dressing_is_stripped(self):
+        rec = mvt.on_record(self._store(), {"1"})
+        titles = [it["t"] for it in rec["1"]["2"]]
+        for t in titles:
+            self.assertNotIn("Spoke:", t)
+            self.assertNotIn("(re:", t)
+
+    def test_one_receipt_per_debate(self):
+        """Five contributions in one committee sitting are one receipt."""
+        rec = mvt.on_record(self._store(), {"1"})
+        titles = [it["t"] for it in rec["1"]["2"]]
+        self.assertEqual(len(titles), len(set(titles)))
+
+    def test_a_heading_is_not_a_quote(self):
+        rec = mvt.on_record(self._store(), {"1"})
+        some_debate = next(it for it in rec["1"]["2"]
+                           if it["t"] == "Some Debate")
+        self.assertEqual(some_debate["q"], "",
+                         "an excerpt that merely repeats the title must not "
+                         "render in quotation marks as the member's words")
+
+    def test_non_sitting_members_are_excluded(self):
+        rec = mvt.on_record(self._store(), {"1"})
+        self.assertNotIn("2", rec)
+
+    def test_the_section_declares_itself_factual(self):
+        t = template()
+        self.assertIn("Also on the record", t)
+        self.assertIn("a speech is not a vote", t)
