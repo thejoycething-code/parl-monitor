@@ -157,6 +157,15 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
   padding:1px 7px;border-radius:9px;vertical-align:1px;cursor:help}
 .whip.free{background:#e6f4ea;color:#188038}
 .whip.whipped{background:#ececec;color:#5f6368}
+.keyvote{display:inline-block;margin-left:8px;vertical-align:2px;font-size:10px;
+  font-weight:600;letter-spacing:.04em;color:#8a6d1f;background:#fdf3d6;
+  border:1px solid #f0dfae;border-radius:3px;padding:1px 5px}
+.morevotes{margin:2px 0 14px}
+.morevotes summary{cursor:pointer;font-size:14px;color:#4285f4;padding:7px 0;
+  list-style:none;font-weight:500}
+.morevotes summary::-webkit-details-marker{display:none}
+.morevotes summary::before{content:"\25B8  ";display:inline-block;transition:transform .15s}
+.morevotes[open] summary::before{content:"\25BE  "}
 .splits{font-size:11px;color:#5c626a;margin-top:5px;cursor:help}
 .splits span{white-space:nowrap}
 .result .rejected{color:var(--red)}
@@ -176,6 +185,13 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding:22px 0 52px;font
 footer a{color:var(--blue);font-weight:400}
 
 @media(max-width:640px){
+  /* Most traffic arrives from social on a phone. The tally is the densest
+     element: let it wrap and read as one line rather than a squeezed column. */
+  .tallywrap{padding-top:0}
+  .splits{font-size:12px;line-height:1.7;cursor:default}
+  .splits span{display:inline-block;margin-right:6px}
+  .divrow h3{font-size:17px}
+  .morevotes summary{padding:11px 0}
   header.hero{padding:38px 0 6px}
   .steps{grid-template-columns:1fr;gap:14px}
   .divrow{grid-template-columns:1fr;gap:7px}
@@ -304,10 +320,10 @@ function voteInfo(m, d){
     text:`<b>${esc(m.name)} voted Aye.</b> ${esc(d.meaning_aye)}`}, d, "aye", "Aye");
   if (v==="N")  return withVerdict({chip:"NO", cls:"N", side:"no",
     text:`<b>${esc(m.name)} voted No.</b> ${esc(d.meaning_no)}`}, d, "no", "No");
-  if (v==="TA") return withVerdict({chip:"TELLER (AYES)", cls:"T", side:"aye",
-    text:`<b>Acted as a teller for the Ayes</b> &mdash; by convention, indicating support. ${esc(d.meaning_aye)}`}, d, "aye", "Teller (Ayes)");
-  if (v==="TN") return withVerdict({chip:"TELLER (NOES)", cls:"T", side:"no",
-    text:`<b>Acted as a teller for the Noes</b> &mdash; by convention, indicating opposition. ${esc(d.meaning_no)}`}, d, "no", "Teller (Noes)");
+  if (v==="TA") return withVerdict({chip:"TELLER", cls:"T", side:"aye",
+    text:`<b>Counted the votes for the Ayes (a teller).</b> Tellers do not vote themselves; by long convention an MP only tells for the side they support, so this is read as backing the Ayes. ${esc(d.meaning_aye)}`}, d, "aye", "Teller (Ayes)");
+  if (v==="TN") return withVerdict({chip:"TELLER", cls:"T", side:"no",
+    text:`<b>Counted the votes for the Noes (a teller).</b> Tellers do not vote themselves; by long convention an MP only tells for the side they support, so this is read as opposing. ${esc(d.meaning_no)}`}, d, "no", "Teller (Noes)");
   if (!v && m.since && m.since > d.date)
     return {chip:"NOT YET AN MP", cls:"S", side:null,
       text:`${esc(m.name)} became the MP for ${esc(m.constituency)} on ${fmtD(m.since)}, after this division.`};
@@ -317,8 +333,8 @@ function voteInfo(m, d){
     text:"As a Deputy Speaker, by convention, does not vote in divisions."};
   if (m.role==="sf") return {chip:"SEAT NOT TAKEN", cls:"S", side:null,
     text:"Sinn F\u00e9in members do not take their seats at Westminster and cast no votes."};
-  return {chip:"NO VOTE RECORDED", cls:"X", side:null,
-    text:"No vote is recorded for this division. The Commons does not record abstentions, so the reason is not stated in the record."};
+  return {chip:"DID NOT VOTE", cls:"X", side:null,
+    text:"<b>Did not vote.</b> MPs miss divisions for many ordinary reasons \u2014 illness, ministerial or constituency duties, or a pairing arrangement with an MP on the other side. The Commons does not record abstentions or reasons, so no conclusion should be drawn either way."};
 }
 
 const PARTY_ABBR = {"Labour":"Lab","Conservative":"Con","Liberal Democrat":"LD",
@@ -397,16 +413,27 @@ function renderMP(id){
     rows += `<div class="issuehead"><h2>${esc(issue.name)}</h2>
       <div class="bill">${esc(issue.bill)}</div>
       <div class="status">${esc(issue.status)}</div></div>`;
-    for (const d of divsByIssue[issue.id]){
+    const all = divsByIssue[issue.id];
+    // An issue with NO landmark vote must not collapse to nothing: parental
+    // rights has three divisions and no flag, and hiding all three behind a
+    // disclosure would read as no record at all.
+    let key = all.filter(d => d.landmark), rest = all.filter(d => !d.landmark);
+    if (!key.length){ key = all; rest = []; }
+    const render = (d) => {
       const vi = voteInfo(m,d);
-      rows += `<div class="divrow">
+      return `<div class="divrow">
         <div class="date">${fmtD(d.date)}<span>${esc(d.stage)}</span></div>
-        <div><h3>${esc(d.short)}</h3>
+        <div><h3>${esc(d.short)}${d.landmark ? '<span class="keyvote" title="One of the decisive votes on this issue">KEY VOTE</span>' : ""}</h3>
           <div><span class="chip ${vi.cls}"${vi.title ? ` title="${esc(vi.title)}"` : ""}>${vi.chip}</span></div>
           <div class="meaning">${vi.text}</div>
           <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
         </div>
         <div class="tallywrap">${tallyHTML(d,vi.side)}</div></div>`;
+    };
+    rows += key.map(render).join("");
+    if (rest.length){
+      rows += `<details class="morevotes"><summary>${rest.length} other vote${
+        rest.length>1?"s":""} on this issue</summary>${rest.map(render).join("")}</details>`;
     }
   }
   document.getElementById("main").innerHTML = `
