@@ -23,7 +23,7 @@ from concurrent import futures
 import yaml
 
 from src import (board, db, digest, filter as filt, intel, members, publish, review,
-                 stance, triage)
+                 spend, stance, triage)
 from src.http import FetchError, HttpClient
 from src.ingest import (bills, committees, consultations, divisions, edms, hansard,
                         legislation, pqs, scotland, sis, whatson, wms)
@@ -846,8 +846,11 @@ def run_triage_pass(conn, wl, week_commencing, mode=None):
         # A capped or exhausted API must not cost us the whole pull: fall back
         # to the deterministic stub and disclose it. Everything downstream is
         # built to work on stub scores (CLAUDE.md).
+        def _spend(usage, model):
+            spend.record(conn, "triage", model, usage)
+
         try:
-            results = triage.triage(items, mode="live")
+            results = triage.triage(items, mode="live", usage_sink=_spend)
         except Exception as exc:
             record_gap(conn, week_commencing, "triage",
                        "live scoring failed ({0}); deterministic stub scores "

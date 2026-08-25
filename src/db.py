@@ -464,6 +464,14 @@ CREATE TABLE IF NOT EXISTS dg_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS api_spend (
+  dated TEXT NOT NULL,            -- when the call was made
+  pass_name TEXT NOT NULL,        -- 'triage' | 'stance'
+  model TEXT NOT NULL,
+  calls INTEGER NOT NULL DEFAULT 1,
+  input_tokens INTEGER, output_tokens INTEGER,
+  cache_read_tokens INTEGER, cache_write_tokens INTEGER
+);
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
@@ -498,6 +506,7 @@ TABLES = (
     "sd_bills",
     "sd_committees",
     "dg_consultations",
+    "api_spend",
     "ni_items",
     "ni_members",
     "ni_affiliations",

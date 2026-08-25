@@ -119,7 +119,7 @@ def _parse_reply(reply):
     return out
 
 
-def score_live(items, api_key=None, transport=None):
+def score_live(items, api_key=None, transport=None, usage_sink=None):
     """Score via Claude in batches of 20. transport is injectable for testing."""
     api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
@@ -128,6 +128,10 @@ def score_live(items, api_key=None, transport=None):
     results = []
     for batch in _batches(items):
         reply = transport(_build_payload(batch), api_key)
+        if usage_sink is not None:
+            # The usage block was being discarded; it is the only
+            # honest record of what a run cost.
+            usage_sink(reply.get('usage') or {}, reply.get('model'))
         results.extend(_parse_reply(reply))
     return results
 

@@ -243,19 +243,24 @@ def _parse_reply(reply):
             for row in data]
 
 
-def classify_batch(batch, api_key=None, transport=None):
+def classify_batch(batch, api_key=None, transport=None, usage_sink=None):
     """One live call over up to BATCH_SIZE Evidence items."""
     api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         raise RuntimeError("anthropic_api_key required for stance classification")
     transport = transport or _default_transport
-    return _parse_reply(transport(_build_payload(batch), api_key))
+    reply = transport(_build_payload(batch), api_key)
+    if usage_sink is not None:
+        usage_sink(reply.get('usage') or {}, reply.get('model'))
+    return _parse_reply(reply)
 
 
-def classify_live(evidence, api_key=None, transport=None):
+def classify_live(evidence, api_key=None, transport=None, usage_sink=None):
     results = []
     for batch in _batches(evidence):
-        results.extend(classify_batch(batch, api_key=api_key, transport=transport))
+        results.extend(classify_batch(batch, api_key=api_key,
+                                      transport=transport,
+                                      usage_sink=usage_sink))
     return results
 
 
@@ -336,9 +341,14 @@ def score_pending(conn, raw_dir, api_key, scored_at, max_refs=None,
                 for r in pending]
 
     scored, failed = 0, 0
+
+    def _spend(usage, model):
+        from src import spend as _spend_mod
+        _spend_mod.record(conn, "stance", model, usage, dated=scored_at)
+
     for batch in _batches(evidence):
         try:
-            results = classify_batch(batch, api_key=api_key)
+            results = classify_batch(batch, api_key=api_key, usage_sink=_spend)
         except Exception as exc:
             failed += 1
             log("stance batch of {0} failed: {1}".format(len(batch), exc))

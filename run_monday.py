@@ -132,6 +132,15 @@ def main():
                           asana.get("task_gid"),
                           datetime.datetime.now().isoformat(timespec="seconds")))
             conn.commit()
+    # What the paid passes actually cost since the last edition. Recorded
+    # rather than remembered: Christopher's standing instruction is to be
+    # told when API funds are used, and until 2026-08-24 the only source was
+    # my recollection of historic rates.
+    from src import spend
+    try:
+        print(spend.line(conn, since=str(week)))
+    except Exception as exc:                                # noqa: BLE001
+        print("api spend: not available ({0})".format(exc))
     conn.close()
 
     # Partner edition: redacted static site, committed alongside the edition.
