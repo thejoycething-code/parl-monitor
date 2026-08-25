@@ -129,13 +129,24 @@ def party_splits(payload, top=4):
 
 
 def whip_label(d, issue_note, splits):
-    """'free' | 'whipped' | None, editorial text first, arithmetic second.
+    """'free' | 'whipped' | {party: label} | None.
+
+    Order: an explicit `whip:` in the config wins; then the editorial text;
+    then the bloc arithmetic. The config value may be a single string or a
+    per-party map, because WHIPPING IS PER PARTY and a division can be free
+    for one side and instructed for the other -- a shape the old single
+    value could not express at all (Christopher, 2026-08-24).
 
     The signed-off wording is authoritative where it speaks (the config
     review checked every claim against the record). Where it is silent,
     the bloc test decides: the two largest parties each voting >=98% one
     way, on opposite sides, is a party-line vote whatever anyone says.
     """
+    declared = d.get("whip")
+    if isinstance(declared, dict):
+        return {str(k): str(v).lower() for k, v in declared.items()}
+    if isinstance(declared, str) and declared.strip():
+        return declared.strip().lower()
     text = " ".join([d.get("context") or "", issue_note or ""]).lower()
     # Negations first: the signed-off NI contexts say "this was NOT a whipped
     # vote", and a bare substring test read that as whipped (caught on the

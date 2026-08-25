@@ -366,6 +366,17 @@ divisions:
     landmark: false
     signed_off: true
     our_side: "aye"
+    # Declared 2026-08-24. The inference could not decide: no whip wording in
+    # the context, and the bloc test needs BOTH big parties near-unanimous on
+    # opposite sides, which fails on a 107-109 Conservative split. The
+    # evidence says free, and the decisive comparator is on the same bill --
+    # the 150-metre buffer zones amendment is confirmed free and has almost
+    # the same shape (Lab 158-0, Con 113-104 there; Lab 0-169, Con 107-109
+    # here). Labour runs 92-100% on every confirmed-free abortion-access
+    # vote and splits 55-62% on assisted dying, so its unanimity here is
+    # conviction, not instruction. Both confirmed WHIPPED divisions look
+    # different: both blocs near-total on opposite sides.
+    whip: "free"
     short: "Silent prayer exemption within buffer zones"
     # All three exempted categories are named, from the mover's own words:
     # "consensual communication, silent prayer, and peaceful presence"
