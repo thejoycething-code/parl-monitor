@@ -1,70 +1,3 @@
-  let rows = "";
-  // Grouped by BILL, ordered by the date of its major vote, newest first
-  // (Christopher, 2026-08-24). The major vote is the Third Reading where
-  // there is one, else Second Reading, else the leading division -- only
-  // three of seven bills have a reading at all, so the fallback is not an
-  // edge case.
-  const RANK = {"Third Reading":0,"Second Reading":1,"Report Stage":2,
-                "Approval motion":3,"Division":4};
-  const groups = {};
-  for (const issue of DATA.issues){
-    for (const d of divsByIssue[issue.id]){
-      const key = issue.id + "|" + (issue.bill || issue.name);
-      (groups[key] = groups[key] || {issue: issue, divs: []}).divs.push(d);
-    }
-  }
-  const blocks = Object.values(groups).map(g => {
-    g.divs.sort((a,b) => (RANK[a.stage]??9)-(RANK[b.stage]??9) || a.date.localeCompare(b.date));
-    g.major = g.divs[0];
-    g.rest = g.divs.slice(1).sort((a,b) => b.date.localeCompare(a.date));
-    return g;
-  }).sort((a,b) => b.major.date.localeCompare(a.major.date));
-
-  const voteBlock = (vi, d) => `<div class="votebox ${vi.cls}">
-      <span class="vword">${vi.chip}</span>
-      ${vi.sub ? `<span class="vsub">${esc(vi.sub)}</span>` : ""}
-      <span class="vwhip">${whipChip(d, m)}</span></div>`;
-
-  const bigCard = (d, g) => {
-    const vi = voteInfo(m,d);
-    // No verdict means we deliberately do not score it. Demote the card and
-    // say why underneath rather than leave a blank that reads as an oversight.
-    const noVerdict = !d.good;
-    return `<article class="bigcard${noVerdict ? " demote" : ""}">
-      ${voteBlock(vi,d)}
-      <div class="cardbody">
-        ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
-        <div class="lbl">DATE VOTED <span class="cal">&#128197;</span> ${d.date}</div>
-        <h3>${esc(g.issue.bill || g.issue.name)} <span class="stage">(${esc(d.stage)})</span></h3>
-        <div class="meaning">${vi.text}</div>
-        ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
-          We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
-        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
-      </div></article>`;
-  };
-
-  const subRow = (d) => {
-    const vi = voteInfo(m,d);
-    return `<div class="subrow">
-      <span class="minivote ${vi.cls}">${vi.chip}${vi.sub ? `<span class="msub">${esc(vi.sub)}</span>` : ""}</span>
-      <div class="subbody">
-        <div class="subtitle">${esc(d.short)}</div>
-        <div class="submeta">${fmtD(d.date)} \u00b7 ${esc(d.stage)} \u00b7 ${d.ayes} Ayes, ${d.noes} Noes \u2014 ${d.passed ? "passed" : "rejected"} \u00b7 ${whipChip(d,m)}</div>
-        <div class="subsent">${vi.text}</div>
-        ${d.context ? `<div class="subctx">${esc(d.context)}</div>` : ""}
-        <div class="subtally">${tallyHTML(d, vi.side)}</div>
-        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
-      </div></div>`;
-  };
-
-  for (const g of blocks){
-    rows += `<section class="billblock">${bigCard(g.major, g)}`;
-    if (g.rest.length){
-      rows += `<details class="subvotes"><summary>${g.rest.length} further vote${
-        g.rest.length>1?"s":""} on this bill</summary>${g.rest.map(subRow).join("")}</details>`;
-    }
-    rows += `</section>`;
-  }
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -336,7 +269,7 @@ footer a{color:var(--blue);font-weight:400}
 <header class="hero">
   <div class="eyebrow">Westminster &middot; House of Commons division records</div>
   <h1>How did your MP vote?</h1>
-  <p class="sub">Most votes we track are <b>free votes</b> &mdash; no party instruction, so each member voted by conviction. Where a vote was whipped, every card says so, recorded in the official division lists of the House of Commons.
+  <p class="sub">Most votes we track are <b>free votes</b> &mdash; no party instruction, so each member voted by conviction. A few were whipped, and every card says which. All are taken from the official division lists of the House of Commons.
   Search by postcode, constituency, or MP name to see exactly where your representative stood.</p>
 </header>
 
@@ -358,9 +291,8 @@ footer a{color:var(--blue);font-weight:400}
 <section class="about">
   <hr class="rule">
   <h2>About this record</h2>
-  <p><span class="k">Free votes.</span> Every division tracked here was a free vote: MPs voted according to
-  personal conviction, with no party whip applied. A vote therefore reflects the member's own judgement.</p>
-  <p><span class="k">&ldquo;No vote recorded&rdquo; is not an abstention.</span> The Commons does not record
+  <p><span class="k">Free votes.</span> Most divisions tracked here were free votes: MPs voted according to personal conviction, with no party whip applied, so the vote reflects the member's own judgement. Three were whipped, and those cards are labelled WHIPPED — a vote following a party instruction says less about the member's own view. </p>
+  <p><span class="k">&ldquo;Did not vote&rdquo; is not an abstention.</span> The Commons does not record
   abstentions. An MP may have no recorded vote because of illness, ministerial or constituency duties,
   an agreed pairing arrangement, or a deliberate decision not to vote &mdash; the record does not say which.</p>
   <p><span class="k">Who doesn't vote.</span> By convention the Speaker and the three Deputy Speakers do not vote.
@@ -556,32 +488,71 @@ function renderMP(id){
   if (m.role==="deputy")  banner = esc(m.name)+" serves as a Deputy Speaker and, by convention, does not vote in divisions.";
   if (m.role==="sf")      banner = "Sinn F\u00e9in members do not take their seats at Westminster, so no votes are cast or recorded.";
   let rows = "";
+  // Grouped by BILL, ordered by the date of its major vote, newest first
+  // (Christopher, 2026-08-24). The major vote is the Third Reading where
+  // there is one, else Second Reading, else the leading division -- only
+  // three of seven bills have a reading at all, so the fallback is not an
+  // edge case.
+  const RANK = {"Third Reading":0,"Second Reading":1,"Report Stage":2,
+                "Approval motion":3,"Division":4};
+  const groups = {};
   for (const issue of DATA.issues){
-    rows += `<div class="issuehead"><h2>${esc(issue.name)}</h2>
-      <div class="bill">${esc(issue.bill)}</div>
-      <div class="status">${esc(issue.status)}</div></div>`;
-    const all = divsByIssue[issue.id];
-    // An issue with NO landmark vote must not collapse to nothing: parental
-    // rights has three divisions and no flag, and hiding all three behind a
-    // disclosure would read as no record at all.
-    let key = all.filter(d => d.landmark), rest = all.filter(d => !d.landmark);
-    if (!key.length){ key = all; rest = []; }
-    const render = (d) => {
-      const vi = voteInfo(m,d);
-      return `<div class="divrow">
-        <div class="date">${fmtD(d.date)}<span>${esc(d.stage)}</span></div>
-        <div><h3>${esc(d.short)}${d.landmark ? '<span class="keyvote" title="One of the decisive votes on this issue">KEY VOTE</span>' : ""}</h3>
-          <div><span class="chip ${vi.cls}"${vi.title ? ` title="${esc(vi.title)}"` : ""}>${vi.chip}</span></div>
-          <div class="meaning">${vi.text}</div>
-          <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
-        </div>
-        <div class="tallywrap">${tallyHTML(d,vi.side)}</div></div>`;
-    };
-    rows += key.map(render).join("");
-    if (rest.length){
-      rows += `<details class="morevotes"><summary>${rest.length} other vote${
-        rest.length>1?"s":""} on this issue</summary>${rest.map(render).join("")}</details>`;
+    for (const d of divsByIssue[issue.id]){
+      const key = issue.id + "|" + (issue.bill || issue.name);
+      (groups[key] = groups[key] || {issue: issue, divs: []}).divs.push(d);
     }
+  }
+  const blocks = Object.values(groups).map(g => {
+    g.divs.sort((a,b) => (RANK[a.stage]??9)-(RANK[b.stage]??9) || a.date.localeCompare(b.date));
+    g.major = g.divs[0];
+    g.rest = g.divs.slice(1).sort((a,b) => b.date.localeCompare(a.date));
+    return g;
+  }).sort((a,b) => b.major.date.localeCompare(a.major.date));
+
+  const voteBlock = (vi, d) => `<div class="votebox ${vi.cls}">
+      <span class="vword">${vi.chip}</span>
+      ${vi.sub ? `<span class="vsub">${esc(vi.sub)}</span>` : ""}
+      <span class="vwhip">${whipChip(d, m)}</span></div>`;
+
+  const bigCard = (d, g) => {
+    const vi = voteInfo(m,d);
+    // No verdict means we deliberately do not score it. Demote the card and
+    // say why underneath rather than leave a blank that reads as an oversight.
+    const noVerdict = !d.good;
+    return `<article class="bigcard${noVerdict ? " demote" : ""}">
+      ${voteBlock(vi,d)}
+      <div class="cardbody">
+        ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
+        <div class="lbl">DATE VOTED <span class="cal">&#128197;</span> ${d.date}</div>
+        <h3>${esc(g.issue.bill || g.issue.name)} <span class="stage">(${esc(d.stage)})</span></h3>
+        <div class="meaning">${vi.text}</div>
+        ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
+          We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
+        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+      </div></article>`;
+  };
+
+  const subRow = (d) => {
+    const vi = voteInfo(m,d);
+    return `<div class="subrow">
+      <span class="minivote ${vi.cls}">${vi.chip}${vi.sub ? `<span class="msub">${esc(vi.sub)}</span>` : ""}</span>
+      <div class="subbody">
+        <div class="subtitle">${esc(d.short)}</div>
+        <div class="submeta">${fmtD(d.date)} \u00b7 ${esc(d.stage)} \u00b7 ${d.ayes} Ayes, ${d.noes} Noes \u2014 ${d.passed ? "passed" : "rejected"} \u00b7 ${whipChip(d,m)}</div>
+        <div class="subsent">${vi.text}</div>
+        ${d.context ? `<div class="subctx">${esc(d.context)}</div>` : ""}
+        <div class="subtally">${tallyHTML(d, vi.side)}</div>
+        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+      </div></div>`;
+  };
+
+  for (const g of blocks){
+    rows += `<section class="billblock">${bigCard(g.major, g)}`;
+    if (g.rest.length){
+      rows += `<details class="subvotes"><summary>${g.rest.length} further vote${
+        g.rest.length>1?"s":""} on this bill</summary>${g.rest.map(subRow).join("")}</details>`;
+    }
+    rows += `</section>`;
   }
   document.getElementById("main").innerHTML = `
   <div class="card">

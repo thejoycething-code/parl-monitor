@@ -104,3 +104,52 @@ class PublicBuildTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TemplateIntegrityTests(unittest.TestCase):
+    """The template is HTML with a script inside. An edit that lands OUTSIDE
+    the document prints raw JavaScript above the page -- which is exactly
+    what happened on 2026-08-25: a slice taken between two anchors ran
+    backwards (the second string also occurs in renderEmpty, earlier), the
+    slice came back empty, and replacing an empty string PREPENDED 3.4KB of
+    render code above the doctype."""
+
+    def test_the_template_starts_with_the_doctype(self):
+        t = template()
+        self.assertTrue(t.lstrip().startswith("<!DOCTYPE html>"),
+                        "something has been inserted above the document")
+
+    def test_nothing_renders_before_the_html_element(self):
+        for path in ("docs/mp-votes.html", "partner_site/mp-votes.html"):
+            full = os.path.join(ROOT, path)
+            if not os.path.exists(full):
+                continue
+            with open(full, encoding="utf-8") as fh:
+                head = fh.read(200).lstrip()
+            self.assertTrue(head.startswith("<!DOCTYPE html>"), path)
+
+    def test_only_one_render_path_survives(self):
+        """The old issue-grouped loop and the new bill-card loop both ran for
+        a while, so the page showed KEY VOTE chips the new render never
+        emits."""
+        t = template()
+        self.assertNotIn("KEY VOTE", t)
+        self.assertIn("billblock", t)
+
+    def test_both_builds_are_byte_identical(self):
+        import hashlib
+        digests = []
+        for path in ("docs/mp-votes.html", "partner_site/mp-votes.html"):
+            full = os.path.join(ROOT, path)
+            if not os.path.exists(full):
+                self.skipTest("builds not present")
+            digests.append(hashlib.md5(open(full, "rb").read()).hexdigest())
+        self.assertEqual(digests[0], digests[1],
+                         "the password-protected and public pages must match")
+
+    def test_the_free_vote_claim_is_not_absolute_anywhere(self):
+        """Three of eighteen are whipped. The claim appeared in TWO places
+        and only the first was fixed at first."""
+        t = template()
+        self.assertNotIn("Every division tracked here was a free vote", t)
+        self.assertNotIn("Every vote we track is a", t)
