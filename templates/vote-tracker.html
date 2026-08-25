@@ -253,23 +253,47 @@ footer a{color:var(--blue);font-weight:400}
   .minivote{flex:none;width:124px}
 }
 
-/* --- also on the record (receipts, 2026-08-25) --------------------------- */
+/* --- the member's own words (2026-08-25) --------------------------------- */
+/* Option A: quotes inside the bill card they belong to. No verdict colour --
+   these are facts, and the page's judgements stay on the votes. */
+.words{border-top:1px solid var(--line);padding:15px 17px 16px;background:#fbfcfd;
+  border-radius:0 0 8px 8px}
+.wordshead{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink);margin:0 0 10px}
+.wq{margin:0 0 14px}
+.wq:last-of-type{margin-bottom:0}
+.wqtext{font-size:14.5px;line-height:1.55;color:#23282f;border-left:3px solid var(--blue);
+  padding-left:14px;margin:0;font-style:italic}
+.wqtext:before{content:"\201C"} .wqtext:after{content:"\201D"}
+.wqmeta{font-size:11.5px;color:#9aa1a9;margin-top:5px;padding-left:17px}
+.wtally{font-size:12.5px;color:var(--ink);margin:12px 0 0;padding-top:11px;
+  border-top:1px solid var(--line)}
+
+/* Option B: everything not tied to a bill, per issue area. */
 .rechead{margin:26px 0 4px;padding-top:18px;border-top:2px solid var(--grey-100)}
 .rechead h2{font-size:19px;font-weight:500;margin:0 0 6px}
 .rechead p{font-size:13.5px;color:var(--ink);margin:0;max-width:72ch}
-.recarea{margin:14px 0 4px}
+.recarea{margin:16px 0 4px}
+.recareahead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .recarea h3{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink);margin:0 0 4px}
-.recrow{display:flex;gap:13px;padding:10px 0;border-top:1px solid var(--line)}
+  color:var(--ink);margin:0 0 3px}
+.novote{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#4a5058;
+  background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px}
+.reccounts{font-size:13px;color:var(--ink);margin:0 0 8px}
+.reccounts b{font-weight:500;color:#23282f}
+.recrow{display:flex;gap:13px;padding:11px 0;border-top:1px solid var(--line)}
 .reckind{flex:0 0 96px;height:fit-content;text-align:center;font-size:9.5px;font-weight:700;
   letter-spacing:.06em;color:#4a5058;background:#f0f1f3;border:1px solid #e2e5e9;
   border-radius:4px;padding:4px 3px}
 .recbody{min-width:0}
 .rectitle{font-size:14px;font-weight:500;color:#23282f}
-.recquote{font-size:13.5px;color:#4a5058;margin:4px 0 2px;font-style:italic;
-  border-left:3px solid var(--grey-100);padding-left:11px}
-.recmeta{font-size:12px;color:#9aa1a9;margin-top:3px}
-@media(max-width:560px){.recrow{flex-direction:column;gap:6px}.reckind{width:110px}}
+.recquote{font-size:13.5px;line-height:1.5;color:#4a5058;margin:5px 0 2px;font-style:italic;
+  border-left:3px solid var(--grey-100);padding-left:12px}
+.recquote:before{content:"\201C"} .recquote:after{content:"\201D"}
+.recmeta{font-size:12px;color:#9aa1a9;margin-top:4px}
+@media(max-width:560px){
+  .recrow{flex-direction:column;gap:6px}.reckind{width:110px}
+  .wqtext{padding-left:11px}.wqmeta{padding-left:14px}}
 </style>
 </head>
 <body>
@@ -564,48 +588,104 @@ function renderMP(id){
       </div></div>`;
   };
 
+  // OPTION A -- the member's own words, attached to the bill they are about.
+  // A quote sits beside a vote only when it comes from a debate on THAT
+  // bill (matched on the debate title in config), and it always carries its
+  // own debate reference. Our grouping organises; the debate attributes.
+  const saidBlock = (g) => {
+    const w = (m.words || {})[g.issue.id];
+    if (!w || (!w.q.length && !w.n)) return "";
+    // The tally is this BILL's debates, not the whole issue area: the area
+    // total belongs in "Also on the record" below, and printing it twice
+    // made the same number look like two different findings.
+    const tally = w.n ? `<p class="wtally">Spoke in ${w.n} debate${
+      w.n > 1 ? "s" : ""} on this bill.</p>` : "";
+    return `<div class="words">
+      <p class="wordshead">In their own words</p>
+      ${w.q.map(x => `<div class="wq">
+        <blockquote class="wqtext">${esc(x.q)}</blockquote>
+        <div class="wqmeta">${esc(x.t)} &middot; ${fmtD(x.d)}${
+          x.u ? ` &middot; <a class="official" href="${x.u}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>
+      </div>`).join("")}
+      ${tally}
+    </div>`;
+  };
+
   for (const g of blocks){
     rows += `<section class="billblock">${bigCard(g.major, g)}`;
     if (g.rest.length){
       rows += `<details class="subvotes"><summary>${g.rest.length} further vote${
         g.rest.length>1?"s":""} on this bill</summary>${g.rest.map(subRow).join("")}</details>`;
     }
+    rows += saidBlock(g);
     rows += `</section>`;
   }
 
-  // ALSO ON THE RECORD -- receipts, not judgements (Christopher, 2026-08-25).
-  // What the member has said, asked and signed on our issues: dated, quoted
-  // in their own words, and sourced. Deliberately carries NO verdict chip
-  // and no colour: these are facts a constituent can weigh, and the page's
-  // judgements stay confined to divisions with a signed-off meaning.
+  // OPTION B -- everything not tied to a bill card, per issue area.
+  // Counts first, then the words. This is the only thing the page can
+  // honestly say about the 98 MPs with a record on free speech but no vote
+  // on it, and the 31 in the same position on parental rights.
   const KINDWORD = {debate: "SPOKE", pq: "ASKED", edm: "PROPOSED EDM",
                     "edm-signed": "SIGNED EDM"};
   const recLink = (it) => {
+    if (it.u) return ` &middot; <a class="official" href="${it.u}" target="_blank" rel="noopener">Hansard</a>`;
     if (it.e) return ` &middot; <a class="official" href="https://edm.parliament.uk/early-day-motion/${it.e}" target="_blank" rel="noopener">EDM register</a>`;
-    if (it.k === "debate" && it.d) return ` &middot; <a class="official" href="https://hansard.parliament.uk/Commons/${it.d}" target="_blank" rel="noopener">Hansard for that day</a>`;
     return ` &middot; official written question record`;
+  };
+  const countLine = (c) => {
+    const parts = [];
+    if (c.debate) parts.push(`<b>spoke in ${c.debate} debate${c.debate>1?"s":""}</b>`);
+    if (c.pq) parts.push(`<b>asked ${c.pq} written question${c.pq>1?"s":""}</b>`);
+    if (c.edm) parts.push(`<b>signed ${c.edm} early day motion${c.edm>1?"s":""}</b>`);
+    return parts.join(" &middot; ");
   };
   const recRow = (it) => `<div class="recrow">
       <span class="reckind">${KINDWORD[it.k] || it.k.toUpperCase()}</span>
       <div class="recbody">
         <div class="rectitle">${esc(it.t)}</div>
-        ${it.q ? `<div class="recquote">&ldquo;${esc(it.q)}&rdquo;</div>` : ""}
+        ${it.q ? `<blockquote class="recquote">${esc(it.q)}</blockquote>` : ""}
         <div class="recmeta">${fmtD(it.d)}${recLink(it)}</div>
       </div></div>`;
+
   let recHtml = "";
   const rec = m.record || {};
-  const areaIds = Object.keys(rec).filter(a => (rec[a]||[]).length)
-    .sort((a,b) => rec[b].length - rec[a].length);
-  if (areaIds.length){
-    recHtml = `<div class="rechead"><h2>Also on the record</h2>
-      <p>Beyond the division lobby: what ${esc(m.name)} has said, asked and
-      signed on these issues, in their own words. These are facts from the
-      parliamentary record, not judgements &mdash; a speech is not a vote.</p></div>`;
-    for (const a of areaIds){
-      recHtml += `<div class="recarea"><h3>${esc(DATA.areas[a] || "")}</h3>${
-        rec[a].map(recRow).join("")}</div>`;
+  // Areas where this member actually walked through a lobby. NOT the areas
+  // that have a bill card: every member's page renders all six cards, so
+  // keying off the cards made the badge unreachable -- it never once
+  // appeared, on any of the 650 pages.
+  const votedAreas = new Set();
+  for (const g of blocks){
+    for (const d of g.divs){
+      const v = (m.votes || {})[d.id];
+      if (v === "A" || v === "N") votedAreas.add(String(g.issue.area));
     }
   }
+  const areaIds = Object.keys(rec).filter(a => {
+    const b = rec[a];
+    return (b.items || []).length || Object.values(b.n || {}).some(Boolean);
+  }).sort((a, b) => (rec[b].items||[]).length - (rec[a].items||[]).length);
+
+  if (areaIds.length){
+    recHtml = `<div class="rechead"><h2>Also on the record</h2>
+      <p>Beyond the division lobby: what ${esc(m.name)} has said, asked and signed
+      on these issues, in their own words and linked to the official record.
+      These are facts, not judgements &mdash; a speech is not a vote, and every
+      quote names the debate it came from.</p></div>`;
+    for (const a of areaIds){
+      const b = rec[a];
+      const counts = countLine(b.n || {});
+      const votedHere = votedAreas.has(a);
+      recHtml += `<div class="recarea">
+        <div class="recareahead">
+          <h3>${esc(DATA.areas[a] || "")}</h3>
+          ${votedHere ? "" : `<span class="novote">NO VOTE RECORDED</span>`}
+        </div>
+        ${counts ? `<p class="reccounts">${counts}</p>` : ""}
+        ${(b.items||[]).map(recRow).join("")}
+      </div>`;
+    }
+  }
+
   document.getElementById("main").innerHTML = `
   <div class="card">
     <div class="card-head">

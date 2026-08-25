@@ -30,7 +30,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, intel
+from src import db
+from src import filter as filt
+from src import quotes, intel
 from src.http import HttpClient
 from src.ingest import divisions as div_ingest
 
@@ -174,84 +176,218 @@ def whip_label(d, issue_note, splits):
 RECORD_AREAS = {1: "Abortion", 2: "Assisted suicide",
                 6: "Parental rights and education",
                 7: "Free speech and civil liberties"}
-RECORD_CAP = 3          # per MP per area; the page is 255KB before this
+RECORD_CAP = 2          # per MP per area, for receipts NOT tied to a bill;
+                        # the counts carry the volume, quotes illustrate it
+BILL_QUOTE_CAP = 2      # quotes shown inside a bill card
+QUOTE_SHORTLIST = 8     # candidates scanned before ranking
+PQ_FLOOR = 80           # a written question is shorter than a speech
+
+# Procedural containers: ways of scheduling business, not subjects. A member
+# speaking during "Engagements" (PMQs) has not made a statement about our
+# issues by doing so.
+PROCEDURAL_TITLE = re.compile(
+    r"^(?:topical questions|business of the house|engagements|"
+    r"debate on the address|oral answers to questions|points? of order|"
+    r"business without debate|speaker'?s statement|prime minister|"
+    r"deferred divisions|petitions?|adjournment|royal assent|"
+    r"business statement|urgent question|christmas adjournment|"
+    r"point of order)\b", re.IGNORECASE)
 
 
-def on_record(conn, member_ids):
-    """RECEIPTS ONLY: what each MP has said, asked and signed, per area.
+def _clean_title(line):
+    """Strip the ledger's internal dressing: the chip already says SPOKE, and
+    "(re: term)" is our matching annotation, not something an MP said."""
+    line = " ".join((line or "").split())
+    title = re.sub(r"^(Spoke|Asked|Signed EDM|Proposed EDM|Sponsored EDM):\s*", "", line)
+    return re.sub(r"\s*\(re: [^)]*\)\s*$", "", title).strip()
 
-    Tier 1 of combining the ledger with the vote page (Christopher,
-    2026-08-25): dated facts with the MP's own quoted words and a source --
-    never the stance scores, never a characterisation, never a placement.
-    The stance table is deliberately not queried here: this function's
-    output goes on a PUBLIC page, and the inference layer is campaign
-    intelligence. Selection prefers items with a real quote (display
-    quality), then recency -- never directionality, because curating by
-    stance would smuggle the inference into the receipts.
 
-    Links: EDMs link to the motion register; debates link to that day's
-    Hansard (we hold contribution GUIDs, not debate slugs, so the day page
-    is the honest deep link); written questions carry no stable public URL
-    buildable from the API id alone, so they name their source and date.
+def _sitting(title):
+    """'... Bill (Twenty-ninth sitting)' -> 'Committee, twenty-ninth sitting'."""
+    m = re.search(r"\(([A-Za-z-]+) sitting\)\s*$", title)
+    return "Committee, {0} sitting".format(m.group(1).lower()) if m else None
+
+
+def on_record(conn, member_ids, issues, raw, taxonomy):
+    """What each MP has said, asked and signed -- as receipts, never inferences.
+
+    Returns (words, record).
+
+      words[member][issue_id] -> quotes from debates ON THAT BILL (Option A)
+      record[member][area]    -> counts, plus everything else (Option B)
+
+    WHY IT IS SPLIT THIS WAY (Christopher, 2026-08-25). The first build
+    grouped receipts under an issue heading, and 160 of them were published
+    beneath a second heading that misdescribed them: a speech tagged
+    areas [1, 2] rendered the SAME stored excerpt under both "Abortion" and
+    "Assisted suicide". Danny Kruger's argument about conscience clauses in
+    the assisted dying bill -- which cites the Abortion Act 1967 as precedent
+    -- appeared under a heading that said Abortion.
+
+    Keyword matching cannot tell "about X" from "cites X", so the fix is
+    structural rather than smarter matching: a quote shown beside a vote comes
+    from the bill it is shown beside (matched on the debate title), and EVERY
+    quote carries its own debate title. Our grouping organises; the debate
+    title attributes. A heading never speaks for the words underneath it.
+
+    The stance table is deliberately not queried. Scores, placements and
+    characterisations are campaign intelligence; this output is public.
     """
     import json as _json
-    out = {}
-    # str() on both sides: sqlite column affinity hands ids back as int or
-    # str depending on how they were inserted, and this mismatch has now
-    # bitten three separate tools in one week
     member_ids = {str(x) for x in member_ids}
+    # sqlite affinity returns ids as int or str depending on how they were
+    # written; this mismatch has now bitten three tools in one week
+    area_of = {i["id"]: i.get("area") for i in issues}
+    stems = {i["id"]: [s.lower() for s in (i.get("debate_match") or [])]
+             for i in issues}
+
+    def patterns(area):
+        out = []
+        for _tier, items in sorted((taxonomy.terms.get(area) or {}).items()):
+            out.extend(it[1] for it in items)
+        return out
+
+    pats = {a: patterns(a) for a in RECORD_AREAS}
+
     rows = conn.execute(
         "SELECT member_id, date, kind, ref, line, areas, excerpt "
         "FROM mp_events WHERE kind != 'vote' AND areas IS NOT NULL "
         "ORDER BY date DESC").fetchall()
+
+    words, record = {}, {}
     for r in rows:
         mid = str(r["member_id"])
         if mid not in member_ids:
             continue
         try:
-            areas = _json.loads(r["areas"] or "[]")
+            areas = [a for a in _json.loads(r["areas"] or "[]")
+                     if a in RECORD_AREAS]
         except ValueError:
             continue
-        line = " ".join((r["line"] or "").split())
-        # strip the ledger's internal dressing for display: the kind chip
-        # already says SPOKE/SIGNED, and "(re: term)" is our matching
-        # annotation, not something an MP said
-        title = re.sub(r"^(Spoke|Asked|Signed EDM|Proposed EDM):\s*", "", line)
-        title = re.sub(r"\s*\(re: [^)]*\)\s*$", "", title)
-        excerpt = " ".join((r["excerpt"] or "").split())
-        # a quote that merely repeats the heading is not a quote -- and the
-        # excerpt often equals the BARE title while line carries a prefix,
-        # so compare against both
-        low = excerpt.lower()
-        quote = excerpt if excerpt and low != line.lower() \
-            and low != title.lower() and low not in title.lower() else ""
-        if quote and len(quote) > 170:
-            quote = quote[:170].rsplit(" ", 1)[0] + "\u2026"
-        for a in areas:
-            if a not in RECORD_AREAS:
-                continue
-            bucket = out.setdefault(mid, {}).setdefault(str(a), [])
-            item = {"d": r["date"], "k": r["kind"],
-                    "t": title[:100], "q": quote}
-            if r["ref"].startswith("edm:"):
-                item["e"] = r["ref"].split(":", 1)[1]
-            bucket.append(item)
-    # cap AFTER collecting: quoted items first, then newest
-    for mid, per in out.items():
-        for a, items in per.items():
-            items.sort(key=lambda x: (bool(x["q"]), x["d"]), reverse=True)
-            # one entry per debate/motion: a member speaking five times in
-            # one committee sitting is one receipt, not five, and duplicate
-            # titles would otherwise fill the whole cap
-            seen, unique = set(), []
+        if not areas:
+            continue
+        title = _clean_title(r["line"])
+        if not title or PROCEDURAL_TITLE.match(title):
+            # "Engagements", "Topical Questions", "Business of the House":
+            # containers, not subjects. 117 of the first build's receipts
+            # were these, including a member thanking the Clerks at PMQs
+            # filed under Assisted suicide.
+            continue
+
+        # which bill card, if any, does this debate belong to?
+        low = title.lower()
+        on_bill = [iid for iid, ss in stems.items()
+                   if ss and any(x in low for x in ss)]
+
+        kind = "edm" if r["kind"].startswith("edm") else r["kind"]
+        for area in areas:
+            bucket = record.setdefault(mid, {}).setdefault(str(area), {
+                "n": {"debate": 0, "pq": 0, "edm": 0}, "items": [],
+                "_seen": set()})
+            # COUNT DISTINCT DEBATES, not contributions. Counting raw
+            # contributions gave "spoke 216 times" for one member on one
+            # issue -- true of interventions, absurd as a public statement,
+            # and not what a reader understands "spoke" to mean. A member
+            # speaking nine times in one committee sitting spoke once.
+            key = (kind, title.lower())
+            if key not in bucket["_seen"]:
+                bucket["_seen"].add(key)
+                bucket["n"][kind] = bucket["n"].get(kind, 0) + 1
+            bucket["items"].append({
+                "d": r["date"], "k": r["kind"], "t": title[:110],
+                "ref": r["ref"], "areas": areas, "on_bill": on_bill,
+                "excerpt": " ".join((r["excerpt"] or "").split()),
+            })
+        for iid in on_bill:
+            a = area_of.get(iid)
+            if a in areas:
+                per = words.setdefault(mid, {}).setdefault(
+                    iid, {"items": [], "n": 0, "_seen": set()})
+                if title.lower() not in per["_seen"]:
+                    per["_seen"].add(title.lower())
+                    per["n"] += 1     # distinct debates on THIS bill
+                per["items"].append({
+                    "d": r["date"], "t": title[:110], "ref": r["ref"], "a": a})
+
+    # ---- quotes, computed lazily -------------------------------------------
+    # Extracting a shareable quote means scanning a full contribution, so it
+    # is done only for candidates that can actually be displayed: newest
+    # first, stopping once the cap is met.
+    def quote_for(ref, area):
+        if not ref.startswith("hansard:") or raw is None:
+            return None, None
+        full, _meta = raw.get(ref)
+        if not full:
+            return None, None
+        return quotes.shareable(full, pats.get(area) or []), raw.url(ref)
+
+    for mid, per_issue in words.items():
+        for iid, per in per_issue.items():
+            items = sorted(per["items"], key=lambda x: x["d"], reverse=True)
+            # Rank a shortlist rather than taking the newest that parses:
+            # recency picked a request for the Minister to confirm a statutory
+            # instrument over the same member saying what he actually
+            # believed. Only the shortlist is scanned, so the cost stays
+            # bounded.
+            cands, seen = [], set()
+            for it in items[:QUOTE_SHORTLIST]:
+                q, url = quote_for(it["ref"], it["a"])
+                if not q or q in seen:
+                    continue
+                seen.add(q)
+                cands.append({"d": it["d"], "q": q, "u": url,
+                              "t": _sitting(it["t"]) or it["t"],
+                              "_s": quotes.quotability(q)})
+            cands.sort(key=lambda x: (x["_s"], x["d"]), reverse=True)
+            kept = [{k: v for k, v in c.items() if k != "_s"}
+                    for c in cands[:BILL_QUOTE_CAP]]
+            per_issue[iid] = {"q": kept, "n": per["n"]}
+        words[mid] = {k: v for k, v in per_issue.items()
+                      if v["q"] or v["n"]}
+
+    for mid, per_area in record.items():
+        for area, block in per_area.items():
+            items = block["items"]
+            kept, seen = [], set()
             for it in items:
+                if len(kept) >= RECORD_CAP:
+                    break
                 key = (it["k"], it["t"].lower())
                 if key in seen:
-                    continue
+                    continue          # one receipt per debate, not per speech
+                if it["on_bill"]:
+                    continue          # already shown beside its vote
+                q = url = None
+                if it["k"] == "debate":
+                    q, url = quote_for(it["ref"], int(area))
+                    if not q:
+                        # a debate receipt with nothing quotable is a chip
+                        # above a procedural title: it stays in the count
+                        # and out of the list
+                        continue
+                elif it["k"] == "pq":
+                    # The question text IS the member's own words, but it
+                    # often just repeats the subject heading -- and unlike a
+                    # speech it has no full-text source on disk, so the
+                    # ledger's 260-character slice is all there is. Cut it
+                    # back to whole sentences like everything else.
+                    ex = it["excerpt"]
+                    if ex and ex.lower() not in it["t"].lower():
+                        # a lower floor than a speech: a written question is
+                        # one complete sentence by nature, often ~115 chars
+                        q = quotes.trim_to_sentence(ex, floor=PQ_FLOOR)
                 seen.add(key)
-                unique.append(it)
-            per[a] = unique[:RECORD_CAP]
-    return out
+                entry = {"d": it["d"], "k": it["k"], "t": it["t"]}
+                if q:
+                    entry["q"] = q
+                if url:
+                    entry["u"] = url
+                if it["ref"].startswith("edm:"):
+                    entry["e"] = it["ref"].split(":", 1)[1]
+                kept.append(entry)
+            block["items"] = kept
+            block.pop("_seen", None)   # build-time only, never shipped
+    return words, record
 
 
 def build(conn, cfg, payloads):
@@ -313,8 +449,12 @@ def build(conn, cfg, payloads):
             "role": role, "votes": votes.get(r["id"], {}),
         })
 
-    record = on_record(conn, {m["id"] for m in members})
+    raw = quotes.RawHansard(ROOT)
+    taxonomy = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    words, record = on_record(conn, {m["id"] for m in members},
+                              issues, raw, taxonomy)
     for m in members:
+        m["words"] = words.get(str(m["id"]), {})
         m["record"] = record.get(str(m["id"]), {})
     dataset = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",

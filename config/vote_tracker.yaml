@@ -31,6 +31,10 @@ hidden_areas:
 
 issues:
   - id: assisted-suicide
+    # Debate titles that belong to this bill card. A quote shown beside a
+    # vote must come from the bill it is shown beside; matching on the
+    # title is what makes that structurally true rather than inferred.
+    debate_match: ["Terminally Ill Adults"]
     name: Assisted suicide
     area: 2
     bill: Terminally Ill Adults (End of Life) Bill
@@ -52,6 +56,10 @@ issues:
       session and awaits its Commons Second Reading on 11 September 2026.
 
   - id: abortion
+    # Debate titles that belong to this bill card. A quote shown beside a
+    # vote must come from the bill it is shown beside; matching on the
+    # title is what makes that structurally true rather than inferred.
+    debate_match: ["Crime and Policing Bill"]
     name: Abortion decriminalisation
     area: 1
     bill: Crime and Policing Bill - New Clause 1
@@ -62,6 +70,10 @@ issues:
     status: Agreed by the Commons 379-137 on 17 June 2025 and added to the Bill.
 
   - id: buffer-zones
+    # Debate titles that belong to this bill card. A quote shown beside a
+    # vote must come from the bill it is shown beside; matching on the
+    # title is what makes that structurally true rather than inferred.
+    debate_match: ["Public Order Bill", "Public Order Act"]
     name: Abortion clinic buffer zones
     area: 1
     bill: Public Order Act 2023
@@ -76,6 +88,10 @@ issues:
       prayer was rejected in March 2023.
 
   - id: non-crime-hate
+    # Debate titles that belong to this bill card. A quote shown beside a
+    # vote must come from the bill it is shown beside; matching on the
+    # title is what makes that structurally true rather than inferred.
+    debate_match: ["Crime and Policing Bill"]
     name: Non-crime hate incidents
     area: 7
     bill: Crime and Policing Bill - New Clause 7
@@ -94,6 +110,10 @@ issues:
     status: Rejected by the Commons in June 2025.
 
   - id: parental-rights
+    # Debate titles that belong to this bill card. A quote shown beside a
+    # vote must come from the bill it is shown beside; matching on the
+    # title is what makes that structurally true rather than inferred.
+    debate_match: ["Children's Wellbeing and Schools Bill", "Children’s Wellbeing and Schools Bill"]
     name: Parental rights in education
     area: 6
     bill: Various
@@ -120,6 +140,10 @@ issues:
       The Ten-Minute Rule Bill and the opposition day motion both failed.
 
   - id: abortion-ni
+    # Debate titles that belong to this bill card. A quote shown beside a
+    # vote must come from the bill it is shown beside; matching on the
+    # title is what makes that structurally true rather than inferred.
+    debate_match: ["Abortion (Northern Ireland)"]
     name: Abortion services in Northern Ireland
     area: 1
     bill: Abortion (Northern Ireland) Regulations
