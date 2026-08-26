@@ -70,9 +70,16 @@ class TemplateTests(unittest.TestCase):
         self.assertIn("whipChip(d, m)", t)
 
     def test_the_whip_chip_is_inside_the_vote_block(self):
+        """Christopher, 2026-08-24: "I prefer inside the Block."
+
+        Anchored on the END of voteBlock rather than on whatever function
+        happens to follow it -- `bigCard` was renamed `cardHead` when the
+        cards became the bill's passage, and this test broke on the rename
+        rather than on the behaviour it exists to protect."""
         t = template()
         self.assertIn("vwhip", t)
-        block = t[t.index("const voteBlock"):t.index("const bigCard")]
+        start = t.index("const voteBlock")
+        block = t[start:t.index("`;", t.index("</div>", start))]
         self.assertIn("whipChip", block)
 
     def test_the_lobby_shows_under_the_verdict_not_in_a_hover(self):
@@ -577,3 +584,60 @@ class BillHeadingTests(unittest.TestCase):
                                      text, re.S).group(1))
         for d in data["divisions"]:
             self.assertNotEqual((d.get("bill") or "").lower(), "various")
+
+
+class PassageCardTests(unittest.TestCase):
+    """The card is the bill's passage (Christopher, 2026-08-26: "ship
+    option B"): votes and words in the order they happened, so a committee
+    speech sits between the readings and explains the vote that follows.
+    """
+
+    def test_the_spine_is_chronological(self):
+        flat = " ".join(template().split())
+        self.assertIn("nodes.sort((a, b) => a.date.localeCompare(b.date)", flat)
+
+    def test_quotes_are_nodes_on_the_spine_not_an_appendix(self):
+        """The whole point of B: a quote is placed at its date, among the
+        votes, rather than collected underneath them."""
+        flat = " ".join(template().split())
+        self.assertIn('nodes.push({type: "said", date: q.d, q: q})', flat)
+        self.assertNotIn('<p class="wordshead">In their own words</p>', flat,
+                         "the trailing words block is replaced by the spine")
+
+    def test_the_header_does_not_repeat_the_spine(self):
+        """The header is a summary. Printing the meaning there as well
+        showed the Third Reading twice on every card."""
+        head = template()
+        start = head.index("const cardHead")
+        block = head[start:head.index("const passageNodes")]
+        self.assertNotIn("${vi.text}", block)
+        self.assertIn("cardsum", block)
+
+    def test_a_stage_names_itself_as_its_divisions_do(self):
+        """Three approval motions grouped under stage_group 'Third Reading'
+        should say "Approval motion", which is what happened."""
+        flat = " ".join(template().split())
+        self.assertIn("node.label = stages.length === 1 ? stages[0] : node.key", flat)
+
+    def test_a_grouped_stage_summarises_its_verdicts(self):
+        flat = " ".join(template().split())
+        self.assertIn('infos.filter(v => v.cls === "G").length', flat)
+        self.assertNotIn("v.verdict ===", flat,
+                         "there is no verdict field; the verdict is in cls")
+
+    def test_every_card_renders_a_passage(self):
+        """Guards the whole feature end to end: a card without its spine
+        would be a silent regression to a bare headline."""
+        page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+        if not os.path.exists(page):
+            self.skipTest("page not built")
+        with open(page, encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn('class="passage"', text)
+        self.assertIn('class="stage"', text)
+
+    def test_no_dead_fallback_for_long_cards(self):
+        """The largest card any member can have is seven votes, so a
+        compact-roll threshold would be code that never runs."""
+        flat = " ".join(template().split())
+        self.assertNotIn("compactRoll", flat)

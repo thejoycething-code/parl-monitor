@@ -221,6 +221,12 @@ footer a{color:var(--blue);font-weight:400}
 .whipmark{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.07em;
   padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.18);color:inherit}
 .votebox.X .whipmark,.votebox.S .whipmark{background:#f2f3f5}
+/* The chip also appears in the amendment rows on the spine, where the
+   background is white: a translucent-white chip on white is invisible. */
+.ammeta .whipmark{background:#f0f1f3;border:1px solid #e2e5e9;color:#4a5058}
+/* A stage with no verdict to colour keeps the base dot. Named so the class
+   is not styleless. */
+.dot.plain{background:var(--white);border-color:var(--grey-300)}
 .bigcard .cardbody{min-width:0}
 .bigcard .lbl{font-size:11.5px;font-weight:600;letter-spacing:.12em;color:#9aa1a9;margin-bottom:5px}
 .bigcard .cal{color:#f0803c}
@@ -228,29 +234,13 @@ footer a{color:var(--blue);font-weight:400}
 .bigcard h3 .stage{color:#8b9199;font-size:16px}
 .quietlbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:#9aa1a9;margin-bottom:6px}
 .caveat{margin-top:10px;font-size:13px;color:#6c727a;border-left:3px solid #dfe3e8;padding-left:12px}
-.subvotes{margin:0 0 0 8px;border-left:2px solid var(--grey-100);padding-left:16px}
-.subvotes summary{cursor:pointer;font-size:13.5px;color:var(--blue);padding:10px 0;
-  list-style:none;font-weight:500}
-.subvotes summary::-webkit-details-marker{display:none}
-.subvotes summary::before{content:"\25B8  "}.subvotes[open] summary::before{content:"\25BE  "}
-.subrow{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
-.minivote{flex:0 0 108px;height:fit-content;text-align:center;font-size:10.5px;font-weight:700;
-  letter-spacing:.04em;color:#fff;border-radius:5px;padding:6px 3px;background:#7b8794}
+.subvotes[open] summary::before{content:"\25BE  "}
 .minivote.G{background:#2fa04a}.minivote.B{background:#e0342e}.minivote.T{background:#8a6d1f}
 .minivote.X,.minivote.S{background:#eceef1;color:#5f6670}
-.msub{display:block;font-weight:400;font-size:9.5px;opacity:.93;margin-top:2px}
-.subbody{min-width:0}
-.subtitle{font-size:15px;font-weight:500}
-.submeta{font-size:12px;color:#9aa1a9;margin:2px 0 6px}
-.subsent{font-size:13.5px;color:#4a5058;margin-bottom:5px}
-.subctx{font-size:12.5px;color:#7d838b;font-style:italic;margin-bottom:6px}
-.subtally{margin-bottom:6px}
 @media(max-width:640px){
   .bigcard{flex-direction:column;align-items:stretch;gap:13px;padding:16px}
   .votebox{flex:none;padding:12px}
   .bigcard h3{font-size:18px}
-  .subrow{flex-direction:column;gap:8px}
-  .minivote{flex:none;width:124px}
 }
 
 /* --- the member's own words (2026-08-25) --------------------------------- */
@@ -258,16 +248,7 @@ footer a{color:var(--blue);font-weight:400}
    these are facts, and the page's judgements stay on the votes. */
 .words{border-top:1px solid var(--line);padding:15px 17px 16px;background:#fbfcfd;
   border-radius:0 0 8px 8px}
-.wordshead{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--ink);margin:0 0 10px}
-.wq{margin:0 0 14px}
-.wq:last-of-type{margin-bottom:0}
-.wqtext{font-size:14.5px;line-height:1.55;color:#23282f;border-left:3px solid var(--blue);
-  padding-left:14px;margin:0;font-style:italic}
-.wqtext:before{content:"\201C"} .wqtext:after{content:"\201D"}
-.wqmeta{font-size:11.5px;color:#9aa1a9;margin-top:5px;padding-left:17px}
-.wtally{font-size:12.5px;color:var(--ink);margin:12px 0 0;padding-top:11px;
-  border-top:1px solid var(--line)}
+ .wqtext:after{content:"\201D"}
 
 /* Option B: everything not tied to a bill, per issue area. */
 .rechead{margin:26px 0 4px;padding-top:18px;border-top:2px solid var(--grey-100)}
@@ -293,7 +274,56 @@ footer a{color:var(--blue);font-weight:400}
 .recmeta{font-size:12px;color:#9aa1a9;margin-top:4px}
 @media(max-width:560px){
   .recrow{flex-direction:column;gap:6px}.reckind{width:110px}
-  .wqtext{padding-left:11px}.wqmeta{padding-left:14px}}
+.wqmeta{padding-left:14px}}
+
+/* --- the bill's passage (Option B, 2026-08-26) ---------------------------
+   Votes and words in the order they happened. The header carries the
+   headline verdict; the spine carries the story. */
+.passage{padding:15px 18px 6px;border:1px solid var(--line);border-top:none;
+  border-radius:0 0 8px 8px;background:#fbfcfd}
+.stage{position:relative;padding:0 0 6px 27px}
+.stage:before{content:"";position:absolute;left:7px;top:18px;bottom:-4px;width:2px;
+  background:var(--line)}
+.stage:last-child:before{display:none}
+.dot{position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;
+  background:var(--white);border:2px solid var(--grey-300);box-sizing:border-box}
+.dot.good{background:var(--green);border-color:var(--green)}
+.dot.bad{background:var(--red);border-color:var(--red)}
+.dot.miss{background:var(--white);border-color:var(--grey-300)}
+.dot.say{background:var(--white);border-color:var(--blue)}
+.srow{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:3px}
+.sname{font-size:14.5px;font-weight:500;color:#23282f}
+.sdate,.scount{font-size:12px;color:#9aa1a9}
+.schip{font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.schip.G{color:var(--green)} .schip.B{color:var(--red)}
+.schip.X,.schip.S{color:#9aa1a9}
+.sbody{font-size:13px;color:var(--ink);margin:0 0 14px}
+.ssent{color:#23282f;font-size:13.5px}
+.sctx{margin-top:4px}
+.stally{margin:7px 0 5px}
+/* amendments grouped at their stage */
+.amend{margin:2px 0 13px}
+.amrow{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--line)}
+.amrow:first-child{border-top:none;padding-top:3px}
+.amlab{flex:0 0 92px;font-size:10.5px;font-weight:700;line-height:1.35}
+.amlab.G{color:var(--green)} .amlab.B{color:var(--red)}
+.amlab.X,.amlab.S,.amlab.T{color:#9aa1a9}
+.amsub{display:block;font-size:9.5px;font-weight:400;color:#9aa1a9}
+.ambody{min-width:0;font-size:13px}
+.amttl{font-weight:500;color:#23282f;font-size:13.5px}
+.ammeta{font-size:11.5px;color:#9aa1a9;margin:2px 0 3px}
+.amsent{color:var(--ink)}
+/* a quote sitting where it was said */
+.said{margin:2px 0 4px;font-size:14px;line-height:1.55;font-style:italic;color:#23282f;
+  border-left:3px solid var(--blue);padding-left:13px}
+.said:before{content:"\201C"} .said:after{content:"\201D"}
+.saidmeta{font-size:11.5px;color:#9aa1a9;margin:0 0 13px;padding-left:16px}
+.cardsum{font-size:12px;color:#9aa1a9;margin-top:9px;padding-top:9px;
+  border-top:1px solid var(--line)}
+@media(max-width:560px){
+  .amrow{flex-direction:column;gap:4px}.amlab{flex-basis:auto}
+  .amsub{display:inline;margin-left:5px}
+}
 </style>
 </head>
 <body>
@@ -593,76 +623,145 @@ function renderMP(id){
       ${vi.sub ? `<span class="vsub">${esc(vi.sub)}</span>` : ""}
       <span class="vwhip">${whipChip(d, m)}</span></div>`;
 
-  const bigCard = (d, g) => {
-    const vi = voteInfo(m,d);
-    // No verdict means we deliberately do not score it. Demote the card and
-    // say why underneath rather than leave a blank that reads as an oversight.
+  // ------------------------------------------------------------------
+  // THE BILL'S PASSAGE (Christopher, 2026-08-26: "ship option B").
+  //
+  // A bill moves through stages and the member spoke BETWEEN them, so the
+  // card is told in the order it happened: Second Reading, what they said
+  // in committee, the amendments at Report, Third Reading. The quotes stop
+  // being an appendix under the votes and start explaining the vote that
+  // follows them.
+  //
+  // The headline verdict stays at the top, because a chronological card
+  // would otherwise bury the most important vote at the bottom. The header
+  // answers "how did they vote"; the spine answers "what happened".
+  //
+  // No compact-roll fallback: the largest card any member can have is seven
+  // votes (assisted suicide), so a threshold for long cards would be code
+  // that never runs.
+  // ------------------------------------------------------------------
+  // The header is a SUMMARY: verdict, bill, when. The meaning, the tally
+  // and the source link belong to the vote's own node in the spine below --
+  // printing them here as well showed the Third Reading twice on every card.
+  const cardHead = (g) => {
+    const d = g.major;
+    const vi = voteInfo(m, d);
     const noVerdict = !d.good;
+    const w = (m.words || {})[g.issue.id];
+    const bits = [`${g.divs.length} vote${g.divs.length > 1 ? "s" : ""}`];
+    if (w && w.n) bits.push(`spoke in ${w.n} debate${w.n > 1 ? "s" : ""}`);
     return `<article class="bigcard${noVerdict ? " demote" : ""}">
-      ${voteBlock(vi,d)}
+      ${voteBlock(vi, d)}
       <div class="cardbody">
         ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
-        <div class="lbl">DATE VOTED <span class="cal">&#128197;</span> ${d.date}</div>
-        <h3>${esc(d.bill || g.issue.bill || g.issue.name)} <span class="stage">(${esc(d.stage)})</span></h3>
-        <div class="meaning">${vi.text}</div>
+        <div class="lbl">AT ${esc(d.stage.toUpperCase())} <span class="cal">&#128197;</span> ${d.date}</div>
+        <h3>${esc(d.bill || g.issue.bill || g.issue.name)}</h3>
         ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
           We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
-        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+        <div class="cardsum">${bits.join(" \u00b7 ")}</div>
       </div></article>`;
   };
 
-  const subRow = (d) => {
-    const vi = voteInfo(m,d);
-    return `<div class="subrow">
-      <span class="minivote ${vi.cls}">${vi.chip}${vi.sub ? `<span class="msub">${esc(vi.sub)}</span>` : ""}</span>
-      <div class="subbody">
-        <div class="subtitle">${esc(d.short)}</div>
-        <div class="submeta">${fmtD(d.date)} \u00b7 ${esc(d.stage)} \u00b7 ${d.ayes} Ayes, ${d.noes} Noes \u2014 ${d.passed ? "passed" : "rejected"} \u00b7 ${whipChip(d,m)}</div>
-        <div class="subsent">${vi.text}</div>
-        ${d.context ? `<div class="subctx">${esc(d.context)}</div>` : ""}
-        <div class="subtally">${tallyHTML(d, vi.side)}</div>
-        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
-      </div></div>`;
+  // one node per stage, plus one per quote, in the order they happened
+  const passageNodes = (g) => {
+    const byStage = {};
+    for (const d of g.divs){
+      const key = d.stage_group || d.stage;
+      if (!byStage[key]) byStage[key] = {type: "votes", key: key, divs: [], date: d.date};
+      byStage[key].divs.push(d);
+      if (d.date < byStage[key].date) byStage[key].date = d.date;
+    }
+    const nodes = Object.values(byStage);
+    for (const node of nodes){
+      node.divs.sort((a, b) => a.date.localeCompare(b.date));
+      // Name the stage as the divisions themselves do when they agree:
+      // three approval motions grouped as "Third Reading" should say
+      // "Approval motion", which is what actually happened.
+      const stages = [...new Set(node.divs.map(d => d.stage))];
+      node.label = stages.length === 1 ? stages[0] : node.key;
+    }
+    const w = (m.words || {})[g.issue.id];
+    for (const q of (w ? w.q : []))
+      nodes.push({type: "said", date: q.d, q: q});
+    nodes.sort((a, b) => a.date.localeCompare(b.date) ||
+      (a.type === "said" ? 1 : -1));
+    return nodes;
   };
 
-  // OPTION A -- the member's own words, attached to the bill they are about.
-  // A quote sits beside a vote only when it comes from a debate on THAT
-  // bill (matched on the debate title in config), and it always carries its
-  // own debate reference. Our grouping organises; the debate attributes.
-  const saidBlock = (g) => {
-    const w = (m.words || {})[g.issue.id];
-    if (!w || (!w.q.length && !w.n)) return "";
-    // The tally is this BILL's debates, not the whole issue area: the area
-    // total belongs in "Also on the record" below, and printing it twice
-    // made the same number look like two different findings.
-    const tally = w.n ? `<p class="wtally">Spoke in ${w.n} debate${
-      w.n > 1 ? "s" : ""} on ${esc(g.issue.bill && g.issue.bill !== "Various"
-        ? "this bill" : g.issue.name.toLowerCase())}.</p>` : "";
-    return `<div class="words">
-      <p class="wordshead">In their own words</p>
-      ${w.q.map(x => `<div class="wq">
-        <blockquote class="wqtext">${esc(x.q)}</blockquote>
-        <div class="wqmeta">${esc(x.t)} &middot; ${fmtD(x.d)}${
-          x.u ? ` &middot; <a class="official" href="${x.u}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>
-      </div>`).join("")}
-      ${tally}
+  const fullVote = (d) => {
+    const vi = voteInfo(m, d);
+    return `<div class="sbody">
+        <div class="ssent">${vi.text}</div>
+        ${d.context ? `<div class="sctx">${esc(d.context)}</div>` : ""}
+        <div class="stally">${tallyHTML(d, vi.side)}</div>
+        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+      </div>`;
+  };
+
+  const miniVote = (d) => {
+    const vi = voteInfo(m, d);
+    return `<div class="amrow">
+        <span class="amlab ${vi.cls}">${vi.chip}${
+          vi.sub ? `<span class="amsub">${esc(vi.sub)}</span>` : ""}</span>
+        <div class="ambody">
+          <div class="amttl">${esc(d.short)}</div>
+          <div class="ammeta">${fmtD(d.date)} \u00b7 ${d.ayes} Ayes, ${d.noes} Noes \u2014 ${
+            d.passed ? "passed" : "rejected"} \u00b7 ${whipChip(d, m)}</div>
+          <div class="amsent">${vi.text}</div>
+          <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+        </div></div>`;
+  };
+
+  const stageNode = (node) => {
+    const many = node.divs.length > 1;
+    // A stage with several divisions gets a one-line verdict summary, so a
+    // reader sees "5 votes, all good" without counting chips.
+    // The verdict lives in cls: G good, B bad, X did not vote, S not
+    // eligible. There is no separate verdict field.
+    const infos = node.divs.map(d => voteInfo(m, d));
+    const good = infos.filter(v => v.cls === "G").length;
+    const bad = infos.filter(v => v.cls === "B").length;
+    const missed = infos.filter(v => v.cls === "X").length;
+    let summary = "";
+    if (many){
+      const parts = [];
+      if (good) parts.push(`${good} good`);
+      if (bad) parts.push(`${bad} bad`);
+      if (missed) parts.push(`${missed} not voted`);
+      summary = `${node.divs.length} votes${parts.length ? " \u2014 " + parts.join(", ") : ""}`;
+    }
+    const lead = infos[0];
+    const dot = many
+      ? (bad ? " bad" : good ? " good" : " plain")
+      : (lead.cls === "G" ? " good" : lead.cls === "B" ? " bad"
+         : lead.cls === "X" ? " miss" : " plain");
+    return `<div class="stage"><span class="dot${dot}"></span>
+      <div class="srow">
+        <span class="sname">${esc(node.label)}</span>
+        ${many ? `<span class="scount">${summary}</span>`
+               : `<span class="schip ${voteInfo(m, node.divs[0]).cls}">${
+                   voteInfo(m, node.divs[0]).chip}</span><span class="sdate">${
+                   fmtD(node.divs[0].date)}</span>`}
+      </div>
+      ${many ? `<div class="amend">${node.divs.map(miniVote).join("")}</div>`
+             : fullVote(node.divs[0])}
     </div>`;
   };
 
+  const saidNode = (node) => `<div class="stage"><span class="dot say"></span>
+      <div class="srow"><span class="sname">Spoke in the House</span>
+        <span class="sdate">${fmtD(node.date)}</span></div>
+      <blockquote class="said">${esc(node.q.q)}</blockquote>
+      <div class="saidmeta">${esc(node.q.t)}${
+        node.q.u ? ` \u00b7 <a class="official" href="${node.q.u}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>
+    </div>`;
+
   for (const g of blocks){
-    rows += `<section class="billblock">${bigCard(g.major, g)}`;
-    if (g.rest.length){
-      // "on this bill" is only true when they ARE on this bill. The
-      // parental-rights card holds three different bills, so it says what
-      // they actually have in common: the issue.
-      const sameBill = g.rest.every(x => x.bill === g.major.bill);
-      rows += `<details class="subvotes"><summary>${g.rest.length} further vote${
-        g.rest.length>1?"s":""} on ${sameBill ? "this bill"
-          : esc(g.issue.name.toLowerCase())}</summary>${
-        g.rest.map(subRow).join("")}</details>`;
-    }
-    rows += saidBlock(g);
-    rows += `</section>`;
+    const nodes = passageNodes(g);
+    rows += `<section class="billblock">${cardHead(g)}
+      <div class="passage">${nodes.map(n =>
+        n.type === "said" ? saidNode(n) : stageNode(n)).join("")}</div>
+    </section>`;
   }
 
   // OPTION B -- everything not tied to a bill card, per issue area.
