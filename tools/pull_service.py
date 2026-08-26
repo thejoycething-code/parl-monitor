@@ -126,7 +126,13 @@ def main():
         query = "&".join("ids={0}".format(x) for x in chunk)
         url = "{0}/Members/History?{1}".format(MEMBERS_API, query)
         try:
-            payload = client.get_json(url, "members", "history-{0}".format(i))
+            # archive=False for the same reason pull_profiles does it: this
+            # is reference data, re-fetchable at will and quoted nowhere, and
+            # data/raw is committed to git at 212MB. It also left the tree
+            # dirty, which made `git pull --rebase` refuse and failed the
+            # first member-profiles run at its very last step.
+            payload = client.get_json(url, "members", "history-{0}".format(i),
+                                      archive=False)
         except Exception as exc:                      # noqa: BLE001
             # One bad batch must not lose the rest: the table is rebuilt per
             # member, so a partial run is safe to re-run.

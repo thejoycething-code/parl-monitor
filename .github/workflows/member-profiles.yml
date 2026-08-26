@@ -87,7 +87,10 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
-          git add data/parl-monitor.db.json
+          # data/raw as well as the sidecar: every sibling workflow stages
+          # it, and a step that archives anything would otherwise leave the
+          # tree dirty and make `git pull --rebase` refuse.
+          git add data/raw data/parl-monitor.db.json
           git diff --cached --quiet || git commit -m "Member profiles: $(date -u +%Y-%m-%dT%H:%M)Z"
           git pull --rebase origin main
           git push origin main
