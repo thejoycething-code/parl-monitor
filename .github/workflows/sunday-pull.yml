@@ -82,6 +82,16 @@ jobs:
           slack_channel_id: C9RH217PZ
           slack_team_id: T066M0LAJ
           EOF
+      - name: Refresh Commons service and party history
+        # Reference data the vote page depends on: which periods each member
+        # has served, and which party they sat for at the time. Without it the
+        # page falls back to members.since -- "MP since 4 July 2024" on the
+        # page of a member first elected in 1983 -- and every whip chip reads
+        # WHIP NOT RECORDED, because a whip claim needs the party held on the
+        # day of the division. Changes only at by-elections and defections,
+        # so a weekly refresh is ample. Free Parliament API, ~33 requests.
+        if: env.SKIP != '1'
+        run: python3 tools/pull_service.py | tee /tmp/service.log
       - name: Pull for the coming week
         if: env.SKIP != '1'
         run: |
