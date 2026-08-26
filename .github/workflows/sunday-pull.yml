@@ -21,6 +21,14 @@ on:
 permissions:
   contents: write
 
+# The service-history step pipes through tee, and a pipeline's exit status is
+# the LAST command's -- so a crashed tool would report success. Every other
+# stateful workflow already carries this; sunday-pull did not need it until it
+# gained a pipe. Caught by tests/test_db_state.py PipefailTests.
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
 concurrency:
   group: parl-monitor-state
   cancel-in-progress: false
