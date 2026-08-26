@@ -716,29 +716,101 @@ class ProfileDetailTests(unittest.TestCase):
         self.assertIn("first elected ${first.slice(0, 4)}", flat)
 
     # ---- placement -------------------------------------------------------
-    def test_contact_renders_after_the_record(self):
+    # MOVED INTO THE HERO on Christopher's instruction, 2026-08-26, after
+    # four rounds of mockups: "Perhaps a second column is better after all?"
+    # I had put it below the record because a social handle beside a red BAD
+    # VOTE chip is effectively a pile-on button, and that reasoning still
+    # stands -- so what survives the move is the mitigation, not the
+    # placement: the parliamentary office leads and stays readable, the
+    # handles are reduced to quiet icons, and no address is ever shown.
+    def test_contact_is_the_heros_second_column(self):
         t = template()
-        self.assertLess(t.index("${recHtml}"), t.index("${contactBlock(m)}"),
-                        "a social handle beside a verdict chip is a pile-on "
-                        "button; below the record it is how you write to an MP")
+        self.assertIn("contactColumn(m)", t)
+        # Compare against the RENDERED form. Searching for "card-summary"
+        # finds the CSS rule near the top of the file instead, which is the
+        # same anchor mistake that has now bitten three of these tests.
+        self.assertLess(t.index("${contactColumn(m)}"),
+                        t.index('<div class="card-summary">'),
+                        "the column belongs in the hero, above the summary line")
+        self.assertNotIn("contactBlock", t,
+                         "the bottom block was MOVED, not duplicated")
 
-    def test_contact_leads_with_the_parliamentary_route(self):
+    def test_the_parliamentary_office_stays_readable_text(self):
+        """An icon-only mailto is useless to anyone on webmail, and reducing
+        the official route to a glyph gives it the same weight as a Facebook
+        page -- which is what keeps this block constituent service."""
         flat = " ".join(template().split())
-        self.assertIn("Contact your MP", flat)
-        self.assertIn("route Parliament asks constituents to use", flat)
-        block = flat[flat.index("function contactBlock"):]
-        self.assertLess(block.index("WRITE"), block.index("ALSO ONLINE"))
+        block = flat[flat.index("function contactColumn"):]
+        self.assertIn("PARLIAMENTARY OFFICE", block)
+        self.assertIn('class="em" href="mailto:', block)
+        self.assertLess(block.index('class="em"'), block.index('class="icons"'))
 
     def test_social_links_carry_nofollow(self):
         flat = " ".join(template().split())
-        block = flat[flat.index("function contactBlock"):]
+        block = flat[flat.index("function contactColumn"):]
         self.assertIn('rel="noopener nofollow"', block)
 
-    def test_absent_details_render_nothing_rather_than_a_gap(self):
-        """Only 61% publish an X handle and 23% an Instagram, so a fixed row
-        of icons would be mostly empty."""
+    def test_every_icon_has_an_accessible_name(self):
+        """Icon-only links need a name, and a phone has no hover -- so the
+        label cannot live in title= alone."""
         flat = " ".join(template().split())
-        block = flat[flat.index("function contactBlock"):]
-        self.assertIn("SOCIAL.filter(([k]) => c[k])", block)
-        self.assertIn("if (!c.email && !c.phone && !links.length) return \"\";",
+        block = flat[flat.index("function contactColumn"):]
+        self.assertIn('aria-label="${esc(i.label)}"', block)
+
+    def test_icons_are_drawn_not_fetched(self):
+        """The page is a single self-contained file. These are letterforms
+        and simple shapes; the official brand marks are specific paths that
+        would have to be sourced."""
+        flat = " ".join(template().split())
+        self.assertNotIn("cdn", flat.lower())
+        block = flat[flat.index("const ICONS"):flat.index("function contactColumn")]
+        self.assertIn("<svg viewBox", block)
+        self.assertNotIn("http", block)
+
+    def test_absent_details_render_nothing_rather_than_a_gap(self):
+        """155 members publish no website or social link at all, and one
+        publishes no contact of any kind."""
+        flat = " ".join(template().split())
+        block = flat[flat.index("function contactColumn"):]
+        self.assertIn("ICON_ORDER.filter(k => c[k])", block)
+        self.assertIn('if (!c.email && !c.phone && !links.length) return "";',
                       block)
+
+
+class HeroRoleTests(unittest.TestCase):
+    """The post is a LINE, the committees are pills below the majority.
+
+    Christopher, 2026-08-26: "apply the line under their name whether it be
+    a secretary of state or backbencher, any committee pills should be added
+    underneath the majority line."
+
+    The line exists because a job title is a phrase: ministerial titles run
+    to 159 characters, and 116 current posts across 109 members are over 46,
+    so one page in six had a paragraph with rounded corners in its hero.
+    """
+
+    def test_the_post_line_always_renders(self):
+        flat = " ".join(template().split())
+        block = flat[flat.index("function postLine"):flat.index("function committeePills")]
+        self.assertIn('held.length ? held.slice(0, 2).join(" \\u00b7 ") : "Backbencher"',
+                      block)
+        self.assertIn('<div class="postline">', block)
+
+    def test_jointly_with_is_dropped(self):
+        """The only genuinely redundant part of a ministerial title on a
+        public page, and it takes the longest from 159 characters to a line."""
+        flat = " ".join(template().split())
+        self.assertIn("JOINTLY", flat)
+        self.assertIn("(Jointly with[^)]*)", " ".join(template().split())
+                      .replace("\\", ""))
+
+    def test_committees_sit_below_the_majority(self):
+        t = template()
+        self.assertLess(t.index("${postLine(m)}"), t.index("${seatLine(m)}"))
+        self.assertLess(t.index("${seatLine(m)}"), t.index("${committeePills(m)}"))
+
+    def test_committees_are_still_pills(self):
+        flat = " ".join(template().split())
+        block = flat[flat.index("function committeePills"):]
+        self.assertIn('class="rolepill"', block)
+        self.assertIn("coms.length > 2", block)

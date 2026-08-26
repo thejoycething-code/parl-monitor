@@ -334,20 +334,44 @@ footer a{color:var(--blue);font-weight:400}
 .seatline b{color:#fff;font-weight:500}
 /* Contact sits BELOW the record on purpose: beside a verdict these links are
    a pile-on button, under "Contact your MP" they are how you write to an MP. */
-.contactblock{margin:26px 0 4px;padding-top:18px;border-top:2px solid var(--grey-100)}
-.chead{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--ink);margin:0 0 4px}
-.cintro{font-size:12.5px;color:var(--ink);margin:0 0 12px;max-width:66ch}
-.crow{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--line);
-  font-size:13.5px;align-items:baseline}
-.clab{flex:0 0 108px;font-size:10.5px;font-weight:700;letter-spacing:.05em;color:#9aa1a9}
-.clink{color:var(--blue-deep);text-decoration:none}
-.clink:hover{text-decoration:underline}
-.social{display:flex;gap:8px;flex-wrap:wrap}
-.sbtn{font-size:12.5px;color:var(--blue-deep);text-decoration:none;border:1px solid #d6e3fb;
-  background:#f5f9ff;border-radius:5px;padding:4px 10px}
-.sbtn:hover{background:#eaf1fe}
 @media(max-width:560px){.crow{flex-direction:column;gap:3px}.clab{flex-basis:auto}}
+
+/* --- hero second column: contact, links as icons (2026-08-26) -----------
+   Icons are what make a 214px column viable -- eight text buttons never fit,
+   and the worst case in the House is six links. Email and phone stay TEXT:
+   an icon-only mailto is useless on webmail, and the parliamentary office
+   must not read as equal in weight to a Facebook page. */
+.card-head{align-items:flex-start}
+.idcol{flex:1;min-width:215px}
+.rightcol{display:flex;flex-direction:column;align-items:flex-end;gap:10px;margin-left:auto}
+.postline{font-size:13px;color:#fff;font-weight:500;margin-top:7px}
+.rolepills{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.ccol{flex:0 0 auto;width:214px;background:rgba(255,255,255,.13);border-radius:8px;
+  padding:11px 13px 12px;text-align:left}
+.ccol h3{margin:0 0 8px;font-size:9.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:#dbe6fb}
+.ccol .lab{display:block;font-size:9.5px;font-weight:700;letter-spacing:.06em;
+  color:#bcd3f7;margin-bottom:1px}
+.ccol .em{display:block;font-size:12.5px;color:#fff;margin-bottom:8px;
+  word-break:break-word;line-height:1.35}
+.ccol .em:hover{text-decoration:underline;color:#fff}
+.ccol .ph{display:block;font-size:12.5px;color:#fff;margin-bottom:10px}
+.icons{display:flex;gap:7px;flex-wrap:wrap}
+.ic{width:30px;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.42);
+  display:inline-flex;align-items:center;justify-content:center;color:#fff;
+  font-size:13px;font-weight:700;line-height:1;flex:none}
+.ic:hover{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;text-decoration:none}
+.ic.sm{font-size:11px}
+.ic svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:1.6}
+.ic .ig{width:15px;height:15px;border:1.6px solid #fff;border-radius:4px;position:relative}
+.ic .ig:before{content:"";position:absolute;inset:3px;border:1.5px solid #fff;border-radius:50%}
+.ic .ig:after{content:"";position:absolute;top:1.5px;right:1.5px;width:2px;height:2px;
+  background:#fff;border-radius:50%}
+@media(max-width:640px){
+  .rightcol{align-items:stretch;width:100%;margin-left:0}
+  .ccol{width:100%}
+  .backlink{align-self:flex-start}
+}
 </style>
 </head>
 <body>
@@ -502,21 +526,36 @@ function whipChip(d, m){
   return `<span class="whipmark none">WHIP NOT RECORDED</span>`;
 }
 
-function roleLine(m){
-  // A minister's or whip's vote is differently constrained from a
-  // backbencher's, and the committees are where our issues get scrutinised.
+// "(Jointly with the Department for ...)" is the only genuinely redundant
+// part of a ministerial title on a public page, and dropping it takes the
+// longest one from 159 characters to something a line can hold.
+const JOINTLY = /\s*\(Jointly with[^)]*\)/g;
+
+function postLine(m){
+  // ALWAYS rendered, Secretary of State or backbencher alike (Christopher,
+  // 2026-08-26). A LINE rather than a pill because a job title is a phrase:
+  // ministerial titles run to 159 characters -- "Parliamentary
+  // Under-Secretary of State (Department for Business, Innovation, Science
+  // and Trade) (Jointly with the Department for Energy Security and Net
+  // Zero)" -- and 116 current posts across 109 members are over 46, so one
+  // page in six had a paragraph with rounded corners in its hero.
   const p = m.posts || {};
-  const held = [].concat(p.government || [], p.opposition || []);
-  const coms = (p.committee || []);
-  const pills = [];
-  if (held.length) pills.push(...held.slice(0, 2));
-  else pills.push("Backbencher");
-  pills.push(...coms.slice(0, 2));
-  if (!pills.length) return "";
-  return `<div class="rolepills">${pills.map(x =>
+  const held = [].concat(p.government || [], p.opposition || [])
+    .map(x => x.replace(JOINTLY, "").trim()).filter(Boolean);
+  const text = held.length ? held.slice(0, 2).join(" \u00b7 ") : "Backbencher";
+  return `<div class="postline">${esc(text)}</div>`;
+}
+
+function committeePills(m){
+  // Below the majority line. A committee name IS a label, so it stays a
+  // pill -- and these are where our issues get scrutinised.
+  const coms = ((m.posts || {}).committee || []);
+  if (!coms.length) return "";
+  return `<div class="rolepills">${coms.slice(0, 2).map(x =>
     `<span class="rolepill">${esc(x)}</span>`).join("")}${
     coms.length > 2 ? `<span class="rolemore">+${coms.length - 2} more</span>` : ""}</div>`;
 }
+
 function seatLine(m){
   const s = m.seat || {};
   if (!s.majority) return "";
@@ -525,33 +564,52 @@ function seatLine(m){
     year ? ` at the ${year} general election` : ""}${
     s.result ? ` &middot; ${esc(s.result)}` : ""}</div>`;
 }
-function contactBlock(m){
-  // DELIBERATELY BELOW THE RECORD (Christopher, 2026-08-26). A social handle
-  // beside a red BAD VOTE chip is a pile-on button; the same links under
-  // "Contact your MP", after the votes, are what they are meant to be --
-  // how a constituent writes to their member. The parliamentary office leads
-  // because it is the route Parliament asks constituents to use and the one
-  // an MP's staff are obliged to handle.
+// Icon glyphs drawn in CSS and inline SVG -- nothing is fetched, and these
+// are letterforms and simple shapes rather than the official brand marks,
+// which are specific paths that would have to be sourced and dropped in.
+const ICONS = {
+  website: {label: "Website", svg: '<svg viewBox="0 0 20 20" aria-hidden="true">' +
+    '<circle cx="10" cy="10" r="8"/><ellipse cx="10" cy="10" rx="3.4" ry="8"/>' +
+    '<path d="M2.4 7.2h15.2M2.4 12.8h15.2"/></svg>'},
+  facebook:  {label: "Facebook",  text: "f"},
+  x:         {label: "X",         text: "X"},
+  instagram: {label: "Instagram", html: '<span class="ig"></span>'},
+  bluesky:   {label: "Bluesky",   text: "bs", small: true},
+  linkedin:  {label: "LinkedIn",  text: "in", small: true},
+  youtube:   {label: "YouTube",   text: "\u25B6"},
+  substack:  {label: "Substack",  text: "S"},
+};
+const ICON_ORDER = ["website", "x", "facebook", "instagram", "bluesky",
+                    "linkedin", "youtube", "substack"];
+
+function contactColumn(m){
+  // The hero's second column (Christopher, 2026-08-26: "Perhaps a second
+  // column is better after all? Can the website and social links be swapped
+  // for icons?"). Icons are what make the column viable: eight text buttons
+  // never fit 214px, but the real worst case is six links -- two members
+  // have that many -- and six icons take a single row.
   //
-  // No address is ever shown: a "Constituency office" record is often the
-  // member's home, and the builder does not store address lines at all.
+  // Email and phone stay as TEXT. They are the route Parliament asks
+  // constituents to use, an icon-only mailto is useless to anyone on
+  // webmail, and keeping them readable is what stops the parliamentary
+  // office carrying the same weight as a Facebook page.
+  //
+  // No address is ever shown: the builder does not store address lines.
   const c = m.contact || {};
-  const SOCIAL = [["website","Website"],["facebook","Facebook"],["x","X"],
-                  ["instagram","Instagram"],["bluesky","Bluesky"],
-                  ["linkedin","LinkedIn"],["youtube","YouTube"],
-                  ["substack","Substack"]];
-  const links = SOCIAL.filter(([k]) => c[k]).map(([k, label]) =>
-    `<a class="sbtn" href="${esc(c[k])}" target="_blank" rel="noopener nofollow">${label}</a>`);
+  const links = ICON_ORDER.filter(k => c[k]).map(k => {
+    const i = ICONS[k];
+    const body = i.svg || i.html || esc(i.text);
+    return `<a class="ic${i.svg || i.html ? "" : " mono"}${i.small ? " sm" : ""}"
+      href="${esc(c[k])}" target="_blank" rel="noopener nofollow"
+      aria-label="${esc(i.label)}" title="${esc(i.label)}">${body}</a>`;
+  });
   if (!c.email && !c.phone && !links.length) return "";
-  return `<div class="contactblock">
-    <p class="chead">Contact your MP</p>
-    <p class="cintro">As published by Parliament. The parliamentary office is the
-      route Parliament asks constituents to use.</p>
-    ${c.email ? `<div class="crow"><span class="clab">WRITE</span>
-      <span><a class="clink" href="mailto:${esc(c.email)}">${esc(c.email)}</a></span></div>` : ""}
-    ${c.phone ? `<div class="crow"><span class="clab">PHONE</span><span>${esc(c.phone)}</span></div>` : ""}
-    ${links.length ? `<div class="crow"><span class="clab">ALSO ONLINE</span>
-      <span class="social">${links.join("")}</span></div>` : ""}
+  return `<div class="ccol">
+    <h3>Contact</h3>
+    ${c.email || c.phone ? `<span class="lab">PARLIAMENTARY OFFICE</span>` : ""}
+    ${c.email ? `<a class="em" href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ""}
+    ${c.phone ? `<span class="ph">${esc(c.phone)}</span>` : ""}
+    ${links.length ? `<div class="icons">${links.join("")}</div>` : ""}
   </div>`;
 }
 
@@ -915,23 +973,26 @@ function renderMP(id){
     <div class="card-head">
       <div class="avatar"><span>${initials(m.name)}</span>
         <img src="https://members-api.parliament.uk/api/Members/${m.id}/Thumbnail" alt="" onerror="this.remove()"></div>
-      <div style="flex:1;min-width:220px">
+      <div class="idcol">
         <h2>${esc(m.name)}</h2>
         <div class="mp-meta">
           <span class="party"><span class="pdot" style="background:${pc(m.party)}"></span>${esc(m.party)}</span>
           <span>${esc(m.constituency)}</span>
           <span class="since">${sinceLine(m)}</span>
         </div>
-        ${roleLine(m)}
+        ${postLine(m)}
         ${seatLine(m)}
+        ${committeePills(m)}
       </div>
-      <a href="#" class="backlink" id="back">&larr; New search</a>
+      <div class="rightcol">
+        <a href="#" class="backlink" id="back">&larr; New search</a>
+        ${contactColumn(m)}
+      </div>
     </div>
     ${banner?`<div class="rolebanner">${banner}</div>`:""}
     <div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}</div>
     ${rows}
   ${recHtml}
-  ${contactBlock(m)}
   </div>`;
   document.getElementById("back").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
   location.hash = "mp-"+m.id;
