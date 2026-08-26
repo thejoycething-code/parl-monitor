@@ -179,6 +179,35 @@ def whip_label(d, issue_note, splits):
     return None
 
 
+SYNOPSIS_SINCE = re.compile(r"since (\d{1,2}) (\w+) (\d{4})")
+_MONTHS = {m: i for i, m in enumerate(
+    ["January", "February", "March", "April", "May", "June", "July",
+     "August", "September", "October", "November", "December"], 1)}
+
+
+def continuous_since(synopsis):
+    """The start of a member's CURRENT UNBROKEN service, per Parliament.
+
+    Our own first-elected date is the earliest period, which is a different
+    claim: Sir Christopher Chope first entered in 1983 but was out from 1992
+    to 1997, so "MP since 9 June 1983" implies continuous service he did not
+    have. 24 of 650 members differ this way, and Parliament is right in each
+    case -- its synopsis says "has been an MP continually since ...".
+
+    The general-election test used for `returned` cannot separate these: a
+    member who lost a seat and won another at a LATER election also starts a
+    period on an election date. Rather than re-derive that reasoning, this
+    reads the date out of the authoritative sentence.
+    """
+    hit = SYNOPSIS_SINCE.search(synopsis or "")
+    if not hit:
+        return None
+    month = _MONTHS.get(hit.group(2))
+    if not month:
+        return None
+    return "{0}-{1:02d}-{2:02d}".format(hit.group(3), month, int(hit.group(1)))
+
+
 def bill_of(d, issue):
     """The bill a division belongs to, for the card heading.
 
@@ -563,6 +592,33 @@ def build(conn, cfg, payloads):
         parties.setdefault(row["member_id"], []).append(
             [row["party"], row["started"], row["ended"]])
 
+    # Published profile detail (member_contact / member_post / member_seat).
+    # All of it is the register the member gave Parliament FOR publication;
+    # no address is stored or shipped. Absent for a member is normal --
+    # only 55% publish an X handle -- so the page renders what exists.
+    contact = {}
+    for row in conn.execute("SELECT member_id, kind, value FROM member_contact"):
+        contact.setdefault(row["member_id"], {})[row["kind"]] = row["value"]
+    posts = {}
+    for row in conn.execute(
+            "SELECT member_id, kind, name FROM member_post "
+            "WHERE ended IS NULL ORDER BY member_id, kind, name"):
+        posts.setdefault(row["member_id"], {}).setdefault(row["kind"], []).append(row["name"])
+    seat = {}
+    for row in conn.execute(
+            "SELECT member_id, majority, electorate, turnout, result, "
+            "election_date, synopsis FROM member_seat"):
+        seat[row["member_id"]] = {
+            "majority": row["majority"], "electorate": row["electorate"],
+            "turnout": row["turnout"], "result": row["result"],
+            "date": row["election_date"]}
+        # The synopsis itself is not shipped -- it restates the party, seat
+        # and date the header already carries. Only the one fact it knows
+        # better than we do is taken from it.
+        cont = continuous_since(row["synopsis"])
+        if cont:
+            seat[row["member_id"]]["continuous"] = cont
+
     members = []
     for r in conn.execute(
             "SELECT id, name, list_as, party, seat, since FROM members "
@@ -582,6 +638,9 @@ def build(conn, cfg, payloads):
             "served": service.get(r["id"], {}).get("periods") or [],
             "returned": service.get(r["id"], {}).get("returned"),
             "parties": parties.get(r["id"]) or [],
+            "contact": contact.get(r["id"]) or {},
+            "posts": posts.get(r["id"]) or {},
+            "seat": seat.get(r["id"]) or {},
             "role": role, "votes": votes.get(r["id"], {}),
         })
 

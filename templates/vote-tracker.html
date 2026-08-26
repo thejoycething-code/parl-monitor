@@ -324,6 +324,30 @@ footer a{color:var(--blue);font-weight:400}
   .amrow{flex-direction:column;gap:4px}.amlab{flex-basis:auto}
   .amsub{display:inline;margin-left:5px}
 }
+
+/* --- profile detail from the published register (2026-08-26) ------------- */
+.rolepills{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.rolepill{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 9px;border-radius:11px;background:rgba(255,255,255,.2);color:#fff}
+.rolemore{font-size:11px;color:#cfe0fc;align-self:center}
+.seatline{font-size:12.5px;color:#dbe6fb;margin-top:6px}
+.seatline b{color:#fff;font-weight:500}
+/* Contact sits BELOW the record on purpose: beside a verdict these links are
+   a pile-on button, under "Contact your MP" they are how you write to an MP. */
+.contactblock{margin:26px 0 4px;padding-top:18px;border-top:2px solid var(--grey-100)}
+.chead{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink);margin:0 0 4px}
+.cintro{font-size:12.5px;color:var(--ink);margin:0 0 12px;max-width:66ch}
+.crow{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--line);
+  font-size:13.5px;align-items:baseline}
+.clab{flex:0 0 108px;font-size:10.5px;font-weight:700;letter-spacing:.05em;color:#9aa1a9}
+.clink{color:var(--blue-deep);text-decoration:none}
+.clink:hover{text-decoration:underline}
+.social{display:flex;gap:8px;flex-wrap:wrap}
+.sbtn{font-size:12.5px;color:var(--blue-deep);text-decoration:none;border:1px solid #d6e3fb;
+  background:#f5f9ff;border-radius:5px;padding:4px 10px}
+.sbtn:hover{background:#eaf1fe}
+@media(max-width:560px){.crow{flex-direction:column;gap:3px}.clab{flex-basis:auto}}
 </style>
 </head>
 <body>
@@ -478,15 +502,72 @@ function whipChip(d, m){
   return `<span class="whipmark none">WHIP NOT RECORDED</span>`;
 }
 
+function roleLine(m){
+  // A minister's or whip's vote is differently constrained from a
+  // backbencher's, and the committees are where our issues get scrutinised.
+  const p = m.posts || {};
+  const held = [].concat(p.government || [], p.opposition || []);
+  const coms = (p.committee || []);
+  const pills = [];
+  if (held.length) pills.push(...held.slice(0, 2));
+  else pills.push("Backbencher");
+  pills.push(...coms.slice(0, 2));
+  if (!pills.length) return "";
+  return `<div class="rolepills">${pills.map(x =>
+    `<span class="rolepill">${esc(x)}</span>`).join("")}${
+    coms.length > 2 ? `<span class="rolemore">+${coms.length - 2} more</span>` : ""}</div>`;
+}
+function seatLine(m){
+  const s = m.seat || {};
+  if (!s.majority) return "";
+  const year = (s.date || "").slice(0, 4);
+  return `<div class="seatline">Majority <b>${s.majority.toLocaleString("en-GB")}</b>${
+    year ? ` at the ${year} general election` : ""}${
+    s.result ? ` &middot; ${esc(s.result)}` : ""}</div>`;
+}
+function contactBlock(m){
+  // DELIBERATELY BELOW THE RECORD (Christopher, 2026-08-26). A social handle
+  // beside a red BAD VOTE chip is a pile-on button; the same links under
+  // "Contact your MP", after the votes, are what they are meant to be --
+  // how a constituent writes to their member. The parliamentary office leads
+  // because it is the route Parliament asks constituents to use and the one
+  // an MP's staff are obliged to handle.
+  //
+  // No address is ever shown: a "Constituency office" record is often the
+  // member's home, and the builder does not store address lines at all.
+  const c = m.contact || {};
+  const SOCIAL = [["website","Website"],["facebook","Facebook"],["x","X"],
+                  ["instagram","Instagram"],["bluesky","Bluesky"],
+                  ["linkedin","LinkedIn"],["youtube","YouTube"],
+                  ["substack","Substack"]];
+  const links = SOCIAL.filter(([k]) => c[k]).map(([k, label]) =>
+    `<a class="sbtn" href="${esc(c[k])}" target="_blank" rel="noopener nofollow">${label}</a>`);
+  if (!c.email && !c.phone && !links.length) return "";
+  return `<div class="contactblock">
+    <p class="chead">Contact your MP</p>
+    <p class="cintro">As published by Parliament. The parliamentary office is the
+      route Parliament asks constituents to use.</p>
+    ${c.email ? `<div class="crow"><span class="clab">WRITE</span>
+      <span><a class="clink" href="mailto:${esc(c.email)}">${esc(c.email)}</a></span></div>` : ""}
+    ${c.phone ? `<div class="crow"><span class="clab">PHONE</span><span>${esc(c.phone)}</span></div>` : ""}
+    ${links.length ? `<div class="crow"><span class="clab">ALSO ONLINE</span>
+      <span class="social">${links.join("")}</span></div>` : ""}
+  </div>`;
+}
+
 function sinceLine(m){
   // The first entry to the Commons, not the start of the current period.
   // A member who left and returned gets both, because "MP since 13 Aug 2026"
   // beside votes cast in 2024 makes the page look wrong when it is right.
   const first = m.first || m.since;
   if (!first) return "";
-  // m.returned is set only for a genuine break in service -- the builder
-  // excludes periods that begin at a general election, which is simply
-  // re-election.
+  // Parliament's own "continually since" date, where it knows better than
+  // our earliest-period date. Sir Christopher Chope first entered in 1983
+  // but was out from 1992 to 1997, so "MP since 1983" claims continuous
+  // service he did not have; 24 members differ this way.
+  const cont = (m.seat || {}).continuous;
+  if (cont && cont > first)
+    return `MP since ${fmtD(cont)} \u00b7 first elected ${first.slice(0, 4)}`;
   if (m.returned) return `MP since ${fmtD(first)} \u00b7 returned ${fmtD(m.returned)}`;
   return `MP since ${fmtD(first)}`;
 }
@@ -841,6 +922,8 @@ function renderMP(id){
           <span>${esc(m.constituency)}</span>
           <span class="since">${sinceLine(m)}</span>
         </div>
+        ${roleLine(m)}
+        ${seatLine(m)}
       </div>
       <a href="#" class="backlink" id="back">&larr; New search</a>
     </div>
@@ -848,6 +931,7 @@ function renderMP(id){
     <div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}</div>
     ${rows}
   ${recHtml}
+  ${contactBlock(m)}
   </div>`;
   document.getElementById("back").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
   location.hash = "mp-"+m.id;

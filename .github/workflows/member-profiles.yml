@@ -1,0 +1,93 @@
+name: Member profiles
+
+# Reference data for the vote page: which periods each member has served,
+# which party they sat for at the time, their published contact details,
+# their ministerial and committee roles, and their seat's last result.
+#
+# WHY IT IS NOT IN THE SUNDAY PULL. Sunday pull is the critical weekly job.
+# Its steps are guarded `if: env.SKIP != '1'`, which does NOT run after a
+# failure, so an enrichment step placed ahead of the weekly gather would
+# block the gather outright the first time the Members API hiccupped. It also
+# runs to a 60-minute budget against a cold pull already measured at 40m05s,
+# and its Monday 02:00 retry slot has to finish before the 03:00 publish.
+# None of this reference data is worth that risk: it changes at by-elections,
+# reshuffles and committee turnover, not weekly (Christopher asked directly
+# whether this would break the Sunday pull, 2026-08-26).
+#
+# Wednesday is chosen because it is genuinely free: Monday has the publish,
+# Thursday the Senedd and UN calls, Friday Holyrood, Saturday NI, Sunday the
+# pull. Tuesday is the only other clear day and is kept spare.
+on:
+  schedule:
+    - cron: "0 6 * * 3"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# The same lock as every stateful workflow: this writes the store.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  profiles:
+    runs-on: ubuntu-latest
+    # MEASURED, not estimated: 100 members took 4.5 minutes, so the House is
+    # about 29 -- three or four requests each against src/http's 0.2s per-host
+    # throttle, which dominates the raw latency. A 30-minute cap would have
+    # been cut off mid-run. Wednesday 06:00 plus 45 minutes still finishes
+    # more than 23 hours before the next scheduled workflow.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Refresh Commons service and party history
+        run: python3 tools/pull_service.py | tee /tmp/service.log
+      - name: Refresh published profile detail
+        # Never fatal on a partial failure: a member who cannot be fetched
+        # keeps last week's detail rather than losing it.
+        if: always()
+        run: python3 tools/pull_profiles.py | tee /tmp/profiles.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Member profiles"
+            for f in service profiles; do
+              echo "### $f"
+              if [ -f "/tmp/$f.log" ]; then
+                echo '```'
+                grep -E "members|stored|failures|%" "/tmp/$f.log" | tail -18 \
+                  || echo "(no summary lines)"
+                echo '```'
+              else
+                echo "step did not run"
+              fi
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the store
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
+      - name: Commit state
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/parl-monitor.db.json
+          git diff --cached --quiet || git commit -m "Member profiles: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git pull --rebase origin main
+          git push origin main

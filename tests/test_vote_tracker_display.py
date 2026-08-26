@@ -641,3 +641,104 @@ class PassageCardTests(unittest.TestCase):
         compact-roll threshold would be code that never runs."""
         flat = " ".join(template().split())
         self.assertNotIn("compactRoll", flat)
+
+
+class ProfileDetailTests(unittest.TestCase):
+    """Published register detail: contact, roles, seat.
+
+    Everything here is what a member gave Parliament FOR publication. The
+    two rules that matter: no address is ever stored or shown, and contact
+    sits BELOW the record rather than beside a verdict.
+    """
+
+    def setUp(self):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import pull_profiles
+        self.pp = pull_profiles
+
+    def test_no_address_is_ever_taken(self):
+        """A "Constituency office" record is frequently a member's home."""
+        got = self.pp.parse_contact([
+            {"type": "Constituency office", "line1": "12 Private Road",
+             "line5": "Wiltshire", "postcode": "SN1 2AB",
+             "email": "mp@example.org", "phone": "01234 567890"},
+            {"type": "Parliamentary office", "line1": "House of Commons",
+             "postcode": "SW1A 0AA", "email": "mp@parliament.uk"},
+        ])
+        flat = " ".join(got.values())
+        for leak in ("Private Road", "SN1 2AB", "SW1A", "Wiltshire",
+                     "House of Commons"):
+            self.assertNotIn(leak, flat)
+
+    def test_the_parliamentary_email_wins(self):
+        got = self.pp.parse_contact([
+            {"type": "Constituency office", "email": "local@example.org"},
+            {"type": "Parliamentary office", "email": "mp@parliament.uk"},
+        ])
+        self.assertEqual(got["email"], "mp@parliament.uk")
+
+    def test_an_email_filed_under_the_constituency_is_still_taken(self):
+        """Some members file their parliament.uk address there and nowhere
+        else -- Danny Kruger is one."""
+        got = self.pp.parse_contact([
+            {"type": "Constituency office", "email": "d.k.mp@parliament.uk"}])
+        self.assertEqual(got["email"], "d.k.mp@parliament.uk")
+
+    def test_unknown_contact_types_are_ignored_not_guessed(self):
+        got = self.pp.parse_contact([
+            {"type": "Mastodon", "isWebAddress": True, "line1": "https://m.example"}])
+        self.assertEqual(got, {})
+
+    def test_the_api_envelope_is_unwrapped(self):
+        """Passing {"value": ..., "links": ...} to the parsers made them
+        iterate the envelope's KEYS, so a 650-member run stored nothing --
+        silently, because per-member failures are caught by design."""
+        with open(os.path.join(ROOT, "tools", "pull_profiles.py"),
+                  encoding="utf-8") as fh:
+            self.assertIn('return payload["value"]', fh.read())
+
+    # ---- Parliament's line vs ours --------------------------------------
+    def test_continuous_service_comes_from_parliaments_own_sentence(self):
+        got = mvt.continuous_since(
+            "Sir Christopher Chope is the Conservative MP for Christchurch, "
+            "and has been an MP continually since 1 May 1997.")
+        self.assertEqual(got, "1997-05-01")
+
+    def test_a_synopsis_without_a_date_yields_nothing(self):
+        self.assertIsNone(mvt.continuous_since("An MP for somewhere."))
+        self.assertIsNone(mvt.continuous_since(None))
+
+    def test_the_header_prefers_continuous_service(self):
+        """"MP since 1983" for Chope claims service he did not have: he was
+        out from 1992 to 1997. 24 of 650 members differ this way."""
+        flat = " ".join(template().split())
+        self.assertIn("const cont = (m.seat || {}).continuous;", flat)
+        self.assertIn("first elected ${first.slice(0, 4)}", flat)
+
+    # ---- placement -------------------------------------------------------
+    def test_contact_renders_after_the_record(self):
+        t = template()
+        self.assertLess(t.index("${recHtml}"), t.index("${contactBlock(m)}"),
+                        "a social handle beside a verdict chip is a pile-on "
+                        "button; below the record it is how you write to an MP")
+
+    def test_contact_leads_with_the_parliamentary_route(self):
+        flat = " ".join(template().split())
+        self.assertIn("Contact your MP", flat)
+        self.assertIn("route Parliament asks constituents to use", flat)
+        block = flat[flat.index("function contactBlock"):]
+        self.assertLess(block.index("WRITE"), block.index("ALSO ONLINE"))
+
+    def test_social_links_carry_nofollow(self):
+        flat = " ".join(template().split())
+        block = flat[flat.index("function contactBlock"):]
+        self.assertIn('rel="noopener nofollow"', block)
+
+    def test_absent_details_render_nothing_rather_than_a_gap(self):
+        """Only 61% publish an X handle and 23% an Instagram, so a fixed row
+        of icons would be mostly empty."""
+        flat = " ".join(template().split())
+        block = flat[flat.index("function contactBlock"):]
+        self.assertIn("SOCIAL.filter(([k]) => c[k])", block)
+        self.assertIn("if (!c.email && !c.phone && !links.length) return \"\";",
+                      block)

@@ -27,7 +27,7 @@ def workflow(name):
 class WorkflowWiringTests(unittest.TestCase):
     STATEFUL = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "sunday-pull.yml", "monday-publish.yml", "upr-monthly.yml",
-                "backfill.yml", "score-stance.yml")
+                "backfill.yml", "score-stance.yml", "member-profiles.yml")
 
     def test_every_stateful_workflow_pulls_and_pushes(self):
         for name in self.STATEFUL:
@@ -126,6 +126,7 @@ class CommitLabelTests(unittest.TestCase):
         "upr-monthly.yml": "UPR monthly",
         "backfill.yml": "Historic backfill",
         "score-stance.yml": "Stance scoring",
+        "member-profiles.yml": "Member profiles",
     }
 
     def test_each_workflow_names_itself_in_its_commit_message(self):
@@ -265,7 +266,8 @@ class FailureAlertTests(unittest.TestCase):
     # protects the DEVOLVED watching briefs, whose separation is structural,
     # and the manual state tools, which have no reason to speak.
     NO_SLACK = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
-                "backfill.yml", "score-stance.yml", "upr-monthly.yml")
+                "backfill.yml", "score-stance.yml", "upr-monthly.yml",
+                "member-profiles.yml")
 
     def test_the_watching_briefs_hold_no_slack_credential(self):
         """The property the watcher exists to preserve: had the alert been a
@@ -307,3 +309,88 @@ class FailureAlertTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CriticalPathTests(unittest.TestCase):
+    """Reference-data fetches must stay OFF the Sunday pull.
+
+    Christopher asked directly whether the profile work could break the
+    Sunday pull (2026-08-26). It could have, in two ways:
+
+      * sunday-pull's steps are guarded `if: env.SKIP != '1'`, which does
+        NOT run after a failure. An enrichment step placed before "Pull for
+        the coming week" would have blocked the weekly gather outright the
+        first time the Members API hiccupped.
+      * the job budget is 60 minutes against a cold pull already measured
+        at 40m05s, and the Monday 02:00 retry slot has to finish before the
+        03:00 publish. The profile fetch alone measured ~29 minutes.
+
+    So it lives in member-profiles.yml on a free day. These tests keep it
+    there.
+    """
+
+    REFERENCE_TOOLS = ("pull_service.py", "pull_profiles.py")
+
+    def test_the_sunday_pull_fetches_no_reference_data(self):
+        text = workflow("sunday-pull.yml")
+        for tool in self.REFERENCE_TOOLS:
+            self.assertNotIn(tool, text,
+                             tool + " is on the critical path: a failure "
+                             "there stops the weekly gather")
+
+    def test_the_publish_fetches_no_reference_data(self):
+        """The publish has a Slack post and an Asana task behind it; it must
+        not spend its budget on a roster refresh either."""
+        text = workflow("monday-publish.yml")
+        for tool in self.REFERENCE_TOOLS:
+            self.assertNotIn(tool, text)
+
+    def test_the_profiles_workflow_owns_them(self):
+        text = workflow("member-profiles.yml")
+        for tool in self.REFERENCE_TOOLS:
+            self.assertIn(tool, text)
+
+    def test_it_runs_on_a_day_nothing_else_uses(self):
+        """Wednesday. Monday has the publish, Thursday the Senedd and UN
+        calls, Friday Holyrood, Saturday NI, Sunday the pull."""
+        import glob
+        import re as _re
+        mine = _re.findall(r'cron: "([^"]+)"', workflow("member-profiles.yml"))
+        self.assertTrue(mine)
+        my_days = {c.split()[-1] for c in mine}
+        for path in sorted(glob.glob(os.path.join(WORKFLOWS, "*.yml"))):
+            name = os.path.basename(path)
+            if name == "member-profiles.yml":
+                continue
+            with open(path, encoding="utf-8") as fh:
+                other = _re.findall(r'cron: "([^"]+)"', fh.read())
+            for c in other:
+                day = c.split()[-1]
+                if day == "*":
+                    continue          # monthly, keyed on day-of-month
+                self.assertNotIn(day, my_days,
+                                 "{0} also runs on day {1}".format(name, day))
+
+    def test_its_timeout_covers_the_measured_duration(self):
+        """100 members took 4.5 minutes, so the House is about 29. A
+        30-minute cap would have been cut off mid-run."""
+        import re as _re
+        text = workflow("member-profiles.yml")
+        hit = _re.search(r"timeout-minutes:\s*(\d+)", text)
+        self.assertIsNotNone(hit)
+        self.assertGreaterEqual(int(hit.group(1)), 40)
+
+    def test_a_member_fetch_failure_is_not_fatal(self):
+        with open(os.path.join(ROOT, "tools", "pull_profiles.py"),
+                  encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn("except Exception", text)
+        self.assertIn("previous values retained", text)
+        self.assertIn("return 0", text)
+
+    def test_profiles_are_not_archived_into_data_raw(self):
+        """~1,950 payloads a week into a git-tracked tree already at 212MB,
+        for data that is re-fetchable and quoted nowhere."""
+        with open(os.path.join(ROOT, "tools", "pull_profiles.py"),
+                  encoding="utf-8") as fh:
+            self.assertIn("archive=False", fh.read())

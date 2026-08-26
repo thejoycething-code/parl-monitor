@@ -69,6 +69,42 @@ CREATE TABLE IF NOT EXISTS member_party (
   ended TEXT,
   PRIMARY KEY (member_id, started)
 );
+-- Published profile detail from the Members API register. NOT researched by
+-- us: these are the details each member has given Parliament FOR publication,
+-- which is what makes them safe to republish (Christopher, 2026-08-26).
+-- Addresses are deliberately not stored: a "Constituency office" record is
+-- often a member's home, and publishing where someone lives is a different
+-- act from reporting their parliamentary record. Only email, phone and web
+-- addresses are kept.
+CREATE TABLE IF NOT EXISTS member_contact (
+  member_id INTEGER NOT NULL,
+  kind TEXT NOT NULL,             -- email | phone | website | x | facebook | ...
+  value TEXT NOT NULL,
+  PRIMARY KEY (member_id, kind)
+);
+-- Ministerial, shadow and committee roles. A whip's or minister's vote is
+-- differently constrained from a backbencher's, and the committees are where
+-- our issues actually get scrutinised.
+CREATE TABLE IF NOT EXISTS member_post (
+  member_id INTEGER NOT NULL,
+  kind TEXT NOT NULL,             -- government | opposition | committee | other
+  name TEXT NOT NULL,
+  started TEXT,
+  ended TEXT,                     -- NULL = current
+  PRIMARY KEY (member_id, kind, name, started)
+);
+-- The seat, and how safe it is. Public, routinely published, and it tells a
+-- constituent how much their own vote weighs.
+CREATE TABLE IF NOT EXISTS member_seat (
+  member_id INTEGER PRIMARY KEY,
+  constituency_id INTEGER,
+  majority INTEGER,
+  electorate INTEGER,
+  turnout INTEGER,
+  result TEXT,
+  election_date TEXT,
+  synopsis TEXT                   -- Parliament's own one-line summary
+);
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
 -- UN monitor. A UPR recommendation is a position taken by one state towards
@@ -520,6 +556,9 @@ TABLES = (
     "members",
     "member_service",
     "member_party",
+    "member_contact",
+    "member_post",
+    "member_seat",
     "mp_events",
     "edm_signatures",
     "editions",
