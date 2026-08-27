@@ -114,9 +114,6 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 .mp-meta .party{font-weight:500;color:#fff}
 .pdot{display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);margin-right:6px;vertical-align:-1px}
 .mp-meta .since{font-size:12.5px;color:#cfe0fc}
-.backlink{margin-left:auto;font-size:13.5px;font-weight:500;color:#fff;flex:none;border:1px solid rgba(255,255,255,.55);
-  padding:8px 14px;border-radius:7px}
-.backlink:hover{background:rgba(255,255,255,.14);text-decoration:none;color:#fff}
 .rolebanner{padding:13px 28px;background:var(--yellow);border-bottom:1px solid #e9d488;font-size:14.5px;color:#6b5a1e}
 .card-summary{padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--grey-300);border-bottom:1px solid var(--line);background:#FBFCFD}
@@ -199,7 +196,6 @@ footer a{color:var(--blue);font-weight:400}
   .card-head{padding:22px 18px}
   .issuehead,.divrow{margin-left:18px;margin-right:18px}
   .card-summary,.rolebanner{padding-left:18px;padding-right:18px}
-  .backlink{margin-left:0;margin-top:6px}
   .empty-card{padding:26px 20px}
 }
 
@@ -370,7 +366,6 @@ footer a{color:var(--blue);font-weight:400}
 @media(max-width:640px){
   .rightcol{align-items:stretch;width:100%;margin-left:0}
   .ccol{width:100%}
-  .backlink{align-self:flex-start}
 }
 </style>
 </head>
@@ -985,7 +980,6 @@ function renderMP(id){
         ${committeePills(m)}
       </div>
       <div class="rightcol">
-        <a href="#" class="backlink" id="back">&larr; New search</a>
         ${contactColumn(m)}
       </div>
     </div>
@@ -994,7 +988,6 @@ function renderMP(id){
     ${rows}
   ${recHtml}
   </div>`;
-  document.getElementById("back").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
   location.hash = "mp-"+m.id;
   document.querySelector(".card").scrollIntoView({block:"start",behavior:"smooth"});
 }

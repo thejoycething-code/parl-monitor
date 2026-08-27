@@ -814,3 +814,35 @@ class HeroRoleTests(unittest.TestCase):
         block = flat[flat.index("function committeePills"):]
         self.assertIn('class="rolepill"', block)
         self.assertIn("coms.length > 2", block)
+
+
+class NoBacklinkTests(unittest.TestCase):
+    """The MP header has no "New search" link (Christopher, 2026-08-26:
+    "For now people can just scroll up to the find your MP box").
+
+    The search box lives outside #main, so it survives renderMP and is
+    genuinely still there to scroll back to.
+    """
+
+    def test_the_header_has_no_new_search_link(self):
+        t = template()
+        self.assertNotIn("New search", t)
+        self.assertNotIn("backlink", t, "its CSS went with it")
+
+    def test_no_listener_looks_for_the_removed_element(self):
+        """getElementById("back") would return null once the element is gone,
+        and the TypeError would take the whole render down with it."""
+        t = template()
+        self.assertNotIn('getElementById("back")', t)
+
+    def test_the_search_box_is_outside_the_render_target(self):
+        """What makes "scroll up" true: renderMP replaces #main only."""
+        t = template()
+        self.assertLess(t.index('<div class="searchbox">'),
+                        t.index('<main id="main">'))
+
+    def test_the_masthead_reset_still_works(self):
+        """resetToEmpty is still reachable -- the masthead link calls it."""
+        t = template()
+        self.assertIn("function resetToEmpty()", t)
+        self.assertIn('getElementById("home")', t)
