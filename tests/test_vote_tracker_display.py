@@ -897,9 +897,13 @@ class NoDivisionWideWhipBadgeTests(unittest.TestCase):
         self.assertIn("function whipChip", t)
         self.assertIn("whipmark", t)
 
-    def test_the_tally_still_shows_the_counts(self):
+    def test_the_counts_are_still_shown(self):
+        """The wording changed on 2026-08-27: "REJECTED - Ayes 208 - Noes
+        261" over two lines became "Rejected 208-261" in one, which also
+        made it consistent with the amendment rows."""
         flat = " ".join(template().split())
-        self.assertIn("Ayes ${d.ayes} &ndash; Noes ${d.noes}", flat)
+        self.assertIn("${d.ayes}\\u2013${d.noes}", flat)
+        self.assertIn('d.passed ? "Passed" : "Rejected"', flat)
 
 
 class PartyVerdictCollisionTests(unittest.TestCase):
@@ -1142,3 +1146,68 @@ class JourneyDisclosureTests(unittest.TestCase):
         flat = " ".join(template().split())
         block = flat[flat.index("const journeyDetails"):]
         self.assertIn('<details class="journey"><summary>', block)
+
+
+class TemplateParsesTests(unittest.TestCase):
+    """The built page's script must actually parse.
+
+    Learned the hard way on 2026-08-27. A dead-CSS remover was run over the
+    WHOLE template and matched this JavaScript line as if it were a CSS
+    rule, because `s.result` contains `.result`:
+
+        s.result ? ` &middot; ${esc(s.result)}` : ""}</div>`;
+
+    It deleted the line. Every string-based test still passed, and the page
+    would have been completely blank in a browser. Only running the script
+    caught it.
+    """
+
+    def _script(self, path):
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        hit = re.search(r"<script[^>]*>(.*?)</script>", text, re.S)
+        self.assertIsNotNone(hit, "no script block in " + path)
+        return hit.group(1)
+
+    def test_the_built_script_parses(self):
+        import shutil
+        import subprocess
+        import tempfile
+        node = (shutil.which("node")
+                or os.path.expanduser("~/.local/node/bin/node"))
+        if not (node and os.path.exists(node)):
+            self.skipTest("node not available to parse-check")
+        for build in ("partner_site", "docs"):
+            page = os.path.join(ROOT, build, "mp-votes.html")
+            if not os.path.exists(page):
+                continue
+            with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False,
+                                             encoding="utf-8") as fh:
+                fh.write(self._script(page))
+                tmp = fh.name
+            try:
+                done = subprocess.run([node, "--check", tmp],
+                                      capture_output=True, text=True)
+                self.assertEqual(done.returncode, 0,
+                                 build + " script does not parse:\n"
+                                 + done.stderr[:400])
+            finally:
+                os.unlink(tmp)
+
+    def test_backticks_are_balanced(self):
+        """A cheap check that works without node, for CI."""
+        page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+        if not os.path.exists(page):
+            self.skipTest("page not built")
+        script = self._script(page)
+        self.assertEqual(script.count("`") % 2, 0,
+                         "an odd number of backticks means a template "
+                         "literal was cut in half")
+
+    def test_the_css_remover_is_scoped_to_the_style_block(self):
+        """Not a template assertion but a note pinned where it will be read:
+        any future dead-rule sweep must slice <style>...</style> first."""
+        t = template()
+        self.assertIn("<style>", t)
+        self.assertIn("</style>", t)
+        self.assertLess(t.index("<style>"), t.index("</style>"))

@@ -159,8 +159,6 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 
 /* tally (secondary-palette UX element) */
 .tallywrap{padding-top:2px}
-.result{font-size:11.5px;font-weight:700;letter-spacing:.05em;margin-bottom:7px;color:var(--ink)}
-.result .passed{color:var(--green)}
 .keyvote{display:inline-block;margin-left:8px;vertical-align:2px;font-size:10px;
   font-weight:600;letter-spacing:.04em;color:#8a6d1f;background:#fdf3d6;
   border:1px solid #f0dfae;border-radius:3px;padding:1px 5px}
@@ -170,14 +168,10 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 .morevotes summary::-webkit-details-marker{display:none}
 .morevotes summary::before{content:"\25B8  ";display:inline-block;transition:transform .15s}
 .morevotes[open] summary::before{content:"\25BE  "}
-.splits{font-size:11px;color:#5c626a;margin-top:5px;cursor:help}
-.splits span{white-space:nowrap}
-.result .rejected{color:var(--red)}
 .tally{position:relative;height:10px;border-radius:3px;overflow:visible;background:var(--red)}
 .tally .aye{position:absolute;left:0;top:0;bottom:0;background:var(--green);border-radius:3px 0 0 3px}
 .tally .flag{position:absolute;top:-8px;width:0;height:0;border-left:5px solid transparent;
   border-right:5px solid transparent;border-top:8px solid var(--ink);transform:translateX(-50%)}
-.tally-nums{display:flex;justify-content:space-between;font-size:11px;font-weight:500;color:#9aa0a8;margin-top:5px}
 
 /* ---------- about / footer ---------- */
 .about{margin:46px 0 10px}
@@ -192,8 +186,6 @@ footer a{color:var(--blue);font-weight:400}
   /* Most traffic arrives from social on a phone. The tally is the densest
      element: let it wrap and read as one line rather than a squeezed column. */
   .tallywrap{padding-top:0}
-  .splits{font-size:12px;line-height:1.7;cursor:default}
-  .splits span{display:inline-block;margin-right:6px}
   .divrow h3{font-size:17px}
   .morevotes summary{padding:11px 0}
   header.hero{padding:38px 0 6px}
@@ -396,6 +388,20 @@ details.journey > summary:focus-visible{outline:2px solid var(--blue);outline-of
 details.journey[open] > .jchev,details.journey[open] > summary .jchev{transform:rotate(180deg)}
 details.journey > .passage{border-bottom:none;border-radius:0}
 @media(max-width:560px){.jchev{margin-left:0}}
+
+/* --- condensed rows (2026-08-27) ----------------------------------------
+   Five changes: the outcome is one phrase, the source link rides the meta
+   line instead of taking its own, the bar survives only on landmarks, the
+   party split became a sentence, and the whip shows once per bill where it
+   is uniform. About 40 of the 70 lines of row furniture came out. */
+.outcome{font-weight:700}
+.outcome.p{color:var(--green)}
+.outcome.r{color:var(--red)}
+.sout{font-size:12.5px;color:var(--ink);margin-top:5px}
+.sout .official,.ammeta .official{color:var(--blue-deep)}
+.arrow{font-size:9px;opacity:.7}
+.rel{font-size:11.5px;color:#5f6670;margin-top:3px}
+.stally{margin:8px 0 4px}
 </style>
 </head>
 <body>
@@ -739,27 +745,16 @@ function voteInfo(m, d){
     text:"<b>Did not vote.</b> MPs miss divisions for many ordinary reasons \u2014 illness, ministerial or constituency duties, or a pairing arrangement with an MP on the other side. The Commons does not record abstentions or reasons, so no conclusion should be drawn either way."};
 }
 
-const PARTY_ABBR = {"Labour":"Lab","Conservative":"Con","Liberal Democrat":"LD",
-  "Scottish National Party":"SNP","Democratic Unionist Party":"DUP","Reform UK":"Reform",
-  "Green Party":"Green","Plaid Cymru":"PC","Independent":"Ind",
-  "Social Democratic & Labour Party":"SDLP","Ulster Unionist Party":"UUP",
-  "Alliance":"APNI","The Reclaim Party":"Reclaim"};
 
-function splitsHTML(d){
-  if (!d.splits || !d.splits.length) return "";
-  const bits = d.splits.map(([p,a,n]) =>
-    `<span title="${esc(p)}: ${a} Aye, ${n} No">${esc(PARTY_ABBR[p]||p)}&nbsp;${a}&ndash;${n}</span>`);
-  return `<div class="splits" title="How each party's members divided (Aye–No)">${bits.join(" &middot; ")}</div>`;
-}
-
-function tallyHTML(d, side){
+function barHTML(d, side){
+  // The bar ALONE: the result line became outcome(), the AYE/NO labels went
+  // with it, and the party splits became a sentence -- leaving the one thing
+  // a bar does better than numbers, showing how close a division was.
   const pct = 100*d.ayes/(d.ayes+d.noes);
-  const flag = side ? `<div class="flag" style="left:${side==="aye"?pct/2:pct+(100-pct)/2}%"></div>` : "";
-  return `<div class="result">${d.passed?'<span class="passed">PASSED</span>':'<span class="rejected">REJECTED</span>'}
-    &nbsp;&middot;&nbsp;Ayes ${d.ayes} &ndash; Noes ${d.noes}</div>
-    <div class="tally"><div class="aye" style="width:${pct}%"></div>${flag}</div>
-    <div class="tally-nums"><span>AYE</span><span>NO</span></div>
-    ${splitsHTML(d)}`;
+  const flag = side ? `<div class="flag" style="left:${
+    side==="aye" ? pct/2 : pct+(100-pct)/2}%"></div>` : "";
+  return `<div class="tally" role="img" aria-label="${d.ayes} Ayes to ${d.noes} Noes">
+    <div class="aye" style="width:${pct}%"></div>${flag}</div>`;
 }
 
 /* ---------- empty / landing state (NO divisions shown until an MP is chosen) ---------- */
@@ -851,6 +846,39 @@ function renderMP(id){
   // The header is a SUMMARY: verdict, bill, when. The meaning, the tally
   // and the source link belong to the vote's own node in the spine below --
   // printing them here as well showed the Third Reading twice on every card.
+  const outcome = (d) => `<span class="outcome ${d.passed ? "p" : "r"}">${
+    d.passed ? "Passed" : "Rejected"}</span> ${d.ayes}\u2013${d.noes}`;
+
+  // The party split as a sentence about THIS member rather than a grid to
+  // decode, using the party they sat for ON THE DAY -- so Kruger's 2025
+  // votes are measured against the Conservatives he then belonged to. 97%
+  // of cast votes have their own party in the splits; for the rest (small
+  // parties, mostly TUV) no sentence is shown rather than a wrong one.
+  const relativeToParty = (d, vi) => {
+    if (!vi.side || !d.splits) return "";
+    const row = (d.splits || []).find(r => r[0] === partyOn(m, d.date));
+    if (!row) return "";
+    const [name, ayes, noes] = row;
+    const mine  = vi.side === "aye" ? ayes : noes;
+    const other = vi.side === "aye" ? noes : ayes;
+    if (mine === other)
+      return `<div class="rel">${esc(name)} MPs split evenly, ${ayes}\u2013${noes}.</div>`;
+    return `<div class="rel">${mine > other ? "With" : "Against"} the majority of ${
+      esc(name)} MPs (${mine} of ${ayes + noes}).</div>`;
+  };
+
+  // The whip chip appeared on all 18 rows of a page saying the same thing.
+  // Show it once in the card header where every division in the bill reads
+  // the same for THIS member, per row only where they differ -- never
+  // "once and assume": the buffer-zones vote was free for one party and
+  // instructed for another, which is why the chip exists.
+  const whipUniform = (g) => {
+    const seen = new Set(g.divs.map(d => whipChip(d, m)));
+    return seen.size === 1 ? [...seen][0] : null;
+  };
+  let g_ = null;
+  const whipHere = () => !g_ || whipUniform(g_) === null;
+
   const cardHead = (g) => {
     const d = g.major;
     const vi = voteInfo(m, d);
@@ -866,7 +894,8 @@ function renderMP(id){
         <h3>${esc(d.bill || g.issue.bill || g.issue.name)}</h3>
         ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
           We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
-        <div class="cardsum">${bits.join(" \u00b7 ")}</div>
+        <div class="cardsum">${bits.join(" \u00b7 ")}${
+          whipUniform(g) ? " \u00b7 " + whipUniform(g) : ""}</div>
       </div></article>`;
   };
 
@@ -898,11 +927,17 @@ function renderMP(id){
 
   const fullVote = (d) => {
     const vi = voteInfo(m, d);
+    // The bar survives only on a landmark division, where seeing 314-291 as
+    // a near-half bar earns its space. Elsewhere it was 12 lines a page
+    // restating two numbers printed immediately above it.
     return `<div class="sbody">
         <div class="ssent">${vi.text}</div>
         ${d.context ? `<div class="sctx">${esc(d.context)}</div>` : ""}
-        <div class="stally">${tallyHTML(d, vi.side)}</div>
-        <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+        <div class="sout">${outcome(d)}${whipHere() ? " \u00b7 " + whipChip(d, m) : ""}
+          \u00b7 <a class="official" href="${d.url}" target="_blank"
+          rel="noopener">official record <span class="arrow">&#8599;</span></a></div>
+        ${relativeToParty(d, vi)}
+        ${d.landmark ? `<div class="stally">${barHTML(d, vi.side)}</div>` : ""}
       </div>`;
   };
 
@@ -913,10 +948,12 @@ function renderMP(id){
           vi.sub ? `<span class="amsub">${esc(vi.sub)}</span>` : ""}</span>
         <div class="ambody">
           <div class="amttl">${esc(d.short)}</div>
-          <div class="ammeta">${fmtD(d.date)} \u00b7 ${d.ayes} Ayes, ${d.noes} Noes \u2014 ${
-            d.passed ? "passed" : "rejected"} \u00b7 ${whipChip(d, m)}</div>
+          <div class="ammeta">${fmtD(d.date)} \u00b7 ${outcome(d)}${
+            whipHere() ? " \u00b7 " + whipChip(d, m) : ""} \u00b7 <a class="official"
+            href="${d.url}" target="_blank" rel="noopener">official record <span
+            class="arrow">&#8599;</span></a></div>
           <div class="amsent">${vi.text}</div>
-          <a class="official" href="${d.url}" target="_blank" rel="noopener">Official division record</a>
+          ${relativeToParty(d, vi)}
         </div></div>`;
   };
 
@@ -1008,6 +1045,7 @@ function renderMP(id){
   };
 
   for (const g of blocks){
+    g_ = g;   // bill context, for whipHere()
     const nodes = passageNodes(g);
     const shown = nodes.filter(n => isOpenNode(n, g));
     const hidden = nodes.filter(n => !isOpenNode(n, g));
