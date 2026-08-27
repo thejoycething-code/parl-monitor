@@ -112,7 +112,14 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 .card-head h2{font-family:var(--font);font-weight:700;font-size:30px;line-height:1.08;color:#fff}
 .mp-meta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:7px;font-size:14.5px;font-weight:300;color:#eaf1fe}
 .mp-meta .party{font-weight:500;color:#fff}
-.pdot{display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);margin-right:6px;vertical-align:-1px}
+/* The party mark is a BAR, not a dot (Christopher, 2026-08-26, reading it as
+   "green or red based on their voting record"). It always was the party
+   colour -- but this page uses round green/red dots on the passage spine to
+   mean good and bad votes, and 428 of 650 members sit for a party whose
+   colour is confusably close to one of those: Labour's red is on 404 pages.
+   Same colour, different shape, so it cannot be read as a verdict. */
+.pdot{display:inline-block;width:3px;height:13px;border-radius:2px;
+  margin-right:7px;vertical-align:-2px;box-shadow:0 0 0 1px rgba(255,255,255,.45)}
 .mp-meta .since{font-size:12.5px;color:#cfe0fc}
 .rolebanner{padding:13px 28px;background:var(--yellow);border-bottom:1px solid #e9d488;font-size:14.5px;color:#6b5a1e}
 .card-summary{padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;

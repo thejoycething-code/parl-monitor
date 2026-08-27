@@ -900,3 +900,36 @@ class NoDivisionWideWhipBadgeTests(unittest.TestCase):
     def test_the_tally_still_shows_the_counts(self):
         flat = " ".join(template().split())
         self.assertIn("Ayes ${d.ayes} &ndash; Noes ${d.noes}", flat)
+
+
+class PartyMarkTests(unittest.TestCase):
+    """The party mark must not be readable as a verdict.
+
+    Christopher, 2026-08-26, on the mark before the party name: "It's green
+    or red based on their voting record I assume". It never was -- it is the
+    party colour, and always has been. But this page now uses round green
+    and red dots on the passage spine to mean good and bad votes, and 428 of
+    650 members sit for a party whose colour is confusably close to one of
+    those: Labour's #C0293B is on 404 pages. Same shape, overlapping
+    palette, different meaning -- a collision I introduced with the spine.
+
+    The colour stays (it is genuine information, and conventional). The
+    SHAPE changes, so the two vocabularies cannot be confused.
+    """
+
+    def test_the_party_mark_is_not_a_circle(self):
+        flat = " ".join(template().split())
+        rule = flat[flat.index(".pdot{"):flat.index("}", flat.index(".pdot{"))]
+        self.assertNotIn("border-radius:50%", rule,
+                         "a round coloured mark is the spine's verdict "
+                         "vocabulary on this page")
+
+    def test_the_verdict_dots_are_still_circles(self):
+        """The distinction only works if one of them stays round."""
+        flat = " ".join(template().split())
+        rule = flat[flat.index(".dot{"):flat.index("}", flat.index(".dot{"))]
+        self.assertIn("border-radius:50%", rule)
+
+    def test_the_mark_still_carries_the_party_colour(self):
+        t = template()
+        self.assertIn('class="pdot" style="background:${pc(m.party)}"', t)
