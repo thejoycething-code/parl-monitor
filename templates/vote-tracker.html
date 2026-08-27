@@ -196,20 +196,42 @@ footer a{color:var(--blue);font-weight:400}
 
 /* --- bill cards (2026-08-24): verdict-led, whip inside the block --------- */
 .billblock{margin:0 0 18px}
+.bigcard{display:flex;gap:20px;align-items:center;background:#fff;border-radius:12px;
+  padding:18px 20px;box-shadow:0 1px 3px rgba(16,24,40,.08);border:1px solid #eef0f3}
+.bigcard.demote{box-shadow:none;background:#fafbfc;border-style:dashed}
+.votebox{flex:0 0 186px;text-align:center;color:#fff;border-radius:9px;padding:15px 10px}
+.votebox .vword{display:block;font-weight:700;font-size:16px;letter-spacing:.05em}
+.votebox .vsub{display:block;font-size:12.5px;font-weight:400;opacity:.93;margin-top:3px}
+.votebox .vwhip{display:block;margin-top:9px;padding-top:8px;
+  border-top:1px solid rgba(255,255,255,.35)}
+.votebox.G{background:#2fa04a}.votebox.B{background:#e0342e}
+.votebox.A,.votebox.N{background:#7b8794}
+.votebox.T{background:#8a6d1f}
+.votebox.X,.votebox.S{background:#eceef1;color:#5f6670;border:1px solid #dde1e6}
+.votebox.X .vwhip,.votebox.S .vwhip{border-top-color:#dde1e6}
 .whipmark{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.07em;
   padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.18);color:inherit}
+.votebox.X .whipmark,.votebox.S .whipmark{background:#f2f3f5}
 /* The chip also appears in the amendment rows on the spine, where the
    background is white: a translucent-white chip on white is invisible. */
 .ammeta .whipmark{background:#f0f1f3;border:1px solid #e2e5e9;color:#4a5058}
 /* A stage with no verdict to colour keeps the base dot. Named so the class
    is not styleless. */
 .dot.plain{background:var(--white);border-color:var(--grey-300)}
+.bigcard .cardbody{min-width:0}
+.bigcard .lbl{font-size:11.5px;font-weight:600;letter-spacing:.12em;color:#9aa1a9;margin-bottom:5px}
+.bigcard .cal{color:#f0803c}
+.bigcard h3{font-size:20px;font-weight:400;line-height:1.3;margin:0 0 7px}
+.bigcard h3 .stage{color:#8b9199;font-size:16px}
 .quietlbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:#9aa1a9;margin-bottom:6px}
 .caveat{margin-top:10px;font-size:13px;color:#6c727a;border-left:3px solid #dfe3e8;padding-left:12px}
 .subvotes[open] summary::before{content:"\25BE  "}
 .minivote.G{background:#2fa04a}.minivote.B{background:#e0342e}.minivote.T{background:#8a6d1f}
 .minivote.X,.minivote.S{background:#eceef1;color:#5f6670}
 @media(max-width:640px){
+  .bigcard{flex-direction:column;align-items:stretch;gap:13px;padding:16px}
+  .votebox{flex:none;padding:12px}
+  .bigcard h3{font-size:18px}
 }
 
 /* --- the member's own words (2026-08-25) --------------------------------- */
@@ -391,29 +413,6 @@ details.journey > .passage{border-bottom:none;border-radius:0}
    NOT green or red, so it cannot be mistaken for a verdict. */
 .pmark{color:#5f6670}
 .pmark.against{color:#8a5a2b;font-weight:500}
-
-/* --- OPTION A: bill names itself once, key votes as equal panels --------
-   The old headline verdict duplicated one of the key votes: Third Reading
-   appeared as the card headline AND again in the spine below it. */
-.billhead{padding:14px 17px;border-bottom:1px solid var(--line);background:#fff}
-.billname{margin:0;font-size:17px;font-weight:500;color:#20242a}
-.billmeta{font-size:11.5px;color:#9aa1a9;margin-top:3px}
-.keypair{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  border-bottom:1px solid var(--line)}
-.keypanel{padding:13px 17px;min-width:0;border-left:1px solid var(--line)}
-.keypanel:first-child{border-left:none}
-.keypanel.demote{background:#fbfcfd}
-.kstage{font-size:10px;font-weight:700;letter-spacing:.09em;color:#9aa1a9;margin-bottom:4px}
-.kverdict{font-size:14px;font-weight:700;letter-spacing:.01em}
-.kverdict.G{color:var(--green)} .kverdict.B{color:var(--red)}
-.kverdict.X,.kverdict.S,.kverdict.T{color:#7a828c}
-.klobby{font-size:11px;font-weight:400;color:#9aa1a9}
-.kmean{font-size:12.5px;color:#23282f;margin:4px 0 0}
-.kctx{font-size:12px;color:#7d838b;font-style:italic;margin-top:3px}
-@media(max-width:620px){
-  .keypanel{border-left:none;border-top:1px solid var(--line)}
-  .keypanel:first-child{border-top:none}
-}
 </style>
 </head>
 <body>
@@ -857,6 +856,10 @@ function renderMP(id){
     return g;
   }).sort((a,b) => b.major.date.localeCompare(a.major.date));
 
+  const voteBlock = (vi, d) => `<div class="votebox ${vi.cls}">
+      <span class="vword">${vi.chip}</span>
+      ${vi.sub ? `<span class="vsub">${esc(vi.sub)}</span>` : ""}
+      <span class="vwhip">${whipChip(d, m)}</span></div>`;
 
   // ------------------------------------------------------------------
   // THE BILL'S PASSAGE (Christopher, 2026-08-26: "ship option B").
@@ -940,52 +943,25 @@ function renderMP(id){
   let g_ = null;
   const whipHere = () => !g_ || whipUniform(g_) === null;
 
-  // OPTION A (Christopher, 2026-08-27). The bill names itself once, then the
-  // key votes sit as equal panels, then the disclosure. No headline verdict:
-  // it was a DUPLICATE of one of the key votes -- Third Reading's verdict was
-  // rendered twice on the assisted dying card, once as the headline and again
-  // in the spine 200px below it.
-  const billHead = (g) => {
-    const infos = g.divs.map(d => voteInfo(m, d));
-    const good = infos.filter(v => v.cls === "G").length;
-    const bad = infos.filter(v => v.cls === "B").length;
-    const verdicts = [];
-    if (good) verdicts.push(`${good} good`);
-    if (bad) verdicts.push(`${bad} bad`);
-    const w = (m.words || {})[g.issue.id];
-    const bits = [`${g.divs.length} vote${g.divs.length > 1 ? "s" : ""}${
-      verdicts.length ? ", " + verdicts.join(" and ") : ""}`];
-    if (w && w.n) bits.push(`spoke in ${w.n} debate${w.n > 1 ? "s" : ""}`);
-    const whip = whipUniform(g);
-    if (whip) bits.push(whip);
-    return `<div class="billhead">
-      <h3 class="billname">${esc(g.major.bill || g.issue.bill || g.issue.name)}</h3>
-      <div class="billmeta">${esc(g.issue.name)} \u00b7 ${bits.join(" \u00b7 ")}</div>
-    </div>`;
-  };
-
-  // One key vote, as a panel. The verdict leads, because that is what a
-  // constituent came for.
-  const keyPanel = (d) => {
+  const cardHead = (g) => {
+    const d = g.major;
     const vi = voteInfo(m, d);
     const noVerdict = !d.good;
-    return `<div class="keypanel${noVerdict ? " demote" : ""}">
-      <div class="kstage">${esc(d.stage.toUpperCase())} \u00b7 ${fmtD(d.date)}</div>
-      ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
-      <div class="kverdict ${vi.cls}">${vi.chip}${
-        vi.sub ? ` <span class="klobby">${esc(vi.sub)}</span>` : ""}</div>
-      <div class="kmean">${vi.text}</div>
-      ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
-        We do not score a vote that cannot show where a member stands on the issue.</div>`
-        : (d.context ? `<div class="kctx">${esc(d.context)}</div>` : "")}
-      <div class="sout">${outcome(d)}${
-        relativeToParty(d, vi) ? " \u00b7 " + relativeToParty(d, vi) : ""}</div>
-      ${d.landmark ? barHTML(d) : ""}
-      <div class="recordlast"><a class="official" href="${d.url}" target="_blank"
-        rel="noopener">Official division record <span class="arrow">&#8599;</span></a></div>
-    </div>`;
+    const w = (m.words || {})[g.issue.id];
+    const bits = [`${g.divs.length} vote${g.divs.length > 1 ? "s" : ""}`];
+    if (w && w.n) bits.push(`spoke in ${w.n} debate${w.n > 1 ? "s" : ""}`);
+    return `<article class="bigcard${noVerdict ? " demote" : ""}">
+      ${voteBlock(vi, d)}
+      <div class="cardbody">
+        ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
+        <div class="lbl">AT ${esc(d.stage.toUpperCase())} <span class="cal">&#128197;</span> ${d.date}</div>
+        <h3>${esc(d.bill || g.issue.bill || g.issue.name)}</h3>
+        ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
+          We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
+        <div class="cardsum">${bits.join(" \u00b7 ")}${
+          whipUniform(g) ? " \u00b7 " + whipUniform(g) : ""}</div>
+      </div></article>`;
   };
-
 
   // one node per stage, plus one per quote, in the order they happened
   const passageNodes = (g) => {
@@ -1139,13 +1115,8 @@ function renderMP(id){
     const nodes = passageNodes(g);
     const shown = nodes.filter(n => isOpenNode(n, g));
     const hidden = nodes.filter(n => !isOpenNode(n, g));
-    // Flatten the open stages to their divisions: each key vote is a panel.
-    // A stage opens whole, so abortion-ni yields three panels -- the grid has
-    // to hold 1, 2 or 3, hence auto-fit rather than a fixed pair.
-    const keyDivs = shown.flatMap(n => n.divs)
-      .sort((a, b) => a.date.localeCompare(b.date));
-    rows += `<section class="billblock">${billHead(g)}
-      ${keyDivs.length ? `<div class="keypair">${keyDivs.map(keyPanel).join("")}</div>` : ""}
+    rows += `<section class="billblock">${cardHead(g)}
+      ${shown.length ? `<div class="passage">${shown.map(stageNode).join("")}</div>` : ""}
       ${hidden.length ? journeyDetails(hidden) : ""}
     </section>`;
   }

@@ -69,24 +69,18 @@ class TemplateTests(unittest.TestCase):
         self.assertIn("WHIP NOT RECORDED", t)
         self.assertIn("whipChip(d, m)", t)
 
-    def test_the_whip_sits_with_the_vote_not_detached(self):
+    def test_the_whip_chip_is_inside_the_vote_block(self):
         """Christopher, 2026-08-24: "I prefer inside the Block."
 
-        The vote block itself went with option A on 2026-08-27 -- the
-        headline verdict it contained was a duplicate of a key vote. The
-        intent survives: the whip is stated with the vote information, in
-        the bill header where every division reads the same for this member,
-        and on the row itself where they differ. Never in a detached legend.
-        """
+        Anchored on the END of voteBlock rather than on whatever function
+        happens to follow it -- `bigCard` was renamed `cardHead` when the
+        cards became the bill's passage, and this test broke on the rename
+        rather than on the behaviour it exists to protect."""
         t = template()
-        self.assertNotIn("voteBlock", t, "the vote block was removed with "
-                                         "the duplicate headline verdict")
-        flat = " ".join(t.split())
-        # in the bill header when uniform
-        head = flat[flat.index("const billHead"):flat.index("const keyPanel")]
-        self.assertIn("whipUniform(g)", head)
-        # and on the row when it is not
-        self.assertIn('whipHere() ? " \\u00b7 " + whipChip(d, m) : ""', flat)
+        self.assertIn("vwhip", t)
+        start = t.index("const voteBlock")
+        block = t[start:t.index("`;", t.index("</div>", start))]
+        self.assertIn("whipChip", block)
 
     def test_the_lobby_shows_under_the_verdict_not_in_a_hover(self):
         """A phone has no hover, and a reader is owed the fact behind the
@@ -610,17 +604,14 @@ class PassageCardTests(unittest.TestCase):
         self.assertNotIn('<p class="wordshead">In their own words</p>', flat,
                          "the trailing words block is replaced by the spine")
 
-    def test_the_header_carries_no_verdict_at_all(self):
-        """Option A, 2026-08-27: the headline verdict was a DUPLICATE of one
-        of the key votes -- Third Reading appeared as the card headline and
-        again in the spine 200px below. The header now names the bill and
-        totals only; the verdicts live in the key-vote panels."""
-        t = template()
-        self.assertNotIn("const cardHead", t)
-        block = t[t.index("const billHead"):t.index("const keyPanel")]
+    def test_the_header_does_not_repeat_the_spine(self):
+        """The header is a summary. Printing the meaning there as well
+        showed the Third Reading twice on every card."""
+        head = template()
+        start = head.index("const cardHead")
+        block = head[start:head.index("const passageNodes")]
         self.assertNotIn("${vi.text}", block)
-        self.assertNotIn("voteBlock", block)
-        self.assertIn("billname", block)
+        self.assertIn("cardsum", block)
 
     def test_a_stage_names_itself_as_its_divisions_do(self):
         """Three approval motions grouped under stage_group 'Third Reading'
@@ -1122,9 +1113,7 @@ class JourneyDisclosureTests(unittest.TestCase):
         # the renderers that carry the detail must all still exist and be called
         for fn in ("miniVote", "fullVote", "saidNode", "stageNode"):
             self.assertIn("const " + fn, text)
-        # shown stages became key-vote PANELS under option A; the hidden
-        # ones still render through the same node renderers
-        for call in ("hidden.map(n =>", "keyDivs.map(keyPanel)"):
+        for call in ("hidden.map(n =>", "shown.map(stageNode)"):
             self.assertIn(call, text)
         # and every detail-bearing part is still rendered inside the disclosure
         flat = " ".join(text.split())
@@ -1398,55 +1387,3 @@ class PartyPhraseFoldedTests(unittest.TestCase):
         # the phrase must be short: no full party name inside a pmark span
         for m in re.finditer(r'class="pmark[^"]*">([^<]*)<', text):
             self.assertLess(len(m.group(1)), 40, m.group(1))
-
-
-class KeyVotePanelTests(unittest.TestCase):
-    """Option A: the bill names itself once, key votes as equal panels.
-
-    Christopher, 2026-08-27: "Now do the card housing with option A."
-
-    It exists because the headline verdict was a DUPLICATE: Third Reading's
-    verdict rendered as the card headline and again in the spine 200px
-    below. The header now carries the bill and its totals only.
-    """
-
-    def test_the_panels_replace_the_headline_verdict(self):
-        t = template()
-        self.assertIn("const keyPanel", t)
-        self.assertIn('class="keypair"', t)
-        for gone in ("const cardHead", "voteBlock", 'class="votebox'):
-            self.assertNotIn(gone, t)
-
-    def test_the_grid_holds_one_two_or_three_panels(self):
-        """A stage opens whole, so abortion-ni yields three panels -- a fixed
-        two-column pair would have broken it."""
-        flat = " ".join(template().split())
-        self.assertIn("grid-template-columns:repeat(auto-fit,minmax(250px,1fr))", flat)
-
-    def test_panels_are_in_date_order(self):
-        flat = " ".join(template().split())
-        self.assertIn("keyDivs = shown.flatMap(n => n.divs) .sort((a, b) => "
-                      "a.date.localeCompare(b.date))", flat)
-
-    def test_an_unscored_key_vote_keeps_its_explanation(self):
-        """Dropping "FOR THE RECORD - not scored" from the panel was caught
-        by an existing test: without it an unscored card looks like an
-        oversight rather than a decision."""
-        flat = " ".join(template().split())
-        block = flat[flat.index("const keyPanel"):]
-        self.assertIn("FOR THE RECORD", block)
-        self.assertIn("Why there is no verdict", block)
-        self.assertIn("demote", block)
-
-    def test_the_disclosure_still_sits_under_the_panels(self):
-        flat = " ".join(template().split())
-        loop = flat[flat.index("for (const g of blocks){"):]
-        self.assertLess(loop.index("keyDivs.map(keyPanel)"),
-                        loop.index("journeyDetails(hidden)"))
-
-    def test_no_class_is_rendered_without_a_rule(self):
-        """The old headline's CSS was removed; these are what replaced it."""
-        flat = " ".join(template().split())
-        for cls in ("billhead", "billname", "billmeta", "keypair", "keypanel",
-                    "kstage", "kverdict", "klobby", "kmean", "quietlbl"):
-            self.assertIn("." + cls, flat, cls + " has no CSS rule")
