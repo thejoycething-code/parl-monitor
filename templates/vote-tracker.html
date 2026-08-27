@@ -395,7 +395,6 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .sout{font-size:12.5px;color:var(--ink);margin-top:5px}
 .sout .official,.ammeta .official{color:var(--blue-deep)}
 .arrow{font-size:9px;opacity:.7}
-.rel{font-size:11.5px;color:#5f6670;margin-top:3px}
 
 /* --- outcome and hairline, coloured by WHICH WAY IT WENT FOR US --------- */
 .outcome{font-weight:700}
@@ -408,6 +407,12 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .hairline.lose i{background:var(--red)}
 .hairline.flat i{background:#8b93a1}
 .recordlast{font-size:12px;margin-top:8px;padding-top:7px;border-top:1px solid var(--line)}
+
+/* The party comparison, folded into the meta line rather than a line of its
+   own. "against" gets a warmer tone so it reads as notable -- deliberately
+   NOT green or red, so it cannot be mistaken for a verdict. */
+.pmark{color:#5f6670}
+.pmark.against{color:#8a5a2b;font-weight:500}
 </style>
 </head>
 <body>
@@ -888,18 +893,43 @@ function renderMP(id){
   // votes are measured against the Conservatives he then belonged to. 97%
   // of cast votes have their own party in the splits; for the rest (small
   // parties, mostly TUV) no sentence is shown rather than a wrong one.
+  // Party abbreviations. The full name does not fit folded into the meta
+  // line -- "with 8 of 8 Democratic Unionist Partys" runs to 101 characters,
+  // past the ~94 a 500px card body holds at 11px, and pluralising a name
+  // that already ends in "Party" is its own bug. Abbreviated, the worst case
+  // across all 6,585 rows is 85 characters and no name is ever pluralised.
+  const PARTY_ABBR = {"Labour":"Lab", "Labour (Co-op)":"Lab",
+    "Conservative":"Con", "Liberal Democrat":"LD",
+    "Scottish National Party":"SNP", "Democratic Unionist Party":"DUP",
+    "Social Democratic & Labour Party":"SDLP", "Ulster Unionist Party":"UUP",
+    "Traditional Unionist Voice":"TUV", "Sinn F\u00e9in":"SF",
+    "Reform UK":"Reform", "Green Party":"Green", "Plaid Cymru":"PC",
+    "Alliance":"APNI", "Independent":"Ind"};
+
+  // How the member voted relative to their OWN party that day -- folded into
+  // the meta line rather than trailing under the meaning on a line of its
+  // own (Christopher, 2026-08-27). Saves a line on every vote row, 16 on a
+  // busy page, and the short form has room to say WHICH WAY in one word:
+  // "against" happens on 1,365 of 6,585 cast votes, about one in five, and
+  // is the interesting case on a page like this.
+  //
+  // The party is the one they sat for ON THE DAY, so a member who has since
+  // crossed the floor is measured against the colleagues they actually had.
   const relativeToParty = (d, vi) => {
     if (!vi.side || !d.splits) return "";
     const row = (d.splits || []).find(r => r[0] === partyOn(m, d.date));
-    if (!row) return "";
+    if (!row) return "";                 // 3% of votes: party not in the splits
     const [name, ayes, noes] = row;
     const mine  = vi.side === "aye" ? ayes : noes;
     const other = vi.side === "aye" ? noes : ayes;
+    const abbr = PARTY_ABBR[name] || name;
     if (mine === other)
-      return `<div class="rel">${esc(name)} MPs split evenly, ${ayes}\u2013${noes}.</div>`;
-    return `<div class="rel">${mine > other ? "With" : "Against"} the majority of ${
-      esc(name)} MPs (${mine} of ${ayes + noes}).</div>`;
+      return `<span class="pmark">splitting ${abbr} ${ayes}\u2013${noes}</span>`;
+    const against = mine < other;
+    return `<span class="pmark${against ? " against" : ""}">${
+      against ? "against" : "with"} ${mine} of ${ayes + noes} ${abbr}</span>`;
   };
+
 
   // The whip chip appeared on all 18 rows of a page saying the same thing.
   // Show it once in the card header where every division in the bill reads
@@ -968,9 +998,9 @@ function renderMP(id){
         <div class="ssent">${vi.text}</div>
         ${d.context ? `<div class="sctx">${esc(d.context)}</div>` : ""}
         <div class="sout">${outcome(d)}${
-          whipHere() ? " \u00b7 " + whipChip(d, m) : ""}</div>
+          whipHere() ? " \u00b7 " + whipChip(d, m) : ""}${
+          relativeToParty(d, vi) ? " \u00b7 " + relativeToParty(d, vi) : ""}</div>
         ${d.landmark ? barHTML(d) : ""}
-        ${relativeToParty(d, vi)}
         <div class="recordlast"><a class="official" href="${d.url}" target="_blank"
           rel="noopener">Official division record <span class="arrow">&#8599;</span></a></div>
       </div>`;
@@ -984,11 +1014,12 @@ function renderMP(id){
         <div class="ambody">
           <div class="amttl">${esc(d.short)}</div>
           <div class="ammeta">${fmtD(d.date)} \u00b7 ${outcome(d)}${
-            whipHere() ? " \u00b7 " + whipChip(d, m) : ""} \u00b7 <a class="official"
+            whipHere() ? " \u00b7 " + whipChip(d, m) : ""}${
+            relativeToParty(d, vi) ? " \u00b7 " + relativeToParty(d, vi) : ""
+            } \u00b7 <a class="official"
             href="${d.url}" target="_blank" rel="noopener">official record <span
             class="arrow">&#8599;</span></a></div>
           <div class="amsent">${vi.text}</div>
-          ${relativeToParty(d, vi)}
         </div></div>`;
   };
 

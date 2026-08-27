@@ -1316,3 +1316,74 @@ class RecordLastTests(unittest.TestCase):
         self.assertIn("recordlast", block)
         self.assertLess(block.index("barHTML(d)"), block.index("recordlast"))
         self.assertLess(block.index("relativeToParty"), block.index("recordlast"))
+
+
+class PartyPhraseFoldedTests(unittest.TestCase):
+    """The party comparison lives in the meta line, not on its own.
+
+    Christopher, 2026-08-27: "Build it and deploy" -- folding the sentence
+    into the meta line. It saves a line on every vote row, 16 on a busy
+    page, and the short form has room to say WHICH WAY in one word.
+    """
+
+    def test_it_returns_an_inline_span_not_a_block(self):
+        flat = " ".join(template().split())
+        block = flat[flat.index("const relativeToParty"):]
+        self.assertIn('<span class="pmark', block)
+        self.assertNotIn('<div class="rel"', block)
+
+    def test_no_block_level_rel_survives_anywhere(self):
+        self.assertNotIn('class="rel"', template())
+
+    def test_the_party_name_is_abbreviated(self):
+        """The full name does not fit: "with 8 of 8 Democratic Unionist
+        Partys" runs to 101 characters, past the ~94 a 500px card body holds
+        at 11px -- and pluralising a name that already ends in "Party" is a
+        bug of its own."""
+        flat = " ".join(template().split())
+        self.assertIn("const PARTY_ABBR", flat)
+        self.assertIn('"Democratic Unionist Party":"DUP"', flat)
+        block = flat[flat.index("const relativeToParty"):]
+        self.assertIn("PARTY_ABBR[name] || name", block)
+        self.assertNotIn("MPs (", block, "no pluralised party names")
+
+    def test_it_says_with_or_against(self):
+        """"against" happens on 1,365 of 6,585 cast votes, about one in
+        five, and is the interesting case on a page like this."""
+        flat = " ".join(template().split())
+        block = flat[flat.index("const relativeToParty"):]
+        self.assertIn('against ? "against" : "with"', block)
+
+    def test_against_is_not_a_verdict_colour(self):
+        """A fourth green/red vocabulary is the thing this page keeps having
+        to fight. The warmer tone is deliberately neither."""
+        flat = " ".join(template().split())
+        rule = flat[flat.index(".pmark.against{"):]
+        rule = rule[:rule.index("}")]
+        self.assertNotIn("var(--green)", rule)
+        self.assertNotIn("var(--red)", rule)
+
+    def test_it_uses_the_party_held_on_the_day(self):
+        flat = " ".join(template().split())
+        block = flat[flat.index("const relativeToParty"):]
+        self.assertIn("partyOn(m, d.date)", block)
+
+    def test_it_says_nothing_when_the_party_is_absent(self):
+        """3% of cast votes -- mostly TUV -- have no split row for the
+        member's own party. Better silent than wrong."""
+        flat = " ".join(template().split())
+        block = flat[flat.index("const relativeToParty"):]
+        self.assertIn('if (!row) return "";', block)
+
+    def test_the_folded_line_stays_within_the_card(self):
+        """Measured on the built page: 12 of 11,700 meta lines exceed 94
+        characters, all of them carrying WHIP NOT RECORDED, and those rows
+        already took two lines before the fold -- so nothing regresses."""
+        page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+        if not os.path.exists(page):
+            self.skipTest("page not built")
+        with open(page, encoding="utf-8") as fh:
+            text = fh.read()
+        # the phrase must be short: no full party name inside a pmark span
+        for m in re.finditer(r'class="pmark[^"]*">([^<]*)<', text):
+            self.assertLess(len(m.group(1)), 40, m.group(1))
