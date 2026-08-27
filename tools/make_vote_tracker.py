@@ -208,6 +208,34 @@ def continuous_since(synopsis):
     return "{0}-{1:02d}-{2:02d}".format(hit.group(3), month, int(hit.group(1)))
 
 
+def party_slug(party):
+    """Must match partySlug() in templates/vote-tracker.html."""
+    import unicodedata
+    text = unicodedata.normalize("NFD", party or "")
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    text = text.lower().replace("&", "and")
+    return re.sub(r"^-|-$", "", re.sub(r"[^a-z0-9]+", "-", text))
+
+
+def party_logos():
+    """{slug: filename} for logo files that actually exist.
+
+    Detected at BUILD time so the page emits an <img> only where there is
+    something to load: a drop-in slot that always emitted one would 404 on
+    every member view for every party without a file. Adding a file and
+    rebuilding is all it takes -- no list to maintain (Christopher,
+    2026-08-27: "make it so we can drop in party logos").
+    """
+    found = {}
+    for site in ("partner_site", "docs"):
+        for path in sorted(glob.glob(os.path.join(ROOT, site, "logos", "*"))):
+            name = os.path.basename(path)
+            stem, ext = os.path.splitext(name)
+            if ext.lower() in (".svg", ".png", ".webp", ".jpg", ".jpeg"):
+                found.setdefault(stem, name)
+    return found
+
+
 def bill_of(d, issue):
     """The bill a division belongs to, for the card heading.
 
@@ -655,6 +683,7 @@ def build(conn, cfg, payloads):
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
         "issues": [i for i in issues if i["id"] in used_issues],
         "areas": {str(k): v for k, v in RECORD_AREAS.items()},
+        "logos": party_logos(),
         "divisions": sorted(divisions, key=lambda d: (d["issue"], d["date"])),
         "members": members,
     }

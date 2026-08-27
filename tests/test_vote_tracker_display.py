@@ -902,34 +902,106 @@ class NoDivisionWideWhipBadgeTests(unittest.TestCase):
         self.assertIn("Ayes ${d.ayes} &ndash; Noes ${d.noes}", flat)
 
 
-class PartyMarkTests(unittest.TestCase):
-    """The party mark must not be readable as a verdict.
+class PartyVerdictCollisionTests(unittest.TestCase):
+    """The party mark and the verdict dots must stay distinguishable.
 
-    Christopher, 2026-08-26, on the mark before the party name: "It's green
-    or red based on their voting record I assume". It never was -- it is the
-    party colour, and always has been. But this page now uses round green
-    and red dots on the passage spine to mean good and bad votes, and 428 of
-    650 members sit for a party whose colour is confusably close to one of
-    those: Labour's #C0293B is on 404 pages. Same shape, overlapping
-    palette, different meaning -- a collision I introduced with the spine.
+    The mark before the party name is the PARTY COLOUR and always was --
+    Christopher read it as "green or red based on their voting record"
+    (2026-08-27), which is the design's fault: the passage cards use round
+    green and red dots for good and bad votes, and 428 of 650 members sit
+    for a party whose colour is confusably close to one of them. Labour's
+    #C0293B is 55 units from the verdict red and appears on 404 pages; the
+    Green Party's #5FA33E is 32 from the verdict green.
 
-    The colour stays (it is genuine information, and conventional). The
-    SHAPE changes, so the two vocabularies cannot be confused.
+    A bar was tried first and rejected in favour of a circle that carries
+    the party's initials, and a logo when one is dropped in. So the two
+    vocabularies are separated by CONTENT, not shape: a verdict dot is
+    empty, a party mark never is.
     """
 
-    def test_the_party_mark_is_not_a_circle(self):
+    def test_the_party_mark_is_never_empty(self):
         flat = " ".join(template().split())
-        rule = flat[flat.index(".pdot{"):flat.index("}", flat.index(".pdot{"))]
-        self.assertNotIn("border-radius:50%", rule,
-                         "a round coloured mark is the spine's verdict "
-                         "vocabulary on this page")
+        block = flat[flat.index("function partyMark"):]
+        self.assertIn('<span class="pinit">${esc(initials)}</span>', block)
 
-    def test_the_verdict_dots_are_still_circles(self):
-        """The distinction only works if one of them stays round."""
+    def test_the_verdict_dots_carry_no_content(self):
+        """What makes the distinction hold from the other side."""
         flat = " ".join(template().split())
-        rule = flat[flat.index(".dot{"):flat.index("}", flat.index(".dot{"))]
-        self.assertIn("border-radius:50%", rule)
+        self.assertIn('<span class="dot${dot}"></span>', flat)
 
     def test_the_mark_still_carries_the_party_colour(self):
         t = template()
-        self.assertIn('class="pdot" style="background:${pc(m.party)}"', t)
+        self.assertIn('class="pdot" style="background:${pc(party)}"', t)
+
+
+class PartyLogoSlotTests(unittest.TestCase):
+    """The party mark is a circular drop-in logo slot.
+
+    Christopher, 2026-08-27: "I think I prefer a circle. Use a circle, and
+    make it so we can drop in party logos." The circle came back; what stops
+    it reading as a verdict -- this page uses round green/red dots for good
+    and bad votes, and 428 of 650 members sit for a party whose colour is
+    close to one of them -- is that the circle now carries the party's
+    initials, and will carry a logo.
+    """
+
+    def test_the_mark_is_a_circle_again(self):
+        flat = " ".join(template().split())
+        rule = flat[flat.index(".pdot{"):flat.index("}", flat.index(".pdot{"))]
+        self.assertIn("border-radius:50%", rule)
+
+    def test_the_circle_is_not_bare_colour(self):
+        """A bare red circle beside a name, on a page where red means BAD
+        VOTE, is what caused the confusion in the first place."""
+        flat = " ".join(template().split())
+        self.assertIn('class="pinit"', flat)
+        block = flat[flat.index("function partyMark"):]
+        self.assertIn("PARTY_INITIALS[party]", block)
+
+    def test_an_image_is_emitted_only_when_the_build_found_one(self):
+        """A slot that always emitted an <img> would 404 on every member
+        view for every party without a file."""
+        flat = " ".join(template().split())
+        block = flat[flat.index("function partyMark"):]
+        self.assertIn("const file = (DATA.logos || {})[partySlug(party)];", block)
+        self.assertIn('onerror="this.remove()"', block,
+                      "belt: a file that fails to serve must not leave a hole")
+
+    def test_the_two_slug_functions_agree(self):
+        """The builder decides the filename and the template looks it up; if
+        they disagree, a dropped-in logo silently never appears."""
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import party_logo_slots
+        cases = {
+            "Labour": "labour",
+            "Liberal Democrat": "liberal-democrat",
+            "Sinn Féin": "sinn-fein",
+            "Social Democratic & Labour Party": "social-democratic-and-labour-party",
+            "Labour (Co-op)": "labour-co-op",
+            "Reform UK": "reform-uk",
+        }
+        for party, want in cases.items():
+            self.assertEqual(party_logo_slots.slug(party), want)
+            self.assertEqual(mvt.party_slug(party), want,
+                             "the builder's slug must match the tool's")
+        # and the template's JS must use the same rules
+        flat = " ".join(template().split())
+        js = flat[flat.index("const partySlug"):flat.index("function partyMark")]
+        for token in ('normalize("NFD")', 'replace(/&/g,"and")', "[^a-z0-9]+"):
+            self.assertIn(token, js)
+
+    def test_no_placeholder_logo_is_shipped(self):
+        """A hand-drawn stand-in would look like a party's real mark."""
+        import glob as _g
+        for site in ("partner_site", "docs"):
+            files = _g.glob(os.path.join(ROOT, site, "logos", "*.svg"))
+            self.assertEqual(files, [], "only real sourced logos belong here")
+
+    def test_the_slot_is_documented_in_both_builds(self):
+        for site in ("partner_site", "docs"):
+            readme = os.path.join(ROOT, site, "logos", "README.md")
+            self.assertTrue(os.path.exists(readme))
+            with open(readme, encoding="utf-8") as fh:
+                text = fh.read()
+            self.assertIn("registered trademarks", text)
+            self.assertIn("labour.svg", text)

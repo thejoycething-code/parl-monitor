@@ -112,14 +112,20 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 .card-head h2{font-family:var(--font);font-weight:700;font-size:30px;line-height:1.08;color:#fff}
 .mp-meta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:7px;font-size:14.5px;font-weight:300;color:#eaf1fe}
 .mp-meta .party{font-weight:500;color:#fff}
-/* The party mark is a BAR, not a dot (Christopher, 2026-08-26, reading it as
-   "green or red based on their voting record"). It always was the party
-   colour -- but this page uses round green/red dots on the passage spine to
-   mean good and bad votes, and 428 of 650 members sit for a party whose
-   colour is confusably close to one of those: Labour's red is on 404 pages.
-   Same colour, different shape, so it cannot be read as a verdict. */
-.pdot{display:inline-block;width:3px;height:13px;border-radius:2px;
-  margin-right:7px;vertical-align:-2px;box-shadow:0 0 0 1px rgba(255,255,255,.45)}
+/* The party mark is a circular LOGO SLOT (Christopher, 2026-08-27: "I
+   prefer a circle. Use a circle, and make it so we can drop in party
+   logos"). Drop a file at partner_site/logos/<slug>.svg and it fills the
+   circle; with no file the party colour shows with the party's initials on
+   it, which is also what stops a bare red circle reading as a verdict --
+   this page uses round green/red dots for good and bad votes, and 428 of
+   650 members sit for a party whose colour is close to one of them. */
+.pdot{display:inline-flex;align-items:center;justify-content:center;
+  width:17px;height:17px;border-radius:50%;margin-right:7px;vertical-align:-4px;
+  overflow:hidden;position:relative;flex:none;
+  box-shadow:0 0 0 1.5px rgba(255,255,255,.7)}
+.pdot .pinit{font-size:8.5px;font-weight:700;letter-spacing:0;color:#fff;
+  line-height:1;text-shadow:0 0 2px rgba(0,0,0,.35)}
+.pdot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
 .mp-meta .since{font-size:12.5px;color:#cfe0fc}
 .rolebanner{padding:13px 28px;background:var(--yellow);border-bottom:1px solid #e9d488;font-size:14.5px;color:#6b5a1e}
 .card-summary{padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
@@ -450,6 +456,35 @@ const PARTY_C = {"Labour":"#C0293B","Conservative":"#1B63A8","Liberal Democrat":
 const pc = p => PARTY_C[p] || "#5B6770";
 
 /* ---------- helpers ---------- */
+// A logo drops straight in: put a file at logos/<slug>.svg beside the page
+// and it fills the circle. Until then the circle carries the party colour
+// with the party's initials, which is what keeps a red Labour circle from
+// reading as the verdict red used on the cards. Same trick as the member
+// portrait: if the file is absent the <img> removes itself and the coloured
+// circle underneath shows through, so a missing logo can never leave a hole.
+const PARTY_INITIALS = {"Labour":"LAB","Conservative":"CON","Liberal Democrat":"LD",
+  "Scottish National Party":"SNP","Green Party":"GRN","Reform UK":"REF",
+  "Plaid Cymru":"PC","Democratic Unionist Party":"DUP","Sinn F\u00e9in":"SF",
+  "Social Democratic & Labour Party":"SDLP","Alliance":"APNI",
+  "Ulster Unionist Party":"UUP","Traditional Unionist Voice":"TUV",
+  "Independent":"IND","Speaker":"SPK", "Labour (Co-op)":"LAB"};
+const partySlug = p => (p||"").toLowerCase().normalize("NFD")
+  .replace(/\p{M}/gu,"").replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-")
+  .replace(/^-|-$/g,"");
+function partyMark(party){
+  const initials = PARTY_INITIALS[party] ||
+    (party||"?").split(/\s+/).map(w => w[0]).join("").slice(0,4).toUpperCase();
+  // The <img> is emitted only when the build found a file, so a party
+  // without a logo costs no 404. onerror is still there as a belt: a file
+  // that exists at build time but fails to serve must not leave a hole.
+  const file = (DATA.logos || {})[partySlug(party)];
+  const img = file
+    ? `<img src="logos/${file}" alt="" loading="lazy" onerror="this.remove()">`
+    : "";
+  return `<span class="pdot" style="background:${pc(party)}" aria-hidden="true">` +
+    `<span class="pinit">${esc(initials)}</span>${img}</span>`;
+}
+
 const norm = s => (s||"").normalize("NFD").replace(/\p{M}/gu,"").toLowerCase()
   .replace(/&/g," and ").replace(/[^a-z0-9]+/g," ").trim();
 const esc = s => (s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -981,7 +1016,7 @@ function renderMP(id){
       <div class="idcol">
         <h2>${esc(m.name)}</h2>
         <div class="mp-meta">
-          <span class="party"><span class="pdot" style="background:${pc(m.party)}"></span>${esc(m.party)}</span>
+          <span class="party">${partyMark(m.party)}${esc(m.party)}</span>
           <span>${esc(m.constituency)}</span>
           <span class="since">${sinceLine(m)}</span>
         </div>
