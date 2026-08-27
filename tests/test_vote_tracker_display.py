@@ -902,7 +902,11 @@ class NoDivisionWideWhipBadgeTests(unittest.TestCase):
         261" over two lines became "Rejected 208-261" in one, which also
         made it consistent with the amendment rows."""
         flat = " ".join(template().split())
-        self.assertIn("${d.ayes}\\u2013${d.noes}", flat)
+        # Wording changed again on 2026-08-27: the outcome now reads
+        # "Passed by 23 - 314 to 291", coloured by whether the result went
+        # our way rather than by whether it passed.
+        self.assertIn("${d.ayes} to ${d.noes}", flat)
+        self.assertIn("Passed", flat)
         self.assertIn('d.passed ? "Passed" : "Rejected"', flat)
 
 
@@ -1211,3 +1215,104 @@ class TemplateParsesTests(unittest.TestCase):
         self.assertIn("<style>", t)
         self.assertIn("</style>", t)
         self.assertLess(t.index("<style>"), t.index("</style>"))
+
+
+class OutcomeDirectionTests(unittest.TestCase):
+    """The outcome is coloured by WHICH WAY IT WENT FOR US.
+
+    Christopher, 2026-08-27: "It's also the passed by X and Rejected by X
+    numbers that should be coloured correctly, including the number."
+
+    Colouring passed=green said an outcome is good news because it passed.
+    On the assisted dying bill passing is the thing we opposed, so 8 of the
+    17 scored divisions rendered a colour whose sentiment contradicted what
+    happened -- 3,359 member-page renders, because Second and Third Reading
+    are among them. Kruger's Third Reading was the sharpest: a green GOOD
+    VOTE chip above a green "Passed by 23", when he voted the right way and
+    lost.
+    """
+
+    def test_direction_is_our_position_not_the_result(self):
+        flat = " ".join(template().split())
+        self.assertIn('const wentOurWay = (d) => !d.good ? null : '
+                      '(d.passed && d.good === "aye") || '
+                      '(!d.passed && d.good === "no")', flat)
+
+    def test_an_unscored_division_stays_neutral(self):
+        """There is no "our way" for a division we have not scored."""
+        flat = " ".join(template().split())
+        self.assertIn('w === null ? "flat"', flat)
+        self.assertIn(".outcome.flat{color:#23282f}", flat)
+
+    def test_the_word_and_the_number_are_both_coloured(self):
+        """Christopher asked for the number too, so both sit inside the
+        coloured span and the tally sits outside it."""
+        flat = " ".join(template().split())
+        self.assertIn('<span class="outcome ${cls}">${d.passed ? "Passed" : '
+                      '"Rejected"} by ${ Math.abs(d.ayes - d.noes)}</span>', flat)
+
+    def test_the_helper_is_reachable_from_both_callers(self):
+        """It broke every one of the 650 pages first time round: declared
+        inside renderMP, where the top-level barHTML could not see it."""
+        text = template()
+        depth = 0
+        for line in text.splitlines():
+            if "const wentOurWay" in line:
+                self.assertEqual(depth, 0,
+                                 "wentOurWay must be top level -- barHTML "
+                                 "is top level and calls it")
+                break
+            depth += line.count("{") - line.count("}")
+
+
+class HairlineTests(unittest.TestCase):
+    """A 3px hairline, one colour, filled by the winning side's share.
+
+    Christopher, 2026-08-27: "Do fix A with a coloured hairline bar based on
+    whether it passed or didn't."
+
+    The old bar was a full-width 10px band coloured Ayes-green and
+    Noes-red -- and since most of our good positions are voting No, that put
+    the member's own side in red under a green GOOD VOTE chip on 81% of
+    member/landmark pairs (2,095 of 2,583).
+    """
+
+    def test_it_shares_the_outcome_colour(self):
+        flat = " ".join(template().split())
+        self.assertIn(".hairline.win i{background:var(--green)}", flat)
+        self.assertIn(".hairline.lose i{background:var(--red)}", flat)
+
+    def test_it_is_a_hairline_not_a_band(self):
+        flat = " ".join(template().split())
+        self.assertIn(".hairline{height:3px", flat)
+        self.assertNotIn(".tally{position:relative;height:10px", flat)
+
+    def test_the_fill_is_the_winning_share_not_the_aye_share(self):
+        """Forced by using one colour: a single-colour bar filled to 21% for
+        a decisive rejection we WANTED would read as weak, when the point is
+        that it was emphatic."""
+        flat = " ".join(template().split())
+        self.assertIn("const winner = Math.max(d.ayes, d.noes);", flat)
+        self.assertIn("const pct = total ? 100 * winner / total : 0;", flat)
+
+    def test_no_flag_marker(self):
+        """The verdict chip says which lobby in words, and a phone has no
+        hover to explain a marker."""
+        flat = " ".join(template().split())
+        self.assertNotIn('class="flag"', flat)
+
+    def test_it_carries_an_accessible_label(self):
+        flat = " ".join(template().split())
+        self.assertIn('role="img" aria-label="${ d.passed ? "Passed" : "Rejected"}', flat)
+
+
+class RecordLastTests(unittest.TestCase):
+    """Christopher, 2026-08-27: "I also like the division record at the
+    bottom of everything." """
+
+    def test_the_record_is_the_last_thing_in_a_vote(self):
+        flat = " ".join(template().split())
+        block = flat[flat.index("const fullVote"):flat.index("const miniVote")]
+        self.assertIn("recordlast", block)
+        self.assertLess(block.index("barHTML(d)"), block.index("recordlast"))
+        self.assertLess(block.index("relativeToParty"), block.index("recordlast"))

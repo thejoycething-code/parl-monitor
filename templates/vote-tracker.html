@@ -168,10 +168,6 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 .morevotes summary::-webkit-details-marker{display:none}
 .morevotes summary::before{content:"\25B8  ";display:inline-block;transition:transform .15s}
 .morevotes[open] summary::before{content:"\25BE  "}
-.tally{position:relative;height:10px;border-radius:3px;overflow:visible;background:var(--red)}
-.tally .aye{position:absolute;left:0;top:0;bottom:0;background:var(--green);border-radius:3px 0 0 3px}
-.tally .flag{position:absolute;top:-8px;width:0;height:0;border-left:5px solid transparent;
-  border-right:5px solid transparent;border-top:8px solid var(--ink);transform:translateX(-50%)}
 
 /* ---------- about / footer ---------- */
 .about{margin:46px 0 10px}
@@ -295,7 +291,6 @@ footer a{color:var(--blue);font-weight:400}
 .sbody{font-size:13px;color:var(--ink);margin:0 0 14px}
 .ssent{color:#23282f;font-size:13.5px}
 .sctx{margin-top:4px}
-.stally{margin:7px 0 5px}
 /* amendments grouped at their stage */
 .amend{margin:2px 0 13px}
 .amrow{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--line)}
@@ -401,7 +396,18 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .sout .official,.ammeta .official{color:var(--blue-deep)}
 .arrow{font-size:9px;opacity:.7}
 .rel{font-size:11.5px;color:#5f6670;margin-top:3px}
-.stally{margin:8px 0 4px}
+
+/* --- outcome and hairline, coloured by WHICH WAY IT WENT FOR US --------- */
+.outcome{font-weight:700}
+.outcome.win{color:var(--green)}
+.outcome.lose{color:var(--red)}
+.outcome.flat{color:#23282f}
+.hairline{height:3px;border-radius:2px;background:var(--grey-100);position:relative;margin:7px 0 4px}
+.hairline i{position:absolute;left:0;top:0;bottom:0;border-radius:2px 0 0 2px}
+.hairline.win i{background:var(--green)}
+.hairline.lose i{background:var(--red)}
+.hairline.flat i{background:#8b93a1}
+.recordlast{font-size:12px;margin-top:8px;padding-top:7px;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -746,16 +752,40 @@ function voteInfo(m, d){
 }
 
 
-function barHTML(d, side){
-  // The bar ALONE: the result line became outcome(), the AYE/NO labels went
-  // with it, and the party splits became a sentence -- leaving the one thing
-  // a bar does better than numbers, showing how close a division was.
-  const pct = 100*d.ayes/(d.ayes+d.noes);
-  const flag = side ? `<div class="flag" style="left:${
-    side==="aye" ? pct/2 : pct+(100-pct)/2}%"></div>` : "";
-  return `<div class="tally" role="img" aria-label="${d.ayes} Ayes to ${d.noes} Noes">
-    <div class="aye" style="width:${pct}%"></div>${flag}</div>`;
+// Which way the RESULT went for us, not whether it passed (Christopher,
+// 2026-08-27). Colouring passed=green said an outcome is good news because it
+// passed -- but on the assisted dying bill passing is the thing we opposed.
+// 8 of 17 scored divisions rendered a colour whose sentiment contradicted
+// what happened; because Second and Third Reading are among them that was
+// 3,359 member-page renders. An unscored division has no direction, so it
+// stays neutral. TOP LEVEL: barHTML is top level and calls it -- declared
+// inside renderMP it broke all 650 pages.
+const wentOurWay = (d) => !d.good ? null
+  : (d.passed && d.good === "aye") || (!d.passed && d.good === "no");
+
+function barHTML(d){
+  // A 3px hairline, not the full-width 10px band that ended every landmark
+  // vote. ONE colour, matching the outcome text, so the graphic cannot
+  // contradict it -- the old bar coloured Ayes green and Noes red, which put
+  // the member's own side in red under a green GOOD VOTE chip on 81% of
+  // member/landmark pairs.
+  //
+  // One colour forces the fill to change meaning: it is the WINNING side's
+  // share, not the Aye share. Filled to 21% for a decisive rejection we
+  // wanted would read as weak when the point is that it was emphatic.
+  //
+  // No flag: the verdict chip names the lobby in words, and a phone has no
+  // hover to explain a marker.
+  const total = d.ayes + d.noes;
+  const winner = Math.max(d.ayes, d.noes);
+  const pct = total ? 100 * winner / total : 0;
+  const w = wentOurWay(d);
+  const cls = w === null ? "flat" : (w ? "win" : "lose");
+  return `<div class="hairline ${cls}" role="img" aria-label="${
+    d.passed ? "Passed" : "Rejected"} by ${Math.abs(d.ayes - d.noes)}, ${
+    d.ayes} to ${d.noes}"><i style="width:${pct.toFixed(1)}%"></i></div>`;
 }
+
 
 /* ---------- empty / landing state (NO divisions shown until an MP is chosen) ---------- */
 function renderEmpty(){
@@ -846,8 +876,12 @@ function renderMP(id){
   // The header is a SUMMARY: verdict, bill, when. The meaning, the tally
   // and the source link belong to the vote's own node in the spine below --
   // printing them here as well showed the Third Reading twice on every card.
-  const outcome = (d) => `<span class="outcome ${d.passed ? "p" : "r"}">${
-    d.passed ? "Passed" : "Rejected"}</span> ${d.ayes}\u2013${d.noes}`;
+  const outcome = (d) => {
+    const w = wentOurWay(d);
+    const cls = w === null ? "flat" : (w ? "win" : "lose");
+    return `<span class="outcome ${cls}">${d.passed ? "Passed" : "Rejected"} by ${
+      Math.abs(d.ayes - d.noes)}</span> \u2014 ${d.ayes} to ${d.noes}`;
+  };
 
   // The party split as a sentence about THIS member rather than a grid to
   // decode, using the party they sat for ON THE DAY -- so Kruger's 2025
@@ -933,11 +967,12 @@ function renderMP(id){
     return `<div class="sbody">
         <div class="ssent">${vi.text}</div>
         ${d.context ? `<div class="sctx">${esc(d.context)}</div>` : ""}
-        <div class="sout">${outcome(d)}${whipHere() ? " \u00b7 " + whipChip(d, m) : ""}
-          \u00b7 <a class="official" href="${d.url}" target="_blank"
-          rel="noopener">official record <span class="arrow">&#8599;</span></a></div>
+        <div class="sout">${outcome(d)}${
+          whipHere() ? " \u00b7 " + whipChip(d, m) : ""}</div>
+        ${d.landmark ? barHTML(d) : ""}
         ${relativeToParty(d, vi)}
-        ${d.landmark ? `<div class="stally">${barHTML(d, vi.side)}</div>` : ""}
+        <div class="recordlast"><a class="official" href="${d.url}" target="_blank"
+          rel="noopener">Official division record <span class="arrow">&#8599;</span></a></div>
       </div>`;
   };
 
