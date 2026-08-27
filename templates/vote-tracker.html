@@ -150,10 +150,6 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
 .tallywrap{padding-top:2px}
 .result{font-size:11.5px;font-weight:700;letter-spacing:.05em;margin-bottom:7px;color:var(--ink)}
 .result .passed{color:var(--green)}
-.whip{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;
-  padding:1px 7px;border-radius:9px;vertical-align:1px;cursor:help}
-.whip.free{background:#e6f4ea;color:#188038}
-.whip.whipped{background:#ececec;color:#5f6368}
 .keyvote{display:inline-block;margin-left:8px;vertical-align:2px;font-size:10px;
   font-weight:600;letter-spacing:.04em;color:#8a6d1f;background:#fdf3d6;
   border:1px solid #f0dfae;border-radius:3px;padding:1px 5px}
@@ -678,12 +674,6 @@ const PARTY_ABBR = {"Labour":"Lab","Conservative":"Con","Liberal Democrat":"LD",
   "Social Democratic & Labour Party":"SDLP","Ulster Unionist Party":"UUP",
   "Alliance":"APNI","The Reclaim Party":"Reclaim"};
 
-function whipBadge(d){
-  if (d.whip === "free") return `<span class="whip free" title="A free vote: no party instruction, so each member voted by personal conviction.">FREE VOTE</span>`;
-  if (d.whip === "whipped") return `<span class="whip whipped" title="A whipped vote: party instructions applied, so a member's vote reflects the party position as much as personal conviction.">WHIPPED</span>`;
-  return "";
-}
-
 function splitsHTML(d){
   if (!d.splits || !d.splits.length) return "";
   const bits = d.splits.map(([p,a,n]) =>
@@ -695,7 +685,7 @@ function tallyHTML(d, side){
   const pct = 100*d.ayes/(d.ayes+d.noes);
   const flag = side ? `<div class="flag" style="left:${side==="aye"?pct/2:pct+(100-pct)/2}%"></div>` : "";
   return `<div class="result">${d.passed?'<span class="passed">PASSED</span>':'<span class="rejected">REJECTED</span>'}
-    &nbsp;&middot;&nbsp;Ayes ${d.ayes} &ndash; Noes ${d.noes}&nbsp;${whipBadge(d)}</div>
+    &nbsp;&middot;&nbsp;Ayes ${d.ayes} &ndash; Noes ${d.noes}</div>
     <div class="tally"><div class="aye" style="width:${pct}%"></div>${flag}</div>
     <div class="tally-nums"><span>AYE</span><span>NO</span></div>
     ${splitsHTML(d)}`;

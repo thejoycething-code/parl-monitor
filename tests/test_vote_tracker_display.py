@@ -873,3 +873,30 @@ class NoBacklinkTests(unittest.TestCase):
         t = template()
         self.assertIn("function resetToEmpty()", t)
         self.assertIn('getElementById("home")', t)
+
+
+class NoDivisionWideWhipBadgeTests(unittest.TestCase):
+    """The tally's whipBadge is gone.
+
+    It tested `d.whip === "whipped"`, and when whipping became per-party on
+    2026-08-26 the value became an object -- so the badge silently returned
+    empty on all three whipped divisions. Repairing it would have restored a
+    DIVISION-WIDE whip claim, which is exactly what Christopher had just
+    asked to stop: whipChip already states it per party, and only for the
+    party a member sat for on the day.
+    """
+
+    def test_the_badge_is_gone(self):
+        t = template()
+        self.assertNotIn("whipBadge", t)
+        self.assertNotIn('class="whip free"', t)
+        self.assertNotIn('class="whip whipped"', t)
+
+    def test_the_per_party_chip_is_what_remains(self):
+        t = template()
+        self.assertIn("function whipChip", t)
+        self.assertIn("whipmark", t)
+
+    def test_the_tally_still_shows_the_counts(self):
+        flat = " ".join(template().split())
+        self.assertIn("Ayes ${d.ayes} &ndash; Noes ${d.noes}", flat)
