@@ -341,6 +341,10 @@ footer a{color:var(--blue);font-weight:400}
 .idcol{flex:1;min-width:215px}
 .rightcol{display:flex;flex-direction:column;align-items:flex-end;gap:10px;margin-left:auto}
 .postline{font-size:13px;color:#fff;font-weight:500;margin-top:7px}
+/* Same slot, quieter voice: a held office is a fact worth weight, and
+   "Backbencher" is the absence of one. Splitting them by POSITION instead
+   would make the same field move about between members' pages. */
+.postline.quiet{font-size:12.5px;color:#cfe0fc;font-weight:400}
 .rolepills{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
 .ccol{flex:0 0 auto;width:214px;background:rgba(255,255,255,.13);border-radius:8px;
   padding:11px 13px 12px;text-align:left}
@@ -537,8 +541,17 @@ function postLine(m){
   const p = m.posts || {};
   const held = [].concat(p.government || [], p.opposition || [])
     .map(x => x.replace(JOINTLY, "").trim()).filter(Boolean);
-  const text = held.length ? held.slice(0, 2).join(" \u00b7 ") : "Backbencher";
-  return `<div class="postline">${esc(text)}</div>`;
+  // ONE POSITION, weight varying by content (Christopher, 2026-08-26: "both
+  // titles should occupy the same position as one another"). An earlier plan
+  // moved "Backbencher" to the meta row and left ministerial titles here,
+  // which split the same field by its VALUE -- so a reader comparing two
+  // members would hunt in different places for the same fact. A held office
+  // is set in white and carries weight; the backbench fallback is set quiet
+  // in the same slot, which is what stops 69% of pages spending their most
+  // prominent line on a single word meaning "holds no post".
+  if (!held.length)
+    return `<div class="postline quiet">Backbencher</div>`;
+  return `<div class="postline">${esc(held.slice(0, 2).join(" \u00b7 "))}</div>`;
 }
 
 function committeePills(m){

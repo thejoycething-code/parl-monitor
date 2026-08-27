@@ -792,9 +792,36 @@ class HeroRoleTests(unittest.TestCase):
     def test_the_post_line_always_renders(self):
         flat = " ".join(template().split())
         block = flat[flat.index("function postLine"):flat.index("function committeePills")]
-        self.assertIn('held.length ? held.slice(0, 2).join(" \\u00b7 ") : "Backbencher"',
-                      block)
+        self.assertIn('<div class="postline quiet">Backbencher</div>', block)
         self.assertIn('<div class="postline">', block)
+
+    def test_both_titles_occupy_the_same_position(self):
+        """Christopher, 2026-08-26: "both titles should occupy the same
+        position as one another."
+
+        An earlier plan moved "Backbencher" to the meta row and left
+        ministerial titles on the post line, which split the same field by
+        its VALUE -- so a reader comparing two members would hunt in
+        different places for the same fact. One slot; the weight varies.
+        """
+        flat = " ".join(template().split())
+        block = flat[flat.index("function postLine"):flat.index("function committeePills")]
+        # both returns emit .postline, and nothing emits into mp-meta
+        self.assertEqual(block.count('class="postline'), 2)
+        self.assertNotIn("mp-meta", block)
+        # and the slot itself sits between the meta row and the majority
+        t = template()
+        self.assertLess(t.index('<div class="mp-meta">'), t.index("${postLine(m)}"))
+        self.assertLess(t.index("${postLine(m)}"), t.index("${seatLine(m)}"))
+
+    def test_a_held_office_carries_weight_and_the_fallback_does_not(self):
+        """The fallback is 69% of pages (447 of 650); left at full weight it
+        spends the most prominent line under the name on one word meaning
+        "holds no post"."""
+        flat = " ".join(template().split())
+        self.assertIn(".postline{font-size:13px;color:#fff;font-weight:500", flat)
+        self.assertIn(".postline.quiet{font-size:12.5px;color:#cfe0fc;font-weight:400}",
+                      flat)
 
     def test_jointly_with_is_dropped(self):
         """The only genuinely redundant part of a ministerial title on a
