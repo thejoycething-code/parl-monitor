@@ -1078,3 +1078,67 @@ class PartyColourTests(unittest.TestCase):
         for member in data["members"]:
             self.assertIn(member["party"], have,
                           member["party"] + " would render the default grey")
+
+
+class JourneyDisclosureTests(unittest.TestCase):
+    """The decisive votes stay open; the rest condenses, losing nothing.
+
+    Christopher, 2026-08-27: "It's not about removing detail or quote but
+    making the detail collapsable ... I also like option C including the
+    Second and Third Reading votes and then condensing the amendments and
+    speech contributions. I still want the level of detail we currently
+    have."
+
+    So this is option C's structure with option B's collapsibility, and the
+    test that matters is that NOTHING was removed: the same amendment rows,
+    quotes, meanings and source links, just inside a disclosure.
+    """
+
+    def test_nothing_is_removed_only_moved(self):
+        """Guards the whole instruction. Counted on the built page, because
+        a template check cannot tell moved from deleted."""
+        page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+        if not os.path.exists(page):
+            self.skipTest("page not built")
+        with open(page, encoding="utf-8") as fh:
+            text = fh.read()
+        # the renderers that carry the detail must all still exist and be called
+        for fn in ("miniVote", "fullVote", "saidNode", "stageNode"):
+            self.assertIn("const " + fn, text)
+        for call in ("hidden.map(n =>", "shown.map(stageNode)"):
+            self.assertIn(call, text)
+        # and every detail-bearing part is still rendered inside the disclosure
+        flat = " ".join(text.split())
+        block = flat[flat.index("const journeyDetails"):flat.index("for (const g of blocks)")]
+        self.assertIn('n.type === "said" ? saidNode(n) : stageNode(n)', block)
+
+    def test_a_bill_always_has_something_open(self):
+        """parental-rights carries NO landmark flag, so a pure landmark rule
+        would have left that card opening on nothing."""
+        flat = " ".join(template().split())
+        self.assertIn("node.divs.some(d => d.landmark) || node.divs.indexOf(g.major) > -1",
+                      flat)
+
+    def test_quotes_and_amendments_condense(self):
+        """Neither is ever open at rest: quote nodes are not type 'votes', and
+        an amendment group only opens if it carries a landmark division."""
+        flat = " ".join(template().split())
+        self.assertIn('const isOpenNode = (node, g) => node.type === "votes" &&', flat)
+
+    def test_the_summary_says_what_is_inside(self):
+        """So nobody has to open it to find out whether it matters."""
+        flat = " ".join(template().split())
+        block = flat[flat.index("const journeyDetails"):]
+        self.assertIn("further vote", block)
+        self.assertIn("quote", block)
+        self.assertIn("What happened in between", block)
+
+    def test_an_empty_disclosure_is_never_rendered(self):
+        flat = " ".join(template().split())
+        self.assertIn("${hidden.length ? journeyDetails(hidden) : \"\"}", flat)
+
+    def test_it_uses_native_details(self):
+        """Keyboard and screen-reader support for free, and no JavaScript."""
+        flat = " ".join(template().split())
+        block = flat[flat.index("const journeyDetails"):]
+        self.assertIn('<details class="journey"><summary>', block)

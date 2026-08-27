@@ -378,6 +378,24 @@ footer a{color:var(--blue);font-weight:400}
   .rightcol{align-items:stretch;width:100%;margin-left:0}
   .ccol{width:100%}
 }
+
+/* --- "What happened in between" (2026-08-27) -----------------------------
+   The decisive votes stay open above; the amendments and speeches condense
+   here with their full detail intact. Native <details>, so no JavaScript and
+   keyboard and screen-reader support come free. */
+details.journey{border-top:1px solid var(--line);background:#f7f9fc;
+  border-radius:0 0 8px 8px}
+details.journey > summary{cursor:pointer;list-style:none;padding:11px 17px;
+  display:flex;gap:9px;align-items:center;font-size:13px;font-weight:500;
+  color:var(--blue-deep);flex-wrap:wrap}
+details.journey > summary::-webkit-details-marker{display:none}
+details.journey > summary:hover{background:#eef4ff}
+details.journey > summary:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.jqty{font-weight:300;color:#5f7597;font-size:12.5px}
+.jchev{margin-left:auto;font-size:10px;opacity:.65;transition:transform .15s}
+details.journey[open] > .jchev,details.journey[open] > summary .jchev{transform:rotate(180deg)}
+details.journey > .passage{border-bottom:none;border-radius:0}
+@media(max-width:560px){.jchev{margin-left:0}}
 </style>
 </head>
 <body>
@@ -946,11 +964,56 @@ function renderMP(id){
         node.q.u ? ` \u00b7 <a class="official" href="${node.q.u}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>
     </div>`;
 
+  // WHAT STAYS OPEN, AND WHAT CONDENSES (Christopher, 2026-08-27: option C's
+  // structure with B's collapsibility -- "I still want the level of detail we
+  // have"). So nothing is removed: the decisive votes stay open, and the
+  // amendments and speeches go behind one disclosure per bill with their FULL
+  // detail intact -- meaning, tally, whip and source link on every row.
+  //
+  // Open = any stage carrying a division flagged `landmark` in the config,
+  // FALLING BACK to the major stage when a bill has none. parental-rights has
+  // no landmark flag at all, so a pure landmark rule would have left that
+  // card opening on nothing.
+  //
+  // The cost, accepted: chronology is no longer strict. Second Reading sits
+  // directly above Third Reading with the committee stage they bracket
+  // condensed below, which is what Christopher chose over the strict spine.
+  const isOpenNode = (node, g) => node.type === "votes" &&
+    (node.divs.some(d => d.landmark) || node.divs.indexOf(g.major) > -1);
+
+  // One disclosure per bill, naming what is inside so nobody has to open it
+  // to find out whether it matters.
+  const journeyDetails = (hidden) => {
+    const votes = hidden.filter(n => n.type === "votes");
+    const said = hidden.filter(n => n.type === "said");
+    const divs = votes.reduce((n, x) => n + x.divs.length, 0);
+    const infos = votes.flatMap(n => n.divs.map(d => voteInfo(m, d)));
+    const good = infos.filter(v => v.cls === "G").length;
+    const bad = infos.filter(v => v.cls === "B").length;
+    const bits = [];
+    if (divs){
+      const verdicts = [];
+      if (good) verdicts.push(`${good} good`);
+      if (bad) verdicts.push(`${bad} bad`);
+      bits.push(`${divs} further vote${divs > 1 ? "s" : ""}${
+        verdicts.length ? " \u2014 " + verdicts.join(", ") : ""}`);
+    }
+    if (said.length) bits.push(`${said.length} quote${said.length > 1 ? "s" : ""} from debate`);
+    return `<details class="journey"><summary>What happened in between
+      <span class="jqty">${bits.join(" \u00b7 ")}</span>
+      <span class="jchev">&#9662;</span></summary>
+      <div class="passage">${hidden.map(n =>
+        n.type === "said" ? saidNode(n) : stageNode(n)).join("")}</div>
+    </details>`;
+  };
+
   for (const g of blocks){
     const nodes = passageNodes(g);
+    const shown = nodes.filter(n => isOpenNode(n, g));
+    const hidden = nodes.filter(n => !isOpenNode(n, g));
     rows += `<section class="billblock">${cardHead(g)}
-      <div class="passage">${nodes.map(n =>
-        n.type === "said" ? saidNode(n) : stageNode(n)).join("")}</div>
+      ${shown.length ? `<div class="passage">${shown.map(stageNode).join("")}</div>` : ""}
+      ${hidden.length ? journeyDetails(hidden) : ""}
     </section>`;
   }
 
