@@ -1,9 +1,10 @@
 # Party logos — drop-in slot
 
 The party mark in the MP header is a circular slot. Put a file here named
-after the party and it fills the circle; with no file, the circle shows the
-party colour with the party's initials on it, so a missing logo can never
-leave a hole.
+after the party and it fills the circle; with no file the circle shows the
+party colour alone, so a missing logo can never leave a hole. (The initials
+that briefly sat inside it were removed on 2026-08-27 at Christopher's
+request.)
 
 ## Naming
 

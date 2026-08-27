@@ -919,10 +919,16 @@ class PartyVerdictCollisionTests(unittest.TestCase):
     empty, a party mark never is.
     """
 
-    def test_the_party_mark_is_never_empty(self):
+    def test_the_party_mark_is_bare_colour_by_christophers_choice(self):
+        """Christopher, 2026-08-27: "Remove the text". The initials went, so
+        the mark is the party colour alone until a logo is dropped in. Noted
+        because it restores the ambiguity this class exists to document: a
+        Labour circle is #E41C3E and the verdict red is #DB544F, ~59 units
+        apart. He knows what the mark means now, which is what changed."""
         flat = " ".join(template().split())
         block = flat[flat.index("function partyMark"):]
-        self.assertIn('<span class="pinit">${esc(initials)}</span>', block)
+        self.assertNotIn("pinit", block)
+        self.assertIn('style="background:${pc(party)}"', block)
 
     def test_the_verdict_dots_carry_no_content(self):
         """What makes the distinction hold from the other side."""
@@ -950,13 +956,12 @@ class PartyLogoSlotTests(unittest.TestCase):
         rule = flat[flat.index(".pdot{"):flat.index("}", flat.index(".pdot{"))]
         self.assertIn("border-radius:50%", rule)
 
-    def test_the_circle_is_not_bare_colour(self):
-        """A bare red circle beside a name, on a page where red means BAD
-        VOTE, is what caused the confusion in the first place."""
+    def test_the_white_ring_separates_it_from_a_verdict_dot(self):
+        """With the initials gone this is the only thing distinguishing a
+        party mark from the solid verdict dots on the cards."""
         flat = " ".join(template().split())
-        self.assertIn('class="pinit"', flat)
-        block = flat[flat.index("function partyMark"):]
-        self.assertIn("PARTY_INITIALS[party]", block)
+        rule = flat[flat.index(".pdot{"):flat.index("}", flat.index(".pdot{"))]
+        self.assertIn("box-shadow:0 0 0 1.5px rgba(255,255,255,.7)", rule)
 
     def test_an_image_is_emitted_only_when_the_build_found_one(self):
         """A slot that always emitted an <img> would 404 on every member
@@ -1005,3 +1010,71 @@ class PartyLogoSlotTests(unittest.TestCase):
                 text = fh.read()
             self.assertIn("registered trademarks", text)
             self.assertIn("labour.svg", text)
+
+
+class PartyColourTests(unittest.TestCase):
+    """Party colours come from Wikipedia's {{party color}}, not by eye.
+
+    Christopher, 2026-08-27: "Reform is in green ... ensure the correct
+    colours are being used." Every value in the old map was a muted
+    approximation -- Reform was #2AA8BF, a dull teal that reads green at
+    17px, against the real #1EB8D0, which the Clacton widget's independently
+    verified rgb(30,184,208) matches exactly.
+
+    Worse, three parties were absent from the map, so 46 sitting members
+    rendered the DEFAULT GREY and nothing said so: Labour (Co-op) 43,
+    Your Party 2, Restore Britain 1.
+    """
+
+    WIKIPEDIA = {
+        "Labour": "#E41C3E", "Conservative": "#0087DC",
+        "Liberal Democrat": "#FAA61A", "Scottish National Party": "#FDF38E",
+        "Green Party": "#02A95B", "Reform UK": "#1EB8D0",
+        "Plaid Cymru": "#008672", "Democratic Unionist Party": "#D46A4C",
+        "Social Democratic & Labour Party": "#2AA82C", "Alliance": "#F6CB2F",
+        "Ulster Unionist Party": "#48A5EE",
+        "Traditional Unionist Voice": "#201863",
+        "Your Party": "#FF3131", "Restore Britain": "#051D3F",
+    }
+
+    def _map(self):
+        flat = template()
+        block = re.search(r"const PARTY_C = \{(.*?)\};", flat, re.S).group(1)
+        return dict(re.findall(r'"([^"]+)":\s*"(#[0-9A-Fa-f]{6})"', block))
+
+    def test_every_colour_matches_wikipedia(self):
+        got = self._map()
+        for party, want in self.WIKIPEDIA.items():
+            self.assertEqual(got.get(party), want, party)
+
+    def test_reform_is_not_the_old_muted_teal(self):
+        """Checked against the MAP, not the file: the old value survives in
+        the comment recording what it was, and a whole-file search reads
+        that as a violation -- the fourth time this class of anchor mistake
+        has bitten these tests."""
+        self.assertNotIn("#2AA8BF", set(self._map().values()))
+
+    def test_labour_co_op_takes_the_labour_red(self):
+        """Wikipedia gives Labour Co-operative the same red, and it is right
+        for a Westminster record: they take the Labour whip, and Co-op purple
+        beside "Labour (Co-op)" would read as a third party."""
+        got = self._map()
+        self.assertEqual(got.get("Labour (Co-op)"), got.get("Labour"))
+
+    def test_no_sitting_party_falls_through_to_the_default(self):
+        """The bug that hid 46 members behind a grey circle."""
+        import json as _json
+        page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+        if not os.path.exists(page):
+            self.skipTest("page not built")
+        with open(page, encoding="utf-8") as fh:
+            text = fh.read()
+        data = _json.loads(re.search(r"const DATA = (\{.*?\});\n",
+                                     text, re.S).group(1))
+        # the shipped map, with JS \uXXXX escapes resolved as the browser does
+        block = re.search(r"const PARTY_C = \{(.*?)\};", text, re.S).group(1)
+        have = {k.encode().decode("unicode_escape")
+                for k, _ in re.findall(r'"([^"]+)":\s*"(#[0-9A-Fa-f]{6})"', block)}
+        for member in data["members"]:
+            self.assertIn(member["party"], have,
+                          member["party"] + " would render the default grey")

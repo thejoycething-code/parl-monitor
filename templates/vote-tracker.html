@@ -123,8 +123,6 @@ h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f
   width:17px;height:17px;border-radius:50%;margin-right:7px;vertical-align:-4px;
   overflow:hidden;position:relative;flex:none;
   box-shadow:0 0 0 1.5px rgba(255,255,255,.7)}
-.pdot .pinit{font-size:8.5px;font-weight:700;letter-spacing:0;color:#fff;
-  line-height:1;text-shadow:0 0 2px rgba(0,0,0,.35)}
 .pdot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
 .mp-meta .since{font-size:12.5px;color:#cfe0fc}
 .rolebanner{padding:13px 28px;background:var(--yellow);border-bottom:1px solid #e9d488;font-size:14.5px;color:#6b5a1e}
@@ -448,11 +446,31 @@ footer a{color:var(--blue);font-weight:400}
 const DATA = __DATASET__;
 
 /* ---------- party colours (external identity — factual, not CitizenGO brand) ---------- */
-const PARTY_C = {"Labour":"#C0293B","Conservative":"#1B63A8","Liberal Democrat":"#E8A33D",
-"Scottish National Party":"#E3CF57","Green Party":"#5FA33E","Reform UK":"#2AA8BF",
-"Plaid Cymru":"#0E5C50","Democratic Unionist Party":"#B65A43","Sinn Féin":"#2E6157",
-"Social Democratic & Labour Party":"#3E8F4A","Alliance":"#D8B93B","Ulster Unionist Party":"#4E93CF",
-"Traditional Unionist Voice":"#26436B","Independent":"#8A8F8A","Speaker":"#5B6055"};
+// Party colours resolved from Wikipedia's {{party color}} template on
+// 2026-08-27, via the API's expandtemplates, after Christopher reported
+// "Reform is in green" on the live site. Every value in the old map was a
+// muted approximation -- Reform was #2AA8BF, a dull teal that reads green at
+// 17px, against the real #1EB8D0, which the Clacton widget's independently
+// verified rgb(30,184,208) agrees with exactly.
+//
+// Three parties were absent from the map altogether, so 46 sitting members
+// rendered the default grey: Labour (Co-op) 43, Your Party 2, Restore
+// Britain 1. Wikipedia gives Labour Co-operative the SAME red as Labour,
+// which is right for a Westminster record -- they take the Labour whip, and
+// Co-op purple beside "Labour (Co-op)" would read as a third party.
+//
+// Independent and Speaker keep a neutral grey: by convention neither has a
+// party colour, and Wikipedia returns its own page background for them
+// rather than a real value.
+const PARTY_C = {
+  "Labour":"#E41C3E", "Labour (Co-op)":"#E41C3E", "Conservative":"#0087DC",
+  "Liberal Democrat":"#FAA61A", "Scottish National Party":"#FDF38E",
+  "Green Party":"#02A95B", "Reform UK":"#1EB8D0", "Plaid Cymru":"#008672",
+  "Democratic Unionist Party":"#D46A4C", "Sinn F\u00e9in":"#326760",
+  "Social Democratic & Labour Party":"#2AA82C", "Alliance":"#F6CB2F",
+  "Ulster Unionist Party":"#48A5EE", "Traditional Unionist Voice":"#201863",
+  "Your Party":"#FF3131", "Restore Britain":"#051D3F",
+  "Independent":"#DCDCDC", "Speaker":"#B9BEC4"};
 const pc = p => PARTY_C[p] || "#5B6770";
 
 /* ---------- helpers ---------- */
@@ -462,18 +480,10 @@ const pc = p => PARTY_C[p] || "#5B6770";
 // reading as the verdict red used on the cards. Same trick as the member
 // portrait: if the file is absent the <img> removes itself and the coloured
 // circle underneath shows through, so a missing logo can never leave a hole.
-const PARTY_INITIALS = {"Labour":"LAB","Conservative":"CON","Liberal Democrat":"LD",
-  "Scottish National Party":"SNP","Green Party":"GRN","Reform UK":"REF",
-  "Plaid Cymru":"PC","Democratic Unionist Party":"DUP","Sinn F\u00e9in":"SF",
-  "Social Democratic & Labour Party":"SDLP","Alliance":"APNI",
-  "Ulster Unionist Party":"UUP","Traditional Unionist Voice":"TUV",
-  "Independent":"IND","Speaker":"SPK", "Labour (Co-op)":"LAB"};
 const partySlug = p => (p||"").toLowerCase().normalize("NFD")
   .replace(/\p{M}/gu,"").replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-")
   .replace(/^-|-$/g,"");
 function partyMark(party){
-  const initials = PARTY_INITIALS[party] ||
-    (party||"?").split(/\s+/).map(w => w[0]).join("").slice(0,4).toUpperCase();
   // The <img> is emitted only when the build found a file, so a party
   // without a logo costs no 404. onerror is still there as a belt: a file
   // that exists at build time but fails to serve must not leave a hole.
@@ -481,8 +491,9 @@ function partyMark(party){
   const img = file
     ? `<img src="logos/${file}" alt="" loading="lazy" onerror="this.remove()">`
     : "";
-  return `<span class="pdot" style="background:${pc(party)}" aria-hidden="true">` +
-    `<span class="pinit">${esc(initials)}</span>${img}</span>`;
+  // No initials (Christopher, 2026-08-27: "Remove the text"). The mark is
+  // the party colour, and a logo when one is dropped in.
+  return `<span class="pdot" style="background:${pc(party)}" aria-hidden="true">${img}</span>`;
 }
 
 const norm = s => (s||"").normalize("NFD").replace(/\p{M}/gu,"").toLowerCase()
