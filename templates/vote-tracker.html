@@ -949,7 +949,7 @@ function renderMP(id){
     const noVerdict = !d.good;
     const w = (m.words || {})[g.issue.id];
     const bits = [`${g.divs.length} vote${g.divs.length > 1 ? "s" : ""}`];
-    if (w && w.n) bits.push(`spoke in ${w.n} debate${w.n > 1 ? "s" : ""}`);
+    if (w && w.n) bits.push(`spoke in ${w.n} ${w.unit || "debate"}${w.n > 1 ? "s" : ""}`);
     return `<article class="bigcard${noVerdict ? " demote" : ""}">
       ${voteBlock(vi, d)}
       <div class="cardbody">

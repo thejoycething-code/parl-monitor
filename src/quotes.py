@@ -94,6 +94,86 @@ SENTENCE_END = re.compile(r"""[.!?]['"\u2019\u201d)\]]*$""")
 # WE cut them off.
 _INTERRUPTED = re.compile(r"[\u2014\u2013-]$")
 
+# A passage can be on-topic and still say nothing about where the member
+# stands. Three shapes are worse than showing nothing at all (Christopher,
+# 2026-08-27: "How can we ensure the quotes are more relevant"):
+#
+#   CONCEDING. "I recognise that there is a genuine problem ... of harassment
+#   directed at women going into abortion clinics" was published as Danny
+#   Kruger's representative quote on buffer zones. It is him granting the
+#   OTHER side's premise before arguing against it -- the position is after
+#   the "but", and quoting the first half inverts him.
+#
+#   REPLYING. "The answer to the hon. Gentleman's question is..." and "I
+#   thank the petitioner" are about someone else's point or courtesy to the
+#   Chair, not a view.
+#
+#   ASKING. A question is rarely a position; 9% of shipped quotes ended in
+#   one.
+_CONCEDING = re.compile(
+    r"^\s*(?:I\s+(?:recognise|accept|understand|appreciate|agree|know|"
+    r"have\s+sympathy|do\s+not\s+doubt)"
+    r"|It\s+is\s+(?:true|right|fair|of\s+course)"
+    r"|Of\s+course\b|Nobody\s+(?:doubts|disputes)"
+    r"|There\s+is\s+(?:a\s+)?(?:genuine|real|legitimate))", re.I)
+# Hansard writes "hon." WITH the full stop. The first version of this
+# pattern required whitespace after "hon", so every Gentleman/Lady/Member
+# branch was dead and only the courtesy openers ever fired.
+_MEMBER_REF = (r"(?:(?:my|the)\s+(?:right\s+)?hon\.?\s+"
+               r"(?:and\s+learned\s+)?(?:Friend|Gentleman|Lady|Member)"
+               r"|the\s+Minister|the\s+Secretary\s+of\s+State)")
+_REPLYING = re.compile(
+    r"^\s*(?:The\s+answer\s+to"
+    r"|As\s+" + _MEMBER_REF +
+    r"|I\s+(?:thank|congratulate|pay\s+tribute))", re.I)
+# Opening by reporting what ANOTHER member said hands the reader someone
+# else's words under this member's name: "The hon. Member for Southampton
+# Itchen said this is about not just parliamentary democracy..." was
+# published as its speaker's own view. Merely ADDRESSING another member is
+# different -- "The hon. Lady is right to say that we have seen an increase
+# in abortion pills" is the speaker asserting it -- so the test is an
+# attribution verb, not a name.
+_ATTRIBUTING = re.compile(
+    r"^[^.?!]*\b" + _MEMBER_REF + r"\b[^.?!]*\b(?:said|says|told|asked|"
+    r"raised|talked\s+about|spoke\s+about|argued|claimed|suggested|"
+    r"mentioned|referred\s+to|made\s+the\s+point|gave\s+a[^.?!]*speech|"
+    r"set\s+out)\b", re.I)
+_FIRST_PERSON = re.compile(r"\b(?:I|my|me|we|our)\b", re.I)
+_FIRST_SENTENCE = re.compile(r"^[^.?!]*[.?!]")
+
+
+# A concession is only misleading if the quote stops before the turn. "I
+# recognise there is a genuine problem ... BUT I fundamentally disagree"
+# represents the member fairly: the reader sees what they granted and what
+# they concluded. Rejecting on the opener alone threw those away too.
+_CONTRAST = re.compile(r"\b(?:but|however|nevertheless|nonetheless|yet|"
+                       r"even so|that said|the (?:trouble|problem) is)\b", re.I)
+
+
+def usable(quote):
+    """Would this passage mislead a reader about the member's position?"""
+    if not quote:
+        return False
+    if _CONCEDING.match(quote) and not _CONTRAST.search(quote):
+        return False                    # granted the other case, and stopped
+    if _REPLYING.match(quote) or _ATTRIBUTING.match(quote):
+        return False                    # someone else's point, or a courtesy
+    if quote.rstrip().endswith("?"):
+        return False                    # a question is rarely a position
+    # An OPENING question is usually an intervention put to someone else --
+    # "Is there an intention to change the wording of the NHS Act?" was
+    # published as Danny Kruger's view on assisted dying. It is fair framing
+    # only when he goes on to say what he thinks, so keep it only then.
+    head = _FIRST_SENTENCE.match(quote)
+    if head and head.group(0).rstrip().endswith("?"):
+        # the position must come AFTER the question, not inside it: "is it
+        # just that WE SHOULD now read healthcare as including assisted
+        # dying?" is the question, not an answer to it.
+        if not _STANCE.search(quote[head.end():]):
+            return False
+    return True
+
+
 FLOOR = 140      # below this a quote carries no argument
 TARGET = 380     # what we aim for
 CAP = 520        # above this nobody reads it
@@ -178,14 +258,33 @@ def shareable(text, patterns, floor=FLOOR, target=TARGET, cap=CAP):
     if not hits:
         return None
 
-    # Seed on the sentence with the most term matches; earliest wins ties,
-    # because a member's first statement of a position is usually the
-    # cleanest one.
-    seed = max(hits, key=lambda i: (scored[i][1], -i))
+    # Try seeds strongest-first and take the first whose window is USABLE.
+    # Previously the single best-matching sentence won outright, so one
+    # concessive opener condemned the whole speech to a misleading quote --
+    # there was always another passage, it was simply never reached.
+    order = sorted(hits, key=lambda i: (scored[i][1], -i), reverse=True)
+    for seed in order:
+        for back in (True, False):
+            quote = _window(sents, seed, patterns, floor, target, cap, back)
+            if quote is not None and usable(quote):
+                return quote
+    # Nothing usable. Publishing the least-bad passage under the member's
+    # name is worse than publishing none: the count and the links still
+    # stand on their own, and a misleading quote does not.
+    return None
 
+
+def _window(sents, seed, patterns, floor, target, cap, back=True):
+    """Grow a whole-sentence window around `seed`, or None.
+
+    `back=False` forbids growing backwards. The sentence BEFORE the seed is
+    what usually makes a good passage unusable -- a concession, or another
+    member's point -- so when the full window fails the test it is worth
+    asking for the same seed without its run-up.
+    """
     start = end = seed
     # grow backwards once if the seed leans on an antecedent
-    if _DEPENDENT.match(sents[seed]) and seed > 0:
+    if back and _DEPENDENT.match(sents[seed]) and seed > 0:
         cand = " ".join(sents[seed - 1:end + 1])
         if len(cand) <= cap:
             start = seed - 1
@@ -200,7 +299,7 @@ def shareable(text, patterns, floor=FLOOR, target=TARGET, cap=CAP):
             break
         end += 1
     # still thin? try backwards
-    while len(span()) < floor and start > 0:
+    while back and len(span()) < floor and start > 0:
         nxt = " ".join(sents[start - 1:end + 1])
         if len(nxt) > cap:
             break
@@ -260,6 +359,10 @@ def quotability(quote):
     score = 0.0
     if _STANCE.search(quote):
         score += 3.0                       # they are stating a position
+    elif _FIRST_PERSON.search(quote):
+        score += 0.8                       # at least they are speaking for
+                                           # themselves: 29% of shipped quotes
+                                           # had no first-person marker at all
     if _PROCEDURAL_ASK.search(quote):
         score -= 2.5                       # asking the Minister to clarify
     questions = quote.count("?")

@@ -328,6 +328,28 @@ def _clean_title(line):
     return re.sub(r"\s*\(re: [^)]*\)\s*$", "", title).strip()
 
 
+SITTING_SUFFIX = re.compile(r"\s*\((?:[A-Za-z][\w-]*(?:\s+[A-Za-z][\w-]*)?)\s+sitting\)\s*$",
+                            re.IGNORECASE)
+
+
+def collapse_sitting(title):
+    """'... Bill (Twenty-fifth sitting)' -> '... Bill'.
+
+    Christopher, 2026-08-27: "36 debates for Danny Kruger seems questionable.
+    Perhaps it was 36 contributions against multiple debates?"
+
+    He was right to push. Of his 37 distinct area-2 titles, 27 were committee
+    sittings of ONE bill -- he sat on that committee, so he attended them all.
+    "Spoke in 36 debates" reads as 36 separate occasions across the House
+    when it is really 10 subjects, one of which ran to 28 sittings. Counting
+    contributions instead is worse: that is 217.
+
+    Handles "Twenty First sitting" as well as "Twenty-first sitting"; the
+    Hansard titles are not consistent.
+    """
+    return SITTING_SUFFIX.sub("", title or "").strip()
+
+
 def _sitting(title):
     """'... Bill (Twenty-ninth sitting)' -> 'Committee, twenty-ninth sitting'."""
     m = re.search(r"\(([A-Za-z-]+) sitting\)\s*$", title)
@@ -415,7 +437,8 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
             # issue -- true of interventions, absurd as a public statement,
             # and not what a reader understands "spoke" to mean. A member
             # speaking nine times in one committee sitting spoke once.
-            key = (kind, title.lower())
+            # A bill committee is ONE debate, not one per sitting.
+            key = (kind, collapse_sitting(title).lower())
             if key not in bucket["_seen"]:
                 bucket["_seen"].add(key)
                 bucket["n"][kind] = bucket["n"].get(kind, 0) + 1
@@ -428,10 +451,12 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
             a = area_of.get(iid)
             if a in areas:
                 per = words.setdefault(mid, {}).setdefault(
-                    iid, {"items": [], "n": 0, "_seen": set()})
+                    iid, {"items": [], "n": 0, "_sittings": 0, "_seen": set()})
                 if title.lower() not in per["_seen"]:
                     per["_seen"].add(title.lower())
-                    per["n"] += 1     # distinct debates on THIS bill
+                    per["n"] += 1     # distinct titles on THIS bill
+                    if SITTING_SUFFIX.search(title):
+                        per["_sittings"] += 1
                 per["items"].append({
                     "d": r["date"], "t": title[:110], "ref": r["ref"], "a": a})
 
@@ -483,7 +508,11 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                 entry = {k: v for k, v in c.items() if k != "_s"}
                 if entry not in kept:
                     kept.append(entry)
-            per_issue[iid] = {"q": kept, "n": per["n"]}
+            # Label them for what they are: a committee that met 29 times is
+            # 29 SITTINGS of one bill, not 29 debates.
+            per_issue[iid] = {"q": kept, "n": per["n"],
+                              "unit": "sitting" if per["_sittings"] > per["n"] / 2
+                                      else "debate"}
         words[mid] = {k: v for k, v in per_issue.items()
                       if v["q"] or v["n"]}
 

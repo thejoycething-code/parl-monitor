@@ -5,6 +5,7 @@ vote and can differ BY PARTY, a division we decline to score is demoted with
 its reason attached, and cards are grouped by bill in date order.
 """
 
+import json
 import os
 import re
 import sys
@@ -1387,3 +1388,156 @@ class PartyPhraseFoldedTests(unittest.TestCase):
         # the phrase must be short: no full party name inside a pmark span
         for m in re.finditer(r'class="pmark[^"]*">([^<]*)<', text):
             self.assertLess(len(m.group(1)), 40, m.group(1))
+
+
+class SittingCountTests(unittest.TestCase):
+    """A bill committee is ONE debate, not one per sitting.
+
+    Christopher: "36 debates for Danny Kruger seems questionable. Perhaps it
+    was 36 contributions against multiple debates?" It was neither. He has
+    217 contribution rows on assisted dying under 37 distinct titles, but 29
+    of those titles are sittings of the SAME bill committee. Counting titles
+    said 36 debates; counting subjects says 8.
+    """
+
+    def test_the_sitting_suffix_is_stripped(self):
+        from make_vote_tracker import collapse_sitting
+        self.assertEqual(
+            collapse_sitting(
+                "Terminally Ill Adults (End of Life) Bill (Twenty-ninth sitting)"),
+            "Terminally Ill Adults (End of Life) Bill")
+        self.assertEqual(collapse_sitting("Public Order Bill"), "Public Order Bill")
+
+    def test_the_bill_name_always_survives_the_collapse(self):
+        """If a title collapsed to nothing, two different bills' committees
+        would merge into one count. Checked against every title in the
+        store: 222 carry a sitting suffix and none collapses to empty."""
+        from make_vote_tracker import collapse_sitting, SITTING_SUFFIX
+        for title in ("Online Safety Bill (Fifth sitting)",
+                      "Terminally Ill Adults (End of Life) Bill (Twenty-ninth sitting)",
+                      "Children's Wellbeing and Schools Bill (Tenth sitting)"):
+            self.assertTrue(SITTING_SUFFIX.search(title), title)
+            self.assertTrue(collapse_sitting(title), title)
+
+    def test_every_sitting_title_in_the_store_is_matched(self):
+        """The regex only allows two words before "sitting", which is a bet
+        on Hansard's format. Checked rather than assumed: all 222 titles in
+        the store that mention a sitting are matched, so none slips through
+        uncollapsed and reinflates a count."""
+        import sqlite3
+        from make_vote_tracker import SITTING_SUFFIX, _clean_title
+        store = os.path.join(ROOT, "data", "parl-monitor.db")
+        if not os.path.exists(store):
+            self.skipTest("no store")
+        conn = sqlite3.connect(store)
+        missed = []
+        for (line,) in conn.execute(
+                "SELECT DISTINCT line FROM mp_events "
+                "WHERE kind != 'vote' AND line IS NOT NULL"):
+            title = _clean_title(line)
+            if title and re.search("sitting", title, re.I) \
+                    and not SITTING_SUFFIX.search(title):
+                missed.append(title)
+        self.assertEqual(missed[:5], [], "{0} uncollapsed".format(len(missed)))
+
+    def test_the_card_says_sittings_when_that_is_what_they_were(self):
+        """"spoke in 29 debates" claims 29 separate occasions. It was one
+        committee stage, so the label has to say so."""
+        html = template()
+        self.assertIn('${w.unit || "debate"}', html)
+
+
+class QuoteRelevanceTests(unittest.TestCase):
+    """A quote is published as the member's view, so it must not be someone
+    else's point, a question put to someone else, or a concession they made
+    on the way to disagreeing.
+
+    The case that forced this: Danny Kruger's buffer-zones quote opened "I
+    recognise that there is a genuine problem that the Bill and the Lords
+    amendments seek to address, of harassment, intimidation and offensive
+    behaviour directed at women going into abortion..." -- him granting the
+    other side's case, published beneath his name as what he thinks.
+    """
+
+    def test_a_bare_concession_is_rejected(self):
+        from src.quotes import usable
+        self.assertFalse(usable(
+            "I recognise that there is a genuine problem that the Bill seeks "
+            "to address, of harassment directed at women."))
+
+    def test_a_concession_that_reaches_the_turn_is_kept(self):
+        """Rejecting on the opener alone threw away the fairest quotes there
+        are: the reader sees what he granted AND what he concluded."""
+        from src.quotes import usable
+        self.assertTrue(usable(
+            "I recognise there is a genuine problem here. But I fundamentally "
+            "disagree that this Bill is the answer to it."))
+
+    def test_another_members_point_is_rejected(self):
+        from src.quotes import usable
+        self.assertFalse(usable(
+            "The answer to the hon. Gentleman's question is that an "
+            "organisation should be resourced through philanthropy."))
+
+    def test_a_question_is_not_a_position(self):
+        from src.quotes import usable
+        self.assertFalse(usable("Will the Minister confirm the timetable?"))
+        self.assertFalse(usable(
+            "How does that compare with what we already spend on palliative "
+            "care? Those are pertinent questions for the Minister."))
+
+    def test_a_rhetorical_question_answered_in_the_same_breath_is_kept(self):
+        from src.quotes import usable
+        self.assertTrue(usable(
+            "The judgment before us is this: would permitting some adults to "
+            "choose an assisted death cause harm? I believe it would."))
+
+    def test_the_stance_must_follow_the_question_not_sit_inside_it(self):
+        """"is it just that WE SHOULD now read healthcare as including
+        assisted dying?" contains a stance phrase, inside the question. That
+        passed the first version of this rule and shipped."""
+        from src.quotes import usable
+        self.assertFalse(usable(
+            "Is there an intention to change the wording of the NHS Act, or "
+            "is it just that we should now read healthcare as including "
+            "assisted dying? I look forward to the answer."))
+
+    def test_an_unusable_seed_does_not_condemn_the_speech(self):
+        """The single best-matching sentence used to win outright, so one
+        concessive opener meant a misleading quote or none. Other passages
+        were always there; they were simply never reached."""
+        from src import quotes
+        pats = [re.compile("assisted dying", re.I)]
+        text = ("I recognise there is a real problem here, and that families "
+                "have suffered. I do not believe assisted dying can ever be "
+                "made safe for the terminally ill, and the evidence from every "
+                "jurisdiction that has tried it bears that out. The safeguards "
+                "promised at the outset have been narrowed in every case.")
+        got = quotes.shareable(text, pats)
+        self.assertTrue(got)
+        self.assertIn("do not believe", got)
+
+
+class ShippedQuotesAreUsableTests(unittest.TestCase):
+    """Pinned on the built page: whatever the extractor does, nothing that
+    fails the rule may reach a reader."""
+
+    def test_no_shipped_quote_ends_in_a_question(self):
+        page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+        if not os.path.exists(page):
+            self.skipTest("page not built")
+        with open(page, encoding="utf-8") as fh:
+            text = fh.read()
+        m = re.search(r"const DATA\s*=\s*(\{.*?\});\n", text, re.S)
+        data = json.loads(m.group(1))
+        bad = []
+        for member in data["members"]:
+            for _area, per in (member.get("words") or {}).items():
+                for q in (per.get("q") or []):
+                    if q["q"].rstrip().endswith("?"):
+                        bad.append((member["name"], q["q"][:60]))
+            for _area, per in (member.get("record") or {}).items():
+                for item in (per.get("items") or []):
+                    if (item.get("q") or "").rstrip().endswith("?"):
+                        bad.append((member["name"], item["q"][:60]))
+        self.assertEqual(bad, [], "{0} shipped quotes end in a question".format(len(bad)))
