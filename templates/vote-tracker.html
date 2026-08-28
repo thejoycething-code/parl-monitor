@@ -254,6 +254,18 @@ footer a{color:var(--blue);font-weight:400}
 .reccounts{font-size:13px;color:var(--ink);margin:0 0 8px}
 .reccounts b{font-weight:500;color:#23282f}
 .recmore{font-size:12px;color:#9aa1a9;margin:6px 0 0}
+.recall{margin:8px 0 0;border-top:1px solid var(--line)}
+.recall>summary{list-style:none;cursor:pointer;font-size:12px;font-weight:500;
+  color:var(--blue-deep);padding:8px 0 2px}
+.recall>summary::-webkit-details-marker{display:none}
+.recall>summary:before{content:"\25B8";font-size:10px;margin-right:6px}
+.recall[open]>summary:before{content:"\25BE"}
+.rollrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:6px 0;
+  border-top:1px solid var(--line);font-size:13px}
+.rollkind{flex:0 0 auto;font-size:8.5px;font-weight:700;letter-spacing:.05em;
+  padding:2px 6px;border-radius:3px;background:#f0f1f3;border:1px solid #e2e5e9;color:#4a5058}
+.rolltitle{flex:1 1 300px;min-width:0;font-weight:500;color:#23282f}
+.rollmeta{font-size:11.5px;color:#9aa1a9}
 .recrow{display:flex;gap:13px;padding:11px 0;border-top:1px solid var(--line)}
 .reckind{flex:0 0 96px;height:fit-content;text-align:center;font-size:9.5px;font-weight:700;
   letter-spacing:.06em;color:#4a5058;background:#f0f1f3;border:1px solid #e2e5e9;
@@ -1157,6 +1169,20 @@ function renderMP(id){
         <div class="recmeta">${fmtD(it.d)}${recLink(it)}</div>
       </div></div>`;
 
+  // The complete record, behind a disclosure. The two rows above it are the
+  // STRONGEST, not the newest, so the roll continues the same order rather
+  // than restarting -- and it holds everything, including those two, so
+  // "all 54" is literally true when a reader opens it.
+  const rollRow = (it) => `<div class="rollrow">
+      <span class="rollkind">${KINDWORD[it.k] || it.k.toUpperCase()}</span>
+      <span class="rolltitle">${esc(it.t)}</span>
+      <span class="rollmeta">${fmtD(it.d)}${recLink(it)}</span></div>`;
+  const rollHTML = (all, shown) => {
+    if (!all || all.length <= shown) return "";
+    return `<details class="recall"><summary>All ${all.length} on the record</summary>
+      ${all.map(rollRow).join("")}</details>`;
+  };
+
   let recHtml = "";
   const rec = m.record || {};
   // Areas where this member actually walked through a lobby. NOT the areas
@@ -1201,14 +1227,7 @@ function renderMP(id){
         </div>
         ${counts ? `<p class="reccounts">${counts}</p>` : ""}
         ${(b.items||[]).map(recRow).join("")}
-        ${(() => {
-          // The list is capped at two. Jim Shannon's free speech block
-          // counted 54 events and showed 2, with nothing to say so -- a
-          // capped list reads as a complete one.
-          const shown = (b.items||[]).length, all = countTotal(b.n);
-          return all > shown && shown
-            ? `<p class="recmore">Showing the ${shown} most recent of ${all}.</p>` : "";
-        })()}
+        ${rollHTML(b.all, (b.items||[]).length)}
       </div>`;
     }
   }

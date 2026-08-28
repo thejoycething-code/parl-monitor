@@ -302,6 +302,10 @@ GENERAL_ELECTIONS = {
     "2019-12-12", "2024-07-04",
 }
 
+# How many receipts get the full treatment -- kind chip, quote, source line.
+# The REST are not dropped: every receipt is listed in a compact roll behind
+# a disclosure, so the section can say "all 54" and mean it.
+RECORD_FEATURED = 2
 RECORD_CAP = 2          # per MP per area, for receipts NOT tied to a bill;
                         # the counts carry the volume, quotes illustrate it
 BILL_QUOTE_CAP = 2      # quotes shown inside a bill card
@@ -543,29 +547,85 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
         words[mid] = {k: v for k, v in per_issue.items()
                       if v["q"] or v["n"]}
 
+    # Christopher, 2026-08-28: option A, "but with all speeches covered under
+    # a collapsable list". Two things follow. The featured rows are chosen by
+    # EVIDENCE STRENGTH rather than by date -- 88 blocks led with a bare row
+    # while a quote sat below it -- and every receipt, not just the featured
+    # two, is listed in a roll behind a disclosure.
+    STRENGTH = {"debate": 4, "edm": 3, "pq": 2, "edm-signed": 1}
+
     for mid, per_area in record.items():
         for area, block in per_area.items():
             items = block["items"]
-            kept, seen = [], set()
+            # Deduplicate ONCE, here, so the featured rows and the roll are
+            # drawn from the same list and cannot disagree about what exists.
+            uniq, seen = [], set()
             for it in items:
-                if len(kept) >= RECORD_CAP:
-                    break
-                key = (it["k"], it["t"].lower())
+                # The SAME key the count uses. Keying the roll on the raw
+                # title while the count collapsed committee sittings made
+                # the two disagree: "spoke in 8 debates" above a list of 29
+                # numbered sittings of one bill.
+                key = (it["k"], collapse_sitting(it["t"]).lower())
                 if key in seen:
                     continue          # one receipt per debate, not per speech
                 if it["on_bill"]:
                     continue          # already shown beside its vote
-                q = url = None
-                if it["k"] == "debate":
-                    q, url = quote_for(it["ref"], int(area))
-                    # A debate with no quotable passage USED to be dropped
-                    # from the list while staying in the count, which is how
-                    # a block came to say "spoke in 1 debate" above nothing
-                    # at all. The title and the Hansard link are a receipt on
-                    # their own -- weaker than a quote, still checkable --
-                    # and tightening the quote rule only made the silent
-                    # version more common (264 empty blocks -> 298).
-                    if not q and not url:
+                seen.add(key)
+                uniq.append(it)
+
+            # Quote extraction scans a full contribution, so it runs on a
+            # bounded shortlist rather than all 54 -- ranked by date first,
+            # since a recent speech is the more useful one to quote.
+            quoted, scanned = {}, 0
+            for it in uniq:
+                # Count the shortlist in DEBATES, not in items. Counting
+                # items meant a block whose eight newest receipts were EDM
+                # signatures scanned no debate at all, however many it had.
+                if it["k"] != "debate":
+                    continue
+                if scanned >= QUOTE_SHORTLIST:
+                    break
+                scanned += 1
+                q, url = quote_for(it["ref"], int(area))
+                if q:
+                    quoted[id(it)] = (q, url)
+
+            ranked = sorted(
+                uniq,
+                key=lambda x: (1 if id(x) in quoted else 0,
+                               STRENGTH.get(x["k"], 0), x["d"]),
+                reverse=True)
+
+            def compact(it):
+                """A roll entry: what it was, what it was called, and where."""
+                entry = {"d": it["d"], "k": it["k"], "t": it["t"]}
+                if it["ref"].startswith("edm:"):
+                    entry["e"] = it["ref"].split(":", 1)[1]
+                elif it["k"] == "pq":
+                    u = pq_url(it["ref"])
+                    if u:
+                        entry["u"] = u
+                elif it["k"] == "debate" and raw is not None:
+                    u = raw.url(it["ref"])       # metadata only, no text scan
+                    if u:
+                        entry["u"] = u
+                return entry
+
+            block["all"] = [compact(it) for it in ranked]
+
+            kept = []
+            for it in ranked:
+                if len(kept) >= RECORD_FEATURED:
+                    break
+                q, url = quoted.get(id(it), (None, None))
+                if it["k"] == "debate" and not q:
+                    # No quotable passage. The title and the Hansard link are
+                    # a receipt on their own -- weaker than a quote, still
+                    # checkable -- so the row is kept rather than silently
+                    # dropped, which is what used to leave a block saying
+                    # "spoke in 1 debate" above nothing at all.
+                    url = raw.url(it["ref"]) if raw is not None else None
+                    if not url:
                         continue          # nothing to show and nowhere to go
                 elif it["k"] == "pq":
                     url = pq_url(it["ref"])
@@ -579,7 +639,6 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                         # a lower floor than a speech: a written question is
                         # one complete sentence by nature, often ~115 chars
                         q = quotes.trim_to_sentence(ex, floor=PQ_FLOOR)
-                seen.add(key)
                 entry = {"d": it["d"], "k": it["k"], "t": it["t"]}
                 if q:
                     entry["q"] = q

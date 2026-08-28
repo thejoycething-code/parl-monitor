@@ -1642,19 +1642,59 @@ class AlsoOnRecordTests(unittest.TestCase):
         self.assertIn("votedAreas.has(a) ? 1 : 0", html)
         self.assertIn("countTotal(rec[b].n) - countTotal(rec[a].n)", html)
 
-    def test_a_capped_list_says_it_is_capped(self):
-        """Jim Shannon's free speech block counts 54 and shows 2."""
+    def test_nothing_is_capped_away_any_more(self):
+        """Christopher, 2026-08-28: option A "but with all speeches covered
+        under a collapsable list". The cap line is gone because the cap is
+        gone: the featured rows are the two STRONGEST, and every receipt is
+        listed in a roll behind a disclosure."""
         html = template()
-        self.assertIn("Showing the ${shown} most recent of ${all}", html)
+        self.assertNotIn("Showing the ${shown} most recent", html)
+        self.assertIn("All ${all.length} on the record", html)
         data = _payload()
         if data is None:
             self.skipTest("page not built")
-        capped = 0
         for member in data["members"]:
             for area, block in (member.get("record") or {}).items():
-                if sum((block.get("n") or {}).values()) > len(block.get("items") or []):
-                    capped += 1
-        self.assertGreater(capped, 50, "no capped blocks to label")
+                self.assertEqual(
+                    len(block.get("all") or []),
+                    sum((block.get("n") or {}).values()),
+                    "{0}/{1}: the roll and the count disagree".format(member["name"], area))
+
+    def test_the_roll_is_ordered_by_strength_not_date(self):
+        """88 blocks led with a bare row while a quote sat below it."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        bad = []
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                items = block.get("items") or []
+                if items and not items[0].get("q") and any(x.get("q") for x in items[1:]):
+                    bad.append(member["name"])
+        self.assertLess(len(bad), 20, "{0} blocks still lead with a bare row".format(len(bad)))
+
+    def test_every_roll_row_links_to_its_source(self):
+        """The roll is the complete record, so it carries the same standard
+        as the featured rows: no row without a way to check it."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        bad = []
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                for item in (block.get("all") or []):
+                    if not item.get("u") and not item.get("e"):
+                        bad.append((member["name"], item.get("k"), item.get("t")))
+        self.assertLessEqual(len(bad), 5, "{0} roll rows have no source".format(len(bad)))
+
+    def test_the_shortlist_counts_debates_not_items(self):
+        """A block whose eight newest receipts were EDM signatures scanned
+        no debate at all, however many debates it held."""
+        path = os.path.join(ROOT, "tools", "make_vote_tracker.py")
+        with open(path, encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("if scanned >= QUOTE_SHORTLIST:", src)
+        self.assertNotIn("for it in uniq[:QUOTE_SHORTLIST]:", src)
 
 
 class PqLinkTests(unittest.TestCase):
