@@ -1541,3 +1541,140 @@ class ShippedQuotesAreUsableTests(unittest.TestCase):
                     if (item.get("q") or "").rstrip().endswith("?"):
                         bad.append((member["name"], item["q"][:60]))
         self.assertEqual(bad, [], "{0} shipped quotes end in a question".format(len(bad)))
+
+
+def _payload():
+    page = os.path.join(ROOT, "partner_site", "mp-votes.html")
+    if not os.path.exists(page):
+        return None
+    with open(page, encoding="utf-8") as fh:
+        text = fh.read()
+    return json.loads(re.search(r"const DATA\s*=\s*(\{.*?\});\n", text, re.S).group(1))
+
+
+class AlsoOnRecordTests(unittest.TestCase):
+    """Christopher, 2026-08-28, asked for five improvements to "Also on the
+    record". Each is pinned here on the built page, because every one of
+    them was found by measuring the page rather than reading the code."""
+
+    def test_no_block_promises_a_receipt_it_does_not_show(self):
+        """298 of 1,038 blocks printed "spoke in 1 debate" above an empty
+        list. Two causes, both fixed: an event already shown beside the
+        member's vote stayed in the count, and a debate with no quotable
+        passage was dropped from the list while staying in the count."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        bad = []
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                counts = block.get("n") or {}
+                if any(counts.values()) and not block.get("items"):
+                    bad.append((member["name"], area, counts))
+        self.assertEqual(bad[:3], [], "{0} blocks count but show nothing".format(len(bad)))
+
+    def test_no_block_ships_with_nothing_in_it(self):
+        """The template always filtered an all-zero block, so it rendered as
+        nothing -- but it still shipped to all 650 pages."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                self.assertTrue(
+                    block.get("items") or any((block.get("n") or {}).values()),
+                    "{0} ships an empty {1} block".format(member["name"], area))
+
+    def test_every_row_links_to_its_source(self):
+        """206 written-question rows ended "official written question
+        record" as PLAIN TEXT, under a blurb promising the official record.
+        The permalink needs dateTabled + uin; the ledger kept dateAnswered
+        and an internal id, so both were recovered from the archives."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        bad = []
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                for item in (block.get("items") or []):
+                    if not item.get("u") and not item.get("e"):
+                        bad.append((member["name"], item.get("k"), item.get("t")))
+        self.assertEqual(bad[:3], [], "{0} rows have no source link".format(len(bad)))
+
+    def test_written_question_links_are_well_formed(self):
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        seen = 0
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                for item in (block.get("items") or []):
+                    if item.get("k") == "pq":
+                        seen += 1
+                        self.assertRegex(
+                            item.get("u") or "",
+                            r"^https://questions-statements\.parliament\.uk"
+                            r"/written-questions/detail/\d{4}-\d{2}-\d{2}/\S+$")
+        self.assertGreater(seen, 100)
+
+    def test_proposing_a_motion_is_not_reported_as_signing_it(self):
+        """Both kinds collapsed to "edm" and the count line only knew how to
+        say "signed", so a member who TABLED a motion was credited with
+        having signed it."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        kinds = set()
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                kinds |= set(k for k, v in (block.get("n") or {}).items() if v)
+        self.assertIn("edm", kinds)
+        self.assertIn("edm-signed", kinds)
+        html = template()
+        self.assertIn("proposed ${c.edm} early day motion", html)
+        self.assertIn('signed ${c["edm-signed"]} early day motion', html)
+
+    def test_areas_with_no_vote_are_ordered_first(self):
+        """Ordering was by rendered row count, but rows per block run 0-2,
+        so nearly every comparison was a tie. An area with a record and no
+        vote is the one thing this section says that the cards cannot."""
+        html = template()
+        self.assertIn("votedAreas.has(a) ? 1 : 0", html)
+        self.assertIn("countTotal(rec[b].n) - countTotal(rec[a].n)", html)
+
+    def test_a_capped_list_says_it_is_capped(self):
+        """Jim Shannon's free speech block counts 54 and shows 2."""
+        html = template()
+        self.assertIn("Showing the ${shown} most recent of ${all}", html)
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        capped = 0
+        for member in data["members"]:
+            for area, block in (member.get("record") or {}).items():
+                if sum((block.get("n") or {}).values()) > len(block.get("items") or []):
+                    capped += 1
+        self.assertGreater(capped, 50, "no capped blocks to label")
+
+
+class PqLinkTests(unittest.TestCase):
+    """The written-question permalink, recovered offline."""
+
+    def test_the_backfill_needs_no_network(self):
+        import tools.backfill_pq_links as b
+        self.assertEqual(
+            b.url_for("2025-06-03", "56775"),
+            "https://questions-statements.parliament.uk"
+            "/written-questions/detail/2025-06-03/56775")
+
+    def test_a_truncated_archive_does_not_lose_the_rest(self):
+        import tools.backfill_pq_links as b
+        missing = os.path.join(ROOT, "data", "raw", "does-not-exist.json.gz")
+        self.assertEqual(b.scan([missing]), {})
+
+    def test_ingest_stores_the_pair_going_forward(self):
+        """Recovering it after the fact meant re-reading 1,040 archives."""
+        path = os.path.join(ROOT, "tools", "backfill_mp_ledger.py")
+        with open(path, encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("INSERT OR REPLACE INTO pq_link", src)

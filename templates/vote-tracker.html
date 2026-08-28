@@ -253,6 +253,7 @@ footer a{color:var(--blue);font-weight:400}
   background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px}
 .reccounts{font-size:13px;color:var(--ink);margin:0 0 8px}
 .reccounts b{font-weight:500;color:#23282f}
+.recmore{font-size:12px;color:var(--mute);margin:6px 0 0}
 .recrow{display:flex;gap:13px;padding:11px 0;border-top:1px solid var(--line)}
 .reckind{flex:0 0 96px;height:fit-content;text-align:center;font-size:9.5px;font-weight:700;
   letter-spacing:.06em;color:#4a5058;background:#f0f1f3;border:1px solid #e2e5e9;
@@ -1128,17 +1129,26 @@ function renderMP(id){
   const KINDWORD = {debate: "SPOKE", pq: "ASKED", edm: "PROPOSED EDM",
                     "edm-signed": "SIGNED EDM"};
   const recLink = (it) => {
-    if (it.u) return ` &middot; <a class="official" href="${it.u}" target="_blank" rel="noopener">Hansard</a>`;
+    if (it.u) return ` &middot; <a class="official" href="${it.u}" target="_blank" rel="noopener">${it.k === "pq" ? "Written question" : "Hansard"}</a>`;
     if (it.e) return ` &middot; <a class="official" href="https://edm.parliament.uk/early-day-motion/${it.e}" target="_blank" rel="noopener">EDM register</a>`;
-    return ` &middot; official written question record`;
+    // Written questions reached this line with no link at all -- 206 rows
+    // reading "official written question record" as plain text, under a
+    // blurb promising the official record. Say nothing rather than promise
+    // a source that is not there.
+    return "";
   };
+  // PROPOSING a motion and SIGNING one are different acts. Both used to
+  // arrive here as c.edm and be reported as "signed", so a member who
+  // tabled a motion was credited with having signed it.
   const countLine = (c) => {
     const parts = [];
     if (c.debate) parts.push(`<b>spoke in ${c.debate} debate${c.debate>1?"s":""}</b>`);
     if (c.pq) parts.push(`<b>asked ${c.pq} written question${c.pq>1?"s":""}</b>`);
-    if (c.edm) parts.push(`<b>signed ${c.edm} early day motion${c.edm>1?"s":""}</b>`);
+    if (c.edm) parts.push(`<b>proposed ${c.edm} early day motion${c.edm>1?"s":""}</b>`);
+    if (c["edm-signed"]) parts.push(`<b>signed ${c["edm-signed"]} early day motion${c["edm-signed"]>1?"s":""}</b>`);
     return parts.join(" &middot; ");
   };
+  const countTotal = (c) => Object.values(c || {}).reduce((a, b) => a + (b || 0), 0);
   const recRow = (it) => `<div class="recrow">
       <span class="reckind">${KINDWORD[it.k] || it.k.toUpperCase()}</span>
       <div class="recbody">
@@ -1160,10 +1170,19 @@ function renderMP(id){
       if (v === "A" || v === "N") votedAreas.add(String(g.issue.area));
     }
   }
+  // Ordering used to be by rendered row count, but rows per block run 0-2
+  // with a mean of 1.1, so nearly every comparison was a tie and the order
+  // was effectively arbitrary. An area where the member has a record and NO
+  // vote is the one thing this section can say that the vote cards cannot,
+  // so those come first; within each group, by how much is on the record.
   const areaIds = Object.keys(rec).filter(a => {
     const b = rec[a];
     return (b.items || []).length || Object.values(b.n || {}).some(Boolean);
-  }).sort((a, b) => (rec[b].items||[]).length - (rec[a].items||[]).length);
+  }).sort((a, b) => {
+    const va = votedAreas.has(a) ? 1 : 0, vb = votedAreas.has(b) ? 1 : 0;
+    if (va !== vb) return va - vb;                 // no vote recorded first
+    return countTotal(rec[b].n) - countTotal(rec[a].n);
+  });
 
   if (areaIds.length){
     recHtml = `<div class="rechead"><h2>Also on the record</h2>
@@ -1182,6 +1201,14 @@ function renderMP(id){
         </div>
         ${counts ? `<p class="reccounts">${counts}</p>` : ""}
         ${(b.items||[]).map(recRow).join("")}
+        ${(() => {
+          // The list is capped at two. Jim Shannon's free speech block
+          // counted 54 events and showed 2, with nothing to say so -- a
+          // capped list reads as a complete one.
+          const shown = (b.items||[]).length, all = countTotal(b.n);
+          return all > shown && shown
+            ? `<p class="recmore">Showing the ${shown} most recent of ${all}.</p>` : "";
+        })()}
       </div>`;
     }
   }

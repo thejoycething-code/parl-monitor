@@ -93,6 +93,15 @@ def backfill_pqs(conn, client, tax, wl, terms, cutoff, end, cache):
                                        "pq", "pq:{0}".format(q.id),
                                        intel.annotated_line(q.heading, r.matched_terms + r.watchlist_hits),
                                        areas=r.issue_areas)
+                    # The permalink needs dateTABLED and the uin, and the row
+                    # above keeps dateANSWERED and the internal id. Store the
+                    # pair now: recovering it later meant re-reading 1,040
+                    # archived payloads (tools/backfill_pq_links.py).
+                    if q.uin and q.date_tabled:
+                        conn.execute(
+                            "INSERT OR REPLACE INTO pq_link (pq_id, uin, tabled) "
+                            "VALUES (?,?,?)",
+                            (str(q.id), str(q.uin), q.date_tabled.isoformat()))
                     written += 1
                 if len(batch) < 100:
                     break

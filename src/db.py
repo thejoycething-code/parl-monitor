@@ -43,6 +43,17 @@ CREATE TABLE IF NOT EXISTS mp_events (member_id INTEGER, date TEXT, kind TEXT, r
   areas TEXT,                     -- json list of area numbers (5CA per-area scoring)
   excerpt TEXT                    -- the matching passage: why this row exists
 );
+-- The deep link for a written question. The ledger stores pq:{internal id},
+-- but Parliament's permalink is built from dateTabled + uin, and the ledger
+-- keeps dateAnswered -- so 206 of the rows rendered on the public page ended
+-- "official written question record" as PLAIN TEXT under a blurb promising a
+-- link to the official record. Both fields are in the archived payloads, so
+-- this is recoverable offline: tools/backfill_pq_links.py, no API calls.
+CREATE TABLE IF NOT EXISTS pq_link (
+  pq_id  TEXT PRIMARY KEY,
+  uin    TEXT NOT NULL,
+  tabled TEXT NOT NULL          -- YYYY-MM-DD, the date the question was tabled
+);
 -- Every period a member has served, from Members/History. NOT the same as
 -- members.since, which is only the CURRENT period: 284 sitting members have
 -- votes in our ledger predating theirs, because members.since is 2024-07-04
@@ -560,6 +571,7 @@ TABLES = (
     "member_post",
     "member_seat",
     "mp_events",
+    "pq_link",
     "edm_signatures",
     "editions",
     "gaps",

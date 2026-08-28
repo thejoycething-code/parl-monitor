@@ -427,11 +427,24 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
         on_bill = [iid for iid, ss in stems.items()
                    if ss and any(x in low for x in ss)]
 
-        kind = "edm" if r["kind"].startswith("edm") else r["kind"]
+        # PROPOSING an early day motion and SIGNING one are different acts,
+        # and the stronger of the two was being reported as the weaker: both
+        # collapsed to "edm" here, and the count line only knew how to say
+        # "signed". Nine blocks credited a member who TABLED a motion with
+        # having signed it.
+        kind = r["kind"] if r["kind"] in ("edm", "edm-signed") else r["kind"]
+        # An event already shown beside the member's vote must not also be
+        # counted here. It was excluded from the LIST further down but stayed
+        # in the COUNT, so 298 of 1,038 blocks printed "spoke in 1 debate"
+        # above an empty list. The count now matches the list exactly --
+        # excluded on ANY bill, not just this area's, because a bill title
+        # appearing on its card AND under a different area's heading is the
+        # same title printed twice on one page. Tried it the other way round
+        # first; OnRecordTests caught it.
         for area in areas:
             bucket = record.setdefault(mid, {}).setdefault(str(area), {
-                "n": {"debate": 0, "pq": 0, "edm": 0}, "items": [],
-                "_seen": set()})
+                "n": {"debate": 0, "pq": 0, "edm": 0, "edm-signed": 0},
+                "items": [], "_seen": set()})
             # COUNT DISTINCT DEBATES, not contributions. Counting raw
             # contributions gave "spoke 216 times" for one member on one
             # issue -- true of interventions, absurd as a public statement,
@@ -439,7 +452,7 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
             # speaking nine times in one committee sitting spoke once.
             # A bill committee is ONE debate, not one per sitting.
             key = (kind, collapse_sitting(title).lower())
-            if key not in bucket["_seen"]:
+            if key not in bucket["_seen"] and not on_bill:
                 bucket["_seen"].add(key)
                 bucket["n"][kind] = bucket["n"].get(kind, 0) + 1
             bucket["items"].append({
@@ -471,6 +484,20 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
         if not full:
             return None, None
         return quotes.shareable(full, pats.get(area) or []), raw.url(ref)
+
+    # The written question permalink: dateTABLED + uin, neither of which the
+    # ledger row carries. tools/backfill_pq_links.py recovers both from the
+    # archived payloads, and ingest now stores them as it goes.
+    pq_links = {}
+    for row in conn.execute("SELECT pq_id, uin, tabled FROM pq_link"):
+        pq_links[row["pq_id"]] = (row["uin"], row["tabled"])
+
+    def pq_url(ref):
+        pair = pq_links.get(ref.split(":", 1)[1] if ":" in ref else ref)
+        if not pair:
+            return None
+        return ("https://questions-statements.parliament.uk"
+                "/written-questions/detail/{0}/{1}".format(pair[1], pair[0]))
 
     for mid, per_issue in words.items():
         for iid, per in per_issue.items():
@@ -531,12 +558,17 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                 q = url = None
                 if it["k"] == "debate":
                     q, url = quote_for(it["ref"], int(area))
-                    if not q:
-                        # a debate receipt with nothing quotable is a chip
-                        # above a procedural title: it stays in the count
-                        # and out of the list
-                        continue
+                    # A debate with no quotable passage USED to be dropped
+                    # from the list while staying in the count, which is how
+                    # a block came to say "spoke in 1 debate" above nothing
+                    # at all. The title and the Hansard link are a receipt on
+                    # their own -- weaker than a quote, still checkable --
+                    # and tightening the quote rule only made the silent
+                    # version more common (264 empty blocks -> 298).
+                    if not q and not url:
+                        continue          # nothing to show and nowhere to go
                 elif it["k"] == "pq":
+                    url = pq_url(it["ref"])
                     # The question text IS the member's own words, but it
                     # often just repeats the subject heading -- and unlike a
                     # speech it has no full-text source on disk, so the
@@ -558,6 +590,18 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                 kept.append(entry)
             block["items"] = kept
             block.pop("_seen", None)   # build-time only, never shipped
+
+    # A block with no rows AND no counts renders as nothing -- the template
+    # has always filtered it -- but it still shipped in the payload. Once
+    # the counts stopped including what the vote cards show, 140 blocks fell
+    # to all-zero. Drop them here rather than ship dead weight to 650 pages.
+    for mid in list(record):
+        for area in list(record[mid]):
+            block = record[mid][area]
+            if not block["items"] and not any((block.get("n") or {}).values()):
+                del record[mid][area]
+        if not record[mid]:
+            del record[mid]
     return words, record
 
 
