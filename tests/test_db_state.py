@@ -394,3 +394,62 @@ class CriticalPathTests(unittest.TestCase):
         with open(os.path.join(ROOT, "tools", "pull_profiles.py"),
                   encoding="utf-8") as fh:
             self.assertIn("archive=False", fh.read())
+
+
+class HealthSummaryTests(unittest.TestCase):
+    """The health summary must survive a healthy week.
+
+    The gap tally is `TOTAL=$(grep -ho "N gap(s)" /tmp/*.log | awk ...)`.
+    Under `bash -eo pipefail` -- which is what GitHub gives every step --
+    that grep exits 1 when NOTHING matches, the pipeline inherits it, the
+    assignment inherits that, and -e kills the step.
+
+    Which means the summary failed precisely when every feed reported "no
+    gaps". It only ever passed because something was broken: the Senedd
+    weekly had 11 bill gaps a run until they were fixed on 2026-08-28, and
+    fixing the last one is what turned the step red.
+    """
+
+    WORKFLOWS = os.path.join(ROOT, ".github", "workflows")
+
+    def _tallies(self):
+        import glob
+        out = []
+        for path in glob.glob(os.path.join(self.WORKFLOWS, "*.yml")):
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            if "TOTAL=$(" in text:
+                out.append((os.path.basename(path), text))
+        return out
+
+    def test_the_gap_tally_survives_a_clean_run(self):
+        found = self._tallies()
+        self.assertTrue(found, "no gap tally found to check")
+        for name, text in found:
+            block = text[text.index("TOTAL=$("):]
+            block = block[:block.index("\n\n")] if "\n\n" in block else block[:400]
+            self.assertIn("|| true", block,
+                          "{0}: a week with no gaps kills the step".format(name))
+
+    def test_the_shape_is_right_in_both_directions(self):
+        """Guarding it must not also swallow a real gap count."""
+        import subprocess
+        import tempfile
+        script = (
+            'set -eo pipefail\n'
+            'TOTAL=$({ grep -ho "[0-9]\\+ gap(s)" %s/*.log 2>/dev/null'
+            ' || true; } | awk \'{s+=$1} END {print s+0}\')\n'
+            'echo "$TOTAL"\n')
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "a.log"), "w") as fh:
+                fh.write("no gaps.\n")
+            clean = subprocess.run(["bash", "-c", script % d],
+                                   capture_output=True, text=True)
+            self.assertEqual(clean.returncode, 0, clean.stderr)
+            self.assertEqual(clean.stdout.strip(), "0")
+            with open(os.path.join(d, "b.log"), "w") as fh:
+                fh.write("3 gap(s) -- printed above.\n")
+            dirty = subprocess.run(["bash", "-c", script % d],
+                                   capture_output=True, text=True)
+            self.assertEqual(dirty.returncode, 0, dirty.stderr)
+            self.assertEqual(dirty.stdout.strip(), "3")

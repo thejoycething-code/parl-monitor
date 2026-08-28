@@ -89,8 +89,14 @@ jobs:
                 echo "step did not run"
               fi
             done
-            TOTAL=$(grep -ho "[0-9]\+ gap(s)" /tmp/sd-*.log 2>/dev/null \
-                    | awk '{s+=$1} END {print s+0}')
+            # `|| true` is load-bearing under `bash -eo pipefail`: when
+            # every feed reports "no gaps" this grep matches nothing and
+            # exits 1, the assignment inherits that, and -e kills the
+            # step. Fixing the last Senedd gap is what first made this
+            # fail -- a health summary that breaks when everything is
+            # healthy.
+            TOTAL=$({ grep -ho "[0-9]\+ gap(s)" /tmp/sd-*.log 2>/dev/null \
+                      || true; } | awk '{s+=$1} END {print s+0}')
             echo ""
             if [ "$TOTAL" -gt 0 ]; then
               echo "**$TOTAL gap(s) this run** - see the step logs. A gap is a"
