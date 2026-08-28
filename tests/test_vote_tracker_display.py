@@ -1718,3 +1718,66 @@ class PqLinkTests(unittest.TestCase):
         with open(path, encoding="utf-8") as fh:
             src = fh.read()
         self.assertIn("INSERT OR REPLACE INTO pq_link", src)
+
+
+class StorePublishGuardTests(unittest.TestCase):
+    """A store the pull REFUSED must never be published.
+
+    2026-08-28. `python3 tools/db_state.py --pull` refused a download whose
+    sha did not match the committed sidecar -- correctly -- and left the
+    downloaded bytes on disk, as its own message says it does. The next step,
+    guarded only by `always()`, uploaded those bytes straight back as the
+    official asset. "Commit state", properly guarded, then did NOT run, so
+    the sidecar still named the old sha.
+
+    Every later run therefore mismatched too, against a different sha each
+    time, and four runs across three workflows failed inside half an hour.
+    The store itself was never corrupt; the guard was.
+    """
+
+    WORKFLOWS = os.path.join(ROOT, ".github", "workflows")
+
+    def _publishing_workflows(self):
+        import glob
+        out = []
+        for path in glob.glob(os.path.join(self.WORKFLOWS, "*.yml")):
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            if "db_state.py --push" in text:
+                out.append((os.path.basename(path), text))
+        return out
+
+    def test_every_publisher_guards_on_the_fetch(self):
+        found = self._publishing_workflows()
+        self.assertGreaterEqual(len(found), 8, "expected the full set")
+        for name, text in found:
+            self.assertIn("steps.fetch.outcome == 'success'", text,
+                          "{0} can publish a store the pull refused".format(name))
+
+    def test_no_publisher_is_guarded_by_always_alone(self):
+        for name, text in self._publishing_workflows():
+            block = text[text.index("- name: Publish the store"):]
+            block = block[:block.index("run:")]
+            self.assertNotRegex(
+                block, r"if:\s*always\(\)\s*\n",
+                "{0}: `always()` alone is what caused the cascade".format(name))
+
+    def test_the_step_the_guard_names_exists(self):
+        import yaml
+        for name, text in self._publishing_workflows():
+            spec = yaml.safe_load(text)
+            for job in (spec.get("jobs") or {}).values():
+                steps = job.get("steps") or []
+                if not any("db_state.py --push" in str(s.get("run") or "") for s in steps):
+                    continue
+                ids = {s.get("id") for s in steps if s.get("id")}
+                self.assertIn("fetch", ids,
+                              "{0}: guard names steps.fetch, no such id".format(name))
+
+    def test_written_question_links_do_not_depend_on_a_laptop(self):
+        """The links were backfilled by hand once. A store published by any
+        workflow would have dropped them again."""
+        with open(os.path.join(self.WORKFLOWS, "monday-publish.yml"),
+                  encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn("tools/backfill_pq_links.py", text)

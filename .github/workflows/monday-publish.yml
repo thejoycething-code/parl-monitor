@@ -57,12 +57,20 @@ jobs:
         if: env.SKIP != '1'
         run: pip install pyyaml google-auth
       - name: Fetch the store
+        id: fetch
         # The store is a release asset, not a tracked file (88MB against a
         # 100MB hard push limit). The concurrency group above is what makes
         # this safe: one writer at a time, repo-wide.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --pull
+      - name: Link written questions
+        if: env.SKIP != '1'
+        # Offline: reads the archived payloads in data/raw, no API calls, one
+        # second. It lives here rather than in a backfill anyone has to
+        # remember because the page's written-question links depend on it --
+        # without it, 206 rows lose their source.
+        run: python3 tools/backfill_pq_links.py
       - name: Write secrets file
         if: env.SKIP != '1'
         run: |
@@ -97,7 +105,16 @@ jobs:
             npx --yes vercel@latest deploy partner_site --prod --yes --token "$VERCEL_TOKEN"
           fi
       - name: Publish the store
-        if: always()
+        # NEVER publish a store the pull refused. This was `always()`, and on
+        # 2026-08-28 that turned one sha mismatch into a cascade: the pull
+        # refused an untrusted download, left it on disk, and this step
+        # uploaded it straight back as the official asset -- while "Commit
+        # state" below, correctly guarded, never recorded the new sha. So
+        # every subsequent run mismatched too, against a DIFFERENT sha each
+        # time, and four runs across three workflows failed in half an hour.
+        # The guard that heals it is simply: if we could not trust the store
+        # we pulled, we have nothing worth publishing.
+        if: always() && steps.fetch.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --push

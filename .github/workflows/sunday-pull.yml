@@ -73,6 +73,7 @@ jobs:
         if: env.SKIP != '1'
         run: pip install pyyaml
       - name: Fetch the store
+        id: fetch
         # The store is a release asset, not a tracked file (88MB against a
         # 100MB hard push limit). The concurrency group above is what makes
         # this safe: one writer at a time, repo-wide.
@@ -100,7 +101,10 @@ jobs:
           echo "Pulling for week commencing $WEEK"
           TRIAGE=auto python3 run_weekly.py --pull "$WEEK"
       - name: Publish the store
-        if: always()
+        # NEVER publish a store the pull refused: see the note in
+        # monday-publish.yml. `always()` alone turned one sha mismatch
+        # into a cascade across three workflows on 2026-08-28.
+        if: always() && steps.fetch.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --push

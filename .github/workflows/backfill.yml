@@ -49,6 +49,7 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
       - name: Fetch the store
+        id: fetch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --pull
@@ -93,7 +94,10 @@ jobs:
             echo "Christopher's call. New refs sit unscored until then."
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Publish the store
-        if: always()
+        # NEVER publish a store the pull refused: see the note in
+        # monday-publish.yml. `always()` alone turned one sha mismatch
+        # into a cascade across three workflows on 2026-08-28.
+        if: always() && steps.fetch.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --push
