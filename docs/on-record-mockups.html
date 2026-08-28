@@ -1,0 +1,433 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Also on the record - four improvements</title><style>
+:root{
+  /* Principal palette (Brand Guidelines) */
+  --blue:#4285f4;            /* Pantone 2727 C */
+  --white:#FFFFFF;
+  --grey-100:#EEEEEE;        /* Pantone 4280 UP tint */
+  --grey-300:#C4C4C4;        /* Pantone 420 C */
+  --ink:#52575C;             /* Pantone 4280 UP */
+  /* Secondary palette — UX elements only (data viz / chips) */
+  --green:#55B159;
+  --red:#DB544F;
+  --yellow:#FFEBAD;
+  /* derived */
+  --blue-deep:#2f6fe0;
+  --blue-tint:#EAF1FE;
+  --line:#E4E6E9;
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--white);color:var(--ink);font-family:var(--font);font-weight:400;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--blue-deep);text-decoration:underline}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+h1,h2,h3{color:#20242a;font-weight:700;letter-spacing:-.01em}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+
+/* ---------- top bar / logo (upper-left, per guidelines) ---------- */
+.topbar{border-bottom:1px solid var(--line);background:var(--white)}
+.topbar .wrap{display:flex;align-items:center;gap:14px;height:64px}
+/* Placeholder lockup — replace with official asset from the CitizenGO brand kit */
+.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:20px;letter-spacing:.04em;color:var(--blue);text-transform:uppercase}
+.logo:hover{text-decoration:none}
+.logo .go{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-size:14px;font-weight:900;letter-spacing:.02em}
+.logo .tm{font-size:9px;font-weight:500;color:var(--grey-300);letter-spacing:.1em;align-self:flex-start;margin-top:2px}
+.topbar .tag{margin-left:auto;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-300)}
+
+/* ---------- hero ---------- */
+header.hero{padding:54px 0 10px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f24;margin:12px 0 16px}
+.sub{max-width:58ch;font-weight:300;font-size:17px;color:#5c626a}
+.sub b{font-weight:500;color:var(--ink)}
+
+/* ---------- search ---------- */
+.searchbox{position:relative;margin:30px 0 10px}
+.searchbox label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:9px}
+#q{width:100%;font-family:var(--font);font-weight:400;font-size:17px;padding:16px 18px;border:2px solid var(--grey-300);
+  background:var(--white);color:#20242a;border-radius:8px;transition:border-color .15s}
+#q::placeholder{color:#A9AEB4;font-weight:300}
+#q:focus{border-color:var(--blue);outline:3px solid var(--blue-tint)}
+.dropdown{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--white);
+  border:1px solid var(--grey-300);border-radius:8px;z-index:30;max-height:352px;overflow-y:auto;
+  box-shadow:0 12px 32px rgba(32,38,45,.14);display:none}
+.dropdown.open{display:block}
+.opt{display:flex;align-items:center;gap:12px;padding:11px 15px;cursor:pointer;border-bottom:1px solid var(--grey-100)}
+.opt:last-child{border-bottom:0}
+.opt.active,.opt:hover{background:var(--blue-tint)}
+.opt .badge{font-size:10px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--grey-300);
+  padding:3px 7px;border-radius:4px;flex:none;min-width:48px;text-align:center}
+.opt .badge.mp{background:var(--blue)}
+.opt .badge.pc{background:var(--ink)}
+.opt .lbl{font-weight:500;color:#20242a}
+.opt small{color:#8b9098;font-weight:300}
+.examples{font-size:13.5px;color:#8b9098;font-weight:300;margin:8px 2px 0}
+.examples button{font-family:var(--font);font-size:12.5px;font-weight:500;color:var(--blue-deep);
+  background:var(--blue-tint);border:1px solid #cfe0fc;border-radius:20px;padding:4px 12px;margin:0 3px;cursor:pointer}
+.examples button:hover{border-color:var(--blue);background:#e0ecfe}
+.notice{margin:16px 0 0;padding:13px 16px;background:var(--yellow);border:1px solid #e9d488;border-radius:8px;
+  font-size:14.5px;color:#6b5a1e;font-weight:400;display:none}
+.notice.show{display:block}
+.notice b{font-weight:700}
+
+/* ---------- empty / landing state ---------- */
+.empty{margin:40px 0 10px}
+.empty-card{border:1px solid var(--line);border-radius:12px;background:var(--white);padding:34px 32px;
+  box-shadow:0 1px 0 var(--grey-100)}
+.empty-card .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-300)}
+.empty-card h2{font-size:22px;font-weight:700;margin:8px 0 8px;color:#20242a}
+.empty-card p{font-weight:300;color:#5c626a;max-width:64ch}
+.tracking{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.tracking .t-label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-300)}
+.issue-pill{display:inline-flex;align-items:center;gap:8px;background:var(--blue-tint);border:1px solid #d3e2fc;
+  border-radius:22px;padding:7px 15px 7px 12px;font-weight:500;font-size:14px;color:var(--blue-deep)}
+.issue-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.issue-pill small{font-weight:300;color:#7c93b8}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:26px 0 4px}
+.step{padding:2px 2px 2px 0}
+.step .n{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;
+  background:var(--blue);color:#fff;font-weight:700;font-size:13px;margin-bottom:10px}
+.step h3{font-size:15px;font-weight:500;color:#20242a;margin-bottom:3px}
+.step p{font-size:13.5px;font-weight:300;color:#6b717a;line-height:1.5}
+
+/* ---------- MP card ---------- */
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;margin:34px 0;overflow:hidden;
+  box-shadow:0 8px 30px rgba(32,38,45,.08)}
+.card-head{display:flex;gap:20px;align-items:center;padding:26px 28px;background:var(--blue);color:#fff;flex-wrap:wrap}
+.avatar{position:relative;width:78px;height:78px;border-radius:50%;flex:none;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:26px;color:var(--blue);
+  border:3px solid #fff;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card-head h2{font-family:var(--font);font-weight:700;font-size:30px;line-height:1.08;color:#fff}
+.mp-meta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:7px;font-size:14.5px;font-weight:300;color:#eaf1fe}
+.mp-meta .party{font-weight:500;color:#fff}
+/* The party mark is a circular LOGO SLOT (Christopher, 2026-08-27: "I
+   prefer a circle. Use a circle, and make it so we can drop in party
+   logos"). Drop a file at partner_site/logos/<slug>.svg and it fills the
+   circle; with no file the party colour shows with the party's initials on
+   it, which is also what stops a bare red circle reading as a verdict --
+   this page uses round green/red dots for good and bad votes, and 428 of
+   650 members sit for a party whose colour is close to one of them. */
+.pdot{display:inline-flex;align-items:center;justify-content:center;
+  width:17px;height:17px;border-radius:50%;margin-right:7px;vertical-align:-4px;
+  overflow:hidden;position:relative;flex:none;
+  box-shadow:0 0 0 1.5px rgba(255,255,255,.7)}
+.pdot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
+.mp-meta .since{font-size:12.5px;color:#cfe0fc}
+.rolebanner{padding:13px 28px;background:var(--yellow);border-bottom:1px solid #e9d488;font-size:14.5px;color:#6b5a1e}
+.card-summary{padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--grey-300);border-bottom:1px solid var(--line);background:#FBFCFD}
+.card-summary b{color:var(--blue)}
+
+.issuehead{margin:24px 28px 6px}
+.issuehead h2{font-size:20px;font-weight:700;color:#20242a}
+.issuehead .bill{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-top:3px}
+.issuehead .status{font-size:13px;font-weight:300;font-style:italic;color:#8b9098;margin-top:5px;max-width:70ch}
+
+.divrow{display:grid;grid-template-columns:96px 1fr 178px;gap:18px;align-items:start;
+  margin:0 28px;padding:17px 0;border-top:1px solid var(--line)}
+.divrow:first-of-type{border-top:2px solid var(--grey-100)}
+.divrow:last-of-type{margin-bottom:12px}
+.divrow .date{font-size:12.5px;font-weight:500;color:var(--ink);padding-top:2px}
+.divrow .date span{display:block;font-weight:300;color:#9aa0a8;font-size:11.5px;margin-top:2px}
+.divrow h3{font-size:16px;font-weight:500;line-height:1.35;color:#20242a}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:5px 11px;border-radius:5px;margin:8px 0 2px;white-space:nowrap}
+.chip.A{background:var(--green);color:#fff}
+.chip.N{background:var(--red);color:#fff}
+.chip.T{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.chip.X{background:var(--grey-100);color:#7b818a}
+.chip.S{background:var(--yellow);color:#6b5a1e}
+.chip.G{background:var(--green);color:#fff}
+.chip.B{background:var(--red);color:#fff}
+.vsum .g{color:var(--green);font-weight:700}
+.vsum .b{color:var(--red);font-weight:700}
+.meaning{font-size:14px;font-weight:300;color:#5c626a;max-width:60ch;margin-top:2px}
+.meaning b{font-weight:500;color:#20242a}
+.official{font-size:11.5px;font-weight:500;margin-top:6px;display:inline-block}
+.official:after{content:" \2197"}
+
+/* tally (secondary-palette UX element) */
+.tallywrap{padding-top:2px}
+.keyvote{display:inline-block;margin-left:8px;vertical-align:2px;font-size:10px;
+  font-weight:600;letter-spacing:.04em;color:#8a6d1f;background:#fdf3d6;
+  border:1px solid #f0dfae;border-radius:3px;padding:1px 5px}
+.morevotes{margin:2px 0 14px}
+.morevotes summary{cursor:pointer;font-size:14px;color:#4285f4;padding:7px 0;
+  list-style:none;font-weight:500}
+.morevotes summary::-webkit-details-marker{display:none}
+.morevotes summary::before{content:"\25B8  ";display:inline-block;transition:transform .15s}
+.morevotes[open] summary::before{content:"\25BE  "}
+
+/* ---------- about / footer ---------- */
+.about{margin:46px 0 10px}
+.about h2{font-size:20px;font-weight:700;color:#20242a;margin-bottom:12px}
+.about p{margin:9px 0;font-weight:300;font-size:14.5px;color:#5c626a;max-width:76ch}
+.about .k{font-weight:500;color:#20242a}
+hr.rule{border:0;border-top:1px solid var(--line);margin:30px 0}
+footer{border-top:1px solid var(--line);margin-top:34px;padding:22px 0 52px;font-size:12px;font-weight:300;color:#9aa0a8;line-height:1.8}
+footer a{color:var(--blue);font-weight:400}
+
+@media(max-width:640px){
+  /* Most traffic arrives from social on a phone. The tally is the densest
+     element: let it wrap and read as one line rather than a squeezed column. */
+  .tallywrap{padding-top:0}
+  .divrow h3{font-size:17px}
+  .morevotes summary{padding:11px 0}
+  header.hero{padding:38px 0 6px}
+  .steps{grid-template-columns:1fr;gap:14px}
+  .divrow{grid-template-columns:1fr;gap:7px}
+  .tallywrap{max-width:340px}
+  .card-head{padding:22px 18px}
+  .issuehead,.divrow{margin-left:18px;margin-right:18px}
+  .card-summary,.rolebanner{padding-left:18px;padding-right:18px}
+  .empty-card{padding:26px 20px}
+}
+
+/* --- bill cards (2026-08-24): verdict-led, whip inside the block --------- */
+.billblock{margin:0 0 18px}
+.bigcard{display:flex;gap:20px;align-items:center;background:#fff;border-radius:12px;
+  padding:18px 20px;box-shadow:0 1px 3px rgba(16,24,40,.08);border:1px solid #eef0f3}
+.bigcard.demote{box-shadow:none;background:#fafbfc;border-style:dashed}
+.votebox{flex:0 0 186px;text-align:center;color:#fff;border-radius:9px;padding:15px 10px}
+.votebox .vword{display:block;font-weight:700;font-size:16px;letter-spacing:.05em}
+.votebox .vsub{display:block;font-size:12.5px;font-weight:400;opacity:.93;margin-top:3px}
+.votebox .vwhip{display:block;margin-top:9px;padding-top:8px;
+  border-top:1px solid rgba(255,255,255,.35)}
+.votebox.G{background:#2fa04a}.votebox.B{background:#e0342e}
+.votebox.A,.votebox.N{background:#7b8794}
+.votebox.T{background:#8a6d1f}
+.votebox.X,.votebox.S{background:#eceef1;color:#5f6670;border:1px solid #dde1e6}
+.votebox.X .vwhip,.votebox.S .vwhip{border-top-color:#dde1e6}
+.whipmark{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.07em;
+  padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.18);color:inherit}
+.votebox.X .whipmark,.votebox.S .whipmark{background:#f2f3f5}
+/* The chip also appears in the amendment rows on the spine, where the
+   background is white: a translucent-white chip on white is invisible. */
+.ammeta .whipmark{background:#f0f1f3;border:1px solid #e2e5e9;color:#4a5058}
+/* A stage with no verdict to colour keeps the base dot. Named so the class
+   is not styleless. */
+.dot.plain{background:var(--white);border-color:var(--grey-300)}
+.bigcard .cardbody{min-width:0}
+.bigcard .lbl{font-size:11.5px;font-weight:600;letter-spacing:.12em;color:#9aa1a9;margin-bottom:5px}
+.bigcard .cal{color:#f0803c}
+.bigcard h3{font-size:20px;font-weight:400;line-height:1.3;margin:0 0 7px}
+.bigcard h3 .stage{color:#8b9199;font-size:16px}
+.quietlbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:#9aa1a9;margin-bottom:6px}
+.caveat{margin-top:10px;font-size:13px;color:#6c727a;border-left:3px solid #dfe3e8;padding-left:12px}
+.subvotes[open] summary::before{content:"\25BE  "}
+.minivote.G{background:#2fa04a}.minivote.B{background:#e0342e}.minivote.T{background:#8a6d1f}
+.minivote.X,.minivote.S{background:#eceef1;color:#5f6670}
+@media(max-width:640px){
+  .bigcard{flex-direction:column;align-items:stretch;gap:13px;padding:16px}
+  .votebox{flex:none;padding:12px}
+  .bigcard h3{font-size:18px}
+}
+
+/* --- the member's own words (2026-08-25) --------------------------------- */
+/* Option A: quotes inside the bill card they belong to. No verdict colour --
+   these are facts, and the page's judgements stay on the votes. */
+.words{border-top:1px solid var(--line);padding:15px 17px 16px;background:#fbfcfd;
+  border-radius:0 0 8px 8px}
+ .wqtext:after{content:"\201D"}
+
+/* Option B: everything not tied to a bill, per issue area. */
+.rechead{margin:26px 0 4px;padding-top:18px;border-top:2px solid var(--grey-100)}
+.rechead h2{font-size:19px;font-weight:500;margin:0 0 6px}
+.rechead p{font-size:13.5px;color:var(--ink);margin:0;max-width:72ch}
+.recarea{margin:16px 0 4px}
+.recareahead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.recarea h3{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);margin:0 0 3px}
+.novote{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#4a5058;
+  background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px}
+.reccounts{font-size:13px;color:var(--ink);margin:0 0 8px}
+.reccounts b{font-weight:500;color:#23282f}
+.recmore{font-size:12px;color:#9aa1a9;margin:6px 0 0}
+.recrow{display:flex;gap:13px;padding:11px 0;border-top:1px solid var(--line)}
+.reckind{flex:0 0 96px;height:fit-content;text-align:center;font-size:9.5px;font-weight:700;
+  letter-spacing:.06em;color:#4a5058;background:#f0f1f3;border:1px solid #e2e5e9;
+  border-radius:4px;padding:4px 3px}
+.recbody{min-width:0}
+.rectitle{font-size:14px;font-weight:500;color:#23282f}
+.recquote{font-size:13.5px;line-height:1.5;color:#4a5058;margin:5px 0 2px;font-style:italic;
+  border-left:3px solid var(--grey-100);padding-left:12px}
+.recquote:before{content:"\201C"} .recquote:after{content:"\201D"}
+.recmeta{font-size:12px;color:#9aa1a9;margin-top:4px}
+@media(max-width:560px){
+  .recrow{flex-direction:column;gap:6px}.reckind{width:110px}
+.wqmeta{padding-left:14px}}
+
+/* --- the bill's passage (Option B, 2026-08-26) ---------------------------
+   Votes and words in the order they happened. The header carries the
+   headline verdict; the spine carries the story. */
+.passage{padding:15px 18px 6px;border:1px solid var(--line);border-top:none;
+  border-radius:0 0 8px 8px;background:#fbfcfd}
+.stage{position:relative;padding:0 0 6px 27px}
+.stage:before{content:"";position:absolute;left:7px;top:18px;bottom:-4px;width:2px;
+  background:var(--line)}
+.stage:last-child:before{display:none}
+.dot{position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;
+  background:var(--white);border:2px solid var(--grey-300);box-sizing:border-box}
+.dot.good{background:var(--green);border-color:var(--green)}
+.dot.bad{background:var(--red);border-color:var(--red)}
+.dot.miss{background:var(--white);border-color:var(--grey-300)}
+.dot.say{background:var(--white);border-color:var(--blue)}
+.srow{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:3px}
+.sname{font-size:14.5px;font-weight:500;color:#23282f}
+.sdate,.scount{font-size:12px;color:#9aa1a9}
+.schip{font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.schip.G{color:var(--green)} .schip.B{color:var(--red)}
+.schip.X,.schip.S{color:#9aa1a9}
+.sbody{font-size:13px;color:var(--ink);margin:0 0 14px}
+.ssent{color:#23282f;font-size:13.5px}
+.sctx{margin-top:4px}
+/* amendments grouped at their stage */
+.amend{margin:2px 0 13px}
+.amrow{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--line)}
+.amrow:first-child{border-top:none;padding-top:3px}
+.amlab{flex:0 0 92px;font-size:10.5px;font-weight:700;line-height:1.35}
+.amlab.G{color:var(--green)} .amlab.B{color:var(--red)}
+.amlab.X,.amlab.S,.amlab.T{color:#9aa1a9}
+.amsub{display:block;font-size:9.5px;font-weight:400;color:#9aa1a9}
+.ambody{min-width:0;font-size:13px}
+.amttl{font-weight:500;color:#23282f;font-size:13.5px}
+.ammeta{font-size:11.5px;color:#9aa1a9;margin:2px 0 3px}
+.amsent{color:var(--ink)}
+/* a quote sitting where it was said */
+.said{margin:2px 0 4px;font-size:14px;line-height:1.55;font-style:italic;color:#23282f;
+  border-left:3px solid var(--blue);padding-left:13px}
+.said:before{content:"\201C"} .said:after{content:"\201D"}
+.saidmeta{font-size:11.5px;color:#9aa1a9;margin:0 0 13px;padding-left:16px}
+.cardsum{font-size:12px;color:#9aa1a9;margin-top:9px;padding-top:9px;
+  border-top:1px solid var(--line)}
+@media(max-width:560px){
+  .amrow{flex-direction:column;gap:4px}.amlab{flex-basis:auto}
+  .amsub{display:inline;margin-left:5px}
+}
+
+/* --- profile detail from the published register (2026-08-26) ------------- */
+.rolepills{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.rolepill{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 9px;border-radius:11px;background:rgba(255,255,255,.2);color:#fff}
+.rolemore{font-size:11px;color:#cfe0fc;align-self:center}
+.seatline{font-size:12.5px;color:#dbe6fb;margin-top:6px}
+.seatline b{color:#fff;font-weight:500}
+/* Contact sits BELOW the record on purpose: beside a verdict these links are
+   a pile-on button, under "Contact your MP" they are how you write to an MP. */
+@media(max-width:560px){.crow{flex-direction:column;gap:3px}.clab{flex-basis:auto}}
+
+/* --- hero second column: contact, links as icons (2026-08-26) -----------
+   Icons are what make a 214px column viable -- eight text buttons never fit,
+   and the worst case in the House is six links. Email and phone stay TEXT:
+   an icon-only mailto is useless on webmail, and the parliamentary office
+   must not read as equal in weight to a Facebook page. */
+.card-head{align-items:flex-start}
+.idcol{flex:1;min-width:215px}
+.rightcol{display:flex;flex-direction:column;align-items:flex-end;gap:10px;margin-left:auto}
+.postline{font-size:13px;color:#fff;font-weight:500;margin-top:7px}
+/* Same slot, quieter voice: a held office is a fact worth weight, and
+   "Backbencher" is the absence of one. Splitting them by POSITION instead
+   would make the same field move about between members' pages. */
+.postline.quiet{font-size:12.5px;color:#cfe0fc;font-weight:400}
+.rolepills{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.ccol{flex:0 0 auto;width:214px;background:rgba(255,255,255,.13);border-radius:8px;
+  padding:11px 13px 12px;text-align:left}
+.ccol h3{margin:0 0 8px;font-size:9.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:#dbe6fb}
+.ccol .lab{display:block;font-size:9.5px;font-weight:700;letter-spacing:.06em;
+  color:#bcd3f7;margin-bottom:1px}
+.ccol .em{display:block;font-size:12.5px;color:#fff;margin-bottom:8px;
+  word-break:break-word;line-height:1.35}
+.ccol .em:hover{text-decoration:underline;color:#fff}
+.ccol .ph{display:block;font-size:12.5px;color:#fff;margin-bottom:10px}
+.icons{display:flex;gap:7px;flex-wrap:wrap}
+.ic{width:30px;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.42);
+  display:inline-flex;align-items:center;justify-content:center;color:#fff;
+  font-size:13px;font-weight:700;line-height:1;flex:none}
+.ic:hover{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;text-decoration:none}
+.ic.sm{font-size:11px}
+.ic svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:1.6}
+.ic .ig{width:15px;height:15px;border:1.6px solid #fff;border-radius:4px;position:relative}
+.ic .ig:before{content:"";position:absolute;inset:3px;border:1.5px solid #fff;border-radius:50%}
+.ic .ig:after{content:"";position:absolute;top:1.5px;right:1.5px;width:2px;height:2px;
+  background:#fff;border-radius:50%}
+@media(max-width:640px){
+  .rightcol{align-items:stretch;width:100%;margin-left:0}
+  .ccol{width:100%}
+}
+
+/* --- "What happened in between" (2026-08-27) -----------------------------
+   The decisive votes stay open above; the amendments and speeches condense
+   here with their full detail intact. Native <details>, so no JavaScript and
+   keyboard and screen-reader support come free. */
+details.journey{border-top:1px solid var(--line);background:#f7f9fc;
+  border-radius:0 0 8px 8px}
+details.journey > summary{cursor:pointer;list-style:none;padding:11px 17px;
+  display:flex;gap:9px;align-items:center;font-size:13px;font-weight:500;
+  color:var(--blue-deep);flex-wrap:wrap}
+details.journey > summary::-webkit-details-marker{display:none}
+details.journey > summary:hover{background:#eef4ff}
+details.journey > summary:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.jqty{font-weight:300;color:#5f7597;font-size:12.5px}
+.jchev{margin-left:auto;font-size:10px;opacity:.65;transition:transform .15s}
+details.journey[open] > .jchev,details.journey[open] > summary .jchev{transform:rotate(180deg)}
+details.journey > .passage{border-bottom:none;border-radius:0}
+@media(max-width:560px){.jchev{margin-left:0}}
+
+/* --- condensed rows (2026-08-27) ----------------------------------------
+   Five changes: the outcome is one phrase, the source link rides the meta
+   line instead of taking its own, the bar survives only on landmarks, the
+   party split became a sentence, and the whip shows once per bill where it
+   is uniform. About 40 of the 70 lines of row furniture came out. */
+.outcome{font-weight:700}
+.outcome.p{color:var(--green)}
+.outcome.r{color:var(--red)}
+.sout{font-size:12.5px;color:var(--ink);margin-top:5px}
+.sout .official,.ammeta .official{color:var(--blue-deep)}
+.arrow{font-size:9px;opacity:.7}
+
+/* --- outcome and hairline, coloured by WHICH WAY IT WENT FOR US --------- */
+.outcome{font-weight:700}
+.outcome.win{color:var(--green)}
+.outcome.lose{color:var(--red)}
+.outcome.flat{color:#23282f}
+.hairline{height:3px;border-radius:2px;background:var(--grey-100);position:relative;margin:7px 0 4px}
+.hairline i{position:absolute;left:0;top:0;bottom:0;border-radius:2px 0 0 2px}
+.hairline.win i{background:var(--green)}
+.hairline.lose i{background:var(--red)}
+.hairline.flat i{background:#8b93a1}
+.recordlast{font-size:12px;margin-top:8px;padding-top:7px;border-top:1px solid var(--line)}
+
+/* The party comparison, folded into the meta line rather than a line of its
+   own. "against" gets a warmer tone so it reads as notable -- deliberately
+   NOT green or red, so it cannot be mistaken for a verdict. */
+.pmark{color:#5f6670}
+.pmark.against{color:#8a5a2b;font-weight:500}
+
+.mk-mockwrap{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+.mk-opt{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:0 0 26px;background:#fff}
+.mk-optlabel{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--blue-deep);margin:0 0 2px}
+.mk-opth{font-size:17px;font-weight:600;color:#23282f;margin:0 0 6px}
+.mk-optnote{font-size:13px;margin:0 0 14px;color:var(--ink);max-width:70ch}
+.mk-optnote b{color:#23282f;font-weight:600}
+.mk-who{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#9aa1a9;margin:16px 0 2px;padding-top:10px;border-top:1px dashed var(--line)}
+.mk-brow{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:7px 0;
+  border-top:1px solid var(--line);font-size:13.5px}
+.mk-bkind{flex:0 0 auto;font-size:9px;font-weight:700;letter-spacing:.05em;padding:2px 6px;
+  border-radius:3px;background:var(--grey-100);color:#4a5058}
+.mk-btitle{flex:1 1 320px;min-width:0;font-weight:500;color:#23282f}
+.mk-bmeta{font-size:11.5px;color:#9aa1a9}
+.mk-mq{flex:0 0 100%;margin:2px 0 0}
+.mk-mq summary{font-size:11.5px;color:var(--blue-deep);cursor:pointer}
+.mk-mq .recquote{margin-top:4px}
+.mk-epoch{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#9aa1a9;margin:12px 0 0}
+.mk-tally{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.mk-tcell{font-size:12px;padding:3px 9px;border-radius:20px;background:var(--grey-100);color:#4a5058}
+.mk-tcell b{color:#23282f;font-weight:600}
+.mk-nowords{font-size:13px;color:#9aa1a9;margin:6px 0 0;padding:9px 0;border-top:1px solid var(--line)}
+</style></head><body><div class="mk-mockwrap"><h1 style="font-size:22px;font-weight:600;color:#23282f;margin:0 0 4px">&ldquo;Also on the record&rdquo; &mdash; four improvements</h1><p style="font-size:13.5px;margin:0 0 8px;max-width:74ch">Rendered from the live payload, not mocked up: every row, count, quote and link below is what the page ships today (878 blocks, 1,385 rows, 466 members). Two members are shown for each option &mdash; Jim Shannon, who has the fullest record on the page, and Danny Kruger.</p><p style="font-size:12.5px;color:#9aa1a9;margin:0 0 22px">These four are independent. A and C can both ship; B and D are alternative answers to the same problem.</p><div class="mk-opt"><p class="mk-optlabel">As it is now</p><h2 class="mk-opth">Current</h2><p class="mk-optnote">Newest first, every row full-height, the quote always inline.</p><p class="mk-who">Jim Shannon</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 13 debates</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 4 early day motions</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Progression of Bills through Parliament</div><blockquote class="recquote">The Hansard Society has stated clearly during the previous Session that “The House of Lords has the authority to reject, delay, or otherwise block the assisted dying bill.” That myth needs dispelling. The second myth that needs to be dispelled is the absurd accusation of the blocking or filibustering the assisted dying Bill by just a small handful of Lords.</blockquote><div class="recmeta">8 June 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-06-08/debates/F026BFC6-0114-40D7-9C6F-B5E334D9224F/#contribution-CC62AB6C-E9A4-47D8-8DF2-FB9A2DD1B7B0" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Ageing and End-of-life Care</div><blockquote class="recquote">She always likes to know what happens in this House and I am able to tell her that, but she will also give me her opinion, which I never ignore—indeed, I probably keep to it as much as I can. Those visits to the nursing home, coupled with the focus on assisted dying, have highlighted to me with greater effect the changes that are needed in how we handle our older generation and their needs.</blockquote><div class="recmeta">30 October 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-10-30/debates/0A8E4A68-2500-4E02-B4A9-0E00BF5CF4F6/#contribution-4C04EEC7-DF32-4E11-BAAC-D97A5262DAFD" target="_blank">Hansard</a></div></div></div><p class="recmore">Showing the 2 most recent of 18.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 6 debates</b> &middot; <b>asked 1 written question</b> &middot; <b>signed 8 early day motions</b></p><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Conviction for speech within a safe access zone</div><div class="recmeta">13 May 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65711">EDM register</a></div></div></div><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Impact of the Abortion Act 1967 on levels of abortion</div><div class="recmeta">27 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65681">EDM register</a></div></div></div><p class="recmore">Showing the 2 most recent of 15.</p></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 29 debates</b> &middot; <b>asked 3 written questions</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 21 early day motions</b></p><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">First anniversary of the For Women Scotland v The Scottish Ministers ruling</div><div class="recmeta">15 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65611">EDM register</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Tobacco and Vapes Bill</div><div class="recmeta">23 March 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-03-23/debates/A81F0B1C-985C-42CE-82F2-989EB33F49A6/#contribution-C1FCA6AF-35DB-4627-B8A0-72FCE9796161" target="_blank">Hansard</a></div></div></div><p class="recmore">Showing the 2 most recent of 54.</p></div><div class="recarea"><div class="recareahead"><h3>Parental rights and education</h3></div><p class="reccounts"><b>spoke in 12 debates</b> &middot; <b>asked 7 written questions</b> &middot; <b>signed 3 early day motions</b></p><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Child protection from illicit vapes</div><div class="recmeta">12 February 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65240">EDM register</a></div></div></div><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Faith Schools: Freedom of Expression</div><div class="recmeta">11 June 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-06-03/56775" target="_blank">Written question</a></div></div></div><p class="recmore">Showing the 2 most recent of 22.</p></div><p class="mk-who">Danny Kruger</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 7 debates</b> &middot; <b>asked 6 written questions</b></p><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Euthanasia: Scotland</div><div class="recmeta">18 December 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-12-04/97284" target="_blank">Written question</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Eating Disorder Awareness</div><blockquote class="recquote">My great concern is that if we were to pass that Bill, we would end up with people being diagnosed as eligible for an assisted death. It is important to acknowledge that in other countries that have assisted dying laws, our understanding is that, in all those jurisdictions, people with anorexia have qualified for and been given an assisted death. In 100% of the cases that we know about, they passed the capacity test that we would apply here in our country.</blockquote><div class="recmeta">1 April 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-04-01/debates/CDDEA52F-F6E4-457E-B6E1-60626D195F1C/#contribution-8842FC8E-650F-4664-93ED-E7A175E4D943" target="_blank">Hansard</a></div></div></div><p class="recmore">Showing the 2 most recent of 13.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 1 debate</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Police, Crime, Sentencing and Court Bill</div><blockquote class="recquote">New clause 55, tabled by the right hon. Friend the Member for Kingston upon Hull North (Dame Diana Johnson), would not criminalise anything; it would decriminalise something, namely abortion itself up to term. It would effectively legalise abortion on demand up to birth. She is keen that we pay attention to the text of her new clause, so I shall quote from it: “No offence is committed…by…a woman who terminates her own pregnancy or who assists in or consents to such termination”.</blockquote><div class="recmeta">5 July 2021 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2021-07-05/debates/AEACEFEC-B63D-4102-86AC-E05A32CA8396/#contribution-6590C7F6-23A5-491E-A0AA-EFF63715A727" target="_blank">Hansard</a></div></div></div></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 5 debates</b> &middot; <b>asked 1 written question</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">International Health Regulations</div><blockquote class="recquote">My concern is not with the Government’s position, but with the WHO itself. I appreciate the Minister’s point that member states are leading on these proposals, which is worrying in itself, but we know what the real agenda of the WHO is from the drafts that have been submitted in recent months.</blockquote><div class="recmeta">14 May 2024 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2024-05-14/debates/7974DED1-7A02-4DF1-AED9-4F7DD95386AE/#contribution-67B89530-9CE0-479B-8A93-796C19EE1A8D" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Media: Euthanasia and Suicide</div><blockquote class="recquote">To ask the Secretary of State for Culture, Media and Sport, if she will take steps with Ofcom to undertake a review of the adequacy of guidance to the media on the reporting of (a) assisted suicide, (b) euthanasia and (c) other suicide cases.</blockquote><div class="recmeta">14 March 2024 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2024-03-06/17458" target="_blank">Written question</a></div></div></div><p class="recmore">Showing the 2 most recent of 6.</p></div></div><div class="mk-opt"><p class="mk-optlabel">Option A</p><h2 class="mk-opth">Strongest receipt first</h2><p class="mk-optnote">Rows are ordered by <b>evidence strength</b> &mdash; a quoted speech, then a written question, a proposed motion, a signed one, a bare debate title &mdash; and only then by date. Fixes the <b>88 blocks whose first row is bare while a quote sits below it</b>. The cap line changes from &ldquo;most recent&rdquo; to &ldquo;strongest&rdquo;, which is the honest description once the order is no longer chronological.</p><p class="mk-who">Jim Shannon</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 13 debates</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 4 early day motions</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Progression of Bills through Parliament</div><blockquote class="recquote">The Hansard Society has stated clearly during the previous Session that “The House of Lords has the authority to reject, delay, or otherwise block the assisted dying bill.” That myth needs dispelling. The second myth that needs to be dispelled is the absurd accusation of the blocking or filibustering the assisted dying Bill by just a small handful of Lords.</blockquote><div class="recmeta">8 June 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-06-08/debates/F026BFC6-0114-40D7-9C6F-B5E334D9224F/#contribution-CC62AB6C-E9A4-47D8-8DF2-FB9A2DD1B7B0" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Ageing and End-of-life Care</div><blockquote class="recquote">She always likes to know what happens in this House and I am able to tell her that, but she will also give me her opinion, which I never ignore—indeed, I probably keep to it as much as I can. Those visits to the nursing home, coupled with the focus on assisted dying, have highlighted to me with greater effect the changes that are needed in how we handle our older generation and their needs.</blockquote><div class="recmeta">30 October 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-10-30/debates/0A8E4A68-2500-4E02-B4A9-0E00BF5CF4F6/#contribution-4C04EEC7-DF32-4E11-BAAC-D97A5262DAFD" target="_blank">Hansard</a></div></div></div><p class="recmore">Showing the 2 strongest of 18.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 6 debates</b> &middot; <b>asked 1 written question</b> &middot; <b>signed 8 early day motions</b></p><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Conviction for speech within a safe access zone</div><div class="recmeta">13 May 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65711">EDM register</a></div></div></div><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Impact of the Abortion Act 1967 on levels of abortion</div><div class="recmeta">27 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65681">EDM register</a></div></div></div><p class="recmore">Showing the 2 strongest of 15.</p></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 29 debates</b> &middot; <b>asked 3 written questions</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 21 early day motions</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Tobacco and Vapes Bill</div><div class="recmeta">23 March 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-03-23/debates/A81F0B1C-985C-42CE-82F2-989EB33F49A6/#contribution-C1FCA6AF-35DB-4627-B8A0-72FCE9796161" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">First anniversary of the For Women Scotland v The Scottish Ministers ruling</div><div class="recmeta">15 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65611">EDM register</a></div></div></div><p class="recmore">Showing the 2 strongest of 54.</p></div><div class="recarea"><div class="recareahead"><h3>Parental rights and education</h3></div><p class="reccounts"><b>spoke in 12 debates</b> &middot; <b>asked 7 written questions</b> &middot; <b>signed 3 early day motions</b></p><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Faith Schools: Freedom of Expression</div><div class="recmeta">11 June 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-06-03/56775" target="_blank">Written question</a></div></div></div><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Child protection from illicit vapes</div><div class="recmeta">12 February 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65240">EDM register</a></div></div></div><p class="recmore">Showing the 2 strongest of 22.</p></div><p class="mk-who">Danny Kruger</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 7 debates</b> &middot; <b>asked 6 written questions</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Eating Disorder Awareness</div><blockquote class="recquote">My great concern is that if we were to pass that Bill, we would end up with people being diagnosed as eligible for an assisted death. It is important to acknowledge that in other countries that have assisted dying laws, our understanding is that, in all those jurisdictions, people with anorexia have qualified for and been given an assisted death. In 100% of the cases that we know about, they passed the capacity test that we would apply here in our country.</blockquote><div class="recmeta">1 April 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-04-01/debates/CDDEA52F-F6E4-457E-B6E1-60626D195F1C/#contribution-8842FC8E-650F-4664-93ED-E7A175E4D943" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Euthanasia: Scotland</div><div class="recmeta">18 December 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-12-04/97284" target="_blank">Written question</a></div></div></div><p class="recmore">Showing the 2 strongest of 13.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 1 debate</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Police, Crime, Sentencing and Court Bill</div><blockquote class="recquote">New clause 55, tabled by the right hon. Friend the Member for Kingston upon Hull North (Dame Diana Johnson), would not criminalise anything; it would decriminalise something, namely abortion itself up to term. It would effectively legalise abortion on demand up to birth. She is keen that we pay attention to the text of her new clause, so I shall quote from it: “No offence is committed…by…a woman who terminates her own pregnancy or who assists in or consents to such termination”.</blockquote><div class="recmeta">5 July 2021 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2021-07-05/debates/AEACEFEC-B63D-4102-86AC-E05A32CA8396/#contribution-6590C7F6-23A5-491E-A0AA-EFF63715A727" target="_blank">Hansard</a></div></div></div></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 5 debates</b> &middot; <b>asked 1 written question</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">International Health Regulations</div><blockquote class="recquote">My concern is not with the Government’s position, but with the WHO itself. I appreciate the Minister’s point that member states are leading on these proposals, which is worrying in itself, but we know what the real agenda of the WHO is from the drafts that have been submitted in recent months.</blockquote><div class="recmeta">14 May 2024 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2024-05-14/debates/7974DED1-7A02-4DF1-AED9-4F7DD95386AE/#contribution-67B89530-9CE0-479B-8A93-796C19EE1A8D" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Media: Euthanasia and Suicide</div><blockquote class="recquote">To ask the Secretary of State for Culture, Media and Sport, if she will take steps with Ofcom to undertake a review of the adequacy of guidance to the media on the reporting of (a) assisted suicide, (b) euthanasia and (c) other suicide cases.</blockquote><div class="recmeta">14 March 2024 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2024-03-06/17458" target="_blank">Written question</a></div></div></div><p class="recmore">Showing the 2 strongest of 6.</p></div></div><div class="mk-opt"><p class="mk-optlabel">Option B</p><h2 class="mk-opth">One line per receipt, quote on demand</h2><p class="mk-optnote">Each receipt is a single line: kind, title, date, link. The quote moves behind a <b>quote</b> disclosure. On Jim Shannon&rsquo;s page that is <b>8 rows in roughly half the height</b>. Costs the at-a-glance quote &mdash; the words are the point of the section, and this hides 40% of rows that have one.</p><p class="mk-who">Jim Shannon</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 13 debates</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 4 early day motions</b></p><div class="mk-brow"><span class="mk-bkind mk-k-debate">SPOKE</span><span class="mk-btitle">Progression of Bills through Parliament</span><span class="mk-bmeta">8 June 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-06-08/debates/F026BFC6-0114-40D7-9C6F-B5E334D9224F/#contribution-CC62AB6C-E9A4-47D8-8DF2-FB9A2DD1B7B0" target="_blank">Hansard</a></span><details class="mk-mq"><summary>quote</summary><blockquote class="recquote">The Hansard Society has stated clearly during the previous Session that “The House of Lords has the authority to reject, delay, or otherwise block the assisted dying bill.” That myth needs dispelling. The second myth that needs to be dispelled is the absurd accusation of the blocking or filibustering the assisted dying Bill by just a small handful of Lords.</blockquote></details></div><div class="mk-brow"><span class="mk-bkind mk-k-debate">SPOKE</span><span class="mk-btitle">Ageing and End-of-life Care</span><span class="mk-bmeta">30 October 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-10-30/debates/0A8E4A68-2500-4E02-B4A9-0E00BF5CF4F6/#contribution-4C04EEC7-DF32-4E11-BAAC-D97A5262DAFD" target="_blank">Hansard</a></span><details class="mk-mq"><summary>quote</summary><blockquote class="recquote">She always likes to know what happens in this House and I am able to tell her that, but she will also give me her opinion, which I never ignore—indeed, I probably keep to it as much as I can. Those visits to the nursing home, coupled with the focus on assisted dying, have highlighted to me with greater effect the changes that are needed in how we handle our older generation and their needs.</blockquote></details></div><p class="recmore">Showing the 2 most recent of 18.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 6 debates</b> &middot; <b>asked 1 written question</b> &middot; <b>signed 8 early day motions</b></p><div class="mk-brow"><span class="mk-bkind mk-k-edm-signed">SIGNED EDM</span><span class="mk-btitle">Conviction for speech within a safe access zone</span><span class="mk-bmeta">13 May 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65711">EDM register</a></span></div><div class="mk-brow"><span class="mk-bkind mk-k-edm-signed">SIGNED EDM</span><span class="mk-btitle">Impact of the Abortion Act 1967 on levels of abortion</span><span class="mk-bmeta">27 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65681">EDM register</a></span></div><p class="recmore">Showing the 2 most recent of 15.</p></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 29 debates</b> &middot; <b>asked 3 written questions</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 21 early day motions</b></p><div class="mk-brow"><span class="mk-bkind mk-k-edm-signed">SIGNED EDM</span><span class="mk-btitle">First anniversary of the For Women Scotland v The Scottish Ministers ruling</span><span class="mk-bmeta">15 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65611">EDM register</a></span></div><div class="mk-brow"><span class="mk-bkind mk-k-debate">SPOKE</span><span class="mk-btitle">Tobacco and Vapes Bill</span><span class="mk-bmeta">23 March 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-03-23/debates/A81F0B1C-985C-42CE-82F2-989EB33F49A6/#contribution-C1FCA6AF-35DB-4627-B8A0-72FCE9796161" target="_blank">Hansard</a></span></div><p class="recmore">Showing the 2 most recent of 54.</p></div><div class="recarea"><div class="recareahead"><h3>Parental rights and education</h3></div><p class="reccounts"><b>spoke in 12 debates</b> &middot; <b>asked 7 written questions</b> &middot; <b>signed 3 early day motions</b></p><div class="mk-brow"><span class="mk-bkind mk-k-edm-signed">SIGNED EDM</span><span class="mk-btitle">Child protection from illicit vapes</span><span class="mk-bmeta">12 February 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65240">EDM register</a></span></div><div class="mk-brow"><span class="mk-bkind mk-k-pq">ASKED</span><span class="mk-btitle">Faith Schools: Freedom of Expression</span><span class="mk-bmeta">11 June 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-06-03/56775" target="_blank">Written question</a></span></div><p class="recmore">Showing the 2 most recent of 22.</p></div><p class="mk-who">Danny Kruger</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 7 debates</b> &middot; <b>asked 6 written questions</b></p><div class="mk-brow"><span class="mk-bkind mk-k-pq">ASKED</span><span class="mk-btitle">Euthanasia: Scotland</span><span class="mk-bmeta">18 December 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-12-04/97284" target="_blank">Written question</a></span></div><div class="mk-brow"><span class="mk-bkind mk-k-debate">SPOKE</span><span class="mk-btitle">Eating Disorder Awareness</span><span class="mk-bmeta">1 April 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-04-01/debates/CDDEA52F-F6E4-457E-B6E1-60626D195F1C/#contribution-8842FC8E-650F-4664-93ED-E7A175E4D943" target="_blank">Hansard</a></span><details class="mk-mq"><summary>quote</summary><blockquote class="recquote">My great concern is that if we were to pass that Bill, we would end up with people being diagnosed as eligible for an assisted death. It is important to acknowledge that in other countries that have assisted dying laws, our understanding is that, in all those jurisdictions, people with anorexia have qualified for and been given an assisted death. In 100% of the cases that we know about, they passed the capacity test that we would apply here in our country.</blockquote></details></div><p class="recmore">Showing the 2 most recent of 13.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 1 debate</b></p><div class="mk-brow"><span class="mk-bkind mk-k-debate">SPOKE</span><span class="mk-btitle">Police, Crime, Sentencing and Court Bill</span><span class="mk-bmeta">5 July 2021 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2021-07-05/debates/AEACEFEC-B63D-4102-86AC-E05A32CA8396/#contribution-6590C7F6-23A5-491E-A0AA-EFF63715A727" target="_blank">Hansard</a></span><details class="mk-mq"><summary>quote</summary><blockquote class="recquote">New clause 55, tabled by the right hon. Friend the Member for Kingston upon Hull North (Dame Diana Johnson), would not criminalise anything; it would decriminalise something, namely abortion itself up to term. It would effectively legalise abortion on demand up to birth. She is keen that we pay attention to the text of her new clause, so I shall quote from it: “No offence is committed…by…a woman who terminates her own pregnancy or who assists in or consents to such termination”.</blockquote></details></div></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 5 debates</b> &middot; <b>asked 1 written question</b></p><div class="mk-brow"><span class="mk-bkind mk-k-debate">SPOKE</span><span class="mk-btitle">International Health Regulations</span><span class="mk-bmeta">14 May 2024 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2024-05-14/debates/7974DED1-7A02-4DF1-AED9-4F7DD95386AE/#contribution-67B89530-9CE0-479B-8A93-796C19EE1A8D" target="_blank">Hansard</a></span><details class="mk-mq"><summary>quote</summary><blockquote class="recquote">My concern is not with the Government’s position, but with the WHO itself. I appreciate the Minister’s point that member states are leading on these proposals, which is worrying in itself, but we know what the real agenda of the WHO is from the drafts that have been submitted in recent months.</blockquote></details></div><div class="mk-brow"><span class="mk-bkind mk-k-pq">ASKED</span><span class="mk-btitle">Media: Euthanasia and Suicide</span><span class="mk-bmeta">14 March 2024 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2024-03-06/17458" target="_blank">Written question</a></span><details class="mk-mq"><summary>quote</summary><blockquote class="recquote">To ask the Secretary of State for Culture, Media and Sport, if she will take steps with Ofcom to undertake a review of the adequacy of guidance to the media on the reporting of (a) assisted suicide, (b) euthanasia and (c) other suicide cases.</blockquote></details></div><p class="recmore">Showing the 2 most recent of 6.</p></div></div><div class="mk-opt"><p class="mk-optlabel">Option C</p><h2 class="mk-opth">Split by Parliament</h2><p class="mk-optnote"><b>28% of rows predate the 2024 election</b>, and a 2006 motion currently sits level with a 2026 speech. This groups each block into &ldquo;In this Parliament&rdquo; and &ldquo;Before the 2024 election&rdquo;. Adds a line per group but answers &ldquo;is this still what they think?&rdquo; without the reader doing date arithmetic.</p><p class="mk-who">Jim Shannon</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 13 debates</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 4 early day motions</b></p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Progression of Bills through Parliament</div><blockquote class="recquote">The Hansard Society has stated clearly during the previous Session that “The House of Lords has the authority to reject, delay, or otherwise block the assisted dying bill.” That myth needs dispelling. The second myth that needs to be dispelled is the absurd accusation of the blocking or filibustering the assisted dying Bill by just a small handful of Lords.</blockquote><div class="recmeta">8 June 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-06-08/debates/F026BFC6-0114-40D7-9C6F-B5E334D9224F/#contribution-CC62AB6C-E9A4-47D8-8DF2-FB9A2DD1B7B0" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Ageing and End-of-life Care</div><blockquote class="recquote">She always likes to know what happens in this House and I am able to tell her that, but she will also give me her opinion, which I never ignore—indeed, I probably keep to it as much as I can. Those visits to the nursing home, coupled with the focus on assisted dying, have highlighted to me with greater effect the changes that are needed in how we handle our older generation and their needs.</blockquote><div class="recmeta">30 October 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-10-30/debates/0A8E4A68-2500-4E02-B4A9-0E00BF5CF4F6/#contribution-4C04EEC7-DF32-4E11-BAAC-D97A5262DAFD" target="_blank">Hansard</a></div></div></div><p class="recmore">Showing the 2 most recent of 18.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 6 debates</b> &middot; <b>asked 1 written question</b> &middot; <b>signed 8 early day motions</b></p><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Conviction for speech within a safe access zone</div><div class="recmeta">13 May 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65711">EDM register</a></div></div></div><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Impact of the Abortion Act 1967 on levels of abortion</div><div class="recmeta">27 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65681">EDM register</a></div></div></div><p class="recmore">Showing the 2 most recent of 15.</p></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 29 debates</b> &middot; <b>asked 3 written questions</b> &middot; <b>proposed 1 early day motion</b> &middot; <b>signed 21 early day motions</b></p><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">First anniversary of the For Women Scotland v The Scottish Ministers ruling</div><div class="recmeta">15 April 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65611">EDM register</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Tobacco and Vapes Bill</div><div class="recmeta">23 March 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-03-23/debates/A81F0B1C-985C-42CE-82F2-989EB33F49A6/#contribution-C1FCA6AF-35DB-4627-B8A0-72FCE9796161" target="_blank">Hansard</a></div></div></div><p class="recmore">Showing the 2 most recent of 54.</p></div><div class="recarea"><div class="recareahead"><h3>Parental rights and education</h3></div><p class="reccounts"><b>spoke in 12 debates</b> &middot; <b>asked 7 written questions</b> &middot; <b>signed 3 early day motions</b></p><div class="recrow"><span class="reckind">SIGNED EDM</span><div class="recbody"><div class="rectitle">Child protection from illicit vapes</div><div class="recmeta">12 February 2026 &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65240">EDM register</a></div></div></div><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Faith Schools: Freedom of Expression</div><div class="recmeta">11 June 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-06-03/56775" target="_blank">Written question</a></div></div></div><p class="recmore">Showing the 2 most recent of 22.</p></div><p class="mk-who">Danny Kruger</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><p class="reccounts"><b>spoke in 7 debates</b> &middot; <b>asked 6 written questions</b></p><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Euthanasia: Scotland</div><div class="recmeta">18 December 2025 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2025-12-04/97284" target="_blank">Written question</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Eating Disorder Awareness</div><blockquote class="recquote">My great concern is that if we were to pass that Bill, we would end up with people being diagnosed as eligible for an assisted death. It is important to acknowledge that in other countries that have assisted dying laws, our understanding is that, in all those jurisdictions, people with anorexia have qualified for and been given an assisted death. In 100% of the cases that we know about, they passed the capacity test that we would apply here in our country.</blockquote><div class="recmeta">1 April 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-04-01/debates/CDDEA52F-F6E4-457E-B6E1-60626D195F1C/#contribution-8842FC8E-650F-4664-93ED-E7A175E4D943" target="_blank">Hansard</a></div></div></div><p class="recmore">Showing the 2 most recent of 13.</p></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><p class="reccounts"><b>spoke in 1 debate</b></p><p class="mk-epoch">Before the 2024 election</p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Police, Crime, Sentencing and Court Bill</div><blockquote class="recquote">New clause 55, tabled by the right hon. Friend the Member for Kingston upon Hull North (Dame Diana Johnson), would not criminalise anything; it would decriminalise something, namely abortion itself up to term. It would effectively legalise abortion on demand up to birth. She is keen that we pay attention to the text of her new clause, so I shall quote from it: “No offence is committed…by…a woman who terminates her own pregnancy or who assists in or consents to such termination”.</blockquote><div class="recmeta">5 July 2021 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2021-07-05/debates/AEACEFEC-B63D-4102-86AC-E05A32CA8396/#contribution-6590C7F6-23A5-491E-A0AA-EFF63715A727" target="_blank">Hansard</a></div></div></div></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><p class="reccounts"><b>spoke in 5 debates</b> &middot; <b>asked 1 written question</b></p><p class="mk-epoch">Before the 2024 election</p><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">International Health Regulations</div><blockquote class="recquote">My concern is not with the Government’s position, but with the WHO itself. I appreciate the Minister’s point that member states are leading on these proposals, which is worrying in itself, but we know what the real agenda of the WHO is from the drafts that have been submitted in recent months.</blockquote><div class="recmeta">14 May 2024 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2024-05-14/debates/7974DED1-7A02-4DF1-AED9-4F7DD95386AE/#contribution-67B89530-9CE0-479B-8A93-796C19EE1A8D" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Media: Euthanasia and Suicide</div><blockquote class="recquote">To ask the Secretary of State for Culture, Media and Sport, if she will take steps with Ofcom to undertake a review of the adequacy of guidance to the media on the reporting of (a) assisted suicide, (b) euthanasia and (c) other suicide cases.</blockquote><div class="recmeta">14 March 2024 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2024-03-06/17458" target="_blank">Written question</a></div></div></div><p class="recmore">Showing the 2 most recent of 6.</p></div></div><div class="mk-opt"><p class="mk-optlabel">Option D</p><h2 class="mk-opth">The tally is the spine, quotes are the proof</h2><p class="mk-optnote">The counts become a compact tally strip, and <b>only rows that carry a quote</b> are listed beneath. Bare rows &mdash; <b>60% of all rows, 394 of them bare debate titles</b> &mdash; fold into the tally they already belong to. Where a block has no quote at all it says so and names its most recent receipt, so nothing is hidden.</p><p class="mk-who">Jim Shannon</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><div class="mk-tally"><span class="mk-tcell"><b>13</b> debates</span><span class="mk-tcell"><b>1</b> motion proposed</span><span class="mk-tcell"><b>4</b> motions signed</span></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Progression of Bills through Parliament</div><blockquote class="recquote">The Hansard Society has stated clearly during the previous Session that “The House of Lords has the authority to reject, delay, or otherwise block the assisted dying bill.” That myth needs dispelling. The second myth that needs to be dispelled is the absurd accusation of the blocking or filibustering the assisted dying Bill by just a small handful of Lords.</blockquote><div class="recmeta">8 June 2026 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2026-06-08/debates/F026BFC6-0114-40D7-9C6F-B5E334D9224F/#contribution-CC62AB6C-E9A4-47D8-8DF2-FB9A2DD1B7B0" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Ageing and End-of-life Care</div><blockquote class="recquote">She always likes to know what happens in this House and I am able to tell her that, but she will also give me her opinion, which I never ignore—indeed, I probably keep to it as much as I can. Those visits to the nursing home, coupled with the focus on assisted dying, have highlighted to me with greater effect the changes that are needed in how we handle our older generation and their needs.</blockquote><div class="recmeta">30 October 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-10-30/debates/0A8E4A68-2500-4E02-B4A9-0E00BF5CF4F6/#contribution-4C04EEC7-DF32-4E11-BAAC-D97A5262DAFD" target="_blank">Hansard</a></div></div></div></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><div class="mk-tally"><span class="mk-tcell"><b>6</b> debates</span><span class="mk-tcell"><b>1</b> written question</span><span class="mk-tcell"><b>8</b> motions signed</span></div><p class="mk-nowords">Early day motions carry no text here. Most recent: <b>Conviction for speech within a safe access zone</b> &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65711">EDM register</a></p></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><div class="mk-tally"><span class="mk-tcell"><b>29</b> debates</span><span class="mk-tcell"><b>3</b> written questions</span><span class="mk-tcell"><b>1</b> motion proposed</span><span class="mk-tcell"><b>21</b> motions signed</span></div><p class="mk-nowords">Early day motions carry no text here. Most recent: <b>First anniversary of the For Women Scotland v The Scottish Ministers ruling</b> &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65611">EDM register</a></p></div><div class="recarea"><div class="recareahead"><h3>Parental rights and education</h3></div><div class="mk-tally"><span class="mk-tcell"><b>12</b> debates</span><span class="mk-tcell"><b>7</b> written questions</span><span class="mk-tcell"><b>3</b> motions signed</span></div><p class="mk-nowords">Early day motions carry no text here. Most recent: <b>Child protection from illicit vapes</b> &middot; <a class="official" target="_blank" href="https://edm.parliament.uk/early-day-motion/65240">EDM register</a></p></div><p class="mk-who">Danny Kruger</p><div class="recarea"><div class="recareahead"><h3>Assisted suicide</h3></div><div class="mk-tally"><span class="mk-tcell"><b>7</b> debates</span><span class="mk-tcell"><b>6</b> written questions</span></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Eating Disorder Awareness</div><blockquote class="recquote">My great concern is that if we were to pass that Bill, we would end up with people being diagnosed as eligible for an assisted death. It is important to acknowledge that in other countries that have assisted dying laws, our understanding is that, in all those jurisdictions, people with anorexia have qualified for and been given an assisted death. In 100% of the cases that we know about, they passed the capacity test that we would apply here in our country.</blockquote><div class="recmeta">1 April 2025 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2025-04-01/debates/CDDEA52F-F6E4-457E-B6E1-60626D195F1C/#contribution-8842FC8E-650F-4664-93ED-E7A175E4D943" target="_blank">Hansard</a></div></div></div></div><div class="recarea"><div class="recareahead"><h3>Abortion</h3></div><div class="mk-tally"><span class="mk-tcell"><b>1</b> debate</span></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">Police, Crime, Sentencing and Court Bill</div><blockquote class="recquote">New clause 55, tabled by the right hon. Friend the Member for Kingston upon Hull North (Dame Diana Johnson), would not criminalise anything; it would decriminalise something, namely abortion itself up to term. It would effectively legalise abortion on demand up to birth. She is keen that we pay attention to the text of her new clause, so I shall quote from it: “No offence is committed…by…a woman who terminates her own pregnancy or who assists in or consents to such termination”.</blockquote><div class="recmeta">5 July 2021 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2021-07-05/debates/AEACEFEC-B63D-4102-86AC-E05A32CA8396/#contribution-6590C7F6-23A5-491E-A0AA-EFF63715A727" target="_blank">Hansard</a></div></div></div></div><div class="recarea"><div class="recareahead"><h3>Free speech and civil liberties</h3></div><div class="mk-tally"><span class="mk-tcell"><b>5</b> debates</span><span class="mk-tcell"><b>1</b> written question</span></div><div class="recrow"><span class="reckind">SPOKE</span><div class="recbody"><div class="rectitle">International Health Regulations</div><blockquote class="recquote">My concern is not with the Government’s position, but with the WHO itself. I appreciate the Minister’s point that member states are leading on these proposals, which is worrying in itself, but we know what the real agenda of the WHO is from the drafts that have been submitted in recent months.</blockquote><div class="recmeta">14 May 2024 &middot; <a class="official" href="https://hansard.parliament.uk/Commons/2024-05-14/debates/7974DED1-7A02-4DF1-AED9-4F7DD95386AE/#contribution-67B89530-9CE0-479B-8A93-796C19EE1A8D" target="_blank">Hansard</a></div></div></div><div class="recrow"><span class="reckind">ASKED</span><div class="recbody"><div class="rectitle">Media: Euthanasia and Suicide</div><blockquote class="recquote">To ask the Secretary of State for Culture, Media and Sport, if she will take steps with Ofcom to undertake a review of the adequacy of guidance to the media on the reporting of (a) assisted suicide, (b) euthanasia and (c) other suicide cases.</blockquote><div class="recmeta">14 March 2024 &middot; <a class="official" href="https://questions-statements.parliament.uk/written-questions/detail/2024-03-06/17458" target="_blank">Written question</a></div></div></div></div></div></div></body></html>
