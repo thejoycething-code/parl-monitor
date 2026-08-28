@@ -2,11 +2,25 @@
 
     python3 tools/sd_bills.py
 
-Discovery is the union of three link sources: the legislation page and the
-rejected/withdrawn page on senedd.wales (honest UA), plus any tracking page
-surfacing in business.senedd.wales/mgWhatsNew.aspx -- which is how a NEW bill
-is caught the week it starts moving, since the legislation landing page lists
-completed Acts. Stage is parsed from prose (see src/ingest/senedd.py).
+RE-SOURCED 2026-08-28, with sd_committees, after business.senedd.wales went
+behind an Azure WAF answering 403 to every non-browser client. This tool
+fetched one tracking page PER BILL from that host, so every bill became a
+gap: 11 in the last run.
+
+Everything now comes from the register table on senedd.wales, which carries
+per bill exactly what the tracking page did -- the ModernGov IId, the title,
+a stage column and a progress sentence -- and carries it fresher: it had
+46599 at Royal Assent while the store, last filled from the tracking pages,
+still said Stage 4. One page replaces one fetch per bill.
+
+WHAT WAS LOST. mgWhatsNew, also on the blocked host, was how a brand-new
+bill was caught the week it started moving. Discovery is now the register
+plus the rejected/withdrawn page, both of which list a bill once the Senedd
+publishes it there. The register is headed "Progress of Senedd Bills", so it
+should carry a bill from introduction -- but every row reads "Act" today,
+the Seventh Senedd having introduced none, and the archive page no longer
+renders its table, so that cannot be observed until the first live bill.
+Worth a look when one appears rather than a trust.
 
 Same rules as every watching-brief tool: sd_* tables only; gaps printed.
 """
@@ -26,9 +40,6 @@ from src import db, filter as filt
 from src.http import FetchError, HttpClient
 from src.ingest import senedd
 
-WHATSNEW = "https://business.senedd.wales/mgWhatsNew.aspx"
-
-
 def main():
     now = datetime.datetime.now().isoformat(timespec="seconds")
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
@@ -36,47 +47,51 @@ def main():
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
 
-    iids = {}
+    # Discovery AND status in one pass: each register page carries both.
+    register = {}
     gaps = 0
     for name, url in (("legislation", senedd.LEGISLATION_URL),
                       ("rejected", senedd.REJECTED_URL)):
         try:
             page = client.get_text(url, "senedd", "bills-" + name,
                                    archive=False)
-            for iid, title in senedd.parse_bill_links(page):
-                iids[iid] = title
-        except FetchError as exc:
-            print("  [gap] {0}: {1}".format(name, exc.cause))
-            gaps += 1
-    try:
-        page = client.get_text(WHATSNEW, "senedd", "whatsnew", archive=False)
-        for iid in re.findall(r"mgIssueHistoryHome\.aspx\?IId=(\d+)", page):
-            iids.setdefault(int(iid), None)
-    except FetchError as exc:
-        print("  [gap] whatsnew: {0}".format(exc.cause))
-        gaps += 1
-    known = {r[0] for r in conn.execute("SELECT iid FROM sd_bills")}
-    iids.update({k: None for k in known if k not in iids})
-
-    stored = ours = 0
-    for iid in sorted(iids):
-        try:
-            title, stage, date = senedd.fetch_bill(client, iid)
         except FetchError as exc:
             conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (datetime.date.today().isoformat(), "sd-bills",
-                          "IId {0}: {1}".format(iid, exc.cause)))
+                          "{0} page: {1}".format(name, exc.cause)))
             conn.commit()
-            print("  [gap] IId {0}: {1}".format(iid, exc.cause))
+            print("  [gap] {0}: {1}".format(name, exc.cause))
             gaps += 1
             continue
-        title = title or iids.get(iid) or ""
-        # mgWhatsNew surfaces EVERY ModernGov issue type -- petitions
-        # (P-07-...), cross-party group papers, consultations. Discovery-
-        # sourced items must look like legislation; items from the
-        # legislation pages themselves are trusted as listed.
-        if iids.get(iid) is None and not re.search(
-                r"\b(Bill|Act)\b", title):
+        for iid, title, column, progress in senedd.parse_bill_register(page):
+            stage, date = senedd.bill_status_from_register(column, progress)
+            register[iid] = (title, stage, date)
+        # The rejected page lists its bills in prose rather than a table, so
+        # the link reader still earns its place -- and a bill listed there
+        # is withdrawn or rejected by definition, which is its stage.
+        for iid, title in senedd.parse_bill_links(page):
+            if iid in register:
+                continue
+            register[iid] = (title,
+                             "Withdrawn or rejected" if name == "rejected"
+                             else "Introduced", None)
+
+    # A bill already known but absent from both pages keeps what it had:
+    # dropping to "Introduced" would rewrite history backwards.
+    for iid, title, stage, date in conn.execute(
+            "SELECT iid, title, latest_stage, stage_date FROM sd_bills"):
+        register.setdefault(iid, (title, stage, date))
+
+    stored = ours = 0
+    for iid in sorted(register):
+        title, stage, date = register[iid]
+        title = title or ""
+        # Every row now comes from a legislation page rather than from
+        # mgWhatsNew, which surfaced EVERY ModernGov issue type -- petitions
+        # (P-07-...), cross-party group papers, consultations. The name
+        # check stays anyway: it costs nothing and the register is not ours
+        # to assume about.
+        if not re.search(r"\b(Bill|Act)\b", title):
             continue
         res = filt.filter_item(tax, wl, title)
         areas = res.issue_areas or []

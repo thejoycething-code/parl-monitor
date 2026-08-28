@@ -474,3 +474,80 @@ class OpenEstateTests(unittest.TestCase):
         stripped = src.replace(ast.get_docstring(body) or "", "")
         self.assertNotIn("business.senedd.wales", stripped)
         self.assertNotIn("fetch_next_meeting(", stripped)
+
+
+class BillRegisterTests(unittest.TestCase):
+    """sd_bills, re-sourced 2026-08-28 with sd_committees.
+
+    The tool fetched one ModernGov tracking page PER BILL, so when
+    business.senedd.wales went behind its WAF every bill became a gap --
+    11 in the last run. The register table on senedd.wales carries the same
+    four things per bill (IId, title, stage column, progress sentence) on
+    one open page.
+    """
+
+    FIXTURES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
+
+    def _fx(self, name):
+        with open(os.path.join(self.FIXTURES, name), encoding="utf-8") as fh:
+            return fh.read()
+
+    def test_the_register_carries_id_title_stage_and_progress(self):
+        rows = senedd.parse_bill_register(self._fx("senedd_bill_register.html"))
+        self.assertTrue(rows)
+        for iid, title, column, progress in rows:
+            self.assertIsInstance(iid, int)
+            self.assertTrue(title)
+            self.assertTrue(column or progress)
+
+    def test_the_progress_sentence_still_yields_the_assent_date(self):
+        """Same prose the tracking page carried, so the same reader."""
+        stage, date = senedd.bill_status_from_register(
+            "Act", "Royal Assent was given on 27 April 2026")
+        self.assertEqual((stage, date), ("Royal Assent", "2026-04-27"))
+
+    def test_the_column_answers_when_the_prose_does_not(self):
+        stage, date = senedd.bill_status_from_register("Stage 2", "")
+        self.assertEqual(stage, "Stage 2")
+        self.assertIsNone(date)
+
+    def test_a_stage_in_the_prose_beats_the_column(self):
+        stage, _date = senedd.bill_status_from_register(
+            "", "Stage 3 proceedings took place on 4 March 2026")
+        self.assertEqual(stage, "Stage 3")
+
+    def test_the_register_was_fresher_than_the_store(self):
+        """Not a hypothetical: IId 46599 stood at "Stage 4" in the store,
+        last filled from the tracking pages, while the register already had
+        it at Royal Assent on 27 April."""
+        rows = senedd.parse_bill_register(self._fx("senedd_bill_register.html"))
+        self.assertTrue(all(c for _i, _t, c, _p in rows))
+
+    def test_the_tool_fetches_no_page_per_bill(self):
+        """Checked on CODE, not on text: the docstring and a comment both
+        name mgWhatsNew to explain what was lost, and should. Stripping the
+        docstring by string-replace does not work -- ast.get_docstring
+        normalises indentation, so the replace silently matches nothing."""
+        import io
+        import tokenize
+        path = os.path.join(os.path.dirname(self.FIXTURES), os.pardir,
+                            "tools", "sd_bills.py")
+        with open(os.path.abspath(path), encoding="utf-8") as fh:
+            src = fh.read()
+        code = []
+        for tok in tokenize.generate_tokens(io.StringIO(src).readline):
+            if tok.type in (tokenize.COMMENT, tokenize.STRING):
+                continue
+            code.append(tok.string)
+        code = " ".join(code)
+        self.assertNotIn("fetch_bill", code)
+        self.assertNotIn("WHATSNEW", code)
+
+    def test_a_known_bill_absent_from_both_pages_keeps_its_stage(self):
+        """Dropping it back to "Introduced" would rewrite history
+        backwards."""
+        path = os.path.join(os.path.dirname(self.FIXTURES), os.pardir,
+                            "tools", "sd_bills.py")
+        with open(os.path.abspath(path), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("register.setdefault(iid, (title, stage, date))", src)

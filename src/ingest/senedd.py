@@ -632,6 +632,53 @@ def parse_bill_status(page):
     return "Introduced", None
 
 
+# The register table on senedd.wales carries, per bill, everything the
+# blocked tracking page did: the ModernGov IId, the title, a stage column and
+# a progress sentence. It is also FRESHER -- it had 46599 at Royal Assent
+# while the store, last filled from the tracking pages, still said Stage 4.
+#
+# WHAT CANNOT BE VERIFIED TODAY: every row currently reads "Act", because the
+# Sixth Senedd's bills all completed and the Seventh has introduced none. The
+# page is headed "Progress of Senedd Bills" and the archive equivalent no
+# longer renders its table, so there is no way to observe an in-progress row
+# until one exists. The reader below takes the stage from the progress
+# sentence where that says something specific and falls back to the column,
+# so it reads whatever the Senedd puts there -- but the first live bill of
+# this Senedd is worth a look rather than a trust.
+_REGISTER_ROW = re.compile(r'<li class="table__row">([\s\S]*?)</li>')
+_REGISTER_COL = re.compile(r'class="row__col row__col--\d"[^>]*>([\s\S]*?)</p>')
+
+
+def parse_bill_register(page):
+    """[(iid, title, stage_column, progress_prose)] from a register table."""
+    out = []
+    for row in _REGISTER_ROW.findall(page or ""):
+        link = re.search(r"IId=(\d+)\"[^>]*>([^<]+)</a>", row)
+        if not link:
+            continue
+        cols = [" ".join(_html.unescape(re.sub(r"<[^>]+>", " ", c)).split())
+                for c in _REGISTER_COL.findall(row)]
+        out.append((int(link.group(1)),
+                    _html.unescape(link.group(2)).strip(),
+                    cols[1] if len(cols) > 1 else "",
+                    cols[2] if len(cols) > 2 else ""))
+    return out
+
+
+def bill_status_from_register(stage_column, progress):
+    """(latest_stage, date) for one register row.
+
+    The progress sentence is the same prose the tracking page carried, so
+    the same reader handles it; the stage column is the fallback, and it is
+    what names a bill an Act before any prose mentions assent.
+    """
+    stage, date = parse_bill_status(progress or "")
+    if stage != "Introduced":
+        return stage, date
+    column = (stage_column or "").strip()
+    return (column or "Introduced"), date
+
+
 def fetch_bill(client, iid, timeout=60):
     page = client.get_text(BILL_URL.format(iid), "senedd",
                            "bill-{0}".format(iid), timeout=timeout,
