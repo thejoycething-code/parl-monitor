@@ -1774,6 +1774,35 @@ class StorePublishGuardTests(unittest.TestCase):
                 self.assertIn("fetch", ids,
                               "{0}: guard names steps.fetch, no such id".format(name))
 
+    def test_publish_and_commit_are_always_paired(self):
+        """Where the cascade actually began.
+
+        "Commit state" carried no condition, so it was skipped whenever ANY
+        earlier step failed -- one WAF-blocked Senedd feed was enough --
+        while "Publish the store" still uploaded a new asset. New sha on the
+        release, old sha in the repo, and every workflow's next pull refuses
+        the store its own sibling just published.
+
+        Publishing without recording is the fault. The two conditions must
+        be identical, in both directions.
+        """
+        import yaml
+        for name, text in self._publishing_workflows():
+            spec = yaml.safe_load(text)
+            for job in (spec.get("jobs") or {}).values():
+                steps = job.get("steps") or []
+                pub = next((x for x in steps
+                            if "db_state.py --push" in str(x.get("run") or "")), None)
+                if pub is None:
+                    continue
+                com = next((x for x in steps
+                            if "git commit" in str(x.get("run") or "")), None)
+                self.assertIsNotNone(com, "{0}: publishes but never commits".format(name))
+                self.assertEqual(
+                    " ".join(str(pub.get("if") or "").split()),
+                    " ".join(str(com.get("if") or "").split()),
+                    "{0}: publish and commit can diverge".format(name))
+
     def test_written_question_links_do_not_depend_on_a_laptop(self):
         """The links were backfilled by hand once. A store published by any
         workflow would have dropped them again."""

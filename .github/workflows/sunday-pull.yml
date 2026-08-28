@@ -105,11 +105,19 @@ jobs:
         # monday-publish.yml. `always()` alone turned one sha mismatch
         # into a cascade across three workflows on 2026-08-28.
         if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --push
       - name: Commit state
-        if: env.SKIP != '1'
+        # PAIRED WITH THE PUBLISH ABOVE, and it must stay that way. With no
+        # condition, this step is skipped whenever ANY earlier step failed --
+        # one WAF-blocked feed was enough -- while the publish above still
+        # uploaded a new store. New asset, uncommitted sidecar: the next run
+        # of ANY workflow then refuses the store it just published. That is
+        # where 2026-08-28's cascade actually began.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
