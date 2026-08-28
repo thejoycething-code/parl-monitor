@@ -369,3 +369,108 @@ class CommitteeTests(unittest.TestCase):
         with open(os.path.join(ROOT, ".github", "workflows",
                                "sd-weekly.yml"), encoding="utf-8") as fh:
             self.assertIn("tools/sd_committees.py", fh.read())
+
+
+class OpenEstateTests(unittest.TestCase):
+    """The Senedd committee pipeline, re-sourced 2026-08-28.
+
+    business.senedd.wales went behind an Azure WAF that answers 403 to
+    every non-browser client -- the honest UA, the authorised browser UA
+    and full browser headers alike, from a laptop and from GitHub's
+    runners, on the host root as well as any page. It held the committee
+    list, the meeting index and the transcripts.
+
+    All three now come from hosts that answer: senedd.wales for the list
+    and the forward look, record.senedd.wales -- the Record of Proceedings
+    itself -- for the transcripts. Parsed here against real markup saved
+    from those hosts, not markup I wrote to suit the parser.
+    """
+
+    FIXTURES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
+
+    def _fx(self, name):
+        with open(os.path.join(self.FIXTURES, name), encoding="utf-8") as fh:
+            return fh.read()
+
+    def test_the_committee_list_comes_off_the_open_host(self):
+        urls = senedd.parse_committee_index(self._fx("senedd_committee_index.html"))
+        self.assertEqual(len(urls), 15)
+        for u in urls:
+            self.assertTrue(u.startswith("https://senedd.wales/committees/"), u)
+
+    def test_a_committee_keeps_the_id_the_store_keys_on(self):
+        """Changing source must not renumber anything: the id is still the
+        ModernGov CommitteeId, read from the link the open page carries."""
+        cid, name, mid, when = senedd.parse_committee_page(
+            self._fx("senedd_committee_page.html"))
+        self.assertEqual(cid, "984")
+        self.assertEqual(name, "Finance Committee")
+        self.assertEqual(when, "2026-09-17")
+        self.assertEqual(mid, "16249")
+
+    def test_the_forward_look_survived_the_move(self):
+        """Same prose sentence, same parser, different host."""
+        html = self._fx("senedd_committee_page.html")
+        self.assertIn("will next meet", html)
+        self.assertEqual(senedd.parse_next_meeting(html)[1], "2026-09-17")
+
+    def test_contributions_carry_speaker_and_id(self):
+        items, contribs = senedd.parse_record_meeting(
+            self._fx("senedd_record_meeting.html"))
+        self.assertTrue(items)
+        self.assertTrue(contribs)
+        for c in contribs:
+            self.assertTrue(c.text)
+            self.assertTrue(c.key, "no stable key: re-reads would duplicate")
+        self.assertTrue(any(c.member_name and c.member_id for c in contribs))
+
+    def test_the_class_is_not_always_bare_verbatim(self):
+        """"verbatim fullWidth" is as common as "verbatim". Demanding an
+        exact class match found 2 contributions in a meeting of 11."""
+        html = self._fx("senedd_record_meeting.html")
+        self.assertIn('class="verbatim fullWidth"', html)
+        _items, contribs = senedd.parse_record_meeting(html)
+        self.assertGreaterEqual(len(contribs), 3)
+
+    def test_a_heading_takes_one_language_but_the_text_keeps_both(self):
+        """A Petitions heading otherwise read "3. Deisebau newydd 3. New
+        Petitions". The taxonomy still reads both languages, because a
+        Welsh-language contribution is not less of a receipt."""
+        items, contribs = senedd.parse_record_meeting(
+            self._fx("senedd_record_meeting.html"))
+        for title in items:
+            self.assertNotRegex(title, r"\d+\.\s.+\s\d+\.\s")
+        self.assertTrue(any(c.text for c in contribs))
+
+    def test_the_record_index_arrives_as_json_not_html(self):
+        """A regex over the raw response finds nothing: the endpoint
+        answers with HTML fragments INSIDE JSON, so the markup is
+        escaped."""
+        payload = {"Results": [
+            '<div class="searchResult"><a href="../Meeting/16172" class="detail">'
+            '<span class="title">Transcript - Finance Committee</span>'
+            '<span class="subTitle">Meeting on 09/07/2026</span></a></div>']}
+        rows = senedd.parse_record_index(payload)
+        self.assertEqual(rows, [("16172", "Finance Committee", "2026-07-09")])
+
+    def test_the_blocked_readers_cannot_shadow_the_open_ones(self):
+        """Both were called fetch_committees, the blocked one defined
+        second -- so Python kept it, and the tool went on calling the WAF
+        while reporting its 403 as a data gap."""
+        import inspect
+        self.assertIn("COMMITTEE_INDEX", inspect.getsource(senedd.fetch_committees))
+        self.assertTrue(hasattr(senedd, "fetch_committees_moderngov"))
+
+    def test_the_tool_no_longer_reaches_for_the_blocked_host(self):
+        path = os.path.join(os.path.dirname(self.FIXTURES), os.pardir,
+                            "tools", "sd_committees.py")
+        with open(os.path.abspath(path), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertNotIn("fetch_vote_index", src)
+        # The module docstring names the blocked host to explain the move,
+        # which is worth keeping; what must not survive is a CALL to it.
+        import ast
+        body = ast.parse(src)
+        stripped = src.replace(ast.get_docstring(body) or "", "")
+        self.assertNotIn("business.senedd.wales", stripped)
+        self.assertNotIn("fetch_next_meeting(", stripped)

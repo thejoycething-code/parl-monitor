@@ -28,6 +28,8 @@ from __future__ import annotations
 import datetime as _dt
 import html as _html
 import re
+import json as _json
+from urllib.parse import urlencode as _urlencode
 from dataclasses import dataclass
 
 QUESTION_URL = "https://record.senedd.wales/WrittenQuestion/{0}"
@@ -329,6 +331,204 @@ def parse_committees(html):
     return out
 
 
+# -- the open estate ----------------------------------------------------------
+# 2026-08-28: business.senedd.wales went behind an Azure WAF that returns 403
+# to every non-browser client -- the honest UA, the authorised browser UA,
+# full browser Accept/Sec-Fetch headers, this laptop and GitHub's runners
+# alike, on the host root as well as any page. That host held the committee
+# list, the meeting index and the transcripts.
+#
+# All three are recoverable from hosts that are still open:
+#
+#   * senedd.wales/committees/ lists all 15 committees, each with the
+#     ModernGov CommitteeId we already key on, and carries the same
+#     "will next meet on ..." prose the old detail page did;
+#   * record.senedd.wales -- the Record of Proceedings itself -- indexes
+#     committee transcripts through a paged JSON endpoint and serves each
+#     meeting's agenda items and contributions as HTML.
+#
+# The Record is the better source anyway: it is the transcript, not an
+# agenda page that links to one.
+COMMITTEE_INDEX = "https://senedd.wales/committees/"
+RECORD_INDEX = "https://record.senedd.wales/Search/SeeMore"
+RECORD_MEETING = "https://record.senedd.wales/Meeting/{0}"
+RECORD_TYPE_TRANSCRIPT = 2      # the Type radio on the Record's search form
+RECORD_ALL_COMMITTEES = -2      # its MeetingType radio
+RECORD_PAGE_SIZE = 8            # what the endpoint returns, not a choice
+
+
+def parse_committee_index(html):
+    """The committee page URLs listed on senedd.wales/committees/.
+
+    Only the links: the id and the name are read from each committee's own
+    page, which has to be fetched anyway for the forward look. Pairing the
+    15 slugs against the 15 ModernGov links by document order would have
+    worked today and mispaired silently the day one committee is added.
+    """
+    out = []
+    for slug in re.findall(r'href="(/committees/[a-z0-9\-]+/)"', html or ""):
+        url = "https://senedd.wales" + slug
+        if url not in out:
+            out.append(url)
+    return out
+
+
+def parse_committee_page(html, today=None):
+    """(committee_id, name, next_meeting_id, next_meeting_date).
+
+    The id is the ModernGov CommitteeId the page links to -- the same one
+    the store has always keyed on, so changing source renumbers nothing --
+    and the next sitting is the same prose sentence the blocked detail page
+    carried, parsed by the same reader.
+    """
+    m = re.search(r'ieListMeetings\.aspx\?CommitteeId=(\d+)', html or "")
+    cid = m.group(1) if m else None
+    t = re.search(r"<title>([\s\S]{0,200}?)</title>", html or "")
+    name = " ".join(_html.unescape(re.sub(r"<[^>]+>", " ", t.group(1))).split()) if t else ""
+    name = re.sub(r"\s*[-|]\s*(Welsh Parliament|Senedd).*$", "", name).strip()
+    mid, when = parse_next_meeting(html, today=today)
+    return cid, name, mid, when
+
+
+def fetch_committees(client, timeout=120):
+    """[(id, name, url)] for every Senedd committee, from the open host."""
+    index = parse_committee_index(client.get_text(
+        COMMITTEE_INDEX, "senedd", "committee-index", timeout=timeout,
+        archive=False))
+    out = []
+    for url in index:
+        key = "committee-" + url.rstrip("/").rsplit("/", 1)[-1]
+        cid, name, _mid, _when = parse_committee_page(
+            client.get_text(url, "senedd", key, timeout=timeout, archive=False))
+        if cid and name and not _NOT_A_COMMITTEE.search(name):
+            out.append((cid, name, url))
+    return out
+
+
+def fetch_committee_page(client, url, key, timeout=120):
+    """One committee's own page on the open host: id, name, next sitting."""
+    return client.get_text(url, "senedd", key, timeout=timeout, archive=False)
+
+
+def parse_record_index(payload):
+    """[(meeting_id, committee_name, iso_date)] from the Record's JSON.
+
+    The endpoint answers with HTML fragments inside JSON, which is why a
+    naive regex over the response finds nothing: the markup arrives
+    escaped.
+    """
+    out = []
+    for frag in (payload or {}).get("Results") or []:
+        mid = re.search(r"/Meeting/(\d+)", frag)
+        name = re.search(r'class="title">\s*Transcript - ([^<]+)<', frag)
+        when = re.search(r"Meeting on (\d\d)/(\d\d)/(\d{4})", frag)
+        if not (mid and when):
+            continue
+        out.append((mid.group(1),
+                    " ".join(_html.unescape(name.group(1)).split()) if name else "",
+                    "{2}-{1}-{0}".format(*when.groups())))
+    return out
+
+
+def fetch_record_index(client, page=1, timeout=120):
+    """One page of the Record's committee-transcript index, newest first."""
+    query = _urlencode({
+        "Query": "", "MemberID": -1, "Type": RECORD_TYPE_TRANSCRIPT,
+        "Start": "01/01/0001", "End": "01/01/0001",
+        "MeetingType": RECORD_ALL_COMMITTEES, "MotionType": -1,
+        "OrderPaperFilter": "False", "Page": page, "Unselected": "All"})
+    raw = client.get_text("{0}?{1}".format(RECORD_INDEX, query), "senedd",
+                          "record-index-{0}".format(page), timeout=timeout,
+                          archive=False)
+    try:
+        return parse_record_index(_json.loads(raw))
+    except ValueError:
+        return []
+
+
+class RecordContribution(object):
+    """One speech in a committee meeting, as the Record publishes it."""
+
+    __slots__ = ("key", "member_id", "member_name", "heading", "text")
+
+    def __init__(self, key, member_id, member_name, heading, text):
+        self.key = key
+        self.member_id = member_id
+        self.member_name = member_name
+        self.heading = heading
+        self.text = text
+
+
+def _record_text(block, prefer_translation=False):
+    """Verbatim plus interpretation.
+
+    Proceedings are recorded in the language they were spoken in, with the
+    interpretation alongside. Both go to the taxonomy: a Welsh-language
+    contribution is not less of a receipt, and dropping the verbatim half
+    would silently under-read Welsh-speaking members.
+    """
+    found = {}
+    # The class is "verbatim fullWidth" as often as bare "verbatim", and
+    # demanding an exact match found 2 contributions in a meeting of 11.
+    for cls in ("verbatim", "translation"):
+        parts = []
+        for inner in re.findall(
+                r'class="%s(?:\s[^"]*)?"[^>]*>([\s\S]*?)</div>' % cls, block):
+            got = " ".join(_html.unescape(re.sub(r"<[^>]+>", " ", inner)).split())
+            if got and got not in parts:
+                parts.append(got)
+        found[cls] = " ".join(parts)
+    if prefer_translation and found["translation"]:
+        return found["translation"]
+    both = [x for x in (found["verbatim"], found["translation"]) if x]
+    return " ".join(dict.fromkeys(both))
+
+
+def parse_record_meeting(html):
+    """(agenda item titles, [RecordContribution]) for one meeting.
+
+    Contributions carry the speaker's name and their ModernGov UID, and
+    each block has a stable id -- so an event key survives a re-read
+    without duplicating.
+    """
+    html = html or ""
+    items, out, heading = [], [], ""
+    for block in re.split(r'(?=<div class="itemContent (?:agendaItem|contribution)")',
+                          html):
+        if 'class="itemContent agendaItem"' in block:
+            # The heading takes ONE language -- the interpretation where
+            # there is one -- or a Petitions item reads "3. Deisebau newydd
+            # 3. New Petitions". The contribution TEXT keeps both, because
+            # that is what the taxonomy reads.
+            title = _record_text(block, prefer_translation=True)
+            if title:
+                items.append(title[:300])
+                heading = title[:300]
+            continue
+        if 'class="itemContent contribution"' not in block:
+            continue
+        text = _record_text(block)
+        if not text:
+            continue
+        cid = re.search(r'class="itemContent contribution"[^>]*id="([^"]+)"', block)
+        uid = re.search(r"mgUserInfo\.aspx\?UID=(\d+)", block)
+        name = re.search(r'class="name"[^>]*>([\s\S]{0,120}?)</span>', block)
+        out.append(RecordContribution(
+            cid.group(1) if cid else None,
+            uid.group(1) if uid else None,
+            " ".join(_html.unescape(re.sub(r"<[^>]+>", " ", name.group(1))).split())
+            if name else "",
+            heading, text))
+    return items, out
+
+
+def fetch_record_meeting(client, meeting_id, timeout=120):
+    return parse_record_meeting(client.get_text(
+        RECORD_MEETING.format(meeting_id), "senedd",
+        "record-meeting-{0}".format(meeting_id), timeout=timeout,
+        archive=False))
+
+
 def parse_next_meeting(html, today=None):
     """(meeting_id, iso_date) for a committee's next sitting, or (None, None).
 
@@ -361,13 +561,19 @@ def parse_next_meeting(html, today=None):
         return mid, None
 
 
-def fetch_committees(client, timeout=120):
+# The ModernGov readers, kept but NOT reachable: business.senedd.wales has
+# returned 403 to every client since 2026-08-28. They are named with a
+# _moderngov suffix so that a second `def fetch_committees` can never again
+# silently shadow the open-host one further up this file -- which is exactly
+# what happened when the replacement was first written, and the tool went on
+# calling the blocked host while reporting the WAF's 403 as a data gap.
+def fetch_committees_moderngov(client, timeout=120):
     return parse_committees(client.get_text(
         COMMITTEES_URL, "senedd", "committees", timeout=timeout,
         archive=False))
 
 
-def fetch_next_meeting(client, committee_id, timeout=120):
+def fetch_next_meeting_moderngov(client, committee_id, timeout=120):
     return parse_next_meeting(client.get_text(
         COMMITTEE_URL.format(committee_id), "senedd",
         "committee-{0}".format(committee_id), timeout=timeout, archive=False))

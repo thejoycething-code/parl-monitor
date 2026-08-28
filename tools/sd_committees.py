@@ -3,20 +3,32 @@
     python3 tools/sd_committees.py                  # the weekly
     python3 tools/sd_committees.py --committee 985   # just one
 
-Two things from the same pass over ModernGov's committee list:
+RE-SOURCED 2026-08-28. business.senedd.wales -- which held the committee
+list, the meeting index and the transcripts -- went behind an Azure WAF that
+returns 403 to every non-browser client. Not a UA problem: it refuses the
+honest UA, the authorised browser UA and full browser headers alike, from a
+laptop and from GitHub's runners, on the host root as well as any page.
 
-  1. SCRUTINY. The XMLExport index accepts committee ids (Plenary is
-     committee 908, which is why the votes exporter's `committee` param
-     worked all along), so each committee's sittings expose the same
-     English transcript XML as plenary. MS contributions whose text
-     passage-matches the taxonomy land in sd_events with an `sdcc` key
+Everything is now read from hosts that are open, and the Record is a better
+source than what it replaces -- it is the transcript itself, not an agenda
+page linking to one:
+
+  1. THE LIST. senedd.wales/committees/ links all 15 committees. Each
+     committee's own page carries the ModernGov CommitteeId the store has
+     always keyed on, so changing source renumbers nothing.
+  2. SCRUTINY. record.senedd.wales indexes committee transcripts through a
+     paged JSON endpoint, newest first, and serves each meeting's agenda
+     items and contributions with the speaker's name and UID. Contributions
+     that passage-match the taxonomy land in sd_events with an `sdcc` key
      prefix and a "Committee -- item" heading; classification runs on the
      agenda ITEM, never the committee's own name.
-  2. THE FORWARD LOOK. A committee's detail page states its next sitting
-     in prose ("will next meet on Thursday 17 September"). The agenda for
-     a future sitting is published later, so a forward row carries a date
-     and no subject until then -- said, not hidden. The ModernGov calendar
-     is useless for this: all three views hold exhibitions only.
+     Both the verbatim and the interpretation go to the taxonomy: a
+     Welsh-language contribution is not less of a receipt.
+  3. THE FORWARD LOOK. The same "will next meet on Thursday 17 September"
+     prose the blocked detail page carried appears on the committee's
+     senedd.wales page, and is read by the same parser. A future agenda is
+     published later, so a forward row carries a date and no subject until
+     then -- said, not hidden.
 
 Watching brief: writes sd_* tables only, never items/mp_events, so nothing
 here reaches the published digest. ONE WRITER AT A TIME on the store.
@@ -36,72 +48,77 @@ from src import db, filter as filt
 from src.http import FetchError, HttpClient
 from src.ingest import senedd
 
-MAX_INDEX_PAGES = 12    # bounded walk; log when a committee is still paging
+MAX_INDEX_PAGES = 12    # bounded walk; log when the index is still paging
+RECORD_PAGES = 4        # 8 transcripts a page, newest first: a month of
+                        # committee weeks, which a weekly run cannot outrun
 
 
-def harvest_committee(client, conn, tax, wl, cid, name, now, log):
-    """Transcripts for one committee. Returns (sittings, stored, gaps)."""
-    sittings = stored = gaps = 0
-    page = 1
-    while page <= MAX_INDEX_PAGES:
+def harvest_meeting(conn, tax, wl, name, meeting_id, dated, contributions, now):
+    """Store the taxonomy-matching contributions of one meeting."""
+    stored = 0
+    for c in contributions:
+        matches = filt.match_passages(tax, wl, c.text, title=c.heading or "")
+        if not matches:
+            continue
+        areas, terms, excerpt = filt.aggregate_passages(matches)
+        if not areas:
+            continue
+        conn.execute(
+            "INSERT INTO sd_events (key, member_id, member_name, "
+            "dated, heading, areas, matched_terms, excerpt, "
+            "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?) "
+            "ON CONFLICT(key) DO UPDATE SET areas=excluded.areas, "
+            "matched_terms=excluded.matched_terms, "
+            "excerpt=excluded.excerpt, heading=excluded.heading, "
+            "last_seen=excluded.last_seen",
+            ("sdcc{0}-{1}".format(meeting_id, c.key or len(excerpt)),
+             c.member_id, c.member_name, dated,
+             "{0} -- {1}".format(name, c.heading or "?"),
+             json.dumps(areas), json.dumps(terms), excerpt, now, now))
+        stored += 1
+    return stored
+
+
+def walk_record(client, conn, tax, wl, now, log, wanted=None):
+    """Recent committee transcripts, newest first, from the Record.
+
+    One paged walk for the whole Senedd rather than a walk per committee:
+    the index is chronological across all of them, which is also what a
+    weekly run wants. Returns (meetings, stored, gaps, per_committee).
+    """
+    meetings = stored = gaps = 0
+    per = {}
+    for page in range(1, RECORD_PAGES + 1):
         try:
-            found, more = senedd.fetch_vote_index(client, cid, page)
+            found = senedd.fetch_record_index(client, page)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) "
-                         "VALUES (?,?,?)",
+            conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (now, "sd-committees",
-                          "{0} index page {1}: {2}".format(name, page,
-                                                           exc.cause)))
-            log("  [gap] {0} index page {1}: {2}".format(name, page,
-                                                        exc.cause))
-            return sittings, stored, gaps + 1
+                          "record index page {0}: {1}".format(page, exc.cause)))
+            log("  [gap] record index page {0}: {1}".format(page, exc.cause))
+            return meetings, stored, gaps + 1, per
         if not found:
             break
-        for sitting in found:
-            sittings += 1
+        for meeting_id, committee, dated in found:
+            if wanted and committee != wanted:
+                continue
+            meetings += 1
+            per[committee] = per.get(committee, 0) + 1
             try:
-                speeches = senedd.fetch_transcript(client,
-                                                   sitting.meeting_id)
+                _items, contributions = senedd.fetch_record_meeting(
+                    client, meeting_id)
             except FetchError as exc:
                 conn.execute("INSERT INTO gaps (edition, feed, detail) "
                              "VALUES (?,?,?)",
                              (now, "sd-committees",
-                              "{0} meeting {1}: {2}".format(
-                                  name, sitting.meeting_id, exc.cause)))
-                log("  [gap] {0} meeting {1}: {2}".format(
-                    name, sitting.meeting_id, exc.cause))
+                              "meeting {0}: {1}".format(meeting_id, exc.cause)))
+                log("  [gap] meeting {0}: {1}".format(meeting_id, exc.cause))
                 gaps += 1
                 continue
-            for sp in speeches:
-                matches = filt.match_passages(tax, wl, sp.text,
-                                              title=sp.heading or "")
-                if not matches:
-                    continue
-                areas, terms, excerpt = filt.aggregate_passages(matches)
-                if not areas:
-                    continue
-                conn.execute(
-                    "INSERT INTO sd_events (key, member_id, member_name, "
-                    "dated, heading, areas, matched_terms, excerpt, "
-                    "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?) "
-                    "ON CONFLICT(key) DO UPDATE SET areas=excluded.areas, "
-                    "matched_terms=excluded.matched_terms, "
-                    "excerpt=excluded.excerpt, heading=excluded.heading, "
-                    "last_seen=excluded.last_seen",
-                    ("sdcc{0}".format(sp.key[3:] if sp.key.startswith("sdc")
-                                      else sp.key),
-                     sp.member_id, sp.member_name, sp.dated,
-                     "{0} -- {1}".format(name, sp.heading or "?"),
-                     json.dumps(areas), json.dumps(terms), excerpt, now, now))
-                stored += 1
+            stored += harvest_meeting(conn, tax, wl, committee, meeting_id,
+                                      dated, contributions, now)
         conn.commit()
-        if not more:
-            break
-        page += 1
-    else:
-        log("  [note] {0} still paging at page {1} -- capped, older "
-            "sittings unseen".format(name, MAX_INDEX_PAGES))
-    return sittings, stored, gaps
+    return meetings, stored, gaps, per
 
 
 def main():
@@ -127,27 +144,33 @@ def main():
         return 1
     if only:
         committees = [c for c in committees if c[0] == only]
-    print("{0} committee(s) listed (Plenary and the Youth Parliament are "
-          "excluded by design).".format(len(committees)))
+    print("{0} committee(s) listed from senedd.wales.".format(len(committees)))
 
-    sittings = stored = gaps = forward = 0
-    for cid, name in committees:
-        # The forward look first: one page, and it is the useful bit even
-        # when a committee has no transcripts yet.
+    # The scrutiny walk is ONE pass over the Record for the whole Senedd,
+    # not a pass per committee: the index is chronological across all of
+    # them, which is what a weekly run wants anyway.
+    wanted = committees[0][1] if (only and committees) else None
+    meetings, stored, gaps, per = walk_record(client, conn, tax, wl, now,
+                                              print, wanted)
+
+    forward = 0
+    for cid, name, url in committees:
+        key = "committee-" + url.rstrip("/").rsplit("/", 1)[-1]
+        when = mid = None
         try:
-            mid, when = senedd.fetch_next_meeting(client, cid)
+            page = senedd.fetch_committee_page(client, url, key)
+            _cid, _name, mid, when = senedd.parse_committee_page(page)
         except FetchError as exc:
-            print("  [gap] {0} detail page: {1}".format(name, exc.cause))
-            mid, when = None, None
+            conn.execute("INSERT INTO gaps (edition, feed, detail) "
+                         "VALUES (?,?,?)",
+                         (now, "sd-committees",
+                          "{0} page: {1}".format(name, exc.cause)))
+            print("  [gap] {0} page: {1}".format(name, exc.cause))
             gaps += 1
         if when:
             forward += 1
         res = filt.filter_item(tax, wl, name)
-        s, st, g = harvest_committee(client, conn, tax, wl, cid, name, now,
-                                    print)
-        sittings += s
-        stored += st
-        gaps += g
+        seen = per.get(name, 0)
         conn.execute(
             "INSERT INTO sd_committees (committee_id, name, next_meeting, "
             "next_meeting_id, areas, matched_terms, meetings_seen, "
@@ -159,14 +182,14 @@ def main():
             "meetings_seen=excluded.meetings_seen, "
             "last_seen=excluded.last_seen",
             (cid, name, when, mid, json.dumps(res.issue_areas or []),
-             json.dumps(res.matched_terms or []), s, now, now))
+             json.dumps(res.matched_terms or []), seen, now, now))
         conn.commit()
-        print("  {0:<62} {1} sitting(s), next {2}".format(
-            name[:62], s, when or "not announced"))
+        print("  {0:<58} {1} transcript(s) read, next {2}".format(
+            name[:58], seen, when or "not announced"))
 
-    print("\n{0} sitting(s) read across {1} committee(s); {2} passage-matched "
-          "event(s) stored in sd_events (sdcc keys) -- ACTIVITY ONLY, never "
-          "direction.".format(sittings, len(committees), stored))
+    print("\n{0} meeting(s) read across {1} committee(s); {2} passage-matched "
+          "contribution(s) stored in sd_events (sdcc keys) -- ACTIVITY ONLY, "
+          "never direction.".format(meetings, len(per), stored))
     print("{0} committee(s) have announced a next sitting. A future agenda is "
           "published later, so a forward row carries a date and no subject "
           "until then.".format(forward))
