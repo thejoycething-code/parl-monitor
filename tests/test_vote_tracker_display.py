@@ -1963,3 +1963,78 @@ class PackedLinkTests(unittest.TestCase):
                             u.startswith("https://questions-statements"):
                         long_ones += 1
         self.assertEqual(long_ones, 0, "unpacked links are still shipping")
+
+
+class LordsDivisionTests(unittest.TestCase):
+    """Assisted-dying divisions in the Lords, scored 2026-08-29.
+
+    Asked to score them, I first had to establish that they exist. The
+    Lords Votes API holds exactly THREE, all historic -- two on Lord
+    Falconer's Bill in 2015, one on Lord Joffe's in 2006 -- and NONE on the
+    Terminally Ill Adults Bill, which never reached a division in that
+    House. They are still worth having: 152 peers on the page voted in
+    them.
+    """
+
+    def _lords(self):
+        data = _payload()
+        if data is None:
+            return None
+        return [d for d in data["divisions"]
+                if (d.get("house") or "commons") == "lords"]
+
+    def test_the_lords_divisions_are_on_the_page(self):
+        lords = self._lords()
+        if lords is None:
+            self.skipTest("page not built")
+        self.assertEqual(len(lords), 3)
+        for d in lords:
+            self.assertTrue(d.get("ayes") and d.get("noes"),
+                            "a division without counts is not a receipt")
+
+    def test_an_unsigned_division_publishes_no_verdict(self):
+        """signed_off gated NOTHING before this: the tool warned that a
+        division was unapproved and shipped its verdict anyway."""
+        lords = self._lords()
+        if lords is None:
+            self.skipTest("page not built")
+        for d in lords:
+            self.assertFalse(d["signed_off"])
+            self.assertIsNone(d.get("good"),
+                              "an unapproved division must not carry a verdict")
+
+    def test_the_signed_commons_divisions_still_carry_theirs(self):
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        signed = [d for d in data["divisions"] if d["signed_off"]]
+        self.assertGreater(sum(1 for d in signed if d.get("good")), 15)
+
+    def test_no_mp_is_marked_absent_from_a_lords_division(self):
+        """The mirror of the peer fault: without a house check, all 650 MPs
+        are told they DID NOT VOTE in a division they could not cast."""
+        html = template()
+        self.assertIn('const lordsDivision = (d.house || "commons") === "lords"', html)
+        self.assertIn("NOT IN THE LORDS", html)
+        self.assertIn("NOT IN THE COMMONS", html)
+
+    def test_a_card_is_one_bill(self):
+        """Grouping by issue alone put Falconer's 2015 Bill, Joffe's 2006
+        Bill and the Terminally Ill Adults Bill under one heading."""
+        html = template()
+        self.assertIn('d.house === "lords"', html.split("const key =")[1][:200])
+
+    def test_the_lords_payload_is_normalised_on_the_way_in(self):
+        """contents/notContents and camelCase members, rewritten once at
+        the edge so nothing downstream needs to know."""
+        shaped = mvt.lords_to_commons_shape({
+            "divisionId": 1885, "title": "Assisted Dying Bill [HL]",
+            "date": "2015-01-16T00:00:00",
+            "authoritativeContentCount": 106, "authoritativeNotContentCount": 179,
+            "contents": [{"memberId": 82, "name": "Lord X", "party": "Conservative"}],
+            "notContents": []})
+        self.assertEqual(shaped["DivisionId"], 1885)
+        self.assertEqual(shaped["Date"], "2015-01-16")
+        self.assertEqual(shaped["Ayes"][0]["MemberId"], 82)
+        self.assertEqual(shaped["NoVoteRecorded"], [],
+                         "the Lords records no abstentions; invent none")

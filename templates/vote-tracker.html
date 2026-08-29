@@ -525,7 +525,11 @@ const PARTY_C = {
   // Non-affiliated and 78 Crossbench peers would otherwise have rendered
   // behind the same default grey the party-mark work was built to stop.
   "Crossbench":"#8B8B8B", "Non-affiliated":"#B9BEC4", "Bishops":"#8B008B",
-  "Lord Speaker":"#B9BEC4"};
+  "Lord Speaker":"#B9BEC4",
+  // A Lords grouping, not a Commons party: an Ulster Unionist peer who
+  // sits independently of the party whip. Its own colour rather than the
+  // UUP's, because it is not the UUP.
+  "Independent Ulster Unionist":"#7BA7C7"};
 const pc = p => PARTY_C[p] || "#5B6770";
 
 /* ---------- helpers ---------- */
@@ -794,6 +798,21 @@ function voteInfo(m, d){
     text:`<b>Counted the votes for the Ayes (a teller).</b> Tellers do not vote themselves; by long convention an MP only tells for the side they support, so this is read as backing the Ayes. ${esc(d.meaning_aye)}`}, d, "aye", "Teller (Ayes)");
   if (v==="TN") return withVerdict({chip:"TELLER", lobby:"Teller, No", cls:"T", side:"no",
     text:`<b>Counted the votes for the Noes (a teller).</b> Tellers do not vote themselves; by long convention an MP only tells for the side they support, so this is read as opposing. ${esc(d.meaning_no)}`}, d, "no", "Teller (Noes)");
+  // WRONG HOUSE. A Commons member cannot be absent from a Lords division and
+  // a peer cannot be absent from a Commons one. Without this the three Lords
+  // divisions would have marked all 650 MPs "DID NOT VOTE", explaining that
+  // MPs miss divisions through illness or constituency duties -- the same
+  // false excuse peers were given before this evening, in the other
+  // direction. A peer who was previously an MP still shows their Commons
+  // votes, because `v` is set for them and this is only reached when it
+  // is not.
+  const lordsDivision = (d.house || "commons") === "lords";
+  if (!v && lordsDivision !== isPeer(m))
+    return {chip: lordsDivision ? "NOT IN THE LORDS" : "NOT IN THE COMMONS",
+      cls:"S", side:null,
+      text: lordsDivision
+        ? `This division was held in the House of Lords. ${esc(m.name)} sits in the Commons, so it was not theirs to cast.`
+        : `This division was held in the House of Commons. ${esc(m.name)} sits in the Lords, so it was not theirs to cast.`};
   // Was this member SITTING on the day? Answered from real service history,
   // not from members.since -- which is the current period only, so it read
   // 2024-07-04 for members first elected in 1983 and excused their absences
@@ -911,7 +930,16 @@ function renderMP(id){
   const groups = {};
   for (const issue of DATA.issues){
     for (const d of divsByIssue[issue.id]){
-      const key = issue.id + "|" + (issue.bill || issue.name);
+      // A card is one BILL. Grouping by issue alone was right while every
+      // assisted-suicide division belonged to the Terminally Ill Adults
+      // Bill; adding Lord Falconer's 2015 Bill and Lord Joffe's 2006 Bill
+      // put three different Bills under one heading, which is the same
+      // misattribution the quote work fixed in the other direction. Only
+      // the Lords divisions are keyed on their own bill: keying every
+      // division that way splits the Terminally Ill card into five, because
+      // an amendment's bill name is its full division title.
+      const key = issue.id + "|" + (d.house === "lords"
+        ? (d.bill || d.title) : (issue.bill || issue.name));
       (groups[key] = groups[key] || {issue: issue, divs: []}).divs.push(d);
     }
   }

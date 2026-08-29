@@ -45,6 +45,39 @@ CODES = (("Ayes", "A"), ("Noes", "N"), ("AyeTellers", "TA"),
          ("NoTellers", "TN"), ("NoVoteRecorded", "X"))
 
 
+# A Lords division answers in its OWN shape -- contents/notContents, camelCase
+# member fields, no NoVoteRecorded block -- while everything downstream of
+# here (CODES, party_splits, the votes map) speaks Commons. Normalising once,
+# at the edge, is far less invasive than branching in six places, and it is
+# how the assisted-dying divisions of 2006 and 2015 reach the page at all.
+#
+# There is no NoVoteRecorded for the Lords, which matters: absence from a
+# Lords division list is not a recorded abstention, so nothing is invented
+# to stand in for one.
+def lords_to_commons_shape(payload):
+    """A Lords division payload, rewritten in the Commons vocabulary."""
+    def side(rows):
+        out = []
+        for m in (rows or []):
+            out.append({"MemberId": m.get("memberId"),
+                        "Name": m.get("name"),
+                        "Party": m.get("party")})
+        return out
+    return {
+        "DivisionId": payload.get("divisionId"),
+        "House": "Lords",
+        "Title": payload.get("title"),
+        "Date": (payload.get("date") or "")[:10],
+        "Ayes": side(payload.get("contents")),
+        "Noes": side(payload.get("notContents")),
+        "AyeTellers": side(payload.get("contentTellers")),
+        "NoTellers": side(payload.get("notContentTellers")),
+        "NoVoteRecorded": [],
+        "AyeCount": payload.get("authoritativeContentCount"),
+        "NoCount": payload.get("authoritativeNotContentCount"),
+    }
+
+
 def load_config():
     import yaml
     with open(CONFIG, encoding="utf-8") as handle:
@@ -63,6 +96,17 @@ def archived_divisions():
             continue
         if payload.get("DivisionId"):
             out[payload["DivisionId"]] = payload
+    # Lords divisions, normalised into the same vocabulary on the way in.
+    for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", "*",
+                                              "division_ldetail-*.json.gz"))):
+        try:
+            with gzip.open(path, "rb") as handle:
+                raw = json.loads(handle.read().decode("utf-8"))
+        except Exception:
+            continue
+        if raw.get("divisionId"):
+            shaped = lords_to_commons_shape(raw)
+            out[shaped["DivisionId"]] = shaped
     return out
 
 
@@ -100,16 +144,23 @@ def fetch_missing(payloads, cfg):
     division term list. A division named in the config is wanted by definition,
     so fetch it (and it archives for next time).
     """
-    wanted = [d["id"] for d in (cfg.get("divisions") or []) if d["id"] not in payloads]
+    wanted = [d for d in (cfg.get("divisions") or []) if d["id"] not in payloads]
     if not wanted:
         return 0
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     got = 0
-    for div_id in wanted:
+    for div in wanted:
+        div_id = div["id"]
+        # A Lords division comes from a different API in a different shape.
+        # Without this it was fetched from the Commons endpoint, which
+        # answers 404 for a Lords id -- so a scored Lords division would
+        # simply never appear, and say nothing about why.
+        lords = (div.get("house") or "commons").lower() == "lords"
+        url = ("{0}/Divisions/{1}".format(div_ingest.LORDS_API, div_id) if lords
+               else "{0}/division/{1}.json".format(div_ingest.COMMONS_API, div_id))
         try:
-            client.get_json(
-                "{0}/division/{1}.json".format(div_ingest.COMMONS_API, div_id),
-                "division", "cdetail-{0}".format(div_id))
+            client.get_json(url, "division",
+                            "{0}detail-{1}".format("l" if lords else "c", div_id))
             got += 1
         except Exception as exc:
             print("  could not fetch division {0}: {1}".format(div_id, exc))
@@ -732,10 +783,22 @@ def build(conn, cfg, payloads):
             # partner build strips it before writing (facts only in public),
             # so flipping the public page later is a one-line decision, not
             # a rebuild of anything.
-            "good": our if our in ("aye", "no") else None,
+            # AND ONLY WHEN SIGNED OFF. signed_off gated nothing before: the
+            # tool warned that a division was unapproved and then shipped its
+            # verdict anyway. The page already knows how to show a division
+            # with no verdict -- "FOR THE RECORD, not scored" -- which is
+            # exactly what an unapproved one should be. 2026-08-29, when the
+            # three Lords divisions were scored from the campaign's settled
+            # position but not by Christopher.
+            "good": (our if our in ("aye", "no") and d.get("signed_off")
+                     else None),
             "id": d["id"], "issue": d["issue"], "date": (payload.get("Date") or "")[:10],
             "stage": d["stage"], "stage_group": d.get("stage_group", d["stage"]),
             "landmark": bool(d.get("landmark")), "context": d.get("context", ""),
+            # Which chamber divided. The page needs it to know who could
+            # have voted: without it every MP is marked absent from a Lords
+            # division and every peer from a Commons one.
+            "house": (d.get("house") or "commons").lower(),
             "title": payload.get("Title"), "short": d["short"],
             "bill": bill_of({"title": payload.get("Title"), "short": d["short"],
                              "stage": d["stage"]},
@@ -893,6 +956,9 @@ def build(conn, cfg, payloads):
                if m["house"] == "commons" or m["record"] or m["words"]
                or m["votes"]]
     dropped = before - len(members)
+    peers_kept = sum(1 for m in members if m["house"] == "lords")
+    print("members: {0} MPs + {1} peers ({2} peer(s) dropped as empty)".format(
+        len(members) - peers_kept, peers_kept, dropped))
 
     dataset = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
@@ -955,9 +1021,6 @@ def main():
             handle.write(page)
 
     unsigned = [d["id"] for d in dataset["divisions"] if not d["signed_off"]]
-    peers = sum(1 for m in dataset["members"] if m.get("house") == "lords")
-    print("members: {0} MPs + {1} peers ({2} peer(s) dropped as empty)".format(
-        len(dataset["members"]) - peers, peers, dropped))
     no_since = sum(1 for m in dataset["members"] if not m["since"])
     print("{0} divisions across {1} issues, {2} sitting MPs".format(
         len(dataset["divisions"]), len(dataset["issues"]), len(dataset["members"])))

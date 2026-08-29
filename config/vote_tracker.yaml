@@ -531,3 +531,66 @@ divisions:
       Voted against the Bill as a whole at its final Commons stage. Because the
       Bill covered much besides the register, a vote against it was not
       necessarily a vote against the register.
+
+  # -- Lords, assisted dying --------------------------------------------------
+  # Added 2026-08-29. These are the ONLY assisted-dying divisions the Lords
+  # Votes API holds. There is NONE on the Terminally Ill Adults Bill: that
+  # Bill never reached a division in the Lords, so no peer has a recorded
+  # vote on it and none can be shown.
+  #
+  # They are old and still worth scoring: of the peers sitting today, 145
+  # voted in division 1885, 88 in 1886 and 70 in 981.
+  #
+  # our_side is "no" throughout, matching the Commons entries -- CitizenGO
+  # opposes legalising assisted suicide, so Not Content is our side.
+  #
+  # signed_off is FALSE. Every other division here was approved by
+  # Christopher; these were scored from the campaign's settled position and
+  # have not been through him.
+  - id: 1885
+    house: lords
+    issue: assisted-suicide
+    stage: Second Reading
+    stage_group: Second Reading
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: Second Reading (Lords, 2015)
+    context: >-
+      Lord Falconer's Assisted Dying Bill -- the last time the Lords divided
+      on the principle before the current Bill.
+    meaning_aye: >-
+      Supported the Bill proceeding: in principle, in favour of legalising
+      assisted suicide for terminally ill adults.
+    meaning_no: >-
+      Voted against the Bill proceeding.
+  - id: 1886
+    house: lords
+    issue: assisted-suicide
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: Amendment (Lords, 2015)
+    context: >-
+      A second division the same day, on an amendment to Lord Falconer's Bill.
+    meaning_aye: >-
+      Supported the amendment to the Assisted Dying Bill.
+    meaning_no: >-
+      Voted against the amendment.
+  - id: 981
+    house: lords
+    issue: assisted-suicide
+    stage: Second Reading
+    stage_group: Second Reading
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: Second Reading (Lords, 2006)
+    context: >-
+      Lord Joffe's Assisted Dying for the Terminally Ill Bill.
+    meaning_aye: >-
+      Supported the Bill proceeding.
+    meaning_no: >-
+      Voted to halt the Bill.
