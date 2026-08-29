@@ -748,11 +748,18 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
     for mid in list(record):
         for area in list(record[mid]):
             block = record[mid][area]
-            # No rows means nothing to show, whatever the counts say. For
-            # MPs the counts and the rows agreed; a PEER can be counted for a
-            # Lords contribution that has neither a quotable passage nor a
-            # link, because RawHansard indexes the COMMONS sweeps -- so the
-            # row is dropped and the count would have been left promising it.
+            # No rows means nothing to show, whatever the counts say.
+            #
+            # I first explained this by saying RawHansard indexes only the
+            # COMMONS sweeps, so a Lords contribution had neither text nor a
+            # link. That is FALSE, and measuring it says so: of 7,475
+            # classified peer debate contributions, 7,470 have both full
+            # text and a resolvable Hansard link. Five do not. The archive
+            # covers the Lords perfectly well.
+            #
+            # The rule stands on its own without the story: a block that
+            # ends with no rows promises a receipt it cannot produce,
+            # whatever emptied it.
             if not block["items"]:
                 del record[mid][area]
         if not record[mid]:
