@@ -307,6 +307,14 @@ CREATE TABLE IF NOT EXISTS ni_agenda (
 );
 -- One row per Hansard sitting already fetched, so a re-run costs nothing --
 -- the same job ni_store.dates_present does for rosters.
+CREATE TABLE IF NOT EXISTS ni_committees (
+  committee_id TEXT PRIMARY KEY,  -- OrganisationId from organisations.asmx
+  name TEXT NOT NULL,
+  abbreviation TEXT,              -- 'HEA', 'EDU' -- how the Assembly refers to it
+  kind TEXT NOT NULL,             -- Statutory | Standing | AdHoc | Other
+  areas TEXT, matched_terms TEXT, -- taxonomy over the committee's NAME (remit, not subject)
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS ni_sittings (
   dated TEXT PRIMARY KEY,
   components INTEGER,             -- a sudden drop is a signal, not noise
@@ -647,6 +655,7 @@ TABLES = (
     "ni_divisions",
     "ni_sponsors",
     "ni_agenda",
+    "ni_committees",
     "ni_sittings",
     "ni_votes",
 )

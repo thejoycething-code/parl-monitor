@@ -79,6 +79,16 @@ PLENARY_TABLERS = (BASE + "/plenary.asmx/"
                    "GetPlenaryTablers_JSON?documentId={doc}")
 BUSINESS_DIARY = (BASE + "/plenary.asmx/GetBusinessDiary_JSON"
                   "?startDate={start}&endDate={end}")
+# organisations.asmx was an entire service this pipeline never touched.
+# STATUTORY is the set that matters -- Health, Education, Justice and
+# Communities are the departmental scrutiny committees -- while the Standing
+# list is procedural (Audit, Business, Procedures, Standards). All four
+# kinds are read anyway: a register that silently omits three of its four
+# kinds is worse than no register.
+COMMITTEE_KINDS = ("Statutory", "Standing", "AdHoc", "Other")
+COMMITTEES_LIST = (BASE + "/organisations.asmx/"
+                   "GetCommitteesListCurrent_{0}_JSON")
+
 ALL_MEMBERS = BASE + "/members.asmx/GetAllCurrentMembers_JSON"
 # The roster AS AT a date. Same payload shape as GetAllCurrentMembers, so
 # parse_members serves both. This is what makes party-at-the-time answerable:
@@ -148,6 +158,26 @@ def rows(payload, *path):
     if node is None:
         return []
     return node if isinstance(node, list) else [node]
+
+
+def parse_committees(payload, kind):
+    """[(id, name, abbreviation, kind)] from one committee-list response.
+
+    Envelope is {"OrganisationsList": {"Organisation": [...]}}, which rows()
+    already knows how to unwrap -- including the one-row case the API
+    collapses to a bare object.
+    """
+    out = []
+    for row in rows(payload, "OrganisationsList", "Organisation"):
+        if not isinstance(row, dict):
+            continue
+        cid = str(row.get("OrganisationId") or "").strip()
+        name = " ".join((row.get("OrganisationName") or "").split())
+        if not cid or not name:
+            continue
+        abbr = " ".join((row.get("OrganisationAbbreviation") or "").split())
+        out.append((cid, name, abbr or None, kind))
+    return out
 
 
 @dataclass

@@ -186,3 +186,58 @@ class GapMigrationTests(unittest.TestCase):
     def test_the_index_is_not_in_the_schema_script(self):
         """Where it was, and why that broke every store but mine."""
         self.assertNotIn("CREATE UNIQUE INDEX IF NOT EXISTS gaps_once", db.SCHEMA)
+
+
+class NiCommitteeRegisterTests(unittest.TestCase):
+    """The NI committee register, added 2026-08-29.
+
+    Wales held 19 committees and Scotland harvests 6,965 committee
+    contributions; Northern Ireland held none, so the store could not answer
+    which NI committees exist. organisations.asmx had never been called.
+    """
+
+    FIXTURES = os.path.join(ROOT, "tests", "fixtures")
+
+    def _fx(self, name):
+        import json
+        with open(os.path.join(self.FIXTURES, name), encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_the_statutory_committees_are_the_ones_that_matter(self):
+        from src.ingest import niassembly
+        rows = niassembly.parse_committees(
+            self._fx("ni_committees_statutory.json"), "Statutory")
+        names = [n for _i, n, _a, _k in rows]
+        self.assertEqual(len(rows), 9)
+        for want in ("Committee for Health", "Committee for Education",
+                     "Committee for Justice"):
+            self.assertIn(want, names)
+
+    def test_a_single_committee_is_not_collapsed_away(self):
+        """The API returns a bare object rather than a list of one, which
+        bites anything that indexes straight in."""
+        from src.ingest import niassembly
+        rows = niassembly.parse_committees(self._fx("ni_committees_one.json"),
+                                           "Statutory")
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0][:3], ("10", "Committee for Health", "HEA"))
+
+    def test_all_four_kinds_are_read(self):
+        """A register that silently omits three of its four kinds is worse
+        than no register."""
+        from src.ingest import niassembly
+        self.assertEqual(set(niassembly.COMMITTEE_KINDS),
+                         {"Statutory", "Standing", "AdHoc", "Other"})
+
+    def test_the_kind_is_stored_so_procedural_ones_can_be_told_apart(self):
+        conn = db.init_db(db.connect(":memory:"))
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(ni_committees)")}
+        self.assertIn("kind", cols)
+        self.assertIn("abbreviation", cols)
+
+    def test_the_weekly_runs_it(self):
+        path = os.path.join(ROOT, ".github", "workflows", "ni-weekly.yml")
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn("tools/ni_committees.py", text)
+        self.assertIn("committees", text.split("for f in pull")[1][:60])

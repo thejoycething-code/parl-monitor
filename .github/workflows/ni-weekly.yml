@@ -62,6 +62,13 @@ jobs:
         # Idempotent and free: reads data/raw, so a taxonomy regeneration
         # between weeks lands here without any extra fetching.
         run: python3 tools/ni_classify.py --apply | tee /tmp/ni-classify.log
+      - name: Refresh the committee register
+        if: always()
+        # Four calls to organisations.asmx, a service this pipeline had never
+        # used. Cheap, and the only place the store can answer "which NI
+        # committees exist". It is NOT committee scrutiny: NI committee
+        # transcripts are not in the Open Data API at all.
+        run: python3 tools/ni_committees.py | tee /tmp/ni-committees.log
       - name: Pull open NI Executive consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation ni | tee /tmp/ni-consultations.log
@@ -75,7 +82,7 @@ jobs:
         run: |
           {
             echo "## NI weekly refresh"
-            for f in pull divisions classify consultations; do
+            for f in pull divisions classify committees consultations; do
               echo "### $f"
               if [ -f "/tmp/ni-$f.log" ]; then
                 echo '```'
