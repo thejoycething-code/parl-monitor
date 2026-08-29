@@ -493,3 +493,37 @@ class SidecarMustLandTests(unittest.TestCase):
             self.assertIn("git pull --rebase", block, name)
             self.assertIn("--autostash", block,
                           "{0}: a dirty tree makes rebase refuse".format(name))
+
+
+class PlainHttpTests(unittest.TestCase):
+    """Nothing this pipeline ingests should arrive in the clear.
+
+    Audited 2026-08-29 at Christopher's request. Every source was already
+    https EXCEPT the two Northern Ireland hosts, which had been plain HTTP
+    since the feed was written. Both serve the same responses over TLS --
+    checked with a real API call, not a root request -- and
+    aims.niassembly.gov.uk was already 301-ing to https, so the first
+    request went out in the clear for nothing.
+
+    A monitor that reads what a legislature said is exactly the sort of
+    traffic where an unencrypted hop lets a network alter the answer.
+    """
+
+    def test_no_source_is_fetched_over_plain_http(self):
+        import glob
+        import re
+        offenders = []
+        for root in ("src", "tools"):
+            for path in glob.glob(os.path.join(ROOT, root, "**", "*.py"),
+                                  recursive=True):
+                with open(path, encoding="utf-8") as fh:
+                    for n, line in enumerate(fh, 1):
+                        for m in re.finditer(r"http://[a-z0-9._-]+", line):
+                            offenders.append("{0}:{1} {2}".format(
+                                os.path.relpath(path, ROOT), n, m.group(0)))
+        self.assertEqual(offenders, [], "plain-HTTP sources: {0}".format(offenders))
+
+    def test_the_ni_endpoints_are_https(self):
+        from src.ingest import niassembly
+        self.assertTrue(niassembly.BASE.startswith("https://"))
+        self.assertTrue(niassembly.QUESTION_PAGE.startswith("https://"))

@@ -41,7 +41,12 @@ import datetime
 import re
 from dataclasses import dataclass, field
 
-BASE = "http://data.niassembly.gov.uk"
+# HTTPS, audited 2026-08-29. These were the only two plain-HTTP hosts left
+# in the codebase. Both serve the same responses over TLS -- checked with
+# a real GetAllCurrentMembers_JSON call, not just a root request -- and
+# aims.niassembly.gov.uk was already 301-ing us to https anyway, so we
+# were paying for the redirect and sending the first request in clear.
+BASE = "https://data.niassembly.gov.uk"
 QUESTIONS_SEARCH = BASE + "/questions.asmx/GetQuestionsBySearchText_JSON?searchText={term}"
 QUESTION_DETAIL = BASE + "/questions.asmx/GetQuestionDetails_JSON?documentId={doc}"
 MOTIONS_NDN = BASE + "/plenary.asmx/GetNoDayNamedMotions_JSON"
@@ -95,7 +100,7 @@ MEMBER_VOTING = BASE + "/plenary.asmx/GetDivisionMemberVoting_JSON?documentId={d
 
 # A question's public page. The API's own QuestionDetails link returns raw XML,
 # which is no use to a human reading the monitor.
-QUESTION_PAGE = ("http://aims.niassembly.gov.uk/questions/"
+QUESTION_PAGE = ("https://aims.niassembly.gov.uk/questions/"
                  "printquestionsummary.aspx?docid={doc}")
 
 MIN_SEARCH = 3          # the endpoint rejects shorter terms
