@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How your MSPs voted &mdash; assisted dying</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>:root{
+  /* Principal palette (Brand Guidelines) */
+  --blue:#4285f4;            /* Pantone 2727 C */
+  --white:#FFFFFF;
+  --grey-100:#EEEEEE;        /* Pantone 4280 UP tint */
+  --grey-300:#C4C4C4;        /* Pantone 420 C */
+  --ink:#52575C;             /* Pantone 4280 UP */
+  /* Secondary palette — UX elements only (data viz / chips) */
+  --green:#55B159;
+  --red:#DB544F;
+  --yellow:#FFEBAD;
+  /* derived */
+  --blue-deep:#2f6fe0;
+  --blue-tint:#EAF1FE;
+  --line:#E4E6E9;
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--white);color:var(--ink);font-family:var(--font);font-weight:400;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--blue-deep);text-decoration:underline}
+h1,h2,h3{color:#20242a;font-weight:700;letter-spacing:-.01em}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+h1{font-size:clamp(36px,6.4vw,60px);line-height:1.02;font-weight:900;color:#1b1f24;margin:12px 0 16px}
+.searchbox{position:relative;margin:30px 0 10px}
+.searchbox label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:9px}
+#q{width:100%;font-family:var(--font);font-weight:400;font-size:17px;padding:16px 18px;border:2px solid var(--grey-300);
+  background:var(--white);color:#20242a;border-radius:8px;transition:border-color .15s}
+#q::placeholder{color:#A9AEB4;font-weight:300}
+#q:focus{border-color:var(--blue);outline:3px solid var(--blue-tint)}
+.opt{display:flex;align-items:center;gap:12px;padding:11px 15px;cursor:pointer;border-bottom:1px solid var(--grey-100)}
+.opt:last-child{border-bottom:0}
+.opt.active,.opt:hover{background:var(--blue-tint)}
+.opt .badge{font-size:10px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--grey-300);
+  padding:3px 7px;border-radius:4px;flex:none;min-width:48px;text-align:center}
+.opt .badge.mp{background:var(--blue)}
+.opt .badge.pc{background:var(--ink)}
+.opt .lbl{font-weight:500;color:#20242a}
+.opt small{color:#8b9098;font-weight:300}
+.notice{margin:16px 0 0;padding:13px 16px;background:var(--yellow);border:1px solid #e9d488;border-radius:8px;
+  font-size:14.5px;color:#6b5a1e;font-weight:400;display:none}
+.notice.show{display:block}
+.notice b{font-weight:700}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;margin:34px 0;overflow:hidden;
+  box-shadow:0 8px 30px rgba(32,38,45,.08)}
+.card-head{display:flex;gap:20px;align-items:center;padding:26px 28px;background:var(--blue);color:#fff;flex-wrap:wrap}
+.avatar{position:relative;width:78px;height:78px;border-radius:50%;flex:none;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:26px;color:var(--blue);
+  border:3px solid #fff;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card-head h2{font-family:var(--font);font-weight:700;font-size:30px;line-height:1.08;color:#fff}
+.mp-meta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:7px;font-size:14.5px;font-weight:300;color:#eaf1fe}
+.mp-meta .party{font-weight:500;color:#fff}
+.mp-meta .since{font-size:12.5px;color:#cfe0fc}
+.card-summary{padding:14px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--grey-300);border-bottom:1px solid var(--line);background:#FBFCFD}
+.card-summary b{color:var(--blue)}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:5px 11px;border-radius:5px;margin:8px 0 2px;white-space:nowrap}
+.chip.A{background:var(--green);color:#fff}
+.chip.N{background:var(--red);color:#fff}
+.chip.T{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.chip.X{background:var(--grey-100);color:#7b818a}
+.chip.S{background:var(--yellow);color:#6b5a1e}
+.chip.G{background:var(--green);color:#fff}
+.chip.B{background:var(--red);color:#fff}
+.official{font-size:11.5px;font-weight:500;margin-top:6px;display:inline-block}
+.official:after{content:" \2197"}
+@media(max-width:640px){
+  /* Most traffic arrives from social on a phone. The tally is the densest
+     element: let it wrap and read as one line rather than a squeezed column. */
+  .tallywrap{padding-top:0}
+  .divrow h3{font-size:17px}
+  .morevotes summary{padding:11px 0}
+  header.hero{padding:38px 0 6px}
+  .steps{grid-template-columns:1fr;gap:14px}
+  .divrow{grid-template-columns:1fr;gap:7px}
+  .tallywrap{max-width:340px}
+  .card-head{padding:22px 18px}
+  .issuehead,.divrow{margin-left:18px;margin-right:18px}
+  .card-summary,.rolebanner{padding-left:18px;padding-right:18px}
+  .empty-card{padding:26px 20px}
+}
+.quietlbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:#9aa1a9;margin-bottom:6px}
+.caveat{margin-top:10px;font-size:13px;color:#6c727a;border-left:3px solid #dfe3e8;padding-left:12px}
+@media(max-width:640px){
+  .bigcard{flex-direction:column;align-items:stretch;gap:13px;padding:16px}
+  .votebox{flex:none;padding:12px}
+  .bigcard h3{font-size:18px}
+}
+.rechead{margin:26px 0 4px;padding-top:18px;border-top:2px solid var(--grey-100)}
+.rechead h2{font-size:19px;font-weight:500;margin:0 0 6px}
+.rechead p{font-size:13.5px;color:var(--ink);margin:0;max-width:72ch}
+.recarea{margin:16px 0 4px}
+.recareahead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.recarea h3{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);margin:0 0 3px}
+.novote{font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#4a5058;
+  background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px}
+.reccounts{font-size:13px;color:var(--ink);margin:0 0 8px}
+.reccounts b{font-weight:500;color:#23282f}
+.recmore{font-size:12px;color:#9aa1a9;margin:6px 0 0}
+.recall{margin:8px 0 0;border-top:1px solid var(--line)}
+.recall>summary{list-style:none;cursor:pointer;font-size:12px;font-weight:500;
+  color:var(--blue-deep);padding:8px 0 2px}
+.recall>summary::-webkit-details-marker{display:none}
+.recall>summary:before{content:"\25B8";font-size:10px;margin-right:6px}
+.recall[open]>summary:before{content:"\25BE"}
+.rollrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:6px 0;
+  border-top:1px solid var(--line);font-size:13px}
+.rollkind{flex:0 0 auto;font-size:8.5px;font-weight:700;letter-spacing:.05em;
+  padding:2px 6px;border-radius:3px;background:#f0f1f3;border:1px solid #e2e5e9;color:#4a5058}
+.rolltitle{flex:1 1 300px;min-width:0;font-weight:500;color:#23282f}
+.rollmeta{font-size:11.5px;color:#9aa1a9}
+.recrow{display:flex;gap:13px;padding:11px 0;border-top:1px solid var(--line)}
+.reckind{flex:0 0 96px;height:fit-content;text-align:center;font-size:9.5px;font-weight:700;
+  letter-spacing:.06em;color:#4a5058;background:#f0f1f3;border:1px solid #e2e5e9;
+  border-radius:4px;padding:4px 3px}
+.recbody{min-width:0}
+.rectitle{font-size:14px;font-weight:500;color:#23282f}
+.recquote{font-size:13.5px;line-height:1.5;color:#4a5058;margin:5px 0 2px;font-style:italic;
+  border-left:3px solid var(--grey-100);padding-left:12px}
+.recquote:before{content:"\201C"} .recquote:after{content:"\201D"}
+.recmeta{font-size:12px;color:#9aa1a9;margin-top:4px}
+@media(max-width:560px){
+  .recrow{flex-direction:column;gap:6px}.reckind{width:110px}
+.wqmeta{padding-left:14px}}
+.cardsum{font-size:12px;color:#9aa1a9;margin-top:9px;padding-top:9px;
+  border-top:1px solid var(--line)}
+@media(max-width:560px){
+  .amrow{flex-direction:column;gap:4px}.amlab{flex-basis:auto}
+  .amsub{display:inline;margin-left:5px}
+}
+   a pile-on button, under "Contact your MP" they are how you write to an MP. */
+@media(max-width:560px){.crow{flex-direction:column;gap:3px}.clab{flex-basis:auto}}
+.card-head{align-items:flex-start}
+.idcol{flex:1;min-width:215px}
+.postline{font-size:13px;color:#fff;font-weight:500;margin-top:7px}
+.postline.quiet{font-size:12.5px;color:#cfe0fc;font-weight:400}
+@media(max-width:640px){
+  .rightcol{align-items:stretch;width:100%;margin-left:0}
+  .ccol{width:100%}
+}
+@media(max-width:560px){.jchev{margin-left:0}}
+.recordlast{font-size:12px;margin-top:8px;padding-top:7px;border-top:1px solid var(--line)}
+/* -- Scottish page ------------------------------------------------------- */
+.wrap{max-width:860px;margin:0 auto;padding:24px 18px 60px}
+.lede{font-size:15px;line-height:1.6;max-width:74ch;color:var(--ink)}
+.searchbox{margin:22px 0 8px}
+label[for="q"]{display:block;font-weight:600;font-size:15px;margin-bottom:6px;color:#23282f}
+#q{width:100%;box-sizing:border-box;padding:12px 14px;font-size:16px;font-family:var(--font);
+   border:1px solid var(--grey-300);border-radius:6px}
+.dd{list-style:none;margin:4px 0 0;padding:0;border:1px solid var(--line);border-radius:6px;
+    display:none;max-height:320px;overflow:auto;background:#fff}
+.dd.show{display:block}
+.dd li{padding:9px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid var(--line)}
+.dd li:last-child{border-bottom:0}
+.dd li:hover,.dd li.on{background:var(--blue-tint)}
+.dd small{display:block;color:#9aa1a9;font-size:12px}
+.hero{background:var(--blue);color:#fff;border-radius:10px 10px 0 0;padding:20px 22px}
+.hero h2{margin:0;font-size:26px;font-weight:600}
+.hero .meta{font-size:13.5px;opacity:.92;margin-top:5px}
+.hero .meta b{font-weight:500}
+.card{border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;background:#fff}
+.summary{padding:12px 22px;border-bottom:1px solid var(--line);font-size:12.5px;
+         letter-spacing:.05em;text-transform:uppercase;color:#6b7178}
+.summary b{color:#23282f}
+.g{color:#2E8B4A} .b{color:#C0392B}
+.switch{margin:0;padding:14px 22px;background:var(--yellow);border-bottom:1px solid var(--line);
+        font-size:14px;line-height:1.55;color:#4a3f00}
+.switch b{color:#23282f}
+.vote{display:flex;gap:16px;padding:15px 22px;border-bottom:1px solid var(--line)}
+.vchip{flex:0 0 116px;text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.05em;
+       height:fit-content;padding:7px 4px;border-radius:5px;background:#f0f1f3;
+       border:1px solid #e2e5e9;color:#4a5058}
+.vchip.for{background:#E8F4EC;border-color:#BFE0CB;color:#20613A}
+.vchip.against{background:#FBEBE9;border-color:#F0C8C2;color:#96261B}
+.vbody{min-width:0;flex:1}
+.vtitle{font-size:15px;font-weight:500;color:#23282f}
+.vmotion{font-size:13px;color:#4a5058;margin:5px 0 0;font-style:italic}
+.vmeta{font-size:12px;color:#9aa1a9;margin-top:7px}
+.vmeta .res{font-weight:600}
+.vmeta .res.won{color:#2E8B4A} .vmeta .res.lost{color:#C0392B}
+.posts{padding:12px 22px;border-bottom:1px solid var(--line);font-size:13px;color:#4a5058}
+.posts span{display:inline-block;background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;
+            padding:2px 8px;margin:0 5px 5px 0;font-size:12px}
+.rec{padding:16px 22px}
+.rec h3{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+        color:var(--ink);margin:16px 0 2px}
+.rec h3:first-child{margin-top:0}
+.recn{font-size:13px;margin:0 0 8px;color:#4a5058}
+/* The shared block lifted from the Westminster template carries
+   .recrow{display:flex}, which laid title, quote and date out as three
+   columns here. Overridden explicitly rather than by ordering luck. */
+.recrow{display:block;padding:9px 0;border-top:1px solid var(--line);gap:0}
+.recrow .t{font-size:14px;font-weight:500;color:#23282f}
+.recrow blockquote{font-size:13.5px;line-height:1.5;color:#4a5058;margin:5px 0 2px;
+   font-style:italic;border-left:3px solid var(--grey-100);padding-left:12px}
+.recrow blockquote:before{content:"\201C"} .recrow blockquote:after{content:"\201D"}
+.recrow .d{font-size:12px;color:#9aa1a9;margin-top:3px}
+.empty{padding:26px 22px;color:#6b7178;font-size:14px}
+.foot{margin-top:26px;font-size:12.5px;color:#6b7178;line-height:1.6}
+.foot a{color:var(--blue-deep)}
+.stamp{font-size:11.5px;color:#9aa1a9;margin-top:10px}
+.crosslink{margin:18px 0 0;padding:14px 16px;border:1px solid var(--line);border-radius:8px;
+           background:#FAFBFC;font-size:13.5px;line-height:1.55}
+.crosslink b{color:#23282f}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 style="font-size:27px;font-weight:600;color:#23282f;margin:0 0 8px">How your MSPs voted</h1>
+  <p class="lede">In March 2026 the Scottish Parliament <b>rejected</b> the Assisted Dying for
+  Terminally Ill Adults (Scotland) Bill, by 69 votes to 57. This page shows how each sitting MSP
+  voted at every stage the Parliament divided on. The Bill was decided in the LAST Parliament:
+  Scotland went to the polls in May 2026, so <b>64 of the 129 sitting MSPs</b> have a vote on it
+  and the other 65 were not yet members. These are facts, not judgements &mdash; and where an MSP
+  changed their mind between the first vote and the last, it says so.</p>
+
+  <div class="searchbox">
+    <label for="q">Find your MSP</label>
+    <input id="q" autocomplete="off" placeholder="Name, constituency or region&hellip;"
+           aria-label="Search by name, constituency or region">
+    <ul id="dd" class="dd"></ul>
+  </div>
+  <p id="notice" class="lede" style="font-size:13px;color:#6b7178;margin:6px 0 0">
+    You have <b>eight</b> MSPs: one for your constituency and seven for your region.
+    Search by name or by the constituency or region you live in.</p>
+
+  <div id="main"></div>
+
+  <div class="foot">
+    <p><b>Where this comes from.</b> Votes are the Scottish Parliament&rsquo;s own division
+    records. Contributions are from the Official Report. Nothing here is inferred: a vote is a
+    vote, and a speech is a speech.</p>
+    <p class="stamp">Generated <span id="stamp"></span>.</p>
+  </div>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => (s||"").normalize("NFD").replace(/\p{M}/gu,"").toLowerCase();
+const MONTH = ["","January","February","March","April","May","June","July","August",
+               "September","October","November","December"];
+function fmtD(d){ if(!d) return ""; const p=d.split("-");
+  return parseInt(p[2],10)+" "+MONTH[parseInt(p[1],10)]+" "+p[0]; }
+
+// A vote is a POSITION only when it is Yes or No. Holyrood also records
+// Abstain and Not Voted, and reading either as opposition would put a view
+// in an MSP's mouth they did not express.
+const POSITION = {Yes:"for", No:"against"};
+
+function voteBlock(m, d){
+  const cast = (m.votes||{})[d.key];
+  const side = cast ? POSITION[cast.v] : null;
+  let chip, text;
+  if (!m.there){
+    // Absence from the Parliament, not from the division. 65 of the 129
+    // sitting MSPs were elected in May 2026, after the Bill was decided.
+    chip = {cls:"", label:"NOT YET AN MSP"};
+    text = esc(m.listAs) + " was not a member of the Scottish Parliament when this was voted on.";
+  } else if (!cast){
+    chip = {cls:"", label:"NO VOTE RECORDED"};
+    text = "The Parliament does not record why a member was absent, so no conclusion should be drawn.";
+  } else if (!side){
+    chip = {cls:"", label:esc(cast.v).toUpperCase()};
+    text = cast.v === "Abstain"
+      ? "Abstained. An abstention is recorded as its own choice here, not read as opposition."
+      : "Did not vote in this division.";
+  } else {
+    chip = {cls:side, label:side === "for" ? "VOTED FOR" : "VOTED AGAINST"};
+    text = side === "for" ? d.meaning_for : d.meaning_against;
+  }
+  // The result line is coloured by whether it went OUR way, and says which
+  // way that was, rather than leaving green to mean "passed".
+  const won = d.ours && ((d.result === "Defeated" && d.ours === "against") ||
+                         (d.result === "Carried" && d.ours === "for"));
+  const resCls = d.result ? (won ? "won" : "lost") : "";
+  return `<div class="vote">
+    <div class="vchip ${chip.cls}">${chip.label}</div>
+    <div class="vbody">
+      <div class="vtitle">${esc(d.short)}</div>
+      <div class="vmotion">&ldquo;${esc(d.motion)}&rdquo;</div>
+      <div class="vmeta">${fmtD(d.dated)} &middot; ${d.for} for, ${d.against} against
+        ${d.result ? ` &middot; <span class="res ${resCls}">${esc(d.result)}</span>` : ""}</div>
+      <div class="vmeta" style="color:#4a5058;font-size:13px">${esc(text)}</div>
+      ${d.context ? `<div class="vmeta">${esc(d.context)}</div>` : ""}
+    </div></div>`;
+}
+
+function recordBlock(m){
+  const areas = Object.keys(m.record||{});
+  if (!areas.length) return "";
+  areas.sort((a,b) => m.record[b].n - m.record[a].n);
+  let out = `<div class="rec"><h3 style="font-size:15px;text-transform:none;letter-spacing:0;
+    font-weight:600;color:#23282f;margin-bottom:8px">Also on the record</h3>`;
+  for (const a of areas){
+    const blk = m.record[a];
+    out += `<h3>${esc(DATA.areas[a]||"")}</h3>
+      <p class="recn">Spoke <b>${blk.n}</b> time${blk.n===1?"":"s"} on this in the Official Report.</p>`;
+    for (const it of blk.items){
+      out += `<div class="recrow"><div class="t">${esc(it.t)}</div>
+        ${it.q ? `<blockquote>${esc(it.q)}</blockquote>` : ""}
+        <div class="d">${fmtD(it.d)}</div></div>`;
+    }
+    if (blk.n > blk.items.length)
+      out += `<p class="recn" style="color:#9aa1a9;font-size:12px;margin-top:6px">
+        Showing ${blk.items.length} of ${blk.n}.</p>`;
+  }
+  return out + "</div>";
+}
+
+function render(id){
+  const m = DATA.members.find(x => x.id === String(id));
+  if (!m) return;
+  let good=0, bad=0, cast=0;
+  for (const d of DATA.divisions){
+    const v = (m.votes||{})[d.key];
+    if (!v || !POSITION[v.v]) continue;
+    cast++;
+    if (v.verdict === "good") good++; else if (v.verdict === "bad") bad++;
+  }
+  const posts = (m.posts||[]).slice(0,6);
+  document.getElementById("main").innerHTML = `
+    <div class="hero">
+      <h2>${esc(m.listAs)}</h2>
+      <div class="meta"><b>${esc(m.party)}</b>${m.seat ? " &middot; " + esc(m.seat) : ""}</div>
+    </div>
+    <div class="card">
+      <div class="summary">${!m.there
+        ? `Elected in <b>May 2026</b>, after the Bill was decided &mdash; no vote on it`
+        : `Voted in <b>${cast} of ${DATA.divisions.length}</b> scored divisions`}
+        ${good||bad ? `&middot; <b class="g">${good} with us</b> &middot; <b class="b">${bad} against us</b>` : ""}</div>
+      ${m.switched ? `<p class="switch"><b>${esc(m.listAs)} changed position.</b>
+        Voted <b>${esc(m.switched[0])}</b> to the general principles in May 2025 and
+        <b>${esc(m.switched[1])}</b> on passing the Bill in March 2026. Twelve MSPs moved that
+        way and none moved the other &mdash; which is why the Bill fell.</p>` : ""}
+      ${DATA.divisions.map(d => voteBlock(m, d)).join("")}
+      ${posts.length ? `<div class="posts">${posts.map(p =>
+        `<span>${esc(p.name)}</span>`).join("")}</div>` : ""}
+      ${recordBlock(m)}
+    </div>
+    <div class="crosslink"><b>At Westminster too.</b> MPs voted on the Terminally Ill Adults
+      (End of Life) Bill, which passed the Commons and did not divide the Lords.
+      <a href="mp-votes.html">See how your MP voted</a>.</div>`;
+  location.hash = "msp-" + m.id;
+  document.querySelector(".hero").scrollIntoView({block:"start", behavior:"smooth"});
+}
+
+const q = document.getElementById("q"), dd = document.getElementById("dd");
+let opts = [], active = -1;
+function build(val){
+  const t = norm(val), out = [];
+  if (t.length < 2) return out;
+  for (const m of DATA.members){
+    if (out.length >= 9) break;
+    if (norm(m.listAs).includes(t) || norm(m.name).includes(t))
+      out.push({id:m.id, label:m.listAs, small:(m.seat||"")+" \u00b7 "+m.party});
+    else if (norm(m.seat).includes(t))
+      out.push({id:m.id, label:m.seat, small:m.listAs+" \u00b7 "+m.party});
+  }
+  return out;
+}
+function paint(){
+  dd.innerHTML = opts.map((o,i) =>
+    `<li data-i="${i}" class="${i===active?"on":""}">${esc(o.label)}<small>${esc(o.small)}</small></li>`).join("");
+  dd.classList.toggle("show", opts.length > 0);
+}
+q.addEventListener("input", () => { opts = build(q.value); active = -1; paint(); });
+q.addEventListener("keydown", e => {
+  if (e.key === "ArrowDown"){ active = Math.min(active+1, opts.length-1); paint(); e.preventDefault(); }
+  else if (e.key === "ArrowUp"){ active = Math.max(active-1, 0); paint(); e.preventDefault(); }
+  else if (e.key === "Enter" && opts.length){
+    const o = opts[active < 0 ? 0 : active];
+    q.value = o.label; dd.classList.remove("show"); render(o.id);
+  }
+});
+dd.addEventListener("click", e => {
+  const li = e.target.closest("li"); if (!li) return;
+  const o = opts[+li.dataset.i]; q.value = o.label; dd.classList.remove("show"); render(o.id);
+});
+document.addEventListener("click", e => {
+  if (!e.target.closest(".searchbox")) dd.classList.remove("show");
+});
+document.getElementById("stamp").textContent = DATA.generated;
+const h = location.hash.match(/^#msp-(\d+)$/);
+if (h) render(h[1]);
+</script>
+</body>
+</html>

@@ -167,6 +167,7 @@ def main():
     # one still counted, until somebody remembers to run the tool by hand.
     for label, argv in (("roster", ["tools/pull_commons_roster.py"]),
                         ("vote tracker", ["tools/make_vote_tracker.py"]),
+                        ("msp votes", ["tools/make_msp_votes.py"]),
                         ("5ca sheets", ["tools/make_5ca_web.py"]),
                         ("5ca matrix", ["tools/make_5ca_matrix.py"]),
                         ("briefs", ["tools/make_briefs.py"]),
