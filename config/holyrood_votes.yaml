@@ -15,6 +15,9 @@
 #
 # our_side is "against" throughout: CitizenGO opposes legalising assisted
 # suicide, matching the Westminster and Lords entries.
+#
+# SIGNED OFF by Christopher, 2026-08-29, after seeing the three rendered
+# unsigned with their motion text. The scoring is his, not my inference.
 
 divisions:
   - key: m7624
@@ -23,7 +26,7 @@ divisions:
     dated: 2025-05-13
     stage: Stage 1
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Stage 1 -- general principles
     motion: >-
@@ -43,7 +46,7 @@ divisions:
     dated: 2025-10-30
     stage: Financial Resolution
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Financial Resolution
     motion: >-
@@ -65,7 +68,7 @@ divisions:
     dated: 2026-03-17
     stage: Stage 3 -- final vote
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Final vote -- Bill defeated
     motion: >-
