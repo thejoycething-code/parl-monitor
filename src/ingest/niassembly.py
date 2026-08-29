@@ -85,6 +85,11 @@ BUSINESS_DIARY = (BASE + "/plenary.asmx/GetBusinessDiary_JSON"
 # list is procedural (Audit, Business, Procedures, Standards). All four
 # kinds are read anyway: a register that silently omits three of its four
 # kinds is worse than no register.
+# Profiles. Both answer for EVERY member in one call, so a full refresh is
+# two requests rather than 90.
+MEMBER_CONTACTS = BASE + "/members.asmx/GetAllMemberContactDetails_JSON"
+MEMBER_ROLES = BASE + "/members.asmx/GetAllMemberRoles_JSON"
+
 COMMITTEE_KINDS = ("Statutory", "Standing", "AdHoc", "Other")
 COMMITTEES_LIST = (BASE + "/organisations.asmx/"
                    "GetCommitteesListCurrent_{0}_JSON")
@@ -158,6 +163,59 @@ def rows(payload, *path):
     if node is None:
         return []
     return node if isinstance(node, list) else [node]
+
+
+def parse_member_contacts(payload):
+    """[(person_id, kind, value)] from GetAllMemberContactDetails.
+
+    The email field is spelled "EmaiAddress" in the API, missing its l.
+    Reading it as "EmailAddress" silently yields nothing -- no error, just
+    an empty column -- so the misspelling is copied deliberately.
+    """
+    out = []
+    for row in rows(payload, "AllMembersList", "Member"):
+        if not isinstance(row, dict):
+            continue
+        pid = str(row.get("PersonId") or "").strip()
+        if not pid:
+            continue
+        email = (row.get("EmaiAddress") or "").strip()
+        if email:
+            out.append((pid, "email", email))
+        parts = [row.get(k) for k in ("RoomNumber", "Address1", "TownCity",
+                                      "Postcode")]
+        address = ", ".join(p.strip() for p in parts if (p or "").strip())
+        if address:
+            kind = ("office" if "NIA" in (row.get("AddressType") or "")
+                    else "constituency office")
+            out.append((pid, kind, address))
+    return out
+
+
+def parse_member_roles(payload):
+    """[(person_id, kind, name)] from GetAllMemberRoles.
+
+    Role types are mapped onto the same vocabulary Westminster uses, so a
+    page can render an MLA's posts the way it renders an MP's.
+    """
+    kinds = {"Ministerial Role": "government",
+             "Committee Role (incl Assembly Commission)": "committee",
+             "Political Party Role": "party",
+             "All Party Group Role": "other",
+             "Assembly Membership Role": "other",
+             "Political Designation Role": "other"}
+    out = []
+    for row in rows(payload, "AllMembersRoles", "Role"):
+        if not isinstance(row, dict):
+            continue
+        pid = str(row.get("PersonId") or "").strip()
+        role = " ".join((row.get("Role") or "").split())
+        if not pid or not role:
+            continue
+        org = " ".join((row.get("Organisation") or "").split())
+        name = "{0} -- {1}".format(role, org) if org and org not in role else role
+        out.append((pid, kinds.get(row.get("RoleType"), "other"), name[:180]))
+    return out
 
 
 def parse_committees(payload, kind):

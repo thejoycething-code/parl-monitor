@@ -551,3 +551,62 @@ class BillRegisterTests(unittest.TestCase):
         with open(os.path.abspath(path), encoding="utf-8") as fh:
             src = fh.read()
         self.assertIn("register.setdefault(iid, (title, stage, date))", src)
+
+
+class DevolvedProfileTests(unittest.TestCase):
+    """Contact details and posts for devolved members, added 2026-08-29.
+
+    Westminster members have had these since August; MSs, MSPs and MLAs had
+    a name, a party and nothing else, so a devolved page could not have said
+    who anyone is.
+    """
+
+    def test_the_ni_email_field_is_misspelled_and_read_that_way(self):
+        """The API spells it "EmaiAddress", missing its l. Reading it as
+        "EmailAddress" yields nothing -- no error, just an empty column."""
+        from src.ingest import niassembly
+        got = niassembly.parse_member_contacts({"AllMembersList": {"Member": [
+            {"PersonId": "1", "EmaiAddress": "a@b.c", "AddressType": "NIA Office Address",
+             "Address1": "Parliament Buildings", "TownCity": "Belfast"}]}})
+        self.assertIn(("1", "email", "a@b.c"), got)
+
+    def test_an_ni_role_names_its_committee(self):
+        from src.ingest import niassembly
+        got = niassembly.parse_member_roles({"AllMembersRoles": {"Role": [
+            {"PersonId": "1", "RoleType": "Committee Role (incl Assembly Commission)",
+             "Role": "Committee Member", "Organisation": "Committee for Education"}]}})
+        self.assertEqual(got, [("1", "committee", "Committee Member -- Committee for Education")])
+
+    def test_a_role_type_maps_onto_the_westminster_vocabulary(self):
+        from src.ingest import niassembly
+        got = niassembly.parse_member_roles({"AllMembersRoles": {"Role": [
+            {"PersonId": "1", "RoleType": "Ministerial Role", "Role": "Minister"}]}})
+        self.assertEqual(got[0][1], "government")
+
+    def test_scottish_staff_are_not_filed_as_members(self):
+        """Personcommitteeroles covers everyone attached to a committee,
+        clerks included -- 45 of the 453 it returns are staff."""
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            os.pardir, "tools", "pull_devolved_profiles.py")
+        with open(os.path.abspath(path), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("if pid not in msps:", src)
+        self.assertIn("SELECT person_id FROM sp_members", src)
+
+    def test_an_unnamed_role_is_skipped_not_stored(self):
+        """"Membergovernmentroles (role 12)" is not a post a reader can
+        use, and storing it would pad every profile."""
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            os.pardir, "tools", "pull_devolved_profiles.py")
+        with open(os.path.abspath(path), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("unnamed += 1", src)
+
+    def test_wales_is_absent_by_fact(self):
+        """senedd.wales publishes no members API and the ModernGov instance
+        that might have carried one is behind the WAF."""
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            os.pardir, "tools", "pull_devolved_profiles.py")
+        with open(os.path.abspath(path), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("no members API published", src)

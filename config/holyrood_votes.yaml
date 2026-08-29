@@ -1,0 +1,81 @@
+# Scored Holyrood divisions. Same vocabulary as config/vote_tracker.yaml so a
+# Scottish page can read it the way the Westminster one reads that: our_side,
+# the two meanings, landmark, signed_off.
+#
+# Written 2026-08-29. The store already held 218 divisions on the Assisted
+# Dying for Terminally Ill Adults (Scotland) Bill and 129 MSPs with a recorded
+# vote -- every one of them still sitting -- and the page said nothing about
+# any of it.
+#
+# WHY ONLY THREE OF 218. The other 215 are Stage 3 amendment votes with no
+# motion reference and no recorded result in the store, so what each decided
+# cannot be established from what we hold. They are not scored. The three
+# below carry their motion text verbatim, which is what makes our_side
+# checkable rather than asserted.
+#
+# our_side is "against" throughout: CitizenGO opposes legalising assisted
+# suicide, matching the Westminster and Lords entries.
+
+divisions:
+  - key: m7624
+    reference: S6M-17416
+    issue: assisted-suicide
+    dated: 2025-05-13
+    stage: Stage 1
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Stage 1 -- general principles
+    motion: >-
+      That the Parliament agrees to the general principles of the Assisted
+      Dying for Terminally Ill Adults (Scotland) Bill.
+    context: >-
+      The first vote of principle. Carried 70 to 56, so the Bill proceeded.
+    meaning_for: >-
+      Supported the general principles of legalising assisted suicide for
+      terminally ill adults in Scotland.
+    meaning_against: >-
+      Voted to stop the Bill at its first hurdle.
+
+  - key: m7860
+    reference: S6M-19456
+    issue: assisted-suicide
+    dated: 2025-10-30
+    stage: Financial Resolution
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Financial Resolution
+    motion: >-
+      That the Parliament, for the purposes of any Act resulting from the
+      Assisted Dying for Terminally Ill Adults (Scotland) Bill, agrees to any
+      expenditure arising in consequence of the Act.
+    context: >-
+      Procedural rather than a vote of principle -- a Bill cannot proceed
+      without it -- so it is a weaker signal than the other two and is not
+      marked a landmark. Carried 70 to 31.
+    meaning_for: >-
+      Voted to let the Bill proceed by authorising its costs.
+    meaning_against: >-
+      Voted against authorising the Bill's costs.
+
+  - key: m9165
+    reference: S6M-21005
+    issue: assisted-suicide
+    dated: 2026-03-17
+    stage: Stage 3 -- final vote
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Final vote -- Bill defeated
+    motion: >-
+      That the Parliament agrees that the Assisted Dying for Terminally Ill
+      Adults (Scotland) Bill be passed.
+    context: >-
+      The decisive vote. DEFEATED 57 to 69, so the Bill fell and assisted
+      suicide was not legalised in Scotland. Every one of the 129 MSPs who
+      voted is still sitting.
+    meaning_for: >-
+      Voted to pass the Bill and legalise assisted suicide in Scotland.
+    meaning_against: >-
+      Voted to reject the Bill. The Bill fell on this vote.

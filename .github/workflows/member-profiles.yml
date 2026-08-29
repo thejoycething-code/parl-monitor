@@ -79,6 +79,12 @@ jobs:
               fi
             done
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Devolved member profiles
+        if: always()
+        # Contact details and posts for MLAs and MSPs. Two calls to NI's
+        # members.asmx cover the whole Assembly; Scotland needs its role
+        # lookups as well. Free APIs, no spend. Wales publishes neither.
+        run: python3 tools/pull_devolved_profiles.py
       - name: Publish the store
         # NEVER publish a store the pull refused: see the note in
         # monday-publish.yml. `always()` alone turned one sha mismatch

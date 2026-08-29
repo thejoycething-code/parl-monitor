@@ -307,6 +307,33 @@ CREATE TABLE IF NOT EXISTS ni_agenda (
 );
 -- One row per Hansard sitting already fetched, so a re-run costs nothing --
 -- the same job ni_store.dates_present does for rosters.
+-- Profiles for devolved members, added 2026-08-29. Westminster members have
+-- had contact details, posts and seat history since the profile work in
+-- August; MSs, MSPs and MLAs had a name, a party and nothing else, so a
+-- devolved page could not have shown who anyone is.
+--
+-- One table for all three nations, keyed by nation + the id that nation
+-- uses, because the shapes agree even though the sources do not: NI gives
+-- contact and roles from members.asmx, Scotland gives roles and seats from
+-- data.parliament.scot. Wales publishes neither and is absent by fact, not
+-- by omission.
+CREATE TABLE IF NOT EXISTS dv_contact (
+  nation TEXT NOT NULL,           -- 'ni' | 'scotland' | 'wales'
+  person_id TEXT NOT NULL,
+  kind TEXT NOT NULL,             -- 'email' | 'phone' | 'address' | 'website'
+  value TEXT NOT NULL,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+  PRIMARY KEY (nation, person_id, kind, value)
+);
+CREATE TABLE IF NOT EXISTS dv_post (
+  nation TEXT NOT NULL,
+  person_id TEXT NOT NULL,
+  kind TEXT NOT NULL,             -- 'committee' | 'government' | 'party' | 'other'
+  name TEXT NOT NULL,
+  started TEXT, ended TEXT,       -- ended NULL = still held
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+  PRIMARY KEY (nation, person_id, kind, name, started)
+);
 CREATE TABLE IF NOT EXISTS ni_committees (
   committee_id TEXT PRIMARY KEY,  -- OrganisationId from organisations.asmx
   name TEXT NOT NULL,
@@ -666,6 +693,8 @@ TABLES = (
     "ni_divisions",
     "ni_sponsors",
     "ni_agenda",
+    "dv_contact",
+    "dv_post",
     "ni_committees",
     "ni_sittings",
     "ni_votes",
