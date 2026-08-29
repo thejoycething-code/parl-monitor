@@ -557,12 +557,11 @@ CREATE TABLE IF NOT EXISTS api_spend (
   cache_read_tokens INTEGER, cache_write_tokens INTEGER
 );
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
--- One row per distinct failure per day. Without this the same gap is stored
--- once per RUN: on 2026-08-28 the Senedd weekly ran five times against a
--- WAF-blocked host and 11 real gaps became 50 rows, so "how bad was that
--- day" answered five times worse than the truth. The writers use
--- INSERT OR IGNORE against it, which also makes a retried workflow idempotent.
-CREATE UNIQUE INDEX IF NOT EXISTS gaps_once ON gaps (edition, feed, detail);
+-- The UNIQUE index on gaps is NOT created here. Every store in existence
+-- already holds duplicates, and CREATE UNIQUE INDEX throws against them --
+-- inside executescript, which fails init_db, which kills every tool that
+-- opens the store. It is applied by _migrate_gaps() below, after the
+-- duplicates are removed.
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
 
@@ -669,9 +668,36 @@ def connect(path):
     return conn
 
 
+def _migrate_gaps(conn):
+    """Deduplicate gaps, then make duplicates impossible.
+
+    Ordering matters and I got it wrong once: I put the UNIQUE index in the
+    schema script, which runs against stores that already hold duplicates.
+    CREATE UNIQUE INDEX threw inside executescript, init_db raised, and
+    every tool that opens the store died -- a green local run and a broken
+    CI run, because I had deduped my own copy first.
+
+    Safe to run on every open: the DELETE is a no-op once the index exists.
+    """
+    have = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='index' AND name='gaps_once'"
+    ).fetchone()
+    if have:
+        return 0
+    removed = conn.execute("""
+        DELETE FROM gaps WHERE rowid NOT IN
+          (SELECT MIN(rowid) FROM gaps GROUP BY edition, feed, detail)
+    """).rowcount
+    conn.execute("CREATE UNIQUE INDEX IF NOT EXISTS gaps_once "
+                 "ON gaps (edition, feed, detail)")
+    conn.commit()
+    return max(removed, 0)
+
+
 def init_db(conn):
     """Create all tables if absent, and apply column migrations. Idempotent."""
     conn.executescript(SCHEMA)
+    _migrate_gaps(conn)
     cols = {r[1] for r in conn.execute("PRAGMA table_info(items)")}
     if "extra" not in cols:
         conn.execute("ALTER TABLE items ADD COLUMN extra TEXT")

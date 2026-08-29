@@ -134,3 +134,55 @@ class GapPersistenceTests(unittest.TestCase):
                 "INSERT INTO gaps", src,
                 "{0}: use INSERT OR IGNORE, the index forbids duplicates"
                 .format(os.path.basename(path)))
+
+
+class GapMigrationTests(unittest.TestCase):
+    """init_db must open a store that already holds duplicate gaps.
+
+    I put the UNIQUE index in the schema script, having deduplicated my own
+    copy first. Every OTHER store still held duplicates, so CREATE UNIQUE
+    INDEX threw inside executescript, init_db raised, and every tool that
+    opens the store died. Green locally, broken in CI, on the first run.
+    """
+
+    def _store_with_duplicates(self, path):
+        conn = sqlite3.connect(path)
+        conn.execute("CREATE TABLE gaps (edition TEXT, feed TEXT, detail TEXT)")
+        for _ in range(5):
+            conn.execute("INSERT INTO gaps VALUES ('2026-08-28','sd-bills','403')")
+        conn.execute("INSERT INTO gaps VALUES ('2026-08-28','sd-bills','404')")
+        conn.commit()
+        conn.close()
+
+    def test_init_survives_a_store_full_of_duplicates(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "dup.db")
+            self._store_with_duplicates(path)
+            conn = db.init_db(db.connect(path))          # must not raise
+            rows = conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0]
+            self.assertEqual(rows, 2, "duplicates were not collapsed")
+
+    def test_the_index_exists_afterwards(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "dup.db")
+            self._store_with_duplicates(path)
+            conn = db.init_db(db.connect(path))
+            self.assertTrue(conn.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='index' "
+                "AND name='gaps_once'").fetchone())
+
+    def test_opening_twice_is_safe(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "dup.db")
+            self._store_with_duplicates(path)
+            db.init_db(db.connect(path))
+            conn = db.init_db(db.connect(path))          # must not raise
+            self.assertEqual(
+                conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0], 2)
+
+    def test_the_index_is_not_in_the_schema_script(self):
+        """Where it was, and why that broke every store but mine."""
+        self.assertNotIn("CREATE UNIQUE INDEX IF NOT EXISTS gaps_once", db.SCHEMA)
