@@ -206,6 +206,11 @@ def main():
             print("  * {0}".format(g[:104]))
         if len(gaps) > 12:
             print("  ...and {0} more".format(len(gaps) - 12))
+        # The PRINT stops at 12; the table takes all of them. That gap
+        # between what a log shows and what happened is the reason for
+        # persisting at all.
+        if apply:
+            db.record_gaps(conn, "ni-classify", gaps)
 
     if not apply:
         print("\ndry run; {0} row(s) would be written. Re-run with --apply."

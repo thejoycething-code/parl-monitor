@@ -94,7 +94,7 @@ def main():
                                  json.dumps(s_terms), excerpt, now, now))
                     except FetchError as exc:
                         conn.execute(
-                            "INSERT INTO gaps (edition, feed, detail) "
+                            "INSERT OR IGNORE INTO gaps (edition, feed, detail) "
                             "VALUES (?,?,?)",
                             (datetime.date.today().isoformat(), "sd-speeches",
                              "meeting {0}: {1}".format(s.meeting_id,
@@ -109,7 +109,7 @@ def main():
                     divs = senedd.fetch_votes(client, s.meeting_id)
                 except FetchError as exc:
                     conn.execute(
-                        "INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+                        "INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                         (datetime.date.today().isoformat(), "sd-votes",
                          "meeting {0}: {1}".format(s.meeting_id, exc.cause)))
                     conn.commit()

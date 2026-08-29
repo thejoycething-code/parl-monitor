@@ -57,7 +57,7 @@ def main():
         try:
             payload = holyrood.fetch_committee_or(client, year)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) "
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
                          "VALUES (?,?,?)",
                          (now, "sp-committee-or",
                           "year {0}: {1}".format(year, exc.cause)))

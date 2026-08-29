@@ -557,8 +557,52 @@ CREATE TABLE IF NOT EXISTS api_spend (
   cache_read_tokens INTEGER, cache_write_tokens INTEGER
 );
 CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
+-- One row per distinct failure per day. Without this the same gap is stored
+-- once per RUN: on 2026-08-28 the Senedd weekly ran five times against a
+-- WAF-blocked host and 11 real gaps became 50 rows, so "how bad was that
+-- day" answered five times worse than the truth. The writers use
+-- INSERT OR IGNORE against it, which also makes a retried workflow idempotent.
+CREATE UNIQUE INDEX IF NOT EXISTS gaps_once ON gaps (edition, feed, detail);
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
 """
+
+def record_gap(conn, feed, detail, edition=None):
+    """Persist one gap AND print it. Returns the row's detail.
+
+    A gap is a source that did not answer, or answered without the field we
+    needed. Printing it makes the run log honest; the row makes it
+    queryable afterwards, which is the difference between "I remember that
+    week being bad" and knowing which feed failed and when.
+
+    Written once here because it was written twice already -- Holyrood kept
+    a private copy and the Senedd tools inlined the INSERT -- while the NI
+    tools collected gaps in a list, printed them, and persisted nothing. The
+    health summary greps the logs, so nothing was hidden; nothing was
+    recoverable either.
+    """
+    import datetime as _dt
+    conn.execute(
+        "INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?, ?, ?)",
+        (edition or _dt.date.today().isoformat(), feed, str(detail)))
+    conn.commit()
+    print("  [gap] {0}: {1}".format(feed, detail))
+    return detail
+
+
+def record_gaps(conn, feed, details, edition=None):
+    """Persist a collected list of gaps, printing each. Returns the count.
+
+    The NI tools gather gaps as they go and report at the end, so they need
+    the plural form; nothing else changes about how they read.
+    """
+    for detail in details or []:
+        conn.execute(
+            "INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?, ?, ?)",
+            (edition or __import__("datetime").date.today().isoformat(),
+             feed, str(detail)))
+    conn.commit()
+    return len(details or [])
+
 
 # Tables the schema is expected to create; used by init verification and tests.
 TABLES = (

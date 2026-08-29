@@ -37,10 +37,9 @@ MOTIONS_SINCE = "2024-01-01"
 
 
 def record_gap(conn, feed, detail):
-    conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?, ?, ?)",
-                 (datetime.date.today().isoformat(), feed, detail))
-    conn.commit()
-    print("  [gap] {0}: {1}".format(feed, detail))
+    """Kept as a name this module already uses; the writing lives in src.db
+    so all three nations record a gap the same way."""
+    return db.record_gap(conn, feed, detail)
 
 
 def store_roster(conn, client, now):

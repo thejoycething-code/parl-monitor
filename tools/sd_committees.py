@@ -92,7 +92,7 @@ def walk_record(client, conn, tax, wl, now, log, wanted=None):
         try:
             found = senedd.fetch_record_index(client, page)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (now, "sd-committees",
                           "record index page {0}: {1}".format(page, exc.cause)))
             log("  [gap] record index page {0}: {1}".format(page, exc.cause))
@@ -108,7 +108,7 @@ def walk_record(client, conn, tax, wl, now, log, wanted=None):
                 _items, contributions = senedd.fetch_record_meeting(
                     client, meeting_id)
             except FetchError as exc:
-                conn.execute("INSERT INTO gaps (edition, feed, detail) "
+                conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
                              "VALUES (?,?,?)",
                              (now, "sd-committees",
                               "meeting {0}: {1}".format(meeting_id, exc.cause)))
@@ -136,7 +136,7 @@ def main():
     try:
         committees = senedd.fetch_committees(client)
     except FetchError as exc:
-        conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+        conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                      (now, "sd-committees",
                       "committee list: {0}".format(exc.cause)))
         conn.commit()
@@ -161,7 +161,7 @@ def main():
             page = senedd.fetch_committee_page(client, url, key)
             _cid, _name, mid, when = senedd.parse_committee_page(page)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) "
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
                          "VALUES (?,?,?)",
                          (now, "sd-committees",
                           "{0} page: {1}".format(name, exc.cause)))

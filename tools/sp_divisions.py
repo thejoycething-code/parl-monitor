@@ -54,7 +54,7 @@ def main():
         try:
             divisions = holyrood.fetch_votes(client, year)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (datetime.date.today().isoformat(), "sp-votes",
                           "year {0}: {1}".format(year, exc.cause)))
             conn.commit()
@@ -109,7 +109,7 @@ def main():
             payload = holyrood.fetch_or_payload(client, year)
             ordivs = holyrood.parse_or_divisions(payload)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (datetime.date.today().isoformat(), "sp-or-divisions",
                           "year {0}: {1}".format(year, exc.cause)))
             conn.commit()

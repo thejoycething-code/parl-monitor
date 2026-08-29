@@ -239,6 +239,9 @@ def main():
         print("\n{0} gap(s) -- printed, never swallowed:".format(len(gaps)))
         for g in gaps:
             print("  * {0}".format(g))
+        # AND persisted, since 2026-08-29: printing alone left them
+        # readable in a run log and nowhere else.
+        db.record_gaps(conn, "ni-divisions", gaps)
     else:
         print("no gaps.")
     print("\nRead it with: python3 tools/ni_monitor.py")

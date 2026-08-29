@@ -68,7 +68,7 @@ def walk(conn, client, tax, wl, now, start, step):
         try:
             q = senedd.fetch_question(client, wq_id)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (datetime.date.today().isoformat(), "sd-questions",
                           "WQ{0}: {1}".format(wq_id, exc.cause)))
             conn.commit()

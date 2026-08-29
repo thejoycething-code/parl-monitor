@@ -73,7 +73,7 @@ def main():
         try:
             found = fetch_open(client, nation, print)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) "
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
                          "VALUES (?,?,?)",
                          (now, "dg-consultations",
                           "{0}: {1}".format(nation, exc.cause)))

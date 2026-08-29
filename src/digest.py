@@ -587,7 +587,7 @@ def write_edition(conn, edition, editions_dir, generated_at):
     # and read back into edition.gaps), so rewrite rather than append.
     conn.execute("DELETE FROM gaps WHERE edition = ?", (edition.week_commencing,))
     for feed, detail in edition.gaps:
-        conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?, ?, ?)",
+        conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?, ?, ?)",
                      (edition.week_commencing, feed, detail))
     conn.commit()
     return path

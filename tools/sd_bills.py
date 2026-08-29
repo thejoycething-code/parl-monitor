@@ -56,7 +56,7 @@ def main():
             page = client.get_text(url, "senedd", "bills-" + name,
                                    archive=False)
         except FetchError as exc:
-            conn.execute("INSERT INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
                          (datetime.date.today().isoformat(), "sd-bills",
                           "{0} page: {1}".format(name, exc.cause)))
             conn.commit()
