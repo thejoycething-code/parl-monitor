@@ -80,12 +80,23 @@ def _batches(items, size=BATCH_SIZE):
         yield items[i:i + size]
 
 
+# Room per item in the reply: an id, a score, a short area list and a
+# why_it_matters sentence. 2026-08-29: this was a flat 1500 for a batch of
+# TWENTY, which is about 60 tokens each with no headroom -- so the reply ran
+# out mid-sentence, json.loads failed on the unterminated string at char
+# 1153, the whole batch was lost and the run fell back to the stub. Found by
+# rehearsing the Sunday pull rather than by a test, because the stub path
+# is what every test exercises.
+TOKENS_PER_ITEM = 160
+TOKENS_OVERHEAD = 400
+
+
 def _build_payload(batch):
     user = [{"id": it.id, "title": it.title, "text": (it.text or "")[:2000],
              "candidate_areas": it.issue_areas} for it in batch]
     return {
         "model": TRIAGE_MODEL,
-        "max_tokens": 1500,
+        "max_tokens": TOKENS_OVERHEAD + TOKENS_PER_ITEM * len(batch),
         "system": SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": json.dumps(user)}],
     }
@@ -110,6 +121,13 @@ def _default_transport(payload, api_key):  # pragma: no cover - real network
 def _parse_reply(reply):
     """Extract the JSON array from a Messages API reply."""
     text = "".join(block.get("text", "") for block in (reply.get("content") or []))
+    # Say WHY when the cap is the cause. "Unterminated string starting at:
+    # line 7 column 10" sent me looking for a malformed response; the reply
+    # was fine, there was simply no room left to finish it.
+    if reply.get("stop_reason") == "max_tokens":
+        raise ValueError(
+            "reply hit max_tokens ({0} chars returned): the batch needs more "
+            "room, not a different parser".format(len(text)))
     data = json.loads(text)
     out = []
     for row in data:

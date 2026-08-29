@@ -75,3 +75,56 @@ class LiveTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TokenBudgetTests(unittest.TestCase):
+    """The live classifier ran out of room and nobody noticed.
+
+    2026-08-29, found by rehearsing the Sunday pull before it ran
+    unattended. max_tokens was a flat 1500 for a batch of TWENTY items,
+    each needing an id, a score, an area list and a why_it_matters
+    sentence -- about 60 tokens apiece with no headroom. The reply stopped
+    mid-sentence, json.loads failed on the unterminated string at character
+    1153, the whole batch was lost, and the run fell back to the stub.
+
+    No test caught it because every test uses the injectable transport, and
+    a stub reply is never truncated. Only a real call is.
+    """
+
+    def _items(self, n):
+        from src.triage import TriageItem
+        return [TriageItem(id=str(i), title="t", text="x", tier=1,
+                           issue_areas=[1], watchlist_hit=False)
+                for i in range(n)]
+
+    def test_the_budget_scales_with_the_batch(self):
+        from src.triage import _build_payload
+        one = _build_payload(self._items(1))["max_tokens"]
+        twenty = _build_payload(self._items(20))["max_tokens"]
+        self.assertGreater(twenty, one)
+        self.assertGreater(twenty, 1500, "the cap that truncated the reply")
+
+    def test_a_full_batch_gets_room_for_a_sentence_each(self):
+        from src.triage import _build_payload, BATCH_SIZE
+        budget = _build_payload(self._items(BATCH_SIZE))["max_tokens"]
+        self.assertGreaterEqual(budget / BATCH_SIZE, 120,
+                                "not enough room per item to finish a sentence")
+
+    def test_truncation_says_what_happened(self):
+        """"Unterminated string starting at: line 7 column 10" reads like a
+        malformed response. The response was fine; there was no room left."""
+        from src.triage import _parse_reply
+        reply = {"stop_reason": "max_tokens",
+                 "content": [{"text": '[{"id": "1", "score": 3, "why_it_ma'}]}
+        with self.assertRaises(ValueError) as caught:
+            _parse_reply(reply)
+        self.assertIn("max_tokens", str(caught.exception))
+
+    def test_a_complete_reply_still_parses(self):
+        from src.triage import _parse_reply
+        reply = {"stop_reason": "end_turn",
+                 "content": [{"text": '[{"id":"1","score":3,"areas":[2],'
+                                      '"why_it_matters":"because"}]'}]}
+        out = _parse_reply(reply)
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out[0].score, 3)
