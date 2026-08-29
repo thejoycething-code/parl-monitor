@@ -127,4 +127,15 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/
           git diff --cached --quiet || git commit -m "Senedd weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
-          git push
+          # The sidecar MUST land: the store was already published above,
+          # so a failed push leaves the release ahead of the repo -- the
+          # same divergence a skipped commit caused, by another route.
+          # 2026-08-28: this push lost a race with a human push and was
+          # rejected, and the next run refused the store. Rebase and retry
+          # rather than leave the two out of step.
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
+            git push && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done

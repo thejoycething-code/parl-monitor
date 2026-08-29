@@ -453,3 +453,43 @@ class HealthSummaryTests(unittest.TestCase):
                                    capture_output=True, text=True)
             self.assertEqual(dirty.returncode, 0, dirty.stderr)
             self.assertEqual(dirty.stdout.strip(), "3")
+
+
+class SidecarMustLandTests(unittest.TestCase):
+    """A published store whose sidecar never lands is a divergence.
+
+    The publish/commit pairing stopped the commit being SKIPPED. It cannot
+    stop it FAILING: on 2026-08-28 the bot's push lost a race with a human
+    push, was rejected, and the next run refused the store -- the same
+    divergence by another route, after the guard was already in.
+
+    The store is published BEFORE this step, so by the time the push runs
+    there is no backing out: it has to land.
+    """
+
+    WORKFLOWS = os.path.join(ROOT, ".github", "workflows")
+
+    def _committers(self):
+        import glob
+        out = []
+        for path in glob.glob(os.path.join(self.WORKFLOWS, "*.yml")):
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            if "db_state.py --push" in text:
+                out.append((os.path.basename(path), text))
+        return out
+
+    def test_every_sidecar_push_retries(self):
+        found = self._committers()
+        self.assertGreaterEqual(len(found), 8)
+        for name, text in found:
+            block = text[text.index("- name: Commit state"):]
+            self.assertIn("for attempt in 1 2 3", block,
+                          "{0}: a lost push race strands the sidecar".format(name))
+
+    def test_every_sidecar_push_rebases_first(self):
+        for name, text in self._committers():
+            block = text[text.index("- name: Commit state"):]
+            self.assertIn("git pull --rebase", block, name)
+            self.assertIn("--autostash", block,
+                          "{0}: a dirty tree makes rebase refuse".format(name))

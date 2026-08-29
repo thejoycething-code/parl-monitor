@@ -92,5 +92,13 @@ jobs:
           git config user.email "bot@parl-monitor.invalid"
           git add data/parl-monitor.db.json
           git diff --cached --quiet || git commit -m "Stance scoring: $(date -u +%Y-%m-%dT%H:%M)Z"
-          git pull --rebase origin main
-          git push origin main
+          # Retry: the rebase closes most of the race, but a push can
+          # still lose one, and the store was ALREADY published above --
+          # so a lost push leaves the release ahead of the repo and the
+          # next run refuses the store. 2026-08-28.
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin main || true
+            git push origin main && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done
