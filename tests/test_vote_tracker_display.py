@@ -1992,16 +1992,29 @@ class LordsDivisionTests(unittest.TestCase):
             self.assertTrue(d.get("ayes") and d.get("noes"),
                             "a division without counts is not a receipt")
 
-    def test_an_unsigned_division_publishes_no_verdict(self):
-        """signed_off gated NOTHING before this: the tool warned that a
-        division was unapproved and shipped its verdict anyway."""
-        lords = self._lords()
-        if lords is None:
+    def test_sign_off_gates_the_verdict(self):
+        """signed_off gated NOTHING before 2026-08-29: the tool warned that
+        a division was unapproved and shipped its verdict anyway.
+
+        Tested as a RULE, not as the state of today's config -- these three
+        were signed off by Christopher the same evening, so asserting they
+        are unsigned would only pin a moment.
+        """
+        with open(os.path.join(ROOT, "tools", "make_vote_tracker.py"),
+                  encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn('and d.get("signed_off")', src,
+                      "an unapproved division could publish a verdict again")
+
+    def test_every_published_verdict_is_signed_off(self):
+        data = _payload()
+        if data is None:
             self.skipTest("page not built")
-        for d in lords:
-            self.assertFalse(d["signed_off"])
-            self.assertIsNone(d.get("good"),
-                              "an unapproved division must not carry a verdict")
+        for d in data["divisions"]:
+            if d.get("good"):
+                self.assertTrue(d["signed_off"],
+                                "division {0} publishes an unapproved "
+                                "verdict".format(d["id"]))
 
     def test_the_signed_commons_divisions_still_carry_theirs(self):
         data = _payload()
