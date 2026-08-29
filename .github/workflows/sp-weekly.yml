@@ -61,6 +61,13 @@ jobs:
       - name: Pull open Scottish Government consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation scotland | tee /tmp/sp-consultations.log
+      - name: Apply the scored Holyrood divisions
+        if: always()
+        # config/holyrood_votes.yaml -> sp_scored. Offline, no API calls.
+        # It runs HERE because a scoring that only exists where somebody ran
+        # the tool by hand is not published state: the first deploy after I
+        # wrote these rows pulled the CI store and overwrote them.
+        run: python3 tools/sp_score.py --apply | tee /tmp/sp-scored.log
       - name: Health summary
         # Gap lines lifted into the run summary so the Actions page answers
         # "did this week work" at a glance -- same reasoning as ni-weekly.

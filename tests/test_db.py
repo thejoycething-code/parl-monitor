@@ -280,3 +280,62 @@ class HolyroodCommitteeRegisterTests(unittest.TestCase):
                 "PRAGMA table_info(%s)" % table)}
             self.assertIn("name", cols, table)
             self.assertIn("committee_id", cols, table)
+
+
+class DerivedStateSurvivesADeployTests(unittest.TestCase):
+    """A table a TOOL creates exists only where that tool has run.
+
+    2026-08-29. tools/sp_score.py made sp_scored with CREATE TABLE IF NOT
+    EXISTS. I ran it, wrote 386 rows, reported them -- and the next deploy
+    pulled the CI store, which had never heard of the table, and published
+    that back over the top. The rows were written and gone inside the hour.
+
+    Two rules follow, and both are checked here: every table the pipeline
+    depends on is created by the SCHEMA, and every tool that writes derived
+    state is run by a workflow. State that only exists where a human ran
+    something is not published state.
+    """
+
+    def test_the_scored_table_is_in_the_schema(self):
+        conn = db.init_db(db.connect(":memory:"))
+        self.assertTrue(conn.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' "
+            "AND name='sp_scored'").fetchone())
+        self.assertIn("sp_scored", db.TABLES)
+
+    # Four tools created their own tables before this rule existed. They have
+    # not been bitten because each is created in the same JOB that reads it --
+    # the fragility is real but latent, and rewriting them was not part of
+    # what was asked. They are named so a FIFTH cannot appear quietly.
+    LEGACY_SELF_CREATORS = {"load_looker_campaigns.py",
+                            "log_campaign_performance.py",
+                            "make_briefs.py"}
+
+    def test_no_new_tool_creates_its_own_table(self):
+        """The schema is the single source. A tool that creates a table
+        hides it from every machine that has not run that tool -- which is
+        how 386 scored votes were written, reported and lost in an hour."""
+        import glob
+        import re
+        offenders = []
+        for path in glob.glob(os.path.join(ROOT, "tools", "*.py")):
+            name = os.path.basename(path)
+            if name in self.LEGACY_SELF_CREATORS:
+                continue
+            with open(path, encoding="utf-8") as fh:
+                src = fh.read()
+            if re.search(r"CREATE TABLE", src, re.I):
+                offenders.append(name)
+        self.assertEqual(offenders, [],
+                         "these create tables outside the schema: {0}".format(offenders))
+
+    def test_every_derived_state_tool_is_run_by_a_workflow(self):
+        import glob
+        wf = ""
+        for path in glob.glob(os.path.join(ROOT, ".github", "workflows", "*.yml")):
+            with open(path, encoding="utf-8") as fh:
+                wf += fh.read()
+        for tool in ("sp_score.py", "pull_devolved_profiles.py",
+                     "ni_committees.py", "backfill_pq_links.py"):
+            self.assertIn(tool, wf,
+                          "{0} writes state no workflow ever produces".format(tool))

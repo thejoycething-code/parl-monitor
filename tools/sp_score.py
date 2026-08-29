@@ -41,11 +41,6 @@ def load():
 def main():
     apply_it = "--apply" in sys.argv
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
-    conn.execute("""CREATE TABLE IF NOT EXISTS sp_scored (
-        division_key TEXT NOT NULL, person_id TEXT NOT NULL,
-        vote TEXT NOT NULL,          -- Yes | No | Abstain | Not Voted
-        verdict TEXT,                -- good | bad | NULL when unsigned
-        PRIMARY KEY (division_key, person_id))""")
 
     scored = load()
     print("{0} division(s) scored in {1}".format(scored and len(scored) or 0,

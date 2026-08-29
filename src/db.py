@@ -317,6 +317,22 @@ CREATE TABLE IF NOT EXISTS ni_agenda (
 -- contact and roles from members.asmx, Scotland gives roles and seats from
 -- data.parliament.scot. Wales publishes neither and is absent by fact, not
 -- by omission.
+-- Scored Holyrood votes, from config/holyrood_votes.yaml via
+-- tools/sp_score.py. Created HERE and not by the tool: sp_score.py made it
+-- with CREATE TABLE IF NOT EXISTS, so it existed only where that tool had
+-- run -- which was my laptop. The next deploy pulled the CI store, which
+-- had never heard of it, and published that back over the top. The rows
+-- were written, reported, and gone within the hour.
+--
+-- verdict is NULL until the division is signed off, the same rule the
+-- Westminster builder applies to `good`.
+CREATE TABLE IF NOT EXISTS sp_scored (
+  division_key TEXT NOT NULL,
+  person_id TEXT NOT NULL,
+  vote TEXT NOT NULL,             -- Yes | No | Abstain | Not Voted
+  verdict TEXT,                   -- good | bad | NULL when unsigned
+  PRIMARY KEY (division_key, person_id)
+);
 CREATE TABLE IF NOT EXISTS dv_contact (
   nation TEXT NOT NULL,           -- 'ni' | 'scotland' | 'wales'
   person_id TEXT NOT NULL,
@@ -693,6 +709,7 @@ TABLES = (
     "ni_divisions",
     "ni_sponsors",
     "ni_agenda",
+    "sp_scored",
     "dv_contact",
     "dv_post",
     "ni_committees",
