@@ -657,7 +657,12 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
     for mid in list(record):
         for area in list(record[mid]):
             block = record[mid][area]
-            if not block["items"] and not any((block.get("n") or {}).values()):
+            # No rows means nothing to show, whatever the counts say. For
+            # MPs the counts and the rows agreed; a PEER can be counted for a
+            # Lords contribution that has neither a quotable passage nor a
+            # link, because RawHansard indexes the COMMONS sweeps -- so the
+            # row is dropped and the count would have been left promising it.
+            if not block["items"]:
                 del record[mid][area]
         if not record[mid]:
             del record[mid]
@@ -779,10 +784,29 @@ def build(conn, cfg, payloads):
         if cont:
             seat[row["member_id"]]["continuous"] = cont
 
+    # PEERS, added 2026-08-29. The store already held 50,066 peer events,
+    # 49,655 of them classified onto our areas, and the page published none
+    # of it -- while the Bill this campaign is about died in the Lords.
+    #
+    # A peer is included ONLY if they have classified evidence. Every MP is
+    # rendered whether or not they have a record, because a constituent
+    # looks up their own MP and must find them; nobody "has" a peer, so a
+    # peer with nothing to show is weight on 650 other pages for no reader.
+    peers_with_record = {r[0] for r in conn.execute(
+        "SELECT DISTINCT e.member_id FROM mp_events e "
+        "JOIN members m ON m.id = e.member_id "
+        "WHERE m.current_peer = 1 AND e.kind != 'vote' "
+        "AND e.areas IS NOT NULL AND e.areas NOT IN ('[]', '')")}
+
     members = []
     for r in conn.execute(
-            "SELECT id, name, list_as, party, seat, since FROM members "
-            "WHERE current_mp = 1 ORDER BY COALESCE(list_as, name)"):
+            "SELECT id, name, list_as, party, seat, since, current_mp, "
+            "current_peer FROM members "
+            "WHERE current_mp = 1 OR current_peer = 1 "
+            "ORDER BY COALESCE(list_as, name)"):
+        is_peer = not r["current_mp"] and r["current_peer"]
+        if is_peer and r["id"] not in peers_with_record:
+            continue
         party = "Labour" if r["party"] == "Labour (Co-op)" else r["party"]
         role = None
         if party == "Speaker":
@@ -793,7 +817,13 @@ def build(conn, cfg, payloads):
             role = "sf"
         members.append({
             "id": r["id"], "name": r["name"], "listAs": r["list_as"] or r["name"],
-            "party": party, "constituency": r["seat"], "since": r["since"],
+            # A peer has no constituency, no majority, no whip in the Commons
+            # sense and -- until a Lords division is signed off -- no scored
+            # vote. The house is shipped so the page can stop claiming any of
+            # those about them rather than rendering blanks.
+            "house": "lords" if is_peer else "commons",
+            "party": party, "constituency": None if is_peer else r["seat"],
+            "since": r["since"],
             "first": service.get(r["id"], {}).get("first"),
             "served": service.get(r["id"], {}).get("periods") or [],
             "returned": service.get(r["id"], {}).get("returned"),
@@ -811,6 +841,19 @@ def build(conn, cfg, payloads):
     for m in members:
         m["words"] = words.get(str(m["id"]), {})
         m["record"] = record.get(str(m["id"]), {})
+
+    # A peer earns a page by having something ON it. Selecting on "has a
+    # classified event" was not enough: on_record drops what a vote card
+    # already shows and what has no quotable passage, so 68 peers came
+    # through with an empty record -- a page with a name and nothing else.
+    # Every MP still renders regardless: a constituent must find their own
+    # MP, and finding an empty page is itself an answer.
+    before = len(members)
+    members = [m for m in members
+               if m["house"] == "commons" or m["record"] or m["words"]
+               or m["votes"]]
+    dropped = before - len(members)
+
     dataset = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
         "issues": [i for i in issues if i["id"] in used_issues],
@@ -872,6 +915,9 @@ def main():
             handle.write(page)
 
     unsigned = [d["id"] for d in dataset["divisions"] if not d["signed_off"]]
+    peers = sum(1 for m in dataset["members"] if m.get("house") == "lords")
+    print("members: {0} MPs + {1} peers ({2} peer(s) dropped as empty)".format(
+        len(dataset["members"]) - peers, peers, dropped))
     no_since = sum(1 for m in dataset["members"] if not m["since"])
     print("{0} divisions across {1} issues, {2} sitting MPs".format(
         len(dataset["divisions"]), len(dataset["issues"]), len(dataset["members"])))

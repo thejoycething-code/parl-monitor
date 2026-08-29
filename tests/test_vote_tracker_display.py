@@ -1810,3 +1810,86 @@ class StorePublishGuardTests(unittest.TestCase):
                   encoding="utf-8") as fh:
             text = fh.read()
         self.assertIn("tools/backfill_pq_links.py", text)
+
+
+class PeersOnThePageTests(unittest.TestCase):
+    """Peers, added 2026-08-29.
+
+    The store held 50,066 peer events, 49,655 of them classified onto our
+    areas, and the page published none of it -- while the Bill this campaign
+    is about died in the Lords.
+
+    The first build rendered them through the MP template and the result was
+    not merely ugly, it was FALSE: "MP since 14 Sep 2020" of a peer, a tally
+    reading "0 of 18 tracked divisions", and eighteen DID NOT VOTE cards
+    each explaining that MPs miss divisions through illness or constituency
+    duties -- about a member who was never eligible to cast one. That is the
+    same false-excuse fault the service-history work existed to remove.
+    """
+
+    def test_peers_are_on_the_page(self):
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        peers = [m for m in data["members"] if m.get("house") == "lords"]
+        self.assertGreater(len(peers), 300)
+
+    def test_no_peer_is_called_an_mp(self):
+        html = template()
+        self.assertIn("In the House of Lords since", html)
+        block = html[html.index("function sinceLine"):]
+        block = block[:block.index("function servedOn")]
+        self.assertIn("isPeer(m)", block, "sinceLine can still say 'MP since'")
+
+    def test_a_peer_is_never_shown_a_commons_did_not_vote(self):
+        """Ineligibility is not absence. A peer with no Commons votes gets
+        the banner the Speaker gets, not eighteen empty cards."""
+        html = template()
+        self.assertIn("peerNoVotes ? [] : blocks", html)
+        self.assertIn("sits in the House of Lords", html)
+
+    def test_a_peer_who_was_an_mp_keeps_their_votes(self):
+        """24 members are in this case, and those votes are genuinely
+        theirs -- suppressing them would hide a real record."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        former = [m for m in data["members"]
+                  if m.get("house") == "lords" and m.get("votes")]
+        self.assertGreaterEqual(len(former), 10)
+
+    def test_no_peer_carries_a_constituency(self):
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        for member in data["members"]:
+            if member.get("house") == "lords":
+                self.assertFalse(member.get("constituency"), member["name"])
+
+    def test_every_peer_on_the_page_has_something_on_it(self):
+        """Selecting on "has a classified event" was not enough: on_record
+        drops what a vote card shows and what has no quotable passage, so
+        peers arrived with an empty record -- a name and nothing else."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        for member in data["members"]:
+            if member.get("house") != "lords":
+                continue
+            self.assertTrue(
+                member.get("record") or member.get("words") or member.get("votes"),
+                "{0} has an empty page".format(member["name"]))
+
+    def test_the_lords_groupings_have_colours(self):
+        """Crossbench and the Lords Spiritual are not parties. 78 Crossbench
+        and 26 Non-affiliated peers would have rendered behind the default
+        grey the party-mark work was built to stop."""
+        html = template()
+        for group in ("Crossbench", "Non-affiliated", "Bishops", "Lord Speaker"):
+            self.assertIn('"{0}":'.format(group), html, group)
+
+    def test_a_peer_is_findable_by_name(self):
+        """They have no constituency and no postcode, so name is the only
+        route in -- and the dropdown must not print an empty seat."""
+        html = template()
+        self.assertIn('isPeer(m) ? "House of Lords" : m.constituency', html)

@@ -448,9 +448,9 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 </header>
 
 <div class="searchbox">
-  <label for="q">Find your MP</label>
+  <label for="q">Find your MP &mdash; or a peer</label>
   <input id="q" type="text" autocomplete="off" spellcheck="false"
-    placeholder="Postcode, constituency, or MP name&hellip;" aria-label="Search by postcode, constituency, or MP name"
+    placeholder="Postcode, constituency, or a member&rsquo;s name&hellip;" aria-label="Search by postcode, constituency, or a member's name"
     role="combobox" aria-expanded="false" aria-controls="dd">
   <div class="dropdown" id="dd" role="listbox"></div>
 </div>
@@ -518,7 +518,14 @@ const PARTY_C = {
   "Social Democratic & Labour Party":"#2AA82C", "Alliance":"#F6CB2F",
   "Ulster Unionist Party":"#48A5EE", "Traditional Unionist Voice":"#201863",
   "Your Party":"#FF3131", "Restore Britain":"#051D3F",
-  "Independent":"#DCDCDC", "Speaker":"#B9BEC4"};
+  "Independent":"#DCDCDC", "Speaker":"#B9BEC4",
+  // Lords groupings, added with peers 2026-08-29. Crossbenchers and the
+  // Lords Spiritual are not parties and have no party colour, so these are
+  // Parliament's own house colours for them rather than invented ones. 26
+  // Non-affiliated and 78 Crossbench peers would otherwise have rendered
+  // behind the same default grey the party-mark work was built to stop.
+  "Crossbench":"#8B8B8B", "Non-affiliated":"#B9BEC4", "Bishops":"#8B008B",
+  "Lord Speaker":"#B9BEC4"};
 const pc = p => PARTY_C[p] || "#5B6770";
 
 /* ---------- helpers ---------- */
@@ -718,7 +725,16 @@ function contactColumn(m){
   </div>`;
 }
 
+function isPeer(m){ return m.house === "lords"; }
+
 function sinceLine(m){
+  // A peer is not an MP and the page must not say so. Their date is the
+  // start of their Lords membership, and none of the Commons furniture --
+  // constituency, majority, whip, "first elected" -- applies.
+  if (isPeer(m)) {
+    const from = m.since || m.first;
+    return from ? `In the House of Lords since ${fmtD(from)}` : "Member of the House of Lords";
+  }
   // The first entry to the Commons, not the start of the current period.
   // A member who left and returned gets both, because "MP since 13 Aug 2026"
   // beside votes cast in 2024 makes the page look wrong when it is right.
@@ -847,6 +863,16 @@ function renderMP(id){
   if (m.role==="speaker") banner = "As Speaker of the House of Commons, "+esc(m.name)+" does not vote in divisions, by convention.";
   if (m.role==="deputy")  banner = esc(m.name)+" serves as a Deputy Speaker and, by convention, does not vote in divisions.";
   if (m.role==="sf")      banner = "Sinn F\u00e9in members do not take their seats at Westminster, so no votes are cast or recorded.";
+  // A peer is in the same class as the Speaker here: not an absence, an
+  // ineligibility. Rendering the 18 Commons cards for them produced 18
+  // "DID NOT VOTE" rows, each explaining that MPs miss divisions through
+  // illness or constituency duties -- of a member who could not have voted
+  // in any of them. A peer who was PREVIOUSLY an MP keeps their cards,
+  // because those votes are genuinely theirs; 24 members are in that case.
+  const peerNoVotes = isPeer(m) && !took;
+  if (peerNoVotes)
+    banner = esc(m.name) + " sits in the House of Lords. The divisions tracked "
+           + "here are Commons votes, so none was theirs to cast.";
   let rows = "";
   // Grouped by BILL, ordered by the date of its major vote, newest first
   // (Christopher, 2026-08-24). The major vote is the Third Reading where
@@ -1123,7 +1149,10 @@ function renderMP(id){
     </details>`;
   };
 
-  for (const g of blocks){
+  // A peer with no Commons votes gets no Commons cards. The banner above
+  // says why once, instead of 18 rows each saying "DID NOT VOTE" and
+  // offering an MP's reasons for missing a division.
+  for (const g of (peerNoVotes ? [] : blocks)){
     g_ = g;   // bill context, for whipHere()
     const nodes = passageNodes(g);
     const shown = nodes.filter(n => isOpenNode(n, g));
@@ -1223,7 +1252,7 @@ function renderMP(id){
       recHtml += `<div class="recarea">
         <div class="recareahead">
           <h3>${esc(DATA.areas[a] || "")}</h3>
-          ${votedHere ? "" : `<span class="novote">NO VOTE RECORDED</span>`}
+          ${votedHere || peerNoVotes ? "" : `<span class="novote">NO VOTE RECORDED</span>`}
         </div>
         ${counts ? `<p class="reccounts">${counts}</p>` : ""}
         ${(b.items||[]).map(recRow).join("")}
@@ -1253,7 +1282,8 @@ function renderMP(id){
       </div>
     </div>
     ${banner?`<div class="rolebanner">${banner}</div>`:""}
-    <div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}</div>
+    ${isPeer(m) && !took ? "" :
+      `<div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}</div>`}
     ${rows}
   ${recHtml}
   </div>`;
@@ -1284,8 +1314,12 @@ function buildOpts(val){
     for (const m of DATA.members){
       if (out.length>=9) break;
       const nm = norm(m.name), cn = norm(m.constituency);
-      if (nm.includes(t)) out.push({type:"mp", id:m.id, label:m.name, small:m.constituency+" \u00b7 "+m.party});
-      else if (cn.includes(t)) out.push({type:"seat", id:m.id, label:m.constituency, small:"MP: "+m.name});
+      // A peer has no constituency and no postcode, so they are reachable by
+      // NAME only -- and the dropdown must say where they sit instead of
+      // printing an empty seat beside their party.
+      const where = isPeer(m) ? "House of Lords" : m.constituency;
+      if (nm.includes(t)) out.push({type:"mp", id:m.id, label:m.name, small:where+" \u00b7 "+m.party});
+      else if (cn && cn.includes(t)) out.push({type:"seat", id:m.id, label:m.constituency, small:"MP: "+m.name});
     }
   }
   return out.slice(0,9);
