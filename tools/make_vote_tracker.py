@@ -357,6 +357,12 @@ GENERAL_ELECTIONS = {
 # The REST are not dropped: every receipt is listed in a compact roll behind
 # a disclosure, so the section can say "all 54" and mean it.
 RECORD_FEATURED = 2
+# Peers get more. Their record is ALL they have: an MP's page opens with
+# votes and a verdict, while a peer has three Lords divisions from 2006 and
+# 2015 and then whatever they have said. Two featured rows is thin for the
+# only evidence on the page. The rest still list in the roll either way --
+# this decides how many get the full treatment with a quote.
+RECORD_FEATURED_PEER = 4
 RECORD_CAP = 2          # per MP per area, for receipts NOT tied to a bill;
                         # the counts carry the volume, quotes illustrate it
 BILL_QUOTE_CAP = 2      # quotes shown inside a bill card
@@ -450,7 +456,7 @@ def pack_url(url, dated):
     return url
 
 
-def on_record(conn, member_ids, issues, raw, taxonomy):
+def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
     """What each MP has said, asked and signed -- as receipts, never inferences.
 
     Returns (words, record).
@@ -706,7 +712,8 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
 
             kept = []
             for it in ranked:
-                if len(kept) >= RECORD_FEATURED:
+                if len(kept) >= (RECORD_FEATURED_PEER if mid in peers
+                                 else RECORD_FEATURED):
                     break
                 q, url = quoted.get(id(it), (None, None))
                 if it["k"] == "debate" and not q:
@@ -947,7 +954,9 @@ def build(conn, cfg, payloads):
     raw = quotes.RawHansard(ROOT)
     taxonomy = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     words, record = on_record(conn, {m["id"] for m in members},
-                              issues, raw, taxonomy)
+                              issues, raw, taxonomy,
+                              peers={str(m["id"]) for m in members
+                                     if m["house"] == "lords"})
     for m in members:
         m["words"] = words.get(str(m["id"]), {})
         m["record"] = record.get(str(m["id"]), {})

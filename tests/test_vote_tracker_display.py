@@ -2051,3 +2051,46 @@ class LordsDivisionTests(unittest.TestCase):
         self.assertEqual(shaped["Ayes"][0]["MemberId"], 82)
         self.assertEqual(shaped["NoVoteRecorded"], [],
                          "the Lords records no abstentions; invent none")
+
+
+class PeerFeaturedRowsTests(unittest.TestCase):
+    """A peer gets four featured rows where an MP gets two.
+
+    Their record is ALL they have. An MP's page opens with votes and a
+    verdict; a peer has three Lords divisions from 2006 and 2015 and then
+    whatever they have said, so two rows is thin for the only evidence on
+    the page. Everything else still lists in the roll either way -- this
+    only decides how many get the full treatment with a quote.
+    """
+
+    def test_a_peer_block_may_feature_four(self):
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        peer_max = max(
+            (len(b.get("items") or [])
+             for m in data["members"] if m.get("house") == "lords"
+             for _a, b in (m.get("record") or {}).items()), default=0)
+        self.assertEqual(peer_max, 4)
+
+    def test_an_mp_block_still_features_two(self):
+        """The change is for peers only: MPs already lead with votes."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        mp_max = max(
+            (len(b.get("items") or [])
+             for m in data["members"] if m.get("house") != "lords"
+             for _a, b in (m.get("record") or {}).items()), default=0)
+        self.assertEqual(mp_max, 2)
+
+    def test_the_roll_still_holds_everything(self):
+        """Featuring more must not mean listing less."""
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        for member in data["members"]:
+            for _a, block in (member.get("record") or {}).items():
+                self.assertEqual(len(block.get("all") or []),
+                                 sum((block.get("n") or {}).values()),
+                                 member["name"])
