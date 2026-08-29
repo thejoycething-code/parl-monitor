@@ -360,6 +360,45 @@ def _sitting(title):
     return "Committee, {0} sitting".format(m.group(1).lower()) if m else None
 
 
+# URLs were the single heaviest thing on the page -- 936KB across 6,826
+# rows, more than the quotes themselves -- and most of each one is
+# recoverable. A Hansard link is prefix + house + THE ROW'S OWN DATE +
+# two GUIDs; a written-question link is prefix + THE ROW'S OWN DATE + a
+# uin. Only the parts that vary per row are shipped, and the template
+# rebuilds the address. Dashes come out of the GUIDs for the same reason.
+HANSARD_LINK = re.compile(
+    r"^https://hansard\.parliament\.uk/(Commons|Lords)/(\d{4}-\d\d-\d\d)"
+    r"/debates/([0-9A-Fa-f-]+)/#contribution-([0-9A-Fa-f-]+)$")
+WRITTEN_Q_LINK = re.compile(
+    r"^https://questions-statements\.parliament\.uk/written-questions/"
+    r"detail/(\d{4}-\d\d-\d\d)/(\S+)$")
+
+
+def pack_url(url, dated):
+    """Shrink a source link to what the row does not already carry.
+
+    Returns the packed token, or the original URL when it is neither shape
+    -- an unrecognised link must still work, so nothing is dropped.
+    """
+    if not url:
+        return None
+    hit = HANSARD_LINK.match(url)
+    if hit:
+        house, when, debate, contrib = hit.groups()
+        if when == dated:              # the row's date, so do not repeat it
+            return "h{0}:{1}:{2}".format(
+                "L" if house == "Lords" else "C",
+                debate.replace("-", ""), contrib.replace("-", ""))
+        return "H{0}:{1}:{2}:{3}".format(
+            "L" if house == "Lords" else "C", when,
+            debate.replace("-", ""), contrib.replace("-", ""))
+    hit = WRITTEN_Q_LINK.match(url)
+    if hit:
+        when, uin = hit.groups()
+        return "q:{0}".format(uin) if when == dated else "Q:{0}:{1}".format(when, uin)
+    return url
+
+
 def on_record(conn, member_ids, issues, raw, taxonomy):
     """What each MP has said, asked and signed -- as receipts, never inferences.
 
@@ -517,7 +556,8 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                 if not q or q in seen:
                     continue
                 seen.add(q)
-                cands.append({"d": it["d"], "q": q, "u": url,
+                cands.append({"d": it["d"], "q": q,
+                              "u": pack_url(url, it["d"]),
                               "t": _sitting(it["t"]) or it["t"],
                               "_s": quotes.quotability(q)})
             cands.sort(key=lambda x: (x["_s"], x["d"]), reverse=True)
@@ -604,11 +644,11 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                 elif it["k"] == "pq":
                     u = pq_url(it["ref"])
                     if u:
-                        entry["u"] = u
+                        entry["u"] = pack_url(u, it["d"])
                 elif it["k"] == "debate" and raw is not None:
                     u = raw.url(it["ref"])       # metadata only, no text scan
                     if u:
-                        entry["u"] = u
+                        entry["u"] = pack_url(u, it["d"])
                 return entry
 
             block["all"] = [compact(it) for it in ranked]
@@ -643,7 +683,7 @@ def on_record(conn, member_ids, issues, raw, taxonomy):
                 if q:
                     entry["q"] = q
                 if url:
-                    entry["u"] = url
+                    entry["u"] = pack_url(url, it["d"])
                 if it["ref"].startswith("edm:"):
                     entry["e"] = it["ref"].split(":", 1)[1]
                 kept.append(entry)

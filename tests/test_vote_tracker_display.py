@@ -320,10 +320,14 @@ class OnRecordTests(unittest.TestCase):
         words, _ = self._run()
         for per in words["1"].values():
             for q in per["q"]:
-                self.assertTrue(q["u"].startswith("https://hansard.parliament.uk/"))
-                self.assertIn("#contribution-", q["u"],
-                              "a day-level link makes a reader hunt for the "
-                              "words, which defeats a shareable quote")
+                # PACKED since 2026-08-29: the address is rebuilt in the
+                # page from the row's own date, so what is asserted is the
+                # packed shape -- and that it still carries the CONTRIBUTION
+                # id, because a day-level link makes a reader hunt for the
+                # words, which defeats a shareable quote.
+                self.assertRegex(q["u"], r"^[hH][CL]:")
+                self.assertEqual(len(q["u"].split(":")), 3 if q["u"][0] == "h" else 4,
+                                 "the contribution id is missing")
 
     # ---- Option B --------------------------------------------------------
     def test_procedural_containers_never_publish(self):
@@ -1611,10 +1615,11 @@ class AlsoOnRecordTests(unittest.TestCase):
                 for item in (block.get("items") or []):
                     if item.get("k") == "pq":
                         seen += 1
+                        # PACKED: "q:<uin>" when the row carries the date,
+                        # "Q:<date>:<uin>" when it does not.
                         self.assertRegex(
                             item.get("u") or "",
-                            r"^https://questions-statements\.parliament\.uk"
-                            r"/written-questions/detail/\d{4}-\d{2}-\d{2}/\S+$")
+                            r"^(q:\S+|Q:\d{4}-\d{2}-\d{2}:\S+)$")
         self.assertGreater(seen, 100)
 
     def test_proposing_a_motion_is_not_reported_as_signing_it(self):
@@ -1893,3 +1898,68 @@ class PeersOnThePageTests(unittest.TestCase):
         route in -- and the dropdown must not print an empty seat."""
         html = template()
         self.assertIn('isPeer(m) ? "House of Lords" : m.constituency', html)
+
+
+class PackedLinkTests(unittest.TestCase):
+    """Source links were the heaviest thing on the page.
+
+    6,826 of them, 936KB -- more than the quotes themselves -- and most of
+    each one was already on the row. A Hansard address is a fixed prefix,
+    a house, THE ROW'S OWN DATE and two GUIDs; a written-question address is
+    a prefix, the row's date and a uin. Only the varying parts ship now:
+    936KB -> 430KB, and the page 3.40MB -> 2.90MB.
+
+    The whole scheme is worthless if a link does not come back exactly, so
+    3,500 real links are round-tripped against the originals in the build.
+    """
+
+    def test_the_row_date_is_not_repeated(self):
+        packed = mvt.pack_url(
+            "https://hansard.parliament.uk/Commons/2025-03-18/debates/"
+            "5c370560-a5bd-46c6-b2d5-8203523db8a9/#contribution-"
+            "35F7682B-85F6-47EF-A983-DA53C3EE745E", "2025-03-18")
+        self.assertTrue(packed.startswith("hC:"))
+        self.assertNotIn("2025-03-18", packed)
+        self.assertLess(len(packed), 75)
+
+    def test_a_date_that_differs_is_carried(self):
+        """The row's date is not always the sitting date, and dropping it
+        would silently point at the wrong day."""
+        packed = mvt.pack_url(
+            "https://hansard.parliament.uk/Lords/2024-01-02/debates/"
+            "5c370560-a5bd-46c6-b2d5-8203523db8a9/#contribution-"
+            "35F7682B-85F6-47EF-A983-DA53C3EE745E", "2025-03-18")
+        self.assertTrue(packed.startswith("HL:"))
+        self.assertIn("2024-01-02", packed)
+
+    def test_a_written_question_keeps_only_its_uin(self):
+        self.assertEqual(
+            mvt.pack_url("https://questions-statements.parliament.uk/"
+                         "written-questions/detail/2025-06-03/56775",
+                         "2025-06-03"), "q:56775")
+
+    def test_an_unrecognised_link_is_left_alone(self):
+        """A link this does not understand must still work."""
+        url = "https://edm.parliament.uk/early-day-motion/12345"
+        self.assertEqual(mvt.pack_url(url, "2025-01-01"), url)
+
+    def test_the_template_can_rebuild_both_shapes(self):
+        html = template()
+        self.assertIn("function href(packed, dated)", html)
+        self.assertIn("function guid(h)", html)
+        # a numeric Hansard debate id must NOT be reformatted as a GUID
+        self.assertIn("h.length === 32", html)
+
+    def test_no_full_url_survives_in_the_payload(self):
+        data = _payload()
+        if data is None:
+            self.skipTest("page not built")
+        long_ones = 0
+        for member in data["members"]:
+            for _a, block in (member.get("record") or {}).items():
+                for item in (block.get("items") or []) + (block.get("all") or []):
+                    u = item.get("u") or ""
+                    if u.startswith("https://hansard") or \
+                            u.startswith("https://questions-statements"):
+                        long_ones += 1
+        self.assertEqual(long_ones, 0, "unpacked links are still shipping")

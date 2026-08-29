@@ -725,6 +725,33 @@ function contactColumn(m){
   </div>`;
 }
 
+// Source links are shipped PACKED: a Hansard address is a fixed prefix, a
+// house, the row's own date and two GUIDs, and a written-question address
+// is a prefix, the row's date and a uin -- so only the varying parts
+// travel. 936KB of URLs became 430KB. A lower-case tag means "the date is
+// the row's"; upper-case carries its own. Anything unrecognised is passed
+// through untouched, so a link this does not know still works.
+function guid(h){
+  return h.length === 32
+    ? h.slice(0,8)+"-"+h.slice(8,12)+"-"+h.slice(12,16)+"-"+h.slice(16,20)+"-"+h.slice(20)
+    : h;
+}
+function href(packed, dated){
+  if (!packed) return "";
+  const p = packed.split(":");
+  if (p[0] === "hC" || p[0] === "hL" || p[0] === "HC" || p[0] === "HL") {
+    const upper = p[0][0] === "H";
+    const house = p[0][1] === "L" ? "Lords" : "Commons";
+    const when = upper ? p[1] : dated;
+    const debate = guid(upper ? p[2] : p[1]);
+    const contrib = guid(upper ? p[3] : p[2]);
+    return `https://hansard.parliament.uk/${house}/${when}/debates/${debate}/#contribution-${contrib}`;
+  }
+  if (p[0] === "q") return `https://questions-statements.parliament.uk/written-questions/detail/${dated}/${p[1]}`;
+  if (p[0] === "Q") return `https://questions-statements.parliament.uk/written-questions/detail/${p[1]}/${p[2]}`;
+  return packed;
+}
+
 function isPeer(m){ return m.house === "lords"; }
 
 function sinceLine(m){
@@ -1103,7 +1130,7 @@ function renderMP(id){
         <span class="sdate">${fmtD(node.date)}</span></div>
       <blockquote class="said">${esc(node.q.q)}</blockquote>
       <div class="saidmeta">${esc(node.q.t)}${
-        node.q.u ? ` \u00b7 <a class="official" href="${node.q.u}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>
+        node.q.u ? ` \u00b7 <a class="official" href="${href(node.q.u, node.q.d)}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>
     </div>`;
 
   // WHAT STAYS OPEN, AND WHAT CONDENSES (Christopher, 2026-08-27: option C's
@@ -1170,7 +1197,7 @@ function renderMP(id){
   const KINDWORD = {debate: "SPOKE", pq: "ASKED", edm: "PROPOSED EDM",
                     "edm-signed": "SIGNED EDM"};
   const recLink = (it) => {
-    if (it.u) return ` &middot; <a class="official" href="${it.u}" target="_blank" rel="noopener">${it.k === "pq" ? "Written question" : "Hansard"}</a>`;
+    if (it.u) return ` &middot; <a class="official" href="${href(it.u, it.d)}" target="_blank" rel="noopener">${it.k === "pq" ? "Written question" : "Hansard"}</a>`;
     if (it.e) return ` &middot; <a class="official" href="https://edm.parliament.uk/early-day-motion/${it.e}" target="_blank" rel="noopener">EDM register</a>`;
     // Written questions reached this line with no link at all -- 206 rows
     // reading "official written question record" as plain text, under a
