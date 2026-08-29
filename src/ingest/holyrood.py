@@ -48,9 +48,40 @@ OR_URL = API + "/orsplenarymeeting?year={0}"
 # OR plus a Committee block.
 COMMITTEE_OR_URL = API + "/Orscommitteemeeting?year={0}"
 SUPPORTS_URL = API + "/Motionsquestionsanswerssupports/{0}"
+# The register. The endpoint returns all 169 committees the Parliament has
+# ever had, across sessions; a row with no ValidUntilDate is still sitting,
+# which after the May 2026 election is 16 of them. Scotland harvested 6,965
+# committee contributions while holding no list of its committees at all.
+COMMITTEES_URL = API + "/Committees"
+
 BILLS_URL = API + "/bills"
 BILL_STAGES_URL = API + "/BillStages"
 BILL_STAGE_TYPES_URL = API + "/BillStageTypes"
+
+
+def parse_committees(payload, current_only=True):
+    """[(id, name, short_name, valid_from, valid_until)] from /Committees.
+
+    `current_only` keeps the rows with no ValidUntilDate. Everything else is
+    a committee of a previous session -- real history, but a register that
+    lists 169 committees when 16 are sitting answers the wrong question.
+    """
+    rows = payload if isinstance(payload, list) else [payload or {}]
+    out = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        cid = str(row.get("ID") or "").strip()
+        name = clean(row.get("Name"))
+        if not cid or not name:
+            continue
+        until = (row.get("ValidUntilDate") or "").strip()[:10] or None
+        if current_only and until:
+            continue
+        out.append((cid, name, clean(row.get("ShortName")) or None,
+                    (row.get("ValidFromDate") or "").strip()[:10] or None,
+                    until))
+    return out
 
 
 def clean(text):

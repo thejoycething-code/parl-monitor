@@ -527,6 +527,16 @@ CREATE TABLE IF NOT EXISTS sd_bills (
   areas TEXT, matched_terms TEXT, -- taxonomy over the title
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS sp_committees (
+  committee_id TEXT PRIMARY KEY,  -- data.parliament.scot Committees.ID
+  name TEXT NOT NULL,
+  short_name TEXT,
+  valid_from TEXT, valid_until TEXT,  -- NULL until = still sitting; the API
+                                      -- returns all 169 committees ever, and
+                                      -- only 16 are live in this session
+  areas TEXT, matched_terms TEXT, -- taxonomy over the NAME (remit, not subject)
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS sd_committees (
   committee_id TEXT PRIMARY KEY,  -- ModernGov committee id (Plenary is 908)
   name TEXT NOT NULL,
@@ -645,6 +655,7 @@ TABLES = (
     "sd_votes",
     "sd_events",
     "sd_bills",
+    "sp_committees",
     "sd_committees",
     "dg_consultations",
     "api_spend",

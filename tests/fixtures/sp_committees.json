@@ -1,0 +1,57 @@
+[
+ {
+  "ID": 328,
+  "ShortName": "SPPA",
+  "Name": "Standards, Procedures and Public Appointments Committee",
+  "Description": "To consider and report on the following \u2014\r\n\r\n(a) the practice and procedures of the Parliament in relation to its business;\r\n\r\n(b) whether a member\u2019s conduct is in accordance with these Rules and any Code of Conduct for members, matters relating to members interests, and any other matters relating to the conduct of members in carrying out their Parliamentary duties;\r\n\r\n(c) the adoption, amendment and application of any Code of Conduct for members;\r\n\r\n(d) matters relating to public appointments in Scotland; and\r\n\r\n(e) matters relating to the regulation of lobbying.\r\n\r\n(f) matters falling within the responsibility of the Minister for Parliamentary Business and Veterans\r\n\r\n",
+  "CommitteeEmailAddress": "SPPA.Committee@parliament.scot",
+  "CommitteeTelephone": "",
+  "ValidFromDate": "2026-06-04T00:00:00",
+  "ValidUntilDate": null,
+  "BlogWebsite": null
+ },
+ {
+  "ID": 329,
+  "ShortName": "CA",
+  "Name": "Climate Action Committee",
+  "Description": "To consider and report on matters within the responsibility of the Cabinet Secretary for Climate Action and Rural Affairs, with the exception of rural affairs.",
+  "CommitteeEmailAddress": "climateaction.committee@parliament.scot",
+  "CommitteeTelephone": "",
+  "ValidFromDate": "2026-06-04T00:00:00",
+  "ValidUntilDate": null,
+  "BlogWebsite": null
+ },
+ {
+  "ID": 330,
+  "ShortName": "CJC",
+  "Name": "Criminal Justice Committee",
+  "Description": "To consider and report on matters relating to criminal justice falling within the responsibility of the Cabinet Secretary for Justice, and functions of the Lord Advocate other than as head of the systems of criminal prosecution and investigation of deaths in Scotland\r\n",
+  "CommitteeEmailAddress": "criminaljustice.committee@parliament.scot",
+  "CommitteeTelephone": "",
+  "ValidFromDate": "2026-06-04T00:00:00",
+  "ValidUntilDate": null,
+  "BlogWebsite": null
+ },
+ {
+  "ID": 101,
+  "ShortName": "AHS",
+  "Name": "Ad Hoc Standards Committee",
+  "Description": "",
+  "CommitteeEmailAddress": "",
+  "CommitteeTelephone": "",
+  "ValidFromDate": "2005-06-02T00:00:00",
+  "ValidUntilDate": "2005-06-20T00:00:00",
+  "BlogWebsite": null
+ },
+ {
+  "ID": 102,
+  "ShortName": "AB",
+  "Name": "Airdrie-Bathgate Railway and Linked Improvements Bill Committee",
+  "Description": "",
+  "CommitteeEmailAddress": "",
+  "CommitteeTelephone": "",
+  "ValidFromDate": "2006-06-15T00:00:00",
+  "ValidUntilDate": "2007-04-02T00:00:00",
+  "BlogWebsite": null
+ }
+]

@@ -241,3 +241,42 @@ class NiCommitteeRegisterTests(unittest.TestCase):
             text = fh.read()
         self.assertIn("tools/ni_committees.py", text)
         self.assertIn("committees", text.split("for f in pull")[1][:60])
+
+
+class HolyroodCommitteeRegisterTests(unittest.TestCase):
+    """Scotland harvested 6,965 committee contributions while holding no
+    list of its own committees -- the exact mirror of Northern Ireland,
+    which had the list and none of the contributions. Both are now
+    registers, so all three nations answer the same question."""
+
+    FIXTURES = os.path.join(ROOT, "tests", "fixtures")
+
+    def _fx(self):
+        import json
+        with open(os.path.join(self.FIXTURES, "sp_committees.json"),
+                  encoding="utf-8") as fh:
+            return json.load(fh)
+
+    def test_only_the_committees_still_sitting_are_kept(self):
+        """/Committees returns all 169 the Parliament has ever had. A
+        register listing 169 when 16 are sitting answers the wrong
+        question."""
+        from src.ingest import holyrood
+        current = holyrood.parse_committees(self._fx())
+        every = holyrood.parse_committees(self._fx(), current_only=False)
+        self.assertLess(len(current), len(every))
+        for _cid, _n, _s, _f, until in current:
+            self.assertIsNone(until, "a closed committee is in the register")
+
+    def test_the_history_is_still_reachable(self):
+        from src.ingest import holyrood
+        every = holyrood.parse_committees(self._fx(), current_only=False)
+        self.assertTrue(any(u for _c, _n, _s, _f, u in every))
+
+    def test_all_three_nations_have_a_register_table(self):
+        conn = db.init_db(db.connect(":memory:"))
+        for table in ("sd_committees", "sp_committees", "ni_committees"):
+            cols = {r[1] for r in conn.execute(
+                "PRAGMA table_info(%s)" % table)}
+            self.assertIn("name", cols, table)
+            self.assertIn("committee_id", cols, table)

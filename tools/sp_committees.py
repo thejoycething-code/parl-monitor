@@ -51,6 +51,34 @@ def main():
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     now = today.isoformat()
 
+    # THE REGISTER first. Scotland harvested thousands of committee
+    # contributions while holding no list of its own committees -- the
+    # mirror of Northern Ireland, which had a list and no contributions.
+    # /Committees returns all 169 the Parliament has ever had; the ones
+    # still sitting are those with no ValidUntilDate, 16 after the May 2026
+    # election.
+    register = 0
+    try:
+        payload = client.get_json(holyrood.COMMITTEES_URL, "holyrood",
+                                  "committees", archive=False)
+        for cid, name, short, frm, until in holyrood.parse_committees(payload):
+            res = filt.filter_item(tax, wl, name)
+            conn.execute(
+                "INSERT INTO sp_committees (committee_id, name, short_name, "
+                "valid_from, valid_until, areas, matched_terms, first_seen, "
+                "last_seen) VALUES (?,?,?,?,?,?,?,?,?) "
+                "ON CONFLICT(committee_id) DO UPDATE SET name=excluded.name, "
+                "short_name=excluded.short_name, valid_from=excluded.valid_from, "
+                "valid_until=excluded.valid_until, areas=excluded.areas, "
+                "matched_terms=excluded.matched_terms, last_seen=excluded.last_seen",
+                (cid, name, short, frm, until, json.dumps(res.issue_areas or []),
+                 json.dumps(res.matched_terms or []), now, now))
+            register += 1
+        conn.commit()
+        print("register: {0} committee(s) currently sitting.".format(register))
+    except FetchError as exc:
+        db.record_gap(conn, "sp-committees", "register: {0}".format(exc.cause))
+
     seen = msp = stored = gaps = 0
     committees = set()
     for year in years:
