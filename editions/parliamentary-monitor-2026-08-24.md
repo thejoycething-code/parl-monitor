@@ -49,12 +49,15 @@
 | Consultation | Nation | Closes |
 |---|---|---|
 | [Protections in the justice system for women and girls](https://consult.gov.scot/justice/protections-in-the-justice-system-women-and-girls/) | Scotland | 2026-08-31 (7 days) |
+| [A New Good Relations Framework - Call For Views](https://consultations.nidirect.gov.uk/teo/good-relations-call-for-views/) | N. Ireland | 2026-09-21 (28 days) |
 | [Consultation on the Religious Education Core Syllabus](https://consultations.nidirect.gov.uk/de/re-syllabus-consultation/) | N. Ireland | 2026-09-30 (37 days) |
+| [Public Consultation on Measures to Support Mobile Phone-Free Schools in Northern Ireland](https://consultations.nidirect.gov.uk/de/measures-to-support-mobile-free-schools/) | N. Ireland | 2026-11-19 (87 days) |
 
 **Bills on our ground**
 
 - Assisted Dying for Terminally Ill Adults (Scotland) Bill (Holyrood) - Stage 3 on 2026-03-17
 - Children (Withdrawal from Religious Education and Amendment of UNCRC Compatibility Duty) (Scotland) Bill (Holyrood) - Stage 3 on 2026-02-17
+- Prostitution (Offences and Support) (Scotland) Bill (Holyrood) - Stage 1 on 2026-02-03
 ---
 *No coverage gaps recorded this edition.*
 
