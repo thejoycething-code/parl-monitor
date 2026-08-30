@@ -1817,6 +1817,82 @@ class StorePublishGuardTests(unittest.TestCase):
         self.assertIn("tools/backfill_pq_links.py", text)
 
 
+class SkipGateGuardTests(unittest.TestCase):
+    """A sibling the DST guard skips must run NOTHING, and stay green.
+
+    2026-08-30. Both paired cron slots fire and the London-hour guard sets
+    SKIP=1 on the wrong one; every step then sits behind
+    `if: env.SKIP != '1'` so the sibling costs a few seconds and goes quiet.
+
+    "Fetch the store" was added without that guard when the store moved to a
+    release asset (d6e9738), and it is the first step after the gate. So on
+    the sibling it ran with no repo checked out, `python3 tools/db_state.py
+    --pull` was not there to run, and the step exited 2. The run went RED,
+    the failure alert DM'd Christopher at 02:03, and a manual dispatch
+    followed at 03:40 -- for a run whose whole purpose was to do nothing.
+
+    Nothing was damaged: publish and commit stand down on a failed fetch.
+    The cost is a false alarm every week, which is exactly what makes a real
+    one easy to miss. monday-publish.yml carried the identical hole.
+    """
+
+    WORKFLOWS = os.path.join(ROOT, ".github", "workflows")
+
+    GUARD = "env.SKIP != '1'"
+
+    def _gated_workflows(self):
+        """Every workflow whose guard can set SKIP=1, with its parsed steps."""
+        import glob
+        import yaml
+        out = []
+        for path in sorted(glob.glob(os.path.join(self.WORKFLOWS, "*.yml"))):
+            with open(path, encoding="utf-8") as fh:
+                text = fh.read()
+            if "SKIP=1" not in text:
+                continue
+            spec = yaml.safe_load(text)
+            for job in (spec.get("jobs") or {}).values():
+                steps = job.get("steps") or []
+                gate = next(
+                    (i for i, s in enumerate(steps)
+                     if "SKIP=1" in str(s.get("run") or "")), None)
+                if gate is None:
+                    continue
+                out.append((os.path.basename(path), steps, gate))
+        return out
+
+    def test_the_paired_workflows_are_gated_at_all(self):
+        """Both DST-paired workflows must reach these assertions."""
+        names = {name for name, _, _ in self._gated_workflows()}
+        for want in ("sunday-pull.yml", "monday-publish.yml"):
+            self.assertIn(want, names,
+                          "{0} lost its London-hour gate".format(want))
+
+    def test_every_step_after_the_skip_gate_carries_the_guard(self):
+        """The rule that broke. One unguarded step is enough to go red."""
+        for name, steps, gate in self._gated_workflows():
+            for step in steps[gate + 1:]:
+                label = step.get("name") or step.get("uses") or "<unnamed>"
+                self.assertIn(
+                    self.GUARD, str(step.get("if") or ""),
+                    "{0}: step {1!r} runs on a sibling the gate skipped; "
+                    "it has no checkout, so it fails and the run goes red "
+                    "for a skip that should have been silent"
+                    .format(name, label))
+
+    def test_the_gate_itself_never_fails_the_run(self):
+        """Setting SKIP=1 records a decision; it must not exit non-zero.
+
+        Failing the gate would be the same false alarm by a shorter route.
+        """
+        for name, steps, gate in self._gated_workflows():
+            run = str(steps[gate].get("run") or "")
+            skip_line = next(l for l in run.splitlines() if "SKIP=1" in l)
+            self.assertNotIn("exit 1", skip_line,
+                             "{0}: the gate fails instead of skipping"
+                             .format(name))
+
+
 class PeersOnThePageTests(unittest.TestCase):
     """Peers, added 2026-08-29.
 

@@ -58,6 +58,12 @@ jobs:
         run: pip install pyyaml google-auth
       - name: Fetch the store
         id: fetch
+        # Guarded like every other work step. Without this it ran on the
+        # off-DST sibling with no checkout, exited 2, and turned a run that
+        # was meant to skip silently into a red one -- which fired the
+        # failure DM at 02:03 on 2026-08-30. Missed when the store moved to
+        # a release asset (d6e9738); the neighbours all had it.
+        if: env.SKIP != '1'
         # The store is a release asset, not a tracked file (88MB against a
         # 100MB hard push limit). The concurrency group above is what makes
         # this safe: one writer at a time, repo-wide.
