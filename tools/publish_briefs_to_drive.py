@@ -88,6 +88,24 @@ def load_credentials():
         from google.auth import crypt, jwt
     except ImportError:
         return None, "google-auth is not installed (pip install google-auth)"
+    # The secret may arrive base64-encoded: multiline JSON secrets are
+    # often stored that way, and that is exactly how CI's copy failed on
+    # 2026-08-31 -- "Expecting value: line 1 column 1" from a non-empty
+    # value that was not JSON. Accept either form, and when neither
+    # parses, say WHAT was wrong rather than re-raising json's riddle.
+    raw = raw.strip()
+    if not raw.startswith("{"):
+        import base64
+        try:
+            decoded = base64.b64decode(raw, validate=True).decode("utf-8")
+            if decoded.strip().startswith("{"):
+                raw = decoded.strip()
+        except Exception:
+            pass
+    if not raw.startswith("{"):
+        return None, ("service account key is neither JSON nor base64 JSON "
+                      "(starts {0!r}): re-set the secret from "
+                      "config/google-service-account.json".format(raw[:8]))
     try:
         # The JWT-bearer flow by hand: google-auth's own transports pull in
         # requests or urllib3, and the rest of this project speaks urllib.
