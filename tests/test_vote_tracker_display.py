@@ -2182,54 +2182,26 @@ class PeerFeaturedRowsTests(unittest.TestCase):
                                  member["name"])
 
 
-class StanceRollupTests(unittest.TestCase):
-    """One sentence per issue above the cards (Christopher, 2026-08-31):
-    TheyWorkForYou's grammar, our verdicts, editorial phrases only."""
+class StanceRollupsRemovedTests(unittest.TestCase):
+    """The rollups shipped 2026-08-31 and were removed the same day
+    (Christopher: "for now also remove stance trackers"). The signed-off
+    phrases stay in the config, parked; the template must not render them
+    until that decision is reversed deliberately."""
 
-    def test_no_phrase_no_line_however_clear_the_arithmetic(self):
-        # The direction wording is editorial, from the issue's `stance` in
-        # config/vote_tracker.yaml. The template must refuse to compose a
-        # stance sentence for an issue without one.
+    def test_no_stance_block_renders(self):
         flat = " ".join(template().split())
-        self.assertIn("if (!ph.good || !ph.bad) continue;", flat)
+        self.assertNotIn('class="stances"', flat)
+        self.assertNotIn("stanceLines", flat)
 
-    def test_only_signed_off_divisions_count(self):
-        # d.good exists only when a division is signed off -- the same gate
-        # the verdict chips use. The rollup must skip unscored divisions,
-        # not count them as anything.
-        flat = " ".join(template().split())
-        self.assertIn(
-            "for (const d of (divsByIssue[issue.id] || [])){ if (!d.good) continue;",
-            flat)
-
-    def test_consistently_means_every_vote_and_generally_means_most(self):
-        flat = " ".join(template().split())
-        self.assertIn("Consistently voted <b>${esc(ph.good)}</b>", flat)
-        self.assertIn("Generally voted <b>${esc(ph.good)}</b>", flat)
-
-    def test_absence_is_named_not_counted_against_either_word(self):
-        # The Commons does not record why a member did not vote; "did not
-        # vote in N" is the only claim the line may make about it.
-        flat = " ".join(template().split())
-        self.assertIn("did not vote in ${x}", flat)
-
-    def test_every_issue_carries_a_stance_phrase_in_config(self):
-        # Not a template rule -- an editorial completeness check: an issue
-        # without phrases silently renders no rollup, and a silent gap is
-        # how real features die. Remove an issue's phrases deliberately by
-        # deleting this test's expectation, not by accident.
+    def test_the_parked_phrases_survive_in_config(self):
+        # Parked, not deleted: they were signed off, and deleting them would
+        # make the return a re-drafting exercise instead of a template edit.
         import yaml
         with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
                   encoding="utf-8") as fh:
             cfg = yaml.safe_load(fh)
-        # An `upcoming` issue has no divisions, so there is nothing to roll
-        # up and no phrase to demand -- it earns a stance when its first
-        # division is scored.
-        missing = [i["id"] for i in cfg["issues"]
-                   if not i.get("upcoming")
-                   and not ((i.get("stance") or {}).get("good")
-                            and (i.get("stance") or {}).get("bad"))]
-        self.assertEqual(missing, [])
+        with_phrases = [i for i in cfg["issues"] if (i.get("stance") or {}).get("good")]
+        self.assertEqual(len(with_phrases), 6)
 
 
 class RebellionTests(unittest.TestCase):
@@ -2253,17 +2225,15 @@ class RebellionTests(unittest.TestCase):
 
 
 class PartyHistoryDisplayTests(unittest.TestCase):
-    """'Conservative until 15 Sep 2025' in the hero (2026-08-31): the header
-    names today's party while some votes below were cast under another."""
+    """The hero's "Conservative until 15 Sep 2025" line was removed
+    2026-08-31 (Christopher: superfluous). The SPELLS still ship: the whip
+    logic reads party-on-the-day from them, so only the display went."""
 
-    def test_the_note_reads_from_the_collapsed_spells(self):
+    def test_the_note_is_gone_but_the_spells_still_serve_the_whip(self):
         flat = " ".join(template().split())
-        # every spell but the last, and only spells with an end date --
-        # the build collapses same-party re-elections, so a second spell
-        # IS a real change
-        self.assertIn("(m.parties || []).slice(0, -1).filter(([,, to]) => to)",
-                      flat)
-        self.assertIn("${partyNote(m)}", flat)
+        self.assertNotIn("partyNote", flat)
+        self.assertNotIn("partyprior", flat)
+        self.assertIn("partyOn(m, d.date)", flat)
 
 
 class BillStatusAndActionTests(unittest.TestCase):
@@ -2333,11 +2303,10 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         self.assertIn("NO VOTES YET", flat)
         self.assertIn("BEFORE PARLIAMENT NOW", flat)
 
-    def test_upcoming_issues_cannot_crash_the_stance_loop_or_the_pills(self):
-        # divsByIssue has no entry for an issue with no divisions; every
-        # consumer must guard, or the landing page dies on .length.
+    def test_upcoming_issues_cannot_crash_the_landing_pills(self):
+        # divsByIssue has no entry for an issue with no divisions; the
+        # landing pills must guard, or the page dies on .length.
         flat = " ".join(template().split())
-        self.assertIn("for (const d of (divsByIssue[issue.id] || [])){", flat)
         self.assertIn('const n = (divsByIssue[i.id] || []).length;', flat)
 
     def test_the_config_splits_the_two_bills(self):

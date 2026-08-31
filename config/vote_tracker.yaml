@@ -37,8 +37,11 @@ pbc_attendance:
   - Terminally Ill Adults (End of Life) Bill
 
 # Per-issue keys the tracker also understands (all optional):
-#   stance:   {good: ..., bad: ...} -- the member-card rollup line,
-#             "Consistently voted <good>". Editorial; no phrase, no line.
+#   stance:   {good: ..., bad: ...} -- the member-card rollup phrases,
+#             "Consistently voted <good>". Editorial; signed off 2026-08-31
+#             and then PARKED the same day (Christopher: "for now also
+#             remove stance trackers") -- nothing renders them until the
+#             template's rollup block returns.
 #   board_id: the bills_board row for the bill AS IT NOW STANDS, so the card
 #             can say what happens next without hand-edited dates.
 #   action:   {url: ..., label: ...} -- a live CitizenGO action, rendered as

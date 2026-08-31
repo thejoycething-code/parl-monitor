@@ -429,20 +429,10 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .pmark{color:#5f6670}
 .pmark.against{color:#8a5a2b;font-weight:500}
 
-/* --- stance rollups (2026-08-31): one sentence per issue, under the card
-   summary. The dot repeats the verdict colour so six lines scan at a
-   glance; the sentence itself carries the counts, so nothing is lost when
-   the colours cannot be told apart. */
-.stances{padding:12px 28px 13px;border-bottom:1px solid var(--line);background:#fff}
-.stanceline{display:flex;align-items:baseline;gap:9px;font-size:13.5px;color:var(--ink);padding:2.5px 0}
-.stanceline b{font-weight:500;color:#23282f}
-.stanceline .sdot{flex:none;width:9px;height:9px;border-radius:50%;align-self:center}
-.sdot.g{background:var(--green)} .sdot.b{background:var(--red)} .sdot.m{background:var(--grey-300)}
+
 /* rebellion count in the card summary: the same warm tone as pmark.against,
    never the verdict colours */
 .rebelsum{color:#8a5a2b}
-/* the party a member USED to sit for, in the hero meta row */
-.partyprior{font-size:12.5px;color:#cfe0fc}
 /* --- bill card status and forward look (2026-08-31) --- */
 .billstatus{font-size:13px;font-weight:300;font-style:italic;color:#8b9098;margin:1px 0 6px;max-width:70ch}
 .nextline{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;
@@ -456,7 +446,10 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .cu-label{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--blue-deep)}
 .cu-item b{font-weight:500;color:#23282f}
 .cu-sep{color:#9db8de}
-/* the declared-interests line and APPG pills in the hero */
+/* the declared-interests line and APPG pills in the hero. The party
+   history line ("Conservative until 15 Sep 2025") was removed 2026-08-31
+   (Christopher: superfluous) -- the spells still ship, because the whip
+   logic reads them; only the display went. */
 .seatline a.reglink{color:#fff;font-weight:500;text-decoration:underline}
 .seatline a.reglink:hover{color:#fff}
 .rolepill.appgpill{background:rgba(255,255,255,.32);color:#fff}
@@ -865,18 +858,6 @@ function servedOn(m, date){
   return periods.some(([from, to]) => from <= date && (!to || date <= to));
 }
 
-function partyNote(m){
-  // The header names today's party, and some of the votes below were cast
-  // under another: Kruger's card says Reform UK above divisions he voted in
-  // as a Conservative under a Conservative whip. One quiet line closes that
-  // gap, from the same spell history the whip logic already uses. The build
-  // collapses same-party re-elections, so a second spell IS a real change --
-  // and a spell that is not the last always has an end date.
-  const prior = (m.parties || []).slice(0, -1).filter(([,, to]) => to);
-  if (!prior.length) return "";
-  return `<span class="partyprior">${prior.map(([name,, to]) =>
-    `${esc(name)} until ${fmtD(to)}`).join(" · ")}</span>`;
-}
 
 function voteInfo(m, d){
   const v = m.votes[d.id];
@@ -1483,41 +1464,10 @@ function renderMP(id){
     }
   }
 
-  // Stance rollups (Christopher, 2026-08-31): one sentence per issue, above
-  // the cards, in TheyWorkForYou's grammar -- "Consistently voted X" -- but
-  // computed from OUR verdicts, which only exist on signed-off divisions.
-  // The direction phrase is editorial, from the issue's `stance` in
-  // config/vote_tracker.yaml: no phrase, no line, however clear the
-  // arithmetic. "Consistently" means every vote cast went one way;
-  // "Generally" means most did. A vote not cast never counts against
-  // either word -- it is named separately, because the Commons does not
-  // record why a member did not vote.
-  const stanceLines = [];
-  if (!peerNoVotes){
-    for (const issue of DATA.issues){
-      const ph = issue.stance || {};
-      if (!ph.good || !ph.bad) continue;
-      let g = 0, b = 0, x = 0;
-      for (const d of (divsByIssue[issue.id] || [])){
-        if (!d.good) continue;
-        const cls = voteInfo(m, d).cls;
-        if (cls === "G") g++; else if (cls === "B") b++; else if (cls === "X") x++;
-      }
-      if (!g && !b) continue;
-      const cast = g + b;
-      const missed = x ? ` · did not vote in ${x}` : "";
-      let line, dot;
-      if (!b){       line = `Consistently voted <b>${esc(ph.good)}</b> — ${cast} vote${cast > 1 ? "s" : ""}${missed}`; dot = "g"; }
-      else if (!g){  line = `Consistently voted <b>${esc(ph.bad)}</b> — ${cast} vote${cast > 1 ? "s" : ""}${missed}`; dot = "b"; }
-      else if (g > b){ line = `Generally voted <b>${esc(ph.good)}</b> — ${g} of ${cast} votes${missed}`; dot = "g"; }
-      else if (b > g){ line = `Generally voted <b>${esc(ph.bad)}</b> — ${b} of ${cast} votes${missed}`; dot = "b"; }
-      else {         line = `Voted both ways — ${g} ${esc(ph.good)}, ${b} ${esc(ph.bad)}${missed}`; dot = "m"; }
-      stanceLines.push(`<div class="stanceline"><span class="sdot ${dot}"></span><span>${line}</span></div>`);
-    }
-  }
-  const stanceHtml = stanceLines.length
-    ? `<div class="stances">${stanceLines.join("")}</div>` : "";
-
+  // The stance rollups ("Consistently voted against assisted suicide")
+  // were removed 2026-08-31 (Christopher: "for now also remove stance
+  // trackers"). The signed-off phrases stay in the config for when they
+  // return; nothing here reads them.
   // Rebellions, counted once for the summary line -- the same two-fact test
   // the per-row "rebelled" uses, via the same partyRow, so the count and
   // the rows cannot disagree.
@@ -1538,7 +1488,6 @@ function renderMP(id){
           <span class="party">${partyMark(m.party)}${esc(m.party)}</span>
           <span>${esc(m.constituency)}</span>
           <span class="since">${sinceLine(m)}</span>
-          ${partyNote(m)}
         </div>
         ${postLine(m)}
         ${seatLine(m)}
@@ -1554,7 +1503,6 @@ function renderMP(id){
     ${isPeer(m) && !took ? "" :
       `<div class="card-summary">Took part in <b>${took} of ${mineDivs.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}${
         rebelled ? ` &middot; <span class="rebelsum">rebelled against their party's whip in ${rebelled}</span>` : ""}</div>`}
-    ${stanceHtml}
     ${rows}
   ${recHtml}
   </div>`;
