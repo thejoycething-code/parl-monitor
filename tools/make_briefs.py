@@ -61,6 +61,13 @@ RF4 = [
 ]
 
 NARRATIVE_FIELDS = [
+    ("campaign_name", "A campaign headline in the house pattern: 'Tell "
+     "<decision-maker>: <the stake in one line>'. Never the official title "
+     "of the consultation or bill."),
+    ("addressee", "The single named decision-maker, formal style and office "
+     "(e.g. 'Mr Paul Givan MLA, Minister of Education for Northern "
+     "Ireland'). ONLY if the facts or source material name one; otherwise "
+     "omit this field entirely."),
     ("ask", "What are we asking for in the petition?"),
     ("injustice", "What is the key point of injustice that is at stake here?"),
     ("arguments", "What are some arguments supporting our point of view?"),
@@ -69,6 +76,11 @@ NARRATIVE_FIELDS = [
     ("bad_outcome", "Describe a bad outcome if we do not win this campaign:"),
     ("good_outcome", "Describe a good outcome if we do win this campaign:"),
     ("offline", "Ideas for eventual Offline Actions"),
+    ("tim", "From facts.tim_candidates ONLY: the three most issue-relevant "
+     "past petitions for Targeting Inactive Members, each as 'id - title - "
+     "one-line reason it matches (issue, geography, audience)'. Copy ids "
+     "verbatim from the candidate list; if the list is empty or nothing "
+     "fits, omit this field."),
     ("image", "What should the image for this campaign look like?"),
 ]
 
@@ -136,8 +148,32 @@ facts; where a claim would need evidence the facts do not contain, write the
 claim conservatively or flag it with [VERIFY]. Never assert that a
 parliamentary stage has been passed, a vote has happened, or a decision has
 been made unless the facts state it explicitly: "at 2nd reading" means
-AWAITING that stage, not through it. Return a JSON object whose keys are
-exactly the field ids requested."""
+AWAITING that stage, not through it.
+
+HOUSE STYLE (set by the campaigner's own refinement of the RE Core Syllabus
+brief, 2026-08-31 - match it):
+- Coin ONE memorable hook phrase that captures the stake (his: "merely one
+  worldview among many") and thread it through the campaign name, the ask,
+  the injustice and the outcomes.
+- The ask is one moral demand of the named decision-maker, in flowing
+  prose: who must do what, and why it is owed (a promise made, a duty
+  held). Policy specifics support the demand; they are never a bulleted
+  list.
+- injustice and arguments are a series of labelled points, each opening
+  with a short assertive claim ending in a colon, then two or three
+  sentences of support ("Children could be denied a secure foundation in
+  Christianity: ..."). Injustice runs four to six points, arguments six to
+  nine. Depth beats brevity in these two fields.
+- urgency runs several short paragraphs in this order: the hard deadline;
+  why the framework locks in after adoption; the promise or commitment
+  this is the test of, if one exists; why silence would read as consent.
+- bad_outcome and good_outcome name the decision-maker and the human
+  stakes. The good outcome describes the concrete win, not a process.
+- Flowing prose inside every field: no ALL-CAPS headers, no markdown
+  headings. Internal telemetry (ledger activity counts) and internal
+  fundraising figures never appear in petition-facing fields.
+
+Return a JSON object whose keys are exactly the field ids requested."""
 
 
 def ensure_log(conn):
@@ -500,6 +536,72 @@ def rf1_hint(conn, areas):
                 logged))
 
 
+NATION_TOKENS = {"N. Ireland": ("northern ireland", " ni ", "stormont"),
+                 "Scotland": ("scotland", "scottish", "holyrood"),
+                 "Wales": ("wales", "welsh", "senedd")}
+
+
+def tim_candidates(conn, subject):
+    """Past petitions the TIM row may cite, from the logged campaign record.
+
+    The model picks the most issue-relevant three; this is the WHITELIST it
+    picks from, so an id can only ever be one we logged. Area overlap is
+    the base filter, widened for devolved subjects by a nation mention in
+    the petition name: Christopher's refinement of the RE brief led with
+    petition 17165 (area 8, name '... in NI Schools') on a subject tagged
+    [6] - geography made it the exact match, and areas alone would have
+    missed it.
+    """
+    try:
+        rows = conn.execute(
+            "SELECT petition_id, name, signatures, new_members, areas "
+            "FROM campaign_performance WHERE petition_id IS NOT NULL "
+            "AND name IS NOT NULL").fetchall()
+    except Exception:
+        return []
+    tokens = NATION_TOKENS.get(subject.get("nation") or "", ())
+    out = []
+    for r in rows:
+        r_areas = json.loads(r["areas"] or "[]")
+        by_area = any(a in subject["areas"] for a in r_areas)
+        padded = " " + (r["name"] or "").lower() + " "
+        by_nation = any(t in padded for t in tokens)
+        if by_area or by_nation:
+            out.append({"id": r["petition_id"], "title": r["name"],
+                        "signatures": r["signatures"],
+                        "new_members": r["new_members"]})
+    out.sort(key=lambda r: -(r["new_members"] or 0))
+    return out[:15]
+
+
+def build_sources(subject, source_text=None):
+    """The sources field: '- Title: URL' lines. URLs are NEVER authored -
+    only the subject's own record and lines copied verbatim from the source
+    material's **Sources** section. The internal monitor link is gone
+    (Christopher's refinement, 2026-08-31: internal tooling is not a
+    campaign source)."""
+    lines = []
+    if source_text:
+        m = re.search(r"\*\*Sources\*\*\s*\n(.*?)(?=\n\*\*[A-Z]|\Z)",
+                      source_text, re.S)
+        if m:
+            lines = [ln.strip() for ln in m.group(1).strip().splitlines()
+                     if ln.strip().startswith("-")]
+    if subject.get("url") and not any(subject["url"] in ln for ln in lines):
+        lines.insert(0, "- {0}: {1}".format(subject["title"], subject["url"]))
+    return "\n".join(lines) if lines else "[CAMPAIGNER: sources]"
+
+
+def delivery_date(deadline):
+    """A concrete delivery date a few days before the close, not 'Before X'
+    (Christopher set 26 September against a 30 September close)."""
+    try:
+        d = datetime.date.fromisoformat(deadline) - datetime.timedelta(days=4)
+        return "{0} (close: {1})".format(d.isoformat(), deadline)
+    except (ValueError, TypeError):
+        return "Before {0}".format(deadline)
+
+
 def addressed_to(subject):
     if subject["kind"] == "bill":
         if (subject["house"] or "").lower() == "lords":
@@ -539,15 +641,10 @@ def background(subject, activity):
             bits.append(subject["why"])
         if subject["deadline"]:
             bits.append("Deadline: {0}.".format(subject["deadline"]))
-    if activity:
-        order = ["vote", "debate", "edm", "edm-signed", "pq"]
-        label = {"vote": "division votes", "debate": "debate contributions",
-                 "edm": "motions", "edm-signed": "motion signatures",
-                 "pq": "written questions"}
-        parts = ["{0} {1}".format(activity[k], label[k]) for k in order if activity.get(k)]
-        if parts:
-            bits.append("Parliamentary activity on this issue in the last six "
-                        "months (from the monitor's ledger): " + ", ".join(parts) + ".")
+    # The ledger activity tally stays OUT of the rendered Background: it is
+    # internal telemetry, and Christopher's refinement of the RE brief cut
+    # it ("105 debate contributions and 23 written questions" is not
+    # supporter-facing). The model still receives it in facts.activity_6mo.
     return " ".join(bits)
 
 
@@ -598,7 +695,11 @@ def draft_narrative(subject, facts, api_key):
 
 def render_markdown(subject, fields, rf4_hints, expectation, fca,
                     timeline, today):
-    lines = ["# Campaigns Brief (DRAFT): {0}".format(subject["title"]), ""]
+    lines = ["# Campaigns Brief (DRAFT): {0}".format(
+        fields.get("campaign_name", subject["title"])), ""]
+    if fields.get("campaign_name") and fields["campaign_name"] != subject["title"]:
+        lines.append("Subject: {0}".format(subject["title"]))
+        lines.append("")
     lines.append("> Generated by parl-monitor on {0}. Facts come from the store; "
                  "narrative fields are drafts for the campaigner to own; RF4 "
                  "scores are deliberately blank. This file is never regenerated "
@@ -689,9 +790,11 @@ def write_csv(path, subject, fields, rf4_hints, expectation, timeline,
         w = csv.writer(handle)
         w.writerow(["Campaign Name", "Campaigner", "Date of Submission",
                     "Urgency", "List", "Notes", "Approval Date"])
-        w.writerow([subject["title"] + " (DRAFT)", "cjoyce@citizengo.net",
+        w.writerow([fields.get("campaign_name", subject["title"]) + " (DRAFT)",
+                    "cjoyce@citizengo.net",
                     today.isoformat(), fields["urgency"], "EN GB",
-                    "Draft generated by parl-monitor", ""])
+                    "Draft generated by parl-monitor. Subject: "
+                    + subject["title"], ""])
         w.writerow(["GENERAL INFORMATION"])
         for k, v in fields["general"]:
             w.writerow([k, v])
@@ -818,7 +921,8 @@ def main():
         bg = background(s, activity)
         facts = {"background": bg, "url": s["url"], "deadline": s.get("deadline"),
                  "stage": s.get("stage"), "house": s.get("house"),
-                 "activity_6mo": activity}
+                 "activity_6mo": activity,
+                 "tim_candidates": tim_candidates(conn, s)}
         if source_text:
             # The source's own Background section joins the deterministic
             # line VERBATIM: the standing facts live there -- prior petition
@@ -846,18 +950,22 @@ def main():
         general = [
             ("Type of Campaign", "[CAMPAIGNER: Survival / Obligatory / Opportunity]"),
             ("Topic", " / ".join(sorted({AREA_TOPIC.get(a, "Freedom") for a in s["areas"]}))),
-            ("Main Purposes", "Political Impact"),
+            # Acquisition, not Political Impact (Christopher's default,
+            # 2026-08-31, set refining the RE brief).
+            ("Main Purposes", "Acquisition"),
             ("Background / Context", bg),
             ("Estimated Launch date", "[CAMPAIGNER]"),
             ("Estimated date for Delivering Signatures",
-             ("Before {0}".format(s["deadline"]) if s.get("deadline") else "[CAMPAIGNER]")),
+             (delivery_date(s["deadline"]) if s.get("deadline") else "[CAMPAIGNER]")),
             field("offline", "Ideas for eventual Offline Actions"),
-            ("Petitions related TIM project (Targeting Inactive Members)", ""),
+            ("Petitions related TIM project (Targeting Inactive Members)",
+             drafted.get("tim") or "[CAMPAIGNER: related petitions for TIM]"),
         ]
         plan = [
             ("What is the language for this petition?", "English"),
             ("Who will sign the emails for this petition?", "Christopher Joyce"),
-            ("Who is the petition addressed to?", addressed_to(s)),
+            ("Who is the petition addressed to?",
+             drafted.get("addressee") or addressed_to(s)),
             field("ask", "What are we asking for in the petition?"),
             field("listen", "Why would they listen to us?"),
             ("What is happening that we are responding to?", bg),
@@ -869,8 +977,7 @@ def main():
             field("bad_outcome", "Describe a bad outcome if we do not win this campaign:"),
             field("good_outcome", "Describe a good outcome if we do win this campaign:"),
             ("Which sources do you want to include? Please provide the titles plus URLs:",
-             " | ".join(x for x in [s["url"],
-                                    "https://parl-monitor-partner.vercel.app/mp-votes.html"] if x)),
+             build_sources(s, source_text)),
             field("image", "What should the image for this campaign look like?"),
         ]
 
@@ -923,7 +1030,13 @@ def main():
         timeline.append(("[CAMPAIGNER]", "Launch", ""))
 
         fields = {"general": general, "plan": plan, "prepare": prepare,
-                  "urgency": urgency_of(s, today)}
+                  "urgency": urgency_of(s, today),
+                  # The campaign carries a campaign headline, never the
+                  # subject's official title (Christopher's refinement:
+                  # "Tell Paul Givan: Don't let Christianity become merely
+                  # one worldview among many"). The slug, brief_log and the
+                  # Drive file name keep the official title for traceability.
+                  "campaign_name": drafted.get("campaign_name") or s["title"]}
         if source_text:
             m = re.search(r"^#+\s*RISKS AND HANDLING NOTES\s*$\n(.*?)(?=^#+ |\Z)",
                           source_text, re.M | re.S | re.I)
