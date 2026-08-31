@@ -799,16 +799,26 @@ def build(conn, cfg, payloads):
             issue["next"] = {"stage": row["what_next"] or row["stage"],
                              "house": row["house"],
                              "date": row["next_key_date"]}
-        # The action rides the Bill's life (Christopher, 2026-08-31: "only
-        # while the Bill is alive"). Gated HERE, not in the template, so a
-        # retired button leaves the payload too -- and a missing board row
-        # retires it as well: a signup button we cannot show to be current
-        # is a promise the page should not make.
-        if issue.get("action") and not alive:
+        # The action dies only when the BILL has (Christopher, 2026-08-31:
+        # "the petition only dies once the Bill has"). The first cut retired
+        # it whenever the row was not provably live -- so a board hiccup, or
+        # the gap between a bill falling at prorogation and its fresh
+        # successor being re-pointed, would have silently pulled a live
+        # petition from 1,144 pages. The default is now the other way up:
+        # the button stays until the board SAYS the Bill ended.
+        #
+        # "Ended" is status='closed', whichever way it went -- a Bill that
+        # fell is dead, and a Bill given Royal Assent is beyond stopping, so
+        # a "stop the Bill" button would mislead either way. The log names
+        # the outcome; a missing row keeps the button and says so, because
+        # absence of evidence is not a death certificate.
+        if issue.get("action") and row is not None and row["status"] == "closed":
             del issue["action"]
-            print("  issue {0}: action withheld -- board {1} is {2}".format(
-                issue["id"], bid,
-                row["status"] if row else "not on the board"))
+            print("  issue {0}: action retired -- board {1} is closed"
+                  .format(issue["id"], bid))
+        elif issue.get("action") and row is None:
+            print("  issue {0}: board {1} missing; the action stays up until "
+                  "the board records the Bill's end".format(issue["id"], bid))
     used_issues, divisions, votes = set(), [], {}
     missing = []
     for d in cfg.get("divisions") or []:

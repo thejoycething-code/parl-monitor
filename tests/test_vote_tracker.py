@@ -248,13 +248,14 @@ class BoardNextTests(unittest.TestCase):
         issue = self.build_with(None)
         self.assertNotIn("next", issue)
 
-    # ---- the action rides the Bill's life (Christopher, 2026-08-31) ------
+    # ---- the action dies only when the Bill has (Christopher, 2026-08-31:
+    # "the petition only dies once the Bill has") ---------------------------
     def test_the_action_ships_while_the_bill_is_live(self):
         issue = self.build_with(
             (4157, "A Bill", "Commons", "2nd reading", "2026-09-11", None, "live"))
         self.assertEqual(issue["action"]["label"], "Sign")
 
-    def test_the_action_retires_when_the_bill_closes(self):
+    def test_the_action_retires_when_the_bill_falls(self):
         # Gated in the builder, not the template, so a retired button
         # leaves the payload too -- no dead petition link ships to 1,144
         # member pages waiting for a template check to hide it.
@@ -262,11 +263,22 @@ class BoardNextTests(unittest.TestCase):
             (4157, "A Bill", "Lords", "Committee stage", "TBA", None, "closed"))
         self.assertNotIn("action", issue)
 
-    def test_a_missing_board_row_also_retires_the_action(self):
-        # A signup button we cannot show to be current is a promise the
-        # page should not make.
-        issue = self.build_with(None)
+    def test_royal_assent_also_retires_it(self):
+        # An enacted Bill is beyond stopping: not "died", but the petition's
+        # object is gone either way, and a stop-the-Bill button on an Act
+        # would mislead. Both closed outcomes retire the button.
+        issue = self.build_with(
+            (4157, "An Act", "Unassigned", "Royal Assent", "TBA", None, "closed"))
         self.assertNotIn("action", issue)
+
+    def test_a_missing_board_row_KEEPS_the_action(self):
+        # The first cut retired it here, which meant a board hiccup -- or
+        # the gap between a bill falling and its successor being re-pointed
+        # -- silently pulled a live petition from every page. Absence of
+        # evidence is not a death certificate: the button stays until the
+        # board records the Bill's end.
+        issue = self.build_with(None)
+        self.assertEqual(issue["action"]["label"], "Sign")
 
     def test_an_issue_without_a_board_id_keeps_its_action(self):
         # Nothing to gate on: the config documents that an ungated action

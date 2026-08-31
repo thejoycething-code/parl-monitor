@@ -43,11 +43,12 @@ pbc_attendance:
 #             can say what happens next without hand-edited dates.
 #   action:   {url: ..., label: ...} -- a live CitizenGO action, rendered as
 #             a button on the bill card when both are set. ON AN ISSUE WITH
-#             A board_id THE ACTION RIDES THE BILL'S LIFE (Christopher,
-#             2026-08-31): the builder ships it only while the board row is
-#             live, so the button retires itself when the Bill falls or
-#             passes, with no config edit. Without a board_id there is
-#             nothing to gate on and the action always ships.
+#             A board_id THE ACTION DIES ONLY WHEN THE BILL HAS (Christopher,
+#             2026-08-31): the builder withholds it only once the board row
+#             is CLOSED -- fell or Royal Assent -- and keeps it through a
+#             missing row or any other uncertainty, because absence of
+#             evidence is not a death certificate. Without a board_id there
+#             is nothing to watch and the action always ships.
 
 issues:
   - id: assisted-suicide
@@ -80,11 +81,11 @@ issues:
     # stays current as long as the weekly board refresh runs, with no copy
     # to re-edit. Only a LIVE board row with a real date renders anything.
     board_id: 4157
-    # The delivery petition (Christopher, 2026-08-31), gated on board 4157
-    # being live: the builder drops the button the week the Bill falls or
-    # passes. The label names the campaign's delivery date, 4 September
-    # 2026 -- if the Bill outlives the delivery, the LABEL is what needs a
-    # human edit, not the mechanism.
+    # The delivery petition (Christopher, 2026-08-31): the builder keeps
+    # the button until board 4157 records the Bill's end, and drops it the
+    # week the row closes. The label names the campaign's delivery date,
+    # 4 September 2026 -- if the Bill outlives the delivery, the LABEL is
+    # what needs a human edit, not the mechanism.
     action:
       url: https://citizengo.org/en-gb/ot/214551-stop-assisted-suicide-bill
       label: Sign before 4 September
