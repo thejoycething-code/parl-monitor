@@ -133,6 +133,21 @@ class EditionRenderTests(unittest.TestCase):
         self.assertNotIn("Late detection", digest.render(e2))
 
 
+class TopLineCapTests(unittest.TestCase):
+    def test_within_a_score_the_sooner_deadline_wins_the_cap(self):
+        lines = [digest.Line(text=t_, tag=3, deadline=d) for t_, d in (
+            ("no-deadline", None), ("late", "2026-09-30"),
+            ("soon", "2026-09-01"), ("mid", "2026-09-18"))]
+        kept = digest._cap(lines, 2)
+        self.assertEqual([l.text for l in kept], ["soon", "mid"])
+
+    def test_score_still_outranks_deadline(self):
+        lines = [digest.Line(text="low-soon", tag=2, deadline="2026-09-01"),
+                 digest.Line(text="high-late", tag=3, deadline="2026-12-01")]
+        self.assertEqual([l.text for l in digest._cap(lines, 1)],
+                         ["high-late"])
+
+
 class BriefSubjectTests(unittest.TestCase):
     def test_an_actionable_devolved_consultation_becomes_a_subject(self):
         import make_briefs as mb

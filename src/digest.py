@@ -84,10 +84,17 @@ def validate(edition):
 
 
 def _cap(lines, limit):
-    """Enforce a section cap, demoting the lowest scores first."""
+    """Enforce a section cap: lowest scores demoted first, and WITHIN a
+    score, later deadlines demoted before sooner ones (2026-08-31, with
+    the devolved fix). Seven score-3 items competed for five lines the
+    week the action-window rule landed, and the old stable order kept
+    whichever were appended first -- Westminster's -- rather than the
+    most urgent. Urgency belongs in Top lines; the cap should agree.
+    Undated lines rank after dated ones at the same score."""
     if len(lines) <= limit:
         return lines
-    ordered = sorted(lines, key=lambda l: TAG_ORDER.get(l.tag, 3))
+    ordered = sorted(lines, key=lambda l: (TAG_ORDER.get(l.tag, 3),
+                                           l.deadline or "9999"))
     return ordered[:limit]
 
 
