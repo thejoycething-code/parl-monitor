@@ -659,14 +659,14 @@ divisions:
   # Alton and Lord Carlile, Not-Contents 179 include Lord Falconer, the
   # Bill's sponsor. Falconer's Bill in fact received an UNOPPOSED Second
   # Reading; there was no division on the principle to show.
-  # signed_off stays false until the corrected wording has been checked.
+  # Corrected wording signed off by Christopher, 2026-08-31.
   - id: 1885
     house: lords
     issue: assisted-suicide
     stage: Committee stage
     stage_group: Committee stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: Plain-language amendment (Lords, 2015)
     context: >-
@@ -684,14 +684,14 @@ divisions:
   # motion note: Lord Carlile of Berriew moved amendment 13 in Committee,
   # requiring two doctors -- one of them the patient's own for at least
   # six months -- in place of one. Defeated 61 to 119; Lord Alton voted
-  # Content. signed_off stays false until checked.
+  # Content. Corrected wording signed off by Christopher, 2026-08-31.
   - id: 1886
     house: lords
     issue: assisted-suicide
     stage: Committee stage
     stage_group: Committee stage
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: Two-doctors amendment (Lords, 2015)
     context: >-
@@ -718,7 +718,7 @@ divisions:
     stage: Second Reading
     stage_group: Second Reading
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: Six-month delay amendment (Lords, 2006)
     context: >-
