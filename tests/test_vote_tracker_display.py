@@ -2199,7 +2199,7 @@ class StanceRollupTests(unittest.TestCase):
         # not count them as anything.
         flat = " ".join(template().split())
         self.assertIn(
-            "for (const d of divsByIssue[issue.id]){ if (!d.good) continue;",
+            "for (const d of (divsByIssue[issue.id] || [])){ if (!d.good) continue;",
             flat)
 
     def test_consistently_means_every_vote_and_generally_means_most(self):
@@ -2222,9 +2222,13 @@ class StanceRollupTests(unittest.TestCase):
         with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
                   encoding="utf-8") as fh:
             cfg = yaml.safe_load(fh)
+        # An `upcoming` issue has no divisions, so there is nothing to roll
+        # up and no phrase to demand -- it earns a stance when its first
+        # division is scored.
         missing = [i["id"] for i in cfg["issues"]
-                   if not ((i.get("stance") or {}).get("good")
-                           and (i.get("stance") or {}).get("bad"))]
+                   if not i.get("upcoming")
+                   and not ((i.get("stance") or {}).get("good")
+                            and (i.get("stance") or {}).get("bad"))]
         self.assertEqual(missing, [])
 
 
@@ -2303,3 +2307,52 @@ class BillStatusAndActionTests(unittest.TestCase):
             self.assertTrue(action.get("label"))
             self.assertIn("board_id", issue,
                           "an action without a board_id never retires")
+
+class CrossHouseAndUpcomingTests(unittest.TestCase):
+    """Christopher, 2026-08-31: Lords votes off MP pages, Commons votes off
+    peers' pages, and the two assisted-suicide Bills split into two cards."""
+
+    def test_a_division_renders_only_for_its_own_house_or_a_named_member(self):
+        flat = " ".join(template().split())
+        self.assertIn(
+            'const isMine = d => (d.house || "commons") === ownHouse || !!m.votes[d.id];',
+            flat)
+        self.assertIn("if (!isMine(d)) continue;", flat)
+
+    def test_the_denominator_is_the_member_s_own_divisions(self):
+        # "Took part in 16 of 21" counted three Lords divisions an MP could
+        # never have voted in. The denominator is now the divisions the
+        # page actually shows for this member.
+        flat = " ".join(template().split())
+        self.assertIn("${took} of ${mineDivs.length}", flat)
+        self.assertNotIn("${took} of ${DATA.divisions.length}", flat)
+
+    def test_an_upcoming_issue_renders_a_card_with_no_votes(self):
+        flat = " ".join(template().split())
+        self.assertIn("DATA.issues.filter(i => i.upcoming)", flat)
+        self.assertIn("NO VOTES YET", flat)
+        self.assertIn("BEFORE PARLIAMENT NOW", flat)
+
+    def test_upcoming_issues_cannot_crash_the_stance_loop_or_the_pills(self):
+        # divsByIssue has no entry for an issue with no divisions; every
+        # consumer must guard, or the landing page dies on .length.
+        flat = " ".join(template().split())
+        self.assertIn("for (const d of (divsByIssue[issue.id] || [])){", flat)
+        self.assertIn('const n = (divsByIssue[i.id] || []).length;', flat)
+
+    def test_the_config_splits_the_two_bills(self):
+        import yaml
+        with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
+                  encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh)
+        by_id = {i["id"]: i for i in cfg["issues"]}
+        old, new = by_id["assisted-suicide"], by_id["assisted-suicide-2026"]
+        # Two separate Bills: the fallen one keeps the votes and stops
+        # carrying the forward look; the 2026 Bill carries board, action
+        # and the upcoming flag.
+        self.assertNotIn("board_id", old)
+        self.assertNotIn("action", old)
+        self.assertTrue(new.get("upcoming"))
+        self.assertEqual(new.get("board_id"), 4157)
+        self.assertIn("Lauren Edwards", new.get("note", ""))
+

@@ -1048,7 +1048,14 @@ def build(conn, cfg, payloads):
 
     dataset = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
-        "issues": [i for i in issues if i["id"] in used_issues],
+        # An issue ships if a division uses it OR it is marked `upcoming` --
+        # a Bill before Parliament that has not divided yet, rendered as a
+        # card with status, forward look and action but no votes. That is
+        # how the 2026 assisted-suicide Bill gets its own card instead of
+        # riding on the fallen Leadbeater Bill's (Christopher, 2026-08-31:
+        # "they are two separate Bills").
+        "issues": [i for i in issues
+                   if i["id"] in used_issues or i.get("upcoming")],
         "areas": {str(k): v for k, v in RECORD_AREAS.items()},
         "logos": party_logos(),
         "divisions": sorted(divisions, key=lambda d: (d["issue"], d["date"])),

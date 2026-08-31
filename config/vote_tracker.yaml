@@ -69,17 +69,51 @@ issues:
     # (4157) awaiting Commons 2nd reading on 2026-09-11. The previous wording
     # said "after 14 days in committee", which nothing on the record supports
     # (Christopher, 2026-08-07).
+    # The Leadbeater Bill's story ENDS at the fall of the session: the 2026
+    # Bill is a separate Bill with its own card below (Christopher,
+    # 2026-08-31: "they are two separate Bills"), which is where the forward
+    # look and the petition now live.
+    # Status redrafted 2026-08-31 for the split, PENDING SIGN-OFF.
     status: >-
       Passed all Commons stages (Third Reading 314-291, 20 June 2025). Given a
       Second Reading by the House of Lords on 12 September 2025 and considered
-      in committee from 14 November 2025, but it ran out of time before the end
-      of the parliamentary session. A fresh Bill was introduced in the current
-      session and awaits its Commons Second Reading on 11 September 2026.
-    # The bills_board row this issue's bill lives on NOW -- the fresh Bill of
-    # the current session, not the fallen one (3774). The tracker reads the
-    # board's stage and next_key_date at build time, so "what happens next"
-    # stays current as long as the weekly board refresh runs, with no copy
-    # to re-edit. Only a LIVE board row with a real date renders anything.
+      in committee from 14 November 2025, but it ran out of time and fell when
+      the parliamentary session ended in April 2026.
+    # One line per member: "Consistently/Generally voted <phrase>", computed
+    # from their good/bad votes on this issue's signed-off divisions. The
+    # phrase is EDITORIAL: no line renders on an issue without one, and the
+    # arithmetic never overrides the wording.
+    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
+    stance:
+      good: against assisted suicide
+      bad: for assisted suicide
+
+  # THE 2026 BILL -- a separate Bill from Kim Leadbeater's, with the same
+  # short title and its own card (Christopher, 2026-08-31). `upcoming: true`
+  # renders a card with no divisions: status, the board's forward look, and
+  # the petition. When its first division is held, add the division here
+  # under this issue id, drop `upcoming`, and give the issue a stance --
+  # and REVISIT debate_match on the issue above: both Bills produce debates
+  # titled "Terminally Ill Adults", and the match cannot tell them apart,
+  # so from 11 September the old card may claim the new Bill's speeches.
+  - id: assisted-suicide-2026
+    name: Assisted suicide (the 2026 Bill)
+    area: 2
+    bill: Terminally Ill Adults (End of Life) Bill
+    upcoming: true
+    note: >-
+      A fresh Private Member's Bill to legalise assisted suicide for
+      terminally ill adults in England and Wales, sponsored by Lauren
+      Edwards MP. A separate Bill from Kim Leadbeater's, with the same
+      short title.
+    # Status drafted 2026-08-31 for the split, PENDING SIGN-OFF.
+    status: >-
+      Introduced by Lauren Edwards MP in the current session. The question
+      returns to the Commons for a Second Reading vote on 11 September 2026
+      - the first division on this Bill.
+    # The bills_board row for THIS Bill. The tracker reads the board's stage
+    # and next_key_date at build time, so "what happens next" stays current
+    # as long as the weekly board refresh runs, with no copy to re-edit.
     board_id: 4157
     # The delivery petition (Christopher, 2026-08-31): the builder keeps
     # the button until board 4157 records the Bill's end, and drops it the
@@ -93,14 +127,6 @@ issues:
     action:
       url: https://citizengo.org/en-gb/lf/18429-parliament-is-being-asked-to-legalise-assisted-suicide--again---
       label: Sign before 4 September
-    # One line per member: "Consistently/Generally voted <phrase>", computed
-    # from their good/bad votes on this issue's signed-off divisions. The
-    # phrase is EDITORIAL: no line renders on an issue without one, and the
-    # arithmetic never overrides the wording.
-    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
-    stance:
-      good: against assisted suicide
-      bad: for assisted suicide
 
   - id: abortion
     # Debate titles that belong to this bill card. A quote shown beside a

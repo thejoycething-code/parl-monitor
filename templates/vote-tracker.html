@@ -921,9 +921,11 @@ function barHTML(d){
 
 /* ---------- empty / landing state (NO divisions shown until an MP is chosen) ---------- */
 function renderEmpty(){
-  const pills = DATA.issues.map(i =>
-    `<span class="issue-pill"><span class="dot"></span>${esc(i.name)}
-      <small>${divsByIssue[i.id].length} vote${divsByIssue[i.id].length>1?"s":""}</small></span>`).join("");
+  const pills = DATA.issues.map(i => {
+    const n = (divsByIssue[i.id] || []).length;
+    return `<span class="issue-pill"><span class="dot"></span>${esc(i.name)}
+      <small>${n ? n + " vote" + (n > 1 ? "s" : "") : "no votes yet"}</small></span>`;
+  }).join("");
   document.getElementById("main").innerHTML = `
   <div class="empty">
     <div class="empty-card">
@@ -947,7 +949,16 @@ function renderEmpty(){
 /* ---------- MP card ---------- */
 function renderMP(id){
   const m = byId[id]; if(!m) return;
-  const took = DATA.divisions.filter(d=>["A","N","TA","TN"].includes(m.votes[d.id])).length;
+  // Which divisions are THIS member's to show (Christopher, 2026-08-31:
+  // Lords votes off MP pages, Commons votes off peers' pages). A division
+  // belongs here if it was held in the member's own house, OR the official
+  // lists name the member in it -- which keeps the Commons record of the
+  // 24 peers who used to be MPs, including their recorded absences, because
+  // a NoVoteRecorded entry is Parliament saying they were eligible that day.
+  const ownHouse = isPeer(m) ? "lords" : "commons";
+  const isMine = d => (d.house || "commons") === ownHouse || !!m.votes[d.id];
+  const mineDivs = DATA.divisions.filter(isMine);
+  const took = mineDivs.filter(d=>["A","N","TA","TN"].includes(m.votes[d.id])).length;
   const hasVerdicts = DATA.divisions.some(d=>d.good);
   let verdictLine = "";
   if (hasVerdicts){
@@ -981,7 +992,8 @@ function renderMP(id){
                 "Approval motion":3,"Division":4};
   const groups = {};
   for (const issue of DATA.issues){
-    for (const d of divsByIssue[issue.id]){
+    for (const d of (divsByIssue[issue.id] || [])){
+      if (!isMine(d)) continue;   // the other house's division, not theirs
       // A card is one BILL. Grouping by issue alone was right while every
       // assisted-suicide division belonged to the Terminally Ill Adults
       // Bill; adding Lord Falconer's 2015 Bill and Lord Joffe's 2006 Bill
@@ -1285,6 +1297,30 @@ function renderMP(id){
     </details>`;
   };
 
+  // A Bill before Parliament that has not divided yet renders as a card
+  // with no votes -- status, forward look and petition, worded about the
+  // BILL rather than the member, since there is nothing yet for any member
+  // to have voted on. FIRST, because the live Bill is the most timely thing
+  // on the page. This is the 2026 assisted-suicide Bill's card: a separate
+  // Bill from Kim Leadbeater's (Christopher, 2026-08-31), no longer riding
+  // on the fallen Bill's card.
+  for (const issue of (peerNoVotes ? [] : DATA.issues.filter(i => i.upcoming))){
+    rows += `<section class="billblock"><article class="bigcard">
+      <div class="votebox S"><span class="vword">NO VOTES YET</span>
+        <span class="vsub">(first division pending)</span></div>
+      <div class="cardbody">
+        <div class="lbl">BEFORE PARLIAMENT NOW</div>
+        <h3>${esc(issue.bill || issue.name)}</h3>
+        ${issue.status ? `<div class="billstatus">${esc(issue.status)}</div>` : ""}
+        ${issue.next ? `<div class="nextline">NEXT: ${
+          esc(issue.next.stage)} in the ${esc(issue.next.house)} · ${
+          fmtD(issue.next.date)}</div>` : ""}
+        ${issue.action && issue.action.url && issue.action.label
+          ? `<a class="actbtn" href="${esc(issue.action.url)}" target="_blank"
+              rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
+      </div></article></section>`;
+  }
+
   // A peer with no Commons votes gets no Commons cards. The banner above
   // says why once, instead of 18 rows each saying "DID NOT VOTE" and
   // offering an MP's reasons for missing a division.
@@ -1412,7 +1448,7 @@ function renderMP(id){
       const ph = issue.stance || {};
       if (!ph.good || !ph.bad) continue;
       let g = 0, b = 0, x = 0;
-      for (const d of divsByIssue[issue.id]){
+      for (const d of (divsByIssue[issue.id] || [])){
         if (!d.good) continue;
         const cls = voteInfo(m, d).cls;
         if (cls === "G") g++; else if (cls === "B") b++; else if (cls === "X") x++;
@@ -1436,7 +1472,7 @@ function renderMP(id){
   // the per-row "rebelled" uses, via the same partyRow, so the count and
   // the rows cannot disagree.
   let rebelled = 0;
-  for (const d of DATA.divisions){
+  for (const d of mineDivs){
     const pr = partyRow(d, voteInfo(m, d).side);
     if (pr && pr.mine < pr.other && whipFor(d, m).label === "whipped") rebelled++;
   }
@@ -1464,7 +1500,7 @@ function renderMP(id){
     </div>
     ${banner?`<div class="rolebanner">${banner}</div>`:""}
     ${isPeer(m) && !took ? "" :
-      `<div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}${
+      `<div class="card-summary">Took part in <b>${took} of ${mineDivs.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}${
         rebelled ? ` &middot; <span class="rebelsum">rebelled against their party's whip in ${rebelled}</span>` : ""}</div>`}
     ${stanceHtml}
     ${rows}

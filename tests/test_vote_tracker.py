@@ -195,6 +195,36 @@ class PartyHistoryTests(unittest.TestCase):
                          ["Labour", "Independent", "Labour"])
 
 
+class UpcomingIssueTests(unittest.TestCase):
+    """An issue with no divisions ships only when marked `upcoming` -- the
+    2026 Bill's card (Christopher, 2026-08-31: "two separate Bills")."""
+
+    def build(self, extra_issue):
+        conn = fresh_conn()
+        members.cache_put(conn, members.Member(
+            id=1, name="Aye MP", party="Labour", seat="Seat",
+            house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        conn.commit()
+        import copy
+        cfg = copy.deepcopy(CFG)
+        cfg["issues"].append(extra_issue)
+        dataset, _ = mvt.build(conn, cfg, {900: PAYLOAD})
+        return {i["id"] for i in dataset["issues"]}
+
+    def test_an_upcoming_issue_ships_without_divisions(self):
+        got = self.build({"id": "fresh", "name": "Fresh Bill", "area": 2,
+                          "bill": "A Bill", "upcoming": True})
+        self.assertIn("fresh", got)
+
+    def test_a_division_less_issue_without_the_flag_still_does_not(self):
+        # The old rule stands for everything else: an issue nothing uses is
+        # dead config, not a card.
+        got = self.build({"id": "dormant", "name": "Dormant", "area": 2,
+                          "bill": "B Bill"})
+        self.assertNotIn("dormant", got)
+
+
 class BoardNextTests(unittest.TestCase):
     """The forward look (2026-08-31): an issue naming a board_id gets the
     bills board's next date attached, so "what happens next" tracks the
