@@ -38,7 +38,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, intel, stance
+from src import actionable, db, intel, stance
 
 BRIEFS_DIR = os.path.join(ROOT, "briefs")
 EXCLUDED_AREAS = {11}  # migration: collated, never campaigned
@@ -154,11 +154,14 @@ def slugify(text):
     return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", text.lower())).strip("-")[:60]
 
 
-def subjects(conn):
-    """Brief-worthy subjects: live board bills + triage-score-3 items, minus
-    migration. Score 3 is the rubric's own campaign-trigger level -- the
-    machine judgement that replaced the retired ACT tag (Christopher,
-    2026-08-21: he creates Asana tasks himself; the loop is gone)."""
+def subjects(conn, today=None):
+    """Brief-worthy subjects: live board bills + triage-score-3 items +
+    actionable devolved consultations, minus migration. Score 3 is the
+    rubric's own campaign-trigger level -- the machine judgement that
+    replaced the retired ACT tag (Christopher, 2026-08-21: he creates
+    Asana tasks himself; the loop is gone). Devolved consultations use the
+    action-window rule instead (they never pass through triage); see
+    docs/parl-monitor-devolved-fix.md."""
     names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
     out = []
     for r in conn.execute("SELECT * FROM bills_board WHERE status != 'closed'").fetchall():
@@ -192,6 +195,34 @@ def subjects(conn):
             "next_key_date": r["deadline"], "what_next": None, "status": "open",
             "url": r["url"], "deadline": r["deadline"],
             "why": r["why_it_matters"],
+        })
+    # Devolved consultations meeting the action-window rule
+    # (docs/parl-monitor-devolved-fix.md, 2026-08-31). Jurisdiction was a
+    # proxy for actionability: everything routed to the Devolved watching
+    # brief was unbriefable by construction, which is how the NI RE Core
+    # Syllabus consultation -- the deliverable on a ministerial commitment
+    # won with 96,328 signatures -- reached Edition 5 without a brief.
+    # Same kind, same slug scheme, same downstream path as a Westminster
+    # consultation; the ONLY differences are the `nation` key (which swaps
+    # the 5CA grid for an explicit populate-manually marker) and that the
+    # gate is the action-window rule rather than a triage score, because
+    # the devolved stores never pass through LLM triage.
+    today = (today or datetime.date.today()).isoformat() \
+        if not isinstance(today, str) else today
+    for c in actionable.devolved_actionable(conn, today):
+        areas = [a for a in c["areas"] if a not in EXCLUDED_AREAS]
+        if not areas:
+            continue
+        out.append({
+            "kind": "consultation",
+            "slug": "consultation-" + slugify(c["title"]),
+            "title": c["title"], "areas": areas,
+            "area_labels": [names.get(a) for a in areas],
+            "sponsor": None, "house": None, "stage": None,
+            "next_key_date": c["closes"], "what_next": None, "status": "open",
+            "url": c["url"], "deadline": c["closes"], "why": None,
+            "nation": c["nation_label"],
+            "late_detection": c["late_detection"],
         })
     return out
 
@@ -806,7 +837,18 @@ def main():
 
         fca_block = ""
         rf4_ally_hint = "See the 5CA sheets for allies on this area."
-        if s["areas"]:
+        if s.get("nation"):
+            # The 5CA is built from Westminster division lists; there is no
+            # devolved equivalent wired in. An explicit marker, never an
+            # empty grid that looks like an oversight (the spec's open
+            # question, resolved to the marker option, 2026-08-31).
+            fca_block = ("**5CA not available for devolved items - populate "
+                         "manually.** The Five Column Analysis is built from "
+                         "Westminster division lists; no {0} membership "
+                         "source is wired in yet.".format(s["nation"]))
+            rf4_ally_hint = ("5CA not available for devolved items - "
+                             "populate manually.")
+        elif s["areas"]:
             area = s["areas"][0]
             house = "Lords" if (s.get("house") or "").lower() == "lords" else "Commons"
             tally, top_for, top_against, n = fca_tally(conn, area, cfg, house)
@@ -851,7 +893,8 @@ def main():
                                          fca_block, timeline,
                                          today.isoformat()))
         write_csv(csv_path, s, fields, rf4_hints, expectation, timeline, today)
-        has_5ca = write_5ca_csv(fca_path, conn, s, cfg)
+        has_5ca = (False if s.get("nation")
+                   else write_5ca_csv(fca_path, conn, s, cfg))
         if has_5ca:
             print("  5ca:   {0}".format(os.path.basename(fca_path)))
         # One spreadsheet per brief, Default Brief section then Five Columns

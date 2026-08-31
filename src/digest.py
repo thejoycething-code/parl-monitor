@@ -67,6 +67,7 @@ class Edition:
     mp_notes: list = field(default_factory=list)
     return_dates: dict = field(default_factory=dict)   # {house: ISO date}
     gaps: list = field(default_factory=list)            # [(feed, detail)]
+    late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
 
 
 class DigestError(Exception):
@@ -451,19 +452,26 @@ def render_devolved(edition):
     d = edition.devolved or {}
     if not any(d.get(k) for k in ("consultations", "bills", "divisions")):
         return None
+    # The old subheading asserted non-actionability as a blanket --
+    # jurisdiction as a proxy for actionability -- which is the design
+    # assumption docs/parl-monitor-devolved-fix.md removed (2026-08-31).
     out = ["## Devolved", "",
-           "*Scotland, Wales and Northern Ireland. Watching brief: recorded "
-           "because it bears on our issues, not because it asks anything of "
-           "us.*", ""]
+           "*Scotland, Wales and Northern Ireland. Items with an open "
+           "response window are briefed and appear in Top lines; the "
+           "remainder are a watching brief, recorded because they bear on "
+           "our issues.*", ""]
 
     if d.get("consultations"):
         out.append("**Open government consultations**")
         out.append("")
-        out.append("| Consultation | Nation | Closes |")
-        out.append("|---|---|---|")
+        out.append("| Consultation | Nation | Closes | Status |")
+        out.append("|---|---|---|---|")
         for c in d["consultations"]:
-            out.append("| [{0}]({1}) | {2} | {3} |".format(
-                c["title"], c["url"], c["nation"], c["closes"]))
+            status = "Briefed" if c.get("actionable") else "Watching"
+            if c.get("late"):
+                status += " · late detection"
+            out.append("| [{0}]({1}) | {2} | {3} | {4} |".format(
+                c["title"], c["url"], c["nation"], c["closes"], status))
         out.append("")
 
     if d.get("bills"):
@@ -561,6 +569,15 @@ def render(edition):
             parts.append("- {0}: {1}".format(feed, detail))
     else:
         parts.append("*No coverage gaps recorded this edition.*")
+    if edition.late_detections:
+        # The deadline-proximity guard's counter: how many actionable items
+        # the monitor first saw under 21 days from their deadline. Visible,
+        # not silent -- the Scottish justice consultation reached an edition
+        # with 0 days left.
+        parts.append("*Late detection: {0} item{1} first surfaced under 21 "
+                     "days before the deadline.*".format(
+                         edition.late_detections,
+                         "" if edition.late_detections == 1 else "s"))
     parts.append("")
     # The version is read from the taxonomy, never hardcoded: the footer sat at
     # v0.2 while the taxonomy had moved to v0.4, on a page partners read.

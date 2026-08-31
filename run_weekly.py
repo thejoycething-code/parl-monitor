@@ -22,7 +22,7 @@ from concurrent import futures
 
 import yaml
 
-from src import (board, db, digest, filter as filt, intel, members, publish, review,
+from src import (actionable, board, db, digest, filter as filt, intel, members, publish, review,
                  spend, stance, triage)
 from src.http import FetchError, HttpClient
 from src.ingest import (bills, committees, consultations, divisions, edms, hansard,
@@ -626,9 +626,20 @@ def devolved_from_store(conn, week_commencing, days=30, hidden=(11,)):
     nation_label = {"scotland": "Scotland", "wales": "Wales", "ni": "N. Ireland"}
     out = {"consultations": [], "bills": [], "divisions": []}
 
+    # Which of these rows the action-window rule promotes (spec
+    # docs/parl-monitor-devolved-fix.md): those are briefed and appear in
+    # Top lines; the remainder stay a watching brief. The table says which
+    # is which, and flags late detection -- first seen under 21 days from
+    # the deadline -- so that failure mode is visible, not silent.
+    try:
+        promoted = {c["key"]: c for c in
+                    actionable.devolved_actionable(conn, week_commencing)}
+    except Exception:                                   # noqa: BLE001
+        promoted = {}
     try:
         rows = conn.execute(
-            "SELECT nation, title, url, closes, areas FROM dg_consultations "
+            "SELECT key, nation, title, url, closes, areas, first_seen "
+            "FROM dg_consultations "
             "WHERE (closes IS NULL OR closes >= ?) ORDER BY "
             "COALESCE(closes, '9999')", (week_commencing,)).fetchall()
     except Exception:                                   # noqa: BLE001
@@ -643,7 +654,9 @@ def devolved_from_store(conn, week_commencing, days=30, hidden=(11,)):
             closes = "{0} ({1} days)".format(r["closes"], left)
         out["consultations"].append({
             "title": r["title"], "url": r["url"], "closes": closes,
-            "nation": nation_label.get(r["nation"], r["nation"])})
+            "nation": nation_label.get(r["nation"], r["nation"]),
+            "actionable": r["key"] in promoted,
+            "late": actionable.late_detection(r["first_seen"], r["closes"])})
 
     for table, where, sql in (
             ("sp_bills", "Holyrood",
@@ -795,6 +808,25 @@ def sections_from_store(conn, edition):
 
     edition.devolved = devolved_from_store(
         conn, edition.week_commencing)
+
+    # Actionable devolved items reach Top lines, not only the canvas table
+    # below the fold (docs/parl-monitor-devolved-fix.md: the RE consultation
+    # WAS in Edition 5's canvas, in a section whose subheading told the
+    # reader it asked nothing of them). Score-3 Westminster deadline items
+    # already emit top lines above; these are their devolved equals.
+    for c in actionable.devolved_actionable(conn, edition.week_commencing):
+        edition.top_lines.append(digest.Line(
+            text="{0} ({1}) - open consultation on our ground{2}".format(
+                c["title"], c["nation_label"],
+                "; surfaced late, deadline close" if c["late_detection"] else ""),
+            tag=3, owner=None, url=c["url"],
+            deadline=c["closes"], date=None))
+    # The late-detection counter for the footer: every consultation the
+    # Devolved table shows this week that was first seen under 21 days
+    # before its deadline, actionable or just-closed alike.
+    edition.late_detections = sum(
+        1 for c in (edition.devolved or {}).get("consultations", [])
+        if c.get("late"))
 
     for r in background:
         extra = json.loads(r["extra"]) if r["extra"] else {}
