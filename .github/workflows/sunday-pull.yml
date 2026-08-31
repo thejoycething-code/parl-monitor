@@ -39,7 +39,12 @@ jobs:
     # 60min (Christopher, 2026-08-17). A cold pull measured 40m05s and the
     # weekly run is always cold; this covers the whole job, not just the
     # pull, so checkout and pip come out of the same budget.
-    timeout-minutes: 60
+    # 75, raised from 60 on 2026-08-31: the first run of the interests and
+    # division-roll backfills adds ~35 minutes on top of the ~13-minute
+    # pull. Every later week they are incremental (2-3 minutes), so this is
+    # slack, not budget -- and each collector commits as it goes, so even a
+    # timeout loses nothing a re-run cannot resume.
+    timeout-minutes: 75
     steps:
       - name: London-hour guard (scheduled runs only)
         if: github.event_name == 'schedule'
