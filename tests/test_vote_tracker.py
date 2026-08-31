@@ -271,6 +271,33 @@ class BoardNextTests(unittest.TestCase):
             (4157, "An Act", "Unassigned", "Royal Assent", "TBA", None, "closed"))
         self.assertNotIn("action", issue)
 
+    # ---- the tracking mark (Christopher, 2026-08-31) ---------------------
+    def test_a_shipped_action_carries_the_monitor_utms(self):
+        # "All petition UTMs from the parliamentary monitor should include
+        # cgo-monitor somewhere." Stamped by the builder so no future action
+        # can ship untracked; campaign carries the issue id.
+        issue = self.build_with(
+            (4157, "A Bill", "Commons", "2nd reading", "2026-09-11", None, "live"))
+        self.assertEqual(issue["action"]["url"],
+                         "https://citizengo.org/x?utm_source=cgo-monitor"
+                         "&utm_medium=referral&utm_campaign=iss")
+
+    def test_a_hand_tuned_url_with_its_own_utms_is_left_alone(self):
+        conn = fresh_conn()
+        members.cache_put(conn, members.Member(
+            id=1, name="Aye MP", party="Labour", seat="Seat",
+            house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        conn.commit()
+        import copy
+        cfg = copy.deepcopy(CFG)
+        cfg["issues"][0]["action"] = {
+            "url": "https://citizengo.org/x?utm_source=cgo-monitor-special",
+            "label": "Sign"}
+        dataset, _ = mvt.build(conn, cfg, {900: PAYLOAD})
+        self.assertEqual(dataset["issues"][0]["action"]["url"],
+                         "https://citizengo.org/x?utm_source=cgo-monitor-special")
+
     def test_a_missing_board_row_KEEPS_the_action(self):
         # The first cut retired it here, which meant a board hiccup -- or
         # the gap between a bill falling and its successor being re-pointed

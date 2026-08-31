@@ -86,8 +86,12 @@ issues:
     # week the row closes. The label names the campaign's delivery date,
     # 4 September 2026 -- if the Bill outlives the delivery, the LABEL is
     # what needs a human edit, not the mechanism.
+    # Keep this URL CLEAN of tracking parameters: the builder stamps every
+    # action link with the monitor's UTMs (utm_source=cgo-monitor, medium,
+    # and the issue id as campaign) at build time. A URL that already
+    # carries utm_ parameters is left alone, so a hand-tuned link wins.
     action:
-      url: https://citizengo.org/en-gb/ot/214551-stop-assisted-suicide-bill
+      url: https://citizengo.org/en-gb/lf/18429-parliament-is-being-asked-to-legalise-assisted-suicide--again---
       label: Sign before 4 September
     # One line per member: "Consistently/Generally voted <phrase>", computed
     # from their good/bad votes on this issue's signed-off divisions. The

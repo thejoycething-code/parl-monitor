@@ -819,6 +819,20 @@ def build(conn, cfg, payloads):
         elif issue.get("action") and row is None:
             print("  issue {0}: board {1} missing; the action stays up until "
                   "the board records the Bill's end".format(issue["id"], bid))
+
+    # Every action link that survives carries the monitor's tracking mark
+    # (Christopher, 2026-08-31: "All petition UTMs from the parliamentary
+    # monitor should include cgo-monitor somewhere"). Stamped at BUILD time
+    # so the config URLs stay clean and no future action can ship untracked
+    # by forgetting the parameters. A URL already carrying utm_ parameters
+    # is left alone: a hand-tuned link wins over the default. utm_campaign
+    # is the issue id, so the campaign team can tell which card converted.
+    for issue in issues:
+        act = issue.get("action")
+        if act and act.get("url") and "utm_" not in act["url"]:
+            act["url"] += ("&" if "?" in act["url"] else "?") + \
+                "utm_source=cgo-monitor&utm_medium=referral" + \
+                "&utm_campaign={0}".format(issue["id"])
     used_issues, divisions, votes = set(), [], {}
     missing = []
     for d in cfg.get("divisions") or []:
