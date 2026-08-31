@@ -1311,7 +1311,9 @@ function renderMP(id){
       ${voteBlock(vi, d)}
       <div class="cardbody">
         ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
-        <div class="lbl">AT ${esc(d.stage.toUpperCase())} <span class="cal">&#128197;</span> ${d.date}</div>
+        <div class="lbl">AT ${esc(d.stage.toUpperCase())} <span class="cal">&#128197;</span> ${d.date}${
+          d.ayes + d.noes ? ` · ${d.passed ? "PASSED" : "REJECTED"} BY ${
+            Math.abs(d.ayes - d.noes)}, ${d.ayes} TO ${d.noes}` : ""}</div>
         <h3>${esc(d.bill || g.issue.bill || g.issue.name)}</h3>
         ${main && !g.issue.live && g.issue.status ? `<div class="billstatus">${esc(g.issue.status)}</div>` : ""}
         ${main && !g.issue.live && g.issue.next ? `<div class="nextline">NEXT: ${
@@ -1370,25 +1372,6 @@ function renderMP(id){
       </div>`;
   };
 
-  // Option F (Christopher, 2026-08-31): an OPEN landmark stage is one line
-  // under its stage row -- lobby, result, tally, official link. The meaning
-  // sentence ("Supported the Bill continuing...") moves to the line's
-  // tooltip, and the margin bar goes: "Passed by 55" carries the same fact
-  // in two words. The card above and the fold below keep their full detail;
-  // this reclaims ~700px per bill without hiding a figure.
-  const compactVote = (d) => {
-    const vi = voteInfo(m, d);
-    const plain = vi.text.replace(/<[^>]*>/g, "");
-    return `<div class="sbody">
-      <div class="sout" title="${esc(plain)}">${
-        vi.lobby ? esc(vi.lobby) + " · " : ""}${outcome(d)}${
-        whipHere() ? " · " + whipChip(d, m) : ""}${
-        relativeToParty(d, vi) ? " · " + relativeToParty(d, vi) : ""
-        } · <a class="official" href="${d.url}" target="_blank"
-        rel="noopener">official record <span class="arrow">&#8599;</span></a></div>
-    </div>`;
-  };
-
   const miniVote = (d) => {
     const vi = voteInfo(m, d);
     return `<div class="amrow">
@@ -1406,7 +1389,7 @@ function renderMP(id){
         </div></div>`;
   };
 
-  const stageNode = (node, open) => {
+  const stageNode = (node) => {
     const many = node.divs.length > 1;
     // A stage with several divisions gets a one-line verdict summary, so a
     // reader sees "5 votes, all good" without counting chips.
@@ -1438,7 +1421,7 @@ function renderMP(id){
                    fmtD(node.divs[0].date)}</span>`}
       </div>
       ${many ? `<div class="amend">${node.divs.map(miniVote).join("")}</div>`
-             : open ? compactVote(node.divs[0]) : fullVote(node.divs[0])}
+             : fullVote(node.divs[0])}
     </div>`;
   };
 
@@ -1450,28 +1433,18 @@ function renderMP(id){
         node.q.u ? ` \u00b7 <a class="official" href="${href(node.q.u, node.q.d)}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>
     </div>`;
 
-  // WHAT STAYS OPEN, AND WHAT CONDENSES (Christopher, 2026-08-27: option C's
-  // structure with B's collapsibility -- "I still want the level of detail we
-  // have"). So nothing is removed: the decisive votes stay open, and the
-  // amendments and speeches go behind one disclosure per bill with their FULL
-  // detail intact -- meaning, tally, whip and source link on every row.
-  //
-  // Open = any stage carrying a division flagged `landmark` in the config,
-  // FALLING BACK to the major stage when a bill has none. parental-rights has
-  // no landmark flag at all, so a pure landmark rule would have left that
-  // card opening on nothing.
-  //
-  // The cost, accepted: chronology is no longer strict. Second Reading sits
-  // directly above Third Reading with the committee stage they bracket
-  // condensed below, which is what Christopher chose over the strict spine.
-  const isOpenNode = (node, g) => node.type === "votes" &&
-    (node.divs.some(d => d.landmark) || node.divs.indexOf(g.major) > -1);
-
-  // One disclosure per bill, naming what is inside so nobody has to open it
-  // to find out whether it matters.
-  const journeyDetails = (hidden) => {
-    const votes = hidden.filter(n => n.type === "votes");
-    const said = hidden.filter(n => n.type === "said");
+  // THE FULL JOURNEY (Christopher, 2026-08-31, folding the readings into
+  // option L): the card leads with the main vote -- whose result now sits
+  // in the card label -- and EVERYTHING else lives in one disclosure: both
+  // readings, the amendment votes, the quotes, strictly in the order they
+  // happened. This supersedes the 2026-08-27 open-landmark rule and this
+  // morning's option F one-liners, and restores the strict chronology
+  // those had traded away. What has NEVER changed: every row inside keeps
+  // its full detail -- meaning, tally, whip and source link ("I still want
+  // the level of detail we currently have").
+  const journeyDetails = (nodes) => {
+    const votes = nodes.filter(n => n.type === "votes");
+    const said = nodes.filter(n => n.type === "said");
     const divs = votes.reduce((n, x) => n + x.divs.length, 0);
     const infos = votes.flatMap(n => n.divs.map(d => voteInfo(m, d)));
     const good = infos.filter(v => v.cls === "G").length;
@@ -1481,14 +1454,23 @@ function renderMP(id){
       const verdicts = [];
       if (good) verdicts.push(`${good} good`);
       if (bad) verdicts.push(`${bad} bad`);
-      bits.push(`${divs} further vote${divs > 1 ? "s" : ""}${
+      bits.push(`${divs} vote${divs > 1 ? "s" : ""}${
         verdicts.length ? " \u2014 " + verdicts.join(", ") : ""}`);
     }
     if (said.length) bits.push(`${said.length} quote${said.length > 1 ? "s" : ""} from debate`);
-    return `<details class="journey"><summary>What happened in between
+    // The date range tells a reader the story's span before they open it:
+    // "Nov 2024 to Jun 2025" on the Leadbeater Bill.
+    const dates = votes.flatMap(n => n.divs.map(d => d.date)).sort();
+    if (dates.length){
+      const my = (s) => MONTH3[+s.slice(5, 7) - 1][0] +
+        MONTH3[+s.slice(5, 7) - 1].slice(1).toLowerCase() + " " + s.slice(0, 4);
+      const first = my(dates[0]), last = my(dates[dates.length - 1]);
+      bits.push(first === last ? first : first + " to " + last);
+    }
+    return `<details class="journey"><summary>The full journey
       <span class="jqty">${bits.join(" \u00b7 ")}</span>
       <span class="jchev">&#9662;</span></summary>
-      <div class="passage">${hidden.map(n =>
+      <div class="passage">${nodes.map(n =>
         n.type === "said" ? saidNode(n) : stageNode(n)).join("")}</div>
     </details>`;
   };
@@ -1568,9 +1550,9 @@ function renderMP(id){
       </div>`);
     }
     // Everything else live goes behind a native disclosure -- the same
-    // idiom as the vote cards' "What happened in between": zero visual
-    // competition until the reader asks, then one linked leaf-row per
-    // Bill. No JavaScript; keyboard and screen readers come free.
+    // idiom as the vote cards' journey fold: zero visual competition
+    // until the reader asks, then one linked leaf-row per Bill. No
+    // JavaScript; keyboard and screen readers come free.
     const rest = liveBillGroups(feat);
     const othersCount = rest.reduce((n, g) => n + g.bills.length, 0);
     let disc = "";
@@ -1602,11 +1584,8 @@ function renderMP(id){
   for (const g of (peerNoVotes ? [] : blocks)){
     g_ = g;   // bill context, for whipHere()
     const nodes = passageNodes(g);
-    const shown = nodes.filter(n => isOpenNode(n, g));
-    const hidden = nodes.filter(n => !isOpenNode(n, g));
     rows += `<section class="billblock">${cardHead(g)}
-      ${shown.length ? `<div class="passage">${shown.map(n => stageNode(n, true)).join("")}</div>` : ""}
-      ${hidden.length ? journeyDetails(hidden) : ""}
+      ${nodes.length ? journeyDetails(nodes) : ""}
     </section>`;
   }
 

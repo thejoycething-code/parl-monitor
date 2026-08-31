@@ -1094,17 +1094,13 @@ class PartyColourTests(unittest.TestCase):
 
 
 class JourneyDisclosureTests(unittest.TestCase):
-    """The decisive votes stay open; the rest condenses, losing nothing.
+    """The card leads with the main vote; ONE disclosure holds the whole
+    journey (Christopher, 2026-08-31, folding the readings into option L).
 
-    Christopher, 2026-08-27: "It's not about removing detail or quote but
-    making the detail collapsable ... I also like option C including the
-    Second and Third Reading votes and then condensing the amendments and
-    speech contributions. I still want the level of detail we currently
-    have."
-
-    So this is option C's structure with option B's collapsibility, and the
-    test that matters is that NOTHING was removed: the same amendment rows,
-    quotes, meanings and source links, just inside a disclosure.
+    Supersedes the 2026-08-27 open-landmark rule and option F's open
+    one-liners, and restores the strict chronology those traded away. The
+    standing half of the 27 Aug ruling is unchanged: every row inside keeps
+    its full detail -- meaning, tally, whip and source link.
     """
 
     def test_nothing_is_removed_only_moved(self):
@@ -1118,38 +1114,31 @@ class JourneyDisclosureTests(unittest.TestCase):
         # the renderers that carry the detail must all still exist and be called
         for fn in ("miniVote", "fullVote", "saidNode", "stageNode"):
             self.assertIn("const " + fn, text)
-        # since Option F (2026-08-31) the open stages pass the compact flag
-        for call in ("hidden.map(n =>", "shown.map(n => stageNode(n, true))"):
-            self.assertIn(call, text)
-        # and every detail-bearing part is still rendered inside the disclosure
+        # and every detail-bearing part is rendered inside the one disclosure
         flat = " ".join(text.split())
         block = flat[flat.index("const journeyDetails"):flat.index("for (const g of blocks)")]
         self.assertIn('n.type === "said" ? saidNode(n) : stageNode(n)', block)
 
-    def test_a_bill_always_has_something_open(self):
-        """parental-rights carries NO landmark flag, so a pure landmark rule
-        would have left that card opening on nothing."""
+    def test_nothing_renders_open_and_the_card_carries_the_main_result(self):
+        """The card IS the open state: its label line now carries the main
+        vote's result (PASSED BY 23, 314 TO 291), so folding the readings
+        hides no figure the lead vote needs."""
         flat = " ".join(template().split())
-        self.assertIn("node.divs.some(d => d.landmark) || node.divs.indexOf(g.major) > -1",
-                      flat)
-
-    def test_quotes_and_amendments_condense(self):
-        """Neither is ever open at rest: quote nodes are not type 'votes', and
-        an amendment group only opens if it carries a landmark division."""
-        flat = " ".join(template().split())
-        self.assertIn('const isOpenNode = (node, g) => node.type === "votes" &&', flat)
+        self.assertNotIn("isOpenNode", flat)
+        self.assertNotIn("compactVote", flat)
+        self.assertIn('${nodes.length ? journeyDetails(nodes) : ""}', flat)
+        self.assertIn('${d.passed ? "PASSED" : "REJECTED"} BY', flat)
 
     def test_the_summary_says_what_is_inside(self):
-        """So nobody has to open it to find out whether it matters."""
+        """Counts, verdict split, quotes and the story's date span -- so
+        nobody has to open it to find out whether it matters."""
         flat = " ".join(template().split())
         block = flat[flat.index("const journeyDetails"):]
-        self.assertIn("further vote", block)
+        self.assertIn("The full journey", block)
+        self.assertNotIn("What happened in between", block)
+        self.assertNotIn("further vote", block)
         self.assertIn("quote", block)
-        self.assertIn("What happened in between", block)
-
-    def test_an_empty_disclosure_is_never_rendered(self):
-        flat = " ".join(template().split())
-        self.assertIn("${hidden.length ? journeyDetails(hidden) : \"\"}", flat)
+        self.assertIn('first === last ? first : first + " to " + last', block)
 
     def test_it_uses_native_details(self):
         """Keyboard and screen-reader support for free, and no JavaScript."""
@@ -1324,30 +1313,17 @@ class RecordLastTests(unittest.TestCase):
         self.assertLess(block.index("relativeToParty"), block.index("recordlast"))
 
 
-class CompactLandmarkTests(unittest.TestCase):
-    """Option F (Christopher, 2026-08-31): an open landmark stage under the
-    card is one line -- lobby, result, tally, official link -- with the
-    meaning sentence in the tooltip and no margin bar. The fold keeps full
-    detail on every row ("I still want the level of detail we have",
-    2026-08-27, is about the fold and stays honoured there)."""
+class JourneyChronologyTests(unittest.TestCase):
+    """Superseding option F on the same day it shipped (Christopher: fold
+    the readings in too): no stage renders open, and the fold's rows are
+    the FULL renderers -- the strict spine, back in date order."""
 
-    def test_open_stages_compact_and_the_fold_keeps_full_detail(self):
+    def test_the_fold_renders_full_rows_in_order(self):
         flat = " ".join(template().split())
-        self.assertIn("stageNode(n, true)", flat)
         block = flat[flat.index("const stageNode"):]
-        self.assertIn("open ? compactVote(node.divs[0]) : "
-                      "fullVote(node.divs[0])", block)
+        self.assertIn(": fullVote(node.divs[0])", block)
         fold = flat[flat.index("const journeyDetails"):flat.index("let band")]
         self.assertIn("stageNode(n)).join", fold)
-
-    def test_the_compact_line_keeps_the_figures_and_tooltips_the_meaning(self):
-        flat = " ".join(template().split())
-        block = flat[flat.index("const compactVote"):flat.index("const miniVote")]
-        self.assertIn('title="${esc(plain)}"', block)
-        self.assertIn("outcome(d)", block)
-        self.assertIn("official record", block)
-        self.assertNotIn("ssent", block)
-        self.assertNotIn("barHTML", block)
 
 
 class PartyPhraseFoldedTests(unittest.TestCase):

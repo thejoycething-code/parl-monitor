@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bill journey: grouping options</title>
+<style>
+:root{--red:#e0342e;--green:#2fa04a;--ink:#4a5058;--line:#e8eaee;--blue:#1c5dc9;
+--grey:#9aa1a9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+background:#f4f5f7;color:#20242a;padding:34px 16px 80px;max-width:880px;margin:0 auto}
+h1{font-size:22px;font-weight:500;margin-bottom:6px}
+.note{font-size:13.5px;color:var(--ink);max-width:76ch;margin-bottom:24px}
+.optlbl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+color:#8a919a;margin:40px 0 6px}
+.optsub{font-size:13px;color:var(--ink);margin-bottom:12px;max-width:76ch}
+a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+.meta{font-size:12px;color:var(--grey)}
+summary{cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+.bigcard{display:flex;gap:20px;align-items:center;background:#fff;
+padding:18px 20px;box-shadow:0 1px 3px rgba(16,24,40,.08);border:1px solid #eef0f3;
+border-radius:12px 12px 0 0}
+.votebox{flex:0 0 170px;text-align:center;color:#fff;border-radius:9px;padding:15px 10px;
+background:var(--red)}
+.votebox .vword{display:block;font-weight:700;font-size:16px;letter-spacing:.05em}
+.votebox .vsub{display:block;font-size:12.5px;opacity:.93;margin-top:3px}
+.votebox .vwhip{display:block;margin-top:9px;padding-top:8px;
+border-top:1px solid rgba(255,255,255,.35)}
+.whipmark{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.07em;
+padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.18)}
+.cardbody{min-width:0}
+.lbl{font-size:11.5px;font-weight:600;letter-spacing:.12em;color:#9aa1a9;margin-bottom:5px}
+.bigcard h3{font-size:20px;font-weight:400;line-height:1.3;margin:0 0 7px}
+.statusp{font-size:13px;font-style:italic;color:#6c727a;line-height:1.5}
+.jbox{border:1px solid #eef0f3;border-top:none;border-radius:0 0 12px 12px;
+background:#fbfcfd;padding:10px 18px;margin-bottom:8px}
+.jsum{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;font-size:12.5px;
+font-weight:500;color:var(--blue)}
+.jsum:before{content:"\25B8";font-size:10px}
+details[open]>.jsum:before{content:"\25BE"}
+.jqty{font-weight:400;color:var(--grey)}
+.inner{font-size:13px;color:var(--ink);padding:12px 2px 4px;border-top:1px solid var(--line);
+margin-top:9px}
+/* K: milestone map in the summary */
+.jmap{display:inline-flex;gap:10px;align-items:baseline;font-weight:600;font-size:12px}
+.jmap .x{color:var(--red)}
+.jmap .sep{color:#d5d9de;font-weight:400}
+/* L: anchor line above the fold */
+.mainrow{display:flex;gap:9px;align-items:baseline;flex-wrap:wrap;font-size:13px;
+padding:7px 0 9px}
+.mx{font-weight:700;color:var(--red);font-size:12px}
+.mname{font-weight:500;color:#23282f}
+.mres b{font-weight:600;color:var(--red)}
+.namebox{background:#fff;border:1px solid #eef0f3;border-radius:10px;padding:14px 18px;
+margin-top:26px;font-size:13.5px}
+.namebox b{font-weight:600}
+.namebox li{margin:5px 0 5px 18px}
+</style></head><body>
+
+<h1>Lead with the main vote, group the whole journey</h1>
+<p class="note">In all three, the card&rsquo;s verdict tile <i>is</i> the main vote (Third
+Reading here) and nothing else renders open by default &mdash; the whole journey, Second
+Reading included, lives in one disclosure whose rows keep today&rsquo;s full detail. The
+options differ only in what the closed state tells you, and each wears a different
+candidate name.</p>
+
+<!-- ============ J ============ -->
+<div class="optlbl">Option J &mdash; one quiet line (&ldquo;The full journey&rdquo;)</div>
+<p class="optsub">The minimal version: a single disclosure line with the counts. Closed,
+the Bill costs the card plus ~40px.</p>
+<div class="bigcard">
+  <div class="votebox"><span class="vword">BAD VOTE</span><span class="vsub">(Aye)</span>
+    <span class="vwhip"><span class="whipmark">FREE VOTE</span></span></div>
+  <div class="cardbody">
+    <div class="lbl">AT THIRD READING &middot; 20 Jun 2025 &middot; PASSED BY 23, 314 TO 291</div>
+    <h3>Terminally Ill Adults (End of Life) Bill</h3>
+    <p class="statusp">Passed all Commons stages, given a Second Reading by the Lords,
+    but ran out of time and fell when the session ended in April 2026.</p>
+  </div>
+</div>
+<div class="jbox">
+  <details>
+    <summary class="jsum">The full journey
+      <span class="jqty">7 votes &mdash; 7 bad &middot; 2 quotes from debate &middot; Nov 2024 to Jun 2025</span></summary>
+    <div class="inner">(the existing spine, complete and in order: Second Reading,
+    committee and Report votes, quotes where they were said, Third Reading &mdash;
+    every row with its full detail)</div>
+  </details>
+</div>
+
+<!-- ============ K ============ -->
+<div class="optlbl">Option K &mdash; the journey&rsquo;s shape stays visible (&ldquo;How the Bill got here&rdquo;)</div>
+<p class="optsub">The summary line carries a milestone map, so the story is legible
+without opening: every marker is a stage, coloured by the member&rsquo;s vote. All red is
+itself the message.</p>
+<div class="bigcard">
+  <div class="votebox"><span class="vword">BAD VOTE</span><span class="vsub">(Aye)</span>
+    <span class="vwhip"><span class="whipmark">FREE VOTE</span></span></div>
+  <div class="cardbody">
+    <div class="lbl">AT THIRD READING &middot; 20 Jun 2025 &middot; PASSED BY 23, 314 TO 291</div>
+    <h3>Terminally Ill Adults (End of Life) Bill</h3>
+    <p class="statusp">Passed all Commons stages, given a Second Reading by the Lords,
+    but ran out of time and fell when the session ended in April 2026.</p>
+  </div>
+</div>
+<div class="jbox">
+  <details>
+    <summary class="jsum">How the Bill got here
+      <span class="jmap"><span class="x">&#10007; 2R</span><span class="sep">&middot;</span>
+        <span class="x">&#10007; Cmte</span><span class="sep">&middot;</span>
+        <span class="x">&#10007;&#10007;&#10007;&#10007; Report</span><span class="sep">&middot;</span>
+        <span class="x">&#10007; 3R</span></span>
+      <span class="jqty">7 votes &middot; 2 quotes</span></summary>
+    <div class="inner">(the existing spine, complete and in order)</div>
+  </details>
+</div>
+
+<!-- ============ L ============ -->
+<div class="optlbl">Option L &mdash; the other reading anchors above the fold (&ldquo;Everything else on this Bill&rdquo;)</div>
+<p class="optsub">A half-step from today&rsquo;s Option F: the card leads with the main
+vote, ONE compact line keeps the other reading visible (the two readings are the votes
+people cite), and everything else folds. For a Bill whose readings disagree &mdash; a
+flipped voter &mdash; the contrast stays on the surface.</p>
+<div class="bigcard">
+  <div class="votebox"><span class="vword">BAD VOTE</span><span class="vsub">(Aye)</span>
+    <span class="vwhip"><span class="whipmark">FREE VOTE</span></span></div>
+  <div class="cardbody">
+    <div class="lbl">AT THIRD READING &middot; 20 Jun 2025 &middot; PASSED BY 23, 314 TO 291</div>
+    <h3>Terminally Ill Adults (End of Life) Bill</h3>
+    <p class="statusp">Passed all Commons stages, given a Second Reading by the Lords,
+    but ran out of time and fell when the session ended in April 2026.</p>
+  </div>
+</div>
+<div class="jbox">
+  <div class="mainrow"><span class="mx">&#10007;</span>
+    <span class="mname">Second Reading</span><span class="meta">29 Nov 2024</span>
+    <span class="mres">Aye &middot; <b>Passed by 55</b> &mdash; 330 to 275 &middot; <a href="#">official record &#8599;</a></span></div>
+  <details style="border-top:1px solid var(--line);padding-top:8px">
+    <summary class="jsum">Everything else on this Bill
+      <span class="jqty">5 further votes &mdash; 5 bad &middot; 2 quotes from debate</span></summary>
+    <div class="inner">(the existing spine)</div>
+  </details>
+</div>
+
+<div class="namebox"><b>Names on the table</b> (any fits any layout):
+<li><b>The full journey</b> &mdash; says complete; neutral about direction.</li>
+<li><b>How the Bill got here</b> &mdash; narrative pull; works while a Bill is live, reads oddly once it has fallen ("got where?").</li>
+<li><b>Every vote on this Bill</b> &mdash; the most literal; undersells the quotes.</li>
+<li><b>The Bill&rsquo;s passage</b> &mdash; parliamentary register; "passage" is jargon-adjacent.</li>
+<li><b>Their record on this Bill</b> / <b>Kim Leadbeater&rsquo;s record on this Bill</b> &mdash; member-relative, matches the page&rsquo;s grammar ("The record").</li>
+</div>
+
+<p class="note" style="margin-top:26px">The tile keeps the main-vote verdict either way,
+and the fold&rsquo;s rows keep full detail (the 27 Aug ruling). J is the quietest; K
+tells the story while closed; L preserves the reading-vs-reading contrast for the 16
+flippers. My pick: <b>K with &ldquo;The full journey&rdquo;</b> &mdash; but if the
+flipped-voter contrast should stay surfaced, L.</p>
+</body></html>
