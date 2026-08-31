@@ -70,6 +70,17 @@ jobs:
           fi
       - uses: actions/checkout@v7
         if: env.SKIP != '1'
+      # ref: the branch TIP at checkout time, not github.sha. A dispatched
+      # or scheduled run PINS github.sha when it is created; queued behind
+      # another run in the parl-monitor-state group, it then checks out a
+      # sidecar OLDER than the store that run just published, and the fetch
+      # refuses the mismatch. Found 2026-08-31: a sunday-pull dispatched
+      # while a publish ran died exactly this way -- the fourth known route
+      # to store/sidecar divergence, and the first that needs no failure
+      # anywhere. These workflows act on repo STATE, so the tip is always
+      # the right thing to act on.
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v7
         if: env.SKIP != '1'
         with:
