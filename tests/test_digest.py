@@ -152,9 +152,12 @@ class ValidationTests(unittest.TestCase):
 
 
 class CapTests(unittest.TestCase):
-    def test_top_lines_capped_at_five_demoting_low_scores_first(self):
+    def test_top_lines_capped_at_six_demoting_low_scores_first(self):
         """The cap demotes by triage score now that tags are retired: a
-        score-3 line must survive a crowd of score-1s."""
+        score-3 line must survive a crowd of score-1s. Six lines since
+        2026-08-31 (Christopher: the RE Core Syllabus consultation must
+        render the week the devolved fix landed; the Slack summary
+        already quoted up to six)."""
         lines = ([digest.Line("campaign trigger", 3)]
                  + [digest.Line("background %d" % i, 1) for i in range(6)]
                  + [digest.Line("digest-worthy", 2)])
@@ -162,7 +165,7 @@ class CapTests(unittest.TestCase):
         md = digest.render(e)
         self.assertIn("campaign trigger", md)
         self.assertIn("digest-worthy", md)
-        self.assertEqual(md.count("- background"), 3)
+        self.assertEqual(md.count("- background"), 4)
 
 
 class FooterVersionTests(unittest.TestCase):

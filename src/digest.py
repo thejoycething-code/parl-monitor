@@ -5,7 +5,10 @@ into the Monday markdown edition. Rules enforced here:
 
   * recess mode (no Commons/Lords chamber events in the edition week): render
     sections 1, 2, 6, 7, 11 plus a return-dates line; deadlines always render;
-  * caps: top lines 3-5, PQs 5, EDMs 5, demoting NOTE items first;
+  * caps: top lines 3-6 (raised from 5 on 2026-08-31 so the RE Core
+    Syllabus consultation renders the week the devolved fix landed --
+    seven urgent items competed for five lines, and the Slack summary
+    already quoted up to six), PQs 5, EDMs 5, demoting NOTE items first;
   * the editorial loop (ACT/WATCH/NOTE, owners, review files) was REMOVED at
     Christopher's decision, 2026-08-21: he creates Asana tasks himself from
     what the monitor surfaces and the briefs it produces. Inclusion and
@@ -508,7 +511,7 @@ def render(edition):
                  edition.week_commencing, edition.number, " | RECESS" if recess else ""),
              ""]
 
-    top = _render_section("Top lines", _cap(edition.top_lines, 5))
+    top = _render_section("Top lines", _cap(edition.top_lines, 6))
     if top:
         parts.append(top)
 
