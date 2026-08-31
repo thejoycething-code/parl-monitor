@@ -8,6 +8,7 @@
 - [The Online Safety Act: implementation and impact - This Lords inquiry shapes how the Online Safety Act polices lawful speech online. Written evidence closes 4pm on 21 September 2026, the committee having extended submission period 3964 from 7 September (captured 2026-08-20). CitizenGO is not submitting to this inquiry.](https://committees.parliament.uk/work/9955/) (Deadline: 2026-09-21)
 - [A New Good Relations Framework - Call For Views (N. Ireland) - open consultation on our ground](https://consultations.nidirect.gov.uk/teo/good-relations-call-for-views/) (Deadline: 2026-09-21)
 - [Tying the Knot: Reforming weddings law in England and Wales - Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live; response push through recess.](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales) (Deadline: 2026-09-24)
+- [Consultation on the Religious Education Core Syllabus (N. Ireland) - open consultation on our ground](https://consultations.nidirect.gov.uk/de/re-syllabus-consultation/) (Deadline: 2026-09-30)
 
 ## Week ahead
 
