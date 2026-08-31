@@ -629,6 +629,13 @@ def render_markdown(subject, fields, rf4_hints, expectation, fca,
         lines.append("")
         lines.append(value)
         lines.append("")
+    if fields.get("risks"):
+        # Verbatim from the campaigner-supplied source material: handling
+        # notes summarised are handling notes lost.
+        lines.append("## Risks and handling notes")
+        lines.append("")
+        lines.append(fields["risks"])
+        lines.append("")
     lines.append("## Red Fox Four (scores are the campaigner's call)")
     lines.append("")
     lines.append("| # | Question | Score (-10..+10) | Evidence hint |")
@@ -758,6 +765,20 @@ def main():
     if "--force" in sys.argv:
         force = sys.argv[sys.argv.index("--force") + 1]
     list_only = "--list" in sys.argv
+    # --source PATH (with --force): research the monitor cannot derive from
+    # the parliamentary feeds -- quotes from consultation documents, prior
+    # campaign results, ministerial commitments, handling notes. The whole
+    # file is handed to the narrative model as grounding, and its "Risks
+    # and handling notes" section (if it has one) is carried into the
+    # brief VERBATIM: handling notes summarised are handling notes lost.
+    source_text = None
+    if "--source" in sys.argv:
+        if not force:
+            print("--source only makes sense with --force SLUG")
+            return 1
+        source_path = sys.argv[sys.argv.index("--source") + 1]
+        with open(source_path, encoding="utf-8") as handle:
+            source_text = handle.read()
 
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
     ensure_log(conn)
@@ -798,6 +819,24 @@ def main():
         facts = {"background": bg, "url": s["url"], "deadline": s.get("deadline"),
                  "stage": s.get("stage"), "house": s.get("house"),
                  "activity_6mo": activity}
+        if source_text:
+            # The source's own Background section joins the deterministic
+            # line VERBATIM: the standing facts live there -- prior petition
+            # results net of duplicates, ministerial commitments -- and the
+            # model paraphrasing them is exactly what must not happen.
+            m = re.search(r"\*\*Background / Context\*\*\s*\n(.*?)(?=\n\*\*[A-Z])",
+                          source_text, re.S)
+            if m:
+                bg = bg + " " + " ".join(m.group(1).split())
+                facts["background"] = bg
+            facts["source_material"] = source_text
+            facts["source_rules"] = (
+                "Ground every claim in the source material. Carry its "
+                "quotes, dates and figures EXACTLY; signature counts are "
+                "always quoted net of duplicates. Follow its risks and "
+                "handling notes -- in particular any framing it warns "
+                "against. Never invent names of parliamentarians or "
+                "officials; use only those the source names.")
         drafted = draft_narrative(s, facts, api_key) or {}
 
         def field(fid, question):
@@ -885,6 +924,14 @@ def main():
 
         fields = {"general": general, "plan": plan, "prepare": prepare,
                   "urgency": urgency_of(s, today)}
+        if source_text:
+            m = re.search(r"^#+\s*RISKS AND HANDLING NOTES\s*$\n(.*?)(?=^#+ |\Z)",
+                          source_text, re.M | re.S | re.I)
+            if m:
+                fields["risks"] = m.group(1).strip()
+            rf4_hints.append("Suggested RF4 scores and reasoning are in the "
+                             "source material; scores stay the campaigner's "
+                             "call.")
         md_path = os.path.join(BRIEFS_DIR, s["slug"] + ".md")
         csv_path = os.path.join(BRIEFS_DIR, s["slug"] + ".csv")
         fca_path = os.path.join(BRIEFS_DIR, s["slug"] + "-5ca.csv")
@@ -924,12 +971,27 @@ def main():
             for row in NARRATIVE_SCAFFOLD:
                 w.writerow(row)
         print("  sheet: {0}".format(os.path.basename(sheet_path)))
-        # No Asana approval task: the editorial loop is retired (Christopher,
-        # 2026-08-21). Briefs generate and upload automatically; he creates
-        # his own tasks. Rejection remains a deliberate act via
-        # tools/brief_status.py and is still load-bearing (regeneration guard
-        # + the Drive publisher gate).
+        # The Asana approval task is BACK (Christopher, 2026-08-31, third
+        # asking -- superseding the 2026-08-21 retirement): each generated
+        # brief creates a review task in the EN GB Weekly Meeting agenda
+        # project. A missing PAT reports itself skipped, as everything in
+        # publish.py does; rejection remains a deliberate act and is still
+        # load-bearing (regeneration guard + the Drive publisher gate).
         approval = {}
+        try:
+            from src import publish as _pub
+            _secrets = _pub.load_secrets()
+            if _secrets.get("asana_pat"):
+                approval = _pub.asana_create_brief_approval(
+                    _secrets, s["title"], s["slug"],
+                    deadline=s.get("deadline")) or {}
+                if approval.get("task_gid"):
+                    print("  asana: review task {0}".format(
+                        approval.get("permalink") or approval["task_gid"]))
+                elif approval.get("error"):
+                    print("  asana: {0}".format(approval["error"]))
+        except Exception as exc:                        # noqa: BLE001
+            print("  asana: skipped ({0})".format(exc))
         conn.execute("INSERT OR REPLACE INTO brief_log "
                      "(slug, subject, generated_at, path, status, asana_gid) "
                      "VALUES (?, ?, ?, ?, ?, ?)",

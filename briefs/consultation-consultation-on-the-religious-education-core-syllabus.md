@@ -13,10 +13,10 @@
 | Type of Campaign | [CAMPAIGNER: Survival / Obligatory / Opportunity] |
 | Topic | Family & Education |
 | Main Purposes | Political Impact |
-| Background / Context | Consultation on the Religious Education Core Syllabus. Deadline: 2026-09-30. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 105 debate contributions, 23 written questions. |
+| Background / Context | Consultation on the Religious Education Core Syllabus. Deadline: 2026-09-30. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 105 debate contributions, 23 written questions. The Northern Ireland Department of Education is consulting on a redrafted Religious Education Core Syllabus. The consultation opened 24 June 2026, was published 1 July, and closes at 11:59am on 30 September 2026. It is run by DE on behalf of the RE Drafting Group, chaired by Professor Noel Purdy: twelve experienced RE specialist teachers who have met formally seven times since 13 April 2026, alongside a Church Consultative Group of three representatives nominated by the Chairperson of the Council for Catholic Maintained Schools and three by the Transferors Representative Council. The review was commissioned after the Supreme Court judgment of 19 November 2025 in the JR87 case, which concerned Article 2 of the First Protocol read with Article 9 of the ECHR. Colton J found that the existing core syllabus "does not provide for religious education in an objective, critical and pluralistic manner", and that finding was upheld on appeal. CitizenGO has standing on this issue. Our petition 17165, Protect Christian Teaching in Northern Ireland Schools, ran from November 2025 to March 2026 and took **96,328 signatures net of duplicates**, recruiting 29,509 new audience members and reactivating 8,709. It grew NI membership from roughly 1,000 to about 11,500 and raised approximately EUR 4,400. DUP MLA for Belfast East David Brooks formally presented it in the Northern Ireland Assembly on 9 March 2026. The campaign ended in a written commitment from Education Minister Paul Givan: that the syllabus would be revised to comply with the judgment but Christianity would remain central; that parents' rights matter, "including clear and practical arrangements for withdrawal"; and that there would be stronger oversight of how RE is delivered in schools. Our published report-back promised supporters we would "continue to monitor developments closely to ensure the Education Minister's commitments are kept". This consultation is the deliverable those commitments were made about. |
 | Estimated Launch date | [CAMPAIGNER] |
 | Estimated date for Delivering Signatures | Before 2026-09-30 |
-| Ideas for eventual Offline Actions | [CAMPAIGNER: draft needed] |
+| Ideas for eventual Offline Actions | A second delivery to Stormont via David Brooks MLA, who presented petition 17165 and is an established and willing champion.  Ask supporters to submit the consultation response directly, not only to sign. Suggested answers and a separate EQIA response form already exist elsewhere, so the technical barrier for our list is already lowered.  Request a meeting with the Minister's office on the strength of the earlier written commitment, rather than opening with public criticism. |
 | Petitions related TIM project (Targeting Inactive Members) |  |
 
 ## Plan phase prompts
@@ -35,37 +35,45 @@ The responsible department, via the consultation response
 
 **What are we asking for in the petition?**
 
-[CAMPAIGNER: draft needed]
+We are asking Education Minister Paul Givan to publish clear and practical arrangements for parental withdrawal from Religious Education alongside the syllabus, before it is made law. We are asking him to move comparative worldview teaching out of Foundation Stage so it begins no earlier than Key Stage 2. And we are asking him to set out, in writing, the promised arrangements for oversight of how RE is delivered in schools.
 
 **Why would they listen to us?**
 
-[CAMPAIGNER: draft needed]
+The Department is legally obliged to consider consultation responses before finalising statutory content. We have three sources of leverage most respondents do not: a written ministerial commitment we can quote back to him, an NI list of roughly 11,500 members built on precisely this issue, and an MLA, David Brooks, who has already carried our petition onto the floor of the Assembly. The ask is also deliberately cheap for the Minister to grant. Publishing withdrawal arrangements does not require him to defy the Supreme Court or reverse the syllabus, and it lets him say he kept his word. A campaign that credits him for the part he honoured, and presses on the part he did not, is far more likely to move him than one accusing him of betrayal.
 
 **What is happening that we are responding to?**
 
-Consultation on the Religious Education Core Syllabus. Deadline: 2026-09-30. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 105 debate contributions, 23 written questions.
+Consultation on the Religious Education Core Syllabus. Deadline: 2026-09-30. Parliamentary activity on this issue in the last six months (from the monitor's ledger): 105 debate contributions, 23 written questions. The Northern Ireland Department of Education is consulting on a redrafted Religious Education Core Syllabus. The consultation opened 24 June 2026, was published 1 July, and closes at 11:59am on 30 September 2026. It is run by DE on behalf of the RE Drafting Group, chaired by Professor Noel Purdy: twelve experienced RE specialist teachers who have met formally seven times since 13 April 2026, alongside a Church Consultative Group of three representatives nominated by the Chairperson of the Council for Catholic Maintained Schools and three by the Transferors Representative Council. The review was commissioned after the Supreme Court judgment of 19 November 2025 in the JR87 case, which concerned Article 2 of the First Protocol read with Article 9 of the ECHR. Colton J found that the existing core syllabus "does not provide for religious education in an objective, critical and pluralistic manner", and that finding was upheld on appeal. CitizenGO has standing on this issue. Our petition 17165, Protect Christian Teaching in Northern Ireland Schools, ran from November 2025 to March 2026 and took **96,328 signatures net of duplicates**, recruiting 29,509 new audience members and reactivating 8,709. It grew NI membership from roughly 1,000 to about 11,500 and raised approximately EUR 4,400. DUP MLA for Belfast East David Brooks formally presented it in the Northern Ireland Assembly on 9 March 2026. The campaign ended in a written commitment from Education Minister Paul Givan: that the syllabus would be revised to comply with the judgment but Christianity would remain central; that parents' rights matter, "including clear and practical arrangements for withdrawal"; and that there would be stronger oversight of how RE is delivered in schools. Our published report-back promised supporters we would "continue to monitor developments closely to ensure the Education Minister's commitments are kept". This consultation is the deliverable those commitments were made about.
 
 **What is the key point of injustice that is at stake here?**
 
-[CAMPAIGNER: draft needed]
+A minister gave nearly a hundred thousand people his word in writing. The part of that promise that cost him nothing, keeping Christianity nominally central, has been kept. The part that actually protects a family, a clear and practical right to withdraw their own child, has not appeared, and the consultation has been scoped so it cannot even be raised inside it. Meanwhile the first encounter a four-year-old in a Northern Irish school has with religion will no longer simply be the faith of their own family.
 
 ## Prepare phase prompts
 
 **What are some arguments supporting our point of view?**
 
-[CAMPAIGNER: draft needed]
+The Minister's commitment is documented and was made in direct response to our petition. We are not asking for a new concession, only for one already given.
+
+The Supreme Court required RE to be objective, critical and pluralistic. It did not require the removal of a parental opt-out. A robust withdrawal right is in fact how such judgments are ordinarily reconciled with parents' rights under the European Convention, so asking for it strengthens rather than resists compliance.
+
+The Drafting Group has read the judgment as requiring pluralism from Foundation Stage onward. Nothing in the judgment compels that, and the age at which comparative content begins is a legitimate matter for this consultation.
+
+Children form a secure understanding of their own tradition before they can meaningfully compare it with others. Introducing multiple worldviews at four does not produce critical thinking. It produces confusion.
+
+Parents, not the Department, are the primary educators of their children. That is the principle we are defending.
 
 **Why is it urgent that we take action now?**
 
-[CAMPAIGNER: draft needed]
+The consultation closes at 11:59am on 30 September 2026. Once it closes, the syllabus goes forward to be made as statutory content, and the chance to secure a withdrawal provision on the face of it is gone. There is no second consultation.
 
 **Describe a bad outcome if we do not win this campaign:**
 
-[CAMPAIGNER: draft needed]
+The syllabus is made with no withdrawal provision on its face and no published arrangements. Parents who object are left relying on old statute and individual school discretion, which in practice means the opt-out exists on paper and is difficult to exercise. Comparative worldview teaching begins at four. And our own supporters learn that a ministerial commitment secured by a hundred thousand signatures can quietly go unfulfilled, which damages every future campaign we run in Northern Ireland.
 
 **Describe a good outcome if we do win this campaign:**
 
-[CAMPAIGNER: draft needed]
+Withdrawal arrangements are published alongside the syllabus in terms a parent can actually use, comparative content starts no earlier than Key Stage 2, and the promised oversight arrangements are set out. We will have shown something more valuable than a single policy change: that CitizenGO follows through, that a commitment made to our members is a commitment we come back and collect on, and that Northern Ireland is ground we hold rather than visit.
 
 **Which sources do you want to include? Please provide the titles plus URLs:**
 
@@ -73,7 +81,34 @@ https://consultations.nidirect.gov.uk/de/re-syllabus-consultation/ | https://par
 
 **What should the image for this campaign look like?**
 
-[CAMPAIGNER: draft needed]
+A young child, four or five years old, sitting close to a parent with an open children's Bible between them, warm domestic light. The feeling should be of something small and precious being handed on within a family. Avoid classroom imagery, and avoid anything that reads as anti-Muslim or anti-Jewish. This campaign is about who decides what a small child is taught first, not about other faiths.
+
+## Risks and handling notes
+
+**Do not run "Givan broke his promise on Christianity".** It is not supportable. The
+Terms of Reference required Christianity to be retained as the central focus, the draft
+calls Christianity "the core element", and the Minister's own public line is that the
+syllabus "recognises the central place of Christianity in Northern Ireland's history,
+culture and society". A betrayal framing invites a documented rebuttal, costs us the
+Brooks relationship and the Minister's office, and would be the one way to lose a
+campaign we should win.
+
+**Do not attack the Supreme Court judgment or the pluralism requirement itself.** It
+is settled law and the Minister has no discretion over it. The discretion he does have
+is over the age at which comparative teaching begins and over withdrawal arrangements,
+which is exactly where our asks sit.
+
+**Two things to verify before launch.** First, read the EQIA on withdrawal. It is
+blocked to automated fetching, so it needs opening by hand; if it does address opting
+out, our first ask must be reworded to reflect that. Second, confirm what the
+Education and Libraries (Northern Ireland) Order 1986 already provides on withdrawal,
+so we are asking for arrangements that are genuinely absent rather than restating
+existing statute.
+
+**Tone.** Lead by crediting the Minister for keeping the central-place commitment,
+then press on the two that are outstanding. This is a "hold him to his word"
+campaign, not an attack, and it reads better to an NI audience that saw us win here
+six months ago.
 
 ## Red Fox Four (scores are the campaigner's call)
 
