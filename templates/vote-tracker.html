@@ -1276,9 +1276,16 @@ function renderMP(id){
     // voted against that party's majority. Voting against the majority on a
     // free vote is conviction, not rebellion, and is not renamed.
     const rebel = against && whipFor(d, m).label === "whipped";
-    return `<span class="pmark${against ? " against" : ""}">${
-      rebel ? "rebelled \u2014 " : ""}${
-      against ? "against" : "with"} ${pr.mine} of ${pr.ayes + pr.noes} ${abbr}</span>`;
+    // Voting WITH the party majority is not printed (Christopher,
+    // 2026-08-31: "cut the additional by party votes" -- that clause is
+    // analysis data for 5CA targeting, not page furniture). AGAINST is the
+    // one-in-five case the page exists to surface, and it stays -- an MP
+    // willing to defy the room on a free vote is exactly who the 5CA wants
+    // to find.
+    if (!against) return "";
+    return `<span class="pmark against">${
+      rebel ? "rebelled \u2014 " : ""}against ${pr.mine} of ${
+      pr.ayes + pr.noes} ${abbr}</span>`;
   };
 
 
@@ -1370,6 +1377,25 @@ function renderMP(id){
       </div>`;
   };
 
+  // Option F (Christopher, 2026-08-31): an OPEN landmark stage is one line
+  // under its stage row -- lobby, result, tally, official link. The meaning
+  // sentence ("Supported the Bill continuing...") moves to the line's
+  // tooltip, and the margin bar goes: "Passed by 55" carries the same fact
+  // in two words. The card above and the fold below keep their full detail;
+  // this reclaims ~700px per bill without hiding a figure.
+  const compactVote = (d) => {
+    const vi = voteInfo(m, d);
+    const plain = vi.text.replace(/<[^>]*>/g, "");
+    return `<div class="sbody">
+      <div class="sout" title="${esc(plain)}">${
+        vi.lobby ? esc(vi.lobby) + " · " : ""}${outcome(d)}${
+        whipHere() ? " · " + whipChip(d, m) : ""}${
+        relativeToParty(d, vi) ? " · " + relativeToParty(d, vi) : ""
+        } · <a class="official" href="${d.url}" target="_blank"
+        rel="noopener">official record <span class="arrow">&#8599;</span></a></div>
+    </div>`;
+  };
+
   const miniVote = (d) => {
     const vi = voteInfo(m, d);
     return `<div class="amrow">
@@ -1387,7 +1413,7 @@ function renderMP(id){
         </div></div>`;
   };
 
-  const stageNode = (node) => {
+  const stageNode = (node, open) => {
     const many = node.divs.length > 1;
     // A stage with several divisions gets a one-line verdict summary, so a
     // reader sees "5 votes, all good" without counting chips.
@@ -1419,7 +1445,7 @@ function renderMP(id){
                    fmtD(node.divs[0].date)}</span>`}
       </div>
       ${many ? `<div class="amend">${node.divs.map(miniVote).join("")}</div>`
-             : fullVote(node.divs[0])}
+             : open ? compactVote(node.divs[0]) : fullVote(node.divs[0])}
     </div>`;
   };
 
@@ -1586,7 +1612,7 @@ function renderMP(id){
     const shown = nodes.filter(n => isOpenNode(n, g));
     const hidden = nodes.filter(n => !isOpenNode(n, g));
     rows += `<section class="billblock">${cardHead(g)}
-      ${shown.length ? `<div class="passage">${shown.map(stageNode).join("")}</div>` : ""}
+      ${shown.length ? `<div class="passage">${shown.map(n => stageNode(n, true)).join("")}</div>` : ""}
       ${hidden.length ? journeyDetails(hidden) : ""}
     </section>`;
   }

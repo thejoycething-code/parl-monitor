@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "partner-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8471", "-d", "partner_site"],
+      "port": 8471
+    }
+  ]
+}

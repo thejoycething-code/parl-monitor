@@ -1118,7 +1118,8 @@ class JourneyDisclosureTests(unittest.TestCase):
         # the renderers that carry the detail must all still exist and be called
         for fn in ("miniVote", "fullVote", "saidNode", "stageNode"):
             self.assertIn("const " + fn, text)
-        for call in ("hidden.map(n =>", "shown.map(stageNode)"):
+        # since Option F (2026-08-31) the open stages pass the compact flag
+        for call in ("hidden.map(n =>", "shown.map(n => stageNode(n, true))"):
             self.assertIn(call, text)
         # and every detail-bearing part is still rendered inside the disclosure
         flat = " ".join(text.split())
@@ -1323,6 +1324,32 @@ class RecordLastTests(unittest.TestCase):
         self.assertLess(block.index("relativeToParty"), block.index("recordlast"))
 
 
+class CompactLandmarkTests(unittest.TestCase):
+    """Option F (Christopher, 2026-08-31): an open landmark stage under the
+    card is one line -- lobby, result, tally, official link -- with the
+    meaning sentence in the tooltip and no margin bar. The fold keeps full
+    detail on every row ("I still want the level of detail we have",
+    2026-08-27, is about the fold and stays honoured there)."""
+
+    def test_open_stages_compact_and_the_fold_keeps_full_detail(self):
+        flat = " ".join(template().split())
+        self.assertIn("stageNode(n, true)", flat)
+        block = flat[flat.index("const stageNode"):]
+        self.assertIn("open ? compactVote(node.divs[0]) : "
+                      "fullVote(node.divs[0])", block)
+        fold = flat[flat.index("const journeyDetails"):flat.index("let band")]
+        self.assertIn("stageNode(n)).join", fold)
+
+    def test_the_compact_line_keeps_the_figures_and_tooltips_the_meaning(self):
+        flat = " ".join(template().split())
+        block = flat[flat.index("const compactVote"):flat.index("const miniVote")]
+        self.assertIn('title="${esc(plain)}"', block)
+        self.assertIn("outcome(d)", block)
+        self.assertIn("official record", block)
+        self.assertNotIn("ssent", block)
+        self.assertNotIn("barHTML", block)
+
+
 class PartyPhraseFoldedTests(unittest.TestCase):
     """The party comparison lives in the meta line, not on its own.
 
@@ -1352,12 +1379,19 @@ class PartyPhraseFoldedTests(unittest.TestCase):
         self.assertIn("PARTY_ABBR[pr.name] || pr.name", block)
         self.assertNotIn("MPs (", block, "no pluralised party names")
 
-    def test_it_says_with_or_against(self):
-        """"against" happens on 1,365 of 6,585 cast votes, about one in
-        five, and is the interesting case on a page like this."""
+    def test_only_against_is_printed(self):
+        """Christopher, 2026-08-31: "cut the additional by party votes" --
+        "with 234 of 381 Lab" is analysis data for 5CA targeting, not page
+        furniture. "against" (1,365 of 6,585 cast votes, about one in five)
+        stays: an MP willing to defy the room on a free vote is exactly who
+        the 5CA wants to find. So does "splitting", the even-split case."""
         flat = " ".join(template().split())
-        block = flat[flat.index("const relativeToParty"):]
-        self.assertIn('against ? "against" : "with"', block)
+        block = flat[flat.index("const relativeToParty"):
+                     flat.index("const whipUniform")]
+        self.assertIn('if (!against) return "";', block)
+        self.assertIn('"pmark against">', block)
+        self.assertIn("splitting", block)
+        self.assertNotIn('"with"', block)
 
     def test_against_is_not_a_verdict_colour(self):
         """A fourth green/red vocabulary is the thing this page keeps having

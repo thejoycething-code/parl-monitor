@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Record card: compact options</title>
+<style>
+:root{--red:#e0342e;--green:#2fa04a;--ink:#4a5058;--line:#e8eaee;--blue:#1c5dc9;
+--grey:#9aa1a9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+background:#f4f5f7;color:#20242a;padding:34px 16px 80px;max-width:860px;margin:0 auto}
+h1{font-size:22px;font-weight:500;margin-bottom:6px}
+.note{font-size:13.5px;color:var(--ink);max-width:74ch;margin-bottom:26px}
+.optlbl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+color:#8a919a;margin:38px 0 6px}
+.optsub{font-size:13px;color:var(--ink);margin-bottom:12px;max-width:74ch}
+.card{background:#fff;border:1px solid #eef0f3;border-radius:12px;
+box-shadow:0 1px 3px rgba(16,24,40,.08);padding:15px 18px;margin-bottom:10px}
+.badchip{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;
+letter-spacing:.05em;color:#fff;background:var(--red);border-radius:5px;padding:4px 9px;
+white-space:nowrap}
+.badchip .fv{font-weight:400;opacity:.9;border-left:1px solid rgba(255,255,255,.4);
+padding-left:7px;letter-spacing:.02em}
+.ttl{font-size:16.5px;font-weight:500;line-height:1.3}
+.stg{color:#8b9199;font-weight:400;font-size:13px}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+.off:after{content:" \2197";font-size:10px}
+.meta{font-size:12px;color:var(--grey)}
+summary{cursor:pointer;list-style:none;font-size:12px;font-weight:500;color:var(--blue)}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"\25B8";font-size:10px;margin-right:6px}
+details[open]>summary:before{content:"\25BE"}
+.inner{font-size:13px;color:var(--ink);padding:10px 2px 2px}
+/* ---- A ---- */
+.a-head{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.a-head .ttl{flex:1 1 320px}
+.a-status{font-size:12.5px;color:var(--ink);margin:7px 0 9px;font-style:italic}
+.a-row{display:flex;gap:9px;align-items:baseline;flex-wrap:wrap;font-size:13px;
+padding:7px 0;border-top:1px solid var(--line)}
+.a-x{font-weight:700;color:var(--red);font-size:12px;flex:0 0 12px}
+.a-sname{font-weight:500;color:#23282f}
+.a-res{color:var(--ink)}
+.a-res b{font-weight:600;color:var(--red)}
+.a-foot{border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+/* ---- B ---- */
+.b-line1{display:flex;gap:11px;align-items:baseline;flex-wrap:wrap}
+.b-counts{font-size:12px;color:var(--grey);white-space:nowrap}
+/* ---- C ---- */
+.c-strip{display:flex;gap:5px;align-items:center;margin:9px 0 7px}
+.c-dot{width:13px;height:13px;border-radius:50%;background:var(--red);position:relative}
+.c-dot.lbl{outline:2px solid #fff;box-shadow:0 0 0 3px rgba(224,52,46,.35)}
+.c-cap{font-size:11px;color:var(--grey);margin-left:7px}
+.c-stages{display:flex;gap:22px;flex-wrap:wrap;font-size:12.5px;margin-top:6px}
+.c-stages .s b{color:var(--red);font-weight:600}
+.c-stages .s span{color:var(--grey)}
+/* ---- D ---- */
+table{border-collapse:collapse;width:100%;margin-top:9px;font-size:12.5px}
+td,th{padding:6px 10px 6px 0;border-top:1px solid var(--line);text-align:left;
+vertical-align:baseline}
+th{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+color:#8a919a;border-top:none;padding-bottom:2px}
+.d-vote{color:var(--red);font-weight:600;white-space:nowrap}
+.d-more td{color:var(--grey)}
+.mini{display:inline-block;width:64px;height:4px;background:#eceef1;border-radius:2px;
+vertical-align:middle;margin-left:7px}
+.mini i{display:block;height:4px;background:var(--red);border-radius:2px}
+</style></head><body>
+
+<h1>The record: one Bill, four compact treatments</h1>
+<p class="note">The current card spends ~1,100px on this Bill. Common moves in all four:
+the verdict tile becomes a chip on the title row; &ldquo;Kim Leadbeater voted Aye&rdquo;
+goes (the chip already says it, on her own page); the official record link moves onto the
+result figures; the long status prose is clamped or folded. Real data throughout.</p>
+
+<!-- ================= OPTION A ================= -->
+<div class="optlbl">Option A &mdash; chip + one-line stages (~260px)</div>
+<p class="optsub">Everything stays visible, nothing repeats. Each headline division is one
+line; the margin bar becomes words (&ldquo;by 55&rdquo; carries the same fact). Status
+prose keeps one italic line and truncates.</p>
+<div class="card">
+  <div class="a-head">
+    <div>
+      <div class="meta" style="margin-bottom:4px">AT THIRD READING &middot; 20 Jun 2025</div>
+      <div class="ttl">Terminally Ill Adults (End of Life) Bill</div>
+    </div>
+    <span class="badchip">BAD VOTE &middot; AYE <span class="fv">FREE VOTE</span></span>
+  </div>
+  <div class="a-status">Passed all Commons stages, given a Second Reading in the Lords,
+  but ran out of time and fell when the session ended in April 2026. <a href="#">more</a></div>
+  <div class="a-row"><span class="a-x">&#10007;</span>
+    <span class="a-sname">Second Reading</span><span class="meta">29 Nov 2024</span>
+    <span class="a-res">Aye &mdash; <b>passed by 55</b>, <a class="off" href="#">330 to 275</a> &middot; 234 of 381 Lab</span></div>
+  <div class="a-row"><span class="a-x">&#10007;</span>
+    <span class="a-sname">Third Reading</span><span class="meta">20 Jun 2025</span>
+    <span class="a-res">Aye &mdash; <b>passed by 23</b>, <a class="off" href="#">314 to 291</a> &middot; 224 of 384 Lab</span></div>
+  <details class="a-foot"><summary>What happened in between &mdash; 5 further votes, 5 bad &middot; 2 quotes &middot; spoke in 27 sittings</summary>
+    <div class="inner">(the existing in-between spine, unchanged)</div></details>
+</div>
+
+<!-- ================= OPTION B ================= -->
+<div class="optlbl">Option B &mdash; one line closed, full record behind the fold (~90px)</div>
+<p class="optsub">The card is a single summary line; the whole passage &mdash; headline
+stages included &mdash; lives in one disclosure. Smallest footprint, one click to any
+detail.</p>
+<div class="card">
+  <div class="b-line1">
+    <span class="badchip">BAD VOTE &middot; AYE <span class="fv">FREE</span></span>
+    <span class="ttl" style="flex:1 1 300px">Terminally Ill Adults (End of Life) Bill
+      <span class="stg">&middot; fell April 2026</span></span>
+    <span class="b-counts">7 votes &middot; 7 bad &middot; 27 sittings</span>
+  </div>
+  <details style="margin-top:9px;border-top:1px solid var(--line);padding-top:7px">
+    <summary>Full record &mdash; Second Reading, Third Reading, 5 further votes, 2 quotes</summary>
+    <div class="inner">(the existing passage spine, unchanged, including status prose)</div>
+  </details>
+</div>
+
+<!-- ================= OPTION C ================= -->
+<div class="optlbl">Option C &mdash; vote strip (~200px)</div>
+<p class="optsub">Seven votes become seven dots &mdash; the shape of the record at a
+glance (all red is itself the story). Headline stages sit beneath as compact figures;
+each dot links to its division.</p>
+<div class="card">
+  <div class="a-head">
+    <div>
+      <div class="ttl">Terminally Ill Adults (End of Life) Bill</div>
+      <div class="meta" style="margin-top:3px">Fell at the end of the session, April 2026 &middot; free votes</div>
+    </div>
+    <span class="badchip">BAD VOTE &middot; AYE</span>
+  </div>
+  <div class="c-strip">
+    <span class="c-dot lbl" title="2R"></span><span class="c-dot" title="Cmte"></span>
+    <span class="c-dot" title="Report"></span><span class="c-dot" title="Report"></span>
+    <span class="c-dot" title="Report"></span><span class="c-dot" title="Report"></span>
+    <span class="c-dot lbl" title="3R"></span>
+    <span class="c-cap">7 votes, all supporting the Bill &middot; ringed: the readings</span>
+  </div>
+  <div class="c-stages">
+    <span class="s"><b>&#10007; 2nd Reading</b> <a class="off" href="#">330&ndash;275</a> <span>&middot; by 55 &middot; 29 Nov 2024</span></span>
+    <span class="s"><b>&#10007; 3rd Reading</b> <a class="off" href="#">314&ndash;291</a> <span>&middot; by 23 &middot; 20 Jun 2025</span></span>
+  </div>
+  <details style="margin-top:10px;border-top:1px solid var(--line);padding-top:7px">
+    <summary>Every vote, and what she said &mdash; 2 quotes from debate</summary>
+    <div class="inner">(the existing spine)</div></details>
+</div>
+
+<!-- ================= OPTION D ================= -->
+<div class="optlbl">Option D &mdash; ledger table (~250px)</div>
+<p class="optsub">The record as a register: one row per headline stage, the in-between
+votes rolled into one expandable row. Densest treatment that keeps every figure visible;
+scales best if a Bill ever has many recorded stages.</p>
+<div class="card">
+  <div class="a-head">
+    <div class="ttl">Terminally Ill Adults (End of Life) Bill
+      <span class="stg">&middot; fell April 2026</span></div>
+    <span class="badchip">BAD VOTE &middot; AYE <span class="fv">FREE VOTE</span></span>
+  </div>
+  <table>
+    <tr><th>Stage</th><th>Date</th><th>Her vote</th><th>Result</th></tr>
+    <tr><td>Second Reading</td><td class="meta">29 Nov 2024</td>
+      <td class="d-vote">&#10007; Aye</td>
+      <td><a class="off" href="#">330&ndash;275</a>, by 55<span class="mini"><i style="width:55%"></i></span></td></tr>
+    <tr><td>Third Reading</td><td class="meta">20 Jun 2025</td>
+      <td class="d-vote">&#10007; Aye</td>
+      <td><a class="off" href="#">314&ndash;291</a>, by 23<span class="mini"><i style="width:52%"></i></span></td></tr>
+    <tr class="d-more"><td colspan="4"><details><summary>5 further votes &mdash; 5 bad &middot; 2 quotes &middot; spoke in 27 sittings</summary>
+      <div class="inner">(the existing spine)</div></details></td></tr>
+  </table>
+</div>
+
+<p class="note" style="margin-top:30px">Mixable: B&rsquo;s one-line card could apply only
+to <i>fallen</i> bills (this one is dead; the live card stays fuller), with A or D for
+live bills. Say which &mdash; or which halves of which.</p>
+</body></html>
