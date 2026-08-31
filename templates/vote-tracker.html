@@ -448,6 +448,19 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .nextline{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;
   color:var(--blue-deep);background:var(--blue-tint);border:1px solid #cfe0fc;
   border-radius:4px;padding:3px 9px;margin:1px 0 6px}
+/* --- coming up strip (2026-08-31): the next dated events on our bills,
+   between the hero and the search. A headline band, not a calendar. */
+.comingup{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px 12px;
+  margin:18px 0 0;padding:11px 16px;background:var(--blue-tint);
+  border:1px solid #cfe0fc;border-radius:8px;font-size:13.5px;color:#3d5a86}
+.cu-label{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--blue-deep)}
+.cu-item b{font-weight:500;color:#23282f}
+.cu-sep{color:#9db8de}
+/* the declared-interests line and APPG pills in the hero */
+.seatline a.reglink{color:#fff;font-weight:500;text-decoration:underline}
+.seatline a.reglink:hover{color:#fff}
+.rolepill.appgpill{background:rgba(255,255,255,.32);color:#fff}
+
 /* --- act CTA (2026-08-31): renders only when an issue carries a configured
    action in config/vote_tracker.yaml; nothing is configured, so this ships
    dark until a live action exists. */
@@ -475,6 +488,8 @@ details.journey > .passage{border-bottom:none;border-radius:0}
   <p class="sub">Most votes we track are <b>free votes</b> &mdash; no party instruction, so each member voted by conviction. A few were whipped, and every card says which. All are taken from the official division lists of the House of Commons.
   Search by postcode, constituency, or MP name to see exactly where your representative stood.</p>
 </header>
+
+<div id="comingup"></div>
 
 <div class="searchbox">
   <label for="q">Find your MP &mdash; or a peer</label>
@@ -699,6 +714,29 @@ function postLine(m){
   if (!held.length)
     return `<div class="postline quiet">Backbencher</div>`;
   return `<div class="postline">${esc(held.slice(0, 2).join(" \u00b7 "))}</div>`;
+}
+
+function appgPills(m){
+  // An APPG office is a fact from the public register, worded as the
+  // register words it. These groups are where our issues get organised --
+  // the Dying Well chair matters more to a reader of this page than most
+  // select committees -- so they sit with the committee pills.
+  const gs = m.appg || [];
+  if (!gs.length) return "";
+  return `<div class="rolepills">${gs.map(x =>
+    `<span class="rolepill appgpill" title="All-Party Parliamentary Group office, from the official register">${
+      esc(x.r.toUpperCase())}, ${esc(x.g.toUpperCase())} APPG</span>`).join("")}</div>`;
+}
+
+function interestsLine(m){
+  // A COUNT and the official register link, never the detail: the page
+  // points at what Parliament itself publishes rather than re-publishing
+  // it with our name on the selection.
+  if (!m.interests) return "";
+  return `<div class="seatline">${m.interests} declared interest${
+    m.interests > 1 ? "s" : ""} on the register · <a class="reglink"
+    href="https://members.parliament.uk/member/${m.id}/registeredinterests"
+    target="_blank" rel="noopener">Official register ↗</a></div>`;
 }
 
 function committeePills(m){
@@ -1504,7 +1542,9 @@ function renderMP(id){
         </div>
         ${postLine(m)}
         ${seatLine(m)}
+        ${interestsLine(m)}
         ${committeePills(m)}
+        ${appgPills(m)}
       </div>
       <div class="rightcol">
         ${contactColumn(m)}
@@ -1600,6 +1640,12 @@ document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("cli
 document.getElementById("home").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
 
 /* ---------- boot ---------- */
+const cu = DATA.coming_up || [];
+if (cu.length) document.getElementById("comingup").innerHTML =
+  `<div class="comingup"><span class="cu-label">COMING UP</span>${
+    cu.map(e => `<span class="cu-item"><b>${esc(e.title)}</b> — ${
+      esc(e.stage)}, ${esc(e.house)}, ${fmtD(e.date)}</span>`)
+      .join(`<span class="cu-sep">·</span>`)}</div>`;
 const h = location.hash.match(/^#mp-(\d+)$/);
 if (h && byId[+h[1]]) renderMP(+h[1]); else renderEmpty();
 </script>

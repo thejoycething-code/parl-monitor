@@ -1,0 +1,73 @@
+{
+  "edition": "2026-06-29",
+  "source": "https://publications.parliament.uk/pa/cm/cmallparty/260629/",
+  "note": "Scraped via browser session 2026-08-31. publications.parliament.uk sits behind a Cloudflare JS challenge, so CI cannot fetch it and the Wayback Machine holds no copy; this file is the committed source of record, refreshed by hand when a new register edition appears (roughly six-weekly).",
+  "groups": {
+    "dying-well": {
+      "title": "All-Party Parliamentary Group on Dying Well",
+      "purpose": "To promote excellence in palliative care for all to meet their needs and prevent the legalisation of doctor assisted suicide and euthanasia.",
+      "category": "Subject Group",
+      "officers": [
+        {"role": "Chair & Registered Contact", "name": "Rachael Maskell", "party": "Labour (Co-op)"},
+        {"role": "Co-Chair", "name": "Baroness Finlay of Llandaff", "party": "Crossbench"},
+        {"role": "Officer", "name": "Baroness Fraser of Craigmaddie", "party": "Conservative"},
+        {"role": "Officer", "name": "Antonia Bance", "party": "Labour"}
+      ]
+    },
+    "choice-at-the-end-of-life": {
+      "title": "All-Party Parliamentary Group for Choice at the End of Life",
+      "purpose": "To improve the experience of dying in the UK by promoting and expanding people's choices at the end of life. To promote a change in the law to allow the choice of assisted dying for terminally ill, mentally competent adults.",
+      "category": "Subject Group",
+      "officers": [
+        {"role": "Chair & Registered Contact", "name": "Kevin McKenna", "party": "Labour"},
+        {"role": "Co-Chair", "name": "Kit Malthouse", "party": "Conservative"},
+        {"role": "Officer", "name": "Christine Jardine", "party": "Liberal Democrat"},
+        {"role": "Officer", "name": "Baroness Young of Old Scone", "party": "Non-affiliated"}
+      ]
+    },
+    "hospice-and-end-of-life-care": {
+      "title": "All-Party Parliamentary Group on Hospice and End of Life Care",
+      "purpose": "To raise awareness and promote the needs of adults and children living with terminal or life-limiting conditions, and their families and carers, in parliament; and to promote person-centred, evidence-based policies to improve end of life care in all settings, including hospices, hospitals, care homes, and in people's own homes.",
+      "category": "Subject Group",
+      "officers": [
+        {"role": "Chair & Registered Contact", "name": "Anna Dixon", "party": "Labour"},
+        {"role": "Co-Chair", "name": "Baroness Finlay of Llandaff", "party": "Crossbench"},
+        {"role": "Officer", "name": "Luke Taylor", "party": "Liberal Democrat"},
+        {"role": "Officer", "name": "Paul Holmes", "party": "Conservative"}
+      ]
+    },
+    "pro-life": {
+      "title": "All-Party Parliamentary Pro-Life Group",
+      "purpose": "To provide a forum for discussion of pro-life issues including abortion, euthanasia and research upon the human embryo.",
+      "category": "Subject Group",
+      "officers": [
+        {"role": "Chair & Registered Contact", "name": "Carla Lockhart", "party": "Democratic Unionist Party"},
+        {"role": "Co-Chair", "name": "Baroness Eaton", "party": "Conservative"},
+        {"role": "Officer", "name": "Sir Desmond Swayne", "party": "Conservative"},
+        {"role": "Officer", "name": "Baroness Ritchie of Downpatrick", "party": "Labour"}
+      ]
+    },
+    "humanist": {
+      "title": "All-Party Parliamentary Humanist Group",
+      "purpose": "To bring together non-religious MPs and peers to discuss matters of shared interests.",
+      "category": "Subject Group",
+      "officers": [
+        {"role": "Chair & Registered Contact", "name": "Lizzi Collinge", "party": "Labour"},
+        {"role": "Officer", "name": "Christine Jardine", "party": "Liberal Democrat"},
+        {"role": "Officer", "name": "Siân Berry", "party": "Green Party"},
+        {"role": "Officer", "name": "Dr Kieran Mullan", "party": "Conservative"}
+      ]
+    },
+    "christians-in-parliament": {
+      "title": "Christians in Parliament All-Party Parliamentary Group",
+      "purpose": "To support Christians of all denominations and parties in their work in politics.",
+      "category": "Subject Group",
+      "officers": [
+        {"role": "Chair & Registered Contact", "name": "Tim Farron", "party": "Liberal Democrat"},
+        {"role": "Officer", "name": "Marsha De Cordova", "party": "Labour"},
+        {"role": "Officer", "name": "Rebecca Smith", "party": "Conservative"},
+        {"role": "Officer", "name": "Lord Farmer", "party": "Conservative"}
+      ]
+    }
+  }
+}

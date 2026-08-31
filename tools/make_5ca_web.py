@@ -215,9 +215,13 @@ function render(){
   const nameCell = r => PP
       ? '<a href="' + PP + r.m.i + '">' + r.m.n + '</a>'
       : r.m.n;
+  const loyalty = m => m.al == null ? "" :
+      ' \u00b7 ' + m.al + '% with party' +
+      (m.df ? ', defied whip \u00d7' + m.df : '') +
+      (m.tu != null ? ', voted in ' + m.tu + '%' : '');
   const body = rows.length ? '<tbody>' + rows.map(r =>
       '<tr class="' + CLS[r.c] + '"><td class="dm">' + nameCell(r) +
-      conf(r) + '<span>' + r.m.p + ', ' + r.m.s + '</span></td>' +
+      conf(r) + '<span>' + r.m.p + ', ' + r.m.s + loyalty(r.m) + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
       '<td class="c"></td></tr>').join("") + '</tbody>' : "";
@@ -344,6 +348,25 @@ def main():
       if not areas:
           print("no areas to render for the {0}".format(house))
           continue
+      # Whole-record loyalty, from mp_alignment (every Commons division of
+      # this Parliament, via tools/pull_division_rolls.py). Christopher,
+      # 2026-08-31: alignment and willingness to defy a whip belong in the
+      # 5CA -- a target who has already defied their whip is a different
+      # prospect from one who never has. Facts from the public record, so
+      # both the internal and partner builds carry them; peers have no
+      # Commons rolls and simply get no fields.
+      align = {str(r["member_id"]): r for r in conn.execute(
+          "SELECT member_id, eligible, voted, with_party, against_party, "
+          "defied FROM mp_alignment")}
+      for mid, m in members.items():
+          a = align.get(mid)
+          if not a or not (a["with_party"] + a["against_party"]):
+              continue
+          m["al"] = round(100 * a["with_party"]
+                          / (a["with_party"] + a["against_party"]))
+          m["df"] = a["defied"]
+          if a["eligible"]:
+              m["tu"] = round(100 * a["voted"] / a["eligible"])
       # Confidence is internal-only (Christopher, 2026-08-11): the tiers grade
       # our own classifier's certainty, which is a working note, not something
       # the partner build - public this week - should carry. The partner

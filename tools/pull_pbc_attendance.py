@@ -115,10 +115,22 @@ def parse_roster(items):
     return rows if inside else None
 
 
-def resolve(conn):
-    """{normalised name: member_id}, ambiguous names resolved to None."""
+def resolve(conn, prefer_current=False):
+    """{normalised name: member_id}, ambiguous names resolved to None.
+
+    prefer_current=True breaks a tie in favour of the one SITTING member of
+    that name -- right for a source that can only name sitting members,
+    like the current APPG register (its "Paul Holmes" is the Hamble Valley
+    Conservative, not the Chesterfield Lib Dem who left in 2010). It stays
+    OFF for the PBC rosters: a 2025 roster names members current THEN, and
+    one who has since left must not resolve to a current namesake.
+    """
     index = {}
-    for row in conn.execute("SELECT id, name, list_as FROM members"):
+    current = {}
+    for row in conn.execute(
+            "SELECT id, name, list_as, "
+            "COALESCE(current_mp, 0) + COALESCE(current_peer, 0) AS sitting "
+            "FROM members"):
         for form in (row["name"], row["list_as"]):
             if not form:
                 continue
@@ -130,6 +142,15 @@ def resolve(conn):
                 index[key] = None          # two members, one name: no claim
             else:
                 index[key] = row["id"]
+            if row["sitting"]:
+                if key in current and current[key] != row["id"]:
+                    current[key] = None    # two SITTING members share it
+                else:
+                    current[key] = row["id"]
+    if prefer_current:
+        for key, val in index.items():
+            if val is None and current.get(key) is not None:
+                index[key] = current[key]
     return index
 
 

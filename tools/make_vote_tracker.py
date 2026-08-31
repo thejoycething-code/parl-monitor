@@ -341,6 +341,26 @@ def party_line(splits, floor=20, share=0.98):
 
 
 
+def appg_short(title):
+    """'All-Party Parliamentary Group on Dying Well' -> 'Dying Well'.
+
+    The register's titles put the boilerplate in three different places
+    ('... Group on X', '... Pro-Life Group', 'X All-Party Parliamentary
+    Group'), so this strips the phrase wherever it sits rather than
+    pattern-matching one arrangement.
+    """
+    t = re.sub(r"\bAll-Party Parliamentary\b", "", title or "")
+    t = re.sub(r"\bGroup\b", "", t)
+    t = re.sub(r"^\s*(?:on|for)\b", "", " ".join(t.split()))
+    return " ".join(t.split()).strip(" -")
+
+
+def appg_role(role):
+    """'Chair & Registered Contact' -> 'Chair': the registered-contact half
+    is register plumbing, not a parliamentary office."""
+    return (role or "").split("&")[0].strip()
+
+
 # The four ledger areas the page's six issues live in, with public labels.
 RECORD_AREAS = {1: "Abortion", 2: "Assisted suicide",
                 6: "Parental rights and education",
@@ -984,6 +1004,26 @@ def build(conn, cfg, payloads):
         if cont:
             seat[row["member_id"]]["continuous"] = cont
 
+    # Declared interests: a COUNT and the official link, nothing more. The
+    # detail (donor, value) stays in the store for campaign research; the
+    # public page points at the register Parliament itself publishes,
+    # which is both lighter and unarguable (Christopher, 2026-08-31).
+    interests = {r["member_id"]: r["n"] for r in conn.execute(
+        "SELECT member_id, COUNT(*) AS n FROM member_interest "
+        "GROUP BY member_id")}
+
+    # APPG offices from the LATEST register edition only -- the register is
+    # a snapshot, and an office held in a superseded edition is history,
+    # not a current fact. Unresolved names (member_id NULL) never reach a
+    # page: a pill must belong to the member whose page it is on.
+    appg = {}
+    for row in conn.execute(
+            "SELECT member_id, group_name, role FROM appg_officers "
+            "WHERE edition = (SELECT MAX(edition) FROM appg_officers) "
+            "AND member_id IS NOT NULL ORDER BY group_name"):
+        appg.setdefault(row["member_id"], []).append(
+            {"g": appg_short(row["group_name"]), "r": appg_role(row["role"])})
+
     # PEERS, added 2026-08-29. The store already held 50,066 peer events,
     # 49,655 of them classified onto our areas, and the page published none
     # of it -- while the Bill this campaign is about died in the Lords.
@@ -1032,6 +1072,8 @@ def build(conn, cfg, payloads):
             "posts": posts.get(r["id"]) or {},
             "seat": seat.get(r["id"]) or {},
             "role": role, "votes": votes.get(r["id"], {}),
+            "interests": interests.get(r["id"], 0),
+            "appg": appg.get(r["id"], []),
         })
 
     raw = quotes.RawHansard(ROOT)
@@ -1059,8 +1101,24 @@ def build(conn, cfg, payloads):
     print("members: {0} MPs + {1} peers ({2} peer(s) dropped as empty)".format(
         len(members) - peers_kept, peers_kept, dropped))
 
+    # The forward strip: the next few dated events on OUR bills, from the
+    # weekly board -- every row on it is a tracked bill, so no further
+    # filter is needed. Bounded to four: a strip is a headline, not a
+    # calendar -- and four rather than three because the first sitting
+    # Friday of September carries three PMB Second Readings at once, which
+    # at three would crowd the assisted-suicide Bill of the 11th out of
+    # its own page (measured 2026-08-31).
+    today = datetime.date.today().isoformat()
+    coming_up = [dict(r) for r in conn.execute(
+        "SELECT title, house, COALESCE(what_next, stage) AS stage, "
+        "next_key_date AS date FROM bills_board "
+        "WHERE status = 'live' AND next_key_date >= ? "
+        "AND next_key_date GLOB '[0-9]*' ORDER BY next_key_date, title "
+        "LIMIT 4", (today,))]
+
     dataset = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
+        "coming_up": coming_up,
         # An issue ships if a division uses it OR it is marked `upcoming` --
         # a Bill before Parliament that has not divided yet, rendered as a
         # card with status, forward look and action but no votes. That is

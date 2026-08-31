@@ -138,6 +138,80 @@ CREATE TABLE IF NOT EXISTS committee_attendance (
   attended INTEGER NOT NULL,      -- 1 = dagger in the roster
   PRIMARY KEY (debate_id, name, role)
 );
+-- APPG officers, from the Register of All-Party Parliamentary Groups.
+-- publications.parliament.uk sits behind a Cloudflare JS challenge that
+-- blocks CI and the Wayback Machine alike, so the register is scraped in a
+-- browser session into data/appg/register-<edition>.json (committed), and
+-- tools/load_appgs.py loads those files OFFLINE -- the backfill_pq_links
+-- pattern. The register publishes officers only (since the 2024 rules);
+-- general membership is not on the public record.
+CREATE TABLE IF NOT EXISTS appg_officers (
+  edition TEXT NOT NULL,          -- register date, '2026-06-29'
+  slug TEXT NOT NULL,             -- 'dying-well', the register's page name
+  group_name TEXT NOT NULL,
+  purpose TEXT,                   -- the group's own words, verbatim
+  category TEXT,
+  role TEXT NOT NULL,             -- 'Chair & Registered Contact', 'Officer'
+  name TEXT NOT NULL,             -- as printed
+  party TEXT,
+  member_id INTEGER,              -- resolved against members; NULL = no match
+  PRIMARY KEY (edition, slug, role, name)
+);
+-- The Register of Members' Financial Interests, from the Interests API
+-- (interests-api.parliament.uk) via tools/pull_interests.py. Public record,
+-- published by Parliament for publication. `fields` keeps the structured
+-- detail (donor, value, dates) as JSON for campaign research; the public
+-- page ships only a count and a link to the official register.
+CREATE TABLE IF NOT EXISTS member_interest (
+  interest_id INTEGER PRIMARY KEY,
+  member_id INTEGER NOT NULL,
+  house TEXT,                     -- 'Commons' | 'Lords'
+  category TEXT NOT NULL,
+  summary TEXT,
+  registered TEXT, published TEXT,
+  fields TEXT                     -- the API's field list, JSON
+);
+-- EVERY Commons division of the current Parliament, not only the matched
+-- ones: whole-record party alignment and whip defiance need the full
+-- corpus (Christopher, 2026-08-31, for the 5CA). Collected by
+-- tools/pull_division_rolls.py; payloads are NOT archived to data/raw --
+-- 575 of them would put ~30MB into git for bytes these rows already carry.
+CREATE TABLE IF NOT EXISTS cv_divisions (
+  division_id INTEGER PRIMARY KEY,
+  date TEXT NOT NULL,
+  title TEXT NOT NULL,
+  ayes INTEGER, noes INTEGER
+);
+CREATE TABLE IF NOT EXISTS cv_votes (
+  division_id INTEGER NOT NULL,
+  member_id INTEGER NOT NULL,
+  side TEXT NOT NULL,             -- A | N | TA | TN | X (no vote recorded)
+  party TEXT,                     -- as the division list printed it THAT DAY
+  PRIMARY KEY (division_id, member_id)
+);
+-- Computed by the same tool after each pull: one row per member, plus one
+-- row per defiance so the events are listable without recomputation.
+-- "Whipped" here is the bloc inference the tracker already uses (two
+-- largest parties >=98% on opposite sides); "defied" is voting against
+-- your own party's bloc in such a division. 5CA-facing, not public.
+CREATE TABLE IF NOT EXISTS mp_alignment (
+  member_id INTEGER PRIMARY KEY,
+  since TEXT, until TEXT,         -- the corpus window this row covers
+  eligible INTEGER,               -- divisions the lists name them in
+  voted INTEGER,
+  with_party INTEGER, against_party INTEGER,
+  whipped INTEGER, defied INTEGER,
+  computed_at TEXT
+);
+CREATE TABLE IF NOT EXISTS mp_defiance (
+  member_id INTEGER NOT NULL,
+  division_id INTEGER NOT NULL,
+  date TEXT NOT NULL, title TEXT NOT NULL,
+  side TEXT NOT NULL,             -- the vote they cast
+  party TEXT NOT NULL,            -- the bloc they defied
+  party_with INTEGER, party_against INTEGER,
+  PRIMARY KEY (member_id, division_id)
+);
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
 -- UN monitor. A UPR recommendation is a position taken by one state towards
@@ -697,6 +771,12 @@ TABLES = (
     "member_post",
     "member_seat",
     "committee_attendance",
+    "appg_officers",
+    "member_interest",
+    "cv_divisions",
+    "cv_votes",
+    "mp_alignment",
+    "mp_defiance",
     "mp_events",
     "pq_link",
     "edm_signatures",

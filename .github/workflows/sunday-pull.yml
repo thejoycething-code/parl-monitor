@@ -116,6 +116,26 @@ jobs:
         if: always() && steps.fetch.outcome == 'success'
           && env.SKIP != '1'
         run: python3 tools/pull_pbc_attendance.py
+      - name: Load the APPG register
+        # OFFLINE: reads the committed data/appg/*.json files -- the
+        # register's host is behind a Cloudflare challenge CI cannot pass,
+        # so a browser session scrapes it (six-weekly-ish) and commits the
+        # JSON. This step just keeps the store's table in step with git.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: python3 tools/load_appgs.py
+      - name: Pull declared interests
+        # Incremental after the first complete sweep: a handful of requests
+        # for anything published in the last fortnight-plus.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: python3 tools/pull_interests.py
+      - name: Pull division rolls and recompute alignment
+        # Every Commons division of this Parliament (5-15 new per sitting
+        # week), then mp_alignment/mp_defiance rebuilt for the 5CA.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: python3 tools/pull_division_rolls.py
       - name: Publish the store
         # NEVER publish a store the pull refused: see the note in
         # monday-publish.yml. `always()` alone turned one sha mismatch
