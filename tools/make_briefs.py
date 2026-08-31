@@ -144,7 +144,7 @@ def ensure_log(conn):
     conn.execute("CREATE TABLE IF NOT EXISTS brief_log ("
                  "slug TEXT PRIMARY KEY, subject TEXT, generated_at TEXT, path TEXT)")
     cols = [c[1] for c in conn.execute("PRAGMA table_info(brief_log)")]
-    for col in ("status", "asana_gid"):
+    for col in ("status", "asana_gid", "followup_gid"):
         if col not in cols:
             conn.execute("ALTER TABLE brief_log ADD COLUMN {0} TEXT".format(col))
     conn.commit()

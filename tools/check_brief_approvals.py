@@ -8,8 +8,12 @@ agenda project; the verdict is the approval_status set by the Approve /
 Request changes / Reject buttons.
 
   pending            -> nothing happens
-  approved           -> status recorded; the normal Asana submission form
-                        takes it forward from here
+  approved           -> status recorded, and a follow-up task is raised
+                        urging the approver to refine the brief and submit
+                        it into CitizenGO's PPAE flow (once per brief:
+                        brief_log.followup_gid guards repeats, and the
+                        sweep retries any approved brief whose follow-up
+                        failed to create on an earlier run)
   rejected           -> files move to briefs/archive/ and the slug is
                         never regenerated (make_briefs refuses --force)
   changes_requested  -> flagged for a human conversation; nothing automatic
@@ -106,13 +110,63 @@ def archive(slug):
     return moved
 
 
+def followup_sweep(conn, secrets, create=None, get=None):
+    """Raise the refine-and-submit-to-PPAE task for every approved brief
+    that does not have one yet.
+
+    Runs AFTER the verdict loop, over status='approved' rather than over
+    this run's transitions, so a follow-up that failed to create (network,
+    expired PAT) is retried next Monday instead of being lost -- the same
+    reason the Drive publisher sweeps rather than fires once. Only briefs
+    that went through the approval loop qualify (asana_gid set): the
+    deadline for the follow-up is read from the approval task itself.
+    """
+    create = create or publish.asana_create_ppae_followup
+    get = get or _get
+    made = 0
+    rows = conn.execute(
+        "SELECT slug, subject, asana_gid, drive_file_id FROM brief_log "
+        "WHERE status = 'approved' AND asana_gid IS NOT NULL "
+        "AND followup_gid IS NULL").fetchall()
+    for r in rows:
+        try:
+            approval = get("https://app.asana.com/api/1.0/tasks/{0}"
+                           "?opt_fields=due_on".format(r["asana_gid"]),
+                           secrets["asana_pat"]).get("data") or {}
+            drive_url = ("https://docs.google.com/spreadsheets/d/{0}/edit"
+                         .format(r["drive_file_id"])
+                         if r["drive_file_id"] else None)
+            reply = create(secrets, r["subject"], r["slug"],
+                           deadline=approval.get("due_on"),
+                           drive_url=drive_url)
+        except Exception as exc:
+            print("  {0}: follow-up failed ({1}) - will retry next run"
+                  .format(r["slug"], exc))
+            continue
+        if reply.get("task_gid"):
+            conn.execute("UPDATE brief_log SET followup_gid = ? WHERE slug = ?",
+                         (reply["task_gid"], r["slug"]))
+            made += 1
+            print("  follow-up raised: {0} -> {1}".format(
+                r["slug"], reply.get("permalink") or reply["task_gid"]))
+        else:
+            print("  {0}: follow-up failed ({1}) - will retry next run"
+                  .format(r["slug"], reply.get("error")))
+    conn.commit()
+    return made
+
+
 def main():
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
+    if "followup_gid" not in [c[1] for c in
+                              conn.execute("PRAGMA table_info(brief_log)")]:
+        conn.execute("ALTER TABLE brief_log ADD COLUMN followup_gid TEXT")
     secrets = publish.load_secrets()
     rows = conn.execute("SELECT slug, subject, asana_gid FROM brief_log "
                         "WHERE status = 'pending' AND asana_gid IS NOT NULL").fetchall()
     if not rows:
         print("brief approvals: none pending")
+        followup_sweep(conn, secrets)
         return 0
     for r in rows:
         try:
@@ -140,6 +194,7 @@ def main():
             print("  {0}: task completed but no readable verdict - leaving "
                   "pending for a human".format(r["slug"]))
     conn.commit()
+    followup_sweep(conn, secrets)
     still = conn.execute("SELECT COUNT(*) FROM brief_log WHERE status = 'pending'"
                          ).fetchone()[0]
     print("brief approvals: {0} still pending".format(still))

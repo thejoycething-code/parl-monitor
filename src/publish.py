@@ -169,15 +169,61 @@ def asana_create_brief_approval(secrets, subject, slug, deadline=None,
              "Subject: {0}\n"
              "Files: briefs/{1}.md (readable), briefs/{1}.csv (Brief tab "
              "paste-in), briefs/{1}-5ca.csv (Five Columns Analysis tab)\n\n"
-             "Use the approval buttons: Approve takes it forward via the "
-             "normal Asana submission form; Reject archives the draft and it "
-             "is never regenerated. 'Request changes' pauses it for a human "
-             "conversation - nothing automatic happens."
+             "Use the approval buttons: Approve raises a follow-up task to "
+             "refine the brief and submit it into the PPAE flow; Reject "
+             "archives the draft and it is never regenerated. 'Request "
+             "changes' pauses it for a human conversation - nothing "
+             "automatic happens."
              ).format(subject, slug)
     payload = {"data": {
         "name": "Review Campaigns Brief draft: {0}".format(subject[:120]),
         "notes": notes,
         "resource_subtype": "approval",
+        "projects": [BRIEF_APPROVAL_PROJECT],
+        "assignee": "cjoyce@citizengo.net",
+    }}
+    if deadline:
+        payload["data"]["due_on"] = deadline
+    reply = transport("https://app.asana.com/api/1.0/tasks", payload,
+                      {"Authorization": "Bearer " + secrets["asana_pat"],
+                       "Content-Type": "application/json"})
+    data = reply.get("data") or {}
+    if not data.get("gid"):
+        return {"error": "task create failed: {0}".format(reply.get("errors"))}
+    return {"task_gid": data["gid"],
+            "permalink": data.get("permalink_url", "")}
+
+
+def asana_create_ppae_followup(secrets, subject, slug, deadline=None,
+                               drive_url=None, transport=None):
+    """The task raised when a brief's approval comes back APPROVED.
+
+    Approval is a verdict on the draft, not the finished campaign: the
+    follow-up puts the next two steps in front of the approver -- refine
+    the draft, then submit it into CitizenGO's PPAE flow -- so an approved
+    brief cannot silently stop at 'approved'. Raised once per brief by
+    tools/check_brief_approvals.py (brief_log.followup_gid guards repeats).
+    """
+    transport = transport or _post_json
+    lines = ["This Campaigns Brief draft has been APPROVED. Approval is not "
+             "the finish line - take it forward now.",
+             "",
+             "Subject: {0}".format(subject)]
+    if drive_url:
+        lines.append("Drive sheet: {0}".format(drive_url))
+    lines += ["Files: briefs/{0}.md (readable), briefs/{0}.csv (Brief tab "
+              "paste-in)".format(slug),
+              "",
+              "1. REFINE the draft. It is a generated starting point, not "
+              "finished copy: check the ask, the figures and the framing "
+              "against the source material, and make it yours.",
+              "2. SUBMIT the refined brief into the PPAE flow so the "
+              "campaign is commissioned.",
+              "",
+              "Raised automatically when the approval was recorded."]
+    payload = {"data": {
+        "name": "Refine and submit to PPAE: {0}".format(subject[:120]),
+        "notes": "\n".join(lines),
         "projects": [BRIEF_APPROVAL_PROJECT],
         "assignee": "cjoyce@citizengo.net",
     }}
