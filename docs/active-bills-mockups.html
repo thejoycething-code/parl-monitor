@@ -1,0 +1,289 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Active bills — four views</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+/* Every mockup-specific class is mk- prefixed: the on-record mockups
+   collided with the live template's .opt and "the formatting looks a mess
+   in all options" (Christopher, 2026-08-28). Checked at build against
+   templates/vote-tracker.html. */
+:root{
+  --blue:#4285f4; --white:#FFFFFF; --grey-100:#EEEEEE; --grey-300:#C4C4C4;
+  --ink:#52575C; --green:#55B159; --red:#DB544F; --yellow:#FFEBAD;
+  --blue-deep:#2f6fe0; --blue-tint:#EAF1FE; --line:#E4E6E9;
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --live:#B7791F; --live-bg:#FFF7E0; --live-edge:#E9B949;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F4F5F7;color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+.mk-wrap{max-width:920px;margin:0 auto;padding:0 22px 80px}
+.mk-head{padding:40px 0 6px}
+.mk-head h1{font-size:34px;font-weight:900;color:#1b1f24;line-height:1.1}
+.mk-head p{max-width:72ch;font-weight:300;color:#5c626a;margin-top:10px}
+.mk-opt{margin:46px 0 0}
+.mk-optlabel{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+.mk-optlabel .mk-letter{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-weight:900;font-size:17px;flex:none;align-self:center}
+.mk-optlabel h2{font-size:21px;font-weight:700;color:#20242a}
+.mk-why{font-size:14px;font-weight:300;color:#5c626a;max-width:78ch;margin:2px 0 14px}
+.mk-why b{font-weight:500;color:#23282f}
+.mk-stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:26px 26px 28px;box-shadow:0 8px 30px rgba(32,38,45,.07)}
+.mk-note{font-size:12px;color:#9aa1a9;margin-top:10px}
+.mk-current{border-style:dashed;background:#fbfcfd}
+
+/* ---- shared bits reproduced from the live page, mk- prefixed ---- */
+.mk-h1{font-size:38px;font-weight:900;color:#1b1f24;line-height:1.05;margin:6px 0 12px}
+.mk-eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+.mk-sub{max-width:60ch;font-weight:300;font-size:15px;color:#5c626a}
+.mk-search{margin-top:18px;border:2px solid var(--grey-300);border-radius:8px;padding:13px 16px;color:#A9AEB4;font-weight:300;background:#fff}
+.mk-actbtn{display:inline-block;background:var(--blue);color:#fff;font-weight:700;font-size:13px;border-radius:7px;padding:8px 15px;white-space:nowrap}
+.mk-actbtn:hover{background:var(--blue-deep);color:#fff}
+/* today's strip, for the reference block */
+.mk-strip{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px 12px;margin:16px 0 0;padding:11px 16px;background:var(--blue-tint);border:1px solid #cfe0fc;border-radius:8px;font-size:13px;color:#3d5a86}
+.mk-strip .mk-culabel{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--blue-deep)}
+.mk-strip b{font-weight:500;color:#23282f}
+.mk-strip .mk-cusep{color:#9db8de}
+/* today's upcoming card, for the reference block */
+.mk-bigcard{display:flex;gap:18px;align-items:center;background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,24,40,.08);border:1px solid #eef0f3}
+.mk-votebox{flex:0 0 170px;text-align:center;border-radius:9px;padding:13px 10px;background:#eceef1;color:#5f6670;border:1px solid #dde1e6}
+.mk-votebox .mk-vword{display:block;font-weight:700;font-size:15px;letter-spacing:.05em}
+.mk-votebox .mk-vsub{display:block;font-size:12px;opacity:.93;margin-top:3px}
+.mk-lbl{font-size:11px;font-weight:600;letter-spacing:.12em;color:#9aa1a9;margin-bottom:4px}
+.mk-bigcard h3{font-size:18px;font-weight:400;color:#20242a;margin-bottom:5px}
+.mk-status{font-size:12.5px;font-weight:300;font-style:italic;color:#8b9098;margin:1px 0 6px;max-width:64ch}
+.mk-nextchip{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--blue-deep);background:var(--blue-tint);border:1px solid #cfe0fc;border-radius:4px;padding:3px 9px;margin:1px 8px 6px 0}
+
+/* =============== OPTION A — the Order Paper panel =============== */
+.mk-op{border:1px solid #cfe0fc;border-radius:12px;overflow:hidden;margin-top:18px;background:#fff}
+.mk-op-head{display:flex;align-items:center;gap:10px;background:var(--blue);color:#fff;padding:11px 18px}
+.mk-op-head .mk-livedot{width:8px;height:8px;border-radius:50%;background:#7ef29a;box-shadow:0 0 0 3px rgba(126,242,154,.25)}
+.mk-op-head h3{color:#fff;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.mk-op-head small{margin-left:auto;font-weight:300;color:#dbe6fb;font-size:12px}
+.mk-op-row{display:flex;gap:16px;align-items:center;padding:12px 18px;border-top:1px solid var(--line)}
+.mk-op-row:first-of-type{border-top:none}
+.mk-leaf{flex:0 0 58px;text-align:center;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.mk-leaf .mk-leafm{display:block;background:var(--blue);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.12em;padding:2px 0}
+.mk-leaf .mk-leafd{display:block;font-size:21px;font-weight:900;color:#1b1f24;line-height:1.25}
+.mk-leaf.mk-tba .mk-leafm{background:var(--grey-300)}
+.mk-leaf.mk-tba .mk-leafd{font-size:12px;font-weight:700;color:#9aa1a9;padding:7px 0}
+.mk-op-body{min-width:0;flex:1}
+.mk-op-body b{display:block;font-weight:500;color:#23282f;font-size:15px}
+.mk-op-body span{font-size:12.5px;color:#8b9098}
+.mk-op-row.mk-op-star{background:var(--blue-tint)}
+
+/* =============== OPTION B — the live ticket =============== */
+@keyframes mk-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.mk-ticket{display:flex;gap:18px;align-items:center;background:var(--live-bg);border:1px solid var(--live-edge);border-left:6px solid var(--live-edge);border-radius:12px;padding:16px 18px;box-shadow:0 1px 3px rgba(16,24,40,.08)}
+.mk-livechip{flex:0 0 170px;text-align:center;border-radius:9px;padding:13px 10px;background:#fff;border:1px solid var(--live-edge);color:var(--live)}
+.mk-livechip .mk-vword{display:block;font-weight:800;font-size:15px;letter-spacing:.07em}
+.mk-livechip .mk-vword i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--live);margin-right:7px;animation:mk-pulse 1.6s infinite;font-style:normal;vertical-align:1px}
+.mk-livechip .mk-vsub{display:block;font-size:11.5px;margin-top:3px;color:#8a6d1f;font-weight:400}
+.mk-datebig{margin-left:auto;text-align:right;flex:none}
+.mk-datebig b{display:block;font-size:15px;font-weight:700;color:#23282f}
+.mk-datebig span{font-size:11.5px;color:#8a6d1f}
+.mk-oldedge{display:flex;gap:18px;align-items:center;background:#fff;border:1px solid #eef0f3;border-radius:12px 12px 0 0;border-bottom:none;padding:14px 18px;opacity:.55;margin-top:14px}
+.mk-oldbox{flex:0 0 170px;text-align:center;border-radius:9px;padding:11px 10px;background:#2fa04a;color:#fff;font-weight:700;font-size:14px}
+
+/* =============== OPTION C — the countdown spine =============== */
+.mk-spine{position:relative;margin:26px 4px 6px;padding-top:26px}
+.mk-spine:before{content:"";position:absolute;left:0;right:0;top:8px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--blue) 0%,#cfe0fc 70%,var(--grey-100) 100%)}
+.mk-sprow{display:flex;gap:14px;align-items:stretch}
+.mk-spnode{position:relative;flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px}
+.mk-spnode:before{content:"";position:absolute;top:-22px;left:22px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+.mk-spnode .mk-in{font-size:10.5px;font-weight:700;letter-spacing:.1em;color:var(--blue-deep);text-transform:uppercase}
+.mk-spnode b{display:block;font-weight:500;font-size:13.5px;color:#23282f;line-height:1.35;margin:3px 0 2px}
+.mk-spnode span{font-size:11.5px;color:#8b9098}
+.mk-spnode.mk-spstar{flex:1.5;background:var(--blue-tint);border-color:#cfe0fc}
+.mk-spnode.mk-spstar:before{background:var(--blue);box-shadow:0 0 0 4px rgba(66,133,244,.2)}
+.mk-splater{position:relative;flex:.9;background:#fbfcfd;border:1px dashed var(--grey-300);border-radius:10px;padding:12px 13px}
+.mk-splater:before{content:"";position:absolute;top:-22px;left:22px;width:12px;height:12px;border-radius:50%;background:#fff;border:3px solid var(--grey-300)}
+
+/* =============== OPTION D — live now / the record =============== */
+.mk-liveband{background:linear-gradient(135deg,#2f6fe0,#4285f4);border-radius:12px;color:#fff;padding:20px 22px;box-shadow:0 8px 30px rgba(47,111,224,.25)}
+.mk-liveband .mk-bandlabel{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#dbe6fb;margin-bottom:12px}
+.mk-liveband .mk-livedot{width:8px;height:8px;border-radius:50%;background:#7ef29a;box-shadow:0 0 0 3px rgba(126,242,154,.25);animation:mk-pulse 1.6s infinite}
+.mk-bandcard{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:9px;padding:13px 16px;display:flex;gap:16px;align-items:center}
+.mk-bandcard + .mk-bandcard{margin-top:9px}
+.mk-bandcard b{display:block;font-weight:700;font-size:15.5px;color:#fff}
+.mk-bandcard span{font-size:12.5px;color:#dbe6fb;font-weight:300}
+.mk-bandcard .mk-when{margin-left:auto;text-align:right;flex:none}
+.mk-bandcard .mk-when b{font-size:13.5px}
+.mk-bandbtn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;font-size:13px;border-radius:7px;padding:8px 15px;white-space:nowrap}
+.mk-bandmore{margin-top:11px;font-size:12px;color:#cfe0fc}
+.mk-divider{display:flex;align-items:center;gap:14px;margin:22px 0 12px;color:#9aa1a9}
+.mk-divider:before,.mk-divider:after{content:"";flex:1;height:1px;background:var(--line)}
+.mk-divider span{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.mk-ghostcard{display:flex;gap:18px;align-items:center;background:#fff;border:1px solid #eef0f3;border-radius:12px;padding:14px 18px}
+.mk-ghostbox{flex:0 0 150px;text-align:center;border-radius:9px;padding:11px 10px;background:#2fa04a;color:#fff;font-weight:700;font-size:14px}
+
+@media(max-width:640px){
+  .mk-sprow{flex-direction:column}
+  .mk-spine:before{display:none}
+  .mk-spnode:before,.mk-splater:before{display:none}
+  .mk-bigcard,.mk-ticket,.mk-bandcard{flex-direction:column;align-items:stretch}
+  .mk-datebig,.mk-bandcard .mk-when{margin-left:0;text-align:left}
+}
+</style></head><body>
+<div class="mk-wrap">
+
+<div class="mk-head">
+  <h1>Active bills — four views</h1>
+  <p>The live business is the page's most timely content and currently its least distinguished:
+  a one-line strip above the search, and a grey "NO VOTES YET" card that borrows the furniture of
+  the historic vote cards. Four ways to make live Bills read as a different species. All data
+  below is real, from the bills board as of 31 August.</p>
+</div>
+
+<!-- ============ CURRENT, for reference ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><h2 style="color:#9aa1a9">Current, for reference</h2></div>
+  <div class="mk-stage mk-current">
+    <div class="mk-strip"><span class="mk-culabel">COMING UP</span>
+      <span><b>Child-like Sexual Abuse Dolls (Offences) Bill</b> — 2nd reading, Commons, 4 Sep 2026</span><span class="mk-cusep">·</span>
+      <span><b>Infants, Parents and Carers Bill</b> — 2nd reading, Commons, 4 Sep 2026</span><span class="mk-cusep">·</span>
+      <span><b>Registration of Stillbirths (England and Wales) Bill</b> — 2nd reading, Commons, 4 Sep 2026</span><span class="mk-cusep">·</span>
+      <span><b>Terminally Ill Adults (End of Life) Bill</b> — 2nd reading, Commons, 11 Sep 2026</span>
+    </div>
+    <div style="height:14px"></div>
+    <div class="mk-bigcard">
+      <div class="mk-votebox"><span class="mk-vword">NO VOTES YET</span><span class="mk-vsub">(first division pending)</span></div>
+      <div>
+        <div class="mk-lbl">BEFORE PARLIAMENT NOW</div>
+        <h3>Terminally Ill Adults (End of Life) Bill</h3>
+        <div class="mk-status">Introduced by Lauren Edwards MP in the current session. The question returns to the Commons for a Second Reading vote on 11 September 2026 - the first division on this Bill.</div>
+        <span class="mk-nextchip">NEXT: 2nd reading in the Commons · 11 Sep 2026</span>
+        <a class="mk-actbtn" href="#">Sign before 4 September ↗</a>
+      </div>
+    </div>
+    <div class="mk-note">The strip caps at four dated events, so the Hospice Funding Bill (27 Nov), the RSE (Further Education) Bill (4 Dec) and the undated Lords Bill on abortion-complications reporting never appear anywhere.</div>
+  </div>
+</section>
+
+<!-- ============ OPTION A ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">A</span><h2>The Order Paper panel</h2></div>
+  <p class="mk-why">The strip grows into a real panel between the hero and the search — <b>every live Bill,
+  dated or not</b>, each with a calendar leaf, the assisted-suicide Bill highlighted with the petition on its
+  own row. One place answers "what is Parliament about to do on our issues", and the member cards stop
+  carrying page-level news.</p>
+  <div class="mk-stage">
+    <div class="mk-eyebrow">Westminster · House of Commons division records</div>
+    <div class="mk-h1" style="font-size:30px">How did your MP vote?</div>
+    <div class="mk-op">
+      <div class="mk-op-head"><span class="mk-livedot"></span><h3>Before Parliament now</h3><small>7 live Bills on our issues · from the weekly board</small></div>
+      <div class="mk-op-row">
+        <div class="mk-leaf"><span class="mk-leafm">SEP</span><span class="mk-leafd">4</span></div>
+        <div class="mk-op-body"><b>Infants, Parents and Carers Bill</b><span>Second Reading · Commons · with two more Bills that Friday: Child-like Sexual Abuse Dolls (Offences), Registration of Stillbirths</span></div>
+      </div>
+      <div class="mk-op-row mk-op-star">
+        <div class="mk-leaf"><span class="mk-leafm">SEP</span><span class="mk-leafd">11</span></div>
+        <div class="mk-op-body"><b>Terminally Ill Adults (End of Life) Bill</b><span>Second Reading · Commons · the first vote on Lauren Edwards's Bill</span></div>
+        <a class="mk-actbtn" href="#">Sign before 4 September ↗</a>
+      </div>
+      <div class="mk-op-row">
+        <div class="mk-leaf"><span class="mk-leafm">NOV</span><span class="mk-leafd">27</span></div>
+        <div class="mk-op-body"><b>Hospice Funding Bill</b><span>Second Reading · Commons</span></div>
+      </div>
+      <div class="mk-op-row">
+        <div class="mk-leaf"><span class="mk-leafm">DEC</span><span class="mk-leafd">4</span></div>
+        <div class="mk-op-body"><b>Relationships and Sex Education (Further Education Sector) Bill</b><span>Second Reading · Commons</span></div>
+      </div>
+      <div class="mk-op-row">
+        <div class="mk-leaf mk-tba"><span class="mk-leafm">LORDS</span><span class="mk-leafd">TBA</span></div>
+        <div class="mk-op-body"><b>Complications from Abortions (Annual Report) Bill [HL]</b><span>Second Reading · date to be announced</span></div>
+      </div>
+    </div>
+    <div class="mk-search">Postcode, constituency, or a member's name…</div>
+    <div class="mk-note">Same-day Bills fold into one row so 4 September reads as one sitting Friday, not three entries. The member cards keep only the 2026 Bill card (it is member business — their vote is coming); the strip disappears.</div>
+  </div>
+</section>
+
+<!-- ============ OPTION B ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">B</span><h2>The live ticket</h2></div>
+  <p class="mk-why">Page structure stays exactly as it is; the active Bill's card on each member page changes
+  <b>species</b>: amber edge, LIVE marker with a pulse, the date set big on the right. Settled votes stay
+  green/red/grey; live business is the only amber thing on the page, so the eye finds it before reading a word.</p>
+  <div class="mk-stage">
+    <div class="mk-ticket">
+      <div class="mk-livechip"><span class="mk-vword"><i></i>LIVE</span><span class="mk-vsub">before the Commons now</span></div>
+      <div style="min-width:0">
+        <div class="mk-lbl" style="color:#8a6d1f">THE 2026 BILL · SPONSOR LAUREN EDWARDS MP</div>
+        <h3>Terminally Ill Adults (End of Life) Bill</h3>
+        <div class="mk-status">The question returns to the Commons for a Second Reading vote on 11 September 2026 — the first division on this Bill. No member has a vote to show yet.</div>
+        <a class="mk-actbtn" href="#">Sign before 4 September ↗</a>
+      </div>
+      <div class="mk-datebig"><b>Second Reading</b><span>Thu 11 September · in 11 days</span></div>
+    </div>
+    <div class="mk-oldedge">
+      <div class="mk-oldbox">GOOD VOTE</div>
+      <div><div class="mk-lbl">AT THIRD READING · 2025-06-20</div><h3 style="font-size:16px">Terminally Ill Adults (End of Life) Bill <span style="color:#9aa1a9;font-weight:300">(the fallen Leadbeater Bill — history, in its usual clothes)</span></h3></div>
+    </div>
+    <div class="mk-note">The coming-up strip stays for the other Bills; only cards for live Bills wear the ticket. When the Bill divides, the card changes back into ordinary vote furniture — amber is a state, not a home.</div>
+  </div>
+</section>
+
+<!-- ============ OPTION C ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">C</span><h2>The countdown spine</h2></div>
+  <p class="mk-why">The strip becomes a timeline: live Bills as nodes on a line, ordered by date, labelled by
+  <b>how soon</b> — "in 4 days" does what "4 Sep 2026" doesn't. The assisted-suicide node is enlarged and
+  tinted, with the petition. Reads left-to-right as "this Friday, next Friday, the autumn."</p>
+  <div class="mk-stage">
+    <div class="mk-eyebrow">Before Parliament now</div>
+    <div class="mk-spine">
+      <div class="mk-sprow">
+        <div class="mk-spnode">
+          <span class="mk-in">In 4 days · Sep 4</span>
+          <b>Three Bills at Second Reading</b>
+          <span>Infants, Parents &amp; Carers · Sexual Abuse Dolls · Registration of Stillbirths</span>
+        </div>
+        <div class="mk-spnode mk-spstar">
+          <span class="mk-in">In 11 days · Sep 11</span>
+          <b>Terminally Ill Adults (End of Life) Bill — Second Reading</b>
+          <span>the first vote on the 2026 assisted-suicide Bill</span><br>
+          <a class="mk-actbtn" style="margin-top:8px" href="#">Sign before 4 September ↗</a>
+        </div>
+        <div class="mk-splater">
+          <span class="mk-in" style="color:#9aa1a9">The autumn</span>
+          <b>Hospice Funding · RSE (Further Education)</b>
+          <span>27 Nov · 4 Dec · plus one Lords Bill, date TBA</span>
+        </div>
+      </div>
+    </div>
+    <div class="mk-note">Relative labels are computed at build time, so "in 11 days" is only as stale as the weekly rebuild — worst case it under-counts by six days, never over. Could sit page-level (replacing the strip) or atop each member card.</div>
+  </div>
+</section>
+
+<!-- ============ OPTION D ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">D</span><h2>Live now / The record</h2></div>
+  <p class="mk-why">A structural answer: the member card opens with an inverted <b>LIVE NOW</b> band — brand
+  blue, unmissable — holding the active business, then a labelled divider hands over to "THE RECORD" and the
+  historic cards. Live vs settled becomes the page's top-level grammar rather than a styling detail.</p>
+  <div class="mk-stage">
+    <div class="mk-liveband">
+      <div class="mk-bandlabel"><span class="mk-livedot"></span>LIVE NOW · BEFORE PARLIAMENT</div>
+      <div class="mk-bandcard">
+        <div style="min-width:0"><b>Terminally Ill Adults (End of Life) Bill</b>
+          <span>Second Reading, Commons — the first vote on Lauren Edwards's Bill. Danny Kruger's vote will appear here.</span></div>
+        <div class="mk-when"><b>Thu 11 Sep</b><br><span>in 11 days</span></div>
+        <a class="mk-bandbtn" href="#">Sign before 4 September ↗</a>
+      </div>
+      <div class="mk-bandcard">
+        <div style="min-width:0"><b>Sitting Friday, 4 September</b>
+          <span>Second Readings: Infants, Parents &amp; Carers · Sexual Abuse Dolls (Offences) · Registration of Stillbirths</span></div>
+        <div class="mk-when"><b>Thu 4 Sep</b><br><span>in 4 days</span></div>
+      </div>
+      <div class="mk-bandmore">Later: Hospice Funding (27 Nov) · RSE Further Education (4 Dec) · Complications from Abortions [HL] (date TBA)</div>
+    </div>
+    <div class="mk-divider"><span>The record — 18 divisions, 2020 to 2025</span></div>
+    <div class="mk-ghostcard">
+      <div class="mk-ghostbox">GOOD VOTE</div>
+      <div><div class="mk-lbl">AT THIRD READING · 2025-06-20</div><h3 style="font-size:16px">Terminally Ill Adults (End of Life) Bill</h3></div>
+    </div>
+    <div class="mk-note">The band replaces both the strip and the upcoming card — one home for live business, duplicated nowhere. The divider gives the historic cards a name, which they have never had.</div>
+  </div>
+</section>
+
+</div></body></html>
