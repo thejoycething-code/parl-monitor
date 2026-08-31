@@ -83,7 +83,7 @@ issues:
     # from their good/bad votes on this issue's signed-off divisions. The
     # phrase is EDITORIAL: no line renders on an issue without one, and the
     # arithmetic never overrides the wording.
-    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
     stance:
       good: against assisted suicide
       bad: for assisted suicide
@@ -101,7 +101,7 @@ issues:
       Bill, a wider Government bill. The host bill's own Second and Third
       Readings were not abortion votes and are deliberately not shown here.
     status: Agreed by the Commons 379-137 on 17 June 2025 and added to the Bill.
-    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
     stance:
       good: against decriminalising abortion
       bad: to decriminalise abortion
@@ -123,7 +123,7 @@ issues:
       Buffer zones were agreed by the Commons in October 2022 and are now
       section 9 of the Public Order Act 2023. An amendment to exempt silent
       prayer was rejected in March 2023.
-    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
     stance:
       good: against abortion clinic buffer zones
       bad: for abortion clinic buffer zones
@@ -149,7 +149,7 @@ issues:
       every Labour and Liberal Democrat member who voted opposed it, so a vote
       here reflects a party position as much as a personal one.
     status: Rejected by the Commons in June 2025.
-    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
     stance:
       good: to abolish non-crime hate incidents
       bad: to keep non-crime hate incidents
@@ -183,7 +183,7 @@ issues:
     status: >-
       The register became law in the Children's Wellbeing and Schools Act 2026.
       The Ten-Minute Rule Bill and the opposition day motion both failed.
-    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
     stance:
       good: for parental rights in education
       bad: against parental rights in education
@@ -206,7 +206,7 @@ issues:
       them. That escalation is why the same question returned three years
       running, and why the three votes are not interchangeable.
     status: All three approval motions were agreed by the Commons.
-    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    # Drafted 2026-08-31; signed off by Christopher, 2026-08-31.
     stance:
       good: against the Northern Ireland abortion regulations
       bad: for the Northern Ireland abortion regulations
