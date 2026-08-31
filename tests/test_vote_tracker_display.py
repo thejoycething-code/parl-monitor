@@ -2442,15 +2442,15 @@ class DebateWindowTests(unittest.TestCase):
 class BandAmendmentTests(unittest.TestCase):
     """The five C amendments (Christopher, 2026-08-31: "Build all 5")."""
 
-    def test_write_to_your_mp_is_the_second_action_commons_only(self):
-        # A mailto to the member's own parliamentary address, prefilled
-        # subject, styled secondary so the petition stays primary. Peers
-        # are skipped: the Bill's next vote is not theirs to cast.
+    def test_the_band_carries_one_button_only(self):
+        # The write-to mailto shipped as amendment 1 and was removed the
+        # same day (Christopher, 2026-08-31): the petition is the band's
+        # only action. Contact details keep their own home lower down the
+        # page, under "Contact", where writing to an MP belongs.
         flat = " ".join(template().split())
-        self.assertIn('!isPeer(m) && (m.contact || {}).email', flat)
-        self.assertIn("mailto:${esc(m.contact.email)}?subject=${", flat)
-        self.assertIn("Write to ${esc(m.name)}", flat)
-        self.assertIn("bandbtn2", flat)
+        self.assertNotIn("bandbtn2", flat)
+        self.assertNotIn("mailto:${esc(m.contact.email)}", flat)
+
 
     def test_the_band_wears_one_bill_s_name_only_when_it_is_alone(self):
         flat = " ".join(template().split())

@@ -503,9 +503,6 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .bandbtn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;
   font-size:14px;border-radius:7px;padding:10px 18px;white-space:nowrap;flex:none}
 .bandbtn:hover{background:var(--blue-tint);color:var(--blue-deep);text-decoration:none}
-/* the second action (amendment 1): outline, so the petition stays primary */
-.bandbtn.bandbtn2{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.65);font-weight:500}
-.bandbtn.bandbtn2:hover{background:rgba(255,255,255,.15);color:#fff;border-color:#fff}
 /* what the next vote decides (amendment 3): the stakes, set apart from
    the status facts */
 .banddecides{margin-top:9px;font-size:13.5px;color:#fff;font-weight:400;max-width:60ch;
@@ -1515,11 +1512,6 @@ function renderMP(id){
           ${when}
           ${issue.action && issue.action.url && issue.action.label
             ? `<a class="bandbtn" href="${esc(issue.action.url)}" target="_blank" rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
-          ${!isPeer(m) && (m.contact || {}).email
-            ? `<a class="bandbtn bandbtn2" href="mailto:${esc(m.contact.email)}?subject=${
-                encodeURIComponent((issue.bill || issue.name) + (issue.next
-                  ? " — " + issue.next.stage + ", " + fmtD(issue.next.date) : ""))
-              }">Write to ${esc(m.name)}</a>` : ""}
         </div>
       </div>`);
     }
