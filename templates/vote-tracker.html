@@ -438,29 +438,82 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .nextline{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;
   color:var(--blue-deep);background:var(--blue-tint);border:1px solid #cfe0fc;
   border-radius:4px;padding:3px 9px;margin:1px 0 6px}
-/* --- coming up strip (2026-08-31): the next dated events on our bills,
-   between the hero and the search. A headline band, not a calendar. */
-.comingup{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px 12px;
-  margin:18px 0 0;padding:11px 16px;background:var(--blue-tint);
-  border:1px solid #cfe0fc;border-radius:8px;font-size:13.5px;color:#3d5a86}
-.cu-label{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--blue-deep)}
-.cu-item b{font-weight:500;color:#23282f}
-.cu-sep{color:#9db8de}
-/* the declared-interests line and APPG pills in the hero. The party
-   history line ("Conservative until 15 Sep 2025") was removed 2026-08-31
-   (Christopher: superfluous) -- the spells still ship, because the whip
-   logic reads them; only the display went. */
+
+/* the declared-interests line and APPG pills in the hero */
 .seatline a.reglink{color:#fff;font-weight:500;text-decoration:underline}
 .seatline a.reglink:hover{color:#fff}
 .rolepill.appgpill{background:rgba(255,255,255,.32);color:#fff}
 
-/* --- act CTA (2026-08-31): renders only when an issue carries a configured
-   action in config/vote_tracker.yaml; nothing is configured, so this ships
-   dark until a live action exists. */
+/* --- act CTA (2026-08-31): renders when an issue carries a configured
+   action in config/vote_tracker.yaml. --- */
 .actbtn{display:inline-block;margin-top:10px;background:var(--blue);color:#fff;
   font-weight:700;font-size:13.5px;border-radius:7px;padding:9px 16px}
 .actbtn:hover{background:var(--blue-deep);color:#fff;text-decoration:none}
-@media(max-width:640px){.stances{padding:11px 18px}}
+
+/* --- the Order Paper panel (2026-08-31, mockup A): every live Bill, on
+   the landing state below the search box. Calendar leaves, same-day Bills
+   folded into one row, the Bill carrying an action highlighted. --- */
+.oppanel{border:1px solid #cfe0fc;border-radius:12px;overflow:hidden;margin:6px 0 30px;background:#fff}
+.ophead{display:flex;align-items:center;gap:10px;background:var(--blue);color:#fff;padding:11px 18px}
+.ophead h2{color:#fff;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.ophead small{margin-left:auto;font-weight:300;color:#dbe6fb;font-size:12px}
+.livedot{width:8px;height:8px;border-radius:50%;background:#7ef29a;box-shadow:0 0 0 3px rgba(126,242,154,.25);flex:none;animation:livepulse 1.6s infinite}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.livedot{animation:none}}
+.oprow{display:flex;gap:16px;align-items:center;padding:12px 18px;border-top:1px solid var(--line)}
+.oprow:first-of-type{border-top:none}
+.oprow.opstar{background:var(--blue-tint)}
+.leaf{flex:0 0 58px;text-align:center;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.leaf .leafm{display:block;background:var(--blue);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.12em;padding:2px 0}
+.leaf .leafd{display:block;font-size:21px;font-weight:900;color:#1b1f24;line-height:1.25}
+.leaf.leaftba .leafm{background:var(--grey-300)}
+.leaf.leaftba .leafd{font-size:12px;font-weight:700;color:#9aa1a9;padding:7px 0}
+.opbody{min-width:0;flex:1}
+.opbody b{display:block;font-weight:500;color:#23282f;font-size:15px}
+.opbody b a{color:#23282f}
+.opbody b a:hover{color:var(--blue-deep)}
+.opbody span{font-size:12.5px;color:#8b9098}
+.oprow .actbtn{margin-top:0;flex:none}
+@media(max-width:640px){.oprow{flex-wrap:wrap}}
+
+/* --- LIVE NOW / THE RECORD (2026-08-31, mockup D): the member card opens
+   with an inverted band holding the active business; a labelled divider
+   hands over to the historic cards. --- */
+.liveband{background:linear-gradient(135deg,#2f6fe0,#4285f4);border-radius:12px;color:#fff;
+  padding:20px 22px;margin:0 0 6px;box-shadow:0 8px 30px rgba(47,111,224,.25)}
+.bandlabel{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:#dbe6fb;margin-bottom:12px}
+.bandcard{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  border-radius:9px;padding:13px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.bandcard + .bandcard{margin-top:9px}
+.bandcard .bandmain{min-width:0;flex:1 1 300px}
+.bandcard b{display:block;font-weight:700;font-size:15.5px;color:#fff}
+.bandcard b a{color:#fff;text-decoration:none}
+.bandcard b a:hover{text-decoration:underline;color:#fff}
+.bandcard span{font-size:12.5px;color:#dbe6fb;font-weight:300}
+/* a page-blue link is invisible on the band: everything inside it is white */
+.bandcard span a{color:#fff;text-decoration:underline}
+.bandcard span a:hover{color:#fff}
+.bandwhen{margin-left:auto;text-align:right;flex:none}
+.bandwhen b{font-size:13.5px}
+.bandwhen span{font-size:11.5px}
+.bandbtn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;
+  font-size:13px;border-radius:7px;padding:8px 15px;white-space:nowrap;flex:none}
+.bandbtn:hover{background:var(--blue-tint);color:var(--blue-deep);text-decoration:none}
+.bandsaid{flex-basis:100%;margin:4px 0 0;font-size:13.5px;line-height:1.5;font-style:italic;
+  color:#fff;border-left:3px solid rgba(255,255,255,.45);padding-left:12px}
+.bandsaid:before{content:"\201C"} .bandsaid:after{content:"\201D"}
+.bandsaidmeta{flex-basis:100%;font-size:11.5px;color:#cfe0fc}
+.bandsaidmeta a{color:#fff;text-decoration:underline}
+.bandmore{margin-top:11px;font-size:12px;color:#cfe0fc}
+.bandmore a{color:#fff;text-decoration:underline}
+.recdivider{display:flex;align-items:center;gap:14px;margin:20px 0 10px;color:#9aa1a9}
+.recdivider:before,.recdivider:after{content:"";flex:1;height:1px;background:var(--line)}
+.recdivider span{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+@media(max-width:640px){
+  .liveband{padding:16px}
+  .bandwhen{margin-left:0;text-align:left}
+}
 </style>
 </head>
 <body>
@@ -481,8 +534,6 @@ details.journey > .passage{border-bottom:none;border-radius:0}
   <p class="sub">Most votes we track are <b>free votes</b> &mdash; no party instruction, so each member voted by conviction. A few were whipped, and every card says which. All are taken from the official division lists of the House of Commons.
   Search by postcode, constituency, or MP name to see exactly where your representative stood.</p>
 </header>
-
-<div id="comingup"></div>
 
 <div class="searchbox">
   <label for="q">Find your MP &mdash; or a peer</label>
@@ -828,6 +879,70 @@ function href(packed, dated){
 
 function isPeer(m){ return m.house === "lords"; }
 
+/* ---------- live bills (mockups A + D, Christopher 2026-08-31) ----------
+   DATA.live_bills is every live Bill on the board (hidden areas already
+   excluded at build). Titles always link to the OFFICIAL bill page --
+   asked for the band's "Later" list, applied everywhere a live Bill is
+   named, because a named Bill with nowhere to click is a dead end. */
+const BILL_PAGE = id => `https://bills.parliament.uk/bills/${id}`;
+const billLink = b => `<a href="${BILL_PAGE(b.id)}" target="_blank" rel="noopener">${esc(b.title)}</a>`;
+const DAYNAME = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTH3 = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+// Relative labels are computed AT VIEW TIME, not build time, so "in 11
+// days" is always today's truth on a page rebuilt weekly.
+const daysUntil = iso => Math.ceil((new Date(iso + "T00:00:00") - new Date()) / 864e5);
+const inDays = iso => { const n = daysUntil(iso);
+  return n <= 0 ? "today" : n === 1 ? "tomorrow" : "in " + n + " days"; };
+const upcomingIssues = () => DATA.issues.filter(i => i.upcoming);
+const featuredBillIds = () => new Set(upcomingIssues().map(i => i.board_id).filter(Boolean));
+function liveBillGroups(excludeIds){
+  // dated groups ascending, then one TBA group: three Bills sharing a
+  // sitting Friday are one occasion, not three entries
+  const ex = excludeIds || new Set();
+  const byDate = {};
+  for (const b of (DATA.live_bills || [])){
+    if (ex.has(b.id)) continue;
+    // dkey, not "key": a display test anchors on the first declaration of
+    // that name, which must stay the bill-card grouping in renderMP
+    const dkey = b.date || "TBA";
+    (byDate[dkey] = byDate[dkey] || []).push(b);
+  }
+  return Object.keys(byDate)
+    .sort((a, b) => (a === "TBA") - (b === "TBA") || a.localeCompare(b))
+    .map(k => ({date: k === "TBA" ? null : k, bills: byDate[k]}));
+}
+
+function orderPaperHTML(){
+  // Mockup A, on the landing state below the search box: the whole live
+  // order paper, one row per sitting day, the Bill carrying an action
+  // highlighted with its petition.
+  const groups = liveBillGroups();
+  if (!groups.length) return "";
+  const issueByBoard = {};
+  upcomingIssues().forEach(i => { if (i.board_id) issueByBoard[i.board_id] = i; });
+  const rows = groups.map(g => {
+    const issue = g.bills.map(b => issueByBoard[b.id]).find(Boolean);
+    const leaf = g.date
+      ? `<div class="leaf"><span class="leafm">${MONTH3[+g.date.slice(5,7) - 1]}</span><span class="leafd">${+g.date.slice(8,10)}</span></div>`
+      : `<div class="leaf leaftba"><span class="leafm">${esc((g.bills[0].house || "").toUpperCase())}</span><span class="leafd">TBA</span></div>`;
+    const stages = [...new Set(g.bills.map(b => b.stage))].join(" / ");
+    const meta = g.date
+      ? `${stages} · ${esc(g.bills[0].house)} · ${DAYNAME[new Date(g.date + "T12:00:00").getDay()]} ${fmtD(g.date)} · ${inDays(g.date)}`
+      : `${stages} · date to be announced`;
+    return `<div class="oprow${issue ? " opstar" : ""}">
+      ${leaf}
+      <div class="opbody"><b>${g.bills.map(billLink).join(" · ")}</b><span>${meta}</span></div>
+      ${issue && issue.action && issue.action.url && issue.action.label
+        ? `<a class="actbtn" href="${esc(issue.action.url)}" target="_blank" rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
+    </div>`;
+  }).join("");
+  const n = (DATA.live_bills || []).length;
+  return `<div class="oppanel">
+    <div class="ophead"><span class="livedot"></span><h2>Before Parliament now</h2>
+      <small>${n} live Bill${n === 1 ? "" : "s"} on our issues · from the weekly board</small></div>
+    ${rows}</div>`;
+}
+
 function sinceLine(m){
   // A peer is not an MP and the page must not say so. Their date is the
   // start of their Lords membership, and none of the Commons furniture --
@@ -946,6 +1061,7 @@ function renderEmpty(){
       <small>${n ? n + " vote" + (n > 1 ? "s" : "") : "no votes yet"}</small></span>`;
   }).join("");
   document.getElementById("main").innerHTML = `
+  ${orderPaperHTML()}
   <div class="empty">
     <div class="empty-card">
       <div class="kicker">Start here</div>
@@ -978,6 +1094,12 @@ function renderMP(id){
   const isMine = d => (d.house || "commons") === ownHouse || !!m.votes[d.id];
   const mineDivs = DATA.divisions.filter(isMine);
   const took = mineDivs.filter(d=>["A","N","TA","TN"].includes(m.votes[d.id])).length;
+  // for the LIVE NOW / THE RECORD divider: this member's own span
+  const recYears = mineDivs.map(d => +d.date.slice(0, 4));
+  const recSpan = recYears.length
+    ? (Math.min(...recYears) === Math.max(...recYears)
+       ? String(recYears[0]) : Math.min(...recYears) + " to " + Math.max(...recYears))
+    : "";
   const hasVerdicts = DATA.divisions.some(d=>d.good);
   let verdictLine = "";
   if (hasVerdicts){
@@ -1316,40 +1438,59 @@ function renderMP(id){
     </details>`;
   };
 
-  // A Bill before Parliament that has not divided yet renders as a card
-  // with no votes -- status, forward look and petition, worded about the
-  // BILL rather than the member, since there is nothing yet for any member
-  // to have voted on. FIRST, because the live Bill is the most timely thing
-  // on the page. This is the 2026 assisted-suicide Bill's card: a separate
-  // Bill from Kim Leadbeater's (Christopher, 2026-08-31), no longer riding
-  // on the fallen Bill's card.
-  for (const issue of (peerNoVotes ? [] : DATA.issues.filter(i => i.upcoming))){
-    // The member's own words on THIS Bill. An upcoming issue can match
-    // debates before it has divisions -- the Second Reading debate happens
-    // before the Second Reading vote -- and a matched speech with no card
-    // to render on would be silently suppressed, which is how real news
-    // dies. So the card carries the count and the quotes from day one.
-    const w = (m.words || {})[issue.id];
-    const said = (w ? w.q : []).map(q => `<blockquote class="said">${esc(q.q)}</blockquote>
-      <div class="saidmeta">${esc(q.t)}${
-        q.u ? ` · <a class="official" href="${href(q.u, q.d)}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>`).join("");
-    rows += `<section class="billblock"><article class="bigcard">
-      <div class="votebox S"><span class="vword">NO VOTES YET</span>
-        <span class="vsub">(first division pending)</span></div>
-      <div class="cardbody">
-        <div class="lbl">BEFORE PARLIAMENT NOW</div>
-        <h3>${esc(issue.bill || issue.name)}</h3>
-        ${issue.status ? `<div class="billstatus">${esc(issue.status)}</div>` : ""}
-        ${issue.next ? `<div class="nextline">NEXT: ${
-          esc(issue.next.stage)} in the ${esc(issue.next.house)} · ${
-          fmtD(issue.next.date)}</div>` : ""}
-        ${w && w.n ? `<div class="cardsum">spoke in ${w.n} ${
-          w.unit || "debate"}${w.n > 1 ? "s" : ""} on this Bill</div>` : ""}
-        ${said}
+  // LIVE NOW / THE RECORD (Christopher, 2026-08-31, choosing mockup D).
+  // The member card opens with an inverted band holding the active
+  // business -- the Bill(s) awaiting their first division, the next
+  // sitting day's Bills, and a "Later" list -- then a labelled divider
+  // hands over to the historic cards. Live vs settled is the page's
+  // top-level grammar, not a styling detail. Every Bill named here links
+  // to its official bill page. The band replaces both the old coming-up
+  // strip and the old grey no-votes-yet card, so live business has ONE home.
+  //
+  // The band still carries the member's own words on an upcoming Bill:
+  // the Second Reading debate happens before the Second Reading vote, and
+  // a matched speech with no card to render on would be silently
+  // suppressed -- the rule that predates the band.
+  let band = "";
+  if (!peerNoVotes){
+    const feat = featuredBillIds();
+    const cards = [];
+    for (const issue of upcomingIssues()){
+      const w = (m.words || {})[issue.id];
+      const said = (w ? w.q : []).map(q => `<div class="bandsaid">${esc(q.q)}</div>
+        <div class="bandsaidmeta">${esc(q.t)}${
+          q.u ? ` · <a href="${href(q.u, q.d)}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>`).join("");
+      const title = issue.bill_url
+        ? `<a href="${esc(issue.bill_url)}" target="_blank" rel="noopener">${esc(issue.bill || issue.name)}</a>`
+        : esc(issue.bill || issue.name);
+      cards.push(`<div class="bandcard">
+        <div class="bandmain"><b>${title}</b>
+          <span>${esc(issue.status || "")}${
+            !isPeer(m) ? ` ${esc(m.name)}\u2019s vote will appear here.` : ""}${
+            w && w.n ? ` Spoke in ${w.n} ${w.unit || "debate"}${w.n > 1 ? "s" : ""} on this Bill.` : ""}</span></div>
+        ${issue.next ? `<div class="bandwhen"><b>${esc(issue.next.stage)}, ${esc(issue.next.house)}</b><br><span>${fmtD(issue.next.date)} · ${inDays(issue.next.date)}</span></div>` : ""}
         ${issue.action && issue.action.url && issue.action.label
-          ? `<a class="actbtn" href="${esc(issue.action.url)}" target="_blank"
-              rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
-      </div></article></section>`;
+          ? `<a class="bandbtn" href="${esc(issue.action.url)}" target="_blank" rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
+        ${said}
+      </div>`);
+    }
+    const rest = liveBillGroups(feat);
+    if (rest.length && rest[0].date){
+      const g = rest.shift();
+      const day = DAYNAME[new Date(g.date + "T12:00:00").getDay()];
+      cards.push(`<div class="bandcard">
+        <div class="bandmain"><b>Sitting ${day}, ${fmtD(g.date)}</b>
+          <span>${[...new Set(g.bills.map(b => b.stage))].join(" / ")}: ${g.bills.map(billLink).join(" · ")}</span></div>
+        <div class="bandwhen"><b>${day.slice(0, 3)} ${fmtD(g.date)}</b><br><span>${inDays(g.date)}</span></div>
+      </div>`);
+    }
+    if (rest.length){
+      const bits = rest.flatMap(g => g.bills.map(b =>
+        `${billLink(b)} (${g.date ? fmtD(g.date) : "date TBA"})`));
+      cards.push(`<div class="bandmore">Later: ${bits.join(" · ")}</div>`);
+    }
+    if (cards.length)
+      band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · Before Parliament</div>${cards.join("")}</div>`;
   }
 
   // A peer with no Commons votes gets no Commons cards. The banner above
@@ -1503,6 +1644,8 @@ function renderMP(id){
     ${isPeer(m) && !took ? "" :
       `<div class="card-summary">Took part in <b>${took} of ${mineDivs.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}${
         rebelled ? ` &middot; <span class="rebelsum">rebelled against their party's whip in ${rebelled}</span>` : ""}</div>`}
+    ${band}
+    ${band && rows ? `<div class="recdivider"><span>The record — ${mineDivs.length} division${mineDivs.length === 1 ? "" : "s"}, ${recSpan}</span></div>` : ""}
     ${rows}
   ${recHtml}
   </div>`;
@@ -1588,12 +1731,6 @@ document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("cli
 document.getElementById("home").addEventListener("click", e=>{e.preventDefault(); resetToEmpty();});
 
 /* ---------- boot ---------- */
-const cu = DATA.coming_up || [];
-if (cu.length) document.getElementById("comingup").innerHTML =
-  `<div class="comingup"><span class="cu-label">COMING UP</span>${
-    cu.map(e => `<span class="cu-item"><b>${esc(e.title)}</b> — ${
-      esc(e.stage)}, ${esc(e.house)}, ${fmtD(e.date)}</span>`)
-      .join(`<span class="cu-sep">·</span>`)}</div>`;
 const h = location.hash.match(/^#mp-(\d+)$/);
 if (h && byId[+h[1]]) renderMP(+h[1]); else renderEmpty();
 </script>

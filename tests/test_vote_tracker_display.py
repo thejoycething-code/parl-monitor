@@ -2297,11 +2297,22 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         self.assertIn("${took} of ${mineDivs.length}", flat)
         self.assertNotIn("${took} of ${DATA.divisions.length}", flat)
 
-    def test_an_upcoming_issue_renders_a_card_with_no_votes(self):
+    def test_an_upcoming_issue_renders_in_the_live_now_band(self):
+        # Mockup D (Christopher, 2026-08-31): the member card opens with an
+        # inverted LIVE NOW band holding the active business, then a
+        # labelled divider hands over to the historic cards.
         flat = " ".join(template().split())
-        self.assertIn("DATA.issues.filter(i => i.upcoming)", flat)
-        self.assertIn("NO VOTES YET", flat)
-        self.assertIn("BEFORE PARLIAMENT NOW", flat)
+        self.assertIn("Live now · Before Parliament", flat)
+        self.assertIn("for (const issue of upcomingIssues())", flat)
+        self.assertIn("The record — ${mineDivs.length} division", flat)
+
+    def test_the_band_is_the_upcoming_bill_s_only_home(self):
+        # The old "NO VOTES YET" card and the coming-up strip are both
+        # replaced: live business renders in ONE place per view.
+        flat = " ".join(template().split())
+        self.assertNotIn("NO VOTES YET", flat)
+        self.assertNotIn('id="comingup"', flat)
+
 
     def test_upcoming_issues_cannot_crash_the_landing_pills(self):
         # divsByIssue has no entry for an issue with no divisions; the
@@ -2408,13 +2419,13 @@ class DebateWindowTests(unittest.TestCase):
         self.assertEqual(by_id["assisted-suicide"]["debate_match"],
                          by_id["assisted-suicide-2026"]["debate_match"])
 
-    def test_the_upcoming_card_gives_matched_speeches_a_home(self):
+    def test_the_band_gives_matched_speeches_a_home(self):
         # A matched speech with no card to render on is silently
-        # suppressed. The upcoming card must carry the count and quotes.
+        # suppressed. The band carries the count and quotes, so the new
+        # Bill's Second Reading debate has a home from day one.
         flat = " ".join(template().split())
-        block = flat[flat.index("DATA.issues.filter(i => i.upcoming)"):]
+        block = flat[flat.index("for (const issue of upcomingIssues())"):]
         block = block[:block.index("A peer with no Commons votes")]
         self.assertIn("(m.words || {})[issue.id]", block)
-        self.assertIn('<blockquote class="said">', block)
+        self.assertIn('class="bandsaid"', block)
         self.assertIn("on this Bill", block)
-

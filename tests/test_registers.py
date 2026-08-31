@@ -217,11 +217,23 @@ class AlignmentComputeTests(unittest.TestCase):
 
 
 class PageAdditionsTests(unittest.TestCase):
-    def test_the_coming_up_strip_renders_from_the_dataset(self):
+    def test_the_order_paper_panel_renders_on_the_landing_state(self):
+        # Mockup A (Christopher, 2026-08-31), below the search box: the
+        # panel lives inside renderEmpty's output, which is what puts it
+        # under the search bar and off the member views.
         flat = " ".join(template().split())
-        self.assertIn('const cu = DATA.coming_up || [];', flat)
-        self.assertIn('<div id="comingup"></div>', flat)
-        self.assertIn("COMING UP", flat)
+        self.assertIn("${orderPaperHTML()}", flat)
+        self.assertIn("Before Parliament now", flat)
+        self.assertNotIn("coming_up", flat, "the strip is superseded")
+
+    def test_every_named_live_bill_links_to_its_official_page(self):
+        # Asked for the band's "Later" list; applied everywhere a live Bill
+        # is named -- a named Bill with nowhere to click is a dead end.
+        flat = " ".join(template().split())
+        self.assertIn("https://bills.parliament.uk/bills/${id}", flat)
+        self.assertIn("${g.bills.map(billLink)", flat)
+        self.assertIn("rest.flatMap(g => g.bills.map(b =>", flat)
+
 
     def test_interests_are_a_count_and_the_official_link(self):
         flat = " ".join(template().split())
@@ -249,23 +261,18 @@ class PageAdditionsTests(unittest.TestCase):
                       "a member with no rolls (peers) shows nothing, not 0%")
 
 
-class ComingUpQueryTests(unittest.TestCase):
-    def test_only_live_dated_future_rows_and_at_most_four(self):
+class LiveBillsTests(unittest.TestCase):
+    """The live_bills payload behind the panel and the band: every live
+    Bill, uncapped, TBA included -- with two deliberate exclusions."""
+
+    def _build(self, rows):
         conn = sqlite3.connect(":memory:")
         conn.row_factory = sqlite3.Row
         db.init_db(conn)
-        rows = [
-            (1, "Past Bill", "Commons", "2nd reading", "2020-01-01", "live"),
-            (2, "TBA Bill", "Commons", "2nd reading", "TBA", "live"),
-            (3, "Closed Bill", "Commons", "2nd reading", "2099-01-01", "closed"),
-            (4, "Bill A", "Commons", "2nd reading", "2099-01-02", "live"),
-            (5, "Bill B", "Commons", "2nd reading", "2099-01-03", "live"),
-            (6, "Bill C", "Lords", "Committee", "2099-01-04", "live"),
-            (7, "Bill D", "Commons", "2nd reading", "2099-01-05", "live"),
-        ]
         for r in rows:
             conn.execute("INSERT INTO bills_board (bill_id, title, house, "
-                         "stage, next_key_date, status) VALUES (?,?,?,?,?,?)", r)
+                         "stage, next_key_date, areas, status) "
+                         "VALUES (?,?,?,?,?,?,?)", r)
         members.cache_put(conn, members.Member(
             id=1, name="Aye MP", party="Labour", seat="Seat",
             house="Commons", since="2024-07-04", list_as="Aye MP"))
@@ -273,10 +280,40 @@ class ComingUpQueryTests(unittest.TestCase):
         conn.commit()
         cfg = {"issues": [{"id": "iss", "name": "An issue", "area": 2,
                            "bill": "A Bill", "note": "n", "status": "s"}],
-               "divisions": []}
+               "divisions": [], "hidden_areas": [11]}
         dataset, _ = mvt.build(conn, cfg, {})
-        got = [c["title"] for c in dataset["coming_up"]]
-        self.assertEqual(got, ["Bill A", "Bill B", "Bill C", "Bill D"])
+        return dataset["live_bills"]
+
+    def test_all_live_bills_ship_dated_first_then_tba_no_cap(self):
+        rows = [
+            (1, "Bill E", "Commons", "2nd reading", "2099-01-05", "2", "live"),
+            (2, "Bill TBA", "Lords", "2nd reading", "TBA", "1", "live"),
+            (3, "Bill A", "Commons", "2nd reading", "2099-01-02", "2", "live"),
+            (4, "Closed", "Commons", "Royal Assent", "2099-01-01", "2", "closed"),
+            (5, "Bill C", "Commons", "2nd reading", "2099-01-03", "6", "live"),
+            (6, "Bill D", "Commons", "2nd reading", "2099-01-04", "6", "live"),
+        ]
+        got = self._build(rows)
+        self.assertEqual([b["title"] for b in got],
+                         ["Bill A", "Bill C", "Bill D", "Bill E", "Bill TBA"])
+        self.assertIsNone(got[-1]["date"])
+
+    def test_a_hidden_area_bill_never_ships(self):
+        # Migration is captured but never published (Christopher,
+        # 2026-08-06). The Immigration and Asylum Bill sits live on the
+        # board with a TBA date; without this filter, the panel would have
+        # been the first place it leaked.
+        rows = [(1, "Immigration and Asylum Bill", "Commons", "2nd reading",
+                 "TBA", "11", "live"),
+                (2, "Ours", "Commons", "2nd reading", "2099-01-01", "2", "live")]
+        got = self._build(rows)
+        self.assertEqual([b["title"] for b in got], ["Ours"])
+
+    def test_a_past_dated_row_is_board_lag_not_business(self):
+        rows = [(1, "Stale", "Commons", "2nd reading", "2020-01-01", "2", "live"),
+                (2, "Fresh", "Commons", "2nd reading", "2099-01-01", "2", "live")]
+        got = self._build(rows)
+        self.assertEqual([b["title"] for b in got], ["Fresh"])
 
 
 if __name__ == "__main__":

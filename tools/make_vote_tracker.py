@@ -832,6 +832,10 @@ def build(conn, cfg, payloads):
             issue["next"] = {"stage": row["what_next"] or row["stage"],
                              "house": row["house"],
                              "date": row["next_key_date"]}
+        # The official bill page, for the LIVE NOW band's title link. The
+        # board id IS the bills.parliament.uk id, so this costs nothing.
+        if row is not None:
+            issue["bill_url"] = "https://bills.parliament.uk/bills/{0}".format(bid)
         # The action dies only when the BILL has (Christopher, 2026-08-31:
         # "the petition only dies once the Bill has"). The first cut retired
         # it whenever the row was not provably live -- so a board hiccup, or
@@ -1108,24 +1112,38 @@ def build(conn, cfg, payloads):
     print("members: {0} MPs + {1} peers ({2} peer(s) dropped as empty)".format(
         len(members) - peers_kept, peers_kept, dropped))
 
-    # The forward strip: the next few dated events on OUR bills, from the
-    # weekly board -- every row on it is a tracked bill, so no further
-    # filter is needed. Bounded to four: a strip is a headline, not a
-    # calendar -- and four rather than three because the first sitting
-    # Friday of September carries three PMB Second Readings at once, which
-    # at three would crowd the assisted-suicide Bill of the 11th out of
-    # its own page (measured 2026-08-31).
+    # EVERY live bill, for the Order Paper panel on the landing page and
+    # the LIVE NOW band on member cards (Christopher, 2026-08-31, choosing
+    # mockups A and D). No cap and no dated-only filter -- the old
+    # four-event strip could never show the Hospice Funding Bill or the
+    # undated Lords Bill at all. Two exclusions, both deliberate:
+    #   - hidden areas: migration is captured but never published
+    #     (Christopher, 2026-08-06), and the Immigration and Asylum Bill
+    #     sits live on the board with a TBA date -- without this filter
+    #     the panel would have been the first place it leaked;
+    #   - past-dated rows: a stale date is board lag, not business.
     today = datetime.date.today().isoformat()
-    coming_up = [dict(r) for r in conn.execute(
-        "SELECT title, house, COALESCE(what_next, stage) AS stage, "
-        "next_key_date AS date FROM bills_board "
-        "WHERE status = 'live' AND next_key_date >= ? "
-        "AND next_key_date GLOB '[0-9]*' ORDER BY next_key_date, title "
-        "LIMIT 4", (today,))]
+    hidden = {str(a) for a in (cfg.get("hidden_areas") or [])}
+    live_bills = []
+    for row in conn.execute(
+            "SELECT bill_id, title, house, COALESCE(what_next, stage) AS stage, "
+            "next_key_date AS date, areas FROM bills_board "
+            "WHERE status = 'live' "
+            "ORDER BY (next_key_date GLOB '[0-9]*') DESC, next_key_date, title"):
+        bill_areas = {a.strip() for a in (row["areas"] or "").split(",")
+                      if a.strip()}
+        if bill_areas & hidden:
+            continue
+        dated = bool(re.match(r"\d{4}-\d\d-\d\d$", row["date"] or ""))
+        if dated and row["date"] < today:
+            continue
+        live_bills.append({"id": row["bill_id"], "title": row["title"],
+                           "house": row["house"], "stage": row["stage"],
+                           "date": row["date"] if dated else None})
 
     dataset = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
-        "coming_up": coming_up,
+        "live_bills": live_bills,
         # An issue ships if a division uses it OR it is marked `upcoming` --
         # a Bill before Parliament that has not divided yet, rendered as a
         # card with status, forward look and action but no votes. That is
