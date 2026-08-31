@@ -1266,26 +1266,19 @@ function renderMP(id){
   const relativeToParty = (d, vi) => {
     const pr = partyRow(d, vi.side);
     if (!pr) return "";
-    const abbr = PARTY_ABBR[pr.name] || pr.name;
-    if (pr.mine === pr.other)
-      return `<span class="pmark">splitting ${abbr} ${pr.ayes}\u2013${pr.noes}</span>`;
+    // ONLY genuine rebellion prints: the division was whipped for their
+    // party AND they voted against its majority -- the same two-fact bar
+    // as the WHIPPED chip. Everything else says nothing (Christopher,
+    // 2026-08-31, twice): "with 234 of 381 Lab" was page furniture, and
+    // "against 160 of 384 Lab" implied defiance where none exists -- on a
+    // free vote there is no party position to be with or against, so
+    // with/against/splitting are all the wrong grammar there. The splits
+    // stay in the shipped data for 5CA analysis.
     const against = pr.mine < pr.other;
-    // "rebelled" is claimed ONLY when both facts hold: their party was
-    // whipped in this division (declared in the config or shown by the bloc
-    // arithmetic -- the same evidence bar as the WHIPPED chip), and they
-    // voted against that party's majority. Voting against the majority on a
-    // free vote is conviction, not rebellion, and is not renamed.
-    const rebel = against && whipFor(d, m).label === "whipped";
-    // Voting WITH the party majority is not printed (Christopher,
-    // 2026-08-31: "cut the additional by party votes" -- that clause is
-    // analysis data for 5CA targeting, not page furniture). AGAINST is the
-    // one-in-five case the page exists to surface, and it stays -- an MP
-    // willing to defy the room on a free vote is exactly who the 5CA wants
-    // to find.
-    if (!against) return "";
-    return `<span class="pmark against">${
-      rebel ? "rebelled \u2014 " : ""}against ${pr.mine} of ${
-      pr.ayes + pr.noes} ${abbr}</span>`;
+    if (!(against && whipFor(d, m).label === "whipped")) return "";
+    const abbr = PARTY_ABBR[pr.name] || pr.name;
+    return `<span class="pmark against">rebelled \u2014 against ${
+      pr.mine} of ${pr.ayes + pr.noes} ${abbr}</span>`;
   };
 
 

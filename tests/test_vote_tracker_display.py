@@ -1379,19 +1379,22 @@ class PartyPhraseFoldedTests(unittest.TestCase):
         self.assertIn("PARTY_ABBR[pr.name] || pr.name", block)
         self.assertNotIn("MPs (", block, "no pluralised party names")
 
-    def test_only_against_is_printed(self):
-        """Christopher, 2026-08-31: "cut the additional by party votes" --
-        "with 234 of 381 Lab" is analysis data for 5CA targeting, not page
-        furniture. "against" (1,365 of 6,585 cast votes, about one in five)
-        stays: an MP willing to defy the room on a free vote is exactly who
-        the 5CA wants to find. So does "splitting", the even-split case."""
+    def test_only_genuine_rebellion_is_printed(self):
+        """Christopher, 2026-08-31 (twice in one evening): "with 234 of 381
+        Lab" was page furniture, and "against 160 of 384 Lab" implied
+        defiance where none exists -- a free vote has no party position to
+        be with or against, so with/against/splitting are all the wrong
+        grammar there. Only the whipped-and-against case prints, on the
+        same two-fact bar as the WHIPPED chip. The splits stay in the
+        shipped data for 5CA analysis."""
         flat = " ".join(template().split())
         block = flat[flat.index("const relativeToParty"):
                      flat.index("const whipUniform")]
-        self.assertIn('if (!against) return "";', block)
-        self.assertIn('"pmark against">', block)
-        self.assertIn("splitting", block)
+        self.assertIn('if (!(against && whipFor(d, m).label === "whipped")) '
+                      'return "";', block)
+        self.assertIn('rebelled \\u2014 against', block)
         self.assertNotIn('"with"', block)
+        self.assertNotIn("splitting ${", block)
 
     def test_against_is_not_a_verdict_colour(self):
         """A fourth green/red vocabulary is the thing this page keeps having
@@ -2252,8 +2255,10 @@ class RebellionTests(unittest.TestCase):
         self.assertIn("pr.mine < pr.other && whipFor", flat)
 
     def test_rebelled_rides_the_against_wording_not_a_verdict_colour(self):
+        # Since 2026-08-31 rebellion is the ONLY thing relativeToParty can
+        # print, so the prefix is no longer conditional.
         flat = " ".join(template().split())
-        self.assertIn('rebel ? "rebelled \\u2014 " : ""', flat)
+        self.assertIn('rebelled \\u2014 against', flat)
         self.assertIn("rebelled against their party's whip in ${rebelled}",
                       flat)
 
