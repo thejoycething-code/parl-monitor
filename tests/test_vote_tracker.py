@@ -136,6 +136,32 @@ class MemberParsingTests(unittest.TestCase):
         self.assertEqual(members.cache_get(conn, 1).since, "2024-07-04")
 
 
+class OfficialRecordUrlTests(unittest.TestCase):
+    """The official-record link must point at the division's OWN house.
+    Hardcoded /Commons/, a Lords division's link landed on whatever
+    unrelated Commons division shared its number -- Lord Alton's
+    assisted-dying rows pointed at other business entirely (Christopher,
+    2026-08-31)."""
+
+    def test_a_lords_division_links_to_the_lords_record(self):
+        conn = fresh_conn()
+        members.cache_put(conn, members.Member(
+            id=1, name="Aye MP", party="Labour", seat="Seat",
+            house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        conn.commit()
+        import copy
+        cfg = copy.deepcopy(CFG)
+        cfg["divisions"][0]["house"] = "lords"
+        dataset, _ = mvt.build(conn, cfg, {900: PAYLOAD})
+        self.assertEqual(dataset["divisions"][0]["url"],
+                         "https://votes.parliament.uk/Votes/Lords/Division/900")
+        cfg["divisions"][0]["house"] = "commons"
+        dataset, _ = mvt.build(conn, cfg, {900: PAYLOAD})
+        self.assertEqual(dataset["divisions"][0]["url"],
+                         "https://votes.parliament.uk/Votes/Commons/Division/900")
+
+
 class PartyHistoryTests(unittest.TestCase):
     """The shipped spell history (2026-08-31): collapsed, and kept past the
     last division, because the page now DISPLAYS it as well as whipping by

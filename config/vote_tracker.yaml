@@ -651,50 +651,83 @@ divisions:
   # SIGNED OFF by Christopher, 2026-08-29, after seeing them rendered
   # unsigned. our_side "no" throughout is his approval of the scoring, not
   # my inference from it.
+  # CORRECTED 2026-08-31 after Christopher caught Lord Alton's page. This
+  # division was previously described as the Bill's Second Reading with
+  # aye = "supported the Bill proceeding" -- INVERTED. The Lords Votes
+  # API's own motion note: Baroness O'Neill of Bengarve moved amendment
+  # 12B in Committee, and the rolls agree -- Contents 106 include Lord
+  # Alton and Lord Carlile, Not-Contents 179 include Lord Falconer, the
+  # Bill's sponsor. Falconer's Bill in fact received an UNOPPOSED Second
+  # Reading; there was no division on the principle to show.
+  # signed_off stays false until the corrected wording has been checked.
   - id: 1885
     house: lords
     issue: assisted-suicide
-    stage: Second Reading
-    stage_group: Second Reading
-    landmark: true
-    signed_off: true
-    our_side: "no"
-    short: Second Reading (Lords, 2015)
+    stage: Committee stage
+    stage_group: Committee stage
+    landmark: false
+    signed_off: false
+    our_side: aye
+    short: Plain-language amendment (Lords, 2015)
     context: >-
-      Lord Falconer's Assisted Dying Bill -- the last time the Lords divided
-      on the principle before the current Bill.
+      Committee day on Lord Falconer's Assisted Dying Bill. Baroness O'Neill
+      of Bengarve moved amendment 12B, requiring the Bill to describe what it
+      authorises as assistance with suicide. The amendment was defeated 106
+      to 179.
     meaning_aye: >-
-      Supported the Bill proceeding: in principle, in favour of legalising
-      assisted suicide for terminally ill adults.
+      Supported Baroness O'Neill's amendment: the Bill should say plainly
+      that it authorises assistance with suicide.
     meaning_no: >-
-      Voted against the Bill proceeding.
+      Voted against the amendment, keeping the Bill's own wording.
+  # CORRECTED 2026-08-31, same review: previously "Report Stage" with the
+  # amendment left undescribed and our side on the wrong end. The API's
+  # motion note: Lord Carlile of Berriew moved amendment 13 in Committee,
+  # requiring two doctors -- one of them the patient's own for at least
+  # six months -- in place of one. Defeated 61 to 119; Lord Alton voted
+  # Content. signed_off stays false until checked.
   - id: 1886
     house: lords
     issue: assisted-suicide
-    stage: Report Stage
-    stage_group: Report Stage
+    stage: Committee stage
+    stage_group: Committee stage
     landmark: false
-    signed_off: true
-    our_side: "no"
-    short: Amendment (Lords, 2015)
+    signed_off: false
+    our_side: aye
+    short: Two-doctors amendment (Lords, 2015)
     context: >-
-      A second division the same day, on an amendment to Lord Falconer's Bill.
+      A second Committee division the same day. Lord Carlile of Berriew moved
+      amendment 13, requiring the assessment of two registered medical
+      practitioners -- one of whom had treated the person for at least six
+      months -- instead of one. The amendment was defeated 61 to 119.
     meaning_aye: >-
-      Supported the amendment to the Assisted Dying Bill.
+      Supported Lord Carlile's safeguard requiring two doctors, including one
+      who knew the patient.
     meaning_no: >-
-      Voted against the amendment.
+      Voted against the two-doctors safeguard.
+  # CORRECTED 2026-08-31, same review: previously aye = "supported the
+  # Bill proceeding" -- INVERTED. The API's motion note: Lord Carlile
+  # moved, as an amendment to the Second Reading motion, to leave out
+  # "now" and insert "this day six months" -- the Lords' traditional way
+  # of declining a Bill. Contents 148 CARRIED the amendment and stopped
+  # Lord Joffe's Bill, so a Content here is the vote that stopped assisted
+  # dying in 2006, not the vote for it. signed_off stays false until the
+  # corrected wording has been checked.
   - id: 981
     house: lords
     issue: assisted-suicide
     stage: Second Reading
     stage_group: Second Reading
     landmark: false
-    signed_off: true
-    our_side: "no"
-    short: Second Reading (Lords, 2006)
+    signed_off: false
+    our_side: aye
+    short: Six-month delay amendment (Lords, 2006)
     context: >-
-      Lord Joffe's Assisted Dying for the Terminally Ill Bill.
+      The division that stopped Lord Joffe's Assisted Dying for the
+      Terminally Ill Bill: Lord Carlile's amendment to put off its Second
+      Reading by six months -- the Lords' traditional way of declining a
+      Bill -- carried 148 to 100.
     meaning_aye: >-
-      Supported the Bill proceeding.
+      Supported the delaying amendment that stopped the Bill.
     meaning_no: >-
-      Voted to halt the Bill.
+      Opposed the delay: in favour of the Bill proceeding to a Second
+      Reading.

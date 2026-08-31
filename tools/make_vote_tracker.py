@@ -912,7 +912,14 @@ def build(conn, cfg, payloads):
             "passed": (payload.get("AyeCount") or 0) > (payload.get("NoCount") or 0),
             "meaning_aye": d["meaning_aye"], "meaning_no": d["meaning_no"],
             "signed_off": bool(d.get("signed_off")),
-            "url": "https://votes.parliament.uk/Votes/Commons/Division/{0}".format(d["id"]),
+            # The official record, IN THE DIVISION'S OWN HOUSE. This was
+            # hardcoded /Commons/, so a Lords division's link landed on
+            # whatever unrelated Commons division shared its number --
+            # Lord Alton's assisted-dying rows pointed at other business
+            # entirely (Christopher, 2026-08-31).
+            "url": "https://votes.parliament.uk/Votes/{0}/Division/{1}".format(
+                "Lords" if (d.get("house") or "commons").lower() == "lords"
+                else "Commons", d["id"]),
         })
 
     # Deputy Speakers identify themselves in the payloads: their listed party

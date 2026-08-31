@@ -90,15 +90,31 @@ def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
 
     done_before = conn.execute(
-        "SELECT 1 FROM pull_log WHERE week = ?", (MARKER,)).fetchone()
+        "SELECT completed_at FROM pull_log WHERE week = ?", (MARKER,)).fetchone()
     if done_before:
         import datetime
+        # The register publishes roughly fortnightly, so weekly sweeps are
+        # mostly wasted requests (Christopher, 2026-08-31: "not a weekly
+        # thing"). Run only when the last completed sweep is 13+ days old;
+        # the sunday-pull step then fires it about every other week.
+        last = (done_before[0] or "")[:10]
+        today = datetime.date.today()
+        if last and (today - datetime.date.fromisoformat(last)).days < 13:
+            held = conn.execute(
+                "SELECT COUNT(*) FROM member_interest").fetchone()[0]
+            print("interests: swept {0}, register publishes fortnightly -- "
+                  "skipping; {1} held".format(last, held))
+            return 0
         newest = conn.execute(
             "SELECT MAX(published) FROM member_interest").fetchone()[0]
         cutoff = (datetime.date.fromisoformat(newest[:10])
                   - datetime.timedelta(days=14)).isoformat()
         written, completed = sweep(conn, client, since=cutoff)
         mode = "incremental since {0}".format(cutoff)
+        if completed:
+            conn.execute("UPDATE pull_log SET completed_at = datetime('now') "
+                         "WHERE week = ?", (MARKER,))
+            conn.commit()
     else:
         held = conn.execute(
             "SELECT COUNT(*) FROM member_interest").fetchone()[0]
