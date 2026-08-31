@@ -791,14 +791,24 @@ def build(conn, cfg, payloads):
         row = conn.execute(
             "SELECT house, stage, status, next_key_date, what_next "
             "FROM bills_board WHERE bill_id = ?", (bid,)).fetchone()
+        alive = bool(row) and row["status"] == "live"
         if row is None:
             print("  issue {0}: board_id {1} is not on the bills board -- "
                   "no forward date will show".format(issue["id"], bid))
-        elif (row["status"] == "live"
-                and re.match(r"\d{4}-\d\d-\d\d$", row["next_key_date"] or "")):
+        elif alive and re.match(r"\d{4}-\d\d-\d\d$", row["next_key_date"] or ""):
             issue["next"] = {"stage": row["what_next"] or row["stage"],
                              "house": row["house"],
                              "date": row["next_key_date"]}
+        # The action rides the Bill's life (Christopher, 2026-08-31: "only
+        # while the Bill is alive"). Gated HERE, not in the template, so a
+        # retired button leaves the payload too -- and a missing board row
+        # retires it as well: a signup button we cannot show to be current
+        # is a promise the page should not make.
+        if issue.get("action") and not alive:
+            del issue["action"]
+            print("  issue {0}: action withheld -- board {1} is {2}".format(
+                issue["id"], bid,
+                row["status"] if row else "not on the board"))
     used_issues, divisions, votes = set(), [], {}
     missing = []
     for d in cfg.get("divisions") or []:

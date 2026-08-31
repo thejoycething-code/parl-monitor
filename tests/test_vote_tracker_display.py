@@ -2282,18 +2282,24 @@ class BillStatusAndActionTests(unittest.TestCase):
         self.assertIn("NEXT: ${ esc(g.issue.next.stage)} in the "
                       "${esc(g.issue.next.house)}", flat)
 
-    def test_no_action_is_currently_configured(self):
-        # The CTA mechanism ships dark until a live CitizenGO action exists
-        # (Christopher, 2026-08-31). When one is added to the config this
-        # test should start checking the URL is a citizengo.org address
-        # instead of failing the build.
+    def test_every_configured_action_is_a_gated_citizengo_address(self):
+        # The delivery petition went live on assisted-suicide (Christopher,
+        # 2026-08-31). Two rules for any action, now and later: the URL is
+        # a citizengo.org address, and the issue carries a board_id so the
+        # builder can retire the button when the Bill stops being alive --
+        # an ungated public signup link needs a deliberate decision, not a
+        # forgotten key.
         import yaml
         with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
                   encoding="utf-8") as fh:
             cfg = yaml.safe_load(fh)
-        for issue in cfg["issues"]:
-            action = issue.get("action") or {}
-            if action:
-                self.assertTrue(
-                    str(action.get("url", "")).startswith("https://citizengo.org"),
-                    "an action URL must be a citizengo.org address")
+        configured = [i for i in cfg["issues"] if i.get("action")]
+        self.assertTrue(configured, "the assisted-suicide action is expected")
+        for issue in configured:
+            action = issue["action"]
+            self.assertTrue(
+                str(action.get("url", "")).startswith("https://citizengo.org"),
+                "an action URL must be a citizengo.org address")
+            self.assertTrue(action.get("label"))
+            self.assertIn("board_id", issue,
+                          "an action without a board_id never retires")

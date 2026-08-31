@@ -214,6 +214,8 @@ class BoardNextTests(unittest.TestCase):
         import copy
         cfg = copy.deepcopy(CFG)
         cfg["issues"][0]["board_id"] = board_id
+        cfg["issues"][0]["action"] = {"url": "https://citizengo.org/x",
+                                      "label": "Sign"}
         dataset, _ = mvt.build(conn, cfg, {900: PAYLOAD})
         return dataset["issues"][0]
 
@@ -245,6 +247,42 @@ class BoardNextTests(unittest.TestCase):
     def test_a_missing_board_row_ships_nothing_and_does_not_crash(self):
         issue = self.build_with(None)
         self.assertNotIn("next", issue)
+
+    # ---- the action rides the Bill's life (Christopher, 2026-08-31) ------
+    def test_the_action_ships_while_the_bill_is_live(self):
+        issue = self.build_with(
+            (4157, "A Bill", "Commons", "2nd reading", "2026-09-11", None, "live"))
+        self.assertEqual(issue["action"]["label"], "Sign")
+
+    def test_the_action_retires_when_the_bill_closes(self):
+        # Gated in the builder, not the template, so a retired button
+        # leaves the payload too -- no dead petition link ships to 1,144
+        # member pages waiting for a template check to hide it.
+        issue = self.build_with(
+            (4157, "A Bill", "Lords", "Committee stage", "TBA", None, "closed"))
+        self.assertNotIn("action", issue)
+
+    def test_a_missing_board_row_also_retires_the_action(self):
+        # A signup button we cannot show to be current is a promise the
+        # page should not make.
+        issue = self.build_with(None)
+        self.assertNotIn("action", issue)
+
+    def test_an_issue_without_a_board_id_keeps_its_action(self):
+        # Nothing to gate on: the config documents that an ungated action
+        # always ships, and the builder must not invent a gate.
+        conn = fresh_conn()
+        members.cache_put(conn, members.Member(
+            id=1, name="Aye MP", party="Labour", seat="Seat",
+            house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        conn.commit()
+        import copy
+        cfg = copy.deepcopy(CFG)
+        cfg["issues"][0]["action"] = {"url": "https://citizengo.org/x",
+                                      "label": "Sign"}
+        dataset, _ = mvt.build(conn, cfg, {900: PAYLOAD})
+        self.assertEqual(dataset["issues"][0]["action"]["label"], "Sign")
 
 
 if __name__ == "__main__":
