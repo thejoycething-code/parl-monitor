@@ -483,36 +483,46 @@ details.journey > .passage{border-bottom:none;border-radius:0}
   padding:20px 22px;margin:0 0 6px;box-shadow:0 8px 30px rgba(47,111,224,.25)}
 .bandlabel{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;
   letter-spacing:.16em;text-transform:uppercase;color:#dbe6fb;margin-bottom:12px}
-.bandcard{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
-  border-radius:9px;padding:13px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.bandcard + .bandcard{margin-top:9px}
-.bandcard .bandmain{min-width:0;flex:1 1 300px}
-.bandcard b{display:block;font-weight:700;font-size:15.5px;color:#fff}
-.bandcard b a{color:#fff;text-decoration:none}
-.bandcard b a:hover{text-decoration:underline;color:#fff}
-.bandcard span{font-size:12.5px;color:#dbe6fb;font-weight:300}
-/* a page-blue link is invisible on the band: everything inside it is white */
-.bandcard span a{color:#fff;text-decoration:underline}
-.bandcard span a:hover{color:#fff}
-.bandwhen{margin-left:auto;text-align:right;flex:none}
-.bandwhen b{font-size:13.5px}
-.bandwhen span{font-size:11.5px}
+.bandhero{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.bandhero + .bandhero{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.25)}
+.bandheromain{flex:1 1 340px;min-width:0}
+.bandheromain h3{color:#fff;font-size:24px;font-weight:900;line-height:1.15;margin-bottom:7px}
+.bandheromain h3 a{color:#fff;text-decoration:none}
+.bandheromain h3 a:hover{text-decoration:underline;color:#fff}
+.bandherosub{font-size:13.5px;color:#dbe6fb;font-weight:300;max-width:60ch}
+.bandheroside{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.bigdate{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:9px;
+  padding:9px 14px;text-align:center;min-width:130px}
+.bigdate b{display:block;font-size:17px;color:#fff;font-weight:900}
+.bigdate span{font-size:10.5px;color:#dbe6fb;letter-spacing:.06em}
 .bandbtn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;
-  font-size:13px;border-radius:7px;padding:8px 15px;white-space:nowrap;flex:none}
+  font-size:14px;border-radius:7px;padding:10px 18px;white-space:nowrap;flex:none}
 .bandbtn:hover{background:var(--blue-tint);color:var(--blue-deep);text-decoration:none}
-.bandsaid{flex-basis:100%;margin:4px 0 0;font-size:13.5px;line-height:1.5;font-style:italic;
+.bandsaid{margin:10px 0 0;font-size:13.5px;line-height:1.5;font-style:italic;
   color:#fff;border-left:3px solid rgba(255,255,255,.45);padding-left:12px}
 .bandsaid:before{content:"\201C"} .bandsaid:after{content:"\201D"}
-.bandsaidmeta{flex-basis:100%;font-size:11.5px;color:#cfe0fc}
+.bandsaidmeta{font-size:11.5px;color:#cfe0fc;margin-top:2px}
 .bandsaidmeta a{color:#fff;text-decoration:underline}
-.bandmore{margin-top:11px;font-size:12px;color:#cfe0fc}
-.bandmore a{color:#fff;text-decoration:underline}
+/* the other live Bills, behind a native disclosure (mockup C) */
+.banddisc{margin-top:13px;border-top:1px solid rgba(255,255,255,.25)}
+.banddisc summary{list-style:none;cursor:pointer;padding:10px 0 2px;font-size:12.5px;font-weight:500;color:#fff}
+.banddisc summary::-webkit-details-marker{display:none}
+.banddisc summary:before{content:"\25B8  ";font-size:10px}
+.banddisc[open] summary:before{content:"\25BE  "}
+.banddisc summary:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:3px}
+.bdrow{display:flex;gap:12px;align-items:center;padding:8px 0;border-top:1px solid rgba(255,255,255,.14)}
+.bdrow:first-of-type{border-top:none}
+.bdleaf{flex:0 0 46px;text-align:center;background:rgba(255,255,255,.16);border-radius:6px;
+  font-size:10.5px;font-weight:700;color:#fff;padding:4px 0;line-height:1.3}
+.bdrow a{color:#fff;text-decoration:underline;font-weight:300;font-size:13px;min-width:0}
+.bdrow span{font-size:11px;color:#cfe0fc;flex:none}
 .recdivider{display:flex;align-items:center;gap:14px;margin:20px 0 10px;color:#9aa1a9}
 .recdivider:before,.recdivider:after{content:"";flex:1;height:1px;background:var(--line)}
 .recdivider span{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
 @media(max-width:640px){
   .liveband{padding:16px}
-  .bandwhen{margin-left:0;text-align:left}
+  .bandheroside{flex-direction:row;align-items:center;gap:12px}
+  .bigdate{min-width:0}
 }
 </style>
 </head>
@@ -1454,8 +1464,10 @@ function renderMP(id){
   let band = "";
   if (!peerNoVotes){
     const feat = featuredBillIds();
-    const cards = [];
+    const heroes = [];
     for (const issue of upcomingIssues()){
+      // Mockup C (Christopher, 2026-08-31): the band belongs to this Bill
+      // -- big linked title, the story, a date block and the petition.
       const w = (m.words || {})[issue.id];
       const said = (w ? w.q : []).map(q => `<div class="bandsaid">${esc(q.q)}</div>
         <div class="bandsaidmeta">${esc(q.t)}${
@@ -1463,34 +1475,43 @@ function renderMP(id){
       const title = issue.bill_url
         ? `<a href="${esc(issue.bill_url)}" target="_blank" rel="noopener">${esc(issue.bill || issue.name)}</a>`
         : esc(issue.bill || issue.name);
-      cards.push(`<div class="bandcard">
-        <div class="bandmain"><b>${title}</b>
-          <span>${esc(issue.status || "")}${
+      const when = issue.next
+        ? `<div class="bigdate"><b>${DAYNAME[new Date(issue.next.date + "T12:00:00").getDay()].slice(0, 3)} ${
+            fmtD(issue.next.date).split(" ").slice(0, 2).join(" ")}</b><span>${
+            esc(issue.next.stage.toUpperCase())} · ${inDays(issue.next.date).toUpperCase()}</span></div>` : "";
+      heroes.push(`<div class="bandhero">
+        <div class="bandheromain">
+          <h3>${title}</h3>
+          <div class="bandherosub">${esc(issue.status || "")}${
             !isPeer(m) ? ` ${esc(m.name)}\u2019s vote will appear here.` : ""}${
-            w && w.n ? ` Spoke in ${w.n} ${w.unit || "debate"}${w.n > 1 ? "s" : ""} on this Bill.` : ""}</span></div>
-        ${issue.next ? `<div class="bandwhen"><b>${esc(issue.next.stage)}, ${esc(issue.next.house)}</b><br><span>${fmtD(issue.next.date)} · ${inDays(issue.next.date)}</span></div>` : ""}
-        ${issue.action && issue.action.url && issue.action.label
-          ? `<a class="bandbtn" href="${esc(issue.action.url)}" target="_blank" rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
-        ${said}
+            w && w.n ? ` Spoke in ${w.n} ${w.unit || "debate"}${w.n > 1 ? "s" : ""} on this Bill.` : ""}</div>
+          ${said}
+        </div>
+        <div class="bandheroside">
+          ${when}
+          ${issue.action && issue.action.url && issue.action.label
+            ? `<a class="bandbtn" href="${esc(issue.action.url)}" target="_blank" rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
+        </div>
       </div>`);
     }
+    // Everything else live goes behind a native disclosure -- the same
+    // idiom as the vote cards' "What happened in between": zero visual
+    // competition until the reader asks, then one linked leaf-row per
+    // Bill. No JavaScript; keyboard and screen readers come free.
     const rest = liveBillGroups(feat);
-    if (rest.length && rest[0].date){
-      const g = rest.shift();
-      const day = DAYNAME[new Date(g.date + "T12:00:00").getDay()];
-      cards.push(`<div class="bandcard">
-        <div class="bandmain"><b>Sitting ${day}, ${fmtD(g.date)}</b>
-          <span>${[...new Set(g.bills.map(b => b.stage))].join(" / ")}: ${g.bills.map(billLink).join(" · ")}</span></div>
-        <div class="bandwhen"><b>${day.slice(0, 3)} ${fmtD(g.date)}</b><br><span>${inDays(g.date)}</span></div>
-      </div>`);
+    const others = rest.flatMap(g => g.bills.map(b => ({b, date: g.date})));
+    let disc = "";
+    if (others.length){
+      const rows = others.map(({b, date}) => `<div class="bdrow">
+        <span class="bdleaf">${date
+          ? MONTH3[+date.slice(5, 7) - 1] + "<br>" + (+date.slice(8, 10))
+          : "TBA"}</span>
+        ${billLink(b)}<span>· ${esc(b.stage)}, ${esc(b.house)}</span></div>`).join("");
+      disc = `<details class="banddisc"><summary>${others.length} more Bill${
+        others.length === 1 ? "" : "s"} before Parliament on our issues</summary>${rows}</details>`;
     }
-    if (rest.length){
-      const bits = rest.flatMap(g => g.bills.map(b =>
-        `${billLink(b)} (${g.date ? fmtD(g.date) : "date TBA"})`));
-      cards.push(`<div class="bandmore">Later: ${bits.join(" · ")}</div>`);
-    }
-    if (cards.length)
-      band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · Before Parliament</div>${cards.join("")}</div>`;
+    if (heroes.length || others.length)
+      band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · Before Parliament</div>${heroes.join("")}${disc}</div>`;
   }
 
   // A peer with no Commons votes gets no Commons cards. The banner above
