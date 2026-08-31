@@ -826,13 +826,15 @@ def build(conn, cfg, payloads):
     # so the config URLs stay clean and no future action can ship untracked
     # by forgetting the parameters. A URL already carrying utm_ parameters
     # is left alone: a hand-tuned link wins over the default. utm_campaign
-    # is the issue id, so the campaign team can tell which card converted.
+    # is cgo-monitor-<issue id>: the issue id says which card converted, and
+    # the prefix keeps the monitor findable in a campaign-level report too
+    # (Christopher, 2026-08-31: "cgo-monitor also in the campaign utm").
     for issue in issues:
         act = issue.get("action")
         if act and act.get("url") and "utm_" not in act["url"]:
             act["url"] += ("&" if "?" in act["url"] else "?") + \
                 "utm_source=cgo-monitor&utm_medium=referral" + \
-                "&utm_campaign={0}".format(issue["id"])
+                "&utm_campaign=cgo-monitor-{0}".format(issue["id"])
     used_issues, divisions, votes = set(), [], {}
     missing = []
     for d in cfg.get("divisions") or []:

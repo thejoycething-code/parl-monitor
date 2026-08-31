@@ -88,7 +88,7 @@ issues:
     # what needs a human edit, not the mechanism.
     # Keep this URL CLEAN of tracking parameters: the builder stamps every
     # action link with the monitor's UTMs (utm_source=cgo-monitor, medium,
-    # and the issue id as campaign) at build time. A URL that already
+    # utm_campaign=cgo-monitor-<issue id>) at build time. A URL that already
     # carries utm_ parameters is left alone, so a hand-tuned link wins.
     action:
       url: https://citizengo.org/en-gb/lf/18429-parliament-is-being-asked-to-legalise-assisted-suicide--again---

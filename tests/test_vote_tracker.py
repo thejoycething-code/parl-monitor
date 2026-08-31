@@ -274,13 +274,15 @@ class BoardNextTests(unittest.TestCase):
     # ---- the tracking mark (Christopher, 2026-08-31) ---------------------
     def test_a_shipped_action_carries_the_monitor_utms(self):
         # "All petition UTMs from the parliamentary monitor should include
-        # cgo-monitor somewhere." Stamped by the builder so no future action
-        # can ship untracked; campaign carries the issue id.
+        # cgo-monitor somewhere" -- and in the CAMPAIGN value too
+        # (Christopher, 2026-08-31), so a campaign-level report shows the
+        # monitor without joining on source. The issue id rides behind the
+        # prefix to say which card converted.
         issue = self.build_with(
             (4157, "A Bill", "Commons", "2nd reading", "2026-09-11", None, "live"))
         self.assertEqual(issue["action"]["url"],
                          "https://citizengo.org/x?utm_source=cgo-monitor"
-                         "&utm_medium=referral&utm_campaign=iss")
+                         "&utm_medium=referral&utm_campaign=cgo-monitor-iss")
 
     def test_a_hand_tuned_url_with_its_own_utms_is_left_alone(self):
         conn = fresh_conn()
