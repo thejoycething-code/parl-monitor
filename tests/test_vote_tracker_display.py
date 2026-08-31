@@ -2356,3 +2356,96 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         self.assertEqual(new.get("board_id"), 4157)
         self.assertIn("Lauren Edwards", new.get("note", ""))
 
+class DebateWindowTests(unittest.TestCase):
+    """One short title, two Bills (Christopher, 2026-08-31: "the two Bills'
+    speeches can't mix"). The title cannot tell them apart; the calendar
+    can -- a Bill cannot be debated after its session fell -- so a
+    debate_match may carry an inclusive date window."""
+
+    import datetime as _dt
+    ISSUES = [
+        {"id": "old-bill", "name": "Old", "area": 2, "bill": "A Bill",
+         "debate_match": ["Terminally Ill Adults"],
+         # a real datetime.date, as YAML hands over an unquoted date: the
+         # window must survive type coercion, not assume strings
+         "debate_until": _dt.date(2026, 4, 30)},
+        {"id": "new-bill", "name": "New", "area": 2, "bill": "A Bill",
+         "debate_match": ["Terminally Ill Adults"],
+         "debate_from": "2026-05-01"},
+    ]
+
+    def _words(self, rows):
+        import sqlite3
+        from src import db, filter as filt
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        for r in rows:
+            conn.execute("INSERT INTO mp_events (member_id, date, kind, ref, "
+                         "line, areas, excerpt) VALUES (?,?,?,?,?,?,?)", r)
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        words, _record = mvt.on_record(conn, {"1"}, self.ISSUES, None, tax)
+        return words.get("1", {})
+
+    ROW = staticmethod(lambda date, ref: (
+        "1", date, "debate", "hansard:" + ref,
+        "Spoke: Terminally Ill Adults (End of Life) Bill", "[2]", ""))
+
+    def test_each_side_of_the_boundary_belongs_to_its_own_bill(self):
+        words = self._words([self.ROW("2025-06-13", "AAA"),
+                             self.ROW("2026-09-11", "BBB")])
+        self.assertEqual(words["old-bill"]["n"], 1)
+        self.assertEqual(words["new-bill"]["n"], 1)
+
+    def test_the_window_edges_are_inclusive_and_do_not_overlap(self):
+        words = self._words([self.ROW("2026-04-30", "AAA"),
+                             self.ROW("2026-05-01", "BBB")])
+        self.assertEqual(words["old-bill"]["n"], 1)
+        self.assertEqual(words["new-bill"]["n"], 1)
+
+    def test_an_unbounded_match_still_matches_everything(self):
+        issues = [{"id": "only", "name": "Only", "area": 2, "bill": "A Bill",
+                   "debate_match": ["Terminally Ill Adults"]}]
+        import sqlite3
+        from src import db, filter as filt
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        # two DISTINCT titles: n counts distinct debates on the bill, so a
+        # repeated title would count once whatever the dates said
+        rows = [self.ROW("1999-01-01", "AAA"),
+                ("1", "2099-01-01", "debate", "hansard:BBB",
+                 "Spoke: Terminally Ill Adults (End of Life) Bill (First sitting)",
+                 "[2]", "")]
+        for r in rows:
+            conn.execute("INSERT INTO mp_events (member_id, date, kind, ref, "
+                         "line, areas, excerpt) VALUES (?,?,?,?,?,?,?)", r)
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        words, _ = mvt.on_record(conn, {"1"}, issues, None, tax)
+        self.assertEqual(words["1"]["only"]["n"], 2)
+
+    def test_the_real_config_windows_meet_with_no_gap_and_no_overlap(self):
+        # A gap loses speeches to nobody's card; an overlap prints the same
+        # words twice. The two windows must be consecutive days.
+        import datetime
+        import yaml
+        with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
+                  encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh)
+        by_id = {i["id"]: i for i in cfg["issues"]}
+        until = datetime.date.fromisoformat(
+            str(by_id["assisted-suicide"]["debate_until"]))
+        frm = datetime.date.fromisoformat(
+            str(by_id["assisted-suicide-2026"]["debate_from"]))
+        self.assertEqual(frm - until, datetime.timedelta(days=1))
+        self.assertEqual(by_id["assisted-suicide"]["debate_match"],
+                         by_id["assisted-suicide-2026"]["debate_match"])
+
+    def test_the_upcoming_card_gives_matched_speeches_a_home(self):
+        # A matched speech with no card to render on is silently
+        # suppressed. The upcoming card must carry the count and quotes.
+        flat = " ".join(template().split())
+        block = flat[flat.index("DATA.issues.filter(i => i.upcoming)"):]
+        block = block[:block.index("A peer with no Commons votes")]
+        self.assertIn("(m.words || {})[issue.id]", block)
+        self.assertIn('<blockquote class="said">', block)
+        self.assertIn("on this Bill", block)
+

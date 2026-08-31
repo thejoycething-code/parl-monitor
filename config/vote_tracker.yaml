@@ -55,7 +55,14 @@ issues:
     # Debate titles that belong to this bill card. A quote shown beside a
     # vote must come from the bill it is shown beside; matching on the
     # title is what makes that structurally true rather than inferred.
+    #
+    # BOUNDED: the Edwards Bill below carries the same short title, and a
+    # title match cannot tell the two Bills apart -- the calendar can. This
+    # Bill's session fell at the end of April 2026 (Royal Assents in the
+    # wash-up are dated 2026-04-29), so nothing after 30 April can be a
+    # debate on it.
     debate_match: ["Terminally Ill Adults"]
+    debate_until: "2026-04-30"
     name: Assisted suicide
     area: 2
     bill: Terminally Ill Adults (End of Life) Bill
@@ -92,15 +99,19 @@ issues:
   # short title and its own card (Christopher, 2026-08-31). `upcoming: true`
   # renders a card with no divisions: status, the board's forward look, and
   # the petition. When its first division is held, add the division here
-  # under this issue id, drop `upcoming`, and give the issue a stance --
-  # and REVISIT debate_match on the issue above: both Bills produce debates
-  # titled "Terminally Ill Adults", and the match cannot tell them apart,
-  # so from 11 September the old card may claim the new Bill's speeches.
+  # under this issue id, drop `upcoming`, and give the issue a stance.
   - id: assisted-suicide-2026
     name: Assisted suicide (the 2026 Bill)
     area: 2
     bill: Terminally Ill Adults (End of Life) Bill
     upcoming: true
+    # The other half of the boundary on the Leadbeater issue above: every
+    # "Terminally Ill Adults" debate from the new session on is THIS Bill's.
+    # The windows must not overlap and must not leave a gap -- a test holds
+    # both. Speeches matched here render on this card (count and quotes),
+    # so the new Bill's Second Reading debate has a home from day one.
+    debate_match: ["Terminally Ill Adults"]
+    debate_from: "2026-05-01"
     note: >-
       A fresh Private Member's Bill to legalise assisted suicide for
       terminally ill adults in England and Wales, sponsored by Lauren

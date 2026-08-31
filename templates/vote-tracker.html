@@ -1305,6 +1305,15 @@ function renderMP(id){
   // Bill from Kim Leadbeater's (Christopher, 2026-08-31), no longer riding
   // on the fallen Bill's card.
   for (const issue of (peerNoVotes ? [] : DATA.issues.filter(i => i.upcoming))){
+    // The member's own words on THIS Bill. An upcoming issue can match
+    // debates before it has divisions -- the Second Reading debate happens
+    // before the Second Reading vote -- and a matched speech with no card
+    // to render on would be silently suppressed, which is how real news
+    // dies. So the card carries the count and the quotes from day one.
+    const w = (m.words || {})[issue.id];
+    const said = (w ? w.q : []).map(q => `<blockquote class="said">${esc(q.q)}</blockquote>
+      <div class="saidmeta">${esc(q.t)}${
+        q.u ? ` · <a class="official" href="${href(q.u, q.d)}" target="_blank" rel="noopener">Hansard</a>` : ""}</div>`).join("");
     rows += `<section class="billblock"><article class="bigcard">
       <div class="votebox S"><span class="vword">NO VOTES YET</span>
         <span class="vsub">(first division pending)</span></div>
@@ -1315,6 +1324,9 @@ function renderMP(id){
         ${issue.next ? `<div class="nextline">NEXT: ${
           esc(issue.next.stage)} in the ${esc(issue.next.house)} · ${
           fmtD(issue.next.date)}</div>` : ""}
+        ${w && w.n ? `<div class="cardsum">spoke in ${w.n} ${
+          w.unit || "debate"}${w.n > 1 ? "s" : ""} on this Bill</div>` : ""}
+        ${said}
         ${issue.action && issue.action.url && issue.action.label
           ? `<a class="actbtn" href="${esc(issue.action.url)}" target="_blank"
               rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}

@@ -486,8 +486,20 @@ def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
     # sqlite affinity returns ids as int or str depending on how they were
     # written; this mismatch has now bitten three tools in one week
     area_of = {i["id"]: i.get("area") for i in issues}
-    stems = {i["id"]: [s.lower() for s in (i.get("debate_match") or [])]
-             for i in issues}
+    # A title match may be BOUNDED BY DATE (debate_from / debate_until,
+    # both inclusive). The Leadbeater and Edwards Bills share one short
+    # title -- "Terminally Ill Adults (End of Life) Bill" -- so the title
+    # alone cannot say which Bill a debate belongs to. The calendar can: a
+    # Bill cannot be debated after its session fell, so everything up to
+    # the fall is the first Bill's and everything after is the second's
+    # (Christopher, 2026-08-31: "the two Bills' speeches can't mix").
+    # str() because YAML hands over unquoted dates as datetime.date.
+    stems = {}
+    for i in issues:
+        ss = [s.lower() for s in (i.get("debate_match") or [])]
+        if ss:
+            stems[i["id"]] = (ss, str(i.get("debate_from") or ""),
+                              str(i.get("debate_until") or "9999-12-31"))
 
     def patterns(area):
         out = []
@@ -524,8 +536,9 @@ def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
 
         # which bill card, if any, does this debate belong to?
         low = title.lower()
-        on_bill = [iid for iid, ss in stems.items()
-                   if ss and any(x in low for x in ss)]
+        on_bill = [iid for iid, (ss, frm, until) in stems.items()
+                   if frm <= r["date"] <= until
+                   and any(x in low for x in ss)]
 
         # PROPOSING an early day motion and SIGNING one are different acts,
         # and the stronger of the two was being reported as the weaker: both
