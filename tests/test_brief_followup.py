@@ -143,6 +143,17 @@ class FollowupSweepTests(unittest.TestCase):
         self.assertEqual(created, [])
 
 
+class TrashSheetTests(unittest.TestCase):
+    def test_the_bin_call_supports_shared_drives(self):
+        # Without supportsAllDrives the Drive API 404s on shared-drive
+        # files as if they did not exist; the swallowed error left every
+        # rejected brief's sheet live in Drive until 2026-08-31, when all
+        # eleven were found unbinned and binned by hand.
+        import inspect
+        src = inspect.getsource(cba.trash_drive_sheet)
+        self.assertIn("supportsAllDrives=true", src)
+
+
 class ApprovalNotesTests(unittest.TestCase):
     def test_the_approval_task_now_promises_the_ppae_followup(self):
         calls = []

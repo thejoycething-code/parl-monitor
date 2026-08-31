@@ -91,8 +91,11 @@ def trash_drive_sheet(conn, slug):
         if not token:
             print("    (sheet left in Drive: {0})".format(why))
             return
+        # supportsAllDrives is mandatory: the sheets live in a shared
+        # drive, and without it the API 404s as if the file did not exist
+        # (all six retirements on 2026-08-31 failed exactly this way).
         pbd.api(token, "https://www.googleapis.com/drive/v3/files/{0}"
-                       .format(row["drive_file_id"]),
+                       "?supportsAllDrives=true".format(row["drive_file_id"]),
                 {"trashed": True}, method="PATCH")
         print("    drive sheet moved to bin")
     except Exception as exc:
