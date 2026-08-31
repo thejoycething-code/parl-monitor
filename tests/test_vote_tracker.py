@@ -136,5 +136,116 @@ class MemberParsingTests(unittest.TestCase):
         self.assertEqual(members.cache_get(conn, 1).since, "2024-07-04")
 
 
+class PartyHistoryTests(unittest.TestCase):
+    """The shipped spell history (2026-08-31): collapsed, and kept past the
+    last division, because the page now DISPLAYS it as well as whipping by
+    it. Kruger's card says Reform UK over votes cast as a Conservative; the
+    "Conservative until 15 Sep 2025" line is built from these spells."""
+
+    def build_with(self, spells, division_date="2019-12-20"):
+        # The division is backdated so the spells under test all POSTDATE
+        # the earliest tracked division: spells ending before it are dropped
+        # before the collapse ever sees them, deliberately -- a party held
+        # before any tracked vote makes no claim the page needs to qualify.
+        conn = fresh_conn()
+        members.cache_put(conn, members.Member(
+            id=1, name="Aye MP", party=spells[-1][0], seat="Seat",
+            house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        for party, started, ended in spells:
+            conn.execute(
+                "INSERT INTO member_party (member_id, party, started, ended) "
+                "VALUES (1, ?, ?, ?)", (party, started, ended))
+        conn.commit()
+        payload = dict(PAYLOAD, Date=division_date + "T00:00:00")
+        dataset, _ = mvt.build(conn, CFG, {900: payload})
+        return dataset["members"][0]["parties"]
+
+    def test_same_party_re_elections_collapse_to_one_spell(self):
+        # Parliament records each Parliament separately, so nearly every
+        # member has one spell per election of the SAME party. Shipped raw,
+        # every display would re-derive "did anything change".
+        got = self.build_with([("Conservative", "2019-12-12", "2024-05-30"),
+                               ("Conservative", "2024-07-04", "2025-09-15"),
+                               ("Reform UK", "2025-09-15", None)])
+        self.assertEqual(got, [["Conservative", "2019-12-12", "2025-09-15"],
+                               ["Reform UK", "2025-09-15", None]])
+
+    def test_a_switch_after_the_last_tracked_division_still_ships(self):
+        # The division is 2025-06-20. The old filter dropped spells starting
+        # later as unable to touch a division -- true for the whip, wrong
+        # for the display: the member whose card most needs the note is the
+        # one who crossed the floor after the last vote.
+        got = self.build_with([("Conservative", "2024-07-04", "2025-09-15"),
+                               ("Reform UK", "2025-09-15", None)])
+        self.assertEqual([p[0] for p in got], ["Conservative", "Reform UK"])
+
+    def test_a_spell_ending_before_the_earliest_division_is_dropped(self):
+        # A party held before any tracked vote qualifies nothing on the
+        # page; the note it would generate is noise, so it never ships.
+        got = self.build_with([("Labour", "1997-05-01", "2005-05-05"),
+                               ("Conservative", "2024-07-04", None)])
+        self.assertEqual([p[0] for p in got], ["Conservative"])
+
+    def test_a_genuine_change_between_divisions_is_never_collapsed(self):
+        got = self.build_with([("Labour", "2024-07-04", "2025-01-01"),
+                               ("Independent", "2025-01-01", "2025-03-01"),
+                               ("Labour", "2025-03-01", None)])
+        self.assertEqual([p[0] for p in got],
+                         ["Labour", "Independent", "Labour"])
+
+
+class BoardNextTests(unittest.TestCase):
+    """The forward look (2026-08-31): an issue naming a board_id gets the
+    bills board's next date attached, so "what happens next" tracks the
+    weekly board refresh instead of a hand-edited status line."""
+
+    def build_with(self, row, board_id=4157):
+        conn = fresh_conn()
+        members.cache_put(conn, members.Member(
+            id=1, name="Aye MP", party="Labour", seat="Seat",
+            house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        if row:
+            conn.execute(
+                "INSERT INTO bills_board (bill_id, title, house, stage, "
+                "next_key_date, what_next, status) VALUES (?,?,?,?,?,?,?)", row)
+        conn.commit()
+        import copy
+        cfg = copy.deepcopy(CFG)
+        cfg["issues"][0]["board_id"] = board_id
+        dataset, _ = mvt.build(conn, cfg, {900: PAYLOAD})
+        return dataset["issues"][0]
+
+    def test_a_live_bill_with_a_real_date_ships_the_forward_look(self):
+        issue = self.build_with(
+            (4157, "A Bill", "Commons", "2nd reading", "2026-09-11", None, "live"))
+        self.assertEqual(issue["next"], {"stage": "2nd reading",
+                                         "house": "Commons",
+                                         "date": "2026-09-11"})
+
+    def test_what_next_outranks_the_stage_when_the_board_has_it(self):
+        issue = self.build_with(
+            (4157, "A Bill", "Commons", "2nd reading", "2026-09-11",
+             "Second Reading debate", "live"))
+        self.assertEqual(issue["next"]["stage"], "Second Reading debate")
+
+    def test_a_closed_bill_ships_nothing(self):
+        # Its story belongs to the editorial status line; a forward date on
+        # a fallen bill would be a promise the order paper does not make.
+        issue = self.build_with(
+            (4157, "A Bill", "Lords", "Committee stage", "TBA", None, "closed"))
+        self.assertNotIn("next", issue)
+
+    def test_tba_is_the_board_s_honest_unknown_and_ships_nothing(self):
+        issue = self.build_with(
+            (4157, "A Bill", "Commons", "2nd reading", "TBA", None, "live"))
+        self.assertNotIn("next", issue)
+
+    def test_a_missing_board_row_ships_nothing_and_does_not_crash(self):
+        issue = self.build_with(None)
+        self.assertNotIn("next", issue)
+
+
 if __name__ == "__main__":
     unittest.main()

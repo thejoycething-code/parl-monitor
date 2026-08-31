@@ -29,6 +29,25 @@
 hidden_areas:
   - 11   # migration
 
+# Bills whose Public Bill Committee attendance is collected into the store
+# (committee_attendance, via tools/pull_pbc_attendance.py). The name must be
+# the bill as Hansard titles its sittings: "<name> (Nth sitting)".
+# COLLECTED BUT NOT DISPLAYED (Christopher, 2026-08-31).
+pbc_attendance:
+  - Terminally Ill Adults (End of Life) Bill
+
+# Per-issue keys the tracker also understands (all optional):
+#   stance:   {good: ..., bad: ...} -- the member-card rollup line,
+#             "Consistently voted <good>". Editorial; no phrase, no line.
+#   board_id: the bills_board row for the bill AS IT NOW STANDS, so the card
+#             can say what happens next without hand-edited dates.
+#   action:   {url: ..., label: ...} -- a live CitizenGO action, rendered as
+#             a button on the bill card when both are set. None is currently
+#             configured; the mechanism ships dark. Example:
+#               action:
+#                 url: https://citizengo.org/en-gb/...
+#                 label: Sign the petition
+
 issues:
   - id: assisted-suicide
     # Debate titles that belong to this bill card. A quote shown beside a
@@ -54,6 +73,20 @@ issues:
       in committee from 14 November 2025, but it ran out of time before the end
       of the parliamentary session. A fresh Bill was introduced in the current
       session and awaits its Commons Second Reading on 11 September 2026.
+    # The bills_board row this issue's bill lives on NOW -- the fresh Bill of
+    # the current session, not the fallen one (3774). The tracker reads the
+    # board's stage and next_key_date at build time, so "what happens next"
+    # stays current as long as the weekly board refresh runs, with no copy
+    # to re-edit. Only a LIVE board row with a real date renders anything.
+    board_id: 4157
+    # One line per member: "Consistently/Generally voted <phrase>", computed
+    # from their good/bad votes on this issue's signed-off divisions. The
+    # phrase is EDITORIAL: no line renders on an issue without one, and the
+    # arithmetic never overrides the wording.
+    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    stance:
+      good: against assisted suicide
+      bad: for assisted suicide
 
   - id: abortion
     # Debate titles that belong to this bill card. A quote shown beside a
@@ -68,6 +101,10 @@ issues:
       Bill, a wider Government bill. The host bill's own Second and Third
       Readings were not abortion votes and are deliberately not shown here.
     status: Agreed by the Commons 379-137 on 17 June 2025 and added to the Bill.
+    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    stance:
+      good: against decriminalising abortion
+      bad: to decriminalise abortion
 
   - id: buffer-zones
     # Debate titles that belong to this bill card. A quote shown beside a
@@ -86,6 +123,10 @@ issues:
       Buffer zones were agreed by the Commons in October 2022 and are now
       section 9 of the Public Order Act 2023. An amendment to exempt silent
       prayer was rejected in March 2023.
+    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    stance:
+      good: against abortion clinic buffer zones
+      bad: for abortion clinic buffer zones
 
   - id: non-crime-hate
     # Debate titles that belong to this bill card. A quote shown beside a
@@ -108,6 +149,10 @@ issues:
       every Labour and Liberal Democrat member who voted opposed it, so a vote
       here reflects a party position as much as a personal one.
     status: Rejected by the Commons in June 2025.
+    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    stance:
+      good: to abolish non-crime hate incidents
+      bad: to keep non-crime hate incidents
 
   - id: parental-rights
     # Debate titles that belong to this bill card. A quote shown beside a
@@ -138,6 +183,10 @@ issues:
     status: >-
       The register became law in the Children's Wellbeing and Schools Act 2026.
       The Ten-Minute Rule Bill and the opposition day motion both failed.
+    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    stance:
+      good: for parental rights in education
+      bad: against parental rights in education
 
   - id: abortion-ni
     # Debate titles that belong to this bill card. A quote shown beside a
@@ -157,6 +206,10 @@ issues:
       them. That escalation is why the same question returned three years
       running, and why the three votes are not interchangeable.
     status: All three approval motions were agreed by the Commons.
+    # DRAFTED 2026-08-31, PENDING SIGN-OFF (Christopher).
+    stance:
+      good: against the Northern Ireland abortion regulations
+      bad: for the Northern Ireland abortion regulations
 
 divisions:
   # -- Assisted suicide: carried over from the prototype, wording checked

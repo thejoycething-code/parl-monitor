@@ -1349,7 +1349,7 @@ class PartyPhraseFoldedTests(unittest.TestCase):
         self.assertIn("const PARTY_ABBR", flat)
         self.assertIn('"Democratic Unionist Party":"DUP"', flat)
         block = flat[flat.index("const relativeToParty"):]
-        self.assertIn("PARTY_ABBR[name] || name", block)
+        self.assertIn("PARTY_ABBR[pr.name] || pr.name", block)
         self.assertNotIn("MPs (", block, "no pluralised party names")
 
     def test_it_says_with_or_against(self):
@@ -1369,16 +1369,20 @@ class PartyPhraseFoldedTests(unittest.TestCase):
         self.assertNotIn("var(--red)", rule)
 
     def test_it_uses_the_party_held_on_the_day(self):
+        # partyRow holds the shared lookup since 2026-08-31, so the meta
+        # line and the rebellion count cannot disagree about whose party.
         flat = " ".join(template().split())
-        block = flat[flat.index("const relativeToParty"):]
+        block = flat[flat.index("const partyRow"):]
         self.assertIn("partyOn(m, d.date)", block)
 
     def test_it_says_nothing_when_the_party_is_absent(self):
         """3% of cast votes -- mostly TUV -- have no split row for the
         member's own party. Better silent than wrong."""
         flat = " ".join(template().split())
-        block = flat[flat.index("const relativeToParty"):]
-        self.assertIn('if (!row) return "";', block)
+        block = flat[flat.index("const partyRow"):]
+        self.assertIn("if (!row) return null;", block)
+        self.assertIn('if (!pr) return "";',
+                      flat[flat.index("const relativeToParty"):])
 
     def test_the_folded_line_stays_within_the_card(self):
         """Measured on the built page: 12 of 11,700 meta lines exceed 94
@@ -1389,8 +1393,14 @@ class PartyPhraseFoldedTests(unittest.TestCase):
             self.skipTest("page not built")
         with open(page, encoding="utf-8") as fh:
             text = fh.read()
-        # the phrase must be short: no full party name inside a pmark span
+        # the phrase must be short: no full party name inside a pmark span.
+        # The page renders client-side, so the only pmark "spans" in the
+        # file are the template literals in the inline JS -- skip anything
+        # carrying ${...} placeholders and measure what is left, which
+        # keeps the guard armed if server-side rendering ever appears.
         for m in re.finditer(r'class="pmark[^"]*">([^<]*)<', text):
+            if "${" in m.group(1):
+                continue
             self.assertLess(len(m.group(1)), 40, m.group(1))
 
 
@@ -2170,3 +2180,120 @@ class PeerFeaturedRowsTests(unittest.TestCase):
                 self.assertEqual(len(block.get("all") or []),
                                  sum((block.get("n") or {}).values()),
                                  member["name"])
+
+
+class StanceRollupTests(unittest.TestCase):
+    """One sentence per issue above the cards (Christopher, 2026-08-31):
+    TheyWorkForYou's grammar, our verdicts, editorial phrases only."""
+
+    def test_no_phrase_no_line_however_clear_the_arithmetic(self):
+        # The direction wording is editorial, from the issue's `stance` in
+        # config/vote_tracker.yaml. The template must refuse to compose a
+        # stance sentence for an issue without one.
+        flat = " ".join(template().split())
+        self.assertIn("if (!ph.good || !ph.bad) continue;", flat)
+
+    def test_only_signed_off_divisions_count(self):
+        # d.good exists only when a division is signed off -- the same gate
+        # the verdict chips use. The rollup must skip unscored divisions,
+        # not count them as anything.
+        flat = " ".join(template().split())
+        self.assertIn(
+            "for (const d of divsByIssue[issue.id]){ if (!d.good) continue;",
+            flat)
+
+    def test_consistently_means_every_vote_and_generally_means_most(self):
+        flat = " ".join(template().split())
+        self.assertIn("Consistently voted <b>${esc(ph.good)}</b>", flat)
+        self.assertIn("Generally voted <b>${esc(ph.good)}</b>", flat)
+
+    def test_absence_is_named_not_counted_against_either_word(self):
+        # The Commons does not record why a member did not vote; "did not
+        # vote in N" is the only claim the line may make about it.
+        flat = " ".join(template().split())
+        self.assertIn("did not vote in ${x}", flat)
+
+    def test_every_issue_carries_a_stance_phrase_in_config(self):
+        # Not a template rule -- an editorial completeness check: an issue
+        # without phrases silently renders no rollup, and a silent gap is
+        # how real features die. Remove an issue's phrases deliberately by
+        # deleting this test's expectation, not by accident.
+        import yaml
+        with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
+                  encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh)
+        missing = [i["id"] for i in cfg["issues"]
+                   if not ((i.get("stance") or {}).get("good")
+                           and (i.get("stance") or {}).get("bad"))]
+        self.assertEqual(missing, [])
+
+
+class RebellionTests(unittest.TestCase):
+    """'Rebelled' is claimed only on BOTH facts: their party was whipped in
+    that division, and they voted against that party's majority. Voting
+    against the majority on a free vote is conviction, not rebellion."""
+
+    def test_the_row_and_the_count_share_one_test(self):
+        flat = " ".join(template().split())
+        # both call sites use the same whipped-and-against pair
+        self.assertEqual(flat.count('whipFor(d, m).label === "whipped"'), 2,
+                         "the row's rebelled prefix and the summary count "
+                         "-- two sites, one test")
+        self.assertIn("pr.mine < pr.other && whipFor", flat)
+
+    def test_rebelled_rides_the_against_wording_not_a_verdict_colour(self):
+        flat = " ".join(template().split())
+        self.assertIn('rebel ? "rebelled \\u2014 " : ""', flat)
+        self.assertIn("rebelled against their party's whip in ${rebelled}",
+                      flat)
+
+
+class PartyHistoryDisplayTests(unittest.TestCase):
+    """'Conservative until 15 Sep 2025' in the hero (2026-08-31): the header
+    names today's party while some votes below were cast under another."""
+
+    def test_the_note_reads_from_the_collapsed_spells(self):
+        flat = " ".join(template().split())
+        # every spell but the last, and only spells with an end date --
+        # the build collapses same-party re-elections, so a second spell
+        # IS a real change
+        self.assertIn("(m.parties || []).slice(0, -1).filter(([,, to]) => to)",
+                      flat)
+        self.assertIn("${partyNote(m)}", flat)
+
+
+class BillStatusAndActionTests(unittest.TestCase):
+    """The issue's status, forward look and action live on its MAIN card
+    only: printed on every card, this September's Second Reading would
+    attach to Lord Joffe's Bill of 2006."""
+
+    def test_the_main_card_test_exists_and_gates_all_three(self):
+        flat = " ".join(template().split())
+        self.assertIn(
+            'const main = d.house !== "lords" || d.bill === g.issue.bill;',
+            flat)
+        self.assertIn("${main && g.issue.status ?", flat)
+        self.assertIn("${main && g.issue.next ?", flat)
+        self.assertIn("${main && g.issue.action && g.issue.action.url "
+                      "&& g.issue.action.label", flat)
+
+    def test_the_forward_look_is_stage_house_and_date(self):
+        flat = " ".join(template().split())
+        self.assertIn("NEXT: ${ esc(g.issue.next.stage)} in the "
+                      "${esc(g.issue.next.house)}", flat)
+
+    def test_no_action_is_currently_configured(self):
+        # The CTA mechanism ships dark until a live CitizenGO action exists
+        # (Christopher, 2026-08-31). When one is added to the config this
+        # test should start checking the URL is a citizengo.org address
+        # instead of failing the build.
+        import yaml
+        with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
+                  encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh)
+        for issue in cfg["issues"]:
+            action = issue.get("action") or {}
+            if action:
+                self.assertTrue(
+                    str(action.get("url", "")).startswith("https://citizengo.org"),
+                    "an action URL must be a citizengo.org address")

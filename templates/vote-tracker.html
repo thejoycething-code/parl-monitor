@@ -428,6 +428,33 @@ details.journey > .passage{border-bottom:none;border-radius:0}
    NOT green or red, so it cannot be mistaken for a verdict. */
 .pmark{color:#5f6670}
 .pmark.against{color:#8a5a2b;font-weight:500}
+
+/* --- stance rollups (2026-08-31): one sentence per issue, under the card
+   summary. The dot repeats the verdict colour so six lines scan at a
+   glance; the sentence itself carries the counts, so nothing is lost when
+   the colours cannot be told apart. */
+.stances{padding:12px 28px 13px;border-bottom:1px solid var(--line);background:#fff}
+.stanceline{display:flex;align-items:baseline;gap:9px;font-size:13.5px;color:var(--ink);padding:2.5px 0}
+.stanceline b{font-weight:500;color:#23282f}
+.stanceline .sdot{flex:none;width:9px;height:9px;border-radius:50%;align-self:center}
+.sdot.g{background:var(--green)} .sdot.b{background:var(--red)} .sdot.m{background:var(--grey-300)}
+/* rebellion count in the card summary: the same warm tone as pmark.against,
+   never the verdict colours */
+.rebelsum{color:#8a5a2b}
+/* the party a member USED to sit for, in the hero meta row */
+.partyprior{font-size:12.5px;color:#cfe0fc}
+/* --- bill card status and forward look (2026-08-31) --- */
+.billstatus{font-size:13px;font-weight:300;font-style:italic;color:#8b9098;margin:1px 0 6px;max-width:70ch}
+.nextline{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;
+  color:var(--blue-deep);background:var(--blue-tint);border:1px solid #cfe0fc;
+  border-radius:4px;padding:3px 9px;margin:1px 0 6px}
+/* --- act CTA (2026-08-31): renders only when an issue carries a configured
+   action in config/vote_tracker.yaml; nothing is configured, so this ships
+   dark until a live action exists. */
+.actbtn{display:inline-block;margin-top:10px;background:var(--blue);color:#fff;
+  font-weight:700;font-size:13.5px;border-radius:7px;padding:9px 16px}
+.actbtn:hover{background:var(--blue-deep);color:#fff;text-decoration:none}
+@media(max-width:640px){.stances{padding:11px 18px}}
 </style>
 </head>
 <body>
@@ -800,6 +827,19 @@ function servedOn(m, date){
   return periods.some(([from, to]) => from <= date && (!to || date <= to));
 }
 
+function partyNote(m){
+  // The header names today's party, and some of the votes below were cast
+  // under another: Kruger's card says Reform UK above divisions he voted in
+  // as a Conservative under a Conservative whip. One quiet line closes that
+  // gap, from the same spell history the whip logic already uses. The build
+  // collapses same-party re-elections, so a second spell IS a real change --
+  // and a spell that is not the last always has an end date.
+  const prior = (m.parties || []).slice(0, -1).filter(([,, to]) => to);
+  if (!prior.length) return "";
+  return `<span class="partyprior">${prior.map(([name,, to]) =>
+    `${esc(name)} until ${fmtD(to)}`).join(" · ")}</span>`;
+}
+
 function voteInfo(m, d){
   const v = m.votes[d.id];
   if (v==="A")  return withVerdict({chip:"AYE", lobby:"Aye", cls:"A", side:"aye",
@@ -1021,19 +1061,35 @@ function renderMP(id){
   //
   // The party is the one they sat for ON THE DAY, so a member who has since
   // crossed the floor is measured against the colleagues they actually had.
-  const relativeToParty = (d, vi) => {
-    if (!vi.side || !d.splits) return "";
+  // The member's own party's numbers in a division, for the side they took.
+  // Shared by the meta line and the rebellion count so the two can never
+  // disagree about what "against their party" means.
+  const partyRow = (d, side) => {
+    if (!side || !d.splits) return null;
     const row = (d.splits || []).find(r => r[0] === partyOn(m, d.date));
-    if (!row) return "";                 // 3% of votes: party not in the splits
+    if (!row) return null;               // 3% of votes: party not in the splits
     const [name, ayes, noes] = row;
-    const mine  = vi.side === "aye" ? ayes : noes;
-    const other = vi.side === "aye" ? noes : ayes;
-    const abbr = PARTY_ABBR[name] || name;
-    if (mine === other)
-      return `<span class="pmark">splitting ${abbr} ${ayes}\u2013${noes}</span>`;
-    const against = mine < other;
+    const mine  = side === "aye" ? ayes : noes;
+    const other = side === "aye" ? noes : ayes;
+    return {name, ayes, noes, mine, other};
+  };
+
+  const relativeToParty = (d, vi) => {
+    const pr = partyRow(d, vi.side);
+    if (!pr) return "";
+    const abbr = PARTY_ABBR[pr.name] || pr.name;
+    if (pr.mine === pr.other)
+      return `<span class="pmark">splitting ${abbr} ${pr.ayes}\u2013${pr.noes}</span>`;
+    const against = pr.mine < pr.other;
+    // "rebelled" is claimed ONLY when both facts hold: their party was
+    // whipped in this division (declared in the config or shown by the bloc
+    // arithmetic -- the same evidence bar as the WHIPPED chip), and they
+    // voted against that party's majority. Voting against the majority on a
+    // free vote is conviction, not rebellion, and is not renamed.
+    const rebel = against && whipFor(d, m).label === "whipped";
     return `<span class="pmark${against ? " against" : ""}">${
-      against ? "against" : "with"} ${mine} of ${ayes + noes} ${abbr}</span>`;
+      rebel ? "rebelled \u2014 " : ""}${
+      against ? "against" : "with"} ${pr.mine} of ${pr.ayes + pr.noes} ${abbr}</span>`;
   };
 
 
@@ -1056,16 +1112,29 @@ function renderMP(id){
     const w = (m.words || {})[g.issue.id];
     const bits = [`${g.divs.length} vote${g.divs.length > 1 ? "s" : ""}`];
     if (w && w.n) bits.push(`spoke in ${w.n} ${w.unit || "debate"}${w.n > 1 ? "s" : ""}`);
+    // The issue's status, forward look and action belong on its MAIN card
+    // only. An issue can render several cards -- assisted suicide has the
+    // Commons Bill plus the Lords Bills of 2015 and 2006 -- and an
+    // issue-level status printed on Lord Joffe's 2006 card would attach
+    // this September's Second Reading to a Bill that died two decades ago.
+    const main = d.house !== "lords" || d.bill === g.issue.bill;
     return `<article class="bigcard${noVerdict ? " demote" : ""}">
       ${voteBlock(vi, d)}
       <div class="cardbody">
         ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
         <div class="lbl">AT ${esc(d.stage.toUpperCase())} <span class="cal">&#128197;</span> ${d.date}</div>
         <h3>${esc(d.bill || g.issue.bill || g.issue.name)}</h3>
+        ${main && g.issue.status ? `<div class="billstatus">${esc(g.issue.status)}</div>` : ""}
+        ${main && g.issue.next ? `<div class="nextline">NEXT: ${
+          esc(g.issue.next.stage)} in the ${esc(g.issue.next.house)} \u00b7 ${
+          fmtD(g.issue.next.date)}</div>` : ""}
         ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
           We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
         <div class="cardsum">${bits.join(" \u00b7 ")}${
           whipUniform(g) ? " \u00b7 " + whipUniform(g) : ""}</div>
+        ${main && g.issue.action && g.issue.action.url && g.issue.action.label
+          ? `<a class="actbtn" href="${esc(g.issue.action.url)}" target="_blank"
+              rel="noopener">${esc(g.issue.action.label)} \u2197</a>` : ""}
       </div></article>`;
   };
 
@@ -1328,6 +1397,50 @@ function renderMP(id){
     }
   }
 
+  // Stance rollups (Christopher, 2026-08-31): one sentence per issue, above
+  // the cards, in TheyWorkForYou's grammar -- "Consistently voted X" -- but
+  // computed from OUR verdicts, which only exist on signed-off divisions.
+  // The direction phrase is editorial, from the issue's `stance` in
+  // config/vote_tracker.yaml: no phrase, no line, however clear the
+  // arithmetic. "Consistently" means every vote cast went one way;
+  // "Generally" means most did. A vote not cast never counts against
+  // either word -- it is named separately, because the Commons does not
+  // record why a member did not vote.
+  const stanceLines = [];
+  if (!peerNoVotes){
+    for (const issue of DATA.issues){
+      const ph = issue.stance || {};
+      if (!ph.good || !ph.bad) continue;
+      let g = 0, b = 0, x = 0;
+      for (const d of divsByIssue[issue.id]){
+        if (!d.good) continue;
+        const cls = voteInfo(m, d).cls;
+        if (cls === "G") g++; else if (cls === "B") b++; else if (cls === "X") x++;
+      }
+      if (!g && !b) continue;
+      const cast = g + b;
+      const missed = x ? ` · did not vote in ${x}` : "";
+      let line, dot;
+      if (!b){       line = `Consistently voted <b>${esc(ph.good)}</b> — ${cast} vote${cast > 1 ? "s" : ""}${missed}`; dot = "g"; }
+      else if (!g){  line = `Consistently voted <b>${esc(ph.bad)}</b> — ${cast} vote${cast > 1 ? "s" : ""}${missed}`; dot = "b"; }
+      else if (g > b){ line = `Generally voted <b>${esc(ph.good)}</b> — ${g} of ${cast} votes${missed}`; dot = "g"; }
+      else if (b > g){ line = `Generally voted <b>${esc(ph.bad)}</b> — ${b} of ${cast} votes${missed}`; dot = "b"; }
+      else {         line = `Voted both ways — ${g} ${esc(ph.good)}, ${b} ${esc(ph.bad)}${missed}`; dot = "m"; }
+      stanceLines.push(`<div class="stanceline"><span class="sdot ${dot}"></span><span>${line}</span></div>`);
+    }
+  }
+  const stanceHtml = stanceLines.length
+    ? `<div class="stances">${stanceLines.join("")}</div>` : "";
+
+  // Rebellions, counted once for the summary line -- the same two-fact test
+  // the per-row "rebelled" uses, via the same partyRow, so the count and
+  // the rows cannot disagree.
+  let rebelled = 0;
+  for (const d of DATA.divisions){
+    const pr = partyRow(d, voteInfo(m, d).side);
+    if (pr && pr.mine < pr.other && whipFor(d, m).label === "whipped") rebelled++;
+  }
+
   document.getElementById("main").innerHTML = `
   <div class="card">
     <div class="card-head">
@@ -1339,6 +1452,7 @@ function renderMP(id){
           <span class="party">${partyMark(m.party)}${esc(m.party)}</span>
           <span>${esc(m.constituency)}</span>
           <span class="since">${sinceLine(m)}</span>
+          ${partyNote(m)}
         </div>
         ${postLine(m)}
         ${seatLine(m)}
@@ -1350,7 +1464,9 @@ function renderMP(id){
     </div>
     ${banner?`<div class="rolebanner">${banner}</div>`:""}
     ${isPeer(m) && !took ? "" :
-      `<div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}</div>`}
+      `<div class="card-summary">Took part in <b>${took} of ${DATA.divisions.length}</b> tracked divisions${verdictLine ? " &middot; " + verdictLine : ""}${
+        rebelled ? ` &middot; <span class="rebelsum">rebelled against their party's whip in ${rebelled}</span>` : ""}</div>`}
+    ${stanceHtml}
     ${rows}
   ${recHtml}
   </div>`;

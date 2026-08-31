@@ -106,6 +106,16 @@ jobs:
           WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t + datetime.timedelta(days=1) if t.weekday() == 6 else t - datetime.timedelta(days=t.weekday())).isoformat())")
           echo "Pulling for week commencing $WEEK"
           TRIAGE=auto python3 run_weekly.py --pull "$WEEK"
+      - name: Record bill committee attendance
+        # Rosters from the PBC transcripts of the bills named in
+        # config/vote_tracker.yaml (pbc_attendance). Idempotent: sittings
+        # already stored are not refetched, so this is free once a bill's
+        # committee has finished. Collected but not displayed (2026-08-31).
+        # `always()` with the fetch guard, like every step here: one failed
+        # feed above must not skip this, but a refused store must.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: python3 tools/pull_pbc_attendance.py
       - name: Publish the store
         # NEVER publish a store the pull refused: see the note in
         # monday-publish.yml. `always()` alone turned one sha mismatch

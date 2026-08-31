@@ -777,6 +777,28 @@ def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
 def build(conn, cfg, payloads):
     issues = cfg.get("issues") or []
     issue_notes = {i["id"]: i.get("note", "") for i in issues}
+
+    # What happens NEXT, from the weekly bills board (Christopher,
+    # 2026-08-31). An issue naming a board_id gets the board's forward date
+    # attached, so the card can say "Next: 2nd reading, 11 September 2026"
+    # without anyone hand-editing a status line when the date moves. Only a
+    # LIVE row with a real date ships anything -- "TBA" is the board's honest
+    # "unknown", and a closed bill's story belongs to the editorial status.
+    for issue in issues:
+        bid = issue.get("board_id")
+        if not bid:
+            continue
+        row = conn.execute(
+            "SELECT house, stage, status, next_key_date, what_next "
+            "FROM bills_board WHERE bill_id = ?", (bid,)).fetchone()
+        if row is None:
+            print("  issue {0}: board_id {1} is not on the bills board -- "
+                  "no forward date will show".format(issue["id"], bid))
+        elif (row["status"] == "live"
+                and re.match(r"\d{4}-\d\d-\d\d$", row["next_key_date"] or "")):
+            issue["next"] = {"stage": row["what_next"] or row["stage"],
+                             "house": row["house"],
+                             "date": row["next_key_date"]}
     used_issues, divisions, votes = set(), [], {}
     missing = []
     for d in cfg.get("divisions") or []:
@@ -860,19 +882,31 @@ def build(conn, cfg, payloads):
             rec["returned"] = current
 
     # Party AT THE TIME of each division: a whip is a party instruction, and
-    # members.party is only today's. Spells that cannot touch a tracked
-    # division are dropped.
-    latest = max([d["date"] for d in divisions] or ["2100-01-01"])
+    # members.party is only today's. Spells ending before the earliest tracked
+    # division are dropped; spells STARTING AFTER THE LATEST ONE ARE KEPT,
+    # which is a change (2026-08-31). They used to be dropped as unable to
+    # touch a division, which was true for the whip -- but the page now also
+    # DISPLAYS the history ("Conservative until 15 Sep 2025"), and a member
+    # who crosses the floor after the last tracked vote is exactly the member
+    # whose card most needs the note: their old votes sit under a new party.
+    #
+    # Adjacent same-party spells are collapsed. Parliament records each
+    # Parliament as a separate membership, so nearly every member has one
+    # spell per election of the SAME party -- shipped raw, the display logic
+    # would have to re-derive "did anything actually change" on every render.
+    # Collapsing across the dissolution gap is safe for the whip lookup too:
+    # no division is held while Parliament is dissolved.
     parties = {}
     for row in conn.execute(
             "SELECT member_id, party, started, ended FROM member_party "
             "ORDER BY member_id, started"):
-        if row["started"] > latest:
-            continue
         if row["ended"] is not None and row["ended"] < earliest:
             continue
-        parties.setdefault(row["member_id"], []).append(
-            [row["party"], row["started"], row["ended"]])
+        spells = parties.setdefault(row["member_id"], [])
+        if spells and spells[-1][0] == row["party"]:
+            spells[-1][2] = row["ended"]
+        else:
+            spells.append([row["party"], row["started"], row["ended"]])
 
     # Published profile detail (member_contact / member_post / member_seat).
     # All of it is the register the member gave Parliament FOR publication;

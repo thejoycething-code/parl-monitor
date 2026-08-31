@@ -116,6 +116,28 @@ CREATE TABLE IF NOT EXISTS member_seat (
   election_date TEXT,
   synopsis TEXT                   -- Parliament's own one-line summary
 );
+-- Who actually sat through a bill committee, from the roster printed at the
+-- top of each Public Bill Committee sitting in Hansard: a dagger by a name
+-- means "attended the Committee" that day. Collected by
+-- tools/pull_pbc_attendance.py for the bills named in config/vote_tracker.yaml
+-- (pbc_attendance). Created HERE, not by the tool -- the sp_scored lesson:
+-- a table the tool creates exists only where the tool has run.
+--
+-- COLLECTED BUT NOT DISPLAYED (Christopher, 2026-08-31): no page reads this
+-- yet. member_id is NULL when the printed name could not be matched to the
+-- roster with confidence; the printed name is kept either way, so nothing
+-- is silently dropped.
+CREATE TABLE IF NOT EXISTS committee_attendance (
+  bill TEXT NOT NULL,             -- the bill, as Hansard titles its sittings
+  debate_id TEXT NOT NULL,        -- the sitting's DebateSectionExtId
+  sitting TEXT,                   -- 'First sitting', as printed (incl. typos)
+  date TEXT NOT NULL,
+  member_id INTEGER,              -- resolved against members; NULL = no match
+  name TEXT NOT NULL,             -- as printed: 'Kruger, Danny'
+  role TEXT NOT NULL,             -- 'member' | 'chair'
+  attended INTEGER NOT NULL,      -- 1 = dagger in the roster
+  PRIMARY KEY (debate_id, name, role)
+);
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
 -- UN monitor. A UPR recommendation is a position taken by one state towards
@@ -674,6 +696,7 @@ TABLES = (
     "member_contact",
     "member_post",
     "member_seat",
+    "committee_attendance",
     "mp_events",
     "pq_link",
     "edm_signatures",
