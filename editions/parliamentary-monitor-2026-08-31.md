@@ -6,6 +6,8 @@
 - [The Online Safety Act: implementation and impact - This Lords inquiry shapes how the Online Safety Act polices lawful speech online. Written evidence closes 4pm on 21 September 2026, the committee having extended submission period 3964 from 7 September (captured 2026-08-20). CitizenGO is not submitting to this inquiry.](https://committees.parliament.uk/work/9955/) (Deadline: 2026-09-21)
 - [SEND reform: education otherwise than at school - Government plans to reshape education outside school; closes 18 September. Direct bearing on home-educating families. A supporter response is still an open decision.](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school) (Deadline: 2026-09-18)
 - [Tying the Knot: Reforming weddings law in England and Wales - Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live; response push through recess.](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales) (Deadline: 2026-09-24)
+- [Protections in the justice system for women and girls (Scotland) - open consultation on our ground; surfaced late, deadline close](https://consult.gov.scot/justice/protections-in-the-justice-system-women-and-girls/) (Deadline: 2026-08-31)
+- [A New Good Relations Framework - Call For Views (N. Ireland) - open consultation on our ground](https://consultations.nidirect.gov.uk/teo/good-relations-call-for-views/) (Deadline: 2026-09-21)
 
 ## Week ahead
 
@@ -58,16 +60,16 @@
 
 ## Devolved
 
-*Scotland, Wales and Northern Ireland. Watching brief: recorded because it bears on our issues, not because it asks anything of us.*
+*Scotland, Wales and Northern Ireland. Items with an open response window are briefed and appear in Top lines; the remainder are a watching brief, recorded because they bear on our issues.*
 
 **Open government consultations**
 
-| Consultation | Nation | Closes |
-|---|---|---|
-| [Protections in the justice system for women and girls](https://consult.gov.scot/justice/protections-in-the-justice-system-women-and-girls/) | Scotland | 2026-08-31 (0 days) |
-| [A New Good Relations Framework - Call For Views](https://consultations.nidirect.gov.uk/teo/good-relations-call-for-views/) | N. Ireland | 2026-09-21 (21 days) |
-| [Consultation on the Religious Education Core Syllabus](https://consultations.nidirect.gov.uk/de/re-syllabus-consultation/) | N. Ireland | 2026-09-30 (30 days) |
-| [Public Consultation on Measures to Support Mobile Phone-Free Schools in Northern Ireland](https://consultations.nidirect.gov.uk/de/measures-to-support-mobile-free-schools/) | N. Ireland | 2026-11-19 (80 days) |
+| Consultation | Nation | Closes | Status |
+|---|---|---|---|
+| [Protections in the justice system for women and girls](https://consult.gov.scot/justice/protections-in-the-justice-system-women-and-girls/) | Scotland | 2026-08-31 (0 days) | Briefed · late detection |
+| [A New Good Relations Framework - Call For Views](https://consultations.nidirect.gov.uk/teo/good-relations-call-for-views/) | N. Ireland | 2026-09-21 (21 days) | Briefed |
+| [Consultation on the Religious Education Core Syllabus](https://consultations.nidirect.gov.uk/de/re-syllabus-consultation/) | N. Ireland | 2026-09-30 (30 days) | Briefed |
+| [Public Consultation on Measures to Support Mobile Phone-Free Schools in Northern Ireland](https://consultations.nidirect.gov.uk/de/measures-to-support-mobile-free-schools/) | N. Ireland | 2026-11-19 (80 days) | Briefed |
 
 **Bills on our ground**
 
@@ -76,5 +78,6 @@
 - Prostitution (Offences and Support) (Scotland) Bill (Holyrood) - Stage 1 on 2026-02-03
 ---
 *No coverage gaps recorded this edition.*
+*Late detection: 1 item first surfaced under 21 days before the deadline.*
 
 *Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.4 with human review.*
