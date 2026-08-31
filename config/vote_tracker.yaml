@@ -129,18 +129,19 @@ issues:
     # and next_key_date at build time, so "what happens next" stays current
     # as long as the weekly board refresh runs, with no copy to re-edit.
     board_id: 4157
-    # The delivery petition (Christopher, 2026-08-31): the builder keeps
-    # the button until board 4157 records the Bill's end, and drops it the
-    # week the row closes. The label names the campaign's delivery date,
-    # 4 September 2026 -- if the Bill outlives the delivery, the LABEL is
-    # what needs a human edit, not the mechanism.
+    # The petition (Christopher, 2026-08-31): the builder keeps the button
+    # until board 4157 records the Bill's end, and drops it the week the
+    # row closes. The label is EVERGREEN by instruction, given twice: no
+    # delivery date in it -- signatures continue for as long as the Bill
+    # is active, and the 4 September delivery is a campaign milestone, not
+    # a closing date.
     # Keep this URL CLEAN of tracking parameters: the builder stamps every
     # action link with the monitor's UTMs (utm_source=cgo-monitor, medium,
     # utm_campaign=cgo-monitor-<issue id>) at build time. A URL that already
     # carries utm_ parameters is left alone, so a hand-tuned link wins.
     action:
       url: https://citizengo.org/en-gb/lf/18429-parliament-is-being-asked-to-legalise-assisted-suicide--again---
-      label: Sign before 4 September
+      label: Sign the petition
 
   - id: abortion
     # Debate titles that belong to this bill card. A quote shown beside a

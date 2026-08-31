@@ -1,0 +1,256 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Live now — four better shapes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+/* All mockup classes mk- prefixed and collision-checked against the live
+   template (the on-record mockups' .opt lesson). */
+:root{
+  --blue:#4285f4; --white:#FFFFFF; --grey-100:#EEEEEE; --grey-300:#C4C4C4;
+  --ink:#52575C; --green:#55B159; --red:#DB544F; --yellow:#FFEBAD;
+  --blue-deep:#2f6fe0; --blue-tint:#EAF1FE; --line:#E4E6E9;
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F4F5F7;color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+.mk-wrap{max-width:920px;margin:0 auto;padding:0 22px 80px}
+.mk-head{padding:40px 0 6px}
+.mk-head h1{font-size:34px;font-weight:900;color:#1b1f24;line-height:1.1}
+.mk-head p{max-width:74ch;font-weight:300;color:#5c626a;margin-top:10px}
+.mk-opt{margin:46px 0 0}
+.mk-optlabel{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.mk-optlabel .mk-letter{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-weight:900;font-size:17px;flex:none}
+.mk-optlabel h2{font-size:21px;font-weight:700;color:#20242a}
+.mk-why{font-size:14px;font-weight:300;color:#5c626a;max-width:78ch;margin:2px 0 14px}
+.mk-why b{font-weight:500;color:#23282f}
+.mk-stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:0 8px 30px rgba(32,38,45,.07)}
+.mk-note{font-size:12px;color:#9aa1a9;margin-top:10px}
+.mk-current{border-style:dashed;background:#fbfcfd}
+
+/* shared band furniture */
+@keyframes mk-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.mk-dot{width:8px;height:8px;border-radius:50%;background:#7ef29a;box-shadow:0 0 0 3px rgba(126,242,154,.25);flex:none;animation:mk-pulse 1.6s infinite}
+.mk-band{background:linear-gradient(135deg,#2f6fe0,#4285f4);border-radius:12px;color:#fff;padding:20px 22px;box-shadow:0 8px 30px rgba(47,111,224,.25)}
+.mk-bandlabel{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#dbe6fb;margin-bottom:12px}
+.mk-btn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;font-size:14px;border-radius:7px;padding:10px 18px;white-space:nowrap}
+.mk-band a{color:#fff}
+.mk-band .mk-quiet{color:#cfe0fc;font-weight:300}
+.mk-band .mk-quiet a{text-decoration:underline}
+.mk-ghost{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid #eef0f3;border-radius:12px;padding:13px 16px;margin-top:14px;opacity:.6}
+.mk-ghostbox{flex:0 0 140px;text-align:center;border-radius:9px;padding:10px;background:#2fa04a;color:#fff;font-weight:700;font-size:13px}
+.mk-divider{display:flex;align-items:center;gap:14px;margin:18px 0 0;color:#9aa1a9}
+.mk-divider:before,.mk-divider:after{content:"";flex:1;height:1px;background:var(--line)}
+.mk-divider span{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+
+/* current-band reproduction */
+.mk-ccard{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:9px;padding:13px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.mk-ccard + .mk-ccard{margin-top:9px}
+.mk-ccard b{display:block;font-weight:700;font-size:15.5px;color:#fff}
+.mk-ccard span{font-size:12.5px;color:#dbe6fb;font-weight:300}
+.mk-cwhen{margin-left:auto;text-align:right;flex:none}
+.mk-cmore{margin-top:11px;font-size:12px;color:#cfe0fc}
+.mk-cmore a{color:#fff;text-decoration:underline}
+
+/* A — hero + one quiet footline */
+.mk-hero{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.mk-heromain{flex:1 1 340px;min-width:0}
+.mk-hero h3{color:#fff;font-size:24px;font-weight:900;line-height:1.15;margin-bottom:7px}
+.mk-hero h3 a{color:#fff}
+.mk-herosub{font-size:13.5px;color:#dbe6fb;font-weight:300;max-width:58ch}
+.mk-heroside{flex:0 0 auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.mk-bigdate{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:9px;padding:9px 14px;text-align:center}
+.mk-bigdate b{display:block;font-size:17px;color:#fff;font-weight:900}
+.mk-bigdate span{font-size:11px;color:#dbe6fb;letter-spacing:.06em}
+.mk-footline{margin-top:14px;padding-top:11px;border-top:1px solid rgba(255,255,255,.25);font-size:12px;color:#cfe0fc;font-weight:300}
+.mk-footline a{color:#fff;text-decoration:underline}
+
+/* B — hero + docket column */
+.mk-cols{display:flex;gap:18px;flex-wrap:wrap}
+.mk-colmain{flex:2 1 320px;min-width:0}
+.mk-docket{flex:1 1 190px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:9px;padding:11px 13px;align-self:stretch}
+.mk-docket h4{font-size:10px;font-weight:700;letter-spacing:.13em;color:#dbe6fb;text-transform:uppercase;margin-bottom:7px}
+.mk-drow{display:flex;gap:8px;align-items:baseline;padding:5px 0;border-top:1px solid rgba(255,255,255,.14);font-size:12px}
+.mk-drow:first-of-type{border-top:none}
+.mk-drow .mk-dd{flex:0 0 46px;font-weight:700;color:#fff;font-size:11px;letter-spacing:.04em}
+.mk-drow a{color:#fff;text-decoration:underline;font-weight:300;line-height:1.35}
+
+/* C — hero + disclosure */
+.mk-disc{margin-top:13px;border-top:1px solid rgba(255,255,255,.25)}
+.mk-disc summary{list-style:none;cursor:pointer;padding:10px 0 2px;font-size:12.5px;font-weight:500;color:#fff}
+.mk-disc summary::-webkit-details-marker{display:none}
+.mk-disc summary:before{content:"\25B8  ";font-size:10px}
+.mk-disc[open] summary:before{content:"\25BE  "}
+.mk-lrow{display:flex;gap:12px;align-items:center;padding:8px 0;border-top:1px solid rgba(255,255,255,.14)}
+.mk-lrow:first-of-type{border-top:none}
+.mk-lleaf{flex:0 0 46px;text-align:center;background:rgba(255,255,255,.16);border-radius:6px;font-size:10.5px;font-weight:700;color:#fff;padding:4px 0;line-height:1.3}
+.mk-lrow a{color:#fff;text-decoration:underline;font-weight:300;font-size:13px}
+.mk-lrow span{font-size:11px;color:#cfe0fc}
+
+/* D — hero band + quiet line outside */
+.mk-outline{margin-top:10px;padding:9px 14px;background:#fbfcfd;border:1px solid var(--line);border-radius:8px;font-size:12.5px;color:#6c727a;font-weight:300}
+.mk-outline b{font-weight:600;font-size:10px;letter-spacing:.1em;color:#9aa1a9;margin-right:6px}
+.mk-outline a{color:var(--blue-deep)}
+@media(max-width:640px){.mk-heroside{align-items:flex-start;text-align:left}}
+</style></head><body>
+<div class="mk-wrap">
+
+<div class="mk-head">
+  <h1>Live now — four better shapes</h1>
+  <p>The brief: assisted dying gets the band's whole weight, and the other backbench Bills are
+  displayed another way — present and linked, but never competing. All four keep the evergreen
+  petition button (no deadline in the label), the view-time day counts, and the hyperlinks to
+  official bill pages. Real board data throughout.</p>
+</div>
+
+<!-- ============ CURRENT ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><h2 style="color:#9aa1a9">Current, for reference</h2></div>
+  <div class="mk-stage mk-current">
+    <div class="mk-band">
+      <div class="mk-bandlabel"><span class="mk-dot"></span>LIVE NOW · BEFORE PARLIAMENT</div>
+      <div class="mk-ccard">
+        <div style="min-width:0;flex:1 1 300px"><b><a href="#">Terminally Ill Adults (End of Life) Bill</a></b>
+        <span>Introduced by Lauren Edwards MP in the current session. The question returns to the Commons for a Second Reading vote on 11 September 2026 - the first division on this Bill. Danny Kruger's vote will appear here.</span></div>
+        <div class="mk-cwhen"><b style="font-size:13.5px">2nd reading, Commons</b><br><span>11 Sep 2026 · in 11 days</span></div>
+        <a class="mk-btn" style="font-size:13px;padding:8px 15px" href="#">Sign the petition ↗</a>
+      </div>
+      <div class="mk-ccard">
+        <div style="min-width:0;flex:1 1 300px"><b>Sitting Friday, 4 Sep 2026</b>
+        <span>2nd reading: <a href="#">Child-like Sexual Abuse Dolls (Offences) Bill</a> · <a href="#">Infants, Parents and Carers Bill</a> · <a href="#">Registration of Stillbirths (England and Wales) Bill</a></span></div>
+        <div class="mk-cwhen"><b style="font-size:13.5px">Fri 4 Sep 2026</b><br><span>in 4 days</span></div>
+      </div>
+      <div class="mk-cmore">Later: <a href="#">Hospice Funding Bill</a> (27 Nov 2026) · <a href="#">Relationships and Sex Education (Further Education Sector) Bill</a> (4 Dec 2026) · <a href="#">Complications from Abortions (Annual Report) Bill [HL]</a> (date TBA)</div>
+    </div>
+    <div class="mk-note">The sitting-Friday card weighs the same as the assisted-dying card, so the flagship shares its band with three Bills of far less consequence.</div>
+  </div>
+</section>
+
+<!-- ============ A ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">A</span><h2>Hero and a footline</h2></div>
+  <p class="mk-why">The band belongs to <b>one Bill</b>. Big title, one-sentence story, the date block and a
+  larger petition button on the right. Everything else in Parliament collapses to a single quiet footline
+  under a hairline — six Bills, one unbolded sentence, all linked. Maximum contrast, minimum furniture.</p>
+  <div class="mk-stage">
+    <div class="mk-band">
+      <div class="mk-bandlabel"><span class="mk-dot"></span>LIVE NOW · THE ASSISTED SUICIDE BILL</div>
+      <div class="mk-hero">
+        <div class="mk-heromain">
+          <h3><a href="#">Terminally Ill Adults (End of Life) Bill</a></h3>
+          <div class="mk-herosub">Lauren Edwards's Bill returns assisted suicide to the Commons.
+          The first vote is at Second Reading — Danny Kruger's vote will appear here.</div>
+        </div>
+        <div class="mk-heroside">
+          <div class="mk-bigdate"><b>Fri 11 Sep</b><span>2ND READING · IN 11 DAYS</span></div>
+          <a class="mk-btn" href="#">Sign the petition ↗</a>
+        </div>
+      </div>
+      <div class="mk-footline">Also before Parliament: <a href="#">three Bills</a> at Second Reading this
+      Friday (4 Sep) · <a href="#">Hospice Funding</a> (27 Nov) · <a href="#">RSE Further Education</a> (4 Dec) ·
+      <a href="#">Complications from Abortions [HL]</a> (TBA)</div>
+    </div>
+    <div class="mk-note">"Three Bills" links could open the search page's Order Paper panel rather than naming each — or name each, as here, with short titles.</div>
+  </div>
+</section>
+
+<!-- ============ B ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">B</span><h2>Hero and a docket column</h2></div>
+  <p class="mk-why">Two columns inside the band: assisted dying owns the left two-thirds; the right is a
+  compact <b>docket</b> — date + linked title per line, all six other Bills, no folding needed. Keeps every
+  Bill visible at a glance while the hierarchy stays unmistakable. Stacks on mobile.</p>
+  <div class="mk-stage">
+    <div class="mk-band">
+      <div class="mk-bandlabel"><span class="mk-dot"></span>LIVE NOW · BEFORE PARLIAMENT</div>
+      <div class="mk-cols">
+        <div class="mk-colmain">
+          <h3 style="color:#fff;font-size:22px;font-weight:900;line-height:1.15;margin-bottom:6px"><a href="#">Terminally Ill Adults (End of Life) Bill</a></h3>
+          <div class="mk-herosub" style="margin-bottom:12px">Lauren Edwards's Bill returns assisted suicide
+          to the Commons: Second Reading, <b style="color:#fff">Friday 11 September — in 11 days</b>.
+          Danny Kruger's vote will appear here.</div>
+          <a class="mk-btn" href="#">Sign the petition ↗</a>
+        </div>
+        <div class="mk-docket">
+          <h4>Also on the order paper</h4>
+          <div class="mk-drow"><span class="mk-dd">4 SEP</span><a href="#">Sexual Abuse Dolls (Offences)</a></div>
+          <div class="mk-drow"><span class="mk-dd">4 SEP</span><a href="#">Infants, Parents &amp; Carers</a></div>
+          <div class="mk-drow"><span class="mk-dd">4 SEP</span><a href="#">Registration of Stillbirths</a></div>
+          <div class="mk-drow"><span class="mk-dd">27 NOV</span><a href="#">Hospice Funding</a></div>
+          <div class="mk-drow"><span class="mk-dd">4 DEC</span><a href="#">RSE (Further Education)</a></div>
+          <div class="mk-drow"><span class="mk-dd">TBA</span><a href="#">Complications from Abortions [HL]</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="mk-note">Docket titles are shortened to fit the column; each still links to its official bill page.</div>
+  </div>
+</section>
+
+<!-- ============ C ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">C</span><h2>Hero and a disclosure</h2></div>
+  <p class="mk-why">Assisted dying alone in the band; the other Bills sit behind a native
+  <b>&ldquo;6 more Bills before Parliament&rdquo;</b> disclosure — the same idiom as the vote cards'
+  &ldquo;What happened in between&rdquo;. Zero visual competition until the reader asks, then leaf-rows
+  with dates and links. Try it: the disclosure below opens.</p>
+  <div class="mk-stage">
+    <div class="mk-band">
+      <div class="mk-bandlabel"><span class="mk-dot"></span>LIVE NOW · THE ASSISTED SUICIDE BILL</div>
+      <div class="mk-hero">
+        <div class="mk-heromain">
+          <h3><a href="#">Terminally Ill Adults (End of Life) Bill</a></h3>
+          <div class="mk-herosub">Lauren Edwards's Bill returns assisted suicide to the Commons.
+          The first vote is at Second Reading — Danny Kruger's vote will appear here.</div>
+        </div>
+        <div class="mk-heroside">
+          <div class="mk-bigdate"><b>Fri 11 Sep</b><span>2ND READING · IN 11 DAYS</span></div>
+          <a class="mk-btn" href="#">Sign the petition ↗</a>
+        </div>
+      </div>
+      <details class="mk-disc">
+        <summary>6 more Bills before Parliament on our issues</summary>
+        <div class="mk-lrow"><span class="mk-lleaf">SEP<br>4</span><a href="#">Child-like Sexual Abuse Dolls (Offences) Bill</a><span>· 2nd reading, Commons</span></div>
+        <div class="mk-lrow"><span class="mk-lleaf">SEP<br>4</span><a href="#">Infants, Parents and Carers Bill</a><span>· 2nd reading, Commons</span></div>
+        <div class="mk-lrow"><span class="mk-lleaf">SEP<br>4</span><a href="#">Registration of Stillbirths (England and Wales) Bill</a><span>· 2nd reading, Commons</span></div>
+        <div class="mk-lrow"><span class="mk-lleaf">NOV<br>27</span><a href="#">Hospice Funding Bill</a><span>· 2nd reading, Commons</span></div>
+        <div class="mk-lrow"><span class="mk-lleaf">DEC<br>4</span><a href="#">Relationships and Sex Education (Further Education Sector) Bill</a><span>· 2nd reading, Commons</span></div>
+        <div class="mk-lrow"><span class="mk-lleaf">TBA</span><a href="#">Complications from Abortions (Annual Report) Bill [HL]</a><span>· 2nd reading, Lords</span></div>
+      </details>
+    </div>
+    <div class="mk-note">Native &lt;details&gt;: no JavaScript, keyboard and screen-reader support free — the page's established pattern.</div>
+  </div>
+</section>
+
+<!-- ============ D ============ -->
+<section class="mk-opt">
+  <div class="mk-optlabel"><span class="mk-letter">D</span><h2>Hero band, everything else steps outside</h2></div>
+  <p class="mk-why">The strongest separation: the blue band holds <b>only</b> assisted dying — nothing else
+  ever enters it. The other Bills leave the band entirely for one quiet grey line between the band and the
+  record divider: clearly live, clearly secondary, visually ordinary. The band stops being a list and
+  becomes a statement.</p>
+  <div class="mk-stage">
+    <div class="mk-band">
+      <div class="mk-bandlabel"><span class="mk-dot"></span>LIVE NOW · THE ASSISTED SUICIDE BILL</div>
+      <div class="mk-hero">
+        <div class="mk-heromain">
+          <h3><a href="#">Terminally Ill Adults (End of Life) Bill</a></h3>
+          <div class="mk-herosub">Lauren Edwards's Bill returns assisted suicide to the Commons.
+          The first vote is at Second Reading — Danny Kruger's vote will appear here.</div>
+        </div>
+        <div class="mk-heroside">
+          <div class="mk-bigdate"><b>Fri 11 Sep</b><span>2ND READING · IN 11 DAYS</span></div>
+          <a class="mk-btn" href="#">Sign the petition ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="mk-outline"><b>ALSO LIVE</b> <a href="#">Sexual Abuse Dolls</a>, <a href="#">Infants, Parents &amp; Carers</a> and <a href="#">Registration of Stillbirths</a> (all 4 Sep) · <a href="#">Hospice Funding</a> (27 Nov) · <a href="#">RSE Further Education</a> (4 Dec) · <a href="#">Complications from Abortions [HL]</a> (TBA)</div>
+    <div class="mk-divider"><span>The record — 18 divisions, 2020 to 2025</span></div>
+    <div class="mk-ghost">
+      <div class="mk-ghostbox">GOOD VOTE</div>
+      <div style="font-size:13px;color:#6c727a">AT THIRD READING · 2025-06-20 — Terminally Ill Adults (End of Life) Bill <span style="color:#9aa1a9">(the record, in its usual clothes)</span></div>
+    </div>
+    <div class="mk-note">The grey line sits between the band and the divider, so the reading order is: the fight, the rest of the order paper, then history.</div>
+  </div>
+</section>
+
+</div></body></html>

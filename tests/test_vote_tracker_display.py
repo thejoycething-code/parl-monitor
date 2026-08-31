@@ -2275,6 +2275,15 @@ class BillStatusAndActionTests(unittest.TestCase):
                 str(action.get("url", "")).startswith("https://citizengo.org"),
                 "an action URL must be a citizengo.org address")
             self.assertTrue(action.get("label"))
+            # EVERGREEN by instruction, given twice (Christopher,
+            # 2026-08-31): signatures continue for as long as the Bill is
+            # active, so no deadline may appear in the label -- the 4
+            # September delivery is a campaign milestone, not a closing
+            # date.
+            self.assertFalse(
+                re.search(r"\b(before|by|until|deadline)\b|\d",
+                          action["label"], re.I),
+                "action labels must not carry a deadline: " + action["label"])
             self.assertIn("board_id", issue,
                           "an action without a board_id never retires")
 
