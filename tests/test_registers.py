@@ -232,7 +232,6 @@ class PageAdditionsTests(unittest.TestCase):
         flat = " ".join(template().split())
         self.assertIn("https://bills.parliament.uk/bills/${id}", flat)
         self.assertIn("${g.bills.map(billLink)", flat)
-        self.assertIn("rest.flatMap(g => g.bills.map(b =>", flat)
 
 
     def test_interests_are_a_count_and_the_official_link(self):

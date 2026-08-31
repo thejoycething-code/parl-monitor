@@ -2311,7 +2311,7 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         # inverted LIVE NOW band holding the active business, then a
         # labelled divider hands over to the historic cards.
         flat = " ".join(template().split())
-        self.assertIn("Live now · Before Parliament", flat)
+        self.assertIn("Live now · ${esc(bandTitle)}", flat)
         self.assertIn("for (const issue of upcomingIssues())", flat)
         self.assertIn("The record — ${mineDivs.length} division", flat)
 
@@ -2438,3 +2438,52 @@ class DebateWindowTests(unittest.TestCase):
         self.assertIn("(m.words || {})[issue.id]", block)
         self.assertIn('class="bandsaid"', block)
         self.assertIn("on this Bill", block)
+
+class BandAmendmentTests(unittest.TestCase):
+    """The five C amendments (Christopher, 2026-08-31: "Build all 5")."""
+
+    def test_write_to_your_mp_is_the_second_action_commons_only(self):
+        # A mailto to the member's own parliamentary address, prefilled
+        # subject, styled secondary so the petition stays primary. Peers
+        # are skipped: the Bill's next vote is not theirs to cast.
+        flat = " ".join(template().split())
+        self.assertIn('!isPeer(m) && (m.contact || {}).email', flat)
+        self.assertIn("mailto:${esc(m.contact.email)}?subject=${", flat)
+        self.assertIn("Write to ${esc(m.name)}", flat)
+        self.assertIn("bandbtn2", flat)
+
+    def test_the_band_wears_one_bill_s_name_only_when_it_is_alone(self):
+        flat = " ".join(template().split())
+        self.assertIn("named.length === 1 ? named[0].live_label", flat)
+        import yaml
+        with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
+                  encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh)
+        ups = [i for i in cfg["issues"] if i.get("upcoming")]
+        self.assertEqual([i.get("live_label") for i in ups],
+                         ["The assisted suicide Bill"])
+
+    def test_the_decides_line_states_the_stakes(self):
+        flat = " ".join(template().split())
+        self.assertIn('${issue.decides ? `<div class="banddecides">', flat)
+        import yaml
+        with open(os.path.join(ROOT, "config", "vote_tracker.yaml"),
+                  encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh)
+        decides = next(i.get("decides") for i in cfg["issues"]
+                       if i.get("upcoming"))
+        # the one number in it, checked against the record: Third Reading
+        # passed 314-291 on 20 June 2025
+        self.assertIn("23 votes", decides)
+
+    def test_the_final_week_warms_at_view_time(self):
+        flat = " ".join(template().split())
+        self.assertIn("const soon = n >= 0 && n <= 7;", flat)
+        self.assertIn('"THIS " + dow.toUpperCase()', flat)
+        self.assertIn(".bigdate.soon{background:var(--yellow)", flat)
+
+    def test_same_day_bills_share_one_disclosure_leaf(self):
+        flat = " ".join(template().split())
+        self.assertIn("const rows = rest.map(g =>", flat)
+        self.assertIn("rest.reduce((n, g) => n + g.bills.length, 0)", flat)
+

@@ -495,9 +495,21 @@ details.journey > .passage{border-bottom:none;border-radius:0}
   padding:9px 14px;text-align:center;min-width:130px}
 .bigdate b{display:block;font-size:17px;color:#fff;font-weight:900}
 .bigdate span{font-size:10.5px;color:#dbe6fb;letter-spacing:.06em}
+/* the final week (amendment 4): the block warms when the vote is <=7 days
+   out -- the page's notice palette, unmistakable on the blue */
+.bigdate.soon{background:var(--yellow);border-color:#e9d488}
+.bigdate.soon b{color:#6b5a1e}
+.bigdate.soon span{color:#8a6d1f}
 .bandbtn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;
   font-size:14px;border-radius:7px;padding:10px 18px;white-space:nowrap;flex:none}
 .bandbtn:hover{background:var(--blue-tint);color:var(--blue-deep);text-decoration:none}
+/* the second action (amendment 1): outline, so the petition stays primary */
+.bandbtn.bandbtn2{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.65);font-weight:500}
+.bandbtn.bandbtn2:hover{background:rgba(255,255,255,.15);color:#fff;border-color:#fff}
+/* what the next vote decides (amendment 3): the stakes, set apart from
+   the status facts */
+.banddecides{margin-top:9px;font-size:13.5px;color:#fff;font-weight:400;max-width:60ch;
+  border-left:3px solid rgba(255,255,255,.45);padding-left:12px}
 .bandsaid{margin:10px 0 0;font-size:13.5px;line-height:1.5;font-style:italic;
   color:#fff;border-left:3px solid rgba(255,255,255,.45);padding-left:12px}
 .bandsaid:before{content:"\201C"} .bandsaid:after{content:"\201D"}
@@ -514,8 +526,9 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .bdrow:first-of-type{border-top:none}
 .bdleaf{flex:0 0 46px;text-align:center;background:rgba(255,255,255,.16);border-radius:6px;
   font-size:10.5px;font-weight:700;color:#fff;padding:4px 0;line-height:1.3}
-.bdrow a{color:#fff;text-decoration:underline;font-weight:300;font-size:13px;min-width:0}
-.bdrow span{font-size:11px;color:#cfe0fc;flex:none}
+.bdbody{min-width:0}
+.bdrow a{color:#fff;text-decoration:underline;font-weight:300;font-size:13px}
+.bdrow span{font-size:11px;color:#cfe0fc}
 .recdivider{display:flex;align-items:center;gap:14px;margin:20px 0 10px;color:#9aa1a9}
 .recdivider:before,.recdivider:after{content:"";flex:1;height:1px;background:var(--line)}
 .recdivider span{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
@@ -1475,22 +1488,38 @@ function renderMP(id){
       const title = issue.bill_url
         ? `<a href="${esc(issue.bill_url)}" target="_blank" rel="noopener">${esc(issue.bill || issue.name)}</a>`
         : esc(issue.bill || issue.name);
-      const when = issue.next
-        ? `<div class="bigdate"><b>${DAYNAME[new Date(issue.next.date + "T12:00:00").getDay()].slice(0, 3)} ${
+      // Final-week urgency (amendment 4): computed at view time, so the
+      // block warms by itself with no rebuild -- "THIS FRIDAY", then
+      // "TOMORROW", then "TODAY".
+      let when = "";
+      if (issue.next){
+        const n = daysUntil(issue.next.date);
+        const dow = DAYNAME[new Date(issue.next.date + "T12:00:00").getDay()];
+        const soon = n >= 0 && n <= 7;
+        const whenLabel = !soon ? inDays(issue.next.date).toUpperCase()
+          : n === 0 ? "TODAY" : n === 1 ? "TOMORROW" : "THIS " + dow.toUpperCase();
+        when = `<div class="bigdate${soon ? " soon" : ""}"><b>${dow.slice(0, 3)} ${
             fmtD(issue.next.date).split(" ").slice(0, 2).join(" ")}</b><span>${
-            esc(issue.next.stage.toUpperCase())} · ${inDays(issue.next.date).toUpperCase()}</span></div>` : "";
+            esc(issue.next.stage.toUpperCase())} · ${whenLabel}</span></div>`;
+      }
       heroes.push(`<div class="bandhero">
         <div class="bandheromain">
           <h3>${title}</h3>
           <div class="bandherosub">${esc(issue.status || "")}${
             !isPeer(m) ? ` ${esc(m.name)}\u2019s vote will appear here.` : ""}${
             w && w.n ? ` Spoke in ${w.n} ${w.unit || "debate"}${w.n > 1 ? "s" : ""} on this Bill.` : ""}</div>
+          ${issue.decides ? `<div class="banddecides">${esc(issue.decides)}</div>` : ""}
           ${said}
         </div>
         <div class="bandheroside">
           ${when}
           ${issue.action && issue.action.url && issue.action.label
             ? `<a class="bandbtn" href="${esc(issue.action.url)}" target="_blank" rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
+          ${!isPeer(m) && (m.contact || {}).email
+            ? `<a class="bandbtn bandbtn2" href="mailto:${esc(m.contact.email)}?subject=${
+                encodeURIComponent((issue.bill || issue.name) + (issue.next
+                  ? " — " + issue.next.stage + ", " + fmtD(issue.next.date) : ""))
+              }">Write to ${esc(m.name)}</a>` : ""}
         </div>
       </div>`);
     }
@@ -1499,19 +1528,28 @@ function renderMP(id){
     // competition until the reader asks, then one linked leaf-row per
     // Bill. No JavaScript; keyboard and screen readers come free.
     const rest = liveBillGroups(feat);
-    const others = rest.flatMap(g => g.bills.map(b => ({b, date: g.date})));
+    const othersCount = rest.reduce((n, g) => n + g.bills.length, 0);
     let disc = "";
-    if (others.length){
-      const rows = others.map(({b, date}) => `<div class="bdrow">
-        <span class="bdleaf">${date
-          ? MONTH3[+date.slice(5, 7) - 1] + "<br>" + (+date.slice(8, 10))
+    if (othersCount){
+      // one leaf per sitting day (amendment 5): three Bills sharing a
+      // Friday are one occasion, so they share one row
+      const rows = rest.map(g => `<div class="bdrow">
+        <span class="bdleaf">${g.date
+          ? MONTH3[+g.date.slice(5, 7) - 1] + "<br>" + (+g.date.slice(8, 10))
           : "TBA"}</span>
-        ${billLink(b)}<span>· ${esc(b.stage)}, ${esc(b.house)}</span></div>`).join("");
-      disc = `<details class="banddisc"><summary>${others.length} more Bill${
-        others.length === 1 ? "" : "s"} before Parliament on our issues</summary>${rows}</details>`;
+        <div class="bdbody">${g.bills.map(billLink).join(" · ")}
+          <span>· ${[...new Set(g.bills.map(b => b.stage))].join(" / ")}, ${
+            [...new Set(g.bills.map(b => b.house))].join(" & ")}</span></div></div>`).join("");
+      disc = `<details class="banddisc"><summary>${othersCount} more Bill${
+        othersCount === 1 ? "" : "s"} before Parliament on our issues</summary>${rows}</details>`;
     }
+    // The band headline (amendment 2): named by the single upcoming issue
+    // when it carries a live_label; generic whenever that is not exactly
+    // one, because a shared band must not wear one Bill's name.
+    const named = upcomingIssues().filter(i => i.live_label);
+    const bandTitle = named.length === 1 ? named[0].live_label : "Before Parliament";
     if (heroes.length || others.length)
-      band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · Before Parliament</div>${heroes.join("")}${disc}</div>`;
+      band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · ${esc(bandTitle)}</div>${heroes.join("")}${disc}</div>`;
   }
 
   // A peer with no Commons votes gets no Commons cards. The banner above
