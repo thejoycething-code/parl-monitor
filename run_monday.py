@@ -197,7 +197,12 @@ def main():
             # naming a caveat (unsigned divisions, missing data) are the whole
             # reason to read the log at all.
             for line in speaking[1:]:
-                if re.search(r"\bNOT\b|missing|no recorded|gap|stale|gaps", line):
+                # The Drive publisher's per-brief lines are outcomes, not
+                # tallies: six successful uploads once hid behind a single
+                # failure head line (2026-08-31), and an unattended run is
+                # read only through its log.
+                if re.search(r"\bNOT\b|missing|no recorded|gap|stale|gaps"
+                             r"|published|FAILED|adopted|no generated", line):
                     print("  {0}".format(line.strip()))
         except Exception as exc:
             print("{0}: failed ({1}); edition unaffected".format(label, exc))

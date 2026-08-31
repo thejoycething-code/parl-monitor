@@ -363,6 +363,42 @@ def publish_one(token, slug, subject, dry_run=False):
     return file_id, "{0}  tabs filled: {1}{2}".format(url, ", ".join(filled), note)
 
 
+def adopt_existing(token, subject):
+    """The newest existing sheet for this subject in the shared drive.
+
+    Searched by the same name the publisher itself writes ("... Brief
+    DRAFT: <subject>"), spreadsheets only, bin excluded. Returns a file id
+    or None; never raises -- adoption is a recovery path, and a search
+    failure should leave the row pending rather than kill the run.
+    """
+    try:
+        # Drive's `contains` is token-prefix matching: a needle cut
+        # MID-WORD matches nothing (measured 2026-08-31: the 60-char cut
+        # "...than at scho" returned zero files while the whole-word form
+        # found them). Truncate at a word boundary.
+        words = subject.split()
+        needle = ""
+        for w in words:
+            if len(needle) + len(w) + 1 > 48:
+                break
+            needle = (needle + " " + w).strip()
+        needle = (needle or subject[:48]).replace("\\", " ").replace("'", "\\'")
+        q = urllib.parse.urlencode({
+            "q": ("name contains 'Brief DRAFT: {0}' and mimeType="
+                  "'application/vnd.google-apps.spreadsheet' and "
+                  "trashed=false").format(needle),
+            "corpora": "drive", "driveId": FOLDER_ID,
+            "includeItemsFromAllDrives": "true",
+            "supportsAllDrives": "true",
+            "orderBy": "createdTime desc",
+            "fields": "files(id,name,createdTime)", "pageSize": 1})
+        reply = api(token, "https://www.googleapis.com/drive/v3/files?" + q)
+        files = (reply or {}).get("files") or []
+        return files[0]["id"] if files else None
+    except Exception:                                   # noqa: BLE001
+        return None
+
+
 def main():
     dry_run = "--dry-run" in sys.argv
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
@@ -389,6 +425,19 @@ def main():
         except Exception as exc:
             print("  {0}: FAILED {1}".format(r["slug"], exc))
             continue
+        if (not file_id and not dry_run
+                and detail.startswith("no generated files")):
+            # The generated CSVs live only on the runner that made them; a
+            # brief whose upload failed THAT week (the 2026-08 Drive auth
+            # outage) leaves a pending row no later run can satisfy, and it
+            # retries forever. If a sheet for this subject already exists
+            # in the shared drive, adopt the newest copy instead of
+            # regenerating -- the one-brief-ever rule means the files will
+            # never come back on their own.
+            adopted = adopt_existing(token, r["subject"])
+            if adopted:
+                file_id = adopted
+                detail = "adopted existing Drive copy {0}".format(adopted)
         print("  {0}: {1}".format(r["slug"][:46], detail))
         if file_id:
             conn.execute("UPDATE brief_log SET drive_file_id = ? WHERE slug = ?",
