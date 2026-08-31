@@ -2246,10 +2246,13 @@ class BillStatusAndActionTests(unittest.TestCase):
         self.assertIn(
             'const main = d.house !== "lords" || d.bill === g.issue.bill;',
             flat)
-        self.assertIn("${main && g.issue.status ?", flat)
-        self.assertIn("${main && g.issue.next ?", flat)
-        self.assertIn("${main && g.issue.action && g.issue.action.url "
-                      "&& g.issue.action.label", flat)
+        # !g.issue.live joined the gate 2026-08-31: while a Bill is in the
+        # LIVE NOW band, the band owns status/next/action and the record
+        # card must not repeat them
+        self.assertIn("${main && !g.issue.live && g.issue.status ?", flat)
+        self.assertIn("${main && !g.issue.live && g.issue.next ?", flat)
+        self.assertIn("${main && !g.issue.live && g.issue.action "
+                      "&& g.issue.action.url && g.issue.action.label", flat)
 
     def test_the_forward_look_is_stage_house_and_date(self):
         flat = " ".join(template().split())
@@ -2312,7 +2315,7 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         # labelled divider hands over to the historic cards.
         flat = " ".join(template().split())
         self.assertIn("Live now · ${esc(bandTitle)}", flat)
-        self.assertIn("for (const issue of upcomingIssues())", flat)
+        self.assertIn("for (const issue of bandIssues())", flat)
         self.assertIn("The record — ${mineDivs.length} division", flat)
 
     def test_the_band_is_the_upcoming_bill_s_only_home(self):
@@ -2433,7 +2436,7 @@ class DebateWindowTests(unittest.TestCase):
         # suppressed. The band carries the count and quotes, so the new
         # Bill's Second Reading debate has a home from day one.
         flat = " ".join(template().split())
-        block = flat[flat.index("for (const issue of upcomingIssues())"):]
+        block = flat[flat.index("for (const issue of bandIssues())"):]
         block = block[:block.index("A peer with no Commons votes")]
         self.assertIn("(m.words || {})[issue.id]", block)
         self.assertIn('class="bandsaid"', block)
@@ -2486,4 +2489,57 @@ class BandAmendmentTests(unittest.TestCase):
         flat = " ".join(template().split())
         self.assertIn("const rows = rest.map(g =>", flat)
         self.assertIn("rest.reduce((n, g) => n + g.bills.length, 0)", flat)
+
+class BothHomesTests(unittest.TestCase):
+    """Christopher, 2026-08-31: when the 11 September vote happens, it
+    belongs in The Record AND the Bill stays in LIVE NOW. Rehearsed in the
+    browser with a synthetic Second Reading division: the band's promise
+    line became 'GOOD VOTE ... at Second Reading' with a jump to the
+    record, the record gained the card, the divider recounted."""
+
+    def test_the_band_tracks_the_bill_s_life_not_the_absence_of_votes(self):
+        flat = " ".join(template().split())
+        self.assertIn("DATA.issues.filter(i => i.upcoming || i.live)", flat)
+
+    def test_once_a_division_exists_the_promise_becomes_the_fact(self):
+        flat = " ".join(template().split())
+        # the newest division on the issue, rendered in the page's verdict
+        # vocabulary, with the promise line gated off
+        self.assertIn("const latest = issueDivs[0];", flat)
+        self.assertIn('class="bandvote ${vi.cls}"', flat)
+        self.assertIn("!latest && !isPeer(m)", flat)
+        # a peer is not marked absent from a Commons division
+        self.assertIn('if (vi.cls !== "S")', flat)
+
+    def test_the_record_card_never_duplicates_the_band(self):
+        # while the issue is in the band, the band owns status, forward
+        # look and petition; the record card carries the votes
+        flat = " ".join(template().split())
+        self.assertIn("${main && !g.issue.live && g.issue.status", flat)
+        self.assertIn("${main && !g.issue.live && g.issue.next", flat)
+        self.assertIn("${main && !g.issue.live && g.issue.action", flat)
+
+    def test_the_generator_ships_live_issues_even_with_divisions(self):
+        import sqlite3
+        sys.path.insert(0, ROOT)
+        from src import db as _db, members as _members
+        conn = _db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = __import__("sqlite3").Row
+        _members.cache_put(conn, _members.Member(
+            id=1, name="Aye MP", party="Labour", seat="Seat",
+            house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        conn.execute("INSERT INTO bills_board (bill_id, title, house, stage, "
+                     "next_key_date, status) VALUES "
+                     "(77, 'A Bill', 'Commons', 'Committee', 'TBA', 'live')")
+        conn.commit()
+        cfg = {"issues": [{"id": "iss", "name": "An issue", "area": 2,
+                           "bill": "A Bill", "note": "n", "status": "s",
+                           "board_id": 77}],
+               "divisions": []}
+        dataset, _ = mvt.build(conn, cfg, {})
+        issue = dataset["issues"][0]
+        # neither upcoming nor holding divisions, but its board row is
+        # live: the band still needs it
+        self.assertTrue(issue["live"])
 

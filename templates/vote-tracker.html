@@ -503,6 +503,18 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .bandbtn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;
   font-size:14px;border-radius:7px;padding:10px 18px;white-space:nowrap;flex:none}
 .bandbtn:hover{background:var(--blue-tint);color:var(--blue-deep);text-decoration:none}
+/* the member's vote on a still-live Bill: the band's promise fulfilled.
+   Verdict chips keep their page-wide colours; the full card is one click
+   down, in The Record. */
+.bandvoteline{margin-top:10px;font-size:13.5px;color:#fff}
+.bandvoteline a{color:#fff;text-decoration:underline}
+.bandvote{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
+  padding:4px 10px;border-radius:5px;margin-right:8px;vertical-align:1px}
+.bandvote.G{background:var(--green);color:#fff}
+.bandvote.B{background:var(--red);color:#fff}
+.bandvote.A,.bandvote.N{background:#fff;color:var(--blue-deep)}
+.bandvote.T{background:#fff;color:#8a6d1f}
+.bandvote.X{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.45)}
 /* what the next vote decides (amendment 3): the stakes, set apart from
    the status facts */
 .banddecides{margin-top:9px;font-size:13.5px;color:#fff;font-weight:400;max-width:60ch;
@@ -914,7 +926,11 @@ const daysUntil = iso => Math.ceil((new Date(iso + "T00:00:00") - new Date()) / 
 const inDays = iso => { const n = daysUntil(iso);
   return n <= 0 ? "today" : n === 1 ? "tomorrow" : "in " + n + " days"; };
 const upcomingIssues = () => DATA.issues.filter(i => i.upcoming);
-const featuredBillIds = () => new Set(upcomingIssues().map(i => i.board_id).filter(Boolean));
+// The band's roster: an issue stays in LIVE NOW for as long as its board
+// row is live -- divisions or none (Christopher, 2026-08-31: after 11
+// September the vote belongs in The Record AND the Bill stays live).
+const bandIssues = () => DATA.issues.filter(i => i.upcoming || i.live);
+const featuredBillIds = () => new Set(bandIssues().map(i => i.board_id).filter(Boolean));
 function liveBillGroups(excludeIds){
   // dated groups ascending, then one TBA group: three Bills sharing a
   // sitting Friday are one occasion, not three entries
@@ -939,7 +955,7 @@ function orderPaperHTML(){
   const groups = liveBillGroups();
   if (!groups.length) return "";
   const issueByBoard = {};
-  upcomingIssues().forEach(i => { if (i.board_id) issueByBoard[i.board_id] = i; });
+  bandIssues().forEach(i => { if (i.board_id) issueByBoard[i.board_id] = i; });
   const rows = groups.map(g => {
     const issue = g.bills.map(b => issueByBoard[b.id]).find(Boolean);
     const leaf = g.date
@@ -1297,15 +1313,15 @@ function renderMP(id){
         ${noVerdict ? '<div class="quietlbl">FOR THE RECORD \u2014 not scored</div>' : ""}
         <div class="lbl">AT ${esc(d.stage.toUpperCase())} <span class="cal">&#128197;</span> ${d.date}</div>
         <h3>${esc(d.bill || g.issue.bill || g.issue.name)}</h3>
-        ${main && g.issue.status ? `<div class="billstatus">${esc(g.issue.status)}</div>` : ""}
-        ${main && g.issue.next ? `<div class="nextline">NEXT: ${
+        ${main && !g.issue.live && g.issue.status ? `<div class="billstatus">${esc(g.issue.status)}</div>` : ""}
+        ${main && !g.issue.live && g.issue.next ? `<div class="nextline">NEXT: ${
           esc(g.issue.next.stage)} in the ${esc(g.issue.next.house)} \u00b7 ${
           fmtD(g.issue.next.date)}</div>` : ""}
         ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
           We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
         <div class="cardsum">${bits.join(" \u00b7 ")}${
           whipUniform(g) ? " \u00b7 " + whipUniform(g) : ""}</div>
-        ${main && g.issue.action && g.issue.action.url && g.issue.action.label
+        ${main && !g.issue.live && g.issue.action && g.issue.action.url && g.issue.action.label
           ? `<a class="actbtn" href="${esc(g.issue.action.url)}" target="_blank"
               rel="noopener">${esc(g.issue.action.label)} \u2197</a>` : ""}
       </div></article>`;
@@ -1475,7 +1491,7 @@ function renderMP(id){
   if (!peerNoVotes){
     const feat = featuredBillIds();
     const heroes = [];
-    for (const issue of upcomingIssues()){
+    for (const issue of bandIssues()){
       // Mockup C (Christopher, 2026-08-31): the band belongs to this Bill
       // -- big linked title, the story, a date block and the petition.
       const w = (m.words || {})[issue.id];
@@ -1485,6 +1501,22 @@ function renderMP(id){
       const title = issue.bill_url
         ? `<a href="${esc(issue.bill_url)}" target="_blank" rel="noopener">${esc(issue.bill || issue.name)}</a>`
         : esc(issue.bill || issue.name);
+      // Once the Bill HAS divisions, the promise becomes the fact: the
+      // member's newest vote on it renders here in the page's verdict
+      // vocabulary, while the full card sits in The Record below. A peer
+      // is not marked absent from a Commons division (cls S), so peers
+      // show nothing until a Lords stage divides.
+      const issueDivs = (divsByIssue[issue.id] || [])
+        .slice().sort((a, b) => b.date.localeCompare(a.date));
+      const latest = issueDivs[0];
+      let voteLine = "";
+      if (latest){
+        const vi = voteInfo(m, latest);
+        if (vi.cls !== "S")
+          voteLine = `<div class="bandvoteline"><span class="bandvote ${vi.cls}">${vi.chip}</span>${
+            esc(m.name)} at ${esc(latest.stage)}, ${fmtD(latest.date)}${
+            vi.sub ? " " + esc(vi.sub) : ""} — <a href="#" onclick="document.querySelector('.recdivider').scrollIntoView();return false;">full card in the record below</a></div>`;
+      }
       // Final-week urgency (amendment 4): computed at view time, so the
       // block warms by itself with no rebuild -- "THIS FRIDAY", then
       // "TOMORROW", then "TODAY".
@@ -1503,8 +1535,9 @@ function renderMP(id){
         <div class="bandheromain">
           <h3>${title}</h3>
           <div class="bandherosub">${esc(issue.status || "")}${
-            !isPeer(m) ? ` ${esc(m.name)}\u2019s vote will appear here.` : ""}${
+            !latest && !isPeer(m) ? ` ${esc(m.name)}\u2019s vote will appear here.` : ""}${
             w && w.n ? ` Spoke in ${w.n} ${w.unit || "debate"}${w.n > 1 ? "s" : ""} on this Bill.` : ""}</div>
+          ${voteLine}
           ${issue.decides ? `<div class="banddecides">${esc(issue.decides)}</div>` : ""}
           ${said}
         </div>
@@ -1538,7 +1571,7 @@ function renderMP(id){
     // The band headline (amendment 2): named by the single upcoming issue
     // when it carries a live_label; generic whenever that is not exactly
     // one, because a shared band must not wear one Bill's name.
-    const named = upcomingIssues().filter(i => i.live_label);
+    const named = bandIssues().filter(i => i.live_label);
     const bandTitle = named.length === 1 ? named[0].live_label : "Before Parliament";
     if (heroes.length || others.length)
       band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · ${esc(bandTitle)}</div>${heroes.join("")}${disc}</div>`;

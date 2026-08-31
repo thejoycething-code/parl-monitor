@@ -100,9 +100,17 @@ issues:
 
   # THE 2026 BILL -- a separate Bill from Kim Leadbeater's, with the same
   # short title and its own card (Christopher, 2026-08-31). `upcoming: true`
-  # renders a card with no divisions: status, the board's forward look, and
-  # the petition. When its first division is held, add the division here
-  # under this issue id, drop `upcoming`, and give the issue a stance.
+  # renders in the LIVE NOW band with no divisions: status, the board's
+  # forward look, and the petition.
+  #
+  # WHEN ITS FIRST DIVISION IS HELD (11 September, if the Second Reading
+  # divides): add the division here under this issue id, drop `upcoming`,
+  # give the issue a stance -- and the Bill appears in BOTH places
+  # (Christopher, 2026-08-31): the full card lands in The Record, while
+  # the band KEEPS the Bill for as long as board 4157 stays live, its
+  # hero now showing the member's own newest vote in place of the
+  # "vote will appear here" promise. The band lets go only when the
+  # board row closes.
   - id: assisted-suicide-2026
     name: Assisted suicide (the 2026 Bill)
     area: 2

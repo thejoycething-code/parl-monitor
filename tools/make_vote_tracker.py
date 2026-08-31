@@ -825,6 +825,11 @@ def build(conn, cfg, payloads):
             "SELECT house, stage, status, next_key_date, what_next "
             "FROM bills_board WHERE bill_id = ?", (bid,)).fetchone()
         alive = bool(row) and row["status"] == "live"
+        # The band tracks the BILL's life, not the absence of divisions
+        # (Christopher, 2026-08-31: after 11 September the vote belongs in
+        # The Record AND the Bill stays in LIVE NOW). `live` keeps an issue
+        # in the band until its board row closes, divisions or none.
+        issue["live"] = alive
         if row is None:
             print("  issue {0}: board_id {1} is not on the bills board -- "
                   "no forward date will show".format(issue["id"], bid))
@@ -1151,7 +1156,8 @@ def build(conn, cfg, payloads):
         # riding on the fallen Leadbeater Bill's (Christopher, 2026-08-31:
         # "they are two separate Bills").
         "issues": [i for i in issues
-                   if i["id"] in used_issues or i.get("upcoming")],
+                   if i["id"] in used_issues or i.get("upcoming")
+                   or i.get("live")],
         "areas": {str(k): v for k, v in RECORD_AREAS.items()},
         "logos": party_logos(),
         "divisions": sorted(divisions, key=lambda d: (d["issue"], d["date"])),
