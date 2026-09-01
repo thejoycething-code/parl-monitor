@@ -8,22 +8,22 @@ Nothing this week matched the taxonomy. The full watching list below is the proo
 
 ## Coming up in plenary (90 days ahead)
 
-- **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield (debate) - Free speech, privacy and civil liberties - **Why it matters:** EU Democracy Shield proposals often expand content moderation and disinformation powers, risking further curbs on lawful speech and dissenting religious or family-values expression online. (score 2)
+- **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield (debate) - Free speech, privacy and civil liberties - **Why it matters:** Democracy Shield proposals often expand disinformation and content regulation powers, risking further censorship of pro-family and pro-life speech online. (score 2)
 
 Published agendas checked: 2026-09-14 (6 items), 2026-09-15 (24 items), 2026-09-16 (24 items), 2026-09-17 (11 items). Agendas publish closer to the sitting; later sittings appear as they do.
 
 ## Plenary divisions on our ground (last 60 days)
 
-- **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre - 510-1-86 (597 recorded positions) - Freedom of religion - **Why it matters:** Parliament's formal resolution on the Kawel massacre tests whether MEPs will name anti-Christian violence directly or dilute it into generic human rights language. (score 3)
-- **2026-07-07** - Temporary derogation from certain provisions of the ePrivacy Directive to combat online child sexual abuse ***II - 331-304-11 (646 recorded positions) - Parental rights education - **Why it matters:** Derogations from ePrivacy protections set precedent for mass scanning of private communications, the same mechanism used to justify broader surveillance of lawful content. (score 3)
-- **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum - 440-146-50 (totals only, no roll call) - Free speech, privacy and civil liberties - **Why it matters:** This vote determines whether MEPs endorse SDG targets embedding abortion access as a development indicator, setting funding conditions for partner states. (score 2)
+- **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre - 510-1-86 (597 recorded positions) - Freedom of religion - **Why it matters:** A formal vote on the Nigeria massacre signals whether MEPs will demand concrete protection for persecuted Christians rather than issuing empty statements. (score 3)
+- **2026-07-07** - Temporary derogation from certain provisions of the ePrivacy Directive to combat online child sexual abuse ***II - 331-304-11 (646 recorded positions) - Parental rights education - **Why it matters:** Extending mass scanning powers to fight CSAM risks normalising blanket surveillance of private communications, a precedent that could later target lawful speech. (score 3)
+- **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum - 440-146-50 (totals only, no roll call) - Free speech, privacy and civil liberties - **Why it matters:** SDG delivery debates frequently push abortion as healthcare and open borders as obligation, shaping EU funding and policy pressure on member states. (score 2)
 
 Tallies are favor-against-abstention. These votes carry no verdict yet: meanings are signed off per division before any MEP is judged on them.
 
 ## Adopted by the Parliament (last 60 days)
 
-- **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre (TA-10-2026-0268) - Freedom of religion - **Why it matters:** Mass killings of Christians demand EU condemnation and protection commitments. Silence or weak response signals FoRB is negotiable when victims are Christian. (score 3)
-- **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum (TA-10-2026-0250) - Free speech, privacy and civil liberties - **Why it matters:** SDG frameworks routinely smuggle in 'sexual and reproductive health rights' language used to push abortion access and population policies through development funding. (score 2)
+- **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre (TA-10-2026-0268) - Freedom of religion - **Why it matters:** Mass killings of Christians in Nigeria highlight ongoing persecution the EU must name and act on, testing whether religious freedom gets real diplomatic priority. (score 3)
+- **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum (TA-10-2026-0250) - Free speech, privacy and civil liberties - **Why it matters:** SDG frameworks routinely smuggle in abortion access as reproductive health and reframe migration as a right, undermining national sovereignty and life protections. (score 2)
 
 2 of 39 adopted texts in the window matched the taxonomy.
 
