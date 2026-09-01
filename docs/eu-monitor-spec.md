@@ -81,9 +81,17 @@ happens when the wiring is approved.
    9/10), both verified live at first reading. OEIL's own RSS is dead (the
    relaunched site 400s the old export path); the EP Open Data procedures
    endpoint replaced it.
-2. **EP plenary calendar + committee agendas** (LIBE, FEMM, JURI, EMPL) —
-   the coming-up analog; Caroline's 1–2-month forward look lands here.
-   NEXT.
+2. **Plenary forward look — BUILT (2b).** `tools/eu_agenda.py`: sittings
+   inside a 60-day horizon from the meetings calendar, one
+   foreseen-activities call per published sitting, every EN label
+   taxonomy-matched; the edition's "Coming up in plenary" shows matches
+   dated with the rest counted per sitting. 204-empty and 404 both mean
+   "agenda not yet published" and stay quiet (measured live). First run
+   caught the 15 Sep Democracy Shield special-committee debate via a
+   v1.5 term. **Committee agendas (LIBE/FEMM/JURI/EMPL) remain an open
+   probe**: EP Open Data carries no committee meetings, and the eMeeting
+   service is an Angular shell whose backend the blind probe did not
+   find -- needs browser XHR discovery.
 3. **EP adopted texts** — taxonomy-matched resolutions; also the
    auto-proposal feed for the dossier watchlist (a matched text naming a
    procedure proposes it; a human confirms).

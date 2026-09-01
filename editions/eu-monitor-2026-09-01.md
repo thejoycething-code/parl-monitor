@@ -6,6 +6,12 @@
 
 Nothing this week matched the taxonomy. The full watching list below is the proof it was looked at, not a filter's silence.
 
+## Coming up in plenary (60 days ahead)
+
+- **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield (debate) - Free speech, privacy and civil liberties
+
+Published agendas checked: 2026-09-14 (6 items), 2026-09-15 (24 items), 2026-09-16 (24 items), 2026-09-17 (11 items). Agendas publish closer to the sitting; later sittings appear as they do.
+
 ## Dossier board (2 watched)
 
 | Dossier | Why we track it | Stage | Movement |

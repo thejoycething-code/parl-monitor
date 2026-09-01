@@ -706,6 +706,14 @@ CREATE TABLE IF NOT EXISTS eu_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_agenda (
+  activity_id TEXT PRIMARY KEY,   -- 'MTG-PL-2026-09-14-OJ-ITM-D-2'
+  sitting_id TEXT, date TEXT,     -- the plenary sitting and its day
+  label TEXT,                     -- EN activity label (the debate/vote name)
+  activity_type TEXT,             -- PLENARY_DEBATE / PLENARY_VOTE / ...
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS eu_dossiers (
   process_id TEXT PRIMARY KEY,    -- EP Open Data id ('2022-0155')
   label TEXT,                     -- OEIL reference ('2022/0155(COD)')
@@ -827,6 +835,7 @@ TABLES = (
     "dg_consultations",
     "eu_consultations",
     "eu_dossiers",
+    "eu_agenda",
     "api_spend",
     "evaluations",
     "ni_items",

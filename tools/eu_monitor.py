@@ -214,6 +214,34 @@ def render_edition(conn, today):
             lines.append("- {0}".format(r["summary"][:600]))
         lines.append("- Respond: {0}".format(r["url"]))
         lines.append("")
+    # Coming up in plenary (phase 2b): the foreseen agenda inside 60 days,
+    # written by tools/eu_agenda.py. Matched items in full; the rest
+    # counted per sitting day -- 65 rows of vineyard votes would bury the
+    # one debate that matters, but a count is not suppression.
+    ag = conn.execute("SELECT * FROM eu_agenda WHERE date >= ? "
+                      "ORDER BY date, activity_id", (today,)).fetchall()
+    if ag:
+        ag_matched = [r for r in ag if json.loads(r["areas"] or "[]")]
+        per_day = {}
+        for r in ag:
+            per_day[r["date"]] = per_day.get(r["date"], 0) + 1
+        lines.append("## Coming up in plenary ({0} days ahead)".format(60))
+        lines.append("")
+        for r in ag_matched:
+            areas = ", ".join(names.get(a, str(a))
+                              for a in json.loads(r["areas"]))
+            lines.append("- **{0}** - {1} ({2}) - {3}".format(
+                r["date"], r["label"],
+                (r["activity_type"] or "").replace("PLENARY_", "").lower(),
+                areas))
+        if not ag_matched:
+            lines.append("Nothing on our ground in the published agendas.")
+        lines.append("")
+        lines.append("Published agendas checked: " + ", ".join(
+            "{0} ({1} items)".format(d, n)
+            for d, n in sorted(per_day.items())) + ". Agendas publish "
+            "closer to the sitting; later sittings appear as they do.")
+        lines.append("")
     # The dossier board (phase 2a): watched EP procedures with movement,
     # tracked by tools/eu_dossiers.py from config/eu_watchlist.yaml.
     try:
