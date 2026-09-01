@@ -165,6 +165,19 @@ def render(conn, today, out=print):
                                           r["closes"]))
 
 
+def _why(r):
+    """The triage judge's line, when the row has been scored."""
+    try:
+        w = r["why_it_matters"]
+        s = r["triage_score"]
+    except (IndexError, KeyError):
+        return ""
+    if not w:
+        return ""
+    return " **Why it matters:** {0}{1}".format(
+        w, " (score {0})".format(s) if s is not None else "")
+
+
 def render_edition(conn, today):
     """The weekly EU edition, its own document (Christopher, 2026-09-01:
     'a separate one for the EU edition'). Same grammar as the Westminster
@@ -214,6 +227,8 @@ def render_edition(conn, today):
                                             r["act_type"] or "?"))
         if r["summary"]:
             lines.append("- {0}".format(r["summary"][:600]))
+        if _why(r):
+            lines.append("-{0}".format(_why(r)))
         lines.append("- Respond: {0}".format(r["url"]))
         lines.append("")
     # Coming up in plenary (phase 2b): the foreseen agenda inside 60 days,
@@ -232,10 +247,10 @@ def render_edition(conn, today):
         for r in ag_matched:
             areas = ", ".join(names.get(a, str(a))
                               for a in json.loads(r["areas"]))
-            lines.append("- **{0}** - {1} ({2}) - {3}".format(
+            lines.append("- **{0}** - {1} ({2}) - {3}{4}".format(
                 r["date"], r["label"],
                 (r["activity_type"] or "").replace("PLENARY_", "").lower(),
-                areas))
+                areas, " -" + _why(r) if _why(r) else ""))
         if not ag_matched:
             lines.append("Nothing on our ground in the published agendas.")
         lines.append("")
@@ -258,11 +273,12 @@ def render_edition(conn, today):
                               for a in json.loads(r["areas"] or "[]"))
             n = conn.execute("SELECT COUNT(*) FROM eu_votes WHERE "
                              "vote_id = ?", (r["vote_id"],)).fetchone()[0]
-            lines.append("- **{0}** - {1} - {2}-{3}-{4}{5} - {6}".format(
+            lines.append("- **{0}** - {1} - {2}-{3}-{4}{5} - {6}{7}".format(
                 r["date"], r["label"], r["favor"], r["against"],
                 r["abstention"],
                 " ({0} recorded positions)".format(n) if n else
-                " (totals only, no roll call)", areas))
+                " (totals only, no roll call)", areas,
+                " -" + _why(r) if _why(r) else ""))
         lines.append("")
         lines.append("Tallies are favor-against-abstention. These votes "
                      "carry no verdict yet: meanings are signed off per "
@@ -278,8 +294,9 @@ def render_edition(conn, today):
         for r in tx_matched:
             areas = ", ".join(names.get(a, str(a))
                               for a in json.loads(r["areas"]))
-            lines.append("- **{0}** - {1} ({2}) - {3}".format(
-                r["date"], r["title"], r["identifier"], areas))
+            lines.append("- **{0}** - {1} ({2}) - {3}{4}".format(
+                r["date"], r["title"], r["identifier"], areas,
+                " -" + _why(r) if _why(r) else ""))
         lines.append("")
         lines.append("{0} of {1} adopted texts in the window matched the "
                      "taxonomy.".format(len(tx_matched), len(tx)))
@@ -328,6 +345,61 @@ def render_edition(conn, today):
     return path
 
 
+def dm_summary(conn, today):
+    """The EU week in one Slack message, sent as a DM.
+
+    Christopher, 2026-09-01: hold the channel, DM the proof of concept.
+    Triage-scored items lead (the judge's why lines are the substance);
+    counts keep it honest; the edition file carries the rest.
+    """
+    scored = []
+    for table, datecol in (("eu_consultations", "closes"),
+                           ("eu_agenda", "date"), ("eu_divisions", "date"),
+                           ("eu_texts", "date")):
+        try:
+            for r in conn.execute(
+                    "SELECT * FROM {0} WHERE areas != '[]' AND "
+                    "triage_score IS NOT NULL".format(table)).fetchall():
+                title = (r["title"] if "title" in r.keys() else None) or \
+                        (r["label"] if "label" in r.keys() else "?")
+                scored.append((r["triage_score"], r[datecol], title,
+                               r["why_it_matters"] or ""))
+        except Exception:
+            continue
+    scored.sort(key=lambda x: (-(x[0] or 0), x[1] or ""))
+    nc = conn.execute("SELECT COUNT(*), SUM(areas != '[]') FROM "
+                      "eu_consultations WHERE closes >= ?",
+                      (today,)).fetchone()
+    lines = [":eu: *EU Monitor - week commencing {0}*".format(today), ""]
+    lines.append("{0} Commission feedback windows open, {1} on our ground. "
+                 "Full edition: editions/eu-monitor-{2}.md in the repo."
+                 .format(nc[0] or 0, int(nc[1] or 0), today))
+    if scored:
+        lines.append("")
+        lines.append("*Scored by triage (same rubric as Westminster):*")
+        for score, date, title, why in scored[:6]:
+            lines.append("• *[{0}]* {1} ({2})".format(score, title[:90],
+                                                      date or "?"))
+            if why:
+                lines.append("   _{0}_".format(why))
+    board = []
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "eu_dossiers", os.path.join(ROOT, "tools", "eu_dossiers.py"))
+        eud = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(eud)
+        board = eud.board_rows(conn, today)
+    except Exception:
+        pass
+    if board:
+        lines.append("")
+        lines.append("*Dossier board:* " + " · ".join(
+            "{0} at {1} ({2})".format(b["label"], b["stage"], b["movement"])
+            for b in board))
+    return "\n".join(lines)
+
+
 def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
@@ -340,6 +412,14 @@ def main():
         print("edition: {0}".format(render_edition(conn, today)))
     elif "--pull" not in sys.argv:
         render(conn, today)
+    if "--dm" in sys.argv:
+        # The channel is deliberately NOT posted (Christopher, 2026-09-01:
+        # hold on publishing the Slack for now); the weekly summary goes to
+        # him alone as a DM until he says otherwise.
+        from src import publish
+        result = publish.slack_dm(publish.load_secrets(),
+                                  dm_summary(conn, today))
+        print("dm: {0}".format(result))
     conn.close()
     return 0
 

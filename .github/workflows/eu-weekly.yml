@@ -55,17 +55,32 @@ jobs:
         run: python3 tools/eu_texts.py | tee /tmp/eu-texts.log
       - name: Collect MEP roll calls on our ground
         run: python3 tools/eu_rollcalls.py | tee /tmp/eu-rollcalls.log
-      - name: Pull open Commission initiatives and write the EU edition
-        # SEQUENTIAL with the step above: both write the same SQLite file,
-        # and the edition renders the dossier board the tracker just wrote.
-        run: python3 tools/eu_monitor.py --edition | tee /tmp/eu-monitor.log
+      - name: Write secrets file
+        # anthropic_api_key: the triage judge. slack: the weekly DM to
+        # Christopher ONLY -- the channel is deliberately not posted
+        # (his call, 2026-09-01: hold the Slack, DM the proof of concept).
+        # A missing secret makes the step skip-with-disclosure, never fail.
+        run: |
+          cat > config/secrets.yaml <<EOF
+          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: Triage the new matched EU items
+        # Scored once, ever: the weekly cost is the week's NEW matched
+        # rows, single digits. Spend lands in api_spend as 'eu-triage'.
+        run: python3 tools/eu_triage.py | tee /tmp/eu-triage.log
+      - name: Pull open Commission initiatives, write the EU edition, DM the summary
+        # SEQUENTIAL with the steps above: same SQLite file throughout,
+        # and the edition renders what the collectors and judge just wrote.
+        run: python3 tools/eu_monitor.py --edition --dm | tee /tmp/eu-monitor.log
       - name: Health summary
         if: always()
         run: |
           {
             echo "## EU weekly refresh"
             echo '```'
-            grep -hE "eu-consultations:|eu-rollcalls:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
+            grep -hE "eu-consultations:|eu-triage:|dm:|eu-rollcalls:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
               /tmp/eu-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/eu-*.log 2>/dev/null \
