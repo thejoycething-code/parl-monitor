@@ -64,6 +64,38 @@ def _open_to_us(title, summary):
     return not any(marker in text for marker in INVITED_MARKERS)
 
 
+def eu_actionable(conn, today, hidden=(11,)):
+    """eu_consultations rows meeting the SAME action-window rule.
+
+    Commission feedback windows are open to anyone by construction (the
+    Better Regulation portal is public participation), so condition 3
+    holds by source; the invited-marker check still runs on the text as
+    a belt against exceptions. Same threshold, same shape, same
+    late-detection flag as the devolved rule (Christopher, 2026-09-01:
+    wire EU briefs into the generator).
+    """
+    out = []
+    rows = conn.execute(
+        "SELECT key, title, url, summary, opened, closes, areas, tier, "
+        "first_seen FROM eu_consultations "
+        "WHERE closes IS NOT NULL AND closes >= ? ORDER BY closes",
+        (today,)).fetchall()
+    for r in rows:
+        areas = [a for a in json.loads(r["areas"] or "[]") if a not in hidden]
+        if not areas:
+            continue
+        if not _open_to_us(r["title"], r["summary"]):
+            continue
+        out.append({
+            "key": r["key"], "nation": "eu", "nation_label": "European Union",
+            "title": r["title"], "url": r["url"], "opened": r["opened"],
+            "closes": r["closes"], "areas": areas, "tier": r["tier"],
+            "first_seen": r["first_seen"],
+            "late_detection": late_detection(r["first_seen"], r["closes"]),
+        })
+    return out
+
+
 def devolved_actionable(conn, today, hidden=(11,)):
     """dg_consultations rows meeting the action-window rule, as dicts.
 

@@ -8,7 +8,7 @@ plenary calendar for the whole year and each sitting's foreseen agenda
 weeks ahead, in English, through the Open Data API. The Westminster
 Order Paper gives days; this gives WEEKS.
 
-Method: sittings for a 60-day horizon from /meetings (one call, two when
+Method: sittings for a 90-day horizon (60 until 2026-09-01; Christopher: extend the forward look for both monitors) from /meetings (one call, two when
 the horizon crosses a year boundary), then one /foreseen-activities call
 per future sitting (~12 in a typical month-pair). Every activity label is
 taxonomy-matched; matches surface in the EU edition's "Coming up" with
@@ -41,7 +41,7 @@ MEETINGS = ("https://data.europarl.europa.eu/api/v2/meetings"
             "?year={0}&limit=500&format=application%2Fld%2Bjson")
 FORESEEN = ("https://data.europarl.europa.eu/api/v2/meetings/{0}"
             "/foreseen-activities?format=application%2Fld%2Bjson")
-HORIZON_DAYS = 60
+HORIZON_DAYS = 90
 
 
 def future_sittings(client, today, log=print):

@@ -488,7 +488,7 @@ class FurtherAfieldTests(unittest.TestCase):
     def test_it_sits_inside_week_ahead_not_as_its_own_heading(self):
         md = digest.render(self._edition())
         self.assertIn("## Week ahead", md)
-        self.assertIn("**Further afield** (next 3 weeks)", md)
+        self.assertIn("**Further afield** (next 8 weeks)", md)
         self.assertNotIn("## Further afield", md)
         self.assertLess(md.index("Commons: this week"),
                         md.index("Further afield"))

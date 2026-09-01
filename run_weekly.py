@@ -405,14 +405,18 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                        extra=extra)
 
     def _whatson():
-        # Two horizons: the edition week (Week ahead) and the THREE weeks
-        # after it (Further afield), so a second reading three weeks out is
-        # visible while there is still time to act on it. Christopher,
-        # 2026-08-24.
+        # Two horizons: the edition week (Week ahead) and the EIGHT weeks
+        # after it (Further afield). Three weeks (Christopher, 2026-08-24)
+        # became eight on 2026-09-01: Caroline asked for a one-to-two-month
+        # forward look so a campaign can be built in time, and the EU
+        # monitor already sees 60 days -- both monitors now look as far as
+        # their sources publish. What's On simply returns nothing for weeks
+        # Parliament has not yet scheduled, so the far end costs only a few
+        # extra chunked calls.
         for horizon, (h_start, h_end) in (
                 ("week", (week_start, week_end)),
                 ("further", (week_end + datetime.timedelta(days=1),
-                             week_end + datetime.timedelta(days=21)))):
+                             week_end + datetime.timedelta(days=56)))):
             for e in whatson.fetch_events(client, h_start, h_end):
                 text = whatson.event_text(e)
                 r = filt.filter_item(tax, wl, text)

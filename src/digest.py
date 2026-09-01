@@ -181,8 +181,14 @@ def _weekday(iso_date):
 
 
 
-def render_further_ahead(lines, weeks=3):
-    """Business on our ground in the THREE weeks after this one.
+def render_further_ahead(lines, weeks=8):
+    """Business on our ground in the EIGHT weeks after this one.
+
+    Three weeks until 2026-09-01, when Caroline's forward-look request
+    (2026-08-28) stretched it: a month or two of runway is what turns a
+    sighting into a campaign. Parliament schedules sparsely that far out,
+    so most weeks the far end is quiet -- but quiet is the honest answer,
+    where a short window was silence about things already scheduled.
 
     Week ahead answers "what happens now"; this answers "what is coming
     while there is still time to act". It sits inside the Week ahead

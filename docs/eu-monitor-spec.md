@@ -63,11 +63,22 @@ happens when the wiring is approved.
    runs Saturdays (07:00/15:00 UTC, same parl-monitor-state concurrency
    group), commits the edition and publishes the store. Nothing EU touches
    the Westminster digest.
-3. **Downstream: briefs EVENTUALLY, nothing else.** Good briefs will be
-   passed to team members by hand; no Top lines, no Slack, no automatic
-   Asana loop for EU items yet. The edition says so in its header.
+3. **Downstream: briefs WIRED (2026-09-01, second instruction).**
+   `actionable.eu_actionable` extends the action-window rule to
+   eu_consultations; make_briefs generates for on-our-ground EU items with
+   slug prefix `eu-`, the 5CA populate-manually marker, and the List cell
+   as a campaigner's-call marker (good EU briefs cross country lists).
+   The Asana approval task gates every one; good ones are passed to team
+   members by hand. Still no Top lines, no Slack.
 4. **5CA: eventually**, after other wiring — MEP roll-call data (phase 2d)
    is the raw material.
+
+## Forward look (2026-09-01, Christopher: "extend the forward look for both")
+
+The EU plenary horizon is 90 days (was 60); Westminster's "Further
+afield" is 8 weeks (was 3, set 2026-08-24). Both monitors now look as far
+as their sources publish — unpublished weeks return nothing and cost
+nothing.
 
 ## Phase 2 (building in this order)
 

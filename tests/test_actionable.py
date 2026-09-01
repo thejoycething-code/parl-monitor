@@ -175,6 +175,31 @@ class BriefSubjectTests(unittest.TestCase):
         self.assertEqual([s for s in mb.subjects(conn, today=TODAY)
                           if s.get("nation")], [])
 
+    def test_an_eu_consultation_becomes_a_subject_under_the_same_rule(self):
+        # Christopher, 2026-09-01: wire EU briefs into the generator. Same
+        # action-window rule, same downstream shape; the nation label swaps
+        # the 5CA for the marker and the List for a campaigner's-call
+        # marker (good EU briefs cross country lists).
+        import make_briefs as mb
+        conn = store([])
+        conn.execute(
+            "INSERT INTO eu_consultations (key, title, url, summary, opened, "
+            "closes, areas, tier, first_seen, last_seen) "
+            "VALUES ('18805', 'Fitness check on violence against women and "
+            "abortion access', 'https://x/eu', '', '2026-08-31', "
+            "'2026-09-28', '[1]', 1, '2026-08-31', ?)", (TODAY,))
+        conn.commit()
+        subs = [s for s in mb.subjects(conn, today=TODAY)
+                if s.get("nation") == "European Union"]
+        self.assertEqual(len(subs), 1)
+        s = subs[0]
+        self.assertEqual(s["slug"][:3], "eu-")
+        self.assertEqual(s["deadline"], "2026-09-28")
+        # the List cell is the campaigner's call for EU subjects
+        src = open(os.path.join(ROOT, "tools", "make_briefs.py"),
+                   encoding="utf-8").read()
+        self.assertIn('"[CAMPAIGNER: which list(s)]"', src)
+
     def test_the_5ca_carries_the_marker_not_an_empty_grid(self):
         with open(os.path.join(ROOT, "tools", "make_briefs.py"),
                   encoding="utf-8") as fh:

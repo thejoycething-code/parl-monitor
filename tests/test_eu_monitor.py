@@ -196,7 +196,8 @@ class EditionTests(unittest.TestCase):
         self.assertIn("(27 days, open)", text)
         self.assertIn("## Watching - no taxonomy match (1)", text)
         self.assertIn("Plants obtained by new genomic techniques", text)
-        self.assertIn("no Top lines, no automatic briefs", text)
+        self.assertIn("No Top lines, no Slack", text)
+        self.assertIn("gated by its Asana approval task", text)
 
 
 if __name__ == "__main__":
