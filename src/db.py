@@ -694,6 +694,18 @@ CREATE TABLE IF NOT EXISTS dg_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_consultations (
+  key TEXT PRIMARY KEY,           -- HYS numeric initiative id, as text
+  reference TEXT,                 -- Commission reference (Ares/COM/PLAN...)
+  title TEXT, url TEXT,           -- EN short title; public Have-your-say page
+  summary TEXT,                   -- dossierSummary from the detail endpoint
+  act_type TEXT,                  -- foreseenActType (REG, DIR, REG_DEL...)
+  topics TEXT,                    -- JSON list of HYS topic labels
+  stage TEXT,                     -- frontEndStage of the OPEN window
+  opened TEXT, closes TEXT,       -- ISO dates of the current feedback window
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS evaluations (
   division_ref TEXT NOT NULL,     -- 'div:c2071' (no lobby suffix)
   area INTEGER NOT NULL,
@@ -804,6 +816,7 @@ TABLES = (
     "sp_committees",
     "sd_committees",
     "dg_consultations",
+    "eu_consultations",
     "api_spend",
     "evaluations",
     "ni_items",

@@ -1,0 +1,183 @@
+"""EU monitor, phase 1: Commission initiatives open for public feedback.
+
+    python3 tools/eu_monitor.py           # pull + classify + print the monitor
+    python3 tools/eu_monitor.py --pull    # pull only, no rendering
+
+The European analogue of the devolved consultations collector, built on the
+Commission's Better Regulation portal ("Have your say"). Everything the EU
+is PROMOTING passes through it: legislative proposals, delegated and
+implementing acts, evaluations and fitness checks all take public feedback
+there in defined windows -- which makes it the one EU source where the
+action-window rule (docs/parl-monitor-devolved-fix.md) transfers unchanged:
+open window, stated closing date, open to anyone.
+
+Live-probed 2026-09-01 (data/raw/eu-probe-2026-09-01/): 4,101 initiatives
+on the portal, 41 with feedback OPEN via the server-side filter
+`feedbackStatus=OPEN` -- one page weekly. The listing carries the current
+window's dates; ONE detail fetch per new initiative adds the EN dossier
+summary for classification. Classification is the same taxonomy pass the
+devolved monitors run, over title + summary.
+
+Separation guarantee, as for every devolved source: this tool writes
+eu_consultations ONLY -- never items or mp_events, so nothing here can
+reach the published Westminster digest until Christopher wires it in
+deliberately.
+
+ONE WRITER AT A TIME on data/parl-monitor.db.
+"""
+
+from __future__ import annotations
+
+import datetime
+import json
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+
+from src import db, filter as filt
+from src.http import FetchError, HttpClient
+
+SEARCH = ("https://ec.europa.eu/info/law/better-regulation/brpapi/"
+          "searchInitiatives?feedbackStatus=OPEN&language=EN&size=200")
+DETAIL = ("https://ec.europa.eu/info/law/better-regulation/brpapi/"
+          "groupInitiatives/{0}")
+PAGE = "https://ec.europa.eu/info/law/better-regulation/have-your-say/initiatives/{0}"
+
+
+def iso(hys_date):
+    """'2026/08/31 08:24:00' -> '2026-08-31'; None stays None."""
+    if not hys_date:
+        return None
+    return str(hys_date)[:10].replace("/", "-")
+
+
+def parse_listing(payload):
+    """The OPEN-feedback initiatives, one dict each, dates ISO."""
+    page = payload.get("initiativeResultDtoPage") or {}
+    out = []
+    for item in page.get("content") or []:
+        cur = next((s for s in item.get("currentStatuses") or []
+                    if s.get("isCurrent")), None) or {}
+        if cur.get("receivingFeedbackStatus") != "OPEN":
+            continue    # the filter is server-side, but never trust it alone
+        key = str(int(item["id"]))
+        out.append({
+            "key": key,
+            "reference": item.get("reference"),
+            "title": item.get("shortTitle"),
+            "url": PAGE.format(key),
+            "act_type": item.get("foreseenActType"),
+            "topics": [t.get("label") for t in item.get("topics") or []],
+            "stage": cur.get("frontEndStage"),
+            "opened": iso(cur.get("feedbackStartDate")),
+            "closes": iso(cur.get("feedbackEndDate")),
+        })
+    return out, page.get("totalElements")
+
+
+def pull(conn, client, today, log=print):
+    tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+    try:
+        listing = client.get_json(SEARCH, "eu-consultations", "open",
+                                  archive=False)
+    except FetchError as exc:
+        conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
+                     "VALUES (?,?,?)",
+                     (today, "eu-consultations", str(exc.cause)))
+        conn.commit()
+        log("  [gap] eu-consultations: {0}".format(exc.cause))
+        return 0, 0, 0
+    found, total = parse_listing(listing)
+    if total and total > len(found):
+        log("  [gap] {0} open initiatives but one page holds {1} -- raise "
+            "size or page".format(total, len(found)))
+    known = {r[0]: r[1] for r in conn.execute(
+        "SELECT key, summary FROM eu_consultations")}
+    new = ours = 0
+    for c in found:
+        summary = known.get(c["key"]) or ""
+        if c["key"] not in known or not summary:
+            # One detail fetch per new initiative: the EN dossier summary,
+            # without which classification would run on the title alone.
+            try:
+                det = client.get_json(DETAIL.format(c["key"]),
+                                      "eu-consultations", "detail",
+                                      archive=False)
+                summary = (det.get("dossierSummary") or "").strip()
+            except FetchError as exc:
+                log("  [gap] detail {0}: {1}".format(c["key"], exc.cause))
+        res = filt.filter_item(tax, wl, "{0} {1}".format(c["title"], summary))
+        areas = res.issue_areas or []
+        if areas:
+            ours += 1
+        if c["key"] not in known:
+            new += 1
+        conn.execute(
+            "INSERT INTO eu_consultations (key, reference, title, url, "
+            "summary, act_type, topics, stage, opened, closes, areas, "
+            "matched_terms, tier, first_seen, last_seen) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+            "ON CONFLICT(key) DO UPDATE SET title=excluded.title, "
+            "summary=CASE WHEN excluded.summary != '' THEN excluded.summary "
+            "ELSE summary END, act_type=excluded.act_type, "
+            "topics=excluded.topics, stage=excluded.stage, "
+            "opened=COALESCE(excluded.opened, opened), "
+            "closes=COALESCE(excluded.closes, closes), "
+            "areas=excluded.areas, matched_terms=excluded.matched_terms, "
+            "tier=excluded.tier, last_seen=excluded.last_seen",
+            (c["key"], c["reference"], c["title"], c["url"], summary,
+             c["act_type"], json.dumps(c["topics"]), c["stage"], c["opened"],
+             c["closes"], json.dumps(areas),
+             json.dumps(res.matched_terms or []), res.tier, today, today))
+    conn.commit()
+    return len(found), new, ours
+
+
+def render(conn, today, out=print):
+    """The watching brief: our ground first, then the rest, deadline order.
+
+    Prints EVERY open initiative -- the suppression lesson (never a hidden
+    filter): what did not match the taxonomy is listed under its own
+    heading, not silently dropped.
+    """
+    rows = conn.execute(
+        "SELECT * FROM eu_consultations WHERE closes >= ? "
+        "ORDER BY closes", (today,)).fetchall()
+    ours = [r for r in rows if json.loads(r["areas"] or "[]")]
+    rest = [r for r in rows if not json.loads(r["areas"] or "[]")]
+    out("\nEU MONITOR - initiatives open for public feedback ({0})".format(today))
+    out("=" * 68)
+    out("\nON OUR GROUND ({0}):".format(len(ours)) if ours
+        else "\nON OUR GROUND: none this week.")
+    for r in ours:
+        days = (datetime.date.fromisoformat(r["closes"])
+                - datetime.date.fromisoformat(today)).days
+        out("  [{0}] {1}".format(", ".join(
+            str(a) for a in json.loads(r["areas"])), r["title"]))
+        out("      closes {0} ({1} days) - {2} - {3}".format(
+            r["closes"], days, r["act_type"] or "?", r["url"]))
+    out("\nWATCHING - no taxonomy match ({0}):".format(len(rest)))
+    for r in rest:
+        out("  - {0} (closes {1})".format((r["title"] or "?")[:84],
+                                          r["closes"]))
+
+
+def main():
+    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    conn = db.init_db(db.connect(os.path.join(ROOT, "data",
+                                              "parl-monitor.db")))
+    today = datetime.date.today().isoformat()
+    n, new, ours = pull(conn, client, today)
+    print("eu-consultations: {0} open, {1} new, {2} on our ground.".format(
+        n, new, ours))
+    if "--pull" not in sys.argv:
+        render(conn, today)
+    conn.close()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
