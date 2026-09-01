@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How did your MEP vote? — CitizenGO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#4285f4; --white:#fff; --grey-100:#EEEEEE; --grey-300:#C4C4C4;
+  --ink:#52575C; --green:#55B159; --red:#DB544F;
+  --blue-deep:#2f6fe0; --blue-tint:#EAF1FE; --line:#E4E6E9;
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--white);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6}
+a{color:var(--blue);text-decoration:none} a:hover{color:var(--blue-deep);text-decoration:underline}
+h1,h2,h3{color:#20242a;font-weight:700;letter-spacing:-.01em}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+header{border-bottom:1px solid var(--line);padding:14px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:900;font-size:19px;color:#20242a}
+.brand span{color:var(--blue)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.14em;color:#9aa1a9}
+.hero{padding:34px 0 8px}
+.kicker{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--blue-deep);margin-bottom:8px}
+.hero h1{font-size:38px;line-height:1.15;margin-bottom:12px}
+.sub{font-size:15.5px;max-width:66ch}
+.searchbox{margin:22px 0 8px}
+.searchbox label{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--blue-deep)}
+#q{width:100%;margin-top:8px;padding:15px 17px;font-size:16.5px;font-family:var(--font);
+  border:2px solid var(--grey-300);border-radius:10px;outline:none}
+#q:focus{border-color:var(--blue)}
+.dd{position:relative}
+#opts{position:absolute;left:0;right:0;top:2px;background:#fff;border:1px solid var(--line);
+  border-radius:9px;box-shadow:0 8px 22px rgba(16,24,40,.12);display:none;z-index:5;max-height:330px;overflow:auto}
+#opts.open{display:block}
+.opt{display:flex;gap:10px;align-items:baseline;padding:10px 14px;cursor:pointer;font-size:14.5px}
+.opt:hover,.opt.active{background:var(--blue-tint)}
+.badge{font-size:9px;font-weight:700;letter-spacing:.06em;background:var(--blue);color:#fff;
+  border-radius:4px;padding:2px 6px}
+.badge.c{background:#8a6d1f}
+.opt small{color:#9aa1a9}
+.divcard{background:#fff;border:1px solid #eef0f3;border-radius:12px;box-shadow:0 1px 3px rgba(16,24,40,.08);
+  padding:17px 19px;margin:14px 0}
+.divcard h3{font-size:17px;font-weight:500;line-height:1.35}
+.meta{font-size:12px;color:#9aa1a9;margin-top:4px}
+.tally{font-size:13.5px;margin-top:8px}
+.tally b{font-weight:600}
+.nover{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#4a5058;
+  background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px;margin-left:8px}
+.whyline{font-size:13px;color:#6c727a;font-style:italic;margin-top:7px}
+.grouprow{font-size:12px;color:#6c727a;margin-top:8px}
+/* member card */
+.mepcard{background:var(--blue);border-radius:14px;color:#fff;padding:22px 24px;margin:18px 0 6px}
+.mepcard h2{color:#fff;font-size:27px}
+.mep-meta{font-size:13.5px;color:#dbe6fb;margin-top:5px}
+.mep-meta b{color:#fff;font-weight:500}
+.vrow{display:flex;gap:16px;background:#fff;border:1px solid #eef0f3;border-radius:12px;
+  box-shadow:0 1px 3px rgba(16,24,40,.08);padding:16px 18px;margin:12px 0;align-items:flex-start}
+.vbox{flex:0 0 150px;text-align:center;color:#fff;border-radius:9px;padding:13px 8px}
+.vbox .w{display:block;font-weight:700;font-size:14.5px;letter-spacing:.05em}
+.vbox .s{display:block;font-size:11.5px;opacity:.93;margin-top:3px}
+.vbox.G{background:var(--green)} .vbox.B{background:var(--red)}
+.vbox.N{background:#7b8794}
+.vbox.X{background:#eceef1;color:#5f6670;border:1px solid #dde1e6}
+.vbody{min-width:0}
+.vbody h3{font-size:16.5px;font-weight:500;line-height:1.35}
+.sent{font-size:13.5px;color:var(--ink);margin-top:6px}
+.rec{font-size:12px;margin-top:7px;color:#9aa1a9}
+.note{font-size:13px;color:#6c727a;border-left:3px solid #dfe3e8;padding-left:12px;margin:20px 0}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:18px 0 40px;font-size:12.5px;color:#9aa1a9}
+@media(max-width:560px){.vrow{flex-direction:column}.vbox{flex:none;width:100%}
+.hero h1{font-size:29px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand">GO <span>CITIZEN</span></div>
+  <div class="tag">VOTING RECORDS · EUROPEAN PARLIAMENT</div>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">EUROPEAN PARLIAMENT · ROLL-CALL RECORDS</div>
+    <h1>How did your MEP vote?</h1>
+    <p class="sub">Roll-call votes in the European Parliament on the issues we track,
+    from Parliament's own open data. There is no whip in the Westminster sense:
+    political groups publish voting lines, and each card shows how the member stood.
+    Search by MEP name or by country.</p>
+  </div>
+
+  <div class="searchbox">
+    <label for="q">FIND YOUR MEP — BY NAME OR COUNTRY</label>
+    <input id="q" autocomplete="off" placeholder="MEP name or country (e.g. Ireland)…">
+    <div class="dd"><div id="opts" role="listbox"></div></div>
+  </div>
+
+  <div id="main"></div>
+
+  <footer class="wrap" style="padding-left:0;padding-right:0">
+    Built from the European Parliament Open Data Portal (roll-call decision events)
+    and Parliament's published minutes. Verdicts are assigned per division from what
+    was actually put to the vote, and only after human sign-off; a division without
+    a signed verdict shows the vote facts with no judgement.
+  </footer>
+</div>
+
+<script>
+const DATA = /*__DATA__*/{};
+
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = (s) => String(s ?? "").toLowerCase()
+  .normalize("NFD").replace(/[̀-ͯ]/g, "");
+const fmtD = (iso) => { if (!iso) return "?"; const [y,m,d] = iso.split("-");
+  return `${+d} ${["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m]} ${y}`; };
+
+// Divisions that can appear on a member card: recorded positions exist.
+const cardDivs = DATA.divisions.filter(d => d.positions > 0);
+const contextDivs = DATA.divisions.filter(d => !d.positions);
+
+function verdictFor(d, pos){
+  // Only a SIGNED division judges anyone; the data carries no verdict
+  // fields otherwise, so this cannot colour an unsigned vote.
+  if (!pos) return {cls:"X", word:"DID NOT VOTE", sub:"",
+    sent:"No position recorded in this roll call. MEPs miss votes for many ordinary reasons; the Parliament records no explanation."};
+  const lobby = {F:"Favor", A:"Against", AB:"Abstained"}[pos];
+  if (!d.verdict) return {cls:"N", word:lobby.toUpperCase(), sub:"not scored",
+    sent:"This division has no signed verdict; the vote is shown without judgement."};
+  if (pos === "AB") return {cls:"N", word:"ABSTAINED", sub:"",
+    sent:"Abstained: neither backed nor opposed."};
+  const withUs = (pos === "F") === (d.verdict.our_side === "favor");
+  const meaning = pos === "F" ? d.verdict.meaning_favor : d.verdict.meaning_against;
+  return {cls: withUs ? "G" : "B", word: withUs ? "GOOD VOTE" : "BAD VOTE",
+    sub: "(" + lobby + ")", sent: meaning};
+}
+
+function divCard(d){
+  const g = (d.groups || []).slice(0, 4).map(x =>
+    `${esc(x.g || "?")} ${x.favor}–${x.against}${x.abstention ? "–" + x.abstention : ""}`).join(" · ");
+  return `<div class="divcard">
+    <h3>${esc(d.short)}${d.verdict ? "" : '<span class="nover">NO SIGNED VERDICT</span>'}</h3>
+    <div class="meta">${fmtD(d.date)} · ${esc(d.label)}</div>
+    <div class="tally"><b>${d.favor ?? "?"}</b> favor — <b>${d.against ?? "?"}</b> against — <b>${d.abstention ?? "?"}</b> abstained${
+      d.positions ? ` · ${d.positions} recorded positions` : " · electronic vote, no name lists"}</div>
+    ${d.why ? `<div class="whyline">${esc(d.why)}</div>` : ""}
+    ${g ? `<div class="grouprow"><b>How the groups divided:</b> ${g}</div>` : ""}
+  </div>`;
+}
+
+function renderEmpty(){
+  document.getElementById("main").innerHTML = `
+    <h2 style="margin-top:26px;font-size:19px">The divisions we track</h2>
+    ${cardDivs.map(divCard).join("")}
+    ${contextDivs.length ? `<h2 style="margin-top:26px;font-size:16px">For the record — no name lists</h2>
+      ${contextDivs.map(divCard).join("")}` : ""}
+    <p class="note">Search above to see how any of the ${DATA.meps.length} MEPs voted.</p>`;
+}
+
+function renderMEP(id){
+  const m = DATA.meps.find(x => x.id === id);
+  if (!m) return;
+  const votes = DATA.votes[m.id] || {};
+  const row = (d) => {
+    const vi = verdictFor(d, votes[d.id]);
+    return `<div class="vrow">
+      <div class="vbox ${vi.cls}"><span class="w">${esc(vi.word)}</span>
+        ${vi.sub ? `<span class="s">${esc(vi.sub)}</span>` : ""}</div>
+      <div class="vbody">
+        <h3>${esc(d.short)}</h3>
+        <div class="meta">${fmtD(d.date)} · ${d.favor}–${d.against}–${d.abstention}</div>
+        <div class="sent">${esc(vi.sent || "")}</div>
+      </div></div>`;
+  };
+  // Signed divisions carry the judgement and stay open; everything else
+  // (amendment votes, unsigned divisions) folds -- facts on demand, the
+  // same grammar as the Westminster card's journey fold.
+  const signed = cardDivs.filter(d => d.verdict);
+  const unsigned = cardDivs.filter(d => !d.verdict);
+  document.getElementById("main").innerHTML = `
+    <div class="mepcard"><h2>${esc(m.name)}</h2>
+      <div class="mep-meta"><b>${esc(m.country || "?")}</b> · ${esc(m.group || "group unknown")}</div>
+    </div>
+    ${signed.map(row).join("")}
+    ${signed.length === 0 ? `<p class="note">No division has a signed verdict
+      yet, so every vote below is shown without judgement.</p>` : ""}
+    ${unsigned.length ? `<details style="margin:14px 0">
+      <summary style="cursor:pointer;font-size:13px;font-weight:500;color:var(--blue-deep)">
+        Every recorded vote — ${unsigned.length} more division${unsigned.length === 1 ? "" : "s"} (no signed verdict)</summary>
+      ${unsigned.map(row).join("")}</details>` : ""}
+    <p class="note">Positions come from the European Parliament's roll-call
+    records. A division without a signed verdict shows the vote without judgement.</p>`;
+  location.hash = "mep-" + m.id;
+}
+
+const q = document.getElementById("q"), dd = document.getElementById("opts");
+let opts = [], active = -1;
+function buildOpts(val){
+  const t = norm(val); if (t.length < 2) return [];
+  const out = [];
+  const countries = [...new Set(DATA.meps.map(m => m.country).filter(Boolean))];
+  for (const c of countries)
+    if (norm(c).includes(t)) out.push({type:"c", label:c});
+  for (const m of DATA.meps){
+    if (out.length >= 10) break;
+    if (norm(m.name).includes(t))
+      out.push({type:"m", id:m.id, label:m.name, small:(m.country||"?")+" · "+(m.group||"?")});
+  }
+  return out.slice(0, 10);
+}
+function renderDD(){
+  if (!opts.length){ dd.classList.remove("open"); return; }
+  dd.innerHTML = opts.map((o,i) => `<div class="opt ${i===active?"active":""}" data-i="${i}">
+    <span class="badge ${o.type==="c"?"c":""}">${o.type==="c"?"COUNTRY":"MEP"}</span>
+    <span>${esc(o.label)}${o.small?` <small>— ${esc(o.small)}</small>`:""}</span></div>`).join("");
+  dd.classList.add("open");
+  dd.querySelectorAll(".opt").forEach(el =>
+    el.addEventListener("mousedown", e => { e.preventDefault(); choose(+el.dataset.i); }));
+}
+function choose(i){
+  const o = opts[i]; if (!o) return;
+  dd.classList.remove("open"); active = -1;
+  if (o.type === "m"){ q.value = o.label; renderMEP(o.id); return; }
+  // a country: list its MEPs
+  q.value = o.label;
+  const ms = DATA.meps.filter(m => m.country === o.label);
+  document.getElementById("main").innerHTML = `
+    <h2 style="margin-top:26px;font-size:19px">${esc(o.label)} — ${ms.length} MEPs</h2>
+    ${ms.map(m => `<div class="divcard" style="cursor:pointer" onclick="renderMEP('${esc(m.id)}')">
+      <h3>${esc(m.name)}</h3><div class="meta">${esc(m.group || "group unknown")}</div></div>`).join("")}`;
+}
+q.addEventListener("input", () => { opts = buildOpts(q.value); active = opts.length?0:-1; renderDD(); });
+q.addEventListener("keydown", e => {
+  if (e.key === "ArrowDown"){ e.preventDefault(); if (opts.length){ active=(active+1)%opts.length; renderDD(); } }
+  else if (e.key === "ArrowUp"){ e.preventDefault(); if (opts.length){ active=(active-1+opts.length)%opts.length; renderDD(); } }
+  else if (e.key === "Enter"){ e.preventDefault(); if (active >= 0) choose(active); }
+  else if (e.key === "Escape"){ dd.classList.remove("open"); }
+});
+q.addEventListener("blur", () => setTimeout(() => dd.classList.remove("open"), 150));
+
+const h = location.hash.match(/^#mep-(\d+)$/);
+if (h && DATA.meps.some(m => m.id === h[1])) renderMEP(h[1]); else renderEmpty();
+</script>
+</body>
+</html>

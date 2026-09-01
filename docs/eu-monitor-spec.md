@@ -70,8 +70,32 @@ happens when the wiring is approved.
    as a campaigner's-call marker (good EU briefs cross country lists).
    The Asana approval task gates every one; good ones are passed to team
    members by hand. Still no Top lines, no Slack.
-4. **5CA: eventually**, after other wiring — MEP roll-call data (phase 2d)
-   is the raw material.
+4. **5CA + tracker: BUILT (2026-09-01, "Build all these").** The full
+   parity arc:
+   - **Verdict sign-off flow**: config/eu_divisions.yaml, the Westminster
+     pattern (our_side + meaning lines per division, signed_off gates).
+     Meanings are grounded in what was ACTUALLY voted -- the decision
+     events and official annexes corrected two list-title readings before
+     anything shipped: the ePrivacy 331-304 roll call was the REQUEST FOR
+     URGENT PROCEDURE on the scanning-derogation file (not the substance),
+     and the stored SDG vote was an electronic split on paragraph 10 with
+     no name lists, left deliberately unverdicted. Anchor check passed:
+     Greens/EFA 0-49 and The Left 0-29 against the fast-track, EPP 172-1
+     for -- the known chat-control partisans on the predicted sides.
+   - **MEP enrichment**: country + political group per MEP (719/743;
+     the rest between groups, NULL never guessed), incremental weekly.
+   - **"How did your MEP vote?"** (templates/eu-votes.html via
+     tools/make_eu_tracker.py): search by name or country, verdict-led
+     cards, group-cohesion lines. The gate is structural: unsigned
+     divisions ship WITHOUT verdict fields in the page data, so an
+     unsigned meaning cannot be coloured.
+   - **EU 5CA** (tools/make_eu_5ca.py): MEP placements ++/+/0/-/-- over
+     SIGNED divisions only, group defiance in Comments; with nothing
+     signed it refuses to build and says why.
+   - Collector fix found against the RCV annex: one vote-results item can
+     carry several decision events (a paragraph split AND the motion as a
+     whole); taking consists_of[0] had cost us the SDG whole-motion roll
+     call. Every event is now stored.
 
 ## Forward look (2026-09-01, Christopher: "extend the forward look for both")
 

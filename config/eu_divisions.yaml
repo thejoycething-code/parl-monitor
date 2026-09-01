@@ -1,0 +1,92 @@
+# EU division verdicts -- the Westminster pattern (config/vote_tracker.yaml)
+# applied to the European Parliament. A division's meaning comes from what
+# was ACTUALLY put to the vote -- the decision event and the official
+# annexes -- never from a list title, and signed_off gates every verdict:
+# until Christopher signs, the page shows lobby facts with no good/bad
+# colour. The Lords inversion (2026-08-31) is the standing lesson; the two
+# corrections below are its EU vindication, caught before anything shipped:
+# the ePrivacy roll call was NOT on the derogation but on FAST-TRACKING it,
+# and the SDG roll call our collector stored was a SPLIT vote on one
+# paragraph, taken electronically with no name lists at all.
+#
+# Sides use the EP's own vocabulary: favor / against.
+
+divisions:
+  MTG-PL-2026-07-09-DEC-195749:
+    short: "Nigeria: persecution of Christians resolution"
+    date: 2026-07-09
+    # Grounded: joint motion for resolution RC-B10-0345/2026/REV1, the vote
+    # on the resolution as a whole (decision event, recorded in
+    # PV-10-2026-07-09-RCV-ITM-056); adopted text TA-10-2026-0268,
+    # "Ongoing persecution of Christians in Nigeria, notably the Kawel
+    # village massacre". Passed 510-1-86, 597 recorded positions.
+    our_side: favor
+    meaning_favor: >
+      Backed the resolution condemning the ongoing persecution of
+      Christians in Nigeria, including the Kawel village massacre, and
+      calling for EU action to protect them.
+    meaning_against: >
+      Opposed the resolution condemning the persecution of Christians in
+      Nigeria.
+    signed_off: false
+
+  MTG-PL-2026-07-07-DEC-195338:
+    short: "ePrivacy scanning derogation: fast-track request"
+    date: 2026-07-07
+    # Grounded: the roll call (RCV annex, DlvId 992951) was
+    # "C10-0178/2026 - Request for an urgent decision" -- Rule 170 urgent
+    # procedure on the file extending the ePrivacy derogation that lets
+    # providers scan private messages for child sexual abuse material.
+    # NOT a vote on the derogation's substance: a vote on FAST-TRACKING
+    # it, passed 331-304-11 with 646 recorded positions. The chat-control
+    # camp votes favor here; scrutiny-and-privacy votes against urgency.
+    our_side: against
+    meaning_favor: >
+      Voted to fast-track the extension of the ePrivacy derogation that
+      permits scanning of private messages, cutting short parliamentary
+      scrutiny of a mass-surveillance precedent.
+    meaning_against: >
+      Voted against fast-tracking the message-scanning derogation,
+      insisting a measure touching the privacy of every private message
+      deserves full scrutiny.
+    signed_off: false
+
+  MTG-PL-2026-07-07-DEC-194870:
+    short: "SDG resolution (2026 High-Level Political Forum)"
+    date: 2026-07-07
+    # Grounded: A10-0187/2026 (Mandl/Maran), the vote on the MOTION AS A
+    # WHOLE -- the roll call the RCV annex carries (DlvId 992924, passed
+    # 374-185, 633 recorded positions; the first collector run missed it
+    # by storing only the first decision event). The adopted text
+    # TA-10-2026-0250 endorses delivery of the full 2030 Agenda and its
+    # paragraph 10, read in full from the official text, prioritises
+    # "access to sexual and reproductive health services" -- the SRHR
+    # frame used to push abortion access through development funding.
+    our_side: against
+    meaning_favor: >
+      Backed the resolution endorsing delivery of the full 2030 Agenda,
+      including paragraph 10's call to prioritise access to "sexual and
+      reproductive health and rights" services through EU development
+      policy.
+    meaning_against: >
+      Opposed the SDG resolution whose text embeds "sexual and
+      reproductive health and rights" prioritisation in EU development
+      policy.
+    signed_off: false
+
+  MTG-PL-2026-07-07-DEC-195295:
+    short: "SDG resolution: paragraph 10 (SRHR in WASH)"
+    date: 2026-07-07
+    # DELIBERATELY NO VERDICT, two independent reasons:
+    # (1) the vote was a SPLIT on paragraph 10 (the WASH paragraph whose
+    #     text invokes "sexual and reproductive health and rights" --
+    #     read in full from TA-10-2026-0250 via the official site), and
+    #     WHICH PART of the split this 440-146-50 tally decided is stated
+    #     only in the votes-results PDF annex, which the pipeline cannot
+    #     read; scoring the wrong part inverts the verdict -- the exact
+    #     Lords mistake;
+    # (2) it was an electronic vote with NO name lists (zero recorded
+    #     positions), so no member could be judged on it anyway.
+    # It stays in the store as context; the page renders it unscored.
+    our_side: null
+    signed_off: false

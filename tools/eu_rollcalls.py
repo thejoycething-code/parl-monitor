@@ -127,13 +127,20 @@ def pull(conn, client, today, log=print):
             if not areas:
                 continue
             matched += 1
-            events = v.get("consists_of") or []
-            vote_id = pid(events[0]) if events else v.get("activity_id")
-            full_id = str(events[0]).rsplit("/", 1)[-1] if events else None
-            if vote_id in known:
-                continue
-            fav = agn = abst = None
-            if full_id:
+            # EVERY decision event under the matched subject, not just the
+            # first: one vote-results item can carry several decisions (a
+            # split vote on one paragraph AND the motion as a whole), and
+            # taking consists_of[0] cost us the SDG resolution's
+            # whole-motion roll call while storing its electronic
+            # paragraph split (found 2026-09-01 against the RCV annex).
+            events = [str(e).rsplit("/", 1)[-1]
+                      for e in v.get("consists_of") or []] \
+                or [v.get("activity_id")]
+            for full_id in events:
+                if full_id in known:
+                    continue
+                fav = agn = abst = None
+                ev_label = label
                 try:
                     ev = client.get_json(EVENT.format(full_id),
                                          "eu-rollcalls", full_id,
@@ -142,24 +149,40 @@ def pull(conn, client, today, log=print):
                     fav = e.get("number_of_votes_favor")
                     agn = e.get("number_of_votes_against")
                     abst = e.get("number_of_votes_abstention")
+                    # The decision's own label ("§ 10", "Request for an
+                    # urgent decision") names what was actually decided;
+                    # the subject label alone hides it.
+                    dl = (e.get("activity_label") or {}).get("en")
+                    if dl and dl.strip() and dl.strip() != label:
+                        ev_label = "{0} — {1}".format(label, dl.strip())
                     for pos in ("favor", "against", "abstention"):
                         for voter in e.get("had_voter_" + pos) or []:
                             conn.execute(
                                 "INSERT OR REPLACE INTO eu_votes (vote_id, "
                                 "person_id, position) VALUES (?,?,?)",
-                                (vote_id, pid(voter), pos))
+                                (full_id, pid(voter), pos))
                 except (FetchError, ValueError) as exc:
                     log("  [gap] roll call {0}: {1}".format(full_id, exc))
                     gaps += 1
-            conn.execute(
-                "INSERT INTO eu_divisions (vote_id, sitting_id, date, label, "
-                "favor, against, abstention, areas, matched_terms, tier, "
-                "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) "
-                "ON CONFLICT(vote_id) DO UPDATE SET label=excluded.label, "
-                "last_seen=excluded.last_seen",
-                (vote_id, sid, date, label, fav, agn, abst,
-                 json.dumps(areas), json.dumps(res.matched_terms or []),
-                 res.tier, today, today))
+                if fav is None and agn is None:
+                    # A decision event with no tallies at all is plumbing
+                    # (source-motion placeholders, section headers), not a
+                    # vote; storing them buried the real divisions in
+                    # twelve empty rows on the first multi-event run.
+                    continue
+                conn.execute(
+                    "INSERT INTO eu_divisions (vote_id, sitting_id, date, "
+                    "label, favor, against, abstention, areas, "
+                    "matched_terms, tier, first_seen, last_seen) "
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?) "
+                    "ON CONFLICT(vote_id) DO UPDATE SET "
+                    "label=excluded.label, favor=excluded.favor, "
+                    "against=excluded.against, "
+                    "abstention=excluded.abstention, "
+                    "last_seen=excluded.last_seen",
+                    (full_id, sid, date, ev_label, fav, agn, abst,
+                     json.dumps(areas), json.dumps(res.matched_terms or []),
+                     res.tier, today, today))
     conn.commit()
     return seen, matched, gaps
 
