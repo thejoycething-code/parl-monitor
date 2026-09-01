@@ -48,37 +48,47 @@ can be pointed at, where an EP resolution is already history.
 Top lines, no briefs. The local pull was validation; canonical population
 happens when the wiring is approved.
 
-## Decisions that are Christopher's (checkpoint 1)
+## Checkpoint 1 — ANSWERED (Christopher, 2026-09-01)
 
-1. **Taxonomy vocabulary.** The UK taxonomy misses EU-flavoured terms:
-   SRHR, gender mainstreaming, Istanbul Convention, conversion practices,
-   CSAM regulation / chat control, DSA enforcement, surrogacy/ART,
-   rule-of-law conditionality. An EU term extension needs his sign-off the
-   way taxonomy v0.3 did — and it decides whether weeks like this one stay
-   at zero.
-2. **Wiring.** Add to sunday-pull + a "European Union" section in the
-   weekly edition (devolved-style: Briefed/Watching, action-window rule)?
-   Or a separate EU edition?
-3. **Actionability downstream.** Does an EU consultation on our ground
-   reach Top lines and generate a Campaigns Brief? If so: which CitizenGO
-   list (EN? per-country?), who is the 5CA equivalent (none exists — MEP
-   voting records could build one later from EP roll-call data), and does
-   the Asana approval + PPAE loop apply as-is?
-4. **Cadence.** Weekly matches windows (~4 weeks typical). Daily would only
-   matter for late-detection on short windows.
+1. **Taxonomy vocabulary: DONE, v1.5.** EU terms across seven areas; his
+   scope answers: rule-of-law conditionality tier 1 in area 7 ("Article 7"
+   guarded); migration Pact vocabulary in area 11 under the same
+   collate-never-campaign rule; DSA tier 1 with Democracy Shield / FIMI /
+   content moderation triage-gated; demography terms tier 2 in area 9
+   (opportunities, not just threats). Istanbul Convention, LGBTIQ Equality
+   Strategy, SRHR, comprehensive sexuality education, the Parenthood
+   Regulation family, SoHO, chat control / CSA Regulation all in.
+2. **Wiring: a SEPARATE EU edition.** `tools/eu_monitor.py --edition`
+   writes `editions/eu-monitor-<date>.md`; `.github/workflows/eu-weekly.yml`
+   runs Saturdays (07:00/15:00 UTC, same parl-monitor-state concurrency
+   group), commits the edition and publishes the store. Nothing EU touches
+   the Westminster digest.
+3. **Downstream: briefs EVENTUALLY, nothing else.** Good briefs will be
+   passed to team members by hand; no Top lines, no Slack, no automatic
+   Asana loop for EU items yet. The edition says so in its header.
+4. **5CA: eventually**, after other wiring — MEP roll-call data (phase 2d)
+   is the raw material.
 
-## Phase 2 candidates (in rough order of value)
+## Phase 2 (building in this order)
 
-1. **OEIL dossier tracking** — the bills-board analog: watched procedures
-   (e.g. anything touching abortion, gender, family law, freedom of
-   expression) with stage movement per week.
+1. **Dossier tracking — BUILT (2a).** `config/eu_watchlist.yaml` (curated,
+   ids verified against the procedures API before entry — the listing has
+   no titles, so enumeration would cost one fetch per procedure against a
+   500/5min limit) + `tools/eu_dossiers.py`: weekly stage check, movement
+   marked "▲ moved (First reading → Second reading)" in the edition's
+   Dossier board. Seeded with the CSA Regulation 2022/0155(COD) (chat
+   control, area 7) and the Parenthood Regulation 2022/0402(CNS) (areas
+   9/10), both verified live at first reading. OEIL's own RSS is dead (the
+   relaunched site 400s the old export path); the EP Open Data procedures
+   endpoint replaced it.
 2. **EP plenary calendar + committee agendas** (LIBE, FEMM, JURI, EMPL) —
-   the Order-Paper/coming-up analog, and the 1–2-month forward look
-   Caroline asked for lands naturally here.
-3. **EP adopted texts** — what the Parliament just resolved, taxonomy-
-   matched; resolutions are non-binding but set the promotion agenda.
-4. **MEP roll-call votes** — the vote-tracker analog, eventually a 5CA for
-   the Parliament.
+   the coming-up analog; Caroline's 1–2-month forward look lands here.
+   NEXT.
+3. **EP adopted texts** — taxonomy-matched resolutions; also the
+   auto-proposal feed for the dossier watchlist (a matched text naming a
+   procedure proposes it; a human confirms).
+4. **MEP roll-call votes** — the vote-tracker analog; feeds the eventual
+   EU 5CA.
 
 ## Costs
 

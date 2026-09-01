@@ -1,0 +1,96 @@
+name: EU weekly
+on:
+  schedule:
+    # Saturday 07:00 UTC, retry 15:00 -- an hour after the NI slots so the
+    # two never queue on each other's heels, and clear of the Sunday pull
+    # (01:00-15:00 Sun) and Monday publish (02:00-07:00 Mon). The Commission
+    # publishes feedback windows continuously; weekly matches the typical
+    # four-week window, and the edition lands before the team's Monday.
+    - cron: "0 7 * * 6"
+    - cron: "0 15 * * 6"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Same group as everything that commits data/: one writer at a time,
+# repo-wide, or two bots race on parl-monitor.db.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    # One listing call plus one detail call per NEW initiative; a cold run
+    # with 41 details measured well under a minute locally.
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        # ref: the branch TIP, not github.sha -- the fourth store-divergence
+        # route (2026-08-31): a queued run pinning a pre-publish sha checks
+        # out a sidecar older than the store the run ahead of it published.
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Track watched EP dossiers
+        run: python3 tools/eu_dossiers.py | tee /tmp/eu-dossiers.log
+      - name: Pull open Commission initiatives and write the EU edition
+        # SEQUENTIAL with the step above: both write the same SQLite file,
+        # and the edition renders the dossier board the tracker just wrote.
+        run: python3 tools/eu_monitor.py --edition | tee /tmp/eu-monitor.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## EU weekly refresh"
+            if [ -f /tmp/eu-monitor.log ]; then
+              echo '```'
+              grep -E "eu-consultations:|edition:|\[gap\]" /tmp/eu-monitor.log \
+                | head -10 || echo "(no summary lines)"
+              echo '```'
+            else
+              echo "step did not run"
+            fi
+            TOTAL=$({ grep -c "\[gap\]" /tmp/eu-monitor.log 2>/dev/null \
+                      || true; } | awk '{print $1+0}')
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step log."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the store
+        # Never publish a store the pull refused.
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
+      - name: Commit state
+        # Paired with the publish above -- an uncommitted sidecar next to a
+        # published store is the divergence this repo has already paid for.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ editions/
+          git diff --cached --quiet || git commit -m "EU weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
+            git push && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done

@@ -1,0 +1,29 @@
+# EU dossier watchlist -- the bills-board analog for the European
+# Parliament. Curated, never inferred: every process_id here was verified
+# against data.europarl.europa.eu/api/v2/procedures/<id> before entry
+# (probe log: data/raw/eu-probe-2026-09-01/). tools/eu_dossiers.py tracks
+# each dossier's current stage weekly and marks movement in the EU edition.
+#
+# To add one: find the procedure reference (e.g. 2022/0155(COD)) on OEIL,
+# convert to the API id (2022-0155), verify it resolves, add with a `why:`.
+# Auto-proposal from taxonomy-matched adopted texts is planned (phase 2c);
+# a human confirms entries here either way.
+
+dossiers:
+  - process_id: "2022-0155"
+    label: "2022/0155(COD)"
+    title: "Child Sexual Abuse Regulation (chat control)"
+    areas: [7]
+    why: >
+      The CSA Regulation would mandate scanning of private messages
+      (client-side scanning); the privacy and encryption fight CitizenGO
+      has campaigned on. Verified live 2026-09-01, at first reading.
+  - process_id: "2022-0402"
+    label: "2022/0402(CNS)"
+    title: "Parenthood Regulation (cross-border recognition of parenthood)"
+    areas: [9, 10]
+    why: >
+      Would oblige every member state to recognise parenthood established
+      elsewhere, including via surrogacy -- the certificate-of-parenthood
+      vehicle. Verified live 2026-09-01, at first reading; CNS so member
+      states hold a veto.

@@ -168,5 +168,36 @@ class SeparationTests(unittest.TestCase):
         self.assertIn("Plants obtained by new genomic techniques", text)
 
 
+class EditionTests(unittest.TestCase):
+    """The separate EU edition (Christopher, 2026-09-01): its own document,
+    not a section of Westminster's week; nothing downstream yet."""
+
+    def test_the_edition_carries_ours_watching_and_no_downstream(self):
+        import tempfile
+        conn = store()
+        eu.pull(conn, FakeClient(), "2026-09-01", log=lambda *a: None)
+        old = eu.ROOT
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "editions"))
+            os.makedirs(os.path.join(tmp, "config"))
+            for f in ("taxonomy.yaml", "watchlist.yaml"):
+                with open(os.path.join(ROOT, "config", f), "rb") as src, \
+                     open(os.path.join(tmp, "config", f), "wb") as dst:
+                    dst.write(src.read())
+            eu.ROOT = tmp
+            try:
+                path = eu.render_edition(conn, "2026-09-01")
+            finally:
+                eu.ROOT = old
+            text = open(path, encoding="utf-8").read()
+        self.assertIn("# EU Monitor - week commencing 2026-09-01", text)
+        self.assertIn("## On our ground (1)", text)
+        self.assertIn("violence against women", text)
+        self.assertIn("(27 days, open)", text)
+        self.assertIn("## Watching - no taxonomy match (1)", text)
+        self.assertIn("Plants obtained by new genomic techniques", text)
+        self.assertIn("no Top lines, no automatic briefs", text)
+
+
 if __name__ == "__main__":
     unittest.main()

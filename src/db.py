@@ -706,6 +706,15 @@ CREATE TABLE IF NOT EXISTS eu_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_dossiers (
+  process_id TEXT PRIMARY KEY,    -- EP Open Data id ('2022-0155')
+  label TEXT,                     -- OEIL reference ('2022/0155(COD)')
+  title TEXT,                     -- EN process_title from the API
+  stage TEXT,                     -- current_stage URI's terminal code (RDG1...)
+  prev_stage TEXT, moved_date TEXT, -- movement detection, edition's board
+  areas TEXT, why TEXT,           -- from config/eu_watchlist.yaml
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS evaluations (
   division_ref TEXT NOT NULL,     -- 'div:c2071' (no lobby suffix)
   area INTEGER NOT NULL,
@@ -817,6 +826,7 @@ TABLES = (
     "sd_committees",
     "dg_consultations",
     "eu_consultations",
+    "eu_dossiers",
     "api_spend",
     "evaluations",
     "ni_items",
