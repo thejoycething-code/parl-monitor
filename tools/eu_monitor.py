@@ -242,6 +242,30 @@ def render_edition(conn, today):
             for d, n in sorted(per_day.items())) + ". Agendas publish "
             "closer to the sitting; later sittings appear as they do.")
         lines.append("")
+    # Divisions on our ground (phase 2d, collection only): the roll calls
+    # exist in the store for the eventual EU 5CA; the edition names the
+    # votes and their tallies. NO verdicts: meanings are signed off per
+    # division, never derived from a title (the Lords inversion lesson).
+    dv = conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC"
+                      ).fetchall()
+    if dv:
+        lines.append("## Plenary divisions on our ground (last 60 days)")
+        lines.append("")
+        for r in dv:
+            areas = ", ".join(names.get(a, str(a))
+                              for a in json.loads(r["areas"] or "[]"))
+            n = conn.execute("SELECT COUNT(*) FROM eu_votes WHERE "
+                             "vote_id = ?", (r["vote_id"],)).fetchone()[0]
+            lines.append("- **{0}** - {1} - {2}-{3}-{4}{5} - {6}".format(
+                r["date"], r["label"], r["favor"], r["against"],
+                r["abstention"],
+                " ({0} recorded positions)".format(n) if n else
+                " (totals only, no roll call)", areas))
+        lines.append("")
+        lines.append("Tallies are favor-against-abstention. These votes "
+                     "carry no verdict yet: meanings are signed off per "
+                     "division before any MEP is judged on them.")
+        lines.append("")
     # Adopted by the Parliament (phase 2c): the last 60 days' resolutions
     # on our ground; the full count keeps the window honest.
     tx = conn.execute("SELECT * FROM eu_texts ORDER BY date DESC").fetchall()

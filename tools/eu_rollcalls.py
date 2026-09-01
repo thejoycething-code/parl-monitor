@@ -1,0 +1,190 @@
+"""EU roll calls: MEP votes on our ground, collected -- never judged.
+
+    python3 tools/eu_rollcalls.py
+
+Phase 2d of the EU monitor, COLLECTION ONLY. For every plenary sitting in
+the lookback window: the sitting's vote list (EN labels), each label
+through the taxonomy, and for MATCHED votes the decision event's full
+roll call -- who voted favor/against/abstention, by person id -- plus the
+MEP roster to give ids names.
+
+What this deliberately does NOT do: assign verdicts. A division's meaning
+comes from its motion text and is signed off by Christopher per division,
+never derived from a title (the Lords inversion, 2026-08-31, is the
+standing lesson). eu_divisions has no our_side column at all; the eventual
+EU 5CA builds on this data only after that sign-off flow exists.
+
+Request budget: one vote-results call per sitting in the window, one
+event call per MATCHED vote, one roster page. The 500/5min limit is
+untouched by orders of magnitude.
+
+Separation guarantee: writes eu_meps / eu_divisions / eu_votes only.
+ONE WRITER AT A TIME on data/parl-monitor.db.
+"""
+
+from __future__ import annotations
+
+import datetime
+import json
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+
+from src import db, filter as filt
+from src.http import FetchError, HttpClient
+
+MEETINGS = ("https://data.europarl.europa.eu/api/v2/meetings"
+            "?year={0}&limit=500&format=application%2Fld%2Bjson")
+RESULTS = ("https://data.europarl.europa.eu/api/v2/meetings/{0}"
+           "/vote-results?format=application%2Fld%2Bjson")
+EVENT = ("https://data.europarl.europa.eu/api/v2/events/{0}"
+         "?format=application%2Fld%2Bjson")
+MEPS = ("https://data.europarl.europa.eu/api/v2/meps"
+        "?parliamentary-term=10&limit=1000&format=application%2Fld%2Bjson")
+LOOKBACK_DAYS = 60
+
+
+def pid(uri):
+    """'person/197529' -> '197529'."""
+    return str(uri).rsplit("/", 1)[-1]
+
+
+def refresh_roster(conn, client, today, log=print):
+    try:
+        reply = client.get_json(MEPS, "eu-rollcalls", "meps", archive=False)
+    except (FetchError, ValueError) as exc:
+        log("  [gap] roster: {0}".format(exc))
+        return 0
+    n = 0
+    for m in reply.get("data") or []:
+        conn.execute(
+            "INSERT INTO eu_meps (person_id, name, first_seen, last_seen) "
+            "VALUES (?,?,?,?) ON CONFLICT(person_id) DO UPDATE SET "
+            "name=excluded.name, last_seen=excluded.last_seen",
+            (m.get("identifier") or pid(m.get("id", "")), m.get("label"),
+             today, today))
+        n += 1
+    conn.commit()
+    return n
+
+
+def past_sittings(client, today):
+    t = datetime.date.fromisoformat(today)
+    start = t - datetime.timedelta(days=LOOKBACK_DAYS)
+    years = sorted({start.year, t.year})
+    out = []
+    for y in years:
+        reply = client.get_json(MEETINGS.format(y), "eu-rollcalls",
+                                "meetings-{0}".format(y), archive=False)
+        for m in reply.get("data") or []:
+            d = m.get("activity_date")
+            if d and start.isoformat() <= d <= today:
+                out.append((m["activity_id"], d))
+    return sorted(out, key=lambda x: x[1])
+
+
+def pull(conn, client, today, log=print):
+    tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+    try:
+        sittings = past_sittings(client, today)
+    except (FetchError, ValueError) as exc:
+        conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
+                     "VALUES (?,?,?)", (today, "eu-rollcalls", str(exc)))
+        conn.commit()
+        log("  [gap] eu-rollcalls calendar: {0}".format(exc))
+        return 0, 0, 0
+    known = {r[0] for r in conn.execute("SELECT vote_id FROM eu_divisions")}
+    seen = matched = gaps = 0
+    for sid, date in sittings:
+        try:
+            reply = client.get_json(RESULTS.format(sid), "eu-rollcalls", sid,
+                                    archive=False)
+        except ValueError:
+            continue        # no vote results published (204-empty)
+        except FetchError as exc:
+            if "404" in str(exc.cause):
+                continue
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
+                         "VALUES (?,?,?)",
+                         (today, "eu-rollcalls",
+                          "{0}: {1}".format(sid, exc.cause)))
+            log("  [gap] {0}: {1}".format(sid, exc.cause))
+            gaps += 1
+            continue
+        for v in (reply or {}).get("data") or []:
+            if (v.get("had_activity_type") or "").rsplit("/", 1)[-1] \
+                    != "PLENARY_VOTE_RESULTS":
+                continue
+            label = (v.get("activity_label") or {}).get("en")
+            if not label:
+                continue
+            seen += 1
+            res = filt.filter_item(tax, wl, label)
+            areas = res.issue_areas or []
+            if not areas:
+                continue
+            matched += 1
+            events = v.get("consists_of") or []
+            vote_id = pid(events[0]) if events else v.get("activity_id")
+            full_id = str(events[0]).rsplit("/", 1)[-1] if events else None
+            if vote_id in known:
+                continue
+            fav = agn = abst = None
+            if full_id:
+                try:
+                    ev = client.get_json(EVENT.format(full_id),
+                                         "eu-rollcalls", full_id,
+                                         archive=False)
+                    e = (ev.get("data") or [{}])[0]
+                    fav = e.get("number_of_votes_favor")
+                    agn = e.get("number_of_votes_against")
+                    abst = e.get("number_of_votes_abstention")
+                    for pos in ("favor", "against", "abstention"):
+                        for voter in e.get("had_voter_" + pos) or []:
+                            conn.execute(
+                                "INSERT OR REPLACE INTO eu_votes (vote_id, "
+                                "person_id, position) VALUES (?,?,?)",
+                                (vote_id, pid(voter), pos))
+                except (FetchError, ValueError) as exc:
+                    log("  [gap] roll call {0}: {1}".format(full_id, exc))
+                    gaps += 1
+            conn.execute(
+                "INSERT INTO eu_divisions (vote_id, sitting_id, date, label, "
+                "favor, against, abstention, areas, matched_terms, tier, "
+                "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) "
+                "ON CONFLICT(vote_id) DO UPDATE SET label=excluded.label, "
+                "last_seen=excluded.last_seen",
+                (vote_id, sid, date, label, fav, agn, abst,
+                 json.dumps(areas), json.dumps(res.matched_terms or []),
+                 res.tier, today, today))
+    conn.commit()
+    return seen, matched, gaps
+
+
+def main():
+    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    conn = db.init_db(db.connect(os.path.join(ROOT, "data",
+                                              "parl-monitor.db")))
+    today = datetime.date.today().isoformat()
+    roster = refresh_roster(conn, client, today)
+    seen, matched, gaps = pull(conn, client, today)
+    print("eu-rollcalls: {0} MEPs on the roster; {1} plenary votes in {2} "
+          "days, {3} on our ground, {4} gap(s).".format(
+              roster, seen, LOOKBACK_DAYS, matched, gaps))
+    for r in conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC "
+                          "LIMIT 10").fetchall():
+        n = conn.execute("SELECT COUNT(*) FROM eu_votes WHERE vote_id = ?",
+                         (r["vote_id"],)).fetchone()[0]
+        print("  [{0}] {1} - {2} ({3}-{4}-{5}; {6} roll-call positions)"
+              .format(",".join(str(a) for a in json.loads(r["areas"])),
+                      r["date"], r["label"][:70], r["favor"], r["against"],
+                      r["abstention"], n))
+    conn.close()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

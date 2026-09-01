@@ -706,6 +706,28 @@ CREATE TABLE IF NOT EXISTS eu_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_meps (
+  person_id TEXT PRIMARY KEY,     -- 'person/197529' -> '197529'
+  name TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS eu_divisions (
+  vote_id TEXT PRIMARY KEY,       -- decision event id (MTG-PL-...-DEC-N)
+  sitting_id TEXT, date TEXT,
+  label TEXT,                     -- EN vote label
+  favor INTEGER, against INTEGER, abstention INTEGER,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  -- verdicts (our_side / meaning lines) deliberately ABSENT: they are
+  -- signed off per division by Christopher, never derived (the Lords
+  -- inversion lesson, 2026-08-31)
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS eu_votes (
+  vote_id TEXT NOT NULL,
+  person_id TEXT NOT NULL,
+  position TEXT NOT NULL,         -- 'favor' | 'against' | 'abstention'
+  PRIMARY KEY (vote_id, person_id)
+);
 CREATE TABLE IF NOT EXISTS eu_texts (
   identifier TEXT PRIMARY KEY,    -- 'TA-10-2026-0006'
   date TEXT, title TEXT,          -- adoption date; EN title
@@ -844,6 +866,9 @@ TABLES = (
     "eu_dossiers",
     "eu_agenda",
     "eu_texts",
+    "eu_meps",
+    "eu_divisions",
+    "eu_votes",
     "api_spend",
     "evaluations",
     "ni_items",

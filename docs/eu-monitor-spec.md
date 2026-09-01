@@ -102,8 +102,20 @@ happens when the wiring is approved.
    matched (the Nigeria Christian-persecution resolution of 9 July; an SDG
    text), 2 verified candidates proposed. TA pages sit behind europarl.eu's
    bot-wall (202), so rows ship linkless rather than with unverified URLs.
-4. **MEP roll-call votes** — the vote-tracker analog; feeds the eventual
-   EU 5CA.
+4. **MEP roll calls — BUILT, collection only (2d).** `tools/eu_rollcalls.py`:
+   the MEP roster (743 rostered), every plenary vote in a 60-day lookback
+   with its EN label taxonomy-matched, and for MATCHED votes the decision
+   event's full roll call (who voted favor/against/abstention, by person
+   id). eu_divisions carries NO verdict column by design: a division's
+   meaning is signed off per division by Christopher before any MEP is
+   judged on it (the Lords inversion lesson), and the eventual EU 5CA
+   builds on this data only after that sign-off flow exists. First run:
+   46 plenary votes in the window, 3 on our ground -- the Nigeria
+   Christian-persecution resolution (510-1-86, 597 positions), the
+   ePrivacy child-sexual-abuse scanning derogation (331-304-11, a 27-vote
+   knife edge, 646 positions), and an SDG text (totals only, no roll
+   call). The 5CA path from here: verdict sign-off flow, then group/
+   country enrichment of the roster, then the grid.
 
 ## Costs
 

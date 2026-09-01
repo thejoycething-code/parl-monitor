@@ -53,6 +53,8 @@ jobs:
         run: python3 tools/eu_agenda.py | tee /tmp/eu-agenda.log
       - name: Pull adopted texts and propose watchlist candidates
         run: python3 tools/eu_texts.py | tee /tmp/eu-texts.log
+      - name: Collect MEP roll calls on our ground
+        run: python3 tools/eu_rollcalls.py | tee /tmp/eu-rollcalls.log
       - name: Pull open Commission initiatives and write the EU edition
         # SEQUENTIAL with the step above: both write the same SQLite file,
         # and the edition renders the dossier board the tracker just wrote.
@@ -63,7 +65,7 @@ jobs:
           {
             echo "## EU weekly refresh"
             echo '```'
-            grep -hE "eu-consultations:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
+            grep -hE "eu-consultations:|eu-rollcalls:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
               /tmp/eu-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/eu-*.log 2>/dev/null \

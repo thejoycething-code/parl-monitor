@@ -12,6 +12,14 @@ Nothing this week matched the taxonomy. The full watching list below is the proo
 
 Published agendas checked: 2026-09-14 (6 items), 2026-09-15 (24 items), 2026-09-16 (24 items), 2026-09-17 (11 items). Agendas publish closer to the sitting; later sittings appear as they do.
 
+## Plenary divisions on our ground (last 60 days)
+
+- **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre - 510-1-86 (597 recorded positions) - Freedom of religion
+- **2026-07-07** - Temporary derogation from certain provisions of the ePrivacy Directive to combat online child sexual abuse ***II - 331-304-11 (646 recorded positions) - Parental rights education
+- **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum - 440-146-50 (totals only, no roll call) - Free speech, privacy and civil liberties
+
+Tallies are favor-against-abstention. These votes carry no verdict yet: meanings are signed off per division before any MEP is judged on them.
+
 ## Adopted by the Parliament (last 60 days)
 
 - **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre (TA-10-2026-0268) - Freedom of religion
