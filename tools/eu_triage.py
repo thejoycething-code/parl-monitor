@@ -99,11 +99,27 @@ def main():
                 "anthropic_api_key")
     today = datetime.date.today().isoformat()
     if api_key:
-        results = triage.score_live(
-            items, api_key=api_key,
-            usage_sink=lambda usage, model: spend.record(
-                conn, "eu-triage", model, usage, dated=today))
-        mode = "live"
+        # The judge must never take the run down (the 2026-08-05 lesson:
+        # an unwrapped triage pass would have crashed Sunday's unattended
+        # run). One retry, then the items stay UNSCORED for next week's
+        # run -- deliberately not stub-scored, because scores are written
+        # once-ever and a transient failure must not freeze stub scores in.
+        results, mode = None, "live"
+        for attempt in (1, 2):
+            try:
+                results = triage.score_live(
+                    items, api_key=api_key,
+                    usage_sink=lambda usage, model: spend.record(
+                        conn, "eu-triage", model, usage, dated=today))
+                break
+            except Exception as exc:
+                print("  [gap] live triage attempt {0} failed: {1}".format(
+                    attempt, exc))
+        if results is None:
+            print("eu-triage: {0} item(s) left unscored; next run retries."
+                  .format(len(items)))
+            conn.close()
+            return 0
     else:
         results = triage.score_stub(items)
         mode = "stub (no API key; why lines empty, scores tier-derived)"

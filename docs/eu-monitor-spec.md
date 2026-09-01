@@ -128,6 +128,20 @@ nothing.
    call). The 5CA path from here: verdict sign-off flow, then group/
    country enrichment of the roster, then the grid.
 
+## Triage and delivery (2026-09-01, Christopher's second round)
+
+- **Triage: LIVE.** `tools/eu_triage.py` sends every taxonomy-matched EU
+  row (consultations, agenda items, adopted texts, divisions) through the
+  SAME judge Westminster uses -- rubric, model, batching -- scored once,
+  ever; spend in api_spend as 'eu-triage'. A live failure retries once,
+  then leaves rows UNSCORED for next week (never stub-frozen: scores are
+  once-ever). First run: 6 items, three 3s -- both Nigeria items and the
+  ePrivacy scanning derogation. Why-lines render in the edition and DM.
+- **Delivery: DM only.** The channel is deliberately NOT posted (his
+  call: hold the Slack). The weekly run DMs the summary -- scored items
+  with why lines, counts, the dossier board -- to Christopher alone.
+  First DM sent 2026-09-01; the workflow sends it each Saturday.
+
 ## Costs
 
 All sources are public JSON, no keys, no LLM spend in phase 1. The weekly

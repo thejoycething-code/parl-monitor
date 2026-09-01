@@ -75,5 +75,19 @@ class TriageTests(unittest.TestCase):
                          (3, "Scanning precedent."))
 
 
+class ResilienceTests(unittest.TestCase):
+    def test_a_live_failure_leaves_rows_unscored_never_stubbed(self):
+        """Scores are once-ever, so a transient API failure must not freeze
+        stub scores in; the rows stay unscored and next week retries. The
+        guard is structural: main() returns before apply() on failure."""
+        src = open(os.path.join(ROOT, "tools", "eu_triage.py"),
+                   encoding="utf-8").read()
+        self.assertIn("left unscored; next run retries", src)
+        self.assertIn("for attempt in (1, 2):", src)
+        # the failure path must NOT fall through to score_stub
+        live_block = src[src.index("if api_key:"):src.index("else:")]
+        self.assertNotIn("score_stub", live_block)
+
+
 if __name__ == "__main__":
     unittest.main()
