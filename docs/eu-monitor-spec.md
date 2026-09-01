@@ -92,9 +92,16 @@ happens when the wiring is approved.
    probe**: EP Open Data carries no committee meetings, and the eMeeting
    service is an Angular shell whose backend the blind probe did not
    find -- needs browser XHR discovery.
-3. **EP adopted texts** — taxonomy-matched resolutions; also the
-   auto-proposal feed for the dossier watchlist (a matched text naming a
-   procedure proposes it; a human confirms).
+3. **Adopted texts — BUILT (2c).** `tools/eu_texts.py`: the year listing
+   (one ~12MB call) filtered to a 60-day window, EN titles taxonomy-
+   matched, the edition's "Adopted by the Parliament" section. Doubles as
+   the watchlist auto-proposal feed: a matched text's procedure id (parsed
+   from its decision event) is VERIFIED against the procedures API before
+   being printed as a candidate -- a human confirms by editing the config,
+   nothing is added automatically. First run: 39 texts in the window, 2
+   matched (the Nigeria Christian-persecution resolution of 9 July; an SDG
+   text), 2 verified candidates proposed. TA pages sit behind europarl.eu's
+   bot-wall (202), so rows ship linkless rather than with unverified URLs.
 4. **MEP roll-call votes** — the vote-tracker analog; feeds the eventual
    EU 5CA.
 

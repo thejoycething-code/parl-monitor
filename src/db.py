@@ -706,6 +706,13 @@ CREATE TABLE IF NOT EXISTS eu_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_texts (
+  identifier TEXT PRIMARY KEY,    -- 'TA-10-2026-0006'
+  date TEXT, title TEXT,          -- adoption date; EN title
+  procedure TEXT,                 -- procedure id parsed from the DEC event
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS eu_agenda (
   activity_id TEXT PRIMARY KEY,   -- 'MTG-PL-2026-09-14-OJ-ITM-D-2'
   sitting_id TEXT, date TEXT,     -- the plenary sitting and its day
@@ -836,6 +843,7 @@ TABLES = (
     "eu_consultations",
     "eu_dossiers",
     "eu_agenda",
+    "eu_texts",
     "api_spend",
     "evaluations",
     "ni_items",

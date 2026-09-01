@@ -242,6 +242,22 @@ def render_edition(conn, today):
             for d, n in sorted(per_day.items())) + ". Agendas publish "
             "closer to the sitting; later sittings appear as they do.")
         lines.append("")
+    # Adopted by the Parliament (phase 2c): the last 60 days' resolutions
+    # on our ground; the full count keeps the window honest.
+    tx = conn.execute("SELECT * FROM eu_texts ORDER BY date DESC").fetchall()
+    if tx:
+        tx_matched = [r for r in tx if json.loads(r["areas"] or "[]")]
+        lines.append("## Adopted by the Parliament (last 60 days)")
+        lines.append("")
+        for r in tx_matched:
+            areas = ", ".join(names.get(a, str(a))
+                              for a in json.loads(r["areas"]))
+            lines.append("- **{0}** - {1} ({2}) - {3}".format(
+                r["date"], r["title"], r["identifier"], areas))
+        lines.append("")
+        lines.append("{0} of {1} adopted texts in the window matched the "
+                     "taxonomy.".format(len(tx_matched), len(tx)))
+        lines.append("")
     # The dossier board (phase 2a): watched EP procedures with movement,
     # tracked by tools/eu_dossiers.py from config/eu_watchlist.yaml.
     try:
