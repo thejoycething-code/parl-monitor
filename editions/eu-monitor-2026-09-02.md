@@ -46,6 +46,7 @@ Meetings ahead: DROI 2026-09-02 · EMPL 2026-09-02 · LIBE 2026-09-02 · DROI 20
 
 Pipeline documents (drafts and opinions inside 18 months) on our ground:
 
+- **FEMM** 2025-05-20 (OPINION_PARLIAMENTARY_COMMITTEE) - OPINION on the implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
 - **FEMM** 2025-03-19 (OPINION_PARLIAMENTARY_COMMITTEE_DRAFT) - DRAFT OPINION on implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
 
 ## Dossier board (2 watched)
