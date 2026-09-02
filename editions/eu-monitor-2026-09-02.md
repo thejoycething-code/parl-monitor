@@ -44,7 +44,7 @@ Tallies are favor-against-abstention. These votes carry no verdict yet: meanings
 
 - **ANSWERED** - Ban on conversion practices in the European Union - 1,128,063 supporters - https://eci.ec.europa.eu/043/public/?lg=en
 - **ANSWERED** - My Voice, My Choice: For Safe And Accessible Abortion - 1,124,513 supporters - https://eci.ec.europa.eu/044/public/?lg=en
-- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,158 supporters - https://eci.ec.europa.eu/066/public/?lg=en
+- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,160 supporters (+2 this week) - https://eci.ec.europa.eu/066/public/?lg=en
 
 ## In committee
 
