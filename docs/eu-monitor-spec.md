@@ -172,3 +172,34 @@ All sources are public JSON, no keys, no LLM spend in phase 1. The weekly
 pull is ~1 + new-items requests. Taxonomy triage stays deterministic; LLM
 triage would only enter if Christopher wants EU items scored like
 Westminster ones.
+
+## Gap analysis (2026-09-02, Christopher: "something must be missing")
+
+**Built from it:**
+- **ECI watch** (tools/eu_eci.py): the citizens' instrument was unmonitored.
+  First pull found both million-signature ECIs on our ground -- the
+  conversion-practices ban (1,128,063, ANSWERED) and My Voice, My Choice
+  (1,124,513, ANSWERED) -- plus a live digital-ID/age-verification
+  initiative. Supporter deltas tracked weekly; edition section added.
+- **MEP contact** on the tracker: hasEmail from the enrichment pass; the
+  page's card now carries the parliamentary email, closing the
+  actionability gap Westminster's contact column never had here.
+
+**Scoped, not yet built (in value order):**
+1. **The Council of the EU** -- the biggest true hole. The Parenthood
+   Regulation is CNS: the Council DECIDES and Parliament is only
+   consulted, so our top-watched dossier's decisive chamber is
+   unmonitored. Council public votes exist as open data but the portal
+   and SPARQL endpoints refused every path probed (404/403); needs a
+   browser-network discovery session like eMeeting's. Presidency
+   programmes and Council agendas same.
+2. **Courts as upstream drivers** -- CJEU and ECtHR judgments create the
+   consultations we later catch (JR87 created the NI RE consultation;
+   the EP fitness checks follow Strasbourg rulings). A curia/HUDOC press
+   watch would be the earliest warning in the whole system.
+3. **Cross-parliament synthesis** -- the system now watches six
+   legislatures as silos, but the stories cross them (RVE: Wales lost
+   withdrawal -> Scotland narrowed -> NI consulting; scanning: chat
+   control EU <-> OSA UK). A weekly cross-parliament themes note is
+   analysis no one else has; needs a design decision on where it lives.
+4. **EP written questions** -- deferred by cost (one fetch per stub), last.

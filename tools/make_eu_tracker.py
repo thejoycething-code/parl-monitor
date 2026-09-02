@@ -47,7 +47,8 @@ def load_config():
 def build_data(conn):
     cfg = load_config()
     meps = [{"id": r["person_id"], "name": r["name"],
-             "country": r["country"], "group": r["group_label"]}
+             "country": r["country"], "group": r["group_label"],
+             "email": (r["email"] if "email" in r.keys() else None)}
             for r in conn.execute(
                 "SELECT * FROM eu_meps ORDER BY name").fetchall()]
     by_group = {}

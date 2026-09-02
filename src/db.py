@@ -706,6 +706,14 @@ CREATE TABLE IF NOT EXISTS eu_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_ecis (
+  reg_num TEXT PRIMARY KEY,       -- 'ECI(2026)000004'
+  title TEXT, status TEXT,        -- ONGOING / VERIFICATION / ANSWERED
+  supporters INTEGER, prev_supporters INTEGER,
+  support_link TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS eu_cmte_meetings (
   uid TEXT PRIMARY KEY,           -- eMeeting event uid
   committee TEXT, reference TEXT, -- 'LIBE', 'LIBE(2026)0902_1'
@@ -890,6 +898,7 @@ TABLES = (
     "eu_meps",
     "eu_divisions",
     "eu_votes",
+    "eu_ecis",
     "eu_cmte_meetings",
     "eu_cmte_docs",
     "eu_speeches",

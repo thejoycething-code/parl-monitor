@@ -55,6 +55,8 @@ jobs:
         run: python3 tools/eu_texts.py | tee /tmp/eu-texts.log
       - name: Collect MEP roll calls on our ground
         run: python3 tools/eu_rollcalls.py | tee /tmp/eu-rollcalls.log
+      - name: Watch European Citizens' Initiatives
+        run: python3 tools/eu_eci.py | tee /tmp/eu-eci.log
       - name: Committee watch (meetings ahead, pipeline documents)
         run: python3 tools/eu_committees.py | tee /tmp/eu-committees.log
       - name: Collect MEP speeches on our ground
@@ -92,7 +94,7 @@ jobs:
           {
             echo "## EU weekly refresh"
             echo '```'
-            grep -hE "eu-consultations:|eu-committees:|eu-speeches:|eu-triage:|dm:|eu-rollcalls:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
+            grep -hE "eu-consultations:|eu-eci:|eu-committees:|eu-speeches:|eu-triage:|dm:|eu-rollcalls:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
               /tmp/eu-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/eu-*.log 2>/dev/null \

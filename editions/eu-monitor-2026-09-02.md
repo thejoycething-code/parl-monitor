@@ -40,6 +40,12 @@ Tallies are favor-against-abstention. These votes carry no verdict yet: meanings
 
 2 of 39 adopted texts in the window matched the taxonomy.
 
+## Citizens' initiatives on our ground
+
+- **ANSWERED** - Ban on conversion practices in the European Union - 1,128,063 supporters - https://eci.ec.europa.eu/043/public/?lg=en
+- **ANSWERED** - My Voice, My Choice: For Safe And Accessible Abortion - 1,124,513 supporters - https://eci.ec.europa.eu/044/public/?lg=en
+- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,158 supporters - https://eci.ec.europa.eu/066/public/?lg=en
+
 ## In committee
 
 Meetings ahead: DROI 2026-09-02 · EMPL 2026-09-02 · LIBE 2026-09-02 · DROI 2026-09-03 · EMPL 2026-09-03

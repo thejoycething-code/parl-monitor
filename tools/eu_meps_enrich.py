@@ -53,7 +53,7 @@ COUNTRY = {
 
 def ensure_columns(conn):
     cols = [c[1] for c in conn.execute("PRAGMA table_info(eu_meps)")]
-    for col in ("country", "group_label", "group_org"):
+    for col in ("country", "group_label", "group_org", "email"):
         if col not in cols:
             conn.execute("ALTER TABLE eu_meps ADD COLUMN {0} TEXT".format(col))
     conn.commit()
@@ -74,7 +74,8 @@ def current_group(memberships):
 def enrich(conn, client, throttle=THROTTLE_S, log=print, limit=None):
     ensure_columns(conn)
     rows = conn.execute("SELECT person_id FROM eu_meps WHERE group_label "
-                        "IS NULL ORDER BY person_id").fetchall()
+                        "IS NULL OR email IS NULL ORDER BY person_id"
+                        ).fetchall()
     if limit:
         rows = rows[:limit]
     groups = {}     # org id -> EN label, resolved once each
@@ -110,9 +111,11 @@ def enrich(conn, client, throttle=THROTTLE_S, log=print, limit=None):
             except (FetchError, ValueError) as exc:
                 log("  [gap] org {0}: {1}".format(org, exc))
                 gaps += 1
+        email = str(m.get("hasEmail") or "").replace("mailto:", "") or None
         conn.execute("UPDATE eu_meps SET country = ?, group_label = ?, "
-                     "group_org = ? WHERE person_id = ?",
-                     (COUNTRY.get(code, code or None), label, org, pid))
+                     "group_org = ?, email = ? WHERE person_id = ?",
+                     (COUNTRY.get(code, code or None), label, org, email,
+                      pid))
         done += 1
         if done % 50 == 0:
             conn.commit()

@@ -182,7 +182,8 @@ function renderMEP(id){
   const unsigned = cardDivs.filter(d => !d.verdict);
   document.getElementById("main").innerHTML = `
     <div class="mepcard"><h2>${esc(m.name)}</h2>
-      <div class="mep-meta"><b>${esc(m.country || "?")}</b> · ${esc(m.group || "group unknown")}</div>
+      <div class="mep-meta"><b>${esc(m.country || "?")}</b> · ${esc(m.group || "group unknown")}${
+        m.email ? ` · <a style="color:#fff;text-decoration:underline" href="mailto:${esc(m.email)}">${esc(m.email)}</a>` : ""}</div>
     </div>
     ${signed.map(row).join("")}
     ${signed.length === 0 ? `<p class="note">No division has a signed verdict

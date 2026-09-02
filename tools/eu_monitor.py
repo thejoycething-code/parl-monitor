@@ -301,6 +301,27 @@ def render_edition(conn, today):
         lines.append("{0} of {1} adopted texts in the window matched the "
                      "taxonomy.".format(len(tx_matched), len(tx)))
         lines.append("")
+    # Citizens' initiatives (2026-09-02): ECIs on our ground with their
+    # signature counts -- a hostile ECI crossing one million validated
+    # signatures forces a Commission response, and the weekly delta says
+    # which way the ground is moving.
+    try:
+        ecis = conn.execute("SELECT * FROM eu_ecis WHERE areas != '[]' "
+                            "ORDER BY supporters DESC").fetchall()
+    except Exception:
+        ecis = []
+    if ecis:
+        lines.append("## Citizens' initiatives on our ground")
+        lines.append("")
+        for r in ecis:
+            delta = ""
+            if r["prev_supporters"] is not None and r["supporters"] is not None                     and r["supporters"] != r["prev_supporters"]:
+                d = r["supporters"] - r["prev_supporters"]
+                delta = " ({0}{1:,} this week)".format("+" if d > 0 else "", d)
+            lines.append("- **{0}** - {1} - {2:,} supporters{3} - {4}".format(
+                r["status"], (r["title"] or "").replace("|", "/"),
+                r["supporters"] or 0, delta, r["support_link"] or ""))
+        lines.append("")
     # In committee (2026-09-02): upcoming watched-committee meetings and
     # the taxonomy-matched pipeline documents -- draft reports and opinions
     # live in committee for months before plenary, the deepest forward
