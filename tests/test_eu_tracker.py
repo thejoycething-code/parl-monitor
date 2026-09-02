@@ -104,18 +104,24 @@ class FcaTests(unittest.TestCase):
         real = yaml.safe_load(open(path, encoding="utf-8"))
         return real
 
-    def test_no_signed_divisions_means_no_grid(self):
-        # The SHIPPED config must currently have nothing signed: verdicts
-        # await Christopher. When he signs, this test's premise changes
-        # and it should be updated alongside.
-        conn = store()
+    def test_the_shipped_config_matches_the_sign_off_record(self):
+        # Christopher signed three verdicts on 2026-09-01 (Nigeria
+        # resolution, ePrivacy fast-track, SDG whole-motion); the SDG
+        # paragraph-10 split is PERMANENTLY unverdicted (split-part text
+        # unreadable, no name lists). A fourth signed division is fine; a
+        # signed verdict on the split is a bug.
         import yaml
         cfg = yaml.safe_load(open(os.path.join(
             ROOT, "config", "eu_divisions.yaml"), encoding="utf-8"))
-        signed = [k for k, v in cfg["divisions"].items()
-                  if v.get("signed_off")]
-        self.assertEqual(signed, [], "nothing is signed until Christopher "
-                                     "signs; the grid stays unbuilt")
+        signed = {k for k, v in cfg["divisions"].items()
+                  if v.get("signed_off")}
+        for vote_id in ("MTG-PL-2026-07-09-DEC-195749",
+                        "MTG-PL-2026-07-07-DEC-195338",
+                        "MTG-PL-2026-07-07-DEC-194870"):
+            self.assertIn(vote_id, signed)
+        split = cfg["divisions"]["MTG-PL-2026-07-07-DEC-195295"]
+        self.assertFalse(split.get("signed_off"))
+        self.assertIsNone(split.get("our_side"))
 
     def test_placements_and_group_defiance_note(self):
         conn = store()

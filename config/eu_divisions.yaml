@@ -28,7 +28,7 @@ divisions:
     meaning_against: >
       Opposed the resolution condemning the persecution of Christians in
       Nigeria.
-    signed_off: false
+    signed_off: true   # Christopher, 2026-09-01
 
   MTG-PL-2026-07-07-DEC-195338:
     short: "ePrivacy scanning derogation: fast-track request"
@@ -49,7 +49,7 @@ divisions:
       Voted against fast-tracking the message-scanning derogation,
       insisting a measure touching the privacy of every private message
       deserves full scrutiny.
-    signed_off: false
+    signed_off: true   # Christopher, 2026-09-01
 
   MTG-PL-2026-07-07-DEC-194870:
     short: "SDG resolution (2026 High-Level Political Forum)"
@@ -72,7 +72,7 @@ divisions:
       Opposed the SDG resolution whose text embeds "sexual and
       reproductive health and rights" prioritisation in EU development
       policy.
-    signed_off: false
+    signed_off: true   # Christopher, 2026-09-01
 
   MTG-PL-2026-07-07-DEC-195295:
     short: "SDG resolution: paragraph 10 (SRHR in WASH)"
