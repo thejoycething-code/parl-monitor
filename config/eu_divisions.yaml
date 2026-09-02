@@ -90,3 +90,11 @@ divisions:
     # It stays in the store as context; the page renders it unscored.
     our_side: null
     signed_off: false
+
+# The eight Nigeria amendment roll calls (Am 1, 2/1, 2/2, 4/1, 4/2, 5,
+# 6/1, 6/2 -- all rejected, ~595 positions each) remain UNVERDICTED: their
+# amendment texts are not reachable through any public URL pattern the
+# pipeline could verify (doceo AM-doc guesses 404; OEIL lists only the
+# source motions), and a verdict on an unread text is the Lords inversion.
+# They render neutrally in the tracker's fold. If the texts surface, draft
+# meanings per amendment and sign here.

@@ -863,6 +863,60 @@ def write_csv(path, subject, fields, rf4_hints, expectation, timeline,
                     "document, check the Campaigns Brief Cheat Sheet"])
 
 
+def eu_5ca_block(conn):
+    """The EU brief's Five Columns block: (markdown, rf4 hint, rows).
+
+    Built from make_eu_5ca's placements over SIGNED divisions. With
+    nothing signed the marker returns and rows is empty -- the same
+    never-an-empty-grid rule the devolved marker enforces.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "make_eu_5ca", os.path.join(ROOT, "tools", "make_eu_5ca.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    divisions = m.signed_divisions(conn)
+    if not divisions:
+        return ("**EU 5CA not built: no signed-off divisions yet** - sign "
+                "verdicts in config/eu_divisions.yaml and regenerate.",
+                "EU 5CA awaits signed division verdicts.", [])
+    rows = m.placements(conn, divisions)
+    tally = {}
+    for r in rows:
+        tally[r["column"]] = tally.get(r["column"], 0) + 1
+    top_for = [r["name"] for r in rows if r["column"] == "++"][:5]
+    top_against = [r["name"] for r in rows if r["column"] == "--"][:5]
+    block = ("Suggested gradient over {0} signed EU division(s), {1} MEPs: "
+             "{2}\n\nStrongest allies: {3}\n\nStrongest opponents: {4}\n\n"
+             "Full grid: briefs/eu-5ca.csv (regenerate with `python3 "
+             "tools/make_eu_5ca.py`). Group cohesion rides in its Comments "
+             "column - the EP has no whip, so the group split is the "
+             "pressure map.").format(
+                 len(divisions), len(rows),
+                 "  ".join("{0} x{1}".format(c, tally.get(c, 0))
+                           for c in ("++", "+", "0", "-", "--")),
+                 "; ".join(top_for) or "none placed ++",
+                 "; ".join(top_against) or "none placed --")
+    hint = "EU 5CA: {0} with us (++/+), {1} against (-/--).".format(
+        tally.get("++", 0) + tally.get("+", 0),
+        tally.get("-", 0) + tally.get("--", 0))
+    return block, hint, rows
+
+
+def write_eu_5ca_csv(path, rows):
+    """The per-brief paste-in grid, from eu_5ca_block's rows."""
+    if not rows:
+        return False
+    with open(path, "w", encoding="utf-8", newline="") as handle:
+        w = csv.writer(handle)
+        w.writerow(["Decision-Maker", "Country", "Group", "Column",
+                    "Comments"])
+        for r in rows:
+            w.writerow([r["name"], r["country"], r["group"], r["column"],
+                        r["comments"]])
+    return True
+
+
 def write_5ca_csv(path, conn, subject, cfg):
     """The Five Columns Analysis tab, auto-filled, in the template's exact
     columns: Decision-Maker, # Seats, gradient, Target, Comments, then the
@@ -1013,8 +1067,15 @@ def main():
         ]
 
         fca_block = ""
+        eu_rows = []
         rf4_ally_hint = "See the 5CA sheets for allies on this area."
-        if s.get("nation"):
+        if s.get("nation") == "European Union":
+            # The EU 5CA exists since 2026-09-01 (make_eu_5ca: verdicts x
+            # roll calls x groups over SIGNED divisions). An EU brief gets
+            # the real grid; with nothing signed the tool refuses and the
+            # marker returns -- never an empty grid.
+            fca_block, rf4_ally_hint, eu_rows = eu_5ca_block(conn)
+        elif s.get("nation"):
             # The 5CA is built from Westminster division lists; there is no
             # devolved equivalent wired in. An explicit marker, never an
             # empty grid that looks like an oversight (the spec's open
@@ -1084,7 +1145,9 @@ def main():
                                          fca_block, timeline,
                                          today.isoformat()))
         write_csv(csv_path, s, fields, rf4_hints, expectation, timeline, today)
-        has_5ca = (False if s.get("nation")
+        has_5ca = (write_eu_5ca_csv(fca_path, eu_rows)
+                   if s.get("nation") == "European Union"
+                   else False if s.get("nation")
                    else write_5ca_csv(fca_path, conn, s, cfg))
         if has_5ca:
             print("  5ca:   {0}".format(os.path.basename(fca_path)))

@@ -706,6 +706,27 @@ CREATE TABLE IF NOT EXISTS eu_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_cmte_meetings (
+  uid TEXT PRIMARY KEY,           -- eMeeting event uid
+  committee TEXT, reference TEXT, -- 'LIBE', 'LIBE(2026)0902_1'
+  date TEXT, title TEXT, venue TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS eu_cmte_docs (
+  identifier TEXT PRIMARY KEY,    -- 'LIBE-PR-123456'
+  committee TEXT, work_type TEXT,
+  date TEXT, title TEXT,          -- EN title from the per-doc fetch
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS eu_speeches (
+  speech_id TEXT PRIMARY KEY,     -- 'MTG-PL-...-OTH-...'
+  person_id TEXT, date TEXT,
+  debate TEXT,                    -- EN debate title
+  excerpt TEXT,                   -- EN text, trimmed for the card
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS eu_meps (
   person_id TEXT PRIMARY KEY,     -- 'person/197529' -> '197529'
   name TEXT,
@@ -869,6 +890,9 @@ TABLES = (
     "eu_meps",
     "eu_divisions",
     "eu_votes",
+    "eu_cmte_meetings",
+    "eu_cmte_docs",
+    "eu_speeches",
     "api_spend",
     "evaluations",
     "ni_items",

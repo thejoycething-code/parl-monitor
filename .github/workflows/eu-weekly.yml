@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     # One listing call plus one detail call per NEW initiative; a cold run
     # with 41 details measured well under a minute locally.
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
         # ref: the branch TIP, not github.sha -- the fourth store-divergence
@@ -55,6 +55,10 @@ jobs:
         run: python3 tools/eu_texts.py | tee /tmp/eu-texts.log
       - name: Collect MEP roll calls on our ground
         run: python3 tools/eu_rollcalls.py | tee /tmp/eu-rollcalls.log
+      - name: Committee watch (meetings ahead, pipeline documents)
+        run: python3 tools/eu_committees.py | tee /tmp/eu-committees.log
+      - name: Collect MEP speeches on our ground
+        run: python3 tools/eu_speeches.py | tee /tmp/eu-speeches.log
       - name: Enrich new MEPs with country and group
         # Incremental: only MEPs with no stored group are fetched, so
         # after the first full pass this costs new arrivals only.
@@ -88,7 +92,7 @@ jobs:
           {
             echo "## EU weekly refresh"
             echo '```'
-            grep -hE "eu-consultations:|eu-triage:|dm:|eu-rollcalls:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
+            grep -hE "eu-consultations:|eu-committees:|eu-speeches:|eu-triage:|dm:|eu-rollcalls:|eu-texts:|WATCHLIST CANDIDATE|eu-dossiers:|eu-agenda:|edition:|MOVED|\[gap\]" \
               /tmp/eu-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/eu-*.log 2>/dev/null \

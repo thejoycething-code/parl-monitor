@@ -87,7 +87,19 @@ def build_data(conn):
                             "meaning_favor": (c.get("meaning_favor") or "").strip(),
                             "meaning_against": (c.get("meaning_against") or "").strip()}
         divisions.append(d)
+    speeches = {}
+    try:
+        for r in conn.execute("SELECT * FROM eu_speeches ORDER BY date DESC"
+                              ).fetchall():
+            speeches.setdefault(r["person_id"], [])
+            if len(speeches[r["person_id"]]) < 2:
+                speeches[r["person_id"]].append({
+                    "date": r["date"], "debate": r["debate"],
+                    "excerpt": (r["excerpt"] or "")[:420]})
+    except Exception:
+        pass
     return {"meps": meps, "divisions": divisions, "votes": votes,
+            "speeches": speeches,
             "built": datetime.date.today().isoformat()}
 
 

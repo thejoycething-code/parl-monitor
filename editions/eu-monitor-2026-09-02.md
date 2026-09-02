@@ -40,6 +40,14 @@ Tallies are favor-against-abstention. These votes carry no verdict yet: meanings
 
 2 of 39 adopted texts in the window matched the taxonomy.
 
+## In committee
+
+Meetings ahead: DROI 2026-09-02 · EMPL 2026-09-02 · LIBE 2026-09-02 · DROI 2026-09-03 · EMPL 2026-09-03
+
+Pipeline documents (drafts and opinions inside 18 months) on our ground:
+
+- **FEMM** 2025-03-19 (OPINION_PARLIAMENTARY_COMMITTEE_DRAFT) - DRAFT OPINION on implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
+
 ## Dossier board (2 watched)
 
 | Dossier | Why we track it | Stage | Movement |

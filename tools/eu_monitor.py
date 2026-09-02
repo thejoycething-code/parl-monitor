@@ -301,6 +301,38 @@ def render_edition(conn, today):
         lines.append("{0} of {1} adopted texts in the window matched the "
                      "taxonomy.".format(len(tx_matched), len(tx)))
         lines.append("")
+    # In committee (2026-09-02): upcoming watched-committee meetings and
+    # the taxonomy-matched pipeline documents -- draft reports and opinions
+    # live in committee for months before plenary, the deepest forward
+    # look there is.
+    try:
+        mts = conn.execute("SELECT committee, date, COUNT(*) AS n FROM "
+                           "eu_cmte_meetings WHERE date >= ? GROUP BY 1, 2 "
+                           "ORDER BY date LIMIT 20", (today,)).fetchall()
+        cutoff = (datetime.date.fromisoformat(today)
+                  - datetime.timedelta(days=548)).isoformat()
+        docs = conn.execute("SELECT * FROM eu_cmte_docs WHERE areas != '[]' "
+                            "AND date >= ? ORDER BY date DESC LIMIT 12",
+                            (cutoff,)).fetchall()
+    except Exception:
+        mts, docs = [], []
+    if mts or docs:
+        lines.append("## In committee")
+        lines.append("")
+        if mts:
+            lines.append("Meetings ahead: " + " · ".join(
+                "{0} {1}".format(r["committee"], r["date"]) for r in mts))
+            lines.append("")
+            lines.append("Pipeline documents (drafts and opinions inside 18 "
+                         "months) on our ground:")
+            lines.append("")
+        for r in docs:
+            areas_lbl = ", ".join(names.get(a, str(a))
+                                  for a in json.loads(r["areas"]))
+            lines.append("- **{0}** {1} ({2}) - {3} - {4}".format(
+                r["committee"], r["date"], r["work_type"] or "?",
+                (r["title"] or "").replace("|", "/"), areas_lbl))
+        lines.append("")
     # The dossier board (phase 2a): watched EP procedures with movement,
     # tracked by tools/eu_dossiers.py from config/eu_watchlist.yaml.
     try:
@@ -367,6 +399,17 @@ def dm_summary(conn, today):
         except Exception:
             continue
     scored.sort(key=lambda x: (-(x[0] or 0), x[1] or ""))
+    # One story, one line: a division and its adopted text share a subject;
+    # the higher-scored row (first after the sort) represents it.
+    seen_titles = set()
+    deduped = []
+    for item in scored:
+        key = (item[2] or "").lower()[:55]
+        if key in seen_titles:
+            continue
+        seen_titles.add(key)
+        deduped.append(item)
+    scored = deduped
     nc = conn.execute("SELECT COUNT(*), SUM(areas != '[]') FROM "
                       "eu_consultations WHERE closes >= ?",
                       (today,)).fetchone()

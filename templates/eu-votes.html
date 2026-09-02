@@ -191,8 +191,14 @@ function renderMEP(id){
       <summary style="cursor:pointer;font-size:13px;font-weight:500;color:var(--blue-deep)">
         Every recorded vote — ${unsigned.length} more division${unsigned.length === 1 ? "" : "s"} (no signed verdict)</summary>
       ${unsigned.map(row).join("")}</details>` : ""}
+    ${(DATA.speeches?.[m.id] || []).map(s => `
+      <div class="divcard"><h3 style="font-size:14px">Spoke in the House — ${esc(s.debate || "")}</h3>
+        <div class="meta">${fmtD(s.date)} · from the verbatim report</div>
+        <div class="whyline" style="font-style:italic">“${esc(s.excerpt)}${s.excerpt.length >= 420 ? "…" : ""}”</div>
+      </div>`).join("")}
     <p class="note">Positions come from the European Parliament's roll-call
-    records. A division without a signed verdict shows the vote without judgement.</p>`;
+    records. A division without a signed verdict shows the vote without judgement.
+    Quotes come from the plenary verbatim report, in the Parliament's English version.</p>`;
   location.hash = "mep-" + m.id;
 }
 
