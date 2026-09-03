@@ -89,5 +89,54 @@ class ResilienceTests(unittest.TestCase):
         self.assertNotIn("score_stub", live_block)
 
 
+class CoverageTests(unittest.TestCase):
+    """The judge must see EVERY table that carries `areas`.
+
+    It listed four while the monitor had grown to nine collectors, so 66
+    matched rows -- courts, written questions, committee documents, ECIs,
+    speeches -- sat unscored while the run printed "nothing unscored"
+    (2026-09-03). This fails if a new eu_ table with an `areas` column is
+    ever added without joining SOURCES.
+    """
+
+    def test_every_eu_table_with_areas_is_judged(self):
+        import sqlite3
+        conn = sqlite3.connect(":memory:")
+        conn.row_factory = sqlite3.Row
+        db.init_db(conn)
+        tables = [r[0] for r in conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' "
+            "AND name LIKE 'eu\\_%' ESCAPE '\\'")]
+        with_areas = []
+        for name in tables:
+            cols = [c[1] for c in conn.execute(
+                "PRAGMA table_info({0})".format(name))]
+            if "areas" in cols:
+                with_areas.append(name)
+        missing = sorted(set(with_areas) - set(eut.SOURCES)
+                         - set(eut.EXEMPT))
+        self.assertEqual(missing, [], "these carry areas but are neither "
+                                      "judged nor exempt: {0}".format(missing))
+
+    def test_every_exemption_states_a_reason(self):
+        for table, reason in eut.EXEMPT.items():
+            self.assertGreater(len(reason), 40,
+                               "{0} is exempt without a real reason"
+                               .format(table))
+            self.assertNotIn(table, eut.SOURCES,
+                             "{0} cannot be both judged and exempt"
+                             .format(table))
+
+
+class BatchingTests(unittest.TestCase):
+    def test_long_texts_are_trimmed_and_chunks_halve_on_failure(self):
+        src = open(os.path.join(ROOT, "tools", "eu_triage.py"),
+                   encoding="utf-8").read()
+        self.assertIn("[:300]", src)
+        self.assertIn("def score_chunk(", src)
+        self.assertIn("half = len(chunk) // 2", src)
+        self.assertIn("left for next run", src)
+
+
 if __name__ == "__main__":
     unittest.main()

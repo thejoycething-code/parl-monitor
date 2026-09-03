@@ -32,11 +32,34 @@ sys.path.insert(0, ROOT)
 from src import db, spend, triage
 
 # table -> (key column, text columns joined for the judge)
+# EVERY eu_ table that carries `areas` belongs here. The first version
+# listed four and the monitor then grew five more collectors -- courts,
+# written questions, committee documents, ECIs, speeches -- so 66 matched
+# rows sat unscored while the run cheerfully printed "nothing unscored"
+# (found 2026-09-03 by reading a green CI log that had just stored 22
+# matched questions). A structural test now fails if a table with an
+# `areas` column is missing from this map.
 SOURCES = {
     "eu_consultations": ("key", ("title", "summary")),
     "eu_agenda": ("activity_id", ("label",)),
     "eu_texts": ("identifier", ("title",)),
     "eu_divisions": ("vote_id", ("label",)),
+    "eu_pqs": ("identifier", ("title",)),
+    "eu_cmte_docs": ("identifier", ("title",)),
+    "eu_judgments": ("item_id", ("case_name", "conclusion")),
+    "eu_ecis": ("reg_num", ("title",)),
+    "eu_speeches": ("speech_id", ("debate", "excerpt")),
+}
+
+# Tables that carry `areas` and are DELIBERATELY not judged, each with
+# its reason. The coverage test allows only what is declared here, so a
+# new table cannot slip through unjudged AND unexplained -- which is how
+# eu_dossiers surfaced: the guard caught it on its first run.
+EXEMPT = {
+    "eu_dossiers": "hand-curated: every row carries a human-written "
+                   "why: line in config/eu_watchlist.yaml, and a model "
+                   "line would overwrite a person's judgement with a "
+                   "worse one.",
 }
 
 
@@ -59,7 +82,14 @@ def pending(conn):
             "SELECT * FROM {0} WHERE areas != '[]' AND areas IS NOT NULL "
             "AND triage_score IS NULL".format(table)).fetchall()
         for r in rows:
-            text = " ".join((r[c] or "") for c in textcols).strip()
+            # Trimmed at 300 characters. The shared judge budgets
+            # 400 + 160 tokens per item and the reply may open with a
+            # thinking block that spends from the SAME budget; EU rows
+            # carry 866-character court conclusions and speech excerpts
+            # where Westminster's are terse, and 20 of those overflowed
+            # it twice (measured 2026-09-03: 0 and 248 characters
+            # returned). A why-line needs the gist, not the passage.
+            text = " ".join((r[c] or "") for c in textcols).strip()[:300]
             items.append(triage.TriageItem(
                 id="{0}:{1}".format(table, r[key]),
                 title=(r["title"] if "title" in r.keys() else None)
@@ -104,17 +134,43 @@ def main():
         # run). One retry, then the items stay UNSCORED for next week's
         # run -- deliberately not stub-scored, because scores are written
         # once-ever and a transient failure must not freeze stub scores in.
-        results, mode = None, "live"
-        for attempt in (1, 2):
-            try:
-                results = triage.score_live(
-                    items, api_key=api_key,
-                    usage_sink=lambda usage, model: spend.record(
-                        conn, "eu-triage", model, usage, dated=today))
-                break
-            except Exception as exc:
-                print("  [gap] live triage attempt {0} failed: {1}".format(
-                    attempt, exc))
+        # Slices of EIGHT, not the shared batch of 20: same reason as the
+        # text trim above -- less content per call leaves the reply room
+        # to answer. A slice that fails twice is skipped and its rows stay
+        # unscored for next week rather than taking the run down.
+        results, mode = [], "live"
+        SLICE = 8
+
+        def score_chunk(chunk, depth=0):
+            """Score a chunk, HALVING it on failure down to singles.
+
+            Measured 2026-09-03: slices of eight mostly succeed, but one
+            fat slice (long court conclusions) overflowed the reply
+            budget on both attempts and stalled eight rows. Halving turns
+            that into progress -- four, then two, then one -- and only a
+            single item that still fails is left for next week.
+            """
+            for attempt in (1, 2):
+                try:
+                    return triage.score_live(
+                        chunk, api_key=api_key,
+                        usage_sink=lambda usage, model: spend.record(
+                            conn, "eu-triage", model, usage, dated=today))
+                except Exception as exc:
+                    print("  [gap] triage chunk of {0} attempt {1}: {2}"
+                          .format(len(chunk), attempt, exc))
+            if len(chunk) == 1:
+                print("  [gap] one row still refuses; left for next run: "
+                      "{0}".format(chunk[0].id))
+                return []
+            half = len(chunk) // 2
+            return (score_chunk(chunk[:half], depth + 1)
+                    + score_chunk(chunk[half:], depth + 1))
+
+        for start in range(0, len(items), SLICE):
+            results.extend(score_chunk(items[start:start + SLICE]))
+        if not results:
+            results = None
         if results is None:
             print("eu-triage: {0} item(s) left unscored; next run retries."
                   .format(len(items)))
