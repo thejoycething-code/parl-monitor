@@ -55,28 +55,32 @@ Tallies are favor-against-abstention.
 
 ## Written questions on our ground
 
+- **2026-08-27** Catherine GRISET - Summer 2026: the summer of cultural censorship by far-left extremists
+- **2026-08-24** Giuseppe ANTOCI - Leaving home should not mean leaving democracy behind: guaranteeing the voting rights of citizens living away from home as a means of bolstering EU citizenship and territorial cohesion
+- **2026-08-24** Flavio TOSI - The Ceuta migration crisis: potential jihadist infiltrations, securing Europe’s external borders and safeguarding the Schengen area
 - **2026-08-14** Elena DONAZZAN - Muslim Brotherhood infiltration and Islamist radicalisation in the EU – request for a European fact-finding assessment
-- **2026-07-31** Elisabeth DIERINGER - Border breach at Ceuta – consequences for the migration partnership with Morocco and external border protection
-- **2026-07-03** Roberto VANNACCI - Spain’s mass migrant regularisation scheme and its compatibility with the new common system for returns and the Pact on Migration and Asylum
-- **2026-07-02** Jean-Paul GARRAUD - Irregular immigration from countries not experiencing armed conflict
-- **2026-06-16** Christine ANDERSON - Representation of detransitioners in the Commission’s LGBTIQ+ equality strategy 2026–2030
-- **2026-05-06** Alexandra GEESE - Meta and Google ads for unregulated, dangerous nutraceutical products and potential breaches of the Digital Services Act
-- **2026-04-30** Laura BALLARÍN CEREZA - Opposition groups in Spain blocking implementation of the Digital Services Act
-- **2026-04-20** Mary KHAN - Fraudulent asylum applications in the United Kingdom reveal organisations systematically misusing the asylum system
+- **2026-08-11** Anna-Maja HENRIKSSON - Application of the Digital Services Act following the Ceuta crisis
+- **2026-08-11** Kostas PAPADAKIS - Ceuta carnage: the deadly reality of the Pact of suppression, deportation and savage exploitation
+- **2026-08-11** Ioan-Rareş BOGDAN - Shortcomings in the application of the Digital Services Act in cases where disinformation goes viral pose a risk to citizens’ safety
+- **2026-08-06** Silvia SARDONE - Radical Islamism: threat to the LGBT+ community and the need to protect public safety in the EU
 
 ## Citizens' initiatives on our ground
 
 - **ANSWERED** - Ban on conversion practices in the European Union - 1,128,063 supporters - https://eci.ec.europa.eu/043/public/?lg=en
 - **ANSWERED** - My Voice, My Choice: For Safe And Accessible Abortion - 1,124,513 supporters - https://eci.ec.europa.eu/044/public/?lg=en
-- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,158 supporters - https://eci.ec.europa.eu/066/public/?lg=en
+- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,377 supporters (+219 this week) - https://eci.ec.europa.eu/066/public/?lg=en
 
 ## In committee
 
-Meetings ahead: DROI 2026-09-03 · EMPL 2026-09-03
+Meetings ahead: DROI 2026-09-03 · EMPL 2026-09-03 · JURI 2026-09-07 · EMPL 2026-09-10
 
 Pipeline documents (drafts and opinions inside 18 months) on our ground:
 
+- **LIBE** 2026-06-03 (REPORT_PARLIAMENTARY_COMMITTEE_DRAFT) - DRAFT REPORT on the proposal for a regulation of the European Parliament and of the Council establishing the Union support for asylum, migration and integration for the period from 2028 to 2034 - Migration
+- **LIBE** 2025-09-15 (REPORT_PARLIAMENTARY_COMMITTEE_DRAFT) - DRAFT INTERIM REPORT on the proposal for a Council decision determining, pursuant to Article 7(1) of the Treaty on European Union, the existence of a clear risk of a serious breach by Hungary of the values on which the Union is founded - Free speech, privacy and civil liberties
+- **FEMM** 2025-05-20 (OPINION_PARLIAMENTARY_COMMITTEE) - OPINION on the implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
 - **FEMM** 2025-03-19 (OPINION_PARLIAMENTARY_COMMITTEE_DRAFT) - DRAFT OPINION on implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
+- **FEMM** 2025-03-05 (OPINION_PARLIAMENTARY_COMMITTEE) - OPINION on the proposal for a directive of the European Parliament and of the Council on combating the sexual abuse and sexual exploitation of children and child sexual abuse material and replacing Council Framework Decision 2004/68/JHA (recast) - Parental rights education
 
 ## Dossier board (2 watched)
 
