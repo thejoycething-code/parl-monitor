@@ -54,19 +54,24 @@ Tallies are favor-against-abstention. These votes carry no verdict yet: meanings
 - **2026-07-03** Roberto VANNACCI - Spain’s mass migrant regularisation scheme and its compatibility with the new common system for returns and the Pact on Migration and Asylum
 - **2026-07-02** Jean-Paul GARRAUD - Irregular immigration from countries not experiencing armed conflict
 - **2026-06-16** Christine ANDERSON - Representation of detransitioners in the Commission’s LGBTIQ+ equality strategy 2026–2030
+- **2026-05-06** Alexandra GEESE - Meta and Google ads for unregulated, dangerous nutraceutical products and potential breaches of the Digital Services Act
+- **2026-04-30** Laura BALLARÍN CEREZA - Opposition groups in Spain blocking implementation of the Digital Services Act
+- **2026-04-20** Mary KHAN - Fraudulent asylum applications in the United Kingdom reveal organisations systematically misusing the asylum system
+- **2026-04-08** Sandro GOZI - Systemic technology-facilitated gender-based violence on Telegram and compliance with the Digital Services Act
 
 ## Citizens' initiatives on our ground
 
 - **ANSWERED** - Ban on conversion practices in the European Union - 1,128,063 supporters - https://eci.ec.europa.eu/043/public/?lg=en
 - **ANSWERED** - My Voice, My Choice: For Safe And Accessible Abortion - 1,124,513 supporters - https://eci.ec.europa.eu/044/public/?lg=en
-- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,158 supporters - https://eci.ec.europa.eu/066/public/?lg=en
+- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,205 supporters (+47 this week) - https://eci.ec.europa.eu/066/public/?lg=en
 
 ## In committee
 
-Meetings ahead: DROI 2026-09-03 · EMPL 2026-09-03
+Meetings ahead: DROI 2026-09-03 · EMPL 2026-09-03 · JURI 2026-09-07
 
 Pipeline documents (drafts and opinions inside 18 months) on our ground:
 
+- **FEMM** 2025-05-20 (OPINION_PARLIAMENTARY_COMMITTEE) - OPINION on the implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
 - **FEMM** 2025-03-19 (OPINION_PARLIAMENTARY_COMMITTEE_DRAFT) - DRAFT OPINION on implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
 
 ## Dossier board (2 watched)
