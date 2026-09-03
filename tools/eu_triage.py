@@ -139,7 +139,13 @@ def main():
         # to answer. A slice that fails twice is skipped and its rows stay
         # unscored for next week rather than taking the run down.
         results, mode = [], "live"
-        SLICE = 8
+        # FOUR, not eight. The halving fallback works -- the 2026-09-04
+        # run scored all 46 new rows -- but it paid five wasted calls to
+        # get there: two chunks of eight failed twice each before
+        # splitting. EU rows are long enough that eight is the wrong
+        # opening bid, and a chunk that still overflows halves to two and
+        # then one exactly as before.
+        SLICE = 4
 
         def score_chunk(chunk, depth=0):
             """Score a chunk, HALVING it on failure down to singles.
