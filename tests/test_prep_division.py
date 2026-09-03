@@ -64,6 +64,102 @@ class AnchorTests(unittest.TestCase):
         self.assertNotIn("verdict_for(known, our_side)", src)
 
 
+class RealPolarityTests(unittest.TestCase):
+    """The proof that the expectations track PEOPLE, not a fixed lobby.
+
+    Amendment 12 (division 2068, 20 June 2025) is a RESTRICTING
+    amendment, so our side is AYE -- the opposite polarity to the
+    readings. On it Kruger really did vote aye and both sponsors voted
+    no. The same anchor set must therefore pass with our_side=aye and
+    be refused with our_side=no, on the same real data. Offline: the
+    payload is archived (data/raw/2026-09-03/, from the 2026-09-03
+    refusal-path session).
+    """
+
+    PAYLOAD = os.path.join(ROOT, "data", "raw", "2026-09-03",
+                           "division_cdetail-2068.json.gz")
+
+    def _voters(self):
+        import gzip
+        import json
+        from src.ingest import divisions as di
+        if not os.path.exists(self.PAYLOAD):
+            self.skipTest("archived payload for division 2068 not present")
+        payload = json.loads(gzip.open(self.PAYLOAD).read().decode())
+        _, voters = di.parse_commons_breakdown(payload)
+        return voters
+
+    def test_a_restricting_amendment_passes_on_aye_and_fails_on_no(self):
+        voters = self._voters()
+        passed_aye, rows_aye = prep.anchor_test(voters, "aye")
+        passed_no, _ = prep.anchor_test(voters, "no")
+        self.assertTrue(passed_aye, "our side is aye on a restricting "
+                                    "amendment")
+        self.assertFalse(passed_no, "the same data must be refused with "
+                                    "the polarity inverted")
+        by_name = {r["name"]: r for r in rows_aye}
+        self.assertEqual(by_name["Danny Kruger"]["lobby"], "aye")
+        self.assertEqual(by_name["Kim Leadbeater"]["lobby"], "no")
+        self.assertEqual(by_name["Lauren Edwards"]["lobby"], "no")
+
+
+class RefusalPathTests(unittest.TestCase):
+    """run()'s own refusals, with a fake client (no network)."""
+
+    class D:
+        def __init__(self, id, title):
+            self.id, self.title = id, title
+            self.number, self.aye_count, self.no_count = 1, 10, 5
+
+    def _client(self, divs):
+        outer = self
+
+        class C:
+            def get_json(self, url, feed, slug, **kw):
+                return {"Divisions": []}
+        # patch the fetch instead: run() calls div_ingest directly
+        return C()
+
+    def _run(self, divs, **kw):
+        from src.ingest import divisions as di
+        real = di.fetch_commons_divisions
+        di.fetch_commons_divisions = lambda client, date: divs
+        lines = []
+        try:
+            code = prep.run("2026-09-11", client=object(),
+                            out=lines.append, **kw)
+        finally:
+            di.fetch_commons_divisions = real
+        return code, "\n".join(lines)
+
+    def test_no_divisions_points_at_the_nod_procedure(self):
+        code, text = self._run([])
+        self.assertEqual(code, 0)
+        self.assertIn("talked out or passed on the nod", text)
+        self.assertIn("nothing is signed", text)
+
+    def test_a_stage_with_no_match_is_refused(self):
+        code, text = self._run([self.D(1, "Some other Bill: Committee")],
+                               our_side="no")
+        self.assertEqual(code, 1)
+        self.assertIn("matches stage", text)
+        self.assertNotIn("--- sign-off message ---", text)
+
+    def test_an_ambiguous_stage_is_refused_with_the_ids(self):
+        code, text = self._run([self.D(1, "TIA: Second Reading"),
+                                self.D(2, "Other: Second reading")],
+                               our_side="no")
+        self.assertEqual(code, 1)
+        self.assertIn("divisions match", text)
+        self.assertIn("--division", text)
+        self.assertNotIn("--- sign-off message ---", text)
+
+    def test_the_question_block_prints_before_any_verdict(self):
+        code, text = self._run([self.D(1, "TIA: Second Reading")])
+        self.assertIn("READ THE QUESTION", text)
+        self.assertNotIn("--- sign-off message ---", text)
+
+
 class PickTests(unittest.TestCase):
     class D:
         def __init__(self, id, title):
