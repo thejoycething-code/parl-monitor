@@ -32,7 +32,7 @@ LIST = ("https://data.europarl.europa.eu/api/v2/parliamentary-questions"
         "?year={0}&limit=1000&offset={1}&format=application%2Fld%2Bjson")
 DOC = ("https://data.europarl.europa.eu/api/v2/parliamentary-questions/{0}"
        "?format=application%2Fld%2Bjson")
-FETCH_CAP = 150
+FETCH_CAP = 300        # same drain arithmetic as the committee cap
 THROTTLE_S = 0.65
 
 

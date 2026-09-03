@@ -31,7 +31,9 @@ Published agendas checked: 2026-09-14 (6 items), 2026-09-15 (24 items), 2026-09-
 - **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum — § 51 - 360-262-19 (totals only, no roll call) - Free speech, privacy and civil liberties - **Why it matters:** Specific paragraph votes on SDG delivery can embed reproductive rights commitments. Flag if wording pushes abortion as a development target. (score 1)
 - **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum — § 51 - 304-317-18 (totals only, no roll call) - Free speech, privacy and civil liberties - **Why it matters:** Duplicate paragraph vote on SDG text. Same risk of reproductive rights language being written into EU development policy. (score 1)
 
-Tallies are favor-against-abstention. These votes carry no verdict yet: meanings are signed off per division before any MEP is judged on them.
+Tallies are favor-against-abstention.
+
+**13 division(s) await a verdict.** Until a meaning is signed off they render on the MEP page without judgement, so the 5CA cannot use them: Ongoing persecution of Chr: Recital E; Ongoing persecution of Chr: RC-B10-0345/2026/REV1 – § 1 – Am 2/2; Ongoing persecution of Chr: RC-B10-0345/2026/REV1 – Recital E – Am 5; Ongoing persecution of Chr: RC-B10-0345/2026/REV1 – Recital C – Am 4; Ongoing persecution of Chr: RC-B10-0345/2026/REV1 – § 1 – Am 2/1; Ongoing persecution of Chr: RC-B10-0345/2026/REV1 – Recital E – Am 1
 
 ## Adopted by the Parliament (last 60 days)
 
@@ -42,14 +44,18 @@ Tallies are favor-against-abstention. These votes carry no verdict yet: meanings
 
 ## Strasbourg watch (ECtHR, last 90 days)
 
+- **2026-09-03** - Judgment of the Court (Second Chamber) of 3 September 2026. - Freedom of religion - https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62024CJ0598
 - **2026-07-20** - Judgment G.K. and A.S. v. Switzerland - authorities’ overly formalistic approach to complaints about lack of access to vegan diet while in detention  - Freedom of religion - https://hudoc.echr.coe.int/eng?i=003-8594795-12229573
 - **2026-07-16** - CASE OF G.K. AND A.S. v. SWITZERLAND - Abortion - https://hudoc.echr.coe.int/eng?i=001-251193
+- **2026-07-16** - Judgment of the Court (Grand Chamber) of 16 July 2026. - Abortion - https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62024CJ0666
+- **2026-07-16** - Judgment of the Court (Grand Chamber) of 16 July 2026. - Freedom of religion - https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62023CJ0258
+- **2026-07-16** - Judgment of the Court (Second Chamber) of 16 July 2026. - Freedom of religion - https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62024CJ0421
+- **2026-07-14** - Judgment of the Court (Grand Chamber) of 14 July 2026. - Freedom of religion - https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62024CJ0474
 - **2026-07-07** - CASE OF RAINBOW MISSION FOUNDATION AND OTHERS v. HUNGARY - Free speech, privacy and civil liberties, Freedom of religion - https://hudoc.echr.coe.int/eng?i=001-251024
-- **2026-07-02** - Judgment A.P. and R.P. v. Poland and Decision A.D.-K. and Others v. Poland - Refusal to recognise legal parent-child relationship established abroad - Surrogacy embryology - https://hudoc.echr.coe.int/eng?i=003-8580277-12202982
-- **2026-07-02** - A.P. and R.P. v. Poland - Surrogacy embryology - https://hudoc.echr.coe.int/eng?i=002-14624
 
 ## Written questions on our ground
 
+- **2026-08-14** Elena DONAZZAN - Muslim Brotherhood infiltration and Islamist radicalisation in the EU – request for a European fact-finding assessment
 - **2026-07-31** Elisabeth DIERINGER - Border breach at Ceuta – consequences for the migration partnership with Morocco and external border protection
 - **2026-07-03** Roberto VANNACCI - Spain’s mass migrant regularisation scheme and its compatibility with the new common system for returns and the Pact on Migration and Asylum
 - **2026-07-02** Jean-Paul GARRAUD - Irregular immigration from countries not experiencing armed conflict
@@ -57,21 +63,19 @@ Tallies are favor-against-abstention. These votes carry no verdict yet: meanings
 - **2026-05-06** Alexandra GEESE - Meta and Google ads for unregulated, dangerous nutraceutical products and potential breaches of the Digital Services Act
 - **2026-04-30** Laura BALLARÍN CEREZA - Opposition groups in Spain blocking implementation of the Digital Services Act
 - **2026-04-20** Mary KHAN - Fraudulent asylum applications in the United Kingdom reveal organisations systematically misusing the asylum system
-- **2026-04-08** Sandro GOZI - Systemic technology-facilitated gender-based violence on Telegram and compliance with the Digital Services Act
 
 ## Citizens' initiatives on our ground
 
 - **ANSWERED** - Ban on conversion practices in the European Union - 1,128,063 supporters - https://eci.ec.europa.eu/043/public/?lg=en
 - **ANSWERED** - My Voice, My Choice: For Safe And Accessible Abortion - 1,124,513 supporters - https://eci.ec.europa.eu/044/public/?lg=en
-- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,205 supporters (+47 this week) - https://eci.ec.europa.eu/066/public/?lg=en
+- **ONGOING** - Stop Killing The Internet: No Digital ID & No Age Verification - 3,158 supporters - https://eci.ec.europa.eu/066/public/?lg=en
 
 ## In committee
 
-Meetings ahead: DROI 2026-09-03 · EMPL 2026-09-03 · JURI 2026-09-07
+Meetings ahead: DROI 2026-09-03 · EMPL 2026-09-03
 
 Pipeline documents (drafts and opinions inside 18 months) on our ground:
 
-- **FEMM** 2025-05-20 (OPINION_PARLIAMENTARY_COMMITTEE) - OPINION on the implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
 - **FEMM** 2025-03-19 (OPINION_PARLIAMENTARY_COMMITTEE_DRAFT) - DRAFT OPINION on implementation and delivery of the Sustainable Development Goals in view of the 2025 High-Level Political Forum - Free speech, privacy and civil liberties
 
 ## Dossier board (2 watched)

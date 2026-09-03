@@ -172,6 +172,21 @@ def render(conn, today, out=print):
                                           r["closes"]))
 
 
+def _short_label(label):
+    """What DISTINGUISHES this division, not what it shares.
+
+    Amendment divisions carry the subject as a prefix, so truncating the
+    head printed the same 55 characters six times ("Ongoing persecution
+    of Christians in Nigeria, notably t..."). The decision label after
+    the em-dash is the part that differs.
+    """
+    label = label or "?"
+    if " \u2014 " in label:
+        head, tail = label.split(" \u2014 ", 1)
+        return "{0}: {1}".format(head[:26].rstrip(), tail[:40])
+    return label[:55]
+
+
 def _why(r):
     """The triage judge's line, when the row has been scored."""
     try:
@@ -272,6 +287,18 @@ def render_edition(conn, today):
     # division, never derived from a title (the Lords inversion lesson).
     dv = conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC"
                       ).fetchall()
+    # Which of them Christopher has actually signed: the config is the
+    # authority, not the store.
+    signed_ids = set()
+    try:
+        import yaml
+        _cfg = yaml.safe_load(open(os.path.join(ROOT, "config",
+                                                "eu_divisions.yaml"),
+                                   encoding="utf-8")) or {}
+        signed_ids = {k for k, v in (_cfg.get("divisions") or {}).items()
+                      if v.get("signed_off")}
+    except Exception:
+        pass
     if dv:
         lines.append("## Plenary divisions on our ground (last 60 days)")
         lines.append("")
@@ -287,9 +314,17 @@ def render_edition(conn, today):
                 " (totals only, no roll call)", areas,
                 " -" + _why(r) if _why(r) else ""))
         lines.append("")
-        lines.append("Tallies are favor-against-abstention. These votes "
-                     "carry no verdict yet: meanings are signed off per "
-                     "division before any MEP is judged on them.")
+        unsigned = [r for r in dv if r["vote_id"] not in signed_ids]
+        lines.append("Tallies are favor-against-abstention.")
+        if unsigned:
+            lines.append("")
+            lines.append("**{0} division(s) await a verdict.** Until a "
+                         "meaning is signed off they render on the MEP "
+                         "page without judgement, so the 5CA cannot use "
+                         "them: {1}".format(
+                             len(unsigned),
+                             "; ".join(_short_label(r["label"])
+                                       for r in unsigned[:6])))
         lines.append("")
     # Adopted by the Parliament (phase 2c): the last 60 days' resolutions
     # on our ground; the full count keeps the window honest.
@@ -502,6 +537,23 @@ def dm_summary(conn, today):
         eud = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(eud)
         board = eud.board_rows(conn, today)
+    except Exception:
+        pass
+    try:
+        import yaml as _y
+        _c = _y.safe_load(open(os.path.join(ROOT, "config",
+                                            "eu_divisions.yaml"),
+                               encoding="utf-8")) or {}
+        _signed = {k for k, v in (_c.get("divisions") or {}).items()
+                   if v.get("signed_off")}
+        _total = conn.execute("SELECT COUNT(*) FROM eu_divisions"
+                              ).fetchone()[0]
+        _await = _total - len([s for s in _signed])
+        if _await > 0:
+            lines.append("")
+            lines.append(":warning: *{0} division(s) await your verdict* "
+                         "- unsigned votes render without judgement and "
+                         "the 5CA ignores them.".format(_await))
     except Exception:
         pass
     if board:

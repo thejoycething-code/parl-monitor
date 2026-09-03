@@ -55,6 +55,12 @@ class CourtsTests(unittest.TestCase):
                     "surrogacy parenthood", "doctype": "HEJUD",
                     "appno": "1/26", "conclusion": "Violation of Art 8",
                     "kpdate": "2026-07-02T00:00:00", "respondent": "POL"}}]}
+
+            def get_text(self, url, feed, slug, archive=True):
+                # Luxembourg joined the watch on 2026-09-03 and reads
+                # HTML; this Strasbourg fixture returns an empty page so
+                # the test keeps measuring what it always measured.
+                return ""
         seen, stored, gaps = courts.pull(conn, C(), "2026-09-02",
                                          log=lambda *a: None)
         self.assertEqual(gaps, 0)

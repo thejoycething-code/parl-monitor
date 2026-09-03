@@ -47,6 +47,13 @@ SEARCH_TERMS = [
     "child sexual abuse regulation", "persecution of Christians",
     "religious freedom", "gender ideology", "Istanbul Convention",
     "parenthood certificate", "freedom of expression online",
+    # Added 2026-09-03 from the FIRST recall audit (--audit), which
+    # measured what the hand-picked net could not reach: "Christian
+    # persecution" surfaced the Nigeria debate the curated terms missed
+    # outright. The DSA and age-verification phrases came from the same
+    # run; their hits were generic debates, kept because the taxonomy
+    # still judges every fetched text and a wider net costs one call.
+    "Christian persecution", "Digital Services Act", "age verification",
 ]
 
 
@@ -136,11 +143,69 @@ def pull(conn, client, today, log=print):
     return len(candidates), stored, gaps
 
 
+def audit(conn, client, today, log=print):
+    """Measure the curated net's RECALL, storing nothing.
+
+    SEARCH_TERMS is a hand-picked net and nothing has ever told us what
+    it misses. This runs the taxonomy's OWN tier-1 phrases (the ones long
+    enough to be worth a query) as extra searches over the same window,
+    and reports speeches they surface that the curated net did not. It
+    writes nothing: the answer is a number for a human to act on by
+    editing SEARCH_TERMS.
+    """
+    import yaml
+    tax_path = os.path.join(ROOT, "config", "taxonomy.yaml")
+    tax = yaml.safe_load(open(tax_path, encoding="utf-8")) or {}
+    phrases = []
+    for area in (tax.get("areas") or {}).values():
+        for term in (area.get("tier1") or []):
+            term = str(term).strip('"')
+            # multi-word, no wildcards or guards: a phrase a search can use
+            if " " in term and "*" not in term and "[" not in term:
+                phrases.append(term)
+    phrases = sorted(set(phrases) - set(SEARCH_TERMS))
+    start = (datetime.date.fromisoformat(today)
+             - datetime.timedelta(days=LOOKBACK_DAYS)).isoformat()
+    known = {r[0] for r in conn.execute("SELECT speech_id FROM eu_speeches")}
+    missed = {}
+    for phrase in phrases:
+        try:
+            reply = client.get_json(
+                SEARCH.format(phrase.replace(" ", "%20"), start, today),
+                "eu-speeches", "audit-" + phrase.replace(" ", "-"),
+                archive=False)
+        except ValueError:
+            continue
+        except FetchError as exc:
+            log("  [gap] audit '{0}': {1}".format(phrase, exc.cause))
+            continue
+        for s in reply.get("data") or []:
+            sid = s.get("activity_id")
+            if sid and sid not in known:
+                label = s.get("activity_label") or {}
+                missed.setdefault(sid, (
+                    label.get("en") if isinstance(label, dict) else "",
+                    phrase))
+    log("recall audit: {0} extra taxonomy phrase(s) searched over {1} "
+        "days; {2} speech(es) the curated net did not reach.".format(
+            len(phrases), LOOKBACK_DAYS, len(missed)))
+    for sid, (debate, phrase) in list(missed.items())[:12]:
+        log("  MISSED via '{0}': {1}".format(phrase, (debate or sid)[:70]))
+    if missed:
+        log("Add the phrases above to SEARCH_TERMS if the debates are "
+            "ours; nothing has been stored.")
+    return len(phrases), len(missed)
+
+
 def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
                                               "parl-monitor.db")))
     today = datetime.date.today().isoformat()
+    if "--audit" in sys.argv:
+        audit(conn, client, today)
+        conn.close()
+        return 0
     cands, stored, gaps = pull(conn, client, today)
     total = conn.execute("SELECT COUNT(*) FROM eu_speeches").fetchone()[0]
     print("eu-speeches: {0} candidate(s) in {1} days, {2} stored on our "

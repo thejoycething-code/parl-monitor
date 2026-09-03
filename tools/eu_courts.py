@@ -11,9 +11,16 @@ returns zero and is NOT used).
 
 A curated term net nominates recent judgments; the taxonomy judges the
 case NAME + conclusion text before anything is stored -- same
-net-vs-judge split as the speeches collector. The CJEU is NOT here:
-curia.europa.eu retired its RSS routes (404, probed) and InfoCuria is
-POST-driven; scoped in docs/eu-monitor-spec.md for a later session.
+net-vs-judge split as the speeches collector.
+
+LUXEMBOURG ADDED 2026-09-03. The earlier note said the CJEU was out of
+reach: curia retired its RSS routes and InfoCuria is POST-driven, both
+still true. What was not tried then is EUR-Lex's own public search,
+which answers on a plain GET and parses cleanly -- CELEX id, court,
+date and link. So Luxembourg is a BOUNDED read: the judgment's
+existence, court and date, never its reasoning, which a human reads on
+the page. If the page shape moves, the parse yields ids without titles
+and the run records a gap rather than storing blanks.
 
 Separation guarantee: writes eu_judgments only.
 ONE WRITER AT A TIME on data/parl-monitor.db.
@@ -45,6 +52,57 @@ SEARCH_TERMS = [
     "gender reassignment", "same-sex parenthood", "home education",
     "freedom of expression religion",
 ]
+
+
+EURLEX = ("https://eur-lex.europa.eu/search.html?scope=EURLEX&text={0}"
+          "&type=quick&lang=en&DTS_SUBDOM=EU_CASE_LAW"
+          "&date0=ALL%3A{1}%7C{2}&sortOne=DD&sortOneOrder=desc")
+EURLEX_DOC = "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:{0}"
+# CELEX sector-6 document codes: 62021CJ0621 -> CJ = Court judgment.
+CJEU_DOCTYPE = {"CJ": "CJEU judgment", "TJ": "General Court judgment",
+                "TB": "General Court order", "CC": "AG opinion",
+                "CO": "CJEU order"}
+
+
+def eurlex_cases(client, term, start, end, log=print):
+    """(rows, ok). Bounded parse of EUR-Lex's public case-law search."""
+    import re
+    url = EURLEX.format(term.replace(" ", "+"),
+                        start.strftime("%d%m%Y"), end.strftime("%d%m%Y"))
+    try:
+        html = client.get_text(url, "eu-courts",
+                               "eurlex-" + term.replace(" ", "-"),
+                               archive=False)
+    except FetchError as exc:
+        log("  [gap] eur-lex '{0}': {1}".format(term, exc.cause))
+        return [], False
+    celex = []
+    for cid in re.findall(r"CELEX[%:]3?A?(6\d{4}[A-Z]{2}\d+)", html):
+        if cid not in celex:
+            celex.append(cid)
+    titles = re.findall(r'class="title"[^>]*>([^<]{10,200})', html)
+    if celex and not titles:
+        log("  [gap] eur-lex '{0}': {1} case id(s) but no titles -- the "
+            "page shape moved; storing nothing".format(term, len(celex)))
+        return [], False
+    rows = []
+    for i, cid in enumerate(celex):
+        title = " ".join(titles[i].split()) if i < len(titles) else None
+        if not title:
+            continue
+        date = None
+        m = re.search(r"of (\d{1,2} \w+ \d{4})", title)
+        if m:
+            try:
+                date = datetime.datetime.strptime(
+                    m.group(1), "%d %B %Y").date().isoformat()
+            except ValueError:
+                date = None
+        rows.append({"item_id": "CJEU:" + cid, "case_name": title,
+                     "doc_type": CJEU_DOCTYPE.get(cid[5:7], "CJEU"),
+                     "app_no": cid, "conclusion": None, "date": date,
+                     "respondent": None, "url": EURLEX_DOC.format(cid)})
+    return rows, True
 
 
 def build_query(term, start):
@@ -94,6 +152,42 @@ def pull(conn, client, today, log=print):
                  c.get("respondent"), CASE.format(item),
                  json.dumps(areas), json.dumps(res.matched_terms or []),
                  res.tier, today, today))
+        # Luxembourg, same term, same judge, same table.
+        rows, ok = eurlex_cases(client, term,
+                                datetime.date.fromisoformat(start),
+                                datetime.date.fromisoformat(today), log)
+        if not ok:
+            gaps += 1
+        for row in rows:
+            if row["item_id"] in known:
+                continue
+            seen += 1
+            # NOTE on what is actually being judged here. A CJEU
+            # search-result title is boilerplate -- "Judgment of the Court
+            # (Grand Chamber) of 16 July 2026" -- so the taxonomy has
+            # nothing of the case to read, and the SEARCH TERM is passed
+            # in with it. That means the term, not the title, supplies the
+            # area: the row exists because EUR-Lex matched that phrase in
+            # the judgment's full text, which is real evidence the court
+            # engaged our vocabulary, but it is NOT an independent
+            # judgement of the case. The stored conclusion says which term
+            # found it so a reader can weigh that, and the same is true of
+            # the HUDOC rows above, whose docname is equally terse.
+            res = filt.filter_item(tax, wl, "{0} {1}".format(
+                row["case_name"], term))
+            areas = res.issue_areas or []
+            known.add(row["item_id"])
+            stored += 1
+            conn.execute(
+                "INSERT OR REPLACE INTO eu_judgments (item_id, case_name, "
+                "doc_type, app_no, conclusion, date, respondent, url, "
+                "areas, matched_terms, tier, first_seen, last_seen) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (row["item_id"], row["case_name"], row["doc_type"],
+                 row["app_no"], "found by search term: " + term,
+                 row["date"], None, row["url"], json.dumps(areas),
+                 json.dumps(res.matched_terms or []), res.tier,
+                 today, today))
     conn.commit()
     return seen, stored, gaps
 

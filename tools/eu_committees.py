@@ -48,7 +48,7 @@ DOCS = ("https://data.europarl.europa.eu/api/v2/committee-documents"
 DOC = ("https://data.europarl.europa.eu/api/v2/committee-documents/{0}"
        "?format=application%2Fld%2Bjson")
 MONTHS_AHEAD = 3
-DOC_FETCH_CAP = 150    # per run: 500/5min API budget shared with everything
+DOC_FETCH_CAP = 300    # 585 watched-committee docs outstanding on 2026-09-03: two runs, not four. 300 x 0.65s = 3.3 min, inside the 30-min job and under the 500/5min API budget shared with the other steps.
 THROTTLE_S = 0.65
 
 
