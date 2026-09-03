@@ -31,6 +31,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -107,6 +108,12 @@ def pull(conn, client, today, log=print):
                                       "eu-consultations", "detail",
                                       archive=False)
                 summary = (det.get("dossierSummary") or "").strip()
+                # The portal returns HTML in dossierSummary (4 of 45
+                # measured 2026-09-03). Tags reaching the classifier can
+                # split a phrase -- "<b>gender</b> equality" never
+                # matches "gender equality" -- so strip before storing;
+                # the stored text is also what the edition prints.
+                summary = " ".join(re.sub(r"<[^>]+>", " ", summary).split())
             except FetchError as exc:
                 log("  [gap] detail {0}: {1}".format(c["key"], exc.cause))
         res = filt.filter_item(tax, wl, "{0} {1}".format(c["title"], summary))
