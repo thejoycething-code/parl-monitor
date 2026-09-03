@@ -706,6 +706,19 @@ CREATE TABLE IF NOT EXISTS eu_consultations (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS eu_pqs (
+  identifier TEXT PRIMARY KEY,    -- 'E-10-2026-000002'
+  date TEXT, title TEXT, asker TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS eu_judgments (
+  item_id TEXT PRIMARY KEY,       -- HUDOC itemid
+  case_name TEXT, doc_type TEXT, app_no TEXT,
+  conclusion TEXT, date TEXT, respondent TEXT, url TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS eu_ecis (
   reg_num TEXT PRIMARY KEY,       -- 'ECI(2026)000004'
   title TEXT, status TEXT,        -- ONGOING / VERIFICATION / ANSWERED
@@ -899,6 +912,8 @@ TABLES = (
     "eu_divisions",
     "eu_votes",
     "eu_ecis",
+    "eu_judgments",
+    "eu_pqs",
     "eu_cmte_meetings",
     "eu_cmte_docs",
     "eu_speeches",

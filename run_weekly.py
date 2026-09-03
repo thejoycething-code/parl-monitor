@@ -813,6 +813,14 @@ def sections_from_store(conn, edition):
     edition.devolved = devolved_from_store(
         conn, edition.week_commencing)
 
+    # Across the parliaments: prebuilt markdown over every store the
+    # system holds (Westminster, three devolved, the EU's instruments).
+    from src import across as _across
+    from src import intel as _intel
+    edition.across = _across.render(
+        _across.collect(conn, edition.week_commencing),
+        _intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml")))
+
     # Actionable devolved items reach Top lines, not only the canvas table
     # below the fold (docs/parl-monitor-devolved-fix.md: the RE consultation
     # WAS in Edition 5's canvas, in a section whose subheading told the

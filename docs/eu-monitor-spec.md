@@ -185,7 +185,34 @@ Westminster ones.
   page's card now carries the parliamentary email, closing the
   actionability gap Westminster's contact column never had here.
 
-**Scoped, not yet built (in value order):**
+**Built 2026-09-03 ("build all"):**
+- **Strasbourg watch** (tools/eu_courts.py): HUDOC's open JSON API,
+  bare-term query grammar (the fulltext: field silently returns zero --
+  measured); term net nominates, taxonomy judges. First haul: Rainbow
+  Mission Foundation v. Hungary, A.P. and R.P. v. Poland (surrogacy
+  parenthood recognition), G.K. v. Switzerland. Edition section added.
+  CJEU stays out: curia retired its RSS routes (404, probed) and
+  InfoCuria is POST-driven -- future session.
+- **EP written questions** (tools/eu_pqs.py): capped drain (150/run,
+  newest first) over id-only stubs; askers join the MEP roster. First
+  drain: migration Pact questions (area 11, collated) and a
+  detransitioner-representation question on the LGBTIQ+ strategy.
+- **Across the parliaments** (src/across.py): the cross-parliament
+  synthesis, rendered in the MONDAY Westminster edition when an area is
+  active in 2+ of the eight watched jurisdictions inside a fortnight;
+  tier-1/scored-only for Westminster and devolved chambers (a hospice
+  charity fundraiser taught why). First live render crossed abortion
+  (Scotland reform question x Westminster stillbirths 2R), parental
+  rights (NI RE consultation x Westminster SEND/foster), and free
+  speech across FOUR jurisdictions.
+- **Council of the EU: BLOCKED UPSTREAM, recorded.** The votes dataset
+  is officially DISCONTINUED (its endpoints are the 404s), and
+  consilium.europa.eu sits behind a GSC challenge the browser pane
+  cannot clear. Council STAGES are already tracked via the procedures
+  API on the dossier board; EUR-Lex/CELLAR is the future route for
+  Council positions -- its own session.
+
+**Remaining scoped:**
 1. **The Council of the EU** -- the biggest true hole. The Parenthood
    Regulation is CNS: the Council DECIDES and Parliament is only
    consulted, so our top-watched dossier's decisive chamber is

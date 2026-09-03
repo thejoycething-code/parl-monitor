@@ -301,6 +301,47 @@ def render_edition(conn, today):
         lines.append("{0} of {1} adopted texts in the window matched the "
                      "taxonomy.".format(len(tx_matched), len(tx)))
         lines.append("")
+    # Strasbourg watch (2026-09-02): ECtHR judgments on our ground --
+    # courts create the consultations the monitors later catch.
+    try:
+        js = conn.execute("SELECT * FROM eu_judgments WHERE date >= ? "
+                          "ORDER BY date DESC LIMIT 8",
+                          ((datetime.date.fromisoformat(today)
+                            - datetime.timedelta(days=90)).isoformat(),
+                           )).fetchall()
+    except Exception:
+        js = []
+    if js:
+        seen_cases = set()
+        lines.append("## Strasbourg watch (ECtHR, last 90 days)")
+        lines.append("")
+        for r in js:
+            key = (r["app_no"] or r["case_name"] or "")[:40]
+            if key in seen_cases:
+                continue        # one line per case, not per HUDOC doc
+            seen_cases.add(key)
+            areas_lbl = ", ".join(names.get(a, str(a))
+                                  for a in json.loads(r["areas"] or "[]"))
+            lines.append("- **{0}** - {1} - {2} - {3}".format(
+                r["date"], (r["case_name"] or "").replace("|", "/"),
+                areas_lbl, r["url"] or ""))
+        lines.append("")
+    # EP written questions on our ground, drained under a per-run cap.
+    try:
+        pqs_ = conn.execute("SELECT p.*, m.name AS asker_name FROM eu_pqs p "
+                            "LEFT JOIN eu_meps m ON m.person_id = p.asker "
+                            "WHERE p.areas != '[]' ORDER BY p.date DESC "
+                            "LIMIT 8").fetchall()
+    except Exception:
+        pqs_ = []
+    if pqs_:
+        lines.append("## Written questions on our ground")
+        lines.append("")
+        for r in pqs_:
+            lines.append("- **{0}** {1} - {2}".format(
+                r["date"], r["asker_name"] or "?",
+                (r["title"] or "").replace("|", "/")))
+        lines.append("")
     # Citizens' initiatives (2026-09-02): ECIs on our ground with their
     # signature counts -- a hostile ECI crossing one million validated
     # signatures forces a Commission response, and the weekly delta says

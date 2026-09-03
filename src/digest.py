@@ -543,6 +543,12 @@ def render(edition):
         devolved = render_devolved(edition)
         if devolved:
             parts.append(devolved)
+        # Across the parliaments (Christopher, 2026-09-02): the deliberate
+        # cross-wiring of all eight watched jurisdictions -- an area renders
+        # here when two or more are active on it this fortnight. The text
+        # is prebuilt by src/across and carried on the edition.
+        if getattr(edition, "across", None):
+            parts.append(edition.across)
     else:
         week_ahead = render_week_ahead(edition.week_ahead)
         further = render_further_ahead(edition.further_ahead)
@@ -576,6 +582,12 @@ def render(edition):
         devolved = render_devolved(edition)
         if devolved:
             parts.append(devolved)
+        # Across the parliaments (Christopher, 2026-09-02): the deliberate
+        # cross-wiring of all eight watched jurisdictions -- an area renders
+        # here when two or more are active on it this fortnight. The text
+        # is prebuilt by src/across and carried on the edition.
+        if getattr(edition, "across", None):
+            parts.append(edition.across)
 
     # Footer: disclose gaps.
     parts.append("---")
