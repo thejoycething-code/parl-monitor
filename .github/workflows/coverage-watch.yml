@@ -1,0 +1,60 @@
+name: Coverage watch
+
+# The watcher that did not exist on 2026-09-03, when the UPR monthly's
+# 1,218 new recommendations were published and then overwritten by a
+# hand push from an older store. Both runs were green. The loss was
+# found a day later, by hand.
+#
+# Daily, because the question is "has anything gone quiet", and a weekly
+# check would let a dead feed run for a fortnight before anyone heard.
+# 05:30 UTC: after the overnight EU runs and before the Monday publish's
+# 06:00-07:00 window, so a failure lands before the edition goes out.
+#
+# READ-ONLY. It pulls the store and never pushes: a watcher that writes
+# is a watcher that can corrupt the thing it watches, and it would take
+# a slot in the parl-monitor-state group away from a run doing real work.
+on:
+  schedule:
+    - cron: "30 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Is everything still being tracked?
+        id: check
+        # Exits non-zero when a pipeline has stopped, a feed has gone
+        # quiet, or a pipeline ran green over data it did not refresh.
+        # The Failure alert workflow watches this one, so that becomes a
+        # DM rather than a line in a log nobody opens.
+        run: python3 tools/coverage.py | tee /tmp/coverage.log
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Coverage watch"
+            echo '```'
+            cat /tmp/coverage.log || echo "(the check did not produce output)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

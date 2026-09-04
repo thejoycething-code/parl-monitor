@@ -24,3 +24,4 @@ partner_site/.env.local
 .env*
 # Google service account key: never commit
 config/google-service-account.json
+data/.store-pulled

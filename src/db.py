@@ -632,6 +632,18 @@ CREATE TABLE IF NOT EXISTS sd_members (
 -- "Mair Eluned" and matched nothing. Populated by tools/sd_members.py;
 -- read by src/devolved.py. The chamber column is there because Wales is
 -- simply the first chamber that has to join votes BY NAME.
+-- A HEARTBEAT PER PIPELINE. Westminster's tables carry no captured_at,
+-- so nothing in the store could answer "did the Sunday pull run?" -- and
+-- on 2026-09-03 nothing answered "did the UPR harvest survive?" either.
+-- Written by tools/db_state.py --push, which every workflow ends with, so
+-- one row per workflow records the last time that pipeline successfully
+-- published. Read by tools/coverage.py.
+CREATE TABLE IF NOT EXISTS source_runs (
+  source TEXT PRIMARY KEY,        -- workflow name, or 'local'
+  last_run TEXT NOT NULL,         -- ISO date of the last successful push
+  run_id TEXT,
+  note TEXT
+);
 CREATE TABLE IF NOT EXISTS member_aliases (
   chamber TEXT NOT NULL,          -- 'wales' today
   person_id TEXT NOT NULL,
@@ -928,6 +940,7 @@ TABLES = (
     "sd_items",
     "sd_members",
     "member_aliases",
+    "source_runs",
     "sd_divisions",
     "sd_votes",
     "sd_events",

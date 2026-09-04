@@ -2,14 +2,14 @@
 
 Universal Periodic Review recommendations touching our issues, all areas. Source: UPR Info. "Noted" is the diplomatic form of refusal and is counted as such.
 
-3543 recommendations, 193 states reviewed, 151 states recommending.
+3552 recommendations, 193 states reviewed, 151 states recommending.
 
 ### By state under review — who was asked, and who agreed
 
 | State | Recommendations | Supported | Refused | Refusal rate |
 |---|---:|---:|---:|---:|
-| Pakistan | 81 | 40 | 41 | 51% |
-| Myanmar | 67 | 38 | 29 | 43% |
+| Pakistan | 80 | 39 | 41 | 51% |
+| Myanmar | 66 | 37 | 29 | 44% |
 | Indonesia | 51 | 32 | 19 | 37% |
 | Germany | 50 | 43 | 7 | 14% |
 | Georgia | 45 | 42 | 3 | 7% |
@@ -17,9 +17,9 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Romania | 44 | 29 | 15 | 34% |
 | El Salvador | 43 | 11 | 32 | 74% |
 | Iran, Islamic Republic of | 42 | 5 | 37 | 88% |
+| Israel | 42 | 22 | 20 | 48% |
 | China | 42 | 23 | 19 | 45% |
 | Türkiye | 41 | 21 | 20 | 49% |
-| Israel | 40 | 20 | 20 | 50% |
 | Korea, Republic of | 39 | 11 | 28 | 72% |
 | Poland | 38 | 16 | 22 | 58% |
 | United Kingdom of Great Britain and Northern Ireland | 38 | 22 | 16 | 42% |
@@ -119,6 +119,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Brunei Darussalam | 14 | 2 | 12 | 86% |
 | Turkmenistan | 14 | 6 | 8 | 57% |
 | Mozambique | 14 | 8 | 6 | 43% |
+| New Zealand | 14 | 8 | 6 | 43% |
 | Lao People's Democratic Republic | 14 | 13 | 1 | 7% |
 | Mongolia | 14 | 13 | 1 | 7% |
 | Central African Republic | 14 | 14 | 0 | 0% |
@@ -180,6 +181,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Tonga | 7 | 1 | 6 | 86% |
 | United Arab Emirates | 7 | 2 | 5 | 71% |
 | Samoa | 7 | 3 | 4 | 57% |
+| Syrian Arab Republic | 7 | 4 | 3 | 43% |
 | Timor-Leste | 7 | 4 | 3 | 43% |
 | Iceland | 7 | 6 | 1 | 14% |
 | Equatorial Guinea | 7 | 6 | 1 | 14% |
@@ -187,9 +189,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Kuwait | 6 | 1 | 5 | 83% |
 | Singapore | 6 | 1 | 5 | 83% |
 | Papua New Guinea | 6 | 2 | 4 | 67% |
-| Syrian Arab Republic | 6 | 3 | 3 | 50% |
 | Republic of Congo | 6 | 3 | 3 | 50% |
-| New Zealand | 6 | 3 | 3 | 50% |
 | Oman | 5 | 0 | 5 | 100% |
 | Nauru | 5 | 2 | 3 | 60% |
 | Venezuela, Bolivarian Republic of | 5 | 3 | 2 | 40% |
@@ -208,18 +208,18 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 
 | State | Recommendations | Supported | Refused | Refusal rate |
 |---|---:|---:|---:|---:|
-| Iceland | 205 | 103 | 102 | 50% |
+| Iceland | 206 | 104 | 102 | 50% |
 | Canada | 150 | 84 | 66 | 44% |
-| France | 144 | 67 | 77 | 53% |
+| France | 145 | 68 | 77 | 53% |
 | Italy | 141 | 92 | 49 | 35% |
 | Netherlands, Kingdom of the | 114 | 46 | 68 | 60% |
 | United States of America | 106 | 42 | 64 | 60% |
+| Spain | 104 | 48 | 56 | 54% |
 | Australia | 104 | 56 | 48 | 46% |
-| Spain | 103 | 47 | 56 | 54% |
 | Mexico | 102 | 57 | 45 | 44% |
 | Argentina | 99 | 55 | 44 | 44% |
-| Norway | 86 | 38 | 48 | 56% |
 | Uruguay | 86 | 47 | 39 | 45% |
+| Norway | 85 | 37 | 48 | 56% |
 | Slovenia | 80 | 37 | 43 | 54% |
 | Germany | 73 | 37 | 36 | 49% |
 | Sweden | 63 | 26 | 37 | 59% |
@@ -239,30 +239,30 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Pakistan | 37 | 31 | 6 | 16% |
 | Luxembourg | 36 | 18 | 18 | 50% |
 | Poland | 35 | 27 | 8 | 23% |
+| Costa Rica | 34 | 25 | 9 | 26% |
 | Iran, Islamic Republic of | 34 | 26 | 8 | 24% |
 | Holy See | 33 | 18 | 15 | 45% |
 | Malta | 33 | 18 | 15 | 45% |
-| Costa Rica | 33 | 24 | 9 | 27% |
 | Malaysia | 33 | 25 | 8 | 24% |
 | New Zealand | 31 | 17 | 14 | 45% |
+| Indonesia | 28 | 20 | 8 | 29% |
 | Estonia | 27 | 17 | 10 | 37% |
-| Indonesia | 27 | 20 | 7 | 26% |
 | Türkiye | 26 | 16 | 10 | 38% |
 | Honduras | 22 | 12 | 10 | 45% |
+| Egypt | 22 | 18 | 4 | 18% |
 | Slovakia | 21 | 13 | 8 | 38% |
-| Egypt | 21 | 18 | 3 | 14% |
 | Croatia | 20 | 11 | 9 | 45% |
 | Greece | 20 | 14 | 6 | 30% |
 | Panama | 20 | 15 | 5 | 25% |
 | Namibia | 20 | 17 | 3 | 15% |
 | Colombia | 19 | 11 | 8 | 42% |
+| Venezuela, Bolivarian Republic of | 19 | 15 | 4 | 21% |
 | Latvia | 19 | 15 | 4 | 21% |
 | Ecuador | 19 | 16 | 3 | 16% |
+| Ghana | 18 | 11 | 7 | 39% |
 | Libya | 18 | 14 | 4 | 22% |
 | Bahrain | 18 | 15 | 3 | 17% |
-| Venezuela, Bolivarian Republic of | 18 | 15 | 3 | 17% |
 | South Africa | 17 | 9 | 8 | 47% |
-| Ghana | 17 | 10 | 7 | 41% |
 | Thailand | 17 | 12 | 5 | 29% |
 | Azerbaijan | 16 | 15 | 1 | 6% |
 | Bangladesh | 16 | 15 | 1 | 6% |
@@ -282,6 +282,7 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Belarus | 11 | 10 | 1 | 9% |
 | Kenya | 10 | 5 | 5 | 50% |
 | Paraguay | 10 | 7 | 3 | 30% |
+| Nigeria | 10 | 9 | 1 | 10% |
 | Myanmar | 10 | 9 | 1 | 10% |
 | United Arab Emirates | 10 | 10 | 0 | 0% |
 | Dominican Republic | 9 | 3 | 6 | 67% |
@@ -289,9 +290,8 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 | Gambia | 9 | 7 | 2 | 22% |
 | Sudan | 9 | 7 | 2 | 22% |
 | Cyprus | 9 | 7 | 2 | 22% |
-| Nigeria | 9 | 8 | 1 | 11% |
+| Lithuania | 8 | 3 | 5 | 62% |
 | Armenia | 8 | 7 | 1 | 12% |
-| Lithuania | 7 | 2 | 5 | 71% |
 | Solomon Islands | 7 | 4 | 3 | 43% |
 | Fiji | 7 | 4 | 3 | 43% |
 | Morocco | 7 | 4 | 3 | 43% |
@@ -408,4 +408,4 @@ Universal Periodic Review recommendations touching our issues, all areas. Source
 - **Azerbaijan** declined France's recommendation (Noted): "Ensure the rights and freedoms of lesbian, gay, bisexual, transgender and intersex persons against all forms of discrimination and violence" [source](https://upr-info-database.uwazi.io/entity/4j8c20vgyre)
 - **Bahamas** declined Iceland's recommendation (Noted): "Decriminalize abortion and legalize it in cases of rape, incest and foetal impairment" [source](https://upr-info-database.uwazi.io/entity/tg3cxnrbra)
 
-_...and 1374 more._
+_...and 1377 more._

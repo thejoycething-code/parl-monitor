@@ -20,6 +20,12 @@ on:
       - "UN calls weekly"
       - "Historic backfill"
       - "Score stance"
+      # EU weekly was missing from this list from the day it was written:
+      # the one pipeline nobody would have been told about. Coverage watch
+      # is here because an alert that only fires on a CRASH cannot see a
+      # feed that quietly stopped answering (2026-09-04).
+      - "EU weekly"
+      - "Coverage watch"
     types: [completed]
 
 permissions:

@@ -26,6 +26,7 @@ rather than leaving a stale store in place.
 
 from __future__ import annotations
 
+import datetime
 import hashlib
 import json
 import os
@@ -120,6 +121,33 @@ def _no_asset_yet():
     return 1
 
 
+# Where a pull records WHICH published store it took. Untracked and
+# local: it describes this working copy, not the repo.
+PULLED = os.path.join(os.path.dirname(SIDECAR), ".store-pulled")
+
+
+def published_sha():
+    """The sha the REPO currently says is published, from origin/main.
+
+    The committed sidecar is the pointer of record, so origin's copy of
+    it answers "has anyone published since I pulled?" for the cost of a
+    fetch -- no 131MB download. Returns None if git cannot answer, and
+    the caller then warns rather than blocks: a guard that fails closed
+    on a network blip would stop every workflow.
+    """
+    try:
+        subprocess.run(["git", "fetch", "--quiet", "origin", "main"],
+                       cwd=ROOT, capture_output=True, timeout=120)
+        out = subprocess.run(
+            ["git", "show", "origin/main:data/parl-monitor.db.json"],
+            cwd=ROOT, capture_output=True, text=True, timeout=60)
+        if out.returncode:
+            return None
+        return (json.loads(out.stdout) or {}).get("sha256")
+    except Exception:
+        return None
+
+
 def pull():
     tok = token()
     if have_gh():
@@ -161,6 +189,8 @@ def pull():
                   "persists the release asset and the committed sidecar have "
                   "diverged.".format(want["sha256"][:12], got[:12]))
             return 1
+        with open(PULLED, "a", encoding="utf-8") as handle:
+            handle.write(got + "\n")
         print("store pulled and verified ({0:.1f} MB, sha {1}).".format(
             os.path.getsize(DB) / 1e6, got[:12]))
     else:
@@ -169,10 +199,96 @@ def pull():
     return 0
 
 
+def check_lineage():
+    """Refuse to publish a store that did not come from the current one.
+
+    ONE WRITER AT A TIME was a rule with nothing enforcing it. On
+    2026-09-03 the UPR monthly harvested 1,218 new recommendations,
+    published them, and committed its sidecar -- and three hours later a
+    hand push from a laptop whose store predated that run overwrote the
+    asset and the pointer. Both runs were green. The loss surfaced 24
+    hours later only because someone measured how stale each source was.
+
+    The check is cheap: the sidecar on origin/main is the pointer of
+    record, so if it has moved since our pull, our store is missing
+    whatever moved it. Pull, redo the work on the current store, push.
+    """
+    if "--force" in sys.argv:
+        print("  [--force] publishing over whatever is there. This DISCARDS "
+              "any run that published since this store was pulled.")
+        return True
+    theirs = published_sha()
+    if theirs is None:
+        print("  [warn] could not read origin/main's sidecar, so this push "
+              "is unguarded: if another run published since this store was "
+              "pulled, its work is about to be discarded.")
+        return True
+    # EVERY sha this working copy has held, pulled or published -- not
+    # just the last one. A push writes the new sha locally but the
+    # sidecar reaches origin only when the commit lands, so comparing
+    # against the single latest sha refused a perfectly ordinary
+    # push-then-push-again. What matters is not whether origin differs,
+    # but whether origin holds something WE HAVE NEVER SEEN: that is
+    # someone else's work.
+    held = []
+    if os.path.exists(PULLED):
+        held = [ln.strip() for ln in open(PULLED, encoding="utf-8")
+                if ln.strip()]
+    ours = held[-1] if held else None
+    if theirs in held:
+        return True
+    if ours is None:
+        print("REFUSING TO PUBLISH: this working copy has no record of "
+              "pulling a store, so there is no way to tell what it would "
+              "overwrite.\n  Run --pull first (or --force if you truly mean "
+              "to replace the published store).")
+        return False
+    print("THE STORE MOVED UNDER YOU. Refusing to publish.\n"
+          "  this copy:  {0}\n  published:  {1}  (never seen here)\n"
+          "  Another run has published since this copy was pulled, and "
+          "publishing now would discard its work -- which is how 1,218 UPR "
+          "recommendations were lost on 2026-09-03.\n"
+          "  Fix: python3 tools/db_state.py --pull, redo this run's work on "
+          "the current store, then push. --force overrides.".format(
+              (ours or "?")[:12], (theirs or "?")[:12]))
+    return False
+
+
+def stamp_heartbeat():
+    """Record WHICH pipeline is publishing, inside the store itself.
+
+    Westminster's tables carry no captured_at, so no amount of reading
+    the store could tell whether the Sunday pull had run in a month.
+    Every workflow ends in --push, so stamping here covers all of them
+    at once and needs no change to twenty collectors. Written BEFORE the
+    sha is taken, so it travels with the bytes it describes.
+    """
+    source = os.environ.get("GITHUB_WORKFLOW") or "local"
+    try:
+        # src/db.py is the ONLY place that creates tables (tests pin it),
+        # and init_db is idempotent, so this also brings an older store
+        # up to the current schema before stamping.
+        sys.path.insert(0, ROOT)
+        from src import db as _db
+        conn = _db.init_db(_db.connect(DB))
+        conn.execute("INSERT OR REPLACE INTO source_runs (source, last_run, "
+                     "run_id) VALUES (?,?,?)",
+                     (source, datetime.date.today().isoformat(),
+                      os.environ.get("GITHUB_RUN_ID")))
+        conn.commit()
+        conn.close()
+    except Exception as exc:
+        # A heartbeat must never be the reason a run cannot publish.
+        print("  [warn] could not stamp the heartbeat: {0}".format(exc))
+
+
 def push():
     if not os.path.exists(DB):
         print("no store to publish at {0}".format(DB))
         return 1
+    if not check_lineage():
+        return 1
+    stamp_heartbeat()          # inside the bytes, before the sha is taken
     tok = token()
     digest, size = sha256(DB), os.path.getsize(DB)
     if have_gh():
@@ -212,6 +328,8 @@ def push():
                             "asset. See tools/db_state.py.")},
                   handle, indent=2, sort_keys=True)
         handle.write("\n")
+    with open(PULLED, "a", encoding="utf-8") as handle:
+        handle.write(digest + "\n")   # what we just published is now ours
     print("store published ({0:.1f} MB, sha {1}); sidecar written -- COMMIT "
           "IT so the repo records this state.".format(size / 1e6,
                                                       digest[:12]))
