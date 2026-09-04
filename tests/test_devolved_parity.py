@@ -294,6 +294,38 @@ class TrackerDisplayTests(unittest.TestCase):
         self.assertEqual(sorted(tracker.NATIONS), ["ni", "wales"])
 
 
+class LogRelayTests(unittest.TestCase):
+    """run_monday.py relays a tool's FIRST line and drops the rest unless
+    it names a caveat. A build that opens with an output path therefore
+    tells an unattended log nothing, and a suppression it will not lift
+    is a silent suppression."""
+
+    CAVEAT = (r"\bNOT\b|missing|no recorded|gap|stale|gaps|published"
+              r"|FAILED|adopted|no generated")
+
+    def test_the_summary_precedes_the_output_paths(self):
+        src = open(os.path.join(ROOT, "tools", "make_devolved_votes.py"),
+                   encoding="utf-8").read()
+        body = src[src.index("def build_page("):]
+        self.assertLess(body.index("member-votes rendered"),
+                        body.index('print("  -> {0}"'),
+                        "the output paths must not come first")
+
+    def test_the_unresolved_line_survives_the_relay(self):
+        src = open(os.path.join(ROOT, "tools", "make_devolved_votes.py"),
+                   encoding="utf-8").read()
+        line = re.search(r'print\("  \{0\} voter name\(s\) ([^"]+)"', src)
+        self.assertIsNotNone(line, "the unresolved-names line is gone")
+        self.assertRegex(line.group(1), self.CAVEAT,
+                         "the relay will drop this line")
+
+    def test_run_monday_passes_a_tool_s_arguments(self):
+        src = open(os.path.join(ROOT, "run_monday.py"),
+                   encoding="utf-8").read()
+        self.assertIn("+ list(argv[1:])", src,
+                      "the build loop drops every flag after argv[0]")
+
+
 class TriageScopeTests(unittest.TestCase):
     def test_amendment_divisions_are_never_judged(self):
         """The judge sees only the BILL title, so it writes a line about

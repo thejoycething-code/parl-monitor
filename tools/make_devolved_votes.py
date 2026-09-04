@@ -217,21 +217,31 @@ def build_page(nation):
         page = page.replace(token, value)
     page = page.replace("/*__DATA__*/{}",
                         json.dumps(data, ensure_ascii=False))
+    written = []
     for out in (os.path.join(ROOT, "partner_site", spec["out"]),
                 os.path.join(ROOT, "docs", spec["out"])):
         with open(out, "w", encoding="utf-8") as fh:
             fh.write(page)
-        print("  -> {0}".format(out))
+        written.append(out)
     signed = sum(1 for d in data["divisions"] if d["signed"])
+    # THE SUMMARY LINE COMES FIRST. run_monday.py relays a tool's first
+    # line and drops the rest unless it names a caveat, so a build that
+    # opens with an output path tells an unattended log nothing (seen in
+    # the 2026-09-04 dry run, which relayed only "-> ms-votes.html").
     print("{0}: {1} members, {2} tracked division(s) ({3} signed off), "
           "{4} member-votes rendered.".format(
               nation, len(data["members"]), len(data["divisions"]), signed,
               sum(len(v) for v in data["votes"].values())))
     if data.get("unresolved"):
-        print("  {0} voter name(s) did not resolve to a sitting member "
-              "and are not shown: {1}{2}".format(
+        # "missing" is load-bearing: the relay only lifts detail lines
+        # that name a caveat, and a suppression nobody reads is a silent
+        # suppression.
+        print("  {0} voter name(s) are missing from the sitting roster, so "
+              "their votes are not shown: {1}{2}".format(
                   len(data["unresolved"]), ", ".join(data["unresolved"][:5]),
                   " ..." if len(data["unresolved"]) > 5 else ""))
+    for out in written:
+        print("  -> {0}".format(out))
     conn.close()
     return 0
 
