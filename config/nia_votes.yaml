@@ -1,0 +1,11 @@
+# Northern Ireland Assembly division verdicts -- the Holyrood pattern
+# applied to Stormont. signed_off gates every verdict.
+#
+# Drafted 2026-09-04. SEVEN divisions carry a taxonomy match, and most are
+# AMENDMENT votes whose text the Assembly's own records do not carry under
+# the item id on the day (78 of 83 amendment divisions measured
+# 2026-08-29). An amendment whose text cannot be read cannot be judged --
+# the standing rule since the Lords inversion -- so those stay unsigned
+# permanently unless the text surfaces, and the tracker shows the vote
+# without a verdict.
+divisions: []

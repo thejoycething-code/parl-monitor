@@ -154,6 +154,41 @@ def score_live(items, api_key=None, transport=None, usage_sink=None):
     return results
 
 
+def score_in_slices(items, api_key, on_usage=None, slice_size=4,
+                    log=print):
+    """score_live over SMALL slices, halving on overflow, never raising.
+
+    Factored out of tools/eu_triage.py on 2026-09-04 so the devolved
+    judge cannot drift from the EU one. Why slices at all: the budget is
+    400 + 160 tokens per item and the reply may open with a thinking
+    block spending from the SAME budget, so long rows (court
+    conclusions, speech excerpts, motion text) overflow a batch of 20.
+    Measured: opening at eight cost five wasted calls before splitting,
+    so four is the opening bid; a slice that still overflows halves to
+    two and then one. A slice that fails at size one is REPORTED and its
+    rows stay unscored -- deliberately not stub-scored, because scores
+    are written once-ever and a transient failure must not freeze an
+    empty why-line in permanently.
+    """
+    results = []
+    queue = [items[i:i + slice_size]
+             for i in range(0, len(items), slice_size)]
+    while queue:
+        chunk = queue.pop(0)
+        try:
+            results.extend(score_live(chunk, api_key=api_key,
+                                      usage_sink=on_usage))
+        except Exception as exc:
+            if len(chunk) > 1:
+                mid = len(chunk) // 2
+                queue.insert(0, chunk[mid:])
+                queue.insert(0, chunk[:mid])
+            else:
+                log("  [gap] unscorable item {0}: {1}".format(
+                    chunk[0].id, exc))
+    return results
+
+
 # -- session mode: a queue file scored inside a Claude Code session ----------
 #
 # TRIAGE=session writes the scoring rubric + pending items to a markdown file.

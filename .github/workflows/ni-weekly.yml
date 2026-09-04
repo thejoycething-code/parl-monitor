@@ -83,6 +83,13 @@ jobs:
       - name: Pull open NI Executive consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation ni | tee /tmp/ni-consultations.log
+      - name: Apply the scored Assembly divisions
+        if: always()
+        # config/nia_votes.yaml -> ni_scored. Offline, no API calls. It runs HERE for
+        # the same reason Holyrood's does: a scoring that exists only where
+        # somebody ran the tool by hand is not published state, and the next
+        # deploy pulls the CI store over the top of it.
+        run: python3 tools/devolved_score.py --nation ni --apply | tee /tmp/ni-scored.log
       - name: Health summary
         # The tools print their gaps and then exit 0, so a PARTIAL refresh is
         # a green tick with the detail buried in the log. Lifting the gap lines
@@ -93,7 +100,7 @@ jobs:
         run: |
           {
             echo "## NI weekly refresh"
-            for f in pull divisions classify committees consultations; do
+            for f in pull divisions classify committees consultations scored; do
               echo "### $f"
               if [ -f "/tmp/ni-$f.log" ]; then
                 echo '```'

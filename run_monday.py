@@ -168,6 +168,9 @@ def main():
     for label, argv in (("roster", ["tools/pull_commons_roster.py"]),
                         ("vote tracker", ["tools/make_vote_tracker.py"]),
                         ("msp votes", ["tools/make_msp_votes.py"]),
+                        # Wales and NI in one call: the tool builds every
+                        # nation when it is given no arguments.
+                        ("ms/mla votes", ["tools/make_devolved_votes.py"]),
                         ("5ca sheets", ["tools/make_5ca_web.py"]),
                         ("5ca matrix", ["tools/make_5ca_matrix.py"]),
                         ("briefs", ["tools/make_briefs.py"]),
@@ -177,7 +180,13 @@ def main():
         # tell "ran and rebuilt" from "never ran" -- and an unattended run is
         # read only through its log.
         try:
-            done = subprocess.run([sys.executable, os.path.join(ROOT, *argv[0].split("/"))],
+            # argv[1:] IS PASSED. It was not: the loop ran only argv[0]
+            # and dropped every flag, so a tool added here with an
+            # argument would quietly do something other than what this
+            # list says it does.
+            done = subprocess.run([sys.executable,
+                                   os.path.join(ROOT, *argv[0].split("/"))]
+                                  + list(argv[1:]),
                                   check=True, cwd=ROOT, stdout=subprocess.PIPE,
                                   stderr=subprocess.STDOUT)
             out = (done.stdout or b"").decode("utf-8", "replace").strip().splitlines()

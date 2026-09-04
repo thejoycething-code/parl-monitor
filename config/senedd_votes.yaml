@@ -1,0 +1,47 @@
+# Senedd division verdicts -- the Holyrood pattern (config/holyrood_votes.yaml)
+# applied to Wales. signed_off gates every verdict: until Christopher signs,
+# the tracker shows how each Member voted and says nothing about what it
+# meant.
+#
+# Drafted 2026-09-04 from the two divisions on our ground in the store. Both
+# are LEGISLATIVE CONSENT MOTIONS, which is exactly why neither is signed:
+# an LCM is not a vote on the policy but on whether Westminster may
+# legislate for Wales in a devolved area, so "our side" is a judgement about
+# devolution as much as about the Bill. The Crime and Policing Bill carried
+# the abortion decriminalisation clauses, and the Senedd REFUSED consent
+# 25-27 -- a refusal that can be read two ways, and reading it wrong in
+# public is the Lords inversion again.
+
+divisions:
+  - key: "757579"
+    dated: 2026-03-10
+    issue: abortion
+    stage: Legislative Consent Motion
+    landmark: true
+    short: "LCM: Crime and Policing Bill"
+    motion: >-
+      Item 8. Legislative Consent Motion: The Crime and Policing Bill.
+      Rejected 25-27.
+    note: >-
+      The Bill carrying abortion decriminalisation (s.241). Consent
+      REFUSED. Whether refusing consent is our side is Christopher's
+      call: it withholds Welsh consent from the Bill as a whole, not
+      from the abortion clauses specifically.
+    our_side: null
+    signed_off: false
+
+  - key: "759759"
+    dated: 2026-03-17
+    issue: parental-rights
+    stage: Legislative Consent Motion
+    landmark: true
+    short: "LCM: Children's Wellbeing and Schools Bill"
+    motion: >-
+      Item 8. Legislative Consent Motion: The Children's Wellbeing and
+      Schools Bill. Agreed 37-13.
+    note: >-
+      The Bill creating the register of children not in school. Consent
+      AGREED. Same caveat: an LCM is about legislative competence, not
+      the policy.
+    our_side: null
+    signed_off: false

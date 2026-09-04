@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__PAGE_TITLE__ — CitizenGO</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4285f4;--white:#fff;--grey-300:#C4C4C4;--ink:#52575C;
+--green:#55B159;--red:#DB544F;--blue-deep:#2f6fe0;--blue-tint:#EAF1FE;
+--line:#E4E6E9;--font:'Roboto',system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--white);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+h1,h2,h3{color:#20242a;font-weight:700;letter-spacing:-.01em}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+header{border-bottom:1px solid var(--line);padding:14px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:900;font-size:19px;color:#20242a}.brand span{color:var(--blue)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.14em;color:#9aa1a9}
+.hero{padding:34px 0 8px}
+.kicker{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--blue-deep);margin-bottom:8px}
+.hero h1{font-size:38px;line-height:1.15;margin-bottom:12px}
+.sub{font-size:15.5px;max-width:66ch}
+.searchbox{margin:22px 0 8px}
+.searchbox label{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--blue-deep)}
+#q{width:100%;margin-top:8px;padding:15px 17px;font-size:16.5px;font-family:var(--font);
+border:2px solid var(--grey-300);border-radius:10px;outline:none}
+#q:focus{border-color:var(--blue)}
+.dd{position:relative}
+#opts{position:absolute;left:0;right:0;top:2px;background:#fff;border:1px solid var(--line);
+border-radius:9px;box-shadow:0 8px 22px rgba(16,24,40,.12);display:none;z-index:5;max-height:340px;overflow:auto}
+#opts.open{display:block}
+.opt{display:flex;gap:10px;align-items:baseline;padding:10px 14px;cursor:pointer;font-size:14.5px}
+.opt:hover,.opt.active{background:var(--blue-tint)}
+.badge{font-size:9px;font-weight:700;letter-spacing:.06em;background:var(--blue);color:#fff;border-radius:4px;padding:2px 6px}
+.badge.c{background:#8a6d1f}
+.card{background:var(--blue);border-radius:14px;color:#fff;padding:22px 24px;margin:18px 0 6px}
+.card h2{color:#fff;font-size:27px}
+.meta{font-size:13.5px;color:#dbe6fb;margin-top:5px}
+.meta b{color:#fff;font-weight:500}
+.vrow{display:flex;gap:16px;background:#fff;border:1px solid #eef0f3;border-radius:12px;
+box-shadow:0 1px 3px rgba(16,24,40,.08);padding:16px 18px;margin:12px 0;align-items:flex-start}
+.vbox{flex:0 0 150px;text-align:center;color:#fff;border-radius:9px;padding:13px 8px}
+.vbox .w{display:block;font-weight:700;font-size:14.5px;letter-spacing:.05em}
+.vbox .s{display:block;font-size:11.5px;opacity:.93;margin-top:3px}
+.vbox.G{background:var(--green)}.vbox.B{background:var(--red)}
+.vbox.N{background:#7b8794}.vbox.X{background:#eceef1;color:#5f6670;border:1px solid #dde1e6}
+.vbody{min-width:0}.vbody h3{font-size:16.5px;font-weight:500;line-height:1.35}
+.vmeta{font-size:12px;color:#9aa1a9;margin-top:4px}
+.sent{font-size:13.5px;margin-top:6px}
+.note{font-size:13px;color:#6c727a;border-left:3px solid #dfe3e8;padding-left:12px;margin:20px 0}
+.divcard{background:#fff;border:1px solid #eef0f3;border-radius:12px;padding:16px 18px;margin:12px 0;
+box-shadow:0 1px 3px rgba(16,24,40,.08)}
+.nover{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#4a5058;
+background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px;margin-left:8px}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:18px 0 40px;font-size:12.5px;color:#9aa1a9}
+@media(max-width:560px){.vrow{flex-direction:column}.vbox{flex:none;width:100%}.hero h1{font-size:29px}}
+</style></head>
+<body>
+<header><div class="wrap">
+  <div class="brand">GO <span>CITIZEN</span></div>
+  <div class="tag">VOTING RECORDS · __CHAMBER_UPPER__</div>
+</div></header>
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">__CHAMBER_UPPER__ · DIVISION RECORDS</div>
+    <h1>__PAGE_TITLE__</h1>
+    <p class="sub">__BLURB__</p>
+  </div>
+  <div class="searchbox">
+    <label for="q">FIND YOUR __MEMBER_UPPER__ — BY NAME OR __SEAT_UPPER__</label>
+    <input id="q" autocomplete="off" placeholder="__PLACEHOLDER__">
+    <div class="dd"><div id="opts" role="listbox"></div></div>
+  </div>
+  <div id="main"></div>
+  <footer class="wrap" style="padding-left:0;padding-right:0">
+    Built from __SOURCE_NOTE__. A division is given a good or bad reading only
+    after a human has signed off what its question actually decided; until then
+    the vote is shown with no judgement attached.
+  </footer>
+</div>
+<script>
+const DATA = /*__DATA__*/{};
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = (s) => String(s ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const fmtD = (iso) => { if (!iso) return "?"; const [y,m,d] = iso.split("-");
+  return `${+d} ${["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m]} ${y}`; };
+
+function verdictFor(d, v){
+  if (!v) return {cls:"X", word:"NO VOTE RECORDED", sub:"",
+    sent:"No vote recorded in this division. Members are absent for many ordinary reasons and the record gives none."};
+  const lobby = v.vote || "?";
+  if (!d.signed) return {cls:"N", word:String(lobby).toUpperCase(), sub:"not scored",
+    sent:"This division has no signed verdict, so the vote is shown without judgement."};
+  if (!v.verdict) return {cls:"N", word:String(lobby).toUpperCase(), sub:"",
+    sent:"Neither backed nor opposed."};
+  const good = v.verdict === "good";
+  return {cls: good ? "G" : "B", word: good ? "GOOD VOTE" : "BAD VOTE",
+    sub: "(" + lobby + ")", sent: good ? d.meaning_good : d.meaning_bad};
+}
+
+function renderEmpty(){
+  document.getElementById("main").innerHTML = `
+    <h2 style="margin-top:26px;font-size:19px">The divisions we track (${DATA.divisions.length})</h2>
+    ${DATA.divisions.map(d => `<div class="divcard">
+      <h3>${esc(d.short)}${d.signed ? "" : '<span class="nover">NO SIGNED VERDICT</span>'}</h3>
+      <div class="vmeta">${fmtD(d.dated)}${d.stage ? " · " + esc(d.stage) : ""}${
+        (d.for != null && d.against != null) ? ` · ${d.for}–${d.against}${d.abstain ? "–" + d.abstain : ""}` : ""}</div>
+      ${d.motion ? `<div class="sent">${esc(d.motion)}</div>` : ""}
+      ${d.why ? `<div class="note" style="margin:8px 0 0">${esc(d.why)}</div>` : ""}
+    </div>`).join("") || '<p class="note">No division on our issues is tracked yet.</p>'}
+    <p class="note">Search above to see how any of the ${DATA.members.length} __MEMBER_PLURAL__ voted.</p>`;
+}
+
+function renderMember(id){
+  const m = DATA.members.find(x => x.id === id);
+  if (!m) return;
+  const mine = DATA.votes[m.id] || {};
+  const rows = DATA.divisions.map(d => {
+    // Before their time: not an absence, and never scored as one.
+    // A RECORDED VOTE ALWAYS WINS over the dates. 29 of the 96 sitting
+    // Welsh Members sat in the previous Senedd and voted in these
+    // divisions under the same id, while the roster gives every one of
+    // them a start_date of 2026-05-08 -- so a date-only test told Adam
+    // Price he was "not yet elected" for a vote he actually cast.
+    if (!mine[d.key] && m.start && d.dated && d.dated < m.start) {
+      return `<div class="vrow">
+        <div class="vbox"><span class="w">Not yet elected</span></div>
+        <div class="vbody"><h3>${esc(d.short)}</h3>
+          <div class="vmeta">${fmtD(d.dated)}</div>
+          <div class="sent">This vote was taken before ${esc(m.name)} joined
+            the chamber on ${fmtD(m.start)}, so there is no vote to show.</div>
+        </div></div>`;
+    }
+    const vi = verdictFor(d, mine[d.key]);
+    return `<div class="vrow">
+      <div class="vbox ${vi.cls}"><span class="w">${esc(vi.word)}</span>
+        ${vi.sub ? `<span class="s">${esc(vi.sub)}</span>` : ""}</div>
+      <div class="vbody"><h3>${esc(d.short)}</h3>
+        <div class="vmeta">${fmtD(d.dated)}${
+          (d.for != null && d.against != null) ? ` · ${d.for}–${d.against}` : ""}</div>
+        <div class="sent">${esc(vi.sent || "")}</div></div></div>`;
+  }).join("");
+  document.getElementById("main").innerHTML = `
+    <div class="card"><h2>${esc(m.name)}</h2>
+      <div class="meta"><b>${esc(m.seat || "?")}</b> · ${esc(m.party || "")}</div></div>
+    ${rows || '<p class="note">No tracked division has a recorded vote for this member.</p>'}
+    <p class="note">Votes come from the chamber's own published division records.</p>`;
+  location.hash = "m-" + m.id;
+}
+
+const q = document.getElementById("q"), dd = document.getElementById("opts");
+let opts = [], active = -1;
+function buildOpts(val){
+  const t = norm(val); if (t.length < 2) return [];
+  const out = [], seats = [...new Set(DATA.members.map(m => m.seat).filter(Boolean))];
+  for (const s of seats) if (norm(s).includes(t)) out.push({type:"s", label:s});
+  for (const m of DATA.members){
+    if (out.length >= 10) break;
+    if (norm(m.name).includes(t))
+      out.push({type:"m", id:m.id, label:m.name, small:(m.seat||"") + " · " + (m.party||"")});
+  }
+  return out.slice(0, 10);
+}
+function renderDD(){
+  if (!opts.length){ dd.classList.remove("open"); return; }
+  dd.innerHTML = opts.map((o,i) => `<div class="opt ${i===active?"active":""}" data-i="${i}">
+    <span class="badge ${o.type==="s"?"c":""}">${o.type==="s"?"__SEAT_UPPER__":"__MEMBER_UPPER__"}</span>
+    <span>${esc(o.label)}${o.small?` <small>— ${esc(o.small)}</small>`:""}</span></div>`).join("");
+  dd.classList.add("open");
+  dd.querySelectorAll(".opt").forEach(el =>
+    el.addEventListener("mousedown", e => { e.preventDefault(); choose(+el.dataset.i); }));
+}
+function choose(i){
+  const o = opts[i]; if (!o) return;
+  dd.classList.remove("open"); active = -1; q.value = o.label;
+  if (o.type === "m") return renderMember(o.id);
+  const ms = DATA.members.filter(m => m.seat === o.label);
+  document.getElementById("main").innerHTML = `
+    <h2 style="margin-top:26px;font-size:19px">${esc(o.label)} — ${ms.length} __MEMBER_PLURAL__</h2>
+    ${ms.map(m => `<div class="divcard" style="cursor:pointer" onclick="renderMember('${esc(m.id)}')">
+      <h3>${esc(m.name)}</h3><div class="vmeta">${esc(m.party || "")}</div></div>`).join("")}`;
+}
+q.addEventListener("input", () => { opts = buildOpts(q.value); active = opts.length?0:-1; renderDD(); });
+q.addEventListener("keydown", e => {
+  if (e.key === "ArrowDown"){ e.preventDefault(); if (opts.length){ active=(active+1)%opts.length; renderDD(); } }
+  else if (e.key === "ArrowUp"){ e.preventDefault(); if (opts.length){ active=(active-1+opts.length)%opts.length; renderDD(); } }
+  else if (e.key === "Enter"){ e.preventDefault(); if (active >= 0) choose(active); }
+  else if (e.key === "Escape"){ dd.classList.remove("open"); }
+});
+q.addEventListener("blur", () => setTimeout(() => dd.classList.remove("open"), 150));
+const h = location.hash.match(/^#m-(.+)$/);
+if (h && DATA.members.some(m => m.id === h[1])) renderMember(h[1]); else renderEmpty();
+</script>
+</body></html>

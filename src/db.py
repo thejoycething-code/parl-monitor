@@ -794,6 +794,21 @@ CREATE TABLE IF NOT EXISTS eu_dossiers (
   areas TEXT, why TEXT,           -- from config/eu_watchlist.yaml
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- Per-member verdicts for the Senedd and the Assembly, mirroring
+-- sp_scored: the config is the authority, this is its applied product.
+-- Written by tools/devolved_score.py; read by the tracker pages. An
+-- UNSIGNED division writes rows with verdict NULL, so the page can show
+-- how someone voted without claiming what it meant.
+CREATE TABLE IF NOT EXISTS sd_scored (
+  division_key TEXT NOT NULL, person_id TEXT NOT NULL,
+  vote TEXT, verdict TEXT,
+  PRIMARY KEY (division_key, person_id)
+);
+CREATE TABLE IF NOT EXISTS ni_scored (
+  division_key TEXT NOT NULL, person_id TEXT NOT NULL,
+  vote TEXT, verdict TEXT,
+  PRIMARY KEY (division_key, person_id)
+);
 CREATE TABLE IF NOT EXISTS evaluations (
   division_ref TEXT NOT NULL,     -- 'div:c2071' (no lobby suffix)
   area INTEGER NOT NULL,
@@ -918,6 +933,8 @@ TABLES = (
     "eu_cmte_docs",
     "eu_speeches",
     "api_spend",
+    "sd_scored",
+    "ni_scored",
     "evaluations",
     "ni_items",
     "ni_members",

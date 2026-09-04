@@ -79,6 +79,13 @@ jobs:
       - name: Pull open Welsh Government consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation wales | tee /tmp/sd-consultations.log
+      - name: Apply the scored Senedd divisions
+        if: always()
+        # config/senedd_votes.yaml -> sd_scored. Offline, no API calls. It runs HERE for
+        # the same reason Holyrood's does: a scoring that exists only where
+        # somebody ran the tool by hand is not published state, and the next
+        # deploy pulls the CI store over the top of it.
+        run: python3 tools/devolved_score.py --nation wales --apply | tee /tmp/sd-scored.log
       - name: Health summary
         # The tools print their gaps and then exit 0, so a PARTIAL refresh is
         # a green tick with the detail buried in the log. Lifting the gap lines
@@ -89,7 +96,7 @@ jobs:
         run: |
           {
             echo "## Senedd weekly refresh"
-            for f in members pull divisions bills committees consultations; do
+            for f in members pull divisions bills committees consultations scored; do
               echo "### $f"
               if [ -f "/tmp/sd-$f.log" ]; then
                 echo '```'
