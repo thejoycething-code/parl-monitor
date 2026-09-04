@@ -98,6 +98,10 @@ The same fight, wherever it is being fought this fortnight - an area appears her
 - Westminster: Communications and Digital Committee: The Online Safety Act: implementation and impact (Inquiry), evidence closes 2026-09-21
 - Westminster: 6.00pm, Commons Westminster Hall debate. e-petition 746640 relating to crimes motivated by misogyny and hate crime law
 
+**Freedom of religion** (2 jurisdictions)
+- EU: Judgment of the Court (Second Chamber) of 3 September 2026. (ECtHR 2026-09-03)
+- Scotland: 500th Anniversary of William Tyndale's New Testament
+
 **Migration** (3 jurisdictions)
 - N. Ireland: Attitudes to Refugees and Asylum Seekers in Northern Ireland 2025 - User Survey (consultation closes 2027-08-06)
 - Scotland: Designation of Lead Committee
@@ -107,4 +111,4 @@ The same fight, wherever it is being fought this fortnight - an area appears her
 *No coverage gaps recorded this edition.*
 *Late detection: 1 item first surfaced under 21 days before the deadline.*
 
-*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.5 with human review.*
+*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.6 with human review.*
