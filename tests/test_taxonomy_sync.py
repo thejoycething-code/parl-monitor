@@ -24,11 +24,15 @@ class TaxonomySyncTests(unittest.TestCase):
             "config/taxonomy.yaml is out of sync with docs/keyword-taxonomy.md; "
             "run: python3 tools/generate_taxonomy.py")
 
-    def test_master_parses_eleven_areas(self):
+    def test_master_parses_every_area(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "1.5")
-        self.assertEqual(len(areas), 11)
+        self.assertEqual(version, "1.6")
+        self.assertEqual(len(areas), 12)
+        # v1.6: prostitution and sexual exploitation, the Nordic-model
+        # ground that no area covered.
+        self.assertIn("\"commercial sexual exploitation\"",
+                      areas["12_prostitution"]["tier1"])
         self.assertEqual(len(exclusions), 8)
         self.assertIn("EOTAS", areas["6_parental_rights_education"]["tier1"])
         self.assertIn("\"small boats\"", areas["11_migration"]["tier1"])

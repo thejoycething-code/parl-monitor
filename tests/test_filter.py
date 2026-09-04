@@ -295,6 +295,115 @@ if __name__ == "__main__":
     unittest.main()
 
 
+class ConversionCarveOutTests(unittest.TestCase):
+    """v1.6 (Christopher, 2026-09-04): whether ordinary prayer and pastoral
+    support fall inside a conversion-practices ban is the whole contested
+    ground of the UK debate, and none of it was catchable.
+
+    Every term is guarded, because bare "prayer" is worse than noisy: the
+    matcher works on substrings, so across 20,539 items it matched "World
+    Day of Prayer" and a paint SPRAYER in a royal-warrant motion.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(TAXONOMY)
+        cls.wl = filt.load_watchlist(WATCHLIST)
+
+    def match(self, *fields):
+        return filt.filter_item(self.tax, self.wl, *fields)
+
+    def test_the_carve_out_debate_is_caught(self):
+        r = self.match("To ask whether hospital chaplains may pray with "
+                       "patients who request it, and whether the conversion "
+                       "practices ban affects pastoral care")
+        self.assertIn(4, r.issue_areas)
+
+    def test_prayer_without_the_debate_is_not(self):
+        self.assertNotIn(4, self.match("World Day of Prayer 2024").issue_areas)
+        self.assertNotIn(4, self.match(
+            "Alan Scott Panel Beater and Paint Sprayer Granted Royal "
+            "Warrant").issue_areas)
+
+    def test_the_buffer_zone_fight_stays_where_it_was(self):
+        """"silent prayer" is area 7's buffer-zone offence and area 1's
+        clinic ground. A guarded "prayer" in area 4 must not annex it."""
+        areas = self.match("Silent prayer within a safe access zone").issue_areas
+        self.assertIn(7, areas)
+        self.assertNotIn(4, areas)
+
+    def test_unambiguous_terms_need_no_guard(self):
+        self.assertIn(4, self.match("Spiritual abuse in church "
+                                    "settings").issue_areas)
+
+
+class ProstitutionAreaTests(unittest.TestCase):
+    """Area 12, new at v1.6. Nothing in the eleven areas covered the
+    Nordic-model ground; the only term reaching it was bare `prostitution`
+    in area 5, which filed a live Scottish Bill and an EP report on
+    regulating prostitution under single-sex spaces."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(TAXONOMY)
+        cls.wl = filt.load_watchlist(WATCHLIST)
+
+    def match(self, *fields):
+        return filt.filter_item(self.tax, self.wl, *fields)
+
+    def test_the_live_bill_lands_in_its_own_area(self):
+        areas = self.match("Prostitution (Offences and Support) "
+                           "(Scotland) Bill").issue_areas
+        self.assertIn(12, areas)
+        self.assertNotIn(5, areas, "it left area 5 at v1.6")
+
+    def test_the_demand_side_vocabulary(self):
+        self.assertIn(12, self.match("Combatting Commercial Sexual "
+                                     "Exploitation").issue_areas)
+        self.assertIn(12, self.match("Adopting the Nordic model to tackle "
+                                     "demand for prostitution").issue_areas)
+
+    def test_the_other_nordic_model_is_a_different_debate(self):
+        self.assertEqual(self.match("The Nordic model of labour market "
+                                    "flexibility and welfare").issue_areas, [])
+
+    def test_child_sexual_exploitation_is_not_annexed(self):
+        """Bare "sexual exploitation" was deliberately left out: 17 items
+        carry it and most are child protection, which area 6 owns."""
+        areas = self.match("Child sexual exploitation in Rotherham").issue_areas
+        self.assertIn(6, areas)
+        self.assertNotIn(12, areas)
+
+
+class FamilyEconomicsTests(unittest.TestCase):
+    """v1.6, scoped NARROW on measurement: childcare (61 unmatched items),
+    child poverty (60) and maternity (32) are devolved service
+    administration, not family policy. What is ours is the demographic
+    argument, which this area already half-carried."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(TAXONOMY)
+        cls.wl = filt.load_watchlist(WATCHLIST)
+
+    def match(self, *fields):
+        return filt.filter_item(self.tax, self.wl, *fields)
+
+    def test_the_demographic_argument_is_caught(self):
+        self.assertIn(9, self.match("Infertility, the principal medical "
+                                    "cause of declining birth rates").issue_areas)
+        self.assertIn(9, self.match("Ending the Two-child Benefit "
+                                    "Cap").issue_areas)
+
+    def test_service_administration_stays_out(self):
+        self.assertEqual(self.match("Funding rates for the early learning "
+                                    "and childcare entitlement").issue_areas, [])
+        self.assertEqual(self.match("Child Poverty Delivery Plan progress "
+                                    "update").issue_areas, [])
+        self.assertEqual(self.match("NHS Grampian midwife recruitment and "
+                                    "maternity services review").issue_areas, [])
+
+
 class UnTaxonomyTests(unittest.TestCase):
     """The UN taxonomy: same eleven areas, the UN's vocabulary.
 
@@ -440,7 +549,11 @@ class AreaNameOverrideTests(unittest.TestCase):
         names = intel.area_names(
             os.path.join(ROOT, "config", "un-taxonomy.yaml"))
         self.assertEqual(names[7], "Free speech online safety")
-        self.assertEqual(len(names), 11)
+        # DERIVED, not a magic number: the two files must carry the same
+        # areas (the test above pins that), so hardcoding the count here
+        # meant adding area 12 failed a test about NAME fields.
+        parl = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        self.assertEqual(len(names), len(parl))
 
 
 class ReligiousEducationTermTests(unittest.TestCase):

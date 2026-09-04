@@ -1,4 +1,4 @@
-# UN taxonomy: the same eleven areas, in the UN's vocabulary.
+# UN taxonomy: the same twelve areas, in the UN's vocabulary.
 #
 # AUTHORED, not generated. config/taxonomy.yaml is built from
 # docs/keyword-taxonomy.md and must never be hand-edited; this file is the
@@ -85,4 +85,22 @@ areas:
     # generic "accede to the Migrant Workers Convention" line. At 3.7% of all
     # UPR traffic it would have been the largest single source of rows in the
     # store, all of it collation noise.
+  12_prostitution:
+    tier1: ["exploitation of prostitution", "forced prostitution",
+            "sexual slavery", "commercial sexual exploitation", "sex tourism"]
+    tier2: [prostitution, "sex work", "sex workers",
+            {term: "sexual exploitation",
+             with: [prostitution, "sex work", trafficking, women, adults,
+                    demand, brothel]}]
+    # note: new with area 12 (2026-09-04), MINED from the 3,552 UPR
+    # recommendations in the store rather than guessed, as this file
+    # requires: "exploitation of prostitution" is the CEDAW article 6 phrase
+    # (1 row), "sexual exploitation" (19) and "trafficking in persons" (19)
+    # are the UN's standing pairing, "sex work" (5) is the opposing frame.
+    # Both frames belong here, so a recommendation urging decriminalisation is
+    # caught beside one urging demand reduction. UNLIKE the parliamentary
+    # taxonomy, bare "sexual exploitation" IS included -- at tier 2 and
+    # guarded, because UN recommendations pair it with trafficking of ADULTS
+    # as often as with children; the guards keep it off the child-protection
+    # text area 6 already owns.
 exclusions_global: []
