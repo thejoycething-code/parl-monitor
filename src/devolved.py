@@ -55,6 +55,19 @@ def roster(conn, sitting_only=False):
         key = _collapse(r["name"])
         if key and key not in out:
             out[key] = r["person_id"]
+    # Every OTHER name parlparse knows these people by. A member who
+    # votes under a name the roster does not carry vanishes from the
+    # page, and parlparse already answers this with its Alternate names
+    # -- they are its own assertion that the names are one person.
+    known = set(out.values())
+    try:
+        for r in conn.execute("SELECT person_id, name FROM member_aliases "
+                              "WHERE chamber = 'wales'"):
+            key = _collapse(r["name"])
+            if key and key not in out and r["person_id"] in known:
+                out[key] = r["person_id"]
+    except Exception:
+        pass                    # a store predating the aliases table
     return out
 
 
@@ -71,9 +84,42 @@ def resolve(names, index):
     """
     got, missing = {}, []
     for raw in names:
-        pid = index.get(_collapse(raw))
+        key = _collapse(raw)
+        pid = index.get(key)
+        if pid is None:
+            pid = _by_name_shape(key, index)
         if pid:
             got[raw] = pid
         else:
             missing.append(raw)
     return got, sorted(set(missing))
+
+
+def _by_name_shape(key, index):
+    """One name inside another, same surname, and ONLY one candidate.
+
+    The chamber and the roster disagree about middle names: the Welsh
+    record has "Benjamin Hodge Mckenna" where the roster has "Benjamin
+    McKenna", and "Eluned Morgan" where it has "Mair Eluned Morgan".
+    Both are the same person under a longer or shorter form of one name.
+
+    The rule is deliberately narrow, because the cost of a wrong match
+    here is a vote attributed to a politician who did not cast it:
+    the SURNAME must be identical, one name's words must all appear in
+    the other's, and the roster must offer exactly ONE such person. Two
+    candidates means we do not know, and not knowing is reported rather
+    than resolved. No edit distance, no nicknames, no initials.
+    """
+    words = key.split()
+    if len(words) < 2:
+        return None
+    surname, wordset = words[-1], set(words)
+    hits = set()
+    for cand, pid in index.items():
+        cwords = cand.split()
+        if len(cwords) < 2 or cwords[-1] != surname:
+            continue
+        cset = set(cwords)
+        if wordset <= cset or cset <= wordset:
+            hits.add(pid)
+    return hits.pop() if len(hits) == 1 else None

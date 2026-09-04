@@ -159,6 +159,63 @@ class RosterTests(unittest.TestCase):
                          "p/new")
 
 
+class EveryoneWhoVotedTests(unittest.TestCase):
+    """Christopher, 2026-09-04: "Make sure all politicians are included."
+
+    Every tracker listed only SITTING members, so anyone who voted and
+    then left was invisible -- 32 Welsh Members of the Sixth Senedd
+    (Mark Drakeford and the First Minister among them), 65 MSPs, and
+    344 MPs, on precisely the divisions these pages exist to report.
+    """
+
+    def test_a_former_member_who_voted_is_listed_and_labelled(self):
+        conn = store()
+        member(conn, "p/1", "Sitting Member", start="2026-05-08")
+        member(conn, "p/2", "Departed Voter", start="2021-05-06",
+               end="2026-04-08")
+        member(conn, "p/3", "Departed Silent", start="2011-05-06",
+               end="2016-05-05")
+        division(conn, "D1", "2026-03-17", "LCM: Schools Bill", 37, 13)
+        conn.execute("INSERT INTO sd_votes (division_key, member_id, "
+                     "member_name, result) VALUES ('D1', '1', "
+                     "'Departed Voter', 'For')")
+        conn.commit()
+        data = tracker.build(conn, "wales")
+        listed = {m["name"]: m["former"] for m in data["members"]}
+        self.assertEqual(listed, {"Sitting Member": False,
+                                  "Departed Voter": True},
+                         "a former member earns a listing by VOTING; one "
+                         "with nothing to show is still left off")
+        self.assertEqual(data["votes"]["p/2"]["D1"]["vote"], "For")
+
+    def test_a_seat_search_never_lands_on_a_former_member(self):
+        """A former Member keeps their old constituency string, so a seat
+        or postcode lookup that indexed them would answer with the person
+        who no longer holds the seat."""
+        for path in ("templates/devolved-votes.html",
+                     "templates/vote-tracker.html"):
+            src = open(os.path.join(ROOT, path), encoding="utf-8").read()
+            self.assertIn("m.former", src, path)
+            self.assertRegex(src, r"(!m\.former && norm\(m\.(seat|constituency)\)"
+                                  r"|if \(!m\.former\) constIndex"
+                                  r"|filter\(m => !m\.former\))",
+                             "{0} still lets a former member own a seat"
+                             .format(path))
+
+    def test_a_former_member_s_silence_is_never_called_an_absence(self):
+        """Parliament publishes no end date for the 344 former MPs, so
+        the page cannot know whether they had left when a division was
+        held. servedOn() fails open, which would print "DID NOT VOTE"
+        for every division after they went."""
+        src = open(os.path.join(ROOT, "templates", "vote-tracker.html"),
+                   encoding="utf-8").read()
+        body = src[src.index("function voteInfo("):]
+        self.assertLess(body.index("m.former"), body.index("servedOn(m, d.date)"),
+                        "the former-member case must be decided BEFORE "
+                        "the service test that fails open")
+        self.assertIn("FORMER MEMBER", body)
+
+
 class VerdictGateTests(unittest.TestCase):
     """signed_off gates the verdict here exactly as at Westminster: an
     unsigned division may show HOW someone voted, never what we think of
@@ -292,6 +349,56 @@ class TrackerDisplayTests(unittest.TestCase):
 
     def test_both_nations_build_from_one_template(self):
         self.assertEqual(sorted(tracker.NATIONS), ["ni", "wales"])
+
+
+class RosterNameTests(unittest.TestCase):
+    """Every politician must be findable under the name they vote as.
+
+    parlparse stores a peer's surname in `lordname`, so the First
+    Minister sat in the Welsh roster as "Mair Eluned" and matched no
+    vote she ever cast; and the chamber and the roster disagree about
+    middle names ("Benjamin Hodge Mckenna" / "Benjamin McKenna").
+    """
+
+    def test_a_peers_surname_is_not_dropped(self):
+        import importlib.util as iu
+        spec = iu.spec_from_file_location(
+            "sd_members", os.path.join(ROOT, "tools", "sd_members.py"))
+        mod = iu.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        peer = {"other_names": [{"note": "Main", "given_name": "Mair Eluned",
+                                 "honorific_prefix": "Baroness",
+                                 "lordname": "Morgan"}]}
+        self.assertEqual(mod.person_name(peer), "Mair Eluned Morgan")
+        names = [n for n, _kind in mod.person_aliases(peer)]
+        self.assertIn("Eluned Morgan", names,
+                      "the name she votes under must be recorded")
+
+    def test_a_longer_or_shorter_form_of_one_name_resolves(self):
+        from src import devolved as dv
+        index = {"benjamin mckenna": "p/1", "mair eluned morgan": "p/2"}
+        got, missing = dv.resolve(
+            ["Benjamin Hodge Mckenna", "Eluned Morgan"], index)
+        self.assertEqual(missing, [])
+        self.assertEqual(got["Benjamin Hodge Mckenna"], "p/1")
+        self.assertEqual(got["Eluned Morgan"], "p/2")
+
+    def test_an_ambiguous_name_is_refused_not_guessed(self):
+        """The cost of a wrong match is a vote attributed to a politician
+        who did not cast it, so two candidates means unresolved."""
+        from src import devolved as dv
+        index = {"david davies": "p/1", "david john davies": "p/2"}
+        got, missing = dv.resolve(["Davies"], index)
+        self.assertEqual((got, missing), ({}, ["Davies"]))
+        got, missing = dv.resolve(["David Davies"], index)
+        self.assertEqual(got, {"David Davies": "p/1"},
+                         "an EXACT name still wins outright")
+
+    def test_a_different_surname_never_matches(self):
+        from src import devolved as dv
+        index = {"jane jones": "p/1"}
+        got, missing = dv.resolve(["Jane Smith"], index)
+        self.assertEqual((got, missing), ({}, ["Jane Smith"]))
 
 
 class LogRelayTests(unittest.TestCase):

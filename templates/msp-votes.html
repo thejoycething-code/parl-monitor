@@ -334,6 +334,8 @@ function render(id){
     <div class="hero">
       <h2>${esc(m.listAs)}</h2>
       <div class="meta"><b>${esc(m.party)}</b>${m.seat ? " &middot; " + esc(m.seat) : ""}</div>
+      ${m.former ? `<p class="note">Former MSP &mdash; no longer sits in the
+        Scottish Parliament. The votes below are from when they did.</p>` : ""}
     </div>
     <div class="card">
       <div class="summary">${!m.there
@@ -364,8 +366,10 @@ function build(val){
   for (const m of DATA.members){
     if (out.length >= 9) break;
     if (norm(m.listAs).includes(t) || norm(m.name).includes(t))
-      out.push({id:m.id, label:m.listAs, small:(m.seat||"")+" \u00b7 "+m.party});
-    else if (norm(m.seat).includes(t))
+      out.push({id:m.id, label:m.listAs,
+                small:(m.seat||"")+" \u00b7 "+m.party
+                      +(m.former ? " \u00b7 former MSP" : "")});
+    else if (!m.former && norm(m.seat).includes(t))
       out.push({id:m.id, label:m.seat, small:m.listAs+" \u00b7 "+m.party});
   }
   return out;

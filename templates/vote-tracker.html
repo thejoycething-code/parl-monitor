@@ -648,6 +648,11 @@ const PARTY_C = {
   "Social Democratic & Labour Party":"#2AA82C", "Alliance":"#F6CB2F",
   "Ulster Unionist Party":"#48A5EE", "Traditional Unionist Voice":"#201863",
   "Your Party":"#FF3131", "Restore Britain":"#051D3F",
+  // Parties that only FORMER Members sit for, added when the page began
+  // listing the 344 MPs who voted and have since left. Without them the
+  // party-mark work the rest of this map exists for would fail on exactly
+  // the members it is hardest to recognise.
+  "Alba Party":"#005EB8", "Workers Party of Britain":"#B90000",
   "Independent":"#DCDCDC", "Speaker":"#B9BEC4",
   // Lords groupings, added with peers 2026-08-29. Crossbenchers and the
   // Lords Spiritual are not parties and have no party colour, so these are
@@ -694,7 +699,11 @@ const initials = n => n.replace(/^(Ms|Mr|Mrs|Dr|Dame|Sir|Rt Hon)\.? /g,"").split
   .filter(Boolean).map(w=>w[0]).slice(0,2).join("").toUpperCase();
 
 const byId = {}; DATA.members.forEach(m => byId[m.id]=m);
-const constIndex = {}; DATA.members.forEach(m => constIndex[norm(m.constituency)]=m.id);
+// A SEAT BELONGS TO WHOEVER HOLDS IT NOW. Former Members keep their old
+// constituency string, so indexing them here would let a postcode lookup
+// answer with the MP who lost that seat.
+const constIndex = {}; DATA.members.forEach(m => {
+  if (!m.former) constIndex[norm(m.constituency)]=m.id; });
 const divsByIssue = {}; DATA.divisions.forEach(d => (divsByIssue[d.issue]=divsByIssue[d.issue]||[]).push(d));
 document.getElementById("stamp").textContent = DATA.generated;
 if (DATA.divisions.some(d => d.good)) {
@@ -1039,6 +1048,18 @@ function voteInfo(m, d){
   // not from members.since -- which is the current period only, so it read
   // 2024-07-04 for members first elected in 1983 and excused their absences
   // from every earlier division as "not yet an MP".
+  // A FORMER MEMBER'S SILENCE MEANS NOTHING WE CAN STAND BEHIND.
+  // servedOn() fails open ("never excuse an absence"), which is right for
+  // sitting MPs and wrong for the 344 who have left: Parliament's record
+  // gives us no end dates for them, so every division after they went
+  // would read "DID NOT VOTE" -- the same falsehood the page used to tell
+  // peers, pointed the other way.
+  if (!v && m.former)
+    return {chip:"FORMER MEMBER", cls:"S", side:null,
+      text:`${esc(m.name)} has since left the House of Commons. We hold no
+        service dates for former Members, so we cannot say whether they were
+        an MP when this division was held \u2014 only the votes they cast
+        are shown.`};
   if (!v && !servedOn(m, d.date))
     return {chip:"NOT YET AN MP", cls:"S", side:null,
       text:`${esc(m.name)} was not a Member of the House when this division
@@ -1155,6 +1176,11 @@ function renderMP(id){
   // illness or constituency duties -- of a member who could not have voted
   // in any of them. A peer who was PREVIOUSLY an MP keeps their cards,
   // because those votes are genuinely theirs; 24 members are in that case.
+  if (m.former)
+    banner = esc(m.name) + " is a former Member of the House of Commons. "
+      + "The votes below are from when they sat; divisions they did not vote "
+      + "in are not evidence of an absence, because we hold no date for when "
+      + "they left.";
   const peerNoVotes = isPeer(m) && !took;
   if (peerNoVotes)
     banner = esc(m.name) + " sits in the House of Lords. The divisions tracked "
@@ -1762,8 +1788,10 @@ function buildOpts(val){
       // NAME only -- and the dropdown must say where they sit instead of
       // printing an empty seat beside their party.
       const where = isPeer(m) ? "House of Lords" : m.constituency;
-      if (nm.includes(t)) out.push({type:"mp", id:m.id, label:m.name, small:where+" \u00b7 "+m.party});
-      else if (cn && cn.includes(t)) out.push({type:"seat", id:m.id, label:m.constituency, small:"MP: "+m.name});
+      if (nm.includes(t)) out.push({type:"mp", id:m.id, label:m.name,
+        small:where+" \u00b7 "+m.party+(m.former?" \u00b7 former MP":"")});
+      else if (!m.former && cn && cn.includes(t))
+        out.push({type:"seat", id:m.id, label:m.constituency, small:"MP: "+m.name});
     }
   }
   return out.slice(0,9);

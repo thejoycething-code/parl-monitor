@@ -145,7 +145,10 @@ function renderMember(id){
   }).join("");
   document.getElementById("main").innerHTML = `
     <div class="card"><h2>${esc(m.name)}</h2>
-      <div class="meta"><b>${esc(m.seat || "?")}</b> · ${esc(m.party || "")}</div></div>
+      <div class="meta"><b>${esc(m.seat || "?")}</b> · ${esc(m.party || "")}</div>
+      ${m.former ? `<div class="note" style="margin:8px 0 0">Former
+        __MEMBER_UPPER__ — no longer sits in the __CHAMBER_NAME__. The votes
+        below are from when they did.</div>` : ""}</div>
     ${rows || '<p class="note">No tracked division has a recorded vote for this member.</p>'}
     <p class="note">Votes come from the chamber's own published division records.</p>`;
   location.hash = "m-" + m.id;
@@ -155,12 +158,17 @@ const q = document.getElementById("q"), dd = document.getElementById("opts");
 let opts = [], active = -1;
 function buildOpts(val){
   const t = norm(val); if (t.length < 2) return [];
-  const out = [], seats = [...new Set(DATA.members.map(m => m.seat).filter(Boolean))];
+  const out = [], seats = [...new Set(DATA.members.filter(m => !m.former)
+                                         .map(m => m.seat).filter(Boolean))];
   for (const s of seats) if (norm(s).includes(t)) out.push({type:"s", label:s});
   for (const m of DATA.members){
     if (out.length >= 10) break;
     if (norm(m.name).includes(t))
-      out.push({type:"m", id:m.id, label:m.name, small:(m.seat||"") + " · " + (m.party||"")});
+      // A former Member is findable, and is never mistaken for the
+      // person sitting for that seat today.
+      out.push({type:"m", id:m.id, label:m.name,
+                small:(m.seat||"") + " · " + (m.party||"")
+                      + (m.former ? " · former __MEMBER_UPPER__" : "")});
   }
   return out.slice(0, 10);
 }

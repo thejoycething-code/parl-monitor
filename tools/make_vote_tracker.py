@@ -476,6 +476,9 @@ def pack_url(url, dated):
     return url
 
 
+UNSOURCED = []
+
+
 def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
     """What each MP has said, asked and signed -- as receipts, never inferences.
 
@@ -741,7 +744,17 @@ def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
                         entry["u"] = pack_url(u, it["d"])
                 return entry
 
-            block["all"] = [compact(it) for it in ranked]
+            # THE ROLL HOLDS EVERYTHING (two tests pin it), so a row
+            # Hansard gives no URL for stays -- it is still this member's
+            # record. It is COUNTED instead, because a row the reader
+            # cannot check is a real cost and the build should say how
+            # many there are rather than let the number drift.
+            block["all"] = []
+            for it in ranked:
+                row = compact(it)
+                block["all"].append(row)
+                if not row.get("u") and not row.get("e"):
+                    UNSOURCED.append((mid, it["k"], it["t"]))
 
             kept = []
             for it in ranked:
@@ -1054,13 +1067,30 @@ def build(conn, cfg, payloads):
         "WHERE m.current_peer = 1 AND e.kind != 'vote' "
         "AND e.areas IS NOT NULL AND e.areas NOT IN ('[]', '')")}
 
+    # FORMER MEMBERS WHO VOTED. 344 MPs cast votes in divisions this page
+    # tracks and have since left -- Mike Amesbury, Steve Tuckwell, Stephen
+    # Flynn among them -- and a sitting-only list published none of it,
+    # including their votes on the assisted dying Bill. They are listed
+    # and labelled: a reader searching a name finds the vote, and a
+    # reader searching a SEAT still reaches the member who holds it now.
+    former_voters = {r[0] for r in conn.execute(
+        "SELECT DISTINCT e.member_id FROM mp_events e "
+        "JOIN members m ON m.id = e.member_id "
+        "WHERE e.kind = 'vote' AND e.ref LIKE 'div:c%' "
+        "AND COALESCE(m.current_mp, 0) = 0 "
+        "AND COALESCE(m.current_peer, 0) = 0")}
+
     members = []
     for r in conn.execute(
             "SELECT id, name, list_as, party, seat, since, current_mp, "
-            "current_peer FROM members "
-            "WHERE current_mp = 1 OR current_peer = 1 "
-            "ORDER BY COALESCE(list_as, name)"):
-        is_peer = not r["current_mp"] and r["current_peer"]
+            "current_peer, house FROM members "
+            "WHERE current_mp = 1 OR current_peer = 1 OR id IN ({0}) "
+            "ORDER BY COALESCE(list_as, name)".format(
+                ",".join("?" * len(former_voters)) or "NULL"),
+            tuple(former_voters)):
+        is_former = not r["current_mp"] and not r["current_peer"]
+        is_peer = (not r["current_mp"] and r["current_peer"]) or (
+            is_former and r["house"] == "Lords")
         if is_peer and r["id"] not in peers_with_record:
             continue
         party = "Labour" if r["party"] == "Labour (Co-op)" else r["party"]
@@ -1078,6 +1108,7 @@ def build(conn, cfg, payloads):
             # vote. The house is shipped so the page can stop claiming any of
             # those about them rather than rendering blanks.
             "house": "lords" if is_peer else "commons",
+            "former": is_former,
             "party": party, "constituency": None if is_peer else r["seat"],
             "since": r["since"],
             "first": service.get(r["id"], {}).get("first"),
@@ -1216,9 +1247,16 @@ def main():
             handle.write(page)
 
     unsigned = [d["id"] for d in dataset["divisions"] if not d["signed_off"]]
-    no_since = sum(1 for m in dataset["members"] if not m["since"])
-    print("{0} divisions across {1} issues, {2} sitting MPs".format(
-        len(dataset["divisions"]), len(dataset["issues"]), len(dataset["members"])))
+    # A FORMER Member has no start date by definition, so counting them
+    # here turned a real warning ("the roster needs re-pulling") into 344
+    # of noise the moment the page began listing them.
+    no_since = sum(1 for m in dataset["members"]
+                   if not m["since"] and not m.get("former"))
+    former = sum(1 for m in dataset["members"] if m.get("former"))
+    print("{0} divisions across {1} issues, {2} sitting member(s) and {3} "
+          "former who voted".format(
+              len(dataset["divisions"]), len(dataset["issues"]),
+              len(dataset["members"]) - former, former))
     print("  roles: {0} speaker, {1} deputy, {2} Sinn Fein".format(
         *[sum(1 for m in dataset["members"] if m["role"] == r)
           for r in ("speaker", "deputy", "sf")]))
@@ -1228,6 +1266,10 @@ def main():
     if unsigned:
         print("  {0} of {1} divisions are NOT editorially signed off; the page "
               "carries the pending notice".format(len(unsigned), len(dataset["divisions"])))
+    if UNSOURCED:
+        print("  {0} roll row(s) carry no link or quotation: Hansard's "
+              "metadata has no URL for them, so the reader cannot check "
+              "those rows".format(len(UNSOURCED)))
     print("  -> " + "\n  -> ".join(OUTPUTS))
     return 0
 

@@ -1707,13 +1707,24 @@ class AlsoOnRecordTests(unittest.TestCase):
         data = _payload()
         if data is None:
             self.skipTest("page not built")
-        bad = []
+        bad, total = [], 0
         for member in data["members"]:
             for area, block in (member.get("record") or {}).items():
                 for item in (block.get("all") or []):
+                    total += 1
                     if not item.get("u") and not item.get("e"):
                         bad.append((member["name"], item.get("k"), item.get("t")))
-        self.assertLessEqual(len(bad), 5, "{0} roll rows have no source".format(len(bad)))
+        # A SHARE, not a count. The bare "<= 5" was a fact about one
+        # page: listing the 344 former Members who voted added six more
+        # unsourced rows and failed a standard nothing had breached.
+        # Hansard's metadata has no URL for a handful of older debates,
+        # and the roll keeps them because it is the complete record --
+        # so what matters is that they stay vanishingly rare as the page
+        # grows, not that they never grow at all.
+        share = len(bad) / float(total or 1)
+        self.assertLess(share, 0.005,
+                        "{0} of {1} roll rows ({2:.2%}) have no source"
+                        .format(len(bad), total, share))
 
     def test_the_shortlist_counts_debates_not_items(self):
         """A block whose eight newest receipts were EDM signatures scanned

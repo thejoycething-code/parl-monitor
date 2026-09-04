@@ -97,21 +97,40 @@ def load_config(spec):
     return {str(d["key"]): d for d in divs}
 
 
+def _voters(conn, spec):
+    """Ids of everyone with a vote in a division this page tracks.
+
+    Resolved through the same bridge the rest of the build uses, so a
+    former Member is listed on exactly the evidence that will be shown
+    on their card -- never on a name that would not have matched.
+    """
+    vt, vkey, vmem, _ = spec["votes"]
+    rows = conn.execute("SELECT DISTINCT {0} FROM {1}".format(vmem, vt))
+    if spec.get("join") != "name":
+        return {str(r[0]) for r in rows}
+    index = devolved.roster(conn)          # every term, not just sitting
+    got, _missing = devolved.resolve([r[0] for r in rows], index)
+    return {str(v) for v in got.values()}
+
+
 def build(conn, nation):
     spec = NATIONS[nation]
     cfg = load_config(spec)
     mt, mid, mname, mparty, mseat = spec["members"]
-    current_only = ""
     cols = [c[1] for c in conn.execute("PRAGMA table_info({0})".format(mt))]
-    if "end_date" in cols:
-        # The Welsh roster holds every Member the Senedd has ever had:
-        # 227 people, one row each, of whom 96 sit today. A page listing
-        # someone who left in 2016 invites a reader to write to a Member
-        # who is not there.
-        current_only = "WHERE end_date IS NULL OR end_date = ''"
+    has_end = "end_date" in cols
     has_start = "start_date" in cols
+    # WHO IS LISTED. Everyone sitting, plus anyone who CAST A VOTE we
+    # track, marked as a former Member. The roster holds every Member
+    # the Senedd has ever had (227 people, 96 sitting), and listing all
+    # of them invites a reader to write to someone who left in 2016 --
+    # but listing only the 96 hid the votes of the Sixth Senedd
+    # entirely, Mark Drakeford's and the First Minister's among them,
+    # on divisions that are the only ones we track.
+    voted = _voters(conn, spec)
     members = [{"id": str(r[mid]), "name": r[mname] or "?",
                 "party": r[mparty], "seat": r[mseat],
+                "former": bool(has_end and (r["end_date"] or "").strip()),
                 # Carried so the card can tell "was not there" apart from
                 # "did not vote". Every sitting Welsh Member starts
                 # 2026-05-08 (the 96-seat Senedd), and every division we
@@ -119,9 +138,10 @@ def build(conn, nation):
                 # elected, and a blank row would read as an absence.
                 "start": (r["start_date"] if has_start else None)}
                for r in conn.execute(
-                   "SELECT * FROM {0} {1} ORDER BY {2}".format(
-                       mt, current_only, mname))
-               if r[mname]]
+                   "SELECT * FROM {0} ORDER BY {1}".format(mt, mname))
+               if r[mname] and (not has_end
+                                or not (r["end_date"] or "").strip()
+                                or str(r[mid]) in voted)]
     dt, dkey, ddate, dtitle, dfor, dagainst, dabst = spec["divisions"]
     divisions = []
     for r in conn.execute(
@@ -148,9 +168,11 @@ def build(conn, nation):
 
     vt, vkey, vmem, vvote = spec["votes"]
     # src/devolved.py owns the name->id bridge; the scorer uses the same
-    # one, so a verdict written there is found here.
-    index = (devolved.roster(conn, sitting_only=True)
-             if spec.get("join") == "name" else None)
+    # one, so a verdict written there is found here. EVERY TERM, not
+    # just sitting Members: the page now lists anyone who cast a vote it
+    # tracks, and resolving against the sitting 96 alone threw away the
+    # Sixth Senedd's votes -- the very ones on the divisions we track.
+    index = (devolved.roster(conn) if spec.get("join") == "name" else None)
     verdicts = {}
     try:
         for r in conn.execute("SELECT * FROM {0}".format(spec["scored"])):
@@ -218,6 +240,7 @@ def build_page(nation):
     for token, value in (
             ("__PAGE_TITLE__", spec["title"]),
             ("__CHAMBER_UPPER__", spec["chamber"].upper()),
+            ("__CHAMBER_NAME__", spec["chamber"]),
             ("__MEMBER_UPPER__", spec["member"]),
             ("__MEMBER_PLURAL__", spec["member_plural"]),
             ("__SEAT_UPPER__", spec["seat"].upper()),
@@ -244,7 +267,7 @@ def build_page(nation):
         # when they name a caveat. A suppression nobody reads is a
         # silent suppression.
         caveats.append(
-            "{0}: {1} voter name(s) are missing from the sitting roster, "
+            "{0}: {1} voter name(s) are missing from the roster, "
             "so their votes are not shown: {2}{3}".format(
                 nation, len(data["unresolved"]),
                 ", ".join(data["unresolved"][:5]),

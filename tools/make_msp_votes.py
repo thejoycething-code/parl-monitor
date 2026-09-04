@@ -150,11 +150,19 @@ def build(conn):
                     "q": excerpt[:400] or None})
 
     members = []
+    # WHO IS LISTED: everyone sitting, plus anyone who CAST ONE OF THESE
+    # VOTES and has since left. Scotland went to the polls in May 2026
+    # and the Bill was decided that March, so a sitting-only list hides
+    # 65 MSPs on the one question this page exists to answer -- and hides
+    # it precisely for the members who decided it.
     for r in conn.execute(
-            "SELECT person_id, name, preferred_name, party, constituency "
-            "FROM sp_members WHERE is_current = 1 ORDER BY name"):
+            "SELECT person_id, name, preferred_name, party, constituency, "
+            "is_current FROM sp_members ORDER BY name"):
         pid = str(r["person_id"])
         mine = votes.get(pid, {})
+        if not r["is_current"] and not any(mine.get(d["key"])
+                                           for d in out_divs):
+            continue
         # THE SWITCH. Yes at Stage 1 and No on passing is not an
         # inconsistency to be caught out, it is the single most informative
         # thing on the page: twelve of them are why the Bill fell.
@@ -175,6 +183,7 @@ def build(conn):
         members.append({
             "id": pid,
             "there": was_there,
+            "former": not r["is_current"],
             "name": r["name"],
             # sp_members stores "Briggs, Miles" for sorting and "Miles" as
             # the preferred name -- neither is what to call someone. Flip

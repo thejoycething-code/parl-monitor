@@ -625,6 +625,21 @@ CREATE TABLE IF NOT EXISTS sd_members (
   start_date TEXT, end_date TEXT, -- null end = sitting
   captured_at TEXT NOT NULL
 );
+-- Every name a member is known by, so a vote cast under one of them
+-- reaches the right person. parlparse records "Main" and "Alternate"
+-- names, and peers carry their surname in `lordname` rather than
+-- `family_name` -- which is why the First Minister sat in the roster as
+-- "Mair Eluned" and matched nothing. Populated by tools/sd_members.py;
+-- read by src/devolved.py. The chamber column is there because Wales is
+-- simply the first chamber that has to join votes BY NAME.
+CREATE TABLE IF NOT EXISTS member_aliases (
+  chamber TEXT NOT NULL,          -- 'wales' today
+  person_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  kind TEXT,                      -- Main | Alternate | lordname
+  captured_at TEXT,
+  PRIMARY KEY (chamber, person_id, name)
+);
 -- Senedd plenary divisions from the undocumented XMLExport (found via
 -- mySociety's scraper; docs/api-notes.md). Per-member votes, full chamber.
 CREATE TABLE IF NOT EXISTS sd_divisions (
@@ -912,6 +927,7 @@ TABLES = (
     "sp_supports",
     "sd_items",
     "sd_members",
+    "member_aliases",
     "sd_divisions",
     "sd_votes",
     "sd_events",
