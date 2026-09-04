@@ -1054,12 +1054,21 @@ function voteInfo(m, d){
   // gives us no end dates for them, so every division after they went
   // would read "DID NOT VOTE" -- the same falsehood the page used to tell
   // peers, pointed the other way.
-  if (!v && m.former)
+  // A DIVISION AFTER THEY LEFT IS NOT AN ABSENCE. Parliament's service
+  // record dates 345 former Members' departures (pulled 2026-09-04), so
+  // the page no longer has to say "we cannot tell": a division after
+  // their last day is one they could not have voted in, and one during
+  // their service is judged exactly as a sitting member's is.
+  if (!v && m.former && m.left && d.date > m.left)
+    return {chip:"HAD LEFT THE COMMONS", cls:"S", side:null,
+      text:`${esc(m.name)} left the House of Commons on ${fmtD(m.left)}, so
+        this division was held after they could vote in it.`};
+  if (!v && m.former && !m.left)
     return {chip:"FORMER MEMBER", cls:"S", side:null,
-      text:`${esc(m.name)} has since left the House of Commons. We hold no
-        service dates for former Members, so we cannot say whether they were
-        an MP when this division was held \u2014 only the votes they cast
-        are shown.`};
+      text:`${esc(m.name)} has since left the House of Commons, and
+        Parliament's record gives no date for their departure, so we cannot
+        say whether they were an MP when this division was held \u2014 only
+        the votes they cast are shown.`};
   if (!v && !servedOn(m, d.date))
     return {chip:"NOT YET AN MP", cls:"S", side:null,
       text:`${esc(m.name)} was not a Member of the House when this division
@@ -1177,10 +1186,9 @@ function renderMP(id){
   // in any of them. A peer who was PREVIOUSLY an MP keeps their cards,
   // because those votes are genuinely theirs; 24 members are in that case.
   if (m.former)
-    banner = esc(m.name) + " is a former Member of the House of Commons. "
-      + "The votes below are from when they sat; divisions they did not vote "
-      + "in are not evidence of an absence, because we hold no date for when "
-      + "they left.";
+    banner = esc(m.name) + " is a former Member of the House of Commons"
+      + (m.left ? ", who left on " + fmtD(m.left) + "." : ".")
+      + " The votes below are from when they sat.";
   const peerNoVotes = isPeer(m) && !took;
   if (peerNoVotes)
     banner = esc(m.name) + " sits in the House of Lords. The divisions tracked "

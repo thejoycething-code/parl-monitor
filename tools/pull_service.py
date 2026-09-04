@@ -116,9 +116,22 @@ def first_elected(periods):
 def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    # SITTING MEMBERS PLUS ANYONE WHOSE VOTES WE PUBLISH. The page lists
+    # 344 former MPs who voted in divisions it tracks (Christopher,
+    # 2026-09-04: "Make sure all politicians are included"), and none of
+    # them had a service record -- so the page could not tell "had left
+    # by then" from "was here and did not vote", and said so on every
+    # card. The endpoint is free and batches 20 at a time.
     ids = [r[0] for r in conn.execute(
-        "SELECT id FROM members WHERE current_mp = 1 ORDER BY id")]
-    print("sitting members: {0}".format(len(ids)))
+        "SELECT id FROM members WHERE current_mp = 1 "
+        "UNION "
+        "SELECT DISTINCT e.member_id FROM mp_events e "
+        "WHERE e.kind = 'vote' AND e.ref LIKE 'div:c%' "
+        "ORDER BY 1")]
+    sitting = conn.execute(
+        "SELECT COUNT(*) FROM members WHERE current_mp = 1").fetchone()[0]
+    print("members to fetch: {0} ({1} sitting, {2} former with a tracked "
+          "vote)".format(len(ids), sitting, len(ids) - sitting))
 
     done = gaps = 0
     for i in range(0, len(ids), BATCH):
@@ -157,6 +170,14 @@ def main():
           "({1} with more than one period)".format(done, gaps))
 
     # What this changes, stated rather than assumed.
+    left = conn.execute("""
+        SELECT COUNT(*) FROM (
+          SELECT s.member_id FROM member_service s
+          JOIN members m ON m.id = s.member_id
+          WHERE COALESCE(m.current_mp, 0) = 0 AND COALESCE(m.current_peer, 0) = 0
+          GROUP BY s.member_id HAVING MAX(COALESCE(s.ended, '9999')) < '9999')
+        """).fetchone()[0]
+    print("former members whose leaving date is now known: {0}".format(left))
     rows = conn.execute("""
         SELECT m.name, m.since, MIN(s.started) first
         FROM members m JOIN member_service s ON s.member_id = m.id

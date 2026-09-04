@@ -135,6 +135,88 @@ class RecessTests(unittest.TestCase):
                          "write-once")
 
 
+class ScopeTests(unittest.TestCase):
+    """WHO WATCHES THE WATCHER'S OWN SCOPE.
+
+    coverage.py only knows about sources somebody remembered to list in
+    it, which is the same failure it exists to catch: EU weekly was
+    missing from the failure alert from the day it was written, and
+    Member profiles -- service history, party spells, contacts for every
+    chamber -- was missing from coverage.py itself. A new collector added
+    without a line here would be invisible all over again.
+
+    Modelled on the EU triage coverage test, which catches the same class
+    of omission for the judge.
+    """
+
+    @staticmethod
+    def sighting_tables():
+        from src import db as schema
+        conn = sqlite3.connect(":memory:")
+        schema.init_db(conn)
+        out = []
+        for (name,) in conn.execute("SELECT name FROM sqlite_master WHERE "
+                                    "type='table' ORDER BY name"):
+            cols = {c[1] for c in conn.execute(
+                "PRAGMA table_info({0})".format(name))}
+            if cols & {"last_seen", "captured_at"}:
+                out.append(name)
+        conn.close()
+        return out
+
+    def test_every_source_table_is_watched_or_explained(self):
+        known = ({f[0] for f in cov.FEEDS} | set(cov.ONCE_EVER)
+                 | set(cov.EXEMPT))
+        missing = sorted(set(self.sighting_tables()) - known)
+        self.assertEqual(missing, [],
+                         "these carry a sighting column but are neither "
+                         "watched nor explained: {0}".format(missing))
+
+    def test_every_exemption_states_a_reason(self):
+        for table, reason in cov.EXEMPT.items():
+            self.assertGreater(len(reason), 40,
+                               "{0} is exempt without a real reason".format(
+                                   table))
+            self.assertNotIn(table, {f[0] for f in cov.FEEDS},
+                             "{0} cannot be both watched and exempt".format(
+                                 table))
+
+    def test_every_workflow_that_publishes_is_a_watched_pipeline(self):
+        """A workflow that writes the store but is not a pipeline here has
+        no heartbeat expectation, so it can stop dead unnoticed."""
+        import glob
+        import os as _os
+        writers = []
+        for path in glob.glob(_os.path.join(ROOT, ".github", "workflows",
+                                            "*.yml")):
+            src = open(path, encoding="utf-8").read()
+            if "db_state.py --push" not in src:
+                continue
+            name = src.split("name:", 1)[1].split("\n", 1)[0].strip()
+            writers.append(name)
+        unwatched = sorted(set(writers) - set(cov.PIPELINES)
+                           - set(cov.PAUSED) - set(cov.ON_DEMAND))
+        self.assertEqual(unwatched, [],
+                         "these publish the store but no one expects a "
+                         "heartbeat from them: {0}".format(unwatched))
+
+    def test_an_on_demand_workflow_states_why_it_has_no_cadence(self):
+        for name, why in cov.ON_DEMAND.items():
+            self.assertGreater(len(why), 40, name)
+            self.assertNotIn(name, cov.PIPELINES,
+                             "{0} cannot be both scheduled and on-demand"
+                             .format(name))
+
+    def test_every_watched_pipeline_is_alerted_on(self):
+        """coverage.py noticing is no use if nobody is told."""
+        alert = open(os.path.join(ROOT, ".github", "workflows", "alert.yml"),
+                     encoding="utf-8").read()
+        for name in list(cov.PIPELINES) + ["Coverage watch"]:
+            self.assertIn('"{0}"'.format(name), alert,
+                          "{0} is not watched by the failure alert".format(
+                              name))
+
+
 class LineageGuardTests(unittest.TestCase):
     """db_state.py --push refuses to publish over a store it did not pull."""
 

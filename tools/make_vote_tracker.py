@@ -479,6 +479,26 @@ def pack_url(url, dated):
 UNSOURCED = []
 
 
+def leaving_dates(conn):
+    """member_id -> last day they sat, for members who have left.
+
+    Read from the WHOLE service record, not the periods the page ships:
+    those are filtered to ones that can touch a tracked division, so a
+    sitting member whose current period was filtered out looked like
+    someone who had left in 2024 (22 of them did, on the first build).
+    An open-ended period means they are still in the House and gets no
+    leaving date -- inventing one would excuse absences that are real.
+    """
+    out = {}
+    for row in conn.execute(
+            "SELECT member_id, MAX(COALESCE(ended, '')) AS last_end, "
+            "SUM(CASE WHEN ended IS NULL OR ended = '' THEN 1 ELSE 0 END) "
+            "AS open FROM member_service GROUP BY member_id"):
+        if not row["open"] and row["last_end"]:
+            out[row["member_id"]] = row["last_end"]
+    return out
+
+
 def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
     """What each MP has said, asked and signed -- as receipts, never inferences.
 
@@ -1080,6 +1100,7 @@ def build(conn, cfg, payloads):
         "AND COALESCE(m.current_mp, 0) = 0 "
         "AND COALESCE(m.current_peer, 0) = 0")}
 
+    left_dates = leaving_dates(conn)
     members = []
     for r in conn.execute(
             "SELECT id, name, list_as, party, seat, since, current_mp, "
@@ -1114,6 +1135,12 @@ def build(conn, cfg, payloads):
             "first": service.get(r["id"], {}).get("first"),
             "served": service.get(r["id"], {}).get("periods") or [],
             "returned": service.get(r["id"], {}).get("returned"),
+            # WHEN THEY LEFT, for the 345 former members whose service
+            # Parliament does record. Without it the page could only say
+            # "we cannot date their departure" and had to treat every
+            # division after they went as unknowable. Only set when every
+            # period has ended -- an open period means they are still in.
+            "left": left_dates.get(r["id"]) if is_former else None,
             "parties": parties.get(r["id"]) or [],
             "contact": contact.get(r["id"]) or {},
             "posts": posts.get(r["id"]) or {},

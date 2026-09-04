@@ -46,6 +46,10 @@ PIPELINES = {
     "NI Assembly weekly": (7, 4, "Northern Ireland"),
     "EU weekly": (7, 3, "the EU edition and its collectors"),
     "UPR monthly": (31, 7, "UN Universal Periodic Review"),
+    # Missing until 2026-09-04, like EU weekly was from the alert list:
+    # it pulls service history, party spells and contact details for
+    # every chamber, and nothing would have said if it stopped.
+    "Member profiles": (7, 4, "service history, party spells, contacts"),
 }
 
 # Pipelines deliberately not running. Listed so a PAUSE never reads as a
@@ -69,6 +73,16 @@ FEEDS = [
     ("ni_divisions", "last_seen", 7, 4, "NI divisions"),
     ("ni_members", "last_seen", 7, 4, "MLA roster"),
     ("dg_consultations", "last_seen", 7, 4, "devolved consultations"),
+    ("sp_events", "last_seen", 7, 4, "Holyrood events"),
+    ("sp_bills", "last_seen", 7, 4, "Holyrood bill register"),
+    ("sp_committees", "last_seen", 7, 4, "Holyrood committees"),
+    ("sd_events", "last_seen", 7, 4, "Senedd events"),
+    ("sd_bills", "last_seen", 7, 4, "Senedd bill register"),
+    ("sd_committees", "last_seen", 7, 4, "Senedd committees"),
+    ("ni_committees", "last_seen", 7, 4, "NI committees"),
+    ("eu_cmte_meetings", "last_seen", 7, 3, "EP committee meetings"),
+    ("dv_post", "last_seen", 7, 4, "devolved members' posts"),
+    ("dv_contact", "last_seen", 7, 4, "devolved members' contacts"),
     ("eu_agenda", "last_seen", 7, 3, "EP forward agenda"),
     ("eu_texts", "last_seen", 7, 3, "EP adopted texts"),
     ("eu_pqs", "last_seen", 7, 3, "EP written questions"),
@@ -87,18 +101,52 @@ FEEDS = [
 # what happened to the UPR monthly on 2026-09-03: green run, 1,218
 # recommendations harvested, and a store 19 days stale afterwards.
 PIPELINE_FEEDS = {
-    "Holyrood weekly": ["sp_items", "sp_divisions", "sp_members"],
+    "Holyrood weekly": ["sp_items", "sp_divisions", "sp_members",
+                        "sp_events", "sp_bills", "sp_committees"],
     "Senedd weekly": ["sd_items", "sd_divisions", "sd_members",
-                      "member_aliases"],
-    "NI Assembly weekly": ["ni_items", "ni_divisions", "ni_members"],
+                      "member_aliases", "sd_events", "sd_bills",
+                      "sd_committees"],
+    "NI Assembly weekly": ["ni_items", "ni_divisions", "ni_members",
+                           "ni_committees"],
     "EU weekly": ["eu_agenda", "eu_texts", "eu_pqs", "eu_cmte_docs",
-                  "eu_judgments", "eu_ecis", "eu_consultations", "eu_meps"],
+                  "eu_judgments", "eu_ecis", "eu_consultations", "eu_meps",
+                  "eu_cmte_meetings"],
     "UPR monthly": ["upr_recommendations"],
+    "Member profiles": ["dv_post", "dv_contact"],
+}
+
+# Tables carrying a sighting column that are DELIBERATELY not watched,
+# each with its reason. The structural test allows only what is declared
+# here, so a new source cannot arrive unwatched AND unexplained -- which
+# is exactly how EU weekly stayed off the failure alert from the day it
+# was written, and how Member profiles was missing from this file.
+EXEMPT = {}
+
+# Workflows that write the store but run ONLY when a human dispatches
+# them. They cannot "stop dead" -- there is no cadence to miss -- so they
+# get no heartbeat expectation. They still stamp one when they run, which
+# is what makes the clobber check work for them too.
+ON_DEMAND = {
+    "Historic backfill": "workflow_dispatch only: a sweep run by hand "
+                         "when the taxonomy or the cutoff changes.",
+    "Score stance": "workflow_dispatch only: scores outstanding refs "
+                    "when someone asks for it.",
 }
 
 # Written once per item and never re-stamped, so an old date means "no new
 # items", not "the feed died". Reported, never failed.
+# MEASURED, not assumed: each of these was checked for whether its
+# writer re-stamps last_seen on every sighting (ON CONFLICT ... SET
+# last_seen=excluded.last_seen) or only writes new rows. A table that
+# only gains rows goes quiet in recess through no fault of anyone, and
+# alarming on it would train people to ignore the alert.
 ONCE_EVER = {
+    "items": "new rows only: PQs, SIs, consultations and what's on are "
+             "inserted when they appear and not re-stamped",
+    "sp_affiliations": "new rows only: an MSP's committee places",
+    "ni_agenda": "new rows only: the forward Order Paper",
+    "ni_votes": "new rows only: a member-vote is stored once",
+    "ni_affiliations": "new rows only: an MLA's committee places",
     "ni_sittings": "one row per sitting date, archived once",
     "ni_sponsors": "fetched once per motion",
     "eu_speeches": "one row per speech, stored once",
