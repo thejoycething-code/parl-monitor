@@ -18,7 +18,7 @@
 - Stillbirth registration reform touches recognition of unborn life and parental grief rights, relevant to pro-life advocacy on how the state acknowledges pre-birth loss.
 
 
-**Further afield** (next 3 weeks)
+**Further afield** (next 8 weeks)
 
 **Monday 2026-09-07**
 - Westminster Hall debate on surrogacy and legal parenthood signals possible law reform. Commercial surrogacy expansion risk demands direct engagement now.
@@ -43,13 +43,13 @@
 | Bill | Why we track it | House and stage | Next key date | What happens next | Areas | Movement |
 |---|---|---|---|---|---|---|
 | [Child-like Sexual Abuse Dolls (Offences) Bill](https://bills.parliament.uk/bills/4176) | Criminalises child-like sex dolls; child protection, and the taxonomy phrase 'child sexual abuse' misses the title's 'Child-like Sexual Abuse' | Commons, 2nd reading | 2026-09-04 | Awaiting 2nd reading | Parental rights and education | no change |
-| [Registration of Stillbirths (England and Wales) Bill](https://bills.parliament.uk/bills/4277) | Legal recognition for babies stillborn before 24 weeks; recognition of the unborn, adjacent to our abortion work | Commons, 2nd reading | 2026-09-04 | Awaiting 2nd reading | Abortion | no change |
 | [Infants, Parents and Carers Bill](https://bills.parliament.uk/bills/4156) | Duties owed to infants and their parents; parental rights watch | Commons, 2nd reading | 2026-09-04 | Awaiting 2nd reading | Parental rights and education | no change |
 | [Terminally Ill Adults (End of Life) Bill](https://bills.parliament.uk/bills/4157) | The assisted suicide bill; our core opposition priority this session | Commons, 2nd reading | 2026-09-11 | Awaiting 2nd reading | Assisted dying | no change |
+| [Immigration and Asylum Bill](https://bills.parliament.uk/bills/4254) | Government migration bill in committee; watch amendments touching family life, religious conversion claims and free speech | Commons, Committee stage | 2026-09-15 | Awaiting Committee stage | Migration | ▲ moved |
 | [Hospice Funding Bill](https://bills.parliament.uk/bills/4178) | Palliative care funding; the positive alternative to assisted suicide | Commons, 2nd reading | 2026-11-27 | Awaiting 2nd reading | Assisted dying | no change |
 | [Relationships and Sex Education (Further Education Sector) Bill](https://bills.parliament.uk/bills/4171) | Extends RSE rules into further education; parental rights watch | Commons, 2nd reading | 2026-12-04 | Awaiting 2nd reading | Parental rights and education | no change |
 | [Complications from Abortions (Annual Report) Bill [HL]](https://bills.parliament.uk/bills/4144) | Would require annual reporting of abortion complications; transparency we back | Lords, 2nd reading | TBA | Date to be announced | Abortion | no change |
-| [Immigration and Asylum Bill](https://bills.parliament.uk/bills/4254) | Government migration bill in committee; watch amendments touching family life, religious conversion claims and free speech | Commons, Committee stage | TBA | Date to be announced | Migration | no change |
+| [Registration of Stillbirths (England and Wales) Bill](https://bills.parliament.uk/bills/4277) | Legal recognition for babies stillborn before 24 weeks; recognition of the unborn, adjacent to our abortion work | Commons, 1st reading | TBA | Date to be announced | Abortion | ▲ moved |
 
 *Movement: NEW = first appearance on the board; ▲ moved = stage or next date changed since last edition; no change = as last edition; closing = final entry, the bill leaves the board next week.*
 
@@ -77,8 +77,34 @@
 - Assisted Dying for Terminally Ill Adults (Scotland) Bill (Holyrood) - Stage 3 on 2026-03-17
 - Children (Withdrawal from Religious Education and Amendment of UNCRC Compatibility Duty) (Scotland) Bill (Holyrood) - Stage 3 on 2026-02-17
 - Prostitution (Offences and Support) (Scotland) Bill (Holyrood) - Stage 1 on 2026-02-03
+## Across the parliaments
+
+The same fight, wherever it is being fought this fortnight - an area appears here when two or more of the eight watched jurisdictions are active on it.
+
+**Abortion** (2 jurisdictions)
+- Scotland: To ask the Scottish Government what plans it has to reform abortion law in 2026-27.
+- Westminster: after other business, Commons Private Members' Bills. Registration of stillbirths (England and Wales) Bill: Second Reading
+
+**Parental rights education** (2 jurisdictions)
+- N. Ireland: Consultation on the Religious Education Core Syllabus (consultation closes 2026-09-30)
+- N. Ireland: Public Consultation on Measures to Support Mobile Phone-Free Schools in Northern Ireland (consultation closes 2026-11-19)
+- Westminster: Consultation: Updating foster care standards and guidance
+- Westminster: Consultation: SEND reform: education otherwise than at school
+
+**Free speech, privacy and civil liberties** (3 jurisdictions)
+- EU: Findings and recommendations of the Special Committee on the European Democracy Shield (plenary 2026-09-15)
+- EU: Stop Killing The Internet: No Digital ID & No Age Verification (ECI, 3620 supporters)
+- N. Ireland: A New Good Relations Framework - Call For Views (consultation closes 2026-09-21)
+- Westminster: Communications and Digital Committee: The Online Safety Act: implementation and impact (Inquiry), evidence closes 2026-09-21
+- Westminster: 6.00pm, Commons Westminster Hall debate. e-petition 746640 relating to crimes motivated by misogyny and hate crime law
+
+**Migration** (3 jurisdictions)
+- N. Ireland: Attitudes to Refugees and Asylum Seekers in Northern Ireland 2025 - User Survey (consultation closes 2027-08-06)
+- Scotland: Designation of Lead Committee
+- Westminster: Human Rights (Joint Committee): Legislative Scrutiny: Immigration and Asylum Bill (Inquiry), evidence closes 2026-09-01
+
 ---
 *No coverage gaps recorded this edition.*
 *Late detection: 1 item first surfaced under 21 days before the deadline.*
 
-*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.4 with human review.*
+*Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.5 with human review.*
