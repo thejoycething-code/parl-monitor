@@ -99,8 +99,14 @@ class TaxonomySyncTests(unittest.TestCase):
         # its sheets and the other ten must keep the key-derived label.
         self.assertEqual(seven["name"],
                          "Free speech, privacy and civil liberties")
-        named = [k for k, v in areas.items() if v.get("name")]
-        self.assertEqual(named, ["7_free_speech_online_safety"])
+        named = sorted(k for k, v in areas.items() if v.get("name"))
+        # Area 12 declares one too, from v1.6: its heading (prostitution,
+        # trafficking and sexual exploitation) is wider than the key it
+        # must keep, and it had never had a 5CA sheet to rename. Any
+        # FURTHER label must be a deliberate decision for the same reason
+        # -- an existing area's sheets are named from its label.
+        self.assertEqual(named, ["12_prostitution",
+                                 "7_free_speech_online_safety"])
         # v0.7: child sexual exploitation belongs to area 6, child protection
         # (Christopher 2026-08-20). CSE is all-caps so it matches
         # case-sensitively and cannot fire inside "case" or a lowercase word.

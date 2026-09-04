@@ -66,7 +66,8 @@ areas:
     tier1: ["freedom of expression", "hate speech", "blasphemy", "online safety", "age verification", "age assurance", "child sexual abuse material", {term: "digital environment", with: ["child", "young", "safety", "rights"]}]
     tier2: ["incitement to hatred", "defamation of religion", "content moderation", "disinformation", "online violence"]
   8_freedom_of_religion:
-    tier1: ["freedom of religion or belief", "freedom of religion", FoRB, "religious minorities", "places of worship", "religious freedom", {term: "conscientious objection", with: ["religio", "belief", "military", "conscience"]}]
+    tier1: ["freedom of religion or belief", "freedom of religion", FoRB,
+            "forced conversion", "forced conversions", "religious minorities", "places of worship", "religious freedom", {term: "conscientious objection", with: ["religio", "belief", "military", "conscience"]}]
     tier2: ["faith-based", "manifest religion", "religious symbols", "apostasy", "religious education"]
     # note: "freedom of religion or belief" is the treaty formula and outranks "religious freedom" in the store (mined).
   9_marriage_family:
@@ -88,7 +89,8 @@ areas:
   12_prostitution:
     tier1: ["exploitation of prostitution", "forced prostitution",
             "sexual slavery", "commercial sexual exploitation", "sex tourism"]
-    tier2: [prostitution, "sex work", "sex workers",
+    tier2: [prostitution, "sex work", "sex workers", "trafficking in persons",
+            "human trafficking", "modern slavery",
             {term: "sexual exploitation",
              with: [prostitution, "sex work", trafficking, women, adults,
                     demand, brothel]}]
@@ -102,5 +104,9 @@ areas:
     # taxonomy, bare "sexual exploitation" IS included -- at tier 2 and
     # guarded, because UN recommendations pair it with trafficking of ADULTS
     # as often as with children; the guards keep it off the child-protection
-    # text area 6 already owns.
+    # text area 6 already owns. Trafficking vocabulary joined tier 2 at the
+    # same time, mined too: "human trafficking" 32 rows, "trafficking in
+    # persons" 19 (the UN's own set phrase), "modern slavery" 4. Tier 2
+    # because UPR trafficking recommendations run from labour exploitation
+    # to child protection, and triage should decide which are this area's.
 exclusions_global: []

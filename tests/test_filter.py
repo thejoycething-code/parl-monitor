@@ -404,6 +404,67 @@ class FamilyEconomicsTests(unittest.TestCase):
                                     "maternity services review").issue_areas, [])
 
 
+class RecallGapTests(unittest.TestCase):
+    """Five gaps found by PROBING realistic phrasings against the filter,
+    rather than waiting for each to be missed in the wild (v1.6,
+    Christopher, 2026-09-04). Each is a phrase a chamber actually used.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(TAXONOMY)
+        cls.wl = filt.load_watchlist(WATCHLIST)
+
+    def match(self, *fields):
+        return filt.filter_item(self.tax, self.wl, *fields)
+
+    def test_bare_freedom_of_religion(self):
+        """The area carried "freedom of religion or belief" and "religious
+        freedom" but not the commonest phrasing of its own subject -- the
+        same blind spot "freedom of speech" was at v1.3."""
+        self.assertIn(8, self.match("Restrictions on the use of church "
+                                    "bells and freedom of religion").issue_areas)
+        self.assertIn(8, self.match("International Freedom of Religion or "
+                                    "Belief Day").issue_areas)
+
+    def test_bare_gender_recognition(self):
+        """The Act and the certificate were both terms, but neither is a
+        substring of the Scottish SSI's title."""
+        self.assertIn(5, self.match("Gender Recognition (Disclosure of "
+                                    "Information) (Scotland) Order 2023"
+                                    ).issue_areas)
+
+    def test_forced_conversion_and_anti_conversion_laws(self):
+        """The EP resolution on Maria Shahbaz matched only by luck, through
+        tier-2 "religious minorit*"."""
+        areas = self.match("The abduction, forced conversion and child "
+                           "marriage of Maria Shahbaz").issue_areas
+        self.assertIn(8, areas)
+        self.assertIn(9, areas, "child marriage is area 9's ground")
+        self.assertIn(8, self.match("Nepal's anti-conversion law and its use "
+                                    "against Christians").issue_areas)
+
+    def test_trafficking_is_campaignable_not_buried_in_migration(self):
+        """Area 11 is collated and never campaigned, so filing
+        anti-trafficking there would have hidden a campaign family behind
+        a flag meant for border policy."""
+        for text in ("Amending the Human Trafficking and Exploitation "
+                     "(Scotland) Act",
+                     "New EU sanctions regime against migrant smuggling and "
+                     "human trafficking",
+                     "Modern Slavery Act review",
+                     "Trafficking for sexual exploitation across EU borders"):
+            self.assertIn(12, self.match(text).issue_areas, text)
+
+    def test_bare_trafficking_is_deliberately_not_a_term(self):
+        """10 corpus items carry bare "trafficking" and they include
+        narco-trafficking and counterfeit goods."""
+        self.assertEqual(self.match("Narco-trafficking in Europe's waters: "
+                                    "protecting our borders").issue_areas, [])
+        self.assertEqual(self.match("Trafficking of counterfeit "
+                                    "goods").issue_areas, [])
+
+
 class UnTaxonomyTests(unittest.TestCase):
     """The UN taxonomy: same eleven areas, the UN's vocabulary.
 

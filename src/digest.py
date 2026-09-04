@@ -31,7 +31,7 @@ AREA_NAMES = {
     7: "Free speech and online safety", 8: "Freedom of religion", 9: "Marriage and family",
     10: "Surrogacy and embryology",
     11: "Migration",
-    12: "Prostitution and sexual exploitation",
+    12: "Prostitution, trafficking and sexual exploitation",
 }
 # Ordering by triage score, highest first, replacing the retired
 # ACT/WATCH/NOTE editorial tags. Line.tag now carries the SCORE (int or None).
