@@ -194,10 +194,20 @@ def main():
             print("unknown nation: {0} ({1})".format(
                 nation, "|".join(NATIONS)))
             return 1
-    rc = 0
+    # ONE head line for every nation, and no leading spaces on anything
+    # that matters. run_monday.py relays a tool's first line, drops
+    # INDENTED lines as library noise, and lifts the rest only when they
+    # name a caveat -- so the 2026-09-04 dry run carried Wales's summary
+    # and silently binned both NI's and the suppressed-voter line.
+    stats, caveats = [], []
     for nation in nations:
-        rc = build_page(nation) or rc
-    return rc
+        st, cav = build_page(nation)
+        stats.append(st)
+        caveats.extend(cav)
+    print("; ".join(stats))
+    for line in caveats:
+        print(line)
+    return 0
 
 
 def build_page(nation):
@@ -224,26 +234,25 @@ def build_page(nation):
             fh.write(page)
         written.append(out)
     signed = sum(1 for d in data["divisions"] if d["signed"])
-    # THE SUMMARY LINE COMES FIRST. run_monday.py relays a tool's first
-    # line and drops the rest unless it names a caveat, so a build that
-    # opens with an output path tells an unattended log nothing (seen in
-    # the 2026-09-04 dry run, which relayed only "-> ms-votes.html").
-    print("{0}: {1} members, {2} tracked division(s) ({3} signed off), "
-          "{4} member-votes rendered.".format(
-              nation, len(data["members"]), len(data["divisions"]), signed,
-              sum(len(v) for v in data["votes"].values())))
+    summary = ("{0} {1} members, {2} division(s), {3} signed, {4} votes"
+               .format(nation, len(data["members"]), len(data["divisions"]),
+                       signed, sum(len(v) for v in data["votes"].values())))
+    caveats = []
     if data.get("unresolved"):
-        # "missing" is load-bearing: the relay only lifts detail lines
-        # that name a caveat, and a suppression nobody reads is a silent
-        # suppression.
-        print("  {0} voter name(s) are missing from the sitting roster, so "
-              "their votes are not shown: {1}{2}".format(
-                  len(data["unresolved"]), ", ".join(data["unresolved"][:5]),
-                  " ..." if len(data["unresolved"]) > 5 else ""))
+        # "missing" is load-bearing, and so is the absent indent: the
+        # relay drops indented lines outright and lifts the rest only
+        # when they name a caveat. A suppression nobody reads is a
+        # silent suppression.
+        caveats.append(
+            "{0}: {1} voter name(s) are missing from the sitting roster, "
+            "so their votes are not shown: {2}{3}".format(
+                nation, len(data["unresolved"]),
+                ", ".join(data["unresolved"][:5]),
+                " ..." if len(data["unresolved"]) > 5 else ""))
     for out in written:
-        print("  -> {0}".format(out))
+        caveats.append("   -> {0}".format(out))
     conn.close()
-    return 0
+    return summary, caveats
 
 
 if __name__ == "__main__":

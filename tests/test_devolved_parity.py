@@ -303,20 +303,40 @@ class LogRelayTests(unittest.TestCase):
     CAVEAT = (r"\bNOT\b|missing|no recorded|gap|stale|gaps|published"
               r"|FAILED|adopted|no generated")
 
-    def test_the_summary_precedes_the_output_paths(self):
-        src = open(os.path.join(ROOT, "tools", "make_devolved_votes.py"),
-                   encoding="utf-8").read()
-        body = src[src.index("def build_page("):]
-        self.assertLess(body.index("member-votes rendered"),
-                        body.index('print("  -> {0}"'),
-                        "the output paths must not come first")
+    @staticmethod
+    def relayed(lines):
+        """What run_monday.py would actually print for this output."""
+        def noise(l):
+            low = l.lower()
+            return ("warning:" in low or l.startswith((" ", "\t"))
+                    or ".py:" in l.split(" ")[0])
+        speaking = [l for l in lines if l.strip() and not noise(l)]
+        kept = [speaking[0]] if speaking else []
+        kept += [l for l in speaking[1:]
+                 if re.search(LogRelayTests.CAVEAT, l)]
+        return kept
 
-    def test_the_unresolved_line_survives_the_relay(self):
+    def test_every_nation_and_its_caveats_survive_the_relay(self):
+        out = ["wales 96 members, 17 division(s), 0 signed, 483 votes; "
+               "ni 90 members, 7 division(s), 0 signed, 237 votes",
+               "wales: 36 voter name(s) are missing from the sitting "
+               "roster, so their votes are not shown: Altaf Hussain ...",
+               "   -> /x/partner_site/ms-votes.html"]
+        kept = self.relayed(out)
+        self.assertEqual(len(kept), 2, "the caveat was dropped")
+        self.assertIn("ni 90 members", kept[0],
+                      "NI's summary must ride in the head line: an "
+                      "indented or unquotable second summary is binned")
+        self.assertIn("missing from the sitting roster", kept[1])
+
+    def test_the_tool_emits_that_shape(self):
         src = open(os.path.join(ROOT, "tools", "make_devolved_votes.py"),
                    encoding="utf-8").read()
-        line = re.search(r'print\("  \{0\} voter name\(s\) ([^"]+)"', src)
-        self.assertIsNotNone(line, "the unresolved-names line is gone")
-        self.assertRegex(line.group(1), self.CAVEAT,
+        self.assertIn('print("; ".join(stats))', src,
+                      "one head line must cover every nation built")
+        caveat = re.search(r'"\{0\}: \{1\} voter name\(s\) ([^"]+)"', src)
+        self.assertIsNotNone(caveat, "the unresolved-names line is gone")
+        self.assertRegex(caveat.group(1), self.CAVEAT,
                          "the relay will drop this line")
 
     def test_run_monday_passes_a_tool_s_arguments(self):
