@@ -5,6 +5,7 @@ enforceable: edit docs/keyword-taxonomy.md, regenerate, or fail here.
 """
 
 import os
+import re
 import sys
 import unittest
 
@@ -13,6 +14,43 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 import generate_taxonomy
+
+
+class AreaCountTests(unittest.TestCase):
+    """Nothing may hardcode how many issue areas there are.
+
+    Adding area 12 on 2026-09-04 broke two tests and would have silently
+    skipped the new area's 5CA sheet, because run_monday.py looped over
+    `range(1, 12)`. Every consumer must derive the set from the taxonomy,
+    which is the only file that knows.
+    """
+
+    def test_no_module_hardcodes_the_area_range(self):
+        import glob
+        bad = []
+        for path in (glob.glob(os.path.join(ROOT, "tools", "*.py"))
+                     + glob.glob(os.path.join(ROOT, "src", "*.py"))
+                     + [os.path.join(ROOT, "run_monday.py")]):
+            src = open(path, encoding="utf-8").read()
+            for m in re.finditer(r"range\(1,\s*1[0-9]\)", src):
+                line_start = src.rfind("\n", 0, m.start()) + 1
+                line = src[line_start:src.find("\n", m.start())]
+                if line.lstrip().startswith("#"):
+                    continue          # a comment recording the old bug
+                bad.append("{0}: {1}".format(os.path.basename(path),
+                                             line.strip()[:70]))
+        self.assertEqual(bad, [], "these hardcode the area range: {0}".format(bad))
+
+    def test_the_area_names_map_covers_every_area(self):
+        """src/digest.py names areas by hand; a missing entry prints a
+        bare number in the edition."""
+        import yaml
+        from src import digest
+        tax = yaml.safe_load(open(os.path.join(ROOT, "config", "taxonomy.yaml"),
+                                  encoding="utf-8"))
+        keys = {int(k.split("_", 1)[0]) for k in tax["areas"]}
+        self.assertEqual(sorted(keys - set(digest.AREA_NAMES)), [],
+                         "areas with no display name")
 
 
 class TaxonomySyncTests(unittest.TestCase):

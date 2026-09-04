@@ -231,8 +231,16 @@ def main():
     from src import stance as _stance
     cfg = _stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
     excluded = set(cfg.get("excluded_from_5ca") or [])
+    # DERIVED from the taxonomy, never a literal range: `range(1, 12)`
+    # silently stopped at area 11, so area 12 (prostitution and sexual
+    # exploitation, added at v1.6) would have had no 5CA sheet and
+    # nobody would have been told. The same hardcoded count broke two
+    # tests the same day.
+    from src import intel as _intel
+    all_areas = set(_intel.area_names(
+        os.path.join(ROOT, "config", "taxonomy.yaml")))
     made = 0
-    for area in sorted(set(range(1, 12)) - excluded):
+    for area in sorted(all_areas - excluded):
         try:
             subprocess.run([sys.executable, os.path.join(ROOT, "tools", "make_5ca.py"),
                             str(area)], check=True, cwd=ROOT,
