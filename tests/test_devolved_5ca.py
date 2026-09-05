@@ -137,5 +137,38 @@ class WiringTests(unittest.TestCase):
         self.assertIn("no sheet published", src)
 
 
+class WafToleranceTests(unittest.TestCase):
+    """senedd.wales answers a laptop and 403s GitHub's runners (measured
+    2026-09-05): the Azure WAF that already owned business.senedd.wales
+    now reaches the committee index for datacentre IPs.
+
+    Exiting 1 turned the Senedd weekly red EVERY week over a source
+    merely refusing robots, and a weekly red run trains people to ignore
+    the alert.
+    """
+
+    def test_an_unreachable_committee_list_is_a_gap_not_a_crash(self):
+        src = open(os.path.join(ROOT, "tools", "sd_committees.py"),
+                   encoding="utf-8").read()
+        block = src[src.index("committee list unreachable"):]
+        block = block[:block.index("\n    if only:")]
+        self.assertIn("return 0", block,
+                      "a source refusing robots must not fail the weekly")
+        self.assertNotIn("return 1", block)
+
+    def test_the_gap_is_still_recorded_and_printed(self):
+        """Softening the exit code must not soften the DISCLOSURE."""
+        src = open(os.path.join(ROOT, "tools", "sd_committees.py"),
+                   encoding="utf-8").read()
+        before = src[:src.index("committee list unreachable")]
+        self.assertIn("INSERT OR IGNORE INTO gaps", before)
+
+    def test_it_is_only_safe_because_the_staleness_is_watched(self):
+        """The reason this can be a gap at all: if the committee data
+        really stops refreshing, tools/coverage.py says so."""
+        cov = _load("coverage")
+        self.assertIn("sd_committees", {f[0] for f in cov.FEEDS})
+
+
 if __name__ == "__main__":
     unittest.main()

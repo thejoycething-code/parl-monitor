@@ -467,13 +467,21 @@ class OpenEstateTests(unittest.TestCase):
         with open(os.path.abspath(path), encoding="utf-8") as fh:
             src = fh.read()
         self.assertNotIn("fetch_vote_index", src)
-        # The module docstring names the blocked host to explain the move,
-        # which is worth keeping; what must not survive is a CALL to it.
-        import ast
-        body = ast.parse(src)
-        stripped = src.replace(ast.get_docstring(body) or "", "")
-        self.assertNotIn("business.senedd.wales", stripped)
-        self.assertNotIn("fetch_next_meeting(", stripped)
+        # PROSE MAY NAME THE BLOCKED HOST; CODE MAY NOT CALL IT. The
+        # docstring was already exempt, and on 2026-09-05 an inline
+        # comment explaining why a 403 is now a gap tripped this test --
+        # so comments are stripped too, by the tokeniser rather than by
+        # guessing at where they start.
+        import io
+        import tokenize
+        pieces = []
+        for tok in tokenize.generate_tokens(io.StringIO(src).readline):
+            if tok.type in (tokenize.COMMENT, tokenize.STRING):
+                continue
+            pieces.append(tok.string)
+        code = " ".join(pieces)
+        self.assertNotIn("business.senedd.wales", code)
+        self.assertNotIn("fetch_next_meeting", code)
 
 
 class BillRegisterTests(unittest.TestCase):

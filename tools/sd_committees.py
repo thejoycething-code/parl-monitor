@@ -141,7 +141,21 @@ def main():
                       "committee list: {0}".format(exc.cause)))
         conn.commit()
         print("  [gap] committee list unreachable: {0}".format(exc.cause))
-        return 1
+        # A GAP, NOT A CRASH -- the contract every other collector here
+        # keeps. senedd.wales answers this laptop and 403s GitHub's
+        # runners (measured 2026-09-05, the Azure WAF that already owns
+        # business.senedd.wales now reaching the committee index for
+        # datacentre IPs), so exiting 1 turned the Senedd weekly red
+        # every week over a source that is merely refusing robots. A
+        # weekly red run trains people to ignore the alert, which is the
+        # cost this repo already wrote down about paused pipelines.
+        #
+        # Safe to soften ONLY because the consequence is now watched:
+        # sd_committees is a cadence-checked feed in tools/coverage.py,
+        # so if the committee data really stops refreshing, the coverage
+        # watch says so within eleven days and DMs. The gap is recorded
+        # in `gaps` and printed either way.
+        return 0
     if only:
         committees = [c for c in committees if c[0] == only]
     print("{0} committee(s) listed from senedd.wales.".format(len(committees)))
