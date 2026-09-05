@@ -250,6 +250,47 @@ def main():
             print("5ca sheet area {0}: failed ({1})".format(area, exc))
     print("5ca sheets refreshed: {0}".format(made))
 
+    # The devolved sheets, which ran nowhere until 2026-09-04. Their own
+    # weeklies refresh them too; here they ride along so a Monday edition
+    # never quotes a devolved sheet older than the Westminster ones.
+    try:
+        done = subprocess.run(
+            [sys.executable, os.path.join(ROOT, "tools", "devolved_5ca.py")],
+            check=True, cwd=ROOT, stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
+        head = (done.stdout or b"").decode("utf-8", "replace").strip()
+        print(head.splitlines()[0] if head else "devolved 5CA: no output")
+    except Exception as exc:
+        print("devolved 5CA: failed ({0}); edition unaffected".format(exc))
+
+    # PRUNE. make_5ca.py writes a DATED sheet per area per run, so data/5ca
+    # had reached 109 files and 47MB IN GIT -- the shape of the problem
+    # that forced the store out of the repo at 88MB, growing ~11 files a
+    # week. tools/prune_5ca.py was written for this and, like the devolved
+    # 5CA tools, was wired nowhere. It keeps the newest set, the oldest
+    # (the unregenerable baseline) and the last set of each earlier month,
+    # and prints every file it removes.
+    # A DRY RUN DOES NOT DELETE. NO_PUBLISH already means "this run is a
+    # rehearsal": it holds back Slack and Asana. Removing 31MB of tracked
+    # sheets is a larger and less obviously reversible act than deploying
+    # a site, so a rehearsal reports what it WOULD free and touches
+    # nothing -- the ni_classify contract, one directory over.
+    rehearsal = os.environ.get("NO_PUBLISH") == "1"
+    argv = [sys.executable, os.path.join(ROOT, "tools", "prune_5ca.py")]
+    if not rehearsal:
+        argv.append("--apply")
+    try:
+        done = subprocess.run(argv, check=True, cwd=ROOT,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.STDOUT)
+        out = (done.stdout or b"").decode("utf-8", "replace").strip().splitlines()
+        freed = [ln for ln in out if "freed" in ln]
+        print("5ca prune{0}: {1}".format(
+            " (rehearsal, nothing deleted)" if rehearsal else "",
+            freed[-1] if freed else "nothing to prune"))
+    except Exception as exc:
+        print("5ca prune: failed ({0}); edition unaffected".format(exc))
+
     print("edition: {0}".format(path))
     failures = [s for s in (slack, asana) if "error" in s]
     return 1 if failures else 0

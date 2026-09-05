@@ -79,6 +79,14 @@ jobs:
         # the tool by hand is not published state: the first deploy after I
         # wrote these rows pulled the CI store and overwrote them.
         run: python3 tools/sp_score.py --apply | tee /tmp/sp-scored.log
+      - name: Refresh the Holyrood 5CA sheets
+        if: always()
+        # The tool was finished and ran NOWHERE (Christopher, 2026-09-04:
+        # "Wire them"). It runs HERE for the same reason the scoring does:
+        # a placement that exists only where somebody ran a tool by hand is
+        # not published state. Offline, no API calls; a sheet that places
+        # nobody is deleted and the run says so.
+        run: python3 tools/devolved_5ca.py --nation scotland | tee /tmp/sp-5ca.log
       - name: Health summary
         # Gap lines lifted into the run summary so the Actions page answers
         # "did this week work" at a glance -- same reasoning as ni-weekly.
@@ -86,7 +94,7 @@ jobs:
         run: |
           {
             echo "## Holyrood weekly refresh"
-            for f in pull divisions committees consultations; do
+            for f in pull divisions committees consultations 5ca; do
               echo "### $f"
               if [ -f "/tmp/sp-$f.log" ]; then
                 echo '```'
