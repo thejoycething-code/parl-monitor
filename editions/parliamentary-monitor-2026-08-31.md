@@ -73,7 +73,7 @@
 
 ## Scotland, Wales and Northern Ireland
 
-*Scotland, Wales and Northern Ireland. Items with an open response window are briefed and appear in Top lines; the remainder are a watching brief, recorded because they bear on our issues.*
+*Items with an open response window are briefed and appear in Top lines; the remainder are a watching brief, recorded because they bear on our issues.*
 
 **Open government consultations**
 
