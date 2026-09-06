@@ -295,11 +295,27 @@ def build_text_map(raw_dir, since_days=None):
                 continue  # a truncated archive file must not stop scoring
 
     for payload in each("pq_*.json.gz"):
-        for row in (payload.get("results") or []):
+        # Two payload shapes share this glob: the search list
+        # ({results: [{value}]}, questionText cut at ~255 characters) and
+        # the detail file ({value}, the whole question plus answerText),
+        # written by pqs.fetch_question since 2026-09-06. When both exist
+        # for an id the LONGER text wins, and the answer rides along
+        # because the ingest filter matched on it too -- a retag that
+        # reads less than the ingest read clears rows it should not.
+        rows = payload.get("results")
+        if rows is None and payload.get("value"):
+            rows = [payload]
+        for row in (rows or []):
             value = row.get("value") or row
-            if value.get("id"):
-                texts["pq:{0}".format(value["id"])] = "{0}\n{1}".format(
-                    value.get("heading") or "", value.get("questionText") or "")
+            if not value.get("id"):
+                continue
+            key = "pq:{0}".format(value["id"])
+            text = "{0}\n{1}".format(value.get("heading") or "",
+                                     value.get("questionText") or "")
+            if value.get("answerText"):
+                text += "\n\nAnswer: {0}".format(value["answerText"])
+            if len(text) > len(texts.get(key, "")):
+                texts[key] = text
     for payload in each("hansard_*.json.gz"):
         for row in (payload.get("Results") or []):
             if row.get("ContributionExtId"):

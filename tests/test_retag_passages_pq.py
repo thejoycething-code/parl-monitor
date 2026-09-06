@@ -19,9 +19,12 @@ class PqArchiveTests(unittest.TestCase):
         self.src = open(os.path.join(ROOT, "tools", "retag_passages.py"),
                         encoding="utf-8").read()
 
-    def test_pq_apply_is_refused_without_force(self):
+    def test_pq_apply_is_refused_while_coverage_is_short(self):
+        """Since 2026-09-06 the archive can hold full text (pqs.fetch_question);
+        the refusal is now conditional on how much of the ledger has it."""
         self.assertIn('if kind == "pq" and "--force" not in sys.argv:', self.src)
         self.assertIn("REFUSING to apply for kind=pq", self.src)
+        self.assertIn("pq_detail_coverage(conn)", self.src)
 
     def test_the_refusal_comes_after_the_dry_run_report(self):
         """The dry run must still show what WOULD happen; only the write

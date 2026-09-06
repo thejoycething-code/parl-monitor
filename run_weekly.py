@@ -259,6 +259,13 @@ def _store_pq_questions(client, conn, tax, wl, since, edition, questions):
         r = filt.filter_item(tax, wl, q.heading or "", q.question_text or "", q.answer_text or "")
         if not r.matched():
             continue
+        # A MATCHED question is fetched in full before it is stored. The
+        # search payload carries ~255 characters of the question and no
+        # answer; every later reader of this row (5CA quotes, the roll,
+        # the stance judge, a retag) reads the archive, so the archive
+        # must hold what the ingest actually matched. One extra call per
+        # KEPT question, not per search result.
+        q = pqs.complete(client, q, log=print)
         title = "PQ {0} ({1}): {2}, answered {3}".format(
             q.uin, q.house, q.heading, q.date_answered)
         # The asker and the department are what make a question readable:

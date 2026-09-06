@@ -31,6 +31,20 @@ sys.path.insert(0, ROOT)
 from src import db, filter as filt, stance
 
 
+def pq_detail_coverage(conn, raw_dir=None):
+    """Share of the ledger's PQ ids that have a pq_detail archive."""
+    import glob
+    raw_dir = raw_dir or os.path.join(ROOT, "data", "raw")
+    have = {os.path.basename(p)[len("pq_detail-"):-len(".json.gz")]
+            for p in glob.glob(os.path.join(raw_dir, "*", "pq_detail-*.json.gz"))}
+    want = {ref.split(":", 1)[1] for (ref,) in conn.execute(
+        "SELECT DISTINCT ref FROM mp_events WHERE kind = 'pq'")
+        if ref and ref.startswith("pq:")}
+    if not want:
+        return 1.0
+    return len(want & have) / float(len(want))
+
+
 def main():
     apply = "--apply" in sys.argv
     kind = "debate"
@@ -109,21 +123,24 @@ def main():
         print("\ndry run; re-run with --apply to write these changes")
         return
     if kind == "pq" and "--force" not in sys.argv:
-        # THE PQ ARCHIVE IS A SNIPPET, NOT THE QUESTION. data/raw holds
-        # about 300 characters per PQ (measured 2026-09-06: median 251,
-        # max 339), and the phrase that tagged a row at ingest is often
-        # past the cut -- 20 of the 34 rows this would have CLEARED end
-        # mid-sentence, and 23 of them are "Religion: Education" and
-        # "Sikhs: Curriculum" tagged via "religious education", which is
-        # not a mis-tag by any reading. Re-derivation is authoritative
-        # only when it reads at least the text the ingest read; here it
-        # reads less. Debates are archived in full and are fine.
-        print("\nREFUSING to apply for kind=pq: the archived text is a "
-              "~300-character snippet, so re-derivation would clear {0} "
-              "row(s) whose matching phrase was simply cut off. Retag PQs "
-              "from full question text or pass --force to override."
-              .format(cleared))
-        return
+        # THE PQ ARCHIVE WAS A SNIPPET. data/raw used to hold ~255
+        # characters per question (the search payload), so re-derivation
+        # would have CLEARED 34 tagged rows whose matching phrase was past
+        # the cut -- 23 of them "Religion: Education" tagged via
+        # "religious education". Since 2026-09-06 pqs.fetch_question
+        # archives the full question and answer, and this refuses only
+        # while COVERAGE is short: re-derivation is authoritative when it
+        # reads at least what the ingest read, and not before.
+        share = pq_detail_coverage(conn)
+        if share < 0.95:
+            print("\nREFUSING to apply for kind=pq: only {0:.0%} of the "
+                  "ledger's questions have a full-text archive, so "
+                  "re-derivation would still read stubs and clear {1} "
+                  "row(s) whose matching phrase was cut off. Run "
+                  "tools/backfill_pq_text.py, or pass --force."
+                  .format(share, cleared))
+            return
+        print("\npq full-text coverage {0:.0%}; applying.".format(share))
     conn.executemany(
         "UPDATE mp_events SET areas = ?, excerpt = ? WHERE rowid = ?", updates)
     conn.commit()

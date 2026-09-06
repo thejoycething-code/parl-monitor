@@ -67,3 +67,34 @@ def fetch_questions(client, term, take=6):
 def since(questions, cutoff):
     """Client-side date filter: keep questions answered on/after cutoff."""
     return [q for q in questions if q.date_answered and q.date_answered >= cutoff]
+
+
+def fetch_question(client, qid):
+    """ONE question, in full, from the detail endpoint.
+
+    The search endpoint that fetch_questions uses returns each question
+    with questionText cut at about 255 characters and, on disk, 93 of 237
+    archived questions ended mid-sentence (measured 2026-09-06). The
+    detail endpoint returns the whole question AND the minister's
+    answerText, which the list never carried at all. The archive name
+    pq_detail-<id>.json.gz matches the pq_*.json.gz glob that
+    stance.build_text_map reads, so downstream readers see the full text
+    without knowing where it came from.
+    """
+    payload = client.get_json("{0}/{1}".format(PQ_API, qid), "pq",
+                              "detail-{0}".format(qid))
+    return parse_question(payload.get("value") or payload)
+
+
+def complete(client, question, log=None):
+    """The same question with full text, or the stub if the detail fetch
+    fails -- a missing answer must never lose the row."""
+    try:
+        full = fetch_question(client, question.id)
+    except Exception as exc:                          # noqa: BLE001
+        if log:
+            log("  [gap] pq {0} detail: {1}".format(question.id, exc))
+        return question
+    if not full.question_text:
+        return question
+    return full
