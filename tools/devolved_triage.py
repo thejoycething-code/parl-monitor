@@ -175,10 +175,14 @@ def main():
         results = triage.score_stub(items)
         mode = "stub (no API key; why lines empty, scores tier-derived)"
     else:
+        budget = 480
+        if "--budget-seconds" in sys.argv:
+            budget = int(sys.argv[sys.argv.index("--budget-seconds") + 1])
         results = triage.score_in_slices(
             items, key,
             on_usage=lambda usage, model: spend.record(
-                conn, "devolved-triage", model, usage, dated=today))
+                conn, "devolved-triage", model, usage, dated=today),
+            budget_seconds=budget)
         mode = "live"
     apply(conn, results)
     print("devolved-triage: {0} of {1} item(s) scored ({2}).".format(

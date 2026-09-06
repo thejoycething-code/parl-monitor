@@ -155,7 +155,7 @@ def score_live(items, api_key=None, transport=None, usage_sink=None):
 
 
 def score_in_slices(items, api_key, on_usage=None, slice_size=4,
-                    log=print):
+                    log=print, budget_seconds=None):
     """score_live over SMALL slices, halving on overflow, never raising.
 
     Factored out of tools/eu_triage.py on 2026-09-04 so the devolved
@@ -170,10 +170,24 @@ def score_in_slices(items, api_key, on_usage=None, slice_size=4,
     are written once-ever and a transient failure must not freeze an
     empty why-line in permanently.
     """
+    import time as _time
+    started = _time.monotonic()
     results = []
     queue = [items[i:i + slice_size]
              for i in range(0, len(items), slice_size)]
     while queue:
+        if budget_seconds is not None and _time.monotonic() - started > budget_seconds:
+            # A WALL-CLOCK FENCE, added 2026-09-06 when the devolved judge
+            # was wired into the Monday publish. That run has 30 minutes
+            # for everything; a first devolved pass is ~79 calls, and an
+            # API outage would spend 60s x 2 attempts x halving on every
+            # slice. Scores are written once-ever, so stopping early costs
+            # nothing but a week: the rows stay unscored and next Monday
+            # picks them up. Reported, never silent.
+            left = sum(len(c) for c in queue)
+            log("  [budget] {0}s spent; {1} row(s) left unscored for the "
+                "next run".format(int(budget_seconds), left))
+            break
         chunk = queue.pop(0)
         try:
             results.extend(score_live(chunk, api_key=api_key,

@@ -75,6 +75,35 @@ def main():
         datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
     ).isoformat()
 
+    # THE DEVOLVED JUDGE, wired here by Christopher's decision 2026-09-06
+    # rather than into the three devolved weeklies, which carry no
+    # secrets by design -- the separation rule that keeps Slack tokens
+    # out of the watching briefs. It runs BEFORE the edition renders so
+    # its why-lines are in the edition, isolated so it can never take
+    # the publish down, and fenced twice: an 8-minute wall-clock budget
+    # inside (rows left over are picked up next Monday; scores are
+    # once-ever, so nothing is lost) and a subprocess timeout outside in
+    # case a single HTTP call wedges. Without ANTHROPIC_API_KEY the tool
+    # refuses to stub-score and says so; it never freezes empty scores.
+    import subprocess as _sp
+    try:
+        judged = _sp.run([sys.executable,
+                          os.path.join(ROOT, "tools", "devolved_triage.py"),
+                          "--budget-seconds", "480"],
+                         cwd=ROOT, stdout=_sp.PIPE, stderr=_sp.STDOUT,
+                         timeout=660)
+        lines = [ln for ln in (judged.stdout or b"").decode("utf-8", "replace")
+                 .splitlines() if ln.strip()]
+        print("devolved judge: {0}".format(lines[0].strip() if lines else "no output"))
+        for ln in lines[1:]:
+            if re.search(r"\[budget\]|\[gap\]|left unscored|UNSCORED|refuses", ln):
+                print("  {0}".format(ln.strip()))
+    except _sp.TimeoutExpired:
+        print("devolved judge: hit the hard timeout; rows stay unscored for "
+              "next week; edition unaffected")
+    except Exception as exc:
+        print("devolved judge: failed ({0}); edition unaffected".format(exc))
+
     path = run_weekly.render_edition(week, run_weekly._db_name(week))
     with open(path, "r", encoding="utf-8") as handle:
         markdown = handle.read()
