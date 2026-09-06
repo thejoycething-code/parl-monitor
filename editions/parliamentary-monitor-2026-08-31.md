@@ -21,11 +21,17 @@
 **Further afield** (next 8 weeks)
 
 **Monday 2026-09-07**
+- Expanding hate crime law to cover misogyny risks criminalising speech and chilling free expression on family and belief.
+- Debate on surrogacy and legal parenthood could shape law legitimising commercial surrogacy, a direct campaign trigger.
 - Westminster Hall debate on surrogacy and legal parenthood signals possible law reform. Commercial surrogacy expansion risk demands direct engagement now.
 - Misogyny as hate crime debate risks criminalising speech and blurring sex-based categories in law. Watch for chilling effects on gender-critical expression.
 
 **Friday 2026-09-11**
 - Second Reading of the assisted dying bill is a major legislative flashpoint. Direct campaign priority requiring active lobbying against expansion of assisted death.
+- Second Reading of the assisted dying bill is the decisive moment to mobilise opposition and lobby MPs directly.
+
+**Friday 2026-10-16**
+- Better immigration and nationality data scrutiny affects transparency on migration flows, feeding directly into border control and integrity debates.
 
 ## Consultations and calls for evidence
 
@@ -59,6 +65,12 @@
 |---|---|---|
 | [Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations 2026](https://statutoryinstruments.parliament.uk/instrument/G6pPGK1m) Under the Children's Wellbeing and Schools Act 2026. The Act's first implementing regulations; further commencement regulations expected on the September order paper. [Commons vote 369 to 102](https://votes.parliament.uk/Votes/Commons/Division/2402) · [full text](https://www.legislation.gov.uk/ukdsi/2026/9780348283426) | Draft affirmative | Laid 2026-05-20; Commons approved 2026-07-08; awaiting the Lords |
 
+## Parliamentarians on our issues
+
+*Debates and motions from any member of either House touching our campaign areas this week. Written questions have their own section above; division votes are counted on member profiles rather than listed here.*
+
+- **James McMurdock (Independent, South Basildon and East Thurrock)**: **EDM** Sponsored EDM: Border security at Ceuta and Melilla and the security of Gibraltar
+
 ## Devolved
 
 *Scotland, Wales and Northern Ireland. Items with an open response window are briefed and appear in Top lines; the remainder are a watching brief, recorded because they bear on our issues.*
@@ -84,6 +96,12 @@ The same fight, wherever it is being fought this fortnight - an area appears her
 **Abortion** (2 jurisdictions)
 - Scotland: To ask the Scottish Government what plans it has to reform abortion law in 2026-27.
 - Westminster: after other business, Commons Private Members' Bills. Registration of stillbirths (England and Wales) Bill: Second Reading
+- Westminster: PQ 17446 (Commons): Prayer: Public Places, answered 2026-09-01
+
+**Sex based rights** (2 jurisdictions)
+- Scotland: Protections in the justice system for women and girls (consultation closes 2026-08-31)
+- Westminster: PQ 19681 (Commons): Conversion Therapy, answered 2026-09-02
+- Westminster: PQ HL2255 (Lords): Civil Service: Gender Recognition, answered 2026-09-03
 
 **Parental rights education** (2 jurisdictions)
 - N. Ireland: Consultation on the Religious Education Core Syllabus (consultation closes 2026-09-30)
@@ -93,7 +111,7 @@ The same fight, wherever it is being fought this fortnight - an area appears her
 
 **Free speech, privacy and civil liberties** (3 jurisdictions)
 - EU: Findings and recommendations of the Special Committee on the European Democracy Shield (plenary 2026-09-15)
-- EU: Stop Killing The Internet: No Digital ID & No Age Verification (ECI, 3620 supporters)
+- EU: Stop Killing The Internet: No Digital ID & No Age Verification (ECI, 6070 supporters)
 - N. Ireland: A New Good Relations Framework - Call For Views (consultation closes 2026-09-21)
 - Westminster: Communications and Digital Committee: The Online Safety Act: implementation and impact (Inquiry), evidence closes 2026-09-21
 - Westminster: 6.00pm, Commons Westminster Hall debate. e-petition 746640 relating to crimes motivated by misogyny and hate crime law
@@ -106,6 +124,7 @@ The same fight, wherever it is being fought this fortnight - an area appears her
 - N. Ireland: Attitudes to Refugees and Asylum Seekers in Northern Ireland 2025 - User Survey (consultation closes 2027-08-06)
 - Scotland: Designation of Lead Committee
 - Westminster: Human Rights (Joint Committee): Legislative Scrutiny: Immigration and Asylum Bill (Inquiry), evidence closes 2026-09-01
+- Westminster: PQ 19838 (Commons): Foreign Nationals: Repatriation, answered 2026-09-03
 
 ---
 *No coverage gaps recorded this edition.*
