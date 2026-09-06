@@ -48,7 +48,7 @@ def main():
     # One filter pass per distinct ref; every member's row on the same
     # contribution gets the same areas and excerpt.
     per_ref, updates, name_only = {}, [], []
-    narrowed = widened = unchanged = no_text = 0
+    narrowed = widened = unchanged = no_text = cleared = 0
     for r in rows:
         ref = r["ref"]
         if ref not in per_ref:
@@ -73,6 +73,12 @@ def main():
             # is kept, renders nowhere, and a future taxonomy fix can
             # re-derive it.
             name_only.append(r)
+            if r["areas"] and json.loads(r["areas"]):
+                # Previously TAGGED and now supports nothing: the one
+                # outcome a reader of this summary must be able to see
+                # on its own line, because it is the only one that can
+                # take a row off a 5CA sheet.
+                cleared += 1
             updates.append((None, excerpt, r["rowid"]))
             continue
         old = json.loads(r["areas"]) if r["areas"] else []
@@ -88,6 +94,7 @@ def main():
     print("  areas narrowed: {0}   widened: {1}   same: {2}".format(
         narrowed, widened, unchanged))
     print("  watchlist-name captures, no issue area (left alone): {0}".format(len(name_only)))
+    print("  previously tagged rows that would be CLEARED: {0}".format(cleared))
     print("  no archived text (left alone): {0}".format(no_text))
 
     print("\nsample of rewritten rows:")
@@ -100,6 +107,22 @@ def main():
 
     if not apply:
         print("\ndry run; re-run with --apply to write these changes")
+        return
+    if kind == "pq" and "--force" not in sys.argv:
+        # THE PQ ARCHIVE IS A SNIPPET, NOT THE QUESTION. data/raw holds
+        # about 300 characters per PQ (measured 2026-09-06: median 251,
+        # max 339), and the phrase that tagged a row at ingest is often
+        # past the cut -- 20 of the 34 rows this would have CLEARED end
+        # mid-sentence, and 23 of them are "Religion: Education" and
+        # "Sikhs: Curriculum" tagged via "religious education", which is
+        # not a mis-tag by any reading. Re-derivation is authoritative
+        # only when it reads at least the text the ingest read; here it
+        # reads less. Debates are archived in full and are fine.
+        print("\nREFUSING to apply for kind=pq: the archived text is a "
+              "~300-character snippet, so re-derivation would clear {0} "
+              "row(s) whose matching phrase was simply cut off. Retag PQs "
+              "from full question text or pass --force to override."
+              .format(cleared))
         return
     conn.executemany(
         "UPDATE mp_events SET areas = ?, excerpt = ? WHERE rowid = ?", updates)
