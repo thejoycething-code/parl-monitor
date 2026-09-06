@@ -35,7 +35,7 @@ class RecessRenderTests(unittest.TestCase):
                         "## Consultations and calls for evidence", "## Parliamentarians on our issues"):
             self.assertIn(present, md)
         for absent in ("## Week ahead", "## Votes", "## Written questions",
-                       "## EDMs", "## Devolved", "## Statements",
+                       "## EDMs", "## Scotland, Wales and Northern Ireland", "## Statements",
                        "Return dates below", "**Return dates:**"):
             self.assertNotIn(absent, md)
         # The single top line carries recess + return dates + deadlines note.
@@ -415,14 +415,14 @@ class DevolvedSectionTests(unittest.TestCase):
         e = base_edition()
         e.devolved = {"consultations": [], "bills": [], "divisions": []}
         self.assertIsNone(digest.render_devolved(e))
-        self.assertNotIn("## Devolved", digest.render(e))
+        self.assertNotIn("## Scotland, Wales and Northern Ireland", digest.render(e))
 
     def test_renders_at_the_very_bottom(self):
         e = base_edition(mp_notes=[digest.Line("An MP note", 2)])
         e.devolved = self.PAYLOAD
         md = digest.render(e)
-        self.assertIn("## Devolved", md)
-        self.assertGreater(md.index("## Devolved"),
+        self.assertIn("## Scotland, Wales and Northern Ireland", md)
+        self.assertGreater(md.index("## Scotland, Wales and Northern Ireland"),
                            md.index("## Parliamentarians on our issues"),
                            "Devolved belongs at the very bottom, after the "
                            "Westminster sections")
@@ -434,7 +434,7 @@ class DevolvedSectionTests(unittest.TestCase):
         e.statements = [digest.Line("A statement", 2)]
         e.devolved = self.PAYLOAD
         md = digest.render(e)
-        self.assertGreater(md.index("## Devolved"),
+        self.assertGreater(md.index("## Scotland, Wales and Northern Ireland"),
                            md.index("## Statements and announcements"))
 
     def test_deadlines_lead(self):

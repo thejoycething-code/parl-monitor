@@ -472,7 +472,12 @@ def render_devolved(edition):
     # The old subheading asserted non-actionability as a blanket --
     # jurisdiction as a proxy for actionability -- which is the design
     # assumption docs/parl-monitor-devolved-fix.md removed (2026-08-31).
-    out = ["## Devolved", "",
+    # "Devolved" said where; this says what. Christopher, 2026-09-06,
+    # deciding that the three chambers stay as a section of this edition
+    # rather than an edition of their own (a standalone would have carried
+    # two items the week it was measured). Revisit mid-October on four or
+    # five sitting weeks of scored volume.
+    out = ["## Scotland, Wales and Northern Ireland", "",
            "*Scotland, Wales and Northern Ireland. Items with an open "
            "response window are briefed and appear in Top lines; the "
            "remainder are a watching brief, recorded because they bear on "
