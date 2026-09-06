@@ -149,6 +149,8 @@ def build(conn, nation):
             "AND areas IS NOT NULL ORDER BY {1} DESC".format(dt, ddate)):
         key = str(r[dkey])
         c = cfg.get(key) or {}
+        if c.get("not_ours"):
+            continue            # struck by a human who read the Record
         signed = bool(c.get("signed_off")) and c.get("our_side")
         d = {"key": key, "dated": (r[ddate] or "")[:10],
              "short": c.get("short") or r[dtitle] or key,

@@ -28,7 +28,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db
+from src import db, filter as filt
+from src.http import FetchError, HttpClient
+from src.ingest import senedd
 
 
 def not_ours_keys():
@@ -43,9 +45,7 @@ def not_ours_keys():
     if not os.path.exists(path):
         return set()
     divs = (yaml.safe_load(open(path, encoding="utf-8")) or {}).get("divisions") or []
-    return {str(d["key"]) for d in divs if d.get("not_ours")}, filter as filt
-from src.http import FetchError, HttpClient
-from src.ingest import senedd
+    return {str(d["key"]) for d in divs if d.get("not_ours")}
 
 FLOOR = "2024-01-01"
 

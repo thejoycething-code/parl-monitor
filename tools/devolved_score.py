@@ -73,6 +73,10 @@ def score(conn, nation, apply_it=False, log=print):
         return 0, 0
     written = signed = 0
     for d in divisions:
+        if d.get("not_ours"):
+            log("  {0}  {1}  struck as not ours; not scored".format(
+                d.get("dated", "?"), (d.get("short") or d["key"])[:52]))
+            continue
         rows = conn.execute(
             "SELECT * FROM {0} WHERE {1} = ?".format(votes_t, keycol),
             (str(d["key"]),)).fetchall()
