@@ -71,7 +71,7 @@
 
 - **James McMurdock (Independent, South Basildon and East Thurrock)**: **EDM** Sponsored EDM: Border security at Ceuta and Melilla and the security of Gibraltar
 
-## Devolved
+## Scotland, Wales and Northern Ireland
 
 *Scotland, Wales and Northern Ireland. Items with an open response window are briefed and appear in Top lines; the remainder are a watching brief, recorded because they bear on our issues.*
 
@@ -111,7 +111,7 @@ The same fight, wherever it is being fought this fortnight - an area appears her
 
 **Free speech, privacy and civil liberties** (3 jurisdictions)
 - EU: Findings and recommendations of the Special Committee on the European Democracy Shield (plenary 2026-09-15)
-- EU: Stop Killing The Internet: No Digital ID & No Age Verification (ECI, 6070 supporters)
+- EU: Stop Killing The Internet: No Digital ID & No Age Verification (ECI, 6380 supporters)
 - N. Ireland: A New Good Relations Framework - Call For Views (consultation closes 2026-09-21)
 - Westminster: Communications and Digital Committee: The Online Safety Act: implementation and impact (Inquiry), evidence closes 2026-09-21
 - Westminster: 6.00pm, Commons Westminster Hall debate. e-petition 746640 relating to crimes motivated by misogyny and hate crime law
