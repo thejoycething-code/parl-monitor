@@ -22,9 +22,28 @@ from dataclasses import dataclass, field
 import yaml
 
 
+_HYPHENS = str.maketrans({
+    "\u2010": "-",   # hyphen
+    "\u2011": "-",   # NON-BREAKING hyphen: the Written Questions detail
+                     # endpoint writes "single‑sex" with it (41 of 4,039
+                     # archived questions, measured 2026-09-06), and the
+                     # tier-1 term "single-sex space*" then failed on text
+                     # that plainly contained it -- two ledger rows were
+                     # cleared by a retag before this was found.
+    "\u2012": "-",   # figure dash
+    "\u2013": "-",   # en dash (211 questions carry one)
+    "\u2212": "-",   # minus sign
+    "\u00ad": None,  # soft hyphen: invisible, splits words for matching
+})
+
+
 def _fold(text):
-    """Fold smart quotes to straight quotes."""
-    return (text or "").replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+    """Fold smart quotes to straight quotes and the hyphen family to '-'.
+
+    Em dashes are left alone: they separate clauses, never join words.
+    """
+    return ((text or "").replace("’", "'").replace("‘", "'")
+            .replace("“", '"').replace("”", '"').translate(_HYPHENS))
 
 
 def _norm(text):

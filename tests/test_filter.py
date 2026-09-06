@@ -465,6 +465,42 @@ class RecallGapTests(unittest.TestCase):
                                     "goods").issue_areas, [])
 
 
+class HyphenFoldTests(unittest.TestCase):
+    """Parliament's detail endpoint writes "single‑sex" with a NON-BREAKING
+    hyphen (U+2011). The filter folded smart quotes but not hyphens, so
+    the tier-1 term "single-sex space*" failed on a question that plainly
+    contained it, and a retag on 2026-09-06 cleared two ledger rows
+    (pq:1902205, pq:1902208) before anyone saw why.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(TAXONOMY)
+        cls.wl = filt.load_watchlist(WATCHLIST)
+
+    def match(self, *fields):
+        return filt.filter_item(self.tax, self.wl, *fields)
+
+    def test_the_real_question_now_matches(self):
+        q = ("To ask the Secretary of State for Health and Social Care, whether "
+             "his Department will consider adopting or developing national "
+             "guidance for NHS trusts on the management of single\u2011sex spaces")
+        self.assertIn(5, self.match("NHS Trusts: Gender", q).issue_areas)
+
+    def test_every_hyphen_in_the_family_folds(self):
+        for cp in ("\u2010", "\u2011", "\u2012", "\u2013", "\u2212"):
+            self.assertIn(5, self.match("single%ssex wards on NHS sites" % cp).issue_areas,
+                          "U+%04X did not fold" % ord(cp))
+
+    def test_a_soft_hyphen_is_removed_not_replaced(self):
+        self.assertIn(5, self.match("single-sex\u00ad spaces").issue_areas)
+
+    def test_an_em_dash_is_left_alone(self):
+        """A clause separator, not a joiner: folding it would not create a
+        match and would change quoted excerpts."""
+        self.assertEqual(filt._fold("guidance \u2014 similar"), "guidance \u2014 similar")
+
+
 class UnTaxonomyTests(unittest.TestCase):
     """The UN taxonomy: same eleven areas, the UN's vocabulary.
 
