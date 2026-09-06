@@ -19,12 +19,11 @@ import run_weekly
 from src import db, filter as filt
 from src.ingest import pqs
 
-# The stub must MATCH on its own: the ingest filter runs on the search
-# payload before any detail fetch, so a question whose only matching
-# phrase is past the ~255-character cut is never fetched or stored. (That
-# is a recall limit worth knowing about; it is not what this test pins.)
-STUB = "To ask the Secretary of State for Education, what assessment he has made of religious education"
-FULL = STUB + " syllabuses in place in England and the extent to which they reflect the principal religions."
+# THE RECALL CASE. The stub does NOT match on its own -- the phrase that
+# tags it sits past the ~255-character cut -- and since 2026-09-06 the
+# detail is fetched BEFORE the filter runs, so this question is kept.
+STUB = "To ask the Secretary of State for Education, what assessment he has made of the adequacy of"
+FULL = STUB + " the syllabuses for religious education in place in England."
 
 
 class FakeClient:
@@ -58,34 +57,50 @@ class StoreFullTextTests(unittest.TestCase):
         self.wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
         self.since = datetime.date(2026, 8, 31)
 
-    def test_a_matched_question_is_stored_in_full_after_one_detail_call(self):
+    def test_a_question_matching_only_in_its_full_text_is_kept(self):
         client = FakeClient()
         run_weekly._store_pq_questions(client, self.conn, self.tax, self.wl, self.since,
                                        "2026-09-07", [question(1270851, STUB)])
         self.assertEqual(client.calls, [("pq", "detail-1270851")],
                          "exactly one detail fetch, archived as pq_detail-<id>")
+        # the stub alone would NOT have matched: prove the premise
+        self.assertFalse(filt.filter_item(self.tax, self.wl, "Religion: Education",
+                                          STUB, "").matched())
         row = self.conn.execute("SELECT extra FROM items WHERE id = 'pq:1270851'").fetchone()
         self.assertIsNotNone(row, "the question was not stored")
         self.assertIn("in place in England", row["extra"],
                       "the stored text is the stub, not the full question")
 
-    def test_an_unmatched_question_costs_no_call(self):
-        client = FakeClient()
+    def test_an_unmatched_question_costs_one_call_and_no_row(self):
+        """Every result in the window is fetched; only matches are stored."""
+        class Potholes(FakeClient):
+            def get_json(self, url, feed, slug, **kw):
+                self.calls.append((feed, slug))
+                return {"value": {"id": 7, "uin": "U7", "heading": "Roads: Repairs",
+                                  "questionText": "To ask about potholes on the A38.",
+                                  "answerText": "Resurfacing is scheduled.",
+                                  "askingMemberId": None, "answeringBodyName": "DfT",
+                                  "dateTabled": "2026-09-01", "dateAnswered": "2026-09-04",
+                                  "house": "Commons"}}
+        client = Potholes()
         run_weekly._store_pq_questions(client, self.conn, self.tax, self.wl, self.since,
                                        "2026-09-07", [question(7, "To ask about potholes on the A38.",
                                                                 heading="Roads: Repairs")])
-        self.assertEqual(client.calls, [])
+        self.assertEqual(client.calls, [("pq", "detail-7")])
         self.assertIsNone(self.conn.execute("SELECT 1 FROM items WHERE id='pq:7'").fetchone())
 
-    def test_a_failed_detail_fetch_still_stores_the_stub_row(self):
+    def test_a_failed_detail_fetch_falls_back_to_filtering_the_stub(self):
+        """A flaky API narrows recall for a week; it must not crash the sweep
+        or lose a question whose STUB matches."""
         class Boom(FakeClient):
             def get_json(self, url, feed, slug, **kw):
                 raise RuntimeError("503")
+        matching_stub = "To ask the Secretary of State for Education about religious education"
         run_weekly._store_pq_questions(Boom(), self.conn, self.tax, self.wl, self.since,
-                                       "2026-09-07", [question(1270851, STUB)])
+                                       "2026-09-07", [question(1270851, matching_stub)])
         self.assertIsNotNone(self.conn.execute(
             "SELECT 1 FROM items WHERE id='pq:1270851'").fetchone(),
-            "a missing answer must never lose the row")
+            "the stub matched; a failed detail fetch must not lose the row")
 
 
 if __name__ == "__main__":

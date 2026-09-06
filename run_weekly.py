@@ -256,16 +256,20 @@ def resweep_pq_gaps(client, conn, tax, wl, week_start, edition, terms):
 def _store_pq_questions(client, conn, tax, wl, since, edition, questions):
     """Filter a term's questions through the taxonomy and store what survives."""
     for q in pqs.since(questions, since):
+        # EVERY result in the window is fetched in full BEFORE the filter
+        # runs (Christopher, 2026-09-06: "Make the change"). The search
+        # payload carries ~255 characters of the question and no answer,
+        # so filtering on it first meant a question whose only matching
+        # phrase sat past the cut -- or in the minister's answer -- was
+        # never seen at all. About 240 calls a week at 0.2s each, under a
+        # minute, free; and every reader of a stored row (5CA quotes, the
+        # roll, the stance judge, a retag) now reads the text the filter
+        # actually matched. A failed detail fetch falls back to the stub,
+        # so a flaky API narrows recall for a week rather than losing rows.
+        q = pqs.complete(client, q, log=print)
         r = filt.filter_item(tax, wl, q.heading or "", q.question_text or "", q.answer_text or "")
         if not r.matched():
             continue
-        # A MATCHED question is fetched in full before it is stored. The
-        # search payload carries ~255 characters of the question and no
-        # answer; every later reader of this row (5CA quotes, the roll,
-        # the stance judge, a retag) reads the archive, so the archive
-        # must hold what the ingest actually matched. One extra call per
-        # KEPT question, not per search result.
-        q = pqs.complete(client, q, log=print)
         title = "PQ {0} ({1}): {2}, answered {3}".format(
             q.uin, q.house, q.heading, q.date_answered)
         # The asker and the department are what make a question readable:
