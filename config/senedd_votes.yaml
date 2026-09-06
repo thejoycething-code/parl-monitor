@@ -17,16 +17,29 @@ divisions:
     dated: 2026-03-10
     issue: abortion
     stage: Legislative Consent Motion
-    landmark: true
     short: "LCM: Crime and Policing Bill"
     motion: >-
       Item 8. Legislative Consent Motion: The Crime and Policing Bill.
       Rejected 25-27.
-    note: >-
-      The Bill carrying abortion decriminalisation (s.241). Consent
-      REFUSED. Whether refusing consent is our side is Christopher's
-      call: it withholds Welsh consent from the Bill as a whole, not
-      from the abortion clauses specifically.
+    # NOT OURS -- struck from every tracker by Christopher, 2026-09-06,
+    # after reading the Record rather than the title. The taxonomy tagged
+    # this under abortion because the Bill carried s.241, but abortion is
+    # a RESERVED matter in Wales (Government of Wales Act 2006, Sch 7A,
+    # Head J, Section J1), so the Senedd's consent could never have
+    # covered those clauses; the motion consents only "to the extent
+    # they relate to devolved matters". The stated reasons for refusal:
+    # Conservatives -- AI, facial recognition and the recording of
+    # non-crime hate incidents; Plaid -- concurrent powers ceded to
+    # Westminster; Reform -- the Bill "does not go far enough". Nobody
+    # mentioned abortion. A verdict either way would be the Lords
+    # inversion exactly: a title standing in for a question.
+    #
+    # not_ours is honoured in three places, because the collector
+    # re-derives areas from the title on every weekly run and a store-only
+    # fix would come back the following Thursday: tools/sd_divisions.py
+    # writes areas [] for it, tools/make_devolved_votes.py never lists it,
+    # tools/devolved_score.py never scores it.
+    not_ours: true
     our_side: null
     signed_off: false
 
@@ -40,8 +53,26 @@ divisions:
       Item 8. Legislative Consent Motion: The Children's Wellbeing and
       Schools Bill. Agreed 37-13.
     note: >-
-      The Bill creating the register of children not in school. Consent
-      AGREED. Same caveat: an LCM is about legislative competence, not
-      the policy.
-    our_side: null
-    signed_off: false
+      Signed by Christopher 2026-09-06 after reading the Record. The
+      consent covered "a small number of clauses" the Cabinet Secretary
+      asked to apply equally to Wales, and the Record is explicit about
+      which: the children-not-in-school register and the requirement
+      that parents notify or seek a local authority's permission before
+      deregistering a child (Cefin Campbell, supporting; Natasha Asghar
+      and Mark Isherwood, opposing, on mandatory registration of home
+      educators). Labour 24, Plaid 12 and the Lib Dem for; Conservatives
+      11, Reform 1 and one Plaid Member against. Several Conservative
+      speeches led on competence and scrutiny as well as substance, which
+      is why both sentences describe what the vote DID and say nothing
+      about motive.
+    our_side: against
+    signed_off: true
+    meaning_good: >-
+      Voted to refuse the Senedd's consent to Westminster extending the
+      children-not-in-school register -- mandatory registration of
+      home-educating families and council permission to deregister -- to
+      Wales.
+    meaning_bad: >-
+      Voted to give the Senedd's consent to Westminster extending the
+      children-not-in-school register and council permission to
+      deregister to Wales.

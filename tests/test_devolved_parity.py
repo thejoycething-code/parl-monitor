@@ -216,6 +216,60 @@ class EveryoneWhoVotedTests(unittest.TestCase):
         self.assertIn("FORMER MEMBER", body)
 
 
+class NotOursTests(unittest.TestCase):
+    """A human who read the Record outranks the title regex.
+
+    Christopher, 2026-09-06: the Crime and Policing Bill LCM was tagged
+    abortion because the Bill carried s.241, but abortion is a RESERVED
+    matter in Wales (GoWA 2006 Sch 7A, Head J, J1), the motion consented
+    only to devolved matters, and the refusal was about AI, facial
+    recognition, non-crime hate incidents and concurrent powers. Struck.
+    The collector re-derives areas from the title every week, so the
+    strike has to be honoured at three points or it returns on Thursday.
+    """
+
+    def test_the_tracker_never_lists_a_struck_division(self):
+        conn = store()
+        member(conn, "p/1", "A Member", start="2021-05-06")
+        division(conn, "D1", "2026-03-10", "LCM: Crime and Policing Bill")
+        conn.execute("INSERT INTO sd_votes (division_key, member_id, member_name, "
+                     "result) VALUES ('D1', '1', 'A Member', 'Against')")
+        conn.commit()
+        tracker.load_config = lambda spec: {"D1": {"not_ours": True}}
+        self.assertEqual(tracker.build(conn, "wales")["divisions"], [])
+
+    def test_the_scorer_never_scores_it(self):
+        conn = store()
+        member(conn, "p/1", "A Member")
+        conn.execute("INSERT INTO sd_votes (division_key, member_id, member_name, "
+                     "result) VALUES ('D1', '1', 'A Member', 'Against')")
+        conn.commit()
+        score.load = lambda nation: [{"key": "D1", "not_ours": True,
+                                      "our_side": "against", "signed_off": True}]
+        score.score(conn, "wales", apply_it=True, log=lambda *a: None)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM sd_scored").fetchone()[0], 0)
+
+    def test_the_collector_clears_the_areas_the_title_would_give(self):
+        src = open(os.path.join(ROOT, "tools", "sd_divisions.py"), encoding="utf-8").read()
+        self.assertIn("def not_ours_keys", src)
+        self.assertIn("if str(d.key) in struck:", src)
+        body = src[src.index("if str(d.key) in struck:"):]
+        self.assertIn("areas = []", body[:200])
+
+    def test_the_live_config_strikes_the_crime_and_policing_lcm(self):
+        import yaml
+        cfg = yaml.safe_load(open(os.path.join(ROOT, "config", "senedd_votes.yaml"), encoding="utf-8"))
+        by = {d["key"]: d for d in cfg["divisions"]}
+        self.assertTrue(by["757579"].get("not_ours"))
+        self.assertFalse(by["757579"].get("signed_off"))
+        two = by["759759"]
+        self.assertTrue(two["signed_off"]); self.assertEqual(two["our_side"], "against")
+        for k in ("meaning_good", "meaning_bad"):
+            self.assertIn("children-not-in-school register", two[k])
+            self.assertNotRegex(two[k], r"(?i)because|motive|competence",
+                                "the sentence describes the act, never the motive")
+
+
 class VerdictGateTests(unittest.TestCase):
     """signed_off gates the verdict here exactly as at Westminster: an
     unsigned division may show HOW someone voted, never what we think of

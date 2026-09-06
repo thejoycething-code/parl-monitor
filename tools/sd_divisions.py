@@ -28,7 +28,22 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db
+
+
+def not_ours_keys():
+    """Divisions a human has struck as NOT on our ground, whatever the
+    title says. The collector re-derives areas from the title on every
+    run, so a store-only correction returns the following week; this is
+    where the human's reading of the Record outranks the regex.
+    Christopher, 2026-09-06: the Crime and Policing Bill LCM was tagged
+    abortion by its title, and abortion is a reserved matter in Wales."""
+    import yaml
+    path = os.path.join(ROOT, "config", "senedd_votes.yaml")
+    if not os.path.exists(path):
+        return set()
+    divs = (yaml.safe_load(open(path, encoding="utf-8")) or {}).get("divisions") or []
+    return {str(d["key"]) for d in divs if d.get("not_ours")}, filter as filt
 from src.http import FetchError, HttpClient
 from src.ingest import senedd
 
@@ -57,6 +72,7 @@ def main():
                 print("  [gap] index {0} p{1}: {2}".format(parl, page, exc.cause))
                 gaps += 1
                 break
+            struck = not_ours_keys()
             for s in sittings:
                 if s.dated < FLOOR:
                     floor_hit = True
@@ -120,6 +136,8 @@ def main():
                 for d in divs:
                     res = filt.filter_item(tax, wl, d.title or "")
                     areas = res.issue_areas or []
+                    if str(d.key) in struck:
+                        areas = []          # a human read the Record; the title lies
                     if areas and d.key not in known:
                         ours += 1
                     conn.execute(
