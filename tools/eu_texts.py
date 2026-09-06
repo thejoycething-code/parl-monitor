@@ -98,18 +98,22 @@ def pull(conn, client, today, log=print):
     return total, ours
 
 
-def watchlist_candidates(conn, client, log=print):
+def watchlist_candidates(conn, client, log=print, watched=None):
     """Matched texts whose procedure is real and not yet watched.
 
     Verification before proposal: the extracted id must resolve in the
     procedures API, so a parsing slip can never propose a phantom dossier.
     Nothing is ADDED here -- a human edits config/eu_watchlist.yaml.
     """
-    import yaml
-    with open(os.path.join(ROOT, "config", "eu_watchlist.yaml"),
-              encoding="utf-8") as fh:
-        watched = {d["process_id"] for d in
-                   (yaml.safe_load(fh) or {}).get("dossiers") or []}
+    if watched is None:
+        # The real watchlist by default; a test injects its own set so a
+        # unit test does not fail the day a human adds a real dossier --
+        # which is exactly what happened on 2026-09-06.
+        import yaml
+        with open(os.path.join(ROOT, "config", "eu_watchlist.yaml"),
+                  encoding="utf-8") as fh:
+            watched = {d["process_id"] for d in
+                       (yaml.safe_load(fh) or {}).get("dossiers") or []}
     rows = conn.execute(
         "SELECT identifier, title, procedure FROM eu_texts "
         "WHERE areas != '[]' AND procedure IS NOT NULL").fetchall()

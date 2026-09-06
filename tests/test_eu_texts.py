@@ -79,13 +79,30 @@ class TextsTests(unittest.TestCase):
         self.assertEqual(json.loads(row["areas"]), [8])
         self.assertEqual(row["procedure"], "2025-2248")
 
-    def test_candidates_are_verified_and_exclude_the_watched(self):
+    def test_a_verified_unwatched_procedure_is_proposed(self):
+        conn = store()
+        eut.pull(conn, FakeClient(), "2026-09-01", log=lambda *a: None)
+        cands = eut.watchlist_candidates(conn, FakeClient(),
+                                         log=lambda *a: None, watched=set())
+        self.assertEqual([c["process_id"] for c in cands], ["2025-2248"])
+        self.assertEqual(cands[0]["label"], "2025/2248(INI)")
+
+    def test_a_watched_procedure_is_never_proposed_again(self):
+        """The fixture's dossier IS on the real watchlist since 2026-09-06
+        (Christopher: "Add it"), so against the real file it must be
+        excluded. This test used to assert the opposite by reading the
+        live config -- a unit test that failed the day a human did the
+        thing the tool exists to prompt."""
         conn = store()
         eut.pull(conn, FakeClient(), "2026-09-01", log=lambda *a: None)
         cands = eut.watchlist_candidates(conn, FakeClient(),
                                          log=lambda *a: None)
-        self.assertEqual([c["process_id"] for c in cands], ["2025-2248"])
-        self.assertEqual(cands[0]["label"], "2025/2248(INI)")
+        self.assertEqual([c["process_id"] for c in cands], [])
+        import yaml
+        real = yaml.safe_load(open(os.path.join(ROOT, "config",
+                                                "eu_watchlist.yaml"),
+                                   encoding="utf-8"))
+        self.assertIn("2025-2248", {d["process_id"] for d in real["dossiers"]})
 
     def test_an_unverifiable_procedure_is_never_proposed(self):
         conn = store()
