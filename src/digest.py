@@ -478,7 +478,7 @@ def render_devolved(edition):
     # two items the week it was measured). Revisit mid-October on four or
     # five sitting weeks of scored volume.
     out = ["## Scotland, Wales and Northern Ireland", "",
-           "*Scotland, Wales and Northern Ireland. Items with an open "
+           "*Items with an open "
            "response window are briefed and appear in Top lines; the "
            "remainder are a watching brief, recorded because they bear on "
            "our issues.*", ""]
