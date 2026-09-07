@@ -326,12 +326,18 @@ def sweep_petitions(client, conn, tax, wl, today, edition, log=print):
     matched = 0
     for p in rows:
         r = filt.filter_item(tax, wl, p.action, p.text)
-        # The ledger's precision gate, not the section's: a petition is a
-        # few hundred words, and tier-2 vocabulary alone admitted 168 of
-        # 269 on the first sweep (2026-09-07) -- "birth rate" in a student
-        # loan petition, "coercion" in one about China, "Ofcom" about
-        # broadcast rules. Tier 1 or a watchlist name, or nothing.
-        if not r.matched() or not (r.tier == 1 or r.watchlist_hits):
+        # Precision gate. A petition is a few hundred words, and tier-2
+        # vocabulary alone admitted 168 of 269 on the first sweep
+        # (2026-09-07) -- "birth rate" in a student-loan petition,
+        # "coercion" in one about China, "Ofcom" about broadcast rules.
+        # So: tier 1 or a watchlist name; a tier-2 match only once the
+        # petition has 10,000 signatures and a Government response owed,
+        # because the misogyny hate-crime petition (114,927, debated the
+        # same day) matched nothing but tier-2 "hate crime" and the gate
+        # as first written dropped it. The judge decides from there.
+        if not r.matched():
+            continue
+        if not (r.tier == 1 or r.watchlist_hits) and p.signatures < petitions.RESPONSE_THRESHOLD:
             continue
         matched += 1
         prev = conn.execute(

@@ -159,6 +159,28 @@ class SweepTests(unittest.TestCase):
         ids = [r[0] for r in conn.execute("SELECT id FROM items WHERE source_feed='petition'")]
         self.assertEqual(ids, ["petition:2"])
 
+    def test_a_tier_two_match_past_ten_thousand_is_admitted(self):
+        """The misogyny hate-crime petition: 114,927 signatures, a debate the
+        same day, and nothing but tier-2 "hate crime" in its text."""
+        import run_weekly
+        from src import filter as filt
+        conn = self._conn()
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+
+        class Client:
+            def get_json(self, url, feed, slug, archive=True):
+                if "state=open" in url:
+                    return {"data": [row(746640, "Legislate that crimes motivated by misogyny are hate crimes", 114927,
+                                         background="Make misogyny a hate crime."),
+                                     row(9, "Small petition using the same words", 900,
+                                         background="Make misogyny a hate crime.")],
+                            "links": {"next": None}}
+                return {"data": [], "links": {"next": None}}
+        run_weekly.sweep_petitions(Client(), conn, tax, wl, datetime.date(2026, 9, 6), "2026-09-07", log=lambda *_: None)
+        ids = [r[0] for r in conn.execute("SELECT id FROM items WHERE source_feed='petition'")]
+        self.assertEqual(ids, ["petition:746640"])
+
     def test_migration_only_petitions_stay_out_of_the_section(self):
         src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
         block = src[src.index('if feed == "petition":'):src.index('if feed == "si":')]
