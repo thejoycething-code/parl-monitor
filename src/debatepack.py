@@ -267,7 +267,8 @@ def search_events_html(html_text):
     'search-item' block per event, the venue in the thumbnail's alt text and
     the heading. Search covers every sitting since 4 December 2007."""
     out, seen = [], set()
-    for block in re.split(r'class="search-item"', html_text or "")[1:]:
+    # the class attribute reads 'col-md-12 search-item': match the token, not the whole value
+    for block in re.split(r'class="[^"]*\bsearch-item\b[^"]*"', html_text or "")[1:]:
         g = event_guid(block)
         if not g or g in seen:
             continue

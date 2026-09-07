@@ -89,9 +89,9 @@ class FootageTests(unittest.TestCase):
 class ArchiveSearchTests(unittest.TestCase):
     """Christopher, 2026-09-07: "Build the parliamentlive.tv date lookup for archived sittings." """
 
-    HTML = ('<div class="search-item"><a href="https://parliamentlive.tv/Event/Index/c2efa0c9-da5f-4018-b0c0-1a974c5b8286">'
+    HTML = ('<div class="col-md-12 search-item"><a href="https://parliamentlive.tv/Event/Index/c2efa0c9-da5f-4018-b0c0-1a974c5b8286">'
             '<img alt="House of Commons"></a><h5>House of Commons</h5> Friday 20 June 2025 9.34am</div>'
-            '<div class="search-item"><a href="/Event/Index/11111111-2222-3333-4444-555555555555"><img alt="Westminster Hall"></a>'
+            '<div class="col-md-12 search-item"><a href="/Event/Index/11111111-2222-3333-4444-555555555555"><img alt="Westminster Hall"></a>'
             '<h5>Westminster Hall</h5> 9.30am</div>')
 
     def test_results_parse_to_guid_and_venue(self):
