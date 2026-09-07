@@ -1232,6 +1232,15 @@ def run_triage_pass(conn, wl, week_commencing, mode=None):
     scored, discards = triage.apply_scores(conn, items, results)
     review.log_discards(conn, week_commencing,
                         [(i, t, None) for i, t in discards])
+    # The evaluation bank (Christopher, 2026-09-07): what the judge saw and
+    # said, every week, exported to data/eval/<week>.jsonl for git to keep.
+    try:
+        from src import evalbank
+        evalbank.bank(conn, week_commencing, items, results, triage.TRIAGE_MODEL if mode == "live" else "stub",
+                      mode, triage.SYSTEM_PROMPT)
+        evalbank.export(conn, week_commencing)
+    except Exception as exc:                                # noqa: BLE001
+        record_gap(conn, week_commencing, "judge-eval", "banking failed: {0}".format(exc)[:160])
     return "{0} items scored ({1}), {2} discarded".format(scored, mode, len(discards))
 
 

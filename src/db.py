@@ -238,6 +238,17 @@ CREATE TABLE IF NOT EXISTS petitions (
 -- Every amendment tabled to a watched Bill, whatever its subject, so the
 -- weekly diff can say what is NEW and what was DECIDED since last edition.
 -- Only those on our ground become items (Christopher, 2026-09-07).
+-- The judge evaluation corpus (src/evalbank.py, 2026-09-07): every live
+-- verdict, and the human verdict when one is given.
+CREATE TABLE IF NOT EXISTS judge_verdicts (
+  week TEXT NOT NULL, item_id TEXT NOT NULL,
+  feed TEXT, title TEXT, tier INTEGER, candidate_areas TEXT, watchlist_hit INTEGER,
+  score INTEGER, why TEXT, areas TEXT,
+  model TEXT, prompt_sha TEXT, mode TEXT,
+  human_score INTEGER, human_note TEXT, human_source TEXT, labelled_at TEXT,
+  captured_at TEXT NOT NULL,
+  PRIMARY KEY (week, item_id)
+);
 CREATE TABLE IF NOT EXISTS bill_amendments (
   amendment_id TEXT PRIMARY KEY,
   bill_id      INTEGER NOT NULL,
@@ -975,6 +986,7 @@ TABLES = (
     "bill_amendments",
     "dv_petitions",
     "dv_petition_snapshots",
+    "judge_verdicts",
     "bills_board",
     "members",
     "member_service",

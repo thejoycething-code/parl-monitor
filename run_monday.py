@@ -172,6 +172,23 @@ def main():
         print("api spend: not available ({0})".format(exc))
     conn.close()
 
+    # The judge evaluation corpus (Christopher, 2026-09-07): read any sample
+    # or review file a human has filled in, write this week's ten-item
+    # sample, and refresh the agreement report. All three are committed.
+    try:
+        from src import evalbank
+        ev_conn = db.connect(os.path.join(ROOT, "data", run_weekly._db_name(week)))
+        explicit, implicit = evalbank.ingest_samples(ev_conn, os.path.join(ROOT, "reviews"))
+        sample_path, n_sample = evalbank.write_sample(
+            ev_conn, week, os.path.join(ROOT, "reviews", "judge-sample-{0}.md".format(week)))
+        evalbank.report(ev_conn, write_to=os.path.join(ROOT, "docs", "judge-eval.md"))
+        ev_conn.close()
+        print("judge eval: {0} explicit and {1} implicit verdict(s) ingested; sample of {2} -> {3}; docs/judge-eval.md "
+              "refreshed".format(explicit, implicit, n_sample,
+                                 os.path.relpath(sample_path, ROOT) if sample_path else "none"))
+    except Exception as exc:                                # noqa: BLE001
+        print("judge eval: skipped ({0})".format(exc))
+
     # Partner edition: redacted static site, committed alongside the edition.
     import glob
     weeks = sorted(os.path.basename(f)[len("parliamentary-monitor-"):-3]
