@@ -64,6 +64,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        # One tar per day folder, only the folders whose content moved.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
       - name: Backfill questions and EDMs
         run: |
           if [ -n "${{ inputs.terms }}" ]; then
@@ -104,6 +109,13 @@ jobs:
             echo "Stance scoring is NOT run here: it costs money and is"
             echo "Christopher's call. New refs sit unscored until then."
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the raw archive
+        # Before the store: a store that cites payloads the archive lacks
+        # is the worse of the two failures. Merges, never clobbers.
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --push
       - name: Publish the store
         # NEVER publish a store the pull refused: see the note in
         # monday-publish.yml. `always()` alone turned one sha mismatch
@@ -123,7 +135,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
-          git add data/raw data/parl-monitor.db.json
+          git add data/parl-monitor.db.json data/raw.json
           git diff --cached --quiet || git commit -m "Historic backfill: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Retry: the rebase closes most of the race, but a push can
           # still lose one, and the store was ALREADY published above --

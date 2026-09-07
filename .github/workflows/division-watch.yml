@@ -15,7 +15,7 @@ name: Division watch
 # list endpoint lags a big vote), hence the tighter Friday slots.
 #
 # Touches no store: no pull, no push, no sidecar. The detail payloads are
-# archived under data/raw like every other fetch and committed here.
+# archived under data/raw like every other fetch and published to the raw-archive release.
 on:
   schedule:
     - cron: "0 18,21 * * 1-4"      # Mon-Thu evenings, UTC
@@ -38,7 +38,7 @@ defaults:
   run:
     shell: bash -eo pipefail {0}
 
-# Commits data/raw alongside the workflows that publish state.
+# Commits the raw sidecar and briefs alongside the workflows that publish state.
 concurrency:
   group: parl-monitor-state
   cancel-in-progress: false
@@ -66,11 +66,18 @@ jobs:
           [ "${{ inputs.force }}" = "true" ] && ARGS+=(--force)
           python3 tools/division_brief.py "${ARGS[@]}" | tee /tmp/division-brief.log
           { echo "## Division watch"; echo '```'; cat /tmp/division-brief.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the raw archive
+        # The division payloads this fetched. No pull first: a push merges
+        # the published folder beneath the local files, so a folder two
+        # runs archive into on the same day ends as the union.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --push
       - name: Commit briefs and archived payloads
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
-          git add data/raw data/briefs
+          git add data/raw.json data/briefs
           git diff --cached --quiet || git commit -m "Division brief $(date -u +%FT%H:%MZ)"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin main || true

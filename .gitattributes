@@ -2,3 +2,6 @@
 # db-sidecar driver (tools/merge_sidecar.py, installed by db_state.py --pull)
 # resolves it by asking the release which side is current.
 data/parl-monitor.db.json merge=db-sidecar
+# The raw archive pointer: per-folder union, later publish wins
+# (tools/merge_raw_sidecar.py, installed by raw_state.py --pull).
+data/raw.json merge=raw-sidecar

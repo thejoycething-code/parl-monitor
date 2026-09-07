@@ -62,6 +62,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        # One tar per day folder, only the folders whose content moved.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
       - name: Pull the roster from parlparse
         run: python3 tools/sd_members.py | tee /tmp/sd-members.log
       - name: Walk new written questions
@@ -132,6 +137,13 @@ jobs:
               echo "**No gaps.**"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the raw archive
+        # Before the store: a store that cites payloads the archive lacks
+        # is the worse of the two failures. Merges, never clobbers.
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --push
       - name: Publish the store
         # NEVER publish a store the pull refused: see the note in
         # monday-publish.yml. `always()` alone turned one sha mismatch

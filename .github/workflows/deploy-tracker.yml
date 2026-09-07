@@ -50,6 +50,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        # One tar per day folder, only the folders whose content moved.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
       - name: Test gate
         run: python3 -m unittest discover -s tests -q 2>&1 | tail -3
       - name: Build the tracker
@@ -72,13 +77,18 @@ jobs:
           # never let the summary line fail a deploy that happened.
           npx --yes vercel@latest deploy partner_site --prod --yes --token "$VERCEL_TOKEN" 2>&1 | tee /tmp/deploy.log
           { grep -E "Production" /tmp/deploy.log | tail -1 || echo "deployed (see log)"; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the raw archive
+        # A division payload fetched for a newly configured id lands here.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --push
       - name: Commit the rebuilt pages
-        # The tracker pages and any division payload the build fetched for a
-        # newly configured id. Never the store: this workflow does not publish it.
+        # The tracker pages and the raw sidecar. Never the store: this workflow
+        # does not publish it.
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
-          git add data/raw docs/mp-votes.html partner_site/mp-votes.html 2>/dev/null || true
+          git add data/raw.json docs/mp-votes.html partner_site/mp-votes.html 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Deploy tracker: $(date -u +%FT%H:%MZ)"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin main || true

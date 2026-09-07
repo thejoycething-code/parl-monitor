@@ -1,5 +1,11 @@
-# Secrets never enter the repo. The RAW ARCHIVE is deliberately tracked:
-# workflow runs commit their own results, making provenance durable.
+# Secrets never enter the repo.
+#
+# The RAW ARCHIVE (data/raw) left git on 2026-09-07: 287MB in 11,936 files
+# across 31 day folders, growing weekly -- the shape that forced the store
+# out at 88MB. It lives as release assets, one tar per day folder
+# (tools/raw_state.py); its provenance is the committed data/raw.json
+# sidecar, which must NEVER be ignored. History before that date still
+# carries the files.
 #
 # The STORE (data/parl-monitor.db) is different as of 2026-08-24: it reached
 # 92MB against GitHub's 100MB hard push limit, growing ~15MB per build
@@ -25,3 +31,5 @@ partner_site/.env.local
 # Google service account key: never commit
 config/google-service-account.json
 data/.store-pulled
+data/raw/
+data/.raw-pulled

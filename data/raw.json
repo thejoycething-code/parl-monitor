@@ -1,0 +1,223 @@
+{
+  "folders": {
+    "2026-08-01": {
+      "bytes": 404576,
+      "files": 80,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "1371cb2b463fac1bdbd8a75ad0ccfe0d08ba426e632bbb4f5ad344687e75288a"
+    },
+    "2026-08-03": {
+      "bytes": 153086,
+      "files": 64,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "bdc9453a5cf7f466c8caa4d817576c5257e58077f6df8d6a922b6f4dd52c1453"
+    },
+    "2026-08-04": {
+      "bytes": 55047485,
+      "files": 1378,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "e4784947a4266036de7b2123504097af00afd91cfd8e5534ee912501e655fad8"
+    },
+    "2026-08-05": {
+      "bytes": 6448312,
+      "files": 513,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "07fa30e80db107c01ae6174e8d8a4b9e25d11ed6ea8d689555c69ca1c9119b9e"
+    },
+    "2026-08-06": {
+      "bytes": 476404,
+      "files": 128,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "e5b7dec48483454297e7bdae5163b9440001bd84256f52575cac3e30f2892cb4"
+    },
+    "2026-08-07": {
+      "bytes": 141843,
+      "files": 53,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "d1646ff14b9fd4630dc9a734290e8b5947a179b4188b94c5a7d921fbdce4f90f"
+    },
+    "2026-08-10": {
+      "bytes": 417207,
+      "files": 197,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "b2b4d96340e5a059362a9c93f1bef79deda5f6b25a40d4ca382ae6244e419261"
+    },
+    "2026-08-11": {
+      "bytes": 154396,
+      "files": 73,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "98fb3fd649c11bd6991f79efe935b747925fd95502eb41e7be76e61f58e11e1e"
+    },
+    "2026-08-15": {
+      "bytes": 262784,
+      "files": 133,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "80ce8ff1c02e81a409ce42e1dae25df32b9b1c7cda17a6c6919c53382e75f5a9"
+    },
+    "2026-08-16": {
+      "bytes": 8818554,
+      "files": 473,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "b9c04d6da1462ec85e4413f6a07ce5436a52e7e13ef912c5103c18764b10bc6c"
+    },
+    "2026-08-17": {
+      "bytes": 22381615,
+      "files": 207,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "be3884e2254bc4391342ffe951699a102f6c2679c89b038ddea6a176cbb7bc43"
+    },
+    "2026-08-18": {
+      "bytes": 9046906,
+      "files": 760,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "f1d5345982116a25b99c89ce2b5aa8ba066e8c39f00439757d535924beed2d65"
+    },
+    "2026-08-19": {
+      "bytes": 244834,
+      "files": 198,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "22c75f28deef3e4ad3e60ffdbb117fb5ac1f8d2fab614a1d498e5109135a6c0a"
+    },
+    "2026-08-20": {
+      "bytes": 21036304,
+      "files": 443,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "7790fc0a1edaf066105234ed7ea1a3b4e215a44e473c64156d45d860483ae532"
+    },
+    "2026-08-21": {
+      "bytes": 80307322,
+      "files": 707,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "009e931f76c3b1de71a30196af65470f27e6ee6a8ff3b63a8c32ac37c9b4f1da"
+    },
+    "2026-08-22": {
+      "bytes": 174258,
+      "files": 123,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "9ce707097baba281e406a393cf8dcd93993eb77d215967838d1eda409348ed16"
+    },
+    "2026-08-23": {
+      "bytes": 311805,
+      "files": 182,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "f21bc57bf02b56821e0f6ccfc4fd49a4aaeda43e7c37c6cd0f5b69bf5666c84f"
+    },
+    "2026-08-24": {
+      "bytes": 1885947,
+      "files": 114,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "77a885283793d6c28dbabeaadf87d76bc3e3f63cf04aa5ece80ad1d6238cef26"
+    },
+    "2026-08-25": {
+      "bytes": 265958,
+      "files": 104,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "dd8b75477b6639eee15898844c89139c0b66c9a16b02a0fdfc524f3cfbf36cfc"
+    },
+    "2026-08-26": {
+      "bytes": 315232,
+      "files": 133,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "eafa82841d4b1623be4274479d7c473f9a784b75708678a5530afe164bc58c20"
+    },
+    "2026-08-27": {
+      "bytes": 232246,
+      "files": 100,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "85f69851d9ea40974104045822254ca396e9b2818178d860fd76cf8b07336575"
+    },
+    "2026-08-28": {
+      "bytes": 232718,
+      "files": 100,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "45d207025b2be62f00c8e2fbbfb2da051cbc369314c1fafc957443fffe47497e"
+    },
+    "2026-08-29": {
+      "bytes": 582342,
+      "files": 288,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "61e69991a05903a61732660fea6cd3f9962dfbae94c0b5efdd3749e9b2c62061"
+    },
+    "2026-08-30": {
+      "bytes": 332841,
+      "files": 185,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "dfba7030f1e5fda7713efd49c4af03dc5fc2d3f171466be24cb07641f27e90a8"
+    },
+    "2026-08-31": {
+      "bytes": 2027137,
+      "files": 127,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "0a1b49ec1461ac1ea387a60179dc42a90b47d9ab86c1e7fe2e0e0c49e6a4aeaa"
+    },
+    "2026-09-03": {
+      "bytes": 9104506,
+      "files": 111,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "53124ac3cadea049c87fc40adfcf4e36889ffe375d301a0dd2e6339f1b69fe52"
+    },
+    "2026-09-04": {
+      "bytes": 9342238,
+      "files": 211,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "992acea2a100f1da67a533651ffb2bddb17d8f7fd6f95bfc9fc20f04a66c2b15"
+    },
+    "2026-09-05": {
+      "bytes": 438873,
+      "files": 233,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "0ff6549b1f3550fb76f6fbcc4b37103341bc897a2edb0beb1a3b60b4eb30dff7"
+    },
+    "2026-09-06": {
+      "bytes": 4655232,
+      "files": 4323,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "807dbdd6cc71c03a2a1a500f7a4a3a036e52d6264a977540723bea09029d100f"
+    },
+    "2026-09-07": {
+      "bytes": 1013750,
+      "files": 151,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "e59c6cc6b2d12d094ab06bf095bf58c522392b2f143576fd4b996ae305e59890"
+    },
+    "eu-probe-2026-09-01": {
+      "bytes": 15724967,
+      "files": 44,
+      "published_by": "local",
+      "published_utc": "2026-09-07T11:27:47Z",
+      "sha256": "d1a5d1c5d775d2cea9141516c60db2aa3dd6f76738be63a157becc66b7af012a"
+    }
+  },
+  "note": "Derived state; the bytes live as release assets, one tar per day folder. See tools/raw_state.py.",
+  "release": "thejoycething-code/parl-monitor release raw-archive"
+}
