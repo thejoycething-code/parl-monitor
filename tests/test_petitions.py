@@ -138,6 +138,33 @@ class SweepTests(unittest.TestCase):
         self.assertEqual((extra["prev_signatures"], extra["signatures"]), (98000, 101234))
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM petition_snapshots").fetchone()[0], 2)
 
+    def test_tier_two_vocabulary_alone_does_not_admit_a_petition(self):
+        """168 of the first sweep's 269 came in on tier-2 words: "birth rate"
+        in a student-loan petition, "coercion" in one about China."""
+        import run_weekly
+        from src import filter as filt
+        conn = self._conn()
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+
+        class Client:
+            def get_json(self, url, feed, slug, archive=True):
+                if "state=open" in url:
+                    return {"data": [row(1, "Scrap RPI interest on student loans", 5000,
+                                         background="It depresses the birth rate."),
+                                     row(2, "Reverse the ban on puberty blockers", 5000)],
+                            "links": {"next": None}}
+                return {"data": [], "links": {"next": None}}
+        run_weekly.sweep_petitions(Client(), conn, tax, wl, datetime.date(2026, 9, 6), "2026-09-07", log=lambda *_: None)
+        ids = [r[0] for r in conn.execute("SELECT id FROM items WHERE source_feed='petition'")]
+        self.assertEqual(ids, ["petition:2"])
+
+    def test_migration_only_petitions_stay_out_of_the_section(self):
+        src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
+        block = src[src.index('if feed == "petition":'):src.index('if feed == "si":')]
+        self.assertIn("if a != 11]", block)
+        self.assertLess(block.index("if a != 11]"), block.index("edition.petitions.append"))
+
     def test_the_weekly_runs_it_and_coverage_watches_it(self):
         src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
         self.assertIn("sweep_petitions(client, conn, tax, wl, datetime.date.today(), edition)", src)

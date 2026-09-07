@@ -326,7 +326,12 @@ def sweep_petitions(client, conn, tax, wl, today, edition, log=print):
     matched = 0
     for p in rows:
         r = filt.filter_item(tax, wl, p.action, p.text)
-        if not r.matched():
+        # The ledger's precision gate, not the section's: a petition is a
+        # few hundred words, and tier-2 vocabulary alone admitted 168 of
+        # 269 on the first sweep (2026-09-07) -- "birth rate" in a student
+        # loan petition, "coercion" in one about China, "Ofcom" about
+        # broadcast rules. Tier 1 or a watchlist name, or nothing.
+        if not r.matched() or not (r.tier == 1 or r.watchlist_hits):
             continue
         matched += 1
         prev = conn.execute(
@@ -874,6 +879,10 @@ def sections_from_store(conn, edition):
                     deadline=r["deadline"], date=r["event_date"]))
             continue
         if feed == "petition":
+            # Migration (area 11) is collated, never campaigned: stored and
+            # judged, hidden from the section as from every other surface.
+            if not [a for a in json.loads(r["issue_areas"] or "[]") if a != 11]:
+                continue
             extra = json.loads(r["extra"]) if r["extra"] else {}
             row = {"id": r["id"].split(":", 1)[1], "title": r["title"], "url": r["url"],
                    "why": r["why_it_matters"] or "", "tag": r["triage_score"]}
