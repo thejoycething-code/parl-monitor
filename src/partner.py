@@ -257,6 +257,99 @@ asked. The weekly edition groups these by area and links here for detail.
 """
 
 
+PETITIONS_PAGE = """# E-petitions on our ground
+
+Every open Parliament e-petition matching our campaign areas, refreshed each
+Sunday. 10,000 signatures earn a Government response; 100,000 put the petition
+before the Petitions Committee for a Commons debate. The movement column is
+the early warning: a petition gaining thousands a week is on its way to a
+debate months before the diary shows one. Signatures as of {seen}.
+
+{tables}
+"""
+
+HIDDEN_AREAS = (11,)   # migration: collated, never campaigned, shown nowhere
+
+
+def petition_rows(conn, hidden=HIDDEN_AREAS):
+    """The latest sweep's petitions, each with its movement since the sweep
+    before. Migration-only petitions are left out, as everywhere else."""
+    import json
+    try:
+        latest = conn.execute("SELECT MAX(last_seen) FROM petitions").fetchone()[0]
+    except Exception:                                       # noqa: BLE001
+        return None, []
+    if not latest:
+        return None, []
+    rows = []
+    for r in conn.execute(
+            "SELECT id, action, url, signatures, areas, milestone, first_seen, last_seen, "
+            "scheduled_debate_date, debate_reached, response_reached "
+            "FROM petitions WHERE last_seen = ? ORDER BY signatures DESC", (latest,)):
+        areas = [a for a in json.loads(r["areas"] or "[]") if a not in hidden]
+        if not areas:
+            continue
+        prev = conn.execute(
+            "SELECT signatures FROM petition_snapshots WHERE petition_id = ? AND captured_at < ? "
+            "ORDER BY captured_at DESC LIMIT 1", (r["id"], latest)).fetchone()
+        rows.append({"id": r["id"], "action": r["action"], "url": r["url"],
+                     "signatures": r["signatures"], "areas": areas, "milestone": r["milestone"],
+                     "first_seen": r["first_seen"], "new": r["first_seen"] == latest,
+                     "delta": (r["signatures"] - prev[0]) if prev else None,
+                     "scheduled_debate_date": r["scheduled_debate_date"]})
+    return latest, rows
+
+
+def _movement(row):
+    if row["delta"] is None:
+        return "new to the monitor"
+    d = row["delta"]
+    return "{0}{1:,}".format("+" if d >= 0 else "\u2212", abs(d))
+
+
+def build_petitions_page(site_dir, conn, area_labels=None):
+    """The petitions companion page (Christopher, 2026-09-07). Petitions are
+    kept OUT of the weekly report by his decision the same day; this page is
+    where the collated record surfaces. Public record only, no judgement:
+    every figure on it is petition.parliament.uk's own."""
+    latest, rows = petition_rows(conn)
+    if not rows:
+        return None
+    labels = area_labels or {}
+
+    def cell(row):
+        link = "[{0}]({1})".format(row["action"].replace("|", "/"), row["url"])
+        return link + (" *(new)*" if row["new"] else "")
+
+    def areas(row):
+        return ", ".join(str(labels.get(a, a)) for a in row["areas"])
+
+    blocks = []
+    movers = sorted([r for r in rows if r["delta"] is not None and r["delta"] > 0],
+                    key=lambda r: -r["delta"])[:8]
+    if movers:
+        blocks.append("## Moving fastest this week\n")
+        blocks.append("| Petition | Signatures | This week | Where it stands |")
+        blocks.append("|---|---|---|---|")
+        for r in movers:
+            blocks.append("| {0} | {1:,} | {2} | {3} |".format(cell(r), r["signatures"], _movement(r), r["milestone"] or ""))
+        blocks.append("")
+    blocks.append("## All petitions on our ground ({0})\n".format(len(rows)))
+    blocks.append("| Petition | Signatures | This week | Where it stands | Areas | First seen |")
+    blocks.append("|---|---|---|---|---|---|")
+    for r in rows:
+        blocks.append("| {0} | {1:,} | {2} | {3} | {4} | {5} |".format(
+            cell(r), r["signatures"], _movement(r), (r["milestone"] or "").replace("|", "/"),
+            areas(r), r["first_seen"] or ""))
+    blocks.append("")
+    markdown = PETITIONS_PAGE.format(seen=latest, tables="\n".join(blocks))
+    page = to_html(markdown, "E-petitions on our ground - {0}".format(latest))
+    path = os.path.join(site_dir, "petitions.html")
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(page)
+    return path
+
+
 def build_questions_page(site_dir, week, pq_rows, area_labels=None, background=None):
     """The companion page the edition's question tables link to.
 
@@ -332,7 +425,8 @@ def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq
            '<a href="/5ca-matrix.html">Cross-issue matrix</a> | '
            '<a href="/5ca-peers-matrix.html">Peers matrix</a> | '
            '<a href="/5ca.html">Five Column Analysis tracker</a> | '
-           '<a href="/questions.html">Written questions in full</a><br>Archive: ' +
+           '<a href="/questions.html">Written questions in full</a> | '
+           '<a href="/petitions.html">E-petitions on our ground</a><br>Archive: ' +
            " | ".join('<a href="/archive/{0}.html">{0}</a>'.format(w)
                       for w in sorted(archive_weeks, reverse=True)) + "</nav>")
     index = page.replace("</h1>", "</h1>\n" + nav, 1)

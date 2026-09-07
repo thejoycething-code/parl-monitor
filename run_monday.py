@@ -181,11 +181,18 @@ def main():
     pq_conn = db.connect(os.path.join(ROOT, "data", run_weekly._db_name(week)))
     pq_edition = run_weekly.sections_from_store(
         pq_conn, digest.Edition(week_commencing=week, number=number, mode="normal"))
+    # The petitions companion page: petitions are kept out of the report
+    # (Christopher, 2026-09-07) and surface here instead.
+    from src import intel as _intel
+    pet_page = partner.build_petitions_page(
+        os.path.join(ROOT, "partner_site"), pq_conn,
+        _intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml")))
     pq_conn.close()
     site = partner.build_site(os.path.join(ROOT, "partner_site"), week, partner_md, weeks,
                               pq_rows=pq_edition.pq_rows,
                               pq_background=pq_edition.pq_background)
     print("partner site: {0}".format(site))
+    print("petitions page: {0}".format(pet_page or "none (no petitions on our ground yet)"))
 
     # Internal 5CA tracker: regenerated weekly so the placements the team works
     # from are never staler than an edition. Written to docs/, never to

@@ -176,5 +176,66 @@ class SweepTests(unittest.TestCase):
         self.assertIn('("petitions", "last_seen"', cov)
 
 
+class CompanionPageTests(unittest.TestCase):
+    """Christopher, 2026-09-07: "Build the petitions companion page." Where the
+    collated record surfaces, since the report does not carry it."""
+
+    def _conn(self):
+        from src import db
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        def pet(pid, action, sigs, areas, first, last, milestone="x"):
+            conn.execute("INSERT INTO petitions (id, action, url, state, signatures, areas, matched, tier, "
+                         "milestone, first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                         (pid, action, "https://petition.parliament.uk/petitions/{0}".format(pid), "open",
+                          sigs, areas, "[]", 1, milestone, first, last))
+        pet(763161, "Change surrogacy law", 113045, "[10]", "2026-08-30", "2026-09-06", "Debate scheduled for 2026-09-07")
+        pet(5, "Digital ID referendum", 5656, "[7]", "2026-09-06", "2026-09-06", "4,344 to a Government response")
+        pet(9, "Deport everyone", 11032, "[11]", "2026-08-30", "2026-09-06")
+        pet(4, "Stale petition", 999, "[1]", "2026-08-23", "2026-08-30")   # not in the latest sweep
+        conn.executemany("INSERT INTO petition_snapshots VALUES (?,?,?)", [
+            (763161, "2026-08-30", 110000), (763161, "2026-09-06", 113045), (5, "2026-09-06", 5656),
+            (9, "2026-08-30", 10000), (9, "2026-09-06", 11032)])
+        return conn
+
+    def test_rows_carry_movement_and_hide_migration_and_stale(self):
+        from src import partner
+        latest, rows = partner.petition_rows(self._conn())
+        self.assertEqual(latest, "2026-09-06")
+        self.assertEqual([r["id"] for r in rows], [763161, 5])
+        self.assertEqual(rows[0]["delta"], 3045)
+        self.assertIsNone(rows[1]["delta"])
+        self.assertTrue(rows[1]["new"])
+
+    def test_the_page_renders_both_tables_and_is_linked_from_the_nav(self):
+        import tempfile
+        from src import partner
+        out = tempfile.mkdtemp()
+        path = partner.build_petitions_page(out, self._conn(), {10: "Surrogacy and embryology", 7: "Free speech"})
+        html = open(path, encoding="utf-8").read()
+        self.assertIn("Moving fastest this week", html)
+        self.assertIn("All petitions on our ground (2)", html)
+        self.assertIn('href="https://petition.parliament.uk/petitions/763161"', html)
+        self.assertIn("+3,045", html)
+        self.assertIn("new to the monitor", html)
+        self.assertIn("Surrogacy and embryology", html)
+        self.assertNotIn("Deport everyone", html)
+        self.assertNotIn("Stale petition", html)
+        partner.build_site(out, "2026-09-07", "# Parliamentary Monitor\n\n## Top lines\n\n- x\n", ["2026-09-07"])
+        self.assertIn('<a href="/petitions.html">E-petitions on our ground</a>',
+                      open(os.path.join(out, "index.html"), encoding="utf-8").read())
+
+    def test_no_petitions_means_no_page_not_a_crash(self):
+        import tempfile
+        from src import db, partner
+        conn = db.init_db(sqlite3.connect(":memory:")); conn.row_factory = sqlite3.Row
+        self.assertIsNone(partner.build_petitions_page(tempfile.mkdtemp(), conn))
+
+    def test_the_monday_publish_builds_it(self):
+        src = open(os.path.join(ROOT, "run_monday.py"), encoding="utf-8").read()
+        self.assertIn("partner.build_petitions_page(", src)
+        self.assertLess(src.index("partner.build_petitions_page("), src.index("pq_conn.close()"))
+
+
 if __name__ == "__main__":
     unittest.main()
