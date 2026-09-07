@@ -713,9 +713,13 @@ def render_courts(rows):
     """UK judgments on our ground (2026-09-07)."""
     if not rows:
         return None
+    # Christopher, 2026-09-07: judgments are scored for relevance and DESCRIBED,
+    # never agreed or disagreed with. The column says so.
     out = ["## Courts", "",
-           "*Judgments handed down this week whose text touches our areas; the excerpt is the passage that matched.*",
-           "", "| Handed down | Court | Case | Why it matters |", "|---|---|---|---|"]
+           "*Judgments handed down this week whose text touches our areas, stated as decided. "
+           "The monitor takes no view on a judgment; where no line has been written yet, the "
+           "excerpt is the passage that matched.*",
+           "", "| Handed down | Court | Case | What was decided |", "|---|---|---|---|"]
     for r in sorted(rows, key=lambda r: (r.get("date") or "", r.get("court") or "")):
         case = (r.get("title") or "").split(": ", 1)[-1].replace("|", "/")
         why = (r.get("why") or "").replace("|", "/")

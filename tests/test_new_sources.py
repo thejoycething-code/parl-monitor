@@ -286,6 +286,17 @@ class RenderTests(unittest.TestCase):
         self.assertLess(md.index("## Consultations and calls for evidence"), md.index("## Committee reports"))
         self.assertLess(md.index("## Committee reports"), md.index("## Courts"))
 
+    def test_judgments_are_described_not_judged(self):
+        """Christopher, 2026-09-07: "With court judgments we can score them but
+        just state what's going on. Don't note whether we agree or not." """
+        from src import triage
+        self.assertIn('an id beginning "judgment:"', triage.SYSTEM_PROMPT)
+        self.assertIn("take no side on it", triage.SYSTEM_PROMPT)
+        md = digest.render_courts([{"date": "2026-09-03", "court": "Supreme Court", "title": "Supreme Court: A v B",
+                                    "url": "u", "why": "Held that X.", "excerpt": ""}])
+        self.assertIn("| Handed down | Court | Case | What was decided |", md)
+        self.assertIn("The monitor takes no view on a judgment", md)
+
     def test_empty_rows_render_nothing(self):
         self.assertIsNone(digest.render_amendments([]))
         self.assertIsNone(digest.render_reports([]))

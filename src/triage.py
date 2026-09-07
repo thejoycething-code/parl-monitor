@@ -35,6 +35,9 @@ why_it_matters: maximum 35 words, CitizenGO voice: direct, concrete, no hedging,
 British spelling, no em dashes. State the implication, not a summary.
 Score on relevance to the areas above regardless of whether an item helps or hurts
 the campaign position: opposition activity scores as highly as friendly activity.
+For a court judgment (an id beginning "judgment:"), why_it_matters states what the
+court decided and what that changes for the area, in neutral terms. Never say whether
+the judgment is right or wrong, welcome or a setback, and take no side on it.
 Return only the JSON array."""
 
 
