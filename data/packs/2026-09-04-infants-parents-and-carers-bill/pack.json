@@ -1,0 +1,982 @@
+{
+ "title": "Infants, Parents and Carers Bill",
+ "house": "Commons",
+ "date": "2026-09-04",
+ "ext_id": "E497E406-8A93-422C-BD21-4F753F37050E",
+ "event": null,
+ "manifest": null,
+ "directions": {
+  "1521": {
+   "stance": 0,
+   "why": "General support for infant/family welfare bill, no engagement with education, marriage or surrogacy stance."
+  },
+  "1533": {
+   "stance": 0,
+   "why": "Government speech backing early years bill, not related to CitizenGO's specific culture-war areas."
+  },
+  "4510": {
+   "stance": 0,
+   "why": "Discusses child development research, no relevance to parental rights, marriage or surrogacy stance."
+  },
+  "5341": {
+   "stance": 0,
+   "why": "Supports infant welfare bill, no direct engagement with parental rights, marriage or surrogacy."
+  },
+  "5228": {
+   "stance": 0,
+   "why": "Backs family support bill, no reference to education rights, marriage or surrogacy issues."
+  },
+  "5226": {
+   "stance": 0,
+   "why": "Personal advocacy for early years support, unrelated to CitizenGO's specific positions."
+  },
+  "4860": {
+   "stance": 0,
+   "why": "General child welfare commentary, no bearing on parental rights, marriage or surrogacy stance."
+  },
+  "5301": {
+   "stance": 0,
+   "why": "Supports bill on infant care, no engagement with parental rights, marriage or surrogacy."
+  },
+  "5335": {
+   "stance": 0,
+   "why": "Backs infant feeding and family support bill, no direct relevance to targeted areas."
+  },
+  "4776": {
+   "stance": 0,
+   "why": "Supports infants bill, no connection to education rights, marriage or surrogacy issues."
+  },
+  "5268": {
+   "stance": 0,
+   "why": "Discusses parenting support and screen time, unrelated to CitizenGO's specific stances."
+  },
+  "55": {
+   "stance": 0,
+   "why": "Bill sponsor's introductory remarks on infant support services, no relevant stance shown."
+  },
+  "5119": {
+   "stance": 0,
+   "why": "Discussion of youth services funding, no bearing on parental rights, marriage or surrogacy."
+  },
+  "5170": {
+   "stance": 0,
+   "why": "Supports child welfare bill, referencing safeguarding, unrelated to CitizenGO's target areas."
+  },
+  "5048": {
+   "stance": 0,
+   "why": "Focus on housing and infant welfare, no relevance to education rights, marriage or surrogacy."
+  },
+  "5159": {
+   "stance": 0,
+   "why": "General support for infant care bill, no engagement with CitizenGO's specific positions."
+  },
+  "5334": {
+   "stance": 0,
+   "why": "Speech on infant mortality and inequality, unrelated to parental rights, marriage or surrogacy."
+  },
+  "5156": {
+   "stance": 0,
+   "why": "Support for child welfare bill referencing Sure Start, no relevance to target areas."
+  },
+  "5188": {
+   "stance": 0,
+   "why": "Discusses child poverty and early years support, no bearing on CitizenGO's specific stances."
+  },
+  "5068": {
+   "stance": 0,
+   "why": "Personal reflection supporting infant bill, no engagement with education, marriage or surrogacy."
+  },
+  "5083": {
+   "stance": 0,
+   "why": "General reflection on infant brain development, not addressing family, education or surrogacy policy directly."
+  },
+  "4592": {
+   "stance": 0,
+   "why": "Personal paediatric and parenting story supporting the bill's early years focus, no policy stance shown."
+  },
+  "5194": {
+   "stance": 0,
+   "why": "Family-themed tribute to bill's aims, no direct stance on marriage, education or surrogacy policy."
+  },
+  "5263": {
+   "stance": 0,
+   "why": "Criticises government underinvestment in Sure Start; unrelated to marriage, education rights or surrogacy."
+  },
+  "4716": {
+   "stance": 0,
+   "why": "Describes bill's structure and personal experience; no stance on relevant policy areas."
+  },
+  "5294": {
+   "stance": 0,
+   "why": "Discusses parental leave and Sure Start equity; not engaging targeted policy areas."
+  },
+  "350": {
+   "stance": 0,
+   "why": "Discusses district nurses and early development services, unrelated to core policy areas."
+  },
+  "5155": {
+   "stance": 0,
+   "why": "Discusses reading for pleasure report, unrelated to family, education rights or surrogacy."
+  },
+  "1524": {
+   "stance": 0,
+   "why": "Discusses Sure Start home visits, no direct relevance to targeted policy areas."
+  },
+  "5149": {
+   "stance": 0,
+   "why": "Discusses breastfeeding support timing, unrelated to marriage, education or surrogacy stance."
+  },
+  "373": {
+   "stance": 0,
+   "why": "Procedural point of order about closure motion, unrelated to policy areas."
+  },
+  "5150": {
+   "stance": 0,
+   "why": "Discusses infant feeding support, no bearing on targeted policy areas."
+  },
+  "5347": {
+   "stance": 0,
+   "why": "Praises breastfeeding charity, no direct policy stance on relevant areas."
+  },
+  "5042": {
+   "stance": 0,
+   "why": "Historical reference to 1918 welfare act, unrelated to targeted policy areas."
+  },
+  "5138": {
+   "stance": 0,
+   "why": "Concerns maternity unit closures, unrelated to family, education or surrogacy policy."
+  },
+  "5246": {
+   "stance": 1,
+   "why": "Praises efforts on international surrogacy law and rights of babies, aligning with surrogacy concerns."
+  },
+  "5163": {
+   "stance": 0,
+   "why": "Discusses audiology services, unrelated to targeted policy areas."
+  },
+  "5168": {
+   "stance": 0,
+   "why": "Praises hospital improvements, unrelated to targeted policy areas."
+  },
+  "4471": {
+   "stance": 0,
+   "why": "Procedural request for minister meeting, no policy direction shown."
+  },
+  "5309": {
+   "stance": 0,
+   "why": "Procedural intervention request, no policy direction shown."
+  },
+  "5218": {
+   "stance": 0,
+   "why": "Procedural intervention requesting minister give way, no discernible stance shown."
+  }
+ },
+ "areas": [
+  6,
+  9,
+  10
+ ],
+ "speakers": [
+  {
+   "key": "1521",
+   "name": "Mrs Sharon Hodgson",
+   "party": "Lab",
+   "seat": "Washington and Gateshead South",
+   "spans": [
+    [
+     "2026-09-04T10:49:00+01:00",
+     "2026-09-04T10:52:52+01:00"
+    ],
+    [
+     "2026-09-04T10:59:09+01:00",
+     "2026-09-04T11:01:03+01:00"
+    ],
+    [
+     "2026-09-04T10:56:37+01:00",
+     "2026-09-04T10:57:15+01:00"
+    ],
+    [
+     "2026-09-04T10:57:15+01:00",
+     "2026-09-04T10:57:32+01:00"
+    ],
+    [
+     "2026-09-04T11:07:09+01:00",
+     "2026-09-04T11:09:28+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:49:00+01:00"
+  },
+  {
+   "key": "1533",
+   "name": "Dame Diana Johnson",
+   "party": null,
+   "seat": null,
+   "spans": [
+    [
+     "2026-09-04T13:54:33+01:00",
+     "2026-09-04T13:58:55+01:00"
+    ],
+    [
+     "2026-09-04T13:59:05+01:00",
+     "2026-09-04T14:01:39+01:00"
+    ],
+    [
+     "2026-09-04T14:03:02+01:00",
+     "2026-09-04T14:04:33+01:00"
+    ],
+    [
+     "2026-09-04T14:03:00+01:00",
+     "2026-09-04T14:10:51+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:54:33+01:00"
+  },
+  {
+   "key": "4510",
+   "name": "Helen Hayes",
+   "party": "Lab",
+   "seat": "Dulwich and West Norwood",
+   "spans": [
+    [
+     "2026-09-04T10:01:13+01:00",
+     "2026-09-04T10:03:24+01:00"
+    ],
+    [
+     "2026-09-04T10:04:30+01:00",
+     "2026-09-04T10:06:44+01:00"
+    ],
+    [
+     "2026-09-04T10:07:58+01:00",
+     "2026-09-04T10:08:46+01:00"
+    ],
+    [
+     "2026-09-04T10:10:48+01:00",
+     "2026-09-04T10:12:52+01:00"
+    ],
+    [
+     "2026-09-04T10:12:52+01:00",
+     "2026-09-04T10:13:40+01:00"
+    ],
+    [
+     "2026-09-04T10:16:05+01:00",
+     "2026-09-04T10:16:45+01:00"
+    ],
+    [
+     "2026-09-04T10:17:04+01:00",
+     "2026-09-04T10:17:32+01:00"
+    ],
+    [
+     "2026-09-04T10:19:33+01:00",
+     "2026-09-04T10:21:51+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:01:13+01:00"
+  },
+  {
+   "key": "5341",
+   "name": "Laura Kyrke-Smith",
+   "party": "Lab",
+   "seat": "Aylesbury",
+   "spans": [
+    [
+     "2026-09-04T12:34:05+01:00",
+     "2026-09-04T12:45:41+01:00"
+    ],
+    [
+     "2026-09-04T12:48:18+01:00",
+     "2026-09-04T12:48:56+01:00"
+    ]
+   ],
+   "first": "2026-09-04T12:34:05+01:00"
+  },
+  {
+   "key": "5228",
+   "name": "Maya Ellis",
+   "party": "Lab",
+   "seat": "Ribble Valley",
+   "spans": [
+    [
+     "2026-09-04T10:27:10+01:00",
+     "2026-09-04T10:39:45+01:00"
+    ],
+    [
+     "2026-09-04T09:30:00+01:00",
+     "2026-09-04T09:30:38+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:27:10+01:00"
+  },
+  {
+   "key": "5226",
+   "name": "Michelle Welsh",
+   "party": "Lab",
+   "seat": "Sherwood Forest",
+   "spans": [
+    [
+     "2026-09-04T11:14:50+01:00",
+     "2026-09-04T11:19:55+01:00"
+    ],
+    [
+     "2026-09-04T11:22:40+01:00",
+     "2026-09-04T11:27:58+01:00"
+    ]
+   ],
+   "first": "2026-09-04T11:14:50+01:00"
+  },
+  {
+   "key": "4860",
+   "name": "Dr Kieran Mullan",
+   "party": "Con",
+   "seat": "Bexhill and Battle",
+   "spans": [
+    [
+     "2026-09-04T10:17:32+01:00",
+     "2026-09-04T10:17:51+01:00"
+    ],
+    [
+     "2026-09-04T11:27:58+01:00",
+     "2026-09-04T11:32:34+01:00"
+    ],
+    [
+     "2026-09-04T11:32:34+01:00",
+     "2026-09-04T11:38:03+01:00"
+    ],
+    [
+     "2026-09-04T11:38:03+01:00",
+     "2026-09-04T11:39:39+01:00"
+    ],
+    [
+     "2026-09-04T12:02:14+01:00",
+     "2026-09-04T12:02:48+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:17:32+01:00"
+  },
+  {
+   "key": "5301",
+   "name": "Rebecca Smith",
+   "party": "Con",
+   "seat": "South West Devon",
+   "spans": [
+    [
+     "2026-09-04T12:02:14+01:00",
+     "2026-09-04T12:06:36+01:00"
+    ],
+    [
+     "2026-09-04T12:07:33+01:00",
+     "2026-09-04T12:07:47+01:00"
+    ],
+    [
+     "2026-09-04T12:07:47+01:00",
+     "2026-09-04T12:09:56+01:00"
+    ],
+    [
+     "2026-09-04T11:09:41+01:00",
+     "2026-09-04T11:14:23+01:00"
+    ]
+   ],
+   "first": "2026-09-04T12:02:14+01:00"
+  },
+  {
+   "key": "5335",
+   "name": "Jess Brown-Fuller",
+   "party": "LD",
+   "seat": "Chichester",
+   "spans": [
+    [
+     "2026-09-04T12:20:00+01:00",
+     "2026-09-04T12:24:24+01:00"
+    ],
+    [
+     "2026-09-04T12:27:46+01:00",
+     "2026-09-04T12:28:55+01:00"
+    ],
+    [
+     "2026-09-04T12:28:55+01:00",
+     "2026-09-04T12:29:26+01:00"
+    ],
+    [
+     "2026-09-04T12:31:05+01:00",
+     "2026-09-04T12:31:40+01:00"
+    ],
+    [
+     "2026-09-04T12:33:53+01:00",
+     "2026-09-04T12:34:05+01:00"
+    ],
+    [
+     "2026-09-04T12:48:56+01:00",
+     "2026-09-04T12:49:30+01:00"
+    ]
+   ],
+   "first": "2026-09-04T12:20:00+01:00"
+  },
+  {
+   "key": "4776",
+   "name": "Munira Wilson",
+   "party": "LD",
+   "seat": "Twickenham",
+   "spans": [
+    [
+     "2026-09-04T10:40:12+01:00",
+     "2026-09-04T10:46:45+01:00"
+    ],
+    [
+     "2026-09-04T10:46:45+01:00",
+     "2026-09-04T10:49:00+01:00"
+    ],
+    [
+     "2026-09-04T10:57:15+01:00",
+     "2026-09-04T10:58:20+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:40:12+01:00"
+  },
+  {
+   "key": "5268",
+   "name": "Iqbal Mohamed",
+   "party": "Ind",
+   "seat": "Dewsbury and Batley",
+   "spans": [
+    [
+     "2026-09-04T11:32:34+01:00",
+     "2026-09-04T11:33:05+01:00"
+    ],
+    [
+     "2026-09-04T09:30:00+01:00",
+     "2026-09-04T09:30:39+01:00"
+    ],
+    [
+     "2026-09-04T12:48:56+01:00",
+     "2026-09-04T12:51:45+01:00"
+    ],
+    [
+     "2026-09-04T12:59:36+01:00",
+     "2026-09-04T13:02:29+01:00"
+    ],
+    [
+     "2026-09-04T09:30:00+01:00",
+     "2026-09-04T09:32:22+01:00"
+    ]
+   ],
+   "first": "2026-09-04T11:32:34+01:00"
+  },
+  {
+   "key": "55",
+   "name": "Sir Desmond Swayne",
+   "party": "Con",
+   "seat": "New Forest West",
+   "spans": [
+    [
+     "2026-09-04T09:49:25+01:00",
+     "2026-09-04T09:52:32+01:00"
+    ],
+    [
+     "2026-09-04T09:54:40+01:00",
+     "2026-09-04T09:55:51+01:00"
+    ],
+    [
+     "2026-09-04T09:56:23+01:00",
+     "2026-09-04T09:56:49+01:00"
+    ],
+    [
+     "2026-09-04T09:57:00+01:00",
+     "2026-09-04T09:57:43+01:00"
+    ],
+    [
+     "2026-09-04T09:59:43+01:00",
+     "2026-09-04T10:01:13+01:00"
+    ],
+    [
+     "2026-09-04T13:09:40+01:00",
+     "2026-09-04T13:11:43+01:00"
+    ]
+   ],
+   "first": "2026-09-04T09:49:25+01:00"
+  },
+  {
+   "key": "5119",
+   "name": "Natasha Irons",
+   "party": "Lab",
+   "seat": "Croydon East",
+   "spans": [
+    [
+     "2026-09-04T09:58:09+01:00",
+     "2026-09-04T09:58:45+01:00"
+    ],
+    [
+     "2026-09-04T10:13:41+01:00",
+     "2026-09-04T10:14:41+01:00"
+    ],
+    [
+     "2026-09-04T11:09:41+01:00",
+     "2026-09-04T11:10:39+01:00"
+    ],
+    [
+     "2026-09-04T12:16:32+01:00",
+     "2026-09-04T12:20:00+01:00"
+    ],
+    [
+     "2026-09-04T12:29:48+01:00",
+     "2026-09-04T12:30:42+01:00"
+    ]
+   ],
+   "first": "2026-09-04T09:58:09+01:00"
+  },
+  {
+   "key": "5170",
+   "name": "John Grady",
+   "party": "Lab",
+   "seat": "Glasgow East",
+   "spans": [
+    [
+     "2026-09-04T11:44:45+01:00",
+     "2026-09-04T11:53:23+01:00"
+    ]
+   ],
+   "first": "2026-09-04T11:44:45+01:00"
+  },
+  {
+   "key": "5048",
+   "name": "Antonia Bance",
+   "party": "Lab",
+   "seat": "Tipton and Wednesbury",
+   "spans": [
+    [
+     "2026-09-04T13:20:18+01:00",
+     "2026-09-04T13:21:53+01:00"
+    ],
+    [
+     "2026-09-04T13:22:31+01:00",
+     "2026-09-04T13:29:28+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:20:18+01:00"
+  },
+  {
+   "key": "5159",
+   "name": "Mr Connor Rand",
+   "party": "Lab",
+   "seat": "Altrincham and Sale West",
+   "spans": [
+    [
+     "2026-09-04T13:05:31+01:00",
+     "2026-09-04T13:11:39+01:00"
+    ],
+    [
+     "2026-09-04T13:05:31+01:00",
+     "2026-09-04T13:07:01+01:00"
+    ],
+    [
+     "2026-09-04T13:22:14+01:00",
+     "2026-09-04T13:22:31+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:05:31+01:00"
+  },
+  {
+   "key": "5334",
+   "name": "Dr Allison Gardner",
+   "party": "Lab",
+   "seat": "Stoke-on-Trent South",
+   "spans": [
+    [
+     "2026-09-04T13:39:05+01:00",
+     "2026-09-04T13:39:26+01:00"
+    ],
+    [
+     "2026-09-04T13:41:10+01:00",
+     "2026-09-04T13:41:25+01:00"
+    ],
+    [
+     "2026-09-04T13:43:28+01:00",
+     "2026-09-04T13:43:51+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:39:05+01:00"
+  },
+  {
+   "key": "5156",
+   "name": "Jess Asato",
+   "party": "Lab",
+   "seat": "Lowestoft",
+   "spans": [
+    [
+     "2026-09-04T13:35:44+01:00",
+     "2026-09-04T13:39:05+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:35:44+01:00"
+  },
+  {
+   "key": "5188",
+   "name": "Tracy Gilbert",
+   "party": "Lab",
+   "seat": "Edinburgh North and Leith",
+   "spans": [
+    [
+     "2026-09-04T11:55:10+01:00",
+     "2026-09-04T12:01:27+01:00"
+    ],
+    [
+     "2026-09-04T12:01:52+01:00",
+     "2026-09-04T12:02:14+01:00"
+    ]
+   ],
+   "first": "2026-09-04T11:55:10+01:00"
+  },
+  {
+   "key": "5068",
+   "name": "Shivani Raja",
+   "party": "Con",
+   "seat": "Leicester East",
+   "spans": [
+    [
+     "2026-09-04T10:22:58+01:00",
+     "2026-09-04T10:26:28+01:00"
+    ],
+    [
+     "2026-09-04T10:27:10+01:00",
+     "2026-09-04T10:30:32+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:22:58+01:00"
+  },
+  {
+   "key": "5083",
+   "name": "Bobby Dean",
+   "party": "LD",
+   "seat": "Carshalton and Wallington",
+   "spans": [
+    [
+     "2026-09-04T09:30:00+01:00",
+     "2026-09-04T09:34:44+01:00"
+    ],
+    [
+     "2026-09-04T09:30:00+01:00",
+     "2026-09-04T09:30:49+01:00"
+    ],
+    [
+     "2026-09-04T11:54:46+01:00",
+     "2026-09-04T11:55:10+01:00"
+    ]
+   ],
+   "first": "2026-09-04T09:30:00+01:00"
+  },
+  {
+   "key": "4592",
+   "name": "Dr Caroline Johnson",
+   "party": "Con",
+   "seat": "Sleaford and North Hykeham",
+   "spans": [
+    [
+     "2026-09-04T13:48:05+01:00",
+     "2026-09-04T13:54:33+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:48:05+01:00"
+  },
+  {
+   "key": "5194",
+   "name": "Steve Yemm",
+   "party": "Lab",
+   "seat": "Mansfield",
+   "spans": [
+    [
+     "2026-09-04T13:19:52+01:00",
+     "2026-09-04T13:20:18+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:19:52+01:00"
+  },
+  {
+   "key": "5263",
+   "name": "Alex Brewer",
+   "party": "LD",
+   "seat": "North East Hampshire",
+   "spans": [
+    [
+     "2026-09-04T11:09:28+01:00",
+     "2026-09-04T11:14:50+01:00"
+    ]
+   ],
+   "first": "2026-09-04T11:09:28+01:00"
+  },
+  {
+   "key": "4716",
+   "name": "Ruth Jones",
+   "party": "Lab",
+   "seat": "Newport West and Islwyn",
+   "spans": [
+    [
+     "2026-09-04T13:43:51+01:00",
+     "2026-09-04T13:48:05+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:43:51+01:00"
+  },
+  {
+   "key": "5294",
+   "name": "Amanda Martin",
+   "party": "Lab",
+   "seat": "Portsmouth North",
+   "spans": [
+    [
+     "2026-09-04T10:10:48+01:00",
+     "2026-09-04T10:11:35+01:00"
+    ],
+    [
+     "2026-09-04T10:46:45+01:00",
+     "2026-09-04T10:47:21+01:00"
+    ],
+    [
+     "2026-09-04T10:57:15+01:00",
+     "2026-09-04T10:57:43+01:00"
+    ],
+    [
+     "2026-09-04T11:19:55+01:00",
+     "2026-09-04T11:20:50+01:00"
+    ],
+    [
+     "2026-09-04T11:32:34+01:00",
+     "2026-09-04T11:33:06+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:10:48+01:00"
+  },
+  {
+   "key": "350",
+   "name": "Sir John Hayes",
+   "party": "Con",
+   "seat": "South Holland and The Deepings",
+   "spans": [
+    [
+     "2026-09-04T09:49:13+01:00",
+     "2026-09-04T09:50:03+01:00"
+    ],
+    [
+     "2026-09-04T10:08:46+01:00",
+     "2026-09-04T10:09:39+01:00"
+    ],
+    [
+     "2026-09-04T10:22:58+01:00",
+     "2026-09-04T10:23:46+01:00"
+    ]
+   ],
+   "first": "2026-09-04T09:49:13+01:00"
+  },
+  {
+   "key": "5155",
+   "name": "Chris Kane",
+   "party": "Lab",
+   "seat": "Stirling and Strathallan",
+   "spans": [
+    [
+     "2026-09-04T09:55:51+01:00",
+     "2026-09-04T09:56:06+01:00"
+    ],
+    [
+     "2026-09-04T10:16:45+01:00",
+     "2026-09-04T10:17:04+01:00"
+    ],
+    [
+     "2026-09-04T12:46:06+01:00",
+     "2026-09-04T12:47:06+01:00"
+    ]
+   ],
+   "first": "2026-09-04T09:55:51+01:00"
+  },
+  {
+   "key": "1524",
+   "name": "Dame Meg Hillier",
+   "party": "Lab/Co-op",
+   "seat": "Hackney South and Shoreditch",
+   "spans": [
+    [
+     "2026-09-04T09:56:23+01:00",
+     "2026-09-04T09:57:00+01:00"
+    ],
+    [
+     "2026-09-04T10:06:44+01:00",
+     "2026-09-04T10:07:18+01:00"
+    ],
+    [
+     "2026-09-04T10:49:00+01:00",
+     "2026-09-04T10:49:37+01:00"
+    ]
+   ],
+   "first": "2026-09-04T09:56:23+01:00"
+  },
+  {
+   "key": "5149",
+   "name": "Amanda Hack",
+   "party": "Lab",
+   "seat": "North West Leicestershire",
+   "spans": [
+    [
+     "2026-09-04T12:28:55+01:00",
+     "2026-09-04T12:29:40+01:00"
+    ],
+    [
+     "2026-09-04T13:39:26+01:00",
+     "2026-09-04T13:39:47+01:00"
+    ]
+   ],
+   "first": "2026-09-04T12:28:55+01:00"
+  },
+  {
+   "key": "373",
+   "name": "David Davis",
+   "party": "Con",
+   "seat": "Goole and Pocklington",
+   "spans": [
+    [
+     "2026-09-04T13:02:29+01:00",
+     "2026-09-04T13:03:23+01:00"
+    ],
+    [
+     "2026-09-04T13:02:29+01:00",
+     "2026-09-04T13:02:38+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:02:29+01:00"
+  },
+  {
+   "key": "5150",
+   "name": "Samantha Niblett",
+   "party": "Lab",
+   "seat": "South Derbyshire",
+   "spans": [
+    [
+     "2026-09-04T12:31:40+01:00",
+     "2026-09-04T12:32:36+01:00"
+    ]
+   ],
+   "first": "2026-09-04T12:31:40+01:00"
+  },
+  {
+   "key": "5347",
+   "name": "David Reed",
+   "party": "Con",
+   "seat": "Exmouth and Exeter East",
+   "spans": [
+    [
+     "2026-09-04T12:20:00+01:00",
+     "2026-09-04T12:20:53+01:00"
+    ]
+   ],
+   "first": "2026-09-04T12:20:00+01:00"
+  },
+  {
+   "key": "5042",
+   "name": "Pam Cox",
+   "party": "Lab",
+   "seat": "Colchester",
+   "spans": [
+    [
+     "2026-09-04T10:55:50+01:00",
+     "2026-09-04T10:55:56+01:00"
+    ],
+    [
+     "2026-09-04T12:07:47+01:00",
+     "2026-09-04T12:08:16+01:00"
+    ],
+    [
+     "2026-09-04T13:05:31+01:00",
+     "2026-09-04T13:05:49+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:55:50+01:00"
+  },
+  {
+   "key": "5138",
+   "name": "Ian Roome",
+   "party": "LD",
+   "seat": "North Devon",
+   "spans": [
+    [
+     "2026-09-04T09:30:00+01:00",
+     "2026-09-04T09:30:40+01:00"
+    ]
+   ],
+   "first": "2026-09-04T09:30:00+01:00"
+  },
+  {
+   "key": "5246",
+   "name": "Torcuil Crichton",
+   "party": "Lab",
+   "seat": "Na h-Eileanan an Iar",
+   "spans": [
+    [
+     "2026-09-04T12:01:27+01:00",
+     "2026-09-04T12:01:52+01:00"
+    ]
+   ],
+   "first": "2026-09-04T12:01:27+01:00"
+  },
+  {
+   "key": "5163",
+   "name": "Dr Peter Prinsley",
+   "party": "Lab",
+   "seat": "Bury St Edmunds and Stowmarket",
+   "spans": [
+    [
+     "2026-09-04T10:04:02+01:00",
+     "2026-09-04T10:04:30+01:00"
+    ]
+   ],
+   "first": "2026-09-04T10:04:02+01:00"
+  },
+  {
+   "key": "5168",
+   "name": "Adam Jogee",
+   "party": "Lab",
+   "seat": "Newcastle-under-Lyme",
+   "spans": [
+    [
+     "2026-09-04T13:41:25+01:00",
+     "2026-09-04T13:41:45+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:41:25+01:00"
+  },
+  {
+   "key": "4471",
+   "name": "Rachael Maskell",
+   "party": "Lab/Co-op",
+   "seat": "York Central",
+   "spans": [
+    [
+     "2026-09-04T14:01:39+01:00",
+     "2026-09-04T14:01:57+01:00"
+    ]
+   ],
+   "first": "2026-09-04T14:01:39+01:00"
+  },
+  {
+   "key": "5309",
+   "name": "Katrina Murray",
+   "party": "Lab",
+   "seat": "Cumbernauld and Kirkintilloch",
+   "spans": [
+    [
+     "2026-09-04T14:03:00+01:00",
+     "2026-09-04T14:03:09+01:00"
+    ]
+   ],
+   "first": "2026-09-04T14:03:00+01:00"
+  },
+  {
+   "key": "5218",
+   "name": "David Smith",
+   "party": "Lab",
+   "seat": "North Northumberland",
+   "spans": [
+    [
+     "2026-09-04T13:58:55+01:00",
+     "2026-09-04T13:59:03+01:00"
+    ]
+   ],
+   "first": "2026-09-04T13:58:55+01:00"
+  }
+ ]
+}
