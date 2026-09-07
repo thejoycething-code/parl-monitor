@@ -86,6 +86,27 @@ class FootageTests(unittest.TestCase):
                          "298d5452-e524-4de5-b556-9ef1a433f8f0")
 
 
+class ArchiveSearchTests(unittest.TestCase):
+    """Christopher, 2026-09-07: "Build the parliamentlive.tv date lookup for archived sittings." """
+
+    HTML = ('<div class="search-item"><a href="https://parliamentlive.tv/Event/Index/c2efa0c9-da5f-4018-b0c0-1a974c5b8286">'
+            '<img alt="House of Commons"></a><h5>House of Commons</h5> Friday 20 June 2025 9.34am</div>'
+            '<div class="search-item"><a href="/Event/Index/11111111-2222-3333-4444-555555555555"><img alt="Westminster Hall"></a>'
+            '<h5>Westminster Hall</h5> 9.30am</div>')
+
+    def test_results_parse_to_guid_and_venue(self):
+        ev = dp.search_events_html(self.HTML)
+        self.assertEqual([g for g, _ in ev], ["c2efa0c9-da5f-4018-b0c0-1a974c5b8286", "11111111-2222-3333-4444-555555555555"])
+        self.assertEqual(dp.pick_event(ev, "House of Commons"), "c2efa0c9-da5f-4018-b0c0-1a974c5b8286")
+        self.assertEqual(dp.pick_event(ev, "Westminster Hall"), "11111111-2222-3333-4444-555555555555")
+
+    def test_search_url_carries_the_date_twice_and_the_house(self):
+        seen = []
+        dp.search_events("2025-06-20", "Commons", fetch=lambda u: seen.append(u) or "")
+        self.assertIn("Start=2025-06-20&End=2025-06-20", seen[0])
+        self.assertIn("House=Commons", seen[0])
+
+
 class PackTests(unittest.TestCase):
     def test_pack_files_and_the_check_gates_the_quotes(self):
         rows = dp.contributions(PAYLOAD, "2026-09-07")

@@ -259,6 +259,40 @@ def todays_events(html_text):
     return uniq
 
 
+SEARCH_URL = ("https://parliamentlive.tv/Search?Keywords=&Member=&MemberId=&House={house}&Business=&Start={date}&End={date}")
+
+
+def search_events_html(html_text):
+    """[(guid, label)] from parliamentlive.tv's archive search results: one
+    'search-item' block per event, the venue in the thumbnail's alt text and
+    the heading. Search covers every sitting since 4 December 2007."""
+    out, seen = [], set()
+    for block in re.split(r'class="search-item"', html_text or "")[1:]:
+        g = event_guid(block)
+        if not g or g in seen:
+            continue
+        seen.add(g)
+        alt = re.search(r'alt="([^"]*)"', block)
+        head = re.search(r"<h5[^>]*>(.*?)</h5>", block, re.S)
+        when = re.search(r"\b\d{1,2}\.\d{2}\s*[ap]m\b|\b\d{1,2}:\d{2}\b", _TAG.sub(" ", block))
+        label = " ".join(x for x in ((alt.group(1) if alt else ""), (_clean(head.group(1)) if head else ""),
+                                     (when.group(0) if when else "")) if x)
+        out.append((g, label[:160]))
+    return out
+
+
+def search_events(date, house="", fetch=None):
+    """Archived sittings on a date, via the site's own search form (GET)."""
+    url = SEARCH_URL.format(house=house or "", date=date)
+    if fetch is None:
+        import urllib.request
+
+        def fetch(u):
+            with urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0"}), timeout=40) as r:
+                return r.read().decode("utf-8", "replace")
+    return search_events_html(fetch(url))
+
+
 def pick_event(events, venue):
     """The guid whose label names the venue ('Westminster Hall', 'House of Commons'), BSL feed excluded."""
     for g, label in events:

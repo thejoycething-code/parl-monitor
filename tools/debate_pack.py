@@ -8,8 +8,9 @@
     python3 tools/debate_pack.py --pack data/packs/<folder> --download-debate --from 16:30 --to 18:00   # the whole debate, one file
 
 Footage needs yt-dlp (pip install --user yt-dlp) and an ffmpeg (pip install
---user imageio-ffmpeg); both are found automatically. For a debate on a past
-day, give --event: parliamentlive.tv lists only today's sittings by venue.
+--user imageio-ffmpeg); both are found automatically. The sitting's footage is found through
+parliamentlive.tv's archive search for the date (any day since December 2007);
+--event overrides it.
 Reading direction spends one API call per twenty speakers, cached in
 pack.json so a re-run never pays twice.
 """
@@ -93,14 +94,25 @@ def build(args):
     event_start = None
     manifest = state.get("manifest")
     yt, ff = tools()
-    if not guid and args.date == datetime.date.today().isoformat():
+    venue = args.venue or ("Westminster Hall" if section == "WestHall" else
+                           ("House of Lords" if args.house == "Lords" else "House of Commons"))
+    if not guid:
+        # Any date since December 2007: the site's own archive search, by day.
+        # Today's sittings sometimes appear there only once they have begun,
+        # so the front page is the fallback for the current day.
         try:
-            with urllib.request.urlopen(urllib.request.Request("https://parliamentlive.tv/Commons", headers={
-                    "User-Agent": "Mozilla/5.0"}), timeout=30) as resp:
-                guid = dp.pick_event(dp.todays_events(resp.read().decode("utf-8", "replace")),
-                                     args.venue or ("Westminster Hall" if section == "WestHall" else "House of Commons"))
+            guid = dp.pick_event(dp.search_events(args.date, "Lords" if args.house == "Lords" else "Commons"), venue)
         except Exception as exc:                            # noqa: BLE001
-            print("parliamentlive.tv listing unavailable ({0}); footage links need --event".format(exc))
+            print("parliamentlive.tv search unavailable ({0})".format(exc))
+        if not guid and args.date == datetime.date.today().isoformat():
+            try:
+                with urllib.request.urlopen(urllib.request.Request("https://parliamentlive.tv/Commons", headers={
+                        "User-Agent": "Mozilla/5.0"}), timeout=30) as resp:
+                    guid = dp.pick_event(dp.todays_events(resp.read().decode("utf-8", "replace")), venue)
+            except Exception as exc:                        # noqa: BLE001
+                print("parliamentlive.tv listing unavailable ({0}); footage links need --event".format(exc))
+        if not guid:
+            print("no {0} sitting found on parliamentlive.tv for {1}; give --event <url> if you have it".format(venue, args.date))
     if guid and yt and not manifest:
         try:
             manifest, es = dp.manifest_for(guid, yt)
