@@ -9,63 +9,78 @@
  "directions": {
   "5126": {
    "stance": -1,
-   "why": "Advocates automatic legal parenthood at birth, easing surrogacy process against cautious approach."
+   "why": "Introduces petition sympathetically, frames current law as leaving intended parents in 'legal limbo'.",
+   "words": 2153
   },
   "5301": {
    "stance": 2,
-   "why": "Urges caution, defends parental order safeguards, warns against commercial surrogacy market."
+   "why": "Urges extreme caution, defends surrogate mother safeguards, warns against commodifying pregnancy.",
+   "words": 1542
   },
   "5189": {
-   "stance": -1,
-   "why": "Calls for reform reducing costs for intended parents, easing surrogacy process."
+   "stance": 0,
+   "why": "Procedural question about funding parity in Scotland's surrogacy assessment system.",
+   "words": 116
   },
   "4131": {
-   "stance": -1,
-   "why": "Frames current safeguards as illogical hurdles, urging faster legal parenthood for intended parents."
+   "stance": 1,
+   "why": "Urges caution and protection for women and children in reform discussion.",
+   "words": 1139
   },
   "5335": {
    "stance": -1,
-   "why": "Questions surrogate regret data sceptically, favours automatic parenthood for intended parents from birth."
+   "why": "Supports Law Commission reform granting parental rights from day one, downplays regret concerns.",
+   "words": 1358
   },
   "5197": {
    "stance": 1,
-   "why": "Stresses protecting child and surrogate mother's consent before granting legal parenthood."
+   "why": "Stresses protecting child and surrogate mother over automatic parenthood at birth.",
+   "words": 1381
   },
   "5188": {
    "stance": 2,
-   "why": "Strongly defends surrogate women's autonomy and warns against commodification of women's bodies."
+   "why": "Focuses on protecting birth mother's rights against Law Commission tipping balance away.",
+   "words": 1032
   },
   "5034": {
    "stance": -1,
-   "why": "Sympathetic to intended parents, questions whether current safeguarding balance is right."
+   "why": "Sympathetic personal account, questions whether current safeguards strike right balance, leans reform.",
+   "words": 915
   },
   "5065": {
    "stance": -2,
-   "why": "Advocates automatic parenthood for intended parents, dismisses surrogate consent concerns as dangerous."
+   "why": "Argues strongly for reform, calls questioning surrogate consent after birth 'dangerous'.",
+   "words": 715
   },
   "5194": {
    "stance": 2,
-   "why": "Firmly opposes change, insists birth mother retains legal status, rejects contract-based parenthood."
+   "why": "Explicitly opposes change, defends birth mother's legal status against contractual parenthood.",
+   "words": 631
   },
   "5264": {
    "stance": 2,
-   "why": "Strongly opposes loosening surrogacy law, defends birth mother's bond and rights."
+   "why": "Opposes loosening surrogacy law, condemns commodification of women's bodies.",
+   "words": 604
   },
   "5068": {
    "stance": 2,
-   "why": "Opposes automatic parenthood, emphasises child's vulnerability and surrogate's protective six-week period."
+   "why": "Opposes petition, stresses child vulnerability and safeguards during six-week period.",
+   "words": 456
   },
   "5329": {
    "stance": -1,
-   "why": "Supports Law Commission reform granting genetic parent legal status from birth, urging quicker fix."
+   "why": "Presses government to adopt Law Commission reform granting legal parenthood from birth.",
+   "words": 126
   },
   "5128": {
    "stance": 1,
-   "why": "Highlights harms from commercial surrogacy company, urges government scrutiny of such arrangements."
+   "why": "Highlights exploitation by surrogacy agency abroad, urges scrutiny of commercial surrogacy practices.",
+   "words": 107
   },
   "1533": {
    "stance": 0,
-   "why": "Ministerial response summarising debate contributions, no personal stance on surrogacy reform shown."
+   "why": "Ministerial summary responding to debate points, no clear personal stance stated.",
+   "words": 1215
   }
  },
  "areas": [

@@ -60,6 +60,12 @@ class ContributionTests(unittest.TestCase):
 
 
 class ApplyReadsNewSpeakersTests(unittest.TestCase):
+    def test_a_reading_is_cached_against_the_words_it_saw(self):
+        """Jim Shannon: read on a 53-word intervention, kept when his 1,000-word speech landed."""
+        src = open(os.path.join(ROOT, "tools", "debate_pack.py"), encoding="utf-8").read()
+        self.assertIn('s["words"] > d["words"] * 1.5 + 40', src)
+        self.assertIn('got[key_]["words"] = s["words"]', src)
+
     def test_apply_does_not_force_no_read(self):
         src = open(os.path.join(ROOT, "tools", "debate_pack.py"), encoding="utf-8").read()
         block = src[src.index("def apply(args):"):src.index("def download(args):")]

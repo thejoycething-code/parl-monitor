@@ -78,7 +78,14 @@ def build(args):
     state_path = os.path.join(folder, "pack.json")
     state = json.load(open(state_path)) if os.path.exists(state_path) else {}
     directions = state.get("directions") or {}
-    missing = [s for s in speaks if str(s["member_id"] or s["name"]) not in directions]
+    # Re-read a speaker whose words have grown since they were read: Hansard
+    # publishes in tranches, and Jim Shannon was read on a 53-word
+    # intervention and kept that reading when his 1,000-word speech arrived
+    # (2026-09-07). The reading is cached against the word count it saw.
+    def stale(s):
+        d = directions.get(str(s["member_id"] or s["name"]))
+        return d is None or (d.get("words") is not None and s["words"] > d["words"] * 1.5 + 40)
+    missing = [s for s in speaks if stale(s)]
     if missing and not args.no_read:
         key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
         if key:
@@ -86,6 +93,10 @@ def build(args):
             got = dp.read_direction(missing, title, areas, key,
                                     usage_sink=lambda usage, model: spend.record(conn, "debate-pack", model, usage))
             conn.close()
+            for s in missing:
+                key_ = str(s["member_id"] or s["name"])
+                if key_ in got:
+                    got[key_]["words"] = s["words"]
             directions.update(got)
             print("direction read for {0} speaker(s) ({1} API call(s))".format(len(got), (len(missing) + 19) // 20))
         else:
