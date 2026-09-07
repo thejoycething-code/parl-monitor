@@ -71,6 +71,7 @@ class Edition:
     statements: list = field(default_factory=list)
     mp_notes: list = field(default_factory=list)
     spoke: list = field(default_factory=list)      # src/spoke.collect(): debates with speakers and direction
+    decisions: dict = None                         # src/decisions.collect(): open / decided / unlogged
     return_dates: dict = field(default_factory=dict)   # {house: ISO date}
     gaps: list = field(default_factory=list)            # [(feed, detail)]
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
@@ -749,6 +750,13 @@ def render(edition):
     top = _render_section("Top lines", _cap(edition.top_lines, 6))
     if top:
         parts.append(top)
+    # Decisions needed sit directly under Top lines (Christopher, 2026-09-07):
+    # the questions the monitor is waiting on, with owner and date, so a
+    # why-line's "still an open decision" cannot recur unlogged.
+    from src import decisions as _decisions
+    block = _decisions.render(edition.decisions) if edition.decisions else None
+    if block:
+        parts.append(block)
 
     if recess:
         # Recess status + return dates render once, as a top line (composed via

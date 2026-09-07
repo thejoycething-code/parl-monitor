@@ -907,6 +907,14 @@ def sections_from_store(conn, edition):
             line.event = ev
         getattr(edition, target).append(line)
 
+    # Decisions needed: pair config/decisions.yaml with every rendered item's
+    # why-line, so an unlogged "open decision" is shown as such.
+    from src import decisions as _decisions
+    mentions = [(r["title"], r["why_it_matters"]) for r in rows
+                if in_window(r["source_feed"], r["event_date"]) and r["why_it_matters"]]
+    mentions += [(d["title"], d["why"]) for d in edition.deadlines if d.get("why")]
+    edition.decisions = _decisions.collect(_decisions.load(), mentions, edition.week_commencing)
+
     edition.devolved = devolved_from_store(
         conn, edition.week_commencing)
 

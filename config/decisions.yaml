@@ -1,0 +1,29 @@
+# Decisions the monitor is waiting on (Christopher, 2026-09-07: "Build the
+# decisions block"). A why-line that says a response is "still an open
+# decision" recurs week after week until someone decides; this file gives
+# each such decision an owner and a decide-by date, and the edition tables
+# them under Top lines until they are decided.
+#
+#   decision:   the question, as a sentence (what is being decided)
+#   about:      a phrase found in the item's TITLE, so the block can pair it
+#               with the item and stop the why-line recurring unlogged
+#   owner:      who decides (null = unassigned, and the block says so)
+#   decide_by:  YYYY-MM-DD; the block counts down and marks OVERDUE
+#   opened:     when it was logged
+#   status:     open | decided
+#   decided_on, outcome: filled when decided; shown for two editions, then gone
+#
+# A why-line calling something an open decision with NO entry here renders in
+# the block as "not yet logged" -- the recurrence is made visible rather than
+# quietly accepted.
+decisions:
+  - id: send-eotas-response
+    decision: Does CitizenGO submit a supporter response to the SEND reform consultation on education otherwise than at school?
+    about: "SEND reform: education otherwise than at school"
+    owner: null                # unassigned -- Christopher to name
+    decide_by: 2026-09-14      # drafted: four days before the 18 September close; change it
+    opened: 2026-09-07
+    status: open
+    # Why it is a decision at all: the consultation bears directly on
+    # home-educating families (area 6) and closes 18 September; the edition
+    # of 7 September carried "A supporter response is still an open decision."
