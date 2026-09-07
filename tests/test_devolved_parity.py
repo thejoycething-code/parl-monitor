@@ -270,6 +270,58 @@ class NotOursTests(unittest.TestCase):
                                 "the sentence describes the act, never the motive")
 
 
+class NorthernIrelandTests(unittest.TestCase):
+    """Christopher, 2026-09-06: two NI divisions signed, one deliberately
+    unsigned, four struck; and former MLAs listed from the vote record."""
+
+    def test_the_live_config(self):
+        import yaml
+        cfg = yaml.safe_load(open(os.path.join(ROOT, "config", "nia_votes.yaml"), encoding="utf-8"))
+        by = {d["key"]: d for d in cfg["divisions"]}
+        self.assertEqual(len(by), 7)
+        for k in ("493329", "456935"):
+            self.assertTrue(by[k]["signed_off"]); self.assertEqual(by[k]["our_side"], "for")
+            for s in ("meaning_good", "meaning_bad"):
+                self.assertNotRegex(by[k][s], r"(?i)because|motive|competence")
+        self.assertFalse(by["488823"]["signed_off"], "blasphemy stays unsigned by decision")
+        self.assertIsNone(by["488823"]["our_side"])
+        self.assertEqual(sorted(k for k, v in by.items() if v.get("not_ours")),
+                         ["448609", "449970", "449976", "475390"])
+
+    def test_the_classifier_honours_the_strike(self):
+        """ni_classify is the only writer of ni_divisions.areas and re-derives
+        them weekly, so the strike must live there or return on Thursday."""
+        src = open(os.path.join(ROOT, "tools", "ni_classify.py"), encoding="utf-8").read()
+        self.assertIn("def not_ours_keys", src)
+        self.assertIn('if str(row["doc_id"]) in struck:', src)
+        body = src[src.index('if str(row["doc_id"]) in struck:'):]
+        self.assertIn("areas = []", body[:200])
+
+    def test_a_former_mla_is_listed_from_the_vote_record(self):
+        """The NI roster is current-only. William Irwin and Gary Middleton
+        (DUP) voted on Amendment 5 and vanished from the page without a
+        word; they are now listed from the Assembly's own vote record."""
+        conn = store()
+        conn.execute("INSERT INTO ni_members (person_id, name, display_name, party, "
+                     "constituency, first_seen, last_seen) VALUES ('m/1', 'Sitting', "
+                     "'Ms Sitting', 'Alliance Party', 'North Down', '2026-01-01', '2026-01-01')")
+        conn.execute("INSERT INTO ni_divisions (doc_id, dated, subject, areas, first_seen, "
+                     "last_seen) VALUES ('X1', '2025-11-04', 'Amendment 5', '[1]', "
+                     "'2026-01-01', '2026-01-01')")
+        for pid, nm, des in (("m/1", "Ms Sitting", "Other"), ("201", "Mr William Irwin", "Unionist")):
+            conn.execute("INSERT INTO ni_votes (doc_id, person_id, member, vote, designation, "
+                         "captured_at) VALUES ('X1', ?, ?, 'aye', ?, '2026-01-01')", (pid, nm, des))
+        conn.commit()
+        tracker.load_config = lambda spec: {}
+        data = tracker.build(conn, "ni")
+        by = {m["name"]: m for m in data["members"]}
+        self.assertIn("Mr William Irwin", by)
+        self.assertTrue(by["Mr William Irwin"]["former"])
+        self.assertEqual(by["Mr William Irwin"]["party"], "Unionist (designation)")
+        self.assertEqual(data["votes"]["201"]["X1"]["vote"], "aye")
+        self.assertEqual(data["former_from_votes"], ["Mr William Irwin"])
+
+
 class VerdictGateTests(unittest.TestCase):
     """signed_off gates the verdict here exactly as at Westminster: an
     unsigned division may show HOW someone voted, never what we think of

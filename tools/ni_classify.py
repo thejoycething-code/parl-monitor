@@ -93,7 +93,23 @@ def classify(tax, wl, evidence):
     return res.issue_areas, res.matched_terms, excerpt
 
 
+def not_ours_keys():
+    """Divisions a human has struck as NOT on our ground, whatever the
+    text matches. This tool is the only writer of ni_divisions.areas and
+    re-derives them every weekly run, so the strike has to live here or
+    it returns the following Thursday (Christopher, 2026-09-06: the
+    waste-and-inefficiency motion tagged via one word, and three hate-
+    motion items with no recorded division)."""
+    import yaml
+    path = os.path.join(ROOT, "config", "nia_votes.yaml")
+    if not os.path.exists(path):
+        return set()
+    divs = (yaml.safe_load(open(path, encoding="utf-8")) or {}).get("divisions") or []
+    return {str(d["key"]) for d in divs if d.get("not_ours")}
+
+
 def main():
+    struck = not_ours_keys()
     apply = "--apply" in sys.argv
     want = None
     if "--area" in sys.argv:
@@ -149,6 +165,8 @@ def main():
             else:
                 no_text += 1
             areas, terms, excerpt = classify(tax, wl, ev)
+            if str(row["doc_id"]) in struck:
+                areas = []          # a human read the Record; the title lies
             before = json.loads(row["areas"] or "[]")
             if set(areas) == set(before):
                 unchanged += 1

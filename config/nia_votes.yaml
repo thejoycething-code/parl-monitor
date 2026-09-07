@@ -1,11 +1,125 @@
 # Northern Ireland Assembly division verdicts -- the Holyrood pattern
-# applied to Stormont. signed_off gates every verdict.
+# (config/holyrood_votes.yaml) applied to the Assembly. signed_off gates
+# the verdict: until Christopher signs, mla-votes.html shows how each MLA
+# voted and says nothing about what it meant. not_ours strikes a division
+# from every tracker; tools/ni_classify.py honours it on re-derivation,
+# tools/make_devolved_votes.py never lists it, tools/devolved_score.py
+# never scores it.
 #
-# Drafted 2026-09-04. SEVEN divisions carry a taxonomy match, and most are
-# AMENDMENT votes whose text the Assembly's own records do not carry under
-# the item id on the day (78 of 83 amendment divisions measured
-# 2026-08-29). An amendment whose text cannot be read cannot be judged --
-# the standing rule since the Lords inversion -- so those stay unsigned
-# permanently unless the text surfaces, and the tracker shows the vote
-# without a verdict.
-divisions: []
+# Decided by Christopher on 2026-09-06 after the amendment texts and the
+# archived Hansard were read: two signed, one deliberately unsigned, four
+# struck. Every sentence describes what the vote DID and never the motive.
+
+divisions:
+  - key: "493329"
+    dated: 2026-06-30
+    issue: sex-based-rights
+    stage: "Consideration Stage, Justice Bill, Amendment 97"
+    landmark: true
+    short: "Women's prison accommodation (Justice Bill, Amdt 97)"
+    motion: >-
+      Amendment 97 (Mr Gaston, TUV): after clause 30 insert a new rule that
+      the Department may make individualised accommodation arrangements for
+      a prisoner "provided that the arrangements do not include the
+      accommodation of a man in prison accommodation in which one or more
+      women are held", with "man" and "woman" defined by section 212(1) of
+      the Equality Act 2010. Fell 32-48.
+    note: >-
+      DUP 24, UUP 6, TUV 1 and one Independent for; Sinn Fein 25, Alliance
+      15, SDLP 6, PBP 1 and one Independent against. Text read in full from
+      the archived Hansard of 30 June 2026.
+    our_side: for
+    signed_off: true
+    meaning_good: >-
+      Voted to require that no man be accommodated in prison accommodation
+      where women are held, with "man" and "woman" defined by biological
+      sex under the Equality Act 2010.
+    meaning_bad: >-
+      Voted against requiring that no man be accommodated in prison
+      accommodation where women are held, as defined by biological sex
+      under the Equality Act 2010.
+
+  - key: "456935"
+    dated: 2025-11-04
+    issue: abortion
+    stage: "Consideration Stage, Deaths, Still-Births and Baby Loss Bill, Amendment 5"
+    landmark: true
+    short: "Baby-loss certificates after a termination (Amdt 5)"
+    motion: >-
+      Amendment 5 (Mr Gaston, TUV): "The regulations must provide for the
+      issue of a certificate following a termination of pregnancy." Fell
+      23-53.
+    note: >-
+      DUP 20 (plus William Irwin and Gary Middleton, DUP, since departed)
+      and TUV 1 for; Sinn Fein 19, Alliance 16, SDLP 8, UUP 8, PBP 1 and
+      one Independent against. The mover's words in the Record: "only if
+      they want one ... choice, not compulsion." The opposing speeches were
+      not in the archive when this was signed; the sentences describe the
+      act, which holds regardless.
+    our_side: for
+    signed_off: true
+    meaning_good: >-
+      Voted to make baby-loss certificates available, on request, to
+      parents after a termination of pregnancy.
+    meaning_bad: >-
+      Voted against making baby-loss certificates available to parents
+      after a termination of pregnancy.
+
+  - key: "488823"
+    dated: 2026-06-09
+    issue: free-speech
+    stage: "Consideration Stage, Justice Bill, Amendment 73"
+    short: "Abolition of blasphemy offences (Justice Bill, Amdt 73)"
+    motion: >-
+      Amendment 73 (Ms Egan, Alliance): "The common law offences of
+      blasphemy and blasphemous libel are abolished." Passed 57-24.
+    note: >-
+      DELIBERATELY UNSIGNED (Christopher, 2026-09-06). Two coherent
+      readings point opposite ways: abolishing a blasphemy offence is a
+      free-expression gain, and CitizenGO campaigns against blasphemy laws
+      abroad as persecution instruments; the DUP and TUV, who voted
+      against with the UUP breaking to vote for, held that the offence
+      protected Christianity's standing in law. The tracker shows how
+      everyone voted and says nothing about meaning.
+    our_side: null
+    signed_off: false
+
+  - key: "475390"
+    dated: 2026-03-23
+    issue: sex-based-rights
+    short: "Tackling Waste and Inefficiency in Government"
+    # Tagged via the word "transgender" buried in a long motion on public
+    # spending; "Question accordingly agreed to", no division. Not ours.
+    not_ours: true
+    our_side: null
+    signed_off: false
+
+  - key: "448609"
+    dated: 2025-09-22
+    issue: free-speech
+    short: "The Executive's Approach to Hate (motion)"
+    # No vote rows in the store and the 22 September 2025 Hansard is not
+    # archived, so whether the Assembly divided cannot be established. As
+    # a tracked division it would render "no vote recorded" against all
+    # 90 MLAs -- a falsehood. Struck: no recorded division.
+    not_ours: true
+    our_side: null
+    signed_off: false
+
+  - key: "449970"
+    dated: 2025-09-22
+    issue: free-speech
+    short: "The Executive's Approach to Hate, Amendment 1 (Mr Frew)"
+    # As 448609: no recorded division.
+    not_ours: true
+    our_side: null
+    signed_off: false
+
+  - key: "449976"
+    dated: 2025-09-22
+    issue: free-speech
+    short: "The Executive's Approach to Hate, Amendment 2 (Ms Bradshaw)"
+    # As 448609: no recorded division.
+    not_ours: true
+    our_side: null
+    signed_off: false

@@ -73,6 +73,12 @@ NATIONS = {
                       None, None, None),
         "votes": ("ni_votes", "doc_id", "person_id", "vote"),
         "join": "id",
+        # Former MLAs: the roster is current-only (no end dates), so a
+        # voter absent from it is listed from the vote record itself --
+        # the Assembly's own name and designation -- and labelled former.
+        # Found 2026-09-06: William Irwin and Gary Middleton (DUP) voted
+        # on Amendment 5 and vanished from the page without a word.
+        "voter_name": "member", "voter_party": "designation",
         "scored": "ni_scored",
         "title": "How did your MLA vote?",
         "chamber": "Northern Ireland Assembly",
@@ -128,6 +134,18 @@ def build(conn, nation):
     # entirely, Mark Drakeford's and the First Minister's among them,
     # on divisions that are the only ones we track.
     voted = _voters(conn, spec)
+    former_from_votes = []
+    if spec.get("join") == "id" and spec.get("voter_name"):
+        known = {str(r[mid]) for r in conn.execute("SELECT {0} FROM {1}".format(mid, mt))}
+        vt0, vkey0, vmem0, _v = spec["votes"]
+        for r in conn.execute(
+                "SELECT {0} AS pid, MAX({1}) AS nm, MAX({2}) AS des FROM {3} "
+                "GROUP BY {0}".format(vmem0, spec["voter_name"], spec["voter_party"], vt0)):
+            if str(r["pid"]) not in known and r["nm"]:
+                former_from_votes.append({
+                    "id": str(r["pid"]), "name": r["nm"],
+                    "party": "{0} (designation)".format(r["des"]) if r["des"] else None,
+                    "seat": None, "former": True, "start": None})
     members = [{"id": str(r[mid]), "name": r[mname] or "?",
                 "party": r[mparty], "seat": r[mseat],
                 "former": bool(has_end and (r["end_date"] or "").strip()),
@@ -169,6 +187,7 @@ def build(conn, nation):
         divisions.append(d)
 
     vt, vkey, vmem, vvote = spec["votes"]
+    members.extend(former_from_votes)
     # src/devolved.py owns the name->id bridge; the scorer uses the same
     # one, so a verdict written there is found here. EVERY TERM, not
     # just sitting Members: the page now lists anyone who cast a vote it
@@ -202,6 +221,7 @@ def build(conn, nation):
             "verdict": verdicts.get((key, person))}
     return {"members": members, "divisions": divisions, "votes": votes,
             "unresolved": sorted(unresolved),
+            "former_from_votes": [m["name"] for m in former_from_votes],
             "built": datetime.date.today().isoformat()}
 
 
@@ -274,6 +294,11 @@ def build_page(nation):
                 nation, len(data["unresolved"]),
                 ", ".join(data["unresolved"][:5]),
                 " ..." if len(data["unresolved"]) > 5 else ""))
+    if data.get("former_from_votes"):
+        caveats.append(
+            "{0}: {1} former member(s) listed from the vote record, missing "
+            "from the roster: {2}".format(nation, len(data["former_from_votes"]),
+                                         ", ".join(data["former_from_votes"][:4])))
     for out in written:
         caveats.append("   -> {0}".format(out))
     conn.close()
