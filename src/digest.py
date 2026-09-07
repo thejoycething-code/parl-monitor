@@ -343,6 +343,11 @@ def _event_rows(lines, week_start=None, bill_ids=None):
             "https://whatson.parliament.uk/event/cal{0}".format(ev["event_id"]) if ev.get("event_id") else None)
         if url:
             sources.append("[What's On]({0})".format(url))
+        # Once the debate has happened and the pull has matched it to its
+        # Hansard section, the record itself is the first source
+        # (Christopher, 2026-09-07).
+        if ev.get("hansard_url"):
+            sources.insert(0, "[Hansard]({0})".format(ev["hansard_url"]))
         why = ""
         if ev:  # a why-line exists only when the line text is the judge's, not the label
             why = line.text if line.text != ev.get("title") else ""

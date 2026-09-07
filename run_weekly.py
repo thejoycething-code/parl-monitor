@@ -544,6 +544,86 @@ def sweep_oral(client, conn, tax, wl, report_start, report_end, edition, log=pri
     return n
 
 
+def sweep_hansard_sections(client, conn, report_start, report_end, log=print):
+    """Every Hansard section of every sitting day in the week just ended,
+    both Houses -> hansard_sections. Cheap (one call per House per section
+    per day) and the basis for linking a diary row to its Hansard page."""
+    today = datetime.date.today().isoformat()
+    n = 0
+    day = report_start
+    while day <= report_end:
+        if day.weekday() < 5:
+            for house in ("Commons", "Lords"):
+                for section, title, tag, ext in oral.day_sections(client, house, day):
+                    conn.execute("INSERT OR REPLACE INTO hansard_sections (ext_id, date, house, section, title, tag, "
+                                 "captured_at) VALUES (?,?,?,?,?,?,?)",
+                                 (ext, day.isoformat(), house, section, " ".join(title.split()), tag, today))
+                    n += 1
+        day += datetime.timedelta(days=1)
+    conn.commit()
+    log("hansard sections: {0} recorded for {1} to {2}".format(n, report_start, report_end))
+    return n
+
+
+_WORD = re.compile(r"[a-z0-9]+")
+_STOP = {"the", "and", "of", "to", "a", "in", "on", "for", "bill", "debate", "relating", "second", "reading",
+         "motion", "commons", "lords", "hall", "westminster", "petition", "e", "stage", "committee", "report"}
+
+
+def _tokens(text):
+    return {w for w in _WORD.findall((text or "").lower()) if len(w) > 2 and w not in _STOP}
+
+
+def match_hansard_section(description, sections):
+    """The Hansard section a What's On event became: same petition number,
+    or the best title overlap when it is strong enough. None when unsure --
+    a wrong Hansard link under a diary row is worse than no link."""
+    desc = description or ""
+    pet = re.search(r"e-petition (\d{5,7})", desc)
+    if pet:
+        for s in sections:
+            if pet.group(1) in (s["title"] or ""):
+                return s
+    want = _tokens(desc)
+    if not want:
+        return None
+    best, score = None, 0.0
+    for s in sections:
+        have = _tokens(s["title"])
+        if not have:
+            continue
+        overlap = len(want & have) / float(len(want | have))
+        if overlap > score:
+            best, score = s, overlap
+    return best if score >= 0.5 else None
+
+
+def link_whatson_to_hansard(conn, today, log=print):
+    """Give every past What's On item its Hansard page, where one matches."""
+    rows = conn.execute("SELECT id, title, event_date, extra FROM items WHERE source_feed = 'whatson' "
+                        "AND event_date IS NOT NULL AND event_date <= ?", (today.isoformat(),)).fetchall()
+    linked = 0
+    cache = {}
+    for r in rows:
+        extra = json.loads(r["extra"]) if r["extra"] else {}
+        if extra.get("hansard_url"):
+            continue
+        key = (r["event_date"], (extra.get("house") or "Commons"))
+        if key not in cache:
+            cache[key] = conn.execute("SELECT ext_id, date, house, title FROM hansard_sections WHERE date = ? AND house = ?",
+                                      key).fetchall()
+        hit = match_hansard_section(extra.get("description") or r["title"], cache[key])
+        if not hit:
+            continue
+        extra["hansard_url"] = "https://hansard.parliament.uk/{0}/{1}/debates/{2}/".format(hit["house"], hit["date"], hit["ext_id"])
+        extra["hansard_title"] = hit["title"]
+        conn.execute("UPDATE items SET extra = ? WHERE id = ?", (json.dumps(extra), r["id"]))
+        linked += 1
+    conn.commit()
+    log("hansard links: {0} diary row(s) now link to their Hansard page".format(linked))
+    return linked
+
+
 def sweep_regulators(client, conn, tax, wl, edition, log=print):
     """Regulators' open consultations -> the consultations path (feed
     'consultation'), so they land in the deadlines table like gov.uk's.
@@ -647,7 +727,9 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
             ("report", lambda: sweep_reports(client, conn, tax, wl, _rs, _re, edition)),
             ("judgment", lambda: sweep_judgments(client, conn, tax, wl, _rs, _re, edition)),
             ("oral", lambda: sweep_oral(client, conn, tax, wl, _rs, _re, edition)),
-            ("regulator", lambda: sweep_regulators(client, conn, tax, wl, edition))):
+            ("regulator", lambda: sweep_regulators(client, conn, tax, wl, edition)),
+            ("hansard-sections", lambda: sweep_hansard_sections(client, conn, _rs, _re)),
+            ("hansard-links", lambda: link_whatson_to_hansard(conn, datetime.date.today()))):
         try:
             call()
         except Exception as exc:                            # noqa: BLE001

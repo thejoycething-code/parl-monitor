@@ -340,5 +340,44 @@ class DevolvedPetitionsWiringTests(unittest.TestCase):
         self.assertNotIn("Holyrood (", html)
 
 
+class HansardLinkTests(unittest.TestCase):
+    """Christopher, 2026-09-07: "Add Hansard links to Week ahead rows after debates." """
+
+    SECTIONS = [{"ext_id": "S1", "date": "2026-09-07", "house": "Commons", "title": "Surrogacy Law and Legal Parenthood"},
+                {"ext_id": "S2", "date": "2026-09-07", "house": "Commons", "title": "Misogyny and Hate Crime Law"},
+                {"ext_id": "S3", "date": "2026-09-07", "house": "Commons", "title": "Petition: e-petition 763161"},
+                {"ext_id": "S4", "date": "2026-09-07", "house": "Commons", "title": "Business of the House"}]
+
+    def test_petition_number_wins_then_title_overlap_then_nothing(self):
+        import run_weekly
+        self.assertEqual(run_weekly.match_hansard_section("e-petition 763161 relating to surrogacy law", self.SECTIONS)["ext_id"], "S3")
+        self.assertEqual(run_weekly.match_hansard_section("Debate on misogyny and hate crime law", self.SECTIONS)["ext_id"], "S2")
+        self.assertIsNone(run_weekly.match_hansard_section("Cable Street anniversary adjournment", self.SECTIONS))
+
+    def test_a_linked_row_leads_its_sources_with_hansard(self):
+        line = digest.Line("why", 3, date="2026-09-07", url="https://whatson.parliament.uk/event/cal56333",
+                           event={"event_id": 56333, "description": "e-petition 763161 relating to surrogacy law",
+                                  "house": "Commons", "type": "Westminster Hall", "start_time": "16:30",
+                                  "hansard_url": "https://hansard.parliament.uk/Commons/2026-09-07/debates/S1/"})
+        out = digest.render_week_ahead([line], "2026-09-07")
+        self.assertIn("[Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/S1/) \u00b7 [petition]", out)
+
+    def test_the_pull_records_sections_and_links(self):
+        src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
+        self.assertIn("lambda: sweep_hansard_sections(", src)
+        self.assertIn("lambda: link_whatson_to_hansard(", src)
+        from src import db
+        conn = db.init_db(sqlite3.connect(":memory:")); conn.row_factory = sqlite3.Row
+        conn.execute("INSERT INTO hansard_sections VALUES ('S1','2026-09-07','Commons','WestHall','Surrogacy Law and Legal Parenthood',NULL,'x')")
+        conn.execute("INSERT INTO items (id, captured_at, source_feed, item_type, title, event_date, extra) VALUES "
+                     "('whatson:2026-09-07:56333','x','whatson','event','4.30pm ...','2026-09-07',"
+                     "'{\"description\": \"e-petition 763161 relating to surrogacy law and legal parenthood\", \"house\": \"Commons\"}')")
+        import run_weekly, datetime as dt, json
+        n = run_weekly.link_whatson_to_hansard(conn, dt.date(2026, 9, 8), log=lambda *_: None)
+        self.assertEqual(n, 1)
+        extra = json.loads(conn.execute("SELECT extra FROM items").fetchone()[0])
+        self.assertEqual(extra["hansard_url"], "https://hansard.parliament.uk/Commons/2026-09-07/debates/S1/")
+
+
 if __name__ == "__main__":
     unittest.main()

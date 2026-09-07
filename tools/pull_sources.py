@@ -24,7 +24,7 @@ from src.http import HttpClient
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--week", required=True, help="edition Monday, YYYY-MM-DD")
-    ap.add_argument("--only", default="amendments,reports,judgments,oral,regulators,petitions")
+    ap.add_argument("--only", default="amendments,reports,judgments,oral,regulators,petitions,sections,links")
     args = ap.parse_args()
     week_start = datetime.date.fromisoformat(args.week)
     rs, re_ = week_start - datetime.timedelta(days=7), week_start - datetime.timedelta(days=1)
@@ -39,6 +39,8 @@ def main():
         "judgments": lambda: run_weekly.sweep_judgments(client, conn, tax, wl, rs, re_, args.week),
         "oral": lambda: run_weekly.sweep_oral(client, conn, tax, wl, rs, re_, args.week),
         "regulators": lambda: run_weekly.sweep_regulators(client, conn, tax, wl, args.week),
+        "sections": lambda: run_weekly.sweep_hansard_sections(client, conn, rs, re_),
+        "links": lambda: run_weekly.link_whatson_to_hansard(conn, datetime.date.today()),
     }
     for name, call in calls.items():
         if name not in only:

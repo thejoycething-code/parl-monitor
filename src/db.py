@@ -249,6 +249,16 @@ CREATE TABLE IF NOT EXISTS judge_verdicts (
   captured_at TEXT NOT NULL,
   PRIMARY KEY (week, item_id)
 );
+-- Every Hansard section of every sitting day the pull has seen, so a
+-- What's On event can be linked to its Hansard page once it has happened
+-- (Christopher, 2026-09-07: "Add Hansard links to Week ahead rows after
+-- debates").
+CREATE TABLE IF NOT EXISTS hansard_sections (
+  ext_id      TEXT PRIMARY KEY,
+  date        TEXT NOT NULL, house TEXT NOT NULL, section TEXT,
+  title       TEXT NOT NULL, tag TEXT,
+  captured_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS bill_amendments (
   amendment_id TEXT PRIMARY KEY,
   bill_id      INTEGER NOT NULL,
@@ -984,6 +994,7 @@ TABLES = (
     "petitions",
     "petition_snapshots",
     "bill_amendments",
+    "hansard_sections",
     "dv_petitions",
     "dv_petition_snapshots",
     "judge_verdicts",

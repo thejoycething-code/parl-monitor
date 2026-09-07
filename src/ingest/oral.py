@@ -136,6 +136,37 @@ def fetch_day(client, house, date):
     return out
 
 
+def day_sections(client, house, date):
+    """[(section, title, tag, ext_id)] for every titled item of a sitting
+    day, both the tagged Commons tree and the untagged Lords one. The
+    Week ahead's Hansard links are matched against this list."""
+    out = []
+    try:
+        names = client.get_json("{0}/overview/sectionsforday.json?house={1}&date={2}".format(API, house, date.isoformat()),
+                                "hansard", "sections-{0}-{1}".format(house, date.isoformat()), archive=False)
+    except Exception:                                       # noqa: BLE001
+        return out
+    for sec in names or []:
+        try:
+            tree = client.get_json("{0}/overview/sectiontrees.json?section={1}&date={2}&house={3}".format(
+                API, sec, date.isoformat(), house), "hansard", "tree-{0}-{1}-{2}".format(house, date.isoformat(), sec),
+                archive=False)
+        except Exception:                                   # noqa: BLE001
+            continue
+
+        def walk(node):
+            if isinstance(node, dict):
+                if node.get("ExternalId") and node.get("Title") and node.get("HRSTag") != "hs_Venue":
+                    out.append((sec, node["Title"], node.get("HRSTag"), node["ExternalId"]))
+                for c in node.get("SectionTreeItems") or []:
+                    walk(c)
+            elif isinstance(node, list):
+                for c in node:
+                    walk(c)
+        walk(tree)
+    return out
+
+
 def lords_sections(tree):
     """[(title, tag, ext_id)] for every chamber item in a Lords tree."""
     out = []
