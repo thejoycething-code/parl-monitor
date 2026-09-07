@@ -72,7 +72,7 @@ I thank the Minister for making a very thoughtful summing-up speech, as ever. Ha
 
 ## Tracy Gilbert (Lab, Edinburgh North and Leith)
 
-**Pass read:** With us, strongly — Focuses on protecting birth mother's rights against Law Commission tipping balance away.
+**Pass read:** With us, strongly — Focuses on protecting birth mother's rights against Law Commission tipping balance away.  ·  **confirmed: yes**
 
 *16:48:00, 572 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-4C2DC75F-A5FC-4485-B3D7-25853C645973)*
 
@@ -88,7 +88,7 @@ I want to pick up on the hon. Lady’s point about healthcare and situations in 
 
 ## Phil Brickell (Lab, Bolton West)
 
-**Pass read:** With us — Highlights exploitation by surrogacy agency abroad, urges scrutiny of commercial surrogacy practices.
+**Pass read:** With us — Highlights exploitation by surrogacy agency abroad, urges scrutiny of commercial surrogacy practices.  ·  **confirmed: yes**
 
 *16:48:00, 107 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-3A76514C-0334-482D-9E1C-30EA7955010A)*
 
@@ -96,7 +96,7 @@ Two of my constituents recently travelled to Mexico, where their children were b
 
 ## Shivani Raja (Con, Leicester East)
 
-**Pass read:** With us, strongly — Opposes petition, stresses child vulnerability and safeguards during six-week period.
+**Pass read:** With us, strongly — Opposes petition, stresses child vulnerability and safeguards during six-week period.  ·  **confirmed: yes**
 
 *16:55:00, 456 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-8E870579-0B4E-40BA-B4DD-0E98EBDEAA41)*
 
@@ -104,7 +104,7 @@ The topic of this debate is a matter of great sensitivity, but I oppose the prop
 
 ## Steve Yemm (Lab, Mansfield)
 
-**Pass read:** With us, strongly — Explicitly opposes change, defends birth mother's legal status against contractual parenthood.
+**Pass read:** With us, strongly — Explicitly opposes change, defends birth mother's legal status against contractual parenthood.  ·  **confirmed: yes**
 
 *16:58:00, 551 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-0AC09DA4-FA0A-4E4D-98F3-C557FB770E14)*
 
@@ -120,7 +120,7 @@ We now prohibit commercial arrangements in the UK, yet we allow intended parents
 
 ## Jess Brown-Fuller (LD, Chichester)
 
-**Pass read:** Against us — Supports Law Commission reform granting parental rights from day one, downplays regret concerns.
+**Pass read:** Against us — Supports Law Commission reform granting parental rights from day one, downplays regret concerns.  ·  **confirmed: no**
 
 *17:10:00, 85 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-4B114817-D7FD-46DF-AB38-C8A59656B0DD)*
 
@@ -148,7 +148,7 @@ I am in no way suggesting that we create a two-tier system. Talking about how lo
 
 ## Josh Newbury (Lab, Cannock Chase)
 
-**Pass read:** Against us — Sympathetic personal account, questions whether current safeguards strike right balance, leans reform.
+**Pass read:** Against us — Sympathetic personal account, questions whether current safeguards strike right balance, leans reform.  ·  **confirmed: no**
 
 *17:10:00, 387 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-4A627378-85B7-437D-B061-73DB05181E25)*
 
@@ -168,7 +168,7 @@ The hon. Lady and I are very much on the same wavelength; I was about to move on
 
 ## Rachel Taylor (Lab, North Warwickshire and Bedworth)
 
-**Pass read:** Against us, strongly — Argues strongly for reform, calls questioning surrogate consent after birth 'dangerous'.
+**Pass read:** Against us, strongly — Argues strongly for reform, calls questioning surrogate consent after birth 'dangerous'.  ·  **confirmed: no**
 
 *17:17:00, 438 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-B285E41E-EE8A-4B4A-BFD5-AB8C4FED6A8C)*
 
@@ -180,7 +180,7 @@ I would like to make some progress, and the hon. Lady has made a number of point
 
 ## Jonathan Hinder (Lab, Pendle and Clitheroe)
 
-**Pass read:** With us, strongly — Opposes loosening surrogacy law, condemns commodification of women's bodies.
+**Pass read:** With us, strongly — Opposes loosening surrogacy law, condemns commodification of women's bodies.  ·  **confirmed: yes**
 
 *17:22:00, 268 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-A1C84C1B-BAD0-4F0E-A1FF-590E2C06A770)*
 
@@ -192,7 +192,7 @@ I cannot answer that specific question, but I will reference a case later on, an
 
 ## John Milne (LD, Horsham)
 
-**Pass read:** Against us — Presses government to adopt Law Commission reform granting legal parenthood from birth.
+**Pass read:** Against us — Presses government to adopt Law Commission reform granting legal parenthood from birth.  ·  **confirmed: no**
 
 *17:26:00, 126 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-2BF5C4A2-D278-4B83-A7CB-9FC8B696B956)*
 
@@ -200,7 +200,7 @@ Ian and Stuart, who are constituents of mine in Horsham, welcomed their daughter
 
 ## Dr Neil Shastri-Hurst (Con, Solihull West and Shirley)
 
-**Pass read:** With us — Stresses protecting child and surrogate mother over automatic parenthood at birth.
+**Pass read:** With us — Stresses protecting child and surrogate mother over automatic parenthood at birth.  ·  **confirmed: yes**
 
 *17:36:00, 979 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-5EEB8405-C487-4758-9EAE-AAF6BF258F2E)*
 
@@ -216,7 +216,7 @@ It is almost as if the hon. Gentleman can read my mind, because I was going to s
 
 ## Dame Diana Johnson
 
-**Pass read:** Neutral or unclear — Ministerial summary responding to debate points, no clear personal stance stated.
+**Pass read:** Neutral or unclear — Ministerial summary responding to debate points, no clear personal stance stated.  ·  **confirmed: no**
 
 *17:46:00, 974 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-C1C638B5-8256-4228-AF18-940E1E723411)*
 
