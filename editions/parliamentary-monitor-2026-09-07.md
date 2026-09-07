@@ -107,6 +107,16 @@
 | **Evidence** [The Online Safety Act: implementation and impact](https://committees.parliament.uk/work/9955/). Communications and Digital Committee; This Lords inquiry shapes how the Online Safety Act polices lawful speech online. Written evidence closes 4pm on 21 September 2026, the committee having extended submission period 3964 from 7 September (captured 2026-08-20). CitizenGO is not submitting to this inquiry. | Mon 21 Sep · 14 days |
 | **Consultation** [Tying the Knot: Reforming weddings law in England and Wales](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales). Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live; response push through recess. | Thu 24 Sep · 17 days |
 
+## Courts
+
+*Judgments handed down this week whose text touches our areas, stated as decided. The monitor takes no view on a judgment; where no line has been written yet, the excerpt is the passage that matched.*
+
+| Handed down | Court | Case | What was decided |
+|---|---|---|---|
+| Fri 4 Sep | Court of Appeal (Civil) | [J's Supermarket Limited, R (on the application of) v The Secretary of State for the Home Department [2026] EWCA Civ 1147](https://caselaw.nationalarchives.gov.uk/ewca/civ/2026/1147) | *These principles apply across the law in many different circumstances, for example it is established that an allegation of fraud needs to be clearly pleaded in civil proceedings so that the trial process can be fair. For* |
+| Fri 4 Sep | High Court (Administrative Court) | [Arfan Munir Rai v Secretary of State for Education [2026] EWHC 2225 (Admin)](https://caselaw.nationalarchives.gov.uk/ewhc/admin/2026/2225) | *From February 2023, he was employed at Kensington Park School ( the School ) in London as a teacher of philosophy and sociology. In March 2024, he was suspended from his duties pending an investigation into allegations t* |
+| Fri 4 Sep | High Court (King's Bench) | [JBX v Frimley Health NHS Foundation Trust [2026] EWHC 2294 (KB)](https://caselaw.nationalarchives.gov.uk/ewhc/kb/2026/2294) | *He was enthusiastic in science lessons. His grades in individual subjects were either “excellent” or “good”. 189. In 2016, the Claimant’s progress at key stage 1 was assessed. He was in Year 2 (aged 6-7). In English read* |
+
 ## Statements and announcements
 
 - Changes to Immigration Rules directly reshape entry routes and enforcement, core territory for border control, integrity and community cohesion concerns.
@@ -217,6 +227,10 @@
 - Children (Withdrawal from Religious Education and Amendment of UNCRC Compatibility Duty) (Scotland) Bill (Holyrood) - Stage 3 on 2026-02-17
 - Prostitution (Offences and Support) (Scotland) Bill (Holyrood) - Stage 1 on 2026-02-03
 ---
-*No coverage gaps recorded this edition.*
+**Coverage gaps this edition:**
+- regulator: EHRC: equalityhumanrights.com answers 403 to every non-browser client (measured 2026-09-07)
+- regulator: GMC: gmc-uk.org answers 403 to every non-browser client (measured 2026-09-07)
+- regulator: Ofcom: ofcom.org.uk answers 403 to every non-browser client (measured 2026-09-07)
+- triage: live scoring failed (reply hit max_tokens (0 chars returned): the batch needs more room, not a different parser); deterministic stub scores used instead, so this edition needs a human review pass
 
 *Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.6 with human review.*
