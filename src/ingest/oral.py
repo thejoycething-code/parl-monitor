@@ -68,10 +68,31 @@ def _clean(s, cap=700):
     return t if len(t) <= cap else t[:cap].rsplit(" ", 1)[0] + "..."
 
 
+LORDS_KINDS = {"statement": "Oral statement", "commons urgent question": "Urgent Question",
+               "urgent question": "Urgent Question", "private notice question": "Private Notice Question"}
+
+
+def classify_lords(payload):
+    """The Lords tree carries no HRSTag: every item is 'NewDebate'. The debate
+    itself says what it is in its first UNATTRIBUTED line -- "Statement",
+    "Question", "Commons Urgent Question", "Private Notice Question"
+    (measured 2026-09-07). -> kind, or None for anything else."""
+    for i in payload.get("Items") or []:
+        if i.get("ItemType") != "Contribution" or i.get("AttributedTo"):
+            continue
+        head = re.sub(r"<[^>]+>", "", i.get("Value") or "").strip().lower()
+        if head in LORDS_KINDS:
+            return LORDS_KINDS[head]
+        if head:
+            return None
+    return None
+
+
 def parse_debate(payload, house, date, title, tag, ext_id):
     """The opener and the first ministerial contribution of a section."""
     items = [i for i in (payload.get("Items") or []) if i.get("ItemType") == "Contribution" and i.get("Value")]
-    item = OralItem(ext_id=ext_id, house=house, date=date, title=title, kind=TAGS.get(tag, tag))
+    item = OralItem(ext_id=ext_id, house=house, date=date, title=title,
+                    kind=TAGS.get(tag) or LORDS_KINDS.get(str(tag).lower()) or tag)
     speakers = [(i.get("AttributedTo") or "", i.get("Value") or "") for i in items if i.get("AttributedTo")]
     speakers = [(n, v) for n, v in speakers if "Speaker" not in n and "Deputy Speaker" not in n and n.strip() != "Mr Speaker"]
     if speakers:
@@ -94,11 +115,39 @@ def fetch_day(client, house, date):
     except Exception:                                       # noqa: BLE001
         return out
     for sec in names or []:
-        if sec not in ("Debate", "GEN", "Lords"):
+        if sec not in ("Debate", "GEN"):
             continue
         tree = client.get_json("{0}/overview/sectiontrees.json?section={1}&date={2}&house={3}".format(
             API, sec, date.isoformat(), house), "hansard", "tree-{0}-{1}-{2}".format(house, date.isoformat(), sec), archive=False)
+        if house == "Lords":
+            # No tags in the Lords: read each chamber item and keep the
+            # statements (repeats of Commons statements included) and the
+            # urgent and private notice questions.
+            for title, tag, ext in lords_sections(tree):
+                payload = client.get_json("{0}/debates/debate/{1}.json".format(API, ext), "hansard",
+                                          "debate-{0}".format(ext))
+                kind = classify_lords(payload)
+                if kind:
+                    out.append(parse_debate(payload, house, date, title, kind, ext))
+            continue
         for title, tag, ext in sections(tree):
             payload = client.get_json("{0}/debates/debate/{1}.json".format(API, ext), "hansard", "debate-{0}".format(ext))
             out.append(parse_debate(payload, house, date, title, tag, ext))
+    return out
+
+
+def lords_sections(tree):
+    """[(title, tag, ext_id)] for every chamber item in a Lords tree."""
+    out = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            if node.get("HRSTag") == "NewDebate" and node.get("ExternalId") and node.get("Title"):
+                out.append((node["Title"], node["HRSTag"], node["ExternalId"]))
+            for c in node.get("SectionTreeItems") or []:
+                walk(c)
+        elif isinstance(node, list):
+            for c in node:
+                walk(c)
+    walk(tree)
     return out

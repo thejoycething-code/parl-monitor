@@ -138,6 +138,36 @@ class OralTests(unittest.TestCase):
         self.assertIn("position is unchanged", it.minister_text)
 
 
+class LordsOralTests(unittest.TestCase):
+    """The Lords tree has no HRSTags (every item 'NewDebate'); the debate's
+    first unattributed line says what it is."""
+
+    def test_classify_by_the_first_unattributed_line(self):
+        st = {"Items": [{"ItemType": "Contribution", "Value": "Statement"},
+                        {"ItemType": "Contribution", "Value": "The following Statement was made in the House of Commons on Tuesday 1 September."},
+                        {"ItemType": "Contribution", "AttributedTo": "The Lord Privy Seal (Baroness Smith of Basildon) (Lab)", "Value": "My Lords, ..."}]}
+        q = {"Items": [{"ItemType": "Contribution", "Value": "Question"}, {"ItemType": "Contribution", "Value": "Asked by"}]}
+        pnq = {"Items": [{"ItemType": "Contribution", "Value": "Private Notice Question"}]}
+        self.assertEqual(oral.classify_lords(st), "Oral statement")
+        self.assertIsNone(oral.classify_lords(q))
+        self.assertEqual(oral.classify_lords(pnq), "Private Notice Question")
+
+    def test_a_lords_statement_repeat_keeps_the_minister(self):
+        st = {"Items": [{"ItemType": "Contribution", "Value": "Statement"},
+                        {"ItemType": "Contribution", "Value": "The following Statement was made in the House of Commons on Tuesday 1 September."},
+                        {"ItemType": "Contribution", "AttributedTo": "The Lord Privy Seal (Baroness Smith of Basildon) (Lab)", "Value": "My Lords, the Government will..."}]}
+        it = oral.parse_debate(st, "Lords", datetime.date(2026, 9, 2), "Direction of Government", "Oral statement", "E5")
+        self.assertEqual(it.kind, "Oral statement")
+        self.assertEqual(it.minister_name, "The Lord Privy Seal (Baroness Smith of Basildon) (Lab)")
+        self.assertIn("the Government will", it.minister_text)
+
+    def test_lords_sections_lists_chamber_items(self):
+        tree = [{"Title": "Lords Chamber", "SectionTreeItems": [
+            {"Title": "House of Lords", "HRSTag": "hs_Venue", "ExternalId": "v"},
+            {"Title": "Direction of Government", "HRSTag": "NewDebate", "ExternalId": "E5"}]}]
+        self.assertEqual(oral.lords_sections(tree), [("Direction of Government", "NewDebate", "E5")])
+
+
 class RegulatorTests(unittest.TestCase):
     NICE = ('<table><tr><th>Title</th><th>Type</th><th>Guidance</th><th>Closes</th></tr>'
             '<tr><td><a href="https://www.nice.org.uk/guidance/gid-ng1/consultation/html-content">Gender dysphoria in '
