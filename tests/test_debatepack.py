@@ -59,6 +59,26 @@ class ContributionTests(unittest.TestCase):
         self.assertEqual(dp.minister(dp.contributions(PAYLOAD, "2026-09-07"))["ext_id"], "c4")
 
 
+class FindDebateRetryTests(unittest.TestCase):
+    def test_an_empty_tree_is_retried_before_it_is_believed(self):
+        """Hansard answered with and without the new section within a minute."""
+        calls = {"n": 0}
+
+        class Client:
+            def get_json(self, url, feed, slug, archive=True):
+                if "sectionsforday" in url:
+                    return ["WestHall"]
+                calls["n"] += 1
+                if calls["n"] < 2:
+                    return [{"Title": "Westminster Hall", "SectionTreeItems": []}]
+                return [{"Title": "Westminster Hall", "SectionTreeItems": [
+                    {"Title": "Surrogacy Law and Legal Parenthood", "ExternalId": "1DE0", "HRSTag": "hs_2WestHallDebate"}]}]
+        slept = []
+        out = dp.find_debate(Client(), "2026-09-07", "surrogacy", "Commons", attempts=3, pause=1, sleep=slept.append)
+        self.assertEqual(out, [("Surrogacy Law and Legal Parenthood", "WestHall", "1DE0")])
+        self.assertEqual(slept, [1])
+
+
 class ChecklistTests(unittest.TestCase):
     def test_parse_yes_no_and_blank(self):
         path = os.path.join(tempfile.mkdtemp(), "checklist.md")

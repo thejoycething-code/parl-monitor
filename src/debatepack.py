@@ -54,8 +54,24 @@ PAD_AFTER = 4
 
 # -- Hansard ----------------------------------------------------------------------
 
-def find_debate(client, date, term, house="Commons"):
-    """[(title, section, ext_id)] whose title contains `term` on that day."""
+def find_debate(client, date, term, house="Commons", attempts=3, pause=5, sleep=None):
+    """[(title, section, ext_id)] whose title contains `term` on that day.
+
+    In the minutes after Hansard publishes, the section tree can come back
+    with the new section one request and without it the next (measured
+    2026-09-07: the surrogacy debate was found, then not, then found). An
+    empty answer is retried a few times before it is believed."""
+    import time
+    sleep = sleep or time.sleep
+    for attempt in range(attempts):
+        out = _find_debate_once(client, date, term, house)
+        if out or attempt == attempts - 1:
+            return out
+        sleep(pause)
+    return []
+
+
+def _find_debate_once(client, date, term, house):
     out = []
     names = client.get_json("{0}/overview/sectionsforday.json?house={1}&date={2}".format(HANSARD_API, house, date),
                             "hansard", "sections-{0}-{1}".format(house, date), archive=False) or []
