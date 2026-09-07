@@ -62,7 +62,8 @@ PAUSED = {
 
 # table -> (freshness column, expected days, grace, note)
 FEEDS = [
-    ("petition_snapshots", "captured_at", 7, 3, "e-petitions on our ground (Sunday pull)"),
+    ("petitions", "last_seen", 7, 3, "e-petitions on our ground (collated, not published)"),
+    ("petition_snapshots", "captured_at", 7, 3, "e-petition signature snapshots"),
     ("sp_items", "last_seen", 7, 4, "Holyrood questions and motions"),
     ("sp_divisions", "last_seen", 7, 4, "Holyrood divisions"),
     ("sp_members", "last_seen", 7, 4, "MSP roster"),

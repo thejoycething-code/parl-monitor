@@ -215,6 +215,26 @@ CREATE TABLE IF NOT EXISTS mp_defiance (
 -- E-petition signature counts, one row per petition per Sunday seen, so the
 -- edition can say how fast a petition on our ground is moving (the early
 -- warning is the velocity, not the level). Christopher, 2026-09-07.
+-- E-petitions on our ground, COLLATED ONLY: not judged, not in the edition
+-- (Christopher, 2026-09-07: "I'd like petitions not to be included in the
+-- weekly report"). One row per petition, refreshed each sweep.
+CREATE TABLE IF NOT EXISTS petitions (
+  id          INTEGER PRIMARY KEY,
+  action      TEXT NOT NULL,
+  url         TEXT NOT NULL,
+  state       TEXT,
+  signatures  INTEGER NOT NULL,
+  areas       TEXT,               -- json list of area numbers
+  matched     TEXT,               -- json list of matched terms
+  tier        INTEGER,
+  opened_at   TEXT, closing_date TEXT,
+  response_reached TEXT, government_response_at TEXT,
+  debate_reached TEXT, debate_scheduled_on TEXT, scheduled_debate_date TEXT,
+  debate_outcome_at TEXT,
+  milestone   TEXT,
+  first_seen  TEXT NOT NULL,
+  last_seen   TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS petition_snapshots (
   petition_id INTEGER NOT NULL,
   captured_at TEXT NOT NULL,      -- YYYY-MM-DD, the Sunday we saw the count
@@ -914,6 +934,7 @@ def record_gaps(conn, feed, details, edition=None):
 # Tables the schema is expected to create; used by init verification and tests.
 TABLES = (
     "items",
+    "petitions",
     "petition_snapshots",
     "bills_board",
     "members",

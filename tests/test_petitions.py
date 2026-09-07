@@ -73,36 +73,22 @@ class MilestoneTests(unittest.TestCase):
                          "Debate scheduled for 2026-10-12")
 
 
-class RenderTests(unittest.TestCase):
-    def _row(self, **kw):
-        base = {"id": "763161", "title": "e-petition 763161: Reform surrogacy law", "url": "https://petition.parliament.uk/petitions/763161",
-                "why": "Commercial surrogacy is the ground.", "signatures": 101234, "prev_signatures": 98000,
-                "milestone": "Debate scheduled for 2026-09-07"}
-        base.update(kw)
-        return base
+class NotInTheReportTests(unittest.TestCase):
+    """Christopher, 2026-09-07: "I'd like petitions not to be included in
+    the weekly report." Collated, never judged, never rendered."""
 
-    def test_table_with_level_velocity_and_stage(self):
-        out = digest.render_petitions([self._row()])
-        self.assertIn("## E-petitions on our ground", out)
-        self.assertIn("| [Reform surrogacy law](https://petition.parliament.uk/petitions/763161) | 101,234 (+3,234 this week) "
-                      "| Debate scheduled for 2026-09-07 | Commercial surrogacy is the ground. |", out)
-
-    def test_a_first_sighting_says_so(self):
-        out = digest.render_petitions([self._row(prev_signatures=None)])
-        self.assertIn("101,234 (new to the monitor)", out)
-
-    def test_sorted_by_signatures_and_capped(self):
-        rows = [self._row(id=str(i), title="e-petition {0}: P{0}".format(i), signatures=i * 1000) for i in range(1, 20)]
-        out = digest.render_petitions(rows, cap=5)
-        self.assertLess(out.index("P19"), out.index("P15"))
-        self.assertNotIn("[P1]", out)
-        self.assertIn("...and 14 more, in the store.", out)
-
-    def test_empty_is_none_and_the_edm_heading_lost_petitions(self):
-        self.assertIsNone(digest.render_petitions([]))
+    def test_the_edition_has_no_petitions_section_or_field(self):
         src = open(os.path.join(ROOT, "src", "digest.py"), encoding="utf-8").read()
-        self.assertNotIn('"EDMs and petitions"', src)
-        self.assertIn('"Early day motions"', src)
+        self.assertNotIn("E-petitions on our ground", src)
+        self.assertNotIn("render_petitions", src)
+        self.assertFalse(hasattr(digest.Edition(week_commencing="2026-09-07", number=1, mode="normal"), "petitions"))
+
+    def test_the_sweep_never_writes_items(self):
+        src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
+        block = src[src.index("def sweep_petitions("):src.index("def sweep_edms(")]
+        self.assertNotIn("store_item(", block)
+        self.assertNotIn('"petition"', src[src.index("window_days = {"):src.index("window_days = {") + 80])
+        self.assertIn('"Early day motions"', open(os.path.join(ROOT, "src", "digest.py"), encoding="utf-8").read())
 
 
 class SweepTests(unittest.TestCase):
@@ -129,14 +115,15 @@ class SweepTests(unittest.TestCase):
         wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
         n = run_weekly.sweep_petitions(self._client(98000), conn, tax, wl, datetime.date(2026, 8, 30), "2026-08-31", log=lambda *_: None)
         self.assertEqual(n, 1)
-        ids = [r[0] for r in conn.execute("SELECT id FROM items WHERE source_feed='petition'")]
-        self.assertEqual(ids, ["petition:763161"])
-        # a week later: the snapshot gives the movement
+        ids = [r[0] for r in conn.execute("SELECT id FROM petitions")]
+        self.assertEqual(ids, [763161])
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM items").fetchone()[0], 0)   # never an item
+        # a week later: the snapshots give the movement
         run_weekly.sweep_petitions(self._client(101234), conn, tax, wl, datetime.date(2026, 9, 6), "2026-09-07", log=lambda *_: None)
-        import json
-        extra = json.loads(conn.execute("SELECT extra FROM items WHERE id='petition:763161'").fetchone()[0])
-        self.assertEqual((extra["prev_signatures"], extra["signatures"]), (98000, 101234))
-        self.assertEqual(conn.execute("SELECT COUNT(*) FROM petition_snapshots").fetchone()[0], 2)
+        snaps = conn.execute("SELECT captured_at, signatures FROM petition_snapshots ORDER BY captured_at").fetchall()
+        self.assertEqual([tuple(s) for s in snaps], [("2026-08-30", 98000), ("2026-09-06", 101234)])
+        row_ = conn.execute("SELECT signatures, first_seen, last_seen FROM petitions WHERE id=763161").fetchone()
+        self.assertEqual(tuple(row_), (101234, "2026-08-30", "2026-09-06"))
 
     def test_tier_two_vocabulary_alone_does_not_admit_a_petition(self):
         """168 of the first sweep's 269 came in on tier-2 words: "birth rate"
@@ -156,8 +143,8 @@ class SweepTests(unittest.TestCase):
                             "links": {"next": None}}
                 return {"data": [], "links": {"next": None}}
         run_weekly.sweep_petitions(Client(), conn, tax, wl, datetime.date(2026, 9, 6), "2026-09-07", log=lambda *_: None)
-        ids = [r[0] for r in conn.execute("SELECT id FROM items WHERE source_feed='petition'")]
-        self.assertEqual(ids, ["petition:2"])
+        ids = [r[0] for r in conn.execute("SELECT id FROM petitions")]
+        self.assertEqual(ids, [2])
 
     def test_a_tier_two_match_past_ten_thousand_is_admitted(self):
         """The misogyny hate-crime petition: 114,927 signatures, a debate the
@@ -178,21 +165,15 @@ class SweepTests(unittest.TestCase):
                             "links": {"next": None}}
                 return {"data": [], "links": {"next": None}}
         run_weekly.sweep_petitions(Client(), conn, tax, wl, datetime.date(2026, 9, 6), "2026-09-07", log=lambda *_: None)
-        ids = [r[0] for r in conn.execute("SELECT id FROM items WHERE source_feed='petition'")]
-        self.assertEqual(ids, ["petition:746640"])
-
-    def test_migration_only_petitions_stay_out_of_the_section(self):
-        src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
-        block = src[src.index('if feed == "petition":'):src.index('if feed == "si":')]
-        self.assertIn("if a != 11]", block)
-        self.assertLess(block.index("if a != 11]"), block.index("edition.petitions.append"))
+        ids = [r[0] for r in conn.execute("SELECT id FROM petitions")]
+        self.assertEqual(ids, [746640])
 
     def test_the_weekly_runs_it_and_coverage_watches_it(self):
         src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
         self.assertIn("sweep_petitions(client, conn, tax, wl, datetime.date.today(), edition)", src)
-        self.assertIn('"petition": 7', src)                       # renders in the week it was seen
         cov = open(os.path.join(ROOT, "tools", "coverage.py"), encoding="utf-8").read()
         self.assertIn('("petition_snapshots", "captured_at"', cov)
+        self.assertIn('("petitions", "last_seen"', cov)
 
 
 if __name__ == "__main__":

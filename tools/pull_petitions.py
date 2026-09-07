@@ -4,8 +4,8 @@
 
 Same code path as the weekly (run_weekly.sweep_petitions); this exists so
 the first snapshot can be taken today rather than next Sunday, giving the
-edition a "this week" movement column from its first appearance. Items
-land with triage_score NULL and are scored by the next pull's judge pass.
+edition a "this week" movement column from its first appearance. Petitions are
+collated only: their own table, never items, never the edition.
 ONE WRITER AT A TIME: pull the store first, push it after.
 """
 

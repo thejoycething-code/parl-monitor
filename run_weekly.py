@@ -308,14 +308,19 @@ def _store_pq_questions(client, conn, tax, wl, since, edition, questions):
 
 
 def sweep_petitions(client, conn, tax, wl, today, edition, log=print):
-    """E-petitions on our ground -> items (feed 'petition') + a signature
-    snapshot per Sunday, so the edition can show the week's movement.
+    """E-petitions on our ground -> the petitions table + a signature
+    snapshot per Sunday. COLLATED ONLY (Christopher, 2026-09-07: "I'd like
+    petitions not to be included in the weekly report"): nothing here
+    reaches items, so the judge never scores a petition and the edition
+    never shows one. The record is kept for the early warning to be read
+    from -- a page or an alert -- when that is wanted.
 
     Every open petition is fetched (no server-side text search) and the
-    filter runs over action + background + details. A matched petition is
-    stored with today's date as its event_date, so it renders in the
-    edition whose window covers this Sunday and refreshes weekly while it
-    lives. The judge scores it like any other item.
+    filter runs over action + background + details. Precision gate: tier 1
+    or a watchlist name, or tier 2 once the petition has 10,000 signatures
+    (tier-2 vocabulary alone admitted 168 of 269 on the first sweep; the
+    misogyny hate-crime petition, 114,927 and debated the same day, matched
+    nothing but tier-2 "hate crime").
     """
     try:
         rows = petitions.fetch_all(client)
@@ -326,41 +331,31 @@ def sweep_petitions(client, conn, tax, wl, today, edition, log=print):
     matched = 0
     for p in rows:
         r = filt.filter_item(tax, wl, p.action, p.text)
-        # Precision gate. A petition is a few hundred words, and tier-2
-        # vocabulary alone admitted 168 of 269 on the first sweep
-        # (2026-09-07) -- "birth rate" in a student-loan petition,
-        # "coercion" in one about China, "Ofcom" about broadcast rules.
-        # So: tier 1 or a watchlist name; a tier-2 match only once the
-        # petition has 10,000 signatures and a Government response owed,
-        # because the misogyny hate-crime petition (114,927, debated the
-        # same day) matched nothing but tier-2 "hate crime" and the gate
-        # as first written dropped it. The judge decides from there.
         if not r.matched():
             continue
         if not (r.tier == 1 or r.watchlist_hits) and p.signatures < petitions.RESPONSE_THRESHOLD:
             continue
         matched += 1
-        prev = conn.execute(
-            "SELECT captured_at, signatures FROM petition_snapshots WHERE petition_id = ? AND captured_at < ? "
-            "ORDER BY captured_at DESC LIMIT 1", (p.id, today_iso)).fetchone()
         conn.execute("INSERT OR REPLACE INTO petition_snapshots (petition_id, captured_at, signatures) "
                      "VALUES (?, ?, ?)", (p.id, today_iso, p.signatures))
-        store_item(conn, "petition:{0}".format(p.id), "petition", "petition",
-                   "e-petition {0}: {1}".format(p.id, p.action), p.url, r,
-                   event_date=today_iso, deadline=p.closing_date,
-                   extra={"signatures": p.signatures, "state": p.state,
-                          "prev_seen": prev[0] if prev else None,
-                          "prev_signatures": prev[1] if prev else None,
-                          "opened_at": p.opened_at, "closing_date": p.closing_date,
-                          "response_reached": p.response_reached,
-                          "government_response_at": p.government_response_at,
-                          "debate_reached": p.debate_reached,
-                          "debate_scheduled_on": p.debate_scheduled_on,
-                          "scheduled_debate_date": p.scheduled_debate_date,
-                          "debate_outcome_at": p.debate_outcome_at,
-                          "milestone": petitions.milestone(p, today),
-                          "departments": p.departments})
-    log("petitions: {0} fetched, {1} on our ground".format(len(rows), matched))
+        conn.execute(
+            "INSERT INTO petitions (id, action, url, state, signatures, areas, matched, tier, "
+            "opened_at, closing_date, response_reached, government_response_at, debate_reached, "
+            "debate_scheduled_on, scheduled_debate_date, debate_outcome_at, milestone, first_seen, last_seen) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+            "ON CONFLICT(id) DO UPDATE SET action=excluded.action, state=excluded.state, "
+            "signatures=excluded.signatures, areas=excluded.areas, matched=excluded.matched, "
+            "tier=excluded.tier, closing_date=excluded.closing_date, "
+            "response_reached=excluded.response_reached, government_response_at=excluded.government_response_at, "
+            "debate_reached=excluded.debate_reached, debate_scheduled_on=excluded.debate_scheduled_on, "
+            "scheduled_debate_date=excluded.scheduled_debate_date, debate_outcome_at=excluded.debate_outcome_at, "
+            "milestone=excluded.milestone, last_seen=excluded.last_seen",
+            (p.id, p.action, p.url, p.state, p.signatures, json.dumps(r.issue_areas),
+             json.dumps(r.matched_terms + r.watchlist_hits), r.tier, p.opened_at, p.closing_date,
+             p.response_reached, p.government_response_at, p.debate_reached, p.debate_scheduled_on,
+             p.scheduled_debate_date, p.debate_outcome_at, petitions.milestone(p, today), today_iso, today_iso))
+    conn.commit()
+    log("petitions: {0} fetched, {1} on our ground (collated, not judged)".format(len(rows), matched))
     return matched
 
 
@@ -832,7 +827,7 @@ def sections_from_store(conn, edition):
     # the ledger regardless.
     week_start = datetime.date.fromisoformat(edition.week_commencing)
     week_end_iso = (week_start + datetime.timedelta(days=6)).isoformat()
-    window_days = {"pq": 7, "wms": 7, "edm": 60, "petition": 7}
+    window_days = {"pq": 7, "wms": 7, "edm": 60}
 
     def in_window(feed, event_date):
         days = window_days.get(feed)
@@ -883,33 +878,6 @@ def sections_from_store(conn, edition):
                     text="{0} - {1}".format(title, r["why_it_matters"] or why),
                     tag=3, owner=None, url=r["url"],
                     deadline=r["deadline"], date=r["event_date"]))
-            continue
-        if feed == "petition":
-            # Migration (area 11) is collated, never campaigned: stored and
-            # judged, hidden from the section as from every other surface.
-            if not [a for a in json.loads(r["issue_areas"] or "[]") if a != 11]:
-                continue
-            extra = json.loads(r["extra"]) if r["extra"] else {}
-            row = {"id": r["id"].split(":", 1)[1], "title": r["title"], "url": r["url"],
-                   "why": r["why_it_matters"] or "", "tag": r["triage_score"]}
-            row.update(extra)
-            edition.petitions.append(row)
-            # A threshold crossed THIS WEEK is news whatever the judge scored:
-            # 100,000 means a Commons debate follows; a date fixed means it
-            # is on the calendar.
-            floor = (week_start - datetime.timedelta(days=7)).isoformat()
-            crossed = extra.get("debate_reached") and floor <= extra["debate_reached"] < week_start.isoformat()
-            fixed = extra.get("debate_scheduled_on") and floor <= extra["debate_scheduled_on"] < week_start.isoformat()
-            if crossed or fixed:
-                action = r["title"].split(": ", 1)[-1]
-                edition.top_lines.append(digest.Line(
-                    text="e-petition \"{0}\" {1} ({2:,} signatures)".format(
-                        action,
-                        "has a Commons debate on {0}".format(extra.get("scheduled_debate_date"))
-                        if fixed and extra.get("scheduled_debate_date")
-                        else "passed 100,000 signatures; a Commons debate follows",
-                        extra.get("signatures") or 0),
-                    tag=3, owner=None, url=r["url"], deadline=None, date=extra.get("scheduled_debate_date")))
             continue
         if feed == "si":
             extra = json.loads(r["extra"]) if r["extra"] else {}

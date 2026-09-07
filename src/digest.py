@@ -71,7 +71,6 @@ class Edition:
     statements: list = field(default_factory=list)
     mp_notes: list = field(default_factory=list)
     spoke: list = field(default_factory=list)      # src/spoke.collect(): debates with speakers and direction
-    petitions: list = field(default_factory=list)  # e-petitions on our ground: dicts from items.extra
     return_dates: dict = field(default_factory=dict)   # {house: ISO date}
     gaps: list = field(default_factory=list)            # [(feed, detail)]
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
@@ -664,46 +663,6 @@ def render_si(edition):
     return "\n".join(out)
 
 
-PETITIONS_CAP = 15
-
-
-def _signatures_cell(row):
-    n = row.get("signatures") or 0
-    prev = row.get("prev_signatures")
-    if prev is None:
-        return "{0:,} (new to the monitor)".format(n)
-    delta = n - prev
-    return "{0:,} ({1}{2:,} this week)".format(n, "+" if delta >= 0 else "\u2212", abs(delta))
-
-
-def render_petitions(rows, cap=PETITIONS_CAP):
-    """E-petitions on our ground (Christopher, 2026-09-07): the early warning.
-
-    Level, velocity and where it stands in the process. Sorted by
-    signatures, because the thresholds are what turn a petition into a
-    Government response (10,000) or a Commons debate (100,000); the
-    movement column is what tells the reader which ones are coming.
-    """
-    if not rows:
-        return None
-    ordered = sorted(rows, key=lambda r: -(r.get("signatures") or 0))
-    out = ["## E-petitions on our ground", "",
-           "*Open petitions matching our areas. 10,000 signatures earn a Government response, "
-           "100,000 a Commons debate; movement is since the last edition.*", "",
-           "| Petition | Signatures | Where it stands | Why it matters |", "|---|---|---|---|"]
-    for r in ordered[:cap]:
-        action = (r.get("title") or "").split(": ", 1)[-1].replace("|", "/")
-        out.append("| [{0}]({1}) | {2} | {3} | {4} |".format(
-            action, r.get("url") or "#", _signatures_cell(r),
-            (r.get("milestone") or "").replace("|", "/"), (r.get("why") or "").replace("|", "/")))
-    more = len(ordered) - cap
-    if more > 0:
-        out.append("")
-        out.append("*...and {0} more, in the store.*".format(more))
-    out.append("")
-    return "\n".join(out)
-
-
 def _render_section(title, lines, cap=None):
     if cap is not None:
         lines = _cap(lines, cap)
@@ -803,11 +762,6 @@ def render(edition):
         pqs = render_pqs(edition)
         if pqs:
             parts.append(pqs)
-        # Petitions gather signatures through recess as questions gather
-        # answers; the early warning is most useful when the House is away.
-        pets = render_petitions(edition.petitions)
-        if pets:
-            parts.append(pets)
         parts.append(render_board(edition.board_rows))
         si = render_si(edition)
         if si:
@@ -842,9 +796,6 @@ def render(edition):
             section = _render_section(title, lines, cap)
             if section:
                 parts.append(section)
-        pets = render_petitions(edition.petitions)
-        if pets:
-            parts.append(pets)
         parts.append(render_board(edition.board_rows))
         si = render_si(edition)
         if si:
