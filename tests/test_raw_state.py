@@ -68,6 +68,26 @@ class DigestAndTarTests(unittest.TestCase):
         self.assertEqual(rs.asset_name("eu-probe-2026-09-01"), "raw-eu-probe-2026-09-01.tar")
 
 
+class AssetVerificationTests(unittest.TestCase):
+    def test_tar_digest_equals_folder_digest_of_its_contents(self):
+        src = _folder({"a.gz": b"A", "d/b.gz": b"B"})
+        tar = os.path.join(tempfile.mkdtemp(), "t.tar")
+        rs.make_tar(src, tar)
+        self.assertEqual(rs.tar_digest(tar), rs.folder_digest(src)[0])
+
+    def test_a_local_variant_of_a_published_file_is_not_a_mismatch(self):
+        """2026-09-07: a laptop held today's folder with a same-named payload
+        whose gzip header differed; the pull called the asset corrupt."""
+        published = _folder({"x.json.gz": b"published bytes"})
+        tar = os.path.join(tempfile.mkdtemp(), "t.tar")
+        rs.make_tar(published, tar)
+        self.assertEqual(rs.tar_digest(tar), rs.folder_digest(published)[0])   # the asset is sound
+        local = _folder({"x.json.gz": b"local bytes, same JSON inside"})
+        rs.extract_union(tar, local)                                          # keeps the local version
+        self.assertEqual(open(os.path.join(local, "x.json.gz"), "rb").read(), b"local bytes, same JSON inside")
+        self.assertNotEqual(rs.folder_digest(local)[0], rs.tar_digest(tar))     # and that is fine
+
+
 class MergeDriverTests(unittest.TestCase):
     def test_union_of_folders_later_publish_wins(self):
         ours = {"folders": {"a": {"sha256": "o", "published_utc": "2026-09-07T10:00:00Z"},

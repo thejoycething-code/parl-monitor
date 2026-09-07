@@ -326,15 +326,19 @@ def pull(log=print):
             if not download_asset(folder, dest):
                 log("  {0}: sidecar names it but the release has no asset -- left as is".format(folder))
                 continue
+            # Verify the ASSET against the pointer, never the union: a laptop
+            # may hold a same-named payload fetched at another time whose
+            # gzip header differs while the JSON inside is identical, and on
+            # 2026-09-07 that read as a "mismatch" on a perfectly good asset.
+            got = tar_digest(dest)
+            if got != meta["sha256"]:
+                log("SHA MISMATCH on {0}: sidecar {1}, asset {2}. Refusing to trust it; the folder "
+                    "is left as it was.".format(folder, meta["sha256"][:12], got[:12]))
+                return 1
             # The published tar is the union of everything anyone archived;
             # local files that are not in it (this run's own new payloads,
-            # or a laptop's) stay, because nothing here deletes.
+            # or a laptop's) stay, because nothing here deletes or overwrites.
             extract_union(dest, path)
-            got = folder_digest(path)[0]
-            if got != meta["sha256"] and set(_files(path)) == set(_tar_names(dest)):
-                log("SHA MISMATCH on {0}: sidecar {1}, asset {2}. Refusing to trust it."
-                    .format(folder, meta["sha256"][:12], got[:12]))
-                return 1
             _hold(folder, meta["sha256"])
             fetched += 1
     finally:
@@ -347,6 +351,21 @@ def pull(log=print):
 def _tar_names(tar_path):
     with tarfile.open(tar_path, "r") as tar:
         return [m.name for m in tar.getmembers() if m.isfile()]
+
+
+def tar_digest(tar_path):
+    """The same content digest folder_digest() gives, computed from a tar's
+    members: what the ASSET holds, independent of any local file."""
+    h = hashlib.sha256()
+    with tarfile.open(tar_path, "r") as tar:
+        members = sorted((m for m in tar.getmembers() if m.isfile()), key=lambda m: m.name)
+        for m in members:
+            fh = hashlib.sha256()
+            src = tar.extractfile(m)
+            for chunk in iter(lambda: src.read(1 << 20), b""):
+                fh.update(chunk)
+            h.update(m.name.encode("utf-8") + b"\0" + fh.hexdigest().encode() + b"\n")
+    return h.hexdigest()
 
 
 def push(log=print):
