@@ -3,6 +3,6 @@
   "bytes": 134393856,
   "note": "Derived state; the bytes live as a release asset. See tools/db_state.py.",
   "published_at": "local",
-  "published_utc": "2026-09-07T14:42:25Z",
-  "sha256": "38886a5d473143f9379432bc5ef89e410c423f49a7c461eafe82d951af1a36b4"
+  "published_utc": "2026-09-07T14:47:08Z",
+  "sha256": "326cb1e1f733a9344ecc7e7df4c1bf38bb611ce0d59ac44140426e1c6c7b97d5"
 }

@@ -128,3 +128,19 @@ class TokenBudgetTests(unittest.TestCase):
         out = _parse_reply(reply)
         self.assertEqual(len(out), 1)
         self.assertEqual(out[0].score, 3)
+
+
+class EvidenceTextTests(unittest.TestCase):
+    """Until 2026-09-07 the judge saw a title and nothing else."""
+
+    def test_extra_fields_reach_the_judge_in_order(self):
+        import json
+        from src.triage import evidence_text
+        text = evidence_text(json.dumps({"excerpt": "sex means biological sex", "court": "Supreme Court",
+                                         "minister_line": "The Government will not appeal."}))
+        self.assertEqual(text, "excerpt: sex means biological sex | minister line: The Government will not appeal.")
+
+    def test_no_extra_is_an_empty_string(self):
+        from src.triage import evidence_text
+        self.assertEqual(evidence_text(None), "")
+        self.assertEqual(evidence_text("not json"), "")

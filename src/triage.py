@@ -305,17 +305,37 @@ def pending_items(conn, watchlist=None):
     """
     entity_names = {e[0] for e in (watchlist.entities if watchlist else [])}
     rows = conn.execute(
-        "SELECT id, title, issue_areas, matched_terms, tier FROM items WHERE triage_score IS NULL"
+        "SELECT id, title, issue_areas, matched_terms, tier, extra FROM items WHERE triage_score IS NULL"
     ).fetchall()
     items = []
     for r in rows:
         matched = json.loads(r["matched_terms"] or "[]")
         items.append(TriageItem(
-            id=r["id"], title=r["title"], text="", tier=r["tier"],
+            id=r["id"], title=r["title"], text=evidence_text(r["extra"]), tier=r["tier"],
             issue_areas=json.loads(r["issue_areas"] or "[]"),
             watchlist_hit=any(t in entity_names for t in matched),
         ))
     return items
+
+
+# What each feed stores that the judge should read beyond the title. Until
+# 2026-09-07 every item went to the judge as a title alone, so a judgment
+# was scored on its case name and the line hedged ("likely concerning ...").
+EVIDENCE_KEYS = ("excerpt", "summary", "explanatory", "minister_line", "opener", "business",
+                 "description", "milestone", "decision_word")
+
+
+def evidence_text(extra_json, cap=1800):
+    try:
+        extra = json.loads(extra_json) if extra_json else {}
+    except ValueError:
+        return ""
+    parts = []
+    for key in EVIDENCE_KEYS:
+        v = extra.get(key)
+        if isinstance(v, str) and v.strip():
+            parts.append("{0}: {1}".format(key.replace("_", " "), v.strip()))
+    return " | ".join(parts)[:cap]
 
 
 def apply_scores(conn, items, results):
