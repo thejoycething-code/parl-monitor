@@ -10,6 +10,12 @@
 - [Consultation on the Religious Education Core Syllabus (N. Ireland) - open consultation on our ground](https://consultations.nidirect.gov.uk/de/re-syllabus-consultation/) (Deadline: 2026-09-30)
 - [Public Consultation on Measures to Support Mobile Phone-Free Schools in Northern Ireland (N. Ireland) - open consultation on our ground](https://consultations.nidirect.gov.uk/de/measures-to-support-mobile-free-schools/) (Deadline: 2026-11-19)
 
+## Decisions needed
+
+| Decision | Owner | Decide by | Status |
+|---|---|---|---|
+| Does CitizenGO submit a supporter response to the SEND reform consultation on education otherwise than at school? | *unassigned* | 2026-09-14 | 7 days left |
+
 ## Week ahead
 
 | When | What | Where | Why it matters | Sources |
@@ -114,9 +120,9 @@
 | [Hospice Funding Bill](https://bills.parliament.uk/bills/4178) | Palliative care funding; the positive alternative to assisted suicide | Commons, 2nd reading | 2026-11-27 | Awaiting 2nd reading | Assisted dying | no change |
 | [Relationships and Sex Education (Further Education Sector) Bill](https://bills.parliament.uk/bills/4171) | Extends RSE rules into further education; parental rights watch | Commons, 2nd reading | 2026-12-04 | Awaiting 2nd reading | Parental rights and education | no change |
 | [Complications from Abortions (Annual Report) Bill [HL]](https://bills.parliament.uk/bills/4144) | Would require annual reporting of abortion complications; transparency we back | Lords, 2nd reading | TBA | Date to be announced | Abortion | no change |
-| [Child-like Sexual Abuse Dolls (Offences) Bill](https://bills.parliament.uk/bills/4176) | Criminalises child-like sex dolls; child protection, and the taxonomy phrase 'child sexual abuse' misses the title's 'Child-like Sexual Abuse' | Commons, 2nd reading | TBA | Date to be announced | Parental rights and education | ▲ moved |
+| [Child-like Sexual Abuse Dolls (Offences) Bill](https://bills.parliament.uk/bills/4176) | Criminalises child-like sex dolls; child protection, and the taxonomy phrase 'child sexual abuse' misses the title's 'Child-like Sexual Abuse' | Commons, Committee stage | TBA | Date to be announced | Parental rights and education | ▲ moved |
 | [Registration of Stillbirths (England and Wales) Bill](https://bills.parliament.uk/bills/4277) | Legal recognition for babies stillborn before 24 weeks; recognition of the unborn, adjacent to our abortion work | Commons, 1st reading | TBA | Date to be announced | Abortion | no change |
-| [Infants, Parents and Carers Bill](https://bills.parliament.uk/bills/4156) | Duties owed to infants and their parents; parental rights watch | Commons, 2nd reading | TBA | Date to be announced | Parental rights and education | ▲ moved |
+| [Infants, Parents and Carers Bill](https://bills.parliament.uk/bills/4156) | Duties owed to infants and their parents; parental rights watch | Commons, Committee stage | TBA | Date to be announced | Parental rights and education | ▲ moved |
 
 *Movement: NEW = first appearance on the board; ▲ moved = stage or next date changed since last edition; no change = as last edition; closing = final entry, the bill leaves the board next week.*
 
