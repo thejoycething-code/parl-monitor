@@ -1,0 +1,84 @@
+name: Deploy tracker
+
+# Sign-off to site in minutes, not on Monday (Christopher, 2026-09-07:
+# "Build the deploy tracker workflow").
+#
+# The MP vote tracker was rebuilt and deployed only by the Monday publish.
+# On the day of a division that is three days late: the verdict is signed
+# in config/vote_tracker.yaml on Friday afternoon, and the supporter emails
+# that name MPs go out the same day, so the pages they link to must carry
+# the vote by then. Flip signed_off, drop `upcoming: true`, push, dispatch
+# this.
+#
+# READS the store (the roster and the ledger the tracker is built from) and
+# never writes it: no --push, no sidecar. It joins the state lock anyway so
+# it cannot pull a store another workflow is halfway through publishing.
+#
+# THE SUITE IS THE GATE. A hand-edited vote_tracker.yaml is exactly what the
+# tests check -- debate windows that overlap or leave a gap, an issue with
+# no board row, a division id the archive lacks -- so nothing deploys past
+# a red suite.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Test gate
+        run: python3 -m unittest discover -s tests -q 2>&1 | tail -3
+      - name: Build the tracker
+        run: |
+          python3 tools/make_vote_tracker.py | tee /tmp/tracker.log
+          { echo "## Deploy tracker"; echo '```'; cat /tmp/tracker.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Deploy partner site
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: team_rpnwoDBcJ5Wz1K5P8UCTGY2k
+          VERCEL_PROJECT_ID: prj_S8GXaZdccVrPLzoXQdWaiq1MyZGr
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "VERCEL_TOKEN secret not set - partner site deploy skipped"
+            exit 1
+          fi
+          npx --yes vercel@latest deploy partner_site --prod --yes --token "$VERCEL_TOKEN" | tee /tmp/deploy.log
+          grep -E "Production" /tmp/deploy.log | tail -1 >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit the rebuilt pages
+        # The tracker pages and any division payload the build fetched for a
+        # newly configured id. Never the store: this workflow does not publish it.
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/raw docs/mp-votes.html partner_site/mp-votes.html 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "Deploy tracker: $(date -u +%FT%H:%MZ)"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin main || true
+            git push origin main && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done

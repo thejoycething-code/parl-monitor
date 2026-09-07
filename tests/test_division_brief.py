@@ -178,5 +178,38 @@ class WiringTests(unittest.TestCase):
         self.assertIn('"Division watch"', alert)
 
 
+class DeployTrackerTests(unittest.TestCase):
+    """Sign-off to site on the day (Christopher, 2026-09-07)."""
+
+    def _src(self):
+        return open(os.path.join(ROOT, ".github", "workflows", "deploy-tracker.yml"), encoding="utf-8").read()
+
+    def test_manual_only_reads_the_store_and_never_writes_it(self):
+        src = self._src()
+        self.assertIn("workflow_dispatch:", src)
+        self.assertNotIn("schedule:", src)
+        self.assertIn("db_state.py --pull", src)
+        self.assertNotIn("db_state.py --push", src)
+        self.assertNotIn("parl-monitor.db.json", src)
+        self.assertIn("group: parl-monitor-state", src)   # never pulls mid-publish
+
+    def test_the_suite_gates_the_deploy(self):
+        src = self._src()
+        self.assertLess(src.index("unittest discover"), src.index("make_vote_tracker.py"))
+        self.assertLess(src.index("make_vote_tracker.py"), src.index("vercel@latest deploy"))
+
+    def test_a_missing_deploy_token_fails_loudly(self):
+        """The Monday publish may skip the deploy; this workflow exists to deploy."""
+        block = self._src().split("Deploy partner site", 1)[1]
+        self.assertIn("exit 1", block.split("npx", 1)[0])
+
+    def test_it_is_alerted_on_and_in_the_runbook(self):
+        alert = open(os.path.join(ROOT, ".github", "workflows", "alert.yml"), encoding="utf-8").read()
+        self.assertIn('"Deploy tracker"', alert)
+        runbook = open(os.path.join(ROOT, "docs", "runbook-2026-09-11.md"), encoding="utf-8").read()
+        self.assertIn("gh workflow run deploy-tracker.yml", runbook)
+        self.assertIn("gh workflow run division-watch.yml", runbook)
+
+
 if __name__ == "__main__":
     unittest.main()
