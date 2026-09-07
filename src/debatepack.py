@@ -146,10 +146,20 @@ def contributions(payload, date):
         if it.get("ItemType") != "Contribution" or not it.get("Value") or not it.get("AttributedTo"):
             continue
         name, seat, party = _parse_attributed(it["AttributedTo"])
+        text = _clean(it["Value"])
+        # A contribution with no clock of its own starts when the previous one
+        # is estimated to END, not at the last clock seen: Jonathan Hinder's
+        # second contribution was placed at the same instant as his first, and
+        # a passage from it was cut from the wrong minutes (2026-09-07).
+        if it.get("Timecode") is None and rows and rows[-1]["start"] and clock and rows[-1]["start"] >= clock:
+            est_end = rows[-1]["start"] + datetime.timedelta(seconds=int(len(rows[-1]["text"].split()) / WORDS_PER_SECOND) + 6)
+            start = max(clock, est_end)
+        else:
+            start = clock
         rows.append({"order": it.get("OrderInSection"), "attributed": it["AttributedTo"], "name": name,
                      "seat": seat, "party": party, "member_id": it.get("MemberId"),
-                     "ext_id": it.get("ExternalId"), "text": _clean(it["Value"]),
-                     "start": clock, "chair": bool(CHAIR.search(it["AttributedTo"]))})
+                     "ext_id": it.get("ExternalId"), "text": text,
+                     "start": start, "chair": bool(CHAIR.search(it["AttributedTo"]))})
     # END of a contribution: Hansard's clocks are sparse (a Timestamp every
     # few minutes), so "the next clock" credited a one-minute intervener with
     # the whole speech that followed (290 minutes, 2026-09-04). Length comes

@@ -33,7 +33,8 @@ class ContributionTests(unittest.TestCase):
         by = {r["ext_id"]: r for r in rows}
         self.assertEqual(by["c0"]["start"].strftime("%H:%M:%S"), "16:30:00")      # from the Timestamp item
         self.assertEqual(by["c1"]["start"].strftime("%H:%M:%S"), "16:31:10")      # its own Timecode
-        self.assertEqual(by["c2"]["start"].strftime("%H:%M:%S"), "16:31:10")      # inherits the last clock
+        # c2 (the Chair, no clock) starts when c1 is estimated to end: 22 words -> 8s + 6s room after 16:31:10
+        self.assertEqual(by["c2"]["start"].strftime("%H:%M:%S"), "16:31:24")
         self.assertEqual(by["c4"]["start"].strftime("%H:%M:%S"), "16:52:00")
         # c1 is 22 words: ~8s + 6s room -> ends 16:31:24, well before the next clock (16:40:02)
         self.assertEqual(by["c1"]["end"].strftime("%H:%M:%S"), "16:31:24")
@@ -42,6 +43,22 @@ class ContributionTests(unittest.TestCase):
         rows2 = dp.contributions({"Items": [PAYLOAD["Items"][0], long_row, PAYLOAD["Items"][4]]}, "2026-09-07")
         self.assertEqual(rows2[0]["end"].strftime("%H:%M:%S"), "16:40:02")
         self.assertEqual(by["c1"]["start"].tzinfo.key, "Europe/London")
+
+    def test_a_second_contribution_without_a_clock_follows_the_first_not_overlaps_it(self):
+        """Jonathan Hinder spoke twice from 17:22 with one clock; his second
+        contribution began after his first ended, not at the same instant."""
+        payload = {"Items": [
+            {"ItemType": "Contribution", "AttributedTo": "Jonathan Hinder (Pendle) (Lab)", "MemberId": 1, "ExternalId": "h1",
+             "Timecode": "2026-09-07T17:22:00", "Value": " ".join(["word"] * 250)},
+            {"ItemType": "Contribution", "AttributedTo": "Someone Else (Here) (Con)", "MemberId": 2, "ExternalId": "x1",
+             "Value": " ".join(["word"] * 50)},
+            {"ItemType": "Contribution", "AttributedTo": "Jonathan Hinder (Pendle) (Lab)", "MemberId": 1, "ExternalId": "h2",
+             "Value": " ".join(["word"] * 300)}]}
+        rows = {r["ext_id"]: r for r in dp.contributions(payload, "2026-09-07")}
+        self.assertEqual(rows["h1"]["start"].strftime("%H:%M:%S"), "17:22:00")
+        self.assertEqual(rows["x1"]["start"].strftime("%H:%M:%S"), "17:23:46")   # 250 words / 2.5 = 100s, +6 room
+        self.assertEqual(rows["h2"]["start"].strftime("%H:%M:%S"), "17:24:12")   # 50 words = 20s, +6
+        self.assertLess(rows["h1"]["end"], rows["h2"]["start"])
 
     def test_attributed_parses_name_seat_party_and_flags_the_chair(self):
         rows = dp.contributions(PAYLOAD, "2026-09-07")
