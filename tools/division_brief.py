@@ -273,7 +273,7 @@ def run(date, out_dir=BRIEFS, force=False, dm=True, client=None, secrets=None, l
     ours = [(p, b, d) for p, b, d in found if on_our_ground(d.title, tax, wl)]
     log("{0} division(s) on {1}, {2} on our ground.".format(len(found), date, len(ours)))
     os.makedirs(out_dir, exist_ok=True)
-    written = 0
+    written, messages = 0, []
     for prefix, breakdown, d in ours:
         path = os.path.join(out_dir, "division-{0}{1}.md".format(prefix, d.id))
         if os.path.exists(path) and not force:
@@ -297,11 +297,17 @@ def run(date, out_dir=BRIEFS, force=False, dm=True, client=None, secrets=None, l
         written += 1
         url = "https://github.com/{0}/blob/main/{1}".format(REPO, os.path.relpath(path, ROOT))
         log("  {0}{1} {2}: brief written -> {3}".format(prefix, d.id, d.title, os.path.relpath(path, ROOT)))
-        if dm:
-            text = dm_text(division, voters, url, previous)
-            result = publish.slack_dm(secrets if secrets is not None else _secrets(), text)
-            log("  DM: {0}".format("sent" if result.get("message_ts") or (result.get("ok")) else
-                                    result.get("skipped") or result.get("error") or "sent"))
+        messages.append(dm_text(division, voters, url, previous))
+    # ONE message per run, however many divisions: the 20 June 2025
+    # rehearsal (six divisions) sent six DMs in a row (2026-09-07).
+    if dm and messages:
+        text = "\n\n".join(messages)
+        if len(messages) > 1:
+            text = "*{0} divisions on our ground today.*\n\n".format(len(messages)) + text
+        result = publish.slack_dm(secrets if secrets is not None else _secrets(), text)
+        log("  DM: {0} ({1} division(s) in one message)".format(
+            "sent" if result.get("message_ts") or result.get("ok") else
+            result.get("skipped") or result.get("error") or "sent", len(messages)))
     log("{0} brief(s) written.".format(written))
     return 0
 

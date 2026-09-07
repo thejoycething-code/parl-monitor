@@ -148,6 +148,23 @@ class RunTests(unittest.TestCase):
         self.assertTrue(any("0 on our ground" in l for l in logs))
 
 
+class OneMessageTests(unittest.TestCase):
+    def test_several_divisions_make_one_dm(self):
+        """The rehearsal on the six divisions of 20 June 2025 sent six DMs."""
+        out = tempfile.mkdtemp()
+        divs = [D(9001, "Terminally Ill Adults (End of Life) Bill: Second Reading"),
+                D(9002, "Terminally Ill Adults (End of Life) Bill: Amendment 1")]
+        client = FakeClient(divs, VOTERS)
+        sent = []
+        from unittest import mock
+        with mock.patch.object(brief.publish, "slack_dm",
+                               lambda s, text, transport=None: sent.append(text) or {"ok": True}):
+            brief.run("2026-09-11", out_dir=out, client=client, secrets={}, log=lambda *_: None)
+        self.assertEqual(len(sent), 1)
+        self.assertIn("*2 divisions on our ground today.*", sent[0])
+        self.assertEqual(sent[0].count("Ayes 3, Noes 2"), 2)
+
+
 class WiringTests(unittest.TestCase):
     def test_the_watch_runs_on_sitting_days_and_holds_no_store(self):
         src = open(os.path.join(ROOT, ".github", "workflows", "division-watch.yml"), encoding="utf-8").read()
