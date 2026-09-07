@@ -1,0 +1,4 @@
+# The store pointer conflicts on every rebase that crosses a publish; the
+# db-sidecar driver (tools/merge_sidecar.py, installed by db_state.py --pull)
+# resolves it by asking the release which side is current.
+data/parl-monitor.db.json merge=db-sidecar

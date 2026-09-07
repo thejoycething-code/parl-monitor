@@ -148,7 +148,28 @@ def published_sha():
         return None
 
 
+def install_merge_driver():
+    """Bind tools/merge_sidecar.py to the sidecar in THIS clone.
+
+    .gitattributes (versioned) says the sidecar uses the db-sidecar merge
+    driver; git only honours that if the driver is defined in local
+    config, which is not versioned. Every workflow and every laptop runs
+    --pull before touching the store, so this is where the definition
+    lands -- idempotently, and never as a reason to fail a pull.
+    """
+    try:
+        subprocess.run(["git", "config", "--local", "merge.db-sidecar.name",
+                        "release-asset decides which sidecar is current"],
+                       cwd=ROOT, capture_output=True, timeout=30)
+        subprocess.run(["git", "config", "--local", "merge.db-sidecar.driver",
+                        "python3 tools/merge_sidecar.py %O %A %B"],
+                       cwd=ROOT, capture_output=True, timeout=30)
+    except Exception as exc:
+        print("  [warn] could not install the sidecar merge driver: {0}".format(exc))
+
+
 def pull():
+    install_merge_driver()
     tok = token()
     if have_gh():
         cmd = ["gh", "release", "download", TAG, "--repo", REPO,
@@ -324,6 +345,12 @@ def push():
                    "bytes": size, "sha256": digest,
                    "published_at": os.environ.get("GITHUB_RUN_ID")
                    and "run " + os.environ["GITHUB_RUN_ID"] or "local",
+                   # When, in UTC, so tools/merge_sidecar.py can resolve a
+                   # conflicting pointer when the release digest cannot be
+                   # reached: a later publish is by construction the
+                   # current asset, because check_lineage refuses any other.
+                   "published_utc": datetime.datetime.utcnow().strftime(
+                       "%Y-%m-%dT%H:%M:%SZ"),
                    "note": ("Derived state; the bytes live as a release "
                             "asset. See tools/db_state.py.")},
                   handle, indent=2, sort_keys=True)
