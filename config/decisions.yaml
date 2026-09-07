@@ -20,10 +20,12 @@ decisions:
   - id: send-eotas-response
     decision: Does CitizenGO submit a supporter response to the SEND reform consultation on education otherwise than at school?
     about: "SEND reform: education otherwise than at school"
-    owner: null                # unassigned -- Christopher to name
-    decide_by: 2026-09-14      # drafted: four days before the 18 September close; change it
+    owner: Christopher
+    decide_by: 2026-09-14
     opened: 2026-09-07
-    status: open
+    status: decided
+    decided_on: 2026-09-07
+    outcome: "No supporter response (Christopher, 2026-09-07)"
     # Why it is a decision at all: the consultation bears directly on
     # home-educating families (area 6) and closes 18 September; the edition
     # of 7 September carried "A supporter response is still an open decision."
