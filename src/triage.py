@@ -92,14 +92,20 @@ def _batches(items, size=BATCH_SIZE):
 # is what every test exercises.
 TOKENS_PER_ITEM = 160
 TOKENS_OVERHEAD = 400
+TOKENS_FLOOR = 2000
 
 
 def _build_payload(batch):
     user = [{"id": it.id, "title": it.title, "text": (it.text or "")[:2000],
              "candidate_areas": it.issue_areas} for it in batch]
+    # A FLOOR as well as a slope (2026-09-07): a three-item batch was given
+    # 880 tokens, the model spent every one of them and returned no text
+    # at all -- a reply too short to hold whatever the model puts before
+    # its JSON. Small batches are the rescoring and redraft cases, so they
+    # must not be the fragile ones.
     return {
         "model": TRIAGE_MODEL,
-        "max_tokens": TOKENS_OVERHEAD + TOKENS_PER_ITEM * len(batch),
+        "max_tokens": max(TOKENS_FLOOR, TOKENS_OVERHEAD + TOKENS_PER_ITEM * len(batch)),
         "system": SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": json.dumps(user)}],
     }
@@ -128,9 +134,11 @@ def _parse_reply(reply):
     # line 7 column 10" sent me looking for a malformed response; the reply
     # was fine, there was simply no room left to finish it.
     if reply.get("stop_reason") == "max_tokens":
+        kinds = [b.get("type") for b in (reply.get("content") or [])]
         raise ValueError(
-            "reply hit max_tokens ({0} chars returned): the batch needs more "
-            "room, not a different parser".format(len(text)))
+            "reply hit max_tokens ({0} chars of text returned; content blocks: {1}; usage {2}): "
+            "the batch needs more room, not a different parser".format(
+                len(text), kinds or "none", reply.get("usage")))
     data = json.loads(text)
     out = []
     for row in data:

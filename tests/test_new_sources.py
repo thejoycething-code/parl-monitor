@@ -282,9 +282,22 @@ class RenderTests(unittest.TestCase):
         self.assertIn("| Wed 2 Sep | Health and Social Care Committee | **Government response** [Assisted dying safeguards]"
                       "(https://committees.parliament.uk/publications/54700/) (DHSC) | Sets the line. |", md)
         self.assertIn("| Thu 3 Sep | Supreme Court | [For Women Scotland v Scottish Ministers [2025] UKSC 16]"
-                      "(https://caselaw.nationalarchives.gov.uk/uksc/2025/16) | *sex means biological sex* |", md)
+                      "(https://caselaw.nationalarchives.gov.uk/uksc/2025/16) |  |", md)
         self.assertLess(md.index("## Consultations and calls for evidence"), md.index("## Committee reports"))
         self.assertLess(md.index("## Committee reports"), md.index("## Courts"))
+
+    def test_small_batches_get_a_floor_and_truncation_names_the_blocks(self):
+        from src import triage
+        one = triage._build_payload([triage.TriageItem(id="j", title="t", text="", tier=1, issue_areas=[1], watchlist_hit=False)])
+        self.assertGreaterEqual(one["max_tokens"], 2000)
+        with self.assertRaises(ValueError) as caught:
+            triage._parse_reply({"stop_reason": "max_tokens", "content": [{"type": "thinking"}], "usage": {"output_tokens": 880}})
+        self.assertIn("thinking", str(caught.exception))
+
+    def test_one_stray_phrase_does_not_admit_a_judgment_and_migration_hides(self):
+        src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
+        self.assertIn("if len(matches) < 2 and not (head.matched()", src)
+        self.assertIn('if feed == "judgment" and not [a for a in json.loads(r["issue_areas"] or "[]") if a != 11]', src)
 
     def test_judgments_are_described_not_judged(self):
         """Christopher, 2026-09-07: "With court judgments we can score them but

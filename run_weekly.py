@@ -492,7 +492,11 @@ def sweep_judgments(client, conn, tax, wl, report_start, report_end, edition, lo
             except FetchError:
                 pass
             matches = filt.match_passages(tax, wl, text, title=j.title) if text else []
-            if not matches and not (head.matched() and (head.tier == 1 or head.watchlist_hits)):
+            # A judgment runs to a hundred pages; one tier-1 phrase somewhere
+            # in it is not a judgment on our ground ("religious education"
+            # once, in a clinical-negligence case, 2026-09-07). Two qualifying
+            # passages, or a match in the case name itself.
+            if len(matches) < 2 and not (head.matched() and (head.tier == 1 or head.watchlist_hits)):
                 continue
             if matches:
                 areas, terms, excerpt = filt.aggregate_passages(matches)
@@ -1096,6 +1100,8 @@ def sections_from_store(conn, edition):
                     deadline=r["deadline"], date=r["event_date"]))
             continue
         if feed in ("amendment", "report", "judgment"):
+            if feed == "judgment" and not [a for a in json.loads(r["issue_areas"] or "[]") if a != 11]:
+                continue                     # migration: collated, never campaigned, shown nowhere
             extra = json.loads(r["extra"]) if r["extra"] else {}
             row = {"id": r["id"], "title": r["title"], "url": r["url"], "date": r["event_date"],
                    "why": r["why_it_matters"] or "", "tag": r["triage_score"]}

@@ -717,14 +717,14 @@ def render_courts(rows):
     # never agreed or disagreed with. The column says so.
     out = ["## Courts", "",
            "*Judgments handed down this week whose text touches our areas, stated as decided. "
-           "The monitor takes no view on a judgment; where no line has been written yet, the "
-           "excerpt is the passage that matched.*",
+           "The monitor takes no view on a judgment.*",
            "", "| Handed down | Court | Case | What was decided |", "|---|---|---|---|"]
     for r in sorted(rows, key=lambda r: (r.get("date") or "", r.get("court") or "")):
         case = (r.get("title") or "").split(": ", 1)[-1].replace("|", "/")
+        # No excerpt fallback: a matched passage from deep in a judgment read as
+        # nonsense in the cell ("He was enthusiastic in science lessons").
+        # A blank says a line has not been written; junk says nothing true.
         why = (r.get("why") or "").replace("|", "/")
-        if not why and r.get("excerpt"):
-            why = "*" + r["excerpt"][:220].replace("|", "/") + "*"
         out.append("| {0} | {1} | [{2}]({3}) | {4} |".format(
             _day(r.get("date")) or r.get("date") or "", r.get("court") or "", case, r.get("url") or "#", why))
     out.append("")
