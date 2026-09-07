@@ -198,6 +198,58 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(spoke._title_from_line("Spoke: Hospices (re: assisted dying)"), "Hospices")
         self.assertEqual(spoke._title_from_line("Spoke: Hospices"), "Hospices")
 
+    def _week_conn(self):
+        """The week of 1-4 September 2026 in miniature: a Brexit debate with
+        five migration-term speakers and one Digital Services Act mention,
+        a Bill debate with two speakers, and a titled single-speaker debate."""
+        conn = sqlite3.connect(":memory:")
+        conn.row_factory = sqlite3.Row
+        conn.execute("CREATE TABLE mp_events (member_id INTEGER, date TEXT, kind TEXT, ref TEXT, "
+                     "line TEXT, areas TEXT, excerpt TEXT)")
+        conn.execute("CREATE TABLE members (id INTEGER PRIMARY KEY, name TEXT, party TEXT, seat TEXT, house TEXT)")
+        conn.execute("CREATE TABLE stance (ref TEXT PRIMARY KEY, stance INTEGER, why TEXT, model TEXT, scored_at TEXT)")
+        for i in range(1, 9):
+            conn.execute("INSERT INTO members VALUES (?,?,?,?,?)", (i, "M{0}".format(i), "P", "S", "Commons"))
+        rows = [(i, "2026-09-02", "debate", "hansard:r{0}".format(i),
+                 "Spoke: EU Membership Referendum:  Impact on the UK (re: small boats)", "[11]", "x") for i in range(1, 6)]
+        rows.append((6, "2026-09-02", "debate", "hansard:r6",
+                     "Spoke: EU Membership Referendum:  Impact on the UK (re: Digital Services Act)", "[7]", "x"))
+        rows += [(7, "2026-09-04", "debate", "hansard:i7", "Spoke: Infants, Parents and Carers Bill", "[6]", "x"),
+                 (8, "2026-09-04", "debate", "hansard:i8", "Spoke: Infants, Parents and Carers Bill", "[6, 10]", "x"),
+                 (7, "2026-09-03", "debate", "hansard:p7", "Spoke: Persecution of Christians Overseas", "[8]", "x"),
+                 (8, "2026-09-03", "debate", "hansard:v8", "Spoke: Vaccination Rates: England (re: parental consent)", "[6, 9]", "x")]
+        conn.executemany("INSERT INTO mp_events VALUES (?,?,?,?,?,?,?)", rows)
+        return conn
+
+    def test_the_referendum_debate_drops_out(self):
+        """Christopher, 2026-09-07. Five speakers on migration terms (hidden
+        area 11) and one passing Digital Services Act mention do not make a
+        debate on our ground."""
+        on_ground = lambda title: "Persecution" in title
+        blocks = spoke.collect(self._week_conn(), "2026-08-31", "2026-09-13", on_ground=on_ground)
+        titles = [b["title"] for b in blocks]
+        self.assertNotIn("EU Membership Referendum:  Impact on the UK", titles)
+        self.assertIn("Infants, Parents and Carers Bill", titles)          # two speakers
+        self.assertIn("Persecution of Christians Overseas", titles)        # title on our ground
+        self.assertNotIn("Vaccination Rates: England", titles)             # one passing mention
+
+    def test_passing_mentions_are_counted_not_lost(self):
+        blocks = spoke.collect(self._week_conn(), "2026-08-31", "2026-09-13",
+                               on_ground=lambda t: "Persecution" in t)
+        self.assertEqual(sum(b.get("omitted_mentions") or 0 for b in blocks), 2)   # DSA mention + vaccination
+        out = digest.render_spoke(blocks)
+        self.assertIn("2 passing mentions of our issues in other business are recorded on the member profiles", out)
+
+    def test_migration_only_speakers_never_appear(self):
+        blocks = spoke.collect(self._week_conn(), "2026-08-31", "2026-09-13",
+                               on_ground=lambda t: "Referendum" in t)     # even if the title matched
+        ref = [b for b in blocks if "Referendum" in b["title"]]
+        self.assertEqual([s["name"] for s in ref[0]["speakers"]], ["M6"]) if ref else None
+
+    def test_a_migration_titled_debate_is_not_on_visible_ground(self):
+        self.assertFalse(spoke._title_matcher(ROOT)("Immigration and Asylum Bill: Second Reading"))
+        self.assertTrue(spoke._title_matcher(ROOT)("Terminally Ill Adults (End of Life) Bill: Second Reading"))
+
     def test_no_stance_table_is_no_crash(self):
         conn = sqlite3.connect(":memory:")
         conn.row_factory = sqlite3.Row

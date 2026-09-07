@@ -598,6 +598,14 @@ def render_spoke(blocks, speakers_cap=SPOKE_SPEAKERS_CAP, debates_cap=SPOKE_DEBA
         out.append("*...and {0} more debate{1} on our ground this week, on the profiles.*".format(
             more_debates, "" if more_debates == 1 else "s"))
         out.append("")
+    mentions = sum(b.get("omitted_mentions") or 0 for b in blocks)
+    if mentions:
+        # Never suppress silently: the passing mentions are not tabled,
+        # but the reader is told they exist and where they are.
+        out.append("*{0} passing mention{1} of our issues in other business {2} recorded on the "
+                   "member profiles, not tabled here.*".format(
+                       mentions, "" if mentions == 1 else "s", "is" if mentions == 1 else "are"))
+        out.append("")
     return "\n".join(out).rstrip() + "\n"
 
 
