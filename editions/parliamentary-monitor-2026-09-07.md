@@ -12,24 +12,18 @@
 
 ## Week ahead
 
-**Friday 2026-09-04**
-- Child sex abuse doll offences bill is child protection legislation, tangential to core campaign areas but worth noting for family and child safeguarding context.
-- Bill on infants, parents and carers could reshape state versus parental authority over children. Monitor for clauses affecting family autonomy and parental rights.
-- Stillbirth registration reform touches recognition of unborn life and parental grief rights, relevant to pro-life advocacy on how the state acknowledges pre-birth loss.
-**Monday 2026-09-07**
-- Expanding hate crime law to cover misogyny risks criminalising speech and chilling free expression on family and belief.
-- Debate on surrogacy and legal parenthood could shape law legitimising commercial surrogacy, a direct campaign trigger.
-- Westminster Hall debate on surrogacy and legal parenthood signals possible law reform. Commercial surrogacy expansion risk demands direct engagement now.
-- Misogyny as hate crime debate risks criminalising speech and blurring sex-based categories in law. Watch for chilling effects on gender-critical expression.
-**Friday 2026-09-11**
-- Second Reading of the assisted dying bill is a major legislative flashpoint. Direct campaign priority requiring active lobbying against expansion of assisted death.
-- Second Reading of the assisted dying bill is the decisive moment to mobilise opposition and lobby MPs directly.
+| When | What | Where | Why it matters | Sources |
+|---|---|---|---|---|
+| Mon 7 Sep · 4.30–6.00pm | **e-petition 763161 relating to surrogacy law and legal parenthood — led by Dave Robertson** | Commons, Westminster Hall | Debate on surrogacy and legal parenthood could shape law legitimising commercial surrogacy, a direct campaign trigger. | [petition](https://petition.parliament.uk/petitions/763161) · [What's On](https://whatson.parliament.uk/event/cal56333) |
+| Mon 7 Sep · 6.00pm | **e-petition 746640 relating to crimes motivated by misogyny and hate crime law — led by Tony Vaughan** | Commons, Westminster Hall | Expanding hate crime law to cover misogyny risks criminalising speech and chilling free expression on family and belief. | [petition](https://petition.parliament.uk/petitions/746640) · [What's On](https://whatson.parliament.uk/event/cal56334) |
+| Fri 11 Sep · 9.30am | **Terminally Ill Adults (End of Life) Bill: Second Reading — led by Lauren Edwards** | Commons, Main Chamber | Second Reading of the assisted dying bill is a major legislative flashpoint. Direct campaign priority requiring active lobbying against expansion of assisted death. | [Bill](https://bills.parliament.uk/bills/4157) · [What's On](https://whatson.parliament.uk/event/cal55683) |
 
 
 **Further afield** (next 8 weeks)
 
-**Friday 2026-10-16**
-- Better immigration and nationality data scrutiny affects transparency on migration flows, feeding directly into border control and integrity debates.
+| When | What | Where | Why it matters | Sources |
+|---|---|---|---|---|
+| Fri 16 Oct · after other business | **Data Publication and Quality (Immigration, Nationality and Country of Birth) Bill: Second Reading — led by Katie Lam** | Commons, Main Chamber | Better immigration and nationality data scrutiny affects transparency on migration flows, feeding directly into border control and integrity debates. | [What's On](https://whatson.parliament.uk/event/cal56346) |
 
 ## Written questions
 
