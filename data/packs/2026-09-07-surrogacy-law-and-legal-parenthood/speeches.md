@@ -4,7 +4,7 @@
 
 ## Dave Robertson (Lab, Lichfield)
 
-**Pass read:** Against us — Introduces petition sympathetically, frames current law as leaving intended parents in 'legal limbo'.
+**Pass read:** Against us — Introduces petition sympathetically, frames current law as leaving intended parents in 'legal limbo'.  ·  **confirmed: no**
 
 *16:30:00, 735 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-0CEAC55A-F502-424C-B2A4-1C73582046CD)*
 
@@ -24,7 +24,7 @@ It is always a pleasure to sum up these debates and thank hon. Members for their
 
 ## Jim Shannon (DUP, Strangford)
 
-**Pass read:** With us — Urges caution and protection for women and children in reform discussion.
+**Pass read:** With us — Urges caution and protection for women and children in reform discussion.  ·  **confirmed: yes**
 
 *16:30:00, 53 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-81D97860-F0CE-45A6-8E20-4F50E4D0E460)*
 
@@ -40,7 +40,7 @@ I should have said this in my earlier contribution, but I refer the hon. Gentlem
 
 ## Gordon McKee (Lab, Glasgow South)
 
-**Pass read:** Neutral or unclear — Procedural question about funding parity in Scotland's surrogacy assessment system.
+**Pass read:** Neutral or unclear — Procedural question about funding parity in Scotland's surrogacy assessment system.  ·  **confirmed: no**
 
 *16:30:00, 116 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-C3618804-EA1D-4C13-8147-1037496F06B4)*
 
@@ -48,7 +48,7 @@ My hon. Friend is being very generous with his time, which I very much appreciat
 
 ## Rebecca Smith (Con, South West Devon)
 
-**Pass read:** With us, strongly — Urges extreme caution, defends surrogate mother safeguards, warns against commodifying pregnancy.
+**Pass read:** With us, strongly — Urges extreme caution, defends surrogate mother safeguards, warns against commodifying pregnancy.  ·  **confirmed: yes**
 
 *16:41:00, 1206 words · [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-17E905E2-9A04-4FF9-9187-8C9C19329C08)*
 
