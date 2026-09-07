@@ -235,6 +235,42 @@ CREATE TABLE IF NOT EXISTS petitions (
   first_seen  TEXT NOT NULL,
   last_seen   TEXT NOT NULL
 );
+-- Every amendment tabled to a watched Bill, whatever its subject, so the
+-- weekly diff can say what is NEW and what was DECIDED since last edition.
+-- Only those on our ground become items (Christopher, 2026-09-07).
+CREATE TABLE IF NOT EXISTS bill_amendments (
+  amendment_id TEXT PRIMARY KEY,
+  bill_id      INTEGER NOT NULL,
+  stage_id     INTEGER, stage TEXT, house TEXT,
+  marshalled   TEXT, kind TEXT,
+  summary      TEXT, explanatory TEXT, lines TEXT,
+  lead         TEXT, sponsors TEXT,        -- json list
+  decision     TEXT,
+  areas        TEXT, matched TEXT, tier INTEGER,
+  on_ground    INTEGER NOT NULL DEFAULT 0,
+  first_seen   TEXT NOT NULL, last_seen TEXT NOT NULL,
+  decided_seen TEXT                        -- first sweep that saw a decision other than NoDecision
+);
+-- Devolved petitions (Senedd, Holyrood): collated only, on the companion
+-- page with Westminster's. Key '<nation>:<id>' because the Senedd's ids
+-- share a number space with nothing else here and Holyrood uses PE numbers.
+CREATE TABLE IF NOT EXISTS dv_petitions (
+  key         TEXT PRIMARY KEY,
+  nation      TEXT NOT NULL,
+  id          TEXT NOT NULL,
+  action      TEXT NOT NULL, url TEXT NOT NULL,
+  state       TEXT, signatures INTEGER NOT NULL,
+  areas       TEXT, matched TEXT, tier INTEGER,
+  opened      TEXT, closes TEXT,
+  milestone   TEXT,
+  first_seen  TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS dv_petition_snapshots (
+  key         TEXT NOT NULL,
+  captured_at TEXT NOT NULL,
+  signatures  INTEGER NOT NULL,
+  PRIMARY KEY (key, captured_at)
+);
 CREATE TABLE IF NOT EXISTS petition_snapshots (
   petition_id INTEGER NOT NULL,
   captured_at TEXT NOT NULL,      -- YYYY-MM-DD, the Sunday we saw the count
@@ -936,6 +972,9 @@ TABLES = (
     "items",
     "petitions",
     "petition_snapshots",
+    "bill_amendments",
+    "dv_petitions",
+    "dv_petition_snapshots",
     "bills_board",
     "members",
     "member_service",

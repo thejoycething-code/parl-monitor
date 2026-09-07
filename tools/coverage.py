@@ -62,6 +62,9 @@ PAUSED = {
 
 # table -> (freshness column, expected days, grace, note)
 FEEDS = [
+    ("bill_amendments", "last_seen", 7, 3, "amendments to watched Bills (Sunday pull)"),
+    ("dv_petitions", "last_seen", 7, 4, "Senedd and Holyrood petitions (devolved weeklies)"),
+    ("dv_petition_snapshots", "captured_at", 7, 4, "devolved petition signature snapshots"),
     ("petitions", "last_seen", 7, 3, "e-petitions on our ground (collated, not published)"),
     ("petition_snapshots", "captured_at", 7, 3, "e-petition signature snapshots"),
     ("sp_items", "last_seen", 7, 4, "Holyrood questions and motions"),

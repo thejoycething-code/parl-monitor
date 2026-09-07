@@ -77,6 +77,11 @@ jobs:
       - name: Pull open Scottish Government consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation scotland | tee /tmp/sp-consultations.log
+      - name: Collate petitions
+        # Collated only (Christopher, 2026-09-07): never items, never the
+        # edition; the companion page reads them. A WAF refusal is a gap.
+        if: always()
+        run: python3 tools/dv_petitions.py --nation scotland | tee /tmp/sp-petitions.log
       - name: Apply the scored Holyrood divisions
         if: always()
         # config/holyrood_votes.yaml -> sp_scored. Offline, no API calls.

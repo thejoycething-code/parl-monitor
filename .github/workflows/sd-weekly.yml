@@ -84,6 +84,11 @@ jobs:
       - name: Pull open Welsh Government consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation wales | tee /tmp/sd-consultations.log
+      - name: Collate petitions
+        # Collated only (Christopher, 2026-09-07): never items, never the
+        # edition; the companion page reads them. A WAF refusal is a gap.
+        if: always()
+        run: python3 tools/dv_petitions.py --nation wales | tee /tmp/sd-petitions.log
       - name: Apply the scored Senedd divisions
         if: always()
         # config/senedd_votes.yaml -> sd_scored. Offline, no API calls. It runs HERE for

@@ -25,7 +25,8 @@ import yaml
 from src import (actionable, board, db, digest, filter as filt, intel, members, publish, review,
                  spend, stance, triage)
 from src.http import FetchError, HttpClient
-from src.ingest import (bills, committees, consultations, divisions, edms, hansard, petitions,
+from src.ingest import (amendments, bills, caselaw, committee_pubs, committees, consultations, divisions,
+                        edms, hansard, oral, petitions, regulators,
                         legislation, pqs, scotland, sis, whatson, wms)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -362,6 +363,204 @@ def sweep_petitions(client, conn, tax, wl, today, edition, log=print):
     return matched
 
 
+def sweep_amendments(client, conn, tax, wl, week_start, edition, log=print):
+    """Every amendment to every watched Bill -> bill_amendments; those on our
+    ground -> items (feed 'amendment'). Christopher, 2026-09-07: "the
+    largest blind spot left". Relevance is the amendment's OWN text (tier 1
+    or a watchlist name), or the Bill carries `all_amendments: true` in the
+    watchlist (a single-issue Bill: every amendment is the fight). An
+    amendment is news when NEW this week or when it was DECIDED this week;
+    event_date is whichever happened, so the 7-day window shows each once."""
+    today = datetime.date.today().isoformat()
+    bills_raw = wl.bills_raw or {}
+    total = matched = detail_calls = 0
+    for bill_id, spec in sorted(bills_raw.items()):
+        try:
+            stages = amendments.fetch_stages(client, bill_id)
+        except FetchError as exc:
+            record_gap(conn, edition, "amendment", "bill {0}: stages unavailable ({1})".format(bill_id, exc.cause))
+            continue
+        title = (spec or {}).get("title") or "Bill {0}".format(bill_id)
+        everything = bool((spec or {}).get("all_amendments"))
+        for stage in stages:
+            try:
+                rows = amendments.fetch_amendments(client, bill_id, stage)
+            except FetchError as exc:
+                record_gap(conn, edition, "amendment", "bill {0} stage {1}: amendments unavailable ({2})".format(
+                    bill_id, stage.get("id"), exc.cause))
+                continue
+            for a in rows:
+                total += 1
+                prev = conn.execute("SELECT decision, first_seen, decided_seen, on_ground FROM bill_amendments "
+                                    "WHERE amendment_id = ?", (a.amendment_id,)).fetchone()
+                is_new = prev is None
+                decided_now = bool(a.decision and a.decision != "NoDecision")
+                decided_seen = prev["decided_seen"] if prev else None
+                if decided_now and not decided_seen:
+                    decided_seen = today
+                r = filt.filter_item(tax, wl, a.text)
+                on_ground = everything or (r.matched() and (r.tier == 1 or bool(r.watchlist_hits)))
+                if on_ground and is_new and detail_calls < 300:
+                    try:
+                        amendments.fetch_detail(client, a)
+                        detail_calls += 1
+                        if not everything:
+                            r = filt.filter_item(tax, wl, a.text)
+                    except FetchError:
+                        pass
+                conn.execute(
+                    "INSERT INTO bill_amendments (amendment_id, bill_id, stage_id, stage, house, marshalled, kind, "
+                    "summary, explanatory, lines, lead, sponsors, decision, areas, matched, tier, on_ground, "
+                    "first_seen, last_seen, decided_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+                    "ON CONFLICT(amendment_id) DO UPDATE SET decision=excluded.decision, last_seen=excluded.last_seen, "
+                    "decided_seen=COALESCE(bill_amendments.decided_seen, excluded.decided_seen), "
+                    "summary=excluded.summary, explanatory=CASE WHEN excluded.explanatory != '' THEN excluded.explanatory "
+                    "ELSE bill_amendments.explanatory END, lines=CASE WHEN excluded.lines != '' THEN excluded.lines "
+                    "ELSE bill_amendments.lines END, on_ground=excluded.on_ground",
+                    (a.amendment_id, bill_id, a.stage_id, a.stage, a.house, a.marshalled, a.kind, a.summary,
+                     a.explanatory, a.lines, a.lead, json.dumps(a.sponsors), a.decision,
+                     json.dumps(r.issue_areas if r.matched() else (spec or {}).get("areas") or []),
+                     json.dumps(r.matched_terms + r.watchlist_hits), r.tier, int(bool(on_ground)),
+                     prev["first_seen"] if prev else today, today, decided_seen))
+                if not on_ground:
+                    continue
+                matched += 1
+                newly_decided = decided_now and (prev is None or (prev["decision"] in (None, "NoDecision")))
+                event_date = today if (is_new or newly_decided) else (prev["first_seen"] if prev else today)
+                if not r.matched():
+                    r = filt.filter_item(tax, wl, title)        # the Bill's own areas carry the row
+                store_item(conn, "amendment:{0}".format(a.amendment_id), "amendment", "amendment",
+                           "{0}: {1} ({2})".format(title, a.label, amendments.decision_word(a.decision)),
+                           a.url, r, event_date=event_date,
+                           extra={"bill_id": bill_id, "bill": title, "stage": a.stage, "house": a.house,
+                                  "label": a.label, "kind": a.kind, "lead": a.lead, "sponsors": a.sponsors,
+                                  "decision": a.decision, "decision_word": amendments.decision_word(a.decision),
+                                  "summary": a.summary[:400], "explanatory": a.explanatory[:600],
+                                  "new": is_new, "newly_decided": bool(newly_decided)})
+    conn.commit()
+    log("amendments: {0} across {1} watched Bill(s), {2} on our ground, {3} detail fetch(es)".format(
+        total, len(bills_raw), matched, detail_calls))
+    return matched
+
+
+def sweep_reports(client, conn, tax, wl, report_start, report_end, edition, log=print):
+    """Select committee reports, special reports and Government responses
+    published in the week just ended -> items (feed 'report')."""
+    try:
+        pubs = committee_pubs.fetch_publications(client, report_start.isoformat(), report_end.isoformat())
+    except FetchError as exc:
+        record_gap(conn, edition, "report", "publications unavailable ({0})".format(exc.cause))
+        return 0
+    n = 0
+    for pb in pubs:
+        if not pb.published or not (report_start <= pb.published <= report_end):
+            continue
+        r = filt.filter_item(tax, wl, pb.description, pb.text)
+        if not r.matched():
+            continue
+        n += 1
+        store_item(conn, "report:{0}".format(pb.id), "report", "publication",
+                   "{0}: {1} ({2})".format(pb.committee, pb.description, pb.type_name), pb.url, r,
+                   event_date=pb.published.isoformat(),
+                   extra={"committee": pb.committee, "house": pb.house, "type": pb.type_name,
+                          "is_response": pb.is_response, "responding_department": pb.responding_department,
+                          "hc_number": pb.hc_number, "business": pb.business})
+    log("committee publications: {0} in the week, {1} on our ground".format(len(pubs), n))
+    return n
+
+
+def sweep_judgments(client, conn, tax, wl, report_start, report_end, edition, log=print):
+    """UK judgments handed down in the week just ended -> items (feed
+    'judgment'). Titles are party names, so the text is fetched and
+    passage-matched with the ledger's precision gate."""
+    n = seen = fetched = 0
+    for court in caselaw.COURTS:
+        try:
+            judgments = caselaw.fetch_recent(client, court)
+        except FetchError as exc:
+            record_gap(conn, edition, "judgment", "{0} feed unavailable ({1})".format(court, exc.cause))
+            continue
+        for j in judgments:
+            if not j.published or not (report_start <= j.published <= report_end):
+                continue
+            seen += 1
+            head = filt.filter_item(tax, wl, j.title, j.summary)
+            text = ""
+            try:
+                text = caselaw.fetch_text(client, j)
+                fetched += 1
+            except FetchError:
+                pass
+            matches = filt.match_passages(tax, wl, text, title=j.title) if text else []
+            if not matches and not (head.matched() and (head.tier == 1 or head.watchlist_hits)):
+                continue
+            if matches:
+                areas, terms, excerpt = filt.aggregate_passages(matches)
+                r = filt.filter_item(tax, wl, " ".join(m.passage for m in matches[:6]))
+            else:
+                terms, excerpt, r = head.matched_terms, None, head
+            if not r.matched():
+                continue
+            n += 1
+            store_item(conn, "judgment:{0}".format(j.key or j.url), "judgment", "judgment",
+                       "{0}: {1}{2}".format(j.court_name, j.title, " " + j.ncn if j.ncn else ""), j.url, r,
+                       event_date=j.published.isoformat(),
+                       extra={"court": j.court_name, "ncn": j.ncn, "excerpt": (excerpt or "")[:400], "terms": terms[:8]})
+    log("judgments: {0} handed down in the week across {1} courts, {2} texts read, {3} on our ground".format(
+        seen, len(caselaw.COURTS), fetched, n))
+    return n
+
+
+def sweep_oral(client, conn, tax, wl, report_start, report_end, edition, log=print):
+    """Oral statements and Urgent Questions in the week just ended, both
+    Houses -> items (feed 'oral', rendered with the written statements)."""
+    n = seen = 0
+    day = report_start
+    while day <= report_end:
+        if day.weekday() < 5:
+            for house in ("Commons", "Lords"):
+                try:
+                    items = oral.fetch_day(client, house, day)
+                except FetchError as exc:
+                    record_gap(conn, edition, "oral", "{0} {1}: Hansard sections unavailable ({2})".format(house, day, exc.cause))
+                    continue
+                for it in items:
+                    seen += 1
+                    r = filt.filter_item(tax, wl, it.title, it.text)
+                    if not r.matched():
+                        continue
+                    n += 1
+                    store_item(conn, "oral:{0}".format(it.ext_id), "oral", "statement",
+                               "{0} ({1}): {2}".format(it.kind, it.house, it.title), it.url, r,
+                               event_date=it.date.isoformat(),
+                               extra={"kind": it.kind, "house": it.house, "opener": it.opener_name,
+                                      "minister": it.minister_name, "minister_line": it.minister_text[:500]})
+        day += datetime.timedelta(days=1)
+    log("oral statements and UQs: {0} in the week, {1} on our ground".format(seen, n))
+    return n
+
+
+def sweep_regulators(client, conn, tax, wl, edition, log=print):
+    """Regulators' open consultations -> the consultations path (feed
+    'consultation'), so they land in the deadlines table like gov.uk's.
+    Sources that refuse robots are recorded as gaps every week."""
+    found, gaps = regulators.fetch_all(client, log=log)
+    for name, why in gaps:
+        record_gap(conn, edition, "regulator", "{0}: {1}".format(name, why))
+    n = 0
+    for c in found:
+        r = filt.filter_item(tax, wl, c.title, c.text)
+        if not r.matched():
+            continue
+        n += 1
+        store_item(conn, "consultation:{0}:{1}".format(c.regulator.lower().replace(" ", "-"), c.url), "consultation",
+                   "consultation", "Consultation: {0} ({1})".format(c.title, c.regulator), c.url, r,
+                   deadline=c.closes.isoformat() if c.closes else None,
+                   extra={"regulator": c.regulator, "kind": c.kind})
+    log("regulator consultations: {0} listed, {1} on our ground, {2} source(s) unreadable".format(len(found), n, len(gaps)))
+    return n
+
+
 def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
     """Weekly EDM sweep (handoff 4.4): store new tagged motions and record
     signature counts per edition for week-on-week deltas."""
@@ -436,6 +635,19 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
         sweep_petitions(client, conn, tax, wl, datetime.date.today(), edition)
     except Exception as exc:                                # noqa: BLE001
         record_gap(conn, edition, "petition", "sweep failed: {0}".format(exc)[:200])
+    # The six sources added 2026-09-07. Each is its own try: one failing
+    # source degrades to a disclosed gap, never a lost week for the rest.
+    _rs, _re = week_start - datetime.timedelta(days=7), week_start - datetime.timedelta(days=1)
+    for label, call in (
+            ("amendment", lambda: sweep_amendments(client, conn, tax, wl, week_start, edition)),
+            ("report", lambda: sweep_reports(client, conn, tax, wl, _rs, _re, edition)),
+            ("judgment", lambda: sweep_judgments(client, conn, tax, wl, _rs, _re, edition)),
+            ("oral", lambda: sweep_oral(client, conn, tax, wl, _rs, _re, edition)),
+            ("regulator", lambda: sweep_regulators(client, conn, tax, wl, edition))):
+        try:
+            call()
+        except Exception as exc:                            # noqa: BLE001
+            record_gap(conn, edition, label, "sweep failed: {0}".format(exc)[:200])
 
     def _consultations():
         for c in consultations.fetch_open_consultations(client):
@@ -700,6 +912,7 @@ def assent_topline(client, wl, closure_row, week_start=None):
 
 SECTION_FOR_FEED = {
     "whatson": "week_ahead", "division": "votes", "wms": "statements",
+    "oral": "statements",
     "edm": "edms",
 }
 
@@ -830,7 +1043,7 @@ def sections_from_store(conn, edition):
     # the ledger regardless.
     week_start = datetime.date.fromisoformat(edition.week_commencing)
     week_end_iso = (week_start + datetime.timedelta(days=6)).isoformat()
-    window_days = {"pq": 7, "wms": 7, "edm": 60}
+    window_days = {"pq": 7, "wms": 7, "edm": 60, "oral": 7, "amendment": 7, "report": 7, "judgment": 7}
 
     def in_window(feed, event_date):
         days = window_days.get(feed)
@@ -882,6 +1095,14 @@ def sections_from_store(conn, edition):
                     tag=3, owner=None, url=r["url"],
                     deadline=r["deadline"], date=r["event_date"]))
             continue
+        if feed in ("amendment", "report", "judgment"):
+            extra = json.loads(r["extra"]) if r["extra"] else {}
+            row = {"id": r["id"], "title": r["title"], "url": r["url"], "date": r["event_date"],
+                   "why": r["why_it_matters"] or "", "tag": r["triage_score"]}
+            row.update(extra)
+            getattr(edition, {"amendment": "amendment_rows", "report": "report_rows",
+                              "judgment": "judgment_rows"}[feed]).append(row)
+            continue
         if feed == "si":
             extra = json.loads(r["extra"]) if r["extra"] else {}
             edition.si_rows.append({
@@ -896,8 +1117,14 @@ def sections_from_store(conn, edition):
             continue
         if feed == "whatson" and (r["event_date"] or "") > week_end_iso:
             target = "further_ahead"
+        text = r["why_it_matters"] or r["title"]
+        if feed == "oral":
+            ex = json.loads(r["extra"]) if r["extra"] else {}
+            who = ex.get("minister") or ex.get("opener")
+            text = "{0}{1}{2}".format(r["title"], " \u2014 " + who if who else "",
+                                      ". " + r["why_it_matters"] if r["why_it_matters"] else "")
         line = digest.Line(
-            text=r["why_it_matters"] or r["title"],
+            text=text,
             tag=r["triage_score"], owner=None, url=r["url"],
             deadline=r["deadline"], date=r["event_date"],
         )

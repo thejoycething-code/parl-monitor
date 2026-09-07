@@ -3,8 +3,12 @@
 # regardless of keyword match. Division titles are matched against bills: titles
 # and acts_watch.short values explicitly.
 bills:                    # Westminster, by ID (never by title). `why` renders on the board.
+  # all_amendments (Christopher, 2026-09-07): every amendment to this Bill is on
+  # our ground whatever its words -- a single-issue Bill's amendments are the
+  # fight itself. Omnibus Bills (Crime and Policing) match on text only.
   4157: {title: "Terminally Ill Adults (End of Life) Bill", areas: [2],
-         why: "The assisted suicide bill; our core opposition priority this session"}
+         why: "The assisted suicide bill; our core opposition priority this session",
+         all_amendments: true}
   4144: {title: "Complications from Abortions (Annual Report) Bill [HL]", areas: [1],
          why: "Would require annual reporting of abortion complications; transparency we back"}
   4178: {title: "Hospice Funding Bill", areas: [2],

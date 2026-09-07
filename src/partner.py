@@ -259,9 +259,10 @@ asked. The weekly edition groups these by area and links here for detail.
 
 PETITIONS_PAGE = """# E-petitions on our ground
 
-Every open Parliament e-petition matching our campaign areas, refreshed each
-Sunday. 10,000 signatures earn a Government response; 100,000 put the petition
-before the Petitions Committee for a Commons debate. The movement column is
+Every open petition to Westminster, the Senedd and Holyrood matching our campaign
+areas, refreshed weekly. At Westminster 10,000 signatures earn a Government
+response and 100,000 a Commons debate; at the Senedd 250 earn referral to the
+Petitions Committee and 10,000 a Plenary debate. The movement column is
 the early warning: a petition gaining thousands a week is on its way to a
 debate months before the diary shows one. Signatures as of {seen}.
 
@@ -314,6 +315,29 @@ def petition_rows(conn, hidden=HIDDEN_AREAS, excluded=None):
     return latest, rows
 
 
+def dv_petition_rows(conn, nation, hidden=HIDDEN_AREAS):
+    """The latest sweep's devolved petitions for one nation, with movement."""
+    import json
+    try:
+        latest = conn.execute("SELECT MAX(last_seen) FROM dv_petitions WHERE nation = ?", (nation,)).fetchone()[0]
+    except Exception:                                       # noqa: BLE001
+        return None, []
+    if not latest:
+        return None, []
+    rows = []
+    for r in conn.execute("SELECT key, id, action, url, signatures, areas, milestone, state, first_seen "
+                          "FROM dv_petitions WHERE nation = ? AND last_seen = ? ORDER BY signatures DESC", (nation, latest)):
+        areas = [a for a in json.loads(r["areas"] or "[]") if a not in hidden]
+        if not areas:
+            continue
+        prev = conn.execute("SELECT signatures FROM dv_petition_snapshots WHERE key = ? AND captured_at < ? "
+                            "ORDER BY captured_at DESC LIMIT 1", (r["key"], latest)).fetchone()
+        rows.append({"id": r["id"], "action": r["action"], "url": r["url"], "signatures": r["signatures"],
+                     "areas": areas, "milestone": r["milestone"] or r["state"] or "", "first_seen": r["first_seen"],
+                     "new": r["first_seen"] == latest, "delta": (r["signatures"] - prev[0]) if prev else None})
+    return latest, rows
+
+
 def _movement(row):
     if row["delta"] is None:
         return "new to the monitor"
@@ -327,7 +351,9 @@ def build_petitions_page(site_dir, conn, area_labels=None):
     where the collated record surfaces. Public record only, no judgement:
     every figure on it is petition.parliament.uk's own."""
     latest, rows = petition_rows(conn)
-    if not rows:
+    devolved = [(label, dv_petition_rows(conn, nation)) for label, nation in
+                (("Senedd", "wales"), ("Holyrood", "scotland"))]
+    if not rows and not any(dv[1] for _, dv in devolved):
         return None
     labels = area_labels or {}
 
@@ -348,15 +374,28 @@ def build_petitions_page(site_dir, conn, area_labels=None):
         for r in movers:
             blocks.append("| {0} | {1:,} | {2} | {3} |".format(cell(r), r["signatures"], _movement(r), r["milestone"] or ""))
         blocks.append("")
-    blocks.append("## All petitions on our ground ({0})\n".format(len(rows)))
-    blocks.append("| Petition | Signatures | This week | Where it stands | Areas | First seen |")
-    blocks.append("|---|---|---|---|---|---|")
-    for r in rows:
-        blocks.append("| {0} | {1:,} | {2} | {3} | {4} | {5} |".format(
-            cell(r), r["signatures"], _movement(r), (r["milestone"] or "").replace("|", "/"),
-            areas(r), r["first_seen"] or ""))
-    blocks.append("")
-    markdown = PETITIONS_PAGE.format(seen=latest, tables="\n".join(blocks))
+    def table(rows_):
+        blocks.append("| Petition | Signatures | This week | Where it stands | Areas | First seen |")
+        blocks.append("|---|---|---|---|---|---|")
+        for r in rows_:
+            blocks.append("| {0} | {1:,} | {2} | {3} | {4} | {5} |".format(
+                cell(r), r["signatures"], _movement(r), (r["milestone"] or "").replace("|", "/"),
+                areas(r), r["first_seen"] or ""))
+        blocks.append("")
+
+    if rows:
+        blocks.append("## Westminster ({0})\n".format(len(rows)))
+        table(rows)
+    # The Senedd's and Holyrood's (Christopher, 2026-09-07): the Senedd
+    # refers a petition to its committee at 250 signatures and debates it
+    # at 10,000; Holyrood has no signature thresholds, so its column reads
+    # the petition's status instead.
+    for label, (seen, dv_rows) in devolved:
+        if dv_rows:
+            blocks.append("## {0} ({1})\n".format(label, len(dv_rows)))
+            table(dv_rows)
+    markdown = PETITIONS_PAGE.format(seen=latest or max(s for s, _ in (dv for _, dv in devolved) if s),
+                                     tables="\n".join(blocks))
     page = to_html(markdown, "E-petitions on our ground - {0}".format(latest))
     path = os.path.join(site_dir, "petitions.html")
     with open(path, "w", encoding="utf-8") as handle:

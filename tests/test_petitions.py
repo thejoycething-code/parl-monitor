@@ -85,7 +85,8 @@ class NotInTheReportTests(unittest.TestCase):
 
     def test_the_sweep_never_writes_items(self):
         src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
-        block = src[src.index("def sweep_petitions("):src.index("def sweep_edms(")]
+        start = src.index("def sweep_petitions(")
+        block = src[start:src.index("\ndef ", start + 1)]
         self.assertNotIn("store_item(", block)
         self.assertNotIn('"petition"', src[src.index("window_days = {"):src.index("window_days = {") + 80])
         self.assertIn('"Early day motions"', open(os.path.join(ROOT, "src", "digest.py"), encoding="utf-8").read())
@@ -214,7 +215,7 @@ class CompanionPageTests(unittest.TestCase):
         path = partner.build_petitions_page(out, self._conn(), {10: "Surrogacy and embryology", 7: "Free speech"})
         html = open(path, encoding="utf-8").read()
         self.assertIn("Moving fastest this week", html)
-        self.assertIn("All petitions on our ground (2)", html)
+        self.assertIn("Westminster (2)", html)
         self.assertIn('href="https://petition.parliament.uk/petitions/763161"', html)
         self.assertIn("+3,045", html)
         self.assertIn("new to the monitor", html)

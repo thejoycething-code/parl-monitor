@@ -72,6 +72,9 @@ class Edition:
     mp_notes: list = field(default_factory=list)
     spoke: list = field(default_factory=list)      # src/spoke.collect(): debates with speakers and direction
     decisions: dict = None                         # src/decisions.collect(): open / decided / unlogged
+    amendment_rows: list = field(default_factory=list)   # amendments to watched Bills, new or decided this week
+    report_rows: list = field(default_factory=list)      # committee reports and Government responses
+    judgment_rows: list = field(default_factory=list)    # UK court judgments on our ground
     return_dates: dict = field(default_factory=dict)   # {house: ISO date}
     gaps: list = field(default_factory=list)            # [(feed, detail)]
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
@@ -664,6 +667,66 @@ def render_si(edition):
     return "\n".join(out)
 
 
+def render_amendments(rows, cap=25):
+    """Amendments to watched Bills, new or decided this week (2026-09-07)."""
+    if not rows:
+        return None
+    out = ["## Amendments to watched Bills", "",
+           "*Every amendment tabled to a Bill on the board is read each week; these are the ones on our "
+           "ground that were tabled or decided since the last edition.*", "",
+           "| Bill | Amendment | Moved by | What it does | Decision | Why it matters |", "|---|---|---|---|---|---|"]
+    ordered = sorted(rows, key=lambda r: ((r.get("bill") or ""), -(r.get("tag") or 0), r.get("label") or ""))
+    for r in ordered[:cap]:
+        what = (r.get("explanatory") or r.get("summary") or "").replace("|", "/")
+        if len(what) > 260:
+            what = what[:260].rsplit(" ", 1)[0] + "..."
+        flag = "**new** " if r.get("new") else ("**decided** " if r.get("newly_decided") else "")
+        out.append("| {0} ({1}) | [{2}]({3}) | {4} | {5} | {6}{7} | {8} |".format(
+            (r.get("bill") or "").replace("|", "/"), r.get("stage") or "", r.get("label") or "amendment",
+            r.get("url") or "#", r.get("lead") or "", what, flag, r.get("decision_word") or "",
+            (r.get("why") or "").replace("|", "/")))
+    if len(ordered) > cap:
+        out.append("")
+        out.append("*...and {0} more on our ground this week, in the store.*".format(len(ordered) - cap))
+    out.append("")
+    return "\n".join(out)
+
+
+def render_reports(rows):
+    """Committee reports and Government responses on our ground (2026-09-07)."""
+    if not rows:
+        return None
+    out = ["## Committee reports and Government responses", "",
+           "| Published | Committee | Publication | Why it matters |", "|---|---|---|---|"]
+    for r in sorted(rows, key=lambda r: (r.get("date") or "", r.get("committee") or "")):
+        kind = "**Government response**" if r.get("is_response") else (r.get("type") or "Report")
+        dept = " ({0})".format(r["responding_department"]) if r.get("responding_department") else ""
+        title = (r.get("title") or "").split(": ", 1)[-1].rsplit(" (", 1)[0].replace("|", "/")
+        out.append("| {0} | {1} | {2} [{3}]({4}){5} | {6} |".format(
+            _day(r.get("date")) or r.get("date") or "", (r.get("committee") or "").replace("|", "/"),
+            kind, title, r.get("url") or "#", dept, (r.get("why") or "").replace("|", "/")))
+    out.append("")
+    return "\n".join(out)
+
+
+def render_courts(rows):
+    """UK judgments on our ground (2026-09-07)."""
+    if not rows:
+        return None
+    out = ["## Courts", "",
+           "*Judgments handed down this week whose text touches our areas; the excerpt is the passage that matched.*",
+           "", "| Handed down | Court | Case | Why it matters |", "|---|---|---|---|"]
+    for r in sorted(rows, key=lambda r: (r.get("date") or "", r.get("court") or "")):
+        case = (r.get("title") or "").split(": ", 1)[-1].replace("|", "/")
+        why = (r.get("why") or "").replace("|", "/")
+        if not why and r.get("excerpt"):
+            why = "*" + r["excerpt"][:220].replace("|", "/") + "*"
+        out.append("| {0} | {1} | [{2}]({3}) | {4} |".format(
+            _day(r.get("date")) or r.get("date") or "", r.get("court") or "", case, r.get("url") or "#", why))
+    out.append("")
+    return "\n".join(out)
+
+
 def _render_section(title, lines, cap=None):
     if cap is not None:
         lines = _cap(lines, cap)
@@ -764,6 +827,10 @@ def render(edition):
         deadlines = render_deadlines(edition)
         if deadlines:
             parts.append(deadlines)
+        # Committees publish and courts sit through recess.
+        for block in (render_reports(edition.report_rows), render_courts(edition.judgment_rows)):
+            if block:
+                parts.append(block)
         # Departments answer written questions through recess, so the section
         # belongs here too: omitting it hid a whole week of real activity
         # (Christopher, 2026-08-05 -- show everything gathered).
@@ -791,12 +858,18 @@ def render(edition):
         section = _render_section("Votes and amendments", edition.votes, None)
         if section:
             parts.append(section)
+        amend = render_amendments(edition.amendment_rows)
+        if amend:
+            parts.append(amend)
         pqs = render_pqs(edition)
         if pqs:
             parts.append(pqs)
         deadlines = render_deadlines(edition)
         if deadlines:
             parts.append(deadlines)
+        for block in (render_reports(edition.report_rows), render_courts(edition.judgment_rows)):
+            if block:
+                parts.append(block)
         for title, lines, cap in [
             ("Early day motions", edition.edms, 5),
             ("Statements and announcements", edition.statements, None),
