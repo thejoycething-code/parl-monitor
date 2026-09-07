@@ -271,10 +271,22 @@ debate months before the diary shows one. Signatures as of {seen}.
 HIDDEN_AREAS = (11,)   # migration: collated, never campaigned, shown nowhere
 
 
-def petition_rows(conn, hidden=HIDDEN_AREAS):
+def petition_rows(conn, hidden=HIDDEN_AREAS, excluded=None):
     """The latest sweep's petitions, each with its movement since the sweep
-    before. Migration-only petitions are left out, as everywhere else."""
+    before. Migration-only petitions are left out, as everywhere else, and
+    so are ids named in settings.petition_exclusions (already-collated rows
+    included, so an exclusion takes effect on the next build, not the next
+    sweep)."""
     import json
+    if excluded is None:
+        try:
+            import yaml
+            from src.ingest import petitions as _pet
+            with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                   "config", "settings.yaml"), encoding="utf-8") as fh:
+                excluded = _pet.exclusions(yaml.safe_load(fh) or {})
+        except Exception:                                   # noqa: BLE001
+            excluded = set()
     try:
         latest = conn.execute("SELECT MAX(last_seen) FROM petitions").fetchone()[0]
     except Exception:                                       # noqa: BLE001
@@ -286,6 +298,8 @@ def petition_rows(conn, hidden=HIDDEN_AREAS):
             "SELECT id, action, url, signatures, areas, milestone, first_seen, last_seen, "
             "scheduled_debate_date, debate_reached, response_reached "
             "FROM petitions WHERE last_seen = ? ORDER BY signatures DESC", (latest,)):
+        if r["id"] in excluded:
+            continue
         areas = [a for a in json.loads(r["areas"] or "[]") if a not in hidden]
         if not areas:
             continue

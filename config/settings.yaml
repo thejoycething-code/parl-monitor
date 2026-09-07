@@ -259,3 +259,15 @@ stance_weekly_max_refs: 400
 # or fall) is within this many days of the edition; older closures are
 # recorded silently. Keeps cold-start catch-ups off the board.
 closure_fresh_days: 28
+
+# E-petitions the sweep must NOT collate, by petition.parliament.uk id, each
+# with the reason. The petition filter runs on a few hundred words of
+# campaign rhetoric with no judge behind it (petitions are collated only,
+# not scored -- Christopher, 2026-09-07), so a tier-1 phrase used in passing
+# admits a petition that is not ours. Christopher, same day: "Add the
+# exclusion list for those two petitions."
+petition_exclusions:
+  - id: 771833
+    reason: "General election now: matched on 'rape gang' and 'small boats' used as rhetoric; not our ground"
+  - id: 772026
+    reason: "Human rights in Azad Kashmir: matched on 'freedom of expression' in passing; foreign policy, not our ground"

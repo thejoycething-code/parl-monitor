@@ -237,5 +237,42 @@ class CompanionPageTests(unittest.TestCase):
         self.assertLess(src.index("partner.build_petitions_page("), src.index("pq_conn.close()"))
 
 
+class ExclusionTests(unittest.TestCase):
+    """Christopher, 2026-09-07: "Add the exclusion list for those two petitions." """
+
+    def test_the_two_named_petitions_are_excluded_with_reasons(self):
+        import yaml
+        settings = yaml.safe_load(open(os.path.join(ROOT, "config", "settings.yaml"), encoding="utf-8"))
+        ex = petitions.exclusions(settings)
+        self.assertEqual(ex, {771833, 772026})
+        for e in settings["petition_exclusions"]:
+            self.assertGreater(len(e["reason"]), 20)
+
+    def test_an_exclusion_without_a_reason_is_refused(self):
+        with self.assertRaises(ValueError):
+            petitions.exclusions({"petition_exclusions": [{"id": 1}]})
+
+    def test_the_sweep_skips_them_and_the_page_hides_already_collated_rows(self):
+        import run_weekly, tempfile
+        from src import filter as filt, partner, db
+        conn = db.init_db(sqlite3.connect(":memory:")); conn.row_factory = sqlite3.Row
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+
+        class Client:
+            def get_json(self, url, feed, slug, archive=True):
+                if "state=open" in url:
+                    return {"data": [row(771833, "General election now", 16545, background="rape gangs and small boats"),
+                                     row(2, "Reverse the ban on puberty blockers", 5000)], "links": {"next": None}}
+                return {"data": [], "links": {"next": None}}
+        run_weekly.sweep_petitions(Client(), conn, tax, wl, datetime.date(2026, 9, 6), "2026-09-07", log=lambda *_: None)
+        self.assertEqual([r[0] for r in conn.execute("SELECT id FROM petitions")], [2])
+        # a row collated BEFORE it was excluded still leaves the page
+        conn.execute("INSERT INTO petitions (id, action, url, state, signatures, areas, matched, tier, milestone, first_seen, last_seen) "
+                     "VALUES (772026, 'Kashmir', 'u', 'open', 20427, '[7]', '[]', 1, 'm', '2026-09-06', '2026-09-06')")
+        _, rows = partner.petition_rows(conn)
+        self.assertEqual([r["id"] for r in rows], [2])
+
+
 if __name__ == "__main__":
     unittest.main()

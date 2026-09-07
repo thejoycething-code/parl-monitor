@@ -328,8 +328,11 @@ def sweep_petitions(client, conn, tax, wl, today, edition, log=print):
         record_gap(conn, edition, "petition", "listing failed after {0} attempts".format(exc.attempts))
         return 0
     today_iso = today.isoformat()
+    excluded = petitions.exclusions(load_settings())
     matched = 0
     for p in rows:
+        if p.id in excluded:
+            continue                     # named in settings.petition_exclusions, with a reason
         r = filt.filter_item(tax, wl, p.action, p.text)
         if not r.matched():
             continue

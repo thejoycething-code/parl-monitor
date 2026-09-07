@@ -124,3 +124,15 @@ def milestone(p, today=None):
         return "{0:,} to a Government response; closes {1}".format(
             max(RESPONSE_THRESHOLD - p.signatures, 0), p.closing_date)
     return "{0:,} to a Government response".format(max(RESPONSE_THRESHOLD - p.signatures, 0))
+
+
+def exclusions(settings):
+    """{petition id} named in settings.petition_exclusions. Each entry must
+    carry a reason: an exclusion nobody can explain is a silent suppression."""
+    out = set()
+    for entry in (settings or {}).get("petition_exclusions") or []:
+        if isinstance(entry, dict) and entry.get("id") is not None:
+            if not entry.get("reason"):
+                raise ValueError("petition_exclusions: id {0} has no reason".format(entry["id"]))
+            out.add(int(entry["id"]))
+    return out
