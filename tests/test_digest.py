@@ -374,7 +374,7 @@ class NormalModeFullRenderTests(unittest.TestCase):
         order = ["## Top lines", "## Week ahead", "## Votes and amendments",
                  "## Written questions",
                  "## Consultations and calls for evidence",
-                 "## EDMs and petitions", "## Statements and announcements",
+                 "## Early day motions", "## Statements and announcements",
                  "## Active bills board", "## Parliamentarians on our issues"]
         positions = [md.index(h) for h in order]
         self.assertEqual(positions, sorted(positions),

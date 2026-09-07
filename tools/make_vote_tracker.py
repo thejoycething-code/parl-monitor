@@ -730,6 +730,31 @@ def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
             # bounded shortlist rather than all 54 -- ranked by date first,
             # since a recent speech is the more useful one to quote.
             quoted, scanned = {}, 0
+
+            def pq_quote(it):
+                """A written question's own words, whole sentences, when they
+                say more than the heading. One helper, used for RANKING and
+                for the featured row, so the two cannot disagree."""
+                ex = it.get("excerpt")
+                if ex and ex.lower() not in it["t"].lower():
+                    q = quotes.trim_to_sentence(ex, floor=PQ_FLOOR)
+                    # The same bar a speech clears: a passage that ends in a
+                    # question is rarely a position. The question path never
+                    # applied it, and ranking questions by their quotes
+                    # promoted one straight onto the page (2026-09-07).
+                    return q if quotes.usable(q) else None
+                return None
+
+            # A quoted question outranks a bare speech (2026-09-07): the
+            # rank counted only DEBATE quotes, so the first page rebuilt
+            # from a current store led 54 blocks with an unquoted row while
+            # a quoted question sat below it -- the very thing the
+            # strength-not-date ordering was meant to end.
+            for it in uniq:
+                if it["k"] == "pq":
+                    q = pq_quote(it)
+                    if q:
+                        quoted[id(it)] = (q, pq_url(it["ref"]))
             for it in uniq:
                 # Count the shortlist in DEBATES, not in items. Counting
                 # items meant a block whose eight newest receipts were EDM
@@ -797,12 +822,10 @@ def on_record(conn, member_ids, issues, raw, taxonomy, peers=()):
                     # often just repeats the subject heading -- and unlike a
                     # speech it has no full-text source on disk, so the
                     # ledger's 260-character slice is all there is. Cut it
-                    # back to whole sentences like everything else.
-                    ex = it["excerpt"]
-                    if ex and ex.lower() not in it["t"].lower():
-                        # a lower floor than a speech: a written question is
-                        # one complete sentence by nature, often ~115 chars
-                        q = quotes.trim_to_sentence(ex, floor=PQ_FLOOR)
+                    # back to whole sentences like everything else (a lower
+                    # floor than a speech: a question is one sentence, ~115
+                    # chars). Same helper as the ranking above.
+                    q = pq_quote(it)
                 entry = {"d": it["d"], "k": it["k"], "t": it["t"]}
                 if q:
                     entry["q"] = q

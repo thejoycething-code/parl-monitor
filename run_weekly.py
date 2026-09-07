@@ -25,7 +25,7 @@ import yaml
 from src import (actionable, board, db, digest, filter as filt, intel, members, publish, review,
                  spend, stance, triage)
 from src.http import FetchError, HttpClient
-from src.ingest import (bills, committees, consultations, divisions, edms, hansard,
+from src.ingest import (bills, committees, consultations, divisions, edms, hansard, petitions,
                         legislation, pqs, scotland, sis, whatson, wms)
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -307,6 +307,52 @@ def _store_pq_questions(client, conn, tax, wl, since, edition, questions):
                                areas=r.issue_areas)
 
 
+def sweep_petitions(client, conn, tax, wl, today, edition, log=print):
+    """E-petitions on our ground -> items (feed 'petition') + a signature
+    snapshot per Sunday, so the edition can show the week's movement.
+
+    Every open petition is fetched (no server-side text search) and the
+    filter runs over action + background + details. A matched petition is
+    stored with today's date as its event_date, so it renders in the
+    edition whose window covers this Sunday and refreshes weekly while it
+    lives. The judge scores it like any other item.
+    """
+    try:
+        rows = petitions.fetch_all(client)
+    except FetchError as exc:
+        record_gap(conn, edition, "petition", "listing failed after {0} attempts".format(exc.attempts))
+        return 0
+    today_iso = today.isoformat()
+    matched = 0
+    for p in rows:
+        r = filt.filter_item(tax, wl, p.action, p.text)
+        if not r.matched():
+            continue
+        matched += 1
+        prev = conn.execute(
+            "SELECT captured_at, signatures FROM petition_snapshots WHERE petition_id = ? AND captured_at < ? "
+            "ORDER BY captured_at DESC LIMIT 1", (p.id, today_iso)).fetchone()
+        conn.execute("INSERT OR REPLACE INTO petition_snapshots (petition_id, captured_at, signatures) "
+                     "VALUES (?, ?, ?)", (p.id, today_iso, p.signatures))
+        store_item(conn, "petition:{0}".format(p.id), "petition", "petition",
+                   "e-petition {0}: {1}".format(p.id, p.action), p.url, r,
+                   event_date=today_iso, deadline=p.closing_date,
+                   extra={"signatures": p.signatures, "state": p.state,
+                          "prev_seen": prev[0] if prev else None,
+                          "prev_signatures": prev[1] if prev else None,
+                          "opened_at": p.opened_at, "closing_date": p.closing_date,
+                          "response_reached": p.response_reached,
+                          "government_response_at": p.government_response_at,
+                          "debate_reached": p.debate_reached,
+                          "debate_scheduled_on": p.debate_scheduled_on,
+                          "scheduled_debate_date": p.scheduled_debate_date,
+                          "debate_outcome_at": p.debate_outcome_at,
+                          "milestone": petitions.milestone(p, today),
+                          "departments": p.departments})
+    log("petitions: {0} fetched, {1} on our ground".format(len(rows), matched))
+    return matched
+
+
 def sweep_edms(client, conn, tax, wl, week_start, edition, terms):
     """Weekly EDM sweep (handoff 4.4): store new tagged motions and record
     signature counts per edition for week-on-week deltas."""
@@ -377,6 +423,10 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
     pq_failed = sweep_pqs(client, conn, tax, wl, week_start, edition,
                           settings.get("pq_sweep_terms") or [])
     sweep_edms(client, conn, tax, wl, week_start, edition, settings.get("edm_sweep_terms") or [])
+    try:
+        sweep_petitions(client, conn, tax, wl, datetime.date.today(), edition)
+    except Exception as exc:                                # noqa: BLE001
+        record_gap(conn, edition, "petition", "sweep failed: {0}".format(exc)[:200])
 
     def _consultations():
         for c in consultations.fetch_open_consultations(client):
@@ -771,7 +821,7 @@ def sections_from_store(conn, edition):
     # the ledger regardless.
     week_start = datetime.date.fromisoformat(edition.week_commencing)
     week_end_iso = (week_start + datetime.timedelta(days=6)).isoformat()
-    window_days = {"pq": 7, "wms": 7, "edm": 60}
+    window_days = {"pq": 7, "wms": 7, "edm": 60, "petition": 7}
 
     def in_window(feed, event_date):
         days = window_days.get(feed)
@@ -822,6 +872,29 @@ def sections_from_store(conn, edition):
                     text="{0} - {1}".format(title, r["why_it_matters"] or why),
                     tag=3, owner=None, url=r["url"],
                     deadline=r["deadline"], date=r["event_date"]))
+            continue
+        if feed == "petition":
+            extra = json.loads(r["extra"]) if r["extra"] else {}
+            row = {"id": r["id"].split(":", 1)[1], "title": r["title"], "url": r["url"],
+                   "why": r["why_it_matters"] or "", "tag": r["triage_score"]}
+            row.update(extra)
+            edition.petitions.append(row)
+            # A threshold crossed THIS WEEK is news whatever the judge scored:
+            # 100,000 means a Commons debate follows; a date fixed means it
+            # is on the calendar.
+            floor = (week_start - datetime.timedelta(days=7)).isoformat()
+            crossed = extra.get("debate_reached") and floor <= extra["debate_reached"] < week_start.isoformat()
+            fixed = extra.get("debate_scheduled_on") and floor <= extra["debate_scheduled_on"] < week_start.isoformat()
+            if crossed or fixed:
+                action = r["title"].split(": ", 1)[-1]
+                edition.top_lines.append(digest.Line(
+                    text="e-petition \"{0}\" {1} ({2:,} signatures)".format(
+                        action,
+                        "has a Commons debate on {0}".format(extra.get("scheduled_debate_date"))
+                        if fixed and extra.get("scheduled_debate_date")
+                        else "passed 100,000 signatures; a Commons debate follows",
+                        extra.get("signatures") or 0),
+                    tag=3, owner=None, url=r["url"], deadline=None, date=extra.get("scheduled_debate_date")))
             continue
         if feed == "si":
             extra = json.loads(r["extra"]) if r["extra"] else {}

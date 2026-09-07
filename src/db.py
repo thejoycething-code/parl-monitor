@@ -212,6 +212,15 @@ CREATE TABLE IF NOT EXISTS mp_defiance (
   party_with INTEGER, party_against INTEGER,
   PRIMARY KEY (member_id, division_id)
 );
+-- E-petition signature counts, one row per petition per Sunday seen, so the
+-- edition can say how fast a petition on our ground is moving (the early
+-- warning is the velocity, not the level). Christopher, 2026-09-07.
+CREATE TABLE IF NOT EXISTS petition_snapshots (
+  petition_id INTEGER NOT NULL,
+  captured_at TEXT NOT NULL,      -- YYYY-MM-DD, the Sunday we saw the count
+  signatures  INTEGER NOT NULL,
+  PRIMARY KEY (petition_id, captured_at)
+);
 CREATE TABLE IF NOT EXISTS edm_signatures (edm_id INTEGER, edition TEXT, count INTEGER, PRIMARY KEY (edm_id, edition));
 CREATE TABLE IF NOT EXISTS editions (week_commencing TEXT PRIMARY KEY, generated_at TEXT, mode TEXT, path TEXT);
 -- UN monitor. A UPR recommendation is a position taken by one state towards
@@ -905,6 +914,7 @@ def record_gaps(conn, feed, details, edition=None):
 # Tables the schema is expected to create; used by init verification and tests.
 TABLES = (
     "items",
+    "petition_snapshots",
     "bills_board",
     "members",
     "member_service",
