@@ -152,7 +152,11 @@ class PackTests(unittest.TestCase):
         meta = {"title": "Surrogacy", "house": "Commons", "date": "2026-09-07", "ext_id": "E1"}
         dp.write_pack(folder, meta, sp, directions, {}, dp.minister(rows), patterns, guid="g",
                       event_start=datetime.datetime(2026, 9, 7, 15, 15, tzinfo=datetime.timezone.utc))
-        for name in ("roundup.md", "checklist.md", "quotes.md", "shotlist.csv", "README.md"):
+        speeches = open(os.path.join(folder, "speeches.md")).read()
+        self.assertIn("## Danny Kruger (Con, East Wiltshire)", speeches)
+        self.assertIn("Commercial surrogacy treats children as commodities.", speeches)   # the words, in full
+        self.assertIn("**Pass read:** With us, strongly", speeches)
+        for name in ("roundup.md", "checklist.md", "speeches.md", "quotes.md", "shotlist.csv", "README.md"):
             self.assertTrue(os.path.exists(os.path.join(folder, name)), name)
         roundup = open(os.path.join(folder, "roundup.md")).read()
         self.assertIn("**The minister's line**", roundup)

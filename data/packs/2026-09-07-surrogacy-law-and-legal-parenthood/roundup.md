@@ -1,6 +1,6 @@
 # Surrogacy Law and Legal Parenthood
 
-*Commons, 2026-09-07. [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/) · [Footage](https://parliamentlive.tv/Event/Index/298d5452-e524-4de5-b556-9ef1a433f8f0). Generated 2026-09-07 20:47.*
+*Commons, 2026-09-07. [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/) · [Footage](https://parliamentlive.tv/Event/Index/298d5452-e524-4de5-b556-9ef1a433f8f0). Generated 2026-09-07 21:16.*
 
 **Who spoke:** 15 members, 41 contributions; opened by Dave Robertson (Lab, Lichfield).
 

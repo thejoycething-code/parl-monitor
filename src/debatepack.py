@@ -379,6 +379,7 @@ def _clock(dt):
 def write_pack(folder, meta, speaks, directions, confirmed, mins, patterns, guid=None, event_start=None):
     os.makedirs(folder, exist_ok=True)
     title, house, date, ext = meta["title"], meta["house"], meta["date"], meta["ext_id"]
+    ext_ = ext
     label = lambda s: DIRECTION.get((directions.get(str(s["member_id"] or s["name"])) or {}).get("stance"), "Not read")
     why = lambda s: (directions.get(str(s["member_id"] or s["name"])) or {}).get("why") or ""
     who = lambda s: s["name"] + (" ({0})".format(", ".join(x for x in (s["party"], s["seat"]) if x)) if (s["party"] or s["seat"]) else "")
@@ -455,10 +456,30 @@ def write_pack(folder, meta, speaks, directions, confirmed, mins, patterns, guid
                             int((b - a).total_seconds()), offset_link(guid, a, event_start) if guid else "",
                             hansard_url(house, date, ext, s["ext_ids"][0] if s["ext_ids"] else None)])
 
+    # speeches.md: every speaker's words in full, contribution by contribution,
+    # with the pass's reading beside them. The check cannot be made on 220
+    # characters of opening words (Christopher, 2026-09-07: "Do this for all
+    # speakers to ensure data is correct" -- Jim Shannon read as against us on
+    # a 53-word intervention while his speech said the opposite).
+    sp = ["# Speeches in full: {0} ({1})".format(title, date), "",
+          "*Each speaker's contributions as Hansard records them, with the stance pass's reading. Check the reading "
+          "against the words, then mark ONSIDE in checklist.md.*", ""]
+    for s in speaks_by_first(speaks):
+        conf = confirmed.get(key(s))
+        sp += ["## {0}".format(who(s)), "",
+               "**Pass read:** {0}{1}{2}".format(label(s), " — " + why(s) if why(s) else "",
+                                                  "  ·  **confirmed: {0}**".format(conf) if conf else ""), ""]
+        for i, text in enumerate(s["texts"]):
+            when = s["spans"][i][0] if i < len(s["spans"]) else s["first"]
+            ext = s["ext_ids"][i] if i < len(s["ext_ids"]) else None
+            sp += ["*{0}, {1} words · [Hansard]({2})*".format(_clock(when), len(text.split()),
+                                                              hansard_url(house, date, ext_, ext)), "", text, ""]
+    open(os.path.join(folder, "speeches.md"), "w", encoding="utf-8").write("\n".join(sp))
+
     readme = os.path.join(folder, "README.md")
     if not os.path.exists(readme):
         open(readme, "w", encoding="utf-8").write(
-            "# Debate pack\n\nroundup.md, checklist.md (fill ONSIDE: yes/no), quotes.md, shotlist.csv, clips/.\n\n"
+            "# Debate pack\n\nroundup.md, checklist.md (fill ONSIDE: yes/no), speeches.md (every word, for the check), quotes.md, shotlist.csv, clips/.\n\n"
             "Footage is Parliament's, licensed by the Parliamentary Recording Unit. Its terms restrict use in "
             "political campaigning and advertising: check them before a clip goes into anything public. "
             "The monitor records which speaker a person confirmed; the use of the footage is that person's decision.\n")
