@@ -58,6 +58,17 @@ class BankTests(unittest.TestCase):
         self.assertEqual(json.loads(lines[0])["item_id"], "pq:0")
 
 
+class NoPollutionTests(unittest.TestCase):
+    def test_an_in_memory_store_never_writes_the_repo_export(self):
+        """A test item ("a:1") reached data/eval/2026-08-10.jsonl and was committed."""
+        conn = _conn()
+        items = _items(1)
+        evalbank.bank(conn, "2026-08-10", items, _results(items, [2]), "m", "live", "P")
+        self.assertEqual(evalbank.export(conn, "2026-08-10"), (None, 0))
+        text = open(os.path.join(ROOT, "data", "eval", "2026-08-10.jsonl"), encoding="utf-8").read()
+        self.assertNotIn('"item_id": "pq:0"', text)
+
+
 class SampleTests(unittest.TestCase):
     def _bank(self, conn, scores, mode="live"):
         items = _items(len(scores))

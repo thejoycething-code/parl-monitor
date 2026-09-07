@@ -87,6 +87,11 @@ def bank(conn, week, items, results, model, mode, system_prompt, captured_at=Non
 def export(conn, week, path=None):
     """One JSON line per verdict of the week, committed so git holds the history."""
     ensure_table(conn)
+    # A test that runs the triage pass on an in-memory store must not write
+    # the repo's export files: it did, and a test item ("a:1", week
+    # 2026-08-10) was committed twice before anyone saw it (2026-09-07).
+    if path is None and not _on_disk(conn):
+        return None, 0
     path = path or os.path.join(EVAL_DIR, "{0}.jsonl".format(week))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     rows = conn.execute("SELECT * FROM judge_verdicts WHERE week = ? ORDER BY item_id", (week,)).fetchall()
@@ -94,6 +99,14 @@ def export(conn, week, path=None):
         for r in rows:
             handle.write(json.dumps(dict(r), sort_keys=True, ensure_ascii=False) + "\n")
     return path, len(rows)
+
+
+def _on_disk(conn):
+    try:
+        row = conn.execute("PRAGMA database_list").fetchone()
+        return bool(row and row[2])
+    except Exception:                                       # noqa: BLE001
+        return False
 
 
 # -- the sample -------------------------------------------------------------------
