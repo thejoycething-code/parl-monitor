@@ -96,8 +96,6 @@
 
 | Consultation / call for evidence | Closes |
 |---|---|
-| **Evidence** [Legislative Scrutiny: Immigration and Asylum Bill](https://committees.parliament.uk/work/9927/). Human Rights (Joint Committee). | Tue 1 Sep · -6 days |
-| **Consultation** [Improving help and child protection: revised framework](https://www.gov.uk/government/consultations/improving-help-and-child-protection-revised-framework). Revised child protection framework closes 4 September, the nearest deadline on the board. Watch intervention thresholds and any drift toward monitoring lawful home education. | Fri 4 Sep · -3 days |
 | **Consultation** [Updating foster care standards and guidance](https://www.gov.uk/government/consultations/updating-foster-care-standards-and-guidance). Foster care standards rewrite closes 16 September. Shapes who may care for children and on what terms; watch the position of faith-based carers. | Wed 16 Sep · 9 days |
 | **Consultation** [SEND reform: education otherwise than at school](https://www.gov.uk/government/consultations/send-reform-education-otherwise-than-at-school). Government plans to reshape education outside school; closes 18 September. Direct bearing on home-educating families. A supporter response is still an open decision. | Fri 18 Sep · 11 days |
 | **Evidence** [The Online Safety Act: implementation and impact](https://committees.parliament.uk/work/9955/). Communications and Digital Committee; This Lords inquiry shapes how the Online Safety Act polices lawful speech online. Written evidence closes 4pm on 21 September 2026, the committee having extended submission period 3964 from 7 September (captured 2026-08-20). CitizenGO is not submitting to this inquiry. | Mon 21 Sep · 14 days |
@@ -151,38 +149,6 @@
 - Assisted Dying for Terminally Ill Adults (Scotland) Bill (Holyrood) - Stage 3 on 2026-03-17
 - Children (Withdrawal from Religious Education and Amendment of UNCRC Compatibility Duty) (Scotland) Bill (Holyrood) - Stage 3 on 2026-02-17
 - Prostitution (Offences and Support) (Scotland) Bill (Holyrood) - Stage 1 on 2026-02-03
-## Across the parliaments
-
-The same fight, wherever it is being fought this fortnight - an area appears here when two or more of the eight watched jurisdictions are active on it.
-
-**Abortion** (2 jurisdictions)
-- Scotland: To ask the Scottish Government what plans it has to reform abortion law in 2026-27.
-- Westminster: after other business, Commons Private Members' Bills. Registration of stillbirths (England and Wales) Bill: Second Reading
-- Westminster: PQ 17446 (Commons): Prayer: Public Places, answered 2026-09-01
-
-**Parental rights education** (2 jurisdictions)
-- N. Ireland: Consultation on the Religious Education Core Syllabus (consultation closes 2026-09-30)
-- N. Ireland: Public Consultation on Measures to Support Mobile Phone-Free Schools in Northern Ireland (consultation closes 2026-11-19)
-- Westminster: Consultation: Updating foster care standards and guidance
-- Westminster: Consultation: SEND reform: education otherwise than at school
-
-**Free speech, privacy and civil liberties** (3 jurisdictions)
-- EU: Findings and recommendations of the Special Committee on the European Democracy Shield (plenary 2026-09-15)
-- EU: Stop Killing The Internet: No Digital ID & No Age Verification (ECI, 6380 supporters)
-- N. Ireland: A New Good Relations Framework - Call For Views (consultation closes 2026-09-21)
-- Westminster: Communications and Digital Committee: The Online Safety Act: implementation and impact (Inquiry), evidence closes 2026-09-21
-- Westminster: 6.00pm, Commons Westminster Hall debate. e-petition 746640 relating to crimes motivated by misogyny and hate crime law
-
-**Freedom of religion** (2 jurisdictions)
-- EU: Judgment of the Court (Second Chamber) of 3 September 2026. (ECtHR 2026-09-03)
-- Scotland: 500th Anniversary of William Tyndale's New Testament
-
-**Migration** (3 jurisdictions)
-- N. Ireland: Attitudes to Refugees and Asylum Seekers in Northern Ireland 2025 - User Survey (consultation closes 2027-08-06)
-- Scotland: Designation of Lead Committee
-- Westminster: Human Rights (Joint Committee): Legislative Scrutiny: Immigration and Asylum Bill (Inquiry), evidence closes 2026-09-01
-- Westminster: PQ 19838 (Commons): Foreign Nationals: Repatriation, answered 2026-09-03
-
 ---
 *No coverage gaps recorded this edition.*
 
