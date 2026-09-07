@@ -134,16 +134,6 @@
 
 *Every member who spoke in a debate on our ground, with the direction the stance pass read from their own words -- not their party's whip. "Not yet scored" means the pass has not reached that speech.*
 
-**EU Membership Referendum:  Impact on the UK** · Commons · Wed 2 Sep · [Hansard](https://hansard.parliament.uk/Commons/2026-09-02/debates/153178FF-7013-4025-8013-C4000879FB7B/) · 5 speakers on our ground
-
-| Member | Direction | What they argued |
-|---|---|---|
-| [Lisa Smart](https://hansard.parliament.uk/Commons/2026-09-02/debates/153178FF-7013-4025-8013-C4000879FB7B/#contribution-2DD87915-3828-473B-A5DF-7E50AF853008) (Liberal Democrat, Hazel Grove) (x2) | With us | Advocates return mechanism for small boat arrivals via EU pact, favours enforcement. |
-| [Mike Wood](https://hansard.parliament.uk/Commons/2026-09-02/debates/153178FF-7013-4025-8013-C4000879FB7B/#contribution-63626CD7-B518-4F35-9662-691FD6791BB3) (Conservative, Kingswinford and South Staffordshire) | With us | Praises freedom from EU Digital Services and AI Acts, favouring lighter-touch digital regulation. |
-| [Perran Moon](https://hansard.parliament.uk/Commons/2026-09-02/debates/153178FF-7013-4025-8013-C4000879FB7B/#contribution-7DE39B50-65D2-4D20-B2AD-079A335BCBA6) (Labour, Camborne and Redruth) | Neutral or unclear | Criticises Brexit's economic impact; small boats mentioned but no migration policy stance given. |
-| [Pete Wishart](https://hansard.parliament.uk/Commons/2026-09-02/debates/153178FF-7013-4025-8013-C4000879FB7B/#contribution-DEC9354D-673D-4168-BF27-00242EB6838B) (Scottish National Party, Perth and Kinross-shire) | Neutral or unclear | Criticises Brexit's effect on migration cooperation, no clear stance on border control itself. |
-| [Sir Bernard Jenkin](https://hansard.parliament.uk/Commons/2026-09-02/debates/153178FF-7013-4025-8013-C4000879FB7B/#contribution-0A64B782-2AC9-4034-A01C-660794F417DD) (Conservative, Harwich and North Essex) | Neutral or unclear | Debunks Brexit-boats myth but does not address migration control policy direction. |
-
 **Infants, Parents and Carers Bill** · Commons · Fri 4 Sep · [Hansard](https://hansard.parliament.uk/Commons/2026-09-04/debates/E497E406-8A93-422C-BD21-4F753F37050E/) · 5 speakers on our ground
 
 | Member | Direction | What they argued |
@@ -172,27 +162,6 @@
 | [Rushanara Ali](https://hansard.parliament.uk/Commons/2026-09-02/debates/2E73E779-90FC-4597-9B0C-E50391655AFD/#contribution-487B67A8-0268-4935-8D3E-EC992311EE18) (Labour, Bethnal Green and Stepney) | Against us | Supports new online harms clauses targeting deepfakes and hate speech, more regulation. |
 | [Caroline Nokes](https://hansard.parliament.uk/Commons/2026-09-02/debates/2E73E779-90FC-4597-9B0C-E50391655AFD/#contribution-42D604AC-9A2B-4B4B-BA19-49F34029CA85) (Conservative, Romsey and Southampton North) | Neutral or unclear | Proposes extending voting rights to settled/ILR residents, unclear migration-control direction. |
 
-**Criminal Justice Reform** · Commons · Tue 1 Sep · [Hansard](https://hansard.parliament.uk/Commons/2026-09-01/debates/9CF1F6FD-69C4-45D6-B9C3-9162E194A531/) · 2 speakers on our ground
-
-| Member | Direction | What they argued |
-|---|---|---|
-| [Alex Norris](https://hansard.parliament.uk/Commons/2026-09-01/debates/9CF1F6FD-69C4-45D6-B9C3-9162E194A531/#contribution-87363EDD-F98B-48A2-8BDD-42F00C18185C) (Labour (Co-op), Nottingham North and Kimberley) | With us | Cites increased deportations of foreign offenders as government success, supporting migration enforcement. |
-| [Nick Timothy](https://hansard.parliament.uk/Commons/2026-09-01/debates/9CF1F6FD-69C4-45D6-B9C3-9162E194A531/#contribution-C0E5AEE5-CD6A-4E24-BF73-3000DF61DD59) (Conservative, West Suffolk) | With us | Presses government to speed deportation of foreign offenders, supporting stronger border enforcement. |
-
-**Direction of Government** · Commons · Tue 1 Sep · [Hansard](https://hansard.parliament.uk/Commons/2026-09-01/debates/3EC36E3D-AB68-4630-8E8C-72A1151093B5/) · 2 speakers on our ground
-
-| Member | Direction | What they argued |
-|---|---|---|
-| [Andy Burnham](https://hansard.parliament.uk/Commons/2026-09-01/debates/3EC36E3D-AB68-4630-8E8C-72A1151093B5/#contribution-886D2BD6-1CCA-4B59-AC34-2A0E737D2B76) (Labour (Co-op), Makerfield) | Neutral or unclear | General political banter on early release and foreign offenders, no clear migration stance. |
-| [Mrs Kemi Badenoch](https://hansard.parliament.uk/Commons/2026-09-01/debates/3EC36E3D-AB68-4630-8E8C-72A1151093B5/#contribution-B4B5FD78-3791-44F4-9604-C016BF8C38DC) (Conservative, North West Essex) | Neutral or unclear | General political opening remarks to new PM, no substantive migration policy content. |
-
-**Public Office (Accountability) Bill** · Lords · Tue 1 Sep · [Hansard](https://hansard.parliament.uk/Lords/2026-09-01/debates/35777C3F-9FEB-4300-97CB-468C299BDEC8/) · 2 speakers on our ground
-
-| Member | Direction | What they argued |
-|---|---|---|
-| [Baroness Brinton](https://hansard.parliament.uk/Lords/2026-09-01/debates/35777C3F-9FEB-4300-97CB-468C299BDEC8/#contribution-1560D433-DCBC-4A19-ACA0-0ED96058EA37) (Liberal Democrat, Life peer) | Neutral or unclear | Focuses on Grenfell, Windrush, Hillsborough accountability, not migration policy direction. |
-| [Baroness Fox of Buckley](https://hansard.parliament.uk/Lords/2026-09-01/debates/35777C3F-9FEB-4300-97CB-468C299BDEC8/#contribution-6ABF8157-F4D7-49EF-8F2A-380D1F0500C9) (Non-affiliated, Life peer) | Neutral or unclear | General remarks on accountability culture, no clear link to parental rights or migration. |
-
 **UK Financial Services** · Commons · Tue 1 Sep · [Hansard](https://hansard.parliament.uk/Commons/2026-09-01/debates/495823DC-CE42-4851-9544-3196D2A57BB1/) · 2 speakers on our ground
 
 | Member | Direction | What they argued |
@@ -200,7 +169,27 @@
 | [Charlie Maynard](https://hansard.parliament.uk/Commons/2026-09-01/debates/495823DC-CE42-4851-9544-3196D2A57BB1/#contribution-3B35D113-FF43-4083-9706-ABD973225611) (Liberal Democrat, Witney) | Neutral or unclear | General financial services debate on stablecoins, no free speech direction shown. |
 | [Sir Jeremy Hunt](https://hansard.parliament.uk/Commons/2026-09-01/debates/495823DC-CE42-4851-9544-3196D2A57BB1/#contribution-8C0AC1BF-C4BF-466F-86F2-6954FF67EA7F) (Conservative, Godalming and Ash) | Neutral or unclear | Discusses financial regulation and digital identity in banking, no free speech dimension. |
 
-*...and 11 more debates on our ground this week, on the profiles.*
+**Engagements** · Commons · Wed 2 Sep · [Hansard](https://hansard.parliament.uk/Commons/2026-09-02/debates/64E68DAF-DE26-43C9-A6E0-ED2ED525D1FF/) · 2 speakers on our ground
+
+| Member | Direction | What they argued |
+|---|---|---|
+| [Andy Burnham](https://hansard.parliament.uk/Commons/2026-09-02/debates/64E68DAF-DE26-43C9-A6E0-ED2ED525D1FF/#contribution-12AB01AA-52F9-48A1-A602-9332D14D01EA) (Labour (Co-op), Makerfield) | With us | Minister confirms digital ID scrapped as not a priority, aligns with overreach concerns. |
+| [Mrs Kemi Badenoch](https://hansard.parliament.uk/Commons/2026-09-02/debates/64E68DAF-DE26-43C9-A6E0-ED2ED525D1FF/#contribution-CB5DDED9-A350-46DA-8060-546C953090E2) (Conservative, North West Essex) | Neutral or unclear | Focus on economic policy and digital ID funding, not free speech directly. |
+
+**Licensing Act 2003 (Mandatory Licensing Conditions) (Amendment) Order 2026** · Lords · Wed 2 Sep · [Hansard](https://hansard.parliament.uk/Lords/2026-09-02/debates/91198808-92F8-4233-A4FE-7B191A0536DF/) · 2 speakers on our ground
+
+| Member | Direction | What they argued |
+|---|---|---|
+| [Lord Davies of Gower](https://hansard.parliament.uk/Lords/2026-09-02/debates/91198808-92F8-4233-A4FE-7B191A0536DF/#contribution-3251A9DD-EED1-4FDD-95B2-4C981DC12E0C) (Conservative, Life peer) | With us | Criticises digital ID infrastructure, welcomes its abandonment, aligns with overreach caution. |
+| [Lord Hanson of Flint](https://hansard.parliament.uk/Lords/2026-09-02/debates/91198808-92F8-4233-A4FE-7B191A0536DF/#contribution-1A2202AE-CA4E-4018-BDBE-90C48E10FDE7) (Labour, Life peer) (x2) | Neutral or unclear | Neutral explanatory description of digital age-verification licensing order. |
+
+**Persecution of Christians Overseas** · Commons · Thu 3 Sep · [Hansard](https://hansard.parliament.uk/Commons/2026-09-03/debates/0E5AF0C6-7329-4732-8B42-23D6744F9F03/) · 1 speaker on our ground
+
+| Member | Direction | What they argued |
+|---|---|---|
+| [Marsha De Cordova](https://hansard.parliament.uk/Commons/2026-09-03/debates/0E5AF0C6-7329-4732-8B42-23D6744F9F03/#contribution-22BBB7F7-B41F-426F-B9B1-FD6D7D2D0584) (Labour, Battersea) | With us, strongly | Highlights persecution of Christians and calls for support, clear FoRB advocacy. |
+
+*10 passing mentions of our issues in other business are recorded on the member profiles, not tabled here.*
 
 - **James McMurdock (Independent, South Basildon and East Thurrock)**: **EDM** Sponsored EDM: Border security at Ceuta and Melilla and the security of Gibraltar
 
