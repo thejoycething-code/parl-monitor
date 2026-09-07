@@ -347,14 +347,73 @@ def offset_link(guid, start, event_start):
         guid, secs // 3600, (secs % 3600) // 60, secs % 60)
 
 
-def download_clip(manifest_base, start, end, out_path, yt_dlp="yt-dlp", ffmpeg=None, quality="1300"):
-    """Fetch one window of the stream as an mp4. quality is the format id:
-    300=180p, 850=360p, 1300=576p, 3000=1080p (parliamentlive's ladder)."""
+HEIGHTS = {"300": 180, "850": 360, "1300": 576, "3000": 1080}   # the live ladder's ids, still accepted
+
+
+def format_selector(quality):
+    """A height cap, whatever the caller wrote: '576', '576p', or a live
+    format id. The archive copy of a sitting carries different format ids
+    from the live stream (measured 2026-09-07: 383/966/1443/3245 against
+    300/850/1300/3000), so ids are never passed through."""
+    q = str(quality or "576").lower().rstrip("p")
+    h = HEIGHTS.get(q) or (int(q) if q.isdigit() else 576)
+    return "bv*[height<={0}]+ba/b[height<={0}]/b".format(h)
+
+
+def window_is_honoured(manifest_base, start, end, fetch=None):
+    """Does this stream return just the window asked for? The live stream
+    does; the archive recording ignores the parameters and returns the whole
+    sitting (9,700 seconds for a 30-second ask, measured 2026-09-07)."""
+    import urllib.request
+    if fetch is None:
+        def fetch(u):
+            with urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0"}), timeout=30) as r:
+                return r.read().decode("utf-8", "replace")
+    try:
+        top = fetch(window_url(manifest_base, start, end))
+        rend = [l for l in top.splitlines() if l and not l.startswith("#")]
+        if not rend:
+            return False
+        u = rend[0] if rend[0].startswith("http") else manifest_base.rsplit("/", 1)[0] + "/" + rend[0]
+        pl = fetch(u)
+        total = sum(float(x) for x in re.findall(r"#EXTINF:([\d.]+)", pl))
+        asked = (end - start).total_seconds()
+        return 0 < total <= asked * 2 + 60
+    except Exception:                                       # noqa: BLE001
+        return False
+
+
+def _hms(seconds):
+    s = max(0, int(seconds))
+    return "{0:02d}:{1:02d}:{2:02d}".format(s // 3600, (s % 3600) // 60, s % 60)
+
+
+def download_clip(manifest_base, start, end, out_path, yt_dlp="yt-dlp", ffmpeg=None, quality="576",
+                  guid=None, event_start=None, windowed=None):
+    """Fetch one span of a sitting as an mp4.
+
+    Two routes. WINDOW: while the stream is live or freshly ended, the
+    manifest takes start=...&end=... and returns just that span. OFFSET: once
+    the sitting is an archive recording, the window is ignored, so the clip
+    is cut by offset from the recording's start with yt-dlp's section
+    download (ffmpeg does the cut). The caller says which (windowed), or
+    it is probed."""
     start = start - datetime.timedelta(seconds=PAD_BEFORE)
     end = end + datetime.timedelta(seconds=PAD_AFTER)
-    cmd = [yt_dlp, "--no-warnings", "-f", quality, "--merge-output-format", "mp4", "-o", out_path, window_url(manifest_base, start, end)]
+    if windowed is None:
+        windowed = window_is_honoured(manifest_base, start, end)
+    cmd = [yt_dlp, "--no-warnings", "-f", format_selector(quality), "--merge-output-format", "mp4", "-o", out_path]
     if ffmpeg:
         cmd[1:1] = ["--ffmpeg-location", ffmpeg]
+    if windowed:
+        cmd.append(window_url(manifest_base, start, end))
+    else:
+        if not (guid and event_start):
+            raise RuntimeError("archive recording: need the event guid and its start to cut by offset")
+        a = (start - event_start).total_seconds()
+        b = (end - event_start).total_seconds()
+        cmd += ["--download-sections", "*{0}-{1}".format(_hms(a), _hms(b)), "--force-keyframes-at-cuts",
+                "https://parliamentlive.tv/Event/Index/{0}".format(guid)]
     out = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
     if out.returncode:
         raise RuntimeError("download failed: {0}".format((out.stderr or out.stdout).strip()[-300:]))
@@ -408,19 +467,32 @@ def write_pack(folder, meta, speaks, directions, confirmed, mins, patterns, guid
     out += ["", "*Nothing here is a verdict on a member until confirmed in checklist.md.*", ""]
     open(os.path.join(folder, "roundup.md"), "w", encoding="utf-8").write("\n".join(out))
 
-    # checklist (never overwrite a human's answers)
+    # checklist: never overwrite a human's answers, but ADD every speaker who
+    # has arrived since it was written -- Hansard publishes in tranches, and a
+    # checklist written on the first four speakers left eleven with nothing
+    # to mark (2026-09-07).
     cpath = os.path.join(folder, "checklist.md")
-    if not os.path.exists(cpath):
+    existing = open(cpath, encoding="utf-8").read() if os.path.exists(cpath) else None
+    have = set(re.findall(r"^### speaker: (.+)$", existing or "", re.M))
+
+    def entry(s):
+        return ["### speaker: {0}".format(key(s)), "- {0}, rose {1}, {2} contribution(s), {3} words".format(
+            who(s), _clock(s["first"]), s["count"], s["words"]),
+            "- pass read: {0} — {1}".format(label(s), why(s)), "- opening words: {0}".format(s["text"][:220]),
+            "ONSIDE: ", ""]
+    if existing is None:
         c = ["# Onside check: {0} ({1})".format(title, date), "",
              "For each speaker, write ONSIDE: yes or ONSIDE: no. The stance pass's reading is shown as a first cut and is",
              "not the verdict. Only speakers marked yes are quoted in quotes.md and clipped by --download after --apply.",
              "Leave blank to decide later.", "", "Do not edit the `### speaker:` lines.", "", "---", ""]
         for s in speaks_by_first(speaks):
-            c += ["### speaker: {0}".format(key(s)), "- {0}, rose {1}, {2} contribution(s), {3} words".format(
-                who(s), _clock(s["first"]), s["count"], s["words"]),
-                "- pass read: {0} — {1}".format(label(s), why(s)), "- opening words: {0}".format(s["text"][:220]),
-                "ONSIDE: ", ""]
+            c += entry(s)
         open(cpath, "w", encoding="utf-8").write("\n".join(c))
+    else:
+        added = [s for s in speaks_by_first(speaks) if key(s) not in have]
+        if added:
+            with open(cpath, "a", encoding="utf-8") as fh:
+                fh.write("\n" + "\n".join(line for s in added for line in entry(s)))
 
     # quotes: confirmed speakers when any are confirmed; otherwise everyone the pass read as with us, marked unconfirmed
     q = ["# Quotes: {0} ({1})".format(title, date), ""]

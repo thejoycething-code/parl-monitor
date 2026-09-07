@@ -120,6 +120,41 @@ class FootageTests(unittest.TestCase):
                          "298d5452-e524-4de5-b556-9ef1a433f8f0")
 
 
+class ClipRouteTests(unittest.TestCase):
+    """The live stream honours a time window; the archive recording ignores it."""
+
+    def test_format_selector_is_a_height_cap_whatever_was_written(self):
+        self.assertEqual(dp.format_selector("1300"), "bv*[height<=576]+ba/b[height<=576]/b")
+        self.assertEqual(dp.format_selector("576p"), "bv*[height<=576]+ba/b[height<=576]/b")
+        self.assertEqual(dp.format_selector("1080"), "bv*[height<=1080]+ba/b[height<=1080]/b")
+
+    def test_window_probe_tells_live_from_archive(self):
+        start = datetime.datetime(2026, 9, 7, 15, 41, tzinfo=datetime.timezone.utc); end = start + datetime.timedelta(seconds=30)
+        live = {"m": "v.m3u8", "v": "#EXTINF:6.0,\nseg1\n#EXTINF:6.0,\nseg2\n#EXTINF:6.0,\nseg3\n#EXTINF:6.0,\nseg4\n#EXTINF:6.0,\nseg5\n"}
+        archive = {"m": "v.m3u8", "v": "".join("#EXTINF:6.0,\nseg\n" for _ in range(1600))}
+        fetch_live = lambda u: live["v"] if u.endswith("v.m3u8") else live["m"]
+        fetch_arch = lambda u: archive["v"] if u.endswith("v.m3u8") else archive["m"]
+        self.assertTrue(dp.window_is_honoured("https://x/index.m3u8", start, end, fetch=fetch_live))
+        self.assertFalse(dp.window_is_honoured("https://x/index.m3u8", start, end, fetch=fetch_arch))
+
+    def test_archive_route_cuts_by_offset_from_the_recording_start(self):
+        calls = []
+        real = dp.subprocess.run
+        dp.subprocess.run = lambda cmd, **kw: calls.append(cmd) or type("R", (), {"returncode": 0})()
+        try:
+            es = datetime.datetime(2026, 9, 7, 15, 30, tzinfo=datetime.timezone.utc)
+            start = datetime.datetime(2026, 9, 7, 16, 41, 0, tzinfo=dp.LONDON); end = start + datetime.timedelta(seconds=100)
+            dp.download_clip("https://x/vod.m3u8", start, end, "out.mp4", "yt-dlp", None, "576", guid="G", event_start=es, windowed=False)
+        finally:
+            dp.subprocess.run = real
+        cmd = calls[0]
+        self.assertIn("--download-sections", cmd)
+        i = cmd.index("--download-sections")
+        self.assertEqual(cmd[i + 1], "*00:10:55-00:12:44")        # 16:41:00 BST = 15:41Z = 660s after 15:30Z; -5s pad, +4s pad
+        self.assertEqual(cmd[-1], "https://parliamentlive.tv/Event/Index/G")
+        self.assertIn("bv*[height<=576]+ba/b[height<=576]/b", cmd)
+
+
 class ArchiveSearchTests(unittest.TestCase):
     """Christopher, 2026-09-07: "Build the parliamentlive.tv date lookup for archived sittings." """
 
@@ -183,6 +218,21 @@ class PackTests(unittest.TestCase):
         self.assertIn("?in=00:25:02", shot)
         self.assertIn("checklist.md", open(os.path.join(folder, "README.md")).read())
         self.assertIn("Parliamentary Recording Unit", open(os.path.join(folder, "README.md")).read())
+
+    def test_new_speakers_are_appended_to_an_existing_checklist_without_losing_answers(self):
+        rows = dp.contributions(PAYLOAD, "2026-09-07")
+        sp = dp.speakers(rows)
+        folder = tempfile.mkdtemp()
+        meta = {"title": "Surrogacy", "house": "Commons", "date": "2026-09-07", "ext_id": "E1"}
+        dp.write_pack(folder, meta, sp[:1], {}, {}, None, [])                # first tranche: one speaker
+        path = os.path.join(folder, "checklist.md")
+        text = open(path).read().replace("ONSIDE: \n", "ONSIDE: yes\n", 1)
+        open(path, "w").write(text)                                          # a human answers
+        dp.write_pack(folder, meta, sp, {}, dp.parse_checklist(path), None, [])   # second tranche: everyone
+        text = open(path).read()
+        import re
+        self.assertEqual(len(re.findall(r"^### speaker: ", text, re.M)), len(sp))   # the header text mentions the marker too
+        self.assertIn("ONSIDE: yes", text)                                   # the answer survived
 
     def test_footage_is_ignored_by_git(self):
         self.assertIn("data/packs/*/clips/", open(os.path.join(ROOT, ".gitignore")).read())

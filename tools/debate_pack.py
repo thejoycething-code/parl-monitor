@@ -4,7 +4,7 @@
     python3 tools/debate_pack.py --date 2026-09-07 --debate <hansard ext id>    # by id instead of title search
         [--house Commons] [--event <parliamentlive url or guid>] [--venue "Westminster Hall"] [--no-read]
     python3 tools/debate_pack.py --pack data/packs/<folder> --apply             # after filling checklist.md
-    python3 tools/debate_pack.py --pack data/packs/<folder> --download [--quality 1300]   # clips of confirmed speakers
+    python3 tools/debate_pack.py --pack data/packs/<folder> --download [--quality 576]   # clips of confirmed speakers
     python3 tools/debate_pack.py --pack data/packs/<folder> --download-debate --from 16:30 --to 18:00   # the whole debate, one file
 
 Footage needs yt-dlp (pip install --user yt-dlp) and an ffmpeg (pip install
@@ -167,10 +167,25 @@ def download(args):
     if not yt:
         print("yt-dlp not found: pip install --user yt-dlp")
         return 1
-    manifest = state.get("manifest")
-    if not manifest:
+    guid = state.get("event")
+    if not guid:
         print("no stream for this pack: build it with --event <parliamentlive url> first")
         return 1
+    # Resolve the stream NOW, not from the cache: a sitting moves from its
+    # live stream to an archive recording within hours of ending, and the
+    # cached manifest then answers with no video (2026-09-07, 21 clips
+    # failed 404). The archive ignores time windows, so probe once.
+    try:
+        manifest, event_start = dp.manifest_for(guid, yt)
+        state["manifest"], state["event_start"] = manifest, event_start.isoformat()
+        json.dump(state, open(os.path.join(args.pack, "pack.json"), "w"), indent=1)
+    except Exception as exc:                                # noqa: BLE001
+        print("could not resolve the stream: {0}".format(exc))
+        return 1
+    probe_start = datetime.datetime.fromisoformat(state["speakers"][0]["spans"][0][0]) if state["speakers"] and state["speakers"][0]["spans"] else event_start
+    windowed = dp.window_is_honoured(manifest, probe_start, probe_start + datetime.timedelta(seconds=30))
+    print("stream: {0} ({1})".format("live, cut by time window" if windowed else "archive recording, cut by offset from {0}".format(
+        event_start.astimezone(dp.LONDON).strftime("%H:%M:%S")), manifest[:60] + "..."))
     clips = os.path.join(args.pack, "clips")
     os.makedirs(clips, exist_ok=True)
     tz = dp.LONDON
@@ -180,7 +195,7 @@ def download(args):
         start = datetime.datetime(d.year, d.month, d.day, h1, m1, tzinfo=tz)
         end = datetime.datetime(d.year, d.month, d.day, h2, m2, tzinfo=tz)
         out = os.path.join(clips, "00-whole-debate-{0}-{1}.mp4".format(args.frm.replace(":", ""), args.to.replace(":", "")))
-        dp.download_clip(manifest, start, end, out, yt, ff, args.quality)
+        dp.download_clip(manifest, start, end, out, yt, ff, args.quality, guid=guid, event_start=event_start, windowed=windowed)
         print("downloaded {0} ({1:.1f} MB)".format(os.path.relpath(out, ROOT), os.path.getsize(out) / 1e6))
         return 0
     confirmed = dp.parse_checklist(os.path.join(args.pack, "checklist.md"))
@@ -197,7 +212,7 @@ def download(args):
             if os.path.exists(out):
                 continue
             try:
-                dp.download_clip(manifest, start, end, out, yt, ff, args.quality)
+                dp.download_clip(manifest, start, end, out, yt, ff, args.quality, guid=guid, event_start=event_start, windowed=windowed)
                 n += 1
                 print("  {0} ({1:.1f} MB)".format(os.path.relpath(out, ROOT), os.path.getsize(out) / 1e6))
             except Exception as exc:                        # noqa: BLE001
@@ -213,7 +228,7 @@ def main():
     ap.add_argument("--no-read", action="store_true")
     ap.add_argument("--pack"); ap.add_argument("--apply", action="store_true")
     ap.add_argument("--download", action="store_true"); ap.add_argument("--download-debate", action="store_true")
-    ap.add_argument("--from", dest="frm"); ap.add_argument("--to"); ap.add_argument("--quality", default="1300")
+    ap.add_argument("--from", dest="frm"); ap.add_argument("--to"); ap.add_argument("--quality", default="576", help="height cap: 180, 360, 576, 1080")
     args = ap.parse_args()
     if args.pack and (args.download or args.download_debate):
         return download(args)
