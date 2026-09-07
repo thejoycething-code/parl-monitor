@@ -38,10 +38,22 @@ def slug(name):
 
 
 def _areas(raw):
-    try:
-        return [int(a) for a in json.loads(raw or "[]")]
-    except (ValueError, TypeError):
+    """Area numbers from either shape the store uses: the ledger's JSON list
+    ('[2, 6]') or the bills board's comma-separated string ('2,6')."""
+    if raw is None or raw == "":
         return []
+    if isinstance(raw, int):
+        return [raw]
+    text = str(raw).strip()
+    try:
+        parsed = json.loads(text)
+        if isinstance(parsed, list):
+            return [int(a) for a in parsed]
+        if isinstance(parsed, int):
+            return [parsed]
+    except (ValueError, TypeError):
+        pass
+    return [int(a) for a in re.findall(r"\d+", text)]
 
 
 def _pq_url(conn, ref):

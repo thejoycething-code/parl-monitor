@@ -21,7 +21,7 @@ def _conn():
     from src import stance
     stance.ensure_table(conn)
     conn.execute("INSERT INTO bills_board (bill_id, title, house, stage, next_key_date, what_next, areas, status) VALUES "
-                 "(4157, 'Terminally Ill Adults (End of Life) Bill', 'Commons', '2nd reading', '2026-09-11', 'Awaiting 2nd reading', '[2]', 'live')")
+                 "(4157, 'Terminally Ill Adults (End of Life) Bill', 'Commons', '2nd reading', '2026-09-11', 'Awaiting 2nd reading', '2', 'live')")      # the board stores areas as CSV, not JSON
     conn.execute("INSERT INTO items (id, captured_at, source_feed, item_type, title, url, event_date, issue_areas, triage_score, why_it_matters) VALUES "
                  "('pq:1', '2026-09-06', 'pq', 'question', 'PQ 1: Hospices', 'u', '2026-09-03', '[2]', 2, 'Money for the alternative.')")
     conn.execute("INSERT INTO items (id, captured_at, source_feed, item_type, title, url, event_date, issue_areas, triage_score) VALUES "
@@ -63,6 +63,15 @@ class CollectTests(unittest.TestCase):
     def test_another_area_is_empty(self):
         d = issuepages.collect(_conn(), 1, today=TODAY)
         self.assertEqual((d["bills"], d["items"], d["debates"], d["divisions"]), ([], [], [], []))
+
+
+class AreaParsingTests(unittest.TestCase):
+    def test_both_shapes_the_store_uses(self):
+        self.assertEqual(issuepages._areas("[2, 6]"), [2, 6])
+        self.assertEqual(issuepages._areas("2,6"), [2, 6])
+        self.assertEqual(issuepages._areas("2"), [2])
+        self.assertEqual(issuepages._areas(None), [])
+        self.assertEqual(issuepages._areas("[]"), [])
 
 
 class BuildTests(unittest.TestCase):
