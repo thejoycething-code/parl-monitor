@@ -48,7 +48,14 @@ holyrood:                 # status is scraped from the bill page, not trusted fr
 # "Modern Service Framework" was retired 2026-08-05: it is generic NHS
 # vocabulary and was admitting routine dementia, cardiovascular and
 # respiratory health questions to the ledger with no issue area.
-processes: ["Cass Review", "Sullivan Review", "PATHWAYS", "Tying the Knot",
+# "Conversion Practices Bill" added 2026-09-07 (Christopher): the DRAFT
+# Conversion Practices Bill was published on 25 June 2026 and, being
+# pre-legislative, has no bills.parliament.uk id -- so it lives here as a
+# name-matched entity rather than under bills:. Six written questions
+# on it scored 3 in the edition of 7 September (CPS referrals, criminal
+# investigations); 175 ledger lines already mention it. The shorter
+# phrase matches the draft and any introduced Bill alike.
+processes: ["Conversion Practices Bill", "Cass Review", "Sullivan Review", "PATHWAYS", "Tying the Knot",
             "anti-Muslim hostility definition", "Online Safety Act codes"]
 organisations: [Right To Life UK, SPUC, CARE, Christian Concern, ADF International,
                 Care Not Killing, Sex Matters, Christian Institute, Coalition for Marriage,

@@ -494,9 +494,12 @@ class FurtherAfieldTests(unittest.TestCase):
                         md.index("Further afield"))
 
     def test_dates_ascend_and_match_the_week_ahead_format(self):
+        """Since 2026-09-07 both blocks are the same five-column table and
+        dates print as a reader writes them, not as ISO."""
         out = digest.render_further_ahead(self._edition().further_ahead)
-        self.assertLess(out.index("2026-09-11"), out.index("2026-09-18"))
-        self.assertIn("**Friday 2026-09-11**", out)
+        self.assertLess(out.index("Fri 11 Sep"), out.index("Fri 18 Sep"))
+        self.assertIn("| When | What | Where | Why it matters | Sources |", out)
+        self.assertNotIn("2026-09-11", out)
 
     def test_nothing_further_means_no_block(self):
         self.assertIsNone(digest.render_further_ahead([]))
@@ -511,3 +514,103 @@ class FurtherAfieldTests(unittest.TestCase):
         self.assertIn("## Week ahead", md)
         self.assertIn("Further afield", md)
         self.assertIn("Nothing on our ground in the chamber this week", md)
+
+
+class WeekAheadTableTests(unittest.TestCase):
+    """Christopher, 2026-09-07: "Go for pick C. With that option keep the
+    why it matters but remove the score." Option C is a table: When, What,
+    Where, Why it matters, Sources. Before it every line was the judge's
+    why-line alone -- no time, no venue, no petition or Bill named, no
+    link -- and every event printed twice."""
+
+    SURROGACY = {"event_id": 56333, "start_time": "16:30", "end_time": "18:00",
+                 "house": "Commons", "type": "Westminster Hall",
+                 "description": "e-petition 763161 relating to surrogacy law and legal parenthood",
+                 "members": ["Dave Robertson"], "bill_id": None,
+                 "title": "4.30pm, Commons Westminster Hall debate. e-petition 763161 ..."}
+
+    def _line(self, why="Could shape law legitimising commercial surrogacy.", **over):
+        ev = dict(self.SURROGACY, **over)
+        return digest.Line(why, 3, date="2026-09-07", event=ev,
+                           url="https://whatson.parliament.uk/event/cal56333")
+
+    def test_one_row_carries_when_what_where_why_and_sources(self):
+        out = digest.render_week_ahead([self._line()], "2026-09-07")
+        self.assertIn("| Mon 7 Sep \u00b7 4.30\u20136.00pm | **e-petition 763161 relating to "
+                      "surrogacy law and legal parenthood \u2014 led by Dave Robertson** "
+                      "| Commons, Westminster Hall | Could shape law legitimising "
+                      "commercial surrogacy. | [petition](https://petition.parliament.uk"
+                      "/petitions/763161) \u00b7 [What's On](https://whatson.parliament.uk"
+                      "/event/cal56333) |", out)
+
+    def test_the_score_badge_is_gone(self):
+        """The why-line stays; the 1/2/3 in front of it does not."""
+        out = digest.render_week_ahead([self._line()], "2026-09-07")
+        self.assertNotIn("| 3 ", out)
+        self.assertNotIn("**3**", out)
+        self.assertNotIn("(3)", out)
+
+    def test_the_same_event_judged_twice_prints_once(self):
+        """THE BUG. Items were keyed on a per-process string hash, so two
+        Sunday pulls stored one debate twice and the judge wrote two
+        why-lines for it. The first is kept."""
+        out = digest.render_week_ahead(
+            [self._line(), self._line(why="A second verdict on the same debate.")],
+            "2026-09-07")
+        self.assertEqual(out.count("763161"), 2)  # once in What, once in the petition link
+        self.assertNotIn("A second verdict", out)
+
+    def test_last_week_is_not_ahead(self):
+        """Friday 4 September sat under 'Week ahead' on Monday 7 September.
+        It belongs with the votes."""
+        stale = digest.Line("Old business", 2, date="2026-09-04",
+                            event=dict(self.SURROGACY, event_id=1, description="Old business"))
+        out = digest.render_week_ahead([stale, self._line()], "2026-09-07")
+        self.assertNotIn("Old business", out)
+        self.assertIn("Mon 7 Sep", out)
+
+    def test_a_sequenced_item_says_so_and_a_bill_links_to_its_page(self):
+        ev = dict(self.SURROGACY, event_id=55683, start_time="", end_time="",
+                  description="Terminally Ill Adults (End of Life) Bill: Second Reading",
+                  house="Commons", type="Main Chamber", bill_id=4157,
+                  members=["Lauren Edwards"])
+        line = digest.Line("The decisive Commons moment.", 3, date="2026-09-11",
+                           event=ev, url="https://whatson.parliament.uk/event/cal55683")
+        out = digest.render_week_ahead([line], "2026-09-07")
+        self.assertIn("| Fri 11 Sep \u00b7 after other business |", out)
+        self.assertIn("[Bill](https://bills.parliament.uk/bills/4157)", out)
+        self.assertIn("led by Lauren Edwards", out)
+
+    def test_rows_stored_before_the_change_still_make_a_row(self):
+        """The store already holds this week's events with only the diary
+        label; the table must degrade to the same shape from that label."""
+        line = digest.Line("Watch for chilling effects on speech.", 3, date="2026-09-07",
+                           event={"title": "6.00pm, Commons Westminster Hall debate. "
+                                           "e-petition 746640 relating to misogyny"})
+        out = digest.render_week_ahead([line], "2026-09-07")
+        self.assertIn("| Mon 7 Sep \u00b7 6.00pm | **e-petition 746640 relating to misogyny** "
+                      "| Commons Westminster Hall debate | Watch for chilling effects on speech. "
+                      "| [petition](https://petition.parliament.uk/petitions/746640) |", out)
+
+    def test_an_empty_diary_renders_nothing(self):
+        self.assertIsNone(digest.render_week_ahead([], "2026-09-07"))
+
+    def test_a_bill_without_a_billid_is_linked_through_the_board(self):
+        """What's On leaves BillId empty on Private Members' Bill entries;
+        the board knows the Bill by title."""
+        line = digest.Line("Decisive.", 3, date="2026-09-11",
+                           event={"title": "9.30am, Commons Private Members' Bills. "
+                                           "Terminally Ill Adults (End of Life) Bill: Second Reading"})
+        out = digest.render_week_ahead([line], "2026-09-07",
+                                       bill_ids={"Terminally Ill Adults (End of Life) Bill": 4157})
+        self.assertIn("[Bill](https://bills.parliament.uk/bills/4157)", out)
+
+    def test_rows_within_a_day_run_by_the_clock(self):
+        """Legacy rows carry the clock only in the label; 4.30pm still
+        precedes 6.00pm and sequenced business comes last."""
+        mk = lambda label: digest.Line("why", 2, date="2026-09-07", event={"title": label})
+        out = digest.render_week_ahead([mk("6.00pm, Commons WH. Second"),
+                                        mk("after other business, Commons Main. Third"),
+                                        mk("4.30pm, Commons WH. First")], "2026-09-07")
+        self.assertLess(out.index("First"), out.index("Second"))
+        self.assertLess(out.index("Second"), out.index("Third"))

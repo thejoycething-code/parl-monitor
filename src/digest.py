@@ -46,6 +46,7 @@ class Line:
     url: str = None
     deadline: str = None
     date: str = None      # ISO date, for the Week ahead day grouping
+    event: dict = None    # What's On fields for the Week ahead table (2026-09-07)
 
 
 @dataclass
@@ -182,50 +183,177 @@ def _weekday(iso_date):
 
 
 
-def render_further_ahead(lines, weeks=8):
+def render_further_ahead(lines, weeks=8, bill_ids=None):
     """Business on our ground in the EIGHT weeks after this one.
 
     Three weeks until 2026-09-01, when Caroline's forward-look request
     (2026-08-28) stretched it: a month or two of runway is what turns a
-    sighting into a campaign. Parliament schedules sparsely that far out,
-    so most weeks the far end is quiet -- but quiet is the honest answer,
-    where a short window was silence about things already scheduled.
-
-    Week ahead answers "what happens now"; this answers "what is coming
-    while there is still time to act". It sits inside the Week ahead
-    section as a sub-block rather than competing with it as a heading of
-    its own (Christopher, 2026-08-24). Dated, grouped, and never capped --
-    a second reading a fortnight out is exactly the thing that gets missed.
+    sighting into a campaign. It sits inside the Week ahead section as a
+    sub-block rather than competing with it as a heading of its own
+    (Christopher, 2026-08-24). Since 2026-09-07 it is the same five-column
+    table as Week ahead: When, What, Where, Why it matters, Sources.
     """
-    if not lines:
+    rows = _event_rows(lines, bill_ids=bill_ids)
+    if not rows:
         return None
-    by_day = {}
-    for line in lines:
-        by_day.setdefault(getattr(line, "date", None) or "date to be announced",
-                          []).append(line)
     out = ["**Further afield** (next {0} weeks)".format(weeks), ""]
-    for day in sorted(by_day):
-        out.append("**{0} {1}**".format(_weekday(day), day))
-        for line in by_day[day]:
-            text = line.text if hasattr(line, "text") else str(line)
-            out.append("- {0}".format(text))
-        out.append("")
+    out.extend(_event_table(rows))
     return "\n".join(out).rstrip() + "\n"
 
 
-def render_week_ahead(lines):
-    """Section 3: the diary, grouped by day (handoff digest-template section 3)."""
-    if not lines:
+def render_week_ahead(lines, week_start=None, bill_ids=None):
+    """Section 3: the diary as a table (Christopher, 2026-09-07, option C).
+
+    Until then each line was the judge's why-line alone -- no time, no
+    venue, no petition or Bill named, no link -- and every event printed
+    twice because its id was a per-process string hash. Now one row per
+    event: When (day and clock time), What (the business, linked to its
+    substantive source), Where (house and location), Why it matters (the
+    judge's line, unedited, with no score badge), Sources (petition, Bill,
+    What's On). Business before week_start is dropped: it belongs with the
+    votes, not under "ahead".
+    """
+    rows = _event_rows(lines, week_start=week_start, bill_ids=bill_ids)
+    if not rows:
         return None
     out = ["## Week ahead", ""]
-    current = object()
-    for line in sorted(lines, key=lambda l: (l.date or "")):
-        if line.date != current:
-            current = line.date
-            out.append("**{0} {1}**".format(_weekday(line.date), line.date or "TBA"))
-        out.append(_fmt_line(line))
+    out.extend(_event_table(rows))
     out.append("")
     return "\n".join(out)
+
+
+_MONTHS = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def _clock(hhmm):
+    """'16:30' -> '4.30pm'; '' -> None."""
+    raw = (hhmm or "").strip()
+    if not raw:
+        return None
+    try:
+        h, m = raw.replace(".", ":").split(":")[:2]
+        h, m = int(h), int(m)
+    except (ValueError, IndexError):
+        return raw
+    suffix = "am" if h < 12 else "pm"
+    return "{0}.{1:02d}{2}".format(h % 12 or 12, m, suffix)
+
+
+def _when(date_iso, start, end):
+    import datetime
+    try:
+        d = datetime.date.fromisoformat(date_iso)
+        day = "{0} {1} {2}".format(_WEEKDAYS[d.weekday()][:3], d.day, _MONTHS[d.month])
+    except (ValueError, TypeError):
+        day = "date to be announced"
+    s, e = _clock(start), _clock(end)
+    if s and e:
+        clock = "{0}\u2013{1}".format(s.rstrip("am").rstrip("pm") if s[-2:] == e[-2:] else s, e)
+    elif s:
+        clock = s
+    else:
+        clock = "after other business"
+    return "{0} \u00b7 {1}".format(day, clock)
+
+
+def _legacy_split(title):
+    """'4.30pm, Commons Westminster Hall debate. e-petition ...' -> parts.
+
+    Rows stored before 2026-09-07 carry only the diary label; this reads
+    the label back so the table degrades to the same shape.
+    """
+    head, _, what = (title or "").partition(". ")
+    when, _, where = head.partition(", ")
+    return when.strip() or None, where.strip() or None, (what or head).strip()
+
+
+def _minutes(text):
+    """Sort key for a clock in either form: '16:30' or '4.30pm'; sequenced
+    business ("after other business") sorts last within its day."""
+    import re
+    m = re.match(r"\s*(\d{1,2})[:.](\d{2})\s*(am|pm)?", text or "")
+    if not m:
+        return 24 * 60 + 1
+    h, mins, ap = int(m.group(1)), int(m.group(2)), m.group(3)
+    if ap == "pm" and h < 12:
+        h += 12
+    if ap == "am" and h == 12:
+        h = 0
+    return h * 60 + mins
+
+
+def _sort_key(line):
+    ev = getattr(line, "event", None) or {}
+    clock = ev.get("start_time") or _legacy_split(ev.get("title") or "")[0] or ""
+    return ((getattr(line, "date", None) or "9999"), _minutes(clock))
+
+
+def _bill_link(what, ev, bill_ids):
+    """The Bill's page: from the event's own BillId, else from the board,
+    which knows every Bill on our ground by title. What's On leaves BillId
+    empty on most Private Members' Bill entries (the TIA Second Reading of
+    2026-09-11 among them), so the board is the usual route."""
+    if ev.get("bill_id"):
+        return ev["bill_id"]
+    text = (what or "").lower()
+    for title, bid in (bill_ids or {}).items():
+        if title and title.lower() in text:
+            return bid
+    return None
+
+
+def _event_rows(lines, week_start=None, bill_ids=None):
+    """Deduplicated, sorted rows for the table."""
+    import re
+    rows, seen = [], set()
+    for line in sorted(lines, key=_sort_key):
+        date = getattr(line, "date", None)
+        if week_start and date and date < week_start:
+            continue
+        ev = getattr(line, "event", None) or {}
+        what = ev.get("description") or ev.get("bill_name")
+        legacy_when = legacy_where = None
+        if not what:
+            legacy_when, legacy_where, what = _legacy_split(ev.get("title") or getattr(line, "text", ""))
+        key = (date, ev.get("event_id")) if ev.get("event_id") else (date, (what or "").lower()[:80])
+        if key in seen:
+            continue
+        seen.add(key)
+        if ev.get("start_time") or ev.get("house"):
+            when = _when(date, ev.get("start_time"), ev.get("end_time"))
+            where = ", ".join(x for x in (ev.get("house"), ev.get("type") or ev.get("category")) if x)
+        else:
+            when = "{0} \u00b7 {1}".format(_when(date, None, None).split(" \u00b7 ")[0], legacy_when or "after other business")
+            where = legacy_where or ""
+        members = ev.get("members") or []
+        lead = (" \u2014 led by " + members[0]) if members else ""
+        sources = []
+        m = re.search(r"e-petition (\d{5,7})", what or "")
+        if m:
+            sources.append("[petition](https://petition.parliament.uk/petitions/{0})".format(m.group(1)))
+        bid = _bill_link(what, ev, bill_ids)
+        if bid:
+            sources.append("[Bill](https://bills.parliament.uk/bills/{0})".format(bid))
+        url = getattr(line, "url", None) or (
+            "https://whatson.parliament.uk/event/cal{0}".format(ev["event_id"]) if ev.get("event_id") else None)
+        if url:
+            sources.append("[What's On]({0})".format(url))
+        why = ""
+        if ev:  # a why-line exists only when the line text is the judge's, not the label
+            why = line.text if line.text != ev.get("title") else ""
+        elif getattr(line, "text", "") and not (legacy_when or legacy_where):
+            why = line.text
+        rows.append({"when": when, "what": (what or "").replace("|", "/") + lead,
+                     "where": where, "why": (why or "").replace("|", "/").rstrip(),
+                     "sources": " \u00b7 ".join(sources)})
+    return rows
+
+
+def _event_table(rows):
+    out = ["| When | What | Where | Why it matters | Sources |", "|---|---|---|---|---|"]
+    for r in rows:
+        out.append("| {when} | **{what}** | {where} | {why} | {sources} |".format(**r))
+    return out
 
 
 def _fmt_close(deadline_iso, week_start):
@@ -556,8 +684,9 @@ def render(edition):
         if getattr(edition, "across", None):
             parts.append(edition.across)
     else:
-        week_ahead = render_week_ahead(edition.week_ahead)
-        further = render_further_ahead(edition.further_ahead)
+        bill_ids = {r.title: r.bill_id for r in (edition.board_rows or []) if getattr(r, "bill_id", None)}
+        week_ahead = render_week_ahead(edition.week_ahead, edition.week_commencing, bill_ids)
+        further = render_further_ahead(edition.further_ahead, bill_ids=bill_ids)
         if week_ahead or further:
             parts.append("\n\n".join(p for p in (
                 week_ahead or "## Week ahead\n\n*Nothing on our ground in the "

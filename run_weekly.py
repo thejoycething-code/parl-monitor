@@ -435,12 +435,25 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                     continue
                 label = whatson.event_label(e)
                 event_date = e.start_date.isoformat() if e.start_date else None
+                # Parliament's event Id is the key. It used to be a Python
+                # string hash, which is seeded per process -- so two Sunday
+                # pulls stored the same debate twice, and the judge scored it
+                # twice (found 2026-09-07 in the Week ahead: every event
+                # printed two why-lines).
+                key = e.id if e.id else abs(hash(label)) % 10 ** 8
                 store_item(conn,
-                           "whatson:{0}:{1}".format(event_date,
-                                                    abs(hash(label)) % 10 ** 8),
-                           "whatson", "event", label, None, r,
+                           "whatson:{0}:{1}".format(event_date, key),
+                           "whatson", "event", label, whatson.event_url(e), r,
                            event_date=event_date,
-                           extra={"horizon": horizon})
+                           extra={"horizon": horizon, "event_id": e.id,
+                                  "start_time": e.start_time or None,
+                                  "end_time": e.end_time or None,
+                                  "house": whatson._text(e.house) or None,
+                                  "type": whatson._text(e.type) or None,
+                                  "category": whatson._text(e.category) or None,
+                                  "description": whatson._collapse(whatson._text(e.description)) or None,
+                                  "bill_id": e.bill_id, "bill_name": e.bill_name or None,
+                                  "members": e.members or []})
 
     def _divisions():
         # A Monday 06:30 edition REPORTS the week just ended and PREVIEWS the
@@ -819,6 +832,10 @@ def sections_from_store(conn, edition):
             tag=r["triage_score"], owner=None, url=r["url"],
             deadline=r["deadline"], date=r["event_date"],
         )
+        if feed == "whatson":
+            ev = json.loads(r["extra"]) if r["extra"] else {}
+            ev["title"] = r["title"]
+            line.event = ev
         getattr(edition, target).append(line)
 
     edition.devolved = devolved_from_store(

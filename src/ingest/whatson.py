@@ -24,6 +24,10 @@ MAX_RANGE_DAYS = 28  # <= 4 weeks (handoff 4.7)
 class Event:
     start_date: datetime.date
     start_time: str
+    # Added 2026-09-07 for the Week ahead table: Parliament's own event id
+    # (stable across runs, unlike a Python string hash, which changed with
+    # every process and stored each event twice), the end time, and the
+    # members leading the item.
     house: str
     category: str
     type: str
@@ -32,10 +36,16 @@ class Event:
     bill_name: str
     committee: str
     location: str
+    id: int = None
+    end_time: str = None
+    members: list = None
 
 
 def parse_event(row):
     return Event(
+        id=row.get("Id"),
+        end_time=row.get("EndTime") or None,
+        members=[m.get("Name") for m in (row.get("Members") or []) if isinstance(m, dict) and m.get("Name")],
         start_date=parse_api_date(row.get("StartDate")),
         start_time=row.get("StartTime"),
         house=row.get("House"),
@@ -117,6 +127,11 @@ def format_time(start_time):
     suffix = "am" if hour < 12 else "pm"
     display_hour = hour % 12 or 12
     return "{0}.{1:02d}{2}".format(display_hour, minute, suffix)
+
+
+def event_url(event):
+    """The event's own page on whatson.parliament.uk, or None without an id."""
+    return "https://whatson.parliament.uk/event/cal{0}".format(event.id) if getattr(event, "id", None) else None
 
 
 def event_text(event):
