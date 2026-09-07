@@ -12,6 +12,6 @@
 
 — [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-17E905E2-9A04-4FF9-9187-8C9C19329C08)
 
-> The number of people who have signed the petition—over 113,000, including 226 of my own constituents—is clearly testament to the strength of feeling on the issues. However, the petitioners frame the parental order process as an obstacle to parental rights, but that is fundamentally misleading.
+> One of my main concerns with the petition is that it implies that surrogacy is closer to natural conception than to adoption; I believe that is again misguided. With adoption we do not pretend that the birth mother is irrelevant simply because she will not raise the child herself.
 
 — [Hansard](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-17E905E2-9A04-4FF9-9187-8C9C19329C08)
