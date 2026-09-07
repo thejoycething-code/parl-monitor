@@ -59,6 +59,14 @@ class ContributionTests(unittest.TestCase):
         self.assertEqual(dp.minister(dp.contributions(PAYLOAD, "2026-09-07"))["ext_id"], "c4")
 
 
+class ApplyReadsNewSpeakersTests(unittest.TestCase):
+    def test_apply_does_not_force_no_read(self):
+        src = open(os.path.join(ROOT, "tools", "debate_pack.py"), encoding="utf-8").read()
+        block = src[src.index("def apply(args):"):src.index("def download(args):")]
+        self.assertIn("no_read=args.no_read", block)
+        self.assertNotIn("no_read=True", block)
+
+
 class FindDebateRetryTests(unittest.TestCase):
     def test_an_empty_tree_is_retried_before_it_is_believed(self):
         """Hansard answered with and without the new section within a minute."""

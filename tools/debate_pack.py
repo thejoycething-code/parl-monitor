@@ -141,7 +141,10 @@ def build(args):
 
 
 def apply(args):
-    a = argparse.Namespace(date=None, debate=None, find=None, house=None, event=None, venue=None, no_read=True)
+    # Reads direction for speakers not yet in pack.json (cached ones cost
+    # nothing): Hansard publishes a debate in tranches, and a re-apply that
+    # skipped the new speakers left three of seven unread (2026-09-07).
+    a = argparse.Namespace(date=None, debate=None, find=None, house=None, event=None, venue=None, no_read=args.no_read)
     state = json.load(open(os.path.join(args.pack, "pack.json")))
     a.date, a.debate, a.house, a.event = state["date"], state["ext_id"], state["house"], state.get("event")
     return build(a)
