@@ -1,6 +1,6 @@
 # Judge sample for the edition of 2026-09-07
 
-Ten of this week's 48 live verdicts, chosen across the scores. For each,
+Ten of this week's 50 live verdicts, chosen across the scores. For each,
 write the score YOU would give on the VERDICT line (0 = irrelevant to every
 area, 1 = background only, 2 = belongs in the weekly digest, 3 = likely
 campaign or lobbying trigger). A NOTE is optional: say what the judge got
@@ -25,17 +25,17 @@ NOTE:
 VERDICT: 
 NOTE: 
 
-### item: whatson:2026-09-14:41432991
-- feed: whatson | judge score: 1 | tier: 2 | candidate areas: 11
-- title: after other business, Commons Adjournment. Community cohesion and the 90th anniversary of the Battle of Cable Street
-- judge why: Commemorative cohesion debate touches migration and community relations but unlikely to drive policy change.
+### item: pq:1930519
+- feed: pq | judge score: 1 | tier: 2 | candidate areas: 11
+- title: PQ 20078 (Commons): Asylum: Housing, answered 2026-09-04
+- judge why: Asylum housing capacity data feeds the wider debate on migration numbers and strain on local communities.
 VERDICT: 
 NOTE: 
 
-### item: pq:1930505
+### item: pq:1937205
 - feed: pq | judge score: 1 | tier: 2 | candidate areas: 11
-- title: PQ 20064 (Commons): Asylum: Housing, answered 2026-09-04
-- judge why: Routine asylum housing figures, background context for tracking migration system pressures.
+- title: PQ 26421 (Commons): Asylum: MOD Bicester, answered 2026-09-04
+- judge why: Use of a specific MOD site for asylum accommodation signals ongoing capacity crisis in the migration system.
 VERDICT: 
 NOTE: 
 
@@ -67,16 +67,16 @@ NOTE:
 VERDICT: 
 NOTE: 
 
-### item: pq:1924084
-- feed: pq | judge score: 3 | tier: 1 | candidate areas: 4
-- title: PQ 15904 (Commons): Conversion Therapy: Criminal Investigation, answered 2026-09-01
-- judge why: Criminal investigation powers under a conversion therapy ban threaten clergy, therapists and parents with prosecution for lawful pastoral conversations.
+### item: edm:66409
+- feed: edm | judge score: 1 | tier: 1 | candidate areas: 11
+- title: EDM 728: Border security at Ceuta and Melilla and the security of Gibraltar (James McMurdock, 2 signatures)
+- judge why: Signals MP interest in European border security, relevant background to UK migration and cohesion debates.
 VERDICT: 
 NOTE: 
 
-### item: pq:1928364
-- feed: pq | judge score: 3 | tier: 1 | candidate areas: 5
-- title: PQ 19159 (Commons): Civil Service: Gender Recognition, answered 2026-09-03
-- judge why: How the Civil Service handles gender recognition internally influences workplace single-sex facility policy across government departments.
+### item: pq:1926233
+- feed: pq | judge score: 3 | tier: 1 | candidate areas: 1, 7
+- title: PQ 17446 (Commons): Prayer: Public Places, answered 2026-09-01
+- judge why: Prayer in public places touches directly on abortion clinic buffer zones, where silent prayer has already been criminalised. A live flashpoint for religious freedom.
 VERDICT: 
 NOTE: 

@@ -2,7 +2,7 @@
 
 *Agreement between the judge's score and a human verdict on the same item. The human verdict is the truth here; this measures the judge. Generated 2026-09-07.*
 
-Banked verdicts: 70 live. Labelled: 11 (10 by explicit sample verdict, 1 by review priority).
+Banked verdicts: 72 live. Labelled: 11 (10 by explicit sample verdict, 1 by review priority).
 
 ## Overall
 
@@ -41,3 +41,4 @@ Banked verdicts: 70 live. Labelled: 11 (10 by explicit sample verdict, 1 by revi
 | Prompt | Model | First week | Last week | Verdicts |
 |---|---|---|---|---|
 | ? | historic | 2026-08-03 | 2026-09-07 | 70 |
+| 0069e56f1a3a | claude-sonnet-5 | 2026-09-07 | 2026-09-07 | 2 |
