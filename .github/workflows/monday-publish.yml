@@ -164,7 +164,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/ editions/ reviews/ docs/judge-eval.md
+          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/issues.html partner_site/issue-*.html partner_site/petitions.html partner_site/questions.html
           git diff --cached --quiet || git commit -m "Monday publish: $(date -u +%Y-%m-%dT%H:%M)Z"
           # The sidecar MUST land: the store was already published above,
           # so a failed push leaves the release ahead of the repo -- the

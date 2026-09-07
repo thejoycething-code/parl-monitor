@@ -204,6 +204,15 @@ def main():
     pet_page = partner.build_petitions_page(
         os.path.join(ROOT, "partner_site"), pq_conn,
         _intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml")))
+    # Issue pages (Christopher, 2026-09-07): one page per area, everything the
+    # store holds on it, read only.
+    from src import issuepages as _issuepages
+    try:
+        issue_paths = _issuepages.build(os.path.join(ROOT, "partner_site"), pq_conn,
+                                        _intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml")))
+        print("issue pages: {0} written".format(len(issue_paths)))
+    except Exception as exc:                                # noqa: BLE001
+        print("issue pages: skipped ({0})".format(exc))
     pq_conn.close()
     site = partner.build_site(os.path.join(ROOT, "partner_site"), week, partner_md, weeks,
                               pq_rows=pq_edition.pq_rows,
