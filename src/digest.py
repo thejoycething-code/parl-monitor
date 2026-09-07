@@ -70,6 +70,7 @@ class Edition:
     devolved: list = field(default_factory=list)
     statements: list = field(default_factory=list)
     mp_notes: list = field(default_factory=list)
+    spoke: list = field(default_factory=list)      # src/spoke.collect(): debates with speakers and direction
     return_dates: dict = field(default_factory=dict)   # {house: ISO date}
     gaps: list = field(default_factory=list)            # [(feed, detail)]
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
@@ -376,13 +377,19 @@ def render_deadlines(edition):
     not appear here: this section is purely what-closes-when, urgency belongs
     in Top lines. SIs (events, not deadlines) follow as note lines.
     """
-    if not edition.deadlines:
+    # A deadline before the week began is not a deadline, it is a result:
+    # Edition 6 (2026-09-07) printed two consultations at "-6 days" and
+    # "-3 days" under a heading that promises what closes WHEN. They drop
+    # off here; the store keeps them (Christopher, 2026-09-07).
+    rows = [r for r in edition.deadlines
+            if not (r.get("deadline") and r["deadline"] < edition.week_commencing)]
+    if not rows:
         return None
     out = ["## Consultations and calls for evidence", ""]
     if True:
         out.append("| Consultation / call for evidence | Closes |")
         out.append("|---|---|")
-        rows = sorted(edition.deadlines, key=lambda r: r.get("deadline") or "9999")
+        rows = sorted(rows, key=lambda r: r.get("deadline") or "9999")
         for r in rows:
             why = (" " + r["why"].rstrip(".") + ".") if r.get("why") else ""
             out.append("| **{0}** [{1}]({2}).{3} | {4} |".format(
@@ -485,7 +492,7 @@ def _has_area(event):
     return bool(json.loads(areas) if isinstance(areas, str) else areas)
 
 
-def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
+def mp_lines_from_events(events, max_members=MP_SECTION_MAX, skip_kinds=()):
     """V1 lines: one per member, activities merged; bulk kinds never listed.
 
     Division votes and EDM co-signatures are recorded to the ledger for
@@ -498,7 +505,7 @@ def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
     members_seen = []   # ordered member ids
     grouped = {}        # member_id -> {"who": str, "acts": ordered {(kind, line): count}}
     for e in events:
-        if e["kind"] in BULK_KINDS or e["kind"] in OWN_SECTION_KINDS:
+        if e["kind"] in BULK_KINDS or e["kind"] in OWN_SECTION_KINDS or e["kind"] in skip_kinds:
             continue
         # An issue area is the precondition for appearing in a section headed
         # "on our issues". Watchlist name/process hits admit rows to the
@@ -529,11 +536,91 @@ def mp_lines_from_events(events, max_members=MP_SECTION_MAX):
     return lines
 
 
-def render_mp_section(mp_lines):
-    if not mp_lines:
+DIRECTION = {
+    2: "With us, strongly", 1: "With us", 0: "Neutral or unclear",
+    -1: "Against us", -2: "Against us, strongly", None: "Not yet scored",
+}
+SPOKE_SUBTITLE = ("*Every member who spoke in a debate on our ground, with the "
+                  "direction the stance pass read from their own words -- not "
+                  "their party's whip. \"Not yet scored\" means the pass has not "
+                  "reached that speech.*")
+SPOKE_SPEAKERS_CAP = 15
+SPOKE_DEBATES_CAP = 8
+
+
+def render_spoke(blocks, speakers_cap=SPOKE_SPEAKERS_CAP, debates_cap=SPOKE_DEBATES_CAP):
+    """Who spoke, and which way (Christopher, 2026-09-07).
+
+    One table per debate on our ground: the member (linked to their exact
+    contribution), the direction the stance pass read, and its one-line
+    reason. Speeches already sit in the ledger and the stance table -- 20,706
+    scored as of today -- but the edition only ever printed "DEBATE Spoke:
+    <title>" with no direction, and since the July recess not even that,
+    because the weekly sweep searched the coming week instead of the one
+    just ended. Committed speakers come first so the cap keeps the members
+    who took a side; the profiles hold the rest.
+    """
+    if not blocks:
+        return None
+    out = ["**Who spoke, and which way**", "", SPOKE_SUBTITLE, ""]
+    ordered = sorted(blocks, key=lambda b: -len(b.get("speakers") or []))
+    for b in ordered[:debates_cap]:
+        speakers = b.get("speakers") or []
+        head = "**{0}**".format((b.get("title") or "Debate").replace("|", "/"))
+        bits = [x for x in (b.get("house"), _day(b.get("date"))) if x]
+        if b.get("url"):
+            bits.append("[Hansard]({0})".format(b["url"]))
+        bits.append("{0} speaker{1} on our ground".format(len(speakers), "" if len(speakers) == 1 else "s"))
+        out.append(head + " \u00b7 " + " \u00b7 ".join(bits))
+        out.append("")
+        out.append("| Member | Direction | What they argued |")
+        out.append("|---|---|---|")
+        ranked = sorted(speakers, key=lambda s: (-(abs(s["stance"]) if s.get("stance") is not None else -1),
+                                                 -(s["stance"] or 0) if s.get("stance") is not None else 0,
+                                                 s.get("name") or ""))
+        for s in ranked[:speakers_cap]:
+            who = s.get("name") or "Member {0}".format(s.get("member_id"))
+            if s.get("url"):
+                who = "[{0}]({1})".format(who, s["url"])
+            detail = ", ".join(x for x in (s.get("party"), s.get("seat")) if x)
+            if detail:
+                who += " ({0})".format(detail)
+            times = " (x{0})".format(s["count"]) if (s.get("count") or 1) > 1 else ""
+            why = (s.get("why") or "").replace("|", "/").strip()
+            out.append("| {0}{1} | {2} | {3} |".format(who, times, DIRECTION.get(s.get("stance"), DIRECTION[None]), why))
+        more = len(speakers) - speakers_cap
+        if more > 0:
+            out.append("")
+            out.append("*...and {0} more; every contribution is recorded on the member profiles.*".format(more))
+        out.append("")
+    more_debates = len(ordered) - debates_cap
+    if more_debates > 0:
+        out.append("*...and {0} more debate{1} on our ground this week, on the profiles.*".format(
+            more_debates, "" if more_debates == 1 else "s"))
+        out.append("")
+    return "\n".join(out).rstrip() + "\n"
+
+
+def _day(date_iso):
+    import datetime
+    try:
+        d = datetime.date.fromisoformat(date_iso)
+    except (TypeError, ValueError):
+        return None
+    return "{0} {1} {2}".format(_WEEKDAYS[d.weekday()][:3], d.day, _MONTHS[d.month])
+
+
+def render_mp_section(mp_lines, spoke=None):
+    """Parliamentarians on our issues: who spoke (with direction) first,
+    then the motions and other acts as one line per member."""
+    spoke_md = render_spoke(spoke) if spoke else None
+    if not mp_lines and not spoke_md:
         return None
     out = ["## Parliamentarians on our issues", "", MP_SUBTITLE, ""]
-    out.extend("- " + (line.text if hasattr(line, "text") else line) for line in mp_lines)
+    if spoke_md:
+        out.append(spoke_md)
+    if mp_lines:
+        out.extend("- " + (line.text if hasattr(line, "text") else line) for line in mp_lines)
     out.append("")
     return "\n".join(out)
 
@@ -671,18 +758,12 @@ def render(edition):
         si = render_si(edition)
         if si:
             parts.append(si)
-        mp = render_mp_section(edition.mp_notes)
+        mp = render_mp_section(edition.mp_notes, edition.spoke)
         if mp:
             parts.append(mp)
         devolved = render_devolved(edition)
         if devolved:
             parts.append(devolved)
-        # Across the parliaments (Christopher, 2026-09-02): the deliberate
-        # cross-wiring of all eight watched jurisdictions -- an area renders
-        # here when two or more are active on it this fortnight. The text
-        # is prebuilt by src/across and carried on the edition.
-        if getattr(edition, "across", None):
-            parts.append(edition.across)
     else:
         bill_ids = {r.title: r.bill_id for r in (edition.board_rows or []) if getattr(r, "bill_id", None)}
         week_ahead = render_week_ahead(edition.week_ahead, edition.week_commencing, bill_ids)
@@ -711,18 +792,12 @@ def render(edition):
         si = render_si(edition)
         if si:
             parts.append(si)
-        mp = render_mp_section(edition.mp_notes)
+        mp = render_mp_section(edition.mp_notes, edition.spoke)
         if mp:
             parts.append(mp)
         devolved = render_devolved(edition)
         if devolved:
             parts.append(devolved)
-        # Across the parliaments (Christopher, 2026-09-02): the deliberate
-        # cross-wiring of all eight watched jurisdictions -- an area renders
-        # here when two or more are active on it this fortnight. The text
-        # is prebuilt by src/across and carried on the edition.
-        if getattr(edition, "across", None):
-            parts.append(edition.across)
 
     # Footer: disclose gaps.
     parts.append("---")

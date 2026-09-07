@@ -1,4 +1,9 @@
-"""Across the parliaments: the same fight, seen in every chamber at once.
+"""NOT RENDERED IN THE EDITION since 2026-09-07 (Christopher: "Remove the
+'Across the parliaments' section from the edition"). Kept as a library:
+the EU gap-build tests exercise collect()/render(), and the cross-store
+query may yet serve a page. Nothing in run_weekly or digest calls it.
+
+Across the parliaments: the same fight, seen in every chamber at once.
 
 The system watches Westminster, Holyrood, the Senedd, the NI Assembly,
 the European Parliament, the Commission, Strasbourg and the ECI register

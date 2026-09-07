@@ -496,14 +496,24 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
 
     def _hansard():
         """Spoken contributions -> ledger. The MP section's standing subtitle
-        promises debates, so this is what makes good on it each week."""
+        promises debates, so this is what makes good on it each week.
+
+        The window is the week just ENDED, as for divisions. It was the
+        edition week itself -- which on a Sunday night has not happened --
+        so from the July recess to 2026-09-07 the sweep returned nothing
+        for every sitting day, the newest speech in the ledger was dated
+        23 July, and the raw archive filled with 39 empty searches a week
+        labelled for days still to come. Found while building "Who spoke,
+        and which way" (Christopher, 2026-09-07)."""
+        report_start = week_start - datetime.timedelta(days=7)
+        report_end = week_start - datetime.timedelta(days=1)
         for term in (settings.get("pq_sweep_terms") or []):
             try:
                 # The list is hyphenated for the Written Questions API's
                 # benefit; Hansard wants the spoken form (hansard.spoken_form).
                 speeches = hansard.search_contributions(
                     client, hansard.spoken_form(term),
-                    week_start.isoformat(), week_end.isoformat())
+                    report_start.isoformat(), report_end.isoformat())
             except FetchError as exc:
                 record_gap(conn, edition, "hansard",
                            "term '{0}' failed after {1} attempts".format(term, exc.attempts))
@@ -807,7 +817,7 @@ def sections_from_store(conn, edition):
             # review was rendering as an ordinary row: urgency the edition (and
             # the Slack summary, which reads the [ACT] bullets) never showed.
             # ACT deadline items therefore also emit a top line.
-            if r["triage_score"] == 3:
+            if r["triage_score"] == 3 and not (r["deadline"] and r["deadline"] < edition.week_commencing):
                 edition.top_lines.append(digest.Line(
                     text="{0} - {1}".format(title, r["why_it_matters"] or why),
                     tag=3, owner=None, url=r["url"],
@@ -840,14 +850,6 @@ def sections_from_store(conn, edition):
 
     edition.devolved = devolved_from_store(
         conn, edition.week_commencing)
-
-    # Across the parliaments: prebuilt markdown over every store the
-    # system holds (Westminster, three devolved, the EU's instruments).
-    from src import across as _across
-    from src import intel as _intel
-    edition.across = _across.render(
-        _across.collect(conn, edition.week_commencing),
-        _intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml")))
 
     # Actionable devolved items reach Top lines, not only the canvas table
     # below the fold (docs/parl-monitor-devolved-fix.md: the RE consultation
@@ -1095,8 +1097,14 @@ def render_edition(week_commencing, db_name, draft=False):
     sections_from_store(conn, edition)
 
     window_start = (week_start - datetime.timedelta(days=7)).isoformat()
+    # Who spoke, and which way: the debates of the week just ended, each
+    # speaker with the direction the stance pass read. Debates then leave
+    # the one-line list below, which would otherwise print them twice.
+    from src import spoke as _spoke
+    edition.spoke = _spoke.collect(conn, window_start, week_end.isoformat(), ROOT)
     edition.mp_notes = digest.mp_lines_from_events(
-        intel.events_for_week(conn, window_start, week_end.isoformat()))
+        intel.events_for_week(conn, window_start, week_end.isoformat()),
+        skip_kinds=({"debate"} if edition.spoke else ()))
 
     # Royal Assent trigger: in-force verification renders only in the edition
     # that carries the Act's closing entry, never again.

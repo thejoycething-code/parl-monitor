@@ -1,0 +1,80 @@
+name: Division watch
+
+# The same-day division brief (Christopher, 2026-09-07: "Build the division
+# brief"). On sitting days the Commons divides in the afternoon and evening,
+# the Lords in the afternoon; the Sunday pull would not see either until the
+# weekend. This looks for divisions on our ground through the day and, for
+# each new one, writes data/briefs/division-<id>.md and DMs the tallies,
+# party splits, anchors and lobby changes with a link to the brief.
+#
+# Speaks once per division: a brief that exists is neither rewritten nor
+# resent, so the slots below can overlap a long afternoon harmlessly.
+#
+# Fridays carry Private Members' Bills (the TIA Second Reading, 11 September
+# 2026: debate from 09:30, the question by 14:30 BST = 13:30 UTC, and the
+# list endpoint lags a big vote), hence the tighter Friday slots.
+#
+# Touches no store: no pull, no push, no sidecar. The detail payloads are
+# archived under data/raw like every other fetch and committed here.
+on:
+  schedule:
+    - cron: "0 18,21 * * 1-4"      # Mon-Thu evenings, UTC
+    - cron: "0 13,15,17 * * 5"     # Friday afternoons, UTC
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Sitting day to brief (YYYY-MM-DD; blank = today)"
+        required: false
+        default: ""
+      force:
+        description: "Rewrite and resend briefs that already exist"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Commits data/raw alongside the workflows that publish state.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Brief today's divisions
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+        run: |
+          ARGS=()
+          [ -n "${{ inputs.date }}" ] && ARGS+=(--date "${{ inputs.date }}")
+          [ "${{ inputs.force }}" = "true" ] && ARGS+=(--force)
+          python3 tools/division_brief.py "${ARGS[@]}" | tee /tmp/division-brief.log
+          { echo "## Division watch"; echo '```'; cat /tmp/division-brief.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit briefs and archived payloads
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/raw data/briefs
+          git diff --cached --quiet || git commit -m "Division brief $(date -u +%FT%H:%MZ)"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin main || true
+            git push origin main && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done
