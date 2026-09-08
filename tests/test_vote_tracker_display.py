@@ -1448,9 +1448,12 @@ class SittingCountTests(unittest.TestCase):
 
     def test_every_sitting_title_in_the_store_is_matched(self):
         """The regex only allows two words before "sitting", which is a bet
-        on Hansard's format. Checked rather than assumed: all 222 titles in
-        the store that mention a sitting are matched, so none slips through
-        uncollapsed and reinflates a count."""
+        on Hansard's format. Checked rather than assumed: every title in the
+        store that carries a committee-sitting suffix, "(Fifth sitting)", is
+        matched, so none slips through uncollapsed and reinflates a count.
+        Titles that are ABOUT sittings are not suffixes and are left alone:
+        the 2015-19 backfill (2026-09-08) brought in the "Sitting Hours" and
+        "House of Lords: Sittings" debates, which no suffix regex should eat."""
         import sqlite3
         from make_vote_tracker import SITTING_SUFFIX, _clean_title
         store = os.path.join(ROOT, "data", "parl-monitor.db")
@@ -1462,7 +1465,7 @@ class SittingCountTests(unittest.TestCase):
                 "SELECT DISTINCT line FROM mp_events "
                 "WHERE kind != 'vote' AND line IS NOT NULL"):
             title = _clean_title(line)
-            if title and re.search("sitting", title, re.I) \
+            if title and re.search(r"sitting\)", title, re.I) \
                     and not SITTING_SUFFIX.search(title):
                 missed.append(title)
         self.assertEqual(missed[:5], [], "{0} uncollapsed".format(len(missed)))
