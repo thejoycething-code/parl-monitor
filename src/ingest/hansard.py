@@ -97,6 +97,33 @@ def sweep_terms(settings):
     return out
 
 
+def search_contributions_split(client, term, start, end, log=None, min_days=7, **kw):
+    """search_contributions, but a window the API refuses is halved and tried
+    again, down to `min_days`, so a bad day costs a week of results, not a year.
+
+    The Hansard search API answers HTTP 500 for some term-and-window pairs and
+    not others: "home education" for 2019 fails for the year and for July alone,
+    yet January to March answers 249 (measured 2026-09-08). The failure is in
+    the range, not the term, so bisecting finds the slices that work and leaves
+    only the smallest failing slice as a gap. Unfetched slices are reported
+    through `log` as "[gap] ..." and returned in the second value."""
+    from src.http import FetchError
+    import datetime as _dt
+    a = _dt.date.fromisoformat(start)
+    b = _dt.date.fromisoformat(end)
+    try:
+        return search_contributions(client, term, start, end, log=log, **kw), []
+    except FetchError as exc:
+        if (b - a).days < min_days:
+            if log:
+                log("[gap] '{0}' {1}..{2}: {3}".format(term, start, end, exc.cause))
+            return [], [(start, end)]
+        mid = a + (b - a) // 2
+        left, gl = search_contributions_split(client, term, start, mid.isoformat(), log=log, min_days=min_days, **kw)
+        right, gr = search_contributions_split(client, term, (mid + _dt.timedelta(days=1)).isoformat(), end, log=log, min_days=min_days, **kw)
+        return left + right, gl + gr
+
+
 def search_contributions(client, term, start, end, page_size=100, max_pages=60, log=None):
     """All spoken contributions matching a term in a date range (both Houses,
     paged). Stops at max_pages and says so through `log`, because a silent cap

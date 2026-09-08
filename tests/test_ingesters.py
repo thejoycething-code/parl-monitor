@@ -592,3 +592,41 @@ class HansardSweepTermsTests(unittest.TestCase):
         for word in ("abortion", "assisted dying", "free speech", "marriage", "gender recognition"):
             self.assertIn(word, terms)
         self.assertEqual(len(terms), len({t.lower() for t in terms}))
+
+
+class HansardSplitSearchTests(unittest.TestCase):
+    """The Hansard search API answers 500 for some term-and-window pairs; halving the
+    window finds the slices that work (2026-09-08: 'home education' 2019 failed for the
+    year and for July, answered for January-March)."""
+
+    def _client(self, bad_ranges):
+        from src.http import FetchError
+        calls = []
+
+        class C:
+            def get_json(self, url, feed, slug):
+                import re as _re
+                a, b = _re.search(r"startDate=([\d-]+)&queryParameters.endDate=([\d-]+)", url).groups()
+                calls.append((a, b))
+                for ba, bb in bad_ranges:
+                    if a <= ba and bb <= b:          # any window containing a bad day fails
+                        raise FetchError(url, feed, slug, 1, "HTTP Error 500")
+                return {"Results": [{"ContributionExtId": "x-%s" % a, "MemberId": 1, "SittingDate": a + "T00:00:00",
+                                     "ContributionText": "abortion", "DebateSection": "D", "DebateSectionExtId": "s"}]}
+        return C(), calls
+
+    def test_a_bad_week_costs_a_week_not_the_year(self):
+        client, calls = self._client([("2019-07-09", "2019-07-09")])
+        logs = []
+        got, gaps = hansard.search_contributions_split(client, "home education", "2019-01-01", "2019-12-31", log=logs.append)
+        self.assertEqual(len(gaps), 1)
+        a, b = gaps[0]
+        self.assertLessEqual((__import__("datetime").date.fromisoformat(b) - __import__("datetime").date.fromisoformat(a)).days, 7)
+        self.assertTrue(any(l.startswith("[gap] 'home education'") for l in logs))
+        self.assertGreater(len(got), 5)                      # the rest of the year still arrived
+        self.assertLess(len(calls), 40)                      # bisection, not a day-by-day crawl
+
+    def test_a_good_window_is_one_call(self):
+        client, calls = self._client([])
+        got, gaps = hansard.search_contributions_split(client, "abortion", "2019-01-01", "2019-12-31")
+        self.assertEqual((len(got), gaps, len(calls)), (1, [], 1))

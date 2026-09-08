@@ -77,15 +77,11 @@ def main():
     written, seen = 0, set()
     for term in terms:
         for w_from, w_to in year_windows(cutoff, end):
-            try:
-                # The list is hyphenated for the Written Questions API; Hansard
-                # wants the spoken form ("abortion-clinics" 0, "abortion
-                # clinics" 3). The weekly caller has done this since 2026-08-17;
-                # this tool predated the fix and kept the hyphen bug.
-                speeches = hansard.search_contributions(client, term, w_from, w_to, log=lambda m: print("  [cap] " + m))
-            except FetchError as exc:
-                print("  [gap] '{0}' {1}: {2}".format(term, w_from[:4], exc.cause))
-                continue
+            # A window the API refuses (HTTP 500 on some term-and-range pairs)
+            # is bisected down to a week, so a gap is days, not a year; each
+            # unfetched slice is printed as "[gap]". A page cap prints "[cap]".
+            speeches, _gaps = hansard.search_contributions_split(
+                client, term, w_from, w_to, log=lambda m: print("  " + (m if m.startswith("[gap]") else "[cap] " + m)))
             for s in speeches:
                 if not s.ext_id or s.ext_id in seen:
                     continue
