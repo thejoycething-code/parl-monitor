@@ -56,6 +56,30 @@ class CaptionTests(unittest.TestCase):
                 self.assertLessEqual(len(line), 30, line)
         self.assertEqual(" ".join(" ".join(c) for c in cards), text)     # nothing lost, nothing reordered
 
+    def test_gilberts_sentence_makes_two_line_cards_not_three(self):
+        cards = sc.chunk_caption("50% of responses to the Law Commission’s consultation called for a total ban on surrogacy in the UK. I fully support that ban.")
+        for card in cards:
+            self.assertLessEqual(len(card), 2, card)
+            for line in card:
+                self.assertLessEqual(len(line), 30, line)
+        self.assertEqual(" ".join(cards[-1]), "I fully support that ban.")
+
+    def test_a_long_sentence_breaks_at_its_clauses(self):
+        cards = sc.chunk_caption("We must also speak for the child who cannot speak for his or herself, and protect the woman who carries and gives birth to that child.")
+        texts = [" ".join(c) for c in cards]
+        self.assertTrue(any(t.endswith("herself,") for t in texts), texts)      # a card ends where the comma is
+        for card in cards:
+            self.assertLessEqual(len(card), 2, card)
+
+    def test_no_card_is_left_holding_two_orphaned_words(self):
+        for text in ("Compensation for genuine expenses of carrying a baby is one thing.",
+                     "and protect the woman who carries and gives birth to that child.",
+                     "which I believe should never be reduced to questions around contract and individual choice or intention."):
+            cards = sc.chunk_caption(text)
+            self.assertGreater(len(cards), 1)
+            for card in cards:
+                self.assertGreaterEqual(len(" ".join(card)), 20, (text, card))
+
     def test_a_card_never_crosses_a_sentence_boundary(self):
         cards = sc.chunk_caption("A child cannot consent. They cannot understand the promises adults have made.")
         self.assertEqual(" ".join(cards[0]), "A child cannot consent.")

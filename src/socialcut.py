@@ -125,7 +125,9 @@ def _balanced(words, n_lines, max_chars):
     target = total / float(n_lines)
     lines, cur, used = [], [], 0
     for w in words:
-        if cur and used + len(w) + 1 > target * (len(lines) + 1) and len(lines) < n_lines - 1:
+        goal = target * (len(lines) + 1)
+        # break before this word if that lands the line nearer its target than taking it would
+        if cur and len(lines) < n_lines - 1 and abs(used - goal) <= abs(used + len(w) + 1 - goal):
             lines.append(" ".join(cur))
             cur = []
         cur.append(w)
@@ -138,34 +140,79 @@ def _balanced(words, n_lines, max_chars):
     return lines
 
 
+_CLAUSE_END = re.compile(r"(?<=[,;:])\s+")
+
+
+def _fits(words, max_chars, max_lines):
+    return len(_wrap(words, max_chars)) <= max_lines
+
+
+def _card(words, max_chars, max_lines):
+    """Balance a group of words that is known to fit; keep the greedy wrap if balancing overruns."""
+    n = len(_wrap(words, max_chars))
+    lines = _balanced(words, n, max_chars)
+    return lines if len(lines) <= max_lines else _wrap(words, max_chars)
+
+
 def chunk_caption(text, max_chars=CAPTION_MAX_CHARS, max_lines=CAPTION_MAX_LINES):
-    """Cards of at most `max_lines` lines of at most `max_chars` characters. A card never
-    crosses a sentence boundary; a long sentence becomes several balanced cards."""
+    """Cards of at most `max_lines` lines of at most `max_chars` characters.
+
+    A card never crosses a sentence boundary. A sentence that needs more than one
+    card is split at its clauses (commas, semicolons, colons) so a card ends where a
+    breath would; a clause that is itself too long is split into pairs of lines."""
     cards = []
     for sentence in _SENTENCE_END.split((text or "").strip()):
-        words = sentence.split()
-        if not words:
+        if not sentence.split():
             continue
-        n_lines = len(_wrap(words, max_chars))
-        n_cards = int(math.ceil(n_lines / float(max_lines)))
-        if n_cards <= 1:
-            cards.append(_balanced(words, n_lines, max_chars))
-            continue
-        # split the sentence's words into n_cards groups of similar length, then balance each
-        total = sum(len(w) + 1 for w in words)
-        groups, cur, used = [], [], 0
-        for w in words:
-            if cur and used + len(w) + 1 > total * (len(groups) + 1) / float(n_cards) and len(groups) < n_cards - 1:
-                groups.append(cur)
+        clauses = [c.split() for c in _CLAUSE_END.split(sentence) if c.split()]
+        cur = []
+        for clause in clauses:
+            if cur and _fits(cur + clause, max_chars, max_lines):
+                cur = cur + clause
+                continue
+            if cur:
+                cards.append(_card(cur, max_chars, max_lines))
                 cur = []
-            cur.append(w)
-            used += len(w) + 1
+            if _fits(clause, max_chars, max_lines):
+                cur = clause
+                continue
+            # a clause too long for one card: spread its words evenly over as few cards as fit,
+            # so no card is left holding two orphaned words
+            groups = _even_groups(clause, max_chars, max_lines)
+            for g in groups[:-1]:
+                cards.append(_card(g, max_chars, max_lines))
+            cur = groups[-1]             # the clause's tail may still join the next clause
         if cur:
-            groups.append(cur)
-        for g in groups:
-            n = min(max_lines, len(_wrap(g, max_chars)))
-            cards.append(_balanced(g, n, max_chars))
+            cards.append(_card(cur, max_chars, max_lines))
     return cards
+
+
+def _even_groups(words, max_chars, max_lines):
+    """Split words into the fewest groups that each fit a card; among those, the split
+    whose longest group is shortest (so the cards are of a size)."""
+    n = len(words)
+    best = [None] * (n + 1)          # best[j] = (cards, longest_card_chars, cut) for words[:j]
+    best[0] = (0, 0, None)
+    for j in range(1, n + 1):
+        for i in range(j - 1, -1, -1):
+            group = words[i:j]
+            if not _fits(group, max_chars, max_lines):
+                if len(group) > 1:
+                    break
+                continue
+            if best[i] is None:
+                continue
+            cand = (best[i][0] + 1, max(best[i][1], len(" ".join(group))), i)
+            if best[j] is None or cand[:2] < best[j][:2]:
+                best[j] = cand
+        if best[j] is None:          # a single word longer than a line: let it stand alone
+            best[j] = (best[j - 1][0] + 1, max(best[j - 1][1], len(words[j - 1])), j - 1)
+    groups, j = [], n
+    while j > 0:
+        i = best[j][2]
+        groups.append(words[i:j])
+        j = i
+    return groups[::-1]
 
 
 def card_times(words, cards, passage):
