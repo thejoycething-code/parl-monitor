@@ -6,6 +6,7 @@
     python3 tools/debate_pack.py --pack data/packs/<folder> --apply             # after filling checklist.md
     python3 tools/debate_pack.py --pack data/packs/<folder> --download [--quality 576]   # clips of confirmed speakers
     python3 tools/debate_pack.py --pack data/packs/<folder> --download-debate --from 16:30 --to 18:00   # the whole debate, one file
+    python3 tools/debate_pack.py --pack data/packs/<folder> --cut cuts.md      # cut '## Name' passages at their words (needs the whole-debate file)
 
 Footage needs yt-dlp (pip install --user yt-dlp) and an ffmpeg (pip install
 --user imageio-ffmpeg); both are found automatically. The sitting's footage is found through
@@ -221,6 +222,40 @@ def download(args):
     return 0
 
 
+def cut_passages(args):
+    """--cut cuts.md: transcribe the pack's whole-debate recording once, then
+    cut each '## Name' passage in the file at its words -> clips/final/."""
+    from src import alignclip
+    yt, ff = tools()
+    clips = os.path.join(args.pack, "clips")
+    whole = sorted(f for f in os.listdir(clips) if f.startswith("00-whole-debate") and f.endswith(".mp4")) if os.path.isdir(clips) else []
+    if not whole:
+        print("no whole-debate recording in clips/: run --download-debate --from HH:MM --to HH:MM first")
+        return 1
+    media = os.path.join(clips, whole[-1])
+    words = alignclip.transcribe(media, os.path.join(clips, "whole-debate.wav"), ff,
+                                 words_json=os.path.join(clips, "whole-debate.words.json"))
+    final = os.path.join(clips, "final"); os.makedirs(final, exist_ok=True)
+    sheet = ["# Final cuts", "", "*Cut at the first and last word of each passage, from a word-level transcript of the recording. "
+             "Score is the transcript's agreement with the passage (1.0 = every word heard as written).*", ""]
+    for n, (name, passage) in enumerate(alignclip.parse_cuts(open(args.cut, encoding="utf-8").read()), 1):
+        hit = alignclip.align(words, passage)
+        if not hit:
+            print("  {0}: passage NOT FOUND in the recording; not cut".format(name)); sheet.append("## {0}. {1} — NOT FOUND\n".format(n, name)); continue
+        a, b, ratio = hit
+        out = os.path.join(final, "{0:02d}-{1}.mp4".format(n, dp.slug(name)))
+        alignclip.cut(media, a, b, out, ff)
+        print("  {0}: {1:.1f}s at {2} in the recording (match {3:.2f}) -> {4}".format(name, b - a, alignclip_hms(a), ratio, os.path.relpath(out, ROOT)))
+        sheet.append("## {0}. {1} — {2:.0f}s, from {3} in the recording (match {4:.2f})\n\n> {5}\n".format(n, name, b - a, alignclip_hms(a), ratio, passage))
+    open(os.path.join(args.pack, "final-cuts.md"), "w", encoding="utf-8").write("\n".join(sheet))
+    return 0
+
+
+def alignclip_hms(s):
+    s = int(s)
+    return "{0:02d}:{1:02d}:{2:02d}".format(s // 3600, (s % 3600) // 60, s % 60)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date"); ap.add_argument("--find"); ap.add_argument("--debate")
@@ -229,7 +264,10 @@ def main():
     ap.add_argument("--pack"); ap.add_argument("--apply", action="store_true")
     ap.add_argument("--download", action="store_true"); ap.add_argument("--download-debate", action="store_true")
     ap.add_argument("--from", dest="frm"); ap.add_argument("--to"); ap.add_argument("--quality", default="576", help="height cap: 180, 360, 576, 1080")
+    ap.add_argument("--cut", help="a markdown file of '## Name' + passage: cut each at its words from the whole-debate recording")
     args = ap.parse_args()
+    if args.pack and args.cut:
+        return cut_passages(args)
     if args.pack and (args.download or args.download_debate):
         return download(args)
     if args.pack and args.apply:
