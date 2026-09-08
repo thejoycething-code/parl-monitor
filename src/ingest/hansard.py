@@ -78,11 +78,32 @@ def spoken_form(term):
 NO_RELAX = frozenset()
 
 
-def search_contributions(client, term, start, end, page_size=100, max_pages=20):
+def sweep_terms(settings):
+    """Every term the spoken sweep searches, in spoken form and in order: the PQ
+    list (relaxed) followed by settings.hansard_extra_terms, without repeats.
+
+    The PQ list is shaped for the Written Questions API and leaves off the plain
+    words of our issues; reusing it alone for Hansard cost the ledger 37 of the 38
+    abortion speeches of 9 July 2019 (found 2026-09-08). The taxonomy gate on each
+    speech's full text carries the precision, so the broad words belong here."""
+    out, seen = [], set()
+    for term in list(settings.get("pq_sweep_terms") or []) + list(settings.get("hansard_extra_terms") or []):
+        spoken = spoken_form(term)
+        key = spoken.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(spoken)
+    return out
+
+
+def search_contributions(client, term, start, end, page_size=100, max_pages=60, log=None):
     """All spoken contributions matching a term in a date range (both Houses,
-    paged)."""
+    paged). Stops at max_pages and says so through `log`, because a silent cap
+    is a silent hole: the broad Hansard-only terms ("immigration", "marriage")
+    can pass 2,000 hits in a busy year, which is where the old cap of 20 sat."""
     out, skip = [], 0
-    for _ in range(max_pages):
+    for page in range(max_pages):
         url = ("{0}/search/contributions/Spoken.json?queryParameters.searchTerm={1}"
                "&queryParameters.startDate={2}&queryParameters.endDate={3}"
                "&queryParameters.skip={4}&queryParameters.take={5}").format(
@@ -99,4 +120,7 @@ def search_contributions(client, term, start, end, page_size=100, max_pages=20):
         if len(batch) < page_size:
             break
         skip += page_size
+        if page == max_pages - 1 and log:
+            log("hansard search '{0}' {1}..{2}: stopped at the {3}-result cap; results beyond it were not fetched".format(
+                term, start, end, page_size * max_pages))
     return out

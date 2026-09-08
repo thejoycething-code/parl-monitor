@@ -864,12 +864,12 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
         and which way" (Christopher, 2026-09-07)."""
         report_start = week_start - datetime.timedelta(days=7)
         report_end = week_start - datetime.timedelta(days=1)
-        for term in (settings.get("pq_sweep_terms") or []):
+        for term in hansard.sweep_terms(settings):
             try:
-                # The list is hyphenated for the Written Questions API's
-                # benefit; Hansard wants the spoken form (hansard.spoken_form).
+                # PQ terms in spoken form plus the Hansard-only broad words
+                # (settings.hansard_extra_terms); see hansard.sweep_terms.
                 speeches = hansard.search_contributions(
-                    client, hansard.spoken_form(term),
+                    client, term,
                     report_start.isoformat(), report_end.isoformat())
             except FetchError as exc:
                 record_gap(conn, edition, "hansard",

@@ -243,6 +243,31 @@ division_sweep_terms:
   - freedom of speech
   - puberty
 
+# Extra terms for the Hansard SPOKEN sweep only (weekly and backfill). The
+# PQ list above is tuned for the Written Questions API, which matches loosely,
+# so the plain words of our issues were left off it and the Hansard sweep,
+# which reused that list, never searched for "abortion" at all: on 9 July 2019
+# the API held 38 abortion speeches in the NI Executive Formation debate and
+# the ledger got one (found 2026-09-08). Hansard's precision comes from the
+# taxonomy gate on the full speech text, so broad words are safe here.
+hansard_extra_terms:
+  - abortion
+  - assisted dying
+  - Terminally Ill Adults
+  - online safety
+  - illegal migration
+  - immigration
+  - asylum
+  - gender recognition
+  - conversion therapy
+  - home education
+  - free speech
+  - freedom of speech
+  - marriage
+  - puberty
+  - migration
+  - Nationality and Borders
+
 # Partner site root. The weekly edition links its written-questions section
 # here for the full detail, so the link must be absolute: it is read from a
 # Slack canvas and an Asana task as well as from the site itself.

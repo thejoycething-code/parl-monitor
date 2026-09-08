@@ -570,3 +570,25 @@ class HansardArchiveSlugTests(unittest.TestCase):
         hansard.search_contributions(client, "digital ID",
                                      "2026-08-24", "2026-08-30")
         self.assertEqual(len(set(client.slugs)), 2)
+
+
+class HansardSweepTermsTests(unittest.TestCase):
+    """The spoken sweep reused the PQ list and so never searched for 'abortion':
+    37 of 38 abortion speeches on 9 July 2019 never reached the ledger (2026-09-08)."""
+
+    def test_pq_terms_relaxed_then_extras_without_repeats(self):
+        terms = hansard.sweep_terms({"pq_sweep_terms": ["abortion-clinics", "assisted-dying", "surrogacy"],
+                                     "hansard_extra_terms": ["abortion", "assisted dying", "Surrogacy", "marriage"]})
+        self.assertEqual(terms, ["abortion clinics", "assisted dying", "surrogacy", "abortion", "marriage"])
+
+    def test_missing_extras_is_just_the_pq_list(self):
+        self.assertEqual(hansard.sweep_terms({"pq_sweep_terms": ["home-education"]}), ["home education"])
+        self.assertEqual(hansard.sweep_terms({}), [])
+
+    def test_live_settings_now_search_for_the_plain_words(self):
+        import yaml
+        settings = yaml.safe_load(open(os.path.join(ROOT, "config", "settings.yaml"), encoding="utf-8"))
+        terms = hansard.sweep_terms(settings)
+        for word in ("abortion", "assisted dying", "free speech", "marriage", "gender recognition"):
+            self.assertIn(word, terms)
+        self.assertEqual(len(terms), len({t.lower() for t in terms}))

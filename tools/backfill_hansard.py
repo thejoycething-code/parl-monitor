@@ -50,17 +50,17 @@ def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
-    terms = load_settings().get("pq_sweep_terms") or []
+    terms = hansard.sweep_terms(load_settings())          # PQ terms in spoken form + hansard_extra_terms
     # --terms a,b,c restricts the sweep. Without it a backfill for five new
-    # terms would re-sweep all 44, and although record_event is idempotent the
-    # re-fetch itself is an hour of API time for nothing.
+    # terms would re-sweep all of them, and although record_event is idempotent
+    # the re-fetch itself is an hour of API time for nothing.
     if "--terms" in sys.argv:
-        wanted = set(sys.argv[sys.argv.index("--terms") + 1].split(","))
-        unknown = wanted - set(terms)
+        wanted = {hansard.spoken_form(t).lower() for t in sys.argv[sys.argv.index("--terms") + 1].split(",")}
+        unknown = wanted - {t.lower() for t in terms}
         if unknown:
-            print("not in pq_sweep_terms: {0}".format(sorted(unknown)))
+            print("not in pq_sweep_terms or hansard_extra_terms: {0}".format(sorted(unknown)))
             return
-        terms = [t for t in terms if t in wanted]
+        terms = [t for t in terms if t.lower() in wanted]
     cache = {}
 
     def resolve(member_id):
@@ -82,8 +82,7 @@ def main():
                 # wants the spoken form ("abortion-clinics" 0, "abortion
                 # clinics" 3). The weekly caller has done this since 2026-08-17;
                 # this tool predated the fix and kept the hyphen bug.
-                speeches = hansard.search_contributions(
-                    client, hansard.spoken_form(term), w_from, w_to)
+                speeches = hansard.search_contributions(client, term, w_from, w_to, log=lambda m: print("  [cap] " + m))
             except FetchError as exc:
                 print("  [gap] '{0}' {1}: {2}".format(term, w_from[:4], exc.cause))
                 continue
