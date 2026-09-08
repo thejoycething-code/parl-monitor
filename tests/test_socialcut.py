@@ -94,6 +94,41 @@ class CaptionTests(unittest.TestCase):
         self.assertEqual(times[1], (1.8, 2.9))
 
 
+class DraftTests(unittest.TestCase):
+    QUOTES = """# Quotes: Surrogacy (2026-09-07)
+
+*Whole sentences...*
+
+## Jim Shannon (DUP, Strangford)
+
+> Commercial surrogacy is illegal in the UK but permitted abroad.
+
+— [Hansard](https://example)
+
+> A second quote that must not be used.
+
+## Rebecca Smith (Con, South West Devon)
+
+> The legal process provides important protections.
+
+## Nobody Quoted (Lab, Nowhere)
+"""
+
+    def test_draft_takes_first_quote_per_confirmed_speaker_in_speaking_order_and_parses_back(self):
+        text = sc.draft_sequence(self.QUOTES, "Surrogacy", "2026-09-07")
+        entries = sc.parse_sequence(text)
+        self.assertEqual([e["name"] for e in entries], ["Jim Shannon MP", "Rebecca Smith MP"])
+        self.assertEqual(entries[0]["party"], "DUP · Strangford")
+        self.assertEqual(entries[1]["party"], "Conservative · South West Devon")
+        self.assertEqual(entries[0]["passage"], "Commercial surrogacy is illegal in the UK but permitted abroad.")
+        self.assertIn("DRAFT", text)
+
+    def test_draft_with_nothing_confirmed_says_what_to_do(self):
+        text = sc.draft_sequence("# Quotes\n", "X", "2026-01-01")
+        self.assertEqual(sc.parse_sequence(text), [])
+        self.assertIn("checklist.md", text)
+
+
 class GeometryTests(unittest.TestCase):
     def test_crop_anchors_and_pixel_centres(self):
         self.assertEqual(sc.crop_x("centre"), 656)

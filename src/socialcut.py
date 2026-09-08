@@ -426,6 +426,47 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
     return items
 
 
+PARTY = {"Con": "Conservative", "Lab": "Labour", "Lab/Co-op": "Labour", "LD": "Liberal Democrat", "DUP": "DUP", "SNP": "SNP",
+         "Green": "Green", "Ind": "Independent", "PC": "Plaid Cymru", "Ref": "Reform UK", "UUP": "UUP", "SDLP": "SDLP", "Alliance": "Alliance", "TUV": "TUV"}
+_QUOTE_HEAD = re.compile(r"^## (.+?)\s*\((.+?),\s*(.+?)\)\s*$")
+
+
+def draft_sequence(quotes_md, title, date, limit=8):
+    """A first sequence.md from quotes.md: the confirmed-onside speakers in speaking
+    order, each with their first quote. A starting point to reorder and trim, never
+    the finished thing; the campaigner chooses the order and the words."""
+    entries, cur = [], None
+    for raw in (quotes_md or "").splitlines():
+        m = _QUOTE_HEAD.match(raw.strip())
+        if m:
+            cur = {"name": m.group(1).strip(), "party": PARTY.get(m.group(2).strip(), m.group(2).strip()), "seat": m.group(3).strip(), "quote": ""}
+            entries.append(cur)
+        elif cur is not None and raw.startswith(">") and not cur["quote"]:
+            cur["quote"] = raw.lstrip("> ").strip()
+    entries = [e for e in entries if e["quote"]][:limit]
+    out = ["# Sequence: %s, %s" % (title, date), "",
+           "DRAFT written by tools/social_cut.py --draft from quotes.md: speakers confirmed onside in checklist.md, in speaking order, first quote each.",
+           "Reorder, cut to about six, trim each quote to one or two sentences (twenty seconds at most), and change the words to what was SPOKEN once the report shows them.",
+           "Add `crop: left|centre|right|<x>` where the contact sheet shows a speaker off-centre. Delete these notes when done.", ""]
+    for e in entries:
+        name = e["name"] if e["name"].endswith(" MP") or e["name"].startswith(("Lord", "Baroness", "The")) else e["name"] + " MP"
+        out += ["## %s" % name, "party: %s · %s" % (e["party"], e["seat"]), "> %s" % e["quote"], ""]
+    if not entries:
+        out += ["(quotes.md has no confirmed speakers yet: fill ONSIDE: yes/no in checklist.md, run tools/debate_pack.py --pack F --apply, then --draft again.)", ""]
+    return "\n".join(out)
+
+
+def transcribe_whole(pack_dir, ff, whisper_model="small.en", log=print):
+    """Word timings for the whole-debate recording (clips/00-whole-debate-*.mp4),
+    cached as clips/whole-debate.words.json, so passages can be found in time."""
+    clips = os.path.join(pack_dir, "clips")
+    media = sorted(f for f in os.listdir(clips) if f.startswith("00-whole-debate") and f.endswith(".mp4")) if os.path.isdir(clips) else []
+    if not media:
+        raise SystemExit("no clips/00-whole-debate-*.mp4: run tools/debate_pack.py --pack F --download-debate --from HH:MM --to HH:MM first")
+    return alignclip.transcribe(os.path.join(clips, media[-1]), os.path.join(clips, "whole-debate.wav"), ff, model_size=whisper_model,
+                                words_json=os.path.join(clips, "whole-debate.words.json"), log=log)
+
+
 def write_report(pack_dir, report, total):
     lines = ["# Social cut", "",
              "*Built by tools/social_cut.py from sequence.md. Captions are the words as spoken; correct the passage in sequence.md if what was heard differs, then re-run with `--render`.*", "",

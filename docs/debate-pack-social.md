@@ -11,9 +11,12 @@ the writer start from these.
 2. Confirm who is onside in `checklist.md` (the pass's reading is never the verdict),
    then `--apply`.
 3. Download the whole debate once and transcribe it, so every later cut is word-exact:
-   `--download-debate --from HH:MM --to HH:MM`, then `--cut cuts.md` (which caches
-   `clips/whole-debate.words.json`).
-4. Write `sequence.md` and run `tools/social_cut.py --pack F`.
+   `tools/debate_pack.py --pack F --download-debate --from HH:MM --to HH:MM`, then
+   `tools/social_cut.py --pack F --transcribe` (caches `clips/whole-debate.words.json`).
+4. `tools/social_cut.py --pack F --draft` writes a first `sequence.md` from quotes.md
+   (confirmed-onside speakers in speaking order, first quote each). The template is
+   `docs/sequence-template.md`. Reorder, trim to about six, then run
+   `tools/social_cut.py --pack F`.
 5. Check `clips/final/social-cut-contact-sheet.jpg` (crops) and `social-cut.md`
    (the words heard). Correct `sequence.md` and re-run with `--render`.
 6. Write the article from `speeches.md` to the brief below.
