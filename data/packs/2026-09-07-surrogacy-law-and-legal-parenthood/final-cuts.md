@@ -16,9 +16,9 @@
 
 > I cannot support automatically recognising intended parents as the legal parents from birth. The six-week period after birth, the mother’s consent and independent judicial oversight are not antiquated obstacles to modern families, but protections for women and children—important safeguards that I believe are worth keeping.
 
-## 4. Shivani Raja — 18s, from 00:25:35 in the recording (match 0.95)
+## 4. Shivani Raja — 21s, from 00:26:42 in the recording (match 0.91) — replaced 8 Sept
 
-> We should begin with the most important person in this debate: the child. A child cannot consent to a surrogacy arrangement, and they cannot understand the promises adults have made. They cannot know what might happen if circumstances change—and circumstances can change.
+> That six-week period is not a pointless delay; it is a breathing space and a safeguard. It recognises that giving birth to a child is not simply the completion of a contract, but a profound physical and emotional event, and that the law should allow time for circumstances and feelings to be properly considered.
 
 ## 5. Rebecca Smith — start set by hand to the spoken opening ('International surrogacy takes place...'; Hansard's 'It should concern us all that' was not spoken)
 
@@ -30,6 +30,20 @@
 
 > Commercial surrogacy is illegal in the UK but permitted in some countries abroad, leading many UK couples to circumvent the law by using a surrogate abroad. That leaves room for exploitation, as the UK Government cannot control the protections available to those surrogate mothers. I ask the Minister what is being done to close those loopholes. We should legislate, if necessary, to ensure that protection is in place.
 
-## 7. Dr Neil Shastri-Hurst — 23s, from 01:06:59 in the recording (match 0.89)
+## 7. Dr Neil Shastri-Hurst — 20s, from 01:11:16 in the recording (match 1.00) — replaced 8 Sept
 
-> Nobody doubts the love that such parents have for their children. Families formed through surrogacy deserve dignity, certainty and respect. However, our job in this House is to consider more than the wishes of the adults involved. We must speak for the child who cannot speak for themselves. We must also protect the woman who carries and gives birth to that child.
+> Compassion for intended parents cannot require Parliament to treat the woman who gives birth as a temporary party to somebody else’s story, nor should this be presented as a contest between traditional and modern families. Recognising different kinds of family does not require us to reduce the rights of the woman who carries the child.
+
+## 8. Dr Neil Shastri-Hurst (closing line) — 10s, from 01:16:19 in the recording (match 0.96)
+
+> In surrogacy as in every other part of family law, the wishes of the adults are important but the welfare of children must always come first.
+
+## Sixty-second cut — `clips/final/sixty-second-cut.mp4`, 61.7s
+
+Hard cuts, no captions or music. Three voices, both main parties, one line of argument: the child is not a commodity, the six-week period is the safeguard, the child's welfare comes first.
+
+1. Jonathan Hinder (Lab) — "Pregnant women are not factories … which it should never be." 31s
+2. Shivani Raja (Con) — "That six-week period is not a pointless delay … properly considered." 21s
+3. Dr Neil Shastri-Hurst (Con) — "In surrogacy as in every other part of family law … must always come first." 10s
+
+Swaps that also land near sixty seconds: Hinder + Shastri-Hurst (07) + close = 61s; Shannon + Smith + close = 63s; Yemm + Raja + close = 60s.
