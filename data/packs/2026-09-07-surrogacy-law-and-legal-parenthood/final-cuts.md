@@ -59,3 +59,5 @@ Captioned vertical: `clips/final/sixty-second-cut-vertical-captioned.mp4`, with 
 (End card removed 8 Sept at Christopher's word; the file is kept in `clips/final/sixty/07-end-card.mp4` in case it is wanted.)
 
 The earlier three-voice assembly (Hinder 31s, Raja six-week 21s, Shastri-Hurst close 10s) is kept as `clips/final/sixty-second-cut-three-voices.mp4`.
+
+**Adopted as defaults (8 Sept, evening).** The whole flow above is now `tools/social_cut.py` driven by `sequence.md` (see docs/debate-pack-social.md), and the article defaults are docs/debate-article-brief.md. Re-running the tool on this pack reproduced the cut: `clips/final/social-cut-*.mp4`, `social-cut.ass`, `social-cut.md`.
