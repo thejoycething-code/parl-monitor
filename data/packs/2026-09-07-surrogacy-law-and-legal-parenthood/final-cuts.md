@@ -38,12 +38,16 @@
 
 > In surrogacy as in every other part of family law, the wishes of the adults are important but the welfare of children must always come first.
 
-## Sixty-second cut — `clips/final/sixty-second-cut.mp4`, 61.7s
+## Sixty-second cut — `clips/final/sixty-second-cut.mp4`, 58s
 
-Hard cuts, no captions or music. Three voices, both main parties, one line of argument: the child is not a commodity, the six-week period is the safeguard, the child's welfare comes first.
+The sequence proposed on 7 Sept: six short excerpts, hard cuts, hook first, cross-party without saying so until the card. The parts are in `clips/final/sixty/`. No captions or lower thirds yet; captions must use the Hansard wording, and the end card can be replaced with your own.
 
-1. Jonathan Hinder (Lab) — "Pregnant women are not factories … which it should never be." 31s
-2. Shivani Raja (Con) — "That six-week period is not a pointless delay … properly considered." 21s
-3. Dr Neil Shastri-Hurst (Con) — "In surrogacy as in every other part of family law … must always come first." 10s
+1. Jonathan Hinder (Lab) — "Pregnant women are not factories, and babies are not goods to be ordered." 6s
+2. Steve Yemm (Lab) — Hansard: "In our society, some things should never be reduced to questions of contract, individual choice or intention, and motherhood is certainly one of them." Spoken: "There are things in our society, Mr Pritchard, which I believe should never be reduced to questions around contract and individual choice or intention, and I'm certain that motherhood is one of those." 16s
+3. Shivani Raja (Con) — "A child cannot consent to a surrogacy arrangement, and they cannot understand the promises adults have made." 7s
+4. Jim Shannon (DUP) — "Compensation for genuine expenses incurred in carrying a baby is one thing; paying a woman for carrying a baby is quite another." 8s
+5. Tracy Gilbert (Lab) — "Fifty per cent of responses to the Law Commission's consultation called for a total ban on surrogacy in the UK. I fully support such a ban." Spoken: "...I fully support that ban." 8s
+6. Dr Neil Shastri-Hurst (Con) — Hansard: "We must speak for the child who cannot speak for themselves. We must also protect the woman who carries and gives birth to that child." Spoken as one sentence: "We must also speak for the child who cannot speak for his or herself, and protect the woman who carries and gives birth to that child." 9s
+7. End card, black, 5s — "MPs from Labour, the Conservatives and the DUP / in one afternoon. Westminster Hall, 7 September 2026". Placeholder; add the action line only after checking the Parliamentary Recording Unit terms.
 
-Swaps that also land near sixty seconds: Hinder + Shastri-Hurst (07) + close = 61s; Shannon + Smith + close = 63s; Yemm + Raja + close = 60s.
+The earlier three-voice assembly (Hinder 31s, Raja six-week 21s, Shastri-Hurst close 10s) is kept as `clips/final/sixty-second-cut-three-voices.mp4`.
