@@ -11,6 +11,41 @@ this ledger, the same digest-as-byproduct principle as everything else.
 from __future__ import annotations
 
 import json
+import sqlite3
+import time
+
+
+def _locked(exc):
+    return isinstance(exc, sqlite3.OperationalError) and "locked" in str(exc).lower()
+
+
+def write_with_retry(conn, work, attempts=10, first_wait=0.25, log=None):
+    """Run `work()` (one write and, usually, its commit), retrying when SQLite says
+    the database is locked.
+
+    busy_timeout alone did not save the 2017 Hansard backfill on 2026-09-08: it
+    died with "database is locked" while the PQ backfill wrote alongside it. That
+    is the deadlock case SQLite's busy handler refuses to wait on -- a connection
+    inside a transaction wants to write while another already holds the reserved
+    lock -- so the cure is to roll back, release what we hold, wait, and try again.
+    Ten attempts with doubling waits give about four minutes, and every wait is
+    logged so a slow neighbour is visible rather than silent.
+    """
+    wait = first_wait
+    for attempt in range(1, attempts + 1):
+        try:
+            return work()
+        except sqlite3.OperationalError as exc:
+            if not _locked(exc) or attempt == attempts:
+                raise
+            try:
+                conn.rollback()
+            except sqlite3.Error:
+                pass
+            if log:
+                log("database locked; retry {0}/{1} in {2:.1f}s".format(attempt, attempts, wait))
+            time.sleep(wait)
+            wait = min(wait * 2, 60.0)
 
 
 def ensure_index(conn):
@@ -50,17 +85,25 @@ def record_event(conn, member_id, date, kind, ref, line, areas=None, commit=True
     commit=False lets bulk writers (a 600-voter division) batch the fsync;
     the caller commits once per unit of work.
     """
-    ensure_index(conn)
-    conn.execute(
-        "INSERT INTO mp_events (member_id, date, kind, ref, line, areas, excerpt) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?) "
-        "ON CONFLICT(member_id, kind, ref) DO UPDATE SET "
-        "date=excluded.date, line=excluded.line, areas=excluded.areas, "
-        "excerpt=COALESCE(excluded.excerpt, mp_events.excerpt)",
-        (member_id, date, kind, ref, (line or "")[:200],
-         json.dumps(sorted(areas)) if areas else None, excerpt))
+    def _write():
+        ensure_index(conn)                                 # a write too: it must sit inside the retry
+        conn.execute(
+            "INSERT INTO mp_events (member_id, date, kind, ref, line, areas, excerpt) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?) "
+            "ON CONFLICT(member_id, kind, ref) DO UPDATE SET "
+            "date=excluded.date, line=excluded.line, areas=excluded.areas, "
+            "excerpt=COALESCE(excluded.excerpt, mp_events.excerpt)",
+            (member_id, date, kind, ref, (line or "")[:200],
+             json.dumps(sorted(areas)) if areas else None, excerpt))
+        if commit:
+            conn.commit()
+
+    # a batched caller (commit=False) owns the transaction and its retry; a
+    # rollback here would silently drop the rows it has already queued
     if commit:
-        conn.commit()
+        write_with_retry(conn, _write)
+    else:
+        _write()
 
 
 def record_votes(conn, division, voters, prefix, areas=None):
@@ -88,7 +131,7 @@ def record_votes(conn, division, voters, prefix, areas=None):
                      areas=areas, commit=False,
                      excerpt=getattr(division, "notes", None))
         n += 1
-    conn.commit()
+    write_with_retry(conn, conn.commit)
     return n
 
 

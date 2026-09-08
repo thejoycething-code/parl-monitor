@@ -5,6 +5,7 @@ import os
 import sqlite3
 import sys
 import unittest
+import unittest.mock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -109,3 +110,56 @@ class AreaNamesTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LockedDatabaseTests(unittest.TestCase):
+    """The 2017 Hansard backfill died with 'database is locked' beside the PQ backfill
+    (2026-09-08). A write now waits out a neighbour's transaction instead."""
+
+    def setUp(self):
+        import tempfile
+        self.dir = tempfile.mkdtemp()
+        self.path = os.path.join(self.dir, "t.db")
+        db.init_db(db.connect(self.path)).close()
+
+    def _open(self):
+        conn = sqlite3.connect(self.path, timeout=0, check_same_thread=False)   # no busy wait: the retry must do the work
+        conn.row_factory = sqlite3.Row
+        return conn
+
+    def test_record_event_waits_for_a_neighbours_transaction_to_finish(self):
+        import threading
+        holder = self._open()
+        holder.execute("BEGIN IMMEDIATE")                  # holds the reserved lock
+        holder.execute("INSERT INTO members (id, name) VALUES (1, 'A')")
+        writer = self._open()
+        threading.Timer(0.6, holder.commit).start()        # released while the writer is retrying
+        waits = []
+        real_sleep = intel.time.sleep                     # the patch below replaces the module's sleep itself
+        with unittest.mock.patch.object(intel.time, "sleep", side_effect=lambda s: (waits.append(s), real_sleep(min(s, 0.3)))):
+            intel.record_event(writer, 7, "2019-07-09", "debate", "hansard:X", "Spoke: test", areas=[1])
+        self.assertTrue(waits, "the write should have had to wait at least once")
+        self.assertEqual(writer.execute("SELECT count(*) FROM mp_events WHERE ref='hansard:X'").fetchone()[0], 1)
+        holder.close(); writer.close()
+
+    def test_gives_up_after_the_last_attempt_and_leaves_the_error_visible(self):
+        holder = self._open()
+        holder.execute("BEGIN IMMEDIATE")
+        holder.execute("INSERT INTO members (id, name) VALUES (2, 'B')")
+        writer = self._open()
+        with unittest.mock.patch.object(intel.time, "sleep"):
+            with self.assertRaises(sqlite3.OperationalError):
+                intel.write_with_retry(writer, lambda: (writer.execute("INSERT INTO members (id, name) VALUES (3, 'C')"), writer.commit()), attempts=3)
+        holder.rollback(); holder.close(); writer.close()
+
+    def test_other_errors_are_not_retried(self):
+        conn = self._open()
+        calls = []
+
+        def bad():
+            calls.append(1)
+            conn.execute("INSERT INTO no_such_table VALUES (1)")
+        with self.assertRaises(sqlite3.OperationalError):
+            intel.write_with_retry(conn, bad)
+        self.assertEqual(len(calls), 1)
+        conn.close()
