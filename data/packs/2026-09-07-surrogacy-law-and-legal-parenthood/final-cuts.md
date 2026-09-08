@@ -50,6 +50,8 @@ The sequence proposed on 7 Sept: six short excerpts, hard cuts, hook first, cros
 6. Dr Neil Shastri-Hurst (Con) — Hansard: "We must speak for the child who cannot speak for themselves. We must also protect the woman who carries and gives birth to that child." Spoken as one sentence: "We must also speak for the child who cannot speak for his or herself, and protect the woman who carries and gives birth to that child." 9s
 Vertical version for social: `clips/final/sixty-second-cut-vertical.mp4`, 1080x1920, the 16:9 shot full-width at centre over a blurred, darkened fill; the bands above and below are free for captions and a lower third.
 
+Captioned vertical: `clips/final/sixty-second-cut-vertical-captioned.mp4`, with the subtitle track kept as `sixty-second-cut-vertical.ass` (editable: Arial, captions at 64px in the lower band, name plates for the first five seconds of each excerpt). Captions follow the SPOKEN words, not Hansard, because a caption that differs from the audio reads as a misquote; the article uses Hansard wording.
+
 (End card removed 8 Sept at Christopher's word; the file is kept in `clips/final/sixty/07-end-card.mp4` in case it is wanted.)
 
 The earlier three-voice assembly (Hinder 31s, Raja six-week 21s, Shastri-Hurst close 10s) is kept as `clips/final/sixty-second-cut-three-voices.mp4`.
