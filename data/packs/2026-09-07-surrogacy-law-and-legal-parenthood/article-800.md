@@ -16,17 +16,17 @@ Eight MPs spoke against the change, against four who backed reform along the lin
 
 > "Pregnant women are not factories, and babies are not goods to be ordered. I believe this is crossing an ethical line, where human life is treated as a business transaction. When a newborn is handed over not because of a tragedy, but because that separation was arranged before the child was even conceived, that child has become a commodity, which it should never be."
 
-He told the House about Marie Anne, a British surrogate who handed over the baby she had carried in a hospital car park and has since been diagnosed with complex PTSD. "They had the baby. They were happy. They didn't need me anymore so they told me to go home."
+He recalled Marie Anne, a British surrogate told to go home from the hospital once the baby was handed over: "The damage done to me will never be repaired."
 
-[Steve Yemm](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-0AC09DA4-FA0A-4E4D-98F3-C557FB770E14), Labour MP for Mansfield, said the question was "whether the woman who has carried and given birth to a child should lose her legal status as that child's mother from the moment of birth. I do not believe that she should."
+[Steve Yemm](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-0AC09DA4-FA0A-4E4D-98F3-C557FB770E14), Labour MP for Mansfield, said the question was "whether the woman who has carried and given birth to a child should lose her legal status as that child's mother from the moment of birth".
 
 > "In our society, some things should never be reduced to questions of contract, individual choice or intention, and motherhood is certainly one of them. Pregnancy cannot simply be a service provided by one person for another."
 
-The six-week period, the mother's consent and judicial oversight, he said, "are not antiquated obstacles to modern families, but protections for women and children—important safeguards that I believe are worth keeping".
+The six-week period and the mother's consent, he said, are "important safeguards that I believe are worth keeping".
 
 ## "A market in all but name"
 
-[Rebecca Smith](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-17E905E2-9A04-4FF9-9187-8C9C19329C08), Conservative MP for South West Devon, called the petition's framing of the parental order process as an obstacle "fundamentally misleading", noting that surrogacy is strictly limited or banned in France, Germany, Italy, Spain, Sweden and Switzerland. With "expenses" paid to surrogates now reaching £25,000, she asked "whether we are still talking about altruism or whether we are creating a market in all but name".
+[Rebecca Smith](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-17E905E2-9A04-4FF9-9187-8C9C19329C08), Conservative MP for South West Devon, called the petition's framing of the parental order process as an obstacle "fundamentally misleading". With "expenses" paid to surrogates now reaching £25,000, she asked "whether we are still talking about altruism or whether we are creating a market in all but name".
 
 > "If wealthy countries normalise the commissioning of pregnancies, there will inevitably be markets that meet that demand. In most cases, the women with the least economic power become the people expected to take the greatest physical risks."
 
@@ -34,7 +34,7 @@ The six-week period, the mother's consent and judicial oversight, he said, "are 
 
 > "Fifty per cent of responses to the Law Commission's consultation called for a total ban on surrogacy in the UK. I fully support such a ban. I understand people's desire to become parents, but that desire should not take priority over the rights of a child."
 
-[Jim Shannon](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-6F03F3DB-B821-41D8-9155-D18C2CA8A647), the DUP's health spokesperson, warned against "a market that preys on the financially vulnerable". "Compensation for genuine expenses incurred in carrying a baby is one thing; paying a woman for carrying a baby is quite another."
+[Jim Shannon](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-6F03F3DB-B821-41D8-9155-D18C2CA8A647), the DUP's health spokesperson, said: "Compensation for genuine expenses incurred in carrying a baby is one thing; paying a woman for carrying a baby is quite another."
 
 ## "The child must come first"
 
@@ -42,21 +42,21 @@ The six-week period, the mother's consent and judicial oversight, he said, "are 
 
 > "That six-week period is not a pointless delay; it is a breathing space and a safeguard. It recognises that giving birth to a child is not simply the completion of a contract, but a profound physical and emotional event."
 
-For the Opposition, shadow minister [Dr Neil Shastri-Hurst](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-5EEB8405-C487-4758-9EAE-AAF6BF258F2E) said parental order applications for children born overseas had more than doubled since 2021, to 509 last year.
+For the Opposition, shadow minister [Dr Neil Shastri-Hurst](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-5EEB8405-C487-4758-9EAE-AAF6BF258F2E) said applications for children born overseas had more than doubled since 2021.
 
 > "Our job in this House is to consider more than the wishes of the adults involved. We must speak for the child who cannot speak for themselves. We must also protect the woman who carries and gives birth to that child."
 
 ## The other side, and the Government
 
-Dave Robertson (Labour, Lichfield), opening for the Petitions Committee, introduced the petition's creator, Adam, still not recognised as his daughter's legal parent six months after her birth in the United States. Josh Newbury, Rachel Taylor, Jess Brown-Fuller and John Milne argued the Law Commission's "new pathway" would recognise intended parents from day one while keeping a six-week window for the surrogate to object.
+Dave Robertson (Labour, Lichfield), opening for the Petitions Committee, introduced the petition's creator, Adam, still not his daughter's legal parent six months after her birth abroad. Josh Newbury, Rachel Taylor, Jess Brown-Fuller and John Milne backed the Law Commission's "new pathway": recognition from day one, with six weeks for the surrogate to object.
 
-Dame Diana Johnson said the Government "recognise the arguments on both sides", that the welfare of children born through surrogacy "must remain paramount", and that it would respond to the Law Commission "in due course as time allows".
+Dame Diana Johnson said the welfare of children born through surrogacy "must remain paramount" and that the Government would respond to the Law Commission "in due course as time allows".
 
 ## [Placeholder: CitizenGO comment]
 
 *A spokesperson for CitizenGO said:*
 
-> "Eight MPs from three parties said what the surrogacy lobby does not want to hear: a woman who carries a child for nine months is that child's mother, and no contract signed before conception changes that. The Government should say plainly that the six-week safeguard, the mother's consent and the court's oversight are not up for negotiation."
+> "Eight MPs from three parties said what the surrogacy lobby does not want to hear: a woman who carries a child for nine months is that child's mother, and no contract signed before conception changes that. The Government should say plainly that the safeguards are not up for negotiation."
 
 ---
 
