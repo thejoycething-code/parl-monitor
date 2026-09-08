@@ -1,6 +1,6 @@
 # MPs from across the House speak out against surrogacy law change
 
-*800-word version, 8 September 2026. Hansard wording throughout; names link to contributions. The spokesperson paragraph is a placeholder for CitizenGO to approve and attribute. The full draft is in article.md.*
+*800-word version, 8 September 2026. Hansard wording throughout; names link to contributions. The full draft is in article.md.*
 
 ---
 
@@ -9,8 +9,6 @@ MPs from Labour, the Conservatives and the DUP have spoken out against a petitio
 The Westminster Hall debate on Monday 7 September was triggered by e-petition 763161, signed by more than 113,000 people. Under current law the woman who gives birth is the legal mother, and intended parents must apply to the family court for a parental order between six weeks and six months after the birth, with an independent welfare assessment by CAFCASS. The petition calls that law "outdated".
 
 Eight MPs spoke against the change, against four who backed reform along the lines of the Law Commission's 2023 report. Public Health Minister Dame Diana Johnson told the House the Government was "not in a position to bring forward legislation on surrogacy reform immediately".
-
-## "Pregnant women are not factories"
 
 [Jonathan Hinder](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-DA6C49F5-1139-4337-8BB6-27C34DAC052F), Labour MP for Pendle and Clitheroe, said any loosening of the law "would be a serious mistake".
 
@@ -24,8 +22,6 @@ He recalled Marie Anne, a British surrogate told to go home from the hospital on
 
 The six-week period and the mother's consent, he said, are "important safeguards that I believe are worth keeping".
 
-## "A market in all but name"
-
 [Rebecca Smith](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-17E905E2-9A04-4FF9-9187-8C9C19329C08), Conservative MP for South West Devon, called the petition's framing of the parental order process as an obstacle "fundamentally misleading". With "expenses" paid to surrogates now reaching £25,000, she asked "whether we are still talking about altruism or whether we are creating a market in all but name".
 
 > "If wealthy countries normalise the commissioning of pregnancies, there will inevitably be markets that meet that demand. In most cases, the women with the least economic power become the people expected to take the greatest physical risks."
@@ -36,8 +32,6 @@ The six-week period and the mother's consent, he said, are "important safeguards
 
 [Jim Shannon](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-6F03F3DB-B821-41D8-9155-D18C2CA8A647), the DUP's health spokesperson, said: "Compensation for genuine expenses incurred in carrying a baby is one thing; paying a woman for carrying a baby is quite another."
 
-## "The child must come first"
-
 [Shivani Raja](https://hansard.parliament.uk/Commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/#contribution-8E870579-0B4E-40BA-B4DD-0E98EBDEAA41), Conservative MP for Leicester East, said a child "cannot consent to a surrogacy arrangement, and they cannot understand the promises adults have made".
 
 > "That six-week period is not a pointless delay; it is a breathing space and a safeguard. It recognises that giving birth to a child is not simply the completion of a contract, but a profound physical and emotional event."
@@ -46,17 +40,9 @@ For the Opposition, shadow minister [Dr Neil Shastri-Hurst](https://hansard.parl
 
 > "Our job in this House is to consider more than the wishes of the adults involved. We must speak for the child who cannot speak for themselves. We must also protect the woman who carries and gives birth to that child."
 
-## The other side, and the Government
-
 Dave Robertson (Labour, Lichfield), opening for the Petitions Committee, introduced the petition's creator, Adam, still not his daughter's legal parent six months after her birth abroad. Josh Newbury, Rachel Taylor, Jess Brown-Fuller and John Milne backed the Law Commission's "new pathway": recognition from day one, with six weeks for the surrogate to object.
 
 Dame Diana Johnson said the welfare of children born through surrogacy "must remain paramount" and that the Government would respond to the Law Commission "in due course as time allows".
-
-## [Placeholder: CitizenGO comment]
-
-*A spokesperson for CitizenGO said:*
-
-> "Eight MPs from three parties said what the surrogacy lobby does not want to hear: a woman who carries a child for nine months is that child's mother, and no contract signed before conception changes that. The Government should say plainly that the safeguards are not up for negotiation."
 
 ---
 
