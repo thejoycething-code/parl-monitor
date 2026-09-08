@@ -27,6 +27,18 @@ class AlignTests(unittest.TestCase):
         self.assertEqual(a, WORDS[6][1]); self.assertEqual(b, WORDS[18][2])
         self.assertGreater(ratio, 0.85)
 
+    def test_a_misheard_head_and_tail_still_cover_the_whole_passage(self):
+        """'worth keeping' heard as 'safe gorges' had cut Steve Yemm short."""
+        words = list(WORDS)
+        words[6] = ("pregnant", *words[6][1:]); words[5] = ("saying", *words[5][1:])
+        words[17] = ("bee", *words[17][1:]); words[18] = ("ordure", *words[18][1:])       # tail misheard
+        a, b, ratio = alignclip.align(words, "Pregnant women are not factories, and babies are not goods to be ordered.")
+        self.assertEqual(a, WORDS[6][1])
+        self.assertEqual(b, WORDS[18][2])                                                # still reaches 'ordered'
+        words[6] = ("pregnancy", *words[6][1:]); words[7] = ("woman", *words[7][1:])      # head misheard too
+        a, b, ratio = alignclip.align(words, "Pregnant women are not factories, and babies are not goods to be ordered.")
+        self.assertEqual(a, WORDS[6][1])                                                 # reaches back to the first word
+
     def test_an_absent_passage_is_not_forced(self):
         self.assertIsNone(alignclip.align(WORDS, "The Law Commission consultation called for a total ban on surrogacy in the UK."))
 

@@ -68,8 +68,17 @@ def align(words, passage, min_ratio=0.6):
     lo, hi = span
     sm = difflib.SequenceMatcher(None, want, have[lo:hi], autojunk=False)
     blocks = [b for b in sm.get_matching_blocks() if b.size]
-    first = lo + blocks[0].b if blocks else lo
-    last = lo + blocks[-1].b + blocks[-1].size - 1 if blocks else hi - 1
+    if not blocks:
+        return None
+    # Anchor on the matched words, then reach back over a misheard head and
+    # forward over a misheard tail by the number of passage words the match
+    # did not cover: "It should concern us all that" heard as something else
+    # lost the opening; "worth keeping" heard as "safe gorges" lost the close
+    # (2026-09-07). Bounded by the transcript.
+    first = lo + blocks[0].b - blocks[0].a
+    last = lo + blocks[-1].b + blocks[-1].size - 1 + (len(want) - (blocks[-1].a + blocks[-1].size))
+    first = max(0, min(first, len(words) - 1))
+    last = max(first, min(last, len(words) - 1))
     return words[first][1], words[last][2], ratio
 
 
