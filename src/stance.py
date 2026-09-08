@@ -86,23 +86,41 @@ def ensure_table(conn):
     conn.commit()
 
 
-def unscored_refs(conn):
+HIDDEN_AREAS = (11,)   # migration: collated, never campaigned, shown nowhere (partner.HIDDEN_AREAS)
+
+
+def unscored_refs(conn, skip_hidden=False):
     """Distinct ledger refs with no stance row yet.
 
     One representative row per ref: sponsor/signatory events share their
     motion's ref and therefore its (single) stance classification, and vote
     refs encode direction (div:c123:aye vs :no) so each side classifies
     separately -- every Aye voter inherits the aye ref's score.
+
+    skip_hidden leaves out refs whose ONLY areas are hidden ones (migration):
+    they render on no surface, so a backfill can score the displayable ground
+    first and put the hidden rows to the campaigner as a separate spend.
     """
     ensure_table(conn)
     # No issue area, no scoring: those rows render nowhere, so paying to be
     # told a dementia question is irrelevant is pure waste.
-    return conn.execute(
+    rows = conn.execute(
         "SELECT e.ref, MIN(e.kind) AS kind, MIN(e.line) AS line, MIN(e.areas) AS areas, "
         "MAX(e.excerpt) AS excerpt "
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
         "WHERE s.ref IS NULL AND e.areas IS NOT NULL AND e.areas != '[]' "
         "GROUP BY e.ref").fetchall()
+    if not skip_hidden:
+        return rows
+    hidden = set(HIDDEN_AREAS)
+
+    def only_hidden(areas):
+        try:
+            got = set(json.loads(areas or "[]"))
+        except ValueError:
+            return False
+        return bool(got) and got <= hidden
+    return [r for r in rows if not only_hidden(r["areas"])]
 
 
 def store_scores(conn, results, scored_at, model=STANCE_MODEL):
@@ -333,7 +351,7 @@ def build_text_map(raw_dir, since_days=None):
 
 
 def score_pending(conn, raw_dir, api_key, scored_at, max_refs=None,
-                  overrides_cfg=None, since_days=None, log=None):
+                  overrides_cfg=None, since_days=None, log=None, skip_hidden=False):
     """Score every unscored ref, then apply editorial overrides.
 
     Stores per batch, so a crash or credit exhaustion keeps what was scored
@@ -341,7 +359,7 @@ def score_pending(conn, raw_dir, api_key, scored_at, max_refs=None,
     is reported (never silently dropped) and picked up next time.
     """
     log = log or (lambda _msg: None)
-    pending = unscored_refs(conn)
+    pending = unscored_refs(conn, skip_hidden=skip_hidden)
     deferred = 0
     if max_refs and len(pending) > max_refs:
         deferred = len(pending) - max_refs

@@ -627,3 +627,20 @@ class ConfidenceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SkipHiddenTests(unittest.TestCase):
+    """A backfill scores the displayable ground first; migration-only refs render
+    nowhere and are a separate spend (2026-09-08)."""
+
+    def test_skip_hidden_drops_refs_whose_only_areas_are_hidden(self):
+        import sqlite3
+        from src import db, intel
+        conn = sqlite3.connect(":memory:")
+        conn.row_factory = sqlite3.Row                    # as db.connect does; the filter reads columns by name
+        conn = db.init_db(conn)
+        intel.record_event(conn, 1, "2019-07-09", "debate", "hansard:A", "Spoke: A", areas=[1])
+        intel.record_event(conn, 2, "2019-07-09", "debate", "hansard:B", "Spoke: B", areas=[11])
+        intel.record_event(conn, 3, "2019-07-09", "debate", "hansard:C", "Spoke: C", areas=[7, 11])
+        self.assertEqual(sorted(r["ref"] for r in stance.unscored_refs(conn)), ["hansard:A", "hansard:B", "hansard:C"])
+        self.assertEqual(sorted(r["ref"] for r in stance.unscored_refs(conn, skip_hidden=True)), ["hansard:A", "hansard:C"])

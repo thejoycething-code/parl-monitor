@@ -1,6 +1,6 @@
 """Score unscored ledger refs onto the 5CA stance gradient.
 
-    python3 tools/score_stance.py [--dry-run] [--max N]
+    python3 tools/score_stance.py [--dry-run] [--max N] [--skip-hidden]
 
 The weekly pull scores each week's new evidence automatically (capped by
 settings.stance_weekly_max_refs). This CLI is for backfills and gap-fills:
@@ -29,9 +29,10 @@ def main():
     max_refs = None
     if "--max" in sys.argv:
         max_refs = int(sys.argv[sys.argv.index("--max") + 1])
+    skip_hidden = "--skip-hidden" in sys.argv    # leave migration-only refs (shown nowhere) for a separate decision
 
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
-    pending = stance.unscored_refs(conn)
+    pending = stance.unscored_refs(conn, skip_hidden=skip_hidden)
     kinds = {}
     for r in pending:
         kinds[r["kind"]] = kinds.get(r["kind"], 0) + 1
@@ -44,7 +45,7 @@ def main():
         conn, os.path.join(ROOT, "data", "raw"),
         publish.load_secrets().get("anthropic_api_key"),
         datetime.date.today().isoformat(),
-        max_refs=max_refs, overrides_cfg=cfg,
+        max_refs=max_refs, overrides_cfg=cfg, skip_hidden=skip_hidden,
         log=lambda msg: print("  [gap] " + msg))
 
     print("scored {scored}; {failed_batches} batch(es) failed; "
