@@ -38,7 +38,7 @@
 
 > In surrogacy as in every other part of family law, the wishes of the adults are important but the welfare of children must always come first.
 
-## Sixty-second cut — `clips/final/sixty-second-cut.mp4`, 58s
+## Sixty-second cut — `clips/final/sixty-second-cut.mp4`, 53s
 
 The sequence proposed on 7 Sept: six short excerpts, hard cuts, hook first, cross-party without saying so until the card. The parts are in `clips/final/sixty/`. No captions or lower thirds yet; captions must use the Hansard wording, and the end card can be replaced with your own.
 
@@ -48,6 +48,6 @@ The sequence proposed on 7 Sept: six short excerpts, hard cuts, hook first, cros
 4. Jim Shannon (DUP) — "Compensation for genuine expenses incurred in carrying a baby is one thing; paying a woman for carrying a baby is quite another." 8s
 5. Tracy Gilbert (Lab) — "Fifty per cent of responses to the Law Commission's consultation called for a total ban on surrogacy in the UK. I fully support such a ban." Spoken: "...I fully support that ban." 8s
 6. Dr Neil Shastri-Hurst (Con) — Hansard: "We must speak for the child who cannot speak for themselves. We must also protect the woman who carries and gives birth to that child." Spoken as one sentence: "We must also speak for the child who cannot speak for his or herself, and protect the woman who carries and gives birth to that child." 9s
-7. End card, black, 5s — "MPs from Labour, the Conservatives and the DUP / in one afternoon. Westminster Hall, 7 September 2026". Placeholder; add the action line only after checking the Parliamentary Recording Unit terms.
+(End card removed 8 Sept at Christopher's word; the file is kept in `clips/final/sixty/07-end-card.mp4` in case it is wanted.)
 
 The earlier three-voice assembly (Hinder 31s, Raja six-week 21s, Shastri-Hurst close 10s) is kept as `clips/final/sixty-second-cut-three-voices.mp4`.
