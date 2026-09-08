@@ -1,0 +1,687 @@
+{
+ "start": "2017-06-08",
+ "end": "2019-12-31",
+ "enumerated": 465,
+ "candidates": [
+  {
+   "id": 723,
+   "date": "2019-10-22",
+   "title": "Programme: European Union (Withdrawal Agreement) Bill",
+   "title_areas": [],
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 722,
+   "date": "2019-10-22",
+   "title": "Second Reading: European Union (Withdrawal Agreement) Bill",
+   "title_areas": [],
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 704,
+   "date": "2019-07-09",
+   "title": "Northern Ireland (Executive Formation) Bill: Committee of the whole House Amdt 17 (Grieve)",
+   "title_areas": [],
+   "day_areas": {
+    "5": 1,
+    "8": 1,
+    "9": 1
+   },
+   "areas": [
+    5,
+    8,
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 703,
+   "date": "2019-07-09",
+   "title": "Northern Ireland (Executive Formation) Bill: Committee of the whole House Amdt 16 (Grieve)",
+   "title_areas": [],
+   "day_areas": {
+    "5": 1,
+    "8": 1,
+    "9": 1
+   },
+   "areas": [
+    5,
+    8,
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 702,
+   "date": "2019-07-09",
+   "title": "Northern Ireland (Executive Formation) Bill: Committee of the whole House Amdt 15 (Grieve)",
+   "title_areas": [],
+   "day_areas": {
+    "5": 1,
+    "8": 1,
+    "9": 1
+   },
+   "areas": [
+    5,
+    8,
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 701,
+   "date": "2019-07-09",
+   "title": "Northern Ireland (Executive Formation) Bill: Committee of the whole House Amdt 6 (J Lewis)",
+   "title_areas": [],
+   "day_areas": {
+    "5": 1,
+    "8": 1,
+    "9": 1
+   },
+   "areas": [
+    5,
+    8,
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 700,
+   "date": "2019-07-09",
+   "title": "Northern Ireland (Executive Formation) Bill: Committee of the whole House New Clause 10 (Creasy)",
+   "title_areas": [],
+   "day_areas": {
+    "5": 1,
+    "8": 1,
+    "9": 1
+   },
+   "areas": [
+    5,
+    8,
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 699,
+   "date": "2019-07-09",
+   "title": "Northern Ireland (Executive Formation) Bill: Committee of the whole House New Clause 1 (McGinn)",
+   "title_areas": [],
+   "day_areas": {
+    "5": 1,
+    "8": 1,
+    "9": 1
+   },
+   "areas": [
+    5,
+    8,
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 650,
+   "date": "2019-03-27",
+   "title": "Draft Relationships Education, Relationships and Sex Education and Health Education (England) Regulations 2019",
+   "title_areas": [
+    6
+   ],
+   "day_areas": {},
+   "areas": [
+    6
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 635,
+   "date": "2019-03-19",
+   "title": "Foreign Affairs Committee: membership change",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 575,
+   "date": "2019-01-28",
+   "title": "Immigration and Social Security Co-ordination (EU Withdrawal) Bill: Second Reading",
+   "title_areas": [],
+   "day_areas": {
+    "11": 5,
+    "9": 1
+   },
+   "areas": [
+    9,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 565,
+   "date": "2019-01-16",
+   "title": "No confidence in Her Majesty's Government",
+   "title_areas": [],
+   "day_areas": {
+    "9": 1,
+    "11": 1
+   },
+   "areas": [
+    9,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 539,
+   "date": "2018-11-28",
+   "title": "Offensive Weapons Bill - report NC6",
+   "title_areas": [],
+   "day_areas": {
+    "2": 1,
+    "7": 5
+   },
+   "areas": [
+    2,
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 538,
+   "date": "2018-11-28",
+   "title": "Offensive Weapons Bill - Report Govt Amdts 26 to 55",
+   "title_areas": [],
+   "day_areas": {
+    "2": 1,
+    "7": 5
+   },
+   "areas": [
+    2,
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 519,
+   "date": "2018-10-24",
+   "title": "Northern Ireland (Executive Formation and Exercise of Functions) Bill: Third Reading",
+   "title_areas": [],
+   "day_areas": {
+    "1": 2
+   },
+   "areas": [
+    1
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 518,
+   "date": "2018-10-24",
+   "title": "Northern Ireland (Executive Formation and Exercise of Functions) Bill: report stage: New Clause 7",
+   "title_areas": [],
+   "day_areas": {
+    "1": 2
+   },
+   "areas": [
+    1
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 512,
+   "date": "2018-10-23",
+   "title": "Ten Minute Rule Motion: Abortion",
+   "title_areas": [
+    1
+   ],
+   "day_areas": {},
+   "areas": [
+    1
+   ],
+   "in_ledger": true,
+   "hidden_only": false
+  },
+  {
+   "id": 506,
+   "date": "2018-09-11",
+   "title": "Counter-Terrorism and Border Security Bill: Third Reading",
+   "title_areas": [
+    11
+   ],
+   "day_areas": {
+    "7": 2,
+    "11": 11
+   },
+   "areas": [
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 505,
+   "date": "2018-09-11",
+   "title": "Counter-Terrorism and Border Security Bill: Report Stage: New Clause 1",
+   "title_areas": [
+    11
+   ],
+   "day_areas": {
+    "7": 2,
+    "11": 11
+   },
+   "areas": [
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 504,
+   "date": "2018-09-11",
+   "title": "Counter-Terrorism and Border Security Bill Report Stage: Amendment 13",
+   "title_areas": [
+    11
+   ],
+   "day_areas": {
+    "7": 2,
+    "11": 11
+   },
+   "areas": [
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 503,
+   "date": "2018-09-11",
+   "title": "Counter-Terrorism and Border Security Bill Report Stage: New Clause 2",
+   "title_areas": [
+    11
+   ],
+   "day_areas": {
+    "7": 2,
+    "11": 11
+   },
+   "areas": [
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 422,
+   "date": "2018-05-09",
+   "title": "Data Protection Bill [Lords]: Report Stage Amdt 15",
+   "title_areas": [],
+   "day_areas": {
+    "7": 3,
+    "1": 1,
+    "11": 2
+   },
+   "areas": [
+    1,
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 421,
+   "date": "2018-05-09",
+   "title": "Data Protection Bill [Lords]: Report Stage Amdt 5",
+   "title_areas": [],
+   "day_areas": {
+    "7": 3,
+    "1": 1,
+    "11": 2
+   },
+   "areas": [
+    1,
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 420,
+   "date": "2018-05-09",
+   "title": "Data Protection Bill [Lords]: Report Stage New Clause 4",
+   "title_areas": [],
+   "day_areas": {
+    "7": 3,
+    "1": 1,
+    "11": 2
+   },
+   "areas": [
+    1,
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 419,
+   "date": "2018-05-09",
+   "title": "Data Protection Bill [Lords]: Report stage New Clause 18",
+   "title_areas": [],
+   "day_areas": {
+    "7": 3,
+    "1": 1,
+    "11": 2
+   },
+   "areas": [
+    1,
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 401,
+   "date": "2018-03-28",
+   "title": "Opposition Motion: Local government funding",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 400,
+   "date": "2018-03-16",
+   "title": "Refugees (Family Reunion) (No.2) Bill: Second Reading: Closure motion",
+   "title_areas": [],
+   "day_areas": {
+    "3": 1,
+    "11": 2
+   },
+   "areas": [
+    3,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 334,
+   "date": "2017-12-12",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Amendment 25",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 333,
+   "date": "2017-12-12",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Amendment 158",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 332,
+   "date": "2017-12-12",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Amendment 124",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 331,
+   "date": "2017-12-12",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Amendment 49",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 330,
+   "date": "2017-12-12",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House New Clause 63",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 315,
+   "date": "2017-11-21",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Schedule 1",
+   "title_areas": [],
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 314,
+   "date": "2017-11-21",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Amdt 139",
+   "title_areas": [],
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 313,
+   "date": "2017-11-21",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Amdt 336",
+   "title_areas": [],
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 312,
+   "date": "2017-11-21",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House Amdt 46",
+   "title_areas": [],
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 311,
+   "date": "2017-11-21",
+   "title": "European Union (Withdrawal) Bill: Committee of the whole House New Clause 79",
+   "title_areas": [],
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 276,
+   "date": "2017-07-17",
+   "title": "Business of the House (Private Members' Bills): Amendment (b)",
+   "title_areas": [],
+   "day_areas": {
+    "1": 1,
+    "2": 1,
+    "5": 1
+   },
+   "areas": [
+    1,
+    2,
+    5
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 275,
+   "date": "2017-07-17",
+   "title": "Business of the House (Private Members' Bills): Amendment (a)",
+   "title_areas": [],
+   "day_areas": {
+    "1": 1,
+    "2": 1,
+    "5": 1
+   },
+   "areas": [
+    1,
+    2,
+    5
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 271,
+   "date": "2017-06-29",
+   "title": "Queen's Speech: Main Question",
+   "title_areas": [],
+   "day_areas": {
+    "6": 1
+   },
+   "areas": [
+    6
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 270,
+   "date": "2017-06-29",
+   "title": "Queen's Speech: Economy and Jobs Amdt (g)",
+   "title_areas": [],
+   "day_areas": {
+    "6": 1,
+    "11": 1
+   },
+   "areas": [
+    6,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 269,
+   "date": "2017-06-29",
+   "title": "Queen's Speech: Economy and Jobs Amdt (l)",
+   "title_areas": [],
+   "day_areas": {
+    "6": 1,
+    "11": 1
+   },
+   "areas": [
+    6,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 268,
+   "date": "2017-06-28",
+   "title": "Queen's Speech: Health, Social Care and Security Amendment (i)",
+   "title_areas": [],
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  }
+ ]
+}
