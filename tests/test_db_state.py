@@ -527,3 +527,67 @@ class PlainHttpTests(unittest.TestCase):
         from src.ingest import niassembly
         self.assertTrue(niassembly.BASE.startswith("https://"))
         self.assertTrue(niassembly.QUESTION_PAGE.startswith("https://"))
+
+
+class AssetSwapTests(unittest.TestCase):
+    """`gh release upload --clobber` deletes then uploads. On 2026-09-09 the upload
+    failed and the release was left with NO store, so every workflow died at
+    'Fetch the store: no assets to download'. The swap must never leave it empty."""
+
+    def setUp(self):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import db_state
+        self.ds = db_state
+        self.calls = []
+        self.assets = {db_state.ASSET: 1}
+        self._real = (db_state._rename_asset, db_state._delete_asset)
+
+        def rename(a, b, tok=None):
+            self.calls.append(("rename", a, b))
+            if a not in self.assets:
+                return False
+            self.assets[b] = self.assets.pop(a)
+            return True
+
+        def delete(name, tok=None):
+            self.calls.append(("delete", name))
+            self.assets.pop(name, None)
+        db_state._rename_asset, db_state._delete_asset = rename, delete
+
+    def tearDown(self):
+        self.ds._rename_asset, self.ds._delete_asset = self._real
+
+    def test_a_good_upload_leaves_exactly_the_new_store(self):
+        def upload():
+            self.calls.append(("upload",))
+            self.assets[self.ds.ASSET] = 2
+        self.assertTrue(self.ds.swap_in_asset(upload, log=lambda *_a: None))
+        self.assertEqual(list(self.assets), [self.ds.ASSET])
+        self.assertEqual([c[0] for c in self.calls], ["rename", "upload", "delete"])
+
+    def test_a_failed_upload_puts_the_published_store_back(self):
+        def upload():
+            self.calls.append(("upload",))
+            raise RuntimeError("gh upload failed: content length")
+        self.assertFalse(self.ds.swap_in_asset(upload, log=lambda *_a: None))
+        self.assertEqual(list(self.assets), [self.ds.ASSET], "the release must still hold a store")
+        self.assertIn(("rename", self.ds.PREV, self.ds.ASSET), self.calls)
+
+    def test_the_release_is_never_without_a_store_at_any_point(self):
+        seen = []
+
+        def upload():
+            seen.append(sorted(self.assets))          # what exists mid-upload
+            raise RuntimeError("boom")
+        self.ds.swap_in_asset(upload, log=lambda *_a: None)
+        self.assertEqual(seen, [[self.ds.PREV]], "a copy must exist while uploading")
+        self.assertEqual(list(self.assets), [self.ds.ASSET])
+
+    def test_a_first_ever_publish_has_nothing_to_keep_aside(self):
+        self.assets.clear()
+
+        def upload():
+            self.calls.append(("upload",))
+            self.assets[self.ds.ASSET] = 1
+        self.assertTrue(self.ds.swap_in_asset(upload, log=lambda *_a: None))
+        self.assertEqual([c[0] for c in self.calls], ["rename", "upload"])   # no delete

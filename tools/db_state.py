@@ -42,6 +42,7 @@ SIDECAR = DB + ".json"
 REPO = "thejoycething-code/parl-monitor"
 TAG = "db-state"          # one rolling release, not one per run
 ASSET = "parl-monitor.db"
+PREV = ASSET + ".prev"    # the copy kept aside while a new one uploads
 API = "https://api.github.com"
 
 
@@ -178,14 +179,37 @@ def pull():
         if out.returncode:
             if "release not found" in (out.stderr or "").lower():
                 return _no_asset_yet()
-            print("gh download failed: {0}".format(out.stderr.strip()))
-            return 1
+            # A push that failed between renaming the old asset aside and
+            # uploading the new one leaves only PREV. Recover from it rather
+            # than failing every workflow: this is exactly the state that
+            # broke the day-sweep run on 2026-09-09.
+            if any(n == PREV for n, _i in _assets()):
+                print("  [warn] no {0} on the release, but {1} is there: a push failed "
+                      "part-way. Recovering from it.".format(ASSET, PREV))
+                out = subprocess.run(
+                    ["gh", "release", "download", TAG, "--repo", REPO,
+                     "--pattern", PREV, "--output", DB, "--clobber"],
+                    capture_output=True, text=True)
+                if not out.returncode and _rename_asset(PREV, ASSET):
+                    print("  recovered: {0} is published again. The sidecar in the repo "
+                          "may name a store that was never uploaded -- check it.".format(ASSET))
+                else:
+                    print("gh download of {0} failed: {1}".format(PREV, out.stderr.strip()))
+                    return 1
+            else:
+                print("gh download failed: {0}".format(out.stderr.strip()))
+                return 1
     elif tok:
         rel = release(tok)
         asset = next((a for a in rel.get("assets") or []
                       if a["name"] == ASSET), None)
         if not asset:
-            return _no_asset_yet()
+            asset = next((a for a in rel.get("assets") or []
+                          if a["name"] == PREV), None)
+            if asset:
+                print("  [warn] no {0}, recovering from {1}: a push failed part-way.".format(ASSET, PREV))
+            else:
+                return _no_asset_yet()
         blob = _api(asset["url"], tok,
                     headers={"Accept": "application/octet-stream"})
         with open(DB + ".part", "wb") as handle:
@@ -303,6 +327,89 @@ def stamp_heartbeat():
         print("  [warn] could not stamp the heartbeat: {0}".format(exc))
 
 
+def _assets(tok=None):
+    """[(name, id)] on the release, via gh or the API."""
+    if tok:
+        return [(a["name"], a["id"]) for a in (release(tok).get("assets") or [])]
+    # The REST tag endpoint, NOT `gh release view --json assets`: that reports a
+    # GraphQL node id ("RA_kwDO...") and PATCHing with it is a 404. The numeric
+    # REST id is what the asset endpoints want (measured 2026-09-09).
+    out = subprocess.run(["gh", "api", "/repos/{0}/releases/tags/{1}".format(REPO, TAG)],
+                         capture_output=True, text=True)
+    if out.returncode:
+        return []
+    try:
+        payload = json.loads(out.stdout)
+    except ValueError:
+        return []
+    return [(a["name"], a["id"]) for a in (payload.get("assets") or [])]
+
+
+def _rename_asset(name_from, name_to, tok=None):
+    """Rename a release asset in place. No bytes move, so this is instant even at 141MB."""
+    ident = next((i for n, i in _assets(tok) if n == name_from), None)
+    if ident is None:
+        return False
+    if tok:
+        _api("/repos/{0}/releases/assets/{1}".format(REPO, ident), tok,
+             data=json.dumps({"name": name_to}).encode("utf-8"), method="PATCH",
+             headers={"Content-Type": "application/json"})
+        return True
+    out = subprocess.run(["gh", "api", "--method", "PATCH",
+                          "/repos/{0}/releases/assets/{1}".format(REPO, ident),
+                          "-f", "name=" + name_to], capture_output=True, text=True)
+    if out.returncode:
+        print("  [warn] could not rename {0} -> {1}: {2}".format(name_from, name_to, out.stderr.strip()[:120]))
+        return False
+    return True
+
+
+def _delete_asset(name, tok=None):
+    ident = next((i for n, i in _assets(tok) if n == name), None)
+    if ident is None:
+        return
+    if tok:
+        _api("/repos/{0}/releases/assets/{1}".format(REPO, ident), tok, method="DELETE")
+    else:
+        subprocess.run(["gh", "api", "--method", "DELETE",
+                        "/repos/{0}/releases/assets/{1}".format(REPO, ident)],
+                       capture_output=True, text=True)
+
+
+
+def swap_in_asset(upload, api_tok=None, log=print):
+    """Publish a new store without ever leaving the release without one.
+
+    `gh release upload --clobber` DELETES the published asset and then uploads.
+    On 2026-09-09 the upload failed ("http2: request body larger than specified
+    content length") and the release was left with NO asset, so every workflow
+    died at "Fetch the store: no assets to download" and the only copies left
+    were a corrupt local file and a two-week-old store in git history.
+
+    So: rename the published copy aside (instant -- no bytes move), upload, and
+    drop the old one only once the new one is there. A failed upload puts the
+    name back, and the store is still published.
+    """
+    kept = _rename_asset(ASSET, PREV, api_tok)
+    if kept:
+        log("  kept the published store aside as {0} while this one uploads".format(PREV))
+    try:
+        upload()
+    except Exception as exc:                                # noqa: BLE001
+        log(str(exc))
+        if kept:
+            _delete_asset(ASSET, api_tok)                   # drop a partial upload, if any
+            if _rename_asset(PREV, ASSET, api_tok):
+                log("  RESTORED the previously published store; the release is intact.")
+            else:
+                log("  COULD NOT RESTORE: the store is present as {0}. Rename it back to "
+                    "{1} in the release before any workflow runs.".format(PREV, ASSET))
+        return False
+    if kept:
+        _delete_asset(PREV, api_tok)
+    return True
+
+
 def push():
     if not os.path.exists(DB):
         print("no store to publish at {0}".format(DB))
@@ -312,6 +419,9 @@ def push():
     stamp_heartbeat()          # inside the bytes, before the sha is taken
     tok = token()
     digest, size = sha256(DB), os.path.getsize(DB)
+    if not have_gh() and not tok:
+        print("CANNOT PUSH: no gh and no github_token in config/secrets.yaml.")
+        return 1
     if have_gh():
         out = subprocess.run(
             ["gh", "release", "create", TAG, "--repo", REPO, "--prerelease",
@@ -320,24 +430,24 @@ def push():
             capture_output=True, text=True)
         if out.returncode and "already exists" not in (out.stderr or ""):
             print("gh release create: {0}".format(out.stderr.strip()))
-        out = subprocess.run(
-            ["gh", "release", "upload", TAG, DB + "#" + ASSET, "--repo", REPO,
-             "--clobber"], capture_output=True, text=True)
-        if out.returncode:
-            print("gh upload failed: {0}".format(out.stderr.strip()))
-            return 1
-    elif tok:
-        rel = release(tok)
-        for a in rel.get("assets") or []:
-            if a["name"] == ASSET:
-                _api("/repos/{0}/releases/assets/{1}".format(REPO, a["id"]),
-                     tok, method="DELETE")
-        with open(DB, "rb") as handle:
-            _api(rel["upload_url"].split("{")[0] + "?name=" + ASSET, tok,
-                 data=handle.read(), method="POST",
-                 headers={"Content-Type": "application/octet-stream"})
-    else:
-        print("CANNOT PUSH: no gh and no github_token in config/secrets.yaml.")
+
+    api_tok = tok if not have_gh() else None
+
+    def _upload():
+        if have_gh():
+            out = subprocess.run(
+                ["gh", "release", "upload", TAG, DB + "#" + ASSET, "--repo", REPO],
+                capture_output=True, text=True)
+            if out.returncode:
+                raise RuntimeError("gh upload failed: " + out.stderr.strip())
+        else:
+            rel = release(tok)
+            with open(DB, "rb") as handle:
+                _api(rel["upload_url"].split("{")[0] + "?name=" + ASSET, tok,
+                     data=handle.read(), method="POST",
+                     headers={"Content-Type": "application/octet-stream"})
+
+    if not swap_in_asset(_upload, api_tok):
         return 1
 
     with open(SIDECAR, "w", encoding="utf-8") as handle:
