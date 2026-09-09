@@ -98,3 +98,22 @@ Measured rather than guessed:
   in some parts and not others. Suspect the relationship between the cut's `-ss` start
   and the window transcript's timings. Until it is found, check the contact sheet AND
   watch the cut before posting: a card a second early is visible.
+
+## Sequencing trap: git pull comes BEFORE the store pull (9 Sept 2026)
+
+`tools/db_state.py --pull` verifies the downloaded asset against the sidecar COMMITTED
+IN THE REPO. So a job that pulls the store without pulling git first compares CI's new
+asset against its own stale sidecar and reports "SHA MISMATCH ... the release asset and
+the committed sidecar have diverged" -- which sounds like corruption and is not: the
+guard is working and the repo is fine.
+
+It happened on 9 Sept: a scoring job pulled the store while its checkout predated CI's
+member-profiles sidecar commit. Two lessons, both cheap:
+
+1. **`git pull` first, then `db_state.py --pull`.**
+2. **A failed store pull must ABORT the job.** That run carried on and scored 3,700 refs
+   into a local store that lacked CI's member-profiles work, so neither copy could
+   simply overwrite the other. Recovering it meant capturing the stance rows, taking
+   CI's store, and re-applying them -- survivable only because the stance table is keyed
+   by ref and `INSERT OR REPLACE` is idempotent.
+

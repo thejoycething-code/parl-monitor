@@ -579,7 +579,7 @@ def draft_sequence(quotes_md, title, date, limit=8):
 # confirmed onside speaker from every reel without a word.
 _SPEECH_HEAD = re.compile(r"^## (.+?)(?:\s*\((.+?),\s*(.+?)\))?\s*$")
 _PASS_READ = re.compile(r"^\*\*Pass read:\*\*\s*(.+?)\s*(?:—|--)\s*(.*?)\s*·\s*\*\*confirmed:\s*(\w+)\*\*", re.I)
-_CONTRIB = re.compile(r"^\*(\d{2}:\d{2}:\d{2}),\s*([\d,]+) words")
+_CONTRIB = re.compile(r"^\*(\d{2}:\d{2}:\d{2}),\s*([\d,]+) words(?:.*?\[Hansard\]\((\S+?)\))?")
 
 
 def parse_speeches(text):
@@ -609,7 +609,8 @@ def parse_speeches(text):
             continue
         m = _CONTRIB.match(line)
         if m:
-            con = {"at": m.group(1), "words": int(m.group(2).replace(",", "")), "text": ""}
+            con = {"at": m.group(1), "words": int(m.group(2).replace(",", "")),
+                   "url": (m.group(3) or "").rstrip(")"), "text": ""}
             cur["contributions"].append(con)
             continue
         if con is not None and line.strip() and not line.startswith("*"):

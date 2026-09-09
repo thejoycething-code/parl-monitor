@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""Write a debate's report and social copy, ask for approval, then publish a canvas.
+
+    python3 tools/debate_report.py --pack data/packs/<folder>            # generate, then DM for approval
+    python3 tools/debate_report.py --pack data/packs/<folder> --dry-run  # what it would send the writer, no spend
+    python3 tools/debate_report.py --pack data/packs/<folder> --publish  # canvas to #campaigns-en-gb
+
+The order is deliberate and not negotiable in code: generate, DM, and only then, on a
+separate explicit run, publish. Nothing reaches the channel without a person running
+--publish, because the report quotes named MPs and the onside list is a human judgement.
+
+Reads the pack's speeches.md (full text, per-contribution Hansard links) and
+checklist.md's confirmed onside list. Writes report.md, social.md and report.json into
+the pack. Costs one Anthropic call, about 5p, recorded in api_spend as 'debate-report'.
+"""
+
+import argparse
+import datetime
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src import db, debatereport as dr, publish, socialcut as sc  # noqa: E402
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def load(pack):
+    meta = json.load(open(os.path.join(pack, "pack.json")))
+    speeches_path = os.path.join(pack, "speeches.md")
+    if not os.path.exists(speeches_path):
+        raise SystemExit("no speeches.md in %s: build the pack first" % pack)
+    speeches = sc.parse_speeches(open(speeches_path, encoding="utf-8").read())
+    meta["hansard_url"] = "https://hansard.parliament.uk/{0}/{1}/debates/{2}/".format(
+        meta.get("house", "Commons"), meta.get("date"), meta.get("ext_id"))
+    return meta, speeches
+
+
+def reels_in(pack):
+    """The reels already cut, from social-cut.md, so the DM can list what is ready."""
+    import re
+    path = os.path.join(pack, "social-cut.md")
+    out = []
+    if not os.path.exists(path):
+        return out
+    for m in re.finditer(r"^## \d+\.\s*(.+?)\s*—.*?([\d.]+)s", open(path, encoding="utf-8").read(), re.M):
+        out.append({"name": m.group(1).strip(), "duration": float(m.group(2)), "party": ""})
+    return out
+
+
+def generate(args):
+    pack = args.pack.rstrip("/")
+    meta, speeches = load(pack)
+    speakers = dr.speaker_brief(speeches)
+    onside = [s for s in speakers if s["confirmed_onside"]]
+    print("%s: %d speakers, %d confirmed onside" % (meta.get("title"), len(speakers), len(onside)))
+    if args.dry_run:
+        payload = dr.build_payload(meta, speakers)
+        chars = len(payload["messages"][0]["content"])
+        print("would send %d speakers, %d characters (~%d tokens, about $%.2f)"
+              % (len(speakers), chars, chars // 4, (chars / 4 * 3 + 1500 * 15) / 1e6))
+        for s in speakers:
+            print("   %-26s %-14s %5d words  onside=%s" % (s["name"], s["party"], s["words"] or 0, s["confirmed_onside"]))
+        return
+    secrets = publish.load_secrets()
+    key = secrets.get("anthropic_api_key")
+    if not key:
+        raise SystemExit("no anthropic_api_key in config/secrets.yaml")
+    conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
+    sections, problems, usage = dr.generate(meta, speeches, key, conn=conn)
+    conn.commit()
+    conn.close()
+    if sections.get("REPORT"):
+        open(os.path.join(pack, "report.md"), "w", encoding="utf-8").write(sections["REPORT"] + "\n")
+    if sections.get("SOCIAL"):
+        open(os.path.join(pack, "social.md"), "w", encoding="utf-8").write(sections["SOCIAL"] + "\n")
+    json.dump({"generated": datetime.datetime.now().isoformat(timespec="seconds"),
+               "usage": usage, "problems": problems,
+               "words": dr.word_count(sections.get("REPORT") or "")},
+              open(os.path.join(pack, "report.json"), "w"), indent=1)
+    print("report %d words; %d check(s) failed" % (dr.word_count(sections.get("REPORT") or ""), len(problems)))
+    for p in problems:
+        print("  [check] %s" % p)
+    if args.no_dm:
+        print("not DMing (--no-dm). Files written into the pack.")
+        return
+    text = dr.approval_dm(meta, sections, reels_in(pack), problems, pack)
+    result = publish.slack_dm(secrets, text)
+    print("DM:", result.get("message_ts") or result)
+
+
+def publish_canvas(args):
+    pack = args.pack.rstrip("/")
+    meta, _speeches = load(pack)
+    report_path = os.path.join(pack, "report.md")
+    if not os.path.exists(report_path):
+        raise SystemExit("no report.md in the pack: generate it first (without --publish)")
+    report = open(report_path, encoding="utf-8").read()
+    state = {}
+    if os.path.exists(os.path.join(pack, "report.json")):
+        state = json.load(open(os.path.join(pack, "report.json")))
+    if state.get("problems") and not args.force:
+        print("refusing to publish: %d check(s) failed when this report was generated:" % len(state["problems"]))
+        for p in state["problems"]:
+            print("  [check] %s" % p)
+        print("Fix the report by hand, or re-run generation, or pass --force to publish anyway.")
+        raise SystemExit(2)
+    title = "%s — %s" % (meta.get("title"), meta.get("date"))
+    body = report.rstrip() + "\n\n---\n\n*Source: [Hansard](%s). Report generated by the Parliamentary Monitor and approved by hand.*\n" % meta.get("hansard_url")
+    summary = "*%s*\nOur report of %s's debate. Footage clips are in the pack; Parliamentary Recording Unit terms apply to campaign use." % (
+        meta.get("title"), meta.get("date"))
+    secrets = publish.load_secrets()
+    result = publish.slack_publish_canvas(secrets, title, body, summary)
+    if result.get("canvas_url"):
+        print("canvas:", result["canvas_url"])
+        state["published"] = {"at": datetime.datetime.now().isoformat(timespec="seconds"),
+                              "canvas_url": result["canvas_url"]}
+        json.dump(state, open(os.path.join(pack, "report.json"), "w"), indent=1)
+    else:
+        print("publish failed:", result)
+        raise SystemExit(1)
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--pack", required=True)
+    ap.add_argument("--dry-run", action="store_true", help="show what would be sent and spend nothing")
+    ap.add_argument("--no-dm", action="store_true", help="write the files, do not DM")
+    ap.add_argument("--publish", action="store_true", help="post the approved report as a canvas to the channel")
+    ap.add_argument("--force", action="store_true", help="publish even though checks failed (say why in the channel)")
+    args = ap.parse_args()
+    if args.publish:
+        publish_canvas(args)
+    else:
+        generate(args)
+
+
+if __name__ == "__main__":
+    main()
