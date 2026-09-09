@@ -724,6 +724,17 @@ CREATE TABLE IF NOT EXISTS sd_members (
 -- Written by tools/db_state.py --push, which every workflow ends with, so
 -- one row per workflow records the last time that pipeline successfully
 -- published. Read by tools/coverage.py.
+CREATE TABLE IF NOT EXISTS sweep_log (
+  source TEXT NOT NULL,           -- 'hansard-speeches' today; one row per source per day
+  day TEXT NOT NULL,              -- the sitting day swept, ISO
+  house TEXT NOT NULL,            -- 'Commons' | 'Lords'
+  sat INTEGER NOT NULL,           -- 1 the House sat, 0 it did not (recorded so a
+                                  -- recess day is never re-checked)
+  swept_at TEXT NOT NULL,
+  found INTEGER DEFAULT 0,        -- ledger rows written
+  gaps TEXT,                      -- terms the API refused, so a gap is visible
+  PRIMARY KEY (source, day, house)
+);
 CREATE TABLE IF NOT EXISTS source_runs (
   source TEXT PRIMARY KEY,        -- workflow name, or 'local'
   last_run TEXT NOT NULL,         -- ISO date of the last successful push
@@ -991,6 +1002,7 @@ def record_gaps(conn, feed, details, edition=None):
 # Tables the schema is expected to create; used by init verification and tests.
 TABLES = (
     "items",
+    "sweep_log",
     "petitions",
     "petition_snapshots",
     "bill_amendments",

@@ -38,6 +38,9 @@ class Candidate(object):
         self.contributions = set()
         self.areas = set()
         self.terms = set()
+        # what the ledger needs: one entry per matched contribution. The radar and the
+        # ledger were fetching the same contributions twice before these were kept.
+        self.contributions_detail = []
 
     @property
     def displayable_areas(self):
@@ -106,7 +109,12 @@ def candidates(client, date, terms, tax, wl, log=None):
                 title_only = filt.match_passages(tax, wl, c.debate_title or "", title=c.debate_title or "")
                 cand._title_areas = filt.aggregate_passages(title_only)[0] if title_only else []
             cand.members.add(c.member_id)
-            cand.contributions.add(c.ext_id)
+            if c.ext_id not in cand.contributions:
+                cand.contributions.add(c.ext_id)
+                cand.contributions_detail.append({
+                    "ext_id": c.ext_id, "member_id": c.member_id, "house": c.house,
+                    "areas": areas, "terms": hit_terms, "excerpt": _excerpt,
+                })
             cand.areas.update(areas)
             cand.terms.update(hit_terms)
     out = sorted(found.values(), key=lambda c: (len(c.members), len(c.contributions)), reverse=True)

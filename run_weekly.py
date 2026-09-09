@@ -22,7 +22,7 @@ from concurrent import futures
 
 import yaml
 
-from src import (actionable, board, db, digest, filter as filt, intel, members, publish, review,
+from src import (actionable, board, daysweep, db, digest, filter as filt, intel, members, publish, review,
                  spend, stance, triage)
 from src.http import FetchError, HttpClient
 from src.ingest import (amendments, bills, caselaw, committee_pubs, committees, consultations, divisions,
@@ -864,6 +864,23 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
         and which way" (Christopher, 2026-09-07)."""
         report_start = week_start - datetime.timedelta(days=7)
         report_end = week_start - datetime.timedelta(days=1)
+        # REPAIR PASS since 2026-09-09. The primary sweep is now per sitting day
+        # (tools/day_sweep.py + src/daysweep.py), which records each day in
+        # `sweep_log` and never re-searches one. This weekly pass stays because a
+        # day the daily job missed -- the runner was down, the API refused a term,
+        # Hansard revised the text later -- would otherwise be lost for ever, and
+        # record_event upserts so repeating a day costs nothing but the search.
+        # Every day of this window that the daily sweep already covered is skipped.
+        already = set()
+        try:
+            for row in conn.execute(
+                    "SELECT day FROM sweep_log WHERE source=? AND sat=1 AND day BETWEEN ? AND ?",
+                    (daysweep.SOURCE, report_start.isoformat(), report_end.isoformat())):
+                already.add(row[0])
+        except Exception:                                   # noqa: BLE001 - table may predate this
+            already = set()
+        if already:
+            log("hansard: {0} of the week's days already swept daily; repairing the rest".format(len(already)))
         for term in hansard.sweep_terms(settings):
             try:
                 # PQ terms in spoken form plus the Hansard-only broad words
@@ -878,6 +895,8 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
             for s in speeches:
                 if not (s.member_id and s.date):
                     continue
+                if s.date.isoformat() in already:
+                    continue                    # the daily sweep has this day
                 # Passage-level: a long speech is tagged with the areas its
                 # passages actually support, and the strongest passage becomes
                 # the excerpt the 5CA Comments column quotes.

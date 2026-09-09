@@ -117,3 +117,34 @@ member-profiles sidecar commit. Two lessons, both cheap:
    CI's store, and re-applying them -- survivable only because the stance table is keyed
    by ref and `INSERT OR REPLACE` is idempotent.
 
+
+## Sweeping: sitting days, not weeks (9 Sept 2026)
+
+Christopher asked whether to sweep on days with activity on our issues, or to sweep only
+what is new. Sweeping "on days with activity" is circular -- you cannot know a debate
+touched our ground until you have swept it. What is free to know is whether the House sat.
+
+So the unit is the SITTING DAY, swept once, ever:
+
+* `src/daysweep.py` + `tools/day_sweep.py`. `sweep_log` records one row per source, day
+  and House, including that a recess day was checked and the House did not sit, so it is
+  never checked again. About 150 sitting days a year at 55 free searches each.
+* `sectionsforday.json` is the sitting test: empty for a Saturday, sections for a sitting
+  day. There is no sitting-dates endpoint (404 as at 2026-09-09), and `lastsittingdate`
+  gives only the most recent. An API failure is recorded as UNKNOWN, never as a recess:
+  burying a day as "did not sit" would lose it for ever.
+* A day within two days of today is looked at again, because Hansard publishes hours
+  after the House rises and revises text afterwards.
+* One search pass covers BOTH Houses -- Hansard's contribution search is not
+  house-scoped -- so the watermark holds a row per House but the terms are paid for once.
+* **One pass, two purposes.** The contributions fetched to decide whether a debate is
+  worth a pack are exactly the rows the ledger wants; they used to be fetched twice.
+* The weekly pass in run_weekly is now a REPAIR pass and skips days the daily sweep
+  already covered. It stays because a day the daily job missed -- runner down, a term
+  refused, text revised late -- would otherwise be lost, and record_event upserts, so
+  repeating a day costs only the search.
+
+**What deliberately did NOT move.** Written questions are answered days or weeks after
+they are asked, and Early Day Motion signatures accrue for weeks. Those genuinely change
+after the fact, so a once-only day sweep would freeze them wrong; they stay on the
+weekly rolling window.
