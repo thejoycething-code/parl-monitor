@@ -171,3 +171,103 @@ class TrackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ReelLengthTests(unittest.TestCase):
+    """Christopher, 2026-09-09: reels above 30s, below 60s, longer for a very good
+    speech. The edition's text quotes stay sized in characters; a reel is watched."""
+
+    def setUp(self):
+        import re
+        self.patterns = [re.compile(r"surrogac|surrogate|motherhood", re.I)]
+
+    def _speech(self, n, on_topic_every=1):
+        out = []
+        for i in range(n):
+            topic = "surrogacy" if i % on_topic_every == 0 else "housing"
+            out.append("Sentence number %d concerns %s and the protections that the law provides for women." % (i, topic))
+        return " ".join(out)
+
+    def test_a_passage_clears_thirty_seconds(self):
+        got = sc.reel_passage(self._speech(20), self.patterns)
+        self.assertIsNotNone(got)
+        self.assertGreaterEqual(sc.spoken_seconds(got), 30.0)
+
+    def test_a_thin_speech_stops_at_sixty_seconds(self):
+        # one on-topic sentence in five: not a "very good speech", so the cap holds
+        got = sc.reel_passage(self._speech(40, on_topic_every=5), self.patterns)
+        self.assertIsNotNone(got)
+        self.assertLessEqual(sc.spoken_seconds(got), sc.REEL_CAP_S + 0.01)
+
+    def test_a_speech_thick_with_our_issue_may_run_past_sixty(self):
+        got = sc.reel_passage(self._speech(40), self.patterns, target_s=80.0)
+        self.assertGreater(sc.spoken_seconds(got), sc.REEL_CAP_S)
+        self.assertLessEqual(sc.spoken_seconds(got), sc.REEL_HARD_CAP_S)
+
+    def test_too_short_to_be_a_reel_returns_none(self):
+        self.assertIsNone(sc.reel_passage("Surrogacy matters.", self.patterns))
+
+    def test_off_topic_speech_returns_none(self):
+        self.assertIsNone(sc.reel_passage(self._speech(20).replace("surrogacy", "housing"), self.patterns))
+
+    def test_it_refuses_a_passage_that_would_misrepresent_the_member(self):
+        # quotes.usable rejects a concession that never turns; the reel must too
+        text = "I accept that surrogacy brings joy to many families who have waited years for a child. " * 6
+        got = sc.reel_passage(text, self.patterns)
+        self.assertIsNone(got)
+
+    def test_real_speech_yields_a_reel_length_passage(self):
+        yemm = ("It is a pleasure to serve under your chairmanship this afternoon, Mr Pritchard. "
+                "The question before us is not whether intended parents are real parents, nor whether they should "
+                "ultimately receive legal recognition; the question is whether the woman who has carried and given "
+                "birth to a child should lose her legal status as that child's mother from the moment of birth. "
+                "I do not believe that she should. In our society, some things should never be reduced to questions "
+                "of contract, individual choice or intention, and motherhood is certainly one of them. "
+                "Pregnancy cannot simply be a service provided by one person for another, a woman's body cannot "
+                "merely be the means by which someone else's parental intentions are fulfilled and the relationship "
+                "created through nine months of pregnancy and childbirth cannot be written off because an agreement "
+                "was reached beforehand.")
+        got = sc.reel_passage(yemm, self.patterns)
+        self.assertIsNotNone(got)
+        self.assertGreaterEqual(sc.spoken_seconds(got), 30.0)
+        self.assertLessEqual(sc.spoken_seconds(got), sc.REEL_HARD_CAP_S)
+        self.assertNotIn("pleasure to serve", got)       # the courtesy opener is stripped
+
+
+class SpeechesParsingTests(unittest.TestCase):
+    """A minister's heading carries no (Party, Seat). Requiring it let her section leak
+    into the speaker above and her 'Neutral' reading overwrite his confirmed 'yes'
+    (Shastri-Hurst, 2026-09-09) -- a confirmed onside speaker dropped in silence."""
+
+    MD = """# Speeches
+
+## Dr Neil Shastri-Hurst (Con, Solihull West and Shirley)
+
+**Pass read:** With us — Stresses protecting child and surrogate mother.  ·  **confirmed: yes**
+
+*17:36:00, 979 words · [Hansard](https://e/1)*
+
+Nobody doubts the love that such parents have for their children.
+
+## Dame Diana Johnson
+
+**Pass read:** Neutral or unclear — Ministerial summary, no clear stance.  ·  **confirmed: no**
+
+*17:46:00, 974 words · [Hansard](https://e/2)*
+
+It is always a pleasure to serve under your chairmanship.
+"""
+
+    def test_a_minister_without_party_and_seat_is_her_own_speaker(self):
+        sp = sc.parse_speeches(self.MD)
+        self.assertEqual([s["name"] for s in sp], ["Dr Neil Shastri-Hurst", "Dame Diana Johnson"])
+        self.assertEqual(sp[0]["confirmed"], "yes")
+        self.assertEqual(sp[0]["party"], "Con")
+        self.assertEqual(sp[1]["confirmed"], "no")
+        self.assertEqual(sp[1]["party"], "")
+        self.assertIn("Nobody doubts", sp[0]["contributions"][0]["text"])
+        self.assertNotIn("pleasure to serve", sp[0]["contributions"][0]["text"])
+
+    def test_the_first_reading_in_a_section_wins(self):
+        sp = sc.parse_speeches(self.MD)
+        self.assertTrue(sp[0]["pass_read"].startswith("With us"))

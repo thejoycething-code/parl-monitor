@@ -426,6 +426,83 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
     return items
 
 
+# Reel length, in seconds of speech (Christopher, 2026-09-09): "above 30 seconds
+# ideally and below 60. With very good speeches, going above 60 is fine."
+# The edition's text quotes are sized in CHARACTERS (quotes.FLOOR/TARGET/CAP, about
+# 28s of speech) because 380 characters is what a reader will take; a reel is watched,
+# not read, so it is sized in seconds instead and runs two to three times longer.
+REEL_FLOOR_S = 30.0
+REEL_TARGET_S = 45.0
+REEL_CAP_S = 60.0
+REEL_HARD_CAP_S = 95.0     # the ceiling even for a very good speech
+REEL_STRONG_HITS = 3       # on-topic sentences that earn the licence to run past the cap
+
+
+def spoken_seconds(text):
+    """Estimated spoken length at the Commons' pace (debatepack.WORDS_PER_SECOND)."""
+    from src import debatepack
+    return len((text or "").split()) / float(debatepack.WORDS_PER_SECOND)
+
+
+def reel_passage(text, patterns, floor_s=REEL_FLOOR_S, target_s=REEL_TARGET_S,
+                 cap_s=REEL_CAP_S, hard_cap_s=REEL_HARD_CAP_S):
+    """The best whole-sentence passage of one speech to cut as a reel, or None.
+
+    Same seed-and-grow shape as quotes.shareable, and the same `usable` guard
+    against passages that misrepresent the member (a concession, someone else's
+    point, an opening question). The difference is the measure: sentences are
+    added until the window reaches `target_s` seconds of speech, it must clear
+    `floor_s`, and it stops at `cap_s` -- unless the window is carrying
+    REEL_STRONG_HITS or more on-topic sentences, which is what "a very good
+    speech" looks like from here, and then it may run to `hard_cap_s`.
+    """
+    from src import quotes
+    body = quotes.strip_openers(text or "")
+    sents = quotes.sentences(body) if body else []
+    if not sents:
+        return None
+    scored = [(i, quotes._matches(s, patterns)) for i, s in enumerate(sents)]
+    hits = [i for i, n in scored if n and spoken_seconds(sents[i]) <= hard_cap_s]
+    if not hits:
+        return None
+    for seed in sorted(hits, key=lambda i: (scored[i][1], -i), reverse=True):
+        for back in (True, False):
+            got = _grow_seconds(sents, scored, seed, floor_s, target_s, cap_s, hard_cap_s, back)
+            if got and quotes.usable(got):
+                return got
+    return None
+
+
+def _grow_seconds(sents, scored, seed, floor_s, target_s, cap_s, hard_cap_s, back=True):
+    """Grow a whole-sentence window around `seed` toward `target_s`, or None."""
+    from src import quotes
+    start = end = seed
+    if back and quotes._DEPENDENT.match(sents[seed]) and seed > 0:
+        if spoken_seconds(" ".join(sents[seed - 1:end + 1])) <= hard_cap_s:
+            start = seed - 1
+
+    def span():
+        return " ".join(sents[start:end + 1])
+
+    def ceiling():
+        # a window thick with on-topic sentences has earned the longer run
+        strong = sum(1 for i in range(start, end + 1) if scored[i][1])
+        return hard_cap_s if strong >= REEL_STRONG_HITS else cap_s
+
+    while spoken_seconds(span()) < target_s:
+        grew = False
+        if end + 1 < len(sents) and spoken_seconds(" ".join(sents[start:end + 2])) <= ceiling():
+            end += 1
+            grew = True
+        elif start > 0 and spoken_seconds(" ".join(sents[start - 1:end + 1])) <= ceiling():
+            start -= 1
+            grew = True
+        if not grew:
+            break
+    out = span()
+    return out if spoken_seconds(out) >= floor_s else None
+
+
 PARTY = {"Con": "Conservative", "Lab": "Labour", "Lab/Co-op": "Labour", "LD": "Liberal Democrat", "DUP": "DUP", "SNP": "SNP",
          "Green": "Green", "Ind": "Independent", "PC": "Plaid Cymru", "Ref": "Reform UK", "UUP": "UUP", "SDLP": "SDLP", "Alliance": "Alliance", "TUV": "TUV"}
 _QUOTE_HEAD = re.compile(r"^## (.+?)\s*\((.+?),\s*(.+?)\)\s*$")
@@ -453,6 +530,97 @@ def draft_sequence(quotes_md, title, date, limit=8):
         out += ["## %s" % name, "party: %s · %s" % (e["party"], e["seat"]), "> %s" % e["quote"], ""]
     if not entries:
         out += ["(quotes.md has no confirmed speakers yet: fill ONSIDE: yes/no in checklist.md, run tools/debate_pack.py --pack F --apply, then --draft again.)", ""]
+    return "\n".join(out)
+
+
+# A speaker heading is "## Name (Party, Seat)" -- EXCEPT a minister's, which
+# debatepack writes as bare "## Dame Diana Johnson". Requiring the parenthesis
+# made her section leak into the speaker above it, and her "Neutral" pass read
+# then overwrote his confirmed "yes" (Shastri-Hurst, 2026-09-09), dropping a
+# confirmed onside speaker from every reel without a word.
+_SPEECH_HEAD = re.compile(r"^## (.+?)(?:\s*\((.+?),\s*(.+?)\))?\s*$")
+_PASS_READ = re.compile(r"^\*\*Pass read:\*\*\s*(.+?)\s*(?:—|--)\s*(.*?)\s*·\s*\*\*confirmed:\s*(\w+)\*\*", re.I)
+_CONTRIB = re.compile(r"^\*(\d{2}:\d{2}:\d{2}),\s*([\d,]+) words")
+
+
+def parse_speeches(text):
+    """speeches.md -> [{name, party, seat, pass_read, confirmed, contributions}].
+
+    Each contribution keeps its own text, because a reel must be cut from ONE
+    contribution: joining a speech to a later intervention would produce a
+    passage that reads well and cannot be cut, the two halves being minutes apart.
+    """
+    out, cur, con = [], None, None
+    for raw in (text or "").splitlines():
+        line = raw.rstrip()
+        m = _SPEECH_HEAD.match(line)
+        if m:
+            cur = {"name": m.group(1).strip(), "party": (m.group(2) or "").strip(),
+                   "seat": (m.group(3) or "").strip(),
+                   "pass_read": "", "confirmed": "", "contributions": []}
+            out.append(cur)
+            con = None
+            continue
+        if cur is None:
+            continue
+        m = _PASS_READ.match(line)
+        if m:
+            if not cur["confirmed"]:      # the FIRST reading in the section is this speaker's
+                cur["pass_read"], cur["confirmed"] = m.group(1).strip(), m.group(3).strip().lower()
+            continue
+        m = _CONTRIB.match(line)
+        if m:
+            con = {"at": m.group(1), "words": int(m.group(2).replace(",", "")), "text": ""}
+            cur["contributions"].append(con)
+            continue
+        if con is not None and line.strip() and not line.startswith("*"):
+            con["text"] = (con["text"] + " " + line.strip()).strip()
+    return out
+
+
+def draft_reel_sequence(speeches_md, title, date, patterns, limit=8, onside_only=True):
+    """A sequence.md whose passages are REEL length, cut from the full speeches.
+
+    Unlike draft_sequence (which lifts quotes.md's short reading quotes), this
+    runs reel_passage over each speaker's longest single contribution, so the
+    proposed passage is already 30-60 seconds of speech. Speakers with no usable
+    reel-length passage are listed at the foot rather than dropped in silence:
+    a speech that cannot be cut is a fact the campaigner should see.
+    """
+    speakers = parse_speeches(speeches_md)
+    picked, skipped = [], []
+    for s in speakers:
+        onside = s["confirmed"] == "yes" or (not onside_only and s["confirmed"] != "no") \
+            or (s["confirmed"] not in ("yes", "no") and s["pass_read"].lower().startswith("with us"))
+        if onside_only and s["confirmed"] == "no":
+            skipped.append((s, "checklist says not onside"))
+            continue
+        if not onside:
+            skipped.append((s, "not confirmed onside"))
+            continue
+        best = max(s["contributions"], key=lambda c: c["words"], default=None)
+        passage = reel_passage(best["text"], patterns) if best else None
+        if not passage:
+            skipped.append((s, "no usable passage of 30s or more"))
+            continue
+        picked.append((s, passage))
+    picked.sort(key=lambda p: spoken_seconds(p[1]), reverse=True)
+    out = ["# Sequence: %s, %s" % (title, date), "",
+           "DRAFT by tools/social_cut.py --draft: passages are %.0f-%.0f seconds of speech, taken from each"
+           % (REEL_FLOOR_S, REEL_CAP_S),
+           "speaker's longest contribution and ordered longest first. Reorder, trim to about six, and correct",
+           "the words to what was SPOKEN once social-cut.md reports what the transcriber heard.", ""]
+    for s, passage in picked[:limit]:
+        name = s["name"] if s["name"].endswith(" MP") else s["name"] + " MP"
+        out += ["## %s" % name,
+                "party: %s · %s" % (PARTY.get(s["party"], s["party"]), s["seat"]),
+                "> %s" % passage, ""]
+    if skipped:
+        out += ["<!-- not proposed:"] + \
+               ["     %-34s %s" % (s["name"], why) for s, why in skipped] + ["-->", ""]
+    if not picked:
+        out += ["(No speaker has a usable passage of %.0f seconds or more. Confirm ONSIDE lines in checklist.md,"
+                % REEL_FLOOR_S, "run tools/debate_pack.py --pack F --apply, then --draft again.)", ""]
     return "\n".join(out)
 
 
