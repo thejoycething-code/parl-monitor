@@ -216,17 +216,56 @@ def _even_groups(words, max_chars, max_lines):
 
 
 def card_times(words, cards, passage):
-    """Time each card from the transcript words by position in the passage (token
-    fraction), so a transcript that hears '50 %' for '50%' still lines up."""
-    total = len(alignclip.tokens(passage)) or 1
+    """When each caption card should appear, from the transcript's word timings.
+
+    Two passes. First every card's own words are ALIGNED in the transcript, which is
+    exact wherever the words were heard as written. Then the cards that failed to align
+    -- the transcriber mangled them, or they are too short to place -- are interpolated
+    between the cards that succeeded, so a card nobody could locate never drags a
+    well-placed neighbour off its words.
+
+    Both refinements came from measuring the published 54-second cut (2026-09-09).
+    Spreading every card by token fraction assumed an even speaking pace and put two
+    cards 0.77s and 0.99s from the words they caption. Fixing that but forcing each card
+    to start no earlier than the one before it then let a single unlocatable card push
+    its neighbour a second late, which is how "of carrying a baby is one thing" ended up
+    behind the sound.
+    """
     n = len(words)
-    out, pos = [], 0
+    if not cards:
+        return []
+    anchors = []
     for card in cards:
-        k = len(alignclip.tokens(" ".join(card)))
-        i0 = min(n - 1, int(round(pos / float(total) * n)))
-        i1 = min(n - 1, max(i0, int(round((pos + k) / float(total) * n)) - 1))
-        out.append((words[i0][1], words[i1][2]))
-        pos += k
+        hit = alignclip.align(words, " ".join(card), min_ratio=0.5) if n else None
+        anchors.append((hit[0], hit[1]) if hit else None)
+    if not any(anchors):                              # nothing placed: fall back to token fraction
+        total = len(alignclip.tokens(passage)) or 1
+        out, pos = [], 0
+        for card in cards:
+            k = len(alignclip.tokens(" ".join(card)))
+            i0 = min(n - 1, int(round(pos / float(total) * n))) if n else 0
+            i1 = min(n - 1, max(i0, int(round((pos + k) / float(total) * n)) - 1)) if n else 0
+            out.append((words[i0][1], words[i1][2]) if n else (0.0, 0.0))
+            pos += k
+        return out
+    first_t = words[0][1] if n else 0.0
+    last_t = words[-1][2] if n else 0.0
+    out = list(anchors)
+    for i, got in enumerate(anchors):
+        if got is not None:
+            continue
+        prev = next((anchors[j][1] for j in range(i - 1, -1, -1) if anchors[j]), first_t)
+        nxt = next((anchors[j][0] for j in range(i + 1, len(anchors)) if anchors[j]), last_t)
+        gap = [j for j in range(i, len(anchors)) if anchors[j] is None and
+               all(anchors[k] is None for k in range(i, j + 1))]
+        share = (nxt - prev) / float(len(gap) + 1) if nxt > prev else 0.0
+        k = gap.index(i)
+        out[i] = (prev + share * k, prev + share * (k + 1))
+    # a later card must not be shown before an earlier one; nudge the EARLIER card back,
+    # never the later one forward, so an aligned card keeps its own timing
+    for i in range(len(out) - 2, -1, -1):
+        if out[i][0] > out[i + 1][0]:
+            out[i] = (out[i + 1][0], min(out[i][1], out[i + 1][0]))
     return out
 
 

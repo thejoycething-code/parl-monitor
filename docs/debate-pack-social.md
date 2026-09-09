@@ -76,3 +76,25 @@ Modelled on Right To Life UK's debate reports, openly from our perspective. See
 subheadings, no organisation quote unless asked, every quotation in Hansard wording,
 every speaker's name linked to their Hansard contribution, one paragraph for the
 other side and one for the Government's line.
+
+## Caption sync: what is fixed and what is not (9 Sept 2026)
+
+Alexandra flagged on the published 54-second cut that "the audio doesn't sync up".
+Measured rather than guessed:
+
+* **Not an audio/video offset.** Both streams start at 0.000 in the container, the six
+  concatenated parts are within 20ms of each other, and the accumulated delta over the
+  whole cut is 0.000s. The picture and the sound agree.
+* **It is the captions.** Cards were timed by spreading them across a part by token
+  fraction, which assumes an even speaking pace. Against the published cut that put two
+  cards 0.77s and 0.99s from the words they caption, both at a speaker's pause.
+  `card_times` now ALIGNS each card's own words in the transcript and interpolates only
+  the cards that fail to align, between the ones that succeed. Gilbert's worst card
+  improved from 0.77s to 0.27s.
+* **STILL OPEN.** Jim Shannon's two cards are about a second EARLY, and measuring inside
+  his own part (rather than the whole cut, where "carrying a baby is" occurs twice and
+  fools the aligner) gives -1.14s and -0.90s. So the part-local word timings written to
+  `clips/hd/timings.json` at cut time disagree with a fresh transcription of that part,
+  in some parts and not others. Suspect the relationship between the cut's `-ss` start
+  and the window transcript's timings. Until it is found, check the contact sheet AND
+  watch the cut before posting: a card a second early is visible.

@@ -271,3 +271,31 @@ It is always a pleasure to serve under your chairmanship.
     def test_the_first_reading_in_a_section_wins(self):
         sp = sc.parse_speeches(self.MD)
         self.assertTrue(sp[0]["pass_read"].startswith("With us"))
+
+
+class CardTimingTests(unittest.TestCase):
+    """Cards are timed by aligning their own words. Spreading them by token fraction
+    assumed an even speaking pace and put two cards of the published 54-second cut
+    0.77s and 0.99s from the words they caption (measured 2026-09-09)."""
+
+    WORDS = [("compensation", 0.3, 0.9), ("for", 0.9, 1.1), ("genuine", 1.1, 1.5), ("expenses", 1.5, 2.0),
+             # a long pause here is what defeats interpolation
+             ("of", 5.0, 5.2), ("carrying", 5.2, 5.6), ("a", 5.6, 5.7), ("baby", 5.7, 6.0),
+             ("is", 6.0, 6.2), ("one", 6.2, 6.4), ("thing.", 6.4, 6.9)]
+
+    def test_a_card_after_a_pause_is_timed_to_its_words_not_to_the_average_pace(self):
+        cards = [["Compensation for genuine expenses"], ["of carrying a baby is one thing."]]
+        times = sc.card_times(self.WORDS, cards, "Compensation for genuine expenses of carrying a baby is one thing.")
+        self.assertAlmostEqual(times[0][0], 0.3, places=1)
+        self.assertAlmostEqual(times[1][0], 5.0, places=1)     # after the pause, not interpolated into it
+
+    def test_cards_never_run_backwards(self):
+        cards = [["one thing."], ["Compensation for genuine expenses"]]      # deliberately out of order
+        times = sc.card_times(self.WORDS, cards, "one thing. Compensation for genuine expenses")
+        self.assertGreaterEqual(times[1][0], times[0][0])
+
+    def test_an_unrecognisable_card_still_gets_a_time(self):
+        cards = [["Zzz qqq xyzzy plugh frobnitz"]]
+        times = sc.card_times(self.WORDS, cards, "Zzz qqq xyzzy plugh frobnitz")
+        self.assertEqual(len(times), 1)
+        self.assertIsNotNone(times[0][0])
