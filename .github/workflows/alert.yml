@@ -30,6 +30,10 @@ on:
       # details for every chamber. It was in neither this list nor
       # coverage.py: the same omission, twice over (2026-09-04).
       - "Member profiles"
+      # The day sweep is the ledger's PRIMARY source of speeches since
+      # 2026-09-09; the weekly pass only repairs what it missed. A silent
+      # failure here would starve the ledger and the radar at once.
+      - "Day sweep"
       # The same-day division brief. A silent failure here on a Friday
       # afternoon is the whole point missed (2026-09-07).
       - "Division watch"

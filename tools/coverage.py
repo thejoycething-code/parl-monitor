@@ -50,6 +50,11 @@ PIPELINES = {
     # it pulls service history, party spells and contact details for
     # every chamber, and nothing would have said if it stopped.
     "Member profiles": (7, 4, "service history, party spells, contacts"),
+    # Since 2026-09-09 this is the ledger's PRIMARY source of speeches; the
+    # Sunday pull only repairs what it missed. Cadence 1 with a grace of 3
+    # because it runs on sitting weekdays only: Friday evening to Monday
+    # morning is the longest legitimate gap.
+    "Day sweep": (1, 3, "the day's speeches on our issues, and the radar"),
 }
 
 # Pipelines deliberately not running. Listed so a PAUSE never reads as a
@@ -120,6 +125,7 @@ PIPELINE_FEEDS = {
                   "eu_cmte_meetings"],
     "UPR monthly": ["upr_recommendations"],
     "Member profiles": ["dv_post", "dv_contact"],
+    "Day sweep": ["sweep_log"],
 }
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
