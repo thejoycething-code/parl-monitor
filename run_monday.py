@@ -228,6 +228,12 @@ def main():
     # by-election MP is otherwise absent from the vote tracker, and a departed
     # one still counted, until somebody remembers to run the tool by hand.
     for label, argv in (("roster", ["tools/pull_commons_roster.py"]),
+                        # Every tracker division must have its voters in the ledger
+                        # BEFORE the tracker builds: the card reads voters from
+                        # mp_events, and a division the title sweep cannot see
+                        # (2026-09-10: "Health Bill: Report Stage: New Clause 142")
+                        # otherwise publishes a signed-off verdict on nobody.
+                        ("tracker ledger", ["tools/ledger_tracker_divisions.py"]),
                         ("vote tracker", ["tools/make_vote_tracker.py"]),
                         ("msp votes", ["tools/make_msp_votes.py"]),
                         # Wales and NI in one call: the tool builds every

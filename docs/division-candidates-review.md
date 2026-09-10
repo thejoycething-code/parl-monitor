@@ -1,6 +1,6 @@
 # Division candidates for review
 
-*Divisions the title sweep could not see, flagged by the taxonomy on the title or by tagged speeches in the same debate. Nothing here is in the ledger or the tracker. To add one: put it in config/vote_tracker.yaml with a meaning line you have written; the next Score stance run ledgers the voters. Generated 8 Sept 2026 by tools/find_division_candidates.py; queues in data/division-candidates.json (2020-26) and data/division-candidates-2017-2019.json.*
+*Divisions the title sweep could not see, flagged by the taxonomy on the title or by tagged speeches in the same debate. Nothing here is in the ledger or the tracker. To add one: put it in config/vote_tracker.yaml with a meaning line you have written. Its voters are ledgered by `tools/ledger_tracker_divisions.py`, which the Monday publish runs before the tracker builds (an earlier version of this note said the Score stance run did it; nothing did, and two signed-off divisions published a verdict on nobody on 10 Sept 2026). Generated 8 Sept 2026 by tools/find_division_candidates.py; queues in data/division-candidates.json (2020-26) and data/division-candidates-2017-2019.json.*
 
 ## Health Bill report stage, 8 September 2026 — meaning lines drafted, awaiting sign-off
 
