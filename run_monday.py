@@ -229,10 +229,12 @@ def main():
     # one still counted, until somebody remembers to run the tool by hand.
     for label, argv in (("roster", ["tools/pull_commons_roster.py"]),
                         # Every tracker division must have its voters in the ledger
-                        # BEFORE the tracker builds: the card reads voters from
-                        # mp_events, and a division the title sweep cannot see
-                        # (2026-09-10: "Health Bill: Report Stage: New Clause 142")
-                        # otherwise publishes a signed-off verdict on nobody.
+                        # BEFORE the tracker and the 5CA sheets build. The 5CA reads
+                        # placements from mp_events, and a division the title sweep
+                        # cannot see ("Health Bill: Report Stage: New Clause 142")
+                        # otherwise contributes nothing to anyone's placement; a NEW
+                        # one also has no raw payload yet for the page to render.
+                        # First run, 2026-09-10: 13 of 23 signed-off divisions.
                         ("tracker ledger", ["tools/ledger_tracker_divisions.py"]),
                         ("vote tracker", ["tools/make_vote_tracker.py"]),
                         ("msp votes", ["tools/make_msp_votes.py"]),

@@ -1,13 +1,20 @@
 """Every division on the vote tracker has its voters in the ledger. Always.
 
-Why this exists. The tracker card draws a division's voters FROM THE LEDGER
-(make_vote_tracker reads mp_events WHERE kind='vote'). The only two paths that put
-voters into the ledger are the title-based division sweeps -- and a division the
-sweep cannot see, because its title reads "Health Bill: Report Stage: New Clause
-142" and names no issue, never arrives. So on 2026-09-10 two divisions were signed
-off on the tracker with meaning lines, and the verdict they published applied to
-nobody: the cards had no voters. The review doc had promised "the next Score stance
-run ledgers the voters"; nothing did.
+Why this exists. The 5CA placements and the stance scorer read a division's voters
+FROM THE LEDGER (mp_events WHERE kind='vote'). The only two paths that put voters
+into the ledger are the title-based division sweeps -- and a division the sweep
+cannot see, because its title reads "Health Bill: Report Stage: New Clause 142" and
+names no issue, never arrives. So a division could be signed off on the tracker and
+contribute NOTHING to any member's placement. The first run (2026-09-10) found 13 of
+23 signed-off divisions in that state. The review doc had promised "the next Score
+stance run ledgers the voters"; nothing did.
+
+Be precise about what was and was not broken. The tracker PAGE renders voters from
+the raw archive payloads (make_vote_tracker's docstring: "from the archive, not a
+refetch"), so the eleven older divisions always displayed correctly there; a diff of
+the regenerated page showed them unchanged. The ledger -- and so every 5CA sheet --
+was where they were missing. A brand-new division needs the fetch for both, because
+until it runs there is no payload in data/raw for the page to render either.
 
 The rule now: config/vote_tracker.yaml is the list of divisions we care about, and
 the ledger follows it. Before the tracker builds, any tracker division with no
