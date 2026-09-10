@@ -36,11 +36,20 @@ def tools():
     return (yt if os.path.exists(yt) else None), ff
 
 
+def area_patterns(areas):
+    """The taxonomy's term patterns for the pack's areas, as debate_pack builds them."""
+    from src import filter as filt
+    tax = filt.load_taxonomy(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                          "config", "taxonomy.yaml"))
+    areas = [a for a in areas if a != 11] or list(tax.terms)
+    return [it[1] for a in areas for _t, items in sorted((tax.terms.get(a) or {}).items()) for it in items]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--pack", required=True, help="the pack folder (data/packs/<date>-<slug>)")
     ap.add_argument("--render", action="store_true", help="skip downloads; re-cut and re-render from the windows on disk")
-    ap.add_argument("--draft", action="store_true", help="write a first sequence.md from quotes.md (confirmed-onside speakers, speaking order); refuses to overwrite")
+    ap.add_argument("--draft", action="store_true", help="write a first sequence.md of 30-60s passages from speeches.md (confirmed onside, or the pass read while the checklist is blank -- then marked PROVISIONAL); refuses to overwrite")
     ap.add_argument("--transcribe", action="store_true", help="transcribe clips/00-whole-debate-*.mp4 into clips/whole-debate.words.json and stop")
     ap.add_argument("--model", default="small.en", help="faster-whisper model (default small.en)")
     args = ap.parse_args()
@@ -53,11 +62,15 @@ def main():
         if os.path.exists(seq):
             raise SystemExit("sequence.md already exists; delete or rename it first")
         state = json.load(open(os.path.join(args.pack, "pack.json")))
-        quotes_path = os.path.join(args.pack, "quotes.md")
-        quotes = open(quotes_path, encoding="utf-8").read() if os.path.exists(quotes_path) else ""
-        text = socialcut.draft_sequence(quotes, state.get("title", "debate"), state.get("date", ""))
+        speeches_path = os.path.join(args.pack, "speeches.md")
+        if not os.path.exists(speeches_path):
+            raise SystemExit("no speeches.md in the pack; build it with tools/debate_pack.py first")
+        text = socialcut.draft_reel_sequence(open(speeches_path, encoding="utf-8").read(),
+                                             state.get("title", "debate"), state.get("date", ""),
+                                             area_patterns(state.get("areas") or []))
         open(seq, "w", encoding="utf-8").write(text)
-        print("wrote %s (%d speakers). Reorder, trim, then run without --draft." % (seq, text.count("\n## ")))
+        print("wrote %s (%d speakers%s). Reorder, trim, then run without --draft."
+              % (seq, text.count("\n## "), "; PROVISIONAL" if socialcut.PROVISIONAL_LINE in text else ""))
         return
     if args.transcribe:
         words = socialcut.transcribe_whole(args.pack, ff, whisper_model=args.model)

@@ -1,6 +1,7 @@
 """The social cut (Christopher, 2026-09-08): sequence file, caption cards, crop, timing, ASS."""
 
 import os
+import re
 import sys
 import unittest
 
@@ -271,6 +272,67 @@ It is always a pleasure to serve under your chairmanship.
     def test_the_first_reading_in_a_section_wins(self):
         sp = sc.parse_speeches(self.MD)
         self.assertTrue(sp[0]["pass_read"].startswith("With us"))
+
+    def test_a_blank_checklist_still_yields_the_pass_read(self):
+        """Before --apply the line has no 'confirmed:' suffix. It used to parse as no
+        reading at all, so nothing could be drafted on the evening of the debate."""
+        md = self.MD.replace("  ·  **confirmed: yes**", "").replace("  ·  **confirmed: no**", "")
+        sp = sc.parse_speeches(md)
+        self.assertTrue(sp[0]["pass_read"].startswith("With us"), sp[0])
+        self.assertEqual(sp[0]["confirmed"], "")
+        self.assertTrue(sp[1]["pass_read"].startswith("Neutral"))
+
+
+class ReelDraftTests(unittest.TestCase):
+    """--draft writes reel-length passages from speeches.md; with a blank checklist the
+    pass read stands in and the file says PROVISIONAL (the Friday task, 2026-09-11)."""
+
+    SENTS = ["Surrogacy asks a child to live with promises that adults made before that child was born.",
+             "Commercial surrogacy treats the birth of a child as the delivery of a service under contract.",
+             "In every surrogacy arrangement there is a woman whose body carries the risk and a child who bears the consequences.",
+             "The law on surrogacy should begin from the interests of the child, not the wishes of the adults.",
+             "We have seen surrogacy agencies abroad advertise to couples here with prices printed beside the photographs.",
+             "No reform of surrogacy law should weaken the position of the woman who gives birth.",
+             "Surrogacy is not a technical question of paperwork; it is a question of what we owe to children.",
+             "Parliament should be honest that surrogacy creates a market wherever payment is allowed.",
+             "The child in a surrogacy arrangement has no voice in this Chamber unless we lend ours.",
+             "Surrogacy law reform must not become a route to importing commercial practice by the back door.",
+             "Those who defend surrogacy on the ground of choice rarely speak of the choices the child never had.",
+             "A surrogacy contract enforceable at birth would make a mother's change of heart a breach of contract.",
+             "Surrogacy deserves scrutiny that this House has so far declined to give it.",
+             "The women recruited into surrogacy overseas are almost always poorer than those who commission them."]
+
+    def md(self, confirmed_suffix):
+        return ("# Speeches\n\n## Shivani Raja (Con, Leicester East)\n\n"
+                "**Pass read:** With us — Protects the child.%s\n\n"
+                "*16:40:00, 300 words · [Hansard](https://e/1)*\n\n%s\n\n"
+                "## Rachel Taylor (Lab, North Warwickshire)\n\n"
+                "**Pass read:** Against us — Wants reform.%s\n\n"
+                "*16:50:00, 300 words · [Hansard](https://e/2)*\n\n%s\n"
+                % (confirmed_suffix[0], " ".join(self.SENTS), confirmed_suffix[1], " ".join(self.SENTS)))
+
+    PATTERNS = [re.compile(r"surrogac", re.I)]
+
+    def test_blank_checklist_drafts_from_the_pass_read_and_says_provisional(self):
+        text = sc.draft_reel_sequence(self.md(("", "")), "Surrogacy", "2026-09-07", self.PATTERNS)
+        entries = sc.parse_sequence(text)
+        self.assertEqual([e["name"] for e in entries], ["Shivani Raja MP"])
+        self.assertIn(sc.PROVISIONAL_LINE, text)
+        self.assertIn("Rachel Taylor", text)          # listed at the foot, not dropped in silence
+        secs = sc.spoken_seconds(entries[0]["passage"])
+        self.assertTrue(sc.REEL_FLOOR_S <= secs <= sc.REEL_HARD_CAP_S, secs)
+
+    def test_confirmed_checklist_is_not_provisional(self):
+        text = sc.draft_reel_sequence(self.md(("  ·  **confirmed: yes**", "  ·  **confirmed: no**")),
+                                      "Surrogacy", "2026-09-07", self.PATTERNS)
+        self.assertEqual([e["name"] for e in sc.parse_sequence(text)], ["Shivani Raja MP"])
+        self.assertNotIn(sc.PROVISIONAL_LINE, text)
+
+    def test_a_checklist_no_beats_a_with_us_pass_read(self):
+        md = self.md(("  ·  **confirmed: no**", "")).replace("Against us — Wants reform.", "With us — Sounds like ours.")
+        text = sc.draft_reel_sequence(md, "Surrogacy", "2026-09-07", self.PATTERNS)
+        self.assertEqual([e["name"] for e in sc.parse_sequence(text)], ["Rachel Taylor MP"])
+        self.assertIn(sc.PROVISIONAL_LINE, text)
 
 
 class CardTimingTests(unittest.TestCase):

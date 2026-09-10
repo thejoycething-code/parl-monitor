@@ -13,10 +13,18 @@ the writer start from these.
 3. NOT NEEDED since 2026-09-10: the whole-sitting download. Each passage is located
    inside the speaker's own Hansard span and fetched by HLS segment. Optional, and
    still cheapest when it exists: `--download-debate` then `--transcribe`.
-4. `tools/social_cut.py --pack F --draft` writes a first `sequence.md` from quotes.md
-   (confirmed-onside speakers in speaking order, first quote each). The template is
+4. `tools/social_cut.py --pack F --draft` writes a first `sequence.md` of REEL-LENGTH
+   passages (30-60 seconds of speech, `reel_passage`) from each onside speaker's
+   longest contribution in speeches.md, longest first. Run it before the checklist
+   is confirmed and the pass read stands in: the file then carries a PROVISIONAL
+   line and lists, at the foot, who was left out and why. The template is
    `docs/sequence-template.md`. Reorder, trim to about six, then run
    `tools/social_cut.py --pack F`.
+   The report has the same mode: `tools/debate_report.py --pack F --provisional`
+   drafts from the pass read, marks report.md, social.md and report.json, and
+   `--publish` refuses it (no flag clears that) until the checklist is confirmed and
+   the report regenerated plain. Onside remains the campaigner's decision; the
+   provisional mode exists so a draft can be waiting the same evening.
 5. Check `clips/final/social-cut-contact-sheet.jpg` (crops) and `social-cut.md`
    (the words heard). Correct `sequence.md` and re-run with `--render`.
 6. Write the article from `speeches.md` to the brief below.

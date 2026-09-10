@@ -110,5 +110,28 @@ class EnsureTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT count(*) FROM mp_events").fetchone()[0], 0)
 
 
+class StoreTests(unittest.TestCase):
+    """Against the real store, when it is here: no signed-off tracker division may be
+    publishing a verdict on voters the ledger does not hold. Thirteen were, on
+    2026-09-10, and nothing measured it."""
+
+    def test_every_signed_off_tracker_division_has_voters_in_the_ledger(self):
+        path = os.path.join(ROOT, "data", "parl-monitor.db")
+        if not os.path.exists(path):
+            self.skipTest("no store")
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import make_vote_tracker
+        cfg = make_vote_tracker.load_config()
+        signed = {int(d["id"]) for d in cfg.get("divisions") or [] if d.get("id") and d.get("signed_off")}
+        conn = sqlite3.connect("file:%s?mode=ro" % path, uri=True)
+        try:
+            missing = [(d, h, i) for d, h, _a, i in tl.missing_divisions(conn, cfg) if d in signed]
+        finally:
+            conn.close()
+        self.assertEqual(missing, [],
+                         "signed-off divisions with no voters in the ledger (run "
+                         "tools/ledger_tracker_divisions.py, then push the store): %s" % missing)
+
+
 if __name__ == "__main__":
     unittest.main()

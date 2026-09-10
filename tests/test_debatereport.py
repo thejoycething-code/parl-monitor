@@ -5,6 +5,7 @@ ways its output could embarrass us are wrong length, an invented link, a quote t
 not really in the speeches, and a member we never confirmed reading as one of ours.
 """
 
+import json
 import os
 import sys
 import unittest
@@ -158,6 +159,56 @@ class GenerateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ProvisionalTests(unittest.TestCase):
+    """A blank checklist on the evening of the debate: the pass read may stand in for a
+    DRAFT, the draft says so everywhere, and nothing clears it but the checklist."""
+
+    BLANK = [dict(SPEECHES[0], confirmed=""), dict(SPEECHES[1], confirmed="")]
+
+    def test_brief_is_unchanged_unless_asked(self):
+        self.assertFalse(any(s["confirmed_onside"] for s in dr.speaker_brief(self.BLANK)))
+        prov = dr.speaker_brief(self.BLANK, provisional=True)
+        self.assertEqual([s["name"] for s in prov if s["confirmed_onside"]], ["Steve Yemm"])
+
+    def test_a_checklist_no_is_never_overridden(self):
+        said_no = [dict(SPEECHES[0], confirmed="no")]
+        self.assertFalse(dr.speaker_brief(said_no, provisional=True)[0]["confirmed_onside"])
+
+    def test_generate_refuses_a_blank_checklist_unless_provisional(self):
+        with self.assertRaises(SystemExit) as caught:
+            dr.generate(META, self.BLANK, "key", transport=lambda p, k: {})
+        self.assertIn("--provisional", str(caught.exception))
+        sent = {}
+        reply = {"content": [{"type": "text", "text": "<<<REPORT>>>\nr\n<<<SOCIAL>>>\ns\n<<<SUMMARY>>>\nx"}]}
+
+        def transport(payload, key):
+            sent.update(payload)
+            return reply
+        dr.generate(META, self.BLANK, "key", transport=transport, log=lambda *_a: None, provisional=True)
+        user = json.loads(sent["messages"][0]["content"])
+        self.assertTrue(user["debate"]["provisional"])
+        self.assertEqual(user["debate"]["onside_count"], 1)
+
+    def test_provisional_with_nobody_read_with_us_still_refuses(self):
+        nobody = [dict(SPEECHES[1], confirmed="")]
+        with self.assertRaises(SystemExit):
+            dr.generate(META, nobody, "key", transport=lambda p, k: {}, provisional=True)
+
+    def test_the_dm_says_provisional_and_does_not_offer_publish_as_the_next_step(self):
+        text = dr.approval_dm(META, {"REPORT": "x", "SUMMARY": "s"}, [], [], "p", provisional=True)
+        self.assertTrue(text.startswith("*PROVISIONAL"))
+        self.assertIn("checklist.md", text)
+        self.assertIn("refuses a provisional report", text)
+        plain = dr.approval_dm(META, {"REPORT": "x", "SUMMARY": "s"}, [], [], "p")
+        self.assertNotIn("PROVISIONAL", plain)
+
+    def test_publish_blockers(self):
+        self.assertEqual(dr.publish_blockers({}), [])
+        self.assertEqual(len(dr.publish_blockers({"problems": ["x"]})), 1)
+        self.assertEqual(dr.publish_blockers({"problems": ["x"]}, force=True), [])
+        self.assertEqual(len(dr.publish_blockers({"provisional": True}, force=True)), 1)
 
 
 class QuotationExtractionTests(unittest.TestCase):

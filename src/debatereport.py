@@ -78,12 +78,24 @@ count of members each way)
 """ % (WORDS_MIN, WORDS_MAX)
 
 
-def speaker_brief(speeches, max_words_each=900, max_speakers=16):
+def stands_in_for_onside(speaker):
+    """Provisional drafting only: the pass read 'With us' on a speaker the checklist has
+    not decided either way. A checklist 'no' is never overridden."""
+    return speaker.get("confirmed") not in ("yes", "no") and \
+        (speaker.get("pass_read") or "").lower().startswith("with us")
+
+
+def speaker_brief(speeches, max_words_each=900, max_speakers=16, provisional=False):
     """What the writer is shown: each speaker's longest contribution, their confirmed
     standing, and the Hansard url of that contribution.
 
     Longest contribution rather than everything they said: an intervention adds words
     and no argument, and the input is what costs money.
+
+    `provisional` lets the stance pass stand in for a blank checklist, so a draft can
+    exist the same evening (the Friday task, 2026-09-11). It is a draft and nothing
+    else: publish_blockers refuses a provisional report until the checklist is confirmed
+    and the report regenerated without the flag.
     """
     out = []
     for s in speeches[:max_speakers]:
@@ -95,7 +107,7 @@ def speaker_brief(speeches, max_words_each=900, max_speakers=16):
             "name": s["name"],
             "party": s.get("party") or "",
             "seat": s.get("seat") or "",
-            "confirmed_onside": s.get("confirmed") == "yes",
+            "confirmed_onside": s.get("confirmed") == "yes" or (provisional and stands_in_for_onside(s)),
             "pass_read": s.get("pass_read") or "",
             "hansard_url": best.get("url") or "",
             "words": best.get("words"),
@@ -104,12 +116,13 @@ def speaker_brief(speeches, max_words_each=900, max_speakers=16):
     return out
 
 
-def build_payload(meta, speakers, model=REPORT_MODEL):
+def build_payload(meta, speakers, model=REPORT_MODEL, provisional=False):
     user = {"debate": {"title": meta.get("title"), "date": meta.get("date"),
                        "house": meta.get("house"), "hansard_url": meta.get("hansard_url"),
                        "petition": meta.get("petition"), "signatures": meta.get("signatures"),
                        "onside_count": sum(1 for s in speakers if s["confirmed_onside"]),
-                       "other_count": sum(1 for s in speakers if not s["confirmed_onside"])},
+                       "other_count": sum(1 for s in speakers if not s["confirmed_onside"]),
+                       "provisional": bool(provisional)},
             "speakers": speakers}
     return {"model": model, "max_tokens": MAX_TOKENS, "system": SYSTEM_PROMPT,
             "messages": [{"role": "user", "content": json.dumps(user, ensure_ascii=False)}]}
@@ -235,16 +248,20 @@ def _around(text, needle, width=140):
     return text[max(0, i - width):i + width] if i >= 0 else ""
 
 
-def generate(meta, speeches, api_key, conn=None, transport=None, dated=None, log=print):
+def generate(meta, speeches, api_key, conn=None, transport=None, dated=None, log=print,
+             provisional=False):
     """One call: report, social copy, summary. Returns (sections, problems, usage)."""
     from src import spend, stance
-    speakers = speaker_brief(speeches)
+    speakers = speaker_brief(speeches, provisional=provisional)
     if not speakers:
         raise SystemExit("no speaker has recoverable text: is speeches.md populated?")
     if not any(s["confirmed_onside"] for s in speakers):
+        if provisional:
+            raise SystemExit("no speaker is confirmed onside and the pass read nobody as With us; "
+                             "there is no provisional report to write")
         raise SystemExit("no speaker is confirmed onside in checklist.md; confirm first, "
-                         "then run tools/debate_pack.py --pack F --apply")
-    payload = build_payload(meta, speakers)
+                         "then run tools/debate_pack.py --pack F --apply (or --provisional for a draft)")
+    payload = build_payload(meta, speakers, provisional=provisional)
     reply = (transport or stance._default_transport)(payload, api_key)
     usage = reply.get("usage") or {}
     if conn is not None:
@@ -257,11 +274,31 @@ def generate(meta, speeches, api_key, conn=None, transport=None, dated=None, log
     return sections, problems, usage
 
 
-def approval_dm(meta, sections, reels, problems, pack_dir, radar_note=""):
+PROVISIONAL_NOTE = ("PROVISIONAL: the onside list came from the stance pass, not the checklist. "
+                    "Confirm ONSIDE in checklist.md, run --apply, then regenerate without --provisional.")
+
+
+def publish_blockers(state, force=False):
+    """Why report.json says this report may not go to the channel. Empty means go.
+
+    --force clears failed checks (a person has read them and said why); it never
+    clears provisional, because the fix for that is the checklist, not a flag.
+    """
+    out = []
+    if state.get("provisional"):
+        out.append(PROVISIONAL_NOTE)
+    if state.get("problems") and not force:
+        out.append("%d check(s) failed when this report was generated" % len(state["problems"]))
+    return out
+
+
+def approval_dm(meta, sections, reels, problems, pack_dir, radar_note="", provisional=False):
     """The DM that asks for sign-off. It never says 'published'."""
     summary = (sections.get("SUMMARY") or "").strip().splitlines()
     head = summary[0] if summary else meta.get("title", "debate")
-    lines = ["*Debate report ready for approval — %s*" % meta.get("date", ""),
+    lines = ["*%s — %s*" % ("PROVISIONAL debate report, not for publishing yet" if provisional
+                            else "Debate report ready for approval", meta.get("date", "")),
+             PROVISIONAL_NOTE if provisional else None,
              "",
              "*%s* (%s)" % (meta.get("title", "?"), meta.get("house", "")),
              meta.get("hansard_url", ""),
@@ -280,7 +317,15 @@ def approval_dm(meta, sections, reels, problems, pack_dir, radar_note=""):
         lines += ["", "All automatic checks passed (length, links, quotes verbatim, onside list)."]
     if radar_note:
         lines += ["", radar_note]
-    lines += ["", "*To publish as a canvas to #campaigns-en-gb*",
-              "```python3 tools/debate_report.py --pack %s --publish```" % pack_dir,
-              "Nothing reaches the channel until that is run."]
+    if provisional:
+        lines += ["", "*Before this can be published*",
+                  "1. Fill ONSIDE yes/no in %s/checklist.md" % pack_dir,
+                  "2. ```python3 tools/debate_pack.py --pack %s --apply```" % pack_dir,
+                  "3. ```python3 tools/debate_report.py --pack %s```  (regenerates from the confirmed list)" % pack_dir,
+                  "4. then ```python3 tools/debate_report.py --pack %s --publish```" % pack_dir,
+                  "--publish refuses a provisional report; nothing reaches the channel until the confirmed one is run."]
+    else:
+        lines += ["", "*To publish as a canvas to #campaigns-en-gb*",
+                  "```python3 tools/debate_report.py --pack %s --publish```" % pack_dir,
+                  "Nothing reaches the channel until that is run."]
     return "\n".join(l for l in lines if l is not None)

@@ -609,7 +609,10 @@ def draft_sequence(quotes_md, title, date, limit=8):
 # then overwrote his confirmed "yes" (Shastri-Hurst, 2026-09-09), dropping a
 # confirmed onside speaker from every reel without a word.
 _SPEECH_HEAD = re.compile(r"^## (.+?)(?:\s*\((.+?),\s*(.+?)\))?\s*$")
-_PASS_READ = re.compile(r"^\*\*Pass read:\*\*\s*(.+?)\s*(?:—|--)\s*(.*?)\s*·\s*\*\*confirmed:\s*(\w+)\*\*", re.I)
+# The "· **confirmed: yes**" suffix is written only once the checklist is applied. A
+# blank checklist writes none, and a regex that required it read NO pass read for any
+# speaker before confirmation -- so nothing could be drafted the evening of a debate.
+_PASS_READ = re.compile(r"^\*\*Pass read:\*\*\s*(.+?)\s*(?:—|--)\s*(.*?)\s*(?:·\s*\*\*confirmed:\s*(\w+)\*\*)?\s*$", re.I)
 _CONTRIB = re.compile(r"^\*(\d{2}:\d{2}:\d{2}),\s*([\d,]+) words(?:.*?\[Hansard\]\((\S+?)\))?")
 
 
@@ -635,8 +638,8 @@ def parse_speeches(text):
             continue
         m = _PASS_READ.match(line)
         if m:
-            if not cur["confirmed"]:      # the FIRST reading in the section is this speaker's
-                cur["pass_read"], cur["confirmed"] = m.group(1).strip(), m.group(3).strip().lower()
+            if not cur["pass_read"]:      # the FIRST reading in the section is this speaker's
+                cur["pass_read"], cur["confirmed"] = m.group(1).strip(), (m.group(3) or "").strip().lower()
             continue
         m = _CONTRIB.match(line)
         if m:
@@ -647,6 +650,10 @@ def parse_speeches(text):
         if con is not None and line.strip() and not line.startswith("*"):
             con["text"] = (con["text"] + " " + line.strip()).strip()
     return out
+
+
+PROVISIONAL_LINE = ("PROVISIONAL: speakers taken from the stance pass, not the checklist. Confirm "
+                    "ONSIDE in checklist.md and edit this file before the cut is used.")
 
 
 def draft_reel_sequence(speeches_md, title, date, patterns, limit=8, onside_only=True):
@@ -681,6 +688,9 @@ def draft_reel_sequence(speeches_md, title, date, patterns, limit=8, onside_only
            % (REEL_FLOOR_S, REEL_CAP_S),
            "speaker's longest contribution and ordered longest first. Reorder, trim to about six, and correct",
            "the words to what was SPOKEN once social-cut.md reports what the transcriber heard.", ""]
+    if any(s["confirmed"] != "yes" for s, _p in picked[:limit]):
+        # the pass read stood in for a blank checklist: say so where the campaigner will read it
+        out += [PROVISIONAL_LINE, ""]
     for s, passage in picked[:limit]:
         name = s["name"] if s["name"].endswith(" MP") else s["name"] + " MP"
         out += ["## %s" % name,
