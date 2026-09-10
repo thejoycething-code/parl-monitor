@@ -384,20 +384,30 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
         window = os.path.join(hd, s + "-window.mp4")
         words_json = os.path.join(hd, s + "-window.words.json")
         if not render_only and not os.path.exists(window):
-            if whole is None:
-                raise SystemExit("no clips/whole-debate.words.json: transcribe the whole debate first (tools/debate_pack.py --cut)")
-            res = alignclip.align(whole, e["passage"], min_ratio=0.5)
-            if not res:
-                raise SystemExit("could not find the passage for %s in the whole-debate transcript" % e["name"])
-            a, b, _r = res
             if manifest is None:
-                manifest, event_start = dp.manifest_for(state["event"], yt)
-            margin = 10
-            for attempt in (1, 2):
-                st = event_start + datetime.timedelta(seconds=a - margin)
-                en = event_start + datetime.timedelta(seconds=b + margin)
-                dp.download_clip(manifest, st, en, window, yt, ff, "1080", guid=state["event"], event_start=event_start, windowed=False)
-                ws = alignclip.transcribe(window, os.path.join(hd, s + ".wav"), ff, model_size=whisper_model, words_json=words_json, log=lambda *_a: None)
+                # pack.json already holds it; yt-dlp is only needed for a pack that
+                # never resolved one, and never for the fetching itself.
+                manifest = state.get("manifest")
+                if not manifest:
+                    manifest, _es = dp.manifest_for(state["event"], yt)
+            found = locate_passage(pack_dir, state, e, ff, manifest, whole=whole,
+                                   whisper_model=whisper_model, log=log)
+            if not found:
+                raise SystemExit("could not place the passage for %s. Check it against "
+                                 "what was said, or transcribe the whole debate "
+                                 "(tools/social_cut.py --pack F --transcribe)." % e["name"])
+            a, b = found
+            # Only the passage is fetched at 1080p, by HLS segment: about 7 MB and two
+            # seconds, against a 515 MB download of the sitting and an hour of
+            # transcription. That is what takes the Mac out of the loop.
+            from src import hlsfetch
+            for attempt, margin in ((1, 8.0), (2, 45.0)):
+                file_start, raw = hlsfetch.fetch_window(manifest, a, b, window, ff,
+                                                        height=1080, margin=margin, log=None)
+                log("  %s: fetched %.1f MB from %.0fs" % (e["name"], raw / 1e6, file_start))
+                ws = alignclip.transcribe(window, os.path.join(hd, s + ".wav"), ff,
+                                          model_size=whisper_model, words_json=words_json,
+                                          log=lambda *_a: None)
                 if alignclip.align(ws, e["passage"], min_ratio=0.55):
                     break
                 if attempt == 1:
@@ -405,7 +415,6 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
                     os.remove(window)
                     if os.path.exists(words_json):
                         os.remove(words_json)
-                    margin = 45
         if not os.path.exists(words_json):
             alignclip.transcribe(window, os.path.join(hd, s + ".wav"), ff, model_size=whisper_model, words_json=words_json, log=lambda *_a: None)
         words = [tuple(x) for x in json.load(open(words_json))]
@@ -662,6 +671,84 @@ def draft_reel_sequence(speeches_md, title, date, patterns, limit=8, onside_only
         out += ["(No speaker has a usable passage of %.0f seconds or more. Confirm ONSIDE lines in checklist.md,"
                 % REEL_FLOOR_S, "run tools/debate_pack.py --pack F --apply, then --draft again.)", ""]
     return "\n".join(out)
+
+
+def speaker_spans(state, name):
+    """The speaker's Hansard spans in sitting seconds, longest first.
+
+    ALL of them, not just the longest: Jonathan Hinder spoke twice on 7 Sept and the
+    passage wanted was in his second, shorter contribution, so a longest-span-only
+    search reported "not heard inside their own span" for words he plainly said
+    (found 2026-09-10). The union of first-to-last is not used either -- a member who
+    intervenes early and speaks late would span an hour and a half.
+    """
+    want = re.sub(r"\s+MP$", "", (name or "")).strip().lower()
+    try:
+        event_start = datetime.datetime.fromisoformat(state["event_start"])
+    except (KeyError, ValueError):
+        return []
+    out = []
+    for sp in state.get("speakers") or []:
+        if (sp.get("name") or "").strip().lower() != want:
+            continue
+        for pair in sp.get("spans") or []:
+            try:
+                a = (datetime.datetime.fromisoformat(pair[0]) - event_start).total_seconds()
+                b = (datetime.datetime.fromisoformat(pair[1]) - event_start).total_seconds()
+            except (ValueError, IndexError, TypeError):
+                continue
+            out.append((max(0.0, a), b))
+    return sorted(out, key=lambda p: p[1] - p[0], reverse=True)
+
+
+def speaker_span(state, name):
+    """The longest span, kept for callers that want one. Prefer speaker_spans."""
+    got = speaker_spans(state, name)
+    return got[0] if got else None
+
+
+PROBE_HEIGHT = 180      # enough to transcribe; a speaker's whole span costs a few MB
+
+
+def locate_passage(pack_dir, state, entry, ff, manifest, whole=None,
+                   whisper_model="small.en", log=print):
+    """(start, end) of the entry's passage in sitting seconds, or None.
+
+    Two routes, cheapest first. If the whole debate has already been transcribed the
+    answer is free. Otherwise Hansard's span for that speaker is fetched at 180p --
+    a few MB -- transcribed, and the passage aligned inside it. Either way the 1080p
+    fetch that follows is only the passage itself.
+    """
+    if whole:
+        got = alignclip.align(whole, entry["passage"], min_ratio=0.5)
+        if got:
+            return got[0], got[1]
+        log("  %s: not found in the whole-debate transcript, probing their span" % entry["name"])
+    spans = speaker_spans(state, entry["name"])
+    if not spans:
+        log("  %s: no Hansard span for that name in pack.json" % entry["name"])
+        return None
+    from src import hlsfetch
+    hd = os.path.join(pack_dir, "clips", "hd")
+    for i, span in enumerate(spans):
+        probe = os.path.join(hd, "%s-probe%d.mp4" % (slug(entry["name"]), i))
+        words_json = probe.replace(".mp4", ".words.json")
+        if not os.path.exists(words_json):
+            lo, hi = max(0.0, span[0] - 5), span[1] + 5
+            file_start, raw = hlsfetch.fetch_window(manifest, lo, hi, probe, ff,
+                                                    height=PROBE_HEIGHT, margin=0, log=None)
+            log("  %s: probed %.0f-%.0fs at %dp (%.1f MB)"
+                % (entry["name"], lo, hi, PROBE_HEIGHT, raw / 1e6))
+            json.dump({"file_start": file_start}, open(probe + ".meta.json", "w"))
+        meta = json.load(open(probe + ".meta.json"))
+        words = alignclip.transcribe(probe, probe.replace(".mp4", ".wav"), ff,
+                                     model_size=whisper_model, words_json=words_json,
+                                     log=lambda *_a: None)
+        got = alignclip.align(words, entry["passage"], min_ratio=0.5)
+        if got:
+            return got[0] + meta["file_start"], got[1] + meta["file_start"]
+    log("  %s: passage not heard in any of their %d span(s)" % (entry["name"], len(spans)))
+    return None
 
 
 def transcribe_whole(pack_dir, ff, whisper_model="small.en", log=print):

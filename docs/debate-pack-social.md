@@ -10,9 +10,9 @@ the writer start from these.
    speeches, quotes, shotlist.
 2. Confirm who is onside in `checklist.md` (the pass's reading is never the verdict),
    then `--apply`.
-3. Download the whole debate once and transcribe it, so every later cut is word-exact:
-   `tools/debate_pack.py --pack F --download-debate --from HH:MM --to HH:MM`, then
-   `tools/social_cut.py --pack F --transcribe` (caches `clips/whole-debate.words.json`).
+3. NOT NEEDED since 2026-09-10: the whole-sitting download. Each passage is located
+   inside the speaker's own Hansard span and fetched by HLS segment. Optional, and
+   still cheapest when it exists: `--download-debate` then `--transcribe`.
 4. `tools/social_cut.py --pack F --draft` writes a first `sequence.md` from quotes.md
    (confirmed-onside speakers in speaking order, first quote each). The template is
    `docs/sequence-template.md`. Reorder, trim to about six, then run
@@ -148,3 +148,28 @@ So the unit is the SITTING DAY, swept once, ever:
 they are asked, and Early Day Motion signatures accrue for weeks. Those genuinely change
 after the fact, so a once-only day sweep would freeze them wrong; they stay on the
 weekly rolling window.
+
+## Footage without the Mac (10 Sept 2026)
+
+The reel pipeline no longer downloads the sitting. Two steps, both cheap:
+
+1. **Locate.** Hansard already says when each member was on their feet, so the search is
+   bounded to their own speech. That span is fetched at 180p -- a few MB -- transcribed,
+   and the passage aligned inside it. If `clips/whole-debate.words.json` happens to exist
+   the answer is free and this is skipped.
+2. **Fetch.** Only the passage is pulled at 1080p, by HLS segment: about 7 MB and two
+   seconds. `vod-idx.ism/.mp4` is 403 and `?t=` clipping answers 206 but is ignored, so
+   segments are the only route -- and they are plain sequential HTTPS with no auth.
+
+Measured on two speakers with NO whole-debate transcript: 76 MB fetched and 62 seconds
+end to end, against 515 MB and about an hour before. That is what makes the whole
+pipeline runnable on a CI runner rather than a laptop.
+
+**EVERY span must be searched, longest first.** Jonathan Hinder spoke twice on 7 Sept and
+the passage wanted was in his second, shorter contribution; a longest-span-only search
+reported words he plainly said as "not heard". The union first-to-last is not used
+either: a member who intervenes early and speaks late would span an hour and a half.
+
+yt-dlp is now needed only to resolve a manifest for a pack that has none; `pack.json`
+already carries it, and no fetching uses yt-dlp at all.
+

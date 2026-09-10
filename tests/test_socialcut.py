@@ -299,3 +299,46 @@ class CardTimingTests(unittest.TestCase):
         times = sc.card_times(self.WORDS, cards, "Zzz qqq xyzzy plugh frobnitz")
         self.assertEqual(len(times), 1)
         self.assertIsNotNone(times[0][0])
+
+
+class SpeakerSpanTests(unittest.TestCase):
+    """Reels are located inside the speaker's own Hansard span, which is what removes
+    the need to download the whole sitting. EVERY span must be searched: Jonathan
+    Hinder spoke twice on 7 Sept and the passage wanted was in his second, shorter
+    contribution, so a longest-span-only search reported it 'not heard' (2026-09-10)."""
+
+    STATE = {"event_start": "2026-09-07T15:30:00+00:00", "speakers": [
+        {"name": "Jonathan Hinder", "spans": [["2026-09-07T16:22:00+00:00", "2026-09-07T16:23:53+00:00"],
+                                              ["2026-09-07T16:24:14+00:00", "2026-09-07T16:26:00+00:00"]]},
+        {"name": "Shivani Raja", "spans": [["2026-09-07T15:55:00+00:00", "2026-09-07T15:58:00+00:00"]]},
+        {"name": "No Spans", "spans": []},
+    ]}
+
+    def test_every_span_is_returned_longest_first(self):
+        got = sc.speaker_spans(self.STATE, "Jonathan Hinder MP")
+        self.assertEqual(len(got), 2)
+        self.assertGreater(got[0][1] - got[0][0], got[1][1] - got[1][0])
+        self.assertAlmostEqual(got[0][0], 3120.0, places=0)
+        self.assertAlmostEqual(got[1][0], 3254.0, places=0)
+
+    def test_the_mp_suffix_and_case_do_not_matter(self):
+        self.assertEqual(sc.speaker_spans(self.STATE, "shivani raja"),
+                         sc.speaker_spans(self.STATE, "Shivani Raja MP"))
+
+    def test_an_unknown_name_gives_nothing_rather_than_a_guess(self):
+        self.assertEqual(sc.speaker_spans(self.STATE, "Someone Else MP"), [])
+        self.assertIsNone(sc.speaker_span(self.STATE, "Someone Else MP"))
+
+    def test_a_speaker_with_no_spans_gives_nothing(self):
+        self.assertEqual(sc.speaker_spans(self.STATE, "No Spans"), [])
+
+    def test_a_state_without_an_event_start_cannot_place_anything(self):
+        self.assertEqual(sc.speaker_spans({"speakers": self.STATE["speakers"]}, "Shivani Raja"), [])
+
+    def test_a_malformed_span_is_skipped_not_fatal(self):
+        state = {"event_start": "2026-09-07T15:30:00+00:00",
+                 "speakers": [{"name": "X", "spans": [["not-a-time", "also-not"],
+                                                      ["2026-09-07T15:40:00+00:00", "2026-09-07T15:41:00+00:00"]]}]}
+        got = sc.speaker_spans(state, "X")
+        self.assertEqual(len(got), 1)
+        self.assertAlmostEqual(got[0][0], 600.0, places=0)
