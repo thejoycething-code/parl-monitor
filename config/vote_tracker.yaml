@@ -341,6 +341,34 @@ issues:
       bad: against requiring single-sex facilities in the NHS
 
 
+  - id: children-social-media
+    # Same debate_match as parental-rights: both cards draw quotes from the
+    # Children's Wellbeing and Schools Bill debates, and the area filter (6 for
+    # both) does not separate them. If off-topic quotes appear on either card,
+    # narrow this one to the ping-pong dates (9 Mar, 15 Apr, 22 Apr 2026).
+    debate_match: ["Children's Wellbeing and Schools Bill", "Children’s Wellbeing and Schools Bill"]
+    name: Children's social media and smartphones in schools
+    area: 6
+    bill: Children's Wellbeing and Schools Bill - Lords Amendments 37, 38 and 106
+    note: >-
+      The Lords put three protections into the Bill: Lords Amendment 38 (Lord
+      Nash) barring under-16s from social media platforms, Lords Amendment 37
+      on children's use of VPNs, and Lords Amendment 106 requiring schools to
+      prohibit smartphones during the school day. The Commons removed all three
+      on 9 March 2026, again on 15 April and, on social media, a third time on
+      22 April, each time replacing them with a Government power to act by
+      regulations after a consultation. Whipped votes: Conservatives and Liberal
+      Democrats for the Lords' protections, Labour against, so a vote here
+      reflects a party position as much as a personal one.
+    status: >-
+      Every Lords protection was rejected by the Commons; the Act carries a
+      regulation-making power and a duty to report progress within six months.
+    # Drafted 2026-09-10 from batches 1 and 2 of the division review. Christopher
+    # agreed the issue on 2026-09-10; the divisions below are NOT signed off.
+    stance:
+      good: to protect children from social media and smartphones in schools
+      bad: against protecting children from social media and smartphones in schools
+
 divisions:
   # -- Assisted suicide: carried over from the prototype, wording checked
   #    against Hansard in July 2026 but not yet signed off editorially.
@@ -843,3 +871,90 @@ divisions:
       Voted to require single-sex wards, toilets and changing facilities for NHS
       patients and staff.
     meaning_no: Voted against requiring single-sex facilities in the NHS.
+
+  # --- children-social-media: drafted 2026-09-10, awaiting sign-off -------------
+  # Our side verified against votes, never the title: Laura Trott (who led for
+  # the Lords' protections) voted No in every one of these; the Minister, Olivia
+  # Bailey, Aye.
+  - id: 2271
+    issue: children-social-media
+    stage: Consideration of Lords amendments
+    stage_group: Lords amendments
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "Lords Amendment 38: under-16 social media ban (first round)"
+    context: "9 March 2026. Lords Amendment 38, tabled by Lord Nash, would have barred under-16s from social media platforms. Result 307-173."
+    meaning_aye: Voted with the Government to remove the Lords' ban on under-16s using social media.
+    meaning_no: Voted to keep the Lords' ban on under-16s using social media.
+  - id: 2270
+    issue: children-social-media
+    stage: Consideration of Lords amendments
+    stage_group: Lords amendments
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: "Lords Amendment 37: children's use of VPNs"
+    context: "9 March 2026. Lords Amendment 37 addressed children's use of VPNs to evade age checks; the Government replaced it with a power to age-restrict VPN use by regulations. Result 321-106 (Conservatives against, Liberal Democrats did not oppose)."
+    meaning_aye: Voted with the Government to remove the Lords' restriction on children's use of VPNs.
+    meaning_no: Voted to keep the Lords' restriction on children's use of VPNs.
+  - id: 2275
+    issue: children-social-media
+    stage: Consideration of Lords amendments
+    stage_group: Lords amendments
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "Lords Amendment 106: smartphones banned in schools (first round)"
+    context: "9 March 2026. Lords Amendment 106 would have required schools to prohibit smartphones during the school day. Result 304-177."
+    meaning_aye: Voted with the Government to remove the Lords' school-day smartphone ban.
+    meaning_no: Voted to keep the Lords' requirement that schools ban smartphones during the school day.
+  - id: 2320
+    issue: children-social-media
+    stage: Consideration of Lords amendments
+    stage_group: Lords amendments
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "Amendments in lieu of Lords Amendment 38 (second round)"
+    context: "15 April 2026. The Government's amendments in lieu replaced the under-16 social media ban with a consultation and a six-month progress report. Result 256-150."
+    meaning_aye: Voted to replace the Lords' ban on under-16s using social media with a Government consultation and a six-month progress report.
+    meaning_no: Voted to keep the Lords' ban on under-16s using social media.
+  - id: 2323
+    issue: children-social-media
+    stage: Consideration of Lords amendments
+    stage_group: Lords amendments
+    landmark: false
+    signed_off: false
+    our_side: "no"
+    short: "Amendments in lieu of Lords Amendment 106 (second round)"
+    context: "15 April 2026. The Government's amendments in lieu replaced the mandatory school-day smartphone ban with a power to put phone guidance on a statutory footing. Result 248-139."
+    meaning_aye: Voted to replace the Lords' school-day smartphone ban with a power to make phone guidance statutory.
+    meaning_no: Voted to require schools to ban smartphones during the school day.
+  - id: 2338
+    issue: children-social-media
+    stage: Consideration of Lords message
+    stage_group: Lords amendments
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "Insist on Amendment 38J; reject Lords Amendments 38V to 38X (third round)"
+    context: "22 April 2026. The Lords had amended the Government's own power over children's access to social media (38J) to bind it to act; the Government insisted on the discretionary power. Result 260-161."
+    meaning_aye: Voted with the Government to keep only a discretionary power over children's access to social media, rejecting the Lords' duty to act.
+    meaning_no: Voted for the Lords' amendments binding the Government to restrict under-16s' access to social media.
+
+  # --- non-crime-hate, Lords round: drafted 2026-09-10, awaiting sign-off ------
+  # Our side verified against votes: Matt Vickers (shadow minister, argued for
+  # the Lords amendment) and Chris Philp No; the Minister, Sarah Jones, Aye.
+  # Liberal Democrats voted Aye with the Government this time.
+  - id: 2306
+    issue: non-crime-hate
+    stage: Consideration of Lords amendments
+    stage_group: Lords amendments
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "Lords Amendment 334: end the recording of non-crime hate incidents"
+    context: "14 April 2026. Lords Amendment 334 would have ended the investigation and recording of non-crime hate incidents and required any future incident-recording guidance to have due regard to the right to freedom of expression. The Government moved to disagree. Result 356-90 (Hansard Division No. 472)."
+    meaning_aye: Voted with the Government to reject the Lords amendment ending the recording of non-crime hate incidents.
+    meaning_no: Voted to end the recording of non-crime hate incidents and protect freedom of expression in any future guidance.
