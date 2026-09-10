@@ -1,0 +1,146 @@
+{
+ "event_start": "2026-09-09T10:33:30+00:00",
+ "title": "Topical Questions",
+ "house": "Commons",
+ "date": "2026-09-09",
+ "ext_id": "2F989216-2250-4519-A8E8-1B554742D125",
+ "event": "1777d9f3-ea4a-4159-8d10-609d5c9c4309",
+ "manifest": "https://2F0F8Fc-az-westeurope-fsly.cdn.redbee.live/ukparliament/parliamentlive/assets/1777d9f3-ea4a-4159-8d10-609d5c9c4309_0D62A9b/materials/ofUPsGAZQ3_0D62A9b/vod-idx-2.ism/.m3u8",
+ "directions": {
+  "4046": {
+   "stance": -2,
+   "why": "Minister praises conversion practices bill as vital safeguard, opposing CitizenGO's concerns.",
+   "words": 600
+  },
+  "5208": {
+   "stance": -2,
+   "why": "Urges faster passage of conversion practices ban, opposing CitizenGO's stance.",
+   "words": 90
+  },
+  "4981": {
+   "stance": 2,
+   "why": "Highlights coercion and burden risks of assisted dying bill, aligning with opposition.",
+   "words": 88
+  },
+  "5318": {
+   "stance": 0,
+   "why": "Concerns tech misuse and privacy, unrelated to listed CitizenGO areas.",
+   "words": 76
+  },
+  "5254": {
+   "stance": 0,
+   "why": "Focuses on suicide prevention services, not assisted dying policy itself.",
+   "words": 69
+  },
+  "4759": {
+   "stance": 2,
+   "why": "Challenges puberty blockers, questioning children's capacity for gender decisions.",
+   "words": 43
+  }
+ },
+ "areas": [
+  2,
+  3,
+  4
+ ],
+ "speakers": [
+  {
+   "key": "4046",
+   "name": "Bridget Phillipson",
+   "party": null,
+   "seat": null,
+   "spans": [
+    [
+     "2026-09-09T11:59:00+01:00",
+     "2026-09-09T11:59:29+01:00"
+    ],
+    [
+     "2026-09-09T11:56:40+01:00",
+     "2026-09-09T11:56:54+01:00"
+    ],
+    [
+     "2026-09-09T11:55:34+01:00",
+     "2026-09-09T11:56:30+01:00"
+    ],
+    [
+     "2026-09-09T11:57:25+01:00",
+     "2026-09-09T11:57:51+01:00"
+    ],
+    [
+     "2026-09-09T11:58:21+01:00",
+     "2026-09-09T11:58:56+01:00"
+    ],
+    [
+     "2026-09-09T11:59:29+01:00",
+     "2026-09-09T12:00:10+01:00"
+    ]
+   ],
+   "first": "2026-09-09T11:59:00+01:00"
+  },
+  {
+   "key": "5208",
+   "name": "Perran Moon",
+   "party": "Lab",
+   "seat": "Camborne and Redruth",
+   "spans": [
+    [
+     "2026-09-09T11:56:03+01:00",
+     "2026-09-09T11:56:40+01:00"
+    ]
+   ],
+   "first": "2026-09-09T11:56:03+01:00"
+  },
+  {
+   "key": "4981",
+   "name": "Ashley Dalton",
+   "party": "Lab",
+   "seat": "West Lancashire",
+   "spans": [
+    [
+     "2026-09-09T11:56:54+01:00",
+     "2026-09-09T11:57:25+01:00"
+    ]
+   ],
+   "first": "2026-09-09T11:56:54+01:00"
+  },
+  {
+   "key": "5318",
+   "name": "Olly Glover",
+   "party": "LD",
+   "seat": "Didcot and Wantage",
+   "spans": [
+    [
+     "2026-09-09T11:57:51+01:00",
+     "2026-09-09T11:58:21+01:00"
+    ]
+   ],
+   "first": "2026-09-09T11:57:51+01:00"
+  },
+  {
+   "key": "5254",
+   "name": "Alison Hume",
+   "party": "Lab",
+   "seat": "Scarborough and Whitby",
+   "spans": [
+    [
+     "2026-09-09T11:58:56+01:00",
+     "2026-09-09T11:59:29+01:00"
+    ]
+   ],
+   "first": "2026-09-09T11:58:56+01:00"
+  },
+  {
+   "key": "4759",
+   "name": "Joy Morrissey",
+   "party": "Con",
+   "seat": "Beaconsfield",
+   "spans": [
+    [
+     "2026-09-09T11:55:26+01:00",
+     "2026-09-09T11:55:34+01:00"
+    ]
+   ],
+   "first": "2026-09-09T11:55:26+01:00"
+  }
+ ]
+}
