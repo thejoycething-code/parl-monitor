@@ -158,3 +158,89 @@ class GenerateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class QuotationExtractionTests(unittest.TestCase):
+    """Straight quotes carry no open/close distinction, so a naive pairing reads the
+    PROSE BETWEEN two quotations as a quotation. On the first real report (2026-09-10)
+    that gave four false alarms, three of them markdown links, against two genuine
+    paraphrases -- and a check that cries wolf stops being read."""
+
+    def test_a_markdown_link_between_two_quotes_is_not_a_quotation(self):
+        md = ('He said "the first real quotation here is long enough to count", and then '
+              '[Rachel Taylor](https://hansard.parliament.uk/x) spoke; "the second real '
+              'quotation is also long enough to count" was hers.')
+        got = dr.quotations(md)
+        self.assertEqual(len(got), 2, got)
+        self.assertTrue(all("](" not in q for q in got))
+
+    def test_curly_and_straight_quotes_are_both_found(self):
+        md = ('She said “this curly quotation is quite long enough to count” and '
+              '"this straight quotation is also comfortably past the floor".')
+        self.assertEqual(len(dr.quotations(md)), 2)
+
+    def test_the_forty_character_floor_is_deliberate(self):
+        """Short quoted fragments are usually a word or a phrase, not a claim about what
+        someone said, and checking them against the speeches produces noise."""
+        self.assertEqual(dr.quotations('He called it "a market in all but name".'), [])
+
+    def test_short_fragments_are_not_treated_as_quotations(self):
+        self.assertEqual(dr.quotations('He said "too short".'), [])
+
+    def test_a_real_paraphrase_is_still_caught(self):
+        speakers = [{"name": "T", "party": "Lab", "seat": "S", "confirmed_onside": True, "pass_read": "",
+                     "hansard_url": "", "words": 10,
+                     "text": "The proposals recommend tipping the balance of power away from the birth mother."}]
+        report = " ".join(["word"] * 600) + ' She said the proposals "tip the balance of power away from the birth mother".'
+        problems = dr.check({"REPORT": report}, speakers)
+        self.assertTrue(any("not found verbatim" in p for p in problems), problems)
+
+
+class NamedEntityTests(unittest.TestCase):
+    """The first real report (2026-09-10) wrote "Human Fertilehood and Embryology Act
+    2008" for "Human Fertilisation and Embryology Act 2008". Every other check passed
+    it: a garbled statute name is not a quote, not a link, and not a length problem."""
+
+    SPEAKERS = [{"name": "A", "party": "Lab", "seat": "S", "confirmed_onside": True, "pass_read": "",
+                 "hansard_url": "", "words": 30,
+                 "text": "Under the Human Fertilisation and Embryology Act 2008 the surrogate is the "
+                         "legal mother, and the Law Commission has proposed reform."}]
+
+    def test_a_garbled_statute_name_is_caught(self):
+        report = " ".join(["word"] * 600) + " Under the Human Fertilehood and Embryology Act 2008 the surrogate is the mother."
+        problems = dr.check({"REPORT": report}, self.SPEAKERS)
+        self.assertTrue(any("named thing not found" in p and "Fertilehood" in p for p in problems), problems)
+
+    def test_a_correct_statute_name_passes(self):
+        report = " ".join(["word"] * 600) + " Under the Human Fertilisation and Embryology Act 2008 the surrogate is the mother."
+        self.assertEqual([p for p in dr.check({"REPORT": report}, self.SPEAKERS) if "named thing" in p], [])
+
+    def test_a_body_named_in_the_speeches_passes(self):
+        report = " ".join(["word"] * 600) + " The Law Commission proposed reform."
+        self.assertEqual([p for p in dr.check({"REPORT": report}, self.SPEAKERS) if "named thing" in p], [])
+
+    def test_link_targets_are_not_scanned_for_names(self):
+        report = " ".join(["word"] * 600) + " [A](https://hansard.parliament.uk/Commons/Act2008/Committee)"
+        self.assertEqual([p for p in dr.check({"REPORT": report}, self.SPEAKERS) if "named thing" in p], [])
+
+
+class ElisionTests(unittest.TestCase):
+    """An ellipsis inside one sentence is ordinary journalism. Checking the whole span
+    verbatim would flag every properly elided quote, so each side is checked separately."""
+
+    SPEAKERS = [{"name": "A", "party": "DUP", "seat": "S", "confirmed_onside": True, "pass_read": "",
+                 "hansard_url": "", "words": 40,
+                 "text": "An important distinction must be made between the women who voluntarily agree "
+                         "to carry a child for someone they know, perhaps with reasonable expenses "
+                         "being covered, and the wholly exploitative system whereby a womb is bought."}]
+
+    def test_a_properly_elided_quote_passes(self):
+        report = (" ".join(["word"] * 600) + ' He said "an important distinction must be made between the '
+                  'women who voluntarily agree to carry a child for someone they know...and the wholly '
+                  'exploitative system whereby a womb is bought."')
+        self.assertEqual([p for p in dr.check({"REPORT": report}, self.SPEAKERS) if "verbatim" in p], [])
+
+    def test_an_elision_hiding_invented_words_is_still_caught(self):
+        report = (" ".join(["word"] * 600) + ' He said "an important distinction must be made between the '
+                  'women who voluntarily agree...and the surrogacy industry should be shut down entirely."')
+        self.assertTrue(any("verbatim" in p for p in dr.check({"REPORT": report}, self.SPEAKERS)))

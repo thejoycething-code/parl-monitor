@@ -141,6 +141,48 @@ def word_count(markdown):
     return len(body.split())
 
 
+# A quotation, for checking purposes: opens after whitespace or a line start, closes
+# before whitespace or punctuation. Straight quotes are ambiguous -- there is no
+# open/close distinction -- so a naive pairing treats the PROSE BETWEEN one closing
+# quote and the next opening one as a quotation. On the first real report (2026-09-10)
+# that produced four false alarms, three of them markdown links, against two genuine
+# paraphrases. A candidate carrying link syntax is prose, not a quote.
+_QUOTED = re.compile(r'(?:^|\s)[\"\u201c]([^\"\u201c\u201d]{40,}?)[\"\u201d](?=[\s.,;:!?)\]]|$)', re.M)
+
+
+def quotations(markdown):
+    """The passages a report presents as spoken words."""
+    out = []
+    for cand in _QUOTED.findall(markdown or ""):
+        if "](" in cand or cand.lstrip()[:1] in (";", ",", ")"):
+            continue                     # prose between two quotations, not a quotation
+        out.append(cand)
+    return out
+
+
+# Named things whose wording must be exact: a garbled statute name is the kind of
+# error that survives every other check and embarrasses us in print. The first real
+# report (2026-09-10) wrote "Human Fertilehood and Embryology Act 2008" for
+# "Human Fertilisation and Embryology Act 2008", and nothing caught it.
+_NAMED = re.compile(r"\b((?:[A-Z][A-Za-z'’-]+ (?:and |of |for |the )?){1,6}"
+                    r"(?:Act|Bill|Commission|Committee|Authority|Regulations|Review|Order)"
+                    r"(?: \d{4})?)\b")
+
+
+def named_entities(markdown):
+    """Statutes, bills, commissions and committees a report names."""
+    text = re.sub(r"\]\([^)]*\)", "", markdown or "")     # link targets are not prose
+    return sorted({" ".join(m.split()) for m in _NAMED.findall(text)})
+
+
+def _unquoted_parts(quote, floor=25):
+    """A quotation split at its elisions. An ellipsis inside one sentence is ordinary
+    journalism, so each side is checked separately rather than the whole span, which
+    would never match."""
+    parts = [p.strip(" .,;:") for p in re.split(r"\s*(?:\.\.\.|…)\s*", quote)]
+    return [p for p in parts if len(p) >= floor] or [quote]
+
+
 def check(sections, speakers):
     """Complaints about a generated report, worst first, or [] when it is fit to send.
 
@@ -165,9 +207,14 @@ def check(sections, speakers):
         if host not in allowed_hosts:
             problems.append("invented or off-list link: %s" % url)
     spoken = " ".join(_norm(s["text"]) for s in speakers)
-    for quote in re.findall(r"[\"“]([^\"”]{40,})[\"”]", report):
-        if _norm(quote) not in spoken:
-            problems.append("quote not found verbatim in the speeches: \"%s...\"" % quote[:60])
+    for quote in quotations(report):
+        for part in _unquoted_parts(quote):
+            if _norm(part) not in spoken:
+                problems.append("quote not found verbatim in the speeches: \"%s...\"" % part[:60])
+                break
+    for name in named_entities(report):
+        if _norm(name) not in spoken and _norm(name) not in _norm(str(sections.get("_title", ""))):
+            problems.append("named thing not found in the speeches (check the wording): %s" % name)
     not_onside = [s["name"] for s in speakers if not s["confirmed_onside"]]
     for name in not_onside:
         surname = name.split()[-1]
