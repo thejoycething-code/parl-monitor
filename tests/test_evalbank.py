@@ -58,6 +58,25 @@ class BankTests(unittest.TestCase):
         self.assertEqual(json.loads(lines[0])["item_id"], "pq:0")
 
 
+    def test_restore_reloads_the_exports_and_never_overwrites_a_store_row(self):
+        import json
+        conn = _conn()
+        items = _items(2)
+        evalbank.bank(conn, "2026-09-07", items, _results(items, [2, 3]), "m", "live", "P")
+        folder = tempfile.mkdtemp()
+        evalbank.export(conn, "2026-09-07", os.path.join(folder, "2026-09-07.jsonl"))
+        conn.execute("DELETE FROM judge_verdicts")
+        conn.commit()
+        self.assertEqual(evalbank.restore(conn, folder), 2)
+        rows = conn.execute("SELECT item_id, score FROM judge_verdicts ORDER BY item_id").fetchall()
+        self.assertEqual([tuple(r) for r in rows], [("pq:0", 2), ("pq:1", 3)])
+        # a human label added since the export survives a second restore
+        conn.execute("UPDATE judge_verdicts SET human_score = 1 WHERE item_id = 'pq:0'")
+        conn.commit()
+        self.assertEqual(evalbank.restore(conn, folder), 0)
+        self.assertEqual(conn.execute("SELECT human_score FROM judge_verdicts WHERE item_id = 'pq:0'").fetchone()[0], 1)
+
+
 class NoPollutionTests(unittest.TestCase):
     def test_an_in_memory_store_never_writes_the_repo_export(self):
         """A test item ("a:1") reached data/eval/2026-08-10.jsonl and was committed."""

@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import datetime
 import hashlib
+import glob
 import json
 import os
 import random
@@ -99,6 +100,31 @@ def export(conn, week, path=None):
         for r in rows:
             handle.write(json.dumps(dict(r), sort_keys=True, ensure_ascii=False) + "\n")
     return path, len(rows)
+
+
+def restore(conn, eval_dir=None):
+    """Load every data/eval/<week>.jsonl back into judge_verdicts. Returns rows added.
+
+    The export exists so git holds the history; this is the other direction, for a
+    store that came back without the bank (the 2026-09-09 rebuild: 72 verdicts across
+    five weeks, all on disk, none in the store). INSERT OR IGNORE: a row the store
+    already has -- perhaps carrying a human label added since -- is left alone.
+    """
+    ensure_table(conn)
+    eval_dir = eval_dir or EVAL_DIR
+    added = 0
+    for path in sorted(glob.glob(os.path.join(eval_dir, "*.jsonl"))):
+        with open(path, encoding="utf-8") as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                cols = sorted(row)
+                cur = conn.execute("INSERT OR IGNORE INTO judge_verdicts ({0}) VALUES ({1})".format(
+                    ", ".join(cols), ", ".join("?" * len(cols))), [row[c] for c in cols])
+                added += cur.rowcount if cur.rowcount > 0 else 0
+    conn.commit()
+    return added
 
 
 def _on_disk(conn):

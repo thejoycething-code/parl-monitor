@@ -1,7 +1,8 @@
 """The store is a build ARTIFACT, not source: fetch and publish it.
 
     python3 tools/db_state.py --pull     # before work
-    python3 tools/db_state.py --push     # after work
+    python3 tools/db_state.py --push     # after work (refuses if a table emptied; --accept-loss overrides)
+    python3 tools/db_state.py --check    # compare table counts with the last publish, publish nothing
 
 Why. data/parl-monitor.db was tracked in git so workflow state was durable
 and versioned. It worked until the file reached 88MB against GitHub's 100MB
@@ -244,6 +245,71 @@ def pull():
     return 0
 
 
+def table_counts(path=None):
+    """{table: rows} for every table in the store, not only db.TABLES: the
+    campaign-alignment and Looker tables live here too and are as easy to lose."""
+    import sqlite3
+    conn = sqlite3.connect("file:{0}?mode=ro".format(path or DB), uri=True)
+    try:
+        names = [r[0] for r in conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")]
+        return {n: conn.execute('SELECT count(*) FROM "{0}"'.format(n)).fetchone()[0] for n in names}
+    finally:
+        conn.close()
+
+
+SHRINK_FLOOR = 20          # below this many rows a halving is noise, not a signal
+
+
+def compare_counts(before, now):
+    """(lost, shrunk) between two {table: rows} maps.
+
+    lost: a table that had rows and now has none, or is gone. shrunk: a table
+    of SHRINK_FLOOR rows or more that lost over half. New tables are nobody's
+    business here. WHY: the store rebuilt on 2026-09-09 after a corruption came
+    back with pq_link at 0 rows against 5,117 written questions, and the only
+    thing that noticed was a display test, a day later, after the page shipped.
+    A table at zero is the tell of a rebuild that missed something.
+    """
+    lost, shrunk = [], []
+    for table, was in sorted((before or {}).items()):
+        if not was:
+            continue
+        got = (now or {}).get(table, 0)
+        if got == 0:
+            lost.append((table, was))
+        elif was >= SHRINK_FLOOR and got < was * 0.5:
+            shrunk.append((table, was, got))
+    return lost, shrunk
+
+
+def check_counts(accept_loss=False, log=print):
+    """Refuse to publish a store that emptied a table the last publish had rows
+    in, unless the caller says --accept-loss and so takes responsibility."""
+    try:
+        with open(SIDECAR, encoding="utf-8") as handle:
+            before = json.load(handle).get("tables")
+    except (OSError, ValueError):
+        before = None
+    now = table_counts()
+    if not before:
+        log("  no table counts in the sidecar yet; recording {0} tables".format(len(now)))
+        return True, now
+    lost, shrunk = compare_counts(before, now)
+    for table, was, got in shrunk:
+        log("  [warn] {0}: {1} rows at the last publish, {2} now".format(table, was, got))
+    if lost:
+        log("TABLES EMPTIED SINCE THE LAST PUBLISH:")
+        for table, was in lost:
+            log("  {0}: had {1} rows, now none".format(table, was))
+        if not accept_loss:
+            log("Refusing to publish. If this is deliberate (a table retired or "
+                "rebuilt from scratch), run again with --accept-loss.")
+            return False, now
+        log("  --accept-loss given: publishing anyway.")
+    return True, now
+
+
 def check_lineage():
     """Refuse to publish a store that did not come from the current one.
 
@@ -416,6 +482,9 @@ def push():
         return 1
     if not check_lineage():
         return 1
+    ok, counts = check_counts(accept_loss="--accept-loss" in sys.argv)
+    if not ok:
+        return 1
     stamp_heartbeat()          # inside the bytes, before the sha is taken
     tok = token()
     digest, size = sha256(DB), os.path.getsize(DB)
@@ -453,6 +522,9 @@ def push():
     with open(SIDECAR, "w", encoding="utf-8") as handle:
         json.dump({"asset": "{0} release {1}".format(REPO, TAG),
                    "bytes": size, "sha256": digest,
+                   # Per-table row counts, so the next push can tell a rebuild
+                   # that came back missing a table (compare_counts).
+                   "tables": counts,
                    "published_at": os.environ.get("GITHUB_RUN_ID")
                    and "run " + os.environ["GITHUB_RUN_ID"] or "local",
                    # When, in UTC, so tools/merge_sidecar.py can resolve a
@@ -478,6 +550,9 @@ def main():
         return pull()
     if "--push" in sys.argv:
         return push()
+    if "--check" in sys.argv:
+        ok, _counts = check_counts(accept_loss=False)
+        return 0 if ok else 1
     print(__doc__)
     return 1
 

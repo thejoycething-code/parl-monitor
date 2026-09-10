@@ -5,6 +5,7 @@
     python3 tools/judge_eval.py report [--write]             # agreement; --write -> docs/judge-eval.md
     python3 tools/judge_eval.py export --week 2026-09-07     # data/eval/<week>.jsonl
     python3 tools/judge_eval.py seed                         # bank the scores already in the store, once
+    python3 tools/judge_eval.py restore                      # reload data/eval/*.jsonl into a store that lost the bank
     python3 tools/judge_eval.py rescore [--spend] [--limit N]   # drift check; asks before spending
 
 The Sunday pull banks and exports; the Monday publish ingests, writes the
@@ -51,7 +52,7 @@ def seed(conn):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("action", choices=("sample", "ingest", "report", "export", "seed", "rescore"))
+    ap.add_argument("action", choices=("sample", "ingest", "report", "export", "seed", "rescore", "restore"))
     ap.add_argument("--week")
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--spend", action="store_true")
@@ -74,6 +75,10 @@ def main():
         week = args.week or datetime.date.today().isoformat()
         path, n = evalbank.export(conn, week)
         print("exported {0} verdict(s) -> {1}".format(n, os.path.relpath(path, ROOT)))
+    elif args.action == "restore":
+        n = evalbank.restore(conn)
+        total = conn.execute("SELECT COUNT(*) FROM judge_verdicts").fetchone()[0]
+        print("restored {0} verdict(s) from data/eval; the bank holds {1}".format(n, total))
     elif args.action == "rescore":
         labelled = conn.execute("SELECT COUNT(*) FROM judge_verdicts WHERE human_score IS NOT NULL AND mode != 'stub'").fetchone()[0]
         n = min(labelled, args.limit)

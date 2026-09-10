@@ -106,6 +106,73 @@ class SidecarTests(unittest.TestCase):
 
 
 
+class TableCountTests(unittest.TestCase):
+    """A rebuilt store that lost a whole table (pq_link, 2026-09-09) must not publish
+    quietly again. The sidecar carries per-table counts; the push compares."""
+
+    def test_a_table_at_zero_that_had_rows_is_lost(self):
+        lost, shrunk = db_state.compare_counts({"pq_link": 5117, "mp_events": 100}, {"pq_link": 0, "mp_events": 120})
+        self.assertEqual(lost, [("pq_link", 5117)])
+        self.assertEqual(shrunk, [])
+
+    def test_a_dropped_table_is_lost_too(self):
+        lost, _ = db_state.compare_counts({"pq_link": 5117}, {})
+        self.assertEqual(lost, [("pq_link", 5117)])
+
+    def test_halving_a_real_table_warns_and_a_tiny_one_does_not(self):
+        lost, shrunk = db_state.compare_counts({"big": 1000, "tiny": 4}, {"big": 400, "tiny": 1})
+        self.assertEqual(lost, [])
+        self.assertEqual(shrunk, [("big", 1000, 400)])
+
+    def test_new_and_grown_tables_are_nobodys_business(self):
+        self.assertEqual(db_state.compare_counts({"a": 10}, {"a": 11, "b": 5}), ([], []))
+        self.assertEqual(db_state.compare_counts({"a": 0}, {"a": 0}), ([], []))
+
+    def test_table_counts_reads_every_table_read_only(self):
+        import sqlite3
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "s.db")
+            conn = sqlite3.connect(path)
+            conn.execute("CREATE TABLE x (a)"); conn.execute("CREATE TABLE y (a)")
+            conn.executemany("INSERT INTO x VALUES (?)", [(1,), (2,)])
+            conn.commit(); conn.close()
+            self.assertEqual(db_state.table_counts(path), {"x": 2, "y": 0})
+
+    def test_check_counts_refuses_a_loss_unless_accepted(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path, side = os.path.join(tmp, "s.db"), os.path.join(tmp, "s.db.json")
+            import sqlite3
+            conn = sqlite3.connect(db_path); conn.execute("CREATE TABLE gone (a)"); conn.commit(); conn.close()
+            with open(side, "w") as fh:
+                json.dump({"tables": {"gone": 9}}, fh)
+            old = db_state.DB, db_state.SIDECAR
+            db_state.DB, db_state.SIDECAR = db_path, side
+            try:
+                lines = []
+                ok, counts = db_state.check_counts(log=lines.append)
+                self.assertFalse(ok)
+                self.assertTrue(any("TABLES EMPTIED" in l for l in lines))
+                ok, _ = db_state.check_counts(accept_loss=True, log=lambda *_a: None)
+                self.assertTrue(ok)
+                with open(side, "w") as fh:
+                    json.dump({"sha256": "x"}, fh)             # no counts yet: bootstrap, never refuse
+                ok, counts = db_state.check_counts(log=lambda *_a: None)
+                self.assertTrue(ok)
+                self.assertEqual(counts, {"gone": 0})
+            finally:
+                db_state.DB, db_state.SIDECAR = old
+
+    def test_the_push_checks_counts_after_lineage_and_before_upload(self):
+        with open(os.path.join(ROOT, "tools", "db_state.py"), encoding="utf-8") as fh:
+            src = fh.read()
+        body = src[src.index("def push():"):src.index("def main():")]
+        self.assertLess(body.index("check_lineage()"), body.index("check_counts("))
+        self.assertLess(body.index("check_counts("), body.index("swap_in_asset("))
+        self.assertIn('"tables": counts', body)
+
+
 class CommitLabelTests(unittest.TestCase):
     """Each workflow must label its own commits.
 
