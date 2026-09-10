@@ -307,6 +307,8 @@ def check_counts(accept_loss=False, log=print):
                 "rebuilt from scratch), run again with --accept-loss.")
             return False, now
         log("  --accept-loss given: publishing anyway.")
+    else:
+        log("  table counts: {0} tables, none emptied since the last publish".format(len(now)))
     return True, now
 
 
