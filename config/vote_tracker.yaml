@@ -287,6 +287,60 @@ issues:
       good: against the Northern Ireland abortion regulations
       bad: for the Northern Ireland abortion regulations
 
+  # -- Gender medicine and single-sex NHS facilities. Both reached the floor as
+  #    new clauses to the Health Bill at report stage on 8 September 2026, and
+  #    NEITHER was visible to the division sweep: the titles read "Health Bill:
+  #    Report Stage: New Clause 142", which carries no taxonomy term. Found on
+  #    10 Sept from a passing reference at Women and Equalities questions.
+  #    DRAFTED 2026-09-10 by Claude at Christopher's instruction; the divisions
+  #    below carry signed_off: false, so the votes render with NO verdict until
+  #    Christopher signs them.
+  - id: gender-medicine
+    # The Health Bill is a large structural NHS bill: most of its debate is
+    # about NHS England, commissioning and medical devices. Matching its title
+    # admits those quotes too, so the area filter is doing the work here. Watch
+    # the card's quotes and narrow this if anything off-topic appears.
+    debate_match: ["Health Bill"]
+    name: Puberty blockers for under-18s
+    area: 3
+    bill: Health Bill - New Clause 142
+    note: >-
+      New Clause 142 would have required the Secretary of State to make
+      regulations, within three months, preventing puberty blockers being
+      prescribed, dispensed or supplied to under-18s for gender dysphoria or
+      gender incongruence, and barring their use in related clinical trials
+      without Parliament's specific approval. It was moved by Dr Caroline
+      Johnson with nine sponsors. The division was largely party-shaped --
+      Conservative 88 aye to 0 no, Labour 3 to 292 -- but three parties split
+      both ways, so the four members who crossed the grain (Graham Stringer,
+      Mary Glindon and Jonathan Hinder for Labour, Angus MacDonald for the
+      Liberal Democrats) are the conscience signal here rather than the totals.
+    status: Rejected by the Commons 108-357 on 8 September 2026.
+    stance:
+      good: to ban puberty blockers for under-18s for gender dysphoria
+      bad: against banning puberty blockers for under-18s
+
+  - id: single-sex-nhs
+    debate_match: ["Health Bill"]
+    name: Single-sex NHS facilities
+    area: 5
+    bill: Health Bill - New Clause 143
+    note: >-
+      New Clause 143 would have required the Secretary of State to ensure
+      single-sex changing rooms, toilets and washing facilities for NHS staff,
+      and single-sex wards and washing facilities for NHS patients, with
+      exemptions for children, intensive care and named circumstances. It was
+      moved by Dr Caroline Johnson with eight sponsors. Unlike the puberty
+      blockers clause above, NO party split both ways on this one -- Labour 0
+      aye to 293 no, Conservative 88 to 0 -- so a vote here reflects a party
+      position as much as a personal one, and should be read as the non-crime
+      hate incidents card is read.
+    status: Rejected by the Commons 106-302 on 8 September 2026.
+    stance:
+      good: to require single-sex facilities for NHS patients and staff
+      bad: against requiring single-sex facilities in the NHS
+
+
 divisions:
   # -- Assisted suicide: carried over from the prototype, wording checked
   #    against Hansard in July 2026 but not yet signed off editorially.
@@ -756,3 +810,36 @@ divisions:
     meaning_no: >-
       Opposed the delay: in favour of the Bill proceeding to a Second
       Reading.
+
+  # -- Health Bill report stage, 8 September 2026. DRAFTED 2026-09-10, NOT YET
+  #    SIGNED OFF: signed_off gates the verdict (make_vote_tracker line 963), so
+  #    these render as votes with no placement claimed until Christopher signs.
+  #    our_side is verified against the sponsor's OWN vote -- Dr Caroline Johnson
+  #    voted Aye in both, as mover -- never off the title.
+  - id: 2421
+    issue: gender-medicine
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: true
+    signed_off: false
+    our_side: aye
+    short: New Clause 142
+    context: ""
+    meaning_aye: >-
+      Voted to ban puberty blockers for under-18s for gender dysphoria, and to
+      require Parliament's approval before any related clinical trial.
+    meaning_no: Voted against banning puberty blockers for under-18s.
+
+  - id: 2422
+    issue: single-sex-nhs
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: true
+    signed_off: false
+    our_side: aye
+    short: New Clause 143
+    context: ""
+    meaning_aye: >-
+      Voted to require single-sex wards, toilets and changing facilities for NHS
+      patients and staff.
+    meaning_no: Voted against requiring single-sex facilities in the NHS.

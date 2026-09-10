@@ -2228,7 +2228,14 @@ class StanceRollupsRemovedTests(unittest.TestCase):
                   encoding="utf-8") as fh:
             cfg = yaml.safe_load(fh)
         with_phrases = [i for i in cfg["issues"] if (i.get("stance") or {}).get("good")]
-        self.assertEqual(len(with_phrases), 6)
+        # A FLOOR, not an exact count. The guard is against the six signed-off
+        # phrases being DELETED; a new issue arriving with its own phrases is
+        # expected and fine. Two did on 2026-09-10 (gender-medicine and
+        # single-sex-nhs), and an exact 6 failed for the wrong reason.
+        self.assertGreaterEqual(len(with_phrases), 6)
+        for issue in with_phrases:
+            self.assertTrue((issue.get("stance") or {}).get("bad"),
+                            "%s has a good phrase and no bad one" % issue.get("id"))
 
 
 class RebellionTests(unittest.TestCase):
