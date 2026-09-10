@@ -20,6 +20,9 @@ the writer start from these.
    line and lists, at the foot, who was left out and why. The template is
    `docs/sequence-template.md`. Reorder, trim to about six, then run
    `tools/social_cut.py --pack F`.
+   Before publishing a report, `tools/debate_report.py --pack F --preview` creates
+   the canvas and shares it with the DM recipient alone, so the rendering is seen
+   before anything reaches the channel; `--publish` is the separate, explicit step.
    The report has the same mode: `tools/debate_report.py --pack F --provisional`
    drafts from the pass read, marks report.md, social.md and report.json, and
    `--publish` refuses it (no flag clears that) until the checklist is confirmed and

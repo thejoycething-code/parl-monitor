@@ -211,6 +211,27 @@ class ProvisionalTests(unittest.TestCase):
         self.assertEqual(len(dr.publish_blockers({"provisional": True}, force=True)), 1)
 
 
+class CanvasBodyTests(unittest.TestCase):
+    def test_preview_says_what_it_is_and_does_not_claim_approval(self):
+        body = dr.canvas_body(META, "Report text.", preview=True, provisional=True, problems=["x"])
+        self.assertTrue(body.startswith("> PREVIEW"))
+        self.assertIn(dr.PROVISIONAL_NOTE, body)
+        self.assertIn("Checks that failed: x", body)
+        self.assertNotIn("approved by hand", body)
+        self.assertIn("Report text.", body)
+
+    def test_published_body_is_the_report_alone_with_the_approved_footer(self):
+        body = dr.canvas_body(META, "Report text.")
+        self.assertTrue(body.startswith("Report text."))
+        self.assertIn("approved by hand", body)
+        self.assertNotIn("PREVIEW", body)
+        self.assertIn(META["hansard_url"], body)
+
+    def test_summaries_differ(self):
+        self.assertIn("--publish", dr.canvas_summary(META, preview=True))
+        self.assertIn("Recording Unit", dr.canvas_summary(META))
+
+
 class QuotationExtractionTests(unittest.TestCase):
     """Straight quotes carry no open/close distinction, so a naive pairing reads the
     PROSE BETWEEN two quotations as a quotation. On the first real report (2026-09-10)

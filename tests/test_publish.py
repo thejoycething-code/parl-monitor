@@ -79,6 +79,27 @@ class SlackPublishTests(unittest.TestCase):
         self.assertIn("Full edition: https://citizengo.slack.com/docs/T1/F123",
                       calls[2][1]["text"])
 
+    def test_preview_canvas_is_shared_with_the_one_user_and_linked_from_the_dm(self):
+        calls = []
+
+        def transport(url, payload, headers):
+            calls.append((url, payload))
+            if url.endswith("canvases.create"):
+                return {"ok": True, "canvas_id": "F9"}
+            return {"ok": True, "ts": "1.3"}
+
+        secrets = {"slack_bot_token": "xoxb-x", "slack_channel_id": "C1", "slack_dm_user_id": "U7", "slack_team_id": "T1"}
+        result = publish.slack_preview_canvas(secrets, "PREVIEW: t", "body", "summary", transport=transport)
+        self.assertEqual([u.rsplit("/", 1)[1] for u, _ in calls],
+                         ["canvases.create", "canvases.access.set", "chat.postMessage"])
+        self.assertEqual(calls[1][1]["user_ids"], ["U7"])
+        self.assertNotIn("channel_ids", calls[1][1])          # the channel is never granted access
+        self.assertEqual(calls[2][1]["channel"], "U7")
+        self.assertEqual(result["canvas_url"], "https://citizengo.slack.com/docs/T1/F9")
+
+    def test_preview_without_a_dm_recipient_skips(self):
+        self.assertIn("skipped", publish.slack_preview_canvas({"slack_bot_token": "x"}, "t", "b", "s"))
+
     def test_api_error_surfaces(self):
         def transport(url, payload, headers):
             return {"ok": False, "error": "missing_scope"}
