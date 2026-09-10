@@ -342,3 +342,35 @@ class SpeakerSpanTests(unittest.TestCase):
         got = sc.speaker_spans(state, "X")
         self.assertEqual(len(got), 1)
         self.assertAlmostEqual(got[0][0], 600.0, places=0)
+
+
+class ExactCardTimingTests(unittest.TestCase):
+    """When the transcript is the passage word for word -- the normal case, because the
+    passage IS the words as heard -- each card owns the next N words exactly. Two
+    cleverer attempts were measurably worse: token-fraction spreading put cards 0.77s
+    and 0.99s off, and per-card alignment put one Yemm card 0.61s early and the next
+    0.61s late (2026-09-10)."""
+
+    WORDS = [("there", 0.0, 0.2), ("are", 0.2, 0.4), ("things", 0.4, 0.8),
+             ("in", 3.0, 3.1), ("our", 3.1, 3.3), ("society", 3.3, 3.9)]
+
+    def test_each_card_owns_its_own_words(self):
+        cards = [["there are things"], ["in our society"]]
+        times = sc.card_times(self.WORDS, cards, "there are things in our society")
+        self.assertEqual(times[0], (0.0, 0.8))
+        self.assertEqual(times[1], (3.0, 3.9))      # after the pause, exactly
+
+    def test_a_pause_inside_a_card_is_not_smoothed_away(self):
+        times = sc.card_times(self.WORDS, [["there are things in our society"]],
+                              "there are things in our society")
+        self.assertEqual(times, [(0.0, 3.9)])
+
+    def test_a_mismatched_transcript_falls_back_and_still_returns_a_time_per_card(self):
+        words = self.WORDS[:4]                      # the transcriber lost two words
+        cards = [["there are things"], ["in our society"]]
+        times = sc.card_times(words, cards, "there are things in our society")
+        self.assertEqual(len(times), 2)
+        self.assertLessEqual(times[0][0], times[1][0])
+
+    def test_no_words_at_all_is_survivable(self):
+        self.assertEqual(sc.card_times([], [["anything"]], "anything"), [(0.0, 0.0)])

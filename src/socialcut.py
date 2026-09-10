@@ -218,38 +218,53 @@ def _even_groups(words, max_chars, max_lines):
 def card_times(words, cards, passage):
     """When each caption card should appear, from the transcript's word timings.
 
-    Two passes. First every card's own words are ALIGNED in the transcript, which is
-    exact wherever the words were heard as written. Then the cards that failed to align
-    -- the transcriber mangled them, or they are too short to place -- are interpolated
-    between the cards that succeeded, so a card nobody could locate never drags a
-    well-placed neighbour off its words.
+    THE EXACT CASE FIRST. When the transcript's word count equals the cards' token
+    count -- true for all six speakers of the surrogacy cut, because the passage is
+    already the words as heard -- each card simply owns the next N words. No
+    alignment, no interpolation, nothing to be approximately wrong about.
 
-    Both refinements came from measuring the published 54-second cut (2026-09-09).
-    Spreading every card by token fraction assumed an even speaking pace and put two
-    cards 0.77s and 0.99s from the words they caption. Fixing that but forcing each card
-    to start no earlier than the one before it then let a single unlocatable card push
-    its neighbour a second late, which is how "of carrying a baby is one thing" ended up
-    behind the sound.
+    That is worth stating plainly because two cleverer attempts were worse. Spreading
+    cards across the window by token FRACTION assumes an even speaking pace and put
+    two cards 0.77s and 0.99s off. Aligning each card independently then mistimed
+    short fragments: on Steve Yemm it put one card 0.61s early and the next 0.61s
+    late, a boundary in the wrong place rather than a drift.
+
+    The alignment path remains for the case the exact one cannot serve: a transcript
+    that heard a different number of words from the passage. There, cards that align
+    confidently anchor the rest, and a card nobody can place is interpolated between
+    its neighbours rather than dragging them off their words.
     """
+    counts = [len(alignclip.tokens(" ".join(c))) for c in cards]
+    if words and sum(counts) == len(words):
+        out, i = [], 0
+        for k in counts:
+            out.append((words[i][1], words[i + k - 1][2]))
+            i += k
+        return out
+    return _card_times_by_alignment(words, cards, passage, counts)
+
+
+def _card_times_by_alignment(words, cards, passage, counts):
+    """Fallback for a transcript whose word count differs from the passage."""
     n = len(words)
     if not cards:
         return []
+    if not n:
+        return [(0.0, 0.0) for _c in cards]
     anchors = []
     for card in cards:
-        hit = alignclip.align(words, " ".join(card), min_ratio=0.5) if n else None
+        hit = alignclip.align(words, " ".join(card), min_ratio=0.5)
         anchors.append((hit[0], hit[1]) if hit else None)
-    if not any(anchors):                              # nothing placed: fall back to token fraction
+    if not any(anchors):
         total = len(alignclip.tokens(passage)) or 1
         out, pos = [], 0
-        for card in cards:
-            k = len(alignclip.tokens(" ".join(card)))
-            i0 = min(n - 1, int(round(pos / float(total) * n))) if n else 0
-            i1 = min(n - 1, max(i0, int(round((pos + k) / float(total) * n)) - 1)) if n else 0
-            out.append((words[i0][1], words[i1][2]) if n else (0.0, 0.0))
+        for k in counts:
+            i0 = min(n - 1, int(round(pos / float(total) * n)))
+            i1 = min(n - 1, max(i0, int(round((pos + k) / float(total) * n)) - 1))
+            out.append((words[i0][1], words[i1][2]))
             pos += k
         return out
-    first_t = words[0][1] if n else 0.0
-    last_t = words[-1][2] if n else 0.0
+    first_t, last_t = words[0][1], words[-1][2]
     out = list(anchors)
     for i, got in enumerate(anchors):
         if got is not None:
@@ -261,8 +276,6 @@ def card_times(words, cards, passage):
         share = (nxt - prev) / float(len(gap) + 1) if nxt > prev else 0.0
         k = gap.index(i)
         out[i] = (prev + share * k, prev + share * (k + 1))
-    # a later card must not be shown before an earlier one; nudge the EARLIER card back,
-    # never the later one forward, so an aligned card keeps its own timing
     for i in range(len(out) - 2, -1, -1):
         if out[i][0] > out[i + 1][0]:
             out[i] = (out[i + 1][0], min(out[i][1], out[i + 1][0]))
@@ -431,7 +444,16 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
         _run([ff, "-y", "-loglevel", "error", "-i", part, "-vf", "crop=%d:%d:%d:0,scale=%d:%d:flags=lanczos,format=yuv420p" % (CROP_W, CROP_H, x, FRAME_W, FRAME_H),
               "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-c:a", "copy", vpart])
         dur = _dur(ff, vpart)
-        heard = [(w, round(t0 - start, 2), round(t1 - start, 2)) for w, t0, t1 in words[first:last + 1]]
+        # Caption times come from the PART's OWN transcript, not from the window's
+        # rebased by the cut start. Two transcriptions of the same audio place words
+        # differently -- measured 0.51s and 0.71s apart on Steve Yemm's cards
+        # (2026-09-10) -- and the part is what a viewer watches, so the part is the
+        # authority. This is why three earlier attempts at card timing all failed:
+        # each was timing against the wrong audio. One short transcription per part.
+        heard = alignclip.transcribe(part, os.path.join(hd, s + "-part.wav"), ff,
+                                     model_size=whisper_model,
+                                     words_json=os.path.join(hd, s + "-part.words.json"),
+                                     log=lambda *_a: None)
         cards = chunk_caption(e["passage"])
         times = card_times(heard, cards, e["passage"])
         items.append({"name": e["name"], "party": e["party"], "duration": dur, "cards": [(c, t[0], t[1]) for c, t in zip(cards, times)],

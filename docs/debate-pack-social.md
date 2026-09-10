@@ -77,27 +77,28 @@ subheadings, no organisation quote unless asked, every quotation in Hansard word
 every speaker's name linked to their Hansard contribution, one paragraph for the
 other side and one for the Government's line.
 
-## Caption sync: what is fixed and what is not (9 Sept 2026)
+## Caption sync: fixed (10 Sept 2026)
 
-Alexandra flagged on the published 54-second cut that "the audio doesn't sync up".
-Measured rather than guessed:
+Alexandra flagged on the published cut that "the audio doesn't sync up". It was never
+audio against video -- both streams start at 0.000, the parts agree within 20ms, and the
+accumulated delta over the whole cut is 0.000s. It was the captions, and it took four
+attempts because the first three all solved the wrong problem:
 
-* **Not an audio/video offset.** Both streams start at 0.000 in the container, the six
-  concatenated parts are within 20ms of each other, and the accumulated delta over the
-  whole cut is 0.000s. The picture and the sound agree.
-* **It is the captions.** Cards were timed by spreading them across a part by token
-  fraction, which assumes an even speaking pace. Against the published cut that put two
-  cards 0.77s and 0.99s from the words they caption, both at a speaker's pause.
-  `card_times` now ALIGNS each card's own words in the transcript and interpolates only
-  the cards that fail to align, between the ones that succeed. Gilbert's worst card
-  improved from 0.77s to 0.27s.
-* **STILL OPEN.** Jim Shannon's two cards are about a second EARLY, and measuring inside
-  his own part (rather than the whole cut, where "carrying a baby is" occurs twice and
-  fools the aligner) gives -1.14s and -0.90s. So the part-local word timings written to
-  `clips/hd/timings.json` at cut time disagree with a fresh transcription of that part,
-  in some parts and not others. Suspect the relationship between the cut's `-ss` start
-  and the window transcript's timings. Until it is found, check the contact sheet AND
-  watch the cut before posting: a card a second early is visible.
+1. **Spreading cards by token fraction** assumes an even speaking pace. Worst card 0.99s
+   out, at a speaker's pause.
+2. **Aligning each card independently** mistimed short fragments: one Yemm card 0.61s
+   early and the next 0.61s late -- a boundary in the wrong place, not a drift.
+3. **Consuming the words sequentially** is exactly right, and changed nothing, because
+   the words being consumed came from the WINDOW's transcript rebased by the cut start.
+4. **Timing against the PART's own transcript** fixed it. Two transcriptions of the same
+   audio place words differently -- 0.51s and 0.71s apart on Yemm's cards -- and the part
+   is what a viewer watches, so the part is the authority. One short transcription per
+   part, a few seconds of CPU.
+
+Worst card now 0.10s, which is the deliberate lead-in that puts a caption up just before
+the words. Measured per part, never across the whole cut: "carrying a baby is" occurs
+twice in Jim Shannon's passage and fooled a whole-cut measurement into reporting the sign
+and size of the error wrongly.
 
 ## Sequencing trap: git pull comes BEFORE the store pull (9 Sept 2026)
 
