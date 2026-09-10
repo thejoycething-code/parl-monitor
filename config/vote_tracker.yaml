@@ -811,17 +811,17 @@ divisions:
       Opposed the delay: in favour of the Bill proceeding to a Second
       Reading.
 
-  # -- Health Bill report stage, 8 September 2026. DRAFTED 2026-09-10, NOT YET
-  #    SIGNED OFF: signed_off gates the verdict (make_vote_tracker line 963), so
-  #    these render as votes with no placement claimed until Christopher signs.
-  #    our_side is verified against the sponsor's OWN vote -- Dr Caroline Johnson
-  #    voted Aye in both, as mover -- never off the title.
+  # -- Health Bill report stage, 8 September 2026. Drafted 2026-09-10; signed off
+  #    by Christopher, 2026-09-10. our_side is verified against the sponsor's OWN
+  #    vote -- Dr Caroline Johnson voted Aye in both, as mover -- never off the
+  #    title. Signing off publishes a verdict on every member who voted: about
+  #    460 on the puberty blockers clause and 410 on single-sex facilities.
   - id: 2421
     issue: gender-medicine
     stage: Report Stage
     stage_group: Report Stage
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: New Clause 142
     context: ""
@@ -835,7 +835,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: New Clause 143
     context: ""
