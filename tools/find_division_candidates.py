@@ -149,6 +149,11 @@ def main():
         title = " ".join((d.title or "").split())
         result = filt.filter_item(tax, wl, title)
         title_areas = set(result.issue_areas) if (result.tier == 1 or result.watchlist_hits) else set()
+        # A tier-1 term in the title names the vote's subject. A watchlist hit
+        # names only the Bill: "Crime and Policing Bill: motion to disagree with
+        # Lords Amendment 359" is a watched Bill and a vote about the IRGC
+        # (batch 1 of the review, 2026-09-10: 13 such tags, none on the issue).
+        title_how = "term" if result.tier == 1 else ("watched bill" if result.watchlist_hits else "")
         day_areas = same_debate_areas(
             title, day_debates.get(d.date.isoformat() if d.date else "", []))
         if not title_areas and not day_areas:
@@ -163,7 +168,7 @@ def main():
                         if a not in hidden and n >= MIN_AREA_SPEECHES}
         candidates.append({
             "id": d.id, "date": d.date.isoformat() if d.date else "?", "title": title,
-            "title_areas": sorted(title_areas), "day_areas": day_areas,
+            "title_areas": sorted(title_areas), "title_how": title_how, "day_areas": day_areas,
             "areas": sorted(areas), "in_ledger": d.id in held,
             "hidden_only": not (shown_title or shown_debate),
         })
@@ -194,7 +199,8 @@ def main():
     for c in fresh[:40]:
         marks = []
         if c["title_areas"]:
-            marks.append("title: " + ", ".join(names.get(a, str(a)) for a in c["title_areas"]))
+            marks.append(("title: " if c.get("title_how") == "term" else "watched Bill (vote may be on anything): ")
+                         + ", ".join(names.get(a, str(a)) for a in c["title_areas"]))
         if c["day_areas"]:
             marks.append("same debate: " + ", ".join(
                 "{0} x{1}".format(names.get(a, a), n)

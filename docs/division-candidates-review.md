@@ -1,6 +1,6 @@
 # Division candidates for review
 
-*Divisions the title sweep could not see, flagged by the taxonomy on the title or by tagged speeches in the same debate. Nothing here is in the ledger or the tracker. To add one: put it in config/vote_tracker.yaml with a meaning line you have written. Its voters are ledgered by `tools/ledger_tracker_divisions.py`, which the Monday publish runs before the tracker builds (an earlier version of this note said the Score stance run did it; nothing did, and on 10 Sept 2026 thirteen of twenty-three signed-off divisions turned out to have no voters in the ledger -- correctly rendered on the tracker page, which reads the raw payloads, but contributing nothing to any 5CA placement). Generated 8 Sept 2026 by tools/find_division_candidates.py; queues in data/division-candidates.json (2020-26) and data/division-candidates-2017-2019.json.*
+*Divisions the title sweep could not see, flagged by the taxonomy on the title or by tagged speeches in the same debate. READ THE "(title)" TAG WITH CARE: on a Bill-name title ("Crime and Policing Bill: motion to disagree with Lords Amendment 359") it means the Bill is on the watchlist for that area, not that the vote was about it -- batch 1 found every Crime and Policing ping-pong vote so tagged was about fly-tipping, youth diversion orders, the IRGC or fixed penalty notices. Nothing here is in the ledger or the tracker. To add one: put it in config/vote_tracker.yaml with a meaning line you have written. Its voters are ledgered by `tools/ledger_tracker_divisions.py`, which the Monday publish runs before the tracker builds (an earlier version of this note said the Score stance run did it; nothing did, and on 10 Sept 2026 thirteen of twenty-three signed-off divisions turned out to have no voters in the ledger -- correctly rendered on the tracker page, which reads the raw payloads, but contributing nothing to any 5CA placement). Generated 8 Sept 2026 by tools/find_division_candidates.py; queues in data/division-candidates.json (2020-26) and data/division-candidates-2017-2019.json.*
 
 ## Health Bill report stage, 8 September 2026 — meaning lines drafted, awaiting sign-off
 
@@ -32,28 +32,50 @@ tracker.
 
 - [ ] `2420` 2026-09-08 [Health Bill: Report Stage: New Clause 140](https://votes.parliament.uk/Votes/Commons/Division/2420) — **Corridor care**, lead Helen Morgan (LD). Listed for completeness: NOT one of ours, and no meaning line is proposed.
 
-## This Parliament and the last, 2020 to 2026 (130)
+## Batch 1 — reviewed 10 September 2026 (20 of 130): three to add, seventeen not ours
 
-- [ ] `2416` 2026-09-02 [Representation of the People Bill: Third Reading](https://votes.parliament.uk/Votes/Commons/Division/2416) — Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `2415` 2026-09-02 [Representation of the People Bill: Report Stage: New Clause 88](https://votes.parliament.uk/Votes/Commons/Division/2415) — Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `2414` 2026-09-02 [Representation of the People Bill: Report Stage: New Clause 67](https://votes.parliament.uk/Votes/Commons/Division/2414) — Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `2413` 2026-09-02 [Representation of the People Bill: Report Stage: New Clause 65](https://votes.parliament.uk/Votes/Commons/Division/2413) — Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `2402` 2026-07-08 [Draft Children’s Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulati](https://votes.parliament.uk/Votes/Commons/Division/2402) — Parental rights education (title)
-- [ ] `2351` 2026-05-19 [King's Speech Motion for an Address: amendment (i)](https://votes.parliament.uk/Votes/Commons/Division/2351) — Abortion, Parental rights education, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `2339` 2026-04-22 [Crime and Policing Bill: motion to insist on Amendments 439C and 439D and disagree with Lords Amendments 439E ](https://votes.parliament.uk/Votes/Commons/Division/2339) — Abortion (title)
-- [ ] `2338` 2026-04-22 [Children's Wellbeing and Schools Bill: motion to insist on Amendment 38J and disagree with Lords Amendments 38](https://votes.parliament.uk/Votes/Commons/Division/2338) — Parental rights education (title)
-- [ ] `2327` 2026-04-20 [Crime and Policing Bill: Amendments (a) to (b) in lieu of Lords Amendments 359 and 439](https://votes.parliament.uk/Votes/Commons/Division/2327) — Abortion (title)
-- [ ] `2326` 2026-04-20 [Crime and Policing Bill: Amendments (a) and (b) in lieu of Lords Amendment 342](https://votes.parliament.uk/Votes/Commons/Division/2326) — Abortion (title)
-- [ ] `2325` 2026-04-20 [Crime and Policing Bill: Amendments (a) to (d) in lieu of Lords Amendment 11](https://votes.parliament.uk/Votes/Commons/Division/2325) — Abortion (title)
-- [ ] `2324` 2026-04-20 [Crime and Policing Bill: Amendment (a) to Amendment 2B and Amendment (b) to Amendment 2C in lieu of Lords Amen](https://votes.parliament.uk/Votes/Commons/Division/2324) — Abortion (title)
-- [ ] `2323` 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (c) in lieu of Lords Amendment 106](https://votes.parliament.uk/Votes/Commons/Division/2323) — Parental rights education (title)
-- [ ] `2322` 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (e) in lieu of Lords Amendment 102](https://votes.parliament.uk/Votes/Commons/Division/2322) — Parental rights education (title)
-- [ ] `2321` 2026-04-15 [Children's Wellbeing and Schools Bill: motion to disagree with Lords Amendment 41B](https://votes.parliament.uk/Votes/Commons/Division/2321) — Parental rights education (title)
-- [ ] `2320` 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (f) in lieu of Lords Amendment 38](https://votes.parliament.uk/Votes/Commons/Division/2320) — Parental rights education (title)
-- [ ] `2311` 2026-04-14 [Crime and Policing Bill: motion to agree with all remaining Lords Amendments](https://votes.parliament.uk/Votes/Commons/Division/2311) — Abortion (title)
-- [ ] `2310` 2026-04-14 [Crime and Policing Bill: motion to disagree with Lords Amendment 359](https://votes.parliament.uk/Votes/Commons/Division/2310) — Abortion (title)
-- [ ] `2309` 2026-04-14 [Crime and Policing Bill: motion to disagree with Lords Amendment 357](https://votes.parliament.uk/Votes/Commons/Division/2309) — Abortion (title)
-- [ ] `2308` 2026-04-14 [Crime and Policing Bill: motion to disagree with Lords Amendment 342](https://votes.parliament.uk/Votes/Commons/Division/2308) — Abortion (title)
+*Method: each division's record from the Commons Votes API (result, tellers); the amendment or
+motion text from the Bills API where it exists, otherwise from the Hansard debate of the day
+(the Deputy Speaker's grouping and the Minister's tour of the amendments); our side from how the
+members who argued the point voted, never from the title. Debate dumps are in the session
+scratchpad, not the repo.*
+
+**Add to the tracker (a new issue is needed: children's access to social media, area 6):**
+
+- [ ] `2320` 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (f) in lieu of Lords Amendment 38](https://votes.parliament.uk/Votes/Commons/Division/2320) — **Under-16 social media ban**, area 6. Lords Amendment 38 (Lord Nash, Con) would have barred under-16s from social media platforms; the Government's amendments in lieu replaced it with a power to act after its consultation and a duty to report progress within six months. Result 256 Aye / 150 No: **Government amendments in lieu agreed, the ban dropped**. Our side: **NO** (Laura Trott, who argued for the ban as shadow Secretary of State, voted No; the Minister, Olivia Bailey, Aye; Munira Wilson (LD) and Aphra Brandreth (Con), who spoke for the ban, No).
+      - `meaning_aye` (draft): Voted to replace the Lords' ban on under-16s using social media with a Government consultation and a six-month progress report.
+      - `meaning_no` (draft): Voted to keep the Lords' ban on under-16s using social media.
+- [ ] `2338` 2026-04-22 [Children's Wellbeing and Schools Bill: motion to insist on Amendment 38J and disagree with Lords Amendments 38V to 38X](https://votes.parliament.uk/Votes/Commons/Division/2338) — **Under-16 social media ban, third round**, area 6. The Lords had amended the Government's own clause (38J, a power to require internet service providers to restrict children's access) to bind it to act; the Government insisted on the unamended power. Result 260 Aye / 161 No: **Government insisted; Lords amendments rejected**. Our side: **NO** (Trott: "they have chosen to vote against a ban for a third time"; Trott, Brandreth, Wilson No; Bailey Aye). Same issue as 2320; the first-round Commons division on Lords Amendment 38 (stage 20498, March 2026) should be looked for when this issue is created.
+      - `meaning_aye` (draft): Voted with the Government to keep only a discretionary power over children's access to social media, rejecting the Lords' duty to act.
+      - `meaning_no` (draft): Voted for the Lords' amendments binding the Government to restrict under-16s' access to social media.
+- [ ] `2323` 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (c) in lieu of Lords Amendment 106](https://votes.parliament.uk/Votes/Commons/Division/2323) — **Smartphones in schools**, area 6, **editorial call**: Lords Amendment 106 would have required schools to prohibit smartphones during the school day; the Government's amendments in lieu made it a power to put guidance on a statutory footing by regulations. Result 248 Aye / 139 No. Our side, IF this is one of ours: **NO** (Trott, Brandreth, Wilson No; Bailey Aye). Whether phones in schools is a CitizenGO issue is your decision; the social media ban above plainly is.
+      - `meaning_aye` (draft): Voted to replace the Lords' school-day smartphone ban with a power to make phone guidance statutory.
+      - `meaning_no` (draft): Voted to require schools to ban smartphones during the school day.
+
+**Not ours (checked against the debate, not the title):**
+
+- [x] `2416` 2026-09-02 Representation of the People Bill: Third Reading — franchise at 16, automatic registration, donations rules. None of the twelve areas. (411 / 102.)
+- [x] `2415` 2026-09-02 RotP Bill NC88 (Lisa Smart, LD) — a Royal Commission on a cap on political donations. Not ours. (85 / 427.)
+- [x] `2414` 2026-09-02 RotP Bill NC67 (Paul Holmes, Con) — an offence of publishing election campaign material in a foreign language. Elections law; touches no area (the area 11 tag was same-debate migration speeches, and area 11 is never campaigned). (105 / 410.)
+- [x] `2413` 2026-09-02 RotP Bill NC65 (Paul Holmes, Con) — an independent review of overseas electors' registration. Not ours. (166 / 346.)
+- [x] `2402` 2026-07-08 Draft Children's Wellbeing and Schools Act 2026 (Establishment of Schools) (Consequential Amendments) Regulations — deferred division approving consequential regulations after the end of the academy presumption. Schools structure, not parental rights; "schools" matched the title. (369 / 102.)
+- [x] `2351` 2026-05-19 King's Speech, amendment (i) — the Opposition's regret amendment on oil and gas licensing, Rosebank, Wylfa and the carbon tax (text in Hansard, 19 May, Energy Security day). Same-debate tags came from other days of the Address debate. (108 / 323.)
+- [x] `2339` 2026-04-22 Crime and Policing Bill: insist on 439C/439D — proscription of the Islamic Revolutionary Guard Corps (Lords Amendment 359/439 line). Not ours. (253 / 143.)
+- [x] `2327` 2026-04-20 Crime and Policing Bill: in lieu of Lords Amendments 359 and 439 — IRGC proscription. Not ours. (292 / 158.)
+- [x] `2326` 2026-04-20 Crime and Policing Bill: in lieu of Lords Amendment 342 — consultation duty before youth diversion orders (Baroness Doocey). Not ours. (294 / 61.)
+- [x] `2325` 2026-04-20 Crime and Policing Bill: in lieu of Lords Amendment 11 — seizure of vehicles used for fly-tipping. Not ours. (294 / 156.)
+- [x] `2324` 2026-04-20 Crime and Policing Bill: amendments to 2B/2C in lieu — fixed penalty notices issued for profit by enforcement contractors (Lib Dem line). Not ours. (293 / 159.)
+- [x] `2322` 2026-04-15 Children's Wellbeing and Schools Bill: in lieu of Lords Amendment 102 — the schools adjudicator's power to lower a published admission number. Admissions machinery; "parental choice" appears but it is not a parental-rights vote. (259 / 136.)
+- [x] `2321` 2026-04-15 Children's Wellbeing and Schools Bill: disagree with Lords Amendment 41B — a review of the cap on branded school uniform items. Not ours. (254 / 144.)
+- [x] `2311` 2026-04-14 Crime and Policing Bill: agree with all remaining Lords amendments — the bulk motion; the 21 Noes were told by Apsana Begum and Kim Johnson (Labour left). Nothing in the remaining amendments is on our issues. (247 / 21.)
+- [x] `2310` 2026-04-14 Crime and Policing Bill: disagree with Lords Amendment 359 — IRGC proscription. Not ours. (277 / 158.)
+- [x] `2309` 2026-04-14 Crime and Policing Bill: disagree with Lords Amendment 357 — removing the "historical" safeguard from the offence of glorifying terrorism (Baroness Foster; DUP/UUP tellers). Terrorism law, not ours. (278 / 73.)
+- [x] `2308` 2026-04-14 Crime and Policing Bill: disagree with Lords Amendment 342 — youth diversion orders consultation. Not ours. (281 / 70.)
+
+**Flag for batch 2, found while reading 14 April:** `2306` (disagree with Lords Amendment 334) IS ours — the Lords amendment ended the recording of non-crime hate incidents and required any future guidance to have "due regard to the right to freedom of expression"; the Government moved to disagree and won 356 / 90 (Hansard Division No. 472). Area 7. Our side will be NO. Also from that day, `2304` (Lords Amendment 311, Lord Walney: a power to designate "extreme criminal protest groups") is a civil-liberties vote worth a deliberate decision rather than a reflex either way.
+
+## This Parliament and the last, 2020 to 2026 (110 still to review)
+
 - [ ] `2306` 2026-04-14 [Crime and Policing Bill: motion to disagree with Lords Amendment 334](https://votes.parliament.uk/Votes/Commons/Division/2306) — Abortion (title)
 - [ ] `2305` 2026-04-14 [Crime and Policing Bill: motion to disagree with Lords Amendment 333](https://votes.parliament.uk/Votes/Commons/Division/2305) — Abortion (title)
 - [ ] `2304` 2026-04-14 [Crime and Policing Bill: motion to disagree with Lords Amendment 311](https://votes.parliament.uk/Votes/Commons/Division/2304) — Abortion (title)
