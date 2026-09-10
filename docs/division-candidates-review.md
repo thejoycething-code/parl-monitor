@@ -2,6 +2,35 @@
 
 *Divisions the title sweep could not see, flagged by the taxonomy on the title or by tagged speeches in the same debate. Nothing here is in the ledger or the tracker. To add one: put it in config/vote_tracker.yaml with a meaning line you have written; the next Score stance run ledgers the voters. Generated 8 Sept 2026 by tools/find_division_candidates.py; queues in data/division-candidates.json (2020-26) and data/division-candidates-2017-2019.json.*
 
+## Health Bill report stage, 8 September 2026 — meaning lines drafted, awaiting sign-off
+
+*Found on 10 Sept from Joy Morrissey's reference to "last night's vote on puberty blockers"
+at Women and Equalities questions. NONE of the four divisions that day is in `cv_divisions`
+or the ledger: every title reads "Health Bill: Report Stage: New Clause 142", which carries
+no taxonomy term, so the title sweep cannot see them. The clause text comes from the Bills
+API (bill 4124, stage 21130); `our side` is verified against the sponsor's OWN vote in each
+division, because a division's direction can never be read off its title.*
+
+**Two of these would need a tracker issue that does not exist yet** — there is no issue for
+gender medicine (area 3) or single-sex spaces (area 5) in config/vote_tracker.yaml. Creating
+them is an editorial decision, not a meaning line, so nothing here has been added to the
+tracker.
+
+- [ ] `2421` 2026-09-08 [Health Bill: Report Stage: New Clause 142](https://votes.parliament.uk/Votes/Commons/Division/2421) — **Puberty blockers**, area 3. Lead Dr Caroline Johnson (Con), 9 sponsors. Result 108 Aye / 357 No: **defeated**. Our side: **AYE** (Johnson voted Aye as sponsor).
+      - The clause: within three months, the Secretary of State must make regulations ensuring puberty blockers may not be prescribed, dispensed or supplied to under-18s for gender dysphoria or gender incongruence, nor given in related clinical trials without Parliament's specific approval.
+      - `meaning_aye` (draft): Voted to ban puberty blockers for under-18s for gender dysphoria, and to require Parliament's approval before any clinical trial.
+      - `meaning_no` (draft): Voted against banning puberty blockers for under-18s.
+
+- [ ] `2422` 2026-09-08 [Health Bill: Report Stage: New Clause 143](https://votes.parliament.uk/Votes/Commons/Division/2422) — **Single sex facilities**, area 5. Lead Dr Caroline Johnson (Con), 8 sponsors. Result 106 Aye / 302 No: **defeated**. Our side: **AYE** (Johnson voted Aye as sponsor).
+      - The clause: requires the Secretary of State to ensure single-sex changing rooms, toilets and washing facilities for NHS staff, and single-sex wards and washing facilities for NHS patients, with exemptions for children, intensive care and named circumstances.
+      - `meaning_aye` (draft): Voted to require single-sex wards, toilets and changing facilities for NHS patients and staff.
+      - `meaning_no` (draft): Voted against requiring single-sex facilities in the NHS.
+
+- [ ] `2423` 2026-09-08 [Health Bill: Report Stage: Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/2423) — **NEEDS CLAUSE 63 IDENTIFIED BEFORE A MEANING LINE.** Lead Dr Caroline Johnson (Con), 4 sponsors. Result 162 Aye / 297 No: defeated, and the largest support of the four. Our side: Aye if Clause 63 is objectionable, and Johnson voted Aye.
+      - The amendment says only "Page 45, line 39, leave out Clause 63". The Bills API carries no clause text; the Hansard search for "Clause 63" that day returns nothing useful; and the API's document download for HL Bill 52 is a 404. So what Clause 63 does is NOT established, and no meaning line has been written for it. Read it from the published Bill (Commons Bill 131 of session 59-02) before signing this one off.
+
+- [ ] `2420` 2026-09-08 [Health Bill: Report Stage: New Clause 140](https://votes.parliament.uk/Votes/Commons/Division/2420) — **Corridor care**, lead Helen Morgan (LD). Listed for completeness: NOT one of ours, and no meaning line is proposed.
+
 ## This Parliament and the last, 2020 to 2026 (130)
 
 - [ ] `2416` 2026-09-02 [Representation of the People Bill: Third Reading](https://votes.parliament.uk/Votes/Commons/Division/2416) — Free speech, privacy and civil liberties, Migration (same debate)
