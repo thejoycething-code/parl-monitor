@@ -136,3 +136,49 @@ class RadarTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GapLabellingTests(unittest.TestCase):
+    """An unlabelled gap read "2026-09-07 2026-09-07" and told nobody which of the 55
+    searches had failed or how to retry it (2026-09-10)."""
+
+    def setUp(self):
+        self.tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        self.wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+
+    def test_a_refused_term_is_named_in_the_gap(self):
+        from src.http import FetchError
+
+        class Broken(FakeClient):
+            def get_json(self, url, feed, slug, **kw):
+                raise FetchError(url, feed, slug, 1, "HTTP Error 500")
+        _c, gaps = radar.candidates(Broken({}), DAY, ["home education"], self.tax, self.wl)
+        self.assertEqual(len(gaps), 1)
+        self.assertIn("home education", gaps[0])
+        self.assertIn("2026-09-07", gaps[0])
+        self.assertIn("home education", radar.report([], gaps, DAY))
+
+
+class MatchedTermsTests(unittest.TestCase):
+    """The reading prints the matched terms: a licensing order with three speakers looked
+    like a false positive until its terms showed it was the digital ID debate."""
+
+    def setUp(self):
+        self.tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        self.wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+
+    def test_terms_are_counted_and_shown_commonest_first(self):
+        text = ("The digital ID scheme and its age verification requirement raise questions "
+                "about digital identity and free speech for ordinary people.")
+        rows = [contribution("c%d" % i, 7000 + i, "Draft Licensing Order", text, debate_ext="D7")
+                for i in range(3)]
+        cands, _ = radar.candidates(FakeClient({"digital ID": rows}), DAY, ["digital ID"], self.tax, self.wl)
+        c = cands[0]
+        self.assertTrue(c.term_counts, "no terms recorded")
+        self.assertEqual(c.term_counts[0][1], 3)          # every contribution matched the top term
+        out = radar.report(cands, [], DAY)
+        self.assertIn("matched:", out)
+        self.assertIn(c.term_counts[0][0], out)
+
+    def test_the_floor_stays_at_three(self):
+        self.assertEqual(radar.FLOOR_MEMBERS, 3)

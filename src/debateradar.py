@@ -16,6 +16,13 @@ so a debate cannot reach the radar on a passing word alone. Two further rules:
 * a debate qualifies on MEMBERS, not contributions. One member intervening eight
   times in someone else's debate is not our debate; the "EU Membership Referendum"
   false positive of 2026-09-02 looked busy for exactly that reason.
+
+The floor stays at three, on evidence. A licensing order with three speakers looked
+like a free-speech false positive on 2026-09-10 and was nearly dropped by raising the
+floor to four; its matched terms were "digital ID", "digital identity" and "age
+verification" -- the digital ID debate, which the taxonomy puts squarely on our ground.
+Raising the floor would have discarded it and the Media Green Paper with it. The report
+now prints the matched terms instead, because that is what makes relevance judgeable.
 """
 
 import datetime
@@ -49,6 +56,15 @@ class Candidate(object):
     @property
     def hidden_only(self):
         return bool(self.areas) and not self.displayable_areas
+
+    @property
+    def term_counts(self):
+        """[(term, contributions that matched it)], commonest first."""
+        counts = {}
+        for c in self.contributions_detail:
+            for t in c.get("terms") or []:
+                counts[t] = counts.get(t, 0) + 1
+        return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
 
     @property
     def title_matches(self):
@@ -90,9 +106,13 @@ def candidates(client, date, terms, tax, wl, log=None):
         try:
             rows, term_gaps = hansard.search_contributions_split(
                 client, hansard.spoken_form(term), iso, iso, log=log)
-            gaps.extend(term_gaps)
+            # name the TERM: search_contributions_split reports a refused slice as
+            # (start, end), so an unlabelled gap read "2026-09-07 2026-09-07" and told
+            # nobody which of the 55 searches had failed or how to retry it.
+            gaps.extend(("%s (%s to %s)" % (term, a, b)) if a != b else "%s (%s)" % (term, a)
+                        for a, b in term_gaps)
         except FetchError as exc:
-            gaps.append((term, str(exc.cause)))
+            gaps.append("%s (%s): %s" % (term, iso, exc.cause))
             if log:
                 log("[gap] radar '{0}' {1}: {2}".format(term, iso, exc.cause))
             continue
@@ -132,6 +152,14 @@ def report(cands, gaps=(), date=None, floor=FLOOR_MEMBERS):
             lines.append("* **%s** (%s) -- %d members, %d contributions, areas %s, %s"
                          % (c.title, c.house, len(c.members), len(c.contributions),
                             c.displayable_areas, c.strength))
+            # The matched terms, commonest first. On 2026-09-10 a licensing order with
+            # three speakers looked like a free-speech false positive and was almost
+            # dropped by raising the floor; its terms were "digital ID", "digital
+            # identity" and "age verification", which is squarely our ground. The terms
+            # are what make relevance judgeable, so the reading states them.
+            if c.term_counts:
+                lines.append("  matched: %s" % ", ".join(
+                    "%s x%d" % (t, n) for t, n in c.term_counts[:6]))
             lines.append("  %s" % c.url())
         lines.append("")
     else:
