@@ -120,7 +120,7 @@ Bill's Commons report stage, so those came from the Speaker's grouping in Hansar
 
 **Added to `config/vote_tracker.yaml` unsigned:**
 
-- [x] `1950` **SIGNED OFF? not yet** — 2025-03-17 CWS Bill report stage: New Clause 36 (Laura Trott) — the Commons **origin of the children-social-media issue**: CMO advice for parents on smartphones and social media, a research plan, and a phone ban in every school. 159 / 317. Our side **AYE** (Trott moved it and voted Aye; Phillipson No; Conservatives, Liberal Democrats, Reform and DUP for).
+- [x] `1950` **SIGNED OFF 11 Sept** — 2025-03-17 CWS Bill report stage: New Clause 36 (Laura Trott) — the Commons **origin of the children-social-media issue**: CMO advice for parents on smartphones and social media, a research plan, and a phone ban in every school. 159 / 317. Our side **AYE** (Trott moved it and voted Aye; Phillipson No; Conservatives, Liberal Democrats, Reform and DUP for).
 
 **Your decision (drafted but NOT added):**
 
@@ -157,7 +157,7 @@ amendments). Amendment texts from the Speaker's groupings in Hansard.*
 
 **Recommended: a new area-12 issue (your call; nothing added):**
 
-- [ ] `1815` 2024-05-15 Criminal Justice Bill report stage: New Clause 44 (Jess Phillips, Lab) — **sexual exploitation of an adult**, area 12. It would have renamed the Sexual Offences Act 2003 offences of "causing or inciting prostitution for gain" and "controlling prostitution for gain" as sexual exploitation, and defined it as conduct that "manipulates, deceives, coerces or controls another person to undertake sexual activity" — the change the STAGE partnership against adult sexual exploitation has sought so that adult victims are treated as victims. The Minister (Laura Farris) resisted "not because there is any real dispute of principle, but because there is dispute of degree". 167 / 275: Labour, Lib Dem, Green, Plaid, SDLP, Alliance, one DUP for; Conservatives against. Our side, if area 12 means what the taxonomy says: **AYE** (Phillips and Diana Johnson Aye; Farris and Philp No). There is no area-12 issue on the tracker yet; this would be the first. The Bill fell at the 2024 dissolution.
+- [x] `1815` **IN THE TRACKER (issue `sexual-exploitation`), unsigned** — 2024-05-15 Criminal Justice Bill report stage: New Clause 44 (Jess Phillips, Lab) — **sexual exploitation of an adult**, area 12. It would have renamed the Sexual Offences Act 2003 offences of "causing or inciting prostitution for gain" and "controlling prostitution for gain" as sexual exploitation, and defined it as conduct that "manipulates, deceives, coerces or controls another person to undertake sexual activity" — the change the STAGE partnership against adult sexual exploitation has sought so that adult victims are treated as victims. The Minister (Laura Farris) resisted "not because there is any real dispute of principle, but because there is dispute of degree". 167 / 275: Labour, Lib Dem, Green, Plaid, SDLP, Alliance, one DUP for; Conservatives against. Our side, if area 12 means what the taxonomy says: **AYE** (Phillips and Diana Johnson Aye; Farris and Philp No). There is no area-12 issue on the tracker yet; this would be the first. The Bill fell at the 2024 dissolution.
       - `meaning_aye` (draft): Voted to recognise adults manipulated, deceived, coerced or controlled into sexual activity as victims of sexual exploitation in law.
       - `meaning_no` (draft): Voted against redefining the prostitution offences as sexual exploitation of an adult.
 

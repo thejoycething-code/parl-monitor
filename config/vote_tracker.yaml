@@ -369,6 +369,29 @@ issues:
       good: to protect children from social media and smartphones in schools
       bad: against protecting children from social media and smartphones in schools
 
+  - id: sexual-exploitation
+    debate_match: ["Criminal Justice Bill"]
+    name: Sexual exploitation of adults
+    area: 12
+    bill: Criminal Justice Bill - New Clause 44
+    note: >-
+      New Clause 44, moved by Jess Phillips at the Criminal Justice Bill's report
+      stage on 15 May 2024, would have renamed the Sexual Offences Act 2003
+      offences of causing, inciting or controlling "prostitution for gain" as
+      sexual exploitation, and defined it as conduct that "manipulates, deceives,
+      coerces or controls another person to undertake sexual activity" - so that
+      adult victims are recognised in law as victims, as children have been since
+      2015. The Minister resisted "not because there is any real dispute of
+      principle, but because there is dispute of degree". A whipped vote: Labour,
+      Liberal Democrats, Greens, Plaid Cymru, SDLP and Alliance for; Conservatives
+      against. The Bill fell at the 2024 dissolution.
+    status: Rejected by the Commons 167-275 on 15 May 2024; the Bill fell at the dissolution.
+    # Drafted 2026-09-11 (batch 4 of the division review); Christopher agreed the
+    # issue on 2026-09-11. The division below is NOT signed off.
+    stance:
+      good: to recognise coerced and controlled adults as victims of sexual exploitation
+      bad: against recognising coerced and controlled adults as victims of sexual exploitation
+
 divisions:
   # -- Assisted suicide: carried over from the prototype, wording checked
   #    against Hansard in July 2026 but not yet signed off editorially.
@@ -960,16 +983,31 @@ divisions:
     meaning_no: Voted to end the recording of non-crime hate incidents and protect freedom of expression in any future guidance.
 
   # --- children-social-media, the Commons origin (batch 3 of the review, 2026-09-11):
-  # drafted 2026-09-11, awaiting sign-off. Trott moved it and voted Aye; the
+  # drafted and signed off by Christopher, 2026-09-11. Trott moved it and voted Aye; the
   # Secretary of State, Bridget Phillipson, No.
   - id: 1950
     issue: children-social-media
     stage: Report Stage
     stage_group: Report Stage
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: "New Clause 36: smartphones and social media, action for children's wellbeing"
     context: "17 March 2025. Laura Trott's New Clause 36 would have required, within twelve months, Chief Medical Officers' advice for parents on children's smartphone and social media use, a published research plan, and a policy in every English school prohibiting the use and carrying of phones during the school day. Result 159-317: Conservatives, Liberal Democrats, Reform and DUP for; Labour against."
     meaning_aye: Voted to require every school to ban phones during the school day and the Chief Medical Officers to advise parents on children's smartphone and social media use.
     meaning_no: Voted against requiring school phone bans and Chief Medical Officers' advice on children's smartphone and social media use.
+
+  # --- sexual-exploitation: drafted 2026-09-11, awaiting sign-off. Our side verified
+  # against votes: Jess Phillips (mover) and Dame Diana Johnson Aye; the Minister,
+  # Laura Farris, and Chris Philp No.
+  - id: 1815
+    issue: sexual-exploitation
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: true
+    signed_off: false
+    our_side: aye
+    short: "New Clause 44: sexual exploitation of an adult"
+    context: "15 May 2024. Jess Phillips's New Clause 44 would have redefined the prostitution-for-gain offences in the Sexual Offences Act 2003 as sexual exploitation of an adult. Result 167-275."
+    meaning_aye: Voted to recognise adults manipulated, deceived, coerced or controlled into sexual activity as victims of sexual exploitation in law.
+    meaning_no: Voted against redefining the prostitution offences as sexual exploitation of an adult.
