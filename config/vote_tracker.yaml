@@ -364,7 +364,7 @@ issues:
       Every Lords protection was rejected by the Commons; the Act carries a
       regulation-making power and a duty to report progress within six months.
     # Drafted 2026-09-10 from batches 1 and 2 of the division review. Christopher
-    # agreed the issue on 2026-09-10; the divisions below are NOT signed off.
+    # agreed the issue on 2026-09-10 and signed off all six divisions on 2026-09-11.
     stance:
       good: to protect children from social media and smartphones in schools
       bad: against protecting children from social media and smartphones in schools
@@ -872,7 +872,7 @@ divisions:
       patients and staff.
     meaning_no: Voted against requiring single-sex facilities in the NHS.
 
-  # --- children-social-media: drafted 2026-09-10, awaiting sign-off -------------
+  # --- children-social-media: drafted 2026-09-10; signed off by Christopher, 2026-09-11 --
   # Our side verified against votes, never the title: Laura Trott (who led for
   # the Lords' protections) voted No in every one of these; the Minister, Olivia
   # Bailey, Aye.
@@ -881,7 +881,7 @@ divisions:
     stage: Consideration of Lords amendments
     stage_group: Lords amendments
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Lords Amendment 38: under-16 social media ban (first round)"
     context: "9 March 2026. Lords Amendment 38, tabled by Lord Nash, would have barred under-16s from social media platforms. Result 307-173."
@@ -892,7 +892,7 @@ divisions:
     stage: Consideration of Lords amendments
     stage_group: Lords amendments
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Lords Amendment 37: children's use of VPNs"
     context: "9 March 2026. Lords Amendment 37 addressed children's use of VPNs to evade age checks; the Government replaced it with a power to age-restrict VPN use by regulations. Result 321-106 (Conservatives against, Liberal Democrats did not oppose)."
@@ -903,7 +903,7 @@ divisions:
     stage: Consideration of Lords amendments
     stage_group: Lords amendments
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Lords Amendment 106: smartphones banned in schools (first round)"
     context: "9 March 2026. Lords Amendment 106 would have required schools to prohibit smartphones during the school day. Result 304-177."
@@ -914,7 +914,7 @@ divisions:
     stage: Consideration of Lords amendments
     stage_group: Lords amendments
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Amendments in lieu of Lords Amendment 38 (second round)"
     context: "15 April 2026. The Government's amendments in lieu replaced the under-16 social media ban with a consultation and a six-month progress report. Result 256-150."
@@ -925,7 +925,7 @@ divisions:
     stage: Consideration of Lords amendments
     stage_group: Lords amendments
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Amendments in lieu of Lords Amendment 106 (second round)"
     context: "15 April 2026. The Government's amendments in lieu replaced the mandatory school-day smartphone ban with a power to put phone guidance on a statutory footing. Result 248-139."
@@ -936,14 +936,14 @@ divisions:
     stage: Consideration of Lords message
     stage_group: Lords amendments
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Insist on Amendment 38J; reject Lords Amendments 38V to 38X (third round)"
     context: "22 April 2026. The Lords had amended the Government's own power over children's access to social media (38J) to bind it to act; the Government insisted on the discretionary power. Result 260-161."
     meaning_aye: Voted with the Government to keep only a discretionary power over children's access to social media, rejecting the Lords' duty to act.
     meaning_no: Voted for the Lords' amendments binding the Government to restrict under-16s' access to social media.
 
-  # --- non-crime-hate, Lords round: drafted 2026-09-10, awaiting sign-off ------
+  # --- non-crime-hate, Lords round: drafted 2026-09-10; signed off by Christopher, 2026-09-11 --
   # Our side verified against votes: Matt Vickers (shadow minister, argued for
   # the Lords amendment) and Chris Philp No; the Minister, Sarah Jones, Aye.
   # Liberal Democrats voted Aye with the Government this time.
@@ -952,7 +952,7 @@ divisions:
     stage: Consideration of Lords amendments
     stage_group: Lords amendments
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: "Lords Amendment 334: end the recording of non-crime hate incidents"
     context: "14 April 2026. Lords Amendment 334 would have ended the investigation and recording of non-crime hate incidents and required any future incident-recording guidance to have due regard to the right to freedom of expression. The Government moved to disagree. Result 356-90 (Hansard Division No. 472)."
