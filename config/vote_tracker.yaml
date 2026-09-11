@@ -387,7 +387,7 @@ issues:
       against. The Bill fell at the 2024 dissolution.
     status: Rejected by the Commons 167-275 on 15 May 2024; the Bill fell at the dissolution.
     # Drafted 2026-09-11 (batch 4 of the division review); Christopher agreed the
-    # issue on 2026-09-11. The division below is NOT signed off.
+    # issue and signed off the division on 2026-09-11.
     stance:
       good: to recognise coerced and controlled adults as victims of sexual exploitation
       bad: against recognising coerced and controlled adults as victims of sexual exploitation
@@ -997,7 +997,7 @@ divisions:
     meaning_aye: Voted to require every school to ban phones during the school day and the Chief Medical Officers to advise parents on children's smartphone and social media use.
     meaning_no: Voted against requiring school phone bans and Chief Medical Officers' advice on children's smartphone and social media use.
 
-  # --- sexual-exploitation: drafted 2026-09-11, awaiting sign-off. Our side verified
+  # --- sexual-exploitation: drafted and signed off by Christopher, 2026-09-11. Our side verified
   # against votes: Jess Phillips (mover) and Dame Diana Johnson Aye; the Minister,
   # Laura Farris, and Chris Philp No.
   - id: 1815
@@ -1005,7 +1005,7 @@ divisions:
     stage: Report Stage
     stage_group: Report Stage
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: "New Clause 44: sexual exploitation of an adult"
     context: "15 May 2024. Jess Phillips's New Clause 44 would have redefined the prostitution-for-gain offences in the Sexual Offences Act 2003 as sexual exploitation of an adult. Result 167-275."
