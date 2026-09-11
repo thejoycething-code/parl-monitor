@@ -335,6 +335,18 @@ class ReelDraftTests(unittest.TestCase):
         self.assertIn(sc.PROVISIONAL_LINE, text)
 
 
+    def test_speakers_beyond_the_limit_are_listed_with_their_passage_not_dropped(self):
+        md = self.md(("  ·  **confirmed: yes**", "  ·  **confirmed: yes**"))
+        md += ("\n## Ashley Dalton (Lab, West Lancashire)\n\n**Pass read:** With us — Ours.  ·  **confirmed: yes**\n\n"
+               "*17:00:00, 300 words · [Hansard](https://e/3)*\n\n%s\n" % " ".join(self.SENTS))
+        text = sc.draft_reel_sequence(md, "Surrogacy", "2026-09-07", self.PATTERNS, limit=2)
+        self.assertEqual(len(sc.parse_sequence(text)), 2)
+        self.assertIn("Ashley Dalton", text)
+        self.assertIn("reel passage available, beyond the draft's first 2", text)
+        foot = text[text.index("<!-- not proposed:"):]
+        self.assertIn("surrogacy", foot.lower())                   # the passage itself is there to lift
+
+
 class CardTimingTests(unittest.TestCase):
     """Cards are timed by aligning their own words. Spreading them by token fraction
     assumed an even speaking pace and put two cards of the published 54-second cut
@@ -436,3 +448,64 @@ class ExactCardTimingTests(unittest.TestCase):
 
     def test_no_words_at_all_is_survivable(self):
         self.assertEqual(sc.card_times([], [["anything"]], "anything"), [(0.0, 0.0)])
+
+
+class ProbeCacheTests(unittest.TestCase):
+    """A probe cached for another window is refetched, not trusted (2026-09-11)."""
+
+    def test_a_probe_for_the_wrong_window_is_stale(self):
+        import json, tempfile
+        d = tempfile.mkdtemp()
+        meta = os.path.join(d, "x-probe0.mp4.meta.json")
+        json.dump({"file_start": 6255.36}, open(meta, "w"))
+        self.assertTrue(sc.probe_is_stale(meta, 5351.0))       # fifteen minutes off
+        self.assertFalse(sc.probe_is_stale(meta, 6250.0))      # a segment boundary away
+        self.assertTrue(sc.probe_is_stale(os.path.join(d, "missing.json"), 0.0))
+
+
+class FetchRetryTests(unittest.TestCase):
+    def test_a_truncated_read_is_retried_and_the_second_body_returned(self):
+        import http.client, io
+        from src import hlsfetch
+        calls = []
+        class Handle(io.BytesIO):
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+        def opener(req, timeout):
+            calls.append(req.full_url)
+            if len(calls) == 1:
+                raise http.client.IncompleteRead(b"half")
+            return Handle(b"whole segment")
+        hlsfetch.time = __import__("time")
+        got = hlsfetch._get("https://x/seg.ts", opener=opener)
+        self.assertEqual(got, b"whole segment")
+        self.assertEqual(len(calls), 2)
+
+    def test_it_gives_up_after_the_retries(self):
+        import http.client
+        from src import hlsfetch
+        def opener(req, timeout):
+            raise http.client.IncompleteRead(b"")
+        with self.assertRaises(http.client.IncompleteRead):
+            hlsfetch._get("https://x/seg.ts", retries=2, opener=opener)
+
+
+class CaptionOverlapTests(unittest.TestCase):
+    def test_a_card_never_shows_under_the_next_one(self):
+        cards = [(["first card"], 1.0, 3.0), (["second card"], 2.3, 4.0), (["third"], 3.9, 5.0)]   # word timings overlap
+        doc = sc.ass_document([{"name": "A B", "party": "P", "duration": 6.0, "cards": cards}],
+                              "Helvetica", (1080, 1920), (540, 1600), 60, 1300, 60)
+        caps = []
+        for line in doc.splitlines():
+            if line.startswith("Dialogue: 2,"):
+                f = line.split(",")
+                caps.append((sc._ts_seconds(f[1]) if hasattr(sc, "_ts_seconds") else _secs(f[1]),
+                             sc._ts_seconds(f[2]) if hasattr(sc, "_ts_seconds") else _secs(f[2])))
+        for (a1, b1), (a2, b2) in zip(caps, caps[1:]):
+            self.assertLessEqual(b1, a2 + 1e-6, (b1, a2))
+            self.assertGreater(b1, a1)
+
+
+def _secs(ts):
+    h, m, s = ts.split(":")
+    return int(h) * 3600 + int(m) * 60 + float(s)

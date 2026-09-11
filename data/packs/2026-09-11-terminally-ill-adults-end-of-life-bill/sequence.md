@@ -3,7 +3,7 @@
 Six speakers, all confirmed onside by their No vote in division 2428 (Second Reading negatived 270-286).
 Order: the sharpest line first (Fenton-Glynn), a senior Conservative voice second (Bradley), the plain
 naming of the thing third (Lockhart), then the doctor on coercion (Ahmed), the personal testimony (Dalton)
-and the disability voice to close (Duffield). Passages are Hansard wording, word-exact from speeches.md;
+and the disability voice to close (Duffield: her father's dementia and the slippery slope; the Baroness Campbell passage fell across a gap between her Hansard spans and could not be located). Passages are Hansard wording, word-exact from speeches.md;
 correct to the spoken words once social-cut.md reports what was heard. Alternates with a cuttable passage
 are listed in sequence-draft.md: Harding (Lords witnesses: none said it was safe), Raja (coercion in
 communities), Mullan (Gosport), Minns, Murrison, Jenkin, Daby, Oppong-Asare, Foy, Vickers, Spencer, Leigh.
@@ -36,4 +36,4 @@ crop: centre
 ## Rosie Duffield MP
 party: Independent · Canterbury
 crop: centre
-> Lifelong campaigner Baroness Jane Campbell has seen off so many attempts to pass assisted suicide legislation in the other place that she likens it to groundhog day. In the documentary, she says: “People are decent, kind. They think that they’re doing us a great favour by giving us this choice. But what they don’t realise is how deadly that choice can be.” It is worth repeating that not a single disabled rights organisation or professional body supports this legislation.
+> In reality, he would have forgotten almost immediately what had just taken place, but he retained an ability to be jovial, and to mask his confusion and memory issues, for quite some time. As for the slippery slope, every single example in other nations proves without a doubt that at the start, the intention may be that assisted dying legislation will apply only to terminal illness—dementia and Alzheimer’s are, of course, terminal—but the scope ends up expanding alarmingly, as it has done in Canada, and in the Netherlands, which is so much closer to home.

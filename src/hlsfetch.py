@@ -28,11 +28,31 @@ HEIGHT_TO_VIDEO = {180: 300000, 360: 850000, 576: 1300000, 1080: 3000000}
 MARGIN = 8.0          # seconds fetched either side, so the aligner has room to work
 
 
-def _get(url, timeout=45):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip"})
-    with urllib.request.urlopen(req, timeout=timeout) as handle:
-        data = handle.read()
-    return gzip.decompress(data) if data[:2] == b"\x1f\x8b" else data
+RETRIES = 3
+
+
+def _get(url, timeout=45, retries=RETRIES, opener=None):
+    """One fetch, retried on a truncated or failed read.
+
+    The CDN closed a segment mid-body on 11 September 2026 (IncompleteRead: 570,404 of
+    1,534,456 bytes) and a whole reel render died on it; a segment is a few hundred KB
+    and the second attempt is almost always whole."""
+    import http.client
+    import socket
+    import time
+    import urllib.error
+    opener = opener or urllib.request.urlopen
+    last = None
+    for attempt in range(retries):
+        req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip"})
+        try:
+            with opener(req, timeout=timeout) as handle:
+                data = handle.read()
+            return gzip.decompress(data) if data[:2] == b"\x1f\x8b" else data
+        except (http.client.IncompleteRead, urllib.error.URLError, socket.timeout, OSError) as exc:  # OSError covers 3.9's bare TimeoutError
+            last = exc
+            time.sleep(1.5 * (attempt + 1))
+    raise last
 
 
 def base_of(manifest_url):

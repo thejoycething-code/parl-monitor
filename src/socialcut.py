@@ -361,10 +361,17 @@ def ass_document(items, font, play, caption_pos, caption_size, plate_y, plate_x)
             ev.append("Dialogue: 1,%s,%s,Party,,0,0,0,,{\\pos(%d,%d)\\fad(120,120)}%s" % (_ts(a), _ts(b), plate_x + 28, plate_y + 86, it["party"]))
         cards = it["cards"]
         for i, (lines, s, e) in enumerate(cards):
-            nxt = cards[i + 1][1] - 0.05 if i + 1 < len(cards) else dur - 0.05
+            start = max(0.0, s - 0.1)                       # the deliberate lead-in
+            nxt = cards[i + 1][1] - 0.1 if i + 1 < len(cards) else dur - 0.05
             end = max(e, min(nxt, e + 1.2))
+            if i + 1 < len(cards):
+                # Never under the next card. Aligned word timings can overlap by half a
+                # second, and two cards drawn together read as garbage: "a:is:that:neithëry"
+                # on Zubir Ahmed's frame of the 11 September 2026 contact sheet.
+                end = min(end, nxt)
+            end = max(end, start + 0.3)
             ev.append("Dialogue: 2,%s,%s,Caption,,0,0,0,,{\\pos(%d,%d)}%s"
-                      % (_ts(off + max(0.0, s - 0.1)), _ts(off + end), caption_pos[0], caption_pos[1], "\\N".join(lines)))
+                      % (_ts(off + start), _ts(off + end), caption_pos[0], caption_pos[1], "\\N".join(lines)))
         off += dur
     return head + "\n".join(ev) + "\n"
 
@@ -764,6 +771,18 @@ def speaker_span(state, name):
 PROBE_HEIGHT = 180      # enough to transcribe; a speaker's whole span costs a few MB
 
 
+PROBE_SLACK_S = 30.0    # a segment boundary can put file_start a few seconds before the window
+
+
+def probe_is_stale(meta_path, lo):
+    """True when the cached probe's window does not start at `lo` (within a segment or so)."""
+    try:
+        file_start = float(json.load(open(meta_path))["file_start"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return True
+    return abs(file_start - lo) > PROBE_SLACK_S
+
+
 def locate_passage(pack_dir, state, entry, ff, manifest, whole=None,
                    whisper_model="small.en", log=print):
     """(start, end) of the entry's passage in sitting seconds, or None.
@@ -787,8 +806,19 @@ def locate_passage(pack_dir, state, entry, ff, manifest, whole=None,
     for i, span in enumerate(spans):
         probe = os.path.join(hd, "%s-probe%d.mp4" % (slug(entry["name"]), i))
         words_json = probe.replace(".mp4", ".words.json")
+        lo, hi = max(0.0, span[0] - 5), span[1] + 5
+        if os.path.exists(words_json) and probe_is_stale(probe + ".meta.json", lo):
+            # A probe is named for the speaker and the span's ordinal, not for the
+            # window it holds. On 11 September 2026 the spans moved fifteen minutes
+            # when the clock interpolation was fixed, and a re-run trusted the old
+            # probes: Fenton-Glynn's "probes" held Jess Phillips and Layla Moran, and
+            # five of six passages were reported "not heard". A cached window that does
+            # not start where this span starts is fetched again.
+            log("  %s: probe %d on disk is for another window; refetching" % (entry["name"], i))
+            for f in (probe, words_json, probe.replace(".mp4", ".wav"), probe + ".meta.json"):
+                if os.path.exists(f):
+                    os.remove(f)
         if not os.path.exists(words_json):
-            lo, hi = max(0.0, span[0] - 5), span[1] + 5
             file_start, raw = hlsfetch.fetch_window(manifest, lo, hi, probe, ff,
                                                     height=PROBE_HEIGHT, margin=0, log=None)
             log("  %s: probed %.0f-%.0fs at %dp (%.1f MB)"

@@ -343,3 +343,36 @@ class ElisionTests(unittest.TestCase):
         report = (" ".join(["word"] * 600) + ' He said "an important distinction must be made between the '
                   'women who voluntarily agree...and the surrogacy industry should be shut down entirely."')
         self.assertTrue(any("verbatim" in p for p in dr.check({"REPORT": report}, self.SPEAKERS)))
+
+
+class SelectionTests(unittest.TestCase):
+    """Who the writer is shown when the debate is bigger than the brief (2026-09-11)."""
+
+    def speeches(self):
+        def one(name, party, confirmed, *words):
+            return {"name": name, "party": party, "seat": "Seat", "confirmed": confirmed, "pass_read": "",
+                    "contributions": [{"at": "10:00:00", "words": w, "url": "https://hansard.parliament.uk/x#%s%d" % (name, i),
+                                       "text": " ".join(["word"] * w)} for i, w in enumerate(words)]}
+        sp = [one("Opener", "Lab", "no", *([60] * 10))]          # 600 words in ten interrupted pieces
+        sp += [one("Onside %02d" % i, "Con", "yes", 100 + i) for i in range(20)]
+        sp += [one("Long Against", "LD", "no", 900), one("Alison McGovern", "", "no", 80)]
+        sp += [one("Short Against %d" % i, "Lab", "no", 30) for i in range(6)]
+        return sp
+
+    def test_the_opener_and_the_minister_are_always_in(self):
+        picked = dr._select(self.speeches(), 16, provisional=False)
+        names = [s["name"] for s in picked]
+        self.assertEqual(len(names), 16)
+        self.assertEqual(names[0], "Opener")                       # speaking order is kept
+        self.assertIn("Alison McGovern", names)                    # attributed by office: no party
+        self.assertIn("Long Against", names)
+
+    def test_onside_speakers_rank_by_all_their_words(self):
+        picked = dr._select(self.speeches(), 16, provisional=False)
+        ours = [s["name"] for s in picked if s["confirmed"] == "yes"]
+        self.assertEqual(len(ours), 16 - 2 - 5)                    # room after the two pinned and the five others
+        self.assertIn("Onside 19", ours)
+        self.assertNotIn("Onside 00", ours)
+
+    def test_a_small_debate_is_sent_whole(self):
+        self.assertEqual(len(dr._select(SPEECHES, 16, provisional=False)), 2)

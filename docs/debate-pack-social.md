@@ -208,3 +208,25 @@ already carries it, and no fetching uses yt-dlp at all.
   reel); `--all` cuts every onside speaker, `--only "Name"` one. Before the checklist
   is confirmed the pass read stands in, as for `--draft` and `--provisional`;
   `--confirmed-only` ignores it.
+
+## When the House divided, the vote fills the checklist (11 September 2026)
+
+The Second Reading of the Terminally Ill Adults (End of Life) Bill was negatived 270-286
+(Commons Votes division 2428; Hansard numbers it 75). Every one of the 75 speakers voted, so
+ONSIDE was filled from the division record rather than read from their words: a No vote on
+"That the Bill now be read a Second time" is a vote against the Bill, so No = yes, Aye = no,
+and each checklist block carries a `- vote:` line saying which. The pass had misread two No
+voters as "against us" (Simon Hoare's devil's-advocate intervention, Sir Edward Leigh's
+rhetorical concession) and nine as neutral. The division is the House's own record and
+settles the question the checklist asks; it does not replace the campaigner's reading of a
+debate with no vote. `divisions()` now puts the result at the head of roundup.md and into
+the report writer's input, so a report can no longer describe a decided debate as ongoing.
+
+Two traps found the same evening. The reel draft's `limit` of eight silently dropped fourteen
+other cuttable speakers (the strongest speech among them); they are now listed at the foot
+with their passage. The writer's brief, ranked by longest single contribution, dropped a
+sponsor interrupted 37 times and the Minister, so the report said no Minister had replied;
+the opener and anyone attributed by office are now always in, and the rest rank by all their
+words. MAX_TOKENS 8000 was hit (the writer's thinking counts against it) and the transport's
+120s timeout then fired; both scale now. And: one pack, one session. Two sessions rendering
+the same pack from different sequence.md files race on identical output paths in clips/final.

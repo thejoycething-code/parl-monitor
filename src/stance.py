@@ -198,8 +198,11 @@ def _default_transport(payload, api_key):  # pragma: no cover - real network
             "anthropic-version": "2023-06-01",
         },
     )
+    # A stance read answers in seconds; a 16,000-token report with thinking does not,
+    # and 120s timed out on 11 Sept 2026. Scale with what was asked for.
+    timeout = max(120, 60 + int(payload.get("max_tokens") or 0) // 20)
     try:
-        with urllib.request.urlopen(request, timeout=120) as response:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
         # The body carries the actual reason (credit exhausted, oversized
