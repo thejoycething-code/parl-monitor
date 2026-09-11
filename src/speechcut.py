@@ -31,6 +31,7 @@ from src import alignclip, socialcut as sc
 MIN_WORDS = 120            # below this a contribution is an intervention
 ANCHOR_WORDS = 25          # Hansard words used to find the speech's first and last moment
 MARGIN_S = 25.0            # fetched either side of the Hansard span
+TAIL_MARGINS = (25.0, 150.0, 420.0)   # forward margins tried until the speech's last words are heard
 PLAY = (1920, 1080)
 CAPTION_POS = (960, 985)
 CAPTION_SIZE = 46
@@ -175,13 +176,30 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
             rows.append((s, c, None, "no span")); continue
         window = os.path.join(hd, tag + "-window.mp4")
         words_json = os.path.join(hd, tag + "-window.words.json")
-        if not os.path.exists(window):
-            file_start, raw = hlsfetch.fetch_window(manifest, span[0], span[1], window, ff, height=height, margin=MARGIN_S, log=None)
-            json.dump({"file_start": file_start}, open(os.path.join(hd, tag + "-window.json"), "w"))
-            log("  %s: fetched %.0f MB for %s" % (s["name"], raw / 1e6, c.get("at")))
-        file_start = json.load(open(os.path.join(hd, tag + "-window.json")))["file_start"]
-        words = alignclip.transcribe(window, os.path.join(hd, tag + "-window.wav"), ff, model_size=whisper_model, words_json=words_json, log=lambda *_a: None)
-        start, end, r1, r2 = trim_bounds(words, c["text"], file_start, span, log=log)
+        # The span's END is an estimate (the next contribution's start, itself
+        # estimated), and on 11 September it fell short: sixteen of nineteen clips
+        # anchored their start and lost their tail, ending on Hansard time. So the
+        # window grows FORWARD until the speech's last words are heard, or the cap.
+        start = end = r1 = r2 = None
+        for tail_margin in TAIL_MARGINS:
+            if os.path.exists(window) and os.path.exists(window + ".json"):
+                have = json.load(open(window + ".json"))
+                if have.get("tail_margin", MARGIN_S) < tail_margin or have.get("tail_margin") is None and tail_margin != TAIL_MARGINS[0]:
+                    for f in (window, words_json, os.path.join(hd, tag + "-window.wav")):
+                        if os.path.exists(f):
+                            os.remove(f)
+            if not os.path.exists(window):
+                file_start, raw = hlsfetch.fetch_window(manifest, span[0], span[1] + (tail_margin - MARGIN_S), window, ff, height=height, margin=MARGIN_S, log=None)
+                json.dump({"file_start": file_start, "tail_margin": tail_margin}, open(window + ".json", "w"))
+                log("  %s: fetched %.0f MB for %s (tail margin %.0fs)" % (s["name"], raw / 1e6, c.get("at"), tail_margin))
+            file_start = json.load(open(window + ".json"))["file_start"]
+            words = alignclip.transcribe(window, os.path.join(hd, tag + "-window.wav"), ff, model_size=whisper_model, words_json=words_json, log=lambda *_a: None)
+            start, end, r1, r2 = trim_bounds(words, c["text"], file_start, span, log=None)
+            if r2 is not None or tail_margin == TAIL_MARGINS[-1]:
+                break
+            log("  %s: last words not heard within %.0fs of the span's end; widening" % (s["name"], tail_margin))
+        if r1 is None or r2 is None:
+            log("  [trim] %s%s" % ("start from Hansard time" if r1 is None else "", "; end from Hansard time" if r2 is None else ""))
         part = os.path.join(hd, tag + ".mp4")
         sc._run([ff, "-y", "-loglevel", "error", "-ss", "%.3f" % start, "-i", window, "-t", "%.3f" % (end - start),
                  "-vf", "fps=25,format=yuv420p", "-c:v", "libx264", "-crf", "18", "-preset", "medium",

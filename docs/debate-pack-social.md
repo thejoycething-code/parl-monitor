@@ -230,3 +230,15 @@ the opener and anyone attributed by office are now always in, and the rest rank 
 words. MAX_TOKENS 8000 was hit (the writer's thinking counts against it) and the transport's
 120s timeout then fired; both scale now. And: one pack, one session. Two sessions rendering
 the same pack from different sequence.md files race on identical output paths in clips/final.
+
+## Choosing the speeches (added 11 September 2026)
+
+`tools/pick_speeches.py --pack F --top 8 --write-sequence` ranks every confirmed-onside
+member who made a speech (250 words or more) with one model call — one clear argument,
+emotional force, a standalone 30-60 second passage in their own words, a distinct angle,
+the speaker's standing — verifies each proposed passage verbatim against the member's
+words, and writes `selection.md`/`selection.json` and a `sequence.md` for the top N (the
+previous sequence is kept as `sequence-previous.md`). Onside is still the checklist's
+decision; the judge only orders it. `debate_report.py --publish --with-clips` then adds
+a "Best speeches" section to the canvas and uploads the reel and the chosen full-speech
+clips into the thread (the Slack app needs the `files:write` scope for that).
