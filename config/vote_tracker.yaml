@@ -137,7 +137,7 @@ issues:
     status: >-
       DEFEATED at Second Reading on 11 September 2026, 270 to 286, after a
       closure motion carried 293 to 218. The Bill cannot proceed this session.
-      (Status updated 2026-09-11; the division awaits sign-off.)
+      (Status updated and division signed off, 2026-09-11.)
     # The band's headline, as chosen in the C mockup (Christopher,
     # 2026-08-31): "LIVE NOW · THE ASSISTED SUICIDE BILL". Used only when
     # exactly one upcoming issue carries one; otherwise the band falls back
@@ -1049,15 +1049,15 @@ divisions:
     meaning_aye: Voted to make relationships education compulsory in every school with no parental right of withdrawal, and to limit withdrawal from sex education.
     meaning_no: Voted against limiting parents' right to withdraw their children from relationships and sex education.
 
-  # --- assisted-suicide-2026, Second Reading (2026-09-11): drafted the same day,
-  # awaiting sign-off. Direction verified against the sponsor's own vote: Lauren
+  # --- assisted-suicide-2026, Second Reading (2026-09-11): drafted and signed off
+  # by Christopher the same day. Direction verified against the sponsor's own vote: Lauren
   # Edwards Aye; Danny Kruger No. Labour 190 aye / 153 no, Conservative 17 aye / 90 no.
   - id: 2428
     issue: assisted-suicide-2026
     stage: Second Reading
     stage_group: Second Reading
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: "no"
     short: Second Reading
     context: "11 September 2026. The question that the Terminally Ill Adults (End of Life) Bill be now read a Second time, put after a closure motion (Division 2427, 293-218). Result 270-286: the Bill was defeated. A free vote."
