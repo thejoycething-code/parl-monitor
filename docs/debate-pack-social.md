@@ -185,3 +185,24 @@ either: a member who intervenes early and speaks late would span an hour and a h
 yt-dlp is now needed only to resolve a manifest for a pack that has none; `pack.json`
 already carries it, and no fetching uses yt-dlp at all.
 
+## Full speeches in 16:9 (added 11 September 2026)
+
+`tools/speech_cut.py --pack F` cuts every onside speaker's full speech as a
+1920x1080 clip alongside the vertical reel: `clips/final/speech-NN-<name>-<time>.mp4`
+(subtitled, name plate, logo), `-clean.mp4` (no burn-in) and a `.srt`, with
+`speeches-cut.md` in the pack saying what was cut and how well the trim anchored.
+
+* Footage is the speaker's own Hansard span fetched by HLS segment at 1080p with 25
+  seconds either side. Never the whole sitting.
+* The trim is word-exact: the speech's first and last twenty-five Hansard words are
+  each located in the window's transcript. Hansard timestamps alone are a minute out
+  either way, which is why the old `--download` clips began mid-sentence of the
+  previous speaker. If an end cannot be placed, the Hansard time is used and
+  `speeches-cut.md` says so.
+* Contributions under 120 words are interventions, not speeches, and are skipped.
+* Captions are the Hansard text in 44-character cards timed against the part's own
+  transcript (`card_times`), so a misheard word never reaches the screen but the
+  timing is what was spoken. The reel's captions stay spoken-word, because a 45-second
+  passage is checked by ear; a ten-minute speech is not.
+* Before the checklist is confirmed the pass read stands in, as for `--draft` and
+  `--provisional`; `--confirmed-only` ignores it. `--only "Name"` cuts one speaker.

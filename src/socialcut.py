@@ -328,13 +328,20 @@ def _ts(t):
 
 def ass_track(items, font=FONT):
     """items: [{name, party, duration, cards: [(lines, start, end)]}] in cut order,
-    times relative to each item's own start."""
+    times relative to each item's own start. The vertical (9:16) track."""
+    return ass_document(items, font, (FRAME_W, FRAME_H), CAPTION_POS, CAPTION_SIZE, PLATE_Y, 60)
+
+
+def ass_document(items, font, play, caption_pos, caption_size, plate_y, plate_x):
+    """The one ASS builder behind both the vertical reel and the 16:9 full speech:
+    same plate, same caption style, different canvas and positions."""
+    play_w, play_h = play
     head = "\n".join([
-        "[Script Info]", "ScriptType: v4.00+", "PlayResX: %d" % FRAME_W, "PlayResY: %d" % FRAME_H,
+        "[Script Info]", "ScriptType: v4.00+", "PlayResX: %d" % play_w, "PlayResY: %d" % play_h,
         "WrapStyle: 2", "ScaledBorderAndShadow: yes", "",
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        "Style: Caption,%s,%d,&H00FFFFFF,&H00FFFFFF,%s,%s,-1,0,0,0,100,100,0,0,1,5,0,5,80,80,0,1" % (font, CAPTION_SIZE, ass_colour(INK), ass_colour(INK)),
+        "Style: Caption,%s,%d,&H00FFFFFF,&H00FFFFFF,%s,%s,-1,0,0,0,100,100,0,0,1,5,0,5,80,80,0,1" % (font, caption_size, ass_colour(INK), ass_colour(INK)),
         "Style: Name,%s,56,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1" % font,
         "Style: Party,%s,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1" % font,
         "Style: Shape,%s,20,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1" % font,
@@ -345,19 +352,19 @@ def ass_track(items, font=FONT):
         dur = it["duration"]
         a, b = off + 0.1, off + min(dur, PLATE_SECONDS)
         w = max(int(len(it["name"]) * 31 + 90), int(len(it.get("party", "")) * 21 + 90))
-        ev.append("Dialogue: 0,%s,%s,Shape,,0,0,0,,{\\an7\\pos(60,%d)\\1c%s\\bord0\\shad0\\fad(120,120)\\p1}m 0 0 l %d 0 l %d 78 l 0 78{\\p0}"
-                  % (_ts(a), _ts(b), PLATE_Y, override_colour(BLUE), w, w))
-        ev.append("Dialogue: 0,%s,%s,Shape,,0,0,0,,{\\an7\\pos(60,%d)\\1c%s\\bord0\\shad0\\fad(120,120)\\p1}m 0 0 l %d 0 l %d 60 l 0 60{\\p0}"
-                  % (_ts(a), _ts(b), PLATE_Y + 78, override_colour(INK), w, w))
-        ev.append("Dialogue: 1,%s,%s,Name,,0,0,0,,{\\pos(88,%d)\\fad(120,120)}%s" % (_ts(a), _ts(b), PLATE_Y + 8, it["name"]))
+        ev.append("Dialogue: 0,%s,%s,Shape,,0,0,0,,{\\an7\\pos(%d,%d)\\1c%s\\bord0\\shad0\\fad(120,120)\\p1}m 0 0 l %d 0 l %d 78 l 0 78{\\p0}"
+                  % (_ts(a), _ts(b), plate_x, plate_y, override_colour(BLUE), w, w))
+        ev.append("Dialogue: 0,%s,%s,Shape,,0,0,0,,{\\an7\\pos(%d,%d)\\1c%s\\bord0\\shad0\\fad(120,120)\\p1}m 0 0 l %d 0 l %d 60 l 0 60{\\p0}"
+                  % (_ts(a), _ts(b), plate_x, plate_y + 78, override_colour(INK), w, w))
+        ev.append("Dialogue: 1,%s,%s,Name,,0,0,0,,{\\pos(%d,%d)\\fad(120,120)}%s" % (_ts(a), _ts(b), plate_x + 28, plate_y + 8, it["name"]))
         if it.get("party"):
-            ev.append("Dialogue: 1,%s,%s,Party,,0,0,0,,{\\pos(88,%d)\\fad(120,120)}%s" % (_ts(a), _ts(b), PLATE_Y + 86, it["party"]))
+            ev.append("Dialogue: 1,%s,%s,Party,,0,0,0,,{\\pos(%d,%d)\\fad(120,120)}%s" % (_ts(a), _ts(b), plate_x + 28, plate_y + 86, it["party"]))
         cards = it["cards"]
         for i, (lines, s, e) in enumerate(cards):
             nxt = cards[i + 1][1] - 0.05 if i + 1 < len(cards) else dur - 0.05
             end = max(e, min(nxt, e + 1.2))
             ev.append("Dialogue: 2,%s,%s,Caption,,0,0,0,,{\\pos(%d,%d)}%s"
-                      % (_ts(off + max(0.0, s - 0.1)), _ts(off + end), CAPTION_POS[0], CAPTION_POS[1], "\\N".join(lines)))
+                      % (_ts(off + max(0.0, s - 0.1)), _ts(off + end), caption_pos[0], caption_pos[1], "\\N".join(lines)))
         off += dur
     return head + "\n".join(ev) + "\n"
 
