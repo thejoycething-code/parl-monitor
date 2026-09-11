@@ -1027,3 +1027,19 @@ divisions:
     context: "28 June 2023, deferred division. The Secretary of State's regulations, made under the Northern Ireland (Executive Formation etc) Act 2019 to implement the CEDAW recommendation, made education on contraception and access to abortion a compulsory part of the curriculum in Northern Ireland's grant-aided schools, with parents' right of withdrawal left to guidance the Department had yet to write. Debated in committee on 26 June (Jim Shannon: the withdrawal wording 'is so vague that it would be laughable if the education of my granddaughters and other children were not at stake'). Result 373-28."
     meaning_aye: Voted to make education on contraception and access to abortion compulsory in Northern Ireland's schools, with parental withdrawal left to later guidance.
     meaning_no: Voted against imposing compulsory abortion and contraception education on Northern Ireland's schools over parents and the Churches.
+
+  # --- parental-rights, England RSE (batch 7 of the review, 2026-09-11): drafted
+  # 2026-09-11, awaiting sign-off. A deferred division (no tellers); the 21 Noes were
+  # Conservatives (Leigh, Chope, Davies, Hollobone, Offord, Julian Lewis, Fysh among
+  # them), the DUP and two Labour members, so our side is read from who voted No.
+  - id: 650
+    issue: parental-rights
+    stage: Approval motion
+    stage_group: Division
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "Relationships Education, Relationships and Sex Education and Health Education (England) Regulations 2019"
+    context: "27 March 2019, deferred division. The regulations made relationships education compulsory in every primary school and relationships and sex education in every secondary school from September 2020, with no parental right of withdrawal from relationships education and the right to withdraw from sex education ending three terms before a child turns 16 and subject to the headteacher's view in 'exceptional circumstances'. E-petition 235053, over 100,000 signatures, had asked for the parental right to be kept whole and was debated in Westminster Hall on 25 February 2019. Result 538-21."
+    meaning_aye: Voted to make relationships education compulsory in every school with no parental right of withdrawal, and to limit withdrawal from sex education.
+    meaning_no: Voted against limiting parents' right to withdraw their children from relationships and sex education.

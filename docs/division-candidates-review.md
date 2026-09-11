@@ -239,25 +239,47 @@ two abortion votes those days produced are already on the tracker (`1368`, `1491
 - [x] `1001` 2021-04-15 Domestic Abuse Bill: disagree with Lords Amendment 42 — a register of serial domestic-abuse and stalking perpetrators (Government offered a perpetrator strategy in lieu). (351 / 226.)
 - [x] `1002` 2021-04-15 Domestic Abuse Bill: disagree with Lords Amendment 43 — party-line vote alongside 42 (352 / 226); the Commons debate names it only in the grouping, and nothing in the Lords amendments the Government resisted that day (migrant victims, the register, community services) is in our areas. Not ours; the "gender medicine" tag was a same-debate speech.
 
-## This Parliament and the last, 2020 to 2026 (10 still to review)
+## Batch 7 — reviewed 11 September 2026 (the last 17): one added unsigned, one for your decision, fifteen not ours
 
-- [ ] `1000` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 41](https://votes.parliament.uk/Votes/Commons/Division/1000) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `999` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 40](https://votes.parliament.uk/Votes/Commons/Division/999) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `998` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 38](https://votes.parliament.uk/Votes/Commons/Division/998) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `997` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 37](https://votes.parliament.uk/Votes/Commons/Division/997) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `996` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 33](https://votes.parliament.uk/Votes/Commons/Division/996) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `995` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 9](https://votes.parliament.uk/Votes/Commons/Division/995) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `994` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/994) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `935` 2021-01-06 [Public Health (S.I. No. 8)](https://votes.parliament.uk/Votes/Commons/Division/935) — Parental rights education, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `815` 2020-07-06 [Domestic Abuse Bill Report Stage: New Clause 23](https://votes.parliament.uk/Votes/Commons/Division/815) — Abortion, Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `814` 2020-07-06 [Domestic Abuse Bill: Report Stage: New Clause 22](https://votes.parliament.uk/Votes/Commons/Division/814) — Abortion, Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
+*Debates read: Commons 15 April 2021 (Domestic Abuse Bill, Lords amendments), 6 January 2021
+(the lockdown regulations), 6 July 2020 (Domestic Abuse Bill report stage), 25 February 2019
+(the RSE statement and the Westminster Hall petition debate), 28 November 2018 (Offensive Weapons
+Bill report stage), 9 May 2018 (Data Protection Bill report stage).*
 
-## The 2017 Parliament (7)
+**Added to `config/vote_tracker.yaml` unsigned (under `parental-rights`):**
 
-- [ ] `650` 2019-03-27 [Draft Relationships Education, Relationships and Sex Education and Health Education (England) Regulations 2019](https://votes.parliament.uk/Votes/Commons/Division/650) — Parental rights education (title)
-- [ ] `539` 2018-11-28 [Offensive Weapons Bill - report NC6](https://votes.parliament.uk/Votes/Commons/Division/539) — Assisted dying, Free speech, privacy and civil liberties (same debate)
-- [ ] `538` 2018-11-28 [Offensive Weapons Bill - Report Govt Amdts 26 to 55](https://votes.parliament.uk/Votes/Commons/Division/538) — Assisted dying, Free speech, privacy and civil liberties (same debate)
-- [ ] `422` 2018-05-09 [Data Protection Bill [Lords]: Report Stage Amdt 15](https://votes.parliament.uk/Votes/Commons/Division/422) — Abortion, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `421` 2018-05-09 [Data Protection Bill [Lords]: Report Stage Amdt 5](https://votes.parliament.uk/Votes/Commons/Division/421) — Abortion, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `420` 2018-05-09 [Data Protection Bill [Lords]: Report Stage New Clause 4](https://votes.parliament.uk/Votes/Commons/Division/420) — Abortion, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `419` 2018-05-09 [Data Protection Bill [Lords]: Report stage New Clause 18](https://votes.parliament.uk/Votes/Commons/Division/419) — Abortion, Free speech, privacy and civil liberties, Migration (same debate)
+- [x] `650` 2019-03-27 Draft Relationships Education, Relationships and Sex Education and Health Education (England) Regulations 2019 — **compulsory relationships education with no parental opt-out**, area 6. Damian Hinds's regulations (statement 25 Feb 2019): relationships education compulsory in every primary, RSE in every secondary, from September 2020; no right to withdraw from relationships education; withdrawal from sex education only until three terms before 16 and subject to the head's view in "exceptional circumstances". E-petition 235053 (100,000+ signatures) asked for the right to be kept whole; in the Westminster Hall debate Ivan Lewis called for "total clarity about parental opt-outs and religious freedom" and Fiona Bruce, Chris Green and Jim Shannon spoke. Deferred division, 538 / 21: the Noes were Conservatives (Sir Edward Leigh, Sir Christopher Chope, Philip Davies, Philip Hollobone, Matthew Offord, Julian Lewis, Marcus Fysh…), the DUP and two Labour members (John Spellar, Fiona Onasanya). Our side **NO**. Landmark; the England counterpart of `1583`.
+
+**Your decision (drafted but NOT added):**
+
+- [ ] `419` 2018-05-09 Data Protection Bill: New Clause 18 (Tom Watson, Lab) — a statutory inquiry into data-protection breaches by national news publishers, i.e. Leveson part two. 295 / 304: the closest vote of the 2017 Parliament on the tracker's ground. Press freedom is area 7 territory in principle; CitizenGO has not campaigned on it. If tracked, the free-press side is NO. I would leave it out.
+
+**Not ours (checked against the amendment or motion text):**
+
+- [x] `1000` `999` `998` `997` `996` `995` `994` 2021-04-15 Domestic Abuse Bill: disagree with Lords Amendments 41 (leave to remain for migrant victims), 40 (safe reporting for migrant victims), 38 (a duress-style defence for victims who offend), 37, 33 (barring vexatious family-court applications; Government amendment in lieu), 9 and 1 (the "personally connected" definition). Party-line votes; the "gender medicine" tags were same-debate speeches. (352 / 270; 350 / 270; 362 / 217; 362 / 217; 361 / 218; 352 / 222; 360 / 221.)
+- [x] `935` 2021-01-06 Public Health (S.I. No. 8) — the January 2021 lockdown regulations; 16 Noes (Chope, Green telling). School closures were a speech, not the vote. (524 / 16.)
+- [x] `815` `814` 2020-07-06 Domestic Abuse Bill report stage: New Clause 23 (a duty to commission specialist services) and New Clause 22 (recourse to public funds for migrant victims). The abortion-pills new clause that day (Diana Johnson) was withdrawn without a division. (200 / 338; 207 / 330.)
+- [x] `539` `538` 2018-11-28 Offensive Weapons Bill: New Clause 6 (a report on the causes of youth violence) and Government amendments 26 to 55 (dropping the high-muzzle-energy rifle ban). "Assisted dying" was a same-debate speech. (272 / 303; 309 / 274.)
+- [x] `422` 2018-05-09 Data Protection Bill: Amendment 15 — leave out the immigration exemption (Schedule 2, paragraph 4). Hidden area 11. (288 / 310.)
+- [x] `421` 2018-05-09 Data Protection Bill: Amendment 5 (SNP) — automated decisions engaging Human Rights Act rights. (282 / 310.)
+- [x] `420` 2018-05-09 Data Protection Bill: New Clause 4 — a "Bill of Data Rights in the Digital Environment". (283 / 309.)
+
+## Where the review ended (11 September 2026)
+
+All 137 candidates (130 from 2020-26, 7 from the 2017 Parliament) reviewed in seven batches over
+10-11 September. Added to the tracker: 11 divisions across three new issues (`children-social-media`,
+`sexual-exploitation`, and two NI/England RSE votes under `parental-rights`) plus the Lords round of
+`non-crime-hate`. Not ours: the great majority, most of them a watched Bill's name or a same-debate
+speech standing in for the vote's subject; the finder now labels a watchlist-only title match honestly.
+
+**Still open for Christopher's decision** (drafted above, nothing added): `2273` home-education
+consent; `2304` protest-group designation; `2063` strangulation pornography; `2277`/`2276` jury
+trials; `2266` LD business motion; `1900` grooming-gangs reasoned amendment; `1588` + `1512` modern
+slavery in the Illegal Migration Bill; `1682` + `1676` DWP bank-data power; `1663` anti-BDS gagging
+clause and Article 10; `419` Leveson part two.
+
+## This Parliament and the last, 2020 to 2026 (all 130 reviewed, 10-11 September 2026)
+
+
+## The 2017 Parliament (all 7 reviewed in batch 7)
+
