@@ -192,7 +192,7 @@ amendments). Amendment texts from the Speaker's groupings in Hansard.*
 
 **Added to `config/vote_tracker.yaml` unsigned (under `parental-rights`):**
 
-- [x] `1583` 2023-06-28 Relationships and Sexuality Education (Northern Ireland) (Amendment) Regulations 2023 — **compulsory abortion and contraception education in NI schools**, area 6 (arguably area 1 too; it sits under `parental-rights` because the objection in committee was parental withdrawal and the Churches, not the 2019 abortion decision, which the Secretary of State said the debate was "not about reopening"). Deferred division, 373 / 28. The 28: twenty Conservatives (Fiona Bruce, Miriam Cates, Danny Kruger, Sir Edward Leigh, Andrew Lewer, Sir Desmond Swayne, Sir John Hayes, Philip Davies…), seven DUP, one Independent. Our side **NO**. Landmark: the only Commons vote on NI RSE.
+- [x] `1583` **SIGNED OFF 11 Sept** — 2023-06-28 Relationships and Sexuality Education (Northern Ireland) (Amendment) Regulations 2023 — **compulsory abortion and contraception education in NI schools**, area 6 (arguably area 1 too; it sits under `parental-rights` because the objection in committee was parental withdrawal and the Churches, not the 2019 abortion decision, which the Secretary of State said the debate was "not about reopening"). Deferred division, 373 / 28. The 28: twenty Conservatives (Fiona Bruce, Miriam Cates, Danny Kruger, Sir Edward Leigh, Andrew Lewer, Sir Desmond Swayne, Sir John Hayes, Philip Davies…), seven DUP, one Independent. Our side **NO**. Landmark: the only Commons vote on NI RSE.
 
 **Your decision (drafted but NOT added):**
 
