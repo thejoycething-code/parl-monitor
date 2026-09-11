@@ -1,0 +1,2055 @@
+{
+ "event_start": "2026-09-11T08:34:44+00:00",
+ "title": "Terminally Ill Adults (End of Life) Bill",
+ "house": "Commons",
+ "date": "2026-09-11",
+ "ext_id": "4C64BB03-23BC-41DF-8837-50F7BD082F9C",
+ "event": "27c2ec3f-4604-41e8-968c-4d080531b38a",
+ "manifest": "https://2F0F8Fc-az-westeurope-fsly.cdn.redbee.live/ukparliament/parliamentlive/assets/27c2ec3f-4604-41e8-968c-4d080531b38a_0D62A9b/materials/Tl24znhPEL_0D62A9b/vod-idx.ism/.m3u8",
+ "directions": {
+  "5298": {
+   "stance": -2,
+   "why": "Bill sponsor moving second reading, clearly advocating for assisted dying legislation.",
+   "words": 2866
+  },
+  "4110": {
+   "stance": 1,
+   "why": "Emphasises protecting vulnerable, quiet voices, signalling safeguarding concerns over the bill.",
+   "words": 2428
+  },
+  "4981": {
+   "stance": 2,
+   "why": "Personal account highlighting suicide risk and lack of safeguards, opposing the bill.",
+   "words": 1533
+  },
+  "5213": {
+   "stance": 1,
+   "why": "Surgeon stresses better palliative care over need for assisted dying, critical tone.",
+   "words": 1482
+  },
+  "4083": {
+   "stance": 0,
+   "why": "Ministerial neutral statement, procedural, no personal stance expressed.",
+   "words": 1270
+  },
+  "4513": {
+   "stance": 0,
+   "why": "Personal reflective narrative, no clear stance on assisted dying itself.",
+   "words": 1206
+  },
+  "5068": {
+   "stance": 2,
+   "why": "Explicitly voted against bill twice, favours palliative care over assisted dying.",
+   "words": 1121
+  },
+  "4805": {
+   "stance": -2,
+   "why": "Defends bill against delay arguments, supports its progression to Lords.",
+   "words": 1091
+  },
+  "5032": {
+   "stance": -2,
+   "why": "Uses tragic stories to argue for need of assisted dying option, supportive tone.",
+   "words": 1036
+  },
+  "5295": {
+   "stance": 1,
+   "why": "Personally favours autonomy but votes against this specific bill over safety concerns.",
+   "words": 1032
+  },
+  "5117": {
+   "stance": 1,
+   "why": "Raises fears from disabled and marginalised constituents, leaning against the bill.",
+   "words": 1014
+  },
+  "1466": {
+   "stance": 2,
+   "why": "Doctor explicitly states he will not support the bill, prioritising palliative care first.",
+   "words": 1007
+  },
+  "4857": {
+   "stance": 2,
+   "why": "Calls bill state-sponsored suicide, strongly opposing assisted dying legislation.",
+   "words": 987
+  },
+  "4495": {
+   "stance": -2,
+   "why": "Co-sponsor defends bill, criticises Lords delay, pushes for its passage.",
+   "words": 960
+  },
+  "345": {
+   "stance": -2,
+   "why": "Explicitly states personal support for assisted dying and the bill's aims.",
+   "words": 945
+  },
+  "4026": {
+   "stance": -2,
+   "why": "Long-time supporter of assisted dying, backs this bill explicitly.",
+   "words": 901
+  },
+  "3957": {
+   "stance": 2,
+   "why": "Argues society would be poorer if assisted dying legalised, opposing bill.",
+   "words": 894
+  },
+  "5094": {
+   "stance": 1,
+   "why": "Calls for scrutiny to make bill safe, implying safety concerns and caution.",
+   "words": 871
+  },
+  "5078": {
+   "stance": -1,
+   "why": "Supports bill's progress to Lords, framing debate positively toward passage.",
+   "words": 849
+  },
+  "4616": {
+   "stance": 2,
+   "why": "Raises disability rights and safeguarding concerns, clearly wary of the bill.",
+   "words": 847
+  },
+  "3969": {
+   "stance": 0,
+   "why": "Procedural reflection on conscience voting, no clear personal position stated.",
+   "words": 817
+  },
+  "227": {
+   "stance": -2,
+   "why": "Bill sponsor argues strongly for passing assisted dying legislation.",
+   "words": 813
+  },
+  "4860": {
+   "stance": 2,
+   "why": "Describes turning against assisted dying after reading Gosport hospital deaths report.",
+   "words": 812
+  },
+  "4820": {
+   "stance": 2,
+   "why": "States remains unable to support the assisted dying Bill despite sympathy.",
+   "words": 801
+  },
+  "5098": {
+   "stance": -2,
+   "why": "Personal story and reasoning in support of the assisted dying Bill's provisions.",
+   "words": 798
+  },
+  "5061": {
+   "stance": -2,
+   "why": "Defends the Bill against Lords obstruction, favours its passage.",
+   "words": 780
+  },
+  "5314": {
+   "stance": -2,
+   "why": "Explicitly says the law must change to allow assisted dying.",
+   "words": 769
+  },
+  "4698": {
+   "stance": 2,
+   "why": "Explains switching from support to voting against assisted dying Bill.",
+   "words": 756
+  },
+  "4656": {
+   "stance": -2,
+   "why": "Shares stories advocating for right to assisted dying, backing the Bill.",
+   "words": 755
+  },
+  "413": {
+   "stance": -2,
+   "why": "Argues Parliament should relieve suffering by supporting assisted dying.",
+   "words": 751
+  },
+  "4370": {
+   "stance": -2,
+   "why": "Worked on safeguards to support passage of the assisted dying Bill.",
+   "words": 725
+  },
+  "4753": {
+   "stance": 2,
+   "why": "Raises fears for vulnerable people, signalling opposition to the Bill.",
+   "words": 719
+  },
+  "4267": {
+   "stance": -2,
+   "why": "States comfort supporting the Bill and dispelling myths against it.",
+   "words": 687
+  },
+  "5030": {
+   "stance": -2,
+   "why": "Defends Bill's scrutiny and safety, supporting its passage.",
+   "words": 651
+  },
+  "5306": {
+   "stance": -2,
+   "why": "Personal account favouring assisted death as a dignified choice.",
+   "words": 642
+  },
+  "5299": {
+   "stance": 2,
+   "why": "Declares the Bill unsafe and signals voting against it.",
+   "words": 623
+  },
+  "4389": {
+   "stance": -2,
+   "why": "States continued support for assisted dying legislation since 2015.",
+   "words": 620
+  },
+  "4634": {
+   "stance": -2,
+   "why": "Thanks sponsor for reintroducing Bill, supports its passage strongly.",
+   "words": 563
+  },
+  "40": {
+   "stance": 2,
+   "why": "Explains reasons for voting no on the assisted dying Bill.",
+   "words": 553
+  },
+  "5312": {
+   "stance": -2,
+   "why": "Frames autonomy and dignity arguments favouring the assisted dying Bill.",
+   "words": 484
+  },
+  "5302": {
+   "stance": -1,
+   "why": "Backs the assisted dying Bill in principle while urging improved palliative care.",
+   "words": 418
+  },
+  "4785": {
+   "stance": 2,
+   "why": "Argues assisted suicide masks treatable mental illness, opposing the Bill strongly.",
+   "words": 290
+  },
+  "5163": {
+   "stance": -2,
+   "why": "Explicitly urges the House to support assisted dying and vote for choice.",
+   "words": 283
+  },
+  "350": {
+   "stance": 2,
+   "why": "Challenges Bill's safeguards, favours social solidarity over individual autonomy.",
+   "words": 222
+  },
+  "1524": {
+   "stance": 1,
+   "why": "Questions promoter's refusal to amend, implying safeguard concerns with the Bill.",
+   "words": 212
+  },
+  "4676": {
+   "stance": 2,
+   "why": "Highlights discriminatory impact on disabled and ethnic minorities against the Bill.",
+   "words": 170
+  },
+  "4494": {
+   "stance": -1,
+   "why": "Presses proponent to justify limits, implicitly supporting wider assisted dying access.",
+   "words": 164
+  },
+  "4131": {
+   "stance": 2,
+   "why": "Cites public opposition and personal story urging rejection of the Bill.",
+   "words": 151
+  },
+  "5065": {
+   "stance": -1,
+   "why": "Criticises peers blocking the Bill, favouring its passage through Commons will.",
+   "words": 139
+  },
+  "3997": {
+   "stance": 0,
+   "why": "Procedural point about scrutiny time, no clear stance on assisted dying itself.",
+   "words": 126
+  },
+  "5184": {
+   "stance": 2,
+   "why": "Raises coercion risks for people with learning disabilities against the Bill.",
+   "words": 123
+  },
+  "5246": {
+   "stance": 1,
+   "why": "Notes Scottish reversal against similar legislation, hinting hope for opposition.",
+   "words": 110
+  },
+  "5108": {
+   "stance": 2,
+   "why": "Cites senior medical and legal figures opposing the Bill's safeguards.",
+   "words": 109
+  },
+  "1560": {
+   "stance": 0,
+   "why": "Procedural argument about amendment authority, no direct stance shown.",
+   "words": 104
+  },
+  "4360": {
+   "stance": 2,
+   "why": "Criticises sponsor for ignoring 77 proposed safeguarding amendments.",
+   "words": 102
+  },
+  "4853": {
+   "stance": 2,
+   "why": "Argues palliative care must be fixed before pursuing assisted dying legislation.",
+   "words": 94
+  },
+  "5301": {
+   "stance": 2,
+   "why": "Notes palliative doctors opposing assisted dying, questioning Bill's feasibility.",
+   "words": 91
+  },
+  "4493": {
+   "stance": 2,
+   "why": "Highlights disabled people's opposition to the Bill as evidence against it.",
+   "words": 90
+  },
+  "4358": {
+   "stance": 1,
+   "why": "Says debate should wait until palliative care funding is properly fixed.",
+   "words": 89
+  },
+  "4409": {
+   "stance": 2,
+   "why": "Warns of internal coercion pressures undermining assisted dying safeguards.",
+   "words": 85
+  },
+  "4471": {
+   "stance": 1,
+   "why": "Highlights inadequate palliative care access, implying assisted dying premature without it.",
+   "words": 84
+  },
+  "5156": {
+   "stance": 0,
+   "why": "Mostly procedural interjections; one point on amendment process, no clear substantive stance.",
+   "words": 81
+  },
+  "5225": {
+   "stance": 0,
+   "why": "Procedural point about parliamentary jurisdiction versus courts, no substantive direction shown.",
+   "words": 80
+  },
+  "5281": {
+   "stance": 1,
+   "why": "Argues no real choice exists until palliative care properly funded, implicitly opposing bill.",
+   "words": 74
+  },
+  "4923": {
+   "stance": -1,
+   "why": "Defends bill's coercion safeguards, supporting the assisted dying legislation's adequacy.",
+   "words": 66
+  },
+  "5291": {
+   "stance": -2,
+   "why": "Explicitly argues current system unsafe and bill is needed, supporting assisted dying.",
+   "words": 55
+  },
+  "5125": {
+   "stance": 2,
+   "why": "Argues terminally ill should be supported to live, clearly opposing assisted dying.",
+   "words": 54
+  },
+  "1591": {
+   "stance": 2,
+   "why": "Raises coercion danger unique to assisted dying, strongly opposing the bill.",
+   "words": 50
+  },
+  "4394": {
+   "stance": 0,
+   "why": "Only procedural intervention requests, no substantive content.",
+   "words": 35
+  },
+  "4769": {
+   "stance": 0,
+   "why": "Only procedural intervention requests, no substantive content.",
+   "words": 26
+  },
+  "5111": {
+   "stance": 0,
+   "why": "Only procedural intervention requests, no substantive content.",
+   "words": 13
+  },
+  "5073": {
+   "stance": 0,
+   "why": "Only procedural intervention requests, no substantive content.",
+   "words": 12
+  },
+  "5218": {
+   "stance": 0,
+   "why": "Only procedural intervention requests, no substantive content.",
+   "words": 12
+  },
+  "5256": {
+   "stance": 0,
+   "why": "Only procedural intervention requests, no substantive content.",
+   "words": 12
+  },
+  "5028": {
+   "stance": 0,
+   "why": "Only procedural intervention request, no substantive content.",
+   "words": 7
+  }
+ },
+ "areas": [
+  2,
+  12
+ ],
+ "speakers": [
+  {
+   "key": "5298",
+   "name": "Lauren Edwards",
+   "party": "Lab",
+   "seat": "Rochester and Strood",
+   "spans": [
+    [
+     "2026-09-11T09:37:00+01:00",
+     "2026-09-11T09:38:17+01:00"
+    ],
+    [
+     "2026-09-11T09:38:25+01:00",
+     "2026-09-11T09:39:51+01:00"
+    ],
+    [
+     "2026-09-11T09:40:23+01:00",
+     "2026-09-11T09:41:05+01:00"
+    ],
+    [
+     "2026-09-11T09:41:05+01:00",
+     "2026-09-11T09:41:18+01:00"
+    ],
+    [
+     "2026-09-11T09:41:52+01:00",
+     "2026-09-11T09:42:29+01:00"
+    ],
+    [
+     "2026-09-11T09:42:56+01:00",
+     "2026-09-11T09:44:08+01:00"
+    ],
+    [
+     "2026-09-11T09:44:35+01:00",
+     "2026-09-11T09:44:59+01:00"
+    ],
+    [
+     "2026-09-11T09:44:59+01:00",
+     "2026-09-11T09:45:25+01:00"
+    ],
+    [
+     "2026-09-11T09:45:34+01:00",
+     "2026-09-11T09:46:11+01:00"
+    ],
+    [
+     "2026-09-11T09:46:36+01:00",
+     "2026-09-11T09:47:02+01:00"
+    ],
+    [
+     "2026-09-11T09:47:43+01:00",
+     "2026-09-11T09:48:08+01:00"
+    ],
+    [
+     "2026-09-11T09:48:08+01:00",
+     "2026-09-11T09:48:43+01:00"
+    ],
+    [
+     "2026-09-11T09:49:28+01:00",
+     "2026-09-11T09:49:59+01:00"
+    ],
+    [
+     "2026-09-11T09:50:07+01:00",
+     "2026-09-11T09:50:57+01:00"
+    ],
+    [
+     "2026-09-11T09:51:53+01:00",
+     "2026-09-11T09:52:22+01:00"
+    ],
+    [
+     "2026-09-11T09:52:22+01:00",
+     "2026-09-11T09:52:42+01:00"
+    ],
+    [
+     "2026-09-11T09:53:14+01:00",
+     "2026-09-11T09:53:26+01:00"
+    ],
+    [
+     "2026-09-11T09:53:34+01:00",
+     "2026-09-11T09:53:54+01:00"
+    ],
+    [
+     "2026-09-11T09:54:02+01:00",
+     "2026-09-11T09:54:32+01:00"
+    ],
+    [
+     "2026-09-11T09:55:05+01:00",
+     "2026-09-11T09:55:19+01:00"
+    ],
+    [
+     "2026-09-11T09:56:01+01:00",
+     "2026-09-11T09:56:43+01:00"
+    ],
+    [
+     "2026-09-11T09:56:43+01:00",
+     "2026-09-11T09:56:53+01:00"
+    ],
+    [
+     "2026-09-11T09:57:05+01:00",
+     "2026-09-11T09:57:56+01:00"
+    ],
+    [
+     "2026-09-11T09:58:48+01:00",
+     "2026-09-11T09:59:18+01:00"
+    ],
+    [
+     "2026-09-11T09:59:45+01:00",
+     "2026-09-11T10:00:05+01:00"
+    ],
+    [
+     "2026-09-11T10:00:05+01:00",
+     "2026-09-11T10:00:23+01:00"
+    ],
+    [
+     "2026-09-11T10:00:53+01:00",
+     "2026-09-11T10:01:23+01:00"
+    ],
+    [
+     "2026-09-11T10:01:31+01:00",
+     "2026-09-11T10:02:01+01:00"
+    ],
+    [
+     "2026-09-11T10:02:01+01:00",
+     "2026-09-11T10:02:44+01:00"
+    ],
+    [
+     "2026-09-11T10:03:22+01:00",
+     "2026-09-11T10:03:56+01:00"
+    ],
+    [
+     "2026-09-11T10:03:56+01:00",
+     "2026-09-11T10:04:40+01:00"
+    ],
+    [
+     "2026-09-11T10:05:10+01:00",
+     "2026-09-11T10:05:38+01:00"
+    ],
+    [
+     "2026-09-11T10:05:38+01:00",
+     "2026-09-11T10:06:25+01:00"
+    ],
+    [
+     "2026-09-11T10:06:33+01:00",
+     "2026-09-11T10:07:23+01:00"
+    ],
+    [
+     "2026-09-11T10:07:23+01:00",
+     "2026-09-11T10:07:57+01:00"
+    ],
+    [
+     "2026-09-11T10:08:37+01:00",
+     "2026-09-11T10:09:00+01:00"
+    ],
+    [
+     "2026-09-11T10:09:11+01:00",
+     "2026-09-11T10:11:04+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:37:00+01:00"
+  },
+  {
+   "key": "4110",
+   "name": "Dame Karen Bradley",
+   "party": "Con",
+   "seat": "Staffordshire Moorlands",
+   "spans": [
+    [
+     "2026-09-11T10:11:04+01:00",
+     "2026-09-11T10:14:20+01:00"
+    ],
+    [
+     "2026-09-11T10:14:28+01:00",
+     "2026-09-11T10:14:41+01:00"
+    ],
+    [
+     "2026-09-11T10:15:03+01:00",
+     "2026-09-11T10:15:20+01:00"
+    ],
+    [
+     "2026-09-11T10:15:20+01:00",
+     "2026-09-11T10:15:40+01:00"
+    ],
+    [
+     "2026-09-11T10:16:19+01:00",
+     "2026-09-11T10:16:28+01:00"
+    ],
+    [
+     "2026-09-11T10:17:00+01:00",
+     "2026-09-11T10:17:24+01:00"
+    ],
+    [
+     "2026-09-11T10:17:58+01:00",
+     "2026-09-11T10:18:34+01:00"
+    ],
+    [
+     "2026-09-11T10:19:11+01:00",
+     "2026-09-11T10:21:53+01:00"
+    ],
+    [
+     "2026-09-11T10:22:01+01:00",
+     "2026-09-11T10:22:35+01:00"
+    ],
+    [
+     "2026-09-11T10:22:43+01:00",
+     "2026-09-11T10:25:15+01:00"
+    ],
+    [
+     "2026-09-11T10:25:23+01:00",
+     "2026-09-11T10:27:38+01:00"
+    ],
+    [
+     "2026-09-11T10:27:46+01:00",
+     "2026-09-11T10:31:47+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:11:04+01:00"
+  },
+  {
+   "key": "4981",
+   "name": "Ashley Dalton",
+   "party": "Lab",
+   "seat": "West Lancashire",
+   "spans": [
+    [
+     "2026-09-11T11:02:52+01:00",
+     "2026-09-11T11:11:03+01:00"
+    ],
+    [
+     "2026-09-11T11:11:11+01:00",
+     "2026-09-11T11:13:25+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:02:52+01:00"
+  },
+  {
+   "key": "5213",
+   "name": "Dr Zubir Ahmed",
+   "party": "Lab",
+   "seat": "Glasgow South West",
+   "spans": [
+    [
+     "2026-09-11T09:46:11+01:00",
+     "2026-09-11T09:46:36+01:00"
+    ],
+    [
+     "2026-09-11T10:43:26+01:00",
+     "2026-09-11T10:46:22+01:00"
+    ],
+    [
+     "2026-09-11T10:46:49+01:00",
+     "2026-09-11T10:47:27+01:00"
+    ],
+    [
+     "2026-09-11T10:47:35+01:00",
+     "2026-09-11T10:49:15+01:00"
+    ],
+    [
+     "2026-09-11T10:50:02+01:00",
+     "2026-09-11T10:54:44+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:46:11+01:00"
+  },
+  {
+   "key": "4083",
+   "name": "Alison McGovern",
+   "party": null,
+   "seat": null,
+   "spans": [
+    [
+     "2026-09-11T14:33:19+01:00",
+     "2026-09-11T14:36:44+01:00"
+    ],
+    [
+     "2026-09-11T14:36:52+01:00",
+     "2026-09-11T14:38:33+01:00"
+    ],
+    [
+     "2026-09-11T14:39:36+01:00",
+     "2026-09-11T14:43:15+01:00"
+    ]
+   ],
+   "first": "2026-09-11T14:33:19+01:00"
+  },
+  {
+   "key": "4513",
+   "name": "Mims Davies",
+   "party": "Con",
+   "seat": "East Grinstead and Uckfield",
+   "spans": [
+    [
+     "2026-09-11T12:32:57+01:00",
+     "2026-09-11T12:38:25+01:00"
+    ],
+    [
+     "2026-09-11T12:38:47+01:00",
+     "2026-09-11T12:39:40+01:00"
+    ],
+    [
+     "2026-09-11T12:39:48+01:00",
+     "2026-09-11T12:41:46+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:32:57+01:00"
+  },
+  {
+   "key": "5068",
+   "name": "Shivani Raja",
+   "party": "Con",
+   "seat": "Leicester East",
+   "spans": [
+    [
+     "2026-09-11T12:00:19+01:00",
+     "2026-09-11T12:03:16+01:00"
+    ],
+    [
+     "2026-09-11T12:03:24+01:00",
+     "2026-09-11T12:08:06+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:00:19+01:00"
+  },
+  {
+   "key": "4805",
+   "name": "Alicia Kearns",
+   "party": "Con",
+   "seat": "Rutland and Stamford",
+   "spans": [
+    [
+     "2026-09-11T10:00:23+01:00",
+     "2026-09-11T10:00:53+01:00"
+    ],
+    [
+     "2026-09-11T10:22:35+01:00",
+     "2026-09-11T10:22:43+01:00"
+    ],
+    [
+     "2026-09-11T12:11:55+01:00",
+     "2026-09-11T12:17:39+01:00"
+    ],
+    [
+     "2026-09-11T12:17:47+01:00",
+     "2026-09-11T12:19:03+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:00:23+01:00"
+  },
+  {
+   "key": "5032",
+   "name": "Tom Gordon",
+   "party": "LD",
+   "seat": "Harrogate and Knaresborough",
+   "spans": [
+    [
+     "2026-09-11T13:01:38+01:00",
+     "2026-09-11T13:08:38+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:01:38+01:00"
+  },
+  {
+   "key": "5295",
+   "name": "Josh Fenton-Glynn",
+   "party": "Lab",
+   "seat": "Calder Valley",
+   "spans": [
+    [
+     "2026-09-11T11:19:10+01:00",
+     "2026-09-11T11:21:20+01:00"
+    ],
+    [
+     "2026-09-11T11:21:26+01:00",
+     "2026-09-11T11:22:00+01:00"
+    ],
+    [
+     "2026-09-11T11:22:08+01:00",
+     "2026-09-11T11:23:40+01:00"
+    ],
+    [
+     "2026-09-11T11:23:48+01:00",
+     "2026-09-11T11:26:47+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:19:10+01:00"
+  },
+  {
+   "key": "5117",
+   "name": "Sarah Smith",
+   "party": "Lab",
+   "seat": "Hyndburn",
+   "spans": [
+    [
+     "2026-09-11T11:41:39+01:00",
+     "2026-09-11T11:41:57+01:00"
+    ],
+    [
+     "2026-09-11T12:43:09+01:00",
+     "2026-09-11T12:43:17+01:00"
+    ],
+    [
+     "2026-09-11T12:54:22+01:00",
+     "2026-09-11T12:56:43+01:00"
+    ],
+    [
+     "2026-09-11T12:57:18+01:00",
+     "2026-09-11T13:01:38+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:41:39+01:00"
+  },
+  {
+   "key": "1466",
+   "name": "Dr Andrew Murrison",
+   "party": "Con",
+   "seat": "South West Wiltshire",
+   "spans": [
+    [
+     "2026-09-11T11:47:25+01:00",
+     "2026-09-11T11:49:11+01:00"
+    ],
+    [
+     "2026-09-11T11:49:48+01:00",
+     "2026-09-11T11:53:10+01:00"
+    ],
+    [
+     "2026-09-11T11:53:18+01:00",
+     "2026-09-11T11:55:10+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:47:25+01:00"
+  },
+  {
+   "key": "4857",
+   "name": "Carla Lockhart",
+   "party": "DUP",
+   "seat": "Upper Bann",
+   "spans": [
+    [
+     "2026-09-11T13:50:39+01:00",
+     "2026-09-11T13:54:09+01:00"
+    ],
+    [
+     "2026-09-11T13:54:32+01:00",
+     "2026-09-11T13:55:33+01:00"
+    ],
+    [
+     "2026-09-11T13:55:43+01:00",
+     "2026-09-11T13:58:03+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:50:39+01:00"
+  },
+  {
+   "key": "4495",
+   "name": "Kit Malthouse",
+   "party": "Con",
+   "seat": "North West Hampshire",
+   "spans": [
+    [
+     "2026-09-11T10:55:07+01:00",
+     "2026-09-11T10:56:02+01:00"
+    ],
+    [
+     "2026-09-11T10:56:12+01:00",
+     "2026-09-11T10:57:03+01:00"
+    ],
+    [
+     "2026-09-11T10:57:50+01:00",
+     "2026-09-11T10:58:47+01:00"
+    ],
+    [
+     "2026-09-11T10:58:55+01:00",
+     "2026-09-11T11:02:52+01:00"
+    ],
+    [
+     "2026-09-11T14:43:15+01:00",
+     "2026-09-11T14:43:28+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:55:07+01:00"
+  },
+  {
+   "key": "345",
+   "name": "Sir Edward Leigh",
+   "party": "Con",
+   "seat": "Gainsborough",
+   "spans": [
+    [
+     "2026-09-11T10:36:33+01:00",
+     "2026-09-11T10:38:50+01:00"
+    ],
+    [
+     "2026-09-11T10:38:58+01:00",
+     "2026-09-11T10:41:38+01:00"
+    ],
+    [
+     "2026-09-11T10:41:48+01:00",
+     "2026-09-11T10:43:26+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:36:33+01:00"
+  },
+  {
+   "key": "4026",
+   "name": "Liz Kendall",
+   "party": "Lab",
+   "seat": "Leicester West",
+   "spans": [
+    [
+     "2026-09-11T13:32:41+01:00",
+     "2026-09-11T13:38:47+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:32:41+01:00"
+  },
+  {
+   "key": "3957",
+   "name": "Martin Vickers",
+   "party": "Con",
+   "seat": "Brigg and Immingham",
+   "spans": [
+    [
+     "2026-09-11T13:13:05+01:00",
+     "2026-09-11T13:15:26+01:00"
+    ],
+    [
+     "2026-09-11T13:15:34+01:00",
+     "2026-09-11T13:17:56+01:00"
+    ],
+    [
+     "2026-09-11T13:18:04+01:00",
+     "2026-09-11T13:18:12+01:00"
+    ],
+    [
+     "2026-09-11T13:18:53+01:00",
+     "2026-09-11T13:20:23+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:13:05+01:00"
+  },
+  {
+   "key": "5094",
+   "name": "Ms Julie Minns",
+   "party": "Lab",
+   "seat": "Carlisle",
+   "spans": [
+    [
+     "2026-09-11T12:19:03+01:00",
+     "2026-09-11T12:22:55+01:00"
+    ],
+    [
+     "2026-09-11T12:23:03+01:00",
+     "2026-09-11T12:25:10+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:19:03+01:00"
+  },
+  {
+   "key": "5078",
+   "name": "Pippa Heylings",
+   "party": "LD",
+   "seat": "South Cambridgeshire",
+   "spans": [
+    [
+     "2026-09-11T11:13:25+01:00",
+     "2026-09-11T11:19:10+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:13:25+01:00"
+  },
+  {
+   "key": "4616",
+   "name": "Rosie Duffield",
+   "party": "Ind",
+   "seat": "Canterbury",
+   "spans": [
+    [
+     "2026-09-11T12:47:05+01:00",
+     "2026-09-11T12:49:44+01:00"
+    ],
+    [
+     "2026-09-11T12:50:30+01:00",
+     "2026-09-11T12:51:44+01:00"
+    ],
+    [
+     "2026-09-11T12:52:19+01:00",
+     "2026-09-11T12:54:22+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:47:05+01:00"
+  },
+  {
+   "key": "3969",
+   "name": "Damian Hinds",
+   "party": "Con",
+   "seat": "East Hampshire",
+   "spans": [
+    [
+     "2026-09-11T14:27:47+01:00",
+     "2026-09-11T14:33:19+01:00"
+    ]
+   ],
+   "first": "2026-09-11T14:27:47+01:00"
+  },
+  {
+   "key": "227",
+   "name": "Andrew George",
+   "party": "LD",
+   "seat": "St Ives",
+   "spans": [
+    [
+     "2026-09-11T14:03:11+01:00",
+     "2026-09-11T14:05:19+01:00"
+    ],
+    [
+     "2026-09-11T14:05:27+01:00",
+     "2026-09-11T14:06:23+01:00"
+    ],
+    [
+     "2026-09-11T14:06:23+01:00",
+     "2026-09-11T14:06:50+01:00"
+    ],
+    [
+     "2026-09-11T14:06:50+01:00",
+     "2026-09-11T14:09:06+01:00"
+    ]
+   ],
+   "first": "2026-09-11T14:03:11+01:00"
+  },
+  {
+   "key": "4860",
+   "name": "Dr Kieran Mullan",
+   "party": "Con",
+   "seat": "Bexhill and Battle",
+   "spans": [
+    [
+     "2026-09-11T13:38:47+01:00",
+     "2026-09-11T13:42:14+01:00"
+    ],
+    [
+     "2026-09-11T13:42:22+01:00",
+     "2026-09-11T13:44:31+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:38:47+01:00"
+  },
+  {
+   "key": "4820",
+   "name": "Ms Abena Oppong-Asare",
+   "party": "Lab",
+   "seat": "Erith and Thamesmead",
+   "spans": [
+    [
+     "2026-09-11T13:20:23+01:00",
+     "2026-09-11T13:22:35+01:00"
+    ],
+    [
+     "2026-09-11T13:22:43+01:00",
+     "2026-09-11T13:23:26+01:00"
+    ],
+    [
+     "2026-09-11T13:23:57+01:00",
+     "2026-09-11T13:25:08+01:00"
+    ],
+    [
+     "2026-09-11T13:25:49+01:00",
+     "2026-09-11T13:27:26+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:20:23+01:00"
+  },
+  {
+   "key": "5098",
+   "name": "Dr Marie Tidball",
+   "party": "Lab",
+   "seat": "Penistone and Stocksbridge",
+   "spans": [
+    [
+     "2026-09-11T13:12:26+01:00",
+     "2026-09-11T13:12:34+01:00"
+    ],
+    [
+     "2026-09-11T14:16:18+01:00",
+     "2026-09-11T14:17:52+01:00"
+    ],
+    [
+     "2026-09-11T14:18:01+01:00",
+     "2026-09-11T14:21:55+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:12:26+01:00"
+  },
+  {
+   "key": "5061",
+   "name": "Andrew Lewin",
+   "party": "Lab",
+   "seat": "Welwyn Hatfield",
+   "spans": [
+    [
+     "2026-09-11T11:40:36+01:00",
+     "2026-09-11T11:41:39+01:00"
+    ],
+    [
+     "2026-09-11T11:41:57+01:00",
+     "2026-09-11T11:42:43+01:00"
+    ],
+    [
+     "2026-09-11T11:42:55+01:00",
+     "2026-09-11T11:43:28+01:00"
+    ],
+    [
+     "2026-09-11T11:43:45+01:00",
+     "2026-09-11T11:44:08+01:00"
+    ],
+    [
+     "2026-09-11T11:44:16+01:00",
+     "2026-09-11T11:45:29+01:00"
+    ],
+    [
+     "2026-09-11T11:45:37+01:00",
+     "2026-09-11T11:47:25+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:40:36+01:00"
+  },
+  {
+   "key": "5314",
+   "name": "Si\u00e2n Berry",
+   "party": "Green",
+   "seat": "Brighton Pavilion",
+   "spans": [
+    [
+     "2026-09-11T14:11:05+01:00",
+     "2026-09-11T14:16:18+01:00"
+    ]
+   ],
+   "first": "2026-09-11T14:11:05+01:00"
+  },
+  {
+   "key": "4698",
+   "name": "Janet Daby",
+   "party": "Lab",
+   "seat": "Lewisham East",
+   "spans": [
+    [
+     "2026-09-11T13:58:03+01:00",
+     "2026-09-11T14:03:11+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:58:03+01:00"
+  },
+  {
+   "key": "4656",
+   "name": "Layla Moran",
+   "party": "LD",
+   "seat": "Oxford West and Abingdon",
+   "spans": [
+    [
+     "2026-09-11T11:35:15+01:00",
+     "2026-09-11T11:37:48+01:00"
+    ],
+    [
+     "2026-09-11T11:37:56+01:00",
+     "2026-09-11T11:40:36+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:35:15+01:00"
+  },
+  {
+   "key": "413",
+   "name": "Hilary Benn",
+   "party": "Lab",
+   "seat": "Leeds South",
+   "spans": [
+    [
+     "2026-09-11T12:41:46+01:00",
+     "2026-09-11T12:43:09+01:00"
+    ],
+    [
+     "2026-09-11T12:43:17+01:00",
+     "2026-09-11T12:47:05+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:41:46+01:00"
+  },
+  {
+   "key": "4370",
+   "name": "Jess Phillips",
+   "party": "Lab",
+   "seat": "Birmingham Yardley",
+   "spans": [
+    [
+     "2026-09-11T10:17:24+01:00",
+     "2026-09-11T10:17:58+01:00"
+    ],
+    [
+     "2026-09-11T11:30:34+01:00",
+     "2026-09-11T11:34:41+01:00"
+    ],
+    [
+     "2026-09-11T11:34:49+01:00",
+     "2026-09-11T11:35:15+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:17:24+01:00"
+  },
+  {
+   "key": "4753",
+   "name": "Mary Kelly Foy",
+   "party": "Lab",
+   "seat": "City of Durham",
+   "spans": [
+    [
+     "2026-09-11T13:44:31+01:00",
+     "2026-09-11T13:46:17+01:00"
+    ],
+    [
+     "2026-09-11T13:46:25+01:00",
+     "2026-09-11T13:46:35+01:00"
+    ],
+    [
+     "2026-09-11T13:46:50+01:00",
+     "2026-09-11T13:47:11+01:00"
+    ],
+    [
+     "2026-09-11T13:47:30+01:00",
+     "2026-09-11T13:50:23+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:44:31+01:00"
+  },
+  {
+   "key": "4267",
+   "name": "Sarah Champion",
+   "party": "Lab",
+   "seat": "Rotherham",
+   "spans": [
+    [
+     "2026-09-11T11:55:10+01:00",
+     "2026-09-11T11:57:01+01:00"
+    ],
+    [
+     "2026-09-11T11:57:10+01:00",
+     "2026-09-11T11:57:40+01:00"
+    ],
+    [
+     "2026-09-11T11:57:49+01:00",
+     "2026-09-11T12:00:19+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:55:10+01:00"
+  },
+  {
+   "key": "5030",
+   "name": "Dr Simon Opher",
+   "party": "Lab",
+   "seat": "Stroud",
+   "spans": [
+    [
+     "2026-09-11T09:52:42+01:00",
+     "2026-09-11T09:53:14+01:00"
+    ],
+    [
+     "2026-09-11T10:21:53+01:00",
+     "2026-09-11T10:22:01+01:00"
+    ],
+    [
+     "2026-09-11T10:47:27+01:00",
+     "2026-09-11T10:47:35+01:00"
+    ],
+    [
+     "2026-09-11T11:21:20+01:00",
+     "2026-09-11T11:21:26+01:00"
+    ],
+    [
+     "2026-09-11T12:08:56+01:00",
+     "2026-09-11T12:09:20+01:00"
+    ],
+    [
+     "2026-09-11T13:46:17+01:00",
+     "2026-09-11T13:46:25+01:00"
+    ],
+    [
+     "2026-09-11T13:46:35+01:00",
+     "2026-09-11T13:46:50+01:00"
+    ],
+    [
+     "2026-09-11T14:23:47+01:00",
+     "2026-09-11T14:25:19+01:00"
+    ],
+    [
+     "2026-09-11T14:25:27+01:00",
+     "2026-09-11T14:26:03+01:00"
+    ],
+    [
+     "2026-09-11T14:26:11+01:00",
+     "2026-09-11T14:27:38+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:52:42+01:00"
+  },
+  {
+   "key": "5306",
+   "name": "Claire Hazelgrove",
+   "party": "Lab",
+   "seat": "Filton and Bradley Stoke",
+   "spans": [
+    [
+     "2026-09-11T10:32:03+01:00",
+     "2026-09-11T10:36:25+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:32:03+01:00"
+  },
+  {
+   "key": "5299",
+   "name": "Monica Harding",
+   "party": "LD",
+   "seat": "Esher and Walton",
+   "spans": [
+    [
+     "2026-09-11T12:25:10+01:00",
+     "2026-09-11T12:29:25+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:25:10+01:00"
+  },
+  {
+   "key": "4389",
+   "name": "Ruth Cadbury",
+   "party": "Lab",
+   "seat": "Brentford and Isleworth",
+   "spans": [
+    [
+     "2026-09-11T13:08:38+01:00",
+     "2026-09-11T13:12:26+01:00"
+    ],
+    [
+     "2026-09-11T13:12:34+01:00",
+     "2026-09-11T13:13:05+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:08:38+01:00"
+  },
+  {
+   "key": "4634",
+   "name": "Christine Jardine",
+   "party": "LD",
+   "seat": "Edinburgh West",
+   "spans": [
+    [
+     "2026-09-11T13:27:26+01:00",
+     "2026-09-11T13:29:10+01:00"
+    ],
+    [
+     "2026-09-11T13:29:18+01:00",
+     "2026-09-11T13:29:35+01:00"
+    ],
+    [
+     "2026-09-11T13:30:03+01:00",
+     "2026-09-11T13:30:46+01:00"
+    ],
+    [
+     "2026-09-11T13:31:17+01:00",
+     "2026-09-11T13:32:41+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:27:26+01:00"
+  },
+  {
+   "key": "40",
+   "name": "Sir Bernard Jenkin",
+   "party": "Con",
+   "seat": "Harwich and North Essex",
+   "spans": [
+    [
+     "2026-09-11T11:26:47+01:00",
+     "2026-09-11T11:30:34+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:26:47+01:00"
+  },
+  {
+   "key": "5312",
+   "name": "Sadik Al-Hassan",
+   "party": "Lab",
+   "seat": "North Somerset",
+   "spans": [
+    [
+     "2026-09-11T12:29:25+01:00",
+     "2026-09-11T12:32:29+01:00"
+    ],
+    [
+     "2026-09-11T12:32:37+01:00",
+     "2026-09-11T12:32:57+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:29:25+01:00"
+  },
+  {
+   "key": "5302",
+   "name": "Noah Law",
+   "party": "Lab",
+   "seat": "St Austell and Newquay",
+   "spans": [
+    [
+     "2026-09-11T12:08:17+01:00",
+     "2026-09-11T12:08:56+01:00"
+    ],
+    [
+     "2026-09-11T12:09:20+01:00",
+     "2026-09-11T12:10:08+01:00"
+    ],
+    [
+     "2026-09-11T12:10:17+01:00",
+     "2026-09-11T12:11:55+01:00"
+    ]
+   ],
+   "first": "2026-09-11T12:08:17+01:00"
+  },
+  {
+   "key": "4785",
+   "name": "Dr Ben Spencer",
+   "party": "Con",
+   "seat": "Runnymede and Weybridge",
+   "spans": [
+    [
+     "2026-09-11T09:49:59+01:00",
+     "2026-09-11T09:50:07+01:00"
+    ],
+    [
+     "2026-09-11T11:42:43+01:00",
+     "2026-09-11T11:42:55+01:00"
+    ],
+    [
+     "2026-09-11T14:21:55+01:00",
+     "2026-09-11T14:23:47+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:49:59+01:00"
+  },
+  {
+   "key": "5163",
+   "name": "Dr Peter Prinsley",
+   "party": "Lab",
+   "seat": "Bury St Edmunds and Stowmarket",
+   "spans": [
+    [
+     "2026-09-11T14:09:06+01:00",
+     "2026-09-11T14:11:05+01:00"
+    ]
+   ],
+   "first": "2026-09-11T14:09:06+01:00"
+  },
+  {
+   "key": "350",
+   "name": "Sir John Hayes",
+   "party": "Con",
+   "seat": "South Holland and The Deepings",
+   "spans": [
+    [
+     "2026-09-11T10:02:44+01:00",
+     "2026-09-11T10:03:22+01:00"
+    ],
+    [
+     "2026-09-11T12:39:40+01:00",
+     "2026-09-11T12:39:48+01:00"
+    ],
+    [
+     "2026-09-11T12:56:43+01:00",
+     "2026-09-11T12:57:18+01:00"
+    ],
+    [
+     "2026-09-11T13:23:26+01:00",
+     "2026-09-11T13:23:57+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:02:44+01:00"
+  },
+  {
+   "key": "1524",
+   "name": "Dame Meg Hillier",
+   "party": "Lab/Co-op",
+   "seat": "Hackney South and Shoreditch",
+   "spans": [
+    [
+     "2026-09-11T09:41:18+01:00",
+     "2026-09-11T09:41:52+01:00"
+    ],
+    [
+     "2026-09-11T12:38:25+01:00",
+     "2026-09-11T12:38:47+01:00"
+    ],
+    [
+     "2026-09-11T14:38:33+01:00",
+     "2026-09-11T14:39:18+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:41:18+01:00"
+  },
+  {
+   "key": "4676",
+   "name": "Marsha De Cordova",
+   "party": "Lab",
+   "seat": "Battersea",
+   "spans": [
+    [
+     "2026-09-11T09:54:32+01:00",
+     "2026-09-11T09:55:05+01:00"
+    ],
+    [
+     "2026-09-11T12:49:44+01:00",
+     "2026-09-11T12:50:30+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:54:32+01:00"
+  },
+  {
+   "key": "4494",
+   "name": "Simon Hoare",
+   "party": "Con",
+   "seat": "North Dorset",
+   "spans": [
+    [
+     "2026-09-11T09:48:43+01:00",
+     "2026-09-11T09:49:28+01:00"
+    ],
+    [
+     "2026-09-11T10:04:40+01:00",
+     "2026-09-11T10:05:10+01:00"
+    ],
+    [
+     "2026-09-11T14:36:44+01:00",
+     "2026-09-11T14:36:52+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:48:43+01:00"
+  },
+  {
+   "key": "4131",
+   "name": "Jim Shannon",
+   "party": "DUP",
+   "seat": "Strangford",
+   "spans": [
+    [
+     "2026-09-11T09:39:51+01:00",
+     "2026-09-11T09:40:23+01:00"
+    ],
+    [
+     "2026-09-11T10:15:40+01:00",
+     "2026-09-11T10:16:19+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:39:51+01:00"
+  },
+  {
+   "key": "5065",
+   "name": "Rachel Taylor",
+   "party": "Lab",
+   "seat": "North Warwickshire and Bedworth",
+   "spans": [
+    [
+     "2026-09-11T09:38:17+01:00",
+     "2026-09-11T09:38:25+01:00"
+    ],
+    [
+     "2026-09-11T09:42:29+01:00",
+     "2026-09-11T09:42:56+01:00"
+    ],
+    [
+     "2026-09-11T13:15:26+01:00",
+     "2026-09-11T13:15:34+01:00"
+    ],
+    [
+     "2026-09-11T13:30:46+01:00",
+     "2026-09-11T13:31:17+01:00"
+    ],
+    [
+     "2026-09-11T14:17:52+01:00",
+     "2026-09-11T14:18:01+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:38:17+01:00"
+  },
+  {
+   "key": "3997",
+   "name": "Sir Alec Shelbrooke",
+   "party": "Con",
+   "seat": "Wetherby and Easingwold",
+   "spans": [
+    [
+     "2026-09-11T09:50:57+01:00",
+     "2026-09-11T09:51:53+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:50:57+01:00"
+  },
+  {
+   "key": "5184",
+   "name": "Daniel Francis",
+   "party": "Lab",
+   "seat": "Bexleyheath and Crayford",
+   "spans": [
+    [
+     "2026-09-11T13:25:08+01:00",
+     "2026-09-11T13:25:49+01:00"
+    ],
+    [
+     "2026-09-11T13:47:11+01:00",
+     "2026-09-11T13:47:30+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:25:08+01:00"
+  },
+  {
+   "key": "5246",
+   "name": "Torcuil Crichton",
+   "party": "Lab",
+   "seat": "Na h-Eileanan an Iar",
+   "spans": [
+    [
+     "2026-09-11T10:49:15+01:00",
+     "2026-09-11T10:50:02+01:00"
+    ],
+    [
+     "2026-09-11T10:58:47+01:00",
+     "2026-09-11T10:58:55+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:49:15+01:00"
+  },
+  {
+   "key": "5108",
+   "name": "Sam Rushworth",
+   "party": "Lab",
+   "seat": "Bishop Auckland",
+   "spans": [
+    [
+     "2026-09-11T09:59:18+01:00",
+     "2026-09-11T09:59:45+01:00"
+    ],
+    [
+     "2026-09-11T13:29:35+01:00",
+     "2026-09-11T13:30:03+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:59:18+01:00"
+  },
+  {
+   "key": "1560",
+   "name": "Sir Jeremy Wright",
+   "party": "Con",
+   "seat": "Kenilworth and Southam",
+   "spans": [
+    [
+     "2026-09-11T10:57:03+01:00",
+     "2026-09-11T10:57:50+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:57:03+01:00"
+  },
+  {
+   "key": "4360",
+   "name": "Gavin Robinson",
+   "party": "DUP",
+   "seat": "Belfast East",
+   "spans": [
+    [
+     "2026-09-11T09:53:54+01:00",
+     "2026-09-11T09:54:02+01:00"
+    ],
+    [
+     "2026-09-11T09:57:56+01:00",
+     "2026-09-11T09:58:40+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:53:54+01:00"
+  },
+  {
+   "key": "4853",
+   "name": "Dr Neil Hudson",
+   "party": "Con",
+   "seat": "Epping Forest",
+   "spans": [
+    [
+     "2026-09-11T13:17:56+01:00",
+     "2026-09-11T13:18:04+01:00"
+    ],
+    [
+     "2026-09-11T13:18:12+01:00",
+     "2026-09-11T13:18:53+01:00"
+    ]
+   ],
+   "first": "2026-09-11T13:17:56+01:00"
+  },
+  {
+   "key": "5301",
+   "name": "Rebecca Smith",
+   "party": "Con",
+   "seat": "South West Devon",
+   "spans": [
+    [
+     "2026-09-11T10:07:57+01:00",
+     "2026-09-11T10:08:37+01:00"
+    ],
+    [
+     "2026-09-11T12:17:39+01:00",
+     "2026-09-11T12:17:47+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:07:57+01:00"
+  },
+  {
+   "key": "4493",
+   "name": "Richard Burgon",
+   "party": "Lab",
+   "seat": "Leeds East",
+   "spans": [
+    [
+     "2026-09-11T09:55:19+01:00",
+     "2026-09-11T09:56:01+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:55:19+01:00"
+  },
+  {
+   "key": "4358",
+   "name": "Wendy Morton",
+   "party": "Con",
+   "seat": "Aldridge-Brownhills",
+   "spans": [
+    [
+     "2026-09-11T09:47:02+01:00",
+     "2026-09-11T09:47:43+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:47:02+01:00"
+  },
+  {
+   "key": "4409",
+   "name": "Naz Shah",
+   "party": "Lab",
+   "seat": "Bradford West",
+   "spans": [
+    [
+     "2026-09-11T10:18:34+01:00",
+     "2026-09-11T10:19:11+01:00"
+    ],
+    [
+     "2026-09-11T14:26:03+01:00",
+     "2026-09-11T14:26:11+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:18:34+01:00"
+  },
+  {
+   "key": "4471",
+   "name": "Rachael Maskell",
+   "party": "Lab/Co-op",
+   "seat": "York Central",
+   "spans": [
+    [
+     "2026-09-11T11:45:29+01:00",
+     "2026-09-11T11:45:37+01:00"
+    ],
+    [
+     "2026-09-11T11:49:11+01:00",
+     "2026-09-11T11:49:48+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:45:29+01:00"
+  },
+  {
+   "key": "5156",
+   "name": "Jess Asato",
+   "party": "Lab",
+   "seat": "Lowestoft",
+   "spans": [
+    [
+     "2026-09-11T10:56:02+01:00",
+     "2026-09-11T10:56:12+01:00"
+    ],
+    [
+     "2026-09-11T11:34:41+01:00",
+     "2026-09-11T11:34:49+01:00"
+    ],
+    [
+     "2026-09-11T11:37:48+01:00",
+     "2026-09-11T11:37:56+01:00"
+    ],
+    [
+     "2026-09-11T11:43:28+01:00",
+     "2026-09-11T11:43:45+01:00"
+    ],
+    [
+     "2026-09-11T11:57:40+01:00",
+     "2026-09-11T11:57:49+01:00"
+    ],
+    [
+     "2026-09-11T12:03:16+01:00",
+     "2026-09-11T12:03:24+01:00"
+    ],
+    [
+     "2026-09-11T12:10:08+01:00",
+     "2026-09-11T12:10:17+01:00"
+    ],
+    [
+     "2026-09-11T13:29:10+01:00",
+     "2026-09-11T13:29:18+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:56:02+01:00"
+  },
+  {
+   "key": "5225",
+   "name": "Lizzi Collinge",
+   "party": "Lab",
+   "seat": "Morecambe and Lunesdale",
+   "spans": [
+    [
+     "2026-09-11T11:53:10+01:00",
+     "2026-09-11T11:53:18+01:00"
+    ],
+    [
+     "2026-09-11T12:51:44+01:00",
+     "2026-09-11T12:52:19+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:53:10+01:00"
+  },
+  {
+   "key": "5281",
+   "name": "Anna Dixon",
+   "party": "Lab",
+   "seat": "Shipley",
+   "spans": [
+    [
+     "2026-09-11T09:44:08+01:00",
+     "2026-09-11T09:44:35+01:00"
+    ],
+    [
+     "2026-09-11T11:23:40+01:00",
+     "2026-09-11T11:23:48+01:00"
+    ],
+    [
+     "2026-09-11T11:57:01+01:00",
+     "2026-09-11T11:57:10+01:00"
+    ],
+    [
+     "2026-09-11T13:42:14+01:00",
+     "2026-09-11T13:42:22+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:44:08+01:00"
+  },
+  {
+   "key": "4923",
+   "name": "Kim Leadbeater",
+   "party": "Lab",
+   "seat": "Spen Valley",
+   "spans": [
+    [
+     "2026-09-11T10:16:28+01:00",
+     "2026-09-11T10:17:00+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:16:28+01:00"
+  },
+  {
+   "key": "5291",
+   "name": "Catherine Fookes",
+   "party": "Lab",
+   "seat": "Monmouthshire",
+   "spans": [
+    [
+     "2026-09-11T10:14:20+01:00",
+     "2026-09-11T10:14:28+01:00"
+    ],
+    [
+     "2026-09-11T10:14:41+01:00",
+     "2026-09-11T10:15:03+01:00"
+    ],
+    [
+     "2026-09-11T13:22:35+01:00",
+     "2026-09-11T13:22:43+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:14:20+01:00"
+  },
+  {
+   "key": "5125",
+   "name": "Sorcha Eastwood",
+   "party": "Alliance",
+   "seat": "Lagan Valley",
+   "spans": [
+    [
+     "2026-09-11T10:46:22+01:00",
+     "2026-09-11T10:46:49+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:46:22+01:00"
+  },
+  {
+   "key": "1591",
+   "name": "Tim Farron",
+   "party": "LD",
+   "seat": "Westmorland and Lonsdale",
+   "spans": [
+    [
+     "2026-09-11T09:53:26+01:00",
+     "2026-09-11T09:53:34+01:00"
+    ],
+    [
+     "2026-09-11T13:54:09+01:00",
+     "2026-09-11T13:54:32+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:53:26+01:00"
+  },
+  {
+   "key": "4394",
+   "name": "Imran Hussain",
+   "party": "Lab",
+   "seat": "Bradford East",
+   "spans": [
+    [
+     "2026-09-11T09:45:25+01:00",
+     "2026-09-11T09:45:34+01:00"
+    ],
+    [
+     "2026-09-11T10:09:00+01:00",
+     "2026-09-11T10:09:11+01:00"
+    ],
+    [
+     "2026-09-11T10:38:50+01:00",
+     "2026-09-11T10:38:58+01:00"
+    ],
+    [
+     "2026-09-11T11:11:03+01:00",
+     "2026-09-11T11:11:11+01:00"
+    ]
+   ],
+   "first": "2026-09-11T09:45:25+01:00"
+  },
+  {
+   "key": "4769",
+   "name": "Daisy Cooper",
+   "party": "LD",
+   "seat": "St Albans",
+   "spans": [
+    [
+     "2026-09-11T10:41:38+01:00",
+     "2026-09-11T10:41:48+01:00"
+    ],
+    [
+     "2026-09-11T12:22:55+01:00",
+     "2026-09-11T12:23:03+01:00"
+    ],
+    [
+     "2026-09-11T13:55:33+01:00",
+     "2026-09-11T13:55:43+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:41:38+01:00"
+  },
+  {
+   "key": "5111",
+   "name": "Martin Wrigley",
+   "party": "LD",
+   "seat": "Newton Abbot",
+   "spans": [
+    [
+     "2026-09-11T10:25:15+01:00",
+     "2026-09-11T10:25:23+01:00"
+    ],
+    [
+     "2026-09-11T11:22:00+01:00",
+     "2026-09-11T11:22:08+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:25:15+01:00"
+  },
+  {
+   "key": "5073",
+   "name": "Marie Goldman",
+   "party": "LD",
+   "seat": "Chelmsford",
+   "spans": [
+    [
+     "2026-09-11T10:01:23+01:00",
+     "2026-09-11T10:01:31+01:00"
+    ],
+    [
+     "2026-09-11T10:06:25+01:00",
+     "2026-09-11T10:06:33+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:01:23+01:00"
+  },
+  {
+   "key": "5218",
+   "name": "David Smith",
+   "party": "Lab",
+   "seat": "North Northumberland",
+   "spans": [
+    [
+     "2026-09-11T11:44:08+01:00",
+     "2026-09-11T11:44:16+01:00"
+    ],
+    [
+     "2026-09-11T12:32:29+01:00",
+     "2026-09-11T12:32:37+01:00"
+    ]
+   ],
+   "first": "2026-09-11T11:44:08+01:00"
+  },
+  {
+   "key": "5256",
+   "name": "Jonathan Davies",
+   "party": "Lab",
+   "seat": "Mid Derbyshire",
+   "spans": [
+    [
+     "2026-09-11T14:05:19+01:00",
+     "2026-09-11T14:05:27+01:00"
+    ],
+    [
+     "2026-09-11T14:25:19+01:00",
+     "2026-09-11T14:25:27+01:00"
+    ]
+   ],
+   "first": "2026-09-11T14:05:19+01:00"
+  },
+  {
+   "key": "5028",
+   "name": "Lewis Atkinson",
+   "party": "Lab",
+   "seat": "Sunderland Central",
+   "spans": [
+    [
+     "2026-09-11T10:27:38+01:00",
+     "2026-09-11T10:27:46+01:00"
+    ]
+   ],
+   "first": "2026-09-11T10:27:38+01:00"
+  }
+ ],
+ "divisions": [
+  {
+   "number": "74",
+   "time": "14:15",
+   "ayes": 293,
+   "noes": 218,
+   "result": "Question accordingly agreed to.",
+   "question": "claimed to move the closure (Standing Order No. 36). Question put forthwith, That the Question be now put.",
+   "date": "2026-09-11"
+  },
+  {
+   "number": "75",
+   "time": "14:30",
+   "ayes": 270,
+   "noes": 286,
+   "result": "Question accordingly negatived.",
+   "question": "Question put accordingly, That the Bill now be read a Second time.",
+   "date": "2026-09-11"
+  }
+ ]
+}
