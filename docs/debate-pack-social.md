@@ -204,5 +204,7 @@ already carries it, and no fetching uses yt-dlp at all.
   transcript (`card_times`), so a misheard word never reaches the screen but the
   timing is what was spoken. The reel's captions stay spoken-word, because a 45-second
   passage is checked by ear; a ten-minute speech is not.
-* Before the checklist is confirmed the pass read stands in, as for `--draft` and
-  `--provisional`; `--confirmed-only` ignores it. `--only "Name"` cuts one speaker.
+* By default it cuts the speakers named in `sequence.md` (the ones judged worth a
+  reel); `--all` cuts every onside speaker, `--only "Name"` one. Before the checklist
+  is confirmed the pass read stands in, as for `--draft` and `--provisional`;
+  `--confirmed-only` ignores it.

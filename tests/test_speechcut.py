@@ -37,9 +37,11 @@ class PlanTests(unittest.TestCase):
         self.assertEqual(len(todo), 1)
         self.assertIsNone(todo[0][2])
 
-    def test_only_filters_by_name(self):
+    def test_only_filters_by_name_with_or_without_mp(self):
         todo = spc.plan(STATE, SPEECHES, lambda s: True, only=["dave robertson"])
         self.assertEqual([s["name"] for s, _c, _sp in todo], ["Dave Robertson"])
+        todo = spc.plan(STATE, SPEECHES, lambda s: True, only=["Shivani Raja MP"])
+        self.assertEqual([s["name"] for s, _c, _sp in todo], ["Shivani Raja"])
 
 
 class TrimTests(unittest.TestCase):

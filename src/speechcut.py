@@ -59,7 +59,7 @@ def plan(state, speeches, onside_fn, min_words=MIN_WORDS, only=None):
     for s in speeches:
         if not onside_fn(s):
             continue
-        if only and s["name"].lower() not in {o.lower() for o in only}:
+        if only and _bare(s["name"]) not in {_bare(o) for o in only}:
             continue
         spans = spans_by_name.get(re.sub(r"\s*MP$", "", s["name"]).strip().lower(), [])
         for c in s.get("contributions") or []:
@@ -73,6 +73,10 @@ def plan(state, speeches, onside_fn, min_words=MIN_WORDS, only=None):
                     match = None
             out.append((s, c, match))
     return out
+
+
+def _bare(name):
+    return re.sub(r"\s*MP$", "", name or "").strip().lower()
 
 
 def _clock_seconds(state, hms):
