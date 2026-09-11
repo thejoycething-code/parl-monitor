@@ -1227,6 +1227,25 @@ def build(conn, cfg, payloads):
                            "house": row["house"], "stage": row["stage"],
                            "date": row["date"] if dated else None})
 
+    # Once the stage the band was counting down to HAS divided, the promise
+    # is a fact: the date block gives way to the result and the stakes line
+    # goes. Found 2026-09-11 an hour after the Second Reading vote, when the
+    # band still read "2ND READING · TODAY" over a Bill the Commons had just
+    # defeated 270-286. The board row lags the Chamber; the division does not.
+    for issue in issues:
+        nxt = issue.get("next")
+        if not nxt:
+            continue
+        held = [d for d in divisions if d["issue"] == issue["id"] and d.get("date")
+                and d["date"] >= nxt["date"] and d.get("house", "commons") == (nxt.get("house") or "Commons").lower()]
+        if held:
+            latest = max(held, key=lambda d: d["date"])
+            issue["result"] = {"stage": latest["stage"], "date": latest["date"],
+                               "ayes": latest.get("ayes"), "noes": latest.get("noes"),
+                               "passed": bool(latest.get("passed"))}
+            issue.pop("next", None)
+            issue.pop("decides", None)
+
     dataset = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
         "live_bills": live_bills,

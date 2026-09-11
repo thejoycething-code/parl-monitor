@@ -498,6 +498,8 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 /* the final week (amendment 4): the block warms when the vote is <=7 days
    out -- the page's notice palette, unmistakable on the blue */
 .bigdate.soon{background:var(--yellow);border-color:#e9d488}
+.bigdate.voted{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.6)}
+.bigdate.voted b{font-size:19px;letter-spacing:.02em}
 .bigdate.soon b{color:#6b5a1e}
 .bigdate.soon span{color:#8a6d1f}
 .bandbtn{display:inline-block;background:#fff;color:var(--blue-deep);font-weight:700;
@@ -1556,7 +1558,12 @@ function renderMP(id){
       // block warms by itself with no rebuild -- "THIS FRIDAY", then
       // "TOMORROW", then "TODAY".
       let when = "";
-      if (issue.next){
+      // The stage has divided: the result stands where the countdown stood.
+      if (issue.result){
+        const r = issue.result;
+        when = `<div class="bigdate voted ${r.passed ? "agreed" : "defeated"}"><b>${r.ayes}–${r.noes}</b><span>${
+            esc(String(r.stage).toUpperCase())} · ${r.passed ? "AGREED" : "DEFEATED"} · ${esc(fmtD(r.date).toUpperCase())}</span></div>`;
+      } else if (issue.next){
         const n = daysUntil(issue.next.date);
         const dow = DAYNAME[new Date(issue.next.date + "T12:00:00").getDay()];
         const soon = n >= 0 && n <= 7;

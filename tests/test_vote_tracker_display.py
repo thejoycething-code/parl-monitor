@@ -2526,6 +2526,56 @@ class BandAmendmentTests(unittest.TestCase):
         self.assertIn("const rows = rest.map(g =>", flat)
         self.assertIn("rest.reduce((n, g) => n + g.bills.length, 0)", flat)
 
+class VotedStageTests(unittest.TestCase):
+    """An hour after the 11 September 2026 vote the band still read "2ND READING ·
+    TODAY" over a Bill the Commons had just defeated: the board row lags the Chamber,
+    the division does not. Once the stage the band counts down to has divided, the
+    result stands where the countdown stood and the stakes line goes."""
+
+    def _dataset(self, division_date):
+        import sqlite3
+        sys.path.insert(0, ROOT)
+        from src import db as _db, members as _members
+        conn = _db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        _members.cache_put(conn, _members.Member(id=1, name="Aye MP", party="Labour", seat="Seat",
+                                                 house="Commons", since="2024-07-04", list_as="Aye MP"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        conn.execute("INSERT INTO bills_board (bill_id, title, house, stage, next_key_date, what_next, status) "
+                     "VALUES (77, 'A Bill', 'Commons', '2nd reading', '2026-09-11', '2nd reading', 'live')")
+        conn.commit()
+        cfg = {"issues": [{"id": "iss", "name": "An issue", "area": 2, "bill": "A Bill", "note": "n",
+                           "status": "s", "board_id": 77, "upcoming": True, "decides": "the stakes"}],
+               "divisions": [{"id": 9, "issue": "iss", "stage": "Second Reading", "stage_group": "Second Reading",
+                              "landmark": True, "signed_off": True, "our_side": "no", "short": "2R",
+                              "meaning_aye": "a", "meaning_no": "n"}]}
+        payloads = {9: {"DivisionId": 9, "Date": division_date + "T14:30:00", "Title": "A Bill: Second Reading",
+                        "AyeCount": 270, "NoCount": 286,
+                        "Ayes": [], "Noes": [{"MemberId": 1, "Name": "Aye MP", "Party": "Labour", "MemberFrom": "Seat"}],
+                        "AyeTellers": [], "NoTellers": []}}
+        dataset, _ = mvt.build(conn, cfg, payloads)
+        return dataset["issues"][0]
+
+    def test_a_division_on_the_counted_down_date_replaces_the_countdown(self):
+        issue = self._dataset("2026-09-11")
+        self.assertNotIn("next", issue)
+        self.assertNotIn("decides", issue)
+        self.assertEqual(issue["result"], {"stage": "Second Reading", "date": "2026-09-11",
+                                           "ayes": 270, "noes": 286, "passed": False})
+
+    def test_an_earlier_division_leaves_the_countdown_alone(self):
+        issue = self._dataset("2026-06-20")
+        self.assertIn("next", issue)
+        self.assertNotIn("result", issue)
+        self.assertEqual(issue.get("decides"), "the stakes")
+
+    def test_the_template_renders_the_result_block(self):
+        flat = " ".join(template().split())
+        self.assertIn("if (issue.result){", flat)
+        self.assertIn('r.passed ? "AGREED" : "DEFEATED"', flat)
+        self.assertIn(".bigdate.voted{", flat)
+
+
 class BothHomesTests(unittest.TestCase):
     """Christopher, 2026-08-31: when the 11 September vote happens, it
     belongs in The Record AND the Bill stays in LIVE NOW. Rehearsed in the
