@@ -1011,3 +1011,19 @@ divisions:
     context: "15 May 2024. Jess Phillips's New Clause 44 would have redefined the prostitution-for-gain offences in the Sexual Offences Act 2003 as sexual exploitation of an adult. Result 167-275."
     meaning_aye: Voted to recognise adults manipulated, deceived, coerced or controlled into sexual activity as victims of sexual exploitation in law.
     meaning_no: Voted against redefining the prostitution offences as sexual exploitation of an adult.
+
+  # --- parental-rights, Northern Ireland RSE (batch 5 of the review, 2026-09-11):
+  # drafted 2026-09-11, awaiting sign-off. A deferred division (no tellers); the 28
+  # Noes were 20 Conservatives (Bruce, Cates, Kruger, Leigh, Lewer, Swayne among them),
+  # seven DUP and one Independent, so our side is read from who voted No, not a title.
+  - id: 1583
+    issue: parental-rights
+    stage: Approval motion
+    stage_group: Division
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: "Relationships and Sexuality Education (Northern Ireland) (Amendment) Regulations 2023"
+    context: "28 June 2023, deferred division. The Secretary of State's regulations, made under the Northern Ireland (Executive Formation etc) Act 2019 to implement the CEDAW recommendation, made education on contraception and access to abortion a compulsory part of the curriculum in Northern Ireland's grant-aided schools, with parents' right of withdrawal left to guidance the Department had yet to write. Debated in committee on 26 June (Jim Shannon: the withdrawal wording 'is so vague that it would be laughable if the education of my granddaughters and other children were not at stake'). Result 373-28."
+    meaning_aye: Voted to make education on contraception and access to abortion compulsory in Northern Ireland's schools, with parental withdrawal left to later guidance.
+    meaning_no: Voted against imposing compulsory abortion and contraception education on Northern Ireland's schools over parents and the Churches.

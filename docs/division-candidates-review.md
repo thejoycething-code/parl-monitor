@@ -184,28 +184,41 @@ amendments). Amendment texts from the Speaker's groupings in Hansard.*
 - [x] `1661` 2023-10-25 BDS Bill Amendment 13 — exemption for decisions under a published human-rights policy. (197 / 276.)
 - [x] `1660` 2023-10-25 BDS Bill Amendment 14 — Ministers' power to amend the Schedule by regulations. (200 / 273.)
 
-## This Parliament and the last, 2020 to 2026 (50 still to review)
+## Batch 5 — reviewed 11 September 2026 (20 of 130): one added unsigned, one for your decision, three not ours, fifteen in the hidden area
 
-- [ ] `1587` 2023-07-11 [Illegal Migration Bill: motion to disagree with Lords Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1587) — Migration (title)
-- [ ] `1583` 2023-06-28 [Relationships and Sexuality Education (Northern Ireland) (Amendment) Regulations 2023](https://votes.parliament.uk/Votes/Commons/Division/1583) — Parental rights education (title)
-- [ ] `1534` 2023-04-26 [Illegal Migration Bill - Third Reading](https://votes.parliament.uk/Votes/Commons/Division/1534) — Migration (title)
-- [ ] `1533` 2023-04-26 [Illegal Migration Bill Report Stage: Amendment 2](https://votes.parliament.uk/Votes/Commons/Division/1533) — Migration (title)
-- [ ] `1532` 2023-04-26 [Illegal Migration Bill Report Stage: Amendment 45](https://votes.parliament.uk/Votes/Commons/Division/1532) — Migration (title)
-- [ ] `1531` 2023-04-26 [Illegal Migration Bill Report Stage: New Clause 15](https://votes.parliament.uk/Votes/Commons/Division/1531) — Migration (title)
-- [ ] `1530` 2023-04-26 [Illegal Migration Bill Report Stage: New Clause 10](https://votes.parliament.uk/Votes/Commons/Division/1530) — Migration (title)
-- [ ] `1529` 2023-04-26 [Illegal Migration Bill Report Stage: New Clause 9](https://votes.parliament.uk/Votes/Commons/Division/1529) — Migration (title)
-- [ ] `1514` 2023-03-28 [Illegal Migration Bill: Committee of the whole House: New Clause 27](https://votes.parliament.uk/Votes/Commons/Division/1514) — Migration (title)
-- [ ] `1513` 2023-03-28 [Illegal Migration Bill: Committee of the whole House: New Clause 21](https://votes.parliament.uk/Votes/Commons/Division/1513) — Migration (title)
-- [ ] `1512` 2023-03-28 [Illegal Migration Bill: Committee of the whole House: Amendment 288](https://votes.parliament.uk/Votes/Commons/Division/1512) — Migration (title)
-- [ ] `1511` 2023-03-28 [Illegal Migration Bill: Committee of the whole House: Clause 11 stand part](https://votes.parliament.uk/Votes/Commons/Division/1511) — Migration (title)
-- [ ] `1510` 2023-03-28 [Illegal Migration Bill: Committee of the whole House: Amendment 189](https://votes.parliament.uk/Votes/Commons/Division/1510) — Migration (title)
-- [ ] `1499` 2023-03-13 [Illegal Migration Bill: Money](https://votes.parliament.uk/Votes/Commons/Division/1499) — Migration (title)
-- [ ] `1498` 2023-03-13 [Illegal Migration Bill: Programme motion](https://votes.parliament.uk/Votes/Commons/Division/1498) — Migration (title)
-- [ ] `1497` 2023-03-13 [Illegal Migration Bill: Second Reading](https://votes.parliament.uk/Votes/Commons/Division/1497) — Migration (title)
-- [ ] `1496` 2023-03-13 [Illegal Migration Bill: Reasoned Amendment to Second Reading](https://votes.parliament.uk/Votes/Commons/Division/1496) — Migration (title)
-- [ ] `1495` 2023-03-07 [Public Order Bill: Motion to disagree with Lords Amendment 20](https://votes.parliament.uk/Votes/Commons/Division/1495) — Abortion, Free speech, privacy and civil liberties (same debate)
-- [ ] `1494` 2023-03-07 [Public Order Bill: Amendment (a) in lieu of Lords Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1494) — Abortion, Free speech, privacy and civil liberties (same debate)
-- [ ] `1493` 2023-03-07 [Public Order Bill: Motion to disagree with Lords Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1493) — Abortion, Free speech, privacy and civil liberties (same debate)
+*Debates read: General Committee 26 June 2023 (the NI RSE regulations), Commons 7 March 2023
+(Public Order Bill, Lords amendments), 13 and 28 March and 26 April 2023 (Illegal Migration Bill),
+11 July 2023 (its Lords amendments).*
+
+**Added to `config/vote_tracker.yaml` unsigned (under `parental-rights`):**
+
+- [x] `1583` 2023-06-28 Relationships and Sexuality Education (Northern Ireland) (Amendment) Regulations 2023 — **compulsory abortion and contraception education in NI schools**, area 6 (arguably area 1 too; it sits under `parental-rights` because the objection in committee was parental withdrawal and the Churches, not the 2019 abortion decision, which the Secretary of State said the debate was "not about reopening"). Deferred division, 373 / 28. The 28: twenty Conservatives (Fiona Bruce, Miriam Cates, Danny Kruger, Sir Edward Leigh, Andrew Lewer, Sir Desmond Swayne, Sir John Hayes, Philip Davies…), seven DUP, one Independent. Our side **NO**. Landmark: the only Commons vote on NI RSE.
+
+**Your decision (drafted but NOT added):**
+
+- [ ] `1512` 2023-03-28 Illegal Migration Bill, Committee: Amendment 288 — "seeks to remove the bill's restrictions on the provision of modern slavery support to those subject to the provisions in clause 2". 248 / 299. Area 12 substance inside an area-11 Bill, exactly like `1588`; decide the two together. If tracked, our side AYE here (NO on 1588).
+
+**Not ours:**
+
+- [x] `1493` `1494` `1495` 2023-03-07 Public Order Bill, Lords amendments 1 (the definition of "serious disruption") and 20 (serious disruption prevention orders after conviction) and the Government's amendment in lieu — protest law. The buffer-zone vote that evening (Lewer's silent-prayer amendment, 116 / 299) is already on the tracker as `1491`; these three are the rest of the day. (286 / 235; 285 / 231; 280 / 232.)
+
+**Hidden area (migration, area 11): collated, never displayed, not for the tracker.** Listed so the review is complete, one line each, no meaning lines:
+
+- [x] `1587` 2023-07-11 disagree with Lords Amendment 1 (compliance with international conventions). (303 / 228.)
+- [x] `1534` 2023-04-26 Third Reading. (289 / 230.)
+- [x] `1533` 2023-04-26 Amendment 2 — no detention of unaccompanied children, families with children or pregnant women. (231 / 286.)
+- [x] `1532` 2023-04-26 Amendment 45 (SNP) — read the Act compatibly with the Refugee Convention, ECAT, UNCRC. (231 / 290.)
+- [x] `1531` 2023-04-26 New Clause 15 — removal of those involved in terrorism. (219 / 284.)
+- [x] `1530` 2023-04-26 New Clause 10 — expedited asylum processing. (231 / 290.)
+- [x] `1529` 2023-04-26 New Clause 9 — duty to consult councils on accommodation. (233 / 285.)
+- [x] `1514` 2023-03-28 New Clause 27 — the same consultation duty, in Committee. (248 / 301.)
+- [x] `1513` 2023-03-28 New Clause 21 — an NCA cross-border people-smuggling unit. (249 / 301.)
+- [x] `1511` 2023-03-28 Clause 11 stand part — detention powers. (302 / 242.)
+- [x] `1510` 2023-03-28 Amendment 189 (SNP) — Afghan nationals at risk. (242 / 309.)
+- [x] `1499` `1498` `1497` `1496` 2023-03-13 Money, programme, Second Reading and Labour's reasoned amendment. (310 / 246; 312 / 248; 312 / 250; 249 / 312.)
+
+## This Parliament and the last, 2020 to 2026 (30 still to review)
+
 - [ ] `1492` 2023-03-07 [Public Order Bill: Motion to disagree with Lords Amendment 6](https://votes.parliament.uk/Votes/Commons/Division/1492) — Abortion, Free speech, privacy and civil liberties (same debate)
 - [ ] `1456` 2023-01-18 [Retained EU Law (Revocation and Reform) Bill: Third Reading](https://votes.parliament.uk/Votes/Commons/Division/1456) — Free speech, privacy and civil liberties (same debate)
 - [ ] `1455` 2023-01-18 [Retained EU Law (Revocation and Reform) Bill Report Stage: Amendment 36](https://votes.parliament.uk/Votes/Commons/Division/1455) — Free speech, privacy and civil liberties (same debate)
