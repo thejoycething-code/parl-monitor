@@ -34,6 +34,7 @@ def load(pack):
     if not os.path.exists(speeches_path):
         raise SystemExit("no speeches.md in %s: build the pack first" % pack)
     speeches = sc.parse_speeches(open(speeches_path, encoding="utf-8").read())
+    meta["speakers_total"] = len(speeches)
     meta["hansard_url"] = "https://hansard.parliament.uk/{0}/{1}/debates/{2}/".format(
         meta.get("house", "Commons"), meta.get("date"), meta.get("ext_id"))
     return meta, speeches

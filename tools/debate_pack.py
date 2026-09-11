@@ -134,9 +134,10 @@ def build(args):
     if state.get("event_start"):
         event_start = datetime.datetime.fromisoformat(state["event_start"])
     confirmed = dp.parse_checklist(os.path.join(folder, "checklist.md"))
-    dp.write_pack(folder, {"title": title, "house": args.house, "date": args.date, "ext_id": ext}, speaks, directions,
-                  confirmed, mins, patterns, guid=guid, event_start=event_start)
-    state.update({"title": title, "house": args.house, "date": args.date, "ext_id": ext, "event": guid,
+    divisions = dp.divisions(payload, args.date)
+    dp.write_pack(folder, {"title": title, "house": args.house, "date": args.date, "ext_id": ext, "divisions": divisions},
+                  speaks, directions, confirmed, mins, patterns, guid=guid, event_start=event_start)
+    state.update({"title": title, "house": args.house, "date": args.date, "ext_id": ext, "event": guid, "divisions": divisions,
                   "manifest": manifest, "directions": directions, "areas": areas,
                   "speakers": [{"key": str(s["member_id"] or s["name"]), "name": s["name"], "party": s["party"],
                                 "seat": s["seat"], "spans": [(a.isoformat(), b.isoformat()) for a, b in s["spans"]],

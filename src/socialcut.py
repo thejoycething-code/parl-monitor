@@ -398,7 +398,7 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
     whole = [tuple(x) for x in json.load(open(os.path.join(clips, "whole-debate.words.json")))] \
         if os.path.exists(os.path.join(clips, "whole-debate.words.json")) else None
     manifest = event_start = None
-    items, report = [], []
+    items, report, skipped = [], [], []
     for e in entries:
         s = slug(e["name"])
         window = os.path.join(hd, s + "-window.mp4")
@@ -413,9 +413,14 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
             found = locate_passage(pack_dir, state, e, ff, manifest, whole=whole,
                                    whisper_model=whisper_model, log=log)
             if not found:
-                raise SystemExit("could not place the passage for %s. Check it against "
-                                 "what was said, or transcribe the whole debate "
-                                 "(tools/social_cut.py --pack F --transcribe)." % e["name"])
+                # One unplaceable passage must not sink the other seven: the pipeline
+                # runs unattended on the evening of a debate (Julie Minns, 2026-09-11,
+                # whose provisional passage was not heard in either of her spans --
+                # Hansard's text and the words spoken can differ that much). Skip,
+                # say so in social-cut.md, and let the campaigner fix the words.
+                log("  %s: passage not placed; SKIPPED (check sequence.md against what was said)" % e["name"])
+                skipped.append((e, "passage not heard inside their Hansard spans"))
+                continue
             a, b = found
             # Only the passage is fetched at 1080p, by HLS segment: about 7 MB and two
             # seconds, against a 515 MB download of the sitting and an hour of
@@ -440,7 +445,9 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
         words = [tuple(x) for x in json.load(open(words_json))]
         span = word_span(words, e["passage"], min_ratio=0.5)
         if not span:
-            raise SystemExit("could not place the passage for %s in its window; check sequence.md against the words heard" % e["name"])
+            log("  %s: passage not in its window; SKIPPED (check sequence.md against the words heard)" % e["name"])
+            skipped.append((e, "passage not found in the fetched window"))
+            continue
         first, last, ratio = span
         start, end = cut_bounds(words, first, last)
         part, vpart = os.path.join(hd, s + ".mp4"), os.path.join(hd, s + "-v.mp4")
@@ -499,7 +506,9 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
              ["-filter_complex", "".join("[%d]" % i for i in range(len(frames))) + "hstack=inputs=%d" % len(frames), os.path.join(final, "social-cut-contact-sheet.jpg")])
     else:
         shutil.copy(frames[0], os.path.join(final, "social-cut-contact-sheet.jpg"))
-    write_report(pack_dir, report, off)
+    if not items:
+        raise SystemExit("no passage could be placed; nothing rendered. Check sequence.md against what was said.")
+    write_report(pack_dir, report, off, skipped=skipped)
     return items
 
 
@@ -703,9 +712,15 @@ def draft_reel_sequence(speeches_md, title, date, patterns, limit=8, onside_only
         out += ["## %s" % name,
                 "party: %s · %s" % (PARTY.get(s["party"], s["party"]), s["seat"]),
                 "> %s" % passage, ""]
-    if skipped:
-        out += ["<!-- not proposed:"] + \
-               ["     %-34s %s" % (s["name"], why) for s, why in skipped] + ["-->", ""]
+    beyond = picked[limit:]
+    if beyond or skipped:
+        # Beyond the draft's limit is not the same as unusable: on 11 September 2026 the
+        # draft's eight longest passages hid fourteen other cuttable speakers, among them
+        # the debate's strongest speech. Their passage is here to lift into the sequence.
+        out += ["<!-- not proposed:"]
+        out += ["     %-34s reel passage available, beyond the draft's first %d; lift it into the sequence if wanted:"
+                % (s["name"], limit) + "\n         %s" % passage for s, passage in beyond]
+        out += ["     %-34s %s" % (s["name"], why) for s, why in skipped] + ["-->", ""]
     if not picked:
         out += ["(No speaker has a usable passage of %.0f seconds or more. Confirm ONSIDE lines in checklist.md,"
                 % REEL_FLOOR_S, "run tools/debate_pack.py --pack F --apply, then --draft again.)", ""]
@@ -801,7 +816,7 @@ def transcribe_whole(pack_dir, ff, whisper_model="small.en", log=print):
                                 words_json=os.path.join(clips, "whole-debate.words.json"), log=log)
 
 
-def write_report(pack_dir, report, total):
+def write_report(pack_dir, report, total, skipped=()):
     lines = ["# Social cut", "",
              "*Built by tools/social_cut.py from sequence.md. Captions are the words as spoken; correct the passage in sequence.md if what was heard differs, then re-run with `--render`.*", "",
              "Files: `clips/final/social-cut-vertical-1080-captioned.mp4` (post this), `clips/final/social-cut-vertical-1080.mp4` (clean vertical), `clips/final/social-cut-1080.mp4` (landscape master), `clips/final/social-cut-contact-sheet.jpg` (check the crops), `social-cut.ass` (caption track).", "",
@@ -811,4 +826,8 @@ def write_report(pack_dir, report, total):
         lines += ["## %d. %s — at %s in the cut, %.1fs, crop x=%d, match %.2f" % (i, e["name"], _ts(off)[2:], dur, x, ratio), "",
                   "> %s" % e["passage"], "", "Heard: *%s*" % heard, ""]
         off += dur
+    if skipped:
+        lines += ["## Not cut", "", "*These passages could not be placed in the footage. Check the words in sequence.md against what was said, then re-run.*", ""]
+        for e, why in skipped:
+            lines += ["* **%s** — %s" % (e["name"], why), "  > %s" % e["passage"], ""]
     open(os.path.join(pack_dir, "social-cut.md"), "w", encoding="utf-8").write("\n".join(lines))

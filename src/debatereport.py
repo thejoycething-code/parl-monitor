@@ -22,7 +22,7 @@ import os
 import re
 
 REPORT_MODEL = "claude-sonnet-5"
-MAX_TOKENS = 8000
+MAX_TOKENS = 16000  # 8000 was hit on 11 Sept 2026: the writer's thinking (4,800 tokens) counts against it and social.md ended mid-sentence
 WORDS_MIN, WORDS_MAX = 500, 1000
 MARKERS = ("REPORT", "SOCIAL", "SUMMARY")
 
@@ -50,6 +50,12 @@ ABSOLUTE RULES
    marked not onside may be named and summarised in the paragraph covering the other
    side, fairly, with at most one short quote each.
 4. If a member's own words do not support a claim, do not make the claim.
+5. If the input carries "divisions", the House VOTED: state each result (the question,
+   the numbers, whether agreed or negatived) in the first three paragraphs and in the
+   headline where it is the story. If it carries none, say nothing about a result and
+   do not describe the debate as concluded. Never assume which Bill or stage this is
+   from its title alone: a short title can belong to more than one Bill, and a Second
+   Reading is a new Bill's first vote, not a return from the Lords.
 
 STRUCTURE
 * Headline: declarative, names the chamber's action. No colon-subtitle.
@@ -86,6 +92,41 @@ def stands_in_for_onside(speaker):
 
 
 def speaker_brief(speeches, max_words_each=900, max_speakers=16, provisional=False):
+    """What the writer is shown. See _select for who, when there are more than fit."""
+    return _brief(_select(speeches, max_speakers, provisional), max_words_each, provisional)
+
+
+def _select(speeches, max_speakers, provisional):
+    """The speakers worth the writer's attention when the debate is bigger than the
+    brief. The opener and anyone attributed by office (a minister carries no party)
+    are always in; then every onside speaker by the words they spoke in all, then the
+    longest of the rest. A 75-speaker Second Reading was once cut off at the
+    sixteenth intervention in speaking order, and a later brief ranked by longest
+    single contribution left out a sponsor interrupted 37 times and a Minister,
+    so the report said no Minister had replied (2026-09-11)."""
+    if len(speeches) <= max_speakers:
+        return list(speeches)
+
+    def words(s):
+        return sum((c.get("words") or 0) for c in s.get("contributions") or [])
+
+    def onside(s):
+        return s.get("confirmed") == "yes" or (provisional and stands_in_for_onside(s))
+    pinned = [speeches[0]] + [s for s in speeches[1:] if not (s.get("party") or "").strip()]
+    pinned = pinned[:max_speakers]
+    pin_ids = {id(s) for s in pinned}
+    ours = sorted((s for s in speeches if onside(s) and id(s) not in pin_ids), key=words, reverse=True)
+    rest = sorted((s for s in speeches if not onside(s) and id(s) not in pin_ids), key=words, reverse=True)
+    room = max_speakers - len(pinned)
+    n_rest = min(room, max(4, max_speakers // 3))
+    picked = pinned + ours[:room - n_rest] + rest[:n_rest]
+    if len(picked) < max_speakers:
+        picked += [s for s in ours[room - n_rest:] + rest[n_rest:] if id(s) not in {id(x) for x in picked}][:max_speakers - len(picked)]
+    order = {id(s): i for i, s in enumerate(speeches)}
+    return sorted(picked, key=lambda s: order[id(s)])
+
+
+def _brief(speeches, max_words_each, provisional):
     """What the writer is shown: each speaker's longest contribution, their confirmed
     standing, and the Hansard url of that contribution.
 
@@ -98,7 +139,7 @@ def speaker_brief(speeches, max_words_each=900, max_speakers=16, provisional=Fal
     and the report regenerated without the flag.
     """
     out = []
-    for s in speeches[:max_speakers]:
+    for s in speeches:
         best = max(s.get("contributions") or [], key=lambda c: c.get("words") or 0, default=None)
         if not best or not (best.get("text") or "").strip():
             continue
@@ -112,6 +153,10 @@ def speaker_brief(speeches, max_words_each=900, max_speakers=16, provisional=Fal
             "hansard_url": best.get("url") or "",
             "words": best.get("words"),
             "text": text,
+            # Everything the member said, untruncated, for the checker only: the
+            # writer sees `text`; a quote from the 2,400th word of Karen Bradley's
+            # speech was verbatim and the check called it missing (2026-09-11).
+            "full_text": " ".join((c.get("text") or "") for c in (s.get("contributions") or [])),
         })
     return out
 
@@ -122,8 +167,12 @@ def build_payload(meta, speakers, model=REPORT_MODEL, provisional=False):
                        "petition": meta.get("petition"), "signatures": meta.get("signatures"),
                        "onside_count": sum(1 for s in speakers if s["confirmed_onside"]),
                        "other_count": sum(1 for s in speakers if not s["confirmed_onside"]),
-                       "provisional": bool(provisional)},
-            "speakers": speakers}
+                       "provisional": bool(provisional),
+                       # The result, when the House divided: the one fact the writer
+                       # must not be left to infer from the speeches.
+                       "divisions": meta.get("divisions") or [],
+                       "speakers_shown_of": meta.get("speakers_total")},
+            "speakers": [{k: v for k, v in sp.items() if k != "full_text"} for sp in speakers]}
     return {"model": model, "max_tokens": MAX_TOKENS, "system": SYSTEM_PROMPT,
             "messages": [{"role": "user", "content": json.dumps(user, ensure_ascii=False)}]}
 
@@ -184,7 +233,10 @@ _NAMED = re.compile(r"\b((?:[A-Z][A-Za-z'’-]+ (?:and |of |for |the )?){1,6}"
 
 def named_entities(markdown):
     """Statutes, bills, commissions and committees a report names."""
-    text = re.sub(r"\]\([^)]*\)", "", markdown or "")     # link targets are not prose
+    # The headline is title case, so "MPs Vote Down Assisted Dying Bill" read as a
+    # named Bill (2026-09-11). It is a sentence, not a thing.
+    body = "\n".join(l for l in (markdown or "").splitlines() if not l.startswith("# "))
+    text = re.sub(r"\]\([^)]*\)", "", body)     # link targets are not prose
     return sorted({" ".join(m.split()) for m in _NAMED.findall(text)})
 
 
@@ -219,7 +271,7 @@ def check(sections, speakers):
         host = url.split("/")[2] if "://" in url else ""
         if host not in allowed_hosts:
             problems.append("invented or off-list link: %s" % url)
-    spoken = " ".join(_norm(s["text"]) for s in speakers)
+    spoken = " ".join(_norm(s.get("full_text") or s["text"]) for s in speakers)
     for quote in quotations(report):
         for part in _unquoted_parts(quote):
             if _norm(part) not in spoken:
@@ -238,7 +290,12 @@ def check(sections, speakers):
 
 
 def _norm(text):
-    text = (text or "").replace("’", "'").replace("“", '"').replace("”", '"')
+    text = (text or "").replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+    # Quotation marks inside a quotation are the writer's choice, not the member's:
+    # Hansard wrote “assisted dying”, the report wrote 'assisted dying', and a check
+    # that kept the apostrophe called a verbatim quote paraphrase (2026-09-11). Only
+    # an apostrophe BETWEEN letters (don't, Member's) survives.
+    text = re.sub(r"(?<![A-Za-z])'|'(?![A-Za-z])", "", text)
     text = re.sub(r"\s+", " ", text)
     return re.sub(r"[^a-z0-9' ]", "", text.lower())
 

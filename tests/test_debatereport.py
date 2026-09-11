@@ -211,6 +211,33 @@ class ProvisionalTests(unittest.TestCase):
         self.assertEqual(len(dr.publish_blockers({"provisional": True}, force=True)), 1)
 
 
+class CheckerNormalisationTests(unittest.TestCase):
+    """Two false alarms from the 11 September 2026 report."""
+
+    def test_inner_quote_marks_do_not_break_a_verbatim_quote(self):
+        hansard = "The soft language of “assisted dying” is misleading the public, because it obscures the reality."
+        report = "The soft language of 'assisted dying' is misleading the public, because it obscures the reality."
+        self.assertEqual(dr._norm(hansard), dr._norm(report))
+        self.assertIn("don't", dr._norm("Don't"))       # a real apostrophe survives
+
+    def test_the_headline_is_not_a_named_thing(self):
+        md = "# MPs Vote Down Assisted Dying Bill At Second Reading\n\nThe Human Fertilisation and Embryology Act 2008 was cited."
+        ents = dr.named_entities(md)
+        self.assertTrue(any(e.endswith("Human Fertilisation and Embryology Act 2008") for e in ents), ents)
+        self.assertFalse(any("Vote Down" in e for e in ents), ents)
+
+    def test_a_quote_from_deep_in_a_long_speech_is_checked_against_the_whole_speech(self):
+        long_speech = " ".join("word%d." % i for i in range(1200)) + " The tail sentence that matters here is this one."
+        sp = [{"name": "Long Speaker", "party": "Con", "seat": "S", "confirmed": "yes", "pass_read": "With us",
+               "contributions": [{"at": "10:00:00", "words": 1210, "url": "https://hansard.parliament.uk/x", "text": long_speech}]}]
+        speakers = dr.speaker_brief(sp)
+        self.assertLess(len(speakers[0]["text"].split()), 1000)          # the writer still gets the cut
+        report = 'Long Speaker said: "The tail sentence that matters here is this one."'
+        self.assertEqual([p for p in dr.check({"REPORT": report, "SOCIAL": ""}, speakers) if "verbatim" in p], [])
+        payload = dr.build_payload({}, speakers)
+        self.assertNotIn("full_text", payload["messages"][0]["content"])
+
+
 class CanvasBodyTests(unittest.TestCase):
     def test_preview_says_what_it_is_and_does_not_claim_approval(self):
         body = dr.canvas_body(META, "Report text.", preview=True, provisional=True, problems=["x"])

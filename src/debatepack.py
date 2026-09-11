@@ -123,6 +123,35 @@ def _parse_attributed(name):
     return raw, None, None
 
 
+def divisions(payload, date):
+    """[{number, time, ayes, noes, result, question}] from the section's Division items.
+
+    The question is the procedural contribution just before the division ("Question
+    put accordingly, That the Bill now be read a Second time."). A debate's defining
+    fact is often its result, and the report writer had no way of knowing it: the
+    11 September 2026 Second Reading pack read as a debate that was still going on.
+    """
+    out, items = [], payload.get("Items") or []
+    for i, it in enumerate(items):
+        if it.get("ItemType") != "Division" or not it.get("Value"):
+            continue
+        parts = [p.strip() for p in _clean(it["Value"]).split("|")]
+        try:
+            number, time, ayes, noes = parts[0], parts[1], int(parts[2]), int(parts[3])
+        except (IndexError, ValueError):
+            continue
+        result = next((p for p in parts if "accordingly" in p), "")
+        question = ""
+        for j in range(i - 1, max(-1, i - 4), -1):
+            v = _clean(items[j].get("Value") or "")
+            if items[j].get("ItemType") == "Contribution" and re.search(r"Question put|Question, That", v):
+                question = v
+                break
+        out.append({"number": number, "time": time, "ayes": ayes, "noes": noes,
+                    "result": result, "question": question, "date": date})
+    return out
+
+
 def contributions(payload, date):
     """Every spoken contribution in order, each with a start clock.
 
@@ -463,6 +492,10 @@ def write_pack(folder, meta, speaks, directions, confirmed, mins, patterns, guid
            "**Who spoke:** {0} members, {1} contributions{2}.".format(
                len(speaks), sum(s["count"] for s in speaks),
                "; opened by {0}".format(who(speaks_by_first(speaks)[0])) if speaks else ""), ""]
+    for d in meta.get("divisions") or []:
+        # the result is the debate's defining fact; the pack once read as a debate still going on
+        out += ["**The House divided** (division {0}, {1}): {2} Ayes {3}, Noes {4}. {5}".format(
+            d.get("number"), d.get("time"), d.get("question") or "", d.get("ayes"), d.get("noes"), d.get("result") or "").replace("  ", " "), ""]
     if mins:
         out += ["**The minister's line** ({0}): {1}".format(mins["attributed"], mins["text"][:700] + ("..." if len(mins["text"]) > 700 else "")), ""]
     out += ["## Speakers", "",
