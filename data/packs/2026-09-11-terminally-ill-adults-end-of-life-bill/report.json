@@ -1,21 +1,27 @@
 {
- "generated": "2026-09-11T17:09:33",
+ "generated": "2026-09-11T17:17:49",
  "usage": {
-  "input_tokens": 24021,
+  "input_tokens": 21939,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 8000,
+  "output_tokens": 9961,
   "output_tokens_details": {
-   "thinking_tokens": 4785
+   "thinking_tokens": 5489
   },
   "service_tier": "standard",
   "inference_geo": "global"
  },
  "problems": [],
  "provisional": false,
- "words": 857
+ "words": 747,
+ "previews": [
+  {
+   "at": "2026-09-11T19:19:19",
+   "canvas_url": "https://citizengo.slack.com/docs/T066M0LAJ/F0C19MCMGH0"
+  }
+ ]
 }
