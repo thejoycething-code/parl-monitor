@@ -115,6 +115,11 @@ issues:
     name: Assisted suicide (the 2026 Bill)
     area: 2
     bill: Terminally Ill Adults (End of Life) Bill
+    # Stays upcoming after the 11 September vote by design (Christopher,
+    # 2026-08-31: the vote "belongs in The Record AND the Bill stays in LIVE
+    # NOW"; BothHomesTests rehearsed the band's promise line becoming
+    # "GOOD VOTE ... at Second Reading"). Drop the flag when the band's work
+    # on this Bill is done, not on the day of the vote.
     upcoming: true
     # The other half of the boundary on the Leadbeater issue above: every
     # "Terminally Ill Adults" debate from the new session on is THIS Bill's.
@@ -130,9 +135,9 @@ issues:
       short title.
     # Status drafted 2026-08-31 for the split; signed off by Christopher, 2026-08-31.
     status: >-
-      Introduced by Lauren Edwards MP in the current session. The question
-      returns to the Commons for a Second Reading vote on 11 September 2026
-      - the first division on this Bill.
+      DEFEATED at Second Reading on 11 September 2026, 270 to 286, after a
+      closure motion carried 293 to 218. The Bill cannot proceed this session.
+      (Status updated 2026-09-11; the division awaits sign-off.)
     # The band's headline, as chosen in the C mockup (Christopher,
     # 2026-08-31): "LIVE NOW · THE ASSISTED SUICIDE BILL". Used only when
     # exactly one upcoming issue carries one; otherwise the band falls back
@@ -1043,3 +1048,18 @@ divisions:
     context: "27 March 2019, deferred division. The regulations made relationships education compulsory in every primary school and relationships and sex education in every secondary school from September 2020, with no parental right of withdrawal from relationships education and the right to withdraw from sex education ending three terms before a child turns 16 and subject to the headteacher's view in 'exceptional circumstances'. E-petition 235053, over 100,000 signatures, had asked for the parental right to be kept whole and was debated in Westminster Hall on 25 February 2019. Result 538-21."
     meaning_aye: Voted to make relationships education compulsory in every school with no parental right of withdrawal, and to limit withdrawal from sex education.
     meaning_no: Voted against limiting parents' right to withdraw their children from relationships and sex education.
+
+  # --- assisted-suicide-2026, Second Reading (2026-09-11): drafted the same day,
+  # awaiting sign-off. Direction verified against the sponsor's own vote: Lauren
+  # Edwards Aye; Danny Kruger No. Labour 190 aye / 153 no, Conservative 17 aye / 90 no.
+  - id: 2428
+    issue: assisted-suicide-2026
+    stage: Second Reading
+    stage_group: Second Reading
+    landmark: true
+    signed_off: false
+    our_side: "no"
+    short: Second Reading
+    context: "11 September 2026. The question that the Terminally Ill Adults (End of Life) Bill be now read a Second time, put after a closure motion (Division 2427, 293-218). Result 270-286: the Bill was defeated. A free vote."
+    meaning_aye: Supported the Bill continuing to its next stage (in principle, in favour of legalising assisted suicide for terminally ill adults in England and Wales).
+    meaning_no: Voted to stop the Bill at its first Commons hurdle, defeating it.
