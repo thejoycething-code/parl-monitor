@@ -95,6 +95,11 @@ def generate(args):
     print("DM:", result.get("message_ts") or result)
 
 
+def load_selection(pack):
+    path = os.path.join(pack, "selection.json")
+    return json.load(open(path)) if os.path.exists(path) else None
+
+
 def preview_canvas(args):
     """The canvas as it will render, shared with the DM recipient alone. Never the channel.
 
@@ -112,7 +117,7 @@ def preview_canvas(args):
         state = json.load(open(os.path.join(pack, "report.json")))
     title = "PREVIEW: %s — %s" % (meta.get("title"), meta.get("date"))
     body = dr.canvas_body(meta, report, preview=True, provisional=bool(state.get("provisional")),
-                          problems=state.get("problems"))
+                          problems=state.get("problems"), selection=load_selection(pack))
     result = publish.slack_preview_canvas(publish.load_secrets(), title, body, dr.canvas_summary(meta, preview=True))
     if result.get("canvas_url"):
         print("preview canvas (you alone):", result["canvas_url"])
@@ -146,15 +151,50 @@ def publish_canvas(args):
         raise SystemExit(2)
     title = "%s — %s" % (meta.get("title"), meta.get("date"))
     secrets = publish.load_secrets()
-    result = publish.slack_publish_canvas(secrets, title, dr.canvas_body(meta, report), dr.canvas_summary(meta), )
+    result = publish.slack_publish_canvas(secrets, title, dr.canvas_body(meta, report, selection=load_selection(pack)), dr.canvas_summary(meta))
     if result.get("canvas_url"):
         print("canvas:", result["canvas_url"])
         state["published"] = {"at": datetime.datetime.now().isoformat(timespec="seconds"),
-                              "canvas_url": result["canvas_url"]}
+                              "canvas_url": result["canvas_url"], "message_ts": result.get("message_ts")}
+        if args.with_clips:
+            state["published"]["clips"] = upload_clips(pack, secrets, result.get("message_ts"))
         json.dump(state, open(os.path.join(pack, "report.json"), "w"), indent=1)
     else:
         print("publish failed:", result)
         raise SystemExit(1)
+
+
+def clips_to_upload(pack):
+    """The captioned reel, then the full-speech clips of the speakers in sequence.md,
+    in sequence order: [(path, title)]. Nothing under clips/stale."""
+    import glob
+    import re
+    final = os.path.join(pack, "clips", "final")
+    out = []
+    reel = os.path.join(final, "social-cut-vertical-1080-captioned.mp4")
+    if os.path.exists(reel):
+        out.append((reel, "Reel (vertical, captioned)"))
+    seq = os.path.join(pack, "sequence.md")
+    names = [e["name"] for e in sc.parse_sequence(open(seq, encoding="utf-8").read())] if os.path.exists(seq) else []
+    for name in names:
+        slug = sc.slug(re.sub(r"\s*MP$", "", name))
+        for path in sorted(glob.glob(os.path.join(final, "speech-*-%s-*.mp4" % slug))):
+            if path.endswith("-clean.mp4"):
+                continue
+            out.append((path, "%s — full speech (16:9, subtitled)" % re.sub(r"\s*MP$", "", name)))
+    return out
+
+
+def upload_clips(pack, secrets, thread_ts):
+    """Upload the clips into the thread under the channel message; report each."""
+    done = []
+    for path, title in clips_to_upload(pack):
+        result = publish.slack_upload_file(secrets, path, title, thread_ts=thread_ts,
+                                           comment="Parliamentary Recording Unit terms apply to any campaign use of this footage.")
+        status = "ok %.0f MB" % (result["bytes"] / 1e6) if result.get("file_id") else "FAILED: %s" % (result.get("error") or result.get("skipped"))
+        print("  clip %-60s %s" % (os.path.basename(path), status))
+        done.append({"file": os.path.relpath(path, pack), "title": title, "result": result})
+    return done
 
 
 def main():
@@ -167,6 +207,7 @@ def main():
     ap.add_argument("--preview", action="store_true", help="the canvas as it will render, shared with you alone via DM; never the channel")
     ap.add_argument("--publish", action="store_true", help="post the approved report as a canvas to the channel")
     ap.add_argument("--force", action="store_true", help="publish even though checks failed (say why in the channel)")
+    ap.add_argument("--with-clips", action="store_true", help="with --publish: upload the reel and the sequence speakers' full-speech clips into the thread")
     args = ap.parse_args()
     if args.preview and args.publish:
         raise SystemExit("--preview or --publish, not both")

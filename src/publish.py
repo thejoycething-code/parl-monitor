@@ -160,6 +160,49 @@ def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transp
     return {"canvas_id": canvas_id, "canvas_url": canvas_url, "message_ts": message.get("ts")}
 
 
+def _post_bytes(url, data, timeout=600):  # pragma: no cover - network
+    request = urllib.request.Request(url, data=data, method="POST",
+                                     headers={"Content-Type": "application/octet-stream"})
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return response.read()
+
+
+def slack_upload_file(secrets, path, title, channel=None, thread_ts=None, comment=None,
+                      transport=None, poster=None):
+    """Put one file into a channel (or a thread in it): the three-step external upload.
+
+    getUploadURLExternal -> POST the bytes -> completeUploadExternal, which is what
+    attaches the file to the channel and, with thread_ts, to the message. Used for the
+    reel and the full-speech clips beside the report canvas (Christopher, 2026-09-11:
+    "post the report into Slack in the EN GB channel with the best speeches"). Needs
+    files:write; a missing scope comes back as an error dict, not an exception.
+    """
+    import os
+    token = secrets.get("slack_bot_token")
+    channel = channel or secrets.get("slack_channel_id")
+    if not token or not channel:
+        return {"skipped": "slack_bot_token/slack_channel_id missing from config/secrets.yaml"}
+    transport = transport or _post_json
+    poster = poster or _post_bytes
+    auth = {"Authorization": "Bearer {0}".format(token)}
+    size = os.path.getsize(path)
+    ticket = transport("https://slack.com/api/files.getUploadURLExternal",
+                       {"filename": os.path.basename(path), "length": size}, auth)
+    if not ticket.get("ok"):
+        return {"error": "files.getUploadURLExternal failed: {0}".format(ticket.get("error"))}
+    with open(path, "rb") as handle:
+        poster(ticket["upload_url"], handle.read())
+    done_payload = {"files": [{"id": ticket["file_id"], "title": title}], "channel_id": channel}
+    if thread_ts:
+        done_payload["thread_ts"] = thread_ts
+    if comment:
+        done_payload["initial_comment"] = comment
+    done = transport("https://slack.com/api/files.completeUploadExternal", done_payload, auth)
+    if not done.get("ok"):
+        return {"error": "files.completeUploadExternal failed: {0}".format(done.get("error"))}
+    return {"file_id": ticket["file_id"], "bytes": size}
+
+
 def slack_dm(secrets, text, transport=None):
     """Direct message the configured recipient.
 

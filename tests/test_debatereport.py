@@ -254,6 +254,14 @@ class CanvasBodyTests(unittest.TestCase):
         self.assertNotIn("PREVIEW", body)
         self.assertIn(META["hansard_url"], body)
 
+    def test_best_speeches_section_lists_the_top_n_with_passages_and_links(self):
+        selection = {"top": 1, "ranked": [{"name": "A Member", "url": "https://hansard.parliament.uk/a", "angle": "the child", "passage": "Their words."},
+                                          {"name": "B Member", "url": "", "angle": "x", "passage": ""}]}
+        body = dr.canvas_body(META, "Report.", selection=selection)
+        self.assertIn("## Best speeches", body); self.assertIn("[A Member](https://hansard.parliament.uk/a)", body)
+        self.assertIn("> Their words.", body); self.assertNotIn("B Member", body)
+        self.assertEqual(dr.best_speeches_section(None), "")
+
     def test_summaries_differ(self):
         self.assertIn("--publish", dr.canvas_summary(META, preview=True))
         self.assertIn("Recording Unit", dr.canvas_summary(META))

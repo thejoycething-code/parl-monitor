@@ -100,6 +100,35 @@ class SlackPublishTests(unittest.TestCase):
     def test_preview_without_a_dm_recipient_skips(self):
         self.assertIn("skipped", publish.slack_preview_canvas({"slack_bot_token": "x"}, "t", "b", "s"))
 
+    def test_upload_file_runs_the_three_steps_into_the_thread(self):
+        import tempfile
+        calls, posted = [], []
+
+        def transport(url, payload, headers):
+            calls.append((url.rsplit("/", 1)[1], payload))
+            if url.endswith("getUploadURLExternal"):
+                return {"ok": True, "upload_url": "https://files.slack.com/up/abc", "file_id": "F42"}
+            return {"ok": True}
+        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as fh:
+            fh.write(b"x" * 1000); path = fh.name
+        secrets = {"slack_bot_token": "xoxb", "slack_channel_id": "C1"}
+        result = publish.slack_upload_file(secrets, path, "Reel", thread_ts="1.2", transport=transport,
+                                           poster=lambda url, data: posted.append((url, len(data))))
+        self.assertEqual(result, {"file_id": "F42", "bytes": 1000})
+        self.assertEqual([c[0] for c in calls], ["files.getUploadURLExternal", "files.completeUploadExternal"])
+        self.assertEqual(calls[0][1]["length"], 1000)
+        self.assertEqual(posted, [("https://files.slack.com/up/abc", 1000)])
+        self.assertEqual(calls[1][1]["channel_id"], "C1"); self.assertEqual(calls[1][1]["thread_ts"], "1.2")
+        self.assertEqual(calls[1][1]["files"], [{"id": "F42", "title": "Reel"}])
+
+    def test_upload_file_reports_a_missing_scope_instead_of_raising(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as fh:
+            fh.write(b"x"); path = fh.name
+        r = publish.slack_upload_file({"slack_bot_token": "x", "slack_channel_id": "C"}, path, "t",
+                                      transport=lambda u, p, h: {"ok": False, "error": "missing_scope"}, poster=lambda u, d: None)
+        self.assertIn("missing_scope", r["error"])
+
     def test_api_error_surfaces(self):
         def transport(url, payload, headers):
             return {"ok": False, "error": "missing_scope"}
