@@ -95,3 +95,19 @@ class TrackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TailAfterHeadTests(unittest.TestCase):
+    def test_the_tail_is_searched_only_after_the_head(self):
+        from src import speechcut as spc
+        closing = "and that is why I will not give way and I will vote against this Bill today because it is not safe for the people I represent"
+        opening = "I have struggled with this vote perhaps more than any other in Parliament since I was elected to this House to speak for my constituents"
+        middle = "the committee heard evidence from many witnesses about palliative care and about coercion and about capacity"
+        # the same closing is heard BEFORE the speech (a previous speaker) and again at its true end
+        seq = (closing + " " + opening + " " + middle + " " + closing).split()
+        words = [(w, 1.0 * i, 1.0 * i + 0.8) for i, w in enumerate(seq)]
+        text = " ".join([opening, middle, closing])
+        start, end, r1, r2 = spc.trim_bounds(words, text, 0.0, (0.0, len(seq)))
+        self.assertIsNotNone(r1); self.assertIsNotNone(r2)
+        self.assertGreater(end, start)
+        self.assertGreater(end, words[len(seq) - 3][1])           # the SECOND closing, at the true end

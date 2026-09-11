@@ -104,7 +104,15 @@ def trim_bounds(words, text, file_start, span, margin=MARGIN_S, log=None):
     transcript could not place, and says so."""
     head, tail = anchors(text)
     first = sc.word_span(words, head, min_ratio=0.5)
-    last = sc.word_span(words, tail, min_ratio=0.5)
+    # The tail is searched only AFTER the head. Once the window is widened forward by
+    # up to seven minutes it holds the speaker's later contributions and other members'
+    # replies, and a stock closing ("I will not give way", "I commend the Bill to the
+    # House") can match earlier or later than the one this speech ends on; the earlier
+    # case put the end before the start and forced a five-second stub (11 Sept 2026).
+    after = first[1] + 1 if first else 0
+    last = sc.word_span(words[after:], tail, min_ratio=0.5)
+    if last:
+        last = (last[0] + after, last[1] + after, last[2])
     note = []
     if first:
         start, _ = sc.cut_bounds(words, first[0], first[0])
