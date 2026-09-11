@@ -42,13 +42,13 @@ scratchpad, not the repo.*
 
 **Add to the tracker (a new issue is needed: children's access to social media, area 6):**
 
-- [x] `2320` **IN THE TRACKER, unsigned** — 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (f) in lieu of Lords Amendment 38](https://votes.parliament.uk/Votes/Commons/Division/2320) — **Under-16 social media ban**, area 6. Lords Amendment 38 (Lord Nash, Con) would have barred under-16s from social media platforms; the Government's amendments in lieu replaced it with a power to act after its consultation and a duty to report progress within six months. Result 256 Aye / 150 No: **Government amendments in lieu agreed, the ban dropped**. Our side: **NO** (Laura Trott, who argued for the ban as shadow Secretary of State, voted No; the Minister, Olivia Bailey, Aye; Munira Wilson (LD) and Aphra Brandreth (Con), who spoke for the ban, No).
+- [x] `2320` **SIGNED OFF 11 Sept** — 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (f) in lieu of Lords Amendment 38](https://votes.parliament.uk/Votes/Commons/Division/2320) — **Under-16 social media ban**, area 6. Lords Amendment 38 (Lord Nash, Con) would have barred under-16s from social media platforms; the Government's amendments in lieu replaced it with a power to act after its consultation and a duty to report progress within six months. Result 256 Aye / 150 No: **Government amendments in lieu agreed, the ban dropped**. Our side: **NO** (Laura Trott, who argued for the ban as shadow Secretary of State, voted No; the Minister, Olivia Bailey, Aye; Munira Wilson (LD) and Aphra Brandreth (Con), who spoke for the ban, No).
       - `meaning_aye` (draft): Voted to replace the Lords' ban on under-16s using social media with a Government consultation and a six-month progress report.
       - `meaning_no` (draft): Voted to keep the Lords' ban on under-16s using social media.
-- [x] `2338` **IN THE TRACKER, unsigned** — 2026-04-22 [Children's Wellbeing and Schools Bill: motion to insist on Amendment 38J and disagree with Lords Amendments 38V to 38X](https://votes.parliament.uk/Votes/Commons/Division/2338) — **Under-16 social media ban, third round**, area 6. The Lords had amended the Government's own clause (38J, a power to require internet service providers to restrict children's access) to bind it to act; the Government insisted on the unamended power. Result 260 Aye / 161 No: **Government insisted; Lords amendments rejected**. Our side: **NO** (Trott: "they have chosen to vote against a ban for a third time"; Trott, Brandreth, Wilson No; Bailey Aye). Same issue as 2320; the first-round Commons division on Lords Amendment 38 (stage 20498, March 2026) should be looked for when this issue is created.
+- [x] `2338` **SIGNED OFF 11 Sept** — 2026-04-22 [Children's Wellbeing and Schools Bill: motion to insist on Amendment 38J and disagree with Lords Amendments 38V to 38X](https://votes.parliament.uk/Votes/Commons/Division/2338) — **Under-16 social media ban, third round**, area 6. The Lords had amended the Government's own clause (38J, a power to require internet service providers to restrict children's access) to bind it to act; the Government insisted on the unamended power. Result 260 Aye / 161 No: **Government insisted; Lords amendments rejected**. Our side: **NO** (Trott: "they have chosen to vote against a ban for a third time"; Trott, Brandreth, Wilson No; Bailey Aye). Same issue as 2320; the first-round Commons division on Lords Amendment 38 (stage 20498, March 2026) should be looked for when this issue is created.
       - `meaning_aye` (draft): Voted with the Government to keep only a discretionary power over children's access to social media, rejecting the Lords' duty to act.
       - `meaning_no` (draft): Voted for the Lords' amendments binding the Government to restrict under-16s' access to social media.
-- [x] `2323` **IN THE TRACKER, unsigned** — 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (c) in lieu of Lords Amendment 106](https://votes.parliament.uk/Votes/Commons/Division/2323) — **Smartphones in schools**, area 6, **editorial call**: Lords Amendment 106 would have required schools to prohibit smartphones during the school day; the Government's amendments in lieu made it a power to put guidance on a statutory footing by regulations. Result 248 Aye / 139 No. Our side, IF this is one of ours: **NO** (Trott, Brandreth, Wilson No; Bailey Aye). Whether phones in schools is a CitizenGO issue is your decision; the social media ban above plainly is.
+- [x] `2323` **SIGNED OFF 11 Sept** — 2026-04-15 [Children's Wellbeing and Schools Bill: Amendments (a) to (c) in lieu of Lords Amendment 106](https://votes.parliament.uk/Votes/Commons/Division/2323) — **Smartphones in schools**, area 6, **editorial call**: Lords Amendment 106 would have required schools to prohibit smartphones during the school day; the Government's amendments in lieu made it a power to put guidance on a statutory footing by regulations. Result 248 Aye / 139 No. Our side, IF this is one of ours: **NO** (Trott, Brandreth, Wilson No; Bailey Aye). Whether phones in schools is a CitizenGO issue is your decision; the social media ban above plainly is.
       - `meaning_aye` (draft): Voted to replace the Lords' school-day smartphone ban with a power to make phone guidance statutory.
       - `meaning_no` (draft): Voted to require schools to ban smartphones during the school day.
 
@@ -84,10 +84,10 @@ Policing Bill report stage).*
 **Added to `config/vote_tracker.yaml` unsigned (issue `children-social-media` created with
 your agreement of 10 Sept; 2306 under the existing `non-crime-hate`):**
 
-- [x] `2306` 2026-04-14 Crime and Policing Bill: disagree with Lords Amendment 334 — **Non-crime hate incidents**, area 7. The Lords amendment ended the investigation and recording of NCHIs and required any future guidance to have "due regard to the right to freedom of expression" (Matt Vickers quoting Lord Hogan-Howe: "we need to move on from the recording of non-crime hate incidents by removing them altogether from police systems"). Government motion to disagree carried 356 / 90. Our side **NO** (Vickers and Philp No; Sarah Jones Aye; the Liberal Democrats voted Aye with the Government this round, unlike June 2025).
-- [x] `2271` 2026-03-09 CWS Bill: disagree with Lords Amendment 38 — the **under-16 social media ban**, first round (Lord Nash). 307 / 173. Our side **NO** (Trott, Wilson No; Bailey Aye). Landmark.
-- [x] `2275` 2026-03-09 CWS Bill: disagree with Lords Amendment 106 — **smartphones banned in schools**, first round. 304 / 177. Our side **NO**. Landmark.
-- [x] `2270` 2026-03-09 CWS Bill: disagree with Lords Amendment 37 — **children's use of VPNs**, paired with 38 in the Minister's speech ("social media, VPNs and phones in schools"); the Government's amendments in lieu took a power to "age-restrict or limit children's VPN use". 321 / 106: Conservatives against, Liberal Democrats did not oppose. Our side **NO**; not a landmark.
+- [x] `2306` **SIGNED OFF 11 Sept** — 2026-04-14 Crime and Policing Bill: disagree with Lords Amendment 334 — **Non-crime hate incidents**, area 7. The Lords amendment ended the investigation and recording of NCHIs and required any future guidance to have "due regard to the right to freedom of expression" (Matt Vickers quoting Lord Hogan-Howe: "we need to move on from the recording of non-crime hate incidents by removing them altogether from police systems"). Government motion to disagree carried 356 / 90. Our side **NO** (Vickers and Philp No; Sarah Jones Aye; the Liberal Democrats voted Aye with the Government this round, unlike June 2025).
+- [x] `2271` **SIGNED OFF 11 Sept** — 2026-03-09 CWS Bill: disagree with Lords Amendment 38 — the **under-16 social media ban**, first round (Lord Nash). 307 / 173. Our side **NO** (Trott, Wilson No; Bailey Aye). Landmark.
+- [x] `2275` **SIGNED OFF 11 Sept** — 2026-03-09 CWS Bill: disagree with Lords Amendment 106 — **smartphones banned in schools**, first round. 304 / 177. Our side **NO**. Landmark.
+- [x] `2270` **SIGNED OFF 11 Sept** — 2026-03-09 CWS Bill: disagree with Lords Amendment 37 — **children's use of VPNs**, paired with 38 in the Minister's speech ("social media, VPNs and phones in schools"); the Government's amendments in lieu took a power to "age-restrict or limit children's VPN use". 321 / 106: Conservatives against, Liberal Democrats did not oppose. Our side **NO**; not a landmark.
 
 **Your decision (drafted but NOT added):**
 
@@ -110,28 +110,45 @@ your agreement of 10 Sept; 2306 under the existing `non-crime-hate`):**
 - [x] `2065` 2025-06-18 Crime and Policing Bill: Third Reading — the whole Bill; the abortion clause (NC1) is tracked on its own division. (312 / 95.)
 - [x] `2064` 2025-06-18 C&P report stage: New Clause 130 (Matt Vickers) — tool theft and unlicensed boot sales. (178 / 313.)
 
-## This Parliament and the last, 2020 to 2026 (90 still to review)
+## Batch 3 — reviewed 11 September 2026 (20 of 130): one added unsigned, one for your decision, eighteen not ours
 
-- [ ] `2062` 2025-06-18 [Crime and Policing Bill Report Stage: New Clause 88](https://votes.parliament.uk/Votes/Commons/Division/2062) — Abortion (title)
-- [ ] `2061` 2025-06-18 [Crime and Policing Bill Report Stage: New Clause 43](https://votes.parliament.uk/Votes/Commons/Division/2061) — Abortion (title)
-- [ ] `2057` 2025-06-17 [Crime and Policing Bill Report Stage: Amendment 160](https://votes.parliament.uk/Votes/Commons/Division/2057) — Abortion (title)
-- [ ] `2056` 2025-06-17 [Crime and Policing Bill Report Stage: Amendment 19](https://votes.parliament.uk/Votes/Commons/Division/2056) — Abortion (title)
-- [ ] `2055` 2025-06-17 [Crime and Policing Bill Report Stage: Amendment 175](https://votes.parliament.uk/Votes/Commons/Division/2055) — Abortion (title)
-- [ ] `2054` 2025-06-17 [Crime and Policing Bill Report Stage: Amendment 174](https://votes.parliament.uk/Votes/Commons/Division/2054) — Abortion (title)
-- [ ] `1981` 2025-03-26 [Tobacco and Vapes Bill: Third Reading](https://votes.parliament.uk/Votes/Commons/Division/1981) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1980` 2025-03-26 [Tobacco and Vapes Bill Report Stage: Amendment 85](https://votes.parliament.uk/Votes/Commons/Division/1980) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1979` 2025-03-26 [Tobacco and Vapes Bill Report Stage: Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1979) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1978` 2025-03-26 [Tobacco and Vapes Bill Report Stage: New Clause 19](https://votes.parliament.uk/Votes/Commons/Division/1978) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1977` 2025-03-26 [Tobacco and Vapes Bill Report Stage: New Clause 2](https://votes.parliament.uk/Votes/Commons/Division/1977) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1956` 2025-03-18 [Children's Wellbeing and Schools Bill Report Stage: Amendment 210](https://votes.parliament.uk/Votes/Commons/Division/1956) — Parental rights education (title)
-- [ ] `1955` 2025-03-18 [Children's Wellbeing and Schools Bill Report Stage: Amendment 209](https://votes.parliament.uk/Votes/Commons/Division/1955) — Parental rights education (title)
-- [ ] `1954` 2025-03-18 [Children's Wellbeing and Schools Bill Report Stage: New Clause 34](https://votes.parliament.uk/Votes/Commons/Division/1954) — Parental rights education (title)
-- [ ] `1953` 2025-03-18 [Children's Wellbeing and Schools Bill Report Stage: New Clause 7](https://votes.parliament.uk/Votes/Commons/Division/1953) — Parental rights education (title)
-- [ ] `1952` 2025-03-17 [Children's Wellbeing and Schools Bill Report Stage: Amendment 171](https://votes.parliament.uk/Votes/Commons/Division/1952) — Parental rights education (title)
-- [ ] `1951` 2025-03-17 [Children's Wellbeing and Schools Bill Report Stage: Amendment 188](https://votes.parliament.uk/Votes/Commons/Division/1951) — Parental rights education (title)
-- [ ] `1950` 2025-03-17 [Children's Wellbeing and Schools Bill Report Stage: New Clause 36](https://votes.parliament.uk/Votes/Commons/Division/1950) — Parental rights education (title)
-- [ ] `1900` 2025-01-08 [Reasoned amendment on Children's Wellbeing and Schools Bill](https://votes.parliament.uk/Votes/Commons/Division/1900) — Parental rights education (title)
-- [ ] `1817` 2024-05-15 [Criminal Justice Bill Report Stage: New Clause 91](https://votes.parliament.uk/Votes/Commons/Division/1817) — Abortion, Free speech, privacy and civil liberties, Area 12 (same debate)
+*Debates read: Commons 17 and 18 June 2025 (Crime and Policing Bill report stage), 26 March 2025
+(Tobacco and Vapes Bill), 17 and 18 March 2025 (Children's Wellbeing and Schools Bill report
+stage), 8 January 2025 (its Second Reading), 15 May 2024 (Criminal Justice Bill). Amendment texts
+from the Bills API for the CWS Bill; the Bills API holds no amendments for the Crime and Policing
+Bill's Commons report stage, so those came from the Speaker's grouping in Hansard.*
+
+**Added to `config/vote_tracker.yaml` unsigned:**
+
+- [x] `1950` 2025-03-17 CWS Bill report stage: New Clause 36 (Laura Trott) — the Commons **origin of the children-social-media issue**: CMO advice for parents on smartphones and social media, a research plan, and a phone ban in every school. 159 / 317. Our side **AYE** (Trott moved it and voted Aye; Phillipson No; Conservatives, Liberal Democrats, Reform and DUP for).
+
+**Your decision (drafted but NOT added):**
+
+- [ ] `1900` 2025-01-08 Reasoned amendment to the CWS Bill's Second Reading (Trott) — a composite: it declines a Second Reading over academy freedoms, teacher pay, QTS and the curriculum, and ends by calling for "a national statutory inquiry into historical child sexual exploitation, focused on grooming gangs". 111 / 364 (Conservatives, Reform, DUP for). The grooming-gangs inquiry is area 12; the other nine tenths of the text is schools policy. I would not put a composite reasoned amendment on a values tracker, but the inquiry call is the reason it was tagged, so it is your call. If added: `parental-rights` or a new area-12 issue; our side AYE.
+
+**Not ours (checked against the amendment text):**
+
+- [x] `2062` 2025-06-18 C&P report stage NC88 (Lib Dem) — senior-manager liability for water pollution. (178 / 313.)
+- [x] `2061` 2025-06-18 C&P NC43 (Mike Martin, LD) — automatic commencement of the Protection from Sex-based Harassment in Public Act 2023. Public-order law; not one of the twelve areas. (147 / 305.)
+- [x] `2057` 2025-06-17 C&P Amendment 160 (Lib Dem) — no protest conditions until a live facial recognition code of practice is approved by Parliament. Civil liberties, but surveillance policy rather than anything CitizenGO campaigns on. (89 / 428.)
+- [x] `2056` 2025-06-17 C&P Amendment 19 — spiking offence extended to recklessness. (189 / 328.)
+- [x] `2055` 2025-06-17 C&P Amendment 175 — weapon possession with intent: maximum sentence 4 to 14 years. (184 / 336.)
+- [x] `2054` 2025-06-17 C&P Amendment 174 — consult on penalty points for fly-tipping and littering. (194 / 335.)
+- [x] `1981` 2025-03-26 Tobacco and Vapes Bill: Third Reading — the generational smoking ban; the 41 Noes (Leigh and Swayne telling) were the libertarian objection. Not a CitizenGO issue. (366 / 41.)
+- [x] `1980` 2025-03-26 Tobacco Amendment 85 — limit outdoor smoke-free designations to hospitals, playgrounds and schools. (92 / 303.)
+- [x] `1979` 2025-03-26 Tobacco Amendment 1 (Lib Dem) — fixed-penalty income to local public health. (72 / 304.)
+- [x] `1978` 2025-03-26 Tobacco NC19 — annual reports on illegal tobacco and vape sales. (159 / 307.)
+- [x] `1977` 2025-03-26 Tobacco NC2 — ban on plastic cigarette filters. (137 / 304.)
+- [x] `1956` 2025-03-18 CWS Amendment 210 (Trott) — leave out clause 51, one of the academy-freedom clauses. (167 / 324.)
+- [x] `1955` 2025-03-18 CWS Amendment 209 (Trott) — leave out clause 45, the repeal of the duty to make failing schools academies. (107 / 324.)
+- [x] `1954` 2025-03-18 CWS NC34 (Green) — free school lunches for all primary pupils. (77 / 315.)
+- [x] `1953` 2025-03-18 CWS NC7 (Lib Dem) — free school meals for households under £20,000. (77 / 313.)
+- [x] `1952` 2025-03-17 CWS Amendment 171 (Lib Dem) — independent special schools within the profit cap. (65 / 317.)
+- [x] `1951` 2025-03-17 CWS Amendment 188 (Trott) — mandatory inspection of children's-home groups instead of improvement notices. (160 / 319.)
+- [x] `1817` 2024-05-15 Criminal Justice Bill NC91 (Tim Farron, LD) — an offence of failing to meet water pollution commitments. The "abortion" tag was the watched Bill; the abortion new clauses that day were never reached. (17 / 268.)
+
+## This Parliament and the last, 2020 to 2026 (70 still to review)
+
 - [ ] `1816` 2024-05-15 [Criminal Justice Bill Report Stage: New Clause 59](https://votes.parliament.uk/Votes/Commons/Division/1816) — Abortion, Free speech, privacy and civil liberties, Area 12 (same debate)
 - [ ] `1815` 2024-05-15 [Criminal Justice Bill Report Stage: New Clause 44](https://votes.parliament.uk/Votes/Commons/Division/1815) — Abortion, Free speech, privacy and civil liberties, Area 12 (same debate)
 - [ ] `1787` 2024-04-16 [Tobacco and Vapes Bill: Second Reading](https://votes.parliament.uk/Votes/Commons/Division/1787) — Prostitution, trafficking and sexual exploitation (same debate)

@@ -349,7 +349,7 @@ issues:
     debate_match: ["Children's Wellbeing and Schools Bill", "Children’s Wellbeing and Schools Bill"]
     name: Children's social media and smartphones in schools
     area: 6
-    bill: Children's Wellbeing and Schools Bill - Lords Amendments 37, 38 and 106
+    bill: Children's Wellbeing and Schools Bill - Lords Amendments 37, 38 and 106; New Clause 36
     note: >-
       The Lords put three protections into the Bill: Lords Amendment 38 (Lord
       Nash) barring under-16s from social media platforms, Lords Amendment 37
@@ -958,3 +958,18 @@ divisions:
     context: "14 April 2026. Lords Amendment 334 would have ended the investigation and recording of non-crime hate incidents and required any future incident-recording guidance to have due regard to the right to freedom of expression. The Government moved to disagree. Result 356-90 (Hansard Division No. 472)."
     meaning_aye: Voted with the Government to reject the Lords amendment ending the recording of non-crime hate incidents.
     meaning_no: Voted to end the recording of non-crime hate incidents and protect freedom of expression in any future guidance.
+
+  # --- children-social-media, the Commons origin (batch 3 of the review, 2026-09-11):
+  # drafted 2026-09-11, awaiting sign-off. Trott moved it and voted Aye; the
+  # Secretary of State, Bridget Phillipson, No.
+  - id: 1950
+    issue: children-social-media
+    stage: Report Stage
+    stage_group: Report Stage
+    landmark: true
+    signed_off: false
+    our_side: aye
+    short: "New Clause 36: smartphones and social media, action for children's wellbeing"
+    context: "17 March 2025. Laura Trott's New Clause 36 would have required, within twelve months, Chief Medical Officers' advice for parents on children's smartphone and social media use, a published research plan, and a policy in every English school prohibiting the use and carrying of phones during the school day. Result 159-317: Conservatives, Liberal Democrats, Reform and DUP for; Labour against."
+    meaning_aye: Voted to require every school to ban phones during the school day and the Chief Medical Officers to advise parents on children's smartphone and social media use.
+    meaning_no: Voted against requiring school phone bans and Chief Medical Officers' advice on children's smartphone and social media use.
