@@ -217,28 +217,30 @@ amendments). Amendment texts from the Speaker's groupings in Hansard.*
 - [x] `1510` 2023-03-28 Amendment 189 (SNP) — Afghan nationals at risk. (242 / 309.)
 - [x] `1499` `1498` `1497` `1496` 2023-03-13 Money, programme, Second Reading and Labour's reasoned amendment. (310 / 246; 312 / 248; 312 / 250; 249 / 312.)
 
-## This Parliament and the last, 2020 to 2026 (30 still to review)
+## Batch 6 — reviewed 11 September 2026 (20 of 130): nothing to add; twenty not ours
 
-- [ ] `1492` 2023-03-07 [Public Order Bill: Motion to disagree with Lords Amendment 6](https://votes.parliament.uk/Votes/Commons/Division/1492) — Abortion, Free speech, privacy and civil liberties (same debate)
-- [ ] `1456` 2023-01-18 [Retained EU Law (Revocation and Reform) Bill: Third Reading](https://votes.parliament.uk/Votes/Commons/Division/1456) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1455` 2023-01-18 [Retained EU Law (Revocation and Reform) Bill Report Stage: Amendment 36](https://votes.parliament.uk/Votes/Commons/Division/1455) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1454` 2023-01-18 [Retained EU Law (Revocation and Reform) Bill Report Stage: Amendment 19](https://votes.parliament.uk/Votes/Commons/Division/1454) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1453` 2023-01-18 [Retained EU Law (Revocation and Reform) Bill Report Stage: Amendment 28](https://votes.parliament.uk/Votes/Commons/Division/1453) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1452` 2023-01-18 [Retained EU Law (Revocation and Reform) Bill Report Stage: Amendment 18](https://votes.parliament.uk/Votes/Commons/Division/1452) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1422` 2022-12-07 [Financial Services and Markets Bill Report Stage: New Clause 1](https://votes.parliament.uk/Votes/Commons/Division/1422) — Gender medicine children, Free speech, privacy and civil liberties (same debate)
-- [ ] `1370` 2022-10-18 [Public Order Bill: Third Reading](https://votes.parliament.uk/Votes/Commons/Division/1370) — Abortion, Free speech, privacy and civil liberties (same debate)
-- [ ] `1369` 2022-10-18 [Public Order Bill Report Stage: Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1369) — Abortion, Free speech, privacy and civil liberties (same debate)
-- [ ] `1367` 2022-10-18 [Public Order Bill Report Stage: New Clause 5](https://votes.parliament.uk/Votes/Commons/Division/1367) — Abortion, Free speech, privacy and civil liberties (same debate)
-- [ ] `1366` 2022-10-18 [Public Order Bill Report Stage: New Clause 4](https://votes.parliament.uk/Votes/Commons/Division/1366) — Abortion, Free speech, privacy and civil liberties (same debate)
-- [ ] `1351` 2022-07-18 [Confidence in Her Majesty’s Government](https://votes.parliament.uk/Votes/Commons/Division/1351) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1323` 2022-06-21 [Opposition Day: Adviser on Ministerial Interests](https://votes.parliament.uk/Votes/Commons/Division/1323) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1313` 2022-05-23 [Public Order Bill: Second Reading](https://votes.parliament.uk/Votes/Commons/Division/1313) — Abortion, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `1312` 2022-05-23 [Public Order Bill: Reasoned Amendment to Second Reading](https://votes.parliament.uk/Votes/Commons/Division/1312) — Abortion, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `1307` 2022-05-17 [Queen's Speech debate (Opposition amendment v)](https://votes.parliament.uk/Votes/Commons/Division/1307) — Prostitution, trafficking and sexual exploitation, Sex based rights, Gender medicine children, Parental rights education, Free speech, privacy and civil liberties (same debate)
-- [ ] `1107` 2021-09-22 [Compensation (London Capital & Finance plc and Fraud Compensation Fund) Bill Report Stage: Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1107) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1026` 2021-05-18 [Queen's Speech (Motion for an Address): Amendment (h)](https://votes.parliament.uk/Votes/Commons/Division/1026) — Assisted dying, Sex based rights, Gender medicine children, Parental rights education, Free speech, privacy and civil liberties, Freedom of religion, Migration (same debate)
-- [ ] `1002` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 43](https://votes.parliament.uk/Votes/Commons/Division/1002) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `1001` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 42](https://votes.parliament.uk/Votes/Commons/Division/1001) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
+*Debates read: Commons 7 March 2023 (Public Order Bill, Lords amendments), 18 January 2023
+(Retained EU Law Bill report stage), 7 December 2022 (Financial Services and Markets Bill),
+18 October 2022 (Public Order Bill report stage), 23 May 2022 (its Second Reading), 17 May 2022
+and 18 May 2021 (Queen's Speech), 22 September 2021 (LCF Compensation Bill), 15 April 2021
+(Domestic Abuse Bill, Lords amendments). Every tag in this batch was a same-debate speech; the
+two abortion votes those days produced are already on the tracker (`1368`, `1491`).*
+
+- [x] `1492` 2023-03-07 Public Order Bill: disagree with Lords Amendment 6 — one of Lords amendments 6 to 9 and 36 on "so-called suspicionless stop and search" (Philp). Protest and policing. (281 / 236.)
+- [x] `1456` `1455` `1454` `1453` `1452` 2023-01-18 Retained EU Law (Revocation and Reform) Bill: Third Reading and amendments 36 (publish the revocation list), 19 (exempt named employment regulations), 28 (SNP, devolved competence) and 18 (sunset 2026 not 2023). Brexit process. (297 / 238; 242 / 295; 238 / 301; 239 / 300; 239 / 297.)
+- [x] `1422` 2022-12-07 Financial Services and Markets Bill: New Clause 1 (Labour) — a national strategy on financial fraud. The "gender medicine" tag was a same-debate speech. (205 / 282.)
+- [x] `1370` `1369` `1367` `1366` 2022-10-18 Public Order Bill report stage: Third Reading, Amendment 1 (leave out clause 16, serious disruption prevention orders), New Clause 5 (a definition of "serious disruption") and New Clause 4 (High Court injunctions against "persons unknown"). The buffer-zone vote that afternoon (New Clause 11, 297 / 110) is `1368` on the tracker. (283 / 234; 235 / 302; 186 / 311; 188 / 313.)
+- [x] `1351` 2022-07-18 Confidence in Her Majesty's Government. (349 / 238.)
+- [x] `1323` 2022-06-21 Opposition Day: the independent adviser on ministerial interests. (161 / 252.)
+- [x] `1313` `1312` 2022-05-23 Public Order Bill: Second Reading and Labour's reasoned amendment — the Bill had no buffer-zone clause until report stage. (292 / 202; 200 / 292.)
+- [x] `1307` 2022-05-17 Queen's Speech amendment (v) (Labour) — a windfall tax on oil and gas. The "prostitution" tag was a same-debate speech. (248 / 310.)
+- [x] `1107` 2021-09-22 Compensation (London Capital & Finance plc) Bill: Amendment 1 (SNP) — a report on the regulatory failures. (52 / 292.)
+- [x] `1026` 2021-05-18 Queen's Speech amendment (h) (Labour) — cladding remediation costs. Tagged assisted dying, sex-based rights and gender medicine by same-debate speeches. (220 / 358.)
+- [x] `1001` 2021-04-15 Domestic Abuse Bill: disagree with Lords Amendment 42 — a register of serial domestic-abuse and stalking perpetrators (Government offered a perpetrator strategy in lieu). (351 / 226.)
+- [x] `1002` 2021-04-15 Domestic Abuse Bill: disagree with Lords Amendment 43 — party-line vote alongside 42 (352 / 226); the Commons debate names it only in the grouping, and nothing in the Lords amendments the Government resisted that day (migrant victims, the register, community services) is in our areas. Not ours; the "gender medicine" tag was a same-debate speech.
+
+## This Parliament and the last, 2020 to 2026 (10 still to review)
+
 - [ ] `1000` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 41](https://votes.parliament.uk/Votes/Commons/Division/1000) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
 - [ ] `999` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 40](https://votes.parliament.uk/Votes/Commons/Division/999) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
 - [ ] `998` 2021-04-15 [Domestic Abuse Bill: Motion to disagree with Lords Amendment 38](https://votes.parliament.uk/Votes/Commons/Division/998) — Gender medicine children, Free speech, privacy and civil liberties, Migration (same debate)
