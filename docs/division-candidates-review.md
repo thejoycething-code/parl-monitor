@@ -120,7 +120,7 @@ Bill's Commons report stage, so those came from the Speaker's grouping in Hansar
 
 **Added to `config/vote_tracker.yaml` unsigned:**
 
-- [x] `1950` 2025-03-17 CWS Bill report stage: New Clause 36 (Laura Trott) — the Commons **origin of the children-social-media issue**: CMO advice for parents on smartphones and social media, a research plan, and a phone ban in every school. 159 / 317. Our side **AYE** (Trott moved it and voted Aye; Phillipson No; Conservatives, Liberal Democrats, Reform and DUP for).
+- [x] `1950` **SIGNED OFF? not yet** — 2025-03-17 CWS Bill report stage: New Clause 36 (Laura Trott) — the Commons **origin of the children-social-media issue**: CMO advice for parents on smartphones and social media, a research plan, and a phone ban in every school. 159 / 317. Our side **AYE** (Trott moved it and voted Aye; Phillipson No; Conservatives, Liberal Democrats, Reform and DUP for).
 
 **Your decision (drafted but NOT added):**
 
@@ -147,28 +147,45 @@ Bill's Commons report stage, so those came from the Speaker's grouping in Hansar
 - [x] `1951` 2025-03-17 CWS Amendment 188 (Trott) — mandatory inspection of children's-home groups instead of improvement notices. (160 / 319.)
 - [x] `1817` 2024-05-15 Criminal Justice Bill NC91 (Tim Farron, LD) — an offence of failing to meet water pollution commitments. The "abortion" tag was the watched Bill; the abortion new clauses that day were never reached. (17 / 268.)
 
-## This Parliament and the last, 2020 to 2026 (70 still to review)
+## Batch 4 — reviewed 11 September 2026 (20 of 130): one recommended for a new issue, four for your decision, fifteen not ours
 
-- [ ] `1816` 2024-05-15 [Criminal Justice Bill Report Stage: New Clause 59](https://votes.parliament.uk/Votes/Commons/Division/1816) — Abortion, Free speech, privacy and civil liberties, Area 12 (same debate)
-- [ ] `1815` 2024-05-15 [Criminal Justice Bill Report Stage: New Clause 44](https://votes.parliament.uk/Votes/Commons/Division/1815) — Abortion, Free speech, privacy and civil liberties, Area 12 (same debate)
-- [ ] `1787` 2024-04-16 [Tobacco and Vapes Bill: Second Reading](https://votes.parliament.uk/Votes/Commons/Division/1787) — Prostitution, trafficking and sexual exploitation (same debate)
-- [ ] `1683` 2023-11-29 [Data Protection and Digital Information Bill: Third Reading](https://votes.parliament.uk/Votes/Commons/Division/1683) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1682` 2023-11-29 [Data Protection and Digital Information Bill Report Stage: New Schedule 1](https://votes.parliament.uk/Votes/Commons/Division/1682) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1681` 2023-11-29 [Data Protection and Digital Information Bill Report Stage: Amendment 218](https://votes.parliament.uk/Votes/Commons/Division/1681) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1680` 2023-11-29 [Data Protection and Digital Information Bill Report Stage: Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1680) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1679` 2023-11-29 [Data Protection and Digital Information Bill Report Stage: Amendment 5](https://votes.parliament.uk/Votes/Commons/Division/1679) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1678` 2023-11-29 [Data Protection and Digital Information Bill Report Stage: Amendment 224](https://votes.parliament.uk/Votes/Commons/Division/1678) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1677` 2023-11-29 [Data Protection and Digital Information Bill Report Stage: Amendment 11](https://votes.parliament.uk/Votes/Commons/Division/1677) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1676` 2023-11-29 [Data Protection and Digital Information Bill: Re-committal motion](https://votes.parliament.uk/Votes/Commons/Division/1676) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1667` 2023-11-15 [King's Speech Motion for an Address: Amendment (k)](https://votes.parliament.uk/Votes/Commons/Division/1667) — Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `1666` 2023-11-15 [King's Speech Motion for an Address: Amendment (h)](https://votes.parliament.uk/Votes/Commons/Division/1666) — Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `1665` 2023-11-15 [King's Speech Motion for an Address: amendment (r)](https://votes.parliament.uk/Votes/Commons/Division/1665) — Free speech, privacy and civil liberties, Migration (same debate)
-- [ ] `1664` 2023-11-14 [King's Speech Motion for an Address: amendment (m)](https://votes.parliament.uk/Votes/Commons/Division/1664) — Parental rights education, Free speech, privacy and civil liberties, Marriage and family, Migration (same debate)
-- [ ] `1663` 2023-10-25 [Economic Activity of Public Bodies (Overseas Matters) Bill Report Stage: Amendment 28](https://votes.parliament.uk/Votes/Commons/Division/1663) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1662` 2023-10-25 [Economic Activity of Public Bodies (Overseas Matters) Bill Report Stage: Amendment 7](https://votes.parliament.uk/Votes/Commons/Division/1662) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1661` 2023-10-25 [Economic Activity of Public Bodies (Overseas Matters) Bill Report Stage: Amendment 13](https://votes.parliament.uk/Votes/Commons/Division/1661) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1660` 2023-10-25 [Economic Activity of Public Bodies (Overseas Matters) Bill Report Stage: Amendment 14](https://votes.parliament.uk/Votes/Commons/Division/1660) — Free speech, privacy and civil liberties (same debate)
-- [ ] `1588` 2023-07-11 [Illegal Migration Bill: motion to disagree with Lords Amendment 6](https://votes.parliament.uk/Votes/Commons/Division/1588) — Migration (title)
+*Debates read: Commons 15 May 2024 (Criminal Justice Bill report stage), 16 April 2024 (Tobacco
+and Vapes Bill Second Reading), 29 November 2023 (Data Protection and Digital Information Bill
+report stage), 14-15 November 2023 (Debate on the Address), 25 October 2023 (Economic Activity of
+Public Bodies (Overseas Matters) Bill report stage), 11 July 2023 (Illegal Migration Bill, Lords
+amendments). Amendment texts from the Speaker's groupings in Hansard.*
+
+**Recommended: a new area-12 issue (your call; nothing added):**
+
+- [ ] `1815` 2024-05-15 Criminal Justice Bill report stage: New Clause 44 (Jess Phillips, Lab) — **sexual exploitation of an adult**, area 12. It would have renamed the Sexual Offences Act 2003 offences of "causing or inciting prostitution for gain" and "controlling prostitution for gain" as sexual exploitation, and defined it as conduct that "manipulates, deceives, coerces or controls another person to undertake sexual activity" — the change the STAGE partnership against adult sexual exploitation has sought so that adult victims are treated as victims. The Minister (Laura Farris) resisted "not because there is any real dispute of principle, but because there is dispute of degree". 167 / 275: Labour, Lib Dem, Green, Plaid, SDLP, Alliance, one DUP for; Conservatives against. Our side, if area 12 means what the taxonomy says: **AYE** (Phillips and Diana Johnson Aye; Farris and Philp No). There is no area-12 issue on the tracker yet; this would be the first. The Bill fell at the 2024 dissolution.
+      - `meaning_aye` (draft): Voted to recognise adults manipulated, deceived, coerced or controlled into sexual activity as victims of sexual exploitation in law.
+      - `meaning_no` (draft): Voted against redefining the prostitution offences as sexual exploitation of an adult.
+
+**Your decision (drafted but NOT added):**
+
+- [ ] `1588` 2023-07-11 Illegal Migration Bill: disagree with Lords Amendment 6 — the **modern slavery** protections Theresa May and Iain Duncan Smith fought for (Tim Farron: on "amendments 6 and 56" May "made an outstanding speech"). The Government moved to disagree and offered an amendment in lieu; 303 / 227 on party lines, May abstained, Duncan Smith voted with the Government. Tagged migration (area 11, hidden, never campaigned), but the substance is trafficking (area 12). Because it is inseparable from the small-boats policy and even its champions split on the amendment in lieu, I would leave it off; if you want the anti-trafficking vote recorded, our side would be NO.
+- [ ] `1682` 2023-11-29 DPDI Bill: Government New Schedule 1 — the power to require banks to hand over benefit claimants' account data to detect welfare fraud, added at report stage without committee scrutiny (hence `1676`, Labour's re-committal motion, 209 / 275). 274 / 52: SNP against, Labour abstained. A privacy and civil-liberties vote under area 7's widened remit; CitizenGO has campaigned on digital ID, not on this. Leave out unless you want privacy votes tracked.
+- [ ] `1663` 2023-10-25 Economic Activity of Public Bodies (Overseas Matters) Bill: Amendment 28 (SNP) — that nothing in the clause-4 "gagging clause" (public bodies may not even say they would boycott) should conflict with Article 10 freedom of expression or Article 9 freedom of religion under the Human Rights Act. 197 / 275. A genuine free-speech amendment to an anti-BDS Bill: the direction depends on which CitizenGO values you weigh, so it needs a deliberate decision rather than a tag.
+- [ ] `1676` 2023-11-29 DPDI Bill: re-committal motion — procedural companion to 1682 above; decide together.
+
+**Not ours (checked against the amendment or motion text):**
+
+- [x] `1816` 2024-05-15 CJB NC59 — a ban on "ninja swords". (171 / 272.)
+- [x] `1787` 2024-04-16 Tobacco and Vapes Bill: Second Reading — the generational ban; the "prostitution" tag was a same-debate speech. (383 / 67.)
+- [x] `1683` 2023-11-29 DPDI Bill: Third Reading — the whole Bill. (269 / 31.)
+- [x] `1681` 2023-11-29 DPDI Amendment 218 — leave out clause 87, direct marketing by parties for "democratic engagement". (194 / 275.)
+- [x] `1680` 2023-11-29 DPDI Amendment 1 — a definition of "high risk processing". (198 / 275.)
+- [x] `1679` 2023-11-29 DPDI Amendment 5 — automated-decision protections where a decision is "partly" automated. (195 / 273.)
+- [x] `1678` 2023-11-29 DPDI Amendment 224 (SNP) — leave out clause 12 on automated decision-making. (37 / 279.)
+- [x] `1677` 2023-11-29 DPDI Amendment 11 — special category data in employment. (200 / 276.)
+- [x] `1667` 2023-11-15 King's Speech amendment (k) (Liberal Democrat) and `1666` amendment (h) (SNP: Gaza ceasefire) and `1665` amendment (r) (Labour: Israel and Palestine, humanitarian pauses) — the Middle East amendments; same-debate tags. (25 / 303; 125 / 293; 183 / 290.)
+- [x] `1664` 2023-11-14 King's Speech amendment (m) (Labour) — OBR forecasts for fiscal events. (228 / 314.)
+- [x] `1662` 2023-10-25 BDS Bill Amendment 7 (Swayne / Antoniazzi) — remove the clause naming Israel, the OPT and the Golan Heights as territories Ministers may never exempt. Foreign policy. (207 / 269.)
+- [x] `1661` 2023-10-25 BDS Bill Amendment 13 — exemption for decisions under a published human-rights policy. (197 / 276.)
+- [x] `1660` 2023-10-25 BDS Bill Amendment 14 — Ministers' power to amend the Schedule by regulations. (200 / 273.)
+
+## This Parliament and the last, 2020 to 2026 (50 still to review)
+
 - [ ] `1587` 2023-07-11 [Illegal Migration Bill: motion to disagree with Lords Amendment 1](https://votes.parliament.uk/Votes/Commons/Division/1587) — Migration (title)
 - [ ] `1583` 2023-06-28 [Relationships and Sexuality Education (Northern Ireland) (Amendment) Regulations 2023](https://votes.parliament.uk/Votes/Commons/Division/1583) — Parental rights education (title)
 - [ ] `1534` 2023-04-26 [Illegal Migration Bill - Third Reading](https://votes.parliament.uk/Votes/Commons/Division/1534) — Migration (title)
