@@ -44,6 +44,24 @@ class ContributionTests(unittest.TestCase):
         self.assertEqual(rows2[0]["end"].strftime("%H:%M:%S"), "16:40:02")
         self.assertEqual(by["c1"]["start"].tzinfo.key, "Europe/London")
 
+    def test_dense_speech_between_two_timestamps_is_interpolated_not_run_past_the_next(self):
+        """11 September 2026: 43 timestamps for 316 items, no timecodes. Running on at
+        spoken pace placed Zubir Ahmed's 10:36 contribution at 10:50, seven minutes past
+        the 10:43 timestamp, and fetched Ashley Dalton's footage for his speech."""
+        def c(ext, words, who="A Member (Seat) (Lab)"):
+            return {"ItemType": "Contribution", "AttributedTo": who, "MemberId": 1, "ExternalId": ext, "Value": " ".join(["word"] * words)}
+        payload = {"Items": [{"ItemType": "Timestamp", "Value": "10:33:00"}, c("a", 200), c("b", 900), c("c", 300), c("d", 400),
+                             {"ItemType": "Timestamp", "Value": "10:43:00"}, c("e", 100)]}
+        rows = {r["ext_id"]: r for r in dp.contributions(payload, "2026-09-11")}
+        starts = [rows[k]["start"] for k in "abcd"]
+        self.assertEqual(starts[0].strftime("%H:%M:%S"), "10:33:00")
+        self.assertTrue(all(starts[i] < starts[i + 1] for i in range(3)))
+        # 1,800 words at the assumed pace would run to 10:45+; every start stays before the next clock
+        self.assertLess(rows["d"]["start"].strftime("%H:%M:%S"), "10:43:00")
+        self.assertEqual(rows["e"]["start"].strftime("%H:%M:%S"), "10:43:00")
+        # and no contribution overruns the next one's start
+        self.assertLess(rows["c"]["end"], rows["d"]["start"] + __import__("datetime").timedelta(seconds=1))
+
     def test_a_second_contribution_without_a_clock_follows_the_first_not_overlaps_it(self):
         """Jonathan Hinder spoke twice from 17:22 with one clock; his second
         contribution began after his first ended, not at the same instant."""
@@ -257,3 +275,28 @@ class PackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DivisionTests(unittest.TestCase):
+    def test_the_result_leads_the_roundup(self):
+        rows = dp.contributions(PAYLOAD, "2026-09-07")
+        sp = dp.speakers(rows)
+        folder = tempfile.mkdtemp()
+        meta = {"title": "Surrogacy", "house": "Commons", "date": "2026-09-07", "ext_id": "E1",
+                "divisions": [{"number": "75", "time": "14:30", "ayes": 270, "noes": 286,
+                               "result": "Question accordingly negatived.",
+                               "question": "Question put accordingly, That the Bill now be read a Second time."}]}
+        dp.write_pack(folder, meta, sp, {}, {}, None, [])
+        roundup = open(os.path.join(folder, "roundup.md")).read()
+        self.assertIn("**The House divided** (division 75, 14:30): Question put accordingly, That the Bill now be read a Second time. Ayes 270, Noes 286. Question accordingly negatived.", roundup)
+        self.assertLess(roundup.index("The House divided"), roundup.index("## Speakers"))
+
+    def test_divisions_parse_from_the_payload(self):
+        payload = {"Items": [
+            {"ItemType": "Contribution", "Value": "Question put accordingly, That the Bill now be read a Second time."},
+            {"ItemType": "Division", "Value": "75|14:30|270|286|<em>The House divided:</em>|\tQuestion accordingly negatived.  ||0|0"}]}
+        got = dp.divisions(payload, "2026-09-11")
+        self.assertEqual(got[0]["ayes"], 270)
+        self.assertEqual(got[0]["noes"], 286)
+        self.assertIn("negatived", got[0]["result"])
+        self.assertIn("Second time", got[0]["question"])

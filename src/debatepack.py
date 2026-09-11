@@ -152,6 +152,51 @@ def divisions(payload, date):
     return out
 
 
+def _interpolate_starts(rows):
+    """Place every unanchored contribution between the anchors around it.
+
+    Two estimates, and the EARLIER wins. Running on from the previous contribution
+    at spoken pace is right when the words between two timestamps are few and
+    something unrecorded filled the gap (a division, a suspension); it overshoots
+    when they are many, because members speak faster than the assumed pace and the
+    estimate runs past the next timestamp -- ten minutes past, on 11 September 2026.
+    Interpolating in proportion to words spoken is right when the gap is dense with
+    speech and wrong when it is not, stretching a one-line intervention across nine
+    silent minutes. A contribution cannot have started later than either says, so
+    the minimum is the safe estimate. After the last anchor only the run-on exists."""
+    def weight(r):
+        return len(r["text"].split()) / WORDS_PER_SECOND + 6.0
+    i = 0
+    while i < len(rows):
+        if not rows[i].get("anchored") or rows[i]["start"] is None:
+            i += 1
+            continue
+        j = i + 1
+        while j < len(rows) and not (rows[j].get("anchored") and rows[j]["start"] is not None):
+            j += 1
+        run = rows[i + 1:j]
+        if run:
+            if j < len(rows):
+                span = (rows[j]["start"] - rows[i]["start"]).total_seconds()
+                total = weight(rows[i]) + sum(weight(r) for r in run)
+                acc = weight(rows[i])
+                t, prev = rows[i]["start"], rows[i]
+                for r in run:
+                    interpolated = rows[i]["start"] + datetime.timedelta(seconds=span * acc / total)
+                    t = t + datetime.timedelta(seconds=int(weight(prev)))      # the run-on estimate
+                    r["start"] = min(interpolated, t)
+                    acc += weight(r)
+                    prev = r
+            else:
+                t = rows[i]["start"]
+                prev = rows[i]
+                for r in run:
+                    t = t + datetime.timedelta(seconds=int(weight(prev)))
+                    r["start"] = t
+                    prev = r
+        i = j
+
+
 def contributions(payload, date):
     """Every spoken contribution in order, each with a start clock.
 
@@ -160,6 +205,7 @@ def contributions(payload, date):
     the last clock seen, and its end is the next contribution's start."""
     rows = []
     clock = None
+    pending = None
     for it in payload.get("Items") or []:
         if it.get("Timecode"):
             try:
@@ -172,23 +218,27 @@ def contributions(payload, date):
                 d = datetime.date.fromisoformat(date)
                 clock = datetime.datetime(d.year, d.month, d.day, int(m.group(1)), int(m.group(2)),
                                           int(m.group(3) or 0), tzinfo=LONDON)
+        if it.get("ItemType") == "Timestamp" or it.get("Timecode"):
+            pending = clock                     # the next contribution starts here
         if it.get("ItemType") != "Contribution" or not it.get("Value") or not it.get("AttributedTo"):
             continue
         name, seat, party = _parse_attributed(it["AttributedTo"])
         text = _clean(it["Value"])
-        # A contribution with no clock of its own starts when the previous one
-        # is estimated to END, not at the last clock seen: Jonathan Hinder's
-        # second contribution was placed at the same instant as his first, and
-        # a passage from it was cut from the wrong minutes (2026-09-07).
-        if it.get("Timecode") is None and rows and rows[-1]["start"] and clock and rows[-1]["start"] >= clock:
-            est_end = rows[-1]["start"] + datetime.timedelta(seconds=int(len(rows[-1]["text"].split()) / WORDS_PER_SECOND) + 6)
-            start = max(clock, est_end)
-        else:
-            start = clock
+        # A contribution takes the clock only when one was printed just before it
+        # (a Timestamp item, or its own Timecode). Everything between two such
+        # anchors is placed by INTERPOLATION below, in proportion to the words
+        # spoken -- not by running on from the previous estimate. On 11 September
+        # 2026 the record carried 43 timestamps for 316 items and no timecodes;
+        # extrapolating by word rate ran ten minutes past the next timestamp and
+        # fetched Ashley Dalton's footage for Zubir Ahmed's speech.
+        anchored = pending is not None
+        start = pending if anchored else None
+        pending = None
         rows.append({"order": it.get("OrderInSection"), "attributed": it["AttributedTo"], "name": name,
                      "seat": seat, "party": party, "member_id": it.get("MemberId"),
-                     "ext_id": it.get("ExternalId"), "text": text,
+                     "ext_id": it.get("ExternalId"), "text": text, "anchored": anchored,
                      "start": start, "chair": bool(CHAIR.search(it["AttributedTo"]))})
+    _interpolate_starts(rows)
     # END of a contribution: Hansard's clocks are sparse (a Timestamp every
     # few minutes), so "the next clock" credited a one-minute intervener with
     # the whole speech that followed (290 minutes, 2026-09-04). Length comes
