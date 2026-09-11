@@ -3,10 +3,10 @@
   "bytes": 107610112,
   "note": "Derived state; the bytes live as a release asset. See tools/db_state.py.",
   "published_at": "local",
-  "published_utc": "2026-09-11T15:51:23Z",
-  "sha256": "2b63faa7a928764aaa5b49f1e01388b56e3ceb9b2ee24bee7358ae4a778a613b",
+  "published_utc": "2026-09-11T16:03:45Z",
+  "sha256": "852460269258e3c3e151241cefded458475746eef9971188faeda6f99ce08e41",
   "tables": {
-    "api_spend": 381,
+    "api_spend": 382,
     "appg_officers": 24,
     "bill_amendments": 0,
     "bills_board": 12,
