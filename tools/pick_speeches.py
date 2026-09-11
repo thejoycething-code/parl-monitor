@@ -51,8 +51,13 @@ def main():
     if not key:
         raise SystemExit("no anthropic_api_key in config/secrets.yaml")
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
-    ranked, problems, usage = sel.judge(meta, cands, key, conn=conn)
+    ranked, problems, usage, raw = sel.judge(meta, cands, key, conn=conn)
     conn.commit(); conn.close()
+    open(os.path.join(pack, "selection-raw.txt"), "w", encoding="utf-8").write(raw)   # what the judge actually said
+    if not ranked:
+        for p in problems:
+            print("  [check] %s" % p)
+        raise SystemExit("nothing ranked; sequence.md untouched. The judge's reply is in selection-raw.txt")
     open(os.path.join(pack, "selection.md"), "w", encoding="utf-8").write(sel.selection_md(meta, ranked, problems, args.top))
     json.dump({"top": args.top, "ranked": ranked, "problems": problems}, open(os.path.join(pack, "selection.json"), "w"), indent=1)
     print("ranked %d; %d check note(s); tokens in %s out %s" % (len(ranked), len(problems), usage.get("input_tokens"), usage.get("output_tokens")))

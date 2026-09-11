@@ -22,7 +22,7 @@ import re
 from src import socialcut as sc
 
 MODEL = "claude-sonnet-5"
-MAX_TOKENS = 6000
+MAX_TOKENS = 12000         # 21 speakers x (passage + reasons) is 6-8k tokens; the model's thinking counts too
 MIN_WORDS = 250            # below this a contribution is an intervention, not a speech
 WORDS_SHOWN = 700          # of the longest contribution, per member, to the judge
 
@@ -60,15 +60,25 @@ def build_payload(meta, cands, model=MODEL):
 
 
 def parse_reply(text):
-    """The JSON array, tolerating prose or a code fence around it."""
-    m = re.search(r"\[.*\]", text or "", re.S)
-    if not m:
-        return []
-    try:
-        rows = json.loads(m.group(0))
-    except ValueError:
-        return []
-    return [r for r in rows if isinstance(r, dict) and r.get("name")]
+    """The JSON array, tolerating prose or a code fence around it -- and a reply cut
+    off mid-array, from which every complete object is kept."""
+    text = text or ""
+    m = re.search(r"\[.*\]", text, re.S)
+    if m:
+        try:
+            rows = json.loads(m.group(0))
+            return [r for r in rows if isinstance(r, dict) and r.get("name")]
+        except ValueError:
+            pass
+    rows = []
+    for obj in re.finditer(r"\{[^{}]*\}", text, re.S):
+        try:
+            r = json.loads(obj.group(0))
+        except ValueError:
+            continue
+        if isinstance(r, dict) and r.get("name"):
+            rows.append(r)
+    return rows
 
 
 def _norm(text):
@@ -116,10 +126,14 @@ def judge(meta, cands, api_key, transport=None, conn=None, log=print):
     if conn is not None:
         spend.record(conn, "speech-pick", reply.get("model") or MODEL, usage)
     text = "".join(b.get("text", "") for b in (reply.get("content") or []) if b.get("type") == "text")
-    ranked, problems = verify(parse_reply(text), cands)
+    if reply.get("stop_reason") == "max_tokens":
+        log("[warn] the judge's reply hit max_tokens (%d); the JSON is probably cut off" % MAX_TOKENS)
+    rows = parse_reply(text)
+    ranked, problems = verify(rows, cands)
     if not ranked:
-        problems.append("the judge returned nothing usable")
-    return ranked, problems, usage
+        problems.append("the judge returned nothing usable (stop_reason %s, %d chars, %d rows parsed)"
+                        % (reply.get("stop_reason"), len(text), len(rows)))
+    return ranked, problems, usage, text
 
 
 def selection_md(meta, ranked, problems, top):

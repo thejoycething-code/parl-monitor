@@ -47,6 +47,10 @@ class VerifyTests(unittest.TestCase):
         self.assertEqual(ranked2[0]["passage"], "")
         self.assertTrue(any("not verbatim" in p for p in problems2))
 
+    def test_a_reply_cut_off_mid_array_keeps_the_complete_objects(self):
+        cut = '[{"name":"A","score":9,"passage":"p"}, {"name":"B","score":8,"passage":"q"}, {"name":"C","sco'
+        self.assertEqual([r["name"] for r in sel.parse_reply(cut)], ["A", "B"])
+
     def test_parse_reply_tolerates_a_code_fence(self):
         self.assertEqual(sel.parse_reply('Here you go:\n```json\n[{"name":"A","score":5}]\n```'), [{"name": "A", "score": 5}])
         self.assertEqual(sel.parse_reply("no json here"), [])
@@ -61,7 +65,7 @@ class JudgeAndWriteTests(unittest.TestCase):
         passage = " ".join(["Surrogacy asks a child to live with promises adults made before it was born and that matters to this House."] * 6)
         reply = {"model": "claude-sonnet-5", "usage": {"input_tokens": 3000, "output_tokens": 400},
                  "content": [{"type": "text", "text": json.dumps([{"name": "Big Speaker", "score": 9, "angle": "the child", "why": "w", "passage": passage}])}]}
-        ranked, problems, usage = sel.judge(META, c, "key", transport=lambda p, k: reply, conn=conn, log=lambda *_a: None)
+        ranked, problems, usage, _raw = sel.judge(META, c, "key", transport=lambda p, k: reply, conn=conn, log=lambda *_a: None)
         self.assertEqual(problems, [])
         self.assertEqual(conn.execute("SELECT pass_name FROM api_spend").fetchone()[0], "speech-pick")
         self.assertTrue(sc.REEL_FLOOR_S <= ranked[0]["seconds"] <= sc.REEL_HARD_CAP_S, ranked[0]["seconds"])

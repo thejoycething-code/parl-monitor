@@ -1,39 +1,35 @@
 # Sequence: Terminally Ill Adults (End of Life) Bill, 2026-09-11
 
-Six speakers, all confirmed onside by their No vote in division 2428 (Second Reading negatived 270-286).
-Order: the sharpest line first (Fenton-Glynn), a senior Conservative voice second (Bradley), the plain
-naming of the thing third (Lockhart), then the doctor on coercion (Ahmed), the personal testimony (Dalton)
-and the disability voice to close (Duffield: her father's dementia and the slippery slope; the Baroness Campbell passage fell across a gap between her Hansard spans and could not be located). Passages are Hansard wording, word-exact from speeches.md;
-correct to the spoken words once social-cut.md reports what was heard. Alternates with a cuttable passage
-are listed in sequence-draft.md: Harding (Lords witnesses: none said it was safe), Raja (coercion in
-communities), Mullan (Gosport), Minns, Murrison, Jenkin, Daby, Oppong-Asare, Foy, Vickers, Spencer, Leigh.
-
-## Josh Fenton-Glynn MP
-party: Labour · Calder Valley
-crop: centre
-> That brings me to our safeguards. I cannot vote for a Bill that does not sufficiently guard against coercion. That is what my constituents with disabilities say they fear the most and, having been in charge of social care, I know what that looks like. Let me be clear: the safeguards in this Bill are not enough. If the Bill in its current form passes, a patient would be subject to more scrutiny to give up a kidney than to give up their life.
-
-## Dame Karen Bradley MP
-party: Conservative · Staffordshire Moorlands
-crop: centre
-> I say to colleagues who supported the Bill before and have wrestled sincerely with the issue since: you do not have to repudiate the vote you cast last time to vote differently today. You do not have to decide that assisted dying can never be right. You do not have to abandon the compassion that led you to support the principle. You need only ask whether this Bill, in this form, on the evidence before us today, is safe enough for Parliament to force it into law. That is today’s test.
-
-## Carla Lockhart MP
-party: DUP · Upper Bann
-crop: centre
-> The soft language of “assisted dying” is misleading the public, because it obscures the stark and very dark reality of what is actually being proposed. We should always have the courage to call things what they are. Of course, we all want assistance when we are dying, but that is not what this Bill provides. It is not about an extra shot of morphine to ease someone on their way; it is a Bill that allows doctors to provide lethal drugs for a patient to end their life. Let the reality of that sink in: our great NHS, the principles of which are to protect and to save lives, would be responsible for state-sponsored suicide.
-
-## Dr Zubir Ahmed MP
-party: Labour · Glasgow South West
-crop: centre
-> I am therefore of the opinion that the foundational elements of this Bill will create the allure of choice and control, but not the agency to pursue either. Turning to safeguards, much is made of the provision requiring two doctors to assess eligibility, but the trouble is that neither has to know the patient well, or go to any great lengths to exclude the likelihood of coercion. Doctors are trained to do many things, but assessing and picking up on coercion is not one of them.
+SELECTED by tools/pick_speeches.py: the top 8 of the ranked speeches in selection.md, in rank order. Passages are the judge's where they run 30-95 seconds and are verbatim, else reel_passage.
 
 ## Ashley Dalton MP
 party: Labour · West Lancashire
-crop: centre
-> It is nothing short of irresponsible to scaremonger people like me into believing our deaths will be horrific when all the evidence suggests that, with access to good palliative care, deaths are, on the whole, gentle. The answer is not to terrify people and their families. It is to sort out palliative care and social care first, because none of this takes place in a vacuum. Until we can say that everyone who needs it has access to high-quality palliative care, we are offering nobody a choice. A terrible death or an assisted death is not a choice; it is a threat.
+> I was overwhelmed with grief, fear and anxiety; I was scared of what was to come, and fearful of how it would impact my family and my loved ones. I was scared that I was going to get really poorly and thinking, "How will I cope? How will my family cope? How will I be cared for? How will I afford it? How badly will it hurt? How long will it last?" When you hear those words, depression, anxiety, grief, fear, shame and guilt come in bounds. Suicide risk is highest immediately after diagnosis, and it usually falls quickly, within three to six months. I would be lying if I said that when thinking about all that was to come, I did not consider that it might be fairer and easier on everyone if I just got the dying over with as soon as possible.
 
-## Rosie Duffield MP
-party: Independent · Canterbury
-crop: centre
-> In reality, he would have forgotten almost immediately what had just taken place, but he retained an ability to be jovial, and to mask his confusion and memory issues, for quite some time. As for the slippery slope, every single example in other nations proves without a doubt that at the start, the intention may be that assisted dying legislation will apply only to terminal illness—dementia and Alzheimer’s are, of course, terminal—but the scope ends up expanding alarmingly, as it has done in Canada, and in the Netherlands, which is so much closer to home.
+## Carla Lockhart MP
+party: DUP · Upper Bann
+> The soft language of "assisted dying" is misleading the public, because it obscures the stark and very dark reality of what is actually being proposed. We should always have the courage to call things what they are. Of course, we all want assistance when we are dying, but that is not what this Bill provides. It is not about an extra shot of morphine to ease someone on their way; it is a Bill that allows doctors to provide lethal drugs for a patient to end their life. Let the reality of that sink in: our great NHS, the principles of which are to protect and to save lives, would be responsible for state-sponsored suicide. That is what it is.
+
+## Janet Daby MP
+party: Labour · Lewisham East
+> I previously voted for assisted dying. I recognised then, as I do now, the deep turmoil that family members experience when they know that their loved ones are dying, or see them die. The agonising distress or pain that they experience is something that no one wants for themselves or their loved ones. However, I cannot shake from my mind a conversation I had with someone some time ago about assisted dying. They had been diagnosed with HIV/AIDS before the time of advanced medication for this illness. Their body was breaking down, and they had been informed that their prognosis was bleak. They said that had assisted dying been an option for them then, they would have taken it. However, it was not an option, and they have since been stabilised on medication and are in full-time work.
+
+## Ms Julie Minns MP
+party: Labour · Carlisle
+> As a relative who saw the inadequacy of social care eat away at the self-respect of a once fiercely independent woman, leaving her to conclude that she was a burden and would be better off dead, I know that access to every possible form of support was not there for her. As the daughter who sat at a hospital bedside, having agreed to the withdrawal of invasive treatment, only to watch my semi-conscious mother scream for water that was wrongly withheld and writhe in agony because specialist palliative care was only available nine to five on Monday to Friday, I know that access to every form of support was not there for her.
+
+## Sir Bernard Jenkin MP
+party: Conservative · Harwich and North Essex
+> I have a very dear friend—someone who has become a mentor—who is a very interesting, clever, intellectual, determined and courageous lady. She has scoliosis of the spine. The last time I went to see her, there she was, hardly able to sit up and in constant pain. We have open conversations, so I asked her, "If assisted dying were available to you, would you take it?" Without hesitation she said, "Oh, yes." When I asked why, she said, "Because I am a burden to my family." I said, "Well, I have been voting against assisted dying. I am going to have to rethink my position." Then she said, without hesitation, "Oh, I don't advocate it." She understands the complexity of this, and she knows that it opens a can of worms that we really have not understood fully.
+
+## Dame Karen Bradley MP
+party: Conservative · Staffordshire Moorlands
+> I say to colleagues who supported the Bill before and have wrestled sincerely with the issue since: you do not have to repudiate the vote you cast last time to vote differently today. You do not have to decide that assisted dying can never be right. You do not have to abandon the compassion that led you to support the principle. You need only ask whether this Bill, in this form, on the evidence before us today, is safe enough for Parliament to force it into law. That is today's test. There is no shame whatsoever in concluding that the answer to a different question is different.
+
+## Dr Ben Spencer MP
+party: Conservative · Runnymede and Weybridge
+> As a former mental health doctor and someone who has done research on decision-making capacity, I want to talk about stigma in the brief time I have today. I have looked after many hundreds of people—perhaps thousands—who have self-harmed or attempted suicide. Of course, a desire for one's life to end can be entirely reasonable and an understandable wish, but it is often a manifestation of a treatable mental disorder. With the right intervention, care and support, people can get better. They can look back and say, "What was that about? I'm so thankful I didn't succeed" when they get the care and treatment they need. The Bill refuses to acknowledge that.
+
+## Dr Kieran Mullan MP
+party: Conservative · Bexhill and Battle
+> The report should be more widely read, and I often wonder why it did not get the attention that it deserved. It found that between 1987 and 2001, more than 450 NHS patients had their lives prematurely shortened by healthcare staff. They were mainly elderly—the average age being 81—but some were as young as 61, and more than 70% of them had been admitted to hospital not needing palliative care or being at the end of their lives.
