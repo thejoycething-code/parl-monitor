@@ -410,7 +410,9 @@ class AssistedSuicideCapTests(unittest.TestCase):
             conn.execute("INSERT INTO mp_events (member_id, date, kind, ref, line, areas) VALUES (1, ?, 'vote', ?, ?, '[2]')", (date, ref, line))
             conn.execute("INSERT INTO stance (ref, stance, why, model, scored_at) VALUES (?, ?, 'w', 'm', '2026-09-12')", (ref, sc))
         conn.commit()
-        cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+        import os as _os
+        root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        cfg = stance.load_overrides(_os.path.join(root, "config", "stance_overrides.yaml"))
         row = stance.suggest_rows(conn, 2, full_roster=True, overrides_cfg=cfg, house="Commons")[0]
         self.assertEqual(row["column"], "+")
         self.assertIn("CAPPED at + : voted for the assisted suicide Bill", row["comments"])
