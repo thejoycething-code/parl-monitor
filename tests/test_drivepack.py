@@ -18,6 +18,11 @@ class FakeDrive(object):
 
     def api(self, token, url, payload=None, method=None):
         self.calls.append((url.split("?")[0], payload))
+        if method == "PATCH" and payload == {"trashed": True}:
+            fid = url.split("/files/")[1].split("?")[0]
+            self.files = {n: f for n, f in self.files.items() if f["id"] != fid}
+            self.binned = getattr(self, "binned", []) + [fid]
+            return {"id": fid, "trashed": True}
         if "files?q=" in url or "files?" in url and payload is None:
             q = url.split("q=")[1].split("&")[0]
             import urllib.parse
@@ -55,6 +60,29 @@ class DrivePackTests(unittest.TestCase):
         drivepack.publish(tmp, log=lambda *_a: None, api=fake.api, token="t", drive_id="D")
         self.assertEqual(fake.folders, {"Debate footage": "f-1", "2026-09-11 A Bill": "f-2"})
         self.assertEqual(uploaded, ["report.md"])
+
+    def test_a_recut_replaces_its_clip_and_prune_bins_the_cutters_stale_ones_only(self):
+        """12 Sept 2026: Bradley's merged clip kept its name at a new size, and her
+        four other pre-merge clips left the pack; a hand-placed file stays."""
+        tmp = tempfile.mkdtemp()
+        json.dump({"date": "2026-09-11", "title": "A Bill"}, open(os.path.join(tmp, "pack.json"), "w"))
+        os.makedirs(os.path.join(tmp, "clips", "final"))
+        open(os.path.join(tmp, "clips", "final", "speech-02-b.mp4"), "wb").write(b"v" * 500)
+        fake = FakeDrive()
+        fake.folders = {"Debate footage": "f-1", "2026-09-11 A Bill": "f-2"}
+        fake.files = {"speech-02-b.mp4": {"id": "old-02", "name": "speech-02-b.mp4", "size": "100"},
+                      "speech-03-b.mp4": {"id": "old-03", "name": "speech-03-b.mp4", "size": "100"},
+                      "notes-from-max.docx": {"id": "hand", "name": "notes-from-max.docx", "size": "7"}}
+        uploaded = []
+        drivepack.upload_resumable = lambda token, folder_id, path, name=None, opener=None, log=print: uploaded.append(name) or "id-" + name
+        drivepack.publish(tmp, log=lambda *_a: None, api=fake.api, token="t", drive_id="D", prune=True)
+        self.assertEqual(uploaded, ["speech-02-b.mp4"])
+        self.assertEqual(sorted(fake.binned), ["old-02", "old-03"])
+        self.assertIn("notes-from-max.docx", fake.files)
+        # without prune the stale clip stays
+        fake.files["speech-03-b.mp4"] = {"id": "old-03", "name": "speech-03-b.mp4", "size": "100"}; fake.binned = []
+        drivepack.publish(tmp, log=lambda *_a: None, api=fake.api, token="t", drive_id="D")
+        self.assertEqual(fake.binned, [])
 
 
 if __name__ == "__main__":

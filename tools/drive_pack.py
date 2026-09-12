@@ -23,8 +23,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--pack", required=True)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--prune", action="store_true", help="bin clips on Drive the cutters named but the pack no longer has")
     args = ap.parse_args()
-    url, done = drivepack.publish(args.pack.rstrip("/"), log=print, dry_run=args.dry_run)
+    url, done = drivepack.publish(args.pack.rstrip("/"), log=print, dry_run=args.dry_run, prune=args.prune)
     n_up = sum(1 for d in done if not d.get("skipped")); n_skip = sum(1 for d in done if d.get("skipped"))
     print("%s\n%d uploaded, %d already there" % (url, n_up, n_skip))
 

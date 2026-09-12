@@ -12,6 +12,7 @@ and the DM, so Slack carries a link and never the bytes.
 """
 
 import json
+import re
 import os
 import sys
 import urllib.parse
@@ -149,7 +150,21 @@ def deliverables(pack_dir):
     return out
 
 
-def publish(pack_dir, log=print, dry_run=False, api=None, token=None, drive_id=None, opener=None):
+def trash(api, token, file_id):
+    """Drive's bin, never a hard delete: recoverable for 30 days."""
+    return api(token, "https://www.googleapis.com/drive/v3/files/%s?supportsAllDrives=true" % file_id,
+               {"trashed": True}, method="PATCH")
+
+
+OURS = re.compile(r"^(speech-\d+-|social-cut-)")   # names only the cutters write
+
+
+def publish(pack_dir, log=print, dry_run=False, api=None, token=None, drive_id=None, opener=None, prune=False):
+    """Upload the pack's deliverables to its Drive folder. A file already there with
+    the same size is skipped; the same name at a different size (a re-cut, 12 Sept
+    2026) is trashed and uploaded afresh. With `prune`, clips on Drive that the
+    cutters named but the pack no longer has (Bradley's five pre-merge clips) go to
+    the bin too; anything a person put in the folder by hand is never touched."""
     state = json.load(open(os.path.join(pack_dir, "pack.json")))
     if api is None:
         token, drive_id, api = _token()
@@ -161,15 +176,27 @@ def publish(pack_dir, log=print, dry_run=False, api=None, token=None, drive_id=N
     url = "https://drive.google.com/drive/folders/" + folder_id
     have = existing_files(api, token, folder_id, drive_id)
     done = []
+    wanted = set()
     for path, name in deliverables(pack_dir):
+        wanted.add(name)
         size = os.path.getsize(path)
         if name in have and int(have[name].get("size") or -1) == size:
             done.append({"name": name, "id": have[name]["id"], "bytes": size, "skipped": True}); continue
         if dry_run:
-            log("  would upload %-55s %6.1f MB" % (name, size / 1e6)); continue
+            log("  would %s %-55s %6.1f MB" % ("replace" if name in have else "upload", name, size / 1e6)); continue
+        if name in have:
+            trash(api, token, have[name]["id"])
+            log("  binned the old %s (%s MB)" % (name, have[name].get("size", "?")))
         fid = upload_resumable(token, folder_id, path, name, opener=opener, log=log)
         log("  uploaded %-55s %6.1f MB" % (name, size / 1e6))
         done.append({"name": name, "id": fid, "bytes": size})
+    if prune:
+        for name, f in sorted(have.items()):
+            if name not in wanted and OURS.match(name):
+                if dry_run:
+                    log("  would bin %s (no longer in the pack)" % name); continue
+                trash(api, token, f["id"])
+                log("  binned %s (no longer in the pack)" % name)
     if not dry_run:
         state["drive"] = {"folder_id": folder_id, "url": url, "root": ROOT_NAME, "files": done}
         json.dump(state, open(os.path.join(pack_dir, "pack.json"), "w"), indent=1)

@@ -180,8 +180,12 @@ def srt(item):
     return "\n".join(out)
 
 
-def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisional=True, height=1080):
-    """Cut every onside speech in the pack as a subtitled 16:9 clip. Returns the report rows."""
+def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisional=True, height=1080, number_from=None):
+    """Cut every onside speech in the pack as a subtitled 16:9 clip. Returns the report rows.
+
+    `number_from`: the wider speaker list the clip numbers come from, so a re-cut
+    of one speaker (`only`) keeps the number their clip had in the full run
+    (Bradley stayed 02 on 12 Sept 2026 instead of becoming a second 01)."""
     from src import debatereport, debatepack as dp, hlsfetch
     state = json.load(open(os.path.join(pack_dir, "pack.json")))
     speeches = sc.parse_speeches(open(os.path.join(pack_dir, "speeches.md"), encoding="utf-8").read())
@@ -191,6 +195,7 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
     todo = plan(state, speeches, onside, only=only)
     if not todo:
         raise SystemExit("no onside speech of %d words or more to cut" % MIN_WORDS)
+    numbers = clip_numbers(plan(state, speeches, onside, only=number_from) if number_from else todo)
     from src import alignment
     alignment.check(pack_dir, ff, whisper_model=whisper_model, log=log)
     manifest = state.get("manifest")
@@ -206,9 +211,8 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
             shutil.copy(f, fontsdir)
     logo = sc.LOGO if os.path.exists(sc.LOGO) else None
     rows = []
-    n = 0
     for s, c, span in todo:
-        n += 1
+        n = numbers.get((s["name"], c.get("at")), len(numbers) + 1)
         tag = "%02d-%s-%s" % (n, sc.slug(s["name"]), (c.get("at") or "").replace(":", ""))
         if span is None:
             log("  %s: no Hansard span within two minutes of %s; skipped" % (s["name"], c.get("at")))
@@ -223,13 +227,17 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
         for tail_margin in TAIL_MARGINS:
             if os.path.exists(window) and os.path.exists(window + ".json"):
                 have = json.load(open(window + ".json"))
-                if have.get("tail_margin", MARGIN_S) < tail_margin or have.get("tail_margin") is None and tail_margin != TAIL_MARGINS[0]:
+                # A cached window is for ONE span. Merging (12 Sept) stretched
+                # Bradley's from 162 s to 17 min under the same tag: a window cut
+                # for a different span is stale, whatever its tail margin.
+                stale_span = have.get("span") is not None and any(abs(a - b) > 1.0 for a, b in zip(have["span"], span))
+                if stale_span or have.get("tail_margin", MARGIN_S) < tail_margin or have.get("tail_margin") is None and tail_margin != TAIL_MARGINS[0]:
                     for f in (window, words_json, os.path.join(hd, tag + "-window.wav")):
                         if os.path.exists(f):
                             os.remove(f)
             if not os.path.exists(window):
                 file_start, raw = hlsfetch.fetch_window(manifest, span[0], span[1] + (tail_margin - MARGIN_S), window, ff, height=height, margin=MARGIN_S, log=None)
-                json.dump({"file_start": file_start, "tail_margin": tail_margin}, open(window + ".json", "w"))
+                json.dump({"file_start": file_start, "tail_margin": tail_margin, "span": list(span)}, open(window + ".json", "w"))
                 log("  %s: fetched %.0f MB for %s (tail margin %.0fs)" % (s["name"], raw / 1e6, c.get("at"), tail_margin))
             file_start = json.load(open(window + ".json"))["file_start"]
             words = alignclip.transcribe(window, os.path.join(hd, tag + "-window.wav"), ff, model_size=whisper_model, words_json=words_json, log=lambda *_a: None)
@@ -262,24 +270,48 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
                  "-c:a", "copy", "-movflags", "+faststart", out])
         log("  %-28s %s  %6.1fs  in %.2f out %.2f  -> %s" % (s["name"], c.get("at"), dur, r1 or 0, r2 or 0, os.path.basename(out)))
         rows.append((s, c, (start, end, dur, r1, r2), os.path.relpath(out, pack_dir)))
-    write_report(pack_dir, rows)
+    write_report(pack_dir, rows, keep_others=bool(only))
     return rows
 
 
-def write_report(pack_dir, rows):
-    lines = ["# Full speeches, 16:9", "",
-             "Cut from each onside speaker's own Hansard span at 1080p, trimmed to the speech's first and last",
-             "Hansard words as heard, subtitled from the Hansard text timed against the speech. Clips in",
-             "clips/final/speech-*.mp4 (subtitled) and *-clean.mp4 (no burn), with a .srt each. Parliamentary",
-             "Recording Unit terms apply.", ""]
-    for s, c, cut, where in rows:
-        if cut is None:
-            lines.append("* %s, %s: %s" % (s["name"], c.get("at"), where)); continue
-        start, end, dur, r1, r2 = cut
-        lines.append("* %s, %s: %.0f s (%d Hansard words); anchors matched %s / %s; %s"
-                     % (s["name"], c.get("at"), dur, c.get("words") or 0,
-                        "%.2f" % r1 if r1 else "Hansard time", "%.2f" % r2 if r2 else "Hansard time", where))
-    open(os.path.join(pack_dir, "speeches-cut.md"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
+def clip_numbers(todo):
+    """{(speaker name, contribution clock): clip number} in plan order."""
+    return {(s["name"], c.get("at")): i for i, (s, c, _span) in enumerate(todo, 1)}
+
+
+REPORT_HEAD = ["# Full speeches, 16:9", "",
+               "Cut from each onside speaker's own Hansard span at 1080p, trimmed to the speech's first and last",
+               "Hansard words as heard, subtitled from the Hansard text timed against the speech. Clips in",
+               "clips/final/speech-*.mp4 (subtitled) and *-clean.mp4 (no burn), with a .srt each. Parliamentary",
+               "Recording Unit terms apply.", ""]
+
+
+def report_line(s, c, cut, where):
+    if cut is None:
+        return "* %s, %s: %s" % (s["name"], c.get("at"), where)
+    start, end, dur, r1, r2 = cut
+    return ("* %s, %s: %.0f s (%d Hansard words); anchors matched %s / %s; %s"
+            % (s["name"], c.get("at"), dur, c.get("words") or 0,
+               "%.2f" % r1 if r1 else "Hansard time", "%.2f" % r2 if r2 else "Hansard time", where))
+
+
+def _clip_no(line):
+    m = re.search(r"speech-(\d+)-", line)
+    return int(m.group(1)) if m else 999
+
+
+def write_report(pack_dir, rows, keep_others=False):
+    """speeches-cut.md. With `keep_others` (a re-cut of some speakers) the other
+    speakers' lines from the previous file are kept and the re-cut speakers' lines
+    replaced, so one speaker's re-cut does not erase the rest of the record."""
+    path = os.path.join(pack_dir, "speeches-cut.md")
+    new = [report_line(*r) for r in rows]
+    if keep_others and os.path.exists(path):
+        redone = {_bare(r[0]["name"]) for r in rows}
+        old = [ln for ln in open(path, encoding="utf-8").read().splitlines()
+               if ln.startswith("* ") and _bare(ln[2:].split(",")[0]) not in redone]
+        new = sorted(old + new, key=_clip_no)
+    open(path, "w", encoding="utf-8").write("\n".join(REPORT_HEAD + new) + "\n")
 
 
 ASPECTS = {

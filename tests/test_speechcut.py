@@ -44,6 +44,30 @@ class PlanTests(unittest.TestCase):
         self.assertEqual([s["name"] for s, _c, _sp in todo], ["Shivani Raja"])
 
 
+class NumberingAndReportTests(unittest.TestCase):
+    """A re-cut of one speaker (12 Sept 2026, Bradley) keeps the clip number from the
+    full run and rewrites only that speaker's lines in speeches-cut.md."""
+
+    def test_clip_numbers_come_from_the_wider_plan(self):
+        full = spc.plan(STATE, SPEECHES, lambda s: True)
+        numbers = spc.clip_numbers(full)
+        self.assertEqual(numbers[("Shivani Raja", "16:41:12")], 1)      # speeches.md order, not clock order
+        self.assertEqual(numbers[("Dave Robertson", "16:30:00")], 2)
+
+    def test_partial_report_keeps_the_other_speakers_lines(self):
+        import tempfile
+        d = tempfile.mkdtemp()
+        raja, dave = SPEECHES[0], SPEECHES[1]
+        spc.write_report(d, [(dave, dave["contributions"][0], (0, 10, 10.0, 0.9, 0.9), "clips/final/speech-01-dave.mp4"),
+                             (raja, raja["contributions"][0], (0, 10, 10.0, 0.9, 0.9), "clips/final/speech-02-raja.mp4")])
+        spc.write_report(d, [(raja, raja["contributions"][0], (0, 900, 900.0, 0.8, 0.8), "clips/final/speech-02-raja.mp4")], keep_others=True)
+        lines = [ln for ln in open(os.path.join(d, "speeches-cut.md")).read().splitlines() if ln.startswith("* ")]
+        self.assertEqual(len(lines), 2)
+        self.assertTrue(lines[0].startswith("* Dave Robertson"))
+        self.assertIn("900 s", lines[1])
+        self.assertNotIn("10 s", lines[1])
+
+
 class MergeTests(unittest.TestCase):
     """Bradley's speech, five contributions with interventions between: one clip."""
 

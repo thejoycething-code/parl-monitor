@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tools"))
 
-from src import speechcut  # noqa: E402
+from src import speechcut, socialcut  # noqa: E402
 
 
 def main():
@@ -47,7 +47,6 @@ def main():
         # minutes of transcription each, cutting them all unasked is hours of work the
         # campaigner may not want. The sequence names the speakers judged worth a reel;
         # start there, --all for the rest.
-        from src import socialcut
         only = [e["name"] for e in socialcut.parse_sequence(open(seq, encoding="utf-8").read())]
         print("cutting the %d speaker(s) in sequence.md (--all for every onside speaker)" % len(only))
     if args.recaption:
@@ -55,8 +54,12 @@ def main():
                                    provisional=not args.confirmed_only, aspect=args.aspect, crop=args.crop)
         print("%d clip(s) re-captioned at %s" % (len(done), args.aspect))
         return
+    # A re-cut of named speakers keeps their clip numbers from the sequence run.
+    number_from = None
+    if args.only and not args.all and os.path.exists(seq):
+        number_from = [e["name"] for e in socialcut.parse_sequence(open(seq, encoding="utf-8").read())]
     rows = speechcut.build(args.pack.rstrip("/"), ff, log=print, whisper_model=args.model,
-                           only=only, provisional=not args.confirmed_only, height=args.height)
+                           only=only, provisional=not args.confirmed_only, height=args.height, number_from=number_from)
     print("%d speech(es) cut; see %s/speeches-cut.md" % (sum(1 for r in rows if r[2]), args.pack.rstrip("/")))
 
 
