@@ -68,6 +68,18 @@ class NumberingAndReportTests(unittest.TestCase):
         self.assertNotIn("10 s", lines[1])
 
 
+class ForgetTests(unittest.TestCase):
+    def test_a_changed_span_drops_the_part_transcript_with_the_window(self):
+        import tempfile
+        hd = tempfile.mkdtemp(); tag = "02-dame-karen-bradley-100400"
+        for n in ("-window.mp4", "-window.mp4.json", "-window.wav", "-window.words.json", "-part.wav", "-part.words.json", ".ass", ".mp4"):
+            open(os.path.join(hd, tag + n), "w").write("x")
+        spc.forget(hd, tag)                       # a wider tail margin: the window only
+        self.assertCountEqual(os.listdir(hd), [tag + ".ass", tag + ".mp4", tag + "-part.wav", tag + "-part.words.json"])
+        spc.forget(hd, tag, part_too=True)        # a different span: the part's transcript too
+        self.assertEqual(sorted(os.listdir(hd)), [tag + ".mp4"])
+
+
 class MergeTests(unittest.TestCase):
     """Bradley's speech, five contributions with interventions between: one clip."""
 

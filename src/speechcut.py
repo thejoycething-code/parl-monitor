@@ -105,6 +105,20 @@ def merge_speech(placed, gap=MERGE_GAP_S):
     return out
 
 
+def forget(hd, tag, part_too=False):
+    """Drop a tag's cached window (and, for a changed span, the cut part's transcript
+    too). 12 Sept 2026: Bradley's merged 16-minute clip was captioned against the
+    162-second part transcript left by the pre-merge cut under the same tag, so
+    the captions stopped at 2:42. Whatever depends on the span goes with it."""
+    names = [tag + "-window.mp4", tag + "-window.mp4.json", tag + "-window.wav", tag + "-window.words.json"]
+    if part_too:
+        names += [tag + "-part.wav", tag + "-part.words.json", tag + ".ass"]
+    for n in names:
+        f = os.path.join(hd, n)
+        if os.path.exists(f):
+            os.remove(f)
+
+
 def _bare(name):
     return re.sub(r"\s*MP$", "", name or "").strip().lower()
 
@@ -232,9 +246,7 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
                 # for a different span is stale, whatever its tail margin.
                 stale_span = have.get("span") is not None and any(abs(a - b) > 1.0 for a, b in zip(have["span"], span))
                 if stale_span or have.get("tail_margin", MARGIN_S) < tail_margin or have.get("tail_margin") is None and tail_margin != TAIL_MARGINS[0]:
-                    for f in (window, words_json, os.path.join(hd, tag + "-window.wav")):
-                        if os.path.exists(f):
-                            os.remove(f)
+                    forget(hd, tag, part_too=stale_span)
             if not os.path.exists(window):
                 file_start, raw = hlsfetch.fetch_window(manifest, span[0], span[1] + (tail_margin - MARGIN_S), window, ff, height=height, margin=MARGIN_S, log=None)
                 json.dump({"file_start": file_start, "tail_margin": tail_margin, "span": list(span)}, open(window + ".json", "w"))
@@ -358,8 +370,10 @@ def recaption(pack_dir, ff, log=print, only=None, provisional=True, aspect="16:9
         tag = max(found, key=lambda f: os.path.getmtime(os.path.join(hd, f)))[:-4]
         part, words_json = os.path.join(hd, tag + ".mp4"), os.path.join(hd, tag + "-part.words.json")
         if not os.path.exists(words_json):
-            log("  %s %s: part has no transcript on disk; run the cut first" % (s["name"], c.get("at")))
-            continue
+            # the transcript was dropped (forget) or never made: hear the part now
+            log("  %s %s: transcribing the part (no transcript on disk)" % (s["name"], c.get("at")))
+            alignclip.transcribe(part, os.path.join(hd, tag + "-part.wav"), ff, model_size="small.en",
+                                 words_json=words_json, log=lambda *_a: None)
         heard = [tuple(w) for w in json.load(open(words_json))]
         dur = sc._dur(ff, part)
         name = s["name"] if s["name"].endswith(" MP") else s["name"] + " MP"
