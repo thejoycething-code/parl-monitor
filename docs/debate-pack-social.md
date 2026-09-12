@@ -4,33 +4,42 @@ Set on the surrogacy debate (Westminster Hall, 7 September 2026) and adopted as 
 defaults on 8 September. Anything here can be overridden per pack, but the tool and
 the writer start from these.
 
-## Order of work
+## Order of work (rewritten 12 September 2026 after the Second Reading run)
 
-1. `tools/debate_pack.py --date D --find TERM` once Hansard is up: roundup, checklist,
-   speeches, quotes, shotlist.
-2. Confirm who is onside in `checklist.md` (the pass's reading is never the verdict),
-   then `--apply`.
-3. NOT NEEDED since 2026-09-10: the whole-sitting download. Each passage is located
-   inside the speaker's own Hansard span and fetched by HLS segment. Optional, and
-   still cheapest when it exists: `--download-debate` then `--transcribe`.
-4. `tools/social_cut.py --pack F --draft` writes a first `sequence.md` of REEL-LENGTH
-   passages (30-60 seconds of speech, `reel_passage`) from each onside speaker's
-   longest contribution in speeches.md, longest first. Run it before the checklist
-   is confirmed and the pass read stands in: the file then carries a PROVISIONAL
-   line and lists, at the foot, who was left out and why. The template is
-   `docs/sequence-template.md`. Reorder, trim to about six, then run
-   `tools/social_cut.py --pack F`.
-   Before publishing a report, `tools/debate_report.py --pack F --preview` creates
-   the canvas and shares it with the DM recipient alone, so the rendering is seen
-   before anything reaches the channel; `--publish` is the separate, explicit step.
-   The report has the same mode: `tools/debate_report.py --pack F --provisional`
-   drafts from the pass read, marks report.md, social.md and report.json, and
-   `--publish` refuses it (no flag clears that) until the checklist is confirmed and
-   the report regenerated plain. Onside remains the campaigner's decision; the
-   provisional mode exists so a draft can be waiting the same evening.
-5. Check `clips/final/social-cut-contact-sheet.jpg` (crops) and `social-cut.md`
-   (the words heard). Correct `sequence.md` and re-run with `--render`.
-6. Write the article from `speeches.md` to the brief below.
+The order matters: footage cut before the selector had chosen was cut twice on
+11 September, and two sessions on one pack cost three hours. One pack, one
+process (`.lock` in the pack folder; `PARL_FORCE_LOCK=1` only for a dead holder).
+
+1. **During the debate** — `tools/live_debate.py --date D --find TERM --area N --dm`
+   at lunchtime and again before the division: builds the pack from what Hansard
+   has published so far (the stance read is cached per speaker) and DMs the
+   WOBBLE / SLIP list — members whose words today contradict their last vote on
+   the area. Goldman's 09:56 intervention would have been on the phone by 10:30.
+2. **Pack** — `tools/debate_pack.py --date D --find TERM` once Hansard is complete
+   (`pack.json` carries the day's divisions with the question put before each).
+3. **Checklist from the vote** — when the debate ended in a division,
+   `tools/debate_pack.py --pack F --apply --from-vote <division id>` fills ONSIDE
+   from the lobbies (our side from `vote_tracker.yaml`, or `--our-side`). Members
+   in both lobbies are left for a person. Fill by hand only when there was no vote.
+4. **Selector** — `tools/pick_speeches.py --pack F --top 8 --write-sequence`:
+   ranks every confirmed-onside speech for campaign value in batches of eight,
+   verifies each passage verbatim, writes `selection.md` and the `sequence.md`
+   the cutters read. The previous sequence is kept.
+5. **Footage** — `tools/social_cut.py --pack F` (the reel, same evening), then
+   `tools/speech_cut.py --pack F` (the full speeches, next morning is fine). Both
+   begin with the clock self-check: the opener and the closer are probed and the
+   offsets written to `pack.json`; a run stops if the stream and Hansard disagree
+   by more than 20 seconds. A speech interrupted by interventions is one clip.
+6. **Report** — `tools/debate_report.py --pack F` (the vote is in, so no
+   `--provisional`), then `--preview` to see the canvas alone.
+7. **Publish** — `tools/debate_report.py --pack F --publish --with-clips`: puts the
+   reel, clips, subtitles and logs on Drive ("Debate footage / <date> <title>" in the
+   Automated Briefs shared drive) and posts the canvas to #campaigns-en-gb with the
+   Drive link and a Best speeches section. Slack carries the link, never the bytes.
+8. **Afterwards** — add the division to `config/vote_tracker.yaml` and sign it off;
+   Monday's run ledgers the voters, writes the tracker's stance for both lobbies
+   (`tracker:signed`, which outranks the model), records who was present but did
+   not vote, and refreshes the 5CA.
 
 ## sequence.md
 
