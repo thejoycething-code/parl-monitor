@@ -263,6 +263,8 @@ def main():
     ap.add_argument("--house", default="Commons"); ap.add_argument("--event"); ap.add_argument("--venue")
     ap.add_argument("--no-read", action="store_true")
     ap.add_argument("--pack"); ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--from-vote", help="with --apply: fill ONSIDE from this Commons division id (our side from vote_tracker.yaml, or --our-side)")
+    ap.add_argument("--our-side", choices=["aye", "no"], help="with --from-vote: which lobby is ours when the division is not on the tracker")
     ap.add_argument("--download", action="store_true"); ap.add_argument("--download-debate", action="store_true")
     ap.add_argument("--from", dest="frm"); ap.add_argument("--to"); ap.add_argument("--quality", default="576", help="height cap: 180, 360, 576, 1080")
     ap.add_argument("--cut", help="a markdown file of '## Name' + passage: cut each at its words from the whole-debate recording")
@@ -271,6 +273,19 @@ def main():
         return cut_passages(args)
     if args.pack and (args.download or args.download_debate):
         return download(args)
+    if args.pack and args.apply and args.from_vote:
+        import yaml
+        cfg = yaml.safe_load(open(os.path.join(ROOT, "config", "vote_tracker.yaml")))
+        tracked = {str(d["id"]): str(d.get("our_side") or "").lower() for d in cfg.get("divisions") or []}
+        side = args.our_side or tracked.get(str(args.from_vote))
+        if side not in ("aye", "no"):
+            raise SystemExit("division %s is not on the tracker; say which lobby is ours with --our-side aye|no" % args.from_vote)
+        client = HttpClient(os.path.join(ROOT, "data", "raw"))
+        payload = client.get_json("https://commonsvotes-api.parliament.uk/data/division/{0}.json".format(args.from_vote),
+                                  "divisions", "division_cdetail-{0}".format(args.from_vote))
+        filled = dp.fill_checklist_from_vote(os.path.join(args.pack, "checklist.md"), payload, side)
+        print("checklist filled from division {0} (our side {1}): {2} yes, {3} no".format(
+            args.from_vote, side, sum(1 for v in filled.values() if v == "yes"), sum(1 for v in filled.values() if v == "no")))
     if args.pack and args.apply:
         return apply(args)
     if args.date and (args.find or args.debate):

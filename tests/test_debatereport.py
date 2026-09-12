@@ -262,6 +262,14 @@ class CanvasBodyTests(unittest.TestCase):
         self.assertIn("> Their words.", body); self.assertNotIn("B Member", body)
         self.assertEqual(dr.best_speeches_section(None), "")
 
+    def test_the_drive_folder_is_linked_when_the_pack_has_one(self):
+        meta = dict(META, drive={"url": "https://drive.google.com/drive/folders/F1", "root": "Debate footage",
+                                 "files": [{"name": "a.mp4"}, {"name": "b.mp4"}, {"name": "b.srt"}]})
+        body = dr.canvas_body(meta, "Report.")
+        self.assertIn("[Debate footage on Drive](https://drive.google.com/drive/folders/F1) — 2 clips", body)
+        self.assertIn("drive.google.com/drive/folders/F1", dr.canvas_summary(meta))
+        self.assertNotIn("Drive", dr.canvas_body(META, "Report."))
+
     def test_summaries_differ(self):
         self.assertIn("--publish", dr.canvas_summary(META, preview=True))
         self.assertIn("Recording Unit", dr.canvas_summary(META))

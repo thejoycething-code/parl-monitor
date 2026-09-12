@@ -300,3 +300,19 @@ class DivisionTests(unittest.TestCase):
         self.assertEqual(got[0]["noes"], 286)
         self.assertIn("negatived", got[0]["result"])
         self.assertIn("Second time", got[0]["question"])
+
+
+class ChecklistFromVoteTests(unittest.TestCase):
+    def test_onside_comes_from_the_lobbies_and_both_lobbies_is_left_to_a_person(self):
+        import tempfile
+        tmp = tempfile.mkdtemp()
+        path = os.path.join(tmp, "checklist.md")
+        open(path, "w").write("# Checklist\n\n### speaker: 101\nONSIDE: \n\n### speaker: 202\nONSIDE: \n\n### speaker: 303\nONSIDE: \n\n### speaker: 404\nONSIDE: \n")
+        payload = {"DivisionId": 2428, "Ayes": [{"MemberId": 101}, {"MemberId": 303}], "Noes": [{"MemberId": 202}, {"MemberId": 303}],
+                   "AyeTellers": [], "NoTellers": []}
+        out = dp.fill_checklist_from_vote(path, payload, "no")
+        self.assertEqual(out, {"101": "no", "202": "yes"})
+        text = open(path).read()
+        self.assertRegex(text, r"### speaker: 303\nONSIDE:\s+<- voted in both lobbies")
+        self.assertIn("### speaker: 404\nONSIDE: \n", text)          # absent: untouched
+        self.assertIn("ONSIDE filled from the vote record: division 2428, our side no (1 yes / 1 no)", text)

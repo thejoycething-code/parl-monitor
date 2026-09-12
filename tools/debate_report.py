@@ -151,6 +151,14 @@ def publish_canvas(args):
         print("Failed checks: fix the report by hand, re-run generation, or pass --force. "
               "Provisional: confirm the checklist and regenerate; no flag clears it.")
         raise SystemExit(2)
+    if args.with_clips:
+        # to Drive, never to Slack: the canvas gets the folder link
+        from src import drivepack
+        url, done = drivepack.publish(pack, log=print)
+        state["drive_upload"] = {"url": url, "files": len(done)}
+        meta = json.load(open(os.path.join(pack, "pack.json")))
+        meta["speakers_total"] = len(_speeches); meta["hansard_url"] = "https://hansard.parliament.uk/{0}/{1}/debates/{2}/".format(
+            meta.get("house", "Commons"), meta.get("date"), meta.get("ext_id"))
     title = "%s — %s" % (meta.get("title"), meta.get("date"))
     secrets = publish.load_secrets()
     result = publish.slack_publish_canvas(secrets, title, dr.canvas_body(meta, report, selection=load_selection(pack)), dr.canvas_summary(meta))
@@ -159,7 +167,7 @@ def publish_canvas(args):
         state["published"] = {"at": datetime.datetime.now().isoformat(timespec="seconds"),
                               "canvas_url": result["canvas_url"], "message_ts": result.get("message_ts")}
         if args.with_clips:
-            state["published"]["clips"] = upload_clips(pack, secrets, result.get("message_ts"))
+            state["published"]["clips"] = state.get("drive_upload")
         json.dump(state, open(os.path.join(pack, "report.json"), "w"), indent=1)
     else:
         print("publish failed:", result)
@@ -209,7 +217,7 @@ def main():
     ap.add_argument("--preview", action="store_true", help="the canvas as it will render, shared with you alone via DM; never the channel")
     ap.add_argument("--publish", action="store_true", help="post the approved report as a canvas to the channel")
     ap.add_argument("--force", action="store_true", help="publish even though checks failed (say why in the channel)")
-    ap.add_argument("--with-clips", action="store_true", help="with --publish: upload the reel and the sequence speakers' full-speech clips into the thread")
+    ap.add_argument("--with-clips", action="store_true", help="with --publish: put the reel, clips and logs on Drive first (tools/drive_pack.py) and link the folder from the canvas")
     args = ap.parse_args()
     if args.preview and args.publish:
         raise SystemExit("--preview or --publish, not both")

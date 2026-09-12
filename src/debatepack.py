@@ -322,6 +322,45 @@ def parse_checklist(path):
     return out
 
 
+def fill_checklist_from_vote(path, payload, our_side):
+    """Set every speaker's ONSIDE from a division: our lobby -> yes, the other -> no,
+    both lobbies or absent -> left as it was. Returns {key: 'yes'|'no'} written.
+
+    Christopher, 12 Sept 2026: when the debate ends in a division, the vote IS the
+    check. The other session filled the 11 September checklist this way by hand
+    (46 yes / 29 no); now it is one flag. Speaker keys are member ids, which is
+    what the division carries, so no name matching is involved.
+    """
+    ours = "Ayes" if our_side == "aye" else "Noes"
+    theirs = "Noes" if our_side == "aye" else "Ayes"
+    yes = {str(m["MemberId"]) for k in (ours, ours[:-1] + "Tellers" if False else ("AyeTellers" if our_side == "aye" else "NoTellers")) for m in payload.get(k) or []}
+    no = {str(m["MemberId"]) for k in (theirs, ("NoTellers" if our_side == "aye" else "AyeTellers")) for m in payload.get(k) or []}
+    both = yes & no
+    yes, no = yes - both, no - both
+    out, cur, lines = {}, None, []
+    with open(path, encoding="utf-8") as fh:
+        for raw in fh:
+            line = raw.rstrip("\n")
+            if line.startswith("### speaker:"):
+                cur = line.split("speaker:", 1)[1].strip()
+            elif cur and line.upper().startswith("ONSIDE:"):
+                if cur in yes:
+                    line, out[cur] = "ONSIDE: yes", "yes"
+                elif cur in no:
+                    line, out[cur] = "ONSIDE: no", "no"
+                elif cur in both:
+                    line = line.rstrip() + "   <- voted in both lobbies (abstained); decide by hand"
+            lines.append(line)
+    note = "*ONSIDE filled from the vote record: division %s, our side %s (%d yes / %d no).*" % (
+        payload.get("DivisionId"), our_side, sum(1 for v in out.values() if v == "yes"), sum(1 for v in out.values() if v == "no"))
+    if note not in lines:
+        for i, l in enumerate(lines):
+            if l.startswith("# "):
+                lines.insert(i + 1, ""); lines.insert(i + 2, note); break
+    open(path, "w", encoding="utf-8").write("\n".join(lines) + ("\n" if not lines or lines[-1] else ""))
+    return out
+
+
 # -- quotes ------------------------------------------------------------------------
 
 def quotes_for(text, patterns, limit=3):
