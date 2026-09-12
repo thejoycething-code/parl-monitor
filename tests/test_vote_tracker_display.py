@@ -2284,11 +2284,14 @@ class BillStatusAndActionTests(unittest.TestCase):
             flat)
         # !g.issue.live joined the gate 2026-08-31: while a Bill is in the
         # LIVE NOW band, the band owns status/next/action and the record
-        # card must not repeat them
-        self.assertIn("${main && !g.issue.live && g.issue.status ?", flat)
-        self.assertIn("${main && !g.issue.live && g.issue.next ?", flat)
-        self.assertIn("${main && !g.issue.live && g.issue.action "
+        # card must not repeat them. 2026-09-12: the gate reads the same
+        # predicate the band does, not the raw config flag -- when the two
+        # disagreed, status fell out of BOTH places at once.
+        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.status ?", flat)
+        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.next ?", flat)
+        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.action "
                       "&& g.issue.action.url && g.issue.action.label", flat)
+        self.assertNotIn("!g.issue.live &&", flat)
 
     def test_the_forward_look_is_stage_house_and_date(self):
         flat = " ".join(template().split())
@@ -2353,6 +2356,45 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         self.assertIn("Live now · ${esc(bandTitle)}", flat)
         self.assertIn("for (const issue of bandIssues())", flat)
         self.assertIn("The record — ${mineDivs.length} division", flat)
+
+    def test_a_past_date_is_never_described_as_today(self):
+        # The morning after the assisted suicide Bill was defeated, the page
+        # still read "2ND READING . TODAY" over it: inDays clamped every
+        # n <= 0 to "today", so yesterday and last month both read as now.
+        flat = " ".join(template().split())
+        self.assertIn('n === 0 ? "today"', flat)
+        self.assertIn('n === -1 ? "yesterday"', flat)
+        self.assertIn('n < -1 ? Math.abs(n) + " days ago"', flat)
+        self.assertNotIn('n <= 0 ? "today"', flat)
+
+    def test_live_business_is_filtered_at_view_time_not_only_at_build(self):
+        # The builder drops past-dated board rows, but it can only do that
+        # when it runs. A page built on the day of a division has to stop
+        # calling it live by itself the next morning.
+        flat = " ".join(template().split())
+        self.assertIn("const isPastDate = iso => !!iso && daysUntil(iso) < 0;", flat)
+        self.assertIn("const liveBillsNow = () => (DATA.live_bills || [])"
+                      ".filter(b => !isPastDate(b.date));", flat)
+        # every reader of the live list goes through the filter
+        self.assertIn("for (const b of liveBillsNow())", flat)
+        self.assertIn("const n = liveBillsNow().length;", flat)
+
+    def test_a_decided_bill_leaves_the_live_band(self):
+        # Once the division is held AND the board row is no longer live
+        # business, the result belongs in The Record. An issue still
+        # awaiting its division is never dropped.
+        flat = " ".join(template().split())
+        self.assertIn("if (i.result && i.board_id && "
+                      "!liveBoardIds().has(i.board_id)) return false;", flat)
+        self.assertIn("const bandIssues = () => DATA.issues.filter(isLiveNow);", flat)
+
+    def test_the_band_gate_cannot_throw_on_an_empty_hero_list(self):
+        # `others` was never declared: the guard only survived because
+        # heroes was always non-empty, so the ReferenceError sat latent
+        # until a decided Bill emptied the band.
+        flat = " ".join(template().split())
+        self.assertIn("if (heroes.length || othersCount)", flat)
+        self.assertNotIn("others.length", flat)
 
     def test_the_band_is_the_upcoming_bill_s_only_home(self):
         # The old "NO VOTES YET" card and the coming-up strip are both
@@ -2584,8 +2626,13 @@ class BothHomesTests(unittest.TestCase):
     record, the record gained the card, the divider recounted."""
 
     def test_the_band_tracks_the_bill_s_life_not_the_absence_of_votes(self):
+        # Still the 2026-08-31 rule: a division does not evict a Bill from
+        # the band. Refined 2026-09-12 -- the Bill's LIFE is what keeps it
+        # there, so a decided Bill whose board row has gone past drops out
+        # rather than pulsing "Live now" over business that is finished.
         flat = " ".join(template().split())
-        self.assertIn("DATA.issues.filter(i => i.upcoming || i.live)", flat)
+        self.assertIn("const bandIssues = () => DATA.issues.filter(isLiveNow);", flat)
+        self.assertIn("if (!(i.upcoming || i.live)) return false;", flat)
 
     def test_once_a_division_exists_the_promise_becomes_the_fact(self):
         flat = " ".join(template().split())
@@ -2599,11 +2646,14 @@ class BothHomesTests(unittest.TestCase):
 
     def test_the_record_card_never_duplicates_the_band(self):
         # while the issue is in the band, the band owns status, forward
-        # look and petition; the record card carries the votes
+        # look and petition; the record card carries the votes. Both sides
+        # read the SAME predicate (2026-09-12) -- gating the card on the raw
+        # config flag while the band gated on liveness meant that the moment
+        # they disagreed, the status showed in neither place.
         flat = " ".join(template().split())
-        self.assertIn("${main && !g.issue.live && g.issue.status", flat)
-        self.assertIn("${main && !g.issue.live && g.issue.next", flat)
-        self.assertIn("${main && !g.issue.live && g.issue.action", flat)
+        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.status", flat)
+        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.next", flat)
+        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.action", flat)
 
     def test_the_generator_ships_live_issues_even_with_divisions(self):
         import sqlite3

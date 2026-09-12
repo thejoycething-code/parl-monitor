@@ -935,19 +935,39 @@ const MONTH3 = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV
 // days" is always today's truth on a page rebuilt weekly.
 const daysUntil = iso => Math.ceil((new Date(iso + "T00:00:00") - new Date()) / 864e5);
 const inDays = iso => { const n = daysUntil(iso);
-  return n <= 0 ? "today" : n === 1 ? "tomorrow" : "in " + n + " days"; };
+  return n < -1 ? Math.abs(n) + " days ago" : n === -1 ? "yesterday"
+       : n === 0 ? "today" : n === 1 ? "tomorrow" : "in " + n + " days"; };
+// The builder drops past-dated board rows ("a stale date is board lag, not
+// business") but it can only apply that at build time. The same rule has to
+// hold at VIEW time, or a page built on the morning of a division still calls
+// that division live the day after (found 2026-09-12, the day after the
+// assisted suicide Bill was defeated at Second Reading).
+const isPastDate = iso => !!iso && daysUntil(iso) < 0;
+const liveBillsNow = () => (DATA.live_bills || []).filter(b => !isPastDate(b.date));
+const liveBoardIds = () => new Set(liveBillsNow().map(b => b.id));
 const upcomingIssues = () => DATA.issues.filter(i => i.upcoming);
 // The band's roster: an issue stays in LIVE NOW for as long as its board
 // row is live -- divisions or none (Christopher, 2026-08-31: after 11
 // September the vote belongs in The Record AND the Bill stays live).
-const bandIssues = () => DATA.issues.filter(i => i.upcoming || i.live);
+// A Bill stays in LIVE NOW after it divides (Christopher, 2026-08-31) -- but
+// only while it IS still live business. Once its division has been held and
+// the board row's date has passed with nothing new scheduled, the result
+// belongs in The Record, not under a pulsing "Live now" dot. An issue with no
+// result yet is never dropped: a division we are still waiting on should be
+// over-shown, not hidden.
+const isLiveNow = i => {
+  if (!(i.upcoming || i.live)) return false;
+  if (i.result && i.board_id && !liveBoardIds().has(i.board_id)) return false;
+  return true;
+};
+const bandIssues = () => DATA.issues.filter(isLiveNow);
 const featuredBillIds = () => new Set(bandIssues().map(i => i.board_id).filter(Boolean));
 function liveBillGroups(excludeIds){
   // dated groups ascending, then one TBA group: three Bills sharing a
   // sitting Friday are one occasion, not three entries
   const ex = excludeIds || new Set();
   const byDate = {};
-  for (const b of (DATA.live_bills || [])){
+  for (const b of liveBillsNow()){
     if (ex.has(b.id)) continue;
     // dkey, not "key": a display test anchors on the first declaration of
     // that name, which must stay the bill-card grouping in renderMP
@@ -983,7 +1003,7 @@ function orderPaperHTML(){
         ? `<a class="actbtn" href="${esc(issue.action.url)}" target="_blank" rel="noopener">${esc(issue.action.label)} ↗</a>` : ""}
     </div>`;
   }).join("");
-  const n = (DATA.live_bills || []).length;
+  const n = liveBillsNow().length;
   return `<div class="oppanel">
     <div class="ophead"><span class="livedot"></span><h2>Before Parliament now</h2>
       <small>${n} live Bill${n === 1 ? "" : "s"} on our issues · from the weekly board</small></div>
@@ -1351,15 +1371,15 @@ function renderMP(id){
           d.ayes + d.noes ? ` · ${d.passed ? "PASSED" : "REJECTED"} BY ${
             Math.abs(d.ayes - d.noes)}, ${d.ayes} TO ${d.noes}` : ""}</div>
         <h3>${esc(d.bill || g.issue.bill || g.issue.name)}</h3>
-        ${main && !g.issue.live && g.issue.status ? `<div class="billstatus">${esc(g.issue.status)}</div>` : ""}
-        ${main && !g.issue.live && g.issue.next ? `<div class="nextline">NEXT: ${
+        ${main && !isLiveNow(g.issue) && g.issue.status ? `<div class="billstatus">${esc(g.issue.status)}</div>` : ""}
+        ${main && !isLiveNow(g.issue) && g.issue.next ? `<div class="nextline">NEXT: ${
           esc(g.issue.next.stage)} in the ${esc(g.issue.next.house)} \u00b7 ${
           fmtD(g.issue.next.date)}</div>` : ""}
         ${noVerdict ? `<div class="caveat"><b>Why there is no verdict.</b> ${esc(d.context||"")}
           We do not score a vote that cannot show where a member stands on the issue.</div>` : ""}
         <div class="cardsum">${bits.join(" \u00b7 ")}${
           whipUniform(g) ? " \u00b7 " + whipUniform(g) : ""}</div>
-        ${main && !g.issue.live && g.issue.action && g.issue.action.url && g.issue.action.label
+        ${main && !isLiveNow(g.issue) && g.issue.action && g.issue.action.url && g.issue.action.label
           ? `<a class="actbtn" href="${esc(g.issue.action.url)}" target="_blank"
               rel="noopener">${esc(g.issue.action.label)} \u2197</a>` : ""}
       </div></article>`;
@@ -1615,7 +1635,7 @@ function renderMP(id){
     // one, because a shared band must not wear one Bill's name.
     const named = bandIssues().filter(i => i.live_label);
     const bandTitle = named.length === 1 ? named[0].live_label : "Before Parliament";
-    if (heroes.length || others.length)
+    if (heroes.length || othersCount)
       band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · ${esc(bandTitle)}</div>${heroes.join("")}${disc}</div>`;
   }
 
