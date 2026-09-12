@@ -43,6 +43,19 @@ process (`.lock` in the pack folder; `PARL_FORCE_LOCK=1` only for a dead holder)
    (`tracker:signed`, which outranks the model), records who was present but did
    not vote, and refreshes the 5CA.
 
+## The standing evening task (12 September 2026)
+
+The scheduled task `tia-second-reading-debate-pack` (renamed "Debate day") now
+fires every weekday at 18:30 London and begins with `tools/debate_today.py`:
+Hansard's sections for the day in both Houses, titles kept when they carry a
+tier-1 taxonomy term, a watchlist hit or a vote-tracker `debate_match` phrase,
+those few debates fetched and their speakers counted. Fifteen speakers or more
+is a key debate and the task runs the order of work above through the footage,
+with the report's approval DM and a closing DM; six to fourteen earns one DM
+naming it; a quiet day ends silently. It never publishes and never touches
+Drive: those are the campaigner's acts after reading the draft. Runs only while
+the desktop app is open.
+
 ## Re-cutting one speaker (12 September 2026)
 
 `tools/speech_cut.py --pack F --only "Name"` re-cuts one speaker and leaves the
