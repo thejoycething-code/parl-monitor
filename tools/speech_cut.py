@@ -31,6 +31,7 @@ def main():
     ap.add_argument("--model", default="small.en")
     ap.add_argument("--height", type=int, default=1080)
     ap.add_argument("--recaption", action="store_true", help="re-time and re-burn captions on the parts already cut; no fetching")
+    ap.add_argument("--crop", help="with --recaption and a cropped aspect: left | centre | right | speaker centre x in the 1920 frame")
     ap.add_argument("--aspect", default="16:9", choices=sorted(speechcut.ASPECTS), help="with --recaption: output aspect (4:5 crops about the reel crop)")
     args = ap.parse_args()
     from social_cut import tools
@@ -49,7 +50,7 @@ def main():
         print("cutting the %d speaker(s) in sequence.md (--all for every onside speaker)" % len(only))
     if args.recaption:
         done = speechcut.recaption(args.pack.rstrip("/"), ff, log=print, only=only,
-                                   provisional=not args.confirmed_only, aspect=args.aspect)
+                                   provisional=not args.confirmed_only, aspect=args.aspect, crop=args.crop)
         print("%d clip(s) re-captioned at %s" % (len(done), args.aspect))
         return
     rows = speechcut.build(args.pack.rstrip("/"), ff, log=print, whisper_model=args.model,

@@ -258,7 +258,7 @@ ASPECTS = {
 }
 
 
-def recaption(pack_dir, ff, log=print, only=None, provisional=True, aspect="16:9"):
+def recaption(pack_dir, ff, log=print, only=None, provisional=True, aspect="16:9", crop=None):
     """Re-time and re-burn the captions on parts already in clips/speech-hd: no fetching,
     no transcribing. For the clips whose caption timing was wrong (11 September 2026),
     and for another aspect: "4:5" crops the 16:9 part to 864x1080 about the speaker's
@@ -309,7 +309,10 @@ def recaption(pack_dir, ff, log=print, only=None, provisional=True, aspect="16:9
         open(os.path.join(final, "speech-" + tag + suffix + ".srt"), "w", encoding="utf-8").write(srt(item))
         chain, src = [], "[0:v]"
         if aspect != "16:9":
-            x = sc.crop_x(crops.get(_bare(s["name"]), "centre"), frame_w=1920, crop_w=crop_w)
+            # `crop` overrides for this run: the Chamber's cameras alternate a medium shot with
+            # a wide two-shot, and one speaker can stand at x=900 in one and x=540 in the other
+            # (Carla Lockhart, 11 Sept 2026); a centre crop cut her off in the second.
+            x = sc.crop_x(crop or crops.get(_bare(s["name"]), "centre"), frame_w=1920, crop_w=crop_w)
             geometry = "crop=%d:1080:%d:0,scale=%d:%d:flags=lanczos,format=yuv420p" % (crop_w, x, play[0], play[1])
             clean = os.path.join(final, "speech-" + tag + suffix + "-clean.mp4")
             sc._run([ff, "-y", "-loglevel", "error", "-i", part, "-vf", geometry, "-c:v", "libx264", "-crf", "18",
