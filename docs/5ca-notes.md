@@ -111,3 +111,12 @@ bare "hit" beside a ++ that was 0 beforehand reads as a contradiction.
 Next: the Terminally Ill Adults second reading on 2026-09-11 is a free vote
 on our core issue with a full roll call -- the best evaluation set of the
 year, and now it will be scored automatically.
+
+## Flags on the sheet (2026-09-12)
+
+After the Terminally Ill Adults Second Reading (270–286) every 5CA row carries
+`wavering`, `wavering_why`, `targeted` alongside `conflict`, rendered as W / T / ±
+chips on the internal web sheet with a Wavering filter. The rules, the evidence
+behind the threshold, the cap on former Aye voters, and the presence/absence
+events are written up in docs/debate-pack-social.md under "What the vote feeds".
+The partner build drops flags and tiers alike.

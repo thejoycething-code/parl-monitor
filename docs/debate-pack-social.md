@@ -41,6 +41,44 @@ process (`.lock` in the pack folder; `PARL_FORCE_LOCK=1` only for a dead holder)
    (`tracker:signed`, which outranks the model), records who was present but did
    not vote, and refreshes the 5CA.
 
+## What the vote feeds (added 12 September 2026)
+
+Everything below runs from the ledger once the division is signed off, so the
+sign-off is the one hand step that unlocks the rest.
+
+* **`tracker:signed` stances.** `src/trackerledger.apply_signed_stances` writes
+  ±2 for both lobbies of every signed-off tracker division and outranks the model:
+  on 12 September it corrected 68 refs, including nine June 2025 report-stage
+  refs the model had scored 0 and the 2306 misread. A human sign-off is the
+  vote record's direction; the model never overrides it.
+* **Both lobbies = abstention.** A member in both lobbies gets one `:both` event
+  and stance 0, never a flip (Snell, 11 September).
+* **Present but did not vote.** For each Commons division on the tracker,
+  `record_absences` looks at the day's other divisions (archived by
+  `archive_same_day_divisions`) and writes a `:absent` event for anyone who voted
+  that day but not on ours. Tellers count as voted (`voted_in`). On 2428 that left
+  two true absentees, Onn and Stewart, not the tellers.
+* **WAVERING** (`stance.wavering`): flagged when a member backed our side in at
+  least two votes on the area (safeguard amendments included) or shows two of
+  {good votes, majority under 5,000, recent words not hostile}. Measured on the
+  Second Reading: the safeguards-two-plus list moved or stayed away at 24 per
+  cent against a 16 per cent base; majority alone predicted nothing.
+* **TARGETED** (`stance.campaign_targets`): a regex over `campaign_performance`
+  names ("Tell <Name>: …", "Urge <Name> to …") matched to the members cache.
+  `tools/campaign_targets.py --area N` prints the 20 targets against their column
+  today. The campaign log is refreshed by hand (Max in #campaigns-en-gb, or the
+  Looker export through `tools/load_looker_campaigns.py`); weekly is enough.
+* **Caps.** `config/stance_overrides.yaml` `caps:` with `when_any`/`unless_any`:
+  nobody who voted for the Bill at Second or Third Reading can sit at ++ (21
+  members capped at +).
+* **The sheet.** `tools/make_5ca_web.py` puts W / T / ± chips beside the name and
+  a "Wavering" toggle on the internal build. The partner build carries neither
+  the tiers nor the flags: our targets and our read of who might move are ours.
+* **Between votes.** `tools/since_last_vote.py --area N [--since D] --write`
+  lists the other side's members whose words since their last vote lean our way,
+  and ours who have drifted. Areas are matched as a JSON list, never as a
+  substring (area 2 is not area 12).
+
 ## sequence.md
 
 ```
