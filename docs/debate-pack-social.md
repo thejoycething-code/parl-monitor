@@ -43,6 +43,20 @@ process (`.lock` in the pack folder; `PARL_FORCE_LOCK=1` only for a dead holder)
    (`tracker:signed`, which outranks the model), records who was present but did
    not vote, and refreshes the 5CA.
 
+## Re-cutting one speaker (12 September 2026)
+
+`tools/speech_cut.py --pack F --only "Name"` re-cuts one speaker and leaves the
+rest alone: the clip keeps the number it has in the sequence run (`number_from`),
+a window cached for a different span is fetched again along with the part's
+transcript (Bradley's merged 16-minute clip was first captioned against the
+162-second transcript left under the same tag, and stopped at 2:42), and only
+that speaker's lines in `speeches-cut.md` are rewritten. Then
+`tools/drive_pack.py --pack F --prune`: a same-name file at a new size is
+replaced, and clips the cutters named that the pack no longer has go to Drive's
+bin (30 days). Files a person put in the folder are never touched. `--dry-run`
+first shows every upload, replacement and bin. The 4:5 social variants keep the
+numbers they were cut with.
+
 ## What the vote feeds (added 12 September 2026)
 
 Everything below runs from the ledger once the division is signed off, so the
