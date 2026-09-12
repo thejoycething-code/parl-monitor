@@ -25,9 +25,12 @@ CFG = {
 }
 
 
-def breakdown_payload(division_id, n_aye=3, n_no=2):
+def breakdown_payload(division_id, n_aye=3, n_no=2, both=()):
     ayes = [{"MemberId": 1000 + i, "Name": "Aye %d" % i, "Party": "Con", "MemberFrom": "Seat %d" % i} for i in range(n_aye)]
     noes = [{"MemberId": 2000 + i, "Name": "No %d" % i, "Party": "Lab", "MemberFrom": "Seat %d" % i} for i in range(n_no)]
+    for mid in both:                                    # a member in both lobbies: the recorded abstention
+        ayes.append({"MemberId": mid, "Name": "Both %d" % mid, "Party": "Lab", "MemberFrom": "S"})
+        noes.append({"MemberId": mid, "Name": "Both %d" % mid, "Party": "Lab", "MemberFrom": "S"})
     return {"DivisionId": division_id, "Number": 1, "Title": "Health Bill: Report Stage: New Clause %d" % division_id,
             "Date": "2026-09-08T00:00:00", "AyeCount": n_aye, "NoCount": n_no, "Ayes": ayes, "Noes": noes,
             "AyeTellers": [], "NoTellers": []}
@@ -71,6 +74,29 @@ class MissingTests(unittest.TestCase):
         self.assertEqual(tl.prefix_for("Lords"), "l")
         self.assertEqual(tl.prefix_for("commons"), "c")
         self.assertEqual(tl.prefix_for(None), "c")
+
+
+class BothLobbiesTests(unittest.TestCase):
+    """Gareth Snell, 11 September 2026: in both lobbies, ledgered as an Aye and a No,
+    placed by the 5CA on the Aye side after a 'conflict'. An abstention has no side."""
+
+    def test_a_member_in_both_lobbies_gets_one_both_event_and_a_zero_stance(self):
+        from src import intel
+        from src.ingest import divisions as dv
+        conn = store()
+        payload = breakdown_payload(2428, 2, 2, both=(4595,))
+        division, voters = dv.parse_commons_breakdown(payload) if hasattr(dv, "parse_commons_breakdown") else (None, None)
+        if division is None:
+            class C(FakeClient):
+                def get_json(self, url, feed, slug, **kw):
+                    return payload
+            division, voters = dv.fetch_commons_breakdown(C(), 2428)
+        division.house = "Commons"
+        intel.record_votes(conn, division, voters, "c", [2])
+        rows = {r[0]: r[1] for r in conn.execute("SELECT ref, count(*) FROM mp_events WHERE member_id=4595 GROUP BY ref")}
+        self.assertEqual(rows, {"div:c2428:both": 1})
+        self.assertEqual(conn.execute("SELECT count(*) FROM mp_events WHERE ref='div:c2428:aye'").fetchone()[0], 2)
+        self.assertEqual(tuple(conn.execute("SELECT stance, model FROM stance WHERE ref='div:c2428:both'").fetchone()), (0, "rule:both-lobbies"))
 
 
 class EnsureTests(unittest.TestCase):

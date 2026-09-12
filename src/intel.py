@@ -117,7 +117,18 @@ def record_votes(conn, division, voters, prefix, areas=None):
     from src import members
 
     title = " ".join((division.title or "").split())  # source carries double spaces
-    n = 0
+    # A member in BOTH lobbies is the Commons' recorded abstention: Emma Hardy at
+    # the 2024 Second Reading, Wendy Chamberlain at the 2025 Third Reading, Gareth
+    # Snell at the 2026 Second Reading -- one on every assisted-suicide division.
+    # Ledgered as an aye AND a no, the 5CA saw a sign conflict and picked a side;
+    # it is neither. One ':both' event, and a stance of 0 written by rule so no
+    # model is ever asked what an abstention means.
+    sides = {}
+    for v in voters:
+        if v.member_id:
+            sides.setdefault(v.member_id, set()).add(v.vote)
+    both = {m for m, s in sides.items() if {"aye", "no"} <= s}
+    n, seen_both = 0, set()
     for v in voters:
         if not v.member_id:
             continue
@@ -125,6 +136,19 @@ def record_votes(conn, division, voters, prefix, areas=None):
             members.cache_put(conn, members.Member(
                 id=v.member_id, name=v.name, party=v.party,
                 seat=v.seat, house=division.house))
+        if v.member_id in both:
+            if v.member_id in seen_both:
+                continue
+            seen_both.add(v.member_id)
+            ref = "div:{0}{1}:both".format(prefix, division.id)
+            record_event(conn, v.member_id, division.date.isoformat(), "vote", ref,
+                         "Voted in both lobbies (a recorded abstention): {0}".format(title),
+                         areas=areas, commit=False, excerpt=getattr(division, "notes", None))
+            conn.execute("CREATE TABLE IF NOT EXISTS stance (ref TEXT PRIMARY KEY, stance INTEGER, why TEXT, model TEXT, scored_at TEXT)")
+            conn.execute("INSERT OR IGNORE INTO stance (ref, stance, why, model, scored_at) VALUES (?, 0, ?, 'rule:both-lobbies', date('now'))",
+                         (ref, "Voted in both lobbies, the Commons' recorded abstention; no direction."))
+            n += 1
+            continue
         record_event(conn, v.member_id, division.date.isoformat(), "vote",
                      "div:{0}{1}:{2}".format(prefix, division.id, v.vote),
                      "Voted {0}: {1}".format("Aye" if v.vote == "aye" else "No", title),
