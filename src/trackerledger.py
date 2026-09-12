@@ -81,6 +81,10 @@ def ensure(conn, client, cfg, log=print, dry_run=False):
         n = intel.record_votes(conn, division, voters, prefix, areas)
         log("  ledgered %s division %s (%s): %d voters under areas %s"
             % (house, division_id, issue, n, areas))
+        if prefix == "c":
+            raw_dir = getattr(client, "archive_dir", None) or getattr(client, "raw_dir", None) or "data/raw"
+            present = present_that_day(raw_dir, division.date.isoformat(), exclude_id=division_id)
+            record_absences(conn, division_id, division.date.isoformat(), " ".join((division.title or "").split()), areas, present, log=log)
         report.append((division_id, house, issue, n))
     if not report:
         log("  every tracker division already has its voters in the ledger")
@@ -88,6 +92,60 @@ def ensure(conn, client, cfg, log=print, dry_run=False):
 
 
 SIGNED_MODEL = "tracker:signed"
+ABSENT_MODEL = "rule:absent"
+
+
+def present_that_day(raw_dir, date, exclude_id=None):
+    """Member ids who voted in ANY Commons division archived for `date`, other than
+    `exclude_id`: presence proven by the record. Empty when the day holds no other
+    division (then nothing can be said, and nothing is)."""
+    import glob
+    import gzip
+    import json
+    import os
+    present = set()
+    for path in glob.glob(os.path.join(raw_dir, "*", "division_cdetail-*.json.gz")):
+        try:
+            with gzip.open(path, "rb") as fh:
+                d = json.loads(fh.read().decode("utf-8"))
+        except Exception:                                   # noqa: BLE001
+            continue
+        if (d.get("Date") or "")[:10] != date or d.get("DivisionId") == exclude_id:
+            continue
+        for k in ("Ayes", "Noes", "AyeTellers", "NoTellers"):
+            present.update(m.get("MemberId") for m in d.get(k) or [] if m.get("MemberId"))
+    return present
+
+
+def record_absences(conn, division_id, date, title, areas, present, log=print):
+    """One 'div:cN:absent' event per sitting MP who was present that day and voted in
+    neither lobby of this division; stance 0 by rule. Returns the count.
+
+    Christopher, 12 Sept 2026: "watch absence, not just votes" -- 45 supporters of
+    the Bill stayed away on 11 September against 17 opponents, on a margin of 16.
+    The closure division an hour earlier proves 48 of the day's members present.
+    The comment on the 5CA then distinguishes a member who stayed away from one who
+    was ill or abroad, which the bare roll never could.
+    """
+    from src import intel
+    if not present:
+        return 0
+    voted = {r[0] for r in conn.execute("SELECT member_id FROM mp_events WHERE ref IN (?,?,?)",
+                                        ("div:c%d:aye" % division_id, "div:c%d:no" % division_id, "div:c%d:both" % division_id))}
+    sitting = {r[0] for r in conn.execute("SELECT id FROM members WHERE current_mp = 1")}
+    ref = "div:c%d:absent" % division_id
+    n = 0
+    for mid in sorted(present & sitting - voted):
+        intel.record_event(conn, mid, date, "vote", ref,
+                           "Did not vote, though present that day: %s" % title, areas=areas, commit=False)
+        n += 1
+    conn.execute("CREATE TABLE IF NOT EXISTS stance (ref TEXT PRIMARY KEY, stance INTEGER, why TEXT, model TEXT, scored_at TEXT)")
+    conn.execute("INSERT OR IGNORE INTO stance (ref, stance, why, model, scored_at) VALUES (?, 0, ?, ?, date('now'))",
+                 (ref, "Present that day but voted in neither lobby.", ABSENT_MODEL))
+    conn.commit()
+    if n:
+        log("  absences: %d sitting member(s) present on %s did not vote in division %d" % (n, date, division_id))
+    return n
 
 
 def apply_signed_stances(conn, cfg, log=print):

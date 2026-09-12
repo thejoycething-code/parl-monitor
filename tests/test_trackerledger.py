@@ -136,6 +136,36 @@ class EnsureTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT count(*) FROM mp_events").fetchone()[0], 0)
 
 
+class AbsenceTests(unittest.TestCase):
+    def test_present_that_day_but_in_neither_lobby_is_one_absent_event_with_zero_stance(self):
+        conn = store()
+        from src import members
+        for mid in (1000, 1001, 2000, 7777, 8888):
+            members.cache_put(conn, members.Member(id=mid, name="M%d" % mid, party="Lab", seat="S", house="Commons", since="2024-07-04"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        conn.execute("UPDATE members SET current_mp = 0 WHERE id = 8888")      # a former member present in the record
+        conn.executemany("INSERT INTO mp_events (member_id, date, kind, ref, line, areas) VALUES (?, '2026-09-11', 'vote', ?, 'x', '[2]')",
+                         [(1000, "div:c2428:aye"), (1001, "div:c2428:aye"), (2000, "div:c2428:no")])
+        conn.commit()
+        present = {1000, 2000, 7777, 8888}          # 7777 voted on the closure but not on the Bill
+        n = tl.record_absences(conn, 2428, "2026-09-11", "TIA: Second Reading", [2], present, log=lambda *_a: None)
+        self.assertEqual(n, 1)
+        rows = conn.execute("SELECT member_id, line FROM mp_events WHERE ref='div:c2428:absent'").fetchall()
+        self.assertEqual([r[0] for r in rows], [7777]); self.assertIn("Did not vote, though present", rows[0][1])
+        self.assertEqual(tuple(conn.execute("SELECT stance, model FROM stance WHERE ref='div:c2428:absent'").fetchone()), (0, tl.ABSENT_MODEL))
+        self.assertEqual(tl.record_absences(conn, 2428, "2026-09-11", "t", [2], set(), log=lambda *_a: None), 0)
+
+    def test_presence_is_read_from_the_days_other_archived_divisions(self):
+        import gzip, json, tempfile
+        raw = tempfile.mkdtemp(); os.makedirs(os.path.join(raw, "2026-09-11"))
+        for did, ayes in ((2427, [5, 6]), (2428, [5, 9]), (2400, [42])):     # 2400 is another day
+            payload = {"DivisionId": did, "Date": "2026-09-11T14:15:00" if did != 2400 else "2026-09-08T18:00:00",
+                       "Ayes": [{"MemberId": m} for m in ayes], "Noes": [], "AyeTellers": [], "NoTellers": []}
+            with gzip.open(os.path.join(raw, "2026-09-11", "division_cdetail-%d.json.gz" % did), "wb") as fh:
+                fh.write(json.dumps(payload).encode())
+        self.assertEqual(tl.present_that_day(raw, "2026-09-11", exclude_id=2428), {5, 6})
+
+
 class SignedStanceTests(unittest.TestCase):
     """A human sign-off outranks the model (12 Sept 2026: eighteen safeguard lobby refs
     scored 0 hid the five movers from the 5CA)."""

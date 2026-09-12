@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import datetime
 import json
+import re
 import os
 from dataclasses import dataclass, field
 
@@ -743,6 +744,68 @@ def stance_to_column(stance):
     return {2: "++", 1: "+", 0: "0", -1: "-", -2: "--"}[max(-2, min(2, stance or 0))]
 
 
+WAVER_MAJORITY = 5000
+WAVER_MIN_GOOD_VOTES = 2
+_TARGET_RE = re.compile(r"^(?:Tell|Urge|Ask)\s+(?:Sir\s+|Dame\s+|Dr\s+)?([A-Z][a-z'\-]+(?:\s+[A-Z][A-Za-z'\-]+){0,2}?)(?::|\s+to\b|\s+is\b|\s+knows\b|\s+No\b|\s*[-–—])")
+
+
+def campaign_targets(conn):
+    """{member_id: [(campaign name, launch_date)]} from MP-named petitions in
+    campaign_performance ("Tell Clive Lewis: No to assisted suicide", "Urge Sarah
+    Pochin to vote no..."). Name matching against the members cache; a first name
+    plus surname must both appear, so "Tell Richard" matches nobody."""
+    try:
+        rows = conn.execute("SELECT name, launch_date FROM campaign_performance").fetchall()
+        members = conn.execute("SELECT id, name FROM members").fetchall()
+    except Exception:                                       # noqa: BLE001
+        return {}
+    by_key = {}
+    for mid, mname in members:
+        parts = re.sub(r"^(Sir|Dame|Dr|Mr|Mrs|Ms|Lord|Baroness)\s+", "", mname or "").split()
+        if len(parts) >= 2:
+            by_key.setdefault((parts[0].lower(), parts[-1].lower()), []).append(mid)
+    out = {}
+    for name, launched in rows:
+        m = _TARGET_RE.match(name or "")
+        if not m:
+            continue
+        parts = m.group(1).split()
+        if len(parts) < 2:
+            continue
+        for mid in by_key.get((parts[0].lower(), parts[-1].lower()), []):
+            out.setdefault(mid, []).append((name, launched))
+    return out
+
+
+def majorities(conn):
+    try:
+        return {r[0]: r[1] for r in conn.execute("SELECT member_id, majority FROM member_seat WHERE majority IS NOT NULL")}
+    except Exception:                                       # noqa: BLE001
+        return {}
+
+
+def wavering(column, evs, majority, today=None):
+    """(flag, why) -- a member placed against us on this area who nonetheless shows
+    a reason to think they could move: backed our side in WAVER_MIN_GOOD_VOTES or
+    more votes (the June 2025 safeguards: Myer 3, Daby 2), sits on a majority under
+    WAVER_MAJORITY (Myer 214), or said something in the last year that did not read
+    as hostile. Christopher, 12 Sept 2026: a list of those was drawable a year before
+    the vote and held two of the five who moved."""
+    if column not in ("-", "--"):
+        return False, ""
+    why = []
+    good_votes = sum(1 for r in evs if r["kind"] == "vote" and (r["stance"] or 0) > 0)
+    if good_votes >= WAVER_MIN_GOOD_VOTES:
+        why.append("backed our side in %d vote%s" % (good_votes, "" if good_votes == 1 else "s"))
+    if majority is not None and majority < WAVER_MAJORITY:
+        why.append("majority %s" % format(int(majority), ","))
+    cutoff = ((today or datetime.date.today()) - datetime.timedelta(days=365)).isoformat()
+    soft = [r for r in evs if r["kind"] in ("debate", "pq", "edm") and r["date"] >= cutoff and (r["stance"] or 0) >= 0]
+    if soft:
+        why.append("%d recent contribution%s not hostile" % (len(soft), "" if len(soft) == 1 else "s"))
+    return (bool(why), "; ".join(why))
+
+
 def suggest_rows(conn, area, full_roster=False, overrides_cfg=None,
                  house="Commons", as_at=None):
     """5CA Plan rows for `area`, strongest evidence first.
@@ -798,6 +861,8 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None,
         per_member = {mid: evs for mid, evs in per_member.items() if mid in roster}
 
     out = []
+    targets = campaign_targets(conn)
+    maj = majorities(conn)
     for mid, evs in per_member.items():
         # A free vote is the member's own conviction; at equal strength and
         # kind it outranks whipped or unknown-whip evidence.
@@ -841,12 +906,21 @@ def suggest_rows(conn, area, full_roster=False, overrides_cfg=None,
         tier, tier_why = suggest_confidence(column, best["kind"], _whip(best),
                                             len(evs), n_pos + n_neg, conflict,
                                             n_minority=min(n_pos, n_neg))
+        waver, waver_why = wavering(column, evs, maj.get(mid), today=(datetime.date.fromisoformat(as_at) if as_at else None))
+        if waver:
+            comments.append("WAVERING: " + waver_why)
+        hit = targets.get(mid) or []
+        if hit:
+            comments.append("TARGETED: " + "; ".join("%s (%s)" % (n, (d or "")[:10]) for n, d in hit[:3]))
         out.append({
             "member_id": mid,
             "decision_maker": name + (" ({0})".format(detail) if detail else ""),
             "house": first["house"] or "",
             "column": column,
             "conflict": conflict,
+            "wavering": waver,
+            "wavering_why": waver_why,
+            "targeted": [n for n, _d in hit],
             "n_events": len(evs),
             "confidence": tier,
             "confidence_why": tier_why,
