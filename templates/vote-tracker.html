@@ -479,6 +479,16 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 /* --- LIVE NOW / THE RECORD (2026-08-31, mockup D): the member card opens
    with an inverted band holding the active business; a labelled divider
    hands over to the historic cards. --- */
+/* --- the watchlist (2026-09-12, option A): with no issue headlining it,
+   the band was a blue slab whose only visible content was its own label --
+   "LIVE NOW" over a closed fold. It steps down to a quiet reference panel
+   instead: no slab, no pulse, no "live", and the list OPEN, because the
+   fold only ever existed to stop it competing with a hero. --- */
+.wpanel{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;margin:0 0 6px}
+.whead{display:flex;align-items:center;gap:10px;background:#f7f9fc;border-bottom:1px solid var(--line);padding:10px 16px}
+.whead h2{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink)}
+.whead small{margin-left:auto;color:#8b9098;font-size:12px;font-weight:400}
+.wdot{width:7px;height:7px;border-radius:50%;background:var(--grey-300);flex:none}
 .liveband{background:linear-gradient(135deg,#2f6fe0,#4285f4);border-radius:12px;color:#fff;
   padding:20px 22px;margin:0 0 6px;box-shadow:0 8px 30px rgba(47,111,224,.25)}
 .bandlabel{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;
@@ -977,6 +987,30 @@ function liveBillGroups(excludeIds){
   return Object.keys(byDate)
     .sort((a, b) => (a === "TBA") - (b === "TBA") || a.localeCompare(b))
     .map(k => ({date: k === "TBA" ? null : k, bills: byDate[k]}));
+}
+
+function watchlistHTML(groups, count){
+  // Same information the band's fold carried, at honest volume. A shared
+  // sitting day is one occasion and keeps one row; "TBA" is the absence of
+  // an occasion, so those Bills get a row each rather than being crushed
+  // into a single undated leaf.
+  const rows = groups
+    .flatMap(g => g.date ? [g] : g.bills.map(b => ({date: null, bills: [b]})))
+    .map(g => {
+      const leaf = g.date
+        ? `<div class="leaf"><span class="leafm">${MONTH3[+g.date.slice(5, 7) - 1]}</span><span class="leafd">${+g.date.slice(8, 10)}</span></div>`
+        : `<div class="leaf leaftba"><span class="leafm">${esc((g.bills[0].house || "").toUpperCase())}</span><span class="leafd">TBA</span></div>`;
+      const stages = [...new Set(g.bills.map(b => b.stage))].join(" / ");
+      const meta = g.date
+        ? `${stages} · ${esc(g.bills[0].house)} · ${DAYNAME[new Date(g.date + "T12:00:00").getDay()]} ${fmtD(g.date)} · ${inDays(g.date)}`
+        : `${stages} · ${esc(g.bills[0].house)} · date to be announced`;
+      return `<div class="oprow">${leaf}<div class="opbody"><b>${
+        g.bills.map(billLink).join(" · ")}</b><span>${meta}</span></div></div>`;
+    }).join("");
+  return `<div class="wpanel"><div class="whead"><span class="wdot"></span>
+    <h2>What we&rsquo;re watching</h2>
+    <small>${count} Bill${count === 1 ? "" : "s"} before Parliament · from the weekly board</small></div>
+    ${rows}</div>`;
 }
 
 function orderPaperHTML(){
@@ -1635,8 +1669,13 @@ function renderMP(id){
     // one, because a shared band must not wear one Bill's name.
     const named = bandIssues().filter(i => i.live_label);
     const bandTitle = named.length === 1 ? named[0].live_label : "Before Parliament";
-    if (heroes.length || othersCount)
+    // A hero earns the blue band; nothing else does. With no Bill to
+    // headline, "Live now" was promising urgency the page could not back --
+    // the nearest date was 76 days away (Christopher, 2026-09-12).
+    if (heroes.length)
       band = `<div class="liveband"><div class="bandlabel"><span class="livedot"></span>Live now · ${esc(bandTitle)}</div>${heroes.join("")}${disc}</div>`;
+    else if (othersCount)
+      band = watchlistHTML(rest, othersCount);
   }
 
   // A peer with no Commons votes gets no Commons cards. The banner above

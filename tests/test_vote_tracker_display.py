@@ -2393,8 +2393,33 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         # heroes was always non-empty, so the ReferenceError sat latent
         # until a decided Bill emptied the band.
         flat = " ".join(template().split())
-        self.assertIn("if (heroes.length || othersCount)", flat)
+        self.assertIn("if (heroes.length) band =", flat)
+        self.assertIn("else if (othersCount) band = watchlistHTML(rest, othersCount);", flat)
         self.assertNotIn("others.length", flat)
+
+    def test_a_band_with_no_hero_steps_down_to_the_watchlist(self):
+        # Option A (Christopher, 2026-09-12). The blue slab was announcing
+        # itself and nothing else: "LIVE NOW" over a closed fold, the
+        # nearest date 76 days away. A hero earns the band; nothing else.
+        flat = " ".join(template().split())
+        self.assertIn("function watchlistHTML(groups, count){", flat)
+        self.assertIn('<div class="wpanel">', flat)
+        self.assertIn("What we&rsquo;re watching", flat)
+        self.assertIn('<span class="wdot"></span>', flat)
+        # the quiet panel says nothing about being live, and does not pulse
+        head = flat[flat.index("function watchlistHTML"):flat.index("function orderPaperHTML")]
+        self.assertNotIn("Live now", head)
+        self.assertNotIn("livedot", head)
+        # and the list is open -- the fold only existed to spare the hero
+        self.assertNotIn("banddisc", head)
+
+    def test_the_watchlist_splits_undated_bills_but_keeps_a_sitting_day_whole(self):
+        # A shared Friday is one occasion and keeps one row; TBA is the
+        # absence of an occasion, so those Bills get a row each instead of
+        # being crushed under a single undated leaf.
+        flat = " ".join(template().split())
+        self.assertIn(".flatMap(g => g.date ? [g] : g.bills.map(b => "
+                      "({date: null, bills: [b]})))", flat)
 
     def test_the_band_is_the_upcoming_bill_s_only_home(self):
         # The old "NO VOTES YET" card and the coming-up strip are both
