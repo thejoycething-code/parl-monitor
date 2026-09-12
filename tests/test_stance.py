@@ -392,6 +392,31 @@ class CapTests(unittest.TestCase):
         self.assertEqual((row["stance"], row["model"]), (2, stance.STANCE_MODEL))
 
 
+class AssistedSuicideCapTests(unittest.TestCase):
+    """Christopher, 12 Sept 2026: nobody who ever voted for assisted suicide is a ++,
+    however they voted since. The seven who moved to No at the 2026 Second Reading
+    read as + with the cap's note."""
+
+    def test_an_earlier_aye_caps_a_later_convert_at_plus(self):
+        import sqlite3
+        from src import db, members, stance
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        members.cache_put(conn, members.Member(id=1, name="Convert MP", party="Labour", seat="Seat", house="Commons", since="2024-07-04"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        stance.ensure_table(conn)
+        for ref, date, line, sc in (("div:c2071:aye", "2025-06-20", "Voted Aye: Terminally Ill Adults (End of Life) Bill: Third Reading", -2),
+                                    ("div:c2428:no", "2026-09-11", "Voted No: Terminally Ill Adults (End of Life) Bill: Second Reading", 2)):
+            conn.execute("INSERT INTO mp_events (member_id, date, kind, ref, line, areas) VALUES (1, ?, 'vote', ?, ?, '[2]')", (date, ref, line))
+            conn.execute("INSERT INTO stance (ref, stance, why, model, scored_at) VALUES (?, ?, 'w', 'm', '2026-09-12')", (ref, sc))
+        conn.commit()
+        cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+        row = stance.suggest_rows(conn, 2, full_roster=True, overrides_cfg=cfg, house="Commons")[0]
+        self.assertEqual(row["column"], "+")
+        self.assertIn("CAPPED at + : voted for the assisted suicide Bill", row["comments"])
+        self.assertTrue(row["conflict"])
+
+
 class ExcludedAreaTests(unittest.TestCase):
     def test_excluded_areas_parsed_from_config(self):
         cfg = stance.load_overrides(os.path.join(

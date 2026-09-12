@@ -78,6 +78,15 @@ caps:
     direction: aye
     ceiling: 1       # + at best, never ++
     note: "CAPPED at + : voted for the Northern Ireland abortion regulations"
+  # Christopher, 12 Sept 2026: "no one who previously voted in favour of assisted
+  # suicide can be a ++". An Aye at any Commons stage of either Terminally Ill
+  # Adults Bill (2024 Second Reading, 2025 Third Reading, 2026 Second Reading)
+  # caps the member at + for good, however they voted since. The seven who moved
+  # to No on 11 Sept 2026 read as + with this note, not ++.
+  - match: "Terminally Ill Adults"
+    direction: aye
+    ceiling: 1
+    note: "CAPPED at + : voted for the assisted suicide Bill at an earlier stage"
 
 # Areas collated in the ledger but NOT turned into 5CA sheets (Christopher,
 # 2026-08-05). Migration evidence keeps accruing for MP intelligence,
