@@ -34,6 +34,8 @@ def main():
     ap.add_argument("--crop", help="with --recaption and a cropped aspect: left | centre | right | speaker centre x in the 1920 frame")
     ap.add_argument("--aspect", default="16:9", choices=sorted(speechcut.ASPECTS), help="with --recaption: output aspect (4:5 crops about the reel crop)")
     args = ap.parse_args()
+    from src import packlock
+    packlock.acquire(args.pack.rstrip('/'), 'speech_cut', force=bool(os.environ.get('PARL_FORCE_LOCK')))
     from social_cut import tools
     _yt, ff = tools()
     if not ff:

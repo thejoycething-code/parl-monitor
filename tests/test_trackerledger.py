@@ -136,6 +136,35 @@ class EnsureTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT count(*) FROM mp_events").fetchone()[0], 0)
 
 
+class SignedStanceTests(unittest.TestCase):
+    """A human sign-off outranks the model (12 Sept 2026: eighteen safeguard lobby refs
+    scored 0 hid the five movers from the 5CA)."""
+
+    CFG = {"issues": [{"id": "x", "area": 2}],
+           "divisions": [{"id": 2052, "issue": "x", "signed_off": True, "our_side": "aye",
+                          "meaning_aye": "Backed the safeguard.", "meaning_no": "Opposed the safeguard."},
+                         {"id": 999, "issue": "x", "signed_off": False, "our_side": "no",
+                          "meaning_aye": "a", "meaning_no": "b"},
+                         {"id": 981, "issue": "x", "house": "lords", "signed_off": True, "our_side": "aye",
+                          "meaning_aye": "a", "meaning_no": "b"}]}
+
+    def test_signed_divisions_write_plus_two_for_our_lobby_and_overwrite_the_model(self):
+        conn = store()
+        conn.execute("CREATE TABLE IF NOT EXISTS stance (ref TEXT PRIMARY KEY, stance INTEGER, why TEXT, model TEXT, scored_at TEXT)")
+        conn.execute("INSERT INTO stance VALUES ('div:c2052:aye', 0, 'unclear', 'claude', '2026-08-01')")
+        conn.commit()
+        notes = []
+        n = tl.apply_signed_stances(conn, self.CFG, log=notes.append)
+        rows = {r[0]: (r[1], r[2][:20], r[3]) for r in conn.execute("SELECT ref, stance, why, model FROM stance")}
+        self.assertEqual(rows["div:c2052:aye"][0], 2); self.assertEqual(rows["div:c2052:no"][0], -2)
+        self.assertEqual(rows["div:c2052:aye"][2], tl.SIGNED_MODEL)
+        self.assertEqual(rows["div:l981:aye"][0], 2)                 # the Lords prefix
+        self.assertNotIn("div:c999:aye", rows)                       # unsigned: untouched
+        self.assertEqual(n, 4)
+        self.assertTrue(any("corrected div:c2052:aye" in x for x in notes))
+        self.assertEqual(tl.apply_signed_stances(conn, self.CFG, log=notes.append), 0)   # idempotent
+
+
 class StoreTests(unittest.TestCase):
     """Against the real store, when it is here: no signed-off tracker division may be
     publishing a verdict on voters the ledger does not hold. Thirteen were, on

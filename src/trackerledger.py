@@ -85,3 +85,43 @@ def ensure(conn, client, cfg, log=print, dry_run=False):
     if not report:
         log("  every tracker division already has its voters in the ledger")
     return report
+
+
+SIGNED_MODEL = "tracker:signed"
+
+
+def apply_signed_stances(conn, cfg, log=print):
+    """A signed-off division's two lobby refs take their stance from the tracker,
+    never from a model: +2 for our side, -2 for the other, in the meaning lines'
+    own words. Returns the number of stance rows written or corrected.
+
+    Why: the nine June 2025 report-stage divisions on the assisted suicide Bill
+    were signed off with our side named, and the model scored all eighteen lobby
+    refs 0 ("direction unclear"). The 5CA therefore read every supporter who had
+    backed our safeguards as a plain supporter, and the five who moved to No on
+    11 September 2026 sat at -- in the August plan (found 12 Sept 2026). A human
+    sign-off outranks the model; an existing model row is overwritten, and a row
+    already written here is left alone.
+    """
+    conn.execute("CREATE TABLE IF NOT EXISTS stance (ref TEXT PRIMARY KEY, stance INTEGER, why TEXT, model TEXT, scored_at TEXT)")
+    n = 0
+    for d in cfg.get("divisions") or []:
+        side = str(d.get("our_side") or "").lower()
+        if not d.get("signed_off") or side not in ("aye", "no") or not d.get("id"):
+            continue
+        prefix = prefix_for(d.get("house"))
+        for lobby in ("aye", "no"):
+            ref = "div:%s%s:%s" % (prefix, d["id"], lobby)
+            score = 2 if lobby == side else -2
+            why = (d.get("meaning_aye") if lobby == "aye" else d.get("meaning_no")) or ""
+            why = " ".join(str(why).split())
+            have = conn.execute("SELECT stance, model FROM stance WHERE ref=?", (ref,)).fetchone()
+            if have and have[1] == SIGNED_MODEL and have[0] == score:
+                continue
+            conn.execute("INSERT OR REPLACE INTO stance (ref, stance, why, model, scored_at) VALUES (?,?,?,?,date('now'))",
+                         (ref, score, "Tracker sign-off (%s side %s): %s" % (d.get("issue"), side, why)[:400], SIGNED_MODEL))
+            n += 1
+            if have and have[1] != SIGNED_MODEL and have[0] != score:
+                log("  stance corrected %s: model said %+d, tracker says %+d" % (ref, have[0] or 0, score))
+    conn.commit()
+    return n

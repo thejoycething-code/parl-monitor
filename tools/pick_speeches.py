@@ -32,6 +32,8 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--write-sequence", action="store_true")
     args = ap.parse_args()
+    from src import packlock
+    packlock.acquire(args.pack.rstrip('/'), 'pick_speeches', force=bool(os.environ.get('PARL_FORCE_LOCK')))
     pack = args.pack.rstrip("/")
     meta = json.load(open(os.path.join(pack, "pack.json")))
     speeches = sc.parse_speeches(open(os.path.join(pack, "speeches.md"), encoding="utf-8").read())

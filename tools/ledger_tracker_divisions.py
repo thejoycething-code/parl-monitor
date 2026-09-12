@@ -35,6 +35,9 @@ def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     client = HttpClient(os.path.join(ROOT, "data", "raw"))
     report = trackerledger.ensure(conn, client, cfg, log=print, dry_run=args.dry_run)
+    if not args.dry_run:
+        n = trackerledger.apply_signed_stances(conn, cfg, log=print)
+        print("tracker stances: %d lobby ref(s) written or corrected from sign-offs" % n)
     conn.close()
     done = [r for r in report if isinstance(r[3], int)]
     gaps = [r for r in report if isinstance(r[3], str)]

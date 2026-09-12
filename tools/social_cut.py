@@ -53,6 +53,8 @@ def main():
     ap.add_argument("--transcribe", action="store_true", help="transcribe clips/00-whole-debate-*.mp4 into clips/whole-debate.words.json and stop")
     ap.add_argument("--model", default="small.en", help="faster-whisper model (default small.en)")
     args = ap.parse_args()
+    from src import packlock
+    packlock.acquire(args.pack.rstrip('/'), 'social_cut', force=bool(os.environ.get('PARL_FORCE_LOCK')))
     yt, ff = tools()
     if not ff:
         raise SystemExit("no ffmpeg: pip install --user imageio-ffmpeg")

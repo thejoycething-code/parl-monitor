@@ -54,6 +54,8 @@ def reels_in(pack):
 
 def generate(args):
     pack = args.pack.rstrip("/")
+    from src import packlock
+    packlock.acquire(pack, "debate_report", force=bool(os.environ.get("PARL_FORCE_LOCK")))
     meta, speeches = load(pack)
     speakers = dr.speaker_brief(speeches, provisional=args.provisional)
     onside = [s for s in speakers if s["confirmed_onside"]]
