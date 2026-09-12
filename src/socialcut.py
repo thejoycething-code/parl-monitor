@@ -241,44 +241,71 @@ def card_times(words, cards, passage):
             out.append((words[i][1], words[i + k - 1][2]))
             i += k
         return out
-    return _card_times_by_alignment(words, cards, passage, counts)
+    return _card_times_monotone(words, cards, passage, counts)
 
 
-def _card_times_by_alignment(words, cards, passage, counts):
-    """Fallback for a transcript whose word count differs from the passage."""
+def _card_times_monotone(words, cards, passage, counts):
+    """Fallback for a transcript whose word count differs from the passage: ONE
+    alignment of all the cards' tokens to all the heard words, in order.
+
+    The previous fallback aligned each card on its own and then forced the result
+    monotone, so a six-word card that happened to match an earlier phrase dragged
+    every card before it back to that point: Ashley Dalton's 464-second speech
+    shipped with no caption from 125s to 400s, and five of seventeen clips on
+    11 September 2026 had blackouts of 38-308 seconds. Matching blocks from a
+    sequence match cannot cross, unmatched tokens are placed between their
+    matched neighbours, and a card is simply the heard words its tokens map to.
+    """
+    import difflib
     n = len(words)
     if not cards:
         return []
     if not n:
         return [(0.0, 0.0) for _c in cards]
-    anchors = []
-    for card in cards:
-        hit = alignclip.align(words, " ".join(card), min_ratio=0.5)
-        anchors.append((hit[0], hit[1]) if hit else None)
-    if not any(anchors):
+    ptoks = [tok for c in cards for tok in alignclip.tokens(" ".join(c))]
+    htoks, owner = [], []
+    for i, w in enumerate(words):
+        for tok in alignclip.tokens(w[0]):
+            htoks.append(tok)
+            owner.append(i)
+    pos = [None] * len(ptoks)
+    matched = 0
+    if ptoks and htoks:
+        sm = difflib.SequenceMatcher(None, ptoks, htoks, autojunk=False)
+        for a, b, size in sm.get_matching_blocks():
+            for k in range(size):
+                pos[a + k] = float(owner[b + k])
+            matched += size
+    if not ptoks or matched < max(3, len(ptoks) // 10):
+        # nothing to hold on to: spread the cards by token share, as before
         total = len(alignclip.tokens(passage)) or 1
-        out, pos = [], 0
+        out, at = [], 0
         for k in counts:
-            i0 = min(n - 1, int(round(pos / float(total) * n)))
-            i1 = min(n - 1, max(i0, int(round((pos + k) / float(total) * n)) - 1))
+            i0 = min(n - 1, int(round(at / float(total) * n)))
+            i1 = min(n - 1, max(i0, int(round((at + k) / float(total) * n)) - 1))
             out.append((words[i0][1], words[i1][2]))
-            pos += k
+            at += k
         return out
-    first_t, last_t = words[0][1], words[-1][2]
-    out = list(anchors)
-    for i, got in enumerate(anchors):
-        if got is not None:
+    known = [i for i, v in enumerate(pos) if v is not None]
+    for i in range(len(pos)):
+        if pos[i] is not None:
             continue
-        prev = next((anchors[j][1] for j in range(i - 1, -1, -1) if anchors[j]), first_t)
-        nxt = next((anchors[j][0] for j in range(i + 1, len(anchors)) if anchors[j]), last_t)
-        gap = [j for j in range(i, len(anchors)) if anchors[j] is None and
-               all(anchors[k] is None for k in range(i, j + 1))]
-        share = (nxt - prev) / float(len(gap) + 1) if nxt > prev else 0.0
-        k = gap.index(i)
-        out[i] = (prev + share * k, prev + share * (k + 1))
-    for i in range(len(out) - 2, -1, -1):
-        if out[i][0] > out[i + 1][0]:
-            out[i] = (out[i + 1][0], min(out[i][1], out[i + 1][0]))
+        prev = max((j for j in known if j < i), default=None)
+        nxt = min((j for j in known if j > i), default=None)
+        p0, w0 = (prev, pos[prev]) if prev is not None else (-1, 0.0)
+        p1, w1 = (nxt, pos[nxt]) if nxt is not None else (len(pos), float(n - 1))
+        pos[i] = w0 + (w1 - w0) * (i - p0) / float(p1 - p0) if p1 > p0 else w0
+    out, at = [], 0
+    for k in counts:
+        a, b = at, max(at, at + k - 1)
+        a, b = min(a, len(pos) - 1), min(b, len(pos) - 1)
+        s_idx = max(0, min(n - 1, int(math.floor(pos[a]))))
+        e_idx = max(s_idx, min(n - 1, int(math.ceil(pos[b]))))
+        out.append((words[s_idx][1], words[e_idx][2]))
+        at += k
+    for i in range(1, len(out)):
+        if out[i][0] < out[i - 1][0]:
+            out[i] = (out[i - 1][0], max(out[i][1], out[i - 1][0]))
     return out
 
 

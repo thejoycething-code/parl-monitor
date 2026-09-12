@@ -509,3 +509,28 @@ class CaptionOverlapTests(unittest.TestCase):
 def _secs(ts):
     h, m, s = ts.split(":")
     return int(h) * 3600 + int(m) * 60 + float(s)
+
+
+class MonotoneCardTimingTests(unittest.TestCase):
+    """One alignment for all cards; a stray early match cannot drag earlier cards back (2026-09-11)."""
+
+    def test_a_long_speech_with_mishearings_keeps_every_card_near_its_words(self):
+        n = 300
+        hansard = ["w%03d" % i for i in range(n)]
+        heard = []
+        t = 0.0
+        for i, w in enumerate(hansard):
+            word = "xx" if i % 9 == 0 else w                    # one word in nine misheard
+            heard.append((word, t, t + 0.35)); t += 0.4
+            if i % 40 == 0:
+                heard.append(("um", t, t + 0.2)); t += 0.25     # an insertion now and then
+        cards = [hansard[i:i + 6] for i in range(0, n, 6)]
+        times = sc.card_times(heard, cards, " ".join(hansard))
+        self.assertEqual(len(times), len(cards))
+        for k, (a, b) in enumerate(times):
+            true_start = 0.4 * (6 * k) + 0.25 * ((6 * k) // 40 + 1)
+            self.assertLess(abs(a - true_start), 1.5, (k, a, true_start))
+            self.assertGreaterEqual(b, a)
+        self.assertTrue(all(times[i][0] <= times[i + 1][0] for i in range(len(times) - 1)))
+        gaps = [times[i + 1][0] - times[i][1] for i in range(len(times) - 1)]
+        self.assertLess(max(gaps), 2.0)

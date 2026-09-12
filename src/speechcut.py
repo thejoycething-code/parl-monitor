@@ -249,3 +249,83 @@ def write_report(pack_dir, rows):
                      % (s["name"], c.get("at"), dur, c.get("words") or 0,
                         "%.2f" % r1 if r1 else "Hansard time", "%.2f" % r2 if r2 else "Hansard time", where))
     open(os.path.join(pack_dir, "speeches-cut.md"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
+
+
+ASPECTS = {
+    # name: (crop width in the 1920x1080 source, output size, caption pos, caption size, max chars, plate y, plate x)
+    "16:9": (1920, (1920, 1080), CAPTION_POS, CAPTION_SIZE, CAPTION_MAX_CHARS, PLATE_Y, PLATE_X),
+    "4:5": (864, (1080, 1350), (540, 1215), 50, 30, 1030, 60),
+}
+
+
+def recaption(pack_dir, ff, log=print, only=None, provisional=True, aspect="16:9"):
+    """Re-time and re-burn the captions on parts already in clips/speech-hd: no fetching,
+    no transcribing. For the clips whose caption timing was wrong (11 September 2026),
+    and for another aspect: "4:5" crops the 16:9 part to 864x1080 about the speaker's
+    reel crop (sequence.md `crop:`, else centre) and scales to 1080x1350."""
+    from src import debatereport
+    state = json.load(open(os.path.join(pack_dir, "pack.json")))
+    speeches = sc.parse_speeches(open(os.path.join(pack_dir, "speeches.md"), encoding="utf-8").read())
+    crops = {}
+    seq_path = os.path.join(pack_dir, "sequence.md")
+    if os.path.exists(seq_path):
+        for e in sc.parse_sequence(open(seq_path, encoding="utf-8").read()):
+            crops[_bare(e["name"])] = e.get("crop") or "centre"
+    crop_w, play, cpos, csize, cmax, plate_y, plate_x = ASPECTS[aspect]
+    suffix = "" if aspect == "16:9" else "-" + aspect.replace(":", "x")
+
+    def onside(s):
+        return s.get("confirmed") == "yes" or (provisional and debatereport.stands_in_for_onside(s))
+    clips = os.path.join(pack_dir, "clips")
+    hd, final = os.path.join(clips, "speech-hd"), os.path.join(clips, "final")
+    fontsdir = os.path.join(hd, "fonts")
+    logo = sc.LOGO if os.path.exists(sc.LOGO) else None
+    done = []
+    n = 0
+    for s, c, span in plan(state, speeches, onside, only=only):
+        n += 1
+        # The part is found by speaker and clock, not by its ordinal: a --only run
+        # numbers from 01 while the parts on disk carry the full run's numbers.
+        stem = "%s-%s" % (sc.slug(s["name"]), (c.get("at") or "").replace(":", ""))
+        found = [f for f in os.listdir(hd) if re.match(r"\d+-%s\.mp4$" % re.escape(stem), f)]
+        if not found:
+            log("  %s %s: no part on disk; run the cut first" % (s["name"], c.get("at")))
+            continue
+        # the newest, not the highest-numbered: an earlier run's parts can linger beside the current set
+        tag = max(found, key=lambda f: os.path.getmtime(os.path.join(hd, f)))[:-4]
+        part, words_json = os.path.join(hd, tag + ".mp4"), os.path.join(hd, tag + "-part.words.json")
+        if not os.path.exists(words_json):
+            log("  %s %s: part has no transcript on disk; run the cut first" % (s["name"], c.get("at")))
+            continue
+        heard = [tuple(w) for w in json.load(open(words_json))]
+        dur = sc._dur(ff, part)
+        name = s["name"] if s["name"].endswith(" MP") else s["name"] + " MP"
+        party = " · ".join(x for x in (sc.PARTY.get(s.get("party"), s.get("party")), s.get("seat")) if x)
+        cards = sc.chunk_caption(c["text"], max_chars=cmax)
+        times = sc.card_times(heard, cards, c["text"])
+        item = {"name": name, "party": party, "duration": dur, "cards": [(cd, tm[0], tm[1]) for cd, tm in zip(cards, times)]}
+        ass_path = os.path.join(hd, tag + suffix + ".ass")
+        open(ass_path, "w", encoding="utf-8").write(sc.ass_document([item], sc.FONT, play, cpos, csize, plate_y, plate_x))
+        open(os.path.join(final, "speech-" + tag + suffix + ".srt"), "w", encoding="utf-8").write(srt(item))
+        chain, src = [], "[0:v]"
+        if aspect != "16:9":
+            x = sc.crop_x(crops.get(_bare(s["name"]), "centre"), frame_w=1920, crop_w=crop_w)
+            geometry = "crop=%d:1080:%d:0,scale=%d:%d:flags=lanczos,format=yuv420p" % (crop_w, x, play[0], play[1])
+            clean = os.path.join(final, "speech-" + tag + suffix + "-clean.mp4")
+            sc._run([ff, "-y", "-loglevel", "error", "-i", part, "-vf", geometry, "-c:v", "libx264", "-crf", "18",
+                     "-preset", "medium", "-c:a", "copy", "-movflags", "+faststart", clean])
+            chain.append("[0:v]" + geometry + "[c]"); src = "[c]"
+        if logo:
+            lx, ly = ((play[0] - sc.LOGO_W - 70), 70) if aspect == "16:9" else (60, 60)
+            chain.append("[1:v]scale=%d:-1[lg]" % sc.LOGO_W)
+            chain.append("%s[lg]overlay=%d:%d[v1]" % (src, lx, ly)); src = "[v1]"
+        chain.append("%sass=%s:fontsdir=%s[v]" % (src, ass_path, fontsdir))
+        filt = ";".join(chain)
+        out = os.path.join(final, "speech-" + tag + suffix + ".mp4")
+        sc._run([ff, "-y", "-loglevel", "error", "-i", part] + (["-i", logo] if logo else []) +
+                ["-filter_complex", filt, "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-crf", "18", "-preset", "medium",
+                 "-c:a", "copy", "-movflags", "+faststart", out])
+        gaps = sum(b[1] - a[2] for a, b in zip(item["cards"], item["cards"][1:]) if b[1] - a[2] > 3)
+        log("  %-28s %s  %6.1fs  %3d cards, %.0fs uncaptioned  -> %s" % (s["name"], c.get("at"), dur, len(cards), gaps, os.path.basename(out)))
+        done.append(out)
+    return done
