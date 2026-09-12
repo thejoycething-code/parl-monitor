@@ -62,11 +62,22 @@ def upload_resumable(token, folder_id, path, name=None, opener=None, log=print):
         data=json.dumps({"name": name, "parents": [folder_id]}).encode("utf-8"), method="POST",
         headers={"Authorization": "Bearer " + token, "Content-Type": "application/json; charset=UTF-8",
                  "X-Upload-Content-Type": mime, "X-Upload-Content-Length": str(size)})
-    with opener(req, timeout=60) as r:
-        session = r.headers.get("Location")
+    import time
+    # Opening the session is one more round trip to Google and it timed out too
+    # (12 Sept 2026, file 51 of 59, outside the chunk retry): same six tries.
+    for attempt in range(6):
+        try:
+            with opener(req, timeout=60) as r:
+                session = r.headers.get("Location")
+            break
+        except (urllib.error.URLError, OSError, TimeoutError) as exc:
+            if attempt == 5:
+                raise
+            if log:
+                log("  retry %d opening the upload session for %s (%s)" % (attempt + 1, name, str(exc)[:60]))
+            time.sleep(5 * (attempt + 1))
     sent = 0
     file_id = None
-    import time
     with open(path, "rb") as fh:
         while sent < size:
             fh.seek(sent)

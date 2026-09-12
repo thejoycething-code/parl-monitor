@@ -9,6 +9,8 @@ sys.path.insert(0, ROOT)
 
 from src import drivepack  # noqa: E402
 
+REAL_UPLOAD = drivepack.upload_resumable   # DrivePackTests stubs the module attribute
+
 
 class FakeDrive(object):
     def __init__(self):
@@ -57,3 +59,39 @@ class DrivePackTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SessionOpenRetryTests(unittest.TestCase):
+    """12 Sept 2026: the POST that opens a resumable session timed out on file 51
+    of 59 and, sitting outside the chunk retry, killed the run. It retries now."""
+
+    def test_session_open_survives_two_timeouts(self):
+        import io
+        import urllib.error
+
+        class Resp(io.BytesIO):
+            def __init__(self, body, headers):
+                io.BytesIO.__init__(self, body); self.headers = headers
+            def __enter__(self): return self
+            def __exit__(self, *a): return False
+
+        state = {"opens": 0}
+
+        def opener(req, timeout=None):
+            if req.get_method() == "POST":
+                state["opens"] += 1
+                if state["opens"] < 3:
+                    raise urllib.error.URLError("Operation timed out")
+                return Resp(b"", {"Location": "https://upload.example/session"})
+            return Resp(json.dumps({"id": "file-1"}).encode(), {})
+
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "clip.mp4"); open(p, "wb").write(b"x" * 10)
+            import time as _t
+            real_sleep = _t.sleep; _t.sleep = lambda s: None
+            try:
+                fid = REAL_UPLOAD("tok", "folder", p, opener=opener, log=lambda *a: None)
+            finally:
+                _t.sleep = real_sleep
+        self.assertEqual(fid, "file-1")
+        self.assertEqual(state["opens"], 3)
