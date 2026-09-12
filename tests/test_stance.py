@@ -418,6 +418,29 @@ class AssistedSuicideCapTests(unittest.TestCase):
         self.assertIn("CAPPED at + : voted for the assisted suicide Bill", row["comments"])
         self.assertTrue(row["conflict"])
 
+    def test_an_aye_on_a_report_stage_amendment_is_not_a_vote_for_the_bill(self):
+        """Kruger voted Aye on New Clause 16 (excluding 'burden' motivations), a vote for
+        our side; the first cut of the cap read it as support for the Bill and capped 278
+        members including him."""
+        import sqlite3
+        from src import db, members, stance
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        conn.row_factory = sqlite3.Row
+        members.cache_put(conn, members.Member(id=1, name="Kruger MP", party="Con", seat="Seat", house="Commons", since="2024-07-04"))
+        conn.execute("UPDATE members SET current_mp = 1")
+        stance.ensure_table(conn)
+        for ref, date, line, sc in (("div:c2066:aye", "2025-06-20", "Voted Aye: Terminally Ill Adults (End of Life) Bill: Report Stage: New Clause 16", 2),
+                                    ("div:c2071:no", "2025-06-20", "Voted No: Terminally Ill Adults (End of Life) Bill: Third Reading", 2)):
+            conn.execute("INSERT INTO mp_events (member_id, date, kind, ref, line, areas) VALUES (1, ?, 'vote', ?, ?, '[2]')", (date, ref, line))
+            conn.execute("INSERT INTO stance (ref, stance, why, model, scored_at) VALUES (?, ?, 'w', 'm', '2026-09-12')", (ref, sc))
+        conn.commit()
+        import os as _os
+        root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        cfg = stance.load_overrides(_os.path.join(root, "config", "stance_overrides.yaml"))
+        row = stance.suggest_rows(conn, 2, full_roster=True, overrides_cfg=cfg, house="Commons")[0]
+        self.assertEqual(row["column"], "++")
+        self.assertNotIn("CAPPED", row["comments"])
+
 
 class ExcludedAreaTests(unittest.TestCase):
     def test_excluded_areas_parsed_from_config(self):

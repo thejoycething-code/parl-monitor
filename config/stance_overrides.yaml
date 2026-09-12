@@ -84,6 +84,7 @@ caps:
   # caps the member at + for good, however they voted since. The seven who moved
   # to No on 11 Sept 2026 read as + with this note, not ++.
   - match: "Terminally Ill Adults"
+    when_any: ["Second Reading", "Third Reading"]   # the Bill itself; an Aye on a report-stage amendment can be ours
     direction: aye
     ceiling: 1
     note: "CAPPED at + : voted for the assisted suicide Bill at an earlier stage"

@@ -643,14 +643,27 @@ def applicable_caps(evidence_rows, caps):
     hits = []
     for rule in caps or []:
         want = (rule.get("direction") or "").lower()
+        when_any = [w.lower() for w in (rule.get("when_any") or [])]
+        unless_any = [w.lower() for w in (rule.get("unless_any") or [])]
         for r in evidence_rows:
             ref = r["ref"] or ""
             if want and not ref.endswith(":" + want):
                 continue
             title = (r["line"] or "").split(": ", 1)[-1]
-            if (rule.get("match") or "").lower() in title.lower():
-                hits.append((int(rule.get("ceiling", 2)), rule.get("note") or ""))
-                break
+            low = title.lower()
+            if (rule.get("match") or "").lower() not in low:
+                continue
+            # A Bill's name is in every division on it, and on a report-stage
+            # amendment Aye can be OUR side (Kruger on the "burden" exclusion).
+            # when_any/unless_any narrow a cap to the stage votes it means, as
+            # they do for overrides. Without them the assisted-suicide cap
+            # caught 278 members, Kruger and Leigh among them (12 Sept 2026).
+            if when_any and not any(w in low for w in when_any):
+                continue
+            if unless_any and any(w in low for w in unless_any):
+                continue
+            hits.append((int(rule.get("ceiling", 2)), rule.get("note") or ""))
+            break
     return hits
 
 
