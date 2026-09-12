@@ -431,6 +431,9 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
         os.makedirs(d, exist_ok=True)
     whole = [tuple(x) for x in json.load(open(os.path.join(clips, "whole-debate.words.json")))] \
         if os.path.exists(os.path.join(clips, "whole-debate.words.json")) else None
+    if not render_only:
+        from src import alignment
+        alignment.check(pack_dir, ff, whisper_model=whisper_model, log=log)
     manifest = event_start = None
     items, report, skipped = [], [], []
     for e in entries:

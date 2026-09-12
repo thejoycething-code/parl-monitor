@@ -191,6 +191,8 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
     todo = plan(state, speeches, onside, only=only)
     if not todo:
         raise SystemExit("no onside speech of %d words or more to cut" % MIN_WORDS)
+    from src import alignment
+    alignment.check(pack_dir, ff, whisper_model=whisper_model, log=log)
     manifest = state.get("manifest")
     if not manifest:
         raise SystemExit("pack.json has no manifest; run tools/debate_pack.py --pack F --download once, or social_cut, to resolve the stream")
