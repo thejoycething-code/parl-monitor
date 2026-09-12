@@ -147,6 +147,9 @@ def trim_bounds(words, text, file_start, span, margin=MARGIN_S, log=None):
     transcript could not place, and says so."""
     head, tail = anchors(text)
     first = sc.word_span(words, head, min_ratio=0.5)
+    late = None
+    if not first:
+        first, late = late_head(words, text)
     # The tail is searched only AFTER the head. Once the window is widened forward by
     # up to seven minutes it holds the speaker's later contributions and other members'
     # replies, and a stock closing ("I will not give way", "I commend the Bill to the
@@ -157,7 +160,10 @@ def trim_bounds(words, text, file_start, span, margin=MARGIN_S, log=None):
     if last:
         last = (last[0] + after, last[1] + after, last[2])
     note = []
-    if first:
+    if first and late:
+        start, _ = sc.cut_bounds(words, first[0], first[0])
+        note.append("start from Hansard word %d: the spoken opening differs from Hansard's" % late)
+    elif first:
         start, _ = sc.cut_bounds(words, first[0], first[0])
     else:
         start = max(0.0, span[0] - file_start); note.append("start from Hansard time")
@@ -170,6 +176,37 @@ def trim_bounds(words, text, file_start, span, margin=MARGIN_S, log=None):
     if log and note:
         log("  [trim] " + "; ".join(note))
     return start, end, (first[2] if first else None), (last[2] if last else None)
+
+
+LATE_HEAD_OFFSETS = (12, 25, 40, 60, 80, 100)   # Hansard word offsets tried when the opening is not heard
+SPEAKER_GAP_S = 1.0                              # a pause this long between words is a change of speaker
+
+
+def late_head(words, text, offsets=LATE_HEAD_OFFSETS, n=ANCHOR_WORDS):
+    """The speech's first heard moment when Hansard's opening words were not spoken.
+
+    Kieran Mullan, 11 Sept 2026: Hansard opens "I welcome the opportunity to give my
+    personal views on this Bill, as colleagues in health have taken over responsibility
+    for it"; in the Chamber he began at "I spent most of my life". The head anchor
+    missed, the start fell back to Hansard's clock, and the clip opened with 67
+    seconds of the previous speaker arguing the other way. So: slide the anchor
+    forward through the Hansard text until a block is heard, then walk back from
+    it over words that run on (gaps under SPEAKER_GAP_S) but no further than the
+    skipped words could have taken, and stop at the pause where the Speaker called
+    the member. Returns ((first_i, last_i, ratio), offset) or (None, None)."""
+    hw = (text or "").split()
+    for off in offsets:
+        if off + n > len(hw):
+            break
+        hit = sc.word_span(words, " ".join(hw[off:off + n]), min_ratio=0.6)
+        if not hit:
+            continue
+        i = hit[0]
+        budget = off / 2.5 + 5.0
+        while i > 0 and words[i][1] - words[i - 1][2] < SPEAKER_GAP_S and words[hit[0]][1] - words[i - 1][1] <= budget:
+            i -= 1
+        return (i, hit[1], hit[2]), off
+    return None, None
 
 
 def caption_items(name, party, duration, heard, text):

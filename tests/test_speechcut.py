@@ -124,6 +124,20 @@ class TrimTests(unittest.TestCase):
         self.assertAlmostEqual(end, last_end + spc.TAIL, places=2)
         self.assertGreater(r1, 0.9); self.assertGreater(r2, 0.9)
 
+    def test_an_unspoken_hansard_opening_starts_at_the_pause_before_the_speaker(self):
+        """Mullan, 11 Sept 2026: Hansard's first sentence was never said; the clip must
+        begin where he did, after the pause, not 67 s earlier in the previous speech."""
+        text = " ".join("target%d" % i for i in range(150))          # Hansard, 150 words
+        spoken = " ".join("target%d" % i for i in range(25, 150))    # he skipped the first 25
+        prev = self.words("the previous member runs on to the end of a long sentence " * 4, t0=0.0)
+        gap_start = prev[-1][2] + 2.0                                 # the Speaker calls him
+        words = prev + self.words(spoken, t0=gap_start)
+        notes = []
+        start, end, r1, r2 = spc.trim_bounds(words, text, file_start=0.0, span=(5.0, 200.0), log=notes.append)
+        self.assertAlmostEqual(start, gap_start - 0.05, places=2)
+        self.assertIsNotNone(r1)
+        self.assertTrue(notes and "Hansard word 25" in notes[0], notes)
+
     def test_unplaceable_ends_fall_back_to_the_hansard_span(self):
         words = self.words("completely different words here " * 30)
         text = " ".join("target%d" % i for i in range(100))
