@@ -7,8 +7,18 @@ it. The measurement is cheap -- two 180p probes and two short transcriptions --
 so every footage run does it first and writes the offsets into pack.json, and the
 DM quotes them. Anchors: the debate's first contribution (the opener is called by
 name and begins at a printed timestamp) and its last (the closing words, or the
-Question put). An offset beyond TOLERANCE_S stops the run: the clocks are wrong
-and cutting on them makes confident rubbish.
+Question put).
+
+Two bounds (revised 12 Sept 2026, when the check's first live run stopped a cut
+on the Second Reading pack it had been written after). Hansard's clock is itself
+noisy: a contribution's printed time is the reporter's, and on 11 Sept the opener
+was heard 27.7 s after hers while the closer was 10.5 s after his. Those are the
+same stream clock read against two rough Hansard times, and the windows absorb
+them (25 s fetched ahead, widened forward until the last words are heard). So:
+the anchors must agree with EACH OTHER within DRIFT_S (a drifting or wrongly
+started stream shows there), and no anchor may sit further than TOLERANCE_S
+from Hansard (a wrong event_start shows there). Either failure stops the run:
+cutting on wrong clocks makes confident rubbish.
 """
 
 import datetime
@@ -17,7 +27,8 @@ import os
 
 from src import socialcut as sc
 
-TOLERANCE_S = 20.0
+TOLERANCE_S = 45.0   # any anchor further from Hansard's clock than this: event_start is wrong
+DRIFT_S = 20.0       # the anchors' offsets must agree within this: the stream clock runs true
 PROBE_S = 90.0
 FRESH_HOURS = 12
 
@@ -93,13 +104,17 @@ def check(pack_dir, ff, whisper_model="small.en", probe=None, log=print, toleran
             pass
     results = measure(pack_dir, ff, whisper_model, probe=probe, log=log)
     offsets = [r[3] for r in results if r[3] is not None]
-    ok = bool(offsets) and all(abs(o) <= tolerance for o in offsets)
+    drift = (max(offsets) - min(offsets)) if len(offsets) > 1 else 0.0
+    ok = bool(offsets) and all(abs(o) <= tolerance for o in offsets) and drift <= DRIFT_S
     summary = "; ".join("%s: %s" % (r[0], ("%+.1fs" % r[3]) if r[3] is not None else "not heard") for r in results) or "no anchors"
-    rec = {"measured_at": datetime.datetime.now().isoformat(timespec="seconds"), "ok": ok, "tolerance_s": tolerance,
+    if len(offsets) > 1:
+        summary += "; drift %.1fs" % drift
+    rec = {"measured_at": datetime.datetime.now().isoformat(timespec="seconds"), "ok": ok, "tolerance_s": tolerance, "drift_s": drift,
            "anchors": [{"label": r[0], "expected_s": r[1], "heard_s": r[2], "offset_s": r[3]} for r in results], "summary": summary}
     state["alignment"] = rec
     json.dump(state, open(path, "w"), indent=1)
     if not ok:
-        raise SystemExit("footage clock check FAILED (%s). The stream and Hansard disagree by more than %.0fs; "
-                         "nothing was cut. Rebuild the pack (tools/debate_pack.py) or check event_start in pack.json." % (summary, tolerance))
+        raise SystemExit("footage clock check FAILED (%s). An anchor is more than %.0fs from Hansard's clock, or the two "
+                         "anchors drift apart by more than %.0fs; nothing was cut. Rebuild the pack (tools/debate_pack.py) "
+                         "or check event_start in pack.json." % (summary, tolerance, DRIFT_S))
     return rec

@@ -28,8 +28,10 @@ process (`.lock` in the pack folder; `PARL_FORCE_LOCK=1` only for a dead holder)
 5. **Footage** — `tools/social_cut.py --pack F` (the reel, same evening), then
    `tools/speech_cut.py --pack F` (the full speeches, next morning is fine). Both
    begin with the clock self-check: the opener and the closer are probed and the
-   offsets written to `pack.json`; a run stops if the stream and Hansard disagree
-   by more than 20 seconds. A speech interrupted by interventions is one clip.
+   offsets written to `pack.json`; a run stops if the two anchors drift apart by
+   more than 20 seconds or either sits more than 45 seconds from Hansard's clock
+   (Hansard's own times are ±30 s; on 11 Sept the opener read +27.7 s, the closer
+   +10.5 s, and the windows absorb that). A speech interrupted by interventions is one clip.
 6. **Report** — `tools/debate_report.py --pack F` (the vote is in, so no
    `--provisional`), then `--preview` to see the canvas alone.
 7. **Publish** — `tools/debate_report.py --pack F --publish --with-clips`: puts the

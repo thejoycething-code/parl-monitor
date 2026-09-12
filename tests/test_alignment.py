@@ -37,10 +37,10 @@ def pack(tmp, alignment=None):
     open(os.path.join(tmp, "speeches.md"), "w").write(SPEECHES)
 
 
-def fake_probe(offset):
+def fake_probe(offset, closer_offset=None):
     def probe(manifest, a, b, out):
         # the words are heard `offset` seconds later than Hansard's clock says
-        base = a + 30.0 + offset
+        base = a + 30.0 + (offset if a < 5000 or closer_offset is None else closer_offset)
         text = "I beg to move That the Bill be now read a Second time It is a privilege to open this debate on a matter of conscience for every Member" \
             if a < 5000 else "I thank all Members who have spoken today with such care and respect for one another across these Benches and I turn now"
         return [(w, base + i * 0.4, base + i * 0.4 + 0.3) for i, w in enumerate(text.split())]
@@ -68,6 +68,20 @@ class AlignmentTests(unittest.TestCase):
             alignment.check(tmp, ff=None, probe=fake_probe(600.0), log=lambda *_a: None)
         self.assertIn("FAILED", str(caught.exception))
         self.assertFalse(json.load(open(tmp + "/pack.json"))["alignment"]["ok"])
+
+    def test_hansards_own_clock_noise_passes_when_the_anchors_agree(self):
+        """11 Sept 2026 as measured: opener +27.7 s, closer +10.5 s. Same stream clock,
+        two rough Hansard times; the windows absorb it, so the cut goes ahead."""
+        tmp = tempfile.mkdtemp(); pack(tmp)
+        rec = alignment.check(tmp, ff=None, probe=fake_probe(27.7, closer_offset=10.5), log=lambda *_a: None)
+        self.assertTrue(rec["ok"])
+        self.assertAlmostEqual(rec["drift_s"], 17.2, places=0)
+
+    def test_anchors_that_drift_apart_stop_the_run_even_when_each_is_near(self):
+        tmp = tempfile.mkdtemp(); pack(tmp)
+        with self.assertRaises(SystemExit) as caught:
+            alignment.check(tmp, ff=None, probe=fake_probe(-20.0, closer_offset=20.0), log=lambda *_a: None)
+        self.assertIn("drift", str(caught.exception))
 
     def test_a_fresh_passing_record_is_not_remeasured(self):
         import datetime
