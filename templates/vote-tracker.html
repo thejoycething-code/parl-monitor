@@ -489,6 +489,14 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 .whead h2{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink)}
 .whead small{margin-left:auto;color:#8b9098;font-size:12px;font-weight:400}
 .wdot{width:7px;height:7px;border-radius:50%;background:var(--grey-300);flex:none}
+.wrow{display:flex;gap:12px;align-items:baseline;padding:9px 16px;border-top:1px solid var(--line);font-size:13.5px}
+.wrow:first-of-type{border-top:none}
+.wdate{flex:0 0 60px;font-weight:900;font-size:11.5px;letter-spacing:.04em;color:var(--blue-deep);text-transform:uppercase}
+.wdate.wtba{color:#9aa1a9;font-weight:700}
+.wbody{min-width:0;flex:1;color:#23282f}
+.wbody a{color:#23282f;font-weight:500}
+.wbody a:hover{color:var(--blue-deep)}
+.wbody span{color:#8b9098;font-size:12.5px}
 .liveband{background:linear-gradient(135deg,#2f6fe0,#4285f4);border-radius:12px;color:#fff;
   padding:20px 22px;margin:0 0 6px;box-shadow:0 8px 30px rgba(47,111,224,.25)}
 .bandlabel{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;
@@ -990,26 +998,27 @@ function liveBillGroups(excludeIds){
 }
 
 function watchlistHTML(groups, count){
-  // Same information the band's fold carried, at honest volume. A shared
-  // sitting day is one occasion and keeps one row; "TBA" is the absence of
-  // an occasion, so those Bills get a row each rather than being crushed
-  // into a single undated leaf.
-  const rows = groups
-    .flatMap(g => g.date ? [g] : g.bills.map(b => ({date: null, bills: [b]})))
-    .map(g => {
-      const leaf = g.date
-        ? `<div class="leaf"><span class="leafm">${MONTH3[+g.date.slice(5, 7) - 1]}</span><span class="leafd">${+g.date.slice(8, 10)}</span></div>`
-        : `<div class="leaf leaftba"><span class="leafm">${esc((g.bills[0].house || "").toUpperCase())}</span><span class="leafd">TBA</span></div>`;
-      const stages = [...new Set(g.bills.map(b => b.stage))].join(" / ");
-      const meta = g.date
-        ? `${stages} · ${esc(g.bills[0].house)} · ${DAYNAME[new Date(g.date + "T12:00:00").getDay()]} ${fmtD(g.date)} · ${inDays(g.date)}`
-        : `${stages} · ${esc(g.bills[0].house)} · date to be announced`;
-      return `<div class="oprow">${leaf}<div class="opbody"><b>${
-        g.bills.map(billLink).join(" · ")}</b><span>${meta}</span></div></div>`;
-    }).join("");
+  // Condensed, and named for what it is to the reader (Christopher,
+  // 2026-09-12). Six tall calendar rows became three lines: one per dated
+  // sitting day, then every undated Bill together on a single "no date"
+  // line, because a list of TBAs is one fact, not four.
+  const dated = groups.filter(g => g.date);
+  const undated = groups.filter(g => !g.date).flatMap(g => g.bills);
+  const stagesOf = bills => [...new Set(bills.map(b => b.stage))].join(" / ");
+  const housesOf = bills => [...new Set(bills.map(b => b.house))].join(" & ");
+  let rows = dated.map(g => `<div class="wrow">
+    <span class="wdate">${+g.date.slice(8, 10)} ${MONTH3[+g.date.slice(5, 7) - 1]}</span>
+    <div class="wbody">${g.bills.map(billLink).join(" · ")}<span> · ${
+      stagesOf(g.bills)}, ${housesOf(g.bills)} · ${inDays(g.date)}</span></div></div>`).join("");
+  if (undated.length)
+    rows += `<div class="wrow">
+      <span class="wdate wtba">No date</span>
+      <div class="wbody">${undated.map(billLink).join(" · ")}<span> · date to be announced</span></div></div>`;
+  // "Potential", deliberately: a Bill sitting at a Lords stage is not a
+  // vote this MP will be handed tomorrow, but it is one they may face.
   return `<div class="wpanel"><div class="whead"><span class="wdot"></span>
-    <h2>What we&rsquo;re watching</h2>
-    <small>${count} Bill${count === 1 ? "" : "s"} before Parliament · from the weekly board</small></div>
+    <h2>Potential upcoming votes</h2>
+    <small>${count} Bill${count === 1 ? "" : "s"} before Parliament on our issues</small></div>
     ${rows}</div>`;
 }
 

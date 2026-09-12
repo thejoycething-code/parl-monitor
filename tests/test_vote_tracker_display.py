@@ -2421,7 +2421,8 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         flat = " ".join(template().split())
         self.assertIn("function watchlistHTML(groups, count){", flat)
         self.assertIn('<div class="wpanel">', flat)
-        self.assertIn("What we&rsquo;re watching", flat)
+        # named for what it is to the reader, not for what we do with it
+        self.assertIn("<h2>Potential upcoming votes</h2>", flat)
         self.assertIn('<span class="wdot"></span>', flat)
         # the quiet panel says nothing about being live, and does not pulse
         head = flat[flat.index("function watchlistHTML"):flat.index("function orderPaperHTML")]
@@ -2430,13 +2431,19 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         # and the list is open -- the fold only existed to spare the hero
         self.assertNotIn("banddisc", head)
 
-    def test_the_watchlist_splits_undated_bills_but_keeps_a_sitting_day_whole(self):
-        # A shared Friday is one occasion and keeps one row; TBA is the
-        # absence of an occasion, so those Bills get a row each instead of
-        # being crushed under a single undated leaf.
+    def test_the_watchlist_is_one_line_per_sitting_day_and_one_for_the_rest(self):
+        # Condensed (2026-09-12): six tall calendar rows became three lines.
+        # A shared Friday keeps its own line; every undated Bill shares the
+        # "No date" line, because a list of TBAs is one fact, not four.
         flat = " ".join(template().split())
-        self.assertIn(".flatMap(g => g.date ? [g] : g.bills.map(b => "
-                      "({date: null, bills: [b]})))", flat)
+        self.assertIn("const dated = groups.filter(g => g.date);", flat)
+        self.assertIn("const undated = groups.filter(g => !g.date)"
+                      ".flatMap(g => g.bills);", flat)
+        self.assertIn('<span class="wdate wtba">No date</span>', flat)
+        # the tall order-paper row is not reused here any more
+        head = flat[flat.index("function watchlistHTML"):flat.index("function orderPaperHTML")]
+        self.assertNotIn('class="oprow"', head)
+        self.assertNotIn('class="leaf"', head)
 
     def test_the_band_is_the_upcoming_bill_s_only_home(self):
         # The old "NO VOTES YET" card and the coming-up strip are both
