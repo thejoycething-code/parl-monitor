@@ -155,19 +155,19 @@ issues:
     # and next_key_date at build time, so "what happens next" stays current
     # as long as the weekly board refresh runs, with no copy to re-edit.
     board_id: 4157
-    # The petition (Christopher, 2026-08-31): the builder keeps the button
-    # until board 4157 records the Bill's end, and drops it the week the
-    # row closes. The label is EVERGREEN by instruction, given twice: no
-    # delivery date in it -- signatures continue for as long as the Bill
-    # is active, and the 4 September delivery is a campaign milestone, not
-    # a closing date.
-    # Keep this URL CLEAN of tracking parameters: the builder stamps every
-    # action link with the monitor's UTMs (utm_source=cgo-monitor, medium,
-    # utm_campaign=cgo-monitor-<issue id>) at build time. A URL that already
-    # carries utm_ parameters is left alone, so a hand-tuned link wins.
-    action:
-      url: https://citizengo.org/en-gb/lf/18429-parliament-is-being-asked-to-legalise-assisted-suicide--again---
-      label: Sign the petition
+    # The petition RETIRED 2026-09-12 (Christopher). The Bill was defeated at
+    # Second Reading on 11 September and cannot proceed this session, so the
+    # ask is over: "Sign the petition" was sitting under "DEFEATED ... cannot
+    # proceed this session" for a day. The code now retires an action by
+    # itself once its Bill leaves live business (isRetired), and this block
+    # is gone as well so nothing can bring it back.
+    #
+    # If a petition returns here, two standing rules apply. The label must be
+    # EVERGREEN -- no delivery date, because signatures continue for as long
+    # as the Bill is active. And keep the URL CLEAN of tracking parameters:
+    # the builder stamps the monitor's UTMs (utm_source=cgo-monitor, medium,
+    # utm_campaign=cgo-monitor-<issue id>) at build time, and leaves a URL
+    # that already carries utm_ parameters alone so a hand-tuned link wins.
 
   - id: abortion
     # Debate titles that belong to this bill card. A quote shown beside a

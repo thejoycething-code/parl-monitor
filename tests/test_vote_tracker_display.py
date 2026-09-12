@@ -2289,8 +2289,9 @@ class BillStatusAndActionTests(unittest.TestCase):
         # disagreed, status fell out of BOTH places at once.
         self.assertIn("${main && !isLiveNow(g.issue) && g.issue.status ?", flat)
         self.assertIn("${main && !isLiveNow(g.issue) && g.issue.next ?", flat)
-        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.action "
-                      "&& g.issue.action.url && g.issue.action.label", flat)
+        self.assertIn("${main && !isLiveNow(g.issue) && !isRetired(g.issue) "
+                      "&& g.issue.action && g.issue.action.url "
+                      "&& g.issue.action.label", flat)
         self.assertNotIn("!g.issue.live &&", flat)
 
     def test_the_forward_look_is_stage_house_and_date(self):
@@ -2310,7 +2311,9 @@ class BillStatusAndActionTests(unittest.TestCase):
                   encoding="utf-8") as fh:
             cfg = yaml.safe_load(fh)
         configured = [i for i in cfg["issues"] if i.get("action")]
-        self.assertTrue(configured, "the assisted-suicide action is expected")
+        # Zero is legal (2026-09-12): the assisted suicide petition retired
+        # with its Bill. This is a rule about any action that IS configured,
+        # not a requirement that one always be.
         for issue in configured:
             action = issue["action"]
             self.assertTrue(
@@ -2384,8 +2387,8 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         # business, the result belongs in The Record. An issue still
         # awaiting its division is never dropped.
         flat = " ".join(template().split())
-        self.assertIn("if (i.result && i.board_id && "
-                      "!liveBoardIds().has(i.board_id)) return false;", flat)
+        self.assertIn("const isRetired = i => !!(i.result && i.board_id "
+                      "&& !liveBoardIds().has(i.board_id));", flat)
         self.assertIn("const bandIssues = () => DATA.issues.filter(isLiveNow);", flat)
 
     def test_the_band_gate_cannot_throw_on_an_empty_hero_list(self):
@@ -2396,6 +2399,20 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         self.assertIn("if (heroes.length) band =", flat)
         self.assertIn("else if (othersCount) band = watchlistHTML(rest, othersCount);", flat)
         self.assertNotIn("others.length", flat)
+
+    def test_a_petition_retires_with_its_bill(self):
+        # "Sign the petition" sat under "DEFEATED ... The Bill cannot proceed
+        # this session" for a day. Retirement is the Bill leaving live
+        # business, NOT merely having divided -- a Bill that wins its Second
+        # Reading is still worth fighting and keeps its petition.
+        flat = " ".join(template().split())
+        self.assertIn("const isRetired = i => !!(i.result && i.board_id "
+                      "&& !liveBoardIds().has(i.board_id));", flat)
+        self.assertIn("const isLiveNow = i => !!(i.upcoming || i.live) "
+                      "&& !isRetired(i);", flat)
+        # the record card is the only place an action can reach once the
+        # band has let the issue go, so that is where the gate has to sit
+        self.assertIn("!isRetired(g.issue) && g.issue.action", flat)
 
     def test_a_band_with_no_hero_steps_down_to_the_watchlist(self):
         # Option A (Christopher, 2026-09-12). The blue slab was announcing
@@ -2657,7 +2674,8 @@ class BothHomesTests(unittest.TestCase):
         # rather than pulsing "Live now" over business that is finished.
         flat = " ".join(template().split())
         self.assertIn("const bandIssues = () => DATA.issues.filter(isLiveNow);", flat)
-        self.assertIn("if (!(i.upcoming || i.live)) return false;", flat)
+        self.assertIn("const isLiveNow = i => !!(i.upcoming || i.live) "
+                      "&& !isRetired(i);", flat)
 
     def test_once_a_division_exists_the_promise_becomes_the_fact(self):
         flat = " ".join(template().split())
@@ -2678,7 +2696,8 @@ class BothHomesTests(unittest.TestCase):
         flat = " ".join(template().split())
         self.assertIn("${main && !isLiveNow(g.issue) && g.issue.status", flat)
         self.assertIn("${main && !isLiveNow(g.issue) && g.issue.next", flat)
-        self.assertIn("${main && !isLiveNow(g.issue) && g.issue.action", flat)
+        self.assertIn("${main && !isLiveNow(g.issue) && !isRetired(g.issue) "
+                      "&& g.issue.action", flat)
 
     def test_the_generator_ships_live_issues_even_with_divisions(self):
         import sqlite3
