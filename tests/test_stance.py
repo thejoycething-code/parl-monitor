@@ -392,6 +392,24 @@ class CapTests(unittest.TestCase):
         self.assertEqual((row["stance"], row["model"]), (2, stance.STANCE_MODEL))
 
 
+class WaveringTests(unittest.TestCase):
+    def _ev(self, kind, stance, date="2026-06-01"):
+        return {"kind": kind, "stance": stance, "date": date, "ref": "r", "line": "l"}
+
+    def test_two_good_votes_flag_a_supporter_and_a_thin_majority_alone_does_not(self):
+        from src import stance
+        import datetime
+        today = datetime.date(2026, 9, 11)
+        two_votes = [self._ev("vote", -2), self._ev("vote", 2), self._ev("vote", 2)]
+        self.assertEqual(stance.wavering("--", two_votes, 20000, today), (True, "backed our side in 2 votes"))
+        thin_only = [self._ev("vote", -2)]
+        flag, why = stance.wavering("--", thin_only, 214, today)
+        self.assertFalse(flag); self.assertEqual(why, "majority 214")
+        thin_and_words = [self._ev("vote", -2), self._ev("debate", 0, "2026-05-01")]
+        self.assertTrue(stance.wavering("--", thin_and_words, 214, today)[0])
+        self.assertEqual(stance.wavering("++", two_votes, 214, today), (False, ""))   # only supporters of the other side waver
+
+
 class AssistedSuicideCapTests(unittest.TestCase):
     """Christopher, 12 Sept 2026: nobody who ever voted for assisted suicide is a ++,
     however they voted since. The seven who moved to No at the 2026 Second Reading

@@ -154,6 +154,10 @@ class AbsenceTests(unittest.TestCase):
         self.assertEqual([r[0] for r in rows], [7777]); self.assertIn("Did not vote, though present", rows[0][1])
         self.assertEqual(tuple(conn.execute("SELECT stance, model FROM stance WHERE ref='div:c2428:absent'").fetchone()), (0, tl.ABSENT_MODEL))
         self.assertEqual(tl.record_absences(conn, 2428, "2026-09-11", "t", [2], set(), log=lambda *_a: None), 0)
+        # a teller is in the payload but not in mp_events: an explicit voted set keeps them off the absent list
+        conn.execute("DELETE FROM mp_events WHERE ref='div:c2428:absent'")
+        n2 = tl.record_absences(conn, 2428, "2026-09-11", "t", [2], {1000, 2000, 7777}, log=lambda *_a: None, voted={1000, 2000, 7777})
+        self.assertEqual(n2, 0)
 
     def test_presence_is_read_from_the_days_other_archived_divisions(self):
         import gzip, json, tempfile

@@ -61,6 +61,8 @@ td.mv .flat { opacity:.5; }
 .empty { padding:1.4rem; text-align:center; opacity:.7; font-size:.9em; }
 .note { font-size:.82em; opacity:.78; margin-top:.9rem; }
 @media print { .bar { display:none; } th { position:static; } }
+.flag{display:inline-block;font-size:10px;font-weight:700;line-height:1;padding:2px 4px;border-radius:3px;margin-left:4px;vertical-align:middle}
+.flag.w{background:#fde68a;color:#7c5a00}.flag.t{background:#bfdbfe;color:#1e3a8a}.flag.x{background:#e5e7eb;color:#374151}
 </style></head><body>
 <h1>Five Column Analysis <span style="font-weight:400;font-size:.7em">peers</span></h1>
 <p class="banner"><strong>Coalition partner edition.</strong> Every placement is derived from a member's own votes, speeches, motions and questions in the public record. The gradient is CitizenGO's campaign assessment, not the member's stated position, and is a working draft. Please do not circulate beyond your organisation.</p>
@@ -69,6 +71,7 @@ td.mv .flat { opacity:.5; }
   <select id="area"><option value="1">Abortion</option><option value="2">Assisted dying</option><option value="3">Gender medicine children</option><option value="4">Conversion practices</option><option value="5">Sex based rights</option><option value="6">Parental rights education</option><option value="7">Free speech, privacy and civil liberties</option><option value="8">Freedom of religion</option><option value="9">Marriage family</option><option value="10">Surrogacy embryology</option><option value="12">Prostitution, trafficking and sexual exploitation</option></select>
   <input type="search" id="q" placeholder="Name, constituency, party or postcode" autocomplete="off">
   <button class="btn" id="partybtn" aria-expanded="false">All parties</button>
+  <button class="btn" id="waverbtn" title="Only members flagged as wavering supporters of the other side">Wavering</button>
   <div id="partypanel"></div>
   <span class="pcnote" id="pcnote"></span>
   <span style="flex:1"></span>
@@ -92,14 +95,14 @@ const areaSel = document.getElementById("area"), q = document.getElementById("q"
       out = document.getElementById("out"), pcnote = document.getElementById("pcnote"),
       partyBtn = document.getElementById("partybtn"), panel = document.getElementById("partypanel");
 const byId = {}; DATA.members.forEach(m => byId[m.i] = m);
-let party = new Set(), placement = new Set(), pcConstituency = null;
+let party = new Set(), placement = new Set(), pcConstituency = null, waverOnly = false;
 
 function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim(); }
 
 function allRows(){
   const p = DATA.placements[areaSel.value] || {};
   return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1],
-                                    f: p[id][2], fr: p[id][3]}))
+                                    f: p[id][2], fr: p[id][3], fl: p[id][4] || 0}))
                        .filter(r => r.m);
 }
 
@@ -135,6 +138,7 @@ function filtered(){
   return allRows().filter(r => {
     if (party.size && !party.has(r.m.p)) return false;
     if (placement.size && !placement.has(r.c)) return false;
+    if (waverOnly && !(r.fl & 1)) return false;
     if (pcConstituency) return norm(r.m.s) === pcConstituency;
     if (term) return norm(r.m.n).includes(term) || norm(r.m.s).includes(term)
                   || norm(r.m.p).includes(term);
@@ -163,9 +167,12 @@ function render(){
       (TIER[r.f] + ": " + (DATA.reasons[r.fr] || "")).replace(/"/g, "&quot;") +
       '">' + DOT[r.f] + '</span>';
   const PP = "";  // empty when no profile page exists (peers)
-  const nameCell = r => PP
+  const nameCell = r => (PP
       ? '<a href="' + PP + r.m.i + '">' + r.m.n + '</a>'
-      : r.m.n;
+      : r.m.n) +
+      ((r.fl & 1) ? ' <span class="flag w" title="Wavering: backed our side in votes, or thin majority with recent words not hostile">W</span>' : '') +
+      ((r.fl & 2) ? ' <span class="flag t" title="Targeted by one of our campaigns">T</span>' : '') +
+      ((r.fl & 4) ? ' <span class="flag x" title="Conflicting signals: evidence both ways">±</span>' : '');
   const loyalty = m => m.al == null ? "" :
       ' · ' + m.al + '% with party' +
       (m.df ? ', defied whip ×' + m.df : '') +
@@ -208,6 +215,9 @@ async function postcode(v){
   } catch (e) { pcConstituency = null; pcnote.textContent = "Postcode not found"; }
 }
 
+document.getElementById("waverbtn").onclick = e => {
+  waverOnly = !waverOnly; e.target.classList.toggle("on", waverOnly); render();
+};
 q.addEventListener("input", async () => {
   pcConstituency = null; pcnote.textContent = "";
   if (/\d/.test(q.value)) await postcode(q.value);

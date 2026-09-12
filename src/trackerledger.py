@@ -83,8 +83,10 @@ def ensure(conn, client, cfg, log=print, dry_run=False):
             % (house, division_id, issue, n, areas))
         if prefix == "c":
             raw_dir = getattr(client, "archive_dir", None) or getattr(client, "raw_dir", None) or "data/raw"
+            archive_same_day_divisions(client, division.date.isoformat(), exclude_id=division_id, log=log)
             present = present_that_day(raw_dir, division.date.isoformat(), exclude_id=division_id)
-            record_absences(conn, division_id, division.date.isoformat(), " ".join((division.title or "").split()), areas, present, log=log)
+            record_absences(conn, division_id, division.date.isoformat(), " ".join((division.title or "").split()), areas, present,
+                            log=log, voted=voted_in(raw_dir, division_id))
         report.append((division_id, house, issue, n))
     if not report:
         log("  every tracker division already has its voters in the ledger")
@@ -117,7 +119,51 @@ def present_that_day(raw_dir, date, exclude_id=None):
     return present
 
 
-def record_absences(conn, division_id, date, title, areas, present, log=print):
+def archive_same_day_divisions(client, date, exclude_id=None, log=print):
+    """Fetch (and so archive, under the tracker's own file naming) every other Commons
+    division of `date`, so presence can be read from the record. The Votes API's list
+    endpoint is the only way to learn the day's ids; when it is down (it was, on
+    11-12 Sept 2026) this returns 0 and presence is read from whatever the archive
+    already holds."""
+    from src.ingest import divisions as dv
+    try:
+        rows = client.get_json("https://commonsvotes-api.parliament.uk/data/divisions.json?queryParameters.startDate=%s&queryParameters.endDate=%s" % (date, date),
+                               "division", "list-%s" % date)
+    except Exception as exc:                                    # noqa: BLE001
+        log("  [gap] the day's division list is unavailable (%s); presence read from the archive only" % str(exc)[:80])
+        return 0
+    n = 0
+    for d in rows or []:
+        did = d.get("DivisionId")
+        if not did or did == exclude_id:
+            continue
+        try:
+            dv.fetch_commons_breakdown(client, did)
+            n += 1
+        except Exception as exc:                                # noqa: BLE001
+            log("  [gap] division %s: %s" % (did, str(exc)[:80]))
+    return n
+
+
+def voted_in(raw_dir, division_id):
+    """Member ids in either lobby OR telling, from the archived payload. Tellers are
+    not ledgered as votes (a teller's lobby is the side they count for, not a vote),
+    so reading mp_events alone marked all four tellers of 11 September absent."""
+    import glob
+    import gzip
+    import json
+    import os
+    for path in glob.glob(os.path.join(raw_dir, "*", "division_cdetail-%d.json.gz" % division_id)):
+        try:
+            with gzip.open(path, "rb") as fh:
+                d = json.loads(fh.read().decode("utf-8"))
+        except Exception:                                   # noqa: BLE001
+            continue
+        return {m.get("MemberId") for k in ("Ayes", "Noes", "AyeTellers", "NoTellers") for m in d.get(k) or [] if m.get("MemberId")}
+    return None
+
+
+def record_absences(conn, division_id, date, title, areas, present, log=print, voted=None):
     """One 'div:cN:absent' event per sitting MP who was present that day and voted in
     neither lobby of this division; stance 0 by rule. Returns the count.
 
@@ -130,8 +176,9 @@ def record_absences(conn, division_id, date, title, areas, present, log=print):
     from src import intel
     if not present:
         return 0
-    voted = {r[0] for r in conn.execute("SELECT member_id FROM mp_events WHERE ref IN (?,?,?)",
-                                        ("div:c%d:aye" % division_id, "div:c%d:no" % division_id, "div:c%d:both" % division_id))}
+    if voted is None:
+        voted = {r[0] for r in conn.execute("SELECT member_id FROM mp_events WHERE ref IN (?,?,?)",
+                                            ("div:c%d:aye" % division_id, "div:c%d:no" % division_id, "div:c%d:both" % division_id))}
     sitting = {r[0] for r in conn.execute("SELECT id FROM members WHERE current_mp = 1")}
     ref = "div:c%d:absent" % division_id
     n = 0

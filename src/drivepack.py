@@ -66,22 +66,61 @@ def upload_resumable(token, folder_id, path, name=None, opener=None, log=print):
         session = r.headers.get("Location")
     sent = 0
     file_id = None
+    import time
     with open(path, "rb") as fh:
         while sent < size:
+            fh.seek(sent)
             blob = fh.read(CHUNK)
             end = sent + len(blob) - 1
             put = urllib.request.Request(session, data=blob, method="PUT",
                                          headers={"Content-Length": str(len(blob)), "Content-Range": "bytes %d-%d/%d" % (sent, end, size)})
-            try:
-                with opener(put, timeout=600) as r:
-                    body = r.read().decode("utf-8", "replace")
-                    if body.strip():
-                        file_id = json.loads(body).get("id")
-            except urllib.error.HTTPError as exc:
-                if exc.code not in (308,):
-                    raise
-            sent = end + 1
+            # The network to Google dropped twice on the night of 11-12 Sept 2026
+            # ("Operation timed out"), each time killing a multi-hundred-MB upload
+            # mid-way. A resumable session survives that: on any failure, ask the
+            # session how much it holds and carry on from there, up to six times.
+            for attempt in range(6):
+                try:
+                    with opener(put, timeout=600) as r:
+                        body = r.read().decode("utf-8", "replace")
+                        if body.strip():
+                            file_id = json.loads(body).get("id")
+                    sent = end + 1
+                    break
+                except urllib.error.HTTPError as exc:
+                    if exc.code == 308:
+                        rng = exc.headers.get("Range") if hasattr(exc, "headers") else None
+                        sent = int(rng.split("-")[1]) + 1 if rng else end + 1
+                        break
+                    if attempt == 5:
+                        raise
+                except (urllib.error.URLError, OSError, TimeoutError) as exc:
+                    if attempt == 5:
+                        raise
+                    time.sleep(5 * (attempt + 1))
+                    sent = _resume_point(session, size, opener, sent)
+                    if log:
+                        log("  retry %d for %s from %.0f MB (%s)" % (attempt + 1, name, sent / 1e6, str(exc)[:60]))
+                    fh.seek(sent)
+                    blob = fh.read(CHUNK)
+                    end = sent + len(blob) - 1
+                    put = urllib.request.Request(session, data=blob, method="PUT",
+                                                 headers={"Content-Length": str(len(blob)), "Content-Range": "bytes %d-%d/%d" % (sent, end, size)})
     return file_id
+
+
+def _resume_point(session, size, opener, fallback):
+    """Ask the resumable session how many bytes it holds."""
+    probe = urllib.request.Request(session, data=b"", method="PUT", headers={"Content-Length": "0", "Content-Range": "bytes */%d" % size})
+    try:
+        with opener(probe, timeout=60) as r:
+            return size if r.status in (200, 201) else fallback
+    except urllib.error.HTTPError as exc:
+        if exc.code == 308:
+            rng = exc.headers.get("Range") if hasattr(exc, "headers") else None
+            return int(rng.split("-")[1]) + 1 if rng else 0
+        return fallback
+    except Exception:                                       # noqa: BLE001
+        return fallback
 
 
 def deliverables(pack_dir):

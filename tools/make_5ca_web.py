@@ -110,6 +110,8 @@ td.mv .flat { opacity:.5; }
 .empty { padding:1.4rem; text-align:center; opacity:.7; font-size:.9em; }
 .note { font-size:.82em; opacity:.78; margin-top:.9rem; }
 @media print { .bar { display:none; } th { position:static; } }
+.flag{display:inline-block;font-size:10px;font-weight:700;line-height:1;padding:2px 4px;border-radius:3px;margin-left:4px;vertical-align:middle}
+.flag.w{background:#fde68a;color:#7c5a00}.flag.t{background:#bfdbfe;color:#1e3a8a}.flag.x{background:#e5e7eb;color:#374151}
 </style></head><body>
 <h1>Five Column Analysis <span style="font-weight:400;font-size:.7em">__SUBTITLE__</span></h1>
 <p class="banner">__BANNER__</p>
@@ -118,6 +120,7 @@ td.mv .flat { opacity:.5; }
   <select id="area">__AREA_OPTIONS__</select>
   <input type="search" id="q" placeholder="Name, constituency, party or postcode" autocomplete="off">
   <button class="btn" id="partybtn" aria-expanded="false">All parties</button>
+  <button class="btn" id="waverbtn" title="Only members flagged as wavering supporters of the other side">Wavering</button>
   <div id="partypanel"></div>
   <span class="pcnote" id="pcnote"></span>
   <span style="flex:1"></span>
@@ -141,14 +144,14 @@ const areaSel = document.getElementById("area"), q = document.getElementById("q"
       out = document.getElementById("out"), pcnote = document.getElementById("pcnote"),
       partyBtn = document.getElementById("partybtn"), panel = document.getElementById("partypanel");
 const byId = {}; DATA.members.forEach(m => byId[m.i] = m);
-let party = new Set(), placement = new Set(), pcConstituency = null;
+let party = new Set(), placement = new Set(), pcConstituency = null, waverOnly = false;
 
 function norm(s){ return (s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\\s+/g," ").trim(); }
 
 function allRows(){
   const p = DATA.placements[areaSel.value] || {};
   return Object.keys(p).map(id => ({m: byId[id], c: COLS[p[id][0]], n: p[id][1],
-                                    f: p[id][2], fr: p[id][3]}))
+                                    f: p[id][2], fr: p[id][3], fl: p[id][4] || 0}))
                        .filter(r => r.m);
 }
 
@@ -184,6 +187,7 @@ function filtered(){
   return allRows().filter(r => {
     if (party.size && !party.has(r.m.p)) return false;
     if (placement.size && !placement.has(r.c)) return false;
+    if (waverOnly && !(r.fl & 1)) return false;
     if (pcConstituency) return norm(r.m.s) === pcConstituency;
     if (term) return norm(r.m.n).includes(term) || norm(r.m.s).includes(term)
                   || norm(r.m.p).includes(term);
@@ -212,9 +216,12 @@ function render(){
       (TIER[r.f] + ": " + (DATA.reasons[r.fr] || "")).replace(/"/g, "&quot;") +
       '">' + DOT[r.f] + '</span>';
   const PP = "__PROFILE_PREFIX__";  // empty when no profile page exists (peers)
-  const nameCell = r => PP
+  const nameCell = r => (PP
       ? '<a href="' + PP + r.m.i + '">' + r.m.n + '</a>'
-      : r.m.n;
+      : r.m.n) +
+      ((r.fl & 1) ? ' <span class="flag w" title="Wavering: backed our side in votes, or thin majority with recent words not hostile">W</span>' : '') +
+      ((r.fl & 2) ? ' <span class="flag t" title="Targeted by one of our campaigns">T</span>' : '') +
+      ((r.fl & 4) ? ' <span class="flag x" title="Conflicting signals: evidence both ways">±</span>' : '');
   const loyalty = m => m.al == null ? "" :
       ' \u00b7 ' + m.al + '% with party' +
       (m.df ? ', defied whip \u00d7' + m.df : '') +
@@ -257,6 +264,9 @@ async function postcode(v){
   } catch (e) { pcConstituency = null; pcnote.textContent = "Postcode not found"; }
 }
 
+document.getElementById("waverbtn").onclick = e => {
+  waverOnly = !waverOnly; e.target.classList.toggle("on", waverOnly); render();
+};
 q.addEventListener("input", async () => {
   pcConstituency = null; pcnote.textContent = "";
   if (/\\d/.test(q.value)) await postcode(q.value);
@@ -343,8 +353,12 @@ def main():
             if why and why not in reason_ix:
                 reason_ix[why] = len(reasons)
                 reasons.append(why)
+            # fifth element: flags -- 1 wavering (see stance.wavering), 2 targeted by
+            # one of our MP-named campaigns, 4 conflicting signals. Christopher, 12
+            # Sept 2026: the sheet should say who to ring, not only where they sit.
+            flags = (1 if r.get("wavering") else 0) | (2 if r.get("targeted") else 0) | (4 if r.get("conflict") else 0)
             placements[key][mid] = [cols.index(r["column"]), r["n_events"],
-                                    tier, reason_ix.get(why, -1)]
+                                    tier, reason_ix.get(why, -1), flags]
       if not areas:
           print("no areas to render for the {0}".format(house))
           continue
@@ -375,6 +389,9 @@ def main():
       dataset_internal = json.dumps({"members": list(members.values()),
                                      "placements": placements,
                                      "reasons": reasons}, separators=(",", ":"))
+      # The partner build also drops the flags: TARGETED names our own campaign
+      # targets and WAVERING is our read of who might move, neither of which is a
+      # partner's business. The JS reads a missing fifth element as 0.
       placements_bare = {a: {m: [v[0], v[1], -1, -1] for m, v in p.items()}
                          for a, p in placements.items()}
       dataset_partner = json.dumps({"members": list(members.values()),

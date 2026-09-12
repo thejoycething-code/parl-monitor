@@ -28,11 +28,15 @@ def last_vote_on_area(conn, member_id, area, before=None):
     """(date, ref, stance) of the member's latest scored vote on the area, or None."""
     where = "AND e.date < ?" if before else ""
     args = [member_id] + ([before] if before else [])
-    row = conn.execute(
-        "SELECT e.date, e.ref, s.stance FROM mp_events e JOIN stance s ON s.ref = e.ref "
-        "WHERE e.member_id = ? AND e.kind = 'vote' AND e.areas LIKE '%%' || ? || '%%' %s "
-        "ORDER BY e.date DESC LIMIT 1" % where, [args[0], str(area)] + args[1:]).fetchone()
-    return (row[0], row[1], row[2]) if row else None
+    for row in conn.execute(
+            "SELECT e.date, e.ref, s.stance, e.areas FROM mp_events e JOIN stance s ON s.ref = e.ref "
+            "WHERE e.member_id = ? AND e.kind = 'vote' %s ORDER BY e.date DESC" % where, args):
+        try:
+            if area in json.loads(row[3] or "[]"):           # never LIKE '%2%': that matches area 12
+                return (row[0], row[1], row[2])
+        except ValueError:
+            continue
+    return None
 
 
 def reading_of(pass_read):

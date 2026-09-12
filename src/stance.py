@@ -803,7 +803,14 @@ def wavering(column, evs, majority, today=None):
     soft = [r for r in evs if r["kind"] in ("debate", "pq", "edm") and r["date"] >= cutoff and (r["stance"] or 0) >= 0]
     if soft:
         why.append("%d recent contribution%s not hostile" % (len(soft), "" if len(soft) == 1 else "s"))
-    return (bool(why), "; ".join(why))
+    # Measured against the 11 September 2026 vote (328 supporters as at the day):
+    # backing our safeguards in two or more votes picked 21 members of whom 24%
+    # moved or stayed away, against 16% of all supporters; a thin majority ALONE
+    # picked 105 of whom 13% did -- no lift. So the flag needs the votes, or two
+    # signals together; a majority by itself is written into the reasons but does
+    # not raise the flag.
+    flag = good_votes >= WAVER_MIN_GOOD_VOTES or len(why) >= 2
+    return (flag, "; ".join(why))
 
 
 def suggest_rows(conn, area, full_roster=False, overrides_cfg=None,
