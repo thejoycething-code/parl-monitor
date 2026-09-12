@@ -20,7 +20,7 @@ party: Labour · Carlisle
 
 ## Sir Bernard Jenkin MP
 party: Conservative · Harwich and North Essex
-> I have a very dear friend—someone who has become a mentor—who is a very interesting, clever, intellectual, determined and courageous lady. She has scoliosis of the spine. The last time I went to see her, there she was, hardly able to sit up and in constant pain. We have open conversations, so I asked her, "If assisted dying were available to you, would you take it?" Without hesitation she said, "Oh, yes." When I asked why, she said, "Because I am a burden to my family." I said, "Well, I have been voting against assisted dying. I am going to have to rethink my position." Then she said, without hesitation, "Oh, I don't advocate it." She understands the complexity of this, and she knows that it opens a can of worms that we really have not understood fully.
+> Maybe there should be a citizens assembly on this question—it is a subject that would lend itself to a citizens assembly. [Interruption.] Well, it would not take away any power from this House. This House would still be able to decide, but it would inform the debate in a way that the debate is still not informed. My mother and father passed away in recent years, and I am so grateful that my mother never had to confront this question. She often said, “Oh, I just want to die. I am just a burden on the family.” Though she would never have qualified for this Bill, I am so grateful that there were never any circumstances that would possibly have confronted her with this question.
 
 ## Dame Karen Bradley MP
 party: Conservative · Staffordshire Moorlands

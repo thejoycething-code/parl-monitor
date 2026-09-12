@@ -14,108 +14,166 @@ Style: Shape,Helvetica Neue,20,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:00.10,0:00:05.20,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 710 0 l 710 78 l 0 78{\p0}
-Dialogue: 0,0:00:00.10,0:00:05.20,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 710 0 l 710 60 l 0 60{\p0}
-Dialogue: 1,0:00:00.10,0:00:05.20,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Josh Fenton-Glynn MP
-Dialogue: 1,0:00:00.10,0:00:05.20,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Labour · Calder Valley
-Dialogue: 2,0:00:00.00,0:00:02.90,Caption,,0,0,0,,{\pos(540,1600)}That brings me to\Nour safeguards.
-Dialogue: 2,0:00:03.26,0:00:05.82,Caption,,0,0,0,,{\pos(540,1600)}I cannot vote for a\NBill that does not
-Dialogue: 2,0:00:05.82,0:00:08.18,Caption,,0,0,0,,{\pos(540,1600)}sufficiently guard\Nagainst coercion.
-Dialogue: 2,0:00:08.18,0:00:09.70,Caption,,0,0,0,,{\pos(540,1600)}That is what my\Nconstituents with
-Dialogue: 2,0:00:09.70,0:00:12.22,Caption,,0,0,0,,{\pos(540,1600)}disabilities say they\Nfear the most and,
-Dialogue: 2,0:00:12.22,0:00:13.82,Caption,,0,0,0,,{\pos(540,1600)}having been in charge\Nof social care,
-Dialogue: 2,0:00:13.82,0:00:16.26,Caption,,0,0,0,,{\pos(540,1600)}I know what that looks like.
-Dialogue: 2,0:00:16.26,0:00:16.96,Caption,,0,0,0,,{\pos(540,1600)}Let me be clear:
-Dialogue: 2,0:00:16.96,0:00:19.22,Caption,,0,0,0,,{\pos(540,1600)}the safeguards in this\NBill are not enough.
-Dialogue: 2,0:00:19.22,0:00:21.60,Caption,,0,0,0,,{\pos(540,1600)}If the Bill in its\Ncurrent form passes,
-Dialogue: 2,0:00:21.60,0:00:24.06,Caption,,0,0,0,,{\pos(540,1600)}a patient would be subject\Nto more scrutiny to
-Dialogue: 2,0:00:24.06,0:00:28.11,Caption,,0,0,0,,{\pos(540,1600)}give up a kidney than\Nto give up their life.
-Dialogue: 0,0:00:28.26,0:00:33.36,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 78 l 0 78{\p0}
-Dialogue: 0,0:00:28.26,0:00:33.36,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 60 l 0 60{\p0}
-Dialogue: 1,0:00:28.26,0:00:33.36,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Dame Karen Bradley MP
-Dialogue: 1,0:00:28.26,0:00:33.36,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Conservative · Staffordshire Moorlands
-Dialogue: 2,0:00:28.16,0:00:30.30,Caption,,0,0,0,,{\pos(540,1600)}I say to colleagues who\Nsupported the Bill before
-Dialogue: 2,0:00:30.30,0:00:33.72,Caption,,0,0,0,,{\pos(540,1600)}and have wrestled sincerely\Nwith the issue since:
-Dialogue: 2,0:00:33.72,0:00:35.48,Caption,,0,0,0,,{\pos(540,1600)}you do not have to\Nrepudiate the vote you
-Dialogue: 2,0:00:35.48,0:00:38.36,Caption,,0,0,0,,{\pos(540,1600)}cast last time to vote\Ndifferently today.
-Dialogue: 2,0:00:38.36,0:00:39.98,Caption,,0,0,0,,{\pos(540,1600)}You do not have to decide that
-Dialogue: 2,0:00:39.98,0:00:42.40,Caption,,0,0,0,,{\pos(540,1600)}assisted dying can\Nnever be right.
-Dialogue: 2,0:00:42.40,0:00:44.20,Caption,,0,0,0,,{\pos(540,1600)}You do not have to\Nabandon the compassion
-Dialogue: 2,0:00:44.20,0:00:46.72,Caption,,0,0,0,,{\pos(540,1600)}that led you to\Nsupport the principle.
-Dialogue: 2,0:00:46.72,0:00:50.06,Caption,,0,0,0,,{\pos(540,1600)}You need only ask whether\Nthis Bill, in this form,
-Dialogue: 2,0:00:50.06,0:00:52.00,Caption,,0,0,0,,{\pos(540,1600)}on the evidence\Nbefore us today,
-Dialogue: 2,0:00:52.00,0:00:56.38,Caption,,0,0,0,,{\pos(540,1600)}is safe enough for Parliament\Nto force it into law.
-Dialogue: 2,0:00:56.38,0:00:58.48,Caption,,0,0,0,,{\pos(540,1600)}That is today’s test.
-Dialogue: 0,0:00:58.63,0:01:03.73,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 78 l 0 78{\p0}
-Dialogue: 0,0:00:58.63,0:01:03.73,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 60 l 0 60{\p0}
-Dialogue: 1,0:00:58.63,0:01:03.73,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Carla Lockhart MP
-Dialogue: 1,0:00:58.63,0:01:03.73,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}DUP · Upper Bann
-Dialogue: 2,0:00:58.53,0:01:00.63,Caption,,0,0,0,,{\pos(540,1600)}The soft language of “assisted
-Dialogue: 2,0:01:00.63,0:01:03.31,Caption,,0,0,0,,{\pos(540,1600)}dying” is misleading\Nthe public,
-Dialogue: 2,0:01:03.31,0:01:06.91,Caption,,0,0,0,,{\pos(540,1600)}because it obscures\Nthe stark and very dark
-Dialogue: 2,0:01:06.91,0:01:09.95,Caption,,0,0,0,,{\pos(540,1600)}reality of what is\Nactually being proposed.
-Dialogue: 2,0:01:09.95,0:01:12.99,Caption,,0,0,0,,{\pos(540,1600)}We should always\Nhave the courage
-Dialogue: 2,0:01:12.99,0:01:15.47,Caption,,0,0,0,,{\pos(540,1600)}to call things what they are.
-Dialogue: 2,0:01:15.47,0:01:19.03,Caption,,0,0,0,,{\pos(540,1600)}Of course, we all want\Nassistance when we are dying,
-Dialogue: 2,0:01:19.03,0:01:21.55,Caption,,0,0,0,,{\pos(540,1600)}but that is not what\Nthis Bill provides.
-Dialogue: 2,0:01:21.55,0:01:24.61,Caption,,0,0,0,,{\pos(540,1600)}It is not about\Nan extra shot of
-Dialogue: 2,0:01:24.61,0:01:27.27,Caption,,0,0,0,,{\pos(540,1600)}morphine to ease\Nsomeone on their way;
-Dialogue: 2,0:01:27.27,0:01:30.31,Caption,,0,0,0,,{\pos(540,1600)}it is a Bill that allows\Ndoctors to provide
-Dialogue: 2,0:01:30.31,0:01:34.53,Caption,,0,0,0,,{\pos(540,1600)}lethal drugs for a\Npatient to end their life.
-Dialogue: 2,0:01:34.53,0:01:38.31,Caption,,0,0,0,,{\pos(540,1600)}Let the reality of that\Nsink in: our great NHS,
-Dialogue: 2,0:01:38.31,0:01:42.73,Caption,,0,0,0,,{\pos(540,1600)}the principles of which are\Nto protect and to save lives,
-Dialogue: 2,0:01:42.73,0:01:46.92,Caption,,0,0,0,,{\pos(540,1600)}would be responsible for\Nstate-sponsored suicide.
-Dialogue: 0,0:01:47.07,0:01:52.17,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 657 0 l 657 78 l 0 78{\p0}
-Dialogue: 0,0:01:47.07,0:01:52.17,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 657 0 l 657 60 l 0 60{\p0}
-Dialogue: 1,0:01:47.07,0:01:52.17,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Dr Zubir Ahmed MP
-Dialogue: 1,0:01:47.07,0:01:52.17,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Labour · Glasgow South West
-Dialogue: 2,0:01:46.97,0:01:50.69,Caption,,0,0,0,,{\pos(540,1600)}I am therefore of the opinion\Nthat the foundational elements
-Dialogue: 2,0:01:50.69,0:01:54.01,Caption,,0,0,0,,{\pos(540,1600)}of this Bill will create the\Nallure of choice and control,
-Dialogue: 2,0:01:54.01,0:01:56.41,Caption,,0,0,0,,{\pos(540,1600)}but not the agency\Nto pursue either.
-Dialogue: 2,0:01:56.41,0:01:59.25,Caption,,0,0,0,,{\pos(540,1600)}Turning to safeguards,
-Dialogue: 2,0:01:59.49,0:02:00.29,Caption,,0,0,0,,{\pos(540,1600)}much is made of the\Nprovision requiring
-Dialogue: 2,0:02:00.29,0:02:01.69,Caption,,0,0,0,,{\pos(540,1600)}two doctors to\Nassess eligibility,
-Dialogue: 2,0:02:01.69,0:02:03.95,Caption,,0,0,0,,{\pos(540,1600)}but the trouble\Nis that neither
-Dialogue: 2,0:02:03.95,0:02:05.07,Caption,,0,0,0,,{\pos(540,1600)}has to know the patient well,
-Dialogue: 2,0:02:05.07,0:02:06.91,Caption,,0,0,0,,{\pos(540,1600)}or go to any great lengths to
-Dialogue: 2,0:02:06.91,0:02:10.07,Caption,,0,0,0,,{\pos(540,1600)}exclude the likelihood\Nof coercion.
-Dialogue: 2,0:02:10.07,0:02:12.19,Caption,,0,0,0,,{\pos(540,1600)}Doctors are trained\Nto do many things,
-Dialogue: 2,0:02:12.19,0:02:14.95,Caption,,0,0,0,,{\pos(540,1600)}but assessing\Nand picking up on
-Dialogue: 2,0:02:14.95,0:02:17.04,Caption,,0,0,0,,{\pos(540,1600)}coercion is not one of them.
-Dialogue: 0,0:02:17.19,0:02:22.29,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 594 0 l 594 78 l 0 78{\p0}
-Dialogue: 0,0:02:17.19,0:02:22.29,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 594 0 l 594 60 l 0 60{\p0}
-Dialogue: 1,0:02:17.19,0:02:22.29,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Ashley Dalton MP
-Dialogue: 1,0:02:17.19,0:02:22.29,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Labour · West Lancashire
-Dialogue: 2,0:02:17.09,0:02:23.39,Caption,,0,0,0,,{\pos(540,1600)}It is nothing short of\Nirresponsible to scaremonger
-Dialogue: 2,0:02:23.39,0:02:26.41,Caption,,0,0,0,,{\pos(540,1600)}people like me into\Nbelieving our deaths will be
-Dialogue: 2,0:02:26.41,0:02:29.25,Caption,,0,0,0,,{\pos(540,1600)}horrific when all the\Nevidence suggests that,
-Dialogue: 2,0:02:29.25,0:02:31.75,Caption,,0,0,0,,{\pos(540,1600)}with access to good\Npalliative care, deaths are,
-Dialogue: 2,0:02:31.75,0:02:33.57,Caption,,0,0,0,,{\pos(540,1600)}on the whole, gentle.
-Dialogue: 2,0:02:33.57,0:02:35.93,Caption,,0,0,0,,{\pos(540,1600)}The answer is not to terrify\Npeople and their families.
-Dialogue: 2,0:02:35.93,0:02:41.45,Caption,,0,0,0,,{\pos(540,1600)}It is to sort out palliative\Ncare and social care first,
-Dialogue: 2,0:02:41.45,0:02:44.67,Caption,,0,0,0,,{\pos(540,1600)}because none of this\Ntakes place in a vacuum.
-Dialogue: 2,0:02:44.67,0:02:46.97,Caption,,0,0,0,,{\pos(540,1600)}Until we can say that\Neveryone who needs it
-Dialogue: 2,0:02:46.97,0:02:49.63,Caption,,0,0,0,,{\pos(540,1600)}has access to high-quality\Npalliative care,
-Dialogue: 2,0:02:49.63,0:02:52.41,Caption,,0,0,0,,{\pos(540,1600)}we are offering\Nnobody a choice.
-Dialogue: 2,0:02:52.41,0:02:54.61,Caption,,0,0,0,,{\pos(540,1600)}A terrible death\Nor an assisted
-Dialogue: 2,0:02:54.61,0:02:55.81,Caption,,0,0,0,,{\pos(540,1600)}death is not a choice;
-Dialogue: 2,0:02:55.81,0:02:58.08,Caption,,0,0,0,,{\pos(540,1600)}it is a threat.
-Dialogue: 0,0:02:58.23,0:03:03.33,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 78 l 0 78{\p0}
-Dialogue: 0,0:02:58.23,0:03:03.33,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 60 l 0 60{\p0}
-Dialogue: 1,0:02:58.23,0:03:03.33,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Rosie Duffield MP
-Dialogue: 1,0:02:58.23,0:03:03.33,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Independent · Canterbury
-Dialogue: 2,0:02:58.13,0:02:59.23,Caption,,0,0,0,,{\pos(540,1600)}In reality,
-Dialogue: 2,0:02:59.23,0:03:00.25,Caption,,0,0,0,,{\pos(540,1600)}he would have forgotten almost
-Dialogue: 2,0:03:00.25,0:03:02.73,Caption,,0,0,0,,{\pos(540,1600)}immediately what had\Njust taken place,
-Dialogue: 2,0:03:02.73,0:03:06.65,Caption,,0,0,0,,{\pos(540,1600)}but he retained an\Nability to be jovial,
-Dialogue: 2,0:03:08.05,0:03:09.79,Caption,,0,0,0,,{\pos(540,1600)}and to mask his confusion\Nand memory issues,
-Dialogue: 2,0:03:09.79,0:03:12.23,Caption,,0,0,0,,{\pos(540,1600)}for quite some time.
-Dialogue: 2,0:03:12.31,0:03:14.09,Caption,,0,0,0,,{\pos(540,1600)}As for the slippery slope,
-Dialogue: 2,0:03:14.09,0:03:17.29,Caption,,0,0,0,,{\pos(540,1600)}every single example\Nin other nations
-Dialogue: 2,0:03:17.29,0:03:21.01,Caption,,0,0,0,,{\pos(540,1600)}proves without a doubt\Nthat at the start,
-Dialogue: 2,0:03:21.01,0:03:23.17,Caption,,0,0,0,,{\pos(540,1600)}the intention may be\Nthat assisted dying
-Dialogue: 2,0:03:23.17,0:03:24.49,Caption,,0,0,0,,{\pos(540,1600)}legislation will\Napply only to terminal
-Dialogue: 2,0:03:24.49,0:03:27.77,Caption,,0,0,0,,{\pos(540,1600)}illness—dementia and\NAlzheimer’s are, of course,
-Dialogue: 2,0:03:27.77,0:03:28.97,Caption,,0,0,0,,{\pos(540,1600)}terminal—but the scope ends\Nup expanding alarmingly,
-Dialogue: 2,0:03:28.97,0:03:32.59,Caption,,0,0,0,,{\pos(540,1600)}as it has done in Canada,\Nand in the Netherlands,
-Dialogue: 2,0:03:32.59,0:03:35.68,Caption,,0,0,0,,{\pos(540,1600)}which is so much\Ncloser to home.
+Dialogue: 0,0:00:00.10,0:00:05.20,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 594 0 l 594 78 l 0 78{\p0}
+Dialogue: 0,0:00:00.10,0:00:05.20,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 594 0 l 594 60 l 0 60{\p0}
+Dialogue: 1,0:00:00.10,0:00:05.20,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Ashley Dalton MP
+Dialogue: 1,0:00:00.10,0:00:05.20,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Labour · West Lancashire
+Dialogue: 2,0:00:00.00,0:00:05.08,Caption,,0,0,0,,{\pos(540,1600)}I was overwhelmed with\Ngrief, fear and anxiety;
+Dialogue: 2,0:00:05.08,0:00:07.44,Caption,,0,0,0,,{\pos(540,1600)}I was scared of\Nwhat was to come,
+Dialogue: 2,0:00:07.44,0:00:08.90,Caption,,0,0,0,,{\pos(540,1600)}and fearful of how\Nit would impact
+Dialogue: 2,0:00:08.90,0:00:10.92,Caption,,0,0,0,,{\pos(540,1600)}my family and my loved ones.
+Dialogue: 2,0:00:10.92,0:00:12.08,Caption,,0,0,0,,{\pos(540,1600)}I was scared that\NI was going to
+Dialogue: 2,0:00:12.08,0:00:15.36,Caption,,0,0,0,,{\pos(540,1600)}get really poorly and\Nthinking, "How will I cope?
+Dialogue: 2,0:00:15.36,0:00:17.02,Caption,,0,0,0,,{\pos(540,1600)}How will my family cope?
+Dialogue: 2,0:00:17.02,0:00:18.42,Caption,,0,0,0,,{\pos(540,1600)}How will I be cared for?
+Dialogue: 2,0:00:18.42,0:00:20.04,Caption,,0,0,0,,{\pos(540,1600)}How will I afford it?
+Dialogue: 2,0:00:20.04,0:00:21.96,Caption,,0,0,0,,{\pos(540,1600)}How badly will it hurt?
+Dialogue: 2,0:00:21.96,0:00:25.66,Caption,,0,0,0,,{\pos(540,1600)}How long will it last?"\NWhen you hear those words,
+Dialogue: 2,0:00:25.66,0:00:30.54,Caption,,0,0,0,,{\pos(540,1600)}depression, anxiety,\Ngrief, fear,
+Dialogue: 2,0:00:30.54,0:00:34.90,Caption,,0,0,0,,{\pos(540,1600)}shame and guilt\Ncome in bounds.
+Dialogue: 2,0:00:35.24,0:00:39.72,Caption,,0,0,0,,{\pos(540,1600)}Suicide risk is highest\Nimmediately after diagnosis,
+Dialogue: 2,0:00:39.72,0:00:43.56,Caption,,0,0,0,,{\pos(540,1600)}and it usually falls quickly,\Nwithin three to six months.
+Dialogue: 2,0:00:43.56,0:00:46.46,Caption,,0,0,0,,{\pos(540,1600)}I would be lying\Nif I said that when
+Dialogue: 2,0:00:46.46,0:00:48.56,Caption,,0,0,0,,{\pos(540,1600)}thinking about all\Nthat was to come,
+Dialogue: 2,0:00:48.56,0:00:51.38,Caption,,0,0,0,,{\pos(540,1600)}I did not consider\Nthat it might be fairer
+Dialogue: 2,0:00:51.38,0:00:54.22,Caption,,0,0,0,,{\pos(540,1600)}and easier on everyone\Nif I just got the
+Dialogue: 2,0:00:54.22,0:00:56.67,Caption,,0,0,0,,{\pos(540,1600)}dying over with as\Nsoon as possible.
+Dialogue: 0,0:00:56.82,0:01:01.92,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 78 l 0 78{\p0}
+Dialogue: 0,0:00:56.82,0:01:01.92,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 60 l 0 60{\p0}
+Dialogue: 1,0:00:56.82,0:01:01.92,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Carla Lockhart MP
+Dialogue: 1,0:00:56.82,0:01:01.92,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}DUP · Upper Bann
+Dialogue: 2,0:00:56.72,0:00:58.82,Caption,,0,0,0,,{\pos(540,1600)}The soft language of "assisted
+Dialogue: 2,0:00:58.82,0:01:01.50,Caption,,0,0,0,,{\pos(540,1600)}dying" is misleading\Nthe public,
+Dialogue: 2,0:01:01.50,0:01:05.58,Caption,,0,0,0,,{\pos(540,1600)}because it obscures\Nthe stark and very dark
+Dialogue: 2,0:01:05.58,0:01:09.46,Caption,,0,0,0,,{\pos(540,1600)}reality of what is\Nactually being proposed.
+Dialogue: 2,0:01:09.46,0:01:11.54,Caption,,0,0,0,,{\pos(540,1600)}We should always\Nhave the courage
+Dialogue: 2,0:01:11.54,0:01:14.66,Caption,,0,0,0,,{\pos(540,1600)}to call things what they are.
+Dialogue: 2,0:01:14.66,0:01:17.88,Caption,,0,0,0,,{\pos(540,1600)}Of course, we all want\Nassistance when we are dying,
+Dialogue: 2,0:01:17.88,0:01:18.34,Caption,,0,0,0,,{\pos(540,1600)}but that is not what\Nthis Bill provides.
+Dialogue: 2,0:01:18.34,0:01:18.64,Caption,,0,0,0,,{\pos(540,1600)}It is not about\Nan extra shot of
+Dialogue: 2,0:01:18.34,0:01:18.64,Caption,,0,0,0,,{\pos(540,1600)}morphine to ease\Nsomeone on their way;
+Dialogue: 2,0:01:18.34,0:01:18.64,Caption,,0,0,0,,{\pos(540,1600)}it is a Bill that allows\Ndoctors to provide
+Dialogue: 2,0:01:18.34,0:01:18.64,Caption,,0,0,0,,{\pos(540,1600)}lethal drugs for a\Npatient to end their life.
+Dialogue: 2,0:01:18.34,0:01:18.64,Caption,,0,0,0,,{\pos(540,1600)}Let the reality of that\Nsink in: our great NHS,
+Dialogue: 2,0:01:18.34,0:01:18.64,Caption,,0,0,0,,{\pos(540,1600)}the principles of which are\Nto protect and to save lives,
+Dialogue: 2,0:01:18.34,0:01:18.64,Caption,,0,0,0,,{\pos(540,1600)}would be responsible for\Nstate-sponsored suicide.
+Dialogue: 2,0:01:18.34,0:01:21.42,Caption,,0,0,0,,{\pos(540,1600)}That is what it is.
+Dialogue: 0,0:01:47.22,0:01:52.32,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 552 0 l 552 78 l 0 78{\p0}
+Dialogue: 0,0:01:47.22,0:01:52.32,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 552 0 l 552 60 l 0 60{\p0}
+Dialogue: 1,0:01:47.22,0:01:52.32,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Janet Daby MP
+Dialogue: 1,0:01:47.22,0:01:52.32,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Labour · Lewisham East
+Dialogue: 2,0:01:47.12,0:01:49.76,Caption,,0,0,0,,{\pos(540,1600)}I previously voted\Nfor assisted dying.
+Dialogue: 2,0:01:49.76,0:01:51.58,Caption,,0,0,0,,{\pos(540,1600)}I recognised\Nthen, as I do now,
+Dialogue: 2,0:01:51.58,0:01:53.70,Caption,,0,0,0,,{\pos(540,1600)}the deep turmoil that\Nfamily members experience
+Dialogue: 2,0:01:53.70,0:01:55.02,Caption,,0,0,0,,{\pos(540,1600)}when they know that their\Nloved ones are dying,
+Dialogue: 2,0:01:55.02,0:01:57.76,Caption,,0,0,0,,{\pos(540,1600)}or see them die.
+Dialogue: 2,0:01:57.76,0:02:00.14,Caption,,0,0,0,,{\pos(540,1600)}The agonising distress\Nor pain that they
+Dialogue: 2,0:02:00.14,0:02:02.40,Caption,,0,0,0,,{\pos(540,1600)}experience is something\Nthat no one wants
+Dialogue: 2,0:02:02.40,0:02:05.26,Caption,,0,0,0,,{\pos(540,1600)}for themselves or\Ntheir loved ones.
+Dialogue: 2,0:02:05.26,0:02:05.72,Caption,,0,0,0,,{\pos(540,1600)}However,
+Dialogue: 2,0:02:05.72,0:02:08.64,Caption,,0,0,0,,{\pos(540,1600)}I cannot shake from my\Nmind a conversation I had
+Dialogue: 2,0:02:08.64,0:02:12.60,Caption,,0,0,0,,{\pos(540,1600)}with someone some time\Nago about assisted dying.
+Dialogue: 2,0:02:12.60,0:02:16.64,Caption,,0,0,0,,{\pos(540,1600)}They had been diagnosed\Nwith HIV/AIDS before the
+Dialogue: 2,0:02:16.64,0:02:19.68,Caption,,0,0,0,,{\pos(540,1600)}time of advanced medication\Nfor this illness.
+Dialogue: 2,0:02:19.68,0:02:20.88,Caption,,0,0,0,,{\pos(540,1600)}Their body was breaking down,
+Dialogue: 2,0:02:20.88,0:02:22.06,Caption,,0,0,0,,{\pos(540,1600)}and they had been\Ninformed that
+Dialogue: 2,0:02:22.06,0:02:24.32,Caption,,0,0,0,,{\pos(540,1600)}their prognosis was bleak.
+Dialogue: 2,0:02:24.32,0:02:26.04,Caption,,0,0,0,,{\pos(540,1600)}They said that\Nhad assisted dying
+Dialogue: 2,0:02:26.04,0:02:29.42,Caption,,0,0,0,,{\pos(540,1600)}been an option for them then,\Nthey would have taken it.
+Dialogue: 2,0:02:29.42,0:02:32.00,Caption,,0,0,0,,{\pos(540,1600)}However, it was not an option,
+Dialogue: 2,0:02:32.00,0:02:33.90,Caption,,0,0,0,,{\pos(540,1600)}and they have since\Nbeen stabilised on
+Dialogue: 2,0:02:33.90,0:02:36.75,Caption,,0,0,0,,{\pos(540,1600)}medication and are\Nin full-time work.
+Dialogue: 0,0:02:36.90,0:02:42.00,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 78 l 0 78{\p0}
+Dialogue: 0,0:02:36.90,0:02:42.00,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 617 0 l 617 60 l 0 60{\p0}
+Dialogue: 1,0:02:36.90,0:02:42.00,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Ms Julie Minns MP
+Dialogue: 1,0:02:36.90,0:02:42.00,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Labour · Carlisle
+Dialogue: 2,0:02:36.80,0:02:39.76,Caption,,0,0,0,,{\pos(540,1600)}As a relative who\Nsaw the inadequacy of
+Dialogue: 2,0:02:39.76,0:02:43.12,Caption,,0,0,0,,{\pos(540,1600)}social care eat away\Nat the self-respect
+Dialogue: 2,0:02:43.12,0:02:45.36,Caption,,0,0,0,,{\pos(540,1600)}of a once fiercely\Nindependent woman,
+Dialogue: 2,0:02:45.36,0:02:47.80,Caption,,0,0,0,,{\pos(540,1600)}leaving her to\Nconclude that she was a
+Dialogue: 2,0:02:47.80,0:02:50.30,Caption,,0,0,0,,{\pos(540,1600)}burden and would\Nbe better off dead,
+Dialogue: 2,0:02:50.30,0:02:54.92,Caption,,0,0,0,,{\pos(540,1600)}I know that access\Nto every possible
+Dialogue: 2,0:02:57.44,0:02:57.74,Caption,,0,0,0,,{\pos(540,1600)}form of support was\Nnot there for her.
+Dialogue: 2,0:02:57.44,0:03:00.58,Caption,,0,0,0,,{\pos(540,1600)}As the daughter who sat\Nat a hospital bedside,
+Dialogue: 2,0:03:00.58,0:03:02.02,Caption,,0,0,0,,{\pos(540,1600)}having agreed to\Nthe withdrawal
+Dialogue: 2,0:03:02.02,0:03:03.74,Caption,,0,0,0,,{\pos(540,1600)}of invasive treatment,
+Dialogue: 2,0:03:03.74,0:03:06.96,Caption,,0,0,0,,{\pos(540,1600)}only to watch my\Nsemi-conscious mother scream
+Dialogue: 2,0:03:06.96,0:03:10.56,Caption,,0,0,0,,{\pos(540,1600)}for water that was wrongly\Nwithheld and writhe
+Dialogue: 2,0:03:10.56,0:03:13.76,Caption,,0,0,0,,{\pos(540,1600)}in agony because specialist\Npalliative care was
+Dialogue: 2,0:03:13.76,0:03:17.98,Caption,,0,0,0,,{\pos(540,1600)}only available nine to\Nfive on Monday to Friday,
+Dialogue: 2,0:03:17.98,0:03:21.52,Caption,,0,0,0,,{\pos(540,1600)}I know that access\Nto every form
+Dialogue: 2,0:03:21.52,0:03:24.75,Caption,,0,0,0,,{\pos(540,1600)}of support was\Nnot there for her.
+Dialogue: 0,0:03:24.90,0:03:30.00,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 78 l 0 78{\p0}
+Dialogue: 0,0:03:24.90,0:03:30.00,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 60 l 0 60{\p0}
+Dialogue: 1,0:03:24.90,0:03:30.00,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Sir Bernard Jenkin MP
+Dialogue: 1,0:03:24.90,0:03:30.00,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Conservative · Harwich and North Essex
+Dialogue: 2,0:03:24.80,0:03:28.06,Caption,,0,0,0,,{\pos(540,1600)}Maybe there should be\Na citizens assembly
+Dialogue: 2,0:03:28.06,0:03:30.32,Caption,,0,0,0,,{\pos(540,1600)}on this question—it\Nis a subject that
+Dialogue: 2,0:03:30.32,0:03:32.28,Caption,,0,0,0,,{\pos(540,1600)}would lend itself to\Na citizens assembly.
+Dialogue: 2,0:03:32.28,0:03:33.20,Caption,,0,0,0,,{\pos(540,1600)}[Interruption.] Well,
+Dialogue: 2,0:03:33.20,0:03:36.24,Caption,,0,0,0,,{\pos(540,1600)}it would not take away\Nany power from this House.
+Dialogue: 2,0:03:36.24,0:03:38.86,Caption,,0,0,0,,{\pos(540,1600)}This House would still\Nbe able to decide,
+Dialogue: 2,0:03:38.86,0:03:40.88,Caption,,0,0,0,,{\pos(540,1600)}but it would inform\Nthe debate in a way
+Dialogue: 2,0:03:40.88,0:03:44.68,Caption,,0,0,0,,{\pos(540,1600)}that the debate is\Nstill not informed.
+Dialogue: 2,0:03:47.48,0:03:51.18,Caption,,0,0,0,,{\pos(540,1600)}My mother and father passed\Naway in recent years,
+Dialogue: 2,0:03:51.18,0:03:53.86,Caption,,0,0,0,,{\pos(540,1600)}and I am so grateful\Nthat my mother
+Dialogue: 2,0:03:53.86,0:03:56.64,Caption,,0,0,0,,{\pos(540,1600)}never had to confront\Nthis question.
+Dialogue: 2,0:03:56.64,0:03:59.00,Caption,,0,0,0,,{\pos(540,1600)}She often said, “Oh,\NI just want to die.
+Dialogue: 2,0:03:59.00,0:04:04.20,Caption,,0,0,0,,{\pos(540,1600)}I am just a burden on\Nthe family.” Though she
+Dialogue: 2,0:04:04.20,0:04:05.48,Caption,,0,0,0,,{\pos(540,1600)}would never have\Nqualified for this Bill,
+Dialogue: 2,0:04:05.48,0:04:07.82,Caption,,0,0,0,,{\pos(540,1600)}I am so grateful\Nthat there were never
+Dialogue: 2,0:04:07.82,0:04:09.96,Caption,,0,0,0,,{\pos(540,1600)}any circumstances\Nthat would possibly
+Dialogue: 2,0:04:09.96,0:04:11.99,Caption,,0,0,0,,{\pos(540,1600)}have confronted her\Nwith this question.
+Dialogue: 0,0:04:12.14,0:04:17.24,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 78 l 0 78{\p0}
+Dialogue: 0,0:04:12.14,0:04:17.24,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 60 l 0 60{\p0}
+Dialogue: 1,0:04:12.14,0:04:17.24,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Dame Karen Bradley MP
+Dialogue: 1,0:04:12.14,0:04:17.24,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Conservative · Staffordshire Moorlands
+Dialogue: 2,0:04:12.04,0:04:14.18,Caption,,0,0,0,,{\pos(540,1600)}I say to colleagues who\Nsupported the Bill before
+Dialogue: 2,0:04:14.18,0:04:17.60,Caption,,0,0,0,,{\pos(540,1600)}and have wrestled sincerely\Nwith the issue since:
+Dialogue: 2,0:04:17.60,0:04:19.36,Caption,,0,0,0,,{\pos(540,1600)}you do not have to\Nrepudiate the vote you
+Dialogue: 2,0:04:19.36,0:04:22.24,Caption,,0,0,0,,{\pos(540,1600)}cast last time to vote\Ndifferently today.
+Dialogue: 2,0:04:22.24,0:04:23.86,Caption,,0,0,0,,{\pos(540,1600)}You do not have to decide that
+Dialogue: 2,0:04:23.86,0:04:26.28,Caption,,0,0,0,,{\pos(540,1600)}assisted dying can\Nnever be right.
+Dialogue: 2,0:04:26.28,0:04:28.08,Caption,,0,0,0,,{\pos(540,1600)}You do not have to\Nabandon the compassion
+Dialogue: 2,0:04:28.08,0:04:30.60,Caption,,0,0,0,,{\pos(540,1600)}that led you to\Nsupport the principle.
+Dialogue: 2,0:04:30.60,0:04:33.94,Caption,,0,0,0,,{\pos(540,1600)}You need only ask whether\Nthis Bill, in this form,
+Dialogue: 2,0:04:33.94,0:04:35.88,Caption,,0,0,0,,{\pos(540,1600)}on the evidence\Nbefore us today,
+Dialogue: 2,0:04:35.88,0:04:40.26,Caption,,0,0,0,,{\pos(540,1600)}is safe enough for Parliament\Nto force it into law.
+Dialogue: 2,0:04:40.26,0:04:41.74,Caption,,0,0,0,,{\pos(540,1600)}That is today's test.
+Dialogue: 2,0:04:41.74,0:04:42.04,Caption,,0,0,0,,{\pos(540,1600)}There is no shame whatsoever\Nin concluding that
+Dialogue: 2,0:04:41.74,0:04:43.04,Caption,,0,0,0,,{\pos(540,1600)}the answer to a different\Nquestion is different.
+Dialogue: 0,0:04:48.46,0:04:53.56,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 78 l 0 78{\p0}
+Dialogue: 0,0:04:48.46,0:04:53.56,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 888 0 l 888 60 l 0 60{\p0}
+Dialogue: 1,0:04:48.46,0:04:53.56,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Dr Ben Spencer MP
+Dialogue: 1,0:04:48.46,0:04:53.56,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Conservative · Runnymede and Weybridge
+Dialogue: 2,0:04:48.36,0:04:50.44,Caption,,0,0,0,,{\pos(540,1600)}As a former mental health\Ndoctor and someone who
+Dialogue: 2,0:04:50.44,0:04:52.60,Caption,,0,0,0,,{\pos(540,1600)}has done research on\Ndecision-making capacity,
+Dialogue: 2,0:04:52.60,0:04:55.40,Caption,,0,0,0,,{\pos(540,1600)}I want to talk about stigma in\Nthe brief time I have today.
+Dialogue: 2,0:04:55.60,0:04:59.08,Caption,,0,0,0,,{\pos(540,1600)}I have looked after many\Nhundreds of people—perhaps
+Dialogue: 2,0:04:59.08,0:05:03.42,Caption,,0,0,0,,{\pos(540,1600)}thousands—who have self-harmed\Nor attempted suicide.
+Dialogue: 2,0:05:03.42,0:05:03.74,Caption,,0,0,0,,{\pos(540,1600)}Of course,
+Dialogue: 2,0:05:03.74,0:05:07.02,Caption,,0,0,0,,{\pos(540,1600)}a desire for one's life\Nto end can be entirely
+Dialogue: 2,0:05:07.02,0:05:09.68,Caption,,0,0,0,,{\pos(540,1600)}reasonable and an\Nunderstandable wish,
+Dialogue: 2,0:05:09.68,0:05:11.58,Caption,,0,0,0,,{\pos(540,1600)}but it is often\Na manifestation
+Dialogue: 2,0:05:11.58,0:05:14.50,Caption,,0,0,0,,{\pos(540,1600)}of a treatable\Nmental disorder.
+Dialogue: 2,0:05:16.26,0:05:18.82,Caption,,0,0,0,,{\pos(540,1600)}With the right intervention,\Ncare and support,
+Dialogue: 2,0:05:18.82,0:05:20.48,Caption,,0,0,0,,{\pos(540,1600)}people can get better.
+Dialogue: 2,0:05:20.48,0:05:23.60,Caption,,0,0,0,,{\pos(540,1600)}They can look back and\Nsay, "What was that about?
+Dialogue: 2,0:05:23.60,0:05:25.70,Caption,,0,0,0,,{\pos(540,1600)}I'm so thankful I\Ndidn't succeed" when
+Dialogue: 2,0:05:25.70,0:05:28.34,Caption,,0,0,0,,{\pos(540,1600)}they get the care and\Ntreatment they need.
+Dialogue: 2,0:05:28.48,0:05:30.87,Caption,,0,0,0,,{\pos(540,1600)}The Bill refuses to\Nacknowledge that.
+Dialogue: 0,0:05:31.02,0:05:36.12,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 783 0 l 783 78 l 0 78{\p0}
+Dialogue: 0,0:05:31.02,0:05:36.12,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 783 0 l 783 60 l 0 60{\p0}
+Dialogue: 1,0:05:31.02,0:05:36.12,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Dr Kieran Mullan MP
+Dialogue: 1,0:05:31.02,0:05:36.12,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Conservative · Bexhill and Battle
+Dialogue: 2,0:05:30.92,0:05:32.20,Caption,,0,0,0,,{\pos(540,1600)}The report should\Nbe more widely read,
+Dialogue: 2,0:05:32.20,0:05:33.60,Caption,,0,0,0,,{\pos(540,1600)}and I often wonder\Nwhy it did not
+Dialogue: 2,0:05:33.60,0:05:34.78,Caption,,0,0,0,,{\pos(540,1600)}get the attention\Nthat it deserved.
+Dialogue: 2,0:05:34.78,0:05:38.04,Caption,,0,0,0,,{\pos(540,1600)}It found that between\N1987 and 2001,
+Dialogue: 2,0:05:38.04,0:05:41.50,Caption,,0,0,0,,{\pos(540,1600)}more than 450 NHS\Npatients had their lives
+Dialogue: 2,0:05:41.50,0:05:45.00,Caption,,0,0,0,,{\pos(540,1600)}prematurely shortened\Nby healthcare staff.
+Dialogue: 2,0:05:45.00,0:05:46.70,Caption,,0,0,0,,{\pos(540,1600)}They were mainly\Nelderly—the average age
+Dialogue: 2,0:05:46.70,0:05:48.26,Caption,,0,0,0,,{\pos(540,1600)}being 81—but some\Nwere as young as 61,
+Dialogue: 2,0:05:48.26,0:05:50.28,Caption,,0,0,0,,{\pos(540,1600)}and more than 70% of\Nthem had been admitted
+Dialogue: 2,0:05:50.28,0:05:52.68,Caption,,0,0,0,,{\pos(540,1600)}to hospital not needing\Npalliative care or
+Dialogue: 2,0:05:52.68,0:05:54.55,Caption,,0,0,0,,{\pos(540,1600)}being at the end\Nof their lives.
