@@ -186,7 +186,7 @@ def publish(pack_dir, log=print, dry_run=False, api=None, token=None, drive_id=N
             log("  would %s %-55s %6.1f MB" % ("replace" if name in have else "upload", name, size / 1e6)); continue
         if name in have:
             trash(api, token, have[name]["id"])
-            log("  binned the old %s (%s MB)" % (name, have[name].get("size", "?")))
+            log("  binned the old %s (%s bytes)" % (name, have[name].get("size", "?")))
         fid = upload_resumable(token, folder_id, path, name, opener=opener, log=log)
         log("  uploaded %-55s %6.1f MB" % (name, size / 1e6))
         done.append({"name": name, "id": fid, "bytes": size})

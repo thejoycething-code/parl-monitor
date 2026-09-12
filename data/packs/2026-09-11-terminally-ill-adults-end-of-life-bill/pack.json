@@ -2107,63 +2107,13 @@
    },
    {
     "name": "speech-02-dame-karen-bradley-100400.mp4",
-    "id": "13bbInqr9ZqWAYVJw68K7afvzKVO2gmSZ",
-    "bytes": 90195907,
-    "skipped": true
+    "id": "1vi08Kl9fP2hMycOlNZ8lXu2eLv4UYDJ-",
+    "bytes": 536237630
    },
    {
     "name": "speech-02-dame-karen-bradley-100400.srt",
-    "id": "1nQ-WvGYnWtugAJyFEWfyo21bo_scQNwc",
-    "bytes": 4301,
-    "skipped": true
-   },
-   {
-    "name": "speech-03-dame-karen-bradley-101035.mp4",
-    "id": "1OJXLM506-sslUxRelhjDgsS33h4fklaJ",
-    "bytes": 72118416,
-    "skipped": true
-   },
-   {
-    "name": "speech-03-dame-karen-bradley-101035.srt",
-    "id": "1CCTpT8KIIWe-D3-nC70_rtuh1eppwL6s",
-    "bytes": 3639,
-    "skipped": true
-   },
-   {
-    "name": "speech-04-dame-karen-bradley-101327.mp4",
-    "id": "10dDschoaXSzAQCRJhcgPe8ctd4DVZM-x",
-    "bytes": 66854163,
-    "skipped": true
-   },
-   {
-    "name": "speech-04-dame-karen-bradley-101327.srt",
-    "id": "1iHGiLn2rxerky8ZpmeJwEGCH7L1XK5k_",
-    "bytes": 3300,
-    "skipped": true
-   },
-   {
-    "name": "speech-05-dame-karen-bradley-101537.mp4",
-    "id": "1INGtJccA6tuZiNrAAao4a0MEL6mOH03m",
-    "bytes": 67677039,
-    "skipped": true
-   },
-   {
-    "name": "speech-05-dame-karen-bradley-101537.srt",
-    "id": "1cEOcXGnxioS81krK1fFgUUsEgd_jjhup",
-    "bytes": 2988,
-    "skipped": true
-   },
-   {
-    "name": "speech-06-dame-karen-bradley-101732.mp4",
-    "id": "1o9VLkrorpvKy4fsw0VAuQ9akDCN5RdAj",
-    "bytes": 106838466,
-    "skipped": true
-   },
-   {
-    "name": "speech-06-dame-karen-bradley-101732.srt",
-    "id": "1x2cIp3BsZtKHfsB_YSd2T5LG2jfcj3eJ",
-    "bytes": 5613,
-    "skipped": true
+    "id": "1OZlPoQ8_rUrs_9eoVGeJv9YEHG5Zdkkp",
+    "bytes": 22673
    },
    {
     "name": "speech-07-ashley-dalton-104900-4x5.mp4",
@@ -2360,48 +2310,77 @@
    {
     "name": "speech-17-janet-daby-133000.mp4",
     "id": "1nqe7TrInWs_Ldfwm072wTEf8Mf3KQwPC",
-    "bytes": 148913478
+    "bytes": 148913478,
+    "skipped": true
    },
    {
     "name": "speech-17-janet-daby-133000.srt",
     "id": "1PnYFRmzaig--QZ8XZTzAUUp78hTSN0hl",
-    "bytes": 7036
+    "bytes": 7036,
+    "skipped": true
    },
    {
     "name": "report.md",
     "id": "1Yzd0xwZViqXGxszHx4d92_RzhO5dB4vC",
-    "bytes": 7028
+    "bytes": 7028,
+    "skipped": true
    },
    {
     "name": "social.md",
     "id": "1Xiam7fB6l1DdYtx0fPO8BKYFYlJr-SW5",
-    "bytes": 3231
+    "bytes": 3231,
+    "skipped": true
    },
    {
     "name": "selection.md",
     "id": "1njwfIVPw1QwSLFGK86aptxcxAZ3H6dPj",
-    "bytes": 14243
+    "bytes": 14243,
+    "skipped": true
    },
    {
     "name": "social-cut.md",
     "id": "1ljNnNqZT7BLzQrEoOrozHVnNMpxAsPxC",
-    "bytes": 11596
+    "bytes": 11596,
+    "skipped": true
    },
    {
     "name": "speeches-cut.md",
-    "id": "1fzJALfC8JqMpBeZrA47nms1Tm0-CuD7w",
-    "bytes": 2632
+    "id": "17Pk2hIiRnBAmQ_0tD775ImAf7Xq_8SlJ",
+    "bytes": 2073
    },
    {
     "name": "sequence.md",
     "id": "10ew_SGfX6usmOxPC45tamEK6TV9__DDW",
-    "bytes": 5949
+    "bytes": 5949,
+    "skipped": true
    },
    {
     "name": "roundup.md",
     "id": "1Qq_rrBxwLZ0g8CvIItA_Q1tzEVzRLgwI",
-    "bytes": 25855
+    "bytes": 25855,
+    "skipped": true
    }
   ]
+ },
+ "alignment": {
+  "measured_at": "2026-09-12T11:02:29",
+  "ok": true,
+  "tolerance_s": 45.0,
+  "drift_s": 17.159999999508017,
+  "anchors": [
+   {
+    "label": "opener Lauren Edwards at 0:02:16",
+    "expected_s": 136.0,
+    "heard_s": 163.70000000000002,
+    "offset_s": 27.700000000000017
+   },
+   {
+    "label": "closer Alison McGovern at 4:36:33",
+    "expected_s": 16593.0,
+    "heard_s": 16603.540000000492,
+    "offset_s": 10.540000000492
+   }
+  ],
+  "summary": "opener Lauren Edwards at 0:02:16: +27.7s; closer Alison McGovern at 4:36:33: +10.5s; drift 17.2s"
  }
 }

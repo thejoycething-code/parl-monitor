@@ -6,11 +6,7 @@ clips/final/speech-*.mp4 (subtitled) and *-clean.mp4 (no burn), with a .srt each
 Recording Unit terms apply.
 
 * Dr Ben Spencer, 13:55:00: 109 s (267 Hansard words); anchors matched 0.75 / 0.88; clips/final/speech-01-dr-ben-spencer-135500.mp4
-* Dame Karen Bradley, 10:04:00: 162 s (477 Hansard words); anchors matched 0.92 / 0.96; clips/final/speech-02-dame-karen-bradley-100400.mp4
-* Dame Karen Bradley, 10:10:35: 129 s (390 Hansard words); anchors matched 0.80 / 0.96; clips/final/speech-03-dame-karen-bradley-101035.mp4
-* Dame Karen Bradley, 10:13:27: 124 s (365 Hansard words); anchors matched 0.52 / 0.96; clips/final/speech-04-dame-karen-bradley-101327.mp4
-* Dame Karen Bradley, 10:15:37: 126 s (323 Hansard words); anchors matched 0.84 / 0.92; clips/final/speech-05-dame-karen-bradley-101537.mp4
-* Dame Karen Bradley, 10:17:32: 196 s (589 Hansard words); anchors matched 0.88 / 1.00; clips/final/speech-06-dame-karen-bradley-101732.mp4
+* Dame Karen Bradley, 10:04:00: 968 s (2428 Hansard words); anchors matched 0.92 / 1.00; clips/final/speech-02-dame-karen-bradley-100400.mp4
 * Ashley Dalton, 10:49:00: 464 s (1213 Hansard words); anchors matched 0.84 / 1.00; clips/final/speech-07-ashley-dalton-104900.mp4
 * Ashley Dalton, 10:56:05: 105 s (320 Hansard words); anchors matched 0.80 / 0.77; clips/final/speech-08-ashley-dalton-105605.mp4
 * Sir Bernard Jenkin, 11:10:00: 241 s (553 Hansard words); anchors matched 0.65 / 0.76; clips/final/speech-09-sir-bernard-jenkin-111000.mp4
