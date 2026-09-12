@@ -2400,6 +2400,17 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         self.assertIn("else if (othersCount) band = watchlistHTML(rest, othersCount);", flat)
         self.assertNotIn("others.length", flat)
 
+    def test_the_closed_summary_names_the_next_vote(self):
+        # Collapsed, the summary is all most readers see, so it has to earn
+        # its width: the next Bill and when, not just a count. With nothing
+        # dated it says so rather than pretending to a "next".
+        flat = " ".join(template().split())
+        self.assertIn("const next = dated[0];", flat)
+        self.assertIn("&mdash; next: <b>${esc(next.bills[0].title)}</b>", flat)
+        self.assertIn("&mdash; ${nBills}, none with a date yet", flat)
+        # the year is noise in a teaser about the next few weeks
+        self.assertIn('fmtD(next.date).replace(/ \\d{4}$/, "")', flat)
+
     def test_a_petition_retires_with_its_bill(self):
         # "Sign the petition" sat under "DEFEATED ... The Bill cannot proceed
         # this session" for a day. Retirement is the Bill leaving live
@@ -2420,10 +2431,11 @@ class CrossHouseAndUpcomingTests(unittest.TestCase):
         # nearest date 76 days away. A hero earns the band; nothing else.
         flat = " ".join(template().split())
         self.assertIn("function watchlistHTML(groups, count){", flat)
-        self.assertIn('<div class="wpanel">', flat)
         # named for what it is to the reader, not for what we do with it
         self.assertIn("<h2>Potential upcoming votes</h2>", flat)
         self.assertIn('<span class="wdot"></span>', flat)
+        # closed by default (2026-09-12): a native disclosure, no JS
+        self.assertIn('<details class="wpanel"><summary class="whead">', flat)
         # the quiet panel says nothing about being live, and does not pulse
         head = flat[flat.index("function watchlistHTML"):flat.index("function orderPaperHTML")]
         self.assertNotIn("Live now", head)

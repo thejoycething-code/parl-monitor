@@ -485,9 +485,19 @@ details.journey > .passage{border-bottom:none;border-radius:0}
    instead: no slab, no pulse, no "live", and the list OPEN, because the
    fold only ever existed to stop it competing with a hero. --- */
 .wpanel{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;margin:0 0 6px}
-.whead{display:flex;align-items:center;gap:10px;background:#f7f9fc;border-bottom:1px solid var(--line);padding:10px 16px}
-.whead h2{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink)}
-.whead small{margin-left:auto;color:#8b9098;font-size:12px;font-weight:400}
+.whead{display:flex;align-items:center;gap:10px;background:#f7f9fc;padding:10px 16px;cursor:pointer;list-style:none}
+.whead::-webkit-details-marker{display:none}
+.whead:hover{background:#f1f5fb}
+.wpanel[open] .whead{border-bottom:1px solid var(--line)}
+.whead h2{font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+/* The summary has to earn its width while closed: it carries the next vote
+   and the count, so a reader who never opens it still learns what is
+   coming (Christopher, 2026-09-12). */
+.wteaser{min-width:0;font-size:13px;color:#5f666e}
+.wteaser b{color:#23282f;font-weight:700}
+.wchev{margin-left:auto;flex:none;color:#9aa1a9;font-size:11px;transition:transform .15s}
+.wpanel[open] .wchev{transform:rotate(90deg)}
+@media(max-width:620px){.whead{flex-wrap:wrap}.wteaser{flex:1 0 100%;order:3}}
 .wdot{width:7px;height:7px;border-radius:50%;background:var(--grey-300);flex:none}
 .wrow{display:flex;gap:12px;align-items:baseline;padding:9px 16px;border-top:1px solid var(--line);font-size:13.5px}
 .wrow:first-of-type{border-top:none}
@@ -998,10 +1008,9 @@ function liveBillGroups(excludeIds){
 }
 
 function watchlistHTML(groups, count){
-  // Condensed, and named for what it is to the reader (Christopher,
-  // 2026-09-12). Six tall calendar rows became three lines: one per dated
-  // sitting day, then every undated Bill together on a single "no date"
-  // line, because a list of TBAs is one fact, not four.
+  // Condensed and CLOSED by default (Christopher, 2026-09-12). One line per
+  // dated sitting day, then every undated Bill together on a single "No
+  // date" line: a list of TBAs is one fact, not four.
   const dated = groups.filter(g => g.date);
   const undated = groups.filter(g => !g.date).flatMap(g => g.bills);
   const stagesOf = bills => [...new Set(bills.map(b => b.stage))].join(" / ");
@@ -1014,12 +1023,22 @@ function watchlistHTML(groups, count){
     rows += `<div class="wrow">
       <span class="wdate wtba">No date</span>
       <div class="wbody">${undated.map(billLink).join(" · ")}<span> · date to be announced</span></div></div>`;
-  // "Potential", deliberately: a Bill sitting at a Lords stage is not a
-  // vote this MP will be handed tomorrow, but it is one they may face.
-  return `<div class="wpanel"><div class="whead"><span class="wdot"></span>
+  // Closed, the summary is all most readers will see, so it names the next
+  // vote rather than only counting them. liveBillGroups sorts dated groups
+  // ascending, so the soonest is simply the first.
+  const nBills = count + " Bill" + (count === 1 ? "" : "s");
+  const next = dated[0];
+  const teaser = next
+    ? `&mdash; next: <b>${esc(next.bills[0].title)}</b>, ${
+        fmtD(next.date).replace(/ \d{4}$/, "")} · ${nBills}`
+    : `&mdash; ${nBills}, none with a date yet`;
+  // "Potential", deliberately: a Bill sitting at a Lords stage is not a vote
+  // this MP will be handed tomorrow, but it is one they may face.
+  return `<details class="wpanel"><summary class="whead"><span class="wdot"></span>
     <h2>Potential upcoming votes</h2>
-    <small>${count} Bill${count === 1 ? "" : "s"} before Parliament on our issues</small></div>
-    ${rows}</div>`;
+    <span class="wteaser">${teaser}</span>
+    <span class="wchev">&#9656;</span></summary>
+    ${rows}</details>`;
 }
 
 function orderPaperHTML(){
