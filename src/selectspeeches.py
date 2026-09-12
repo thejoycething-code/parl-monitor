@@ -22,7 +22,8 @@ import re
 from src import socialcut as sc
 
 MODEL = "claude-sonnet-5"
-MAX_TOKENS = 12000         # 21 speakers x (passage + reasons) is 6-8k tokens; the model's thinking counts too
+MAX_TOKENS = 8000          # per batch of BATCH speakers; two runs of 21 overran 12,000 on 11 Sept 2026
+BATCH = 8                  # speakers per call, so the reply never nears the budget
 MIN_WORDS = 250            # below this a contribution is an intervention, not a speech
 WORDS_SHOWN = 700          # of the longest contribution, per member, to the judge
 
@@ -31,7 +32,7 @@ SYSTEM_PROMPT = """You are the picture editor for a campaign that OPPOSED the Bi
 Judge each speech on: one clear argument a viewer can repeat; emotional force; a passage of 30-60 seconds (roughly 75-150 words) in the member's OWN words that stands alone without the debate around it; a distinct angle from the others (personal testimony, medical authority, disability, coercion, palliative care, the vote's process, faith, law); and the speaker's standing (front bench, doctor, disabled member, someone who changed their vote).
 
 Return ONLY a JSON array, one object per speaker, every speaker included:
-[{"name": "<exactly as given>", "score": <1-10>, "angle": "<two to five words>", "why": "<one sentence>", "passage": "<verbatim consecutive sentences from the speech, 75-150 words, copied exactly>"}]
+[{"name": "<exactly as given>", "score": <1-10>, "angle": "<two to five words>", "why": "<at most fifteen words>", "passage": "<verbatim consecutive sentences from the speech, 75-150 words, copied exactly>"}]
 
 RULES. Copy passages VERBATIM from the text supplied: never tidy, merge or paraphrase; if no passage of that length stands alone, copy the best shorter one. Never invent a name or a fact. Score honestly: a speech that is worthy but not clip-able scores low."""
 
@@ -116,19 +117,28 @@ def verify(rows, cands):
     return ranked, problems
 
 
-def judge(meta, cands, api_key, transport=None, conn=None, log=print):
+def judge(meta, cands, api_key, transport=None, conn=None, log=print, batch=BATCH):
+    """One call per BATCH speakers, scores pooled. Scores are comparable across
+    batches because the rubric is absolute (1-10 against fixed criteria), not a
+    ranking within the batch."""
     from src import spend, stance
     if not cands:
         raise SystemExit("no confirmed-onside speaker made a speech of %d words or more" % MIN_WORDS)
-    payload = build_payload(meta, cands)
-    reply = (transport or stance._default_transport)(payload, api_key)
-    usage = reply.get("usage") or {}
-    if conn is not None:
-        spend.record(conn, "speech-pick", reply.get("model") or MODEL, usage)
-    text = "".join(b.get("text", "") for b in (reply.get("content") or []) if b.get("type") == "text")
-    if reply.get("stop_reason") == "max_tokens":
-        log("[warn] the judge's reply hit max_tokens (%d); the JSON is probably cut off" % MAX_TOKENS)
-    rows = parse_reply(text)
+    rows, texts, usage = [], [], {"input_tokens": 0, "output_tokens": 0}
+    for i in range(0, len(cands), batch):
+        payload = build_payload(meta, cands[i:i + batch])
+        reply = (transport or stance._default_transport)(payload, api_key)
+        u = reply.get("usage") or {}
+        usage["input_tokens"] += u.get("input_tokens") or 0
+        usage["output_tokens"] += u.get("output_tokens") or 0
+        if conn is not None:
+            spend.record(conn, "speech-pick", reply.get("model") or MODEL, u)
+        text = "".join(b.get("text", "") for b in (reply.get("content") or []) if b.get("type") == "text")
+        if reply.get("stop_reason") == "max_tokens":
+            log("[warn] batch %d: the judge's reply hit max_tokens (%d); the JSON is probably cut off" % (i // batch + 1, MAX_TOKENS))
+        texts.append(text)
+        rows.extend(parse_reply(text))
+    text = "\n\n".join(texts)
     ranked, problems = verify(rows, cands)
     if not ranked:
         problems.append("the judge returned nothing usable (stop_reason %s, %d chars, %d rows parsed)"

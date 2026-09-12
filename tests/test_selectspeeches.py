@@ -56,6 +56,23 @@ class VerifyTests(unittest.TestCase):
         self.assertEqual(sel.parse_reply("no json here"), [])
 
 
+class BatchTests(unittest.TestCase):
+    def test_the_judge_calls_once_per_batch_and_pools_the_scores(self):
+        import sqlite3
+        from src import db
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        cands = [{"name": "S%d" % i, "party": "Lab", "seat": "x", "words": 300, "url": "", "text": "t", "full_text": "t"} for i in range(5)]
+        calls = []
+        def transport(payload, key):
+            names = [s["name"] for s in json.loads(payload["messages"][0]["content"])["speakers"]]
+            calls.append(names)
+            return {"usage": {"input_tokens": 10, "output_tokens": 5}, "content": [{"type": "text", "text": json.dumps([{"name": n, "score": 5, "passage": ""} for n in names])}]}
+        ranked, problems, usage, _raw = sel.judge(META, cands, "k", transport=transport, conn=conn, log=lambda *_a: None, batch=2)
+        self.assertEqual(calls, [["S0", "S1"], ["S2", "S3"], ["S4"]])
+        self.assertEqual(len(ranked), 5); self.assertEqual(usage["input_tokens"], 30)
+        self.assertEqual(conn.execute("SELECT count(*) FROM api_spend").fetchone()[0], 3)
+
+
 class JudgeAndWriteTests(unittest.TestCase):
     def test_judge_records_spend_and_sequence_uses_the_judges_passage_when_reel_length(self):
         import sqlite3

@@ -44,6 +44,34 @@ class PlanTests(unittest.TestCase):
         self.assertEqual([s["name"] for s, _c, _sp in todo], ["Shivani Raja"])
 
 
+class MergeTests(unittest.TestCase):
+    """Bradley's speech, five contributions with interventions between: one clip."""
+
+    def test_consecutive_contributions_within_the_gap_merge_into_one_speech(self):
+        placed = [({"at": "10:04:00", "words": 477, "text": "A"}, (2040.0, 2200.0)),
+                  ({"at": "10:07:14", "words": 28, "text": "b"}, (2234.0, 2250.0)),
+                  ({"at": "10:10:35", "words": 390, "text": "C"}, (2435.0, 2560.0)),
+                  ({"at": "12:00:00", "words": 300, "text": "D"}, (9000.0, 9200.0))]
+        merged = spc.merge_speech(placed)
+        self.assertEqual(len(merged), 2)
+        c, span = merged[0]
+        self.assertEqual((c["words"], c["merged"], c["text"]), (895, 3, "A b C"))
+        self.assertEqual(span, (2040.0, 2560.0))
+        self.assertEqual(merged[1][0]["text"], "D")
+
+    def test_plan_merges_and_then_applies_the_word_floor(self):
+        state = {"event_start": "2026-09-07T15:30:00+00:00",
+                 "speakers": [{"name": "Long Talker", "spans": [["2026-09-07T16:40:00+01:00", "2026-09-07T16:43:00+01:00"],
+                                                                ["2026-09-07T16:44:00+01:00", "2026-09-07T16:47:00+01:00"]]}]}
+        speeches = [{"name": "Long Talker", "party": "Con", "seat": "S", "confirmed": "yes", "pass_read": "With us",
+                     "contributions": [{"at": "16:40:00", "words": 100, "url": "u", "text": "one " * 100},
+                                       {"at": "16:44:00", "words": 100, "url": "u", "text": "two " * 100}]}]
+        todo = spc.plan(state, speeches, lambda s: True)
+        self.assertEqual(len(todo), 1)                     # 100 + 100 words, merged, clears the 120 floor together
+        self.assertEqual(todo[0][1]["merged"], 2)
+        self.assertEqual(todo[0][2], (600.0, 1020.0))
+
+
 class TrimTests(unittest.TestCase):
     def words(self, text, t0=30.0, per=0.35):
         out, t = [], t0

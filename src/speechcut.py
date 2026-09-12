@@ -29,6 +29,7 @@ import shutil
 from src import alignclip, socialcut as sc
 
 MIN_WORDS = 120            # below this a contribution is an intervention
+MERGE_GAP_S = 240.0        # a speaker's next contribution within this of the last one's end is the same speech
 ANCHOR_WORDS = 25          # Hansard words used to find the speech's first and last moment
 MARGIN_S = 25.0            # fetched either side of the Hansard span
 TAIL_MARGINS = (25.0, 150.0, 420.0)   # forward margins tried until the speech's last words are heard
@@ -63,8 +64,9 @@ def plan(state, speeches, onside_fn, min_words=MIN_WORDS, only=None):
         if only and _bare(s["name"]) not in {_bare(o) for o in only}:
             continue
         spans = spans_by_name.get(re.sub(r"\s*MP$", "", s["name"]).strip().lower(), [])
+        placed = []
         for c in s.get("contributions") or []:
-            if (c.get("words") or 0) < min_words or not (c.get("text") or "").strip():
+            if not (c.get("text") or "").strip():
                 continue
             at = _clock_seconds(state, c.get("at"))
             match = None
@@ -72,7 +74,34 @@ def plan(state, speeches, onside_fn, min_words=MIN_WORDS, only=None):
                 match = min(spans, key=lambda ab: abs(ab[0] - at))
                 if abs(match[0] - at) > 120:
                     match = None
-            out.append((s, c, match))
+            placed.append((c, match))
+        for c, span in merge_speech(placed):
+            if (c.get("words") or 0) < min_words:
+                continue
+            out.append((s, c, span))
+    return out
+
+
+def merge_speech(placed, gap=MERGE_GAP_S):
+    """A speech interrupted by interventions is one speech: Karen Bradley's on
+    11 September 2026 came out as five clips because each answer after an
+    intervention is its own Hansard contribution. Consecutive contributions whose
+    spans sit within `gap` seconds of each other are merged -- text joined, words
+    summed, the span from the first start to the last end -- so the clip carries
+    the interventions and the replies, as the viewer in the gallery heard them.
+    Unplaced contributions (no span) are never merged with anything."""
+    out = []
+    for c, span in placed:
+        if out and span and out[-1][1] and span[0] - out[-1][1][1] <= gap and span[0] >= out[-1][1][0]:
+            prev, pspan = out[-1]
+            merged = dict(prev)
+            merged["text"] = (prev.get("text") or "") + " " + (c.get("text") or "")
+            merged["words"] = (prev.get("words") or 0) + (c.get("words") or 0)
+            merged["merged"] = prev.get("merged", 1) + 1
+            merged["ends_at"] = c.get("at")
+            out[-1] = (merged, (pspan[0], max(pspan[1], span[1])))
+        else:
+            out.append((dict(c), span))
     return out
 
 
