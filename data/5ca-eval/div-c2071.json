@@ -1,0 +1,615 @@
+{
+ "our_side": "no",
+ "columns": {
+  "++": {
+   "n": 286,
+   "ours": 272,
+   "against": 4,
+   "abstained": 0,
+   "silent": 10
+  },
+  "+": {
+   "n": 58,
+   "ours": 13,
+   "against": 43,
+   "abstained": 0,
+   "silent": 2
+  },
+  "0": {
+   "n": 22,
+   "ours": 0,
+   "against": 1,
+   "abstained": 0,
+   "silent": 21
+  },
+  "-": {
+   "n": 1,
+   "ours": 0,
+   "against": 0,
+   "abstained": 0,
+   "silent": 1
+  },
+  "--": {
+   "n": 282,
+   "ours": 4,
+   "against": 262,
+   "abstained": 1,
+   "silent": 15
+  }
+ },
+ "flags": {
+  "wavering": {
+   "n": 10,
+   "ours": 1,
+   "against": 9,
+   "abstained": 0,
+   "silent": 0
+  },
+  "conflict": {
+   "n": 108,
+   "ours": 39,
+   "against": 67,
+   "abstained": 0,
+   "silent": 2
+  },
+  "targeted": {
+   "n": 20,
+   "ours": 8,
+   "against": 9,
+   "abstained": 0,
+   "silent": 3
+  },
+  "none": {
+   "n": 518,
+   "ours": 244,
+   "against": 229,
+   "abstained": 1,
+   "silent": 44
+  }
+ },
+ "moved_from_theirs": {
+  "flagged": [
+   4,
+   31
+  ],
+  "unflagged": [
+   1,
+   236
+  ]
+ },
+ "missing_from_theirs": {
+  "flagged": [
+   5,
+   32
+  ],
+  "unflagged": [
+   16,
+   251
+  ]
+ },
+ "misses": [
+  {
+   "member_id": 5131,
+   "name": "Jack Abbott (Labour (Co-op), Ipswich)",
+   "party": null,
+   "column": "++",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4436,
+   "name": "Cat Smith (Labour, Lancaster and Wyre)",
+   "party": null,
+   "column": "++",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5202,
+   "name": "Jessica Toale (Labour, Bournemouth West)",
+   "party": null,
+   "column": "++",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5403,
+   "name": "Sarah Pochin (Reform UK, Runcorn and Helsby)",
+   "party": null,
+   "column": "++",
+   "vote": "aye",
+   "flags": [
+    "conflict",
+    "targeted"
+   ]
+  },
+  {
+   "member_id": 373,
+   "name": "David Davis (Conservative, Goole and Pocklington)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4503,
+   "name": "Chris Philp (Conservative, Croydon South)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4602,
+   "name": "Wera Hobhouse (Liberal Democrat, Bath)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 3952,
+   "name": "Mr Toby Perkins (Labour, Chesterfield)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4630,
+   "name": "Ben Lake (Plaid Cymru, Ceredigion Preseli)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4769,
+   "name": "Daisy Cooper (Liberal Democrat, St Albans)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5126,
+   "name": "Dave Robertson (Labour, Lichfield)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5040,
+   "name": "Liz Jarvis (Liberal Democrat, Eastleigh)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5165,
+   "name": "Peter Swallow (Labour, Bracknell)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5078,
+   "name": "Pippa Heylings (Liberal Democrat, South Cambridgeshire)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4942,
+   "name": "Richard Foord (Liberal Democrat, Honiton and Sidmouth)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5157,
+   "name": "Susan Murray (Liberal Democrat, Mid Dunbartonshire)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4449,
+   "name": "Anna Turley (Labour (Co-op), Redcar)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5350,
+   "name": "Ben Maguire (Liberal Democrat, North Cornwall)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5193,
+   "name": "Callum Anderson (Labour, Buckingham and Bletchley)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5182,
+   "name": "Charlotte Cane (Liberal Democrat, Ely and East Cambridgeshire)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5106,
+   "name": "David Burton-Sampson (Labour, Southend West and Leigh)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5352,
+   "name": "Dr Roz Savage (Liberal Democrat, South Cotswolds)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5110,
+   "name": "Euan Stainbank (Labour, Falkirk)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4698,
+   "name": "Janet Daby (Labour, Lewisham East)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5160,
+   "name": "Jenny Riddell-Carpenter (Labour, Suffolk Coastal)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5187,
+   "name": "Josh Dean (Labour, Hertford and Stortford)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5070,
+   "name": "Lisa Smart (Liberal Democrat, Hazel Grove)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5085,
+   "name": "Llinos Medi (Plaid Cymru, Ynys M\u00f4n)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5147,
+   "name": "Luke Myer (Labour, Middlesbrough South and East Cleveland)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5031,
+   "name": "Mark Ferguson (Labour, Gateshead Central and Whickham)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5266,
+   "name": "Mike Tapp (Labour, Dover and Deal)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5199,
+   "name": "Mr Luke Charters (Labour, York Outer)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5322,
+   "name": "Mr Will Forster (Liberal Democrat, Woking)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4869,
+   "name": "Nadia Whittome (Labour, Nottingham East)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5257,
+   "name": "Rachel Blake (Labour (Co-op), Cities of London and Westminster)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5252,
+   "name": "Rachel Gilmour (Liberal Democrat, Tiverton and Minehead)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5041,
+   "name": "Shaun Davies (Labour, Telford)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5274,
+   "name": "Sonia Kumar (Labour, Dudley)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5338,
+   "name": "Terry Jermy (Labour, South West Norfolk)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict",
+    "targeted"
+   ]
+  },
+  {
+   "member_id": 5201,
+   "name": "Victoria Collins (Liberal Democrat, Harpenden and Berkhamsted)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5035,
+   "name": "Will Stone (Labour, Swindon North)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5313,
+   "name": "Z\u00f6e Franklin (Liberal Democrat, Guildford)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5077,
+   "name": "Jacob Collier (Labour, Burton and Uttoxeter)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5171,
+   "name": "Julia Buckley (Labour, Shrewsbury)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5055,
+   "name": "Max Wilkinson (Liberal Democrat, Cheltenham)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5326,
+   "name": "Edward Morello (Liberal Democrat, West Dorset)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5025,
+   "name": "Chris Webb (Labour, Blackpool South)",
+   "party": null,
+   "column": "+",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  }
+ ],
+ "gains": [
+  {
+   "member_id": 4785,
+   "name": "Dr Ben Spencer (Conservative, Runnymede and Weybridge)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "wavering",
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5074,
+   "name": "Mr Paul Foster (Labour, South Ribble)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4571,
+   "name": "Gill Furniss (Labour, Sheffield Brightside and Hillsborough)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5162,
+   "name": "Matthew Patrick (Labour, Wirral West)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  }
+ ],
+ "voted": 599,
+ "ours": 289,
+ "placed_rows": 649,
+ "voters_placed": 600,
+ "division": "div:c2071",
+ "date": "2025-06-20",
+ "as_at": "2025-06-20",
+ "area": 2
+}

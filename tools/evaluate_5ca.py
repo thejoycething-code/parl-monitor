@@ -107,7 +107,9 @@ def evaluate(conn, division_ref, area, as_at=None, overrides_cfg=None):
                         "based_on": row.get("decided_kind") or "none",
                         "conflict": bool(row.get("conflict"))})
     return results, {"voted_on": voted_on, "ours": "aye" if ours > 0 else "no",
-                     "division": division_ref, "area": area}
+                     "division": division_ref, "area": area,
+                     # the sheet and the lobbies themselves, for the flag report below
+                     "rows": rows, "actual": actual}
 
 
 def main():
@@ -174,6 +176,29 @@ def main():
             if h + m:
                 print("   {0:<28} {1:>3}/{2:<3} {3:.0f}%".format(
                     b or "?", h, h + m, 100 * h / (h + m)))
+
+    # THE FLAGS AND THE MOVEMENT (13 Sept 2026). The hit rate above scores the
+    # columns; this scores what the sheet flagged -- WAVERING, CONFLICT, TARGETED
+    # -- against the base, lists the gains (placed against us, voted our way) as
+    # well as the misses, and counts staying away as movement, because a losing
+    # side needs abstentions as much as converts. Banked as markdown and JSON in
+    # data/5ca-eval/ so the readings survive in git, whether or not --apply.
+    from src import evaluate5ca as sheet
+    rec = sheet.evaluate(meta["rows"], meta["actual"], meta["ours"])
+    rec.update({"division": ref, "date": meta["voted_on"], "as_at": meta["voted_on"], "area": area})
+    title = "%s (area %d)" % (names.get(area, "?"), area)
+    md = sheet.render(rec, title, meta["voted_on"], ref, meta["voted_on"] + " (evidence dated before the vote)")
+    banked = sheet.bank(ROOT, ref.replace(":", "-"), rec, md)
+    fl = rec["flags"]; mv, mx = rec["moved_from_theirs"], rec["missing_from_theirs"]
+    print("\n  THE FLAGS (members / our way / against / abstained / did not vote):")
+    for f in ("wavering", "conflict", "targeted", "none"):
+        v = fl[f]
+        print("   {0:<10} {1:>4} {2:>4} {3:>4} {4:>4} {5:>4}".format(f.upper() if f != "none" else "no flag", v["n"], v["ours"], v["against"], v["abstained"], v["silent"]))
+    print("  Placed against us and flagged WAVERING/CONFLICT: moved or abstained {0}/{1}; counting stay-aways {2}/{3}. Unflagged: {4}/{5}; {6}/{7}."
+          .format(mv["flagged"][0], mv["flagged"][1], mx["flagged"][0], mx["flagged"][1], mv["unflagged"][0], mv["unflagged"][1], mx["unflagged"][0], mx["unflagged"][1]))
+    print("  GAINS (placed against us, voted our way): {0}".format(
+        ", ".join(e["name"].split(" (")[0] for e in rec["gains"]) or "none"))
+    print("  banked: {0}".format(os.path.relpath(banked, ROOT)))
 
     if apply_it:
         now = datetime.date.today().isoformat()

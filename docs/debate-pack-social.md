@@ -51,10 +51,25 @@ Hansard's sections for the day in both Houses, titles kept when they carry a
 tier-1 taxonomy term, a watchlist hit or a vote-tracker `debate_match` phrase,
 those few debates fetched and their speakers counted. Fifteen speakers or more
 is a key debate and the task runs the order of work above through the footage,
+(the KEY DEBATE line also carries the areas earned and the clock of the last
+contribution Hansard has published, so a Bill day still being published is
+visible),
 with the report's approval DM and a closing DM; six to fourteen earns one DM
 naming it; a quiet day ends silently. It never publishes and never touches
 Drive: those are the campaigner's acts after reading the draft. Runs only while
 the desktop app is open.
+
+A second task, `debate-day-lunch`, fires weekdays at 13:30: the same
+`debate_today.py` check, and when a debate on our ground with six or more
+speakers is under way it runs `tools/live_debate.py --dm` on it, so the WOBBLE /
+SLIP list reaches the phone before the division. It reads and DMs only; the
+evening task builds and commits the pack.
+
+Trim fallbacks (13 September): when Hansard's first 25 words were not spoken
+(`late_head`) or its last 25 were tidied in (`late_tail`), the anchor slides
+through the text until a block is heard and the cut stops at the pause where the
+Speaker called the next member. The report line says "start from Hansard word N"
+or "end at Hansard word -N" when either fired.
 
 ## Re-cutting one speaker (12 September 2026)
 

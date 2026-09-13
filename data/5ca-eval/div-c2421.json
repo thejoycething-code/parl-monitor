@@ -1,0 +1,127 @@
+{
+ "our_side": "aye",
+ "columns": {
+  "++": {
+   "n": 126,
+   "ours": 97,
+   "against": 2,
+   "abstained": 0,
+   "silent": 27
+  },
+  "+": {
+   "n": 6,
+   "ours": 1,
+   "against": 1,
+   "abstained": 0,
+   "silent": 4
+  },
+  "0": {
+   "n": 215,
+   "ours": 10,
+   "against": 117,
+   "abstained": 0,
+   "silent": 88
+  },
+  "-": {
+   "n": 8,
+   "ours": 0,
+   "against": 5,
+   "abstained": 0,
+   "silent": 3
+  },
+  "--": {
+   "n": 294,
+   "ours": 0,
+   "against": 228,
+   "abstained": 0,
+   "silent": 66
+  }
+ },
+ "flags": {
+  "wavering": {
+   "n": 7,
+   "ours": 0,
+   "against": 7,
+   "abstained": 0,
+   "silent": 0
+  },
+  "conflict": {
+   "n": 21,
+   "ours": 2,
+   "against": 12,
+   "abstained": 0,
+   "silent": 7
+  },
+  "targeted": {
+   "n": 13,
+   "ours": 5,
+   "against": 3,
+   "abstained": 0,
+   "silent": 5
+  },
+  "none": {
+   "n": 614,
+   "ours": 102,
+   "against": 335,
+   "abstained": 0,
+   "silent": 177
+  }
+ },
+ "moved_from_theirs": {
+  "flagged": [
+   0,
+   14
+  ],
+  "unflagged": [
+   0,
+   219
+  ]
+ },
+ "missing_from_theirs": {
+  "flagged": [
+   5,
+   19
+  ],
+  "unflagged": [
+   64,
+   283
+  ]
+ },
+ "misses": [
+  {
+   "member_id": 4934,
+   "name": "Helen Morgan (Liberal Democrat, North Shropshire)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4612,
+   "name": "Jamie Stone (Liberal Democrat, Caithness, Sutherland and Easter Ross)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5107,
+   "name": "Linsey Farnsworth (Labour, Amber Valley)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": []
+  }
+ ],
+ "gains": [],
+ "voted": 461,
+ "ours": 108,
+ "placed_rows": 649,
+ "voters_placed": 461,
+ "division": "div:c2421",
+ "date": "2026-09-08",
+ "as_at": "2026-09-08",
+ "area": 3
+}

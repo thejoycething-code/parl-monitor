@@ -31,7 +31,10 @@ def main():
     args = ap.parse_args()
     import make_vote_tracker
     cfg = make_vote_tracker.load_config()
-    terms = sorted({t for i in cfg.get("issues") or [] for t in (i.get("debate_match") or [])})
+    terms = {}
+    for i in cfg.get("issues") or []:
+        for t in i.get("debate_match") or []:
+            terms.setdefault(t, i.get("area"))
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     client = HttpClient(os.path.join(ROOT, "data", "raw"))

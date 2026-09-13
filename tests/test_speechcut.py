@@ -138,6 +138,22 @@ class TrimTests(unittest.TestCase):
         self.assertIsNotNone(r1)
         self.assertTrue(notes and "Hansard word 25" in notes[0], notes)
 
+    def test_an_unspoken_hansard_close_ends_at_the_pause_before_the_next_speaker(self):
+        """The mirror case: Hansard's last 25 words were tidied in; the member trailed
+        off 25 words early and the next member rose after a pause."""
+        text = " ".join("target%d" % i for i in range(150))
+        spoken = " ".join("target%d" % i for i in range(0, 125))     # the last 25 never said
+        words = self.words(spoken, t0=30.0)
+        nxt = self.words("the next member rises and speaks about something else entirely " * 3, t0=words[-1][2] + 2.0)
+        words = words + nxt
+        notes = []
+        start, end, r1, r2 = spc.trim_bounds(words, text, file_start=0.0, span=(0.0, 400.0), log=notes.append)
+        self.assertAlmostEqual(start, 30.0 - 0.05, places=2)
+        last_spoken_end = self.words(spoken, t0=30.0)[-1][2]
+        self.assertAlmostEqual(end, last_spoken_end + spc.TAIL, places=2)
+        self.assertIsNotNone(r2)
+        self.assertTrue(notes and "Hansard word -25" in notes[0], notes)
+
     def test_unplaceable_ends_fall_back_to_the_hansard_span(self):
         words = self.words("completely different words here " * 30)
         text = " ".join("target%d" % i for i in range(100))

@@ -46,14 +46,14 @@ class DebateTodayTests(unittest.TestCase):
                                    node("Surrogacy Law and Legal Parenthood", "SUR")]},
                  "Lords": {"2": [node("Roads: Potholes", "POT")]}}
         client = FakeClient(trees, {"TIA": debate(["A%d" % i for i in range(40)]), "SUR": debate(["B%d" % i for i in range(8)])})
-        cands = dt.candidates(client, "2026-09-11", TAX, WL, tracker_terms=["Terminally Ill Adults"])
+        cands = dt.candidates(client, "2026-09-11", TAX, WL, tracker_terms={"Terminally Ill Adults": 2})
         self.assertEqual(sorted(c[3] for c in cands), ["SUR", "TIA"])          # potholes and business are not fetched
         rows = dt.sized(client, "2026-09-11", cands)
         self.assertEqual(sorted(client.fetched), ["SUR", "TIA"])
         top = dt.verdict(rows)
         self.assertEqual((top["ext_id"], top["speakers"]), ("TIA", 40))
         text = dt.report(rows, "2026-09-11")
-        self.assertIn("KEY DEBATE: Commons | Terminally Ill Adults (End of Life) Bill | TIA | 40 speakers", text)
+        self.assertIn("KEY DEBATE: Commons | Terminally Ill Adults (End of Life) Bill | TIA | 40 speakers | areas 2 | last heard 10:39", text)
         self.assertIn("tracker: Terminally Ill Adults", text)
 
     def test_a_small_debate_is_listed_but_is_not_a_key_debate(self):
@@ -68,6 +68,10 @@ class DebateTodayTests(unittest.TestCase):
         rows = dt.sized(client, "2026-09-11", dt.candidates(client, "2026-09-11", TAX, WL))
         self.assertEqual(rows, [])
         self.assertEqual(dt.report(rows, "2026-09-11"), "No debate on our ground on 2026-09-11.\nKEY DEBATE: none")
+
+    def test_a_tracker_phrase_lends_its_issue_area(self):
+        areas, reasons = dt.title_areas(TAX, WL, "Health Bill", {"Health Bill": 3})
+        self.assertEqual(areas, [3]); self.assertEqual(reasons, ["tracker: Health Bill"])
 
 
 if __name__ == "__main__":

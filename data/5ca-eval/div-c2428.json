@@ -1,0 +1,167 @@
+{
+ "our_side": "no",
+ "columns": {
+  "++": {
+   "n": 285,
+   "ours": 265,
+   "against": 0,
+   "abstained": 0,
+   "silent": 20
+  },
+  "+": {
+   "n": 16,
+   "ours": 13,
+   "against": 0,
+   "abstained": 0,
+   "silent": 3
+  },
+  "0": {
+   "n": 20,
+   "ours": 0,
+   "against": 2,
+   "abstained": 0,
+   "silent": 18
+  },
+  "-": {
+   "n": 1,
+   "ours": 0,
+   "against": 0,
+   "abstained": 0,
+   "silent": 1
+  },
+  "--": {
+   "n": 327,
+   "ours": 7,
+   "against": 266,
+   "abstained": 3,
+   "silent": 51
+  }
+ },
+ "flags": {
+  "wavering": {
+   "n": 26,
+   "ours": 2,
+   "against": 21,
+   "abstained": 0,
+   "silent": 3
+  },
+  "conflict": {
+   "n": 116,
+   "ours": 43,
+   "against": 59,
+   "abstained": 0,
+   "silent": 14
+  },
+  "targeted": {
+   "n": 20,
+   "ours": 9,
+   "against": 5,
+   "abstained": 0,
+   "silent": 6
+  },
+  "none": {
+   "n": 513,
+   "ours": 235,
+   "against": 200,
+   "abstained": 3,
+   "silent": 75
+  }
+ },
+ "moved_from_theirs": {
+  "flagged": [
+   3,
+   66
+  ],
+  "unflagged": [
+   7,
+   210
+  ]
+ },
+ "missing_from_theirs": {
+  "flagged": [
+   13,
+   76
+  ],
+  "unflagged": [
+   49,
+   252
+  ]
+ },
+ "misses": [],
+ "gains": [
+  {
+   "member_id": 5352,
+   "name": "Dr Roz Savage (Liberal Democrat, South Cotswolds)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5073,
+   "name": "Marie Goldman (Liberal Democrat, Chelmsford)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5135,
+   "name": "Oliver Ryan (Labour (Co-op), Burnley)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4698,
+   "name": "Janet Daby (Labour, Lewisham East)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "wavering",
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5147,
+   "name": "Luke Myer (Labour, Middlesbrough South and East Cleveland)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "wavering",
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4030,
+   "name": "Karl Turner (Independent, Kingston upon Hull East)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4020,
+   "name": "George Freeman (Conservative, Mid Norfolk)",
+   "party": null,
+   "column": "--",
+   "vote": "no",
+   "flags": [
+    "targeted"
+   ]
+  }
+ ],
+ "voted": 553,
+ "ours": 285,
+ "placed_rows": 649,
+ "voters_placed": 556,
+ "division": "div:c2428",
+ "date": "2026-09-11",
+ "as_at": "2026-09-11",
+ "area": 2
+}

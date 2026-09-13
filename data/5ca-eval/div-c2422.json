@@ -1,0 +1,316 @@
+{
+ "our_side": "aye",
+ "columns": {
+  "++": {
+   "n": 75,
+   "ours": 37,
+   "against": 15,
+   "abstained": 0,
+   "silent": 23
+  },
+  "+": {
+   "n": 22,
+   "ours": 8,
+   "against": 8,
+   "abstained": 0,
+   "silent": 6
+  },
+  "0": {
+   "n": 451,
+   "ours": 58,
+   "against": 220,
+   "abstained": 0,
+   "silent": 173
+  },
+  "-": {
+   "n": 32,
+   "ours": 1,
+   "against": 19,
+   "abstained": 0,
+   "silent": 12
+  },
+  "--": {
+   "n": 69,
+   "ours": 1,
+   "against": 36,
+   "abstained": 0,
+   "silent": 32
+  }
+ },
+ "flags": {
+  "wavering": {
+   "n": 5,
+   "ours": 0,
+   "against": 1,
+   "abstained": 0,
+   "silent": 4
+  },
+  "conflict": {
+   "n": 33,
+   "ours": 5,
+   "against": 13,
+   "abstained": 0,
+   "silent": 15
+  },
+  "targeted": {
+   "n": 6,
+   "ours": 2,
+   "against": 1,
+   "abstained": 0,
+   "silent": 3
+  },
+  "none": {
+   "n": 608,
+   "ours": 99,
+   "against": 284,
+   "abstained": 0,
+   "silent": 225
+  }
+ },
+ "moved_from_theirs": {
+  "flagged": [
+   1,
+   8
+  ],
+  "unflagged": [
+   1,
+   49
+  ]
+ },
+ "missing_from_theirs": {
+  "flagged": [
+   14,
+   21
+  ],
+  "unflagged": [
+   32,
+   80
+  ]
+ },
+ "misses": [
+  {
+   "member_id": 4657,
+   "name": "Anneliese Dodds (Labour (Co-op), Oxford East)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4253,
+   "name": "Seema Malhotra (Labour (Co-op), Feltham and Heston)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4444,
+   "name": "Karin Smyth (Labour, Bristol South)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4126,
+   "name": "Mary Glindon (Labour, Newcastle upon Tyne East and Wallsend)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5188,
+   "name": "Tracy Gilbert (Labour, Edinburgh North and Leith)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4124,
+   "name": "Dame Chi Onwurah (Labour, Newcastle upon Tyne Central and West)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 5218,
+   "name": "David Smith (Labour, North Northumberland)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5240,
+   "name": "Melanie Ward (Labour, Cowdenbeath and Kirkcaldy)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 632,
+   "name": "Mr Douglas Alexander (Labour (Co-op), Lothian East)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5190,
+   "name": "Patricia Ferguson (Labour, Glasgow West)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4040,
+   "name": "Chris Evans (Labour (Co-op), Caerphilly)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5058,
+   "name": "Juliet Campbell (Labour, Broxtowe)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5179,
+   "name": "Kirsteen Sullivan (Labour (Co-op), Bathgate and Linlithgow)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4457,
+   "name": "Ms Marie Rimmer (Labour, St Helens South and Whiston)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4471,
+   "name": "Rachael Maskell (Labour (Co-op), York Central)",
+   "party": null,
+   "column": "++",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4790,
+   "name": "Apsana Begum (Labour, Poplar and Limehouse)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4610,
+   "name": "Bambos Charalambous (Labour, Southgate and Wood Green)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": [
+    "conflict"
+   ]
+  },
+  {
+   "member_id": 4382,
+   "name": "Daniel Zeichner (Labour, Cambridge)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 177,
+   "name": "Gareth Thomas (Labour (Co-op), Harrow West)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5333,
+   "name": "Lucy Rigby (Labour, Northampton North)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5148,
+   "name": "Mr Hamish Falconer (Labour, Lincoln)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 4637,
+   "name": "Mr James Frith (Labour, Bury North)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": []
+  },
+  {
+   "member_id": 5230,
+   "name": "Warinder Juss (Labour, Wolverhampton West)",
+   "party": null,
+   "column": "+",
+   "vote": "no",
+   "flags": []
+  }
+ ],
+ "gains": [
+  {
+   "member_id": 5120,
+   "name": "Shockat Adam (Independent, Leicester South)",
+   "party": null,
+   "column": "-",
+   "vote": "aye",
+   "flags": []
+  },
+  {
+   "member_id": 4008,
+   "name": "Dame Caroline Dinenage (Conservative, Gosport)",
+   "party": null,
+   "column": "--",
+   "vote": "aye",
+   "flags": [
+    "conflict"
+   ]
+  }
+ ],
+ "voted": 403,
+ "ours": 105,
+ "placed_rows": 649,
+ "voters_placed": 403,
+ "division": "div:c2422",
+ "date": "2026-09-08",
+ "as_at": "2026-09-08",
+ "area": 5
+}

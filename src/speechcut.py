@@ -159,6 +159,9 @@ def trim_bounds(words, text, file_start, span, margin=MARGIN_S, log=None):
     last = sc.word_span(words[after:], tail, min_ratio=0.5)
     if last:
         last = (last[0] + after, last[1] + after, last[2])
+    early = None
+    if not last:
+        last, early = late_tail(words, text, after)
     note = []
     if first and late:
         start, _ = sc.cut_bounds(words, first[0], first[0])
@@ -167,7 +170,10 @@ def trim_bounds(words, text, file_start, span, margin=MARGIN_S, log=None):
         start, _ = sc.cut_bounds(words, first[0], first[0])
     else:
         start = max(0.0, span[0] - file_start); note.append("start from Hansard time")
-    if last:
+    if last and early:
+        end = words[last[1]][2] + TAIL
+        note.append("end at Hansard word -%d: the spoken close differs from Hansard's" % early)
+    elif last:
         end = words[last[1]][2] + TAIL
     else:
         end = span[1] - file_start; note.append("end from Hansard time")
@@ -206,6 +212,32 @@ def late_head(words, text, offsets=LATE_HEAD_OFFSETS, n=ANCHOR_WORDS):
         while i > 0 and words[i][1] - words[i - 1][2] < SPEAKER_GAP_S and words[hit[0]][1] - words[i - 1][1] <= budget:
             i -= 1
         return (i, hit[1], hit[2]), off
+    return None, None
+
+
+def late_tail(words, text, after=0, offsets=LATE_HEAD_OFFSETS, n=ANCHOR_WORDS):
+    """The speech's last heard moment when Hansard's closing words were not spoken:
+    the mirror of late_head. Hansard tidies a close ("I commend the clause to the
+    House" printed where the member trailed off into "so I hope Members will, er,
+    support it"), and the tail anchor misses; Mullan's matched at 0.68 on 12 Sept
+    2026 and others fell back to Hansard's clock, ending mid-sentence or in the
+    next speaker. Slide the anchor BACK through the text until a block is heard
+    (after the head), then walk forward over words that run on, no further than
+    the skipped words could have taken, and stop at the pause where the next
+    member rose. Returns ((first_i, last_i, ratio), offset) or (None, None)."""
+    hw = (text or "").split()
+    for off in offsets:
+        if off + n > len(hw):
+            break
+        block = " ".join(hw[len(hw) - off - n:len(hw) - off])
+        hit = sc.word_span(words[after:], block, min_ratio=0.6)
+        if not hit:
+            continue
+        i = hit[1] + after
+        budget = off / 2.5 + 5.0
+        while i + 1 < len(words) and words[i + 1][1] - words[i][2] < SPEAKER_GAP_S and words[i + 1][2] - words[hit[1] + after][2] <= budget:
+            i += 1
+        return (hit[0] + after, i, hit[2]), off
     return None, None
 
 

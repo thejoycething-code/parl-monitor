@@ -24,14 +24,21 @@ HOUSES = ("Commons", "Lords")
 
 
 def title_areas(taxonomy, watchlist, title, tracker_terms=()):
-    """(areas, reasons) a debate title earns on its own; empty when it earns none."""
+    """(areas, reasons) a debate title earns on its own; empty when it earns none.
+    `tracker_terms` is a {phrase: area} dict (a vote-tracker issue's debate_match
+    and its area) or a plain list of phrases; a tracker phrase lends its area, so
+    "Health Bill" earns area 3 from the puberty-blockers issue although the title
+    itself carries no taxonomy term."""
     areas, reasons = set(), []
     for m in filt.match_passages(taxonomy, watchlist, "", title=title):
         areas.update(m.result.issue_areas or [])
         reasons += list(m.result.matched_terms or []) + [h if isinstance(h, str) else str(h) for h in (m.result.watchlist_hits or [])]
-    for term in tracker_terms:
+    items = tracker_terms.items() if isinstance(tracker_terms, dict) else [(t, None) for t in tracker_terms]
+    for term, area in items:
         if term.lower() in (title or "").lower():
             reasons.append("tracker: " + term)
+            if area:
+                areas.add(int(area))
     return sorted(areas), reasons
 
 
@@ -55,9 +62,12 @@ def sized(client, date, cands):
     rows = []
     for house, title, section, ext_id, areas, reasons in cands:
         payload = dp.fetch_debate(client, ext_id) or {}
-        speakers = dp.speakers(dp.contributions(payload, date))
+        contribs = dp.contributions(payload, date)
+        speakers = dp.speakers(contribs)
+        clocks = [c["start"] for c in contribs if c.get("start")]
+        last = max(clocks).strftime("%H:%M") if clocks else None
         rows.append({"house": house, "title": title, "section": section, "ext_id": ext_id, "areas": areas,
-                     "reasons": reasons, "speakers": len(speakers)})
+                     "reasons": reasons, "speakers": len(speakers), "last_clock": last})
     rows.sort(key=lambda r: -r["speakers"])
     return rows
 
@@ -72,12 +82,15 @@ def report(rows, date, key=KEY_SPEAKERS, minimum=MIN_SPEAKERS):
     for r in rows:
         if r["speakers"] < minimum:
             continue
-        lines.append("  %-7s %3d speakers  %s  [areas %s; %s]" % (r["house"], r["speakers"], r["title"][:70],
-                                                                   ",".join(str(a) for a in r["areas"]) or "-",
-                                                                   "; ".join(r["reasons"][:3])))
+        lines.append("  %-7s %3d speakers  last heard %s  %s  [areas %s; %s]" % (r["house"], r["speakers"], r.get("last_clock") or "?",
+                                                                                 r["title"][:70], ",".join(str(a) for a in r["areas"]) or "-",
+                                                                                 "; ".join(r["reasons"][:3])))
     top = verdict(rows, key)
     if top:
-        lines.append("KEY DEBATE: %s | %s | %s | %d speakers" % (top["house"], top["title"], top["ext_id"], top["speakers"]))
+        # "last heard" is the clock of the latest contribution Hansard has published:
+        # a Bill day whose last heard clock is early afternoon is still being published.
+        lines.append("KEY DEBATE: %s | %s | %s | %d speakers | areas %s | last heard %s" % (
+            top["house"], top["title"], top["ext_id"], top["speakers"], ",".join(str(a) for a in top["areas"]) or "-", top.get("last_clock") or "?"))
     else:
         lines.append("KEY DEBATE: none")
     return "\n".join(lines)

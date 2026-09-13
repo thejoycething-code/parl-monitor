@@ -120,3 +120,27 @@ chips on the internal web sheet with a Wavering filter. The rules, the evidence
 behind the threshold, the cap on former Aye voters, and the presence/absence
 events are written up in docs/debate-pack-social.md under "What the vote feeds".
 The partner build drops flags and tiers alike.
+
+## The Evaluate phase, measured (2026-09-13)
+
+`python3 tools/evaluate_5ca.py div:cID --area N [--apply]` (built 24 Aug, never run
+until 13 Sept) rebuilds the Plan sheet from evidence dated before the division
+(`suggest_rows(..., as_at=)`), scores the hit rate over members with both a
+placement and a vote, and breaks it down by the evidence each placement rested
+on. It now also reports the flags (WAVERING, CONFLICT, TARGETED) against the
+base, the gains (placed against us, voted our way) beside the misses, and
+staying away as movement; that sheet is banked in data/5ca-eval/<ref>.md and
+.json, and --apply writes the per-member rows to the `evaluations` table. First
+readings:
+
+* 2428 (Second Reading, 11 Sept 2026): every ++ and + who voted went our way;
+  no misses; the seven gains were all at --. The flags did NOT beat the base:
+  among members placed against us, flagged WAVERING or CONFLICTING moved,
+  abstained or stayed away 13 of 76 (17%) against 49 of 252 (19%) unflagged.
+  The 24% figure worked by hand on 12 Sept counted the safeguards-two-plus
+  list alone; the wider flag as coded is not that list. The flag is a watch
+  list, not a prediction, until it is narrowed.
+* 2071 (Third Reading, 20 June 2025): the + column was soft, 13 of 56 voters our
+  way (23%); ++ held at 99%. The cap that now keeps former Aye voters at + is
+  the right column for them: + means "might", not "will".
+* 2421 (puberty blockers, 8 Sept 2026): a whipped vote; no movement either way.
