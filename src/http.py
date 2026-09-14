@@ -277,11 +277,32 @@ class HttpClient:
         # callers never contend; the cap is enforced here for when they don't.
         with state.semaphore:
             self._throttle(state)
-            raw = self._request_with_retries(url, feed, slug, timeout)
+            try:
+                raw = self._request_with_retries(url, feed, slug, timeout)
+            except FetchError:
+                # 14 Sept 2026: parliament.scot answered CI at 09:16 and refused
+                # the laptop at 10:40, and the edition could not be re-rendered
+                # because one Holyrood bill page would not load. The morning's
+                # bytes were already in the archive. A response archived TODAY
+                # is the same document this request asked for; serve it and
+                # say so, rather than failing a whole render on one host.
+                cached = self._from_todays_archive(feed, slug)
+                if cached is None:
+                    raise
+                print("  [archive] {0}/{1}: host refused; served from today's archive".format(feed, slug))
+                return cached
 
         if archive:
             self._archive(raw, feed, slug)
         return raw
+
+    def _from_todays_archive(self, feed, slug):
+        date = self.archive_date or time.strftime("%Y-%m-%d")
+        path = os.path.join(self.raw_dir, date, "{feed}_{slug}.json.gz".format(feed=feed, slug=slugify(slug)))
+        if not os.path.exists(path):
+            return None
+        with gzip.open(path, "rb") as handle:
+            return handle.read()
 
     def _throttle(self, state):
         """Ensure at least `throttle` seconds since this host's last request."""

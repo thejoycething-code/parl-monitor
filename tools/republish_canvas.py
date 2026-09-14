@@ -1,6 +1,7 @@
 """Rewrite an already-published edition's Slack canvas in place.
 
     python3 tools/republish_canvas.py 2026-09-07
+    python3 tools/republish_canvas.py 2026-09-14 --canvas F0C1KLMJ2LW   # id by hand
 
 Christopher, 2026-09-07: "Redo today's publish under the new format."
 The Monday publish creates a NEW canvas and a NEW channel message every
@@ -34,8 +35,13 @@ def main(argv):
     conn = sqlite3.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
     row = conn.execute("SELECT canvas_id, published_at FROM publish_log WHERE week = ?",
                        (week,)).fetchone()
+    # --canvas F0...: the canvas id by hand, for when the publish_log row is
+    # missing (14 Sept 2026: the publish's store was lost in a push race and
+    # the id survived only in the run log).
+    if "--canvas" in argv:
+        row = (argv[argv.index("--canvas") + 1], (row or (None, "unknown"))[1] or "unknown")
     if not row or not row[0]:
-        print("no canvas recorded for w/c {0}; nothing to rewrite".format(week))
+        print("no canvas recorded for w/c {0}; nothing to rewrite (pass --canvas <id> to name it)".format(week))
         return 1
     canvas_id, published_at = row
     path = os.path.join(ROOT, "editions", "parliamentary-monitor-{0}.md".format(week))

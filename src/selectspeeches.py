@@ -56,7 +56,10 @@ def candidates(speeches, min_words=MIN_WORDS, words_shown=WORDS_SHOWN):
 def build_payload(meta, cands, model=MODEL):
     user = {"debate": {"title": meta.get("title"), "date": meta.get("date"), "house": meta.get("house")},
             "speakers": [{k: c[k] for k in ("name", "party", "seat", "words", "text")} for c in cands]}
-    return {"model": model, "max_tokens": MAX_TOKENS, "system": SYSTEM_PROMPT,
+    # Thinking shares max_tokens (the reply hit the cap twice on 11 Sept 2026, and
+    # the Sunday pull's judge starved on 14 Sept): medium effort keeps the
+    # deliberation short so the JSON has room.
+    return {"model": model, "max_tokens": MAX_TOKENS, "output_config": {"effort": "medium"}, "system": SYSTEM_PROMPT,
             "messages": [{"role": "user", "content": json.dumps(user, ensure_ascii=False)}]}
 
 

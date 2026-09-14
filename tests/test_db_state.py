@@ -658,3 +658,75 @@ class AssetSwapTests(unittest.TestCase):
             self.assets[self.ds.ASSET] = 1
         self.assertTrue(self.ds.swap_in_asset(upload, log=lambda *_a: None))
         self.assertEqual([c[0] for c in self.calls], ["rename", "upload"])   # no delete
+
+
+class PublishRaceTests(unittest.TestCase):
+    """14 Sept 2026: a laptop push raced the Monday publish; the failure path deleted
+    the publish's fresh asset as "a partial upload" and restored the old copy over it."""
+
+    def _run(self, holder_state):
+        calls, assets = [], {db_state.ASSET: 1}
+        orig = (db_state._rename_asset, db_state._delete_asset, db_state._asset_records)
+
+        def rename(a, b, tok=None):
+            calls.append(("rename", a, b))
+            if a not in assets or b in assets:          # GitHub: 422 on a name clash
+                return False
+            assets[b] = assets.pop(a); return True
+
+        def delete(n, tok=None):
+            calls.append(("delete", n)); assets.pop(n, None)
+
+        def upload():
+            assets[db_state.ASSET] = 99                  # the name is taken when we fail
+            raise RuntimeError("gh upload failed: HTTP 404")
+        db_state._rename_asset, db_state._delete_asset = rename, delete
+        db_state._asset_records = lambda tok=None: [{"name": n, "id": i, "state": holder_state if n == db_state.ASSET else "uploaded"} for n, i in assets.items()]
+        try:
+            ok = db_state.swap_in_asset(upload, log=lambda *_a: None)
+        finally:
+            db_state._rename_asset, db_state._delete_asset, db_state._asset_records = orig
+        return ok, calls, assets
+
+    def test_a_rivals_finished_publish_is_left_standing(self):
+        ok, calls, assets = self._run("uploaded")
+        self.assertFalse(ok)
+        self.assertNotIn(("delete", db_state.ASSET), calls)
+        self.assertEqual(assets[db_state.ASSET], 99, "the rival's store stands")
+        self.assertIn(db_state.PREV, assets, "ours stays aside for a person")
+
+    def test_our_own_partial_upload_is_cleared_and_the_old_store_restored(self):
+        ok, calls, assets = self._run("open")
+        self.assertFalse(ok)
+        self.assertIn(("delete", db_state.ASSET), calls)
+        self.assertEqual(list(assets), [db_state.ASSET])
+        self.assertEqual(assets[db_state.ASSET], 1, "the previous copy is back under its name")
+
+
+class RefusedDownloadTests(unittest.TestCase):
+    """A refused download must never replace the working store (14 Sept 2026: it
+    did, and a live re-score had to be paid for twice)."""
+
+    def test_mismatch_leaves_the_working_store_untouched(self):
+        import tempfile, hashlib
+        d = tempfile.mkdtemp()
+        db, got, side, pulled = [os.path.join(d, n) for n in ("s.db", "s.db.download", "s.db.json", ".pulled")]
+        open(db, "wb").write(b"working copy"); open(got, "wb").write(b"downloaded bytes")
+        json.dump({"sha256": "0" * 64}, open(side, "w"))
+        rc = db_state.install_download(got, db=db, sidecar=side, pulled=pulled, log=lambda *_a: None)
+        self.assertEqual(rc, 1)
+        self.assertEqual(open(db, "rb").read(), b"working copy")
+        self.assertTrue(os.path.exists(got))
+        self.assertFalse(os.path.exists(pulled))
+
+    def test_a_verified_download_is_installed_and_recorded(self):
+        import tempfile, hashlib
+        d = tempfile.mkdtemp()
+        db, got, side, pulled = [os.path.join(d, n) for n in ("s.db", "s.db.download", "s.db.json", ".pulled")]
+        open(db, "wb").write(b"old"); open(got, "wb").write(b"new bytes")
+        json.dump({"sha256": hashlib.sha256(b"new bytes").hexdigest()}, open(side, "w"))
+        rc = db_state.install_download(got, db=db, sidecar=side, pulled=pulled, log=lambda *_a: None)
+        self.assertEqual(rc, 0)
+        self.assertEqual(open(db, "rb").read(), b"new bytes")
+        self.assertFalse(os.path.exists(got))
+        self.assertIn(hashlib.sha256(b"new bytes").hexdigest(), open(pulled).read())

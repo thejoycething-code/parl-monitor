@@ -91,8 +91,14 @@ def _batches(items, size=BATCH_SIZE):
 # rehearsing the Sunday pull rather than by a test, because the stub path
 # is what every test exercises.
 TOKENS_PER_ITEM = 160
-TOKENS_OVERHEAD = 400
-TOKENS_FLOOR = 2000
+# 14 Sept 2026: three Sunday pulls fell back to the stub because the reply's
+# THINKING shares max_tokens -- Sonnet 5 thinks by default, and a batch of 20
+# (budget 3,600) spent 3,595 tokens thinking and returned 8 characters of JSON.
+# So: ask for low effort (a 0-3 score and a 35-word line need no deliberation)
+# and leave several thousand tokens of headroom for whatever thinking remains.
+TOKENS_OVERHEAD = 4000
+TOKENS_FLOOR = 6000
+EFFORT = "low"
 
 
 def _build_payload(batch):
@@ -106,6 +112,7 @@ def _build_payload(batch):
     return {
         "model": TRIAGE_MODEL,
         "max_tokens": max(TOKENS_FLOOR, TOKENS_OVERHEAD + TOKENS_PER_ITEM * len(batch)),
+        "output_config": {"effort": EFFORT},
         "system": SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": json.dumps(user)}],
     }
@@ -127,6 +134,20 @@ def _default_transport(payload, api_key):  # pragma: no cover - real network
         return json.loads(response.read().decode("utf-8"))
 
 
+def _json_body(text):
+    """The JSON array inside a reply that may wrap it in a code fence or a line of
+    prose. 14 Sept 2026: one batch of twenty came back with something before the
+    '[' and json.loads failed at character 0, stubbing all eighty items."""
+    text = (text or "").strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1] if "\n" in text else text[3:]
+        text = text.rsplit("```", 1)[0]
+    a, b = text.find("["), text.rfind("]")
+    if a >= 0 and b > a:
+        return text[a:b + 1]
+    return text
+
+
 def _parse_reply(reply):
     """Extract the JSON array from a Messages API reply."""
     text = "".join(block.get("text", "") for block in (reply.get("content") or []))
@@ -139,7 +160,7 @@ def _parse_reply(reply):
             "reply hit max_tokens ({0} chars of text returned; content blocks: {1}; usage {2}): "
             "the batch needs more room, not a different parser".format(
                 len(text), kinds or "none", reply.get("usage")))
-    data = json.loads(text)
+    data = json.loads(_json_body(text))
     out = []
     for row in data:
         out.append(TriageResult(id=row.get("id"), score=row.get("score"),

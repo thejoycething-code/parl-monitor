@@ -181,6 +181,9 @@ def _build_payload(batch):
         # Long speech batches were truncating at 4000 and losing whole
         # batches to unparseable replies (34% of the tail, 2026-08-05).
         "max_tokens": 8000,
+        # Thinking shares this budget (14 Sept 2026: the triage judge spent its
+        # whole cap thinking). A stance read is a judgement, not a proof: medium.
+        "output_config": {"effort": "medium"},
         "system": SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": json.dumps(user)}],
     }

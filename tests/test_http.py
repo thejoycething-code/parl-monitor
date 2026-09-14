@@ -237,3 +237,36 @@ class LimitedRetryTests(unittest.TestCase):
     def test_503_still_retries_fully(self):
         calls, _ = self._run(503)
         self.assertGreater(calls, 2, "gateway errors are transient; keep retrying")
+
+
+class ArchiveFallbackTests(unittest.TestCase):
+    """14 Sept 2026: parliament.scot refused the laptop after answering CI that
+    morning, and one bill page failed a whole edition render. A response archived
+    today is the document this request asked for."""
+
+    def test_a_refused_host_is_served_from_todays_archive(self):
+        tmp = tempfile.mkdtemp()
+        opener = ScriptedOpener([socket.timeout("slow")] * 4)
+        client, rec = make_client(tmp, opener)
+        os.makedirs(os.path.join(tmp, "2026-08-01"))
+        with gzip.open(os.path.join(tmp, "2026-08-01", "scotland_bill-x.json.gz"), "wb") as fh:
+            fh.write(b"<html>archived this morning</html>")
+        body = client.get_text("https://www.parliament.scot/bills/x", "scotland", "bill-x")
+        self.assertEqual(body, "<html>archived this morning</html>")
+
+    def test_without_an_archived_copy_the_failure_still_raises(self):
+        tmp = tempfile.mkdtemp()
+        opener = ScriptedOpener([socket.timeout("slow")] * 4)
+        client, rec = make_client(tmp, opener)
+        with self.assertRaises(http.FetchError):
+            client.get_text("https://www.parliament.scot/bills/x", "scotland", "bill-x")
+
+    def test_yesterdays_archive_is_not_served(self):
+        tmp = tempfile.mkdtemp()
+        opener = ScriptedOpener([socket.timeout("slow")] * 4)
+        client, rec = make_client(tmp, opener)
+        os.makedirs(os.path.join(tmp, "2026-07-31"))
+        with gzip.open(os.path.join(tmp, "2026-07-31", "scotland_bill-x.json.gz"), "wb") as fh:
+            fh.write(b"old")
+        with self.assertRaises(http.FetchError):
+            client.get_text("https://www.parliament.scot/bills/x", "scotland", "bill-x")

@@ -173,9 +173,15 @@ def install_merge_driver():
 def pull():
     install_merge_driver()
     tok = token()
+    # The download lands BESIDE the working store and replaces it only once
+    # verified. 14 Sept 2026: a refused download had already overwritten the
+    # working copy, and with it a live re-score that then had to be paid for
+    # again. "Nothing was overwritten except the download itself" was the
+    # working store.
+    got_path = DB + ".download"
     if have_gh():
         cmd = ["gh", "release", "download", TAG, "--repo", REPO,
-               "--pattern", ASSET, "--output", DB, "--clobber"]
+               "--pattern", ASSET, "--output", got_path, "--clobber"]
         out = subprocess.run(cmd, capture_output=True, text=True)
         if out.returncode:
             if "release not found" in (out.stderr or "").lower():
@@ -189,7 +195,7 @@ def pull():
                       "part-way. Recovering from it.".format(ASSET, PREV))
                 out = subprocess.run(
                     ["gh", "release", "download", TAG, "--repo", REPO,
-                     "--pattern", PREV, "--output", DB, "--clobber"],
+                     "--pattern", PREV, "--output", got_path, "--clobber"],
                     capture_output=True, text=True)
                 if not out.returncode and _rename_asset(PREV, ASSET):
                     print("  recovered: {0} is published again. The sidecar in the repo "
@@ -213,9 +219,8 @@ def pull():
                 return _no_asset_yet()
         blob = _api(asset["url"], tok,
                     headers={"Accept": "application/octet-stream"})
-        with open(DB + ".part", "wb") as handle:
+        with open(got_path, "wb") as handle:
             handle.write(blob)
-        os.replace(DB + ".part", DB)
     else:
         print("CANNOT PULL: no gh and no github_token in config/secrets.yaml.\n"
               "  A private repo's release assets need auth. Add a PAT with\n"
@@ -224,24 +229,34 @@ def pull():
               "STALE.")
         return 1
 
-    if os.path.exists(SIDECAR):
-        with open(SIDECAR, encoding="utf-8") as handle:
+    return install_download(got_path)
+
+
+def install_download(got_path, db=None, sidecar=None, pulled=None, log=print):
+    """Verify a downloaded store against the sidecar and, only then, make it the
+    working store. A mismatch leaves the working store untouched and the
+    download beside it for inspection."""
+    db, sidecar, pulled = db or DB, sidecar or SIDECAR, pulled or PULLED
+    if os.path.exists(sidecar):
+        with open(sidecar, encoding="utf-8") as handle:
             want = json.load(handle)
-        got = sha256(DB)
+        got = sha256(got_path)
         if want.get("sha256") and want["sha256"] != got:
-            print("SHA MISMATCH: sidecar says {0}, downloaded {1}.\n"
-                  "  Refusing to trust this store. Nothing was overwritten in "
-                  "place except the download itself; re-run, and if it "
-                  "persists the release asset and the committed sidecar have "
-                  "diverged.".format(want["sha256"][:12], got[:12]))
+            log("SHA MISMATCH: sidecar says {0}, downloaded {1}.\n"
+                "  Refusing to trust this store. The working copy is UNTOUCHED; the "
+                "download is beside it as {2}. Re-run, and if it persists the release "
+                "asset and the committed sidecar have diverged.".format(
+                    want["sha256"][:12], got[:12], os.path.basename(got_path)))
             return 1
-        with open(PULLED, "a", encoding="utf-8") as handle:
+        os.replace(got_path, db)
+        with open(pulled, "a", encoding="utf-8") as handle:
             handle.write(got + "\n")
-        print("store pulled and verified ({0:.1f} MB, sha {1}).".format(
-            os.path.getsize(DB) / 1e6, got[:12]))
+        log("store pulled and verified ({0:.1f} MB, sha {1}).".format(
+            os.path.getsize(db) / 1e6, got[:12]))
     else:
-        print("store pulled ({0:.1f} MB); no sidecar to verify against yet."
-              .format(os.path.getsize(DB) / 1e6))
+        os.replace(got_path, db)
+        log("store pulled ({0:.1f} MB); no sidecar to verify against yet."
+            .format(os.path.getsize(db) / 1e6))
     return 0
 
 
@@ -413,6 +428,24 @@ def _assets(tok=None):
     return [(a["name"], a["id"]) for a in (payload.get("assets") or [])]
 
 
+def _asset_records(tok=None):
+    """[{name, id, state, size}] on the release. `state` is GitHub's: "uploaded"
+    for a finished asset, anything else for one still being written."""
+    if tok:
+        payload = release(tok)
+    else:
+        out = subprocess.run(["gh", "api", "/repos/{0}/releases/tags/{1}".format(REPO, TAG)],
+                             capture_output=True, text=True)
+        if out.returncode:
+            return []
+        try:
+            payload = json.loads(out.stdout)
+        except ValueError:
+            return []
+    return [{"name": a.get("name"), "id": a.get("id"), "state": a.get("state"), "size": a.get("size")}
+            for a in (payload.get("assets") or [])]
+
+
 def _rename_asset(name_from, name_to, tok=None):
     """Rename a release asset in place. No bytes move, so this is instant even at 141MB."""
     ident = next((i for n, i in _assets(tok) if n == name_from), None)
@@ -466,7 +499,27 @@ def swap_in_asset(upload, api_tok=None, log=print):
     except Exception as exc:                                # noqa: BLE001
         log(str(exc))
         if kept:
-            _delete_asset(ASSET, api_tok)                   # drop a partial upload, if any
+            # 14 Sept 2026: a laptop push raced the Monday publish. The publish
+            # uploaded its store while ours was in flight, ours got a 404, and
+            # this path then DELETED the publish's fresh asset as "a partial
+            # upload" and put the old copy back -- forty minutes of CI work
+            # gone and the sidecar pointing at bytes that no longer existed.
+            # A failed upload leaves no asset behind (GitHub creates it on
+            # completion), so an ASSET that exists now is somebody else's
+            # finished publish: leave it, and leave ours aside for a person.
+            # So: try the restore FIRST (it fails on a name clash), and only
+            # then look at what holds the name. A finished upload is a rival;
+            # anything else is our own debris and can go.
+            if _rename_asset(PREV, ASSET, api_tok):
+                log("  RESTORED the previously published store; the release is intact.")
+                return False
+            holder = [r for r in _asset_records(api_tok) if r["name"] == ASSET]
+            if holder and holder[0].get("state") == "uploaded":
+                log("  ANOTHER PUBLISH LANDED while this one was uploading: its store stands. "
+                    "Ours is not published; the previous copy stays aside as {0}. "
+                    "Pull, redo this run's work, push again.".format(PREV))
+                return False
+            _delete_asset(ASSET, api_tok)                   # our partial upload
             if _rename_asset(PREV, ASSET, api_tok):
                 log("  RESTORED the previously published store; the release is intact.")
             else:

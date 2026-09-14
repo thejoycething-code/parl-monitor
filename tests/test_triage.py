@@ -110,6 +110,24 @@ class TokenBudgetTests(unittest.TestCase):
         self.assertGreaterEqual(budget / BATCH_SIZE, 120,
                                 "not enough room per item to finish a sentence")
 
+    def test_thinking_cannot_starve_the_reply(self):
+        """14 Sept 2026: a batch of twenty was given 3,600 tokens; the model spent
+        3,595 of them thinking and the run fell back to the stub. The payload now
+        asks for low effort and keeps thousands of tokens of headroom."""
+        from src.triage import _build_payload, BATCH_SIZE
+        payload = _build_payload(self._items(BATCH_SIZE))
+        self.assertEqual(payload["output_config"], {"effort": "low"})
+        self.assertGreaterEqual(payload["max_tokens"] - 160 * BATCH_SIZE, 3600,
+                                "headroom must exceed the thinking that emptied the budget on 14 Sept")
+        self.assertGreaterEqual(_build_payload(self._items(1))["max_tokens"], 6000)
+
+    def test_a_fenced_or_prefixed_reply_still_parses(self):
+        from src.triage import _parse_reply
+        body = '[{"id": "1", "score": 2, "areas": ["x"], "why_it_matters": "w"}]'
+        for text in (body, "```json\n" + body + "\n```", "Here are the scores:\n" + body):
+            out = _parse_reply({"stop_reason": "end_turn", "content": [{"type": "text", "text": text}]})
+            self.assertEqual((out[0].id, out[0].score), ("1", 2))
+
     def test_truncation_says_what_happened(self):
         """"Unterminated string starting at: line 7 column 10" reads like a
         malformed response. The response was fine; there was no room left."""
