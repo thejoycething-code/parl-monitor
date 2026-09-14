@@ -15,106 +15,114 @@
 *Decided since last edition:*
 - Does CitizenGO submit a supporter response to the SEND reform consultation on education otherwise than at school? — **No supporter response (Christopher, 2026-09-07)** (2026-09-07, Christopher)
 
+## Week ahead
+
+*Nothing on our ground in the chamber this week.*
+
+**Further afield** (next 8 weeks)
+
+| When | What | Where | Why it matters | Sources |
+|---|---|---|---|---|
+| Fri 16 Oct · after other business | **Data Publication and Quality (Immigration, Nationality and Country of Birth) Bill: Second Reading — led by Katie Lam** | Commons, Main Chamber | Bill on immigration data quality could affect transparency of migration statistics used in policy debates. | [What's On](https://whatson.parliament.uk/event/cal56346) |
+| Mon 19 Oct · after other business | **Provision for the teaching of citizenship (dinner break business) — led by Lord Norton of Louth** | Lords, Main Chamber | Citizenship teaching debate touches curriculum content parents may contest, linked to national identity and cohesion. | [What's On](https://whatson.parliament.uk/event/cal56542) |
+
 ## Votes and amendments
 
-- [Division #75 (270-286): Terminally Ill Adults (End of Life) Bill: Second Reading](https://votes.parliament.uk/Votes/Commons/Division/2428)
+- [Second Reading vote on assisted dying bill is a direct legislative trigger CitizenGO actively opposes.](https://votes.parliament.uk/Votes/Commons/Division/2428)
 
 ## Written questions
 
-*53 questions matched our areas this week.*
+*50 questions matched our areas this week.*
 
-**Free speech, privacy and civil liberties** (18)
-
-| Member | Question | Asked of | Answered |
-|---|---|---|---|
-| Sir John Hayes (Conservative, South Holland and The Deepings) | [Migrants: Age Assurance](https://questions-statements.parliament.uk/written-questions/detail/2026-07-15/18966) | Home Office | 7 Sep |
-| Lord Gilbert of Panteg (Conservative, Life peer) | [Proof of Identity: Digital Technology](https://questions-statements.parliament.uk/written-questions/detail/2026-07-21/HL2415) | Cabinet Office | 8 Sep |
-| Sir James Cleverly (Conservative, Braintree) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20162) | Ministry of Housing, Communities and Local Government | 8 Sep |
-| Sir James Cleverly (Conservative, Braintree) | [Anti-Muslim Hostility](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20200) | Ministry of Housing, Communities and Local Government | 8 Sep |
-| Sir James Cleverly (Conservative, Braintree) | [Minister for Equalities](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20250) | Ministry of Housing, Communities and Local Government | 8 Sep |
-| Sir James Cleverly (Conservative, Braintree) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20372) | Ministry of Housing, Communities and Local Government | 8 Sep |
-| Mike Wood (Conservative, Kingswinford and South Staffordshire) | [Proof of Identity: Digital Technology](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20567) | Department for Digital, Culture, Media and Sport | 8 Sep |
-| Sir James Cleverly (Conservative, Braintree) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20485) | Ministry of Housing, Communities and Local Government | 8 Sep |
-| Mike Wood (Conservative, Kingswinford and South Staffordshire) | [Anti-Muslim Hostility](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20596) | Foreign, Commonwealth and Development Office | 8 Sep |
-| Mike Wood (Conservative, Kingswinford and South Staffordshire) | [Proof of Identity: Digital Technology](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20703) | Department for Digital, Culture, Media and Sport | 8 Sep |
-| Mike Wood (Conservative, Kingswinford and South Staffordshire) | [Proof of Identity: Digital Technology](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20945) | Department for Digital, Culture, Media and Sport | 8 Sep |
-| Ruth Cadbury (Labour, Brentford and Isleworth) | [Age Assurance: Data Protection](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/21157) | Department for Digital, Culture, Media and Sport | 8 Sep |
-| Mr Andrew Snowden (Conservative, Fylde) | [Proof of Identity: Digital Technology](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22655) | Department for Digital, Culture, Media and Sport | 8 Sep |
-| Nick Timothy (Conservative, West Suffolk) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26682) | Ministry of Housing, Communities and Local Government | 8 Sep |
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Energy Drinks: Children](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25515) | Department of Health and Social Care | 9 Sep |
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Energy Drinks: Children](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25516) | Department of Health and Social Care | 9 Sep |
-| Gill German (Labour, Clwyd North) | [Nicotine: Age Assurance](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/23514) | Department of Health and Social Care | 10 Sep |
-| Alan Gemmell (Labour, Central Ayrshire) | [Knives: Crime](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/24215) | Home Office | 10 Sep |
-
-**Migration** (15)
+**Migration** (19)
 
 | Member | Question | Asked of | Answered |
 |---|---|---|---|
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Deportation: Albania](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25797) | Home Office | 8 Sep |
-| Shivani Raja (Conservative, Leicester East) | [Offenders: Repatriation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26205) | Home Office | 8 Sep |
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Gibraltar: Spain](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25686) | Foreign, Commonwealth and Development Office | 9 Sep |
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Gibraltar: Immigration Controls](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25687) | Foreign, Commonwealth and Development Office | 9 Sep |
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Gibraltar: Immigration Controls](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25688) | Foreign, Commonwealth and Development Office | 9 Sep |
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Gibraltar: Borders](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25689) | Foreign, Commonwealth and Development Office | 9 Sep |
-| James McMurdock (Independent, South Basildon and East Thurrock) | [Gibraltar: Immigration Controls](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25690) | Foreign, Commonwealth and Development Office | 9 Sep |
-| Shivani Raja (Conservative, Leicester East) | [Asylum: East Midlands](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26204) | Home Office | 9 Sep |
-| Mr Andrew Snowden (Conservative, Fylde) | [Offenders: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26718) | Home Office | 9 Sep |
-| Mr Andrew Snowden (Conservative, Fylde) | [Offenders: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26719) | Ministry of Justice | 10 Sep |
-| Sarah Pochin (Reform UK, Runcorn and Helsby) | [Undocumented Migrants: English Channel](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25895) | Home Office | 11 Sep |
-| Sarah Pochin (Reform UK, Runcorn and Helsby) | [Undocumented Migrants: English Channel](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25899) | Home Office | 11 Sep |
-| Sarah Pochin (Reform UK, Runcorn and Helsby) | [Undocumented Migrants: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25911) | Home Office | 11 Sep |
-| Lara Bird (Scottish National Party, Arbroath and Broughty Ferry) | [Pakistan: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-03/27221) | Foreign, Commonwealth and Development Office | 11 Sep |
-| Mr Gregory Campbell (Democratic Unionist Party, East Londonderry) | [Undocumented Migrants: English Channel](https://questions-statements.parliament.uk/written-questions/detail/2026-09-04/27238) | Home Office | 11 Sep |
+| James McMurdock (Independent, South Basildon and East Thurrock) | [Deportation: Albania](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25797) Albania deportation data signals enforcement capacity against illegal migration from specific source countries. | Home Office | 8 Sep |
+| Shivani Raja (Conservative, Leicester East) | [Offenders: Repatriation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26205) Offender repatriation numbers show whether government is delivering on removals, key to border integrity. | Home Office | 8 Sep |
+| James McMurdock (Independent, South Basildon and East Thurrock) | [Gibraltar: Immigration Controls](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25688) Immigration control arrangements in Gibraltar have knock-on effects for UK border integrity and cohesion policy. | Foreign, Commonwealth and Development Office | 9 Sep |
+| James McMurdock (Independent, South Basildon and East Thurrock) | [Gibraltar: Immigration Controls](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25690) Gibraltar immigration controls affect broader UK border policy and sovereignty over migration enforcement. | Foreign, Commonwealth and Development Office | 9 Sep |
+| Shivani Raja (Conservative, Leicester East) | [Asylum: East Midlands](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26204) Regional asylum accommodation data feeds debate on dispersal policy and its effects on local community cohesion. | Home Office | 9 Sep |
+| Mr Andrew Snowden (Conservative, Fylde) | [Offenders: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26718) Deportation policy detail affects public confidence in border control and removal of offenders. | Home Office | 9 Sep |
+| Mr Andrew Snowden (Conservative, Fylde) | [Asylum: North West](https://questions-statements.parliament.uk/written-questions/detail/2026-09-04/27298) Regional asylum data continues to inform scrutiny of dispersal policy and its community impact in the North West. | Home Office | 9 Sep |
+| Mr Andrew Snowden (Conservative, Fylde) | [Asylum: North West](https://questions-statements.parliament.uk/written-questions/detail/2026-09-04/27299) Regional asylum figures inform scrutiny of dispersal and accommodation policy affecting community cohesion in the North West. | Home Office | 9 Sep |
+| Rupert Lowe (Restore Britain, Great Yarmouth) | [Asylum: Transport](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26783) Asylum transport logistics reflect operational strain on the asylum system, relevant to scrutiny of border control and integrity. | Home Office | 10 Sep |
+| Mr Andrew Snowden (Conservative, Fylde) | [Offenders: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26719) Tracks deportation of foreign offenders, a border integrity issue central to migration enforcement credibility. | Ministry of Justice | 10 Sep |
+| Max Wilkinson (Liberal Democrat, Cheltenham) | [Asylum: Housing](https://questions-statements.parliament.uk/written-questions/detail/2026-09-03/27030) Asylum housing questions bear on accommodation policy and its downstream effects on local communities and family life. | Home Office | 10 Sep |
+| Sarah Pochin (Reform UK, Runcorn and Helsby) | [Undocumented Migrants: English Channel](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25895) This tracks unauthorised Channel arrivals, central evidence in the border security and illegal migration debate. | Home Office | 11 Sep |
+| Sarah Pochin (Reform UK, Runcorn and Helsby) | [Undocumented Migrants: English Channel](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25899) Ongoing Channel crossing data underlines failure to secure borders, fuelling calls for stronger migration control measures. | Home Office | 11 Sep |
+| Sarah Pochin (Reform UK, Runcorn and Helsby) | [Undocumented Migrants: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25911) Deportation figures for undocumented migrants show enforcement capacity, key to assessing border integrity policy. | Home Office | 11 Sep |
+| David Simmonds (Conservative, Ruislip, Northwood and Pinner) | [Asylum](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26162) Asylum system questions feed the ongoing parliamentary scrutiny of border control capacity and integrity, a key monitoring area for migration policy. | Home Office | 11 Sep |
+| Max Wilkinson (Liberal Democrat, Cheltenham) | [Asylum: Housing](https://questions-statements.parliament.uk/written-questions/detail/2026-09-03/27031) Asylum housing strain affects community relations and public support for migration policy reform. | Home Office | 11 Sep |
+| Lara Bird (Scottish National Party, Arbroath and Broughty Ferry) | [Pakistan: Deportation](https://questions-statements.parliament.uk/written-questions/detail/2026-09-03/27221) Deportation of Pakistani nationals tests enforcement of removal policy, central to border control integrity and illegal migration deterrence. | Foreign, Commonwealth and Development Office | 11 Sep |
+| Dr Scott Arthur (Labour, Edinburgh South West) | [Undocumented Migrants: Boats](https://questions-statements.parliament.uk/written-questions/detail/2026-09-03/27103) Boat crossing data is core evidence for the border security debate and demand for stricter enforcement. | Home Office | 11 Sep |
+| Mr Gregory Campbell (Democratic Unionist Party, East Londonderry) | [Undocumented Migrants: English Channel](https://questions-statements.parliament.uk/written-questions/detail/2026-09-04/27238) Channel crossing figures feed directly into the border control debate and pressure for tougher enforcement policy. | Home Office | 11 Sep |
+
+**Free speech, privacy and civil liberties** (7)
+
+| Member | Question | Asked of | Answered |
+|---|---|---|---|
+| Sir James Cleverly (Conservative, Braintree) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20162) Parliament keeps probing this group's work, which could entrench a definition limiting lawful criticism of religious practice. | Ministry of Housing, Communities and Local Government | 8 Sep |
+| Sir James Cleverly (Conservative, Braintree) | [Minister for Equalities](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20250) The Minister for Equalities role shapes policy across single-sex spaces, religious freedom and free speech, worth tracking for direction of travel. | Ministry of Housing, Communities and Local Government | 8 Sep |
+| Sir James Cleverly (Conservative, Braintree) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20372) Continued scrutiny of this working group signals possible new speech restrictions that could chill open debate about religion and belief. | Ministry of Housing, Communities and Local Government | 8 Sep |
+| Sir James Cleverly (Conservative, Braintree) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20485) Repeated questioning shows this definition remains contested, with implications for free speech and religious liberty protections. | Ministry of Housing, Communities and Local Government | 8 Sep |
+| Mike Wood (Conservative, Kingswinford and South Staffordshire) | [Anti-Muslim Hostility](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20596) Hostility measures tied to religion often expand speech regulation, raising concerns for believers and critics alike. | Foreign, Commonwealth and Development Office | 8 Sep |
+| Mike Wood (Conservative, Kingswinford and South Staffordshire) | [Proof of Identity: Digital Technology](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20945) Digital ID linked to immigration checks could enable border enforcement but raises surveillance concerns for all citizens. | Department for Digital, Culture, Media and Sport | 8 Sep |
+| Nick Timothy (Conservative, West Suffolk) | [Anti-Muslim Hatred/Islamophobia Definition Working Group](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26682) An official Islamophobia definition could reshape hate speech law, affecting how religious criticism and free expression are policed across faiths. | Ministry of Housing, Communities and Local Government | 8 Sep |
 
 **Parental rights education** (7)
 
 | Member | Question | Asked of | Answered |
 |---|---|---|---|
-| Bell Ribeiro-Addy (Labour, Clapham and Brixton Hill) | [Internet: Age Assurance](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26619) | Department for Digital, Culture, Media and Sport | 7 Sep |
-| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22508) | Department for Education | 8 Sep |
-| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22509) | Department for Education | 8 Sep |
-| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22512) | Department for Education | 8 Sep |
-| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22513) | Department for Education | 8 Sep |
-| Samantha Niblett (Labour, South Derbyshire) | [Education: Religion](https://questions-statements.parliament.uk/written-questions/detail/2026-09-07/27773) | Department for Education | 11 Sep |
-| Samantha Niblett (Labour, South Derbyshire) | [Education: Religion and Science](https://questions-statements.parliament.uk/written-questions/detail/2026-09-07/27774) | Department for Education | 11 Sep |
+| Bell Ribeiro-Addy (Labour, Clapham and Brixton Hill) | [Internet: Age Assurance](https://questions-statements.parliament.uk/written-questions/detail/2026-09-02/26619) Internet age assurance rules affect how online safety law is enforced, with knock-on effects for free speech and access to information. | Department for Digital, Culture, Media and Sport | 7 Sep |
+| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22508) Repeated PQs on religion and education point to sustained interest in curriculum content affecting faith and family values. | Department for Education | 8 Sep |
+| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22509) Continued parliamentary scrutiny of religious education signals possible curriculum reform affecting faith communities and parents. | Department for Education | 8 Sep |
+| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22512) Religion in education questions indicate ongoing debate over faith schools and content, relevant to parental and religious freedom. | Department for Education | 8 Sep |
+| Shivani Raja (Conservative, Leicester East) | [Religion: Education](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22513) Religion in education PQs matter for tracking government policy on faith content and parental involvement in schools. | Department for Education | 8 Sep |
+| Samantha Niblett (Labour, South Derbyshire) | [Education: Religion](https://questions-statements.parliament.uk/written-questions/detail/2026-09-07/27773) Questions on religion in education can signal curriculum changes affecting parents' rights to shape their children's religious formation. | Department for Education | 11 Sep |
+| Samantha Niblett (Labour, South Derbyshire) | [Education: Religion and Science](https://questions-statements.parliament.uk/written-questions/detail/2026-09-07/27774) Religion and science curriculum questions touch on how faith is taught, relevant to parental rights and religious freedom in schools. | Department for Education | 11 Sep |
 
 **Conversion practices** (6)
 
 | Member | Question | Asked of | Answered |
 |---|---|---|---|
-| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19674) | Women and Equalities | 7 Sep |
-| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19675) | Women and Equalities | 7 Sep |
-| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19676) | Women and Equalities | 7 Sep |
-| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19677) | Women and Equalities | 7 Sep |
-| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Prosecutions](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19680) | Women and Equalities | 7 Sep |
-| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19683) | Women and Equalities | 7 Sep |
+| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19674) Ongoing scrutiny of support schemes signals momentum toward legislation affecting parents, clergy and counsellors. | Women and Equalities | 7 Sep |
+| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19675) Support scheme details feed the evidence base for a ban likely to restrict faith-based conversations on sexuality. | Women and Equalities | 7 Sep |
+| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19676) This data will be used to justify conversion therapy legislation, a direct threat to religious counselling freedom. | Women and Equalities | 7 Sep |
+| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Victim Support Schemes](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19677) Victim support schemes inform the case for a ban, which risks criminalising pastoral and parental guidance. | Women and Equalities | 7 Sep |
+| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy: Prosecutions](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19680) Prosecution data will shape the coming conversion therapy ban bill, with major implications for therapists, clergy and parents. | Women and Equalities | 7 Sep |
+| Rebecca Paul (Conservative, Reigate) | [Conversion Therapy](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19683) Direct question on conversion therapy policy indicates the government is preparing legislation with major religious freedom implications. | Women and Equalities | 7 Sep |
+
+**Assisted dying** (5)
+
+| Member | Question | Asked of | Answered |
+|---|---|---|---|
+| Wendy Morton (Conservative, Aldridge-Brownhills) | [Hospices: Finance](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26030) Hospice finance questions highlight care funding gaps used to argue against assisted dying as a cheaper substitute for proper palliative support. | Department of Health and Social Care | 7 Sep |
+| Wendy Morton (Conservative, Aldridge-Brownhills) | [Hospices: Finance](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26032) Hospice funding shortfalls strengthen the case that end-of-life care needs investment, not expansion of assisted dying as an alternative. | Department of Health and Social Care | 7 Sep |
+| Wendy Morton (Conservative, Aldridge-Brownhills) | [Hospices: Employers' Contributions](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26033) Employer tax burdens on hospices affect palliative care capacity, a key counter-argument in the assisted dying debate. | Department of Health and Social Care | 7 Sep |
+| Adam Jogee (Labour, Newcastle-under-Lyme) | [Terminally Ill Adults (End of Life) Bill](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/23743) Assisted dying bill progress in Parliament is a live legislative track CitizenGO opposes. Any PQ on the bill signals timing and pressure points for lobbying. | Ministry of Justice | 8 Sep |
+| Vikki Slade (Liberal Democrat, Mid Dorset and North Poole) | [Palliative Care: Eligibility](https://questions-statements.parliament.uk/written-questions/detail/2026-09-07/27682) Palliative care eligibility gaps feed directly into the assisted dying debate, showing inadequate care as an argument against legalising assisted death. | Department of Health and Social Care | 11 Sep |
 
 **Abortion** (4)
 
 | Member | Question | Asked of | Answered |
 |---|---|---|---|
-| Afzal Khan (Labour, Manchester Rusholme) | [Disability: Hate Crime](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26098) | Home Office | 9 Sep |
+| Afzal Khan (Labour, Manchester Rusholme) | [Disability: Hate Crime](https://questions-statements.parliament.uk/written-questions/detail/2026-09-01/26098) Disability hate crime data is background context, tangential to CitizenGO's core campaign areas but relevant to broader hate crime policy trends. | Home Office | 9 Sep |
 | Adam Dance (Liberal Democrat, Yeovil) | [Electronic Funds Transfer: Fraud](https://questions-statements.parliament.uk/written-questions/detail/2026-07-16/19644) | Home Office | 10 Sep |
-| Charlie Dewhirst (Conservative, Bridlington and The Wolds) | [Home Office: Mayor of Greater Manchester](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/23899) | Home Office | 10 Sep |
+| Charlie Dewhirst (Conservative, Bridlington and The Wolds) | [Home Office: Mayor of Greater Manchester](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/23899) Coordination between Home Office and local mayoral authority signals how asylum dispersal decisions affect regional community cohesion. | Home Office | 10 Sep |
 | Charlie Maynard (Liberal Democrat, Witney) | [Knives: Sales](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/25013) | Home Office | 10 Sep |
-
-**Assisted dying** (1)
-
-| Member | Question | Asked of | Answered |
-|---|---|---|---|
-| Adam Jogee (Labour, Newcastle-under-Lyme) | [Terminally Ill Adults (End of Life) Bill](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/23743) | Ministry of Justice | 8 Sep |
 
 **Gender medicine children** (1)
 
 | Member | Question | Asked of | Answered |
 |---|---|---|---|
-| Mrs Elsie Blundell (Labour, Heywood and Middleton North) | [LGBT+ People: Heywood and Middleton North](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22758) | Women and Equalities | 10 Sep |
+| Mrs Elsie Blundell (Labour, Heywood and Middleton North) | [LGBT+ People: Heywood and Middleton North](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/22758) Local LGBT+ policy questions can signal how equalities agendas are being implemented, relevant to single-sex spaces and conscience protections. | Women and Equalities | 10 Sep |
 
 **Sex based rights** (1)
 
 | Member | Question | Asked of | Answered |
 |---|---|---|---|
-| Sir James Cleverly (Conservative, Braintree) | [Government Departments: Public Lavatories](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20075) | Cabinet Office | 8 Sep |
+| Sir James Cleverly (Conservative, Braintree) | [Government Departments: Public Lavatories](https://questions-statements.parliament.uk/written-questions/detail/2026-08-28/20075) Public lavatory policy touches directly on sex-based provision of single-sex facilities, a core area where mixed-sex access disputes routinely arise. | Cabinet Office | 8 Sep |
 
 *Every question in full, including the text as asked, is on the [companion data page](https://parl-monitor-partner.vercel.app/questions.html).*
 
@@ -127,15 +135,13 @@
 | **Evidence** [The Online Safety Act: implementation and impact](https://committees.parliament.uk/work/9955/). Communications and Digital Committee; This Lords inquiry shapes how the Online Safety Act polices lawful speech online. Written evidence closes 4pm on 21 September 2026, the committee having extended submission period 3964 from 7 September (captured 2026-08-20). CitizenGO is not submitting to this inquiry. | Mon 21 Sep · 7 days |
 | **Consultation** [Tying the Knot: Reforming weddings law in England and Wales](https://www.gov.uk/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales). Law Commission weddings reform closes 24 September. Celebrant-led and outdoor ceremonies risk detaching marriage from its legal safeguards. Campaign live; response push through recess. | Thu 24 Sep · 10 days |
 
-## Committee reports and Government responses
-
-| Published | Committee | Publication | Why it matters |
-|---|---|---|---|
-| Wed 9 Sep | Delegated Powers and Regulatory Reform Committee | Report [9th Report - Creative Education Access Bill [HL]; Microplastic Filters (Washing Machines) Bill [HL]; Mental Health Support (Sentence of Detention and Imprisonment for Public Protection) Bill [HL]; Leaseholder Remediation (Building Safety) Bill [HL]; Youth Justice Board of England and Wales (Restoration of Powers and Responsibilities) Bill [HL]; Regulated Professions (Freedom of Speech) Bill [HL]; Strategic Litigation Against Public Participation Bill [HL]; Citizenship Education Bill [HL]](https://committees.parliament.uk/publications/54889/) |  |
-
 ## Early day motions
 
-- [EDM 753: Right to peaceful protest against illegal immigration (Rupert Lowe, 5 signatures)](https://edm.parliament.uk/early-day-motion/66490)
+- [Motion defends protest rights against illegal immigration policy, touching free speech and border control debates directly.](https://edm.parliament.uk/early-day-motion/66490)
+
+## Statements and announcements
+
+- [Oral statement (Commons):  Online Safety — The Secretary of State for Digital, Culture, Media and Sport (Lisa Nandy). Government plans new online child safety measures that could expand regulatory overreach affecting speech and platform freedom.](https://hansard.parliament.uk/Commons/2026-09-08/debates/30B4AD07-8ACF-462B-A262-B98157506439/)
 
 ## Active bills board
 
@@ -295,7 +301,6 @@
 - regulator: GMC: gmc-uk.org answers 403 to every non-browser client (measured 2026-09-07)
 - regulator: Ofcom: ofcom.org.uk answers 403 to every non-browser client (measured 2026-09-07)
 - stance: 3887 refs over the weekly cap; they score on the next run
-- triage: live scoring failed (reply hit max_tokens (8 chars of text returned; content blocks: ['thinking', 'text']; usage {'input_tokens': 1889, 'cache_creation_input_tokens': 0, 'cache_read); deterministic stub scores used instead, so this edition needs a human review pass
 *Late detection: 1 item first surfaced under 21 days before the deadline.*
 
 *Compiled from Parliament's open data feeds via the CitizenGO issue taxonomy v1.6 with human review.*
