@@ -1,6 +1,6 @@
 # Judge evaluation
 
-*Agreement between the judge's score and a human verdict on the same item. The human verdict is the truth here; this measures the judge. Generated 2026-09-07.*
+*Agreement between the judge's score and a human verdict on the same item. The human verdict is the truth here; this measures the judge. Generated 2026-09-14.*
 
 Banked verdicts: 72 live. Labelled: 11 (10 by explicit sample verdict, 1 by review priority).
 
