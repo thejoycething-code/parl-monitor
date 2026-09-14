@@ -880,7 +880,7 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
         except Exception:                                   # noqa: BLE001 - table may predate this
             already = set()
         if already:
-            log("hansard: {0} of the week's days already swept daily; repairing the rest".format(len(already)))
+            print("hansard: {0} of the week's days already swept daily; repairing the rest".format(len(already)))
         for term in hansard.sweep_terms(settings):
             try:
                 # PQ terms in spoken form plus the Hansard-only broad words
