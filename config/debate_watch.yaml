@@ -1,0 +1,17 @@
+# Debates we want a pack on (Christopher, 14 September 2026).
+#
+# The debate-day tasks used to ask Hansard every weekday evening whether a key
+# debate had happened. That is a daily pull for a question we can usually answer
+# in advance: the week-ahead names the debates on our ground. So a person (or a
+# session) flags the days here, and the tasks read this file first -- no watch
+# today, no Hansard, no store, no session cost beyond the lookup.
+#
+#   python3 tools/debate_watch.py add 2026-09-18 "Terminally Ill Adults" --house Commons --area 2 --note "Second Reading"
+#   python3 tools/debate_watch.py suggest            # candidates from the week-ahead, one command each
+#   python3 tools/debate_watch.py list | today | remove <date> <term>
+#
+# Fields: date (the sitting day), house (Commons | Lords), term (a phrase the
+# debate's Hansard title contains -- the pack's --find), area (the 5CA area the
+# wobble read compares votes on), note (why we care; free text). Past watches are
+# kept as a record; `list` shows them dimmed.
+watches: []

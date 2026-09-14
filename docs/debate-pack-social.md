@@ -43,27 +43,30 @@ process (`.lock` in the pack folder; `PARL_FORCE_LOCK=1` only for a dead holder)
    (`tracker:signed`, which outranks the model), records who was present but did
    not vote, and refreshes the 5CA.
 
-## The standing evening task (12 September 2026)
+## The standing evening task (12 September 2026; flagged days only from 14 September)
 
-The scheduled task `tia-second-reading-debate-pack` (renamed "Debate day") now
-fires every weekday at 18:30 London and begins with `tools/debate_today.py`:
-Hansard's sections for the day in both Houses, titles kept when they carry a
-tier-1 taxonomy term, a watchlist hit or a vote-tracker `debate_match` phrase,
-those few debates fetched and their speakers counted. Fifteen speakers or more
-is a key debate and the task runs the order of work above through the footage,
-(the KEY DEBATE line also carries the areas earned and the clock of the last
-contribution Hansard has published, so a Bill day still being published is
-visible),
-with the report's approval DM and a closing DM; six to fourteen earns one DM
-naming it; a quiet day ends silently. It never publishes and never touches
-Drive: those are the campaigner's acts after reading the draft. Runs only while
-the desktop app is open.
+The scheduled task `tia-second-reading-debate-pack` (renamed "Debate day") fires
+every weekday at 18:30 London and begins by reading `config/debate_watch.yaml`:
+the days a person has flagged for a pack, each with the House, a phrase the
+Hansard title contains, the 5CA area and a note. No watch today, and the task
+ends at once: no Hansard, no store, no cost. (Christopher, 14 Sept: "I'm not sure
+we need the daily pulls unless we flag something coming up in the week we want
+a pack on.") On a flagged day it runs `tools/debate_today.py` to confirm Hansard
+has the debate (the KEY DEBATE line also carries the areas earned and the clock
+of the last contribution published, so a Bill day still being published is
+visible), then the order of work above through the footage, with the report's
+approval DM and a closing DM. It never publishes and never touches Drive.
 
-A second task, `debate-day-lunch`, fires weekdays at 13:30: the same
-`debate_today.py` check, and when a debate on our ground with six or more
-speakers is under way it runs `tools/live_debate.py --dm` on it, so the WOBBLE /
-SLIP list reaches the phone before the division. It reads and DMs only; the
-evening task builds and commits the pack.
+Flagging: `python3 tools/debate_watch.py suggest` reads the week-ahead and prints
+the debates on our ground as ready-made `add` commands; `add <date> "<phrase>"
+--house --area --note` flags one; `list`, `today`, `remove`. Monday's edition is
+the natural moment to flag the week.
+
+The lunchtime wobble read is a hand step on a flagged day: `python3
+tools/live_debate.py --date D --find "<phrase>" --house H --area A --dm` at
+13:30 or so, when Hansard has the morning. (A 13:30 task existed for a day, 13
+September; it was removed with the move to flagged days. Recreate it from the
+evening task's prompt if a week has several flagged days.)
 
 Trim fallbacks (13 September): when Hansard's first 25 words were not spoken
 (`late_head`) or its last 25 were tidied in (`late_tail`), the anchor slides
