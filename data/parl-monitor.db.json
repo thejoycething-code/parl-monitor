@@ -1,10 +1,10 @@
 {
   "asset": "thejoycething-code/parl-monitor release db-state",
-  "bytes": 142032896,
+  "bytes": 142065664,
   "note": "Derived state; the bytes live as a release asset. See tools/db_state.py.",
-  "published_at": "run 34968994674",
-  "published_utc": "2026-09-15T12:38:07Z",
-  "sha256": "235209667ceb28186e2578b5d814590ef24e145bcfd9690d2fd2eb80003c43dd",
+  "published_at": "run 35035866187",
+  "published_utc": "2026-09-15T23:37:32Z",
+  "sha256": "36e86b96a7ee007bb8cc9236a1a4a062973d8bf03bab11b4c9b0921202ba5a0c",
   "tables": {
     "api_spend": 411,
     "appg_officers": 24,
@@ -59,7 +59,7 @@
     "members": 2518,
     "mp_alignment": 655,
     "mp_defiance": 80,
-    "mp_events": 163479,
+    "mp_events": 163573,
     "ni_affiliations": 14130,
     "ni_agenda": 188,
     "ni_committees": 23,
