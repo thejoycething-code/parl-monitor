@@ -93,6 +93,7 @@ def build(args):
             conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
             got = dp.read_direction(missing, title, areas, key,
                                     usage_sink=lambda usage, model: spend.record(conn, "debate-pack", model, usage))
+            conn.commit()
             conn.close()
             for s in missing:
                 key_ = str(s["member_id"] or s["name"])
