@@ -55,7 +55,7 @@ th.c.on::after { content:" x"; font-size:.85em; }
 td.c { font-weight:700; }
 td.n { text-align:right; }
 .dm { font-weight:700; white-space:nowrap; }
-.dm span { display:block; font-weight:400; font-size:.86em; opacity:.72; }
+.dm .meta { display:block; font-weight:400; font-size:.86em; opacity:.72; }
 tr.pp td.c.on { color:#3d8040; } tr.p td.c.on { color:#6aa46c; }
 tr.z td.c.on { color:#B0B0B0; } tr.m td.c.on { color:#c2726f; }
 tr.mm td.c.on { color:#DB544F; }
@@ -421,7 +421,7 @@ function render(){
       (m.tu != null ? ', voted in ' + m.tu + '%' : '');
   const body = rows.length ? '<tbody>' + rows.map(r =>
       '<tr class="' + CLS[r.c] + '"><td class="dm">' + nameCell(r) +
-      conf(r) + '<span>' + r.m.p + ', ' + r.m.s + loyalty(r.m) + '</span></td>' +
+      conf(r) + '<span class="meta">' + r.m.p + ', ' + r.m.s + loyalty(r.m) + '</span></td>' +
       COLS.map(c => '<td class="c' + (c === r.c ? " on" : "") + '">' +
                     (c === r.c ? "1" : "") + '</td>').join("") +
       '<td class="c"></td></tr>').join("") + '</tbody>' : "";
