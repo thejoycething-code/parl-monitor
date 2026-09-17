@@ -596,8 +596,8 @@ def update_member_state(conn, area, rows, today):
     """
     ensure_member_state(conn)
     prior = {r["member_id"]: r for r in conn.execute(
-        "SELECT member_id, placement, decided_ref, changed_at, movement "
-        "FROM ca_member_state WHERE area = ?", (area,))}
+        "SELECT member_id, placement, decided_ref, changed_at, movement, "
+        "prev_placement FROM ca_member_state WHERE area = ?", (area,))}
     out = {}
     for r in rows:
         mid, placement, ref = r["member_id"], r["column"], r["decided_ref"]
@@ -607,21 +607,46 @@ def update_member_state(conn, area, rows, today):
         elif was["placement"] == placement:
             movement = UNCHANGED
             changed_at, prev = was["changed_at"], was["placement"]
+            # The STORED row keeps the last real change (kind and the column
+            # it came from) so a same-day re-run cannot erase it: on 12 Sept
+            # 2026 a second build overwrote every move with UNCHANGED and the
+            # results board had nothing to show. The returned diff still says
+            # UNCHANGED for this run.
+            stored = (was["movement"] or UNCHANGED, was["prev_placement"])
+            if stored[0] == UNCHANGED:
+                stored = (UNCHANGED, prev)
         elif ref and was["decided_ref"] and ref == was["decided_ref"]:
             movement, changed_at, prev = REASSESSED, today, was["placement"]
         else:
             movement = MOVED_UP if _rank(placement) > _rank(was["placement"]) else MOVED_DOWN
             changed_at, prev = today, was["placement"]
         out[mid] = {"movement": movement, "changed_at": changed_at, "prev": prev}
+        store_movement, store_prev = (stored if movement == UNCHANGED
+                                      else (movement, prev))
         conn.execute(
             "INSERT INTO ca_member_state (area, member_id, placement, decided_ref, "
             "changed_at, prev_placement, movement) VALUES (?, ?, ?, ?, ?, ?, ?) "
             "ON CONFLICT(area, member_id) DO UPDATE SET placement=excluded.placement, "
             "decided_ref=excluded.decided_ref, changed_at=excluded.changed_at, "
             "prev_placement=excluded.prev_placement, movement=excluded.movement",
-            (area, mid, placement, ref, changed_at, prev, movement))
+            (area, mid, placement, ref, changed_at, store_prev, store_movement))
     conn.commit()
     return out
+
+
+def recent_moves(conn, area, since):
+    """Members whose stored placement last changed after `since` (exclusive).
+
+    Returns [(member_id, prev_placement, placement, movement, changed_at)],
+    movement one of NEW / UP / DOWN / REASSESSED. The results board counts
+    UP and DOWN as the member moving; REASSESSED is us re-scoring the same
+    evidence and is reported separately, never as a swing.
+    """
+    ensure_member_state(conn)
+    return [tuple(r) for r in conn.execute(
+        "SELECT member_id, prev_placement, placement, movement, changed_at "
+        "FROM ca_member_state WHERE area = ? AND changed_at > ? "
+        "AND movement != ? ORDER BY member_id", (area, since, UNCHANGED))]
 
 
 def movement_label(movement, prev, placement, changed_at):

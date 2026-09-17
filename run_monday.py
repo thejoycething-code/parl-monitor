@@ -244,7 +244,13 @@ def main():
                         ("5ca sheets", ["tools/make_5ca_web.py"]),
                         ("5ca matrix", ["tools/make_5ca_matrix.py"]),
                         ("briefs", ["tools/make_briefs.py"]),
-                        ("brief sheets", ["tools/publish_briefs_to_drive.py"])):
+                        ("brief sheets", ["tools/publish_briefs_to_drive.py"]),
+                        # Flag the week's debates for the evening pack task
+                        # (17 Sept 2026): the week-ahead's debate-shaped items on
+                        # our ground, plus any new sitting of a bill already
+                        # flagged. config/debate_watch.yaml is committed by the
+                        # workflow; the Mac task pulls it before reading.
+                        ("debate watch", ["tools/debate_watch.py", "suggest", "--write", "--days", "10"])):
         # Each tool prints its own one-line summary; relay it rather than
         # discarding it. A log that is silent on success cannot be used to
         # tell "ran and rebuilt" from "never ran" -- and an unattended run is

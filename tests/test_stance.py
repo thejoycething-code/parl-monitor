@@ -315,6 +315,28 @@ class MemberStateTests(unittest.TestCase):
                                            "2026-08-08")
         self.assertEqual(state[1]["movement"], stance.MOVED_DOWN)
 
+    def test_an_unchanged_rerun_keeps_the_last_move_on_record(self):
+        """12 Sept 2026: a same-day rebuild overwrote every move with UNCHANGED
+        and the previous column was lost. The stored row now keeps the last
+        real change; only the returned diff says UNCHANGED for this run."""
+        stance.update_member_state(self.conn, 2, [self.row(1, "0", "pq:1")], "2026-09-01")
+        stance.update_member_state(self.conn, 2, [self.row(1, "++", "div:c9:no")], "2026-09-12")
+        state = stance.update_member_state(self.conn, 2, [self.row(1, "++", "div:c9:no")],
+                                           "2026-09-12")
+        self.assertEqual(state[1]["movement"], stance.UNCHANGED)
+        self.assertEqual(stance.recent_moves(self.conn, 2, "2026-09-05"),
+                         [(1, "0", "++", stance.MOVED_UP, "2026-09-12")])
+        self.assertEqual(stance.recent_moves(self.conn, 2, "2026-09-12"), [],
+                         "the window is exclusive of its start date")
+
+    def test_recent_moves_keeps_reassessed_apart_from_moved(self):
+        stance.update_member_state(self.conn, 2, [self.row(1, "0", "hansard:A"),
+                                                  self.row(2, "0", "pq:1")], "2026-09-01")
+        stance.update_member_state(self.conn, 2, [self.row(1, "++", "hansard:A"),
+                                                  self.row(2, "--", "div:c1:aye")], "2026-09-12")
+        kinds = {m[0]: m[3] for m in stance.recent_moves(self.conn, 2, "2026-09-05")}
+        self.assertEqual(kinds, {1: stance.REASSESSED, 2: stance.MOVED_DOWN})
+
     def test_areas_are_tracked_independently(self):
         stance.update_member_state(self.conn, 1, [self.row(1, "++", "pq:1")], "2026-08-01")
         stance.update_member_state(self.conn, 2, [self.row(1, "--", "pq:2")], "2026-08-01")

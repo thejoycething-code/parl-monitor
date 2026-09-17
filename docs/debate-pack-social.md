@@ -62,6 +62,37 @@ the debates on our ground as ready-made `add` commands; `add <date> "<phrase>"
 --house --area --note` flags one; `list`, `today`, `remove`. Monday's edition is
 the natural moment to flag the week.
 
+Since 17 September 2026 the flag also arrives without a person, three ways, and
+the note on each watch says which (`source: hand | auto | bill | same-day`):
+
+1. **Monday's run** calls `suggest --write`: every week-ahead item on our ground
+   whose category is debate-shaped (`AUTO_CATEGORIES` in `src/debatewatch.py`:
+   debates, legislation, Westminster Hall, PMBs, motions, Lords short debates
+   and SIs, committee oral evidence) is flagged; oral questions, statements and
+   urgent questions are printed for the eye but not flagged, because an evening
+   run on a statement only DMs "looks small". A bill committee's sitting has an
+   empty description in the week-ahead and the bill's name on the committee;
+   `suggest` reads it from there. The workflow commits `config/debate_watch.yaml`
+   and the evening task pulls before it reads.
+2. **A bill's stage sittings**: `add-bill <bills-api id> --area N --note "..."`
+   writes one watch per future sitting from the Bills API, in the right House,
+   and committee sittings carry `min_speakers: 8` (a committee seats about
+   seventeen; 12 and 13 spoke at the Immigration and Asylum Bill's evidence
+   sittings). The evening task reads "| min N" on the WATCH line in place of its
+   fifteen-speaker floor. `refresh` re-expands every flagged bill and runs
+   inside Monday's `suggest --write`, so a sitting booked later still gets its
+   watch. The Bills API listed the Immigration and Asylum Bill's committee to
+   3 November when the week-ahead showed it only to 15 October.
+3. **The same-day net**, the scheduled task `debate-day-net` at 16:45 on weekdays:
+   `net` runs `debate_today`'s title gate over both Houses and flags any debate
+   Hansard already shows with eight or more speakers that no watch covers, so
+   an urgent question that grew or a statement that became a debate is packed
+   at 18:30. It costs one Hansard sections read a day plus one fetch per
+   candidate; it commits the watch file and DMs one line only when it flags.
+
+A hand `add` outranks all three: an automatic pass never rewrites a hand
+watch's note or area, and a hand `add` over an automatic watch does.
+
 The lunchtime wobble read is a hand step on a flagged day: `python3
 tools/live_debate.py --date D --find "<phrase>" --house H --area A --dm` at
 13:30 or so, when Hansard has the morning. (A 13:30 task existed for a day, 13

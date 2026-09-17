@@ -14,4 +14,70 @@
 # debate's Hansard title contains -- the pack's --find), area (the 5CA area the
 # wobble read compares votes on), note (why we care; free text). Past watches are
 # kept as a record; `list` shows them dimmed.
-watches: []
+#
+# 17 September 2026: flags also arrive without a person. `source` says how:
+#   hand      -- an `add` by a person; outranks the rest (note and area are kept)
+#   auto      -- Monday's run, `suggest --write`: week-ahead items in a debate-shaped
+#                category (see AUTO_CATEGORIES in src/debatewatch.py) on our ground
+#   bill      -- `add-bill <id>`: one watch per future stage sitting of a bill, from
+#                the Bills API; `refresh` (run on Mondays) adds sittings booked later
+#   same-day  -- the 16:45 net, `net`: a debate Hansard already shows with 8+ speakers
+# `bill` carries the Bills API id; `min_speakers` lowers the evening task's
+# fifteen-speaker floor (bill committees seat about seventeen).
+watches:
+- date: '2026-10-13'
+  house: Commons
+  term: Immigration and Asylum Bill
+  area: 11
+  note: 'Immigration and Asylum Bill: Committee stage (bill 4254)'
+  source: bill
+  bill: 4254
+  min_speakers: 8
+- date: '2026-10-15'
+  house: Commons
+  term: Immigration and Asylum Bill
+  area: 11
+  note: 'Immigration and Asylum Bill: Committee stage (bill 4254)'
+  source: bill
+  bill: 4254
+  min_speakers: 8
+- date: '2026-10-20'
+  house: Commons
+  term: Immigration and Asylum Bill
+  area: 11
+  note: 'Immigration and Asylum Bill: Committee stage (bill 4254)'
+  source: bill
+  bill: 4254
+  min_speakers: 8
+- date: '2026-10-22'
+  house: Commons
+  term: Immigration and Asylum Bill
+  area: 11
+  note: 'Immigration and Asylum Bill: Committee stage (bill 4254)'
+  source: bill
+  bill: 4254
+  min_speakers: 8
+- date: '2026-10-27'
+  house: Commons
+  term: Immigration and Asylum Bill
+  area: 11
+  note: 'Immigration and Asylum Bill: Committee stage (bill 4254)'
+  source: bill
+  bill: 4254
+  min_speakers: 8
+- date: '2026-10-29'
+  house: Commons
+  term: Immigration and Asylum Bill
+  area: 11
+  note: 'Immigration and Asylum Bill: Committee stage (bill 4254)'
+  source: bill
+  bill: 4254
+  min_speakers: 8
+- date: '2026-11-03'
+  house: Commons
+  term: Immigration and Asylum Bill
+  area: 11
+  note: 'Immigration and Asylum Bill: Committee stage (bill 4254)'
+  source: bill
+  bill: 4254
+  min_speakers: 8
