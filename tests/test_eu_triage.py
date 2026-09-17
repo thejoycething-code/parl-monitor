@@ -138,5 +138,23 @@ class BatchingTests(unittest.TestCase):
         self.assertIn("left for next run", src)
 
 
+class TextExcerptTests(unittest.TestCase):
+    """17 September 2026: adopted texts moved from title matching to body
+    matching, because Parliament titles are generic. The judge still read the
+    title alone, so it would have been asked to score the very string that
+    failed to match -- with none of the evidence that admitted the row."""
+
+    def test_the_judge_sees_the_excerpt_as_well_as_the_title(self):
+        ident, fields = eut.SOURCES["eu_texts"]
+        self.assertEqual(ident, "identifier")
+        self.assertIn("title", fields)
+        self.assertIn("excerpt", fields, "the passage that admitted the row must reach the judge")
+
+    def test_every_body_matched_source_carries_its_evidence(self):
+        """eu_speeches has always passed its excerpt; eu_texts now does too."""
+        for table in ("eu_texts", "eu_speeches"):
+            self.assertIn("excerpt", eut.SOURCES[table][1], table)
+
+
 if __name__ == "__main__":
     unittest.main()

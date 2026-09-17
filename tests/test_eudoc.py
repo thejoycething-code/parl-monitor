@@ -44,6 +44,24 @@ class DocTests(unittest.TestCase):
         self.assertIn("minimum age", body)
         self.assertNotIn("2024-2029", body)
 
+    def test_the_preamble_citations_are_not_the_subject(self):
+        """Every EP resolution opens "having regard to the Charter ... freedom of
+        expression". Matching that filed a narco-trafficking resolution under free
+        speech, on the strength of a citation (17 September 2026)."""
+        blob = docx([
+            "\u2013having regard to the Charter of Fundamental Rights of the European Union, "
+            "in particular its articles on human dignity and freedom of expression,",
+            "having regard to its resolution of 12 December 2023 on addictive design of online services,",
+            "Calls on the Commission to set a minimum age for access to social media services."])
+        body = eudoc.body_text(blob)
+        self.assertNotIn("freedom of expression", body)
+        self.assertNotIn("addictive design", body, "an em-dash-less citation counts too")
+        self.assertIn("minimum age", body)
+
+    def test_citations_can_be_kept_when_a_caller_wants_the_whole_text(self):
+        blob = docx(["\u2013having regard to the Charter of Fundamental Rights and freedom of expression,"])
+        self.assertIn("freedom of expression", eudoc.body_text(blob, drop_citations=False))
+
     def test_a_bot_wall_page_is_not_mistaken_for_a_text(self):
         with self.assertRaises(zipfile.BadZipFile):
             eudoc.paragraphs(b"<html><body>Access denied</body></html>")

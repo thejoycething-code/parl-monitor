@@ -30,6 +30,19 @@ DISTRIBUTION = "https://data.europarl.europa.eu/distribution/doc/{0}_en.{1}"
 # field code, not a passage worth filtering.
 MIN_PARAGRAPH = 40
 
+# THE PREAMBLE CITATIONS ARE NOT THE SUBJECT (17 September 2026). Every EP
+# resolution opens with a block of "having regard to ..." references: the
+# treaties, the Charter, earlier resolutions, Commission communications. The
+# Charter recital alone names human dignity, the right to life, freedom of
+# expression and the protection of personal data, so matching the body
+# verbatim filed a resolution on narco-trafficking in Europe's waters under
+# free speech on the strength of a citation. Measured on the first ten texts
+# read: this was the ONLY term two of the five gains rested on. A citation is
+# what a text cites, not what it says, so the whole block is dropped before
+# filtering -- the same judgement the UK ledger makes when it filters passages
+# rather than whole speeches.
+CITATION = re.compile("^[–—‒-]?[ \t]*having regard to\\b", re.I)
+
 
 def url_for(identifier, fmt="docx"):
     """The distribution URL for 'TA-10-2026-0313'."""
@@ -54,6 +67,14 @@ def paragraphs(blob):
     return out
 
 
-def body_text(blob, min_paragraph=MIN_PARAGRAPH):
-    """The document's prose as one string, short structural lines dropped."""
-    return "\n".join(p for p in paragraphs(blob) if len(p) >= min_paragraph)
+def body_text(blob, min_paragraph=MIN_PARAGRAPH, drop_citations=True):
+    """The document's prose as one string: short structural lines dropped, and
+    the preamble's "having regard to" citations with them."""
+    out = []
+    for p in paragraphs(blob):
+        if len(p) < min_paragraph:
+            continue
+        if drop_citations and CITATION.match(p):
+            continue
+        out.append(p)
+    return "\n".join(out)

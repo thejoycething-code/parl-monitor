@@ -42,7 +42,14 @@ from src import db, spend, triage
 SOURCES = {
     "eu_consultations": ("key", ("title", "summary")),
     "eu_agenda": ("activity_id", ("label",)),
-    "eu_texts": ("identifier", ("title",)),
+    # The EXCERPT goes with the title (17 Sept 2026). Adopted texts are now
+    # matched on their BODY, because Parliament titles are generic -- so the
+    # judge was about to be handed "An EU cardiovascular diseases strategy"
+    # with no idea that what admitted it was a passage on marketing food high
+    # in fat and sugar to children. Recall moved to the body; the evidence has
+    # to move with it, or the judge scores a title that already failed to
+    # match. eu_speeches has read ("debate", "excerpt") from the start.
+    "eu_texts": ("identifier", ("title", "excerpt")),
     "eu_divisions": ("vote_id", ("label",)),
     "eu_pqs": ("identifier", ("title",)),
     "eu_cmte_docs": ("identifier", ("title",)),

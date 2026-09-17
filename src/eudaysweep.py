@@ -106,6 +106,17 @@ def sweep_day(conn, client, day, log=print, cache=None):
     gaps += g
     texts = _tool("eu_texts")
     _total, ours = texts.pull(conn, client, iso, log=log, on_day=iso)
+    # Read the bodies the same night. Adopted texts are matched on their title
+    # by the collector and Parliament's titles are generic, so the body is where
+    # the subject actually is; a text read the night it passes is a text the
+    # Saturday edition can already place. Capped, and a text is read once.
+    try:
+        _read, gained, _failed = texts.read_bodies(conn, client, iso, log=log,
+                                                   limit=texts.BODY_LIMIT)
+        ours += gained
+    except Exception as exc:                                # noqa: BLE001
+        log("  [body] pass failed: {0}".format(str(exc)[:80]))
+        gaps += 1
     daysweep.record(conn, day, HOUSE, sat=True, found=matched + ours,
                     gaps=(["roll-call fetch"] if gaps else ()), source=SOURCE)
     return True, matched, ours, gaps

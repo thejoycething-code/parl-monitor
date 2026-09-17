@@ -31,7 +31,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, eudoc, filter as filt
 from src.http import FetchError, HttpClient
 
 TEXTS = ("https://data.europarl.europa.eu/api/v2/adopted-texts"
@@ -86,18 +86,81 @@ def pull(conn, client, today, log=print, days=None, on_day=None):
         if areas:
             ours += 1
         conn.execute(
-            "INSERT INTO eu_texts (identifier, date, title, procedure, "
+            "INSERT INTO eu_texts (identifier, date, title, procedure, doc_url, "
             "areas, matched_terms, tier, first_seen, last_seen) "
-            "VALUES (?,?,?,?,?,?,?,?,?) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?) "
             "ON CONFLICT(identifier) DO UPDATE SET title=excluded.title, "
             "date=excluded.date, procedure=excluded.procedure, "
-            "areas=excluded.areas, matched_terms=excluded.matched_terms, "
-            "tier=excluded.tier, last_seen=excluded.last_seen",
+            "doc_url=excluded.doc_url, "
+            # areas/terms/tier are NOT overwritten once the body has been read:
+            # the title is the weaker signal and must not undo the stronger one.
+            "areas=CASE WHEN eu_texts.body_read IS NULL THEN excluded.areas ELSE eu_texts.areas END, "
+            "matched_terms=CASE WHEN eu_texts.body_read IS NULL THEN excluded.matched_terms ELSE eu_texts.matched_terms END, "
+            "tier=CASE WHEN eu_texts.body_read IS NULL THEN excluded.tier ELSE eu_texts.tier END, "
+            "last_seen=excluded.last_seen",
             (a.get("identifier"), date, title, procedure_ref(a),
+             eudoc.url_for(a.get("identifier") or ""),
              json.dumps(areas), json.dumps(res.matched_terms or []),
              res.tier, today, today))
     conn.commit()
     return total, ours
+
+
+BODY_LIMIT = 40          # documents read per run, newest first
+
+
+def read_bodies(conn, client, today, log=print, limit=BODY_LIMIT):
+    """Read the BODY of adopted texts we have not read yet, newest first.
+
+    Why this exists (17 September 2026). Titles are the weaker signal and
+    Parliament's are generic: "Impact of social media and the online environment
+    on young people" matched nothing, while its hundred operative paragraphs are
+    squarely our ground. Guarding a generic phrase catches that one title; the
+    body catches the next one too.
+
+    Passage-level, like the Westminster ledger: a 250-paragraph resolution is
+    tagged with the areas its PASSAGES support, not every area it brushes once.
+    The strongest matching passage is stored as the excerpt, so a row can show
+    its evidence.
+
+    A capped, incremental drain. A text is read ONCE -- an adopted text is final
+    -- so the cost is the backlog, then new business only. Anything that is not
+    a readable .docx (a bot-wall page, a withdrawn document) is recorded as read
+    with no areas rather than retried for ever.
+    """
+    tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+    wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+    rows = conn.execute(
+        "SELECT identifier, title, areas FROM eu_texts WHERE body_read IS NULL "
+        "ORDER BY date DESC LIMIT ?", (int(limit),)).fetchall()
+    read = gained = failed = 0
+    for r in rows:
+        ident = r["identifier"]
+        try:
+            blob = client.get_bytes(eudoc.url_for(ident), "eu-texts", "doc-" + ident)
+            body = eudoc.body_text(blob)
+        except Exception as exc:                            # noqa: BLE001
+            log("  [body] {0}: unreadable ({1})".format(ident, str(exc)[:60]))
+            conn.execute("UPDATE eu_texts SET body_read = ? WHERE identifier = ?",
+                         (today, ident))
+            failed += 1
+            continue
+        read += 1
+        matches = filt.match_passages(tax, wl, body, title=r["title"] or "")
+        areas, terms, excerpt = filt.aggregate_passages(matches)
+        before = json.loads(r["areas"] or "[]")
+        merged = sorted(set(before) | set(areas or []))
+        if merged != sorted(before):
+            gained += 1
+            log("  [body] {0}: {1} -> {2}  {3}".format(
+                ident, before or "[]", merged, (r["title"] or "")[:56]))
+        conn.execute(
+            "UPDATE eu_texts SET areas = ?, matched_terms = ?, excerpt = ?, "
+            "body_read = ? WHERE identifier = ?",
+            (json.dumps(merged), json.dumps(sorted(set(terms or []))),
+             (excerpt or "")[:400] or None, today, ident))
+    conn.commit()
+    return read, gained, failed
 
 
 def watchlist_candidates(conn, client, log=print, watched=None):
@@ -152,6 +215,12 @@ def main():
     total, ours = pull(conn, client, today, days=days)
     print("eu-texts: {0} adopted in the last {1} days, {2} on our ground."
           .format(total, days, ours))
+    if "--no-body" not in sys.argv:
+        limit = int(sys.argv[sys.argv.index("--bodies") + 1]) if "--bodies" in sys.argv else BODY_LIMIT
+        read, gained, failed = read_bodies(conn, client, today, limit=limit)
+        left = conn.execute("SELECT COUNT(*) FROM eu_texts WHERE body_read IS NULL").fetchone()[0]
+        print("eu-texts bodies: {0} read, {1} gained an area, {2} unreadable; {3} left to read."
+              .format(read, gained, failed, left))
     for r in conn.execute("SELECT * FROM eu_texts WHERE areas != '[]' "
                           "ORDER BY date DESC").fetchall():
         print("  [{0}] {1} - {2}".format(
