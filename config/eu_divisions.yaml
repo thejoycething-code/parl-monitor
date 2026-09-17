@@ -137,6 +137,90 @@ divisions:
       as a systemic risk for platforms to manage under regulatory pressure.
     signed_off: true   # Christopher, 2026-09-17
 
+  # ----------------------------------------------------------------------
+  # The ePrivacy scanning derogation: the SUBSTANCE, 9 July 2026.
+  #
+  # Only the 7 July FAST-TRACK request was signed on 1 September, because the
+  # substantive second reading was never collected: the item is labelled
+  # "Temporary derogation from the ePrivacy directive ***II" and nothing in
+  # the taxonomy said ePrivacy. The 7 July vote matched only through the words
+  # "child sexual abuse" in its longer title, which also filed it under area 6.
+  # ePrivacy joined tier 1 at taxonomy v1.7 (17 Sept 2026) and the sitting's
+  # 28 roll calls came in.
+  #
+  # Grounded in the adopted text TA-10-2026-0266, read in full (167 paragraphs)
+  # from data.europarl.europa.eu/distribution/doc/TA-10-2026-0266_en.docx, and
+  # in the decision events themselves. What the Regulation does: permits
+  # providers of number-independent interpersonal communications services
+  # (webmail, messaging) to scan VOLUNTARILY for online child sexual abuse,
+  # derogating from Articles 5(1) and 6(1) of Directive 2002/58/EC. It does not
+  # apply to audio. Regulation (EU) 2021/1232 carried the previous regime and
+  # EXPIRED on 3 April 2026 when the co-legislators could not agree, so this
+  # revives a lapsed power rather than extending a running one.
+  #
+  # Direction: Christopher, 17 September 2026, asked which side is ours on a
+  # proposal to reject and answered REJECT. Recorded because it is not
+  # derivable: the anchor groups split against type here, the European
+  # People's Party being the pro-scanning bloc (157-158 against rejection,
+  # 156 against the encryption carve-out) while Patriots for Europe, the
+  # Conservatives and Reformists and Europe of Sovereign Nations voted to
+  # reject. The privacy coalition is Greens, The Left and the sovereigntist
+  # right together.
+
+  MTG-PL-2026-07-09-DEC-195775:
+    short: "ePrivacy derogation: rejection proposal (Left, Greens, ESN)"
+    date: 2026-07-09
+    # Activity order 2, 13:21:39, taken BEFORE the amendments. Tabled by The
+    # Left, Verts/ALE and ESN. 314-276-17 of 607 attending: a plurality for
+    # rejection, but a second-reading rejection needs a majority of COMPONENT
+    # members (361 of 720), so the outcome is REJECTED with 314 in favour.
+    our_side: favor
+    meaning_favor: >
+      Voted to reject the Council position outright, refusing to give
+      providers any legal basis to scan private messages, before the
+      Parliament had amended the text.
+    meaning_against: >
+      Voted to let the second reading proceed rather than reject the
+      scanning derogation at the outset.
+    signed_off: true   # Christopher, 2026-09-17
+
+  MTG-PL-2026-07-09-DEC-195807:
+    short: "ePrivacy derogation: final rejection proposal (Rule 68(4))"
+    date: 2026-07-09
+    # Activity order 31, 13:34:02, the LAST vote of the item, taken after every
+    # amendment including the end-to-end encryption carve-out. Rule 68(4).
+    # 276-286-30 of 592 attending. This is the decisive question on the
+    # derogation: with the text as amended in front of them, the House was
+    # asked to reject it and declined by ten votes.
+    our_side: favor
+    meaning_favor: >
+      Voted to reject the scanning derogation even as amended, holding that
+      no legal basis should exist for providers to read private messages.
+    meaning_against: >
+      Voted to let the amended derogation stand, keeping a voluntary legal
+      basis for providers to scan private messages for child sexual abuse
+      material.
+    signed_off: true   # Christopher, 2026-09-17
+
+  MTG-PL-2026-07-09-DEC-195778:
+    short: "ePrivacy derogation: exclude end-to-end encryption (Am 30)"
+    date: 2026-07-09
+    # Amendment 30 to Article 1: "This Regulation does not apply to
+    # interpersonal communications to which end-to-end encryption is, has been
+    # or will be applied." CARRIED 369-236-6 and it is in the adopted text, so
+    # the Parliament's position excludes encrypted messaging from scanning
+    # altogether. The companion exclusion in Article 3 (Am 26 CP3 = 31 CP3 = 6
+    # = 21) carried 362-235-5 the same afternoon and is not signed separately:
+    # same question, same lobbies.
+    our_side: favor
+    meaning_favor: >
+      Voted to put end-to-end encrypted communications beyond the reach of
+      the scanning derogation entirely.
+    meaning_against: >
+      Voted against excluding end-to-end encrypted communications, leaving
+      encrypted messaging within the derogation's reach.
+    signed_off: true   # Christopher, 2026-09-17
+
 # The eight Nigeria amendment roll calls (Am 1, 2/1, 2/2, 4/1, 4/2, 5,
 # 6/1, 6/2 -- all rejected, ~595 positions each) remain UNVERDICTED: their
 # amendment texts are not reachable through any public URL pattern the
