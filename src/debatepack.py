@@ -289,10 +289,11 @@ def speakers(rows):
             continue
         key = r["member_id"] or r["name"]
         s = out.setdefault(key, {"member_id": r["member_id"], "name": r["name"], "seat": r["seat"], "party": r["party"],
-                                 "attributed": r["attributed"], "texts": [], "spans": [], "ext_ids": [],
+                                 "attributed": r["attributed"], "texts": [], "spans": [], "ext_ids": [], "anchored": [],
                                  "first": None, "seconds": 0, "count": 0})
         s["texts"].append(r["text"])
         s["ext_ids"].append(r["ext_id"])
+        s["anchored"].append(bool(r.get("anchored")))
         s["count"] += 1
         if r["start"]:
             s["first"] = s["first"] or r["start"]
@@ -701,8 +702,13 @@ def write_pack(folder, meta, speaks, directions, confirmed, mins, patterns, guid
         for i, text in enumerate(s["texts"]):
             when = s["spans"][i][0] if i < len(s["spans"]) else s["first"]
             ext = s["ext_ids"][i] if i < len(s["ext_ids"]) else None
-            sp += ["*{0}, {1} words · [Hansard]({2})*".format(_clock(when), len(text.split()),
-                                                              hansard_url(house, date, ext_, ext)), "", text, ""]
+            # "· clock" marks a contribution Hansard timed itself (a Timestamp or
+            # Timecode) rather than one placed by interpolation: the footage
+            # clock check anchors on these (17 Sept 2026: an interpolated closer
+            # sat 90s+ from where it was heard and stopped the reel).
+            clocked = " · clock" if (i < len(s.get("anchored") or []) and s["anchored"][i]) else ""
+            sp += ["*{0}, {1} words{3} · [Hansard]({2})*".format(_clock(when), len(text.split()),
+                                                                 hansard_url(house, date, ext_, ext), clocked), "", text, ""]
     open(os.path.join(folder, "speeches.md"), "w", encoding="utf-8").write("\n".join(sp))
 
     readme = os.path.join(folder, "README.md")

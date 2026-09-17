@@ -23,6 +23,7 @@ cutting on wrong clocks makes confident rubbish.
 
 import datetime
 import json
+import re
 import os
 
 from src import socialcut as sc
@@ -33,21 +34,44 @@ PROBE_S = 90.0
 FRESH_HOURS = 12
 
 
-def anchors(state, speeches):
-    """[(label, sitting_seconds, first_25_words)] for the opener and the closer."""
+CANDIDATES = 3       # per end: the first that is heard anchors the check
+_CHAIR = re.compile(r"^(The |Madam |Mr |Mrs )?(Deputy )?(Chair|Chairman|Speaker)\b|in the Chair", re.I)
+
+
+def anchor_candidates(state, speeches, per_end=CANDIDATES):
+    """{"opener": [(label, sitting_seconds, first_25_words), ...], "closer": [...]}.
+
+    17 September 2026, Immigration and Asylum Bill committee: the opener was the
+    Chair, whose procedural words Hansard tidies past recognition ("We are now
+    sitting in public" for a spoken "Before we start hearing from this
+    afternoon's witnesses"), and the closer was a question placed by
+    interpolation between clocks 50 minutes apart, 90s from where it was heard.
+    Both failed and nothing was cut, though Matt Vickers at 14:02:26 was heard
+    within seconds. So: the Chair is skipped, contributions Hansard timed itself
+    (marked "· clock" in speeches.md) come first, and up to `per_end` candidates
+    are offered at each end for measure() to try in turn."""
     from src import speechcut
-    out = []
-    rows = [(speechcut._clock_seconds(state, c.get("at")), s["name"], c.get("text") or "")
-            for s in speeches for c in (s.get("contributions") or []) if (c.get("words") or 0) >= 60]
+    rows = [(speechcut._clock_seconds(state, c.get("at")), s["name"], c.get("text") or "", bool(c.get("anchored")))
+            for s in speeches if not _CHAIR.search(s["name"] or "")
+            for c in (s.get("contributions") or []) if (c.get("words") or 0) >= 60]
     rows = [r for r in rows if r[0] is not None]
-    if not rows:
-        return out
     rows.sort(key=lambda r: r[0])
-    first, last = rows[0], rows[-1]
-    out.append(("opener %s at %s" % (first[1], _hms(first[0])), first[0], " ".join(first[2].split()[:25])))
-    if last is not first:
-        out.append(("closer %s at %s" % (last[1], _hms(last[0])), last[0], " ".join(last[2].split()[:25])))
-    return out
+    if not rows:
+        return {"opener": [], "closer": []}
+
+    def pick(pool, end):
+        # Hansard-timed first, then by nearness to the end; never more than per_end.
+        pool = sorted(pool, key=lambda r: (not r[3], r[0] if end == "opener" else -r[0]))[:per_end]
+        return [("%s %s at %s" % (end, r[1], _hms(r[0])), r[0], " ".join(r[2].split()[:25])) for r in pool]
+    openers = pick(rows[:per_end + 1], "opener")
+    closers = pick([r for r in rows[-(per_end + 1):] if r not in rows[:1]], "closer") if len(rows) > 1 else []
+    return {"opener": openers, "closer": closers}
+
+
+def anchors(state, speeches):
+    """[(label, sitting_seconds, first_25_words)]: the preferred opener and closer."""
+    c = anchor_candidates(state, speeches)
+    return c["opener"][:1] + c["closer"][:1]
 
 
 def _hms(s):
@@ -72,20 +96,25 @@ def measure(pack_dir, ff, whisper_model="small.en", probe=None, log=print):
         return [(w, s + file_start, e + file_start) for w, s, e in words]
     probe = probe or default_probe
     results = []
-    for label, at, head in anchors(state, speeches):
-        out = os.path.join(hd, "probe-%d.mp4" % int(at))
-        try:
-            words = probe(state.get("manifest"), max(0.0, at - 30.0), at + PROBE_S, out)
-            span = sc.word_span(words, head, min_ratio=0.5) if words else None
-        except Exception as exc:                                    # noqa: BLE001
-            log("  [align] %s: probe failed: %s" % (label, exc)); words, span = [], None
-        if span:
-            heard = words[span[0]][1]
-            results.append((label, at, heard, heard - at))
-            log("  [align] %s: heard %+.1fs from Hansard's clock (match %.2f)" % (label, heard - at, span[2]))
-        else:
-            results.append((label, at, None, None))
-            log("  [align] %s: first words not heard within the probe" % label)
+    for end, cands in anchor_candidates(state, speeches).items():
+        found = None
+        for label, at, head in cands:
+            out = os.path.join(hd, "probe-%d.mp4" % int(at))
+            try:
+                words = probe(state.get("manifest"), max(0.0, at - 30.0), at + PROBE_S, out)
+                span = sc.word_span(words, head, min_ratio=0.5) if words else None
+            except Exception as exc:                                    # noqa: BLE001
+                log("  [align] %s: probe failed: %s" % (label, exc)); words, span = [], None
+            if span:
+                heard = words[span[0]][1]
+                found = (label, at, heard, heard - at)
+                log("  [align] %s: heard %+.1fs from Hansard's clock (match %.2f)" % (label, heard - at, span[2]))
+                break
+            log("  [align] %s: first words not heard within the probe%s" % (label, "; trying the next" if label != cands[-1][0] else ""))
+        if found:
+            results.append(found)
+        elif cands:
+            results.append((cands[0][0], cands[0][1], None, None))
     return results
 
 

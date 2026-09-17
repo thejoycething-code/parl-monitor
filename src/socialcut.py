@@ -697,7 +697,8 @@ def parse_speeches(text):
         m = _CONTRIB.match(line)
         if m:
             con = {"at": m.group(1), "words": int(m.group(2).replace(",", "")),
-                   "url": (m.group(3) or "").rstrip(")"), "text": ""}
+                   "url": (m.group(3) or "").rstrip(")"), "text": "",
+                   "anchored": "· clock" in line}       # Hansard timed it; not placed by interpolation
             cur["contributions"].append(con)
             continue
         if con is not None and line.strip() and not line.startswith("*"):
