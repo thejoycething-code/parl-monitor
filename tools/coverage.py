@@ -103,6 +103,7 @@ FEEDS = [
     ("eu_ecis", "last_seen", 7, 3, "European Citizens' Initiatives"),
     ("eu_consultations", "last_seen", 7, 3, "Commission consultations"),
     ("eu_meps", "last_seen", 7, 3, "MEP roster"),
+
     ("upr_recommendations", "captured_at", 31, 7, "UPR recommendations"),
 ]
 
@@ -112,6 +113,15 @@ FEEDS = [
 # away, or it stored nothing while reporting success. That is exactly
 # what happened to the UPR monthly on 2026-09-03: green run, 1,218
 # recommendations harvested, and a store 19 days stale afterwards.
+# Feeds a human has confirmed are legitimately empty, and why. Keep it short:
+# every entry here is an alert somebody decided not to hear.
+ALLOWED_EMPTY = {}
+
+# Write-once feeds belonging to a pipeline that is deliberately stopped: an
+# empty table there is the pause, not a wipe.
+PAUSED_TABLES = {"un_votes", "un_documents", "un_calendar"}
+
+
 PIPELINE_FEEDS = {
     "Holyrood weekly": ["sp_items", "sp_divisions", "sp_members",
                         "sp_events", "sp_bills", "sp_committees"],
@@ -184,6 +194,18 @@ def age_of(conn, table, col, today):
         return val or None, None
 
 
+def table_exists(conn, table):
+    """A table this store has never carried is a schema gap, not a data loss:
+    init_db creates every one in production, so this only separates a real
+    emptying from a fixture or a store that predates the table."""
+    try:
+        row = conn.execute("SELECT name FROM sqlite_master WHERE type='table' "
+                           "AND name = ?", (table,)).fetchone()
+    except sqlite3.Error:
+        return False
+    return bool(row)
+
+
 def check(conn, today=None, log=print, quiet=False):
     today = today or datetime.date.today()
     overdue = []
@@ -222,7 +244,26 @@ def check(conn, today=None, log=print, quiet=False):
     for table, col, days, grace, why in FEEDS:
         val, age = age_of(conn, table, col, today)
         if age is None:
-            log("  {0:<22} NO DATA   {1}".format(table, why))
+            # AN EMPTY WATCHED FEED IS A FAULT, NOT SILENCE (17 Sept 2026).
+            # This printed "NO DATA" and moved on, so it read the same whether
+            # a feed had never been populated or had just lost every row. Five
+            # EU tables were emptied by the 9 Sept store rebuild -- 21 plenary
+            # divisions, the adopted texts, the consultations -- and the watch
+            # that exists to catch exactly that said nothing for eight days
+            # while the EU weekly was also being cancelled. A feed is listed
+            # here because we expect rows in it; if it has none, say so loudly
+            # and put it in ALLOWED_EMPTY with a reason once a human agrees.
+            if not table_exists(conn, table):
+                log("  {0:<22} NO TABLE   {1}".format(table, why))
+                continue
+            reason = ALLOWED_EMPTY.get(table)
+            if reason:
+                if not quiet:
+                    log("  {0:<22} EMPTY BY DESIGN   {1}".format(table, reason))
+                continue
+            overdue.append("{0} holds NO ROWS AT ALL; it is watched because we "
+                           "expect data in it ({1})".format(table, why))
+            log("  {0:<22} NO ROWS AT ALL  <-- OVERDUE   {1}".format(table, why))
             continue
         late = age > days + grace
         if late:
@@ -271,12 +312,26 @@ def check(conn, today=None, log=print, quiet=False):
     if not quiet:
         log("")
         log("WRITTEN ONCE PER ITEM  (an old date here means no new items)")
-        for table, why in sorted(ONCE_EVER.items()):
-            cols = [c[1] for c in conn.execute(
-                "PRAGMA table_info({0})".format(table))]
-            col = next((c for c in ("last_seen", "captured_at") if c in cols),
-                       None)
-            val, age = age_of(conn, table, col, today) if col else (None, None)
+    # Reported even in quiet mode, because the ONE thing a write-once feed can
+    # tell you is fatal: it holds nothing. A quiet month is why these are not
+    # cadence-checked; an EMPTY table is not a quiet month, it is a wipe. The
+    # 9 Sept store rebuild emptied eu_divisions of 21 plenary roll calls, and
+    # this section printed "? days ago" beside it for eight days.
+    for table, why in sorted(ONCE_EVER.items()):
+        if table in PAUSED_TABLES:
+            continue
+        if not table_exists(conn, table):
+            continue
+        cols = [c[1] for c in conn.execute(
+            "PRAGMA table_info({0})".format(table))]
+        col = next((c for c in ("last_seen", "captured_at") if c in cols), None)
+        val, age = age_of(conn, table, col, today) if col else (None, None)
+        empty = conn.execute("SELECT COUNT(*) FROM {0}".format(table)).fetchone()[0] == 0
+        if empty and table not in ALLOWED_EMPTY:
+            overdue.append("{0} is written once per item and holds NO ROWS AT "
+                           "ALL: every row it had is gone ({1})".format(table, why))
+            log("  {0:<22} NO ROWS AT ALL  <-- OVERDUE   {1}".format(table, why))
+        elif not quiet:
             log("  {0:<22} {1:>3} days ago   {2}".format(
                 table, age if age is not None else "?", why))
     return overdue

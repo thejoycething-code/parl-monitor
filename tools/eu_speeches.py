@@ -81,11 +81,11 @@ def excerpt_en(detail_data):
     return pid, text[:700]
 
 
-def pull(conn, client, today, log=print):
+def pull(conn, client, today, log=print, days=None):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     start = (datetime.date.fromisoformat(today)
-             - datetime.timedelta(days=LOOKBACK_DAYS)).isoformat()
+             - datetime.timedelta(days=days or LOOKBACK_DAYS)).isoformat()
     known = {r[0] for r in conn.execute("SELECT speech_id FROM eu_speeches")}
     candidates = {}
     gaps = 0
@@ -206,7 +206,13 @@ def main():
         audit(conn, client, today)
         conn.close()
         return 0
-    cands, stored, gaps = pull(conn, client, today)
+    # --days widens the window (17 Sept 2026). These collectors had a fixed
+    # 60-day lookback, so when the 9 Sept store rebuild emptied their tables
+    # the July plenary was already out of reach and a plain re-run could not
+    # recover it. A gap needs a wider window, the way the Westminster
+    # backfills do.
+    days = int(sys.argv[sys.argv.index("--days") + 1]) if "--days" in sys.argv else LOOKBACK_DAYS
+    cands, stored, gaps = pull(conn, client, today, days=days)
     total = conn.execute("SELECT COUNT(*) FROM eu_speeches").fetchone()[0]
     print("eu-speeches: {0} candidate(s) in {1} days, {2} stored on our "
           "ground ({3} held in total); {4} gap(s).".format(

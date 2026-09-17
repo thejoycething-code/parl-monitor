@@ -52,11 +52,11 @@ def procedure_ref(item):
     return None
 
 
-def pull(conn, client, today, log=print):
+def pull(conn, client, today, log=print, days=None):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     t = datetime.date.fromisoformat(today)
-    cutoff = (t - datetime.timedelta(days=WINDOW_DAYS)).isoformat()
+    cutoff = (t - datetime.timedelta(days=days or WINDOW_DAYS)).isoformat()
     years = sorted({int(cutoff[:4]), t.year})
     items = []
     for y in years:
@@ -141,9 +141,15 @@ def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
                                               "parl-monitor.db")))
     today = datetime.date.today().isoformat()
-    total, ours = pull(conn, client, today)
+    # --days widens the window (17 Sept 2026). These collectors had a fixed
+    # 60-day lookback, so when the 9 Sept store rebuild emptied their tables
+    # the July plenary was already out of reach and a plain re-run could not
+    # recover it. A gap needs a wider window, the way the Westminster
+    # backfills do.
+    days = int(sys.argv[sys.argv.index("--days") + 1]) if "--days" in sys.argv else WINDOW_DAYS
+    total, ours = pull(conn, client, today, days=days)
     print("eu-texts: {0} adopted in the last {1} days, {2} on our ground."
-          .format(total, WINDOW_DAYS, ours))
+          .format(total, days, ours))
     for r in conn.execute("SELECT * FROM eu_texts WHERE areas != '[]' "
                           "ORDER BY date DESC").fetchall():
         print("  [{0}] {1} - {2}".format(

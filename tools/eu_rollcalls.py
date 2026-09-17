@@ -70,9 +70,9 @@ def refresh_roster(conn, client, today, log=print):
     return n
 
 
-def past_sittings(client, today):
+def past_sittings(client, today, days=None):
     t = datetime.date.fromisoformat(today)
-    start = t - datetime.timedelta(days=LOOKBACK_DAYS)
+    start = t - datetime.timedelta(days=days or LOOKBACK_DAYS)
     years = sorted({start.year, t.year})
     out = []
     for y in years:
@@ -85,11 +85,11 @@ def past_sittings(client, today):
     return sorted(out, key=lambda x: x[1])
 
 
-def pull(conn, client, today, log=print):
+def pull(conn, client, today, log=print, days=None):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     try:
-        sittings = past_sittings(client, today)
+        sittings = past_sittings(client, today, days)
     except (FetchError, ValueError) as exc:
         conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
                      "VALUES (?,?,?)", (today, "eu-rollcalls", str(exc)))
@@ -192,11 +192,17 @@ def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
                                               "parl-monitor.db")))
     today = datetime.date.today().isoformat()
+    # --days widens the window (17 Sept 2026). These collectors had a fixed
+    # 60-day lookback, so when the 9 Sept store rebuild emptied their tables
+    # the July plenary was already out of reach and a plain re-run could not
+    # recover it. A gap needs a wider window, the way the Westminster
+    # backfills do.
+    days = int(sys.argv[sys.argv.index("--days") + 1]) if "--days" in sys.argv else LOOKBACK_DAYS
     roster = refresh_roster(conn, client, today)
-    seen, matched, gaps = pull(conn, client, today)
+    seen, matched, gaps = pull(conn, client, today, days=days)
     print("eu-rollcalls: {0} MEPs on the roster; {1} plenary votes in {2} "
           "days, {3} on our ground, {4} gap(s).".format(
-              roster, seen, LOOKBACK_DAYS, matched, gaps))
+              roster, seen, days, matched, gaps))
     for r in conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC "
                           "LIMIT 10").fetchall():
         n = conn.execute("SELECT COUNT(*) FROM eu_votes WHERE vote_id = ?",

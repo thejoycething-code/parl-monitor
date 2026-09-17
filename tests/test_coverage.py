@@ -293,3 +293,98 @@ class LineageGuardTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EmptyFeedTests(unittest.TestCase):
+    """17 Sept 2026: five EU tables were emptied by the 9 Sept store rebuild and
+    the watch printed "NO DATA" for eight days without ever calling it overdue.
+    An empty watched feed is now a fault unless a human has excused it."""
+
+    def _conn(self, rows):
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE source_runs (source TEXT PRIMARY KEY, "
+                     "last_run TEXT NOT NULL, run_id TEXT, note TEXT)")
+        conn.execute("CREATE TABLE eu_texts (x TEXT, last_seen TEXT)")
+        for r in rows:
+            conn.execute("INSERT INTO eu_texts (x, last_seen) VALUES ('r', ?)", (r,))
+        conn.commit()
+        return conn
+
+    def _check(self, conn, allowed=None):
+        feeds, empt = cov.FEEDS, cov.ALLOWED_EMPTY
+        cov.FEEDS = [("eu_texts", "last_seen", 7, 3, "EP adopted texts")]
+        cov.ALLOWED_EMPTY = allowed if allowed is not None else {}
+        lines = []
+        try:
+            return cov.check(conn, today=TODAY, log=lines.append), lines
+        finally:
+            cov.FEEDS, cov.ALLOWED_EMPTY = feeds, empt
+
+    def test_a_watched_feed_with_no_rows_is_overdue(self):
+        overdue, lines = self._check(self._conn([]))
+        self.assertTrue(any("eu_texts" in o and "NO ROWS" in o for o in overdue), overdue)
+        self.assertTrue(any("NO ROWS AT ALL" in ln and "OVERDUE" in ln for ln in lines), lines)
+
+    def test_a_feed_excused_by_a_human_stays_quiet(self):
+        overdue, lines = self._check(self._conn([]), allowed={"eu_texts": "no plenary since July"})
+        self.assertEqual([o for o in overdue if "eu_texts" in o], [])
+        self.assertTrue(any("EMPTY BY DESIGN" in ln for ln in lines), lines)
+
+    def test_a_populated_feed_is_judged_on_age_as_before(self):
+        overdue, _ = self._check(self._conn(["2026-09-03"]))
+        self.assertEqual([o for o in overdue if "eu_texts" in o], [])
+        overdue, _ = self._check(self._conn(["2026-07-01"]))
+        self.assertTrue(any("eu_texts" in o and "last saw data" in o for o in overdue), overdue)
+
+
+class WriteOnceEmptyTests(unittest.TestCase):
+    """A write-once feed cannot be judged on cadence: a quiet plenary month is
+    not a fault. An EMPTY one can be, and must be -- eu_divisions lost 21 roll
+    calls in the 9 Sept rebuild and this section printed "? days ago"."""
+
+    def _conn(self, tables):
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE source_runs (source TEXT PRIMARY KEY, "
+                     "last_run TEXT NOT NULL, run_id TEXT, note TEXT)")
+        for name, rows in tables.items():
+            conn.execute("CREATE TABLE {0} (x TEXT, last_seen TEXT)".format(name))
+            for r in rows:
+                conn.execute("INSERT INTO {0} (x, last_seen) VALUES ('r', ?)".format(name), (r,))
+        conn.commit()
+        return conn
+
+    def _check(self, conn, once, allowed=None):
+        feeds, oe, empt = cov.FEEDS, cov.ONCE_EVER, cov.ALLOWED_EMPTY
+        cov.FEEDS, cov.ONCE_EVER = [], once
+        cov.ALLOWED_EMPTY = allowed or {}
+        lines = []
+        try:
+            return cov.check(conn, today=TODAY, log=lines.append), lines
+        finally:
+            cov.FEEDS, cov.ONCE_EVER, cov.ALLOWED_EMPTY = feeds, oe, empt
+
+    def test_an_emptied_write_once_feed_is_overdue(self):
+        conn = self._conn({"eu_divisions": []})
+        overdue, lines = self._check(conn, {"eu_divisions": "one row per roll call"})
+        self.assertTrue(any("eu_divisions" in o and "NO ROWS" in o for o in overdue), overdue)
+
+    def test_a_quiet_but_populated_write_once_feed_never_fails(self):
+        conn = self._conn({"eu_divisions": ["2026-01-05"]})       # eight months old
+        overdue, _ = self._check(conn, {"eu_divisions": "one row per roll call"})
+        self.assertEqual([o for o in overdue if "eu_divisions" in o], [], "a quiet month is not a fault")
+
+    def test_the_paused_un_pipeline_is_not_reported_as_wiped(self):
+        conn = self._conn({"un_votes": []})
+        overdue, _ = self._check(conn, {"un_votes": "UN pipeline is paused"})
+        self.assertEqual(overdue, [])
+
+    def test_the_wipe_is_reported_even_in_quiet_mode(self):
+        conn = self._conn({"eu_divisions": []})
+        feeds, oe = cov.FEEDS, cov.ONCE_EVER
+        cov.FEEDS, cov.ONCE_EVER = [], {"eu_divisions": "one row per roll call"}
+        lines = []
+        try:
+            overdue = cov.check(conn, today=TODAY, log=lines.append, quiet=True)
+        finally:
+            cov.FEEDS, cov.ONCE_EVER = feeds, oe
+        self.assertTrue(any("eu_divisions" in o for o in overdue), overdue)

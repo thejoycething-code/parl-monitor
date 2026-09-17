@@ -230,3 +230,69 @@ Westminster ones.
    control EU <-> OSA UK). A weekly cross-parliament themes note is
    analysis no one else has; needs a design decision on where it lives.
 4. **EP written questions** -- deferred by cost (one fetch per stub), last.
+
+
+## Eleven dark days, and what they cost (17 September 2026)
+
+Christopher: "Let's get the EU parliament on par with the UK version." The
+first finding was not a parity gap but a fault, and a silent one.
+
+**What had happened.** The 9 September store rebuild came back without five
+EU tables -- `eu_divisions` (21 plenary roll calls), `eu_votes`, `eu_texts`,
+`eu_consultations`, `eu_speeches` -- exactly as it came back without
+`pq_link`. Nothing said so. Then both Saturday slots of the EU weekly were
+CANCELLED on 12 September and the pipeline stopped running at all. Fifteen
+workflows share the `parl-monitor-state` concurrency group; GitHub keeps only
+ONE run pending per group, so a second arrival cancels the one already
+waiting. At 07:00 Saturday the day sweep (`0 7 * * 2-6`) fires into the group
+while the NI weekly (06:00) may still hold it, and the EU run is the one that
+loses. A cancelled run is not a failed run, so the failure alert never fired.
+
+**Why the watch missed it.** `tools/coverage.py` exists to catch precisely
+this. It printed `NO DATA` beside each emptied table and moved on, because
+an empty table and a never-populated one read identically, and the three
+worst-hit tables (`eu_divisions`, `eu_votes`, `eu_speeches`) were in
+`ONCE_EVER`, which is "listed but never fails the run" -- correct for
+cadence, since a quiet plenary month is not a fault, and useless against a
+wipe.
+
+**The cost, measured.** The 15 September plenary was never collected: the
+Special Committee on the European Democracy Shield report, 87 roll calls, all
+area 7, one of them 467-185-11. The first backfill found it.
+
+**Fixed.**
+- An empty watched feed is now OVERDUE, not silence, with `ALLOWED_EMPTY` for
+  the ones a human excuses and `PAUSED_TABLES` for the stopped UN pipeline.
+  A write-once feed is judged on emptiness rather than cadence, and that check
+  runs even in `--quiet`.
+- The EU weekly moved to Saturday 10:00 and 18:00, clear of every other cron
+  in the group.
+- `eu_rollcalls.py`, `eu_texts.py` and `eu_speeches.py` take `--days N`. Their
+  windows were a fixed 60 days, so by 17 September the July plenary was out of
+  reach and a plain re-run could not have recovered it. A gap needs a wider
+  window, the way the Westminster backfills do.
+
+**Restored**, by `--days 120`: 121 divisions over four sitting days (21 May,
+7 and 9 July, 15 September) and 72,705 MEP vote positions; 135 adopted texts,
+5 on our ground; 34 open Commission consultations. The three divisions
+Christopher signed on 1 September survived in config and re-joined their
+roll calls, so the MEP page and the EU 5CA rebuild unchanged.
+
+## Where the EU still differs from Westminster (17 September 2026)
+
+Open, in the order they matter:
+
+1. **Sign-off coverage.** 3 of 121 divisions carry a verdict. The 15 September
+   Democracy Shield report alone is 87 unsigned roll calls on area 7. The EU
+   5CA places 743 MEPs on three divisions; Westminster's places 650 on about
+   fifty. This is a human decision per division, not code, and it is the whole
+   difference between a sheet that means something and one that does not.
+2. **Cadence.** Westminster sweeps every sitting day; the EU is weekly. A
+   Tuesday plenary waits until Saturday even when everything works.
+3. **No Evaluate phase.** `tools/evaluate_5ca.py` scores the Westminster sheet
+   against each division after the fact. The EU has no equivalent, so nothing
+   measures whether its placements predict anything.
+4. **No absence record.** Westminster ledgers who was present and did not vote.
+   An MEP who stays away is invisible here.
+5. **No issue pages, no per-area view.**
+6. **Delivery stays DM-only** by Christopher's standing instruction.
