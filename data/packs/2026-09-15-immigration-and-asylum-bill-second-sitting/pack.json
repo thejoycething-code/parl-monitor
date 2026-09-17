@@ -729,5 +729,26 @@
   "ayes": 264,
   "noes": 90,
   "date": "2026-07-13"
+ },
+ "alignment": {
+  "measured_at": "2026-09-17T17:18:11",
+  "ok": true,
+  "tolerance_s": 45.0,
+  "drift_s": 0.0,
+  "anchors": [
+   {
+    "label": "opener Mr Paul Foster at 0:14:23",
+    "expected_s": 863.0,
+    "heard_s": null,
+    "offset_s": null
+   },
+   {
+    "label": "closer Ben Goldsborough at 2:54:54",
+    "expected_s": 10494.0,
+    "heard_s": 10483.300000000314,
+    "offset_s": -10.699999999686042
+   }
+  ],
+  "summary": "opener Mr Paul Foster at 0:14:23: not heard; closer Ben Goldsborough at 2:54:54: -10.7s"
  }
 }

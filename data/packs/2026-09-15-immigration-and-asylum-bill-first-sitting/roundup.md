@@ -1,6 +1,6 @@
 # Immigration and Asylum Bill (First sitting)
 
-*Commons, 2026-09-15. [Hansard](https://hansard.parliament.uk/Commons/2026-09-15/debates/4b4a09da-7342-488c-9270-46619c9b354a/) · [Footage](https://parliamentlive.tv/Event/Index/3f328b6e-c9d6-443a-9531-c6bcc09d1dad). Generated 2026-09-17 16:22.*
+*Commons, 2026-09-15. [Hansard](https://hansard.parliament.uk/Commons/2026-09-15/debates/4b4a09da-7342-488c-9270-46619c9b354a/) · [Footage](https://parliamentlive.tv/Event/Index/3f328b6e-c9d6-443a-9531-c6bcc09d1dad). Generated 2026-09-17 17:16.*
 
 **Who spoke:** 13 members, 71 contributions; opened by The Chair.
 

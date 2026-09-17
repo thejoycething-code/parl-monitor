@@ -1,0 +1,28 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Helvetica Neue,66,&H00FFFFFF,&H00FFFFFF,&H00242120&,&H00242120&,-1,0,0,0,100,100,0,0,1,5,0,5,80,80,0,1
+Style: Name,Helvetica Neue,56,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1
+Style: Party,Helvetica Neue,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1
+Style: Shape,Helvetica Neue,20,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:05.20,Shape,,0,0,0,,{\an7\pos(60,1290)\1c&HF48542&\bord0\shad0\fad(120,120)\p1}m 0 0 l 710 0 l 710 78 l 0 78{\p0}
+Dialogue: 0,0:00:00.10,0:00:05.20,Shape,,0,0,0,,{\an7\pos(60,1368)\1c&H242120&\bord0\shad0\fad(120,120)\p1}m 0 0 l 710 0 l 710 60 l 0 60{\p0}
+Dialogue: 1,0:00:00.10,0:00:05.20,Name,,0,0,0,,{\pos(88,1298)\fad(120,120)}Mr Jonathan Brash MP
+Dialogue: 1,0:00:00.10,0:00:05.20,Party,,0,0,0,,{\pos(88,1376)\fad(120,120)}Labour · Hartlepool
+Dialogue: 2,0:00:00.00,0:00:03.58,Caption,,0,0,0,,{\pos(540,1600)}You have focused a great\Ndeal on Home Office decision
+Dialogue: 2,0:00:03.58,0:00:09.90,Caption,,0,0,0,,{\pos(540,1600)}making as the primary reason\Nwhy the process takes a
+Dialogue: 2,0:00:09.90,0:00:11.46,Caption,,0,0,0,,{\pos(540,1600)}long time and there are\Na number of appeals,
+Dialogue: 2,0:00:11.46,0:00:16.42,Caption,,0,0,0,,{\pos(540,1600)}but is the reality not\Nthat appeal is the default?
+Dialogue: 2,0:00:16.42,0:00:17.96,Caption,,0,0,0,,{\pos(540,1600)}Virtually all\Nrefusals are appealed;
+Dialogue: 2,0:00:17.96,0:00:20.22,Caption,,0,0,0,,{\pos(540,1600)}it is nothing to do with\Nthe decision making,
+Dialogue: 2,0:00:20.22,0:00:22.48,Caption,,0,0,0,,{\pos(540,1600)}and as long as that is\Ngoing to be the case,
+Dialogue: 2,0:00:22.48,0:00:24.99,Caption,,0,0,0,,{\pos(540,1600)}we have to find a way\Nto speed up the system.
