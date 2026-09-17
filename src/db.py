@@ -882,6 +882,15 @@ CREATE TABLE IF NOT EXISTS eu_divisions (
   sitting_id TEXT, date TEXT,
   label TEXT,                     -- EN vote label
   favor INTEGER, against INTEGER, abstention INTEGER,
+  -- The Parliament's OWN outcome (ADOPTED | REJECTED | ...), never derived
+  -- from the tallies. Added 17 Sept 2026: a second-reading rejection needs a
+  -- majority of COMPONENT members, so the 9 July proposal to reject the
+  -- ePrivacy derogation drew 314 for against 276 and was REJECTED all the
+  -- same. Any code reading "more for than against means carried" is wrong on
+  -- exactly the votes that decide things. Nothing derived an outcome when
+  -- this was added, so nothing was wrong yet; the column is here so nothing
+  -- ever has to guess.
+  outcome TEXT,
   areas TEXT, matched_terms TEXT, tier INTEGER,
   -- verdicts (our_side / meaning lines) deliberately ABSENT: they are
   -- signed off per division by Christopher, never derived (the Lords
@@ -1193,6 +1202,13 @@ def init_db(conn):
             if column not in nd_cols:
                 conn.execute("ALTER TABLE ni_divisions ADD COLUMN {0} {1}"
                              .format(column, decl))
+    # eu_divisions.outcome (17 Sept 2026): the Parliament's own verdict on a
+    # division, so nothing has to infer one from the tallies. A second-reading
+    # rejection needs a majority of COMPONENT members, so 314 for against 276
+    # is still REJECTED.
+    ed_cols = {r[1] for r in conn.execute("PRAGMA table_info(eu_divisions)")}
+    if ed_cols and "outcome" not in ed_cols:
+        conn.execute("ALTER TABLE eu_divisions ADD COLUMN outcome TEXT")
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former
         # members stay NULL. Full-roster 5CA sheets select on this flag.

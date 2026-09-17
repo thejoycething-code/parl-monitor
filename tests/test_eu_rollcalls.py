@@ -112,3 +112,44 @@ class RollCallTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OutcomeTests(unittest.TestCase):
+    """17 Sept 2026: the Parliament publishes its own verdict on every division
+    and we stored only the tallies. A second-reading rejection needs a majority
+    of COMPONENT members, so the 9 July proposal to reject the ePrivacy
+    derogation drew 314 for against 276 and was REJECTED all the same. Any code
+    reading "more for than against" would call that carried."""
+
+    def test_the_status_uri_is_stored_as_a_bare_verdict(self):
+        import sqlite3
+        from src import db
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(eu_divisions)")}
+        self.assertIn("outcome", cols)
+
+    def test_a_rejection_that_outpolled_its_opposition_is_still_rejected(self):
+        import sqlite3
+        from src import db
+        conn = db.init_db(sqlite3.connect(":memory:"))
+        conn.execute(
+            "INSERT INTO eu_divisions (vote_id, sitting_id, date, label, favor, "
+            "against, abstention, outcome, areas, matched_terms, tier, "
+            "first_seen, last_seen) VALUES ('V','s','2026-07-09','Proposal for "
+            "rejection',314,276,17,'REJECTED','[7]','[]',1,'d','d')")
+        r = conn.execute("SELECT favor, against, outcome FROM eu_divisions").fetchone()
+        self.assertGreater(r[0], r[1], "a naive reading would call this carried")
+        self.assertEqual(r[2], "REJECTED", "the Parliament says otherwise")
+
+    def test_the_migration_adds_the_column_to_a_store_without_it(self):
+        import sqlite3
+        from src import db
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE eu_divisions (vote_id TEXT PRIMARY KEY, "
+                     "sitting_id TEXT, date TEXT, label TEXT, favor INTEGER, "
+                     "against INTEGER, abstention INTEGER, areas TEXT, "
+                     "matched_terms TEXT, tier INTEGER, first_seen TEXT, "
+                     "last_seen TEXT)")
+        conn.commit()
+        db.init_db(conn)
+        self.assertIn("outcome", {r[1] for r in conn.execute("PRAGMA table_info(eu_divisions)")})

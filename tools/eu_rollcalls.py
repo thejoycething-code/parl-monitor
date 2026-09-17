@@ -1,6 +1,7 @@
 """EU roll calls: MEP votes on our ground, collected -- never judged.
 
     python3 tools/eu_rollcalls.py
+    python3 tools/eu_rollcalls.py --days 120 --refetch   # re-read known divisions too
 
 Phase 2d of the EU monitor, COLLECTION ONLY. For every plenary sitting in
 the lookback window: the sitting's vote list (EN labels), each label
@@ -85,7 +86,7 @@ def past_sittings(client, today, days=None):
     return sorted(out, key=lambda x: x[1])
 
 
-def pull(conn, client, today, log=print, days=None):
+def pull(conn, client, today, log=print, days=None, refetch=False):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     try:
@@ -96,7 +97,12 @@ def pull(conn, client, today, log=print, days=None):
         conn.commit()
         log("  [gap] eu-rollcalls calendar: {0}".format(exc))
         return 0, 0, 0
-    known = {r[0] for r in conn.execute("SELECT vote_id FROM eu_divisions")}
+    # `refetch` empties this (17 Sept 2026). Skipping a division we already
+    # hold is what makes the weekly run cheap, and it is also why adding the
+    # `outcome` column changed nothing: every row was already known, so no
+    # event was fetched again and the new field stayed NULL on all 149. A new
+    # column needs one pass that ignores the skip.
+    known = set() if refetch else {r[0] for r in conn.execute("SELECT vote_id FROM eu_divisions")}
     seen = matched = gaps = 0
     for sid, date in sittings:
         try:
@@ -149,6 +155,8 @@ def pull(conn, client, today, log=print, days=None):
                     fav = e.get("number_of_votes_favor")
                     agn = e.get("number_of_votes_against")
                     abst = e.get("number_of_votes_abstention")
+                    # "def/ep-statuses/REJECTED" -> "REJECTED"
+                    outcome = (e.get("decision_outcome") or "").rsplit("/", 1)[-1] or None
                     # The decision's own label ("§ 10", "Request for an
                     # urgent decision") names what was actually decided;
                     # the subject label alone hides it.
@@ -172,15 +180,16 @@ def pull(conn, client, today, log=print, days=None):
                     continue
                 conn.execute(
                     "INSERT INTO eu_divisions (vote_id, sitting_id, date, "
-                    "label, favor, against, abstention, areas, "
+                    "label, favor, against, abstention, outcome, areas, "
                     "matched_terms, tier, first_seen, last_seen) "
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?) "
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) "
                     "ON CONFLICT(vote_id) DO UPDATE SET "
                     "label=excluded.label, favor=excluded.favor, "
                     "against=excluded.against, "
                     "abstention=excluded.abstention, "
+                    "outcome=excluded.outcome, "
                     "last_seen=excluded.last_seen",
-                    (full_id, sid, date, ev_label, fav, agn, abst,
+                    (full_id, sid, date, ev_label, fav, agn, abst, outcome,
                      json.dumps(areas), json.dumps(res.matched_terms or []),
                      res.tier, today, today))
     conn.commit()
@@ -199,7 +208,8 @@ def main():
     # backfills do.
     days = int(sys.argv[sys.argv.index("--days") + 1]) if "--days" in sys.argv else LOOKBACK_DAYS
     roster = refresh_roster(conn, client, today)
-    seen, matched, gaps = pull(conn, client, today, days=days)
+    seen, matched, gaps = pull(conn, client, today, days=days,
+                               refetch="--refetch" in sys.argv)
     print("eu-rollcalls: {0} MEPs on the roster; {1} plenary votes in {2} "
           "days, {3} on our ground, {4} gap(s).".format(
               roster, seen, days, matched, gaps))

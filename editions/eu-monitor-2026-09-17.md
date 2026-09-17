@@ -104,6 +104,7 @@ Published agendas checked: 2026-09-17 (19 items). Agendas publish closer to the 
 - **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield — A10-0199/2026 – Tomas Tobé – § 30 - 433-137-93 (663 recorded positions) - Free speech, privacy and civil liberties
 - **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield — A10-0199/2026 – Tomas Tobé – Motion for a resolution (as a whole) - 420-220-26 (666 recorded positions) - Free speech, privacy and civil liberties
 - **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield — A10-0199/2026 – Tomas Tobé – Recital AU - 461-193-8 (662 recorded positions) - Free speech, privacy and civil liberties
+- **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield — A10-0199/2026 – Tomas Tobé – After § 53 – Am 42 - 197-464-4 (665 recorded positions) - Free speech, privacy and civil liberties
 - **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre — RC-B10-0345/2026/REV1 – Motion for a resolution (as a whole) - 510-1-86 (597 recorded positions) - Freedom of religion
 - **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre — Recital E - 510-81-5 (totals only, no roll call) - Freedom of religion
 - **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre — RC-B10-0345/2026/REV1 – § 1 – Am 2/2 - 190-402-4 (596 recorded positions) - Freedom of religion
@@ -120,7 +121,35 @@ Published agendas checked: 2026-09-17 (19 items). Agendas publish closer to the 
 - **2026-07-09** - The abduction, forced conversion and child marriage of Maria Shahbaz and the protection of girls in Pakistan — RC-B10-0346/2026 – After § 3 – Am 1 - 301-281-14 (596 recorded positions) - Freedom of religion, Marriage family
 - **2026-07-09** - The abduction, forced conversion and child marriage of Maria Shahbaz and the protection of girls in Pakistan — RC-B10-0346/2026 – Recital B – Am 3 - 310-261-21 (592 recorded positions) - Freedom of religion, Marriage family
 - **2026-07-09** - The abduction, forced conversion and child marriage of Maria Shahbaz and the protection of girls in Pakistan — RC-B10-0346/2026 – § 6 – Am 5 - 312-248-27 (587 recorded positions) - Freedom of religion, Marriage family
-- **2026-07-07** - Temporary derogation from certain provisions of the ePrivacy Directive to combat online child sexual abuse ***II — C10-0178/2026 – Request for an urgent decision - 331-304-11 (646 recorded positions) - Parental rights education
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, after point a – Am 27 - 175-408-22 (605 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point d – Am 17D - 86-479-41 (606 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Proposal for rejection - 276-286-30 (592 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point a – Am 15 - 161-430-10 (601 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 2, after point 4 – Am 10 - 161-433-12 (606 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point a – Am 26 CP1= 31 CP1= 4 CP1= - 345-237-18 (600 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – After recital 5 – Am 22 - 164-425-14 (603 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 2, after point 4 – Am 11 - 120-433-52 (605 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point g, point iii – Am 18 - 119-436-51 (606 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – After recital 13 – Am 24 - 162-424-18 (604 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Proposal for rejection – Am 1= 2= 7= - 314-276-17 (607 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Recital 11 – Am 3 - 257-292-59 (608 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point a – Am 26 CP2= 31 CP2= 4 CP2= - 346-254-3 (603 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – After recital 8 – Am 23 - 170-412-19 (601 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point b – Am 16 - 154-421-19 (594 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 1, § 2 – Am 9 - 114-422-60 (596 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 2, after point 4 – Am 12 - 158-433-11 (602 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – After Article 3 – Am 28 - 175-399-23 (597 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point g, point vii – Am 19 - 110-432-62 (604 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Recital 32 – Am 25 - 157-385-20 (562 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 1, § 1 – Am 8 - 117-422-66 (605 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point a, after point 1 – Am 5 - 322-255-36 (613 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point a – Am 26 CP3= 31 CP3= 6= 21= - 362-235-5 (602 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point a – Am 14 - 160-433-11 (604 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 1, after § 2 – Am 30 - 369-236-6 (611 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point a – Am 13 - 119-434-51 (604 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 11 – Am 29 - 353-254-7 (614 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-09** - Temporary derogation from the ePrivacy directive ***II — C10-0178/2026 – Article 3, § 1, point j – Am 20 - 142-434-30 (606 recorded positions) - Free speech, privacy and civil liberties
+- **2026-07-07** - Temporary derogation from certain provisions of the ePrivacy Directive to combat online child sexual abuse ***II — C10-0178/2026 – Request for an urgent decision - 331-304-11 (646 recorded positions) - Parental rights education, Free speech, privacy and civil liberties
 - **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum — § 10 - 440-146-50 (totals only, no roll call) - Free speech, privacy and civil liberties
 - **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum — A10-0187/2026 – Lukas Mandl, Pierfrancesco Maran – Motion for a resolution (as a whole) - 374-185-74 (633 recorded positions) - Free speech, privacy and civil liberties
 - **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum — § 51 - 360-262-19 (totals only, no roll call) - Free speech, privacy and civil liberties
@@ -141,17 +170,18 @@ Published agendas checked: 2026-09-17 (19 items). Agendas publish closer to the 
 
 Tallies are favor-against-abstention.
 
-**116 division(s) await a verdict.** Until a meaning is signed off they render on the MEP page without judgement, so the 5CA cannot use them: Findings and recommendatio: A10-0199/2026 – Tomas Tobé – After § 132; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – § 99 – Am 5; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – § 48; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – After § 32 ; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – After § 34 ; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – § 1 – Am 27
+**142 division(s) await a verdict.** Until a meaning is signed off they render on the MEP page without judgement, so the 5CA cannot use them: Findings and recommendatio: A10-0199/2026 – Tomas Tobé – After § 132; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – § 99 – Am 5; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – § 48; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – After § 32 ; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – After § 34 ; Findings and recommendatio: A10-0199/2026 – Tomas Tobé – § 1 – Am 27
 
 ## Adopted by the Parliament (last 60 days)
 
 - **2026-09-15** - Findings and recommendations of the Special Committee on the European Democracy Shield (TA-10-2026-0286) - Free speech, privacy and civil liberties
 - **2026-07-09** - The abduction, forced conversion and child marriage of Maria Shahbaz and the protection of girls in Pakistan (TA-10-2026-0269) - Freedom of religion, Marriage family
 - **2026-07-09** - Ongoing persecution of Christians in Nigeria, notably the Kawel village massacre (TA-10-2026-0268) - Freedom of religion
+- **2026-07-09** - Temporary derogation from the ePrivacy directive (TA-10-2026-0266) - Free speech, privacy and civil liberties
 - **2026-07-07** - Implementation and delivery of the Sustainable Development Goals in view of the 2026 High-Level Political Forum (TA-10-2026-0250) - Free speech, privacy and civil liberties
 - **2026-05-21** - Repression and execution of protesters, dissidents, political prisoners and religious minorities in Iran (TA-10-2026-0185) - Freedom of religion
 
-5 of 135 adopted texts in the window matched the taxonomy.
+6 of 135 adopted texts in the window matched the taxonomy.
 
 ## Strasbourg watch (ECtHR, last 90 days)
 
