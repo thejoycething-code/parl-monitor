@@ -1,0 +1,92 @@
+name: EU day sweep
+on:
+  schedule:
+    # 23:00 UTC daily. The Parliament sits in blocks and votes around midday
+    # Strasbourg time, publishing roll calls within hours; this is late enough
+    # to catch the day and clear of every other cron in the state group
+    # (day sweep and division watch both sit at 21:00). A non-sitting day
+    # costs one cached calendar lookup, so running it daily is cheaper than
+    # trying to predict the part-sessions.
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "First day to consider (YYYY-MM-DD; default 7 days ago)"
+        required: false
+        default: ""
+permissions:
+  contents: write
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
+      - name: Which days are pending
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.since }}" ]; then ARGS="--since ${{ inputs.since }}"; fi
+          python3 tools/eu_day_sweep.py $ARGS --dry-run | tee /tmp/eu-pending.log
+      - name: Sweep them
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+        run: |
+          ARGS="--dm"
+          if [ -n "${{ inputs.since }}" ]; then ARGS="$ARGS --since ${{ inputs.since }}"; fi
+          python3 tools/eu_day_sweep.py $ARGS 2>&1 | tee /tmp/eu-sweep.log
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## EU day sweep"
+            echo '```'
+            grep -E "SAT|ep-day-sweep|pending|gap" /tmp/eu-sweep.log | tail -30 \
+              || tail -10 /tmp/eu-pending.log || echo "(no summary lines)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the raw archive
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --push
+      - name: Publish the store
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
+      - name: Commit state
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/parl-monitor.db.json data/raw.json
+          git diff --cached --quiet || git commit -m "EU day sweep: $(date -u +%Y-%m-%dT%H:%M)Z"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin main || true
+            git push origin main && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep 5
+          done

@@ -45,6 +45,11 @@ PIPELINES = {
     "Senedd weekly": (7, 4, "Wales"),
     "NI Assembly weekly": (7, 4, "Northern Ireland"),
     "EU weekly": (7, 3, "the EU edition and its collectors"),
+    # Nightly, and it stamps a heartbeat whether or not the Parliament sat:
+    # most nights it records "did not sit" and publishes nothing else, which
+    # is exactly the signal we want -- silence here means the workflow died,
+    # not that Brussels is quiet. Grace of 2 covers a cancelled slot.
+    "EU day sweep": (1, 2, "the EP swept per sitting day (roll calls and adopted texts)"),
     "UPR monthly": (31, 7, "UN Universal Periodic Review"),
     # Missing until 2026-09-04, like EU weekly was from the alert list:
     # it pulls service history, party spells and contact details for
@@ -134,6 +139,11 @@ PIPELINE_FEEDS = {
                   "eu_judgments", "eu_ecis", "eu_consultations", "eu_meps",
                   "eu_cmte_meetings"],
     "UPR monthly": ["upr_recommendations"],
+    # "EU day sweep" is deliberately absent. PIPELINE_FEEDS drives the clobber
+    # check -- a pipeline that ran but whose data is stale -- and the EP sits in
+    # blocks with weeks of recess between them, so its feeds age legitimately
+    # and every recess would raise a false alarm. Its heartbeat in PIPELINES is
+    # the honest signal: the workflow runs nightly even when nothing sat.
     "Member profiles": ["dv_post", "dv_contact"],
     "Day sweep": ["sweep_log"],
 }

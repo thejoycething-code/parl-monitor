@@ -346,3 +346,45 @@ MEP placed on one vote and one placed on five -- and the queue does not
 measure that at all. Westminster's 5CA carries confidence and conflict flags
 off exactly that depth. Ranking the EU backlog by depth rather than breadth
 is the next thing this tool needs.
+
+
+## Swept per sitting day (17 September 2026)
+
+Christopher: "Make the EU sweep per sitting day like Westminster." The last
+parity gap, and the one the week had just demonstrated: the 15 September
+plenary sat uncollected for two days because the weekly was the only path and
+the weekly had been cancelled.
+
+`src/eudaysweep.py` + `tools/eu_day_sweep.py`, modelled on Hansard's day sweep
+and sharing its `sweep_log` under source `ep-plenary`, house `EP`. Nightly at
+23:00 UTC, clear of every other cron in the state group.
+
+**What moves per day, and what deliberately does not.** A roll call is final
+the moment the President reads it out and an adopted text is published the same
+day, so those are swept once per sitting day and remembered. Written questions
+are answered weeks after tabling, ECI signatures accrue, dossiers move between
+readings and consultation windows run on their own clock: all of those change
+after the fact, so a once-per-day sweep would freeze them wrong and they stay on
+the weekly rolling window. The same division Hansard's sweep makes.
+
+**A calendar, not a per-day probe.** Hansard has no sitting-dates endpoint, so
+Westminster asks each day whether the House sat. The Parliament publishes a
+whole year of meetings in one call, so a year of sitting dates costs one request
+and is cached for the run. The EP sits in blocks, so most days cost nothing.
+A calendar that fails returns None rather than an empty set: recording "did not
+sit" from a failed lookup would bury the day for ever.
+
+**Weekends are not skipped by the clock.** Hansard's sweep skips Saturdays
+without a call. Here the Parliament's own calendar decides, because its
+part-sessions do not follow a working week.
+
+First run, backfilling a week: four sittings found (14 to 17 September), the
+15 September Democracy Shield business collected, and the Hong Kong media
+freedom resolution of 17 September picked up **on the day it was adopted**
+rather than the following Saturday.
+
+Registered in `coverage.py` PIPELINES at a daily cadence and in the failure
+alert. It is deliberately NOT in `PIPELINE_FEEDS`: that drives the clobber
+check, and the EP's weeks of recess would age its feeds legitimately and raise
+a false alarm every time. The nightly heartbeat is the honest signal, because
+the sweep runs and stamps one even when nothing sat.

@@ -86,7 +86,7 @@ def past_sittings(client, today, days=None):
     return sorted(out, key=lambda x: x[1])
 
 
-def pull(conn, client, today, log=print, days=None, refetch=False):
+def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     try:
@@ -104,6 +104,11 @@ def pull(conn, client, today, log=print, days=None, refetch=False):
     # column needs one pass that ignores the skip.
     known = set() if refetch else {r[0] for r in conn.execute("SELECT vote_id FROM eu_divisions")}
     seen = matched = gaps = 0
+    if on_day:
+        # One sitting day only: the per-day sweep (src/eudaysweep.py) aims this
+        # at the day that has just finished voting instead of re-walking a
+        # 60-day window every Saturday.
+        sittings = [(sid, d) for sid, d in sittings if d == on_day]
     for sid, date in sittings:
         try:
             reply = client.get_json(RESULTS.format(sid), "eu-rollcalls", sid,

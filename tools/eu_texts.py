@@ -52,11 +52,11 @@ def procedure_ref(item):
     return None
 
 
-def pull(conn, client, today, log=print, days=None):
+def pull(conn, client, today, log=print, days=None, on_day=None):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     t = datetime.date.fromisoformat(today)
-    cutoff = (t - datetime.timedelta(days=days or WINDOW_DAYS)).isoformat()
+    cutoff = on_day if on_day else (t - datetime.timedelta(days=days or WINDOW_DAYS)).isoformat()
     years = sorted({int(cutoff[:4]), t.year})
     items = []
     for y in years:
@@ -73,7 +73,9 @@ def pull(conn, client, today, log=print, days=None):
     total = ours = 0
     for a in items:
         date = a.get("document_date")
-        if not date or date < cutoff or date > today:
+        # on_day narrows to ONE sitting day (the per-day sweep); otherwise the
+        # window runs from cutoff to today as before.
+        if not date or (date != on_day if on_day else (date < cutoff or date > today)):
             continue
         title = (a.get("title_dcterms") or {}).get("en")
         if not title:

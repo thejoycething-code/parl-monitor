@@ -25,6 +25,12 @@ on:
       # is here because an alert that only fires on a CRASH cannot see a
       # feed that quietly stopped answering (2026-09-04).
       - "EU weekly"
+      # The EP swept per sitting day (17 Sept 2026). It is the EU's primary
+      # source of roll calls now, the way the day sweep is Hansard's: a
+      # silent failure here means a plenary is missed, which is exactly what
+      # happened on 15 September when the weekly was cancelled and nothing
+      # said so for two days.
+      - "EU day sweep"
       - "Coverage watch"
       # Member profiles pulls service history, party spells and contact
       # details for every chamber. It was in neither this list nor
