@@ -65,7 +65,7 @@ class TaxonomySyncTests(unittest.TestCase):
     def test_master_parses_every_area(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "1.7")
+        self.assertEqual(version, "1.8")
         self.assertEqual(len(areas), 12)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -75,6 +75,14 @@ class TaxonomySyncTests(unittest.TestCase):
         # "Temporary derogation from the ePrivacy directive ***II" and
         # nothing in the taxonomy said ePrivacy.
         self.assertIn("ePrivacy", areas["7_free_speech_online_safety"]["tier1"])
+        # v1.8: "social media" GUARDED in area 6. The EP resolution of 17 Sept
+        # on social media and young people matched nothing, because adopted
+        # texts are filtered on title alone and EP titles are generic. Bare, the
+        # phrase matches 107 corpus rows; guarded it keeps 14.
+        self.assertTrue(any("social media" in t for t in areas["6_parental_rights_education"]["tier2"]),
+                        "the guarded social media term is missing from area 6")
+        self.assertNotIn('"social media"', areas["6_parental_rights_education"]["tier2"],
+                         "it must stay GUARDED: bare, it admits press-office traffic")
         # v1.6: prostitution and sexual exploitation, the Nordic-model
         # ground that no area covered.
         self.assertIn("\"commercial sexual exploitation\"",

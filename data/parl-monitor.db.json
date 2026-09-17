@@ -3,8 +3,8 @@
   "bytes": 151519232,
   "note": "Derived state; the bytes live as a release asset. See tools/db_state.py.",
   "published_at": "local",
-  "published_utc": "2026-09-17T16:59:44Z",
-  "sha256": "27faba2c8be5942fc91e51e1dfd2da132f0f9c8b556096dc48f1ba02d9e47ae7",
+  "published_utc": "2026-09-17T17:23:42Z",
+  "sha256": "57d3bd7cc993b08cebb8703682eacd091b4ea831d7471e301671a3f37d6cc0c5",
   "tables": {
     "api_spend": 413,
     "appg_officers": 24,

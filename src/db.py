@@ -907,6 +907,15 @@ CREATE TABLE IF NOT EXISTS eu_texts (
   identifier TEXT PRIMARY KEY,    -- 'TA-10-2026-0006'
   date TEXT, title TEXT,          -- adoption date; EN title
   procedure TEXT,                 -- procedure id parsed from the DEC event
+  -- The BODY, added 17 Sept 2026. Adopted texts were matched on their title
+  -- alone and Parliament titles are generic: "Impact of social media and the
+  -- online environment on young people" is a hundred operative paragraphs on a
+  -- minimum age for social media, and it matched nothing. doc_url is the ELI
+  -- distribution path (the doceo page bot-walls; this one answers); excerpt is
+  -- the strongest matching passage, the evidence for the areas; body_read is
+  -- the date we read it, so the drain is incremental and a text is never
+  -- fetched twice.
+  doc_url TEXT, excerpt TEXT, body_read TEXT,
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
@@ -1206,6 +1215,11 @@ def init_db(conn):
     # division, so nothing has to infer one from the tallies. A second-reading
     # rejection needs a majority of COMPONENT members, so 314 for against 276
     # is still REJECTED.
+    et_cols = {r[1] for r in conn.execute("PRAGMA table_info(eu_texts)")}
+    if et_cols:
+        for column in ("doc_url", "excerpt", "body_read"):
+            if column not in et_cols:
+                conn.execute("ALTER TABLE eu_texts ADD COLUMN {0} TEXT".format(column))
     ed_cols = {r[1] for r in conn.execute("PRAGMA table_info(eu_divisions)")}
     if ed_cols and "outcome" not in ed_cols:
         conn.execute("ALTER TABLE eu_divisions ADD COLUMN outcome TEXT")
