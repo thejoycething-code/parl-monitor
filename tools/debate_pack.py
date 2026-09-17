@@ -287,6 +287,13 @@ def main():
         filled = dp.fill_checklist_from_vote(os.path.join(args.pack, "checklist.md"), payload, side)
         print("checklist filled from division {0} (our side {1}): {2} yes, {3} no".format(
             args.from_vote, side, sum(1 for v in filled.values() if v == "yes"), sum(1 for v in filled.values() if v == "no")))
+        # Remember the vote on the pack: the selector reads our side of the Bill
+        # from it (aye on a Second Reading = the onside members are FOR the Bill).
+        state_path = os.path.join(args.pack, "pack.json")
+        state = json.load(open(state_path))
+        state["vote"] = {"division": int(args.from_vote), "our_side": side, "title": payload.get("Title"),
+                         "ayes": payload.get("AyeCount"), "noes": payload.get("NoCount"), "date": (payload.get("Date") or "")[:10]}
+        json.dump(state, open(state_path, "w"), indent=1)
     if args.pack and args.apply:
         return apply(args)
     if args.date and (args.find or args.debate):

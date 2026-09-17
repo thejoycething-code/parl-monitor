@@ -27,6 +27,39 @@ PAYLOAD = {"Items": [
 ]}
 
 
+class OwnWordsTests(unittest.TestCase):
+    """Oral evidence (17 Sept 2026): Hansard files the witnesses' answers inside the
+    member's "Q" item, so a barrister's tribunal anecdote read as Matt Vickers."""
+
+    def test_an_evidence_item_stops_where_the_first_witness_answers(self):
+        value = ("<p>Q       Good afternoon. Which single policy would you add? "
+                 "<em><strong>Alp Mehmet:</strong></em> Needless to say, I agree. <strong>Peter Walsh:</strong> Also.</p>")
+        self.assertEqual(dp._own_words(value), ("Good afternoon. Which single policy would you add?", True))
+        self.assertEqual(dp._own_words("<p>I beg to move, That the Bill be now read a Second time.</p>"),
+                         ("I beg to move, That the Bill be now read a Second time.", False))
+        self.assertEqual(dp._own_words("<p>Q <strong>Tony Smith:</strong> an answer with no question first</p>"), ("", True))
+        # "Q" inside a normal speech is not an evidence marker
+        self.assertEqual(dp._own_words("<p>The Q and A session was useful.</p>")[1], False)
+
+    def test_contributions_carry_own_words_only_and_size_the_clip_on_them(self):
+        witness = " ".join(["answer"] * 500)
+        payload = {"Items": [
+            {"ItemType": "Timestamp", "Value": "14:15:00"},
+            {"ItemType": "Contribution", "AttributedTo": "Mr Paul Foster (South Ribble) (Lab)", "MemberId": 5074, "ExternalId": "q1",
+             "Value": "<p>Q Which single policy would you like to see in the Bill that is not there now? "
+                      "<em><strong>Alp Mehmet:</strong></em> %s</p>" % witness},
+            {"ItemType": "Contribution", "AttributedTo": "Blake Stephenson (Mid Bedfordshire) (Con)", "MemberId": 5100, "ExternalId": "q2",
+             "Value": "<p>Q <strong>Peter Walsh:</strong> %s</p>" % witness},
+            {"ItemType": "Timestamp", "Value": "14:25:00"},
+            {"ItemType": "Contribution", "AttributedTo": "Dr Zubir Ahmed (Glasgow South West) (Lab)", "MemberId": 5213, "ExternalId": "q3",
+             "Value": "<p>Q Why is the Bill necessary?</p>"}]}
+        rows = dp.contributions(payload, "2026-09-15")
+        self.assertEqual([r["ext_id"] for r in rows], ["q1", "q3"])                  # q2 had no words of the member's own
+        self.assertEqual(rows[0]["text"], "Which single policy would you like to see in the Bill that is not there now?")
+        self.assertTrue(rows[0]["evidence"]); self.assertTrue(rows[1]["evidence"])
+        self.assertLess(rows[0]["est_seconds"], 60)                                  # sized on 15 words, not 515
+
+
 class ContributionTests(unittest.TestCase):
     def test_clocks_interpolate_from_timestamps_and_timecodes(self):
         rows = dp.contributions(PAYLOAD, "2026-09-07")

@@ -31,6 +31,9 @@ def main():
     ap.add_argument("--min-words", type=int, default=sel.MIN_WORDS)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--write-sequence", action="store_true")
+    ap.add_argument("--position", choices=["for", "against"],
+                    help="which side of the Bill the onside members are on; read from the vote the checklist was "
+                         "filled from (pack.json 'vote') when that vote was a Second or Third Reading")
     args = ap.parse_args()
     from src import packlock
     packlock.acquire(args.pack.rstrip('/'), 'pick_speeches', force=bool(os.environ.get('PARL_FORCE_LOCK')))
@@ -42,6 +45,15 @@ def main():
         meta.get("title"), sum(1 for s in speeches if s.get("confirmed") == "yes"), len(cands), args.min_words))
     if not cands:
         raise SystemExit("nothing to judge: confirm ONSIDE in checklist.md and run tools/debate_pack.py --pack F --apply first")
+    # The judge is briefed for a side. Until 17 Sept 2026 the brief said OPPOSED
+    # regardless, and ranked the Immigration and Asylum Bill's supporters at 1.
+    position = args.position or sel.position_from_vote(meta)
+    if not position:
+        raise SystemExit("which side are the onside members on? --position for|against (the checklist's vote, %s, does not say)"
+                         % ((meta.get("vote") or {}).get("title") or "none recorded"))
+    meta["position"] = position
+    print("judge briefed for a campaign %s the Bill%s" % (position, "" if args.position else " (from the vote: %s, our side %s)"
+                                                            % (meta["vote"]["title"], meta["vote"]["our_side"])))
     if args.dry_run:
         chars = len(sel.build_payload(meta, cands)["messages"][0]["content"])
         print("would judge %d speakers, ~%d tokens (about $%.2f)" % (len(cands), chars // 4, (chars / 4 * 3 + sel.MAX_TOKENS * 15) / 1e6))
@@ -53,7 +65,7 @@ def main():
     if not key:
         raise SystemExit("no anthropic_api_key in config/secrets.yaml")
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
-    ranked, problems, usage, raw = sel.judge(meta, cands, key, conn=conn)
+    ranked, problems, usage, raw = sel.judge(meta, cands, key, conn=conn, position=position)
     conn.commit(); conn.close()
     open(os.path.join(pack, "selection-raw.txt"), "w", encoding="utf-8").write(raw)   # what the judge actually said
     if not ranked:

@@ -2,28 +2,24 @@
 
 SELECTED by tools/pick_speeches.py: the top 8 of the ranked speeches in selection.md, in rank order. Passages are the judge's where they run 30-95 seconds and are verbatim, else reel_passage.
 
-## Matt Vickers MP
-party: Conservative · Stockton West
-> I could go on forever, but just recently I accidentally sat in on the wrong hearing at a tribunal. I was only meant to be an observer; a younger member of my team was doing a hearing, and I thought I would like to observe it. I was sent the wrong link by the tribunal, and it took me about half an hour before I suddenly realised that I was on the wrong link—I thought this other matter was just being heard first, and mine was going to follow. I sat through half an hour, and it was a man from Iraq with no representation and no bundle. The interpreter did not really understand him, and it was a waste of time. It took about 30 minutes for the immigration judge to say, “We have to abandon this.”
+## Ben Goldsborough MP
+party: Labour · South Norfolk
+> One of the issues on which I think everyone will agree is the fact that we need to have a confidence-based immigration and asylum system. We need to have the public’s full support to ensure that it can continue. At the same time, we need a fair system—a system that supports those going through the actual application system or appellate system so that they feel like they are getting their fair day in court at the same time. However, one of the issues that both of you have raised is backlogs, which we have seen increase under the Rwanda scheme and others. One of the concerns that many people have, especially my South Norfolk constituents, will be that the courts simply do not have the ability to keep up with the amount of casework coming to them.
 
 ## Mr Jonathan Brash MP
 party: Labour · Hartlepool
-> In the asylum system at the moment, 66% of cases are either accepted on appeal or they are withdrawn—the implication being that the Home Office had withdrawn that case. That is 66% of asylum appeals that could be effectively wiped out if the initial decision was better made. The fact that initial decisions by the Home Office are bad is a fact—you can look at the National Audit Office review of Home Office decision making or the Home Office’s own assessment of the quality of its decisions.
+> You have focused a great deal on Home Office decision making as the primary reason why the process takes a long time and there are a number of appeals, but is the reality not that appeal is the default? Virtually all refusals are appealed; it is nothing to do with the decision making, and as long as that is going to be the case, we have to find a way to speed up the system.
 
 ## Mr Paul Foster MP
 party: Labour · South Ribble
-> Surely that would be a much more effective and speedy way to address the backlog than creating a whole new body and system, with its own mechanisms and staffing requirements. Although the stated intention of creating this new body is to address the asylum backlog, in reality, as we can see from the terms of the Bill, the true intention is to give the Home Secretary much more control over the operation of the tribunal system than she currently has.
+> You have both been heavily and quite vocally critical of the Home Office—more than any of the other witnesses today. One issue we have is that there is a lot of political pressure, and the country is not happy with the current system and with what is happening, particularly with legal migration—some would say that the lawyers are perhaps partly responsible for that, but that is a separate debate. You have also acknowledged that there is a huge backlog in the appeals process and that, a lot of the time, that is the Home Office’s fault. The Government are trying to propose an alternative process for that, which you are also criticising. We cannot continue with the status quo, so what would you both advise doing to speed up the process for both the United Kingdom Government and the individuals seeking asylum?
+
+<!-- Anna Turley: no reel-length passage found; add one by hand -->
+
+<!-- Matt Vickers: no reel-length passage found; add one by hand -->
 
 <!-- Blake Stephenson: no reel-length passage found; add one by hand -->
 
-## Anna Turley MP
-party:  · 
-> Q I would like to focus on the measures in the Bill—you made some reference to the ones on modern slavery. Could you expand on how those provisions might make it harder for individuals who have fictitious claims to stop themselves being removed? Tony Smith: The Bill is really about the asylum process, rather than law enforcement. I think the Bill last year was more about the law enforcement; this is about the asylum process. There are some good things in here. As I say, I applaud the article 8 reforms, because article 8 is often used as a lever quite late in the process. After someone has been here for quite a while and has been through the process, you suddenly get an article 8 claim because they have developed a connection in the UK.
-
-## Ben Goldsborough MP
-party: Labour · South Norfolk
-> Q One piece of evidence that we were given earlier was that, as much as modern slavery legislation is a good thing for the United Kingdom, we have not necessarily been pulling our weight as we go forward. I am interested to hear from the panel, perhaps starting with the Minister, what progress you believe will be made by this Bill becoming law. Anna Turley: It is good to have the opportunity to talk about the modern slavery aspect because it is something we are obviously proud of in this country. It is important to us and we are committed to ending modern slavery. As a Government, it is really important to us, but we want to ensure that we support and protect the processes that support and identify modern slavery victims.
+<!-- Joe Robertson: no reel-length passage found; add one by hand -->
 
 <!-- Dr Zubir Ahmed: no reel-length passage found; add one by hand -->
-
-<!-- Joe Robertson: no reel-length passage found; add one by hand -->

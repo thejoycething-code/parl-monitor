@@ -1,52 +1,52 @@
 # Selection: Immigration and Asylum Bill (Second sitting), 2026-09-15
 
-*Ranked by one model call over every confirmed-onside member who made a speech of 250 words or more; passages verified verbatim against the member's words. The top 8 go to sequence.md. Onside itself is the checklist's decision, not the judge's.*
+*Ranked by one model call over every confirmed-onside member who made a speech of 250 words or more; passages verified verbatim against the member's words. The judge was briefed for a campaign for the Bill. The top 8 go to sequence.md. Onside itself is the checklist's decision, not the judge's.*
 
 | # | Member | Score | Angle | Why |
 |---|---|---|---|---|
-| 1 | **[Matt Vickers](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-53FC5D74-1BF6-4C24-AFF4-2A73E50E4F69)** | 8 | judicial independence, personal testimony | Vivid courtroom anecdote shows chaotic, unfair tribunal system in practice. |
-| 2 | **[Mr Jonathan Brash](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-D99D1BD1-F148-4037-A101-C2BFCAD1C794)** | 8 | poor Home Office decisions | Sharp statistic showing most appeals succeed because of bad initial decisions. |
-| 3 | **[Mr Paul Foster](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-85C1E6ED-1AB6-45FF-ABF9-9C41D285BCE9)** | 7 | coercion, ministerial power grab | Warns the real aim is to hand the Home Secretary control over tribunals. |
-| 4 | **[Blake Stephenson](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-5A4B5E22-5144-4062-B19D-DC86C7EE99E1)** | 4 | backlog statistics, process strain | Useful factual evidence of system strain but not framed against the Bill. |
-| 5 | **[Anna Turley](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-42BDB15B-6581-4BD7-8124-CAD149CFAD01)** | 1 | government minister, pro-bill | Speaker defends the Bill, so it works against not for opposition campaign. |
-| 6 | **[Ben Goldsborough](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-C07E32E3-9650-4EE1-8FF7-A16292435AA1)** | 1 | modern slavery, pro-bill | Minister's answer defends the Bill's modern slavery provisions, not opposing. |
-| 7 | **[Dr Zubir Ahmed](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-E66DA2FF-F642-4063-BB74-4FA772188625)** | 1 | government backbencher, pro-bill | Question invites minister to defend the Bill; no anti-bill content. |
-| 8 | **[Joe Robertson](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-F5BE3832-6D3A-4DB4-9D38-1ABC84F3D7DA)** | 1 | critical question, pro-bill answer | Question is sceptical but the response defends the Bill at length. |
+| 1 | **[Ben Goldsborough](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-C4CECA84-A038-4F2E-9DA8-5044152580F4)** | 6 | public confidence and clarity | Frames bill as restoring confidence and fairness, quotable and positive. |
+| 2 | **[Mr Jonathan Brash](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-A0B14755-D19E-45DD-B299-135F38ADF48E)** | 6 | appeals as default problem | Sharp, quotable line framing appeals system as broken and needing speed. |
+| 3 | **[Mr Paul Foster](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-85C1E6ED-1AB6-45FF-ABF9-9C41D285BCE9)** | 5 | status quo unacceptable | Argues backlog and public pressure demand change, implicitly backs reform. |
+| 4 | **[Anna Turley](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-FA38D599-EC84-497D-BE47-88C6FEC9B60E)** | 4 | safe country fairness | Raises fairness of safe-country rule, supportive framing but brief. |
+| 5 | **[Matt Vickers](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-5B85E92B-ECE9-4E2C-8CC8-F37B6D3F556C)** | 3 | outcomes test question | Frames bill by results but no clear pro-bill statement. |
+| 6 | **[Blake Stephenson](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-D82B7E83-FCCF-4774-AF2A-F84C8B192F37)** | 2 | clarifying question | Too brief and neutral for standalone clip. |
+| 7 | **[Joe Robertson](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-75DE3D09-C639-4D3B-986C-85A62583C171)** | 2 | criticising bill drafting | Undermines the Bill's clarity, works against campaign message. |
+| 8 | **[Dr Zubir Ahmed](https://hansard.parliament.uk/Commons/2026-09-15/debates/852cb4e5-da39-43a1-b769-9bfe0f268b65/#contribution-D5E86978-37A4-4039-8AFE-CFDDF3716517)** | 1 | prompting witness | No substantive own argument, mostly witness quoting. |
 
 ## Passages
 
-### 1. Matt Vickers (Conservative, Stockton West) — 8
-> I could go on forever, but just recently I accidentally sat in on the wrong hearing at a tribunal. I was only meant to be an observer; a younger member of my team was doing a hearing, and I thought I would like to observe it. I was sent the wrong link by the tribunal, and it took me about half an hour before I suddenly realised that I was on the wrong link—I thought this other matter was just being heard first, and mine was going to follow. I sat through half an hour, and it was a man from Iraq with no representation and no bundle. The interpreter did not really understand him, and it was a waste of time. It took about 30 minutes for the immigration judge to say, “We have to abandon this.”
+### 1. Ben Goldsborough (Labour, South Norfolk) — 6
+> One of the issues on which I think everyone will agree is the fact that we need to have a confidence-based immigration and asylum system. We need to have the public’s full support to ensure that it can continue. At the same time, we need a fair system—a system that supports those going through the actual application system or appellate system so that they feel like they are getting their fair day in court at the same time. However, one of the issues that both of you have raised is backlogs, which we have seen increase under the Rwanda scheme and others. One of the concerns that many people have, especially my South Norfolk constituents, will be that the courts simply do not have the ability to keep up with the amount of casework coming to them.
 *55 seconds spoken*
 
-### 2. Mr Jonathan Brash (Labour, Hartlepool) — 8
-> In the asylum system at the moment, 66% of cases are either accepted on appeal or they are withdrawn—the implication being that the Home Office had withdrawn that case. That is 66% of asylum appeals that could be effectively wiped out if the initial decision was better made. The fact that initial decisions by the Home Office are bad is a fact—you can look at the National Audit Office review of Home Office decision making or the Home Office’s own assessment of the quality of its decisions.
-*35 seconds spoken*
+### 2. Mr Jonathan Brash (Labour, Hartlepool) — 6
+> You have focused a great deal on Home Office decision making as the primary reason why the process takes a long time and there are a number of appeals, but is the reality not that appeal is the default? Virtually all refusals are appealed; it is nothing to do with the decision making, and as long as that is going to be the case, we have to find a way to speed up the system.
+*30 seconds spoken*
 
-### 3. Mr Paul Foster (Labour, South Ribble) — 7
-> Surely that would be a much more effective and speedy way to address the backlog than creating a whole new body and system, with its own mechanisms and staffing requirements. Although the stated intention of creating this new body is to address the asylum backlog, in reality, as we can see from the terms of the Bill, the true intention is to give the Home Secretary much more control over the operation of the tribunal system than she currently has.
-*32 seconds spoken*
+### 3. Mr Paul Foster (Labour, South Ribble) — 5
+> You have both been heavily and quite vocally critical of the Home Office—more than any of the other witnesses today. One issue we have is that there is a lot of political pressure, and the country is not happy with the current system and with what is happening, particularly with legal migration—some would say that the lawyers are perhaps partly responsible for that, but that is a separate debate. You have also acknowledged that there is a huge backlog in the appeals process and that, a lot of the time, that is the Home Office’s fault. The Government are trying to propose an alternative process for that, which you are also criticising. We cannot continue with the status quo, so what would you both advise doing to speed up the process for both the United Kingdom Government and the individuals seeking asylum?
+*57 seconds spoken*
 
-### 4. Blake Stephenson (Conservative, Mid Bedfordshire) — 4
-> On receipts, back in 2023 we had about 58,000 cases coming into the system. In 2025-26, that was up to 118,000. The outstanding caseload has risen in that same period from about 50,000 to 150,000 cases. The courts have tried to look at every available option and opportunity to improve productivity in the system.
-*22 seconds spoken*
+### 4. Anna Turley (, ) — 4
+> Do you think it is fair for people to be able to circumvent an international rules-based framework by going through a safe country already before coming to claim asylum in the UK, or do you think that should have no effect at all on their asylum claim here?
+*19 seconds spoken*
 
-### 5. Anna Turley (, ) — 1
+### 5. Matt Vickers (Conservative, Stockton West) — 3
+> The sole test for the Bill is whether it will reduce illegal arrivals and increase removals. What is the single biggest amendment you would put forward to make that difference?
+*12 seconds spoken*
+
+### 6. Blake Stephenson (Conservative, Mid Bedfordshire) — 2
+> Can or does? Is it an objective or a political assessment?
+*4 seconds spoken*
+
+### 7. Joe Robertson (Conservative, Isle of Wight East) — 2
 > (no verbatim passage from the judge; the sequence falls back to reel_passage)
 
 
-### 6. Ben Goldsborough (Labour, South Norfolk) — 1
-> We are very concerned about the number of late claims—it feels deliberately used to thwart returns. As we heard, a third of the failed removals involved modern slavery referral. Three quarters of those were raised between 3 pm on the day before removal and 6 am.
-*18 seconds spoken*
-
-### 7. Dr Zubir Ahmed (Labour, Glasgow South West) — 1
-> Can you provide some reflection on why the measures in the Bill are necessary, and what impact it will have, not only on restoring trust and public confidence in the immigration and asylum system, but on social cohesion more widely?
-*16 seconds spoken*
-
-### 8. Joe Robertson (Conservative, Isle of Wight East) — 1
-> I get that the system we have is not good enough, but that does not mean that what you are proposing is. We have heard lots of evidence in this session that the problems lie not necessarily with the law, but with the way the Home Office deals with applications. Are you absolutely sure that this is the best Bill you can introduce?
-*25 seconds spoken*
+### 8. Dr Zubir Ahmed (Labour, Glasgow South West) — 1
+> I think it was either yourself or Professor Singer—
+*4 seconds spoken*
 
 ## Checks
 
-* Anna Turley: the judge's passage is not verbatim; dropped
+* Joe Robertson: the judge's passage is not verbatim; dropped

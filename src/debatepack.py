@@ -101,6 +101,29 @@ def _clean(text):
     return " ".join(_TAG.sub(" ", text or "").split())
 
 
+# An oral-evidence item (a Public Bill Committee's witness sittings) is filed
+# under the member who asked: "Q <question> <em><strong>Witness:</strong></em>
+# <answer> <strong>Next witness:</strong> ..." all in ONE Hansard Value. Found
+# 17 September 2026 on the Immigration and Asylum Bill: the roundup quoted a
+# barrister's tribunal anecdote as Matt Vickers, the selector ranked witnesses
+# under MPs' names, and every clip window was sized on the answers too.
+_EVIDENCE_Q = re.compile(r"^\s*(?:<[^>]+>\s*)*Q\b")
+_WITNESS_TURN = re.compile(r"<strong>\s*[^<:]{2,80}:\s*</strong>")
+
+
+def _own_words(value):
+    """(text, evidence): the member's own words from a Hansard Value. For an
+    evidence item the text stops where the first witness answers, and the
+    leading "Q" is dropped; anything else is cleaned whole."""
+    value = value or ""
+    if not _EVIDENCE_Q.match(value):
+        return _clean(value), False
+    m = _WITNESS_TURN.search(value, 1)
+    own = value[:m.start()] if m else value
+    text = _clean(own)
+    return (text[1:].lstrip() if text.startswith("Q") else text), True
+
+
 _ROLE = re.compile(r"Minister|Secretary of State|Under-Secretary|Parliamentary Secretary|Solicitor General|"
                    r"Attorney General|Chancellor|Leader of the House|Prime Minister|Lord Privy Seal|Paymaster", re.I)
 
@@ -223,7 +246,9 @@ def contributions(payload, date):
         if it.get("ItemType") != "Contribution" or not it.get("Value") or not it.get("AttributedTo"):
             continue
         name, seat, party = _parse_attributed(it["AttributedTo"])
-        text = _clean(it["Value"])
+        text, evidence = _own_words(it["Value"])
+        if not text:
+            continue                                  # a "Q" with nothing before the witness spoke
         # A contribution takes the clock only when one was printed just before it
         # (a Timestamp item, or its own Timecode). Everything between two such
         # anchors is placed by INTERPOLATION below, in proportion to the words
@@ -236,7 +261,7 @@ def contributions(payload, date):
         pending = None
         rows.append({"order": it.get("OrderInSection"), "attributed": it["AttributedTo"], "name": name,
                      "seat": seat, "party": party, "member_id": it.get("MemberId"),
-                     "ext_id": it.get("ExternalId"), "text": text, "anchored": anchored,
+                     "ext_id": it.get("ExternalId"), "text": text, "anchored": anchored, "evidence": evidence,
                      "start": start, "chair": bool(CHAIR.search(it["AttributedTo"]))})
     _interpolate_starts(rows)
     # END of a contribution: Hansard's clocks are sparse (a Timestamp every

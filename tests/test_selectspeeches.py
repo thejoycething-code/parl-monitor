@@ -21,7 +21,33 @@ SPEECHES = [
     {"name": "Unconfirmed", "party": "LD", "seat": "D", "confirmed": "", "pass_read": "With us, strongly",
      "contributions": [{"at": "10:20:00", "words": 600, "url": "u", "text": LONG}]},
 ]
-META = {"title": "A Bill", "date": "2026-09-11", "house": "Commons"}
+META = {"title": "A Bill", "date": "2026-09-11", "house": "Commons", "position": "against"}   # the TIA run's side
+
+
+class PositionTests(unittest.TestCase):
+    """17 Sept 2026: the brief said OPPOSED regardless and ranked the Immigration and
+    Asylum Bill's supporters at 1. The judge is now briefed for a side, never assumes one."""
+
+    def test_position_comes_from_a_reading_vote_only(self):
+        self.assertEqual(sel.position_from_vote({"vote": {"our_side": "aye", "title": "Immigration and Asylum Bill: Second Reading"}}), "for")
+        self.assertEqual(sel.position_from_vote({"vote": {"our_side": "no", "title": "Terminally Ill Adults (End of Life) Bill: Second Reading"}}), "against")
+        self.assertIsNone(sel.position_from_vote({"vote": {"our_side": "aye", "title": "Crime and Policing Bill: New Clause 1"}}))
+        self.assertIsNone(sel.position_from_vote({"vote": {"our_side": "aye", "question": "That the Question be now put."}}))
+        self.assertIsNone(sel.position_from_vote({}))
+
+    def test_the_brief_names_the_side_and_refuses_without_one(self):
+        c = sel.candidates(SPEECHES)
+        for_ = sel.build_payload({"title": "A Bill", "vote": {"our_side": "aye", "title": "A Bill: Third Reading"}}, c)
+        self.assertIn("a campaign that SUPPORTED the Bill", for_["system"])
+        self.assertIn("members who spoke for it", for_["system"])
+        against = sel.build_payload(META, c)
+        self.assertIn("a campaign that OPPOSED the Bill", against["system"])
+        self.assertIn("spoke against it", against["system"])
+        self.assertNotIn("{STANCE_UPPER}", for_["system"] + against["system"])
+        with self.assertRaises(ValueError):
+            sel.build_payload({"title": "A Bill"}, c)
+        # an explicit position outranks the vote
+        self.assertIn("OPPOSED", sel.build_payload({"vote": {"our_side": "aye", "title": "X: Second Reading"}}, c, position="against")["system"])
 
 
 class CandidateTests(unittest.TestCase):

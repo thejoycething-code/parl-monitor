@@ -27,14 +27,37 @@ BATCH = 8                  # speakers per call, so the reply never nears the bud
 MIN_WORDS = 250            # below this a contribution is an intervention, not a speech
 WORDS_SHOWN = 700          # of the longest contribution, per member, to the judge
 
-SYSTEM_PROMPT = """You are the picture editor for a campaign that OPPOSED the Bill debated here. You will be given the speeches of members who spoke against it. Rank them by their value as a standalone social video clip for that campaign.
+SYSTEM_PROMPT = """You are the picture editor for a campaign that {STANCE_UPPER} the Bill debated here. You will be given the speeches of members who spoke {SIDE_WORD} it; the text is each member's OWN words only. Rank them by their value as a standalone social video clip for that campaign.
 
-Judge each speech on: one clear argument a viewer can repeat; emotional force; a passage of 30-60 seconds (roughly 75-150 words) in the member's OWN words that stands alone without the debate around it; a distinct angle from the others (personal testimony, medical authority, disability, coercion, palliative care, the vote's process, faith, law); and the speaker's standing (front bench, doctor, disabled member, someone who changed their vote).
+Judge each speech on: one clear argument a viewer can repeat; emotional force; a passage of 30-60 seconds (roughly 75-150 words) in the member's OWN words that stands alone without the debate around it; a distinct angle from the others (personal testimony, professional authority, constituency casework, coercion, the vote's process, faith, law, cost to the public); and the speaker's standing (front bench, a professional in the field, someone who changed their vote). A speech that argues {SIDE_WORD} the Bill serves the campaign; one that merely asks a question, or defends the other side, scores low.
 
 Return ONLY a JSON array, one object per speaker, every speaker included:
 [{"name": "<exactly as given>", "score": <1-10>, "angle": "<two to five words>", "why": "<at most fifteen words>", "passage": "<verbatim consecutive sentences from the speech, 75-150 words, copied exactly>"}]
 
 RULES. Copy passages VERBATIM from the text supplied: never tidy, merge or paraphrase; if no passage of that length stands alone, copy the best shorter one. Never invent a name or a fact. Score honestly: a speech that is worthy but not clip-able scores low."""
+
+POSITIONS = {"for": ("SUPPORTED", "for"), "against": ("OPPOSED", "against")}
+_READING = re.compile(r"\b(Second|Third) (Reading|time)\b", re.I)
+
+
+def position_from_vote(meta):
+    """'for' | 'against' | None from the vote the checklist was filled from
+    (pack.json "vote": {division, our_side, title}). Only a reading of the Bill
+    is read this way: aye on "Second Reading" means the onside members are FOR
+    the Bill. A reasoned amendment, a new clause or a closure says nothing
+    about the Bill as a whole, and the caller must be told the position."""
+    vote = (meta or {}).get("vote") or {}
+    side = str(vote.get("our_side") or "").lower()
+    if side not in ("aye", "no") or not _READING.search(vote.get("title") or vote.get("question") or ""):
+        return None
+    return "for" if side == "aye" else "against"
+
+
+def system_prompt(position):
+    if position not in POSITIONS:
+        raise ValueError("position must be 'for' or 'against' (got %r): the judge is briefed for a side, never assumes one" % (position,))
+    upper, word = POSITIONS[position]
+    return SYSTEM_PROMPT.replace("{STANCE_UPPER}", upper).replace("{SIDE_WORD}", word)
 
 
 def candidates(speeches, min_words=MIN_WORDS, words_shown=WORDS_SHOWN):
@@ -53,13 +76,15 @@ def candidates(speeches, min_words=MIN_WORDS, words_shown=WORDS_SHOWN):
     return out
 
 
-def build_payload(meta, cands, model=MODEL):
+def build_payload(meta, cands, model=MODEL, position=None):
     user = {"debate": {"title": meta.get("title"), "date": meta.get("date"), "house": meta.get("house")},
             "speakers": [{k: c[k] for k in ("name", "party", "seat", "words", "text")} for c in cands]}
     # Thinking shares max_tokens (the reply hit the cap twice on 11 Sept 2026, and
     # the Sunday pull's judge starved on 14 Sept): medium effort keeps the
     # deliberation short so the JSON has room.
-    return {"model": model, "max_tokens": MAX_TOKENS, "output_config": {"effort": "medium"}, "system": SYSTEM_PROMPT,
+    position = position or meta.get("position") or position_from_vote(meta)
+    system = system_prompt(position)      # ValueError when nobody said which side we are on
+    return {"model": model, "max_tokens": MAX_TOKENS, "output_config": {"effort": "medium"}, "system": system,
             "messages": [{"role": "user", "content": json.dumps(user, ensure_ascii=False)}]}
 
 
@@ -120,7 +145,7 @@ def verify(rows, cands):
     return ranked, problems
 
 
-def judge(meta, cands, api_key, transport=None, conn=None, log=print, batch=BATCH):
+def judge(meta, cands, api_key, transport=None, conn=None, log=print, batch=BATCH, position=None):
     """One call per BATCH speakers, scores pooled. Scores are comparable across
     batches because the rubric is absolute (1-10 against fixed criteria), not a
     ranking within the batch."""
@@ -129,7 +154,7 @@ def judge(meta, cands, api_key, transport=None, conn=None, log=print, batch=BATC
         raise SystemExit("no confirmed-onside speaker made a speech of %d words or more" % MIN_WORDS)
     rows, texts, usage = [], [], {"input_tokens": 0, "output_tokens": 0}
     for i in range(0, len(cands), batch):
-        payload = build_payload(meta, cands[i:i + batch])
+        payload = build_payload(meta, cands[i:i + batch], position=position)
         reply = (transport or stance._default_transport)(payload, api_key)
         u = reply.get("usage") or {}
         usage["input_tokens"] += u.get("input_tokens") or 0
@@ -152,8 +177,9 @@ def judge(meta, cands, api_key, transport=None, conn=None, log=print, batch=BATC
 def selection_md(meta, ranked, problems, top):
     lines = ["# Selection: %s, %s" % (meta.get("title"), meta.get("date")), "",
              "*Ranked by one model call over every confirmed-onside member who made a speech of %d words or more;"
-             " passages verified verbatim against the member's words. The top %d go to sequence.md. Onside itself"
-             " is the checklist's decision, not the judge's.*" % (MIN_WORDS, top), "",
+             " passages verified verbatim against the member's words. The judge was briefed for a campaign %s the Bill."
+             " The top %d go to sequence.md. Onside itself is the checklist's decision, not the judge's.*"
+             % (MIN_WORDS, meta.get("position") or "of unknown side on", top), "",
              "| # | Member | Score | Angle | Why |", "|---|---|---|---|---|"]
     for i, r in enumerate(ranked, 1):
         mark = "**" if i <= top else ""
