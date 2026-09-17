@@ -25,9 +25,21 @@ class LockTests(unittest.TestCase):
         packlock.release(d)
         self.assertFalse(os.path.exists(os.path.join(d, ".lock")))
 
+    def test_a_process_we_cannot_signal_counts_as_alive(self):
+        """PID 1 exists and refuses our signal. Reading EPERM as "dead" let the
+        lock be stolen from a live holder (17 September 2026)."""
+        self.assertTrue(packlock._alive(1))
+        self.assertFalse(packlock._alive(999999), "a pid that is really gone")
+
     def test_another_live_process_is_refused_unless_forced(self):
         d = tempfile.mkdtemp()
-        json.dump({"pid": os.getppid(), "tool": "other", "since": "now"}, open(os.path.join(d, ".lock"), "w"))
+        # A REAL live child, not os.getppid(): under a detached parent that is
+        # pid 1, which this user cannot signal, so the test passed alone and
+        # failed in the suite.
+        import subprocess
+        holder = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])
+        self.addCleanup(lambda: (holder.kill(), holder.wait()))
+        json.dump({"pid": holder.pid, "tool": "other", "since": "now"}, open(os.path.join(d, ".lock"), "w"))
         with self.assertRaises(SystemExit) as caught:
             packlock.acquire(d, "me")
         self.assertIn("held by other", str(caught.exception))

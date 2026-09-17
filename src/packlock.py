@@ -15,11 +15,26 @@ LOCK = ".lock"
 
 
 def _alive(pid):
+    """Does this pid exist?
+
+    signal 0 answers three ways, and only one of them means dead. ESRCH
+    (ProcessLookupError) means gone. EPERM (PermissionError) means the process
+    IS there and belongs to somebody else -- and because PermissionError is an
+    OSError, catching OSError broadly reported it as dead, so the lock could be
+    stolen from a live holder. That is precisely what the lock exists to stop:
+    two renders on one pack racing on the same clip paths. Found 17 September
+    2026 when the lock test failed only under a detached parent, where
+    getppid() is 1 and this user cannot signal it.
+    """
     try:
         os.kill(int(pid), 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
         return True
     except (OSError, ValueError, TypeError):
         return False
+    return True
 
 
 def acquire(pack_dir, tool, force=False):

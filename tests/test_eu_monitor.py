@@ -202,3 +202,59 @@ class EditionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PlenaryLeadTests(unittest.TestCase):
+    """Christopher, 17 Sept 2026: "fix the weekly DM to lead with the plenary".
+    It opened on Commission feedback windows and reached divisions only through
+    the triage-scored list, so the 15 September sitting -- 86 roll calls on our
+    ground, the Democracy Shield report adopted 420-220-26 -- would not have
+    appeared in the DM at all."""
+
+    def setUp(self):
+        self.conn = store()
+        rows = [
+            ("WHOLE", "2026-09-15", "Big report - Tomas Tobe - Motion for a resolution (as a whole)", 420, 220, 26),
+            ("SPLIT1", "2026-09-15", "Big report - Tomas Tobe - Recital B", 555, 94, 21),
+            ("SPLIT2", "2026-09-15", "Big report - Tomas Tobe - § 17", 434, 235, 3),
+            ("SPLIT3", "2026-09-15", "Big report - Tomas Tobe - After § 88 - Am 94", 117, 489, 65),
+            ("OLD", "2020-01-01", "Ancient business", 10, 5, 0),
+        ]
+        for vid, date, label, f, a, ab in rows:
+            self.conn.execute(
+                "INSERT INTO eu_divisions (vote_id, sitting_id, date, label, "
+                "favor, against, abstention, areas, matched_terms, tier, "
+                "first_seen, last_seen) VALUES (?,'s',?,?,?,?,?,'[7]','[]',1,"
+                "'2026-09-17','2026-09-17')", (vid, date, label, f, a, ab))
+        self.conn.commit()
+
+    def tearDown(self):
+        self.conn.close()
+
+    def test_a_recital_or_paragraph_or_amendment_split_is_recognised(self):
+        self.assertFalse(eu.is_split("Big report - Tomas Tobe - Motion for a resolution (as a whole)"))
+        self.assertTrue(eu.is_split("Big report - Tomas Tobe - Recital B"))
+        self.assertTrue(eu.is_split("Big report - Tomas Tobe - \u00a7 17"))
+        self.assertTrue(eu.is_split("Big report - Tomas Tobe - After \u00a7 88 - Am 94"))
+        self.assertFalse(eu.is_split("A plain motion with no splits"))
+
+    def test_the_whole_text_vote_leads_and_the_splits_are_counted_not_listed(self):
+        out = eu.plenary_lines(self.conn, "2026-09-17")
+        self.assertIn("4 roll call(s) on our ground", out[0])
+        self.assertIn("*adopted* 420-220-26", out[1], "the whole-text vote leads")
+        self.assertTrue(any("3 further roll call(s)" in ln for ln in out), out)
+
+    def test_an_unsigned_division_is_reported_as_a_result_and_nothing_more(self):
+        out = eu.plenary_lines(self.conn, "2026-09-17")
+        self.assertIn("no verdict signed", out[1])
+        self.assertNotIn("OUR WAY", out[1])
+
+    def test_business_outside_the_window_never_leads(self):
+        out = eu.plenary_lines(self.conn, "2026-09-17", days=30)
+        self.assertNotIn("Ancient business", " ".join(out))
+
+    def test_a_quiet_month_says_so_rather_than_dropping_the_section(self):
+        conn = store()
+        body = eu.dm_summary(conn, "2026-09-17")
+        self.assertIn("No plenary business on our ground", body)
+        conn.close()

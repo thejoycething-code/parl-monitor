@@ -1,0 +1,170 @@
+Campaign Name,Campaigner,Date of Submission,Urgency,List,Notes,Approval Date
+"Prime Minister, keep your word: fund hospices now (DRAFT)",cjoyce@citizengo.net,2026-09-17,Urgent Campaign,EN GB,"Draft for content review, 17 September 2026. Hand-built with Claude from the parl-monitor store and the campaign log. Calendar check completed: no live or past hospice-funding petition in the EN GB portfolio; the only care-framed ask was the May 2025 open letter to Starmer (15326, 180 signatures). Decisions logged with Christopher: headline promise with three dated tests; assisted suicide front and centre but never a precondition for legalisation; 5CA on the PM and ministers with the full Commons beneath; Obligatory; two-phase delivery: Labour conference on 29 September, then No.10 and the Treasury before the Budget if the petition performs well.",
+GENERAL INFORMATION
+Type of Campaign,Obligatory
+Topic,Life
+Main Purposes,Political Impact; Engagement of existing members (post-win follow-through)
+Background / Context,"Britain's hospices are closing beds and losing nurses while the state pays barely 40p in every pound of the care they give. In the same weeks, Parliament threw out the latest attempt to legalise assisted suicide. Fifteen months after Kim Leadbeater's Terminally Ill Adults (End of Life) Bill scraped through the Commons by 23 votes and then ran out of road in the Lords, MPs rejected Lauren Edwards's successor Bill by 286 votes to 270 on 11 September 2026. The people who were told throughout that fight that the answer to suffering is care, not killing, are still waiting for the care.
+
+The Prime Minister has put himself on the record. Andy Burnham, who entered Downing Street on 20 July 2026, used his first major speech on social care as Prime Minister, on 29 July, to say that the funding of palliative and social care ""needs to happen first"", that it is ""very challenging"" to introduce assisted suicide ""in a context of people not receiving that care"", and that this is ""the position that I will stick to"". He brought the Casey Commission's final report on social care forward to summer 2027, set up a ministerial group with the Chancellor and the Housing Secretary, launched the Big Conversation on Care and spoke of a National Care Service. On 28 August he told Labour MPs he would not vote on the Bill and that his Government would implement whatever Parliament decided, whether or not the law changed. Parliament has decided. What he said needed to happen first is now the only thing on the table, and it is the thing he has not yet paid for.
+
+The scale of the failure is not in dispute. Hospice UK's 2026 figures show the state funding about £450m of the £1.2bn that hospice care costs, a gap of roughly £745m. Nearly six in ten hospices have cut or are considering cutting frontline services. 380 beds stand empty for want of staff. One in four people who need specialist palliative care never receive it. 84% of children's hospices expect a deficit in 2026/27. Since December 2024 the Government has found £125m for buildings and a £26m children's grant, and not a pound of recurring money for the nurses inside those buildings, who are leaving for NHS pay rises that charities cannot match. This is the collapsing palliative care system we warned about throughout the Bill campaign, and it is why the ""choice"" offered by assisted suicide was never a real choice at all.
+
+The night the Bill fell, Hospice UK's chief executive Toby Porter called on both sides to turn their energy to the hospice funding crisis and asked the Prime Minister for meaningful action. Ashley Dalton, a terminally ill Labour MP who voted No, told the House the Government must sort out social and palliative care. Our own supporters, 23,130 of whom signed against the Bill in the twelve weeks before the vote, were told by us that care is the answer to suffering at the end of life. We meant it. A pro-life movement that says no to killing the dying has to say yes, loudly and with money attached, to caring for them, just as it fights for mothers and babies at the other end of life. That is what this campaign does.
+
+The Cabinet split on the Bill shows where the pressure has to go. Health Secretary Yvette Cooper, Treasury ministers Emma Reynolds and James Murray and the Care Minister Alison McGovern all voted to legalise assisted suicide; Angela Rayner, Wes Streeting, Shabana Mahmood and Bridget Phillipson voted against. The ministers who wanted the law are now the ministers who hold the money. Three dated moments will show whether the Prime Minister's words become a settlement: the Budget on 28 October, Chancellor John Healey's first; the Modern Service Framework for palliative and end-of-life care, promised for this autumn; and the Casey report in summer 2027.
+
+We deliver in two phases: at Labour conference in Liverpool on 29 September, the day of the leader's speech, and, if the petition performs, to No.10 and the Treasury in the week before the Budget.
+
+Guardrail (agreed 17 September): assisted suicide sits at the front of the copy because it is why our supporters care, but no sentence may present good care as a step towards legalisation. Parliament has decided. Care is what the dying are owed, full stop."
+Estimated Launch date,21 September 2026 (build 18 to 20 September)
+Estimated date for Delivering Signatures,"Two phases. Phase 1: 29 September 2026, the Prime Minister's leader's speech at Labour conference in Liverpool (hand-over attempted at conference; email to No.10 and the Minister for Care if refused). Phase 2, if the petition performs well: 26 or 27 October 2026, to No.10 and HM Treasury ahead of the Budget on 28 October. Decide on Phase 2 on 12 October against the RF#1 baseline."
+Ideas for eventual Offline Actions,"- Phase 1: hand-over of the petition and open letter outside the conference secure zone in Liverpool on 29 September, received by a No-voting Labour MP (David Baines, the PM's PPS, is the first ask), with supporters from Greater Manchester and Merseyside invited for the photo.
+- Phase 2 (if Phase 1 performs): Downing Street and HM Treasury hand-in on 26 or 27 October with hospice nurses or a bereaved family alongside, the day before the Budget.
+- Supporters send a thank-you card to their local hospice with one line asking the Prime Minister to keep his word; photos back to us for social.
+- Constituency letters to MPs when the Commons returns on 12 October, asking them to write to the Chancellor before the Budget.
+- Parish and church notices: the hospice funding gap in one paragraph plus the petition link.
+- Budget-day watch on 28 October: score the three tests publicly and email the verdict the same evening."
+Petitions related TIM project (Targeting Inactive Members),"Yes. Reactivate the 2024-25 assisted suicide signers (14049, 14405, 14715, 15123) who did not sign the 2026 petition (18429). The Bill campaigns hold the biggest Life-topic acquisition on the list: 3,502 new on 14049 alone."
+PROMPTS FOR AI - PLAN PHASE
+What is the language for this petition?,English (United Kingdom). Use British spelling and UK institutional terminology.
+Who will sign the emails for this petition?,"Christopher Joyce for the launch, relaunches and report-backs. Proposal for sign-off: Caroline Farrow signs RL1, the hospice-story email, if she is willing."
+Who is the petition addressed to?,"The Prime Minister, Andy Burnham. Copied to the Chancellor of the Exchequer, John Healey, and the Secretary of State for Health and Social Care, Yvette Cooper, the two ministers who decide Tests 1 and 2."
+What are we asking for in the petition?,"The Prime Minister to keep the promise he made on 29 July 2026 and prove it against three dated tests:
+1. Budget, 28 October: recurring hospice funding starting at the GBP 112.5m a year the sector has costed; hospices moved from grants onto NHS contracts that pay the real cost of commissioned care; the Children's Hospice Grant made permanent.
+2. Modern Service Framework, this autumn: published on time, with a funding line and a right to a specialist palliative care assessment on terminal diagnosis.
+3. Casey report, summer 2027: a funded plan for social care by his own deadline.
+And to say, in his conference speech on 29 September, that he will meet all three."
+Why would they listen to us?,"Because the promise is his and the words are on the record. Because 23,130 people signed our petition against the Bill in the twelve weeks before the vote and were told that care was the answer. Because Parliament has just voted 286 to 270 in the direction he said the country had to travel first, and a Prime Minister who abstained ""so as not to unduly influence"" MPs cannot now be seen to ignore what they decided.
+
+Because the hospice sector is asking for the same thing in the same week, so our voice lands in a chorus rather than alone. And because his first Budget is written by a Chancellor who voted for the Bill: a Prime Minister who campaigned on care cannot afford a red box with nothing in it for hospices without ""care first"" becoming a line his opponents tell against him."
+What is happening that we are responding to?,"A new Prime Minister made fixing palliative and social care funding the condition for everything else on 29 July. Parliament rejected assisted suicide on 11 September. Hospices are cutting beds and staff now, before their 2027-28 budgets are set. The Chancellor's Budget falls on 28 October and the Modern Service Framework is due this autumn. Nothing has yet been promised in money. If the promise is going to be kept, the next six weeks decide it."
+What is the key point of injustice that is at stake here?,"1. A promise made over the dying
+The Prime Minister said the funding of palliative and social care ""needs to happen first"". If hospices go into the winter with no settled funding, the dying will have been invoked in a political argument and then forgotten.
+
+2. One in four left without
+One in four people who need specialist palliative care do not get it, while the charities providing it close beds: 380 are out of use for want of staff. Nobody should die in pain because the postcode lottery said so.
+
+3. Forty pence in the pound
+The state funds around 40% of hospice care and leaves the rest to cake sales, charity shops and legacies, then talks about ""choice"" at the end of life. Choice without care is no choice at all.
+
+4. Capital without care
+GBP 125m for buildings since December 2024 and nothing recurring for the nurses inside them. Hospice nurses are leaving for NHS pay rises the charities cannot match.
+
+5. Families carry what the state will not
+Most end-of-life care in Britain is given at home by families, unpaid and unsupported, inside a social care system the Prime Minister himself has called as unfair as American healthcare. A pro-life movement does not stop at saying No to assisted suicide and abortion. It fights for the support families need to care for the dying and to welcome the newborn. This campaign is that fight, and it is the same fight."
+PROMPTS FOR AI - PREPARE PHASE
+What are some arguments supporting our point of view?,"1. The promise is his and it is recent
+""The fixing of the funding of palliative care and social care ... that's the position that I will stick to."" Prime Minister, 29 July 2026.
+
+2. Parliament has spoken
+286 to 270 against the Bill on 11 September. The Prime Minister told Labour MPs on 28 August that his Government would implement the will of Parliament ""whether that is to change the law or not"".
+
+3. The numbers are the sector's, not ours
+A GBP 745m gap between what hospice care costs and what the state pays; nearly six in ten hospices cutting or considering cuts; 380 beds out of use; 150,000 fewer specialist home visits in a year (Hospice UK, 2026).
+
+4. The ask is modest and costed
+Hospice UK's GBP 112.5m recurring first step is a fraction of one per cent of the NHS budget. The Government has already conceded the principle by promising a Modern Service Framework; we are asking it to attach money.
+
+5. There is no lobby against hospices
+MPs on both sides of the 11 September vote, from Ashley Dalton to Liz Kendall, said in the same debate that palliative and social care must improve. The only obstacle is a Treasury that has not yet been made to choose.
+
+6. Capital is not care
+GBP 125m for roofs and equipment since December 2024 and nothing recurring for staff. Wendy Morton's written question of 1 September asked whether money would come ""before hospices make staffing and service decisions for 2027-28"". It has not.
+
+7. Every life has equal worth to its last breath
+The case against assisted suicide and the case for hospices are the same case: a person's dignity does not fall with their prognosis. A country that will not fund the care of the dying has no standing to lecture anyone about a ""dignified death"".
+
+8. A society is judged by how it treats its weakest
+The modern hospice movement was built by Christians, Dame Cicely Saunders foremost, on the conviction that no one should die alone, in pain, or feeling a burden. Funding it is not charity from the state; it is the state honouring a duty every civilised society owes its dying.
+
+9. True compassion accompanies; it does not abandon
+The word ""compassion"" has been claimed by those offering a lethal prescription. Ours is the older meaning: to suffer with. Care that stays to the end is the answer to suffering. A prescription that ends the sufferer is surrender dressed as mercy.
+
+10. Families first, and families need help
+Most people want to die at home, cared for by those who love them. The state's job is to make that possible: hospice at home, respite for carers, and a social care system that does not strip a family of everything it has. Supporting families at the beginning and the end of life is what pro-life means in practice.
+
+11. Fix the cause, not the symptom
+Requests for assisted suicide rise where care is absent and fall where it is present. Fund the care and the demand for death falls with it. That is why care must come first, and why it must come now."
+Why is it urgent that we take action now?,"The leader's speech is on 29 September and the Budget on 28 October. Hospices set their 2027-28 staffing plans this autumn, so a Budget without a recurring line means beds closed over the winter. After the Budget, a promise not kept becomes a promise deferred to a Spending Review nobody has dated. The Modern Service Framework can be published with or without money; which version appears depends on the pressure applied in the next six weeks."
+Describe a bad outcome if we do not win this campaign:,"The conference speech praises carers and names no money. The Budget repeats the capital-only pattern or offers a one-off grant. The Modern Service Framework arrives as guidance with no funding line. Hospices cut further beds over the winter. The promise of 29 July quietly becomes a talking point about the Casey Commission in 2027, and the argument that ""care must come first"" is left on the ground for the next assisted suicide Bill's sponsors to pick up as proof that care will never be fixed."
+Describe a good outcome if we do win this campaign:,"The Prime Minister names hospices in Liverpool on 29 September and commits to funding them in the Budget. On 28 October the Chancellor announces recurring revenue funding for hospices and a move to NHS contracts that cover the cost of commissioned care. The Modern Service Framework is published this autumn with a right to a specialist assessment for everyone with a terminal diagnosis. Our supporters see the campaign they fought for turn into care for real people, and the record shows who kept their word."
+Which sources do you want to include? Please provide the titles plus URLs:,"- Burnham delivers significant blow to assisted dying bill as he launches attempt to 'fix' social care funding [Disability News Service, 30 July 2026]: https://www.disabilitynewsservice.com/burnham-delivers-significant-blow-to-assisted-dying-bill-as-he-launches-attempt-to-fix-social-care-funding/
+- The Prime Minister's commitment to adult social care [DHSC social care blog, 6 August 2026]: https://socialcare.blog.gov.uk/2026/08/06/the-prime-ministers-commitment-to-adult-social-care/
+- Andy Burnham will NOT vote on assisted suicide [SPUC, 28 August 2026, quotes the PLP letter]: https://spuc.org.uk/andy-burnham-will-not-vote-on-assisted-suicide/
+- Terminally Ill Adults (End of Life) Bill: Second Reading, division 2428, 11 September 2026 [UK Parliament]: https://votes.parliament.uk/Votes/Commons/Division/2428
+- Fall of assisted dying Bill 'heartbreaking' for some but welcomed by opponents [PA via The Oldham Times, 11 September 2026; Hospice UK and Ashley Dalton quotes]: https://www.theoldhamtimes.co.uk/news/national/26544264.fall-assisted-dying-bill-heartbreaking-welcomed-opponents/
+- Fair Funding for Hospices, the GBP 112.5m ask [Hospice UK]: https://www.hospiceuk.org/fair-funding-hospices
+- Modern Service Framework for Palliative Care and End-of-Life Care, written statement HCWS88 [DHSC, 4 June 2026]: https://questions-statements.parliament.uk/written-statements/detail/2026-06-04/hcws88
+- Burnham to bring forward date for Casey Commission to report back [Local Government Lawyer, July 2026]: https://www.localgovernmentlawyer.co.uk/adult-social-care/391-adult-care-news/101275-burnham-to-bring-forward-date-for-casey-commission-to-report-back-with-plan-on-delivery-of-national-care-service
+- Government confirms date for Autumn Budget 2026, 28 October [Professional Pensions]: https://www.professionalpensions.com/news/4533779/government-confirms-date-autumn-budget-2026
+- Labour Party Annual Conference 2026, Liverpool, 27 to 30 September [Labour]: https://conference.labour.org.uk/annual-conference-2026/
+- Our MP vote tracker [parl-monitor]: https://parl-monitor-partner.vercel.app/mp-votes.html"
+What should the image for this campaign look like?,"Text-free 16:9 editorial photograph. A hospice bedside in soft daylight: an older patient's hand held by a nurse's, a garden through the window. Serious, calm and dignified; a promise being held up to the light, not a protest. For the petition page only, overlay the Prime Minister's own words, ""the fixing of the funding of palliative care and social care ... that's the position that I will stick to"", dated 29 July 2026. Avoid faces in distress, hospital corridors, the grim-reaper imagery from the Bill campaign, and anything that reads as anti-NHS."
+RED FOX FOUR
+PLAN STAGE,,,,EVALUATE STAGE,,
+#,Question,"Scoring 
+(-10 to +10)",Comments,"Scoring
+(-10 to +10)",Delta,Comments
+RF#1,"Win or lose, just by fighting this fight, will it bring people or money to our cause?",3,"Scored on the assisted suicide campaigns this follows, because that is the audience and the register we are working with: 14049 took 50,906 signatures and 3,502 new members (6.9%); 15123 31,178 and 1,410; the 2026 Bill petition 23,130 and 1,659 (7.2%), all well above the Life topic's median acquisition. * Asterisk: we have never run a petition calling for better palliative care and ordinarily would not; the one care-framed side petition (May 2025, to Starmer) took 180 signatures. This is a deliberate exception. A positive ask on the back of a win could be a strong acquisition opportunity among people who would never sign against a Bill, and it shows the good side of the pro-life movement: we fight for care, not only against killing. Evaluate against the Bill campaigns and judge the exception on its numbers.",,,
+RF#2,"Win or lose, just by fighting this fight, will it help our friends or allies?",4,"Yes, and more than the Bill fight did. For once we are asking for exactly what the hospice sector is asking for, in the same week: Hospice UK, Marie Curie and Together for Short Lives all want a recurring settlement in the Budget, and SPUC and CARE framed the PM's words as 'fix care first' within hours. Our petition puts tens of thousands of conservative, faith-driven voices behind a demand the sector cannot make as loudly, and gives our No-voting allies in Parliament (Ashley Dalton, Rachael Maskell, Danny Kruger) something positive to press for after the vote. 5CA: 11 of 26 ministers with us, 277 of 624 other MPs at ++.",,,
+RF#3,"Win or lose, just by fighting this fight, will it hurt our enemies and their allies?",3,"It takes away the other side's next argument. Dignity in Dying and Kim Leadbeater have already said 'the issue will come back', and the case they will make is that care will never be fixed, so people need the choice. Every pound of recurring hospice money the Government commits removes that argument. It also puts pro-Bill ministers who wrapped their votes in warm words about care, Kendall and Cooper among them, on the spot: fund it or be seen not to. It bites hardest if we win.",,,
+RF#4/1,What's the gain for freedom and our values if we win?,5,"A win is money, not a line held. Recurring revenue for hospices and a move to NHS contracts would be the first structural change to end-of-life funding in a generation, and it would settle 'care first' as the country's answer to assisted suicide rather than the waiting room for it. It also proves to our supporters that saying No to the Bill was a vote for something.",,,
+RF#4/2,What's the cost to freedom and our values if we lose?,0,"Zero. If we do not achieve a victory the status quo resumes: hospices stay on grants and charity, and the argument over assisted suicide continues on the same ground as before. The cost of losing is the gain foregone, which is already counted in RF#4/1.",,,
+TOTAL IF WE WIN,,13,,,,
+TOTAL IF WE LOSE,,6,,,,
+RF#1 NUMERICAL EXPECTATION
+Metric,,Expected (Plan),Baseline (evidence),Actual (Evaluate),Delta,Comments
+Expected signatures,,,"area 2 campaigns with 100+ sigs: median 13,694 (p25 3,773, p75 30,008, n=11). Most recent (18429, delivered 4 Sept 2026): 23,130.",,,
+Expected new members,,,"area 2: median 331 (p25 39, p75 1,410, n=11). Most recent: 1,659.",,,
+Expected EUR raised,,,Not scorable: donation attribution is incomplete for campaigns started on or after 2026-02-01. Leave blank rather than guess.,,,
+TIMELINE OF MAJOR ACTIONS
+Date,Action,Comment
+29 July 2026,PM's social care speech: 'the fixing of the funding of palliative care and social care' must come first: https://www.disabilitynewsservice.com/burnham-delivers-significant-blow-to-assisted-dying-bill-as-he-launches-attempt-to-fix-social-care-funding/,The promise this campaign holds him to. Casey report brought forward to summer 2027; new ministerial group with the Chancellor and Housing Secretary; Big Conversation on Care to April 2027.
+28 August 2026,PM's letter to the PLP: he will not vote at Second Reading and will implement Parliament's will 'whether that is to change the law or not': https://spuc.org.uk/andy-burnham-will-not-vote-on-assisted-suicide/,"Collective responsibility waived. On the day, Cooper, Reynolds, McGovern and Smyth voted for the Bill (Healey absent); Rayner, Streeting, Mahmood and Phillipson voted against."
+4 September 2026,"Delivery of our petition against the Bill (18429: 23,130 signatures, 1,659 new members)",The audience for this follow-up. They were told care was the answer.
+11 September 2026,Second Reading rejected 270 to 286 (division 2428): https://votes.parliament.uk/Votes/Commons/Division/2428,Hospice UK asks the PM for 'meaningful action'; Ashley Dalton MP tells the House to 'sort out social and palliative care'.
+18 September 2026,"Sign-off: ask, three tests, guardrail; petition page and L written",Confirm the receiving MP for Liverpool and the signer for RL1.
+21-22 September 2026,L and L RT,"To the 18429 signers first, then the full list. 'He said care first. Parliament has decided. Now keep your word.'"
+24-25 September 2026,RL1 and RL1 RT,"The hospice numbers and one named hospice cutting beds, ideally in Greater Manchester or Merseyside for conference week. Proposed signer: Caroline."
+27 September 2026,"Labour conference opens, Liverpool",Watch for a care announcement. The Chancellor speaks on Monday 28.
+28 September 2026,RL2 (last call) after the Chancellor's speech,"If he names hospices, pivot to 'put it in the Budget'. If not, 'the Chancellor said nothing'."
+29 September 2026,DELIVERY on leader's speech day,"Hand-over outside the conference secure zone to a No-voting Labour MP (David Baines, the PM's PPS, first ask). If refused, email to No.10 and the Minister for Care at 09:00 and tell supporters the door was shut."
+30 September 2026,Report Back 1,"What he said, scored against the three tests."
+12 October 2026,"RL3: Commons returns, MP write-in",Supporters ask their MP to write to the Chancellor before 28 October.
+26-27 October 2026,Phase 2 delivery to No.10 and HM Treasury (only if Phase 1 performs),"Decide on 12 October against the RF#1 baseline: proceed if signatures are tracking above the area median of 13,694 or new members above 331. Hospice nurses or a bereaved family alongside for the photo, the day before the Budget."
+28 October 2026,BUDGET: Test 1 scored; Report Back 2 the same evening,Recurring hospice revenue? NHS contracts? Children's Hospice Grant made permanent?
+Autumn 2026 (TBA),Modern Service Framework published: Test 2 scored; Nurture,DHSC says 'autumn 2026'. Check for a funding line and the right to assessment.
+Summer 2027,Casey report: Test 3 scored,The PM's own deadline. Decide then whether a Phase 2 campaign is warranted.
+EVALUATE DASHBOARD
+Emails Bluebook link related to this campaign,
+Number of total emails sent for this campaign,
+Total Signatures,
+New List Members,
+Reactivated Members,
+Acquired %,
+Total € raised,
+Total € spent,
+Cost of the offline actions,
+Asana link related to this campaign,
+Asana link to the Evaluate task,
+Google Doc link to the wording copy package,
+Political impact evaluation,
+Did you win the political fight?,
+Did the media talk about the campaign?,
+Did any politician talk about the campaign?,
+Did you deliver the signatures?,
+How did you deliver the signatures?,
+Was it a good decision to run this campaign?,
+"Which good practices, if any, can we drawn from this campaign and repeat in future campaigns?",
+"Which improvement areas can you identify in this campaign, so that we can do better in future campaigns?",
+Which specific conclusions can you draw analyzing data of this campaign?,
+Top 3 Sources of New Members (by channel & % of total),
+Social Media Strategy in One Line,
+Top 5 signature sources (% each) and Top 5 new list member sources (% each),
+"Paid vs. Organic: spend, signups, cost per paid signup, and most efficient channel",
+Best-performing post: link + why it worked + one transferable learning,
+Political impact: how social media was used to increase pressure or influence decision-makers?,
+Other comments,
+Moving forward,
+"For more information on how to fill out or interpret this document, check the Campaigns Brief Cheat Sheet"

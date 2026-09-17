@@ -296,3 +296,53 @@ Open, in the order they matter:
    An MEP who stays away is invisible here.
 5. **No issue pages, no per-area view.**
 6. **Delivery stays DM-only** by Christopher's standing instruction.
+
+
+## Adopted texts ARE readable (17 September 2026)
+
+Phase 2c recorded that "TA pages sit behind europarl.eu's bot-wall (202), so
+rows ship linkless rather than with unverified URLs". That is true of the
+doceo page and false of the text. The adopted-texts metadata carries an ELI
+distribution path, and `https://data.europarl.europa.eu/distribution/doc/
+TA-10-2026-0286_en.docx` answers 200 with the whole resolution -- 130 KB, 390
+paragraphs. There is a `.pdf` and an `.xml` beside it.
+
+This matters more than a link. It is the difference between signing a verdict
+off a title and signing it off the text, which is the Lords inversion lesson
+in one line. The Democracy Shield sign-off below is the first that quotes
+operative paragraph numbers because it is the first where the text could be
+read.
+
+Not yet wired: `eu_texts.py` still stores title and identifier only. Storing
+the distribution URL, and fetching the text for matched rows, is the obvious
+next build.
+
+## The Democracy Shield sign-off, and what the queue said next (17 September 2026)
+
+Christopher: "sign off the Democracy Shield whole-text vote." Of the 86 roll
+calls on report A10-0199/2026, exactly one is not a recital, paragraph or
+amendment split: `MTG-PL-2026-09-15-DEC-195987`, "Motion for a resolution (as
+a whole)", adopted 420-220-26. Our side is AGAINST, grounded in the text
+(paras 21, 22, 25, 27, 30 build out DSA enforcement over platform speech;
+paras 35-36 carry the free-expression safeguards that argue the other way)
+and confirmed by the anchor check: Patriots for Europe 0-33, ECR 1-21, ESN
+0-7 and Non-attached 0-9 against, EPP 84-0, S&D 60-0, Renew 42-0 and
+Greens/EFA 28-1 for.
+
+The EU 5CA went from three signed divisions to four, and the zero column from
+68 MEPs to 35.
+
+**What the queue then showed, which was not expected.** `meaning_line_queue.py`
+now has an EU arm ranking by MARGINAL placement -- MEPs a line would move off
+zero -- because every MEP still sits, so turnout ranks nothing, and because
+one report generates dozens of splits. Its answer after this sign-off: the
+best remaining division in 116 unverdicted roll calls would place ONE more
+MEP, and every other would place none. The backlog is nearly exhausted on
+placement.
+
+That is a real finding and also the measure's limit. More sign-offs would
+still add EVIDENCE DEPTH for MEPs already placed -- the difference between an
+MEP placed on one vote and one placed on five -- and the queue does not
+measure that at all. Westminster's 5CA carries confidence and conflict flags
+off exactly that depth. Ranking the EU backlog by depth rather than breadth
+is the next thing this tool needs.

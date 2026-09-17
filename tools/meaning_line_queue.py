@@ -21,6 +21,8 @@ from __future__ import annotations
 
 import json
 import os
+import re
+import sqlite3
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -80,6 +82,57 @@ def senedd(conn, entries):
     return out
 
 
+def european(conn, n_show=6):
+    """The EU arm (17 September 2026). Two things make it unlike Holyrood and
+    the Senedd, and a straight copy would have been useless.
+
+    First, every MEP on the roster still sits, so "how many sitting members
+    would this place" is just the turnout -- about 660 for every roll call,
+    which ranks nothing. What actually varies is the MARGINAL placement: how
+    many MEPs a line would move off zero who are not already placed by a
+    division Christopher has signed.
+
+    Second, one report generates dozens of roll calls. The 15 September
+    Special Committee on the European Democracy Shield report alone is 87,
+    most of them recital and paragraph splits, and listing them one by one
+    would bury everything else. So near-identical labels are grouped and the
+    highest-turnout member of each family is shown -- which is, in practice,
+    the vote on the text as a whole.
+    """
+    import yaml
+    path = os.path.join(ROOT, "config", "eu_divisions.yaml")
+    cfg = (yaml.safe_load(open(path, encoding="utf-8")) or {}).get(
+        "divisions") or {} if os.path.exists(path) else {}
+    signed = {v for v, c in cfg.items() if c.get("signed_off") and c.get("our_side")}
+    placed = set()
+    for vote_id in signed:
+        placed |= {r[0] for r in conn.execute(
+            "SELECT person_id FROM eu_votes WHERE vote_id = ?", (vote_id,))}
+    groups = {}
+    for r in conn.execute(
+            "SELECT vote_id, date, label, favor, against, abstention, areas "
+            "FROM eu_divisions WHERE areas IS NOT NULL AND areas != '[]'"):
+        if r["vote_id"] in signed:
+            continue
+        areas = _shown(r["areas"])
+        if not areas:
+            continue
+        voters = {v[0] for v in conn.execute(
+            "SELECT person_id FROM eu_votes WHERE vote_id = ?", (r["vote_id"],))}
+        turnout = (r["favor"] or 0) + (r["against"] or 0) + (r["abstention"] or 0)
+        stem = re.split(r"\s+[-\u2013\u2014]\s+", r["label"] or "")[0][:70]
+        entry = (len(voters - placed), turnout, r["vote_id"], r["label"] or "",
+                 r["date"], areas, "%s-%s-%s" % (r["favor"], r["against"], r["abstention"]))
+        g = groups.setdefault((r["date"], stem), [])
+        g.append(entry)
+    out = []
+    for (date, stem), entries in groups.items():
+        entries.sort(key=lambda e: (-e[1], -e[0]))      # the whole-text vote first
+        out.append((entries[0], len(entries) - 1))
+    out.sort(key=lambda x: (-x[0][0], -x[0][1]))
+    return out[:n_show], sum(len(v) for v in groups.values())
+
+
 def main():
     n_show = 12
     if "--n" in sys.argv:
@@ -111,6 +164,24 @@ def main():
               len(placing), len(rows), len(rows) - len(placing)))
     print("Confirming a line stays a human act: read the division, then "
           "write it\ninto config/sp_stance.yaml or config/sd_stance.yaml.")
+
+    try:
+        eu_rows, eu_total = european(conn)
+    except sqlite3.Error:
+        eu_rows, eu_total = [], 0
+    if eu_total:
+        print("\n\nEUROPEAN PARLIAMENT    {0} roll call(s) on our ground with no "
+              "verdict".format(eu_total))
+        print("Ranked by MEPs a line would move off zero (every MEP still sits,")
+        print("so turnout ranks nothing). Splits of one report are grouped.\n")
+        for (n, turnout, vote_id, label, date, areas, tally), rest in eu_rows:
+            print("  {0:>3} MEP(s)  {1}  {2}".format(n, date, vote_id))
+            print("              {0}".format(label[:64]))
+            print("              {0} favor-against-abstention, areas: {1}{2}".format(
+                tally, ", ".join(names.get(a, str(a)) for a in areas),
+                "" if not rest else "; {0} more split(s) of the same text".format(rest)))
+        print("\n  Sign one into config/eu_divisions.yaml with our_side and both "
+              "meaning\n  lines, read from the decision event, never the list title.")
     conn.close()
     return 0
 

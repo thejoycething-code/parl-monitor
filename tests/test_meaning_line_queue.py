@@ -69,3 +69,76 @@ class HolyroodQueueTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EuropeanQueueTests(unittest.TestCase):
+    """The EU arm ranks differently on purpose: every MEP on the roster still
+    sits, so turnout ranks nothing, and one report can generate dozens of
+    splits (87 for the 15 Sept Democracy Shield report)."""
+
+    def setUp(self):
+        self.conn = db.init_db(sqlite3.connect(":memory:"))
+        self.conn.row_factory = sqlite3.Row
+        now = "2026-09-17"
+        divs = [
+            # vote_id, label, favor, against, abstention, voters
+            ("SIGNED", "An old vote we already signed", 5, 1, 0, ["1", "2", "3"]),
+            ("WHOLE", "Big report on free speech", 40, 10, 2, ["1", "2", "3", "4", "5"]),
+            ("SPLIT", "Big report on free speech - Recital E", 20, 30, 1, ["4", "5"]),
+            ("SMALL", "A narrow motion", 3, 2, 0, ["6"]),
+        ]
+        for vid, label, f, a, ab, voters in divs:
+            self.conn.execute(
+                "INSERT INTO eu_divisions (vote_id, sitting_id, date, label, "
+                "favor, against, abstention, areas, matched_terms, tier, "
+                "first_seen, last_seen) VALUES (?,'s','2026-09-15',?,?,?,?,"
+                "'[7]','[]',1,?,?)", (vid, label, f, a, ab, now, now))
+            for pid in voters:
+                self.conn.execute("INSERT INTO eu_votes (vote_id, person_id, "
+                                  "position) VALUES (?,?,'favor')", (vid, pid))
+        self.conn.commit()
+
+    def tearDown(self):
+        self.conn.close()
+
+    def _run(self, signed_yaml):
+        import tempfile, yaml as y
+        d = tempfile.mkdtemp()
+        cfg = os.path.join(d, "eu_divisions.yaml")
+        with open(cfg, "w") as fh:
+            y.safe_dump({"divisions": signed_yaml}, fh)
+        real = q.ROOT
+        q.ROOT = d
+        os.makedirs(os.path.join(d, "config"), exist_ok=True)
+        os.rename(cfg, os.path.join(d, "config", "eu_divisions.yaml"))
+        try:
+            return q.european(self.conn)
+        finally:
+            q.ROOT = real
+
+    def test_splits_of_one_report_are_grouped_behind_the_whole_text_vote(self):
+        rows, total = self._run({})
+        self.assertEqual(total, 4, "every unsigned roll call is counted")
+        top = rows[0][0]
+        self.assertEqual(top[2], "WHOLE", "the highest-turnout member of the family leads")
+        self.assertEqual(rows[0][1], 1, "its one split is reported, not listed")
+
+    def test_ranking_is_marginal_placement_not_turnout(self):
+        """WHOLE signed places MEPs 1-5. Its own 50-vote split now reaches nobody
+        new, while a five-vote motion reaching MEP 6 places one. The small one
+        wins, which is the whole reason this does not rank on turnout."""
+        rows, _ = self._run({"WHOLE": {"signed_off": True, "our_side": "favor"}})
+        by_id = {r[0][2]: r[0][0] for r in rows}
+        self.assertEqual(rows[0][0][2], "SMALL", [r[0][2] for r in rows])
+        self.assertEqual(by_id["SMALL"], 1)
+        self.assertEqual(by_id["SPLIT"], 0, "its voters are already placed")
+
+    def test_a_signed_division_never_appears_in_the_queue(self):
+        rows, total = self._run({"SIGNED": {"signed_off": True, "our_side": "favor"}})
+        self.assertNotIn("SIGNED", [r[0][2] for r in rows])
+        self.assertEqual(total, 3)
+
+    def test_an_unsigned_entry_in_the_config_still_queues(self):
+        rows, total = self._run({"WHOLE": {"signed_off": False, "our_side": None}})
+        self.assertIn("WHOLE", [r[0][2] for r in rows])
+        self.assertEqual(total, 4)

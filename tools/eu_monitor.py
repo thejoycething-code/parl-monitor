@@ -481,6 +481,88 @@ def render_edition(conn, today):
     return path
 
 
+SPLIT_MARK = re.compile(r"§|\bAm\b|Recital|Amendment", re.I)
+
+
+def is_split(label):
+    """True for a recital, paragraph or amendment split rather than the vote on
+    the text itself. EP labels put the split after an en dash:
+    "... - Tomas Tobe - Motion for a resolution (as a whole)" against
+    "... - Tomas Tobe - Recital B" or "- § 17" or "- After § 88 - Am 94"."""
+    parts = re.split(r"\s+[-\u2013\u2014]\s+", label or "")
+    if "as a whole" in (label or "").lower():
+        return False
+    return len(parts) > 1 and bool(SPLIT_MARK.search(parts[-1]))
+
+
+def plenary_lines(conn, today, days=30):
+    """The DM's opening block: what the Parliament actually voted on our ground.
+
+    Christopher, 17 September 2026: "fix the weekly DM to lead with the
+    plenary". It opened on Commission feedback windows and reached divisions
+    only through the triage-scored list, so the 15 September sitting -- 86 roll
+    calls on our ground, the Democracy Shield report adopted 420-220-26 --
+    would not have appeared in the DM at all. Westminster's edition leads with
+    the vote; this now does too.
+
+    Splits are counted, not listed: one report generates dozens. The vote on
+    the text as a whole is what carries the verdict, and the verdict is shown
+    only where a meaning line is signed -- an unsigned division is reported as
+    a result and nothing more.
+    """
+    cutoff = (datetime.date.fromisoformat(today)
+              - datetime.timedelta(days=days)).isoformat()
+    try:
+        rows = conn.execute(
+            "SELECT vote_id, date, label, favor, against, abstention FROM "
+            "eu_divisions WHERE areas != '[]' AND date >= ? ORDER BY date DESC",
+            (cutoff,)).fetchall()
+    except Exception:                                       # noqa: BLE001
+        return []
+    if not rows:
+        return []
+    signed = {}
+    try:
+        import yaml as _y
+        cfg = (_y.safe_load(open(os.path.join(ROOT, "config", "eu_divisions.yaml"),
+                                 encoding="utf-8")) or {}).get("divisions") or {}
+        signed = {k: v for k, v in cfg.items()
+                  if v.get("signed_off") and v.get("our_side")}
+    except Exception:                                       # noqa: BLE001
+        pass
+    by_date = {}
+    for r in rows:
+        by_date.setdefault(r["date"], []).append(r)
+    out = []
+    for date in sorted(by_date, reverse=True)[:2]:
+        day = by_date[date]
+        whole = [r for r in day if not is_split(r["label"])]
+        whole.sort(key=lambda r: -((r["favor"] or 0) + (r["against"] or 0)
+                                   + (r["abstention"] or 0)))
+        out.append("*Plenary {0}:* {1} roll call(s) on our ground.".format(
+            date, len(day)))
+        for r in whole[:3]:
+            f, a = r["favor"] or 0, r["against"] or 0
+            carried = f > a
+            head = re.split(r"\s+[-\u2013\u2014]\s+", r["label"] or "")[0][:95]
+            line = "• {0} - *{1}* {2}-{3}-{4}".format(
+                head, "adopted" if carried else "rejected", f, a,
+                r["abstention"] or 0)
+            c = signed.get(r["vote_id"])
+            if c:
+                ours = (c["our_side"] == "favor") == carried
+                line += "  -> *{0}* (signed: our side {1})".format(
+                    "WENT OUR WAY" if ours else "WENT AGAINST US", c["our_side"])
+            else:
+                line += "  -> _no verdict signed; places nobody_"
+            out.append(line)
+        rest = len(day) - len(whole[:3])
+        if rest > 0:
+            out.append("   _{0} further roll call(s) that day: recital, "
+                       "paragraph and amendment splits._".format(rest))
+    return out
+
+
 def dm_summary(conn, today):
     """The EU week in one Slack message, sent as a DM.
 
@@ -518,6 +600,14 @@ def dm_summary(conn, today):
                       "eu_consultations WHERE closes >= ?",
                       (today,)).fetchone()
     lines = [":eu: *EU Monitor - week commencing {0}*".format(today), ""]
+    # THE PLENARY LEADS (17 Sept 2026). What the Parliament voted comes first;
+    # feedback windows and the dossier board follow it.
+    plenary = plenary_lines(conn, today)
+    if plenary:
+        lines += plenary + [""]
+    else:
+        lines.append("_No plenary business on our ground in the last 30 days._")
+        lines.append("")
     lines.append("{0} Commission feedback windows open, {1} on our ground. "
                  "Full edition: editions/eu-monitor-{2}.md in the repo."
                  .format(nc[0] or 0, int(nc[1] or 0), today))
@@ -537,8 +627,13 @@ def dm_summary(conn, today):
         eud = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(eud)
         board = eud.board_rows(conn, today)
-    except Exception:
-        pass
+    except Exception as exc:                                # noqa: BLE001
+        # SAY SO (17 Sept 2026). Both of these swallowed every failure, so a
+        # broken dossier board or a broken backlog count read as "nothing to
+        # report" -- the same silence that let five EU tables sit empty for
+        # eight days. A DM that cannot count is worth knowing about.
+        lines.append("")
+        lines.append(":grey_question: dossier board unavailable: {0}".format(str(exc)[:120]))
     try:
         import yaml as _y
         _c = _y.safe_load(open(os.path.join(ROOT, "config",
@@ -554,8 +649,9 @@ def dm_summary(conn, today):
             lines.append(":warning: *{0} division(s) await your verdict* "
                          "- unsigned votes render without judgement and "
                          "the 5CA ignores them.".format(_await))
-    except Exception:
-        pass
+    except Exception as exc:                                # noqa: BLE001
+        lines.append("")
+        lines.append(":grey_question: verdict backlog uncountable: {0}".format(str(exc)[:120]))
     if board:
         lines.append("")
         lines.append("*Dossier board:* " + " · ".join(

@@ -216,7 +216,7 @@ def main():
     total = conn.execute("SELECT COUNT(*) FROM eu_speeches").fetchone()[0]
     print("eu-speeches: {0} candidate(s) in {1} days, {2} stored on our "
           "ground ({3} held in total); {4} gap(s).".format(
-              cands, LOOKBACK_DAYS, stored, total, gaps))
+              cands, days, stored, total, gaps))
     for r in conn.execute("SELECT s.date, s.debate, m.name FROM eu_speeches "
                           "s LEFT JOIN eu_meps m ON m.person_id = "
                           "s.person_id ORDER BY s.date DESC LIMIT 6"):

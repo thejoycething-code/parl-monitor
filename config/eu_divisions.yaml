@@ -91,6 +91,52 @@ divisions:
     our_side: null
     signed_off: false
 
+  MTG-PL-2026-09-15-DEC-195987:
+    short: "European Democracy Shield: special committee report"
+    date: 2026-09-15
+    # Grounded in the TEXT, not the title. Report A10-0199/2026, rapporteur
+    # Tomas Tobe; the roll call labelled "Motion for a resolution (as a
+    # whole)", the only one of the 86 on that report that is not a recital,
+    # paragraph or amendment split. Adopted text TA-10-2026-0286, read in
+    # full (390 paragraphs, 134 operative) from
+    # data.europarl.europa.eu/distribution/doc/TA-10-2026-0286_en.docx --
+    # the ELI distribution path answers 200 where the doceo TA page
+    # bot-walls at 202, so the spec's "ship linkless" no longer holds.
+    # Adopted 420-220-26, 666 recorded positions.
+    #
+    # What it does: para 21 demands "full implementation and effective
+    # enforcement" of the whole digital acquis (DSA, DMA, TTPA, AI Act,
+    # EMFA); para 22 calls VLOP recommender systems a systemic risk to
+    # civic discourse under DSA Articles 34-35; para 25 makes the Code of
+    # Conduct on Disinformation a benchmark for DSA compliance; paras 27
+    # and 30 press the Commission to accelerate its investigations into X
+    # and Grok and to classify Telegram as a VLOP; paras 13-14 give the
+    # European Centre for Democratic Resilience a mandate feeding the DSA
+    # risk assessments. Paras 35 and 36 do carry free-expression
+    # safeguards and a right to challenge moderation decisions -- recorded
+    # here because a fair reading must, and because they are the strongest
+    # argument the other way.
+    #
+    # ANCHOR CHECK (the Lords inversion test), by group on this roll call:
+    # against -- Patriots for Europe 0-33, ECR 1-21, ESN 0-7, Non-attached
+    # 0-9, The Left 4-13 (on civil-liberties grounds); favor -- EPP 84-0,
+    # S&D 60-0, Renew 42-0, Greens/EFA 28-1. Every group we stand with on
+    # online speech is in the against lobby. 201 of the 666 positions are
+    # from MEPs whose group is not yet enriched, so the tallies above are
+    # the 465 that are known.
+    our_side: against
+    meaning_favor: >
+      Backed the Democracy Shield report, which demands full enforcement of
+      the Digital Services Act and the rest of the EU digital acquis, treats
+      platform recommender systems as a systemic risk to be mitigated, makes
+      the disinformation code a benchmark for compliance, and presses the
+      Commission to press on with its cases against X, Grok and Telegram.
+    meaning_against: >
+      Refused to endorse a wider disinformation-enforcement apparatus built
+      on the Digital Services Act, and the treatment of lawful online speech
+      as a systemic risk for platforms to manage under regulatory pressure.
+    signed_off: true   # Christopher, 2026-09-17
+
 # The eight Nigeria amendment roll calls (Am 1, 2/1, 2/2, 4/1, 4/2, 5,
 # 6/1, 6/2 -- all rejected, ~595 positions each) remain UNVERDICTED: their
 # amendment texts are not reachable through any public URL pattern the
