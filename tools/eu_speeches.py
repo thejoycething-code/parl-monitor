@@ -29,7 +29,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 SEARCH = ("https://data.europarl.europa.eu/api/v2/speeches"
@@ -105,8 +105,7 @@ def pull(conn, client, today, log=print, days=None):
             if sid and sid not in known:
                 label = (s.get("activity_label") or {})
                 candidates[sid] = (s.get("activity_date"),
-                                   label.get("en") if isinstance(label, dict)
-                                   else str(label))
+                                   eulabel.english(label))
     stored = 0
     for sid, (date, debate) in candidates.items():
         try:
@@ -184,7 +183,7 @@ def audit(conn, client, today, log=print):
             if sid and sid not in known:
                 label = s.get("activity_label") or {}
                 missed.setdefault(sid, (
-                    label.get("en") if isinstance(label, dict) else "",
+                    eulabel.english(label),
                     phrase))
     log("recall audit: {0} extra taxonomy phrase(s) searched over {1} "
         "days; {2} speech(es) the curated net did not reach.".format(

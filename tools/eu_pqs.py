@@ -25,7 +25,7 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 LIST = ("https://data.europarl.europa.eu/api/v2/parliamentary-questions"
@@ -74,7 +74,7 @@ def pull(conn, client, today, log=print):
         except (FetchError, ValueError) as exc:
             log("  [gap] pq {0}: {1}".format(ident, exc))
             continue
-        title = (d.get("title_dcterms") or {}).get("en")
+        title = eulabel.english(d.get("title_dcterms"))
         if not title:
             continue
         res = filt.filter_item(tax, wl, title)

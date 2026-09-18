@@ -209,3 +209,61 @@ class LabelFallbackTests(unittest.TestCase):
         row = conn.execute("SELECT label FROM eu_divisions").fetchone()
         self.assertEqual(row["label"],
                          "Ongoing persecution of Christians in Nigeria (2026/2801(RSP))")
+
+
+GENDER = "Gender inequalities in health, specifically as regards gender-specific conditions"
+GENDER_VOTE = {"data": [
+    {"activity_id": "V9", "had_activity_type": "def/ep-activities/PLENARY_VOTE_RESULTS",
+     "activity_label": {"en": GENDER},
+     "consists_of": ["eli/dl/event/MTG-PL-2026-07-09-DEC-195790"]}]}
+
+
+class InheritFromTextTests(unittest.TestCase):
+    """16 Sept 2026: the gender-and-health resolution matched fourteen terms on
+    its BODY as an adopted text and its 98 roll calls were never stored,
+    because the label matches nothing."""
+
+    def _client(self, results):
+        client = FakeClient()
+        client.results = results
+        client.get_json = lambda url, feed, slug, archive=True, _c=client: (
+            _c.results if "vote-results" in url else FakeClient.get_json(_c, url, feed, slug, archive))
+        return client
+
+    def test_the_label_alone_matches_nothing(self):
+        conn = store()
+        seen, matched, gaps = eur.pull(conn, self._client(GENDER_VOTE), "2026-09-01",
+                                       log=lambda *a: None)
+        self.assertEqual((seen, matched), (1, 0))
+        self.assertEqual(conn.execute("SELECT count(*) FROM eu_divisions").fetchone()[0], 0)
+
+    def test_a_body_matched_adopted_text_lends_its_areas_to_the_vote(self):
+        conn = store()
+        conn.execute("INSERT INTO eu_texts (identifier, date, title, areas, matched_terms, tier, "
+                     "body_read, first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?)",
+                     ("TA-10-2026-0305", "2026-07-09", GENDER + " (2025/2074(INI))",
+                      "[1, 4, 5]", json.dumps(["abortion", "SRHR"]), 1, "2026-07-10",
+                      "2026-07-10", "2026-07-10"))
+        logged = []
+        seen, matched, gaps = eur.pull(conn, self._client(GENDER_VOTE), "2026-09-01",
+                                       log=logged.append)
+        self.assertEqual((seen, matched, gaps), (1, 1, 0))
+        row = conn.execute("SELECT * FROM eu_divisions").fetchone()
+        self.assertEqual(json.loads(row["areas"]), [1, 4, 5])
+        self.assertEqual(json.loads(row["matched_terms"]), ["abortion", "SRHR"])
+        self.assertEqual(row["tier"], 1)
+        self.assertTrue(any("inherited from TA-10-2026-0305" in l for l in logged))
+
+    def test_a_text_read_only_on_its_title_lends_nothing(self):
+        conn = store()
+        conn.execute("INSERT INTO eu_texts (identifier, date, title, areas, tier, first_seen, last_seen) "
+                     "VALUES (?,?,?,?,?,?,?)",
+                     ("TA-X", "2026-07-09", GENDER, "[1]", 1, "2026-07-10", "2026-07-10"))
+        self.assertIsNone(eur.inherit_from_text(conn, GENDER, "2026-07-09"))
+
+    def test_a_text_from_another_month_is_not_the_same_vote(self):
+        conn = store()
+        conn.execute("INSERT INTO eu_texts (identifier, date, title, areas, tier, body_read, first_seen, last_seen) "
+                     "VALUES (?,?,?,?,?,?,?,?)",
+                     ("TA-X", "2026-05-09", GENDER, "[1]", 1, "2026-05-10", "2026-05-10", "2026-05-10"))
+        self.assertIsNone(eur.inherit_from_text(conn, GENDER, "2026-07-09"))

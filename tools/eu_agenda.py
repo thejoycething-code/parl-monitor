@@ -34,7 +34,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 MEETINGS = ("https://data.europarl.europa.eu/api/v2/meetings"
@@ -95,7 +95,7 @@ def pull(conn, client, today, log=print):
             gaps += 1
             continue
         for a in (reply or {}).get("data") or []:
-            label = (a.get("activity_label") or {}).get("en")
+            label = eulabel.english(a.get("activity_label"))
             if not label:
                 continue
             total += 1

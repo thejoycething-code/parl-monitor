@@ -158,3 +158,21 @@ class TextExcerptTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RescoreTests(unittest.TestCase):
+    def test_rescore_requeues_one_row_and_only_that_row(self):
+        conn = store()
+        conn.execute("UPDATE eu_consultations SET triage_score = 0, why_it_matters = 'noise' WHERE key = '1'")
+        conn.execute("UPDATE eu_divisions SET triage_score = 2, why_it_matters = 'kept' WHERE vote_id = 'D1'")
+        self.assertEqual(eut.rescore(conn, "eu_consultations:1"), 1)
+        row = conn.execute("SELECT triage_score, why_it_matters FROM eu_consultations WHERE key='1'").fetchone()
+        self.assertEqual(tuple(row), (None, None))
+        row = conn.execute("SELECT triage_score, why_it_matters FROM eu_divisions WHERE vote_id='D1'").fetchone()
+        self.assertEqual(tuple(row), (2, "kept"))
+        self.assertEqual([i.id for i in eut.pending(conn) if i.id == "eu_consultations:1"],
+                         ["eu_consultations:1"])
+
+    def test_rescore_refuses_an_unknown_table(self):
+        with self.assertRaises(SystemExit):
+            eut.rescore(store(), "items:1")

@@ -28,7 +28,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db
+from src import db, eulabel
 from src.http import FetchError, HttpClient
 
 PROC = ("https://data.europarl.europa.eu/api/v2/procedures/{0}"
@@ -75,7 +75,7 @@ def track(conn, client, watchlist, today, log=print):
             continue
         data = (reply.get("data") or [{}])[0]
         stage = stage_code(data.get("current_stage"))
-        title = (data.get("process_title") or {}).get("en") or d.get("title")
+        title = eulabel.english(data.get("process_title")) or d.get("title")
         prev = conn.execute("SELECT stage FROM eu_dossiers WHERE "
                             "process_id = ?", (pid,)).fetchone()
         prev_stage = prev["stage"] if prev else None

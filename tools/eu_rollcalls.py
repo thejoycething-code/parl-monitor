@@ -33,7 +33,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 MEETINGS = ("https://data.europarl.europa.eu/api/v2/meetings"
@@ -86,36 +86,37 @@ def past_sittings(client, today, days=None):
     return sorted(out, key=lambda x: x[1])
 
 
-EN_WORDS = frozenset("the and of on to for in a with its".split())
-
-
 def english_label(labels):
-    """The English subject label, or the best stand-in while the EP has none.
+    """The voted item's English label, or the best stand-in (src/eulabel.py).
+    Roll calls take a French label as a last resort because heal_labels()
+    refreshes the row once "en" appears; no other collector does."""
+    return eulabel.english_label(labels, any_language=True)
 
-    The night a sitting ends the API often carries a voted item's label in
-    French and in "mul" (French - English - German joined by " - ") but not
-    yet under "en". The first live day sweep (17 Sept 2026) skipped all ten
-    of that day's voted items for want of an English key, the social-media
-    and Hong Kong resolutions among them, and told the DM "0 divisions".
-    Returns (label, provisional): provisional means the English key was
-    absent and heal_labels() should refresh the row once it appears.
+
+def inherit_from_text(conn, label, date, days=7):
+    """The adopted text this vote item belongs to, when the text matched on
+    its BODY and the label matched nothing.
+
+    Divisions are matched on their subject label; adopted texts on their
+    body. On 16 Sept 2026 the gender-inequalities-in-health resolution
+    matched fourteen terms as a text (abortion, SRHR, transgender) and its
+    98 roll calls were never stored, because the label says none of that.
+    The Parliament gives the vote item and the adopted text the same title,
+    so the text's areas are the vote's areas. Returns the eu_texts row or
+    None.
     """
-    labels = labels or {}
-    en = (labels.get("en") or "").strip()
-    if en:
-        return en, False
-    best, score = "", 0
-    for seg in (labels.get("mul") or "").split(" - "):
-        words = {w.strip(",.:;'\u2019()\"").lower() for w in seg.split()}
-        hits = len(words & EN_WORDS)
-        if hits > score:
-            best, score = seg.strip(), hits
-    if best:
-        return best, True
-    for lang in ("fr", "de", "es", "it"):
-        if (labels.get(lang) or "").strip():
-            return labels[lang].strip(), True
-    return "", True
+    key = eulabel.normalise_title(label)
+    if len(key) < 12:
+        return None
+    lo = (datetime.date.fromisoformat(date) - datetime.timedelta(days=days)).isoformat()
+    hi = (datetime.date.fromisoformat(date) + datetime.timedelta(days=days)).isoformat()
+    for r in conn.execute(
+            "SELECT identifier, title, areas, matched_terms, tier FROM eu_texts "
+            "WHERE body_read IS NOT NULL AND areas IS NOT NULL AND areas != '[]' "
+            "AND date BETWEEN ? AND ?", (lo, hi)):
+        if eulabel.normalise_title(r[1]) == key:
+            return r
+    return None
 
 
 def heal_labels(conn, labels, label, known_events):
@@ -185,8 +186,14 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
             seen += 1
             res = filt.filter_item(tax, wl, label)
             areas = res.issue_areas or []
+            terms, tier = res.matched_terms or [], res.tier
             if not areas:
-                continue
+                text = inherit_from_text(conn, label, date)
+                if text is None:
+                    continue
+                areas = json.loads(text[2] or "[]")
+                terms, tier = json.loads(text[3] or "[]"), text[4]
+                log("  inherited from {0}: {1}".format(text[0], label[:60]))
             matched += 1
             # EVERY decision event under the matched subject, not just the
             # first: one vote-results item can carry several decisions (a
@@ -249,8 +256,8 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
                     "outcome=excluded.outcome, "
                     "last_seen=excluded.last_seen",
                     (full_id, sid, date, ev_label, fav, agn, abst, outcome,
-                     json.dumps(areas), json.dumps(res.matched_terms or []),
-                     res.tier, today, today))
+                     json.dumps(areas), json.dumps(terms),
+                     tier, today, today))
     conn.commit()
     return seen, matched, gaps
 

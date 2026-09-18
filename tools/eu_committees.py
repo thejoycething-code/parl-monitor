@@ -37,7 +37,7 @@ sys.path.insert(0, ROOT)
 
 import time
 
-from src import db, filter as filt
+from src import db, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 COMMITTEES = ("LIBE", "FEMM", "JURI", "EMPL", "CULT", "DROI")
@@ -127,7 +127,7 @@ def pull_docs(conn, client, today, log=print):
         except (FetchError, ValueError) as exc:
             log("  [gap] doc {0}: {1}".format(ident, exc))
             continue
-        title = (d.get("title_dcterms") or {}).get("en")
+        title = eulabel.english(d.get("title_dcterms"))
         if not title:
             continue
         res = filt.filter_item(tax, wl, title)

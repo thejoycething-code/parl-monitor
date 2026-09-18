@@ -258,3 +258,49 @@ class PlenaryLeadTests(unittest.TestCase):
         body = eu.dm_summary(conn, "2026-09-17")
         self.assertIn("No plenary business on our ground", body)
         conn.close()
+
+
+class AdoptedTextsGateTests(unittest.TestCase):
+    """Body matching took the matched adopted texts from 8 to 44 of 145; the
+    section is gated on the judge's score (18 Sept 2026)."""
+
+    def _render(self, conn):
+        import tempfile
+        old = eu.ROOT
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "editions"))
+            os.makedirs(os.path.join(tmp, "config"))
+            for f in ("taxonomy.yaml", "watchlist.yaml"):
+                with open(os.path.join(ROOT, "config", f), "rb") as src, \
+                     open(os.path.join(tmp, "config", f), "wb") as dst:
+                    dst.write(src.read())
+            eu.ROOT = tmp
+            try:
+                path = eu.render_edition(conn, "2026-09-01")
+            finally:
+                eu.ROOT = old
+            return open(path, encoding="utf-8").read()
+
+    def test_score_two_and_unscored_show_zero_and_one_do_not(self):
+        conn = store()
+        conn.execute("ALTER TABLE eu_texts ADD COLUMN triage_score INTEGER")
+        conn.execute("ALTER TABLE eu_texts ADD COLUMN why_it_matters TEXT")
+        rows = [("TA-3", "Persecution of Christians in Nigeria", "[8]", 3),
+                ("TA-2", "Social media and young people", "[6]", 2),
+                ("TA-1", "Enlargement report on Albania", "[7]", 1),
+                ("TA-0", "Prison dietary standards", "[1]", 0),
+                ("TA-N", "Not yet judged text", "[5]", None),
+                ("TA-X", "Common fisheries policy", "[]", None)]
+        for ident, title, areas, score in rows:
+            conn.execute("INSERT INTO eu_texts (identifier, date, title, areas, tier, first_seen, "
+                         "last_seen, triage_score) VALUES (?,?,?,?,?,?,?,?)",
+                         (ident, "2026-08-20", title, areas, 2, "2026-08-21", "2026-08-21", score))
+        text = self._render(conn)
+        self.assertIn("## Adopted by the Parliament", text)
+        for shown in ("Persecution of Christians in Nigeria", "Social media and young people",
+                      "Not yet judged text"):
+            self.assertIn(shown, text)
+        for hidden in ("Enlargement report on Albania", "Prison dietary standards"):
+            self.assertNotIn(hidden, text)
+        self.assertIn("5 of 6 adopted texts in the window matched the taxonomy; 3 shown "
+                      "(judge score 2+ or not yet scored).", text)

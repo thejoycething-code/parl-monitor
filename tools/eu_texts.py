@@ -31,7 +31,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, eudoc, filter as filt
+from src import db, eudoc, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 TEXTS = ("https://data.europarl.europa.eu/api/v2/adopted-texts"
@@ -77,7 +77,7 @@ def pull(conn, client, today, log=print, days=None, on_day=None):
         # window runs from cutoff to today as before.
         if not date or (date != on_day if on_day else (date < cutoff or date > today)):
             continue
-        title = (a.get("title_dcterms") or {}).get("en")
+        title = eulabel.english(a.get("title_dcterms"))
         if not title:
             continue
         total += 1

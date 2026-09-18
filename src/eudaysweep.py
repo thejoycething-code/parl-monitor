@@ -101,9 +101,12 @@ def sweep_day(conn, client, day, log=print, cache=None):
         return mod
 
     gaps = 0
-    rolls = _tool("eu_rollcalls")
-    _seen, matched, g = rolls.pull(conn, client, iso, log=log, days=1, on_day=iso)
-    gaps += g
+    # Texts and their bodies FIRST, roll calls second. A vote item whose
+    # label matches nothing inherits the areas of its adopted text
+    # (eu_rollcalls.inherit_from_text), and that only works if the text has
+    # been read when the roll calls are pulled. The first cut ran them the
+    # other way round and would have left the 16 Sept gender-and-health roll
+    # calls uncollected until the recheck night.
     texts = _tool("eu_texts")
     _total, ours = texts.pull(conn, client, iso, log=log, on_day=iso)
     # Read the bodies the same night. Adopted texts are matched on their title
@@ -117,6 +120,9 @@ def sweep_day(conn, client, day, log=print, cache=None):
     except Exception as exc:                                # noqa: BLE001
         log("  [body] pass failed: {0}".format(str(exc)[:80]))
         gaps += 1
+    rolls = _tool("eu_rollcalls")
+    _seen, matched, g = rolls.pull(conn, client, iso, log=log, days=1, on_day=iso)
+    gaps += g
     daysweep.record(conn, day, HOUSE, sat=True, found=matched + ours,
                     gaps=(["roll-call fetch"] if gaps else ()), source=SOURCE)
     return True, matched, ours, gaps

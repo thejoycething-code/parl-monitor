@@ -99,8 +99,12 @@ def pending(conn):
             text = " ".join((r[c] or "") for c in textcols).strip()[:300]
             items.append(triage.TriageItem(
                 id="{0}:{1}".format(table, r[key]),
+                # Speeches carry neither: the debate name is their title.
+                # Without this the judge saw "?" above every speech.
                 title=(r["title"] if "title" in r.keys() else None)
-                      or (r["label"] if "label" in r.keys() else "?"),
+                      or (r["label"] if "label" in r.keys() else None)
+                      or (r["debate"] if "debate" in r.keys() else None)
+                      or "?",
                 text=text,
                 tier=r["tier"] if "tier" in r.keys() else 2,
                 issue_areas=json.loads(r["areas"] or "[]"),
@@ -119,10 +123,34 @@ def apply(conn, results):
     conn.commit()
 
 
+def rescore(conn, ref):
+    """Put ONE row back in the queue, on a human's say-so.
+
+    Scores are written once, ever, so a wrong one stands until somebody
+    asks. 18 Sept 2026: the judge marked the statement on Nicaraguan
+    political prisoners unrelated while the adopted text on the same case
+    matched freedom of religion. `ref` is table:key as the judge's item id.
+    """
+    table, key = ref.split(":", 1)
+    if table not in SOURCES:
+        raise SystemExit("unknown table {0}; one of {1}".format(table, ", ".join(SOURCES)))
+    keycol = SOURCES[table][0]
+    n = conn.execute("UPDATE {0} SET triage_score = NULL, why_it_matters = NULL "
+                     "WHERE {1} = ?".format(table, keycol), (key,)).rowcount
+    conn.commit()
+    print("eu-triage: {0} row(s) re-queued for {1}".format(n, ref))
+    return n
+
+
 def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
                                               "parl-monitor.db")))
     ensure_columns(conn)
+    if "--rescore" in sys.argv:
+        for ref in sys.argv[sys.argv.index("--rescore") + 1:]:
+            if ref.startswith("--"):
+                break
+            rescore(conn, ref)
     items = pending(conn)
     if not items:
         print("eu-triage: nothing unscored.")

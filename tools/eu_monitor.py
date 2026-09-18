@@ -187,6 +187,9 @@ def _short_label(label):
     return label[:55]
 
 
+TEXT_SCORE_FLOOR = 2   # the digest bar: 3 campaign trigger, 2 digest, 1 background, 0 noise
+
+
 def _why(r):
     """The triage judge's line, when the row has been scored."""
     try:
@@ -331,9 +334,15 @@ def render_edition(conn, today):
     tx = conn.execute("SELECT * FROM eu_texts ORDER BY date DESC").fetchall()
     if tx:
         tx_matched = [r for r in tx if json.loads(r["areas"] or "[]")]
+        # Gated on the judge (18 Sept 2026). Body matching took the matched
+        # texts from 8 to 44 of 145, and most of the gain is omnibus noise
+        # the judge scores 0 or 1. Score 2+ is the digest bar everywhere
+        # else; a row the judge has not reached yet is shown, not hidden.
+        tx_shown = [r for r in tx_matched
+                    if r["triage_score"] is None or r["triage_score"] >= TEXT_SCORE_FLOOR]
         lines.append("## Adopted by the Parliament (last 60 days)")
         lines.append("")
-        for r in tx_matched:
+        for r in tx_shown:
             areas = ", ".join(names.get(a, str(a))
                               for a in json.loads(r["areas"]))
             lines.append("- **{0}** - {1} ({2}) - {3}{4}".format(
@@ -341,7 +350,9 @@ def render_edition(conn, today):
                 " -" + _why(r) if _why(r) else ""))
         lines.append("")
         lines.append("{0} of {1} adopted texts in the window matched the "
-                     "taxonomy.".format(len(tx_matched), len(tx)))
+                     "taxonomy; {2} shown (judge score {3}+ or not yet "
+                     "scored).".format(len(tx_matched), len(tx), len(tx_shown),
+                                       TEXT_SCORE_FLOOR))
         lines.append("")
     # Strasbourg watch (2026-09-02): ECtHR judgments on our ground --
     # courts create the consultations the monitors later catch.
