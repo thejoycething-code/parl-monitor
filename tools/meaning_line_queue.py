@@ -29,7 +29,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
-from src import db, intel
+from src import db, eugate, intel
 
 HIDDEN = {11}
 
@@ -111,7 +111,8 @@ def european(conn, n_show=6):
     groups = {}
     for r in conn.execute(
             "SELECT vote_id, date, label, favor, against, abstention, areas "
-            "FROM eu_divisions WHERE areas IS NOT NULL AND areas != '[]'"):
+            "FROM eu_divisions WHERE areas IS NOT NULL AND areas != '[]' AND "
+            + eugate.SHOWN_SQL):
         if r["vote_id"] in signed:
             continue
         areas = _shown(r["areas"])

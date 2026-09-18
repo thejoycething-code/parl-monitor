@@ -339,3 +339,21 @@ class DerivedStateSurvivesADeployTests(unittest.TestCase):
                      "ni_committees.py", "backfill_pq_links.py"):
             self.assertIn(tool, wf,
                           "{0} writes state no workflow ever produces".format(tool))
+
+
+class EuSchemaOwnsTheJudgeColumnsTests(unittest.TestCase):
+    def test_every_triaged_eu_table_has_the_columns_from_init(self):
+        import sqlite3
+        conn = sqlite3.connect(":memory:")
+        db.init_db(conn)
+        for table in db.EU_TRIAGED:
+            cols = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+            self.assertTrue({"triage_score", "why_it_matters"} <= cols, table)
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(eu_divisions)")}
+        self.assertIn("inherited_from", cols)
+
+    def test_the_schema_list_matches_the_judge_map(self):
+        import importlib.util, os
+        spec = importlib.util.spec_from_file_location("eu_triage", os.path.join(ROOT, "tools", "eu_triage.py"))
+        mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+        self.assertEqual(set(db.EU_TRIAGED), set(mod.SOURCES))

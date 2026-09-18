@@ -85,9 +85,12 @@ def ensure_columns(conn):
 def pending(conn):
     items = []
     for table, (key, textcols) in SOURCES.items():
+        # An inherited division is judged through its text (propagate()),
+        # never on its own: 18 Sept 2026, 587 amendment votes queued at once.
+        extra = " AND inherited_from IS NULL" if table == "eu_divisions" else ""
         rows = conn.execute(
             "SELECT * FROM {0} WHERE areas != '[]' AND areas IS NOT NULL "
-            "AND triage_score IS NULL".format(table)).fetchall()
+            "AND triage_score IS NULL{1}".format(table, extra)).fetchall()
         for r in rows:
             # Trimmed at 300 characters. The shared judge budgets
             # 400 + 160 tokens per item and the reply may open with a
@@ -112,6 +115,21 @@ def pending(conn):
     return items
 
 
+def propagate(conn):
+    """A division that took its areas from an adopted text takes the text's
+    score and why-line too, once the text has one. One judgement per text;
+    the roll calls under it are its parts, not separate questions."""
+    n = conn.execute(
+        "UPDATE eu_divisions SET "
+        "triage_score = (SELECT t.triage_score FROM eu_texts t WHERE t.identifier = eu_divisions.inherited_from), "
+        "why_it_matters = (SELECT t.why_it_matters FROM eu_texts t WHERE t.identifier = eu_divisions.inherited_from) "
+        "WHERE inherited_from IS NOT NULL AND triage_score IS NULL AND EXISTS ("
+        "SELECT 1 FROM eu_texts t WHERE t.identifier = eu_divisions.inherited_from "
+        "AND t.triage_score IS NOT NULL)").rowcount
+    conn.commit()
+    return n
+
+
 def apply(conn, results):
     for res in results:
         table, key = res.id.split(":", 1)
@@ -121,6 +139,7 @@ def apply(conn, results):
             "WHERE {1} = ?".format(table, keycol),
             (res.score, res.why_it_matters or None, key))
     conn.commit()
+    propagate(conn)
 
 
 def rescore(conn, ref):
@@ -151,6 +170,9 @@ def main():
             if ref.startswith("--"):
                 break
             rescore(conn, ref)
+    carried = propagate(conn)
+    if carried:
+        print("eu-triage: {0} inherited division(s) took their text's score.".format(carried))
     items = pending(conn)
     if not items:
         print("eu-triage: nothing unscored.")

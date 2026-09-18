@@ -283,8 +283,6 @@ class AdoptedTextsGateTests(unittest.TestCase):
 
     def test_score_two_and_unscored_show_zero_and_one_do_not(self):
         conn = store()
-        conn.execute("ALTER TABLE eu_texts ADD COLUMN triage_score INTEGER")
-        conn.execute("ALTER TABLE eu_texts ADD COLUMN why_it_matters TEXT")
         rows = [("TA-3", "Persecution of Christians in Nigeria", "[8]", 3),
                 ("TA-2", "Social media and young people", "[6]", 2),
                 ("TA-1", "Enlargement report on Albania", "[7]", 1),
@@ -304,3 +302,26 @@ class AdoptedTextsGateTests(unittest.TestCase):
             self.assertNotIn(hidden, text)
         self.assertIn("5 of 6 adopted texts in the window matched the taxonomy; 3 shown "
                       "(judge score 2+ or not yet scored).", text)
+
+
+class DivisionsGateTests(unittest.TestCase):
+    """18 Sept 2026: inheritance put 736 divisions in the store; the edition
+    listed every one. Same bar as the texts now, and inherited votes carry
+    their text's score."""
+
+    def test_zero_and_one_scored_divisions_are_hidden_and_counted(self):
+        conn = store()
+        for vid, label, score in (("D3", "Persecution of Christians — as a whole", 3),
+                                  ("D0", "Ukraine report — Am 1", 0),
+                                  ("D1", "Albania report — § 4", 1),
+                                  ("DN", "Not yet judged vote", None)):
+            conn.execute("INSERT INTO eu_divisions (vote_id, date, label, favor, against, abstention, areas, tier, "
+                         "first_seen, last_seen, triage_score) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                         (vid, "2026-08-20", label, 300, 200, 10, "[8]", 1, "2026-08-21", "2026-08-21", score))
+        text = AdoptedTextsGateTests._render(self, conn)
+        self.assertIn("## Plenary divisions on our ground", text)
+        self.assertIn("Persecution of Christians", text)
+        self.assertIn("Not yet judged vote", text)
+        self.assertNotIn("Ukraine report", text)
+        self.assertNotIn("Albania report", text)
+        self.assertIn("2 of 4 stored divisions shown (judge score 2+ or not yet scored).", text)

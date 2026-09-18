@@ -111,9 +111,14 @@ def inherit_from_text(conn, label, date, days=7):
         return None
     lo = (datetime.date.fromisoformat(date) - datetime.timedelta(days=days)).isoformat()
     hi = (datetime.date.fromisoformat(date) + datetime.timedelta(days=days)).isoformat()
+    # A text the judge has scored below the digest bar lends nothing: the
+    # first pass (18 Sept 2026) took the Ukraine country report's areas,
+    # scored 0, into 65 roll calls. Unscored means not yet judged, and the
+    # divisions will take the text's score when it comes.
     for r in conn.execute(
             "SELECT identifier, title, areas, matched_terms, tier FROM eu_texts "
             "WHERE body_read IS NOT NULL AND areas IS NOT NULL AND areas != '[]' "
+            "AND (triage_score IS NULL OR triage_score >= 2) "
             "AND date BETWEEN ? AND ?", (lo, hi)):
         if eulabel.normalise_title(r[1]) == key:
             return r
@@ -281,12 +286,13 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
             res = filt.filter_item(tax, wl, label)
             areas = res.issue_areas or []
             terms, tier = res.matched_terms or [], res.tier
+            inherited = None
             if not areas:
                 text = inherit_from_text(conn, label, date)
                 if text is None:
                     continue
                 areas = json.loads(text[2] or "[]")
-                terms, tier = json.loads(text[3] or "[]"), text[4]
+                terms, tier, inherited = json.loads(text[3] or "[]"), text[4], text[0]
                 log("  inherited from {0}: {1}".format(text[0], label[:60]))
             matched += 1
             # EVERY decision event under the matched subject, not just the
@@ -345,17 +351,18 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
                 conn.execute(
                     "INSERT INTO eu_divisions (vote_id, sitting_id, date, "
                     "label, favor, against, abstention, outcome, areas, "
-                    "matched_terms, tier, first_seen, last_seen) "
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) "
+                    "matched_terms, tier, inherited_from, first_seen, last_seen) "
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
                     "ON CONFLICT(vote_id) DO UPDATE SET "
                     "label=excluded.label, favor=excluded.favor, "
                     "against=excluded.against, "
                     "abstention=excluded.abstention, "
                     "outcome=excluded.outcome, "
+                    "inherited_from=COALESCE(excluded.inherited_from, eu_divisions.inherited_from), "
                     "last_seen=excluded.last_seen",
                     (full_id, sid, date, ev_label, fav, agn, abst, outcome,
                      json.dumps(areas), json.dumps(terms),
-                     tier, today, today))
+                     tier, inherited, today, today))
     conn.commit()
     return seen, matched, gaps
 

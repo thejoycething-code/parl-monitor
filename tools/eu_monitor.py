@@ -37,7 +37,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt
+from src import db, eugate, filter as filt
 from src.http import FetchError, HttpClient
 
 SEARCH = ("https://ec.europa.eu/info/law/better-regulation/brpapi/"
@@ -187,7 +187,7 @@ def _short_label(label):
     return label[:55]
 
 
-TEXT_SCORE_FLOOR = 2   # the digest bar: 3 campaign trigger, 2 digest, 1 background, 0 noise
+TEXT_SCORE_FLOOR = eugate.FLOOR   # the digest bar, shared with the tracker and the queue
 
 
 def _why(r):
@@ -288,8 +288,12 @@ def render_edition(conn, today):
     # exist in the store for the eventual EU 5CA; the edition names the
     # votes and their tallies. NO verdicts: meanings are signed off per
     # division, never derived from a title (the Lords inversion lesson).
-    dv = conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC"
-                      ).fetchall()
+    dv_all = conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC"
+                          ).fetchall()
+    # Same bar as the adopted texts: an inherited vote carries its text's
+    # score, so a country report the judge scored 0 does not bring its 65
+    # amendment votes into the edition.
+    dv = [r for r in dv_all if eugate.shown(r)]
     # Which of them Christopher has actually signed: the config is the
     # authority, not the store.
     signed_ids = set()
@@ -318,7 +322,9 @@ def render_edition(conn, today):
                 " -" + _why(r) if _why(r) else ""))
         lines.append("")
         unsigned = [r for r in dv if r["vote_id"] not in signed_ids]
-        lines.append("Tallies are favor-against-abstention.")
+        lines.append("Tallies are favor-against-abstention. {0} of {1} stored "
+                     "divisions shown (judge score {2}+ or not yet scored)."
+                     .format(len(dv), len(dv_all), eugate.FLOOR))
         if unsigned:
             lines.append("")
             lines.append("**{0} division(s) await a verdict.** Until a "
@@ -526,7 +532,8 @@ def plenary_lines(conn, today, days=30):
     try:
         rows = conn.execute(
             "SELECT vote_id, date, label, favor, against, abstention FROM "
-            "eu_divisions WHERE areas != '[]' AND date >= ? ORDER BY date DESC",
+            "eu_divisions WHERE areas != '[]' AND date >= ? AND " + eugate.SHOWN_SQL +
+            " ORDER BY date DESC",
             (cutoff,)).fetchall()
     except Exception:                                       # noqa: BLE001
         return []

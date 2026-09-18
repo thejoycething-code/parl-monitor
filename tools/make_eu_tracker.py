@@ -28,7 +28,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db
+from src import db, eugate
 
 TEMPLATE = os.path.join(ROOT, "templates", "eu-votes.html")
 OUT = [os.path.join(ROOT, "partner_site", "eu-votes.html"),
@@ -58,9 +58,13 @@ def build_data(conn):
             "favor": "F", "against": "A", "abstention": "AB"}[r["position"]]
     mep_group = {m["id"]: m["group"] for m in meps}
     divisions = []
+    # The judge's bar (src/eugate.py): a signed division is always shown,
+    # an unsigned one only at digest score or before it is scored.
     for r in conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC"
                           ).fetchall():
         c = cfg.get(r["vote_id"]) or {}
+        if not c.get("signed_off") and not eugate.shown(r):
+            continue
         pos = conn.execute("SELECT person_id, position FROM eu_votes WHERE "
                            "vote_id = ?", (r["vote_id"],)).fetchall()
         cohesion = {}

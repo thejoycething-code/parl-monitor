@@ -364,3 +364,30 @@ class SplitKeyTests(unittest.TestCase):
         self.assertEqual(eur._split_key("A10-0199/2026 – Tomas Tobé – § 80 – Am 51"), "Am 51")
         self.assertEqual(eur._split_key("Erwägung\xa0BK"), "Erwägung BK")
         self.assertEqual(eur._split_key("Recital AD"), "Recital AD")
+
+
+class InheritanceScoreTests(unittest.TestCase):
+    def _text(self, conn, score):
+        conn.execute("INSERT INTO eu_texts (identifier, date, title, areas, matched_terms, tier, body_read, "
+                     "first_seen, last_seen, triage_score) VALUES (?,?,?,?,?,?,?,?,?,?)",
+                     ("TA-UKR", "2026-07-09", GENDER, "[7]", '["disinformation"]', 2, "2026-07-10",
+                      "2026-07-10", "2026-07-10", score))
+
+    def test_a_text_the_judge_scored_below_the_bar_lends_nothing(self):
+        for score in (0, 1):
+            conn = store(); self._text(conn, score)
+            self.assertIsNone(eur.inherit_from_text(conn, GENDER, "2026-07-09"),
+                              "a text scored {0} brought 65 amendment votes in on 18 Sept".format(score))
+
+    def test_a_digest_text_or_an_unjudged_one_lends_and_is_recorded(self):
+        for score in (2, 3, None):
+            conn = store(); self._text(conn, score)
+            client = InheritFromTextTests._client(self, GENDER_VOTE)
+            eur.pull(conn, client, "2026-09-01", log=lambda *a: None)
+            row = conn.execute("SELECT inherited_from, areas FROM eu_divisions").fetchone()
+            self.assertEqual(tuple(row), ("TA-UKR", "[7]"))
+
+    def test_a_label_matched_vote_is_not_marked_inherited(self):
+        conn = store()
+        eur.pull(conn, FakeClient(), "2026-09-01", log=lambda *a: None)
+        self.assertIsNone(conn.execute("SELECT inherited_from FROM eu_divisions").fetchone()[0])

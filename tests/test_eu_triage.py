@@ -176,3 +176,34 @@ class RescoreTests(unittest.TestCase):
     def test_rescore_refuses_an_unknown_table(self):
         with self.assertRaises(SystemExit):
             eut.rescore(store(), "items:1")
+
+
+class PropagateTests(unittest.TestCase):
+    def _store(self):
+        conn = store()
+        conn.execute("INSERT INTO eu_texts (identifier, date, title, areas, tier, body_read, first_seen, last_seen, "
+                     "triage_score, why_it_matters) VALUES ('TA-G', '2026-09-16', 'Gender inequalities in health', "
+                     "'[1,4]', 1, '2026-09-17', '2026-09-17', '2026-09-17', 2, 'SRHR and abortion throughout')")
+        for vid, inh in (("G1", "TA-G"), ("G2", "TA-G"), ("L1", None)):
+            conn.execute("INSERT INTO eu_divisions (vote_id, date, label, areas, tier, inherited_from, first_seen, "
+                         "last_seen) VALUES (?,?,?,?,?,?,?,?)", (vid, "2026-09-16", vid, "[1,4]", 1, inh,
+                                                                 "2026-09-17", "2026-09-17"))
+        return conn
+
+    def test_inherited_divisions_are_not_queued_for_the_judge(self):
+        ids = [i.id for i in eut.pending(self._store()) if i.id.startswith("eu_divisions:")]
+        self.assertEqual(ids, ["eu_divisions:D1", "eu_divisions:L1"],
+                         "G1 and G2 are judged through their text")
+
+    def test_propagate_copies_the_text_score_once(self):
+        conn = self._store()
+        self.assertEqual(eut.propagate(conn), 2)
+        rows = conn.execute("SELECT vote_id, triage_score, why_it_matters FROM eu_divisions ORDER BY vote_id").fetchall()
+        self.assertEqual([tuple(r) for r in rows], [("D1", None, None), ("G1", 2, "SRHR and abortion throughout"),
+                                                    ("G2", 2, "SRHR and abortion throughout"), ("L1", None, None)])
+        self.assertEqual(eut.propagate(conn), 0, "already carried")
+
+    def test_an_unscored_text_carries_nothing_yet(self):
+        conn = self._store()
+        conn.execute("UPDATE eu_texts SET triage_score = NULL WHERE identifier = 'TA-G'")
+        self.assertEqual(eut.propagate(conn), 0)

@@ -892,6 +892,12 @@ CREATE TABLE IF NOT EXISTS eu_divisions (
   -- ever has to guess.
   outcome TEXT,
   areas TEXT, matched_terms TEXT, tier INTEGER,
+  -- The adopted text whose areas this vote took when its own label matched
+  -- nothing (18 Sept 2026). Set only by inheritance; a label-matched vote
+  -- stays NULL. Its triage score is the TEXT's, copied by eu_triage --
+  -- one judgement per text, not one per roll call: the first pass without
+  -- this put 587 amendment votes in the queue.
+  inherited_from TEXT,
   -- verdicts (our_side / meaning lines) deliberately ABSENT: they are
   -- signed off per division by Christopher, never derived (the Lords
   -- inversion lesson, 2026-08-31)
@@ -1103,6 +1109,11 @@ TABLES = (
 )
 
 
+# Every eu_ table the triage judge scores (mirrors tools/eu_triage.SOURCES).
+EU_TRIAGED = ("eu_consultations", "eu_agenda", "eu_texts", "eu_divisions", "eu_pqs",
+              "eu_cmte_docs", "eu_judgments", "eu_ecis", "eu_speeches")
+
+
 def connect(path):
     """Open a connection with dict-like rows and foreign keys enabled."""
     conn = sqlite3.connect(path)
@@ -1223,6 +1234,20 @@ def init_db(conn):
     ed_cols = {r[1] for r in conn.execute("PRAGMA table_info(eu_divisions)")}
     if ed_cols and "outcome" not in ed_cols:
         conn.execute("ALTER TABLE eu_divisions ADD COLUMN outcome TEXT")
+    if ed_cols and "inherited_from" not in ed_cols:
+        conn.execute("ALTER TABLE eu_divisions ADD COLUMN inherited_from TEXT")
+    # The judge's columns belong to the SCHEMA (18 Sept 2026). tools/eu_triage.py
+    # used to add them itself, so the 9 Sept rebuild lost every EU score
+    # silently and no EU table carried triage_score at all until someone
+    # looked. Anything a tool adds outside this file does not survive a rebuild.
+    for table in EU_TRIAGED:
+        cols = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if not cols:
+            continue
+        if "triage_score" not in cols:
+            conn.execute("ALTER TABLE {0} ADD COLUMN triage_score INTEGER".format(table))
+        if "why_it_matters" not in cols:
+            conn.execute("ALTER TABLE {0} ADD COLUMN why_it_matters TEXT".format(table))
     if "current_mp" not in m_cols:
         # 1 = sitting MP per the Commons roster pull; peers and former
         # members stay NULL. Full-roster 5CA sheets select on this flag.
