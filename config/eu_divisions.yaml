@@ -228,3 +228,23 @@ divisions:
 # source motions), and a verdict on an unread text is the Lords inversion.
 # They render neutrally in the tracker's fold. If the texts surface, draft
 # meanings per amendment and sign here.
+
+  MTG-PL-2026-09-17-DEC-196806:
+    short: 'Social media and young people: the words "and rights" after "sexual and reproductive health" (§ 85, part 2)'
+    date: 2026-09-17
+    our_side: against
+    meaning_favor: 'Voted to keep the words "and rights" in the paragraph on young
+      people''s access to information on sexual and reproductive health, so that
+      the report speaks of "sexual and reproductive health and rights", the SRHR
+      formulation under which abortion is framed as a right. Split requested by
+      Members, roll call requested by Renew; carried 403 to 146.
+
+      '
+    meaning_against: 'Voted to strike the words "and rights", leaving the paragraph
+      about young people''s access to reliable information on sexual and
+      reproductive health without the "rights" framing that folds abortion into
+      it. The ECR, Patriots and ESN groups voted against with a minority of the
+      EPP; the Socialists, Renew, Greens and the Left voted for without dissent.
+
+      '
+    signed_off: true
