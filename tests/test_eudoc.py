@@ -69,3 +69,69 @@ class DocTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+RECORD = {"data": [{"identifier": "RC-B-10-2026-0404", "is_realized_by": [
+    {"id": "eli/dl/doc/X/el", "is_embodied_by": [
+        {"is_exemplified_by": "distribution/reds_iPlRe/X/X_el.docx"}]},
+    {"id": "eli/dl/doc/X/en", "is_embodied_by": [
+        {"is_exemplified_by": "distribution/reds_iPlRe/X/X_en.pdf"},
+        {"is_exemplified_by": "distribution/reds_iPlRe/X/X_en.docx"}]}]}]}
+
+
+class ShelfTests(unittest.TestCase):
+    """Each document type has its own shelf (18 Sept 2026): the report on social
+    media and young people was 404 at the adopted-texts path."""
+
+    def test_reports_and_motions_have_their_own_shelves(self):
+        self.assertEqual(eudoc.url_for("A-10-2026-0220"),
+                         "https://data.europarl.europa.eu/distribution/reds_iPlRp/A-10-2026-0220/A-10-2026-0220_en.docx")
+        self.assertEqual(eudoc.url_for("B-10-2026-0406"),
+                         "https://data.europarl.europa.eu/distribution/reds_iPlRe/B-10-2026-0406/B-10-2026-0406_en.docx")
+        self.assertEqual(eudoc.url_for("TA-10-2026-0313"),
+                         "https://data.europarl.europa.eu/distribution/doc/TA-10-2026-0313_en.docx")
+
+    def test_an_unknown_type_is_none_not_a_guess(self):
+        self.assertIsNone(eudoc.url_for("RC-B-10-2026-0404"))
+        self.assertIsNone(eudoc.url_for(""))
+
+    def test_the_record_names_the_english_docx(self):
+        self.assertEqual(eudoc.url_from_record(RECORD),
+                         "https://data.europarl.europa.eu/distribution/reds_iPlRe/X/X_en.docx")
+        self.assertEqual(eudoc.url_from_record(RECORD, fmt="pdf"),
+                         "https://data.europarl.europa.eu/distribution/reds_iPlRe/X/X_en.pdf")
+        self.assertIsNone(eudoc.url_from_record({"data": [{"is_realized_by": []}]}))
+
+    def test_resolve_spends_a_call_only_when_the_shelf_is_unknown(self):
+        calls = []
+
+        def get_json(url):
+            calls.append(url)
+            return RECORD
+        self.assertTrue(eudoc.resolve_url("A-10-2026-0220", get_json).endswith("A-10-2026-0220_en.docx"))
+        self.assertEqual(calls, [])
+        self.assertTrue(eudoc.resolve_url("RC-B-10-2026-0404", get_json).endswith("X_en.docx"))
+        self.assertEqual(calls, [eudoc.DOCUMENT.format("RC-B-10-2026-0404")])
+
+
+class NumberedTests(unittest.TestCase):
+    def test_a_tab_keeps_the_number_apart_from_the_text(self):
+        buf = io.BytesIO()
+        body = ("<w:p><w:r><w:t>78.</w:t></w:r><w:r><w:tab/><w:t>Calls on the Commission</w:t></w:r></w:p>")
+        with zipfile.ZipFile(buf, "w") as z:
+            z.writestr("word/document.xml", "<w:document><w:body>" + body + "</w:body></w:document>")
+        self.assertEqual(eudoc.paragraphs(buf.getvalue()), ["78. Calls on the Commission"])
+
+    def test_numbered_reads_the_motion_and_not_the_explanatory_statement(self):
+        paras = ["REPORT on things", "CONTENTS", "MOTION FOR A EUROPEAN PARLIAMENT RESOLUTION", "1. Stresses one;",
+                 "A. whereas the first recital;", "AD. whereas access to health education;",
+                 "78. Calls on the Commission;", "85. Highlights the importance;",
+                 "EXPLANATORY STATEMENT", "1. The rapporteur believes;"]
+        got = eudoc.numbered(paras)
+        self.assertEqual(got["78"], "78. Calls on the Commission;")
+        self.assertEqual(got["AD"], "AD. whereas access to health education;")
+        self.assertEqual(got["1"], "1. Stresses one;", "the explanatory statement's own 1. must not win")
+
+    def test_an_adopted_text_has_no_heading_and_is_read_whole(self):
+        got = eudoc.numbered(["Texts adopted", "A. whereas x;", "1. Calls for y;"])
+        self.assertEqual(sorted(got), ["1", "A"])
