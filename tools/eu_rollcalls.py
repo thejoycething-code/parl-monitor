@@ -28,6 +28,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -118,6 +119,99 @@ def inherit_from_text(conn, label, date, days=7):
             return r
     return None
 
+SPLIT_TEXT_LIMIT = 160
+WITHOUT = re.compile(r"^text as a whole without the words?:?\s*(.+)$", re.I | re.S)
+
+
+def split_texts(item):
+    """{'§ 85': {'1': 'the paragraph without the words ‘and rights’', '2': 'the words ‘and rights’'}, ...}
+
+    The vote item names its splits in was_motivated_by: each SPLIT activity
+    carries the paragraph it divides ("§ 85", "Recital AD") and one Work per
+    part whose expressionContent is the part's definition. Two idioms cover
+    most of them: part 1 "Text as a whole without the words: ‘X’", part 2
+    "those words". Read together they say what 146 members voted against on
+    17 Sept 2026 (the words "and rights" after "sexual and reproductive
+    health"), which a bare "§ 85/2" never will.
+    """
+    out = {}
+    for m in item.get("was_motivated_by") or []:
+        if "SPLIT" not in (m.get("activity_id") or ""):
+            continue
+        key = _split_key(eulabel.english_label(m.get("activity_label"), any_language=True)[0])
+        if not key:
+            continue
+        parts = {}
+        for w in m.get("created_a_realization_of") or []:
+            text = eulabel.english_label(w.get("expressionContent"), any_language=True)[0]
+            text = " ".join(re.sub(r"<[^>]+>", " ", text).split())
+            if w.get("number") and text:
+                parts[str(w["number"])] = text
+        quoted = None
+        for text in parts.values():
+            hit = WITHOUT.match(text)
+            if hit:
+                quoted = hit.group(1).strip().rstrip(".")
+        for n, text in list(parts.items()):
+            if WITHOUT.match(text) and quoted:
+                parts[n] = "the text without the words " + quoted
+            elif text.lower().rstrip(".") in ("those words", "these words") and quoted:
+                parts[n] = "the words " + quoted
+        if parts:
+            out[key] = parts
+    return out
+
+
+def _split_key(label):
+    """'§ 85' from '§ 85', 'A10-0220/2026 – Sandro Ruotolo – § 85' or 'Recital AD'."""
+    label = (label or "").split(" – ")[-1].split(" - ")[-1].strip()
+    label = " ".join(label.split())
+    # The split entry says "Amendment 51"; the decision says "Am 51".
+    label = re.sub(r"^Amendments?\b\.?", "Am", label, flags=re.I)
+    return label or None
+
+
+PART = re.compile(r"^(.*?)/(\d+)$")
+
+
+def annotate(decision_label, splits):
+    """'§ 85/2' + splits -> '§ 85/2: the words ‘and rights’'; unchanged when the
+    decision is not a part or the part is not defined."""
+    if not decision_label or not splits:
+        return decision_label
+    m = PART.match(decision_label.strip())
+    if not m:
+        return decision_label
+    key, part = _split_key(m.group(1)), m.group(2)
+    text = (splits.get(key) or {}).get(part)
+    if not text:
+        return decision_label
+    if len(text) > SPLIT_TEXT_LIMIT:
+        text = text[:SPLIT_TEXT_LIMIT - 1].rstrip() + "…"
+    return "{0}: {1}".format(decision_label, text)
+
+
+def annotate_known(conn, known_events, splits):
+    """Rows stored before the split texts were read get them now, from the
+    vote item this pass has already fetched: no event call, one UPDATE per
+    row whose label is still a bare part number."""
+    if not known_events or not splits:
+        return 0
+    n = 0
+    for full_id in known_events:
+        row = conn.execute("SELECT label FROM eu_divisions WHERE vote_id = ?", (full_id,)).fetchone()
+        if not row or " \u2014 " not in (row[0] or ""):
+            continue
+        head, tail = row[0].split(" \u2014 ", 1)
+        if ": " in tail:
+            continue
+        new = annotate(tail, splits)
+        if new != tail:
+            conn.execute("UPDATE eu_divisions SET label = ? WHERE vote_id = ?",
+                         ("{0} \u2014 {1}".format(head, new), full_id))
+            n += 1
+    return n
+
 
 def heal_labels(conn, labels, label, known_events):
     """Once the English key arrives, replace the provisional prefix on rows
@@ -204,9 +298,13 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
             events = [str(e).rsplit("/", 1)[-1]
                       for e in v.get("consists_of") or []] \
                 or [v.get("activity_id")]
+            splits = split_texts(v)
+            already = [e for e in events if e in known]
             if not provisional:
-                heal_labels(conn, v.get("activity_label"), label,
-                            [e for e in events if e in known])
+                heal_labels(conn, v.get("activity_label"), label, already)
+            annotated = annotate_known(conn, already, splits)
+            if annotated:
+                log("  split texts added to {0} stored roll call(s): {1}".format(annotated, label[:50]))
             for full_id in events:
                 if full_id in known:
                     continue
@@ -228,7 +326,7 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
                     dl = (e.get("activity_label") or {}).get("en") \
                         or (e.get("activity_label") or {}).get("mul")
                     if dl and dl.strip() and dl.strip() != label:
-                        ev_label = "{0} — {1}".format(label, dl.strip())
+                        ev_label = "{0} — {1}".format(label, annotate(dl.strip(), splits))
                     for pos in ("favor", "against", "abstention"):
                         for voter in e.get("had_voter_" + pos) or []:
                             conn.execute(

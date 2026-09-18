@@ -267,3 +267,100 @@ class InheritFromTextTests(unittest.TestCase):
                      "VALUES (?,?,?,?,?,?,?,?)",
                      ("TA-X", "2026-05-09", GENDER, "[1]", 1, "2026-05-10", "2026-05-10", "2026-05-10"))
         self.assertIsNone(eur.inherit_from_text(conn, GENDER, "2026-07-09"))
+
+
+SPLIT_ITEM = {"activity_id": "V85", "had_activity_type": "def/ep-activities/PLENARY_VOTE_RESULTS",
+              "activity_label": {"en": "Ongoing persecution of Christians in Nigeria"},
+              "consists_of": ["eli/dl/event/MTG-PL-2026-07-09-DEC-900001",
+                              "eli/dl/event/MTG-PL-2026-07-09-DEC-900002",
+                              "eli/dl/event/MTG-PL-2026-07-09-DEC-900003"],
+              "was_motivated_by": [
+                  {"activity_id": "V85-SPLIT-4", "activity_label": {"en": "\u00a7 85"},
+                   "created_a_realization_of": [
+                       {"number": "2", "expressionContent": {"en": "those words"}},
+                       {"number": "1", "expressionContent": {
+                           "en": "Text as a whole without the words: \u2018and rights\u2019"}}]},
+                  {"activity_id": "V85-SPLIT-1", "activity_label": {"fr": "\u00a7 63"},
+                   "created_a_realization_of": [
+                       {"number": "3", "expressionContent": {"en": "<p>\u2018stresses the need for a harmonised EU approach\u2019</p>"}}]},
+                  {"activity_id": "V85-RCV-5", "activity_label": {"fr": "vote final"}}]}
+SPLIT_EVENTS = {
+    "MTG-PL-2026-07-09-DEC-900001": {"activity_label": {"en": "A10-0220/2026 \u2013 Sandro Ruotolo \u2013 \u00a7 85/2"}},
+    "MTG-PL-2026-07-09-DEC-900002": {"activity_label": {"en": "\u00a7 63/3"}},
+    "MTG-PL-2026-07-09-DEC-900003": {"activity_label": {"en": "\u00a7 78"}},
+}
+
+
+def split_client():
+    client = FakeClient()
+
+    def get_json(url, feed, slug, archive=True):
+        if "vote-results" in url:
+            return {"data": [SPLIT_ITEM]}
+        if "/events/" in url:
+            client.event_calls += 1
+            eid = url.rsplit("/events/", 1)[1].split("?")[0]
+            ev = dict(EVENT["data"][0]); ev.update(SPLIT_EVENTS[eid])
+            return {"data": [ev]}
+        return FakeClient.get_json(client, url, feed, slug, archive)
+    client.get_json = get_json
+    return client
+
+
+class SplitTextTests(unittest.TestCase):
+    """17 Sept 2026: \u00a7 85/2 was 403-146 and nobody could say on what. The vote
+    item carries the answer: part 2 was the words 'and rights'."""
+
+    def test_split_texts_resolve_the_two_idioms(self):
+        got = eur.split_texts(SPLIT_ITEM)
+        self.assertEqual(got["\u00a7 85"]["2"], "the words \u2018and rights\u2019")
+        self.assertEqual(got["\u00a7 85"]["1"], "the text without the words \u2018and rights\u2019")
+        self.assertEqual(got["\u00a7 63"]["3"], "\u2018stresses the need for a harmonised EU approach\u2019",
+                         "a French-only split label still keys; markup is stripped")
+
+    def test_annotate_touches_parts_only(self):
+        splits = eur.split_texts(SPLIT_ITEM)
+        self.assertEqual(eur.annotate("A10-0220/2026 \u2013 Sandro Ruotolo \u2013 \u00a7 85/2", splits),
+                         "A10-0220/2026 \u2013 Sandro Ruotolo \u2013 \u00a7 85/2: the words \u2018and rights\u2019")
+        self.assertEqual(eur.annotate("\u00a7 78", splits), "\u00a7 78", "a whole-paragraph vote is not a part")
+        self.assertEqual(eur.annotate("\u00a7 99/1", splits), "\u00a7 99/1", "an undefined part is left alone")
+        self.assertEqual(eur.annotate("\u00a7 85/2", {}), "\u00a7 85/2")
+
+    def test_a_long_definition_is_cut_not_dropped(self):
+        long = {"\u00a7 1": {"1": "x" * 400}}
+        got = eur.annotate("\u00a7 1/1", long)
+        self.assertTrue(got.endswith("\u2026"))
+        self.assertLess(len(got), 180)
+
+    def test_the_pull_stores_the_split_text_in_the_label(self):
+        conn = store()
+        eur.pull(conn, split_client(), "2026-09-01", log=lambda *a: None)
+        labels = {r[0]: r[1] for r in conn.execute("SELECT vote_id, label FROM eu_divisions")}
+        self.assertEqual(labels["MTG-PL-2026-07-09-DEC-900001"],
+                         "Ongoing persecution of Christians in Nigeria \u2014 A10-0220/2026 \u2013 Sandro Ruotolo \u2013 "
+                         "\u00a7 85/2: the words \u2018and rights\u2019")
+        self.assertEqual(labels["MTG-PL-2026-07-09-DEC-900002"],
+                         "Ongoing persecution of Christians in Nigeria \u2014 \u00a7 63/3: \u2018stresses the need for a harmonised EU approach\u2019")
+        self.assertEqual(labels["MTG-PL-2026-07-09-DEC-900003"], "Ongoing persecution of Christians in Nigeria \u2014 \u00a7 78")
+
+    def test_rows_stored_before_the_texts_were_read_are_annotated_without_a_fetch(self):
+        conn = store()
+        client = split_client()
+        eur.pull(conn, client, "2026-09-01", log=lambda *a: None)
+        self.assertEqual(client.event_calls, 3)
+        conn.execute("UPDATE eu_divisions SET label = 'Ongoing persecution of Christians in Nigeria \u2014 \u00a7 85/2' "
+                     "WHERE vote_id = 'MTG-PL-2026-07-09-DEC-900001'")
+        logged = []
+        eur.pull(conn, client, "2026-09-02", log=logged.append)
+        self.assertEqual(client.event_calls, 3, "known events are not refetched")
+        row = conn.execute("SELECT label FROM eu_divisions WHERE vote_id='MTG-PL-2026-07-09-DEC-900001'").fetchone()
+        self.assertEqual(row[0], "Ongoing persecution of Christians in Nigeria \u2014 \u00a7 85/2: the words \u2018and rights\u2019")
+        self.assertTrue(any("split texts added to 1" in l for l in logged))
+
+
+class SplitKeyTests(unittest.TestCase):
+    def test_an_amendment_split_keys_the_way_the_decision_names_it(self):
+        self.assertEqual(eur._split_key("Amendment 51"), "Am 51")
+        self.assertEqual(eur._split_key("A10-0199/2026 – Tomas Tobé – § 80 – Am 51"), "Am 51")
+        self.assertEqual(eur._split_key("Erwägung\xa0BK"), "Erwägung BK")
+        self.assertEqual(eur._split_key("Recital AD"), "Recital AD")
