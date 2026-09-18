@@ -304,20 +304,12 @@ def run(date, out_dir=BRIEFS, force=False, dm=True, client=None, secrets=None, l
         text = "\n\n".join(messages)
         if len(messages) > 1:
             text = "*{0} divisions on our ground today.*\n\n".format(len(messages)) + text
-        result = publish.slack_dm(secrets if secrets is not None else _secrets(), text)
+        result = publish.slack_dm(secrets if secrets is not None else publish.load_secrets(), text)
         log("  DM: {0} ({1} division(s) in one message)".format(
             "sent" if result.get("message_ts") or result.get("ok") else
             result.get("skipped") or result.get("error") or "sent", len(messages)))
     log("{0} brief(s) written.".format(written))
     return 0
-
-
-def _secrets():
-    secrets = dict(publish.load_secrets() or {})
-    for key, var in (("slack_bot_token", "SLACK_BOT_TOKEN"), ("slack_dm_user_id", "SLACK_DM_USER_ID")):
-        if not secrets.get(key) and os.environ.get(var):
-            secrets[key] = os.environ[var]
-    return secrets
 
 
 def main():

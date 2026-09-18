@@ -197,3 +197,42 @@ class SlackDmTests(unittest.TestCase):
             {"slack_bot_token": "x", "slack_dm_user_id": "U1"}, "hi",
             transport=lambda *a: {"ok": False, "error": "channel_not_found"})
         self.assertIn("im:write", result["error"])
+
+
+class SecretsTests(unittest.TestCase):
+    """config/secrets.yaml is absent on Actions; the Slack credentials arrive
+    as environment variables. The first live EU day sweep (18 Sept 2026) had
+    its DM reported "skipped" because its caller read the file alone."""
+
+    def _with_env(self, env, path):
+        saved = {k: os.environ.get(k) for k in ("SLACK_BOT_TOKEN", "SLACK_DM_USER_ID")}
+        for k in saved:
+            os.environ.pop(k, None)
+        os.environ.update(env)
+        try:
+            return publish.load_secrets(path)
+        finally:
+            for k, v in saved.items():
+                os.environ.pop(k, None)
+                if v is not None:
+                    os.environ[k] = v
+
+    def test_env_fills_slack_keys_when_the_file_is_absent(self):
+        got = self._with_env({"SLACK_BOT_TOKEN": "xoxb-env", "SLACK_DM_USER_ID": "U1"},
+                             "/nonexistent/secrets.yaml")
+        self.assertEqual(got, {"slack_bot_token": "xoxb-env", "slack_dm_user_id": "U1"})
+
+    def test_the_file_wins_over_the_environment(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False) as fh:
+            fh.write("slack_bot_token: xoxb-file\nanthropic_api_key: k\n")
+        try:
+            got = self._with_env({"SLACK_BOT_TOKEN": "xoxb-env", "SLACK_DM_USER_ID": "U1"}, fh.name)
+        finally:
+            os.unlink(fh.name)
+        self.assertEqual(got["slack_bot_token"], "xoxb-file")
+        self.assertEqual(got["slack_dm_user_id"], "U1", "a key the file lacks still comes from the env")
+        self.assertEqual(got["anthropic_api_key"], "k")
+
+    def test_nothing_set_means_an_empty_dict(self):
+        self.assertEqual(self._with_env({}, "/nonexistent/secrets.yaml"), {})

@@ -24,13 +24,27 @@ SECRETS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
                             "config", "secrets.yaml")
 
 
+# config/secrets.yaml is not in the repo. On Actions the Slack credentials
+# arrive as environment variables instead, and a tool that only reads the
+# file reports its DM "skipped" and nobody is told anything. Three tools
+# each grew a private copy of this fallback; the fourth (the EU day sweep)
+# did not, and its first live DM was silently dropped. The fallback lives
+# here now so no caller can miss it. The file always wins over the env.
+ENV_SECRETS = (("slack_bot_token", "SLACK_BOT_TOKEN"),
+               ("slack_dm_user_id", "SLACK_DM_USER_ID"))
+
+
 def load_secrets(path=None):
     import yaml
     path = path or SECRETS_PATH
-    if not os.path.exists(path):
-        return {}
-    with open(path, "r", encoding="utf-8") as handle:
-        return yaml.safe_load(handle) or {}
+    got = {}
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as handle:
+            got = yaml.safe_load(handle) or {}
+    for key, var in ENV_SECRETS:
+        if not got.get(key) and os.environ.get(var):
+            got[key] = os.environ[var]
+    return got
 
 
 def _post_json(url, payload, headers, timeout=30):  # pragma: no cover - network

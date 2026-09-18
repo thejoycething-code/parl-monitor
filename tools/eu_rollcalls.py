@@ -86,6 +86,56 @@ def past_sittings(client, today, days=None):
     return sorted(out, key=lambda x: x[1])
 
 
+EN_WORDS = frozenset("the and of on to for in a with its".split())
+
+
+def english_label(labels):
+    """The English subject label, or the best stand-in while the EP has none.
+
+    The night a sitting ends the API often carries a voted item's label in
+    French and in "mul" (French - English - German joined by " - ") but not
+    yet under "en". The first live day sweep (17 Sept 2026) skipped all ten
+    of that day's voted items for want of an English key, the social-media
+    and Hong Kong resolutions among them, and told the DM "0 divisions".
+    Returns (label, provisional): provisional means the English key was
+    absent and heal_labels() should refresh the row once it appears.
+    """
+    labels = labels or {}
+    en = (labels.get("en") or "").strip()
+    if en:
+        return en, False
+    best, score = "", 0
+    for seg in (labels.get("mul") or "").split(" - "):
+        words = {w.strip(",.:;'\u2019()\"").lower() for w in seg.split()}
+        hits = len(words & EN_WORDS)
+        if hits > score:
+            best, score = seg.strip(), hits
+    if best:
+        return best, True
+    for lang in ("fr", "de", "es", "it"):
+        if (labels.get(lang) or "").strip():
+            return labels[lang].strip(), True
+    return "", True
+
+
+def heal_labels(conn, labels, label, known_events):
+    """Once the English key arrives, replace the provisional prefix on rows
+    stored from "mul". `known` skips these events entirely, so without this
+    a label picked the night of the vote would stand for ever."""
+    if not known_events:
+        return 0
+    stale = english_label({k: x for k, x in (labels or {}).items() if k != "en"})[0]
+    if not stale or stale == label:
+        return 0
+    n = 0
+    for full_id in known_events:
+        n += conn.execute(
+            "UPDATE eu_divisions SET label = ? || substr(label, ?) "
+            "WHERE vote_id = ? AND substr(label, 1, ?) = ?",
+            (label, len(stale) + 1, full_id, len(stale), stale)).rowcount
+    return n
+
+
 def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
@@ -129,7 +179,7 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
             if (v.get("had_activity_type") or "").rsplit("/", 1)[-1] \
                     != "PLENARY_VOTE_RESULTS":
                 continue
-            label = (v.get("activity_label") or {}).get("en")
+            label, provisional = english_label(v.get("activity_label"))
             if not label:
                 continue
             seen += 1
@@ -147,6 +197,9 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
             events = [str(e).rsplit("/", 1)[-1]
                       for e in v.get("consists_of") or []] \
                 or [v.get("activity_id")]
+            if not provisional:
+                heal_labels(conn, v.get("activity_label"), label,
+                            [e for e in events if e in known])
             for full_id in events:
                 if full_id in known:
                     continue
@@ -165,7 +218,8 @@ def pull(conn, client, today, log=print, days=None, refetch=False, on_day=None):
                     # The decision's own label ("§ 10", "Request for an
                     # urgent decision") names what was actually decided;
                     # the subject label alone hides it.
-                    dl = (e.get("activity_label") or {}).get("en")
+                    dl = (e.get("activity_label") or {}).get("en") \
+                        or (e.get("activity_label") or {}).get("mul")
                     if dl and dl.strip() and dl.strip() != label:
                         ev_label = "{0} — {1}".format(label, dl.strip())
                     for pos in ("favor", "against", "abstention"):

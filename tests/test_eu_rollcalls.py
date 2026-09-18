@@ -153,3 +153,59 @@ class OutcomeTests(unittest.TestCase):
         conn.commit()
         db.init_db(conn)
         self.assertIn("outcome", {r[1] for r in conn.execute("PRAGMA table_info(eu_divisions)")})
+
+
+MUL_ONLY = {"data": [
+    {"activity_id": "V1", "had_activity_type": "def/ep-activities/PLENARY_VOTE_RESULTS",
+     # What the API carried at 01:08 UTC on 18 Sept 2026 for every voted
+     # item of the 17th: French, and the three-language field, no "en".
+     "activity_label": {
+         "fr": "Persécution persistante des chrétiens au Nigeria",
+         "mul": "Persécution persistante des chrétiens au Nigeria - Ongoing "
+                "persecution of Christians in Nigeria - Anhaltende Verfolgung "
+                "von Christen in Nigeria"},
+     "consists_of": ["eli/dl/event/MTG-PL-2026-07-09-DEC-195719"]},
+]}
+EN_LATER = {"data": [dict(MUL_ONLY["data"][0], activity_label=dict(
+    MUL_ONLY["data"][0]["activity_label"],
+    en="Ongoing persecution of Christians in Nigeria (2026/2801(RSP))"))]}
+
+
+class LabelFallbackTests(unittest.TestCase):
+    def test_english_label_prefers_en_then_lifts_english_from_mul(self):
+        self.assertEqual(eur.english_label({"en": "A", "mul": "X - A - Y"}), ("A", False))
+        got, provisional = eur.english_label(MUL_ONLY["data"][0]["activity_label"])
+        self.assertEqual(got, "Ongoing persecution of Christians in Nigeria")
+        self.assertTrue(provisional)
+        self.assertEqual(eur.english_label({"fr": "Seulement en français"}),
+                         ("Seulement en français", True))
+        self.assertEqual(eur.english_label({}), ("", True))
+        self.assertEqual(eur.english_label(None), ("", True))
+
+    def test_a_label_published_only_in_mul_is_still_matched_and_stored(self):
+        conn = store()
+        client = FakeClient()
+        client.results = MUL_ONLY
+        client.get_json = lambda url, feed, slug, archive=True, _c=client: (
+            _c.results if "vote-results" in url else FakeClient.get_json(_c, url, feed, slug, archive))
+        seen, matched, gaps = eur.pull(conn, client, "2026-09-01", log=lambda *a: None)
+        self.assertEqual((seen, matched, gaps), (1, 1, 0),
+                         "the 17 Sept items were skipped for want of an English key")
+        row = conn.execute("SELECT label, areas FROM eu_divisions").fetchone()
+        self.assertEqual(row["label"], "Ongoing persecution of Christians in Nigeria")
+        self.assertEqual(json.loads(row["areas"]), [8])
+
+    def test_the_label_heals_when_the_english_key_arrives(self):
+        conn = store()
+        client = FakeClient()
+        client.results = MUL_ONLY
+        client.get_json = lambda url, feed, slug, archive=True, _c=client: (
+            _c.results if "vote-results" in url else FakeClient.get_json(_c, url, feed, slug, archive))
+        eur.pull(conn, client, "2026-09-01", log=lambda *a: None)
+        self.assertEqual(client.event_calls, 1)
+        client.results = EN_LATER
+        eur.pull(conn, client, "2026-09-02", log=lambda *a: None)
+        self.assertEqual(client.event_calls, 1, "a known event must not be fetched again")
+        row = conn.execute("SELECT label FROM eu_divisions").fetchone()
+        self.assertEqual(row["label"],
+                         "Ongoing persecution of Christians in Nigeria (2026/2801(RSP))")

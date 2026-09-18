@@ -54,11 +54,7 @@ def message(env=None):
 
 
 def main():
-    secrets = dict(publish.load_secrets() or {})
-    for key, var in (("slack_bot_token", "SLACK_BOT_TOKEN"),
-                     ("slack_dm_user_id", "SLACK_DM_USER_ID")):
-        if not secrets.get(key) and os.environ.get(var):
-            secrets[key] = os.environ[var]
+    secrets = publish.load_secrets()
     text = message()
     try:
         result = publish.slack_dm(secrets, text)

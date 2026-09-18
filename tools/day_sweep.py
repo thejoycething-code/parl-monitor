@@ -33,17 +33,6 @@ from src.ingest import hansard  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def secrets():
-    """config/secrets.yaml, with env fallback: the file is not in the repo, so on
-    Actions the Slack credentials arrive as SLACK_BOT_TOKEN / SLACK_DM_USER_ID.
-    Without this the DM step reports itself skipped and nobody is told anything."""
-    got = dict(publish.load_secrets() or {})
-    for key, var in (("slack_bot_token", "SLACK_BOT_TOKEN"), ("slack_dm_user_id", "SLACK_DM_USER_ID")):
-        if not got.get(key) and os.environ.get(var):
-            got[key] = os.environ[var]
-    return got
-
-
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--since", help="first day to consider (default: 3 days ago)")
@@ -102,7 +91,7 @@ def main():
             lines.append("%d gap(s) in the sweep — see the log." % len(all_gaps))
         lines += ["", "To build a pack:",
                   "```python3 tools/debate_pack.py --date %s --find \"<term>\"```" % pending[-1].isoformat()]
-        result = publish.slack_dm(secrets(), "\n".join(lines))
+        result = publish.slack_dm(publish.load_secrets(), "\n".join(lines))
         print("DM:", result.get("message_ts") or result)
 
 
