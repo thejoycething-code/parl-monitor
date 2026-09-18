@@ -56,7 +56,22 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
       - name: Test gate
-        run: python3 -m unittest discover -s tests -q 2>&1 | tail -3
+        # NOT `| tail -3` (18 Sept 2026): unittest writes its verdict to stderr
+        # while the tests' own prints buffer on stdout, so the pipe's last
+        # three lines were "members: 1 MPs + 0 peers" and the failure that
+        # stopped a deploy was nowhere in the log. Keep the whole log; on red,
+        # show the failing tests and their assertions.
+        run: |
+          set +e
+          python3 -m unittest discover -s tests -q > /tmp/suite.log 2>&1
+          rc=$?
+          grep -E "^Ran [0-9]+ tests|^OK|^FAILED" /tmp/suite.log | tail -2
+          if [ $rc -ne 0 ]; then
+            echo "::error::test gate red"
+            grep -nE "^(FAIL|ERROR): |^[A-Za-z]*Error: |^AssertionError|^ +File \"/home/runner/work/parl-monitor/parl-monitor/(tests|tools|src)/" /tmp/suite.log | head -60
+            { echo "## Test gate RED"; echo '```'; grep -E "^(FAIL|ERROR): " /tmp/suite.log | head -20; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            exit $rc
+          fi
       - name: Build the tracker
         run: |
           python3 tools/make_vote_tracker.py | tee /tmp/tracker.log

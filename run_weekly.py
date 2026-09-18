@@ -296,6 +296,13 @@ def _store_pq_questions(client, conn, tax, wl, since, edition, questions):
                    event_date=q.date_answered.isoformat() if q.date_answered else None,
                    date_tabled=q.date_tabled.isoformat() if q.date_tabled else None,
                    extra=extra, mp_refs=q.asking_member_id)
+        # The permalink's two halves, stored AS WE GO (18 Sept 2026). The
+        # comment in make_vote_tracker said ingest already did this; it did
+        # not, so every question ledged after the July backfill rendered
+        # linkless and the deploy's test gate went red on 53 of them.
+        if q.uin and q.date_tabled:
+            conn.execute("INSERT OR REPLACE INTO pq_link (pq_id, uin, tabled) VALUES (?,?,?)",
+                         (str(q.id), q.uin, q.date_tabled.isoformat()))
         if q.asking_member_id and (r.tier == 1 or r.watchlist_hits):
             try:
                 members.resolve(conn, client, q.asking_member_id)

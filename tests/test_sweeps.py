@@ -158,6 +158,11 @@ class PqSweepTests(unittest.TestCase):
         self.assertEqual(rows[0]["date_tabled"], "2026-07-20")  # deep-link prerequisite
         self.assertIn("/written-questions/detail/2026-07-20/HL2", rows[0]["url"])
         self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0], 0)
+        # The link's two halves are stored AS WE GO (18 Sept 2026): the tracker
+        # builds the permalink from pq_link, and until now only the offline
+        # backfill wrote it, so every question ledged after July was linkless.
+        link = self.conn.execute("SELECT uin, tabled FROM pq_link WHERE pq_id = '2'").fetchone()
+        self.assertEqual(tuple(link), ("HL2", "2026-07-20"))
 
 
 class EdmSweepTests(unittest.TestCase):
