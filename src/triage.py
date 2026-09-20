@@ -101,7 +101,22 @@ TOKENS_FLOOR = 6000
 EFFORT = "low"
 
 
-def _build_payload(batch):
+# THE EU JUDGE IS NOT UK-FOCUSED (20 Sept 2026). The EU tool reused this prompt
+# whole, so the judge scored the Parliament's Hong Kong media-freedom
+# resolution 0 with the reason "unrelated to CitizenGO's UK-focused campaign
+# areas". CitizenGO campaigns in 30+ countries; for the European Parliament an
+# EU-level or third-country matter in an area above is as relevant as a UK one.
+# Same rubric, same scale, same voice; only the frame changes.
+SYSTEM_PROMPT_EU = SYSTEM_PROMPT.replace(
+    "You are the triage layer of CitizenGO UK's parliamentary monitor. CitizenGO campaigns",
+    "You are the triage layer of CitizenGO's European Parliament monitor. CitizenGO campaigns "
+    "in more than 30 countries across Europe and worldwide, so an EU-level or third-country "
+    "matter in one of its areas is as relevant as a national one; never mark an item down "
+    "for not being British. CitizenGO campaigns", 1)
+assert SYSTEM_PROMPT_EU != SYSTEM_PROMPT
+
+
+def _build_payload(batch, system=None):
     user = [{"id": it.id, "title": it.title, "text": (it.text or "")[:2000],
              "candidate_areas": it.issue_areas} for it in batch]
     # A FLOOR as well as a slope (2026-09-07): a three-item batch was given
@@ -113,7 +128,7 @@ def _build_payload(batch):
         "model": TRIAGE_MODEL,
         "max_tokens": max(TOKENS_FLOOR, TOKENS_OVERHEAD + TOKENS_PER_ITEM * len(batch)),
         "output_config": {"effort": EFFORT},
-        "system": SYSTEM_PROMPT,
+        "system": system or SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": json.dumps(user)}],
     }
 
@@ -169,15 +184,16 @@ def _parse_reply(reply):
     return out
 
 
-def score_live(items, api_key=None, transport=None, usage_sink=None):
-    """Score via Claude in batches of 20. transport is injectable for testing."""
+def score_live(items, api_key=None, transport=None, usage_sink=None, system=None):
+    """Score via Claude in batches of 20. transport is injectable for testing;
+    system is the frame (SYSTEM_PROMPT_EU for the Parliament)."""
     api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY required for live triage (use TRIAGE=stub otherwise)")
     transport = transport or _default_transport
     results = []
     for batch in _batches(items):
-        reply = transport(_build_payload(batch), api_key)
+        reply = transport(_build_payload(batch, system=system), api_key)
         if usage_sink is not None:
             # The usage block was being discarded; it is the only
             # honest record of what a run cost.

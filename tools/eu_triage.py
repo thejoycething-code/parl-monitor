@@ -216,7 +216,7 @@ def main():
             for attempt in (1, 2):
                 try:
                     return triage.score_live(
-                        chunk, api_key=api_key,
+                        chunk, api_key=api_key, system=triage.SYSTEM_PROMPT_EU,
                         usage_sink=lambda usage, model: spend.record(
                             conn, "eu-triage", model, usage, dated=today))
                 except Exception as exc:

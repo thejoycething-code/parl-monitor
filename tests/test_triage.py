@@ -162,3 +162,29 @@ class EvidenceTextTests(unittest.TestCase):
         from src.triage import evidence_text
         self.assertEqual(evidence_text(None), "")
         self.assertEqual(evidence_text("not json"), "")
+
+
+class EuFrameTests(unittest.TestCase):
+    """20 Sept 2026: the EU judge, briefed as 'CitizenGO UK's parliamentary
+    monitor', scored the Hong Kong media-freedom resolution 0 as 'unrelated to
+    CitizenGO's UK-focused campaign areas'."""
+
+    def test_the_eu_frame_shares_the_rubric_and_drops_the_uk_framing(self):
+        from src import triage
+        self.assertNotIn("CitizenGO UK's", triage.SYSTEM_PROMPT_EU)
+        self.assertIn("European Parliament monitor", triage.SYSTEM_PROMPT_EU)
+        self.assertIn("never mark an item down for not being British", triage.SYSTEM_PROMPT_EU)
+        for shared in ("Score 0 = irrelevant", "why_it_matters: maximum 35 words", "British spelling"):
+            self.assertIn(shared, triage.SYSTEM_PROMPT_EU)
+
+    def test_the_payload_carries_the_frame_it_is_given(self):
+        from src import triage
+        item = triage.TriageItem(id="eu_texts:X", title="t", text="x", tier=1, issue_areas=[7], watchlist_hit=False)
+        self.assertEqual(triage._build_payload([item])["system"], triage.SYSTEM_PROMPT)
+        self.assertEqual(triage._build_payload([item], system=triage.SYSTEM_PROMPT_EU)["system"],
+                         triage.SYSTEM_PROMPT_EU)
+
+    def test_the_eu_tool_asks_for_the_eu_frame(self):
+        import os
+        src = open(os.path.join(ROOT, "tools", "eu_triage.py"), encoding="utf-8").read()
+        self.assertIn("system=triage.SYSTEM_PROMPT_EU", src)
