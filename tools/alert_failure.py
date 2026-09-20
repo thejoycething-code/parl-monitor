@@ -42,7 +42,16 @@ def message(env=None):
         if env.get("GITHUB_RUN_ID")
         else "https://github.com/{0}/actions".format(repo))
     step = env.get("FAILED_STEP")
-    lines = [":rotating_light: *{0}* failed.".format(name)]
+    conclusion = (env.get("FAILED_CONCLUSION") or "failure").lower()
+    if conclusion in ("cancelled", "timed_out"):
+        # GitHub says "cancelled" for a job that hit timeout-minutes as well
+        # as for a hand cancel; the run was killed mid-step, and the steps
+        # after it never ran. It did not report a bug of its own.
+        lines = [":rotating_light: *{0}* was {1} -- killed mid-run (a job "
+                 "timeout looks like this), so every later step was skipped."
+                 .format(name, "cancelled" if conclusion == "cancelled" else "timed out")]
+    else:
+        lines = [":rotating_light: *{0}* failed.".format(name)]
     if step:
         lines.append("Step: {0}".format(step))
     lines.append(url)

@@ -53,7 +53,13 @@ permissions:
 
 jobs:
   alert:
-    if: github.event.workflow_run.conclusion == 'failure'
+    # A timeout is reported as "cancelled" (19 Sept 2026: the EU weekly, twice,
+    # and the 15 Sept plenary before that), so a watcher that fires only on
+    # 'failure' sleeps through the failures that matter most.
+    if: >-
+      github.event.workflow_run.conclusion == 'failure' ||
+      github.event.workflow_run.conclusion == 'cancelled' ||
+      github.event.workflow_run.conclusion == 'timed_out'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -69,4 +75,5 @@ jobs:
           SLACK_DM_USER_ID: U05LJP0BT61
           FAILED_WORKFLOW: ${{ github.event.workflow_run.name }}
           FAILED_RUN_URL: ${{ github.event.workflow_run.html_url }}
+          FAILED_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
         run: python3 tools/alert_failure.py

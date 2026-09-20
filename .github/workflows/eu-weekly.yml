@@ -34,9 +34,18 @@ concurrency:
 jobs:
   pull:
     runs-on: ubuntu-latest
-    # One listing call plus one detail call per NEW initiative; a cold run
-    # with 41 details measured well under a minute locally.
-    timeout-minutes: 30
+    # SIXTY, not thirty (19 Sept 2026). Both Saturday runs were cancelled by
+    # the 30-minute timeout at the written-question drain: 14 minutes of
+    # store pull, body reads and roll calls, then a drain that sat in 429
+    # backoff. GitHub reports a timeout as "cancelled", which the alert
+    # ignored, so the triage, edition, tracker and 5CA steps were skipped
+    # twice in silence. The drains now carry a clock of their own
+    # (src/drain.py); this is the outer wall.
+    timeout-minutes: 60
+    env:
+      # Python buffers stdout into `| tee`; a step killed mid-run left a log
+      # with nothing in it. Line-by-line, so a slow step shows where it is.
+      PYTHONUNBUFFERED: "1"
     steps:
       - uses: actions/checkout@v7
         # ref: the branch TIP, not github.sha -- the fourth store-divergence

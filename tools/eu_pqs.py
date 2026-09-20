@@ -25,7 +25,7 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, eulabel, filter as filt
+from src import db, drain, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 LIST = ("https://data.europarl.europa.eu/api/v2/parliamentary-questions"
@@ -33,10 +33,12 @@ LIST = ("https://data.europarl.europa.eu/api/v2/parliamentary-questions"
 DOC = ("https://data.europarl.europa.eu/api/v2/parliamentary-questions/{0}"
        "?format=application%2Fld%2Bjson")
 FETCH_CAP = 300        # same drain arithmetic as the committee cap
+BUDGET_S = drain.DEFAULT_S   # and a clock: 19 Sept 2026, twice cancelled at this step
 THROTTLE_S = 0.65
 
 
-def pull(conn, client, today, log=print):
+def pull(conn, client, today, log=print, budget_s=BUDGET_S):
+    budget = drain.Budget(budget_s)
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     known = {r[0] for r in conn.execute("SELECT identifier FROM eu_pqs")}
@@ -64,6 +66,9 @@ def pull(conn, client, today, log=print):
         if new >= FETCH_CAP:
             log("  fetch cap ({0}) reached; the rest drains on later runs "
                 "-- disclosed, not silent".format(FETCH_CAP))
+            break
+        if budget.exhausted():
+            log(budget.disclose("question fetches", new))
             break
         new += 1
         time.sleep(THROTTLE_S)

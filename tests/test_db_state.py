@@ -314,11 +314,27 @@ class FailureAlertTests(unittest.TestCase):
                "Holyrood weekly", "Senedd weekly", "UPR monthly",
                "Historic backfill", "Score stance")
 
-    def test_the_watcher_exists_and_fires_only_on_failure(self):
+    def test_the_watcher_exists_and_fires_on_failure_and_cancellation(self):
+        """A job that hits timeout-minutes is reported as 'cancelled' (19 Sept
+        2026: the EU weekly twice); a watcher keyed on 'failure' alone slept."""
         text = workflow("alert.yml")
         self.assertIn("workflow_run:", text)
         self.assertIn("conclusion == 'failure'", text)
+        self.assertIn("conclusion == 'cancelled'", text)
+        self.assertIn("FAILED_CONCLUSION", text)
         self.assertIn("alert_failure.py", text)
+
+    def test_a_cancelled_run_is_named_as_such_in_the_dm(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "alert_failure", os.path.join(ROOT, "tools", "alert_failure.py"))
+        mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+        text = mod.message({"FAILED_WORKFLOW": "EU weekly", "FAILED_CONCLUSION": "cancelled",
+                            "FAILED_RUN_URL": "https://example/run/1"})
+        self.assertIn("*EU weekly* was cancelled", text)
+        self.assertIn("every later step was skipped", text)
+        plain = mod.message({"FAILED_WORKFLOW": "EU weekly", "FAILED_CONCLUSION": "failure"})
+        self.assertIn("*EU weekly* failed.", plain)
 
     def test_it_watches_every_stateful_workflow(self):
         text = workflow("alert.yml")

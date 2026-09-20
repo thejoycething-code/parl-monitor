@@ -37,7 +37,7 @@ sys.path.insert(0, ROOT)
 
 import time
 
-from src import db, eulabel, filter as filt
+from src import db, drain, eulabel, filter as filt
 from src.http import FetchError, HttpClient
 
 COMMITTEES = ("LIBE", "FEMM", "JURI", "EMPL", "CULT", "DROI")
@@ -50,6 +50,7 @@ DOC = ("https://data.europarl.europa.eu/api/v2/committee-documents/{0}"
 MONTHS_AHEAD = 3
 DOC_FETCH_CAP = 300    # 585 watched-committee docs outstanding on 2026-09-03: two runs, not four. 300 x 0.65s = 3.3 min, inside the 30-min job and under the 500/5min API budget shared with the other steps.
 THROTTLE_S = 0.65
+BUDGET_S = drain.DEFAULT_S   # the clock that the count cap is not (19 Sept 2026)
 
 
 def pull_meetings(conn, client, today, log=print):
@@ -90,7 +91,8 @@ def pull_meetings(conn, client, today, log=print):
     return n, gaps
 
 
-def pull_docs(conn, client, today, log=print):
+def pull_docs(conn, client, today, log=print, budget_s=BUDGET_S):
+    budget = drain.Budget(budget_s)
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     known = {r[0] for r in conn.execute("SELECT identifier FROM eu_cmte_docs")}
@@ -117,6 +119,9 @@ def pull_docs(conn, client, today, log=print):
         if new >= DOC_FETCH_CAP:
             log("  fetch cap ({0}) reached; the rest drains on later runs "
                 "-- disclosed, not silent".format(DOC_FETCH_CAP))
+            break
+        if budget.exhausted():
+            log(budget.disclose("document fetches", new))
             break
         new += 1
         time.sleep(THROTTLE_S)
