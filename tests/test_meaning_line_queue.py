@@ -123,15 +123,33 @@ class EuropeanQueueTests(unittest.TestCase):
         self.assertEqual(top[2], "WHOLE", "the highest-turnout member of the family leads")
         self.assertEqual(rows[0][1], 1, "its one split is reported, not listed")
 
-    def test_ranking_is_marginal_placement_not_turnout(self):
-        """WHOLE signed places MEPs 1-5. Its own 50-vote split now reaches nobody
-        new, while a five-vote motion reaching MEP 6 places one. The small one
-        wins, which is the whole reason this does not rank on turnout."""
+    def test_ranking_is_movement_between_bands_not_placement(self):
+        """WHOLE signed (our side favor) puts MEPs 1-5 at "+". Its 50-vote split
+        would lift 4 and 5 to "++" (or, signed the other way, drop them to
+        "-"): two moves. The five-vote motion reaches MEP 6 alone: one move.
+        The split leads -- the metric that replaced marginal placement on
+        20 Sept 2026, when every voting MEP was already placed once."""
         rows, _ = self._run({"WHOLE": {"signed_off": True, "our_side": "favor"}})
-        by_id = {r[0][2]: r[0][0] for r in rows}
-        self.assertEqual(rows[0][0][2], "SMALL", [r[0][2] for r in rows])
-        self.assertEqual(by_id["SMALL"], 1)
-        self.assertEqual(by_id["SPLIT"], 0, "its voters are already placed")
+        by_id = {r[0][2]: r[0] for r in rows}
+        # The fixture's "SIGNED" vote is unsigned in this scenario and reaches
+        # MEPs 1-3, all at "+": three moves, so it leads; the split's two come next.
+        self.assertEqual([r[0][2] for r in rows][:3], ["SIGNED", "SPLIT", "SMALL"])
+        self.assertEqual(by_id["SIGNED"][0], 3)
+        self.assertEqual(by_id["SPLIT"][0], 2)
+        self.assertEqual(by_id["SPLIT"][7], "favor", "either side moves two; favor is tried first")
+        self.assertIn("+\u2192++ 2", by_id["SPLIT"][8])
+        self.assertEqual(by_id["SMALL"][0], 1)
+        self.assertIn("0\u2192", by_id["SMALL"][8])
+
+    def test_with_nothing_signed_every_voter_would_move_off_zero(self):
+        rows, _ = self._run({})
+        by_id = {r[0][2]: r[0] for r in rows}
+        self.assertEqual(by_id["WHOLE"][0], 5)
+        self.assertEqual(by_id["SMALL"][0], 1)
+
+    def test_band_matches_the_5ca(self):
+        self.assertEqual([q.band(*x) for x in ((0, 0), (1, 0), (2, 0), (0, 1), (1, 1), (3, 2))],
+                         ["0", "+", "++", "--", "-", "-"])
 
     def test_a_signed_division_never_appears_in_the_queue(self):
         rows, total = self._run({"SIGNED": {"signed_off": True, "our_side": "favor"}})

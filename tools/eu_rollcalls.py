@@ -171,8 +171,11 @@ def _split_key(label):
     """'§ 85' from '§ 85', 'A10-0220/2026 – Sandro Ruotolo – § 85' or 'Recital AD'."""
     label = (label or "").split(" – ")[-1].split(" - ")[-1].strip()
     label = " ".join(label.split())
-    # The split entry says "Amendment 51"; the decision says "Am 51".
+    # The split entry says "Amendment 51"; the decision says "Am 51". Identical
+    # amendments are "Amendments 1, 11;" on the split and "Am 1= 11=" on the
+    # decision (the Cyprus SRHR paragraph, 8 July 2026): drop the =,; marks.
     label = re.sub(r"^Amendments?\b\.?", "Am", label, flags=re.I)
+    label = " ".join(re.sub(r"[=,;]", " ", label).split())
     return label or None
 
 

@@ -364,6 +364,8 @@ class SplitKeyTests(unittest.TestCase):
         self.assertEqual(eur._split_key("A10-0199/2026 – Tomas Tobé – § 80 – Am 51"), "Am 51")
         self.assertEqual(eur._split_key("Erwägung\xa0BK"), "Erwägung BK")
         self.assertEqual(eur._split_key("Recital AD"), "Recital AD")
+        self.assertEqual(eur._split_key("Amendments 1, 11;"), "Am 1 11")
+        self.assertEqual(eur._split_key("B10-0333/2026 – § 9 – Am 1= 11="), "Am 1 11")
 
 
 class InheritanceScoreTests(unittest.TestCase):

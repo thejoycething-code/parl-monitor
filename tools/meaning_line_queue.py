@@ -82,32 +82,55 @@ def senedd(conn, entries):
     return out
 
 
+def band(withs, againsts):
+    """The 5CA column, exactly as tools/make_eu_5ca.py draws it."""
+    if withs and not againsts:
+        return "++" if withs >= 2 else "+"
+    if againsts and not withs:
+        return "--"
+    if withs and againsts:
+        return "-"
+    return "0"
+
+
 def european(conn, n_show=6):
-    """The EU arm (17 September 2026). Two things make it unlike Holyrood and
-    the Senedd, and a straight copy would have been useless.
+    """The EU arm, ranked by MOVEMENT (20 September 2026).
 
-    First, every MEP on the roster still sits, so "how many sitting members
-    would this place" is just the turnout -- about 660 for every roll call,
-    which ranks nothing. What actually varies is the MARGINAL placement: how
-    many MEPs a line would move off zero who are not already placed by a
-    division Christopher has signed.
+    The first cut (17 September) ranked by marginal placement: how many MEPs a
+    line would move off zero. Nine sign-offs later every voting MEP is placed
+    by at least one signed division, so that number is 0 for all 216 groups
+    and the order had fallen back to turnout, which put a migration text on
+    top. What varies now is how many members a sign-off would move BETWEEN
+    5CA bands: 0 -> +, + -> ++, + -> - (an ally shown against us), -- -> -.
+    The direction is not known before the human signs, so both sides are
+    simulated and the larger movement leads, with the side named.
 
-    Second, one report generates dozens of roll calls. The 15 September
-    Special Committee on the European Democracy Shield report alone is 87,
-    most of them recital and paragraph splits, and listing them one by one
-    would bury everything else. So near-identical labels are grouped and the
-    highest-turnout member of each family is shown -- which is, in practice,
-    the vote on the text as a whole.
+    One report still generates dozens of roll calls, so near-identical labels
+    are grouped and the highest-turnout member of each family is shown, in
+    practice the vote on the text as a whole.
+
+    Returns ([((moves, turnout, vote_id, label, date, areas, tally, side,
+    detail), splits_hidden), ...], total_unsigned_on_ground).
     """
     import yaml
     path = os.path.join(ROOT, "config", "eu_divisions.yaml")
     cfg = (yaml.safe_load(open(path, encoding="utf-8")) or {}).get(
         "divisions") or {} if os.path.exists(path) else {}
-    signed = {v for v, c in cfg.items() if c.get("signed_off") and c.get("our_side")}
-    placed = set()
-    for vote_id in signed:
-        placed |= {r[0] for r in conn.execute(
-            "SELECT person_id FROM eu_votes WHERE vote_id = ?", (vote_id,))}
+    signed = {v: c["our_side"] for v, c in cfg.items()
+              if c.get("signed_off") and c.get("our_side")}
+    votes = {}
+    for r in conn.execute("SELECT vote_id, person_id, position FROM eu_votes"):
+        votes.setdefault(r[0], {})[r[1]] = r[2]
+    base = {}
+    for vote_id, side in signed.items():
+        for pid, pos in (votes.get(vote_id) or {}).items():
+            if pos == "abstention":
+                continue
+            w, a = base.get(pid, (0, 0))
+            if (pos == "favor") == (side == "favor"):
+                base[pid] = (w + 1, a)
+            else:
+                base[pid] = (w, a + 1)
     groups = {}
     for r in conn.execute(
             "SELECT vote_id, date, label, favor, against, abstention, areas "
@@ -118,14 +141,44 @@ def european(conn, n_show=6):
         areas = _shown(r["areas"])
         if not areas:
             continue
-        voters = {v[0] for v in conn.execute(
-            "SELECT person_id FROM eu_votes WHERE vote_id = ?", (r["vote_id"],))}
         turnout = (r["favor"] or 0) + (r["against"] or 0) + (r["abstention"] or 0)
+        # Both sides simulated. The side that leads is the one CONSISTENT with
+        # the placements already made -- fewer members pulled from a pure band
+        # (++, +, --) into "-" -- because the other side's count is not
+        # information, it is the coalition being shredded: the first cut ranked
+        # on the larger movement and every line at the top read "++ -> - 100".
+        # The contradictions on the consistent side are reported too; a vote
+        # that contradicts heavily either way is cross-cutting, and the reader
+        # should know that before signing it.
+        sides = []
+        for side in ("favor", "against"):
+            trans = {}
+            for pid, pos in (votes.get(r["vote_id"]) or {}).items():
+                if pos == "abstention":
+                    continue
+                w, a = base.get(pid, (0, 0))
+                before = band(w, a)
+                if (pos == "favor") == (side == "favor"):
+                    after = band(w + 1, a)
+                else:
+                    after = band(w, a + 1)
+                if after != before:
+                    k = before + "\u2192" + after
+                    trans[k] = trans.get(k, 0) + 1
+            contradict = sum(n for k, n in trans.items()
+                             if k.endswith("\u2192-") and not k.startswith("0"))
+            detail = ", ".join("{0} {1}".format(k, n) for k, n in
+                               sorted(trans.items(), key=lambda x: -x[1])[:3])
+            sides.append((contradict, side != "favor", sum(trans.values()), side, detail))
+        sides.sort()
+        contradict, _, moves, side, detail = sides[0]
+        if contradict:
+            detail += "; {0} would contradict their placement".format(contradict)
+        best = (moves, side, detail)
         stem = re.split(r"\s+[-\u2013\u2014]\s+", r["label"] or "")[0][:70]
-        entry = (len(voters - placed), turnout, r["vote_id"], r["label"] or "",
-                 r["date"], areas, "%s-%s-%s" % (r["favor"], r["against"], r["abstention"]))
-        g = groups.setdefault((r["date"], stem), [])
-        g.append(entry)
+        entry = (best[0], turnout, r["vote_id"], r["label"] or "", r["date"], areas,
+                 "%s-%s-%s" % (r["favor"], r["against"], r["abstention"]), best[1], best[2])
+        groups.setdefault((r["date"], stem), []).append(entry)
     out = []
     for (date, stem), entries in groups.items():
         entries.sort(key=lambda e: (-e[1], -e[0]))      # the whole-text vote first
@@ -173,14 +226,16 @@ def main():
     if eu_total:
         print("\n\nEUROPEAN PARLIAMENT    {0} roll call(s) on our ground with no "
               "verdict".format(eu_total))
-        print("Ranked by MEPs a line would move off zero (every MEP still sits,")
-        print("so turnout ranks nothing). Splits of one report are grouped.\n")
-        for (n, turnout, vote_id, label, date, areas, tally), rest in eu_rows:
-            print("  {0:>3} MEP(s)  {1}  {2}".format(n, date, vote_id))
+        print("Ranked by MEPs a sign-off would move between 5CA bands (both sides")
+        print("simulated; the larger movement leads). Splits of one report are grouped.\n")
+        for (n, turnout, vote_id, label, date, areas, tally, side, detail), rest in eu_rows:
+            print("  {0:>3} MEP(s) move  {1}  {2}".format(n, date, vote_id))
             print("              {0}".format(label[:64]))
             print("              {0} favor-against-abstention, areas: {1}{2}".format(
                 tally, ", ".join(names.get(a, str(a)) for a in areas),
                 "" if not rest else "; {0} more split(s) of the same text".format(rest)))
+            if n:
+                print("              if our side is {0}: {1}".format(side, detail))
         print("\n  Sign one into config/eu_divisions.yaml with our_side and both "
               "meaning\n  lines, read from the decision event, never the list title.")
     conn.close()
