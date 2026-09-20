@@ -290,10 +290,6 @@ def render_edition(conn, today):
     # division, never derived from a title (the Lords inversion lesson).
     dv_all = conn.execute("SELECT * FROM eu_divisions ORDER BY date DESC"
                           ).fetchall()
-    # Same bar as the adopted texts: an inherited vote carries its text's
-    # score, so a country report the judge scored 0 does not bring its 65
-    # amendment votes into the edition.
-    dv = [r for r in dv_all if eugate.shown(r)]
     # Which of them Christopher has actually signed: the config is the
     # authority, not the store.
     signed_ids = set()
@@ -306,6 +302,12 @@ def render_edition(conn, today):
                       if v.get("signed_off")}
     except Exception:
         pass
+    # Same bar as the adopted texts: an inherited vote carries its text's
+    # score, so a country report the judge scored 0 does not bring its 65
+    # amendment votes into the edition. A SIGNED division is always shown:
+    # the judge scored the two § 85 splits 1 ("minor wording") on 20 Sept
+    # 2026, the day after Christopher signed them; his verdict outranks it.
+    dv = [r for r in dv_all if r["vote_id"] in signed_ids or eugate.shown(r)]
     if dv:
         lines.append("## Plenary divisions on our ground (last 60 days)")
         lines.append("")
@@ -323,7 +325,7 @@ def render_edition(conn, today):
         lines.append("")
         unsigned = [r for r in dv if r["vote_id"] not in signed_ids]
         lines.append("Tallies are favor-against-abstention. {0} of {1} stored "
-                     "divisions shown (judge score {2}+ or not yet scored)."
+                     "divisions shown (signed, or judge score {2}+ or not yet scored)."
                      .format(len(dv), len(dv_all), eugate.FLOOR))
         if unsigned:
             lines.append("")

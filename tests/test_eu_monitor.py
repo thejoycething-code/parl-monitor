@@ -324,4 +324,31 @@ class DivisionsGateTests(unittest.TestCase):
         self.assertIn("Not yet judged vote", text)
         self.assertNotIn("Ukraine report", text)
         self.assertNotIn("Albania report", text)
-        self.assertIn("2 of 4 stored divisions shown (judge score 2+ or not yet scored).", text)
+        self.assertIn("2 of 4 stored divisions shown (signed, or judge score 2+ or not yet scored).", text)
+
+    def test_a_signed_division_is_shown_whatever_the_judge_said(self):
+        """20 Sept 2026: the judge scored the two signed § 85 splits 1."""
+        import tempfile, yaml
+        conn = store()
+        conn.execute("INSERT INTO eu_divisions (vote_id, date, label, favor, against, abstention, areas, tier, "
+                     "first_seen, last_seen, triage_score) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                     ("SIGNED1", "2026-08-20", "Social media — § 85/2: the words ‘and rights’", 403, 146, 50,
+                      "[6]", 2, "2026-08-21", "2026-08-21", 1))
+        old = eu.ROOT
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "editions")); os.makedirs(os.path.join(tmp, "config"))
+            for f in ("taxonomy.yaml", "watchlist.yaml"):
+                with open(os.path.join(ROOT, "config", f), "rb") as src, \
+                     open(os.path.join(tmp, "config", f), "wb") as dst:
+                    dst.write(src.read())
+            with open(os.path.join(tmp, "config", "eu_divisions.yaml"), "w", encoding="utf-8") as fh:
+                yaml.safe_dump({"divisions": {"SIGNED1": {"signed_off": True, "our_side": "against",
+                                                          "short": "s", "date": "2026-08-20"}}}, fh)
+            eu.ROOT = tmp
+            try:
+                path = eu.render_edition(conn, "2026-09-01")
+            finally:
+                eu.ROOT = old
+            text = open(path, encoding="utf-8").read()
+        self.assertIn("the words ‘and rights’", text)
+        self.assertIn("1 of 1 stored divisions shown", text)
