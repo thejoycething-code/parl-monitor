@@ -671,6 +671,11 @@ def background(subject, activity):
     return " ".join(bits)
 
 
+NARRATIVE_TOKENS = 12000
+NARRATIVE_TOKENS_RETRY = 20000
+NARRATIVE_EFFORT = "medium"
+
+
 def draft_narrative(subject, facts, api_key):
     """Model-drafted narrative fields; None on any failure (caller stubs)."""
     if not api_key:
@@ -682,13 +687,26 @@ def draft_narrative(subject, facts, api_key):
     }
     payload = {
         # The reply may open with a thinking block that spends from the same
-        # budget; 2000 truncated mid-JSON on live runs.
-        "model": stance.STANCE_MODEL, "max_tokens": 6000,
+        # budget; 2000 truncated mid-JSON on live runs, and 6000 did too on
+        # 21 Sept 2026 ("Unterminated string ... char 5186": the twelve fields
+        # are long prose and Sonnet 5 thinks by default). Effort is capped the
+        # way the stance read caps it, the budget doubled, and a reply the
+        # model could not finish is retried once with room, then reported as
+        # what it is rather than parsed as if it were whole.
+        "model": stance.STANCE_MODEL, "max_tokens": NARRATIVE_TOKENS,
+        "output_config": {"effort": NARRATIVE_EFFORT},
         "system": DRAFT_SYSTEM,
         "messages": [{"role": "user", "content": json.dumps(prompt)}],
     }
     try:
         reply = stance._default_transport(payload, api_key)
+        if reply.get("stop_reason") == "max_tokens":
+            payload = dict(payload, max_tokens=NARRATIVE_TOKENS_RETRY)
+            reply = stance._default_transport(payload, api_key)
+            if reply.get("stop_reason") == "max_tokens":
+                raise ValueError("reply hit max_tokens twice ({0} then {1}); the draft "
+                                 "needs a shorter brief, not a looser parser"
+                                 .format(NARRATIVE_TOKENS, NARRATIVE_TOKENS_RETRY))
         # The model may lead with a thinking block; join the text blocks, as
         # stance._parse_reply does.
         text = "".join(b.get("text", "") for b in (reply.get("content") or [])).strip()

@@ -168,3 +168,57 @@ class HouseStyleTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NarrativeDraftBudgetTests(unittest.TestCase):
+    """21 Sept 2026: a 6,000-token draft was cut mid-JSON ("Unterminated string
+    ... char 5186") and a brief shipped with campaigner placeholders. The
+    draft now caps effort, doubles the budget, retries once on a cut, and
+    refuses to parse a reply the model could not finish."""
+
+    def _mod(self):
+        spec = importlib.util.spec_from_file_location("make_briefs", os.path.join(ROOT, "tools", "make_briefs.py"))
+        mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+        return mod
+
+    def _run(self, replies):
+        mb = self._mod()
+        from src import stance
+        fid = mb.NARRATIVE_FIELDS[0][0]
+        for r in replies:
+            for b in r["content"]:
+                b["text"] = b["text"].replace("why_now", fid)
+        calls = []
+
+        def fake(payload, api_key):
+            calls.append(payload)
+            return replies[min(len(calls) - 1, len(replies) - 1)]
+        real = stance._default_transport
+        stance._default_transport = fake
+        try:
+            out = mb.draft_narrative({"title": "T", "kind": "pq", "area_labels": ["Abortion"]}, ["fact"], "key")
+        finally:
+            stance._default_transport = real
+        return mb, calls, out
+
+    def test_effort_is_capped_and_the_budget_is_larger(self):
+        full = {"stop_reason": "end_turn", "content": [{"type": "text", "text": json.dumps({"why_now": "Because."})}]}
+        mb, calls, out = self._run([full])
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0]["output_config"], {"effort": mb.NARRATIVE_EFFORT})
+        self.assertGreaterEqual(calls[0]["max_tokens"], 12000)
+        self.assertEqual(out.get(mb.NARRATIVE_FIELDS[0][0]), "Because.")
+
+    def test_a_cut_reply_is_retried_with_room_not_parsed(self):
+        cut = {"stop_reason": "max_tokens", "content": [{"type": "text", "text": '{"why_now": "Because the'}]}
+        full = {"stop_reason": "end_turn", "content": [{"type": "text", "text": json.dumps({"why_now": "Because."})}]}
+        mb, calls, out = self._run([cut, full])
+        self.assertEqual(len(calls), 2)
+        self.assertGreater(calls[1]["max_tokens"], calls[0]["max_tokens"])
+        self.assertEqual(out.get(mb.NARRATIVE_FIELDS[0][0]), "Because.")
+
+    def test_two_cuts_mean_placeholders_with_the_reason_named(self):
+        cut = {"stop_reason": "max_tokens", "content": [{"type": "text", "text": '{"why_now": "Because the'}]}
+        mb, calls, out = self._run([cut, cut])
+        self.assertEqual(len(calls), 2)
+        self.assertIsNone(out, "the caller stubs; the truncated text is never parsed as a brief")
