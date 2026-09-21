@@ -33,13 +33,48 @@ from src.ingest import devolved
 
 WALES_MAX_PAGES = 10    # ~5 pages of open consultations in 2026; cap, don't spin
 
+# THE CITIZEN SPACE FINDERS PAGINATE (21 September 2026). Northern Ireland's
+# listing was serving 107 open consultations over four pages and this fetched
+# the first, so 56 of them had never been stored at all -- not seen late,
+# never seen. Items rise onto page one only as the ones above them close, so
+# the monitor was meeting a consultation near the end of its life: the Good
+# Relations framework opened on 24 August, surfaced on 12 September and its
+# brief reached Drive on the closing day. Scotland's 13 still fit one page;
+# it pages by the same rule the day it does not.
+CITIZEN_SPACE_BATCH = 30     # the finder's own page size, counted by b_start
+CITIZEN_SPACE_MAX_PAGES = 12
+
 
 def fetch_open(client, nation, log):
     if nation in ("scotland", "ni"):
         url = devolved.SOURCES[nation]
         host = url.split("/consultation_finder")[0]
-        html = client.get_text(url, "dg-consultations", nation, archive=False)
-        return devolved.parse_citizen_space_finder(html, nation, host)
+        out, seen, page = [], set(), 0
+        while page < CITIZEN_SPACE_MAX_PAGES:
+            start = page * CITIZEN_SPACE_BATCH
+            html = client.get_text(
+                url if not start else "{0}&b_start={1}".format(url, start),
+                "dg-consultations",
+                nation if not start else "{0}-b{1}".format(nation, start),
+                archive=False)
+            batch = devolved.parse_citizen_space_finder(html, nation, host)
+            # STOP ON NOTHING NEW, not merely on an empty page. Citizen Space
+            # ignores a parameter it does not know and serves page one again:
+            # ?page=2 returns the same thirty rows, which is what hid the
+            # pagination in the first place. If b_start is ever renamed this
+            # loop ends after one wasted fetch instead of collecting the
+            # first page twelve times.
+            fresh = [c for c in batch if c.key not in seen]
+            if not fresh:
+                break
+            out.extend(fresh)
+            seen.update(c.key for c in fresh)
+            page += 1
+        else:
+            log("  [gap] {0} listing still returning new items at page {1} "
+                "-- capped, later pages unseen".format(
+                    nation, CITIZEN_SPACE_MAX_PAGES))
+        return out
     out, page = [], 0
     while page < WALES_MAX_PAGES:
         html = client.get_text(devolved.SOURCES["wales"].format(page),

@@ -149,3 +149,85 @@ class SeparationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def _dgc():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "dg_consultations", os.path.join(ROOT, "tools", "dg_consultations.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _row(key, title):
+    """One open row in the finder's real shape (see CS_FINDER above)."""
+    return ('<li class="dss-card consultation-state-open" '
+            'data-consultation-state="open">'
+            '<h2><a class="cs-no-underline" '
+            'href="https://consultations.nidirect.gov.uk{0}">{1}</a></h2>'
+            '<div class="row"><div class="col-md-9"><span>Summary.</span></div>'
+            '<div class="col-md-3"><div class="cs-date-delta"><span>'
+            '<span>Opened</span> 6 August 2026</span></div></div></div>'
+            '</li>'.format(key, title))
+
+
+class CitizenSpacePaginationTests(unittest.TestCase):
+    """21 Sept 2026: the NI finder held 107 open consultations over four pages
+    and the collector read the first, so 56 had never been stored. Items rise
+    onto page one only as those above them close, so a consultation was met
+    near the end of its life."""
+
+    def _client(self, pages):
+        """pages: {b_start: [(key, title), ...]}. Records the URLs fetched."""
+        class C:
+            def __init__(self):
+                self.urls = []
+
+            def get_text(self, url, feed, slug, archive=True):
+                self.urls.append(url)
+                start = 0
+                if "b_start=" in url:
+                    start = int(url.split("b_start=")[1].split("&")[0])
+                return ('<ul id="consultations" class="list-unstyled">'
+                        + "".join(_row(k, t) for k, t in pages.get(start, []))
+                        + "</ul>")
+        return C()
+
+    def test_it_pages_with_b_start_until_a_short_page(self):
+        dgc = _dgc()
+        pages = {0: [("/a%d/" % i, "A%d" % i) for i in range(30)],
+                 30: [("/b%d/" % i, "B%d" % i) for i in range(30)],
+                 60: [("/c%d/" % i, "C%d" % i) for i in range(17)]}
+        client = self._client(pages)
+        out = dgc.fetch_open(client, "ni", lambda m: None)
+        self.assertEqual(len(out), 77, "every page, not just the first 30")
+        self.assertIn("b_start=30", " ".join(client.urls))
+        self.assertIn("b_start=60", " ".join(client.urls))
+        self.assertNotIn("b_start=0", client.urls[0], "page one carries no b_start")
+
+    def test_a_listing_that_ignores_the_parameter_stops_after_one_extra_fetch(self):
+        """?page=2 returned page one again; that is how the paging was missed.
+        A renamed b_start must not collect the first page twelve times."""
+        dgc = _dgc()
+        same = [("/a%d/" % i, "A%d" % i) for i in range(30)]
+        client = self._client({0: same, 30: same, 60: same, 90: same})
+        out = dgc.fetch_open(client, "ni", lambda m: None)
+        self.assertEqual(len(out), 30)
+        self.assertEqual(len(client.urls), 2, "one page, one probe, then stop")
+
+    def test_a_single_page_nation_costs_one_fetch(self):
+        dgc = _dgc()
+        client = self._client({0: [("/s%d/" % i, "S%d" % i) for i in range(13)]})
+        out = dgc.fetch_open(client, "scotland", lambda m: None)
+        self.assertEqual(len(out), 13)
+        self.assertEqual(len(client.urls), 2, "Scotland fits one page; one probe confirms it")
+
+    def test_the_cap_is_disclosed(self):
+        dgc = _dgc()
+        pages = {i * 30: [("/p%d-%d/" % (i, j), "T%d-%d" % (i, j)) for j in range(30)]
+                 for i in range(dgc.CITIZEN_SPACE_MAX_PAGES + 3)}
+        said = []
+        out = dgc.fetch_open(self._client(pages), "ni", said.append)
+        self.assertEqual(len(out), 30 * dgc.CITIZEN_SPACE_MAX_PAGES)
+        self.assertTrue(any("capped, later pages unseen" in m for m in said), said)
