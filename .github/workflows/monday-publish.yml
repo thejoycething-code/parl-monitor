@@ -26,7 +26,14 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # SIXTY (21 Sept 2026): a dispatched dry run was killed by the 30-minute
+    # wall inside run_monday.py with nothing in the log, because Python
+    # buffered stdout into the runner. Same shape as the EU weekly two days
+    # earlier. The wall is raised so the real slot can finish; the log is
+    # unbuffered so the next kill, if any, says where it happened.
+    timeout-minutes: 60
+    env:
+      PYTHONUNBUFFERED: "1"
     steps:
       - name: London-hour guard (scheduled runs only)
         if: github.event_name == 'schedule'
