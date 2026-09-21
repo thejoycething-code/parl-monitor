@@ -291,3 +291,45 @@ divisions:
 
       '
     signed_off: true
+
+  MTG-PL-2026-07-08-DEC-195627:
+    short: 'Cyprus 1974 resolution: the words "safe and legal abortion" in the rape-survivors paragraph (Am 1/11, part 3)'
+    date: 2026-07-08
+    our_side: against
+    meaning_favor: 'Voted to write "safe and legal abortion services" into § 9 of the
+      resolution on the 1974 invasion, in the list of services member states must
+      guarantee to survivors of rape alongside emergency contraception, treatment
+      and prevention of sexually transmitted infections and maternity care. Identical
+      amendments from Renew and the Socialists, roll call requested by Renew; carried
+      488 to 68 with 68 abstentions. The EPP voted for 126 to 9 and the Patriots 38 to
+      20 on a text about Greek Cypriot victims of the Turkish army.
+
+      '
+    meaning_against: 'Voted against writing abortion into an EU text as a service the
+      Member States are to guarantee, whatever the context: the words "safe and legal
+      abortion" and nothing else in the paragraph were put to this vote. Sovereign
+      Nations voted against 20 to 2, the Conservatives split 20 for, 15 against and 32
+      abstaining, and nine EPP members broke with their group: Ressler, Casa, Lexmann,
+      Salini, Gronkiewicz-Waltz, Zdechovský, Vălean, Agius and Stier.
+
+      '
+    signed_off: true
+  MTG-PL-2026-07-08-DEC-195626:
+    short: 'Cyprus 1974 resolution: the words "sexual and reproductive health and rights" in the rape-survivors paragraph (Am 1/11, part 2)'
+    date: 2026-07-08
+    our_side: against
+    meaning_favor: 'Voted to keep the words "sexual and reproductive health and rights"
+      as the frame for the services § 9 asks member states to guarantee to rape
+      survivors, the SRHR formulation under which abortion is treated as a right.
+      Same identical amendments from Renew and the Socialists; carried 484 to 78 with
+      61 abstentions, the EPP 127 to 9 for.
+
+      '
+    meaning_against: 'Voted to strike the rights framing from the paragraph, the same
+      position as on the social media report''s § 85 ten weeks later: reproductive
+      health services can be named without declaring abortion a right. Sovereign
+      Nations 22 to 1 against, the Patriots 35 for and 26 against, the Conservatives
+      19 for, 16 against and 29 abstaining, nine EPP members against.
+
+      '
+    signed_off: true
