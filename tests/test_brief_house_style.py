@@ -222,3 +222,83 @@ class NarrativeDraftBudgetTests(unittest.TestCase):
         mb, calls, out = self._run([cut, cut])
         self.assertEqual(len(calls), 2)
         self.assertIsNone(out, "the caller stubs; the truncated text is never parsed as a brief")
+
+
+class NarrativeEnvelopeTests(unittest.TestCase):
+    """21 Sept 2026: the Good Relations draft put "good relations" in quotation
+    marks inside a JSON string, the string ended early, the parse failed, and
+    all twelve prose fields shipped to Drive as campaigner placeholders under
+    an Asana review task that looked finished. Prose is not JSON-shaped."""
+
+    def _mod(self):
+        spec = importlib.util.spec_from_file_location("make_briefs", os.path.join(ROOT, "tools", "make_briefs.py"))
+        mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+        return mod
+
+    def test_quotes_apostrophes_and_blank_lines_survive(self):
+        mb = self._mod()
+        reply = (
+            "@@campaign_name@@\n"
+            "Tell The Executive Office: Don't Let 'Good Relations' Become A Licence To Silence\n"
+            "\n"
+            "@@ask@@\n"
+            'Write protection into the framework, so that "good relations" cannot become\n'
+            "a licence to silence the people it claims to protect.\n"
+            "\n"
+            "Second paragraph, with a comma, a colon: and \\ a backslash.\n")
+        out = mb.parse_narrative(reply, [f for f, _ in mb.NARRATIVE_FIELDS])
+        self.assertEqual(out["campaign_name"],
+                         "Tell The Executive Office: Don't Let 'Good Relations' Become A Licence To Silence")
+        self.assertIn('"good relations" cannot become', out["ask"])
+        self.assertIn("Second paragraph", out["ask"], "a blank line does not end a field")
+        self.assertEqual(len(out), 2, "only the fields present come back")
+
+    def test_the_exact_reply_that_broke_the_json_parse(self):
+        mb = self._mod()
+        prose = ('Write explicit protection into the heart of this framework, not as an '
+                 'afterthought but as its founding principle, so that "good relations" cannot '
+                 'become a licence to silence the very people it claims to protect.')
+        out = mb.parse_narrative("@@ask@@\n" + prose, ["ask"])
+        self.assertEqual(out["ask"], prose)
+        self.assertEqual(json.loads(json.dumps({"ask": prose}))["ask"], prose,
+                         "the prose is fine; it was the envelope that broke")
+
+    def test_unknown_and_empty_fields_are_dropped(self):
+        mb = self._mod()
+        out = mb.parse_narrative("@@ask@@\nReal.\n@@not_a_field@@\nJunk.\n@@urgency@@\n\n", ["ask", "urgency"])
+        self.assertEqual(out, {"ask": "Real."})
+
+    def test_a_json_reply_still_parses_as_a_fallback(self):
+        mb = self._mod()
+        out = mb.parse_narrative(json.dumps({"ask": "Old shape.", "nope": "x"}), ["ask"])
+        self.assertEqual(out, {"ask": "Old shape."})
+        fenced = "```json\n" + json.dumps({"ask": "Fenced."}) + "\n```"
+        self.assertEqual(mb.parse_narrative(fenced, ["ask"]), {"ask": "Fenced."})
+
+    def test_an_unparsable_reply_is_empty_not_half_read(self):
+        mb = self._mod()
+        self.assertEqual(mb.parse_narrative('{"ask": "he said "no" to it"}', ["ask"]), {})
+        self.assertEqual(mb.parse_narrative("", ["ask"]), {})
+
+    def test_the_prompt_asks_for_markers_and_not_json(self):
+        mb = self._mod()
+        self.assertIn("@@campaign_name@@", mb.DRAFT_SYSTEM)
+        self.assertIn("Do NOT use JSON", mb.DRAFT_SYSTEM)
+        self.assertIn("nothing in the prose needs escaping", mb.DRAFT_SYSTEM)
+
+    def test_a_failed_draft_is_named_on_the_sheet(self):
+        mb = self._mod()
+        self.assertIn("NARRATIVE DRAFT FAILED", mb.DRAFT_FAILED_NOTE)
+        self.assertIn("--force {0}", mb.DRAFT_FAILED_NOTE)
+        src = open(os.path.join(ROOT, "tools", "make_briefs.py"), encoding="utf-8").read()
+        self.assertIn('print("  narrative draft failed for {0}', src,
+                      "the relay needs the slug and a trigger word")
+
+
+class RegenerationKeepsItsPlaceTests(unittest.TestCase):
+    def test_force_reuses_the_review_task_and_the_drive_file(self):
+        src = open(os.path.join(ROOT, "tools", "make_briefs.py"), encoding="utf-8").read()
+        self.assertIn("SELECT asana_gid, drive_file_id FROM brief_log", src)
+        self.assertIn("keeping the existing review task", src)
+        self.assertIn("drive_file_id) VALUES (?, ?, ?, ?, ?, ?, ?)", src,
+                      "the row must carry the drive id forward, not null it")

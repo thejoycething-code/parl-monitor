@@ -250,8 +250,17 @@ def polish_5ca(token, file_id, tab_title, sheet_id, last_row):
                .format(file_id), {"requests": requests})
 
 
-def publish_one(token, slug, subject, dry_run=False):
-    """Copy the template, fill its tabs, share it back. Returns (id, url)."""
+def publish_one(token, slug, subject, dry_run=False, into=None):
+    """Copy the template, fill its tabs, share it back. Returns (id, detail).
+
+    `into` rewrites an EXISTING sheet from the local files instead of copying
+    the template: the one-brief-ever rule makes regeneration rare, but when a
+    brief IS regenerated (21 September 2026: the Good Relations narrative had
+    failed to draft and every prose field was a placeholder) the team is
+    already looking at a published sheet and an Asana task that points to it.
+    A second sheet with the same name would be worse than a stale one. The
+    tabs are the template's, so only the fill is repeated.
+    """
     title = "{0} EN GB Brief DRAFT: {1}".format(
         __import__("datetime").date.today().strftime("%Y-%m"), subject)[:180]
     sources = {}
@@ -262,13 +271,18 @@ def publish_one(token, slug, subject, dry_run=False):
     if not sources:
         return None, "no generated files for {0}".format(slug)
     if dry_run:
+        if into:
+            return None, "would rewrite {0} tab(s) in {1}".format(len(sources), into)
         return None, "would create '{0}' with {1} tab(s) filled".format(
             title, len(sources))
 
-    copied = api(token, "https://www.googleapis.com/drive/v3/files/{0}/copy"
-                        "?supportsAllDrives=true".format(TEMPLATE_ID),
-                 {"name": title, "parents": [FOLDER_ID]})
-    file_id = copied["id"]
+    if into:
+        file_id = into
+    else:
+        copied = api(token, "https://www.googleapis.com/drive/v3/files/{0}/copy"
+                            "?supportsAllDrives=true".format(TEMPLATE_ID),
+                     {"name": title, "parents": [FOLDER_ID]})
+        file_id = copied["id"]
 
     meta = api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}"
                       "?fields=sheets.properties".format(file_id))
@@ -278,8 +292,8 @@ def publish_one(token, slug, subject, dry_run=False):
     # the 5CA and the narrative, nothing else.
     props = {s["properties"]["title"]: s["properties"]["sheetId"]
              for s in meta.get("sheets", [])}
-    doomed = [sid for title, sid in props.items()
-              if not any(h in title.lower() for h in KEEP_TAB_HINTS)]
+    doomed = [] if into else [sid for title, sid in props.items()
+                              if not any(h in title.lower() for h in KEEP_TAB_HINTS)]
     if doomed:
         api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}"
                    ":batchUpdate".format(file_id),
@@ -401,6 +415,11 @@ def adopt_existing(token, subject):
 
 def main():
     dry_run = "--dry-run" in sys.argv
+    # --rewrite SLUG: push the local files into the sheet this brief already
+    # has, for a brief that has been regenerated.
+    rewrite = None
+    if "--rewrite" in sys.argv:
+        rewrite = sys.argv[sys.argv.index("--rewrite") + 1]
     conn = db.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
     cols = [c[1] for c in conn.execute("PRAGMA table_info(brief_log)")]
     if "drive_file_id" not in cols:
@@ -412,16 +431,29 @@ def main():
         print("drive publish skipped: {0}".format(why))
         return 0  # never fail the weekly run over a Drive credential
 
-    rows = conn.execute("SELECT slug, subject, asana_gid FROM brief_log "
-                        "WHERE status IN ('pending','generated') "
-                        "AND drive_file_id IS NULL"
-                        ).fetchall()
+    if rewrite:
+        rows = conn.execute("SELECT slug, subject, asana_gid, drive_file_id "
+                            "FROM brief_log WHERE slug = ?", (rewrite,)).fetchall()
+        if not rows:
+            print("drive publish: no brief_log row for {0}".format(rewrite))
+            return 1
+        if not rows[0]["drive_file_id"]:
+            print("drive publish: {0} has no published sheet to rewrite; run "
+                  "without --rewrite to create one".format(rewrite))
+            return 1
+    else:
+        rows = conn.execute("SELECT slug, subject, asana_gid FROM brief_log "
+                            "WHERE status IN ('pending','generated') "
+                            "AND drive_file_id IS NULL"
+                            ).fetchall()
     if not rows:
         print("drive publish: nothing new")
         return 0
     for r in rows:
         try:
-            file_id, detail = publish_one(token, r["slug"], r["subject"], dry_run)
+            file_id, detail = publish_one(
+                token, r["slug"], r["subject"], dry_run,
+                into=(r["drive_file_id"] if rewrite else None))
         except Exception as exc:
             print("  {0}: FAILED {1}".format(r["slug"], exc))
             continue
