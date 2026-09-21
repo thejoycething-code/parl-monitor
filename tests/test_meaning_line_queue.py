@@ -120,7 +120,7 @@ class EuropeanQueueTests(unittest.TestCase):
         rows, total = self._run({})
         self.assertEqual(total, 4, "every unsigned roll call is counted")
         top = rows[0][0]
-        self.assertEqual(top[2], "WHOLE", "the highest-turnout member of the family leads")
+        self.assertEqual(top[2], "WHOLE", "with nothing signed the 5-voter whole-text vote moves most")
         self.assertEqual(rows[0][1], 1, "its one split is reported, not listed")
 
     def test_ranking_is_movement_between_bands_not_placement(self):
@@ -160,3 +160,54 @@ class EuropeanQueueTests(unittest.TestCase):
         rows, total = self._run({"WHOLE": {"signed_off": False, "our_side": None}})
         self.assertIn("WHOLE", [r[0][2] for r in rows])
         self.assertEqual(total, 4)
+
+
+class StrongestSplitLeadsTests(unittest.TestCase):
+    """20 Sept 2026: the Cyprus abortion words (488-68) moved far more members
+    than the 575-33 whole-text vote they sat under."""
+
+    def test_a_split_that_moves_more_than_the_whole_text_leads_its_family(self):
+        conn = db.init_db(sqlite3.connect(":memory:")); conn.row_factory = sqlite3.Row
+        now = "2026-09-17"
+        # Tallies carry a real losing side so neither vote is "consensus".
+        for vid, label, voters in (("W", "Cyprus report", ["1", "2"]),
+                                   ("S", "Cyprus report - Am 1 11/3: the words abortion", ["1", "2", "3", "4", "5"])):
+            conn.execute("INSERT INTO eu_divisions (vote_id, sitting_id, date, label, favor, against, abstention, "
+                         "areas, matched_terms, tier, first_seen, last_seen) VALUES (?,'s','2026-07-08',?,?,?,0,"
+                         "'[1]','[]',1,?,?)", (vid, label, len(voters), 3, now, now))
+            for pid in voters:
+                conn.execute("INSERT INTO eu_votes (vote_id, person_id, position) VALUES (?,?,'favor')", (vid, pid))
+        conn.commit()
+        import tempfile
+        d = tempfile.mkdtemp(); os.makedirs(os.path.join(d, "config"))
+        real = q.ROOT; q.ROOT = d
+        try:
+            rows, total = q.european(conn)
+        finally:
+            q.ROOT = real
+        self.assertEqual(total, 2)
+        self.assertEqual(len(rows), 1, "one family")
+        self.assertEqual(rows[0][0][2], "S", "the split that moves five leads the whole text that moves two")
+        self.assertEqual(rows[0][1], 1)
+
+
+class ConsensusVotesAreRecordOnlyTests(unittest.TestCase):
+    def test_a_near_unanimous_vote_does_not_rank(self):
+        conn = db.init_db(sqlite3.connect(":memory:")); conn.row_factory = sqlite3.Row
+        now = "2026-09-17"
+        for vid, label, f, a in (("C", "Consensus text", 601, 46), ("D", "Divided text", 337, 273)):
+            conn.execute("INSERT INTO eu_divisions (vote_id, sitting_id, date, label, favor, against, abstention, "
+                         "areas, matched_terms, tier, first_seen, last_seen) VALUES (?,'s','2026-07-08',?,?,?,0,"
+                         "'[1]','[]',1,?,?)", (vid, label, f, a, now, now))
+            for pid in ("1", "2"):
+                conn.execute("INSERT INTO eu_votes (vote_id, person_id, position) VALUES (?,?,'favor')", (vid, pid))
+        conn.commit()
+        import tempfile
+        d = tempfile.mkdtemp(); os.makedirs(os.path.join(d, "config"))
+        real = q.ROOT; q.ROOT = d
+        try:
+            rows, total = q.european(conn)
+        finally:
+            q.ROOT = real
+        self.assertEqual([r[0][2] for r in rows], ["D"], "the 601-46 vote is record only")
+        self.assertEqual(total, 1, "and is not counted as waiting for a verdict")

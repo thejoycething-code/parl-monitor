@@ -82,6 +82,9 @@ def senedd(conn, entries):
     return out
 
 
+CONSENSUS_FLOOR = 0.10   # losing side below this share of votes cast: record only
+
+
 def band(withs, againsts):
     """The 5CA column, exactly as tools/make_eu_5ca.py draws it."""
     if withs and not againsts:
@@ -106,8 +109,8 @@ def european(conn, n_show=6):
     simulated and the larger movement leads, with the side named.
 
     One report still generates dozens of roll calls, so near-identical labels
-    are grouped and the highest-turnout member of each family is shown, in
-    practice the vote on the text as a whole.
+    are grouped and the member of each family that moves the most is shown;
+    that is the vote on the text as a whole only when no split says more.
 
     Returns ([((moves, turnout, vote_id, label, date, areas, tally, side,
     detail), splits_hidden), ...], total_unsigned_on_ground).
@@ -142,6 +145,14 @@ def european(conn, n_show=6):
         if not areas:
             continue
         turnout = (r["favor"] or 0) + (r["against"] or 0) + (r["abstention"] or 0)
+        # A consensus vote discriminates nobody (20 Sept 2026): 601-46 on the
+        # gender-and-health text led the queue because signing it would turn
+        # every placed opponent who voted with the House into "mixed", which
+        # is a band change with nothing in it. Under a tenth on the losing
+        # side and the vote is record only, whatever it meant.
+        cast = (r["favor"] or 0) + (r["against"] or 0)
+        if cast and min(r["favor"] or 0, r["against"] or 0) < cast * CONSENSUS_FLOOR:
+            continue
         # Both sides simulated. The side that leads is the one CONSISTENT with
         # the placements already made -- fewer members pulled from a pure band
         # (++, +, --) into "-" -- because the other side's count is not
@@ -181,7 +192,10 @@ def european(conn, n_show=6):
         groups.setdefault((r["date"], stem), []).append(entry)
     out = []
     for (date, stem), entries in groups.items():
-        entries.sort(key=lambda e: (-e[1], -e[0]))      # the whole-text vote first
+        # The family's STRONGEST vote leads, not its biggest (20 Sept 2026):
+        # the Cyprus resolution's abortion words moved far more members than
+        # its 575-33 vote on the text as a whole, and sat hidden under it.
+        entries.sort(key=lambda e: (-e[0], -e[1]))
         out.append((entries[0], len(entries) - 1))
     out.sort(key=lambda x: (-x[0][0], -x[0][1]))
     return out[:n_show], sum(len(v) for v in groups.values())
