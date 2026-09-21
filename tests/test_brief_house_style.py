@@ -302,3 +302,61 @@ class RegenerationKeepsItsPlaceTests(unittest.TestCase):
         self.assertIn("keeping the existing review task", src)
         self.assertIn("drive_file_id) VALUES (?, ?, ?, ?, ?, ?, ?)", src,
                       "the row must carry the drive id forward, not null it")
+
+
+class ForceSlugResolutionTests(unittest.TestCase):
+    """21 Sept 2026: a regeneration pass asked for a slug rebuilt from the
+    title, which is longer than the 60-character one brief_log holds. The tool
+    printed the subject list and exited 0, so the brief was silently skipped."""
+
+    def _mod(self):
+        spec = importlib.util.spec_from_file_location("make_briefs", os.path.join(ROOT, "tools", "make_briefs.py"))
+        mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+        return mod
+
+    SUBS = [{"slug": "bill-infants-parents-and-carers-bill"},
+            {"slug": "consultation-a-new-good-relations-framework-call-for-views"}]
+    LOGGED = ["pq-pq-hl3338-lords-gender-dysphoria-health-services-answered-20",
+              "pq-pq-hl3337-lords-gender-dysphoria-health-services-answered-20",
+              "bill-infants-parents-and-carers-bill"]
+
+    def test_an_exact_slug_resolves_to_itself(self):
+        mb = self._mod()
+        got, err = mb.resolve_slug("bill-infants-parents-and-carers-bill", self.SUBS, self.LOGGED)
+        self.assertEqual((got, err), ("bill-infants-parents-and-carers-bill", None))
+
+    def test_a_slug_rebuilt_from_the_title_resolves_to_the_stored_one(self):
+        """The real failure: the log truncates, so what was typed is LONGER."""
+        mb = self._mod()
+        got, err = mb.resolve_slug(
+            "pq-pq-hl3338-lords-gender-dysphoria-health-services-answered-2026-09-17",
+            self.SUBS, ["pq-pq-hl3338-lords-gender-dysphoria-health-services-answered-20"])
+        self.assertIsNone(err)
+        self.assertEqual(got, "pq-pq-hl3338-lords-gender-dysphoria-health-services-answered-20")
+
+    def test_a_shortened_slug_resolves_when_it_is_unique(self):
+        mb = self._mod()
+        got, err = mb.resolve_slug("consultation-a-new-good", self.SUBS, self.LOGGED)
+        self.assertEqual(got, "consultation-a-new-good-relations-framework-call-for-views")
+        self.assertIsNone(err)
+
+    def test_an_ambiguous_slug_is_refused_and_lists_the_candidates(self):
+        mb = self._mod()
+        got, err = mb.resolve_slug("pq-pq-hl333", self.SUBS, self.LOGGED)
+        self.assertIsNone(got)
+        self.assertIn("ambiguous", err)
+        self.assertIn("hl3337", err)
+        self.assertIn("hl3338", err)
+
+    def test_an_unknown_slug_is_refused_and_says_why(self):
+        mb = self._mod()
+        got, err = mb.resolve_slug("made-up", self.SUBS, self.LOGGED)
+        self.assertIsNone(got)
+        self.assertIn("no brief matches", err)
+        self.assertIn("60 characters", err, "the cap is the reason a rebuilt slug misses")
+
+    def test_a_bad_slug_exits_non_zero(self):
+        """'nothing new' and 'no such brief' must not look the same."""
+        src = open(os.path.join(ROOT, "tools", "make_briefs.py"), encoding="utf-8").read()
+        self.assertIn("force, why_not = resolve_slug(force, subs, done)", src)
+        self.assertIn("is not a current brief subject", src)

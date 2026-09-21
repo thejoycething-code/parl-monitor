@@ -1032,6 +1032,35 @@ def write_5ca_csv(path, conn, subject, cfg):
     return True
 
 
+def resolve_slug(wanted, subs, logged):
+    """The slug --force means, resolved against brief_log and the subjects.
+
+    slugify caps a slug at 60 characters, so a slug rebuilt from a title is
+    LONGER than the one the log holds and matches nothing. 21 September 2026:
+    a regeneration pass asked for "...gender-dysphoria-health-services-
+    answered-2026-09-17" when the row said "...answered-20", and the tool
+    printed the whole subject list and exited 0. "Nothing new" and "no such
+    brief" must never look the same, so an unmatched slug is now an error
+    with a non-zero exit, and a slug that is a prefix of exactly one known
+    one (in either direction) resolves to it.
+
+    Returns (slug, None) or (None, complaint).
+    """
+    known = sorted({s["slug"] for s in subs} | set(logged))
+    if wanted in known:
+        return wanted, None
+    for rule in (lambda k: k.startswith(wanted) or wanted.startswith(k),
+                 lambda k: wanted in k or k in wanted):
+        hits = [k for k in known if rule(k)]
+        if len(hits) == 1:
+            return hits[0], None
+        if len(hits) > 1:
+            return None, ("{0!r} is ambiguous; it matches {1} briefs:\n  {2}"
+                          .format(wanted, len(hits), "\n  ".join(hits)))
+    return None, ("no brief matches {0!r}. Slugs are capped at 60 characters, "
+                  "so read one from brief_log or run --list.".format(wanted))
+
+
 def main():
     force = None
     if "--force" in sys.argv:
@@ -1068,6 +1097,12 @@ def main():
     done = {r["slug"] for r in conn.execute("SELECT slug FROM brief_log")}
     rejected = {r["slug"] for r in conn.execute(
         "SELECT slug FROM brief_log WHERE status = 'rejected'")}
+    if force:
+        force, why_not = resolve_slug(force, subs, done)
+        if why_not:
+            print(why_not)
+            conn.close()
+            return 1
     if force and force in rejected:
         print("{0} was REJECTED at review and archived; not regenerating. "
               "Clear its brief_log row deliberately if that decision has "
@@ -1075,6 +1110,14 @@ def main():
         return 1
     todo = [s for s in subs if s["slug"] == force or (not force and s["slug"] not in done)]
 
+    if force and not todo:
+        # The slug resolved, so it is real; it is simply not a subject now.
+        print("{0} is in the brief_log but is not a current brief subject "
+              "(its bill may have closed, or its consultation passed its "
+              "action window), so there is nothing to regenerate from."
+              .format(force))
+        conn.close()
+        return 1
     if list_only or (not todo):
         for s in subs:
             print("  {0} {1:12} {2}".format(
