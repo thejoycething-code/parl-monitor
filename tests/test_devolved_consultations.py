@@ -74,6 +74,14 @@ GW_DETAIL = """
 """
 
 
+GW_DETAIL_CFE = """
+<div class="header-meta"><div class="gw-row end-date"><div class="label">Call for evidence ends:</div>
+<div class="item end-date">31 October 2026</div></div>
+<div class="gw-row start-date"><div class="label">Call for evidence launched:</div>
+<div class="item"><div><time datetime="2026-07-31T12:00:00Z">31 July 2026</time></div></div></div></div>
+"""
+
+
 class CitizenSpaceTests(unittest.TestCase):
     def test_finder_takes_open_only(self):
         out = devolved.parse_citizen_space_finder(
@@ -231,3 +239,29 @@ class CitizenSpacePaginationTests(unittest.TestCase):
         out = dgc.fetch_open(self._client(pages), "ni", said.append)
         self.assertEqual(len(out), 30 * dgc.CITIZEN_SPACE_MAX_PAGES)
         self.assertTrue(any("capped, later pages unseen" in m for m in said), said)
+
+
+class GovWalesCallForEvidenceTests(unittest.TestCase):
+    """21 Sept 2026: gov.wales labels the same two rows after the exercise, so
+    a call for evidence says "Call for evidence ends:". The detail parser
+    matched only "Consultation ends:", and the National Cancer Strategy and
+    the culture and sport vision sat in the store with no dates at all: the
+    actionability gate cannot judge a consultation with no closing date, so
+    neither could ever have reached a brief."""
+
+    def test_a_call_for_evidence_yields_both_dates(self):
+        self.assertEqual(devolved.parse_govwales_detail(GW_DETAIL_CFE),
+                         ("2026-07-31", "2026-10-31"))
+
+    def test_a_consultation_still_yields_both_dates(self):
+        self.assertEqual(devolved.parse_govwales_detail(GW_DETAIL),
+                         ("2026-08-20", "2026-10-16"))
+
+    def test_a_wording_nobody_has_seen_yet_still_parses(self):
+        html = GW_DETAIL_CFE.replace("Call for evidence", "Survey")
+        self.assertEqual(devolved.parse_govwales_detail(html),
+                         ("2026-07-31", "2026-10-31"))
+
+    def test_a_page_with_no_label_rows_yields_nothing(self):
+        self.assertEqual(devolved.parse_govwales_detail("<p>No dates here</p>"),
+                         (None, None))

@@ -123,11 +123,23 @@ def parse_govwales_index(html):
 
 
 def parse_govwales_detail(html):
-    """(launched, ends) from 'Consultation launched:'/'Consultation ends:'."""
+    """(launched, ends) from the header-meta label rows.
+
+    ANCHOR ON THE LABEL ROW, NOT THE WORD "Consultation" (21 September 2026).
+    gov.wales words the same two rows after the exercise: a call for evidence
+    says "Call for evidence ends:", and matching "Consultation ends:" left
+    those rows with no dates at all. Two were sitting in the store that way,
+    the National Cancer Strategy and the culture and sport vision, so the
+    actionability gate could not judge them and they could never reach a
+    brief. The listing already accepted calls for evidence; only the detail
+    parser did not. The markup is identical either side, so the wording
+    before "ends:" is what varies and is what this ignores.
+    """
     text = re.sub(r"\s+", " ", html or "")
-    ends = re.search(r"Consultation ends:\s*</div>\s*<div[^>]*>\s*([^<]+)",
+    ends = re.search(r'<div class="label">[^<]*ends:</div>\s*<div[^>]*>\s*([^<]+)',
                      text)
-    launched = re.search(r"Consultation launched:.*?<time[^>]*>([^<]+)", text)
+    launched = re.search(r'<div class="label">[^<]*launched:</div>.*?<time[^>]*>([^<]+)',
+                         text)
     return (parse_date(launched.group(1) if launched else ""),
             parse_date(ends.group(1) if ends else ""))
 
