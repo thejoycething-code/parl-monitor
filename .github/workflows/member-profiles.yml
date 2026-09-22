@@ -19,7 +19,14 @@ name: Member profiles
 # pull. Tuesday is the only other clear day and is kept spare.
 on:
   schedule:
-    - cron: "0 6 * * 3"
+    # MONTHLY, not weekly (22 September 2026). This refreshes the
+    # HISTORICAL depth -- every period each member has served and their
+    # party history -- at about 24 minutes a run. Current name, party and
+    # seat come from tools/pull_commons_roster.py in the Monday publish,
+    # which still runs weekly, so the 5CA never reads a stale party label
+    # off the back of this. Weekly cost about 100 minutes a month to
+    # re-fetch service records that change on a by-election.
+    - cron: "0 8 10 * *"
   workflow_dispatch: {}
 
 permissions:

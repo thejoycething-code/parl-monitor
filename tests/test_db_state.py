@@ -746,3 +746,56 @@ class RefusedDownloadTests(unittest.TestCase):
         self.assertEqual(open(db, "rb").read(), b"new bytes")
         self.assertFalse(os.path.exists(got))
         self.assertIn(hashlib.sha256(b"new bytes").hexdigest(), open(pulled).read())
+
+
+class RetrySlotsAreGuardedTests(unittest.TestCase):
+    """A workflow with two or more cron slots must not do the job twice.
+
+    22 September 2026: the four weeklies carried a second slot so a dropped or
+    drifted cron still got the week done, and nothing stopped it repeating the
+    whole job -- about 250 minutes a month re-collecting. The Monday publish
+    and the Sunday pull decide by which cron fired; these four use a gate job
+    that skips the work whole, which bills nothing.
+    """
+
+    # Two slots that are two different passes, not a retry: the Day sweep runs
+    # in the evening and again next morning for text Hansard publishes late,
+    # and the Division watch polls the House through a sitting day.
+    DIFFERENT_PASSES = ("day-sweep.yml", "division-watch.yml")
+
+    def _scheduled(self):
+        import glob
+        import yaml
+        out = {}
+        for path in sorted(glob.glob(os.path.join(ROOT, ".github", "workflows", "*.yml"))):
+            doc = yaml.safe_load(open(path, encoding="utf-8"))
+            on = doc.get("on", doc.get(True)) or {}
+            crons = [c["cron"] for c in (on.get("schedule") or [])] if isinstance(on, dict) else []
+            if len(crons) > 1:
+                out[os.path.basename(path)] = (doc, len(crons))
+        return out
+
+    def test_every_multi_slot_workflow_guards_its_retry(self):
+        found = self._scheduled()
+        self.assertTrue(found, "no multi-slot workflows found; the glob is wrong")
+        for name, (doc, slots) in found.items():
+            if name in self.DIFFERENT_PASSES:
+                continue
+            text = workflow(name)
+            gated = "gate:" in text and "needs: gate" in text
+            by_cron = "github.event.schedule" in text
+            self.assertTrue(gated or by_cron,
+                            "{0} has {1} cron slots and no guard: the later slot "
+                            "would repeat the whole job".format(name, slots))
+
+    def test_the_four_weeklies_use_the_gate_job(self):
+        for name in ("eu-weekly.yml", "sp-weekly.yml", "sd-weekly.yml", "ni-weekly.yml"):
+            text = workflow(name)
+            self.assertIn("needs: gate", text, name)
+            self.assertIn("needs.gate.outputs.go == 'true'", text, name)
+            self.assertIn("actions: read", text,
+                          name + ": the gate reads this workflow's own runs")
+            self.assertIn(name + "/runs", text,
+                          name + ": the gate must ask about ITS OWN workflow")
+            self.assertIn('select(.id != ${{ github.run_id }})', text,
+                          name + ": the gate must not count itself as busy")

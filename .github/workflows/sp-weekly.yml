@@ -20,6 +20,7 @@ on:
 # nothing. Copied from the proven workflow rather than reasoned afresh.
 permissions:
   contents: write
+  actions: read      # the gate reads this workflow's own runs
 
 defaults:
   run:
@@ -30,7 +31,50 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # THE SECOND SLOT IS A RETRY, NOT A SECOND PASS (22 September 2026).
+  # Both slots existed so a dropped or drifted cron still gets the week done,
+  # but nothing stopped the second one repeating the whole job: measured over
+  # 13 days the four weeklies spent about 250 minutes a month collecting what
+  # the earlier slot had already collected. The Monday publish and the Sunday
+  # pull have always guarded themselves; these four never did, and raising the
+  # EU weekly's timeout on 21 September made its duplicate worse, because both
+  # slots now run to completion instead of dying at the wall.
+  #
+  # A skipped job bills nothing, so the gate is one short job and the work is
+  # skipped whole. An in-progress run counts as done too: the second slot
+  # would otherwise queue behind the first on the state group and run anyway.
+  # A hand dispatch is never gated.
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
+          BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/sp-weekly.yml/runs?per_page=50" \
+                 --jq "[.workflow_runs[]
+                        | select(.created_at >= \"$TODAY\")
+                        | select(.id != ${{ github.run_id }})
+                        | select(.conclusion == \"success\" or .status == \"in_progress\" or .status == \"queued\")]
+                       | length" 2>/dev/null || echo 0)
+          if [ "${BUSY:-0}" -gt 0 ]; then
+            echo "$BUSY run(s) already succeeded or are running today; this retry slot has nothing to do"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "no earlier run today; this slot does the work"
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
   refresh:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
