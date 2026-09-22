@@ -116,6 +116,26 @@ SYSTEM_PROMPT_EU = SYSTEM_PROMPT.replace(
 assert SYSTEM_PROMPT_EU != SYSTEM_PROMPT
 
 
+# GERMANY (22 September 2026). The German monitor reads German text and must
+# not be told it serves a UK monitor -- the EU judge, briefed that way, scored
+# the Parliament's Hong Kong resolution 0 as "unrelated to CitizenGO's
+# UK-focused campaign areas". Germany adds three things the EU frame does not
+# need: the text is not translated before scoring; the Land parliaments are in
+# scope and several of our issues sit with them rather than federally; and the
+# why-line is written in English because the reader is the London team, which
+# is worth revisiting when the German team takes the taxonomy over.
+SYSTEM_PROMPT_DE = SYSTEM_PROMPT.replace(
+    "You are the triage layer of CitizenGO UK's parliamentary monitor. CitizenGO campaigns",
+    "You are the triage layer of CitizenGO's German parliamentary monitor, covering the "
+    "Bundestag and the sixteen Land parliaments. The item text is GERMAN and has not been "
+    "translated: judge it as it stands. Never mark an item down for not being British, and "
+    "never mark a Landtag item down for not being federal -- abortion counselling, school "
+    "curricula and broadcasting are Land competences, so several of these areas sit there "
+    "by constitutional design. Write why_it_matters in ENGLISH: the reader is the London "
+    "team. CitizenGO campaigns", 1)
+assert SYSTEM_PROMPT_DE != SYSTEM_PROMPT
+
+
 def _build_payload(batch, system=None):
     user = [{"id": it.id, "title": it.title, "text": (it.text or "")[:2000],
              "candidate_areas": it.issue_areas} for it in batch]

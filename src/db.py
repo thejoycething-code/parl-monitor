@@ -913,6 +913,42 @@ CREATE TABLE IF NOT EXISTS de_divisions (
   triage_score INTEGER, why_it_matters TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- The DIP document layer (22 September 2026). TWO tables, not one, because
+-- the two things have different lifecycles and the repo already ran the
+-- merged experiment on the EU side and split it.
+--
+-- A Vorgang is the PROCESS and it MOVES, so it carries its stage and the
+-- previous one, like eu_dossiers. A Drucksache is the PAPER and is FINAL, so
+-- it carries body_read and is read once, like eu_texts. Merging them would
+-- force a body_read onto rows that never have a body and a movement column
+-- onto rows that never move.
+CREATE TABLE IF NOT EXISTS de_vorgaenge (
+  vorgang_id TEXT PRIMARY KEY,    -- DIP's own id
+  wahlperiode TEXT, titel TEXT,
+  vorgangstyp TEXT,               -- Gesetzgebung, Kleine Anfrage, Antrag ...
+  sachgebiet TEXT,                -- DIP's own subject field, German, verbatim
+  initiative TEXT,                -- who brought it
+  datum TEXT,
+  stand TEXT, prev_stand TEXT, moved_date TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+-- The paper. EXCERPT ONLY, never the full body: a Plenarprotokoll is a whole
+-- sitting day, and the store is carried as a release asset. Full text lives
+-- in data/raw/ through HttpClient, which is provenance; the store keeps the
+-- passage that earned the match, exactly as eu_texts does.
+CREATE TABLE IF NOT EXISTS de_documents (
+  doc_id TEXT PRIMARY KEY,        -- 'drucksache:21/5319' | 'plenarprotokoll:21/42'
+  vorgang_id TEXT,
+  kind TEXT,                      -- 'drucksache' | 'plenarprotokoll'
+  wahlperiode TEXT, nummer TEXT, datum TEXT,
+  titel TEXT, url TEXT,
+  excerpt TEXT, body_read TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS de_votes (
   vote_id TEXT NOT NULL,
   person_id TEXT NOT NULL,
@@ -1134,6 +1170,8 @@ TABLES = (
     "de_members",
     "de_divisions",
     "de_votes",
+    "de_vorgaenge",
+    "de_documents",
     "eu_ecis",
     "eu_judgments",
     "eu_pqs",

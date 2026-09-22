@@ -160,10 +160,14 @@ EXEMPT = {
     # Bundestag takes recorded votes in bursts anyway -- 68 in sixteen months
     # -- so even once it is scheduled these belong in ONCE_EVER, not FEEDS.
     # Move them the day a German workflow starts pushing the store.
-    "de_divisions": "Bundestag recorded votes, collected by hand until a "
+    "de_divisions": "Bundestag and Landtag recorded votes, collected by hand until a "
                     "German workflow exists (docs/germany-scope.md phase 1); "
                     "the House votes in bursts, so no cadence applies yet.",
-    "de_members": "Bundestag members, re-stamped only when a recorded vote "
+    "de_vorgaenge": "Bundestag Vorgänge from DIP, collected by hand until a "
+                    "German workflow exists (docs/germany-scope.md phase 3).",
+    "de_documents": "Bundestag Drucksachen from DIP, collected by hand until a "
+                    "German workflow exists (docs/germany-scope.md phase 3).",
+    "de_members": "Bundestag and Landtag members, re-stamped only when a recorded vote "
                   "is collected, which is by hand for now "
                   "(docs/germany-scope.md phase 1).",
 }
