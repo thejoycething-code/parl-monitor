@@ -873,20 +873,28 @@ CREATE TABLE IF NOT EXISTS eu_speeches (
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 -- GERMANY (22 September 2026). abgeordnetenwatch.de, open and keyless,
--- carries the Bundestag's namentliche Abstimmungen with every member's
--- position on one call. Areas are DELIBERATELY ABSENT from de_divisions:
--- config/taxonomy.yaml is English and matched 1 useful vote in 68 when it
--- was run over this House, so classifying now would be pretending. The
--- German term layer (docs/germany-scope.md, phase 2) adds them.
+-- carries the Bundestag's and all sixteen Landtage's namentliche
+-- Abstimmungen with every member's position on one call. Poll ids are a
+-- single global id space across all seventeen parliaments (probed), so
+-- vote_id is a safe primary key and `parliament` is description, not key.
+--
+-- Areas arrived with config/taxonomy-de.yaml (v0.1, same day): they were
+-- absent for exactly as long as the only taxonomy was English, which
+-- matched 1 useful vote in 68 over this House. The German lists are an AI
+-- first draft awaiting the German team, so a German area is a weaker claim
+-- than an English one and every surface says so.
 CREATE TABLE IF NOT EXISTS de_members (
   person_id TEXT PRIMARY KEY,     -- abgeordnetenwatch candidacy_mandate id
   name TEXT,
   party TEXT,                     -- the Fraktion label, as the API gives it
+  parliament TEXT,                -- abgeordnetenwatch parliament id ('5' = Bundestag)
+  parliament_label TEXT,
   legislature TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS de_divisions (
-  vote_id TEXT PRIMARY KEY,       -- abgeordnetenwatch poll id
+  vote_id TEXT PRIMARY KEY,       -- abgeordnetenwatch poll id, globally unique
+  parliament TEXT, parliament_label TEXT,
   legislature TEXT, date TEXT,
   label TEXT,                     -- the German title, verbatim; never translated here
   yes INTEGER, no INTEGER, abstain INTEGER, absent INTEGER,
@@ -895,7 +903,14 @@ CREATE TABLE IF NOT EXISTS de_divisions (
   accepted INTEGER,
   committee TEXT,
   topics TEXT,                    -- JSON list of the API's own German topic labels
-  document_url TEXT,              -- the Drucksache the House voted on, for phase 3
+  document_url TEXT,              -- the Drucksache the House voted on
+  -- Matched against config/taxonomy-de.yaml, never the English one.
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  -- The DIP document this vote took its ground from when its own label
+  -- matched nothing. A vote label is terse ("Sportfoerdergesetz"); the
+  -- Drucksache is where the subject lives. Same rule as eu_divisions.
+  inherited_from TEXT,
+  triage_score INTEGER, why_it_matters TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS de_votes (
@@ -1271,6 +1286,21 @@ def init_db(conn):
         conn.execute("ALTER TABLE eu_divisions ADD COLUMN outcome TEXT")
     if ed_cols and "inherited_from" not in ed_cols:
         conn.execute("ALTER TABLE eu_divisions ADD COLUMN inherited_from TEXT")
+    # Germany: the store already holds 68 Bundestag votes from the day the
+    # tables carried no areas at all.
+    dd_cols = {r[1] for r in conn.execute("PRAGMA table_info(de_divisions)")}
+    if dd_cols:
+        for column, kind in (("parliament", "TEXT"), ("parliament_label", "TEXT"),
+                             ("areas", "TEXT"), ("matched_terms", "TEXT"),
+                             ("tier", "INTEGER"), ("inherited_from", "TEXT"),
+                             ("triage_score", "INTEGER"), ("why_it_matters", "TEXT")):
+            if column not in dd_cols:
+                conn.execute("ALTER TABLE de_divisions ADD COLUMN {0} {1}".format(column, kind))
+    dm_cols = {r[1] for r in conn.execute("PRAGMA table_info(de_members)")}
+    if dm_cols:
+        for column in ("parliament", "parliament_label"):
+            if column not in dm_cols:
+                conn.execute("ALTER TABLE de_members ADD COLUMN {0} TEXT".format(column))
     # The judge's columns belong to the SCHEMA (18 Sept 2026). tools/eu_triage.py
     # used to add them itself, so the 9 Sept rebuild lost every EU score
     # silently and no EU table carried triage_score at all until someone

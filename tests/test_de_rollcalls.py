@@ -11,7 +11,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
-from src import db  # noqa: E402
+from src import db, drain  # noqa: E402
 
 
 def _load():
@@ -83,17 +83,16 @@ class RollCallTests(unittest.TestCase):
     def test_the_newest_legislature_is_chosen(self):
         self.assertEqual(der.current_legislature(FakeClient())[0], "161")
 
-    def test_every_recorded_vote_is_stored_unclassified(self):
-        """The English taxonomy matched 1 useful vote in 68 over this House,
-        so a filter here would discard the lot and report success."""
+    def test_every_recorded_vote_is_stored_matched_or_not(self):
+        """Volume is tiny and the label is terse, so a vote that matches
+        nothing is still stored: the watching list is the proof it was read."""
         conn = store()
         seen, new, gaps = der.pull(conn, FakeClient(), "2026-09-22", log=lambda *a: None)
         self.assertEqual((seen, new, gaps), (2, 2, 0))
-        cols = {r[1] for r in conn.execute("PRAGMA table_info(de_divisions)")}
-        for banned in ("areas", "matched_terms", "tier", "triage_score"):
-            self.assertNotIn(banned, cols,
-                             "nothing is classified until the German terms exist")
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM de_divisions").fetchone()[0], 2)
         row = conn.execute("SELECT * FROM de_divisions WHERE vote_id='6600'").fetchone()
+        self.assertEqual(json.loads(row["areas"]), [],
+                         "the Tempolimit vote is not our ground and says so")
         self.assertEqual(row["label"], "Einführung eines allgemeinen Tempolimits")
         self.assertEqual(row["committee"], "Verkehrsausschuss")
         self.assertEqual(json.loads(row["topics"]), ["Verkehr"])
@@ -140,6 +139,19 @@ class RollCallTests(unittest.TestCase):
         der.pull(conn, client, "2026-09-23", log=lambda *a: None)
         self.assertEqual(client.detail_calls, 2, "a completed vote costs nothing twice")
 
+    def test_a_row_missing_a_column_the_schema_gained_is_refetched_once(self):
+        """The 68 votes collected before `parliament` existed were `known`,
+        so nothing would ever have looked at them again."""
+        conn = store()
+        client = FakeClient()
+        der.pull(conn, client, "2026-09-22", log=lambda *a: None)
+        conn.execute("UPDATE de_divisions SET parliament = NULL WHERE vote_id = '6600'")
+        conn.commit()
+        der.pull(conn, client, "2026-09-23", log=lambda *a: None)
+        self.assertEqual(client.detail_calls, 3, "exactly the incomplete row, once")
+        self.assertIsNotNone(conn.execute(
+            "SELECT parliament FROM de_divisions WHERE vote_id='6600'").fetchone()[0])
+
     def test_the_drucksache_is_recorded_for_phase_three(self):
         conn = store()
         der.pull(conn, FakeClient(), "2026-09-22", log=lambda *a: None)
@@ -164,3 +176,109 @@ class RollCallTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ClassificationTests(unittest.TestCase):
+    """Areas come from config/taxonomy-de.yaml, never the English one."""
+
+    def _poll(self, label, topics=("Recht",)):
+        client = FakeClient()
+        client.get_json = lambda url, feed, slug, archive=True: (
+            PERIODS if "parliament-periods" in url else
+            {"data": [{"id": 900}]} if "/polls?" in url else
+            poll(900, label, VOTES, topics=topics))
+        return client
+
+    def test_a_german_label_is_matched_in_german(self):
+        conn = store()
+        der.pull(conn, self._poll("Entwurf eines Suizidhilfegesetzes"),
+                 "2026-09-22", log=lambda *a: None)
+        row = conn.execute("SELECT areas, matched_terms, tier FROM de_divisions").fetchone()
+        self.assertIn(2, json.loads(row["areas"]), "assisted dying")
+        self.assertTrue(json.loads(row["matched_terms"]))
+
+    def test_the_apis_own_topics_are_matched_too(self):
+        """The label can be bare; the German topic labels carry subject."""
+        conn = store()
+        der.pull(conn, self._poll("Antrag der Fraktion", topics=("Schwangerschaftsabbruch",)),
+                 "2026-09-22", log=lambda *a: None)
+        self.assertIn(1, json.loads(conn.execute(
+            "SELECT areas FROM de_divisions").fetchone()["areas"]))
+
+    def test_ordinary_business_matches_nothing(self):
+        conn = store()
+        der.pull(conn, self._poll("Sportfoerdergesetz", topics=("Sport",)),
+                 "2026-09-22", log=lambda *a: None)
+        self.assertEqual(json.loads(conn.execute(
+            "SELECT areas FROM de_divisions").fetchone()["areas"]), [])
+
+    def test_reclassify_rederives_offline_without_refetching(self):
+        """A stored vote is never refetched, so a taxonomy change reaches
+        nothing without this pass."""
+        conn = store()
+        client = self._poll("Entwurf eines Suizidhilfegesetzes")
+        der.pull(conn, client, "2026-09-22", log=lambda *a: None)
+        before = client.detail_calls
+        conn.execute("UPDATE de_divisions SET areas = '[]', matched_terms = '[]', tier = NULL")
+        conn.commit()
+        changed, gained, lost = der.reclassify(conn, "2026-09-23", log=lambda *a: None)
+        self.assertEqual((changed, gained, lost), (1, 1, 0))
+        self.assertIn(2, json.loads(conn.execute(
+            "SELECT areas FROM de_divisions").fetchone()["areas"]))
+        self.assertEqual(client.detail_calls, before, "reclassify is offline")
+
+
+class ParliamentTests(unittest.TestCase):
+    """All seventeen: the Bundestag and the sixteen Landtage."""
+
+    PARLIAMENTS = {"data": [{"id": 5, "label": "Bundestag"},
+                            {"id": 13, "label": "Bayern"},
+                            {"id": 1, "label": "EU-Parlament"}]}
+
+    def _client(self):
+        client = FakeClient()
+
+        def get_json(url, feed, slug, archive=True):
+            if "/parliaments?" in url:
+                return self.PARLIAMENTS
+            if "parliament-periods" in url:
+                return PERIODS
+            if "/polls?" in url:
+                return {"data": [{"id": 7000}]}
+            client.detail_calls += 1
+            return poll(7000, "Ein Antrag", VOTES)
+        client.get_json = get_json
+        return client
+
+    def test_the_european_parliament_is_left_to_its_own_collector(self):
+        got = der.parliaments(self._client())
+        self.assertEqual([p for p, _ in got], ["5", "13"])
+        self.assertNotIn("1", [p for p, _ in got])
+
+    def test_the_parliament_is_recorded_on_the_vote_and_the_member(self):
+        conn = store()
+        der.pull(conn, self._client(), "2026-09-22", parliament="13",
+                 parliament_label="Bayern", log=lambda *a: None)
+        row = conn.execute("SELECT parliament, parliament_label FROM de_divisions").fetchone()
+        self.assertEqual((row["parliament"], row["parliament_label"]), ("13", "Bayern"))
+        m = conn.execute("SELECT parliament FROM de_members LIMIT 1").fetchone()
+        self.assertEqual(m["parliament"], "13")
+
+    def test_a_parliament_with_no_legislature_is_skipped_not_crashed(self):
+        conn = store()
+        client = self._client()
+        client.get_json = lambda url, feed, slug, archive=True: (
+            {"data": []} if "parliament-periods" in url else self.PARLIAMENTS)
+        said = []
+        seen, new, gaps = der.pull(conn, client, "2026-09-22", parliament="99",
+                                   parliament_label="Nirgendwo", log=said.append)
+        self.assertEqual((seen, new, gaps), (0, 0, 0))
+        self.assertTrue(any("no legislature listed" in m for m in said), said)
+
+    def test_the_budget_stops_the_sweep_and_says_so(self):
+        conn = store()
+        said = []
+        der.pull(conn, self._client(), "2026-09-22", log=said.append,
+                 budget=drain.Budget(0))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM de_divisions").fetchone()[0], 0)
+        self.assertTrue(any("time budget" in m for m in said), said)

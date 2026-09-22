@@ -94,14 +94,32 @@ adopted texts. This is where the monitor starts finding things weekly.
 **Phase 4.** Verdicts and a German 5CA, once there is something to sign.
 A division's meaning is signed by hand here as everywhere else.
 
-## Open decisions for Christopher
+## Decisions taken, 22 September 2026
 
-1. **Who requests the DIP key**, and under what name. Phase 3 waits on it.
-2. **Who drafts the German terms.** It needs somebody who reads German
-   politics, not a dictionary pass. Without it phases 3 and 4 are decoration.
-3. **Bundestag only, or the Länder too?** abgeordnetenwatch covers all
-   sixteen, and abortion counselling, school curricula and broadcasting are
-   Land competences, so several of our issues sit there rather than federally.
-   Land coverage is nearly free on this API and would multiply the volume.
-4. **Does Germany get its own edition**, or a section in an existing one? The
-   devolved precedent (2026-09-08) was sections, not standalone editions.
+1. **The DIP key is not blocking after all.** The Bundestag publishes a
+   working key in its own public OpenAPI specification, tested and returning
+   current data. It is read from that spec at runtime so a rotation heals
+   itself, with `DIP_API_KEY` and `config/secrets.yaml` taking precedence, so
+   the day a key is issued in CitizenGO's name nothing changes but a secret.
+   **Still apply for one:** driving a scheduled harvest from a key published
+   as a documentation example is a terms-of-use exposure, not just a technical
+   one, and runtime discovery survives a rotation but not a policy change.
+2. **The German terms are an AI first draft** (`docs/keyword-taxonomy-de.md`),
+   to be verified by the German team. Measured on the day it was written: it
+   took the stored Bundestag votes on our ground from 1 to 7.
+3. **Bundestag and all sixteen Länder.** Taken knowing the cost: the Länder
+   carry about 114 recorded votes between them, most of them Bavaria's, and
+   there is **no document system for them** -- DIP is federal. Land coverage
+   is therefore votes-only, which is the thin seam, and the edition says so
+   rather than letting a short section imply a strict filter.
+4. **Germany gets its own edition**, `editions/de-monitor-<date>.md`, plus a
+   DM. The EU pattern, not the devolved one: a different parliament on a
+   different rhythm, not a section of Westminster's week. The channel stays
+   held, as the EU's does.
+
+## Still open
+
+- **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`
+  before the German weekly starts running unattended.
+- **When the German team verifies the taxonomy.** Until they do, every German
+  surface carries the draft warning on its face.

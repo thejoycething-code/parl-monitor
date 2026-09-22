@@ -1,0 +1,17 @@
+# German entity watchlist -- EMPTY ON PURPOSE (22 September 2026).
+#
+# config/watchlist.yaml is English: bill short titles, Act names, UK
+# organisations, several of them case-sensitive acronyms. Against German text
+# it contributes noise and zero recall, so the German collectors load THIS
+# file instead and get a real, empty Watchlist rather than the wrong one.
+#
+# What belongs here when the German team fills it: named Bundestag bills we
+# are tracking, the Land bills that matter, and the German organisations on
+# either side of our issues. A watchlist hit carries an item regardless of
+# keyword match, at minimum score 2, so every entry is a deliberate promise
+# that the thing named is always worth reading.
+bills: {}
+acts_watch: []
+processes: []
+organisations: []
+people: []
