@@ -15,6 +15,9 @@ defended life" to this renderer without a test going red.
 
 import importlib.util
 import json
+import contextlib
+import datetime
+import io
 import os
 import sys
 import tempfile
@@ -57,15 +60,15 @@ def _vorgang(conn, vid, titel, areas="[1]", score=3, why="Because.",
 
 
 def _division(conn, vid, label, areas="[1]", yes=380, no=210, accepted=1,
-              inherited=None, parliament="5"):
+              inherited=None, parliament="5", score=None, why=None):
     conn.execute(
         "INSERT INTO de_divisions (vote_id, parliament, parliament_label, "
         "legislature, date, label, yes, no, abstain, absent, accepted, "
-        "areas, tier, inherited_from, first_seen, last_seen) VALUES "
-        "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        "areas, tier, inherited_from, triage_score, why_it_matters, "
+        "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (vid, parliament, "Bundestag" if parliament == "5" else "Landtag",
          "21", "2026-09-10", label, yes, no, 12, 31, accepted, areas, 1,
-         inherited, TODAY, TODAY))
+         inherited, score, why, TODAY, TODAY))
     conn.commit()
 
 
@@ -145,6 +148,68 @@ class HonestyNoteTests(unittest.TestCase):
                       "not say so".format(dm.TAXONOMY_VERSION))
 
 
+class WestminsterFrameTests(unittest.TestCase):
+    """Christopher, 22 September 2026: "Can it be framed like the Westminster
+    one?" The shape is the dated header, Top lines capped at six, then tables
+    -- not a heading per item with bullets underneath."""
+
+    def test_the_header_matches_the_westminster_one(self):
+        text = _render(_conn())
+        self.assertTrue(text.startswith("# German Monitor\n### Week "
+                                        "commencing Monday " + TODAY),
+                        text[:120])
+        self.assertIn("| Edition ", text)
+
+    def test_the_status_slot_carries_the_unverified_warning(self):
+        """Westminster puts RECESS in that slot. Germany's most important
+        standing status is that nobody has checked the taxonomy."""
+        self.assertIn("TAXONOMY v0.4 UNVERIFIED", _render(_conn()))
+
+    def test_top_lines_are_capped_at_six(self):
+        conn = _conn()
+        for i in range(9):
+            _vorgang(conn, str(i), "Gesetz {0}".format(i), score=3)
+        text = _render(conn)
+        top = text.split("## Top lines")[1].split("##")[0]
+        self.assertEqual(len([l for l in top.splitlines()
+                              if l.startswith("- ")]), 6)
+
+    def test_only_campaign_triggers_reach_top_lines(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Ein Dreier", score=3)
+        _vorgang(conn, "2", "Ein Zweier", score=2)
+        top = _render(conn).split("## Top lines")[1].split("##")[0]
+        self.assertIn("Ein Dreier", top)
+        self.assertNotIn("Ein Zweier", top)
+
+    def test_an_edition_with_no_trigger_says_so_rather_than_promoting_one(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Nur ein Zweier", score=2)
+        top = _render(conn).split("## Top lines")[1].split("##")[0]
+        self.assertIn("Nothing scored a campaign trigger", top)
+
+    def test_the_papers_section_is_a_table(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Ein Gesetz")
+        text = _render(conn)
+        self.assertIn("| Vorgang | Areas | Type | Stage | Why it matters |",
+                      text)
+
+    def test_the_edition_number_is_stable_on_a_re_render(self):
+        """Rendering the same week twice must not walk the number up."""
+        conn = _conn()
+        first = _render(conn)
+        second = _render(conn)
+        self.assertEqual(first.splitlines()[1], second.splitlines()[1])
+
+    def test_a_pipe_in_a_title_cannot_break_a_row(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Gesetz A | Gesetz B")
+        for line in _render(conn).splitlines():
+            if line.startswith("|") and "Gesetz A" in line:
+                self.assertEqual(line.count("|"), 6)
+
+
 class NoVerdictTests(unittest.TestCase):
     """A division's direction is a signed human judgement. The renderer must
     report what the House did and never what it meant."""
@@ -156,7 +221,8 @@ class NoVerdictTests(unittest.TestCase):
         conn = _conn()
         _division(conn, "v1", "Gesetz zur Suizidhilfe")
         text = _render(conn).lower()
-        self.assertIn("380 yes", text)
+        self.assertIn("| 380/210/12/31 |", text)
+        self.assertIn("tally is yes/no/abstain/absent", text)
         self.assertIn("no verdicts", text)
         for word in self.BANNED:
             self.assertNotIn(word, text,
@@ -259,7 +325,7 @@ class DisclosureTests(unittest.TestCase):
         conn = _conn()
         _division(conn, "v1", "Sportfoerdergesetz", inherited="drucksache:21/1")
         text = _render(conn)
-        self.assertIn("inherited from the paper", text)
+        self.assertIn("areas inherited from", text)
         self.assertIn("drucksache:21/1", text)
 
     def test_the_laender_section_says_the_source_is_thin(self):
@@ -275,6 +341,19 @@ class DisclosureTests(unittest.TestCase):
                          ["v1"])
         self.assertEqual([r["vote_id"] for r in dm.divisions(conn, False)],
                          ["v2"])
+
+    def test_a_land_why_line_is_separated_from_the_tally(self):
+        """Without a separator the line read "36 no A vote against further
+        liberalising..." -- the judge's sentence welded to the count."""
+        conn = _conn()
+        _division(conn, "v1", "Keine Liberalisierung", parliament="13",
+                  yes=110, no=36, score=3, why="Because.")
+        text = _render(conn)
+        self.assertNotIn("36 no Because", text)
+        # The tally and the why-line are now separate table CELLS, which is
+        # the separation this test exists to guarantee -- it used to be a
+        # dash on a run-on line.
+        self.assertIn("| 110 yes / 36 no | Because. |", text)
 
     def test_gaps_are_printed_rather_than_swallowed(self):
         conn = _conn()
@@ -352,6 +431,77 @@ class MigrationIsCollatedNeverCampaignedTests(unittest.TestCase):
         self.assertEqual(tuple(dm.HIDDEN_AREAS), tuple(partner.HIDDEN_AREAS))
 
 
+class FullEditionGoesToTheDmAloneTests(unittest.TestCase):
+    """--dm-full posts the whole edition as a Slack CANVAS shared with the DM
+    recipient alone. The channel is held for Germany exactly as it is for the
+    EU, so the publish-to-channel helper must never appear here."""
+
+    def _source(self):
+        with open(os.path.join(ROOT, "tools", "de_monitor.py"),
+                  encoding="utf-8") as fh:
+            return fh.read()
+
+    def test_it_uses_the_preview_canvas_which_shares_with_one_user(self):
+        src = self._source()
+        self.assertIn("slack_preview_canvas", src)
+
+    def test_it_never_reaches_a_channel(self):
+        src = self._source()
+        for banned in ("slack_publish_canvas", "slack_publish_edition",
+                       "slack_channel_id"):
+            self.assertNotIn(banned, src,
+                             "de_monitor.py must not be able to post to the "
+                             "channel: " + banned)
+
+    def test_the_caveat_travels_with_the_canvas_link(self):
+        """The linking message is what a reader sees first, and it is the
+        surface most likely to be forwarded on its own. Built by calling the
+        code, not by matching its source: an assertion on a source string
+        passes or fails on formatting rather than on the property."""
+        captured = {}
+
+        def fake_publish(secrets, title, markdown, lead):
+            captured["title"], captured["md"], captured["lead"] = (
+                title, markdown, lead)
+            return {"canvas_url": "https://example.invalid/x"}
+
+        import types
+        fake = types.SimpleNamespace(
+            slack_preview_canvas=fake_publish,
+            load_secrets=lambda: {"slack_bot_token": "x",
+                                  "slack_dm_user_id": "U1"})
+        import src
+        old_root, old_argv = dm.ROOT, sys.argv
+        had = hasattr(src, "publish")
+        old_publish = getattr(src, "publish", None)
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "editions"))
+            # main() opens ROOT/data/parl-monitor.db. A temp one, so this
+            # test cannot reach the real store even by accident.
+            os.makedirs(os.path.join(tmp, "data"))
+            with open(os.path.join(tmp, "editions", "de-monitor-{0}.md".format(
+                    datetime.date.today().isoformat())), "w",
+                    encoding="utf-8") as fh:
+                fh.write("# edition body")
+            try:
+                src.publish = fake
+                dm.ROOT = tmp
+                sys.argv = ["de_monitor.py", "--dm-full"]
+                with contextlib.redirect_stdout(io.StringIO()):
+                    dm.main()
+            finally:
+                # RESTORED, not left patched: a fake left in sys.modules is a
+                # test that quietly changes what later tests are exercising.
+                if had:
+                    src.publish = old_publish
+                else:
+                    delattr(src, "publish")
+                dm.ROOT, sys.argv = old_root, old_argv
+        self.assertIn("no German speaker has verified", captured["lead"])
+        self.assertIn("# edition body", captured["md"],
+                      "the canvas must carry the WHOLE edition, not a summary")
+
+
 class StructuralTests(unittest.TestCase):
     def test_every_german_table_carrying_areas_is_in_the_watching_table(self):
         """The EU monitor grew five collectors whose rows sat unreported while
@@ -378,13 +528,18 @@ class StructuralTests(unittest.TestCase):
                           "and never shown".format(table))
         self.assertIn("Watching", text)
 
-    def test_a_title_spanning_two_lines_stays_one_heading(self):
-        """DIP puts the document number on a second line. Left alone it
-        breaks the markdown heading in half and the number floats free."""
+    def test_a_title_spanning_two_lines_stays_on_one_line(self):
+        """DIP puts the document number on a second line. Left alone it broke
+        a markdown heading in half; in the Westminster frame it breaks the
+        TABLE, which is worse -- every column after it shifts."""
         conn = _conn()
         _vorgang(conn, "1", 'Mitteilung der Kommission\nK(2026)3333 endg.')
         text = _render(conn)
-        self.assertIn("### Mitteilung der Kommission K(2026)3333 endg.", text)
+        self.assertIn("[Mitteilung der Kommission K(2026)3333 endg.]", text)
+        for line in text.splitlines():
+            if line.startswith("|") and "Mitteilung" in line:
+                self.assertEqual(line.count("|"), 6,
+                                 "a stray newline broke the table row")
 
     def test_the_drucksachen_zero_is_explained(self):
         """de_documents is filled by --mode window, which the weekly does not
