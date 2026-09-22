@@ -133,3 +133,96 @@ class TaxonomySyncTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GermanTaxonomyTests(unittest.TestCase):
+    """The German master generates its own yaml, and the two taxonomies stay
+    the same twelve areas. Added 22 September 2026 with the German first draft.
+    """
+
+    def test_yaml_matches_its_own_master(self):
+        master, config = generate_taxonomy.MASTERS["de"]
+        with open(config, "r", encoding="utf-8") as handle:
+            on_disk = handle.read()
+        self.assertEqual(
+            on_disk, generate_taxonomy.generate(master, "de"),
+            "config/taxonomy-de.yaml is out of sync with its master; run: "
+            "python3 tools/generate_taxonomy.py --lang de")
+
+    def test_the_header_names_its_own_master_and_command(self):
+        """A generated file's header is the only instruction most people read.
+        The first German yaml told the reader to edit the ENGLISH master and
+        run a command that would have overwritten the English yaml."""
+        _master, config = generate_taxonomy.MASTERS["de"]
+        with open(config, "r", encoding="utf-8") as handle:
+            head = "".join(handle.readlines()[:3])
+        self.assertIn("docs/keyword-taxonomy-de.md", head)
+        self.assertIn("--lang de", head)
+        self.assertNotIn("docs/keyword-taxonomy.md\n", head)
+
+    def test_both_languages_carry_the_same_areas(self):
+        """Area keys are CitizenGO's positions, not a country's vocabulary.
+        src/intel.area_names() reads the English file for every surface, so a
+        German-only key would render as a bare number."""
+        import yaml
+        loaded = {}
+        for lang, (_m, config) in generate_taxonomy.MASTERS.items():
+            with open(config, "r", encoding="utf-8") as handle:
+                loaded[lang] = set((yaml.safe_load(handle).get("areas") or {}))
+        self.assertEqual(loaded["de"], loaded["en"],
+                         "the two taxonomies must describe the same areas")
+
+
+class GermanRegressionTests(unittest.TestCase):
+    """The votes the German draft was validated against, locked down.
+
+    Every one was probed live against the real Bundestag on 22 September 2026
+    (abgeordnetenwatch polls, legislatures 132 and 161) before the draft was
+    committed. If a later edit to the German master stops one of these
+    matching, the edit has broken something that was working.
+    """
+
+    CASES = [
+        ("Änderung des Schwangerschaftskonfliktgesetzes", {1}),
+        # The LABEL alone is area 5, the self-ID law. Area 3 came from the
+        # vote's intro text in the live probe, where the repealed
+        # Transsexuellengesetz and the clinical vocabulary appear -- which
+        # is the body-beats-title lesson in German.
+        ("Selbstbestimmungsgesetz", {5}),
+        ("Selbstbestimmungsgesetz: Änderung des Transsexuellengesetzes "
+         "und der Geschlechtsdysphorie-Behandlung Minderjähriger", {3, 5}),
+        ("Suizidhilfegesetz", {2}),
+        ("Förderung der geschäftsmäßigen Sterbehilfe grundsätzlich", {2}),
+        ("Suizidprävention stärken", {2}),
+        ("Änderung des Bundeszentralregistergesetzes: Volksverhetzung", {7}),
+        ("Streichung des Straftatbestandes der Politikerbeleidigung "
+         "zum Schutz der Meinungsfreiheit", {7}),
+        ("Aussetzung des Familiennachzugs für subsidiär Schutzberechtigte", {11}),
+    ]
+
+    def _filter(self):
+        from src import filter as filt
+        _master, config = generate_taxonomy.MASTERS["de"]
+        return filt, filt.load_taxonomy(config), filt.load_watchlist(
+            os.path.join(ROOT, "config", "watchlist.yaml"))
+
+    def test_the_validated_votes_still_match(self):
+        filt, tax, wl = self._filter()
+        for label, expected in self.CASES:
+            got = set(filt.filter_item(tax, wl, label).issue_areas or [])
+            self.assertTrue(expected <= got,
+                            "{0!r} lost area(s) {1}; got {2}".format(
+                                label, sorted(expected - got), sorted(got)))
+
+    def test_ordinary_german_business_is_not_swept_up(self):
+        """The counterweight: these are real Bundestag vote labels with
+        nothing of ours in them. If the draft starts matching them, a term has
+        become too broad -- which in German usually means a bare short word."""
+        filt, tax, wl = self._filter()
+        for label in ("Sportfördergesetz",
+                      "Gebäudemodernisierungsgesetz",
+                      "Einführung eines allgemeinen Tempolimits",
+                      "Etat des Bundesministeriums für Verkehr",
+                      "Vierter Entschließungsantrag der Linken zur GKV-Reform"):
+            got = filt.filter_item(tax, wl, label).issue_areas or []
+            self.assertEqual(got, [], "{0!r} should match nothing".format(label))

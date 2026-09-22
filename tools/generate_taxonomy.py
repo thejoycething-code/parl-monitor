@@ -130,11 +130,20 @@ def _yaml_term(term):
     return term
 
 
-def emit_yaml(version, areas, exclusions):
+def emit_yaml(version, areas, exclusions, master=None, lang="en"):
+    # The header NAMES ITS OWN MASTER (22 September 2026). It used to hardcode
+    # the English pair, so the first generated German file told the next reader
+    # to edit docs/keyword-taxonomy.md and run a command that would overwrite
+    # the English yaml instead. A generated file's header is the only
+    # instruction most people will read.
+    source = os.path.relpath(master or MASTER, ROOT)
+    regen = "python3 tools/generate_taxonomy.py"
+    if lang != "en":
+        regen += " --lang " + lang
     lines = [
         "# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).",
-        "# Source of truth: docs/keyword-taxonomy.md",
-        "# Regenerate: python3 tools/generate_taxonomy.py",
+        "# Source of truth: {0}".format(source),
+        "# Regenerate: {0}".format(regen),
         "version: {0}".format(version),
         "areas:",
     ]
@@ -153,26 +162,50 @@ def emit_yaml(version, areas, exclusions):
     return "\n".join(lines)
 
 
-def generate():
-    with open(MASTER, "r", encoding="utf-8") as handle:
+# A SECOND LANGUAGE GETS ITS OWN PAIR (22 September 2026). German terms
+# cannot share the English yaml: matching is substring-based and the two
+# languages collide inside each other's words -- "Rat" (council) hides in
+# "corporate", "Tat" in "state", "Amt" in "Parliament". The areas and their
+# keys are identical, because they are CitizenGO's positions rather than any
+# one country's vocabulary; only the terms differ.
+MASTERS = {
+    "en": (MASTER, CONFIG),
+    "de": (os.path.join(ROOT, "docs", "keyword-taxonomy-de.md"),
+           os.path.join(ROOT, "config", "taxonomy-de.yaml")),
+}
+
+
+def generate(master=None, lang="en"):
+    with open(master or MASTER, "r", encoding="utf-8") as handle:
         text = handle.read()
-    return emit_yaml(*parse_master(text))
+    return emit_yaml(*parse_master(text), master=master or MASTER, lang=lang)
 
 
 def main():
-    output = generate()
+    lang = "en"
+    if "--lang" in sys.argv:
+        lang = sys.argv[sys.argv.index("--lang") + 1]
+    if lang not in MASTERS:
+        print("unknown --lang {0}; one of {1}".format(lang, ", ".join(sorted(MASTERS))))
+        return 1
+    master, config = MASTERS[lang]
+    if not os.path.exists(master):
+        print("no master for --lang {0} at {1}".format(lang, master))
+        return 1
+    output = generate(master, lang)
     if "--check" in sys.argv:
-        with open(CONFIG, "r", encoding="utf-8") as handle:
+        with open(config, "r", encoding="utf-8") as handle:
             current = handle.read()
         if current != output:
-            print("config/taxonomy.yaml is OUT OF SYNC with docs/keyword-taxonomy.md")
-            print("regenerate with: python3 tools/generate_taxonomy.py")
+            print("{0} is OUT OF SYNC with {1}".format(
+                os.path.basename(config), os.path.basename(master)))
+            print("regenerate with: python3 tools/generate_taxonomy.py --lang " + lang)
             return 1
-        print("taxonomy.yaml in sync")
+        print("{0} in sync".format(os.path.basename(config)))
         return 0
-    with open(CONFIG, "w", encoding="utf-8") as handle:
+    with open(config, "w", encoding="utf-8") as handle:
         handle.write(output)
-    print("wrote {0}".format(CONFIG))
+    print("wrote {0}".format(config))
     return 0
 
 
