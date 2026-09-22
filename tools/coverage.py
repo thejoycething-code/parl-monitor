@@ -153,7 +153,20 @@ PIPELINE_FEEDS = {
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {}
+EXEMPT = {
+    # GERMANY, phase 1 (22 September 2026). tools/de_rollcalls.py is run by
+    # hand: there is no workflow yet, so there is no cadence to miss and a
+    # staleness alarm here would only train people to ignore the watch. The
+    # Bundestag takes recorded votes in bursts anyway -- 68 in sixteen months
+    # -- so even once it is scheduled these belong in ONCE_EVER, not FEEDS.
+    # Move them the day a German workflow starts pushing the store.
+    "de_divisions": "Bundestag recorded votes, collected by hand until a "
+                    "German workflow exists (docs/germany-scope.md phase 1); "
+                    "the House votes in bursts, so no cadence applies yet.",
+    "de_members": "Bundestag members, re-stamped only when a recorded vote "
+                  "is collected, which is by hand for now "
+                  "(docs/germany-scope.md phase 1).",
+}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they

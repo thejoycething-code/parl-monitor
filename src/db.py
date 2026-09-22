@@ -872,6 +872,38 @@ CREATE TABLE IF NOT EXISTS eu_speeches (
   areas TEXT, matched_terms TEXT, tier INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+-- GERMANY (22 September 2026). abgeordnetenwatch.de, open and keyless,
+-- carries the Bundestag's namentliche Abstimmungen with every member's
+-- position on one call. Areas are DELIBERATELY ABSENT from de_divisions:
+-- config/taxonomy.yaml is English and matched 1 useful vote in 68 when it
+-- was run over this House, so classifying now would be pretending. The
+-- German term layer (docs/germany-scope.md, phase 2) adds them.
+CREATE TABLE IF NOT EXISTS de_members (
+  person_id TEXT PRIMARY KEY,     -- abgeordnetenwatch candidacy_mandate id
+  name TEXT,
+  party TEXT,                     -- the Fraktion label, as the API gives it
+  legislature TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS de_divisions (
+  vote_id TEXT PRIMARY KEY,       -- abgeordnetenwatch poll id
+  legislature TEXT, date TEXT,
+  label TEXT,                     -- the German title, verbatim; never translated here
+  yes INTEGER, no INTEGER, abstain INTEGER, absent INTEGER,
+  -- The House's OWN outcome, from field_accepted, never derived from the
+  -- tallies: the same rule the EU side learned on the ePrivacy vote.
+  accepted INTEGER,
+  committee TEXT,
+  topics TEXT,                    -- JSON list of the API's own German topic labels
+  document_url TEXT,              -- the Drucksache the House voted on, for phase 3
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS de_votes (
+  vote_id TEXT NOT NULL,
+  person_id TEXT NOT NULL,
+  position TEXT NOT NULL,         -- 'yes' | 'no' | 'abstain' | 'no_show'
+  PRIMARY KEY (vote_id, person_id)
+);
 CREATE TABLE IF NOT EXISTS eu_meps (
   person_id TEXT PRIMARY KEY,     -- 'person/197529' -> '197529'
   name TEXT,
@@ -1084,6 +1116,9 @@ TABLES = (
     "eu_meps",
     "eu_divisions",
     "eu_votes",
+    "de_members",
+    "de_divisions",
+    "de_votes",
     "eu_ecis",
     "eu_judgments",
     "eu_pqs",

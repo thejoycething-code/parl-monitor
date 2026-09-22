@@ -1,0 +1,107 @@
+# Germany: scoping the Bundestag monitor
+
+Probed live on 22 September 2026. Every number below was measured, not
+estimated; the probes are reproducible from `tools/de_rollcalls.py` and the
+notes here.
+
+## The finding that shapes everything
+
+**The English taxonomy is blind to German.** Run over the 68 named votes of
+the current Bundestag, `config/taxonomy.yaml` matched 5, and four of those
+matched only because "Migration" is spelled the same in both languages. One
+of the four is the Chancellor's budget, which is a false positive from the
+intro text. Area 11 is collated and never campaigned, so the honest score is
+**one useful match in sixty-eight**.
+
+Nothing else in this document matters until that is fixed. A German monitor
+that reuses the English term lists collects everything and sees nothing.
+
+## What Germany publishes
+
+### abgeordnetenwatch.de (open, no key) -- WORKS TODAY
+
+`https://www.abgeordnetenwatch.de/api/v2`. Covers the Bundestag (parliament
+id 5) and all sixteen Land parliaments, plus the European Parliament.
+
+* `parliament-periods?parliament=5&type=legislature` -- the legislature id.
+  Current: **161, "Bundestag 2025 - 2029"**, 2025-03-25 to 2029-02-22.
+* `polls?field_legislature=161` -- the *namentliche Abstimmungen* (recorded
+  votes). 68 in the current legislature, 162 in the last.
+* `polls/<id>?related_data=votes` -- **every member's position on one call**:
+  630 rows for the Tempolimit vote, each with the member, their *Fraktion*
+  and `yes` / `no` / `abstain` / `no_show`. This is the 5CA layer, complete,
+  in one request.
+* Each poll carries `field_topics` (a 23-term controlled vocabulary),
+  `field_committees`, `field_accepted`, and `field_intro`, whose HTML links
+  the **Drucksache** the House actually voted on.
+
+### dserver.bundestag.de (open, no key) -- WORKS TODAY
+
+The Drucksachen themselves, as PDF, linked from every poll's intro. Probed:
+`btd/21/053/2105319.pdf` returns 231 KB. This is the same shape as the EU
+side, where the vote label says nothing and the body says everything, and it
+is where a German taxonomy will earn its keep.
+
+### DIP, the official Bundestag API -- NEEDS A KEY
+
+`https://search.dip.bundestag.de/api/v1/` returns **401 without a key**. This
+is the whole document and proceedings system: Vorgänge, Drucksachen,
+Plenarprotokolle, Aktivitäten. The key is issued by the Bundestag on
+application. **Somebody has to request one**; it is the only blocking
+dependency in this plan, and it gates the phase that carries the volume.
+
+## Why named votes alone are not enough
+
+Across both recent legislatures, 230 recorded votes, the count touching
+CitizenGO's ground, searched with German terms:
+
+| Ground | 2025-2029 | 2021-2025 |
+|---|---|---|
+| Abortion (Abtreibung, Schwangerschaftsabbruch, §218) | 0 | 1 |
+| Assisted dying (Sterbehilfe, assistierter Suizid) | 0 | 2 |
+| Gender / self-ID (Selbstbestimmungsgesetz) | 0 | 1 |
+| Free speech (Meinungsfreiheit, NetzDG) | 1 | 0 |
+| Conversion practices, surrogacy, parental rights, religious freedom | 0 | 0 |
+
+**Five relevant votes in two legislatures.** The Bundestag reserves recorded
+votes for set-pieces; the issues we campaign on move through motions,
+committee papers and plenary debate, which live in DIP. A monitor built on
+recorded votes alone would be accurate, cheap and almost always empty.
+
+That is not a reason to skip them: those five votes are exactly the ones a
+5CA is for, and the per-member data is free and complete. It is a reason not
+to stop there.
+
+## Proposed phasing
+
+**Phase 1 (no key, build now).** `de_members`, `de_divisions`, `de_votes`
+from abgeordnetenwatch. Store every recorded vote -- the volume is tiny, and
+a blind English filter would discard all of them. Record the German topics
+verbatim. No areas, no tiers, no verdicts: nothing is classified until there
+is something honest to classify with.
+
+**Phase 2 (the blocker).** A German layer for the taxonomy. The areas do not
+change -- they are CitizenGO's positions, not England's -- but each needs its
+German terms, and German compounds mean substring matching behaves
+differently from English (`Schwangerschaftsabbruch` contains
+`Schwangerschaft`; `Lebensschutz` and `Lebensmittel` share a stem). This is
+a drafting job with a native reader, not a translation job.
+
+**Phase 3 (needs the DIP key).** Vorgänge and Drucksachen as the document
+layer, with body matching over the PDFs exactly as `src/eudoc.py` does for
+adopted texts. This is where the monitor starts finding things weekly.
+
+**Phase 4.** Verdicts and a German 5CA, once there is something to sign.
+A division's meaning is signed by hand here as everywhere else.
+
+## Open decisions for Christopher
+
+1. **Who requests the DIP key**, and under what name. Phase 3 waits on it.
+2. **Who drafts the German terms.** It needs somebody who reads German
+   politics, not a dictionary pass. Without it phases 3 and 4 are decoration.
+3. **Bundestag only, or the Länder too?** abgeordnetenwatch covers all
+   sixteen, and abortion counselling, school curricula and broadcasting are
+   Land competences, so several of our issues sit there rather than federally.
+   Land coverage is nearly free on this API and would multiply the volume.
+4. **Does Germany get its own edition**, or a section in an existing one? The
+   devolved precedent (2026-09-08) was sections, not standalone editions.
