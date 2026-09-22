@@ -603,6 +603,15 @@ class PlainHttpTests(unittest.TestCase):
                 with open(path, encoding="utf-8") as fh:
                     for n, line in enumerate(fh, 1):
                         for m in re.finditer(r"http://[a-z0-9._-]+", line):
+                            # An XML NAMESPACE is an identifier, not an
+                            # address: ElementTree's Clark notation
+                            # "{http://purl.org/dc/elements/1.1/}date" is
+                            # matched against tag names and never fetched, so
+                            # flagging it would train people to ignore this
+                            # check. The brace is what distinguishes it, and
+                            # nothing else in this repo fetches a braced URL.
+                            if line[max(0, m.start() - 1)] == "{":
+                                continue
                             offenders.append("{0}:{1} {2}".format(
                                 os.path.relpath(path, ROOT), n, m.group(0)))
         self.assertEqual(offenders, [], "plain-HTTP sources: {0}".format(offenders))

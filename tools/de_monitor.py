@@ -44,6 +44,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import re
 import sqlite3
 import sys
 
@@ -339,8 +340,26 @@ def edition_number(today):
     return sorted(dates).index(today) + 1
 
 
-def _dip(vorgang_id):
-    return "https://dip.bundestag.de/vorgang/{0}".format(vorgang_id)
+def _dip(vorgang_id, titel=None):
+    """A DIP permalink that actually opens (Christopher, 23 September 2026:
+    "I get page not found when clicking links in the weekly digest").
+
+    DIP's route is /vorgang/<slug>/<id>, and /vorgang/<id> with no slug
+    segment silently bounces to the DIP home page -- it answers 200 and
+    renders an SPA shell, so curl saw success and a reader saw nothing. That
+    is why three canvases shipped with dead links: nothing a script could
+    check was wrong.
+
+    VERIFIED IN A BROWSER, on two ids: the slug is IGNORED. /vorgang/x/336554
+    renders the right Vorgang. The id resolves it; the segment merely has to
+    exist. A slug is generated anyway so a pasted link reads as something,
+    and because a route that tolerates junk today may not tomorrow.
+    """
+    slug = re.sub(r"[^a-z0-9]+", "-",
+                  (titel or "").lower().replace("ä", "ae").replace("ö", "oe")
+                  .replace("ü", "ue").replace("ß", "ss")).strip("-")[:60]
+    return "https://dip.bundestag.de/vorgang/{0}/{1}".format(
+        slug.rstrip("-") or "vorgang", vorgang_id)
 
 
 def top_lines(vgs, bt, ld, names, cap=6):
@@ -358,7 +377,7 @@ def top_lines(vgs, bt, ld, names, cap=6):
             continue
         why = _why(r).strip()
         out.append("- [{0}]({1}){2}{3}".format(
-            oneline(r["titel"]) or "?", _dip(r["vorgang_id"]),
+            oneline(r["titel"]) or "?", _dip(r["vorgang_id"], r["titel"]),
             " - " + why if why else "",
             " (Stage: {0})".format(r["stand"]) if r["stand"] else ""))
     for r in list(bt) + list(ld):
@@ -370,6 +389,30 @@ def top_lines(vgs, bt, ld, names, cap=6):
             oneline(r["label"]) or "?", r["yes"] or 0, r["no"] or 0,
             " - " + why if why else ""))
     return out[:cap]
+
+
+def week_ahead(conn, today):
+    """Sittings still to come, and how far the feed could actually see.
+
+    Two numbers, not one. The matched sittings are the briefing; the HORIZON
+    is the honesty. The Tagesordnungen feed is a rolling window of about
+    fifteen items covering the days immediately ahead, so "nothing on our
+    ground next month" and "the feed only reaches Friday" produce an
+    identical empty section -- and a reader who cannot tell them apart will
+    believe the first.
+    """
+    try:
+        rows = conn.execute(
+            "SELECT * FROM de_agenda WHERE date >= ? ORDER BY date, time",
+            (today,)).fetchall()
+        horizon = conn.execute(
+            "SELECT MAX(date) FROM de_agenda").fetchone()[0]
+    except sqlite3.OperationalError as exc:
+        if "no such table" not in str(exc):
+            raise
+        return [], [], None
+    matched = [r for r in rows if not hidden_only(r) and visible_areas(r)]
+    return matched, rows, horizon
 
 
 def render_edition(conn, today):
@@ -413,6 +456,37 @@ def render_edition(conn, today):
         lines.append("*Nothing scored a campaign trigger this week.*")
     lines.append("")
 
+    # --- Week ahead: the only section that names a DATE ---
+    ahead, all_ahead, horizon = week_ahead(conn, today)
+    lines.append("## Week ahead")
+    lines.append("")
+    if ahead:
+        lines.append("| When | Committee | Open? | Areas | On the agenda |")
+        lines.append("|---|---|---|---|---|")
+        for r in ahead:
+            lines.append("| {0}{1} | [{2}]({3}) | {4} | {5} | {6} |".format(
+                r["date"] or "?",
+                " " + r["time"] if r["time"] else "",
+                (r["committee"] or "?").replace("|", "/"), r["url"],
+                r["openness"] or "?", _areas(r, names) or "?",
+                " ".join((r["excerpt"] or "-").split())[:160].replace("|", "/")))
+        lines.append("")
+    else:
+        lines.append("*No sitting on our ground in the published agendas.*")
+        lines.append("")
+    if all_ahead or horizon:
+        per_day = {}
+        for r in all_ahead:
+            per_day[r["date"]] = per_day.get(r["date"], 0) + 1
+        lines.append("Sittings published ahead: " + (" · ".join(
+            "{0} ({1})".format(d, n) for d, n in sorted(per_day.items()))
+            or "none") + ". **The feed reaches {0}** -- it is a rolling "
+            "window of the days immediately ahead, not a term calendar, so a "
+            "quiet section here may mean the Bundestag has published no "
+            "further agendas yet rather than that nothing is coming."
+            .format(horizon or "no dated sitting"))
+        lines.append("")
+
     # --- Coming up: the live items, most imminent first ---
     lines.append("## Coming up ({0} live)".format(len(live)))
     lines.append("")
@@ -437,7 +511,7 @@ def render_edition(conn, today):
             lines.append("| {0}[{1}]({2}) | {3} | {4} | {5} | {6} |".format(
                 "**[{0}]** ".format(score) if score is not None else "**[-]** ",
                 oneline(r["titel"] or "?").replace("|", "/"),
-                _dip(r["vorgang_id"]), _areas(r, names) or "?",
+                _dip(r["vorgang_id"], r["titel"]), _areas(r, names) or "?",
                 (r["vorgangstyp"] or "?").replace("|", "/"),
                 (r["stand"] or "?").replace("|", "/"),
                 _why(r).strip().replace("|", "/") or "-"))
@@ -483,7 +557,7 @@ def render_edition(conn, today):
                 lines.append("| {0} | [{1}]({2}) | {3} | {4} |".format(
                     (r["stand"] or "?").replace("|", "/"),
                     oneline(r["titel"] or "?").replace("|", "/"),
-                    _dip(r["vorgang_id"]), _areas(r, names) or "?",
+                    _dip(r["vorgang_id"], r["titel"]), _areas(r, names) or "?",
                     _why(r).strip().replace("|", "/") or "-"))
             if len(notable) > 6:
                 lines.append("")

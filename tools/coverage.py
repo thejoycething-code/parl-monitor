@@ -82,6 +82,11 @@ FEEDS = [
     # every tier-1 term over a 120-day window, so a live run re-sees the
     # recent ones whether or not anything new appeared.
     ("de_vorgaenge", "last_seen", 7, 4, "Bundestag Vorgänge from DIP (Germany weekly)"),
+    # The Tagesordnungen feed re-stamps every sighting, so this IS a
+    # heartbeat -- and a loud one: it is a rolling window with no archive,
+    # so a week the collector does not run is a week of agendas nobody can
+    # ever recover.
+    ("de_agenda", "last_seen", 7, 4, "Bundestag committee and plenary agendas (Germany weekly)"),
     ("hansard_sections", "captured_at", 7, 3, "Hansard's section list per sitting day (Sunday pull)"),
     ("judge_verdicts", "captured_at", 7, 3, "the judge evaluation bank (Sunday pull)"),
     ("dv_petitions", "last_seen", 7, 4, "Senedd and Holyrood petitions (devolved weeklies)"),
@@ -160,7 +165,7 @@ PIPELINE_FEEDS = {
     # that ran but whose data is stale), and the other three German tables
     # legitimately never move -- the Bundestag takes recorded votes in
     # bursts, so listing them here would cry clobber every quiet month.
-    "Germany weekly": ["de_vorgaenge"],
+    "Germany weekly": ["de_vorgaenge", "de_agenda"],
     "UPR monthly": ["upr_recommendations"],
     # "EU day sweep" is deliberately absent. PIPELINE_FEEDS drives the clobber
     # check -- a pipeline that ran but whose data is stale -- and the EP sits in

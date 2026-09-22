@@ -92,7 +92,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install pyyaml
+        # pypdf: the committee agendas are PDFs and their SUBJECT is
+        # inside them, never in the feed's title.
+        run: pip install pyyaml pypdf
       - name: Fetch the store
         id: fetch
         env:
@@ -110,6 +112,12 @@ jobs:
         # date window is the collector's own default; a wider sweep is a
         # deliberate hand run, not a weekly cost.
         run: python3 tools/de_documents.py --mode terms | tee /tmp/de-documents.log
+      - name: Collect the forward agenda (committee and plenary sittings)
+        # THE ONLY FORWARD-LOOKING GERMAN SOURCE. DIP returns zero results for
+        # any future date. This feed is a ROLLING WINDOW with no archive, so a
+        # week this step does not run is a week of agendas nobody can recover
+        # -- which is why de_agenda is a watched feed rather than once-ever.
+        run: python3 tools/de_agenda.py | tee /tmp/de-agenda.log
       - name: Write secrets file
         # anthropic_api_key: the triage judge. slack: the weekly DM to
         # Christopher ONLY -- the channel is deliberately not posted, the
@@ -134,7 +142,7 @@ jobs:
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-triage:|edition:|dm:|\[gap\]" \
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-triage:|edition:|dm:|\[gap\]" \
               /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \

@@ -949,6 +949,28 @@ CREATE TABLE IF NOT EXISTS de_documents (
   triage_score INTEGER, why_it_matters TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS de_agenda (
+  -- THE FORWARD LOOK, and the only German source that points at the future.
+  -- Measured 23 September 2026: DIP returns ZERO results for any future date
+  -- -- it records what has happened. The Bundestag's Tagesordnungen RSS is a
+  -- rolling window of sittings still to come, so this table is how the
+  -- edition can say "coming up" about a date rather than about a stage.
+  item_id TEXT PRIMARY KEY,       -- the agenda PDF url; the feed's own guid
+  kind TEXT,                      -- 'committee' (plenary later, if it lands)
+  committee TEXT,                 -- the Ausschuss, from the RSS title
+  title TEXT,                     -- the RSS title, verbatim
+  date TEXT, time TEXT,           -- when it sits; ISO date, HH:MM
+  openness TEXT,                  -- 'public' | 'partly public' | 'closed' | NULL
+  url TEXT,                       -- the agenda PDF
+  -- The SUBJECT is inside the PDF, never in the title: a committee name is
+  -- far too broad to classify on. body_read is stamped whether the read
+  -- worked or not, so an unreadable agenda is not retried for ever.
+  body_read TEXT, excerpt TEXT,
+  drucksachen TEXT,               -- JSON list of BT-Drucksache numbers cited
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS de_votes (
   vote_id TEXT NOT NULL,
   person_id TEXT NOT NULL,
@@ -1172,6 +1194,7 @@ TABLES = (
     "de_votes",
     "de_vorgaenge",
     "de_documents",
+    "de_agenda",
     "eu_ecis",
     "eu_judgments",
     "eu_pqs",

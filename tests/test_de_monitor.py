@@ -148,6 +148,50 @@ class HonestyNoteTests(unittest.TestCase):
                       "not say so".format(dm.TAXONOMY_VERSION))
 
 
+class DipPermalinkTests(unittest.TestCase):
+    """Christopher, 23 September 2026: "I get page not found when clicking
+    links in the weekly digest".
+
+    DIP's route is /vorgang/<slug>/<id>. Without the slug segment it bounces
+    to the DIP home page and still answers 200 with an SPA shell, so every
+    automated check passed while three canvases shipped dead links. The shape
+    of the URL is the only thing that can be tested here, so it is tested
+    precisely.
+    """
+
+    def test_the_path_carries_a_slug_segment_before_the_id(self):
+        url = dm._dip("336554", "Steuern auf kleine Einkommen senken")
+        self.assertRegex(url, r"^https://dip\.bundestag\.de/vorgang/[^/]+/336554$")
+
+    def test_it_matches_dips_own_slug(self):
+        """Verified against the href DIP itself renders for this Vorgang."""
+        self.assertEqual(
+            dm._dip("336554", "Steuern auf kleine und mittlere Einkommen "
+                              "senken - Spitzen- und Kapitaleinkommen gerecht "
+                              "besteuern - Ehegattensplitting reformieren"),
+            "https://dip.bundestag.de/vorgang/steuern-auf-kleine-und-mittlere-"
+            "einkommen-senken-spitzen-und/336554")
+
+    def test_a_titleless_row_still_produces_a_valid_path(self):
+        """The segment must EXIST or the link dies; an empty slug would
+        rebuild the exact bug being fixed."""
+        for titel in (None, "", "   ", "!!!", "---"):
+            url = dm._dip("1", titel)
+            self.assertRegex(url, r"^https://dip\.bundestag\.de/vorgang/[^/]+/1$",
+                             repr(titel))
+
+    def test_umlauts_do_not_leave_an_empty_or_raw_segment(self):
+        url = dm._dip("9", "Über Änderungen größer")
+        self.assertIn("/vorgang/ueber-aenderungen-groesser/9", url)
+
+    def test_the_rendered_edition_never_emits_a_slugless_link(self):
+        conn = _conn()
+        _vorgang(conn, "336554", "Ein Gesetz", stand="Überwiesen")
+        text = _render(conn)
+        self.assertNotIn("dip.bundestag.de/vorgang/336554", text)
+        self.assertIn("dip.bundestag.de/vorgang/ein-gesetz/336554", text)
+
+
 class ForwardFocusTests(unittest.TestCase):
     """Christopher, 22 September 2026: "The focus should be on upcoming items
     and debates with the weekly canvas, not what's in the past."

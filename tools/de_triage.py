@@ -40,6 +40,10 @@ SOURCES = {
     "de_documents": ("doc_id", ("titel", "excerpt")),
     "de_vorgaenge": ("vorgang_id", ("titel", "sachgebiet")),
     "de_divisions": ("vote_id", ("label",)),
+    # The agenda's TITLE is a committee and a sitting number; the excerpt is
+    # the agenda point that earned the match, so it is what tells the judge
+    # what is actually being sat on.
+    "de_agenda": ("item_id", ("title", "excerpt")),
 }
 
 # A de_ table with `areas` that is deliberately NOT judged, with the reason.
