@@ -258,6 +258,72 @@ def divisions(conn, bundestag=True):
         return []
 
 
+# WHERE A VORGANG HAS GOT TO, and therefore whether it is still worth a
+# reader's attention. Christopher, 22 September 2026: "The focus should be on
+# upcoming items and debates with the weekly canvas, not what's in the past."
+#
+# MEASURED before it was written. Of 294 non-migration items in the store, 215
+# are "Beantwortet" -- answered written questions, finished business -- and
+# they were filling the Top lines. 24 are genuinely live. A briefing led by
+# the 215 is a briefing about last month.
+#
+# Ordered MOST IMMINENT FIRST: a Beschlussempfehlung is a recommendation
+# tabled for decision, so that item is about to be voted; a fresh referral to
+# committee may sit for months.
+STAGE_LIVE = (
+    "beschlussempfehlung",          # recommendation tabled -- a vote is next
+    "in der beratung",              # under active consideration
+    "überwiesen",                   # referred to committee
+    "noch nicht beraten",           # tabled, not yet debated
+    "durchgang im bundesrat",       # through one chamber, on to the other
+    "noch nicht beantwortet",       # question asked, answer outstanding
+)
+STAGE_CONCLUDED = ("beantwortet", "angenommen", "abgelehnt", "verkündet",
+                   "für erledigt erklärt", "zurückgezogen")
+STAGE_LAPSED = ("ablauf der wahlperiode",)
+
+
+def stage_of(stand):
+    """('live', rank) | ('concluded', 0) | ('lapsed', 0) | ('unknown', 0).
+
+    UNKNOWN IS ITS OWN ANSWER and it is shown with the live items, never
+    quietly filed under concluded. DIP's Stand is free text and this list was
+    built from one store on one day; the stage this code has never seen is
+    exactly the one that would vanish, and a vanished item looks identical to
+    an item that was never collected.
+    """
+    s = (stand or "").strip().lower()
+    if not s:
+        return ("unknown", 0)
+    for i, frag in enumerate(STAGE_LIVE):
+        if frag in s:
+            return ("live", i)
+    for frag in STAGE_LAPSED:
+        if frag in s:
+            return ("lapsed", 0)
+    for frag in STAGE_CONCLUDED:
+        if frag in s:
+            return ("concluded", 0)
+    return ("unknown", 0)
+
+
+def by_stage(rows):
+    """Split rows into (live, concluded, lapsed) with live ordered by how
+    close each is to a decision, then by score, then most recent."""
+    live, concluded, lapsed = [], [], []
+    for r in rows:
+        kind, rank = stage_of(r["stand"] if "stand" in r.keys() else None)
+        if kind == "concluded":
+            concluded.append(r)
+        elif kind == "lapsed":
+            lapsed.append(r)
+        else:
+            live.append((rank if kind == "live" else len(STAGE_LIVE), r))
+    live.sort(key=lambda x: (x[0], -(_score(x[1]) or 0),
+                             -(len(x[1]["datum"] or ""))))
+    return [r for _, r in live], concluded, lapsed
+
+
 def edition_number(today):
     """Which edition this is, counted from the editions actually written.
 
@@ -278,7 +344,10 @@ def _dip(vorgang_id):
 
 
 def top_lines(vgs, bt, ld, names, cap=6):
-    """The handful that matter, Westminster's grammar: a linked item, its
+    """LIVE items only. Passed the live list by the caller -- a Top lines
+    block led by answered written questions is a briefing about last month.
+
+    The handful that matter, Westminster's grammar: a linked item, its
     why-line, and the thing a reader needs to act -- the stage it has
     reached. Capped, because a Top lines block that lists everything is the
     section it was invented to replace.
@@ -334,7 +403,8 @@ def render_edition(conn, today):
     lines.append("")
 
     # --- Top lines ---
-    tops = top_lines(vgs, bt, ld, names)
+    live, concluded, lapsed = by_stage(vgs)
+    tops = top_lines(live, bt, ld, names)
     lines.append("## Top lines")
     lines.append("")
     if tops:
@@ -343,10 +413,15 @@ def render_edition(conn, today):
         lines.append("*Nothing scored a campaign trigger this week.*")
     lines.append("")
 
-    # --- Bundestag papers, as a table ---
-    lines.append("## Bundestag papers on our ground ({0})".format(len(vgs)))
+    # --- Coming up: the live items, most imminent first ---
+    lines.append("## Coming up ({0} live)".format(len(live)))
     lines.append("")
-    if not vgs:
+    lines.append("*Ordered by how close each is to a decision. A "
+                 "Beschlussempfehlung is tabled FOR a vote; a fresh referral "
+                 "may sit for months. Concluded and lapsed business is "
+                 "counted below, not listed.*")
+    lines.append("")
+    if not live:
         lines.append("Nothing cleared the bar this week. The watching counts "
                      "below are the proof it was looked at, not a filter's "
                      "silence." if not (docs_hidden + vgs_hidden) else
@@ -357,7 +432,7 @@ def render_edition(conn, today):
     else:
         lines.append("| Vorgang | Areas | Type | Stage | Why it matters |")
         lines.append("|---|---|---|---|---|")
-        for r in vgs[:25]:
+        for r in live[:25]:
             score = _score(r)
             lines.append("| {0}[{1}]({2}) | {3} | {4} | {5} | {6} |".format(
                 "**[{0}]** ".format(score) if score is not None else "**[-]** ",
@@ -367,9 +442,9 @@ def render_edition(conn, today):
                 (r["stand"] or "?").replace("|", "/"),
                 _why(r).strip().replace("|", "/") or "-"))
         lines.append("")
-        if len(vgs) > 25:
-            lines.append("_...and {0} more on our ground; the store holds "
-                         "them all._".format(len(vgs) - 25))
+        if len(live) > 25:
+            lines.append("_...and {0} more live on our ground; the store "
+                         "holds them all._".format(len(live) - 25))
             lines.append("")
     if docs:
         lines.append("**Papers behind them** (Drucksachen whose *body* "
@@ -383,6 +458,45 @@ def render_edition(conn, today):
                 oneline(r["titel"] or "?").replace("|", "/"),
                 _areas(r, names) or "?",
                 _why(r).strip().replace("|", "/") or "-"))
+        lines.append("")
+
+    # --- Concluded and lapsed: counted, and the notable ones named ---
+    # NOT dropped. A bill that PASSED is finished business and still the most
+    # important thing that happened, so anything the judge scored 3 is named
+    # even though it is over; the rest are a count. Silence here would mean a
+    # law could be adopted and never appear in any edition.
+    if concluded or lapsed:
+        lines.append("## Concluded and lapsed ({0} concluded, {1} lapsed)"
+                     .format(len(concluded), len(lapsed)))
+        lines.append("")
+        notable = [r for r in concluded + lapsed if (_score(r) or 0) >= 3]
+        if notable:
+            lines.append("*Closed business, so it is below Coming up. An "
+                         "answered written question is here because the "
+                         "ANSWER is new -- it is the government stating a "
+                         "position on the record, which is worth reading "
+                         "even though the question itself is finished.*")
+            lines.append("")
+            lines.append("| Outcome | Vorgang | Areas | Why it mattered |")
+            lines.append("|---|---|---|---|")
+            for r in notable[:6]:
+                lines.append("| {0} | [{1}]({2}) | {3} | {4} |".format(
+                    (r["stand"] or "?").replace("|", "/"),
+                    oneline(r["titel"] or "?").replace("|", "/"),
+                    _dip(r["vorgang_id"]), _areas(r, names) or "?",
+                    _why(r).strip().replace("|", "/") or "-"))
+            if len(notable) > 6:
+                lines.append("")
+                lines.append("_...and {0} more scored 3 and closed; the "
+                             "outcomes below count everything._".format(
+                                 len(notable) - 6))
+            lines.append("")
+        outcomes = {}
+        for r in concluded + lapsed:
+            outcomes[(r["stand"] or "?")] = outcomes.get(r["stand"] or "?", 0) + 1
+        lines.append("Outcomes: " + " · ".join(
+            "{0} ({1})".format(k, v) for k, v in
+            sorted(outcomes.items(), key=lambda x: -x[1])) + ".")
         lines.append("")
 
     # --- Recorded votes, as a table. NO VERDICTS. ---

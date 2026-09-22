@@ -148,6 +148,103 @@ class HonestyNoteTests(unittest.TestCase):
                       "not say so".format(dm.TAXONOMY_VERSION))
 
 
+class ForwardFocusTests(unittest.TestCase):
+    """Christopher, 22 September 2026: "The focus should be on upcoming items
+    and debates with the weekly canvas, not what's in the past."
+
+    Measured before it was built: 215 of 294 non-migration items in the store
+    were "Beantwortet" -- answered written questions -- and they were filling
+    the Top lines. The edition led with last month.
+    """
+
+    def test_live_business_leads_and_closed_business_follows(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Schon beantwortet", stand="Beantwortet")
+        _vorgang(conn, "2", "Noch im Ausschuss", stand="Überwiesen")
+        text = _render(conn)
+        self.assertLess(text.index("## Coming up"),
+                        text.index("## Concluded and lapsed"))
+        coming = text.split("## Coming up")[1].split("## Concluded")[0]
+        self.assertIn("Noch im Ausschuss", coming)
+        self.assertNotIn("Schon beantwortet", coming)
+
+    def test_top_lines_never_lead_with_finished_business(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Beantwortete Frage", stand="Beantwortet", score=3)
+        _vorgang(conn, "2", "Lebender Gesetzentwurf", stand="Überwiesen",
+                 score=3)
+        top = _render(conn).split("## Top lines")[1].split("##")[0]
+        self.assertIn("Lebender Gesetzentwurf", top)
+        self.assertNotIn("Beantwortete Frage", top)
+
+    def test_the_most_imminent_comes_first(self):
+        """A Beschlussempfehlung is tabled FOR a decision; a fresh referral
+        may sit for months. Ordering by date would invert that."""
+        conn = _conn()
+        _vorgang(conn, "1", "Gerade überwiesen", stand="Überwiesen")
+        _vorgang(conn, "2", "Steht zur Abstimmung",
+                 stand="Beschlussempfehlung liegt vor")
+        text = _render(conn)
+        self.assertLess(text.index("Steht zur Abstimmung"),
+                        text.index("Gerade überwiesen"))
+
+    def test_an_unknown_stage_is_shown_not_filed_under_concluded(self):
+        """THE ONE THAT MATTERS. DIP's Stand is free text and the stage list
+        was built from one store on one day. A stage this code has never seen
+        must surface with the live items: filed under concluded it would be
+        indistinguishable from an item that was never collected at all."""
+        conn = _conn()
+        _vorgang(conn, "1", "Ein neuer Stand",
+                 stand="Irgendein unbekannter Verfahrensstand")
+        coming = _render(conn).split("## Coming up")[1].split("## Concluded")[0]
+        self.assertIn("Ein neuer Stand", coming)
+        self.assertEqual(dm.stage_of("Irgendein unbekannter Verfahrensstand"),
+                         ("unknown", 0))
+
+    def test_a_missing_stage_is_also_shown(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Ohne Stand", stand=None)
+        coming = _render(conn).split("## Coming up")[1].split("## Concluded")[0]
+        self.assertIn("Ohne Stand", coming)
+
+    def test_closed_business_is_counted_never_dropped(self):
+        """A law that PASSED is finished and still the most important thing
+        that happened. Silence here would let one be adopted and appear in no
+        edition at all."""
+        conn = _conn()
+        _vorgang(conn, "1", "Verabschiedetes Gesetz", stand="Angenommen",
+                 score=3)
+        text = _render(conn)
+        self.assertIn("Verabschiedetes Gesetz", text)
+        self.assertIn("Outcomes: Angenommen (1)", text)
+
+    def test_a_lapsed_item_is_not_counted_as_concluded(self):
+        conn = _conn()
+        _vorgang(conn, "1", "Verfallen",
+                 stand="Erledigt durch Ablauf der Wahlperiode")
+        self.assertIn("(0 concluded, 1 lapsed)", _render(conn))
+
+    def test_every_measured_stage_in_the_store_classifies(self):
+        """The stage list was built from real values; this pins them so a
+        future rename shows up as a red test rather than as an item quietly
+        moving sections."""
+        expected = {
+            "Beantwortet": "concluded", "Angenommen": "concluded",
+            "Abgelehnt": "concluded", "Verkündet": "concluded",
+            "Für erledigt erklärt": "concluded",
+            "Erledigt durch Ablauf der Wahlperiode": "lapsed",
+            "Überwiesen": "live", "Noch nicht beraten": "live",
+            "Dem Bundestag zugeleitet - Noch nicht beraten": "live",
+            "Dem Bundesrat zugeleitet - Noch nicht beraten": "live",
+            "Beschlussempfehlung liegt vor": "live",
+            "In der Beratung (Einzelheiten siehe Vorgangsablauf)": "live",
+            "Noch nicht beantwortet": "live",
+            "1. Durchgang im Bundesrat abgeschlossen": "live",
+        }
+        for stand, kind in expected.items():
+            self.assertEqual(dm.stage_of(stand)[0], kind, stand)
+
+
 class WestminsterFrameTests(unittest.TestCase):
     """Christopher, 22 September 2026: "Can it be framed like the Westminster
     one?" The shape is the dated header, Top lines capped at six, then tables
