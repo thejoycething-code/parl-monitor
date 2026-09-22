@@ -391,6 +391,59 @@ def top_lines(vgs, bt, ld, names, cap=6):
     return out[:cap]
 
 
+DECISIONS = os.path.join(ROOT, "config", "decisions-de.yaml")
+
+# Vorgangstyp groupings. Taken from the store's own values rather than a
+# guess: "Verordnung" returns nothing from DIP, the German for a statutory
+# instrument is Rechtsverordnung, and the questions come in four flavours.
+BILL_TYPES = ("Gesetzgebung",)
+SI_TYPES = ("Rechtsverordnung",)
+QUESTION_TYPES = ("Schriftliche Frage", "Kleine Anfrage", "Mündliche Frage",
+                  "Große Anfrage")
+
+MOVEMENT_NOTE = (
+    "*Movement is measured between COLLECTIONS, not from the Bundestag's own "
+    "record: a Vorgang reads \"not seen to move\" until this monitor has "
+    "observed it at two different stages. On a young collector that is most "
+    "of them, and it means we have not watched it yet -- not that it has "
+    "stood still.*")
+
+
+def of_type(rows, types):
+    return [r for r in rows if (r["vorgangstyp"] or "") in types]
+
+
+def movement(row):
+    """What changed since we last looked, in the Westminster board's words."""
+    if row["prev_stand"] and row["prev_stand"] != row["stand"]:
+        return "**moved** {0} -> {1}{2}".format(
+            row["prev_stand"], row["stand"],
+            " on " + row["moved_date"] if row["moved_date"] else "")
+    return "not seen to move"
+
+
+def decisions_block(today, mentions):
+    """The decisions the German monitor is waiting on.
+
+    Same machinery as Westminster (src/decisions.py) against its own log, so
+    a why-line that calls something an open decision cannot recur unlogged
+    week after week.
+    """
+    try:
+        from src import decisions as dec
+    except ImportError:
+        return None
+    try:
+        rows = dec.collect(dec.load(DECISIONS), mentions, today)
+    except (ValueError, OSError) as exc:                    # noqa: BLE001
+        # A malformed log must SAY so. Returning None would render an edition
+        # with no decisions block, which is what a healthy week looks like.
+        return ("## Decisions needed\n\n*The decisions log could not be "
+                "read: {0}. Fix `config/decisions-de.yaml`.*\n".format(
+                    str(exc)[:120]))
+    return dec.render(rows)
+
+
 def week_ahead(conn, today):
     """Sittings still to come, and how far the feed could actually see.
 
@@ -413,6 +466,30 @@ def week_ahead(conn, today):
         return [], [], None
     matched = [r for r in rows if not hidden_only(r) and visible_areas(r)]
     return matched, rows, horizon
+
+
+def speeches(conn, today, days=45):
+    """Speeches on our ground, newest first, and the protocols they came from.
+
+    Both are returned. Without the protocol count, "no speeches on our
+    ground" and "no sitting day has been read" render as the same empty
+    section, and only one of those is news.
+    """
+    since = (datetime.date.fromisoformat(today)
+             - datetime.timedelta(days=days)).isoformat()
+    try:
+        rows = conn.execute(
+            "SELECT * FROM de_speeches WHERE date >= ? AND {0} "
+            "ORDER BY date DESC, speech_id".format(degate.SHOWN_SQL),
+            (since,)).fetchall()
+        read = conn.execute(
+            "SELECT COUNT(*), MIN(date), MAX(date) FROM de_protocols "
+            "WHERE date >= ?", (since,)).fetchone()
+    except sqlite3.OperationalError as exc:
+        if "no such table" not in str(exc):
+            raise
+        return [], (0, None, None)
+    return [r for r in rows if not hidden_only(r)], read
 
 
 def render_edition(conn, today):
@@ -455,6 +532,13 @@ def render_edition(conn, today):
     else:
         lines.append("*Nothing scored a campaign trigger this week.*")
     lines.append("")
+
+    # --- Decisions needed, directly under Top lines (Westminster's order) ---
+    mentions = [(oneline(r["titel"] or ""), _why(r)) for r in live + concluded]
+    block = decisions_block(today, mentions)
+    if block:
+        lines.append(block)
+        lines.append("")
 
     # --- Week ahead: the only section that names a DATE ---
     ahead, all_ahead, horizon = week_ahead(conn, today)
@@ -531,6 +615,78 @@ def render_edition(conn, today):
                 "-" if _score(r) is None else _score(r),
                 oneline(r["titel"] or "?").replace("|", "/"),
                 _areas(r, names) or "?",
+                _why(r).strip().replace("|", "/") or "-"))
+        lines.append("")
+
+    # --- Written questions: 216 on our ground and never shown until now ---
+    qs = of_type(live + concluded, QUESTION_TYPES)
+    if qs:
+        top_qs = [r for r in qs if (_score(r) or 0) >= 3]
+        lines.append("## Written and oral questions ({0})".format(len(qs)))
+        lines.append("")
+        lines.append("*A question is a position stated on the record, and an "
+                     "ANSWER is the government stating one back. Scored 3 "
+                     "below; the rest are counted by type.*")
+        lines.append("")
+        if top_qs:
+            lines.append("| Question | Type | Areas | Stage | Why it matters |")
+            lines.append("|---|---|---|---|---|")
+            for r in top_qs[:12]:
+                lines.append("| [{0}]({1}) | {2} | {3} | {4} | {5} |".format(
+                    oneline(r["titel"] or "?").replace("|", "/"),
+                    _dip(r["vorgang_id"], r["titel"]),
+                    (r["vorgangstyp"] or "?").replace("|", "/"),
+                    _areas(r, names) or "?",
+                    (r["stand"] or "?").replace("|", "/"),
+                    _why(r).strip().replace("|", "/") or "-"))
+            lines.append("")
+            if len(top_qs) > 12:
+                lines.append("_...and {0} more scored 3._".format(
+                    len(top_qs) - 12))
+                lines.append("")
+        by_type = {}
+        for r in qs:
+            by_type[r["vorgangstyp"] or "?"] = by_type.get(
+                r["vorgangstyp"] or "?", 0) + 1
+        lines.append("By type: " + " · ".join(
+            "{0} ({1})".format(k, v)
+            for k, v in sorted(by_type.items(), key=lambda x: -x[1])) + ".")
+        lines.append("")
+
+    # --- Active bills board ---
+    bills = of_type(live + concluded, BILL_TYPES)
+    if bills:
+        lines.append("## Active bills board ({0})".format(len(bills)))
+        lines.append("")
+        lines.append("| Bill | Brought by | Areas | Stage | Movement | "
+                     "Why it matters |")
+        lines.append("|---|---|---|---|---|---|")
+        for r in bills:
+            lines.append("| [{0}]({1}) | {2} | {3} | {4} | {5} | {6} |".format(
+                oneline(r["titel"] or "?").replace("|", "/"),
+                _dip(r["vorgang_id"], r["titel"]),
+                (r["initiative"] or "?").replace("|", "/"),
+                _areas(r, names) or "?",
+                (r["stand"] or "?").replace("|", "/"),
+                movement(r),
+                _why(r).strip().replace("|", "/") or "-"))
+        lines.append("")
+        lines.append(MOVEMENT_NOTE)
+        lines.append("")
+
+    # --- Secondary legislation ---
+    sis = of_type(live + concluded, SI_TYPES)
+    if sis:
+        lines.append("## Secondary legislation ({0})".format(len(sis)))
+        lines.append("")
+        lines.append("| Instrument | Areas | Stage | Why it matters |")
+        lines.append("|---|---|---|---|")
+        for r in sis:
+            lines.append("| [{0}]({1}) | {2} | {3} | {4} |".format(
+                oneline(r["titel"] or "?").replace("|", "/"),
+                _dip(r["vorgang_id"], r["titel"]),
+                _areas(r, names) or "?",
+                (r["stand"] or "?").replace("|", "/"),
                 _why(r).strip().replace("|", "/") or "-"))
         lines.append("")
 
@@ -612,6 +768,43 @@ def render_edition(conn, today):
         lines.append("*Tally is yes/no/abstain/absent. The result is the "
                      "House's own, never derived from the tallies.*")
         lines.append("")
+
+    # --- Who spoke, on our issues ---
+    sp, (protos, first_read, last_read) = speeches(conn, today)
+    lines.append("## Parliamentarians on our issues ({0})".format(len(sp)))
+    lines.append("")
+    if sp:
+        lines.append("| Date | Member | Fraktion | Areas | What they said |")
+        lines.append("|---|---|---|---|---|")
+        for r in sp[:20]:
+            who = oneline(r["speaker"] or "?")
+            if r["person_id"] is None:
+                # DISCLOSED. An unattributed speaker is usually a minister
+                # without a Bundestag mandate or a member who has not voted
+                # in a division we hold -- but the reader is entitled to know
+                # the name was not matched to anyone, rather than assume it
+                # was.
+                who += " _(not matched to a member)_"
+            lines.append("| {0} | {1} | {2} | {3} | {4} |".format(
+                r["date"] or "?", who.replace("|", "/"),
+                (r["party"] or "-").replace("|", "/"),
+                _areas(r, names) or "?",
+                " ".join((r["excerpt"] or "-").split())[:190].replace("|", "/")))
+        lines.append("")
+        if len(sp) > 20:
+            lines.append("_...and {0} more in the window._".format(len(sp) - 20))
+            lines.append("")
+    else:
+        lines.append("*No speech on our ground in the protocols read.*")
+        lines.append("")
+    lines.append("Sitting days read: **{0}**{1}. A speech is stored only when "
+                 "it matches the taxonomy -- the rest are counted, never "
+                 "kept, because a hundred speeches a sitting day would be a "
+                 "copy of the Bundestag rather than a monitor.".format(
+                     protos,
+                     " ({0} to {1})".format(first_read, last_read)
+                     if first_read else ""))
+    lines.append("")
 
     # --- The Länder ---
     seen = conn.execute("SELECT COUNT(DISTINCT parliament) FROM de_divisions "

@@ -116,12 +116,33 @@ class RollCallTests(unittest.TestCase):
         self.assertEqual(r["accepted"], 1)
         self.assertGreater(r["no"], r["yes"], "the outcome is not read off the tallies")
 
-    def test_members_carry_their_fraktion(self):
+    def test_members_carry_their_fraktion_without_the_legislature(self):
+        """The Fraktion alone, not abgeordnetenwatch's welded-on period.
+
+        This test used to assert "SPD (Bundestag 2025 - 2029)" -- it pinned
+        the bug as the contract. abgeordnetenwatch labels a mandate and a
+        fraction with the legislature attached, and stored raw that suffix
+        went into every German member's NAME and PARTY: it broke any join on
+        a name, and the edition's Fraktion splits would have printed "SPD
+        (Bundestag 2025 - 2029) 2/1/0". The period is already held in its own
+        `legislature` column, so the suffix was redundant as well as wrong.
+        """
         conn = store()
         der.pull(conn, FakeClient(), "2026-09-22", log=lambda *a: None)
         rows = {r["name"]: r["party"] for r in conn.execute("SELECT name, party FROM de_members")}
         self.assertEqual(len(rows), 5)
-        self.assertEqual(rows["Sanae Abdi"], "SPD (Bundestag 2025 - 2029)")
+        self.assertEqual(rows["Sanae Abdi"], "SPD")
+        self.assertNotIn("Sanae Abdi (Bundestag 2025 - 2029)", rows,
+                         "the name kept the legislature too")
+
+    def test_the_legislature_is_still_recorded_in_its_own_column(self):
+        """Stripping the suffix must not LOSE the period -- only move the
+        reader to the column that already held it."""
+        conn = store()
+        der.pull(conn, FakeClient(), "2026-09-22", log=lambda *a: None)
+        legs = {r[0] for r in conn.execute(
+            "SELECT legislature FROM de_members")}
+        self.assertTrue(any(legs), "the legislature column is empty")
 
     def test_an_absence_is_recorded_as_a_position(self):
         conn = store()

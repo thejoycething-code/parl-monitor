@@ -1,0 +1,62 @@
+# Decisions the GERMAN monitor is waiting on. Same machinery as
+# config/decisions.yaml (src/decisions.py) against its own log, so a why-line
+# that calls something an open decision cannot recur week after week with
+# nobody owning it.
+#
+# Kept SEPARATE from the Westminster log deliberately: the owners differ (most
+# of these are the German team's, not Christopher's), and a German question
+# appearing in the Westminster edition's block would be noise to everyone who
+# reads it.
+#
+#   decision:   the question, as a sentence
+#   about:      a phrase found in the item's TITLE, so the block can pair it
+#               with the item and stop the why-line recurring unlogged
+#   owner:      who decides (null = unassigned, and the block says so)
+#   decide_by:  YYYY-MM-DD; the block counts down and marks OVERDUE
+#   opened:     when it was logged
+#   status:     open | decided
+#   decided_on, outcome: filled when decided; shown for two editions, then gone
+#
+# A why-line calling something an open decision with NO entry here renders as
+# "not yet logged" -- the recurrence is made visible rather than quietly
+# accepted.
+decisions:
+  - id: verify-german-taxonomy
+    decision: Who on the German team verifies config/taxonomy-de.yaml, and by when?
+    about: "taxonomy"
+    owner: null
+    decide_by: 2026-10-31
+    opened: 2026-09-23
+    status: open
+    # Why it is a decision and not a task: every German surface carries
+    # "TAXONOMY v0.4 UNVERIFIED" on its face until someone signs it off, and
+    # the edition cannot be presented internally as finished before then.
+    # Measured and worth telling them: a third of what it matches is
+    # migration -- 171 of 507 Vorgänge -- which is not the terms being
+    # over-broad but the Bundestag's own volume.
+
+  - id: schedule-document-window-mode
+    decision: Does the German weekly also run de_documents.py --mode window, adding the body-text layer?
+    about: "Drucksachen"
+    owner: Christopher
+    decide_by: 2026-10-10
+    opened: 2026-09-23
+    status: open
+    # The weekly runs --mode terms, which writes Vorgänge only, so
+    # de_documents is empty by design and the edition says so. --mode window
+    # sweeps ~150 documents a week and body-matches them. It is a runtime
+    # cost decision, not an oversight.
+
+  - id: apply-for-dip-key
+    decision: Does CitizenGO apply for a DIP API key in its own name?
+    about: "DIP"
+    owner: Christopher
+    decide_by: 2026-10-10
+    opened: 2026-09-23
+    status: open
+    # The weekly currently drives DIP from the key the Bundestag publishes as
+    # a documentation EXAMPLE in its own OpenAPI spec. It works and rotation
+    # heals itself, but it is shared, it can be rate-limited by other
+    # people's traffic, and it is a terms-of-use exposure rather than only a
+    # technical one. DIP_API_KEY and config/secrets.yaml already take
+    # precedence, so the swap is a secret, never a commit.

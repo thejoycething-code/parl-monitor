@@ -87,6 +87,29 @@ def _vote(conn, vid, pid, position):
     conn.commit()
 
 
+def _table_rows_are_wellformed(text):
+    """Every row in every markdown table has its header's column count.
+
+    Stronger than counting pipes in one known table, and table-agnostic: a
+    stray newline or an unescaped pipe in a German title shifts every column
+    after it, wherever that title appears.
+    """
+    header = None
+    bad = []
+    for line in text.splitlines():
+        if not line.startswith("|"):
+            header = None
+            continue
+        if header is None:
+            header = line.count("|")
+            continue
+        if set(line.replace("|", "").strip()) <= set("- "):
+            continue                      # the |---|---| separator
+        if line.count("|") != header:
+            bad.append(line)
+    return bad
+
+
 def _render(conn):
     """Render into a temp tree, NEVER the repo's own editions/.
 
@@ -192,6 +215,123 @@ class DipPermalinkTests(unittest.TestCase):
         self.assertIn("dip.bundestag.de/vorgang/ein-gesetz/336554", text)
 
 
+class WestminsterSectionParityTests(unittest.TestCase):
+    """Christopher, 23 September 2026: the bills board, written questions,
+    secondary legislation and the decisions block, in that order after the
+    speeches layer. All four render from data the store ALREADY held -- 216
+    questions and 10 bills were collected, judged and never shown."""
+
+    def _typed(self, conn, vid, titel, typ, **kw):
+        _vorgang(conn, vid, titel, **kw)
+        conn.execute("UPDATE de_vorgaenge SET vorgangstyp = ? WHERE "
+                     "vorgang_id = ?", (typ, vid))
+        conn.commit()
+
+    def test_a_bill_reaches_the_board(self):
+        conn = _conn()
+        self._typed(conn, "1", "Ein Gesetzentwurf", "Gesetzgebung",
+                    stand="Überwiesen")
+        text = _render(conn)
+        self.assertIn("## Active bills board (1)", text)
+        self.assertIn("Ein Gesetzentwurf", text)
+
+    def test_movement_says_NOT_SEEN_rather_than_no_change(self):
+        """"No change" is a claim about the Bundestag. "Not seen to move" is
+        a claim about us, and on a collector days old it is the true one."""
+        conn = _conn()
+        self._typed(conn, "1", "Ein Gesetzentwurf", "Gesetzgebung",
+                    stand="Überwiesen")
+        text = _render(conn)
+        self.assertIn("not seen to move", text)
+        self.assertIn("measured between COLLECTIONS", text)
+
+    def test_a_vorgang_that_moved_says_where_from_and_to(self):
+        conn = _conn()
+        self._typed(conn, "1", "Ein Gesetzentwurf", "Gesetzgebung",
+                    stand="Beschlussempfehlung liegt vor")
+        conn.execute("UPDATE de_vorgaenge SET prev_stand='Überwiesen', "
+                     "moved_date='2026-09-20' WHERE vorgang_id='1'")
+        conn.commit()
+        text = _render(conn)
+        self.assertIn("**moved** Überwiesen -> Beschlussempfehlung liegt vor "
+                      "on 2026-09-20", text)
+
+    def test_questions_are_their_own_section_and_counted_by_type(self):
+        conn = _conn()
+        self._typed(conn, "1", "Eine schriftliche Frage", "Schriftliche Frage",
+                    stand="Beantwortet", score=3)
+        self._typed(conn, "2", "Eine kleine Anfrage", "Kleine Anfrage",
+                    stand="Beantwortet", score=2)
+        text = _render(conn)
+        self.assertIn("## Written and oral questions (2)", text)
+        self.assertIn("Eine schriftliche Frage", text)   # scored 3, listed
+        self.assertIn("By type:", text)
+        self.assertIn("Schriftliche Frage (1)", text)
+        self.assertIn("Kleine Anfrage (1)", text)
+
+    def test_a_question_below_the_digest_bar_never_reaches_the_section(self):
+        """The section counts what the edition SHOWS. A score of 1 is the
+        judge saying background, and the Watching table is where it is
+        accounted for."""
+        conn = _conn()
+        self._typed(conn, "1", "Eine kleine Anfrage", "Kleine Anfrage",
+                    stand="Beantwortet", score=1)
+        text = _render(conn)
+        self.assertNotIn("## Written and oral questions", text)
+        self.assertIn("Judged below the bar", text)
+
+    def test_secondary_legislation_uses_the_german_type_name(self):
+        """"Verordnung" returns nothing from DIP; the Vorgangstyp is
+        Rechtsverordnung, which is why the store held one nobody had seen."""
+        conn = _conn()
+        self._typed(conn, "1", "Eine Verordnung", "Rechtsverordnung")
+        self.assertIn("## Secondary legislation (1)", _render(conn))
+
+    def test_a_bill_is_not_also_counted_as_a_question(self):
+        conn = _conn()
+        self._typed(conn, "1", "Ein Gesetzentwurf", "Gesetzgebung")
+        text = _render(conn)
+        self.assertNotIn("## Written and oral questions", text)
+
+    def test_an_empty_section_is_omitted_rather_than_rendered_empty(self):
+        """Westminster omits a section with nothing in it. An empty table
+        with a heading reads as a source that failed."""
+        text = _render(_conn())
+        for heading in ("## Active bills board", "## Secondary legislation",
+                        "## Written and oral questions"):
+            self.assertNotIn(heading, text)
+
+
+class DecisionsBlockTests(unittest.TestCase):
+    def test_the_block_renders_under_top_lines(self):
+        text = _render(_conn())
+        self.assertIn("## Decisions needed", text)
+        self.assertLess(text.index("## Top lines"),
+                        text.index("## Decisions needed"))
+        self.assertLess(text.index("## Decisions needed"),
+                        text.index("## Week ahead"))
+
+    def test_it_uses_its_OWN_log_not_westminsters(self):
+        """The owners differ -- most German questions are the German team's --
+        and a German decision in the Westminster block would be noise to
+        everyone who reads it."""
+        self.assertTrue(dm.DECISIONS.endswith("decisions-de.yaml"))
+
+    def test_a_broken_log_says_so_rather_than_rendering_nothing(self):
+        """Returning None would render an edition with no decisions block,
+        which is exactly what a healthy week looks like."""
+        old = dm.DECISIONS
+        dm.DECISIONS = os.path.join(ROOT, "config", "does-not-parse.yaml")
+        try:
+            with open(dm.DECISIONS, "w", encoding="utf-8") as fh:
+                fh.write("decisions:\n  - id: x\n")      # no `decision:`
+            block = dm.decisions_block(TODAY, [])
+            self.assertIn("could not be read", block or "")
+        finally:
+            os.remove(dm.DECISIONS)
+            dm.DECISIONS = old
+
+
 class ForwardFocusTests(unittest.TestCase):
     """Christopher, 22 September 2026: "The focus should be on upcoming items
     and debates with the weekly canvas, not what's in the past."
@@ -208,7 +348,10 @@ class ForwardFocusTests(unittest.TestCase):
         text = _render(conn)
         self.assertLess(text.index("## Coming up"),
                         text.index("## Concluded and lapsed"))
-        coming = text.split("## Coming up")[1].split("## Concluded")[0]
+        # Scoped to the Coming up SECTION, not to everything before
+        # Concluded: the bills board sits between them and legitimately
+        # lists closed bills too.
+        coming = text.split("## Coming up")[1].split("\n## ")[0]
         self.assertIn("Noch im Ausschuss", coming)
         self.assertNotIn("Schon beantwortet", coming)
 
@@ -346,9 +489,19 @@ class WestminsterFrameTests(unittest.TestCase):
     def test_a_pipe_in_a_title_cannot_break_a_row(self):
         conn = _conn()
         _vorgang(conn, "1", "Gesetz A | Gesetz B")
-        for line in _render(conn).splitlines():
-            if line.startswith("|") and "Gesetz A" in line:
-                self.assertEqual(line.count("|"), 6)
+        self.assertEqual(_table_rows_are_wellformed(_render(conn)), [])
+
+    def test_every_table_in_a_full_edition_is_wellformed(self):
+        """One check over the whole document, so a section added later
+        cannot quietly ship a broken table."""
+        conn = _conn()
+        _vorgang(conn, "1", "Ein Gesetz | mit Pipe", stand="Überwiesen")
+        _vorgang(conn, "2", "Eine Frage", stand="Beantwortet", score=3)
+        conn.execute("UPDATE de_vorgaenge SET vorgangstyp='Schriftliche Frage'"
+                     " WHERE vorgang_id='2'")
+        _division(conn, "v1", "Ein Votum", score=3, why="Weil.")
+        conn.commit()
+        self.assertEqual(_table_rows_are_wellformed(_render(conn)), [])
 
 
 class NoVerdictTests(unittest.TestCase):
@@ -677,10 +830,8 @@ class StructuralTests(unittest.TestCase):
         _vorgang(conn, "1", 'Mitteilung der Kommission\nK(2026)3333 endg.')
         text = _render(conn)
         self.assertIn("[Mitteilung der Kommission K(2026)3333 endg.]", text)
-        for line in text.splitlines():
-            if line.startswith("|") and "Mitteilung" in line:
-                self.assertEqual(line.count("|"), 6,
-                                 "a stray newline broke the table row")
+        self.assertEqual(_table_rows_are_wellformed(text), [],
+                         "a stray newline broke a table row")
 
     def test_the_drucksachen_zero_is_explained(self):
         """de_documents is filled by --mode window, which the weekly does not

@@ -223,6 +223,9 @@ ONCE_EVER = {
                     "bursts -- 68 in sixteen months",
     "de_members": "re-stamped only when a recorded vote is collected, which "
                   "is itself a burst",
+    "de_speeches": "new rows only: a Stenografischer Bericht is final and is "
+                   "read once, and the Bundestag sits in blocks with months "
+                   "of recess between them",
     "un_votes": "UN pipeline is paused",
     "un_documents": "UN pipeline is paused",
     "un_calendar": "UN pipeline is paused",

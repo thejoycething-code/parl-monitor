@@ -12,6 +12,15 @@
 - [Gesetz über die Selbstbestimmung in Bezug auf den Geschlechtseintrag aufheben - Rechtsklarheit und Schutz vulnerabler Gruppen wie Frauen und Jugendlicher wiederherstellen](https://dip.bundestag.de/vorgang/gesetz-ueber-die-selbstbestimmung-in-bezug-auf-den-geschlech/325528) - A push to repeal Germany's gender self-ID law citing protection of women and minors. Direct legislative battleground for sex-based rights. (Stage: Überwiesen)
 - [Fünftes Gesetz zur Änderung des Gesetzes zur Errichtung einer Stiftung "Mutter und Kind - Schutz des ungeborenen Lebens" (5. MuKStiftÄndG)](https://dip.bundestag.de/vorgang/fuenftes-gesetz-zur-aenderung-des-gesetzes-zur-errichtung-ei/338365) - Amends the Mother and Child Foundation protecting unborn life, a key pro-life support mechanism. Any funding or scope changes directly affect crisis pregnancy support. (Stage: Dem Bundesrat zugeleitet - Noch nicht beraten)
 
+## Decisions needed
+
+| Decision | Owner | Decide by | Status |
+|---|---|---|---|
+| Does the German weekly also run de_documents.py --mode window, adding the body-text layer? | Christopher | 2026-10-10 | 17 days left |
+| Does CitizenGO apply for a DIP API key in its own name? | Christopher | 2026-10-10 | 17 days left |
+| Who on the German team verifies config/taxonomy-de.yaml, and by when? | *unassigned* | 2026-10-31 | 38 days left |
+
+
 ## Week ahead
 
 *No sitting on our ground in the published agendas.*
@@ -52,6 +61,47 @@ Sittings published ahead: 2026-09-23 (6). **The feed reaches 2026-09-23** -- it 
 
 _...and 6 more live on our ground; the store holds them all._
 
+## Written and oral questions (132)
+
+*A question is a position stated on the record, and an ANSWER is the government stating one back. Scored 3 below; the rest are counted by type.*
+
+| Question | Type | Areas | Stage | Why it matters |
+|---|---|---|---|---|
+| [Abschiebekriterien, der Schutz religiöser Minderheiten, Christenverfolgung und Abschiebung syrischer Christen](https://dip.bundestag.de/vorgang/abschiebekriterien-der-schutz-religioeser-minderheiten-chris/338388) | Kleine Anfrage | Freedom of religion | Beantwortet | Debate on deportation criteria and protection of persecuted Christians touches directly on religious freedom and asylum policy, a key watch area. |
+| [Verbot der Inanspruchnahme von Leihmutterschaften im Ausland](https://dip.bundestag.de/vorgang/verbot-der-inanspruchnahme-von-leihmutterschaften-im-ausland/338756) | Schriftliche Frage | Surrogacy embryology | Beantwortet | A ban on using foreign surrogacy arrangements strikes at commercial surrogacy directly, a core CitizenGO concern about exploitation and child rights. |
+| [Position der Bundesregierung zu einem internationalen Abkommen zum Verbot der Leihmutterschaft](https://dip.bundestag.de/vorgang/position-der-bundesregierung-zu-einem-internationalen-abkomm/338623) | Schriftliche Frage | Surrogacy embryology | Beantwortet | An international ban on commercial surrogacy would strengthen the pro-family, anti-surrogacy position. Watch the German government's stance closely for lobbying opportunities. |
+| [Ausgaben der GKV für Maßnahmen im Zusammenhang mit Geschlechtsdysphorie bzw. geschlechtsangleichenden Behandlungen](https://dip.bundestag.de/vorgang/ausgaben-der-gkv-fuer-massnahmen-im-zusammenhang-mit-geschle/336351) | Schriftliche Frage | Gender medicine children | Beantwortet | Reveals scale of state health insurance funding for gender dysphoria treatments, likely including minors. Directly relevant to campaigning against paediatric transition funding. |
+| [Förderung von LGBTIQ-, Gender-Projekten und Abtreibung im Ausland](https://dip.bundestag.de/vorgang/foerderung-von-lgbtiq-gender-projekten-und-abtreibung-im-aus/332003) | Kleine Anfrage | Abortion | Beantwortet | German state funding for LGBTIQ, gender and abortion projects abroad exports contested ideology through development policy. Directly relevant to pro-life and family lobbying overseas. |
+| [Erfassung psychischer Vorerkrankungen bei Jugendlichen und jungen Erwachsenen mit Geschlechtsdysphorie-Diagnose vor und nach Transitionierungsmaßnahmen - Transparenz über Komorbiditäten, Screeningverfahren und Langzeitfolgen](https://dip.bundestag.de/vorgang/erfassung-psychischer-vorerkrankungen-bei-jugendlichen-und-j/333274) | Kleine Anfrage | Gender medicine children | Beantwortet | Parliamentary scrutiny of mental health comorbidities before and after paediatric transition supports the case against fast-tracked youth gender medicine and demands long-term outcome data. |
+| [Begründung für einen nationalen Gesetzentwurf zur Einführung einer Chatkontrolle](https://dip.bundestag.de/vorgang/begruendung-fuer-einen-nationalen-gesetzentwurf-zur-einfuehr/334843) | Schriftliche Frage | Free speech online safety | Beantwortet | National chat control bill would mandate scanning of private messages, a major overreach risk for privacy, free speech and family communications. |
+| [Förderung sowie Unterstützung von LGBTIQ- und Gender-Projekten sowie Abtreibung im Ausland](https://dip.bundestag.de/vorgang/foerderung-sowie-unterstuetzung-von-lgbtiq-und-gender-projek/322913) | Große Anfrage | Abortion | Beantwortet | German foreign and development funding for LGBTIQ, gender and abortion projects abroad exports contested social policy through aid budgets, bypassing domestic democratic debate. |
+| [Reformbedarf bei der Rechtslage zur Leihmutterschaft](https://dip.bundestag.de/vorgang/reformbedarf-bei-der-rechtslage-zur-leihmutterschaft/329994) | Mündliche Frage | Surrogacy embryology | Beantwortet | Any legal reform on surrogacy could either tighten or loosen restrictions. This is a direct opportunity to push for maintaining Germany's surrogacy ban. |
+| [Erfassung der Anzahl von Kindern und Jugendlichen mit geänderten Geschlechtseinträgen nach dem Selbstbestimmungsgesetz](https://dip.bundestag.de/vorgang/erfassung-der-anzahl-von-kindern-und-jugendlichen-mit-geaend/329367) | Mündliche Frage | Sex based rights | Beantwortet | Tracks how many minors have changed legal sex under the self-ID law. Data here will shape future debate on paediatric gender policy and safeguarding. |
+| [Evaluation des Gesetzes über die Selbstbestimmung in Bezug auf den Geschlechtseintrag](https://dip.bundestag.de/vorgang/evaluation-des-gesetzes-ueber-die-selbstbestimmung-in-bezug/329292) | Mündliche Frage | Sex based rights | Beantwortet | Review of the Self-Determination Act's effects. Its findings could justify tightening or loosening self-ID rules affecting minors and single-sex spaces. |
+| [Erfassung von Diagnosen der Geschlechtsdysphorie bei Kindern und Jugendlichen im Rahmen der Evaluierung des Selbstbestimmungsgesetzes](https://dip.bundestag.de/vorgang/erfassung-von-diagnosen-der-geschlechtsdysphorie-bei-kindern/328791) | Mündliche Frage | Gender medicine children, Sex based rights | Beantwortet | Tracking child gender dysphoria diagnoses as part of evaluating the Self-Determination Act could reveal rising rates and inform arguments against self-ID for minors. |
+
+_...and 26 more scored 3._
+
+By type: Schriftliche Frage (82) · Mündliche Frage (30) · Kleine Anfrage (19) · Große Anfrage (1).
+
+## Active bills board (5)
+
+| Bill | Brought by | Areas | Stage | Movement | Why it matters |
+|---|---|---|---|---|---|
+| [Gesetz zur Abschaffung des § 188 des Strafgesetzbuches (Meinungsfreiheits- und Demokratiestärkungsgesetz)](https://dip.bundestag.de/vorgang/gesetz-zur-abschaffung-des-188-des-strafgesetzbuches-meinung/335813) | Fraktion der AfD | Free speech online safety | Überwiesen | not seen to move | Repealing Section 188 (insult of political figures) directly reshapes criminal speech law. Could affect prosecution of critics, including on moral and religious issues. |
+| [Gesetz zur Stärkung der Meinungsfreiheit und zur Änderung der Strafprozessordnung - Einschränkung der Zulässigkeit der Hausdurchsuchung bei Ehrverletzungsdelikten](https://dip.bundestag.de/vorgang/gesetz-zur-staerkung-der-meinungsfreiheit-und-zur-aenderung/326650) | Fraktion der AfD | Free speech online safety | Überwiesen | not seen to move | A bill to strengthen free speech by limiting house searches for defamation offences could reduce state overreach against critics, relevant to online speech protections. |
+| [Fünftes Gesetz zur Änderung des Gesetzes zur Errichtung einer Stiftung "Mutter und Kind - Schutz des ungeborenen Lebens" (5. MuKStiftÄndG)](https://dip.bundestag.de/vorgang/fuenftes-gesetz-zur-aenderung-des-gesetzes-zur-errichtung-ei/338365) | Bundesregierung | Abortion | Dem Bundesrat zugeleitet - Noch nicht beraten | not seen to move | Amends the Mother and Child Foundation protecting unborn life, a key pro-life support mechanism. Any funding or scope changes directly affect crisis pregnancy support. |
+| [Gesetz zur Abschaffung des § 188 des Strafgesetzbuchs - Stärkung der Meinungsfreiheit und Gleichheit vor dem Gesetz](https://dip.bundestag.de/vorgang/gesetz-zur-abschaffung-des-188-des-strafgesetzbuchs-staerkun/322910) | Fraktion der AfD | Free speech online safety | Abgelehnt | not seen to move | Bill to abolish a criminal insult provision protecting officials, affecting speech law. Track how German free speech protections evolve. |
+| [Gesetz über die Selbstbestimmung in Bezug auf den Geschlechtseintrag und zur Änderung weiterer Vorschriften](https://dip.bundestag.de/vorgang/gesetz-ueber-die-selbstbestimmung-in-bezug-auf-den-geschlech/303278) | Bundesregierung | Sex based rights | Verkündet | not seen to move | This gender self-ID law affects legal sex recognition, with knock-on effects for single-sex spaces, records and safeguarding. Track amendments closely. |
+
+*Movement is measured between COLLECTIONS, not from the Bundestag's own record: a Vorgang reads "not seen to move" until this monitor has observed it at two different stages. On a young collector that is most of them, and it means we have not watched it yet -- not that it has stood still.*
+
+## Secondary legislation (1)
+
+| Instrument | Areas | Stage | Why it matters |
+|---|---|---|---|
+| [Verordnung zur Umsetzung des Gesetzes über die Selbstbestimmung in Bezug auf den Geschlechtseintrag im Meldewesen](https://dip.bundestag.de/vorgang/verordnung-zur-umsetzung-des-gesetzes-ueber-die-selbstbestim/325316) | Sex based rights | ? | This regulation sets administrative detail for the Self-Determination Act, shaping how sex data is recorded and potentially affecting single-sex space enforcement. |
+
 ## Concluded and lapsed (138 concluded, 14 lapsed)
 
 *Closed business, so it is below Coming up. An answered written question is here because the ANSWER is new -- it is the government stating a position on the record, which is worth reading even though the question itself is finished.*
@@ -74,6 +124,35 @@ Outcomes: Beantwortet (131) · Erledigt durch Ablauf der Wahlperiode (14) · Abg
 **No verdicts.** Tallies and Fraktion splits only. Which way a German division ran for us is a signed human judgement, never derived from a title -- the rule the Lords inversion taught.
 
 Nothing shown here: all 6 matched Bundestag vote(s) are on migration alone, which is collated and never campaigned. That is the standing rule removing them, NOT the House being quiet.
+
+## Parliamentarians on our issues (31)
+
+| Date | Member | Fraktion | Areas | What they said |
+|---|---|---|---|---|
+| 2026-09-11 | Dr. Dietmar Bartsch | Die Linke | Marriage family | Sie kürzen beim Elterngeld, Sie kürzen beim Unterhaltsvorschuss, Sie kürzen beim Kindersofortzuschlag, Sie kürzen beim Wohngeld, bei der humanitären Hilfe. Ich meine, das ist doch alles nich |
+| 2026-09-11 | Leon Eckert | BÜNDNIS 90/DIE GRÜNEN | Marriage family | Denn es ist auf der einen Seite der angesprochene Rasenmäher, der alle Haushaltstitel in einem Kampf alle gegen alle aufhetzt und dann Kürzungen an wilden Stellen durchführt, sodass sie nich |
+| 2026-09-10 | Helge Limburg | BÜNDNIS 90/DIE GRÜNEN | Free speech online safety | Wenn die Gefahr real ist, dass staatsanwaltschaftliche Daten systematisch in falsche Hände gelangen, dann ist es umso dringender, die Datensammelwut des Staates zurückzudrehen, Stichwort „Te |
+| 2026-09-10 | Axel Müller | CDU/CSU | Prostitution | Reformen dürfen nicht zu weit gehen; sie dürfen aber auch nicht unvollendet bleiben. Die aktuellen Reformen im Sexualstrafrecht und beim Menschenhandel sind richtig und wichtig. Rund wird di |
+| 2026-09-10 | Karin Prien _(not matched to a member)_ | - | Marriage family | Mit Blick auf die anstehenden parlamentarischen Beratungen hoffe ich deshalb, dass wir bei den geplanten Änderungen beim Elterngeld und beim Unterhaltsvorschuss gemeinsam zu guten Ergebnisse |
+| 2026-09-10 | Jürgen Koegel _(not matched to a member)_ | AfD | Marriage family | Das Parteiprogramm der AfD fordert als entscheidende Lösung des demografischen Dilemmas eine kraftvolle Änderung der bisherigen Familienpolitik. Eltern sollen den Mut zur Familie mit mehr al |
+| 2026-09-10 | Jamila Schäfer _(not matched to a member)_ | BÜNDNIS 90/DIE GRÜNEN | Marriage family | Ein Elternteil soll künftig neun statt zwölf Monate Elterngeld bekommen. Sie nennen das Haushaltskonsolidierung; tatsächlich bedeutet es weniger Zeit füreinander, weniger Flexibilität bei de |
+| 2026-09-10 | Tamara Mazzi | Die Linke | Marriage family | Sie wollen jungen Eltern das Elterngeld um zwei Monate wegkürzen – das sind genau die zwei Monate, die bei der Kitaeingewöhnung fehlen –, auch Alleinerziehenden. Was denken Sie sich dabei ei |
+| 2026-09-10 | Oliver Pöpsel | CDU/CSU | Marriage family | Ziel ist es für uns, dass das Elterngeld weiterhin eine wirksame und attraktive Familienleistung bleibt. |
+| 2026-09-10 | Mandy Eißing | Die Linke | Marriage family | Nur dass wir hier alle auf dem gleichen Stand sind: Sie kürzen das Elterngeld von 14 auf 12 Monate. Sie nehmen Familien schlichtweg wertvolle Zeit und Geld. Sie haben jetzt eine lächerliche  |
+| 2026-09-10 | Truels Reichardt | SPD | Marriage family | Es ist nicht zu vermitteln, dass wir Susanne Klatten und Dieter Schwarz in Ruhe lassen, aber – entgegen den Vereinbarungen im Koalitionsvertrag – zum Beispiel beim Unterhaltsvorschuss oder b |
+| 2026-09-10 | Melanie Bernstein | CDU/CSU | Marriage family | Das betrifft schmerzhafterweise – das haben wir gehört – auch das Elterngeld. |
+| 2026-09-10 | Felix Döring | SPD | Marriage family | Ja, der größte Titel in diesem Etat ist mit Abstand das Elterngeld, und es gibt eine Einigung, dort Geld einzusparen. Ich will einfach nur davor warnen, weil ich mich seit langer Zeit mit de |
+| 2026-09-10 | Felix Döring | SPD | Marriage family | Nein, danke. – Und wenn man sagt – und auch das ist ja legitim –, Kürzungen beim Elterngeld lehnt man im Grundsatz ab, dann muss man in Zeiten knapper Kassen natürlich auch beantworten, wohe |
+| 2026-09-10 | Birgit Bessin | AfD | Marriage family | Unsere Familien verarmen, und unsere Kinder sind mit Messerstechereien und Gewaltalltag in unseren Schulen konfrontiert: 94 318 Straftaten in Schulen allein im Jahr 2024, 35 570 Gewaltdelikt |
+| 2026-09-10 | Michael Kießling | CDU/CSU | Marriage family | Denn sozialer Wohnungsbau ist nicht nur Sozialpolitik, er ist auch Wirtschaftspolitik, Familienpolitik und Standortpolitik, meine Damen und Herren. Und dafür steht dieser Haushalt. |
+| 2026-09-10 | Dr. Stefanie Hubig _(not matched to a member)_ | - | Sex based rights | Dann mache ich gerne weiter. Ich war gerade beim digitalen Gewaltschutzgesetz. Wir haben jetzt, glaube ich, alle digitale bzw. technische Kompetenz bewiesen. Aber wir müssen im digitalen Ber |
+| 2026-09-10 | Mirco Hanker | AfD | Sex based rights, Prostitution | – Ja, vielen Dank. – Auf Deutsch: Man konnte keine Auskünfte geben über andere Grooming-Gangs dieser Art in Deutschland. Nachdem es jahrelang in England nach gleichem Muster zu solchen ekelh |
+| 2026-09-10 | Fabian Jacobi | AfD | Sex based rights, Free speech online safety | Wir sehen das Gesetz zum Schutz des Gemeinwesens. Das soll es ermöglichen, bei einer Verurteilung wegen des überdehnten und schwammigen, in seiner heutigen Form an sich schon mehr als bedenk |
+| 2026-09-09 | Dr. Matthias Miersch | SPD | Marriage family | Wir alle haben in den letzten Wochen Gespräche geführt mit Bürgerinnen und Bürgern. Wir haben die Verunsicherungen gespürt an vielen Stellen. Herr Bundeskanzler, ich bin Ihnen dankbar, dass  |
+
+_...and 11 more in the window._
+
+Sitting days read: **4** (2026-09-08 to 2026-09-11). A speech is stored only when it matches the taxonomy -- the rest are counted, never kept, because a hundred speeches a sitting day would be a copy of the Bundestag rather than a monitor.
 
 ## The Länder (2 on our ground, 14 parliaments collected)
 

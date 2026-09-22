@@ -44,6 +44,9 @@ SOURCES = {
     # the agenda point that earned the match, so it is what tells the judge
     # what is actually being sat on.
     "de_agenda": ("item_id", ("title", "excerpt")),
+    # The speaker and the passage that matched. The protocol number would
+    # tell the judge nothing about what was said.
+    "de_speeches": ("speech_id", ("speaker", "excerpt")),
 }
 
 # A de_ table with `areas` that is deliberately NOT judged, with the reason.

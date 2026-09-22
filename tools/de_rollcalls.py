@@ -61,6 +61,25 @@ POLL = API + "/polls/{0}?related_data=votes"
 DOC_LINK = re.compile(r'href="(https?://(?:dserver|dip)\.bundestag\.de/[^"]+)"')
 
 
+
+# abgeordnetenwatch labels a mandate "Sanae Abdi (Bundestag 2025 - 2029)" and a
+# fraction "SPD (Bundestag 2025 - 2029)": the legislature is welded onto both.
+# Stored raw, every German member's NAME and PARTY carried that suffix, which
+# broke any join on a name and would have printed "SPD (Bundestag 2025 - 2029)
+# 2/1/0" in the edition's Fraktion splits. The period is already held in its
+# own column, so the suffix is redundant as well as wrong.
+PERIOD_SUFFIX = re.compile(r"\s*\((?:[^()]*\b(?:19|20)\d{2}\s*[-\u2013]\s*(?:19|20)\d{2}[^()]*)\)\s*$")
+
+
+def clean_label(label):
+    """The name or party, without the legislature abgeordnetenwatch welds on.
+
+    Only a trailing bracket containing a YEAR RANGE is removed. A real name
+    with brackets -- and German members do carry them -- is left alone.
+    """
+    return PERIOD_SUFFIX.sub("", (label or "").strip()).strip() or None
+
+
 def current_legislature(client, parliament=BUNDESTAG):
     """(id, label) of one parliament's newest legislature, or (None, None)."""
     reply = client.get_json(PERIODS.format(parliament), "de-rollcalls",
@@ -197,9 +216,19 @@ def pull(conn, client, today, legislature=None, log=print, limit=None,
                 "INSERT INTO de_members (person_id, name, party, parliament, "
                 "parliament_label, legislature, first_seen, last_seen) "
                 "VALUES (?,?,?,?,?,?,?,?) "
+                # parliament, parliament_label and legislature are set on
+                # CONFLICT too. They were not, so the 637 members stored in
+                # phase 1 -- before the column existed -- kept parliament NULL
+                # for ever: every later run hit the conflict branch and never
+                # filled it in. That is the same shape as the reclassify bug,
+                # a collector skipping work it believes it has already done.
                 "ON CONFLICT(person_id) DO UPDATE SET name=excluded.name, "
-                "party=excluded.party, last_seen=excluded.last_seen",
-                (person, mandate.get("label"), fraction, str(parliament),
+                "party=excluded.party, parliament=excluded.parliament, "
+                "parliament_label=excluded.parliament_label, "
+                "legislature=excluded.legislature, "
+                "last_seen=excluded.last_seen",
+                (person, clean_label(mandate.get("label")),
+                 clean_label(fraction), str(parliament),
                  parliament_label, str(legislature), today, today))
             conn.execute(
                 "INSERT OR REPLACE INTO de_votes (vote_id, person_id, position) "
@@ -242,6 +271,54 @@ def reclassify(conn, today, log=print, tax=None, wl=None):
     return changed, gained, lost
 
 
+def repair_members(conn, today, log=print):
+    """Clean labels already stored, and fill in the parliament that was never
+    written (--repair-members).
+
+    Two repairs, because a fix to the writer does NOTHING for rows already in
+    the store and this collector deliberately skips votes it has seen -- so
+    those members are never re-stamped by an ordinary run. Left alone, the
+    bug is fixed for members we meet in future and permanent for everyone
+    already here.
+
+    PARLIAMENT IS DERIVED, NOT GUESSED: from the divisions the member actually
+    voted in. A member with votes in one parliament gets that parliament; one
+    with votes in several, or none, is left NULL, because a wrong parliament
+    is worse than a missing one -- it would put a Landtag member in the
+    Bundestag's Fraktion splits.
+    """
+    cleaned = 0
+    for pid, name, party in conn.execute(
+            "SELECT person_id, name, party FROM de_members").fetchall():
+        fixed_name, fixed_party = clean_label(name), clean_label(party)
+        if fixed_name != name or fixed_party != party:
+            conn.execute("UPDATE de_members SET name = ?, party = ? WHERE "
+                         "person_id = ?", (fixed_name, fixed_party, pid))
+            cleaned += 1
+    filled = ambiguous = 0
+    rows = conn.execute(
+        "SELECT v.person_id, COUNT(DISTINCT d.parliament) AS n, "
+        "MIN(d.parliament) AS p, MIN(d.parliament_label) AS lbl "
+        "FROM de_votes v JOIN de_divisions d ON d.vote_id = v.vote_id "
+        "WHERE d.parliament IS NOT NULL GROUP BY v.person_id").fetchall()
+    for pid, n, parliament, label in rows:
+        if n != 1:
+            ambiguous += 1
+            continue
+        cur = conn.execute("SELECT parliament FROM de_members WHERE "
+                           "person_id = ?", (pid,)).fetchone()
+        if cur and cur[0] in (None, ""):
+            conn.execute("UPDATE de_members SET parliament = ?, "
+                         "parliament_label = COALESCE(parliament_label, ?) "
+                         "WHERE person_id = ?", (parliament, label, pid))
+            filled += 1
+    conn.commit()
+    log("de-rollcalls repair: {0} label(s) cleaned, {1} member(s) given a "
+        "parliament from their own votes, {2} left NULL (votes in more than "
+        "one parliament).".format(cleaned, filled, ambiguous))
+    return cleaned, filled, ambiguous
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -251,6 +328,9 @@ def main():
                     help="every parliament abgeordnetenwatch serves: the Bundestag and the sixteen Landtage")
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive areas for stored votes, offline, after a taxonomy change")
+    ap.add_argument("--repair-members", action="store_true",
+                    help="clean stored member labels and fill the parliament "
+                         "column from each member's own votes, offline")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     ap.add_argument("--limit", type=int, help="stop after this many NEW votes")
     ap.add_argument("--dry-run", action="store_true",
@@ -268,6 +348,10 @@ def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     if args.reclassify:
         reclassify(conn, today)
+        conn.close()
+        return 0
+    if args.repair_members:
+        repair_members(conn, today)
         conn.close()
         return 0
     tax = filt.load_taxonomy(TAXONOMY)

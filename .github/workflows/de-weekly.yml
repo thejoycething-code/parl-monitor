@@ -118,6 +118,11 @@ jobs:
         # week this step does not run is a week of agendas nobody can recover
         # -- which is why de_agenda is a watched feed rather than once-ever.
         run: python3 tools/de_agenda.py | tee /tmp/de-agenda.log
+      - name: Read the plenary protocols (who spoke on our issues)
+        # The Stenografischer Bericht in full, from DIP. Each protocol is read
+        # ONCE -- the Bericht is final -- so the weekly cost is the sitting
+        # days since the last run, and nothing else.
+        run: python3 tools/de_speeches.py | tee /tmp/de-speeches.log
       - name: Write secrets file
         # anthropic_api_key: the triage judge. slack: the weekly DM to
         # Christopher ONLY -- the channel is deliberately not posted, the
@@ -142,7 +147,7 @@ jobs:
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-triage:|edition:|dm:|\[gap\]" \
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-triage:|edition:|dm:|\[gap\]" \
               /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \

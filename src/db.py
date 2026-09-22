@@ -949,6 +949,42 @@ CREATE TABLE IF NOT EXISTS de_documents (
   triage_score INTEGER, why_it_matters TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS de_speeches (
+  -- WHO SAID WHAT, the layer Westminster's ledger is built on and the one
+  -- Germany lacked entirely. Source: DIP's plenarprotokoll-text, which
+  -- returns the Stenografischer Bericht in full -- 370k to 650k characters
+  -- per sitting day, and 98% of that is inside a speech.
+  --
+  -- ONLY SPEECHES ON OUR GROUND ARE STORED. A sitting day carries about a
+  -- hundred speeches and the corpus runs to 4,674 protocols; keeping them all
+  -- would be a copy of the Bundestag rather than a monitor. What is NOT
+  -- stored is counted instead, per protocol, so the discard is a number
+  -- somebody can see rather than a silence.
+  speech_id TEXT PRIMARY KEY,     -- 'protokoll:21/94#12' -- protocol + ordinal
+  protocol TEXT,                  -- dokumentnummer, e.g. '21/94'
+  wahlperiode TEXT, date TEXT,
+  speaker TEXT,                   -- verbatim from the heading, never invented
+  party TEXT,                     -- the Fraktion in brackets, when there is one
+  role TEXT,                      -- 'member' | 'minister' | 'chair'
+  person_id TEXT,                 -- de_members.person_id when the name resolves
+  excerpt TEXT,                   -- the passage that matched, never the whole speech
+  url TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS de_protocols (
+  -- One row per sitting day READ, whether or not anything matched. Without
+  -- it, "no speeches on our ground in September" and "September was never
+  -- read" are the same empty query -- and the second is a bug wearing the
+  -- first's clothes.
+  protocol TEXT PRIMARY KEY,
+  wahlperiode TEXT, date TEXT, url TEXT,
+  speeches INTEGER,               -- headings found
+  matched INTEGER,                -- how many were on our ground
+  chars INTEGER,
+  read_on TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS de_agenda (
   -- THE FORWARD LOOK, and the only German source that points at the future.
   -- Measured 23 September 2026: DIP returns ZERO results for any future date
@@ -1195,6 +1231,8 @@ TABLES = (
     "de_vorgaenge",
     "de_documents",
     "de_agenda",
+    "de_speeches",
+    "de_protocols",
     "eu_ecis",
     "eu_judgments",
     "eu_pqs",
