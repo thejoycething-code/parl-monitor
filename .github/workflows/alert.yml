@@ -31,6 +31,10 @@ on:
       # happened on 15 September when the weekly was cancelled and nothing
       # said so for two days.
       - "EU day sweep"
+      # Germany weekly (22 Sept 2026). Registered the day it was written,
+      # not months later: the EU weekly sat off this list from the day IT
+      # was written and went dark for eleven days with nobody told.
+      - "Germany weekly"
       - "Coverage watch"
       # Member profiles pulls service history, party spells and contact
       # details for every chamber. It was in neither this list nor

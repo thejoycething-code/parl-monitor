@@ -45,6 +45,7 @@ PIPELINES = {
     "Senedd weekly": (7, 4, "Wales"),
     "NI Assembly weekly": (7, 4, "Northern Ireland"),
     "EU weekly": (7, 3, "the EU edition and its collectors"),
+    "Germany weekly": (7, 4, "Bundestag and the sixteen Land parliaments"),
     # Nightly, and it stamps a heartbeat whether or not the Parliament sat:
     # most nights it records "did not sit" and publishes nothing else, which
     # is exactly the signal we want -- silence here means the workflow died,
@@ -73,6 +74,14 @@ PAUSED = {
 # table -> (freshness column, expected days, grace, note)
 FEEDS = [
     ("bill_amendments", "last_seen", 7, 3, "amendments to watched Bills (Sunday pull)"),
+    # MEASURED (22 September 2026), not assumed: de_documents writes with
+    # INSERT OR IGNORE and de_divisions SKIPS votes it already holds, so
+    # neither re-stamps and both belong in ONCE_EVER. de_vorgaenge is the
+    # one German table that really is a heartbeat: its upsert sets
+    # last_seen=excluded.last_seen, and the weekly term sweep asks DIP for
+    # every tier-1 term over a 120-day window, so a live run re-sees the
+    # recent ones whether or not anything new appeared.
+    ("de_vorgaenge", "last_seen", 7, 4, "Bundestag Vorgänge from DIP (Germany weekly)"),
     ("hansard_sections", "captured_at", 7, 3, "Hansard's section list per sitting day (Sunday pull)"),
     ("judge_verdicts", "captured_at", 7, 3, "the judge evaluation bank (Sunday pull)"),
     ("dv_petitions", "last_seen", 7, 4, "Senedd and Holyrood petitions (devolved weeklies)"),
@@ -120,7 +129,16 @@ FEEDS = [
 # recommendations harvested, and a store 19 days stale afterwards.
 # Feeds a human has confirmed are legitimately empty, and why. Keep it short:
 # every entry here is an alert somebody decided not to hear.
-ALLOWED_EMPTY = {}
+ALLOWED_EMPTY = {
+    # de_documents is filled by tools/de_documents.py --mode WINDOW, which
+    # sweeps /drucksache by date and body-matches. The Germany weekly runs
+    # --mode TERMS, which drives /vorgang from the tier-1 German terms and
+    # writes de_vorgaenge only. So this table is empty because of a mode
+    # choice, not a broken collector, and the day someone adds a window step
+    # to de-weekly.yml this entry must come straight back out.
+    "de_documents": "the weekly runs --mode terms, which writes Vorgänge "
+                    "only; --mode window is what fills this table",
+}
 
 # Write-once feeds belonging to a pipeline that is deliberately stopped: an
 # empty table there is the pause, not a wipe.
@@ -138,6 +156,11 @@ PIPELINE_FEEDS = {
     "EU weekly": ["eu_agenda", "eu_texts", "eu_pqs", "eu_cmte_docs",
                   "eu_judgments", "eu_ecis", "eu_consultations", "eu_meps",
                   "eu_cmte_meetings"],
+    # de_vorgaenge only: PIPELINE_FEEDS drives the CLOBBER check (a pipeline
+    # that ran but whose data is stale), and the other three German tables
+    # legitimately never move -- the Bundestag takes recorded votes in
+    # bursts, so listing them here would cry clobber every quiet month.
+    "Germany weekly": ["de_vorgaenge"],
     "UPR monthly": ["upr_recommendations"],
     # "EU day sweep" is deliberately absent. PIPELINE_FEEDS drives the clobber
     # check -- a pipeline that ran but whose data is stale -- and the EP sits in
@@ -153,24 +176,7 @@ PIPELINE_FEEDS = {
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {
-    # GERMANY, phase 1 (22 September 2026). tools/de_rollcalls.py is run by
-    # hand: there is no workflow yet, so there is no cadence to miss and a
-    # staleness alarm here would only train people to ignore the watch. The
-    # Bundestag takes recorded votes in bursts anyway -- 68 in sixteen months
-    # -- so even once it is scheduled these belong in ONCE_EVER, not FEEDS.
-    # Move them the day a German workflow starts pushing the store.
-    "de_divisions": "Bundestag and Landtag recorded votes, collected by hand until a "
-                    "German workflow exists (docs/germany-scope.md phase 1); "
-                    "the House votes in bursts, so no cadence applies yet.",
-    "de_vorgaenge": "Bundestag Vorgänge from DIP, collected by hand until a "
-                    "German workflow exists (docs/germany-scope.md phase 3).",
-    "de_documents": "Bundestag Drucksachen from DIP, collected by hand until a "
-                    "German workflow exists (docs/germany-scope.md phase 3).",
-    "de_members": "Bundestag and Landtag members, re-stamped only when a recorded vote "
-                  "is collected, which is by hand for now "
-                  "(docs/germany-scope.md phase 1).",
-}
+EXEMPT = {}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
@@ -202,6 +208,16 @@ ONCE_EVER = {
     "eu_speeches": "one row per speech, stored once",
     "eu_divisions": "one row per roll call, stored once",
     "eu_dossiers": "hand-curated watchlist",
+    # GERMANY (promoted out of EXEMPT on 22 September 2026, when
+    # de-weekly.yml started pushing the store). Each placement was checked
+    # against its writer rather than guessed:
+    "de_documents": "new rows only: INSERT OR IGNORE, so a Drucksache is "
+                    "stored once and never re-stamped",
+    "de_divisions": "new rows only in practice: tools/de_rollcalls.py skips "
+                    "polls it already holds, and the Bundestag votes in "
+                    "bursts -- 68 in sixteen months",
+    "de_members": "re-stamped only when a recorded vote is collected, which "
+                  "is itself a burst",
     "un_votes": "UN pipeline is paused",
     "un_documents": "UN pipeline is paused",
     "un_calendar": "UN pipeline is paused",

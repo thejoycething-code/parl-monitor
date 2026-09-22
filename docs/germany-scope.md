@@ -94,6 +94,24 @@ adopted texts. This is where the monitor starts finding things weekly.
 **Phase 4.** Verdicts and a German 5CA, once there is something to sign.
 A division's meaning is signed by hand here as everywhere else.
 
+### Where it actually got to, 22 September 2026
+
+Phases 1-3 are built and scheduled. `tools/de_monitor.py` writes
+`editions/de-monitor-<date>.md` and DMs a summary; `.github/workflows/de-weekly.yml`
+runs it Sunday 19:00 UTC with a 21:00 retry slot behind a gate job. The first
+real render carried **183 Vorgänge on our ground**, six of them scored 3, and
+two Bavarian abortion votes.
+
+Phase 3 landed with ONE deliberate gap. The weekly runs
+`de_documents.py --mode terms`, which drives DIP from the tier-1 German terms
+and writes `de_vorgaenge` only, so `de_documents` -- the body-text layer -- is
+empty and stays empty. `--mode window` is what fills it, and it is not
+scheduled. That zero is declared in three places rather than left to look like
+a broken collector: `coverage.ALLOWED_EMPTY`, the edition's own Watching
+table, and here. **Scheduling `--mode window` is the switch that turns the
+document layer on, and it is a deliberate decision about runtime, not an
+oversight to be quietly fixed.**
+
 ## Decisions taken, 22 September 2026
 
 1. **The DIP key is not blocking after all.** The Bundestag publishes a
@@ -116,6 +134,28 @@ A division's meaning is signed by hand here as everywhere else.
    DM. The EU pattern, not the devolved one: a different parliament on a
    different rhythm, not a section of Westminster's week. The channel stays
    held, as the EU's does.
+
+## What the first live run taught
+
+**A third of Germany's matched items are migration.** 171 of 507 Vorgänge on
+our ground matched on area 11 alone, and every one of the six matched
+*Bundestag recorded votes* did. Migration is collated, never campaigned
+(Christopher's standing instruction), so all of them are suppressed -- which
+means the German team's first edition would otherwise have opened on six
+deportation items in a row, and the recorded-votes section would have carried
+nothing else at all.
+
+The rule was already repo-wide (`src/partner.py` and four other modules carry
+`HIDDEN_AREAS = (11,)`); `tools/de_monitor.py` now carries it too, and the
+edition PRINTS the suppressed count rather than simply rendering shorter. An
+empty section says *which* kind of empty it is: "the House was quiet" and "the
+standing rule removed all six" are different facts and a reader acts
+differently on each.
+
+Worth the German team knowing when they review the taxonomy: this is not a
+sign the German terms are over-broad. The migration terms are working exactly
+as written. It is a sign that migration is a very large share of what the
+Bundestag transacts.
 
 ## Still open
 

@@ -27,7 +27,8 @@ def workflow(name):
 class WorkflowWiringTests(unittest.TestCase):
     STATEFUL = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "sunday-pull.yml", "monday-publish.yml", "upr-monthly.yml",
-                "backfill.yml", "score-stance.yml", "member-profiles.yml")
+                "backfill.yml", "score-stance.yml", "member-profiles.yml",
+                "de-weekly.yml")
 
     def test_every_stateful_workflow_pulls_and_pushes(self):
         for name in self.STATEFUL:
@@ -312,7 +313,7 @@ class FailureAlertTests(unittest.TestCase):
 
     WATCHED = ("Sunday pull", "Monday publish", "NI Assembly weekly",
                "Holyrood weekly", "Senedd weekly", "UPR monthly",
-               "Historic backfill", "Score stance")
+               "Historic backfill", "Score stance", "Germany weekly")
 
     def test_the_watcher_exists_and_fires_on_failure_and_cancellation(self):
         """A job that hits timeout-minutes is reported as 'cancelled' (19 Sept
@@ -788,8 +789,12 @@ class RetrySlotsAreGuardedTests(unittest.TestCase):
                             "{0} has {1} cron slots and no guard: the later slot "
                             "would repeat the whole job".format(name, slots))
 
-    def test_the_four_weeklies_use_the_gate_job(self):
-        for name in ("eu-weekly.yml", "sp-weekly.yml", "sd-weekly.yml", "ni-weekly.yml"):
+    def test_the_gated_weeklies_use_the_gate_job(self):
+        # FIVE since 22 September 2026: de-weekly.yml was written with the
+        # gate already in it rather than acquiring one after it had billed a
+        # month of duplicate collection, which is what the other four did.
+        for name in ("eu-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
+                     "ni-weekly.yml", "de-weekly.yml"):
             text = workflow(name)
             self.assertIn("needs: gate", text, name)
             self.assertIn("needs.gate.outputs.go == 'true'", text, name)
