@@ -54,14 +54,13 @@ def main(argv):
     if not token:
         print("slack_bot_token missing from config/secrets.yaml")
         return 1
-    auth = {"Authorization": "Bearer {0}".format(token)}
-    result = publish._post_json("https://slack.com/api/canvases.edit", {
-        "canvas_id": canvas_id,
-        "changes": [{"operation": "replace",
-                     "document_content": {"type": "markdown", "markdown": canvas_md}}],
-    }, auth)
-    if not result.get("ok"):
-        print("canvases.edit failed: {0}".format(result.get("error")))
+    # The canvases.edit call lives in publish.slack_update_canvas now: this
+    # file held the only copy, so the German edition's re-send either had to
+    # duplicate it or go without. It went without, and three canvases were
+    # created in one day before anyone noticed.
+    result = publish.slack_update_canvas(secrets, canvas_id, canvas_md)
+    if result.get("error") or result.get("skipped"):
+        print(result.get("error") or result.get("skipped"))
         return 1
     team = secrets.get("slack_team_id", "T066M0LAJ")
     print("canvas {0} (first published {1}) rewritten from {2}: {3} words\n"

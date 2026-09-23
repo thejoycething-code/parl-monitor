@@ -134,6 +134,37 @@ def slack_publish_canvas(secrets, title, canvas_markdown, summary_mrkdwn,
     return {"canvas_id": canvas_id, "canvas_url": canvas_url, "message_ts": message.get("ts")}
 
 
+def slack_update_canvas(secrets, canvas_id, canvas_markdown, transport=None):
+    """Rewrite an existing canvas in place. The link people hold keeps working.
+
+    canvases.create ALWAYS makes a new document, so anything that re-sends --
+    a corrected render, a second look at the same week -- leaves the previous
+    one standing. Three German canvases were created on 23 September 2026
+    before this existed, and the weekly would have added one every Sunday.
+
+    Lives here rather than inline in a tool because tools/republish_canvas.py
+    had the only copy of this call, which meant the second caller either
+    duplicated it or went without.
+    """
+    token = secrets.get("slack_bot_token")
+    if not token:
+        return {"skipped": "slack_bot_token missing from config/secrets.yaml"}
+    transport = transport or _post_json
+    auth = {"Authorization": "Bearer {0}".format(token)}
+    result = transport("https://slack.com/api/canvases.edit", {
+        "canvas_id": canvas_id,
+        "changes": [{"operation": "replace",
+                     "document_content": {"type": "markdown",
+                                          "markdown": canvas_markdown}}],
+    }, auth)
+    if not result.get("ok"):
+        return {"error": "canvases.edit failed: {0}".format(result.get("error"))}
+    team = secrets.get("slack_team_id", "T066M0LAJ")
+    return {"canvas_id": canvas_id,
+            "canvas_url": "https://citizengo.slack.com/docs/{0}/{1}".format(
+                team, canvas_id), "updated": True}
+
+
 def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transport=None):
     """The same canvas, shared with the DM recipient ALONE, linked from the DM.
 

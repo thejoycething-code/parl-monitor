@@ -1190,11 +1190,20 @@ def main():
     if "--dm-full" in sys.argv:
         # The WHOLE edition, as a Slack canvas shared with the DM recipient
         # alone (Christopher, 22 September 2026: "Dm the full edition"). A
-        # canvas rather than a message because the edition is 14k characters
-        # of markdown with headings and a table: pasted into chat it is
-        # truncated and its structure is lost, and the repo's rule is that
-        # files go to Drive, not Slack. Same mechanism the EU full edition
-        # uses. The channel is NOT given access.
+        # canvas rather than a message because the edition is tens of
+        # thousands of characters of markdown with headings and tables:
+        # pasted into chat it is truncated and its structure is lost, and the
+        # repo's rule is that files go to Drive, not Slack. The channel is
+        # NOT given access.
+        #
+        # SAME EDITION, SAME CANVAS (23 September 2026). canvases.create
+        # always makes a new document, so three re-sends that day left three
+        # canvases standing and the weekly would have added one every Sunday.
+        # The id is recorded against the edition DATE and a re-send rewrites
+        # that canvas in place, so the link anyone already holds keeps
+        # working and stays correct. A new week still gets a new canvas: an
+        # edition is a dated record, and a permanent link whose content
+        # silently became next week's would make last week's link lie.
         from src import publish
         path = os.path.join(ROOT, "editions",
                             "de-monitor-{0}.md".format(today))
@@ -1202,14 +1211,37 @@ def main():
             path = render_edition(conn, today)
         with open(path, encoding="utf-8") as fh:
             markdown = fh.read()
-        lead = (":de: *German Monitor - week commencing {0}* - the full "
-                "edition, shared with you alone.\n\n_Areas come from an "
-                "AI-drafted German taxonomy ({1}) that no German speaker has "
-                "verified._".format(today, TAXONOMY_VERSION))
-        print("dm-full: {0}".format(publish.slack_preview_canvas(
-            publish.load_secrets(),
-            "German Monitor - week commencing {0}".format(today),
-            markdown, lead)))
+        secrets = publish.load_secrets()
+        held = conn.execute("SELECT canvas_id, revisions FROM de_canvas "
+                            "WHERE edition_date = ?", (today,)).fetchone()
+        if held:
+            result = publish.slack_update_canvas(secrets, held[0], markdown)
+            if result.get("updated"):
+                conn.execute(
+                    "UPDATE de_canvas SET last_updated = ?, "
+                    "revisions = revisions + 1 WHERE edition_date = ?",
+                    (today, today))
+                conn.commit()
+                print("dm-full: rewrote canvas {0} in place (revision {1}): "
+                      "{2}".format(held[0], held[1] + 1,
+                                   result.get("canvas_url")))
+            else:
+                print("dm-full: {0}".format(result))
+        else:
+            lead = (":de: *German Monitor - week commencing {0}* - the full "
+                    "edition, shared with you alone.\n\n_Areas come from an "
+                    "AI-drafted German taxonomy ({1}) that no German speaker "
+                    "has verified._".format(today, TAXONOMY_VERSION))
+            result = publish.slack_preview_canvas(
+                secrets, "German Monitor - week commencing {0}".format(today),
+                markdown, lead)
+            if result.get("canvas_id"):
+                conn.execute(
+                    "INSERT INTO de_canvas (edition_date, canvas_id, "
+                    "first_published, last_updated, revisions) VALUES "
+                    "(?,?,?,?,1)", (today, result["canvas_id"], today, today))
+                conn.commit()
+            print("dm-full: {0}".format(result))
 
     if "--dm" in sys.argv:
         # The channel is deliberately NOT posted: this goes to Christopher

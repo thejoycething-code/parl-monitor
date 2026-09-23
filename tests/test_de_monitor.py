@@ -933,6 +933,88 @@ class FullEditionGoesToTheDmAloneTests(unittest.TestCase):
                       "the canvas must carry the WHOLE edition, not a summary")
 
 
+class CanvasIsUpdatedInPlaceTests(unittest.TestCase):
+    """canvases.create ALWAYS makes a new document. Three re-sends on 23
+    September 2026 left three canvases standing, and the weekly would have
+    added one every Sunday for ever."""
+
+    def _run(self, conn, calls):
+        """Drive main() --dm-full with a fake publish module."""
+        import types
+        fake = types.SimpleNamespace(
+            load_secrets=lambda: {"slack_bot_token": "x",
+                                  "slack_dm_user_id": "U1"},
+            slack_preview_canvas=lambda s, title, md, lead: (
+                calls.append(("create", md)) or
+                {"canvas_id": "F1", "canvas_url": "u"}),
+            slack_update_canvas=lambda s, cid, md: (
+                calls.append(("update", cid)) or
+                {"canvas_id": cid, "canvas_url": "u", "updated": True}))
+        import src
+        had, old_pub = hasattr(src, "publish"), getattr(src, "publish", None)
+        old_root, old_argv = dm.ROOT, sys.argv
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "editions"))
+            os.makedirs(os.path.join(tmp, "data"))
+            with open(os.path.join(tmp, "editions", "de-monitor-{0}.md".format(
+                    datetime.date.today().isoformat())), "w",
+                    encoding="utf-8") as fh:
+                fh.write("# edition body")
+            try:
+                src.publish = fake
+                dm.ROOT = tmp
+                sys.argv = ["de_monitor.py", "--dm-full"]
+                for _ in range(2):
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        dm.main()
+            finally:
+                if had:
+                    src.publish = old_pub
+                else:
+                    delattr(src, "publish")
+                dm.ROOT, sys.argv = old_root, old_argv
+
+    def test_the_second_send_rewrites_rather_than_creating(self):
+        calls = []
+        self._run(_conn(), calls)
+        self.assertEqual([c[0] for c in calls], ["create", "update"],
+                         "a re-send created a second canvas")
+        self.assertEqual(calls[1][1], "F1", "it rewrote the wrong canvas")
+
+    def test_the_id_is_kept_against_the_edition_date(self):
+        """A new WEEK still gets a new canvas: an edition is a dated record,
+        and a permanent link whose content silently became next week's would
+        make last week's link lie about what it showed."""
+        import inspect
+        src_text = inspect.getsource(dm)
+        self.assertIn("edition_date", src_text)
+        self.assertIn("WHERE edition_date = ?", src_text)
+
+    def test_the_revision_count_is_kept(self):
+        """So a reader of the ledger can tell a first publish from a fix."""
+        conn = _conn()
+        conn.execute("INSERT INTO de_canvas (edition_date, canvas_id, "
+                     "first_published, last_updated, revisions) VALUES "
+                     "('2026-09-23','F9','2026-09-23','2026-09-23',1)")
+        conn.commit()
+        row = conn.execute("SELECT revisions FROM de_canvas").fetchone()
+        self.assertEqual(row[0], 1)
+
+    def test_canvases_edit_lives_in_exactly_one_place(self):
+        """republish_canvas.py held the only copy, so the German re-send had
+        to duplicate it or go without. It went without."""
+        import glob
+        hits = []
+        for path in glob.glob(os.path.join(ROOT, "tools", "*.py")) + \
+                glob.glob(os.path.join(ROOT, "src", "*.py")):
+            with open(path, encoding="utf-8") as fh:
+                # The ENDPOINT STRING, not the bare word: a comment
+                # naming the call is documentation, not a second copy of it.
+                if "slack.com/api/canvases.edit" in fh.read():
+                    hits.append(os.path.basename(path))
+        self.assertEqual(hits, ["publish.py"], hits)
+
+
 class StructuralTests(unittest.TestCase):
     def test_every_german_table_carrying_areas_is_in_the_watching_table(self):
         """The EU monitor grew five collectors whose rows sat unreported while

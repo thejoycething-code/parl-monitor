@@ -949,6 +949,22 @@ CREATE TABLE IF NOT EXISTS de_documents (
   triage_score INTEGER, why_it_matters TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS de_canvas (
+  -- Which Slack canvas holds which German edition, so a re-send REWRITES it
+  -- instead of creating another. canvases.create always makes a new document,
+  -- so three re-sends on 23 September 2026 left three canvases standing and
+  -- the weekly would have added one every Sunday for ever.
+  --
+  -- Keyed on the EDITION DATE, not on one permanent canvas. An edition is a dated
+  -- record: a permanent link whose content silently became next week's would
+  -- make last week's link lie about what it showed. Same week, same canvas;
+  -- new week, new canvas.
+  edition_date TEXT PRIMARY KEY,
+  canvas_id TEXT NOT NULL,
+  first_published TEXT NOT NULL,
+  last_updated TEXT,
+  revisions INTEGER NOT NULL DEFAULT 1
+);
 CREATE TABLE IF NOT EXISTS de_amendments (
   -- Änderungsanträge: amendments moved to a bill in second reading.
   --
@@ -1308,6 +1324,7 @@ TABLES = (
     "de_documents",
     "de_agenda",
     "de_amendments",
+    "de_canvas",
     "de_judgments",
     "de_petitions",
     "de_petition_snapshots",
