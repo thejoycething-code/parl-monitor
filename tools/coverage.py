@@ -123,7 +123,6 @@ FEEDS = [
     ("eu_texts", "last_seen", 7, 3, "EP adopted texts"),
     ("eu_pqs", "last_seen", 7, 3, "EP written questions"),
     ("eu_cmte_docs", "last_seen", 7, 3, "EP committee documents"),
-    ("eu_judgments", "last_seen", 7, 3, "ECtHR and CJEU"),
     ("eu_ecis", "last_seen", 7, 3, "European Citizens' Initiatives"),
     ("eu_consultations", "last_seen", 7, 3, "Commission consultations"),
     ("eu_meps", "last_seen", 7, 3, "MEP roster"),
@@ -163,8 +162,14 @@ PIPELINE_FEEDS = {
                       "sd_committees"],
     "NI Assembly weekly": ["ni_items", "ni_divisions", "ni_members",
                            "ni_committees"],
+    # eu_judgments is deliberately ABSENT, for the same reason the German
+    # once-ever tables are: PIPELINE_FEEDS drives the CLOBBER check -- a
+    # pipeline that ran but whose data is stale -- and a table written once
+    # per item cannot pass it during a quiet month. Listed here it reported
+    # "LOST WORK" for eleven days while nothing was lost and the Strasbourg
+    # court had simply not ruled on our issues since 16 July.
     "EU weekly": ["eu_agenda", "eu_texts", "eu_pqs", "eu_cmte_docs",
-                  "eu_judgments", "eu_ecis", "eu_consultations", "eu_meps",
+                  "eu_ecis", "eu_consultations", "eu_meps",
                   "eu_cmte_meetings"],
     # de_vorgaenge only: PIPELINE_FEEDS drives the CLOBBER check (a pipeline
     # that ran but whose data is stale), and the other three German tables
@@ -219,6 +224,19 @@ ONCE_EVER = {
     "ni_sponsors": "fetched once per motion",
     "eu_speeches": "one row per speech, stored once",
     "eu_divisions": "one row per roll call, stored once",
+    # MEASURED 23 September 2026, after eleven days of "LOST WORK" that was
+    # no such thing. tools/eu_courts.py builds `known` from the stored item
+    # ids and SKIPS anything already held, so a judgment is written once and
+    # its last_seen never moves again -- the table can only ever look stale.
+    #
+    # The alarm was NOT simply silenced: HUDOC was probed first, because
+    # "the court is quiet" and "the query broke" produce an identical empty
+    # result. It answers, and it still returns 1 judgment since January, 21
+    # since 2024 and 50 since 2015 -- so the search works and the Strasbourg
+    # court has genuinely issued nothing on our terms since 16 July.
+    "eu_judgments": "new rows only: eu_courts.py skips item ids it already "
+                    "holds, so last_seen never moves; a court is quiet for "
+                    "months at a time and that is not a failure",
     "eu_dossiers": "hand-curated watchlist",
     # GERMANY (promoted out of EXEMPT on 22 September 2026, when
     # de-weekly.yml started pushing the store). Each placement was checked

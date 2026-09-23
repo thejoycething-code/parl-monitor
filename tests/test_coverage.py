@@ -291,6 +291,45 @@ class LineageGuardTests(unittest.TestCase):
                         body.index("sha256(DB)"))
 
 
+class OnceEverIsMeasuredNotAssumedTests(unittest.TestCase):
+    """Whether a table is a heartbeat or once-ever depends on ONE thing: does
+    its writer re-stamp a sighting column on every run. Guessing produces a
+    permanent false alarm, and a permanent false alarm is worse than none --
+    people learn to scroll past it.
+
+    eu_judgments spent eleven days reporting LOST WORK while nothing was lost.
+    tools/eu_courts.py builds `known` from the stored item ids and skips
+    anything it already holds, so last_seen can never move for a judgment
+    already in the table.
+    """
+
+    def test_eu_judgments_is_once_ever_and_not_a_feed(self):
+        self.assertIn("eu_judgments", cov.ONCE_EVER)
+        self.assertNotIn("eu_judgments", [f[0] for f in cov.FEEDS])
+
+    def test_it_is_out_of_the_clobber_check_too(self):
+        """PIPELINE_FEEDS drives "ran but did not land". A table written once
+        per item cannot pass that during a quiet month."""
+        for pipeline, tables in cov.PIPELINE_FEEDS.items():
+            self.assertNotIn("eu_judgments", tables, pipeline)
+
+    def test_no_table_is_both_a_feed_and_once_ever(self):
+        """The two lists mean opposite things; a table in both would be
+        alarmed on and excused at the same time."""
+        feeds = {f[0] for f in cov.FEEDS}
+        self.assertEqual(feeds & set(cov.ONCE_EVER), set())
+
+    def test_no_once_ever_table_drives_the_clobber_check(self):
+        """The general form of the eu_judgments bug, so the next one is
+        caught by a red test rather than by eleven days of crying wolf."""
+        for pipeline, tables in cov.PIPELINE_FEEDS.items():
+            for table in tables:
+                self.assertNotIn(
+                    table, cov.ONCE_EVER,
+                    "{0} is once-ever and cannot support the clobber check "
+                    "for {1}".format(table, pipeline))
+
+
 if __name__ == "__main__":
     unittest.main()
 
