@@ -949,6 +949,65 @@ CREATE TABLE IF NOT EXISTS de_documents (
   triage_score INTEGER, why_it_matters TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS stance (
+  -- Where a parliamentarian stands on the evidence, +2 ally .. -2 opponent.
+  -- Written by tools/score_stance.py and tools/de_stance.py; read by the
+  -- 5CA, the issue pages and the vote tracker. Refs are namespaced by
+  -- source ('pq:', 'edm:', 'div:', 'de-speech:') so Westminster and German
+  -- evidence share the table without colliding.
+  --
+  -- src/stance.ensure_table() still creates it at the point of use and that
+  -- is deliberate -- it is called from tools that may run against a bare
+  -- connection -- but it is declared HERE too so a store built from the
+  -- schema alone has it. The shapes are identical; whichever runs first is
+  -- a no-op for the other.
+  ref TEXT PRIMARY KEY,
+  stance INTEGER,
+  why TEXT,
+  model TEXT,
+  scored_at TEXT
+);
+CREATE TABLE IF NOT EXISTS pull_log (
+  -- Which long backfills have been completed, so a one-off deep pull is not
+  -- silently redone. tools/pull_interests.py writes it under the marker
+  -- 'interests-backfill' (the week column is reused as a free-text key).
+  -- run_weekly.py creates it inline too, so the writer was safe; declaring
+  -- it here is for the schema's completeness and for db.TABLES.
+  week TEXT PRIMARY KEY,
+  completed_at TEXT
+);
+CREATE TABLE IF NOT EXISTS division_whip (
+  -- Whether a Lords division was whipped, from the House's own isWhipped
+  -- flag. Written by tools/annotate_whips.py; it matters because a free
+  -- vote and a whipped one mean very different things about a member's own
+  -- position, which is exactly what the 5CA reads stance for.
+  -- THIS IS THE ONE THAT WAS ACTUALLY BROKEN. tools/annotate_whips.py
+  -- writes it with no CREATE TABLE anywhere in the repo, and src/stance.py
+  -- reads it. On a store built from the schema alone the write would raise
+  -- and the whip flags would never exist -- and a free vote read as a
+  -- whipped one says the opposite thing about a member's own position,
+  -- which is exactly what the 5CA uses stance for.
+  ref_base TEXT PRIMARY KEY,
+  whipped INTEGER
+);
+CREATE TABLE IF NOT EXISTS publish_log (
+  -- Which Slack canvas and channel message carry which week's WESTMINSTER
+  -- edition. Written by run_monday.py after a successful publish; read by
+  -- tools/republish_canvas.py, which rewrites a canvas in place rather than
+  -- posting the edition to the channel twice.
+  --
+  -- run_monday.py ALSO creates this inline before writing, so the publish
+  -- itself was never at risk. What was at risk is the READER: on a store
+  -- built from the schema alone, republish_canvas.py's SELECT would fail
+  -- before any publish had ever run. Declaring it here fixes that and puts
+  -- it in db.TABLES where the structural tests can see it. The two
+  -- definitions are identical and each is a no-op for the other.
+  week TEXT PRIMARY KEY,
+  message_ts TEXT,
+  canvas_id TEXT,
+  asana_gid TEXT,
+  published_at TEXT
+);
 CREATE TABLE IF NOT EXISTS de_canvas (
   -- Which Slack canvas holds which German edition, so a re-send REWRITES it
   -- instead of creating another. canvases.create always makes a new document,
@@ -1325,6 +1384,10 @@ TABLES = (
     "de_agenda",
     "de_amendments",
     "de_canvas",
+    "publish_log",
+    "stance",
+    "pull_log",
+    "division_whip",
     "de_judgments",
     "de_petitions",
     "de_petition_snapshots",

@@ -1,6 +1,7 @@
 """Schema creation tests (handoff section 5)."""
 
 import os
+import re
 import sqlite3
 import sys
 import unittest
@@ -56,6 +57,64 @@ class InitDbTests(unittest.TestCase):
             self.conn.execute(
                 "INSERT INTO edm_signatures (edm_id, edition, count) VALUES (603, '2026-08-03', 7)"
             )
+
+
+class EveryTableWrittenIsDeclaredTests(unittest.TestCase):
+    """A table the code INSERTs into must be declared somewhere.
+
+    Either in db.TABLES, or with a CREATE TABLE next to the write -- a
+    writer that creates its own table is safe, which is why that is allowed
+    here rather than failed.
+
+    This found division_whip. tools/annotate_whips.py writes it with no
+    CREATE TABLE anywhere in the repo, and src/stance.py reads it, so on a
+    store built from the schema alone the write would raise and the whip
+    flags would never exist. A free vote read as a whipped one says the
+    opposite thing about a member's own position.
+
+    It did NOT find publish_log, correctly: run_monday.py creates that one
+    inline before writing. The looking started there, and the assumption
+    that it was unprotected turned out to be wrong -- the check is what
+    established which of the four were actually at risk.
+    """
+
+    WRITE = re.compile(
+        r"INSERT\s+(?:OR\s+(?:REPLACE|IGNORE)\s+)?INTO\s+([a-z_][a-z0-9_]*)",
+        re.I)
+
+    def test_no_code_writes_to_an_undeclared_table(self):
+        import glob
+        declared = set(db.TABLES)
+        offenders = {}
+        # tests/ is excluded: a test legitimately builds a scratch table for
+        # its own fixture, and that is not shared state in the store.
+        roots = [os.path.join(ROOT, "src"), os.path.join(ROOT, "tools"), ROOT]
+        seen = set()
+        for root in roots:
+            pattern = os.path.join(root, "*.py")
+            for path in glob.glob(pattern) + glob.glob(
+                    os.path.join(root, "**", "*.py"), recursive=True):
+                if path in seen:
+                    continue
+                seen.add(path)
+                if os.sep + "tests" + os.sep in path:
+                    continue
+                with open(path, encoding="utf-8") as fh:
+                    text = fh.read()
+                for table in set(self.WRITE.findall(text)):
+                    low = table.lower()
+                    if low in declared:
+                        continue
+                    # Tables created inline by a tool for its own scratch use
+                    # are declared by that tool with CREATE TABLE next to the
+                    # write; the rule is about SHARED state in the store.
+                    if "CREATE TABLE IF NOT EXISTS {0}".format(low) in text \
+                            or 'CREATE TABLE IF NOT EXISTS "{0}"'.format(low) in text:
+                        continue
+                    offenders.setdefault(low, []).append(
+                        os.path.relpath(path, ROOT))
+        self.assertEqual(offenders, {},
+                         "written but not in db.TABLES: {0}".format(offenders))
 
 
 if __name__ == "__main__":
