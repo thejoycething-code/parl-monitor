@@ -47,6 +47,14 @@ SOURCES = {
     # The speaker and the passage that matched. The protocol number would
     # tell the judge nothing about what was said.
     "de_speeches": ("speech_id", ("speaker", "excerpt")),
+    # A petition's title is a subject line; the excerpt is the passage that
+    # earned the match.
+    "de_petitions": ("petition_id", ("title", "excerpt")),
+    # The court's own description of the case is the substance.
+    "de_judgments": ("case_no", ("subject",)),
+    # An amendment's own title is procedure, so the BILL it amends is what
+    # tells the judge what is at stake.
+    "de_amendments": ("doc_id", ("vorgang_titel", "titel")),
 }
 
 # A de_ table with `areas` that is deliberately NOT judged, with the reason.

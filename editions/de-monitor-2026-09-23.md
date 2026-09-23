@@ -27,6 +27,14 @@
 
 Sittings published ahead: 2026-09-23 (6). **The feed reaches 2026-09-23** -- it is a rolling window of the days immediately ahead, not a term calendar, so a quiet section here may mean the Bundestag has published no further agendas yet rather than that nothing is coming.
 
+## Open for co-signature (1)
+
+*The only German section with a DATE TO ACT ON. A Bundestag e-petition open for co-signature closes on a published day; everything else in this edition reports what is happening rather than what can still be done about it.*
+
+| Petition | Areas | Closes | Signatures | Why it matters |
+|---|---|---|---|---|
+| [Keine weiteren Kürzungen beim Elterngeld](https://epetitionen.bundestag.de/petitionen/_2026/_05/_21/Petition_201160.nc.html) | Marriage family | 2026-10-06 (13 days, AMBER) | 3208 | Petition against parental benefit cuts affects family policy and financial support for parents, relevant to family stability concerns. |
+
 ## Coming up (31 live)
 
 *Ordered by how close each is to a decision. A Beschlussempfehlung is tabled FOR a vote; a fresh referral may sit for months. Concluded and lapsed business is counted below, not listed.*
@@ -125,32 +133,44 @@ Outcomes: Beantwortet (131) · Erledigt durch Ablauf der Wahlperiode (14) · Abg
 
 Nothing shown here: all 6 matched Bundestag vote(s) are on migration alone, which is collated and never campaigned. That is the standing rule removing them, NOT the House being quiet.
 
-## Parliamentarians on our issues (31)
+## Before the Constitutional Court (2)
+
+*Cases the Bundesverfassungsgericht has listed to decide. The court publishes a STAGE, never a judgment date, so this says what is coming and cannot say when.*
+
+| Case | Senate | Areas | Stage | What it is about |
+|---|---|---|---|---|
+| 1 BvL 1/21 | Erster Senat | Surrogacy embryology | ? | Vorlagen des Kammergerichts, des Oberlandesgerichts Celle, der Amtsgerichte Brandenburg an der Havel und München sowie eine Verfassungsbeschwerde zur sogenannten Co-Mutte |
+| 1 BvR 2229/21 | Erster Senat | Parental rights education, Marriage family | ? | Verfassungsbeschwerde, die die Frage betrifft, ob § 1680 Absatz 2 und Absatz 3 des Bürgerlichen Gesetzbuches ( BGB ) in seiner derzeitigen Fassung und in der in der Fachg |
+
+## Parliamentarians on our issues (6)
 
 | Date | Member | Fraktion | Areas | What they said |
 |---|---|---|---|---|
-| 2026-09-11 | Dr. Dietmar Bartsch | Die Linke | Marriage family | Sie kürzen beim Elterngeld, Sie kürzen beim Unterhaltsvorschuss, Sie kürzen beim Kindersofortzuschlag, Sie kürzen beim Wohngeld, bei der humanitären Hilfe. Ich meine, das ist doch alles nich |
-| 2026-09-11 | Leon Eckert | BÜNDNIS 90/DIE GRÜNEN | Marriage family | Denn es ist auf der einen Seite der angesprochene Rasenmäher, der alle Haushaltstitel in einem Kampf alle gegen alle aufhetzt und dann Kürzungen an wilden Stellen durchführt, sodass sie nich |
-| 2026-09-10 | Helge Limburg | BÜNDNIS 90/DIE GRÜNEN | Free speech online safety | Wenn die Gefahr real ist, dass staatsanwaltschaftliche Daten systematisch in falsche Hände gelangen, dann ist es umso dringender, die Datensammelwut des Staates zurückzudrehen, Stichwort „Te |
 | 2026-09-10 | Axel Müller | CDU/CSU | Prostitution | Reformen dürfen nicht zu weit gehen; sie dürfen aber auch nicht unvollendet bleiben. Die aktuellen Reformen im Sexualstrafrecht und beim Menschenhandel sind richtig und wichtig. Rund wird di |
 | 2026-09-10 | Karin Prien _(not matched to a member)_ | - | Marriage family | Mit Blick auf die anstehenden parlamentarischen Beratungen hoffe ich deshalb, dass wir bei den geplanten Änderungen beim Elterngeld und beim Unterhaltsvorschuss gemeinsam zu guten Ergebnisse |
 | 2026-09-10 | Jürgen Koegel _(not matched to a member)_ | AfD | Marriage family | Das Parteiprogramm der AfD fordert als entscheidende Lösung des demografischen Dilemmas eine kraftvolle Änderung der bisherigen Familienpolitik. Eltern sollen den Mut zur Familie mit mehr al |
 | 2026-09-10 | Jamila Schäfer _(not matched to a member)_ | BÜNDNIS 90/DIE GRÜNEN | Marriage family | Ein Elternteil soll künftig neun statt zwölf Monate Elterngeld bekommen. Sie nennen das Haushaltskonsolidierung; tatsächlich bedeutet es weniger Zeit füreinander, weniger Flexibilität bei de |
-| 2026-09-10 | Tamara Mazzi | Die Linke | Marriage family | Sie wollen jungen Eltern das Elterngeld um zwei Monate wegkürzen – das sind genau die zwei Monate, die bei der Kitaeingewöhnung fehlen –, auch Alleinerziehenden. Was denken Sie sich dabei ei |
-| 2026-09-10 | Oliver Pöpsel | CDU/CSU | Marriage family | Ziel ist es für uns, dass das Elterngeld weiterhin eine wirksame und attraktive Familienleistung bleibt. |
-| 2026-09-10 | Mandy Eißing | Die Linke | Marriage family | Nur dass wir hier alle auf dem gleichen Stand sind: Sie kürzen das Elterngeld von 14 auf 12 Monate. Sie nehmen Familien schlichtweg wertvolle Zeit und Geld. Sie haben jetzt eine lächerliche  |
-| 2026-09-10 | Truels Reichardt | SPD | Marriage family | Es ist nicht zu vermitteln, dass wir Susanne Klatten und Dieter Schwarz in Ruhe lassen, aber – entgegen den Vereinbarungen im Koalitionsvertrag – zum Beispiel beim Unterhaltsvorschuss oder b |
-| 2026-09-10 | Melanie Bernstein | CDU/CSU | Marriage family | Das betrifft schmerzhafterweise – das haben wir gehört – auch das Elterngeld. |
-| 2026-09-10 | Felix Döring | SPD | Marriage family | Ja, der größte Titel in diesem Etat ist mit Abstand das Elterngeld, und es gibt eine Einigung, dort Geld einzusparen. Ich will einfach nur davor warnen, weil ich mich seit langer Zeit mit de |
-| 2026-09-10 | Felix Döring | SPD | Marriage family | Nein, danke. – Und wenn man sagt – und auch das ist ja legitim –, Kürzungen beim Elterngeld lehnt man im Grundsatz ab, dann muss man in Zeiten knapper Kassen natürlich auch beantworten, wohe |
-| 2026-09-10 | Birgit Bessin | AfD | Marriage family | Unsere Familien verarmen, und unsere Kinder sind mit Messerstechereien und Gewaltalltag in unseren Schulen konfrontiert: 94 318 Straftaten in Schulen allein im Jahr 2024, 35 570 Gewaltdelikt |
-| 2026-09-10 | Michael Kießling | CDU/CSU | Marriage family | Denn sozialer Wohnungsbau ist nicht nur Sozialpolitik, er ist auch Wirtschaftspolitik, Familienpolitik und Standortpolitik, meine Damen und Herren. Und dafür steht dieser Haushalt. |
 | 2026-09-10 | Dr. Stefanie Hubig _(not matched to a member)_ | - | Sex based rights | Dann mache ich gerne weiter. Ich war gerade beim digitalen Gewaltschutzgesetz. Wir haben jetzt, glaube ich, alle digitale bzw. technische Kompetenz bewiesen. Aber wir müssen im digitalen Ber |
-| 2026-09-10 | Mirco Hanker | AfD | Sex based rights, Prostitution | – Ja, vielen Dank. – Auf Deutsch: Man konnte keine Auskünfte geben über andere Grooming-Gangs dieser Art in Deutschland. Nachdem es jahrelang in England nach gleichem Muster zu solchen ekelh |
-| 2026-09-10 | Fabian Jacobi | AfD | Sex based rights, Free speech online safety | Wir sehen das Gesetz zum Schutz des Gemeinwesens. Das soll es ermöglichen, bei einer Verurteilung wegen des überdehnten und schwammigen, in seiner heutigen Form an sich schon mehr als bedenk |
-| 2026-09-09 | Dr. Matthias Miersch | SPD | Marriage family | Wir alle haben in den letzten Wochen Gespräche geführt mit Bürgerinnen und Bürgern. Wir haben die Verunsicherungen gespürt an vielen Stellen. Herr Bundeskanzler, ich bin Ihnen dankbar, dass  |
+| 2026-09-09 | Andreas Audretsch | BÜNDNIS 90/DIE GRÜNEN | Free speech online safety, Marriage family | Meinungsfreiheit zu verteidigen, ist in dieser Phase das, was wir Demokraten tun müssen. |
 
-_...and 11 more in the window._
+**Where members sit, from their own words** (+2 ally .. -2 opponent), PER AREA:
+
+| Member | Fraktion | Area | Stance | Speeches |
+|---|---|---|---|---|
+| Maik Brückner | Die Linke | Sex based rights | -2.0 | 2 |
+| Mirco Hanker | AfD | Sex based rights | +2.0 | 1 |
+| Mirco Hanker | AfD | Prostitution | +2.0 | 1 |
+| Ronald Gläser | AfD | Free speech online safety | +2.0 | 1 |
+| Christopher Drößler | AfD | Prostitution | +2.0 | 1 |
+| Stephan Brandner | AfD | Free speech online safety | +2.0 | 1 |
+| Kerstin Przygodda | AfD | Marriage family | +2.0 | 1 |
+| Kerstin Przygodda | AfD | Prostitution | +2.0 | 1 |
+| Dr. Götz Frömming | AfD | Prostitution | +2.0 | 1 |
+| Katrin Göring-Eckardt | BÜNDNIS 90/DIE GRÜNEN | Free speech online safety | +2.0 | 1 |
+| Christian Moser | CDU/CSU | Free speech online safety | +2.0 | 1 |
+| Michael Hose | CDU/CSU | Free speech online safety | +2.0 | 1 |
+
+*Per area, never one number for a member. A member can be with us on free speech and against us on family, and a single average would brief you into the room with the wrong idea of who you are meeting. A placement resting on ONE speech is an anecdote, not a position; the count is there so you can tell.*
 
 Sitting days read: **4** (2026-09-08 to 2026-09-11). A speech is stored only when it matches the taxonomy -- the rest are counted, never kept, because a hundred speeches a sitting day would be a copy of the Bundestag rather than a monitor.
 

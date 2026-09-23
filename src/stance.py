@@ -61,6 +61,32 @@ why: maximum 20 words, concrete, British spelling, no em dashes.
 Return only the JSON array."""
 
 
+
+
+# Same gradient, same voice; only the frame changes -- the pattern
+# src/triage.py uses for its EU and German frames, with the same assert so a
+# reworded base prompt cannot silently leave this one identical to it.
+#
+# Germany needs three things the Westminster frame does not say. The text is
+# GERMAN and untranslated. The evidence is a SPEECH -- the Bundestag's
+# Stenografischer Bericht is the only German evidence stream we hold, where
+# Westminster's is mostly written questions, so the "most questions are
+# neutral information-seeking" instinct is wrong here: a floor speech almost
+# always carries direction. And the why-line is written in English because
+# the reader is the London team.
+SYSTEM_PROMPT_DE = SYSTEM_PROMPT.replace(
+    "You are the stance-classification layer of CitizenGO UK's parliamentary monitor.",
+    "You are the stance-classification layer of CitizenGO's GERMAN parliamentary "
+    "monitor, covering the Bundestag and the sixteen Land parliaments. The evidence "
+    "text is GERMAN and has not been translated: judge it as it stands, and never "
+    "mark a member down for not being British. Nearly every input is a SPEECH from "
+    "the Stenografischer Bericht -- a member's own words in the chamber -- so unlike "
+    "Westminster, where most evidence is neutral information-seeking, direction is "
+    "usually present and a 0 should mean you genuinely could not tell. Judge the "
+    "MEMBER'S OWN words, never the interjections quoted around them. Write why in "
+    "ENGLISH: the reader is the London team.", 1)
+assert SYSTEM_PROMPT_DE != SYSTEM_PROMPT
+
 @dataclass
 class Evidence:
     ref: str             # 'pq:123' / 'edm:456' -- shared by sponsor + signatories
@@ -173,7 +199,7 @@ def _evidence_text(ev, cap=1500):
     return (excerpt or text)[:cap]
 
 
-def _build_payload(batch):
+def _build_payload(batch, system=None):
     user = [{"ref": ev.ref, "kind": ev.kind, "areas": ev.areas, "line": ev.line,
              "text": _evidence_text(ev)} for ev in batch]
     return {
@@ -184,7 +210,7 @@ def _build_payload(batch):
         # Thinking shares this budget (14 Sept 2026: the triage judge spent its
         # whole cap thinking). A stance read is a judgement, not a proof: medium.
         "output_config": {"effort": "medium"},
-        "system": SYSTEM_PROMPT,
+        "system": system or SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": json.dumps(user)}],
     }
 
@@ -268,24 +294,28 @@ def _parse_reply(reply):
             for row in data]
 
 
-def classify_batch(batch, api_key=None, transport=None, usage_sink=None):
-    """One live call over up to BATCH_SIZE Evidence items."""
+def classify_batch(batch, api_key=None, transport=None, usage_sink=None,
+                   system=None):
+    """One live call over up to BATCH_SIZE Evidence items.
+
+    system is the frame (SYSTEM_PROMPT_DE for the Bundestag)."""
     api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         raise RuntimeError("anthropic_api_key required for stance classification")
     transport = transport or _default_transport
-    reply = transport(_build_payload(batch), api_key)
+    reply = transport(_build_payload(batch, system=system), api_key)
     if usage_sink is not None:
         usage_sink(reply.get('usage') or {}, reply.get('model'))
     return _parse_reply(reply)
 
 
-def classify_live(evidence, api_key=None, transport=None, usage_sink=None):
+def classify_live(evidence, api_key=None, transport=None, usage_sink=None,
+                  system=None):
     results = []
     for batch in _batches(evidence):
         results.extend(classify_batch(batch, api_key=api_key,
                                       transport=transport,
-                                      usage_sink=usage_sink))
+                                      usage_sink=usage_sink, system=system))
     return results
 
 

@@ -949,6 +949,73 @@ CREATE TABLE IF NOT EXISTS de_documents (
   triage_score INTEGER, why_it_matters TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS de_amendments (
+  -- Änderungsanträge: amendments moved to a bill in second reading.
+  --
+  -- AN AMENDMENT IS ADMITTED BY ITS PARENT, not by its own words. Its title
+  -- is pure procedure -- "zu der zweiten Beratung des Gesetzentwurfs der
+  -- Bundesregierung - Drucksachen 21/6130, 21/6559" -- so classifying it
+  -- alone would find nothing, every week, and look like a quiet Parliament.
+  -- DIP hands each one a vorgangsbezug naming the Vorgang it amends, and
+  -- that is the join: an amendment to a bill on our board is on our ground
+  -- whatever its own title says. The same inheritance the divisions use.
+  doc_id TEXT PRIMARY KEY,        -- 'drucksache:21/7031'
+  datum TEXT, titel TEXT,
+  urheber TEXT,                   -- who moved it
+  vorgang_id TEXT,                -- the Vorgang it amends, from vorgangsbezug
+  vorgang_titel TEXT,             -- carried so the edition can name the bill
+  inherited INTEGER,              -- 1 when its areas came from the parent
+  url TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS de_judgments (
+  -- Bundesverfassungsgericht: cases the court has listed for decision.
+  -- Westminster has a courts section and Germany had none, which matters
+  -- more here than in London: the BVerfG rules directly on abortion,
+  -- religious freedom, family law and speech, and its judgments bind the
+  -- legislature rather than merely informing it.
+  --
+  -- FORWARD BUT UNDATED. The source is the court's "Geplante Entscheidungen"
+  -- list -- what the Senates intend to decide -- and it publishes a stage,
+  -- never a judgment date. So this section says what is COMING, and cannot
+  -- say when; the edition must not imply otherwise.
+  case_no TEXT PRIMARY KEY,       -- Aktenzeichen, e.g. '1 BvR 2490/24'
+  senat TEXT,                     -- Erster / Zweiter Senat
+  rapporteur TEXT,                -- Berichterstatter, from the table caption
+  subject TEXT,                   -- 'Informationen zum Verfahren': the substance
+  stage TEXT,                     -- 'Stand des Verfahrens'
+  url TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS de_petitions (
+  -- THE ONLY GERMAN SOURCE WITH A DEADLINE. Every other German section says
+  -- what is happening; this one says respond by a date. A Bundestag
+  -- e-petition open for co-signature (Mitzeichnungsfrist) carries a real,
+  -- published closing date, which is what makes the edition actionable
+  -- rather than only observational.
+  petition_id TEXT PRIMARY KEY,
+  title TEXT, topic TEXT,
+  opened TEXT, closes TEXT,       -- ISO, from the page's own epoch millis
+  signatures INTEGER,
+  url TEXT,
+  body_read TEXT, excerpt TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS de_petition_snapshots (
+  -- Movement between sweeps. The same shape Westminster's petition
+  -- snapshots use: a count on its own says nothing, a count against last
+  -- week says whether it is going anywhere.
+  petition_id TEXT NOT NULL,
+  captured_at TEXT NOT NULL,
+  signatures INTEGER,
+  PRIMARY KEY (petition_id, captured_at)
+);
 CREATE TABLE IF NOT EXISTS de_speeches (
   -- WHO SAID WHAT, the layer Westminster's ledger is built on and the one
   -- Germany lacked entirely. Source: DIP's plenarprotokoll-text, which
@@ -967,7 +1034,16 @@ CREATE TABLE IF NOT EXISTS de_speeches (
   party TEXT,                     -- the Fraktion in brackets, when there is one
   role TEXT,                      -- 'member' | 'minister' | 'chair'
   person_id TEXT,                 -- de_members.person_id when the name resolves
-  excerpt TEXT,                   -- the passage that matched, never the whole speech
+  excerpt TEXT,                   -- the passage that matched
+  -- THE WHOLE SPEECH, for matched speeches only. Not storage for its own
+  -- sake: src/stance.py centres its window on the excerpt INSIDE the full
+  -- text, because excerpt-only scoring is a failure this repo has already
+  -- paid for by name -- Lord Farmer's excerpt read as support for the
+  -- assisted dying Bill when the surrounding speech was plainly against it,
+  -- and that misread flipped his placement (2026-08-11). A German stance
+  -- pass reading 400 characters would repeat it in a second language.
+  -- Only matched speeches are kept, so this is ~125 rows, not 4,674 sittings.
+  text TEXT,
   url TEXT,
   areas TEXT, matched_terms TEXT, tier INTEGER,
   triage_score INTEGER, why_it_matters TEXT,
@@ -1231,6 +1307,10 @@ TABLES = (
     "de_vorgaenge",
     "de_documents",
     "de_agenda",
+    "de_amendments",
+    "de_judgments",
+    "de_petitions",
+    "de_petition_snapshots",
     "de_speeches",
     "de_protocols",
     "eu_ecis",
@@ -1312,6 +1392,14 @@ def init_db(conn):
     cols = {r[1] for r in conn.execute("PRAGMA table_info(items)")}
     if "extra" not in cols:
         conn.execute("ALTER TABLE items ADD COLUMN extra TEXT")
+    # de_speeches gained `text` on 2026-09-23, after rows already existed.
+    # CREATE TABLE IF NOT EXISTS does nothing to a table that is already
+    # there, so without this the column is present in the schema and absent
+    # from the store -- and tools/de_stance.py read it and died. A schema
+    # change that cannot reach existing rows is not a schema change.
+    sp_cols = {r[1] for r in conn.execute("PRAGMA table_info(de_speeches)")}
+    if sp_cols and "text" not in sp_cols:
+        conn.execute("ALTER TABLE de_speeches ADD COLUMN text TEXT")
     ev_cols = {r[1] for r in conn.execute("PRAGMA table_info(mp_events)")}
     if "areas" not in ev_cols:
         conn.execute("ALTER TABLE mp_events ADD COLUMN areas TEXT")

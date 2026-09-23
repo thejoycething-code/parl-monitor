@@ -302,6 +302,143 @@ class WestminsterSectionParityTests(unittest.TestCase):
             self.assertNotIn(heading, text)
 
 
+class DeadlineSectionTests(unittest.TestCase):
+    """Germany's only section with a date to act on. Everything else in the
+    edition reports what is happening rather than what can still be done
+    about it."""
+
+    def _pet(self, conn, pid, title, closes, areas="[1]", sigs=100):
+        conn.execute(
+            "INSERT INTO de_petitions (petition_id, title, closes, "
+            "signatures, url, areas, tier, triage_score, why_it_matters, "
+            "first_seen, last_seen) VALUES (?,?,?,?,?,?,1,3,'Weil.',?,?)",
+            (pid, title, closes, sigs, "https://example.invalid/" + pid,
+             areas, TODAY, TODAY))
+        conn.commit()
+
+    def test_a_deadline_renders_with_westminsters_urgency_bands(self):
+        conn = _conn()
+        self._pet(conn, "1", "Eine Petition", "2026-09-27")   # 4 days
+        text = _render(conn)
+        self.assertIn("## Open for co-signature (1)", text)
+        self.assertIn("2026-09-27 (5 days, RED)", text)
+
+    def test_the_bands_match_westminsters_thresholds(self):
+        """Computed from TODAY rather than hardcoded: a date arithmetic test
+        that hardcodes both ends tests the author's arithmetic, not the
+        code's, and this one failed on exactly that."""
+        import datetime
+        base = datetime.date.fromisoformat(TODAY)
+
+        def at(days):
+            return dm.band((base + datetime.timedelta(days=days)).isoformat(),
+                           TODAY)
+        self.assertEqual(at(8)[1], "RED")
+        self.assertEqual(at(9)[1], "AMBER")
+        self.assertEqual(at(21)[1], "AMBER")
+        self.assertEqual(at(22)[1], "open")
+        self.assertEqual(at(8)[0], 8)
+        self.assertIsNone(dm.band(None, TODAY)[0])
+
+    def test_a_closed_petition_is_not_shown(self):
+        conn = _conn()
+        self._pet(conn, "1", "Schon zu", "2026-09-01")
+        self.assertNotIn("Schon zu", _render(conn))
+
+    def test_the_section_can_be_switched_off_in_one_line(self):
+        """Christopher decided Westminster petitions never appear in the
+        weekly report. If that carries to Germany, this is the revert."""
+        conn = _conn()
+        self._pet(conn, "1", "Eine Petition", "2026-09-27")
+        old = dm.SHOW_PETITIONS
+        try:
+            dm.SHOW_PETITIONS = False
+            self.assertNotIn("Eine Petition", _render(conn))
+        finally:
+            dm.SHOW_PETITIONS = old
+
+
+class CourtAndAmendmentSectionTests(unittest.TestCase):
+    def test_the_court_section_never_implies_a_date(self):
+        """The BVerfG publishes a stage, never a judgment date."""
+        conn = _conn()
+        conn.execute(
+            "INSERT INTO de_judgments (case_no, senat, subject, stage, url, "
+            "areas, tier, triage_score, first_seen, last_seen) VALUES "
+            "('1 BvR 1/24','Erster Senat','Zum Schwangerschaftsabbruch',"
+            "'Termin noch nicht bestimmt','u','[1]',1,3,?,?)", (TODAY, TODAY))
+        conn.commit()
+        text = _render(conn)
+        self.assertIn("## Before the Constitutional Court (1)", text)
+        self.assertIn("Termin noch nicht bestimmt", text)
+        self.assertIn("never a judgment date", text)
+
+    def test_an_inherited_amendment_declares_it(self):
+        conn = _conn()
+        conn.execute(
+            "INSERT INTO de_amendments (doc_id, datum, titel, urheber, "
+            "vorgang_id, vorgang_titel, inherited, url, areas, tier, "
+            "triage_score, first_seen, last_seen) VALUES "
+            "('drucksache:21/1','2026-09-10','zu der zweiten Beratung',"
+            "'Fraktion X','1','Ein Gesetz zur Sache',1,'u','[1]',1,3,?,?)",
+            (TODAY, TODAY))
+        conn.commit()
+        text = _render(conn)
+        self.assertIn("## Amendments (1)", text)
+        self.assertIn("areas from the bill, not the amendment", text)
+
+
+class PlacementTests(unittest.TestCase):
+    """A member is placed PER AREA, never with one number.
+
+    The first version averaged everything into one figure and produced
+    "+2.0 Katrin Göring-Eckardt (Greens)". The SCORE was right -- she
+    condemned violence against journalists, which aligns with defending free
+    speech -- but the average read as "ally", and that is how this was
+    misread before the underlying speech was checked.
+    """
+
+    def _speech(self, conn, sid, speaker, areas, stance_score, party="X"):
+        conn.execute(
+            "INSERT INTO de_speeches (speech_id, protocol, date, speaker, "
+            "party, role, person_id, excerpt, text, areas, tier, first_seen, "
+            "last_seen) VALUES (?,'21/94','2026-09-11',?,?,'member','p1',"
+            "'x','x',?,1,?,?)", (sid, speaker, party, areas, TODAY, TODAY))
+        conn.execute("CREATE TABLE IF NOT EXISTS stance (ref TEXT PRIMARY "
+                     "KEY, stance INTEGER, why TEXT, model TEXT, "
+                     "scored_at TEXT)")
+        conn.execute("INSERT INTO stance (ref, stance) VALUES (?,?)",
+                     ("de-speech:" + sid, stance_score))
+        conn.commit()
+
+    def test_a_member_is_placed_once_per_area(self):
+        conn = _conn()
+        self._speech(conn, "s1", "Eine Abgeordnete", "[7]", 2)
+        self._speech(conn, "s2", "Eine Abgeordnete", "[9]", -2)
+        got = {(p["area"], p["avg"]) for p in dm.placements(conn)}
+        self.assertEqual(got, {(7, 2.0), (9, -2.0)},
+                         "the two areas were collapsed into one average")
+
+    def test_the_edition_names_the_area_beside_the_score(self):
+        conn = _conn()
+        self._speech(conn, "s1", "Eine Abgeordnete", "[7]", 2)
+        text = _render(conn)
+        self.assertIn("Free speech online safety", text)
+        self.assertIn("+2.0", text)
+        self.assertIn("never one number for a member", text)
+
+    def test_migration_is_not_placed(self):
+        conn = _conn()
+        self._speech(conn, "s1", "Eine Abgeordnete", "[11]", 2)
+        self.assertEqual(dm.placements(conn), [])
+
+    def test_the_speech_count_travels_with_the_placement(self):
+        """One speech is an anecdote, not a position."""
+        conn = _conn()
+        self._speech(conn, "s1", "Eine Abgeordnete", "[7]", 2)
+        self.assertEqual(dm.placements(conn)[0]["n"], 1)
+
+
 class DecisionsBlockTests(unittest.TestCase):
     def test_the_block_renders_under_top_lines(self):
         text = _render(_conn())

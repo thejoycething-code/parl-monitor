@@ -123,6 +123,14 @@ jobs:
         # ONCE -- the Bericht is final -- so the weekly cost is the sitting
         # days since the last run, and nothing else.
         run: python3 tools/de_speeches.py | tee /tmp/de-speeches.log
+      - name: Collect e-petitions open for co-signature (the deadline layer)
+        # The ONLY German source with a date to act on. Needs a cookie
+        # session; the collector handles that itself.
+        run: python3 tools/de_petitions.py | tee /tmp/de-petitions.log
+      - name: Watch Karlsruhe (cases listed for decision)
+        run: python3 tools/de_courts.py | tee /tmp/de-courts.log
+      - name: Collect amendments to bills we watch
+        run: python3 tools/de_amendments.py | tee /tmp/de-amendments.log
       - name: Write secrets file
         # anthropic_api_key: the triage judge. slack: the weekly DM to
         # Christopher ONLY -- the channel is deliberately not posted, the
@@ -139,6 +147,11 @@ jobs:
         # Scored once, ever: the weekly cost is the week's NEW matched rows.
         # Spend lands in api_spend as 'de-triage'.
         run: python3 tools/de_triage.py | tee /tmp/de-triage.log
+      - name: Place members from their own words
+        # Reads the speeches the step above judged. Scored once per speech,
+        # so the weekly cost is the week's NEW speeches. Spend lands in
+        # api_spend as 'de-stance'.
+        run: python3 tools/de_stance.py | tee /tmp/de-stance.log
       - name: Write the German edition and DM the summary
         run: python3 tools/de_monitor.py --edition --dm | tee /tmp/de-monitor.log
       - name: Health summary
@@ -147,7 +160,7 @@ jobs:
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-triage:|edition:|dm:|\[gap\]" \
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-stance:|de-triage:|edition:|dm:|\[gap\]" \
               /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \

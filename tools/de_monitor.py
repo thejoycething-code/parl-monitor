@@ -444,6 +444,102 @@ def decisions_block(today, mentions):
     return dec.render(rows)
 
 
+# Christopher decided on 2026-09-07 that WESTMINSTER petitions are collated
+# and never rendered in the weekly report. This is a different edition and the
+# entire point of the section is that Germany had nothing with a deadline on
+# it, so German petitions DO render -- but that is his call to confirm, and
+# this is the one line that reverses it.
+SHOW_PETITIONS = True
+
+
+def band(closes, today):
+    """Westminster's urgency bands, so a German deadline reads the same way."""
+    try:
+        days = (datetime.date.fromisoformat(closes)
+                - datetime.date.fromisoformat(today)).days
+    except (TypeError, ValueError):
+        return None, "no date"
+    return days, "RED" if days <= 8 else "AMBER" if days <= 21 else "open"
+
+
+def petitions(conn, today):
+    """Open for co-signature, on our ground, closing soonest first."""
+    if not SHOW_PETITIONS:
+        return []
+    try:
+        rows = conn.execute(
+            "SELECT * FROM de_petitions WHERE closes >= ? AND areas IS NOT "
+            "NULL AND areas != '[]' AND {0} ORDER BY closes".format(
+                degate.SHOWN_SQL), (today,)).fetchall()
+    except sqlite3.OperationalError as exc:
+        if "no such table" not in str(exc):
+            raise
+        return []
+    return [r for r in rows if not hidden_only(r)]
+
+
+def judgments(conn):
+    try:
+        rows = conn.execute(
+            "SELECT * FROM de_judgments WHERE areas IS NOT NULL AND areas != "
+            "'[]' AND {0} ORDER BY case_no".format(degate.SHOWN_SQL)).fetchall()
+    except sqlite3.OperationalError as exc:
+        if "no such table" not in str(exc):
+            raise
+        return []
+    return [r for r in rows if not hidden_only(r)]
+
+
+def amendments(conn):
+    try:
+        rows = conn.execute(
+            "SELECT * FROM de_amendments WHERE areas IS NOT NULL AND areas != "
+            "'[]' AND {0} ORDER BY datum DESC".format(
+                degate.SHOWN_SQL)).fetchall()
+    except sqlite3.OperationalError as exc:
+        if "no such table" not in str(exc):
+            raise
+        return []
+    return [r for r in rows if not hidden_only(r)]
+
+
+def placements(conn):
+    """Where members sit, PER AREA -- never one number for a whole member.
+
+    The first version averaged every score a member had into a single
+    figure, and it produced "+2.0 Katrin Göring-Eckardt (Greens)". The score
+    was right: she condemned violence against journalists, which genuinely
+    aligns with defending free speech. The AVERAGE was the lie -- it read as
+    "ally" when it meant "aligned on press freedom", and it is exactly how
+    this reader misread it before checking the underlying speech.
+
+    A member can be with us on speech and against us on family, and a
+    monitor that collapses those into one number will brief someone into a
+    meeting with the wrong idea of who they are talking to. Westminster's
+    5CA places members per area for the same reason.
+    """
+    try:
+        rows = conn.execute(
+            "SELECT s.speaker, s.party, s.areas, st.stance "
+            "FROM de_speeches s JOIN stance st "
+            "ON st.ref = 'de-speech:' || s.speech_id "
+            "WHERE s.person_id IS NOT NULL").fetchall()
+    except sqlite3.OperationalError:
+        return []
+    acc = {}
+    for r in rows:
+        for area in visible_areas(r):
+            key = (r["speaker"], r["party"], area)
+            got = acc.setdefault(key, [])
+            got.append(r["stance"])
+    out = []
+    for (speaker, party, area), scores in acc.items():
+        out.append({"speaker": speaker, "party": party, "area": area,
+                    "avg": sum(scores) / len(scores), "n": len(scores)})
+    out.sort(key=lambda x: (-abs(x["avg"]), -x["n"]))
+    return out
+
+
 def week_ahead(conn, today):
     """Sittings still to come, and how far the feed could actually see.
 
@@ -571,6 +667,37 @@ def render_edition(conn, today):
             .format(horizon or "no dated sitting"))
         lines.append("")
 
+    # --- THE DEADLINE SECTION. Germany's only one. ---
+    pets = petitions(conn, today)
+    if pets or SHOW_PETITIONS:
+        lines.append("## Open for co-signature ({0})".format(len(pets)))
+        lines.append("")
+        lines.append("*The only German section with a DATE TO ACT ON. A "
+                     "Bundestag e-petition open for co-signature closes on a "
+                     "published day; everything else in this edition reports "
+                     "what is happening rather than what can still be done "
+                     "about it.*")
+        lines.append("")
+        if pets:
+            lines.append("| Petition | Areas | Closes | Signatures | "
+                         "Why it matters |")
+            lines.append("|---|---|---|---|---|")
+            for r in pets:
+                days, flag = band(r["closes"], today)
+                lines.append("| [{0}]({1}) | {2} | {3} ({4} days, {5}) | {6} "
+                             "| {7} |".format(
+                                 oneline(r["title"] or "?").replace("|", "/"),
+                                 r["url"] or "", _areas(r, names) or "?",
+                                 r["closes"] or "?",
+                                 "?" if days is None else days, flag,
+                                 r["signatures"] if r["signatures"] is not None
+                                 else "?",
+                                 _why(r).strip().replace("|", "/") or "-"))
+            lines.append("")
+        else:
+            lines.append("*Nothing on our ground is open for co-signature.*")
+            lines.append("")
+
     # --- Coming up: the live items, most imminent first ---
     lines.append("## Coming up ({0} live)".format(len(live)))
     lines.append("")
@@ -674,6 +801,28 @@ def render_edition(conn, today):
         lines.append(MOVEMENT_NOTE)
         lines.append("")
 
+    # --- Amendments to those bills ---
+    amds = amendments(conn)
+    if amds:
+        lines.append("## Amendments ({0})".format(len(amds)))
+        lines.append("")
+        lines.append("| Moved | By | To which bill | Areas | Amendment |")
+        lines.append("|---|---|---|---|---|")
+        for r in amds[:15]:
+            bill = oneline(r["vorgang_titel"] or "?").replace("|", "/")
+            if r["inherited"]:
+                # DISCLOSED: an Änderungsantrag's own title is procedure, so
+                # nearly all of these are on our ground because of the BILL
+                # they amend, not because of anything they say.
+                bill += " _(areas from the bill, not the amendment)_"
+            lines.append("| {0} | {1} | {2} | {3} | [{4}]({5}) |".format(
+                r["datum"] or "?",
+                oneline(r["urheber"] or "?").replace("|", "/"), bill,
+                _areas(r, names) or "?",
+                r["doc_id"].replace("drucksache:", "Drs. "),
+                r["url"] or ""))
+        lines.append("")
+
     # --- Secondary legislation ---
     sis = of_type(live + concluded, SI_TYPES)
     if sis:
@@ -769,6 +918,26 @@ def render_edition(conn, today):
                      "House's own, never derived from the tallies.*")
         lines.append("")
 
+    # --- Karlsruhe ---
+    jud = judgments(conn)
+    if jud:
+        lines.append("## Before the Constitutional Court ({0})".format(
+            len(jud)))
+        lines.append("")
+        lines.append("*Cases the Bundesverfassungsgericht has listed to "
+                     "decide. The court publishes a STAGE, never a judgment "
+                     "date, so this says what is coming and cannot say when.*")
+        lines.append("")
+        lines.append("| Case | Senate | Areas | Stage | What it is about |")
+        lines.append("|---|---|---|---|---|")
+        for r in jud[:12]:
+            lines.append("| {0} | {1} | {2} | {3} | {4} |".format(
+                r["case_no"], (r["senat"] or "?").replace("|", "/"),
+                _areas(r, names) or "?",
+                oneline(r["stage"] or "?").replace("|", "/"),
+                oneline(r["subject"] or "?")[:170].replace("|", "/")))
+        lines.append("")
+
     # --- Who spoke, on our issues ---
     sp, (protos, first_read, last_read) = speeches(conn, today)
     lines.append("## Parliamentarians on our issues ({0})".format(len(sp)))
@@ -796,6 +965,26 @@ def render_edition(conn, today):
             lines.append("")
     else:
         lines.append("*No speech on our ground in the protocols read.*")
+        lines.append("")
+    place = placements(conn)
+    if place:
+        lines.append("**Where members sit, from their own words** (+2 ally "
+                     ".. -2 opponent), PER AREA:")
+        lines.append("")
+        lines.append("| Member | Fraktion | Area | Stance | Speeches |")
+        lines.append("|---|---|---|---|---|")
+        for r in place[:12]:
+            lines.append("| {0} | {1} | {2} | {3:+.1f} | {4} |".format(
+                oneline(r["speaker"] or "?").replace("|", "/"),
+                (r["party"] or "-").replace("|", "/"),
+                names.get(r["area"], str(r["area"])), r["avg"], r["n"]))
+        lines.append("")
+        lines.append("*Per area, never one number for a member. A member can "
+                     "be with us on free speech and against us on family, and "
+                     "a single average would brief you into the room with the "
+                     "wrong idea of who you are meeting. A placement resting "
+                     "on ONE speech is an anecdote, not a position; the count "
+                     "is there so you can tell.*")
         lines.append("")
     lines.append("Sitting days read: **{0}**{1}. A speech is stored only when "
                  "it matches the taxonomy -- the rest are counted, never "

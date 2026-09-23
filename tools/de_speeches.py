@@ -60,6 +60,12 @@ from src.http import FetchError, HttpClient  # noqa: E402
 LOOKBACK_DAYS = 90
 PROTOCOL_LIMIT = 20
 
+# How much of a matched speech is kept. Generous on purpose: src/stance.py
+# centres its 1,500-character window on the excerpt INSIDE the full text, and
+# it can only do that if the full text is here. A Bundestag speech runs to a
+# few thousand characters, so this keeps whole ones.
+SPEECH_CAP = 20000
+
 # Words that open a PROCEDURAL heading, never a person. "Tagesordnungspunkt 3
 # (Fortsetzung):" has the exact shape of a name with a party in brackets and
 # was the one false positive in the probe; left in, every sitting day would
@@ -271,16 +277,18 @@ def store(conn, client, key, today, tax, wl, since, limit, log=print,
                 continue
             conn.execute(
                 "INSERT INTO de_speeches (speech_id, protocol, wahlperiode, "
-                "date, speaker, party, role, person_id, excerpt, url, areas, "
-                "matched_terms, tier, first_seen, last_seen) VALUES "
-                "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(speech_id) DO "
+                "date, speaker, party, role, person_id, excerpt, text, url, "
+                "areas, matched_terms, tier, first_seen, last_seen) VALUES "
+                "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(speech_id) DO "
                 "UPDATE SET areas=excluded.areas, "
                 "matched_terms=excluded.matched_terms, "
-                "excerpt=excluded.excerpt, last_seen=excluded.last_seen",
+                "excerpt=excluded.excerpt, text=excluded.text, "
+                "last_seen=excluded.last_seen",
                 ("protokoll:{0}#{1}".format(number, i), number,
                  doc.get("wahlperiode") and str(doc.get("wahlperiode")),
                  (doc.get("datum") or "")[:10], name, party, role,
                  resolve_person(conn, name, party), (excerpt or "")[:400],
+                 body[:SPEECH_CAP],
                  doc.get("fundstelle", {}).get("pdf_url")
                  if isinstance(doc.get("fundstelle"), dict) else None,
                  json.dumps(sorted(set(areas))),
@@ -310,6 +318,9 @@ def main():
         LOOKBACK_DAYS))
     ap.add_argument("--limit", type=int, default=PROTOCOL_LIMIT,
                     help="protocols to read this run")
+    ap.add_argument("--reread", action="store_true",
+                    help="forget which protocols have been read, so a change "
+                         "to what is extracted can reach the stored rows")
     ap.add_argument("--reresolve", action="store_true",
                     help="re-attribute stored speeches to members, offline")
     ap.add_argument("--dry-run", action="store_true",
@@ -323,6 +334,14 @@ def main():
     today = datetime.date.today().isoformat()
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy-de.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-de.yaml"))
+    if args.reread:
+        # The collector reads each protocol once, so nothing would otherwise
+        # revisit them -- the same trap the reclassify and repair passes
+        # exist for.
+        n = conn.execute("DELETE FROM de_protocols").rowcount
+        conn.commit()
+        print("de-speeches: forgot {0} protocol(s); the next run re-reads "
+              "them.".format(n))
     if args.reresolve:
         reresolve(conn)
         conn.close()

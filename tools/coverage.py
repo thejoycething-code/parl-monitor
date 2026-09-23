@@ -87,6 +87,11 @@ FEEDS = [
     # so a week the collector does not run is a week of agendas nobody can
     # ever recover.
     ("de_agenda", "last_seen", 7, 4, "Bundestag committee and plenary agendas (Germany weekly)"),
+    # All four re-stamp on every sweep, so each is a real heartbeat.
+    ("de_petitions", "last_seen", 7, 4, "Bundestag e-petitions open for co-signature (Germany weekly)"),
+    ("de_petition_snapshots", "captured_at", 7, 4, "German petition signature snapshots"),
+    ("de_judgments", "last_seen", 7, 4, "Bundesverfassungsgericht cases listed for decision"),
+    ("de_amendments", "last_seen", 7, 4, "Änderungsanträge to bills (Germany weekly)"),
     ("hansard_sections", "captured_at", 7, 3, "Hansard's section list per sitting day (Sunday pull)"),
     ("judge_verdicts", "captured_at", 7, 3, "the judge evaluation bank (Sunday pull)"),
     ("dv_petitions", "last_seen", 7, 4, "Senedd and Holyrood petitions (devolved weeklies)"),
@@ -165,7 +170,9 @@ PIPELINE_FEEDS = {
     # that ran but whose data is stale), and the other three German tables
     # legitimately never move -- the Bundestag takes recorded votes in
     # bursts, so listing them here would cry clobber every quiet month.
-    "Germany weekly": ["de_vorgaenge", "de_agenda"],
+    "Germany weekly": ["de_vorgaenge", "de_agenda", "de_petitions",
+                       "de_petition_snapshots", "de_judgments",
+                       "de_amendments"],
     "UPR monthly": ["upr_recommendations"],
     # "EU day sweep" is deliberately absent. PIPELINE_FEEDS drives the clobber
     # check -- a pipeline that ran but whose data is stale -- and the EP sits in
