@@ -25,7 +25,7 @@
 
 *No sitting on our ground in the published agendas.*
 
-Sittings published ahead: 2026-09-23 (6). **The feed reaches 2026-09-23** -- it is a rolling window of the days immediately ahead, not a term calendar, so a quiet section here may mean the Bundestag has published no further agendas yet rather than that nothing is coming.
+Sittings published ahead: 2026-09-23 (10). **The feed reaches 2026-09-23** -- it is a rolling window of the days immediately ahead, not a term calendar, so a quiet section here may mean the Bundestag has published no further agendas yet rather than that nothing is coming.
 
 ## Open for co-signature (1)
 
@@ -33,7 +33,7 @@ Sittings published ahead: 2026-09-23 (6). **The feed reaches 2026-09-23** -- it 
 
 | Petition | Areas | Closes | Signatures | Why it matters |
 |---|---|---|---|---|
-| [Keine weiteren Kürzungen beim Elterngeld](https://epetitionen.bundestag.de/petitionen/_2026/_05/_21/Petition_201160.nc.html) | Marriage family | 2026-10-06 (13 days, AMBER) | 3208 | Petition against parental benefit cuts affects family policy and financial support for parents, relevant to family stability concerns. |
+| [Keine weiteren Kürzungen beim Elterngeld](https://epetitionen.bundestag.de/petitionen/_2026/_05/_21/Petition_201160.nc.html) | Marriage family | 2026-10-06 (13 days, AMBER) | 3237 | Petition against parental benefit cuts affects family policy and financial support for parents, relevant to family stability concerns. |
 
 ## Coming up (31 live)
 
@@ -174,7 +174,7 @@ Nothing shown here: all 6 matched Bundestag vote(s) are on migration alone, whic
 
 Sitting days read: **4** (2026-09-08 to 2026-09-11). A speech is stored only when it matches the taxonomy -- the rest are counted, never kept, because a hundred speeches a sitting day would be a copy of the Bundestag rather than a monitor.
 
-## The Länder (2 on our ground, 14 parliaments collected)
+## The Länder (2 on our ground, 15 parliaments collected)
 
 The sixteen Land parliaments publish recorded votes in single digits a year and have **no document layer** -- DIP covers the Bundestag only. A thin section here is a thin *source*, not a strict filter, so do not loosen the taxonomy on the strength of it.
 
@@ -187,14 +187,14 @@ The sixteen Land parliaments publish recorded votes in single digits a year and 
 
 | Source | Collected | On our ground | Judged below the bar | Not yet judged |
 |---|---|---|---|---|
-| Vorgänge (DIP) | 640 | 507 | 163 | 0 |
+| Vorgänge (DIP) | 642 | 508 | 163 | 0 |
 | Drucksachen (DIP) | 0 | 0 | 0 | 0 |
-| Recorded votes | 249 | 19 | 7 | 0 |
+| Recorded votes | 250 | 19 | 7 | 0 |
 
 *Drucksachen* read 0 because the weekly runs `de_documents.py --mode terms`, which drives DIP from the tier-1 German terms and writes Vorgänge only. The body-text layer is `--mode window`, which is not scheduled. That zero is a configuration choice, not a collector that failed.
 
 *Judged below the bar* is the deliberate discard: the judge read it and scored it 0 or 1. *Not yet judged* is not a discard at all -- those rows are SHOWN above, unscored, because a row the judge has not reached is not a row the judge rejected.
 
-**171 item(s) matched on migration alone** and are collated, never campaigned (Christopher's standing instruction), so they are not shown above. They are in the store. An item carrying migration AND another area does appear, under the other area.
+**172 item(s) matched on migration alone** and are collated, never campaigned (Christopher's standing instruction), so they are not shown above. They are in the store. An item carrying migration AND another area does appear, under the other area.
 
 Gaps: none.
