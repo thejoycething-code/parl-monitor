@@ -98,3 +98,62 @@ def complete(client, question, log=None):
     if not full.question_text:
         return question
     return full
+
+
+# -- reading the archive back ----------------------------------------------
+#
+# backfill_pq_text.py has been writing pq_detail-<id>.json.gz since
+# 2026-09-06, and until now nothing read them: the edition rendered a
+# question's HEADING and the triage why-line, so a reader learned that a
+# question about hospices had been answered but never what the minister
+# said. The answers were on disk the whole time (median 106 words,
+# measured over 300 files on 2026-09-24).
+
+def _detail_paths(raw_dir):
+    import glob
+    import os
+    return glob.glob(os.path.join(raw_dir, "*", "pq_detail-*.json.gz"))
+
+
+def archive_map(raw_dir, ids=None):
+    """{question id (str): {"question", "answer", "holding"}} from data/raw.
+
+    ONE pass over the archive, not one glob per row: there are ~4,400
+    files and an edition asks about ~44 of them. ids=None reads all.
+    A file that will not parse is skipped, never raised: a corrupt archive
+    entry must cost its own row and no more.
+    """
+    import gzip
+    import json
+    import os
+    want = None if ids is None else {str(i) for i in ids}
+    out = {}
+    for path in _detail_paths(raw_dir):
+        qid = os.path.basename(path)[len("pq_detail-"):-len(".json.gz")]
+        if want is not None and qid not in want:
+            continue
+        try:
+            payload = json.loads(gzip.open(path).read())
+        except (OSError, ValueError):
+            continue
+        value = payload.get("value") or payload
+        out[qid] = {
+            "question": strip_html(value.get("questionText")),
+            "answer": strip_html(value.get("answerText")),
+            "holding": bool(value.get("answerIsHolding")),
+        }
+    return out
+
+
+def strip_html(text):
+    """Answers come back as HTML (<p>, <br>, the odd <a>). Tags out,
+    whitespace collapsed, entities decoded -- the words are left exactly
+    as the minister gave them."""
+    import html
+    import re
+    if not text:
+        return ""
+    plain = re.sub(r"<br\s*/?>", " ", text, flags=re.I)
+    plain = re.sub(r"</p\s*>", " ", plain, flags=re.I)
+    plain = re.sub(r"<[^>]+>", "", plain)
+    return " ".join(html.unescape(plain).split())

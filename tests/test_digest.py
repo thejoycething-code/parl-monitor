@@ -34,12 +34,46 @@ class RecessRenderTests(unittest.TestCase):
         for present in ("## Top lines", "## Active bills board",
                         "## Consultations and calls for evidence", "## Parliamentarians on our issues"):
             self.assertIn(present, md)
-        for absent in ("## Week ahead", "## Votes", "## Written questions",
-                       "## EDMs", "## Scotland, Wales and Northern Ireland", "## Statements",
+        for absent in ("## Votes", "## EDMs",
+                       "## Scotland, Wales and Northern Ireland", "## Statements",
                        "Return dates below", "**Return dates:**"):
             self.assertNotIn(absent, md)
         # The single top line carries recess + return dates + deadlines note.
         self.assertEqual(md.count("Both Houses return 2026-09-01"), 1)
+
+    def test_whats_on_renders_in_recess_too(self):
+        """Christopher, 2026-09-24. It used to live in the sitting-week branch
+        alone, so recess dropped the forward view entirely -- and recess is
+        when forward notice is worth most. Measured on the 2026-09-21 edition:
+        two scored events sat in further_ahead and were shown to nobody, both
+        after the House returned."""
+        e = base_edition(further_ahead=[digest.Line("Lords: after the return", 2,
+                                                    date="2026-10-15")])
+        md = digest.render(e)
+        self.assertIn("## What's on", md)
+        self.assertIn("Lords: after the return", md)
+        self.assertIn("Neither House sits this week", md)
+        self.assertNotIn("Nothing on our ground in the chamber this week", md)
+
+    def test_nothing_ahead_at_all_still_drops_the_section(self):
+        self.assertNotIn("## What's on", digest.render(base_edition()))
+
+    def test_the_recess_note_comes_last_and_survives_the_cap(self):
+        """Christopher, 2026-09-24: "Top lines should lead with what's
+        actionable, not recess." Inserted at position 0 it pushed five live
+        consultation deadlines down the page. It is also outside the cap, so
+        a busy week cannot silently drop the fact that nobody is sitting."""
+        e = base_edition(top_lines=[digest.Line("Deadline {0}".format(i), 3,
+                                                deadline="2026-09-1{0}".format(i))
+                                    for i in range(7)])
+        e.recess_note = digest.recess_line({"Commons": "2026-09-01",
+                                            "Lords": "2026-09-01"})
+        md = digest.render(e)
+        top = md[md.index("## Top lines"):md.index("\n## ", md.index("## Top lines") + 5)]
+        lines = [l for l in top.splitlines() if l.startswith("- ")]
+        self.assertEqual(len(lines), 7, "six capped actionable lines plus the note")
+        self.assertIn("Recess:", lines[-1])
+        self.assertNotIn("Recess:", lines[0])
 
     def test_recess_line_combines_or_splits_dates(self):
         self.assertEqual(
@@ -91,43 +125,107 @@ class PqSectionTests(unittest.TestCase):
              "house": "Lords", "heading": "Islamophobia Definition Working Group",
              "department": "Home Office", "url": "https://q/1", "date": "2026-07-31",
              "tag": "WATCH", "why": "Cross-House pressure building",
+             "question_text": "To ask His Majesty's Government, what progress "
+                              "the working group has made on a definition.",
+             "answer_text": "The group has met four times and will report in "
+                            "the autumn.",
              "area": 7, "area_label": "Free speech online safety"},
             {"member": "Baroness Owen of Alderley Edge", "party": "Con", "seat": "peer",
              "house": "Lords", "heading": "Internet: Compensation",
              "department": "DSIT", "url": "https://q/2", "date": "2026-07-30",
              "tag": "NOTE", "why": "", "area": 7,
+             "question_text": "whether they will compensate victims.",
+             "answer_text": "", "holding": True,
              "area_label": "Free speech online safety"},
             {"member": "Lord Cameron of Lochiel", "party": "Con", "seat": "peer",
              "house": "Lords", "heading": "Deportation", "department": "Home Office",
              "url": "https://q/3", "date": "2026-08-03", "tag": "NOTE", "why": "",
+             "question_text": "how many people were removed last year.",
+             "answer_text": "1,234 people were removed in the year to June.",
              "area": 11, "area_label": "Migration"},
         ]
         return ed
 
-    def test_one_table_per_area_each_with_its_own_header(self):
+    def test_each_area_is_its_own_group(self):
+        """Blocks, not a table, since 2026-09-24: a median answer runs to 93
+        words and will not fit in a cell."""
         out = digest.render_pqs(self._edition())
-        self.assertEqual(out.count("| Member | Question | Asked of | Answered |"), 2)
         self.assertIn("**Free speech online safety** (2)", out)
         self.assertIn("**Migration** (1)", out)
+        self.assertNotIn("| Member | Question | Asked of | Answered |", out)
+
+    def test_the_question_and_the_answer_both_appear(self):
+        """Christopher, 2026-09-24: the section must say what was asked and
+        what the minister said. Before this it carried neither."""
+        out = digest.render_pqs(self._edition())
+        self.assertIn("what progress the working group has made on a "
+                      "definition.", out)
+        self.assertIn("The group has met four times and will report in the "
+                      "autumn.", out)
+        self.assertIn("1,234 people were removed in the year to June.", out)
+
+    def test_a_holding_answer_is_not_printed_as_a_position(self):
+        """A holding answer is the department saying it will reply later.
+        Rendered as an answer it would read as a government position."""
+        out = digest.render_pqs(self._edition())
+        self.assertIn("holding answer only", out)
+
+    def test_the_ask_preamble_is_dropped_not_the_substance(self):
+        """"To ask His Majesty's Government," is boilerplate on every row and
+        the department is already named in the line above."""
+        out = digest.render_pqs(self._edition())
+        self.assertNotIn("To ask His Majesty's Government", out)
+        self.assertIn("what progress the working group", out)
 
     def test_biggest_group_leads_and_rows_carry_member_and_department(self):
         out = digest.render_pqs(self._edition())
         self.assertLess(out.index("Free speech"), out.index("Migration"))
         self.assertIn("Lord Jackson of Peterborough (Con, peer)", out)
-        self.assertIn("| Home Office |", out)
+        self.assertIn("asked Home Office", out)
         self.assertIn("[Islamophobia Definition Working Group](https://q/1)", out)
         self.assertIn("31 Jul", out)
 
     def test_total_declared_and_companion_page_linked(self):
         out = digest.render_pqs(self._edition())
-        self.assertIn("3 questions matched our areas this week", out)
+        self.assertIn("3 questions on our issues were answered this week", out)
         self.assertIn("questions.html", out)
 
     def test_nothing_is_capped(self):
+        """No cap by COUNT -- sixty distinct questions all render.
+
+        Measured on distinct rows since 2026-09-24: the old fixture
+        multiplied one row twenty times, and clustering by shared answer
+        now collapses twenty identical answers into one block, which is
+        the point of it. Counting repeats of a single URL therefore stopped
+        measuring capping and started measuring clustering.
+        """
         ed = self._edition()
-        ed.pq_rows = ed.pq_rows * 20          # 60 questions
+        base = ed.pq_rows[0]
+        ed.pq_rows = [dict(base, url="https://q/{0}".format(i),
+                           heading="Question {0}".format(i),
+                           answer_text="A distinct answer, number {0}.".format(i))
+                      for i in range(60)]
         out = digest.render_pqs(ed)
-        self.assertEqual(out.count("https://q/1"), 20)
+        self.assertIn("60 questions on our issues", out)
+        for i in (0, 31, 59):
+            self.assertIn("https://q/{0}".format(i), out)
+            self.assertIn("A distinct answer, number {0}.".format(i), out)
+
+    def test_one_shared_answer_is_printed_once(self):
+        """The counterpart: sixty questions sharing one reply print it once,
+        not sixty times. Christopher's 2026-09-21 edition repeated a single
+        Cheshire and Merseyside paragraph five times under Assisted dying."""
+        ed = self._edition()
+        base = ed.pq_rows[0]
+        ed.pq_rows = [dict(base, url="https://q/{0}".format(i),
+                           heading="Question {0}".format(i),
+                           answer_text="One reply to all of them.")
+                      for i in range(60)]
+        out = digest.render_pqs(ed)
+        self.assertEqual(out.count("One reply to all of them."), 1)
+        self.assertIn("one reply to all 60", out)
+        # and the questions it answers are not lost, only summarised
+        self.assertIn("and 56 further questions in the same group", out)
 
     def test_no_rows_no_section(self):
         ed = digest.Edition(week_commencing="2026-08-10", number=3, mode="normal")
@@ -371,8 +469,8 @@ class NormalModeFullRenderTests(unittest.TestCase):
 
     def test_all_sitting_week_sections_render_in_order(self):
         md = digest.render(self._full_edition())
-        order = ["## Top lines", "## Week ahead", "## Votes and amendments",
-                 "## Written questions",
+        order = ["## Top lines", "## What's on", "## Votes and amendments",
+                 "## " + digest.QUESTIONS_HEADING,
                  "## Consultations and calls for evidence",
                  "## Early day motions", "## Statements and announcements",
                  "## Active bills board", "## Parliamentarians on our issues"]
@@ -469,9 +567,12 @@ class DevolvedPayloadTests(unittest.TestCase):
 
 
 class FurtherAfieldTests(unittest.TestCase):
-    """Week ahead answers 'what happens now'; Further afield answers 'what is
-    coming while there is still time to act' (Christopher, 2026-08-24). It is
-    a sub-block of Week ahead, not a competing heading."""
+    """The week itself answers 'what happens now'; Further afield answers
+    'what is coming while there is still time to act' (Christopher,
+    2026-08-24). It is a sub-block, not a competing heading. The section is
+    headed "What's on" since 2026-09-24, when it started rendering in recess
+    too -- where every row in it is weeks out and a heading promising *this*
+    week would misdescribe its own contents."""
 
     def _edition(self):
         e = digest.Edition(week_commencing="2026-08-31", number=5,
@@ -485,9 +586,9 @@ class FurtherAfieldTests(unittest.TestCase):
                                        date="2026-09-11")]
         return e
 
-    def test_it_sits_inside_week_ahead_not_as_its_own_heading(self):
+    def test_it_sits_inside_whats_on_not_as_its_own_heading(self):
         md = digest.render(self._edition())
-        self.assertIn("## Week ahead", md)
+        self.assertIn("## What's on", md)
         self.assertIn("**Further afield** (next 8 weeks)", md)
         self.assertNotIn("## Further afield", md)
         self.assertLess(md.index("Commons: this week"),
@@ -511,7 +612,7 @@ class FurtherAfieldTests(unittest.TestCase):
         e = self._edition()
         e.week_ahead = []
         md = digest.render(e)
-        self.assertIn("## Week ahead", md)
+        self.assertIn("## What's on", md)
         self.assertIn("Further afield", md)
         self.assertIn("Nothing on our ground in the chamber this week", md)
 

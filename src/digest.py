@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import datetime
 import json
+import re
 from dataclasses import dataclass, field
 
 from src.board import TBA, order_board
@@ -55,6 +56,15 @@ class Edition:
     number: int
     mode: str                     # 'recess' | 'normal'
     top_lines: list = field(default_factory=list)
+    # The recess status line. NOT a top line: it is a standing fact about the
+    # week, not something anyone can act on, and while it was inserted at
+    # position 0 it pushed five live consultation deadlines down the page
+    # (Christopher, 2026-09-24: "Top lines should lead with what's
+    # actionable, not recess"). Held separately so it renders LAST and
+    # outside the cap -- it can neither lead nor be squeezed out by a busy
+    # week. Still one line in Top lines, not a banner: the 2026-08 decision
+    # against a separate recess banner or footer stands.
+    recess_note: str = None
     board_rows: list = field(default_factory=list)     # board.BoardRow (live + closing)
     week_ahead: list = field(default_factory=list)
     further_ahead: list = field(default_factory=list)   # the 3 weeks after
@@ -206,7 +216,7 @@ def render_further_ahead(lines, weeks=8, bill_ids=None):
     return "\n".join(out).rstrip() + "\n"
 
 
-def render_week_ahead(lines, week_start=None, bill_ids=None):
+def render_week_ahead(lines, week_start=None, bill_ids=None, heading="## What's on"):
     """Section 3: the diary as a table (Christopher, 2026-09-07, option C).
 
     Until then each line was the judge's why-line alone -- no time, no
@@ -221,10 +231,46 @@ def render_week_ahead(lines, week_start=None, bill_ids=None):
     rows = _event_rows(lines, week_start=week_start, bill_ids=bill_ids)
     if not rows:
         return None
-    out = ["## Week ahead", ""]
+    out = [heading, ""]
     out.extend(_event_table(rows))
     out.append("")
     return "\n".join(out)
+
+
+
+WHATS_ON = "## What's on"
+
+
+def render_whats_on(edition, bill_ids=None, recess=False):
+    """What is coming, in BOTH modes (Christopher, 2026-09-24).
+
+    Until now this block lived only in the sitting-week branch of render(),
+    so a recess edition dropped it entirely -- and recess is exactly when
+    forward notice is worth most. Measured on the 2026-09-21 edition: two
+    scored events were held in further_ahead and shown to nobody, both of
+    them after the House returns on 12 October.
+
+    Named "What's on" rather than "Week ahead" because in recess every row
+    in it is weeks out, and a heading promising *this* week would be a
+    plain misdescription of its own contents. Sub-blocks keep the old
+    distinction: the week itself, then Further afield.
+
+    Empty-state wording is mode-specific. "Nothing on our ground in the
+    chamber this week" is true but misleading in recess, where the chamber
+    is empty for everyone; the recess line says so instead.
+    """
+    week_ahead = render_week_ahead(edition.week_ahead, edition.week_commencing,
+                                   bill_ids, heading=WHATS_ON)
+    further = render_further_ahead(edition.further_ahead, bill_ids=bill_ids)
+    if not week_ahead and not further:
+        return None
+    if not week_ahead:
+        empty = ("*Neither House sits this week, so nothing is scheduled in "
+                 "the chamber. What is already in the diary for their return:*"
+                 if recess else
+                 "*Nothing on our ground in the chamber this week.*")
+        week_ahead = "{0}\n\n{1}".format(WHATS_ON, empty)
+    return "\n\n".join(p for p in (week_ahead, further) if p)
 
 
 _MONTHS = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -408,15 +454,17 @@ def render_deadlines(edition):
     return "\n".join(out)
 
 
-PQ_HEADER = ("| Member | Question | Asked of | Answered |", "|---|---|---|---|")
 # Absolute by default so the link works from a Slack canvas and an Asana task
 # as well as from the partner site itself; settings.partner_site_url overrides.
 COMPANION_URL = "https://parl-monitor-partner.vercel.app/questions.html"
 
+QUESTIONS_HEADING = "What ministers were asked - and what they said"
+
 
 def companion_note(url):
-    return ("*Every question in full, including the text as asked, is on the "
-            "[companion data page]({0}).*".format(url or COMPANION_URL))
+    return ("*Questions and answers are trimmed above. Both in full, for "
+            "every question captured, are on the [companion data page]({0}).*"
+            .format(url or COMPANION_URL))
 
 
 def _fmt_pq_date(iso):
@@ -429,16 +477,163 @@ def _fmt_pq_date(iso):
     return "{0} {1}".format(d.day, d.strftime("%b"))
 
 
-def render_pqs(edition, companion=True):
-    """Written questions as one table per issue area (Christopher, 2026-08-05).
+# "To ask His Majesty's Government," / "To ask the Secretary of State for
+# Health and Social Care," / "To ask the hon. Member for Battersea,
+# representing the Church Commissioners," -- boilerplate on every single row,
+# and the department is already named in the line above. Matched generically
+# up to the first comma rather than by a list of offices, which missed the
+# Church Commissioners form on its first outing. Bounded at 140 characters
+# and refused if the prefix contains a full stop, so a question with no
+# preamble at all cannot have its first clause eaten.
+_ASK_PREAMBLE = re.compile(
+    # "To ask His Majesty's Government" (Lords), with or without the comma
+    # and with either apostrophe -- the curly one appears in about a third
+    # of Lords questions and a straight-quote-only pattern silently missed
+    # every one of them.
+    r"^To ask (?:His|Her) Majesty[\u2019']s Government,?\s*"
+    # "To ask the hon. Member for Battersea, representing the Church
+    # Commissioners," -- two commas and a full stop, so it must come before
+    # the general office rule rather than after it.
+    r"|^To ask the (?:right )?hon\.? Members? [^,]{0,80}, representing [^,]{0,80},\s*"
+    # "To ask the Secretary of State for Health and Social Care," and
+    # "To ask the Minister for Women and Equalities," -- 1,166 of the 1,500
+    # questions sampled on 2026-09-24.
+    r"|^To ask the [^,.]{0,120},\s*"
+    # The same offices WITHOUT the comma -- "To ask the Secretary of State
+    # for the Home Department what information..." -- cut at the
+    # interrogative instead, which is where the question actually starts.
+    r"|^To ask the (?:Secretary of State|Minister|Chancellor)[^,.]{0,100}?"
+    r"(?=\s(?:what|whether|how|if|when|why|which|pursuant|further)\b)\s*",
+    re.I)
 
-    Each area's table repeats the header, so a reader scrolling into the
-    middle of a long section always knows what the columns are. Nothing is
-    capped; the companion page carries the question and answer text.
+
+def _trim(text, words):
+    """The opening of a passage, VERBATIM, cut at a sentence end where one
+    falls near the budget and mid-sentence with an ellipsis otherwise.
+
+    Nothing here paraphrases or summarises. A minister's answer is a thing
+    they are on the record as having said, and a generated precis of it
+    would be words put in their mouth; the standing rule is that we never
+    invent a parliamentarian's words. So the edition shortens by DELETING
+    from the end and marks the cut, and the companion page carries the
+    whole thing.
     """
-    # An issue area is the precondition for appearing in the edition, the same
-    # rule the MP section applies: a question the taxonomy could not place on
-    # any of our areas is a false positive, not a finding.
+    parts = (text or "").split()
+    if not parts:
+        return ""
+    if len(parts) <= words:
+        return " ".join(parts)
+    head = " ".join(parts[:words])
+    # Prefer a full stop inside the last third of the budget: a clean
+    # sentence reads better than an ellipsis and costs at most a clause.
+    cut = head.rfind(". ")
+    if cut > len(head) * 0.6:
+        return head[:cut + 1]
+    return head.rstrip(",;:") + "..."
+
+
+def _who(r):
+    who = r.get("member") or "A member"
+    detail = ", ".join(x for x in (r.get("party"), r.get("seat")) if x)
+    return "{0} ({1})".format(who, detail) if detail else who
+
+
+def _cluster(rows):
+    """Questions answered with the SAME words, kept together.
+
+    Departments answer related questions with one reply and the API's own
+    groupedQuestions field is empty on every record we hold (checked over
+    4,750 archived details, 2026-09-24), so the answer text is the only
+    evidence of grouping we have. Untreated it is badly misleading: the
+    2026-09-21 edition repeated one Cheshire and Merseyside paragraph five
+    times under Assisted dying, and a reply that openly read "the
+    information requested in HL3448, HL3450, and HL3451" was printed four
+    times as though it answered each question separately. 18 of that
+    edition's 44 rows were a repeat of an answer already on the page.
+
+    Order is preserved: clusters appear where their first question did.
+    """
+    order, groups = [], {}
+    for r in rows:
+        answer = " ".join((r.get("answer_text") or "").split())
+        # No answer, or a holding line, means nothing to share.
+        key = answer if answer and not r.get("holding") else id(r)
+        if key not in groups:
+            groups[key] = []
+            order.append(key)
+        groups[key].append(r)
+    return [groups[k] for k in order]
+
+
+def _pq_block(rows):
+    """One reply as a block: who asked whom, the questions, then the answer
+    in the minister's own words."""
+    lead = rows[0]
+    headings, seen = [], set()
+    for r in rows:
+        h = r.get("heading") or "Question"
+        if h in seen:
+            continue
+        seen.add(h)
+        headings.append("[{0}]({1})".format(h, r["url"]) if r.get("url") else h)
+    askers = []
+    for r in rows:
+        w = _who(r)
+        if w not in askers:
+            askers.append(w)
+    who = askers[0] if len(askers) == 1 else "{0} and {1} other{2}".format(
+        askers[0], len(askers) - 1, "" if len(askers) == 2 else "s")
+    out = ["**{0}** - {1} asked {2}, answered {3}".format(
+        ", ".join(headings), who, lead.get("department") or "the government",
+        _fmt_pq_date(lead.get("date"))), ""]
+
+    # A question is trimmed harder inside a cluster: five questions at the
+    # single-question budget would bury the answer they share.
+    budget = 38 if len(rows) == 1 else 26
+    shown = rows[:4]
+    for r in shown:
+        asked = _ASK_PREAMBLE.sub("", (r.get("question_text") or "").strip())
+        if asked:
+            out.append("*Asked:* {0}".format(_trim(asked, budget)))
+    if len(rows) > len(shown):
+        out.append("*Asked:* and {0} further question{1} in the same group.".format(
+            len(rows) - len(shown), "" if len(rows) - len(shown) == 1 else "s"))
+
+    answer = " ".join((lead.get("answer_text") or "").split())
+    if lead.get("holding"):
+        # A holding answer is the department saying it will answer later.
+        # Printed as a real answer it would read as a government position.
+        out.append("*Answered:* holding answer only - the department has not "
+                   "yet given a substantive reply.")
+    elif answer:
+        label = ("*Answered:*" if len(rows) == 1
+                 else "*Answered* (one reply to all {0}){1}".format(len(rows), ":"))
+        out.append("{0} {1}".format(label, _trim(answer, 50)))
+    else:
+        out.append("*Answered:* answer text not captured; follow the link for "
+                   "the reply.")
+    why = next((r["why"] for r in rows if r.get("why")), "")
+    if why:
+        out.append("*Why it matters:* {0}".format(why.rstrip(".") + "."))
+    out.append("")
+    return out
+
+
+def render_pqs(edition, companion=True):
+    """Written questions, grouped by issue area (Christopher, 2026-08-05),
+    each one carrying the question AND the minister's answer (2026-09-24).
+
+    Until now this section was a four-column table -- member, heading,
+    department, date -- so a reader learned that somebody had asked about
+    hospices and that it had been answered, and nothing whatever about
+    what either of them said. The name said as much: "Written questions"
+    described the source, not the intelligence. The answers were sitting
+    in data/raw the whole time, unread by anything.
+
+    Blocks rather than a table because the substance will not fit in a
+    cell: answers run to a median of 93 words. Nothing is capped by count;
+    each passage is trimmed by length, verbatim, per _trim().
+    """
     rows_with_area = [r for r in edition.pq_rows if r.get("area")]
     if not rows_with_area:
         return None
@@ -447,31 +642,31 @@ def render_pqs(edition, companion=True):
         grouped.setdefault(row["area_label"] or "Other", []).append(row)
 
     total = len(rows_with_area)
-    out = ["## Written questions", "",
-           "*{0} question{1} matched our areas this week.*".format(
-               total, "" if total == 1 else "s"), ""]
+    answered = sum(1 for r in rows_with_area
+                   if (r.get("answer_text") or "").strip() and not r.get("holding"))
+    out = ["## {0}".format(QUESTIONS_HEADING), "",
+           "*{0} question{1} on our issues {2} answered this week{3}.*".format(
+               total, "" if total == 1 else "s", "was" if total == 1 else "were",
+               "" if answered == total
+               else "; {0} carry the reply below".format(answered)), ""]
     for label in sorted(grouped, key=lambda k: (-len(grouped[k]), k)):
         rows = grouped[label]
         out.append("**{0}** ({1})".format(label, len(rows)))
         out.append("")
-        out.extend(PQ_HEADER)
-        for r in rows:
-            who = r["member"] or "-"
-            detail = ", ".join(x for x in (r["party"], r["seat"]) if x)
-            if detail:
-                who = "{0} ({1})".format(who, detail)
-            heading = r["heading"] or "-"
-            question = "[{0}]({1})".format(heading, r["url"]) if r["url"] else heading
-            # score markers are not shown per question: presence in the
-            # table already means the triage pass admitted it
-            if r["why"]:
-                question += " {0}".format(r["why"].rstrip(".") + ".")
-            out.append("| {0} | {1} | {2} | {3} |".format(
-                who, question, r["department"] or "-", _fmt_pq_date(r["date"])))
-        out.append("")
+        for group in _cluster(rows):
+            out.extend(_pq_block(group))
     if companion:
         out.extend([companion_note(edition.companion_url), ""])
-    return "\n".join(out)
+    return "\n".join(out).rstrip() + "\n"
+
+
+BULK_KINDS = {"vote", "edm-signed"}
+# Kinds that have a section of their own: repeating them here would print the
+# same question twice in one edition, the second time with less detail
+# (Christopher, 2026-08-05). Every captured question reaches the questions
+# section or its companion page, so nothing is lost by omitting them, and the
+# section is simply quiet in recess.
+OWN_SECTION_KINDS = {"pq"}
 
 
 MP_SECTION_MAX = 12
@@ -479,15 +674,6 @@ MP_SUBTITLE = ("*Debates and motions from any member of either House touching ou
                "campaign areas this week. Written questions have their own section "
                "above; division votes are counted on member profiles rather than "
                "listed here.*")
-
-
-BULK_KINDS = {"vote", "edm-signed"}
-# Kinds that have a section of their own: repeating them here would print the
-# same question twice in one edition, the second time with less detail
-# (Christopher, 2026-08-05). Every captured question reaches the Written
-# questions section or its companion page, so nothing is lost by omitting
-# them, and the section is simply quiet in recess.
-OWN_SECTION_KINDS = {"pq"}
 
 
 def _has_area(event):
@@ -819,7 +1005,10 @@ def render(edition):
                  edition.week_commencing, edition.number, " | RECESS" if recess else ""),
              ""]
 
-    top = _render_section("Top lines", _cap(edition.top_lines, 6))
+    top_lines = list(_cap(edition.top_lines, 6))
+    if edition.recess_note:
+        top_lines.append(Line(edition.recess_note, "NOTE"))
+    top = _render_section("Top lines", top_lines)
     if top:
         parts.append(top)
     # Decisions needed sit directly under Top lines (Christopher, 2026-09-07):
@@ -829,6 +1018,14 @@ def render(edition):
     block = _decisions.render(edition.decisions) if edition.decisions else None
     if block:
         parts.append(block)
+
+    # What's on sits directly under Top lines in BOTH modes (Christopher,
+    # 2026-09-24). It used to live inside the sitting-week branch alone.
+    bill_ids = {r.title: r.bill_id for r in (edition.board_rows or [])
+                if getattr(r, "bill_id", None)}
+    whats_on = render_whats_on(edition, bill_ids, recess=recess)
+    if whats_on:
+        parts.append(whats_on)
 
     if recess:
         # Recess status + return dates render once, as a top line (composed via
@@ -857,13 +1054,6 @@ def render(edition):
         if devolved:
             parts.append(devolved)
     else:
-        bill_ids = {r.title: r.bill_id for r in (edition.board_rows or []) if getattr(r, "bill_id", None)}
-        week_ahead = render_week_ahead(edition.week_ahead, edition.week_commencing, bill_ids)
-        further = render_further_ahead(edition.further_ahead, bill_ids=bill_ids)
-        if week_ahead or further:
-            parts.append("\n\n".join(p for p in (
-                week_ahead or "## Week ahead\n\n*Nothing on our ground in the "
-                "chamber this week.*", further) if p))
         section = _render_section("Votes and amendments", edition.votes, None)
         if section:
             parts.append(section)

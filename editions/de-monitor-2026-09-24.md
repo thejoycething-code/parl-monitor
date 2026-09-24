@@ -17,8 +17,10 @@
 | Decision | Owner | Decide by | Status |
 |---|---|---|---|
 | Does the German weekly also run de_documents.py --mode window, adding the body-text layer? | Christopher | 2026-10-10 | 16 days left |
-| Does CitizenGO apply for a DIP API key in its own name? | Christopher | 2026-10-10 | 16 days left |
 | Who on the German team verifies config/taxonomy-de.yaml, and by when? | *unassigned* | 2026-10-31 | 37 days left |
+
+*Decided since last edition:*
+- Does CitizenGO apply for a DIP API key in its own name? — **Applying, in Chris Joyce's own name with joyce.digital as the business (his call, 24 September 2026) rather than CitizenGO's -- consistent with the repo living under thejoycething-code and not the work account. Application drafted; Christopher sends it. When the key arrives it is one step and no code: add DIP_API_KEY as a GitHub secret. The weekly already writes it into config/secrets.yaml and src/dip.py prefers it over the published example.** (2026-09-24, Christopher)
 
 
 ## Week ahead

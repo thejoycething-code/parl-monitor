@@ -1180,6 +1180,10 @@ def sections_from_store(conn, edition):
                 "why": r["why_it_matters"] or "",
                 "area": areas[0] if areas else None,
                 "area_label": area_labels.get(areas[0]) if areas else "Other",
+                # Filled from the detail archive below, in one pass.
+                "qid": str(r["id"]).split(":")[-1],
+                "question_text": extra.get("question_text") or "",
+                "answer_text": "", "holding": False,
             })
             continue
         if feed in ("consultation", "committee"):
@@ -1289,9 +1293,33 @@ def sections_from_store(conn, edition):
             "heading": extra.get("heading") or r["title"],
             "department": extra.get("department"), "url": r["url"],
             "date": r["event_date"], "tag": None, "why": "",
-            "question_text": extra.get("question_text"),
+            "question_text": extra.get("question_text") or "",
+            "qid": str(r["id"]).split(":")[-1],
+            "answer_text": "", "holding": False,
             "area": areas[0], "area_label": area_labels.get(areas[0]) or "Other",
         })
+
+    # The minister's ANSWER, read back from the detail archive in one pass.
+    # It is the only part of a written question that is not in the store:
+    # ingest saves questionText into extra but has never saved answerText,
+    # so for a year the edition could say a question had been answered and
+    # not what the answer was (Christopher, 2026-09-24). Rows whose detail
+    # was never archived keep an empty answer and the section says so,
+    # rather than the row vanishing.
+    from src.ingest import pqs as _pqs
+    targets = [r for r in (edition.pq_rows + edition.pq_background) if r.get("url") is not None]
+    ids = [str(r.get("qid") or "") for r in targets]
+    archive = _pqs.archive_map(os.path.join(ROOT, "data", "raw"), [i for i in ids if i])
+    for row in targets:
+        got = archive.get(str(row.get("qid") or ""))
+        if not got:
+            continue
+        row["answer_text"] = got["answer"]
+        row["holding"] = got["holding"]
+        # The archived question is the WHOLE question; extra's copy is cut at
+        # 600 characters by ingest. Prefer the longer of the two.
+        if len(got["question"]) > len(row.get("question_text") or ""):
+            row["question_text"] = got["question"]
     return edition
 
 
@@ -1541,7 +1569,10 @@ def render_edition(week_commencing, db_name, draft=False):
         lookahead = whatson.fetch_events(client, week_end + datetime.timedelta(days=1),
                                          week_end + datetime.timedelta(days=42))
         edition.return_dates = {h: d.isoformat() for h, d in whatson.return_dates(lookahead).items()}
-        edition.top_lines.insert(0, digest.Line(digest.recess_line(edition.return_dates), "NOTE"))
+        # Held as its own field, not inserted at the head of Top lines: it
+        # renders last and outside the cap, so an actionable deadline always
+        # leads (Christopher, 2026-09-24).
+        edition.recess_note = digest.recess_line(edition.return_dates)
 
     path = digest.write_edition(conn, edition, os.path.join(ROOT, "editions"),
                                 generated_at=datetime.datetime.now().isoformat(timespec="seconds"))

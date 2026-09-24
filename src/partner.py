@@ -248,10 +248,11 @@ li {{ margin: .45rem 0; }}
 </body></html>
 """
 
-QUESTIONS_PAGE = """# Written questions in full - w/c {week}
+QUESTIONS_PAGE = """# Written questions and answers in full - w/c {week}
 
 Every question that matched our campaign areas this week, with the text as
-asked. The weekly edition groups these by area and links here for detail.
+asked and the minister's answer in full. The weekly edition groups these by
+area and trims both; this page is where the untrimmed text lives.
 
 {tables}
 """
@@ -403,12 +404,38 @@ def build_petitions_page(site_dir, conn, area_labels=None):
     return path
 
 
+def _question_row(r):
+    """One row of the questions table. Shared by the digest rows and the
+    background rows, which built it twice identically and could drift.
+
+    The answer is carried here in FULL. The edition trims it to about
+    fifty words and tells the reader the rest is on this page, so if this
+    column were also a summary the promise would be empty (2026-09-24).
+    Pipes are escaped: an answer quoting a table would otherwise split the
+    row and silently shift every later cell one column left.
+    """
+    who = r.get("member") or "A member"
+    detail = ", ".join(x for x in (r.get("party"), r.get("seat")) if x)
+    if detail:
+        who = "{0} ({1})".format(who, detail)
+    heading = r.get("heading") or "Question"
+    link = "[{0}]({1})".format(heading, r["url"]) if r.get("url") else heading
+    cell = lambda t: " ".join((t or "").split()).replace("|", "\\|") or "-"
+    answer = cell(r.get("answer_text"))
+    if r.get("holding"):
+        answer = "Holding answer - no substantive reply yet."
+    return "| {0} | {1} | {2} | {3} | {4} | {5} | {6} |".format(
+        who, link, r.get("department") or "-", r.get("house") or "-",
+        r.get("date") or "-", cell(r.get("question_text")), answer)
+
+
 def build_questions_page(site_dir, week, pq_rows, area_labels=None, background=None):
     """The companion page the edition's question tables link to.
 
-    Holds every matched question with the text as asked -- the detail that
-    would swamp the edition. Same passphrase gate as the rest of the site;
-    no owner names, since the rows carry none.
+    Holds every matched question with the text as asked AND the minister's
+    answer in full -- the detail that would swamp the edition, which trims
+    both. Same passphrase gate as the rest of the site; no owner names,
+    since the rows carry none.
     """
     # Same precondition as the edition: no issue area, no appearance. An
     # "Other" heading would only advertise our false positives to allies.
@@ -419,24 +446,15 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None, background=N
     for row in rows:
         grouped.setdefault(row.get("area_label") or "Other", []).append(row)
 
-    header = ("| Member | Question | Asked of | House | Answered | The question as asked |",
-              "|---|---|---|---|---|---|")
+    header = ("| Member | Question | Asked of | House | Answered | "
+              "The question as asked | The answer given |",
+              "|---|---|---|---|---|---|---|")
     blocks = []
     for label in sorted(grouped, key=lambda k: (-len(grouped[k]), k)):
         rows = grouped[label]
         blocks.append("## {0} ({1})\n".format(label, len(rows)))
         blocks.extend(header)       # every table repeats its header
-        for r in rows:
-            who = r.get("member") or "A member"
-            detail = ", ".join(x for x in (r.get("party"), r.get("seat")) if x)
-            if detail:
-                who = "{0} ({1})".format(who, detail)
-            heading = r.get("heading") or "Question"
-            link = "[{0}]({1})".format(heading, r["url"]) if r.get("url") else heading
-            asked = " ".join((r.get("question_text") or "").split()) or "-"
-            blocks.append("| {0} | {1} | {2} | {3} | {4} | {5} |".format(
-                who, link, r.get("department") or "-", r.get("house") or "-",
-                r.get("date") or "-", asked))
+        blocks.extend(_question_row(r) for r in rows)
         blocks.append("")
     bg = [r for r in (background or []) if r.get("area")]
     if bg:
@@ -444,21 +462,11 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None, background=N
         blocks.append("These matched our areas but were judged background rather "
                       "than digest material, so they do not appear in the edition.\n")
         blocks.extend(header)
-        for r in bg:
-            who = r.get("member") or "A member"
-            detail = ", ".join(x for x in (r.get("party"), r.get("seat")) if x)
-            if detail:
-                who = "{0} ({1})".format(who, detail)
-            heading = r.get("heading") or "Question"
-            link = "[{0}]({1})".format(heading, r["url"]) if r.get("url") else heading
-            asked = " ".join((r.get("question_text") or "").split()) or "-"
-            blocks.append("| {0} | {1} | {2} | {3} | {4} | {5} |".format(
-                who, link, r.get("department") or "-", r.get("house") or "-",
-                r.get("date") or "-", asked))
+        blocks.extend(_question_row(r) for r in bg)
         blocks.append("")
 
     markdown = QUESTIONS_PAGE.format(week=week, tables="\n".join(blocks))
-    page = to_html(markdown, "Written questions in full - w/c {0}".format(week))
+    page = to_html(markdown, "Written questions and answers in full - w/c {0}".format(week))
     path = os.path.join(site_dir, "questions.html")
     with open(path, "w", encoding="utf-8") as handle:
         handle.write(page)
@@ -478,7 +486,7 @@ def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq
            '<a href="/5ca-matrix.html">Cross-issue matrix</a> | '
            '<a href="/5ca-peers-matrix.html">Peers matrix</a> | '
            '<a href="/5ca.html">Five Column Analysis tracker</a> | '
-           '<a href="/questions.html">Written questions in full</a> | '
+           '<a href="/questions.html">Questions and answers</a> | '
            '<a href="/petitions.html">E-petitions on our ground</a> | '
            '<a href="/issues.html">Issue pages</a><br>Archive: ' +
            " | ".join('<a href="/archive/{0}.html">{0}</a>'.format(w)

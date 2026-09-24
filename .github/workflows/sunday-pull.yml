@@ -128,6 +128,23 @@ jobs:
           WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t + datetime.timedelta(days=1) if t.weekday() == 6 else t - datetime.timedelta(days=t.weekday())).isoformat())")
           echo "Pulling for week commencing $WEEK"
           TRIAGE=auto python3 run_weekly.py --pull "$WEEK"
+      - name: Archive written-question answers
+        # The edition now prints what the minister actually said, and the
+        # answer is the one part of a question the sweep never stores:
+        # ingest saves questionText into extra and has never saved
+        # answerText. This writes data/raw/<today>/pq_detail-<id>.json.gz
+        # and touches NO table, so it is safe beside the store lock -- ONE
+        # WRITER AT A TIME is about the store, and this never opens it for
+        # writing. It runs here rather than at render time so Monday's
+        # edition reads from disk and makes no network calls.
+        #
+        # Built 2026-09-06 as a one-shot and never scheduled, so coverage
+        # decayed to 56% by 24 September: every question answered after the
+        # 6th had no answer to show. --limit caps the first run if it finds
+        # a long backlog; a week's questions are far below it.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: python3 tools/backfill_pq_text.py --limit 400
       - name: Record bill committee attendance
         # Rosters from the PBC transcripts of the bills named in
         # config/vote_tracker.yaml (pbc_attendance). Idempotent: sittings
