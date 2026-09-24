@@ -990,6 +990,28 @@ CREATE TABLE IF NOT EXISTS division_whip (
   ref_base TEXT PRIMARY KEY,
   whipped INTEGER
 );
+CREATE TABLE IF NOT EXISTS brief_log (
+  -- One row per Campaigns Brief EVER generated, so a scheduled run can never
+  -- overwrite a campaigner's edits. Written by tools/make_briefs.py and
+  -- tools/de_briefs.py; read by brief_status.py, check_brief_approvals.py and
+  -- publish_briefs_to_drive.py.
+  --
+  -- DECLARED HERE from 24 September 2026, when the German generator started
+  -- writing to it. make_briefs.ensure_log() creates it at the point of use
+  -- and still does, but de_briefs.py only CALLS that -- so reading de_briefs
+  -- alone you cannot tell the table exists, which is precisely what the
+  -- undeclared-table check flagged. Shared state belongs in the schema.
+  -- Columns match the live table exactly, so init_db is a no-op on every
+  -- store that already has it.
+  slug TEXT PRIMARY KEY,
+  subject TEXT,
+  generated_at TEXT,
+  path TEXT,
+  status TEXT,
+  asana_gid TEXT,
+  drive_file_id TEXT,
+  followup_gid TEXT
+);
 CREATE TABLE IF NOT EXISTS publish_log (
   -- Which Slack canvas and channel message carry which week's WESTMINSTER
   -- edition. Written by run_monday.py after a successful publish; read by
@@ -1410,6 +1432,7 @@ TABLES = (
     "de_amendments",
     "de_committee_reports",
     "de_canvas",
+    "brief_log",
     "publish_log",
     "stance",
     "pull_log",
