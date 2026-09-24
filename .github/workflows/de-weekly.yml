@@ -131,6 +131,12 @@ jobs:
         run: python3 tools/de_courts.py | tee /tmp/de-courts.log
       - name: Collect amendments to bills we watch
         run: python3 tools/de_amendments.py | tee /tmp/de-amendments.log
+      - name: Collect committee reports and laid papers
+        # A Beschlussempfehlung is the committee telling the House what to do
+        # with a bill, BEFORE the vote. The 60-day window is deliberate: DIP
+        # publishes a report first and adds its committee and parent bill
+        # later, so recent documents must be re-seen to be completed.
+        run: python3 tools/de_committees.py | tee /tmp/de-committees.log
       - name: Write secrets file
         # anthropic_api_key: the triage judge. slack: the weekly DM to
         # Christopher ONLY -- the channel is deliberately not posted, the
@@ -160,7 +166,7 @@ jobs:
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-stance:|de-triage:|edition:|dm:|\[gap\]" \
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-triage:|edition:|dm:|\[gap\]" \
               /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \

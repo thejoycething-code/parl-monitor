@@ -540,6 +540,29 @@ def placements(conn):
     return out
 
 
+def committee_reports(conn):
+    """Committee recommendations and laid papers on our ground, newest first.
+
+    Returned in two groups because they are two different things: a
+    Beschlussempfehlung is the committee telling the House what to do BEFORE
+    the vote, and an Unterrichtung is something laid before the House by the
+    Government, the Commission or an oversight body. Westminster's section
+    names both halves and so does this one.
+    """
+    try:
+        rows = conn.execute(
+            "SELECT * FROM de_committee_reports WHERE areas IS NOT NULL AND "
+            "areas != '[]' AND {0} ORDER BY datum DESC".format(
+                degate.SHOWN_SQL)).fetchall()
+    except sqlite3.OperationalError as exc:
+        if "no such table" not in str(exc):
+            raise
+        return [], []
+    shown = [r for r in rows if not hidden_only(r)]
+    return ([r for r in shown if r["kind"] == "committee report"],
+            [r for r in shown if r["kind"] != "committee report"])
+
+
 def week_ahead(conn, today):
     """Sittings still to come, and how far the feed could actually see.
 
@@ -822,6 +845,55 @@ def render_edition(conn, today):
                 r["doc_id"].replace("drucksache:", "Drs. "),
                 r["url"] or ""))
         lines.append("")
+
+    # --- Committee reports and what has been laid before the House ---
+    reports, laid = committee_reports(conn)
+    if reports or laid:
+        lines.append("## Committee reports and laid papers ({0})".format(
+            len(reports) + len(laid)))
+        lines.append("")
+        if reports:
+            lines.append("*A Beschlussempfehlung is the committee telling the "
+                         "House what to do with a bill, published BEFORE the "
+                         "vote -- the most actionable moment in a bill's "
+                         "life.*")
+            lines.append("")
+            lines.append("| Published | Committee | Areas | Report | "
+                         "Reports on |")
+            lines.append("|---|---|---|---|---|")
+            for r in reports[:12]:
+                title = oneline(r["titel"] or "?").replace("|", "/")
+                link = "[{0}]({1})".format(title[:110], r["url"]) if r["url"] \
+                    else title[:110]
+                if r["inherited"]:
+                    link += " _(areas from the paper it reports on)_"
+                try:
+                    parents = ", ".join(json.loads(
+                        r["parent_drucksachen"] or "[]")[:3]) or "-"
+                except (TypeError, ValueError):
+                    parents = "-"
+                lines.append("| {0} | {1} | {2} | {3} | {4} |".format(
+                    r["datum"] or "?",
+                    oneline(r["committee"] or "not yet published by DIP")
+                    .replace("|", "/")[:44],
+                    _areas(r, names) or "?", link, parents))
+            lines.append("")
+        if laid:
+            lines.append("**Laid before the House** (Unterrichtungen -- the "
+                         "Government, the Commission or an oversight body "
+                         "reporting in):")
+            lines.append("")
+            lines.append("| Published | From | Areas | Paper |")
+            lines.append("|---|---|---|---|")
+            for r in laid[:8]:
+                title = oneline(r["titel"] or "?").replace("|", "/")
+                lines.append("| {0} | {1} | {2} | {3} |".format(
+                    r["datum"] or "?",
+                    oneline(r["committee"] or "?").replace("|", "/")[:36],
+                    _areas(r, names) or "?",
+                    "[{0}]({1})".format(title[:100], r["url"]) if r["url"]
+                    else title[:100]))
+            lines.append("")
 
     # --- Secondary legislation ---
     sis = of_type(live + concluded, SI_TYPES)

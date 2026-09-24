@@ -92,6 +92,7 @@ FEEDS = [
     ("de_petition_snapshots", "captured_at", 7, 4, "German petition signature snapshots"),
     ("de_judgments", "last_seen", 7, 4, "Bundesverfassungsgericht cases listed for decision"),
     ("de_amendments", "last_seen", 7, 4, "Änderungsanträge to bills (Germany weekly)"),
+    ("de_committee_reports", "last_seen", 7, 4, "Bundestag committee reports and laid papers (Germany weekly)"),
     ("hansard_sections", "captured_at", 7, 3, "Hansard's section list per sitting day (Sunday pull)"),
     ("judge_verdicts", "captured_at", 7, 3, "the judge evaluation bank (Sunday pull)"),
     ("dv_petitions", "last_seen", 7, 4, "Senedd and Holyrood petitions (devolved weeklies)"),
@@ -177,7 +178,7 @@ PIPELINE_FEEDS = {
     # bursts, so listing them here would cry clobber every quiet month.
     "Germany weekly": ["de_vorgaenge", "de_agenda", "de_petitions",
                        "de_petition_snapshots", "de_judgments",
-                       "de_amendments"],
+                       "de_amendments", "de_committee_reports"],
     "UPR monthly": ["upr_recommendations"],
     # "EU day sweep" is deliberately absent. PIPELINE_FEEDS drives the clobber
     # check -- a pipeline that ran but whose data is stale -- and the EP sits in

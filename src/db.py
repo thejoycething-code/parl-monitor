@@ -1024,6 +1024,31 @@ CREATE TABLE IF NOT EXISTS de_canvas (
   last_updated TEXT,
   revisions INTEGER NOT NULL DEFAULT 1
 );
+CREATE TABLE IF NOT EXISTS de_committee_reports (
+  -- Committee recommendations, committee reports, and notifications laid
+  -- before the Bundestag. Westminster's edition has "Committee reports and
+  -- Government responses" and Germany had no equivalent, which left a hole
+  -- at the most actionable moment in a bill's life: a Beschlussempfehlung is
+  -- the committee telling the House what to do with a bill, published BEFORE
+  -- the vote rather than after it.
+  --
+  -- Unlike an Änderungsantrag, the title here carries the BILL'S OWN NAME
+  -- ("... - Entwurf eines Ersten Gesetzes zur Änderung des
+  -- Wissenschaftsfreiheitsgesetzes"), so these classify on their own words
+  -- and fall back to the parent only when that finds nothing.
+  doc_id TEXT PRIMARY KEY,        -- 'drucksache:21/8164'
+  kind TEXT,                      -- 'committee report' | 'notification'
+  drucksachetyp TEXT,             -- DIP's own type, verbatim
+  datum TEXT, titel TEXT,
+  committee TEXT,                 -- the Ausschuss, or the issuing body
+  vorgang_id TEXT, vorgang_titel TEXT,
+  parent_drucksachen TEXT,        -- JSON: the papers it reports on
+  inherited INTEGER,              -- 1 when the areas came from the parent
+  url TEXT,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  triage_score INTEGER, why_it_matters TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS de_amendments (
   -- Änderungsanträge: amendments moved to a bill in second reading.
   --
@@ -1383,6 +1408,7 @@ TABLES = (
     "de_documents",
     "de_agenda",
     "de_amendments",
+    "de_committee_reports",
     "de_canvas",
     "publish_log",
     "stance",

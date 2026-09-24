@@ -309,5 +309,93 @@ class RegistrationTests(unittest.TestCase):
             self.assertIn(tool, text, tool)
 
 
+cte = _load("de_committees")
+
+
+class CommitteeReportTests(unittest.TestCase):
+    """The last section Westminster had and Germany did not (Christopher, 24
+    September 2026). A Beschlussempfehlung is the committee telling the House
+    what to do with a bill BEFORE the vote."""
+
+    def test_the_pdf_path_is_the_one_dserver_actually_serves(self):
+        """VERIFIED against the live server on five papers. Two other
+        paddings were tried first and both 404'd -- including the one
+        de_amendments.py had been using since the day it was written, which
+        made every amendment link in the edition dead."""
+        self.assertEqual(cte.paper_url("21/8164"),
+                         "https://dserver.bundestag.de/btd/21/081/2108164.pdf")
+        self.assertEqual(cte.paper_url("21/1"),
+                         "https://dserver.bundestag.de/btd/21/000/2100001.pdf")
+
+    def test_both_tools_build_the_same_url(self):
+        """They had two different constructions and only one could be right."""
+        self.assertEqual(cte.paper_url("21/8164"), amd.paper_url("21/8164"))
+        self.assertEqual(cte.paper_url("21/1"), amd.paper_url("21/1"))
+
+    def test_a_bundesrat_numbered_paper_gets_no_invented_url(self):
+        """An Unterrichtung can be numbered '542/26' or 'zu542/26', which
+        does not live under /btd/ at all. No link beats a wrong one."""
+        for n in ("542/26", "zu542/26", "", None):
+            self.assertIsNone(cte.paper_url(n), repr(n))
+
+    def test_a_report_is_classified_on_its_own_title(self):
+        """The opposite of an amendment, and the difference is real: an
+        Änderungsantrag's title is procedure, a report's names the bill."""
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config",
+                                              "taxonomy-de.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config",
+                                              "watchlist-de.yaml"))
+        got = filt.filter_item(tax, wl,
+                               "zu dem Gesetzentwurf der Fraktion der AfD - "
+                               "Drucksache 21/6927 - Entwurf eines Gesetzes "
+                               "zur Abschaffung des § 188 des "
+                               "Strafgesetzbuches")
+        self.assertTrue(got.issue_areas,
+                        "a report naming a bill on our ground matched nothing")
+
+    def test_the_paper_is_not_listed_as_its_own_parent(self):
+        """A title repeats its own number; a report parented to itself would
+        make the board look circular."""
+        self.assertEqual(
+            cte.parents_in_title("zu 21/8164 und Drucksachen 21/4500, "
+                                 "21/4784", "21/8164"),
+            ["21/4500", "21/4784"])
+
+    def test_the_two_kinds_are_kept_apart(self):
+        """A committee recommending something and the Commission laying a
+        proposal are different events; the section names both halves."""
+        self.assertEqual(cte.kind_of("Beschlussempfehlung und Bericht"),
+                         "committee report")
+        self.assertEqual(cte.kind_of("Unterrichtung"), "notification")
+
+    def test_late_arriving_fields_are_updated_not_frozen(self):
+        """THE TRAP. Of 128 reports sampled, 123 carried a committee -- but
+        the two published that morning carried none, because DIP enriches
+        afterwards. A write-once collector would leave every report
+        permanently committee-less, since the week it is first seen is
+        exactly the week the field is missing."""
+        import inspect
+        src = inspect.getsource(cte)
+        self.assertIn("committee=COALESCE(excluded.committee, committee)", src)
+        self.assertIn("vorgang_id=COALESCE(excluded.vorgang_id, vorgang_id)",
+                      src)
+
+    def test_it_is_registered_everywhere_a_source_must_be(self):
+        import importlib.util as iu
+        for name, attr, key in (("coverage", "FEEDS", None),
+                                ("de_triage", "SOURCES", None)):
+            spec = iu.spec_from_file_location(
+                name, os.path.join(ROOT, "tools", name + ".py"))
+            mod = iu.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            got = getattr(mod, attr)
+            names = [f[0] for f in got] if attr == "FEEDS" else list(got)
+            self.assertIn("de_committee_reports", names, name)
+        with open(os.path.join(ROOT, ".github", "workflows",
+                               "de-weekly.yml"), encoding="utf-8") as fh:
+            self.assertIn("de_committees.py", fh.read())
+
+
 if __name__ == "__main__":
     unittest.main()

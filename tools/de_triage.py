@@ -55,6 +55,9 @@ SOURCES = {
     # An amendment's own title is procedure, so the BILL it amends is what
     # tells the judge what is at stake.
     "de_amendments": ("doc_id", ("vorgang_titel", "titel")),
+    # The report's own title names the bill, so it is the substance; the
+    # committee is carried too because who is recommending matters.
+    "de_committee_reports": ("doc_id", ("titel", "committee")),
 }
 
 # A de_ table with `areas` that is deliberately NOT judged, with the reason.

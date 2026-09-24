@@ -41,6 +41,7 @@ import argparse
 import datetime
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -51,6 +52,23 @@ from src.http import FetchError, HttpClient  # noqa: E402
 
 LOOKBACK_DAYS = 365
 DRUCKSACHETYP = "Änderungsantrag"
+
+
+def paper_url(number):
+    """dserver's PDF path for a Drucksache.
+
+    Shared with tools/de_committees.py, which established the rule against
+    the live server: the number pads to FIVE digits, the directory is its
+    first three. The construction here before that was checked produced
+    /btd/21/816/218164.pdf for 21/8164, which 404s -- every amendment link
+    written on 23 September was dead.
+    """
+    m = re.fullmatch(r"(\d{1,2})/(\d{1,6})", number or "")
+    if not m:
+        return None
+    wp, num = m.group(1), m.group(2).zfill(5)
+    return "https://dserver.bundestag.de/btd/{0}/{1}/{0}{2}.pdf".format(
+        wp, num[:3], num)
 
 
 def urheber_of(doc):
@@ -150,10 +168,7 @@ def pull(conn, client, key, today, tax, wl, since, log=print, dry_run=False):
                 (doc_id, (doc.get("datum") or "")[:10], titel,
                  urheber_of(doc), parent_id, parent_titel,
                  1 if from_parent else 0,
-                 "https://dserver.bundestag.de/btd/{0}/{1}/{2}.pdf".format(
-                     number.split("/")[0],
-                     number.split("/")[1][:3].zfill(3),
-                     number.replace("/", "")) if "/" in number else None,
+                 paper_url(number),
                  json.dumps(sorted(set(areas))),
                  json.dumps(sorted(set(terms))), res.tier, today, today))
     if not dry_run:
