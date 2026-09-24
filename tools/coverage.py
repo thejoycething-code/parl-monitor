@@ -249,6 +249,9 @@ ONCE_EVER = {
                     "bursts -- 68 in sixteen months",
     "de_members": "re-stamped only when a recorded vote is collected, which "
                   "is itself a burst",
+    "de_affiliations": "new rows only: a member's committee seats, written "
+                       "when they are first profiled and re-stamped only "
+                       "when a seat changes",
     "de_speeches": "new rows only: a Stenografischer Bericht is final and is "
                    "read once, and the Bundestag sits in blocks with months "
                    "of recess between them",

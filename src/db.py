@@ -890,6 +890,19 @@ CREATE TABLE IF NOT EXISTS de_members (
   parliament TEXT,                -- abgeordnetenwatch parliament id ('5' = Bundestag)
   parliament_label TEXT,
   legislature TEXT,
+  -- PROFILE (24 September 2026). Official, role-related, public: who they
+  -- are in the House, never anything personal. politician_id is
+  -- abgeordnetenwatch's id for the PERSON, where person_id above is the id
+  -- for one MANDATE -- a member re-elected holds a new mandate and the same
+  -- politician_id, which is what lets service be followed across terms.
+  politician_id TEXT,
+  profile_url TEXT,
+  constituency TEXT,              -- '92 - Köln I', when directly elected
+  electoral_list TEXT,            -- 'Landesliste Nordrhein-Westfalen'
+  -- 'constituency' or 'list'. A campaigning distinction, not a clerical
+  -- one: a directly elected member answers to a place, a list member does
+  -- not, and that changes who can usefully write to them.
+  mandate_won TEXT,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS de_divisions (
@@ -1029,6 +1042,17 @@ CREATE TABLE IF NOT EXISTS publish_log (
   canvas_id TEXT,
   asana_gid TEXT,
   published_at TEXT
+);
+CREATE TABLE IF NOT EXISTS de_affiliations (
+  -- Which committees a member sits on, and in what role. The German
+  -- equivalent of ni_affiliations and sp_affiliations: a member on the
+  -- Ausschuss für Familie is a different proposition from one who is not,
+  -- and "foreperson" is a different proposition again.
+  person_id TEXT NOT NULL,
+  committee TEXT NOT NULL,
+  role TEXT,                      -- 'member' | 'foreperson' | ... verbatim
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+  PRIMARY KEY (person_id, committee)
 );
 CREATE TABLE IF NOT EXISTS de_canvas (
   -- Which Slack canvas holds which German edition, so a re-send REWRITES it
@@ -1431,6 +1455,7 @@ TABLES = (
     "de_agenda",
     "de_amendments",
     "de_committee_reports",
+    "de_affiliations",
     "de_canvas",
     "brief_log",
     "publish_log",
@@ -1526,6 +1551,16 @@ def init_db(conn):
     # there, so without this the column is present in the schema and absent
     # from the store -- and tools/de_stance.py read it and died. A schema
     # change that cannot reach existing rows is not a schema change.
+    # de_members gained its profile columns on 24 September 2026, after
+    # 2,517 rows already existed. CREATE TABLE IF NOT EXISTS does nothing to
+    # a table that is already there.
+    mem_cols = {r[1] for r in conn.execute("PRAGMA table_info(de_members)")}
+    if mem_cols:
+        for col in ("politician_id", "profile_url", "constituency",
+                    "electoral_list", "mandate_won"):
+            if col not in mem_cols:
+                conn.execute(
+                    "ALTER TABLE de_members ADD COLUMN {0} TEXT".format(col))
     sp_cols = {r[1] for r in conn.execute("PRAGMA table_info(de_speeches)")}
     if sp_cols and "text" not in sp_cols:
         conn.execute("ALTER TABLE de_speeches ADD COLUMN text TEXT")

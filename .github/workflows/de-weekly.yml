@@ -137,6 +137,12 @@ jobs:
         # publishes a report first and adds its committee and parent bill
         # later, so recent documents must be re-seen to be completed.
         run: python3 tools/de_committees.py | tee /tmp/de-committees.log
+      - name: Profile members we can say something about
+        # Incremental and capped: members with a stance placement or a vote
+        # in a matched non-migration division first -- about 281 of 2,517,
+        # the ones a campaigner might contact. A profiled member is skipped,
+        # so after the first passes this costs new arrivals only.
+        run: python3 tools/de_profiles.py | tee /tmp/de-profiles.log
       - name: Write secrets file
         # anthropic_api_key: the triage judge. slack: the weekly DM to
         # Christopher ONLY -- the channel is deliberately not posted, the
@@ -174,7 +180,7 @@ jobs:
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-briefs:|de-triage:|edition:|dm:|\[gap\]" \
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-profiles:|de-briefs:|de-triage:|edition:|dm:|\[gap\]" \
               /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \
