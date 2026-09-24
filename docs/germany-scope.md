@@ -157,6 +157,30 @@ sign the German terms are over-broad. The migration terms are working exactly
 as written. It is a sign that migration is a very large share of what the
 Bundestag transacts.
 
+## The IP block of 24 September 2026, and the rule it bought
+
+bundestag.de began resetting our connections **during the TLS handshake** --
+CONNECTED, then errno 54, no peer certificate. DNS resolved and port 443 was
+open, so it was not an outage, not routing, not the API key and not the
+User-Agent: the server never got far enough to see a request. An edge block
+on this machine's IP.
+
+It followed roughly 2,000 requests to that host in one day, and one of them
+was not like the others: a committee-report backfill with
+`--since 2025-06-01` that pulled **1,816 documents in a single pass**. The
+weekly's own window is 60 days and its recurring load is a fraction of that.
+
+**THE RULE: backfills run from CI, paced, and are announced.** A one-off
+historical sweep is the heaviest thing this project does to any source, it is
+always a deliberate act rather than a scheduled one, and running it from a
+laptop puts a single IP behind every request. The weekly windows are chosen
+to be light; the backfills are what will get us blocked.
+
+Five German collectors depend on that host -- de_documents, de_speeches,
+de_amendments, de_committees and de_agenda. The Sunday run uses GitHub's IPs
+and is probably unaffected, but that is a hope rather than a verification
+while the block stands.
+
 ## Still open
 
 - **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`

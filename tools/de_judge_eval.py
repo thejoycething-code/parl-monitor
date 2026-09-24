@@ -155,7 +155,8 @@ def main():
             os.makedirs(REVIEWS)
         path = os.path.join(REVIEWS, "de-judge-sample-{0}.md".format(week))
         written, n = evalbank.write_sample(conn, week, path,
-                                           jurisdiction=JURISDICTION)
+                                           jurisdiction=JURISDICTION,
+                                           exclude_hidden=True)
         if not written:
             print("de-judge-eval: no German verdict banked for w/c {0}. Run "
                   "seed, or wait for a triage pass.".format(week))

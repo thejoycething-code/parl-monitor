@@ -190,7 +190,19 @@ def pick_sample(rows, n=SAMPLE_SIZE, seed=None):
     return chosen[:max(n, min(len(rows), len(chosen)))] if len(chosen) > n else chosen
 
 
-def write_sample(conn, week, path, n=SAMPLE_SIZE, jurisdiction=None):
+HIDDEN_AREAS = (11,)   # migration: collated, never campaigned (partner.HIDDEN_AREAS)
+
+
+def _hidden_only(row):
+    try:
+        got = set(json.loads(row["candidate_areas"] or "[]"))
+    except (TypeError, ValueError, IndexError, KeyError):
+        return False
+    return bool(got) and got <= set(HIDDEN_AREAS)
+
+
+def write_sample(conn, week, path, n=SAMPLE_SIZE, jurisdiction=None,
+                 exclude_hidden=False):
     """Ten of the week's verdicts for a human to check.
 
     jurisdiction scopes the sample ("Germany", "Westminster", "the EU"). A
@@ -203,6 +215,16 @@ def write_sample(conn, week, path, n=SAMPLE_SIZE, jurisdiction=None):
                         "ORDER BY item_id", (week,)).fetchall()
     if jurisdiction:
         rows = [r for r in rows if jurisdiction_of(r["feed"]) == jurisdiction]
+    if exclude_hidden:
+        # A reviewer's time is the scarcest thing in this corpus, and a
+        # verdict on a migration-only item buys a surface that does not
+        # exist: it renders nowhere. In Germany that is not a rounding
+        # error -- 241 of 659 banked verdicts are migration-only, so a
+        # stratified sample was landing four in ten on the one area we
+        # never campaign on. Westminster very likely wants this too, but
+        # turning it on there would change the composition of a corpus
+        # already part-labelled, so it is opt-in rather than assumed.
+        rows = [r for r in rows if not _hidden_only(r)]
     if not rows:
         return None, 0
     chosen = pick_sample(rows, n, seed=week)

@@ -53,7 +53,23 @@ decisions:
     owner: Christopher
     decide_by: 2026-10-10
     opened: 2026-09-23
-    status: open
+    status: decided
+    decided_on: 2026-09-24
+    outcome: >-
+      Applying, in Chris Joyce's own name with joyce.digital as the business
+      (his call, 24 September 2026) rather than CitizenGO's -- consistent with
+      the repo living under thejoycething-code and not the work account.
+      Application drafted; Christopher sends it. When the key arrives it is
+      one step and no code: add DIP_API_KEY as a GitHub secret. The weekly
+      already writes it into config/secrets.yaml and src/dip.py prefers it
+      over the published example.
+    # FORCED BY EVENTS on 24 September 2026, not decided at leisure:
+    # bundestag.de began resetting our connections during the TLS handshake
+    # -- an edge block on this machine's IP, after roughly 2,000 requests in
+    # a day, most of them one 1,816-document committee backfill. Five German
+    # collectors depend on that host. The weekly runs from GitHub's IPs so it
+    # is probably unaffected, but "probably" is the honest word.
+    #
     # The weekly currently drives DIP from the key the Bundestag publishes as
     # a documentation EXAMPLE in its own OpenAPI spec. It works and rotation
     # heals itself, but it is shared, it can be rate-limited by other
