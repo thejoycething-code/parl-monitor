@@ -155,6 +155,59 @@ class SeparationTests(unittest.TestCase):
                           wf + " must pull " + nation)
 
 
+class WeeklyCadenceTripwireTests(unittest.TestCase):
+    """The weekly sweep is a DECISION with a premise, and the premise is
+    measurable (Christopher, 24 September 2026: "Keep devolved consultations
+    in a weekly sweep as they run for a long time").
+
+    Measured that day over 166 stored consultations: Scotland averages an
+    86-day window with the shortest at 30, Wales 78 with the shortest at 28,
+    and every NI consultation running under a fortnight is a job fair, a
+    bursary form or an event evaluation with no area at all. Six days of
+    latency against a four-week window is a fifth of it at worst.
+
+    That reasoning expires the moment something ON OUR GROUND opens with a
+    fortnight or less to run -- so the collector watches for it and says so.
+    A decision recorded only in a comment is one nobody is told has stopped
+    being true.
+    """
+
+    def test_the_threshold_is_the_one_the_decision_rests_on(self):
+        self.assertEqual(_dgc().SHORT_WINDOW_DAYS, 14)
+
+    def test_the_window_is_measured_from_the_two_dates(self):
+        self.assertEqual(_dgc()._window_days("2026-09-01", "2026-09-29"), 28)
+
+    def test_a_missing_date_is_not_a_short_window(self):
+        """A dateless consultation must not trip the wire: 'we could not
+        parse the date' and 'it closes in a week' are different facts."""
+        dg = _dgc()
+        self.assertIsNone(dg._window_days(None, "2026-09-29"))
+        self.assertIsNone(dg._window_days("2026-09-01", None))
+        self.assertIsNone(dg._window_days("not-a-date", "2026-09-29"))
+
+    def test_the_collector_reports_a_short_window_on_our_ground(self):
+        """The tripwire must actually print. A guard nobody sees is worse
+        than no guard, because it looks like coverage."""
+        import inspect
+        src = inspect.getsource(_dgc())
+        self.assertIn("SHORT WINDOW ON OUR GROUND", src)
+        self.assertIn("SHORT_WINDOW_DAYS", src)
+        # It fires only for items that MATCHED: a short job-fair survey with
+        # no area is exactly what the weekly cadence is allowed to be late
+        # on, and NI is full of them. Checked structurally -- the append must
+        # be indented deeper than the `if areas:` that guards it -- because
+        # the first version of this assertion searched backwards from the
+        # CONSTANT's definition near the top of the file and proved nothing.
+        lines = src.splitlines()
+        guard = next(i for i, l in enumerate(lines) if l.strip() == "if areas:")
+        fire = next(i for i, l in enumerate(lines) if "short.append(" in l)
+        self.assertGreater(fire, guard, "the tripwire runs before the guard")
+        indent = len(lines[guard]) - len(lines[guard].lstrip())
+        self.assertGreater(len(lines[fire]) - len(lines[fire].lstrip()), indent,
+                           "the tripwire is not inside the on-our-ground branch")
+
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -14,6 +14,36 @@ already holding a closing date is never refetched. Everything is stored
 and marks OURS in the monitors. All pages fetch with archive=False -- the
 db is the archive, and gov.wales detail pages are 240KB each.
 
+CADENCE: WEEKLY, AND DELIBERATELY SO (Christopher, 24 September 2026:
+"Keep devolved consultations in a weekly sweep as they run for a long time").
+Each nation's consultations are collected by that nation's weekly workflow --
+Saturdays for NI, Thursdays for Wales, Fridays for Scotland -- so an item
+opening the day after a sweep waits up to six days to be seen.
+
+That was questioned when NI consultations surfaced late, and the answer is
+that the lateness had nothing to do with cadence: the fetch read page one
+only, so anything below Citizen Space's 30-row page was invisible however
+often it ran. The NI weekly ran on 29 August AND 5 September without seeing a
+consultation that had been open since 24 August. Pagination fixed that, and
+late-by went from 16-52 days to 1-3.
+
+The window lengths say the weekly sweep is right. Measured 24 September 2026
+over 166 stored consultations:
+
+    Scotland   15 rows   average window 86 days   shortest 30
+    Wales      28 rows   average window 78 days   shortest 28
+    NI        123 rows   average window 682 days  shortest 7
+
+Only two NI consultations run under a fortnight, and every one of the
+shortest is a job fair, a bursary form or an event evaluation -- areas is []
+on all of them. Nothing on our ground has a window a weekly sweep endangers:
+the shortest REAL consultation is four weeks, so six days of latency costs at
+most a fifth of it and usually far less.
+
+Do not move these to the daily sweep without new evidence. The thing to watch
+is not the calendar but the shortest window that ever carries an area: if one
+appears under 14 days, this reasoning expires.
+
 ONE WRITER AT A TIME on data/parl-monitor.db.
 """
 
@@ -30,6 +60,22 @@ sys.path.insert(0, ROOT)
 from src import db, filter as filt
 from src.http import FetchError, HttpClient
 from src.ingest import devolved
+
+# A consultation on our ground opening with this long or less to run means
+# the weekly sweep can no longer be justified by window length. Fourteen
+# days: six of latency out of fourteen is not a margin anyone should accept
+# on something we might campaign on.
+SHORT_WINDOW_DAYS = 14
+
+
+def _window_days(opened, closes):
+    """How long the consultation runs, or None when either date is missing."""
+    import datetime as _dt
+    try:
+        return (_dt.date.fromisoformat(closes)
+                - _dt.date.fromisoformat(opened)).days
+    except (TypeError, ValueError):
+        return None
 
 WALES_MAX_PAGES = 10    # ~5 pages of open consultations in 2026; cap, don't spin
 
@@ -104,6 +150,8 @@ def main():
     now = datetime.date.today().isoformat()
 
     total = new = ours = gaps = 0
+
+    short = []
     for nation in nations:
         try:
             found = fetch_open(client, nation, print)
@@ -138,6 +186,16 @@ def main():
             areas = res.issue_areas or []
             if areas:
                 ours += 1
+                # THE TRIPWIRE FOR THE WEEKLY CADENCE. These are swept once a
+                # week on purpose, because the shortest consultation on our
+                # ground measured four weeks and six days of latency costs a
+                # fifth of that at worst. The premise is the WINDOW LENGTH,
+                # not the calendar -- so the moment something on our ground
+                # opens with a fortnight or less to run, the reasoning has
+                # expired and whoever sees this needs to know.
+                window = _window_days(c.opened, c.closes)
+                if window is not None and window <= SHORT_WINDOW_DAYS:
+                    short.append((nation, window, c.closes, c.title))
             if c.key not in known:
                 new += 1
             conn.execute(
@@ -157,6 +215,14 @@ def main():
         print("{0}: {1} open consultation(s) listed.".format(
             nation, len(found)))
 
+    if short:
+        print("")
+        print("SHORT WINDOW ON OUR GROUND -- the weekly cadence was justified "
+              "by consultations running for months (Christopher, 24 September "
+              "2026). These do not, so that reasoning no longer covers them:")
+        for nation, window, closes, title in sorted(short, key=lambda x: x[1]):
+            print("  {0} {1} day(s), closes {2}: {3}".format(
+                nation, window, closes, (title or "?")[:60]))
     print("\n{0} open consultation(s) across {1} nation(s); {2} new, {3} on "
           "our ground by title+summary.".format(total, len(nations), new,
                                                 ours))
