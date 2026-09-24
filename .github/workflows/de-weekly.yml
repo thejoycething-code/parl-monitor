@@ -172,6 +172,12 @@ jobs:
         # none to three. A campaigner's edits are never overwritten:
         # regeneration is --force only.
         run: python3 tools/de_briefs.py | tee /tmp/de-briefs.log
+      - name: Build the issue pages
+        # Into docs/de-issues/, NOT partner_site: that directory deploys to
+        # Vercel production on the Monday publish, and every area on these
+        # pages comes from a taxonomy the edition itself says is unverified.
+        # --site is the flag that changes it, once the German team signs off.
+        run: python3 tools/de_issues.py | tee /tmp/de-issues.log
       - name: Write the German edition and DM the summary
         run: python3 tools/de_monitor.py --edition --dm | tee /tmp/de-monitor.log
       - name: Health summary
@@ -180,7 +186,7 @@ jobs:
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-profiles:|de-briefs:|de-triage:|edition:|dm:|\[gap\]" \
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-profiles:|de-briefs:|de-issues:|de-triage:|edition:|dm:|\[gap\]" \
               /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \
