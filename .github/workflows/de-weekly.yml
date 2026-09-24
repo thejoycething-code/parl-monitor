@@ -158,6 +158,14 @@ jobs:
         # so the weekly cost is the week's NEW speeches. Spend lands in
         # api_spend as 'de-stance'.
         run: python3 tools/de_stance.py | tee /tmp/de-stance.log
+      - name: Draft Campaigns Briefs for new score-3 subjects
+        # AFTER triage and stance, because score 3 is what makes a subject
+        # brief-worthy and the brief quotes the stance placements. One brief
+        # per subject EVER, so the weekly cost is the week's NEW subjects and
+        # nothing else -- the first run wrote thirteen, a normal week writes
+        # none to three. A campaigner's edits are never overwritten:
+        # regeneration is --force only.
+        run: python3 tools/de_briefs.py | tee /tmp/de-briefs.log
       - name: Write the German edition and DM the summary
         run: python3 tools/de_monitor.py --edition --dm | tee /tmp/de-monitor.log
       - name: Health summary
@@ -166,7 +174,7 @@ jobs:
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-triage:|edition:|dm:|\[gap\]" \
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-briefs:|de-triage:|edition:|dm:|\[gap\]" \
               /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \

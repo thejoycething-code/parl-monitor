@@ -45,6 +45,26 @@ SAMPLE_SIZE = 10
 PRIORITY_SCORE = {"ACT": 3, "WATCH": 2, "NOTE": 1}
 
 
+# Which judge produced a verdict. The feed comes from the item id's own
+# prefix ("de_vorgaenge:337053" -> "de_vorgaenge"), so this needs no new
+# column and works on every row already banked.
+#
+# POOLING JURISDICTIONS WOULD BE WORSE THAN NOT MEASURING. Westminster, the
+# EU and Germany run DIFFERENT system prompts over different taxonomies, and
+# Germany's is an AI draft no German speaker has verified, read by a matcher
+# built for English. One agreement figure across all three would describe
+# none of them -- and would flatter Germany, which has a fraction of the
+# labelled rows.
+JURISDICTIONS = (("de_", "Germany"), ("eu_", "the EU"))
+
+
+def jurisdiction_of(feed):
+    for prefix, label in JURISDICTIONS:
+        if (feed or "").startswith(prefix):
+            return label
+    return "Westminster"
+
+
 def prompt_sha(system_prompt):
     return hashlib.sha256((system_prompt or "").encode("utf-8")).hexdigest()[:12]
 
@@ -170,10 +190,19 @@ def pick_sample(rows, n=SAMPLE_SIZE, seed=None):
     return chosen[:max(n, min(len(rows), len(chosen)))] if len(chosen) > n else chosen
 
 
-def write_sample(conn, week, path, n=SAMPLE_SIZE):
+def write_sample(conn, week, path, n=SAMPLE_SIZE, jurisdiction=None):
+    """Ten of the week's verdicts for a human to check.
+
+    jurisdiction scopes the sample ("Germany", "Westminster", "the EU"). A
+    reviewer checking the German judge should not be handed Westminster
+    written questions: the frames differ, the taxonomies differ, and the
+    verdict they give would be measured against the wrong prompt.
+    """
     ensure_table(conn)
     rows = conn.execute("SELECT * FROM judge_verdicts WHERE week = ? AND mode != 'stub' AND score IS NOT NULL "
                         "ORDER BY item_id", (week,)).fetchall()
+    if jurisdiction:
+        rows = [r for r in rows if jurisdiction_of(r["feed"]) == jurisdiction]
     if not rows:
         return None, 0
     chosen = pick_sample(rows, n, seed=week)
@@ -283,6 +312,12 @@ def report(conn, write_to=None, today=None):
     ensure_table(conn)
     today = today or datetime.date.today().isoformat()
     rows = conn.execute("SELECT * FROM judge_verdicts WHERE mode != 'stub'").fetchall()
+    # SPLIT, never pooled: see JURISDICTIONS. Each judge is measured against
+    # its own labels, and a jurisdiction with no labels says so rather than
+    # borrowing another's score.
+    by_j = {}
+    for r in rows:
+        by_j.setdefault(jurisdiction_of(r["feed"]), []).append(r)
     labelled = [r for r in rows if r["human_score"] is not None]
     out = ["# Judge evaluation", "",
            "*Agreement between the judge's score and a human verdict on the same item. The human verdict is the "
@@ -290,9 +325,42 @@ def report(conn, write_to=None, today=None):
            "Banked verdicts: {0} live. Labelled: {1} ({2} by explicit sample verdict, {3} by review priority).".format(
                len(rows), len(labelled), sum(1 for r in labelled if r["human_source"] == "sample"),
                sum(1 for r in labelled if r["human_source"] == "review")), ""]
+
+    # PER JURISDICTION, BEFORE the pooled figures, so the first table anyone
+    # reads is the honest one. Westminster, the EU and Germany run different
+    # prompts over different taxonomies; a single agreement number describes
+    # none of them, and with 202 Westminster rows against a couple of hundred
+    # German ones it would be Westminster's figure wearing a German label.
+    out += ["## By jurisdiction", "",
+            "*Each judge measured against its own labels. A jurisdiction with "
+            "no labelled verdicts shows a dash: it has not been checked, "
+            "which is not the same as agreeing.*", "",
+            "| Jurisdiction | Banked | Labelled | Exact | Within one | "
+            "Digest precision |", "|---|---|---|---|---|---|"]
+    for name in sorted(by_j):
+        got = by_j[name]
+        lab = [r for r in got if r["human_score"] is not None]
+        js = stats(lab)
+        out.append("| {0} | {1} | {2} | {3} | {4} | {5} |".format(
+            name, len(got), len(lab),
+            _pct(js["exact"]) if js["n"] else "-",
+            _pct(js["within_one"]) if js["n"] else "-",
+            _pct(js["digest_precision"]) if js["n"] else "-"))
+    out.append("")
+    unchecked = [n for n in sorted(by_j)
+                 if not any(r["human_score"] is not None for r in by_j[n])]
+    if unchecked:
+        out.append("**Never checked by a human: {0}.** Those judges are "
+                   "unmeasured, and every surface built on them rests on an "
+                   "assumption rather than evidence.".format(
+                       ", ".join(unchecked)))
+        out.append("")
     s = stats(labelled)
     if s["n"]:
-        out += ["## Overall", "",
+        out += ["## Overall (all jurisdictions pooled)", "",
+                "*Kept for the long run of Westminster history. Read the "
+                "table above first: pooling judges with different prompts "
+                "flatters whichever has fewest labels.*", "",
                 "| Labelled | Exact agreement | Within one | Judge over | Judge under | Digest precision | Digest recall |",
                 "|---|---|---|---|---|---|---|",
                 "| {0} | {1} | {2} | {3} | {4} | {5} | {6} |".format(

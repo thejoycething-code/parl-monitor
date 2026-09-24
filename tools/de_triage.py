@@ -30,7 +30,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, spend, triage  # noqa: E402
+from src import db, evalbank, spend, triage  # noqa: E402
 
 # table -> (key column, text columns joined for the judge)
 SOURCES = {
@@ -88,8 +88,24 @@ def pending(conn):
         for r in rows:
             keys = r.keys()
             text = " ".join((r[c] or "") for c in textcols if c in keys).strip()[:300]
-            title = (r["titel"] if "titel" in keys else None) or \
-                    (r["label"] if "label" in keys else None) or "?"
+            # A TITLE THE JUDGE CAN READ. de_speeches has neither `titel`
+            # nor `label`, so every speech reached the judge titled "?" --
+            # it still got speaker and excerpt as `text`, but the field the
+            # sample file shows a human reviewer was empty, which makes the
+            # verdict harder to check than the judgement was to make.
+            title = ((r["titel"] if "titel" in keys else None)
+                     or (r["label"] if "label" in keys else None)
+                     or (r["title"] if "title" in keys else None)
+                     or (r["subject"] if "subject" in keys else None))
+            if not title and "speaker" in keys:
+                # Speaker AND the passage: a reviewer handed only a name
+                # cannot check the verdict, and the sample file is the whole
+                # point of banking.
+                said = " ".join((r["excerpt"] or "").split())[:120] \
+                    if "excerpt" in keys else ""
+                title = "{0}{1}".format(r["speaker"] or "?",
+                                        ": " + said if said else "")
+            title = title or "?"
             items.append(triage.TriageItem(
                 id="{0}:{1}".format(table, r[key]), title=title, text=text,
                 tier=r["tier"] if "tier" in keys else 2,
@@ -187,6 +203,31 @@ def main():
     for start in range(0, len(items), SLICE):
         results.extend(score_chunk(items[start:start + SLICE]))
     apply(conn, [r for r in results if r.score is not None])
+
+    # BANK WHAT THE JUDGE SAW AND SAID, exactly as run_weekly.py does for
+    # Westminster. Until 24 September 2026 a German verdict existed only as
+    # a score on its row: nothing recorded the prompt that produced it, and
+    # nothing could be shown to a human to check. The German frame is the
+    # LEAST verified of the three -- an AI-drafted taxonomy, read by a
+    # matcher built for English, judged by a model briefed in English -- so
+    # it is the one that most needs a corpus, and it was the one without.
+    #
+    # Banking failure records a gap and never stops the run: the scores are
+    # already applied above, and losing the edition to protect the corpus
+    # would be the wrong way round.
+    try:
+        week = (datetime.date.fromisoformat(today)
+                - datetime.timedelta(days=datetime.date.fromisoformat(
+                    today).weekday())).isoformat()
+        evalbank.bank(conn, week, items, results, triage.TRIAGE_MODEL,
+                      "live", triage.SYSTEM_PROMPT_DE)
+        evalbank.export(conn, week)
+    except Exception as exc:                                # noqa: BLE001
+        print("  [gap] de-triage: banking the verdicts failed: {0}"
+              .format(str(exc)[:120]))
+        db.record_gap(conn, "de-triage",
+                      "judge verdicts not banked: {0}".format(str(exc)[:110]),
+                      today)
     print("de-triage: {0} of {1} item(s) scored.".format(len(results), len(items)))
     for res in results[:6]:
         print("  [{0}] {1}".format(res.score, (res.why_it_matters or "")[:96]))
