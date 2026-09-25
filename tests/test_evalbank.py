@@ -382,5 +382,69 @@ class AnswerKindTests(unittest.TestCase):
         self.assertIn("not the same as agreeing", text)
 
 
+class EvalLoopIsScheduledTests(unittest.TestCase):
+    """Wired into the Monday publish on 2026-09-25, at Christopher's
+    request. Until then judge_eval.py was in no workflow at all: the sample
+    was written and the report regenerated only when somebody remembered.
+    A bank nobody samples is a corpus that stops growing, and since the
+    edition ROUTES on answer_kind an unchecked judge quietly hides answers.
+    """
+
+    def _publish(self):
+        return open(os.path.join(ROOT, ".github", "workflows",
+                                 "monday-publish.yml"), encoding="utf-8").read()
+
+    def test_the_monday_publish_runs_the_eval_loop(self):
+        src = self._publish()
+        for action in ("judge_eval.py ingest", "judge_eval.py sample",
+                       "judge_eval.py report --write"):
+            self.assertIn(action, src,
+                          "{0} is not in the Monday publish".format(action))
+
+    def test_ingest_runs_before_sample_and_report(self):
+        """A checklist filled in during the week must be read BEFORE
+        anything measures agreement, or the report describes last week's
+        corpus while handing out this week's sample."""
+        src = self._publish()
+        self.assertLess(src.index("judge_eval.py ingest"),
+                        src.index("judge_eval.py sample"))
+        self.assertLess(src.index("judge_eval.py sample"),
+                        src.index("judge_eval.py report"))
+
+    def test_the_loop_runs_before_the_store_is_published(self):
+        """ingest writes human verdicts INTO the store. After the push they
+        would sit in a store the next run replaces."""
+        src = self._publish()
+        self.assertLess(src.index("judge_eval.py ingest"),
+                        src.index("db_state.py --push"))
+
+    def test_the_committed_paths_cover_what_the_loop_writes(self):
+        src = self._publish()
+        commit = src[src.index("name: Commit state"):]
+        for path in ("reviews/", "docs/judge-eval.md"):
+            self.assertIn(path, commit,
+                          "{0} is written by the eval loop and never "
+                          "committed".format(path))
+
+    def test_a_filled_checklist_is_never_overwritten(self):
+        """Harmless while a human ran sample deliberately; now the Monday
+        publish runs it, and a second run in the same week would blank a
+        reviewer's work."""
+        import importlib.util as iu
+        import inspect
+        spec = iu.spec_from_file_location(
+            "judge_eval", os.path.join(ROOT, "tools", "judge_eval.py"))
+        mod = iu.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        src = inspect.getsource(mod.main)
+        self.assertIn("already has", src)
+        self.assertIn("parse_sample(target)", src)
+
+    def test_rescore_is_NOT_scheduled(self):
+        """Every other action reads the store. rescore SPENDS, asks before
+        it does, and stays a human decision."""
+        self.assertNotIn("judge_eval.py rescore", self._publish())
+
+
 if __name__ == "__main__":
     unittest.main()

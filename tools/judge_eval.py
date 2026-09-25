@@ -63,7 +63,20 @@ def main():
         print("seeded {0} historic verdict(s)".format(seed(conn)))
     elif args.action == "sample":
         week = args.week or datetime.date.today().isoformat()
-        path, n = evalbank.write_sample(conn, week, os.path.join(ROOT, "reviews", "judge-sample-{0}.md".format(week)))
+        target = os.path.join(ROOT, "reviews", "judge-sample-{0}.md".format(week))
+        # NEVER overwrite a checklist somebody has written in. Harmless while
+        # a human ran this deliberately; since 2026-09-25 the Monday publish
+        # runs it, and a second run of that workflow in the same week would
+        # blank the file. The verdicts themselves survive -- ingest runs
+        # first, in the same step -- but a reviewer returning to a reset
+        # checklist cannot tell that, and would reasonably redo the work.
+        if os.path.exists(target):
+            _wk, filled = evalbank.parse_sample(target)
+            if filled:
+                print("sample: {0} already has {1} verdict(s); left alone".format(
+                    os.path.relpath(target, ROOT), len(filled)))
+                return 0
+        path, n = evalbank.write_sample(conn, week, target)
         print("sample: {0} item(s) -> {1}".format(n, os.path.relpath(path, ROOT) if path else "none (no live verdicts that week)"))
     elif args.action == "ingest":
         e, i = evalbank.ingest_samples(conn, os.path.join(ROOT, "reviews"))

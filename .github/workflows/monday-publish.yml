@@ -136,6 +136,43 @@ jobs:
           else
             npx --yes vercel@latest deploy partner_site --prod --yes --token "$VERCEL_TOKEN"
           fi
+      - name: Judge evaluation
+        # The eval loop was in NO workflow until 2026-09-25: the sample was
+        # written and the report regenerated only when somebody remembered,
+        # which is the same shape as the answer archiver that had decayed to
+        # 56% before it was scheduled. An unchecked judge is not a judge that
+        # agrees with us, and since answer_kind arrived the edition ROUTES on
+        # its label -- a drift there hides real answers rather than merely
+        # misplacing them.
+        #
+        # Order matters. INGEST first, so a checklist filled in during the
+        # week is read before anything measures agreement; then SAMPLE this
+        # edition's verdicts; then REPORT, which now has both. Sampling
+        # before ingesting would measure last week's corpus and hand out
+        # this week's checklist against a report nobody had updated.
+        #
+        # The verdicts themselves are banked by the SUNDAY PULL, where the
+        # triage pass runs -- not by the publish above. So they are in the
+        # store before this step, and this is the first moment the edition
+        # they belong to exists to be checked against. A Sunday sample would
+        # race the pull that writes what it samples.
+        #
+        # No API calls: every action here reads the store and the reviews
+        # directory. `rescore` is the one that spends, and it is deliberately
+        # not here -- it asks before spending and stays a human decision.
+        #
+        # always() with the fetch guard, like every step here: a failed feed
+        # above must not skip the evaluation, but a refused store must,
+        # because the sample would be drawn from a store this run does not
+        # own.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: |
+          WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t - datetime.timedelta(days=t.weekday())).isoformat())")
+          echo "Judge evaluation for week commencing $WEEK"
+          python3 tools/judge_eval.py ingest
+          python3 tools/judge_eval.py sample --week "$WEEK"
+          python3 tools/judge_eval.py report --write
       - name: Publish the raw archive
         # Before the store: a store that cites payloads the archive lacks
         # is the worse of the two failures. Merges, never clobbers.
