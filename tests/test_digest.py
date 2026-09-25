@@ -150,8 +150,8 @@ class PqSectionTests(unittest.TestCase):
         """Blocks, not a table, since 2026-09-24: a median answer runs to 93
         words and will not fit in a cell."""
         out = digest.render_pqs(self._edition())
-        self.assertIn("**Free speech online safety** (2)", out)
-        self.assertIn("**Migration** (1)", out)
+        self.assertIn("**Free speech online safety** (1 question)", out)
+        self.assertIn("**Migration** (1 question)", out)
         self.assertNotIn("| Member | Question | Asked of | Answered |", out)
 
     def test_the_question_and_the_answer_both_appear(self):
@@ -164,11 +164,17 @@ class PqSectionTests(unittest.TestCase):
                       "autumn.", out)
         self.assertIn("1,234 people were removed in the year to June.", out)
 
-    def test_a_holding_answer_is_not_printed_as_a_position(self):
+    def test_a_holding_answer_goes_to_the_tail_not_the_body(self):
         """A holding answer is the department saying it will reply later.
-        Rendered as an answer it would read as a government position."""
+        Rendered as an answer it would read as a government position; given
+        a block of its own it would take the space of one that said
+        something. Since 2026-09-25 it is one line under "Asked, but not
+        answered"."""
         out = digest.render_pqs(self._edition())
-        self.assertIn("holding answer only", out)
+        self.assertIn("### Asked, but not answered", out)
+        tail = out[out.index("### Asked, but not answered"):]
+        self.assertIn("**Deferred**", tail)
+        self.assertIn("Internet: Compensation", tail)
 
     def test_the_ask_preamble_is_dropped_not_the_substance(self):
         """"To ask His Majesty's Government," is boilerplate on every row and
@@ -187,8 +193,84 @@ class PqSectionTests(unittest.TestCase):
 
     def test_total_declared_and_companion_page_linked(self):
         out = digest.render_pqs(self._edition())
-        self.assertIn("3 questions on our issues were answered this week", out)
+        self.assertIn("3 questions on our issues, answered in 3 replies", out)
         self.assertIn("questions.html", out)
+
+    def test_a_stated_position_leads_the_section(self):
+        """Christopher, 2026-09-25: option D's lead block. "No plans to" is
+        the one reply type worth quoting whole -- it answers nothing the
+        member asked and is exactly what a campaign uses."""
+        ed = self._edition()
+        ed.pq_rows[0]["answer_text"] = (
+            "We keep the matter under review. The Government has no plans to "
+            "change the law on assisted dying. Departments were consulted.")
+        out = digest.render_pqs(ed)
+        self.assertIn("### On the record", out)
+        self.assertLess(out.index("### On the record"),
+                        out.index("**Migration**"))
+        self.assertIn("> **The Government has no plans to change the law on "
+                      "assisted dying.**", out)
+
+    def test_the_lead_quote_is_verbatim_and_one_sentence(self):
+        """The sentence is printed as a quotation with a department's name
+        against it, so it must be exactly what was said -- not the sentence
+        either side, and not a word rewritten. Drafting the mockup by hand
+        I pluralised "safe access zone" to "zones"; the renderer must make
+        that impossible."""
+        answer = ("Officials met the sector in June. There are no current "
+                  "plans to review the guidance. A further update will "
+                  "follow in the autumn.")
+        pattern = dict((k, p) for k, _d, p in digest.ANSWER_RULES)["POSITION"]
+        got = digest.lead_sentence(answer, pattern)
+        self.assertEqual(got, "There are no current plans to review the "
+                              "guidance.")
+        self.assertIn(got, answer, "the quote must appear in the source "
+                                   "exactly as printed")
+
+    def test_replies_that_added_nothing_go_to_the_tail(self):
+        ed = self._edition()
+        ed.pq_rows[0]["answer_text"] = ("I refer the Hon Member to the answer "
+                                        "provided on 13 July in response to "
+                                        "Question 16185.")
+        ed.pq_rows[2]["answer_text"] = "This data is not held in a reportable format."
+        out = digest.render_pqs(ed)
+        tail = out[out.index("### Asked, but not answered"):]
+        self.assertIn("**Referred to an earlier answer**", tail)
+        self.assertIn("**Information not held**", tail)
+        # and they are NOT also rendered as blocks above
+        body = out[:out.index("### Asked, but not answered")]
+        self.assertNotIn("*Why it matters:*", body.split("**Migration**")[-1]
+                         if "**Migration**" in body else "")
+
+    def test_a_row_appears_in_exactly_one_part(self):
+        """Lead, body and tail partition the rows. A question counted twice
+        would inflate the section and read as two separate exchanges."""
+        ed = self._edition()
+        ed.pq_rows[0]["answer_text"] = "The Government has no plans to act."
+        ed.pq_rows[1]["answer_text"] = "This data is not held."
+        ed.pq_rows[1]["holding"] = False
+        out = digest.render_pqs(ed)
+        for url in ("https://q/1", "https://q/2", "https://q/3"):
+            self.assertEqual(out.count(url), 1, url + " rendered twice")
+
+    def test_the_preamble_cut_survives_a_comma_in_the_office_name(self):
+        """"the Secretary of State for Foreign, Commonwealth and Development
+        Affairs" has a comma INSIDE it. Cutting at the first comma left
+        "Commonwealth and Development Affairs, if he will hold discussions"
+        on the page (2026-09-25)."""
+        q = ("To ask the Secretary of State for Foreign, Commonwealth and "
+             "Development Affairs, if he will hold discussions with his "
+             "Georgian counterpart on regulating surrogacy services.")
+        self.assertEqual(
+            digest._ASK_PREAMBLE.sub("", q),
+            "if he will hold discussions with his Georgian counterpart on "
+            "regulating surrogacy services.")
+
+    def test_a_question_with_no_interrogative_is_left_whole(self):
+        """The cut is bounded and non-greedy: better a verbose line than a
+        question with its first clause eaten."""
+        q = "To ask the Secretary of State for Education about school funding."
+        self.assertEqual(digest._ASK_PREAMBLE.sub("", q), q)
 
     def test_nothing_is_capped(self):
         """No cap by COUNT -- sixty distinct questions all render.

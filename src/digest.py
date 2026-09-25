@@ -485,25 +485,22 @@ def _fmt_pq_date(iso):
 # Church Commissioners form on its first outing. Bounded at 140 characters
 # and refused if the prefix contains a full stop, so a question with no
 # preamble at all cannot have its first clause eaten.
+# "To ask the Secretary of State for Health and Social Care," / "To ask His
+# Majesty's Government," / "To ask the hon. Member for Battersea,
+# representing the Church Commissioners," -- boilerplate on every single
+# row, and the department is already named in the line above.
+#
+# Cut at the INTERROGATIVE, not at the first comma. Cutting at the comma
+# left "Commonwealth and Development Affairs, if he will hold discussions"
+# on the page, because the office is "the Secretary of State for Foreign,
+# Commonwealth and Development Affairs" and the comma is inside its name
+# (2026-09-25). Non-greedy and bounded, so a question that never reaches an
+# interrogative is left whole rather than half-eaten.
 _ASK_PREAMBLE = re.compile(
-    # "To ask His Majesty's Government" (Lords), with or without the comma
-    # and with either apostrophe -- the curly one appears in about a third
-    # of Lords questions and a straight-quote-only pattern silently missed
-    # every one of them.
-    r"^To ask (?:His|Her) Majesty[\u2019']s Government,?\s*"
-    # "To ask the hon. Member for Battersea, representing the Church
-    # Commissioners," -- two commas and a full stop, so it must come before
-    # the general office rule rather than after it.
-    r"|^To ask the (?:right )?hon\.? Members? [^,]{0,80}, representing [^,]{0,80},\s*"
-    # "To ask the Secretary of State for Health and Social Care," and
-    # "To ask the Minister for Women and Equalities," -- 1,166 of the 1,500
-    # questions sampled on 2026-09-24.
-    r"|^To ask the [^,.]{0,120},\s*"
-    # The same offices WITHOUT the comma -- "To ask the Secretary of State
-    # for the Home Department what information..." -- cut at the
-    # interrogative instead, which is where the question actually starts.
-    r"|^To ask the (?:Secretary of State|Minister|Chancellor)[^,.]{0,100}?"
-    r"(?=\s(?:what|whether|how|if|when|why|which|pursuant|further)\b)\s*",
+    r"^To ask (?:the |His |Her )?.{0,160}?"
+    r"(?=\b(?:what|whether|how|if|when|why|which|pursuant|further to|"
+    r"for what|by what|with reference to|in (?:the )?light of|following the|"
+    r"given the|to ask)\b)",
     re.I)
 
 
@@ -530,6 +527,86 @@ def _trim(text, words):
     if cut > len(head) * 0.6:
         return head[:cut + 1]
     return head.rstrip(",;:") + "..."
+
+
+# -- what kind of reply was it -------------------------------------------
+#
+# Christopher, 2026-09-25, after seeing four display mockups: "Build A with
+# B's labels and D." The three parts are one section -- a lead block of
+# quotable positions, the body by area, and a tail of replies that added
+# nothing.
+#
+# Only these four classes are detected by RULE, and only because departments
+# phrase them formulaically. Everything else carries no label: "substantive"
+# is the absence of one, never a guess. A first attempt classified by
+# richer criteria and filed four palliative-care answers under "figures
+# given" with no figure in any of them, so the bar here is precision
+# measured against the archive, not coverage.
+#
+#   POSITION  132 of 5,529 archived answers (2.4%). Hand-checked 14 at
+#             random on 2026-09-25: 14 genuine stated positions. An earlier
+#             pattern also took "will not be", which caught "will not be
+#             eligible for relocation" and "will not be made in future" --
+#             incidental futures, not positions -- and was dropped.
+#   REFERRED / NOT HELD / DEFERRED  the three ways a department answers
+#             without answering. These are the tail.
+#
+# The remaining classes in the mockup -- figures given, policy restated --
+# are judgements and belong to the triage model alongside the why-line, not
+# to a regex here.
+ANSWER_RULES = (
+    ("DEFERRED", "Deferred",
+     re.compile(r"not be possible to answer this question within the usual", re.I)),
+    ("REFERRED", "Referred to an earlier answer",
+     re.compile(r"\bI refer the (?:Hon|Rt Hon|right hon|noble)[^.]*to the answer", re.I)),
+    ("POSITION", "Position stated",
+     re.compile(r"\bno (?:current |immediate |specific )?plans\b"
+                r"|\b(?:does|do) not intend to\b", re.I)),
+    ("NOT HELD", "Information not held",
+     re.compile(r"\bnot (?:centrally )?held\b|\bis not available from published\b"
+                r"|\bnot held in a reportable\b", re.I)),
+)
+
+# Labels whose rows add nothing new, and so go to the tail rather than the
+# body. POSITION is deliberately NOT here: "no plans to change the law on
+# assisted dying" answers nothing the member asked and is the most
+# quotable thing in the edition.
+NO_NEWS = ("REFERRED", "NOT HELD", "DEFERRED")
+
+
+def answer_label(row):
+    """(key, display) for a reply, or (None, None) when no rule fires."""
+    if row.get("holding"):
+        return "DEFERRED", "Deferred"
+    answer = " ".join((row.get("answer_text") or "").split())
+    if not answer:
+        return None, None
+    for key, display, pattern in ANSWER_RULES:
+        if pattern.search(answer):
+            return key, display
+    return None, None
+
+
+def lead_sentence(answer, pattern):
+    """The ONE sentence carrying the match, verbatim.
+
+    Verbatim matters more here than anywhere else in the edition: this
+    sentence is printed as a quotation with a minister's department against
+    it. Sentence bounds are taken from the text itself and nothing is
+    rewritten, so the worst failure is an over-long quote, never a
+    reworded one. Drafting this section by hand I pluralised "safe access
+    zone" to "zones" in a mockup, which is exactly the mistake that must be
+    impossible in the renderer.
+    """
+    text = " ".join((answer or "").split())
+    match = pattern.search(text)
+    if not match:
+        return ""
+    start = text.rfind(". ", 0, match.start())
+    start = 0 if start < 0 else start + 2
+    end = text.find(". ", match.end())
+    end = len(text) if end < 0 else end + 1
+    return text[start:end].strip()
 
 
 def _who(r):
@@ -619,42 +696,125 @@ def _pq_block(rows):
     return out
 
 
+def _lead_block(group):
+    """A stated position, quoted, with what was asked underneath."""
+    lead = group[0]
+    quote = lead_sentence(lead.get("answer_text"),
+                          dict((k, p) for k, _d, p in ANSWER_RULES)["POSITION"])
+    if not quote:
+        return []
+    who = _who(lead)
+    url = lead.get("url")
+    who_linked = "[{0}]({1})".format(who, url) if url else who
+    asked = _ASK_PREAMBLE.sub("", (lead.get("question_text") or "").strip())
+    out = ["> **{0}**".format(quote), ">"]
+    tail = "> {0}, {1} - to {2}".format(
+        lead.get("department") or "the government",
+        _fmt_pq_date(lead.get("date")), who_linked)
+    if asked:
+        tail += ", who asked {0}".format(_trim(asked, 30).rstrip("."))
+    out.append(tail + ". - *{0}*".format(lead.get("area_label") or "Other"))
+    out.append("")
+    return out
+
+
+def _tail_line(group, display):
+    """One line for a reply that added nothing: label, what was asked, and
+    the department's own words for refusing, so the reader can see it was
+    a refusal rather than take our word for it."""
+    lead = group[0]
+    heading = lead.get("heading") or "Question"
+    url = lead.get("url")
+    title = "[{0}]({1})".format(heading, url) if url else heading
+    who = _who(lead)
+    count = ("" if len(group) == 1
+             else ", {0} questions".format(len(group)))
+    quote = " ".join((lead.get("answer_text") or "").split())
+    said = ' "{0}"'.format(_trim(quote, 22)) if quote else ""
+    return "- **{0}** - {1} - {2}, {3}{4}.{5}".format(
+        display, title, who, lead.get("department") or "the government",
+        count, said)
+
+
 def render_pqs(edition, companion=True):
-    """Written questions, grouped by issue area (Christopher, 2026-08-05),
-    each one carrying the question AND the minister's answer (2026-09-24).
+    """Written questions in three parts (Christopher, 2026-09-25).
 
-    Until now this section was a four-column table -- member, heading,
-    department, date -- so a reader learned that somebody had asked about
-    hospices and that it had been answered, and nothing whatever about
-    what either of them said. The name said as much: "Written questions"
-    described the source, not the intelligence. The answers were sitting
-    in data/raw the whole time, unread by anything.
+    Built from four mockups he compared: "Build A with B's labels and D."
 
-    Blocks rather than a table because the substance will not fit in a
-    cell: answers run to a median of 93 words. Nothing is capped by count;
-    each passage is trimmed by length, verbatim, per _trim().
+      On the record   replies that state a government position, quoted.
+                      One a week on average, and the most usable thing in
+                      the section: "no plans to hold talks with the
+                      Georgian Government regarding surrogacy services"
+                      answers nothing the member asked and is exactly what
+                      a campaign quotes.
+      By area         everything else, as blocks, grouped by issue area.
+      Asked, but not  the replies that pointed elsewhere, said the data is
+      answered        not held, or deferred -- one line each rather than a
+                      block, because a reader loses nothing by skimming
+                      them and loses the section by wading through them.
+                      11 of this week's 26 replies.
+
+    A row appears in exactly ONE part. Nothing is capped by count; each
+    passage is trimmed by length, verbatim, per _trim().
     """
     rows_with_area = [r for r in edition.pq_rows if r.get("area")]
     if not rows_with_area:
         return None
+
     grouped = {}
     for row in rows_with_area:
         grouped.setdefault(row["area_label"] or "Other", []).append(row)
 
-    total = len(rows_with_area)
-    answered = sum(1 for r in rows_with_area
-                   if (r.get("answer_text") or "").strip() and not r.get("holding"))
-    out = ["## {0}".format(QUESTIONS_HEADING), "",
-           "*{0} question{1} on our issues {2} answered this week{3}.*".format(
-               total, "" if total == 1 else "s", "was" if total == 1 else "were",
-               "" if answered == total
-               else "; {0} carry the reply below".format(answered)), ""]
+    leads, body, tail = [], {}, []
     for label in sorted(grouped, key=lambda k: (-len(grouped[k]), k)):
-        rows = grouped[label]
-        out.append("**{0}** ({1})".format(label, len(rows)))
+        for group in _cluster(grouped[label]):
+            key, display = answer_label(group[0])
+            if key == "POSITION":
+                leads.append(group)
+            elif key in NO_NEWS:
+                tail.append((group, display))
+            else:
+                body.setdefault(label, []).append(group)
+
+    total = len(rows_with_area)
+    replies = len(leads) + len(tail) + sum(len(gs) for gs in body.values())
+    dropped = sum(len(group) for group, _display in tail)
+    out = ["## {0}".format(QUESTIONS_HEADING), ""]
+    # Both numbers, because they differ and each answers a different
+    # question: how much was asked, and how much is worth reading.
+    summary = "*{0} question{1} on our issues, answered in {2} repl{3}.".format(
+        total, "" if total == 1 else "s", replies, "y" if replies == 1 else "ies")
+    if tail:
+        summary += (" {0} repl{1}, covering {2} question{3}, added nothing new "
+                    "and {4} listed at the end.").format(
+            len(tail), "y" if len(tail) == 1 else "ies", dropped,
+            "" if dropped == 1 else "s",
+            "is" if len(tail) == 1 else "are")
+    out.extend([summary.rstrip() + "*", ""])
+
+    if leads:
+        out.extend(["### On the record", ""])
+        for group in leads:
+            out.extend(_lead_block(group))
+
+    for label in sorted(body, key=lambda k: (-len(body[k]), k)):
+        groups = body[label]
+        asked = sum(len(g) for g in groups)
+        out.append("**{0}** ({1} question{2})".format(
+            label, asked, "" if asked == 1 else "s"))
         out.append("")
-        for group in _cluster(rows):
+        for group in groups:
             out.extend(_pq_block(group))
+
+    if tail:
+        out.extend(["### Asked, but not answered", "",
+                    "*The department pointed elsewhere, said it does not hold "
+                    "the information, or deferred. The full exchange is behind "
+                    "each link.*", ""])
+        for group, display in tail:
+            out.append(_tail_line(group, display))
+        out.append("")
+
     if companion:
         out.extend([companion_note(edition.companion_url), ""])
     return "\n".join(out).rstrip() + "\n"
