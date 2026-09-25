@@ -29,6 +29,16 @@ family life).
 
 For each item, return JSON: {"id": ..., "score": 0-3, "areas": [..],
 "why_it_matters": "..."}.
+For a WRITTEN QUESTION (an id beginning "pq:") also return "answer_kind", judging
+the minister's answer against the question that was asked:
+  "figures"  - it gives data, a date, a named commitment or any other specific
+               fact the question asked for.
+  "position" - it states what the Government will or will not do, even if that is
+               a refusal and even if it does not address what was asked.
+  "restated" - it restates existing policy, describes process, or affirms
+               commitment without answering the question or adding anything new.
+Judge the ANSWER, not the topic: an answer on an important subject that tells the
+reader nothing new is "restated". If the answer is missing, omit answer_kind.
 Score 0 = irrelevant to every area. 1 = background only. 2 = belongs in the weekly
 digest. 3 = likely campaign or lobbying trigger.
 why_it_matters: maximum 35 words, CitizenGO voice: direct, concrete, no hedging,
@@ -39,6 +49,11 @@ For a court judgment (an id beginning "judgment:"), why_it_matters states what t
 court decided and what that changes for the area, in neutral terms. Never say whether
 the judgment is right or wrong, welcome or a setback, and take no side on it.
 Return only the JSON array."""
+
+
+# The only values the store will accept. Anything else the model returns is
+# discarded rather than written: a label nobody can render is worse than none.
+ANSWER_KINDS = ("figures", "position", "restated")
 
 
 @dataclass
@@ -58,6 +73,7 @@ class TriageResult:
     areas: list
     why_it_matters: str
     stub: bool = False
+    answer_kind: str = None
 
 
 # -- stub -------------------------------------------------------------------
@@ -198,9 +214,13 @@ def _parse_reply(reply):
     data = json.loads(_json_body(text))
     out = []
     for row in data:
+        kind = (row.get("answer_kind") or "").strip().lower() or None
+        if kind not in ANSWER_KINDS:
+            kind = None          # an unknown label is no label, never a guess
         out.append(TriageResult(id=row.get("id"), score=row.get("score"),
                                 areas=row.get("areas") or [],
-                                why_it_matters=row.get("why_it_matters") or ""))
+                                why_it_matters=row.get("why_it_matters") or "",
+                                answer_kind=kind))
     return out
 
 
@@ -378,8 +398,14 @@ def pending_items(conn, watchlist=None):
 # What each feed stores that the judge should read beyond the title. Until
 # 2026-09-07 every item went to the judge as a title alone, so a judgment
 # was scored on its case name and the line hedged ("likely concerning ...").
+# 2026-09-25: question_text and answer_text were NOT here, so for a written
+# question the judge saw the heading and nothing else -- it scored and wrote
+# a why-line for "Georgia: Surrogacy" without ever reading the question or
+# the minister's reply. Adding them is what makes answer_kind possible, and
+# it should make PQ why-lines better on its own.
 EVIDENCE_KEYS = ("excerpt", "summary", "explanatory", "minister_line", "opener", "business",
-                 "description", "milestone", "decision_word")
+                 "description", "milestone", "decision_word",
+                 "question_text", "answer_text")
 
 
 def evidence_text(extra_json, cap=1800):
@@ -411,9 +437,14 @@ def apply_scores(conn, items, results):
         if item.watchlist_hit and score < 2:
             score = 2  # watchlist entities are included at minimum score 2
         conn.execute(
-            "UPDATE items SET triage_score = ?, why_it_matters = COALESCE(NULLIF(?, ''), why_it_matters) "
+            "UPDATE items SET triage_score = ?, "
+            "why_it_matters = COALESCE(NULLIF(?, ''), why_it_matters), "
+            # COALESCE, like why_it_matters: a rescore that returns no
+            # answer_kind (a non-question, or a reply the judge would not
+            # place) must not blank a label already earned.
+            "answer_kind = COALESCE(NULLIF(?, ''), answer_kind) "
             "WHERE id = ?",
-            (score, r.why_it_matters or "", r.id),
+            (score, r.why_it_matters or "", r.answer_kind or "", r.id),
         )
         if score == 0:
             discards.append((r.id, item.title))

@@ -291,6 +291,12 @@ def _store_pq_questions(client, conn, tax, wl, since, edition, questions):
             "party": asker.party if asker else None,
             "seat": asker.seat if asker else None,
             "question_text": (q.question_text or "")[:600],
+            # Stored from 2026-09-25. Until then the answer lived ONLY in
+            # data/raw, so the triage judge never saw it and neither did the
+            # edition. Capped like the question: triage.evidence_text trims
+            # the lot to 1800 characters anyway, and the untrimmed text is
+            # in the detail archive.
+            "answer_text": (q.answer_text or "")[:900],
         }
         store_item(conn, "pq:{0}".format(q.id), "pq", "question", title, q.url, r,
                    event_date=q.date_answered.isoformat() if q.date_answered else None,
@@ -1128,7 +1134,7 @@ def sections_from_store(conn, edition):
     """Build edition sections by querying reviewed items (digest as byproduct)."""
     rows = conn.execute(
         "SELECT id, source_feed, title, url, event_date, deadline, triage_score, "
-        "why_it_matters, extra, issue_areas "
+        "why_it_matters, extra, issue_areas, answer_kind "
         "FROM items WHERE triage_score >= 2 ORDER BY source_feed, event_date, id"
     ).fetchall()
     # Background-scored questions (triage 1) never reach the review file and so
@@ -1182,6 +1188,7 @@ def sections_from_store(conn, edition):
                 "area_label": area_labels.get(areas[0]) if areas else "Other",
                 # Filled from the detail archive below, in one pass.
                 "qid": str(r["id"]).split(":")[-1],
+                "answer_kind": r["answer_kind"] if "answer_kind" in r.keys() else None,
                 "question_text": extra.get("question_text") or "",
                 "answer_text": "", "holding": False,
             })

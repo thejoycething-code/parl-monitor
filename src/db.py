@@ -1546,6 +1546,15 @@ def init_db(conn):
     cols = {r[1] for r in conn.execute("PRAGMA table_info(items)")}
     if "extra" not in cols:
         conn.execute("ALTER TABLE items ADD COLUMN extra TEXT")
+    # What KIND of reply a written question got, as the triage judge read it
+    # (2026-09-25). Three of the six classes the edition shows are detected
+    # by rule because departments phrase them formulaically; "gave figures"
+    # and "restated existing policy" are judgements, and a regex attempt at
+    # them filed four palliative-care answers under figures with no figure
+    # in any of them. NULL for every item that is not a written question,
+    # and for questions scored before this existed.
+    if "answer_kind" not in cols:
+        conn.execute("ALTER TABLE items ADD COLUMN answer_kind TEXT")
     # de_speeches gained `text` on 2026-09-23, after rows already existed.
     # CREATE TABLE IF NOT EXISTS does nothing to a table that is already
     # there, so without this the column is present in the schema and absent

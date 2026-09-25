@@ -164,17 +164,22 @@ class PqSectionTests(unittest.TestCase):
                       "autumn.", out)
         self.assertIn("1,234 people were removed in the year to June.", out)
 
-    def test_a_holding_answer_goes_to_the_tail_not_the_body(self):
-        """A holding answer is the department saying it will reply later.
-        Rendered as an answer it would read as a government position; given
-        a block of its own it would take the space of one that said
-        something. Since 2026-09-25 it is one line under "Asked, but not
-        answered"."""
+    def test_a_question_with_no_answer_yet_is_not_shown(self):
+        """Christopher, 2026-09-25: "remove those that are questions but
+        don't yet have answers." A holding answer is the department saying
+        it will reply later, and a row with no answer text is one the detail
+        archive has not reached. Both return the week they are answered."""
         out = digest.render_pqs(self._edition())
-        self.assertIn("### Asked, but not answered", out)
-        tail = out[out.index("### Asked, but not answered"):]
-        self.assertIn("**Deferred**", tail)
-        self.assertIn("Internet: Compensation", tail)
+        self.assertNotIn("Internet: Compensation", out,
+                         "the holding answer should be gone")
+        self.assertIn("Islamophobia Definition Working Group", out)
+
+    def test_every_question_unanswered_means_no_section(self):
+        ed = self._edition()
+        for r in ed.pq_rows:
+            r["answer_text"] = ""
+            r["holding"] = False
+        self.assertIsNone(digest.render_pqs(ed))
 
     def test_the_ask_preamble_is_dropped_not_the_substance(self):
         """"To ask His Majesty's Government," is boilerplate on every row and
@@ -193,7 +198,7 @@ class PqSectionTests(unittest.TestCase):
 
     def test_total_declared_and_companion_page_linked(self):
         out = digest.render_pqs(self._edition())
-        self.assertIn("3 questions on our issues, answered in 3 replies", out)
+        self.assertIn("2 questions on our issues, answered in 2 replies", out)
         self.assertIn("questions.html", out)
 
     def test_a_stated_position_leads_the_section(self):
@@ -271,6 +276,39 @@ class PqSectionTests(unittest.TestCase):
         question with its first clause eaten."""
         q = "To ask the Secretary of State for Education about school funding."
         self.assertEqual(digest._ASK_PREAMBLE.sub("", q), q)
+
+    def test_the_judge_places_what_no_rule_can(self):
+        """Christopher, 2026-09-25: "add those two as a judge field."
+        "Gave figures" and "restated existing policy" are judgements, so
+        they arrive on the row as answer_kind from triage."""
+        ed = self._edition()
+        ed.pq_rows[0]["answer_text"] = "The Department remains committed to the sector."
+        ed.pq_rows[0]["answer_kind"] = "restated"
+        ed.pq_rows[2]["answer_text"] = "There were 21,294 cases at the end of Q2."
+        ed.pq_rows[2]["answer_kind"] = "figures"
+        out = digest.render_pqs(ed)
+        tail = out[out.index("### Asked, but not answered"):]
+        self.assertIn("**Existing policy restated**", tail)
+        self.assertNotIn("21,294", tail, "figures belong in the body")
+        self.assertIn("21,294", out[:out.index("### Asked, but not answered")])
+
+    def test_a_rule_outranks_the_judge(self):
+        """A formulaic phrase is cheaper and more certain than a model, and
+        the model does not get to overrule "I refer the Hon Member"."""
+        row = {"answer_text": "I refer the Hon Member to the answer provided "
+                              "on 13 July.",
+               "answer_kind": "figures"}
+        self.assertEqual(digest.answer_label(row)[0], "REFERRED")
+
+    def test_an_unjudged_reply_stays_in_the_body(self):
+        """The safe direction: a reply the judge never saw is shown in full
+        rather than silently demoted to a one-liner."""
+        row = {"answer_text": "Some substantive answer.", "answer_kind": None}
+        self.assertEqual(digest.answer_label(row), (None, None))
+
+    def test_an_unknown_kind_is_discarded_not_rendered(self):
+        row = {"answer_text": "Some answer.", "answer_kind": "waffle"}
+        self.assertEqual(digest.answer_label(row), (None, None))
 
     def test_nothing_is_capped(self):
         """No cap by COUNT -- sixty distinct questions all render.
@@ -539,6 +577,10 @@ class NormalModeFullRenderTests(unittest.TestCase):
                       "house": "Commons", "heading": "A question",
                       "department": "DfE", "url": "https://q/1",
                       "date": "2026-08-27", "tag": 2, "why": "",
+                      "question_text": "what steps she is taking on this.",
+                      # An answer is a precondition for the section since
+                      # 2026-09-25; without one there is nothing to show.
+                      "answer_text": "The Department published guidance in May.",
                       "area": 6, "area_label": "Parental rights"}]
         e.deadlines = [{"type": "Consultation", "title": "A consultation",
                         "url": "https://c/1", "why": "",

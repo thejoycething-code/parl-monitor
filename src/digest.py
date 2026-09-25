@@ -567,24 +567,53 @@ ANSWER_RULES = (
                 r"|\bnot held in a reportable\b", re.I)),
 )
 
+# The judge's answer_kind (src/triage.py ANSWER_KINDS), for the two classes
+# no rule can reach. Consulted only when no rule fires: a formulaic phrase
+# is cheaper and more certain than a model, and the model does not get to
+# overrule "I refer the Hon Member to the answer provided on 13 July".
+JUDGED_LABELS = {
+    "position": ("POSITION", "Position stated"),
+    "figures": ("FIGURES", "Figures given"),
+    "restated": ("RESTATED", "Existing policy restated"),
+}
+
 # Labels whose rows add nothing new, and so go to the tail rather than the
 # body. POSITION is deliberately NOT here: "no plans to change the law on
 # assisted dying" answers nothing the member asked and is the most
-# quotable thing in the edition.
-NO_NEWS = ("REFERRED", "NOT HELD", "DEFERRED")
+# quotable thing in the edition. RESTATED is (Christopher, 2026-09-25:
+# "the questions still take up too much space") -- an answer that restates
+# policy without engaging the question is the definition of the tail, and
+# the body is 82% of the section's bytes, so this is the only lever that
+# moves it.
+NO_NEWS = ("REFERRED", "NOT HELD", "DEFERRED", "RESTATED")
 
 
 def answer_label(row):
-    """(key, display) for a reply, or (None, None) when no rule fires."""
+    """(key, display) for a reply, or (None, None) when nothing places it.
+
+    Rules first, the judge second. A row the judge never saw simply has no
+    label and stays in the body, which is the safe direction: an unjudged
+    reply is shown in full rather than silently demoted to a one-liner.
+    """
+    key, display, _by_rule = _label_and_source(row)
+    return key, display
+
+
+def _label_and_source(row):
+    """(key, display, "rule"|"judge"|None). WHO decided matters: only a rule
+    match may lead the section, because only a rule identifies the single
+    sentence that IS the position."""
     if row.get("holding"):
-        return "DEFERRED", "Deferred"
+        return "DEFERRED", "Deferred", "rule"
     answer = " ".join((row.get("answer_text") or "").split())
     if not answer:
-        return None, None
+        return None, None, None
     for key, display, pattern in ANSWER_RULES:
         if pattern.search(answer):
-            return key, display
-    return None, None
+            return key, display, "rule"
+    key, display = JUDGED_LABELS.get((row.get("answer_kind") or "").lower(),
+                                     (None, None))
+    return key, display, ("judge" if key else None)
 
 
 def lead_sentence(answer, pattern):
@@ -702,6 +731,12 @@ def _lead_block(group):
     quote = lead_sentence(lead.get("answer_text"),
                           dict((k, p) for k, _d, p in ANSWER_RULES)["POSITION"])
     if not quote:
+        # No rule phrase, so there is no sentence we can point at as THE
+        # position. An earlier version fell back to bolding the first forty
+        # words, which put an arbitrary opening in a minister's mouth as
+        # their stated position and printed the same child-safety
+        # boilerplate twice in one edition (2026-09-25). A lead with no
+        # identifiable sentence is not a lead.
         return []
     who = _who(lead)
     url = lead.get("url")
@@ -731,9 +766,13 @@ def _tail_line(group, display):
              else ", {0} questions".format(len(group)))
     quote = " ".join((lead.get("answer_text") or "").split())
     said = ' "{0}"'.format(_trim(quote, 22)) if quote else ""
-    return "- **{0}** - {1} - {2}, {3}{4}.{5}".format(
-        display, title, who, lead.get("department") or "the government",
-        count, said)
+    # The area is on every line. Once "restated" joins the tail an area can
+    # have nothing at all in the body -- Assisted dying did, on the first
+    # run -- and a reader scanning for their issue would conclude the week
+    # was silent on it (2026-09-25).
+    return "- **{0}** - *{1}* - {2} - {3}, {4}{5}.{6}".format(
+        display, lead.get("area_label") or "Other", title, who,
+        lead.get("department") or "the government", count, said)
 
 
 def render_pqs(edition, companion=True):
@@ -757,7 +796,21 @@ def render_pqs(edition, companion=True):
     A row appears in exactly ONE part. Nothing is capped by count; each
     passage is trimmed by length, verbatim, per _trim().
     """
-    rows_with_area = [r for r in edition.pq_rows if r.get("area")]
+    # An issue area is the precondition for appearing at all, and so is an
+    # ANSWER (Christopher, 2026-09-25: "remove those that are questions but
+    # don't yet have answers"). A holding answer is the department saying it
+    # will reply later, which is not news; a row with no answer text is one
+    # the detail archive has not reached yet and would print an apology
+    # where the reply goes. Both are still captured, still on the companion
+    # page, and return to the edition the week they are answered.
+    #
+    # Worth knowing how little this removes on its own: the sweep only ever
+    # fetches answered=Answered, so on the 2026-09-21 edition it was ONE row
+    # of 44, and 1.5% of the section. The size came out of the body.
+    rows_with_area = [r for r in edition.pq_rows
+                      if r.get("area")
+                      and (r.get("answer_text") or "").strip()
+                      and not r.get("holding")]
     if not rows_with_area:
         return None
 
@@ -768,8 +821,8 @@ def render_pqs(edition, companion=True):
     leads, body, tail = [], {}, []
     for label in sorted(grouped, key=lambda k: (-len(grouped[k]), k)):
         for group in _cluster(grouped[label]):
-            key, display = answer_label(group[0])
-            if key == "POSITION":
+            key, display, source = _label_and_source(group[0])
+            if key == "POSITION" and source == "rule":
                 leads.append(group)
             elif key in NO_NEWS:
                 tail.append((group, display))
@@ -808,9 +861,9 @@ def render_pqs(edition, companion=True):
 
     if tail:
         out.extend(["### Asked, but not answered", "",
-                    "*The department pointed elsewhere, said it does not hold "
-                    "the information, or deferred. The full exchange is behind "
-                    "each link.*", ""])
+                    "*The department restated existing policy, pointed to an "
+                    "earlier answer, said it does not hold the information, or "
+                    "deferred. The full exchange is behind each link.*", ""])
         for group, display in tail:
             out.append(_tail_line(group, display))
         out.append("")
