@@ -181,6 +181,52 @@ de_amendments, de_committees and de_agenda. The Sunday run uses GitHub's IPs
 and is probably unaffected, but that is a hope rather than a verification
 while the block stands.
 
+**The block lifted overnight on 25 September**, without a word from anyone:
+both hosts answered normally again the next morning. Nothing about the rule
+above changes -- an edge block that lifts by itself can return by itself, and
+it left the debate packs unbuildable for a day.
+
+## Debate packs (25 September 2026)
+
+`tools/de_debate_pack.py` builds the German equivalent of the Westminster
+pack: round-up, onside checklist, quotes and shot list for one agenda item.
+The differences from Westminster are all forced by the sources, and each was
+measured on sitting 96:
+
+- **The Stenografischer Bericht carries no per-speech timecodes.** Protocol
+  21/96 has four "Uhr" mentions in 858,106 characters and three are about
+  voting urns, so Hansard's trick of reading a clock off each contribution
+  does not exist here. Interpolating from `Beginn: 09:00 Uhr` across a
+  sitting that ended at 02:15 would drift by hours.
+- **The Mediathek is better than interpolation, and better than Hansard.** It
+  publishes ONE VIDEO PER SPEECH with the speaker, their party and the
+  wall-clock second they rose. Sitting 96 has 309 of them. So the clock times
+  in a German pack are the Bundestag's own, and there is nothing to
+  interpolate.
+- **The speaker list therefore comes from the Mediathek, not the text.** The
+  protocol DIP serves on the day is a *Vorabfassung*: sitting 96's ran TOP 7,
+  8, 9, 10, 12 -- item 11 was not in it at all, while the Mediathek had the
+  whole debate on video. The recording is complete on the day and the
+  transcript is not, so the recording decides who spoke and the pack reports
+  how many of them the protocol carries the words of.
+- **Footage is LINKED, never downloaded.** The Westminster pack downloads
+  under the Parliamentary Recording Unit's terms. The Bundestag's terms are
+  its own and nobody here has read them, so this pack links to their player
+  and stops. That is a decision for whoever reads the licence, and it belongs
+  with the open question above.
+
+Building it turned up a recall bug in the SPEECHES COLLECTOR, not just the
+packs: `Michael Brand (Fulda) (CDU/CSU):` -- a constituency printed to tell
+two members of the same name apart -- and `Karl-Josef Laumann, Minister
+(Nordrhein-\nWestfalen):`, a Land minister speaking for the Bundesrat with
+the Land name hyphenated across a line break. Neither matched, so the
+speeches were dropped silently: five headings in protocol 21/96, one of them
+the lead signatory of the motion being debated. Fixed in `src/de_protocol.py`,
+which is where the parser now lives so the packs and the collector share one
+copy. **Protocols read before 25 September were parsed without the fix**, so
+past speeches by members whose heading takes either form are still missing
+from the store.
+
 ## Still open
 
 - **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`
