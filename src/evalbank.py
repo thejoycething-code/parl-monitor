@@ -182,7 +182,17 @@ area, 1 = background only, 2 = belongs in the weekly digest, 3 = likely
 campaign or lobbying trigger). A NOTE is optional: say what the judge got
 wrong when it did. Leave VERDICT blank to skip an item. The next Monday
 publish reads this file; agreement over time is in docs/judge-eval.md.
+{kind}
+Do not edit the `### item:` id lines.
 
+---
+"""
+
+# Appended ONLY when the sample actually contains a KIND line. A German
+# reviewer's checklist is all Vorgänge and never a written question, so
+# without the condition it explained a field they would never see
+# (2026-09-25).
+KIND_GUIDANCE = """
 A written question also carries a KIND line, for what the minister's reply
 actually did. Write one of:
 
@@ -194,10 +204,6 @@ actually did. Write one of:
 This one is not cosmetic: the edition ROUTES on it. "restated" sends a reply
 to "Asked, but not answered" as a single line, so a judge drifting on this
 label quietly demotes real answers. Leave KIND blank to skip it.
-
-Do not edit the `### item:` id lines.
-
----
 """
 
 
@@ -257,8 +263,10 @@ def write_sample(conn, week, path, n=SAMPLE_SIZE, jurisdiction=None,
     if not rows:
         return None, 0
     chosen = pick_sample(rows, n, seed=week)
-    blocks = [SAMPLE_HEADER.format(week=week, total=len(rows))]
     answers = _answer_text_for(conn, [r["item_id"] for r in chosen])
+    blocks = [SAMPLE_HEADER.format(
+        week=week, total=len(rows),
+        kind=KIND_GUIDANCE if answers else "")]
     for r in chosen:
         blocks.append("### item: {0}".format(r["item_id"]))
         blocks.append("- feed: {0} | judge score: {1} | tier: {2} | candidate areas: {3}".format(
@@ -349,6 +357,9 @@ def parse_sample(path):
     return (week.group(1) if week else None), out
 
 
+SAMPLE_FILE = re.compile(r"^(?:[a-z]{2}-)?judge-sample-\d{4}-\d{2}-\d{2}\.md$")
+
+
 def ingest_samples(conn, reviews_dir, today=None):
     """Read every judge-sample-*.md and review-*.md; write human verdicts.
     A sample VERDICT is explicit truth; a review PRIORITY (ACT/WATCH/NOTE)
@@ -360,7 +371,13 @@ def ingest_samples(conn, reviews_dir, today=None):
         return explicit, implicit
     for name in sorted(os.listdir(reviews_dir)):
         path = os.path.join(reviews_dir, name)
-        if name.startswith("judge-sample-") and name.endswith(".md"):
+        # "judge-sample-<week>.md" and the German "de-judge-sample-<week>.md".
+        # Matching only the first left the German loop WRITE-ONLY: samples
+        # were written from 24 September 2026 and a filled one would never
+        # have been read, so a reviewer's work would have vanished silently
+        # (found 2026-09-25 while scheduling it). parse_sample already reads
+        # the week out of either name.
+        if SAMPLE_FILE.match(name):
             week, rows = parse_sample(path)
             for item_id, verdict, note, kind in rows:
                 # COALESCE on every human field: a reviewer who filled in

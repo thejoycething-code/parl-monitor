@@ -446,5 +446,94 @@ class EvalLoopIsScheduledTests(unittest.TestCase):
         self.assertNotIn("judge_eval.py rescore", self._publish())
 
 
+class GermanEvalLoopTests(unittest.TestCase):
+    """The German loop was WRITE-ONLY until 2026-09-25. Samples had been
+    written as de-judge-sample-<week>.md since 24 September, and
+    ingest_samples matched only "judge-sample-", so a filled German
+    checklist would never have been read and the reviewer's work would have
+    vanished without a word."""
+
+    def _weekly(self):
+        return open(os.path.join(ROOT, ".github", "workflows",
+                                 "de-weekly.yml"), encoding="utf-8").read()
+
+    def test_a_german_sample_filename_is_recognised(self):
+        self.assertTrue(evalbank.SAMPLE_FILE.match("de-judge-sample-2026-09-21.md"))
+        self.assertTrue(evalbank.SAMPLE_FILE.match("judge-sample-2026-09-21.md"))
+        self.assertFalse(evalbank.SAMPLE_FILE.match("review-2026-09-21.md"))
+        self.assertFalse(evalbank.SAMPLE_FILE.match("judge-sample-draft.md"))
+
+    def test_a_filled_german_sample_reaches_the_bank(self):
+        """The end-to-end claim, not just the regex."""
+        import tempfile
+        conn = _conn()
+        conn.execute("INSERT INTO judge_verdicts (week, item_id, captured_at) "
+                     "VALUES ('2026-09-21', 'de_vorgaenge:1', '')")
+        conn.commit()
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, "de-judge-sample-2026-09-21.md"), "w") as fh:
+                fh.write("### item: de_vorgaenge:1\nVERDICT: 3\nNOTE: wrong\n")
+            explicit, _implicit = evalbank.ingest_samples(conn, tmp)
+        self.assertEqual(explicit, 1)
+        got = conn.execute("SELECT human_score, human_note FROM judge_verdicts "
+                           "WHERE item_id = 'de_vorgaenge:1'").fetchone()
+        self.assertEqual(got["human_score"], 3)
+        self.assertEqual(got["human_note"], "wrong")
+
+    def test_the_german_weekly_runs_the_loop_in_order(self):
+        src = self._weekly()
+        for action in ("de_judge_eval.py ingest", "de_judge_eval.py sample",
+                       "de_judge_eval.py report --write"):
+            self.assertIn(action, src, action + " is not in the German weekly")
+        self.assertLess(src.index("de_judge_eval.py ingest"),
+                        src.index("de_judge_eval.py sample"))
+        self.assertLess(src.index("de_judge_eval.py sample"),
+                        src.index("de_judge_eval.py report"))
+
+    def test_it_runs_after_the_triage_that_banks_and_before_the_push(self):
+        """Germany pulls and publishes in ONE workflow, so the verdicts this
+        samples are banked earlier in the same run."""
+        src = self._weekly()
+        self.assertLess(src.index("de_triage.py"),
+                        src.index("de_judge_eval.py ingest"))
+        self.assertLess(src.index("de_judge_eval.py ingest"),
+                        src.index("db_state.py --push"))
+
+    def test_the_german_commit_covers_what_the_loop_writes(self):
+        src = self._weekly()
+        commit = src[src.index("name: Commit state"):]
+        for path in ("reviews/", "docs/judge-eval.md"):
+            self.assertIn(path, commit,
+                          "{0} is written by the German loop and never "
+                          "committed".format(path))
+
+    def test_a_german_checklist_does_not_explain_a_field_it_lacks(self):
+        """The German sample is all Vorgänge and never a written question,
+        so the KIND guidance would describe a line that never appears."""
+        import tempfile
+        conn = _conn()
+        items = _items(3)
+        for it in items:
+            it.id = it.id.replace("pq:", "de_vorgaenge:")
+        evalbank.bank(conn, "2026-09-21", items, _results(items, [2, 2, 3]),
+                      "m", "live", "P")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "de-judge-sample-2026-09-21.md")
+            evalbank.write_sample(conn, "2026-09-21", path)
+            text = open(path).read()
+        self.assertNotIn("KIND line", text)
+        self.assertNotIn("KIND: ", text)
+        self.assertIn("VERDICT: ", text, "the score line must still be there")
+
+    def test_the_german_sample_also_refuses_to_clobber(self):
+        import importlib.util as iu
+        import inspect
+        spec = iu.spec_from_file_location(
+            "de_judge_eval", os.path.join(ROOT, "tools", "de_judge_eval.py"))
+        mod = iu.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        self.assertIn("already has", inspect.getsource(mod.main))
+
+
 if __name__ == "__main__":
     unittest.main()

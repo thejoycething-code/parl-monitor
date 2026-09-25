@@ -140,7 +140,7 @@ def seed(conn, log=print):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("command", choices=("seed", "sample", "report"))
+    ap.add_argument("command", choices=("seed", "sample", "ingest", "report"))
     ap.add_argument("--week", help="ISO Monday, for sample")
     ap.add_argument("--write", action="store_true",
                     help="report: also write docs/judge-eval.md")
@@ -149,11 +149,31 @@ def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     if args.command == "seed":
         seed(conn)
+    elif args.command == "ingest":
+        # Shared with Westminster: one reviews directory, one bank, and
+        # evalbank.SAMPLE_FILE matches both naming conventions. Reading both
+        # here is deliberate and idempotent -- whichever weekly runs first
+        # picks up whatever has been filled in, and the other finds nothing
+        # left to do.
+        e, i = evalbank.ingest_samples(conn, REVIEWS)
+        print("de-judge-eval: ingested {0} explicit verdict(s) and {1} review "
+              "priorit(ies)".format(e, i))
     elif args.command == "sample":
         week = args.week or week_of(datetime.date.today().isoformat())
         if not os.path.isdir(REVIEWS):
             os.makedirs(REVIEWS)
         path = os.path.join(REVIEWS, "de-judge-sample-{0}.md".format(week))
+        # Never overwrite a checklist somebody has written in: the same rule
+        # as tools/judge_eval.py, and it matters more here because this file
+        # was unreadable until 2026-09-25 and anything already in it is the
+        # first German labelling anyone has done.
+        if os.path.exists(path):
+            _wk, filled = evalbank.parse_sample(path)
+            if filled:
+                print("de-judge-eval: {0} already has {1} verdict(s); left "
+                      "alone".format(os.path.relpath(path, ROOT), len(filled)))
+                conn.close()
+                return 0
         written, n = evalbank.write_sample(conn, week, path,
                                            jurisdiction=JURISDICTION,
                                            exclude_hidden=True)

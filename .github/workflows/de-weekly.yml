@@ -197,6 +197,35 @@ jobs:
               echo "**No gaps.**"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Judge evaluation
+        # Wired 2026-09-25, alongside the Westminster one. The German judge
+        # is the least verified thing this repo runs -- an AI-drafted
+        # taxonomy no German speaker has checked, matched by machinery built
+        # for English, judged by a model briefed in English over untranslated
+        # text -- so leaving its evaluation to whoever remembered to run it
+        # was the wrong way round.
+        #
+        # IT WAS WORSE THAN UNSCHEDULED: the loop was WRITE-ONLY. Samples
+        # have been written since 24 September as de-judge-sample-<week>.md,
+        # and evalbank.ingest_samples matched only "judge-sample-", so a
+        # filled German checklist would never have been read and the
+        # reviewer's work would have vanished without a word. Fixed in the
+        # same change; evalbank.SAMPLE_FILE now matches both.
+        #
+        # Same order and the same reasons as monday-publish.yml: ingest
+        # before sample before report. Unlike Westminster, the verdicts are
+        # banked EARLIER IN THIS RUN, by the triage step above -- the German
+        # pipeline pulls and publishes in one workflow -- so this must stay
+        # after it.
+        #
+        # No API calls: all three read the store and reviews/.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t - datetime.timedelta(days=t.weekday())).isoformat())")
+          echo "German judge evaluation for week commencing $WEEK"
+          python3 tools/de_judge_eval.py ingest
+          python3 tools/de_judge_eval.py sample --week "$WEEK"
+          python3 tools/de_judge_eval.py report --write
       - name: Publish the raw archive
         # Before the store: a store that cites payloads the archive lacks is
         # the worse of the two failures. Merges, never clobbers.
@@ -217,7 +246,11 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/ editions/
+          # reviews/ and docs/judge-eval.md joined this list on 2026-09-25,
+          # when the judge evaluation was scheduled above: without them the
+          # step writes a checklist and a report into a workspace that is
+          # thrown away at the end of the run.
+          git add data/ editions/ reviews/ docs/judge-eval.md
           git diff --cached --quiet || git commit -m "Germany weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
