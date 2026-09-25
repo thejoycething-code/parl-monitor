@@ -212,5 +212,39 @@ class VorgangTests(unittest.TestCase):
             self.assertEqual(conn.execute("SELECT COUNT(*) FROM {0}".format(table)).fetchone()[0], 0)
 
 
+class SpecKeyTests(unittest.TestCase):
+    """The key the document layer runs on is read out of the Bundestag's own
+    published spec, so its FORMAT is a dependency we do not control.
+
+    On 25 September 2026 the spec started writing the example as
+    "Beispiel: *ApiKey <the key>*" -- the scheme name and a space in front
+    of the key. The pattern's character class had no space, so it matched
+    nothing and the German document layer ran with no key at all. It said so
+    on every run rather than failing quietly, which is the only reason it
+    was caught, but it was broken for as long as nobody read the gap.
+    """
+
+    def test_both_shapes_the_spec_has_used(self):
+        from src import dip
+        with_prefix = ('      description: "Beispiel: '
+                       '*ApiKey FAKEKEY1.notarealkeyatall000000000000000000*\n"')
+        without = ('      description: "Beispiel: '
+                   '*FAKEKEY1.notarealkeyatall000000000000000000*\n"')
+        for text in (with_prefix, without):
+            hit = dip.SPEC_KEY.search(text)
+            self.assertIsNotNone(hit, "no key found in: " + text[:60])
+            self.assertEqual(hit.group(1),
+                             "FAKEKEY1.notarealkeyatall000000000000000000",
+                             "the scheme name is not part of the key")
+
+    def test_a_pdf_hash_example_is_not_mistaken_for_a_key(self):
+        """The spec is full of other examples. Taking one would send a PDF
+        hash to DIP as an Authorization header."""
+        from src import dip
+        self.assertIsNone(dip.SPEC_KEY.search(
+            '        pdf_hash:\n          type: "string"\n'
+            '          example: "a33af31e7c4524db8db172ef8f9e0f6d"'))
+
+
 if __name__ == "__main__":
     unittest.main()

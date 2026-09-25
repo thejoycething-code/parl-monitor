@@ -36,7 +36,13 @@ import re
 BASE = "https://search.dip.bundestag.de/api/v1"
 SPEC = BASE + "/openapi.yaml"
 # The spec prints it as: description: "Beispiel: *<key>*"
-SPEC_KEY = re.compile(r"Beispiel:\s*\*([A-Za-z0-9._-]{16,})\*")
+# The Bundestag writes the example key into its own spec as
+#   description: "Beispiel: *ApiKey <the key>*"
+# The "ApiKey " prefix is the SCHEME NAME, not part of the key, and it was not
+# there when this was written. Without the optional prefix the pattern matched
+# nothing from about 25 September 2026 and the document layer ran with no key
+# at all -- disclosed as a gap on every run, never silent, but broken.
+SPEC_KEY = re.compile(r"Beispiel:\s*\*(?:ApiKey\s+)?([A-Za-z0-9._-]{16,})\*")
 
 _CACHE = {}
 
