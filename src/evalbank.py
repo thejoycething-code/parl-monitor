@@ -76,8 +76,17 @@ def ensure_table(conn):
         score INTEGER, why TEXT, areas TEXT,
         model TEXT, prompt_sha TEXT, mode TEXT,
         human_score INTEGER, human_note TEXT, human_source TEXT, labelled_at TEXT,
+        answer_kind TEXT, human_answer_kind TEXT,
         captured_at TEXT NOT NULL,
         PRIMARY KEY (week, item_id))""")
+    # The bank gained answer_kind on 2026-09-25, with rows already in it.
+    # CREATE TABLE IF NOT EXISTS does nothing to a table that is already
+    # there, so without this the column is in the schema and absent from
+    # every store that has ever banked a verdict.
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(judge_verdicts)")}
+    for col in ("answer_kind", "human_answer_kind"):
+        if col not in cols:
+            conn.execute("ALTER TABLE judge_verdicts ADD COLUMN {0} TEXT".format(col))
     conn.commit()
 
 
@@ -94,12 +103,20 @@ def bank(conn, week, items, results, model, mode, system_prompt, captured_at=Non
             continue
         conn.execute(
             "INSERT INTO judge_verdicts (week, item_id, feed, title, tier, candidate_areas, watchlist_hit, "
-            "score, why, areas, model, prompt_sha, mode, captured_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+            "score, why, areas, model, prompt_sha, mode, answer_kind, captured_at) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
             "ON CONFLICT(week, item_id) DO UPDATE SET score=excluded.score, why=excluded.why, areas=excluded.areas, "
-            "model=excluded.model, prompt_sha=excluded.prompt_sha, mode=excluded.mode, captured_at=excluded.captured_at",
+            "model=excluded.model, prompt_sha=excluded.prompt_sha, mode=excluded.mode, "
+            # COALESCE, unlike the fields above: a rescore of the SCORE
+            # prompt returns no answer_kind and must not blank one already
+            # banked, or a re-run would quietly erase the labels a reviewer
+            # is measuring against.
+            "answer_kind=COALESCE(NULLIF(excluded.answer_kind, ''), judge_verdicts.answer_kind), "
+            "captured_at=excluded.captured_at",
             (week, it.id, it.id.split(":", 1)[0], it.title, it.tier, json.dumps(it.issue_areas),
              int(bool(it.watchlist_hit)), r.score, r.why_it_matters or "", json.dumps(r.areas or []),
-             model, prompt_sha(system_prompt), mode, captured_at))
+             model, prompt_sha(system_prompt), mode,
+             getattr(r, "answer_kind", None) or "", captured_at))
         n += 1
     conn.commit()
     return n
@@ -166,6 +183,18 @@ campaign or lobbying trigger). A NOTE is optional: say what the judge got
 wrong when it did. Leave VERDICT blank to skip an item. The next Monday
 publish reads this file; agreement over time is in docs/judge-eval.md.
 
+A written question also carries a KIND line, for what the minister's reply
+actually did. Write one of:
+
+  figures   it gives data, a date or a named commitment the question asked for
+  position  it states what the Government will or will not do
+  restated  it restates policy or describes process without engaging the
+            question, or adds nothing new
+
+This one is not cosmetic: the edition ROUTES on it. "restated" sends a reply
+to "Asked, but not answered" as a single line, so a judge drifting on this
+label quietly demotes real answers. Leave KIND blank to skip it.
+
 Do not edit the `### item:` id lines.
 
 ---
@@ -229,13 +258,26 @@ def write_sample(conn, week, path, n=SAMPLE_SIZE, jurisdiction=None,
         return None, 0
     chosen = pick_sample(rows, n, seed=week)
     blocks = [SAMPLE_HEADER.format(week=week, total=len(rows))]
+    answers = _answer_text_for(conn, [r["item_id"] for r in chosen])
     for r in chosen:
         blocks.append("### item: {0}".format(r["item_id"]))
         blocks.append("- feed: {0} | judge score: {1} | tier: {2} | candidate areas: {3}".format(
             r["feed"], r["score"], r["tier"], ", ".join(str(a) for a in json.loads(r["candidate_areas"] or "[]")) or "-"))
         blocks.append("- title: {0}".format(r["title"]))
         blocks.append("- judge why: {0}".format(r["why"] or "-"))
+        # The reply itself, for a written question. Without it the KIND line
+        # asks a reviewer to judge an answer they cannot see, which is how
+        # you get a corpus of guesses (2026-09-25).
+        got = answers.get(r["item_id"])
+        if got:
+            question, answer = got
+            if question:
+                blocks.append("- asked: {0}".format(question))
+            blocks.append("- answered: {0}".format(answer))
+            blocks.append("- judge kind: {0}".format(r["answer_kind"] or "-"))
         blocks.append("VERDICT: ")
+        if got:
+            blocks.append("KIND: ")
         blocks.append("NOTE: ")
         blocks.append("")
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -244,24 +286,66 @@ def write_sample(conn, week, path, n=SAMPLE_SIZE, jurisdiction=None,
     return path, len(chosen)
 
 
+def _answer_text_for(conn, item_ids):
+    """{item_id: (question, answer)} for the written questions among them.
+
+    Read from items rather than banked on the verdict: the bank is a record
+    of what the judge DECIDED, and copying a thousand-word reply into every
+    row of it would triple the JSONL export for one sample a week.
+    """
+    out = {}
+    ids = [i for i in item_ids if str(i).startswith("pq:")]
+    if not ids:
+        return out
+    marks = ",".join("?" * len(ids))
+    for row in conn.execute(
+            "SELECT id, extra FROM items WHERE id IN ({0})".format(marks), ids):
+        try:
+            extra = json.loads(row["extra"] or "{}")
+        except ValueError:
+            continue
+        answer = " ".join((extra.get("answer_text") or "").split())
+        if not answer:
+            continue
+        question = " ".join((extra.get("question_text") or "").split())
+        out[row["id"]] = (question[:400], answer[:700])
+    return out
+
+
+ANSWER_KINDS = ("figures", "position", "restated")
+
+
 def parse_sample(path):
-    """-> [(item_id, verdict, note)] for items with a VERDICT written."""
-    out, cur, verdict, note = [], None, None, ""
+    """-> [(item_id, verdict, note, kind)] for items a reviewer filled in.
+
+    A row counts when EITHER a score or a kind was written: a reviewer who
+    only wants to correct the label should not have to restate a score they
+    agree with, and a blank one must not be read as agreement.
+    """
+    out, cur, verdict, note, kind = [], None, None, "", None
+
+    def flush():
+        if cur and (verdict is not None or kind is not None):
+            out.append((cur, verdict, note, kind))
+
     week = re.search(r"judge-sample-(\d{4}-\d{2}-\d{2})", os.path.basename(path))
     with open(path, encoding="utf-8") as handle:
         for raw in handle:
             line = raw.rstrip("\n")
             if line.startswith("### item:"):
-                if cur and verdict is not None:
-                    out.append((cur, verdict, note))
-                cur, verdict, note = line.split("item:", 1)[1].strip(), None, ""
+                flush()
+                cur, verdict, note, kind = line.split("item:", 1)[1].strip(), None, "", None
             elif line.upper().startswith("VERDICT:"):
                 v = line.split(":", 1)[1].strip()
                 verdict = int(v) if v.isdigit() and 0 <= int(v) <= 3 else None
+            elif line.upper().startswith("KIND:"):
+                k = line.split(":", 1)[1].strip().lower()
+                # An unrecognised word is no label, never a guess -- the
+                # same rule the triage parser applies to the model.
+                kind = k if k in ANSWER_KINDS else None
             elif line.upper().startswith("NOTE:"):
                 note = line.split(":", 1)[1].strip()
-    if cur and verdict is not None:
-        out.append((cur, verdict, note))
+    flush()
     return (week.group(1) if week else None), out
 
 
@@ -278,10 +362,19 @@ def ingest_samples(conn, reviews_dir, today=None):
         path = os.path.join(reviews_dir, name)
         if name.startswith("judge-sample-") and name.endswith(".md"):
             week, rows = parse_sample(path)
-            for item_id, verdict, note in rows:
-                cur = conn.execute("UPDATE judge_verdicts SET human_score = ?, human_note = ?, human_source = 'sample', "
-                                   "labelled_at = COALESCE(labelled_at, ?) WHERE item_id = ? AND week = ?",
-                                   (verdict, note or None, today, item_id, week))
+            for item_id, verdict, note, kind in rows:
+                # COALESCE on every human field: a reviewer who filled in
+                # only KIND must not blank a score they gave last week, and
+                # vice versa.
+                cur = conn.execute(
+                    "UPDATE judge_verdicts SET "
+                    "human_score = COALESCE(?, human_score), "
+                    "human_answer_kind = COALESCE(?, human_answer_kind), "
+                    "human_note = COALESCE(NULLIF(?, ''), human_note), "
+                    "human_source = 'sample', "
+                    "labelled_at = COALESCE(labelled_at, ?) "
+                    "WHERE item_id = ? AND week = ?",
+                    (verdict, kind, note or "", today, item_id, week))
                 explicit += cur.rowcount
         elif name.startswith("review-") and name.endswith(".md"):
             m = re.search(r"review-(\d{4}-\d{2}-\d{2})", name)
@@ -323,6 +416,37 @@ def stats(rows):
     for s, h in pairs:
         matrix[min(max(h, 0), 3)][min(max(s, 0), 3)] += 1
     out["matrix"] = matrix          # rows = human, columns = judge
+    return out
+
+
+def kind_stats(rows):
+    """Agreement on answer_kind, and what a disagreement COSTS.
+
+    Reported apart from the score because it is a different question and a
+    different failure. A score that is one out moves an item up or down the
+    page. A kind that is wrong moves it between sections: "restated" sends a
+    reply to "Asked, but not answered" as one line, so the expensive error
+    is judge=restated against human=figures or position -- a real answer
+    demoted out of sight. The reverse merely takes space.
+    """
+    pairs = [(r["answer_kind"], r["human_answer_kind"]) for r in rows
+             if r["answer_kind"] and r["human_answer_kind"]]
+    out = {"n": len(pairs)}
+    if not pairs:
+        return out
+    out["exact"] = sum(1 for j, h in pairs if j == h) / len(pairs)
+    # NO_NEWS membership is what the edition acts on (src/digest.py).
+    demoted = sum(1 for j, h in pairs if j == "restated" and h != "restated")
+    promoted = sum(1 for j, h in pairs if j != "restated" and h == "restated")
+    out["wrongly_demoted"] = demoted
+    out["wrongly_kept"] = promoted
+    kinds = sorted(ANSWER_KINDS)
+    matrix = [[0] * len(kinds) for _ in kinds]
+    for j, h in pairs:
+        if j in kinds and h in kinds:
+            matrix[kinds.index(h)][kinds.index(j)] += 1
+    out["matrix"] = matrix          # rows = human, columns = judge
+    out["kinds"] = kinds
     return out
 
 
@@ -369,6 +493,36 @@ def report(conn, write_to=None, today=None):
             _pct(js["within_one"]) if js["n"] else "-",
             _pct(js["digest_precision"]) if js["n"] else "-"))
     out.append("")
+
+    # The answer-kind label, separately. The edition ROUTES on it, so this
+    # is not a second opinion on the same question -- it is the measurement
+    # of whether real answers are being demoted out of the section.
+    ks = kind_stats(rows)
+    banked_kinds = sum(1 for r in rows if r["answer_kind"])
+    out += ["## Answer kind", "",
+            "*What the judge said a minister's reply DID, against a reviewer "
+            "reading the same reply. The edition routes on this: a reply "
+            "judged \"restated\" is demoted to a single line under \"Asked, "
+            "but not answered\", so a wrong label hides an answer rather "
+            "than merely misplacing it.*", "",
+            "Banked with a kind: {0}. Labelled by a reviewer: {1}.".format(
+                banked_kinds, ks["n"]), ""]
+    if ks["n"]:
+        out += ["Exact agreement: **{0}**. Wrongly demoted (judge said "
+                "restated, reviewer did not): **{1}**. Wrongly kept: "
+                "**{2}**.".format(_pct(ks["exact"]), ks["wrongly_demoted"],
+                                  ks["wrongly_kept"]), "",
+                "| reviewer \\ judge | " + " | ".join(ks["kinds"]) + " |",
+                "|---" * (len(ks["kinds"]) + 1) + "|"]
+        for i, name in enumerate(ks["kinds"]):
+            out.append("| **{0}** | {1} |".format(
+                name, " | ".join(str(v) for v in ks["matrix"][i])))
+        out.append("")
+    else:
+        out += ["*No reviewer has labelled a kind yet. The judge is "
+                "unchecked on this, which is not the same as agreeing -- and "
+                "it is the label the edition acts on.*", ""]
+
     unchecked = [n for n in sorted(by_j)
                  if not any(r["human_score"] is not None for r in by_j[n])]
     if unchecked:

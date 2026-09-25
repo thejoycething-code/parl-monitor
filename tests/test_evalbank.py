@@ -279,5 +279,108 @@ class SampleExcludesCollatedOnlyTests(unittest.TestCase):
         self.assertIn("exclude_hidden=True", inspect.getsource(mod))
 
 
+class AnswerKindTests(unittest.TestCase):
+    """Christopher, 2026-09-25: "add answer_kind to the verdict bank."
+
+    The edition ROUTES on this label -- "restated" demotes a reply to one
+    line under "Asked, but not answered" -- so an unchecked judge here does
+    not misplace an answer, it hides one.
+    """
+
+    def _row(self, conn, kind, score=2):
+        items = _items(1)
+        results = _results(items, [score])
+        results[0].answer_kind = kind
+        evalbank.bank(conn, "2026-09-21", items, results, "m", "live", "P")
+        return items[0].id
+
+    def test_the_bank_records_what_the_judge_called_the_reply(self):
+        conn = _conn()
+        self._row(conn, "restated")
+        got = conn.execute("SELECT answer_kind FROM judge_verdicts").fetchone()
+        self.assertEqual(got["answer_kind"], "restated")
+
+    def test_a_rescore_without_a_kind_does_not_blank_one(self):
+        """The score prompt returns no answer_kind. Re-running it must not
+        erase the labels a reviewer is being measured against."""
+        conn = _conn()
+        item_id = self._row(conn, "figures")
+        items = [i for i in _items(1)]
+        results = _results(items, [3])          # no answer_kind on these
+        evalbank.bank(conn, "2026-09-21", items, results, "m", "live", "P")
+        got = conn.execute("SELECT score, answer_kind FROM judge_verdicts "
+                           "WHERE item_id = ?", (item_id,)).fetchone()
+        self.assertEqual(got["score"], 3, "the score should have updated")
+        self.assertEqual(got["answer_kind"], "figures", "the kind should not")
+
+    def test_the_sample_asks_for_a_kind_and_shows_the_reply(self):
+        """A KIND line with no answer above it asks a reviewer to judge
+        something they cannot see."""
+        import tempfile
+        conn = _conn()
+        item_id = self._row(conn, "restated")
+        conn.execute(
+            "INSERT INTO items (id, captured_at, source_feed, item_type, title, "
+            "url, extra) VALUES (?, '', 'pq', 'question', 't', '', ?)",
+            (item_id, '{"question_text": "what steps she is taking.", '
+                      '"answer_text": "The Department remains committed."}'))
+        conn.commit()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "judge-sample-2026-09-21.md")
+            evalbank.write_sample(conn, "2026-09-21", path)
+            text = open(path).read()
+        self.assertIn("- answered: The Department remains committed.", text)
+        self.assertIn("- judge kind: restated", text)
+        self.assertIn("KIND: ", text)
+
+    def test_an_unknown_kind_from_a_reviewer_is_discarded(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "judge-sample-2026-09-21.md")
+            with open(path, "w") as fh:
+                fh.write("### item: pq:1\nVERDICT: 2\nKIND: waffle\nNOTE: \n")
+            _week, rows = evalbank.parse_sample(path)
+        self.assertEqual(rows[0][3], None, "an unrecognised word is no label")
+
+    def test_a_kind_alone_counts_and_does_not_blank_the_score(self):
+        """A reviewer correcting only the label should not have to restate a
+        score they agree with, and a blank must not read as agreement."""
+        import tempfile
+        conn = _conn()
+        item_id = self._row(conn, "restated")
+        conn.execute("UPDATE judge_verdicts SET human_score = 3 WHERE item_id = ?",
+                     (item_id,))
+        conn.commit()
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, "judge-sample-2026-09-21.md"), "w") as fh:
+                fh.write("### item: {0}\nVERDICT: \nKIND: figures\nNOTE: \n".format(item_id))
+            evalbank.ingest_samples(conn, tmp)
+        got = conn.execute("SELECT human_score, human_answer_kind FROM "
+                           "judge_verdicts WHERE item_id = ?", (item_id,)).fetchone()
+        self.assertEqual(got["human_answer_kind"], "figures")
+        self.assertEqual(got["human_score"], 3, "the score must survive")
+
+    def test_demotion_is_counted_apart_from_plain_disagreement(self):
+        """judge=restated, human=figures HIDES an answer. The reverse only
+        takes space. The report must not average them into one number."""
+        rows = [{"answer_kind": "restated", "human_answer_kind": "figures"},
+                {"answer_kind": "restated", "human_answer_kind": "restated"},
+                {"answer_kind": "figures", "human_answer_kind": "restated"},
+                {"answer_kind": "position", "human_answer_kind": "position"}]
+        st = evalbank.kind_stats(rows)
+        self.assertEqual(st["n"], 4)
+        self.assertEqual(st["wrongly_demoted"], 1)
+        self.assertEqual(st["wrongly_kept"], 1)
+        self.assertAlmostEqual(st["exact"], 0.5)
+
+    def test_unlabelled_is_reported_as_unchecked_not_as_agreement(self):
+        conn = _conn()
+        self._row(conn, "restated")
+        text = evalbank.report(conn)
+        self.assertIn("## Answer kind", text)
+        self.assertIn("No reviewer has labelled a kind yet", text)
+        self.assertIn("not the same as agreeing", text)
+
+
 if __name__ == "__main__":
     unittest.main()

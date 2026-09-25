@@ -246,6 +246,12 @@ CREATE TABLE IF NOT EXISTS judge_verdicts (
   score INTEGER, why TEXT, areas TEXT,
   model TEXT, prompt_sha TEXT, mode TEXT,
   human_score INTEGER, human_note TEXT, human_source TEXT, labelled_at TEXT,
+  -- What KIND of reply a written question got, as the judge read it, and as
+  -- a reviewer read it (2026-09-25). Kept beside the score rather than in
+  -- items alone so the bank can measure the label the way it measures the
+  -- score: the edition ROUTES on answer_kind, so a judge that drifts on it
+  -- silently moves real answers into "added nothing new".
+  answer_kind TEXT, human_answer_kind TEXT,
   captured_at TEXT NOT NULL,
   PRIMARY KEY (week, item_id)
 );

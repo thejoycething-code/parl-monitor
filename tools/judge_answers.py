@@ -110,12 +110,76 @@ def unjudged(conn, week=None):
     return out
 
 
+def bank_existing(conn, week=None):
+    """Bank verdicts the store already holds. NO API CALLS.
+
+    The first answer_kind pass wrote its labels before this tool banked
+    anything, so they existed in items and nowhere a reviewer could see
+    them. Re-scoring to get them into the bank would pay twice for the same
+    judgement.
+    """
+    from src import evalbank
+    sql = ("SELECT id, title, tier, issue_areas, triage_score, why_it_matters, "
+           "answer_kind, event_date FROM items "
+           "WHERE source_feed = 'pq' AND answer_kind IS NOT NULL")
+    args = []
+    if week:
+        import datetime
+        monday = datetime.date.fromisoformat(week)
+        sql += " AND event_date >= ? AND event_date < ?"
+        args = [(monday - datetime.timedelta(days=7)).isoformat(), week]
+    by_week = {}
+    for row in conn.execute(sql, args):
+        wk = _edition_week(row["event_date"])
+        if not wk:
+            continue
+        item = triage.TriageItem(
+            id=row["id"], title=row["title"], text="", tier=row["tier"],
+            issue_areas=json.loads(row["issue_areas"] or "[]"),
+            watchlist_hit=False)
+        result = triage.TriageResult(
+            id=row["id"], score=row["triage_score"],
+            areas=json.loads(row["issue_areas"] or "[]"),
+            why_it_matters=row["why_it_matters"] or "",
+            answer_kind=row["answer_kind"])
+        by_week.setdefault(wk, ([], []))
+        by_week[wk][0].append(item)
+        by_week[wk][1].append(result)
+    n = 0
+    for wk, (items, results) in by_week.items():
+        n += evalbank.bank(conn, wk, items, results, triage.TRIAGE_MODEL,
+                           "live", triage.SYSTEM_PROMPT)
+        evalbank.export(conn, wk)
+    return n
+
+
+def _edition_week(event_date):
+    """The Monday of the edition a question was answered into.
+
+    The edition window is [Monday-7, Monday), so a question answered on
+    Tuesday 15 September belongs to the edition of Monday 21 September --
+    the one AFTER its own week. Banking it under its own Monday would file
+    it against an edition that never showed it.
+    """
+    if not event_date:
+        return None
+    import datetime
+    try:
+        d = datetime.date.fromisoformat(event_date)
+    except ValueError:
+        return None
+    return (d + datetime.timedelta(days=7 - d.weekday())).isoformat()
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--week", help="ISO Monday; limits to that edition's window")
     ap.add_argument("--dry-run", action="store_true",
                     help="fill answers, then report what scoring would cover")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--bank-existing", action="store_true",
+                    help="put verdicts ALREADY in the store into the verdict "
+                         "bank, without scoring anything. Free.")
     ap.add_argument("--rescore", action="store_true",
                     help="also rewrite triage_score and why_it_matters from "
                          "this pass. Off by default: it would change editions "
@@ -128,6 +192,11 @@ def main():
     filled, missing = fill_answers(conn)
     print("answers copied into the store: {0} (archive had none for {1})".format(
         filled, missing))
+
+    if args.bank_existing:
+        print("banked {0} verdict(s) from the store, no API calls".format(
+            bank_existing(conn, args.week)))
+        return 0
 
     items = unjudged(conn, args.week)
     if args.limit:
@@ -163,6 +232,30 @@ def main():
     if args.rescore:
         triage.apply_scores(conn, items, results)
         print("scores and why-lines rewritten too (--rescore)")
+
+    # BANK IT. A scoring pass that does not reach the verdict bank is a
+    # judgement nobody can ever check: tools/de_triage.py once ran for weeks
+    # without banking and left 659 German verdicts unrecorded. The bank is
+    # keyed (week, item_id), so it needs the edition week each row belongs
+    # to, not today's date.
+    from src import evalbank
+    by_week = {}
+    for it in items:
+        row = conn.execute("SELECT event_date FROM items WHERE id = ?",
+                           (it.id,)).fetchone()
+        wk = _edition_week(row["event_date"] if row else None)
+        by_week.setdefault(wk, []).append(it)
+    banked = 0
+    for wk, group in by_week.items():
+        if not wk:
+            continue
+        ids = {i.id for i in group}
+        banked += evalbank.bank(
+            conn, wk, group, [r for r in results if r.id in ids],
+            triage.TRIAGE_MODEL, "live", triage.SYSTEM_PROMPT)
+        evalbank.export(conn, wk)
+    print("banked {0} verdict(s) across {1} edition week(s)".format(
+        banked, len([w for w in by_week if w])))
     print("judged {0}, labels written {1}: {2}".format(
         len(results), written,
         ", ".join("{0} {1}".format(v, k) for k, v in sorted(kinds.items()))))
