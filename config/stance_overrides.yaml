@@ -97,6 +97,11 @@ caps:
 # place: hardliners who rebelled for a tougher bill scored as opponents.
 excluded_from_5ca:
   - 11   # migration
+  # Organ donation (Christopher, 2026-09-26): its position is stated and
+  # members ARE scored against it -- evidence feeds timelines, issue pages and
+  # the weekly edition -- but "it's not a huge issue for us", so it does not
+  # drive campaign targeting. "wire it in with no 5CA sheet".
+  - 13   # organ donation
 
 # Conscience-issue bills where the major parties conventionally grant free
 # votes: the vote is the member's own position, not the whip's, and 5CA

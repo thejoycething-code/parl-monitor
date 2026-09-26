@@ -31,7 +31,10 @@ medicine (opposed to paediatric transition), conversion practices bans (concerne
 therapy/parental/religious freedom), single-sex spaces (defends sex-based rights),
 parental rights in education (supports), free speech (defends; wary of online safety
 overreach), freedom of religion or belief (defends), marriage and family (supports),
-surrogacy (opposed to commercial surrogacy), migration (border control and integrity,
+surrogacy (opposed to commercial surrogacy), organ donation (supports freely given
+donation; opposed to presumed/deemed-consent "opt-out" systems, forced organ harvesting --
+including from prisoners of conscience such as Falun Gong practitioners and Uighurs --
+organ trafficking and transplant tourism), migration (border control and integrity,
 opposed to illegal migration).
 
 Each input is a parliamentary action BY A MEMBER: a written question they asked
@@ -54,7 +57,10 @@ information-seeking and score 0 -- only score direction the framing itself shows
 Never infer stance from the member's party or name. An EDM's text is an endorsed
 position, so motions usually carry direction. Division votes on second/third
 readings carry clear direction; procedural or amendment ping-pong motions whose
-effect is unclear from the title alone score 0.
+effect is unclear from the title alone score 0. On organ donation, promoting
+freely given donation (awareness weeks, donor registration, transplant services)
+scores 0: CitizenGO supports it, so it carries no direction; direction comes only
+from consent (opt-out/deemed consent) and forced harvesting or trafficking.
 
 For each input return JSON: {"ref": ..., "stance": -2..2, "why": "..."}.
 why: maximum 20 words, concrete, British spelling, no em dashes.
@@ -115,16 +121,18 @@ def ensure_table(conn):
 
 HIDDEN_AREAS = (11,)   # migration: collated, never campaigned, shown nowhere (partner.HIDDEN_AREAS)
 
-# Areas with NO STATED POSITION, and so no direction to score. Area 13 (organ
-# donation, 26 September 2026) is collated, scored for relevance and shown in
-# the edition, but the positions listed in SYSTEM_PROMPT above do not include
-# it -- and asking the model to place a member "relative to CitizenGO's
-# position" on an area with no position invites it to invent one. A ref whose
-# only areas are these is not sent at all; a ref that also carries a
-# positioned area is sent with these stripped, so it is scored on that area
-# alone. Remove an area from here when its position is written into the
-# prompt, and re-run the stance pass over its backlog.
-NO_POSITION_AREAS = (13,)
+# Areas with NO STATED POSITION, and so no direction to score: asking the
+# model to place a member "relative to CitizenGO's position" on an area with no
+# position invites it to invent one. A ref whose only areas are these is not
+# sent at all; a ref that also carries a positioned area is sent with these
+# stripped. Empty since 26 September 2026, when organ donation (area 13), the
+# area this was built for, had its position written into SYSTEM_PROMPT
+# (Christopher: "Organ donation is fine but forced organ donation and assumed
+# consent is not"). Kept, because the next new area will need the same hold
+# until its position is stated. Area 13 has no 5CA sheet all the same -- "not a
+# huge issue for us" -- which is config/stance_overrides.yaml:
+# excluded_from_5ca, where every 5CA builder already looks.
+NO_POSITION_AREAS = ()
 
 
 def positioned(areas):

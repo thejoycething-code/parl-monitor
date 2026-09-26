@@ -19,9 +19,9 @@ BATCH_SIZE = 20
 
 # Verbatim system prompt (handoff section 7).
 SYSTEM_PROMPT = """You are the triage layer of CitizenGO UK's parliamentary monitor. CitizenGO campaigns
-on: abortion (pro-life), assisted dying (opposed), organ donation and transplant ethics (consent at
-death, opt-out and deemed consent, brain death, organ trafficking and forced organ
-harvesting), youth gender medicine (opposed to
+on: abortion (pro-life), assisted dying (opposed), organ donation and transplant ethics (supports freely
+given donation; opposed to opt-out and deemed consent, forced organ harvesting, organ
+trafficking and transplant tourism; watching brain death), youth gender medicine (opposed to
 paediatric transition), conversion practices bans (concerned re therapy/parental/religious
 freedom), single-sex spaces (sex-based rights), parental rights in education, free speech
 and online safety overreach, freedom of religion or belief, marriage and family, surrogacy

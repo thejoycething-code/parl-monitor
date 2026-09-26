@@ -39,7 +39,9 @@ medicine (opposed to paediatric transition), conversion practices bans (concerne
 therapy, parental and religious freedom), single-sex spaces (defends sex-based rights),
 parental rights in education (supports), free speech (defends, wary of online safety
 overreach), freedom of religion or belief (defends), marriage and family (supports),
-surrogacy (opposed to commercial surrogacy).
+surrogacy (opposed to commercial surrogacy), organ donation (supports freely given
+donation; opposed to presumed/deemed-consent "opt-out" systems, forced organ harvesting,
+organ trafficking and transplant tourism).
 
 ABSOLUTE RULES
 1. Every quotation must be copied VERBATIM from the speeches supplied. Never paraphrase

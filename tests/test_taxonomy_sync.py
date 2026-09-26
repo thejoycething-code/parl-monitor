@@ -352,14 +352,34 @@ class TaxonomyAndJudgeAgreeTests(unittest.TestCase):
         for name in ("SYSTEM_PROMPT", "SYSTEM_PROMPT_EU", "SYSTEM_PROMPT_DE"):
             self.assertEqual(getattr(triage, name).count("organ donation"), 1, name)
 
-    def test_stance_holds_the_area_until_it_has_a_position(self):
-        """Scoring a member "relative to CitizenGO's position" on an area
-        with no position invites the model to invent one."""
+    def test_stance_scores_the_area_against_its_stated_position(self):
+        """Christopher, 26 September 2026: "Organ donation is fine but forced
+        organ donation and assumed consent is not." Confirmed the same
+        evening. Every prompt that places or reports a member carries it."""
+        from src import stance, debatereport
+        self.assertNotIn(13, stance.NO_POSITION_AREAS)
+        self.assertEqual(stance.positioned([2, 13]), [2, 13])
+        for prompt in (stance.SYSTEM_PROMPT, stance.SYSTEM_PROMPT_DE,
+                       debatereport.SYSTEM_PROMPT):
+            low = " ".join(prompt.lower().split())
+            self.assertIn("supports freely given donation", low)
+            self.assertIn("deemed-consent", low)
+            self.assertIn("forced organ harvesting", low)
+
+    def test_supporting_donation_is_not_a_stance_signal(self):
+        """Donation itself is supported, so an awareness motion would
+        otherwise read as +1 and fill timelines with members agreeing with a
+        position nobody contests."""
         from src import stance
-        self.assertIn(13, stance.NO_POSITION_AREAS)
-        self.assertNotIn("organ", stance.SYSTEM_PROMPT.lower())
-        self.assertEqual(stance.positioned([2, 13]), [2])
-        self.assertEqual(stance.positioned([13]), [])
+        low = " ".join(stance.SYSTEM_PROMPT.lower().split())
+        self.assertIn("promoting freely given donation", low)
+        self.assertIn("scores 0", low)
+
+    def test_the_judge_knows_the_position_not_only_the_ground(self):
+        from src import triage
+        for name in ("SYSTEM_PROMPT", "SYSTEM_PROMPT_EU", "SYSTEM_PROMPT_DE"):
+            low = " ".join(getattr(triage, name).lower().split())
+            self.assertIn("opposed to opt-out and deemed consent", low, name)
 
 
 class EnglishOrganDonationTests(unittest.TestCase):
@@ -411,10 +431,18 @@ class EnglishOrganDonationTests(unittest.TestCase):
 
 
 
-class NoPositionMeansNoSheetTests(unittest.TestCase):
-    """A 5CA is built from stance, and an area with no stated position is never
-    scored for stance -- so it must not get a sheet of all-neutral members."""
+class OrganDonationHasNoSheetTests(unittest.TestCase):
+    """"Wire it in with no 5CA sheet" (Christopher, 26 September 2026). The
+    exclusion is config, not code, because every 5CA builder -- Westminster,
+    devolved, EU, Canada -- already reads excluded_from_5ca."""
+
+    def test_area_13_is_excluded_from_every_5ca(self):
+        from src import stance
+        cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
+        self.assertIn(13, cfg["excluded_from_5ca"])
+        self.assertIn(11, cfg["excluded_from_5ca"], "migration stays excluded")
 
     def test_the_monday_publish_skips_areas_without_a_position(self):
+        """Empty today, kept for the next new area."""
         src = open(os.path.join(ROOT, "run_monday.py"), encoding="utf-8").read()
         self.assertIn("excluded |= set(_stance.NO_POSITION_AREAS)", src)
