@@ -1015,6 +1015,64 @@ class CanvasIsUpdatedInPlaceTests(unittest.TestCase):
         self.assertEqual(hits, ["publish.py"], hits)
 
 
+class DateWindowTests(unittest.TestCase):
+    """The date window (26 September 2026): a backfill to 2020 must not lead
+    the edition with five years of finished business, and nothing it leaves
+    out may leave silently."""
+
+    def _dated(self, conn, vid, titel, datum, stand):
+        _vorgang(conn, vid, titel, stand=stand)
+        conn.execute("UPDATE de_vorgaenge SET datum = ? WHERE vorgang_id = ?", (datum, vid))
+        conn.commit()
+
+    def test_an_old_concluded_vorgang_is_left_out_and_counted(self):
+        conn = _conn()
+        self._dated(conn, "old", "Altes Gesetz 2021", "2021-03-01", "Verkündet")
+        self._dated(conn, "new", "Neues Gesetz 2026", "2026-09-01", "Verkündet")
+        text = _render(conn)
+        self.assertIn("Neues Gesetz 2026", text)
+        self.assertNotIn("Altes Gesetz 2021", text)
+        self.assertIn("1 older item(s) on our ground sit outside this section's 120-day window", text)
+
+    def test_a_live_vorgang_is_never_windowed(self):
+        """A bill still in committee is what the canvas is for, however long
+        ago it was referred."""
+        conn = _conn()
+        self._dated(conn, "live", "Lange im Ausschuss", "2024-02-01", "Überwiesen")
+        self.assertIn("Lange im Ausschuss", _render(conn))
+
+    def test_an_undated_row_is_kept(self):
+        kept, older = dm.windowed([{"datum": None}, {"datum": "2019-01-01"}], "datum", TODAY, 120)
+        self.assertEqual((len(kept), older), (1, 1))
+
+    def test_votes_of_an_earlier_legislature_are_left_out_and_disclosed(self):
+        conn = _conn()
+        _division(conn, "v-new", "Abstimmung 2026 zur Sterbehilfe")
+        _division(conn, "v-old", "Abstimmung 2020 zur Sterbehilfe")
+        conn.execute("UPDATE de_divisions SET legislature = '161' WHERE vote_id = 'v-new'")
+        conn.execute("UPDATE de_divisions SET legislature = '111', date = '2020-06-01' "
+                     "WHERE vote_id = 'v-old'")
+        conn.commit()
+        text = _render(conn)
+        self.assertIn("Abstimmung 2026 zur Sterbehilfe", text)
+        self.assertNotIn("Abstimmung 2020 zur Sterbehilfe", text)
+        self.assertIn("window, the current legislature", text)
+
+    def test_an_old_vote_of_the_sitting_legislature_stays(self):
+        """Bavaria's abortion votes of July 2025: fourteen months old, and the
+        Landtag that cast them still sits."""
+        conn = _conn()
+        _division(conn, "by", "Keine weitere Liberalisierung des Abtreibungsrechts", parliament="7")
+        conn.execute("UPDATE de_divisions SET legislature = '140', date = '2025-07-24'")
+        conn.commit()
+        self.assertIn("Keine weitere Liberalisierung des Abtreibungsrechts", _render(conn))
+
+    def test_nothing_is_announced_when_nothing_is_left_out(self):
+        conn = _conn()
+        self._dated(conn, "new", "Neues Gesetz 2026", "2026-09-01", "Verkündet")
+        self.assertNotIn("outside this section", _render(conn))
+
+
 class StructuralTests(unittest.TestCase):
     def test_every_german_table_carrying_areas_is_in_the_watching_table(self):
         """The EU monitor grew five collectors whose rows sat unreported while

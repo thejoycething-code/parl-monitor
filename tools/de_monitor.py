@@ -611,6 +611,85 @@ def speeches(conn, today, days=45):
     return [r for r in rows if not hidden_only(r)], read
 
 
+# THE DATE WINDOW (Christopher, 26 September 2026: "add a date window to the
+# German edition"). Every section below listed every matched row EVER, so a
+# backfill to 2020 would have led the edition with ~930 finished Vorgänge from
+# 2020-2023, unscored ones first. Each window is the row's OWN date and is the
+# collector's own lookback, so the edition shows what the weekly re-sees:
+#   Vorgänge 120 days (tools/de_documents.py's term sweep),
+#   committee reports 120 too -- NOT their collector's 60: at 60 a report
+#   from 7 July on a bill that may still be pending fell out, and a
+#   recommendation stays live as long as the Vorgang it recommends on,
+#   amendments 365 (tools/de_amendments.py).
+# RECORDED VOTES ARE WINDOWED BY LEGISLATURE, not days: a vote is shown if
+# it belongs to its parliament's newest legislature in the store -- the
+# chamber as it sits now. A day count was tried first and it dropped
+# Bavaria's two abortion votes of 24 July 2025, both scored 3, from a
+# Landtag whose members still sit; the 2017-2025 Bundestags are the history.
+# LIVE Vorgänge are NEVER windowed: a bill still in committee is exactly what
+# the canvas exists for, however long ago it was referred. The rest of the
+# store is untouched -- the issue pages, the stance placements and the 5CA
+# still read every row -- and every windowed section SAYS how many older rows
+# it left out, because a section that silently shortens reads as a quiet week.
+WINDOW_DAYS = {"vorgaenge": 120, "committee_reports": 120, "amendments": 365}
+
+
+def windowed(rows, datecol, today, days):
+    """(rows dated within `days` of `today`, count left out). A row with no
+    date is KEPT: an undated row is not an old one, and dropping it would be
+    a silent loss the disclosure line could not explain."""
+    since = (datetime.date.fromisoformat(today)
+             - datetime.timedelta(days=days)).isoformat()
+    kept, older = [], 0
+    for r in rows:
+        try:
+            when = str(r[datecol] or "")[:10]
+        except (IndexError, KeyError):
+            when = ""
+        if when and when < since:
+            older += 1
+        else:
+            kept.append(r)
+    return kept, older
+
+
+def current_legislature(conn, rows):
+    """(votes of each parliament's NEWEST legislature in the store, count
+    left out). abgeordnetenwatch's legislature ids rise over time, so the
+    highest id held for a parliament is the one sitting now."""
+    newest = {}
+    for p, leg in conn.execute("SELECT parliament, legislature FROM de_divisions "
+                               "WHERE legislature IS NOT NULL"):
+        try:
+            newest[p] = max(newest.get(p, 0), int(leg))
+        except (TypeError, ValueError):
+            continue
+    kept, older = [], 0
+    for r in rows:
+        try:
+            leg = int(r["legislature"])
+        except (TypeError, ValueError, IndexError, KeyError):
+            kept.append(r)          # unknown legislature: kept, never dropped
+            continue
+        if leg < newest.get(r["parliament"], leg):
+            older += 1
+        else:
+            kept.append(r)
+    return kept, older
+
+
+def outside(older, days=None):
+    """The disclosure line for a windowed section, or None. `days` None means
+    the window is the current legislature."""
+    if not older:
+        return None
+    window = ("{0}-day window".format(days) if days
+              else "window, the current legislature")
+    return ("*{0} older item(s) on our ground sit outside this section's "
+            "{1}. They stay in the store, and the issue pages, "
+            "stance placements and 5CA still read them.*".format(older, window))
+
+
 def render_edition(conn, today):
     """The German edition in the WESTMINSTER frame (Christopher, 22 September
     2026: "Can it be framed like the Westminster one?").
@@ -632,6 +711,10 @@ def render_edition(conn, today):
     bt, bt_hidden = split_hidden(divisions(conn, bundestag=True))
     ld, ld_hidden = split_hidden(divisions(conn, bundestag=False))
     collated = docs_hidden + vgs_hidden + bt_hidden + ld_hidden
+    # The window is applied AFTER the hidden split, so the migration
+    # suppression count still covers the whole store, as it always has.
+    bt, bt_older = current_legislature(conn, bt)
+    ld, ld_older = current_legislature(conn, ld)
 
     lines = ["# German Monitor",
              "### Week commencing Monday {0} | Edition {1} | TAXONOMY {2} "
@@ -643,6 +726,10 @@ def render_edition(conn, today):
 
     # --- Top lines ---
     live, concluded, lapsed = by_stage(vgs)
+    concluded, concluded_older = windowed(concluded, "datum", today,
+                                          WINDOW_DAYS["vorgaenge"])
+    lapsed, lapsed_older = windowed(lapsed, "datum", today,
+                                    WINDOW_DAYS["vorgaenge"])
     tops = top_lines(live, bt, ld, names)
     lines.append("## Top lines")
     lines.append("")
@@ -825,12 +912,18 @@ def render_edition(conn, today):
         lines.append("")
 
     # --- Amendments to those bills ---
-    amds = amendments(conn)
-    if amds:
+    amds, amds_older = windowed(amendments(conn), "datum", today,
+                                WINDOW_DAYS["amendments"])
+    if amds or amds_older:
         lines.append("## Amendments ({0})".format(len(amds)))
         lines.append("")
-        lines.append("| Moved | By | To which bill | Areas | Amendment |")
-        lines.append("|---|---|---|---|---|")
+        note = outside(amds_older, WINDOW_DAYS["amendments"])
+        if note:
+            lines.append(note)
+            lines.append("")
+        if amds:
+            lines.append("| Moved | By | To which bill | Areas | Amendment |")
+            lines.append("|---|---|---|---|---|")
         for r in amds[:15]:
             bill = oneline(r["vorgang_titel"] or "?").replace("|", "/")
             if r["inherited"]:
@@ -848,10 +941,18 @@ def render_edition(conn, today):
 
     # --- Committee reports and what has been laid before the House ---
     reports, laid = committee_reports(conn)
-    if reports or laid:
+    reports, reports_older = windowed(reports, "datum", today,
+                                      WINDOW_DAYS["committee_reports"])
+    laid, laid_older = windowed(laid, "datum", today,
+                                WINDOW_DAYS["committee_reports"])
+    if reports or laid or reports_older or laid_older:
         lines.append("## Committee reports and laid papers ({0})".format(
             len(reports) + len(laid)))
         lines.append("")
+        note = outside(reports_older + laid_older, WINDOW_DAYS["committee_reports"])
+        if note:
+            lines.append(note)
+            lines.append("")
         if reports:
             lines.append("*A Beschlussempfehlung is the committee telling the "
                          "House what to do with a bill, published BEFORE the "
@@ -916,10 +1017,14 @@ def render_edition(conn, today):
     # important thing that happened, so anything the judge scored 3 is named
     # even though it is over; the rest are a count. Silence here would mean a
     # law could be adopted and never appear in any edition.
-    if concluded or lapsed:
+    if concluded or lapsed or concluded_older or lapsed_older:
         lines.append("## Concluded and lapsed ({0} concluded, {1} lapsed)"
                      .format(len(concluded), len(lapsed)))
         lines.append("")
+        note = outside(concluded_older + lapsed_older, WINDOW_DAYS["vorgaenge"])
+        if note:
+            lines.append(note)
+            lines.append("")
         notable = [r for r in concluded + lapsed if (_score(r) or 0) >= 3]
         if notable:
             lines.append("*Closed business, so it is below Coming up. An "
@@ -955,6 +1060,10 @@ def render_edition(conn, today):
     lines.append("")
     lines.append(NO_VERDICT)
     lines.append("")
+    note = outside(bt_older)
+    if note:
+        lines.append(note)
+        lines.append("")
     if not bt:
         lines.append("No recorded vote on our ground. The Bundestag takes "
                      "them in bursts -- 68 in sixteen months -- so a quiet "
@@ -1075,6 +1184,10 @@ def render_edition(conn, today):
     lines.append("")
     lines.append(LAENDER_NOTE)
     lines.append("")
+    note = outside(ld_older)
+    if note:
+        lines.append(note)
+        lines.append("")
     if ld:
         lines.append("| Land | Date | Vote | Tally | Why it matters |")
         lines.append("|---|---|---|---|---|")
