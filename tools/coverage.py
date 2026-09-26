@@ -255,6 +255,12 @@ ONCE_EVER = {
     "de_speeches": "new rows only: a Stenografischer Bericht is final and is "
                    "read once, and the Bundestag sits in blocks with months "
                    "of recess between them",
+    "de_mdb": "the Bundestag's own register of every member since 1949, "
+               "loaded on demand from MdB-Stammdaten.zip. It is not in any "
+               "workflow: the file is republished a few times a year (the "
+               "copy read on 26 September 2026 was stamped 29 April), and a "
+               "register that reaches back to 1949 does not go stale in a "
+               "week. Re-run tools/de_stammdaten.py after a general election",
     "un_votes": "UN pipeline is paused",
     "un_documents": "UN pipeline is paused",
     "un_calendar": "UN pipeline is paused",

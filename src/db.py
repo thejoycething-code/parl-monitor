@@ -889,6 +889,52 @@ CREATE TABLE IF NOT EXISTS eu_speeches (
 -- matched 1 useful vote in 68 over this House. The German lists are an AI
 -- first draft awaiting the German team, so a German area is a weaker claim
 -- than an English one and every surface says so.
+-- The Bundestag's OWN register of every member since 1949, from
+-- MdB-Stammdaten.zip on its open-data page (26 September 2026). Keyless,
+-- and a different id space from abgeordnetenwatch's -- de_members keys on a
+-- candidacy_mandate, this keys on the Bundestag's member id -- so the two
+-- are joined by name, never by id.
+--
+-- Why it is worth holding: it reaches back to 1949 where abgeordnetenwatch
+-- covers the current parliaments, and it carries ORTSZUSATZ, the
+-- constituency the Stenografischer Bericht prints to tell two members of
+-- the same name apart ("Michael Brand (Fulda)"). That form defeated the
+-- speech parser until 25 September; this is the authoritative list of who
+-- has one.
+--
+-- RELIGION IS DELIBERATELY NOT STORED. The file carries it. It is special
+-- category data, holding it is not necessary for anything this monitor
+-- does, and a public register being the source does not make it ours to
+-- keep. VITA_KURZ, party, profession and dates are role-related public
+-- record and are kept.
+CREATE TABLE IF NOT EXISTS de_mdb (
+  mdb_id      TEXT PRIMARY KEY,   -- the Bundestag's own id, e.g. 11005627
+  nachname    TEXT NOT NULL,
+  vorname     TEXT,
+  ortszusatz  TEXT,               -- 'Fulda' in 'Michael Brand (Fulda)'
+  titel       TEXT,               -- AKAD_TITEL
+  praefix     TEXT,               -- 'von', 'zu'
+  adel        TEXT,
+  partei      TEXT,               -- PARTEI_KURZ
+  geschlecht  TEXT,
+  beruf       TEXT,
+  geburtsdatum TEXT,
+  sterbedatum TEXT,
+  vita_kurz   TEXT,
+  first_wp    INTEGER,
+  last_wp     INTEGER,
+  captured_at TEXT NOT NULL
+);
+-- One row per Wahlperiode served. A member re-elected has several.
+CREATE TABLE IF NOT EXISTS de_mdb_terms (
+  mdb_id      TEXT NOT NULL,
+  wp          INTEGER NOT NULL,
+  von         TEXT, bis TEXT,
+  mandatsart  TEXT,              -- Direktwahl / Landesliste
+  wkr_nummer  TEXT, wkr_name TEXT, wkr_land TEXT,
+  liste       TEXT,
+  PRIMARY KEY (mdb_id, wp)
+);
 CREATE TABLE IF NOT EXISTS de_members (
   person_id TEXT PRIMARY KEY,     -- abgeordnetenwatch candidacy_mandate id
   name TEXT,
@@ -1454,6 +1500,10 @@ TABLES = (
     "eu_divisions",
     "eu_votes",
     "de_members",
+    # The Bundestag's own register, a different id space from
+    # abgeordnetenwatch's de_members above; the two join by name, never id.
+    "de_mdb",
+    "de_mdb_terms",
     "de_divisions",
     "de_votes",
     "de_vorgaenge",

@@ -252,15 +252,56 @@ because DIP returns text. `pypdf` is already installed by the weekly, so it
 is buildable; it is just a step down, and it should be built only if DIP
 actually refuses us.
 
+**BUILT, 26 September.** `src/de_btp.py` plus `tools/de_speeches.py
+--source pdf`. Measured on protocol 21/96 against the same protocol's DIP
+text: 474 speeches parsed from each, 137 distinct speakers from each of
+which 136 are shared, and 464 of 474 speech bodies found VERBATIM in the
+PDF text. The parser needed no change. Two things do not survive
+extraction and both nearly sank it:
+
+- **Order.** The front matter interleaves differently, so the two texts are
+  not the same sequence. Anything comparing them must normalise first.
+- **Hyphenation.** The Bericht is justified and breaks words freely --
+  3,467 hyphen-newline splits in 21/96, where DIP's text has none. Left
+  alone, `Bundesregie-\nrung` is not `Bundesregierung` and the term list
+  silently under-matches: the first live run found 11 speeches on our
+  ground where DIP found 14, and 13 after `dehyphenate()`. A word is
+  rejoined only when the next line starts lower case, so a real compound
+  keeps its hyphen.
+
+Comparing raw prefixes, before normalising, suggested 33 of 474 bodies
+matched. That number was an artefact of line breaking and is the reason to
+normalise before judging any two renderings of the same document.
+
 **Vorgänge have no keyless equivalent.** The only other route to them is
 scraping DIP's own web interface, which is the same service without the
 API. That is a bigger terms-of-use exposure than using the published
 example key, not a smaller one.
 
-**One thing worth having anyway:** `MdB-Stammdaten.zip` on the open-data
-page (952 KB, verified) is every member since 1949 in XML, keyless. That is
-deeper history than abgeordnetenwatch gives, and it is the right source if
-the German 5CA ever needs members who left before the current Wahlperiode.
+**MdB-Stammdaten: TAKEN, 26 September.** `tools/de_stammdaten.py` ->
+`de_mdb` and `de_mdb_terms`. 4,614 members, 13,046 terms, Wahlperioden 1 to
+21, keyless. Deeper history than abgeordnetenwatch, and the right source
+when a German 5CA needs a member who left before the current Wahlperiode.
+
+It also answers the parser question from the day before. **532 members
+carry an ORTSZUSATZ** -- the constituency the Bericht prints to tell two
+members apart -- and in the current Wahlperiode alone **26 surnames are
+held by more than one sitting member**, Schmidt by eight of them and Müller
+by six. That is why "Michael Brand (Fulda)" is written that way, and this
+is the authoritative list of who is written that way.
+
+Two traps in the file. A member can have SEVERAL names, recorded with
+HISTORIE_VON/BIS -- 434 name elements across 400 members in the sample --
+so the current one is the one with no HISTORIE_BIS, and taking the first
+would give some members the name they were elected under decades ago. And
+ORTSZUSATZ arrives as `(Fulda)`, brackets included, which are stripped so
+the value compares with what a parser pulled out of a heading.
+
+**RELIGION is in the file and is not stored.** It is special category data,
+holding it is not necessary for anything this monitor does, and a public
+register being the source does not make it ours to keep. The omission is
+named in `src/db.py` and in the tool, so it reads as a decision rather than
+an oversight.
 
 ## Still open
 

@@ -1,0 +1,48 @@
+# Canadian watchlist -- GROUNDWORK DRAFT (26 September 2026), not yet reviewed
+# by Christopher or anyone who campaigns in Canada.
+#
+# The English taxonomy (config/taxonomy.yaml) is used UNCHANGED for Canada:
+# federal documents are bilingual and the English text is authoritative
+# enough to match on. Measured on the 45th Parliament, 1st session, it found
+# 23 of 174 House divisions and 15 of 187 bills. This file only adds what it
+# MISSED, each with the reason, plus the flagship bills so a division on them
+# is admitted whatever its procedural subject line says.
+#
+# Keys under `bills:` are '<parl>-<session>/<number>'; the loader matches on
+# `title`, never the key. A title must be the text the House prints in a
+# division subject, which for a bill is its LONG title.
+bills:
+  "45-1/C-9": {title: "An Act to amend the Criminal Code (hate propaganda, hate crime and access to religious or cultural places)",
+               areas: [7, 8],
+               why: "Combatting Hate Act. Matched area 7 on 'hate crime' only; the removal of the religious-text defence in s.319(3)(b) is area 8 and the title never says so. Royal assent June 2026."}
+  "45-1/C-34": {title: "An Act to enact the Digital Safety Act and the Digital Safety Commission of Canada Act",
+                areas: [7, 6],
+                why: "Government online-harms bill, successor to C-63 (44th). Taxonomy MISSED it: 'Online Safety Act' is the UK name, Canada says 'Digital Safety'. At second reading."}
+  "45-1/C-216": {title: "An Act to enact the Protection of Minors in the Digital Age Act",
+                 areas: [6, 7],
+                 why: "Private member's bill on children online. Taxonomy MISSED it."}
+  "45-1/S-240": {title: "An Act to amend the Criminal Code (declaration of exception pursuant to subsection 33(1) of the Charter for mandatory minimum",
+                 areas: [6],
+                 why: "Uses the notwithstanding clause to restore mandatory minimums for child sexual abuse material offences. Matched area 6 already; listed because a notwithstanding-clause bill will draw divisions whose subject lines are procedural."}
+  "45-1/C-255": {title: "An Act to amend the Criminal Code (mischief — religious property)",
+                 areas: [8],
+                 why: "Attacks on churches and other places of worship. Taxonomy MISSED it."}
+  "45-1/C-290": {title: "An Act to amend the Criminal Code (theft of property of cultural or religious significance)",
+                 areas: [8],
+                 why: "Theft from places of worship. Taxonomy MISSED it."}
+  "45-1/C-218": {title: "An Act to amend the Criminal Code (medical assistance in dying)",
+                 areas: [2], why: "MAID private member's bill. Matched already; listed as flagship."}
+  "45-1/C-260": {title: "An Act to amend the Criminal Code (medical assistance in dying — protection against coercion)",
+                 areas: [2], why: "MAID coercion safeguards. Matched already; listed as flagship."}
+  "45-1/S-231": {title: "An Act to amend the Criminal Code (medical assistance in dying)",
+                 areas: [2], why: "Senate MAID bill. Matched already; listed as flagship."}
+# Statute and policy names that recur in subject lines and bill titles.
+acts_watch:
+  - {short: "Digital Safety Act", areas: [7, 6]}
+  - {short: "Protection of Minors in the Digital Age", areas: [6, 7]}
+  - {short: "Combatting Hate Act", areas: [7, 8]}
+  - {short: "Online Harms Act", areas: [7, 6]}          # C-63, 44th Parliament; died at prorogation
+  - {short: "MAID", areas: [2]}                         # acronym: case-sensitive by the loader's rule
+  - {short: "advancement of religion", areas: [8]}      # charitable-purpose fight; see docs/canada-scope.md
+processes: []
+organisations: []

@@ -163,8 +163,18 @@ def protocols(client, key, since, limit, log=print):
 
 
 def store(conn, client, key, today, tax, wl, since, limit, log=print,
-          dry_run=False):
-    docs = protocols(client, key, since, limit, log=log)
+          dry_run=False, source="dip"):
+    # Two sources, one shape. DIP returns the Bericht as text for one cheap
+    # call; the Bundestag's own PDF route needs no key at all but costs
+    # 1.7 MB and about four seconds of extraction a sitting. Measured
+    # equivalent on protocol 21/96 (src/de_btp.py has the numbers), and the
+    # parser is the same either way, so the rest of this tool cannot tell
+    # which it was given.
+    if source == "pdf":
+        from src import de_btp
+        docs = de_btp.protocols(client, since, limit, log=log)
+    else:
+        docs = protocols(client, key, since, limit, log=log)
     read = stored = 0
     for doc in docs:
         number = doc.get("dokumentnummer") or ""
@@ -236,6 +246,10 @@ def main():
                          "to what is extracted can reach the stored rows")
     ap.add_argument("--reresolve", action="store_true",
                     help="re-attribute stored speeches to members, offline")
+    ap.add_argument("--source", choices=("dip", "pdf"), default="dip",
+                    help="where the Bericht comes from. dip (default) is one "
+                         "cheap call for the text; pdf is the Bundestag's own "
+                         "keyless route, for the day DIP refuses us")
     ap.add_argument("--dry-run", action="store_true",
                     help="parse and count, store nothing")
     args = ap.parse_args()
@@ -259,10 +273,13 @@ def main():
         reresolve(conn)
         conn.close()
         return 0
-    key = dip.api_key(client=client)
+    # The PDF route needs no key at all -- that is the point of it -- and
+    # asking for one would make the fallback depend on the thing it exists
+    # to survive.
+    key = None if args.source == "pdf" else dip.api_key(client=client)
 
     read, stored = store(conn, client, key, today, tax, wl, since, args.limit,
-                         dry_run=args.dry_run)
+                         dry_run=args.dry_run, source=args.source)
     print("de-speeches: {0} protocol(s) read since {1}, {2} speech(es) on our "
           "ground{3}.".format(read, since, stored,
                               " (dry run, nothing stored)" if args.dry_run
