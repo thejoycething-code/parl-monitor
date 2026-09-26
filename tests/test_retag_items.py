@@ -48,6 +48,8 @@ class TextMappingTests(unittest.TestCase):
         row = Row(title=None, body=None, label=None, debate=None,
                   excerpt=None, summary=None, kind="question")
         for table, spec in rt.TABLES.items():
+            if table in rt.DERIVERS:
+                continue
             args, kwargs = spec[1](row)
             self.assertTrue(all(isinstance(a, str) for a in args), table)
 
@@ -80,7 +82,9 @@ class TrustCheckTests(unittest.TestCase):
         conn = store()
         title = ("The abduction, forced conversion and child marriage of "
                  "Maria Shahbaz")
-        areas = rt.derive(CURRENT, WL, rt.TABLES["eu_texts"], Row(title=title))[0]
+        areas = rt.derive(CURRENT, WL, rt.TABLES["eu_texts"],
+                          Row(identifier="TA", title=title, body_read=None),
+                          "eu_texts")[0]
         self.assertEqual(areas, [8, 9])            # v1.6 vocabulary
         conn.execute("INSERT INTO eu_texts (identifier, title, areas, "
                      "first_seen, last_seen) VALUES ('TA', ?, ?, 'd', 'd')",
@@ -118,6 +122,56 @@ class TrustCheckTests(unittest.TestCase):
         self.assertEqual(changed, 1)
         self.assertEqual(conn.execute("SELECT areas FROM sp_divisions").fetchone()[0],
                          "[12]")
+
+
+class EuMappingTests(unittest.TestCase):
+    """27 September 2026. With a title-only mapping for texts and a
+    whole-label mapping for votes, the trust check refused both tables and a
+    forced apply would have cleared 36 of 44 tagged texts and 548 of 736
+    votes. With these derivers both reproduce 100% under v1.8, and v1.9
+    changes nothing."""
+
+    def setUp(self):
+        self._body = rt._eu_body
+        rt._TEXTS.clear()
+
+    def tearDown(self):
+        rt._eu_body = self._body
+        rt._TEXTS.clear()
+
+    def test_every_table_without_a_builder_has_a_deriver(self):
+        for table, spec in rt.TABLES.items():
+            if spec[1] is None:
+                self.assertIn(table, rt.DERIVERS, table)
+
+    def test_a_read_body_adds_its_passages_to_the_title(self):
+        rt._eu_body = lambda ident, raw_dir=None: (
+            "The Parliament condemns forced conversion and calls for freedom "
+            "of religion or belief to be protected.")
+        row = Row(identifier="TA-1", title="Situation in Pakistan", body_read="d")
+        self.assertIn(8, rt.derive_eu_text(CURRENT, WL, row)[0])
+
+    def test_an_unread_body_is_title_only(self):
+        rt._eu_body = lambda ident, raw_dir=None: "freedom of religion or belief"
+        row = Row(identifier="TA-2", title="Situation in Pakistan", body_read=None)
+        self.assertEqual(rt.derive_eu_text(CURRENT, WL, row)[0], [])
+
+    def test_a_vote_is_filtered_on_its_subject_not_its_decision(self):
+        """The decision half was never filtered at collection."""
+        row = Row(vote_id="V1", inherited_from=None,
+                  label="Gender equality in health \u2014 \u00a7 85/2 [the words \u2018abortion\u2019]")
+        self.assertEqual(rt.derive_eu_division(CURRENT, WL, row, None)[0], [])
+
+    def test_a_vote_whose_subject_matches_nothing_takes_its_texts_areas(self):
+        conn = store()
+        conn.execute("INSERT INTO eu_texts (identifier, title, areas, body_read, "
+                     "first_seen, last_seen) VALUES ('TA-3', 'Situation in Pakistan', "
+                     "'[8]', 'd', 'd', 'd')")
+        conn.commit()
+        rt._eu_body = lambda ident, raw_dir=None: "freedom of religion or belief"
+        row = Row(vote_id="V2", inherited_from="TA-3",
+                  label="Situation in Pakistan \u2014 Motion for resolution")
+        self.assertEqual(rt.derive_eu_division(CURRENT, WL, row, conn)[0], [8])
 
 
 class DryRunTests(unittest.TestCase):

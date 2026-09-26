@@ -20,6 +20,11 @@ title-only re-derivation against stored full-text tags once produced
 "574 rows re-tagged" that were nothing of the kind. So every table here
 names the exact text its collector used, and a table whose deciding text
 is not fully stored is SKIPPED and said so, rather than approximated.
+Where a collector did more than one filter call -- EU texts (title, then
+the archived body's passages) and EU votes (subject label, else the
+adopted text they inherit from) -- DERIVERS reproduces it; until 27
+September 2026 both were mapped as a single title/label call, the trust
+check refused them, and they could not be retagged at all.
 
 THE TRUST CHECK. --baseline takes the PREVIOUS taxonomy yaml. Re-deriving
 with it should reproduce the stored tags almost exactly; where it does
@@ -69,8 +74,9 @@ TABLES = {
                             else ((_s(r["title"]),), {})),
                  "ni_pull: motions filter_item(title, body, title=title); "
                  "questions and diary filter_item(title)"),
-    "eu_texts": ("identifier", lambda r: ((_s(r["title"]),), {}),
-                 "eu_texts: filter_item(title)"),
+    "eu_texts": ("identifier", None,
+                 "eu_texts: filter_item(title), then passages of the archived "
+                 "body (DERIVERS)"),
     "eu_agenda": ("activity_id", lambda r: ((_s(r["label"]),), {}),
                   "eu_agenda: filter_item(label)"),
     "eu_pqs": ("identifier", lambda r: ((_s(r["title"]),), {}),
@@ -83,8 +89,9 @@ TABLES = {
                     lambda r: (("{0} {1}".format(_s(r["debate"]),
                                                  _s(r["excerpt"])),), {}),
                     "eu_speeches: filter_item('debate excerpt')"),
-    "eu_divisions": ("vote_id", lambda r: ((_s(r["label"]),), {}),
-                     "eu_rollcalls: filter_item(label)"),
+    "eu_divisions": ("vote_id", None,
+                     "eu_rollcalls: filter_item(SUBJECT label), else the "
+                     "adopted text's areas (DERIVERS)"),
     "dg_consultations": ("key",
                          lambda r: (("{0} {1}".format(_s(r["title"]),
                                                       _s(r["summary"])),), {}),
@@ -129,7 +136,97 @@ SKIPPED = {
 }
 
 
-def derive(tax, wl, spec, row):
+RAW = os.path.join(ROOT, "data", "raw")
+_BODIES = {}
+_TEXTS = {}
+
+
+def _eu_body(ident, raw_dir=None):
+    """The adopted text's body, from the .docx eu_texts.read_bodies archived.
+
+    Stored as data/raw/<day>/eu-texts_doc-<id>.json.gz -- the name says
+    json, the content is the gzipped .docx bytes. An adopted text is final,
+    so any copy will do; the newest is taken. None when nothing is archived
+    or it will not parse, which is also what read_bodies recorded: a text it
+    could not read was tagged on its title alone.
+    """
+    import glob
+    import gzip
+    if ident not in _BODIES:
+        from src import eudoc
+        paths = sorted(glob.glob(os.path.join(
+            raw_dir or RAW, "*", "eu-texts_doc-{0}.json.gz".format(ident))))
+        body = None
+        if paths:
+            try:
+                with gzip.open(paths[-1], "rb") as handle:
+                    body = eudoc.body_text(handle.read())
+            except Exception:                               # noqa: BLE001
+                body = None
+        _BODIES[ident] = body
+    return _BODIES[ident]
+
+
+def derive_eu_text(tax, wl, row):
+    """tools/eu_texts.py, both halves: the TITLE through filter_item at
+    collection, then -- once the body is read -- the areas its PASSAGES
+    support, merged in (read_bodies never lets the body undo the title).
+
+    Retagging on the title alone, which this table used to do, would have
+    CLEARED 36 of its 44 tagged texts, the Maria Shahbaz resolution among
+    them: most of them matched on the body, not the title.
+    """
+    key = (id(tax), row["identifier"], row["title"], bool(row["body_read"]))
+    if key not in _TEXTS:
+        title = _s(row["title"])
+        res = filt.filter_item(tax, wl, title)
+        areas = set(res.issue_areas or [])
+        terms = set(res.matched_terms or [])
+        body = _eu_body(row["identifier"]) if row["body_read"] else None
+        if body:
+            b_areas, b_terms, _excerpt = filt.aggregate_passages(
+                filt.match_passages(tax, wl, body, title=title))
+            areas |= set(b_areas or [])
+            terms |= set(b_terms or [])
+        _TEXTS[key] = (sorted(areas), sorted(terms), res.tier)
+    return _TEXTS[key]
+
+
+def derive_eu_division(tax, wl, row, conn):
+    """tools/eu_rollcalls.py: the SUBJECT label through filter_item, and
+    only when that matches nothing, the areas of the adopted text the vote
+    belongs to (inherit_from_text).
+
+    Two things the old label-only mapping got wrong, and why it would have
+    cleared 548 of 736 rows. The stored label is "subject -- decision"
+    ("... -- § 85/2 [the words 'and rights']"), but only the subject was ever
+    filtered; the decision half added areas nobody tagged on. And 578 rows
+    were never tagged on a label at all -- they INHERITED from a text whose
+    body matched.
+    """
+    subject = _s(row["label"]).split(" — ", 1)[0]
+    res = filt.filter_item(tax, wl, subject)
+    if res.issue_areas or not row["inherited_from"]:
+        return (sorted(res.issue_areas or []), sorted(res.matched_terms or []),
+                res.tier)
+    text = conn.execute("SELECT * FROM eu_texts WHERE identifier = ?",
+                        (row["inherited_from"],)).fetchone()
+    if text is None:
+        return [], [], None
+    return derive_eu_text(tax, wl, text)
+
+
+# Tables whose collector did more than one filter_item call over stored
+# fields. Each reproduces its collector; the trust check still has to agree.
+DERIVERS = {
+    "eu_texts": lambda tax, wl, row, conn: derive_eu_text(tax, wl, row),
+    "eu_divisions": derive_eu_division,
+}
+
+
+def derive(tax, wl, spec, row, table=None, conn=None):
+    if table in DERIVERS:
+        return DERIVERS[table](tax, wl, row, conn)
     args, kwargs = spec[1](row)
     res = filt.filter_item(tax, wl, *args, **kwargs)
     return (sorted(res.issue_areas or []), sorted(res.matched_terms or []),
@@ -149,7 +246,7 @@ def walk(conn, tax, wl, table, spec):
     for row in conn.execute("SELECT * FROM {0} {1}".format(table, where)):
         n += 1
         old = stored(row)
-        new, terms, tier = derive(tax, wl, spec, row)
+        new, terms, tier = derive(tax, wl, spec, row, table, conn)
         if old != new:
             changes.append((row[keycol], old, new, terms, tier, row))
     return n, changes
@@ -175,7 +272,7 @@ def trust_check(conn, baseline, current, wl, log):
             continue
         # keep only the rows the CURRENT taxonomy cannot explain either
         changes = [c for c in changes
-                   if derive(current, wl, spec, c[5])[0] != c[1]]
+                   if derive(current, wl, spec, c[5], table, conn)[0] != c[1]]
         agree = 100.0 * (n - len(changes)) / n
         flag = ""
         if agree < 99.0:
