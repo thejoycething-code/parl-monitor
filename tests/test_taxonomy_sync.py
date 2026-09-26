@@ -65,8 +65,10 @@ class TaxonomySyncTests(unittest.TestCase):
     def test_master_parses_every_area(self):
         with open(generate_taxonomy.MASTER, "r", encoding="utf-8") as handle:
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
-        self.assertEqual(version, "1.8")
-        self.assertEqual(len(areas), 12)
+        # v1.9 (26 September 2026): area 13, organ donation and transplant
+        # ethics -- its own area because area 2 feeds member stance.
+        self.assertEqual(version, "1.9")
+        self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
         # 9 July -- two proposals to reject the Council position, and the
@@ -121,7 +123,10 @@ class TaxonomySyncTests(unittest.TestCase):
         # must keep, and it had never had a 5CA sheet to rename. Any
         # FURTHER label must be a deliberate decision for the same reason
         # -- an existing area's sheets are named from its label.
-        self.assertEqual(named, ["12_prostitution",
+        # Area 13 (v1.9, 26 September 2026) is the same case as 12: new, no
+        # sheets yet to rename, and a heading ("Organ donation and transplant
+        # ethics") wider than its key.
+        self.assertEqual(named, ["12_prostitution", "13_organ_donation",
                                  "7_free_speech_online_safety"])
         # v0.7: child sexual exploitation belongs to area 6, child protection
         # (Christopher 2026-08-20). CSE is all-caps so it matches
@@ -298,22 +303,28 @@ class GermanOrganDonationTests(unittest.TestCase):
         return filt.filter_item(tax, wl, text, "", "").issue_areas
 
     def test_the_two_words_asked_about(self):
-        self.assertIn(2, self._areas("Freiwilligkeit der Organspende sichern"))
-        self.assertIn(2, self._areas("Informationen für Organspendern"))
-        self.assertIn(2, self._areas("Organspender werden"))
+        self.assertIn(13, self._areas("Freiwilligkeit der Organspende sichern"))
+        self.assertIn(13, self._areas("Informationen für Organspendern"))
+        self.assertIn(13, self._areas("Organspender werden"))
 
     def test_compounds_that_put_a_word_in_front(self):
         """The matcher anchors at word start, so a stem cannot reach these."""
-        self.assertIn(2, self._areas("Novellierung der Regelungen zur Lebendorganspende"))
-        self.assertIn(2, self._areas("Warteliste für Organtransplantationen"))
+        self.assertIn(13, self._areas("Novellierung der Regelungen zur Lebendorganspende"))
+        self.assertIn(13, self._areas("Warteliste für Organtransplantationen"))
 
     def test_the_laws_and_the_definition_of_death(self):
-        self.assertIn(2, self._areas("Viertes Gesetz zur Änderung des Transplantationsgesetzes"))
-        self.assertIn(2, self._areas("Prüfung der Richtlinien der Bundesärztekammer zum Hirntod"))
-        self.assertIn(2, self._areas("Einführung der Widerspruchslösung bei Organspenden"))
+        self.assertIn(13, self._areas("Viertes Gesetz zur Änderung des Transplantationsgesetzes"))
+        self.assertIn(13, self._areas("Prüfung der Richtlinien der Bundesärztekammer zum Hirntod"))
+        self.assertIn(13, self._areas("Einführung der Widerspruchslösung bei Organspenden"))
 
-    def test_organ_trafficking_is_trafficking(self):
-        self.assertEqual(self._areas("Illegaler Organhandel und Organtourismus"), [12])
+    def test_organ_trafficking_is_organ_ethics(self):
+        """Moved from area 12 when area 13 was created, as the UK filed it."""
+        self.assertEqual(self._areas("Illegaler Organhandel und Organtourismus"), [13])
+
+    def test_it_is_no_longer_filed_under_assisted_dying(self):
+        """Area 2 feeds member stance: an organ-donation speech there is
+        scored as a position on assisted dying."""
+        self.assertNotIn(2, self._areas("Freiwilligkeit der Organspende sichern"))
 
     def test_the_patient_record_opt_out_is_not_organ_donation(self):
         """The same word is the opt-out for the electronic patient record."""
@@ -334,8 +345,76 @@ class TaxonomyAndJudgeAgreeTests(unittest.TestCase):
         from src import triage
         self.assertIn("organ donation", triage.SYSTEM_PROMPT_DE)
 
-    def test_the_uk_judge_is_unchanged(self):
-        """The scope decision was taken for Germany, and the UK taxonomy does
-        not cover organ donation."""
+    def test_every_judge_names_it_exactly_once(self):
+        """In the shared base prompt since the UK gained area 13, so the UK,
+        EU and German judges all see it -- once, not twice."""
         from src import triage
-        self.assertNotIn("organ donation", triage.SYSTEM_PROMPT)
+        for name in ("SYSTEM_PROMPT", "SYSTEM_PROMPT_EU", "SYSTEM_PROMPT_DE"):
+            self.assertEqual(getattr(triage, name).count("organ donation"), 1, name)
+
+    def test_stance_holds_the_area_until_it_has_a_position(self):
+        """Scoring a member "relative to CitizenGO's position" on an area
+        with no position invites the model to invent one."""
+        from src import stance
+        self.assertIn(13, stance.NO_POSITION_AREAS)
+        self.assertNotIn("organ", stance.SYSTEM_PROMPT.lower())
+        self.assertEqual(stance.positioned([2, 13]), [2])
+        self.assertEqual(stance.positioned([13]), [])
+
+
+class EnglishOrganDonationTests(unittest.TestCase):
+    """Christopher, 26 September 2026: "cover organ donation in the UK edition
+    too". Each fixture is the shape of a real written-question heading from
+    the measurement in docs/keyword-taxonomy.md."""
+
+    def _areas(self, text):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_the_core_vocabulary(self):
+        for text in ("Organs: Donors -- organ donation rates in England",
+                     "Whether the organ donor register will be reviewed",
+                     "Kidneys: organ transplant waiting lists",
+                     "Operation of the Organ Donation (Deemed Consent) Act 2019",
+                     "China: Falun Gong -- reports of forced organ harvesting",
+                     "Human Trafficking: Organs -- organ trafficking prosecutions"):
+            self.assertIn(13, self._areas(text), text)
+
+    def test_deemed_consent_needs_organs_nearby(self):
+        """It is also advertisement and planning law: one genuine match in
+        the measurement was headed "Flags: Palestine"."""
+        self.assertNotIn(13, self._areas("Flags: deemed consent for advertisements"))
+        self.assertIn(13, self._areas("deemed consent for organ donation"))
+
+    def test_the_guard_is_not_organisation(self):
+        self.assertNotIn(13, self._areas("deemed consent for the organisation"))
+
+    def test_not_under_assisted_dying(self):
+        self.assertNotIn(2, self._areas("Whether the organ donor register will be reviewed"))
+
+    def test_a_clinical_transplant_is_not_organ_ethics(self):
+        """Bare transplant* was dropped from tier 2 after the retag dry run:
+        11 of the 20 Holyrood rows it would have tagged matched on it alone,
+        all clinical. These are their own wordings."""
+        for text in ("recovery following a stem cell transplant for leukaemia",
+                     "requiring kidney replacement therapy, including dialysis or transplantation",
+                     "advances in transplant therapies"):
+            self.assertNotIn(13, self._areas(text), text)
+        # the German stem cannot make this mistake: it anchors at word start
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy-de.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-de.yaml"))
+        self.assertNotIn(13, filt.filter_item(
+            tax, wl, "nach einer Stammzelltransplantation", "", "").issue_areas)
+
+
+
+class NoPositionMeansNoSheetTests(unittest.TestCase):
+    """A 5CA is built from stance, and an area with no stated position is never
+    scored for stance -- so it must not get a sheet of all-neutral members."""
+
+    def test_the_monday_publish_skips_areas_without_a_position(self):
+        src = open(os.path.join(ROOT, "run_monday.py"), encoding="utf-8").read()
+        self.assertIn("excluded |= set(_stance.NO_POSITION_AREAS)", src)

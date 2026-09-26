@@ -115,6 +115,22 @@ def ensure_table(conn):
 
 HIDDEN_AREAS = (11,)   # migration: collated, never campaigned, shown nowhere (partner.HIDDEN_AREAS)
 
+# Areas with NO STATED POSITION, and so no direction to score. Area 13 (organ
+# donation, 26 September 2026) is collated, scored for relevance and shown in
+# the edition, but the positions listed in SYSTEM_PROMPT above do not include
+# it -- and asking the model to place a member "relative to CitizenGO's
+# position" on an area with no position invites it to invent one. A ref whose
+# only areas are these is not sent at all; a ref that also carries a
+# positioned area is sent with these stripped, so it is scored on that area
+# alone. Remove an area from here when its position is written into the
+# prompt, and re-run the stance pass over its backlog.
+NO_POSITION_AREAS = (13,)
+
+
+def positioned(areas):
+    """The areas a stance can be scored against."""
+    return [a for a in (areas or []) if a not in NO_POSITION_AREAS]
+
 
 def unscored_refs(conn, skip_hidden=False):
     """Distinct ledger refs with no stance row yet.
@@ -137,6 +153,15 @@ def unscored_refs(conn, skip_hidden=False):
         "FROM mp_events e LEFT JOIN stance s ON s.ref = e.ref "
         "WHERE s.ref IS NULL AND e.areas IS NOT NULL AND e.areas != '[]' "
         "GROUP BY e.ref").fetchall()
+
+    def has_position(areas):
+        try:
+            return bool(positioned(json.loads(areas or "[]")))
+        except ValueError:
+            return True
+    # Always, not only with skip_hidden: a ref with no positioned area has
+    # nothing it could be scored against.
+    rows = [r for r in rows if has_position(r["areas"])]
     if not skip_hidden:
         return rows
     hidden = set(HIDDEN_AREAS)
@@ -406,7 +431,7 @@ def score_pending(conn, raw_dir, api_key, scored_at, max_refs=None,
 
     texts = build_text_map(raw_dir, since_days=since_days)
     evidence = [Evidence(ref=r["ref"], kind=r["kind"], line=r["line"] or "",
-                         areas=json.loads(r["areas"]) if r["areas"] else [],
+                         areas=positioned(json.loads(r["areas"]) if r["areas"] else []),
                          text=texts.get(r["ref"], ""),
                          excerpt=(r["excerpt"] if "excerpt" in r.keys() else "") or "")
                 for r in pending]

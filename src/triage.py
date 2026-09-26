@@ -19,7 +19,9 @@ BATCH_SIZE = 20
 
 # Verbatim system prompt (handoff section 7).
 SYSTEM_PROMPT = """You are the triage layer of CitizenGO UK's parliamentary monitor. CitizenGO campaigns
-on: abortion (pro-life), assisted dying (opposed), youth gender medicine (opposed to
+on: abortion (pro-life), assisted dying (opposed), organ donation and transplant ethics (consent at
+death, opt-out and deemed consent, brain death, organ trafficking and forced organ
+harvesting), youth gender medicine (opposed to
 paediatric transition), conversion practices bans (concerned re therapy/parental/religious
 freedom), single-sex spaces (sex-based rights), parental rights in education, free speech
 and online safety overreach, freedom of religion or belief, marriage and family, surrogacy
@@ -150,21 +152,13 @@ SYSTEM_PROMPT_DE = SYSTEM_PROMPT.replace(
     "by constitutional design. Write why_it_matters in ENGLISH: the reader is the London "
     "team. CitizenGO campaigns", 1)
 assert SYSTEM_PROMPT_DE != SYSTEM_PROMPT
-# ORGAN DONATION is in scope for GERMANY (Christopher, 26 September 2026:
-# "check we are covering Organspendern and Organspende"). The taxonomy alone
-# was not enough: v0.5 tagged all fourteen speeches of the 24 September
-# Transplantationsgesetz debate, and this judge then scored every one 0 or 1
-# -- "outside CitizenGO's campaign scope" -- because the area list it was
-# given did not name it. Candidate selection and scoring are two layers, and
-# an area has to be in both. Germany only: the UK taxonomy does not cover
-# organ donation and this decision was not taken for the UK.
-_DE_AREA_ANCHOR = "assisted dying (opposed), "
-assert SYSTEM_PROMPT_DE.count(_DE_AREA_ANCHOR) == 1
-SYSTEM_PROMPT_DE = SYSTEM_PROMPT_DE.replace(
-    _DE_AREA_ANCHOR,
-    _DE_AREA_ANCHOR + "organ donation (consent at death, the opt-out "
-    "Widerspruchslösung, living donation and the definition of brain death, "
-    "all live questions in Germany), ", 1)
+# ORGAN DONATION (area 13, 26 September 2026) is named in the BASE prompt
+# above, so every judge built from it -- UK, EU and this German one -- knows
+# it is in scope. It was first added to the German prompt alone, after the
+# German judge scored all fourteen speeches of the 24 September
+# Transplantationsgesetz debate 0 or 1, "outside CitizenGO's campaign scope":
+# the taxonomy had tagged them and the judge had not been told. Candidate
+# selection and scoring are two layers, and an area has to be in both.
 
 
 def _build_payload(batch, system=None):

@@ -33,6 +33,7 @@ AREA_NAMES = {
     10: "Surrogacy and embryology",
     11: "Migration",
     12: "Prostitution, trafficking and sexual exploitation",
+    13: "Organ donation and transplant ethics",
 }
 # Ordering by triage score, highest first, replacing the retired
 # ACT/WATCH/NOTE editorial tags. Line.tag now carries the SCORE (int or None).

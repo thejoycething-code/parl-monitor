@@ -72,7 +72,11 @@ def evidence(conn, limit=None):
             areas = json.loads(r["areas"] or "[]")
         except ValueError:
             areas = []
-        if not areas or set(areas) <= hidden:
+        # Hidden areas, and areas with no stated position (stance.positioned),
+        # leave nothing to score against. The 24 September organ-donation
+        # debate would otherwise have been placed on assisted dying.
+        areas = [a for a in stance.positioned(areas) if a not in hidden]
+        if not areas:
             continue
         line = "{0}{1} in the Bundestag, {2}".format(
             r["speaker"] or "?",
@@ -80,7 +84,7 @@ def evidence(conn, limit=None):
             r["date"] or "?")
         out.append(stance.Evidence(
             ref=REF.format(r["speech_id"]), kind="speech", line=line,
-            areas=[a for a in areas if a not in hidden],
+            areas=areas,
             text=r["text"] or "", excerpt=r["excerpt"] or ""))
         if limit and len(out) >= limit:
             break

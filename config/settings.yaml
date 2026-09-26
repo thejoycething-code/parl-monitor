@@ -60,6 +60,21 @@ pq_sweep_terms:
   # the newest are disability benefit questions), "assisted-dying-bill" and
   # "end-of-life-bill" (500s), "Leadbeater" (5, subsumed by the first).
   - terminally-ill-adults
+  # ORGAN DONATION (area 13, 26 September 2026). The UK sweeps search THESE
+  # lists, not the taxonomy, so a new area reaches nothing until its terms
+  # are here too: with only the taxonomy and the judge changed, the Sunday
+  # pull would never have fetched one organ-donation question to classify.
+  # Measured with tools/check_sweep_terms.py, hyphenated to force a phrase:
+  # organ-donation 254 (Organs: Donors; Kidneys: Transplant Surgery),
+  # organ-transplant 178 (NHS: Waiting Lists), organ-harvesting 94 (China:
+  # Falun Gong). REJECTED: deemed-consent (64) -- its newest results are all
+  # headed "Flags", advertisement consent, and the sweep takes the newest six,
+  # so it would spend its slots on flags. organ-donation already reaches the
+  # organ deemed-consent questions. The Hansard sweep inherits these in spoken
+  # form (hansard.sweep_terms), so they are not repeated there.
+  - organ-donation
+  - organ-transplant
+  - organ-harvesting
   - assisted-suicide
   - assisted-dying         # 60 (the HYPHENATED form; spaced returned 12,480)
   # Recency insurance for this issue (Christopher, 2026-08-17). The three
@@ -209,6 +224,11 @@ pq_sweep_terms:
 # Early Day Motions sweep (fast API). Matched EDMs are stored as items and
 # their signature counts recorded per edition for week-on-week deltas.
 edm_sweep_terms:
+  # organ donation / organ harvesting: area 13 (26 September 2026). Early day
+  # motions on forced organ harvesting from Falun Gong practitioners are a
+  # recurring Commons form, and nothing else here would find them.
+  - organ donation
+  - organ harvesting
   - migration
   - Islamophobia
   - assisted dying

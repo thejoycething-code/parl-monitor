@@ -345,6 +345,12 @@ def main():
     from src import intel as _intel
     all_areas = set(_intel.area_names(
         os.path.join(ROOT, "config", "taxonomy.yaml")))
+    # An area with NO STATED POSITION gets no sheet (26 September 2026). A 5CA
+    # is built from member stance, and stance.NO_POSITION_AREAS is never
+    # scored, so area 13 (organ donation) would have produced a sheet showing
+    # every member as neutral -- which reads as a finding and is an absence.
+    # The same constant drives both, so they cannot disagree.
+    excluded |= set(_stance.NO_POSITION_AREAS)
     made = 0
     for area in sorted(all_areas - excluded):
         try:

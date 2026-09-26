@@ -109,4 +109,15 @@ areas:
     # persons" 19 (the UN's own set phrase), "modern slavery" 4. Tier 2
     # because UPR trafficking recommendations run from labour exploitation
     # to child protection, and triage should decide which are this area's.
+  13_organ_donation:
+    # Added 26 September 2026 with the parliamentary area of the same number,
+    # because this file must carry the same areas (test_filter.UnTaxonomyTests).
+    # The UN's ground here is the trade and the coercion, not consent law:
+    # trafficking in organs is a Palermo-protocol offence, and forced organ
+    # harvesting from prisoners of conscience in China is a standing Human
+    # Rights Council concern. Deemed consent and brain death are national
+    # questions the UN does not legislate on, so they are not here.
+    tier1: ["trafficking in organs", "organ trafficking", "organ harvesting",
+            "forced organ harvesting", "removal of organs", "transplant tourism"]
+    tier2: ["organ donation", "organ transplant", "organ transplantation"]
 exclusions_global: []
