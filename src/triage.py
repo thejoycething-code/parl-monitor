@@ -150,6 +150,21 @@ SYSTEM_PROMPT_DE = SYSTEM_PROMPT.replace(
     "by constitutional design. Write why_it_matters in ENGLISH: the reader is the London "
     "team. CitizenGO campaigns", 1)
 assert SYSTEM_PROMPT_DE != SYSTEM_PROMPT
+# ORGAN DONATION is in scope for GERMANY (Christopher, 26 September 2026:
+# "check we are covering Organspendern and Organspende"). The taxonomy alone
+# was not enough: v0.5 tagged all fourteen speeches of the 24 September
+# Transplantationsgesetz debate, and this judge then scored every one 0 or 1
+# -- "outside CitizenGO's campaign scope" -- because the area list it was
+# given did not name it. Candidate selection and scoring are two layers, and
+# an area has to be in both. Germany only: the UK taxonomy does not cover
+# organ donation and this decision was not taken for the UK.
+_DE_AREA_ANCHOR = "assisted dying (opposed), "
+assert SYSTEM_PROMPT_DE.count(_DE_AREA_ANCHOR) == 1
+SYSTEM_PROMPT_DE = SYSTEM_PROMPT_DE.replace(
+    _DE_AREA_ANCHOR,
+    _DE_AREA_ANCHOR + "organ donation (consent at death, the opt-out "
+    "Widerspruchslösung, living donation and the definition of brain death, "
+    "all live questions in Germany), ", 1)
 
 
 def _build_payload(batch, system=None):

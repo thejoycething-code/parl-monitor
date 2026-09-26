@@ -283,3 +283,59 @@ class GermanV05RegressionTests(unittest.TestCase):
         filt, tax, wl = self._load()
         r = filt.filter_item(tax, wl, "Kopftuch im öffentlichen Dienst und Arbeitsrecht", "", "")
         self.assertNotIn(8, r.issue_areas)
+
+
+class GermanOrganDonationTests(unittest.TestCase):
+    """Christopher, 26 September 2026: "check we are covering Organspendern
+    and Organspende". Until then no area claimed organ donation, and 154 of
+    the 156 organ-donation Vorgänge in DIP were missed -- including the
+    opt-out Transplantationsgesetz debated on 24 September."""
+
+    def _areas(self, text):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy-de.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-de.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_the_two_words_asked_about(self):
+        self.assertIn(2, self._areas("Freiwilligkeit der Organspende sichern"))
+        self.assertIn(2, self._areas("Informationen für Organspendern"))
+        self.assertIn(2, self._areas("Organspender werden"))
+
+    def test_compounds_that_put_a_word_in_front(self):
+        """The matcher anchors at word start, so a stem cannot reach these."""
+        self.assertIn(2, self._areas("Novellierung der Regelungen zur Lebendorganspende"))
+        self.assertIn(2, self._areas("Warteliste für Organtransplantationen"))
+
+    def test_the_laws_and_the_definition_of_death(self):
+        self.assertIn(2, self._areas("Viertes Gesetz zur Änderung des Transplantationsgesetzes"))
+        self.assertIn(2, self._areas("Prüfung der Richtlinien der Bundesärztekammer zum Hirntod"))
+        self.assertIn(2, self._areas("Einführung der Widerspruchslösung bei Organspenden"))
+
+    def test_organ_trafficking_is_trafficking(self):
+        self.assertEqual(self._areas("Illegaler Organhandel und Organtourismus"), [12])
+
+    def test_the_patient_record_opt_out_is_not_organ_donation(self):
+        """The same word is the opt-out for the electronic patient record."""
+        self.assertEqual(self._areas("Widerspruchslösung bei der elektronischen Patientenakte"), [])
+
+    def test_organisation_is_not_an_organ(self):
+        """Why the guard is not `Organ*`."""
+        self.assertEqual(self._areas("Organisation der Pflege"), [])
+
+
+class TaxonomyAndJudgeAgreeTests(unittest.TestCase):
+    """An area must be in BOTH layers. v0.5 put organ donation in the German
+    taxonomy, and the German judge -- whose prompt did not name it -- scored
+    all fourteen speeches of the 24 September debate 0 or 1, "outside
+    CitizenGO's campaign scope". Tagged and invisible is not covered."""
+
+    def test_the_german_judge_knows_organ_donation_is_in_scope(self):
+        from src import triage
+        self.assertIn("organ donation", triage.SYSTEM_PROMPT_DE)
+
+    def test_the_uk_judge_is_unchanged(self):
+        """The scope decision was taken for Germany, and the UK taxonomy does
+        not cover organ donation."""
+        from src import triage
+        self.assertNotIn("organ donation", triage.SYSTEM_PROMPT)

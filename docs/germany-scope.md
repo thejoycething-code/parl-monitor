@@ -348,6 +348,30 @@ The question is now narrower than it was: not "is this taxonomy any good",
 which has an evidenced answer, but "does a German reader agree these 131
 tier-1 terms are the words the Bundestag uses?"
 
+## Organ donation is in scope for Germany (26 September 2026)
+
+Christopher: "check we are covering Organspendern and Organspende." We were
+not. No area claimed organ donation, and 154 of the 156 organ-donation
+Vorgänge in DIP were missed, including the opt-out Transplantationsgesetz
+debated on 24 September. It now sits in area 2 (end of life), because what
+is contested is consent at death and the definition of death; organ
+trafficking went to area 12. 156 of 156 now match.
+
+**Covering an area takes two layers, and the first fix only did one.** The
+taxonomy decides what is a candidate; the judge decides what reaches the
+edition. With the terms added, all fourteen speeches of the 24 September
+debate were tagged -- and the German judge scored every one 0 or 1,
+"outside CitizenGO's campaign scope", because the area list in its prompt
+did not name organ donation. They were tagged and invisible. The German
+prompt now names it (Germany only; the UK judge is unchanged), the fifteen
+rows were re-scored, and they now sit at 2 and 3. A test fails if the
+taxonomy and the judge disagree about this area again.
+
+The debate is also a check on this week's parser fixes: two of its fourteen
+speeches are only in the store because of them -- Karl-Josef Laumann, the
+Land minister speaking for the Bundesrat, and Michael Brand, printed as
+"Michael Brand (Fulda)".
+
 ## Still open
 
 - **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`
