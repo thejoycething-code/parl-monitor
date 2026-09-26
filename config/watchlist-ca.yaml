@@ -36,6 +36,16 @@ bills:
                  areas: [2], why: "MAID coercion safeguards. Matched already; listed as flagship."}
   "45-1/S-231": {title: "An Act to amend the Criminal Code (medical assistance in dying)",
                  areas: [2], why: "Senate MAID bill. Matched already; listed as flagship."}
+  # 44th Parliament (2021-2024): the misses that matter for a backfilled 5CA.
+  "44-1/C-311": {title: "An Act to amend the Criminal Code (violence against pregnant women)",
+                 areas: [1],
+                 why: "The Violence Against Pregnant Women Act; defeated at second reading 14 June 2023 and the defining pro-life recorded vote of that Parliament. Taxonomy MISSED it."}
+  "44-1/C-270": {title: "An Act to amend the Criminal Code (pornographic material)",
+                 areas: [6, 7],
+                 why: "Consent and age verification for pornography. MISSED: the term is 'pornography', the title says 'pornographic'."}
+  "44-1/S-210": {title: "An Act to restrict young persons’ online access to sexually explicit material",
+                 areas: [6, 7],
+                 why: "Age verification; the predecessor of S-209. Taxonomy MISSED it."}
 # Statute and policy names that recur in subject lines and bill titles.
 acts_watch:
   - {short: "Digital Safety Act", areas: [7, 6]}
