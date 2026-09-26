@@ -394,10 +394,10 @@ come from `config/ca_stance.yaml`, the Canadian mirror of
 A person writes what a Yea on a division meant, and the tool applies it.
 **Every one of the 30 entries was drafted by Claude**, so:
 
-- 16 readings carry `draft: true`;
-- 7 entries are `read_first`, meaning the text wasn't read and no direction
-  is proposed;
-- 7 are `placeable: false`: unanimous votes, or procedural ones.
+- 22 readings carry `draft: true`. Seven of these were `read_first` until
+  their texts were pulled the same day (see "The seven texts" below).
+- 8 are `placeable: false`: unanimous votes, procedural ones, and C-9's
+  concurrence in the Senate's noose.
 
 A draft places nobody, so every sheet today lists evidence and leaves every
 column blank. That is the design. Confirming a reading means deleting its
@@ -434,14 +434,55 @@ treats it as unread.
   promoting hatred.
 
 **A Nay on C-9's third reading is drafted at +1, not +2.** It opposes the
-whole bill, not the clause. The strongest C-9 evidence would be:
+whole bill, not the clause. The clause-specific votes, below, carry the
+full-strength readings.
 
-- the House recommittal motion of 25 March 2026 (123-190);
-- Senator Martin's amendment of 4 June 2026 (21-40-2). The CSG split 7-3 on
-  it, which makes it the most discriminating vote in either House.
+### The seven texts, pulled 26 September 2026
 
-Both are `read_first`, because their texts were not read. A reading built on
-who voted is circular.
+- **House texts** come from each division's own page
+  (`ourcommons.ca/members/en/votes/<parl>/<sess>/<n>`). The page gives the
+  motion text, the mover and the sitting number.
+- **Senate texts** come from the Journals of the Senate, linked from the
+  vote table.
+- **The committee report's recommendations** come from its PDF.
+- Each entry now carries `text:`, `moved_by:` and `source:`.
+
+| Vote | What it actually was | Proposed (still draft) |
+|---|---|---|
+| House 640, 14 Feb 2024 | Bloc (Gaudreau) reasoned amendment: decline C-62 because it does not also allow advance requests | Yea −2; a Nay places nobody (the whole House outside the Bloc) |
+| House 874, 31 Oct 2024 | Bloc (Thériault): concur in the joint committee report of Feb 2023, which recommends MAID for mature minors (rec. 16) and advance requests (rec. 21) | Yea −2, Nay +1 (the report also recommends palliative care) |
+| House 92, 25 Mar 2026 | Conservative (Brock): send C-9 back to committee with the sole purpose of **restoring s.319(3)(b) and (3.1)(b)** | Yea +2, Nay −2: *the* clause-specific C-9 vote |
+| House 167, 17 Jun 2026 | Conservative (Lawton): discharge the order and withdraw C-9 | Yea +1, Nay −1 |
+| House 168, 17 Jun 2026 | Government: concur in the Senate's one amendment, which added "a noose" | Never places: not our ground |
+| Senate 700344, 4 Jun 2026 | Martin/Batters: rewrite C-9's safe-harbour clause 11.1(1). It adds "in good faith" and deletes "if they do not wilfully promote hatred against an identifiable group", so good-faith religious and public-interest statements are protected outright | Yea +2, Nay −1 |
+| Senate 699935, 3 Jun 2026 | Human Rights committee report. It creates a **new offence** of promoting hatred against Indigenous Peoples by "condoning, denying or downplaying" the residential school system; it also adds the noose and widens an exception at places of worship | Yea −1, Nay +1: the most sensitive reading in the file |
+
+Three things the texts overturned:
+
+- **The Martin amendment does not restore s.319(3)(b).** An earlier draft
+  assumed it did. It rewrites the bill's own clarification clause into
+  something close to the repealed defence, which is why the Nay is −1: a
+  senator can object to the drafting without opposing religious expression.
+- **The Senate made one amendment, not several.** Senator Bernard's noose
+  motion, adopted on 4 June after the committee report carrying the same
+  line was defeated the day before.
+- **The committee report was not ours.** Its substance was a new
+  "denialism" speech offence, and the Conservatives voted against it. Who
+  voted how would have suggested the opposite reading.
+
+**A crash, found here and fixed.** C-62's reasoned amendment scores only
+the Yea side. A *confirmed* entry with one side blank raised a KeyError, and
+it would have done so the moment Christopher confirmed it. The tool now
+renders that side as "carries no value", and a test covers it.
+
+**Preview with every reading confirmed as drafted:**
+
+| Sheet | ++ | + | 0 | - | -- | Check |
+|---|---|---|---|---|---|---|
+| Commons, freedom of religion | 121 | 19 | 4 | 5 | 188 | ++ 121 against 123 on House 92 (two of the 123 have left, including the mover) |
+| Commons, free speech | 122 | 19 | 3 | 5 | 188 | 13 capped for missing House 92 |
+| Commons, assisted dying | 94 | 3 | 124 | 0 | 116 | ++ 94 against 150 on C-314 |
+| Senate, freedom of religion | 21 | 11 | 17 | 9 | 37 | ++ 21 against 21 who backed Martin |
 
 ### Three rules carried over from Westminster, each with a test
 
@@ -497,8 +538,9 @@ blocked, but the next deploy would have been.
 1. **Confirm or correct the 16 drafts.** The C-9 lines, and the −1 on an
    S-210 Nay (privacy, not hostility), are the ones most worth a second
    look.
-2. **Read and score the 7 `read_first` entries**, starting with the Martin
-   amendment and the recommittal motion.
+2. **Check the seven readings made from texts pulled on 26 September**,
+   especially the Senate committee report. Is CitizenGO's line against a
+   residential-school "denialism" offence settled?
 3. **Decide whether C-16 (the Protecting Victims Act) is ours at all.** Its
    eight divisions are evidence only until then.
 4. **Say whether the sheets go anywhere.** They are written locally and

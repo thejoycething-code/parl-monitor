@@ -113,6 +113,11 @@ def vote_stance(entry, position):
 
 
 NOT_PLACED = {"draft": "reading DRAFT -- not placed",
+              # A confirmed entry may give only ONE side a value on purpose:
+              # C-62's reasoned amendment (commons-44-1-640) scores the Bloc's
+              # Yea, and its Nay was the rest of the House. That was a
+              # KeyError, found the first time such an entry was previewed.
+              "confirmed": "this side carries no value -- its lobby tells no member apart",
               "unplaceable": "never places: {reason}",
               "unread": "not read yet -- not placed",
               "none": "no reading -- not placed"}

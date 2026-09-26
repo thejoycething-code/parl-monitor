@@ -15,8 +15,9 @@
 #     (unanimous) or is about procedure, not substance. Evidence only, for
 #     ever, confirmed or not.
 #   * `read_first:` with no values -- the text was not read, so no direction
-#     is proposed. The lobbies are recorded so the reader knows what to test
-#     a reading against. Fill in yea/nay only after reading.
+#     is proposed. None remain: the seven were read on 26 September 2026 and
+#     now carry their `text:`, `moved_by:` and `source:`, with proposed
+#     values that are still drafts.
 #
 # Keys are the store's: `commons-<parl>-<sess>-<number>` and
 # `senate-<parl>-<sess>-<details id>`; bills are `<parl>-<sess>/<number>`.
@@ -100,20 +101,58 @@ divisions:
     dated: 2024-02-14
     result: "Negatived 33-291"
     lobbies: "Yea: Bloc 31, NDP 1, Ind 1. Nay: everyone else"
-    read_first: >
-      The reasoned amendment's text was not read. The Bloc lobby suggests it
-      opposed the delay, but that is an inference from who voted, and a
-      reading built on who voted is circular. Read Hansard, 14 February 2024.
+    moved_by: "Marie-Hélène Gaudreau (Bloc Québécois, Laurentides—Labelle)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/640 (sitting 282)"
+    text: >
+      That the motion be amended by deleting all the words after the word
+      "That" and substituting the following: "the House decline to give
+      second reading to Bill C-62, An Act to amend An Act to amend the
+      Criminal Code (medical assistance in dying), No. 2, as no clause
+      addresses the call for the Government of Canada, adopted unanimously by
+      the Quebec National Assembly, to amend the Criminal Code to align with
+      the Quebec legislation on end-of-life care by allowing advance consent
+      requests.".
+    # TEXT READ 26 September 2026. It is an EXPANSION motion: reject the
+    # delay because the bill does not also add advance requests.
+    yea: -2
+    why_yea: >
+      Voted to decline the C-62 delay on the ground that it did not also
+      allow advance requests for MAID -- for widening MAID, not delaying it.
+    # No `nay` value, deliberately: the Nay lobby is the whole House outside
+    # the Bloc (the government voting for its own bill), so a Nay tells no
+    # member apart. It renders as evidence and places nobody.
   - key: commons-44-1-874
     draft: true
     title: "Concurrence in the Second Report of the Special Joint Committee on MAID"
     dated: 2024-10-31
     result: "Agreed 209-114"
     lobbies: "Yea: Liberal 149, Bloc 32, NDP 24, Green 2, Ind 2. Nay: Conservative 114"
-    read_first: >
-      What the Second Report recommended was not read. The party-line split is
-      clean, which makes it a strong vote once its meaning is known -- and a
-      misleading one if it is guessed.
+    moved_by: "Luc Thériault (Bloc Québécois, Montcalm)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/44/1/874 (sitting 363); the
+      report is "Medical Assistance in Dying in Canada: Choices for
+      Canadians", presented 15 February 2023,
+      parl.ca/Content/Committee/441/AMAD/Reports/RP12234766/amadrp02/amadrp02-e.pdf
+    text: >
+      That the second report of the Special Joint Committee on Medical
+      Assistance in Dying, presented on Wednesday, February 15, 2023, be
+      concurred in.
+    # TEXT READ 26 September 2026: 23 recommendations. The ones on our
+    # ground: 16, extend MAID eligibility to minors "deemed to have the
+    # requisite decision-making capacity"; 17, restrict that to minors whose
+    # natural death is reasonably foreseeable; 19, parents consulted but the
+    # minor's will "ultimately take priority"; 21, allow advance requests.
+    # It also recommends palliative-care funding (6, 7) -- which is why a
+    # Nay is +1, not +2: it rejects the whole report.
+    yea: -2
+    why_yea: >
+      Voted to concur in the joint committee report recommending MAID for
+      mature minors (rec. 16) and advance requests (rec. 21).
+    nay: 1
+    why_nay: >
+      Voted against concurring in the report recommending MAID for mature
+      minors and advance requests (+1: the whole report, which also carries
+      palliative-care recommendations).
   - key: commons-44-1-638
     placeable: false
     title: "Government Business No. 34 (proceedings on C-62), amendment"
@@ -182,28 +221,69 @@ divisions:
     dated: 2026-03-25
     result: "Negatived 123-190"
     lobbies: "Yea: Conservative 122, Green 1. Nay: Liberal 163, Bloc 22, NDP 5"
-    read_first: >
-      A motion to send C-9 back to committee, apparently moved by the
-      opposition. If its instruction was to reinstate s.319(3)(b), a Yea is
-      +2 and the strongest C-9 evidence there is, because it is about the
-      clause and not the whole bill. Read the motion's text before scoring it.
+    moved_by: "Larry Brock (Conservative, Brantford—Brant South; no longer an MP)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/92 (sitting 99)"
+    text: >
+      That the motion be amended by deleting all the words after the word
+      "That" and substituting the following: "Bill C-9, An Act to amend the
+      Criminal Code (hate propaganda, hate crime and access to religious or
+      cultural places), be not now read a third time but be referred back to
+      the Standing Committee on Justice and Human Rights for the purpose of
+      reconsidering clause 4 with the view to amend the bill so as to restore
+      paragraph 319(3)(b) and paragraph 319(3.1)(b) of the Act, in order to
+      preserve longstanding safeguards for good faith religious expression,
+      address concerns raised by a broad range of religious communities
+      across Canada, and protect freedom of expression and religion under the
+      Canadian Charter of Rights and Freedoms.".
+    # TEXT READ 26 September 2026. This is THE clause-specific C-9 vote in
+    # the House: its sole instruction is to restore the religious-texts
+    # defence. Both sides are therefore full strength.
+    yea: 2
+    why_yea: >
+      Voted to send C-9 back to committee with the sole instruction of
+      restoring the religious-texts defence, s.319(3)(b).
+    nay: -2
+    why_nay: >
+      Voted against sending C-9 back to committee to restore the
+      religious-texts defence, s.319(3)(b).
   - key: commons-45-1-167
     draft: true
     title: "Motion respecting Senate amendments to Bill C-9 (amendment)"
     dated: 2026-06-17
     result: "Negatived 132-184"
     lobbies: "Yea: Conservative 126, NDP 4, Green 1, Ind 1. Nay: Liberal 165, Bloc 19"
-    read_first: "The amendment's text was not read."
+    moved_by: "Andrew Lawton (Conservative, Elgin—St. Thomas—London South)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/167 (sitting 138)"
+    text: >
+      That the motion be amended by deleting all the words after the word
+      "That" and substituting the following: "the order for the consideration
+      of the amendment made by the Senate to Bill C-9, An Act to amend the
+      Criminal Code (hate propaganda, hate crime and access to religious or
+      cultural places), be discharged and the bill withdrawn".
+    # TEXT READ 26 September 2026: withdraw the whole bill. Like a Nay at
+    # third reading, it is about the bill, not the clause, so +1/-1.
+    yea: 1
+    why_yea: "Voted to withdraw C-9, which repeals the religious-texts defence (+1: the whole bill)."
+    nay: -1
+    why_nay: "Voted to keep C-9 alive rather than withdraw it (-1: the whole bill, at a procedural stage)."
   - key: commons-45-1-168
-    draft: true
+    placeable: false
     title: "Motion respecting Senate amendments to Bill C-9"
     dated: 2026-06-17
     result: "Agreed 189-128"
     lobbies: "Yea: Liberal 164, Bloc 19, NDP 4, Green 1, Ind 1. Nay: Conservative 128"
-    read_first: >
-      Which Senate amendments this motion accepted and rejected was not read.
-      The Royal Assent text differs from the House's only by adding "a
-      noose", so any other Senate amendment was rejected here.
+    moved_by: "Sean Fraser (Liberal, Central Nova; Minister of Justice)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/168 (sitting 138)"
+    text: >
+      That the amendment made by the Senate to Bill C-9, An Act to amend the
+      Criminal Code (hate propaganda, hate crime and access to religious or
+      cultural places), be now read a second time and concurred in.
+    reason: >
+      TEXT READ 26 September 2026. The Senate made ONE amendment (Senator
+      Bernard, 4 June 2026): adding "a noose" to the banned hate symbols.
+      Concurring in that is not our ground in either direction, so the vote
+      places nobody. (Earlier drafts guessed there were several Senate
+      amendments; there was one.)
   - key: commons-45-1-84
     placeable: false
     title: "Government Business No. 6 (proceedings on Bill C-9)"
@@ -228,20 +308,75 @@ divisions:
     dated: 2026-06-04
     result: "Defeated 21-40-2"
     lobbies: "Yea: C 8, CSG 7, PSG 3, ISG 2, Non-aff 1. Nay: ISG 27, PSG 6, GRO 4, CSG 3"
-    read_first: >
-      Senator Martin's amendment was not read. If it restored s.319(3)(b), a
-      Yea is +2 and a Nay -2, and this is the most discriminating C-9 vote in
-      either House (the CSG split 7-3). Read the Senate Journals for 4 June 2026.
+    moved_by: "Senator Yonah Martin, seconded by Senator Batters"
+    source: "Journals of the Senate, 4 June 2026 (sencanada.ca/en/content/sen/chamber/451/journals/079jr_2026-06-04-e)"
+    text: >
+      That Bill C-9, as amended, be not now read a third time, but that it be
+      further amended, in clause 11.1, on page 6, (a) by replacing line 22
+      with the following: "nicating a statement in good faith on a matter of
+      public inter-"; (b) by replacing lines 25 to 27 with the following:
+      "discussion, publication or debate.".
+    # TEXT READ 26 September 2026. It does NOT restore s.319(3)(b). It
+    # rewrites the bill's own safe-harbour clause, 11.1(1), which as passed
+    # protects "a statement on a matter of public interest, including an
+    # educational, religious, political or scientific statement made in the
+    # course of a discussion, publication or debate, if they do not wilfully
+    # promote hatred against an identifiable group by communicating the
+    # statement". The amendment adds "in good faith" and DELETES the closing
+    # "if they do not wilfully promote hatred..." condition -- so a
+    # good-faith religious statement on a matter of public interest would be
+    # protected outright, the closest thing to the repealed defence the
+    # Senate voted on. Nay is -1, not -2: a senator can object to the
+    # drafting (the deleted condition is what made 11.1 a clarification
+    # rather than a defence) without opposing religious expression.
+    yea: 2
+    why_yea: >
+      Voted to protect good-faith statements on matters of public interest,
+      including religious ones, outright in C-9's safe-harbour clause.
+    nay: -1
+    why_nay: >
+      Voted against widening C-9's safe-harbour clause to protect good-faith
+      religious and public-interest statements outright.
   - key: senate-45-1-699935
     draft: true
     title: "Combatting Hate Act – C-9 – RIDR Report No. 3 with amendments (Senate)"
     dated: 2026-06-03
     result: "Defeated 32-41-2"
     lobbies: "Yea: ISG 23, PSG 5, CSG 4. Nay: CSG 12, ISG 9, PSG 8, C 7, GRO 5"
-    read_first: >
-      What the committee's amendments did was not read. The Conservatives voted
-      against the report, which is a warning against assuming its amendments
-      were ours.
+    moved_by: "Senator Senior (committee chair), seconded by Senator Clement"
+    source: >
+      Journals of the Senate, 2 June 2026 (the report) and 3 June 2026 (the
+      vote): sencanada.ca/en/content/sen/chamber/451/journals/077jr_2026-06-02-e
+      and 078jr_2026-06-03-e
+    text: >
+      The Human Rights committee's THIRD REPORT on C-9, with amendments. In
+      clause 4 it (i) adds "a noose" to the banned symbols; (ii) creates a
+      NEW OFFENCE, s.319(2.4): "Everyone who, by communicating statements
+      other than in private conversation, wilfully promotes hatred against
+      Indigenous Peoples by condoning, denying or downplaying the Indian
+      Residential Schools System" (two years indictable, or summary); and
+      (iii-v) extends the existing defences and forfeiture provisions to that
+      offence. In clause 6 it extends the information-gathering exception at
+      places of worship to subsection (1) as well as (2). A sub-amendment by
+      Senator Arnot (re-wording the noose line) was adopted first; the report
+      as amended was then defeated.
+    # TEXT READ 26 September 2026. The substantive change is a new speech
+    # offence -- criminalising "denying or downplaying" a historical system
+    # -- which is what CitizenGO's free-speech line opposes. The report also
+    # carried the noose (later adopted anyway, on Senator Bernard's motion)
+    # and a modest widening of an exception, so each side is scored +/-1: a
+    # vote on the whole report. THIS IS THE MOST SENSITIVE READING IN THE
+    # FILE; confirm it only if CitizenGO's line on denialism offences is
+    # settled.
+    yea: -1
+    why_yea: >
+      Voted for the committee report creating an offence of promoting hatred
+      by "condoning, denying or downplaying" the residential school system
+      (-1: the whole report).
+    nay: 1
+    why_nay: >
+      Voted against the committee report that would have created a
+      residential-school "denialism" speech offence (+1: the whole report).
 
   # --- Areas 5 and 6: C-16, the Protecting Victims Act -------------------------
   # NOT DRAFTED, deliberately. C-16 matched on its title words ("child

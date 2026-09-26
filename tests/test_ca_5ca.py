@@ -116,6 +116,14 @@ class PlacementTests(unittest.TestCase):
         self.assertEqual(latest["division_key"], "commons-44-1-423")
         self.assertEqual(rows["3"]["column"], "++")
 
+    def test_a_confirmed_entry_may_score_one_side_only(self):
+        """commons-44-1-640 scores the Yea and leaves the Nay blank on purpose."""
+        entries = dict(ENTRIES)
+        entries["commons-44-1-646"] = {"key": "commons-44-1-646", "yea": -2, "why_yea": "for expansion"}
+        rows, _ = rows_by_id(store(), entries=entries)
+        self.assertIn("this side carries no value", " ".join(rows["2"]["comments"]))
+        self.assertEqual(rows["2"]["column"], "--", "placed by its other votes, unharmed")
+
     def test_a_paired_vote_is_no_direction(self):
         rows, _ = rows_by_id(store())
         self.assertIn("[no direction recorded]", " ".join(rows["4"]["comments"]))
