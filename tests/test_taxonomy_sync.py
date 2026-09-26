@@ -226,3 +226,60 @@ class GermanRegressionTests(unittest.TestCase):
                       "Vierter Entschließungsantrag der Linken zur GKV-Reform"):
             got = filt.filter_item(tax, wl, label).issue_areas or []
             self.assertEqual(got, [], "{0!r} should match nothing".format(label))
+
+
+class GermanV05RegressionTests(unittest.TestCase):
+    """v0.5 (26 September 2026): additions found by scanning the Bundestag's
+    OWN subject descriptors and measured against DIP across all time. Each
+    fixture is a real Vorgang title from that scan, so every addition stays
+    pinned to the evidence that justified it."""
+
+    CASES = (
+        ("Lage der christlichen Minderheit im Jemen im Kontext des langjährigen Bürgerkriegs", 8),
+        ("Bindung von Wiederaufbauhilfen für Syrien an den Schutz religiöser Minderheiten", 8),
+        ("Versorgung von transgeschlechtlichen und nichtbinären Menschen sicherstellen", 5),
+        ("Relevanz von Studienergebnissen aus Großbritannien zur Täterschaft von Transpersonen", 5),
+        ("Aufnahme der Formulierung seiner sexuellen Identität in Artikel 3 des Grundgesetzes", 5),
+        ("Medienpaket zur Sexualerziehung für Kinder im Vorschulalter", 6),
+        ("Position der Bundesregierung zur Zeitgemäßheit der Schulpflicht", 6),
+        ("Kassenzulassung des nicht-invasiven Pränataltests - Monitoring der Konsequenzen", 1),
+        ("Gesetz zum Ausbau der Hilfen für Schwangere und zur Regelung der vertraulichen Geburt", 1),
+        ("Babyklappen in Deutschland", 1),
+        ("Verhinderung von Zwangsverheiratungen und Kinderehen in Deutschland", 12),
+        ("Gesetz zur Bekämpfung der Mehrehe", 9),
+        ("Gesetz zum Schutz Minderjähriger bei Auslandsehen", 9),
+        ("Mögliche Einstellung der Förderung von HateAid", 7),
+        ("Erhebung der Anzahl unter 14-jähriger Schülerinnen mit Kopftuch an öffentlichen Schulen", 8),
+    )
+
+    def _load(self):
+        from src import filter as filt
+        return (filt, filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy-de.yaml")),
+                filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-de.yaml")))
+
+    def test_each_addition_matches_the_title_that_justified_it(self):
+        filt, tax, wl = self._load()
+        for title, area in self.CASES:
+            self.assertIn(area, filt.filter_item(tax, wl, title, "", "").issue_areas, title)
+
+    def test_the_revived_trans_term_does_not_take_benefit_transfers(self):
+        """Fixing inner wildcards made `Trans* bei Kindern` live and it
+        matched child benefit, transport and transparency at tier 1."""
+        filt, tax, wl = self._load()
+        for title in ("Transferleistungen bei Kindern", "Transport bei Kindern",
+                      "Transparenz bei Kindern"):
+            self.assertNotIn(3, filt.filter_item(tax, wl, title, "", "").issue_areas, title)
+        self.assertIn(3, filt.filter_item(tax, wl, "Transition bei Kindern", "", "").issue_areas)
+
+    def test_konversion_alone_is_never_a_term(self):
+        """In German politics `Konversion` is overwhelmingly the civil reuse of
+        former military sites, which DIP's own search returned for area 4."""
+        filt, tax, wl = self._load()
+        r = filt.filter_item(tax, wl,
+                             "Aussetzung der Umwandlung von ehemaligen Militärliegenschaften - Konversion", "", "")
+        self.assertNotIn(4, r.issue_areas)
+
+    def test_kopftuch_outside_school_is_left_alone(self):
+        filt, tax, wl = self._load()
+        r = filt.filter_item(tax, wl, "Kopftuch im öffentlichen Dienst und Arbeitsrecht", "", "")
+        self.assertNotIn(8, r.issue_areas)

@@ -725,3 +725,63 @@ class VawgTermTests(unittest.TestCase):
                       "literature").issue_areas or [], [],
             "only the full statutory phrase matches -- 'violence against "
             "women' alone is not a term")
+
+
+class InnerWildcardTests(unittest.TestCase):
+    """A `*` INSIDE a phrase means "this word inflects" (26 September 2026).
+
+    Until then only a trailing `*` meant anything; an internal one became a
+    literal asterisk, and three German TIER-1 terms plus one English term had
+    matched nothing since the day they were written. Nothing reported it:
+    a term that never matches looks exactly like one with nothing to match.
+    """
+
+    def _rx(self, term):
+        from src import filter as filt
+        rx, cs = filt._compile_term(term)
+        return lambda text: bool(rx.search(filt._fold(text) if cs else filt._norm(text)))
+
+    def test_an_inner_star_lets_the_word_inflect(self):
+        m = self._rx("ungeborene* Leben")
+        self.assertTrue(m("Schutz des ungeborenen Leben"))
+        self.assertTrue(m("das ungeborene Leben"))
+
+    def test_both_words_may_inflect(self):
+        m = self._rx("christliche* Minderheit*")
+        self.assertTrue(m("Lage der christlichen Minderheit im Jemen"))
+        self.assertTrue(m("christliche Minderheiten in Syrien"))
+
+    def test_it_does_not_swallow_the_next_word(self):
+        """`\\w*`, not `.*`: the word may grow, the phrase may not jump."""
+        m = self._rx("ungeborene* Leben")
+        self.assertFalse(m("ungeborene Kinder und ihr Leben"))
+
+    def test_the_english_term_that_was_dead_now_matches(self):
+        m = self._rx("smartphone* in schools")
+        self.assertTrue(m("A ban on smartphones in schools"))
+
+
+class EveryTermCanMatchTests(unittest.TestCase):
+    """No term in either taxonomy may be dead by construction.
+
+    Each term is spelled out -- every `*` replaced by a real ending -- and must
+    match its own spelling. This is the check that would have caught the four
+    dead terms on the day they were added, rather than years later by chance.
+    """
+
+    def test_no_term_is_dead(self):
+        import yaml
+        from src import filter as filt
+        dead = []
+        for name in ("taxonomy.yaml", "taxonomy-de.yaml"):
+            spec = yaml.safe_load(open(os.path.join(ROOT, "config", name)))
+            for area, body in (spec.get("areas") or {}).items():
+                for tier in ("tier1", "tier2"):
+                    for t in body.get(tier) or []:
+                        term = str(t["term"] if isinstance(t, dict) else t)
+                        rx, cs = filt._compile_term(term)
+                        sample = term.replace("*", "en")
+                        text = filt._fold(sample) if cs else filt._norm(sample)
+                        if not rx.search(text):
+                            dead.append("{0} {1}: {2}".format(name, area, term))
+        self.assertEqual(dead, [], "these terms can never match anything")

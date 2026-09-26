@@ -80,10 +80,30 @@ def _compile_term(term):
     if _is_acronym(raw):
         core = _fold(raw)  # preserve case
         left, right = r"(?<![A-Za-z0-9])", ("" if stem else r"(?![A-Za-z0-9])")
-        return re.compile(left + re.escape(core) + right), True
+        return re.compile(left + _escape_inner_stars(core) + right), True
     core = _norm(raw)
     left, right = r"(?<![a-z0-9])", ("" if stem else r"(?![a-z0-9])")
-    return re.compile(left + re.escape(core) + right), False
+    return re.compile(left + _escape_inner_stars(core) + right), False
+
+
+def _escape_inner_stars(core):
+    """re.escape, except a `*` INSIDE a phrase means "this word inflects".
+
+    Until 26 September 2026 only a TRAILING `*` meant anything. An internal
+    one went through re.escape and became a literal asterisk, so
+    `"ungeborene* Leben"` searched for the characters "ungeborene* leben" and
+    matched nothing at all. Found while adding v0.5 terms to the German
+    taxonomy, whose own convention writes inflecting words that way: three
+    German TIER-1 terms had been dead since the day they were written
+    ("ungeborene* Leben", "assistierte* Selbsttötung", "Trans* bei Kindern"),
+    and one English term was dead in the production edition
+    ("smartphone* in schools"). Nothing reported it, because a term that
+    never matches is indistinguishable from a term with nothing to match.
+
+    `\w*` rather than `.*`: the word may grow ("ungeborenen") but the phrase
+    may not swallow its neighbours.
+    """
+    return re.escape(core).replace(r"\*", r"\w*")
 
 
 def _area_number(key):
