@@ -16,13 +16,18 @@ from __future__ import annotations
 
 import datetime
 
-# USD per million tokens, from the Anthropic pricing table, 2026-08-24.
-# Sonnet 5 is on an INTRODUCTORY rate that ends 2026-08-31: from 1 September
-# the same work costs 50% more, which is worth knowing before it lands.
+# USD per million tokens, from the Anthropic pricing table
+# (platform.claude.com/docs/en/about-claude/pricing), re-read 2026-09-26.
+#
+# SONNET 5 IS $2 / $10, FLAT. It launched on that as an "introductory" rate
+# through 2026-08-31 with a rise to $3 / $15 scheduled for 1 September, and
+# this table carried the rise. Anthropic then made $2 / $10 the standard
+# price and cancelled the increase, so from 1 September every estimate here
+# overstated Sonnet 5 work by half -- found 26 September 2026 while costing
+# the Canada and Germany backfills. Re-read the pricing page before trusting
+# a scheduled change; an "intro" block below is a forecast, not a fact.
 RATES = {
-    "claude-sonnet-5": {"input": 3.00, "output": 15.00,
-                        "intro": {"until": "2026-08-31",
-                                  "input": 2.00, "output": 10.00}},
+    "claude-sonnet-5": {"input": 2.00, "output": 10.00},
     "claude-opus-5": {"input": 5.00, "output": 25.00},
     "claude-haiku-4-5": {"input": 1.00, "output": 5.00},
 }
@@ -68,12 +73,25 @@ def summary(conn, since=None):
         "MIN(dated) first, MAX(dated) last FROM api_spend {0} "
         "GROUP BY pass_name, model ORDER BY 1, 2".format(where), args
     ).fetchall()
+    # Priced PER DAY, then summed. This priced a whole pass at the rate of
+    # its LAST day, so a pass spanning a rate change was billed entirely at
+    # one side of it -- invisible while rates are flat, wrong the first time
+    # an intro rate lapses mid-period.
+    daily = {}
+    for d in conn.execute(
+            "SELECT pass_name, model, dated, SUM(input_tokens) inp, "
+            "SUM(output_tokens) outp FROM api_spend {0} "
+            "GROUP BY pass_name, model, dated".format(where), args):
+        daily.setdefault((d["pass_name"], d["model"]), []).append(d)
     out, notes, total = [], [], 0.0
     for r in rows:
         rate = _rate(r["model"], r["last"])
         cost = None
         if rate:
-            cost = (r["inp"] / 1e6) * rate[0] + (r["outp"] / 1e6) * rate[1]
+            cost = 0.0
+            for d in daily.get((r["pass_name"], r["model"]), []):
+                day_rate = _rate(r["model"], d["dated"])
+                cost += (d["inp"] / 1e6) * day_rate[0] + (d["outp"] / 1e6) * day_rate[1]
             total += cost
             if rate[2]:
                 notes.append(

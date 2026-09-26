@@ -58,22 +58,48 @@ class RateTests(unittest.TestCase):
         self.conn = db.init_db(sqlite3.connect(":memory:"))
         self.conn.row_factory = sqlite3.Row
 
-    def test_the_intro_rate_applies_before_it_lapses_and_says_so(self):
-        """Sonnet 5's introductory rate ends 2026-08-31. The same work costs
-        50% more from September, which is worth saying before it lands."""
+    def test_sonnet_5_is_two_and_ten_after_the_cancelled_rise(self):
+        """Sonnet 5's scheduled rise to $3/$15 on 1 September 2026 was
+        cancelled; $2/$10 became the standard price. This test used to pin
+        $3.00 for September work -- the forecast, not the invoice."""
         spend.record(self.conn, "stance", "claude-sonnet-5",
-                     {"input_tokens": 1_000_000, "output_tokens": 0},
-                     dated="2026-08-24")
-        _rows, notes, total = spend.summary(self.conn)
-        self.assertAlmostEqual(total, 2.00, places=2)
-        self.assertTrue(any("INTRODUCTORY" in n for n in notes))
-
-    def test_the_standard_rate_applies_after(self):
-        spend.record(self.conn, "stance", "claude-sonnet-5",
-                     {"input_tokens": 1_000_000, "output_tokens": 0},
+                     {"input_tokens": 1_000_000, "output_tokens": 100_000},
                      dated="2026-09-07")
-        _rows, _notes, total = spend.summary(self.conn)
-        self.assertAlmostEqual(total, 3.00, places=2)
+        _rows, notes, total = spend.summary(self.conn)
+        self.assertAlmostEqual(total, 3.00, places=2)   # $2 input + $1 output
+        self.assertFalse(any("INTRODUCTORY" in n for n in notes))
+
+    def test_an_intro_rate_still_applies_before_it_lapses_and_says_so(self):
+        """The mechanism stays for the next model launched on one."""
+        saved = dict(spend.RATES)
+        try:
+            spend.RATES["some-intro-model"] = {"input": 3.00, "output": 15.00,
+                                               "intro": {"until": "2026-08-31",
+                                                         "input": 2.00, "output": 10.00}}
+            spend.record(self.conn, "stance", "some-intro-model",
+                         {"input_tokens": 1_000_000, "output_tokens": 0}, dated="2026-08-24")
+            _rows, notes, total = spend.summary(self.conn)
+            self.assertAlmostEqual(total, 2.00, places=2)
+            self.assertTrue(any("INTRODUCTORY" in n for n in notes))
+        finally:
+            spend.RATES.clear()
+            spend.RATES.update(saved)
+
+    def test_a_pass_spanning_a_rate_change_is_priced_per_day(self):
+        """It used to take the rate of the pass's LAST day for all of it."""
+        saved = dict(spend.RATES)
+        try:
+            spend.RATES["some-intro-model"] = {"input": 3.00, "output": 15.00,
+                                               "intro": {"until": "2026-08-31",
+                                                         "input": 2.00, "output": 10.00}}
+            for day in ("2026-08-30", "2026-09-02"):
+                spend.record(self.conn, "stance", "some-intro-model",
+                             {"input_tokens": 1_000_000, "output_tokens": 0}, dated=day)
+            _rows, _notes, total = spend.summary(self.conn)
+            self.assertAlmostEqual(total, 5.00, places=2, msg="$2 before + $3 after, not $6")
+        finally:
+            spend.RATES.clear()
+            spend.RATES.update(saved)
 
     def test_no_currency_conversion_is_invented(self):
         """A stored FX rate goes stale silently. Dollars are what the
