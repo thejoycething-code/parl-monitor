@@ -1499,6 +1499,21 @@ TABLES = (
     "eu_meps",
     "eu_divisions",
     "eu_votes",
+    # Canada (tools/ca_*.py). Created by src/ca_store.ensure_schema, which
+    # init_db calls: the Canadian tables stayed out of the shared schema while
+    # they were groundwork, and the "every table written is declared" test in
+    # tests/test_db.py caught that they were therefore never declared at all.
+    "ca_members",
+    "ca_divisions",
+    "ca_votes",
+    "ca_bills",
+    "ca_sittings",
+    "ca_speeches",
+    "ca_speaker_roles",
+    "ca_petitions",
+    "ca_senators",
+    "ca_gazette_issues",
+    "ca_gazette_items",
     "de_members",
     # The Bundestag's own register, a different id space from
     # abgeordnetenwatch's de_members above; the two join by name, never id.
@@ -1734,4 +1749,9 @@ def init_db(conn):
         # members stay NULL. Full-roster 5CA sheets select on this flag.
         conn.execute("ALTER TABLE members ADD COLUMN current_mp INTEGER")
     conn.commit()
+    # Canada's tables live in their own module (src/ca_store.py), with
+    # their own column migrations; they are created here so every store
+    # carries them and db.TABLES stays true.
+    from src import ca_store
+    ca_store.ensure_schema(conn)
     return conn

@@ -2,11 +2,12 @@
 Hansard, petitions, Senate votes and the Canada Gazette (phase 2).
 
 WHY A MODULE OF ITS OWN. Every other jurisdiction's schema lives in
-`src/db.py:init_db`. These four tables are kept here while the Canadian
-monitor is groundwork only, so a scoping build cannot collide with work in
-progress on the shared schema. `ensure_schema` is idempotent and every
-Canadian tool calls it; when the monitor is adopted, fold these statements
-into `init_db` and make this a re-export.
+`src/db.py`. These tables were kept here while the Canadian monitor was
+groundwork, so a scoping build could not collide with work in progress on the
+shared schema. Since phase 3 (26 September 2026) `db.init_db` calls
+`ensure_schema` and the names are in `db.TABLES`: tests/test_db.py fails any
+table written but not declared, and had been failing on these since phase 1.
+The statements stay here, idempotent, with their own column migrations.
 
 SEPARATION GUARANTEE. Nothing outside tools/ca_*.py reads or writes these
 tables, and nothing here touches a Westminster, devolved, EU or German table.
@@ -211,6 +212,15 @@ SCHEMA = (
 # would silently lack it; each is added here if missing.
 ADDED_COLUMNS = (
     ("ca_divisions", "abstentions", "INTEGER"),   # the Senate records them; the House does not
+    # Phase 3 (the 5CA). Sponsoring a private member's bill is a chosen act
+    # of advancing a text, so the sponsor must join to a member by id, never
+    # by name. LEGISinfo gives SponsorPersonId for House bills.
+    ("ca_bills", "sponsor_person_id", "TEXT"),
+    # 1 = on the House's CURRENT roster (members/en/search/xml with no
+    # parliament), 0 = has left. NULL = never checked. The 5CA lists everyone
+    # who cast a tracked vote and labels the departed former, so it needs to
+    # know which is which without guessing from dates the House never gives.
+    ("ca_members", "sitting", "INTEGER"),
 )
 
 

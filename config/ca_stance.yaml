@@ -1,0 +1,308 @@
+# Parliament of Canada: what a vote or a sponsorship MEANS, written by a human.
+#
+# The Canadian mirror of config/ni_stance.yaml, under the same rule: reading
+# a division's direction is the campaigner's judgement, and no tool estimates
+# it. tools/ca_5ca.py applies these lines; it never invents one.
+#
+# EVERY ENTRY BELOW IS A CLAUDE DRAFT (26 September 2026), and a draft
+# PLACES NOBODY. The sheet shows the vote as evidence and leaves the column
+# blank until Christopher confirms the reading by deleting `draft: true`.
+#
+# Three kinds of entry:
+#   * `yea:` / `nay:` values on the Westminster stance scale (-2..2), with
+#     why lines -- a reading that, once confirmed, places every member.
+#   * `placeable: false` with a reason -- the vote cannot tell members apart
+#     (unanimous) or is about procedure, not substance. Evidence only, for
+#     ever, confirmed or not.
+#   * `read_first:` with no values -- the text was not read, so no direction
+#     is proposed. The lobbies are recorded so the reader knows what to test
+#     a reading against. Fill in yea/nay only after reading.
+#
+# Keys are the store's: `commons-<parl>-<sess>-<number>` and
+# `senate-<parl>-<sess>-<details id>`; bills are `<parl>-<sess>/<number>`.
+#
+# VERIFIED FROM THE BILL TEXTS (26 September 2026), which the C-9 lines
+# rest on: the repeal of s.319(3)(b) -- the defence for opinions expressed
+# in good faith on religious subjects or texts -- was ADDED AT COMMITTEE
+# (C-9_2, "as amended by committee"; it is absent from first reading) and
+# survived to Royal Assent (C-9_4). The committee also struck "religion" from
+# the legitimate-purpose defence for displaying a hate symbol. The only
+# substantive Senate change that became law was adding "a noose" to the
+# banned symbols. A "for greater certainty" clause protecting "educational,
+# religious, political or scientific" statements made without wilfully
+# promoting hatred was in the House text and remains.
+#
+# The lobby lines (Party yea/nay) are counted from ca_votes, not remembered.
+
+divisions:
+  # --- Area 1: abortion ------------------------------------------------------
+  - key: commons-44-1-377
+    draft: true
+    title: "2nd reading of Bill C-311 (violence against pregnant women)"
+    dated: 2023-06-14
+    result: "Negatived 113-205"
+    lobbies: "Yea: Conservative 113. Nay: Liberal 148, Bloc 30, NDP 23, Green 2, Independent 2"
+    yea: 2
+    why_yea: >
+      Voted to advance a bill making the pregnancy of a victim an aggravating
+      factor at sentencing -- recognition of the unborn child in criminal law.
+    nay: -2
+    why_nay: >
+      Voted to stop, at second reading, a bill recognising a victim's
+      pregnancy as an aggravating factor at sentencing.
+
+  # --- Area 2: assisted dying -------------------------------------------------
+  - key: commons-44-1-423
+    draft: true
+    title: "2nd reading of Bill C-314 (MAID: mental illness as sole condition)"
+    dated: 2023-10-18
+    result: "Negatived 150-167"
+    lobbies: "Yea: Conservative 115, NDP 24, Liberal 8, Green 2, Ind 1. Nay: Liberal 136, Bloc 30, Ind 1"
+    yea: 2
+    why_yea: >
+      Voted to advance a bill excluding mental illness as the sole
+      underlying condition for MAID.
+    nay: -2
+    why_nay: >
+      Voted to stop a bill that would have kept MAID closed to people whose
+      sole condition is a mental illness.
+    note: >
+      The split is not a party line: 24 NDP members and 8 Liberals voted Yea.
+      Those 32 are the people this area's 5CA exists to find.
+
+  - key: commons-44-1-641
+    draft: true
+    title: "2nd reading of Bill C-62 (delay MAID for mental illness to 2027)"
+    dated: 2024-02-14
+    result: "Agreed 294-33"
+    lobbies: "Yea: Conservative 116, Liberal 150, NDP 24, Green 2, Ind 2. Nay: Bloc 32, Liberal 1"
+    yea: 1
+    why_yea: >
+      Voted to delay MAID for mental illness alone by three years. A delay,
+      not a repeal, so it is weaker evidence than C-314.
+    nay: -2
+    why_nay: >
+      Voted against delaying MAID for mental illness alone: for it opening in
+      March 2024 as scheduled.
+  - key: commons-44-1-646
+    draft: true
+    title: "3rd reading of Bill C-62 (delay MAID for mental illness to 2027)"
+    dated: 2024-02-15
+    result: "Agreed 272-32"
+    lobbies: "Yea: Conservative 106, Liberal 142, NDP 20, Green 1, Ind 3. Nay: Bloc 31, Liberal 1"
+    yea: 1
+    why_yea: "Voted to pass the three-year delay of MAID for mental illness alone."
+    nay: -2
+    why_nay: "Voted against passing the delay: for MAID for mental illness alone from March 2024."
+  - key: commons-44-1-640
+    draft: true
+    title: "2nd reading of Bill C-62 (reasoned amendment)"
+    dated: 2024-02-14
+    result: "Negatived 33-291"
+    lobbies: "Yea: Bloc 31, NDP 1, Ind 1. Nay: everyone else"
+    read_first: >
+      The reasoned amendment's text was not read. The Bloc lobby suggests it
+      opposed the delay, but that is an inference from who voted, and a
+      reading built on who voted is circular. Read Hansard, 14 February 2024.
+  - key: commons-44-1-874
+    draft: true
+    title: "Concurrence in the Second Report of the Special Joint Committee on MAID"
+    dated: 2024-10-31
+    result: "Agreed 209-114"
+    lobbies: "Yea: Liberal 149, Bloc 32, NDP 24, Green 2, Ind 2. Nay: Conservative 114"
+    read_first: >
+      What the Second Report recommended was not read. The party-line split is
+      clean, which makes it a strong vote once its meaning is known -- and a
+      misleading one if it is guessed.
+  - key: commons-44-1-638
+    placeable: false
+    title: "Government Business No. 34 (proceedings on C-62), amendment"
+    reason: "Programming of a bill's timetable: procedure, not substance."
+  - key: commons-44-1-639
+    placeable: false
+    title: "Government Business No. 34 (proceedings on C-62)"
+    reason: "Programming of a bill's timetable: procedure, not substance."
+
+  # --- Areas 6 and 7: children online, age verification -----------------------
+  - key: commons-44-1-609
+    draft: true
+    title: "2nd reading of Bill S-210 (young persons' online access to sexually explicit material)"
+    dated: 2023-12-13
+    result: "Agreed 189-133"
+    lobbies: "Yea: Conservative 115, Bloc 32, NDP 24, Liberal 15, Green 1, Ind 2. Nay: Liberal 131, Ind 1"
+    yea: 2
+    why_yea: "Voted to advance age verification for online pornography."
+    nay: -1
+    why_nay: >
+      Voted against age verification for online pornography. Scored -1, not
+      -2: opposition in this debate was argued on privacy grounds, and a
+      privacy objection is not hostility to protecting children.
+  - key: commons-44-1-758
+    placeable: false
+    title: "2nd reading of Bill C-270 (pornographic material)"
+    reason: "Unanimous (327-0): a vote everyone cast the same way tells no member apart."
+  - key: commons-44-1-221
+    placeable: false
+    title: "2nd reading of Bill C-291 (child sexual abuse and exploitation material)"
+    reason: "Unanimous (318-0)."
+  - key: commons-44-1-249
+    placeable: false
+    title: "3rd reading of Bill C-291"
+    reason: "Unanimous (323-0)."
+
+  # --- Areas 7 and 8: C-9, the Combatting Hate Act ---------------------------
+  - key: commons-45-1-86
+    draft: true
+    title: "Concurrence at report stage of Bill C-9"
+    dated: 2026-03-23
+    result: "Agreed 188-144"
+    lobbies: "Yea: Liberal 166, Bloc 22. Nay: Conservative 138, NDP 5, Green 1"
+    yea: -2
+    why_yea: >
+      Voted to concur in C-9 as amended by committee: the text that repeals
+      the religious-texts defence in s.319(3)(b).
+    nay: 1
+    why_nay: >
+      Voted against the committee's C-9, which repeals the religious-texts
+      defence. Scored +1, not +2: a Nay on the whole bill does not say which
+      part was objected to.
+  - key: commons-45-1-93
+    draft: true
+    title: "3rd reading of Bill C-9"
+    dated: 2026-03-25
+    result: "Agreed 186-137"
+    lobbies: "Yea: Liberal 164, Bloc 22. Nay: Conservative 131, NDP 5, Green 1"
+    yea: -2
+    why_yea: "Voted to pass C-9, repealing the religious-texts defence in s.319(3)(b)."
+    nay: 1
+    why_nay: "Voted against passing C-9, which repeals the religious-texts defence (+1: the whole bill, not the clause)."
+  - key: commons-45-1-92
+    draft: true
+    title: "Bill C-9 (recommittal to a committee)"
+    dated: 2026-03-25
+    result: "Negatived 123-190"
+    lobbies: "Yea: Conservative 122, Green 1. Nay: Liberal 163, Bloc 22, NDP 5"
+    read_first: >
+      A motion to send C-9 back to committee, apparently moved by the
+      opposition. If its instruction was to reinstate s.319(3)(b), a Yea is
+      +2 and the strongest C-9 evidence there is, because it is about the
+      clause and not the whole bill. Read the motion's text before scoring it.
+  - key: commons-45-1-167
+    draft: true
+    title: "Motion respecting Senate amendments to Bill C-9 (amendment)"
+    dated: 2026-06-17
+    result: "Negatived 132-184"
+    lobbies: "Yea: Conservative 126, NDP 4, Green 1, Ind 1. Nay: Liberal 165, Bloc 19"
+    read_first: "The amendment's text was not read."
+  - key: commons-45-1-168
+    draft: true
+    title: "Motion respecting Senate amendments to Bill C-9"
+    dated: 2026-06-17
+    result: "Agreed 189-128"
+    lobbies: "Yea: Liberal 164, Bloc 19, NDP 4, Green 1, Ind 1. Nay: Conservative 128"
+    read_first: >
+      Which Senate amendments this motion accepted and rejected was not read.
+      The Royal Assent text differs from the House's only by adding "a
+      noose", so any other Senate amendment was rejected here.
+  - key: commons-45-1-84
+    placeable: false
+    title: "Government Business No. 6 (proceedings on Bill C-9)"
+    reason: "Programming of a bill's timetable: procedure, not substance."
+  - key: commons-45-1-161
+    placeable: false
+    title: "Time allocation for Bill C-9"
+    reason: "Procedure, not substance."
+  - key: senate-45-1-700362
+    draft: true
+    title: "Combatting Hate Act – C-9 – Third Reading (Senate)"
+    dated: 2026-06-04
+    result: "Adopted 45-13-2"
+    lobbies: "Yea: ISG 26, PSG 9, CSG 5, GRO 4, Non-aff 1. Nay: C 7, ISG 4, CSG 2"
+    yea: -2
+    why_yea: "Voted to pass C-9, repealing the religious-texts defence in s.319(3)(b)."
+    nay: 1
+    why_nay: "Voted against passing C-9, which repeals the religious-texts defence (+1: the whole bill, not the clause)."
+  - key: senate-45-1-700344
+    draft: true
+    title: "Combatting Hate Act – C-9 – Third Reading – Amendment (Sen. Martin)"
+    dated: 2026-06-04
+    result: "Defeated 21-40-2"
+    lobbies: "Yea: C 8, CSG 7, PSG 3, ISG 2, Non-aff 1. Nay: ISG 27, PSG 6, GRO 4, CSG 3"
+    read_first: >
+      Senator Martin's amendment was not read. If it restored s.319(3)(b), a
+      Yea is +2 and a Nay -2, and this is the most discriminating C-9 vote in
+      either House (the CSG split 7-3). Read the Senate Journals for 4 June 2026.
+  - key: senate-45-1-699935
+    draft: true
+    title: "Combatting Hate Act – C-9 – RIDR Report No. 3 with amendments (Senate)"
+    dated: 2026-06-03
+    result: "Defeated 32-41-2"
+    lobbies: "Yea: ISG 23, PSG 5, CSG 4. Nay: CSG 12, ISG 9, PSG 8, C 7, GRO 5"
+    read_first: >
+      What the committee's amendments did was not read. The Conservatives voted
+      against the report, which is a warning against assuming its amendments
+      were ours.
+
+  # --- Areas 5 and 6: C-16, the Protecting Victims Act -------------------------
+  # NOT DRAFTED, deliberately. C-16 matched on its title words ("child
+  # protection, gender-based violence") and nobody here has read whether
+  # CitizenGO has a position on it at all. Its eight divisions (45-1: 134-137,
+  # 153; Senate 702758) appear in the sheets as evidence and place nobody.
+  # Decide first whether it is ours; then read the amendments.
+
+# Sponsoring a private member's bill is a chosen act of advancing a text, the
+# Canadian equivalent of proposing a motion (NI) or sponsoring an EDM. A
+# government bill's sponsor is the minister, which is office, not choice:
+# those carry no `sponsored` value.
+bills:
+  - key: 44-1/C-311
+    draft: true
+    title: "Violence Against Pregnant Women Act"
+    sponsor: "Cathay Wagantall (no longer on the House roster, 26 September 2026)"
+    sponsored: 2
+    why_sponsored: "Sponsored a bill recognising a victim's pregnancy as an aggravating factor at sentencing."
+  - key: 44-1/C-314
+    draft: true
+    title: "MAID: mental illness as sole condition"
+    sponsor: "Ed Fast"
+    sponsored: 2
+    why_sponsored: "Sponsored a bill keeping MAID closed where mental illness is the sole condition."
+  - key: 45-1/C-218
+    draft: true
+    title: "Criminal Code (medical assistance in dying)"
+    sponsor: "Tamara Jansen"
+    sponsored: 2
+    why_sponsored: >
+      Sponsored C-218; the petitions presented for it (451-01196 and others)
+      describe it as keeping MAID closed to mental illness as the sole condition.
+      Read the bill before confirming.
+  - key: 45-1/C-260
+    draft: true
+    title: "Criminal Code (MAID -- protection against coercion)"
+    sponsor: "Garnett Genuis"
+    sponsored: 2
+    why_sponsored: "Sponsored a bill adding protections against coercion into MAID."
+  - key: 44-1/C-270
+    draft: true
+    title: "Criminal Code (pornographic material)"
+    sponsor: "Arnold Viersen"
+    sponsored: 2
+    why_sponsored: "Sponsored a bill requiring proof of age and consent for pornographic material."
+  - key: 45-1/C-216
+    draft: true
+    title: "Protection of Minors in the Digital Age Act"
+    sponsor: "Michelle Rempel Garner"
+    sponsored: 1
+    why_sponsored: "Sponsored a bill on children's safety online. +1 until its text is read."
+  - key: 45-1/C-255
+    draft: true
+    title: "Criminal Code (mischief -- religious property)"
+    sponsor: "Kelly Block"
+    sponsored: 1
+    why_sponsored: "Sponsored a bill on mischief against religious property."
+  - key: 45-1/C-290
+    draft: true
+    title: "Criminal Code (theft of property of cultural or religious significance)"
+    sponsor: "Garnett Genuis"
+    sponsored: 1
+    why_sponsored: "Sponsored a bill on theft from places of worship."

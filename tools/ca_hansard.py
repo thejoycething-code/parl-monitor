@@ -174,6 +174,28 @@ def load_roster(conn, client, parliament, today):
     return n
 
 
+CURRENT_ROSTER = "https://www.ourcommons.ca/members/en/search/xml"
+
+
+def mark_sitting(conn, client, today):
+    """Set ca_members.sitting from the House's CURRENT roster: 1 for everyone
+    on it, 0 for every other member we hold. Returns the sitting count.
+
+    The parliament roster (?parliament=45) is NOT this: it returned 349 for a
+    343-seat House on 26 September 2026, because it keeps everyone who served
+    in the Parliament, including those who left at by-elections."""
+    text = client.get_text(CURRENT_ROSTER, FEED, "roster-current", archive=False)
+    ids = {(m.findtext("PersonId") or "").strip() for m in ET.fromstring(text)}
+    ids.discard("")
+    if not ids:
+        raise ValueError("the current roster parsed to nobody")
+    conn.execute("UPDATE ca_members SET sitting=0")
+    conn.executemany("UPDATE ca_members SET sitting=1 WHERE person_id=?",
+                     [(i,) for i in ids])
+    conn.commit()
+    return len(ids)
+
+
 def _all_text(el):
     return " ".join("".join(el.itertext()).split())
 
@@ -418,7 +440,9 @@ def main():
     else:
         conn = ca_store.ensure_schema(db.init_db(db.connect(args.db)))
     members = load_roster(conn, client, parl, today)
-    print("ca-hansard: {0}, roster of {1} member(s)".format(args.session, members))
+    sitting = mark_sitting(conn, client, today)
+    print("ca-hansard: {0}, roster of {1} member(s), {2} sitting now".format(
+        args.session, members, sitting))
     read, stored, gaps, frontier = pull(
         conn, client, today, session=args.session, start=args.start, limit=args.limit,
         budget=drain.Budget(args.budget_seconds), dry_run=args.dry_run)

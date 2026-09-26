@@ -61,6 +61,9 @@ WATCHLIST = os.path.join(ROOT, "config", "watchlist-ca.yaml")
 DIVISIONS = "https://www.ourcommons.ca/members/en/votes/xml?parlSession={0}"
 DIVISION = "https://www.ourcommons.ca/members/en/votes/{0}/{1}/{2}/xml"
 BILLS = "https://www.parl.ca/legisinfo/en/bills/json?parlsession={0}"
+# The LIST leaves every sponsor field empty (SponsorPersonName is " " for all
+# 187 bills of 45-1, measured 26 September 2026); the per-bill DETAIL has them.
+BILL = "https://www.parl.ca/legisinfo/en/bill/{0}/{1}/json"
 BUDGET_S = drain.DEFAULT_S
 # Migration is collated, never campaigned (src/partner.py HIDDEN_AREAS). It
 # still gets an area -- the row is honest about what it is -- but it does not
@@ -268,9 +271,10 @@ def pull_bills(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None):
             "INSERT INTO ca_bills (bill_key, parliament, session, number, "
             "legisinfo_id, long_title, short_title, status, is_government, "
             "sponsor, latest_event, latest_event_at, royal_assent_at, areas, "
-            "matched_terms, tier, first_seen, last_seen) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+            "matched_terms, tier, first_seen, last_seen, sponsor_person_id) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
             "ON CONFLICT(bill_key) DO UPDATE SET long_title=excluded.long_title, "
+            "sponsor_person_id=excluded.sponsor_person_id, "
             "short_title=excluded.short_title, status=excluded.status, "
             "sponsor=excluded.sponsor, latest_event=excluded.latest_event, "
             "latest_event_at=excluded.latest_event_at, "
@@ -281,13 +285,49 @@ def pull_bills(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None):
              str(b.get("Id") or ""), b.get("LongTitleEn"),
              b.get("ShortTitleEn") or None, b.get("StatusNameEn"),
              None if b.get("IsGovernmentBill") is None else int(bool(b.get("IsGovernmentBill"))),
-             b.get("SponsorPersonName"), b.get("LatestBillEventTypeNameEn"),
+             (b.get("SponsorPersonName") or "").strip() or None, b.get("LatestBillEventTypeNameEn"),
              b.get("LatestBillEventDateTime"), b.get("ReceivedRoyalAssentDateTime"),
              json.dumps(res.issue_areas or []),
              json.dumps((res.matched_terms or []) + (res.watchlist_hits or [])),
-             res.tier, today, today))
+             res.tier, today, today,
+             str(b.get("SponsorPersonId")) if b.get("SponsorPersonId") else None))
     conn.commit()
     return len(bills), ours
+
+
+def fill_sponsors(conn, client, today, session=CURRENT_SESSION, log=print, budget=None):
+    """Fetch the detail record for each bill ON OUR GROUND that has no sponsor
+    yet, and store the sponsor's name and PersonId. Returns (filled, gaps).
+
+    Sponsorship is evidence in the 5CA (a chosen act of advancing a text), so
+    only our bills are worth the call; the rest keep a NULL sponsor."""
+    parl, sess = parse_session(session)
+    rows = conn.execute("SELECT bill_key, number, areas FROM ca_bills WHERE parliament=? "
+                        "AND session=? AND sponsor_person_id IS NULL",
+                        (parl, sess)).fetchall()
+    filled = gaps = 0
+    for key, number, areas in rows:
+        if not on_our_ground(json.loads(areas or "[]")):
+            continue
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("bill sponsors", filled))
+            break
+        try:
+            d = client.get_json(BILL.format(session, number.lower()), FEED,
+                                "bill-{0}-{1}".format(session, number), archive=False)
+        except (FetchError, ValueError) as exc:
+            _gap(conn, today, "{0}: {1}".format(key, exc))
+            gaps += 1
+            continue
+        d = (d[0] if isinstance(d, list) and d else d) or {}
+        pid = d.get("SponsorPersonId")
+        if not pid:
+            continue
+        conn.execute("UPDATE ca_bills SET sponsor=?, sponsor_person_id=? WHERE bill_key=?",
+                     ((d.get("SponsorPersonName") or "").strip() or None, str(pid), key))
+        filled += 1
+    conn.commit()
+    return filled, gaps
 
 
 def reclassify(conn, tax=None, wl=None, log=print):
@@ -370,7 +410,10 @@ def main():
     if not args.no_bills:
         blisted, bours = pull_bills(conn, client, today, session=args.session,
                                     tax=tax, wl=wl)
-        print("  {0} bill(s) listed, {1} on our ground.".format(blisted, bours))
+        filled, sgaps = fill_sponsors(conn, client, today, session=args.session)
+        gaps += sgaps
+        print("  {0} bill(s) listed, {1} on our ground, {2} sponsor(s) filled.".format(
+            blisted, bours, filled))
     summary(conn)
     conn.close()
     return 1 if gaps else 0

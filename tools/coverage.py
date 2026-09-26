@@ -194,7 +194,15 @@ PIPELINE_FEEDS = {
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {}
+# Canada's collectors exist but nothing schedules them (26 September 2026).
+# A table here must move into FEEDS the day a Canadian workflow runs, or a
+# weekly that silently stops will look exactly like one that was never set up.
+_CA_DORMANT = ("Canada (tools/ca_*.py) is built but DORMANT: no workflow runs "
+               "it, so there is no cadence to watch yet. Move this table into "
+               "FEEDS the day a Canadian weekly is scheduled "
+               "(docs/canada-scope.md).")
+EXEMPT = {table: _CA_DORMANT for table in (
+    "ca_bills", "ca_divisions", "ca_members", "ca_petitions", "ca_senators")}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they

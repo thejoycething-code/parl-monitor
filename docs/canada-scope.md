@@ -381,6 +381,129 @@ The weekly load is about:
 - 2 Gazette issues;
 - the Senate's vote list.
 
+## Phase 3: the Canadian 5CA, built 26 September 2026
+
+`tools/ca_5ca.py` writes one sheet per area and chamber to
+`data/5ca/ca-5ca-<chamber>-<area>.csv`. The filenames are stable, so reruns
+overwrite rather than pile up in git. It reads the store only. The meanings
+come from `config/ca_stance.yaml`, the Canadian mirror of
+`config/ni_stance.yaml`.
+
+### The rule, and why nothing is placed yet
+
+A person writes what a Yea on a division meant, and the tool applies it.
+**Every one of the 30 entries was drafted by Claude**, so:
+
+- 16 readings carry `draft: true`;
+- 7 entries are `read_first`, meaning the text wasn't read and no direction
+  is proposed;
+- 7 are `placeable: false`: unanimous votes, or procedural ones.
+
+A draft places nobody, so every sheet today lists evidence and leaves every
+column blank. That is the design. Confirming a reading means deleting its
+`draft: true` line. A `read_first` entry needs its text read and its yea/nay
+values written; deleting its draft flag alone confirms nothing, and the tool
+treats it as unread.
+
+**What can place a member once confirmed:**
+
+- a recorded **vote** (weight 5);
+- **sponsoring a private member's bill** (weight 3). Sponsors come from
+  LEGISinfo's detail record: the bill *list* leaves every sponsor field
+  blank, which I measured for all 187 bills of 45-1.
+
+**What never places anyone:**
+
+- **speeches**: activity, not direction;
+- **petitions**: the House says presenting one doesn't imply endorsement;
+- **paired votes and Senate abstentions**: no direction is recorded.
+
+### What the C-9 readings rest on, checked against the bill texts
+
+- **The repeal of s.319(3)(b) was added at committee.** That is the defence
+  for good-faith opinions on religious subjects or texts. It is absent at
+  first reading, present in "as amended by committee", and in the Royal
+  Assent text.
+- **The committee also struck "religion"** from the legitimate-purpose
+  defence for displaying a hate symbol.
+- **The Senate's only substantive change that became law was adding "a
+  noose"** to the banned symbols. So every Senate attempt on the religious
+  defence failed.
+- **A for-greater-certainty clause remains**, protecting "educational,
+  religious, political or scientific" statements made without wilfully
+  promoting hatred.
+
+**A Nay on C-9's third reading is drafted at +1, not +2.** It opposes the
+whole bill, not the clause. The strongest C-9 evidence would be:
+
+- the House recommittal motion of 25 March 2026 (123-190);
+- Senator Martin's amendment of 4 June 2026 (21-40-2). The CSG split 7-3 on
+  it, which makes it the most discriminating vote in either House.
+
+Both are `read_first`, because their texts were not read. A reading built on
+who voted is circular.
+
+### Three rules carried over from Westminster, each with a test
+
+- **The absence cap.** A member at ++ is capped at + if they missed the
+  area's latest *decisive* signed division, having voted elsewhere in that
+  session. "Decisive" means our side scores +2. The first version counted
+  C-62, whose Nay scores −2 but whose Yea is only +1. It capped 14 C-314 Yea
+  voters, Chris Warkentin among them, for missing a delay vote.
+- **The lobby check.** Sitting ++ against the size of our lobby on that
+  division. It applies only when our side scores +2. The first preview
+  raised a false alarm on C-9's third reading, where our side scores +1 and
+  ++ rests on older votes.
+- **Everyone who voted is listed; the totals count sitting members only.**
+  - Former members are labelled, and not counted.
+  - `ca_members.sitting` comes from the House's *current* roster. The
+    parliament roster (`?parliament=45`) returned 349 for a 343-seat House,
+    because it keeps members who have left.
+  - Cathay Wagantall, C-311's sponsor, spoke on 17 June 2026 and is not on
+    today's roster. Her seat, Yorkton—Melville, has no member at all.
+
+### Preview: what confirming every draft as written would produce
+
+Scratch data, not the store; `--stance` points at a copy with the drafts
+removed.
+
+| Sheet (Commons) | ++ | + | 0 | - | -- | Check |
+|---|---|---|---|---|---|---|
+| Abortion (C-311 only) | 88 | 0 | 134 | 0 | 115 | ++ 88 against a lobby of 113 |
+| Assisted dying | 104 | 8 | 125 | 0 | 100 | ++ 104 against a lobby of 150 on C-314 |
+| Parental rights / education | 124 | 0 | 134 | 79 | 0 | ++ 124 against a lobby of 189 on S-210 |
+| Freedom of religion (C-9 only) | 0 | 143 | 10 | 0 | 184 | C-9 scores our side +1 |
+
+The Senate sheets on free speech and religion come out 0 / 13 / 37 / 0 / 45:
+the 13 who voted against C-9 at third reading, and the 45 who voted for it.
+
+### Also fixed on the way: the Canadian tables were never declared
+
+Since phase 1, `tests/test_db.py` had been failing its check that every table
+written is declared. The Canadian tables lived in `src/ca_store.py`, outside
+the shared schema, and so outside `db.TABLES`. That check runs inside the
+**Deploy tracker** workflow. It had not been dispatched since, so nothing was
+blocked, but the next deploy would have been.
+
+- `db.init_db` now calls `ca_store.ensure_schema`, and the eleven tables are
+  in `db.TABLES`.
+- `tools/coverage.py` exempts the five Canadian tables that have a sighting
+  column, with the reason that nothing schedules them. They must move into
+  FEEDS the day a Canadian weekly runs.
+- The full suite passes: 2,273 tests.
+
+### What Christopher decides
+
+1. **Confirm or correct the 16 drafts.** The C-9 lines, and the −1 on an
+   S-210 Nay (privacy, not hostility), are the ones most worth a second
+   look.
+2. **Read and score the 7 `read_first` entries**, starting with the Martin
+   amendment and the recommittal motion.
+3. **Decide whether C-16 (the Protecting Victims Act) is ours at all.** Its
+   eight divisions are evidence only until then.
+4. **Say whether the sheets go anywhere.** They are written locally and
+   posted nowhere, like every other 5CA.
+
 ## Proposed phasing
 
 1. **Phase 1 (done): House divisions, positions, bills.** Schedule it weekly
@@ -388,12 +511,9 @@ The weekly load is about:
    of detail calls a week.
 2. **Phase 2 (done): Hansard, petitions, Senate votes, the Canada
    Gazette.** All four are dormant until there is an edition to read them.
-3. **Phase 3: the Canadian 5CA.** A division's meaning is signed by hand here
-   as everywhere. Candidates already in the store include C-311 (2023),
-   C-314 (2023), C-62 (2024), both S-210/C-270 age-verification votes, and C-9
-   in both Houses. Two of these have no Westminster analogue: a whipped
-   government MAID bill (C-62), and a Senate that amends and is overruled
-   (C-9, June 2026).
+3. **Phase 3 (built, awaiting sign-off): the Canadian 5CA.** See below.
+   Every reading is a draft, so every sheet is an evidence list until
+   Christopher confirms readings in `config/ca_stance.yaml`.
 4. **Phase 4, if wanted: provinces.** Alberta, Saskatchewan and Ontario come
    first on our ground. Quebec comes only with a French term layer.
 
