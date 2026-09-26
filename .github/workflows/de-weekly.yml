@@ -163,7 +163,13 @@ jobs:
         # Reads the speeches the step above judged. Scored once per speech,
         # so the weekly cost is the week's NEW speeches. Spend lands in
         # api_spend as 'de-stance'.
-        run: python3 tools/de_stance.py | tee /tmp/de-stance.log
+        #
+        # --limit 200 (26 September 2026): ten calls of twenty, newest first.
+        # Uncapped, the first Sunday after a backfill would try ~200 calls
+        # inside a 45-minute wall, and a job killed by its timeout never
+        # reaches "Publish the store" -- the whole week's work lost. The
+        # backlog drains in .github/workflows/de-backfill.yml instead.
+        run: python3 tools/de_stance.py --limit 200 | tee /tmp/de-stance.log
       - name: Draft Campaigns Briefs for new score-3 subjects
         # AFTER triage and stance, because score 3 is what makes a subject
         # brief-worthy and the brief quotes the stance placements. One brief

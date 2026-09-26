@@ -36,6 +36,7 @@ on:
       # was written and went dark for eleven days with nobody told.
       - "Germany weekly"
       - "Canada weekly"
+      - "Germany backfill"
       - "Coverage watch"
       # Member profiles pulls service history, party spells and contact
       # details for every chamber. It was in neither this list nor

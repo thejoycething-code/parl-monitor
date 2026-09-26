@@ -1,0 +1,142 @@
+name: Germany backfill
+# ONE-OFF, HAND-DISPATCHED, ANNOUNCED (the rule bought by the Bundestag IP
+# block of 24 September 2026: backfills run from CI, paced, and are said out
+# loud first). Built 26 September 2026 for Christopher's backfill to 2020.
+#
+# WHAT IT BACKFILLS, AND WHAT IT DELIBERATELY DOES NOT:
+#   * Bundestag plenary protocols since `since` (400 of them from 2020-01-01
+#     to 2026-06-24, per DIP) -> de_speeches on our ground, which feed the
+#     German stance placements. SAFE for the edition: its speech section is
+#     windowed to the last 45 days by the speech's own date.
+#   * The 2017-2021 Bundestag's recorded votes (abgeordnetenwatch
+#     legislature 111), the 2020-21 end of which is inside the window.
+#   * NOT Vorgänge, committee reports or amendments. tools/de_monitor.py
+#     lists every matched row of those EVER, unscored first, so ~930
+#     2020-2023 Vorgänge would lead the next German edition and DM. They wait
+#     for the edition to gain a date window -- a product decision, not a
+#     backfill's to make quietly.
+#
+# THEN IT JUDGES AND PLACES, IN BOUNDED CHUNKS. ~5,500 speeches is ~1,400
+# triage calls and ~200 stance calls: hours. Each step has a cap and a clock
+# well inside the job's wall, because a job killed by its timeout never
+# reaches "Publish the store" and loses everything. A run that stops short
+# simply leaves a smaller queue: dispatch it again. Measured cost, 26 Sept
+# 2026, at Sonnet 5's $2/$10: about $0.0017 per triaged row and $0.004 per
+# placed speech -- about $25-35 for the whole backlog, recorded in api_spend
+# as 'de-triage' and 'de-stance' like every other German call.
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Earliest protocol date to read (YYYY-MM-DD)"
+        required: true
+        default: "2020-01-01"
+      protocols:
+        description: "Protocols to read this run (400 covers 2020 to June 2026)"
+        required: true
+        default: "450"
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    # The wall. The step budgets below add up to well under it: protocols
+    # (~40 min at a few seconds each), triage (90 min clock), stance (40
+    # calls), publish.
+    timeout-minutes: 300
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml pypdf
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
+      - name: Write secrets file
+        # anthropic_api_key for the judge and the stance pass; dip_api_key
+        # for the protocols. No Slack: a backfill posts nothing.
+        run: |
+          cat > config/secrets.yaml <<EOF
+          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
+          dip_api_key: "${{ secrets.DIP_API_KEY }}"
+          EOF
+      - name: The 2017-2021 Bundestag's recorded votes
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/de_rollcalls.py --parliament 5 --legislature 111 | tee /tmp/de-bf-rollcalls.log
+      - name: Plenary protocols since the chosen date
+        # Each protocol is read ONCE (de_protocols), so a re-dispatch reads
+        # only what the last one did not reach.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/de_speeches.py --since "${{ inputs.since }}" --limit "${{ inputs.protocols }}" | tee /tmp/de-bf-speeches.log
+      - name: Judge the backlog (newest first, 90-minute clock)
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/de_triage.py --limit 6000 --budget-seconds 5400 | tee /tmp/de-bf-triage.log
+      - name: Place members from their speeches (40 calls a run)
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/de_stance.py --limit 800 | tee /tmp/de-bf-stance.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Germany backfill"
+            echo '```'
+            grep -hE "de-rollcalls:|de-speeches:|de-triage:|de-stance:|disclosed|\[gap\]" \
+              /tmp/de-bf-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            echo '```'
+            TOTAL=$({ grep -hc "\[gap\]" /tmp/de-bf-*.log 2>/dev/null \
+                      || true; } | awk '{s+=$1} END {print s+0}')
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step log."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the raw archive
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --push
+      - name: Publish the store
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --push
+      - name: Commit state
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ reviews/
+          git diff --cached --quiet || git commit -m "Germany backfill: $(date -u +%Y-%m-%dT%H:%M)Z"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
+            git push && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi

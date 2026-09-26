@@ -220,6 +220,9 @@ ON_DEMAND = {
                          "when the taxonomy or the cutoff changes.",
     "Score stance": "workflow_dispatch only: scores outstanding refs "
                     "when someone asks for it.",
+    "Germany backfill": "workflow_dispatch only: the one-off read of Bundestag "
+                        "protocols and votes back to 2020, then its judging in "
+                        "bounded chunks; re-dispatched until the queue is empty.",
 }
 
 # Written once per item and never re-stamped, so an old date means "no new

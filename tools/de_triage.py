@@ -30,7 +30,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, evalbank, spend, triage  # noqa: E402
+from src import db, drain, evalbank, spend, triage  # noqa: E402
 
 # table -> (key column, text columns joined for the judge)
 SOURCES = {
@@ -64,6 +64,21 @@ SOURCES = {
 EXEMPT = {}
 
 SLICE = 4
+# A CAP AND A CLOCK (26 September 2026). This tool scored EVERYTHING pending
+# in one go, which was right while a week meant tens of rows. A backfill to
+# 2020 queues ~5,500 speeches: ~1,400 calls, hours of wall time, inside a
+# weekly job with a 45-minute wall -- and a job killed by its timeout never
+# reaches "Publish the store", so the whole Sunday's work would be lost, every
+# Sunday. Now at most LIMIT rows a run, newest first, inside BUDGET_S; the
+# rest waits, disclosed, for the next run. 400 is several ordinary weeks.
+LIMIT = 400
+BUDGET_S = 900.0
+# Each judged table's own date column, so the queue can put the NEWEST first:
+# a 2020 backlog must never delay this week's items from being judged.
+DATE_COL = {"de_documents": "datum", "de_vorgaenge": "datum", "de_divisions": "date",
+            "de_agenda": "date", "de_speeches": "date", "de_petitions": "first_seen",
+            "de_judgments": "first_seen", "de_amendments": "datum",
+            "de_committee_reports": "datum"}
 
 
 def ensure_columns(conn):
@@ -76,7 +91,8 @@ def ensure_columns(conn):
 
 
 def pending(conn):
-    items = []
+    """Every unscored row on our ground, NEWEST FIRST across all tables."""
+    dated = []
     for table, (key, textcols) in SOURCES.items():
         # An inherited division is judged through the document it took its
         # ground from, never on its own: one judgement per document, not one
@@ -87,6 +103,8 @@ def pending(conn):
             "AND triage_score IS NULL{1}".format(table, extra)).fetchall()
         for r in rows:
             keys = r.keys()
+            col = DATE_COL.get(table)
+            when = str(r[col] or "") if col and col in keys else ""
             text = " ".join((r[c] or "") for c in textcols if c in keys).strip()[:300]
             # A TITLE THE JUDGE CAN READ. de_speeches has neither `titel`
             # nor `label`, so every speech reached the judge titled "?" --
@@ -106,11 +124,12 @@ def pending(conn):
                 title = "{0}{1}".format(r["speaker"] or "?",
                                         ": " + said if said else "")
             title = title or "?"
-            items.append(triage.TriageItem(
+            dated.append((when[:10], triage.TriageItem(
                 id="{0}:{1}".format(table, r[key]), title=title, text=text,
                 tier=r["tier"] if "tier" in keys else 2,
-                issue_areas=json.loads(r["areas"] or "[]"), watchlist_hit=False))
-    return items
+                issue_areas=json.loads(r["areas"] or "[]"), watchlist_hit=False)))
+    dated.sort(key=lambda x: x[0], reverse=True)
+    return [item for _when, item in dated]
 
 
 def propagate(conn):
@@ -163,7 +182,17 @@ def main():
     if carried:
         print("de-triage: {0} inherited division(s) took their document's score."
               .format(carried))
-    items = pending(conn)
+    limit = LIMIT
+    if "--limit" in sys.argv:
+        limit = int(sys.argv[sys.argv.index("--limit") + 1])
+    budget_s = BUDGET_S
+    if "--budget-seconds" in sys.argv:
+        budget_s = float(sys.argv[sys.argv.index("--budget-seconds") + 1])
+    queued = pending(conn)
+    items = queued[:limit]
+    if len(queued) > len(items):
+        print("de-triage: {0} row(s) unscored; judging the newest {1} this run, "
+              "the rest wait -- disclosed, not silent.".format(len(queued), len(items)))
     if not items:
         print("de-triage: nothing unscored.")
         conn.close()
@@ -200,7 +229,12 @@ def main():
         return score_chunk(chunk[:half]) + score_chunk(chunk[half:])
 
     results = []
+    budget = drain.Budget(budget_s)
     for start in range(0, len(items), SLICE):
+        if budget.exhausted():
+            print("  " + budget.disclose("triage slices", start // SLICE))
+            items = items[:start]      # bank only what was actually judged
+            break
         results.extend(score_chunk(items[start:start + SLICE]))
     apply(conn, [r for r in results if r.score is not None])
 

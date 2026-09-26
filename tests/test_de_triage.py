@@ -116,6 +116,22 @@ class PendingTests(unittest.TestCase):
         item = next(i for i in det.pending(conn) if i.id == "de_documents:drucksache:21/1")
         self.assertIn("Leihmutterschaft", item.text)
 
+    def test_the_queue_is_newest_first_across_tables(self):
+        """A 2020 backlog must never delay this week's items being judged."""
+        conn = store()
+        for sid, proto, when in (("old", "19/150", "2020-03-04"), ("new", "21/96", "2026-09-25")):
+            conn.execute("INSERT INTO de_speeches (speech_id, protocol, date, speaker, areas, "
+                         "excerpt, first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?)",
+                         (sid, proto, when, "A", "[2]", "x", "2026-09-26", "2026-09-26"))
+        conn.commit()
+        ids = [i.id for i in det.pending(conn) if i.id.startswith("de_speeches")]
+        self.assertEqual(ids[:2], ["de_speeches:new", "de_speeches:old"])
+
+    def test_the_run_is_capped(self):
+        self.assertGreater(det.LIMIT, 0)
+        self.assertLess(det.BUDGET_S, 45 * 60,
+                        "the budget must end well inside the weekly's 45-minute wall")
+
     def test_rescore_requeues_one_row_and_refuses_an_unknown_table(self):
         conn = store(); self._seed(conn)
         conn.execute("UPDATE de_vorgaenge SET triage_score = 0, why_it_matters = 'noise'")
