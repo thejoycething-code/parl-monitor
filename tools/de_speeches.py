@@ -129,7 +129,7 @@ def reresolve(conn, log=print):
     return fixed, len(rows)
 
 
-def protocols(client, key, since, limit, log=print):
+def protocols(client, key, since, limit, log=print, until=None):
     """Sitting-day protocols from DIP, newest first, with their full text.
 
     PAGED. The endpoint returns TEN per page and carries a cursor, so the
@@ -144,13 +144,23 @@ def protocols(client, key, since, limit, log=print):
     skipped by the caller on emptiness, not by date, so a late-published
     Bericht is picked up whenever it lands.
     """
+    # UNTIL, AND ENOUGH PAGES FOR THE LIMIT (26 September 2026). The first
+    # backfill to 2020 read 188 of ~400 protocols and could never have read
+    # more: dip.pages stops at 20 pages (200 documents), newest first, and
+    # protocols already read count toward it -- so re-running the same
+    # `since` pages the same newest 200 again and reads nothing new. Pages
+    # now scale with `limit`, and `until` (DIP's f.datum.end) lets a run
+    # start where the last one stopped.
+    params = {"f.zuordnung": "BT", "f.datum.start": since}
+    if until:
+        params["f.datum.end"] = until
     out = []
     try:
         for reply in dip.pages(client, "plenarprotokoll-text", key,
                                feed="de-speeches",
-                               slug="protokolle-" + since, log=log,
-                               **{"f.zuordnung": "BT",
-                                  "f.datum.start": since}):
+                               slug="protokolle-{0}-{1}".format(since, until or "now"),
+                               log=log, limit_pages=max(20, limit // 10 + 2),
+                               **params):
             for doc in reply.get("documents") or []:
                 if (doc.get("text") or "").strip():
                     out.append(doc)
@@ -163,7 +173,7 @@ def protocols(client, key, since, limit, log=print):
 
 
 def store(conn, client, key, today, tax, wl, since, limit, log=print,
-          dry_run=False, source="dip"):
+          dry_run=False, source="dip", until=None):
     # Two sources, one shape. DIP returns the Bericht as text for one cheap
     # call; the Bundestag's own PDF route needs no key at all but costs
     # 1.7 MB and about four seconds of extraction a sitting. Measured
@@ -174,7 +184,7 @@ def store(conn, client, key, today, tax, wl, since, limit, log=print,
         from src import de_btp
         docs = de_btp.protocols(client, since, limit, log=log)
     else:
-        docs = protocols(client, key, since, limit, log=log)
+        docs = protocols(client, key, since, limit, log=log, until=until)
     read = stored = 0
     for doc in docs:
         number = doc.get("dokumentnummer") or ""
@@ -252,7 +262,12 @@ def main():
                          "keyless route, for the day DIP refuses us")
     ap.add_argument("--dry-run", action="store_true",
                     help="parse and count, store nothing")
+    ap.add_argument("--until", help="ISO date: read protocols up to here "
+                                    "(DIP f.datum.end), to reach past the newest "
+                                    "ones a backfill has already read")
     args = ap.parse_args()
+    if args.until and args.source == "pdf":
+        ap.error("--until is a DIP filter; the PDF route has no date window")
 
     since = args.since or (datetime.date.today()
                            - datetime.timedelta(days=LOOKBACK_DAYS)).isoformat()
@@ -279,9 +294,10 @@ def main():
     key = None if args.source == "pdf" else dip.api_key(client=client)
 
     read, stored = store(conn, client, key, today, tax, wl, since, args.limit,
-                         dry_run=args.dry_run, source=args.source)
-    print("de-speeches: {0} protocol(s) read since {1}, {2} speech(es) on our "
-          "ground{3}.".format(read, since, stored,
+                         dry_run=args.dry_run, source=args.source, until=args.until)
+    print("de-speeches: {0} protocol(s) read since {1}{2}, {3} speech(es) on our "
+          "ground{4}.".format(read, since,
+                              " until " + args.until if args.until else "", stored,
                               " (dry run, nothing stored)" if args.dry_run
                               else ""))
     conn.close()

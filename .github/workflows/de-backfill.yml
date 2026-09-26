@@ -35,6 +35,13 @@ on:
         description: "Protocols to read this run (400 covers 2020 to June 2026)"
         required: true
         default: "450"
+      until:
+        # The first run read the newest 188 (back to where its page cap
+        # stopped). Set this to the oldest protocol date already read to
+        # reach the rest; blank reads up to today.
+        description: "Read protocols up to this date (YYYY-MM-DD, blank = today)"
+        required: false
+        default: ""
       # The two clocks are INPUTS so a run can be sized to the gap it is
       # dispatched into. Fifteen workflows share the state group and GitHub
       # keeps ONE pending run: a backfill still holding the group when two
@@ -102,7 +109,10 @@ jobs:
         # Each protocol is read ONCE (de_protocols), so a re-dispatch reads
         # only what the last one did not reach.
         if: always() && steps.fetch.outcome == 'success'
-        run: python3 tools/de_speeches.py --since "${{ inputs.since }}" --limit "${{ inputs.protocols }}" | tee /tmp/de-bf-speeches.log
+        run: |
+          UNTIL=""
+          if [ -n "${{ inputs.until }}" ]; then UNTIL="--until ${{ inputs.until }}"; fi
+          python3 tools/de_speeches.py --since "${{ inputs.since }}" --limit "${{ inputs.protocols }}" $UNTIL | tee /tmp/de-bf-speeches.log
       - name: Judge the backlog (newest first, on the chosen clock)
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/de_triage.py --limit 6000 --budget-seconds "${{ inputs.triage_seconds }}" | tee /tmp/de-bf-triage.log

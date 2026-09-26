@@ -262,5 +262,41 @@ class DisclosureTests(unittest.TestCase):
         self.assertIn("not matched to a member", text)
 
 
+
+class BackfillWindowTests(unittest.TestCase):
+    """--until and the page cap (26 September 2026): the first backfill to
+    2020 read the newest 188 of ~400 protocols and could never have read
+    more, because the pager stopped at 20 pages and re-reading the same
+    `since` pages the same newest documents again."""
+
+    def _capture(self, limit, until=None):
+        seen = {}
+
+        def fake_pages(client, path, key, **kw):
+            seen.update(kw)
+            return iter([])
+
+        real = sp.dip.pages
+        sp.dip.pages = fake_pages
+        try:
+            sp.protocols(None, "k", "2020-01-01", limit, log=lambda *a: None, until=until)
+        finally:
+            sp.dip.pages = real
+        return seen
+
+    def test_until_becomes_the_dip_end_date(self):
+        seen = self._capture(450, until="2023-11-15")
+        self.assertEqual(seen["f.datum.start"], "2020-01-01")
+        self.assertEqual(seen["f.datum.end"], "2023-11-15")
+
+    def test_no_until_sends_no_end_date(self):
+        self.assertNotIn("f.datum.end", self._capture(20))
+
+    def test_the_page_cap_scales_with_the_limit(self):
+        """Ten documents a page: a limit of 450 needs more than 20 pages."""
+        self.assertGreaterEqual(self._capture(450)["limit_pages"], 46)
+        self.assertEqual(self._capture(20)["limit_pages"], 20)
+
+
 if __name__ == "__main__":
     unittest.main()
