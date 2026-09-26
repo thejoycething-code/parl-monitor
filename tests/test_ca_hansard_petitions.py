@@ -185,6 +185,34 @@ class HansardTests(unittest.TestCase):
         self.assertEqual((read, gaps, frontier), (1, 0, 143))
         self.assertEqual(han.next_sitting(conn, 45, 1), 143)
 
+    def test_an_empty_store_starts_at_the_session_seed(self):
+        """Without the seed the weekly would read June 2025 first, for months."""
+        conn = store()
+        self.assertEqual(han.next_sitting(conn, 45, 1, seed=han.SEED_SITTING["45-1"]), 138)
+        conn.execute("INSERT INTO ca_sittings (sitting_key, parliament, session, number) "
+                     "VALUES ('45-1-12', 45, 1, 12)")
+        self.assertEqual(han.next_sitting(conn, 45, 1, seed=138), 13,
+                         "once anything is read, the store decides, not the seed")
+
+    def test_the_backfill_reads_what_is_missing_below_the_highest(self):
+        """Cut short, it resumes from the hole -- not from the frontier."""
+        conn = store()
+        for n in (1, 3, 142):
+            conn.execute("INSERT INTO ca_sittings (sitting_key, parliament, session, number) "
+                         "VALUES (?, 45, 1, ?)", ("45-1-{0}".format(n), n))
+        asked = []
+
+        class Client:
+            def get_text(self, url, feed, slug, archive=True):
+                asked.append(int(url.split("/Debates/")[1].split("/")[0]))
+                return SITTING
+
+        read, _, gaps = han.backfill(conn, Client(), "2026-09-26", limit=2, tax=TAX, wl=WL, log=quiet)
+        self.assertEqual((asked, read, gaps), ([2, 4], 2, 0))
+        asked.clear()
+        han.backfill(conn, Client(), "2026-09-26", limit=1, tax=TAX, wl=WL, log=quiet)
+        self.assertEqual(asked, [5], "the second dispatch resumes at the hole")
+
     def test_a_failed_sitting_is_a_gap_and_the_walk_stops(self):
         conn = store()
 
@@ -256,10 +284,36 @@ class PetitionTests(unittest.TestCase):
         client = FakePages({"451-00001": page("451-00001", "Justice", MAID, kind="Paper petition"),
                             "451-00002": page("e-7000", "Health", TRADES, presented="451-00002")})
         run = run_for(conn, client)
-        pet.walk_presented(run)
+        pet.walk_presented(run, start=1)          # the backfill's start
         self.assertEqual(client.calls, ["451-00001", "451-00002", "451-00003",
                                         "451-00004", "451-00005"])
         self.assertEqual(pet.highest_presented(conn), 2, "the e-page's presented number counts")
+
+    def test_an_empty_store_walks_from_the_seed_not_from_one(self):
+        """The weekly reads forward from the frontier; 00001.. is the backfill."""
+        conn = store()
+        client = FakePages({})
+        pet.walk_presented(run_for(conn, client))
+        self.assertEqual(client.calls[0], "451-{0:05d}".format(pet.PRESENTED_SEED))
+
+    def test_a_stored_petition_below_the_seed_resumes_after_it(self):
+        """After a backfill the walk continues from what is held, not the seed."""
+        conn = store()
+        pet.store(conn, pet.parse_details(page("451-01215", "Justice", MAID, kind="Paper petition")),
+                  filt.filter_item(TAX, WL, MAID), "2026-09-26")
+        client = FakePages({})
+        pet.walk_presented(run_for(conn, client))
+        self.assertEqual(client.calls[0], "451-01216")
+
+    def test_the_petition_backfill_reads_missing_presented_numbers(self):
+        conn = store()
+        for pid in ("451-00001", "451-00004"):
+            pet.store(conn, pet.parse_details(page(pid, "Justice", TRADES, kind="Paper petition",
+                                                   keyword="Labour")),
+                      filt.filter_item(TAX, WL, TRADES), "2026-09-26")
+        client = FakePages({})
+        pet.backfill_presented(run_for(conn, client))
+        self.assertEqual(client.calls, ["451-00002", "451-00003"])
 
     def test_a_failed_page_stops_the_walk(self):
         conn = store()
@@ -290,7 +344,7 @@ class PetitionTests(unittest.TestCase):
                                               response="We will consult."),
                             "451-00002": page("451-00002", "Economy", TRADES, kind="Paper petition",
                                               response="Thank you.", keyword="Labour")})
-        pet.walk_presented(run_for(conn, client))
+        pet.walk_presented(run_for(conn, client), start=1)
         rows = {r["petition_id"]: r["response_text"] for r in conn.execute("SELECT * FROM ca_petitions")}
         self.assertEqual(rows["451-00001"], "We will consult.")
         self.assertIsNone(rows["451-00002"])

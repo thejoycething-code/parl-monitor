@@ -5,6 +5,7 @@
     python3 tools/ca_petitions.py --limit 200        # a bigger bite
     python3 tools/ca_petitions.py --db /tmp/ca.db
     python3 tools/ca_petitions.py --only e-7000      # one page, for debugging
+    python3 tools/ca_petitions.py --backfill --limit 1400 --budget-seconds 3000
 
 GROUNDWORK, phase 2 (26 September 2026). Nothing schedules this.
 
@@ -66,6 +67,11 @@ EMPTY_RUN = 3                 # consecutive empty 451- pages that end the walk
 # The highest e- number seen live on 26 September 2026. Only a seed for an
 # empty store: once any e-petition is stored, the window follows the data.
 E_SEED = 7810
+# Where the 451- walk starts on a store holding no presented petition: the
+# weekly reads forward from here, and 451-00001..01189 are the BACKFILL
+# (`--from-presented 1`, dispatched by hand and announced). Without it an
+# empty store walks from 00001 and the weekly spends months in 2025.
+PRESENTED_SEED = 1190
 E_BACK, E_AHEAD = 150, 40
 DEFAULT_LIMIT = 60
 HIDDEN_AREAS = (11,)
@@ -251,7 +257,8 @@ def highest_e(conn):
 
 
 def walk_presented(run, prefix=PRESENTED_PREFIX, start=None):
-    n, misses = start or highest_presented(run.conn, prefix) + 1, 0
+    n, misses = start or (highest_presented(run.conn, prefix) + 1
+                          if highest_presented(run.conn, prefix) else PRESENTED_SEED), 0
     while misses < EMPTY_RUN and not run.spent():
         got = run.read("{0}-{1:05d}".format(prefix, n))
         if got is None:
@@ -277,6 +284,26 @@ def probe_open(run, back=E_BACK, ahead=E_AHEAD):
             run.read(pid)
 
 
+def backfill_presented(run, prefix=PRESENTED_PREFIX):
+    """Read every 451- number BELOW the highest held that is not held yet.
+
+    The weekly starts at PRESENTED_SEED, so 00001..01189 are missing until
+    this runs. Like the Hansard backfill, it works from what is MISSING, so a
+    run cut short by its cap resumes where it stopped when re-dispatched."""
+    held = set()
+    for (num,) in run.conn.execute("SELECT presented_number FROM ca_petitions "
+                                   "WHERE presented_number LIKE ?", (prefix + "-%",)):
+        held.add(int(num.split("-")[1]))
+    top = max(held) if held else 0
+    missing = [n for n in range(1, top) if n not in held]
+    run.log("ca-petitions backfill: {0} presented number(s) missing below {1}".format(
+        len(missing), top))
+    for n in missing:
+        if run.spent():
+            return
+        run.read("{0}-{1:05d}".format(prefix, n))
+
+
 def refresh_owed(run):
     """Our petitions that can still change: open, or awaiting a response."""
     rows = run.conn.execute(
@@ -297,6 +324,9 @@ def main():
     ap.add_argument("--budget-seconds", type=float, default=drain.DEFAULT_S)
     ap.add_argument("--only", help="fetch and print one petition number, store nothing")
     ap.add_argument("--skip-open", action="store_true", help="do not probe open e-petitions")
+    ap.add_argument("--backfill", action="store_true",
+                    help="read the presented petitions missing below the highest held "
+                         "(announced, from CI); skips the weekly steps")
     ap.add_argument("--from-presented", type=int,
                     help="start the 451- walk here instead of after the highest stored")
     args = ap.parse_args()
@@ -311,11 +341,14 @@ def main():
     run = Run(conn, client, today, filt.load_taxonomy(TAXONOMY),
               filt.load_watchlist(WATCHLIST), args.limit,
               drain.Budget(args.budget_seconds), print)
-    # Order is the priority: what can change on our ground, then what is new.
-    refresh_owed(run)
-    walk_presented(run, start=args.from_presented)
-    if not args.skip_open:
-        probe_open(run)
+    if args.backfill:
+        backfill_presented(run)
+    else:
+        # Order is the priority: what can change on our ground, then what is new.
+        refresh_owed(run)
+        walk_presented(run, start=args.from_presented)
+        if not args.skip_open:
+            probe_open(run)
     if run.stopped:
         print("  " + run.stopped)
     print("ca-petitions: {0} page(s) fetched, {1} petition(s) stored, {2} on our "

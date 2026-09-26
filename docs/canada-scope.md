@@ -546,13 +546,72 @@ blocked, but the next deploy would have been.
 4. **Say whether the sheets go anywhere.** They are written locally and
    posted nowhere, like every other 5CA.
 
+## The weekly schedule, 26 September 2026
+
+`.github/workflows/ca-weekly.yml` ("Canada weekly") runs Tuesday at 10:00
+UTC, with a retry at 12:00. The retry is gated off if the first run
+succeeded.
+
+**Why Tuesday.** Fifteen workflows share the `parl-monitor-state`
+concurrency group, and GitHub keeps only one run waiting per group, so a
+second arrival cancels the one queued. Tuesday between the 07:00 day sweep
+and the 18:00 division watch is the widest clear window, even with the 3–5
+hours of cron drift this repo has measured. It also comes after the whole
+sitting week and after both Gazette parts.
+
+**What it runs, in order:**
+
+1. `ca_rollcalls` (divisions, positions on our ground, bills, sponsors);
+2. `ca_senate`;
+3. `ca_hansard`;
+4. `ca_petitions --limit 300`;
+5. `ca_gazette`.
+
+Each collector runs whatever the one before did. A gap still fails the job,
+so the alert fires, but a Gazette 503 does not cost the week's Hansard.
+
+**No API calls, no Slack, no posting.** It collects into the store and
+publishes the store, and that is all.
+
+**The empty-store problem, and the seeds.** On a store that has read nothing,
+Hansard and the presented-petitions walk would start at sitting 1 and
+451-00001. A capped weekly would then spend months in 2025 and never reach
+the present. So an empty store starts at a measured seed: sitting 138
+(`SEED_SITTING`) and petition 451-01190 (`PRESENTED_SEED`).
+
+**Everything before the seeds is the backfill.** It runs only when the
+workflow is dispatched by hand with `backfill: true`, and it is announced
+first, under the Bundestag rule. It covers:
+
+- 45-1 sittings 1–137, about 40 MB;
+- presented petitions 451-00001 to 01189, about 140 MB;
+- the 44th Parliament's divisions and bills;
+- the Gazette since 26 May 2025.
+
+**The backfill reads what is missing, not a range.** Both `--backfill` modes
+work from what is missing below the highest item held. A run cut short by its
+budget therefore resumes at the hole when dispatched again. Walking forward
+from 1 would, the second time, start at the frontier and never see the gap.
+
+**Watching:**
+
+- `tools/coverage.py` carries a "Canada weekly" heartbeat.
+- **Cadence-checked:** divisions, bills and members, which are re-stamped
+  every run even in recess, and petitions, with a week's extra grace.
+- **Clobber check:** divisions, bills and members only.
+- **Write-once:** senators, sittings and Gazette issues.
+- "Canada weekly" is on the failure alert.
+- The dormant exemption added in phase 3 is gone.
+
+**First run.** The first run creates nothing new in the store's schema;
+`init_db` has created the eleven Canadian tables since phase 3. It fills
+them from the seeds forward.
+
 ## Proposed phasing
 
-1. **Phase 1 (done): House divisions, positions, bills.** Schedule it weekly
-   once there is an edition to put it in. It is 2 list calls plus a handful
-   of detail calls a week.
-2. **Phase 2 (done): Hansard, petitions, Senate votes, the Canada
-   Gazette.** All four are dormant until there is an edition to read them.
+1. **Phase 1 (done, scheduled): House divisions, positions, bills.**
+2. **Phase 2 (done, scheduled): Hansard, petitions, Senate votes, the
+   Canada Gazette.** Collected weekly; no edition reads them yet.
 3. **Phase 3 (built, awaiting sign-off): the Canadian 5CA.** See below.
    Every reading is a draft, so every sheet is an evidence list until
    Christopher confirms readings in `config/ca_stance.yaml`.

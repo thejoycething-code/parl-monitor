@@ -5,6 +5,7 @@
     python3 tools/ca_hansard.py --from 140 --limit 5
     python3 tools/ca_hansard.py --session 44-1 --from 1 --limit 20
     python3 tools/ca_hansard.py --dry-run           # parse and count, store nothing
+    python3 tools/ca_hansard.py --backfill --limit 200 --budget-seconds 3000
     python3 tools/ca_hansard.py --db /tmp/ca.db
 
 GROUNDWORK, phase 2 (26 September 2026). Nothing schedules this.
@@ -367,10 +368,23 @@ def is_missing(exc):
     return getattr(getattr(exc, "cause", None), "code", None) == 404
 
 
-def next_sitting(conn, parl, sess):
+# Where the WEEKLY starts on a store that has read nothing of a session.
+# Without it an empty store resumes at sitting 1 (June 2025), and a weekly
+# capped at DEFAULT_LIMIT would crawl the backlog for months without ever
+# reaching the present. Sittings before the seed are the BACKFILL: an
+# announced, paced, hand-dispatched run (`--from 1`), never the weekly's job.
+# 138 was the first sitting read live, on 26 September 2026.
+SEED_SITTING = {"45-1": 138}
+
+
+def next_sitting(conn, parl, sess, seed=None):
+    """The next sitting to read: after the highest READ, or the session's seed
+    on a store that has read none of it. Never below what was read."""
     row = conn.execute("SELECT MAX(number) FROM ca_sittings WHERE parliament=? "
                        "AND session=?", (parl, sess)).fetchone()
-    return (row[0] or 0) + 1
+    if row[0]:
+        return row[0] + 1
+    return seed or 1
 
 
 def pull(conn, client, today, session=CURRENT_SESSION, start=None,
@@ -381,7 +395,8 @@ def pull(conn, client, today, session=CURRENT_SESSION, start=None,
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else filt.load_watchlist(WATCHLIST)
     parl, sess = parse_session(session)
-    number = start or next_sitting(conn, parl, sess)
+    number = start or next_sitting(conn, parl, sess,
+                                   seed=SEED_SITTING.get("{0}-{1}".format(parl, sess)))
     read = stored = gaps = 0
     roster = Roster(conn)
     frontier = None
@@ -422,6 +437,43 @@ def pull(conn, client, today, session=CURRENT_SESSION, start=None,
     return read, stored, gaps, frontier
 
 
+def backfill(conn, client, today, session=CURRENT_SESSION, limit=None, tax=None,
+             wl=None, log=print, budget=None):
+    """Read every sitting BELOW the highest read that has not been read yet.
+
+    This, not `--from 1`, is the backfill: the weekly starts at the seed, so
+    a store holds 138 onwards and nothing before. A backfill cut short by its
+    budget simply leaves fewer missing next time, and a re-dispatch resumes
+    where it stopped -- whereas walking forward from 1 would, the second
+    time, start at the frontier and never see the hole again.
+    Returns (read, stored, gaps)."""
+    parl, sess = parse_session(session)
+    held = {r[0] for r in conn.execute("SELECT number FROM ca_sittings WHERE parliament=? "
+                                       "AND session=?", (parl, sess))}
+    top = max(held) if held else 0
+    missing = [n for n in range(1, top) if n not in held]
+    log("ca-hansard backfill: {0} sitting(s) missing below {1}".format(len(missing), top))
+    read = stored = gaps = 0
+    for n in missing:
+        if limit is not None and read >= limit:
+            log("  backfill cap ({0}) reached; {1} still missing -- re-dispatch to "
+                "continue".format(limit, len(missing) - read))
+            break
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("backfill sittings", read))
+            break
+        r, s, g, frontier = pull(conn, client, today, session=session, start=n, limit=1,
+                                 tax=tax, wl=wl, log=log)
+        if frontier == n:
+            # Below the highest read, a sitting cannot be unpublished; say so.
+            conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) VALUES (?,?,?)",
+                         (today, FEED, "{0}-{1}-{2}: 404 below the frontier".format(parl, sess, n)))
+            g += 1
+        read, stored, gaps = read + r, stored + s, gaps + g
+    conn.commit()
+    return read, stored, gaps
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -431,6 +483,8 @@ def main():
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--budget-seconds", type=float, default=drain.DEFAULT_S)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--backfill", action="store_true",
+                    help="read the sittings missing BELOW the highest read (announced, from CI)")
     args = ap.parse_args()
     parl, sess = parse_session(args.session)
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
@@ -443,9 +497,14 @@ def main():
     sitting = mark_sitting(conn, client, today)
     print("ca-hansard: {0}, roster of {1} member(s), {2} sitting now".format(
         args.session, members, sitting))
-    read, stored, gaps, frontier = pull(
-        conn, client, today, session=args.session, start=args.start, limit=args.limit,
-        budget=drain.Budget(args.budget_seconds), dry_run=args.dry_run)
+    if args.backfill:
+        read, stored, gaps = backfill(conn, client, today, session=args.session,
+                                      limit=args.limit, budget=drain.Budget(args.budget_seconds))
+        frontier = None
+    else:
+        read, stored, gaps, frontier = pull(
+            conn, client, today, session=args.session, start=args.start, limit=args.limit,
+            budget=drain.Budget(args.budget_seconds), dry_run=args.dry_run)
     print("ca-hansard: {0} sitting(s) read, {1} speech(es) on our ground, {2} gap(s){3}.".format(
         read, stored, gaps,
         "; sitting {0} is not published yet".format(frontier) if frontier else ""))

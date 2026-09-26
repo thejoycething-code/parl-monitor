@@ -61,6 +61,8 @@ PIPELINES = {
     # because it runs on sitting weekdays only: Friday evening to Monday
     # morning is the longest legitimate gap.
     "Day sweep": (1, 3, "the day's speeches on our issues, and the radar"),
+    # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
+    "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
 }
 
 # Pipelines deliberately not running. Listed so a PAUSE never reads as a
@@ -129,6 +131,16 @@ FEEDS = [
     ("eu_meps", "last_seen", 7, 3, "MEP roster"),
 
     ("upr_recommendations", "captured_at", 31, 7, "UPR recommendations"),
+    # Canada (26 September 2026). MEASURED which re-stamp: the division and
+    # bill lists are re-read whole every run and their upserts set
+    # last_seen, and tools/ca_hansard.py refreshes the roster, so these three
+    # move every week even in recess. ca_petitions re-stamps only what it
+    # fetches (new, open, or ours awaiting a response), so it gets a week's
+    # extra grace for a quiet stretch.
+    ("ca_divisions", "last_seen", 7, 4, "House and Senate divisions (Canada weekly)"),
+    ("ca_bills", "last_seen", 7, 4, "LEGISinfo bills (Canada weekly)"),
+    ("ca_members", "last_seen", 7, 4, "House of Commons roster (Canada weekly)"),
+    ("ca_petitions", "last_seen", 7, 7, "House petitions, presented and open (Canada weekly)"),
 ]
 
 # Which feeds each pipeline is responsible for. This drives the check
@@ -187,6 +199,9 @@ PIPELINE_FEEDS = {
     # the honest signal: the workflow runs nightly even when nothing sat.
     "Member profiles": ["dv_post", "dv_contact"],
     "Day sweep": ["sweep_log"],
+    # The three that move every run whatever Parliament did; petitions and
+    # the Gazette can legitimately be quiet, which would cry clobber.
+    "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
 }
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
@@ -194,15 +209,7 @@ PIPELINE_FEEDS = {
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-# Canada's collectors exist but nothing schedules them (26 September 2026).
-# A table here must move into FEEDS the day a Canadian workflow runs, or a
-# weekly that silently stops will look exactly like one that was never set up.
-_CA_DORMANT = ("Canada (tools/ca_*.py) is built but DORMANT: no workflow runs "
-               "it, so there is no cadence to watch yet. Move this table into "
-               "FEEDS the day a Canadian weekly is scheduled "
-               "(docs/canada-scope.md).")
-EXEMPT = {table: _CA_DORMANT for table in (
-    "ca_bills", "ca_divisions", "ca_members", "ca_petitions", "ca_senators")}
+EXEMPT = {}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
@@ -223,6 +230,14 @@ ON_DEMAND = {
 # only gains rows goes quiet in recess through no fault of anyone, and
 # alarming on it would train people to ignore the alert.
 ONCE_EVER = {
+    # Canada: senators are written only when a Senate vote ON OUR GROUND is
+    # fetched, and sittings once each -- both only gain rows, and both go
+    # quiet in recess.
+    "ca_senators": "written only when a Senate vote on our ground is fetched",
+    "ca_sittings": "one row per Hansard sitting read, stored once",
+    # read_at is when the ISSUE was read, one row per issue: a write-once
+    # table, not a sighting column the cadence check may use (RecessTests).
+    "ca_gazette_issues": "one row per Gazette issue read, stored once",
     "items": "new rows only: PQs, SIs, consultations and what's on are "
              "inserted when they appear and not re-stamped",
     "sp_affiliations": "new rows only: an MSP's committee places",
