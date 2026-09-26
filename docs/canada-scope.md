@@ -112,9 +112,9 @@ serves.
 ### Not answering on the day
 
 - **Canada Gazette RSS** (`gazette.gc.ca/rss/p1-eng.xml`, p2): 503 on three
-  tries over an hour, and the site's index page gave 503 too. Part I (draft
-  regulations) and Part II (made regulations) are the SI equivalent. Retry
-  before concluding anything.
+  tries over an hour in the morning. It answered that afternoon, and the
+  collector is now built (phase 2 below). A 503 is an outage to record, not
+  an empty week.
 - **Supreme Court RSS**: the guessed `decisions.scc-csc.ca` path returns 404.
   The case index page answers 200. The right feed has not been found yet.
 - **Order Paper written questions** were not probed; the `NoticePaper` XML
@@ -176,7 +176,7 @@ recorded here so a 5CA doesn't read a missing member as an absence. Possible
 causes are a member who left before the per-member record was built, or a
 correction to the record.
 
-## Phase 2: Hansard and petitions, built 26 September 2026
+## Phase 2: Hansard, petitions, Senate and Gazette, built 26 September 2026
 
 Two collectors, `tools/ca_hansard.py` and `tools/ca_petitions.py`, write four
 new tables in `src/ca_store.py`: `ca_sittings`, `ca_speeches`,
@@ -284,6 +284,85 @@ The Westminster early-warning gate is tier 1 or watchlist, with tier 2 only
 past 10,000 signatures. That gate, or the judge, belongs in whatever edition
 reads this table. The table itself stores everything, honestly labelled.
 
+### Senate votes
+
+`tools/ca_senate.py` reads two kinds of page on sencanada.ca:
+
+- the session's vote table: 36 votes in 45-1, with date, title, tallies,
+  related bill and result;
+- one details page per vote, fetched for votes on our ground only.
+
+Votes go into `ca_divisions` with `chamber='senate'`. Senators go into
+`ca_senators`, with ids prefixed `senator-` so they can never collide with a
+House PersonId.
+
+**Measured on 45-1:**
+
+- 36 votes listed and 4 on our ground: three on C-9 and C-16's third
+  reading.
+- 95 senators, and no gaps.
+- The Martin amendment to C-9 came out Yea 21, Nay 40, Abstention 2, exactly
+  the Senate's tally. By group, ISG voted 27 Nay against 2 Yea, and C voted
+  8 Yea.
+
+How it works:
+
+- **Every seated senator is listed on a details page, not only those who
+  voted.** Sitting 4 June 2025 had 104 rows for a 76-vote division, and the
+  other 28 rows carry no mark. They are stored as `Did not vote`, because a
+  5CA reads an absence.
+- **The source is HTML only, so the tally is the check on the parse.**
+  Positions that don't add up to the list page's Yea/Nay/Abstention counts
+  are a gap, and the fetch stays owed. So is a list that parses to nothing
+  (a redesign).
+- **Senate titles use a bill's short title** ("Combatting Hate Act – C-9"),
+  so the long title is joined in from `ca_bills`.
+
+### The Canada Gazette
+
+`tools/ca_gazette.py` starts from the Part I and Part II RSS feeds. These
+list **issues**, not items: 436 and 232 of them, back to December 2019. For
+each unread issue in the window (60 days by default) it reads the issue's
+index, then reads each item according to where it lives:
+
+- **A regulation, order or supplement has its own page.** That page is read
+  whole and matched per passage, with its title as a passage. A Regulatory
+  Impact Analysis Statement runs to 80,000 characters, and whole-document
+  matching would tag it with every area it touches.
+- **A notice is an anchor on a page it shares** (`commis-eng.html#cs9`).
+  Each shared page is fetched once and cut at the item anchors. The notice's
+  own text is stored and matched.
+- **An extra edition's feed link is the document itself**, not an index.
+  The first run read it as an index, found nothing, and correctly logged
+  two gaps. It is now one item, read whole.
+
+**Notices were title-only at first, and that was wrong.** The Canada Revenue
+Agency's "Revocation of registration of charities" names nobody in its
+title. The charities (on 8 August, a string of merging Catholic parishes)
+appear only in the text. CRA revocations are exactly where the
+charitable-status question above would first show in the record. The notice
+text is now stored, so a revoked religious or pro-life charity is a query,
+not a hope.
+
+**Part I proposed regulations carry their comment deadline.** "Within 30
+days after the date of publication" becomes `comment_until`, because the
+comment deadline is the whole point of watching Part I. An issue with a
+failed item is not marked read, so it is retried whole.
+
+**Measured over the last 60 days:**
+
+- 16 issues read, with 216 items: 167 notices, 41 regulations and 8
+  documents or extras.
+- No gaps.
+- **Three items on our ground, and none of them a real campaign item:**
+  - two Ebola travel orders that cite the International Health Regulations,
+    which is tier 1 in area 7 by design;
+  - an immigration regulation.
+
+That is a quiet summer, not a broken filter; the titles checked by hand
+turned up nothing missed. Expect the Gazette to matter in bursts: MAID
+monitoring regulations before March 2027, and any regulation under C-34.
+
 ### What a full backfill costs
 
 These are one-off, announced, and run from CI, paced. That is the rule
@@ -291,18 +370,24 @@ bought by the Bundestag block of 24 September.
 
 - **Hansard for 45-1:** 144 sittings, about 40 MB.
 - **Presented petitions for 45-1:** about 1,220 pages, about 140 MB.
+- **The Gazette for 45-1:** about 70 issues, perhaps 350 item pages.
+- **The Senate:** nothing. Its whole session is 36 rows and a handful of
+  details pages.
 
-The weekly load is about 4 sittings, 30 to 60 petition pages and 190
-near-empty probes.
+The weekly load is about:
+
+- 4 sittings;
+- 30 to 60 petition pages, plus 190 near-empty probes;
+- 2 Gazette issues;
+- the Senate's vote list.
 
 ## Proposed phasing
 
 1. **Phase 1 (done): House divisions, positions, bills.** Schedule it weekly
    once there is an edition to put it in. It is 2 list calls plus a handful
    of detail calls a week.
-2. **Phase 2 (done for Hansard and petitions, see below).** Still to build:
-   the Senate vote table and details pages, and the Gazette's Parts I and II
-   once the host answers.
+2. **Phase 2 (done): Hansard, petitions, Senate votes, the Canada
+   Gazette.** All four are dormant until there is an edition to read them.
 3. **Phase 3: the Canadian 5CA.** A division's meaning is signed by hand here
    as everywhere. Candidates already in the store include C-311 (2023),
    C-314 (2023), C-62 (2024), both S-210/C-270 age-verification votes, and C-9

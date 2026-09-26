@@ -1,5 +1,5 @@
 """Tables for the Canadian monitor: House divisions and bills (phase 1),
-Hansard and petitions (phase 2).
+Hansard, petitions, Senate votes and the Canada Gazette (phase 2).
 
 WHY A MODULE OF ITS OWN. Every other jurisdiction's schema lives in
 `src/db.py:init_db`. These four tables are kept here while the Canadian
@@ -32,7 +32,7 @@ SCHEMA = (
     )""",
     """CREATE TABLE IF NOT EXISTS ca_divisions (
         division_key TEXT PRIMARY KEY,   -- '<chamber>-<parl>-<session>-<number>'
-        chamber      TEXT NOT NULL,      -- 'commons' (the Senate is phase 2)
+        chamber      TEXT NOT NULL,      -- 'commons' or 'senate'
         parliament   INTEGER NOT NULL,
         session      INTEGER NOT NULL,
         number       INTEGER NOT NULL,
@@ -149,6 +149,55 @@ SCHEMA = (
         first_seen   TEXT,
         last_seen    TEXT
     )""",
+    # Senate (phase 2b). Senators have their own id space on sencanada.ca,
+    # so their rows in ca_votes carry person_id 'senator-<id>' and can never
+    # collide with a House PersonId. Divisions share ca_divisions with
+    # chamber='senate'; the Senate publishes no division number, so `number`
+    # is the vote's details id.
+    """CREATE TABLE IF NOT EXISTS ca_senators (
+        person_id    TEXT PRIMARY KEY,   -- 'senator-<sencanada id>'
+        name         TEXT,               -- 'Martin, Yonah', as the Senate prints it
+        affiliation  TEXT,               -- latest seen; ca_votes.party is at the vote
+        province     TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # Canada Gazette (phase 2b). Part I carries notices and PROPOSED
+    # regulations with their comment period; Part II carries made
+    # regulations (SOR) and statutory instruments (SI). Every issue READ gets
+    # a row, as every Hansard sitting does.
+    """CREATE TABLE IF NOT EXISTS ca_gazette_issues (
+        issue_key    TEXT PRIMARY KEY,   -- 'p1-2026-09-26'
+        part         INTEGER NOT NULL,
+        date         TEXT NOT NULL,
+        title        TEXT,
+        url          TEXT,
+        items        INTEGER,
+        ours         INTEGER,
+        read_at      TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS ca_gazette_items (
+        item_key     TEXT PRIMARY KEY,   -- the item's URL, with its #anchor for a notice
+        issue_key    TEXT NOT NULL,
+        part         INTEGER,
+        date         TEXT,
+        section      TEXT,               -- 'Government notices', 'Proposed Regulations', ...
+        department   TEXT,               -- the index's sub-heading
+        title        TEXT,
+        url          TEXT,
+        kind         TEXT,               -- 'regulation'/'extra'/'document' (own page) or 'notice' (anchor on a shared page)
+        registration TEXT,               -- 'SOR/2026-184' for Part II
+        comment_days INTEGER,            -- Part I: 'within N days after the date of publication'
+        comment_until TEXT,              -- date + comment_days
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        excerpt      TEXT,
+        matched_on   TEXT,               -- 'body' or 'title' (a notice whose anchor was not found)
+        text         TEXT,               -- a NOTICE's own text; a regulation's lives at url
+        first_seen   TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS ca_gazette_items_issue ON ca_gazette_items (issue_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_sitting ON ca_speeches (sitting_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_person ON ca_speeches (person_id)",
     "CREATE INDEX IF NOT EXISTS ca_petitions_presented ON ca_petitions (presented_number)",
@@ -157,8 +206,20 @@ SCHEMA = (
 )
 
 
+# Columns added after a table first shipped. CREATE TABLE IF NOT EXISTS
+# never alters an existing table, so a store made before the column existed
+# would silently lack it; each is added here if missing.
+ADDED_COLUMNS = (
+    ("ca_divisions", "abstentions", "INTEGER"),   # the Senate records them; the House does not
+)
+
+
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, column, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if column not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
