@@ -303,6 +303,51 @@ register being the source does not make it ours to keep. The omission is
 named in `src/db.py` and in the tool, so it reads as a decision rather than
 an oversight.
 
+## Verifying the taxonomy (26 September 2026)
+
+Measured against everything the German store holds, rather than reasoned
+about. The headline: **the taxonomy behaves well, and the thin areas are
+the window, not the words.**
+
+| | |
+|---|---|
+| Rows the taxonomy REJECTED, across committee reports, divisions, petitions, judgments and amendments | 2,172 |
+| Of those, carrying an obvious term for one of our areas | 14 |
+| Of those 14, in an area we campaign on | **0** — all fourteen are migration |
+
+Migration is deliberately sparse: area 11's own note says its terms "exist
+to file items correctly rather than to raise them", and it is hidden on
+every surface. `Migration` is in `exclusions_global` and `Flüchtling` is
+not in the file at all. So the one place recall is loose is the one place
+nothing is shown.
+
+Precision reads correctly by eye on the broad sweeps. Every one of the
+twelve areas yields something — none is dead — and migration is 249 of
+about 620 matches, still roughly 40%, still the Bundestag's own volume
+rather than loose terms.
+
+**The thin areas are not a vocabulary problem.** Assisted dying matched 2
+and conversion practices 3, which looks like a gap in two flagship areas.
+It is not: DIP holds **15 Sterbehilfe and 9 Konversionstherapie Vorgänge
+and we hold none of them**, because they are dated 2020 to 2022 and
+`de_documents` sweeps a 120-day window. Both terms are tier 1 and both are
+in the 131 that drive the sweep. Germany argued about assisted dying before
+our corpus begins. A paced historical backfill would collect them, under
+the rule above.
+
+**What this does NOT establish.** The probe list used to test recall was
+written from the same understanding that produced the taxonomy, so it
+cannot find a term neither of them knows: measuring behaviour is not the
+same test as reading the words, and only the second finds a blind spot the
+two share. The Vorgänge corpus compounds it -- those rows are fetched BY
+the terms, so they structurally cannot show the terms are complete, which
+is exactly what `--mode window` would settle.
+
+So "TAXONOMY v0.4 UNVERIFIED" stays on the face of every German surface.
+The question is now narrower than it was: not "is this taxonomy any good",
+which has an evidenced answer, but "does a German reader agree these 131
+tier-1 terms are the words the Bundestag uses?"
+
 ## Still open
 
 - **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`

@@ -31,9 +31,41 @@ decisions:
     # Why it is a decision and not a task: every German surface carries
     # "TAXONOMY v0.4 UNVERIFIED" on its face until someone signs it off, and
     # the edition cannot be presented internally as finished before then.
-    # Measured and worth telling them: a third of what it matches is
-    # migration -- 171 of 507 Vorgänge -- which is not the terms being
-    # over-broad but the Bundestag's own volume.
+    #
+    # EMPIRICALLY VERIFIED 26 September 2026 (Christopher: "verify the
+    # taxonomy"). This narrows the decision; it does not close it.
+    #
+    # What was measured, against everything the German store holds:
+    #   * RECALL. Of 2,172 rows the taxonomy REJECTED across committee
+    #     reports, divisions, petitions, judgments and amendments, 14 carry
+    #     an obvious term for one of our areas -- and all 14 are migration,
+    #     which area 11's own note says is deliberately sparse because it is
+    #     collated and never campaigned. Zero misses across the eleven areas
+    #     we do campaign on.
+    #   * PRECISION. The matched divisions and committee reports read
+    #     correctly by eye; the two abortion divisions are unmistakably ours
+    #     ("Keine weitere Liberalisierung des Abtreibungsrechts").
+    #   * EVERY AREA YIELDS. None of the twelve is dead. Migration is 249 of
+    #     the ~620 matches, still about 40%, and still the Bundestag's
+    #     volume rather than the terms being loose.
+    #   * THE THIN AREAS ARE NOT VOCABULARY. Assisted dying matched 2 and
+    #     conversion practices 3, which looked like gaps. DIP holds 15
+    #     Sterbehilfe and 9 Konversionstherapie Vorgänge and we hold none --
+    #     because they are dated 2020 to 2022 and de_documents sweeps a
+    #     120-day window. The terms are right and in the sweep list; the
+    #     corpus does not reach back to when Germany argued about it.
+    #
+    # WHAT THIS CANNOT ESTABLISH, and why a German reader is still needed:
+    # the probe list used to test recall was written from the same
+    # understanding that produced the taxonomy, so it cannot find a term
+    # neither of them knows. Measuring behaviour is not the same test as
+    # reading the words, and only the second finds a shared blind spot. The
+    # Vorgänge corpus compounds this: it is fetched BY the terms, so it
+    # structurally cannot demonstrate they are complete -- which is what
+    # schedule-document-window-mode below would fix.
+    #
+    # So the question narrows to: who reads the 131 tier-1 terms as German,
+    # and says whether they are the words the Bundestag actually uses?
 
   - id: schedule-document-window-mode
     decision: Does the German weekly also run de_documents.py --mode window, adding the body-text layer?
