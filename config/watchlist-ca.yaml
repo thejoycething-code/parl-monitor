@@ -53,6 +53,12 @@ acts_watch:
   - {short: "Combatting Hate Act", areas: [7, 8]}
   - {short: "Online Harms Act", areas: [7, 6]}          # C-63, 44th Parliament; died at prorogation
   - {short: "MAID", areas: [2]}                         # acronym: case-sensitive by the loader's rule
+  # The statutory name of assisted suicide in Canada. The shared taxonomy
+  # holds it at TIER 2 (Westminster rarely says it), and per-passage matching
+  # admits tier 1 or a watchlist hit only -- so a Hansard speech that said
+  # "medical assistance in dying" and never "MAID" was dropped unless its
+  # debate title matched. Measured on sittings 138-144: see docs/canada-scope.md.
+  - {short: "medical assistance in dying", areas: [2]}
   - {short: "advancement of religion", areas: [8]}      # charitable-purpose fight; see docs/canada-scope.md
 processes: []
 organisations: []

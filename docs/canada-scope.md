@@ -60,14 +60,17 @@ and his taxonomy versioning, so this build did not make it.
   has 191 interventions, each speaker tagged with a stable `DbId`, plus
   `Timestamp` elements every five minutes (`Hr`/`Mn`). That is better than
   the Bundestag protocol and close to Westminster, so debate packs are
-  buildable.
-- **E-petitions.** The `?output=xml` link on the search page returns HTML,
-  whatever the Accept header or User-Agent. The data route is a form POST to
-  `ourcommons.ca/petitions/en/Petition/SearchAsync`, which answers JSON
-  carrying rendered HTML, 20 petitions per page. The results mix
-  e-petitions (`e-7810`) and paper petitions (`451-01218`). Paper petitions
-  matter here: MPs present pro-life and conscience petitions in the House
-  every sitting week, and the government must answer each one.
+  buildable. **The `DbId` is not the member**: it identifies a member in a
+  role, and none of sitting 144's 191 matched a PersonId (see phase 2).
+- **Petitions.** The search form and its XML export carry a **reCAPTCHA
+  token**. The form's endpoint (`Petition/SearchAsync`) answers without one,
+  but we don't build on a form guarded by bot detection. The route used is
+  the public **Details page per petition**, fetched by GET:
+  `ourcommons.ca/petitions/en/Petition/Details?Petition=e-7000`. That page
+  has the full prayer text, the House's keywords, the dates, the MP's
+  PersonId and the government's response. Paper petitions matter here: MPs
+  present pro-life and conscience petitions every sitting week, and the
+  government must answer each one.
 
 ### LEGISinfo (parl.ca): works today, open, no key
 
@@ -173,17 +176,133 @@ recorded here so a 5CA doesn't read a missing member as an absence. Possible
 causes are a member who left before the per-member record was built, or a
 correction to the record.
 
+## Phase 2: Hansard and petitions, built 26 September 2026
+
+Two collectors, `tools/ca_hansard.py` and `tools/ca_petitions.py`, write four
+new tables in `src/ca_store.py`: `ca_sittings`, `ca_speeches`,
+`ca_speaker_roles` and `ca_petitions`. `tests/test_ca_hansard_petitions.py`
+has 19 tests. Both collectors were run live into a scratch database only.
+Nothing is scheduled.
+
+### Hansard
+
+**Measured on sittings 138-144 (17 June to 25 September 2026):**
+
+- 2,139 interventions read, 228 of them the chair's (counted, not stored).
+- 35 speeches on our ground.
+- Every one of the 35 attributed to a member. 294 speaker roles learned.
+
+The speeches on our ground covered:
+
+- the C-218 MAID debate (eight members, 23 September);
+- MAID petitions presented in Routine Proceedings;
+- S-209 age verification;
+- a sex-selective abortion speech in the C-22 debate;
+- places of worship in an Islamophobia statement.
+
+How it works:
+
+- **The collector resumes at the highest sitting read, plus one.** It stops
+  at the first sitting the House hasn't published. That sitting 404s
+  through a redirect to the House's error page, and it's recorded as the
+  frontier, not a gap.
+- **A failed sitting stops the walk**, so no sitting is ever skipped.
+- **Every sitting read gets a `ca_sittings` row** with its totals, so "a
+  quiet week" and "never read" stay different facts.
+
+**The speaker's `DbId` is a role, not a person.** Kevin Lamoureux speaking
+as a parliamentary secretary is DbId 332542, and his PersonId is 30552.
+Attribution works like this:
+
+- The **riding** in the label resolves the member ("Gabriel Hardy
+  (Montmorency—Charlevoix, CPC)"). Ridings are unique.
+- If there is no riding, a **unique name** is the fallback.
+- Once resolved, the DbId is **remembered**, so a bare "Gabriel Hardy" or
+  "Minister of Finance" resolves later.
+- A speaker that resolves by none of these is stored with `person_id`
+  NULL and counted. It is never guessed.
+
+**Two structure traps, both fixed and tested:**
+
+- **Petitions lost their subject.** Only the first petition in Routine
+  Proceedings carries the title "Petitions"; the rest have only a qualifier
+  ("Medical Assistance in Dying"). An untitled subject now inherits the last
+  title, so they read "Petitions — Medical Assistance in Dying".
+- **Resumed debates lost their bill.** A resumed debate prints only the
+  short title ("Protecting Young Persons from Exposure to Pornography Act").
+  The bill number now comes from `ca_bills`. The procedural text also writes
+  "Bill C‑218" with a non-breaking hyphen, and the parser handles that.
+
+**A recall trap in the shared taxonomy.** "Medical assistance in dying" is
+Canada's statutory term, but `config/taxonomy.yaml` holds it at **tier 2**.
+Per-passage matching admits only tier 1 or a watchlist hit, so a speech that
+said the phrase and never "MAID" was dropped unless its debate title matched.
+Adding the phrase to `config/watchlist-ca.yaml` took the seven sittings from
+30 speeches to 35. The fix is Canada-only. Whether Westminster wants the same
+is Christopher's call. "Pornography" is also tier 2, and the S-209 debates
+got in on their title.
+
+### Petitions
+
+**Two number spaces, both walked:**
+
+- **Presented petitions: `451-00001` upwards, with no holes.** These cover
+  paper and electronic alike: an e-petition gets a 451- number when an MP
+  presents it, and `451-01121` serves the e-7000 page. So the walk finds
+  every petition the House has received, and stops after three empty pages
+  in a row. On 26 September the highest was 451-01218.
+- **Open e-petitions: e- numbers only, and sparse.** e-7810 was live while
+  e-7800 to e-7815 around it were empty; they are drafts not yet published.
+  An unpublished number answers **200 with an empty body**, so probing a
+  window of 190 numbers around the frontier costs almost nothing. This is
+  the early-warning layer.
+
+**Refresh:** a petition on our ground is refetched while it is open or
+awaiting the government's response.
+
+**Response text:** kept for our petitions only.
+
+**Measured result of the live run:**
+
+- 324 pages fetched: 89 petitions, 235 empty numbers, no gaps.
+- 15 petitions on our ground.
+- Presented: four paper petitions backing Tamara Jansen's C-218 (MAID
+  safeguards), with about 30 signatures each, and two more on MAID.
+- Open: e-7738 (EI benefits after stillbirth, 469 signatures), e-7765
+  (pregnancy loss), and child-protection and trafficking petitions.
+
+**A bug found live and fixed.** The probe window first followed the highest
+e- number **stored**. But the 451- walk stores presented e-petitions, which
+are older. The window centred on e-7719 and skipped every open petition above
+e-7760, e-7810 included. The measured seed is now a floor, and there's a
+test for it.
+
+**Tier 2 needs the judge.** Several matches were noise. Examples are
+"misinformation" on a US-tariffs petition, "places of worship" on an IRGC
+petition, and "disinformation" on a foreign-affairs petition. All were tier 2.
+The Westminster early-warning gate is tier 1 or watchlist, with tier 2 only
+past 10,000 signatures. That gate, or the judge, belongs in whatever edition
+reads this table. The table itself stores everything, honestly labelled.
+
+### What a full backfill costs
+
+These are one-off, announced, and run from CI, paced. That is the rule
+bought by the Bundestag block of 24 September.
+
+- **Hansard for 45-1:** 144 sittings, about 40 MB.
+- **Presented petitions for 45-1:** about 1,220 pages, about 140 MB.
+
+The weekly load is about 4 sittings, 30 to 60 petition pages and 190
+near-empty probes.
+
 ## Proposed phasing
 
 1. **Phase 1 (done): House divisions, positions, bills.** Schedule it weekly
    once there is an edition to put it in. It is 2 list calls plus a handful
    of detail calls a week.
-2. **Phase 2 (keyless, buildable now):**
-   - Hansard per sitting, run through the passage matcher. This is where the
-     volume is, as at Westminster.
-   - Petitions through SearchAsync.
-   - The Senate vote table and details pages.
-   - Gazette Parts I and II once the host answers.
+2. **Phase 2 (done for Hansard and petitions, see below).** Still to build:
+   the Senate vote table and details pages, and the Gazette's Parts I and II
+   once the host answers.
 3. **Phase 3: the Canadian 5CA.** A division's meaning is signed by hand here
    as everywhere. Candidates already in the store include C-311 (2023),
    C-314 (2023), C-62 (2024), both S-210/C-270 age-verification votes, and C-9
