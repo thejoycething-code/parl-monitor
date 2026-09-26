@@ -227,6 +227,41 @@ copy. **Protocols read before 25 September were parsed without the fix**, so
 past speeches by members whose heading takes either form are still missing
 from the store.
 
+## If DIP is ever refused us (surveyed 26 September 2026)
+
+We are NOT blocked today: `src/dip.py` reads the key the Bundestag
+publishes as an example in its own spec, and that works. The survey below
+is a fallback, and the answer is that one exists but is worse.
+
+**Only DIP needs a key at all.** Everything else the German monitor reads is
+keyless already: abgeordnetenwatch (votes, members, profiles), dserver
+(Drucksachen), `www.bundestag.de` (the Tagesordnung and the Mediathek) and
+epetitionen. What DIP carries is two layers: **Vorgänge**, and the
+**plenary protocol text**.
+
+**Protocols have a keyless route, in PDF only.** The list endpoint answers
+plain curl with no key --
+`www.bundestag.de/ajax/filterlist/de/dokumente/protokolle/plenarprotokolle/442112-442112`
+-- and reports 4,656 protocols with a predictable URL per sitting:
+`dserver.bundestag.de/btp/<wp>/<wp><nnn>.pdf` (21/96 is `21096.pdf`, 1.7 MB,
+verified). **No XML is offered on that route**, despite the Bundestag
+publishing a DTD for plenary protocols on its open-data page;
+`btp/21/21096.xml` is a 404. So the fallback reverses the property this
+scope doc opens by celebrating -- that Germany needs no PDF parsing at all
+because DIP returns text. `pypdf` is already installed by the weekly, so it
+is buildable; it is just a step down, and it should be built only if DIP
+actually refuses us.
+
+**Vorgänge have no keyless equivalent.** The only other route to them is
+scraping DIP's own web interface, which is the same service without the
+API. That is a bigger terms-of-use exposure than using the published
+example key, not a smaller one.
+
+**One thing worth having anyway:** `MdB-Stammdaten.zip` on the open-data
+page (952 KB, verified) is every member since 1949 in XML, keyless. That is
+deeper history than abgeordnetenwatch gives, and it is the right source if
+the German 5CA ever needs members who left before the current Wahlperiode.
+
 ## Still open
 
 - **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`
