@@ -315,6 +315,30 @@ class PetitionTests(unittest.TestCase):
         pet.backfill_presented(run_for(conn, client))
         self.assertEqual(client.calls, ["451-00002", "451-00003"])
 
+    def test_an_earlier_session_walks_from_one(self):
+        conn = store()
+        client = FakePages({"441-00001": page("441-00001", "Justice", MAID, kind="Paper petition")})
+        pet.walk_presented(run_for(conn, client), prefix=pet.session_prefix("44-1"))
+        self.assertEqual(client.calls[:2], ["441-00001", "441-00002"])
+        self.assertEqual(pet.highest_presented(conn, "441"), 1)
+        self.assertEqual(pet.highest_presented(conn), 0, "sessions never mix")
+
+    def test_session_codes_become_prefixes(self):
+        self.assertEqual(pet.session_prefix("43-2"), "432")
+        with self.assertRaises(ValueError):
+            pet.session_prefix("44")
+
+    def test_an_earlier_sessions_unanswered_petition_is_never_refreshed(self):
+        """Its Parliament has ended; its response will never come."""
+        conn = store()
+        for pid, number in (("441-00100", "441-00100"), ("451-00100", "451-00100")):
+            pet.store(conn, pet.parse_details(page(pid, "Justice", MAID, kind="Paper petition",
+                                                   presented=number)),
+                      filt.filter_item(TAX, WL, MAID), "2026-09-01")
+        client = FakePages({"451-00100": page("451-00100", "Justice", MAID, kind="Paper petition")})
+        pet.refresh_owed(run_for(conn, client))
+        self.assertEqual(client.calls, ["451-00100"])
+
     def test_a_failed_page_stops_the_walk(self):
         conn = store()
 

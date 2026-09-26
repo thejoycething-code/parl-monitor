@@ -256,9 +256,23 @@ def highest_e(conn):
     return best
 
 
+def session_prefix(code):
+    """'44-1' -> '441': the House numbers a session's presented petitions
+    <parl><session>-NNNNN, measured on 43-1 (to 304), 43-2 (1,244), 44-1
+    (2,982) and 45-1."""
+    hit = re.match(r"^(\d{2})-(\d)$", (code or "").strip())
+    if not hit:
+        raise ValueError("session must look like 44-1, not {0!r}".format(code))
+    return hit.group(1) + hit.group(2)
+
+
 def walk_presented(run, prefix=PRESENTED_PREFIX, start=None):
-    n, misses = start or (highest_presented(run.conn, prefix) + 1
-                          if highest_presented(run.conn, prefix) else PRESENTED_SEED), 0
+    # PRESENTED_SEED is the CURRENT session's frontier, measured once. An
+    # earlier session held nowhere starts at 00001: there is no frontier
+    # to skip to, and its whole run is the backfill.
+    held = highest_presented(run.conn, prefix)
+    seed = PRESENTED_SEED if prefix == PRESENTED_PREFIX else 1
+    n, misses = start or (held + 1 if held else seed), 0
     while misses < EMPTY_RUN and not run.spent():
         got = run.read("{0}-{1:05d}".format(prefix, n))
         if got is None:
@@ -304,12 +318,22 @@ def backfill_presented(run, prefix=PRESENTED_PREFIX):
         run.read("{0}-{1:05d}".format(prefix, n))
 
 
-def refresh_owed(run):
-    """Our petitions that can still change: open, or awaiting a response."""
+def refresh_owed(run, prefix=PRESENTED_PREFIX):
+    """Our petitions that can still change: presented THIS session and
+    awaiting a response, or still open for signature.
+
+    Scoped to the current session since the backfill to 2020 (26 September
+    2026). A petition presented in an earlier Parliament that never got its
+    response never will -- the Parliament ended -- and without the scope
+    every one of them would be refetched every week, for ever, spending the
+    weekly's fetch cap on history."""
     rows = run.conn.execute(
         "SELECT petition_id FROM ca_petitions WHERE areas NOT IN ('[]','[11]') "
-        "AND response_tabled IS NULL AND last_seen < ? ORDER BY last_seen",
-        (run.today,)).fetchall()
+        "AND last_seen < ? AND ("
+        "  (presented_number LIKE ? AND response_tabled IS NULL) "
+        "  OR (presented_number IS NULL AND (closed IS NULL OR closed >= ?))"
+        ") ORDER BY last_seen",
+        (run.today, prefix + "-%", run.today)).fetchall()
     for (pid,) in rows:
         if run.spent():
             return
@@ -329,6 +353,9 @@ def main():
                          "(announced, from CI); skips the weekly steps")
     ap.add_argument("--from-presented", type=int,
                     help="start the 451- walk here instead of after the highest stored")
+    ap.add_argument("--session", default="45-1",
+                    help="an EARLIER session walks only its presented petitions "
+                         "(e.g. 44-1 -> 441-00001 upward); no refresh, no open probe")
     args = ap.parse_args()
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     today = datetime.date.today().isoformat()
@@ -341,7 +368,13 @@ def main():
     run = Run(conn, client, today, filt.load_taxonomy(TAXONOMY),
               filt.load_watchlist(WATCHLIST), args.limit,
               drain.Budget(args.budget_seconds), print)
-    if args.backfill:
+    prefix = session_prefix(args.session)
+    if prefix != PRESENTED_PREFIX:
+        # An earlier session: its petitions are all presented and its
+        # Parliament has ended, so there is nothing open to probe and
+        # nothing owed a refresh. Walk it, resuming after the highest held.
+        walk_presented(run, prefix=prefix, start=args.from_presented)
+    elif args.backfill:
         backfill_presented(run)
     else:
         # Order is the priority: what can change on our ground, then what is new.
@@ -359,7 +392,7 @@ def main():
           "highest e-{4}".format(
               n("SELECT COUNT(*) FROM ca_petitions"),
               n("SELECT COUNT(*) FROM ca_petitions WHERE areas NOT IN ('[]','[11]')"),
-              PRESENTED_PREFIX, highest_presented(conn), highest_e(conn)))
+              prefix, highest_presented(conn, prefix), highest_e(conn)))
     conn.close()
     return 1 if run.gaps else 0
 
