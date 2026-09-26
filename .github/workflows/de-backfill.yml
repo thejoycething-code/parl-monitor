@@ -35,6 +35,19 @@ on:
         description: "Protocols to read this run (400 covers 2020 to June 2026)"
         required: true
         default: "450"
+      # The two clocks are INPUTS so a run can be sized to the gap it is
+      # dispatched into. Fifteen workflows share the state group and GitHub
+      # keeps ONE pending run: a backfill still holding the group when two
+      # scheduled slots arrive gets the first of them cancelled (and a
+      # cancelled run fires the failure alert). Size the run to finish first.
+      triage_seconds:
+        description: "Clock for the judge, in seconds"
+        required: true
+        default: "5400"
+      stance_limit:
+        description: "Speeches to place this run (20 per call)"
+        required: true
+        default: "800"
 
 permissions:
   contents: write
@@ -90,12 +103,12 @@ jobs:
         # only what the last one did not reach.
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/de_speeches.py --since "${{ inputs.since }}" --limit "${{ inputs.protocols }}" | tee /tmp/de-bf-speeches.log
-      - name: Judge the backlog (newest first, 90-minute clock)
+      - name: Judge the backlog (newest first, on the chosen clock)
         if: always() && steps.fetch.outcome == 'success'
-        run: python3 tools/de_triage.py --limit 6000 --budget-seconds 5400 | tee /tmp/de-bf-triage.log
-      - name: Place members from their speeches (40 calls a run)
+        run: python3 tools/de_triage.py --limit 6000 --budget-seconds "${{ inputs.triage_seconds }}" | tee /tmp/de-bf-triage.log
+      - name: Place members from their speeches (the chosen number)
         if: always() && steps.fetch.outcome == 'success'
-        run: python3 tools/de_stance.py --limit 800 | tee /tmp/de-bf-stance.log
+        run: python3 tools/de_stance.py --limit "${{ inputs.stance_limit }}" | tee /tmp/de-bf-stance.log
       - name: Health summary
         if: always()
         run: |
