@@ -813,3 +813,72 @@ class RetrySlotsAreGuardedTests(unittest.TestCase):
                           name + ": the gate must ask about ITS OWN workflow")
             self.assertIn('select(.id != ${{ github.run_id }})', text,
                           name + ": the gate must not count itself as busy")
+
+
+class MondayRetrySlotTests(unittest.TestCase):
+    """The Monday publish has FOUR crons by design, as retry slots. When the
+    primary succeeds, a later slot holds a store that is now stale and the
+    lineage guard correctly refuses its push -- which was surfacing as a
+    failed run and a real alert every Monday (6, 7, 14 and 21 September all
+    have one).
+
+    That noise is not cosmetic. It is how a team learns to ignore alerts, and
+    a genuinely failing coverage watch then ran five days unread over 1,218
+    UPR recommendations missing since 3 September.
+    """
+
+    def _workflow(self):
+        return open(os.path.join(ROOT, ".github", "workflows",
+                                 "monday-publish.yml"), encoding="utf-8").read()
+
+    def test_run_monday_tells_the_workflow_it_is_a_duplicate(self):
+        import tempfile
+        import run_monday
+        path = os.path.join(tempfile.mkdtemp(), "out")
+        self.assertTrue(run_monday.mark_duplicate(path))
+        with open(path) as fh:
+            self.assertEqual(fh.read().strip(), "duplicate=1")
+
+    def test_it_is_silent_outside_actions(self):
+        """A local run must be unaffected."""
+        import run_monday
+        self.assertFalse(run_monday.mark_duplicate(None))
+
+    def test_a_duplicate_slot_does_not_attempt_the_store_push(self):
+        src = self._workflow()
+        step = src[src.index("name: Publish the store"):]
+        step = step[:step.index("- name:", 10)]
+        self.assertIn("steps.publish.outputs.duplicate != '1'", step)
+
+    def test_the_guard_itself_is_not_softened(self):
+        """Nothing in the STORE PUBLISH path may tolerate a refusal: the run
+        simply does not attempt a push it already knows cannot succeed.
+
+        Scoped to that step rather than the file. The commit step below has a
+        legitimate `git pull --rebase ... || true` in its push-race retry,
+        and a file-wide assertion failed on it -- a test that reads as "the
+        guard is softened" when it is not is worse than no test."""
+        src = self._workflow()
+        step = src[src.index("name: Publish the store"):]
+        step = step[:step.index("- name:", 10)]
+        for weakening in ("continue-on-error", "--force", "|| true"):
+            self.assertNotIn(weakening, step,
+                             "the lineage guard must not be worked around")
+
+    def test_the_render_step_carries_the_id_the_guard_reads(self):
+        """Without the id the expression is always empty, which silently
+        passes and restores the old behaviour."""
+        import yaml
+        spec = yaml.safe_load(self._workflow())
+        steps = [s for j in spec["jobs"].values() for s in j.get("steps", [])]
+        render = [s for s in steps if s.get("name") == "Render and publish"]
+        self.assertEqual([s.get("id") for s in render], ["publish"])
+
+    def test_the_evaluation_is_skipped_on_a_duplicate_too(self):
+        """Its store is stale and its push is skipped, so its sample and
+        report would be written from an older store and committed over the
+        real run's."""
+        src = self._workflow()
+        step = src[src.index("name: Judge evaluation"):]
+        step = step[:step.index("- name:", 10)]
+        self.assertIn("steps.publish.outputs.duplicate != '1'", step)

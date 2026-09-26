@@ -65,6 +65,20 @@ def deadlines_from_store(conn, week, days=21):
     return ["{0} (closes {1})".format(r["title"], r["deadline"]) for r in rows]
 
 
+def mark_duplicate(path=None):
+    """Record for the workflow that this run is a redundant retry slot.
+
+    Writes `duplicate=1` to GITHUB_OUTPUT when running in Actions, and does
+    nothing at all anywhere else, so a local run is unaffected.
+    """
+    path = path or os.environ.get("GITHUB_OUTPUT")
+    if not path:
+        return False
+    with open(path, "a", encoding="utf-8") as handle:
+        handle.write("duplicate=1\n")
+    return True
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     # --no-publish renders, redacts and builds the partner site but posts
@@ -133,6 +147,22 @@ def main():
               "Use --force to publish again.".format(
                   week, already["published_at"], already["canvas_id"]))
         no_publish = True
+        # Tell the WORKFLOW, not just the log. The Monday publish has four
+        # retry slots by design, and when the primary succeeds a later slot
+        # pulls a store that is now stale, does its work, and has its push
+        # correctly refused by the lineage guard -- a red run and a real
+        # failure alert, every Monday since at least 6 September.
+        #
+        # The guard is right and must not be softened. What is wrong is
+        # ATTEMPTING a push that cannot succeed: a duplicate run has, by
+        # definition, nothing new to publish. This is the only fact the
+        # workflow needs, and it is the same fact the log line states.
+        #
+        # It matters more than a tidy run list. A red Monday every Monday is
+        # how a team learns to ignore alerts, and a genuinely failing
+        # coverage watch then ran for five days unread -- over 1,218 UPR
+        # recommendations that had been missing since 3 September.
+        mark_duplicate()
 
     secrets = publish.load_secrets()
     summary, acts, deadlines = summarise_edition(markdown, week)

@@ -115,6 +115,7 @@ jobs:
           slack_team_id: T066M0LAJ
           EOF
       - name: Render and publish
+        id: publish
         if: env.SKIP != '1'
         env:
           # Manual runs default to a dry run: the partner site still deploys,
@@ -164,9 +165,13 @@ jobs:
         # always() with the fetch guard, like every step here: a failed feed
         # above must not skip the evaluation, but a refused store must,
         # because the sample would be drawn from a store this run does not
-        # own.
+        # own. A DUPLICATE retry slot is skipped for the same reason: its
+        # store is stale, its push is skipped below, so its sample and report
+        # would be written from an older store and then committed over the
+        # ones the real run produced.
         if: always() && steps.fetch.outcome == 'success'
           && env.SKIP != '1'
+          && steps.publish.outputs.duplicate != '1'
         run: |
           WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t - datetime.timedelta(days=t.weekday())).isoformat())")
           echo "Judge evaluation for week commencing $WEEK"
@@ -182,6 +187,20 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --push
       - name: Publish the store
+        # SKIPPED on a redundant retry slot. There are four Monday crons by
+        # design; when the primary succeeds, a later slot holds a store that
+        # is now stale and the lineage guard correctly refuses its push. That
+        # refusal was surfacing as a failed run and a real alert EVERY Monday
+        # (6, 7, 14 and 21 September all have one), which is how a team stops
+        # reading alerts -- and a genuinely failing coverage watch then ran
+        # five days unread over 1,218 lost UPR recommendations.
+        #
+        # The guard is not softened: nothing here tolerates a refusal. The run
+        # simply does not attempt a push it knows cannot succeed, on the same
+        # fact run_monday already prints -- publish_log says this week is
+        # published. Anything genuinely new is published by the slot that did
+        # the publishing, or by the next workflow to run.
+        #
         # NEVER publish a store the pull refused. This was `always()`, and on
         # 2026-08-28 that turned one sha mismatch into a cascade: the pull
         # refused an untrusted download, left it on disk, and this step
@@ -193,11 +212,21 @@ jobs:
         # we pulled, we have nothing worth publishing.
         if: always() && steps.fetch.outcome == 'success'
           && env.SKIP != '1'
+          && steps.publish.outputs.duplicate != '1'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --push
       - name: Commit state
-        # PAIRED WITH THE PUBLISH ABOVE, and it must stay that way. With no
+        # PAIRED WITH THE PUBLISH ABOVE, and it must stay that way. That
+        # includes the duplicate guard: tests/test_vote_tracker_display.py
+        # asserts the two conditions are IDENTICAL in both directions, and it
+        # caught this change when only the publish had it.
+        #
+        # Skipping the commit on a duplicate slot is not merely consistent,
+        # it is better. A retry slot regenerates site artefacts and the
+        # edition from the store it pulled, which on a duplicate is OLDER
+        # than the one the real run published -- so committing them would
+        # quietly roll the partner site back to a stale render. With no
         # condition, this step is skipped whenever ANY earlier step failed --
         # one WAF-blocked feed was enough -- while the publish above still
         # uploaded a new store. New asset, uncommitted sidecar: the next run
@@ -205,6 +234,7 @@ jobs:
         # where 2026-08-28's cascade actually began.
         if: always() && steps.fetch.outcome == 'success'
           && env.SKIP != '1'
+          && steps.publish.outputs.duplicate != '1'
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
