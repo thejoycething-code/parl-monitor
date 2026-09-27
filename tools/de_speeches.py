@@ -93,13 +93,95 @@ def resolve_person(conn, name, party, cache={}):    # noqa: B006
         return None
     if key not in cache:
         rows = conn.execute(
-            "SELECT person_id, name FROM de_members WHERE parliament = '5'"
+            "SELECT person_id, name, legislature FROM de_members WHERE parliament = '5'"
         ).fetchall() if "__all__" not in cache else cache["__all__"]
         if "__all__" not in cache:
             cache["__all__"] = rows
-        hit = [r[0] for r in rows if match_key(r[1]) == key]
-        cache[key] = hit[0] if len(hit) == 1 else None
+        cache[key] = _resolve(conn, key, rows)
     return cache[key]
+
+
+# abgeordnetenwatch legislature id -> Wahlperiode (its /parliament-periods).
+LEGISLATURE_WP = {"67": 16, "83": 17, "97": 18, "111": 19, "132": 20, "161": 21}
+SUFFIX = re.compile(r"^(.*?)\s*\(([^)]+)\)$")
+
+
+def _resolve(conn, key, rows):
+    """EXACTLY ONE PERSON, or nothing -- with the register deciding who.
+
+    de_members holds a row per candidacy MANDATE, one per term, so a member
+    who sat in two stored terms matches twice. Taken as ambiguity, that left
+    2,609 of 5,386 speeches unattributed (27 September 2026: the day the
+    2017-21 term was stored beside 2025-29), Brandner, von Storch and
+    Dobrindt among them. So each mandate is tied to a PERSON through the
+    Bundestag's own register (de_mdb, every member since 1949): the one
+    register member of that name who served in that Wahlperiode. The speaker
+    resolves when every candidate mandate belongs to one person, and takes
+    that person's LATEST mandate, so a career aggregates under the id the
+    member sits under now.
+
+    A Bericht name with a place suffix -- "Carsten Müller (Braunschweig)",
+    printed because another member shares the name -- is matched on the bare
+    name and narrowed by the register's ORTSZUSATZ. Two people sharing a name
+    in one term still resolve to nobody, and without the register held
+    (tools/de_stammdaten.py) the old rule stands: exactly one mandate or none.
+    """
+    m = SUFFIX.match(key)
+    bare, place = (m.group(1).strip(), m.group(2).strip()) if m else (key, None)
+    hit = [r for r in rows if match_key(r[1]) in (key, bare)]
+    register = _register(conn)
+    if not hit:
+        return None
+    if not register:
+        return hit[0][0] if len(hit) == 1 and not place else None
+    people = register.get(bare, [])
+    if place:
+        people = [p for p in people if p[1] == place]
+    if len(people) != 1:
+        # Not in the register under this spelling (or two people): only an
+        # unambiguous single mandate may stand, as before.
+        return hit[0][0] if len(hit) == 1 and not people and not place else None
+    person = people[0]
+    everyone = register.get(bare, [])
+    if len(everyone) == 1:
+        # Only one member has ever had this name: every mandate is theirs.
+        # The term check below is for shared names only, and must not run
+        # here -- the register lags the current term (Michael Breilmann sits
+        # in 2025-29, the September 2026 register lists 2021-25 alone).
+        return max(hit, key=lambda r: int(r[2] or 0))[0]
+    mine = []
+    for r in hit:
+        wp = LEGISLATURE_WP.get(str(r[2] or ""))
+        sat = [p for p in everyone if wp in p[2]]
+        if wp is not None and len(sat) == 1 and sat[0] is person:
+            mine.append(r)
+    if not mine:
+        return None
+    return max(mine, key=lambda r: int(r[2] or 0))[0]
+
+
+def _register(conn, cache={}):                       # noqa: B006
+    """{bare name key: [(mdb_id, place, {wahlperioden})]} from de_mdb.
+
+    The key is built as the Bericht prints a name -- first name, prefix,
+    surname, "Beatrix von Storch" -- through the same match_key. Empty when
+    the register is not held.
+    """
+    if "__all__" not in cache:
+        out = {}
+        try:
+            wps = {}
+            for mdb_id, wp in conn.execute("SELECT mdb_id, wp FROM de_mdb_terms"):
+                wps.setdefault(mdb_id, set()).add(int(wp))
+            for mdb_id, vorname, praefix, nachname, ort in conn.execute(
+                    "SELECT mdb_id, vorname, praefix, nachname, ortszusatz FROM de_mdb"):
+                k = match_key(" ".join(p for p in (vorname, praefix, nachname) if p))
+                out.setdefault(k, []).append(
+                    (mdb_id, match_key(ort or "") or None, wps.get(mdb_id, set())))
+        except Exception:                               # noqa: BLE001
+            out = {}
+        cache["__all__"] = out
+    return cache["__all__"]
 
 
 def reresolve(conn, log=print):

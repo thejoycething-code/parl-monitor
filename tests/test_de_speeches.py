@@ -123,6 +123,7 @@ class AttributionTests(unittest.TestCase):
 
     def setUp(self):
         sp.resolve_person.__defaults__[0].clear()   # the module-level cache
+        sp._register.__defaults__[0].clear()
 
     def test_a_title_in_the_protocol_still_resolves(self):
         """The Bericht prints "Dr. Dietmar Bartsch"; abgeordnetenwatch stores
@@ -154,6 +155,75 @@ class AttributionTests(unittest.TestCase):
                          "dietmar bartsch")
         got, _ = sp.parse_speeches(PROTOCOL)
         self.assertIn("Dr. Dietmar Bartsch", [n for n, _, _, _ in got])
+
+
+def _mandate(conn, pid, name, legislature):
+    conn.execute(
+        "INSERT INTO de_members (person_id, name, party, parliament, "
+        "parliament_label, legislature, first_seen, last_seen) VALUES "
+        "(?,?,?,?,?,?,?,?)",
+        (pid, name, "AfD", "5", "Bundestag", legislature, TODAY, TODAY))
+    conn.commit()
+
+
+def _registered(conn, mdb_id, vorname, nachname, wps, praefix="", ort=""):
+    conn.execute(
+        "INSERT INTO de_mdb (mdb_id, nachname, vorname, ortszusatz, praefix, "
+        "first_wp, last_wp, captured_at) VALUES (?,?,?,?,?,?,?,?)",
+        (mdb_id, nachname, vorname, ort, praefix, min(wps), max(wps), TODAY))
+    for wp in wps:
+        conn.execute("INSERT INTO de_mdb_terms (mdb_id, wp) VALUES (?,?)",
+                     (mdb_id, wp))
+    conn.commit()
+
+
+class OnePersonSeveralMandatesTests(unittest.TestCase):
+    """27 September 2026: de_members holds a row per MANDATE, so storing the
+    2017-21 term beside 2025-29 left 2,609 of 5,386 speeches unattributed.
+    The register decides whether several mandates are one person."""
+
+    def setUp(self):
+        sp.resolve_person.__defaults__[0].clear()
+        sp._register.__defaults__[0].clear()
+
+    def test_one_person_in_two_terms_takes_the_latest_mandate(self):
+        conn = _conn()
+        _mandate(conn, "m111", "Beatrix von Storch", "111")
+        _mandate(conn, "m161", "Beatrix von Storch", "161")
+        _registered(conn, "1", "Beatrix", "Storch", {19, 20, 21}, praefix="von")
+        self.assertEqual(sp.resolve_person(conn, "Beatrix von Storch", "AfD"), "m161")
+
+    def test_two_people_of_one_name_in_different_terms_are_told_apart(self):
+        """Only the mandate from the term the register puts ONE of them in
+        can be theirs; here both terms are split, so each is unambiguous but
+        the speaker is not -- nobody."""
+        conn = _conn()
+        _mandate(conn, "a", "Michael Müller", "97")
+        _mandate(conn, "b", "Michael Müller", "161")
+        _registered(conn, "1", "Michael", "Müller", {18})
+        _registered(conn, "2", "Michael", "Müller", {21})
+        self.assertIsNone(sp.resolve_person(conn, "Michael Müller", "SPD"))
+
+    def test_a_place_suffix_picks_the_person_the_register_names(self):
+        conn = _conn()
+        _mandate(conn, "cm", "Carsten Müller", "161")
+        _registered(conn, "1", "Carsten", "Müller", {21}, ort="Braunschweig")
+        _registered(conn, "2", "Carsten", "Müller", {14})
+        self.assertEqual(
+            sp.resolve_person(conn, "Carsten Müller (Braunschweig)", "CDU/CSU"), "cm")
+
+    def test_a_shared_name_in_the_same_term_is_still_nobody(self):
+        conn = _conn()
+        _mandate(conn, "x", "Dagmar Schmidt", "161")
+        _registered(conn, "1", "Dagmar", "Schmidt", {21}, ort="Wetzlar")
+        _registered(conn, "2", "Dagmar", "Schmidt", {21}, ort="Meißen")
+        self.assertIsNone(sp.resolve_person(conn, "Dagmar Schmidt", "SPD"))
+
+    def test_without_the_register_the_old_rule_stands(self):
+        conn = _conn()
+        _mandate(conn, "m111", "Stephan Brandner", "111")
+        _mandate(conn, "m161", "Stephan Brandner", "161")
+        self.assertIsNone(sp.resolve_person(conn, "Stephan Brandner", "AfD"))
 
 
 class MemberRepairTests(unittest.TestCase):

@@ -65,6 +65,16 @@ on:
         description: "Also sweep Vorgänge and committee reports since `since`"
         type: boolean
         default: false
+      # BACK TO 2010 (27 September 2026). abgeordnetenwatch legislature ids,
+      # from its /parliament-periods: 83 = 2009-13, 97 = 2013-17, 111 =
+      # 2017-21, 132 = 2021-25 (never collected before this; the July 2023
+      # assisted-suicide votes were in it), 161 = 2025-29. Collecting a term
+      # also stores its MANDATES, which is what lets that term's speakers be
+      # attributed at all.
+      legislatures:
+        description: "Bundestag terms whose recorded votes to collect (space-separated abgeordnetenwatch ids)"
+        required: true
+        default: "111"
 
 permissions:
   contents: write
@@ -112,9 +122,14 @@ jobs:
           anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
           dip_api_key: "${{ secrets.DIP_API_KEY }}"
           EOF
-      - name: The 2017-2021 Bundestag's recorded votes
+      - name: The chosen Bundestag terms' recorded votes
         if: always() && steps.fetch.outcome == 'success'
-        run: python3 tools/de_rollcalls.py --parliament 5 --legislature 111 | tee /tmp/de-bf-rollcalls.log
+        run: |
+          rc=0
+          for l in ${{ inputs.legislatures }}; do
+            python3 tools/de_rollcalls.py --parliament 5 --legislature "$l" | tee -a /tmp/de-bf-rollcalls.log || rc=1
+          done
+          exit $rc
       - name: Plenary protocols since the chosen date
         # Each protocol is read ONCE (de_protocols), so a re-dispatch reads
         # only what the last one did not reach.
@@ -123,6 +138,14 @@ jobs:
           UNTIL=""
           if [ -n "${{ inputs.until }}" ]; then UNTIL="--until ${{ inputs.until }}"; fi
           python3 tools/de_speeches.py --since "${{ inputs.since }}" --limit "${{ inputs.protocols }}" $UNTIL | tee /tmp/de-bf-speeches.log
+      - name: Re-attribute stored speeches (offline, free)
+        # AFTER the terms and protocols above: a speech stored before its
+        # speaker's mandate existed resolves to nobody, and this collector
+        # reads each protocol once, so nothing else would ever revisit it.
+        # Stance rows are keyed on the speech, so a re-attributed speech's
+        # existing score counts for its member without being paid for again.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/de_speeches.py --reresolve | tee /tmp/de-bf-reresolve.log
       - name: "Vorgänge by tier-1 term since the chosen date"
         if: always() && steps.fetch.outcome == 'success' && inputs.documents
         run: python3 tools/de_documents.py --mode terms --since "${{ inputs.since }}" --pages 10 --budget-seconds 1800 | tee /tmp/de-bf-documents.log

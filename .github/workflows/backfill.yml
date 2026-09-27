@@ -23,6 +23,13 @@ on:
         description: "Also sweep Hansard speeches (slower)"
         type: boolean
         default: true
+      # An END date (27 September 2026, the backfill to 2010): the ledger
+      # already reached May 2015, and sweeping on to today would re-read
+      # eleven years it holds. Blank = today, as before.
+      until:
+        description: "End date (YYYY-MM-DD, blank = today)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -71,30 +78,32 @@ jobs:
         run: python3 tools/raw_state.py --pull
       - name: Backfill questions and EDMs
         run: |
+          END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
           if [ -n "${{ inputs.terms }}" ]; then
-            python3 tools/backfill_mp_ledger.py "${{ inputs.cutoff }}" \
+            python3 tools/backfill_mp_ledger.py "${{ inputs.cutoff }}" "$END" \
               --terms "${{ inputs.terms }}" | tee /tmp/bf-ledger.log
           else
-            python3 tools/backfill_mp_ledger.py "${{ inputs.cutoff }}" \
+            python3 tools/backfill_mp_ledger.py "${{ inputs.cutoff }}" "$END" \
               | tee /tmp/bf-ledger.log
           fi
       - name: Backfill Hansard speeches
         if: inputs.hansard
         run: |
+          END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
           if [ -n "${{ inputs.terms }}" ]; then
             python3 tools/backfill_hansard.py "${{ inputs.cutoff }}" \
-              "$(date -u +%F)" --terms "${{ inputs.terms }}" \
+              "$END" --terms "${{ inputs.terms }}" \
               | tee /tmp/bf-hansard.log
           else
             python3 tools/backfill_hansard.py "${{ inputs.cutoff }}" \
-              "$(date -u +%F)" | tee /tmp/bf-hansard.log
+              "$END" | tee /tmp/bf-hansard.log
           fi
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Historic backfill"
-            echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }}"
+            echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }} to ${{ inputs.until || 'today' }}"
             for f in ledger hansard; do
               echo "### $f"
               if [ -f "/tmp/bf-$f.log" ]; then
