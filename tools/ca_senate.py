@@ -63,6 +63,13 @@ TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-ca.yaml")
 HIDDEN_AREAS = (11,)
 POSITIONS = ("Yea", "Nay", "Abstention")
+# The earliest session sencanada.ca publishes recorded votes for, MEASURED
+# 27 September 2026: the 41-1 page renders its session menu and its "Below is
+# a list of standing votes" heading and then no votes at all, while 42-1 lists
+# 197. Earlier sessions are skipped and SAID to be skipped. Without this an
+# empty list reads as a redesign ("markup changed?"), which is a gap, which
+# fails the run and fires the alert on a session that simply has no records.
+FIRST_PUBLISHED = (42, 1)
 DID_NOT_VOTE = "Did not vote"
 
 TAG = re.compile(r"<[^>]+>")
@@ -216,6 +223,10 @@ def pull(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None, log=pr
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else filt.load_watchlist(WATCHLIST)
     parl, sess = parse_session(session)
+    if (parl, sess) < FIRST_PUBLISHED:
+        log("  {0}: the Senate publishes no recorded votes online before {1}-{2}; "
+            "nothing to collect, and not a gap".format(session, *FIRST_PUBLISHED))
+        return 0, 0, 0, 0
     votes = parse_list(client.get_text(LIST.format(session), FEED,
                                        "list-" + session, archive=False))
     if not votes:

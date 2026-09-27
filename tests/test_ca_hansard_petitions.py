@@ -323,6 +323,33 @@ class PetitionTests(unittest.TestCase):
         self.assertEqual(pet.highest_presented(conn, "441"), 1)
         self.assertEqual(pet.highest_presented(conn), 0, "sessions never mix")
 
+    def test_a_holey_session_is_scanned_through_its_holes(self):
+        """42-1 on the petitions site: nothing until 00997, then sparse."""
+        conn = store()
+        held = {n: page("421-%05d" % n, "Justice", MAID, kind="Paper petition")
+                for n in (997, 998, 1003, 1030)}
+        client = FakePages({"421-%05d" % n: p for n, p in held.items()})
+        saved = dict(pet.HOLEY), pet.HOLEY_TAIL
+        pet.HOLEY["421"], pet.HOLEY_TAIL = 1200, 50
+        try:
+            pet.walk_presented(run_for(conn, client), prefix="421")
+        finally:
+            pet.HOLEY.clear(); pet.HOLEY.update(saved[0]); pet.HOLEY_TAIL = saved[1]
+        self.assertEqual(pet.highest_presented(conn, "421"), 1030)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_petitions").fetchone()[0], 4)
+        self.assertEqual(client.calls[-1], "421-01080", "stops HOLEY_TAIL empties past the last hit")
+
+    def test_a_holey_session_stops_at_its_ceiling(self):
+        conn = store()
+        client = FakePages({})
+        saved = dict(pet.HOLEY)
+        pet.HOLEY["421"] = 10
+        try:
+            pet.walk_presented(run_for(conn, client), prefix="421")
+        finally:
+            pet.HOLEY.clear(); pet.HOLEY.update(saved)
+        self.assertEqual(len(client.calls), 10, "leading empties never end it early")
+
     def test_session_codes_become_prefixes(self):
         self.assertEqual(pet.session_prefix("43-2"), "432")
         with self.assertRaises(ValueError):

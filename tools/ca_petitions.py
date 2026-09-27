@@ -266,6 +266,24 @@ def session_prefix(code):
     return hit.group(1) + hit.group(2)
 
 
+# SESSIONS WHOSE NUMBERING IS HOLEY on the petitions site, MEASURED 27
+# September 2026, as {prefix: ceiling}. The site launched in December 2015 and
+# holds only part of the 42nd Parliament's presented petitions: 421-00001 is
+# empty, the first page is 421-00997, and density runs 1-5 per 20 numbers out
+# to about 4,500 (4,500-4,519 held 3; 5,000 and beyond held none). Walked like
+# any other session it stops after its first three empties and reads nothing,
+# looking perfectly healthy. The holes are the PAPER petitions: every 42-1
+# page the site holds is a presented E-petition (421-00997 is e-463,
+# 421-01000 is e-492), so 42-1 coverage here is e-petitions only, and says so
+# by its `kind`. So leading empties do not count, holes are
+# walked through, and the walk ends at the ceiling or after HOLEY_TAIL
+# consecutive empties past the last petition found. Empty numbers answer 200
+# with a 0-byte body, so the scan costs a fraction of a second each.
+# (Nothing is held at all for 40-3, 41-1 or 41-2: those walks end at once.)
+HOLEY = {"421": 5500}
+HOLEY_TAIL = 500
+
+
 def walk_presented(run, prefix=PRESENTED_PREFIX, start=None):
     # PRESENTED_SEED is the CURRENT session's frontier, measured once. An
     # earlier session held nowhere starts at 00001: there is no frontier
@@ -273,11 +291,21 @@ def walk_presented(run, prefix=PRESENTED_PREFIX, start=None):
     held = highest_presented(run.conn, prefix)
     seed = PRESENTED_SEED if prefix == PRESENTED_PREFIX else 1
     n, misses = start or (held + 1 if held else seed), 0
-    while misses < EMPTY_RUN and not run.spent():
+    ceiling = HOLEY.get(prefix)
+    found = bool(held)
+    while not run.spent():
+        if ceiling is None:
+            if misses >= EMPTY_RUN:
+                break
+        elif n > ceiling or (found and misses >= HOLEY_TAIL):
+            break
         got = run.read("{0}-{1:05d}".format(prefix, n))
         if got is None:
             break           # a failed page is a gap; do not walk past it
-        misses = 0 if got else misses + 1
+        if got:
+            found, misses = True, 0
+        else:
+            misses += 1
         n += 1
 
 

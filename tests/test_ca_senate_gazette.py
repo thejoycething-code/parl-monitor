@@ -141,6 +141,20 @@ class SenateTests(unittest.TestCase):
         self.assertIn("against the tally", conn.execute(
             "SELECT detail FROM gaps WHERE feed='ca-senate'").fetchone()[0])
 
+    def test_a_session_before_the_senate_published_votes_is_skipped_not_a_gap(self):
+        """41-1 renders its menu and no votes; that is history, not a redesign."""
+        conn = store()
+
+        class Never(SenateClient):
+            def get_text(self, url, feed, slug, archive=True):
+                raise AssertionError("no request for a session with no published votes")
+
+        said = []
+        got = sen.pull(conn, Never(), "2026-09-27", session="41-1", tax=TAX, wl=WL, log=said.append)
+        self.assertEqual(got, (0, 0, 0, 0))
+        self.assertTrue(any("not a gap" in m for m in said))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0], 0)
+
     def test_a_list_that_parses_to_nothing_is_a_gap(self):
         conn = store()
 
