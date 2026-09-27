@@ -171,6 +171,65 @@ def chamber_members(conn, chamber):
             for r in conn.execute("SELECT * FROM ca_senators")}
 
 
+def _prayer_key(p):
+    """What makes two petitions THE SAME petition: their own words, folded.
+    A petition with no stored prayer is only ever the same as itself."""
+    text = " ".join((p["prayer"] or "").lower().split())[:400]
+    return text or "id:" + (p["petition_id"] or "")
+
+
+def petition_lines(conn, area):
+    """[(mp_person_id, evidence line)] for the area's petitions, GROUPED.
+
+    Canadian MPs present one petition many times: after the backfill to 2020,
+    the judge's 967 score-3 petitions were 115 distinct texts, one of them
+    presented 85 times. One line per copy buried each MP's record under
+    identical rows. So each MP gets ONE line per distinct text -- how many
+    times they presented it, over what dates, how many signatures in all, the
+    judge's score and why-line -- and how many MPs presented that text in
+    total, because an organised drive carried by many members is a different
+    fact from one member's constituency mail. Still evidence, never direction:
+    presenting a petition does not mean endorsing it."""
+    groups, carriers = {}, {}
+    for p in conn.execute("SELECT * FROM ca_petitions WHERE mp_person_id IS NOT NULL"):
+        if not _in_area(p["areas"], area):
+            continue
+        key = _prayer_key(p)
+        groups.setdefault((p["mp_person_id"], key), []).append(p)
+        carriers.setdefault(key, set()).add(p["mp_person_id"])
+    out, omitted = [], {}
+    for (mp, key), rows in groups.items():
+        dates = sorted(d for d in ((r["presented"] or r["opened"] or "") for r in rows) if d)
+        sigs = sum(r["signatures"] or 0 for r in rows)
+        scores = [r["triage_score"] for r in rows if "triage_score" in r.keys()
+                  and r["triage_score"] is not None]
+        why = next((r["why_it_matters"] for r in rows if "why_it_matters" in r.keys()
+                    and r["why_it_matters"]), None)
+        # A text the judge scored 0 is irrelevant to every area: counted per
+        # MP below, not listed line by line in a sheet about one area.
+        if scores and max(scores) == 0:
+            omitted[mp] = omitted.get(mp, 0) + len(rows)
+            continue
+        first = rows[0]
+        span = (dates[0] if len(set(dates)) == 1 else "{0} to {1}".format(dates[0], dates[-1])) \
+            if dates else "?"
+        others = len(carriers[key]) - 1
+        line = "{0} PETITION {1} ({2}, {3} signatures{4}){5}{6} [presenting a petition " \
+               "does not imply endorsement]".format(
+                   dates[-1] if dates else "?",
+                   first["presented_number"] or first["petition_id"] if len(rows) == 1
+                   else "{0} copies, {1}".format(len(rows), span),
+                   first["category"] or "?", sigs,
+                   ", also presented by {0} other MP(s)".format(others) if others else "",
+                   " judge {0}".format(max(scores)) if scores else "",
+                   ": " + " ".join(why.split())[:110] if why else "")
+        out.append((mp, line))
+    for mp, n in omitted.items():
+        out.append((mp, "PETITIONS NOT LISTED: {0} presented that the judge scored 0 "
+                        "(irrelevant to every area)".format(n)))
+    return out
+
+
 def build_rows(conn, area, chamber, entries, bill_entries, today=None):
     today = today or datetime.date.today().isoformat()
     members = chamber_members(conn, chamber)
@@ -243,13 +302,8 @@ def build_rows(conn, area, chamber, entries, bill_entries, today=None):
                     "{0} SPEECH {1}: \"{2}\" [activity, not direction]".format(
                         s["date"] or "?", (s["subject"] or s["rubric"] or "")[:50],
                         " ".join((s["excerpt"] or "").split())[:100]))
-        for p in conn.execute("SELECT * FROM ca_petitions WHERE mp_person_id IS NOT NULL"):
-            if _in_area(p["areas"], area):
-                rec(p["mp_person_id"])["lines"].append(
-                    "{0} PETITION {1} ({2}, {3} signatures) [presenting a petition "
-                    "does not imply endorsement]".format(
-                        p["presented"] or p["opened"] or "?", p["presented_number"] or p["petition_id"],
-                        p["category"] or "?", p["signatures"] if p["signatures"] is not None else "?"))
+        for line_mp, line in petition_lines(conn, area):
+            rec(line_mp)["lines"].append(line)
 
     # The absence rule: the latest DECISIVE signed division -- confirmed, and
     # OUR side scoring +2 (C-62's Nay scores -2, but its Yea only +1, so it is

@@ -167,6 +167,49 @@ class PlacementTests(unittest.TestCase):
         self.assertIn("does not imply endorsement", joined)
         self.assertEqual(rows["5"]["column"], "0")
 
+    def _pet(self, conn, pid, mp, prayer, when, sigs=10, score=None, why=None):
+        conn.execute("INSERT INTO ca_petitions (petition_id, presented_number, category, prayer, "
+                     "presented, mp_person_id, areas, signatures, triage_score, why_it_matters, "
+                     "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                     (pid, pid, "Justice", prayer, when, mp, "[2]", sigs, score, why,
+                      "2026-09-27", "2026-09-27"))
+
+    def test_identical_petitions_are_one_line_with_a_count(self):
+        """One MP presented the same MAID petition three times."""
+        conn = store()
+        for i, when in enumerate(("2026-02-01", "2026-03-01", "2026-04-01")):
+            self._pet(conn, "451-0000%d" % i, "5", "Keep  MAID closed to mental illness.", when,
+                      score=3, why="Repeal MAID MI-SUMC.")
+        self._pet(conn, "451-00009", "5", "Protect conscience rights.", "2026-05-01")
+        self._pet(conn, "451-00010", "1", "keep maid closed to mental illness.", "2026-05-02")
+        conn.commit()
+        rows, _ = rows_by_id(conn)
+        lines = [l for l in rows["5"]["comments"] if "PETITION" in l]
+        self.assertEqual(len(lines), 2, "one line per distinct text")
+        maid = next(l for l in lines if "3 copies" in l)
+        self.assertIn("3 copies, 2026-02-01 to 2026-04-01", maid)
+        self.assertIn("30 signatures", maid)
+        self.assertIn("also presented by 1 other MP(s)", maid)
+        self.assertIn("judge 3", maid)
+        self.assertIn("does not imply endorsement", maid)
+        self.assertEqual(rows["5"]["column"], "0", "still evidence, never direction")
+
+    def test_a_petition_the_judge_scored_zero_is_counted_not_listed(self):
+        conn = store()
+        self._pet(conn, "451-00050", "5", "Fund nuclear waste research.", "2026-05-01", score=0)
+        conn.commit()
+        rows, _ = rows_by_id(conn)
+        joined = " ".join(rows["5"]["comments"])
+        self.assertNotIn("451-00050", joined)
+        self.assertIn("PETITIONS NOT LISTED: 1 presented that the judge scored 0", joined)
+
+    def test_a_single_petition_keeps_its_own_number(self):
+        conn = store()
+        self._pet(conn, "451-00042", "5", "Protect conscience rights.", "2026-05-01")
+        conn.commit()
+        rows, _ = rows_by_id(conn)
+        self.assertIn("PETITION 451-00042", " ".join(rows["5"]["comments"]))
+
     def test_comments_are_newest_first(self):
         rows, _ = rows_by_id(store())
         dates = [c5._line_date(c) for c in rows["1"]["comments"] if c5._line_date(c)]
