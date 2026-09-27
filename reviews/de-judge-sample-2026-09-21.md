@@ -1,6 +1,6 @@
 # Judge sample for the edition of 2026-09-21
 
-Ten of this week's 418 live verdicts, chosen across the scores. For each,
+Ten of this week's 5025 live verdicts, chosen across the scores. For each,
 write the score YOU would give on the VERDICT line (0 = irrelevant to every
 area, 1 = background only, 2 = belongs in the weekly digest, 3 = likely
 campaign or lobbying trigger). A NOTE is optional: say what the judge got
@@ -11,11 +11,10 @@ Do not edit the `### item:` id lines.
 
 ---
 
-### item: de_vorgaenge:333921
-- feed: de_vorgaenge | judge score: 0 | tier: 1 | candidate areas: 12
-- title: Entschließung des Europäischen Parlaments vom 12. März 2026 zu Menschenhandel und schweren Menschenrechtsverletzungen im Zusammenhang mit der Rekrutierung von Menschen, die nicht Staatsangehörige Russlands sind, insbesondere von Menschen aus Afrika, für den Angriffskrieg Russlands gegen die Ukraine (2026/2641(RSP)) 
-EP P10_TA(2026)0081
-- judge why: This EU resolution concerns Russia's war conduct and trafficking of non-Russians into conflict, not a CitizenGO campaign area.
+### item: de_speeches:protokoll:20/24#42
+- feed: de_speeches | judge score: 0 | tier: 1 | candidate areas: 7
+- title: Andreas Audretsch: Meinungsfreiheit, freie Medien, freie Kultur – all das sind machtvolle Instrumente. Das sieht man in genau diesen Zeiten
+- judge why: General remarks on free speech and press freedom abroad, not tied to any UK-relevant campaign area.
 VERDICT: 
 NOTE: 
 
@@ -26,58 +25,58 @@ NOTE:
 VERDICT: 
 NOTE: 
 
-### item: de_speeches:protokoll:21/90#256
-- feed: de_speeches | judge score: 1 | tier: 1 | candidate areas: 11, 12
-- title: Alexander Throm: Lokalisierung von Mobilfunkkarten, Quellen-TKÜ, automatisierte Kennzeichenerfassung, moderne Einsatzmittel wie Drohnen –
-- judge why: Expanded surveillance and warrantless checks in weapons-ban zones show a security push worth tracking for civil liberties implications.
+### item: de_speeches:protokoll:19/195#46
+- feed: de_speeches | judge score: 1 | tier: 1 | candidate areas: 1, 9
+- title: Norbert Müller (Potsdam): Im Familienausschuss hat die AfD vor einem Jahr beantragt, dass der Ausschuss eine Reise nach Ungarn unternehmen solle, 
+- judge why: Anecdote about AfD interest in Hungarian family policy, low relevance background context.
 VERDICT: 
 NOTE: 
 
-### item: de_vorgaenge:336642
-- feed: de_vorgaenge | judge score: 1 | tier: 1 | candidate areas: 5
-- title: Entschließung des Bundesrates "Konsequente Umsetzung der Istanbul-Konvention - kritische Bestandsaufnahme des § 177 StGB"
-- judge why: Reviewing sexual offence law under the Istanbul Convention could reshape criminal definitions with knock-on effects for family and religious-freedom cases. Worth monitoring only.
+### item: de_speeches:protokoll:20/133#76
+- feed: de_speeches | judge score: 1 | tier: 1 | candidate areas: 9
+- title: Lisa Paus: Wir wollen dabei aber nicht stehen bleiben, sondern es im Rahmen eines KiTa-Qualitätsentwicklungsgesetzes weiterentwicke
+- judge why: Childcare quality legislation is background family policy with no direct bearing on CitizenGO's core campaign areas, but worth monitoring for family policy trends.
 VERDICT: 
 NOTE: 
 
-### item: de_vorgaenge:324634
-- feed: de_vorgaenge | judge score: 2 | tier: 1 | candidate areas: 7
-- title: Position der Bundesregierung zur sogenannten Chatkontrolle
-- judge why: Chat control proposals threaten mass scanning of private communications, undermining free speech, religious communication and family privacy online.
+### item: de_speeches:protokoll:20/151#173
+- feed: de_speeches | judge score: 2 | tier: 1 | candidate areas: 5
+- title: Dr. Volker Ullrich: Das betrifft das Selbstbestimmungsgesetz genauso wie das Cannabiskontrollgesetz. Sie können sich Ihrer Verantwortung für
+- judge why: Reference to the Selbstbestimmungsgesetz (self-ID law) alongside cannabis legislation criticism signals ongoing legislative controversy over gender self-identification law.
 VERDICT: 
 NOTE: 
 
-### item: de_vorgaenge:328870
-- feed: de_vorgaenge | judge score: 2 | tier: 1 | candidate areas: 5
-- title: Einbezug der Betroffenenvertretungen von trans- und intergeschlechtlichen sowie nicht-binären Menschen in die Evaluation des Selbstbestimmungsgesetzes
-- judge why: Push to include trans and non-binary advocacy groups in the law's evaluation signals activist influence over future self-ID and safeguarding policy.
+### item: de_speeches:protokoll:20/170#49
+- feed: de_speeches | judge score: 2 | tier: 1 | candidate areas: 8, 11
+- title: Marlene Schönberger: Gleichzeitig gibt es kaum eine Debatte zum Kampf gegen den Islamismus ohne rassistische Stereotype. Immer wieder wird di
+- judge why: Green MP criticises deportation and passport-revocation proposals as racist stereotyping, signalling opposition to tougher migration measures.
 VERDICT: 
 NOTE: 
 
-### item: de_vorgaenge:332003
-- feed: de_vorgaenge | judge score: 3 | tier: 1 | candidate areas: 1
-- title: Förderung von LGBTIQ-, Gender-Projekten und Abtreibung im Ausland
-- judge why: German state funding for LGBTIQ, gender and abortion projects abroad exports contested ideology through development policy. Directly relevant to pro-life and family lobbying overseas.
+### item: de_speeches:protokoll:19/223#279
+- feed: de_speeches | judge score: 3 | tier: 1 | candidate areas: 2
+- title: Kerstin Griese: Für mich ist daher klar, dass es das Geschäft mit dem Tod und Werbung dafür nicht geben darf. Deswegen darf es Suizidbei
+- judge why: MP argues against commercialised suicide assistance while requiring counselling safeguards, central to the legislative fight over assisted dying rules.
 VERDICT: 
 NOTE: 
 
-### item: de_vorgaenge:334843
-- feed: de_vorgaenge | judge score: 3 | tier: 1 | candidate areas: 7
-- title: Begründung für einen nationalen Gesetzentwurf zur Einführung einer Chatkontrolle
-- judge why: National chat control bill would mandate scanning of private messages, a major overreach risk for privacy, free speech and family communications.
+### item: de_speeches:protokoll:21/57#136
+- feed: de_speeches | judge score: 3 | tier: 1 | candidate areas: 13
+- title: Julia-Christina Stange: Ebenso kritisch sehe ich die Aufhebung des Subsidiaritätsprinzips, die damit einhergeht, dass nicht mehr vorrangig geprü
+- judge why: Speech opposes weakening the subsidiarity principle in organ donation law, warning of pressure on grieving families. Directly relevant to consent-at-death policy debates in Germany.
 VERDICT: 
 NOTE: 
 
-### item: de_vorgaenge:328791
-- feed: de_vorgaenge | judge score: 3 | tier: 1 | candidate areas: 3, 5
-- title: Erfassung von Diagnosen der Geschlechtsdysphorie bei Kindern und Jugendlichen im Rahmen der Evaluierung des Selbstbestimmungsgesetzes
-- judge why: Tracking child gender dysphoria diagnoses as part of evaluating the Self-Determination Act could reveal rising rates and inform arguments against self-ID for minors.
+### item: de_speeches:protokoll:19/204#179
+- feed: de_speeches | judge score: 1 | tier: 1 | candidate areas: 7
+- title: Heiko Maas: Deutschlands Regeln für Plattformbetreiber stellen klar: Die Meinungsfreiheit schützt ganz besonders Ansichten, die der 
+- judge why: Minister defends platform speech rules while endorsing limits at incitement. Signals German regulatory posture that shapes EU-wide online safety standards.
 VERDICT: 
 NOTE: 
 
-### item: de_speeches:protokoll:21/88#281
-- feed: de_speeches | judge score: 2 | tier: 1 | candidate areas: 7
-- title: Christian Moser: Die Polizei zählte allein am ersten Tag 48 Straftaten und leitete Ermittlungen ein. Das ist ein Angriff auf unsere Press
-- judge why: MP frames attacks on journalists as an assault on press freedom and democratic order, relevant to monitoring speech and safety debates in Germany.
+### item: de_speeches:protokoll:19/216#33
+- feed: de_speeches | judge score: 1 | tier: 1 | candidate areas: 9
+- title: Dr. Silke Launert: Ein weiterer wichtiger Bereich ist die Gleichstellung; da wurde heute auch schon vieles angesprochen. Das Führungspositi
+- judge why: Discusses gender equality law and parental leave reform. Background only, tangential to core campaign priorities.
 VERDICT: 
 NOTE: 

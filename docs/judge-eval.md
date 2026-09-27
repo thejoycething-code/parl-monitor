@@ -1,8 +1,8 @@
 # Judge evaluation
 
-*Agreement between the judge's score and a human verdict on the same item. The human verdict is the truth here; this measures the judge. Generated 2026-09-25.*
+*Agreement between the judge's score and a human verdict on the same item. The human verdict is the truth here; this measures the judge. Generated 2026-09-27.*
 
-Banked verdicts: 900 live. Labelled: 11 (10 by explicit sample verdict, 1 by review priority).
+Banked verdicts: 7131 live. Labelled: 11 (10 by explicit sample verdict, 1 by review priority).
 
 ## By jurisdiction
 
@@ -10,14 +10,14 @@ Banked verdicts: 900 live. Labelled: 11 (10 by explicit sample verdict, 1 by rev
 
 | Jurisdiction | Banked | Labelled | Exact | Within one | Digest precision |
 |---|---|---|---|---|---|
-| Germany | 659 | 0 | - | - | - |
-| Westminster | 241 | 11 | 91% | 100% | 86% |
+| Germany | 6851 | 0 | - | - | - |
+| Westminster | 280 | 11 | 91% | 100% | 86% |
 
 ## Answer kind
 
 *What the judge said a minister's reply DID, against a reviewer reading the same reply. The edition routes on this: a reply judged "restated" is demoted to a single line under "Asked, but not answered", so a wrong label hides an answer rather than merely misplacing it.*
 
-Banked with a kind: 62. Labelled by a reviewer: 0.
+Banked with a kind: 95. Labelled by a reviewer: 0.
 
 *No reviewer has labelled a kind yet. The judge is unchecked on this, which is not the same as agreeing -- and it is the label the edition acts on.*
 
@@ -63,5 +63,10 @@ Banked with a kind: 62. Labelled by a reviewer: 0.
 |---|---|---|---|---|
 | ? | historic | 2026-08-03 | 2026-09-07 | 70 |
 | 0069e56f1a3a | claude-sonnet-5 | 2026-09-07 | 2026-09-21 | 109 |
+| 036dbc3a178a | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 4397 |
 | 0668d754c487 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 659 |
+| 6db1958af018 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 1727 |
 | 70a677ad2a81 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 62 |
+| d4a5cab41f34 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 53 |
+| dedb038be4b9 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 15 |
+| f27f6873282d | claude-sonnet-5 | 2026-09-28 | 2026-09-28 | 39 |
