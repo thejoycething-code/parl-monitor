@@ -47,6 +47,13 @@ on:
         description: "Also read Gazette issues back to this date (YYYY-MM-DD)"
         type: string
         default: ""
+      # The petitions judge's clock (tools/ca_triage.py). 1200 s is a normal
+      # week with room to spare; a backlog run can ask for up to 2700, which
+      # still ends well inside the 60-minute wall below.
+      judge_seconds:
+        description: "Clock for the petitions judge, in seconds (max 2700)"
+        type: string
+        default: "1200"
 
 permissions:
   contents: write
@@ -102,7 +109,10 @@ jobs:
     # division and bill lists plus a dozen detail calls, 7 sittings, ~320
     # petition pages and 16 Gazette issues each took a few minutes. The
     # backfill gets two hours; src/drain.py budgets bound each step inside it.
-    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || (inputs.backfill && 120 || 30) }}
+    # 60 for the weekly since the judge step (27 September 2026): collection
+    # takes ~5 minutes and the judge's clock is 20 by default, 45 at most, and
+    # a job killed by its timeout never reaches "Publish the store".
+    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || (inputs.backfill && 120 || 60) }}
     env:
       # Unbuffered, or a step killed mid-run leaves an empty log (the EU
       # weekly's 30-minute kill read as an empty log, not a timeout).
@@ -213,13 +223,24 @@ jobs:
         if: always() && steps.fetch.outcome == 'success' && inputs.gazette_since != ''
         run: python3 tools/ca_gazette.py --since "${{ inputs.gazette_since }}" --budget-seconds 3000 | tee /tmp/ca-old-gazette.log
 
+      - name: Judge petitions on our ground (newest first, on a clock)
+        # AFTER every collector, so this week's new petitions are in the queue.
+        # The key is scoped to this step alone; nothing else here calls the API.
+        # A scheduled run has no inputs, so the clock falls back to 1200.
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          SECS="${{ inputs.judge_seconds }}"; SECS="${SECS:-1200}"
+          if [ "$SECS" -gt 2700 ]; then SECS=2700; fi
+          python3 tools/ca_triage.py --limit 2000 --budget-seconds "$SECS" | tee /tmp/ca-triage.log
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Canada weekly"
             echo '```'
-            grep -hE "ca-rollcalls:|ca-senate:|ca-hansard:|ca-petitions:|ca-gazette:|backfill|\[gap\]" \
+            grep -hE "ca-rollcalls:|ca-senate:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|backfill|\[gap\]" \
               /tmp/ca-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/ca-*.log 2>/dev/null \

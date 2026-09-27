@@ -570,8 +570,11 @@ sitting week and after both Gazette parts.
 Each collector runs whatever the one before did. A gap still fails the job,
 so the alert fires, but a Gazette 503 does not cost the week's Hansard.
 
-**No API calls, no Slack, no posting.** It collects into the store and
-publishes the store, and that is all.
+**No Slack, no posting.** It collects into the store and publishes the
+store. Since 27 September 2026 it makes ONE kind of API call: the petitions
+judge (`tools/ca_triage.py`), a 0-3 score and a why-line for each petition
+on our ground, newest first, on a 20-minute clock, recorded in `api_spend`
+as `ca-triage`. Migration-only petitions are not judged.
 
 **The empty-store problem, and the seeds.** On a store that has read nothing,
 Hansard and the presented-petitions walk would start at sitting 1 and

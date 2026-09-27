@@ -221,6 +221,12 @@ ADDED_COLUMNS = (
     # who cast a tracked vote and labels the departed former, so it needs to
     # know which is which without guessing from dates the House never gives.
     ("ca_members", "sitting", "INTEGER"),
+    # The Canadian judge (tools/ca_triage.py, 27 September 2026): petitions
+    # were matched by the taxonomy but never scored, and 1,600-odd "on our
+    # ground" included tier-2 noise (US tariffs, IRGC agents) that only a
+    # judgement can separate. Same two columns every German table carries.
+    ("ca_petitions", "triage_score", "INTEGER"),
+    ("ca_petitions", "why_it_matters", "TEXT"),
 )
 
 
