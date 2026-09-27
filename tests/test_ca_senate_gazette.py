@@ -289,6 +289,28 @@ class GazetteTests(unittest.TestCase):
         self.assertNotIn("p1-2026-09-26", keys, "retried whole next run")
         self.assertIn("p1-2026-07-31-x6", keys)
 
+    def test_typod_anchors_on_the_gazettes_own_index_are_repaired(self):
+        """Found by the backfill to 2020: '@cs7' and a missing '#'."""
+        page = ('<main><h2>Commissions</h2><a href="./commis-eng.html@cs7">A</a>'
+                '<a href="./commis-eng.htmlcs10">B</a><a href="./reg1-eng.html">C</a></main>')
+        urls = [i["url"] for i in gaz.parse_index(page, BASE + "index-eng.html")]
+        self.assertEqual(urls, [BASE + "commis-eng.html#cs7", BASE + "commis-eng.html#cs10",
+                                BASE + "reg1-eng.html"])
+
+    def test_an_index_that_says_nothing_was_published_is_read_not_a_gap(self):
+        conn = store()
+        empty = ("<main>Canada Gazette, Part II: Index. No regulatory text was registered "
+                 "for publication in this issue.</main>")
+
+        class Client(GazetteClient):
+            def get_text(self, url, feed, slug, archive=True):
+                return empty if url.endswith("index-eng.html") else RSS
+
+        issue = {"issue_key": "p2-2021-09-15", "part": 2, "date": "2021-09-15",
+                 "title": "Part II", "url": BASE + "index-eng.html"}
+        self.assertEqual(gaz.read_issue(conn, Client(), issue, TAX, WL, "2026-09-27", quiet), (0, 0, 0))
+        self.assertEqual(conn.execute("SELECT items FROM ca_gazette_issues").fetchone()[0], 0)
+
     def test_a_feed_that_fails_is_a_gap_not_an_empty_week(self):
         conn = store()
         self.assertEqual(self.pull(conn, GazetteClient(fail=("-eng.xml",))), (0, 0, 0, 1))

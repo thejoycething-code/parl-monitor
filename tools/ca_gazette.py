@@ -78,6 +78,15 @@ TAG = re.compile(r"<[^>]+>")
 REGULATION = re.compile(r"/(?:reg\d+|sor-dors\d+|si-tr\d+)-eng\.html$")
 REGISTRATION = re.compile(r"Registration\s+((?:SOR|SI)/\d{4}-\d+)")
 COMMENT = re.compile(r"within (\d+) days after the date of publication")
+# The Gazette's own index pages carry the odd typo'd anchor, found by the
+# backfill to 2020: "commis-eng.html@cs7" (2020-01-25) and
+# "commis-eng.htmlcs10" (2022-10-29). Read literally each is a page that does
+# not exist, so the notice was a gap. Both are repaired to "#<anchor>".
+BAD_ANCHOR = re.compile(r"(-eng\.html)(?:@|(?=[a-z]{2,4}\d+$))")
+# An index that SAYS nothing was published is a real zero, not a parse
+# failure: Part II of 15 September 2021 reads "No regulatory text was
+# registered for publication in this issue."
+NOTHING_PUBLISHED = re.compile(r"No regulatory text was registered for publication", re.I)
 TOKEN = re.compile(r"<(h2|h3)\b[^>]*>(.*?)</\1>|<a\b[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.S)
 
 
@@ -128,6 +137,7 @@ def parse_index(page, base_url):
         title = _clean(atext)
         if not href or href.startswith("#") or not title:
             continue            # footnotes and empty anchors
+        href = BAD_ANCHOR.sub(r"\1#", href)
         if title in headings:
             continue            # the link to a whole section's page, not an item
         url = urllib.parse.urljoin(base_url, href)
@@ -187,6 +197,14 @@ def read_issue(conn, client, issue, tax, wl, today, log=print):
         items = [{"url": issue["url"], "title": issue["title"], "section": "Extra edition",
                   "department": None, "kind": "extra"}]
         pages[issue["url"]] = index
+    if not items and NOTHING_PUBLISHED.search(_clean(_main(index))):
+        conn.execute("INSERT OR REPLACE INTO ca_gazette_issues (issue_key, part, date, "
+                     "title, url, items, ours, read_at) VALUES (?,?,?,?,?,?,?,?)",
+                     (issue["issue_key"], issue["part"], issue["date"], issue["title"],
+                      issue["url"], 0, 0, today))
+        conn.commit()
+        log("  {0}: the index says nothing was published".format(issue["issue_key"]))
+        return 0, 0, 0
     if not items:
         _gap(conn, today, "{0}: index listed no items (markup changed?)".format(issue["issue_key"]))
         log("  [gap] {0}: the index parsed to nothing".format(issue["issue_key"]))
