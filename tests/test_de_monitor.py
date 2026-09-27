@@ -1073,6 +1073,34 @@ class DateWindowTests(unittest.TestCase):
         self.assertNotIn("outside this section", _render(conn))
 
 
+class DiskontinuitaetTests(unittest.TestCase):
+    """A Vorgang of an earlier Bundestag cannot be live: it lapsed with it."""
+
+    def _wp(self, conn, vid, titel, wp, stand):
+        _vorgang(conn, vid, titel, stand=stand)
+        conn.execute("UPDATE de_vorgaenge SET wahlperiode = ?, datum = '2026-09-01' "
+                     "WHERE vorgang_id = ?", (wp, vid))
+        conn.commit()
+
+    def test_an_earlier_periods_live_or_blank_stage_is_lapsed(self):
+        conn = _conn()
+        self._wp(conn, "now", "Laufender Entwurf", "21", "Überwiesen")
+        self._wp(conn, "old", "Alter Entwurf", "20", "In der Beratung")
+        self._wp(conn, "blank", "Leerer Stand", "20", "")
+        rows = conn.execute("SELECT * FROM de_vorgaenge").fetchall()
+        live, concluded, lapsed = dm.by_stage(rows)
+        self.assertEqual([r["vorgang_id"] for r in live], ["now"])
+        self.assertEqual(sorted(r["vorgang_id"] for r in lapsed), ["blank", "old"])
+
+    def test_an_earlier_periods_concluded_stage_stays_concluded(self):
+        conn = _conn()
+        self._wp(conn, "now", "Laufender Entwurf", "21", "Überwiesen")
+        self._wp(conn, "law", "Verkündetes Gesetz", "20", "Verkündet")
+        rows = conn.execute("SELECT * FROM de_vorgaenge").fetchall()
+        _live, concluded, _lapsed = dm.by_stage(rows)
+        self.assertEqual([r["vorgang_id"] for r in concluded], ["law"])
+
+
 class StructuralTests(unittest.TestCase):
     def test_every_german_table_carrying_areas_is_in_the_watching_table(self):
         """The EU monitor grew five collectors whose rows sat unreported while

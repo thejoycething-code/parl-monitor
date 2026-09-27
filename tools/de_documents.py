@@ -109,7 +109,7 @@ def store_vorgang(conn, today, v, res):
 
 
 def pull_terms(conn, client, key, today, tax, wl, since, log=print,
-               budget=None, limit=None):
+               budget=None, limit=None, limit_pages=5):
     """Ask DIP for each tier-1 term by title. Returns (seen, new, moved, gaps)."""
     known = {r[0] for r in conn.execute("SELECT vorgang_id FROM de_vorgaenge")}
     seen = new = moved = gaps = 0
@@ -121,10 +121,15 @@ def pull_terms(conn, client, key, today, tax, wl, since, log=print,
             log("  fetch cap ({0}) reached; the rest lands on the next run "
                 "-- disclosed, not silent".format(limit))
             break
+        # PAGED (27 September 2026). This read only DIP's FIRST page of 100
+        # per term. Right for the weekly's 120 days; over a backfill to 2020
+        # three terms had more -- Abschiebung 240, Zurückweisung 124,
+        # Familiennachzug 109 -- and the rest were dropped without a word.
         try:
-            reply = client.get_json(
-                dip.url("vorgang", key, **{"f.titel": term, "f.datum.start": since}),
-                "de-documents", "vorgang-" + term[:40], archive=False)
+            replies = list(dip.pages(
+                client, "vorgang", key, feed="de-documents",
+                slug="vorgang-" + term[:40], log=log, limit_pages=limit_pages,
+                **{"f.titel": term, "f.datum.start": since}))
         except (FetchError, ValueError) as exc:
             conn.execute("INSERT OR IGNORE INTO gaps (edition, feed, detail) "
                          "VALUES (?,?,?)",
@@ -132,7 +137,7 @@ def pull_terms(conn, client, key, today, tax, wl, since, log=print,
             log("  [gap] {0}: {1}".format(term, str(exc)[:70]))
             gaps += 1
             continue
-        for v in (reply or {}).get("documents") or []:
+        for v in [d for reply in replies for d in (reply or {}).get("documents") or []]:
             seen += 1
             res = filt.filter_item(tax, wl, v.get("titel") or "")
             if store_vorgang(conn, today, v, res):
@@ -244,6 +249,8 @@ def main():
     ap.add_argument("--since", help="ISO date; default {0} days back".format(LOOKBACK_DAYS))
     ap.add_argument("--limit", type=int, help="stop after this many NEW rows")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
+    ap.add_argument("--pages", type=int, default=5,
+                    help="DIP pages per term in --mode terms (100 each)")
     ap.add_argument("--dry-run", action="store_true",
                     help="resolve the key and list the term queries, store nothing")
     args = ap.parse_args()
@@ -276,7 +283,8 @@ def main():
     budget = drain.Budget(args.budget_seconds)
     if args.mode == "terms":
         seen, new, moved, gaps = pull_terms(conn, client, key, today, tax, wl,
-                                            since, budget=budget, limit=args.limit)
+                                            since, budget=budget, limit=args.limit,
+                                            limit_pages=args.pages)
         print("de-documents: {0} Vorgang result(s) seen, {1} new, {2} moved, "
               "{3} gap(s).".format(seen, new, moved, gaps))
     else:

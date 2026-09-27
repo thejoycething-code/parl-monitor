@@ -55,6 +55,16 @@ on:
         description: "Speeches to place this run (20 per call)"
         required: true
         default: "800"
+      # THE DOCUMENT LAYERS (27 September 2026), held back until the German
+      # edition had its date window (2878dc60) and the Diskontinuität rule,
+      # so five years of finished business cannot lead it. Measured since
+      # 2020-01-01: 150 tier-1 terms (three past one page), and 9,381
+      # committee reports and laid papers across four types (Unterrichtung
+      # 4,281 = 43 pages of 100) -- about 95 list requests, not 9,381.
+      documents:
+        description: "Also sweep Vorgänge and committee reports since `since`"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -113,6 +123,12 @@ jobs:
           UNTIL=""
           if [ -n "${{ inputs.until }}" ]; then UNTIL="--until ${{ inputs.until }}"; fi
           python3 tools/de_speeches.py --since "${{ inputs.since }}" --limit "${{ inputs.protocols }}" $UNTIL | tee /tmp/de-bf-speeches.log
+      - name: "Vorgänge by tier-1 term since the chosen date"
+        if: always() && steps.fetch.outcome == 'success' && inputs.documents
+        run: python3 tools/de_documents.py --mode terms --since "${{ inputs.since }}" --pages 10 --budget-seconds 1800 | tee /tmp/de-bf-documents.log
+      - name: "Committee reports and laid papers since the chosen date"
+        if: always() && steps.fetch.outcome == 'success' && inputs.documents
+        run: python3 tools/de_committees.py --since "${{ inputs.since }}" --pages 60 | tee /tmp/de-bf-committees.log
       - name: Judge the backlog (newest first, on the chosen clock)
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/de_triage.py --limit 6000 --budget-seconds "${{ inputs.triage_seconds }}" | tee /tmp/de-bf-triage.log
@@ -125,7 +141,7 @@ jobs:
           {
             echo "## Germany backfill"
             echo '```'
-            grep -hE "de-rollcalls:|de-speeches:|de-triage:|de-stance:|disclosed|\[gap\]" \
+            grep -hE "de-rollcalls:|de-speeches:|de-documents:|de-committees:|de-triage:|de-stance:|disclosed|\[gap\]" \
               /tmp/de-bf-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-bf-*.log 2>/dev/null \

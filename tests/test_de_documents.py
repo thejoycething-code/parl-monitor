@@ -102,6 +102,27 @@ class CursorTests(unittest.TestCase):
         client = self._client([{"documents": [], "cursor": "a"}])
         self.assertEqual(list(dip.pages(client, "vorgang", "k", log=lambda *a: None)), [])
 
+    def test_the_term_sweep_follows_the_cursor_past_page_one(self):
+        """It read only the first 100 per term; Abschiebung had 240 since 2020."""
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy-de.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-de.yaml"))
+        term = ded.tier1_terms(tax)[0]
+        v = lambda i: {"id": i, "titel": term + " Gesetz", "datum": "2021-01-01",
+                       "wahlperiode": 19, "vorgangstyp": "Gesetzgebung"}  # noqa: E731
+        pages = [{"documents": [v(1)], "cursor": "a"},
+                 {"documents": [v(2)], "cursor": "b"},
+                 {"documents": [], "cursor": "b"}]
+        client = self._client(pages)
+        real = ded.tier1_terms
+        ded.tier1_terms = lambda _tax: [term]
+        try:
+            seen, new, _moved, gaps = ded.pull_terms(store(), client, "k", "2026-09-27",
+                                                     tax, wl, "2020-01-01", log=lambda *a: None)
+        finally:
+            ded.tier1_terms = real
+        self.assertEqual((seen, gaps), (2, 0), "both pages read")
+
     def test_the_page_cap_is_disclosed(self):
         pages = [{"documents": [{"id": i}], "cursor": str(i)} for i in range(30)]
         said = []

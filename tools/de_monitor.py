@@ -310,10 +310,32 @@ def stage_of(stand):
 
 def by_stage(rows):
     """Split rows into (live, concluded, lapsed) with live ordered by how
-    close each is to a decision, then by score, then most recent."""
+    close each is to a decision, then by score, then most recent.
+
+    DISKONTINUITÄT (26 September 2026). Bundestag business lapses when the
+    Bundestag that received it ends, so a Vorgang from an EARLIER
+    Wahlperiode whose stage reads live -- or reads nothing -- is lapsed,
+    whatever DIP's free-text Stand still says. Found before the backfill to
+    2020 landed: 16 Vorgänge of the 20th Bundestag with a blank Stand and one
+    "In der Beratung" were being shown among the live items, business the
+    2025 election ended presented as upcoming. A concluded stage is kept as
+    concluded: "Verkündet" is still true of a law after an election."""
     live, concluded, lapsed = [], [], []
+    periods = []
+    for r in rows:
+        try:
+            periods.append(int(r["wahlperiode"]))
+        except (IndexError, KeyError, TypeError, ValueError):
+            pass
+    newest = max(periods) if periods else None
     for r in rows:
         kind, rank = stage_of(r["stand"] if "stand" in r.keys() else None)
+        if kind in ("live", "unknown") and newest is not None:
+            try:
+                if int(r["wahlperiode"]) < newest:
+                    kind = "lapsed"
+            except (IndexError, KeyError, TypeError, ValueError):
+                pass
         if kind == "concluded":
             concluded.append(r)
         elif kind == "lapsed":

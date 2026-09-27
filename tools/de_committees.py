@@ -146,12 +146,17 @@ def paper_url(number):
         wp, num[:3], num)
 
 
-def pull(conn, client, key, today, tax, wl, since, log=print, dry_run=False):
+def pull(conn, client, key, today, tax, wl, since, log=print, dry_run=False,
+         limit_pages=20):
     seen = new = own = inherited = enriched = 0
     for drucksachetyp in TYPES:
         try:
+            # limit_pages: 100 documents a page. 20 is plenty for the
+            # weekly's 60 days; a backfill to 2020 needs 43 for the
+            # Unterrichtungen alone (4,281 measured on 27 September 2026).
             pages = dip.pages(client, "drucksache", key, feed="de-committees",
                               slug="rep-" + drucksachetyp[:12], log=log,
+                              limit_pages=limit_pages,
                               **{"f.drucksachetyp": drucksachetyp,
                                  "f.datum.start": since})
             for reply in pages:
@@ -231,6 +236,8 @@ def main():
     ap.add_argument("--since", help="ISO date; default {0} days back".format(
         LOOKBACK_DAYS))
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--pages", type=int, default=20,
+                    help="DIP pages per document type (100 each); a backfill needs more")
     args = ap.parse_args()
 
     since = args.since or (datetime.date.today()
@@ -243,7 +250,8 @@ def main():
     key = dip.api_key(client=client)
 
     seen, new, own, inherited, enriched = pull(
-        conn, client, key, today, tax, wl, since, dry_run=args.dry_run)
+        conn, client, key, today, tax, wl, since, dry_run=args.dry_run,
+        limit_pages=args.pages)
     print("de-committees: {0} report(s) and notification(s) since {1}, {2} "
           "new, {3} matched on their own title, {4} through the paper they "
           "report on, {5} gained a committee DIP had not yet published{6}."
