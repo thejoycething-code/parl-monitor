@@ -1816,6 +1816,36 @@ class StorePublishGuardTests(unittest.TestCase):
                 self.assertIn("fetch", ids,
                               "{0}: guard names steps.fetch, no such id".format(name))
 
+    def test_the_raw_archive_publish_is_paired_with_the_commit_too(self):
+        """28 September 2026: monday-publish's duplicate guard was on the
+        store publish and the commit but not the raw archive publish, so a
+        redundant retry slot uploaded today's raw tar and recorded nothing,
+        and the next run's raw pull refused it. Every workflow that publishes
+        the raw archive must do so under exactly the condition of the step
+        that commits data/raw.json."""
+        import glob
+        import yaml
+        norm = lambda step: " ".join(str(step.get("if") or "").split())
+        checked = 0
+        for path in glob.glob(os.path.join(self.WORKFLOWS, "*.yml")):
+            with open(path, encoding="utf-8") as fh:
+                spec = yaml.safe_load(fh)
+            for job in (spec.get("jobs") or {}).values():
+                steps = job.get("steps") or []
+                raw = next((x for x in steps
+                            if "raw_state.py --push" in str(x.get("run") or "")), None)
+                if raw is None:
+                    continue
+                com = next((x for x in steps if "git add" in str(x.get("run") or "")
+                            and ("data/raw.json" in str(x.get("run")) or
+                                 "data/" in str(x.get("run")))), None)
+                self.assertIsNotNone(com, "{0}: publishes the raw archive and "
+                                     "commits nothing".format(os.path.basename(path)))
+                self.assertEqual(norm(raw), norm(com), "{0}: raw archive publish and "
+                                 "commit conditions differ".format(os.path.basename(path)))
+                checked += 1
+        self.assertGreaterEqual(checked, 15)
+
     def test_publish_and_commit_are_always_paired(self):
         """Where the cascade actually began.
 

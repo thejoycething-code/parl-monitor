@@ -181,8 +181,18 @@ jobs:
       - name: Publish the raw archive
         # Before the store: a store that cites payloads the archive lacks
         # is the worse of the two failures. Merges, never clobbers.
+        #
+        # AND PAIRED WITH "Commit state", duplicate guard included (28 Sept
+        # 2026). The guard was added to the store publish and the commit but
+        # not here, so a redundant retry slot -- 09:24, after the 08:29 run
+        # had published -- re-rendered, archived its payloads into today's
+        # folder, uploaded that tar, and committed nothing. Release ahead of
+        # sidecar: the next run (the 2010 backfill, 10:28) refused the raw
+        # pull, SHA MISMATCH on 2026-09-28, and failed. Same fault as the
+        # store's 2026-08-28 cascade, one asset over.
         if: always() && steps.fetch.outcome == 'success'
           && env.SKIP != '1'
+          && steps.publish.outputs.duplicate != '1'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --push
