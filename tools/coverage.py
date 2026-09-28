@@ -55,7 +55,9 @@ PIPELINES = {
     # Missing until 2026-09-04, like EU weekly was from the alert list:
     # it pulls service history, party spells and contact details for
     # every chamber, and nothing would have said if it stopped.
-    "Member profiles": (7, 4, "service history, party spells, contacts"),
+    # MONTHLY since 40c07189 (22 Sept 2026, on the 10th, to save CI minutes),
+    # which left this at 7 and failed the watch every day from 28 Sept.
+    "Member profiles": (31, 7, "service history, party spells, contacts"),
     # Since 2026-09-09 this is the ledger's PRIMARY source of speeches; the
     # Sunday pull only repairs what it missed. Cadence 1 with a grace of 3
     # because it runs on sitting weekdays only: Friday evening to Monday
@@ -120,8 +122,8 @@ FEEDS = [
     ("sd_committees", "last_seen", 7, 4, "Senedd committees"),
     ("ni_committees", "last_seen", 7, 4, "NI committees"),
     ("eu_cmte_meetings", "last_seen", 7, 3, "EP committee meetings"),
-    ("dv_post", "last_seen", 7, 4, "devolved members' posts"),
-    ("dv_contact", "last_seen", 7, 4, "devolved members' contacts"),
+    ("dv_post", "last_seen", 31, 7, "devolved members' posts"),   # Member profiles is monthly
+    ("dv_contact", "last_seen", 31, 7, "devolved members' contacts"),   # Member profiles is monthly
     ("eu_agenda", "last_seen", 7, 3, "EP forward agenda"),
     ("eu_texts", "last_seen", 7, 3, "EP adopted texts"),
     ("eu_pqs", "last_seen", 7, 3, "EP written questions"),
