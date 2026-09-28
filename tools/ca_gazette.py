@@ -84,6 +84,12 @@ LOOKBACK_DAYS = 60
 # pages are read only for a `since` before this (a backfill), never on a
 # weekly run whose feed simply lists a short window.
 ARCHIVE_BEFORE = "2020-01-01"
+# The first backfill to 2010 (28 September 2026, run 36462563364) read 829
+# issues, then for about 70 seconds every index came back empty in 0.2 s --
+# 357 issues from June 2011 to December 2015, each logged as a gap. The same
+# pages parsed at once afterwards. A run of empty issues is the site, not the
+# Gazette: stop, and leave them unread for the next run.
+EMPTY_RUN_STOP = 5
 HIDDEN_AREAS = (11,)
 
 TAG = re.compile(r"<[^>]+>")
@@ -413,7 +419,13 @@ def pull(conn, client, today, parts=(1, 2), since=None, tax=None, wl=None, log=p
             if year_gaps:
                 return 0, 0, 0, year_gaps
     issues = items = ours = gaps = 0
+    empty_run = 0
     for issue in sorted(todo, key=lambda i: (i["date"], i["issue_key"])):
+        if empty_run >= EMPTY_RUN_STOP:
+            log("  {0} issues in a row came back empty: the site is serving something "
+                "other than its pages. Stopping; the unread issues are retried next run "
+                "-- disclosed, not silent".format(empty_run))
+            break
         if limit is not None and issues >= limit:
             log("  issue cap ({0}) reached; the rest lands on the next run "
                 "-- disclosed, not silent".format(limit))
@@ -428,7 +440,9 @@ def pull(conn, client, today, parts=(1, 2), since=None, tax=None, wl=None, log=p
             conn.commit()
             log("  [gap] {0}: {1}".format(issue["issue_key"], str(exc)[:70]))
             gaps += 1
+            empty_run += 1
             continue
+        empty_run = empty_run + 1 if (n == 0 and g) else 0
         log("  {0}: {1} item(s), {2} on our ground{3}".format(
             issue["issue_key"], n, o, ", {0} gap(s)".format(g) if g else ""))
         issues, items, ours, gaps = issues + 1, items + n, ours + o, gaps + g

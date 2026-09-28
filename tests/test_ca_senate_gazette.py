@@ -433,6 +433,28 @@ class GazetteArchiveTests(unittest.TestCase):
         self.assertFalse([u for u in client.calls if u.endswith("index-eng.html")], "there is no index")
         self.assertEqual(conn.execute("SELECT items FROM ca_gazette_issues").fetchone()[0], 2)
 
+    def test_a_run_of_empty_issues_stops_the_run(self):
+        """Run 36462563364: 357 empty indexes in 70 seconds, then the site recovered."""
+        conn = store()
+
+        class Client(GazetteClient):
+            def get_text(self, url, feed, slug, archive=True, **kw):
+                self.calls.append(url)
+                if url.endswith("/2011/index-eng.html"):
+                    return "<main>" + "".join(
+                        '<a href="/rp-pr/p1/2011/2011-02-%02d/html/index-eng.html">n</a>' % d
+                        for d in range(1, 20)) + "</main>"
+                if "/rp-pr/p1/20" in url and url.count("/") == 6:
+                    return "<main></main>"
+                return "<html>throttled</html>"
+
+        said = []
+        issues, _, _, gaps = gaz.pull(conn, Client(), "2026-09-26", parts=(1,), since="2011-01-01",
+                                      tax=TAX, wl=WL, log=said.append)
+        self.assertEqual(gaps, gaz.EMPTY_RUN_STOP)
+        self.assertTrue(any("in a row came back empty" in m for m in said))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_gazette_issues").fetchone()[0], 0)
+
     def test_the_old_pages_windows_1252_is_not_mangled(self):
         from src.http import HttpClient
 
