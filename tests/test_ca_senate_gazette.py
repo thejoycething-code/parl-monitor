@@ -483,6 +483,17 @@ class GazetteArchiveTests(unittest.TestCase):
                           ("Notice requiring pollution prevention plans", "COMMISSIONS", "document")],
                          "a page nothing links into is still an item")
 
+    def test_a_2011_heading_that_points_at_its_first_regulation_keeps_the_regulations_title(self):
+        page = ('<main><p><a href="reg1-eng.html">\n <strong>PROPOSED REGULATIONS</strong>\n</a></p>'
+                '<p><strong>Citizenship and Immigration, Dept. of</strong></p>'
+                '<a href="reg1-eng.html">Regulations Amending the Immigration and Refugee '
+                'Protection Regulations [Designated Countries of Origin]</a>'
+                '<a href="reg2-eng.html">Regulations Amending [Immigration Consultants]</a></main>')
+        items = gaz.parse_index(page, "https://gazette.gc.ca/rp-pr/p1/2011/2011-03-19/html/index-eng.html")
+        self.assertEqual([(i["title"][:30], i["section"], i["kind"]) for i in items],
+                         [("Regulations Amending the Immig", "PROPOSED REGULATIONS", "regulation"),
+                          ("Regulations Amending [Immigrat", "PROPOSED REGULATIONS", "regulation")])
+
     def test_a_french_link_on_the_english_index_reads_the_english_page(self):
         page = '<main><a href="sor-dors83-fra.html">Domestic Substances List</a></main>'
         item = gaz.parse_index(page, "https://gazette.gc.ca/rp-pr/p2/2026/2026-06-03/html/index-eng.html")[0]

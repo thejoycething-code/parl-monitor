@@ -121,6 +121,7 @@ SOFT_404 = re.compile(r"<title>[^<]*(?:Error|Erreur) 404", re.I)
 # Three English indexes link French pages (sor-dors83-fra.html, 3 June 2026;
 # si-tr76-fra.html, 6 December 2023). Every English twin checked answers 200.
 FRA_LINK = re.compile(r"-fra\.html(?=$|#)")
+SECTION_LINK = re.compile(r"\s*<strong>[^<]*</strong>\s*")
 PHP_LINK = re.compile(r"-eng\.php(?=$|#)")
 NOTHING_PUBLISHED = re.compile(r"No regulatory text was registered for publication", re.I)
 TOKEN = re.compile(r"<(h2|h3)\b[^>]*>(.*?)</\1>|<a\b[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.S)
@@ -245,7 +246,12 @@ def parse_index(page, base_url):
         if title in headings:
             continue            # the link to a whole section's page, not an item
         url = urllib.parse.urljoin(base_url, href)
-        if url in anchored:
+        # ...and a heading can point at its FIRST item's own page: 2011's
+        # "PROPOSED REGULATIONS" links reg1-eng.html, so the real reg1 link
+        # below it was dropped as a repeat and the regulation was stored
+        # titled "PROPOSED REGULATIONS". A link that is one bold capitalised
+        # phrase is a heading wherever it points.
+        if url in anchored or (SECTION_LINK.fullmatch(atext) and title.isupper()):
             section, department = title, None
             headings.add(title)
             continue
