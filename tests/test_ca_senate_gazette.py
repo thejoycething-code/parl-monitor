@@ -455,6 +455,13 @@ class GazetteArchiveTests(unittest.TestCase):
         self.assertTrue(any("in a row came back empty" in m for m in said))
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_gazette_issues").fetchone()[0], 0)
 
+    def test_a_php_regulation_link_is_read_as_its_html_page(self):
+        page = ('<main><h2>Proposed Regulations</h2><h3>Health, Dept. of</h3>'
+                '<a href="reg1-eng.php">Food and Drug Regulations</a></main>')
+        item = gaz.parse_index(page, "https://gazette.gc.ca/rp-pr/p1/2014/2014-02-15/html/index-eng.html")[0]
+        self.assertEqual(item["url"], "https://gazette.gc.ca/rp-pr/p1/2014/2014-02-15/html/reg1-eng.html")
+        self.assertEqual(item["kind"], "regulation")
+
     def test_the_old_pages_windows_1252_is_not_mangled(self):
         from src.http import HttpClient
 

@@ -104,6 +104,10 @@ BAD_ANCHOR = re.compile(r"(-eng\.html)(?:@|(?=[a-z]{2,4}\d+$))")
 # An index that SAYS nothing was published is a real zero, not a parse
 # failure: Part II of 15 September 2021 reads "No regulatory text was
 # registered for publication in this issue."
+# Three Part I indexes of February-March 2014 link their proposed
+# regulations as reg1-eng.php, which answers 301; the same page is served as
+# reg1-eng.html (run 36467114762: 11 gaps, all of them these).
+PHP_LINK = re.compile(r"-eng\.php(?=$|#)")
 NOTHING_PUBLISHED = re.compile(r"No regulatory text was registered for publication", re.I)
 TOKEN = re.compile(r"<(h2|h3)\b[^>]*>(.*?)</\1>|<a\b[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.S)
 
@@ -210,7 +214,7 @@ def parse_index(page, base_url):
         title = _clean(atext)
         if not href or href.startswith("#") or not title:
             continue            # footnotes and empty anchors
-        href = BAD_ANCHOR.sub(r"\1#", href)
+        href = BAD_ANCHOR.sub(r"\1#", PHP_LINK.sub("-eng.html", href))
         if title in headings:
             continue            # the link to a whole section's page, not an item
         url = urllib.parse.urljoin(base_url, href)
