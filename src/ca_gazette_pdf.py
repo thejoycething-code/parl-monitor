@@ -46,7 +46,7 @@ FRENCH_WORD = re.compile(r"[àâçéèêëîïôûùœÀÂÇÉÈÊËÎÏÔÛÙŒ
                          r"d[’']\S*|l[’']\S*|DE|DU|DES|LA|LE|LES|ET|POUR|SUR|AUX?|D[’']\S*|L[’']\S*|"
                          r"Avis|AVIS|Nominations|NOMINATIONS|Liste|Demandes?|Autorisation|n)$")
 REGISTRATION = re.compile(
-    r"Registration\s+Enregistrement\s+((?:SOR|SI)/\d{4}-\d+)\s+([A-Z][a-z]+\.? \d{1,2}, \d{4})")
+    r"Registration\s+(?:Enregistrement\s+)?((?:SOR|SI)/\d{4}-\d+)\s+([A-Z][a-z]+\.? \d{1,2}, \d{4})")
 P2_END = re.compile(r"\n\s*(?:TABLE OF CONTENTS|INDEX SOR)\b")
 # Running heads, which would otherwise split sentences at every page turn:
 # "1402 Canada Gazette Part I June 5, 2010", "Le 5 juin 2010 Gazette du Canada
@@ -79,8 +79,14 @@ def english_pages(data):
     halves of headings through. This is a private pypdf interface, so the
     workflow pins pypdf; if it moves, the issue is a gap, not bad text.
     """
+    import logging
+
     import pypdf                         # only the PDF-only backfill needs it
     from pypdf._text_extraction._layout_mode import _fixed_width_page as fw
+
+    # "Rotated text discovered. Output will be incomplete." once per page with
+    # a sideways table heading: the rotated text is dropped, which is right.
+    logging.getLogger("pypdf").setLevel(logging.ERROR)
 
     reader = pypdf.PdfReader(io.BytesIO(data))
     pages = []
@@ -107,10 +113,20 @@ def english_pages(data):
         lines = {}
         for f in frags:
             if f["tx"] < midline and f["text"].strip():
-                lines.setdefault(round(f["ty"]), []).append((f["tx"], f["text"].strip()))
+                lines.setdefault(round(f["ty"]), []).append((f["tx"], f["displaced_tx"], f["text"]))
         out, last = [], None
         for ty in sorted(lines, reverse=True):
-            line = " ".join(t for _, t in sorted(lines[ty]))
+            # From July 2011 Part II sets nearly every glyph as its own
+            # fragment ("C", "ana", "da G", "a", "z"...). Joined with spaces
+            # that read "S O R / 2011- 246", no registration line matched and
+            # twelve issues became one blob each. A fragment that starts
+            # where the last one ended (within 1 pt; a word space is ~7 pt)
+            # is the same word.
+            line, end = "", None
+            for tx, dtx, text in sorted(lines[ty]):
+                line += text if end is not None and tx - end < 1.0 else (" " if line else "") + text.lstrip()
+                end = dtx
+            line = " ".join(line.split())
             if line != last:             # a centred name set once per column
                 out.append(line)
             last = line

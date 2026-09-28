@@ -174,6 +174,20 @@ class ColumnTests(unittest.TestCase):
         self.assertNotIn("bienfaisance", text)
         self.assertNotIn("ci-dessous", text)
 
+    def test_a_word_set_glyph_by_glyph_is_read_as_one_word(self):
+        """From July 2011 Part II sets nearly every glyph as its own fragment;
+        joined with spaces, "Registration" never matched and twelve issues
+        became one blob each."""
+        widths = {"R": 722, "e": 556, "g": 556, "i": 222, "s": 500, "t": 278, "r": 333,
+                  "a": 556, "o": 556, "n": 556}
+        runs, x = [], 48.0
+        for ch in "Registration":
+            runs.append((round(x, 3), 700, ch))
+            x += widths[ch] * 9 / 1000
+        runs.append((round(x + 7, 3), 700, "SOR/2011-248"))      # a real word space
+        text = P.english_pages(make_pdf([runs]))[0]
+        self.assertIn("Registration SOR/2011-248", text)
+
 
 if __name__ == "__main__":
     unittest.main()
