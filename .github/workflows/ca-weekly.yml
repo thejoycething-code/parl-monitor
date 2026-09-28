@@ -135,7 +135,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install pyyaml
+        # pypdf is pinned: the 2010 PDF reader (src/ca_gazette_pdf.py) uses its
+        # layout engine's text_show_operations, a private interface.
+        run: pip install pyyaml pypdf==6.14.2
       - name: Fetch the store
         id: fetch
         env:

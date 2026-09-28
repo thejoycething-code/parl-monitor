@@ -40,8 +40,9 @@ the index, then:
 BEFORE THE RSS. For a --since before 2020 the yearly archive pages
 (rp-pr/p1/2014/index-eng.html) list the older issues, whose index pages parse
 the same way (the first backfill to 2010, 28 September 2026). HTML starts in
-2011 for Part I and 2012 for Part II; the PDF-only issues before that are
-counted and said, not read. Those pages declare utf-8 and are Windows-1252,
+2011 for Part I and 2012 for Part II; the PDF-only issues before that (2010,
+Part II 2011) are read from their PDF by src/ca_gazette_pdf.py, English
+column only, matched_on='pdf'. Those pages declare utf-8 and are Windows-1252,
 so they are decoded leniently. A Part II extra edition there has no index:
 the year page links its regulations, grouped into one issue.
 
@@ -72,7 +73,7 @@ import xml.etree.ElementTree as ET
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import ca_store, db, drain, filter as filt  # noqa: E402
+from src import ca_gazette_pdf as gazette_pdf, ca_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "ca-gazette"
@@ -172,7 +173,8 @@ def parse_year(page, part):
     """The yearly archive page (rp-pr/p{part}/{YYYY}/index-eng.html), for the
     years before the RSS starts. Returns (issues, pdf_only): issues in the
     parse_rss shape, pdf_only the issue folders that have a PDF and no HTML
-    edition (all of 2010, Part II of 2011) -- counted and said, never read.
+    edition (all of 2010, Part II of 2011), in the same shape with pdf=True:
+    read_issue reads those from the PDF (src/ca_gazette_pdf.py).
 
     Three link shapes carry an issue:
       * html/index-eng.html -- a regular issue (or a Part II consolidation,
@@ -182,7 +184,7 @@ def parse_year(page, part):
         the year page links its regulations directly. They are grouped by
         folder into ONE issue whose items are those links.
     """
-    folders, pdf = {}, set()
+    folders, pdf = {}, {}
     for href, text in re.findall(r'<a\b[^>]*href="([^"]+)"[^>]*>(.*?)</a>', _main(page), re.S):
         href = href.strip().split("#")[0]
         m = re.match(r"(?:https?://[^/]+)?/rp-pr/p(\d)/\d{4}/([^/]+)/(html|pdf)/([^/]+)$", href)
@@ -192,7 +194,9 @@ def parse_year(page, part):
         if not re.match(r"\d{4}-\d{2}-\d{2}", folder) or CONSOLIDATION.match(folder):
             continue
         if kind == "pdf":
-            pdf.add(folder)
+            if re.match(r"g\d-\d+(?:x\d+)?\.pdf$", name):      # not a "q" quarterly index
+                pdf.setdefault(folder, (urllib.parse.urljoin("https://gazette.gc.ca/", href),
+                                        _clean(text)))
             continue
         url = urllib.parse.urljoin("https://gazette.gc.ca/", href)
         links = folders.setdefault(folder, [])
@@ -212,8 +216,12 @@ def parse_year(page, part):
                                "kind": "regulation" if REGULATION.search(u) else "extra"}
                               for u, t in links]
         issues.append(issue)
+    pdf_only = [{"issue_key": "p{0}-{1}".format(part, folder), "part": part,
+                 "date": folder[:10], "title": re.sub(r"\s*\([\d.]+\s*[KM]B\)$", "", title),
+                 "url": url, "pdf": True}
+                for folder, (url, title) in pdf.items() if folder not in folders]
     return (sorted(issues, key=lambda i: (i["date"], i["issue_key"])),
-            sorted(pdf - set(folders)))
+            sorted(pdf_only, key=lambda i: (i["date"], i["issue_key"])))
 
 
 def parse_index(page, base_url):
@@ -299,6 +307,8 @@ def _gap(conn, today, detail):
 
 def read_issue(conn, client, issue, tax, wl, today, log=print):
     """Store one issue's items. Returns (items, ours, gaps)."""
+    if issue.get("pdf"):
+        return read_pdf_issue(conn, client, issue, tax, wl, today, log)
     pages = {}
     if issue.get("items"):
         # A Part II extra edition from the yearly archive: no index exists,
@@ -377,29 +387,74 @@ def read_issue(conn, client, issue, tax, wl, today, log=print):
             res = filt.filter_item(tax, wl, it["title"], it["department"] or "")
             areas, terms, tier = res.issue_areas or [], (res.matched_terms or []) + (res.watchlist_hits or []), res.tier
         ours += on_our_ground(areas)
-        conn.execute(
-            "INSERT INTO ca_gazette_items (item_key, issue_key, part, date, section, "
-            "department, title, url, kind, registration, comment_days, comment_until, "
-            "areas, matched_terms, tier, excerpt, matched_on, text, first_seen) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
-            "ON CONFLICT(item_key) DO UPDATE SET title=excluded.title, "
-            "section=excluded.section, department=excluded.department, "
-            "registration=excluded.registration, comment_days=excluded.comment_days, "
-            "comment_until=excluded.comment_until, areas=excluded.areas, "
-            "matched_terms=excluded.matched_terms, tier=excluded.tier, excerpt=excluded.excerpt, "
-            "matched_on=excluded.matched_on, text=excluded.text",
-            (it["url"], issue["issue_key"], issue["part"], issue["date"], it["section"],
-             it["department"], it["title"], it["url"], it["kind"], registration, days, until,
-             json.dumps(areas), json.dumps(terms), tier, excerpt, matched_on, text, today))
+        _store(conn, issue, it, registration, days, until, areas, terms, tier, excerpt,
+               matched_on, text, today)
     if not gaps:
-        # An issue with a failed item is NOT marked read, so the next run
-        # tries it again whole rather than leaving a hole behind a tick.
-        conn.execute("INSERT OR REPLACE INTO ca_gazette_issues (issue_key, part, date, "
-                     "title, url, items, ours, read_at) VALUES (?,?,?,?,?,?,?,?)",
-                     (issue["issue_key"], issue["part"], issue["date"], issue["title"],
-                      issue["url"], len(items), ours, today))
+        _mark_read(conn, issue, len(items), ours, today)
     conn.commit()
     return len(items), ours, gaps
+
+
+def _store(conn, issue, it, registration, days, until, areas, terms, tier, excerpt,
+           matched_on, text, today):
+    conn.execute(
+        "INSERT INTO ca_gazette_items (item_key, issue_key, part, date, section, "
+        "department, title, url, kind, registration, comment_days, comment_until, "
+        "areas, matched_terms, tier, excerpt, matched_on, text, first_seen) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+        "ON CONFLICT(item_key) DO UPDATE SET title=excluded.title, "
+        "section=excluded.section, department=excluded.department, "
+        "registration=excluded.registration, comment_days=excluded.comment_days, "
+        "comment_until=excluded.comment_until, areas=excluded.areas, "
+        "matched_terms=excluded.matched_terms, tier=excluded.tier, excerpt=excluded.excerpt, "
+        "matched_on=excluded.matched_on, text=excluded.text",
+        (it["url"], issue["issue_key"], issue["part"], issue["date"], it["section"],
+         it["department"], it["title"], it["url"], it["kind"], registration, days, until,
+         json.dumps(areas), json.dumps(terms), tier, excerpt, matched_on, text, today))
+
+
+def _mark_read(conn, issue, n, ours, today):
+    # An issue with a failed item is NOT marked read, so the next run tries
+    # it again whole rather than leaving a hole behind a tick.
+    conn.execute("INSERT OR REPLACE INTO ca_gazette_issues (issue_key, part, date, "
+                 "title, url, items, ours, read_at) VALUES (?,?,?,?,?,?,?,?)",
+                 (issue["issue_key"], issue["part"], issue["date"], issue["title"],
+                  issue["url"], n, ours, today))
+
+
+def read_pdf_issue(conn, client, issue, tax, wl, today, log=print):
+    """Store one PDF-only issue's items (src/ca_gazette_pdf.py). Returns
+    (items, ours, gaps). A PDF that will not parse is a gap, never an empty
+    issue."""
+    data = client.get_bytes(issue["url"], FEED, "pdf-" + issue["issue_key"], archive=False)
+    if not data.startswith(b"%PDF"):
+        raise FetchError(issue["url"], FEED, "pdf-" + issue["issue_key"], 1,
+                         OSError("not a PDF (the site's error page?)"))
+    try:
+        found = gazette_pdf.items(gazette_pdf.english_pages(data), issue["part"],
+                                  issue["url"], title=issue["title"],
+                                  contents=gazette_pdf.contents_pages(data))
+    except Exception as exc:                 # pypdf raises a zoo of types
+        _gap(conn, today, "{0}: PDF unreadable: {1}".format(issue["issue_key"], exc))
+        conn.commit()
+        log("  [gap] {0}: PDF unreadable: {1}".format(issue["issue_key"], str(exc)[:60]))
+        return 0, 0, 1
+    ours = 0
+    for it in found:
+        text = it["text"]
+        matches = filt.match_passages(tax, wl, text, title=it["title"])
+        areas, terms, excerpt = filt.aggregate_passages(matches)
+        tier = 1 if any(m.result.tier == 1 for m in matches) else 2 if matches else None
+        days = COMMENT.search(text)
+        days = int(days.group(1)) if days and it["kind"] == "regulation" else None
+        until = ((datetime.date.fromisoformat(issue["date"]) + datetime.timedelta(days=days))
+                 .isoformat() if days and issue["part"] == 1 else None)
+        ours += on_our_ground(areas)
+        _store(conn, issue, it, it["registration"], days, until, areas, terms, tier,
+               excerpt, "pdf", text, today)
+    _mark_read(conn, issue, len(found), ours, today)
+    conn.commit()
+    return len(found), ours, 0
 
 
 def archive(conn, client, part, since, first, done, today, log=print):
@@ -409,8 +464,8 @@ def archive(conn, client, part, since, first, done, today, log=print):
     WHY. The RSS reaches back only to December 2019 (Part I 2019-12-03, Part
     II 2019-12-11); the backfill to 2010 asked for the decade before it. A
     year page that fails is a gap that stops the run, like the RSS, never a
-    year quietly skipped. PDF-only issues are said, with their count, and not
-    read: there is no HTML edition to cut into items (2010, Part II 2011).
+    year quietly skipped. PDF-only issues (2010, Part II 2011) are read from
+    their PDF, and the count of them is said.
     """
     out = []
     last = (datetime.date.fromisoformat(min(first, ARCHIVE_BEFORE)) - datetime.timedelta(days=1)).year
@@ -424,13 +479,12 @@ def archive(conn, client, part, since, first, done, today, log=print):
             log("  [gap] Part {0} {1} archive: {2}".format(part, year, str(exc)[:70]))
             return out, 1
         keep = [i for i in issues if since <= i["date"] < first and i["issue_key"] not in done]
-        pdf_only = [f for f in pdf_only if since <= f[:10] < first]
-        if keep or pdf_only:
+        pdfs = [i for i in pdf_only if since <= i["date"] < first and i["issue_key"] not in done]
+        if keep or pdfs:
             log("  Part {0} {1}: {2} unread issue(s) from the yearly archive{3}".format(
-                part, year, len(keep),
-                "; {0} issue(s) PDF only, not read (no HTML edition)".format(len(pdf_only))
-                if pdf_only else ""))
-        out += keep
+                part, year, len(keep) + len(pdfs),
+                ", {0} of them PDF only (read from the PDF)".format(len(pdfs)) if pdfs else ""))
+        out += keep + pdfs
     return out, 0
 
 

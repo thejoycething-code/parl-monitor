@@ -370,9 +370,9 @@ issue's index. The pre-2020 index pages parse like the current ones. Four
 details differ:
 
 - **Coverage.** HTML starts in 2011 for Part I and 2012 for Part II. All
-  of 2010 (57 Part I and 35 Part II issues) and Part II of 2011 (34)
-  are PDF only. The run counts them and says so ("PDF only, not read"); it
-  does not read them and does not call them gaps.
+  of 2010 and Part II of 2011 are PDF only: 117 issues (57 Part I, 31 and 29
+  Part II; the rest of those years' PDFs are quarterly consolidations, which
+  are skipped). Since 29 September 2026 they are read from the PDF (below).
 - **Encoding.** The old pages declare utf-8 but are Windows-1252. They are
   decoded leniently, so "Montréal" is not stored mangled.
 - **Part II extras.** A Part II extra edition has no index; the year page
@@ -382,6 +382,29 @@ details differ:
 
 Size: about 780 issues from 2011 to 2019. At the 3,000-second budget per
 run, that takes two or three backfill runs.
+
+**The PDF-only issues (built 29 September 2026).** `src/ca_gazette_pdf.py`
+reads them. The steps:
+
+- **English only.** Every page is bilingual in two columns, English left.
+  pypdf's layout engine gives each text fragment its position, and only the
+  fragments left of where the French column starts are kept. That position is
+  read per page, from the commonest left edge in the middle of the page.
+- **Where items begin and end.** In Part I, each notice or proposed
+  regulation ends with its insertion code (`[23-1-o]`). In Part II, each
+  instrument opens with "Registration SOR/2010-110 May 19, 2010".
+- **Sections.** A Part I item's section comes from the table of contents,
+  matched by page number.
+- **Addresses.** Each item's URL is the PDF with a `#page=N` anchor.
+  PDFs are not kept in the raw archive.
+- **What's stored.** The text is the English column. `matched_on` is `pdf`.
+
+Measured on 12 live issues (2010 and Part II 2011): 182 items, no gaps.
+Titles are good. A few are cut at a line wrap. A letter-spaced heading
+comes out spaced ("PILO TA GE AC T"). The odd corporate notice keeps a
+French word. The layout function is a private pypdf interface, so the
+workflow pins pypdf. If the interface moves, an issue becomes a gap
+("PDF unreadable"), never an empty issue.
 
 ### What a full backfill costs
 

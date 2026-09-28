@@ -12,6 +12,7 @@ sys.path.insert(0, ROOT)
 
 from src import ca_store, db, filter as filt  # noqa: E402
 from src.http import FetchError  # noqa: E402
+from tests.test_ca_gazette_pdf import make_pdf  # noqa: E402
 
 
 def _load(name):
@@ -370,13 +371,17 @@ class GazetteArchiveTests(unittest.TestCase):
                          [("SOR/2012-299", "regulation"), ("SI/2012-103", "regulation")])
         self.assertEqual(pdf_only, [])
 
-    def test_a_part_i_extra_is_its_document_and_a_pdf_only_issue_is_counted(self):
+    def test_a_part_i_extra_is_its_document_and_a_pdf_only_issue_is_read_from_its_pdf(self):
         issues, pdf_only = gaz.parse_year(YEAR_P1, 1)
         by_key = {i["issue_key"]: i for i in issues}
         self.assertEqual(sorted(by_key), ["p1-2011-03-26-x3", "p1-2011-12-31"])
         self.assertNotIn("items", by_key["p1-2011-03-26-x3"], "read as one document, like the RSS extra")
         self.assertTrue(by_key["p1-2011-03-26-x3"]["url"].endswith("/extra3-eng.html"))
-        self.assertEqual(pdf_only, ["2011-01-08"])
+        self.assertEqual(pdf_only, [{
+            "issue_key": "p1-2011-01-08", "part": 1, "date": "2011-01-08",
+            "title": "Part I, volume 145, number 2",
+            "url": "https://gazette.gc.ca/rp-pr/p1/2011/2011-01-08/pdf/g1-14502.pdf", "pdf": True}],
+            "the size is not part of the title, and the extra's PDF is not an issue of its own")
 
     def test_a_backfill_before_the_rss_reads_the_year_pages_up_to_2019_only(self):
         conn = store()
@@ -392,6 +397,10 @@ class GazetteArchiveTests(unittest.TestCase):
                     return EXTRA
                 return GazetteClient.get_text(self, url, feed, slug)
 
+            def get_bytes(self, url, feed, slug, archive=True, **kw):
+                self.calls.append(url)
+                return make_pdf([[(48, 700, "Order fixing the day on which the Act comes into force")]])
+
         client, said = Client(), []
         gaz.pull(conn, client, "2026-09-26", parts=(1,), since="2011-01-01",
                  tax=TAX, wl=WL, log=said.append)
@@ -400,7 +409,10 @@ class GazetteArchiveTests(unittest.TestCase):
         keys = {r[0] for r in conn.execute("SELECT issue_key FROM ca_gazette_issues")}
         self.assertIn("p1-2011-12-31", keys)
         self.assertIn("p1-2011-03-26-x3", keys)
-        self.assertTrue(any("1 issue(s) PDF only, not read" in m for m in said))
+        self.assertTrue(any("1 of them PDF only (read from the PDF)" in m for m in said))
+        self.assertIn("p1-2011-01-08", keys, "the PDF-only issue is read")
+        self.assertEqual(conn.execute("SELECT matched_on, kind FROM ca_gazette_items "
+                                      "WHERE issue_key='p1-2011-01-08'").fetchone()[:], ("pdf", "extra"))
 
     def test_a_weekly_run_never_touches_the_archive(self):
         client = GazetteClient()
@@ -526,6 +538,43 @@ class GazetteArchiveTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_gazette_items "
                                       "WHERE issue_key='p1-2026-09-26'").fetchone()[0], 0)
         self.assertIn("forgot p1-2026-09-*: 1 issue(s)", said[0])
+
+    def test_a_pdf_issue_that_is_not_a_pdf_is_a_gap_not_an_issue(self):
+        conn = store()
+
+        class Client:
+            def get_bytes(self, url, feed, slug, archive=True, **kw):
+                self.archive = archive
+                return b"<html>We couldn't find that Web page (Error 404)</html>"
+
+        client = Client()
+        issue = {"issue_key": "p1-2010-06-05", "part": 1, "date": "2010-06-05", "title": "Part I",
+                 "url": "https://gazette.gc.ca/rp-pr/p1/2010/2010-06-05/pdf/g1-14423.pdf", "pdf": True}
+        with self.assertRaises(FetchError):
+            gaz.read_issue(conn, client, issue, TAX, WL, "2026-09-29", quiet)
+        self.assertFalse(client.archive, "a 1-2 MB PDF is not kept in the raw archive")
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_gazette_issues").fetchone()[0], 0)
+
+    def test_a_pdf_issue_stores_its_items_with_their_text(self):
+        conn = store()
+        pdf = make_pdf([[(48, 700, "Registration Enregistrement"),
+                         (48, 690, "SOR/2010-110 May 19, 2010"),
+                         (48, 680, "CRIMINAL CODE"),
+                         (48, 670, "Regulations Amending the Criminal Code Regulations"),
+                         (48, 660, "P.C. 2010-600 May 19, 2010"),
+                         (48, 650, "His Excellency makes the annexed Regulations on abortion.")]])
+
+        class Client:
+            def get_bytes(self, url, feed, slug, archive=True, **kw):
+                return pdf
+
+        issue = {"issue_key": "p2-2010-06-09", "part": 2, "date": "2010-06-09", "title": "Part II",
+                 "url": "https://gazette.gc.ca/rp-pr/p2/2010/2010-06-09/pdf/g2-14412.pdf", "pdf": True}
+        self.assertEqual(gaz.read_issue(conn, Client(), issue, TAX, WL, "2026-09-29", quiet)[0], 1)
+        row = conn.execute("SELECT item_key, registration, title, matched_on, text FROM ca_gazette_items").fetchone()
+        self.assertEqual(row[:4], (issue["url"] + "#page=1", "SOR/2010-110",
+                                   "Regulations Amending the Criminal Code Regulations", "pdf"))
+        self.assertIn("abortion", row[4])
 
     def test_the_old_pages_windows_1252_is_not_mangled(self):
         from src.http import HttpClient

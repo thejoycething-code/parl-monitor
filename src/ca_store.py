@@ -194,7 +194,7 @@ SCHEMA = (
         matched_terms TEXT,
         tier         INTEGER,
         excerpt      TEXT,
-        matched_on   TEXT,               -- 'body' or 'title' (a notice whose anchor was not found)
+        matched_on   TEXT,               -- 'body', 'title' (a notice whose anchor was not found) or 'pdf' (a PDF-only issue's English column)
         text         TEXT,               -- a NOTICE's own text; a regulation's lives at url
         first_seen   TEXT
     )""",

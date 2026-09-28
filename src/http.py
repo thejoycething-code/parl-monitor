@@ -220,7 +220,7 @@ class HttpClient:
                 return raw.decode(fallback_encoding, errors="replace")
         return raw.decode("utf-8", errors="replace")
 
-    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None):
+    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None, archive=True):
         """Fetch and archive a response, returning the raw bytes.
 
         first_bytes issues a Range request. docs.un.org honours it (206 with
@@ -229,13 +229,14 @@ class HttpClient:
         caller needs, since %PDF- and <!doct tell a document from a
         not-found page. Ranged replies are NOT archived: a 64-byte fragment
         is not provenance, and writing it under the document's slug would
-        overwrite a real copy with a stub.
+        overwrite a real copy with a stub. archive=False for large documents
+        whose URL is the provenance (a 2010 Canada Gazette issue is 1-2 MB).
         """
         if first_bytes:
             return self._request_with_retries(
                 url, feed, slug, timeout or self.default_timeout,
                 extra_headers={"Range": "bytes=0-{0}".format(int(first_bytes) - 1)})
-        return self._fetch(url, feed, slug, timeout)
+        return self._fetch(url, feed, slug, timeout, archive=archive)
 
     def post_json(self, url, body, feed, slug, headers=None, timeout=None):
         """POST a JSON body and parse the JSON response, archiving the reply.
