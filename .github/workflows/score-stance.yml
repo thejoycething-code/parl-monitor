@@ -20,6 +20,15 @@ on:
         description: "Report what would be sent and spend nothing"
         type: boolean
         default: false
+      # Migration (area 11) is collated, never campaigned, shown nowhere, so
+      # placing members on it is a separate spend decision -- and on 28 Sept
+      # 2026 it was 4,610 of 8,289 outstanding refs. Without this the blank
+      # default scored them all: the CLI has always had --skip-hidden, this
+      # workflow simply never passed it.
+      skip_hidden:
+        description: "Leave migration-only refs unscored (shown nowhere)"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -74,6 +83,7 @@ jobs:
           ARGS=""
           if [ -n "${{ inputs.max_refs }}" ]; then ARGS="--max ${{ inputs.max_refs }}"; fi
           if [ "${{ inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ "${{ inputs.skip_hidden }}" = "true" ]; then ARGS="$ARGS --skip-hidden"; fi
           python3 tools/score_stance.py $ARGS | tee /tmp/score.log
       - name: Health summary
         if: always()
