@@ -358,8 +358,9 @@ class GazetteArchiveTests(unittest.TestCase):
     def test_a_part_ii_year_page_gives_issues_and_groups_an_extra_without_an_index(self):
         issues, pdf_only = gaz.parse_year(YEAR_P2, 2)
         by_key = {i["issue_key"]: i for i in issues}
-        self.assertEqual(sorted(by_key), ["p2-2012-12-19", "p2-2012-12-20-x2", "p2-2012-12-31-c1"],
-                         "site chrome outside <main>, PDFs, quarterlies and anchors are not issues")
+        self.assertEqual(sorted(by_key), ["p2-2012-12-19", "p2-2012-12-20-x2"],
+                         "site chrome outside <main>, PDFs, quarterlies, consolidated "
+                         "indexes and anchors are not issues")
         self.assertEqual(by_key["p2-2012-12-19"]["url"],
                          "https://gazette.gc.ca/rp-pr/p2/2012/2012-12-19/html/index-eng.html",
                          "the href's trailing space is not part of the URL")
@@ -461,6 +462,59 @@ class GazetteArchiveTests(unittest.TestCase):
         item = gaz.parse_index(page, "https://gazette.gc.ca/rp-pr/p1/2014/2014-02-15/html/index-eng.html")[0]
         self.assertEqual(item["url"], "https://gazette.gc.ca/rp-pr/p1/2014/2014-02-15/html/reg1-eng.html")
         self.assertEqual(item["kind"], "regulation")
+
+    def test_the_consolidated_index_is_not_an_issue(self):
+        page = YEAR_P2.replace("</main>", '<a href="/rp-pr/p2/2012/2012-03-31-c1/html/index-eng.html">'
+                                          'Consolidated Index to March 31, 2012</a></main>')
+        keys = [i["issue_key"] for i in gaz.parse_year(page, 2)[0]]
+        self.assertNotIn("p2-2012-03-31-c1", keys)
+        self.assertNotIn("p2-2012-12-31-c1", keys)
+        feed = RSS.replace("2026-07-31-x6/html/extra6-eng.html", "2026-06-30-c2/html/index-eng.html")
+        self.assertNotIn("p1-2026-06-30-c2", [i["issue_key"] for i in gaz.parse_rss(feed, 1)])
+
+    def test_a_2011_section_link_is_a_heading_not_an_item(self):
+        page = ('<main><p><a href="commis-eng.html"><strong>COMMISSIONS</strong></a></p>'
+                '<p><strong>Canada Revenue Agency</strong></p>'
+                '<a href="commis-eng.html#f107">Revocation of registration of charities</a>'
+                '<p><a href="sup1-eng.html">Notice requiring pollution prevention plans</a></p></main>')
+        items = gaz.parse_index(page, "https://gazette.gc.ca/rp-pr/p1/2011/2011-01-08/html/index-eng.html")
+        self.assertEqual([(i["title"], i["section"], i["kind"]) for i in items],
+                         [("Revocation of registration of charities", "COMMISSIONS", "notice"),
+                          ("Notice requiring pollution prevention plans", "COMMISSIONS", "document")],
+                         "a page nothing links into is still an item")
+
+    def test_a_french_link_on_the_english_index_reads_the_english_page(self):
+        page = '<main><a href="sor-dors83-fra.html">Domestic Substances List</a></main>'
+        item = gaz.parse_index(page, "https://gazette.gc.ca/rp-pr/p2/2026/2026-06-03/html/index-eng.html")[0]
+        self.assertTrue(item["url"].endswith("/sor-dors83-eng.html"))
+        self.assertEqual(item["kind"], "regulation")
+
+    def test_the_sites_404_page_served_as_200_is_a_gap_not_an_issue(self):
+        """Part II of 30 December 2025: stored as four 'items' -- home page, Contact us."""
+        conn = store()
+        soft = ("<html><head><title>We couldn't find that Web page (Error 404) - Canada.ca theme"
+                "</title></head><main><a href=\"/accueil-home-eng.html\">home page</a></main></html>")
+
+        class Client:
+            def get_text(self, url, feed, slug, archive=True, **kw):
+                return soft
+
+        issue = {"issue_key": "p2-2025-12-30", "part": 2, "date": "2025-12-30",
+                 "title": "Part II", "url": BASE + "index-eng.html"}
+        with self.assertRaises(FetchError):
+            gaz.read_issue(conn, Client(), issue, TAX, WL, "2026-09-28", quiet)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_gazette_items").fetchone()[0], 0)
+
+    def test_forget_drops_issues_and_items_so_they_are_read_again(self):
+        conn = store()
+        GazetteTests.pull(self, conn, GazetteClient())
+        said = []
+        gaz.forget(conn, ["p1-2026-09-*"], log=said.append)
+        keys = {r[0] for r in conn.execute("SELECT issue_key FROM ca_gazette_issues")}
+        self.assertEqual(keys, {"p1-2026-07-31-x6"})
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_gazette_items "
+                                      "WHERE issue_key='p1-2026-09-26'").fetchone()[0], 0)
+        self.assertIn("forgot p1-2026-09-*: 1 issue(s)", said[0])
 
     def test_the_old_pages_windows_1252_is_not_mangled(self):
         from src.http import HttpClient

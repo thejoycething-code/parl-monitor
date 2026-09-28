@@ -107,6 +107,20 @@ BAD_ANCHOR = re.compile(r"(-eng\.html)(?:@|(?=[a-z]{2,4}\d+$))")
 # Three Part I indexes of February-March 2014 link their proposed
 # regulations as reg1-eng.php, which answers 301; the same page is served as
 # reg1-eng.html (run 36467114762: 11 gaps, all of them these).
+# Part II's quarterly CONSOLIDATED INDEX ("2012-03-31-c1", to March 2019) is
+# an A-Z list of every instrument in force, not a publication: read as issues
+# the first backfill stored 29 of them, 1,485 "items" titled "C , part 2", and
+# because it names the MAID and assisted-reproduction regulations it came up
+# on our ground. It is skipped, from the year pages and the feed alike.
+CONSOLIDATION = re.compile(r"^\d{4}-\d{2}-\d{2}-c\d+$")
+# The feed listed Part II of 30 December 2025, whose index is the site's
+# "We couldn't find that Web page (Error 404)" page served with a 200: it
+# was stored as an issue of four "items" (home page, Contact us, in both
+# languages). A page that says it is a 404 is a gap, never an issue.
+SOFT_404 = re.compile(r"<title>[^<]*(?:Error|Erreur) 404", re.I)
+# Three English indexes link French pages (sor-dors83-fra.html, 3 June 2026;
+# si-tr76-fra.html, 6 December 2023). Every English twin checked answers 200.
+FRA_LINK = re.compile(r"-fra\.html(?=$|#)")
 PHP_LINK = re.compile(r"-eng\.php(?=$|#)")
 NOTHING_PUBLISHED = re.compile(r"No regulatory text was registered for publication", re.I)
 TOKEN = re.compile(r"<(h2|h3)\b[^>]*>(.*?)</\1>|<a\b[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.S)
@@ -116,7 +130,10 @@ def _get(client, url, slug):
     """A Gazette page as text. The pre-2020 pages declare utf-8 and are
     Windows-1252, so a strict decode falls back rather than storing
     "Montr\ufffdal" in every title that names a place with an accent."""
-    return client.get_text(url, FEED, slug, archive=False, fallback_encoding="cp1252")
+    page = client.get_text(url, FEED, slug, archive=False, fallback_encoding="cp1252")
+    if SOFT_404.search(page):
+        raise FetchError(url, FEED, slug, 1, OSError("the site's 404 page, served as 200"))
+    return page
 
 
 def _clean(fragment):
@@ -139,7 +156,7 @@ def parse_rss(xml_text, part):
         # The issue folder names the issue, and tells an extra edition
         # ('2026-09-28-x1') from the regular one on a shared date.
         folder = re.search(r"/rp-pr/p\d/\d{4}/([^/]+)/html/", url)
-        if not folder:
+        if not folder or CONSOLIDATION.match(folder.group(1)):
             continue            # the quarterly index and other non-issue entries
         try:
             when = email.utils.parsedate_to_datetime(item.findtext("pubDate")).date().isoformat()
@@ -171,7 +188,7 @@ def parse_year(page, part):
         if not m or int(m.group(1)) != part:
             continue            # the quarterly index, "more information", page anchors
         folder, kind, name = m.group(2), m.group(3), m.group(4)
-        if not re.match(r"\d{4}-\d{2}-\d{2}", folder):
+        if not re.match(r"\d{4}-\d{2}-\d{2}", folder) or CONSOLIDATION.match(folder):
             continue
         if kind == "pdf":
             pdf.add(folder)
@@ -203,7 +220,17 @@ def parse_index(page, base_url):
     main = _main(page)
     section = department = None
     headings, items, seen = set(), [], set()
-    for h, htext, href, atext in TOKEN.findall(main):
+    tokens = TOKEN.findall(main)
+    # The 2011 indexes have no <h2>: a section is a bare link to its page
+    # (<p><a href="commis-eng.html"><strong>COMMISSIONS</strong></a></p>)
+    # above the anchored links into it. Read as an item it stored the whole
+    # shared page again, as a "document" (183 of them in 2011), and left every
+    # item's section blank. A bare link to a page the index also links INTO
+    # is that page's section heading.
+    fix = lambda href: BAD_ANCHOR.sub(r"\1#", FRA_LINK.sub("-eng.html", PHP_LINK.sub("-eng.html", href)))
+    anchored = {urllib.parse.urljoin(base_url, fix(href)).split("#")[0]
+                for _, _, href, _ in tokens if href and "#" in fix(href)}
+    for h, htext, href, atext in tokens:
         if h == "h2":
             section, department = _clean(htext) or None, None
             headings.add(section)
@@ -214,10 +241,14 @@ def parse_index(page, base_url):
         title = _clean(atext)
         if not href or href.startswith("#") or not title:
             continue            # footnotes and empty anchors
-        href = BAD_ANCHOR.sub(r"\1#", PHP_LINK.sub("-eng.html", href))
+        href = fix(href)
         if title in headings:
             continue            # the link to a whole section's page, not an item
         url = urllib.parse.urljoin(base_url, href)
+        if url in anchored:
+            section, department = title, None
+            headings.add(title)
+            continue
         if url in seen:
             continue
         seen.add(url)
@@ -453,6 +484,16 @@ def pull(conn, client, today, parts=(1, 2), since=None, tax=None, wl=None, log=p
     return issues, items, ours, gaps
 
 
+def forget(conn, globs, log=print):
+    """Drop issues matching the globs, with their items, so the next pull
+    reads them again (or, for a consolidation, never). Said, with counts."""
+    for g in globs:
+        n_items = conn.execute("DELETE FROM ca_gazette_items WHERE issue_key GLOB ?", (g,)).rowcount
+        n_issues = conn.execute("DELETE FROM ca_gazette_issues WHERE issue_key GLOB ?", (g,)).rowcount
+        log("  forgot {0}: {1} issue(s), {2} item(s)".format(g, n_issues, n_items))
+    conn.commit()
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -461,10 +502,15 @@ def main():
     ap.add_argument("--since", help="ISO date; default {0} days back".format(LOOKBACK_DAYS))
     ap.add_argument("--limit", type=int, help="issues per run")
     ap.add_argument("--budget-seconds", type=float, default=drain.DEFAULT_S)
+    ap.add_argument("--forget", nargs="+", metavar="GLOB",
+                    help="drop these issues (issue_key globs, e.g. 'p1-2011-*') and their "
+                         "items so the run reads them again; for a parser fix")
     args = ap.parse_args()
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     today = datetime.date.today().isoformat()
     conn = ca_store.ensure_schema(db.init_db(db.connect(args.db)))
+    if args.forget:
+        forget(conn, args.forget)
     issues, items, ours, gaps = pull(conn, client, today,
                                      parts=(args.part,) if args.part else (1, 2),
                                      since=args.since, limit=args.limit,

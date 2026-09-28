@@ -47,6 +47,13 @@ on:
         description: "Also read Gazette issues back to this date (YYYY-MM-DD)"
         type: string
         default: ""
+      # A PARSER FIX'S REPAIR (28 September 2026): issue_key globs whose
+      # issues and items are dropped before the Gazette step, so it reads
+      # them again with the fixed parser (or, for a consolidated index, never).
+      gazette_forget:
+        description: "Gazette issues to drop and re-read, space-separated globs (e.g. p1-2011-*)"
+        type: string
+        default: ""
       # The petitions judge's clock (tools/ca_triage.py). 1200 s is a normal
       # week with room to spare; a backlog run can ask for up to 2700, which
       # still ends well inside the 60-minute wall below.
@@ -221,7 +228,12 @@ jobs:
           exit $rc
       - name: "Gazette back to the chosen date"
         if: always() && steps.fetch.outcome == 'success' && inputs.gazette_since != ''
-        run: python3 tools/ca_gazette.py --since "${{ inputs.gazette_since }}" --budget-seconds 3000 | tee /tmp/ca-old-gazette.log
+        env:
+          SINCE: ${{ inputs.gazette_since }}
+          FORGET: ${{ inputs.gazette_forget }}
+        run: |
+          set -f   # the globs are for SQLite, not the shell
+          python3 tools/ca_gazette.py --since "$SINCE" --budget-seconds 3000 ${FORGET:+--forget $FORGET} | tee /tmp/ca-old-gazette.log
 
       - name: Judge petitions on our ground (newest first, on a clock)
         # AFTER every collector, so this week's new petitions are in the queue.
