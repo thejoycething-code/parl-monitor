@@ -37,6 +37,14 @@ the index, then:
     a page of its own and no anchor -- an order in council, a supplement
     (kind='document').
 
+BEFORE THE RSS. For a --since before 2020 the yearly archive pages
+(rp-pr/p1/2014/index-eng.html) list the older issues, whose index pages parse
+the same way (the first backfill to 2010, 28 September 2026). HTML starts in
+2011 for Part I and 2012 for Part II; the PDF-only issues before that are
+counted and said, not read. Those pages declare utf-8 and are Windows-1252,
+so they are decoded leniently. A Part II extra edition there has no index:
+the year page links its regulations, grouped into one issue.
+
 The RSS host answered 503 for an hour on 26 September 2026 and normally the
 next. A 503 here is a gap that stops the run, never an empty week.
 
@@ -72,6 +80,10 @@ RSS = "https://gazette.gc.ca/rss/p{0}-eng.xml"
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-ca.yaml")
 LOOKBACK_DAYS = 60
+# The RSS reaches back to December 2019 and no further; the yearly archive
+# pages are read only for a `since` before this (a backfill), never on a
+# weekly run whose feed simply lists a short window.
+ARCHIVE_BEFORE = "2020-01-01"
 HIDDEN_AREAS = (11,)
 
 TAG = re.compile(r"<[^>]+>")
@@ -88,6 +100,13 @@ BAD_ANCHOR = re.compile(r"(-eng\.html)(?:@|(?=[a-z]{2,4}\d+$))")
 # registered for publication in this issue."
 NOTHING_PUBLISHED = re.compile(r"No regulatory text was registered for publication", re.I)
 TOKEN = re.compile(r"<(h2|h3)\b[^>]*>(.*?)</\1>|<a\b[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.S)
+
+
+def _get(client, url, slug):
+    """A Gazette page as text. The pre-2020 pages declare utf-8 and are
+    Windows-1252, so a strict decode falls back rather than storing
+    "Montr\ufffdal" in every title that names a place with an accent."""
+    return client.get_text(url, FEED, slug, archive=False, fallback_encoding="cp1252")
 
 
 def _clean(fragment):
@@ -119,6 +138,54 @@ def parse_rss(xml_text, part):
         out.append({"issue_key": "p{0}-{1}".format(part, folder.group(1)), "part": part,
                     "date": when, "title": (item.findtext("title") or "").strip(), "url": url})
     return out
+
+
+def parse_year(page, part):
+    """The yearly archive page (rp-pr/p{part}/{YYYY}/index-eng.html), for the
+    years before the RSS starts. Returns (issues, pdf_only): issues in the
+    parse_rss shape, pdf_only the issue folders that have a PDF and no HTML
+    edition (all of 2010, Part II of 2011) -- counted and said, never read.
+
+    Three link shapes carry an issue:
+      * html/index-eng.html -- a regular issue (or a Part II consolidation,
+        '-c1'), read through its index like any RSS issue;
+      * html/extra12-eng.html -- a Part I extra edition, which IS its document;
+      * html/sor-dors299-eng.html -- a Part II extra edition has no index:
+        the year page links its regulations directly. They are grouped by
+        folder into ONE issue whose items are those links.
+    """
+    folders, pdf = {}, set()
+    for href, text in re.findall(r'<a\b[^>]*href="([^"]+)"[^>]*>(.*?)</a>', _main(page), re.S):
+        href = href.strip().split("#")[0]
+        m = re.match(r"(?:https?://[^/]+)?/rp-pr/p(\d)/\d{4}/([^/]+)/(html|pdf)/([^/]+)$", href)
+        if not m or int(m.group(1)) != part:
+            continue            # the quarterly index, "more information", page anchors
+        folder, kind, name = m.group(2), m.group(3), m.group(4)
+        if not re.match(r"\d{4}-\d{2}-\d{2}", folder):
+            continue
+        if kind == "pdf":
+            pdf.add(folder)
+            continue
+        url = urllib.parse.urljoin("https://gazette.gc.ca/", href)
+        links = folders.setdefault(folder, [])
+        if url not in [u for u, _ in links]:
+            links.append((url, _clean(text)))
+    issues = []
+    for folder, links in folders.items():
+        issue = {"issue_key": "p{0}-{1}".format(part, folder), "part": part,
+                 "date": folder[:10], "title": links[0][1], "url": links[0][0]}
+        index = [u for u, _ in links if u.endswith("/index-eng.html")]
+        if index:
+            issue["url"] = index[0]
+        elif len(links) > 1 or REGULATION.search(links[0][0]):
+            issue["title"] = "Extra edition {0}".format(folder)
+            issue["items"] = [{"url": u, "title": t, "section": "Extra edition",
+                               "department": None,
+                               "kind": "regulation" if REGULATION.search(u) else "extra"}
+                              for u, t in links]
+        issues.append(issue)
+    return (sorted(issues, key=lambda i: (i["date"], i["issue_key"])),
+            sorted(pdf - set(folders)))
 
 
 def parse_index(page, base_url):
@@ -185,11 +252,16 @@ def _gap(conn, today, detail):
 
 def read_issue(conn, client, issue, tax, wl, today, log=print):
     """Store one issue's items. Returns (items, ours, gaps)."""
-    index = client.get_text(issue["url"], FEED, "index-" + issue["issue_key"], archive=False)
     pages = {}
-    if issue["url"].endswith("/index-eng.html"):
+    if issue.get("items"):
+        # A Part II extra edition from the yearly archive: no index exists,
+        # the year page listed its regulations (parse_year).
+        index, items = "", issue["items"]
+    elif issue["url"].endswith("/index-eng.html"):
+        index = _get(client, issue["url"], "index-" + issue["issue_key"])
         items = parse_index(index, issue["url"])
     else:
+        index = _get(client, issue["url"], "index-" + issue["issue_key"])
         # An EXTRA edition's feed link is the document itself
         # (2026-07-31-x6/html/extra6-eng.html), not an index: the first
         # version of this collector read it as an index, found no items, and
@@ -219,7 +291,7 @@ def read_issue(conn, client, issue, tax, wl, today, log=print):
     texts = {}
     for base, anchors in notices.items():
         try:
-            page = client.get_text(base, FEED, "notices-" + os.path.basename(base), archive=False)
+            page = _get(client, base, "notices-" + os.path.basename(base))
         except FetchError as exc:
             _gap(conn, today, "{0}: {1}".format(base, exc))
             log("  [gap] {0}: {1}".format(os.path.basename(base), str(exc)[:60]))
@@ -234,8 +306,7 @@ def read_issue(conn, client, issue, tax, wl, today, log=print):
             try:
                 body, registration, days = read_regulation(
                     pages.get(it["url"]) or
-                    client.get_text(it["url"], FEED, "item-" + os.path.basename(it["url"]),
-                                    archive=False))
+                    _get(client, it["url"], "item-" + os.path.basename(it["url"])))
             except FetchError as exc:
                 _gap(conn, today, "{0}: {1}".format(it["url"], exc))
                 log("  [gap] {0}: {1}".format(os.path.basename(it["url"]), str(exc)[:60]))
@@ -284,6 +355,38 @@ def read_issue(conn, client, issue, tax, wl, today, log=print):
     return len(items), ours, gaps
 
 
+def archive(conn, client, part, since, first, done, today, log=print):
+    """Unread issues from `since` up to the day before the RSS's first, off
+    the yearly archive pages. Returns (issues, gaps).
+
+    WHY. The RSS reaches back only to December 2019 (Part I 2019-12-03, Part
+    II 2019-12-11); the backfill to 2010 asked for the decade before it. A
+    year page that fails is a gap that stops the run, like the RSS, never a
+    year quietly skipped. PDF-only issues are said, with their count, and not
+    read: there is no HTML edition to cut into items (2010, Part II 2011).
+    """
+    out = []
+    last = (datetime.date.fromisoformat(min(first, ARCHIVE_BEFORE)) - datetime.timedelta(days=1)).year
+    for year in range(int(since[:4]), last + 1):
+        url = "https://gazette.gc.ca/rp-pr/p{0}/{1}/index-eng.html".format(part, year)
+        try:
+            issues, pdf_only = parse_year(_get(client, url, "year-p{0}-{1}".format(part, year)), part)
+        except FetchError as exc:
+            _gap(conn, today, "year p{0} {1}: {2}".format(part, year, exc))
+            conn.commit()
+            log("  [gap] Part {0} {1} archive: {2}".format(part, year, str(exc)[:70]))
+            return out, 1
+        keep = [i for i in issues if since <= i["date"] < first and i["issue_key"] not in done]
+        pdf_only = [f for f in pdf_only if since <= f[:10] < first]
+        if keep or pdf_only:
+            log("  Part {0} {1}: {2} unread issue(s) from the yearly archive{3}".format(
+                part, year, len(keep),
+                "; {0} issue(s) PDF only, not read (no HTML edition)".format(len(pdf_only))
+                if pdf_only else ""))
+        out += keep
+    return out, 0
+
+
 def pull(conn, client, today, parts=(1, 2), since=None, tax=None, wl=None, log=print,
          limit=None, budget=None):
     """Read every unread issue since `since`, oldest first. Returns (issues, items, ours, gaps)."""
@@ -295,14 +398,20 @@ def pull(conn, client, today, parts=(1, 2), since=None, tax=None, wl=None, log=p
     todo = []
     for part in parts:
         try:
-            feed = client.get_text(RSS.format(part), FEED, "rss-p{0}".format(part), archive=False)
-            todo += [i for i in parse_rss(feed, part)
-                     if i["date"] >= since and i["issue_key"] not in done]
+            feed = _get(client, RSS.format(part), "rss-p{0}".format(part))
+            listed = parse_rss(feed, part)
+            todo += [i for i in listed if i["date"] >= since and i["issue_key"] not in done]
         except (FetchError, ET.ParseError) as exc:
             _gap(conn, today, "rss p{0}: {1}".format(part, exc))
             conn.commit()
             log("  [gap] Part {0} feed: {1}".format(part, str(exc)[:70]))
             return 0, 0, 0, 1
+        first = min((i["date"] for i in listed), default=today)
+        if since < min(first, ARCHIVE_BEFORE):
+            archived, year_gaps = archive(conn, client, part, since, first, done, today, log)
+            todo += archived
+            if year_gaps:
+                return 0, 0, 0, year_gaps
     issues = items = ours = gaps = 0
     for issue in sorted(todo, key=lambda i: (i["date"], i["issue_key"])):
         if limit is not None and issues >= limit:

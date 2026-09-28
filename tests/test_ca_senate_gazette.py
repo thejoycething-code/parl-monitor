@@ -84,7 +84,7 @@ class SenateClient:
     def __init__(self, detail=DETAIL):
         self.detail, self.calls = detail, []
 
-    def get_text(self, url, feed, slug, archive=True):
+    def get_text(self, url, feed, slug, archive=True, **kw):
         if "/details/" in url:
             self.calls.append(url)
             return self.detail
@@ -146,7 +146,7 @@ class SenateTests(unittest.TestCase):
         conn = store()
 
         class Never(SenateClient):
-            def get_text(self, url, feed, slug, archive=True):
+            def get_text(self, url, feed, slug, archive=True, **kw):
                 raise AssertionError("no request for a session with no published votes")
 
         said = []
@@ -159,7 +159,7 @@ class SenateTests(unittest.TestCase):
         conn = store()
 
         class Empty(SenateClient):
-            def get_text(self, url, feed, slug, archive=True):
+            def get_text(self, url, feed, slug, archive=True, **kw):
                 return "<html>redesigned</html>"
 
         self.assertEqual(self.pull(conn, Empty()), (0, 0, 0, 1))
@@ -219,7 +219,7 @@ class GazetteClient:
     def __init__(self, fail=()):
         self.fail, self.calls = set(fail), []
 
-    def get_text(self, url, feed, slug, archive=True):
+    def get_text(self, url, feed, slug, archive=True, **kw):
         self.calls.append(url)
         if any(f in url for f in self.fail):
             raise FetchError(url, feed, slug, 4, OSError("503"))
@@ -317,7 +317,7 @@ class GazetteTests(unittest.TestCase):
                  "for publication in this issue.</main>")
 
         class Client(GazetteClient):
-            def get_text(self, url, feed, slug, archive=True):
+            def get_text(self, url, feed, slug, archive=True, **kw):
                 return empty if url.endswith("index-eng.html") else RSS
 
         issue = {"issue_key": "p2-2021-09-15", "part": 2, "date": "2021-09-15",
@@ -328,6 +328,122 @@ class GazetteTests(unittest.TestCase):
     def test_a_feed_that_fails_is_a_gap_not_an_empty_week(self):
         conn = store()
         self.assertEqual(self.pull(conn, GazetteClient(fail=("-eng.xml",))), (0, 0, 0, 1))
+
+# The yearly archive pages, cut to the link shapes the real ones carry
+# (rp-pr/p2/2012/index-eng.html and rp-pr/p1/2011/index-eng.html, 28 Sept 2026).
+YEAR_P2 = """<html><nav><a href="/rp-pr/p2/2012/2012-01-04/html/index-eng.html">chrome</a></nav><main>
+<a href="#a01">Regular and extra editions</a>
+<a href="/rp-pr/p2/2012/2012-12-20-x2/html/sor-dors299-eng.html">SOR/2012-299</a>
+<a href="/rp-pr/p2/2012/2012-12-20-x2/html/si-tr103-eng.html">SI/2012-103</a>
+<a href="/rp-pr/p2/2012/2012-12-20-x2/pdf/g2-146x2.pdf">Extra (120KB)</a>
+<a href="/rp-pr/p2/2012/2012-12-19/html/index-eng.html ">Part&nbsp;II, volume 146, number 26</a>
+<a href="/rp-pr/p2/2012/2012-12-19/pdf/g2-14626.pdf">Part II, volume 146, number 26 (2MB)</a>
+<a href="/rp-pr/p2/2012/2012-12-31-c1/html/index-eng.html">Consolidated index</a>
+<a href="/rp-pr/p2/2012/g2-146q4.pdf">Quarterly index</a>
+<a href="/cg-gc/lm-sp-eng.html#a1">More information</a>
+</main></html>"""
+
+YEAR_P1 = """<html><main>
+<a href="/rp-pr/p1/2011/2011-12-31/html/index-eng.html">Part&nbsp;I, volume 145, number 53</a>
+<a href="/rp-pr/p1/2011/2011-12-31/pdf/g1-14553.pdf">Part I, volume 145, number 53 (947KB)</a>
+<a href="/rp-pr/p1/2011/2011-03-26-x3/html/extra3-eng.html">Extra, volume 145, number 3</a>
+<a href="/rp-pr/p1/2011/2011-03-26-x3/html/extra3-eng.html#e1">Order fixing the day</a>
+<a href="/rp-pr/p1/2011/2011-03-26-x3/pdf/g1-145x3.pdf">Extra (80KB)</a>
+<a href="/rp-pr/p1/2011/2011-01-08/pdf/g1-14502.pdf">Part I, volume 145, number 2 (1MB)</a>
+<a href="/rp-pr/p1/2011/indexq1-eng.html">Quarterly index</a>
+</main></html>"""
+
+
+class GazetteArchiveTests(unittest.TestCase):
+    def test_a_part_ii_year_page_gives_issues_and_groups_an_extra_without_an_index(self):
+        issues, pdf_only = gaz.parse_year(YEAR_P2, 2)
+        by_key = {i["issue_key"]: i for i in issues}
+        self.assertEqual(sorted(by_key), ["p2-2012-12-19", "p2-2012-12-20-x2", "p2-2012-12-31-c1"],
+                         "site chrome outside <main>, PDFs, quarterlies and anchors are not issues")
+        self.assertEqual(by_key["p2-2012-12-19"]["url"],
+                         "https://gazette.gc.ca/rp-pr/p2/2012/2012-12-19/html/index-eng.html",
+                         "the href's trailing space is not part of the URL")
+        extra = by_key["p2-2012-12-20-x2"]
+        self.assertEqual(extra["date"], "2012-12-20")
+        self.assertEqual([(i["title"], i["kind"]) for i in extra["items"]],
+                         [("SOR/2012-299", "regulation"), ("SI/2012-103", "regulation")])
+        self.assertEqual(pdf_only, [])
+
+    def test_a_part_i_extra_is_its_document_and_a_pdf_only_issue_is_counted(self):
+        issues, pdf_only = gaz.parse_year(YEAR_P1, 1)
+        by_key = {i["issue_key"]: i for i in issues}
+        self.assertEqual(sorted(by_key), ["p1-2011-03-26-x3", "p1-2011-12-31"])
+        self.assertNotIn("items", by_key["p1-2011-03-26-x3"], "read as one document, like the RSS extra")
+        self.assertTrue(by_key["p1-2011-03-26-x3"]["url"].endswith("/extra3-eng.html"))
+        self.assertEqual(pdf_only, ["2011-01-08"])
+
+    def test_a_backfill_before_the_rss_reads_the_year_pages_up_to_2019_only(self):
+        conn = store()
+
+        class Client(GazetteClient):
+            def get_text(self, url, feed, slug, archive=True, **kw):
+                self.calls.append(url)
+                if url.endswith("/2011/index-eng.html"):
+                    return YEAR_P1
+                if "/rp-pr/p1/20" in url and url.count("/") == 6:
+                    return "<main></main>"          # another year: nothing listed
+                if url.endswith("/extra3-eng.html"):
+                    return EXTRA
+                return GazetteClient.get_text(self, url, feed, slug)
+
+        client, said = Client(), []
+        gaz.pull(conn, client, "2026-09-26", parts=(1,), since="2011-01-01",
+                 tax=TAX, wl=WL, log=said.append)
+        years = [u for u in client.calls if u.count("/") == 6 and u.endswith("/index-eng.html")]
+        self.assertEqual(len(years), 9, "2011 to 2019, not 2020-2026: the RSS has those")
+        keys = {r[0] for r in conn.execute("SELECT issue_key FROM ca_gazette_issues")}
+        self.assertIn("p1-2011-12-31", keys)
+        self.assertIn("p1-2011-03-26-x3", keys)
+        self.assertTrue(any("1 issue(s) PDF only, not read" in m for m in said))
+
+    def test_a_weekly_run_never_touches_the_archive(self):
+        client = GazetteClient()
+        gaz.pull(store(), client, "2026-09-26", parts=(1,), since="2026-07-01",
+                 tax=TAX, wl=WL, log=quiet)
+        self.assertFalse([u for u in client.calls if u.count("/") == 6])
+
+    def test_a_year_page_that_fails_is_a_gap(self):
+        conn = store()
+        got = gaz.pull(conn, GazetteClient(fail=("/2012/index-eng.html",)), "2026-09-26",
+                       parts=(1,), since="2012-01-01", tax=TAX, wl=WL, log=quiet)
+        self.assertEqual(got, (0, 0, 0, 1))
+        self.assertIn("year p1 2012", conn.execute(
+            "SELECT detail FROM gaps WHERE feed='ca-gazette'").fetchone()[0])
+
+    def test_an_extra_without_an_index_stores_its_regulations(self):
+        conn = store()
+        issue = gaz.parse_year(YEAR_P2, 2)[0][1]
+        self.assertEqual(issue["issue_key"], "p2-2012-12-20-x2")
+
+        class Client:
+            calls = []
+
+            def get_text(self, url, feed, slug, archive=True, **kw):
+                self.calls.append(url)
+                return "<main>Registration SOR/2012-299 December 14, 2012. Text.</main>"
+
+        client = Client()
+        n, _, gaps = gaz.read_issue(conn, client, issue, TAX, WL, "2026-09-28", quiet)
+        self.assertEqual((n, gaps), (2, 0))
+        self.assertFalse([u for u in client.calls if u.endswith("index-eng.html")], "there is no index")
+        self.assertEqual(conn.execute("SELECT items FROM ca_gazette_issues").fetchone()[0], 2)
+
+    def test_the_old_pages_windows_1252_is_not_mangled(self):
+        from src.http import HttpClient
+
+        class Raw(HttpClient):
+            def _fetch(self, url, feed, slug, timeout, archive=True):
+                return "<main>Montréal — Pierre Elliott Trudeau</main>".encode("cp1252")
+
+        page = gaz._get(Raw(raw_dir=None), "https://gazette.gc.ca/x", "x")
+        self.assertIn("Montréal — Pierre", page)
+        self.assertIn("\ufffd", Raw(raw_dir=None).get_text("u", "f", "s"),
+                      "the default decode is unchanged for every other feed")
 
 
 if __name__ == "__main__":

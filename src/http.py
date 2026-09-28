@@ -198,7 +198,7 @@ class HttpClient:
         raw = self._fetch(url, feed, slug, timeout, archive=archive)
         return json.loads(raw.decode("utf-8"))
 
-    def get_text(self, url, feed, slug, timeout=None, archive=True):
+    def get_text(self, url, feed, slug, timeout=None, archive=True, fallback_encoding=None):
         """Fetch and archive a response, returning decoded text.
 
         Used for the HTML/XML feeds (legislation.gov.uk, Holyrood scrape).
@@ -206,8 +206,18 @@ class HttpClient:
         bytes stored are whatever the server returned. archive=False for
         page-per-item scrapes (Senedd questions: ~170KB of site chrome per
         page; the store keeps the parsed text and the id is the provenance).
+
+        fallback_encoding: some sites declare utf-8 and serve Windows-1252
+        (the Canada Gazette's pre-2020 pages: the é of Montréal as one byte,
+        0xE9). With it set, a reply that is not valid UTF-8 is decoded with it
+        instead of mangled.
         """
         raw = self._fetch(url, feed, slug, timeout, archive=archive)
+        if fallback_encoding:
+            try:
+                return raw.decode("utf-8")
+            except UnicodeDecodeError:
+                return raw.decode(fallback_encoding, errors="replace")
         return raw.decode("utf-8", errors="replace")
 
     def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None):

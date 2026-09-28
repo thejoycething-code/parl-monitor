@@ -363,6 +363,26 @@ That is a quiet summer, not a broken filter; the titles checked by hand
 turned up nothing missed. Expect the Gazette to matter in bursts: MAID
 monitoring regulations before March 2027, and any regulation under C-34.
 
+**Before the RSS: the yearly archive (built 28 September 2026).** The RSS
+stops at December 2019. For a `--since` before 2020 the collector reads the
+yearly archive pages (`rp-pr/p1/2014/index-eng.html`), which link each
+issue's index. The pre-2020 index pages parse like the current ones. Four
+details differ:
+
+- **Coverage.** HTML starts in 2011 for Part I and 2012 for Part II. All
+  of 2010 (57 Part I and 35 Part II issues) and Part II of 2011 (34)
+  are PDF only. The run counts them and says so ("PDF only, not read"); it
+  does not read them and does not call them gaps.
+- **Encoding.** The old pages declare utf-8 but are Windows-1252. They are
+  decoded leniently, so "Montréal" is not stored mangled.
+- **Part II extras.** A Part II extra edition has no index; the year page
+  links its regulations directly. They are grouped by folder into one issue.
+- **When the archive is read.** Only for a start date before 2020. A weekly
+  run never touches the archive.
+
+Size: about 780 issues from 2011 to 2019. At the 3,000-second budget per
+run, that takes two or three backfill runs.
+
 ### What a full backfill costs
 
 These are one-off, announced, and run from CI, paced. That is the rule
