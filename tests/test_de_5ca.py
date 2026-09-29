@@ -207,6 +207,22 @@ class PlacementTests(unittest.TestCase):
         self.assertEqual(col, "--")
         self.assertIn("conflicting", conf)
 
+    def test_a_free_vote_is_labelled_free_not_whipped(self):
+        """Review, 29 Sept 2026: every Bundestag vote read "moderate (whipped
+        vote)", including the conscience votes on assisted suicide."""
+        free = five._ev("vote", "2023-07-06", 2, "x", free=True)
+        self.assertEqual(five.place([free])[2], "strong (free vote)")
+        whipped = five._ev("vote", "2023-07-06", 2, "x")
+        self.assertEqual(five.place([whipped])[2], "moderate (whipped vote)")
+
+    def test_the_free_vote_readings_carry_the_flag(self):
+        import yaml
+        cfg = yaml.safe_load(open(os.path.join(ROOT, "config", "de_stance.yaml"),
+                                  encoding="utf-8"))
+        for d in cfg["divisions"]:
+            if "(free vote)" in str(d.get("result") or ""):
+                self.assertTrue(d.get("free_vote"), d["key"])
+
     def test_two_same_day_divisions_are_one_event(self):
         items = [ev("vote", "2019-02-21", 2), ev("vote", "2019-02-21", 2),
                  ev("speech", "2024-04-24", 1), ev("bill", "2024-11-14", -2)]

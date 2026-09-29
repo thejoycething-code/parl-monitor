@@ -169,6 +169,7 @@ divisions:
     parliament: Bundestag
     dated: 2015-11-06
     result: "Accepted 370-232 (free vote)"
+    free_vote: true
     ja: 2
     why_ja: "Voted to ban organised (commercial) assisted suicide."
     nein: -2
@@ -181,6 +182,7 @@ divisions:
     parliament: Bundestag
     dated: 2023-07-06
     result: "Rejected 286-375 (free vote)"
+    free_vote: true
     ja: -2
     why_ja: "Voted for the liberal assisted-suicide bill."
     nein: 2
@@ -192,14 +194,14 @@ divisions:
     parliament: Bundestag
     dated: 2023-07-06
     result: "Rejected 302-362 (free vote)"
+    free_vote: true
     ja: 1
     why_ja: "Voted for the more restrictive of the two 2023 bills: a criminal ban with narrow exceptions."
-    nein: -1
-    why_nein: "Voted against the more restrictive of the two 2023 bills."
     note: >
-      Weaker than 5098 in both directions: the bill still permitted assisted
-      suicide under conditions, and some who oppose any legal route voted
-      against it for that reason.
+      Only the Ja side carries a value. Weaker than 5098: the bill still
+      permitted assisted suicide under conditions, and the Nein lobby mixed
+      liberals with members who oppose any legal route, so a Nein tells the
+      two apart from nothing. Reviewed 29 Sept 2026 (Christopher delegated the review).
   - key: "5099"
     area: 2
     scored_by: claude-delegated
@@ -213,14 +215,17 @@ divisions:
   - key: "4146"
     area: 3
     scored_by: claude-delegated
-    title: "Aufhebung des Transsexuellengesetzes und Einführung des Selbstbestimmungsgesetzes (Greens/FDP bills)"
+    title: "Aufhebung des Transsexuellengesetzes und Einführung des Selbstbestimmungsgesetzes (Greens bill, 19/19755)"
     parliament: Bundestag
     dated: 2021-05-19
     result: "Rejected 118-454"
     ja: -2
     why_ja: "Voted for gender self-ID, including for minors."
-    nein: 2
-    why_nein: "Voted against gender self-ID, including for minors."
+    note: >
+      Only the Ja side carries a value. Reviewed 29 Sept 2026 (Christopher delegated the review): the SPD voted Nein as the
+      Union's coalition partner and passed self-ID in 2024 (5496), so a Nein
+      here is the whip, not a conviction -- it had put six SPD members,
+      Klingbeil and Mützenich among them, at ++. The FDP abstained.
 
   - key: "5496"
     area: 3
@@ -241,14 +246,17 @@ divisions:
   - key: "4146"
     area: 5
     scored_by: claude-delegated
-    title: "Aufhebung des Transsexuellengesetzes und Einführung des Selbstbestimmungsgesetzes (Greens/FDP bills)"
+    title: "Aufhebung des Transsexuellengesetzes und Einführung des Selbstbestimmungsgesetzes (Greens bill, 19/19755)"
     parliament: Bundestag
     dated: 2021-05-19
     result: "Rejected 118-454"
     ja: -2
     why_ja: "Voted for gender self-ID."
-    nein: 2
-    why_nein: "Voted against gender self-ID."
+    note: >
+      Only the Ja side carries a value. Reviewed 29 Sept 2026 (Christopher delegated the review): the SPD voted Nein as the
+      Union's coalition partner and passed self-ID in 2024 (5496), so a Nein
+      here is the whip, not a conviction -- it had put six SPD members,
+      Klingbeil and Mützenich among them, at ++. The FDP abstained.
   - key: "5496"
     area: 5
     scored_by: claude-delegated
@@ -297,11 +305,12 @@ divisions:
     parliament: Bundestag
     dated: 2015-10-16
     result: "Accepted 404-148"
+    placeable: false
+    reason: "a whipped CDU/CSU-SPD coalition bill on surveillance, not speech: on its own it put 53 CDU and 22 SPD members at - on the free-speech sheet (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     ja: -1
     why_ja: "Voted to reintroduce blanket retention of communications data."
     nein: 1
     why_nein: "Voted against blanket retention of communications data."
-    note: "Weak in both directions: a coalition bill on surveillance, not on speech."
 
   # --- Area 8: freedom of religion or belief ---------------------------------------
   - key: "963"
@@ -322,9 +331,10 @@ divisions:
     parliament: Bundestag
     dated: 2018-10-19
     result: "Accepted 331-81"
+    placeable: false
+    reason: "a coalition motion carried by CDU/CSU and SPD alone, so Ja is the government whip: the mirror of the AfD-motion rule (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     ja: 1
     why_ja: "Voted to strengthen Germany's international work for freedom of religion."
-    note: "Only the Ja side carries a value: the Nein lobby's reasons are not recorded."
   - key: "4119"
     area: 8
     scored_by: claude-delegated
@@ -332,6 +342,8 @@ divisions:
     parliament: Bundestag
     dated: 2021-05-06
     result: "Rejected 179-449"
+    placeable: false
+    reason: "not a religious-freedom question -- redeeming the 1803 payments is a constitutional mandate (Art. 140 GG / Art. 138 WRV) -- and whipped: the SPD voted Nein in May 2021 and promised this law in its November 2021 coalition agreement (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     ja: -1
     why_ja: "Voted to end the state payments owed to the churches since 1803."
     nein: 1
@@ -353,6 +365,7 @@ divisions:
     parliament: Bundestag
     dated: 2017-06-30
     result: "Accepted 393-226 (free vote)"
+    free_vote: true
     ja: -2
     why_ja: "Voted to redefine marriage."
     nein: 2
@@ -394,6 +407,7 @@ divisions:
     parliament: Bundestag
     dated: 2011-07-07
     result: "Accepted 326-259 (free vote)"
+    free_vote: true
     ja: -2
     why_ja: "Voted to permit embryo selection by PGD."
     nein: 2
@@ -5472,6 +5486,8 @@ papers:
     why: "AfD motion: suspend aid to Syria's transitional regime to protect religious minorities from persecution"
   - key: "333506"
     area: 8
+    placeable: false
+    reason: "follows division 4119: redeeming the state payments is a constitutional mandate, not a religious-freedom question (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     scored_by: claude-delegated
     title: "Gesetz über die Grundsätze zur Ablösung der Staatsleistungen an Religions- und Weltanschauungsgemeinschaften"
     type: "Gesetzgebung"
@@ -6538,6 +6554,8 @@ papers:
     why: "CDU/CSU inquiry on consequences of NIPT reimbursement; critical of screening drift and backs monitoring."
   - key: "309408"
     area: 10
+    placeable: false
+    reason: "prenatal testing belongs to abortion, where this motion is already read on the confirmed sheet; here it decided 97 of the 194 + placements on surrogacy (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     scored_by: claude-delegated
     title: "Kassenzulassung des nichtinvasiven Pränataltests - Monitoring der Konsequenzen und Einrichtung eines Gremiums"
     type: "Antrag"
@@ -6547,6 +6565,8 @@ papers:
     why: "Cross-party group motion (Rüffer/Hüppe/Pilsinger et al.): monitor NIPT reimbursement and set up an ethics body against de facto trisomy screening; monitoring, not restriction."
   - key: "330644"
     area: 10
+    placeable: false
+    reason: "prenatal testing belongs to abortion, where this motion is already read on the confirmed sheet; here it decided 97 of the 194 + placements on surrogacy (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     scored_by: claude-delegated
     title: "Kassenzulassung des nicht-invasiven Pränataltests - Monitoring der Konsequenzen und Einrichtung eines Gremiums"
     type: "Antrag"
@@ -6810,6 +6830,8 @@ papers:
     why: "SF: possible rise in trafficking and forced prostitution during the Euro 2024 tournament"
   - key: "332037"
     area: 12
+    placeable: false
+    reason: "a political inquiry into the Epstein files, not prostitution policy (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     scored_by: claude-delegated
     title: "Anhaltspunkte für deutsche Bezüge zu den Epstein-Akten systematisch untersuchen"
     type: "Antrag"
@@ -6819,6 +6841,8 @@ papers:
     why: "AfD motion: systematically investigate German links to the Epstein files (sexual abuse and trafficking)"
   - key: "336173"
     area: 12
+    placeable: false
+    reason: "anti-trafficking with no position on a sex-buying ban, in the 'sex work' framing: authoring it is not alignment with the Nordic model (Reviewed 29 Sept 2026 (Christopher delegated the review))"
     scored_by: claude-delegated
     title: "Betroffene besser schützen - Menschenhandel und Zwangsprostitution bekämpfen"
     type: "Antrag"

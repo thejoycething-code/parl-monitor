@@ -157,9 +157,9 @@ class Bridge:
 
 # -- evidence -----------------------------------------------------------------
 
-def _ev(kind, date, value, line, earlier=False):
+def _ev(kind, date, value, line, earlier=False, free=False):
     return {"kind": kind, "date": date or "", "value": value, "line": line,
-            "earlier": earlier}
+            "earlier": earlier, "free": free}
 
 
 def gather(conn, area, sitting, stance_cfg, land_cfg, preview):
@@ -202,7 +202,8 @@ def gather(conn, area, sitting, stance_cfg, land_cfg, preview):
             ev[pid].append(_ev("vote", div["date"], value,
                 "{0} VOTE ({1}): Voted {2}: {3} [{4}]".format(
                     div["date"], where or "Bundestag", side.capitalize(),
-                    (div["label"] or "").strip(), tag), earlier=earlier))
+                    (div["label"] or "").strip(), tag), earlier=earlier,
+                free=bool(d.get("free_vote"))))
             counts["votes"] += 1
 
     # Speeches: model-scored, as at Westminster.
@@ -314,6 +315,11 @@ def place(items):
     if against:
         conf = "conflicting ({0} item{1} point the other way)".format(
             len(against), "s" if len(against) > 1 else "")
+    elif best["kind"] == "vote" and not best["earlier"] and best.get("free"):
+        # A conscience vote (free_vote: true in config/de_stance.yaml) is the
+        # strongest personal evidence the Bundestag produces; calling it
+        # "whipped" told the German team the opposite (review, 29 Sept 2026).
+        conf = "strong (free vote)"
     elif best["kind"] == "vote" and not best["earlier"]:
         conf = "moderate (whipped vote)"
     elif len(directional) == 1:
