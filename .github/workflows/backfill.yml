@@ -136,7 +136,7 @@ jobs:
         # its voters (div:h<id>) and its signed stance the same day, rather
         # than the tracker and the store-backed tests waiting for Monday.
         # Idempotent: a division already in the ledger is left alone.
-        if: inputs.what == 'pre-2016 Commons divisions (Hansard)'
+        if: inputs.what == 'pre-2016 Commons divisions (Hansard)' || inputs.what == 'Commons and Lords divisions (Votes APIs)'
         run: python3 tools/ledger_tracker_divisions.py | tee /tmp/bf-tracker.log
       - name: Health summary
         if: always()

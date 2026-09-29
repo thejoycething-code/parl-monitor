@@ -1,5 +1,7 @@
 # Commons divisions, March 2016 to June 2017 - draft recommendations
 
+**Decided 29 September 2026 (Christopher): 243 signed off and added to the tracker; the three calls (163, 181, 238) excluded.**
+
 *Drafted 29 September 2026 from the candidate finder's first run over this stretch (259 divisions enumerated, 20 displayable and not in the ledger), each read against Hansard for the question put and its mover. **Nothing is applied**; `config/vote_tracker.yaml` is untouched. These are Commons Votes API divisions, so the ids are ordinary tracker ids (no `source: hansard`).*
 
 | | Count |
@@ -40,7 +42,7 @@
     meaning_no: "Voted against bringing in a Bill to remove abortion from the criminal law."
 ```
 
-## Your call (3)
+## Your call (3) - all three EXCLUDED by Christopher, 29 September 2026
 
 - **163** 2016-11-28, Digital Economy Bill: Report Stage New Clause 10, 181-278. Kevin Brennan (voted Aye): maintained schools' sex education guidance to include the risks of internet pornography and the legal age to access it. On our ground (children and online pornography, and sex education), but which side is ours is a judgement. [Division](https://votes.parliament.uk/Votes/Commons/Division/163)
 - **181** 2016-12-16, Preventing and Combating Violence Against Women and Domestic Violence (Ratification of Convention) Bill, Second Reading, 135-2: the Istanbul Convention. CitizenGO has campaigned against the Convention's ratification elsewhere, but no UK position is stated here; near-unanimous. [Division](https://votes.parliament.uk/Votes/Commons/Division/181)

@@ -449,6 +449,17 @@ issues:
     status: >-
       Passed the Commons on 9 October 2013 (Third Reading 304 to 260) and became the Lobbying Act 2014.
 
+  - id: abortion-decriminalisation-2017
+    name: "Abortion decriminalisation (the 2017 Bill)"
+    area: 1
+    bill: "Reproductive Health (Access to Terminations) Bill"
+    # Drafted from the record in docs/division-candidates-2016-17-drafts.md;
+    # signed off by Christopher, 2026-09-29.
+    note: >-
+      Diana Johnson's ten minute rule Bill to regulate abortion by medical practitioners and to repeal the criminal offences relating to it.
+    status: >-
+      Given leave, 172 to 142, on 13 March 2017; it did not become law.
+
 divisions:
   # -- Assisted suicide: carried over from the prototype, wording checked
   #    against Hansard in July 2026 but not yet signed off editorially.
@@ -1355,3 +1366,19 @@ divisions:
     context: "Rob Marris's Private Member's Bill to legalise assisted suicide for terminally ill adults. Defeated 118 to 330 on a free vote."
     meaning_aye: "Supported the Bill at Second Reading (in favour of legalising assisted suicide)."
     meaning_no: "Voted to stop the Bill at Second Reading."
+
+  # --- abortion-decriminalisation-2017 (29 September 2026): the candidate
+  # finder's first run over March 2016 to June 2017. Drafted from the record and
+  # signed off by Christopher, 2026-09-29 ("Sign off 243"). Direction verified
+  # against the mover's own vote: Diana Johnson voted Aye.
+  - id: 243
+    issue: abortion-decriminalisation-2017
+    stage: "Ten Minute Rule"
+    stage_group: "Ten Minute Rule"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Reproductive Health (Access to Terminations) Bill 2017 - leave to bring in"
+    context: "Diana Johnson's ten minute rule motion for a Bill to regulate the termination of pregnancies by medical practitioners and to repeal the criminal offences relating to them, which she said would end abortion being a criminal offence. Agreed 172 to 142."
+    meaning_aye: "Supported bringing in a Bill to remove abortion from the criminal law."
+    meaning_no: "Voted against bringing in a Bill to remove abortion from the criminal law."
