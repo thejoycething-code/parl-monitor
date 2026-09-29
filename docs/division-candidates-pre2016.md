@@ -56,8 +56,8 @@ DECISION:
 ### 2011-09-07 - Health and Social Care (Re-committed) Bill (118-368)
 - id: `2002` | hansard_ext: `11090754001456`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 1, page 6, line 8, at end insert— ‘(c) after paragraph (f) insert a new paragraph as follows— “(g) independent information, advice and counselling services for women requesting termination of pregnancy to the extent 
-- mover: Nadine Dorries (Mid Bedfordshire) (Con)
+- proposed: Amendment proposed: 1221, page 9, line 37, at end insert— ‘( ) After paragraph 8 insert— “Provision of independent information, advice and counselling services for women requesting a termination of pregnancy 8A (1) A local authority must ma
+- mover: Nadine Dorries
 - same debate: Abortion x48, Assisted dying x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-09-07/debates/11090754000002/
 
@@ -226,8 +226,8 @@ DECISION:
 ### 2015-07-06 - Scotland Bill (253-315)
 - id: `1562` | hansard_ext: `1507071000697`
 - question put: That the amendment be made.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: Amendment proposed: 154, page 60, leave out lines 9 to 17.
+- mover: Calum McCaig
 - same debate: Abortion x13, Assisted dying x4, Surrogacy embryology x3
 - Hansard: https://hansard.parliament.uk/Commons/2015-07-06/debates/15070626000001/
 
@@ -386,8 +386,8 @@ DECISION:
 ### 2013-10-09 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (261-298)
 - id: `2192` | hansard_ext: `13100960002024`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 32, page 12, leave out lines 31 to 33 and insert ‘“where— (a) the expenses fall within Part 1 of Schedule 8A, and ‘(b) the expenditure can reasonably be regarded as intended to promote or procure electoral success at
-- mover: Tom Brake
+- proposed: Amendment proposed : 101, page 12, leave out line 37 to line 9 on page 13 and insert— ‘“For election purposes” means activity which can reasonably be regarded as intended for the primary purpose of— (a) promoting or procuring electoral succ
+- mover: Mr Allen
 - same debate: Free speech, privacy and civil liberties x10
 - Hansard: https://hansard.parliament.uk/Commons/2013-10-09/debates/13100960000002/
 
@@ -466,8 +466,8 @@ DECISION:
 ### 2012-09-12 - Defamation Bill (204-276)
 - id: `955` | hansard_ext: `12091244001722`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Simon Hughes
+- proposed: Amendment proposed : 7, page 3, line 22, leave out clause 5.
+- mover: Robert Flello
 - same debate: Free speech, privacy and civil liberties x7
 - Hansard: https://hansard.parliament.uk/Commons/2012-09-12/debates/12091223000002/
 
@@ -606,8 +606,8 @@ DECISION:
 ### 2013-12-17 - Local Audit and Accountability Bill [Lords] (222-284)
 - id: `1218` | hansard_ext: `13121768001339`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 6, page 30, line 32, at end insert— ‘(13A) Subsections (14) to (16) apply (and subsections (18) to (20) do not apply) if, in accordance with section 49(2A), this section comes into force on the day on which this Act 
-- mover: Brandon Lewis
+- proposed: Amendment proposed : 18, page 31, line 2, at end insert— ‘(17) The Secretary of State may, by Order, exempt from the calculation of an authority’s basic amount of council tax any levies agreed as part of a City Deal signed prior to this Act
+- mover: Andy Sawford
 - same debate: Free speech, privacy and civil liberties x4
 - Hansard: https://hansard.parliament.uk/Commons/2013-12-17/debates/13121751000002/
 
@@ -616,7 +616,7 @@ DECISION:
 ### 2013-12-17 - Local Audit and Accountability Bill [Lords] (226-287)
 - id: `1217` | hansard_ext: `13121768001338`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 14, page 26, line 11, leave out ‘one or more specified local authorities’ and insert ‘a local authority’.
+- proposed: Amendment proposed : 15, page 26, line 25, leave out subsection (4) and insert— ‘(4) A direction can only be made by the Secretary of State if— (a) evidence of a breach of a code has been published by the Secretary of State to the local aut
 - mover: Andy Sawford
 - same debate: Free speech, privacy and civil liberties x4
 - Hansard: https://hansard.parliament.uk/Commons/2013-12-17/debates/13121751000002/
@@ -676,8 +676,8 @@ DECISION:
 ### 2010-07-21 - Academies Bill [Lords] (200-314)
 - id: `1707` | hansard_ext: `10072152001371`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 1, page 2, line 1, leave out paragraph (a) and insert— (a) the school follows the National Curriculum;’.
-- mover: Caroline Lucas
+- proposed: Amendment proposed : 26, in clause 1, page 2, line 2, at end insert— ( ) the school has a curriculum which includes personal, social and health education as a statutory entitlement for all pupils;’.
+- mover: Diana R. Johnson
 - same debate: Parental rights education x3
 - Hansard: https://hansard.parliament.uk/Commons/2010-07-21/debates/10072126000004/
 
@@ -756,8 +756,8 @@ DECISION:
 ### 2014-12-16 - Counter-Terrorism and Security Bill (216-299)
 - id: `1454` | hansard_ext: `14121647002027`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 30, page 13, line 34, at end insert “and must also develop capacity to combat and reject the messages of extremism”. This amendment introduces a requirement to support work combating the ideology of extremism as part
-- mover: Hazel Blears (Salford and Eccles) (Lab)
+- proposed: Amendment proposed : 20, page 15, line 21, leave out subsection (5) and insert— ‘(5) Before giving guidance under this section, or revising guidance already given, the Secretary of State must lay before Parliament— (a) the proposed guidance
+- mover: Diana Johnson
 - same debate: Free speech, privacy and civil liberties x3
 - Hansard: https://hansard.parliament.uk/Commons/2014-12-16/debates/14121647000002/
 
@@ -956,8 +956,8 @@ DECISION:
 ### 2013-03-13 - Crime and Courts Bill [Lords] (216-272)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1052` | hansard_ext: `13031374003387`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 22, page 17, line 21, at end insert— ‘Part 4A amends the selection procedure for certain senior judicial appointments until Part 4 of the Schedule is in force,’.
-- mover: The Solicitor-General (Oliver Heald)
+- proposed: Amendment proposed : 100, page 224, line 42, at end insert ‘Each of the Lord Chancellor and the Lord Chief Justice must at all times engage in a programme of action which is designed— (a) to secure, so far as it is reasonably practicable to
+- mover: Mr Straw
 - same debate: Migration x2, Free speech, privacy and civil liberties x2
 - Hansard: https://hansard.parliament.uk/Commons/2013-03-13/debates/13031347000002/
 
@@ -1026,8 +1026,8 @@ DECISION:
 ### 2011-01-26 - European Union Bill (26-313)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1848` | hansard_ext: `11012677000602`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 14, page 7, line 33, leave out from first ‘of’ to end of line 44 and insert ‘any existing or proposed measure under Title V of Part 3 of TFEU.’.
-- mover: Mr Clappison
+- proposed: Amendment proposed : 82, page 8, line 16, at end add— ‘(6A) A Minister of the Crown may not make a formal decision as to whether to exercise the right of the United Kingdom to make a notification to the Council under the terms of article 10
+- mover: Mr Jenkin
 - same debate: Migration x2, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-01-26/debates/11012654000003/
 
@@ -1046,8 +1046,8 @@ DECISION:
 ### 2011-10-31 - Legal Aid, Sentencing and Punishment of Offenders Bill (237-305)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `2043` | hansard_ext: `1111013001755`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 80, page 99, line 21, leave out ‘other than’ and insert ‘including’.
-- mover: Mr Elfyn Llwyd
+- proposed: Amendment proposed : 92, page 103, line 35, leave out ‘physical or mental abuse’ and insert ‘any incident of threatening behaviour, violence or abuse (whether physical, mental, financial or emotional)’.
+- mover: Mr Llwyd
 - same debate: Migration x3
 - Hansard: https://hansard.parliament.uk/Commons/2011-10-31/debates/1110315000002/
 
@@ -1096,8 +1096,8 @@ DECISION:
 ### 2013-07-15 - 2014 JHA Opt-out Decision (237-350)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1131` | hansard_ext: `13071546002011`
 - question put: That the amendment be made.
-- proposed: I beg to move, That this House believes that the UK should opt out of all EU police and criminal justice measures adopted before December 2009 and seek to rejoin measures where it is in the national interest to do so and invites the Europea
-- mover: The Secretary of State for the Home Department (Mrs Theresa May)
+- proposed: Amendment proposed: (c), leave out from ‘House’ to end and add ’believes the UK’s notification to the Council, Commission and Presidency to opt out of all EU police and criminal justice measures adopted before December 2009 can only be made
+- mover: Chris Bryant
 - same debate: Migration x2, Abortion x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-07-15/debates/13071511000001/
 
@@ -1846,8 +1846,8 @@ DECISION:
 ### 2011-07-14 - Sovereign Grant Bill (148-241)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1990` | hansard_ext: `11071464001613`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the clause stand part of the Bill. I concede that we are engaged in a rather unusual procedure. To have what I hope will amount to a Second Reading debate, we will debate clause 1 stand part. Clause 1 will create a sover
-- mover: The Chancellor of the Exchequer (Mr George Osborne)
+- proposed: Amendment proposed : 8, page 6, line 8, at end add— ‘(6) The Trustees shall also review the percentage for the time being specified in Step 1 of section 6(1) as soon as practicable if, over the financial year immediately preceding the base 
+- mover: Ed Balls
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-07-14/debates/11071464000002/
 
@@ -1966,8 +1966,8 @@ DECISION:
 ### 2011-11-14 - Education Bill (196-284)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `2056` | hansard_ext: `11111433000537`
 - question put: That the amendment be made.
-- proposed: I beg to move, That this House agrees with Lords amendment 1.
-- mover: The Minister of State, Department for Education (Mr Nick Gibb)
+- proposed: Amendment (a) proposed to Lords amendment 27.
+- mover: Kevin Brennan
 - same debate: Parental rights education x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-11-14/debates/1111146000001/
 
@@ -2116,8 +2116,8 @@ DECISION:
 ### 2012-03-20 - Health and Social Care Bill (235-313)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `845` | hansard_ext: `12032088000746`
 - question put: That the amendment be made.
-- proposed: I beg to move, That this House agrees with Lords amendment 63.
-- mover: The Minister of State, Department of Health (Paul Burstow)
+- proposed: Amendment (b) proposed to Lords amendment 148.
+- mover: Andy Burnham .
 - same debate: Gender medicine children x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-03-20/debates/12032080000001/
 
@@ -2316,8 +2316,8 @@ DECISION:
 ### 2012-04-25 - Civil Aviation Bill (205-269)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `883` | hansard_ext: `12042554001700`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Seema Malhotra
+- proposed: Amendment proposed : 3, page 2, line 17, after ‘Chapter’, insert— ‘(ea) the need to work with NATS, the Secretary of State, the Committee on Climate Change and air transport service providers towards meeting the United Kingdom’s greenhouse 
+- mover: Jim Fitzpatrick
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-25/debates/12042542000002/
 
@@ -2986,8 +2986,8 @@ DECISION:
 ### 2015-12-08 - Serious and Organised Crime: Prüm Convention (26-503)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `4833` | hansard_ext: `15120853000745`
 - question put: That the amendment be made.
-- proposed: I beg to move, That this House, wishing to see serious crimes solved, to counter terrorism and to see foreign criminals prosecuted and deported, supports opting in to the Prüm Decisions; notes the views of senior law enforcement officers th
-- mover: The Secretary of State for the Home Department (Mrs Theresa May)
+- proposed: Amendment proposed: (a), leave out from ‘deported’ to end and add— ‘, does not support opting in to the Prüm Decisions because of the need to protect the civil liberties of British citizens, because of the risks to UK sovereignty posed by a
+- mover: Sir William Cash
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-12-08/debates/15120843000003/
 
