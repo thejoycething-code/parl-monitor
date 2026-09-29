@@ -194,9 +194,12 @@ class DeployTrackerTests(unittest.TestCase):
         self.assertIn("group: parl-monitor-state", src)   # never pulls mid-publish
 
     def test_the_suite_gates_the_deploy(self):
+        """The suite runs AFTER the build and BEFORE the deploy (ff3fd38a,
+        29 Sept 2026): it must test the page about to ship. Run first, it
+        tested the committed page, and a stale page blocked its own rebuild."""
         src = self._src()
-        self.assertLess(src.index("unittest discover"), src.index("make_vote_tracker.py"))
-        self.assertLess(src.index("make_vote_tracker.py"), src.index("vercel@latest deploy"))
+        self.assertLess(src.index("make_vote_tracker.py"), src.index("unittest discover"))
+        self.assertLess(src.index("unittest discover"), src.index("vercel@latest deploy"))
 
     def test_a_missing_deploy_token_fails_loudly(self):
         """The Monday publish may skip the deploy; this workflow exists to deploy."""
