@@ -985,10 +985,11 @@ def build(conn, cfg, payloads):
         divisions.append({
             "splits": splits,
             "whip": whip_label(d, issue_notes.get(d["issue"]), splits),
-            # 'good' drives the internal build's GOOD/BAD VOTE chips. The
-            # partner build strips it before writing (facts only in public),
-            # so flipping the public page later is a one-line decision, not
-            # a rebuild of anything.
+            # 'good' drives the GOOD/BAD VOTE chips, on BOTH builds: the
+            # verdicts have been public since 5238772b ("Publish the good/bad
+            # verdicts on the public build", 2026-08-25). This comment said
+            # the partner build stripped them until 29 September 2026, and
+            # was believed; the page itself was always the evidence.
             # AND ONLY WHEN SIGNED OFF. signed_off gated nothing before: the
             # tool warned that a division was unapproved and then shipped its
             # verdict anyway. The page already knows how to show a division

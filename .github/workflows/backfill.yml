@@ -41,6 +41,7 @@ on:
         options:
           - "speeches, questions and EDMs"
           - "pre-2016 Commons divisions (Hansard)"
+          - "Commons and Lords divisions (Votes APIs)"
         default: "speeches, questions and EDMs"
 
 permissions:
@@ -89,7 +90,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
       - name: Backfill questions and EDMs
-        if: inputs.what != 'pre-2016 Commons divisions (Hansard)'
+        if: inputs.what == 'speeches, questions and EDMs'
         run: |
           END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
           if [ -n "${{ inputs.terms }}" ]; then
@@ -100,7 +101,7 @@ jobs:
               | tee /tmp/bf-ledger.log
           fi
       - name: Backfill Hansard speeches
-        if: inputs.hansard && inputs.what != 'pre-2016 Commons divisions (Hansard)'
+        if: inputs.hansard && inputs.what == 'speeches, questions and EDMs'
         run: |
           END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
           if [ -n "${{ inputs.terms }}" ]; then
@@ -117,6 +118,18 @@ jobs:
           END="${{ inputs.until }}"; [ -n "$END" ] || END="2016-03-08"
           python3 tools/backfill_hansard_divisions.py "${{ inputs.cutoff }}" "$END" \
             | tee /tmp/bf-hdivisions.log
+      - name: Commons and Lords divisions, title sweep (Votes APIs)
+        # The same rule as the weekly sweep: a division whose TITLE the
+        # taxonomy matches is ledgered with its motion notes (the Lords
+        # question lives there, not in the title). Commons Votes API holds
+        # nothing before 9 March 2016 -- use the Hansard mode for that --
+        # and titles there are mostly procedural, so Commons 2016-19 is
+        # thin by nature; the Lords holds more (29 Sept 2026 probe: six
+        # 2013 Marriage (Same Sex Couples) Bill divisions).
+        if: inputs.what == 'Commons and Lords divisions (Votes APIs)'
+        run: |
+          END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
+          python3 tools/backfill_divisions.py "${{ inputs.cutoff }}" "$END" | tee /tmp/bf-divisions.log
       - name: Record signed-off tracker divisions
         # The Monday publish does this before building the tracker; running
         # it here as well means a pre-2016 division signed off mid-week has
@@ -131,7 +144,7 @@ jobs:
           {
             echo "## Historic backfill"
             echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }} to ${{ inputs.until || 'today' }}"
-            for f in ledger hansard hdivisions tracker; do
+            for f in ledger hansard hdivisions divisions tracker; do
               echo "### $f"
               if [ -f "/tmp/bf-$f.log" ]; then
                 echo '```'
