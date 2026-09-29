@@ -96,10 +96,19 @@ class PublicationTests(unittest.TestCase):
         self.assertTrue(ip.OUT_DIR.endswith(os.path.join("docs",
                                                          "de-issues")))
 
-    def test_every_page_carries_the_unverified_warning(self):
+    def test_the_named_version_is_the_version_on_disk(self):
+        """Both this page and the edition named v0.4 for days after the file
+        moved to v0.5."""
+        import yaml
+        with open(os.path.join(ROOT, "config", "taxonomy-de.yaml"),
+                  encoding="utf-8") as fh:
+            version = "v{0}".format(yaml.safe_load(fh).get("version"))
+        self.assertEqual(ip.TAXONOMY_VERSION, version)
+
+    def test_every_page_says_who_signed_the_taxonomy_off(self):
         conn = _conn()
         body = ip.render(ip.collect(conn, 1, TODAY), "Abortion", TODAY)
-        self.assertIn("no German speaker has verified", body)
+        self.assertIn("signed off by Christopher on 29 September 2026", body)
 
     def test_the_index_says_why_it_is_unpublished(self):
         import tempfile

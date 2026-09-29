@@ -299,8 +299,8 @@ def main():
     ours = conn.execute("SELECT COUNT(*) FROM de_vorgaenge WHERE areas NOT IN "
                         "('[]','') AND areas IS NOT NULL").fetchone()[0]
     print("  {0} Vorgang/Vorgänge on our ground. Matched against "
-          "config/taxonomy-de.yaml, an AI first draft: treat an area as "
-          "provisional.".format(ours))
+          "config/taxonomy-de.yaml, signed off 29 Sept 2026; German team "
+          "corrections may follow.".format(ours))
     conn.close()
     return 0
 

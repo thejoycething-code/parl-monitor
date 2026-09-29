@@ -21,14 +21,12 @@ THESE ARE NOT PUBLISHED, AND THAT IS DELIBERATE
 -----------------------------------------------
 Westminster's pages are written into partner_site/, which the Monday publish
 deploys to Vercel production -- anything placed there goes live. The German
-edition carries, on its own face, "do not present this edition as finished
-until the German team has been through the taxonomy", and every area on these
-pages comes from that same unverified v0.4 draft. Publishing them would
-contradict the caveat we print.
-
-So they are written to docs/de-issues/ , which is not deployed, and
-PUBLISH_TO_SITE is the single line that moves them to the public site once
-the taxonomy has been signed off. The warning stays on every page either way.
+pages were held back while the taxonomy was an unverified draft. Christopher
+signed it off on 29 September 2026, so that reason has gone, but going public
+is a separate decision and it is his: the pages still go to docs/de-issues/ ,
+which is not deployed. PUBLISH_TO_SITE is the single line that moves them to
+the public site. The note on who signed the taxonomy off stays on every page
+either way.
 
 NO STANCE PLACEMENT OF AN INDIVIDUAL IS PRESENTED AS A VERDICT. What a member
 said is quoted with its score, as the 5CA would; what a division meant is
@@ -46,7 +44,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 HIDDEN = (11,)              # migration: collated, never campaigned
 WINDOW_DAYS = 183           # six months, as Westminster's pages use
-TAXONOMY_VERSION = "v0.4"
+TAXONOMY_VERSION = "v0.5"
 
 # FALSE UNTIL THE GERMAN TEAM HAS SIGNED THE TAXONOMY OFF. True writes the
 # pages into partner_site/, which the Monday publish deploys to production.
@@ -59,11 +57,11 @@ DIRECTION = {2: "with us, strongly", 1: "with us", 0: "neutral or unclear",
              -1: "against us", -2: "against us, strongly"}
 
 UNVERIFIED = (
-    "> **The areas on this page come from `config/taxonomy-de.yaml` {0}, an "
-    "AI first draft that no German speaker has verified.** The text is German "
-    "and untranslated; the judge that scored it reasons in English; the "
-    "matcher was built for English. Treat a German area as a weaker claim "
-    "than an English one.").format(TAXONOMY_VERSION)
+    "> **The areas on this page come from `config/taxonomy-de.yaml` {0}, "
+    "signed off by Christopher on 29 September 2026; the German team may "
+    "still refine it.** The text is German and untranslated; the judge that "
+    "scored it reasons in English; the matcher was built for English. If an "
+    "area looks wrong, say so.").format(TAXONOMY_VERSION)
 
 
 def _seat(constituency, mandate_won):
@@ -274,11 +272,10 @@ def build(conn, area_names, today=None, out_dir=None):
     lines.append("")
     if not PUBLISH_TO_SITE:
         lines.append("*Not published. These pages are built into docs/ "
-                     "rather than partner_site/ because the taxonomy behind "
-                     "them is unverified and partner_site deploys to "
-                     "production. `de_issuepages.PUBLISH_TO_SITE` is the one "
-                     "line that changes that, once the German team has "
-                     "signed the taxonomy off.*")
+                     "rather than partner_site/, which deploys to production, "
+                     "until Christopher decides to publish them. "
+                     "`de_issuepages.PUBLISH_TO_SITE` is the one line that "
+                     "changes that.*")
         lines.append("")
     path = os.path.join(out_dir, "de-issues.md")
     with open(path, "w", encoding="utf-8") as fh:

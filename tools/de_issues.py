@@ -46,7 +46,8 @@ def main():
     print("de-issues: {0} page(s) written to {1}{2}.".format(
         len(paths), where,
         " -- THIS DEPLOYS TO PRODUCTION" if args.site else
-        " (not deployed; the taxonomy is unverified)"))
+        " (not deployed: the German pages stay off the partner site until "
+        "Christopher says otherwise)"))
     conn.close()
     return 0
 

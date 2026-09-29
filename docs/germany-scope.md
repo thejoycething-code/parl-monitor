@@ -122,8 +122,9 @@ oversight to be quietly fixed.**
    **Still apply for one:** driving a scheduled harvest from a key published
    as a documentation example is a terms-of-use exposure, not just a technical
    one, and runtime discovery survives a rotation but not a policy change.
-2. **The German terms are an AI first draft** (`docs/keyword-taxonomy-de.md`),
-   to be verified by the German team. Measured on the day it was written: it
+2. **The German terms were an AI first draft** (`docs/keyword-taxonomy-de.md`),
+   signed off by Christopher at v0.5 on 29 September 2026, with the German
+   team's corrections to follow. Measured on the day it was written: it
    took the stored Bundestag votes on our ground from 1 to 7.
 3. **Bundestag and all sixteen Länder.** Taken knowing the cost: the Länder
    carry about 114 recorded votes between them, most of them Bavaria's, and
@@ -376,5 +377,8 @@ Land minister speaking for the Bundesrat, and Michael Brand, printed as
 
 - **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`
   before the German weekly starts running unattended.
-- **When the German team verifies the taxonomy.** Until they do, every German
-  surface carries the draft warning on its face.
+- **The German team's corrections to the taxonomy.** Christopher checked and
+  signed off v0.5 on 29 September 2026, so the draft warning came off every
+  German surface. They now say who signed it off and that the German team may
+  still refine it (`TAXONOMY_STATUS` in `tools/de_monitor.py`). The German
+  team's changes go into `docs/keyword-taxonomy-de.md` and are then regenerated.

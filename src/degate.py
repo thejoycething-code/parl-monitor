@@ -6,9 +6,10 @@ trigger, 2 = digest, 1 = background, 0 = noise; a row the judge has not
 reached is shown, not hidden.
 
 Germany carries one extra caveat the EU does not. Its areas come from
-config/taxonomy-de.yaml, an AI first draft no German speaker has verified, so
-a German area is a weaker claim than an English one. The bar is the same; the
-edition says so on its face.
+config/taxonomy-de.yaml, an AI draft Christopher signed off on 29 September
+2026 and the German team may still correct, read by a matcher built for
+English. The bar is the same; the edition says on its face who signed the
+taxonomy off.
 """
 
 FLOOR = 2

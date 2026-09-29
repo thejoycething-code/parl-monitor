@@ -271,8 +271,9 @@ def render(subject, fields, mb, today, drafted):
                  "because scoring is the campaigner's judgement.".format(today))
     lines.append("")
     lines.append("> **The areas on this brief come from "
-                 "`config/taxonomy-de.yaml`, which no German speaker has "
-                 "verified.** Written in English because the monitor's reader "
+                 "`config/taxonomy-de.yaml`, signed off by Christopher on 29 "
+                 "September 2026; the German team may still refine it.** "
+                 "Written in English because the monitor's reader "
                  "is the London team, as the German triage frame already is. "
                  "The campaign copy itself is German and is a separate step.")
     lines.append("")

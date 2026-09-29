@@ -204,12 +204,12 @@ class RenderTests(unittest.TestCase):
             if line.startswith("| **RF#"):
                 self.assertTrue(line.rstrip().endswith("| |"), line)
 
-    def test_the_unverified_taxonomy_warning_travels_with_the_brief(self):
+    def test_the_taxonomy_status_travels_with_the_brief(self):
         """A brief is the surface most likely to be read away from the
         edition that carries the caveat."""
         conn = _conn()
         _vorgang(conn, "1", "Ein Gesetz")
-        self.assertIn("no German speaker has verified", self._render(conn))
+        self.assertIn("signed off by Christopher on 29 September 2026", self._render(conn))
 
     def test_westminster_only_blocks_are_named_as_absent(self):
         """An empty Five Column tally would read as an unanalysed campaign

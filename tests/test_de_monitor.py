@@ -3,7 +3,7 @@ separate for the German team").
 
 The invariants here are mostly DISCLOSURE invariants, and that is deliberate.
 The German stack is English machinery reading German text, judged by a model
-reasoning in English, through a taxonomy no German speaker has verified. Every
+reasoning in English, through a taxonomy only Christopher has checked (29 Sept 2026). Every
 one of those is defensible alone and the stack can still be confidently wrong,
 so what this file mostly locks is that the edition keeps SAYING so -- on its
 face, every week, until the German team signs the taxonomy off.
@@ -138,18 +138,18 @@ class HonestyNoteTests(unittest.TestCase):
     """The standing disclosure. It is the reason this edition can be
     circulated at all, so it is not conditional on there being content."""
 
-    def test_the_edition_says_the_taxonomy_is_unverified(self):
+    def test_the_edition_says_who_signed_the_taxonomy_off(self):
         conn = _conn()
         _vorgang(conn, "1", "Schwangerschaftskonfliktgesetz")
         text = _render(conn)
-        self.assertIn("no German speaker has verified", text.replace("**", ""))
+        self.assertIn(dm.TAXONOMY_STATUS, text.replace("**", ""))
         self.assertIn("taxonomy-de.yaml", text)
 
     def test_the_note_survives_an_empty_week(self):
         """An empty edition is the MOST likely one to be skimmed and the
         least likely to carry its caveat, so this is the case that matters."""
         text = _render(_conn())
-        self.assertIn("no German speaker has verified", text.replace("**", ""))
+        self.assertIn(dm.TAXONOMY_STATUS, text.replace("**", ""))
 
     def test_the_dm_carries_the_caveat_too(self):
         """A DM is the surface most likely to be forwarded without the
@@ -157,7 +157,7 @@ class HonestyNoteTests(unittest.TestCase):
         conn = _conn()
         _vorgang(conn, "1", "Selbstbestimmungsgesetz")
         msg = dm.dm_summary(conn, TODAY)
-        self.assertIn("no German speaker has verified", msg)
+        self.assertIn(dm.TAXONOMY_STATUS, msg)
 
     def test_the_named_version_matches_the_taxonomy_on_disk(self):
         """The note names a version. A note naming a version the file no
@@ -165,8 +165,8 @@ class HonestyNoteTests(unittest.TestCase):
         import yaml
         with open(dm.TAXONOMY, encoding="utf-8") as fh:
             raw = fh.read()
-        header = json.dumps(yaml.safe_load(raw) or "")[:2000]
-        self.assertIn(dm.TAXONOMY_VERSION, raw[:2000] + header,
+        version = "v{0}".format((yaml.safe_load(raw) or {}).get("version"))
+        self.assertEqual(dm.TAXONOMY_VERSION, version,
                       "the honesty note names {0} but the taxonomy file does "
                       "not say so".format(dm.TAXONOMY_VERSION))
 
@@ -581,10 +581,11 @@ class WestminsterFrameTests(unittest.TestCase):
                         text[:120])
         self.assertIn("| Edition ", text)
 
-    def test_the_status_slot_carries_the_unverified_warning(self):
-        """Westminster puts RECESS in that slot. Germany's most important
-        standing status is that nobody has checked the taxonomy."""
-        self.assertIn("TAXONOMY v0.4 UNVERIFIED", _render(_conn()))
+    def test_the_status_slot_carries_the_taxonomy_status(self):
+        """Westminster puts RECESS in that slot. Germany's standing status
+        is the taxonomy's: signed off by Christopher on 29 September 2026."""
+        self.assertIn("TAXONOMY {0} SIGNED OFF".format(dm.TAXONOMY_VERSION),
+                      _render(_conn()))
 
     def test_top_lines_are_capped_at_six(self):
         conn = _conn()
@@ -928,7 +929,7 @@ class FullEditionGoesToTheDmAloneTests(unittest.TestCase):
                 else:
                     delattr(src, "publish")
                 dm.ROOT, sys.argv = old_root, old_argv
-        self.assertIn("no German speaker has verified", captured["lead"])
+        self.assertIn(dm.TAXONOMY_STATUS, captured["lead"])
         self.assertIn("# edition body", captured["md"],
                       "the canvas must carry the WHOLE edition, not a summary")
 

@@ -410,8 +410,8 @@ def main():
                         " AND areas IS NOT NULL").fetchone()[0]
     print("  {0} member(s), {1} recorded position(s), {2} vote(s) on our ground."
           .format(members, rows, ours))
-    print("  Matched against config/taxonomy-de.yaml, an AI first draft "
-          "(docs/keyword-taxonomy-de.md): treat an area as provisional.")
+    print("  Matched against config/taxonomy-de.yaml (docs/keyword-taxonomy-de.md), "
+          "signed off 29 Sept 2026; German team corrections may follow.")
     conn.close()
     return 0
 

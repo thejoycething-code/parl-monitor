@@ -25,11 +25,11 @@ comes from the motion, never from its title. Nothing here derives one.
 
 THE HONESTY NOTE IS NOT DECORATION. The whole German stack is English
 machinery reading German text, judged by a model given an English frame,
-through config/taxonomy-de.yaml -- an AI first draft that no German speaker
-has verified. Each layer is defensible; stacked, they can be confidently
-wrong. The note stays on the face of the edition until the German team signs
-the taxonomy off, and the edition must not be presented internally as
-finished before then.
+through config/taxonomy-de.yaml. Christopher checked and signed the taxonomy
+off on 29 September 2026 ("the taxonomy which I have verified"); the German
+team has not been through it yet and will send corrections. So the note now
+says who signed it off and that it can still change, and every surface takes
+that wording from TAXONOMY_STATUS so none of them can drift.
 
 THE LÄNDER SECTION DISCLOSES ITS OWN THINNESS. Sixteen Land parliaments
 publish recorded votes in single digits and have no document layer at all, so
@@ -57,19 +57,22 @@ TAXONOMY = os.path.join(ROOT, "config", "taxonomy-de.yaml")
 
 # Kept in one place so the edition, the DM and any later surface cannot
 # drift: the version the note names must be the version the file carries.
-TAXONOMY_VERSION = "v0.4"
+TAXONOMY_VERSION = "v0.5"
+
+# Who has checked the taxonomy. One string, shared by the edition, the DM and
+# the canvas lead, because the DM is the surface most likely to be forwarded
+# on its own.
+TAXONOMY_STATUS = ("signed off by Christopher on 29 September 2026; the "
+                   "German team may still refine it")
 
 HONESTY = (
-    "> **Read this first.** Every area on this page comes from "
-    "`config/taxonomy-de.yaml` {0}, an AI first draft that **no German "
-    "speaker has verified**. The text is German and untranslated; the judge "
-    "scoring it was given a German frame but reasons in English; the matcher "
-    "is the same English-built one Westminster uses. Each layer is "
-    "defensible and the stack can still be confidently wrong. Treat a German "
-    "area as a weaker claim than an English one, and do not present this "
-    "edition as finished until the German team has been through the "
-    "taxonomy."
-).format(TAXONOMY_VERSION)
+    "> **How to read the areas.** Every area on this page comes from "
+    "`config/taxonomy-de.yaml` {0}, drafted by Claude and **{1}**. The text "
+    "is German and untranslated; the judge scoring it was given a German "
+    "frame but reasons in English; the matcher is the same English-built one "
+    "Westminster uses. If a German area looks wrong, say so: the correction "
+    "goes back into the taxonomy."
+).format(TAXONOMY_VERSION, TAXONOMY_STATUS)
 
 LAENDER_NOTE = (
     "The sixteen Land parliaments publish recorded votes in single digits a "
@@ -723,7 +726,7 @@ def render_edition(conn, today):
     twenty-five stacked headings. Germany takes the same shape.
 
     What Germany keeps that Westminster has no need of: the standing note
-    that the taxonomy is unverified, the Länder thinness disclosure, and the
+    on who has checked the taxonomy, the Länder thinness disclosure, and the
     migration suppression count. Those are not decoration and they do not
     move into a footnote.
     """
@@ -740,7 +743,7 @@ def render_edition(conn, today):
 
     lines = ["# German Monitor",
              "### Week commencing Monday {0} | Edition {1} | TAXONOMY {2} "
-             "UNVERIFIED".format(today, edition_number(today),
+             "SIGNED OFF".format(today, edition_number(today),
                                  TAXONOMY_VERSION),
              ""]
     lines.append(HONESTY)
@@ -1333,9 +1336,8 @@ def dm_summary(conn, today):
     scored = deduped
 
     lines = [":de: *German Monitor - week commencing {0}*".format(today), ""]
-    lines.append("_Areas come from an AI-drafted German taxonomy ({0}) that "
-                 "no German speaker has verified. Treat a German area as a "
-                 "weaker claim than an English one._".format(TAXONOMY_VERSION))
+    lines.append("_Areas come from the German taxonomy ({0}), {1}._".format(
+        TAXONOMY_VERSION, TAXONOMY_STATUS))
     lines.append("")
 
     top = [s for s in scored if (s[0] or 0) >= degate.FLOOR]
@@ -1436,9 +1438,9 @@ def main():
                 print("dm-full: {0}".format(result))
         else:
             lead = (":de: *German Monitor - week commencing {0}* - the full "
-                    "edition, shared with you alone.\n\n_Areas come from an "
-                    "AI-drafted German taxonomy ({1}) that no German speaker "
-                    "has verified._".format(today, TAXONOMY_VERSION))
+                    "edition, shared with you alone.\n\n_Areas come from the "
+                    "German taxonomy ({1}), {2}._".format(
+                        today, TAXONOMY_VERSION, TAXONOMY_STATUS))
             result = publish.slack_preview_canvas(
                 secrets, "German Monitor - week commencing {0}".format(today),
                 markdown, lead)

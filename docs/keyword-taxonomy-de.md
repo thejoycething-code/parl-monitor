@@ -12,7 +12,12 @@ terms differ.
 **This file is the master.** `config/taxonomy-de.yaml` is generated from it:
 edit here, then run `python3 tools/generate_taxonomy.py --lang de`.
 
-## Status: this is a first draft and must be verified
+## Status: signed off at v0.5, German team corrections to follow
+
+**Signed off by Christopher on 29 September 2026** ("the taxonomy which I have
+verified"). The German team will say later if something is wrong; their
+corrections come in here, then `python3 tools/generate_taxonomy.py --lang de`.
+The history below is kept because it explains why terms are where they are.
 
 Drafted by Claude on 22 September 2026 at Christopher's instruction, to be
 checked by the German team before anything is scored against it. Treat every
