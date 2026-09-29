@@ -167,12 +167,24 @@ jobs:
       - name: "NI Assembly: questions from the cutoff"
         if: inputs.what == 'NI Assembly questions from the cutoff'
         run: python3 tools/ni_pull.py --since "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log
+      - name: "Devolved: the model key, for the judge step only"
+        # The Westminster modes never write it: stance there is a separate,
+        # approved spend (score-stance.yml). The devolved judge IS part of
+        # the approved devolved backfill, and without the key it refused
+        # (correctly, no stub scores) and left 140 items unjudged on 29 Sept.
+        if: always() && steps.fetch.outcome == 'success' && (startsWith(inputs.what, 'Holyrood') || startsWith(inputs.what, 'Senedd') || startsWith(inputs.what, 'NI Assembly'))
+        run: |
+          cat > config/secrets.yaml <<EOF
+          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
+          EOF
       - name: "Devolved: judge the divisions, apply the signed verdicts"
         # devolved_triage's default window is recent items plus EVERY
         # division on our ground: old questions render nowhere and are not
         # paid for, old divisions are judged once. The verdict configs
         # (sp_score / devolved_score) are human sign-offs, no model.
-        if: startsWith(inputs.what, 'Holyrood') || startsWith(inputs.what, 'Senedd') || startsWith(inputs.what, 'NI Assembly')
+        # always(): a failed year in the collection step must not skip the
+        # judging of everything the other years stored (Holyrood, 29 Sept).
+        if: always() && steps.fetch.outcome == 'success' && (startsWith(inputs.what, 'Holyrood') || startsWith(inputs.what, 'Senedd') || startsWith(inputs.what, 'NI Assembly'))
         run: |
           python3 tools/devolved_triage.py --budget-seconds 2400 | tee -a /tmp/bf-devolved.log
           python3 tools/sp_score.py --apply | tee -a /tmp/bf-devolved.log

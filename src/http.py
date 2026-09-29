@@ -25,6 +25,7 @@ requires demonstrating retry under a simulated timeout).
 from __future__ import annotations
 
 import gzip
+import http.client
 import json
 import os
 import re
@@ -342,7 +343,13 @@ class HttpClient:
                 if (exc.code in _LIMITED_RETRY_STATUS
                         and attempts >= _LIMITED_RETRY_ATTEMPTS):
                     raise FetchError(url, feed, slug, attempts, exc)
-            except (urllib.error.URLError, socket.timeout, TimeoutError, OSError) as exc:
+            # http.client.IncompleteRead (a connection dropped part-way
+            # through a large body) is an HTTPException, not an OSError, so
+            # it escaped both the retries and FetchError: Holyrood's 20 MB
+            # votesmotion dumps for 2019 and 2020 crashed sp_divisions with a
+            # traceback on 29 Sept 2026 instead of being retried or gapped.
+            except (urllib.error.URLError, socket.timeout, TimeoutError, OSError,
+                    http.client.IncompleteRead) as exc:
                 last_error = exc
 
             if attempt < self.max_retries:

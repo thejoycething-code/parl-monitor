@@ -130,6 +130,20 @@ class RetryTests(unittest.TestCase):
         self.assertEqual(err.slug, "cass-review")
         self.assertEqual(rec.sleeps, [2.0, 8.0, 20.0])
 
+    def test_a_body_cut_off_part_way_is_retried_then_a_fetcherror(self):
+        """http.client.IncompleteRead is not an OSError. It escaped the
+        retries and FetchError, and crashed sp_divisions on Holyrood's 20 MB
+        vote dumps for 2019 and 2020 (29 Sept 2026)."""
+        import http.client as hc
+        opener = ScriptedOpener([hc.IncompleteRead(b"partial", 100), FakeResponse('{"ok": 1}')])
+        client, rec = make_client(self.tmp, opener)
+        self.assertEqual(client.get_json("https://data.parliament.scot/api/votesmotion?year=2019",
+                                         "sp", "votes-2019"), {"ok": 1})
+        opener = ScriptedOpener([hc.IncompleteRead(b"partial", 100)] * 4)
+        client, rec = make_client(self.tmp, opener)
+        with self.assertRaises(http.FetchError):
+            client.get_json("https://data.parliament.scot/api/votesmotion?year=2020", "sp", "votes-2020")
+
     def test_jitter_adds_up_to_a_quarter_of_base(self):
         opener = ScriptedOpener([socket.timeout("x"), FakeResponse('{"ok": 1}')])
         client, rec = make_client(self.tmp, opener, rng=lambda: 0.5)
