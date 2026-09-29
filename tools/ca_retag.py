@@ -19,9 +19,11 @@ holds them:
   * a petition from its category + keywords and its prayer (ca_petitions);
   * a speech from its full text, per passage, with its subject as a title
     passage (ca_hansard);
-  * a Gazette item from its stored text per passage (a notice, a PDF item)
-    or, for a regulation whose body lives at its URL, from its excerpt --
-    part of the body, so a match there is a match on the body.
+  * a Gazette item from its stored text per passage (a notice, a PDF item);
+    a notice matched on its title alone, from its title and department; a
+    regulation whose body lives at its URL, from its excerpt -- part of the
+    body, so a match there is a match on the body, but the excerpt cannot
+    reproduce every tag the body earned (the trust check reports it).
 A match on those is a match on what the collector read, so adding is safe;
 re-deriving and writing back would drop any tag earned from text the store
 no longer keeps. ca_rollcalls.reclassify is NOT this: it re-derives every
@@ -95,15 +97,54 @@ def _rows(conn, tax, wl):
         yield ("ca_speeches", "speech_id", r[0], r[3], r[4], None,
                _passages(tax, wl, r[1], r[2]))
     for r in conn.execute("SELECT item_key, text, excerpt, title, areas, matched_terms, "
-                          "tier FROM ca_gazette_items"):
-        yield ("ca_gazette_items", "item_key", r[0], r[4], r[5], r[6],
-               _passages(tax, wl, r[1] or r[2], r[3]))
+                          "tier, matched_on, department FROM ca_gazette_items"):
+        # A notice whose anchor was missing was matched on its title and
+        # department (ca_gazette.read_issue), so it is re-matched the same way.
+        again = (_item(filt.filter_item(tax, wl, r[3] or "", r[8] or ""))
+                 if r[7] == "title" else _passages(tax, wl, r[1] or r[2], r[3]))
+        yield ("ca_gazette_items", "item_key", r[0], r[4], r[5], r[6], again)
 
 
-def retag(conn, tax, wl, dry_run=False):
-    """-> [(table, key, added areas, terms)] for every row that would grow."""
+# THE TRUST CHECK (29 September 2026). Re-matching a row from its stored
+# inputs should reproduce the areas it already holds; if it does not, the
+# retag is not reading what the collector read, and whatever it would add is
+# suspect too. The EU retag that day passed on the Mac and was refused in CI
+# for exactly this (a raw-archive lookup that missed on case). For the tables
+# whose full inputs are in the store the floor is 99%; a Gazette regulation is
+# re-read from its excerpt, not its body, so that table is reported, not
+# gated.
+TRUST_FLOOR = 0.99
+GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches")
+
+
+class Untrusted(RuntimeError):
+    pass
+
+
+def retag(conn, tax, wl, dry_run=False, log=print, floor=TRUST_FLOOR):
+    """-> [(table, key, added areas, terms)] for every row that would grow.
+    Raises Untrusted, writing nothing, if a gated table's stored areas are
+    reproduced for fewer than TRUST_FLOOR of its tagged rows."""
+    rows = list(_rows(conn, tax, wl))
+    held, kept = {}, {}
+    for table, _, _, areas, _, _, (new, _, _) in rows:
+        stored = set(json.loads(areas or "[]"))
+        if stored:
+            held[table] = held.get(table, 0) + 1
+            kept[table] = kept.get(table, 0) + (stored <= new)
+    low = []
+    for table in sorted(held):
+        share = kept[table] / float(held[table])
+        log("  trust {0:<17} {1}/{2} tagged rows reproduced ({3:.1%}){4}".format(
+            table, kept[table], held[table], share,
+            "" if table in GATED else " -- reported, not gated"))
+        if table in GATED and share < floor:
+            low.append(table)
+    if low:
+        raise Untrusted("reproduction under {0:.0%} in {1}: not reading what the collector "
+                        "read, nothing written".format(floor, ", ".join(low)))
     changes = []
-    for table, keycol, key, areas, terms, tier, (new, new_terms, new_tier) in list(_rows(conn, tax, wl)):
+    for table, keycol, key, areas, terms, tier, (new, new_terms, new_tier) in rows:
         stored = set(json.loads(areas or "[]"))
         added = new - stored
         if not added:
@@ -135,7 +176,12 @@ def main():
     conn = ca_store.ensure_schema(db.init_db(db.connect(args.db)))
     tax = filt.load_taxonomy(TAXONOMY)
     wl = filt.load_watchlist(WATCHLIST)
-    changes = retag(conn, tax, wl, dry_run=args.dry_run)
+    try:
+        changes = retag(conn, tax, wl, dry_run=args.dry_run)
+    except Untrusted as exc:
+        print("ca-retag: REFUSED -- {0}".format(exc))
+        conn.close()
+        return 1
     by_table = {}
     for table, key, added, terms in changes:
         by_table[table] = by_table.get(table, 0) + 1

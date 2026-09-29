@@ -33,7 +33,8 @@ class RetagTests(unittest.TestCase):
                      ("e-4000", "Foreign affairs", json.dumps(["China"]),
                       "We call on the Government to act against forced organ harvesting in China.",
                       json.dumps([7]), json.dumps(["kept term"]), 2))
-        changes = rt.retag(conn, TAX, WL)
+        # floor=0: the stored 7 is deliberately one the re-match cannot see.
+        changes = rt.retag(conn, TAX, WL, log=lambda *a: None, floor=0)
         self.assertEqual([(c[0], c[1], c[2]) for c in changes], [("ca_petitions", "e-4000", [13])])
         areas, terms = conn.execute("SELECT areas, matched_terms FROM ca_petitions").fetchone()
         self.assertEqual(json.loads(areas), [7, 13], "7 was earned from text the retag may not see")
@@ -44,7 +45,7 @@ class RetagTests(unittest.TestCase):
         conn.execute("INSERT INTO ca_bills (bill_key, parliament, session, number, long_title, "
                      "areas, tier) VALUES ('45-1/C-2', 45, 1, 'C-2', 'An Act about fisheries', "
                      "'[2]', 1)")
-        self.assertEqual(rt.retag(conn, TAX, WL), [])
+        self.assertEqual(rt.retag(conn, TAX, WL, log=lambda *a: None, floor=0), [])
         self.assertEqual(conn.execute("SELECT areas FROM ca_bills").fetchone()[0], "[2]")
 
     def test_a_senate_vote_is_read_with_its_bills_long_title(self):
@@ -56,14 +57,37 @@ class RetagTests(unittest.TestCase):
         conn.execute("INSERT INTO ca_divisions (division_key, chamber, parliament, session, number, "
                      "subject, bill_number, areas) VALUES ('senate-45-1-7', 'senate', 45, 1, 7, "
                      "'Third reading of Bill S-9', 'S-9', '[]')")
-        added = {c[1]: c[2] for c in rt.retag(conn, TAX, WL)}
+        added = {c[1]: c[2] for c in rt.retag(conn, TAX, WL, log=lambda *a: None)}
         self.assertIn(2, added.get("senate-45-1-7", []))
+
+    def test_a_gated_table_that_does_not_reproduce_its_tags_writes_nothing(self):
+        """The trust check: stored areas the re-match cannot reproduce mean
+        the retag is not reading what the collector read."""
+        conn = store()
+        for n in range(3):
+            conn.execute("INSERT INTO ca_bills (bill_key, parliament, session, number, long_title, "
+                         "areas) VALUES (?, 45, 1, ?, 'An Act about fisheries', '[4]')",
+                         ("45-1/C-%d" % n, "C-%d" % n))
+        conn.execute("INSERT INTO ca_petitions (petition_id, category, keywords, prayer, areas) "
+                     "VALUES ('e-1', 'Foreign affairs', '[]', 'End forced organ harvesting.', '[]')")
+        with self.assertRaises(rt.Untrusted):
+            rt.retag(conn, TAX, WL, log=lambda *a: None)
+        self.assertEqual(conn.execute("SELECT areas FROM ca_petitions").fetchone()[0], "[]")
+
+    def test_the_gazette_is_reported_not_gated(self):
+        conn = store()
+        conn.execute("INSERT INTO ca_gazette_items (item_key, issue_key, title, excerpt, areas, "
+                     "matched_on) VALUES ('u', 'p2-2020-01-01', 'Regulations Amending X', "
+                     "'a passage of the body', '[4]', 'body')")
+        said = []
+        rt.retag(conn, TAX, WL, log=said.append)
+        self.assertTrue(any("reported, not gated" in m for m in said))
 
     def test_a_dry_run_writes_nothing(self):
         conn = store()
         conn.execute("INSERT INTO ca_speeches (speech_id, sitting_key, text, subject, areas) "
                      "VALUES ('1', '45-1-1', 'Forced organ harvesting must end.', 'Petitions', '[]')")
-        self.assertEqual(len(rt.retag(conn, TAX, WL, dry_run=True)), 1)
+        self.assertEqual(len(rt.retag(conn, TAX, WL, dry_run=True, log=lambda *a: None)), 1)
         self.assertEqual(conn.execute("SELECT areas FROM ca_speeches").fetchone()[0], "[]")
 
 
