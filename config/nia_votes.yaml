@@ -123,3 +123,415 @@ divisions:
     not_ours: true
     our_side: null
     signed_off: false
+
+  # --- DRAFTED 30 September 2026 from the 2011 backfill, for Christopher ------
+  # Every motion or amendment text is the one ni_classify recovered from the
+  # archived Hansard. The party splits come from ni_votes and ni_affiliations
+  # (party as at the division). Where the subject names a mover, the mover's
+  # own vote was checked and was Aye in every case. our_side follows the
+  # Westminster and Holyrood entries on the same issues. NOT drafted:
+  # Sheerin's 2020 amendment and Cameron's 2021 amendment (their own text is
+  # not in the archive, only the motion's); the Safe Access Zones Bill's
+  # Consideration Stage amendments (technical, and split exactly as the
+  # Bill); the procedural Standing Order suspension; the 2016 Mental Capacity
+  # restraint-wording amendments; and the near-unanimous 2024 hate crime
+  # amendment. The clause votes on the Severe Fetal Impairment and Human
+  # Trafficking Bills get drafted after the watch-list harvest brings their
+  # roll-calls in.
+  - key: "141962"
+    dated: 2012-10-01
+    issue: marriage
+    stage: "Motion (cross-community vote)"
+    landmark: true
+    short: "Marriage Equality motion, 2012 (Agnew)"
+    motion: >-
+      "That this Assembly believes that all couples, including those of the
+      same sex, should have the right to marry in the eyes of the state ...
+      calls on the Minister of Finance and Personnel to introduce legislation
+      to guarantee that couples of any sex or gender identity receive equal
+      benefit". Moved by Mr Agnew (Green). Fell 45-50.
+    note: >-
+      Sinn Fein 28, SDLP 9, Alliance 4, UUP 3, Green 1 for; DUP 37, UUP 9,
+      Independent 2, Alliance 1, TUV 1 against. The Assembly's first vote on
+      same-sex marriage.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against the motion calling for legislation for same-sex
+      marriage in Northern Ireland.
+    meaning_bad: >-
+      Voted for the motion calling for legislation for same-sex marriage in
+      Northern Ireland.
+
+  - key: "163876"
+    dated: 2013-04-29
+    issue: marriage
+    stage: "Motion (cross-community vote)"
+    landmark: false
+    short: "Marriage Equality at the Constitutional Convention, 2013 (Ruane)"
+    motion: >-
+      Ms Ruane's (Sinn Fein) motion on marriage equality at the
+      Constitutional Convention. Fell 42-53.
+    note: >-
+      READ BEFORE SIGNING: the archive holds Mr Ford's amendment to this
+      motion (165134, below), not the motion's own words, so the wording
+      here is from its title. Sinn Fein 29, SDLP 8, Independent 2, UUP 1,
+      Alliance 1, Green 1 for; DUP 37, UUP 11, Alliance 3, UKIP 1, TUV 1
+      against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against the 2013 motion supporting marriage equality.
+    meaning_bad: >-
+      Voted for the 2013 motion supporting marriage equality.
+
+  - key: "165134"
+    dated: 2013-04-29
+    issue: marriage
+    stage: "Amendment to the motion"
+    landmark: false
+    short: "Civil marriage for same-sex couples, 2013 (Ford amendment)"
+    motion: >-
+      Mr Ford's (Alliance) amendment: "states its support for the extension
+      of civil marriage provisions in Northern Ireland to same-sex couples,
+      provided that robust legislative measures permit faith groups to
+      define, articulate and practise religious marriage as they determine".
+      Fell 46-51.
+    note: >-
+      Sinn Fein 29, SDLP 8, Alliance 5, Independent 2, UUP 1, Green 1 for;
+      DUP 37, UUP 11, UKIP 1, Alliance 1, TUV 1 against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against extending civil marriage in Northern Ireland to
+      same-sex couples.
+    meaning_bad: >-
+      Voted for extending civil marriage in Northern Ireland to same-sex
+      couples, with protections for faith groups.
+
+  - key: "195843"
+    dated: 2014-04-29
+    issue: marriage
+    stage: "Motion (cross-community vote)"
+    landmark: false
+    short: "Marriage Equality motion, 2014 (Ruane)"
+    motion: >-
+      "... believes that all couples, regardless of gender or sexual
+      orientation, should have the same legal entitlement to marry ...
+      calls on the Minister of Finance and Personnel to introduce
+      legislation". Moved by Ms Ruane (Sinn Fein). Fell 43-51.
+    note: >-
+      Sinn Fein 26, SDLP 8, Alliance 4, UUP 2, NI21 2, Green 1 for; DUP 37,
+      UUP 10, Alliance 2, UKIP 1, TUV 1 against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against the motion calling for legislation for same-sex
+      marriage.
+    meaning_bad: >-
+      Voted for the motion calling for legislation for same-sex marriage.
+
+  - key: "230998"
+    dated: 2015-04-27
+    issue: marriage
+    stage: "Motion (cross-community vote)"
+    landmark: false
+    short: "Marriage Equality motion, April 2015 (Ruane)"
+    motion: >-
+      "... welcomes the marriage equality referendum in the South of Ireland
+      ... and calls on the Executive to legislate for marriage equality for
+      same-sex couples". Moved by Ms Ruane (Sinn Fein). Fell 47-49.
+    note: >-
+      Sinn Fein 28, SDLP 9, Alliance 5, Independent 2, NI21 1, UUP 1, Green 1
+      for; DUP 37, UUP 10, UKIP 1, TUV 1 against; 3 Alliance abstained.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against calling on the Executive to legislate for same-sex
+      marriage.
+    meaning_bad: >-
+      Voted for calling on the Executive to legislate for same-sex marriage.
+
+  - key: "242152"
+    dated: 2015-11-02
+    issue: marriage
+    stage: "Motion (cross-community vote)"
+    landmark: true
+    short: "Marriage Equality motion, November 2015 (Attwood)"
+    motion: >-
+      "That this Assembly calls on the Executive to table legislation to
+      allow for same-sex marriage." Moved by Mr Attwood (SDLP). 53 for and
+      52 against: the first majority in the Assembly for same-sex marriage,
+      but the vote was cross-community and the motion fell.
+    note: >-
+      Sinn Fein 28, SDLP 13, Alliance 7, Independent 2, NI21 1, Green 1,
+      UUP 1 for; DUP 38, UUP 11, UKIP 1, TUV 1, Alliance 1 against; 1 UUP
+      abstained.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against calling on the Executive to legislate for same-sex
+      marriage.
+    meaning_bad: >-
+      Voted for calling on the Executive to legislate for same-sex marriage.
+
+  - key: "301351"
+    dated: 2020-06-02
+    issue: abortion
+    stage: "Motion"
+    landmark: true
+    short: "Rejecting abortion for non-fatal disabilities, 2020 (Givan)"
+    motion: >-
+      "That this Assembly welcomes the important intervention of disability
+      campaigner Heidi Crowter and rejects the imposition of abortion
+      legislation that extends to all non-fatal disabilities, including
+      Down's syndrome." Moved by Mr Givan (DUP). Carried 46-40.
+    note: >-
+      DUP 28, SDLP 9, UUP 7, Alliance 1, TUV 1 for; Sinn Fein 26, Alliance 6,
+      Independent 2, Green 2, SDLP 2, PBP 1, UUP 1 against.
+    our_side: for
+    signed_off: false
+    meaning_good: >-
+      Voted to reject abortion law that extends to non-fatal disabilities,
+      including Down's syndrome.
+    meaning_bad: >-
+      Voted against rejecting abortion law that extends to non-fatal
+      disabilities, including Down's syndrome.
+
+  - key: "330421"
+    dated: 2021-03-15
+    issue: abortion
+    stage: "Second Stage, Severe Fetal Impairment Abortion (Amendment) Bill"
+    landmark: true
+    short: "Severe Fetal Impairment Abortion Bill, Second Stage (Givan)"
+    motion: >-
+      "That the Second Stage of the Severe Fetal Impairment Abortion
+      (Amendment) Bill [NIA Bill 15/17-22] be agreed." Mr Givan's Bill to
+      remove non-fatal disability as a ground for abortion. Agreed 48-12.
+    note: >-
+      DUP 28, SDLP 9, UUP 7, Independent 2, Alliance 1, TUV 1 for; Alliance
+      5, SDLP 3, Green 2, UUP 1, PBP 1 against; Sinn Fein 26 and Alliance 1
+      abstained.
+    our_side: for
+    signed_off: false
+    meaning_good: >-
+      Voted for the Bill to remove non-fatal disability as a ground for
+      abortion.
+    meaning_bad: >-
+      Voted against the Bill to remove non-fatal disability as a ground for
+      abortion.
+
+  - key: "331626"
+    dated: 2021-04-20
+    issue: conversion-practices
+    stage: "Motion"
+    landmark: false
+    short: "Conversion therapy ban motion, 2021 (Beattie)"
+    motion: >-
+      "... calls on the Minister for Communities to commit to bringing
+      forward legislation before the end of the current Assembly mandate to
+      ban conversion therapy in all its forms." Moved by Mr Beattie (UUP).
+      Carried 59-24.
+    note: >-
+      Sinn Fein 26, SDLP 12, UUP 9, Alliance 7, Independent 2, Green 2, PBP
+      1 for; DUP 23, TUV 1 against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against calling for a ban on conversion therapy "in all its
+      forms".
+    meaning_bad: >-
+      Voted for a ban on conversion therapy "in all its forms".
+
+  - key: "349616"
+    dated: 2021-09-20
+    issue: organ-donation
+    stage: "Second Stage, Organ and Tissue Donation (Deemed Consent) Bill"
+    landmark: false
+    short: "Deemed-consent organ donation, Second Stage"
+    motion: >-
+      "That the Second Stage of the Organ and Tissue Donation (Deemed
+      Consent) Bill [NIA 30/17-22] be agreed." The Health Minister's Bill
+      moving Northern Ireland to opt-out (deemed consent) organ donation.
+      Agreed 69-6.
+    note: >-
+      Area 13. Christopher, 26 Sept: "Organ donation is fine but forced
+      organ donation and assumed consent is not. It's not a huge issue for
+      us though." Deemed consent is assumed consent, so our side is against;
+      but area 13 is excluded from the 5CA, so this places nobody there.
+      Signing it only states the vote's meaning on the page. DUP split 10
+      for, 5 against, 4 abstaining.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against moving organ donation to deemed (assumed) consent.
+    meaning_bad: >-
+      Voted for moving organ donation to deemed (assumed) consent.
+
+  - key: "352613"
+    dated: 2021-10-12
+    issue: abortion
+    stage: "Second Stage, Abortion Services (Safe Access Zones) Bill"
+    landmark: false
+    short: "Abortion buffer zones Bill, Second Stage (Bailey)"
+    motion: >-
+      "That the Second Stage of the Abortion Services (Safe Access Zones)
+      Bill [NIA 35/17-22] be agreed." Ms Bailey's (Green) Bill creating
+      exclusion zones around premises providing abortion. Agreed 58-29.
+    note: >-
+      Sinn Fein 26, SDLP 11, UUP 9, Alliance 7, Independent 2, Green 2, PBP
+      1 for; DUP 27, Independent 1, TUV 1 against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against the Bill creating exclusion zones around abortion
+      providers.
+    meaning_bad: >-
+      Voted for the Bill creating exclusion zones around abortion providers.
+
+  - key: "371984"
+    dated: 2022-03-24
+    issue: abortion
+    stage: "Final Stage, Abortion Services (Safe Access Zones) Bill"
+    landmark: true
+    short: "Abortion buffer zones Bill, Final Stage (Bailey)"
+    motion: >-
+      "That the Abortion Services (Safe Access Zones) Bill [NIA 35/17-22] do
+      now pass." Passed 55-29. It became the Abortion Services (Safe Access
+      Zones) Act (Northern Ireland) 2023.
+    note: >-
+      Sinn Fein 26, SDLP 10, Alliance 7, UUP 7, Independent 2, Green 2, PBP
+      1 for; DUP 27, Independent 1, TUV 1 against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against passing the Bill creating exclusion zones around
+      abortion providers.
+    meaning_bad: >-
+      Voted to pass the Bill creating exclusion zones around abortion
+      providers.
+
+  - key: "369499"
+    dated: 2022-03-15
+    issue: marriage
+    stage: "Prayer of Annulment"
+    short: "Marriage, Civil Partnership and Civil Registration (Amendment) Regulations 2022"
+    not_ours: true
+    note: >-
+      Struck 30 September 2026. The title matched "Marriage", but S.R.
+      2022/48 lets certified copies of life events be produced in English,
+      Irish or bilingual English/Irish (legislation.gov.uk, explanatory
+      note). The annulment vote was about the Irish language, not marriage.
+
+  - key: "396567"
+    dated: 2024-04-22
+    issue: parental-rights
+    stage: "Motion"
+    landmark: false
+    short: "Compulsory, standardised RSE motion, 2024 (Nicholl)"
+    motion: >-
+      "That this Assembly recognises the value of compulsory, standardised,
+      inclusive ... relationships and sexuality education ... and calls on
+      the Minister of Education to bring forward a plan that enshrines the
+      right of children and young people to access relationships and
+      sexuality education". Moved by Ms Nicholl (Alliance). Carried 49-33.
+    note: >-
+      Sinn Fein 24, Alliance 15, SDLP 8, Independent 1, PBP 1 for; DUP 24,
+      UUP 7, Independent 1, TUV 1 against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against making relationships and sexuality education
+      compulsory and standardised.
+    meaning_bad: >-
+      Voted for compulsory, standardised relationships and sexuality
+      education.
+
+  - key: "402511"
+    dated: 2024-06-04
+    issue: conversion-practices
+    stage: "Motion"
+    landmark: false
+    short: "Conversion practices ban motion, 2024 (O'Toole)"
+    motion: >-
+      "... reaffirms its support for a ban on conversion practices in all
+      forms; and calls on the Minister for Communities to commit to bringing
+      forward legislation on an effective ban". Moved by Mr O'Toole (SDLP).
+      Carried 41-25.
+    note: >-
+      Sinn Fein 20, Alliance 15, SDLP 4, Independent 1, PBP 1 for; DUP 23,
+      Independent 1, TUV 1 against.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against calling for a ban on conversion practices "in all
+      forms".
+    meaning_bad: >-
+      Voted for a ban on conversion practices "in all forms".
+
+  - key: "423343"
+    dated: 2025-01-14
+    issue: parental-rights
+    stage: "Amendment to the motion"
+    landmark: false
+    short: "RSE: respecting parents' right to withdraw (Amendment 1), 2025"
+    motion: >-
+      Amendment 1 to the RSE and healthy young adult relationships motion:
+      "... having considered a wide range of views about enhancing healthy
+      relationships, and respecting the right of parents to withdraw their
+      child from elements of RSE, to review the recommendations". Fell 32-45.
+    note: >-
+      DUP 23, UUP 8, TUV 1 for; Sinn Fein 23, Alliance 13, SDLP 7,
+      Independent 1, PBP 1 against. The mover is not named in the subject.
+    our_side: for
+    signed_off: false
+    meaning_good: >-
+      Voted for an approach to RSE that respects parents' right to withdraw
+      their child.
+    meaning_bad: >-
+      Voted against the amendment respecting parents' right to withdraw
+      their child from elements of RSE.
+
+  - key: "438647"
+    dated: 2025-05-12
+    issue: sex-based-rights
+    stage: "Amendment to the motion"
+    landmark: false
+    short: "Respecting the Supreme Court on biological sex (Amendment 1), 2025"
+    motion: >-
+      Amendment 1 to the International Day Against Homophobia, Biphobia and
+      Transphobia motion: "further notes the recent Supreme Court ruling
+      that a woman is defined by biological sex; further believes that
+      future policy development in Northern Ireland should respect that
+      ruling". Fell 32-48.
+    note: >-
+      DUP 25, UUP 6, Independent 1 for; Sinn Fein 22, Alliance 16, SDLP 8,
+      PBP 1, TUV 1 against. The mover is not named in the subject.
+    our_side: for
+    signed_off: false
+    meaning_good: >-
+      Voted for NI policy to respect the Supreme Court ruling that a woman
+      is defined by biological sex.
+    meaning_bad: >-
+      Voted against NI policy respecting the Supreme Court ruling that a
+      woman is defined by biological sex.
+
+  - key: "496429"
+    dated: 2026-09-28
+    issue: conversion-practices
+    stage: "Second Stage, Conversion Practices (Criminalisation) Bill"
+    landmark: true
+    short: "Conversion Practices (Criminalisation) Bill, Second Stage (Tennyson)"
+    motion: >-
+      "That the Second Stage of the Conversion Practices (Criminalisation)
+      Bill [NIA Bill 45/22-27] be agreed." Mr Tennyson's (Alliance) Bill.
+      Agreed 46-29 on 28 September 2026.
+    note: >-
+      Sinn Fein 23, Alliance 15, SDLP 7, Independent 1 for; DUP 22, UUP 6,
+      TUV 1 against. Live: the Bill now goes to Committee Stage.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against the Bill criminalising conversion practices.
+    meaning_bad: >-
+      Voted for the Bill criminalising conversion practices.

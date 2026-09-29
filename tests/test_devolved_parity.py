@@ -278,7 +278,13 @@ class NorthernIrelandTests(unittest.TestCase):
         import yaml
         cfg = yaml.safe_load(open(os.path.join(ROOT, "config", "nia_votes.yaml"), encoding="utf-8"))
         by = {d["key"]: d for d in cfg["divisions"]}
-        self.assertEqual(len(by), 7)
+        # 7 decided on 2026-09-06; 17 drafted from the 2011 backfill and 1
+        # struck (S.R. 2022/48, Irish-language certificates) on 2026-09-30.
+        self.assertEqual(len(by), 25)
+        for k, v in by.items():
+            for s in ("meaning_good", "meaning_bad"):
+                if v.get(s):
+                    self.assertNotRegex(v[s], r"(?i)because|motive|competence", k)
         for k in ("493329", "456935"):
             self.assertTrue(by[k]["signed_off"]); self.assertEqual(by[k]["our_side"], "for")
             for s in ("meaning_good", "meaning_bad"):
@@ -286,7 +292,7 @@ class NorthernIrelandTests(unittest.TestCase):
         self.assertFalse(by["488823"]["signed_off"], "blasphemy stays unsigned by decision")
         self.assertIsNone(by["488823"]["our_side"])
         self.assertEqual(sorted(k for k, v in by.items() if v.get("not_ours")),
-                         ["448609", "449970", "449976", "475390"])
+                         ["369499", "448609", "449970", "449976", "475390"])
 
     def test_the_classifier_honours_the_strike(self):
         """ni_classify is the only writer of ni_divisions.areas and re-derives
