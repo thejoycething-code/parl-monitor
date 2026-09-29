@@ -2,12 +2,22 @@
 
 *From Hansard, 2010-01-01 to 2016-03-08. The Commons Votes API begins on 9 March 2016; these are the divisions before it.*
 
-## Ledgered by title (2)
+## Ledgered by title (12)
 
 Recorded automatically, as every title-matched division is: the title names the subject. They feed member stance through the model, which is shown the question put. Add one to `config/vote_tracker.yaml` (with `source: hansard`) only if it should appear on the public tracker.
 
 - **2014-11-04** h1403 Abortion (Sex-Selection), 181-1. Question: That leave be given to bring in a Bill to clarify the law relating to abortion on the basis of sex-selection; and for connected purposes. Moved by Fiona Bruce (Congleton) (Con).
 - **2015-09-11** h1591 Assisted Dying (No. 2) Bill, 118-330. Question: That the Bill be now read a Second time. Moved by Rob Marris (Wolverhampton South West) (Lab).
+- **2013-05-21** h2189 Marriage (Same Sex Couples) Bill, 366-161. Question: That the Bill be now read the Third time. Moved by Maria Miller.
+- **2013-05-20** h2188 Marriage (Same Sex Couples) Bill, 70-375. Question: That the clause be read a Second time. Moved by Tim Loughton.
+- **2013-05-20** h2187 Marriage (Same Sex Couples) Bill, 391-57. Question: That the clause be read a Second time. Moved by The Secretary of State for Culture, Media and Sport (Maria Miller).
+- **2013-05-20** h2186 Marriage (Same Sex Couples) Bill, 163-321. Question: not found Moved by Mr Burrowes.
+- **2013-05-20** h2185 Marriage (Same Sex Couples) Bill, 148-339. Question: That the clause be read a Second time. Moved by Mr Burrowes.
+- **2013-05-20** h2184 Marriage (Same Sex Couples) Bill, 150-340. Question: That the clause be read a Second time. Moved by Mr Burrowes.
+- **2013-02-05** h1018 Marriage (Same Sex Couples) Bill, 464-38. Question: not found Moved by Karen Bradley.
+- **2013-02-05** h1017 Marriage (Same Sex Couples) Bill, 481-34. Question: not found Moved by Mark Lancaster.
+- **2013-02-05** h1016 Marriage (Same Sex Couples) Bill, 499-55. Question: That the following provisions shall apply to the Marriage (Same Sex Couples) Bill: Committal 1.
+- **2013-02-05** h1015 Marriage (Same Sex Couples) Bill, 400-175. Question: That the Bill be now read a Second time. Moved by The Minister for Women and Equalities (Maria Miller).
 
 ## For review (304)
 
@@ -66,8 +76,8 @@ DECISION:
 ### 2015-02-23 - Serious Crime Bill [Lords] (491-2)
 - id: `1495` | hansard_ext: `1502244001189`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 25: Termination of pregnancy on grounds of sex of foetus
+- mover: Ann Coffey
 - same debate: Abortion x36, Assisted dying x4, Parental rights education x1, Surrogacy embryology x1, Migration x1, Sex based rights x1, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/
 
@@ -76,8 +86,8 @@ DECISION:
 ### 2015-02-23 - Serious Crime Bill [Lords] (212-305)
 - id: `1494` | hansard_ext: `1502243002127`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 19: Child abduction warning notice
+- mover: Diana Johnson
 - same debate: Abortion x36, Assisted dying x4, Parental rights education x1, Surrogacy embryology x1, Migration x1, Sex based rights x1, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/
 
@@ -86,8 +96,8 @@ DECISION:
 ### 2015-02-23 - Serious Crime Bill [Lords] (212-305)
 - id: `1493` | hansard_ext: `1502243002126`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 17: Mandatory reporting of suspected child abuse
+- mover: Diana Johnson
 - same debate: Abortion x36, Assisted dying x4, Parental rights education x1, Surrogacy embryology x1, Migration x1, Sex based rights x1, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/
 
@@ -96,8 +106,8 @@ DECISION:
 ### 2015-02-23 - Serious Crime Bill [Lords] (233-296)
 - id: `1492` | hansard_ext: `1502243002125`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 2: Official Secrets Act 1989 (additional defence)
+- mover: John Mann
 - same debate: Abortion x36, Assisted dying x4, Parental rights education x1, Surrogacy embryology x1, Migration x1, Sex based rights x1, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/
 
@@ -107,7 +117,7 @@ DECISION:
 - id: `1491` | hansard_ext: `1502243002124`
 - question put: That the clause be read a Second time.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: The Solicitor-General (Mr Robert Buckland)
+- mover: Fiona Bruce (Congleton) (Con)
 - same debate: Abortion x36, Assisted dying x4, Parental rights education x1, Surrogacy embryology x1, Migration x1, Sex based rights x1, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/
 
@@ -136,8 +146,8 @@ DECISION:
 ### 2010-01-11 - Children, Schools and Families Bill (211-288)
 - id: `20438` | hansard_ext: `1001125000546`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. The Children, Schools and Families Bill is vital to meet what I believe is our moral imperative to help every child and young person to make the most of their talents and to ensure tha
-- mover: The Secretary of State for Children, Schools and Families (Ed Balls)
+- proposed: I beg to move an amendment, to leave out from “That” to the end of the Question and add: “this House declines to give a Second Reading to the Children, Schools and Families Bill because it adds hugely to the bureaucratic burdens on schools 
+- mover: Mr. David Laws (Yeovil) (LD)
 - same debate: Parental rights education x28
 - Hansard: https://hansard.parliament.uk/Commons/2010-01-11/debates/1001119000001/
 
@@ -156,8 +166,8 @@ DECISION:
 ### 2015-11-09 - Scotland Bill (61-288)
 - id: `1637` | hansard_ext: `15111011002298`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 27: Equal opportunities
+- mover: Dr Eilidh Whiteford
 - same debate: Abortion x25
 - Hansard: https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/
 
@@ -166,8 +176,8 @@ DECISION:
 ### 2015-11-09 - Scotland Bill (56-477)
 - id: `1636` | hansard_ext: `15111011002297`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 18: Tax credits
+- mover: Dr Eilidh Whiteford
 - same debate: Abortion x25
 - Hansard: https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/
 
@@ -186,8 +196,8 @@ DECISION:
 ### 2015-11-09 - Scotland Bill (56-269)
 - id: `1634` | hansard_ext: `15110935001874`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 36: Scottish independence referendum
+- mover: Angus Robertson
 - same debate: Abortion x25
 - Hansard: https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/
 
@@ -196,8 +206,8 @@ DECISION:
 ### 2015-11-09 - Scotland Bill (245-287)
 - id: `1633` | hansard_ext: `15110935001873`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 35: Consent of the Scottish Parliament to certain Westminster Acts
+- mover: Angus Robertson
 - same debate: Abortion x25
 - Hansard: https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/
 
@@ -256,8 +266,8 @@ DECISION:
 ### 2010-09-08 - Crime and Policing (324-230)
 - id: `1726` | hansard_ext: `10090827001224`
 - question put: That this House notes with concern the Government’s failure to prioritise the safety of communities by not protecting central Government funding for the police; notes the conclusion of the Audit Commission and HM Inspectorate of Constabulary that any budget reduction over 12 per cent. will reduce frontline policing; pays tribute to the police and other agencies for achieving a 43 per cent. reduction in crime, including a 42 per cent. cut in violent crime, since 1997, and for maintaining that reduction through last year’s recession; notes that public perception of anti-social behaviour is at its lowest level since it was recorded in the British Crime Survey of 2001-02; further notes that the previous Government set out plans in its Policing White Paper to drive down policing costs whilst maintaining core funding; and condemns the Government’s policy of reducing police numbers, restricting police powers and imposing elected commissioners to replace police authorities, thus condemning the police service to unnecessary, unwelcome and costly re-structuring at a time when their focus should be on maintaining the fall in crime and anti-social behaviour.
-- proposed: I beg to move, That this House notes with concern the Government’s failure to prioritise the safety of communities by not protecting central Government funding for the police; notes the conclusion of the Audit Commission and HM Inspectorate
-- mover: Alan Johnson (Kingston upon Hull West and Hessle) (Lab)
+- proposed: I beg to move an amendment, to leave out from “House” to the end of the Question and add: “notes the appalling fiscal deficit left by the last Government and reiterates the urgent need to restore the nation to economic health; recognises th
+- mover: The Secretary of State for the Home Department (Mrs Theresa May)
 - same debate: Abortion x12, Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-09-08/debates/10090819000002/
 
@@ -327,7 +337,7 @@ DECISION:
 - id: `20598` | hansard_ext: `1002244001716`
 - question put: That amendments 67 to 70, 3, 93 to 98, 111 to 132 and 99 to 107 be made.— (Mr.
 - proposed: Amendment proposed : 107, page 52, leave out line 20.
-- mover: Mr. Coaker
+- mover: not stated by the clerk; check Hansard
 - same debate: Parental rights education x9, Abortion x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-02-23/debates/10022358000002/
 
@@ -336,8 +346,8 @@ DECISION:
 ### 2010-02-23 - Children, Schools and Families Bill (173-280)
 - id: `20597` | hansard_ext: `1002244001715`
 - question put: That the clause be added to the Bill.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Mr. Henry Bellingham (North-West Norfolk) (Con)
+- proposed: New Clause 7: Limitations on publication of information
+- mover: Mr. Bellingham
 - same debate: Parental rights education x9, Abortion x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-02-23/debates/10022358000002/
 
@@ -347,7 +357,7 @@ DECISION:
 - id: `20596` | hansard_ext: `10022386000562`
 - question put: That the clause be read a Second time.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: The Minister for Schools and Learners (Mr. Vernon Coaker)
+- mover: Tim Loughton (East Worthing and Shoreham) (Con)
 - same debate: Parental rights education x9, Abortion x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-02-23/debates/10022358000002/
 
@@ -365,7 +375,7 @@ DECISION:
 
 ### 2013-10-09 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (261-312)
 - id: `2193` | hansard_ext: `13100960002025`
-- question put: not found in the record
+- question put: That the amendment be made.
 - proposed: I beg to move amendment 102, page 13, line 37, leave out clause 27.
 - mover: Mr Allen
 - same debate: Free speech, privacy and civil liberties x10
@@ -376,8 +386,8 @@ DECISION:
 ### 2013-10-09 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (261-298)
 - id: `2192` | hansard_ext: `13100960002024`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Wayne David (Caerphilly) (Lab)
+- proposed: I beg to move amendment 32, page 12, leave out lines 31 to 33 and insert ‘“where— (a) the expenses fall within Part 1 of Schedule 8A, and ‘(b) the expenditure can reasonably be regarded as intended to promote or procure electoral success at
+- mover: Tom Brake
 - same debate: Free speech, privacy and civil liberties x10
 - Hansard: https://hansard.parliament.uk/Commons/2013-10-09/debates/13100960000002/
 
@@ -416,8 +426,8 @@ DECISION:
 ### 2011-06-28 - Finance Bill (23-473)
 - id: `1970` | hansard_ext: `1106297000623`
 - question put: That the clause be read a Second time.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Sir Paul Beresford (Mole Valley) (Con)
+- proposed: I beg to move, That the clause be read a Second time. In the last Parliament the Prime Minister and other senior Conservatives repeatedly expressed their commitment to recognise marriage in the tax system. There were some very strong statem
+- mover: Mr Leigh
 - same debate: Marriage family x7
 - Hansard: https://hansard.parliament.uk/Commons/2011-06-28/debates/11062856000002/
 
@@ -426,8 +436,8 @@ DECISION:
 ### 2011-06-28 - Finance Bill (159-295)
 - id: `1972` | hansard_ext: `11062939000813`
 - question put: That the clause be read a Second time.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 10: VAT
+- mover: Mr Hanson
 - same debate: Marriage family x7
 - Hansard: https://hansard.parliament.uk/Commons/2011-06-28/debates/11062856000002/
 
@@ -466,8 +476,8 @@ DECISION:
 ### 2012-09-12 - Defamation Bill (198-273)
 - id: `954` | hansard_ext: `12091223001190`
 - question put: That the clause be read a Second time.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: The Parliamentary Under-Secretary of State for Justice (Jeremy Wright)
+- proposed: I beg to move, That the clause be read a Second time. I have already welcomed both new Ministers to their places while in a Committee, but I shall repeat the exercise because it is welcome to see them both on the Front Bench today. The spir
+- mover: Robert Flello
 - same debate: Free speech, privacy and civil liberties x7
 - Hansard: https://hansard.parliament.uk/Commons/2012-09-12/debates/12091223000002/
 
@@ -526,8 +536,8 @@ DECISION:
 ### 2013-06-11 - Children and Families Bill (219-303)
 - id: `1097` | hansard_ext: `13061192001460`
 - question put: not found in the record
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 20: Personal, social and health education in maintained schools
+- mover: Lisa Nandy
 - same debate: Parental rights education x5
 - Hansard: https://hansard.parliament.uk/Commons/2013-06-11/debates/13061171000001/
 
@@ -536,8 +546,8 @@ DECISION:
 ### 2013-06-11 - Children and Families Bill (222-303)
 - id: `1096` | hansard_ext: `13061192001459`
 - question put: That the clause be added to the Bill.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: The Parliamentary Under-Secretary of State for Education (Mr Edward Timpson)
+- proposed: New Clause 6: Staff to child ratios: Ofsted-registered childminder settings
+- mover: Mrs Hodgson
 - same debate: Parental rights education x5
 - Hansard: https://hansard.parliament.uk/Commons/2013-06-11/debates/13061171000001/
 
@@ -566,8 +576,8 @@ DECISION:
 ### 2013-09-03 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (243-313)
 - id: `1143` | hansard_ext: `13090354001863`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. As a coalition Government, we inherited a legacy of a lack of trust and confidence in our political system. [ Interruption. ] I am surprised that Labour Members would laugh at that tho
-- mover: The Leader of the House of Commons (Mr Andrew Lansley)
+- proposed: I beg to move an amendment, to leave out from “That” to the end of the Question and add: “this House affirms its belief in the need for greater transparency in the lobbying industry and in British politics, and considers that there should b
+- mover: Ms Angela Eagle (Wallasey) (Lab)
 - same debate: Free speech, privacy and civil liberties x3, Abortion x1, Assisted dying x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-09-03/debates/13090336000002/
 
@@ -577,7 +587,7 @@ DECISION:
 - id: `2191` | hansard_ext: `13100837000671`
 - question put: That the clause be read a Second time.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: Mr Jenkin
+- mover: Mr Thomas
 - same debate: Free speech, privacy and civil liberties x4
 - Hansard: https://hansard.parliament.uk/Commons/2013-10-08/debates/13100824000001/
 
@@ -606,8 +616,8 @@ DECISION:
 ### 2013-12-17 - Local Audit and Accountability Bill [Lords] (226-287)
 - id: `1217` | hansard_ext: `13121768001338`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Andy Sawford (Corby) (Lab/Co-op)
+- proposed: I beg to move amendment 14, page 26, line 11, leave out ‘one or more specified local authorities’ and insert ‘a local authority’.
+- mover: Andy Sawford
 - same debate: Free speech, privacy and civil liberties x4
 - Hansard: https://hansard.parliament.uk/Commons/2013-12-17/debates/13121751000002/
 
@@ -676,8 +686,8 @@ DECISION:
 ### 2010-07-21 - Academies Bill [Lords] (202-312)
 - id: `1706` | hansard_ext: `10072152001370`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 32, page 1, line 21, at end insert— ‘(5A) No Academy arrangement may be made under this section with a school that is exclusively a nursery or primary school, or both.’.
-- mover: Vernon Coaker
+- proposed: I beg to move amendment 20, page 1, line 22, at end insert— (za) if the school is an additional school, the school meets a proven need for additional capacity in the area in which the school is situated;’.
+- mover: Mr Iain Wright
 - same debate: Parental rights education x3
 - Hansard: https://hansard.parliament.uk/Commons/2010-07-21/debates/10072126000004/
 
@@ -725,9 +735,9 @@ DECISION:
 
 ### 2011-03-31 - Police Reform and Social Responsibility Bill (8-280)
 - id: `1911` | hansard_ext: `11033156002279`
-- question put: That the clause be read a Second time.
-- proposed: I beg to move, That the clause be read a Second time. The new clause addresses the point about the local setting of licensing fees that was debated in the Public Bill Committee. I welcome the hon. Member for Kingston upon Hull North (Diana 
-- mover: The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)
+- question put: That the amendment be made.
+- proposed: I beg to move amendment 162, page 94, line 27, leave out subsection (2).
+- mover: John McDonnell (Hayes and Harlington) (Lab)
 - same debate: Free speech, privacy and civil liberties x3
 - Hansard: https://hansard.parliament.uk/Commons/2011-03-31/debates/11033156000002/
 
@@ -736,8 +746,8 @@ DECISION:
 ### 2014-12-16 - Counter-Terrorism and Security Bill (217-296)
 - id: `1455` | hansard_ext: `14121647002028`
 - question put: That the clause be read a Second time.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 12: Review of international best practice around deradicalisation
+- mover: Caroline Lucas
 - same debate: Free speech, privacy and civil liberties x3
 - Hansard: https://hansard.parliament.uk/Commons/2014-12-16/debates/14121647000002/
 
@@ -776,8 +786,8 @@ DECISION:
 ### 2014-05-12 - Criminal Justice and Courts Bill (195-277)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1328` | hansard_ext: `14051246001191`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 15: Aggravated offences against members of the armed forces
+- mover: Dan Jarvis
 - same debate: Migration x7
 - Hansard: https://hansard.parliament.uk/Commons/2014-05-12/debates/14051222000003/
 
@@ -786,8 +796,8 @@ DECISION:
 ### 2014-05-12 - Criminal Justice and Courts Bill (6-469)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1327` | hansard_ext: `14051246001190`
 - question put: That the clause be read a Second time.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Philip Davies (Shipley) (Con)
+- proposed: New Clause 38: Resettlement licence: deportees
+- mover: Philip Davies
 - same debate: Migration x7
 - Hansard: https://hansard.parliament.uk/Commons/2014-05-12/debates/14051222000003/
 
@@ -815,9 +825,9 @@ DECISION:
 
 ### 2013-03-18 - Crime and Courts Bill [Lords] (215-307)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1061` | hansard_ext: `13031912000709`
-- question put: That the clause be read a Second time.
-- proposed: Amendment proposed : 1, in clause 24, page 21, line 22, at end insert—
-- mover: Paul Murphy
+- question put: That the new clause be read a Second time.
+- proposed: I beg to move, That the clause be read a Second time.
+- mover: The Minister for Policing and Criminal Justice (Damian Green)
 - same debate: Migration x5, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-03-18/debates/13031839000001/
 
@@ -836,8 +846,8 @@ DECISION:
 ### 2013-03-18 - Crime and Courts Bill [Lords] (Programme) ((No. 3) (40-508)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1059` | hansard_ext: `13031839000771`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Order of 13 March 2013 (Crime and Courts Bill [ Lords ] (Programme) (No. 2)) be varied as follows: 1. Paragraphs 2 to 5 of the Order shall be omitted. 2. Remaining proceedings on Consideration and Third Reading shall
-- mover: The Leader of the House of Commons (Mr Andrew Lansley)
+- proposed: I beg to move amendment (d), at end of paragraph 2, leave out ‘at today’s sitting’ and insert ‘in two days (in addition to the First Day already taken)’ It is normally a great privilege to follow the hon. Member for Wallasey (Ms Eagle), but
+- mover: Mr Peter Bone (Wellingborough) (Con)
 - same debate: Migration x5, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-03-18/debates/13031836000001/
 
@@ -846,8 +856,8 @@ DECISION:
 ### 2014-11-04 - Modern Slavery Bill (229-283)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1408` | hansard_ext: `14110460003394`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 22: Prostitution and sexual exploitation
+- mover: Mr Hanson
 - same debate: Prostitution, trafficking and sexual exploitation x2, Surrogacy embryology x1, Marriage family x1, Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/
 
@@ -856,8 +866,8 @@ DECISION:
 ### 2014-11-04 - Modern Slavery Bill (234-288)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1407` | hansard_ext: `14110460003393`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 2: Protection from slavery from overseas domestic workers
+- mover: Mr Hanson
 - same debate: Prostitution, trafficking and sexual exploitation x2, Surrogacy embryology x1, Marriage family x1, Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/
 
@@ -876,8 +886,8 @@ DECISION:
 ### 2014-11-04 - Modern Slavery Bill (225-288)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1405` | hansard_ext: `14110460003391`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 4: Offence of exploitation
+- mover: Diana Johnson
 - same debate: Prostitution, trafficking and sexual exploitation x2, Surrogacy embryology x1, Marriage family x1, Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/
 
@@ -887,7 +897,7 @@ DECISION:
 - id: `1404` | hansard_ext: `14110460003390`
 - question put: That the clause be read a Second time.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: The Parliamentary Under-Secretary of State for the Home Department (Karen Bradley)
+- mover: Diana Johnson
 - same debate: Prostitution, trafficking and sexual exploitation x2, Surrogacy embryology x1, Marriage family x1, Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/
 
@@ -936,8 +946,8 @@ DECISION:
 ### 2013-03-13 - Crime and Courts Bill [Lords] (210-286)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1053` | hansard_ext: `13031374003388`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 7: Enforcement services
+- mover: Jenny Chapman
 - same debate: Migration x2, Free speech, privacy and civil liberties x2
 - Hansard: https://hansard.parliament.uk/Commons/2013-03-13/debates/13031347000002/
 
@@ -946,8 +956,8 @@ DECISION:
 ### 2013-03-13 - Crime and Courts Bill [Lords] (216-272)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1052` | hansard_ext: `13031374003387`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Mr David Burrowes (Enfield, Southgate) (Con)
+- proposed: I beg to move amendment 22, page 17, line 21, at end insert— ‘Part 4A amends the selection procedure for certain senior judicial appointments until Part 4 of the Schedule is in force,’.
+- mover: The Solicitor-General (Oliver Heald)
 - same debate: Migration x2, Free speech, privacy and civil liberties x2
 - Hansard: https://hansard.parliament.uk/Commons/2013-03-13/debates/13031347000002/
 
@@ -1006,8 +1016,8 @@ DECISION:
 ### 2010-09-15 - Identity Documents Bill (193-311)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1731` | hansard_ext: `10091526001931`
 - question put: That the clause be read a Second time.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Julie Hilling (Bolton West) (Lab)
+- proposed: New Clause 4: Transfer of information from National Identity Register to Identity and Passport Service
+- mover: Tony Cunningham
 - same debate: Sex based rights x2, Gender medicine children x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-09-15/debates/10091526000003/
 
@@ -1016,8 +1026,8 @@ DECISION:
 ### 2011-01-26 - European Union Bill (26-313)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1848` | hansard_ext: `11012677000602`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 24, page 6, line 7, at end insert— ‘(e) a decision under Article 218(8) of TFEU for the accession of the European Union to the European Convention for the Protection of Human Rights and Fundamental Freedoms in accord
-- mover: Chris Heaton-Harris (Daventry) (Con)
+- proposed: I beg to move amendment 14, page 7, line 33, leave out from first ‘of’ to end of line 44 and insert ‘any existing or proposed measure under Title V of Part 3 of TFEU.’.
+- mover: Mr Clappison
 - same debate: Migration x2, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-01-26/debates/11012654000003/
 
@@ -1036,8 +1046,8 @@ DECISION:
 ### 2011-10-31 - Legal Aid, Sentencing and Punishment of Offenders Bill (237-305)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `2043` | hansard_ext: `1111013001755`
 - question put: That the amendment be made.
-- proposed: I beg to move amendment 10, page 99, line 11, leave out from ‘where’ to first ‘for’ in line 13 and insert ‘— (a) the services are provided to the individual, or (b) the individual has died and the services are provided— (i) to the individua
-- mover: The Parliamentary Under-Secretary of State for Justice (Mr Jonathan Djanogly)
+- proposed: I beg to move amendment 80, page 99, line 21, leave out ‘other than’ and insert ‘including’.
+- mover: Mr Elfyn Llwyd
 - same debate: Migration x3
 - Hansard: https://hansard.parliament.uk/Commons/2011-10-31/debates/1110315000002/
 
@@ -1136,8 +1146,8 @@ DECISION:
 ### 2010-07-19 - Academies Bill [Lords] (234-333)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1699` | hansard_ext: `1007203001181`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. Today’s Second Reading marks the first legislative step towards the fulfilment of our manifesto commitment to improve England’s education system. It grants greater autonomy to individu
-- mover: The Secretary of State for Education (Michael Gove)
+- proposed: I beg to move, That this House declines to give a Second Reading to the Academies Bill [ Lords ] because it creates the legal framework for the expensive free market schools reforms which will be funded by scrapping existing school building
+- mover: Ed Balls (Morley and Outwood) (Lab/Co-op)
 - same debate: Parental rights education x2
 - Hansard: https://hansard.parliament.uk/Commons/2010-07-19/debates/10071915000001/
 
@@ -1196,8 +1206,8 @@ DECISION:
 ### 2011-05-11 - Education Bill (212-304)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1932` | hansard_ext: `11051195004167`
 - question put: That the clause be added to the Bill.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: The Minister of State, Department for Education (Mr Nick Gibb)
+- proposed: New Clause 9: Requirement to achieve specified standard: suppliers of careers guidance
+- mover: Mr Iain Wright
 - same debate: Parental rights education x1, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-05-11/debates/11051175000003/
 
@@ -1216,8 +1226,8 @@ DECISION:
 ### 2011-09-09 - Legislation (Territorial Extent) Bill (24-40)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `2007` | hansard_ext: `11090986000724`
 - question put: That the Bill be now read the Third time.
-- proposed: I beg to move amendment 3, page 1, line 2, leave out ‘publishing draft’ and insert ‘presenting’.
-- mover: Helen Goodman (Bishop Auckland) (Lab)
+- proposed: I beg to move, That the Bill be now read the Third time. Let me start my remarks by reassuring Opposition Members about a number of things that are not in the Bill and say that—surprise, surprise—both the BBC and The Guardian occasionally m
+- mover: Harriett Baldwin
 - same debate: Abortion x2
 - Hansard: https://hansard.parliament.uk/Commons/2011-09-09/debates/11090986000002/
 
@@ -1296,8 +1306,8 @@ DECISION:
 ### 2013-06-12 - EU Police, Justice and Home Affairs (217-282)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1099` | hansard_ext: `13061269001984`
 - question put: That the question be now put.
-- proposed: I beg to move, That this House believes that amongst other EU police, justice and home affairs measures, the UK should remain part of the European Arrest Warrant, the Schengen Information System II, Joint Investigations Teams, EU Council de
-- mover: Yvette Cooper (Normanton, Pontefract and Castleford) (Lab)
+- proposed: I beg to move an amendment, to leave out from ‘House’ to end and add ‘believes that the decision on exercising the UK’s opt out from EU former third pillar measures should be taken in the national interest, with consideration given to how a
+- mover: The Secretary of State for the Home Department (Mrs Theresa May)
 - same debate: Migration x2
 - Hansard: https://hansard.parliament.uk/Commons/2013-06-12/debates/13061269000003/
 
@@ -1466,8 +1476,8 @@ DECISION:
 ### 2015-06-16 - European Union Referendum Bill (75-313)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1538` | hansard_ext: `15061669000989`
 - question put: not found in the record
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 3: Restriction on Publications etc
+- mover: Alex Salmond
 - same debate: Migration x1, Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-06-16/debates/15061658000001/
 
@@ -1586,8 +1596,8 @@ DECISION:
 ### 2010-07-26 - Academies Bill [Lords] (223-315)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1717` | hansard_ext: `10072645001226`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 7: Social cohesion
+- mover: Mr Iain Wright
 - same debate: Parental rights education x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-07-26/debates/10072611000001/
 
@@ -1596,8 +1606,8 @@ DECISION:
 ### 2010-07-26 - Academies Bill [Lords] (319-222)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1716` | hansard_ext: `10072640000691`
 - question put: That the clause stand part of the Bill.
-- proposed: I beg to move amendment 82, page 3, line 11, at end insert— ‘(1A) An application under subsection (1) shall be in such form and shall contain such particulars as may be prescribed in regulations.’.
-- mover: Vernon Coaker
+- proposed: I beg to move amendment 79, page 4, line 8, at end add— ‘(8) Before making an Academy order in respect of a maintained school under this section, the Secretary of State shall consult with— (a) the local authority, (b) any other local author
+- mover: Mr Iain Wright
 - same debate: Parental rights education x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-07-26/debates/10072611000001/
 
@@ -1636,8 +1646,8 @@ DECISION:
 ### 2010-09-09 - UK Armed Forces in Afghanistan (5-311)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1727` | hansard_ext: `10090911001687`
 - question put: That this House supports the continued deployment of UK armed forces in Afghanistan.
-- proposed: I beg to move, That this House supports the continued deployment of UK armed forces in Afghanistan. It is a great honour to move the motion, which was tabled by the hon. Member for North East Derbyshire (Natascha Engel), my hon. Friend the 
-- mover: Mr Peter Bone (Wellingborough) (Con)
+- proposed: I beg to move amendment (a), at end add— ‘provided that a more realistic military strategy is adopted designed to fulfil the United Kingdom’s long-term interests in the region at lesser cost in life, limb and financial resources.’. It is a 
+- mover: Dr Julian Lewis (New Forest East) (Con)
 - same debate: Parental rights education x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-09-09/debates/10090911000001/
 
@@ -1696,8 +1706,8 @@ DECISION:
 ### 2010-12-07 - European Union Bill (195-330)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1811` | hansard_ext: `10120761000681`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. In the past 25 years, the EU has changed many times, each change marked by a new treaty: the Single European Act, the Maastricht treaty, the Amsterdam and Nice treaties, the failed EU 
-- mover: Mr Hague
+- proposed: I beg to move an amendment, to leave out from “That” to the end of the Question and add: “this House declines to give a second reading to the European Union Bill on the grounds that, while the principle of referendums on significant constit
+- mover: Yvette Cooper (Normanton, Pontefract and Castleford) (Lab)
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-12-07/debates/10120737000002/
 
@@ -1726,8 +1736,8 @@ DECISION:
 ### 2010-12-13 - Police Reform and Social Responsibility Bill (230-321)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1817` | hansard_ext: `1012142001814`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. From the very start of British policing, Sir Robert Peel’s key principle that the “police are the public and the public are the police” has set the standard across the world. I am sure
-- mover: The Secretary of State for the Home Department (Mrs Theresa May)
+- proposed: I beg to move, That this House declines to give a Second Reading to the Police Reform and Social Responsibility Bill because it introduces an expensive set of reforms which will do nothing to bring the police closer to the communities they 
+- mover: Ed Balls (Morley and Outwood) (Lab/Co-op)
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-12-13/debates/10121326000001/
 
@@ -1745,7 +1755,7 @@ DECISION:
 
 ### 2011-01-11 - European Union Bill (39-314)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1833` | hansard_ext: `1101121000402`
-- question put: not found in the record
+- question put: That the amendment be made.
 - proposed: I beg to move amendment 41, page 11, line 25, at end insert— ‘(1) The sovereignty of the United Kingdom Parliament in relation to EU law is hereby reaffirmed.’.
 - mover: Mr William Cash (Stone) (Con)
 - same debate: Migration x1
@@ -1756,8 +1766,8 @@ DECISION:
 ### 2011-01-27 - Scotland Bill (5-252)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1849` | hansard_ext: `11012775000580`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. Over the past decade, the devolution of power and decision making from this Parliament to the Assemblies of Wales and Northern Ireland and to the Parliament in Scotland has transformed
-- mover: The Secretary of State for Scotland (Michael Moore)
+- proposed: I beg to move an amendment, to leave out from “That” to the end of the Question and add: That this House, while recognising the need to further enhance the powers of the Scottish Parliament, nevertheless believes that the measures the Scotl
+- mover: Pete Wishart (Perth and North Perthshire) (SNP)
 - same debate: Abortion x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-01-27/debates/11012762000002/
 
@@ -1766,8 +1776,8 @@ DECISION:
 ### 2011-02-01 - European Union Bill (26-295)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1851` | hansard_ext: `11020177000549`
 - question put: That the clause be added to the Bill.
-- proposed: I beg to move amendment 15, page 12, line 12, leave out subsection (3) and insert— ‘(3) The day appointed under subsection (2) shall be within one month of the day on which this Act is passed.’. Under clause 21, certain provisions will come
-- mover: Mr James Clappison (Hertsmere) (Con)
+- proposed: I beg to move, That the clause be read a Second time. It is a great pleasure to follow my hon. Friend the Member for Witham (Priti Patel), who made such a powerful speech. I hope that I am able to tempt her into joining us in the Division L
+- mover: Mr Bone
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-02-01/debates/11020142000002/
 
@@ -1867,7 +1877,7 @@ DECISION:
 - id: `1995` | hansard_ext: `11090525000820`
 - question put: That the clause be read a Second time.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)
+- mover: Hazel Blears
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-09-05/debates/11090519000001/
 
@@ -1916,8 +1926,8 @@ DECISION:
 ### 2011-10-10 - Protection of Freedoms Bill (Programme) (No. 3) (62-243)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `2017` | hansard_ext: `11101030001054`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Order of 1 March 2011 (Protection of Freedoms Bill (Programme)) be varied as follows— 1. Paragraphs 4 and 5 shall be omitted. 2. Proceedings on consideration and Third Reading shall be concluded in two days. 3. Proce
-- mover: The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)
+- proposed: I beg to move amendment (a), after “Proceedings” on the first day insert— ‘New Clauses relating to the Public Order Act 1986; and’. I have tabled this amendment to the programme motion because I simply cannot believe that the Government are
+- mover: Mr Edward Leigh (Gainsborough) (Con)
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-10-10/debates/11101030000001/
 
@@ -2046,8 +2056,8 @@ DECISION:
 ### 2012-02-23 - Sittings of the House (20 and 23 March) (75-240)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `2138` | hansard_ext: `12022332001472`
 - question put: That the amendment be made.
-- proposed: I beg to move, That— (1) there shall be no sitting in Westminster Hall on Tuesday 20 March; and (2) this House shall sit on Friday 23 March. On Tuesday, the House agreed to a series of Adjournments up until January 2013, which my right hon.
-- mover: The Parliamentary Secretary, Office of the Leader of the House of Commons (Mr David Heath)
+- proposed: I beg to move amendment (a), after ‘(1)’, insert ‘there shall be a sitting in Westminster Hall on Monday 19 March between half-past nine o’clock and two o’clock;’
+- mover: Mr Philip Hollobone (Kettering) (Con)
 - same debate: Assisted dying x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-02-23/debates/12022332000003/
 
@@ -2066,8 +2076,8 @@ DECISION:
 ### 2012-03-13 - Health and Social Care Bill (260-314)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `832` | hansard_ext: `12031391001230`
 - question put: That this House notes the e-petition signed by 170,000 people calling on the Government to drop the Health and Social Care Bill; and declines to support the Bill in its current form.
-- proposed: I beg to move, That this House notes the e-petition signed by 170,000 people calling on the Government to drop the Health and Social Care Bill; and declines to support the Bill in its current form. I do so on behalf of the 170,000 people wh
-- mover: Andy Burnham (Leigh) (Lab)
+- proposed: I beg to move an amendment, to leave out from “Bill;” to end and add: “declines to support the Bill in its current form; and calls for an urgent summit of the Royal Colleges, professional bodies, patients’ organisations and the Government t
+- mover: Andrew George (St Ives) (LD)
 - same debate: Abortion x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-03-13/debates/12031360000001/
 
@@ -2076,8 +2086,8 @@ DECISION:
 ### 2012-03-19 - Protection of Freedoms Bill (207-300)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `841` | hansard_ext: `12031936000643`
 - question put: That amendment (a) to Lords amendment 30 be made.
-- proposed: I beg to move, That this House agrees with Lords amendment 1.
-- mover: James Brokenshire
+- proposed: I beg to move amendment (a) to Lords amendment 30.
+- mover: Diana Johnson
 - same debate: Prostitution, trafficking and sexual exploitation x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-03-19/debates/1203196000002/
 
@@ -2086,8 +2096,8 @@ DECISION:
 ### 2012-03-19 - Protection of Freedoms Bill (200-286)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `840` | hansard_ext: `12031931000584`
 - question put: That amendment (b) to Lords amendment 51 be made.
-- proposed: I beg to move, That this House disagrees with Lords amendment 16.
-- mover: The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)
+- proposed: I beg to move amendment (b) to Lords amendment 51.
+- mover: Stella Creasy (Walthamstow) (Lab/Co-op)
 - same debate: Prostitution, trafficking and sexual exploitation x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-03-19/debates/1203196000002/
 
@@ -2176,8 +2186,8 @@ DECISION:
 ### 2012-04-17 - Legal Aid, Sentencing and Punishment of Offenders Bill (302-243)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `856` | hansard_ext: `12041759002441`
 - question put: That this House disagrees with Lords amendment 2.
-- proposed: Motion made, and Question put, That this House disagrees with Lords amendment 194.—( Mr Kenneth Clarke. )
-- mover: Mr Kenneth Clarke.
+- proposed: I beg to move, That this House disagrees with Lords amendment 2.
+- mover: The Lord Chancellor and Secretary of State for Justice (Mr Kenneth Clarke)
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-17/debates/12041733000002/
 
@@ -2205,9 +2215,9 @@ DECISION:
 
 ### 2012-04-18 - Finance (No. 4) Bill (9-312)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `868` | hansard_ext: `12041877001081`
-- question put: not found in the record
-- proposed: Amendment proposed : 61, page 536, line 17, at end insert—
-- mover: Mr MacNeil
+- question put: That the clause stand part of the Bill.
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/
 
@@ -2216,8 +2226,8 @@ DECISION:
 ### 2012-04-18 - Finance (No. 4) Bill (258-293)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `867` | hansard_ext: `12041877001080`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 7: VAT: Protected Buildings
+- mover: Mr Bradshaw
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/
 
@@ -2236,8 +2246,8 @@ DECISION:
 ### 2012-04-18 - Finance (No. 4) Bill (260-295)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `865` | hansard_ext: `12041873001811`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 5: Value Added Tax: baked products
+- mover: Stephen Gilbert
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/
 
@@ -2246,8 +2256,8 @@ DECISION:
 ### 2012-04-18 - Finance (No. 4) Bill (246-312)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `864` | hansard_ext: `12041873001810`
 - question put: That the clause be added to the Bill.
-- proposed: I beg to move, That the clause be read a Second time.
-- mover: Cathy Jamieson (Kilmarnock and Loudoun) (Lab/Co-op)
+- proposed: New Clause 3: VAT impact of changes
+- mover: Cathy Jamieson
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/
 
@@ -2275,7 +2285,7 @@ DECISION:
 
 ### 2012-04-18 - Finance (No. 4) Bill (256-323)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `861` | hansard_ext: `12041847001899`
-- question put: not found in the record
+- question put: That the amendment be made.
 - proposed: I beg to move amendment 1, page 2, line 4, leave out paragraph (c).
 - mover: Owen Smith (Pontypridd) (Lab)
 - same debate: Migration x1
@@ -2307,7 +2317,7 @@ DECISION:
 - id: `883` | hansard_ext: `12042554001700`
 - question put: That the amendment be made.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: Jim Fitzpatrick (Poplar and Limehouse) (Lab)
+- mover: Seema Malhotra
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-25/debates/12042542000002/
 
@@ -2316,8 +2326,8 @@ DECISION:
 ### 2012-07-12 - Draft European Union Budget (141-234)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `942` | hansard_ext: `12071258001519`
 - question put: That the amendment be made.
-- proposed: I beg to move, That this House takes note of an unnumbered Explanatory Memorandum dated 5 June 2012 from HM Treasury on the Statement of Estimates of the Commission for 2013 (Preparation of the 2013 Draft Budget); recalls the agreement at t
-- mover: The Financial Secretary to the Treasury (Mr Mark Hoban)
+- proposed: I beg to move amendment (a), at line 15, leave out from “States” to the end and add “notes that the UK’s ability to negotiate a satisfactory European Union budget deal has been weakened by the Prime Minister’s failure to secure allies for a
+- mover: Chris Leslie (Nottingham East) (Lab/Co-op)
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-07-12/debates/12071258000003/
 
@@ -2327,7 +2337,7 @@ DECISION:
 - id: `963` | hansard_ext: `12101642002504`
 - question put: That the clause be read a Second time.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: The Parliamentary Under-Secretary of State for Business, Innovation and Skills (Jo Swinson)
+- mover: Jo Swinson
 - same debate: Sex based rights x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-10-16/debates/12101642000003/
 
@@ -2406,8 +2416,8 @@ DECISION:
 ### 2013-07-02 - Finance Bill (279-217)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1115` | hansard_ext: `13070292001852`
 - question put: That the Bill be now read the Third time.
-- proposed: I beg to move, that the clause be read a Second time. I am delighted to have the opportunity to speak to new clause 1, albeit very briefly. It is rather ironic that this issue has probably been one of the most over-reported aspects of this 
-- mover: Tim Loughton
+- proposed: I beg to move, That the Bill be now read the Third time. The Finance Bill 2013 delivers the Government’s commitment to creating a tax system that is fair, that promotes growth and competitiveness and that rewards work. This Bill supports en
+- mover: Mr Gauke
 - same debate: Marriage family x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-07-02/debates/13070275000001/
 
@@ -2436,8 +2446,8 @@ DECISION:
 ### 2013-07-02 - Finance Bill (234-303)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1112` | hansard_ext: `13070275001433`
 - question put: That the clause be read a Second time.
-- proposed: I beg to move, That the clause be read a Second time. New clause 7 makes changes to the procedure for the granting of interim payments in common law court claims relating to taxation matters. Its effect will be to limit the circumstances in
-- mover: The Exchequer Secretary to the Treasury (Mr David Gauke)
+- proposed: I beg to move, That the clause be read a Second time. The Opposition’s new clause 10 challenges the Chancellor to publish, within six months of Royal Assent, a review of the impact of last week’s spending review announcements on tax receipt
+- mover: Catherine McKinnell
 - same debate: Marriage family x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-07-02/debates/13070275000001/
 
@@ -2476,8 +2486,8 @@ DECISION:
 ### 2013-11-11 - Offender Rehabilitation Bill [Lords] (213-269)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1179` | hansard_ext: `1311122001456`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. I should like to start by offering an apology to the House and to you, Mr Speaker. I shall not be able to be here for the wind-ups at the end of the debate because, in my role as Lord 
-- mover: The Lord Chancellor and Secretary of State for Justice (Chris Grayling)
+- proposed: I beg to move an amendment: “That this House declines to give a Second Reading to the Offender Rehabilitation Bill [ Lords ] because the implementation of the proposals in the Bill depends on the Government’s proposed restructuring of the P
+- mover: Sadiq Khan (Tooting) (Lab)
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-11-11/debates/1311119000001/
 
@@ -2496,8 +2506,8 @@ DECISION:
 ### 2014-01-22 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (0-0)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1244` | hansard_ext: `140122107003338`
 - question put: That this House disagrees with Lords amendment 26.— (Mr.
-- proposed: Motion made, and Question put, That this House disagrees with Lords amendment 26.— (Mr. Lansley .)
-- mover: Mr. Lansley
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2014-01-22/debates/14012279000002/
 
@@ -2616,8 +2626,8 @@ DECISION:
 ### 2014-06-23 - Deregulation Bill (208-274)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1350` | hansard_ext: `14062341001879`
 - question put: That the clause be added to the Bill.
-- proposed: I beg to move amendment 62, page 40, line 13, at end insert— ‘(3) The Secretary of State must lay the terms of reference of a review under subsection (1) before each House of Parliament.”
-- mover: Helen Goodman (Bishop Auckland) (Lab)
+- proposed: New Clause 8: Replacing homes lost through the Preserved Right to Buy
+- mover: Caroline Lucas
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2014-06-23/debates/14062314000001/
 
@@ -2637,7 +2647,7 @@ DECISION:
 - id: `1348` | hansard_ext: `14062337001109`
 - question put: That the clause be read a Second time.
 - proposed: I beg to move, That the clause be read a Second time.
-- mover: The Parliamentary Secretary, Office of the Leader of the House of Commons (Tom Brake)
+- mover: Bill Wiggin (North Herefordshire) (Con)
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2014-06-23/debates/14062314000001/
 
@@ -2816,8 +2826,8 @@ DECISION:
 ### 2015-06-09 - European Union Referendum Bill (59-338)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1527` | hansard_ext: `15060950001340`
 - question put: That the amendment be made.
-- proposed: I beg to move, That the Bill be now read a Second time. This is a simple, but vital, piece of legislation. It has one clear purpose: to deliver on our promise to give the British people the final say on our EU membership in an in/out refere
-- mover: The Secretary of State for Foreign and Commonwealth Affairs (Mr Philip Hammond)
+- proposed: I beg to move an amendment, to leave out from “That” to the end of the Question and add: That this House declines to give a Second Reading to the EU Referendum Bill because it fails to meet the gold standard set by the Scottish independence
+- mover: Alex Salmond (Gordon) (SNP)
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-06-09/debates/15060939000001/
 
@@ -2856,8 +2866,8 @@ DECISION:
 ### 2015-09-16 - Education and Adoption Bill (300-200)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1595` | hansard_ext: `15091641001346`
 - question put: That the Bill be now read the Third time.
-- proposed: I beg to move amendment 19, page 8, line 35, at end insert— “(3A) The Secretary of State shall lay an annual report before Parliament on the use of the power to give directions under subsection (1), which shall include information on— (a) h
-- mover: Steve McCabe (Birmingham, Selly Oak) (Lab)
+- proposed: I beg to move, That the Bill be now read the Third time. First, let me welcome the new shadow Secretary of State, the hon. Member for Manchester Central (Lucy Powell), to her position. I hope she has now had that face-to-face conversation w
+- mover: The Secretary of State for Education (Nicky Morgan)
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-09-16/debates/15091635000001/
 
@@ -2906,8 +2916,8 @@ DECISION:
 ### 2015-10-27 - Welfare Reform and Work Bill (285-319)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1617` | hansard_ext: `15102752002919`
 - question put: not found in the record
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 8: Tax credit reforms
+- mover: Neil Gray
 - same debate: Marriage family x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-10-27/debates/15102736000002/
 
@@ -2946,8 +2956,8 @@ DECISION:
 ### 2015-11-10 - Trade Union Bill (267-306)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1641` | hansard_ext: `15111048002707`
 - question put: That the clause be added to the Bill.
-- proposed: not found
-- mover: not stated by the clerk; check Hansard
+- proposed: New Clause 10: Application of provisions to public sector employees across the UK
+- mover: Chris Stephens
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2015-11-10/debates/15111034000002/
 
@@ -3036,8 +3046,8 @@ DECISION:
 ### 2016-02-03 - Public Finances: Scotland (54-297)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `27945` | hansard_ext: `16020379001721`
 - question put: That the amendment be made.
-- proposed: I beg to move, That this House notes the ongoing negotiations between the Scottish and UK Governments in the Joint Exchequer Committee on a revised fiscal framework to accompany the Scotland Bill; regrets that, despite both Governments repe
-- mover: Ian Murray (Edinburgh South) (Lab)
+- proposed: I beg to move an amendment, to leave out from “accompany the Scotland Bill” to end and add: “notes that the Smith Commission recommended that a fiscal framework be agreed between the UK and Scottish Governments on the basis that the Barnett
+- mover: Stewart Hosie (Dundee East) (SNP)
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2016-02-03/debates/16020363000002/
 

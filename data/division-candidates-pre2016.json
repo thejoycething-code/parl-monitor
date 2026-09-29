@@ -21,7 +21,7 @@
    "matched": [
     "abortion"
    ],
-   "voters": 183
+   "voters": "held"
   },
   {
    "id": 1591,
@@ -41,7 +41,207 @@
    "matched": [
     "assisted dying"
    ],
-   "voters": 447
+   "voters": "held"
+  },
+  {
+   "id": 2189,
+   "external_id": "13052186000682",
+   "section_ext": "13052156000001",
+   "date": "2013-05-21",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 366,
+   "noes": 161,
+   "question": "That the Bill be now read the Third time.",
+   "proposed": "I beg to move, That the Bill be now read the Third time. I start by thanking the Front Bench speakers from the Labour party and the Liberal Democrats, as well as those from other parties located in their area of the House, who are too numer",
+   "mover": "Maria Miller",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-05-21/debates/13052156000001/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 520
+  },
+  {
+   "id": 2188,
+   "external_id": "1305216000534",
+   "section_ext": "13052013000002",
+   "date": "2013-05-20",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 70,
+   "noes": 375,
+   "question": "That the clause be read a Second time.",
+   "proposed": "New Clause 10: Part 1 of the Civil Partnership Act 2004",
+   "mover": "Tim Loughton",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-05-20/debates/13052013000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 445
+  },
+  {
+   "id": 2187,
+   "external_id": "13052060000527",
+   "section_ext": "13052013000002",
+   "date": "2013-05-20",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 391,
+   "noes": 57,
+   "question": "That the clause be read a Second time.",
+   "proposed": "I beg to move, That the clause be read a Second time.",
+   "mover": "The Secretary of State for Culture, Media and Sport (Maria Miller)",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-05-20/debates/13052013000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 448
+  },
+  {
+   "id": 2186,
+   "external_id": "13052052000554",
+   "section_ext": "13052013000002",
+   "date": "2013-05-20",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 163,
+   "noes": 321,
+   "question": null,
+   "proposed": "New Clause 8: Domestic protection for persons",
+   "mover": "Mr Burrowes",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-05-20/debates/13052013000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 484
+  },
+  {
+   "id": 2185,
+   "external_id": "13052045001032",
+   "section_ext": "13052013000002",
+   "date": "2013-05-20",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 148,
+   "noes": 339,
+   "question": "That the clause be read a Second time.",
+   "proposed": "New Clause 6: Beliefs about marriage",
+   "mover": "Mr Burrowes",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-05-20/debates/13052013000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 487
+  },
+  {
+   "id": 2184,
+   "external_id": "13052045001031",
+   "section_ext": "13052013000002",
+   "date": "2013-05-20",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 150,
+   "noes": 340,
+   "question": "That the clause be read a Second time.",
+   "proposed": "New Clause 3: Conscientious objection: transitional arrangments",
+   "mover": "Mr Burrowes",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-05-20/debates/13052013000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 489
+  },
+  {
+   "id": 1018,
+   "external_id": "13020569002425",
+   "section_ext": "13020551000002",
+   "date": "2013-02-05",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 464,
+   "noes": 38,
+   "question": null,
+   "proposed": "Motion made, and Question p ut forthwith (Standing Order No. 80A(1)(a),",
+   "mover": "Karen Bradley",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-02-05/debates/13020551000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 502
+  },
+  {
+   "id": 1017,
+   "external_id": "13020569002424",
+   "section_ext": "13020551000002",
+   "date": "2013-02-05",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 481,
+   "noes": 34,
+   "question": null,
+   "proposed": "Motion made, and Question put forthwith (Standing Order No. 52(1)( a ))",
+   "mover": "Mark Lancaster",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-02-05/debates/13020551000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 515
+  },
+  {
+   "id": 1016,
+   "external_id": "13020569002423",
+   "section_ext": "13020551000002",
+   "date": "2013-02-05",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 499,
+   "noes": 55,
+   "question": "That the following provisions shall apply to the Marriage (Same Sex Couples) Bill: Committal 1.",
+   "proposed": null,
+   "mover": null,
+   "hansard": "https://hansard.parliament.uk/Commons/2013-02-05/debates/13020551000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 554
+  },
+  {
+   "id": 1015,
+   "external_id": "13020569002422",
+   "section_ext": "13020551000002",
+   "date": "2013-02-05",
+   "title": "Marriage (Same Sex Couples) Bill",
+   "ayes": 400,
+   "noes": 175,
+   "question": "That the Bill be now read a Second time.",
+   "proposed": "I beg to move, That the Bill be now read a Second time. Mr Speaker, you and I know that every marriage is different—indeed, any husband or wife of a Member of this House has a distinct set of challenges to face every day—but what marriage o",
+   "mover": "The Minister for Women and Equalities (Maria Miller)",
+   "hansard": "https://hansard.parliament.uk/Commons/2013-02-05/debates/13020551000002/",
+   "areas": [
+    9
+   ],
+   "matched": [
+    "Marriage (Same Sex Couples)"
+   ],
+   "voters": 570
   }
  ],
  "candidates": [
@@ -154,8 +354,8 @@
    "ayes": 491,
    "noes": 2,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 25: Termination of pregnancy on grounds of sex of foetus",
+   "mover": "Ann Coffey",
    "hansard": "https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/",
    "day_areas": {
     "1": 36,
@@ -178,8 +378,8 @@
    "ayes": 212,
    "noes": 305,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 19: Child abduction warning notice",
+   "mover": "Diana Johnson",
    "hansard": "https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/",
    "day_areas": {
     "1": 36,
@@ -202,8 +402,8 @@
    "ayes": 212,
    "noes": 305,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 17: Mandatory reporting of suspected child abuse",
+   "mover": "Diana Johnson",
    "hansard": "https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/",
    "day_areas": {
     "1": 36,
@@ -226,8 +426,8 @@
    "ayes": 233,
    "noes": 296,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 2: Official Secrets Act 1989 (additional defence)",
+   "mover": "John Mann",
    "hansard": "https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/",
    "day_areas": {
     "1": 36,
@@ -251,7 +451,7 @@
    "noes": 292,
    "question": "That the clause be read a Second time.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Solicitor-General (Mr Robert Buckland)",
+   "mover": "Fiona Bruce (Congleton) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/",
    "day_areas": {
     "1": 36,
@@ -310,8 +510,8 @@
    "ayes": 211,
    "noes": 288,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. The Children, Schools and Families Bill is vital to meet what I believe is our moral imperative to help every child and young person to make the most of their talents and to ensure tha",
-   "mover": "The Secretary of State for Children, Schools and Families (Ed Balls)",
+   "proposed": "I beg to move an amendment, to leave out from “That” to the end of the Question and add: “this House declines to give a Second Reading to the Children, Schools and Families Bill because it adds hugely to the bureaucratic burdens on schools ",
+   "mover": "Mr. David Laws (Yeovil) (LD)",
    "hansard": "https://hansard.parliament.uk/Commons/2010-01-11/debates/1001119000001/",
    "day_areas": {
     "6": 28
@@ -346,8 +546,8 @@
    "ayes": 61,
    "noes": 288,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 27: Equal opportunities",
+   "mover": "Dr Eilidh Whiteford",
    "hansard": "https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/",
    "day_areas": {
     "1": 25
@@ -364,8 +564,8 @@
    "ayes": 56,
    "noes": 477,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 18: Tax credits",
+   "mover": "Dr Eilidh Whiteford",
    "hansard": "https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/",
    "day_areas": {
     "1": 25
@@ -400,8 +600,8 @@
    "ayes": 56,
    "noes": 269,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 36: Scottish independence referendum",
+   "mover": "Angus Robertson",
    "hansard": "https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/",
    "day_areas": {
     "1": 25
@@ -418,8 +618,8 @@
    "ayes": 245,
    "noes": 287,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 35: Consent of the Scottish Parliament to certain Westminster Acts",
+   "mover": "Angus Robertson",
    "hansard": "https://hansard.parliament.uk/Commons/2015-11-09/debates/15110915000001/",
    "day_areas": {
     "1": 25
@@ -535,8 +735,8 @@
    "ayes": 324,
    "noes": 230,
    "question": "That this House notes with concern the Government’s failure to prioritise the safety of communities by not protecting central Government funding for the police; notes the conclusion of the Audit Commission and HM Inspectorate of Constabulary that any budget reduction over 12 per cent. will reduce frontline policing; pays tribute to the police and other agencies for achieving a 43 per cent. reduction in crime, including a 42 per cent. cut in violent crime, since 1997, and for maintaining that reduction through last year’s recession; notes that public perception of anti-social behaviour is at its lowest level since it was recorded in the British Crime Survey of 2001-02; further notes that the previous Government set out plans in its Policing White Paper to drive down policing costs whilst maintaining core funding; and condemns the Government’s policy of reducing police numbers, restricting police powers and imposing elected commissioners to replace police authorities, thus condemning the police service to unnecessary, unwelcome and costly re-structuring at a time when their focus should be on maintaining the fall in crime and anti-social behaviour.",
-   "proposed": "I beg to move, That this House notes with concern the Government’s failure to prioritise the safety of communities by not protecting central Government funding for the police; notes the conclusion of the Audit Commission and HM Inspectorate",
-   "mover": "Alan Johnson (Kingston upon Hull West and Hessle) (Lab)",
+   "proposed": "I beg to move an amendment, to leave out from “House” to the end of the Question and add: “notes the appalling fiscal deficit left by the last Government and reiterates the urgent need to restore the nation to economic health; recognises th",
+   "mover": "The Secretary of State for the Home Department (Mrs Theresa May)",
    "hansard": "https://hansard.parliament.uk/Commons/2010-09-08/debates/10090819000002/",
    "day_areas": {
     "1": 12,
@@ -664,7 +864,7 @@
    "noes": 41,
    "question": "That amendments 67 to 70, 3, 93 to 98, 111 to 132 and 99 to 107 be made.— (Mr.",
    "proposed": "Amendment proposed : 107, page 52, leave out line 20.",
-   "mover": "Mr. Coaker",
+   "mover": null,
    "hansard": "https://hansard.parliament.uk/Commons/2010-02-23/debates/10022358000002/",
    "day_areas": {
     "6": 9,
@@ -682,8 +882,8 @@
    "ayes": 173,
    "noes": 280,
    "question": "That the clause be added to the Bill.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Mr. Henry Bellingham (North-West Norfolk) (Con)",
+   "proposed": "New Clause 7: Limitations on publication of information",
+   "mover": "Mr. Bellingham",
    "hansard": "https://hansard.parliament.uk/Commons/2010-02-23/debates/10022358000002/",
    "day_areas": {
     "6": 9,
@@ -702,7 +902,7 @@
    "noes": 277,
    "question": "That the clause be read a Second time.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Minister for Schools and Learners (Mr. Vernon Coaker)",
+   "mover": "Tim Loughton (East Worthing and Shoreham) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2010-02-23/debates/10022358000002/",
    "day_areas": {
     "6": 9,
@@ -737,7 +937,7 @@
    "title": "Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill",
    "ayes": 261,
    "noes": 312,
-   "question": null,
+   "question": "That the amendment be made.",
    "proposed": "I beg to move amendment 102, page 13, line 37, leave out clause 27.",
    "mover": "Mr Allen",
    "hansard": "https://hansard.parliament.uk/Commons/2013-10-09/debates/13100960000002/",
@@ -756,8 +956,8 @@
    "ayes": 261,
    "noes": 298,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Wayne David (Caerphilly) (Lab)",
+   "proposed": "I beg to move amendment 32, page 12, leave out lines 31 to 33 and insert ‘“where— (a) the expenses fall within Part 1 of Schedule 8A, and ‘(b) the expenditure can reasonably be regarded as intended to promote or procure electoral success at",
+   "mover": "Tom Brake",
    "hansard": "https://hansard.parliament.uk/Commons/2013-10-09/debates/13100960000002/",
    "day_areas": {
     "7": 10
@@ -830,8 +1030,8 @@
    "ayes": 23,
    "noes": 473,
    "question": "That the clause be read a Second time.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Sir Paul Beresford (Mole Valley) (Con)",
+   "proposed": "I beg to move, That the clause be read a Second time. In the last Parliament the Prime Minister and other senior Conservatives repeatedly expressed their commitment to recognise marriage in the tax system. There were some very strong statem",
+   "mover": "Mr Leigh",
    "hansard": "https://hansard.parliament.uk/Commons/2011-06-28/debates/11062856000002/",
    "day_areas": {
     "9": 7
@@ -848,8 +1048,8 @@
    "ayes": 159,
    "noes": 295,
    "question": "That the clause be read a Second time.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 10: VAT",
+   "mover": "Mr Hanson",
    "hansard": "https://hansard.parliament.uk/Commons/2011-06-28/debates/11062856000002/",
    "day_areas": {
     "9": 7
@@ -920,8 +1120,8 @@
    "ayes": 198,
    "noes": 273,
    "question": "That the clause be read a Second time.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Parliamentary Under-Secretary of State for Justice (Jeremy Wright)",
+   "proposed": "I beg to move, That the clause be read a Second time. I have already welcomed both new Ministers to their places while in a Committee, but I shall repeat the exercise because it is welcome to see them both on the Front Bench today. The spir",
+   "mover": "Robert Flello",
    "hansard": "https://hansard.parliament.uk/Commons/2012-09-12/debates/12091223000002/",
    "day_areas": {
     "7": 7
@@ -1029,8 +1229,8 @@
    "ayes": 219,
    "noes": 303,
    "question": null,
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 20: Personal, social and health education in maintained schools",
+   "mover": "Lisa Nandy",
    "hansard": "https://hansard.parliament.uk/Commons/2013-06-11/debates/13061171000001/",
    "day_areas": {
     "6": 5
@@ -1047,8 +1247,8 @@
    "ayes": 222,
    "noes": 303,
    "question": "That the clause be added to the Bill.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Parliamentary Under-Secretary of State for Education (Mr Edward Timpson)",
+   "proposed": "New Clause 6: Staff to child ratios: Ofsted-registered childminder settings",
+   "mover": "Mrs Hodgson",
    "hansard": "https://hansard.parliament.uk/Commons/2013-06-11/debates/13061171000001/",
    "day_areas": {
     "6": 5
@@ -1105,8 +1305,8 @@
    "ayes": 243,
    "noes": 313,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. As a coalition Government, we inherited a legacy of a lack of trust and confidence in our political system. [ Interruption. ] I am surprised that Labour Members would laugh at that tho",
-   "mover": "The Leader of the House of Commons (Mr Andrew Lansley)",
+   "proposed": "I beg to move an amendment, to leave out from “That” to the end of the Question and add: “this House affirms its belief in the need for greater transparency in the lobbying industry and in British politics, and considers that there should b",
+   "mover": "Ms Angela Eagle (Wallasey) (Lab)",
    "hansard": "https://hansard.parliament.uk/Commons/2013-09-03/debates/13090336000002/",
    "day_areas": {
     "1": 1,
@@ -1126,7 +1326,7 @@
    "noes": 292,
    "question": "That the clause be read a Second time.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Mr Jenkin",
+   "mover": "Mr Thomas",
    "hansard": "https://hansard.parliament.uk/Commons/2013-10-08/debates/13100824000001/",
    "day_areas": {
     "7": 4
@@ -1179,8 +1379,8 @@
    "ayes": 226,
    "noes": 287,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Andy Sawford (Corby) (Lab/Co-op)",
+   "proposed": "I beg to move amendment 14, page 26, line 11, leave out ‘one or more specified local authorities’ and insert ‘a local authority’.",
+   "mover": "Andy Sawford",
    "hansard": "https://hansard.parliament.uk/Commons/2013-12-17/debates/13121751000002/",
    "day_areas": {
     "7": 4
@@ -1306,8 +1506,8 @@
    "ayes": 202,
    "noes": 312,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move amendment 32, page 1, line 21, at end insert— ‘(5A) No Academy arrangement may be made under this section with a school that is exclusively a nursery or primary school, or both.’.",
-   "mover": "Vernon Coaker",
+   "proposed": "I beg to move amendment 20, page 1, line 22, at end insert— (za) if the school is an additional school, the school meets a proven need for additional capacity in the area in which the school is situated;’.",
+   "mover": "Mr Iain Wright",
    "hansard": "https://hansard.parliament.uk/Commons/2010-07-21/debates/10072126000004/",
    "day_areas": {
     "6": 3
@@ -1395,9 +1595,9 @@
    "title": "Police Reform and Social Responsibility Bill",
    "ayes": 8,
    "noes": 280,
-   "question": "That the clause be read a Second time.",
-   "proposed": "I beg to move, That the clause be read a Second time. The new clause addresses the point about the local setting of licensing fees that was debated in the Public Bill Committee. I welcome the hon. Member for Kingston upon Hull North (Diana ",
-   "mover": "The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)",
+   "question": "That the amendment be made.",
+   "proposed": "I beg to move amendment 162, page 94, line 27, leave out subsection (2).",
+   "mover": "John McDonnell (Hayes and Harlington) (Lab)",
    "hansard": "https://hansard.parliament.uk/Commons/2011-03-31/debates/11033156000002/",
    "day_areas": {
     "7": 3
@@ -1414,8 +1614,8 @@
    "ayes": 217,
    "noes": 296,
    "question": "That the clause be read a Second time.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 12: Review of international best practice around deradicalisation",
+   "mover": "Caroline Lucas",
    "hansard": "https://hansard.parliament.uk/Commons/2014-12-16/debates/14121647000002/",
    "day_areas": {
     "7": 3
@@ -1487,8 +1687,8 @@
    "ayes": 195,
    "noes": 277,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 15: Aggravated offences against members of the armed forces",
+   "mover": "Dan Jarvis",
    "hansard": "https://hansard.parliament.uk/Commons/2014-05-12/debates/14051222000003/",
    "day_areas": {
     "11": 7
@@ -1505,8 +1705,8 @@
    "ayes": 6,
    "noes": 469,
    "question": "That the clause be read a Second time.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Philip Davies (Shipley) (Con)",
+   "proposed": "New Clause 38: Resettlement licence: deportees",
+   "mover": "Philip Davies",
    "hansard": "https://hansard.parliament.uk/Commons/2014-05-12/debates/14051222000003/",
    "day_areas": {
     "11": 7
@@ -1561,9 +1761,9 @@
    "title": "Crime and Courts Bill [Lords]",
    "ayes": 215,
    "noes": 307,
-   "question": "That the clause be read a Second time.",
-   "proposed": "Amendment proposed : 1, in clause 24, page 21, line 22, at end insert—",
-   "mover": "Paul Murphy",
+   "question": "That the new clause be read a Second time.",
+   "proposed": "I beg to move, That the clause be read a Second time.",
+   "mover": "The Minister for Policing and Criminal Justice (Damian Green)",
    "hansard": "https://hansard.parliament.uk/Commons/2013-03-18/debates/13031839000001/",
    "day_areas": {
     "11": 5,
@@ -1600,8 +1800,8 @@
    "ayes": 40,
    "noes": 508,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Order of 13 March 2013 (Crime and Courts Bill [ Lords ] (Programme) (No. 2)) be varied as follows: 1. Paragraphs 2 to 5 of the Order shall be omitted. 2. Remaining proceedings on Consideration and Third Reading shall",
-   "mover": "The Leader of the House of Commons (Mr Andrew Lansley)",
+   "proposed": "I beg to move amendment (d), at end of paragraph 2, leave out ‘at today’s sitting’ and insert ‘in two days (in addition to the First Day already taken)’ It is normally a great privilege to follow the hon. Member for Wallasey (Ms Eagle), but",
+   "mover": "Mr Peter Bone (Wellingborough) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2013-03-18/debates/13031836000001/",
    "day_areas": {
     "11": 5,
@@ -1619,8 +1819,8 @@
    "ayes": 229,
    "noes": 283,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 22: Prostitution and sexual exploitation",
+   "mover": "Mr Hanson",
    "hansard": "https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/",
    "day_areas": {
     "10": 1,
@@ -1640,8 +1840,8 @@
    "ayes": 234,
    "noes": 288,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 2: Protection from slavery from overseas domestic workers",
+   "mover": "Mr Hanson",
    "hansard": "https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/",
    "day_areas": {
     "10": 1,
@@ -1682,8 +1882,8 @@
    "ayes": 225,
    "noes": 288,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 4: Offence of exploitation",
+   "mover": "Diana Johnson",
    "hansard": "https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/",
    "day_areas": {
     "10": 1,
@@ -1704,7 +1904,7 @@
    "noes": 288,
    "question": "That the clause be read a Second time.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Parliamentary Under-Secretary of State for the Home Department (Karen Bradley)",
+   "mover": "Diana Johnson",
    "hansard": "https://hansard.parliament.uk/Commons/2014-11-04/debates/14110444000002/",
    "day_areas": {
     "10": 1,
@@ -1799,8 +1999,8 @@
    "ayes": 210,
    "noes": 286,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 7: Enforcement services",
+   "mover": "Jenny Chapman",
    "hansard": "https://hansard.parliament.uk/Commons/2013-03-13/debates/13031347000002/",
    "day_areas": {
     "11": 2,
@@ -1818,8 +2018,8 @@
    "ayes": 216,
    "noes": 272,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Mr David Burrowes (Enfield, Southgate) (Con)",
+   "proposed": "I beg to move amendment 22, page 17, line 21, at end insert— ‘Part 4A amends the selection procedure for certain senior judicial appointments until Part 4 of the Schedule is in force,’.",
+   "mover": "The Solicitor-General (Oliver Heald)",
    "hansard": "https://hansard.parliament.uk/Commons/2013-03-13/debates/13031347000002/",
    "day_areas": {
     "11": 2,
@@ -1930,8 +2130,8 @@
    "ayes": 193,
    "noes": 311,
    "question": "That the clause be read a Second time.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Julie Hilling (Bolton West) (Lab)",
+   "proposed": "New Clause 4: Transfer of information from National Identity Register to Identity and Passport Service",
+   "mover": "Tony Cunningham",
    "hansard": "https://hansard.parliament.uk/Commons/2010-09-15/debates/10091526000003/",
    "day_areas": {
     "3": 1,
@@ -1949,8 +2149,8 @@
    "ayes": 26,
    "noes": 313,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move amendment 24, page 6, line 7, at end insert— ‘(e) a decision under Article 218(8) of TFEU for the accession of the European Union to the European Convention for the Protection of Human Rights and Fundamental Freedoms in accord",
-   "mover": "Chris Heaton-Harris (Daventry) (Con)",
+   "proposed": "I beg to move amendment 14, page 7, line 33, leave out from first ‘of’ to end of line 44 and insert ‘any existing or proposed measure under Title V of Part 3 of TFEU.’.",
+   "mover": "Mr Clappison",
    "hansard": "https://hansard.parliament.uk/Commons/2011-01-26/debates/11012654000003/",
    "day_areas": {
     "11": 2,
@@ -1986,8 +2186,8 @@
    "ayes": 237,
    "noes": 305,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move amendment 10, page 99, line 11, leave out from ‘where’ to first ‘for’ in line 13 and insert ‘— (a) the services are provided to the individual, or (b) the individual has died and the services are provided— (i) to the individua",
-   "mover": "The Parliamentary Under-Secretary of State for Justice (Mr Jonathan Djanogly)",
+   "proposed": "I beg to move amendment 80, page 99, line 21, leave out ‘other than’ and insert ‘including’.",
+   "mover": "Mr Elfyn Llwyd",
    "hansard": "https://hansard.parliament.uk/Commons/2011-10-31/debates/1110315000002/",
    "day_areas": {
     "11": 3
@@ -2169,8 +2369,8 @@
    "ayes": 234,
    "noes": 333,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. Today’s Second Reading marks the first legislative step towards the fulfilment of our manifesto commitment to improve England’s education system. It grants greater autonomy to individu",
-   "mover": "The Secretary of State for Education (Michael Gove)",
+   "proposed": "I beg to move, That this House declines to give a Second Reading to the Academies Bill [ Lords ] because it creates the legal framework for the expensive free market schools reforms which will be funded by scrapping existing school building",
+   "mover": "Ed Balls (Morley and Outwood) (Lab/Co-op)",
    "hansard": "https://hansard.parliament.uk/Commons/2010-07-19/debates/10071915000001/",
    "day_areas": {
     "6": 2
@@ -2279,8 +2479,8 @@
    "ayes": 212,
    "noes": 304,
    "question": "That the clause be added to the Bill.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Minister of State, Department for Education (Mr Nick Gibb)",
+   "proposed": "New Clause 9: Requirement to achieve specified standard: suppliers of careers guidance",
+   "mover": "Mr Iain Wright",
    "hansard": "https://hansard.parliament.uk/Commons/2011-05-11/debates/11051175000003/",
    "day_areas": {
     "6": 1,
@@ -2317,8 +2517,8 @@
    "ayes": 24,
    "noes": 40,
    "question": "That the Bill be now read the Third time.",
-   "proposed": "I beg to move amendment 3, page 1, line 2, leave out ‘publishing draft’ and insert ‘presenting’.",
-   "mover": "Helen Goodman (Bishop Auckland) (Lab)",
+   "proposed": "I beg to move, That the Bill be now read the Third time. Let me start my remarks by reassuring Opposition Members about a number of things that are not in the Bill and say that—surprise, surprise—both the BBC and The Guardian occasionally m",
+   "mover": "Harriett Baldwin",
    "hansard": "https://hansard.parliament.uk/Commons/2011-09-09/debates/11090986000002/",
    "day_areas": {
     "1": 2
@@ -2463,8 +2663,8 @@
    "ayes": 217,
    "noes": 282,
    "question": "That the question be now put.",
-   "proposed": "I beg to move, That this House believes that amongst other EU police, justice and home affairs measures, the UK should remain part of the European Arrest Warrant, the Schengen Information System II, Joint Investigations Teams, EU Council de",
-   "mover": "Yvette Cooper (Normanton, Pontefract and Castleford) (Lab)",
+   "proposed": "I beg to move an amendment, to leave out from ‘House’ to end and add ‘believes that the decision on exercising the UK’s opt out from EU former third pillar measures should be taken in the national interest, with consideration given to how a",
+   "mover": "The Secretary of State for the Home Department (Mrs Theresa May)",
    "hansard": "https://hansard.parliament.uk/Commons/2013-06-12/debates/13061269000003/",
    "day_areas": {
     "11": 2
@@ -2779,8 +2979,8 @@
    "ayes": 75,
    "noes": 313,
    "question": null,
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 3: Restriction on Publications etc",
+   "mover": "Alex Salmond",
    "hansard": "https://hansard.parliament.uk/Commons/2015-06-16/debates/15061658000001/",
    "day_areas": {
     "11": 1,
@@ -2997,8 +3197,8 @@
    "ayes": 223,
    "noes": 315,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 7: Social cohesion",
+   "mover": "Mr Iain Wright",
    "hansard": "https://hansard.parliament.uk/Commons/2010-07-26/debates/10072611000001/",
    "day_areas": {
     "6": 1
@@ -3015,8 +3215,8 @@
    "ayes": 319,
    "noes": 222,
    "question": "That the clause stand part of the Bill.",
-   "proposed": "I beg to move amendment 82, page 3, line 11, at end insert— ‘(1A) An application under subsection (1) shall be in such form and shall contain such particulars as may be prescribed in regulations.’.",
-   "mover": "Vernon Coaker",
+   "proposed": "I beg to move amendment 79, page 4, line 8, at end add— ‘(8) Before making an Academy order in respect of a maintained school under this section, the Secretary of State shall consult with— (a) the local authority, (b) any other local author",
+   "mover": "Mr Iain Wright",
    "hansard": "https://hansard.parliament.uk/Commons/2010-07-26/debates/10072611000001/",
    "day_areas": {
     "6": 1
@@ -3087,8 +3287,8 @@
    "ayes": 5,
    "noes": 311,
    "question": "That this House supports the continued deployment of UK armed forces in Afghanistan.",
-   "proposed": "I beg to move, That this House supports the continued deployment of UK armed forces in Afghanistan. It is a great honour to move the motion, which was tabled by the hon. Member for North East Derbyshire (Natascha Engel), my hon. Friend the ",
-   "mover": "Mr Peter Bone (Wellingborough) (Con)",
+   "proposed": "I beg to move amendment (a), at end add— ‘provided that a more realistic military strategy is adopted designed to fulfil the United Kingdom’s long-term interests in the region at lesser cost in life, limb and financial resources.’. It is a ",
+   "mover": "Dr Julian Lewis (New Forest East) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2010-09-09/debates/10090911000001/",
    "day_areas": {
     "6": 1
@@ -3195,8 +3395,8 @@
    "ayes": 195,
    "noes": 330,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. In the past 25 years, the EU has changed many times, each change marked by a new treaty: the Single European Act, the Maastricht treaty, the Amsterdam and Nice treaties, the failed EU ",
-   "mover": "Mr Hague",
+   "proposed": "I beg to move an amendment, to leave out from “That” to the end of the Question and add: “this House declines to give a second reading to the European Union Bill on the grounds that, while the principle of referendums on significant constit",
+   "mover": "Yvette Cooper (Normanton, Pontefract and Castleford) (Lab)",
    "hansard": "https://hansard.parliament.uk/Commons/2010-12-07/debates/10120737000002/",
    "day_areas": {
     "7": 1
@@ -3249,8 +3449,8 @@
    "ayes": 230,
    "noes": 321,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. From the very start of British policing, Sir Robert Peel’s key principle that the “police are the public and the public are the police” has set the standard across the world. I am sure",
-   "mover": "The Secretary of State for the Home Department (Mrs Theresa May)",
+   "proposed": "I beg to move, That this House declines to give a Second Reading to the Police Reform and Social Responsibility Bill because it introduces an expensive set of reforms which will do nothing to bring the police closer to the communities they ",
+   "mover": "Ed Balls (Morley and Outwood) (Lab/Co-op)",
    "hansard": "https://hansard.parliament.uk/Commons/2010-12-13/debates/10121326000001/",
    "day_areas": {
     "7": 1
@@ -3284,7 +3484,7 @@
    "title": "European Union Bill",
    "ayes": 39,
    "noes": 314,
-   "question": null,
+   "question": "That the amendment be made.",
    "proposed": "I beg to move amendment 41, page 11, line 25, at end insert— ‘(1) The sovereignty of the United Kingdom Parliament in relation to EU law is hereby reaffirmed.’.",
    "mover": "Mr William Cash (Stone) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2011-01-11/debates/11011161000002/",
@@ -3303,8 +3503,8 @@
    "ayes": 5,
    "noes": 252,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. Over the past decade, the devolution of power and decision making from this Parliament to the Assemblies of Wales and Northern Ireland and to the Parliament in Scotland has transformed",
-   "mover": "The Secretary of State for Scotland (Michael Moore)",
+   "proposed": "I beg to move an amendment, to leave out from “That” to the end of the Question and add: That this House, while recognising the need to further enhance the powers of the Scottish Parliament, nevertheless believes that the measures the Scotl",
+   "mover": "Pete Wishart (Perth and North Perthshire) (SNP)",
    "hansard": "https://hansard.parliament.uk/Commons/2011-01-27/debates/11012762000002/",
    "day_areas": {
     "1": 1
@@ -3321,8 +3521,8 @@
    "ayes": 26,
    "noes": 295,
    "question": "That the clause be added to the Bill.",
-   "proposed": "I beg to move amendment 15, page 12, line 12, leave out subsection (3) and insert— ‘(3) The day appointed under subsection (2) shall be within one month of the day on which this Act is passed.’. Under clause 21, certain provisions will come",
-   "mover": "Mr James Clappison (Hertsmere) (Con)",
+   "proposed": "I beg to move, That the clause be read a Second time. It is a great pleasure to follow my hon. Friend the Member for Witham (Priti Patel), who made such a powerful speech. I hope that I am able to tempt her into joining us in the Division L",
+   "mover": "Mr Bone",
    "hansard": "https://hansard.parliament.uk/Commons/2011-02-01/debates/11020142000002/",
    "day_areas": {
     "7": 1
@@ -3502,7 +3702,7 @@
    "noes": 314,
    "question": "That the clause be read a Second time.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)",
+   "mover": "Hazel Blears",
    "hansard": "https://hansard.parliament.uk/Commons/2011-09-05/debates/11090519000001/",
    "day_areas": {
     "11": 1
@@ -3591,8 +3791,8 @@
    "ayes": 62,
    "noes": 243,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Order of 1 March 2011 (Protection of Freedoms Bill (Programme)) be varied as follows— 1. Paragraphs 4 and 5 shall be omitted. 2. Proceedings on consideration and Third Reading shall be concluded in two days. 3. Proce",
-   "mover": "The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)",
+   "proposed": "I beg to move amendment (a), after “Proceedings” on the first day insert— ‘New Clauses relating to the Public Order Act 1986; and’. I have tabled this amendment to the programme motion because I simply cannot believe that the Government are",
+   "mover": "Mr Edward Leigh (Gainsborough) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2011-10-10/debates/11101030000001/",
    "day_areas": {
     "7": 1
@@ -3825,8 +4025,8 @@
    "ayes": 75,
    "noes": 240,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That— (1) there shall be no sitting in Westminster Hall on Tuesday 20 March; and (2) this House shall sit on Friday 23 March. On Tuesday, the House agreed to a series of Adjournments up until January 2013, which my right hon.",
-   "mover": "The Parliamentary Secretary, Office of the Leader of the House of Commons (Mr David Heath)",
+   "proposed": "I beg to move amendment (a), after ‘(1)’, insert ‘there shall be a sitting in Westminster Hall on Monday 19 March between half-past nine o’clock and two o’clock;’",
+   "mover": "Mr Philip Hollobone (Kettering) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2012-02-23/debates/12022332000003/",
    "day_areas": {
     "2": 1
@@ -3861,8 +4061,8 @@
    "ayes": 260,
    "noes": 314,
    "question": "That this House notes the e-petition signed by 170,000 people calling on the Government to drop the Health and Social Care Bill; and declines to support the Bill in its current form.",
-   "proposed": "I beg to move, That this House notes the e-petition signed by 170,000 people calling on the Government to drop the Health and Social Care Bill; and declines to support the Bill in its current form. I do so on behalf of the 170,000 people wh",
-   "mover": "Andy Burnham (Leigh) (Lab)",
+   "proposed": "I beg to move an amendment, to leave out from “Bill;” to end and add: “declines to support the Bill in its current form; and calls for an urgent summit of the Royal Colleges, professional bodies, patients’ organisations and the Government t",
+   "mover": "Andrew George (St Ives) (LD)",
    "hansard": "https://hansard.parliament.uk/Commons/2012-03-13/debates/12031360000001/",
    "day_areas": {
     "1": 1
@@ -3879,8 +4079,8 @@
    "ayes": 207,
    "noes": 300,
    "question": "That amendment (a) to Lords amendment 30 be made.",
-   "proposed": "I beg to move, That this House agrees with Lords amendment 1.",
-   "mover": "James Brokenshire",
+   "proposed": "I beg to move amendment (a) to Lords amendment 30.",
+   "mover": "Diana Johnson",
    "hansard": "https://hansard.parliament.uk/Commons/2012-03-19/debates/1203196000002/",
    "day_areas": {
     "12": 1
@@ -3897,8 +4097,8 @@
    "ayes": 200,
    "noes": 286,
    "question": "That amendment (b) to Lords amendment 51 be made.",
-   "proposed": "I beg to move, That this House disagrees with Lords amendment 16.",
-   "mover": "The Parliamentary Under-Secretary of State for the Home Department (James Brokenshire)",
+   "proposed": "I beg to move amendment (b) to Lords amendment 51.",
+   "mover": "Stella Creasy (Walthamstow) (Lab/Co-op)",
    "hansard": "https://hansard.parliament.uk/Commons/2012-03-19/debates/1203196000002/",
    "day_areas": {
     "12": 1
@@ -4059,8 +4259,8 @@
    "ayes": 302,
    "noes": 243,
    "question": "That this House disagrees with Lords amendment 2.",
-   "proposed": "Motion made, and Question put, That this House disagrees with Lords amendment 194.—( Mr Kenneth Clarke. )",
-   "mover": "Mr Kenneth Clarke.",
+   "proposed": "I beg to move, That this House disagrees with Lords amendment 2.",
+   "mover": "The Lord Chancellor and Secretary of State for Justice (Mr Kenneth Clarke)",
    "hansard": "https://hansard.parliament.uk/Commons/2012-04-17/debates/12041733000002/",
    "day_areas": {
     "11": 1
@@ -4112,9 +4312,9 @@
    "title": "Finance (No. 4) Bill",
    "ayes": 9,
    "noes": 312,
-   "question": null,
-   "proposed": "Amendment proposed : 61, page 536, line 17, at end insert—",
-   "mover": "Mr MacNeil",
+   "question": "That the clause stand part of the Bill.",
+   "proposed": null,
+   "mover": null,
    "hansard": "https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/",
    "day_areas": {
     "11": 1
@@ -4131,8 +4331,8 @@
    "ayes": 258,
    "noes": 293,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 7: VAT: Protected Buildings",
+   "mover": "Mr Bradshaw",
    "hansard": "https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/",
    "day_areas": {
     "11": 1
@@ -4167,8 +4367,8 @@
    "ayes": 260,
    "noes": 295,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 5: Value Added Tax: baked products",
+   "mover": "Stephen Gilbert",
    "hansard": "https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/",
    "day_areas": {
     "11": 1
@@ -4185,8 +4385,8 @@
    "ayes": 246,
    "noes": 312,
    "question": "That the clause be added to the Bill.",
-   "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Cathy Jamieson (Kilmarnock and Loudoun) (Lab/Co-op)",
+   "proposed": "New Clause 3: VAT impact of changes",
+   "mover": "Cathy Jamieson",
    "hansard": "https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/",
    "day_areas": {
     "11": 1
@@ -4238,7 +4438,7 @@
    "title": "Finance (No. 4) Bill",
    "ayes": 256,
    "noes": 323,
-   "question": null,
+   "question": "That the amendment be made.",
    "proposed": "I beg to move amendment 1, page 2, line 4, leave out paragraph (c).",
    "mover": "Owen Smith (Pontypridd) (Lab)",
    "hansard": "https://hansard.parliament.uk/Commons/2012-04-18/debates/12041847000002/",
@@ -4294,7 +4494,7 @@
    "noes": 269,
    "question": "That the amendment be made.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "Jim Fitzpatrick (Poplar and Limehouse) (Lab)",
+   "mover": "Seema Malhotra",
    "hansard": "https://hansard.parliament.uk/Commons/2012-04-25/debates/12042542000002/",
    "day_areas": {
     "11": 1
@@ -4311,8 +4511,8 @@
    "ayes": 141,
    "noes": 234,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That this House takes note of an unnumbered Explanatory Memorandum dated 5 June 2012 from HM Treasury on the Statement of Estimates of the Commission for 2013 (Preparation of the 2013 Draft Budget); recalls the agreement at t",
-   "mover": "The Financial Secretary to the Treasury (Mr Mark Hoban)",
+   "proposed": "I beg to move amendment (a), at line 15, leave out from “States” to the end and add “notes that the UK’s ability to negotiate a satisfactory European Union budget deal has been weakened by the Prime Minister’s failure to secure allies for a",
+   "mover": "Chris Leslie (Nottingham East) (Lab/Co-op)",
    "hansard": "https://hansard.parliament.uk/Commons/2012-07-12/debates/12071258000003/",
    "day_areas": {
     "11": 1
@@ -4330,7 +4530,7 @@
    "noes": 239,
    "question": "That the clause be read a Second time.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Parliamentary Under-Secretary of State for Business, Innovation and Skills (Jo Swinson)",
+   "mover": "Jo Swinson",
    "hansard": "https://hansard.parliament.uk/Commons/2012-10-16/debates/12101642000003/",
    "day_areas": {
     "5": 1
@@ -4473,8 +4673,8 @@
    "ayes": 279,
    "noes": 217,
    "question": "That the Bill be now read the Third time.",
-   "proposed": "I beg to move, that the clause be read a Second time. I am delighted to have the opportunity to speak to new clause 1, albeit very briefly. It is rather ironic that this issue has probably been one of the most over-reported aspects of this ",
-   "mover": "Tim Loughton",
+   "proposed": "I beg to move, That the Bill be now read the Third time. The Finance Bill 2013 delivers the Government’s commitment to creating a tax system that is fair, that promotes growth and competitiveness and that rewards work. This Bill supports en",
+   "mover": "Mr Gauke",
    "hansard": "https://hansard.parliament.uk/Commons/2013-07-02/debates/13070275000001/",
    "day_areas": {
     "9": 1
@@ -4527,8 +4727,8 @@
    "ayes": 234,
    "noes": 303,
    "question": "That the clause be read a Second time.",
-   "proposed": "I beg to move, That the clause be read a Second time. New clause 7 makes changes to the procedure for the granting of interim payments in common law court claims relating to taxation matters. Its effect will be to limit the circumstances in",
-   "mover": "The Exchequer Secretary to the Treasury (Mr David Gauke)",
+   "proposed": "I beg to move, That the clause be read a Second time. The Opposition’s new clause 10 challenges the Chancellor to publish, within six months of Royal Assent, a review of the impact of last week’s spending review announcements on tax receipt",
+   "mover": "Catherine McKinnell",
    "hansard": "https://hansard.parliament.uk/Commons/2013-07-02/debates/13070275000001/",
    "day_areas": {
     "9": 1
@@ -4599,8 +4799,8 @@
    "ayes": 213,
    "noes": 269,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. I should like to start by offering an apology to the House and to you, Mr Speaker. I shall not be able to be here for the wind-ups at the end of the debate because, in my role as Lord ",
-   "mover": "The Lord Chancellor and Secretary of State for Justice (Chris Grayling)",
+   "proposed": "I beg to move an amendment: “That this House declines to give a Second Reading to the Offender Rehabilitation Bill [ Lords ] because the implementation of the proposals in the Bill depends on the Government’s proposed restructuring of the P",
+   "mover": "Sadiq Khan (Tooting) (Lab)",
    "hansard": "https://hansard.parliament.uk/Commons/2013-11-11/debates/1311119000001/",
    "day_areas": {
     "11": 1
@@ -4635,8 +4835,8 @@
    "ayes": 0,
    "noes": 0,
    "question": "That this House disagrees with Lords amendment 26.— (Mr.",
-   "proposed": "Motion made, and Question put, That this House disagrees with Lords amendment 26.— (Mr. Lansley .)",
-   "mover": "Mr. Lansley",
+   "proposed": null,
+   "mover": null,
    "hansard": "https://hansard.parliament.uk/Commons/2014-01-22/debates/14012279000002/",
    "day_areas": {
     "7": 1
@@ -4851,8 +5051,8 @@
    "ayes": 208,
    "noes": 274,
    "question": "That the clause be added to the Bill.",
-   "proposed": "I beg to move amendment 62, page 40, line 13, at end insert— ‘(3) The Secretary of State must lay the terms of reference of a review under subsection (1) before each House of Parliament.”",
-   "mover": "Helen Goodman (Bishop Auckland) (Lab)",
+   "proposed": "New Clause 8: Replacing homes lost through the Preserved Right to Buy",
+   "mover": "Caroline Lucas",
    "hansard": "https://hansard.parliament.uk/Commons/2014-06-23/debates/14062314000001/",
    "day_areas": {
     "7": 1
@@ -4888,7 +5088,7 @@
    "noes": 285,
    "question": "That the clause be read a Second time.",
    "proposed": "I beg to move, That the clause be read a Second time.",
-   "mover": "The Parliamentary Secretary, Office of the Leader of the House of Commons (Tom Brake)",
+   "mover": "Bill Wiggin (North Herefordshire) (Con)",
    "hansard": "https://hansard.parliament.uk/Commons/2014-06-23/debates/14062314000001/",
    "day_areas": {
     "7": 1
@@ -5211,8 +5411,8 @@
    "ayes": 59,
    "noes": 338,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That the Bill be now read a Second time. This is a simple, but vital, piece of legislation. It has one clear purpose: to deliver on our promise to give the British people the final say on our EU membership in an in/out refere",
-   "mover": "The Secretary of State for Foreign and Commonwealth Affairs (Mr Philip Hammond)",
+   "proposed": "I beg to move an amendment, to leave out from “That” to the end of the Question and add: That this House declines to give a Second Reading to the EU Referendum Bill because it fails to meet the gold standard set by the Scottish independence",
+   "mover": "Alex Salmond (Gordon) (SNP)",
    "hansard": "https://hansard.parliament.uk/Commons/2015-06-09/debates/15060939000001/",
    "day_areas": {
     "11": 1
@@ -5283,8 +5483,8 @@
    "ayes": 300,
    "noes": 200,
    "question": "That the Bill be now read the Third time.",
-   "proposed": "I beg to move amendment 19, page 8, line 35, at end insert— “(3A) The Secretary of State shall lay an annual report before Parliament on the use of the power to give directions under subsection (1), which shall include information on— (a) h",
-   "mover": "Steve McCabe (Birmingham, Selly Oak) (Lab)",
+   "proposed": "I beg to move, That the Bill be now read the Third time. First, let me welcome the new shadow Secretary of State, the hon. Member for Manchester Central (Lucy Powell), to her position. I hope she has now had that face-to-face conversation w",
+   "mover": "The Secretary of State for Education (Nicky Morgan)",
    "hansard": "https://hansard.parliament.uk/Commons/2015-09-16/debates/15091635000001/",
    "day_areas": {
     "7": 1
@@ -5373,8 +5573,8 @@
    "ayes": 285,
    "noes": 319,
    "question": null,
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 8: Tax credit reforms",
+   "mover": "Neil Gray",
    "hansard": "https://hansard.parliament.uk/Commons/2015-10-27/debates/15102736000002/",
    "day_areas": {
     "9": 1
@@ -5445,8 +5645,8 @@
    "ayes": 267,
    "noes": 306,
    "question": "That the clause be added to the Bill.",
-   "proposed": null,
-   "mover": null,
+   "proposed": "New Clause 10: Application of provisions to public sector employees across the UK",
+   "mover": "Chris Stephens",
    "hansard": "https://hansard.parliament.uk/Commons/2015-11-10/debates/15111034000002/",
    "day_areas": {
     "7": 1
@@ -5607,8 +5807,8 @@
    "ayes": 54,
    "noes": 297,
    "question": "That the amendment be made.",
-   "proposed": "I beg to move, That this House notes the ongoing negotiations between the Scottish and UK Governments in the Joint Exchequer Committee on a revised fiscal framework to accompany the Scotland Bill; regrets that, despite both Governments repe",
-   "mover": "Ian Murray (Edinburgh South) (Lab)",
+   "proposed": "I beg to move an amendment, to leave out from “accompany the Scotland Bill” to end and add: “notes that the Smith Commission recommended that a fiscal framework be agreed between the UK and Scottish Governments on the basis that the Barnett",
+   "mover": "Stewart Hosie (Dundee East) (SNP)",
    "hansard": "https://hansard.parliament.uk/Commons/2016-02-03/debates/16020363000002/",
    "day_areas": {
     "11": 1
