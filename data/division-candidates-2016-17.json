@@ -1,0 +1,1340 @@
+{
+ "start": "2016-03-09",
+ "end": "2017-06-30",
+ "enumerated": 259,
+ "candidates": [
+  {
+   "id": 271,
+   "date": "2017-06-29",
+   "title": "Queen's Speech: Main Question",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 1,
+    "11": 1
+   },
+   "areas": [
+    6,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 270,
+   "date": "2017-06-29",
+   "title": "Queen's Speech: Economy and Jobs Amdt (g)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 1,
+    "11": 2,
+    "1": 3
+   },
+   "areas": [
+    1,
+    6,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 269,
+   "date": "2017-06-29",
+   "title": "Queen's Speech: Economy and Jobs Amdt (l)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 1,
+    "11": 2,
+    "1": 3
+   },
+   "areas": [
+    1,
+    6,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 268,
+   "date": "2017-06-28",
+   "title": "Queen's Speech: Health, Social Care and Security Amendment (i)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1,
+    "1": 6,
+    "12": 1,
+    "11": 2
+   },
+   "areas": [
+    1,
+    7,
+    11,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 244,
+   "date": "2017-03-13",
+   "title": "European Union (Notification of Withdrawal) Bill: Programme (No. 2) Motion",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 243,
+   "date": "2017-03-13",
+   "title": "Reproductive Health (Access to Terminations)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "1": 3,
+    "11": 1
+   },
+   "areas": [
+    1,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 241,
+   "date": "2017-03-07",
+   "title": "Children and Social Work Bill (Lords): Report Stage Amendment 12",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 6,
+    "1": 1
+   },
+   "areas": [
+    1,
+    6
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 240,
+   "date": "2017-03-07",
+   "title": "Children and Social Work Bill (Lords): Report Stage New Clause 14",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 6,
+    "1": 1
+   },
+   "areas": [
+    1,
+    6
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 238,
+   "date": "2017-02-24",
+   "title": "Preventing and Combating Violence Against Women and Domestic Violence (Ratification of Convention) Bill: Third Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "5": 4,
+    "9": 1,
+    "12": 1
+   },
+   "areas": [
+    5,
+    9,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 237,
+   "date": "2017-02-24",
+   "title": "Preventing and Combating Violence Against Women and Domestic Violence (Ratification of Convention) Bill: Third Reading: Closure motion",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "5": 4,
+    "9": 1,
+    "12": 1
+   },
+   "areas": [
+    5,
+    9,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 236,
+   "date": "2017-02-24",
+   "title": "Preventing and Combating Violence Against Women and Domestic Violence (Ratification of Convention) Bill: Report Stage Amendment 16",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "5": 4,
+    "9": 1,
+    "12": 1
+   },
+   "areas": [
+    5,
+    9,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 235,
+   "date": "2017-02-24",
+   "title": "Preventing and Combating Violence Against Women and Domestic Violence (Ratification of Convention) Bill: Report Stage Amendment 14",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "5": 4,
+    "9": 1,
+    "12": 1
+   },
+   "areas": [
+    5,
+    9,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 234,
+   "date": "2017-02-24",
+   "title": "Preventing and Combating Violence Against Women and Domestic Violence (Ratification of Convention) Bill: Report Stage Amendment 1",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "5": 4,
+    "9": 1,
+    "12": 1
+   },
+   "areas": [
+    5,
+    9,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 230,
+   "date": "2017-02-21",
+   "title": "Criminal Finances Bill: Report Stage New Clause 19",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 229,
+   "date": "2017-02-21",
+   "title": "Criminal Finances Bill: Report Stage New Clause 17",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 228,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Third Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 227,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House New Clause 192",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 226,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House New Clause 57",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 225,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House Clauses 1 and 2 stand part",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 224,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House Amdt 86",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 223,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House Amdt 43",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 222,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House Amdt 11",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 221,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House Amdt 29",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 220,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House New Clause 7",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 219,
+   "date": "2017-02-08",
+   "title": "European Union (Notification of Withdrawal) Bill: Committee of the whole House New Clause 2",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 215,
+   "date": "2017-02-08",
+   "title": "Draft Important Public Sevices (Border Security) Regulations 2017",
+   "title_areas": [
+    11
+   ],
+   "title_how": "term",
+   "day_areas": {},
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 203,
+   "date": "2017-02-01",
+   "title": "European Union (Notification of Withdrawal) Bill: Programme",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1,
+    "7": 1
+   },
+   "areas": [
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 202,
+   "date": "2017-02-01",
+   "title": "European Union (Notification of Withdrawal) Bill: Second Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1,
+    "7": 1
+   },
+   "areas": [
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 195,
+   "date": "2017-01-24",
+   "title": "Ten Minute Rule Motion: Industrial Action (Protection of Critical National Services)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 1,
+    "11": 1
+   },
+   "areas": [
+    6,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 181,
+   "date": "2016-12-16",
+   "title": "Preventing and Combating Violence against Women and Domestic Violence (Ratification of Convention) Bill: Second Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "5": 11,
+    "1": 3,
+    "7": 2,
+    "9": 3,
+    "12": 1
+   },
+   "areas": [
+    1,
+    5,
+    7,
+    9,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 180,
+   "date": "2016-12-16",
+   "title": "Preventing and Combating Violence against Women and Domestic Violence (Ratification of Convention) Bill: Second Reading Closure Motion",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "5": 11,
+    "1": 3,
+    "7": 2,
+    "9": 3,
+    "12": 1
+   },
+   "areas": [
+    1,
+    5,
+    7,
+    9,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 176,
+   "date": "2016-12-13",
+   "title": "Neighbourhood Planning Bill Report Stage Amendment 14",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 175,
+   "date": "2016-12-13",
+   "title": "Neighbourhood Planning Bill Report Stage New Clause 9",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 165,
+   "date": "2016-11-28",
+   "title": "Digital Economy Bill: Report Stage New Clause 8",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 19,
+    "6": 5
+   },
+   "areas": [
+    6,
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 164,
+   "date": "2016-11-28",
+   "title": "Digital Economy Bill: Report Stage New Clause 27",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 19,
+    "6": 5
+   },
+   "areas": [
+    6,
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 163,
+   "date": "2016-11-28",
+   "title": "Digital Economy Bill: Report Stage New Clause 10",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 19,
+    "6": 5
+   },
+   "areas": [
+    6,
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 160,
+   "date": "2016-11-21",
+   "title": "Higher Education and Research Bill: Third Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 159,
+   "date": "2016-11-21",
+   "title": "Higher Education and Research Bill: Report Stage Amendment 56",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 158,
+   "date": "2016-11-21",
+   "title": "Higher Education and Research Bill: Report Stage Amendment 40",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 157,
+   "date": "2016-11-21",
+   "title": "Higher Education and Research Bill: Report Stage Amendment 47",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 156,
+   "date": "2016-11-21",
+   "title": "Higher Education and Research Bill: Report Stage New Clause 14",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 155,
+   "date": "2016-11-21",
+   "title": "Higher Education and Research Bill: Report Stage New Clause 5",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 154,
+   "date": "2016-11-21",
+   "title": "Higher Education and Research Bill: Report Stage New Clause 2",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 145,
+   "date": "2016-11-15",
+   "title": "Investigatory Powers Bill Lords Amendments 15B, 15C, 338B, 339B and 339C, motion to disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 141,
+   "date": "2016-11-01",
+   "title": "Investigatory Powers Bill: Lords Amendment 15 Motion to disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 138,
+   "date": "2016-10-21",
+   "title": "Closure Motion: Sexual Offences (Pardons Etc.) Bill second reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "1": 1,
+    "12": 1
+   },
+   "areas": [
+    1,
+    12
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 136,
+   "date": "2016-10-19",
+   "title": "Opposition motion: Rights of EU nationals",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 3
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 135,
+   "date": "2016-10-18",
+   "title": "Broadcasting Amdt (a)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 132,
+   "date": "2016-09-14",
+   "title": "Ten Minute Rule Motion: European Union (UK Withdrawal From Membership)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 128,
+   "date": "2016-09-06",
+   "title": "Finance Bill: Third Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "9": 3
+   },
+   "areas": [
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 127,
+   "date": "2016-09-06",
+   "title": "Finance Bill: Report Stage New Clause 15",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "9": 3
+   },
+   "areas": [
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 126,
+   "date": "2016-09-06",
+   "title": "Finance Bill: Report Stage New Clause 8",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "9": 3
+   },
+   "areas": [
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 125,
+   "date": "2016-09-06",
+   "title": "Finance Bill: Report Stage Amdt 174",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "9": 3
+   },
+   "areas": [
+    9
+   ],
+   "in_ledger": false,
+   "hidden_only": false
+  },
+  {
+   "id": 114,
+   "date": "2016-07-19",
+   "title": "Higher Education and Research Bill: Second Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 103,
+   "date": "2016-07-06",
+   "title": "Opposition Motion: EU Nationals in the UK",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 86,
+   "date": "2016-06-13",
+   "title": "Policing and Crime Bill Report Stage: New Clause 60",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "1": 1,
+    "2": 1
+   },
+   "areas": [
+    1,
+    2
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 85,
+   "date": "2016-06-13",
+   "title": "Policing and Crime Bill Report Stage: New Clause 2",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "1": 1,
+    "2": 1
+   },
+   "areas": [
+    1,
+    2
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 84,
+   "date": "2016-06-13",
+   "title": "Policing and Crime Bill Report Stage: New Clause 64",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "1": 1,
+    "2": 1
+   },
+   "areas": [
+    1,
+    2
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 83,
+   "date": "2016-06-13",
+   "title": "Policing and Crime Bill Report Stage: New Clause 63",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "1": 1,
+    "2": 1
+   },
+   "areas": [
+    1,
+    2
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 81,
+   "date": "2016-06-08",
+   "title": "Opposition Day: BBC White Paper",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "1": 1,
+    "2": 1
+   },
+   "areas": [
+    1,
+    2
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 80,
+   "date": "2016-06-07",
+   "title": "Investigatory Powers Bill Third Reading",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 79,
+   "date": "2016-06-07",
+   "title": "Investigatory Powers Bill Report Stage: Amdt 3",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 78,
+   "date": "2016-06-07",
+   "title": "Investigatory Powers Bill Report Stage: Amdt. 320",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 77,
+   "date": "2016-06-07",
+   "title": "Investigatory Powers Bill Report Stage: Amdt 390",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 76,
+   "date": "2016-06-06",
+   "title": "Investigatory Powers Bill: Report: Amendment 312",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 75,
+   "date": "2016-06-06",
+   "title": "Investigatory Powers Bill: Report: Amendment 267",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 74,
+   "date": "2016-06-06",
+   "title": "Investigatory Powers Bill: Report: Amendment 482",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 72,
+   "date": "2016-06-06",
+   "title": "Investigatory Powers Bill: Report: NC1",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 68,
+   "date": "2016-05-25",
+   "title": "Queen's Speech - Jeremy Corbyn's amendment",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 2
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 66,
+   "date": "2016-05-09",
+   "title": "Immigration Bill Lords Amendment 85: motion to agree with amendments",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 1,
+    "6": 1,
+    "7": 1
+   },
+   "areas": [
+    6,
+    7,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 55,
+   "date": "2016-04-27",
+   "title": "Trade Union Bill Lords Amdt 17: Motion to Disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 1
+   },
+   "areas": [
+    6
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 54,
+   "date": "2016-04-27",
+   "title": "Trade Union Bill Lords Amendment 2: Govt Amdt (a)",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "6": 1
+   },
+   "areas": [
+    6
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 53,
+   "date": "2016-04-26",
+   "title": "Policing and Crime Bill Report Stage: Amdt 10",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 52,
+   "date": "2016-04-26",
+   "title": "Policing and Crime Bill Report Stage: Amdt 13",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 51,
+   "date": "2016-04-26",
+   "title": "Policing and Crime Bill Report Stage: Amdt 6",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 50,
+   "date": "2016-04-26",
+   "title": "Policing and Crime Bill Report Stage: Amdt 20",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 48,
+   "date": "2016-04-25",
+   "title": "Immigration Bill Lords Amendment 59: Motion to disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 47,
+   "date": "2016-04-25",
+   "title": "Immigration Bill Lords Amendment 85: Motion to disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 46,
+   "date": "2016-04-25",
+   "title": "Immigration Bill Lords Amdt 84: Motion to disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 45,
+   "date": "2016-04-25",
+   "title": "Immigration Bill Lords Amdt 60: Motion to disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 44,
+   "date": "2016-04-25",
+   "title": "Immigration Bill Lords Amdt 87: Motion to disagree",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "11": 2
+   },
+   "areas": [
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 42,
+   "date": "2016-04-20",
+   "title": "Daesh: Genocide of Minorities",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "8": 1,
+    "11": 1
+   },
+   "areas": [
+    8,
+    11
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  },
+  {
+   "id": 18,
+   "date": "2016-03-15",
+   "title": "INVESTIGATORY POWERS BILL: SECOND READING",
+   "title_areas": [],
+   "title_how": "",
+   "day_areas": {
+    "7": 1
+   },
+   "areas": [
+    7
+   ],
+   "in_ledger": false,
+   "hidden_only": true
+  }
+ ]
+}
