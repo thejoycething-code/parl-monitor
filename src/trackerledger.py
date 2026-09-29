@@ -30,7 +30,20 @@ LEDGER_KIND = "vote"
 
 
 def prefix_for(house):
-    return "l" if (house or "").strip().lower() == "lords" else "c"
+    """Ledger ref prefix: div:c (Commons Votes API), div:l (Lords), div:h
+    (Commons before 9 March 2016, from Hansard, in Hansard's own id space --
+    src/ingest/hansard_divisions.py). "hansard" is the key a tracker entry
+    with `source: hansard` resolves to (division_key)."""
+    key = (house or "").strip().lower()
+    return {"lords": "l", "hansard": "h"}.get(key, "c")
+
+
+def division_key(d):
+    """The house key for a tracker entry: "hansard" for a pre-2016 Commons
+    division sourced from Hansard, else its house (default commons)."""
+    if str(d.get("source") or "").strip().lower() == "hansard":
+        return "hansard"
+    return (d.get("house") or "commons").lower()
 
 
 def ledger_count(conn, division_id, house=None):
@@ -53,7 +66,7 @@ def missing_divisions(conn, cfg):
     for d in cfg.get("divisions") or []:
         if not d.get("id"):
             continue
-        house = (d.get("house") or "commons").lower()
+        house = division_key(d)
         if ledger_count(conn, d["id"], house) == 0:
             out.append((int(d["id"]), house, areas.get(d.get("issue"), []), d.get("issue")))
     return out
@@ -62,6 +75,9 @@ def missing_divisions(conn, cfg):
 def ensure(conn, client, cfg, log=print, dry_run=False):
     """Ledger the voters of every tracker division that has none. Returns a report list."""
     report = []
+    hansard_ext = {int(d["id"]): str(d.get("hansard_ext") or "")
+                   for d in cfg.get("divisions") or []
+                   if d.get("id") and division_key(d) == "hansard"}
     for division_id, house, areas, issue in missing_divisions(conn, cfg):
         prefix = prefix_for(house)
         if dry_run:
@@ -69,7 +85,16 @@ def ensure(conn, client, cfg, log=print, dry_run=False):
             report.append((division_id, house, issue, None))
             continue
         try:
-            if prefix == "l":
+            if prefix == "h":
+                from src.ingest import hansard_divisions as hd
+                ext = hansard_ext.get(division_id)
+                if not ext:
+                    raise ValueError("a `source: hansard` entry needs its hansard_ext "
+                                     "(the review queue gives it)")
+                payload = hd.fetch(client, ext)
+                ctx = hd.context(client, payload.get("DebateSectionExtId"), ext)
+                division, voters = hd.parse(payload, ctx.get("question"))
+            elif prefix == "l":
                 division, voters = dv.fetch_lords_breakdown(client, division_id)
             else:
                 division, voters = dv.fetch_commons_breakdown(client, division_id)
@@ -214,7 +239,7 @@ def apply_signed_stances(conn, cfg, log=print):
         side = str(d.get("our_side") or "").lower()
         if not d.get("signed_off") or side not in ("aye", "no") or not d.get("id"):
             continue
-        prefix = prefix_for(d.get("house"))
+        prefix = prefix_for(division_key(d))
         for lobby in ("aye", "no"):
             ref = "div:%s%s:%s" % (prefix, d["id"], lobby)
             score = 2 if lobby == side else -2

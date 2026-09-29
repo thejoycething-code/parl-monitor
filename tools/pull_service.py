@@ -126,7 +126,7 @@ def main():
         "SELECT id FROM members WHERE current_mp = 1 "
         "UNION "
         "SELECT DISTINCT e.member_id FROM mp_events e "
-        "WHERE e.kind = 'vote' AND e.ref LIKE 'div:c%' "
+        "WHERE e.kind = 'vote' AND (e.ref LIKE 'div:c%' OR e.ref LIKE 'div:h%') "
         "ORDER BY 1")]
     sitting = conn.execute(
         "SELECT COUNT(*) FROM members WHERE current_mp = 1").fetchone()[0]

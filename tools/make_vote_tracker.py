@@ -34,6 +34,9 @@ from src import db
 from src import filter as filt
 from src import quotes, intel
 from src.http import HttpClient
+from src.debatepack import hansard_url
+from src.ingest import hansard_divisions as hansard_div
+from src.trackerledger import division_key
 from src.ingest import divisions as div_ingest
 
 TEMPLATE = os.path.join(ROOT, "templates", "vote-tracker.html")
@@ -96,6 +99,18 @@ def archived_divisions():
             continue
         if payload.get("DivisionId"):
             out[payload["DivisionId"]] = payload
+    # Commons divisions before 9 March 2016, from Hansard, in Hansard's own id
+    # space -- so keyed "h<id>", never the bare number: Hansard's 1591 (the
+    # 2015 Assisted Dying Bill) is not the Votes API's 1591 (payload_key).
+    for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", "*",
+                                              "hansard-division_hdetail-*.json.gz"))):
+        try:
+            with gzip.open(path, "rb") as handle:
+                raw = json.loads(handle.read().decode("utf-8"))
+        except Exception:
+            continue
+        if raw.get("Id"):
+            out["h{0}".format(raw["Id"])] = hansard_div.to_votes_api_shape(raw)
     # Lords divisions, normalised into the same vocabulary on the way in.
     for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", "*",
                                               "division_ldetail-*.json.gz"))):
@@ -113,15 +128,19 @@ def archived_divisions():
 def candidates(conn):
     """Divisions in the ledger that could join the tracker, by area."""
     names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
-    have = {d["id"] for d in (load_config().get("divisions") or [])}
+    have = {payload_key(d) for d in (load_config().get("divisions") or [])}
     rows = conn.execute(
         "SELECT ref, MIN(line) AS line, MIN(date) AS date, MIN(areas) AS areas "
-        "FROM mp_events WHERE kind = 'vote' AND ref LIKE 'div:c%' GROUP BY ref "
-        "ORDER BY date DESC").fetchall()
+        "FROM mp_events WHERE kind = 'vote' AND (ref LIKE 'div:c%' OR ref LIKE 'div:h%') "
+        "GROUP BY ref ORDER BY date DESC").fetchall()
     seen = set()
     for r in rows:
         base = r["ref"].rsplit(":", 1)[0]
-        div_id = int(base.split("c")[1])
+        # div:c<id> is a Votes API division; div:h<id> a pre-2016 one from
+        # Hansard, offered as "h<id>" (add it with `source: hansard`).
+        hansard = base.startswith("div:h")
+        num = int(base[5:])
+        div_id = "h{0}".format(num) if hansard else num
         if base in seen or div_id in have:
             continue
         seen.add(base)
@@ -135,6 +154,12 @@ def candidates(conn):
           "lines a human has written.")
 
 
+def payload_key(d):
+    """The key a tracker entry's payload is held under: "h<id>" for a
+    `source: hansard` division, else the division id as before."""
+    return "h{0}".format(int(d["id"])) if division_key(d) == "hansard" else d["id"]
+
+
 def fetch_missing(payloads, cfg):
     """Fetch any configured division the archive lacks.
 
@@ -144,13 +169,22 @@ def fetch_missing(payloads, cfg):
     division term list. A division named in the config is wanted by definition,
     so fetch it (and it archives for next time).
     """
-    wanted = [d for d in (cfg.get("divisions") or []) if d["id"] not in payloads]
+    wanted = [d for d in (cfg.get("divisions") or []) if payload_key(d) not in payloads]
     if not wanted:
         return 0
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     got = 0
     for div in wanted:
         div_id = div["id"]
+        if division_key(div) == "hansard":
+            try:
+                if not div.get("hansard_ext"):
+                    raise ValueError("no hansard_ext on the entry")
+                hansard_div.fetch(client, div["hansard_ext"])
+                got += 1
+            except Exception as exc:
+                print("  could not fetch Hansard division {0}: {1}".format(div_id, exc))
+            continue
         # A Lords division comes from a different API in a different shape.
         # Without this it was fetched from the Commons endpoint, which
         # answers 404 for a Lords id -- so a scored Lords division would
@@ -936,14 +970,16 @@ def build(conn, cfg, payloads):
     used_issues, divisions, votes = set(), [], {}
     missing = []
     for d in cfg.get("divisions") or []:
-        payload = payloads.get(d["id"])
+        payload = payloads.get(payload_key(d))
         if payload is None:
             missing.append(d["id"])
             continue
+        hansard = division_key(d) == "hansard"
+        pid = payload_key(d)
         used_issues.add(d["issue"])
         for key, code in CODES:
             for m in (payload.get(key) or []):
-                votes.setdefault(m["MemberId"], {})[d["id"]] = code
+                votes.setdefault(m["MemberId"], {})[pid] = code
         splits = party_splits(payload)
         our = str(d.get("our_side") or "").lower()
         divisions.append({
@@ -962,7 +998,7 @@ def build(conn, cfg, payloads):
             # position but not by Christopher.
             "good": (our if our in ("aye", "no") and d.get("signed_off")
                      else None),
-            "id": d["id"], "issue": d["issue"], "date": (payload.get("Date") or "")[:10],
+            "id": pid, "issue": d["issue"], "date": (payload.get("Date") or "")[:10],
             "stage": d["stage"], "stage_group": d.get("stage_group", d["stage"]),
             "landmark": bool(d.get("landmark")), "context": d.get("context", ""),
             # Which chamber divided. The page needs it to know who could
@@ -982,9 +1018,14 @@ def build(conn, cfg, payloads):
             # whatever unrelated Commons division shared its number --
             # Lord Alton's assisted-dying rows pointed at other business
             # entirely (Christopher, 2026-08-31).
-            "url": "https://votes.parliament.uk/Votes/{0}/Division/{1}".format(
-                "Lords" if (d.get("house") or "commons").lower() == "lords"
-                else "Commons", d["id"]),
+            "url": (hansard_url("Commons", (payload.get("Date") or "")[:10],
+                                payload.get("SectionExtId"))
+                    # votes.parliament.uk holds nothing before March 2016:
+                    # a Hansard division links to its debate in Hansard.
+                    if hansard and payload.get("SectionExtId") else
+                    "https://votes.parliament.uk/Votes/{0}/Division/{1}".format(
+                        "Lords" if (d.get("house") or "commons").lower() == "lords"
+                        else "Commons", d["id"])),
         })
 
     # Deputy Speakers identify themselves in the payloads: their listed party
@@ -1122,6 +1163,18 @@ def build(conn, cfg, payloads):
         "WHERE e.kind = 'vote' AND e.ref LIKE 'div:c%' "
         "AND COALESCE(m.current_mp, 0) = 0 "
         "AND COALESCE(m.current_peer, 0) = 0")}
+    # Pre-2016 Hansard divisions count only once they are ON the tracker:
+    # the ledger holds every title-matched one since 2010, and listing every
+    # MP who has left since then would bury the page in people who cast none
+    # of the votes it shows.
+    for d in cfg.get("divisions") or []:
+        if division_key(d) == "hansard" and d.get("id"):
+            former_voters |= {r[0] for r in conn.execute(
+                "SELECT DISTINCT e.member_id FROM mp_events e "
+                "JOIN members m ON m.id = e.member_id "
+                "WHERE e.kind = 'vote' AND e.ref LIKE ? "
+                "AND COALESCE(m.current_mp, 0) = 0 "
+                "AND COALESCE(m.current_peer, 0) = 0", ("div:h%d:%%" % int(d["id"]),))}
 
     left_dates = leaving_dates(conn)
     members = []

@@ -30,6 +30,18 @@ on:
         description: "End date (YYYY-MM-DD, blank = today)"
         required: false
         default: ""
+      # PRE-2016 COMMONS DIVISIONS (29 September 2026): the Commons Votes API
+      # starts 9 March 2016, so earlier divisions come from Hansard
+      # (tools/backfill_hansard_divisions.py). Title-matched ones are
+      # ledgered; the rest go to docs/division-candidates-pre2016.md for a
+      # human to sign off. The default keeps this workflow's old behaviour.
+      what:
+        description: "What to backfill"
+        type: choice
+        options:
+          - "speeches, questions and EDMs"
+          - "pre-2016 Commons divisions (Hansard)"
+        default: "speeches, questions and EDMs"
 
 permissions:
   contents: write
@@ -77,6 +89,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
       - name: Backfill questions and EDMs
+        if: inputs.what != 'pre-2016 Commons divisions (Hansard)'
         run: |
           END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
           if [ -n "${{ inputs.terms }}" ]; then
@@ -87,7 +100,7 @@ jobs:
               | tee /tmp/bf-ledger.log
           fi
       - name: Backfill Hansard speeches
-        if: inputs.hansard
+        if: inputs.hansard && inputs.what != 'pre-2016 Commons divisions (Hansard)'
         run: |
           END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
           if [ -n "${{ inputs.terms }}" ]; then
@@ -98,17 +111,23 @@ jobs:
             python3 tools/backfill_hansard.py "${{ inputs.cutoff }}" \
               "$END" | tee /tmp/bf-hansard.log
           fi
+      - name: Commons divisions before March 2016 (Hansard)
+        if: inputs.what == 'pre-2016 Commons divisions (Hansard)'
+        run: |
+          END="${{ inputs.until }}"; [ -n "$END" ] || END="2016-03-08"
+          python3 tools/backfill_hansard_divisions.py "${{ inputs.cutoff }}" "$END" \
+            | tee /tmp/bf-hdivisions.log
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Historic backfill"
             echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }} to ${{ inputs.until || 'today' }}"
-            for f in ledger hansard; do
+            for f in ledger hansard hdivisions; do
               echo "### $f"
               if [ -f "/tmp/bf-$f.log" ]; then
                 echo '```'
-                grep -E "done:|ledger:|scoped to|events so far" "/tmp/bf-$f.log" \
+                grep -E "done:|ledger:|scoped to|events so far|hansard-divisions:|\[gap\]" "/tmp/bf-$f.log" \
                   | tail -12 || echo "(no summary lines)"
                 echo '```'
               else
@@ -145,6 +164,8 @@ jobs:
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
           git add data/parl-monitor.db.json data/raw.json
+          # the pre-2016 division review queue, when that mode ran
+          git add data/division-candidates-pre2016.json docs/division-candidates-pre2016.md 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Historic backfill: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Retry: the rebase closes most of the race, but a push can
           # still lose one, and the store was ALREADY published above --
