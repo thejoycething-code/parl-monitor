@@ -11,12 +11,12 @@ Recorded automatically, as every title-matched division is: the title names the 
 - **2013-05-21** h2189 Marriage (Same Sex Couples) Bill, 366-161. Question: That the Bill be now read the Third time. Moved by Maria Miller.
 - **2013-05-20** h2188 Marriage (Same Sex Couples) Bill, 70-375. Question: That the clause be read a Second time. Moved by Tim Loughton.
 - **2013-05-20** h2187 Marriage (Same Sex Couples) Bill, 391-57. Question: That the clause be read a Second time. Moved by The Secretary of State for Culture, Media and Sport (Maria Miller).
-- **2013-05-20** h2186 Marriage (Same Sex Couples) Bill, 163-321. Question: not found Moved by Mr Burrowes.
+- **2013-05-20** h2186 Marriage (Same Sex Couples) Bill, 163-321. Question: That the clause be read a Second time. Moved by Mr Burrowes.
 - **2013-05-20** h2185 Marriage (Same Sex Couples) Bill, 148-339. Question: That the clause be read a Second time. Moved by Mr Burrowes.
 - **2013-05-20** h2184 Marriage (Same Sex Couples) Bill, 150-340. Question: That the clause be read a Second time. Moved by Mr Burrowes.
-- **2013-02-05** h1018 Marriage (Same Sex Couples) Bill, 464-38. Question: not found Moved by Karen Bradley.
-- **2013-02-05** h1017 Marriage (Same Sex Couples) Bill, 481-34. Question: not found Moved by Mark Lancaster.
-- **2013-02-05** h1016 Marriage (Same Sex Couples) Bill, 499-55. Question: That the following provisions shall apply to the Marriage (Same Sex Couples) Bill: Committal 1.
+- **2013-02-05** h1018 Marriage (Same Sex Couples) Bill, 464-38. Question: That if, at the conclusion of this Session of Parliament, proceedings on the Marriage (Same Sex Couples) Bill have not been completed, they shall be resumed in the next Session.. Moved by Karen Bradley.
+- **2013-02-05** h1017 Marriage (Same Sex Couples) Bill, 481-34. Question: That, for the purposes of any Act resulting from the Marriage (Same Sex Couples) Bill, it is expedient to authorise.
+- **2013-02-05** h1016 Marriage (Same Sex Couples) Bill, 499-55. Question: not found
 - **2013-02-05** h1015 Marriage (Same Sex Couples) Bill, 400-175. Question: That the Bill be now read a Second time. Moved by The Minister for Women and Equalities (Maria Miller).
 
 ## For review (304)
@@ -125,9 +125,9 @@ DECISION:
 
 ### 2010-01-11 - Children, Schools and Families Bill (282-206)
 - id: `20440` | hansard_ext: `10011210000597`
-- question put: not found in the record
-- proposed: Motion made, and Question put forthwith (Standing Order No. 83A(7)),
-- mover: Mr. Blizzard
+- question put: That the following provisions shall apply to the Children, Schools and Families Bill:.
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Parental rights education x28
 - Hansard: https://hansard.parliament.uk/Commons/2010-01-11/debates/1001119000001/
 
@@ -135,7 +135,7 @@ DECISION:
 
 ### 2010-01-11 - Children, Schools and Families Bill (287-206)
 - id: `20439` | hansard_ext: `1001126000505`
-- question put: not found in the record
+- question put: That the Bill be now read a Second time.
 - proposed: not found
 - mover: not stated by the clerk; check Hansard
 - same debate: Parental rights education x28
@@ -255,7 +255,7 @@ DECISION:
 
 ### 2013-06-12 - Protecting Children Online (227-280)
 - id: `1098` | hansard_ext: `13061269001983`
-- question put: That this House deplores the growth in child abuse images online; deeply regrets that up to one and a half million people have seen such images; notes with alarm the lack of resources available to the police to tackle this problem; further notes the correlation between viewing such images and further child abuse; notes with concern the Government’s failure to implement the recommendations of the Bailey Review and the Independent Parliamentary Inquiry into Online Child Protection on ensuring children’s safe access to the internet; and calls on the Government to set a timetable for the introduction of safe search as a default, effective age verification and splash page warnings and to bring forward legislative proposals to ensure these changes are speedily implemented.
+- question put: That the original words stand part of the Question.
 - proposed: I beg to move, That this House deplores the growth in child abuse images online; deeply regrets that up to one and a half million people have seen such images; notes with alarm the lack of resources available to the police to tackle this pr
 - mover: Helen Goodman (Bishop Auckland) (Lab)
 - same debate: Free speech, privacy and civil liberties x11, Parental rights education x1, Abortion x1, Sex based rights x1
@@ -265,7 +265,7 @@ DECISION:
 
 ### 2010-09-08 - Crime and Policing (324-230)
 - id: `1726` | hansard_ext: `10090827001224`
-- question put: That this House notes with concern the Government’s failure to prioritise the safety of communities by not protecting central Government funding for the police; notes the conclusion of the Audit Commission and HM Inspectorate of Constabulary that any budget reduction over 12 per cent. will reduce frontline policing; pays tribute to the police and other agencies for achieving a 43 per cent. reduction in crime, including a 42 per cent. cut in violent crime, since 1997, and for maintaining that reduction through last year’s recession; notes that public perception of anti-social behaviour is at its lowest level since it was recorded in the British Crime Survey of 2001-02; further notes that the previous Government set out plans in its Policing White Paper to drive down policing costs whilst maintaining core funding; and condemns the Government’s policy of reducing police numbers, restricting police powers and imposing elected commissioners to replace police authorities, thus condemning the police service to unnecessary, unwelcome and costly re-structuring at a time when their focus should be on maintaining the fall in crime and anti-social behaviour.
+- question put: That the proposed words be there added.
 - proposed: I beg to move an amendment, to leave out from “House” to the end of the Question and add: “notes the appalling fiscal deficit left by the last Government and reiterates the urgent need to restore the nation to economic health; recognises th
 - mover: The Secretary of State for the Home Department (Mrs Theresa May)
 - same debate: Abortion x12, Migration x1
@@ -535,7 +535,7 @@ DECISION:
 
 ### 2013-06-11 - Children and Families Bill (219-303)
 - id: `1097` | hansard_ext: `13061192001460`
-- question put: not found in the record
+- question put: That the clause be read a Second time.
 - proposed: New Clause 20: Personal, social and health education in maintained schools
 - mover: Lisa Nandy
 - same debate: Parental rights education x5
@@ -555,9 +555,9 @@ DECISION:
 
 ### 2013-09-03 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (0-0)
 - id: `1145` | hansard_ext: `13090354001865`
-- question put: not found in the record
-- proposed: Motion made, and Question put forthwith (Standing Order No. 83A( 7 )),
-- mover: Mr Syms
+- question put: That the following provisions shall apply to the Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill:.
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Free speech, privacy and civil liberties x3, Abortion x1, Assisted dying x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-09-03/debates/13090336000002/
 
@@ -565,7 +565,7 @@ DECISION:
 
 ### 2013-09-03 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (309-247)
 - id: `1144` | hansard_ext: `13090354001864`
-- question put: not found in the record
+- question put: That the Bill be now read a Second time.
 - proposed: not found
 - mover: not stated by the clerk; check Hansard
 - same debate: Free speech, privacy and civil liberties x3, Abortion x1, Assisted dying x1
@@ -595,7 +595,7 @@ DECISION:
 
 ### 2013-10-08 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill (Programme) (No. 2) (317-249)
 - id: `2190` | hansard_ext: `13100824000738`
-- question put: That the Order of 3 September 2013 (Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill: Programme) be varied as follows: Proceedings on Consideration For paragraph (6) substitute– “(6) Proceedings on Consideration– (a) shall be taken on the days shown in the first column of the following Table and in the order so shown, and (b) shall (so far as not previously concluded) be brought to a conclusion at the times specified in the second column of the Table.
+- question put: That the Order of 3 September 2013 (Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill.
 - proposed: I beg to move, That the Order of 3 September 2013 (Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill: Programme) be varied as follows: Proceedings on Consideration For paragraph (6) substitute– “(6) Proceed
 - mover: The Deputy Leader of the House of Commons (Tom Brake)
 - same debate: Free speech, privacy and civil liberties x4
@@ -795,7 +795,7 @@ DECISION:
 
 ### 2014-05-12 - Criminal Justice and Courts Bill (6-469)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1327` | hansard_ext: `14051246001190`
-- question put: That the clause be read a Second time.
+- question put: That the clause be added to the Bill.
 - proposed: New Clause 38: Resettlement licence: deportees
 - mover: Philip Davies
 - same debate: Migration x7
@@ -995,7 +995,7 @@ DECISION:
 
 ### 2015-09-09 - Humanitarian Crisis in the Mediterranean and Europe (259-311)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1589` | hansard_ext: `15090942000718`
-- question put: That the original words stand part of the Question.
+- question put: That the Question be now put.
 - proposed: I beg to move, That this House recognises the funding the Government has committed to the humanitarian initiatives to provide sanctuary in camps for refugees across the Middle East; calls for a greater international effort through the Unite
 - mover: Angus Robertson (Moray) (SNP)
 - same debate: Migration x4
@@ -1125,9 +1125,9 @@ DECISION:
 
 ### 2010-07-19 - Academies Bill [Lords] (322-238)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1701` | hansard_ext: `10072011000737`
-- question put: not found in the record
-- proposed: Motion made, and Question put forthwith (Standing Order No. 83A(7)),
-- mover: Mr Vara
+- question put: That the following provisions shall apply to the Academies Bill [ Lords ]:.
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Parental rights education x2
 - Hansard: https://hansard.parliament.uk/Commons/2010-07-19/debates/10071915000001/
 
@@ -1135,7 +1135,7 @@ DECISION:
 
 ### 2010-07-19 - Academies Bill [Lords] (326-236)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1700` | hansard_ext: `1007203001182`
-- question put: not found in the record
+- question put: That the Bill be now read a Second time.
 - proposed: not found
 - mover: not stated by the clerk; check Hansard
 - same debate: Parental rights education x2
@@ -1235,9 +1235,9 @@ DECISION:
 
 ### 2012-04-17 - Surrogate Parents (Leave, Pay and Allowance Arrangements) (300-243)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `853` | hansard_ext: `12041733000945`
-- question put: That leave be given to bring in a Bill to make provision to introduce leave, pay and allowance arrangements for parents of children born to surrogate mothers equal to those available to parents whose children are born to them; and for connected purposes.
-- proposed: I beg to move, That leave be given to bring in a Bill to make provision to introduce leave, pay and allowance arrangements for parents of children born to surrogate mothers equal to those available to parents whose children are born to them
-- mover: John Healey (Wentworth and Dearne) (Lab)
+- question put: That the following provisions shall apply to the Legal Aid, Sentencing and Punishment of Offenders Bill for the purpose of supplementing the Orders of 29 June 2011 (Legal Aid, Sentencing and Punishment of Offenders Bill (Programme)) and 31 October 2011 (Legal Aid, Sentencing and Punishment of Offenders Bill (Programme) (No. 2)).
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Assisted dying x1, Surrogacy embryology x1
 - Hansard: https://hansard.parliament.uk/Commons/2012-04-17/debates/12041733000001/
 
@@ -1305,7 +1305,7 @@ DECISION:
 
 ### 2013-06-12 - EU Police, Justice and Home Affairs (217-282)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1099` | hansard_ext: `13061269001984`
-- question put: That the question be now put.
+- question put: That the original words stand part of the Question.
 - proposed: I beg to move an amendment, to leave out from ‘House’ to end and add ‘believes that the decision on exercising the UK’s opt out from EU former third pillar measures should be taken in the national interest, with consideration given to how a
 - mover: The Secretary of State for the Home Department (Mrs Theresa May)
 - same debate: Migration x2
@@ -1375,7 +1375,7 @@ DECISION:
 
 ### 2014-01-22 - Commission Work Programme 2014 (330-20)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1245` | hansard_ext: `140122107003339`
-- question put: That this House takes note of European Union Document No. 15521/13 and Addendum, a Commission Communication: Commission Work Programme 2014; agrees that this document is a useful tool for planning the Government’s and Parliament’s engagement with the EU in 2014; and supports the Government’s view that measures which promote growth and jobs in the EU, including measures towards completing the Single Market, are the top priority.
+- question put: That this House takes note of European Union Document No. 15521/13 and Addendum, a Commission Communication.
 - proposed: I beg to move, That this House takes note of European Union Document No. 15521/13 and Addendum, a Commission Communication: Commission Work Programme 2014; agrees that this document is a useful tool for planning the Government’s and Parliam
 - mover: The Minister for Europe (Mr David Lidington)
 - same debate: Free speech, privacy and civil liberties x1, Migration x1
@@ -1475,7 +1475,7 @@ DECISION:
 
 ### 2015-06-16 - European Union Referendum Bill (75-313)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1538` | hansard_ext: `15061669000989`
-- question put: not found in the record
+- question put: That the clause be read a Second time.
 - proposed: New Clause 3: Restriction on Publications etc
 - mover: Alex Salmond
 - same debate: Migration x1, Free speech, privacy and civil liberties x1
@@ -1525,7 +1525,7 @@ DECISION:
 
 ### 2015-10-22 - Standing Orders (Public Business) (215-312)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1606` | hansard_ext: `15102253003029`
-- question put: That (1) The following new Standing Orders and changes to Standing Orders be made: “CERTIFICATION OF BILLS, CLAUSES AND SCHEDULES ETC: GENERAL 83J.
+- question put: That (1) The following new Standing Orders and changes to Standing Orders be made: “CERTIFICATION OF BILLS, CLAUSES AND SCHEDULES ETC.
 - proposed: Amendment proposed : (a), in line 1, leave out from “That” to end and insert —
 - mover: Mr Graham Allen
 - same debate: Assisted dying x2
@@ -1645,7 +1645,7 @@ DECISION:
 
 ### 2010-09-09 - UK Armed Forces in Afghanistan (5-311)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1727` | hansard_ext: `10090911001687`
-- question put: That this House supports the continued deployment of UK armed forces in Afghanistan.
+- question put: That the amendment be made.
 - proposed: I beg to move amendment (a), at end add— ‘provided that a more realistic military strategy is adopted designed to fulfil the United Kingdom’s long-term interests in the region at lesser cost in life, limb and financial resources.’. It is a 
 - mover: Dr Julian Lewis (New Forest East) (Con)
 - same debate: Parental rights education x1
@@ -1715,8 +1715,8 @@ DECISION:
 
 ### 2010-12-13 - Police Reform and Social Responsibility Bill (304-225)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1819` | hansard_ext: `1012142001816`
-- question put: not found in the record
-- proposed: Motion made, and Question put forthwith (Standing Order No. 52(1)(a)),
+- question put: That, for the purposes of any Act resulting from the Police Reform and Social Responsibility Bill, it is expedient to authorise.
+- proposed: not found
 - mover: not stated by the clerk; check Hansard
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-12-13/debates/10121326000001/
@@ -1725,9 +1725,9 @@ DECISION:
 
 ### 2010-12-13 - Police Reform and Social Responsibility Bill (320-230)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1818` | hansard_ext: `1012142001815`
-- question put: not found in the record
-- proposed: Motion made, and Question put forthwith, (Standing Order No. 83A(7)),
-- mover: Angela Watkinson
+- question put: That the following provisions shall apply to the Police Reform and Social Responsibility Bill:.
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Free speech, privacy and civil liberties x1
 - Hansard: https://hansard.parliament.uk/Commons/2010-12-13/debates/10121326000001/
 
@@ -1825,9 +1825,9 @@ DECISION:
 
 ### 2011-06-29 - Legal Aid, Sentencing and Punishment of Offenders Bill (289-205)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1974` | hansard_ext: `11062976001244`
-- question put: not found in the record
-- proposed: Motion made, and Question put forthwith (Standing Order No. 83A(7)),
-- mover: Mr Dunne
+- question put: That the following provisions shall apply to the Legal Aid, Sentencing and Punishment of Offenders Bill:.
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2011-06-29/debates/11062965000002/
 
@@ -2465,7 +2465,7 @@ DECISION:
 
 ### 2013-11-11 - Offender Rehabilitation Bill [Lords] (251-125)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1181` | hansard_ext: `1311122001458`
-- question put: not found in the record
+- question put: That, at this day’s sitting, Standing Order No. 41A (Deferred divisions) shall not apply to the Motion on a Reasoned Opinion relating to the regulation of new psychoactive substances. —(Mark Lancaster.) Question agreed to.
 - proposed: not found
 - mover: not stated by the clerk; check Hansard
 - same debate: Migration x1
@@ -2475,9 +2475,9 @@ DECISION:
 
 ### 2013-11-11 - Offender Rehabilitation Bill [Lords] (269-175)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1180` | hansard_ext: `1311122001457`
-- question put: not found in the record
-- proposed: Motion made, and Question put forthwith, (Standing Order No. 83A( 7 )),
-- mover: Mark Lancaster
+- question put: That the following provisions shall apply to the Offender Rehabilitation Bill [ Lords ]:.
+- proposed: not found
+- mover: not stated by the clerk; check Hansard
 - same debate: Migration x1
 - Hansard: https://hansard.parliament.uk/Commons/2013-11-11/debates/1311119000001/
 
@@ -2815,7 +2815,7 @@ DECISION:
 
 ### 2015-06-09 - European Union Referendum Bill (544-53)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1528` | hansard_ext: `15060950001341`
-- question put: not found in the record
+- question put: That the Bill be now read a Second time.
 - proposed: not found
 - mover: not stated by the clerk; check Hansard
 - same debate: Migration x1
@@ -2915,7 +2915,7 @@ DECISION:
 
 ### 2015-10-27 - Welfare Reform and Work Bill (285-319)  *[weak or migration-only evidence: listed, not a priority]*
 - id: `1617` | hansard_ext: `15102752002919`
-- question put: not found in the record
+- question put: That the clause be added to the Bill.
 - proposed: New Clause 8: Tax credit reforms
 - mover: Neil Gray
 - same debate: Marriage family x1
