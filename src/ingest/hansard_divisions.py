@@ -122,6 +122,7 @@ PROPOSED = re.compile(r"^(?:(?:Amendment|New Clause)\b[^:]{0,40}proposed|Motion 
 # "...—(Nadine Dorries.)", "”— (John Mann.)"
 CLERK_MOVER = re.compile(r"[\u2014\u2013-]\s*\(([^()]{3,80}?)\.?\)\s*$")
 MOVE = re.compile(r"\bI beg to move\b", re.I)
+INLINE_MOVER = re.compile(r"[\u2014\u2013-]\s*\(([^()]{3,80}?)\s*\.?\)\s*Question\s+p\s?ut\b")
 # A question interrupted at the programme deadline: "The Deputy Speaker put
 # forthwith the Question already proposed from the Chair (Standing Order
 # No. 83E), That the clause be read a Second time."
@@ -196,6 +197,21 @@ def context_in(debate, division_external_id):
                 out["question"] = _q(got.group(1))
                 break
     limit = q_at if q_at is not None else len(segment)
+
+    # The clerk's attribution can sit INSIDE the question's own item, folded
+    # onto the end of the last speech: "...a particular category of
+    # candidates.'. -- (Mr Allen.) Question put, That the amendment be made."
+    # (9 October 2013). That names the mover outright, and it outranks any
+    # "I beg to move" earlier in the stretch -- there it was Tom Brake's, who
+    # then voted against the amendment in question.
+    if q_at is not None:
+        inline = INLINE_MOVER.search(texts[q_at])
+        if inline:
+            out["mover"] = inline.group(1).strip()
+            before = texts[q_at][:inline.start()]
+            head = max(before.rfind("Amendment"), before.rfind("New Clause"), before.rfind("New clause"))
+            out["proposed"] = (before[head:] if head >= 0 else before[-240:]).strip()[:240] or None
+            return out
 
     nearest = None
     for i in range(limit - 1, -1, -1):

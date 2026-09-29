@@ -192,6 +192,21 @@ class ContextTests(unittest.TestCase):
         self.assertTrue(ctx["question"].startswith("That, for the purposes of any Act"))
         self.assertTrue(ctx["question"].endswith("it is expedient to authorise."))
 
+    def test_an_attribution_folded_into_the_last_speech(self):
+        """9 October 2013, Lobbying Bill: the clerk's "-(Mr Allen.) Question
+        put" is appended to Tom Brake's closing speech. Brake moved amendment
+        32 at the start and voted AGAINST the amendment divided on."""
+        debate = {"Items": [
+            _item(1, "I beg to move amendment 32, page 12, leave out lines 31 to 33.",
+                  who="Tom Brake"),
+            _item(2, "I am afraid that I am due to complete my remarks. Amendment proposed "
+                     "to amendment 32: (a) within a particular category of candidates.\u2019. "
+                     "\u2014 (Mr Allen.) Question put, That the amendment be made.", who="Tom Brake"),
+            _item(3, "", kind="Division", ext="LB")]}
+        ctx = hd.context_in(debate, "LB")
+        self.assertEqual(ctx["mover"], "Mr Allen")
+        self.assertTrue(ctx["proposed"].startswith("Amendment proposed to amendment 32"))
+
     def test_a_division_not_in_the_debate_says_nothing(self):
         self.assertEqual(hd.context_in(DEBATE, "nope"),
                          {"question": None, "proposed": None, "mover": None})
