@@ -83,7 +83,7 @@ divisions:
     meaning_against: >-
       Voted to reject the Bill. The Bill fell on this vote.
 
-  # --- Drafted 29 September 2026 for Christopher's sign-off ------------------
+  # --- Drafted 29 September 2026; SIGNED OFF by Christopher, 30 September ---
   # From the 2011-23 Holyrood backfill. The motion text is verbatim from
   # sp_items, and each mover voted For their own motion (Alex Neil, 1894, on
   # both marriage votes; Patrick Harvie, 2892, who took the Assisted Suicide
@@ -99,7 +99,7 @@ divisions:
     dated: 2013-11-20
     stage: Stage 1
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Marriage and Civil Partnership Bill -- Stage 1
     motion: >-
@@ -120,7 +120,7 @@ divisions:
     dated: 2014-02-04
     stage: Stage 3 -- final vote
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Marriage and Civil Partnership Bill -- passed
     motion: >-
@@ -140,7 +140,7 @@ divisions:
     dated: 2015-05-27
     stage: Stage 1
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Assisted Suicide (Scotland) Bill -- Stage 1
     motion: >-
