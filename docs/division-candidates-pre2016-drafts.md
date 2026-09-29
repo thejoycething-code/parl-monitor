@@ -446,16 +446,20 @@ Recorded automatically by title on 29 September; adding them here puts them on t
       Voted against leave to bring in the Bill.
 ```
 
-## Your check needed (8)
+## Checked and decided (Christopher, 29 Sept 2026)
 
-- **h20596** 2010-02-23 - Children, Schools and Families Bill. Tim Loughton's new clause 1 to the Children, Schools and Families Bill (172-277). Grouped with new clause 10 (reasonable punishment); the record here does not give new clause 1's text. [Hansard](https://hansard.parliament.uk/Commons/2010-02-23/debates/10022358000002/)
-- **h1911** 2011-03-31 - Police Reform and Social Responsibility Bill. John McDonnell's amendment on the Parliament Square protest powers (8-280). Protest freedom, not our core free-speech ground; optional. [Hansard](https://hansard.parliament.uk/Commons/2011-03-31/debates/11033156000002/)
-- **h1912** 2011-03-31 - Police Reform and Social Responsibility Bill. John McDonnell's amendment 185 on the Parliament Square powers (158-276). As above; optional. [Hansard](https://hansard.parliament.uk/Commons/2011-03-31/debates/11033156000002/)
-- **h2187** 2013-05-20 - Marriage (Same Sex Couples) Bill. Marriage (Same Sex Couples) Bill, 20 May 2013 (391-57): a Government new clause moved by Maria Miller; the record here does not name it. [Hansard](https://hansard.parliament.uk/Commons/2013-05-20/debates/13052013000002/)
-- **h2188** 2013-05-20 - Marriage (Same Sex Couples) Bill. Tim Loughton's new clause 10 (70-375): opening civil partnerships to opposite-sex couples. On our ground, but which side is ours is a judgement call; suggest record only, no verdict. [Hansard](https://hansard.parliament.uk/Commons/2013-05-20/debates/13052013000002/)
-- **h2192** 2013-10-09 - Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill. Lobbying Bill, 9 Oct 2013 (261-298). The division was on Mr Allen's amendment (the clerk's attribution sits inside the last speech), not Tom Brake's amendment 32. Direction needs the amendment's text. [Hansard](https://hansard.parliament.uk/Commons/2013-10-09/debates/13100960000002/)
-- **h1305** 2014-04-09 - Finance (No. 2) Bill. Catherine McKinnell's amendment 3 (217-276): a six-month review of the new married couples' tax allowance. Weak signal; suggest record only or exclude. [Hansard](https://hansard.parliament.uk/Commons/2014-04-09/debates/14040933000002/)
-- **h1495** 2015-02-23 - Serious Crime Bill [Lords]. Ann Coffey's new clause 25 (491-2): an assessment of sex-selective abortion and a strategic plan, the alternative to Fiona Bruce's clause. Near-unanimous, so little signal; suggest record only. [Hansard](https://hansard.parliament.uk/Commons/2015-02-23/debates/15022317000001/)
+Read against the Hansard text first. All eight were decided as recommended.
+
+Signed off and added to the tracker:
+- **h2192** 2013-10-09 - Lobbying Bill. Graham Allen's amendment 101 (261-298) would have covered non-party campaigning only where its primary purpose was to get a party or candidate elected. Our side: **Aye**. Allen voted Aye.
+- **h2188** 2013-05-20 - Marriage (Same Sex Couples) Bill. Tim Loughton's new clause 10 (70-375) took "of the same sex" out of the Civil Partnership Act 2004. Recorded with **no side**.
+- **h1495** 2015-02-23 - Serious Crime Bill [Lords]. Ann Coffey's new clause 25 (491-2) required an assessment of the evidence on sex-selective abortion, published within six months. It was the alternative to Bruce's new clause 1. Recorded with **no side**.
+
+Excluded:
+- **h2187** 2013-05-20 - Marriage (Same Sex Couples) Bill. The Government's new clause (391-57) required a review of the operation and future of the Civil Partnership Act after five years. Procedural. It stays in the ledger but not on the tracker.
+- **h20596** 2010-02-23 - Children, Schools and Families Bill. Loughton's new clause 1 (172-277) would have required serious case reviews to be published in full after a child's death. Child protection, not our ground.
+- **h1305** 2014-04-09 - Finance (No. 2) Bill. McKinnell's amendment 3 (217-276) asked for a review of the married couples' allowance. Weak signal.
+- **h1911**, **h1912** 2011-03-31 - Police Reform and Social Responsibility Bill. Protest powers in Parliament Square (8-280, 158-276). Not our core free-speech ground.
 
 ## Recommended to exclude (57)
 

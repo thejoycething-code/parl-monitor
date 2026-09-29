@@ -1262,6 +1262,21 @@ divisions:
     context: "Third Reading of the Bill redefining marriage. Carried 366 to 161."
     meaning_aye: "Supported the Bill at Third Reading."
     meaning_no: "Voted against the Bill at Third Reading."
+  - id: 2188
+    source: hansard
+    hansard_ext: "1305216000534"
+    issue: same-sex-marriage-2013
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    # Recorded with no side (Christopher, 29 Sept 2026): on our ground, but
+    # which way is ours is a judgement call, as with 1957.
+    our_side: none
+    short: "Civil partnerships for opposite-sex couples - New Clause 10"
+    context: "Tim Loughton moved new clause 10, removing the words 'of the same sex' from the Civil Partnership Act 2004 so that opposite-sex couples could also form civil partnerships. Defeated 70 to 375."
+    meaning_aye: "Supported opening civil partnerships to opposite-sex couples."
+    meaning_no: "Voted against opening civil partnerships to opposite-sex couples."
   - id: 1097
     source: hansard
     hansard_ext: "13061192001460"
@@ -1314,6 +1329,20 @@ divisions:
     context: "Graham Allen moved amendment 102 to leave out clause 27, which lowered the spending limits for non-party campaigners at UK parliamentary elections. Defeated 261 to 312."
     meaning_aye: "Supported removing the clause that cut the spending limits for charities and other non-party campaigners."
     meaning_no: "Voted to keep the lower spending limits on non-party campaigners."
+  - id: 2192
+    source: hansard
+    hansard_ext: "13100960002024"
+    issue: third-party-campaigning-2013
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    # Signed off by Christopher, 29 Sept 2026. Graham Allen, the mover, voted Aye.
+    our_side: "aye"
+    short: "Non-party campaigning - primary purpose test (amendment 101)"
+    context: "Graham Allen moved amendment 101, which would have covered non-party campaigning only where it could reasonably be regarded as intended for the primary purpose of getting a party or candidate elected. That would have left out the ordinary campaigning of charities and other groups. Defeated 261 to 298."
+    meaning_aye: "Supported limiting the new rules to campaigning whose primary purpose is electoral, protecting the ordinary campaigning of charities and other groups."
+    meaning_no: "Voted for the Bill's wider definition of campaigning for election purposes."
   - id: 1306
     source: hansard
     hansard_ext: "14040952002773"
@@ -1353,6 +1382,21 @@ divisions:
     context: "Fiona Bruce moved new clause 1 to the Serious Crime Bill, to make explicit that terminating a pregnancy on the grounds of the sex of the unborn child is illegal. Defeated 201 to 292."
     meaning_aye: "Supported Fiona Bruce's new clause stating plainly in law that abortion on the grounds of the baby's sex is illegal."
     meaning_no: "Voted against stating plainly in law that sex-selective abortion is illegal."
+  - id: 1495
+    source: hansard
+    hansard_ext: "1502244001189"
+    issue: sex-selective-abortion-2015
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    # Recorded with no side (Christopher, 29 Sept 2026): near-unanimous, and
+    # offered as the alternative to Fiona Bruce's new clause 1 (1491).
+    our_side: none
+    short: "Sex-selective abortion - assessment (New Clause 25)"
+    context: "Ann Coffey moved new clause 25, requiring the Secretary of State to assess the evidence of abortion on the grounds of the sex of the foetus in England, Wales and Scotland, and to publish the assessment within six months. It was put forward as the alternative to Fiona Bruce's new clause 1. Agreed 491 to 2."
+    meaning_aye: "Supported a government assessment of the evidence on sex-selective abortion."
+    meaning_no: "Voted against the assessment."
   - id: 1591
     source: hansard
     hansard_ext: "15091126001423"
