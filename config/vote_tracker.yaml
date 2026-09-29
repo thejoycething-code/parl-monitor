@@ -397,6 +397,58 @@ issues:
       good: to recognise coerced and controlled adults as victims of sexual exploitation
       bad: against recognising coerced and controlled adults as victims of sexual exploitation
 
+  # --- PRE-2016 COMMONS ISSUES (29 September 2026). Divisions before 9 March
+  # 2016 come from Hansard (src/ingest/hansard_divisions.py), `source: hansard`.
+  # Notes and statuses drafted from the record; signed off by Christopher, 2026-09-29.
+  - id: abortion-counselling-2011
+    name: "Independent abortion counselling (2011)"
+    area: 1
+    bill: "Health and Social Care Bill - Amendment 1221"
+    note: >-
+      Nadine Dorries's amendments to the Health and Social Care Bill, to offer women requesting an abortion information, advice and counselling from a provider with no stake in abortion.
+    status: >-
+      Defeated 118 to 368 on 7 September 2011.
+  - id: sex-selective-abortion-2015
+    name: "Sex-selective abortion"
+    area: 1
+    bill: "Serious Crime Bill - New Clause 1"
+    note: >-
+      Fiona Bruce's proposals to state plainly in law that abortion on the grounds of the baby's sex is illegal: the Abortion (Sex-Selection) Bill of 2014 and her new clause to the Serious Crime Bill in 2015.
+    status: >-
+      The 2014 Bill was given leave, 181 to 1, on 4 November 2014 but did not become law. The new clause was defeated 201 to 292 on 23 February 2015.
+  - id: assisted-dying-2015
+    name: "Assisted suicide (the 2015 Bill)"
+    area: 2
+    bill: "Assisted Dying (No. 2) Bill"
+    note: >-
+      Rob Marris's Private Member's Bill to legalise assisted suicide for terminally ill adults in England and Wales. A free vote.
+    status: >-
+      Defeated at Second Reading, 118 to 330, on 11 September 2015.
+  - id: same-sex-marriage-2013
+    name: "Redefining marriage (2013)"
+    area: 9
+    bill: "Marriage (Same Sex Couples) Bill"
+    note: >-
+      The Government Bill that redefined marriage in England and Wales to include same-sex couples. Free votes.
+    status: >-
+      Passed the Commons on 21 May 2013 (Third Reading 366 to 161) and became the Marriage (Same Sex Couples) Act 2013.
+  - id: marriage-tax-2011-14
+    name: "Recognising marriage in the tax system"
+    area: 9
+    bill: "Finance Bills 2011 and 2014"
+    note: >-
+      Recognising marriage in the tax system: Edward Leigh's 2011 new clause to the Finance Bill, and the transferable tax allowance for married couples and civil partners in the Finance (No. 2) Bill of 2014.
+    status: >-
+      Leigh's clause was defeated 23 to 473 on 28 June 2011. The allowance clause was agreed 279 to 214 on 9 April 2014.
+  - id: third-party-campaigning-2013
+    name: "Restrictions on campaigning groups (2013)"
+    area: 7
+    bill: "Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill"
+    note: >-
+      The Bill that tightened the rules on campaigning by charities and other non-party groups before elections.
+    status: >-
+      Passed the Commons on 9 October 2013 (Third Reading 304 to 260) and became the Lobbying Act 2014.
+
 divisions:
   # -- Assisted suicide: carried over from the prototype, wording checked
   #    against Hansard in July 2026 but not yet signed off editorially.
@@ -1063,3 +1115,243 @@ divisions:
     context: "11 September 2026. The question that the Terminally Ill Adults (End of Life) Bill be now read a Second time, put after a closure motion (Division 2427, 293-218). Result 270-286: the Bill was defeated. A free vote."
     meaning_aye: Supported the Bill continuing to its next stage (in principle, in favour of legalising assisted suicide for terminally ill adults in England and Wales).
     meaning_no: Voted to stop the Bill at its first Commons hurdle, defeating it.
+
+  # --- PRE-2016 COMMONS DIVISIONS, from Hansard (29 September 2026). Drafted from
+  # the record in docs/division-candidates-pre2016-drafts.md -- question put, amendment
+  # or clause text, mover -- and signed off by Christopher, 2026-09-29 ("Sign off all
+  # 11 and the 7"). Direction verified against each member-moving mover's own vote:
+  # every one voted Aye. Ids are HANSARD division ids (div:h<id>), not Votes API ids.
+  - id: 20439
+    source: hansard
+    hansard_ext: "1001126000505"
+    issue: parental-rights
+    stage: "Second Reading"
+    stage_group: "Second Reading"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Children, Schools and Families Bill 2010 - Second Reading"
+    context: "The debate centred on the Bill's home-education provisions and its plan for compulsory personal, social, health and economic education, including sex and relationships education. Carried 287 to 206."
+    meaning_aye: "Supported the Bill at Second Reading, with its home-education powers and compulsory PSHE including sex and relationships education."
+    meaning_no: "Voted against the Bill at Second Reading."
+  - id: 20438
+    source: hansard
+    hansard_ext: "1001125000546"
+    issue: parental-rights
+    stage: "Second Reading"
+    stage_group: "Second Reading"
+    landmark: false
+    signed_off: true
+    our_side: "aye"
+    short: "Children, Schools and Families Bill 2010 - reasoned amendment"
+    context: "David Laws moved a reasoned amendment declining a Second Reading, citing among other reasons that the Bill's home-education powers were excessive and risked undermining home educators' freedoms. Defeated 211 to 288."
+    meaning_aye: "Supported declining the Bill a Second Reading, including because its home-education powers were excessive."
+    meaning_no: "Voted against the reasoned amendment, allowing the Bill to proceed."
+  - id: 20599
+    source: hansard
+    hansard_ext: "1002244001717"
+    issue: parental-rights
+    stage: "Third Reading"
+    stage_group: "Third Reading"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Children, Schools and Families Bill 2010 - Third Reading"
+    context: "Third Reading of the Bill carrying home-education powers and compulsory PSHE including sex and relationships education. Carried 268 to 177."
+    meaning_aye: "Supported the Bill at Third Reading."
+    meaning_no: "Voted against the Bill at Third Reading."
+  - id: 1970
+    source: hansard
+    hansard_ext: "1106297000623"
+    issue: marriage-tax-2011-14
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    our_side: "aye"
+    short: "Recognising marriage in the tax system - Edward Leigh's new clause"
+    context: "Edward Leigh moved a new clause to the Finance Bill to recognise marriage in the tax system, citing the Prime Minister's own commitments. Defeated 23 to 473."
+    meaning_aye: "Supported Edward Leigh's new clause to recognise marriage in the tax system."
+    meaning_no: "Voted against Edward Leigh's new clause to recognise marriage in the tax system."
+  - id: 2002
+    source: hansard
+    hansard_ext: "11090754001456"
+    issue: abortion-counselling-2011
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: true
+    signed_off: true
+    our_side: "aye"
+    short: "Independent abortion counselling - Amendment 1221"
+    context: "Nadine Dorries moved amendment 1221 to the Health and Social Care Bill, debated with her amendment 1: local authorities must offer women requesting a termination independent information, advice and counselling, independent meaning from a body that does not itself refer for, provide or profit from abortions, or a statutory body. Defeated 118 to 368."
+    meaning_aye: "Supported Nadine Dorries's amendment: women requesting an abortion should be offered counselling from a provider with no stake in abortion."
+    meaning_no: "Voted against offering women requesting an abortion independent counselling."
+  - id: 1015
+    source: hansard
+    hansard_ext: "13020569002422"
+    issue: same-sex-marriage-2013
+    stage: "Second Reading"
+    stage_group: "Second Reading"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Marriage (Same Sex Couples) Bill - Second Reading"
+    context: "The Government Bill to redefine marriage in England and Wales to include same-sex couples, moved by Maria Miller. Carried 400 to 175 on a free vote."
+    meaning_aye: "Supported redefining marriage to include same-sex couples."
+    meaning_no: "Voted against the Bill at Second Reading."
+  - id: 2184
+    source: hansard
+    hansard_ext: "13052045001031"
+    issue: same-sex-marriage-2013
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    our_side: "aye"
+    short: "Registrars' conscientious objection - New Clause 3"
+    context: "David Burrowes moved new clause 3: no registrar in post when the Act came into force could be required to conduct a same-sex marriage to which they had a sincerely held religious or belief objection. Defeated 150 to 340."
+    meaning_aye: "Supported protecting serving registrars who object in conscience from having to conduct same-sex marriages."
+    meaning_no: "Voted against conscience protection for serving registrars."
+  - id: 2185
+    source: hansard
+    hansard_ext: "13052045001032"
+    issue: same-sex-marriage-2013
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    our_side: "aye"
+    short: "Belief in traditional marriage protected - New Clause 6"
+    context: "David Burrowes moved new clause 6, adding to the Equality Act 2010 that the protected characteristic of religion or belief may include the belief that marriage is between a man and a woman. Defeated 148 to 339."
+    meaning_aye: "Supported protecting in equality law the belief that marriage is between a man and a woman."
+    meaning_no: "Voted against protecting that belief in equality law."
+  - id: 2186
+    source: hansard
+    hansard_ext: "13052052000554"
+    issue: same-sex-marriage-2013
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    our_side: "aye"
+    short: "Protection from compulsion - New Clause 8"
+    context: "David Burrowes moved new clause 8, defining 'compelled' to include less favourable treatment by a public authority, penalties and legal proceedings, so the Bill's protections against being compelled to take part in same-sex marriages were wider. Defeated 163 to 321."
+    meaning_aye: "Supported wider protection from being penalised for declining to take part in same-sex marriages."
+    meaning_no: "Voted against widening that protection."
+  - id: 2189
+    source: hansard
+    hansard_ext: "13052186000682"
+    issue: same-sex-marriage-2013
+    stage: "Third Reading"
+    stage_group: "Third Reading"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Marriage (Same Sex Couples) Bill - Third Reading"
+    context: "Third Reading of the Bill redefining marriage. Carried 366 to 161."
+    meaning_aye: "Supported the Bill at Third Reading."
+    meaning_no: "Voted against the Bill at Third Reading."
+  - id: 1097
+    source: hansard
+    hansard_ext: "13061192001460"
+    issue: parental-rights
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    our_side: "no"
+    short: "Statutory PSHE - Lisa Nandy's New Clause 20"
+    context: "Lisa Nandy moved new clause 20 to the Children and Families Bill, making personal, social and health education a statutory foundation subject in maintained schools. Defeated 219 to 303."
+    meaning_aye: "Supported making personal, social and health education a compulsory subject in maintained schools."
+    meaning_no: "Voted against making PSHE a compulsory subject, leaving it to schools."
+  - id: 1144
+    source: hansard
+    hansard_ext: "13090354001864"
+    issue: third-party-campaigning-2013
+    stage: "Second Reading"
+    stage_group: "Second Reading"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Lobbying Bill 2013 - Second Reading"
+    context: "The Transparency of Lobbying, Non-Party Campaigning and Trade Union Administration Bill, which tightened the rules on campaigning by charities and other non-party organisations before elections. Carried 309 to 247."
+    meaning_aye: "Supported the Bill that restricted non-party campaigning before elections."
+    meaning_no: "Voted against the Bill."
+  - id: 2194
+    source: hansard
+    hansard_ext: "13100979000726"
+    issue: third-party-campaigning-2013
+    stage: "Third Reading"
+    stage_group: "Third Reading"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Lobbying Bill 2013 - Third Reading"
+    context: "Third Reading of the Bill tightening the rules on non-party campaigning before elections. Carried 304 to 260."
+    meaning_aye: "Supported the Bill at Third Reading."
+    meaning_no: "Voted against the Bill at Third Reading."
+  - id: 2193
+    source: hansard
+    hansard_ext: "13100960002025"
+    issue: third-party-campaigning-2013
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: false
+    signed_off: true
+    our_side: "aye"
+    short: "Third-party spending limits - leave out clause 27"
+    context: "Graham Allen moved amendment 102 to leave out clause 27, which lowered the spending limits for non-party campaigners at UK parliamentary elections. Defeated 261 to 312."
+    meaning_aye: "Supported removing the clause that cut the spending limits for charities and other non-party campaigners."
+    meaning_no: "Voted to keep the lower spending limits on non-party campaigners."
+  - id: 1306
+    source: hansard
+    hansard_ext: "14040952002773"
+    issue: marriage-tax-2011-14
+    stage: "Committee (whole House)"
+    stage_group: "Committee (whole House)"
+    landmark: true
+    signed_off: true
+    our_side: "aye"
+    short: "Marriage tax allowance - clause 11 stand part"
+    context: "Clause 11 of the Finance (No. 2) Bill introduced a transferable tax allowance for married couples and civil partners. The House agreed that it stand part of the Bill, 279 to 214."
+    meaning_aye: "Voted to keep the transferable tax allowance for married couples in the Bill."
+    meaning_no: "Voted to remove the married couples' tax allowance from the Bill."
+  - id: 1403
+    source: hansard
+    hansard_ext: "14110444000290"
+    issue: sex-selective-abortion-2015
+    stage: "Ten Minute Rule"
+    stage_group: "Ten Minute Rule"
+    landmark: false
+    signed_off: true
+    our_side: "aye"
+    short: "Abortion (Sex-Selection) Bill 2014 - leave to bring in"
+    context: "Fiona Bruce's ten minute rule motion for leave to bring in a Bill to clarify the law on sex-selective abortion. Agreed 181 to 1."
+    meaning_aye: "Supported leave to bring in a Bill clarifying that sex-selective abortion is illegal."
+    meaning_no: "Voted against leave to bring in the Bill."
+  - id: 1491
+    source: hansard
+    hansard_ext: "1502243002124"
+    issue: sex-selective-abortion-2015
+    stage: "Report stage"
+    stage_group: "Report stage"
+    landmark: true
+    signed_off: true
+    our_side: "aye"
+    short: "Sex-selective abortion - New Clause 1"
+    context: "Fiona Bruce moved new clause 1 to the Serious Crime Bill, to make explicit that terminating a pregnancy on the grounds of the sex of the unborn child is illegal. Defeated 201 to 292."
+    meaning_aye: "Supported Fiona Bruce's new clause stating plainly in law that abortion on the grounds of the baby's sex is illegal."
+    meaning_no: "Voted against stating plainly in law that sex-selective abortion is illegal."
+  - id: 1591
+    source: hansard
+    hansard_ext: "15091126001423"
+    issue: assisted-dying-2015
+    stage: "Second Reading"
+    stage_group: "Second Reading"
+    landmark: true
+    signed_off: true
+    our_side: "no"
+    short: "Assisted Dying (No. 2) Bill - Second Reading"
+    context: "Rob Marris's Private Member's Bill to legalise assisted suicide for terminally ill adults. Defeated 118 to 330 on a free vote."
+    meaning_aye: "Supported the Bill at Second Reading (in favour of legalising assisted suicide)."
+    meaning_no: "Voted to stop the Bill at Second Reading."

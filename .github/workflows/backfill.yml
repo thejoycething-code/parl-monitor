@@ -117,17 +117,25 @@ jobs:
           END="${{ inputs.until }}"; [ -n "$END" ] || END="2016-03-08"
           python3 tools/backfill_hansard_divisions.py "${{ inputs.cutoff }}" "$END" \
             | tee /tmp/bf-hdivisions.log
+      - name: Record signed-off tracker divisions
+        # The Monday publish does this before building the tracker; running
+        # it here as well means a pre-2016 division signed off mid-week has
+        # its voters (div:h<id>) and its signed stance the same day, rather
+        # than the tracker and the store-backed tests waiting for Monday.
+        # Idempotent: a division already in the ledger is left alone.
+        if: inputs.what == 'pre-2016 Commons divisions (Hansard)'
+        run: python3 tools/ledger_tracker_divisions.py | tee /tmp/bf-tracker.log
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Historic backfill"
             echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }} to ${{ inputs.until || 'today' }}"
-            for f in ledger hansard hdivisions; do
+            for f in ledger hansard hdivisions tracker; do
               echo "### $f"
               if [ -f "/tmp/bf-$f.log" ]; then
                 echo '```'
-                grep -E "done:|ledger:|scoped to|events so far|hansard-divisions:|\[gap\]" "/tmp/bf-$f.log" \
+                grep -E "done:|ledger:|scoped to|events so far|hansard-divisions:|tracker ledger:|tracker stances:|\[gap\]" "/tmp/bf-$f.log" \
                   | tail -12 || echo "(no summary lines)"
                 echo '```'
               else
