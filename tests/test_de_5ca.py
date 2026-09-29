@@ -307,6 +307,28 @@ class SheetTests(unittest.TestCase):
         self.assertNotIn("Schutzzonen", rows["Grün Nummer0"]["comments"])
 
 
+class SharedDrucksacheTests(unittest.TestCase):
+    """Written questions are printed several to a Drucksache (20/10565):
+    one member's two questions there are two acts, in the table and on the
+    sheet."""
+
+    def test_two_questions_in_one_drucksache_are_both_kept_and_both_count(self):
+        conn = _conn()
+        _member(conn, "p1", "Hubert Hüppe", "CDU/CSU", sitting=1)
+        for vid in ("A", "B"):
+            conn.execute("INSERT INTO de_authorship (nummer, author, vorgang_id, art, datum, "
+                         "titel, source, first_seen, last_seen) VALUES "
+                         "('20/10565','Hubert Hüppe',?,'Schriftliche Frage','2024-02-01','t',"
+                         "'activity','x','x')", (vid,))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM de_authorship").fetchone()[0], 2)
+        stance = {"divisions": [], "papers": [
+            {"key": "A", "area": 1, "authored": 1},
+            {"key": "B", "area": 1, "authored": 1}]}
+        sitting = five.roster(conn)
+        e, counts = five.gather(conn, 1, sitting, stance, {}, preview=False)
+        self.assertEqual(counts["papers"], 2)
+
+
 class RealConfigTests(unittest.TestCase):
     def test_the_real_stance_files_load_and_nothing_is_confirmed_yet(self):
         """Fails the day a reading is confirmed -- check a HUMAN removed the flag."""

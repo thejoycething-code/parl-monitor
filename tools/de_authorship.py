@@ -208,7 +208,7 @@ def collect(conn, client, key, area, since_wp, today, log=print, dry_run=False):
         conn.executemany(
             "INSERT INTO de_authorship (nummer, author, wahlperiode, vorgang_id, art, "
             "datum, titel, source, first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?) "
-            "ON CONFLICT(nummer, author) DO UPDATE SET last_seen = excluded.last_seen, "
+            "ON CONFLICT(nummer, vorgang_id, author) DO UPDATE SET last_seen = excluded.last_seen, "
             "source = excluded.source", rows)
         conn.commit()
     return len(found), rows

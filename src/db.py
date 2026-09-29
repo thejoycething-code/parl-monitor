@@ -1288,7 +1288,10 @@ CREATE TABLE IF NOT EXISTS de_authorship (
   datum TEXT, titel TEXT,
   source TEXT,                     -- signers | cover | activity
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
-  PRIMARY KEY (nummer, author)
+  -- The Vorgang is in the key: written questions are printed several to a
+  -- Drucksache, so a member asking two in one (20/10565) would otherwise keep
+  -- only the first -- six rows lost on the first run.
+  PRIMARY KEY (nummer, vorgang_id, author)
 );
 CREATE TABLE IF NOT EXISTS de_agenda (
   -- THE FORWARD LOOK, and the only German source that points at the future.

@@ -229,9 +229,11 @@ def gather(conn, area, sitting, stance_cfg, land_cfg, preview):
                 "SELECT * FROM de_authorship WHERE vorgang_id IN ({0})".format(marks),
                 list(papers)):
             pid = bridge.find(r["author"])
-            if pid is None or (pid, r["nummer"]) in seen:
+            # Keyed on the Vorgang as well: two questions by one member can
+            # share a Drucksache, and each is its own act.
+            if pid is None or (pid, r["nummer"], r["vorgang_id"]) in seen:
                 continue
-            seen.add((pid, r["nummer"]))
+            seen.add((pid, r["nummer"], r["vorgang_id"]))
             p = papers[r["vorgang_id"]]
             kind = ART_KIND.get(r["art"], "question")
             value = p.get("authored") if usable(p, preview) else None
