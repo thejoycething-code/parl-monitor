@@ -5,6 +5,8 @@
     python3 tools/de_authorship.py --area 1 --since-wp 19
     python3 tools/de_authorship.py --area 1 --dry-run
     python3 tools/de_authorship.py --area 1 --db /tmp/scratch.db
+    python3 tools/de_authorship.py --all            # every area with listed papers
+    python3 tools/de_authorship.py --area 7 --discover   # also sweep descriptors
 
 Built 29 September 2026 for the German 5CA (tools/de_5ca.py). A German
 member's own acts beyond a speech are co-sponsoring a group bill, co-authoring
@@ -56,12 +58,39 @@ from src import db, de_names, dip  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "de-authorship"
-# The Bundestag's own Sachbegriffe per area. Area 1 measured 29 September
-# 2026; add an area here when its sheet is wanted.
-DESCRIPTORS = {
-    1: ("Schwangerschaftsabbruch", "Pränataldiagnostik",
-        "Schwangerschaftskonfliktberatung", "Lebensschutz"),
-}
+# The Bundestag's own Sachbegriffe per area live in config/de_stance.yaml
+# (`descriptors:`), next to the readings they feed: adding an area is a
+# config change, not a code change. Each list was measured against DIP
+# before it was kept (counts and reasons are in the file).
+STANCE_PATH = os.path.join(ROOT, "config", "de_stance.yaml")
+
+
+def listed_papers(path=STANCE_PATH):
+    """{area: {vorgang_id, ...}} of the papers config/de_stance.yaml reads.
+
+    A reviewer may pick a paper by hand from a descriptor too noisy to keep
+    (the chat-control motions sit under Datenschutz, 700-odd Vorgänge of
+    mostly other things). The descriptor search would never find it, so
+    every listed paper is collected by id as well.
+    """
+    import yaml
+    with open(path, encoding="utf-8") as handle:
+        cfg = yaml.safe_load(handle) or {}
+    out = {}
+    for p in cfg.get("papers") or []:
+        if p.get("area") is not None and p.get("key"):
+            out.setdefault(int(p["area"]), set()).add(str(p["key"]))
+    return out
+
+
+def load_descriptors(path=STANCE_PATH):
+    """{area: [Sachbegriff, ...]} from the stance file."""
+    import yaml
+    with open(path, encoding="utf-8") as handle:
+        cfg = yaml.safe_load(handle) or {}
+    return {int(a): [d["term"] if isinstance(d, dict) else d for d in terms
+                     if not isinstance(d, dict) or d.get("kept", True)]
+            for a, terms in (cfg.get("descriptors") or {}).items()}
 # Positions a member AUTHORS. Replies, reports and debates are not authorship.
 AUTHORED = {"Antrag", "Gesetzentwurf", "Entschließungsantrag", "Kleine Anfrage",
             "Große Anfrage", "Schriftliche Frage", "Mündliche Frage"}
@@ -84,10 +113,10 @@ def authored_type(position):
     return head if head in AUTHORED else None
 
 
-def vorgaenge(client, key, area, since_wp, log=print):
+def vorgaenge(client, key, area, since_wp, log=print, descriptors=None):
     """{vorgang_id: document} for the area's descriptors, WP >= since_wp."""
     found = {}
-    for desk in DESCRIPTORS.get(area, ()):
+    for desk in (descriptors if descriptors is not None else load_descriptors()).get(area, ()):
         for wp in range(since_wp, 22):
             for reply in dip.pages(client, "/vorgang", key, feed=FEED,
                                    slug="vg-{0}-{1}".format(desk[:12], wp), log=log,
@@ -95,6 +124,21 @@ def vorgaenge(client, key, area, since_wp, log=print):
                 for d in reply.get("documents") or []:
                     found[str(d["id"])] = d
     return found
+
+
+def vorgang(client, key, vorgang_id, log=print):
+    """One Vorgang by id, or None. /vorgang/{id} is a path, not a filter, so
+    it cannot be the ignored-f.vorgang trap."""
+    try:
+        doc = client.get_json(dip.url("/vorgang/" + str(vorgang_id), key), FEED,
+                              "vg-id-" + str(vorgang_id), archive=False)
+    except (FetchError, ValueError) as exc:
+        log("  [gap] Vorgang {0}: {1}".format(vorgang_id, str(exc)[:60]))
+        return None
+    if str((doc or {}).get("id")) != str(vorgang_id):
+        log("  [gap] Vorgang {0}: DIP answered for another id".format(vorgang_id))
+        return None
+    return doc
 
 
 def positions(client, key, vorgang_id, log=print):
@@ -190,9 +234,23 @@ def authors_of(client, key, position, known, log=print):
     return printed
 
 
-def collect(conn, client, key, area, since_wp, today, log=print, dry_run=False):
+def collect(conn, client, key, area, since_wp, today, log=print, dry_run=False,
+            discover=False):
+    """Authors of the area's LISTED papers; with discover, also every paper
+    the area's descriptors find.
+
+    Listed-only by default (29 September 2026): the sheet reads only papers
+    config/de_stance.yaml gives a reading, and several kept descriptors are
+    broad on purpose and were filtered by hand (Suizid, Vorratsdatenspeicherung,
+    Kirche), so sweeping them fetched authors for a thousand-odd Vorgänge
+    that place nobody. --discover is the step for finding NEW papers to read.
+    """
     known = sorted({r[0] for r in conn.execute("SELECT name FROM de_members")})
-    found = vorgaenge(client, key, area, since_wp, log=log)
+    found = vorgaenge(client, key, area, since_wp, log=log) if discover else {}
+    for vid in sorted(listed_papers().get(area, set()) - set(found)):
+        doc = vorgang(client, key, vid, log=log)
+        if doc:
+            found[vid] = doc
     rows = []
     for vid, v in sorted(found.items()):
         docs = positions(client, key, vid, log=log)
@@ -217,27 +275,36 @@ def collect(conn, client, key, area, since_wp, today, log=print, dry_run=False):
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--area", type=int, required=True)
+    ap.add_argument("--area", type=int)
+    ap.add_argument("--all", action="store_true", help="every area with descriptors")
     ap.add_argument("--since-wp", type=int, default=20)
+    ap.add_argument("--discover", action="store_true",
+                    help="also sweep the area's descriptors for papers not yet listed")
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
-    if args.area not in DESCRIPTORS:
-        ap.error("no descriptors for area {0}: add them to DESCRIPTORS first".format(args.area))
+    if not args.all and args.area is None:
+        ap.error("--area N or --all")
+    if not args.all and args.area not in listed_papers() and args.area not in load_descriptors():
+        ap.error("area {0} has no listed papers or descriptors in "
+                 "config/de_stance.yaml".format(args.area))
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     key = dip.api_key(client=client)
     if not key:
         return 1
     conn = db.init_db(db.connect(args.db))
-    n_vg, rows = collect(conn, client, key, args.area, args.since_wp,
-                         datetime.date.today().isoformat(), dry_run=args.dry_run)
-    by_source = {}
-    for r in rows:
-        by_source[r[7]] = by_source.get(r[7], 0) + 1
-    print("de-authorship area {0}: {1} Vorgänge, {2} author rows ({3}){4}.".format(
-        args.area, n_vg, len(rows),
-        ", ".join("{0} {1}".format(v, k) for k, v in sorted(by_source.items())) or "none",
-        " [dry run]" if args.dry_run else ""))
+    areas = sorted(set(load_descriptors()) | set(listed_papers())) if args.all else [args.area]
+    for area in areas:
+        n_vg, rows = collect(conn, client, key, area, args.since_wp,
+                             datetime.date.today().isoformat(), dry_run=args.dry_run,
+                             discover=args.discover)
+        by_source = {}
+        for r in rows:
+            by_source[r[7]] = by_source.get(r[7], 0) + 1
+        print("de-authorship area {0}: {1} Vorgänge, {2} author rows ({3}){4}.".format(
+            area, n_vg, len(rows),
+            ", ".join("{0} {1}".format(v, k) for k, v in sorted(by_source.items())) or "none",
+            " [dry run]" if args.dry_run else ""))
     conn.close()
     return 0
 

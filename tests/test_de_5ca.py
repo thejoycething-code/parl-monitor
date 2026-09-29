@@ -329,6 +329,37 @@ class SharedDrucksacheTests(unittest.TestCase):
         self.assertEqual(counts["papers"], 2)
 
 
+class AuthorshipKeyMigrationTests(unittest.TestCase):
+    def test_an_old_key_is_rebuilt_and_its_rows_kept(self):
+        conn = db.connect(":memory:")
+        conn.execute("CREATE TABLE de_authorship (nummer TEXT NOT NULL, author TEXT NOT NULL, "
+                     "wahlperiode TEXT, vorgang_id TEXT, art TEXT, datum TEXT, titel TEXT, "
+                     "source TEXT, first_seen TEXT NOT NULL, last_seen TEXT NOT NULL, "
+                     "PRIMARY KEY (nummer, author))")
+        conn.execute("INSERT INTO de_authorship VALUES ('20/10565','Hubert Hüppe','20','A',"
+                     "'Schriftliche Frage','2024-02-01','t','activity','x','x')")
+        conn.commit()
+        db.init_db(conn)
+        db.init_db(conn)
+        pk = [r[1] for r in sorted(conn.execute("PRAGMA table_info(de_authorship)"),
+                                   key=lambda r: r[5]) if r[5]]
+        self.assertEqual(pk, ["nummer", "vorgang_id", "author"])
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM de_authorship").fetchone()[0], 1)
+
+
+class LandRecordAreaTests(unittest.TestCase):
+    def test_a_land_item_counts_only_on_its_own_area(self):
+        conn = _conn()
+        _member(conn, "p1", "Stefan Möller", "AfD", sitting=1)
+        land = {"members": [{"name": "Stefan Möller", "parliament": "Thüringen", "items": [
+            {"date": "2018-12-14", "kind": "speech", "area": 1, "value": 2, "doc": "PlPr 6/135", "url": "u"}]}]}
+        sitting = five.roster(conn)
+        on1, _ = five.gather(conn, 1, sitting, {}, land, preview=False)
+        on7, _ = five.gather(conn, 7, sitting, {}, land, preview=False)
+        self.assertEqual(len(on1["p1"]), 1)
+        self.assertEqual(on7["p1"], [])
+
+
 class RealConfigTests(unittest.TestCase):
     def test_the_real_stance_files_load_and_every_reading_is_signed(self):
         """Christopher confirmed every reading as drafted on 29 September 2026.

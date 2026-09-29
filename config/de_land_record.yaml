@@ -12,6 +12,9 @@
 # A person with no items was SEARCHED and had nothing: `searched` says what.
 # That is a finding, not a gap -- except where `gap:` says otherwise.
 #
+# AREA: every item below was found in the abortion (area 1) search and
+# carries `area: 1`; an item without one is read as area 1, never all areas.
+#
 # RULES APPLIED: a passing mention outside an abortion debate is listed,
 # never placed (placeable: false). A heckle in an abortion debate is the
 # weakest tier (a question). Confirmed as drafted by Christopher on 29
@@ -49,6 +52,7 @@ members:
     177 author records (WP19 only).'
   items:
   - date: '2022-02-10'
+    area: 1
     kind: speech
     doc: Plenarprotokoll 19/6, S. 289 (Aktuelle Stunde 'Linke Straßenblockaden brechen, Täter bestrafen',
       AfD)
@@ -73,6 +77,7 @@ members:
     518 author records (WP18-19).'
   items:
   - date: '2024-09-26'
+    area: 1
     kind: question
     doc: Plenarprotokoll 19/53, S. 5179 (lfd. Nr. 43, Drs. 19/1904 'Reproduktive Selbstbestimmung verwirklichen
       – Bundesratsinitiative zur Streichung des § 218 StGB', Grüne)
@@ -102,6 +107,7 @@ members:
     1 May, not abortion.'
   items:
   - date: '2024-09-26'
+    area: 1
     kind: speech
     doc: Plenarprotokoll 19/53, S. 5178 (lfd. Nr. 43, Drs. 19/1904 Streichung § 218 StGB)
     url: https://pardok.parlament-berlin.de/starweb/adis/citat/VT/19/PlenarPr/p19-053-wp.pdf#page=106
@@ -113,6 +119,7 @@ members:
       does not give a stance. The same day he asked a Zwischenfrage on the next item (Rechtsextremismus),
       which is not abortion.
   - date: '2020-03-05'
+    area: 1
     kind: speech
     doc: Plenarprotokoll 18/55, S. 6671 (lfd. Nr. 4.2, Drs. 18/2516 'Medienstandort Berlin-Brandenburg
       – ein vielfältiger Rundfunkrat')
@@ -247,6 +254,7 @@ members:
     her tenure.'
   items:
   - date: '2005-02-16'
+    area: 1
     kind: question
     doc: Drucksache 4/653 (Kleine Anfrage 297 der Abgeordneten Saskia Funck, CDU); answered by the Landesregierung
       in Drs. 4/823 Neudruck (15.03.2005)
@@ -258,6 +266,7 @@ members:
       insolvency-threatened provider in Teltow, including why the counselling was not given to another
       provider. The framing is financial oversight, not abortion policy. Answer: https://www.parlamentsdokumentation.brandenburg.de/starweb/LBB/ELVIS/parladoku/w4/drs/ab_0800/823.pdf'
   - date: '2017-12-13'
+    area: 1
     kind: question
     doc: Plenarprotokoll 6/53, p. 5627 (TOP 15, Antrag SPD/Linke/Gruene Drs. 6/7729 'Initiative zur Abschaffung
       des Paragrafen 219a StGB ergreifen')
@@ -288,6 +297,7 @@ members:
     Schwangerschaftskonfliktgesetz 2016; 219a debates 2018/2021).'
   items:
   - date: '2018-12-14'
+    area: 1
     kind: speech
     doc: Plenarprotokoll 6/135, S. 11687 (TOP 10, Gesetzentwurf Wahlrechtsausschlüsse, Drs. 6/6495)
     url: https://parldok.thueringer-landtag.de/parldok/dokument/69432/6_0135_135_plenarsitzung
@@ -298,6 +308,7 @@ members:
       with Trisomy 21 as a sustained argument against the governing parties. Abortion is not the subject
       of the bill, but the argument is his own and takes up a substantial part of the speech.
   - date: '2018-12-14'
+    area: 1
     kind: speech
     doc: Plenarprotokoll 6/135, S. 11690-11691 (second speech, same debate, Drs. 6/6495)
     url: https://parldok.thueringer-landtag.de/parldok/dokument/69432/6_0135_135_plenarsitzung
@@ -307,6 +318,7 @@ members:
     note: Second speech in the same debate. On p. 11690 he says Linke and Grüne rank 'das Recht auf Abtreibung
       viel, viel höher' than the right of disabled unborn life to a fulfilled life.
   - date: '2019-02-28'
+    area: 1
     kind: speech
     doc: Plenarprotokoll 6/140, S. 12057 (TOP 5, Weltkindertag als Feiertag, Drs. 6/6163)
     url: https://parldok.thueringer-landtag.de/parldok/dokument/70291/6_0140_140_plenarsitzung

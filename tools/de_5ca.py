@@ -252,6 +252,10 @@ def gather(conn, area, sitting, stance_cfg, land_cfg, preview):
             counts["refused"] += 1
             continue
         for it in m.get("items") or []:
+            # An item belongs to one area. Every item so far was found in the
+            # abortion search, so a missing area means area 1 -- never "all".
+            if int(it.get("area", 1)) != area:
+                continue
             value = it.get("value") if usable(it, preview) else None
             tag = ("{0}: hand-searched".format(column_of(value)) if value is not None
                    else not_placed(it))
@@ -270,6 +274,11 @@ def not_placed(entry):
         return "never places: " + (entry.get("reason") or "")
     if st == "draft":
         return "reading DRAFT -- not placed"
+    if st == "confirmed":
+        # A confirmed reading may value only ONE lobby on purpose: every other
+        # group votes down an AfD-only motion as a matter of course (the
+        # Brandmauer), so that Nein tells no member apart.
+        return "this side carries no value -- its lobby tells no member apart"
     return "no reading -- not placed"
 
 

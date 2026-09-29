@@ -1678,6 +1678,20 @@ def init_db(conn):
                     "ALTER TABLE de_members ADD COLUMN {0} TEXT".format(col))
         if "sitting" not in mem_cols:
             conn.execute("ALTER TABLE de_members ADD COLUMN sitting INTEGER")
+    # de_authorship's key gained vorgang_id on 29 September 2026 (written
+    # questions share a Drucksache, so (nummer, author) dropped a member's
+    # second question). CREATE TABLE IF NOT EXISTS cannot change a key, so a
+    # store made before then is rebuilt here, rows kept.
+    au_pk = [r[1] for r in sorted(conn.execute("PRAGMA table_info(de_authorship)"),
+                                  key=lambda r: r[5]) if r[5]]
+    if au_pk and au_pk != ["nummer", "vorgang_id", "author"]:
+        conn.execute("ALTER TABLE de_authorship RENAME TO de_authorship_old")
+        conn.executescript(SCHEMA[SCHEMA.index("CREATE TABLE IF NOT EXISTS de_authorship"):
+                                  SCHEMA.index(");", SCHEMA.index("CREATE TABLE IF NOT EXISTS de_authorship")) + 2])
+        conn.execute("INSERT OR IGNORE INTO de_authorship SELECT nummer, author, wahlperiode, "
+                     "vorgang_id, art, datum, titel, source, first_seen, last_seen "
+                     "FROM de_authorship_old")
+        conn.execute("DROP TABLE de_authorship_old")
     sp_cols = {r[1] for r in conn.execute("PRAGMA table_info(de_speeches)")}
     if sp_cols and "text" not in sp_cols:
         conn.execute("ALTER TABLE de_speeches ADD COLUMN text TEXT")
