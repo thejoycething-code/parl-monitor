@@ -310,7 +310,11 @@ def parse(payload, question=None, proposed=None, mover=None):
     voters = []
     for key, vote in (("AyeMembers", "aye"), ("NoeMembers", "no")):
         for m in payload.get(key) or []:
-            if m.get("IsTeller") or not m.get("MemberId"):
+            # MemberId -1 is Hansard's "not matched to a member": four votes
+            # in 2010-11 were ledgered to a member -1 named Des Browne, one
+            # of them from June 2011, after he had left the Commons. An
+            # unmatched voter is not a member and is never recorded as one.
+            if m.get("IsTeller") or not m.get("MemberId") or int(m["MemberId"]) <= 0:
                 continue
             voters.append(Voter(member_id=m["MemberId"], name=display_name(m.get("ListAs")),
                                 party=m.get("Party"), seat=m.get("MemberFrom"), vote=vote))

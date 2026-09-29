@@ -75,6 +75,14 @@ class ParseTests(unittest.TestCase):
         self.assertNotIn(90, [v.member_id for v in voters])
         self.assertNotIn(9, [v.member_id for v in voters])
 
+    def test_an_unmatched_voter_is_not_recorded_as_member_minus_one(self):
+        """Hansard's MemberId -1 is a name it could not match: four 2010-11
+        votes went to a member -1 "Des Browne", one after he had left."""
+        payload = dict(DIVISION, AyeMembers=DIVISION["AyeMembers"] + [_member(-1, "Browne, Des")])
+        _, voters = hd.parse(payload, "That the Bill be now read a Second time.")
+        self.assertNotIn(-1, [v.member_id for v in voters])
+        self.assertEqual(sum(v.vote == "aye" for v in voters), 2)
+
     def test_the_division_carries_the_question_not_just_the_title(self):
         division, _v = hd.parse(DIVISION, "That the Bill be now read a Second time.")
         self.assertEqual(division.id, 1591)

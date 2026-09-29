@@ -1176,6 +1176,11 @@ def build(conn, cfg, payloads):
                 "AND COALESCE(m.current_mp, 0) = 0 "
                 "AND COALESCE(m.current_peer, 0) = 0", ("div:h%d:%%" % int(d["id"]),))}
 
+    # Hansard's unmatched-voter id (-1) reached the ledger before the parser
+    # refused it (src/ingest/hansard_divisions.parse); a non-positive id is
+    # never a member, whatever rows are stored against it.
+    former_voters = {m for m in former_voters if m is not None and int(m) > 0}
+
     left_dates = leaving_dates(conn)
     members = []
     for r in conn.execute(
