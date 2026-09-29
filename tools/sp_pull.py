@@ -217,6 +217,28 @@ def main():
         conn.close()
         return 0
 
+    # BACKFILL OPTIONS (29 September 2026, the devolved backfill to 2011).
+    # --motions-since moves the motions floor for one run; the dump holds
+    # every motion since 1999, so this is a filter, not an extra fetch.
+    # --questions-only fetches just one year of questions: a year-by-year
+    # backfill must not re-download the 110 MB motions dump for every year.
+    global MOTIONS_SINCE
+    if "--motions-since" in sys.argv:
+        MOTIONS_SINCE = sys.argv[sys.argv.index("--motions-since") + 1]
+    if "--questions-only" in sys.argv:
+        try:
+            qs = holyrood.fetch_questions(client, year)
+            m = store_rows(conn, qs, tax, wl, now)
+            print("{0} question(s) for {1}; {2} match our areas (questions only).".format(
+                len(qs), year, m))
+        except FetchError as exc:
+            record_gap(conn, "sp-questions", str(exc.cause))
+            print("  [gap] sp-questions {0}: {1}".format(year, exc.cause))
+            conn.close()
+            return 1
+        conn.close()
+        return 0
+
     print("Holyrood pull: questions {0}, motions since {1}".format(
         year, MOTIONS_SINCE))
     gaps = 0

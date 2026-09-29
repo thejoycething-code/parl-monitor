@@ -68,7 +68,8 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.9 (26 September 2026): area 13, organ donation and transplant
         # ethics -- its own area because area 2 feeds member stance.
         # v1.10 (29 September 2026): "Marriage (Same Sex Couples)" in area 9.
-        self.assertEqual(version, "1.10")
+        # v1.11 (the same day): the broader same-sex marriage phrases.
+        self.assertEqual(version, "1.11")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -461,3 +462,24 @@ class SameSexMarriageBillTests(unittest.TestCase):
         r = filt.filter_item(tax, wl, "Marriage (Same Sex Couples) Bill", "", "")
         self.assertEqual(r.tier, 1)
         self.assertIn(9, r.issue_areas)
+
+
+class MarriagePhrasesTests(unittest.TestCase):
+    """v1.11 (Christopher, 29 September 2026: "add the marriage phrases").
+    "Marriage Equality" is the NI Assembly's own title for its 2012-15
+    motions, which matched nothing before."""
+
+    def _areas(self, text):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_the_phrases_reach_marriage_and_family(self):
+        for text in ("Marriage Equality  [Ms C Ruane]", "Marriage Equality (Revised Wording) [Mr S Agnew]",
+                     "the case for same-sex marriage", "same sex marriage in Northern Ireland",
+                     "equal marriage legislation"):
+            self.assertIn(9, self._areas(text), text)
+
+    def test_marriage_alone_is_still_not_enough(self):
+        self.assertNotIn(9, self._areas("marriage of convenience and immigration rules"))

@@ -42,6 +42,9 @@ on:
           - "speeches, questions and EDMs"
           - "pre-2016 Commons divisions (Hansard)"
           - "Commons and Lords divisions (Votes APIs)"
+          - "Holyrood from the cutoff"
+          - "Senedd from the cutoff"
+          - "NI Assembly questions from the cutoff"
         default: "speeches, questions and EDMs"
 
 permissions:
@@ -130,6 +133,43 @@ jobs:
         run: |
           END="${{ inputs.until }}"; [ -n "$END" ] || END="$(date -u +%F)"
           python3 tools/backfill_divisions.py "${{ inputs.cutoff }}" "$END" | tee /tmp/bf-divisions.log
+      # --- DEVOLVED BACKFILLS (29 September 2026, Christopher: "Go ahead with 1").
+      # The weeklies floor at 2024-01-01; these move the floor for one run.
+      # What the sources hold was probed first: Holyrood per-MSP votes from
+      # 2011 (2010 answers 500), the Sixth Senedd index back to 2021 (the
+      # Fourth and Fifth Assemblies have no index), NI questions from 2008.
+      - name: "Holyrood: questions, motions and divisions from the cutoff"
+        if: inputs.what == 'Holyrood from the cutoff'
+        run: |
+          # One year's gap is reported, not fatal: the other years still run.
+          Y0=$(echo "${{ inputs.cutoff }}" | cut -c1-4); LAST=2023; rc=0
+          python3 tools/sp_pull.py --year "$Y0" --motions-since "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log || rc=1
+          for y in $(seq $((Y0 + 1)) $LAST); do
+            python3 tools/sp_pull.py --year "$y" --questions-only | tee -a /tmp/bf-devolved.log || rc=1
+          done
+          for y in $(seq "$Y0" $LAST); do
+            python3 tools/sp_divisions.py --year "$y" | tee -a /tmp/bf-devolved.log || rc=1
+          done
+          exit $rc
+      - name: "Senedd: questions and divisions from the cutoff"
+        if: inputs.what == 'Senedd from the cutoff'
+        run: |
+          python3 tools/sd_pull.py --backfill --floor "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log
+          python3 tools/sd_divisions.py --parl 700 --floor "${{ inputs.cutoff }}" | tee -a /tmp/bf-devolved.log
+      - name: "NI Assembly: questions from the cutoff"
+        if: inputs.what == 'NI Assembly questions from the cutoff'
+        run: python3 tools/ni_pull.py --since "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log
+      - name: "Devolved: judge the divisions, apply the signed verdicts"
+        # devolved_triage's default window is recent items plus EVERY
+        # division on our ground: old questions render nowhere and are not
+        # paid for, old divisions are judged once. The verdict configs
+        # (sp_score / devolved_score) are human sign-offs, no model.
+        if: startsWith(inputs.what, 'Holyrood') || startsWith(inputs.what, 'Senedd') || startsWith(inputs.what, 'NI Assembly')
+        run: |
+          python3 tools/devolved_triage.py --budget-seconds 2400 | tee -a /tmp/bf-devolved.log
+          python3 tools/sp_score.py --apply | tee -a /tmp/bf-devolved.log
+          python3 tools/devolved_score.py --nation wales --apply | tee -a /tmp/bf-devolved.log
+          python3 tools/devolved_score.py --nation ni --apply | tee -a /tmp/bf-devolved.log
       - name: Record signed-off tracker divisions
         # The Monday publish does this before building the tracker; running
         # it here as well means a pre-2016 division signed off mid-week has
@@ -144,12 +184,12 @@ jobs:
           {
             echo "## Historic backfill"
             echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }} to ${{ inputs.until || 'today' }}"
-            for f in ledger hansard hdivisions divisions tracker; do
+            for f in ledger hansard hdivisions divisions devolved tracker; do
               echo "### $f"
               if [ -f "/tmp/bf-$f.log" ]; then
                 echo '```'
-                grep -E "done:|ledger:|scoped to|events so far|hansard-divisions:|tracker ledger:|tracker stances:|\[gap\]" "/tmp/bf-$f.log" \
-                  | tail -12 || echo "(no summary lines)"
+                grep -E "done:|ledger:|scoped to|events so far|hansard-divisions:|tracker ledger:|tracker stances:|match our areas|division\(s\)|stored|devolved|scored|\[gap\]" "/tmp/bf-$f.log" \
+                  | tail -30 || echo "(no summary lines)"
                 echo '```'
               else
                 echo "step did not run"

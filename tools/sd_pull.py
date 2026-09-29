@@ -102,6 +102,11 @@ def walk(conn, client, tax, wl, now, start, step):
 
 
 def main():
+    # --floor DATE (29 September 2026, the devolved backfill): walk back to
+    # this date instead of the 2024-01-01 default, for one run.
+    global FLOOR
+    if "--floor" in sys.argv:
+        FLOOR = sys.argv[sys.argv.index("--floor") + 1]
     now = datetime.datetime.now().isoformat(timespec="seconds")
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))

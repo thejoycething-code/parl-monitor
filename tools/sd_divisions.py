@@ -51,6 +51,11 @@ FLOOR = "2024-01-01"
 
 
 def main():
+    # --floor DATE (29 September 2026, the devolved backfill): walk back to
+    # this date instead of the 2024-01-01 default, for one run.
+    global FLOOR
+    if "--floor" in sys.argv:
+        FLOOR = sys.argv[sys.argv.index("--floor") + 1]
     parls = [senedd.SEVENTH_SENEDD, senedd.SIXTH_SENEDD]
     if "--parl" in sys.argv:
         parls = [int(sys.argv[sys.argv.index("--parl") + 1])]
