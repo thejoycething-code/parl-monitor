@@ -3,6 +3,20 @@
     python3 tools/ni_divisions.py --review          # candidate bills, no votes
     python3 tools/ni_divisions.py                   # harvest watched bills
     python3 tools/ni_divisions.py --days 730        # a longer window
+    python3 tools/ni_divisions.py --since 2011-01-01 --classified   # backfill
+
+--since fetches from a date, one calendar year per request, so a backfill
+to 2011 is fifteen modest requests rather than one enormous one, and a year
+that fails is a gap while the others still land.
+
+--classified ALSO harvests member votes for every stored division the
+classifier (tools/ni_classify.py) has put on our ground, watched or not. A
+motion is not a bill, so config/ni_watch.yaml can never name "Marriage
+Equality [Ms C Ruane]" (27 April 2015): it is only reachable this way. Run it
+after ni_classify --apply. Holding a vote places nobody -- NI placements come
+only from signed verdicts in config/nia_votes.yaml -- so widening the harvest
+widens the record, not the 5CA (Christopher, 29 Sept 2026: "NI divisions
+2011+").
 
 TWO MODES ON PURPOSE. `--review` lists the bills that divided the Assembly,
 ranked by how many divisions they drew, and fetches nothing per-member. That
@@ -79,13 +93,41 @@ def store_division(conn, d, canonical_name, today):
     return existing is None
 
 
+def year_windows(start, end):
+    """[start, end] cut at calendar years: (window_start, window_end) pairs."""
+    out, cur = [], start
+    while cur <= end:
+        stop = min(datetime.date(cur.year, 12, 31), end)
+        out.append((cur, stop))
+        cur = stop + datetime.timedelta(days=1)
+    return out
+
+
+def classified_ids(conn):
+    """Stored divisions on our ground that a human has not struck."""
+    import yaml
+    path = os.path.join(ROOT, "config", "nia_votes.yaml")
+    struck = set()
+    if os.path.exists(path):
+        divs = (yaml.safe_load(open(path, encoding="utf-8")) or {}).get(
+            "divisions") or []
+        struck = {str(d["key"]) for d in divs if d.get("not_ours")}
+    return {str(r[0]) for r in conn.execute(
+        "SELECT doc_id FROM ni_divisions WHERE areas IS NOT NULL "
+        "AND areas != '[]'") if str(r[0]) not in struck}
+
+
 def main():
     review = "--review" in sys.argv
+    with_classified = "--classified" in sys.argv
     days = DEFAULT_DAYS
     if "--days" in sys.argv:
         days = int(sys.argv[sys.argv.index("--days") + 1])
     today = datetime.date.today()
     start = today - datetime.timedelta(days=days)
+    if "--since" in sys.argv:
+        start = datetime.date.fromisoformat(
+            sys.argv[sys.argv.index("--since") + 1])
 
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
@@ -96,11 +138,19 @@ def main():
     # fetch_divisions raises where its looped siblings return (result, error),
     # and this call site did not wrap it -- a single 500 was an uncaught
     # traceback that lost the whole run.
-    try:
-        divisions = niassembly.fetch_divisions(client, start, today)
-    except Exception as exc:                        # noqa: BLE001
-        print("could not fetch divisions: {0}: {1}".format(
-            type(exc).__name__, exc))
+    divisions, fetch_gaps = [], []
+    windows = year_windows(start, today)
+    for w_start, w_end in windows:
+        try:
+            divisions.extend(niassembly.fetch_divisions(client, w_start, w_end))
+        except Exception as exc:                    # noqa: BLE001
+            fetch_gaps.append("divisions {0}..{1}: {2}: {3}".format(
+                w_start, w_end, type(exc).__name__, exc))
+    for g in fetch_gaps:
+        print("  [gap] " + g)
+    if len(fetch_gaps) == len(windows):
+        print("could not fetch divisions for any window")
+        db.record_gaps(conn, "ni-divisions", fetch_gaps)
         conn.close()
         return 1
     print("{0} division(s) between {1} and {2}".format(
@@ -189,16 +239,21 @@ def main():
         conn.close()
         return 0
 
-    # -- harvest watched bills ---------------------------------------------
-    targets = [d for d in divisions if is_watched(d.bill)]
-    if not watch:
+    # -- harvest watched bills (and, with --classified, divisions on our ground)
+    ours = classified_ids(conn) if with_classified else set()
+    targets = [d for d in divisions
+               if is_watched(d.bill) or str(d.doc_id) in ours]
+    if not watch and not ours:
         print("\nconfig/ni_watch.yaml lists no bills. Run --review first.")
         conn.close()
         return 0
+    extra = sum(1 for d in targets if not is_watched(d.bill))
     print("\nHarvesting member votes for {0} division(s) across {1} watched "
-          "bill(s).".format(len(targets), len(watch)))
+          "bill(s){2}.".format(len(targets), len(watch),
+                               ", {0} more on our ground by the classifier"
+                               .format(extra) if with_classified else ""))
 
-    gaps, rows = [], 0
+    gaps, rows = list(fetch_gaps), 0
     for d in targets:
         votes, err = niassembly.fetch_member_voting(client, d.doc_id)
         if err:

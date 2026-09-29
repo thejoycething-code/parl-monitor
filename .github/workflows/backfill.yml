@@ -52,6 +52,7 @@ on:
           - "Holyrood from the cutoff"
           - "Senedd from the cutoff"
           - "NI Assembly questions from the cutoff"
+          - "NI Assembly divisions from the cutoff"
           - "retag stored rows (taxonomy change)"
         default: "speeches, questions and EDMs"
 
@@ -167,6 +168,19 @@ jobs:
       - name: "NI Assembly: questions from the cutoff"
         if: inputs.what == 'NI Assembly questions from the cutoff'
         run: python3 tools/ni_pull.py --since "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log
+      - name: "NI Assembly: divisions from the cutoff, and MLA votes on our ground"
+        # 29 September 2026 (Christopher: NI divisions from 2011). Three
+        # steps, in this order: store every division and archive its sitting's
+        # Hansard; classify each from the amendment's own wording (offline,
+        # authoritative, honours not_ours); then harvest MLA votes for the
+        # watched bills AND every division the classifier put on our ground --
+        # a motion such as Marriage Equality is not a bill, so the watch list
+        # alone never reaches it. Votes place nobody until a verdict is signed.
+        if: inputs.what == 'NI Assembly divisions from the cutoff'
+        run: |
+          python3 tools/ni_divisions.py --since "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log
+          python3 tools/ni_classify.py --apply | grep -vE "^      " | tee -a /tmp/bf-devolved.log
+          python3 tools/ni_divisions.py --since "${{ inputs.cutoff }}" --classified | tee -a /tmp/bf-devolved.log
       - name: "Devolved: the model key, for the judge step only"
         # The Westminster modes never write it: stance there is a separate,
         # approved spend (score-stance.yml). The devolved judge IS part of
