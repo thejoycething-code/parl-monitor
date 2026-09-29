@@ -18,22 +18,33 @@ TAX = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
 WL = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
 
 
-def load_fixture(slug):
+def load_fixture(slug, containing=None):
+    """The newest live capture -- or, with `containing`, the newest capture
+    whose text includes it. The Online Safety Act call for evidence these
+    tests are about CLOSED on 21 September 2026, so from then on the newest
+    capture no longer holds it. CI's archive has later captures than a
+    laptop, so the tests went red only in the Deploy tracker gate (29 Sept).
+    The parser is tested against a capture that has the call in it."""
     paths = sorted(glob.glob(os.path.join(ROOT, "data", "raw", "*", slug + ".json.gz")))
-    with gzip.open(paths[-1], "rb") as handle:
-        return json.loads(handle.read().decode("utf-8"))
+    for path in reversed(paths):
+        with gzip.open(path, "rb") as handle:
+            text = handle.read().decode("utf-8")
+        if containing is None or containing in text:
+            return json.loads(text)
+    raise unittest.SkipTest("no {0} capture contains {1!r}".format(slug, containing))
 
 
 class ParseTests(unittest.TestCase):
     def setUp(self):
-        self.calls = committees.parse_response(load_fixture("committee_accepting-evidence"))
+        self.calls = committees.parse_response(
+            load_fixture("committee_accepting-evidence", containing="Online Safety Act"))
 
     def test_parses_open_calls(self):
         # Assert against the payload's own item count, never a hardcoded one:
         # the fixture is the newest live capture, so a committee closing its
         # call for evidence turned 25 into 24 and failed a test about the
         # PARSER (2026-08-17). The parser's job is to lose nothing.
-        payload = load_fixture("committee_accepting-evidence")
+        payload = load_fixture("committee_accepting-evidence", containing="Online Safety Act")
         self.assertEqual(len(self.calls), len(payload.get("items") or []))
         self.assertTrue(self.calls, "fixture carried no calls for evidence")
         self.assertTrue(all(c.id and c.title for c in self.calls))
@@ -47,7 +58,7 @@ class ParseTests(unittest.TestCase):
         # Comparing to the payload still catches a parser reading the wrong
         # field (startDate) or mishandling the timestamp, and survives the
         # committee moving its own deadline again.
-        payload = load_fixture("committee_accepting-evidence")
+        payload = load_fixture("committee_accepting-evidence", containing="Online Safety Act")
         item = next(i for i in payload["items"]
                     if "Online Safety Act" in str(i.get("name") or i.get("title")))
         expected = datetime.date.fromisoformat(

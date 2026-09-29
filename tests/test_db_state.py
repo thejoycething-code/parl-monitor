@@ -840,9 +840,14 @@ class MondayRetrySlotTests(unittest.TestCase):
             self.assertEqual(fh.read().strip(), "duplicate=1")
 
     def test_it_is_silent_outside_actions(self):
-        """A local run must be unaffected."""
+        """A local run must be unaffected. GITHUB_OUTPUT is cleared first:
+        this suite also runs INSIDE Actions (the Deploy tracker test gate),
+        where it is set, and the test went red there on 29 Sept 2026."""
         import run_monday
-        self.assertFalse(run_monday.mark_duplicate(None))
+        from unittest import mock
+        env = {k: v for k, v in os.environ.items() if k != "GITHUB_OUTPUT"}
+        with mock.patch.dict(os.environ, env, clear=True):
+            self.assertFalse(run_monday.mark_duplicate(None))
 
     def test_a_duplicate_slot_does_not_attempt_the_store_push(self):
         src = self._workflow()
