@@ -119,6 +119,37 @@ class ContextTests(unittest.TestCase):
         self.assertEqual(ctx["question"],
                          "That the Assisted Dying (No. 2) Bill be now read a Second time.")
 
+    def test_the_latest_group_is_the_one_divided_on(self):
+        """23 February 2015, Serious Crime Bill report stage: the
+        Solicitor-General moved the first group, government clauses were
+        added without a vote, and the 201-292 division was on Fiona Bruce's
+        new clause, moved last and put from the Chair at the deadline."""
+        debate = {"Items": [
+            _item(1, "I beg to move, That the clause be read a Second time.",
+                  who="The Solicitor-General (Mr Robert Buckland)"),
+            _item(2, "New Clause 9"),
+            _item(3, "Brought up, read the First and Second time, and added to the Bill."),
+            _item(4, "I beg to move, That the clause be read a Second time.",
+                  who="Fiona Bruce (Congleton) (Con)"),
+            _item(5, "New clause 1, which I wish to be put to a vote, is supported by more than 100 MPs."),
+            _item(6, "The Deputy Speaker put forthwith the Question already proposed from the "
+                     "Chair (Standing Order No. 83E), That the clause be read a Second time."),
+            _item(7, "", kind="Division", ext="SC1"),
+            _item(8, "New Clause 2"),
+            _item(9, "Official Secrets Act 1989 (additional defence)"),
+            _item(10, "(b) provided only to an officer of such an investigation or inquiry.\u201d\u2014 (John Mann.)"),
+            _item(11, "Brought up."),
+            _item(12, "Question put, That the clause be added to the Bill."),
+            _item(13, "", kind="Division", ext="SC2"),
+        ]}
+        first = hd.context_in(debate, "SC1")
+        self.assertEqual(first["question"], "That the clause be read a Second time.")
+        self.assertEqual(first["mover"], "Fiona Bruce (Congleton) (Con)")
+        second = hd.context_in(debate, "SC2")
+        self.assertEqual(second["question"], "That the clause be added to the Bill.")
+        self.assertEqual(second["mover"], "John Mann")
+        self.assertEqual(second["proposed"], "New Clause 2: Official Secrets Act 1989 (additional defence)")
+
     def test_a_division_not_in_the_debate_says_nothing(self):
         self.assertEqual(hd.context_in(DEBATE, "nope"),
                          {"question": None, "proposed": None, "mover": None})

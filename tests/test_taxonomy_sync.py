@@ -67,7 +67,8 @@ class TaxonomySyncTests(unittest.TestCase):
             version, areas, exclusions = generate_taxonomy.parse_master(handle.read())
         # v1.9 (26 September 2026): area 13, organ donation and transplant
         # ethics -- its own area because area 2 feeds member stance.
-        self.assertEqual(version, "1.9")
+        # v1.10 (29 September 2026): "Marriage (Same Sex Couples)" in area 9.
+        self.assertEqual(version, "1.10")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -446,3 +447,17 @@ class OrganDonationHasNoSheetTests(unittest.TestCase):
         """Empty today, kept for the next new area."""
         src = open(os.path.join(ROOT, "run_monday.py"), encoding="utf-8").read()
         self.assertIn("excluded |= set(_stance.NO_POSITION_AREAS)", src)
+
+
+class SameSexMarriageBillTests(unittest.TestCase):
+    """v1.10: the 2013 Bill's own divisions were untaggable by title -- area 9
+    held no same-sex marriage term at all. Found by the pre-2016 Hansard
+    division backfill, 29 September 2026."""
+
+    def test_the_bill_title_reaches_marriage_and_family(self):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        r = filt.filter_item(tax, wl, "Marriage (Same Sex Couples) Bill", "", "")
+        self.assertEqual(r.tier, 1)
+        self.assertIn(9, r.issue_areas)

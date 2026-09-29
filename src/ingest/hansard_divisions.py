@@ -105,30 +105,45 @@ def _text(item):
     return " ".join(re.sub(r"<[^>]+>", " ", item.get("Value") or "").split())
 
 
-# "Amendment proposed: 1176, ..." / "New Clause 1 ... proposed" / "Motion made".
-# NOT "Amendment made: 402": that is an amendment already AGREED without a
-# division, which is exactly the one the vote is not about.
-PROPOSED = re.compile(r"^(?:(?:Amendment|New Clause)\b[^:]{0,40}proposed|Motion made)", re.I)
-# The clerk closes an amendment's text with its mover: "...—(Nadine Dorries.)"
+# What the clerk writes when a question is proposed:
+#   "Amendment proposed: 1176, page 2, line 7 ..."   "Motion made, and Question put ..."
+#   "New Clause 2" (a bare heading, the clause's title and text follow)
+# NOT "Amendment made: 402": an amendment already AGREED without a division.
+PROPOSED = re.compile(r"^(?:(?:Amendment|New Clause)\b[^:]{0,40}proposed|Motion made|New Clause\s+\d+\s*$)",
+                      re.I)
+# The clerk closes an amendment's or clause's text with its mover:
+# "...—(Nadine Dorries.)", "”— (John Mann.)"
 CLERK_MOVER = re.compile(r"[\u2014\u2013-]\s*\(([^()]{3,80}?)\.?\)\s*$")
 MOVE = re.compile(r"\bI beg to move\b", re.I)
+# A question interrupted at the programme deadline: "The Deputy Speaker put
+# forthwith the Question already proposed from the Chair (Standing Order
+# No. 83E), That the clause be read a Second time."
+CHAIR_QUESTION = re.compile(r"Question already proposed from the Chair(?:\s*\([^)]*\))?\s*,\s*"
+                            r"(That\b.*?\.)(?=\s+[A-Z]|\s*$)", re.S)
 
 
 def context_in(debate, division_external_id):
     """{question, proposed, mover} for one division, from its debate's items.
 
-    question -- the LAST "Question put ..., That ..." before the division
-        item: a closure ("That the Question be now put") is agreed first and
-        the substantive question put after it, often in the same paragraph.
-    proposed, mover -- WHAT was put and BY WHOM, looked for only in the
-        stretch of debate since the previous division, so a debate with four
-        amendment votes cannot lend one amendment's text to another. The
-        clerk's "Amendment proposed: 1176, page 2, line 7 ..." when it is
-        there, with the mover taken ONLY from the clerk's closing "—(Name.)";
-        otherwise the opening "I beg to move amendment ..." and the member
-        it is attributed to. "That the amendment be made" alone says
-        nothing a reviewer can sign off, and the direction rule needs the
-        mover's own vote.
+    Everything comes from the division's OWN stretch of debate -- since the
+    previous division -- so a debate with several votes cannot lend one
+    vote's question or mover to another.
+
+    question -- the last "Question put ..., That ..." (or a question "already
+        proposed from the Chair", put forthwith at a programme deadline) in
+        that stretch. After a closure the substantive question comes second,
+        often in the same paragraph. Failing both, the motion the mover
+        opened with: "I beg to move, That the Bill be now read the Third time."
+
+    proposed, mover -- the proposal NEAREST BEFORE the question. A report
+        stage debates several groups before its first division, and the
+        division is on the latest: on 23 February 2015 the Solicitor-General
+        moved the first group, but the 201-292 vote was on Fiona Bruce's new
+        clause, moved last. Either the clerk's line ("Amendment proposed:
+        1176 ...", "New Clause 2"), whose mover is ONLY the clerk's closing
+        "—(Name.)", or a member's "I beg to move", whose mover is its
+        speaker. "That the amendment be made" alone says nothing a reviewer
+        can sign off, and the direction rule needs the mover's own vote.
     """
     items = sorted((debate or {}).get("Items") or [],
                    key=lambda it: it.get("OrderInSection") or 0)
@@ -144,43 +159,46 @@ def context_in(debate, division_external_id):
             since = i + 1
             break
     segment = items[since:at]
-    # The question, too, only from this division's own stretch: scanning
-    # further back gave the Health and Social Care Bill's Third Reading
-    # (7 Sept 2011, 316-251) the previous amendment's "That the amendment be
-    # made". Where the clerk wrote no "Question put, That ...", the motion is
-    # the one the mover opened with: "I beg to move, That the Bill be now
-    # read the Third time."
-    for it in reversed(segment):
-        found = QUESTION.findall(_text(it))
+    texts = [_text(it) for it in segment]
+
+    q_at = None
+    for i in range(len(segment) - 1, -1, -1):
+        found = QUESTION.findall(texts[i]) or CHAIR_QUESTION.findall(texts[i])
         if found:
-            out["question"] = found[-1]
+            out["question"], q_at = found[-1], i
             break
     if out["question"] is None:
-        for it in segment:
-            got = re.search(r"\bI beg to move,\s*(That\b.*?\.)(?=\s+[A-Z]|\s*$)", _text(it))
+        for t in texts:
+            got = re.search(r"\bI beg to move,\s*(That\b.*?\.)(?=\s+[A-Z]|\s*$)", t)
             if got:
                 out["question"] = got.group(1)
                 break
-    clerk = [i for i, it in enumerate(segment) if PROPOSED.search(_text(it))]
-    if clerk:
-        # The clerk's own line, and the mover only from the clerk's own
-        # attribution at the end of the amendment's text. Never a nearby
-        # "I beg to move": in a debate on a group of amendments that is
-        # usually someone else's (7 Sept 2011: a minister's, for an
-        # Opposition amendment). No attribution found means no mover given.
-        out["proposed"] = _text(segment[clerk[-1]])[:240]
-        for it in segment[clerk[-1]:]:
-            got = CLERK_MOVER.search(_text(it))
+    limit = q_at if q_at is not None else len(segment)
+
+    nearest = None
+    for i in range(limit - 1, -1, -1):
+        if PROPOSED.search(texts[i]):
+            nearest = ("clerk", i)
+            break
+        if MOVE.search(texts[i]):
+            nearest = ("move", i)
+            break
+    if nearest is None:
+        return out
+    kind, i = nearest
+    if kind == "clerk":
+        head = texts[i]
+        if re.match(r"New Clause\s+\d+\s*$", head, re.I) and i + 1 < limit:
+            head = "{0}: {1}".format(head, texts[i + 1])      # the clause's title
+        out["proposed"] = head[:240]
+        for t in texts[i:limit]:
+            got = CLERK_MOVER.search(t)
             if got:
                 out["mover"] = got.group(1).strip()
-        return out
-    moved = next((it for it in segment if MOVE.search(_text(it))), None)
-    if moved is not None:
-        # No clerk line: the question is the one opened by this speech, and
-        # its speaker moved it (Nadine Dorries, amendment 1, 7 Sept 2011).
-        out["mover"] = " ".join((moved.get("AttributedTo") or "").split()) or None
-        text = _text(moved)
-        out["proposed"] = text[MOVE.search(text).start():][:240]
+                break
+    else:
+        out["mover"] = " ".join((segment[i].get("AttributedTo") or "").split()) or None
+        out["proposed"] = texts[i][MOVE.search(texts[i]).start():][:240]
     return out
 
 
