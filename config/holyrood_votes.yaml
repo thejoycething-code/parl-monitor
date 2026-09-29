@@ -82,3 +82,75 @@ divisions:
       Voted to pass the Bill and legalise assisted suicide in Scotland.
     meaning_against: >-
       Voted to reject the Bill. The Bill fell on this vote.
+
+  # --- Drafted 29 September 2026 for Christopher's sign-off ------------------
+  # From the 2011-23 Holyrood backfill. The motion text is verbatim from
+  # sp_items, and each mover voted For their own motion (Alex Neil, 1894, on
+  # both marriage votes; Patrick Harvie, 2892, who took the Assisted Suicide
+  # Bill on after Margo MacDonald died). our_side follows the Westminster
+  # entries for the same issues: against redefining marriage
+  # (same-sex-marriage-2013) and against legalising assisted suicide.
+  # The seven Stage 3 amendment divisions on the marriage Bill (4 Feb 2014)
+  # are Official Report aggregates with no names, so they cannot place anyone
+  # and are not drafted.
+  - key: m2135
+    reference: S4M-08327
+    issue: redefining-marriage
+    dated: 2013-11-20
+    stage: Stage 1
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Marriage and Civil Partnership Bill -- Stage 1
+    motion: >-
+      That the Parliament agrees to the general principles of the Marriage
+      and Civil Partnership (Scotland) Bill.
+    context: >-
+      The vote of principle on the Scottish Government Bill that redefined
+      marriage in Scotland to include same-sex couples. Carried 98 to 15.
+    meaning_for: >-
+      Supported the general principles of redefining marriage to include
+      same-sex couples.
+    meaning_against: >-
+      Voted against the Bill's general principles.
+
+  - key: m2173
+    reference: S4M-08915
+    issue: redefining-marriage
+    dated: 2014-02-04
+    stage: Stage 3 -- final vote
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Marriage and Civil Partnership Bill -- passed
+    motion: >-
+      That the Parliament agrees that the Marriage and Civil Partnership
+      (Scotland) Bill be passed.
+    context: >-
+      The final vote. Passed 105 to 18, and the Bill became the Marriage and
+      Civil Partnership (Scotland) Act 2014.
+    meaning_for: >-
+      Voted to pass the Bill redefining marriage in Scotland.
+    meaning_against: >-
+      Voted against passing the Bill.
+
+  - key: m2420
+    reference: S4M-13258
+    issue: assisted-suicide
+    dated: 2015-05-27
+    stage: Stage 1
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Assisted Suicide (Scotland) Bill -- Stage 1
+    motion: >-
+      That the Parliament agrees to the general principles of the Assisted
+      Suicide (Scotland) Bill.
+    context: >-
+      Margo MacDonald's Bill, taken on by Patrick Harvie after her death.
+      DEFEATED 36 to 82 at Stage 1, so the Bill fell.
+    meaning_for: >-
+      Supported the general principles of legalising assisted suicide in
+      Scotland.
+    meaning_against: >-
+      Voted to reject the Bill at Stage 1. The Bill fell on this vote.
