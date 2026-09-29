@@ -155,24 +155,42 @@ def load_roster(conn, client, parliament, today):
             continue
         name = " ".join(x for x in ((m.findtext("PersonOfficialFirstName") or "").strip(),
                                     (m.findtext("PersonOfficialLastName") or "").strip()) if x)
+        # A roster row is read as of the membership's start (FromDateTime),
+        # so a division recorded later in the same Parliament (a floor
+        # crossing) still outranks it, and a newer Parliament's roster
+        # outranks every older vote (ca_store.MEMBER_UPSERT).
         conn.execute(
-            "INSERT INTO ca_members (person_id, name, party, constituency, "
-            "province, first_seen, last_seen) VALUES (?,?,?,?,?,?,?) "
-            # A roster row never overwrites the party a division recorded:
-            # it fills what is missing and moves last_seen.
-            "ON CONFLICT(person_id) DO UPDATE SET "
-            "name=COALESCE(ca_members.name, excluded.name), "
-            "constituency=COALESCE(ca_members.constituency, excluded.constituency), "
-            "province=COALESCE(ca_members.province, excluded.province), "
-            "party=COALESCE(ca_members.party, excluded.party), "
-            "last_seen=excluded.last_seen",
+            ca_store.MEMBER_UPSERT,
             (pid, name or None, (m.findtext("CaucusShortName") or "").strip() or None,
              (m.findtext("ConstituencyName") or "").strip() or None,
              (m.findtext("ConstituencyProvinceTerritoryName") or "").strip() or None,
-             today, today))
+             today, today, (m.findtext("FromDateTime") or "").strip() or None))
         n += 1
     conn.commit()
     return n
+
+
+def refresh_members(conn, client, today, first=40, last=None, log=print):
+    """Re-derive every member's name, party and riding from the most recent
+    source: each Parliament's roster oldest first, then each member's latest
+    recorded vote. For the store the backfill to 2010 left with old details
+    (29 September 2026); the date guard keeps it right from then on."""
+    last = last or int(CURRENT_SESSION.split("-")[0])
+    conn.execute("UPDATE ca_members SET as_of=NULL")
+    for parl in range(first, last + 1):
+        log("  roster {0}: {1} member(s)".format(parl, load_roster(conn, client, parl, today)))
+    # The latest vote's party, where the vote is newer than the roster row.
+    moved = conn.execute(
+        "UPDATE ca_members SET party=(SELECT v.party FROM ca_votes v JOIN ca_divisions d "
+        "USING (division_key) WHERE v.person_id=ca_members.person_id AND v.party IS NOT NULL "
+        "ORDER BY d.date DESC LIMIT 1), as_of=(SELECT MAX(d.date) FROM ca_votes v JOIN "
+        "ca_divisions d USING (division_key) WHERE v.person_id=ca_members.person_id) "
+        "WHERE (SELECT MAX(d.date) FROM ca_votes v JOIN ca_divisions d USING (division_key) "
+        "WHERE v.person_id=ca_members.person_id) > COALESCE(as_of, '')").rowcount
+    conn.commit()
+    log("ca-hansard: members refreshed from {0} roster(s); {1} took a later vote's party".format(
+        last - first + 1, moved))
+    return moved
 
 
 CURRENT_ROSTER = "https://www.ourcommons.ca/members/en/search/xml"
@@ -485,6 +503,10 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--backfill", action="store_true",
                     help="read the sittings missing BELOW the highest read (announced, from CI)")
+    ap.add_argument("--refresh-members", action="store_true",
+                    help="re-derive every member's name/party/riding from the rosters of the "
+                         "40th Parliament on and their latest votes (a repair; offline but for "
+                         "the six roster pages)")
     args = ap.parse_args()
     parl, sess = parse_session(args.session)
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
@@ -493,6 +515,11 @@ def main():
         conn = ca_store.ensure_schema(db.init_db(db.connect(":memory:")))
     else:
         conn = ca_store.ensure_schema(db.init_db(db.connect(args.db)))
+    if args.refresh_members:
+        refresh_members(conn, client, today)
+        print("ca-hansard: {0} sitting now".format(mark_sitting(conn, client, today)))
+        conn.close()
+        return 0
     members = load_roster(conn, client, parl, today)
     sitting = mark_sitting(conn, client, today)
     print("ca-hansard: {0}, roster of {1} member(s), {2} sitting now".format(

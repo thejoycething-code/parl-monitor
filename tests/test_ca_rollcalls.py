@@ -229,5 +229,48 @@ class CanadaRollCallTests(unittest.TestCase):
         ca_store.ensure_schema(conn)
 
 
+class MemberDetailsTests(unittest.TestCase):
+    """The backfill to 2010 read the 41st Parliament's votes after the 45th's,
+    and each overwrote the member: sitting MPs came out as "Michelle Rempel"
+    and Kyle Seeback of Brampton West (29 September 2026)."""
+
+    def division(self, conn, key, date):
+        conn.execute("INSERT INTO ca_divisions (division_key, chamber, parliament, session, "
+                     "number, date) VALUES (?,?,?,?,?,?)", (key, "commons", 41, 1, 1, date))
+
+    def member(self, name, riding, party="Conservative"):
+        first, last = name.split(" ", 1)
+        return {"person_id": "71", "name": name, "party": party, "constituency": riding,
+                "province": "Alberta", "position": "Yea"}
+
+    def test_an_older_vote_read_later_does_not_overwrite_a_newer_one(self):
+        conn = sqlite3.connect(":memory:")
+        db.init_db(conn)
+        ca_store.ensure_schema(conn)
+        self.division(conn, "commons-45-1-10", "2026-06-17T15:30:00")
+        self.division(conn, "commons-41-1-10", "2012-03-01T18:00:00")
+        car.store_positions(conn, "commons-45-1-10",
+                            [self.member("Michelle Rempel Garner", "Calgary Nose Hill")], "2026-09-28")
+        car.store_positions(conn, "commons-41-1-10",
+                            [self.member("Michelle Rempel", "Calgary Centre-North")], "2026-09-28")
+        self.assertEqual(conn.execute("SELECT name, constituency, as_of FROM ca_members").fetchone(),
+                         ("Michelle Rempel Garner", "Calgary Nose Hill", "2026-06-17T15:30:00"))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ca_votes").fetchone()[0], 2,
+                         "the older vote is still recorded, with its own party")
+
+    def test_a_newer_vote_does_overwrite_and_a_later_roster_start_outranks_older_votes(self):
+        conn = sqlite3.connect(":memory:")
+        db.init_db(conn)
+        ca_store.ensure_schema(conn)
+        self.division(conn, "commons-41-1-10", "2012-03-01T18:00:00")
+        car.store_positions(conn, "commons-41-1-10",
+                            [self.member("Michelle Rempel", "Calgary Centre-North")], "2026-09-28")
+        conn.execute(ca_store.MEMBER_UPSERT, ("71", "Michelle Rempel Garner", "Conservative",
+                                              "Calgary Nose Hill", "Alberta", "2026-09-29",
+                                              "2026-09-29", "2025-04-28T00:00:00"))
+        self.assertEqual(conn.execute("SELECT name, constituency FROM ca_members").fetchone(),
+                         ("Michelle Rempel Garner", "Calgary Nose Hill"))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -176,15 +176,12 @@ def store_division(conn, d, res, today):
 
 
 def store_positions(conn, key, participants, today):
+    row = conn.execute("SELECT date FROM ca_divisions WHERE division_key=?", (key,)).fetchone()
+    when = row[0] if row else None
     for p in participants:
-        conn.execute(
-            "INSERT INTO ca_members (person_id, name, party, constituency, "
-            "province, first_seen, last_seen) VALUES (?,?,?,?,?,?,?) "
-            "ON CONFLICT(person_id) DO UPDATE SET name=excluded.name, "
-            "party=excluded.party, constituency=excluded.constituency, "
-            "province=excluded.province, last_seen=excluded.last_seen",
-            (p["person_id"], p["name"], p["party"], p["constituency"],
-             p["province"], today, today))
+        conn.execute(ca_store.MEMBER_UPSERT,
+                     (p["person_id"], p["name"], p["party"], p["constituency"], p["province"],
+                      today, today, when))
         conn.execute(
             "INSERT OR REPLACE INTO ca_votes (division_key, person_id, "
             "position, party) VALUES (?,?,?,?)",

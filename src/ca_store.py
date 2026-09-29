@@ -227,7 +227,33 @@ ADDED_COLUMNS = (
     # judgement can separate. Same two columns every German table carries.
     ("ca_petitions", "triage_score", "INTEGER"),
     ("ca_petitions", "why_it_matters", "TEXT"),
+    # The business date the member's name/party/riding were read AS OF: the
+    # division's date, or a roster membership's FromDateTime. A source only
+    # overwrites them if it is at least as recent. Without it the backfill
+    # to 2010 (read after the current session) left sitting MPs under their
+    # 2011 names and ridings: "Michelle Rempel", Kyle Seeback in Brampton
+    # West (29 September 2026).
+    ("ca_members", "as_of", "TEXT"),
 )
+
+
+# A member's name, party and riding come from the most recent source only:
+# a division overwrites them if it is at least as recent as what the row was
+# read as of (ca_members.as_of), and never otherwise. ca_votes.party keeps
+# the party AT EACH VOTE whatever happens here.
+MEMBER_UPSERT = (
+    "INSERT INTO ca_members (person_id, name, party, constituency, province, "
+    "first_seen, last_seen, as_of) VALUES (?,?,?,?,?,?,?,?) "
+    "ON CONFLICT(person_id) DO UPDATE SET "
+    "name=CASE WHEN {newer} THEN COALESCE(excluded.name, ca_members.name) ELSE ca_members.name END, "
+    "party=CASE WHEN {newer} THEN COALESCE(excluded.party, ca_members.party) ELSE ca_members.party END, "
+    "constituency=CASE WHEN {newer} THEN COALESCE(excluded.constituency, ca_members.constituency) "
+    "ELSE ca_members.constituency END, "
+    "province=CASE WHEN {newer} THEN COALESCE(excluded.province, ca_members.province) "
+    "ELSE ca_members.province END, "
+    "as_of=CASE WHEN {newer} THEN excluded.as_of ELSE ca_members.as_of END, "
+    "last_seen=excluded.last_seen").format(
+        newer="COALESCE(excluded.as_of, '') >= COALESCE(ca_members.as_of, '')")
 
 
 def ensure_schema(conn):

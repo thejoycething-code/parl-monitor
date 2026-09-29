@@ -68,6 +68,14 @@ on:
         description: "Retag the stored Canadian rows under the current taxonomy (additive)"
         type: boolean
         default: false
+      # A REPAIR (29 September 2026): re-derive every member's name, party
+      # and riding from the rosters of the 40th Parliament on and their
+      # latest votes. The backfill to 2010 had left sitting MPs under their
+      # 2011 details; the date guard (ca_members.as_of) prevents it since.
+      refresh_members:
+        description: "Repair members' names/parties/ridings from the rosters (six pages)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -243,6 +251,10 @@ jobs:
         run: |
           set -f   # the globs are for SQLite, not the shell
           python3 tools/ca_gazette.py --since "$SINCE" --budget-seconds 3000 ${FORGET:+--forget $FORGET} | tee /tmp/ca-old-gazette.log
+
+      - name: Refresh members from the rosters (a repair)
+        if: always() && steps.fetch.outcome == 'success' && inputs.refresh_members
+        run: python3 tools/ca_hansard.py --refresh-members | tee /tmp/ca-members.log
 
       - name: Retag the stored Canadian rows (additive; before the judge)
         # Before the judge, so a petition that gains its first area here is
