@@ -57,3 +57,24 @@ bills:
   # Parental rights in education is a standing area for us.
   - name: "School Uniforms (Guidelines and Allowances) Bill"
     why: "Statutory guidance to schools; the mechanism parental-rights amendments use."
+
+  # --- Added 29 September 2026, from the 2011 backfill ------------------------
+  # Clause-stand-part and Long Title votes carry no amendment wording, so
+  # tools/ni_classify.py rightly tags nothing on them and the classifier route
+  # (--classified) never harvests them. These Bills are ours on their face,
+  # so they are watched and every division on them keeps its roll-call.
+  # Watching places nobody: verdicts are signed in config/nia_votes.yaml.
+  - name: "Human Trafficking and Exploitation (Further Provisions and Support for Victims) Bill"
+    why: "Lord Morrow's 2014-15 Act: the Nordic model (criminalising the purchase of sex) in NI."
+  - name: "Mental Capacity Bill"
+    why: "2016: capacity, best interests and end-of-life decisions; amendments on life-sustaining treatment."
+  - name: "Severe Fetal Impairment Abortion (Amendment) Bill"
+    why: "Paul Givan's 2021 Bill to remove non-fatal disability as a ground for abortion."
+  - name: "Abortion Services (Safe Access Zones) Bill"
+    why: "2021-22 buffer zones around abortion providers: speech, prayer and assembly."
+  - name: "Organ and Tissue Donation (Deemed Consent) Bill"
+    why: "2021 opt-out organ donation: assumed consent, which CitizenGO opposes."
+  - name: "Justice (Sexual Offences and Trafficking Victims) Bill"
+    why: "2022: sexual offences and trafficking victims; amendments on sex buying and exploitation."
+  - name: "Conversion Practices (Criminalisation) Bill"
+    why: "2026 Bill criminalising conversion practices; Second Stage 28 September 2026."
