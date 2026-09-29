@@ -56,9 +56,16 @@ FEED = "hansard-division"
 # "Question put accordingly, That the Bill be now read a Second time." The
 # question runs to the first full stop followed by a capital or the end, so
 # "(No. 2)" inside a Bill's name does not cut it short.
+# The clerk ends a question with a full stop, or with ":—" where the
+# division list follows (20 May 2013: "Question put, That the clause be read a
+# Second time:—"). Captured without its terminator; _q() adds the stop.
+_END = r"(?:\.|:\s*[\u2014\u2013-]*)(?=\s+[A-Z]|\s*$)"
 QUESTION = re.compile(
-    r"Question\s+put(?:\s+(?:forthwith|accordingly))?(?:\s*\([^)]*\))?\s*,\s*"
-    r"(That\b.*?\.)(?=\s+[A-Z]|\s*$)", re.S)
+    # "p ut" is Hansard's own typo (5 Feb 2013); the bracket may nest one
+    # level: "(Standing Order No. 52(1)( a ))".
+    r"Question\s+p\s?ut(?:\s+(?:forthwith|accordingly))?"
+    r"(?:\s*\((?:[^()]|\([^()]*\))*\))?\s*,\s*"
+    r"(That\b.*?)" + _END, re.S)
 # "Hopkins, Kelvin" / "May, rh Mrs Theresa" / "Walker, Mr Charles"
 HONORIFIC = re.compile(r"^(?:rh\s+)?(?:(?:Mr|Mrs|Ms|Miss|Dr|Sir|Dame|Lady|Lord|Rev|Prof)\.?\s+)*",
                        re.I)
@@ -119,7 +126,13 @@ MOVE = re.compile(r"\bI beg to move\b", re.I)
 # forthwith the Question already proposed from the Chair (Standing Order
 # No. 83E), That the clause be read a Second time."
 CHAIR_QUESTION = re.compile(r"Question already proposed from the Chair(?:\s*\([^)]*\))?\s*,\s*"
-                            r"(That\b.*?\.)(?=\s+[A-Z]|\s*$)", re.S)
+                            r"(That\b.*?)" + _END, re.S)
+SPLIT_QUESTION = re.compile(r"\bQuestion\s+p\s?ut\b(?!.*\bThat\b)", re.S)
+BEG_QUESTION = re.compile(r"\bI beg to move,\s*(That\b.*?)" + _END)
+
+
+def _q(text):
+    return text.strip() + "."
 
 
 def context_in(debate, division_external_id):
@@ -165,13 +178,22 @@ def context_in(debate, division_external_id):
     for i in range(len(segment) - 1, -1, -1):
         found = QUESTION.findall(texts[i]) or CHAIR_QUESTION.findall(texts[i])
         if found:
-            out["question"], q_at = found[-1], i
+            out["question"], q_at = _q(found[-1]), i
+            break
+        # The clerk sometimes splits it: "Motion made, and Question put
+        # forthwith (Standing Order No. 52(1)(a))" as one item, the motion --
+        # "That, for the purposes of any Act ..." -- as the NEXT (5 February
+        # 2013, the money and carry-over motions).
+        if SPLIT_QUESTION.search(texts[i]) and i + 1 < len(segment) \
+                and texts[i + 1].startswith("That"):
+            motion = re.split(r"[\u2014\u2013]|\.(?=\s|$)", texts[i + 1])[0]
+            out["question"], q_at = _q(motion[:200]), i
             break
     if out["question"] is None:
         for t in texts:
-            got = re.search(r"\bI beg to move,\s*(That\b.*?\.)(?=\s+[A-Z]|\s*$)", t)
+            got = BEG_QUESTION.search(t)
             if got:
-                out["question"] = got.group(1)
+                out["question"] = _q(got.group(1))
                 break
     limit = q_at if q_at is not None else len(segment)
 
@@ -236,9 +258,21 @@ def display_name(list_as):
 def parse(payload, question=None):
     """(Division, [Voter]) in the shapes intel.record_votes takes. Tellers out."""
     date = datetime.date.fromisoformat((payload.get("Date") or "")[:10])
+    section = " ".join((payload.get("DebateSection") or "").split())
+    # THE QUESTION GOES IN THE TITLE, which record_votes makes the ledger line
+    # the stance model reads. Hansard titles every division of a debate by
+    # its Bill: all ten 2013 same-sex marriage divisions read "Marriage (Same
+    # Sex Couples) Bill" -- the Second Reading, the report-stage clauses and
+    # the programme motions alike. Read bare, "Voted Aye" on a clause looks
+    # like a vote FOR THE BILL, which is the Lords inversion again. Where no
+    # question was found, the line says so rather than letting the title
+    # stand for it.
+    title = "{0}: {1}".format(section, question) if question else \
+        "{0} (question not recorded: may be an amendment or procedural motion, " \
+        "not the Bill itself)".format(section)
     division = Division(
         id=int(payload["Id"]), house="Commons", number=payload.get("Number"),
-        title=" ".join((payload.get("DebateSection") or "").split()),
+        title=title,
         date=date, aye_count=payload.get("AyesCount"), no_count=payload.get("NoesCount"),
         notes=("Question put: " + question) if question else None)
     voters = []

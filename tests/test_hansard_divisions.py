@@ -78,9 +78,18 @@ class ParseTests(unittest.TestCase):
     def test_the_division_carries_the_question_not_just_the_title(self):
         division, _v = hd.parse(DIVISION, "That the Bill be now read a Second time.")
         self.assertEqual(division.id, 1591)
-        self.assertEqual(division.title, "Assisted Dying (No. 2) Bill")
+        self.assertEqual(division.title,
+                         "Assisted Dying (No. 2) Bill: That the Bill be now read a Second time.")
         self.assertEqual(division.notes, "Question put: That the Bill be now read a Second time.")
         self.assertEqual(division.date.isoformat(), "2015-09-11")
+
+    def test_without_a_question_the_line_does_not_pass_for_the_bill(self):
+        """Ten 2013 divisions all titled "Marriage (Same Sex Couples) Bill":
+        three had no question found. "Voted Aye: <Bill>" alone would read
+        as a vote for the Bill."""
+        division, _v = hd.parse(dict(DIVISION, DebateSection="Marriage (Same Sex Couples) Bill"), None)
+        self.assertIn("question not recorded", division.title)
+        self.assertIn("not the Bill itself", division.title)
 
     def test_names_come_out_in_display_order(self):
         self.assertEqual(hd.display_name("May, rh Mrs Theresa"), "Theresa May")
@@ -149,6 +158,35 @@ class ContextTests(unittest.TestCase):
         self.assertEqual(second["question"], "That the clause be added to the Bill.")
         self.assertEqual(second["mover"], "John Mann")
         self.assertEqual(second["proposed"], "New Clause 2: Official Secrets Act 1989 (additional defence)")
+
+    def test_a_question_ending_in_a_colon_and_dash(self):
+        """20 May 2013, h2186: "Question put, That the clause be read a Second
+        time:—", then the division list."""
+        debate = {"Items": [
+            _item(1, "New Clause 5"),
+            _item(2, "Registrars: conscientious objection"),
+            _item(3, "(2) Expressions used in this section have the same meaning.\u2019.\u2014 (Mr Burrowes.)"),
+            _item(4, "Brought up, and read the First time."),
+            _item(5, "Question put, That the clause be read a Second time:\u2014"),
+            _item(6, "", kind="Division", ext="M1")]}
+        ctx = hd.context_in(debate, "M1")
+        self.assertEqual(ctx["question"], "That the clause be read a Second time.")
+        self.assertEqual(ctx["mover"], "Mr Burrowes")
+        self.assertEqual(ctx["proposed"], "New Clause 5: Registrars: conscientious objection")
+
+    def test_a_motion_split_from_its_question_line(self):
+        """5 February 2013: the clerk's "Motion made, and Question put
+        forthwith (Standing Order No. 52(1)( a ))" and the money motion's
+        text are two items."""
+        debate = {"Items": [
+            _item(1, "Motion made, and Question put forthwith (Standing Order No. 52(1)( a ))"),
+            _item(2, "That, for the purposes of any Act resulting from the Marriage (Same Sex "
+                     "Couples) Bill, it is expedient to authorise\u2014"),
+            _item(3, "(2) the payment out of the Consolidated Fund.\u2014 (Mark Lancaster .)"),
+            _item(4, "", kind="Division", ext="MM")]}
+        ctx = hd.context_in(debate, "MM")
+        self.assertTrue(ctx["question"].startswith("That, for the purposes of any Act"))
+        self.assertTrue(ctx["question"].endswith("it is expedient to authorise."))
 
     def test_a_division_not_in_the_debate_says_nothing(self):
         self.assertEqual(hd.context_in(DEBATE, "nope"),

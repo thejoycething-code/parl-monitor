@@ -153,8 +153,11 @@ def run(conn, client, tax, wl, start, end, dry_run=False, log=print):
             ctx = hd.context(client, row.get("DebateSectionExtId"), row.get("ExternalId"))
             summary = dict(row_summary(row, ctx), areas=sorted(r.issue_areas),
                            matched=r.matched_terms[:3] + r.watchlist_hits[:1])
-            if dry_run or did in held:
-                summary["voters"] = None if dry_run else "held"
+            # Re-recorded even when already held: record_votes upserts, and
+            # the line carries the question, so a fix to how the question is
+            # read reaches the ledger on the next run.
+            if dry_run:
+                summary["voters"] = None
             else:
                 try:
                     division, voters = hd.parse(hd.fetch(client, row["ExternalId"]), ctx.get("question"))
