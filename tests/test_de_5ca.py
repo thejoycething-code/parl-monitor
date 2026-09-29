@@ -330,14 +330,16 @@ class SharedDrucksacheTests(unittest.TestCase):
 
 
 class RealConfigTests(unittest.TestCase):
-    def test_the_real_stance_files_load_and_nothing_is_confirmed_yet(self):
-        """Fails the day a reading is confirmed -- check a HUMAN removed the flag."""
+    def test_the_real_stance_files_load_and_every_reading_is_signed(self):
+        """Christopher confirmed every reading as drafted on 29 September 2026.
+        Fails the day one goes back to draft -- check a HUMAN put the flag back,
+        and that the sheet is meant to lose those placements."""
         stance = five.load_yaml(five.STANCE_PATH)
         land = five.load_yaml(five.LAND_PATH)
         entries = list(stance["divisions"]) + list(stance["papers"])
         entries += [i for m in land["members"] for i in m.get("items") or []]
         self.assertTrue(entries)
-        self.assertEqual({five.status(e) for e in entries}, {"draft", "unplaceable"})
+        self.assertEqual({five.status(e) for e in entries}, {"confirmed", "unplaceable"})
 
     def test_every_land_item_names_its_document(self):
         for m in five.load_yaml(five.LAND_PATH)["members"]:

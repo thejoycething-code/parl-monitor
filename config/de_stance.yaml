@@ -5,11 +5,16 @@
 # division or a paper points is the campaigner's judgement, and no tool
 # estimates it. tools/de_5ca.py applies these lines; it never invents one.
 #
-# EVERY ENTRY BELOW IS A CLAUDE DRAFT (29 September 2026), and a draft PLACES
-# NOBODY. The sheet shows the act as evidence and leaves the column blank
-# until Christopher (or the German team) confirms the reading by deleting
-# `draft: true`. To SEE what the drafts would do without confirming them:
-#     python3 tools/de_5ca.py --area 1 --preview-drafts
+# CONFIRMED (29 September 2026). Every entry was drafted by Claude the same
+# day and confirmed as drafted by Christopher: "I agree with all of the
+# positions. We'll let the German team amend in the future if helpful or
+# necessary." Reviewed through the sign-off checklist,
+# https://claude.ai/artifact/KGH9fAZ7WTnX9qHJEZf2qh
+#
+# To AMEND a reading, change its values here (and say why in a `note:`); to
+# take one out of play without deleting it, put `draft: true` back -- a draft
+# places nobody, and `python3 tools/de_5ca.py --area 1 --preview-drafts` still
+# shows what drafts would do.
 #
 # Two sections:
 #   divisions  keyed by abgeordnetenwatch poll id (a single global id space
@@ -22,14 +27,13 @@
 #              de_authorship. `placeable: false` with a reason: listed, never
 #              placed (a question whose title does not show the asker's side).
 #
-# The paper directions were drafted FROM TITLES AND INITIATIVE ALONE. A
-# German reader should check each against its text before confirming.
+# The paper directions were drafted FROM TITLES AND INITIATIVE ALONE and
+# confirmed on that basis; the German team may amend any against its text.
 
 divisions:
   # --- Area 1: abortion ------------------------------------------------------
   - key: "5628"
     area: 1
-    draft: true
     title: "Änderung des Schwangerschaftskonfliktgesetzes (Gehsteigbelästigung)"
     parliament: Bundestag
     dated: 2024-07-05
@@ -40,7 +44,6 @@ divisions:
     why_nein: "Voted against buffer zones around counselling centres and clinics."
   - key: "1639"
     area: 1
-    draft: true
     title: "Aufhebung von § 219a StGB (opposition motion)"
     parliament: Bundestag
     dated: 2019-02-21
@@ -55,7 +58,6 @@ divisions:
       equals for exactly this reason.
   - key: "1640"
     area: 1
-    draft: true
     title: "Aufhebung des Werbeverbots für Schwangerschaftsabbrüche (opposition bill)"
     parliament: Bundestag
     dated: 2019-02-21
@@ -65,7 +67,6 @@ divisions:
     why_nein: "Voted against lifting the abortion advertising ban."
   - key: "1638"
     area: 1
-    draft: true
     placeable: false
     title: "Reform des § 219a (coalition compromise)"
     parliament: Bundestag
@@ -73,7 +74,6 @@ divisions:
     reason: "loosened the ban but kept it: neither lobby is cleanly ours"
   - key: "716"
     area: 1
-    draft: true
     title: "Beratungspflicht bei Spätabtreibungen"
     parliament: "Bundestag 2005-2009"
     dated: 2009-05-13
@@ -83,7 +83,6 @@ divisions:
     why_nein: "Voted against stricter counselling before late abortions."
   - key: "1312"
     area: 1
-    draft: true
     title: "Schwangeren den Zugang zu Informationen zu Schwangerschaftsabbruch ermöglichen (Greens)"
     parliament: "Bayern 2013-2018"
     dated: 2017-12-07
@@ -93,7 +92,6 @@ divisions:
     why_nein: "Voted against the Greens' motion on access to information about abortion."
   - key: "1619"
     area: 1
-    draft: true
     title: "Abschaffung von § 219a Strafgesetzbuch (Linke)"
     parliament: "Mecklenburg-Vorpommern 2016-2021"
     dated: 2018-11-21
@@ -103,7 +101,6 @@ divisions:
     why_nein: "Voted against repealing § 219a."
   - key: "4799"
     area: 1
-    draft: true
     title: "Verbesserung der Schwangerschaftskonfliktberatung (AfD)"
     parliament: "Bayern 2018-2023"
     dated: 2020-10-12
@@ -113,7 +110,6 @@ divisions:
     why_nein: "Voted against the AfD motion on counselling to protect the unborn."
   - key: "5236"
     area: 1
-    draft: true
     title: "Schutz vor Störung Schwangerer bei Schwangerschaftsberatung und -abbruch (Linke bill)"
     parliament: "Hessen 2019-2024"
     dated: 2023-07-20
@@ -124,7 +120,6 @@ divisions:
     note: "Rejected by the CDU-Green coalition: a Green Nein here is coalition discipline."
   - key: "6301"
     area: 1
-    draft: true
     title: "Klares Bekenntnis zum Lebensschutz und zur Menschenwürde des ungeborenen Lebens (AfD)"
     parliament: "Bayern 2023-2028"
     dated: 2025-07-24
@@ -134,7 +129,6 @@ divisions:
     why_nein: "Voted against the AfD motion affirming protection of unborn life."
   - key: "6302"
     area: 1
-    draft: true
     title: "Keine weitere Liberalisierung des Abtreibungsrechts (CSU/FW)"
     parliament: "Bayern 2023-2028"
     dated: 2025-07-24
@@ -146,7 +140,6 @@ divisions:
 papers:
   - key: "317619"
     area: 1
-    draft: true
     title: "Gesetz zur Neuregelung des Schwangerschaftsabbruchs"
     type: "Gesetzgebung"
     wahlperiode: 20
@@ -155,7 +148,6 @@ papers:
     why: "Gruppenantrag: take abortion in the first 12 weeks out of the Criminal Code (20/13775, 329 co-sponsors)"
   - key: "309408"
     area: 1
-    draft: true
     title: "Kassenzulassung des nichtinvasiven Pränataltests - Monitoring der Konsequenzen und Einrichtung eines Gremiums"
     type: "Antrag"
     wahlperiode: 20
@@ -164,7 +156,6 @@ papers:
     why: "cross-party NIPT motion (20/10515): monitor the effects of insurer-funded prenatal testing for Down's syndrome"
   - key: "330644"
     area: 1
-    draft: true
     title: "Kassenzulassung des nicht-invasiven Pränataltests - Monitoring der Konsequenzen und Einrichtung eines Gremiums"
     type: "Antrag"
     wahlperiode: 21
@@ -173,7 +164,6 @@ papers:
     why: "cross-party NIPT motion re-tabled (21/3873)"
   - key: "317981"
     area: 1
-    draft: true
     title: "Einführung eines Gedenktages für ungeborenes Leben"
     type: "Antrag"
     wahlperiode: 20
@@ -182,7 +172,6 @@ papers:
     why: "AfD: memorial day for unborn life"
   - key: "317632"
     area: 1
-    draft: true
     title: "Versorgungslage von ungewollt Schwangeren verbessern"
     type: "Antrag"
     wahlperiode: 20
@@ -191,7 +180,6 @@ papers:
     why: "group motion: improve provision for the unintentionally pregnant (20/13776, companion to the § 218 bill)"
   - key: "315963"
     area: 1
-    draft: true
     title: "Körperliche und sexuelle Selbstbestimmung sichern, reproduktive Gerechtigkeit ermöglichen"
     type: "Antrag"
     wahlperiode: 20
@@ -200,7 +188,6 @@ papers:
     why: "Linke: bodily self-determination, reproductive justice"
   - key: "287870"
     area: 1
-    draft: true
     title: "Staatliche Schutzpflicht des ungeborenen Lebens - Keine Aufhebung des Verbots der Werbung für den Schwangerschaftsabbruch nach § 219a des St"
     type: "Antrag"
     wahlperiode: 20
@@ -209,7 +196,6 @@ papers:
     why: "AfD: keep the § 219a advertising ban"
   - key: "287540"
     area: 1
-    draft: true
     title: "§ 219a des Strafgesetzbuches streichen - Selbstbestimmung, Entscheidungsfreiheit und ausreichende Versorgung sicherstellen"
     type: "Antrag"
     wahlperiode: 20
@@ -218,7 +204,6 @@ papers:
     why: "Linke: strike § 219a"
   - key: "287007"
     area: 1
-    draft: true
     title: "§ 219a StGB erhalten und Schutzauftrag des ungeborenen Lebens im allgemeinen Bewusstsein beleben"
     type: "Antrag"
     wahlperiode: 20
@@ -227,7 +212,6 @@ papers:
     why: "AfD: keep § 219a"
   - key: "285360"
     area: 1
-    draft: true
     title: "Interessen der Frauen stärken, Schutz des ungeborenen Kindes beibehalten"
     type: "Antrag"
     wahlperiode: 20
@@ -236,7 +220,6 @@ papers:
     why: "CDU/CSU: keep protection of the unborn child"
   - key: "337053"
     area: 1
-    draft: true
     title: "Pro familia von der Schwangerschaftskonfliktberatung ausschließen - Ungeborenes Leben schützen"
     type: "Antrag"
     wahlperiode: 21
@@ -245,7 +228,6 @@ papers:
     why: "AfD: exclude pro familia from conflict counselling"
   - key: "331653"
     area: 1
-    draft: true
     title: "Reproduktive Gerechtigkeit verwirklichen - Selbstbestimmung gewährleisten"
     type: "Antrag"
     wahlperiode: 21
@@ -254,7 +236,6 @@ papers:
     why: "Linke: reproductive justice"
   - key: "330684"
     area: 1
-    draft: true
     title: "Versorgung bei Schwangerschaftsabbrüchen sichern"
     type: "Antrag"
     wahlperiode: 21
@@ -263,7 +244,6 @@ papers:
     why: "Greens: secure abortion provision"
   - key: "306683"
     area: 1
-    draft: true
     title: "Kassenzulassung des nicht-invasiven Pränataltests - Auswirkungen und mögliche Konsequenzen"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -272,7 +252,6 @@ papers:
     why: "CDU/CSU: consequences of NIPT funding"
   - key: "302974"
     area: 1
-    draft: true
     title: "Stand der reproduktiven Rechte - Zugang zu Schwangerschaftsabbrüchen"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -281,7 +260,6 @@ papers:
     why: "Linke: access to abortion"
   - key: "302012"
     area: 1
-    draft: true
     title: "Forderungen der Weltgesundheitsorganisation zur Tötung Ungeborener und öffentliche Äußerungen der Bundesregierung"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -290,7 +268,6 @@ papers:
     why: "AfD: 'WHO demands on killing the unborn'"
   - key: "322913"
     area: 1
-    draft: true
     title: "Förderung sowie Unterstützung von LGBTIQ- und Gender-Projekten sowie Abtreibung im Ausland"
     type: "Große Anfrage"
     wahlperiode: 21
@@ -299,7 +276,6 @@ papers:
     why: "AfD: funding of abortion abroad"
   - key: "332003"
     area: 1
-    draft: true
     title: "Förderung von LGBTIQ-, Gender-Projekten und Abtreibung im Ausland"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -308,7 +284,6 @@ papers:
     why: "AfD: funding of abortion abroad"
   - key: "336595"
     area: 1
-    draft: true
     title: "Förderung des \"Equality Fund\" durch die Bundesregierung"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -317,7 +292,6 @@ papers:
     why: "AfD: Equality Fund"
   - key: "338633"
     area: 1
-    draft: true
     title: "Die vertrauliche Geburt und Formen anonymer Kindesabgabe"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -326,7 +300,6 @@ papers:
     why: "AfD: confidential birth, anonymous relinquishment"
   - key: "309577"
     area: 1
-    draft: true
     title: "Die demographische Situation in Deutschland vor dem Hintergrund nicht bestandserhaltender Geburtenzahlen"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -335,7 +308,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "308349"
     area: 1
-    draft: true
     title: "Stand der Verordnung zur Änderung der Ärztlichen Approbationsordnung"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -344,7 +316,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "301566"
     area: 1
-    draft: true
     title: "Arbeits- und Lebensrealität in Bayern"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -353,7 +324,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "291130"
     area: 1
-    draft: true
     title: "Soziale Infrastruktur für Frauen in Nordrhein-Westfalen"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -362,7 +332,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "290696"
     area: 1
-    draft: true
     title: "Folgen der Pandemiebewältigung für Gleichstellung und das Leben von Frauen in Deutschland"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -371,7 +340,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "308718"
     area: 1
-    draft: true
     title: "Vorhaben aus dem Bereich Familie, Senioren, Frauen und Jugend nach Halbzeit der Ampelregierung"
     type: "Kleine Anfrage"
     wahlperiode: 20
@@ -380,7 +348,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "337402"
     area: 1
-    draft: true
     title: "Krankenhausschließungen und medizinische Versorgung im ländlichen Raum in Bayern"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -389,7 +356,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "335080"
     area: 1
-    draft: true
     title: "Ankündigungen und Umsetzung - Bilanz der gesundheitspolitischen Vorhaben der Bundesministerin für Gesundheit nach einem Jahr Amtszeit"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -398,7 +364,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "333549"
     area: 1
-    draft: true
     title: "Krankenhausschließungen und medizinische Versorgung im ländlichen Raum in Brandenburg"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -407,7 +372,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "332703"
     area: 1
-    draft: true
     title: "Dokumentierte sexualisierte Kriegsgewalt im russischen Angriffskrieg gegen die Ukraine"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -416,7 +380,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "332334"
     area: 1
-    draft: true
     title: "Krankenhausschließungen und medizinische Versorgung im ländlichen Raum in Rheinland-Pfalz"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -425,7 +388,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "331362"
     area: 1
-    draft: true
     title: "Krankenhausschließungen und medizinische Versorgung im ländlichen Raum in Baden-Württemberg"
     type: "Kleine Anfrage"
     wahlperiode: 21
@@ -434,7 +396,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "298002"
     area: 1
-    draft: true
     title: "Bedrängungen von Ärzten im Zusammenhang mit Schwangerschaftsabbrüchen"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -443,7 +404,6 @@ papers:
     why: "harassment of doctors over abortion"
   - key: "297630"
     area: 1
-    draft: true
     title: "Bedrängungen von Ärzten im Zusammenhang mit Schwangerschaftsabbrüchen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -452,7 +412,6 @@ papers:
     why: "harassment of doctors over abortion"
   - key: "292089"
     area: 1
-    draft: true
     title: "Maßnahmen gegen sogenannte Gehsteigbelästigungen von Abtreibungsgegnern"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -461,7 +420,6 @@ papers:
     why: "measures against pavement harassment by abortion opponents"
   - key: "313911"
     area: 1
-    draft: true
     title: "Schutz schwangerer Frauen vor verstörenden Abbildungen von Schwangerschaftsabbrüchen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -470,7 +428,6 @@ papers:
     why: "shield pregnant women from abortion images"
   - key: "320201"
     area: 1
-    draft: true
     title: "Verbesserung der Versorgung und Beratung von ungewollt Schwangeren in Bayern"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -479,7 +436,6 @@ papers:
     why: "improve care for the unintentionally pregnant (Bavaria)"
   - key: "330515"
     area: 1
-    draft: true
     title: "Integration des Schwangerschaftsabbruchs in die Facharztweiterbildung Gynäkologie"
     type: "Mündliche Frage"
     wahlperiode: 21
@@ -488,7 +444,6 @@ papers:
     why: "abortion into gynaecology specialist training"
   - key: "328796"
     area: 1
-    draft: true
     title: "Versorgungslage ungewollt Schwangerer"
     type: "Mündliche Frage"
     wahlperiode: 21
@@ -497,7 +452,6 @@ papers:
     why: "provision for the unintentionally pregnant"
   - key: "331907"
     area: 1
-    draft: true
     title: "Sicherstellung gesundheitlicher Daseinsvorsorge und weltanschaulicher Neutralität bei religiös begründeter Leistungsverweigerung in öffentli"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -506,7 +460,6 @@ papers:
     why: "religiously grounded refusal of services"
   - key: "327188"
     area: 1
-    draft: true
     title: "Abbau von Stigmatisierungserfahrungen ungewollt schwangerer Frauen"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -515,7 +468,6 @@ papers:
     why: "reduce stigma for the unintentionally pregnant"
   - key: "286130"
     area: 1
-    draft: true
     title: "Vereinbarkeit der Streichung des Werbeverbotes für Schwangerschaftsabbrüche mit der Menschenwürde Ungeborener"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -524,7 +476,6 @@ papers:
     why: "repeal of § 219a vs the dignity of the unborn"
   - key: "297383"
     area: 1
-    draft: true
     title: "Auswirkungen der Kostenübernahme pränataler Bluttests durch die Krankenkassen auf die Anzahl der Schwangerschaftsabbrüche"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -533,7 +484,6 @@ papers:
     why: "NIPT funding and abortion numbers"
   - key: "297940"
     area: 1
-    draft: true
     title: "Möglicher Druck auf schwangere Frauen zur Durchführung von nicht-invasiven Pränataltests"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -542,7 +492,6 @@ papers:
     why: "pressure on women to take NIPT"
   - key: "297385"
     area: 1
-    draft: true
     title: "Vereinbarkeit der Kostenübernahme nichtinvasiver Pränataltests durch die Krankenkassen mit dem Wirtschaftlichkeitsgebot gemäß SGB V"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -551,7 +500,6 @@ papers:
     why: "NIPT funding"
   - key: "297384"
     area: 1
-    draft: true
     title: "Mögliche Gefahr eugenischer Tendenzen aufgrund der Kostenübernahme nichtinvasiver Pränataltests durch die Krankenkassen"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -560,7 +508,6 @@ papers:
     why: "eugenic tendencies from NIPT funding"
   - key: "297381"
     area: 1
-    draft: true
     title: "Gesetzlicher Regelungsbedarf bzgl. der Kostenübernahme pränataler Bluttests auf Trisomien durch die Krankenkassen  "
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -569,7 +516,6 @@ papers:
     why: "NIPT regulation"
   - key: "299076"
     area: 1
-    draft: true
     title: "Statistische Erfassung von Schwangerschaftsabbrüchen im Zusammenhang der vorgeburtlichen Erkennung einer Behinderung"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -578,7 +524,6 @@ papers:
     why: "abortion after prenatal disability diagnosis, statistics"
   - key: "297368"
     area: 1
-    draft: true
     title: "Beteiligung von Kirchen bzw. Theologen an der Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -587,7 +532,6 @@ papers:
     why: "churches on the reproductive self-determination commission"
   - key: "307206"
     area: 1
-    draft: true
     title: "Unabhängigkeit der Mitglieder der Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -596,7 +540,6 @@ papers:
     why: "independence of the commission's members"
   - key: "307568"
     area: 1
-    draft: true
     title: "Mahnwachen und Gehsteigberatungsangebote vor Schwangerschaftskonfliktberatungsstellen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -605,7 +548,6 @@ papers:
     why: "vigils and pavement counselling ('Gehsteigberatung', our term)"
   - key: "318360"
     area: 1
-    draft: true
     title: "Räumliche Nähe einer Schwangerschaftskonfliktberatungsstelle der ProFamilia zu einer Einrichtung für Schwangerschaftsabbrüche in Saarbrücken"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -614,7 +556,6 @@ papers:
     why: "pro familia counselling next to an abortion provider"
   - key: "317789"
     area: 1
-    draft: true
     title: "Störung der Demonstration \"Marsch für das Leben\" durch Gegendemonstranten"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -623,7 +564,6 @@ papers:
     why: "disruption of the March for Life"
   - key: "325959"
     area: 1
-    draft: true
     title: "Mögliche Projektförderungen für den Lebensschutz, zur Senkung der Abtreibungszahlen und der Schärfung des Bewusstseins für ungeborenes Leben"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -632,7 +572,6 @@ papers:
     why: "funding for Lebensschutz projects"
   - key: "327189"
     area: 1
-    draft: true
     title: "Aufstockung der Mittel für den Verein donum vitae zur Förderung des Schutzes des menschlichen Lebens e. V."
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -641,7 +580,6 @@ papers:
     why: "more money for donum vitae"
   - key: "312759"
     area: 1
-    draft: true
     title: "Legalisierung von Schwangerschaftsabbrüchen"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -650,7 +588,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "312757"
     area: 1
-    draft: true
     title: "Entkriminalisierung von Schwangerschaftsabbrüchen"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -659,7 +596,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "312721"
     area: 1
-    draft: true
     title: "Zuständigkeiten bei der flächendeckenden Versorgung mit Beratungseinrichtungen bei Schwangerschaftsabbrüchen sowie der ärztlichen Weiterbild"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -668,7 +604,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "311814"
     area: 1
-    draft: true
     title: "Legalisierung von Schwangerschaftsabbrüchen"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -677,7 +612,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "296839"
     area: 1
-    draft: true
     title: "Länderbefragung zum Thema Gehsteigbelästigung"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -686,7 +620,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "295297"
     area: 1
-    draft: true
     title: "Erstattung der durch Schwangerschaftsabbrüche verursachten Kosten für gesetzliche Krankenkassen"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -695,7 +628,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "286137"
     area: 1
-    draft: true
     title: "Veröffentlichung medizinischer Informationen zu Schwangerschaftsabbrüchen auf Internetseiten"
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -704,7 +636,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "284359"
     area: 1
-    draft: true
     title: "Umsetzung der Finanzierung der Online-Beratung des Bundesprogramms \"Frühe Hilfen\""
     type: "Mündliche Frage"
     wahlperiode: 20
@@ -713,7 +644,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "319305"
     area: 1
-    draft: true
     title: "Kliniken und Arztpraxen mit der Möglichkeit zur Durchführung von Schwangerschaftsabbrüchen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -722,7 +652,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "316537"
     area: 1
-    draft: true
     title: "Neuregelung beim Abtreibungsrecht"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -731,7 +660,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "315320"
     area: 1
-    draft: true
     title: "Anzahl an Schwangerschaftsabbrüche durchführenden Einrichtungen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -740,7 +668,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "314076"
     area: 1
-    draft: true
     title: "Vorschlag der SPD-Bundestagsfraktion zur gesetzlichen Frist für Schwangerschaftsabbrüche"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -749,7 +676,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "313659"
     area: 1
-    draft: true
     title: "Schwangerschaftsabbrüche im Rahmen der sogenannten Beratungslösung"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -758,7 +684,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "313052"
     area: 1
-    draft: true
     title: "Sicherstellung einer flächendeckenden Versorgung mit Beratungseinrichtungen für Schwangerschaftsabbrüche"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -767,7 +692,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "312218"
     area: 1
-    draft: true
     title: "Rückmeldung zur Länderabfrage des BMFSFJ zu Gehsteigbelästigungen vor Schwangerschaftskonfliktberatungsstellen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -776,7 +700,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "311635"
     area: 1
-    draft: true
     title: "Umsetzung einer Kommissionsempfehlung zur Neuregelung von Schwangerschaftsabbrüchen außerhalb des Strafgesetzbuches"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -785,7 +708,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "311596"
     area: 1
-    draft: true
     title: "Vorfälle bzw. Proteste vor Schwangerschaftskonfliktberatungsstellen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -794,7 +716,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "310133"
     area: 1
-    draft: true
     title: "Fälle nicht selbstbestimmter Entscheidungen über einen Schwangerschaftsabbruch durch eine Schwangerschaftskonfliktberatung"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -803,7 +724,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "310130"
     area: 1
-    draft: true
     title: "Gehsteigbelästigungen in den letzten fünf Jahren"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -812,7 +732,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "309768"
     area: 1
-    draft: true
     title: "Treffen mit Interessenvertretern zur Reform der Regelungen zum Schwangerschaftsabbruch im StGB zwischen Juli 2021 und Juli 2022"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -821,7 +740,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "299636"
     area: 1
-    draft: true
     title: "Straftaten durch Abtreibungsgegner bzw. -befürworter in den Jahren 2018 bis 2022"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -830,7 +748,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "298412"
     area: 1
-    draft: true
     title: "Rechtskräftig verurteilte Personen nach § 218 StGB seit 2010"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -839,7 +756,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "298199"
     area: 1
-    draft: true
     title: "Aufgaben der Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -848,7 +764,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "298136"
     area: 1
-    draft: true
     title: "Erhöhte Anzahl von Schwangerschaftsabbrüchen zwischen Juli und Oktober 2022"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -857,7 +772,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "297703"
     area: 1
-    draft: true
     title: "Mitglieder der Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -866,7 +780,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "296858"
     area: 1
-    draft: true
     title: "Genehmigte Anträge auf GKV-Kostenübernahme von Schwangerschaftsabbrüchen"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -875,7 +788,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "296351"
     area: 1
-    draft: true
     title: "Einsetzung der Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -884,7 +796,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "296345"
     area: 1
-    draft: true
     title: "Kostenübernahme für straffreie Schwangerschaftsabbrüche durch die gesetzlichen Krankenkassen in den Jahren 2018 bis 2022"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -893,7 +804,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "295026"
     area: 1
-    draft: true
     title: "Errichtung einer Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -902,7 +812,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "292090"
     area: 1
-    draft: true
     title: "Zeitplan für die Umsetzung des Vorhabens \"Reproduktive Selbstbestimmung\""
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -911,7 +820,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "289719"
     area: 1
-    draft: true
     title: "Änderungsbedarf beim Abtreibungsrecht vor dem Hintergrund der gerichtlichen Entscheidung in den USA"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -920,7 +828,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "286754"
     area: 1
-    draft: true
     title: "Kostenerstattungen für die gesetzlichen Krankenkassen gemäß dem Gesetz zur Hilfe für Frauen bei Schwangerschaftsabbrüchen in besonderen Fäll"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -929,7 +836,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "284701"
     area: 1
-    draft: true
     title: "Verankerung des Rechts auf Abtreibung in der EU-Grundrechtecharta"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -938,7 +844,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "284261"
     area: 1
-    draft: true
     title: "Einsetzung der geplanten \"Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin\"
  "
     type: "Schriftliche Frage"
@@ -948,7 +853,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "283458"
     area: 1
-    draft: true
     title: "Schwangerschaftsabbrüche in Krankenhäusern in kirchlicher Trägerschaft"
     type: "Schriftliche Frage"
     wahlperiode: 20
@@ -957,7 +861,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "332291"
     area: 1
-    draft: true
     title: "Kenntnisse über etwaige Plakate der Partei DIE PARTEI mit der Aufschrift „Kinder von AfD-Wählern: Abtreiben!“"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -966,7 +869,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "330648"
     area: 1
-    draft: true
     title: "Veröffentlichung der jährlichen statistischen Ergebnisse über Schwangerschaftsabbrüche"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -975,7 +877,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "328534"
     area: 1
-    draft: true
     title: "Erweiterung der Kostenübernahme für Abtreibungen"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -984,7 +885,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "327403"
     area: 1
-    draft: true
     title: "Modernisierung der Richtlinie 2001/83/EG hinsichtlich der Möglichkeit zur Beschränkung von Abortiva und Kontrazeptiva"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -993,7 +893,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "327323"
     area: 1
-    draft: true
     title: "Zahl der im Bundesland Bremen durchgeführten Schwangerschaftsabbrüche"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1002,7 +901,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "324888"
     area: 1
-    draft: true
     title: "Umsetzung der geplanten Kostenübernahme von Schwangerschaftsabbrüchen durch die gesetzlichen Krankenkassen"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1011,7 +909,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "324882"
     area: 1
-    draft: true
     title: "Kostenübernahme von Schwangerschaftsabbrüchen durch die gesetzlichen Krankenkassen"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1020,7 +917,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "324881"
     area: 1
-    draft: true
     title: "Kostenübernahme von Schwangerschaftsabbrüchen durch die gesetzlichen Krankenkassen"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1029,7 +925,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "324877"
     area: 1
-    draft: true
     title: "Erweiterung der Kostenübernahme durch die gesetzlichen Krankenkassen bei Vornahme eines Schwangerschaftsabbruchs"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1038,7 +933,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "322410"
     area: 1
-    draft: true
     title: "Bericht der Arbeitsgruppe 1 der Kommission zur reproduktiven Selbstbestimmung und Fortpflanzungsmedizin"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1047,7 +941,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "321863"
     area: 1
-    draft: true
     title: "Anzahl von Schwangerschaftsabbrüchen zwischen Januar und März 2025"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1056,7 +949,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "321862"
     area: 1
-    draft: true
     title: "Schwangerschaftsabbrüche nach der zwölften Schwangerschaftswoche im Jahr 2024"
     type: "Schriftliche Frage"
     wahlperiode: 21
@@ -1065,7 +957,6 @@ papers:
     reason: "the title does not show which side the author is on"
   - key: "321526"
     area: 1
-    draft: true
     title: "Begründung der Schwangerschaftsabbrüche nach der zwölften Schwangerschaftswoche im Jahr 2024"
     type: "Schriftliche Frage"
     wahlperiode: 21

@@ -14,8 +14,8 @@
 #
 # RULES APPLIED: a passing mention outside an abortion debate is listed,
 # never placed (placeable: false). A heckle in an abortion debate is the
-# weakest tier (a question). Every value is a DRAFT and places nobody until
-# confirmed, exactly as in config/de_stance.yaml.
+# weakest tier (a question). Confirmed as drafted by Christopher on 29
+# September 2026, with config/de_stance.yaml; the German team may amend.
 
 members:
 - name: Adrian Grasse
@@ -55,7 +55,6 @@ members:
     url: https://pardok.parlament-berlin.de/starweb/adis/citat/VT/19/PlenarPr/p19-006-wp.pdf#page=19
     quote: Auch die Feministinnen, die 2019 den Marsch der Abtreibungsgegner und -gegnerinnen mit Sitzblockaden
       blockierten, wurden wegen angeblicher Nötigung vor Gericht gezerrt.
-    draft: true
     placeable: false
     reason: passing mention in a climate-protest debate; shown, not placed.
 - name: Katalin Gennburg
@@ -80,7 +79,6 @@ members:
     url: https://pardok.parlament-berlin.de/starweb/adis/citat/VT/19/PlenarPr/p19-053-wp.pdf#page=107
     quote: '[Ines Schmidt (LINKE):] „Auch der Beratungszwang … muss ersatzlos gestrichen werden.“ [Katalin
       Gennburg (LINKE): Woo!]'
-    draft: true
     value: -1
     note: 'An interjection (Zwischenruf), not a speech: a recorded cheer for her party colleague''s call
       to scrap mandatory counselling during the § 218 decriminalisation debate. Weak evidence, but it
@@ -109,7 +107,6 @@ members:
     url: https://pardok.parlament-berlin.de/starweb/adis/citat/VT/19/PlenarPr/p19-053-wp.pdf#page=106
     quote: '[Zuruf von Ronald Gläser (AfD)] – after Haghanipour quoted: „Wer will schon einen Teil seiner
       Arbeit im Strafgesetzbuch zwischen Mord und Totschlag finden?“'
-    draft: true
     placeable: false
     reason: The protocol records an interjection by him during the Green speech for decriminalisation
       but not what he said. It shows he was present and heckling the pro-decriminalisation speaker; it
@@ -122,7 +119,6 @@ members:
     url: https://pardok.parlament-berlin.de/starweb/adis/citat/VT/18/PlenarPr/p18-055-wp.pdf#page=59
     quote: 'Ich habe mal eine unverbindliche Liste zusammengestellt von Organisationen, über deren Vertretung
       im Rundfunkrat einmal nachgedacht werden sollte: Lebensschützer, Heimatvertriebene …'
-    draft: true
     placeable: false
     reason: passing mention in a broadcasting-council debate; shown, not placed.
 - name: Daniel Zerbin
@@ -257,7 +253,6 @@ members:
     url: https://www.parlamentsdokumentation.brandenburg.de/starweb/LBB/ELVIS/parladoku/w4/drs/ab_0600/653.pdf
     quote: Wer hat aus welchen Gründen die Entscheidung getroffen, einer bereits zum damaligen Zeitpunkt
       von der Insolvenz bedrohten Einrichtung Fördermittel zu gewähren?
-    draft: true
     placeable: false
     reason: 'She asks about state funding (47,450 EUR in 2004) for the SchKG counselling centre of an
       insolvency-threatened provider in Teltow, including why the counselling was not given to another
@@ -269,7 +264,6 @@ members:
     url: https://www.parlamentsdokumentation.brandenburg.de/starweb/LBB/ELVIS/parladoku/w6/plpr/53.pdf
     quote: Männer haben bei dem Thema genauso mitzureden wie Frauen. (Beifall AfD und der Abgeordneten
       Dr. Ludwig [CDU] …)
-    draft: true
     placeable: false
     reason: 'The protocol names her as the only non-AfD member applauding a line in AfD MdL Birgit Bessin''s
       speech against the motion to abolish § 219a. The line applauded is about men having a say, not about
@@ -299,7 +293,6 @@ members:
     url: https://parldok.thueringer-landtag.de/parldok/dokument/69432/6_0135_135_plenarsitzung
     quote: Trotzdem werden 90 bis 95 Prozent aller ungeborenen Kinder, bei denen Trisomie 21 festgestellt
       wird, in diesem Land abgetrieben.
-    draft: true
     value: 2
     note: Debate on voting rights for people under full guardianship. He uses the abortion of unborn children
       with Trisomy 21 as a sustained argument against the governing parties. Abortion is not the subject
@@ -310,7 +303,6 @@ members:
     url: https://parldok.thueringer-landtag.de/parldok/dokument/69432/6_0135_135_plenarsitzung
     quote: Wer für das Recht auf Abtreibung, selbst sachgrundlos, bis zum letzten Tag vor der Geburt steht,
       der kommt genau in dieses moralische Dilemma
-    draft: true
     value: 2
     note: Second speech in the same debate. On p. 11690 he says Linke and Grüne rank 'das Recht auf Abtreibung
       viel, viel höher' than the right of disabled unborn life to a fulfilled life.
@@ -319,7 +311,6 @@ members:
     doc: Plenarprotokoll 6/140, S. 12057 (TOP 5, Weltkindertag als Feiertag, Drs. 6/6163)
     url: https://parldok.thueringer-landtag.de/parldok/dokument/70291/6_0140_140_plenarsitzung
     quote: Wissen Sie, wie viele Kinder nicht geboren worden sind wegen Ihrer Politik der Spätabtreibung
-    draft: true
     value: 2
     note: Speech against making World Children's Day a public holiday. He presents 'Ihre Abtreibungspolitik'
       (late abortion) as his second main argument that the governing parties are 'kinderfeindlich'. This
