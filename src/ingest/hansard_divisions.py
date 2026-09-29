@@ -255,7 +255,23 @@ def display_name(list_as):
     return " ".join(p for p in (rest, surname.strip()) if p) or None
 
 
-def parse(payload, question=None):
+def evidence_note(question=None, proposed=None, mover=None):
+    """The division's notes, which record_votes makes the ledger EXCERPT the
+    stance model reads: the question, and what was proposed by whom. "That
+    the clause be read a Second time" alone cannot say that an Aye on Mr
+    Burrowes's conscientious-objection clause (20 May 2013) is a vote for
+    protecting registrars, not for the Bill."""
+    parts = []
+    if question:
+        parts.append("Question put: " + question)
+    if proposed:
+        parts.append("Proposed: " + proposed.rstrip(" \u2014\u2013-.:") + ".")
+    if mover:
+        parts.append("Moved by " + mover + ".")
+    return " ".join(parts) or None
+
+
+def parse(payload, question=None, proposed=None, mover=None):
     """(Division, [Voter]) in the shapes intel.record_votes takes. Tellers out."""
     date = datetime.date.fromisoformat((payload.get("Date") or "")[:10])
     section = " ".join((payload.get("DebateSection") or "").split())
@@ -274,7 +290,7 @@ def parse(payload, question=None):
         id=int(payload["Id"]), house="Commons", number=payload.get("Number"),
         title=title,
         date=date, aye_count=payload.get("AyesCount"), no_count=payload.get("NoesCount"),
-        notes=("Question put: " + question) if question else None)
+        notes=evidence_note(question, proposed, mover))
     voters = []
     for key, vote in (("AyeMembers", "aye"), ("NoeMembers", "no")):
         for m in payload.get(key) or []:

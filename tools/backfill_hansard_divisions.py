@@ -160,7 +160,8 @@ def run(conn, client, tax, wl, start, end, dry_run=False, log=print):
                 summary["voters"] = None
             else:
                 try:
-                    division, voters = hd.parse(hd.fetch(client, row["ExternalId"]), ctx.get("question"))
+                    division, voters = hd.parse(hd.fetch(client, row["ExternalId"]), ctx.get("question"),
+                                               ctx.get("proposed"), ctx.get("mover"))
                 except FetchError as exc:
                     log("  [gap] hansard division {0}: {1}".format(did, exc.cause))
                     continue

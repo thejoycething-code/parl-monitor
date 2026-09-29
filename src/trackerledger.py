@@ -93,7 +93,8 @@ def ensure(conn, client, cfg, log=print, dry_run=False):
                                      "(the review queue gives it)")
                 payload = hd.fetch(client, ext)
                 ctx = hd.context(client, payload.get("DebateSectionExtId"), ext)
-                division, voters = hd.parse(payload, ctx.get("question"))
+                division, voters = hd.parse(payload, ctx.get("question"),
+                                           ctx.get("proposed"), ctx.get("mover"))
             elif prefix == "l":
                 division, voters = dv.fetch_lords_breakdown(client, division_id)
             else:

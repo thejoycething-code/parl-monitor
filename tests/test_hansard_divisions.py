@@ -81,6 +81,10 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(division.title,
                          "Assisted Dying (No. 2) Bill: That the Bill be now read a Second time.")
         self.assertEqual(division.notes, "Question put: That the Bill be now read a Second time.")
+        clause, _v = hd.parse(DIVISION, "That the clause be read a Second time.",
+                              "New Clause 3: Conscientious objection: transitional", "Mr Burrowes")
+        self.assertEqual(clause.notes, "Question put: That the clause be read a Second time. "
+                         "Proposed: New Clause 3: Conscientious objection: transitional. Moved by Mr Burrowes.")
         self.assertEqual(division.date.isoformat(), "2015-09-11")
 
     def test_without_a_question_the_line_does_not_pass_for_the_bill(self):
