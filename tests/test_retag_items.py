@@ -174,6 +174,42 @@ class EuMappingTests(unittest.TestCase):
         self.assertEqual(rt.derive_eu_division(CURRENT, WL, row, conn)[0], [8])
 
 
+class EuBodyLookupTests(unittest.TestCase):
+    """29 September 2026. The lookup globbed the identifier verbatim
+    ("TA-10-2026-0215"), but the archiver lowercases its slug. The Mac's
+    case-blind disk matched anyway; the Linux runner matched nothing, every
+    text fell back to its title, and the trust check refused both EU
+    tables at 72% and 21%. A plain exists() test would pass on a Mac, so
+    this one compares the looked-up name with the archived name exactly."""
+
+    def setUp(self):
+        rt._BODIES.clear()
+
+    def tearDown(self):
+        rt._BODIES.clear()
+
+    def test_the_lookup_uses_the_name_the_archiver_wrote(self):
+        import glob
+        import tempfile
+        from unittest import mock
+        from src.http import HttpClient
+        with tempfile.TemporaryDirectory() as raw:
+            client = HttpClient.__new__(HttpClient)
+            client.raw_dir, client.archive_date = raw, "2026-09-17"
+            written = os.path.basename(client._archive(
+                b"not a docx", "eu-texts", "doc-TA-10-2026-0215"))
+            seen = []
+            real = glob.glob
+
+            def spy(pattern, *a, **k):
+                seen.append(os.path.basename(pattern))
+                return real(pattern, *a, **k)
+
+            with mock.patch.object(glob, "glob", spy):
+                rt._eu_body("TA-10-2026-0215", raw_dir=raw)
+        self.assertEqual(seen, [written])
+
+
 class DryRunTests(unittest.TestCase):
     def test_walk_writes_nothing(self):
         conn = store()

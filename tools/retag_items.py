@@ -154,8 +154,14 @@ def _eu_body(ident, raw_dir=None):
     import gzip
     if ident not in _BODIES:
         from src import eudoc
+        from src.http import slugify
+        # The archiver's own name rule (HttpClient._archive), so lowercase:
+        # "TA-10-2026-0215" is stored as eu-texts_doc-ta-10-2026-0215. A
+        # verbatim ident matches on the Mac's case-blind disk and on nothing
+        # in CI -- 29 Sept, the retag refused both EU tables there.
         paths = sorted(glob.glob(os.path.join(
-            raw_dir or RAW, "*", "eu-texts_doc-{0}.json.gz".format(ident))))
+            raw_dir or RAW, "*", "eu-texts_{0}.json.gz".format(
+                slugify("doc-" + ident)))))
         body = None
         if paths:
             try:
