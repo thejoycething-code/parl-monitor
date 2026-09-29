@@ -53,6 +53,7 @@ on:
           - "Senedd from the cutoff"
           - "NI Assembly questions from the cutoff"
           - "NI Assembly divisions from the cutoff"
+          - "Senedd divisions of the Fifth Senedd (2016-21)"
           - "retag stored rows (taxonomy change)"
         default: "speeches, questions and EDMs"
 
@@ -165,6 +166,14 @@ jobs:
         run: |
           python3 tools/sd_pull.py --backfill --floor "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log
           python3 tools/sd_divisions.py --parl 700 --floor "${{ inputs.cutoff }}" | tee -a /tmp/bf-devolved.log
+      - name: "Senedd: the Fifth Senedd's divisions and speeches (2016-21)"
+        # 29 September 2026. The Fifth Senedd has its own XMLExport index, 401
+        # (334 sittings from 11 May 2016); nothing older is exported, so the
+        # cutoff cannot usefully go below 2016-05-01. Divisions and speeches
+        # only: the question walk took 2.5 hours back to 2021 alone and would
+        # not fit this job's limit back to 2016.
+        if: inputs.what == 'Senedd divisions of the Fifth Senedd (2016-21)'
+        run: python3 tools/sd_divisions.py --parl 401 --floor "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log
       - name: "NI Assembly: questions from the cutoff"
         if: inputs.what == 'NI Assembly questions from the cutoff'
         run: python3 tools/ni_pull.py --since "${{ inputs.cutoff }}" | tee /tmp/bf-devolved.log

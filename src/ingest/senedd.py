@@ -49,6 +49,13 @@ TRANSCRIPT_URL = ("https://record.senedd.wales/XMLExport/Download?meetingID={0}"
                   "&xmlDownloadType=EnglishTranscript")
 SIXTH_SENEDD = 700
 SEVENTH_SENEDD = 908
+# The Fifth Senedd's plenary index (May 2016 - April 2021: 334 sittings, 255
+# with votes), found 29 Sept 2026 by scanning XMLExport committee ids 1-999.
+# Nothing older is exported: every meeting id below 3591 (11 May 2016) returns
+# the generic error page from both the XML export and the Record, so the Fourth
+# Assembly (2011-16) is not reachable this way. That is a limit of the
+# source, not a gap in the scan.
+FIFTH_SENEDD = 401
 
 _TABLED = re.compile(r"Tabled on (\d\d)/(\d\d)/(\d\d\d\d)")
 _ANSWERED = re.compile(

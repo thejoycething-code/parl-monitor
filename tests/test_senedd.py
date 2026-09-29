@@ -106,6 +106,24 @@ class VoteTests(unittest.TestCase):
         divs = senedd.parse_votes_xml(load("senedd_votes-fixture"))
         self.assertEqual(len(divs), 2, "one division per schema")
 
+    def test_the_fifth_senedd_wrapper_parses(self):
+        """29 Sept 2026: the Fifth Senedd's export (index 401, 2016-21) wraps
+        rows as XML_Plenary-FifthSenedd_Vote. Shape from meeting 5000, the
+        17 July 2018 sitting, probed live."""
+        row = ("<XML_Plenary-FifthSenedd_Vote><Contribution_ID>9</Contribution_ID>"
+               "<Meeting_ID>5000</Meeting_ID><MeetingDate>2018-07-17T00:00:00"
+               "</MeetingDate><Vote_Name_English>NDM6770 - Motion</Vote_Name_English>"
+               "<VotesTotalFor>40</VotesTotalFor><VotesTotalAgainst>9</VotesTotalAgainst>"
+               "<VotesTotalAbstain>0</VotesTotalAbstain><Member_Id>{0}</Member_Id>"
+               "<Member_name_English>M{0}</Member_name_English>"
+               "<Results_Result>For</Results_Result></XML_Plenary-FifthSenedd_Vote>")
+        divs = senedd.parse_votes_xml(row.format(1) + row.format(2))
+        self.assertEqual(len(divs), 1)
+        self.assertEqual((divs[0].dated, len(divs[0].votes)), ("2018-07-17", 2))
+
+    def test_the_fifth_senedd_index_is_named(self):
+        self.assertEqual(senedd.FIFTH_SENEDD, 401)
+
     def test_the_division_key_is_contribution_id(self):
         """<ID> is unique PER ROW (member-level): grouping on it produced 480
         one-voter divisions from a sitting that held 5 of 96 voters each."""

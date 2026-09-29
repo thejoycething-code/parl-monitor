@@ -2,6 +2,7 @@
 
     python3 tools/sd_divisions.py            # walk both parliaments to 2024
     python3 tools/sd_divisions.py --parl 908 # one parliament
+    python3 tools/sd_divisions.py --parl 401 --floor 2016-05-01  # the Fifth Senedd
 
 Also harvests SPEECHES: the same index links each sitting's English
 transcript XML, so one walk serves votes and speeches (the Holyrood lesson).
