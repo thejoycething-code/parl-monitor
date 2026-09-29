@@ -955,6 +955,12 @@ CREATE TABLE IF NOT EXISTS de_members (
   -- one: a directly elected member answers to a place, a list member does
   -- not, and that changes who can usefully write to them.
   mandate_won TEXT,
+  -- 1 while abgeordnetenwatch lists the mandate among the legislature's
+  -- CURRENT ones, 0 once it has gone (29 September 2026). last_seen cannot
+  -- say this: eight departed members (Baerbock, Habeck and six others) kept
+  -- rows here, and the German 5CA counted 638 in a 630-seat House. NULL
+  -- means never checked. Set by tools/de_profiles.py --roster.
+  sitting INTEGER,
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS de_divisions (
@@ -1259,6 +1265,31 @@ CREATE TABLE IF NOT EXISTS de_protocols (
   chars INTEGER,
   read_on TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS de_authorship (
+  -- WHO PUT THEIR NAME TO A DRUCKSACHE (29 September 2026, for the German
+  -- 5CA). A German member's own acts beyond speech: co-sponsoring a group
+  -- bill, co-authoring a motion, asking a question. Names as printed, one
+  -- row per author per document, resolved to de_members by name at read
+  -- time (the two id spaces never join by id).
+  --
+  -- WHERE THE NAMES COME FROM, because DIP truncates: vorgangsposition's
+  -- activity list shows 2-4 authors of a 312-author motion. So `source`
+  -- records which of three routes gave the name: 'signers' (the block after
+  -- the last "Berlin, den" -- every signer of a GROUP bill or motion),
+  -- 'cover' (the "der Abgeordneten ... und der Fraktion" line of a Fraktion
+  -- paper, whose signature block is only its two leaders), or 'activity'
+  -- (DIP's own list, complete only when it is not truncated).
+  nummer TEXT NOT NULL,            -- Drucksache number, '20/13775'
+  -- As printed for 'cover' and 'activity'. For 'signers', the de_members
+  -- name found in the block: a two-column block cannot be split by line.
+  author TEXT NOT NULL,
+  wahlperiode TEXT, vorgang_id TEXT,
+  art TEXT,                        -- DIP's position type: Antrag, Gesetzentwurf, Kleine Anfrage, Frage...
+  datum TEXT, titel TEXT,
+  source TEXT,                     -- signers | cover | activity
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+  PRIMARY KEY (nummer, author)
+);
 CREATE TABLE IF NOT EXISTS de_agenda (
   -- THE FORWARD LOOK, and the only German source that points at the future.
   -- Measured 23 September 2026: DIP returns ZERO results for any future date
@@ -1538,6 +1569,7 @@ TABLES = (
     "de_petition_snapshots",
     "de_speeches",
     "de_protocols",
+    "de_authorship",
     "eu_ecis",
     "eu_judgments",
     "eu_pqs",
@@ -1641,6 +1673,8 @@ def init_db(conn):
             if col not in mem_cols:
                 conn.execute(
                     "ALTER TABLE de_members ADD COLUMN {0} TEXT".format(col))
+        if "sitting" not in mem_cols:
+            conn.execute("ALTER TABLE de_members ADD COLUMN sitting INTEGER")
     sp_cols = {r[1] for r in conn.execute("PRAGMA table_info(de_speeches)")}
     if sp_cols and "text" not in sp_cols:
         conn.execute("ALTER TABLE de_speeches ADD COLUMN text TEXT")

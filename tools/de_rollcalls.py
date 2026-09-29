@@ -125,6 +125,29 @@ def tally(votes):
     return out
 
 
+PERIOD = API + "/parliament-periods/{0}"
+
+
+def period_parliament(client, legislature):
+    """(parliament id, label) that a legislature belongs to, or (None, None).
+
+    --legislature alone used to default the parliament to the Bundestag, so
+    fetching Bayern 2013-2018 (legislature 99) stored its votes and members
+    as parliament 5 with no label (found 29 September 2026, collecting Land
+    abortion votes for the German 5CA). A legislature knows its parliament;
+    ask it rather than assume.
+    """
+    try:
+        doc = client.get_json(PERIOD.format(legislature), "de-rollcalls",
+                              "period-{0}".format(legislature), archive=False)
+    except (FetchError, ValueError):
+        return None, None
+    parl = ((doc or {}).get("data") or {}).get("parliament") or {}
+    if parl.get("id") is None:
+        return None, None
+    return str(parl["id"]), parl.get("label")
+
+
 def pull(conn, client, today, legislature=None, log=print, limit=None,
          parliament=BUNDESTAG, parliament_label=None, tax=None, wl=None,
          budget=None):
@@ -333,6 +356,7 @@ def main():
                          "column from each member's own votes, offline")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     ap.add_argument("--limit", type=int, help="stop after this many NEW votes")
+    ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--dry-run", action="store_true",
                     help="list the legislature and its vote count, store nothing")
     args = ap.parse_args()
@@ -345,7 +369,7 @@ def main():
                                  "polls-{0}".format(leg), archive=False) or {}).get("data") or []
         print("de-rollcalls: legislature {0} {1}, {2} recorded vote(s)".format(leg, label, len(polls)))
         return 0
-    conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
+    conn = db.init_db(db.connect(args.db))
     if args.reclassify:
         reclassify(conn, today)
         conn.close()
@@ -357,8 +381,18 @@ def main():
     tax = filt.load_taxonomy(TAXONOMY)
     wl = filt.load_watchlist(WATCHLIST)
     budget = drain.Budget(args.budget_seconds)
-    targets = ([(pid, label) for pid, label in parliaments(client)] if args.all
-               else [(args.parliament or BUNDESTAG, None)])
+    if args.all:
+        targets = [(pid, label) for pid, label in parliaments(client)]
+    elif args.legislature and not args.parliament:
+        pid, label = period_parliament(client, args.legislature)
+        if pid is None:
+            print("de-rollcalls: legislature {0} names no parliament -- nothing "
+                  "stored rather than filed under the Bundestag".format(args.legislature))
+            conn.close()
+            return 1
+        targets = [(pid, None if pid == str(BUNDESTAG) else label)]
+    else:
+        targets = [(args.parliament or BUNDESTAG, None)]
     seen = new = gaps = 0
     for pid, label in targets:
         if budget.exhausted():

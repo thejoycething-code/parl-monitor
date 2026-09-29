@@ -56,6 +56,17 @@ from src.http import FetchError, HttpClient  # noqa: E402
 API = "https://www.abgeordnetenwatch.de/api/v2"
 MANDATE = API + "/candidacies-mandates/{0}"
 COMMITTEES = API + "/committee-memberships?candidacy_mandate={0}&range_end=50"
+# THE CURRENT HOUSE, one paged list. abgeordnetenwatch returns only the
+# legislature's current mandates here (measured 29 September 2026: exactly 630
+# for the Bundestag, with the same ids as de_members), so a member who has
+# left is simply absent -- which is the one fact de_members could not hold.
+CURRENT = (API + "/candidacies-mandates?parliament_period={0}&type=mandate"
+                 "&range_start={1}&range_end={2}")
+PAGE = 500
+BUNDESTAG_PERIOD = "161"
+# A roster that suddenly shrinks is a failed fetch, not an exodus. Below this
+# share of the mandates already on file, nothing is marked.
+ROSTER_FLOOR = 0.8
 
 # One run's worth. Two calls per member, so a cap of 150 is about 300
 # requests -- minutes, not an hour. The weekly picks up where the last left
@@ -118,6 +129,96 @@ def committees_of(doc):
     return out
 
 
+def current_mandates(client, period, log=print):
+    """Every current mandate of one legislature, paged; None on a failed page.
+
+    None, never a partial list: marking from half a roster would unseat the
+    other half.
+    """
+    out, start = [], 0
+    while True:
+        try:
+            doc = client.get_json(CURRENT.format(period, start, PAGE),
+                                  "de-profiles", "roster-{0}-{1}".format(period, start),
+                                  archive=False)
+        except (FetchError, ValueError) as exc:
+            log("  [gap] roster {0} from {1}: {2}".format(period, start, str(exc)[:60]))
+            return None
+        page = (doc or {}).get("data") or []
+        out.extend(page)
+        if len(page) < PAGE:
+            return out
+        start += PAGE
+
+
+def _party_of(mandate):
+    """The member's current Fraktion, in de_members' spelling: the label
+    without its "(Bundestag 2025 - 2029)" tail."""
+    live = [f for f in mandate.get("fraction_membership") or []
+            if not f.get("valid_until")] or (mandate.get("fraction_membership") or [])
+    label = ((live[-1].get("fraction") or {}).get("label") or "") if live else ""
+    return label.split(" (")[0] or None
+
+
+def mark_sitting(conn, client, today, period=BUNDESTAG_PERIOD, log=print,
+                 dry_run=False):
+    """Set de_members.sitting for one legislature from its current roster.
+
+    Returns (sitting, left, added, profiled) or None when nothing was marked.
+    A current mandate with no row yet (a successor) is added; one with no
+    profile gains it from the same payload, which saves a call per member.
+    """
+    mandates = current_mandates(client, period, log=log)
+    if mandates is None:
+        log("  roster {0}: fetch failed -- nothing marked".format(period))
+        return None
+    on_file = {r[0] for r in conn.execute(
+        "SELECT person_id FROM de_members WHERE legislature = ?", (period,))}
+    if on_file and len(mandates) < ROSTER_FLOOR * len(on_file):
+        log("  roster {0}: {1} current mandates against {2} on file -- below "
+            "the {3:.0%} floor, so nothing is marked (a short reply is a "
+            "failed fetch until proved otherwise)".format(
+                period, len(mandates), len(on_file), ROSTER_FLOOR))
+        return None
+    current = {str(m["id"]): m for m in mandates}
+    added = profiled = 0
+    for pid, m in current.items():
+        got = profile_of({"data": m})
+        if pid not in on_file:
+            added += 1
+            if not dry_run:
+                pol = m.get("politician") or {}
+                conn.execute(
+                    "INSERT INTO de_members (person_id, name, party, parliament, "
+                    "parliament_label, legislature, politician_id, profile_url, "
+                    "constituency, electoral_list, mandate_won, sitting, "
+                    "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,1,?,?)",
+                    (pid, pol.get("label"), _party_of(m),
+                     str(((m.get("parliament_period") or {}).get("parliament") or {}).get("id") or "5"),
+                     "Bundestag" if period == BUNDESTAG_PERIOD else None, period,
+                     got["politician_id"], got["profile_url"], got["constituency"],
+                     got["electoral_list"], got["mandate_won"], today, today))
+            continue
+        row = conn.execute("SELECT politician_id FROM de_members WHERE person_id = ?",
+                           (pid,)).fetchone()
+        if row and not row[0] and got["politician_id"]:
+            profiled += 1
+            if not dry_run:
+                conn.execute(
+                    "UPDATE de_members SET politician_id = ?, profile_url = ?, "
+                    "constituency = ?, electoral_list = ?, mandate_won = ? "
+                    "WHERE person_id = ?",
+                    (got["politician_id"], got["profile_url"], got["constituency"],
+                     got["electoral_list"], got["mandate_won"], pid))
+    left = sorted(on_file - set(current))
+    if not dry_run:
+        conn.execute("UPDATE de_members SET sitting = 0 WHERE legislature = ?", (period,))
+        conn.executemany("UPDATE de_members SET sitting = 1, last_seen = ? "
+                         "WHERE person_id = ?", [(today, p) for p in current])
+        conn.commit()
+    return len(current), left, added, profiled
+
+
 def pull(conn, client, today, limit=BATCH, everyone=False, log=print,
          dry_run=False):
     wanted, priority_total = targets(conn, limit, everyone)
@@ -173,11 +274,30 @@ def main():
     ap.add_argument("--all", action="store_true",
                     help="every unprofiled member, a deliberate backfill")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--roster", action="store_true",
+                    help="mark who currently sits in the Bundestag (de_members.sitting)")
+    ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     args = ap.parse_args()
 
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
-    conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
+    conn = db.init_db(db.connect(args.db))
     today = datetime.date.today().isoformat()
+
+    if args.roster:
+        got = mark_sitting(conn, client, today, dry_run=args.dry_run)
+        if got is None:
+            conn.close()
+            return 1
+        sitting, left, added, profiled = got
+        names = [r[0] for r in conn.execute(
+            "SELECT name FROM de_members WHERE person_id IN ({0}) ORDER BY name".format(
+                ",".join("?" * len(left))), left)] if left else []
+        print("de-profiles roster: {0} sitting, {1} no longer sitting{2}, {3} "
+              "added, {4} profiled from the roster{5}.".format(
+                  sitting, len(left), " (" + ", ".join(names) + ")" if names else "",
+                  added, profiled, " [dry run]" if args.dry_run else ""))
+        conn.close()
+        return 0
 
     done, failed, committees, priority = pull(
         conn, client, today, limit=args.limit, everyone=args.all,

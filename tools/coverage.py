@@ -289,6 +289,11 @@ ONCE_EVER = {
                "copy read on 26 September 2026 was stamped 29 April), and a "
                "register that reaches back to 1949 does not go stale in a "
                "week. Re-run tools/de_stammdaten.py after a general election",
+    "de_authorship": "who put their name to a Bundestag paper on our ground, "
+                     "for the German 5CA (tools/de_authorship.py). Run on "
+                     "demand, per area, before a sheet is regenerated: DIP's "
+                     "authors are fixed once a Drucksache is printed, so "
+                     "rows are re-stamped only when a run happens",
     "un_votes": "UN pipeline is paused",
     "un_documents": "UN pipeline is paused",
     "un_calendar": "UN pipeline is paused",
