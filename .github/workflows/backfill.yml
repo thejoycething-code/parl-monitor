@@ -35,6 +35,13 @@ on:
       # (tools/backfill_hansard_divisions.py). Title-matched ones are
       # ledgered; the rest go to docs/division-candidates-pre2016.md for a
       # human to sign off. The default keeps this workflow's old behaviour.
+      # For the retag mode: the commit whose config/taxonomy.yaml the stored
+      # tags were made under. retag_items refuses any table it cannot
+      # reproduce under this OR the current taxonomy (its trust check).
+      baseline:
+        description: "Retag mode: git ref of the previous taxonomy (e.g. da9030de~1)"
+        required: false
+        default: ""
       what:
         description: "What to backfill"
         type: choice
@@ -45,6 +52,7 @@ on:
           - "Holyrood from the cutoff"
           - "Senedd from the cutoff"
           - "NI Assembly questions from the cutoff"
+          - "retag stored rows (taxonomy change)"
         default: "speeches, questions and EDMs"
 
 permissions:
@@ -170,6 +178,20 @@ jobs:
           python3 tools/sp_score.py --apply | tee -a /tmp/bf-devolved.log
           python3 tools/devolved_score.py --nation wales --apply | tee -a /tmp/bf-devolved.log
           python3 tools/devolved_score.py --nation ni --apply | tee -a /tmp/bf-devolved.log
+      - name: "Retag stored rows under the current taxonomy"
+        # 29 September 2026 (Christopher: "Retag the stored rows for the new
+        # marriage phrases"). Devolved and EU tables through retag_items, with
+        # its trust check against the baseline taxonomy; the Westminster debate
+        # ledger through retag_passages. Written questions are not retagged:
+        # their full text is only partly archived (retag_passages guards it).
+        if: inputs.what == 'retag stored rows (taxonomy change)'
+        run: |
+          [ -n "${{ inputs.baseline }}" ] || { echo "::error::the retag mode needs a baseline ref"; exit 1; }
+          git fetch -q --deepen=200 origin "$(git rev-parse --abbrev-ref HEAD)"
+          git show "${{ inputs.baseline }}:config/taxonomy.yaml" > /tmp/baseline-taxonomy.yaml
+          head -4 /tmp/baseline-taxonomy.yaml | grep -i version
+          python3 tools/retag_items.py --apply --baseline /tmp/baseline-taxonomy.yaml | tee /tmp/bf-retag.log
+          python3 tools/retag_passages.py --apply | grep -vE "^  (Spoke| +areas| +excerpt)" | tee -a /tmp/bf-retag.log
       - name: Record signed-off tracker divisions
         # The Monday publish does this before building the tracker; running
         # it here as well means a pre-2016 division signed off mid-week has
@@ -184,11 +206,11 @@ jobs:
           {
             echo "## Historic backfill"
             echo "terms: \`${{ inputs.terms }}\` (blank = all) from ${{ inputs.cutoff }} to ${{ inputs.until || 'today' }}"
-            for f in ledger hansard hdivisions divisions devolved tracker; do
+            for f in ledger hansard hdivisions divisions devolved retag tracker; do
               echo "### $f"
               if [ -f "/tmp/bf-$f.log" ]; then
                 echo '```'
-                grep -E "done:|ledger:|scoped to|events so far|hansard-divisions:|tracker ledger:|tracker stances:|match our areas|division\(s\)|stored|devolved|scored|\[gap\]" "/tmp/bf-$f.log" \
+                grep -E "done:|ledger:|scoped to|events so far|hansard-divisions:|tracker ledger:|tracker stances:|match our areas|division\(s\)|stored|devolved|scored|reproduced|gained|widened|CLEARED|NOT APPLIED|\[gap\]" "/tmp/bf-$f.log" \
                   | tail -30 || echo "(no summary lines)"
                 echo '```'
               else
