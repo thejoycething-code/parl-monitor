@@ -54,6 +54,16 @@ def api_key(client=None, secrets=None, env=None, log=print):
     env = env if env is not None else os.environ
     found = (env.get("DIP_API_KEY") or "").strip()
     source = "the environment"
+    # The secrets FILE is read here when the caller passes none (29 Sept
+    # 2026). Only tools/de_documents.py ever passed it, so every other
+    # German tool -- de_speeches, de_committees, de_amendments,
+    # de_authorship, de_debate_pack -- skipped config/secrets.yaml and fell
+    # through to the published example key, even after the real key was
+    # set as the DIP_API_KEY secret that the workflows write into that file.
+    # The German key check run of that day logged "DIP key from the
+    # published spec".
+    if secrets is None:
+        secrets = _secrets_file()
     if not found and secrets:
         found = (secrets.get("dip_api_key") or "").strip()
         source = "config/secrets.yaml"
@@ -75,6 +85,18 @@ def api_key(client=None, secrets=None, env=None, log=print):
     log("  DIP key from {0}".format(source))
     _CACHE["key"] = found
     return found
+
+
+def _secrets_file(path=None):
+    """config/secrets.yaml as a dict, or {} when it is absent or unreadable."""
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                "config", "secrets.yaml")
+    try:
+        import yaml
+        with open(path, encoding="utf-8") as handle:
+            return yaml.safe_load(handle) or {}
+    except Exception:                                   # noqa: BLE001
+        return {}
 
 
 def forget_key():

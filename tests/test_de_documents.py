@@ -57,6 +57,16 @@ class KeyTests(unittest.TestCase):
         self.assertEqual(dip.api_key(client=C(), env={}, secrets={},
                                      log=lambda *a: None), "AbC123.dEf456GhI789jkl")
 
+    def test_a_caller_passing_no_secrets_still_reads_the_secrets_file(self):
+        """29 Sept 2026: only de_documents passed secrets, so de_speeches and
+        the rest called api_key(client=...) and fell through to the published
+        example key though the real one sat in config/secrets.yaml."""
+        from unittest import mock
+        with mock.patch.object(dip, "_secrets_file", return_value={"dip_api_key": "file"}):
+            said = []
+            self.assertEqual(dip.api_key(env={}, log=said.append), "file")
+            self.assertIn("  DIP key from config/secrets.yaml", said)
+
     def test_no_key_anywhere_is_disclosed_not_silent(self):
         """A quiet zero-document run is indistinguishable from a quiet week."""
         said = []
