@@ -535,3 +535,62 @@ divisions:
       Voted against the Bill criminalising conversion practices.
     meaning_bad: >-
       Voted for the Bill criminalising conversion practices.
+
+  # --- DRAFTED 30 September 2026, after the watch-list harvest -----------------
+  # Clause-stand-part votes: the archive records only "Clause N stand part",
+  # never the clause's words, so each is identified from the Bill it belongs
+  # to. READ BEFORE SIGNING. Not drafted, because there is no text to say
+  # what they did: Human Trafficking clause 4 and new clause 46; Justice
+  # (Sexual Offences and Trafficking Victims) Bill amendments 9 and 13; Mr
+  # Kingston's 2024 conversion amendment. The Severe Fetal Impairment Bill's
+  # clause 2, Long Title and Amendment 1 (14 Dec 2021) split exactly as
+  # clause 1 and are left out.
+  - key: "211082"
+    dated: 2014-10-20
+    issue: prostitution-trafficking
+    stage: "Consideration Stage, Human Trafficking and Exploitation Bill, Clause 6"
+    landmark: true
+    short: "Criminalising paying for sex (Human Trafficking Bill, clause 6)"
+    motion: >-
+      That clause 6 stand part of the Human Trafficking and Exploitation
+      (Further Provisions and Support for Victims) Bill: Lord Morrow's
+      offence of paying for the sexual services of a person, which became
+      section 15 of the 2015 Act. Agreed 81-10.
+    note: >-
+      The Nordic model. DUP 37, Sinn Fein 24, SDLP 11, UUP 7, TUV 1,
+      Independent 1 for; Alliance 7, Independent 1, NI21 1, Green 1 against.
+      The archive holds only the stand-part question, so the clause is
+      identified from the Bill.
+    our_side: for
+    signed_off: false
+    meaning_good: >-
+      Voted to make paying for sex a criminal offence in Northern Ireland.
+    meaning_bad: >-
+      Voted against making paying for sex a criminal offence in Northern
+      Ireland.
+
+  - key: "360779"
+    dated: 2021-12-14
+    issue: abortion
+    stage: "Consideration Stage, Severe Fetal Impairment Abortion (Amendment) Bill, Clause 1"
+    landmark: true
+    short: "Severe Fetal Impairment Abortion Bill, clause 1 (the Bill fell)"
+    motion: >-
+      That clause 1 stand part of the Severe Fetal Impairment Abortion
+      (Amendment) Bill: the Bill's operative clause, removing severe fetal
+      impairment (non-fatal disability) as a ground for abortion in the 2020
+      regulations. Fell 43-45, and the Bill fell with it.
+    note: >-
+      DUP 27, SDLP 8, UUP 4, Independent 2, Alliance 1, TUV 1 for; Sinn Fein
+      26, Alliance 6, UUP 5, SDLP 4, Green 2, Independent 1, PBP 1 against.
+      The Second Stage (330421) passed 48-12 with Sinn Fein abstaining; here
+      Sinn Fein voted against and the Bill was lost by two votes. The archive
+      holds only the stand-part question.
+    our_side: for
+    signed_off: false
+    meaning_good: >-
+      Voted to remove non-fatal disability as a ground for abortion in
+      Northern Ireland.
+    meaning_bad: >-
+      Voted against removing non-fatal disability as a ground for abortion
+      in Northern Ireland.

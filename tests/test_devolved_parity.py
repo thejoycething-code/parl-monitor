@@ -278,9 +278,9 @@ class NorthernIrelandTests(unittest.TestCase):
         import yaml
         cfg = yaml.safe_load(open(os.path.join(ROOT, "config", "nia_votes.yaml"), encoding="utf-8"))
         by = {d["key"]: d for d in cfg["divisions"]}
-        # 7 decided on 2026-09-06; 17 drafted from the 2011 backfill and 1
+        # 7 decided on 2026-09-06; 19 drafted from the 2011 backfill and 1
         # struck (S.R. 2022/48, Irish-language certificates) on 2026-09-30.
-        self.assertEqual(len(by), 25)
+        self.assertEqual(len(by), 27)
         for k, v in by.items():
             for s in ("meaning_good", "meaning_bad"):
                 if v.get(s):
