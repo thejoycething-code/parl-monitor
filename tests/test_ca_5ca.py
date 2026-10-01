@@ -259,15 +259,16 @@ class SenateTests(unittest.TestCase):
 
 
 class StanceFileTests(unittest.TestCase):
-    def test_the_real_stance_file_loads_and_nothing_in_it_is_confirmed_yet(self):
-        """Every Canadian reading is a Claude draft until Christopher confirms
-        it. If this starts failing because an entry lost its draft flag, check
-        that a HUMAN removed it -- then update this test."""
+    def test_the_real_stance_file_is_confirmed_and_the_senate_report_unscored(self):
+        """Christopher, 2 October 2026: "Confirm the readings and leave the
+        Senate report unscored." No draft remains, and the RIDR report on C-9
+        is evidence only."""
         entries = list(c5.load_stance(section="divisions").values()) + \
             list(c5.load_stance(section="bills").values())
         self.assertGreater(len(entries), 20)
-        self.assertEqual([e["key"] for e in entries if c5.status(e) == "confirmed"], [])
-
+        self.assertEqual([e["key"] for e in entries if c5.status(e) == "draft"], [])
+        ridr = c5.load_stance(section="divisions")["senate-45-1-699935"]
+        self.assertEqual(c5.status(ridr), "unplaceable")
 
 if __name__ == "__main__":
     unittest.main()

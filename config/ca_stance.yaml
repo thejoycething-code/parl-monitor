@@ -4,9 +4,11 @@
 # a division's direction is the campaigner's judgement, and no tool estimates
 # it. tools/ca_5ca.py applies these lines; it never invents one.
 #
-# EVERY ENTRY BELOW IS A CLAUDE DRAFT (26 September 2026), and a draft
-# PLACES NOBODY. The sheet shows the vote as evidence and leaves the column
-# blank until Christopher confirms the reading by deleting `draft: true`.
+# CONFIRMED (2 October 2026). Drafted by Claude on 26 September, reviewed on
+# 2 October at Christopher's request ("Review the Canada readings for me"),
+# then confirmed by him: "Confirm the readings and leave the Senate report
+# unscored." To take a reading out of play without deleting it, put
+# `draft: true` back -- a draft places nobody.
 #
 # Three kinds of entry:
 #   * `yea:` / `nay:` values on the Westminster stance scale (-2..2), with
@@ -38,7 +40,6 @@
 divisions:
   # --- Area 1: abortion ------------------------------------------------------
   - key: commons-44-1-377
-    draft: true
     title: "2nd reading of Bill C-311 (violence against pregnant women)"
     dated: 2023-06-14
     result: "Negatived 113-205"
@@ -54,7 +55,6 @@ divisions:
 
   # --- Area 2: assisted dying -------------------------------------------------
   - key: commons-44-1-423
-    draft: true
     title: "2nd reading of Bill C-314 (MAID: mental illness as sole condition)"
     dated: 2023-10-18
     result: "Negatived 150-167"
@@ -72,7 +72,6 @@ divisions:
       Those 32 are the people this area's 5CA exists to find.
 
   - key: commons-44-1-641
-    draft: true
     title: "2nd reading of Bill C-62 (delay MAID for mental illness to 2027)"
     dated: 2024-02-14
     result: "Agreed 294-33"
@@ -87,7 +86,6 @@ divisions:
       Voted against delaying MAID for mental illness alone: for it opening in
       March 2024 as scheduled.
   - key: commons-44-1-646
-    draft: true
     title: "3rd reading of Bill C-62 (delay MAID for mental illness to 2027)"
     dated: 2024-02-15
     result: "Agreed 272-32"
@@ -100,7 +98,6 @@ divisions:
     nay: -2
     why_nay: "Voted against passing the delay: for MAID for mental illness alone from March 2024."
   - key: commons-44-1-640
-    draft: true
     title: "2nd reading of Bill C-62 (reasoned amendment)"
     dated: 2024-02-14
     result: "Negatived 33-291"
@@ -126,7 +123,6 @@ divisions:
     # the Bloc (the government voting for its own bill), so a Nay tells no
     # member apart. It renders as evidence and places nobody.
   - key: commons-44-1-874
-    draft: true
     title: "Concurrence in the Second Report of the Special Joint Committee on MAID"
     dated: 2024-10-31
     result: "Agreed 209-114"
@@ -168,7 +164,6 @@ divisions:
 
   # --- Areas 6 and 7: children online, age verification -----------------------
   - key: commons-44-1-609
-    draft: true
     title: "2nd reading of Bill S-210 (young persons' online access to sexually explicit material)"
     dated: 2023-12-13
     result: "Agreed 189-133"
@@ -195,7 +190,6 @@ divisions:
 
   # --- Areas 7 and 8: C-9, the Combatting Hate Act ---------------------------
   - key: commons-45-1-86
-    draft: true
     title: "Concurrence at report stage of Bill C-9"
     dated: 2026-03-23
     result: "Agreed 188-144"
@@ -214,7 +208,6 @@ divisions:
       defence. Scored +1, not +2: a Nay on the whole bill does not say which
       part was objected to.
   - key: commons-45-1-93
-    draft: true
     title: "3rd reading of Bill C-9"
     dated: 2026-03-25
     result: "Agreed 186-137"
@@ -224,7 +217,6 @@ divisions:
     nay: 1
     why_nay: "Voted against passing C-9, which repeals the religious-texts defence (+1: the whole bill, not the clause)."
   - key: commons-45-1-92
-    draft: true
     title: "Bill C-9 (recommittal to a committee)"
     dated: 2026-03-25
     result: "Negatived 123-190"
@@ -255,7 +247,6 @@ divisions:
       Voted against sending C-9 back to committee to restore the
       religious-texts defence, s.319(3)(b).
   - key: commons-45-1-167
-    draft: true
     title: "Motion respecting Senate amendments to Bill C-9 (amendment)"
     dated: 2026-06-17
     result: "Negatived 132-184"
@@ -301,7 +292,6 @@ divisions:
     title: "Time allocation for Bill C-9"
     reason: "Procedure, not substance."
   - key: senate-45-1-700362
-    draft: true
     title: "Combatting Hate Act – C-9 – Third Reading (Senate)"
     dated: 2026-06-04
     result: "Adopted 45-13-2"
@@ -311,7 +301,6 @@ divisions:
     nay: 1
     why_nay: "Voted against passing C-9, which repeals the religious-texts defence (+1: the whole bill, not the clause)."
   - key: senate-45-1-700344
-    draft: true
     title: "Combatting Hate Act – C-9 – Third Reading – Amendment (Sen. Martin)"
     dated: 2026-06-04
     result: "Defeated 21-40-2"
@@ -346,7 +335,11 @@ divisions:
       Voted against widening C-9's safe-harbour clause to protect good-faith
       religious and public-interest statements outright.
   - key: senate-45-1-699935
-    draft: true
+    placeable: false
+    reason: >
+      Left unscored by Christopher, 2 October 2026: the report bundled a new
+      residential-schools denialism offence with the noose amendment and a
+      widened exception, and he chose not to score it. Evidence only.
     title: "Combatting Hate Act – C-9 – RIDR Report No. 3 with amendments (Senate)"
     dated: 2026-06-03
     result: "Defeated 32-41-2"
@@ -401,19 +394,16 @@ divisions:
 # those carry no `sponsored` value.
 bills:
   - key: 44-1/C-311
-    draft: true
     title: "Violence Against Pregnant Women Act"
     sponsor: "Cathay Wagantall (no longer on the House roster, 26 September 2026)"
     sponsored: 2
     why_sponsored: "Sponsored a bill recognising a victim's pregnancy as an aggravating factor at sentencing."
   - key: 44-1/C-314
-    draft: true
     title: "MAID: mental illness as sole condition"
     sponsor: "Ed Fast"
     sponsored: 2
     why_sponsored: "Sponsored a bill keeping MAID closed where mental illness is the sole condition."
   - key: 45-1/C-218
-    draft: true
     title: "Criminal Code (medical assistance in dying)"
     sponsor: "Tamara Jansen"
     sponsored: 2
@@ -424,19 +414,16 @@ bills:
       Text read 2 October 2026 (Christopher: "Review the Canada readings for
       me"): the first-reading summary says exactly that.
   - key: 45-1/C-260
-    draft: true
     title: "Criminal Code (MAID -- protection against coercion)"
     sponsor: "Garnett Genuis"
     sponsored: 2
     why_sponsored: "Sponsored a bill adding protections against coercion into MAID."
   - key: 44-1/C-270
-    draft: true
     title: "Criminal Code (pornographic material)"
     sponsor: "Arnold Viersen"
     sponsored: 2
     why_sponsored: "Sponsored a bill requiring proof of age and consent for pornographic material."
   - key: 45-1/C-216
-    draft: true
     title: "Protection of Minors in the Digital Age Act"
     sponsor: "Michelle Rempel Garner"
     sponsored: 1
@@ -447,13 +434,11 @@ bills:
       Text read Reviewed 2 October 2026 (Christopher: "Review the Canada readings for me"). +1, not +2: it is child protection online, in line with
       us, but has no age verification or parental-rights provision.
   - key: 45-1/C-255
-    draft: true
     title: "Criminal Code (mischief -- religious property)"
     sponsor: "Kelly Block"
     sponsored: 1
     why_sponsored: "Sponsored a bill on mischief against religious property."
   - key: 45-1/C-290
-    draft: true
     title: "Criminal Code (theft of property of cultural or religious significance)"
     sponsor: "Garnett Genuis"
     sponsored: 1
