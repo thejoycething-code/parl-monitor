@@ -371,6 +371,30 @@ class CommitteeTests(unittest.TestCase):
         self.assertEqual(out[0].heading, "3. New Petitions")
         self.assertEqual(out[0].dated, "2026-07-09")
 
+    def test_a_witness_with_no_member_id_is_skipped_not_fatal(self):
+        """1 October 2026: a witness on our ground had no Member_Id, hit
+        sd_events.member_id NOT NULL, and failed the Senedd weekly twice."""
+        import importlib.util
+        import sqlite3
+        from types import SimpleNamespace
+        from src import db, filter as filt
+        spec = importlib.util.spec_from_file_location(
+            "sd_committees", os.path.join(ROOT, "tools", "sd_committees.py"))
+        sc = importlib.util.module_from_spec(spec); spec.loader.exec_module(sc)
+        conn = sqlite3.connect(":memory:"); db.init_db(conn)
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        text = "The assisted suicide bill would legalise assisted suicide."
+        rows = [SimpleNamespace(key="1", member_id=None, member_name="A witness",
+                                heading="Evidence", text=text),
+                SimpleNamespace(key="2", member_id="5000", member_name="An MS",
+                                heading="Evidence", text=text)]
+        n = sc.harvest_meeting(conn, tax, wl, "Health Committee", 1, "2026-09-30",
+                               rows, "now")
+        self.assertEqual(n, 1)
+        self.assertEqual(conn.execute("SELECT member_id FROM sd_events").fetchall(),
+                         [("5000",)])
+
     def test_sd_committees_writes_its_own_tables(self):
         with open(os.path.join(ROOT, "tools", "sd_committees.py"),
                   encoding="utf-8") as fh:

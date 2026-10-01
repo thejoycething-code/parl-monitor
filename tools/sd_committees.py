@@ -57,6 +57,12 @@ def harvest_meeting(conn, tax, wl, name, meeting_id, dated, contributions, now):
     """Store the taxonomy-matching contributions of one meeting."""
     stored = 0
     for c in contributions:
+        # sd_events is MEMBERS' activity. A committee transcript also carries
+        # witnesses, clerks and officials, who have no Member_Id; one of them
+        # on our ground hit the NOT NULL constraint and failed the Senedd
+        # weekly twice on 1 October 2026. They are not an MS's record.
+        if not c.member_id:
+            continue
         matches = filt.match_passages(tax, wl, c.text, title=c.heading or "")
         if not matches:
             continue
