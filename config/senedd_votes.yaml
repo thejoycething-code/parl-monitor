@@ -76,3 +76,91 @@ divisions:
       Voted to give the Senedd's consent to Westminster extending the
       children-not-in-school register and council permission to
       deregister to Wales.
+
+  # --- DRAFTED 2 October 2026 from the Fifth Senedd backfill, for Christopher -
+  # Index 401 (src/ingest/senedd.py FIFTH_SENEDD). Neither Bill is tagged by
+  # the taxonomy on its title, which is why they surfaced by hand; area 6
+  # gains the terms in v1.12. Both are Welsh Government Bills, and both
+  # ministers (Julie Morgan, Kirsty Williams) voted For at every stage
+  # drafted. Party labels in sd_members are each Member's LATEST party, not
+  # the party at the date, so no party split is stated. Not drafted: the
+  # Financial Resolutions (procedural) and the ten Stage 3 amendment votes of
+  # 21 January 2020, stored as "Amendment N" with no text.
+  - key: "219178"
+    dated: 2019-09-17
+    issue: parental-rights
+    stage: "Stage 1 -- general principles"
+    landmark: false
+    short: "Smacking ban: general principles (Reasonable Punishment Bill)"
+    motion: >-
+      NDM7130: the general principles of the Children (Abolition of Defence
+      of Reasonable Punishment) (Wales) Bill, which removes the defence of
+      reasonable punishment for parents in Wales. Agreed 36-15.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against the general principles of the Bill removing parents'
+      defence of reasonable punishment.
+    meaning_bad: >-
+      Voted for the general principles of the Bill removing parents'
+      defence of reasonable punishment.
+
+  - key: "261621"
+    dated: 2020-01-28
+    issue: parental-rights
+    stage: "Stage 4 -- final vote"
+    landmark: true
+    short: "Smacking ban: Stage 4 (Reasonable Punishment Bill passed)"
+    motion: >-
+      NDM7246: Stage 4 of the Children (Abolition of Defence of Reasonable
+      Punishment) (Wales) Bill. Passed 36-14. The Act removed the defence of
+      reasonable punishment in Wales from 21 March 2022.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against passing the Bill removing parents' defence of
+      reasonable punishment.
+    meaning_bad: >-
+      Voted to pass the Bill removing parents' defence of reasonable
+      punishment.
+
+  - key: "342454"
+    dated: 2020-12-15
+    issue: parental-rights
+    stage: "Stage 1 -- general principles"
+    landmark: false
+    short: "Curriculum and Assessment Bill: general principles (compulsory RSE)"
+    motion: >-
+      The general principles of the Curriculum and Assessment (Wales) Bill,
+      which makes Relationships and Sexuality Education a mandatory part of
+      the curriculum with no right for parents to withdraw their children.
+      Agreed 41-10, with 1 abstention.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against the general principles of the Bill making
+      Relationships and Sexuality Education mandatory with no parental
+      right to withdraw.
+    meaning_bad: >-
+      Voted for the general principles of the Bill making Relationships and
+      Sexuality Education mandatory with no parental right to withdraw.
+
+  - key: "363365"
+    dated: 2021-03-09
+    issue: parental-rights
+    stage: "Stage 4 -- final vote"
+    landmark: true
+    short: "Curriculum and Assessment Bill: Stage 4 (compulsory RSE passed)"
+    motion: >-
+      Item 16: Stage 4 of the Curriculum and Assessment (Wales) Bill. Passed
+      32-18, with 1 abstention. It became the Curriculum and Assessment
+      (Wales) Act 2021: Relationships and Sexuality Education is mandatory
+      from age 3, with no parental right of withdrawal.
+    our_side: against
+    signed_off: false
+    meaning_good: >-
+      Voted against passing the Bill making Relationships and Sexuality
+      Education mandatory with no parental right to withdraw.
+    meaning_bad: >-
+      Voted to pass the Bill making Relationships and Sexuality Education
+      mandatory with no parental right to withdraw.
