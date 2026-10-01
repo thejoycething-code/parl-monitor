@@ -22,11 +22,13 @@ THESE ARE NOT PUBLISHED, AND THAT IS DELIBERATE
 Westminster's pages are written into partner_site/, which the Monday publish
 deploys to Vercel production -- anything placed there goes live. The German
 pages were held back while the taxonomy was an unverified draft. Christopher
-signed it off on 29 September 2026, so that reason has gone, but going public
-is a separate decision and it is his: the pages still go to docs/de-issues/ ,
-which is not deployed. PUBLISH_TO_SITE is the single line that moves them to
-the public site. The note on who signed the taxonomy off stays on every page
-either way.
+signed it off on 29 September 2026 and said "publish the Germany issue pages"
+on 2 October, so PUBLISH_TO_SITE is True: the pages go into partner_site/ as
+HTML (de-issue-<area>.html and de-issues.html, through the same
+src/partner.to_html shell as Westminster's issue pages) and deploy with the
+partner site, which sits behind its passphrase. Set it False to stop; the
+Markdown copies in docs/de-issues/ are what the unpublished build writes.
+The note on who signed the taxonomy off stays on every page either way.
 
 NO STANCE PLACEMENT OF AN INDIVIDUAL IS PRESENTED AS A VERDICT. What a member
 said is quoted with its score, as the 5CA would; what a division meant is
@@ -48,7 +50,7 @@ TAXONOMY_VERSION = "v0.5"
 
 # FALSE UNTIL THE GERMAN TEAM HAS SIGNED THE TAXONOMY OFF. True writes the
 # pages into partner_site/, which the Monday publish deploys to production.
-PUBLISH_TO_SITE = False
+PUBLISH_TO_SITE = True
 
 OUT_DIR = os.path.join(ROOT, "docs", "de-issues")
 SITE_DIR = os.path.join(ROOT, "partner_site")
@@ -248,6 +250,17 @@ def build(conn, area_names, today=None, out_dir=None):
     """A page per area plus an index. Returns the paths written."""
     today = today or datetime.date.today()
     out_dir = out_dir or (SITE_DIR if PUBLISH_TO_SITE else OUT_DIR)
+    # The partner site serves HTML; a raw .md there is a text dump.
+    as_html = os.path.abspath(out_dir) == os.path.abspath(SITE_DIR)
+    ext = ".html" if as_html else ".md"
+
+    def emit(path, markdown, title):
+        if as_html:
+            from src import partner
+            markdown = partner.to_html(markdown, title)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(markdown)
+
     if not os.path.isdir(out_dir):
         os.makedirs(out_dir)
     written, index = [], []
@@ -255,9 +268,8 @@ def build(conn, area_names, today=None, out_dir=None):
         name = area_names.get(area) or str(area)
         data = collect(conn, area, today)
         body = render(data, name, today)
-        path = os.path.join(out_dir, "de-issue-{0}.md".format(slug(name)))
-        with open(path, "w", encoding="utf-8") as fh:
-            fh.write(body)
+        path = os.path.join(out_dir, "de-issue-{0}{1}".format(slug(name), ext))
+        emit(path, body, "{0} - Germany issue page".format(name))
         written.append(path)
         index.append((name, os.path.basename(path), sum(
             len(data[k]) for k in ("bills", "scored", "voices", "reports",
@@ -268,7 +280,8 @@ def build(conn, area_names, today=None, out_dir=None):
                  today.isoformat()), "",
              "| Area | Page | Items held |", "|---|---|---|"]
     for name, base, n in index:
-        lines.append("| {0} | [{1}]({1}) | {2} |".format(name, base, n))
+        lines.append("| {0} | [{1}]({2}) | {3} |".format(
+            name, base, ("/" + base) if as_html else base, n))
     lines.append("")
     if not PUBLISH_TO_SITE:
         lines.append("*Not published. These pages are built into docs/ "
@@ -277,8 +290,7 @@ def build(conn, area_names, today=None, out_dir=None):
                      "`de_issuepages.PUBLISH_TO_SITE` is the one line that "
                      "changes that.*")
         lines.append("")
-    path = os.path.join(out_dir, "de-issues.md")
-    with open(path, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines))
+    path = os.path.join(out_dir, "de-issues" + ext)
+    emit(path, "\n".join(lines), "Germany issue pages")
     written.append(path)
     return written

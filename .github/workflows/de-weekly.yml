@@ -179,10 +179,10 @@ jobs:
         # regeneration is --force only.
         run: python3 tools/de_briefs.py | tee /tmp/de-briefs.log
       - name: Build the issue pages
-        # Into docs/de-issues/, NOT partner_site: that directory deploys to
-        # Vercel production on the Monday publish, and every area on these
-        # pages comes from a taxonomy the edition itself says is unverified.
-        # --site is the flag that changes it, once the German team signs off.
+        # Into partner_site/ as HTML since 2 October 2026 (Christopher:
+        # "publish the Germany issue pages"); they go live with the next
+        # partner deploy, behind the site's passphrase, and are committed
+        # below so that deploy carries them.
         run: python3 tools/de_issues.py | tee /tmp/de-issues.log
       - name: Write the German edition and DM the summary
         run: python3 tools/de_monitor.py --edition --dm | tee /tmp/de-monitor.log
@@ -256,7 +256,7 @@ jobs:
           # when the judge evaluation was scheduled above: without them the
           # step writes a checklist and a report into a workspace that is
           # thrown away at the end of the run.
-          git add data/ editions/ reviews/ docs/judge-eval.md
+          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html
           git diff --cached --quiet || git commit -m "Germany weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true

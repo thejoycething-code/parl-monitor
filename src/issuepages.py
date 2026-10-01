@@ -251,7 +251,8 @@ def build(site_dir, conn, area_names, today=None, raw=None):
         paths.append(path)
         index.append("| [{0}](/issue-{1}.html) | {2} | {3} | {4} | {5} | {6} |".format(
             name, slug(name), len(data["bills"]), len(data["items"]), len(data["debates"]), len(data["divisions"]), len(data["petitions"])))
-    index.append("")
+    index += ["", "Germany: the same pages for the Bundestag and the Länder are on "
+              "[the Germany issue pages](/de-issues.html).", ""]
     ipath = os.path.join(site_dir, "issues.html")
     with open(ipath, "w", encoding="utf-8") as fh:
         fh.write(partner.to_html("\n".join(index), "Issues"))

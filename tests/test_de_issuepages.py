@@ -89,12 +89,26 @@ class SeatTests(unittest.TestCase):
 
 
 class PublicationTests(unittest.TestCase):
-    def test_the_pages_are_not_written_to_the_deployed_site(self):
-        """partner_site deploys to production on the Monday publish, and the
-        taxonomy behind these pages is unverified."""
-        self.assertFalse(ip.PUBLISH_TO_SITE)
-        self.assertTrue(ip.OUT_DIR.endswith(os.path.join("docs",
-                                                         "de-issues")))
+    def test_the_pages_are_published_to_the_partner_site(self):
+        """Christopher, 2 October 2026: "publish the Germany issue pages"."""
+        self.assertTrue(ip.PUBLISH_TO_SITE)
+        self.assertTrue(ip.SITE_DIR.endswith("partner_site"))
+
+    def test_the_site_build_is_html_with_site_links(self):
+        """partner_site serves HTML; a .md there would be a text dump."""
+        import tempfile
+        conn = _conn()
+        with tempfile.TemporaryDirectory() as tmp:
+            old, ip.SITE_DIR = ip.SITE_DIR, tmp
+            try:
+                paths = ip.build(conn, NAMES, TODAY)
+            finally:
+                ip.SITE_DIR = old
+            self.assertTrue(all(p.endswith(".html") for p in paths), paths)
+            with open(os.path.join(tmp, "de-issues.html"), encoding="utf-8") as fh:
+                index = fh.read()
+        self.assertIn("<html", index.lower())
+        self.assertIn('href="/de-issue-', index)
 
     def test_the_named_version_is_the_version_on_disk(self):
         """Both this page and the edition named v0.4 for days after the file
@@ -110,16 +124,13 @@ class PublicationTests(unittest.TestCase):
         body = ip.render(ip.collect(conn, 1, TODAY), "Abortion", TODAY)
         self.assertIn("signed off by Christopher on 29 September 2026", body)
 
-    def test_the_index_says_why_it_is_unpublished(self):
+    def test_the_docs_build_stays_markdown(self):
         import tempfile
         conn = _conn()
         with tempfile.TemporaryDirectory() as tmp:
             paths = ip.build(conn, NAMES, TODAY, out_dir=tmp)
-            with open(os.path.join(tmp, "de-issues.md"), encoding="utf-8") as fh:
-                index = fh.read()
-        self.assertIn("Not published", index)
-        self.assertIn("PUBLISH_TO_SITE", index)
-        self.assertTrue(paths)
+            self.assertTrue(os.path.exists(os.path.join(tmp, "de-issues.md")))
+        self.assertTrue(all(p.endswith(".md") for p in paths))
 
 
 class ContentTests(unittest.TestCase):
