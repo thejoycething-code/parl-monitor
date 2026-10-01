@@ -124,7 +124,8 @@ divisions:
     our_side: null
     signed_off: false
 
-  # --- DRAFTED 30 September 2026 from the 2011 backfill, for Christopher ------
+  # --- DRAFTED 30 September 2026 from the 2011 backfill; SIGNED OFF by
+  # --- Christopher on 2 October 2026 ("Sign off on the NI drafts") ----------
   # Every motion or amendment text is the one ni_classify recovered from the
   # archived Hansard. The party splits come from ni_votes and ni_affiliations
   # (party as at the division). Where the subject names a mover, the mover's
@@ -155,7 +156,7 @@ divisions:
       Independent 2, Alliance 1, TUV 1 against. The Assembly's first vote on
       same-sex marriage.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against the motion calling for legislation for same-sex
       marriage in Northern Ireland.
@@ -179,7 +180,7 @@ divisions:
       Alliance 1, Green 1 for; DUP 37, UUP 11, Alliance 3, UKIP 1, TUV 1
       against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against the 2013 motion supporting marriage equality.
     meaning_bad: >-
@@ -201,7 +202,7 @@ divisions:
       Sinn Fein 29, SDLP 8, Alliance 5, Independent 2, UUP 1, Green 1 for;
       DUP 37, UUP 11, UKIP 1, Alliance 1, TUV 1 against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against extending civil marriage in Northern Ireland to
       same-sex couples.
@@ -224,7 +225,7 @@ divisions:
       Sinn Fein 26, SDLP 8, Alliance 4, UUP 2, NI21 2, Green 1 for; DUP 37,
       UUP 10, Alliance 2, UKIP 1, TUV 1 against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against the motion calling for legislation for same-sex
       marriage.
@@ -245,7 +246,7 @@ divisions:
       Sinn Fein 28, SDLP 9, Alliance 5, Independent 2, NI21 1, UUP 1, Green 1
       for; DUP 37, UUP 10, UKIP 1, TUV 1 against; 3 Alliance abstained.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against calling on the Executive to legislate for same-sex
       marriage.
@@ -268,7 +269,7 @@ divisions:
       UUP 1 for; DUP 38, UUP 11, UKIP 1, TUV 1, Alliance 1 against; 1 UUP
       abstained.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against calling on the Executive to legislate for same-sex
       marriage.
@@ -290,7 +291,7 @@ divisions:
       DUP 28, SDLP 9, UUP 7, Alliance 1, TUV 1 for; Sinn Fein 26, Alliance 6,
       Independent 2, Green 2, SDLP 2, PBP 1, UUP 1 against.
     our_side: for
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted to reject abortion law that extends to non-fatal disabilities,
       including Down's syndrome.
@@ -313,7 +314,7 @@ divisions:
       5, SDLP 3, Green 2, UUP 1, PBP 1 against; Sinn Fein 26 and Alliance 1
       abstained.
     our_side: for
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted for the Bill to remove non-fatal disability as a ground for
       abortion.
@@ -336,7 +337,7 @@ divisions:
       Sinn Fein 26, SDLP 12, UUP 9, Alliance 7, Independent 2, Green 2, PBP
       1 for; DUP 23, TUV 1 against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against calling for a ban on conversion therapy "in all its
       forms".
@@ -362,7 +363,7 @@ divisions:
       Signing it only states the vote's meaning on the page. DUP split 10
       for, 5 against, 4 abstaining.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against moving organ donation to deemed (assumed) consent.
     meaning_bad: >-
@@ -382,7 +383,7 @@ divisions:
       Sinn Fein 26, SDLP 11, UUP 9, Alliance 7, Independent 2, Green 2, PBP
       1 for; DUP 27, Independent 1, TUV 1 against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against the Bill creating exclusion zones around abortion
       providers.
@@ -403,7 +404,7 @@ divisions:
       Sinn Fein 26, SDLP 10, Alliance 7, UUP 7, Independent 2, Green 2, PBP
       1 for; DUP 27, Independent 1, TUV 1 against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against passing the Bill creating exclusion zones around
       abortion providers.
@@ -439,7 +440,7 @@ divisions:
       Sinn Fein 24, Alliance 15, SDLP 8, Independent 1, PBP 1 for; DUP 24,
       UUP 7, Independent 1, TUV 1 against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against making relationships and sexuality education
       compulsory and standardised.
@@ -462,7 +463,7 @@ divisions:
       Sinn Fein 20, Alliance 15, SDLP 4, Independent 1, PBP 1 for; DUP 23,
       Independent 1, TUV 1 against.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against calling for a ban on conversion practices "in all
       forms".
@@ -484,7 +485,7 @@ divisions:
       DUP 23, UUP 8, TUV 1 for; Sinn Fein 23, Alliance 13, SDLP 7,
       Independent 1, PBP 1 against. The mover is not named in the subject.
     our_side: for
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted for an approach to RSE that respects parents' right to withdraw
       their child.
@@ -508,7 +509,7 @@ divisions:
       DUP 25, UUP 6, Independent 1 for; Sinn Fein 22, Alliance 16, SDLP 8,
       PBP 1, TUV 1 against. The mover is not named in the subject.
     our_side: for
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted for NI policy to respect the Supreme Court ruling that a woman
       is defined by biological sex.
@@ -530,13 +531,13 @@ divisions:
       Sinn Fein 23, Alliance 15, SDLP 7, Independent 1 for; DUP 22, UUP 6,
       TUV 1 against. Live: the Bill now goes to Committee Stage.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against the Bill criminalising conversion practices.
     meaning_bad: >-
       Voted for the Bill criminalising conversion practices.
 
-  # --- DRAFTED 30 September 2026, after the watch-list harvest -----------------
+  # --- DRAFTED 30 September 2026, after the watch-list harvest; SIGNED OFF 2 Oct
   # Clause-stand-part votes: the archive records only "Clause N stand part",
   # never the clause's words, so each is identified from the Bill it belongs
   # to. READ BEFORE SIGNING. Not drafted, because there is no text to say
@@ -562,7 +563,7 @@ divisions:
       The archive holds only the stand-part question, so the clause is
       identified from the Bill.
     our_side: for
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted to make paying for sex a criminal offence in Northern Ireland.
     meaning_bad: >-
@@ -587,7 +588,7 @@ divisions:
       Sinn Fein voted against and the Bill was lost by two votes. The archive
       holds only the stand-part question.
     our_side: for
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted to remove non-fatal disability as a ground for abortion in
       Northern Ireland.
