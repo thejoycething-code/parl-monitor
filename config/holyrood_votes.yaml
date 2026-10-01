@@ -154,3 +154,265 @@ divisions:
       Scotland.
     meaning_against: >-
       Voted to reject the Bill at Stage 1. The Bill fell on this vote.
+
+  # --- DRAFTED 2 October 2026 from the 2011-23 backfill, for Christopher ----
+  # Motion text verbatim from sp_items; party splits from sp_votes, which
+  # records each MSP's party at the vote. Each Bill's member in charge voted
+  # Yes at every stage drafted (Aileen Campbell, John Finnie, Humza Yousaf,
+  # Shona Robison, Gillian Mackay). NAMED PERSON TRAP: on 25 Sept 2013 and
+  # 2 Dec 2015 the motion in Liz Smith's name was AMENDED by the Government,
+  # and the final vote was on the motion as amended -- she voted No to it.
+  # So "Named Persons" divisions m2107 and m2485 carry the Government's
+  # wording, not hers. The Government amendments themselves (m2106, m2484)
+  # are drafted here, where the text is unambiguous; the as-amended votes
+  # split almost identically and are left out. Also left out: the Children
+  # and Young People Bill's Stage 1 (104-0, the same split as Stage 3) and
+  # the three 9 Sept 2020 hate crime debate votes, whose amendments
+  # rewrote one another.
+  - key: m2106
+    reference: S4M-07783.2
+    issue: parental-rights
+    dated: 2013-09-25
+    stage: Debate -- Government amendment
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Named Person -- Government amendment backing it (2013)
+    motion: >-
+      As an amendment to Liz Smith's motion opposing the named person,
+      insert that the Parliament "understands that the named person has
+      been developed and implemented as an essential element of that
+      approach ... and welcomes the opportunity provided by the Children and
+      Young People (Scotland) Bill". Moved by Aileen Campbell. Carried 71
+      to 14.
+    context: >-
+      SNP 62, Lib Dem 5, Independent 2, Green 2 for; Conservative 14
+      against; Labour 29 abstained.
+    meaning_for: >-
+      Voted to back a named person for every child, replacing a motion
+      that warned it would undermine the role of parents.
+    meaning_against: >-
+      Voted against the amendment backing the named person scheme.
+
+  - key: m2176
+    reference: S4M-09050
+    issue: parental-rights
+    dated: 2014-02-19
+    stage: Stage 3 -- final vote
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Children and Young People Bill passed (named person in law)
+    motion: >-
+      That the Parliament agrees that the Children and Young People
+      (Scotland) Bill be passed.
+    context: >-
+      The Act put a named person for every child from birth to 18 into
+      law (Part 4). Passed 103 to 0: SNP 63, Labour 32, Lib Dem 4,
+      Independent 2, Green 2 for; the 15 Conservatives abstained. The
+      Supreme Court found Part 4's information-sharing unlawful in 2016,
+      and the scheme was later dropped.
+    meaning_for: >-
+      Voted to pass the Act that put a named person for every child into
+      law.
+    meaning_against: >-
+      Voted against passing the Act.
+
+  - key: m2484
+    reference: S4M-14999.2
+    issue: parental-rights
+    dated: 2015-12-02
+    stage: Debate -- Government amendment
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Named Person -- Government amendment backing it (2015)
+    motion: >-
+      As an amendment to Liz Smith's motion on growing opposition to the
+      named person policy, insert that the Parliament "acknowledges that the
+      named person service is an important component of this approach ...
+      and calls on all members to support implementation of all the GIRFEC
+      provisions of the Act". Moved by Aileen Campbell. Carried 66 to 14.
+    context: >-
+      SNP 57, Lib Dem 5, Independent 3, Green 1 for; Conservative 14
+      against; Labour 28 abstained.
+    meaning_for: >-
+      Voted to back implementing the named person scheme, replacing a
+      motion on parents' and professionals' opposition to it.
+    meaning_against: >-
+      Voted against the amendment backing the named person scheme.
+
+  - key: m4245
+    reference: S5M-17342
+    issue: parental-rights
+    dated: 2019-05-28
+    stage: Stage 1
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Smacking ban -- Stage 1 (Equal Protection from Assault Bill)
+    motion: >-
+      That the Parliament agrees to the general principles of the Children
+      (Equal Protection from Assault) (Scotland) Bill.
+    context: >-
+      John Finnie's Member's Bill removing the defence of reasonable
+      chastisement for parents. Carried 80 to 29: SNP 54, Labour 15, Green
+      6, Lib Dem 4, Independent 1 for; Conservative 29 against.
+    meaning_for: >-
+      Supported the general principles of removing parents' defence of
+      reasonable chastisement.
+    meaning_against: >-
+      Voted against the Bill's general principles.
+
+  - key: m4411
+    reference: S5M-18623
+    issue: parental-rights
+    dated: 2019-10-03
+    stage: Stage 3 -- final vote
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Smacking ban passed (Equal Protection from Assault Bill)
+    motion: >-
+      That the Parliament agrees that the Children (Equal Protection from
+      Assault) (Scotland) Bill be passed.
+    context: >-
+      Passed 84 to 29, making Scotland the first part of the UK to remove
+      the defence of reasonable chastisement. SNP 54, Labour 18, Green 6,
+      Lib Dem 5, Independent 1 for; Conservative 29 against.
+    meaning_for: >-
+      Voted to pass the Bill removing parents' defence of reasonable
+      chastisement.
+    meaning_against: >-
+      Voted against passing the Bill.
+
+  - key: m5191
+    reference: S5M-23682
+    issue: free-speech
+    dated: 2020-12-15
+    stage: Stage 1
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Hate Crime and Public Order Bill -- Stage 1
+    motion: >-
+      That the Parliament agrees to the general principles of the Hate
+      Crime and Public Order (Scotland) Bill.
+    context: >-
+      The Bill creating new stirring-up offences, including on religion.
+      Carried 91 to 29: SNP 60, Labour 21, Lib Dem 5, Green 5 for;
+      Conservative 28 and one Independent against.
+    meaning_for: >-
+      Supported the general principles of the Bill creating new
+      stirring-up-of-hatred offences.
+    meaning_against: >-
+      Voted against the Bill's general principles.
+
+  - key: m5437
+    reference: S5M-24322
+    issue: free-speech
+    dated: 2021-03-11
+    stage: Stage 3 -- final vote
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Hate Crime and Public Order Bill passed
+    motion: >-
+      That the Parliament agrees that the Hate Crime and Public Order
+      (Scotland) Bill be passed.
+    context: >-
+      Passed 82 to 32; in force from 1 April 2024. SNP 56, Labour 15, Lib
+      Dem 5, Green 5 and one Conservative for; Conservative 28, Labour 3
+      and Reform UK 1 against.
+    meaning_for: >-
+      Voted to pass the Act creating new stirring-up-of-hatred offences.
+    meaning_against: >-
+      Voted against passing the Act.
+
+  - key: m6233
+    reference: S6M-06459
+    issue: sex-based-rights
+    dated: 2022-10-27
+    stage: Stage 1
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Gender Recognition Reform Bill -- Stage 1
+    motion: >-
+      That the Parliament agrees to the general principles of the Gender
+      Recognition Reform (Scotland) Bill.
+    context: >-
+      Self-declaration of legal sex, with no medical diagnosis and from age
+      16. Carried 88 to 33: SNP 54, Labour 21, Green 7, Lib Dem 4,
+      Conservative 2 for; Conservative 26 and SNP 7 against.
+    meaning_for: >-
+      Supported the general principles of changing legal sex by
+      self-declaration from age 16.
+    meaning_against: >-
+      Voted against the Bill's general principles.
+
+  - key: m6321
+    reference: S6M-07312
+    issue: sex-based-rights
+    dated: 2022-12-22
+    stage: Stage 3 -- final vote
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Gender Recognition Reform Bill passed
+    motion: >-
+      That the Parliament agrees that the Gender Recognition Reform
+      (Scotland) Bill be passed.
+    context: >-
+      Passed 86 to 39. The UK Government blocked Royal Assent with a
+      section 35 order in January 2023, upheld by the Court of Session in
+      December 2023. SNP 54, Labour 18, Green 7, Lib Dem 4, Conservative 3
+      for; Conservative 28, SNP 9, Labour 2 against.
+    meaning_for: >-
+      Voted to pass the Bill allowing legal sex to be changed by
+      self-declaration from age 16.
+    meaning_against: >-
+      Voted against passing the Bill.
+
+  - key: m7049
+    reference: S6M-13015
+    issue: abortion
+    dated: 2024-04-30
+    stage: Stage 1
+    landmark: false
+    signed_off: false
+    our_side: against
+    short: Abortion buffer zones Bill -- Stage 1
+    motion: >-
+      That the Parliament agrees to the general principles of the Abortion
+      Services (Safe Access Zones) (Scotland) Bill.
+    context: >-
+      Gillian Mackay's Member's Bill creating 200-metre zones around
+      premises providing abortion. Carried 123 to 1, with every party for.
+    meaning_for: >-
+      Supported the general principles of buffer zones around abortion
+      providers.
+    meaning_against: >-
+      Voted against the Bill's general principles.
+
+  - key: m7150
+    reference: S6M-13571
+    issue: abortion
+    dated: 2024-06-12
+    stage: Stage 3 -- final vote
+    landmark: true
+    signed_off: false
+    our_side: against
+    short: Abortion buffer zones Bill passed
+    motion: >-
+      That the Parliament agrees that the Abortion Services (Safe Access
+      Zones) (Scotland) Bill be passed.
+    context: >-
+      Passed 118 to 1; in force from 24 September 2024. SNP 58,
+      Conservative 26, Labour 22, Green 7, Lib Dem 4, Alba 1 for; one SNP
+      Member against.
+    meaning_for: >-
+      Voted to pass the Bill creating buffer zones around abortion
+      providers.
+    meaning_against: >-
+      Voted against passing the Bill.
