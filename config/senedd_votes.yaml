@@ -77,7 +77,8 @@ divisions:
       children-not-in-school register and council permission to
       deregister to Wales.
 
-  # --- DRAFTED 2 October 2026 from the Fifth Senedd backfill, for Christopher -
+  # --- DRAFTED 2 October 2026 from the Fifth Senedd backfill; SIGNED OFF by
+  # --- Christopher the same day ("Sign off the four Welsh drafts") ----------
   # Index 401 (src/ingest/senedd.py FIFTH_SENEDD). Neither Bill is tagged by
   # the taxonomy on its title, which is why they surfaced by hand; area 6
   # gains the terms in v1.12. Both are Welsh Government Bills, and both
@@ -97,7 +98,7 @@ divisions:
       of Reasonable Punishment) (Wales) Bill, which removes the defence of
       reasonable punishment for parents in Wales. Agreed 36-15.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against the general principles of the Bill removing parents'
       defence of reasonable punishment.
@@ -116,7 +117,7 @@ divisions:
       Punishment) (Wales) Bill. Passed 36-14. The Act removed the defence of
       reasonable punishment in Wales from 21 March 2022.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against passing the Bill removing parents' defence of
       reasonable punishment.
@@ -136,7 +137,7 @@ divisions:
       the curriculum with no right for parents to withdraw their children.
       Agreed 41-10, with 1 abstention.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against the general principles of the Bill making
       Relationships and Sexuality Education mandatory with no parental
@@ -157,7 +158,7 @@ divisions:
       (Wales) Act 2021: Relationships and Sexuality Education is mandatory
       from age 3, with no parental right of withdrawal.
     our_side: against
-    signed_off: false
+    signed_off: true
     meaning_good: >-
       Voted against passing the Bill making Relationships and Sexuality
       Education mandatory with no parental right to withdraw.
