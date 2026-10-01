@@ -93,7 +93,28 @@ class BuildTests(unittest.TestCase):
         self.assertIn("_issuepages.build(", src)
         self.assertIn('<a href="/issues.html">Issue pages</a>', open(os.path.join(ROOT, "src", "partner.py"), encoding="utf-8").read())
         wf = open(os.path.join(ROOT, ".github", "workflows", "monday-publish.yml"), encoding="utf-8").read()
-        self.assertIn("partner_site/issue-*.html", wf)
+        self.assertIn("partner_site/", wf)
+
+
+class MondayCommitsTheWholeSiteTests(unittest.TestCase):
+    """2 Oct 2026. Monday built and deployed the front page, the archive and
+    the devolved vote pages but committed only four named pages, so every
+    Deploy tracker run (which ships the committed tree) restored the 17
+    August front page. The commit must cover what the deploy ships."""
+
+    def test_the_monday_commit_adds_all_of_partner_site(self):
+        wf = open(os.path.join(ROOT, ".github", "workflows", "monday-publish.yml"),
+                  encoding="utf-8").read()
+        adds = [ln for ln in wf.splitlines() if ln.strip().startswith("git add ")
+                and "editions/" in ln]
+        self.assertTrue(adds)
+        self.assertIn(" partner_site/", adds[0] + " ")
+        self.assertRegex(adds[0], r"partner_site/(\s|$)")
+
+    def test_secrets_stay_out_of_the_commit(self):
+        ignored = open(os.path.join(ROOT, ".gitignore"), encoding="utf-8").read()
+        self.assertIn("partner_site/.vercel/", ignored)
+        self.assertIn("partner_site/.env.local", ignored)
 
 
 if __name__ == "__main__":
