@@ -240,6 +240,8 @@ def pull(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None, log=pr
     ours = 0
     for v in votes:
         res = filt.filter_item(tax, wl, v["title"], titles.get(v["bill_number"]) or "")
+        # A watched bill KEY tags its Senate votes too: same file, same keys.
+        ca_store.add_bill_key_areas(res, parl, sess, v["bill_number"])
         store_vote(conn, parl, sess, v, res, today)
         ours += on_our_ground(res.issue_areas)
     conn.commit()

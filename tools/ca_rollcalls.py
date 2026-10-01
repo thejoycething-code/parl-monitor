@@ -150,6 +150,14 @@ def classify(tax, wl, *fields):
     return filt.filter_item(tax, wl, *fields)
 
 
+
+def classify_division(tax, wl, subject, parliament, session, bill_number):
+    """classify() on the subject, plus the areas of a watched bill KEY
+    (src/ca_store.add_bill_key_areas)."""
+    return ca_store.add_bill_key_areas(classify(tax, wl, subject or ""),
+                                       parliament, session, bill_number)
+
+
 def on_our_ground(areas):
     return any(a not in HIDDEN_AREAS for a in (areas or []))
 
@@ -208,7 +216,8 @@ def pull_divisions(conn, client, today, session=CURRENT_SESSION, tax=None,
                                            "divisions-" + session, archive=False))
     ours = 0
     for d in rows:
-        res = classify(tax, wl, d["subject"] or "")
+        res = classify_division(tax, wl, d["subject"], d["parliament"],
+                                d["session"], d["bill_number"])
         store_division(conn, d, res, today)
         if on_our_ground(res.issue_areas):
             ours += 1
@@ -335,9 +344,13 @@ def reclassify(conn, tax=None, wl=None, log=print):
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else filt.load_watchlist(WATCHLIST)
     changed = 0
-    for key, subject, areas in conn.execute(
-            "SELECT division_key, subject, areas FROM ca_divisions").fetchall():
-        res = classify(tax, wl, subject or "")
+    # COMMONS rows only. tools/ca_senate.py classifies Senate divisions on
+    # the vote title AND the bill's title, so re-deriving them here from the
+    # subject alone would drop areas the bill title supplied.
+    for key, subject, areas, parl, sess, bill in conn.execute(
+            "SELECT division_key, subject, areas, parliament, session, "
+            "bill_number FROM ca_divisions WHERE chamber = 'commons'").fetchall():
+        res = classify_division(tax, wl, subject, parl, sess, bill)
         new = json.dumps(res.issue_areas or [])
         if new != (areas or "[]"):
             changed += 1

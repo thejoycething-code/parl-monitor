@@ -272,5 +272,43 @@ class MemberDetailsTests(unittest.TestCase):
                          ("Michelle Rempel Garner", "Calgary Nose Hill"))
 
 
+
+class LandmarkBillKeyTests(unittest.TestCase):
+    """2 October 2026 (Christopher: "Do 1 now"). Canadian division subjects
+    print a bill's legal wording, so the 2010-2024 landmarks sat untagged with
+    no roll-calls. The watchlist KEY is now honoured as well as the title."""
+
+    def setUp(self):
+        self.tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        self.wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-ca.yaml"))
+
+    def _areas(self, subject, parl, sess, bill):
+        return car.classify_division(self.tax, self.wl, subject, parl, sess, bill).issue_areas
+
+    def test_a_generic_title_is_caught_by_its_key(self):
+        """C-16 (2016) is stored as a bare long title with no issue words."""
+        self.assertIn(5, self._areas("2nd reading of Bill C-16, An Act to amend the Canadian "
+                                     "Human Rights Act", 42, 1, "C-16"))
+
+    def test_the_key_is_session_scoped(self):
+        """C-16 in 43-2 was a supply bill: the 42-1 key must not reach it."""
+        self.assertNotIn(5, self._areas("2nd reading of Bill C-16, An Act for granting to Her "
+                                        "Majesty certain sums of money", 43, 2, "C-16"))
+
+    def test_the_landmark_titles_match(self):
+        for subject, area in (
+                ("Private Members' Business M-312 (Special committee on subsection 223(1) of "
+                 "the Criminal Code)", 1),
+                ("2nd reading of Bill C-36, An Act to amend the Criminal Code in response to the "
+                 "Supreme Court of Canada decision in Attorney General of Canada v. Bedford", 12),
+                ("2nd reading of Bill C-225, An Act to amend the Criminal Code (injuring or "
+                 "causing the death of a preborn child while committing an offence)", 1)):
+            self.assertIn(area, self._areas(subject, 0, 0, None), subject)
+
+    def test_reclassify_leaves_senate_rows_to_the_senate_collector(self):
+        src = open(os.path.join(ROOT, "tools", "ca_rollcalls.py"), encoding="utf-8").read()
+        body = src[src.index("def reclassify("):src.index("def summary(")]
+        self.assertIn("chamber = 'commons'", body)
+
 if __name__ == "__main__":
     unittest.main()

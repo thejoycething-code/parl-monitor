@@ -47,6 +47,54 @@ bills:
                  areas: [6, 7],
                  why: "Age verification; the predecessor of S-209. Taxonomy MISSED it."}
 # Statute and policy names that recur in subject lines and bill titles.
+  # --- 2010-2024 landmarks, added 2 October 2026 ---------------------------
+  # Christopher: "Do 1 now" (tag the landmark bills from 2010 and fetch
+  # their roll-calls). Every entry below was stored with areas [] and no
+  # member positions, because a Canadian division subject prints a bill's
+  # LEGAL wording, not its issue. The KEY is honoured as well as the title
+  # (src/ca_store.add_bill_key_areas), so a division whose subject is a bare
+  # or generic title is still caught. Motions have no bill number and match
+  # on their title alone.
+  "40-3/C-389": {title: "An Act to amend the Canadian Human Rights Act and the Criminal Code",
+                 areas: [5],
+                 why: "2010 gender identity and expression bill. The generic long title also matches C-279 (2012-13) and C-16 (2016) -- all three are the gender identity bills, and in this store it matches nothing else."}
+  "41-1/C-279": {title: "An Act to amend the Canadian Human Rights Act and the Criminal Code (gender identity)",
+                 areas: [5], why: "Randall Garrison's gender identity bill, 2012-13."}
+  "42-1/C-16":  {title: "An Act to amend the Canadian Human Rights Act and the Criminal Code (gender identity",
+                 areas: [5], why: "The government's 2016 gender identity and expression bill. Its stored title is generic, so the KEY is what catches it."}
+  "41-1/M-312": {title: "Special committee on subsection 223(1) of the Criminal Code",
+                 areas: [1], why: "Stephen Woodworth's 2012 motion to study when a child becomes a human being: the only Commons vote on the question since 1988."}
+  "41-2/C-36":  {title: "in response to the Supreme Court of Canada decision in Attorney General of Canada v. Bedford",
+                 areas: [12], why: "Protection of Communities and Exploited Persons Act, 2014: criminalised buying sex (the Nordic model) after Bedford."}
+  "42-1/C-225": {title: "injuring or causing the death of a preborn child",
+                 areas: [1], why: "Cassie and Molly's Law, 2016: a separate offence for harming a preborn child during an assault on the mother."}
+  "44-1/C-230": {title: "Protection of Freedom of Conscience Act",
+                 areas: [2, 8], why: "2022 bill protecting medical practitioners who decline to take part in MAID."}
+  "42-1/OPP-conscience": {title: "Opposition Motion (Freedom of Conscience)",
+                 areas: [2, 8], why: "May 2016 Conservative motion on conscience rights for physicians under MAID."}
+  "41-1/C-304": {title: "An Act to amend the Canadian Human Rights Act (protecting freedom)",
+                 areas: [7], why: "Brian Storseth's 2012 bill repealing section 13 of the Human Rights Act (the online hate-speech complaints provision)."}
+  "41-1/C-310": {title: "An Act to amend the Criminal Code (trafficking in persons)",
+                 areas: [12], why: "2012 trafficking bill (extraterritorial jurisdiction). The same title also catches S-224 (2023)."}
+  "41-1/C-452": {title: "An Act to amend the Criminal Code (exploitation and trafficking in persons)",
+                 areas: [12], why: "Maria Mourani's 2013 trafficking bill."}
+  "44-1/S-224": {title: "An Act to amend the Criminal Code (trafficking in persons)",
+                 areas: [12], why: "2023 bill on the definition of exploitation in trafficking."}
+  "42-1/M-103": {title: "M-103 (Systemic racism and religious discrimination)",
+                 areas: [7, 8], why: "2017 motion condemning Islamophobia; its free-speech implications were the debate. Cross-tags religion."}
+  "42-1/OPP-M-103": {title: "Opposition Motion (Systemic racism and religious discrimination)",
+                 areas: [7, 8], why: "The February 2017 Conservative counter-motion to M-103, condemning discrimination against all religions."}
+  "44-1/M-62":  {title: "M-62 (Uyghurs and other Turkic Muslims",
+                 areas: [8], why: "2023 motion to resettle 10,000 Uyghur refugees: religious persecution."}
+  "41-2/M-456": {title: "M-456 (Pan-Canadian Palliative and End-of-life Care Strategy",
+                 areas: [2], why: "2014 motion for a national palliative care strategy: the positive flank of area 2."}
+  "44-1/C-11":  {title: "Online Streaming Act",
+                 areas: [7], why: "2022-23 broadcasting regulation of streaming; the fight was over user-generated content and speech. Tagged so its votes are held; whether it is ours is a reading decision, so expect some readings to be unplaceable."}
+  "43-2/C-7":   {title: "An Act to amend the Criminal Code (medical assistance in dying)",
+                 areas: [2], why: "2021 MAID expansion. Listed for the KEY, so its procedural divisions are held too."}
+  "44-1/C-62":  {title: "An Act to amend An Act to amend the Criminal Code (medical assistance in dying), No. 2",
+                 areas: [2], why: "2024 delay of MAID for mental illness alone. Listed for the KEY."}
+
 acts_watch:
   - {short: "Digital Safety Act", areas: [7, 6]}
   - {short: "Protection of Minors in the Digital Age", areas: [6, 7]}

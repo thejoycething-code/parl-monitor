@@ -265,3 +265,42 @@ def ensure_schema(conn):
             conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
+
+
+_BILL_KEYS = {}
+
+
+def bill_key_areas(path=None):
+    """{'<parl>-<sess>/<number>': [areas]} from config/watchlist-ca.yaml.
+
+    The watchlist loader matches a bill by its TITLE in the subject line,
+    which cannot reach a division whose stored title is generic: Bill C-16
+    (2016, gender identity) is printed as "An Act to amend the Canadian
+    Human Rights Act and the Criminal Code" with nothing after it. So the
+    key, which the file already carries, is honoured too: any division on
+    that bill in that session takes its areas (2 October 2026). Used by
+    tools/ca_rollcalls.py (Commons) and tools/ca_senate.py (Senate)."""
+    import os
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "config", "watchlist-ca.yaml")
+    if path not in _BILL_KEYS:
+        with open(path, encoding="utf-8") as fh:
+            raw = yaml.safe_load(fh) or {}
+        _BILL_KEYS[path] = {str(k): list(v.get("areas") or [])
+                            for k, v in (raw.get("bills") or {}).items()}
+    return _BILL_KEYS[path]
+
+
+def add_bill_key_areas(res, parliament, session, bill_number, path=None):
+    """Merge a watched bill KEY's areas into a FilterResult, in place."""
+    if not bill_number:
+        return res
+    key = "{0}-{1}/{2}".format(parliament, session, bill_number)
+    extra = bill_key_areas(path).get(key)
+    if extra:
+        res.issue_areas = sorted(set(res.issue_areas or []) | set(extra))
+        res.tier = res.tier or 1
+        if key not in (res.watchlist_hits or []):
+            res.watchlist_hits = list(res.watchlist_hits or []) + [key]
+    return res
