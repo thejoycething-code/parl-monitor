@@ -77,10 +77,11 @@ divisions:
     dated: 2024-02-14
     result: "Agreed 294-33"
     lobbies: "Yea: Conservative 116, Liberal 150, NDP 24, Green 2, Ind 2. Nay: Bloc 32, Liberal 1"
-    yea: 1
-    why_yea: >
-      Voted to delay MAID for mental illness alone by three years. A delay,
-      not a repeal, so it is weaker evidence than C-314.
+    # No `yea` value (Reviewed 2 October 2026 (Christopher: "Review the Canada readings for me")): 294 and 272 of the House voted for the
+    # government's own delay, Liberals included, so a Yea tells almost no
+    # member apart -- the same reasoning as the Nay on 640. With +1 here, a
+    # Liberal who voted against C-314 but for both C-62 readings outvoted
+    # their own C-314 vote and landed at "+". Only the Bloc Nay places.
     nay: -2
     why_nay: >
       Voted against delaying MAID for mental illness alone: for it opening in
@@ -91,8 +92,11 @@ divisions:
     dated: 2024-02-15
     result: "Agreed 272-32"
     lobbies: "Yea: Conservative 106, Liberal 142, NDP 20, Green 1, Ind 3. Nay: Bloc 31, Liberal 1"
-    yea: 1
-    why_yea: "Voted to pass the three-year delay of MAID for mental illness alone."
+    # No `yea` value (Reviewed 2 October 2026 (Christopher: "Review the Canada readings for me")): 294 and 272 of the House voted for the
+    # government's own delay, Liberals included, so a Yea tells almost no
+    # member apart -- the same reasoning as the Nay on 640. With +1 here, a
+    # Liberal who voted against C-314 but for both C-62 readings outvoted
+    # their own C-314 vote and landed at "+". Only the Bloc Nay places.
     nay: -2
     why_nay: "Voted against passing the delay: for MAID for mental illness alone from March 2024."
   - key: commons-44-1-640
@@ -196,10 +200,14 @@ divisions:
     dated: 2026-03-23
     result: "Agreed 188-144"
     lobbies: "Yea: Liberal 166, Bloc 22. Nay: Conservative 138, NDP 5, Green 1"
-    yea: -2
+    yea: -1
     why_yea: >
       Voted to concur in C-9 as amended by committee: the text that repeals
-      the religious-texts defence in s.319(3)(b).
+      the religious-texts defence in s.319(3)(b) (-1: the whole bill).
+    # -1, not -2 (Reviewed 2 October 2026 (Christopher: "Review the Canada readings for me")): a Yea on a whipped government bill says no more
+    # about the clause than a Nay does, so both sides of a whole-bill vote
+    # are scored 1. The clause-specific votes (92 in the House, Senator
+    # Martin's 700344) carry the full-strength reading.
     nay: 1
     why_nay: >
       Voted against the committee's C-9, which repeals the religious-texts
@@ -211,8 +219,8 @@ divisions:
     dated: 2026-03-25
     result: "Agreed 186-137"
     lobbies: "Yea: Liberal 164, Bloc 22. Nay: Conservative 131, NDP 5, Green 1"
-    yea: -2
-    why_yea: "Voted to pass C-9, repealing the religious-texts defence in s.319(3)(b)."
+    yea: -1
+    why_yea: "Voted to pass C-9, repealing the religious-texts defence in s.319(3)(b) (-1: the whole bill)."
     nay: 1
     why_nay: "Voted against passing C-9, which repeals the religious-texts defence (+1: the whole bill, not the clause)."
   - key: commons-45-1-92
@@ -298,8 +306,8 @@ divisions:
     dated: 2026-06-04
     result: "Adopted 45-13-2"
     lobbies: "Yea: ISG 26, PSG 9, CSG 5, GRO 4, Non-aff 1. Nay: C 7, ISG 4, CSG 2"
-    yea: -2
-    why_yea: "Voted to pass C-9, repealing the religious-texts defence in s.319(3)(b)."
+    yea: -1
+    why_yea: "Voted to pass C-9, repealing the religious-texts defence in s.319(3)(b) (-1: the whole bill)."
     nay: 1
     why_nay: "Voted against passing C-9, which repeals the religious-texts defence (+1: the whole bill, not the clause)."
   - key: senate-45-1-700344
@@ -380,10 +388,12 @@ divisions:
 
   # --- Areas 5 and 6: C-16, the Protecting Victims Act -------------------------
   # NOT DRAFTED, deliberately. C-16 matched on its title words ("child
-  # protection, gender-based violence") and nobody here has read whether
-  # CitizenGO has a position on it at all. Its eight divisions (45-1: 134-137,
-  # 153; Senate 702758) appear in the sheets as evidence and place nobody.
-  # Decide first whether it is ours; then read the amendments.
+  # protection, gender-based violence"). Reviewed 2 October 2026 (Christopher: "Review the Canada readings for me"): the Library of
+  # Parliament summary was read. It is an omnibus justice bill -- coercive
+  # control, femicide as first-degree murder, criminal harassment, deepfake
+  # intimate images, mandatory-minimum relief, restorative justice, court
+  # delay -- with nothing that is our ground in either direction. Its eight
+  # divisions (45-1: 134-137, 153; Senate 702758) stay evidence only.
 
 # Sponsoring a private member's bill is a chosen act of advancing a text, the
 # Canadian equivalent of proposing a motion (NI) or sponsoring an EDM. A
@@ -408,9 +418,11 @@ bills:
     sponsor: "Tamara Jansen"
     sponsored: 2
     why_sponsored: >
-      Sponsored C-218; the petitions presented for it (451-01196 and others)
-      describe it as keeping MAID closed to mental illness as the sole condition.
-      Read the bill before confirming.
+      Sponsored a bill providing that a mental disorder is not a grievous and
+      irremediable medical condition for MAID.
+    note: >
+      Text read 2 October 2026 (Christopher: "Review the Canada readings for
+      me"): the first-reading summary says exactly that.
   - key: 45-1/C-260
     draft: true
     title: "Criminal Code (MAID -- protection against coercion)"
@@ -428,7 +440,12 @@ bills:
     title: "Protection of Minors in the Digital Age Act"
     sponsor: "Michelle Rempel Garner"
     sponsored: 1
-    why_sponsored: "Sponsored a bill on children's safety online. +1 until its text is read."
+    why_sponsored: >
+      Sponsored a bill protecting minors' data online, tightening mandatory
+      reporting of child sexual abuse material, and banning fake nude images.
+    note: >
+      Text read Reviewed 2 October 2026 (Christopher: "Review the Canada readings for me"). +1, not +2: it is child protection online, in line with
+      us, but has no age verification or parental-rights provision.
   - key: 45-1/C-255
     draft: true
     title: "Criminal Code (mischief -- religious property)"
