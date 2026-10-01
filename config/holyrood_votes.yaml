@@ -155,7 +155,8 @@ divisions:
     meaning_against: >-
       Voted to reject the Bill at Stage 1. The Bill fell on this vote.
 
-  # --- DRAFTED 2 October 2026 from the 2011-23 backfill, for Christopher ----
+  # --- DRAFTED 2 October 2026 from the 2011-23 backfill; SIGNED OFF by
+  # --- Christopher the same day ("Sign off the Holyrood drafts") -----------
   # Motion text verbatim from sp_items; party splits from sp_votes, which
   # records each MSP's party at the vote. Each Bill's member in charge voted
   # Yes at every stage drafted (Aileen Campbell, John Finnie, Humza Yousaf,
@@ -175,7 +176,7 @@ divisions:
     dated: 2013-09-25
     stage: Debate -- Government amendment
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Named Person -- Government amendment backing it (2013)
     motion: >-
@@ -200,7 +201,7 @@ divisions:
     dated: 2014-02-19
     stage: Stage 3 -- final vote
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Children and Young People Bill passed (named person in law)
     motion: >-
@@ -224,7 +225,7 @@ divisions:
     dated: 2015-12-02
     stage: Debate -- Government amendment
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Named Person -- Government amendment backing it (2015)
     motion: >-
@@ -248,7 +249,7 @@ divisions:
     dated: 2019-05-28
     stage: Stage 1
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Smacking ban -- Stage 1 (Equal Protection from Assault Bill)
     motion: >-
@@ -270,7 +271,7 @@ divisions:
     dated: 2019-10-03
     stage: Stage 3 -- final vote
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Smacking ban passed (Equal Protection from Assault Bill)
     motion: >-
@@ -292,7 +293,7 @@ divisions:
     dated: 2020-12-15
     stage: Stage 1
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Hate Crime and Public Order Bill -- Stage 1
     motion: >-
@@ -314,7 +315,7 @@ divisions:
     dated: 2021-03-11
     stage: Stage 3 -- final vote
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Hate Crime and Public Order Bill passed
     motion: >-
@@ -335,7 +336,7 @@ divisions:
     dated: 2022-10-27
     stage: Stage 1
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Gender Recognition Reform Bill -- Stage 1
     motion: >-
@@ -357,7 +358,7 @@ divisions:
     dated: 2022-12-22
     stage: Stage 3 -- final vote
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Gender Recognition Reform Bill passed
     motion: >-
@@ -380,7 +381,7 @@ divisions:
     dated: 2024-04-30
     stage: Stage 1
     landmark: false
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Abortion buffer zones Bill -- Stage 1
     motion: >-
@@ -401,7 +402,7 @@ divisions:
     dated: 2024-06-12
     stage: Stage 3 -- final vote
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: against
     short: Abortion buffer zones Bill passed
     motion: >-
