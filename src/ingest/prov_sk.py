@@ -273,7 +273,8 @@ def roster_for_day(ctx, rec):
 
 # -- Minutes ------------------------------------------------------------------
 
-HEADER = re.compile(r"^\s*(YEAS|NAYS)(?:\s*/\s*(?:POUR|CONTRE))?\s*[—–-]+\s*(\d+|Nil)\s*$", re.I)
+# "NAYS—N IL" (a spaced word, 28th Legislature) is Nil.
+HEADER = re.compile(r"^\s*(YEAS|NAYS)(?:\s*/\s*(?:POUR|CONTRE))?\s*[—–-]+\s*(\d+|N\s?il)\s*$", re.I)
 _BILL = re.compile(r"Bill No\.\s*(\d+)\s*[—–-]\s*(.+?)"
                    r"(?=\s+(?:be now read|Projet de loi|/|Moved|The Hon|The Assembly|\[)|\s*$)")
 _STAGE = re.compile(r"read (?:a|the)\s+(first|second|third)\s+time", re.I)
@@ -288,7 +289,7 @@ _PUT_ON = re.compile(r"question being put on the (motion as amended|motion|amend
 
 
 def _n(v):
-    return 0 if v.lower() == "nil" else int(v)
+    return 0 if re.sub(r"\s", "", v).lower() == "nil" else int(v)
 
 
 def blocks_from_html(text):
@@ -347,6 +348,19 @@ def _is_heading(line):
     return len(line) > 3 and re.sub(r"[^A-Za-z]", "", line).isupper()
 
 
+# The 2020-21 sittings under the sessional order on proxies mark a member
+# whose vote a whip cast with an asterisk ("Beck*", "University)*") and
+# footnote it under the list ("*proxy vote by Vermette"). The vote is the
+# member's own: the mark is dropped and the footnote is furniture, so the
+# NAYS that follow it stay in the same division.
+_PROXY_NOTE = re.compile(r"^\s*\*\s*proxy vote", re.I)
+_PROXY_MARK = re.compile(r"\*(?=\s|$)")
+
+
+def _furniture(line):
+    return pn.is_furniture(line) or bool(_PROXY_NOTE.match(line or ""))
+
+
 def blocks_from_pdf(text, vocab):
     """The 29th-Legislature PDF as blocks: an all-caps line is a heading, a
     YEAS/NAYS header opens a name run, everything else is prose."""
@@ -364,9 +378,10 @@ def blocks_from_pdf(text, vocab):
                 got = []
                 while i < n:
                     l = lines[i]
-                    if pn.is_furniture(l):
+                    if _furniture(l):
                         i += 1
                         continue
+                    l = _PROXY_MARK.sub("", l)
                     # A heading in capitals ends the run even with no blank
                     # line before it ("ADJOURNED DEBATES", 12 March 2014):
                     # the members' names are never printed in capitals.
@@ -376,7 +391,7 @@ def blocks_from_pdf(text, vocab):
                     got.append(l)
                     i += 1
                 cols.append((head, pn.split_name_run(got, vocab)))
-                while i < n and pn.is_furniture(lines[i]):
+                while i < n and _furniture(lines[i]):
                     i += 1
             out.append(("div", cols))
             continue
@@ -497,6 +512,20 @@ def has_division(text):
     return any(HEADER.match(l) for l in join_drop_caps((text or "").splitlines()))
 
 
+def drop_stale(conn, url, kept):
+    """A re-read replaces the record's divisions WHOLE. An earlier parse that
+    split one division in two (a proxy footnote between the YEAS and the
+    NAYS, June 2020) stored keys a corrected parse no longer makes; left in
+    place they stay in the store as gap rows beside the right ones."""
+    stale = [k for (k,) in conn.execute(
+        "SELECT division_key FROM prov_divisions WHERE prov=? AND source_url=?", (PROV, url))
+        if k not in kept]
+    for k in stale:
+        conn.execute("DELETE FROM prov_votes WHERE division_key=?", (k,))
+        conn.execute("DELETE FROM prov_divisions WHERE division_key=?", (k,))
+    return len(stale)
+
+
 def read_sitting(ctx, rec, wl):
     url = rec["minutes_html"] or rec["minutes_pdf"]
     leg, sess, date = rec["legislature"], rec["session"], rec["date"]
@@ -531,6 +560,7 @@ def read_sitting(ctx, rec, wl):
                                  "number": number, "title_en": title, "areas": res.areas,
                                  "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt})
     gaps = 0
+    kept = set()
     for d in divisions:
         votes, ok, note = resolve_division(d, resolver, date, leg)
         bkey = ps.bill_key(PROV, leg, sess, d["bill_number"]) if d["bill_number"] else None
@@ -539,6 +569,7 @@ def read_sitting(ctx, rec, wl):
                           inherit=pc.Result(b_areas, b_terms, b_tier) if b_areas else None)
         seq = "{0}.{1}".format(part, d["seq"]) if part else d["seq"]
         dkey = ps.division_key(PROV, leg, sess, date, seq)
+        kept.add(dkey)
         if not ok:
             gaps += 1
             ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, note))
@@ -552,12 +583,15 @@ def read_sitting(ctx, rec, wl):
     for k, v in enumerate(voices, 1):
         bkey = ps.bill_key(PROV, leg, sess, v["bill_number"])
         areas, terms, tier = ps.bill_areas(ctx.conn, bkey)
+        vkey = ps.division_key(PROV, leg, sess, date, "v{0}-{1}".format(
+            v["bill_number"], v["stage"].split()[0].lower()))
+        kept.add(vkey)
         ps.store_division(ctx.conn, {
-            "division_key": ps.division_key(PROV, leg, sess, date, "v{0}-{1}".format(
-                v["bill_number"], v["stage"].split()[0].lower())),
+            "division_key": vkey,
             "prov": PROV, "legislature": leg, "session": sess, "date": date, "seq": "v",
             "kind": "voice", "bill_key": bkey, "stage": v["stage"], "result": v["result"],
             "source_url": url, "areas": areas, "matched_terms": terms, "tier": tier})
+    drop_stale(ctx.conn, url, kept)
     ps.store_sitting(ctx.conn, PROV, skey, date, url, divisions=len(divisions), voice=len(voices),
                      status="gap" if gaps else "ok")
     ctx.conn.commit()

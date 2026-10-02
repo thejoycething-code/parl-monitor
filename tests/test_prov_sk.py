@@ -173,6 +173,47 @@ class OldCoverTests(unittest.TestCase):
         d = sk.parse_minutes(sk.blocks_from_pdf(text, set()))[0][0]
         self.assertEqual(d["result"], "it was agreed to")              # "it was a greed to"
 
+    def test_nays_nil_spaced(self):
+        """28 May 2018: 'NAYS—N IL'."""
+        d = sk.parse_minutes(sk.blocks_from_pdf(fx("sk_minutes_180528_trim.txt"), set()))[0][0]
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), d["nay_labels"], d["problem"]),
+                         (55, 0, 55, [], None))
+
+    def test_proxy_votes_are_the_members_own(self):
+        """15 June 2020: 'Beck*' and '*proxy vote by Vermette' between the
+        YEAS and the NAYS split one division into two."""
+        conn = conn_from_cover("sk_cover_210412.txt", "2021-04-12", 29)
+        r = pn.Resolver.from_conn(conn, "sk")
+        divisions, _, _ = sk.parse_minutes(sk.blocks_from_pdf(fx("sk_minutes_200615_trim.txt"), sk._vocab(r)))
+        self.assertEqual([(d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"]), d["result"])
+                          for d in divisions], [(13, 41, 13, 41, "it was negatived")])
+        self.assertIn("Beck", divisions[0]["yea_labels"])
+        self.assertNotIn("Beck*", divisions[0]["yea_labels"])
+
+    def test_proxies_and_wrapped_ridings_resolve_on_the_day(self):
+        """12 April 2021: 'Young (Regina' / 'University)*', both Rosses,
+        both Harrisons, both Youngs, against that day's own cover."""
+        conn = conn_from_cover("sk_cover_210412.txt", "2021-04-12", 29)
+        r = pn.Resolver.from_conn(conn, "sk")
+        divisions, _, _ = sk.parse_minutes(sk.blocks_from_pdf(fx("sk_minutes_210412_trim.txt"), sk._vocab(r)))
+        self.assertEqual([(d["yeas"], d["nays"]) for d in divisions], [(12, 47)])
+        votes, ok, note = sk.resolve_division(divisions[0], r, "2021-04-12", 29)
+        self.assertTrue(ok, note)
+        by = {v["member_key"]: v["position"] for v in votes}
+        self.assertEqual((by["aleana-young"], by["colleen-young"]), ("Yea", "Nay"))
+        self.assertEqual((by["carla-beck"], by["scott-moe"]), ("Yea", "Nay"))
+
+    def test_a_reread_drops_the_divisions_it_no_longer_makes(self):
+        conn = db.init_db(db.connect(":memory:"))
+        url = "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/28L4S/200615Minutes.pdf"
+        for seq in (1, 2):
+            ps.store_division(conn, {"division_key": "sk-28-4-2020-06-15-{0}".format(seq), "prov": "sk",
+                                     "date": "2020-06-15", "seq": seq, "kind": "recorded",
+                                     "source_url": url, "positions_ok": 0, "votes": []})
+        self.assertEqual(sk.drop_stale(conn, url, {"sk-28-4-2020-06-15-1"}), 1)
+        self.assertEqual([k for (k,) in conn.execute("SELECT division_key FROM prov_divisions")],
+                         ["sk-28-4-2020-06-15-1"])
+
     def test_a_term_spanning_the_day_does_not_skip_its_cover(self):
         """Covers read out of order (2015, then 2012) widen a term across
         2012-04-23 without that day's cover being read; the day must still
