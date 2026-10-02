@@ -235,7 +235,15 @@ def list_days(ctx, session):
     html = ctx.text(base.HANSARD.format(leg, sess), "hansards-{0}-{1}".format(leg, sess))
     listed = base.list_hansards(html) if html else {}
     if html and not listed:
-        ctx.gap("nb Hansard {0}: no sittings parsed from the listing".format(session))
+        menu = [(int(a), int(b)) for a, b in re.findall(r'href="/en/house-business/hansard/(\d+)/(\d+)"', html)]
+        if menu and (leg, sess) < min(menu):
+            # Measured 2 October 2026: the Hansard page offers sessions from
+            # 58-3 (2017) on; earlier transcripts are "available upon request
+            # through the Legislative Library". Not published is not a gap.
+            ctx.log("  nb Hansard {0}: not published online (the Hansard page lists sessions from 58-3; "
+                    "earlier ones are on request from the Legislative Library)".format(session))
+        else:
+            ctx.gap("nb Hansard {0}: no sittings parsed from the listing".format(session))
     days = [{"key": "nb-{0}-{1}-{2}".format(leg, sess, date), "date": date, "legislature": leg,
              "session": sess, "url": url, "document": url} for date, url in sorted(listed.items())]
     have = ctx.conn.execute("SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND legislature=? "

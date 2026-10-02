@@ -384,6 +384,31 @@ class ReaderTests(unittest.TestCase):
         self.assertTrue(any(t["subject"] == "Introduction of Guests" for t in turns))
         self.assertGreater(nb.english_score("Thank you, Mr. Speaker."), nb.english_score("Merci, Monsieur le président."))
 
+    def test_new_brunswick_before_58_3_is_not_published_and_not_a_gap(self):
+        """The Hansard page offers sessions from 58-3 (2017) on; earlier ones are on
+        request from the Legislative Library (measured 2 October 2026)."""
+        menu = "".join('<a href="/en/house-business/hansard/{0}/{1}">x</a>'.format(l, s)
+                       for l, s in ((58, 3), (58, 4), (61, 2)))
+        pages = {"https://www.legnb.ca/en/house-business/hansard/57/1": menu,
+                 "https://www.legnb.ca/en/house-business/hansard/61/1": menu}
+        for session, gaps in (("57-1", 0), ("61-1", 1)):
+            ctx = Context(_conn(), FakeClient(pages), "nb", dry_run=True, robots=False, log=lambda *a: None)
+            self.assertEqual(nb.list_days(ctx, session), [])
+            self.assertEqual(len(ctx.gaps), gaps, session)
+
+    def test_saskatchewan_lists_both_archive_layouts(self):
+        old = ('<a data-bs-toggle="collapse" href="#20151126"></a><ul><li><a href="https://docs.legassembly.sk.ca/'
+               'legdocs/Assembly/Debates/27L4S/151126Debates.pdf" target="_blank">Debates</a></li><li><a href="https:'
+               '//docs.legassembly.sk.ca/legdocs/Assembly/Minutes/27L4S/151126Minutes.pdf">Minutes</a></li></ul>')
+        new = ('<a data-bs-toggle="collapse" href="#20251022"></a><span>Debates (<a href="https://docs.legassembly.sk.ca'
+               '/legdocs/Assembly/Debates/30L1S/20251022Debates-AM.pdf">PDF</a>, <a href="https://docs.legassembly.sk.ca'
+               '/legdocs/Assembly/Debates/30L1S/20251022Debates-AM-HTML.htm">HTML</a>)</span><span>Debates (<a href="'
+               'https://docs.legassembly.sk.ca/legdocs/Assembly/Debates/30L2S/20251022Debates.pdf">PDF</a>)</span>')
+        got = sk.list_debates(old) + sk.list_debates(new)
+        self.assertEqual([(d["date"], d["legislature"], d["session"], d["part"], bool(d["html"])) for d in got],
+                         [("2015-11-26", 27, 4, None, False), ("2025-10-22", 30, 1, "am", True),
+                          ("2025-10-22", 30, 2, None, False)])
+
     def test_every_reader_has_the_interface_and_its_language(self):
         for mod in (ab, bc, mb, nb, nl, on, qc, sk):
             for name in ("list_days", "read_day", "resolver", "LANGUAGE", "PROV"):

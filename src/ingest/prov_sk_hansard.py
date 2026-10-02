@@ -111,24 +111,29 @@ def parse_pdf(text):
 
 def list_debates(html):
     """[{date, legislature, session, part, pdf, html}] from one archive page:
-    every 'Debates' entry, with its own links."""
+    every Debates link of every day's card. Two layouts, both measured on 2
+    October 2026: "<span>Debates (<a>PDF</a>, <a>HTML</a>)</span>" (2023 on)
+    and a bare "<a href=...Debates.pdf>Debates</a>" (2015). The links are
+    taken by their path ("/Debates/<nn>L<n>S/"), so either layout -- and a
+    day carrying two sessions' Debates -- is read whole."""
     out = []
     marks = [(m.start(), m.group(1)) for m in base._CARD.finditer(html or "")]
     for idx, (pos, ymd) in enumerate(marks):
         body = html[pos:marks[idx + 1][0] if idx + 1 < len(marks) else len(html)]
         date = "{0}-{1}-{2}".format(ymd[:4], ymd[4:6], ymd[6:])
-        for label, links in base._DOC.findall(body):
-            if not label.strip().startswith("Debates"):
+        by = {}
+        for href in re.findall(r'href="([^"]+)"', body):
+            href = _html.unescape(href)
+            m = _SESSION_PATH.search(href)
+            if "/Debates/" not in href or not m or not href.lower().endswith((".pdf", ".htm", ".html")):
                 continue
-            hrefs = [_html.unescape(h) for h in re.findall(r'href="([^"]+)"', links)]
-            pdf = next((h for h in hrefs if h.lower().endswith(".pdf")), None)
-            htm = next((h for h in hrefs if h.lower().endswith((".htm", ".html"))), None)
-            m = _SESSION_PATH.search(pdf or htm or "")
-            if not m:
-                continue
-            part = _PART.search(pdf or htm or "")
-            out.append({"date": date, "legislature": int(m.group(1)), "session": int(m.group(2)),
-                        "part": part.group(1).lower() if part else None, "pdf": pdf, "html": htm})
+            part = _PART.search(href)
+            key = (int(m.group(1)), int(m.group(2)), part.group(1).lower() if part else None)
+            slot = "pdf" if href.lower().endswith(".pdf") else "html"
+            by.setdefault(key, {}).setdefault(slot, href)
+        for (leg, sess, part), links in sorted(by.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2] or "")):
+            out.append({"date": date, "legislature": leg, "session": sess, "part": part,
+                        "pdf": links.get("pdf"), "html": links.get("html")})
     return out
 
 
