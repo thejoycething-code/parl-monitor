@@ -228,6 +228,21 @@ def run(conn, client, prov, session=None, since=None, until=None, limit=None,
     return stats, ctx.gaps
 
 
+def known_gap(prov, gap, path=None):
+    """True when `gap` (the recorded text) contains a reviewed pattern for
+    this province in config/prov_known_gaps.yaml."""
+    import yaml
+    path = path or os.path.join(ROOT, "config", "prov_known_gaps.yaml")
+    if not os.path.exists(path):
+        return False
+    with open(path, encoding="utf-8") as fh:
+        cfg = yaml.safe_load(fh) or {}
+    for entry in (cfg.get(prov) or []):
+        if entry.get("contains") and entry["contains"] in str(gap):
+            return True
+    return False
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -276,7 +291,14 @@ def main(argv=None):
                        all_sessions=args.all_sessions, resume=args.resume,
                        roster_only=args.roster_only, refresh_roster=args.refresh_roster)
     conn.close()
-    return 1 if gaps else 0
+    # Known permanent gaps (config/prov_known_gaps.yaml, reviewed by a human:
+    # e.g. a Journal the legislature serves truncated) are still recorded and
+    # printed, but do not fail the run -- otherwise one broken source file
+    # fails the weekly and alerts every Wednesday for ever (3 October 2026).
+    unknown = [g for g in gaps if not known_gap(args.prov, g)]
+    if gaps and not unknown:
+        print("  every gap is a reviewed known gap (config/prov_known_gaps.yaml): not a failure")
+    return 1 if unknown else 0
 
 
 if __name__ == "__main__":

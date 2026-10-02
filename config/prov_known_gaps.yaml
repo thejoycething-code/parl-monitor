@@ -1,0 +1,16 @@
+# Provincial gaps a human has reviewed as PERMANENT: the source itself is
+# broken and re-reading will never fix it. Each is still recorded in the gaps
+# table and printed every run; it only stops failing the weekly (3 October
+# 2026). An entry needs the province code, a substring of the recorded gap
+# text, the date it was reviewed, and why it can never resolve. Add with care:
+# an entry here silences a failure.
+#
+# nb:
+#   - contains: "2023-06-09"
+#     reviewed: 2026-10-03
+#     why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."
+
+nb:
+  - contains: "2023-06-09"
+    reviewed: 2026-10-03
+    why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."

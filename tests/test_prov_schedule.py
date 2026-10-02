@@ -505,3 +505,16 @@ class CoverageTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class KnownGapsTests(unittest.TestCase):
+    """3 Oct 2026: a reviewed permanent gap is recorded but does not fail."""
+
+    def test_a_listed_gap_is_known_and_an_unlisted_one_is_not(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "prov_collect", os.path.join(ROOT, "tools", "prov_collect.py"))
+        pc = importlib.util.module_from_spec(spec); spec.loader.exec_module(pc)
+        self.assertTrue(pc.known_gap("nb", "journal 2023-06-09: truncated PDF: no %%EOF marker"))
+        self.assertFalse(pc.known_gap("nb", "journal 2023-06-10: truncated"))
+        self.assertFalse(pc.known_gap("ab", "journal 2023-06-09: truncated"))
