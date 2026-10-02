@@ -173,7 +173,8 @@ def _clean(text):
     return re.sub(r"\s+", " ", (text or "").replace("\t", " ").replace("‐", "-")).strip()
 
 
-_DIGITS = re.compile(r"^\s*\d+\s*$")
+# An absence count, or a leave of absence ("LOA": Derrick Bragg, 2023 summary).
+_DIGITS = re.compile(r"^\s*(?:\d+|LOA|N\/A)\s*$")
 
 
 def _is_header(fr):
@@ -461,7 +462,8 @@ def count_value(text):
         return _WORDS[parts[0]] + _WORDS[parts[1]]
     return None
 # The names are read by the Clerk or, since 2023, a Table Officer.
-_CLERK = re.compile(r"(?:CLERK|TABLE\s+OFFICER)(?:\s*\([^)]*\))?\s*:\s*")
+_CLERK = re.compile(r"(?:CLERK|TABLE\s+OFFICER|Table\s+Officer)(?:\s*\([^)]*\))?\s*:\s*")
+_HON_MEMBERS = re.compile(r"(?:SOME|AN)\s+HON\.\s+MEMBERS?\s*:")
 _TAG = re.compile(r"\b(?:(?:MR|MS|MRS)\.\s+|MADAM\s+)?(?:DEPUTY\s+)?(?:SPEAKER|CHAIR)(?:\s*\([^)]*\))?\s*:")
 _LEAD = re.compile(r"(?:(?:Mr\.|Madam|Mister)\s+)?(?:Speaker|Chair)\s*,?\s*$", re.I)
 _DECLARE = re.compile(r"I\s+declare\s+the\s+[\w\-]+(?:\s+as\s+amended)?\s+\w+(?:\s+and\s+said\s+bill\s+passed)?|"
@@ -507,9 +509,17 @@ def _answered_calls(text):
     is not one."""
     out = []
     for f in _FAVOUR.finditer(text or ""):
-        nxt = _SPEAKER_LABEL.search(text, f.end(), f.end() + 400)
-        if nxt and _CLERK.match(text, nxt.start()):
-            out.append(f)
+        pos, end = f.end(), f.end() + 400
+        while True:
+            clerk = _CLERK.search(text, pos, end)
+            label = _SPEAKER_LABEL.search(text, pos, end)
+            if label and _HON_MEMBERS.match(text, label.start()):
+                # 'please rise. SOME HON. MEMBERS: Hear, hear! CLERK: ...'
+                pos = label.end()
+                continue
+            if clerk and (not label or clerk.start() <= label.start()):
+                out.append(f)
+            break
     return out
 
 
@@ -565,7 +575,15 @@ def parse_hansard(text):
         ag = _AGAINST.search(window)
         c1 = _CLERK.search(window)
         nays_end = None
-        if not ag or not c1 or c1.start() > ag.start():
+        count = TOTALS.search(window, c1.end()) if c1 else None
+        if c1 and count and (not ag or ag.start() > count.start()):
+            # No call for those against before the count: the House was
+            # unanimous ('the ayes: 33; the nays: 0', 21 May 2025). Only a
+            # count of no nays is accepted that way.
+            yea_names, nays_end = _read_list(window, c1.end())
+            if count_value(count.group(2)) != 0:
+                problem = "no list of those against, yet the count gives nays"
+        elif not ag or not c1 or c1.start() > ag.start():
             problem = "the Clerk's list of those in favour was not found"
         else:
             yea_names, _ = _read_list(window, c1.end(), ag.start())

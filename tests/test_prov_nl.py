@@ -110,6 +110,10 @@ class RosterTests(unittest.TestCase):
         # the 2022 summary prints 'Dempter, Lisa'; corrected by hand, with the reason
         self.assertIn(("Dempster", "Lisa"), r22)
         self.assertNotIn(("Dempter", "Lisa"), r22)
+        # 2023: a leave of absence is printed 'LOA' where the counts go
+        r23 = {(r["surname"], r["given"]) for r in attendance(2023)}
+        self.assertEqual(len(r23), 40)
+        self.assertIn(("Bragg", "Derrick"), r23)
 
 
 class ProofTests(unittest.TestCase):
@@ -209,6 +213,23 @@ class VariantTests(unittest.TestCase):
         self.assertEqual([(x["yeas"], x["nays"], len(x["yea_labels"]), len(x["nay_labels"])) for x in d][:1],
                          [(15, 16, 15, 16)])
         self.assertEqual(d[0]["yea_labels"].count("Barry Petten"), 1)
+
+    def test_unanimous_with_no_call_for_those_against(self):
+        d, _v, p = self.parse("unanimous_no_against_call")
+        self.assertEqual(p, [])
+        self.assertEqual([(x["yeas"], x["nays"], len(x["yea_labels"]), x["nay_labels"], x["problem"]) for x in d],
+                         [(33, 0, 33, [], None)])
+
+    def test_hear_hear_between_the_call_and_the_clerk(self):
+        d, _v, p = self.parse("hear_hear_before_the_clerk")
+        self.assertEqual(p, [])
+        self.assertEqual([(x["yeas"], x["nays"], len(x["yea_labels"])) for x in d], [(25, 0, 25)])  # 'nays: zero'
+
+    def test_table_officer_in_mixed_case(self):
+        d, _v, p = self.parse("table_officer_mixed_case")
+        self.assertEqual(p, [])
+        self.assertEqual([(x["yeas"], x["nays"], len(x["yea_labels"]), len(x["nay_labels"])) for x in d][:1],
+                         [(21, 17, 21, 17)])
 
     def test_lists_interrupted_by_hear_hear(self):
         d, _v, p = self.parse("interrupted_lists")
