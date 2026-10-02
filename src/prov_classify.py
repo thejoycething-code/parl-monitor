@@ -129,9 +129,21 @@ def on_our_ground(areas):
     return any(a not in HIDDEN_AREAS for a in (areas or []))
 
 
+def reflow(text):
+    """Join a PDF's hard line breaks; keep blank-line paragraph breaks.
+
+    pypdf gives one line per printed line, and filter.split_passages makes
+    each line a passage -- so a phrase that wraps ("shall operate
+    notwithstanding / ... Canadian Charter", "gender / dysphoria") was split
+    across two passages and never matched. Reflowed, a long paragraph is cut
+    on sentence boundaries (1,200 characters at most) instead."""
+    return re.sub(r"[ \t]*(?<!\n)\n(?!\n)[ \t]*", " ", text or "")
+
+
 def classify_text(tax, wl, title=None, body=None, mask=True):
     """Per-passage classification of one text. The title, when given, is a
     passage of its own and is never masked."""
+    body = reflow(body)
     text = mask_statute_names(body) if (mask and body) else (body or "")
     matches = filt.match_passages(tax, wl, text, title=title or None)
     areas, terms, excerpt = filt.aggregate_passages(matches)

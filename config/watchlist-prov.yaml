@@ -66,6 +66,10 @@ terms:
   - term: "notwithstanding clause"
     areas: []
     why: "No area of its own: listed so the judge sees it. Alberta Bill 9 (2025) and Ontario Bill 28 (2022) turn on it; the bill KEY gives the areas where they are ours."
+  - term: "operate notwithstanding"
+    with: ["Charter"]
+    areas: []
+    why: "The statutory FORMULA a bill uses to invoke s.33 ('This Act shall operate notwithstanding sections 2 and 7 to 15 of the Canadian Charter'). Measured on Alberta Bill 9 (2025), whose text never says 'notwithstanding clause'."
 
 provinces:
   # Keys are QUOTED: YAML 1.1 reads a bare `on:` as the boolean true.
