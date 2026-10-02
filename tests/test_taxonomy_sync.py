@@ -71,7 +71,8 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.11 (the same day): the broader same-sex marriage phrases.
         # v1.12 (2 October 2026): two Welsh parental-rights Bills in area 6.
         # v1.13 (3 October 2026): the named person and the Scottish smacking ban.
-        self.assertEqual(version, "1.13")
+        # v1.14 (the same day): the Children and Young People (Scotland) Bill.
+        self.assertEqual(version, "1.14")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -519,7 +520,8 @@ class ScottishParentalRightsTests(unittest.TestCase):
 
     def test_the_holyrood_titles_reach_parental_rights(self):
         for text in ("Named Persons", "the named persons scheme",
-                     "Children (Equal Protection from Assault) (Scotland) Bill"):
+                     "Children (Equal Protection from Assault) (Scotland) Bill",
+                     "Children and Young People (Scotland) Bill"):
             self.assertIn(6, self._areas(text), text)
 
     def test_named_personality_is_not_caught(self):
