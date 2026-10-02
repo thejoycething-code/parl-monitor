@@ -5,10 +5,9 @@
 # reading a division's direction is the campaigner's judgement, and no tool
 # estimates it. tools/prov_5ca.py applies these lines; it never invents one.
 #
-# DRAFTED, NOT CONFIRMED (3 October 2026). The Alberta, Saskatchewan and BC
-# readings below are Claude drafts for Christopher; until he confirms them
-# every provincial 5CA sheet is an EVIDENCE LIST: every column blank, every
-# vote listed with its date, question and result.
+# CONFIRMED (3 October 2026). Drafted by Claude the same day and confirmed by
+# Christopher: "Confirm all the readings." The read-first entries carry no
+# values and place nobody until their text is read.
 #
 # HOW AN ENTRY PLACES PEOPLE. An entry carrying `draft: true` places NOBODY.
 # Every entry starts as a draft; to confirm a reading, delete its `draft:
@@ -53,7 +52,6 @@ divisions:
 
   # --- Alberta, 31st Legislature, 1st session (fall 2024) -------------------
   - key: ab-31-1-2024-11-26-1
-    draft: true
     title: "Bill 26, Health Statutes Amendment Act, 2024 (No. 2) -- second reading"
     dated: 2024-11-26
     result: "Carried 44-32"
@@ -62,7 +60,6 @@ divisions:
     nay: -1
     why_nay: "Voted against the principle of restricting puberty blockers, hormones and surgery for minors."
   - key: ab-31-1-2024-12-03-2
-    draft: true
     title: "Bill 26 -- third reading"
     dated: 2024-12-03
     result: "Carried 47-35"
@@ -71,7 +68,6 @@ divisions:
     nay: -2
     why_nay: "Voted against the law restricting puberty blockers, hormones and gender surgery for minors."
   - key: ab-31-1-2024-11-26-4
-    draft: true
     title: "Bill 26 -- Pancholi amendment (parental consent exception)"
     dated: 2024-11-26
     result: "Defeated 31-43"
@@ -84,7 +80,6 @@ divisions:
     title: "Bill 26 -- six-month hoist at third reading"
     reason: "A delaying amendment that split exactly as the third reading (35-47): the third reading carries the reading."
   - key: ab-31-1-2024-11-19-1
-    draft: true
     title: "Bill 27, Education Amendment Act, 2024 -- second reading"
     dated: 2024-11-19
     result: "Carried 48-30"
@@ -93,7 +88,6 @@ divisions:
     nay: -1
     why_nay: "Voted against the principle of parental notification and consent on names, pronouns and sex education."
   - key: ab-31-1-2024-12-03-4
-    draft: true
     title: "Bill 27 -- third reading"
     dated: 2024-12-03
     result: "Carried 47-33"
@@ -114,7 +108,6 @@ divisions:
     title: "Bill 27 -- Committee amendment on preferred names and pronouns (43-32)"
     reason: "A government-side amendment on when a new preferred name or pronoun may be used; read the full text before proposing a side."
   - key: ab-31-1-2024-11-26-2
-    draft: true
     title: "Bill 29, Fairness and Safety in Sport Act -- second reading"
     dated: 2024-11-26
     result: "Carried 44-31"
@@ -123,7 +116,6 @@ divisions:
     nay: -1
     why_nay: "Voted against the principle of reserving female sport for female athletes."
   - key: ab-31-1-2024-12-03-6
-    draft: true
     title: "Bill 29 -- third reading"
     dated: 2024-12-03
     result: "Carried 47-33"
@@ -136,7 +128,6 @@ divisions:
     title: "Bill 29 -- clauses in Committee of the Whole"
     reason: "Split exactly as the readings: the readings carry it."
   - key: ab-31-1-2024-10-30-2
-    draft: true
     areas: [1]          # abortion, though Bill 24 is tagged free speech (tools/prov_5ca.py)
     title: "Bill 24, Alberta Bill of Rights Amendment Act -- amendment adding a right to 'comprehensive reproductive healthcare'"
     dated: 2024-10-30
@@ -148,7 +139,6 @@ divisions:
 
   # --- Saskatchewan, 29th Legislature, 3rd session (October 2023) -----------
   - key: sk-29-3-2023-10-12-1
-    draft: true
     title: "Bill 137, The Education (Parents' Bill of Rights) Amendment Act, 2023 -- first reading"
     dated: 2023-10-12
     result: "Carried 37-12"
@@ -157,7 +147,6 @@ divisions:
     nay: -1
     why_nay: "Voted against even introducing the Parents' Bill of Rights."
   - key: sk-29-3-2023-10-19-1
-    draft: true
     title: "Bill 137 -- second reading"
     dated: 2023-10-19
     result: "Carried 37-11"
@@ -166,7 +155,6 @@ divisions:
     nay: -1
     why_nay: "Voted against the principle of the Parents' Bill of Rights."
   - key: sk-29-3-2023-10-20-1
-    draft: true
     title: "Bill 137 -- third reading"
     dated: 2023-10-20
     result: "Carried 40-12"
@@ -175,7 +163,6 @@ divisions:
     nay: -2
     why_nay: "Voted against the Parents' Bill of Rights."
   - key: sk-29-3-2023-10-19-5
-    draft: true
     title: "Bill 137 -- Love amendment (consent not required where professionals foresee harm)"
     dated: 2023-10-19
     result: "Negatived 11-33"
@@ -213,7 +200,6 @@ divisions:
 
   # --- British Columbia, 43rd Parliament, 2nd session ------------------------
   - key: bc-43-2-2026-02-19-119.1
-    draft: true
     title: "Gender Ideology and Child Protection Act -- first reading (refused)"
     dated: 2026-02-19
     result: "Negatived 38-49"

@@ -273,7 +273,7 @@ class StanceFileTests(unittest.TestCase):
         divs = c5.load_stance(section="divisions")
         self.assertEqual([k for k in confirmed_2_oct if c5.status(divs[k]) != "confirmed"], [])
         # The 2010-2024 landmarks drafted on 3 October are drafts until he confirms.
-        self.assertEqual(c5.status(divs["commons-41-1-466"]), "draft")
+        self.assertEqual(c5.status(divs["commons-41-1-466"]), "confirmed")   # 3 Oct 2026
         ridr = c5.load_stance(section="divisions")["senate-45-1-699935"]
         self.assertEqual(c5.status(ridr), "unplaceable")
 
@@ -291,12 +291,14 @@ class StanceFileTests(unittest.TestCase):
                     "commons-44-1-292", "senate-44-1-579724", "senate-44-1-590158", "senate-44-1-597012",
                     "senate-44-1-598556", "senate-44-1-598861", "senate-44-1-604953", "senate-44-1-605386",
                     "senate-44-1-605586", "senate-44-1-605960")
-        self.assertEqual([k for k in speech if c5.status(divs.get(k)) != "draft"], [])
+        # Confirmed by Christopher, 3 October 2026 ("Confirm all the readings").
+        self.assertEqual([k for k in speech if c5.status(divs.get(k)) != "confirmed"], [])
         self.assertEqual([k for k in evidence if c5.status(divs.get(k)) != "unplaceable"], [])
         for k in speech:
             self.assertTrue(divs[k].get("text") and divs[k].get("moved_by") and divs[k].get("source"), k)
         # Only the one whose sole effect is user uploads reaches +2.
-        self.assertEqual(divs["senate-44-1-598845"]["yea"], 2)
+        # "score Plett at +1" (Christopher, 3 October 2026).
+        self.assertEqual(divs["senate-44-1-598845"]["yea"], 1)
         self.assertEqual({divs[k]["yea"] for k in speech[1:]}, {1})
 
 if __name__ == "__main__":

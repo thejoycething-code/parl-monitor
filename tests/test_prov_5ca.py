@@ -49,12 +49,13 @@ def store_proof(conn):
 
 
 class StanceFileTests(unittest.TestCase):
-    def test_the_shipped_stance_file_places_nobody_until_confirmed(self):
-        """3 October 2026: readings drafted for Christopher. Nothing is
-        confirmed until he deletes a `draft: true` line."""
+    def test_the_shipped_stance_file_is_confirmed(self):
+        """Christopher, 3 October 2026: "Confirm all the readings." No draft
+        remains; read-first entries carry no values and place nobody."""
         entries = p5.load_stance(p5.STANCE_PATH, "divisions")
         self.assertGreater(len(entries), 10)
-        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "confirmed"], [])
+        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "draft"], [])
+        self.assertEqual(p5.status(entries["ab-31-1-2024-12-03-2"]), "confirmed")
         with open(p5.STANCE_PATH, encoding="utf-8") as fh:
             header = fh.read()
         self.assertIn("draft: true", header)

@@ -388,14 +388,14 @@ divisions:
   # delay -- with nothing that is our ground in either direction. Its eight
   # divisions (45-1: 134-137, 153; Senate 702758) stay evidence only.
 
-  # --- 2010-2024 landmarks, DRAFTED 3 October 2026 for Christopher --------
+  # --- 2010-2024 landmarks, drafted and CONFIRMED 3 October 2026 ----------
+  # (Christopher: "Confirm all the readings, and score Plett at +1".)
   # Tagged by the bill KEY (src/ca_store.add_bill_key_areas) and fetched by
   # the rollcall_sessions run. Every mover or sponsor voted Yea on their own
   # measure (Woodworth, Siksay, Garrison, Storseth, MacKay, Wagantall, Khalid,
   # Scheer, Wilson-Raybould, Rodriguez). Free and conscience votes carry
   # full strength; second readings and whole-bill whipped votes +/-1.
   - key: commons-41-1-466
-    draft: true
     title: "M-312 (Woodworth): special committee on when a child becomes a human being (s.223(1) Criminal Code)"
     dated: 2012-09-26
     result: "Negatived 91-203"
@@ -407,7 +407,6 @@ divisions:
     note: >
       A free vote: the Conservative caucus split 86-74, so each side is a personal choice. The only Commons vote on the question since 1988.
   - key: commons-40-3-165
-    draft: true
     title: "C-389 (Siksay): gender identity and expression in the Human Rights Act and Criminal Code -- third reading"
     dated: 2011-02-09
     result: "Agreed To 143-135"
@@ -417,7 +416,6 @@ divisions:
     nay: 2
     why_nay: "Voted against adding gender identity and expression to the Human Rights Act and the Criminal Code."
   - key: commons-41-1-271
-    draft: true
     title: "C-279 (Garrison): gender identity -- second reading"
     dated: 2012-06-06
     result: "Agreed To 150-132"
@@ -427,7 +425,6 @@ divisions:
     nay: 1
     why_nay: "Voted against the principle of the gender identity bill."
   - key: commons-41-1-645
-    draft: true
     title: "C-279: gender identity -- third reading"
     dated: 2013-03-20
     result: "Agreed To 149-137"
@@ -439,7 +436,6 @@ divisions:
     note: >
       18 Conservatives voted Yea: not a pure party line.
   - key: commons-42-1-126
-    draft: true
     title: "C-16 (government): gender identity and expression -- second reading"
     dated: 2016-10-18
     result: "Agreed To 248-40"
@@ -449,7 +445,6 @@ divisions:
     nay: 2
     why_nay: "Voted against the gender identity and expression bill (passed into law in 2017)."
   - key: senate-42-1-458503
-    draft: true
     title: "C-16 -- Senate third reading"
     dated: 2017-06-15
     result: "Adopted 67-11"
@@ -459,7 +454,6 @@ divisions:
     nay: 2
     why_nay: "Voted against passing C-16."
   - key: commons-41-1-133
-    draft: true
     title: "C-304 (Storseth): repeal of section 13 of the Human Rights Act -- second reading"
     dated: 2012-02-15
     result: "Agreed To 158-131"
@@ -469,7 +463,6 @@ divisions:
     nay: -1
     why_nay: "Voted against the principle of repealing section 13."
   - key: commons-41-1-269
-    draft: true
     title: "C-304: repeal of section 13 -- third reading"
     dated: 2012-06-06
     result: "Agreed To 153-136"
@@ -479,7 +472,6 @@ divisions:
     nay: -2
     why_nay: "Voted to keep section 13."
   - key: commons-41-2-209
-    draft: true
     title: "C-36: Protection of Communities and Exploited Persons Act -- second reading"
     dated: 2014-06-16
     result: "Agreed To 139-117"
@@ -489,7 +481,6 @@ divisions:
     nay: -1
     why_nay: "Voted against the principle of criminalising the purchase of sex."
   - key: commons-41-2-249
-    draft: true
     title: "C-36 -- third reading"
     dated: 2014-10-06
     result: "Agreed To 156-124"
@@ -499,7 +490,6 @@ divisions:
     nay: -2
     why_nay: "Voted against criminalising the purchase of sex."
   - key: commons-42-1-61
-    draft: true
     title: "Opposition motion: freedom of conscience for physicians under MAID"
     dated: 2016-05-17
     result: "Negatived 96-214"
@@ -509,7 +499,6 @@ divisions:
     nay: -1
     why_nay: "Voted against the motion protecting physicians' conscience under MAID (-1: the government whipped against it)."
   - key: commons-42-1-131
-    draft: true
     title: "C-225 (Wagantall): Cassie and Molly's Law -- second reading"
     dated: 2016-10-19
     result: "Negatived 76-209"
@@ -521,7 +510,6 @@ divisions:
     note: >
       Read with C-311 (2023), confirmed at +/-2.
   - key: commons-44-1-186
-    draft: true
     title: "C-230 (Wagantall): Protection of Freedom of Conscience Act -- second reading"
     dated: 2022-10-05
     result: "Negatived 115-208"
@@ -531,7 +519,6 @@ divisions:
     nay: -2
     why_nay: "Voted against protecting health professionals' conscience over MAID."
   - key: commons-42-1-201
-    draft: true
     title: "Opposition motion condemning discrimination against all religions (the counter to M-103)"
     dated: 2017-02-21
     result: "Negatived 126-165"
@@ -543,7 +530,6 @@ divisions:
     note: >
       NDP and Bloc voted with the Conservatives; the government voted against.
   - key: commons-42-1-237
-    draft: true
     title: "M-103 (Khalid): systemic racism and religious discrimination ('Islamophobia')"
     dated: 2017-03-23
     result: "Agreed To 201-91"
@@ -603,7 +589,6 @@ divisions:
   # motion. Movers and seconders all voted Yea on their own Senate
   # amendments; the two House movers with no recorded vote are named.
   - key: senate-44-1-598845
-    draft: true
     title: "C-11 -- Senate third reading amendment (Sen. Plett): delete s.4.1(2) and s.4.2"
     dated: 2023-02-02
     result: "Defeated 16-44-1"
@@ -628,7 +613,8 @@ divisions:
     # (programs the platform itself uploads), and the committee's amendment
     # 3 had already narrowed s.4.2, so a Nay need not be a vote for
     # regulating users.
-    yea: 2
+    yea: 1
+    # +1, not +2 (Christopher, 3 October 2026: "score Plett at +1").
     why_yea: >
       Voted to delete the CRTC's power to bring programs users upload to
       social media under the Broadcasting Act (s.4.1(2) and s.4.2), leaving
@@ -638,7 +624,6 @@ divisions:
       Voted to keep the CRTC's power to bring user-uploaded social-media
       programs under the Broadcasting Act by regulation (s.4.2).
   - key: senate-44-1-605567
-    draft: true
     title: "C-11 -- Commons message, subamendment (Sen. MacDonald): insist on Senate amendment 3 alone"
     dated: 2023-04-26
     result: "Defeated 15-53-2"
@@ -686,7 +671,6 @@ divisions:
       regulation of user-uploaded social-media programs to commercial sound
       recordings.
   - key: senate-44-1-598337
-    draft: true
     title: "C-11 -- Senate third reading amendment (Sen. Manning): $10 million floor on s.4.2 regulations"
     dated: 2023-01-31
     result: "Defeated 16-52-1"
@@ -719,7 +703,6 @@ divisions:
       Voted against a $10 million revenue floor on the programs the CRTC's
       user-upload regulations (s.4.2) may prescribe.
   - key: senate-44-1-598860
-    draft: true
     title: "C-11 -- Senate third reading amendment (Sen. Housakos): discoverability"
     dated: 2023-02-02
     result: "Defeated 13-42-3"
