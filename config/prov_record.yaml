@@ -122,6 +122,29 @@ provinces:
           motion for Second Reading of Bill 9, Public Sector Compensation
           Transparency Act": the right title under the wrong number. Stored
           under Bill 5; tally_note keeps "the record names Bill 9".
+  "on":
+    misprints:
+      - printed: "Cuzzeto"
+        member: rudy-cuzzetto
+        from: 2018-07-19
+        to: 2020-07-21
+        document_prefix: https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-1/
+        documents: >-
+          The Votes and Proceedings of the 42nd Parliament, 1st Session: every
+          division list from 19 July 2018 to 21 July 2020 except 21 February -
+          6 June 2019 (when it is spelt "Cuzzetto"), e.g. .../2018-07-25/votes-proceedings
+          (both divisions) and .../2020-07-21/votes-proceedings (both divisions).
+        verified_against: >-
+          The Hansard of the same sittings: its own division lists print
+          "Cuzzetto, Rudy" where the V&P prints "Cuzzeto" (25 July 2018,
+          25-JUL-2018_L009_1.pdf, both divisions), and its member list prints
+          one "Cuzzetto, Rudy (PC) Mississauga—Lakeshore" and no Cuzzeto (25
+          July 2018 and 21 July 2020). Read 2 October 2026.
+        why: >-
+          135 votes, one in each of 135 divisions, and in 118 of them the only
+          thing wrong. The surname itself is misprinted, so nothing but a
+          reviewed fact can match it; from October 2021 the V&P spells it
+          correctly.
   "ns":
     label_aliases:
       - printed: "Tom Taggar"

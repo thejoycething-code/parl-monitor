@@ -344,6 +344,24 @@ def load_riding_aliases(prov, path=None):
                      ("printed", "riding", "document", "verified_against", "why"), path)
 
 
+def load_misprints(prov, path=None):
+    """`misprints:` -- ONE misspelling of one member's name that a record
+    repeats over a span of sittings (Ontario's V&P printed "Cuzzeto" for Rudy
+    Cuzzetto in every division list of 19 July 2018 - 21 July 2020 but a few
+    weeks of 2019). A label_alias per day would be some seventy entries of
+    the same fact. Needs printed, member, from, to, document_prefix (every
+    document it applies in starts with it), documents (where it was read),
+    verified_against and why. Read by Aliased exactly as a label alias:
+    only after the normal resolver found nobody, only on a day inside the
+    span and in a document under the prefix, only to a member holding a
+    term that day."""
+    out = []
+    for a in _reviewed(prov, "misprints", ("printed", "member", "from", "to", "document_prefix",
+                                           "documents", "verified_against", "why"), path):
+        out.append(dict(a, **{"from": str(a["from"]), "to": str(a["to"])}))
+    return out
+
+
 # -- reviewed facts about ONE division ---------------------------------------
 #
 # Christopher, 2 October 2026: where Hansard is explicit for the SAME division,
@@ -447,14 +465,21 @@ class Aliased:
     a resolved label. A match must be exact (the label as printed, whitespace
     aside), on the entry's own date and, when the caller says which, in the
     entry's own document; its member must hold a term that day. Still
-    unique-or-nothing, and the tally check still runs on the result."""
+    unique-or-nothing, and the tally check still runs on the result.
 
-    def __init__(self, inner, aliases, base=None):
+    `misprints` (load_misprints) are read the same way over a span of days,
+    and only when the caller names the document and it lies under the
+    entry's document_prefix."""
+
+    def __init__(self, inner, aliases, base=None, misprints=None):
         self.inner = inner
         self.base = base or getattr(inner, "r", inner)
         self.by = {}
         for a in aliases or []:
             self.by.setdefault((_norm_label(a["printed"]), a["date"]), []).append(a)
+        self.misprints = {}
+        for a in misprints or []:
+            self.misprints.setdefault(_norm_label(a["printed"]), []).append(a)
 
     def party_at(self, member_key, date, legislature=None):
         return self.inner.party_at(member_key, date, legislature)
@@ -465,6 +490,9 @@ class Aliased:
             return key, how
         hits = [a for a in self.by.get((_norm_label(raw), date), [])
                 if document is None or a["document"] == document]
+        hits += [a for a in self.misprints.get(_norm_label(raw), [])
+                 if document and a["from"] <= date <= a["to"]
+                 and document.startswith(a["document_prefix"])]
         targets = sorted({a["member"] for a in hits})
         if not targets:
             return key, how
