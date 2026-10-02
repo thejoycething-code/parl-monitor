@@ -61,7 +61,7 @@ they hit. Every hit was read; none is a false positive by the standard of
 | 7 | `liberté d'expression`, `liberté académique`, `identité numérique` | 3 | 39-1/9 (anti-SLAPP), 42-2/32, 43-2/82 |
 | 8 | `laïcité` | 7 | 42-1/21, 43-2/94, 43-2/9, 43-1/52 (notwithstanding renewal for Bill 21), 40-1/60, 40-1/398, 40-1/492 |
 | 8 | `neutralité religieuse`, `accommodement* pour un motif religieux` | 3 | 41-1/62, 40-1/491, 40-1/60 |
-| 9 | `union civile`, `union parentale`, `droit de la famille`, `filiation` | 6 | 36-2/84, 43-1/56, 43-1/12, 42-2/2, 41-1/797 |
+| 9 | `union parentale`, `droit de la famille`, `filiation` | 5 | 36-2/84, 43-1/56, 43-1/12, 42-2/2, 41-1/797 |
 | 10 | `grossesse pour autrui`, `mère* porteuse*`, `procréation assistée`, `embryon*` | 7 | 43-1/12, 42-1/73, 41-1/1196, 41-1/20 (ended IVF coverage), 39-1/26, 37-2/89, 38-1/95 |
 | 12 | `exploitation sexuelle`, `traite des personnes` | 1 | 41-1/1194 |
 | 13 | `don* d'organes`, `présomption de consentement` | 3 | 43-1/194, 39-1/125, 37-2/197 |
@@ -100,7 +100,7 @@ and `autorité parentale` left area 6 (the Youth Protection Act and the
 organ-donation consent of minors); `censure` went to tier 2 (Bill 1 and the
 "motion de censure"); bare `immigration` left area 11 (the minister's
 title); `vérification de l'âge` is guarded by pornography and social-media
-words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online).
+words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online). After the full 42-1 bill sweep (182 texts): bare `interruption* de grossesse` and `union civile` went to tier 2 (parental-insurance benefits; the statutory definition of a spouse), and the collector now masks the capitalised heading an omnibus bill gives each Act it amends.
 
 ## Quebec-specific matching traps
 
@@ -136,9 +136,9 @@ words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online).
 
 ### 1. Abortion {#1_abortion}
 
-- **Tier 1:** avortement*; "interruption* volontaire* de grossesse"; "interruption* de grossesse"; IVG; "pilule* abortive*"; mifépristone; "zone* tampon*" [with: avortement*, IVG, grossesse*, clinique*]
-- **Tier 2:** "santé reproductive"; "droits reproductifs"; "santé sexuelle et reproductive"; "enfant* à naître"; fœtus; foetus; "mort-né*"; "objection de conscience"; contraception
-- **Notes:** Measured: Bill 595 (2016), "accès aux établissements où se pratiquent des interruptions volontaires de grossesse", the only Quebec abortion bill in 2,317 titles; the stems take the plural of its title. `avortement*` matched nothing in titles and is the plain word of debate and of motions. `zone* tampon*` is guarded because it is also a farming and planning term.
+- **Tier 1:** avortement*; "interruption* volontaire* de grossesse"; IVG; "pilule* abortive*"; mifépristone; "zone* tampon*" [with: avortement*, IVG, grossesse*, clinique*]
+- **Tier 2:** "interruption* de grossesse"; "santé reproductive"; "droits reproductifs"; "santé sexuelle et reproductive"; "enfant* à naître"; fœtus; foetus; "mort-né*"; "objection de conscience"; contraception
+- **Notes:** Measured: Bill 595 (2016), "accès aux établissements où se pratiquent des interruptions volontaires de grossesse", the only Quebec abortion bill in 2,317 titles; the stems take the plural of its title. `avortement*` matched nothing in titles and is the plain word of debate and of motions. `zone* tampon*` is guarded because it is also a farming and planning term. Bare `interruption* de grossesse` moved to tier 2 after the 42-1 sweep: it is also the parental-insurance benefit after a pregnancy ends (Bill 51, 2020), and a miscarriage is not our ground.
 
 ### 2. Assisted dying and end of life {#2_assisted_dying}
 
@@ -185,9 +185,9 @@ words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online).
 
 ### 9. Marriage and family {#9_marriage_family}
 
-- **Tier 1:** "union civile"; "union parentale"; "droit de la famille"; filiation; "mariage* entre personnes de même sexe"; "mariage* entre conjoints de même sexe"
-- **Tier 2:** mariage; mariages; divorce; polygamie; "mariage* forcé*"; natalité; "politique familiale"
-- **Notes:** Measured: Bill 84 (2002) "instituant l'union civile et établissant de nouvelles règles de filiation" (Quebec's civil unions, open to same-sex couples, three years before federal marriage); Bill 2 (2021) and Bill 12 (2023) on filiation; Bill 56 (2024) "instituant le régime d'union parentale"; Bill 797 (2016). `filiation` is tier 1 because every Quebec bill that redefines who a parent is says it, and it is never used for anything else.
+- **Tier 1:** "union parentale"; "droit de la famille"; filiation; "mariage* entre personnes de même sexe"; "mariage* entre conjoints de même sexe"
+- **Tier 2:** "union civile"; mariage; mariages; divorce; polygamie; "mariage* forcé*"; natalité; "politique familiale"
+- **Notes:** `union civile` moved to tier 2 after the 42-1 sweep: every statute that defines a spouse says "lié par un mariage ou une union civile" (Bill 84, 2021, victims of crime). Measured: Bill 84 (2002) "instituant l'union civile et établissant de nouvelles règles de filiation" (Quebec's civil unions, open to same-sex couples, three years before federal marriage); Bill 2 (2021) and Bill 12 (2023) on filiation; Bill 56 (2024) "instituant le régime d'union parentale"; Bill 797 (2016). `filiation` is tier 1 because every Quebec bill that redefines who a parent is says it, and it is never used for anything else.
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 

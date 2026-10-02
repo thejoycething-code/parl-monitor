@@ -128,12 +128,29 @@ def mask_statute_names(text):
 # masked, so a bill that amends the end-of-life care Act for one cross-
 # reference is not filed under area 2 on the Act's name alone. The bill's own
 # title is matched unmasked, and an Act named without its chapter is left.
+# pypdf splits the capital from its word in the "LOIS MODIFIÉES PAR CE
+# PROJET DE LOI" list ("– L oi favorisant le respect de la neutralité
+# religieuse ... (chapitre R-26.2.01)"): Bills 23 and 37 of 42-1 were filed
+# under area 8 on that list alone until the split form was allowed.
 _LOI_CITED = re.compile(
-    r"\b(?:Loi|Code|Charte|Règlement)\b[^()]{0,220}?\(\s*chapitre\s+[^)]{1,24}\)", re.S)
+    r"\b(?:L\s?oi|C\s?ode|C\s?harte|R\s?èglement)\b[^()]{0,220}?\(\s*(?:\d{4}\s*,\s*)?chapitre\s+[^)]{1,24}\)",
+    re.S)
+# An omnibus bill heads each amended Act's section with the Act's name in
+# capitals and no chapter number: "LOI FAVORISANT LE RESPECT DE LA
+# NEUTRALITÉ RELIGIEUSE DE L'ÉTAT ET VISANT NOTAMMENT À ENCADRER LES
+# DEMANDES D'ACCOMMODEMENTS POUR UN MOTIF RELIGIEUX" filed Bill 37 of 2020
+# (government procurement) under freedom of religion. The heading and its
+# capitalised continuation lines are masked, before the lines are reflowed.
+_LOI_HEADING = re.compile(r"^[ \t]*(?:LOI|CODE|CHARTE|RÈGLEMENT)\b[^\na-zà-ÿ]*$(?:\n[^\na-zà-ÿ]*[A-ZÀ-Ý][^\na-zà-ÿ]*$)*",
+                          re.M)
 
 
 def mask_statute_names_fr(text):
     return _LOI_CITED.sub(" [loi citée] ", text or "")
+
+
+def mask_statute_headings_fr(text):
+    return _LOI_HEADING.sub(" [loi citée] ", text or "")
 
 
 def nfc(text):
@@ -185,6 +202,8 @@ def classify_text(tax, wl, title=None, body=None, mask=True, french=False):
     and masks Quebec-style statute citations instead of English Act names."""
     if french:
         title, body = (nfc(title) or None), nfc(body)
+        if mask and body:
+            body = mask_statute_headings_fr(body)
     body = reflow(body)
     if mask and body:
         text = mask_statute_names_fr(body) if french else mask_statute_names(body)

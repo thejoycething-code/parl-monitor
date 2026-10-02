@@ -4,9 +4,9 @@
 version: 0.1
 areas:
   1_abortion:
-    tier1: ["avortement*", "interruption* volontaire* de grossesse", "interruption* de grossesse", IVG, "pilule* abortive*", mifépristone, {term: "zone* tampon*", with: ["avortement*", IVG, "grossesse*", "clinique*"]}]
-    tier2: ["santé reproductive", "droits reproductifs", "santé sexuelle et reproductive", "enfant* à naître", fœtus, foetus, "mort-né*", "objection de conscience", contraception]
-    # note: Measured: Bill 595 (2016), "accès aux établissements où se pratiquent des interruptions volontaires de grossesse", the only Quebec abortion bill in 2,317 titles; the stems take the plural of its title. `avortement*` matched nothing in titles and is the plain word of debate and of motions. `zone* tampon*` is guarded because it is also a farming and planning term.
+    tier1: ["avortement*", "interruption* volontaire* de grossesse", IVG, "pilule* abortive*", mifépristone, {term: "zone* tampon*", with: ["avortement*", IVG, "grossesse*", "clinique*"]}]
+    tier2: ["interruption* de grossesse", "santé reproductive", "droits reproductifs", "santé sexuelle et reproductive", "enfant* à naître", fœtus, foetus, "mort-né*", "objection de conscience", contraception]
+    # note: Measured: Bill 595 (2016), "accès aux établissements où se pratiquent des interruptions volontaires de grossesse", the only Quebec abortion bill in 2,317 titles; the stems take the plural of its title. `avortement*` matched nothing in titles and is the plain word of debate and of motions. `zone* tampon*` is guarded because it is also a farming and planning term. Bare `interruption* de grossesse` moved to tier 2 after the 42-1 sweep: it is also the parental-insurance benefit after a pregnancy ends (Bill 51, 2020), and a miscarriage is not our ground.
   2_assisted_dying:
     tier1: ["aide médicale à mourir", "soins de fin de vie", euthanasie, "suicide assisté", "aide au suicide", "mourir dans la dignité", "sédation palliative continue"]
     tier2: ["soins palliatifs", "fin de vie", "directives médicales anticipées", "maison* de soins palliatifs"]
@@ -37,9 +37,9 @@ areas:
     tier2: ["laïque*", "lieu* de culte", "intégrisme religieux", "patrimoine religieux", "accommodement* raisonnable*", "motif religieux"]
     # note: Measured: Bill 21 (2019) "Loi sur la laïcité de l'État", Bill 94 (2025), Bill 52 (2024, renewing the notwithstanding clause for Bill 21), Bill 9 (2025) "Loi sur le renforcement de la laïcité au Québec", Bill 60 (2013) the Charter of values, private members' Bills 398 and 492 (2013), Bill 62 (2017) "neutralité religieuse de l'État" and its "visage découvert" rule. The English "laicity" was the only English term that would have found Bill 21, and only on its English title. CitizenGO's position on the laicity bills is a stance for Christopher; this file only finds them.
   9_marriage_family:
-    tier1: ["union civile", "union parentale", "droit de la famille", filiation, "mariage* entre personnes de même sexe", "mariage* entre conjoints de même sexe"]
-    tier2: [mariage, mariages, divorce, polygamie, "mariage* forcé*", natalité, "politique familiale"]
-    # note: Measured: Bill 84 (2002) "instituant l'union civile et établissant de nouvelles règles de filiation" (Quebec's civil unions, open to same-sex couples, three years before federal marriage); Bill 2 (2021) and Bill 12 (2023) on filiation; Bill 56 (2024) "instituant le régime d'union parentale"; Bill 797 (2016). `filiation` is tier 1 because every Quebec bill that redefines who a parent is says it, and it is never used for anything else.
+    tier1: ["union parentale", "droit de la famille", filiation, "mariage* entre personnes de même sexe", "mariage* entre conjoints de même sexe"]
+    tier2: ["union civile", mariage, mariages, divorce, polygamie, "mariage* forcé*", natalité, "politique familiale"]
+    # note: `union civile` moved to tier 2 after the 42-1 sweep: every statute that defines a spouse says "lié par un mariage ou une union civile" (Bill 84, 2021, victims of crime). Measured: Bill 84 (2002) "instituant l'union civile et établissant de nouvelles règles de filiation" (Quebec's civil unions, open to same-sex couples, three years before federal marriage); Bill 2 (2021) and Bill 12 (2023) on filiation; Bill 56 (2024) "instituant le régime d'union parentale"; Bill 797 (2016). `filiation` is tier 1 because every Quebec bill that redefines who a parent is says it, and it is never used for anything else.
   10_surrogacy_embryology:
     tier1: ["gestation pour autrui", "grossesse pour autrui", "mère* porteuse*", "procréation assistée", "procréation médicalement assistée", "fécondation in vitro", "embryon*", "don* de gamètes", "don* d'ovules", "don* de sperme"]
     tier2: [FIV, "projet parental", "gamète*"]
