@@ -86,9 +86,17 @@ MODULES = {
     "nb": "src.ingest.prov_nb",
     "nl": "src.ingest.prov_nl",
     "qc": "src.ingest.prov_qc",
+    "ns": "src.ingest.prov_ns",
 }
 NOT_BUILT = {p: "not built yet (docs/canada-provinces-scope.md, build order)"
              for p in prov_store.PROVINCES if p not in MODULES}
+# Out of reach, not merely unbuilt: the legislature answers our honest UA
+# with a bot challenge, from a GitHub runner as from the laptop. We never
+# solve or work around one (docs/canada-provinces-scope.md).
+NOT_BUILT["pe"] = ("not built, and out of reach: every inner page of assembly.pe.ca redirects to a Radware CAPTCHA "
+                   "(validate.perfdrive.com), from CI too (docs/canada-provinces-scope.md, PEI)")
+NOT_BUILT["yt"] = ("not built, and out of reach: yukonassembly.ca answers a Cloudflare challenge, from CI too "
+                   "(docs/canada-provinces-scope.md, Yukon)")
 
 RESUME_LOOKBACK_DAYS = 14
 OWED_DAYS = 120
