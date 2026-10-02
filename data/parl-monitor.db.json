@@ -1,10 +1,10 @@
 {
   "asset": "thejoycething-code/parl-monitor release db-state",
-  "bytes": 640049152,
+  "bytes": 640155648,
   "note": "Derived state; the bytes live as a release asset. See tools/db_state.py.",
-  "published_at": "run 36954561209",
-  "published_utc": "2026-10-02T02:18:43Z",
-  "sha256": "75625d93086a94e30dd66d4720ee62da1a0db3f999e428f41bf48ff823268635",
+  "published_at": "run 36980570546",
+  "published_utc": "2026-10-02T08:22:45Z",
+  "sha256": "6a6e481fdb5df0ae5e652b5377e67f4a2ee4c4cfceaf196d3bed5ba1ffb84af0",
   "tables": {
     "api_spend": 5014,
     "appg_officers": 24,
@@ -17,6 +17,8 @@
     "ca_divisions": 4527,
     "ca_gazette_issues": 1518,
     "ca_gazette_items": 26742,
+    "ca_judgments": 0,
+    "ca_leave": 0,
     "ca_member_state": 16146,
     "ca_members": 930,
     "ca_outcomes": 1,
