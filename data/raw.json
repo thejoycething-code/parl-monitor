@@ -351,11 +351,11 @@
       "sha256": "14ec95731451bbb48233b5d1f455642e7d1cc6c69d0e247f377d811225342374"
     },
     "2026-09-29": {
-      "bytes": 68012124,
-      "files": 3121,
+      "bytes": 108049202,
+      "files": 3698,
       "published_by": "local",
-      "published_utc": "2026-10-02T02:22:11Z",
-      "sha256": "fd1b9236e33384ab5502ae48df9c900dd61df4601f2002f94959a06339645df3"
+      "published_utc": "2026-10-02T02:37:44Z",
+      "sha256": "d3d14a6f26f4d74bba80cb1d0b133b5eb6f4e0fed1241b55b94395203e4a280a"
     },
     "2026-09-30": {
       "bytes": 119,
