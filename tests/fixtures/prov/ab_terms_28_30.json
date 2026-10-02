@@ -1,0 +1,4897 @@
+{
+"note": "prov_members and prov_member_terms for Alberta's 28th, 29th and 30th Legislatures, one set per legislature, as collected live from the member-information pages with the per-legislature roster fix, 2 Oct 2026",
+"members": [
+{
+"member_key": "0606",
+"name": "Pearl Calahasen",
+"surname": "Calahasen",
+"given": "Pearl"
+},
+{
+"member_key": "0630",
+"name": "Moe Amery",
+"surname": "Amery",
+"given": "Moe"
+},
+{
+"member_key": "0635",
+"name": "Heather Forsyth",
+"surname": "Forsyth",
+"given": "Heather"
+},
+{
+"member_key": "0637",
+"name": "Yvonne Fritz",
+"surname": "Fritz",
+"given": "Yvonne"
+},
+{
+"member_key": "0676",
+"name": "Gene Zwozdesky",
+"surname": "Zwozdesky",
+"given": "Gene"
+},
+{
+"member_key": "0683",
+"name": "Wayne Cao",
+"surname": "Cao",
+"given": "Wayne"
+},
+{
+"member_key": "0687",
+"name": "Dave Hancock",
+"surname": "Hancock",
+"given": "Dave"
+},
+{
+"member_key": "0698",
+"name": "Laurie Blakeman",
+"surname": "Blakeman",
+"given": "Laurie"
+},
+{
+"member_key": "0706",
+"name": "Brian Mason",
+"surname": "Mason",
+"given": "Brian"
+},
+{
+"member_key": "0707",
+"name": "Mary Anne Jablonski",
+"surname": "Jablonski",
+"given": "Mary Anne"
+},
+{
+"member_key": "0712",
+"name": "Alana DeLong",
+"surname": "DeLong",
+"given": "Alana"
+},
+{
+"member_key": "0713",
+"name": "Hector Goudreau",
+"surname": "Goudreau",
+"given": "Hector"
+},
+{
+"member_key": "0715",
+"name": "Doug Horner",
+"surname": "Horner",
+"given": "Doug"
+},
+{
+"member_key": "0720",
+"name": "Thomas Lukaszuk",
+"surname": "Lukaszuk",
+"given": "Thomas"
+},
+{
+"member_key": "0728",
+"name": "George VanderBurg",
+"surname": "VanderBurg",
+"given": "George"
+},
+{
+"member_key": "0731",
+"name": "Doug Griffiths",
+"surname": "Griffiths",
+"given": "Doug"
+},
+{
+"member_key": "0732",
+"name": "Neil Brown",
+"surname": "Brown",
+"given": "Neil"
+},
+{
+"member_key": "0739",
+"name": "Frank Oberle",
+"surname": "Oberle",
+"given": "Frank"
+},
+{
+"member_key": "0741",
+"name": "Dave Rodney",
+"surname": "Rodney",
+"given": "Dave"
+},
+{
+"member_key": "0742",
+"name": "George Rogers",
+"surname": "Rogers",
+"given": "George"
+},
+{
+"member_key": "0743",
+"name": "Leonard W. Webber",
+"surname": "Webber",
+"given": "Leonard W."
+},
+{
+"member_key": "0753",
+"name": "Bridget A. Pastoor",
+"surname": "Pastoor",
+"given": "Bridget A."
+},
+{
+"member_key": "0754",
+"name": "David Swann",
+"surname": "Swann",
+"given": "David"
+},
+{
+"member_key": "0757",
+"name": "David Eggen",
+"surname": "Eggen",
+"given": "David"
+},
+{
+"member_key": "0761",
+"name": "Kent Hehr",
+"surname": "Hehr",
+"given": "Kent"
+},
+{
+"member_key": "0762",
+"name": "Darshan Kang",
+"surname": "Kang",
+"given": "Darshan"
+},
+{
+"member_key": "0764",
+"name": "Rob Anderson",
+"surname": "Anderson",
+"given": "Rob"
+},
+{
+"member_key": "0767",
+"name": "Naresh Bhardwaj",
+"surname": "Bhardwaj",
+"given": "Naresh"
+},
+{
+"member_key": "0768",
+"name": "Manmeet S. Bhullar",
+"surname": "Bhullar",
+"given": "Manmeet S."
+},
+{
+"member_key": "0770",
+"name": "Robin Campbell",
+"surname": "Campbell",
+"given": "Robin"
+},
+{
+"member_key": "0771",
+"name": "Cal Dallas",
+"surname": "Dallas",
+"given": "Cal"
+},
+{
+"member_key": "0772",
+"name": "Jonathan Denis",
+"surname": "Denis",
+"given": "Jonathan"
+},
+{
+"member_key": "0774",
+"name": "Wayne Drysdale",
+"surname": "Drysdale",
+"given": "Wayne"
+},
+{
+"member_key": "0776",
+"name": "Kyle Fawcett",
+"surname": "Fawcett",
+"given": "Kyle"
+},
+{
+"member_key": "0777",
+"name": "Fred Horne",
+"surname": "Horne",
+"given": "Fred"
+},
+{
+"member_key": "0778",
+"name": "Jeff Johnson",
+"surname": "Johnson",
+"given": "Jeff"
+},
+{
+"member_key": "0779",
+"name": "Heather Klimchuk",
+"surname": "Klimchuk",
+"given": "Heather"
+},
+{
+"member_key": "0780",
+"name": "Genia Leskiw",
+"surname": "Leskiw",
+"given": "Genia"
+},
+{
+"member_key": "0781",
+"name": "Diana McQueen",
+"surname": "McQueen",
+"given": "Diana"
+},
+{
+"member_key": "0782",
+"name": "Verlyn Olson",
+"surname": "Olson",
+"given": "Verlyn"
+},
+{
+"member_key": "0783",
+"name": "Dave Quest",
+"surname": "Quest",
+"given": "Dave"
+},
+{
+"member_key": "0784",
+"name": "Alison Redford",
+"surname": "Redford",
+"given": "Alison"
+},
+{
+"member_key": "0785",
+"name": "Peter Sandhu",
+"surname": "Sandhu",
+"given": "Peter"
+},
+{
+"member_key": "0786",
+"name": "Janice Sarich",
+"surname": "Sarich",
+"given": "Janice"
+},
+{
+"member_key": "0787",
+"name": "Raj Sherman",
+"surname": "Sherman",
+"given": "Raj"
+},
+{
+"member_key": "0788",
+"name": "Greg Weadick",
+"surname": "Weadick",
+"given": "Greg"
+},
+{
+"member_key": "0789",
+"name": "Teresa Woo-Paw",
+"surname": "Woo-Paw",
+"given": "Teresa"
+},
+{
+"member_key": "0790",
+"name": "David H. Xiao",
+"surname": "Xiao",
+"given": "David H."
+},
+{
+"member_key": "0791",
+"name": "Rachel Notley",
+"surname": "Notley",
+"given": "Rachel"
+},
+{
+"member_key": "0792",
+"name": "Mike Allen",
+"surname": "Allen",
+"given": "Mike"
+},
+{
+"member_key": "0793",
+"name": "Ron Casey",
+"surname": "Casey",
+"given": "Ron"
+},
+{
+"member_key": "0794",
+"name": "Christine Cusanelli",
+"surname": "Cusanelli",
+"given": "Christine"
+},
+{
+"member_key": "0795",
+"name": "David Dorward",
+"surname": "Dorward",
+"given": "David"
+},
+{
+"member_key": "0796",
+"name": "Jacquie Fenske",
+"surname": "Fenske",
+"given": "Jacquie"
+},
+{
+"member_key": "0797",
+"name": "Rick Fraser",
+"surname": "Fraser",
+"given": "Rick"
+},
+{
+"member_key": "0798",
+"name": "Ken Hughes",
+"surname": "Hughes",
+"given": "Ken"
+},
+{
+"member_key": "0799",
+"name": "Sandra Jansen",
+"surname": "Jansen",
+"given": "Sandra"
+},
+{
+"member_key": "0800",
+"name": "Matt Jeneroux",
+"surname": "Jeneroux",
+"given": "Matt"
+},
+{
+"member_key": "0801",
+"name": "Linda Johnson",
+"surname": "Johnson",
+"given": "Linda"
+},
+{
+"member_key": "0802",
+"name": "Donna Kennedy-Glans",
+"surname": "Kennedy-Glans",
+"given": "Donna"
+},
+{
+"member_key": "0803",
+"name": "Stephen Khan",
+"surname": "Khan",
+"given": "Stephen"
+},
+{
+"member_key": "0804",
+"name": "Maureen Kubinec",
+"surname": "Kubinec",
+"given": "Maureen"
+},
+{
+"member_key": "0805",
+"name": "Ken Lemke",
+"surname": "Lemke",
+"given": "Ken"
+},
+{
+"member_key": "0806",
+"name": "Jason Luan",
+"surname": "Luan",
+"given": "Jason"
+},
+{
+"member_key": "0807",
+"name": "Everett McDonald",
+"surname": "McDonald",
+"given": "Everett"
+},
+{
+"member_key": "0808",
+"name": "Ric McIver",
+"surname": "McIver",
+"given": "Ric"
+},
+{
+"member_key": "0809",
+"name": "Cathy Olesen",
+"surname": "Olesen",
+"given": "Cathy"
+},
+{
+"member_key": "0810",
+"name": "Sohail Quadri",
+"surname": "Quadri",
+"given": "Sohail"
+},
+{
+"member_key": "0811",
+"name": "Don Scott",
+"surname": "Scott",
+"given": "Don"
+},
+{
+"member_key": "0812",
+"name": "Richard Starke",
+"surname": "Starke",
+"given": "Richard"
+},
+{
+"member_key": "0813",
+"name": "Steve Young",
+"surname": "Young",
+"given": "Steve"
+},
+{
+"member_key": "0814",
+"name": "Danielle Smith",
+"surname": "Smith",
+"given": "Danielle"
+},
+{
+"member_key": "0815",
+"name": "Joe Anglin",
+"surname": "Anglin",
+"given": "Joe"
+},
+{
+"member_key": "0816",
+"name": "Drew Barnes",
+"surname": "Barnes",
+"given": "Drew"
+},
+{
+"member_key": "0817",
+"name": "Gary Bikman",
+"surname": "Bikman",
+"given": "Gary"
+},
+{
+"member_key": "0818",
+"name": "Ian Donovan",
+"surname": "Donovan",
+"given": "Ian"
+},
+{
+"member_key": "0819",
+"name": "Rod Fox",
+"surname": "Fox",
+"given": "Rod"
+},
+{
+"member_key": "0820",
+"name": "Jason Hale",
+"surname": "Hale",
+"given": "Jason"
+},
+{
+"member_key": "0821",
+"name": "Bruce McAllister",
+"surname": "McAllister",
+"given": "Bruce"
+},
+{
+"member_key": "0822",
+"name": "Blake Pedersen",
+"surname": "Pedersen",
+"given": "Blake"
+},
+{
+"member_key": "0823",
+"name": "Bruce Rowe",
+"surname": "Rowe",
+"given": "Bruce"
+},
+{
+"member_key": "0824",
+"name": "Shayne Saskiw",
+"surname": "Saskiw",
+"given": "Shayne"
+},
+{
+"member_key": "0825",
+"name": "Pat Stier",
+"surname": "Stier",
+"given": "Pat"
+},
+{
+"member_key": "0826",
+"name": "Rick Strankman",
+"surname": "Strankman",
+"given": "Rick"
+},
+{
+"member_key": "0827",
+"name": "Kerry Towle",
+"surname": "Towle",
+"given": "Kerry"
+},
+{
+"member_key": "0828",
+"name": "Jeff Wilson",
+"surname": "Wilson",
+"given": "Jeff"
+},
+{
+"member_key": "0829",
+"name": "Deron Bilous",
+"surname": "Bilous",
+"given": "Deron"
+},
+{
+"member_key": "0830",
+"name": "Jim Prentice",
+"surname": "Prentice",
+"given": "Jim"
+},
+{
+"member_key": "0831",
+"name": "Gordon Dirks",
+"surname": "Dirks",
+"given": "Gordon"
+},
+{
+"member_key": "0832",
+"name": "Mike Ellis",
+"surname": "Ellis",
+"given": "Mike"
+},
+{
+"member_key": "0833",
+"name": "Stephen Mandel",
+"surname": "Mandel",
+"given": "Stephen"
+},
+{
+"member_key": "0834",
+"name": "Shaye Anderson",
+"surname": "Anderson",
+"given": "Shaye"
+},
+{
+"member_key": "0835",
+"name": "Erin Babcock",
+"surname": "Babcock",
+"given": "Erin"
+},
+{
+"member_key": "0836",
+"name": "Oneil Carlier",
+"surname": "Carlier",
+"given": "Oneil"
+},
+{
+"member_key": "0837",
+"name": "Jon Carson",
+"surname": "Carson",
+"given": "Jon"
+},
+{
+"member_key": "0838",
+"name": "Joe Ceci",
+"surname": "Ceci",
+"given": "Joe"
+},
+{
+"member_key": "0839",
+"name": "Michael Connolly",
+"surname": "Connolly",
+"given": "Michael"
+},
+{
+"member_key": "0840",
+"name": "Craig Coolahan",
+"surname": "Coolahan",
+"given": "Craig"
+},
+{
+"member_key": "0841",
+"name": "Estefan Cortes-Vargas",
+"surname": "Cortes-Vargas",
+"given": "Estefan"
+},
+{
+"member_key": "0842",
+"name": "Lorne Dach",
+"surname": "Dach",
+"given": "Lorne"
+},
+{
+"member_key": "0843",
+"name": "Thomas Dang",
+"surname": "Dang",
+"given": "Thomas"
+},
+{
+"member_key": "0844",
+"name": "Richard Feehan",
+"surname": "Feehan",
+"given": "Richard"
+},
+{
+"member_key": "0845",
+"name": "Maria Fitzpatrick",
+"surname": "Fitzpatrick",
+"given": "Maria"
+},
+{
+"member_key": "0846",
+"name": "Kathleen Ganley",
+"surname": "Ganley",
+"given": "Kathleen"
+},
+{
+"member_key": "0847",
+"name": "Nicole Goehring",
+"surname": "Goehring",
+"given": "Nicole"
+},
+{
+"member_key": "0848",
+"name": "Christina Gray",
+"surname": "Gray",
+"given": "Christina"
+},
+{
+"member_key": "0849",
+"name": "Bruce Hinkley",
+"surname": "Hinkley",
+"given": "Bruce"
+},
+{
+"member_key": "0850",
+"name": "Sarah Hoffman",
+"surname": "Hoffman",
+"given": "Sarah"
+},
+{
+"member_key": "0851",
+"name": "Trevor Horne",
+"surname": "Horne",
+"given": "Trevor"
+},
+{
+"member_key": "0852",
+"name": "Debbie Jabbour",
+"surname": "Jabbour",
+"given": "Debbie"
+},
+{
+"member_key": "0853",
+"name": "Jamie Kleinsteuber",
+"surname": "Kleinsteuber",
+"given": "Jamie"
+},
+{
+"member_key": "0854",
+"name": "Danielle Larivee",
+"surname": "Larivee",
+"given": "Danielle"
+},
+{
+"member_key": "0855",
+"name": "Jessica Littlewood",
+"surname": "Littlewood",
+"given": "Jessica"
+},
+{
+"member_key": "0856",
+"name": "Rodrigo Loyola",
+"surname": "Loyola",
+"given": "Rodrigo"
+},
+{
+"member_key": "0857",
+"name": "Robyn Luff",
+"surname": "Luff",
+"given": "Robyn"
+},
+{
+"member_key": "0858",
+"name": "Brian Malkinson",
+"surname": "Malkinson",
+"given": "Brian"
+},
+{
+"member_key": "0859",
+"name": "Margaret McCuaig-Boyd",
+"surname": "McCuaig-Boyd",
+"given": "Margaret"
+},
+{
+"member_key": "0860",
+"name": "Annie McKitrick",
+"surname": "McKitrick",
+"given": "Annie"
+},
+{
+"member_key": "0861",
+"name": "Stephanie McLean",
+"surname": "McLean",
+"given": "Stephanie"
+},
+{
+"member_key": "0862",
+"name": "Karen McPherson",
+"surname": "McPherson",
+"given": "Karen"
+},
+{
+"member_key": "0863",
+"name": "Barb Miller",
+"surname": "Miller",
+"given": "Barb"
+},
+{
+"member_key": "0864",
+"name": "Ricardo Miranda",
+"surname": "Miranda",
+"given": "Ricardo"
+},
+{
+"member_key": "0865",
+"name": "Chris Nielsen",
+"surname": "Nielsen",
+"given": "Chris"
+},
+{
+"member_key": "0866",
+"name": "Brandy Payne",
+"surname": "Payne",
+"given": "Brandy"
+},
+{
+"member_key": "0867",
+"name": "Shannon Phillips",
+"surname": "Phillips",
+"given": "Shannon"
+},
+{
+"member_key": "0868",
+"name": "Colin Piquette",
+"surname": "Piquette",
+"given": "Colin"
+},
+{
+"member_key": "0869",
+"name": "Marie Renaud",
+"surname": "Renaud",
+"given": "Marie"
+},
+{
+"member_key": "0870",
+"name": "Eric Rosendahl",
+"surname": "Rosendahl",
+"given": "Eric"
+},
+{
+"member_key": "0871",
+"name": "Irfan Sabir",
+"surname": "Sabir",
+"given": "Irfan"
+},
+{
+"member_key": "0872",
+"name": "Marlin Schmidt",
+"surname": "Schmidt",
+"given": "Marlin"
+},
+{
+"member_key": "0873",
+"name": "Kim Schreiner",
+"surname": "Schreiner",
+"given": "Kim"
+},
+{
+"member_key": "0874",
+"name": "David Shepherd",
+"surname": "Shepherd",
+"given": "David"
+},
+{
+"member_key": "0875",
+"name": "Lori Sigurdson",
+"surname": "Sigurdson",
+"given": "Lori"
+},
+{
+"member_key": "0876",
+"name": "Graham Sucha",
+"surname": "Sucha",
+"given": "Graham"
+},
+{
+"member_key": "0877",
+"name": "Heather Sweet",
+"surname": "Sweet",
+"given": "Heather"
+},
+{
+"member_key": "0878",
+"name": "Bob Turner",
+"surname": "Turner",
+"given": "Bob"
+},
+{
+"member_key": "0879",
+"name": "Robert E. Wanner",
+"surname": "Wanner",
+"given": "Robert E."
+},
+{
+"member_key": "0880",
+"name": "Cameron Westhead",
+"surname": "Westhead",
+"given": "Cameron"
+},
+{
+"member_key": "0881",
+"name": "Denise Woollard",
+"surname": "Woollard",
+"given": "Denise"
+},
+{
+"member_key": "0882",
+"name": "Brian Jean",
+"surname": "Jean",
+"given": "Brian"
+},
+{
+"member_key": "0883",
+"name": "Leela Sharon Aheer",
+"surname": "Aheer",
+"given": "Leela Sharon"
+},
+{
+"member_key": "0884",
+"name": "Wayne Anderson",
+"surname": "Anderson",
+"given": "Wayne"
+},
+{
+"member_key": "0885",
+"name": "Nathan Cooper",
+"surname": "Cooper",
+"given": "Nathan"
+},
+{
+"member_key": "0886",
+"name": "Scott Cyr",
+"surname": "Cyr",
+"given": "Scott"
+},
+{
+"member_key": "0887",
+"name": "Derek Fildebrandt",
+"surname": "Fildebrandt",
+"given": "Derek"
+},
+{
+"member_key": "0888",
+"name": "David Hanson",
+"surname": "Hanson",
+"given": "David"
+},
+{
+"member_key": "0889",
+"name": "Grant Hunter",
+"surname": "Hunter",
+"given": "Grant"
+},
+{
+"member_key": "0890",
+"name": "Todd Loewen",
+"surname": "Loewen",
+"given": "Todd"
+},
+{
+"member_key": "0891",
+"name": "Don MacIntyre",
+"surname": "MacIntyre",
+"given": "Don"
+},
+{
+"member_key": "0892",
+"name": "Jason Nixon",
+"surname": "Nixon",
+"given": "Jason"
+},
+{
+"member_key": "0893",
+"name": "Ron J.N. Orr",
+"surname": "Orr",
+"given": "Ron J.N."
+},
+{
+"member_key": "0894",
+"name": "Angela Pitt",
+"surname": "Pitt",
+"given": "Angela"
+},
+{
+"member_key": "0895",
+"name": "David Schneider",
+"surname": "Schneider",
+"given": "David"
+},
+{
+"member_key": "0896",
+"name": "Mark Smith",
+"surname": "Smith",
+"given": "Mark"
+},
+{
+"member_key": "0897",
+"name": "Wes Taylor",
+"surname": "Taylor",
+"given": "Wes"
+},
+{
+"member_key": "0898",
+"name": "Glenn van Dijken",
+"surname": "van Dijken",
+"given": "Glenn"
+},
+{
+"member_key": "0899",
+"name": "Tany Yao",
+"surname": "Yao",
+"given": "Tany"
+},
+{
+"member_key": "0900",
+"name": "Richard Gotfried",
+"surname": "Gotfried",
+"given": "Richard"
+},
+{
+"member_key": "0901",
+"name": "Greg Clark",
+"surname": "Clark",
+"given": "Greg"
+},
+{
+"member_key": "0902",
+"name": "Deborah Drever",
+"surname": "Drever",
+"given": "Deborah"
+},
+{
+"member_key": "0903",
+"name": "Anam Kazim",
+"surname": "Kazim",
+"given": "Anam"
+},
+{
+"member_key": "0904",
+"name": "Prasad Panda",
+"surname": "Panda",
+"given": "Prasad"
+},
+{
+"member_key": "0905",
+"name": "Prab Gill",
+"surname": "Gill",
+"given": "Prab"
+},
+{
+"member_key": "0906",
+"name": "Jason Kenney",
+"surname": "Kenney",
+"given": "Jason"
+},
+{
+"member_key": "0907",
+"name": "Laila Goodridge",
+"surname": "Goodridge",
+"given": "Laila"
+},
+{
+"member_key": "0908",
+"name": "Devin Dreeshen",
+"surname": "Dreeshen",
+"given": "Devin"
+},
+{
+"member_key": "0909",
+"name": "Jasvir Deol",
+"surname": "Deol",
+"given": "Jasvir"
+},
+{
+"member_key": "0910",
+"name": "Janis Irwin",
+"surname": "Irwin",
+"given": "Janis"
+},
+{
+"member_key": "0911",
+"name": "Rakhi Pancholi",
+"surname": "Pancholi",
+"given": "Rakhi"
+},
+{
+"member_key": "0912",
+"name": "Tracy Allard",
+"surname": "Allard",
+"given": "Tracy"
+},
+{
+"member_key": "0913",
+"name": "Mickey Amery",
+"surname": "Amery",
+"given": "Mickey"
+},
+{
+"member_key": "0914",
+"name": "Jackie Armstrong-Homeniuk",
+"surname": "Armstrong-Homeniuk",
+"given": "Jackie"
+},
+{
+"member_key": "0915",
+"name": "Jason Copping",
+"surname": "Copping",
+"given": "Jason"
+},
+{
+"member_key": "0916",
+"name": "Tanya Fir",
+"surname": "Fir",
+"given": "Tanya"
+},
+{
+"member_key": "0917",
+"name": "Shane Getson",
+"surname": "Getson",
+"given": "Shane"
+},
+{
+"member_key": "0918",
+"name": "Michaela Frey",
+"surname": "Frey",
+"given": "Michaela"
+},
+{
+"member_key": "0919",
+"name": "Nate Glubish",
+"surname": "Glubish",
+"given": "Nate"
+},
+{
+"member_key": "0920",
+"name": "Pete Guthrie",
+"surname": "Guthrie",
+"given": "Pete"
+},
+{
+"member_key": "0921",
+"name": "Nate Horner",
+"surname": "Horner",
+"given": "Nate"
+},
+{
+"member_key": "0922",
+"name": "Whitney Issik",
+"surname": "Issik",
+"given": "Whitney"
+},
+{
+"member_key": "0923",
+"name": "Matt Jones",
+"surname": "Jones",
+"given": "Matt"
+},
+{
+"member_key": "0924",
+"name": "Adriana LaGrange",
+"surname": "LaGrange",
+"given": "Adriana"
+},
+{
+"member_key": "0925",
+"name": "Martin Long",
+"surname": "Long",
+"given": "Martin"
+},
+{
+"member_key": "0926",
+"name": "Jackie Lovely",
+"surname": "Lovely",
+"given": "Jackie"
+},
+{
+"member_key": "0927",
+"name": "Kaycee Madu",
+"surname": "Madu",
+"given": "Kaycee"
+},
+{
+"member_key": "0928",
+"name": "Nicholas Milliken",
+"surname": "Milliken",
+"given": "Nicholas"
+},
+{
+"member_key": "0929",
+"name": "Dale Nally",
+"surname": "Nally",
+"given": "Dale"
+},
+{
+"member_key": "0930",
+"name": "Nathan Neudorf",
+"surname": "Neudorf",
+"given": "Nathan"
+},
+{
+"member_key": "0931",
+"name": "Demetrios Nicolaides",
+"surname": "Nicolaides",
+"given": "Demetrios"
+},
+{
+"member_key": "0932",
+"name": "Jeremy Nixon",
+"surname": "Nixon",
+"given": "Jeremy"
+},
+{
+"member_key": "0933",
+"name": "Josephine Pon",
+"surname": "Pon",
+"given": "Josephine"
+},
+{
+"member_key": "0934",
+"name": "Pat Rehn",
+"surname": "Rehn",
+"given": "Pat"
+},
+{
+"member_key": "0935",
+"name": "Roger Reid",
+"surname": "Reid",
+"given": "Roger"
+},
+{
+"member_key": "0936",
+"name": "Miranda Rosin",
+"surname": "Rosin",
+"given": "Miranda"
+},
+{
+"member_key": "0937",
+"name": "Garth Rowswell",
+"surname": "Rowswell",
+"given": "Garth"
+},
+{
+"member_key": "0938",
+"name": "Brad Rutherford",
+"surname": "Rutherford",
+"given": "Brad"
+},
+{
+"member_key": "0939",
+"name": "Sonya Savage",
+"surname": "Savage",
+"given": "Sonya"
+},
+{
+"member_key": "0940",
+"name": "Rajan Sawhney",
+"surname": "Sawhney",
+"given": "Rajan"
+},
+{
+"member_key": "0941",
+"name": "Joseph Schow",
+"surname": "Schow",
+"given": "Joseph"
+},
+{
+"member_key": "0942",
+"name": "Rebecca Schulz",
+"surname": "Schulz",
+"given": "Rebecca"
+},
+{
+"member_key": "0943",
+"name": "Doug Schweitzer",
+"surname": "Schweitzer",
+"given": "Doug"
+},
+{
+"member_key": "0944",
+"name": "Tyler Shandro",
+"surname": "Shandro",
+"given": "Tyler"
+},
+{
+"member_key": "0945",
+"name": "R.J. Sigurdson",
+"surname": "Sigurdson",
+"given": "R.J."
+},
+{
+"member_key": "0946",
+"name": "Peter Singh",
+"surname": "Singh",
+"given": "Peter"
+},
+{
+"member_key": "0947",
+"name": "Jason Stephan",
+"surname": "Stephan",
+"given": "Jason"
+},
+{
+"member_key": "0948",
+"name": "Travis Toews",
+"surname": "Toews",
+"given": "Travis"
+},
+{
+"member_key": "0949",
+"name": "Devinder Toor",
+"surname": "Toor",
+"given": "Devinder"
+},
+{
+"member_key": "0950",
+"name": "Searle Turton",
+"surname": "Turton",
+"given": "Searle"
+},
+{
+"member_key": "0951",
+"name": "Jordan Walker",
+"surname": "Walker",
+"given": "Jordan"
+},
+{
+"member_key": "0952",
+"name": "Dan Williams",
+"surname": "Williams",
+"given": "Dan"
+},
+{
+"member_key": "0953",
+"name": "Rick Wilson",
+"surname": "Wilson",
+"given": "Rick"
+},
+{
+"member_key": "0954",
+"name": "Muhammad Yaseen",
+"surname": "Yaseen",
+"given": "Muhammad"
+}
+],
+"terms": [
+{
+"member_key": "0606",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Lesser Slave Lake",
+"start": "1989-03-20",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0630",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-East",
+"start": "1993-06-15",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0635",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Fish Creek",
+"start": "1993-06-15",
+"end": "2010-01-04",
+"party_dated": 1
+},
+{
+"member_key": "0635",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Calgary-Fish Creek",
+"start": "2010-01-04",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0635",
+"legislature": 28,
+"party": "Wildrose",
+"riding": "Calgary-Fish Creek",
+"start": "2015-02-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0637",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Cross",
+"start": "1993-06-15",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0676",
+"legislature": 28,
+"party": "Alberta Liberal",
+"riding": "Edmonton-Mill Creek",
+"start": "1993-06-15",
+"end": "1998-07-17",
+"party_dated": 1
+},
+{
+"member_key": "0676",
+"legislature": 28,
+"party": "Independent",
+"riding": "Edmonton-Mill Creek",
+"start": "1998-07-17",
+"end": "1998-08-13",
+"party_dated": 1
+},
+{
+"member_key": "0676",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Mill Creek",
+"start": "1998-08-13",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0683",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Fort",
+"start": "1997-03-11",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0687",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Whitemud",
+"start": "1997-03-11",
+"end": "2014-09-25",
+"party_dated": 1
+},
+{
+"member_key": "0698",
+"legislature": 28,
+"party": "Alberta Liberal",
+"riding": "Edmonton-Centre",
+"start": "1997-03-11",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0706",
+"legislature": 28,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Highlands-Norwood",
+"start": "2000-06-12",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0706",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Highlands-Norwood",
+"start": "2000-06-12",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0707",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Red Deer-North",
+"start": "2000-09-25",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0712",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Bow",
+"start": "2001-03-12",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0713",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Dunvegan-Central Peace-Notley",
+"start": "2001-03-12",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0715",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Spruce Grove-St. Albert",
+"start": "2001-03-12",
+"end": "2015-02-01",
+"party_dated": 1
+},
+{
+"member_key": "0720",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Castle Downs",
+"start": "2001-03-12",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0728",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Whitecourt-Ste. Anne",
+"start": "2001-03-12",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0731",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Battle River-Wainwright",
+"start": "2002-04-08",
+"end": "2015-01-26",
+"party_dated": 1
+},
+{
+"member_key": "0732",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Mackay-Nose Hill",
+"start": "2004-11-22",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0739",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Peace River",
+"start": "2004-11-22",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0741",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Lougheed",
+"start": "2004-11-22",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0741",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Calgary-Lougheed",
+"start": "2017-07-24",
+"end": "2017-10-31",
+"party_dated": 1
+},
+{
+"member_key": "0741",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-Lougheed",
+"start": "2004-11-22",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0741",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-Lougheed",
+"start": "2017-07-24",
+"end": "2017-10-31",
+"party_dated": 1
+},
+{
+"member_key": "0742",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Leduc-Beaumont",
+"start": "2004-11-22",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0743",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Foothills",
+"start": "2004-11-22",
+"end": "2014-03-12",
+"party_dated": 1
+},
+{
+"member_key": "0743",
+"legislature": 28,
+"party": "Independent",
+"riding": "Calgary-Foothills",
+"start": "2014-03-13",
+"end": "2014-09-28",
+"party_dated": 1
+},
+{
+"member_key": "0753",
+"legislature": 28,
+"party": "Alberta Liberal",
+"riding": "Lethbridge-East",
+"start": "2004-11-22",
+"end": "2011-11-21",
+"party_dated": 1
+},
+{
+"member_key": "0753",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Lethbridge-East",
+"start": "2011-11-21",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0754",
+"legislature": 28,
+"party": "Alberta Liberal",
+"riding": "Calgary-Mountain View",
+"start": "2004-11-22",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0754",
+"legislature": 29,
+"party": "Alberta Liberal",
+"riding": "Calgary-Mountain View",
+"start": "2004-11-22",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0757",
+"legislature": 28,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Calder",
+"start": "2004-11-22",
+"end": "2008-03-02",
+"party_dated": 1
+},
+{
+"member_key": "0757",
+"legislature": 28,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Calder",
+"start": "2012-04-23",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0757",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Calder",
+"start": "2004-11-22",
+"end": "2008-03-02",
+"party_dated": 1
+},
+{
+"member_key": "0757",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Calder",
+"start": "2012-04-23",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0757",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-North West",
+"start": "2004-11-22",
+"end": "2008-03-02",
+"party_dated": 1
+},
+{
+"member_key": "0757",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-North West",
+"start": "2012-04-23",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0761",
+"legislature": 28,
+"party": "Alberta Liberal",
+"riding": "Calgary-Buffalo",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0762",
+"legislature": 28,
+"party": "Alberta Liberal",
+"riding": "Calgary-McCall",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0764",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Airdrie",
+"start": "2008-03-03",
+"end": "2010-01-04",
+"party_dated": 1
+},
+{
+"member_key": "0764",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Airdrie",
+"start": "2010-01-04",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0764",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Airdrie",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0767",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Ellerslie",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0768",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Greenway",
+"start": "2008-03-03",
+"end": "2015-11-23",
+"party_dated": 1
+},
+{
+"member_key": "0768",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-Greenway",
+"start": "2008-03-03",
+"end": "2015-11-23",
+"party_dated": 1
+},
+{
+"member_key": "0770",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "West Yellowhead",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0771",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Red Deer-South",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0772",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Acadia",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0774",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Grande Prairie-Wapiti",
+"start": "2008-03-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0774",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Grande Prairie-Wapiti",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0774",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Grande Prairie-Wapiti",
+"start": "2008-03-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0774",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Grande Prairie-Wapiti",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0776",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Klein",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0777",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Rutherford",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0778",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Athabasca-Sturgeon-Redwater",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0779",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Glenora",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0780",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Bonnyville-Cold Lake",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0781",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Drayton Valley-Devon",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0782",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Wetaskiwin-Camrose",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0783",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Strathcona-Sherwood Park",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0784",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Elbow",
+"start": "2008-03-03",
+"end": "2014-08-05",
+"party_dated": 1
+},
+{
+"member_key": "0785",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Manning",
+"start": "2008-03-03",
+"end": "2013-05-14",
+"party_dated": 1
+},
+{
+"member_key": "0785",
+"legislature": 28,
+"party": "Independent",
+"riding": "Edmonton-Manning",
+"start": "2013-05-14",
+"end": "2013-12-05",
+"party_dated": 1
+},
+{
+"member_key": "0785",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Manning",
+"start": "2013-12-05",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0786",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Decore",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0787",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Meadowlark",
+"start": "2008-03-03",
+"end": "2010-11-22",
+"party_dated": 1
+},
+{
+"member_key": "0787",
+"legislature": 28,
+"party": "Independent",
+"riding": "Edmonton-Meadowlark",
+"start": "2010-11-22",
+"end": "2011-09-12",
+"party_dated": 1
+},
+{
+"member_key": "0787",
+"legislature": 28,
+"party": "Alberta Liberal",
+"riding": "Edmonton-Meadowlark",
+"start": "2011-09-12",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0788",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Lethbridge-West",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0789",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Northern Hills",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0790",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-McClung",
+"start": "2008-03-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0791",
+"legislature": 28,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Strathcona",
+"start": "2008-03-03",
+"end": "2024-12-30",
+"party_dated": 1
+},
+{
+"member_key": "0791",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Strathcona",
+"start": "2008-03-03",
+"end": "2024-12-30",
+"party_dated": 1
+},
+{
+"member_key": "0791",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Strathcona",
+"start": "2008-03-03",
+"end": "2024-12-30",
+"party_dated": 1
+},
+{
+"member_key": "0792",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Fort McMurray-Wood Buffalo",
+"start": "2012-04-23",
+"end": "2013-07-16",
+"party_dated": 1
+},
+{
+"member_key": "0792",
+"legislature": 28,
+"party": "Independent",
+"riding": "Fort McMurray-Wood Buffalo",
+"start": "2013-07-16",
+"end": "2014-07-07",
+"party_dated": 1
+},
+{
+"member_key": "0792",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Fort McMurray-Wood Buffalo",
+"start": "2014-07-07",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0793",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Banff-Cochrane",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0794",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Currie",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0795",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Gold Bar",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0796",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Fort Saskatchewan-Vegreville",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-South East",
+"start": "2012-04-23",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Calgary-South East",
+"start": "2017-07-24",
+"end": "2017-09-20",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 28,
+"party": "Independent",
+"riding": "Calgary-South East",
+"start": "2017-09-21",
+"end": "2018-01-08",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 28,
+"party": "Alberta Party",
+"riding": "Calgary-South East",
+"start": "2018-01-09",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-South East",
+"start": "2012-04-23",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-South East",
+"start": "2017-07-24",
+"end": "2017-09-20",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 29,
+"party": "Independent",
+"riding": "Calgary-South East",
+"start": "2017-09-21",
+"end": "2018-01-08",
+"party_dated": 1
+},
+{
+"member_key": "0797",
+"legislature": 29,
+"party": "Alberta Party",
+"riding": "Calgary-South East",
+"start": "2018-01-09",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0798",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-West",
+"start": "2012-04-23",
+"end": "2014-09-26",
+"party_dated": 1
+},
+{
+"member_key": "0799",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-North West",
+"start": "2012-04-23",
+"end": "2016-11-17",
+"party_dated": 1
+},
+{
+"member_key": "0799",
+"legislature": 28,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-North West",
+"start": "2016-11-17",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0799",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-North West",
+"start": "2012-04-23",
+"end": "2016-11-17",
+"party_dated": 1
+},
+{
+"member_key": "0799",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-North West",
+"start": "2016-11-17",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0800",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-South West",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0801",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Glenmore",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0802",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Varsity",
+"start": "2012-04-23",
+"end": "2014-03-17",
+"party_dated": 1
+},
+{
+"member_key": "0802",
+"legislature": 28,
+"party": "Independent",
+"riding": "Calgary-Varsity",
+"start": "2014-03-17",
+"end": "2014-09-17",
+"party_dated": 1
+},
+{
+"member_key": "0802",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Varsity",
+"start": "2014-09-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0803",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "St. Albert",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0804",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Barrhead-Morinville-Westlock",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0805",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Stony Plain",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0806",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Hawkwood",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0806",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Calgary-Hawkwood",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0806",
+"legislature": 30,
+"party": "Progressive Conservative",
+"riding": "Calgary-Foothills",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0806",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Foothills",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0807",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Grande Prairie-Smoky",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0808",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Hays",
+"start": "2012-04-23",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0808",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Calgary-Hays",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0808",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-Hays",
+"start": "2012-04-23",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0808",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-Hays",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0808",
+"legislature": 30,
+"party": "Progressive Conservative",
+"riding": "Calgary-Hays",
+"start": "2012-04-23",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0808",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Hays",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0809",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Sherwood Park",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0810",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Mill Woods",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0811",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Fort McMurray-Conklin",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0812",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Vermilion-Lloydminster",
+"start": "2012-04-23",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0812",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Vermilion-Lloydminster",
+"start": "2012-04-23",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0813",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Riverview",
+"start": "2012-04-23",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0814",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Highwood",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0814",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Highwood",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0814",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Highwood",
+"start": "2022-11-08",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0814",
+"legislature": 30,
+"party": "Wildrose Alliance",
+"riding": "Brooks-Medicine Hat",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0814",
+"legislature": 30,
+"party": "Progressive Conservative",
+"riding": "Brooks-Medicine Hat",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0814",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Brooks-Medicine Hat",
+"start": "2022-11-08",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0815",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Rimbey-Rocky Mountain House-Sundre",
+"start": "2012-04-23",
+"end": "2014-11-02",
+"party_dated": 1
+},
+{
+"member_key": "0815",
+"legislature": 28,
+"party": "Independent",
+"riding": "Rimbey-Rocky Mountain House-Sundre",
+"start": "2014-11-02",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Cypress-Medicine Hat",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 28,
+"party": "Wildrose",
+"riding": "Cypress-Medicine Hat",
+"start": "2015-02-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Cypress-Medicine Hat",
+"start": "2017-07-24",
+"end": "2021-05-13",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 28,
+"party": "Independent",
+"riding": "Cypress-Medicine Hat",
+"start": "2021-05-13",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 29,
+"party": "Wildrose Alliance",
+"riding": "Cypress-Medicine Hat",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Cypress-Medicine Hat",
+"start": "2015-02-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Cypress-Medicine Hat",
+"start": "2017-07-24",
+"end": "2021-05-13",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 29,
+"party": "Independent",
+"riding": "Cypress-Medicine Hat",
+"start": "2021-05-13",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 30,
+"party": "Wildrose Alliance",
+"riding": "Cypress-Medicine Hat",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Cypress-Medicine Hat",
+"start": "2015-02-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Cypress-Medicine Hat",
+"start": "2017-07-24",
+"end": "2021-05-13",
+"party_dated": 1
+},
+{
+"member_key": "0816",
+"legislature": 30,
+"party": "Independent",
+"riding": "Cypress-Medicine Hat",
+"start": "2021-05-13",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0817",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Cardston-Taber-Warner",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0817",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Cardston-Taber-Warner",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0818",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Little Bow",
+"start": "2012-04-23",
+"end": "2014-11-24",
+"party_dated": 1
+},
+{
+"member_key": "0818",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Little Bow",
+"start": "2014-11-24",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0819",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Lacombe-Ponoka",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0819",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Lacombe-Ponoka",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0820",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Strathmore-Brooks",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0820",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Strathmore-Brooks",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0821",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Chestermere-Rocky View",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0821",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Chestermere-Rocky View",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0822",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Medicine Hat",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0822",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Medicine Hat",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0823",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Olds-Didsbury-Three Hills",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0823",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Olds-Didsbury-Three Hills",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0824",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Lac La Biche-St. Paul-Two Hills",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0824",
+"legislature": 28,
+"party": "Wildrose",
+"riding": "Lac La Biche-St. Paul-Two Hills",
+"start": "2015-02-03",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0825",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Livingstone-Macleod",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0825",
+"legislature": 28,
+"party": "Wildrose",
+"riding": "Livingstone-Macleod",
+"start": "2015-02-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0825",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Livingstone-Macleod",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0825",
+"legislature": 29,
+"party": "Wildrose Alliance",
+"riding": "Livingstone-Macleod",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0825",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Livingstone-Macleod",
+"start": "2015-02-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0825",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Livingstone-Macleod",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Drumheller-Stettler",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 28,
+"party": "Wildrose",
+"riding": "Drumheller-Stettler",
+"start": "2015-02-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Drumheller-Stettler",
+"start": "2017-07-24",
+"end": "2019-01-14",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 28,
+"party": "Independent",
+"riding": "Drumheller-Stettler",
+"start": "2019-01-15",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 29,
+"party": "Wildrose Alliance",
+"riding": "Drumheller-Stettler",
+"start": "2012-04-23",
+"end": "2015-02-02",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Drumheller-Stettler",
+"start": "2015-02-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Drumheller-Stettler",
+"start": "2017-07-24",
+"end": "2019-01-14",
+"party_dated": 1
+},
+{
+"member_key": "0826",
+"legislature": 29,
+"party": "Independent",
+"riding": "Drumheller-Stettler",
+"start": "2019-01-15",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0827",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Innisfail-Sylvan Lake",
+"start": "2012-04-23",
+"end": "2014-11-24",
+"party_dated": 1
+},
+{
+"member_key": "0827",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Innisfail-Sylvan Lake",
+"start": "2014-11-24",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0828",
+"legislature": 28,
+"party": "Wildrose Alliance",
+"riding": "Calgary-Shaw",
+"start": "2012-04-23",
+"end": "2014-12-17",
+"party_dated": 1
+},
+{
+"member_key": "0828",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Shaw",
+"start": "2014-12-17",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0829",
+"legislature": 28,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Beverly-Clareview",
+"start": "2012-04-23",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0829",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Beverly-Clareview",
+"start": "2012-04-23",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0829",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Beverly-Clareview",
+"start": "2012-04-23",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0830",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Foothills",
+"start": "2014-10-27",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0831",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-Elbow",
+"start": "2014-10-27",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0832",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Calgary-West",
+"start": "2014-10-27",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0832",
+"legislature": 28,
+"party": "United Conservative",
+"riding": "Calgary-West",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0832",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-West",
+"start": "2014-10-27",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0832",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-West",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0832",
+"legislature": 30,
+"party": "Progressive Conservative",
+"riding": "Calgary-West",
+"start": "2014-10-27",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0832",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-West",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0833",
+"legislature": 28,
+"party": "Progressive Conservative",
+"riding": "Edmonton-Whitemud",
+"start": "2014-10-27",
+"end": "2015-05-04",
+"party_dated": 1
+},
+{
+"member_key": "0834",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Leduc-Beaumont",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0835",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Stony Plain",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0836",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Whitecourt-Ste. Anne",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0837",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Meadowlark",
+"start": "2015-05-05",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0837",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-West Henday",
+"start": "2015-05-05",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0838",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Fort",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0838",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Buffalo",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0839",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Hawkwood",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0840",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Klein",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0841",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Strathcona-Sherwood Park",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0842",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-McClung",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0842",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-McClung",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0843",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-South West",
+"start": "2015-05-05",
+"end": "2021-12-21",
+"party_dated": 1
+},
+{
+"member_key": "0843",
+"legislature": 29,
+"party": "Independent",
+"riding": "Edmonton-South West",
+"start": "2021-12-21",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0843",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-South",
+"start": "2015-05-05",
+"end": "2021-12-21",
+"party_dated": 1
+},
+{
+"member_key": "0843",
+"legislature": 30,
+"party": "Independent",
+"riding": "Edmonton-South",
+"start": "2021-12-21",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0844",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Rutherford",
+"start": "2015-05-05",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0844",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Rutherford",
+"start": "2015-05-05",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0845",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Lethbridge-East",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0846",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Buffalo",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0846",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Mountain View",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0847",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Castle Downs",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0847",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Castle Downs",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0848",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Mill Woods",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0848",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Mill Woods",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0849",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Wetaskiwin-Camrose",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0850",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Glenora",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0850",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Glenora",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0851",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Spruce Grove-St. Albert",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0852",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Peace River",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0853",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Northern Hills",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0854",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Lesser Slave Lake",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0855",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Fort Saskatchewan-Vegreville",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0856",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Ellerslie",
+"start": "2015-05-05",
+"end": "2025-03-25",
+"party_dated": 1
+},
+{
+"member_key": "0856",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Ellerslie",
+"start": "2015-05-05",
+"end": "2025-03-25",
+"party_dated": 1
+},
+{
+"member_key": "0857",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-East",
+"start": "2015-05-05",
+"end": "2018-11-05",
+"party_dated": 1
+},
+{
+"member_key": "0857",
+"legislature": 29,
+"party": "Independent",
+"riding": "Calgary-East",
+"start": "2018-11-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0858",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Currie",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0859",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Dunvegan-Central Peace-Notley",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0860",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Sherwood Park",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0861",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Varsity",
+"start": "2015-05-05",
+"end": "2019-01-02",
+"party_dated": 1
+},
+{
+"member_key": "0862",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Mackay-Nose Hill",
+"start": "2015-05-05",
+"end": "2017-10-03",
+"party_dated": 1
+},
+{
+"member_key": "0862",
+"legislature": 29,
+"party": "Independent",
+"riding": "Calgary-Mackay-Nose Hill",
+"start": "2017-10-04",
+"end": "2017-10-29",
+"party_dated": 1
+},
+{
+"member_key": "0862",
+"legislature": 29,
+"party": "Alberta Party",
+"riding": "Calgary-Mackay-Nose Hill",
+"start": "2017-10-30",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0863",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Red Deer-South",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0864",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Cross",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0865",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Decore",
+"start": "2015-05-05",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0865",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Decore",
+"start": "2015-05-05",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0866",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Acadia",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0867",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Lethbridge-West",
+"start": "2015-05-05",
+"end": "2024-07-01",
+"party_dated": 1
+},
+{
+"member_key": "0867",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Lethbridge-West",
+"start": "2015-05-05",
+"end": "2024-07-01",
+"party_dated": 1
+},
+{
+"member_key": "0868",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Athabasca-Sturgeon-Redwater",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0869",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "St. Albert",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0869",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "St. Albert",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0870",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "West Yellowhead",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0871",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-McCall",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0871",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-McCall",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0872",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Gold Bar",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0872",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Gold Bar",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0873",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Red Deer-North",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0874",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Centre",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0874",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-City Centre",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0875",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Riverview",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0875",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Riverview",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0876",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Shaw",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0877",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Manning",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0877",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Manning",
+"start": "2015-05-05",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0878",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Whitemud",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0879",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Medicine Hat",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0880",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Banff-Cochrane",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0881",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Mill Creek",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0882",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Fort McMurray-Conklin",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0882",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Fort McMurray-Conklin",
+"start": "2017-07-24",
+"end": "2018-03-06",
+"party_dated": 1
+},
+{
+"member_key": "0882",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Fort McMurray-Conklin",
+"start": "2022-03-15",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0882",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Fort McMurray-Lac La Biche",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0882",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Fort McMurray-Lac La Biche",
+"start": "2017-07-24",
+"end": "2018-03-06",
+"party_dated": 1
+},
+{
+"member_key": "0882",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Fort McMurray-Lac La Biche",
+"start": "2022-03-15",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0883",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Chestermere-Rocky View",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0883",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Chestermere-Rocky View",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0883",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Chestermere-Strathmore",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0883",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Chestermere-Strathmore",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0884",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Highwood",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0884",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Highwood",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0885",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Olds-Didsbury-Three Hills",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0885",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Olds-Didsbury-Three Hills",
+"start": "2017-07-24",
+"end": "2025-05-22",
+"party_dated": 1
+},
+{
+"member_key": "0885",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Olds-Didsbury-Three Hills",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0885",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Olds-Didsbury-Three Hills",
+"start": "2017-07-24",
+"end": "2025-05-22",
+"party_dated": 1
+},
+{
+"member_key": "0886",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Bonnyville-Cold Lake",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0886",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Bonnyville-Cold Lake",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0886",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Bonnyville-Cold Lake",
+"start": "2023-05-29",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0887",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Strathmore-Brooks",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0887",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Strathmore-Brooks",
+"start": "2017-07-24",
+"end": "2017-08-15",
+"party_dated": 1
+},
+{
+"member_key": "0887",
+"legislature": 29,
+"party": "Independent",
+"riding": "Strathmore-Brooks",
+"start": "2017-08-16",
+"end": "2018-04-29",
+"party_dated": 1
+},
+{
+"member_key": "0887",
+"legislature": 29,
+"party": "Independent Conservative",
+"riding": "Strathmore-Brooks",
+"start": "2018-04-30",
+"end": "2018-07-25",
+"party_dated": 1
+},
+{
+"member_key": "0887",
+"legislature": 29,
+"party": "Freedom Conservative Party of Alberta",
+"riding": "Strathmore-Brooks",
+"start": "2018-07-26",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0888",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Lac La Biche-St. Paul-Two Hills",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0888",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Lac La Biche-St. Paul-Two Hills",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0888",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Bonnyville-Cold Lake-St. Paul",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0888",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Bonnyville-Cold Lake-St. Paul",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0889",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Cardston-Taber-Warner",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0889",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Cardston-Taber-Warner",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0889",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Taber-Warner",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0889",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Taber-Warner",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Grande Prairie-Smoky",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Grande Prairie-Smoky",
+"start": "2017-07-24",
+"end": "2021-05-13",
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 29,
+"party": "Independent",
+"riding": "Grande Prairie-Smoky",
+"start": "2021-05-13",
+"end": "2022-10-06",
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Grande Prairie-Smoky",
+"start": "2022-10-07",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Central Peace-Notley",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Central Peace-Notley",
+"start": "2017-07-24",
+"end": "2021-05-13",
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 30,
+"party": "Independent",
+"riding": "Central Peace-Notley",
+"start": "2021-05-13",
+"end": "2022-10-06",
+"party_dated": 1
+},
+{
+"member_key": "0890",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Central Peace-Notley",
+"start": "2022-10-07",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0891",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Innisfail-Sylvan Lake",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0891",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Innisfail-Sylvan Lake",
+"start": "2017-07-24",
+"end": "2018-02-05",
+"party_dated": 1
+},
+{
+"member_key": "0892",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Rimbey-Rocky Mountain House-Sundre",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0892",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Rimbey-Rocky Mountain House-Sundre",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0892",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Rimbey-Rocky Mountain House-Sundre",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0892",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Rimbey-Rocky Mountain House-Sundre",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0893",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Lacombe-Ponoka",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0893",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Lacombe-Ponoka",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0893",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Lacombe-Ponoka",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0893",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Lacombe-Ponoka",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0894",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Airdrie",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0894",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Airdrie",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0894",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Airdrie-East",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0894",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Airdrie-East",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0895",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Little Bow",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0895",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Little Bow",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0896",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Drayton Valley-Devon",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0896",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Drayton Valley-Devon",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0896",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Drayton Valley-Devon",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0896",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Drayton Valley-Devon",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0897",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Battle River-Wainwright",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0897",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Battle River-Wainwright",
+"start": "2017-07-24",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0898",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Barrhead-Morinville-Westlock",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0898",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Barrhead-Morinville-Westlock",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0898",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Athabasca-Barrhead-Westlock",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0898",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Athabasca-Barrhead-Westlock",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0899",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Fort McMurray-Wood Buffalo",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0899",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Fort McMurray-Wood Buffalo",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0899",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Fort McMurray-Wood Buffalo",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0899",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Fort McMurray-Wood Buffalo",
+"start": "2017-07-24",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0900",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-Fish Creek",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0900",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-Fish Creek",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0900",
+"legislature": 30,
+"party": "Progressive Conservative",
+"riding": "Calgary-Fish Creek",
+"start": "2015-05-05",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0900",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Fish Creek",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0901",
+"legislature": 29,
+"party": "Alberta Party",
+"riding": "Calgary-Elbow",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0902",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Bow",
+"start": "2015-05-05",
+"end": "2015-05-25",
+"party_dated": 1
+},
+{
+"member_key": "0902",
+"legislature": 29,
+"party": "Independent",
+"riding": "Calgary-Bow",
+"start": "2015-05-26",
+"end": "2016-01-10",
+"party_dated": 1
+},
+{
+"member_key": "0902",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Bow",
+"start": "2016-01-11",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0903",
+"legislature": 29,
+"party": "Alberta New Democratic Party",
+"riding": "Calgary-Glenmore",
+"start": "2015-05-05",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0904",
+"legislature": 29,
+"party": "Wildrose",
+"riding": "Calgary-Foothills",
+"start": "2015-09-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0904",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-Foothills",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0904",
+"legislature": 30,
+"party": "Wildrose",
+"riding": "Calgary-Edgemont",
+"start": "2015-09-03",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0904",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Edgemont",
+"start": "2017-07-24",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0905",
+"legislature": 29,
+"party": "Progressive Conservative",
+"riding": "Calgary-Greenway",
+"start": "2016-03-22",
+"end": "2017-07-23",
+"party_dated": 1
+},
+{
+"member_key": "0905",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-Greenway",
+"start": "2017-07-24",
+"end": "2018-07-13",
+"party_dated": 1
+},
+{
+"member_key": "0905",
+"legislature": 29,
+"party": "Independent",
+"riding": "Calgary-Greenway",
+"start": "2018-07-14",
+"end": "2019-04-15",
+"party_dated": 1
+},
+{
+"member_key": "0906",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Calgary-Lougheed",
+"start": "2017-12-14",
+"end": "2022-11-30",
+"party_dated": 1
+},
+{
+"member_key": "0906",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Lougheed",
+"start": "2017-12-14",
+"end": "2022-11-30",
+"party_dated": 1
+},
+{
+"member_key": "0907",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Fort McMurray-Conklin",
+"start": "2018-07-12",
+"end": "2021-08-15",
+"party_dated": 1
+},
+{
+"member_key": "0907",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Fort McMurray-Lac La Biche",
+"start": "2018-07-12",
+"end": "2021-08-15",
+"party_dated": 1
+},
+{
+"member_key": "0908",
+"legislature": 29,
+"party": "United Conservative",
+"riding": "Innisfail-Sylvan Lake",
+"start": "2018-07-12",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0908",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Innisfail-Sylvan Lake",
+"start": "2018-07-12",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0909",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Meadows",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0910",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Highlands-Norwood",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0911",
+"legislature": 30,
+"party": "Alberta New Democratic Party",
+"riding": "Edmonton-Whitemud",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0912",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Grande Prairie",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0913",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Cross",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0914",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Fort Saskatchewan-Vegreville",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0915",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Varsity",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0916",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Peigan",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0917",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Lac Ste. Anne-Parkland",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0918",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Brooks-Medicine Hat",
+"start": "2019-04-16",
+"end": "2022-10-06",
+"party_dated": 1
+},
+{
+"member_key": "0919",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Strathcona-Sherwood Park",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0920",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Airdrie-Cochrane",
+"start": "2019-04-16",
+"end": "2025-04-16",
+"party_dated": 1
+},
+{
+"member_key": "0920",
+"legislature": 30,
+"party": "Independent",
+"riding": "Airdrie-Cochrane",
+"start": "2025-04-16",
+"end": "2025-12-09",
+"party_dated": 1
+},
+{
+"member_key": "0920",
+"legislature": 30,
+"party": "Alberta Party",
+"riding": "Airdrie-Cochrane",
+"start": "2025-12-09",
+"end": "2025-12-18",
+"party_dated": 1
+},
+{
+"member_key": "0920",
+"legislature": 30,
+"party": "Progressive Tory Party",
+"riding": "Airdrie-Cochrane",
+"start": "2025-12-18",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0921",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Drumheller-Stettler",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0922",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Glenmore",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0923",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-South East",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0924",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Red Deer-North",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0925",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "West Yellowhead",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0926",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Camrose",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0927",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Edmonton-South West",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0928",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Currie",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0929",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Morinville-St. Albert",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0930",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Lethbridge-East",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0931",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Bow",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0932",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Klein",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0933",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Beddington",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0934",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Lesser Slave Lake",
+"start": "2019-04-16",
+"end": "2021-01-13",
+"party_dated": 1
+},
+{
+"member_key": "0934",
+"legislature": 30,
+"party": "Independent",
+"riding": "Lesser Slave Lake",
+"start": "2021-01-14",
+"end": "2021-07-13",
+"party_dated": 1
+},
+{
+"member_key": "0934",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Lesser Slave Lake",
+"start": "2021-07-14",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0935",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Livingstone-Macleod",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0936",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Banff-Kananaskis",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0937",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Vermilion-Lloydminster-Wainwright",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0938",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Leduc-Beaumont",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0939",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-North West",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0940",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-North East",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0941",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Cardston-Siksika",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0942",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Shaw",
+"start": "2019-04-16",
+"end": "2026-05-15",
+"party_dated": 1
+},
+{
+"member_key": "0943",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Elbow",
+"start": "2019-04-16",
+"end": "2022-08-31",
+"party_dated": 1
+},
+{
+"member_key": "0944",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Acadia",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0945",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Highwood",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0946",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-East",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0947",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Red Deer-South",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0948",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Grande Prairie-Wapiti",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0949",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-Falconridge",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0950",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Spruce Grove-Stony Plain",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0951",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Sherwood Park",
+"start": "2019-04-16",
+"end": "2023-05-28",
+"party_dated": 1
+},
+{
+"member_key": "0952",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Peace River",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0953",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Maskwacis-Wetaskiwin",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+},
+{
+"member_key": "0954",
+"legislature": 30,
+"party": "United Conservative",
+"riding": "Calgary-North",
+"start": "2019-04-16",
+"end": null,
+"party_dated": 1
+}
+]
+}

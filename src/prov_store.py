@@ -329,11 +329,22 @@ def upsert_member(conn, prov, member_key, name=None, surname=None, given=None,
         (prov, member_key, name, surname, given, riding, party, sitting, page_url, when, when))
 
 
-def replace_terms(conn, prov, member_key, terms, source):
+def replace_terms(conn, prov, member_key, terms, source, legislature=None):
     """Replace one member's terms from one source with `terms`
-    ([{legislature, party, riding, start, end, party_dated}])."""
-    conn.execute("DELETE FROM prov_member_terms WHERE prov=? AND member_key=? AND source=?",
-                 (prov, member_key, source))
+    ([{legislature, party, riding, start, end, party_dated}]).
+
+    With `legislature`, only that legislature's terms from that source are
+    replaced. A collector that reads one roster PER LEGISLATURE must pass it:
+    without it, reading the 31st Legislature's roster deleted the member-page
+    terms an earlier read had stored for the 29th and 30th, so a 2015-2023
+    member (Jason Nixon, Rachel Notley) held no term in those legislatures
+    and every re-read of their divisions failed (Alberta, 2 October 2026)."""
+    if legislature is None:
+        conn.execute("DELETE FROM prov_member_terms WHERE prov=? AND member_key=? AND source=?",
+                     (prov, member_key, source))
+    else:
+        conn.execute("DELETE FROM prov_member_terms WHERE prov=? AND member_key=? AND source=? "
+                     "AND legislature=?", (prov, member_key, source, legislature))
     for t in terms:
         conn.execute(
             "INSERT INTO prov_member_terms (prov, member_key, legislature, party, "
