@@ -18,7 +18,9 @@ holds them:
   * a bill from its long and short titles;
   * a petition from its category + keywords and its prayer (ca_petitions);
   * a speech from its full text, per passage, with its subject as a title
-    passage (ca_hansard);
+    passage (ca_hansard) -- and for a Senate floor speech the subject plus
+    its bill's long title, joined on its sitting's session
+    (ca_senate_debates, ca_store.speech_title);
   * a Gazette item from its stored text per passage (a notice, a PDF item);
     a notice matched on its title alone, from its title and department; a
     regulation whose body lives at its URL, from its excerpt -- part of the
@@ -92,10 +94,19 @@ def _rows(conn, tax, wl):
         head = " ".join([r[1] or ""] + json.loads(r[2] or "[]"))
         yield ("ca_petitions", "petition_id", r[0], r[4], r[5], r[6],
                _item(filt.filter_item(tax, wl, head, r[3] or "")))
-    for r in conn.execute("SELECT speech_id, text, subject, areas, matched_terms "
-                          "FROM ca_speeches"):
+    # A Senate floor speech was matched with its bill's long title in the
+    # title passage (tools/ca_senate_debates.py), joined on the session its
+    # sitting belongs to; re-reading it from the subject alone would fail the
+    # trust check on every speech whose tags came from that title.
+    for r in conn.execute("SELECT s.speech_id, s.text, s.subject, s.areas, s.matched_terms, "
+                          "s.chamber, s.bill_number, ss.parliament, ss.session "
+                          "FROM ca_speeches s LEFT JOIN ca_senate_sittings ss "
+                          "ON ss.sitting_key = s.sitting_key"):
+        title = r[2]
+        if r[5] == "senate" and r[7] is not None:
+            title = ca_store.speech_title(r[2], r[6], titles.get((r[7], r[8], r[6])))
         yield ("ca_speeches", "speech_id", r[0], r[3], r[4], None,
-               _passages(tax, wl, r[1], r[2]))
+               _passages(tax, wl, r[1], title))
     for r in conn.execute("SELECT item_key, text, excerpt, title, areas, matched_terms, "
                           "tier, matched_on, department FROM ca_gazette_items"):
         # A notice whose anchor was missing was matched on its title and
