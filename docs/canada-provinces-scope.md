@@ -58,7 +58,7 @@ Divisions per year are measured where a sample was taken and marked "est." other
 
 ## Built
 
-Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads their tables. Run one province at a time, into a scratch store first:
+**Scheduled since 3 October 2026** (`.github/workflows/prov-weekly.yml`, "Provinces weekly", Wednesdays; see "Schedule and backfill" below). Nothing outside `tools/prov_*.py` reads their tables. By hand, run one province at a time, into a scratch store first:
 
     python3 tools/prov_collect.py --prov ab --session 31-1 --since 2024-10-28 --until 2024-12-05 --db /tmp/prov.db
 
@@ -104,7 +104,7 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
 ### Foundation (step 0)
 
 - **Tables** (`src/prov_store.py`, in `db.TABLES`, created by `db.init_db`): `prov_members`, `prov_member_terms`, `prov_divisions`, `prov_votes`, `prov_bills`, `prov_sittings`, `prov_speeches`, keyed by `prov`.
-  - The sighting column is `last_read`, not `last_seen`: `tests/test_coverage.py` would otherwise require a `tools/coverage.py` entry for a feed nothing schedules. Rename it when a workflow runs these.
+  - The sighting column is `last_seen` (renamed from `last_read` on 3 October 2026, when the workflow began running these; `ensure_schema` renames it in an older scratch store).
   - `prov_divisions.kind` is `recorded` or `voice`. A voice decision has NULL totals, NULL `positions_ok` and no votes, so "passed on voice, no member record" can be said.
 - **Name resolution** (`src/prov_names.py`): against the roster terms valid **on the day** of the division, unique-or-nothing. It handles surnames, ridings (wrapped or not), initials in both orders, honorifics, full names, accents and two-word surnames. An unresolved label is stored with a NULL member and its reason in `prov_votes.how`.
 - **The tally check** (`prov_store.tally`): resolved names must account for the printed totals one member per label. Otherwise `positions_ok = 0`, a row in `gaps`, the sitting's status is `gap`, and the record is read again on the next run. Only `positions_ok = 1` places anyone.
@@ -210,7 +210,7 @@ Collected on Christopher's decision of 2 October 2026 (see "Decisions"). The col
 
 - **Ontario Bill 28: area 7 or no area?** It is a labour bill that invoked s.33 over Charter ss. 2, 7 and 15. The watchlist gives it area 7 (civil liberties) as a draft, so its three divisions appear on an area-7 evidence sheet.
 - **Manitoba Bill 43 (gender expression):** area 5 is from the scope. The taxonomy has no "gender expression", so similar bills elsewhere will be missed. Adding the term is a taxonomy-versioning call.
-- **Schedule:** none of the five provincial collectors is scheduled. Wiring one into a workflow means the `last_read` → `last_seen` rename and a `tools/coverage.py` entry.
+- **Schedule:** done 3 October 2026 for all eight built provinces (see "Schedule and backfill").
 ### New Brunswick (step 6): `src/ingest/prov_nb.py`
 
 - **Politeness:** robots.txt sets `crawl-delay: 10`. `prov_fetch` now raises the interval for that HOST only (`HttpClient.set_host_throttle`), so the run waits 10 s between legnb.ca requests without slowing anything else. A session's journals and bill pages take 20–30 minutes.
@@ -298,6 +298,31 @@ Collected on Christopher's decision of 2 October 2026 (see "Decisions"). The col
   - A vote's bill is the last bill its own item names, else the bill page's tally join; a motion that cites a bill in its considerants is joined to it, stage "Motion".
   - A former member missing from depcir and named by no PV read stays absent; a lazily completed member's last term ends at the dated resignation if the biography gives one, else stays open.
   - The French layer is an AI draft with no Quebec reader yet.
+
+### Schedule and backfill (3 October 2026)
+
+Christopher: "Schedule the provincial collectors and backfill to 2010", and for Quebec "DO what is necessary" (the month form POST is approved; backfill as deep as the PV annex allows; refresh the roster after the 5 October election).
+
+- **The weekly** (`.github/workflows/prov-weekly.yml`, "Provinces weekly"): Wednesday 10:00 UTC, retry slot 12:00 behind a gate job, in the `parl-monitor-state` group. Wednesday 10:00–18:00 holds no other stateful cron (a test keeps it so). One step per province (ab, sk, bc, mb, on, nb, nl, qc), each `if: always()`, each on its own `--budget-seconds` and step timeout, so one province failing never costs the others. Quebec's roster is read again every week (`--roster-only`) before Quebec is collected. Then `tools/prov_5ca.py --all` per province, the raw archive, the store and the sidecar commit, exactly as the Canada weekly does. Registered in `alert.yml`, `tools/coverage.py` (`PIPELINES`, `FEEDS`, `PIPELINE_FEEDS`, `ONCE_EVER`) and the structural tests.
+- **The window is resumed, not fixed** (`tools/prov_collect.py --resume`): from the newest record already read, less 14 days, or from the oldest record still owed in the last 120 days. On a province with nothing read it is the module's own default (the whole current session; Saskatchewan's last 60 days), said in the log.
+- **Sessions come from the legislature's own index**, never from a list typed into the repo (`list_sessions` in each module; `src/prov_fetch.py`, "sessions"). A session the index lists that is newer than the module's `CURRENT_SESSION` is collected that week **and** recorded as a gap ("set CURRENT_SESSION"), so the run fails loudly until a person moves the constant. Quebec's 44th legislature will arrive this way after the 5 October election.
+- **The backfill:** dispatch the same workflow with `provinces` (one code is the intended use, e.g. `nb`) and `since` (default `2010-01-01`), optionally `minutes` (default 280, capped at 300; the job is killed at 330). It runs `prov_collect.py --all-sessions --since …` for each named province: every session the index lists whose dates touch the window, oldest first, on one clock. A dispatch with `provinces` set skips the weekly steps. Cut short by its clock, it says which sessions were not started, and the next dispatch resumes: a record read cleanly is never fetched again, and a closed session's bill page already read with its text is not re-read (Alberta and Quebec used to re-read every bill page every run). Saskatchewan's archive is listed by date, a calendar year at a time, each year on its own page cap (a year still paging at the cap is a gap, never a silent cut).
+- **A layout the parser cannot read shows as gaps, never wrong votes.** Every division still passes the tally check: unresolved names or a count that does not match the printed totals is `positions_ok = 0`, a gap, and places nobody.
+
+**How far back each source goes, and what has been tested.** "Listed" is what the legislature's own index offers; "tested" is what a parser was proven on. Everything between is untested and will show as gaps where the layout differs.
+
+| Province | Sessions since 2010 (from the index) | Listed back to | Parser tested on | Expected gaps in a backfill to 2010 |
+|---|---|---|---|---|
+| Alberta | 27-2 to 31-2 (18), from the V&P listing's menu | V&P menu to the 22nd Legislature (1990); bills to 1906 | 31st Legislature V&P | 27th–30th Legislature V&P layouts untested; tally gaps if they differ |
+| Saskatchewan | none needed: the archive is listed by date across sessions | Minutes PDF since March 2003, HTML since the 30th Legislature | 29L bilingual PDF (2023), 30L HTML | 26L–28L PDFs (2010–2020) untested; the roster comes from each division day's Hansard cover, whose older layout is untested too |
+| British Columbia | from LIMS `allSessions` (the API decides; the fixture holds 42-1 on) | Hansard HTML in the API's sessions; voting index to 2019 (not read) | 43-2 transcripts | pre-2020 `DivisionTable` markup untested; party is never dated for BC |
+| Manitoba | from the V&P sessions page (the 39th and earlier are on the live page; the fixture starts at 40-1) | V&P to 36-4 (1998) | 42nd (YEA) and 43rd (AYE) Legislatures | pre-42nd V&P layouts untested: gaps, not wrong votes; the roster needs each division day's Hansard PDF cover |
+| Ontario | from the house-documents index (40-1 on in the fixture; 39-2, 2010–2011, if the live index lists it) | V&P HTML to 2008 | the 2022+ tables, the late-2025 doubled names, and the pre-2022 layout on 2015 | 2008–2014 V&P untested; the roster is the Hansard PDF's member list (2015 needed a fix) |
+| New Brunswick | 56-4 to 61-2 (17), from the journals page's selector | Journals to the 53rd Legislature (1995) | 60-2 (2023) and 61-2 (2025) | a past session without a compiled Journal has no roster: all its divisions are gaps. 10-second crawl-delay: about 10 minutes per session's journals plus its bills, so expect two or three dispatches |
+| Newfoundland and Labrador | 46-2 to 51-1 (15), from the Hansard index | Hansard to the 23rd General Assembly; attendance summaries 2009+ | 48-1 (2016), 50-2, 51-1 | 46th–47th GA Hansard (2010–2015) untested; 2024 attendance summary is a scan (5 divisions of 2024 stay gaps) |
+| Quebec | 39-1 to 43-3 (9), from the sitting index's session select | the select lists sessions back to 1867; depcir roster stored from 1960 | PV annexes of 2013, 2014, 2019, 2023, 2025, 2026 | the PV annex is checked from 29 October 2013 only: 39-1, 39-2 and 40-1 before that date (2010–2013) are untested, and a PV without an annex leaves its votes as gaps |
+
+**Coverage:** `prov_members` and `prov_bills` are watched as heartbeats (re-stamped every run, measured); `prov_divisions` and `prov_sittings` are write-once in practice (`ONCE_EVER`). Until the workflow's first heartbeat, their empty tables are reported "AWAITING FIRST RUN" instead of overdue (`AWAITING_FIRST_RUN` in `tools/coverage.py`); the excuse expires by itself at the first run. The watch is per table: one province going dark shows as its own failed step and the failure alert, not in the coverage watch.
 
 ---
 

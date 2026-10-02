@@ -45,7 +45,7 @@ import json
 import re
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import html_text, slug
+from src.prov_fetch import html_text, sessions_sorted, slug
 
 PROV = "bc"
 CURRENT_SESSION = "43-2"
@@ -78,6 +78,28 @@ def session_code(s):
     """'43rd2nd' from an allSessions node -- the path segment LIMS uses."""
     p = s["parliamentByParliamentId"]
     return "{0}{1}{2}{3}".format(p["number"], p["annotation"], s["number"], s["annotation"])
+
+
+def parse_sessions(nodes):
+    """Every session in LIMS's allSessions, with its own start and end dates,
+    oldest first."""
+    out = []
+    for s in nodes or []:
+        p = s.get("parliamentByParliamentId") or {}
+        if p.get("number") is None or s.get("number") is None:
+            continue
+        out.append({"code": "{0}-{1}".format(p["number"], s["number"]),
+                    "start": (s.get("startDate") or "")[:10] or None,
+                    "end": (s.get("endDate") or "")[:10] or None})
+    return sessions_sorted(out)
+
+
+def list_sessions(ctx):
+    reply = ctx.post_json(GRAPHQL, json.dumps({"query": Q_SESSIONS}), "sessions")
+    nodes = (((reply or {}).get("data") or {}).get("allSessions") or {}).get("nodes")
+    if reply is not None and not nodes:
+        ctx.gap("bc: the LIMS sessions list came back empty")
+    return parse_sessions(nodes)
 
 
 def find_session(nodes, legislature, session):

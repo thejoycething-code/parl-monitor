@@ -11,12 +11,19 @@ Westminster, devolved, EU or German table. `db.init_db` calls
 tables were left out of db.TABLES until phase 3 and tests/test_db.py failed
 on them the whole time.
 
-NO `last_seen` COLUMN, ON PURPOSE. tests/test_coverage.py treats every table
-with a `last_seen` or `captured_at` column as a scheduled feed that must be
-watched in tools/coverage.py. Nothing schedules these collectors yet, so
-the sighting column is `last_read`. When a workflow runs them, the tables
-join coverage.py and the column can be renamed; that is a decision for
-then, not a side effect now.
+THE SIGHTING COLUMN IS `last_seen` (renamed from `last_read` on 3 October
+2026, when the Provinces weekly workflow began running these collectors).
+tests/test_coverage.py treats every table with a `last_seen` or
+`captured_at` column as a scheduled feed that tools/coverage.py must watch,
+which is why the column was kept as `last_read` until something scheduled
+them. MEASURED, per table, for tools/coverage.py: prov_members and
+prov_bills are re-stamped on every weekly run (Alberta, BC and Manitoba
+re-read their whole roster or bill listing each time), so they are
+heartbeats; prov_divisions is re-stamped only when its record, or a bill
+page naming a voice decision, is read again, so it is write-once in practice
+and goes quiet in recess. `ensure_schema` renames the old column in a store
+that still carries it (the scratch stores of the smoke runs) and is a no-op
+on a second call.
 
 PARTY IS A FACT OF THE VOTE, NOT A JOIN. `prov_member_terms` keeps party
 over time (Alberta's dated affiliations, Saskatchewan's Hansard cover list
@@ -63,7 +70,7 @@ SCHEMA = (
         sitting      INTEGER,            -- 1 on the latest roster read, 0 former, NULL unknown
         page_url     TEXT,               -- the member's own page, as linked from a listing (qc)
         first_seen   TEXT,
-        last_read    TEXT,
+        last_seen    TEXT,
         PRIMARY KEY (prov, member_key)
     )""",
     """CREATE TABLE IF NOT EXISTS prov_member_terms (
@@ -102,7 +109,7 @@ SCHEMA = (
         positions_ok INTEGER,            -- 1 tally matched, 0 gap, NULL voice
         tally_note   TEXT,               -- why it did not match
         first_seen   TEXT,
-        last_read    TEXT
+        last_seen    TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS prov_divisions_prov_date ON prov_divisions (prov, date)",
     """CREATE TABLE IF NOT EXISTS prov_votes (
@@ -139,7 +146,7 @@ SCHEMA = (
         tier         INTEGER,
         excerpt      TEXT,
         first_seen   TEXT,
-        last_read    TEXT
+        last_seen    TEXT
     )""",
     """CREATE TABLE IF NOT EXISTS prov_sittings (
         sitting_key  TEXT PRIMARY KEY,   -- '<prov>-<leg>-<sess>-<date>[-<part>]'
@@ -174,7 +181,17 @@ SCHEMA = (
 ADDED_COLUMNS = (("prov_members", "page_url", "TEXT"),)
 
 
+# The sighting column's old name (before the Provinces weekly, 3 October 2026).
+RENAMED_COLUMNS = (("prov_members", "last_read", "last_seen"),
+                   ("prov_divisions", "last_read", "last_seen"),
+                   ("prov_bills", "last_read", "last_seen"))
+
+
 def ensure_schema(conn):
+    for table, old, new in RENAMED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if old in have and new not in have:
+            conn.execute("ALTER TABLE {0} RENAME COLUMN {1} TO {2}".format(table, old, new))
     for stmt in SCHEMA:
         conn.execute(stmt)
     for table, column, kind in ADDED_COLUMNS:
@@ -252,7 +269,7 @@ def upsert_member(conn, prov, member_key, name=None, surname=None, given=None,
     when = when or today()
     conn.execute(
         "INSERT INTO prov_members (prov, member_key, name, surname, given, riding, "
-        "party, sitting, page_url, first_seen, last_read) VALUES (?,?,?,?,?,?,?,?,?,?,?) "
+        "party, sitting, page_url, first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?) "
         "ON CONFLICT(prov, member_key) DO UPDATE SET "
         "name=COALESCE(excluded.name, prov_members.name), "
         "surname=COALESCE(excluded.surname, prov_members.surname), "
@@ -261,7 +278,7 @@ def upsert_member(conn, prov, member_key, name=None, surname=None, given=None,
         "party=COALESCE(excluded.party, prov_members.party), "
         "sitting=COALESCE(excluded.sitting, prov_members.sitting), "
         "page_url=COALESCE(excluded.page_url, prov_members.page_url), "
-        "last_read=excluded.last_read",
+        "last_seen=excluded.last_seen",
         (prov, member_key, name, surname, given, riding, party, sitting, page_url, when, when))
 
 
@@ -309,7 +326,7 @@ def store_division(conn, d, when=None):
         "INSERT INTO prov_divisions (division_key, prov, legislature, session, date, "
         "seq, kind, question, vote_on, bill_key, stage, result, yeas, nays, "
         "abstentions, source_url, areas, matched_terms, tier, excerpt, "
-        "positions_ok, tally_note, first_seen, last_read) "
+        "positions_ok, tally_note, first_seen, last_seen) "
         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
         "ON CONFLICT(division_key) DO UPDATE SET kind=excluded.kind, "
         "question=excluded.question, vote_on=excluded.vote_on, "
@@ -318,7 +335,7 @@ def store_division(conn, d, when=None):
         "source_url=excluded.source_url, areas=excluded.areas, "
         "matched_terms=excluded.matched_terms, tier=excluded.tier, "
         "excerpt=excluded.excerpt, positions_ok=excluded.positions_ok, "
-        "tally_note=excluded.tally_note, last_read=excluded.last_read",
+        "tally_note=excluded.tally_note, last_seen=excluded.last_seen",
         (d["division_key"], d["prov"], d.get("legislature"), d.get("session"),
          d.get("date"), str(d.get("seq")), d["kind"], d.get("question"),
          d.get("vote_on"), d.get("bill_key"), d.get("stage"), d.get("result"),
@@ -343,7 +360,7 @@ def store_bill(conn, b, when=None):
         "INSERT INTO prov_bills (bill_key, prov, legislature, session, number, "
         "title_en, title_fr, sponsor, sponsor_key, is_government, bill_type, stages, "
         "latest_stage, royal_assent, page_url, text_url, text_read, areas, "
-        "matched_terms, tier, excerpt, first_seen, last_read) "
+        "matched_terms, tier, excerpt, first_seen, last_seen) "
         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
         "ON CONFLICT(bill_key) DO UPDATE SET "
         "title_en=COALESCE(excluded.title_en, prov_bills.title_en), "
@@ -364,7 +381,7 @@ def store_bill(conn, b, when=None):
         "matched_terms=CASE WHEN excluded.text_read >= prov_bills.text_read THEN excluded.matched_terms ELSE prov_bills.matched_terms END, "
         "tier=CASE WHEN excluded.text_read >= prov_bills.text_read THEN excluded.tier ELSE prov_bills.tier END, "
         "excerpt=CASE WHEN excluded.text_read >= prov_bills.text_read THEN excluded.excerpt ELSE prov_bills.excerpt END, "
-        "last_read=excluded.last_read",
+        "last_seen=excluded.last_seen",
         (b["bill_key"], b["prov"], b.get("legislature"), b.get("session"), b.get("number"),
          b.get("title_en"), b.get("title_fr"), b.get("sponsor"), b.get("sponsor_key"),
          b.get("is_government"), b.get("bill_type"),

@@ -455,3 +455,47 @@ def slug(text, max_length=60):
     from src.prov_names import fold
     s = re.sub(r"[^a-z0-9]+", "-", fold(text)).strip("-")
     return s[:max_length].rstrip("-") or "x"
+
+
+# -- sessions, as each legislature's own index lists them ----------------------
+#
+# The backfill (tools/prov_collect.py --all-sessions) and the weekly's
+# new-session check take the list of sessions from the legislature's OWN
+# index page -- a page each collector already reads -- never from a list typed
+# into the repo: a session left off a typed list would be skipped in silence,
+# while a session the index lists and the parser cannot read is a gap. Each
+# module's list_sessions(ctx) returns
+#     [{"code": "31-2", "start": "2025-01-01", "end": "2026-12-31" or None}]
+# oldest first. Where the index prints years only, a span runs from 1 January
+# of the first year to 31 December of the last; an open session ends None.
+
+def session_order(code):
+    """(31, 2) for '31-2': sessions compare by legislature, then session."""
+    leg, _, sess = str(code).partition("-")
+    return int(leg), int(sess or 0)
+
+
+def year_span(code, first, last=None, open_ended=False):
+    """A session spanning whole years ('2010-2011', '2019', '2025-')."""
+    first = int(first)
+    last = int(last) if last else (None if open_ended else first)
+    return {"code": code, "start": "{0}-01-01".format(first),
+            "end": "{0}-12-31".format(last) if last else None}
+
+
+def sessions_sorted(items):
+    """De-duplicated by code (the first listing wins), oldest first."""
+    seen = {}
+    for s in items:
+        seen.setdefault(s["code"], s)
+    return sorted(seen.values(), key=lambda s: session_order(s["code"]))
+
+
+def overlaps(session, since=None, until=None):
+    """True when the session's span touches [since, until]. A session with
+    no known end is open, and overlaps any window that starts after it."""
+    if since and session.get("end") and session["end"] < since:
+        return False
+    if until and session.get("start") and session["start"] > until:
+        return False
+    return True
