@@ -69,11 +69,12 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
 | Alberta 31-1 | 28 Oct–5 Dec 2024 | 19 V&P | 40 (40) | 36 | 2,789 (0) | 75, all texts read (6) | 0 |
 | Saskatchewan 29-3 | October 2023 | 9 Minutes | 12 (12) | 0 | 550 (0) | 1 (1) | 0 |
 | British Columbia 43-2 | 12–28 Feb 2026 | 12 transcripts | 5 (5) | 13 | 442 (0) | 46 incl. 2 unnumbered, 44 texts (3) | 0 |
+| Quebec, six windows 2013–2026 | see "Quebec" below | 42 procès-verbaux | 146 (146) | 18 | 14,573 (0) | 42-1 swept: 182, all texts read (8); 8 more by `--bill` | 0 |
 
 - **Alberta:** 91 members with 116 dated terms; every bill-page "passed on division" stage matched a parsed division.
 - **Saskatchewan:** 61 members from the day covers. Bill 137 has eleven divisions on our ground.
 - **British Columbia:** 93 members. The whole session lists 73 transcripts (dry run).
-- **5CA:** `tools/prov_5ca.py --all` wrote 4 Alberta, 1 Saskatchewan and 4 BC evidence sheets, with nobody placed (the stance file is empty).
+- **5CA:** `tools/prov_5ca.py --all` wrote 4 Alberta, 1 Saskatchewan and 4 BC evidence sheets, with nobody placed (the stance file is empty). For Quebec it wrote 8 evidence sheets (freedom of religion: 8 trusted divisions and 1 voice decision), nobody placed.
 
 ### Foundation (step 0)
 
@@ -138,6 +139,48 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
     - A dated source is needed: the caucus history, or the per-member Voting Records index read against a dated caucus list.
   - The per-member Voting Records index (`Index/43rd2nd/2026-Votes?.htm`) is not read. It would give a second, independent tally check and each vote's stage label.
   - Hansard speeches are not stored.
+
+### Quebec (step 7, built early at Christopher's "all provinces"): `src/ingest/prov_qc.py`
+
+- **robots.txt, read in full.** `urllib.robotparser` keeps only the FIRST `User-agent: *` group, and assnat.qc.ca writes one group per rule: the standard parser reported `/json/` (the vote register's feed) ALLOWED and did not match the six disallowed `Process.aspx` documents. `src/prov_fetch.star_rules` now reads every group naming `*` or us, longest rule first, for every province. The vote register is never requested.
+- **Sittings:** the session's sitting index shows one month; other months come only through the page's own ASP.NET form, so `HttpClient.post_form` posts the month select (throttled, honest UA, no retry). Every procès-verbal (PV) URL is taken from that listing; the `MediaId`s cannot be guessed. A reply that shows a different month from the one asked for is a gap.
+- **Divisions: the procès-verbal annex, in every era.** The scope said names left the Journal des débats with electronic voting (2025) and that earlier years print them in the Journal. Both are true, but **the PV annex prints every named vote with names AND party in both eras** (checked on the PVs of 29 Oct 2013, 14 and 16 Jun 2019, Apr–Jun 2023, 30 Oct 2025 and 1 Apr 2026), so one parser serves 2013–2026 and the Journal is not read for votes.
+  - The annex is four columns of "Surname (PARTY)", read top to bottom. A riding that disambiguates a surname sits on the line UNDER its name, in its own column, so in the text stream it lands beside the wrong name ("Lamontagne (CAQ) (Soulanges)" is Picard's riding). It is read from pypdf's layout fragments with x-positions: column edges from where many cells start (one stray start is not a column), name rows re-cut at the edges, cells ordered column by column across page breaks, a "(Riding)" or "(PARTY)" cell attached to the name above it.
+  - Layout traps met and handled, each with a test: the layout engine's spacing ("D 'A mour" in 2013, repaired from the plain text's spelling); names that wrap inside their cell from 2023 ("Lakhoyan Olivier" / "(PLQ)"); a cell whose recorded end swallows its neighbour; an annex with no "ANNEXE" heading (14 Jun 2019); "(Identique au vote n° 109)" (2 Jun 2023).
+  - The body gives each vote's question, the record's own result words and the printed totals ("Pour : 73 Contre : 35 Abstention : 0"); the annex's own counts must agree with them. The vote's item is cut at the last section heading before it and loses the previous vote's "En conséquence, ..." line, so a vote is not classified on the notice that preceded it.
+- **Party at the vote is the annex's, as printed** ("Dubé (IND)", "Dufour (IND) (Abitibi-Est)"). The roster's party is the party a member was elected under and is undated (`party_dated = 0`).
+- **Roster, dated:** "Membres de l'Assemblée nationale par circonscription" (`/fr/patrimoine/depcir/`, ten letter pages that link each other) gives every riding's members election by election with member ids; election dates from `election.html` (the legislature number is the row's ordinal from 1867), by-election dates from `partielles.html`, departures from the remarks. Rows before 1960 are not stored.
+  - **depcir is incomplete for the 43rd legislature** (no 2022 row for Vanier-Les Rivières, Taschereau, Vaudreuil; nothing for the 2025 Terrebonne by-election; two rows printed without a link). Sitting members whose terms stop short are completed from their own page's dated mandates (14 on 2 Oct 2026). Members a PV names who are still unknown (Fitzgibbon, resigned 2024) are completed lazily from their page's prose biography ("Élu député de Terrebonne ... en 2018. Réélu en 2022 ... date de sa démission"), and only then retried.
+  - Guards: a riding whose rows run backwards in time (a missed heading: FABRE's extra anchor filed Gilles Ouimet under Duplessis) is a gap and stored not at all; a row with no member is a gap.
+  - **The President does not vote**, and the annex disambiguates surnames among those who vote: "Roy (CAQ)" in 2025–26 is Suzanne Roy, because Nathalie Roy presides. A candidate is set aside only when her own page dates her presidency on that day ("Présidente de l'Assemblée nationale depuis le 29 novembre 2022"). "H. Plante" is resolved as Marc H. Plante only because the printed form ends his full name.
+  - **The 5 October 2026 election:** nothing assumes the 43rd legislature. The last terms stay open until `election.html` lists the next poll; the roster is re-read when a week old.
+- **Bills:** the session listing gives each bill's OWN page link, so a reinstated bill keeps its first session's key (Bill 94, adopted in 43-2, is `qc-43-1/94`) and a vote naming "projet de loi n° 94" in 43-2 is joined through the listing. The bill page gives author (member id), type, every stage with its sittings and outcome notes, the presentation PDF (French only) and the English page (`title_en`). `--bill N` reads only those bill pages.
+- **Voice:** a decided stage whose final sitting has no "Vote :" note is stored as `kind = 'voice'` with the page's own words (Bill 11's principle, 4 Apr 2023; Bill 94's report stage, 28 Oct 2025, "à la majorité des voix").
+- **Cross-check:** every bill-page "Vote : Pour X, Contre Y" on a day whose PV was read must be a recorded division on that bill with those totals. Where the PV's words name no bill ("Sur le rapport de la Commission des relations avec les citoyens", Bill 11's report stage) and exactly one vote that day has those totals, the bill page joins it; two candidates stay unjoined and a miss.
+- **Classification in French:** `config/taxonomy-qc.yaml` (master `docs/keyword-taxonomy-qc.md`, v0.1, same area keys) on French titles, bill texts and each vote's own words; the English taxonomy on English titles only. Statutes cited with their chapter number, and the capitalised heading an omnibus bill gives each Act it amends, are masked. Measured hit list in the taxonomy doc.
+
+**Live smoke runs (2 October 2026, one scratch store):**
+
+| Window | PVs read | Recorded divisions (tally ok) | Voice | Votes (unresolved) |
+|---|---|---|---|---|
+| 40-1, 29 Oct 2013 | 1 | 1 (1) | 0 | 110 (0) |
+| 41-1, 5 Jun 2014 | 1 | 1 (1) | 0 | 116 (0) |
+| 42-1, 4–16 Jun 2019 | 10 | 35 (35) | 16 | 3,862 (0) |
+| 43-1, 4 Apr–7 Jun 2023 | 24 | 67 (67) | 1 | 7,047 (0) |
+| 43-2, 28–30 Oct 2025 | 3 | 6 (6) | 1 | 601 (0) |
+| 43-2, 31 Mar–2 Apr 2026 | 3 | 36 (36) | 0 | 2,837 (0) |
+
+146 recorded divisions, all tally-matched, 14,573 votes, none unresolved, no bill-page tally missed. 993 members, 2,253 dated terms. The 42-1 bill sweep read all 182 bill pages and texts; 8 are on our ground (21 laicity; 70 and 599 conversion therapy; 73 assisted procreation; 83 amending the end-of-life care Act; 399 presumed consent for organ donation; and two budget bills, 74 (an assisted-procreation tax measure) and 82 (digital identity), which the judge should weigh). A dry run of 43-3 (the session dissolved for the election) lists 17 sittings and 89 bills.
+
+- **Bill 21** (`qc-42-1/21`), adoption 16 June 2019, PV vote no. 165, **73–35, tally matched**: Legault and Jolin-Barrette Yea (CAQ), Nadeau-Dubois Nay (QS), Hivon Yea (PQ), Arcand Nay (PLQ). Report stage 73–35 (no. 164) and principle 77–38 (4 June, no. 131) also matched. Areas [8].
+- **Electronic era, from the annex:** Bill 1 (Loi constitutionnelle de 2025), principle 1 April 2026, no. 139, **68–31–1, tally matched**, Pierre Dufour abstaining as "(IND)"; Bill 94 adoption 30 October 2025, no. 53, **70–27**, Drainville and Legault Yea, Nadeau-Dubois and Virginie Dufour (PLQ) Nay, areas [6, 8]; Bill 9 (renforcement de la laïcité) adoption 2 April 2026, 77–27.
+- **Bill 52 (end-of-life care), recorded votes:** principle 29 October 2013 (`qc-40-1/52`, no. 64) **84–26**, Hivon and Legault Yea; reinstated as `qc-41-1/52` and adopted 5 June 2014 (no. 10) **94–22**, Couillard and Barrette Yea. Areas [2].
+- **Bill 11 (MAID expansion, 2023):** principle 4 April 2023 **passed without a recorded vote** (stored as voice); report stage 2 June 107–0 (no. 111, joined by the bill page) and adoption 7 June **103–2–1** (no. 113), both tally-matched. Areas [2]. The scope's "107–0 at principle" was the report stage.
+- **Known limits:**
+  - Journal des débats speeches are not read (`prov_speeches` stays empty for qc).
+  - A vote's bill is the last bill its own item names, else the bill page's tally join; a motion that cites a bill in its considerants is joined to it, stage "Motion".
+  - A former member missing from depcir and named by no PV read stays absent; a lazily completed member's last term ends at the dated resignation if the biography gives one, else stays open.
+  - The French layer is an AI draft with no Quebec reader yet.
 
 ---
 
@@ -273,7 +316,7 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
 - **Roster:** `/fr/deputes/index.html` (CAQ / PLQ / PQ / QS / Indépendant).
 - **Volume:** vote no. 139 by 1 April 2026 in a session that opened 30 September 2025, so roughly 200 or more a year.
 - **Language:**
-  - Journal des débats and procès-verbal are **French only**, so the English taxonomy cannot read them. A French term layer (`taxonomy-fr.yaml`), drafted with a native reader, is required, as in Germany.
+  - Journal des débats and procès-verbal are **French only**, so the English taxonomy cannot read them. A French term layer is required, as in Germany. **Built** as `config/taxonomy-qc.yaml` (see "Built", Quebec); a native reader has not yet reviewed it.
   - Bill titles do exist in English, but that does not save classification: the English taxonomy has no "laicity", "secularism" or "religious symbols", and missed "end-of-life care".
 - **Timing:** the vote register shows the 43rd Legislature's 3rd session closing on 27 August 2026, and a general election is due on 5 October 2026. A new roster and session numbering (44-1) arrive this autumn. Build against 43rd-legislature data, but key members on name plus riding plus date.
 - **Effort:** 16–20 h for divisions (two eras, two formats), bills and roster; +8 h for the French term layer plus native review; +6 h for the Journal des débats.
@@ -413,7 +456,7 @@ A thin runner, `tools/prov_collect.py --prov ab`, drives them through `src/http.
 - Debate headings are matched too.
 - A **per-province watchlist** names the bill keys and policy names: Policy 713, SOGI 123, "Parents' Bill of Rights", "laïcité", "notwithstanding clause", "pronoun", "puberty".
 - The judge decides tier 2.
-- Quebec needs `taxonomy-fr.yaml`.
+- Quebec has its French layer, `config/taxonomy-qc.yaml` (built 2 October 2026).
 - Consider for the shared English list: "laicity"/"secularism"/"religious symbols", "end-of-life care", "efforts to change sexual orientation or gender identity", "Parents' Bill of Rights", "presumed/deemed consent" variants. That is Christopher's taxonomy-versioning call.
 
 ## PDF parsing needs
