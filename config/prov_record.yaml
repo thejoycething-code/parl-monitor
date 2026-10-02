@@ -122,6 +122,22 @@ provinces:
           motion for Second Reading of Bill 9, Public Sector Compensation
           Transparency Act": the right title under the wrong number. Stored
           under Bill 5; tally_note keeps "the record names Bill 9".
+  "bc":
+    other_surnames:
+      - member: "13"
+        surname: "Herbert"
+        document: https://lims.leg.bc.ca/hdms/file/Debates/39th1st/H0825am-01.PDF
+        verified_against: >-
+          The Hansard issue of 25 August 2009 (39th Parliament) lists
+          "herbert, Spencer (nDP) ... Vancouver–West End"; the issue of 19
+          February 2026 (43rd) lists "Chandra Herbert, Hon. Spencer ...
+          Vancouver–West End". The members API holds one member for both,
+          id 13, "Spencer Chandra Herbert", Vancouver-West End, in the 39th
+          to 43rd Parliaments, and no other Herbert. Division lists of 2010
+          print "Herbert" (bc-39-2-2010-03-11-7.1, Nay).
+        why: >-
+          The 39th Parliament's division lists print the surname he then
+          sat under; the roster carries only the later one.
   "ns":
     label_aliases:
       - printed: "Tom Taggar"

@@ -187,8 +187,8 @@ Divisions per year are measured where a sample was taken and marked "est." other
   - **Roster:** `allMemberParliaments`, with by-election and resignation dates as term bounds.
   - **Bills:** the progress-of-bills JSON, which gives reading dates, sponsor memberId and the text-file paths. Texts are served under `lims.leg.bc.ca/pdms` and classified per passage.
     - The trap is guarded: a reply whose file paths do not name the session's code (an unknown key answers 2006 data) is refused as a gap.
-  - **Transcripts:** the House files in the session's debates JSON listing.
-  - **Divisions:** each `DivisionTable` in a transcript, with the Speaker's question, the StyleLine result, the Subject-Heading and the debate passages under it, all used for classification.
+  - **Transcripts:** the House files in the session's debates JSON listing (`-Hansard-n119.html`, and `-Hansard-v19n3.htm` in the 39th and 40th).
+  - **Divisions:** each division table in a transcript (six markups since 2009, below), with the Speaker's question, the StyleLine result, the Subject-Heading and the debate passages under it, all used for classification.
   - **Unnumbered bills:** a bill refused first reading is stored from the transcript as `bc-<leg>-<sess>/x-<slug>`.
   - **Voice decisions:** a reading date on a day whose transcripts were ALL read, with no recorded division on that bill and stage, is stored as a voice decision.
 - **Proof reproduced:** the Gender Ideology and Child Protection Act was refused first reading on 19 February 2026, 38–49, tally matched. Rustad, Armstrong and Brodie voted Yea; Eby, Dix and Sharma voted Nay. The two Neufelds and two Andersons were told apart by initial. The bill is stored unnumbered with areas 3 and 6.
@@ -211,12 +211,40 @@ Divisions per year are measured where a sample was taken and marked "est." other
   - Party is dated to the sitting, not the hour. A member listed under two parties on one day (two parts) has none that day.
   - A list printing an EARLIER state, as a template not yet updated after a change would, cannot be told from the truth: the change would be dated a few sittings late. None was seen; only a later state (n221) was.
   - A party seen only on the newest sitting read (the session's frontier) is believed until a later sitting is read.
-  - The 39th Parliament's API roster lacks members who resigned before its end; the 39th has no votes stored yet, so nothing is lost now, but its divisions (once listed, below) would need them.
-  - **Two silent losses found while building this (2 October 2026), not fixed here:**
-    - **The 39th and 40th Parliaments (2009–2017) list no transcripts:** their files are named `20100531am-Hansard-v19n3.htm` and `list_records` wants `-Hansard-n<issue>`. Those sessions read no division, with no gap.
-    - **February 2018 to May 2024 (41-3 to 42-5): 725 transcripts read "ok" with 0 divisions.** Divisions there are `<table class="division-table">` with `<p class="division-header">YEAS — 29</p>` in cells, which `parse_hansard` (built on 2026's `DivisionTable` with `<th>` headers) never sees. The 2017 tables (41-1, 41-2) are found but their headers are not: the 19 tally gaps. Fixing it needs the parser and a `--refresh` re-read of those sittings, which are marked done.
-  - The per-member Voting Records index (`Index/43rd2nd/2026-Votes?.htm`) is not read. It would give a second, independent tally check and each vote's stage label.
   - Hansard speeches are not stored.
+- **Two silent losses, found 2 October 2026 and fixed the same day:**
+  - **The 39th and 40th Parliaments (2009–2017) listed no transcript.** Their files are named `20100531am-Hansard-v19n3.htm` (volume and number) and `list_records` wanted `-Hansard-n<issue>`. Both forms are now read. **Guard:** a listed House transcript whose name is not taken, or a listing that yields none, is a gap.
+  - **Every markup since 2009 is read now** (fixtures from real transcripts, `tests/fixtures/prov/bc_hansard_*`):
+    - 2009–2017: `<table class="DivisionTable">` with the headers in `<td colspan="3"><p class="DivisionHeader">YEAS — 42</p>`: the old parser read only `<th>` headers, so 2017's headers were taken as names (the 19 tally gaps).
+    - 2011: `<table border="0" ... class="DivisionTable">` (the class not first).
+    - 2010–2012: the names run on into a second table after a page break: a table with no "on the following division" since the last one continues that division.
+    - 20 November 2014: a StyleLine left open before its table, so a paragraph now ends at `</p>` or where a table begins.
+    - 2015: upper-case tags with unquoted classes (`<TABLE class=DivisionTable>`, `<P class=StyleLine>`).
+    - 2014–2017: the printed page number inside a cell (`<span class="PageNumber">[ Page 8656 ]</span>` before "NAYS — 45" or a name): stripped.
+    - Throughout, 2010 to 2026 (60 of them): **a division with no names in the transcript**, "Second reading of Bill 2 approved unanimously on a division. [See Votes and Proceedings.]". It is stored as a recorded division with no votes, `positions_ok = 0` and a `tally_note` beginning "no names" (counted apart, like Ontario's "totals only": known and untrusted, never owed, since no re-read can give the names). The names are in the Votes and Proceedings, which BC does not read yet.
+    - February 2018 to May 2024 (41-3 to 42-5): `<table class="division-table">` with `<p class="division-header">` and hyphenated lower-case paragraph classes. **725 transcripts had been stored "ok" with 0 divisions.**
+    - Classes are compared folded (`Subject-Heading`, `SubjectHeading`, `subject-heading`). Before 2018 the question is often not restated, so the stage falls back on the business heading ("Introduction and First Reading", "Committee of the Whole House"), and "I move the bill be introduced and read a first time" counts as the question. "BILL 2", "BIll 21" name their bill.
+  - **Guard 1, the transcript's own words:** a transcript that prints "on the following division" more often than it parses divisions is a gap and stays owed, never "ok". On the live run it caught the 2014 and 2015 markups above.
+  - A bare surname two members share, beside the other named by initial in the same division ("Black" beside "D. Black", 2011), is the one not named: only when exactly one is left.
+  - **Guard 2 and the repair, the Voting Records index:** each session's Hansard index (`/hdms/index/<code>`, "Voting Records", one page per letter) links every standing vote to its transcript from the 41st Parliament on ("../../Debates/42nd2nd/20210602pm-Hansard-n82.html#82B:1845"; the 39th's and 40th's print no links, and the first letter page tells). Before a session is read, every transcript it cites that is stored "ok" with no division is made **owed** (`prov_sittings.status = 'owed'`), so the run reads it again; after the read, a cited transcript still holding none is a gap. About 20 small pages a session. **No raw copy of those transcripts was kept** (the vote collector archives nothing; the 2 October raw archive holds only the members and sessions replies), so this, not the raw archive, picks the sittings to read again: only the cited ones, not all 725.
+  - **Voice decisions withdrawn:** a reading stored as voice while its division went unparsed is deleted once a recorded division of that bill, stage and day is stored.
+- **End to end, 2 October 2026** (scratch copy of the released store, the CI backfill command `tools/prov_collect.py --prov bc --all-sessions --since 2010-01-01`, against the live pages; one run of 37 minutes from the laptop, then a second that re-read the 2 sittings left owed):
+
+  | | Before | After |
+  |---|---|---|
+  | Transcripts read | 982 (none 2009–2017) | 1,662 |
+  | Recorded divisions | 184 (all 2017 or 2025–26) | 631, 9 February 2010 to 28 May 2026 |
+  | Tally ok / gap / no names | 165 / 19 / 0 | 570 / 0 / 61 |
+  | By parliament, ok (no names) | 41st 0 (19 gaps), 43rd 165 | 39th 65 (7), 40th 100 (15), 41st 122 (22), 42nd 118 (12), 43rd 165 (5) |
+  | Votes / unresolved | 8,508 / 0 | 37,173 / 0 |
+  | With a dated party | 8,508 | 37,173 |
+  | Voice decisions | 1,511 | 2,327 (138 withdrawn as divided; the 39th and 40th added) |
+  | Sittings "ok" with 0 divisions where the index cites a vote | 153 of the 725 (the rest held none) | 0: those 153 read again, nothing else |
+
+  - Party line: 36,305 of 36,361 trusted party votes (99.8%) with their own party's majority.
+  - The government against the Official Opposition leader, on trusted divisions both voted in: Campbell–James 4 of 4 opposite (Yea and Nay on the HST, Bill 9, 30 March 2010); Clark–Dix 18 of 20; Clark–Horgan 21 of 23; Horgan–Wilkinson 54 of 64; Horgan–Bond 13 of 13; Eby–Falcon 8 of 9; Eby–Rustad 52 of 66 (Eby Yea, Rustad Nay on the Supply Act, 28 May 2026; both Yea on the US tariffs motion, 24 February 2025).
+  - The 39th's first session sat only in 2009, so `--since 2010-01-01` reads none of its divisions; `since: 2009-08-25` would.
+- **Members the API's roster lacks.** `allMemberParliaments` lists a parliament's members at its end: the 39th omits Gordon Campbell, Iain Black and Barry Penner, who resigned in 2011–12, and the API holds no 39th term or resignation for them (`allMemberResignations` holds two rows in all). The Hansard issue's own list names them. A list entry no roster term fits is matched against every member the API knows (`allMembers`, 378) on surname, given name **and** riding together, unique-or-nothing, and gets a **membership** term (`source = 'hansard-list'`) spanning exactly the sittings it is listed on. The sittings their votes left unresolved are read again in the same run. Spencer Chandra Herbert sat as "Herbert" in the 39th: a reviewed `other_surnames` entry (`config/prov_record.yaml`), which BC's vote resolver now loads.
 
 ### Manitoba (step 4): `src/ingest/prov_mb.py`
 
@@ -429,7 +457,7 @@ Christopher: "Schedule the provincial collectors and backfill to 2010", and for 
 |---|---|---|---|---|
 | Alberta | 27-2 to 31-2 (18), from the V&P listing's menu | V&P menu to the 22nd Legislature (1990); bills to 1906 | 31st Legislature V&P | 27th–30th Legislature V&P layouts untested; tally gaps if they differ |
 | Saskatchewan | none needed: the archive is listed by date across sessions | Minutes PDF since March 2003, HTML since the 30th Legislature | 29L bilingual PDF (2023), 30L HTML | 26L–29L PDFs read end to end on scratch stores, 2 October 2026 (Saskatchewan notes, step 2): the 26th–27th Legislature cover is a table, read by `parse_table_cover` |
-| British Columbia | from LIMS `allSessions` (the API decides; the fixture holds 42-1 on) | Hansard HTML in the API's sessions; voting index to 2019 (not read) | 43-2 transcripts | 2009–2017 files not listed (`v..n..` names); 2018–2024 `division-table` markup not parsed (silent, see BC notes); party dated to the sitting from each Hansard PDF's list of members |
+| British Columbia | from LIMS `allSessions` (the API decides; the fixture holds 42-1 on) | Hansard HTML in the API's sessions; voting index to 2019 (not read) | 43-2 transcripts | six division markups 2009–2026 read, each from a fixture; two guards (the transcript's own words, the Voting Records index) make a short read a gap; party dated to the sitting from each Hansard PDF's list of members |
 | Manitoba | from the V&P sessions page (the 39th and earlier are on the live page; the fixture starts at 40-1) | V&P to 36-4 (1998) | 42nd (YEA) and 43rd (AYE) Legislatures | pre-42nd V&P layouts untested: gaps, not wrong votes; the roster needs each division day's Hansard PDF cover |
 | Ontario | from the house-documents index (40-1 on in the fixture; 39-2, 2010–2011, if the live index lists it) | V&P HTML to 2008 | the 2022+ tables, the late-2025 doubled names, and the pre-2022 layout on 2015 | 2008–2014 V&P untested; the roster is the Hansard PDF's member list (2015 needed a fix) |
 | New Brunswick | 56-4 to 61-2 (17), from the journals page's selector | Journals to the 53rd Legislature (1995) | 60-2 (2023) and 61-2 (2025) | a past session without a compiled Journal has no roster: all its divisions are gaps. 10-second crawl-delay: about 10 minutes per session's journals plus its bills, so expect two or three dispatches |

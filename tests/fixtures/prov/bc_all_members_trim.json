@@ -1,0 +1,44 @@
+{
+"data": {
+"allMembers": {
+"nodes": [
+{
+"id": 155,
+"firstName": "Iain",
+"lastName": "Black",
+"middleName": null,
+"constituencyByConstituencyId": {
+"name": "Port Moody-Coquitlam"
+}
+},
+{
+"id": 156,
+"firstName": "Dawn",
+"lastName": "Black",
+"middleName": null,
+"constituencyByConstituencyId": {
+"name": "New Westminster"
+}
+},
+{
+"id": 166,
+"firstName": "Gordon",
+"lastName": "Campbell",
+"middleName": null,
+"constituencyByConstituencyId": {
+"name": "Vancouver-Point Grey"
+}
+},
+{
+"id": 239,
+"firstName": "Barry",
+"lastName": "Penner",
+"middleName": null,
+"constituencyByConstituencyId": {
+"name": "Chilliwack-Hope"
+}
+}
+]
+}
+}
+}

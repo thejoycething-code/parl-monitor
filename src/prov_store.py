@@ -172,7 +172,8 @@ SCHEMA = (
         voice        INTEGER,            -- voice decisions recorded
         speeches_stored INTEGER,
         read_at      TEXT,
-        status       TEXT                -- 'ok', 'gap' (a tally failed) or 'unreadable'
+        status       TEXT                -- 'ok', 'gap' (a tally failed), 'unreadable', or 'owed'
+                                         -- (read as 'ok' but shown since to hold more: bc)
     )""",
     # Hansard speeches (src/prov_speeches.py, tools/prov_speeches.py, 2 October
     # 2026). ONLY SPEECHES ON OUR GROUND ARE STORED, as in ca_speeches; every
@@ -538,9 +539,15 @@ def summary(conn, prov):
         # dilatory motions) is untrusted but is not a gap: no re-read can
         # resolve it. Counted apart so a gap count means "owed".
         "recorded_gap": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded' AND positions_ok=0 "
-                            "AND COALESCE(tally_note, '') NOT LIKE 'totals only%'"),
+                            "AND COALESCE(tally_note, '') NOT LIKE 'totals only%' "
+                            "AND COALESCE(tally_note, '') NOT LIKE 'no names%'"),
         "recorded_totals_only": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded' "
                                     "AND positions_ok=0 AND tally_note LIKE 'totals only%'"),
+        # A division whose record prints neither names nor totals, only that
+        # it happened (British Columbia's "approved unanimously on a division.
+        # [See Votes and Proceedings.]"): known, untrusted, not owed.
+        "recorded_no_names": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded' "
+                                 "AND positions_ok=0 AND tally_note LIKE 'no names%'"),
         "voice": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='voice'"),
         "ours": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND areas NOT IN ('[]', '')"),
         "votes": one("SELECT COUNT(*) FROM prov_votes v JOIN prov_divisions d USING (division_key) WHERE d.prov=?"),

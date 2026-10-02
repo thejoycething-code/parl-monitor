@@ -39,10 +39,31 @@ rules.
     lims.leg.bc.ca/hdms/debates/<session code> (pdfLink) and
     lims.leg.bc.ca/hdms/file/Debates/<code>/<issue>.pdf.
   * HANSARD LISTING: /hdms/debates/<43rd2nd> (JSON) lists every House
-    transcript file of the session; names are taken from it.
-  * DIVISIONS: each transcript prints a division as
-    <table class="DivisionTable"> with "YEAS -- 38" / "NAYS -- 49" header rows
-    and one surname per cell, initials where two share one ("L. Neufeld").
+    transcript file of the session; names are taken from it: '...-Hansard-
+    n119.html' from the 41st Parliament, '...-Hansard-v19n3.htm' in the 39th
+    and 40th (read only from 2 October 2026: before, those sessions listed
+    nothing, silently). A listed transcript name not taken, or a listing that
+    yields none, is a gap.
+  * DIVISIONS: each transcript prints a division as a table of "YEAS -- 38"
+    / "NAYS -- 49" headers and one surname per cell, initials where two
+    share one ("L. Neufeld"): <table class="DivisionTable"> with the headers
+    in <th> (2025-), or in <td><p class="DivisionHeader"> (2009-2017), and
+    <table class="division-table"> with <p class="division-header"> and
+    hyphenated lower-case paragraph classes (2018-2024). Until 2 October
+    2026 only the first was read: 2017's headers were read as names (19
+    tally gaps) and 725 sittings of 2018-2024 were stored 'ok' with none.
+    Also read: a page number printed inside a cell, a table continuing the
+    one before it after a page break, unquoted upper-case markup (2015),
+    and, throughout (2010-2026), a division the transcript records WITHOUT names
+    ("approved unanimously on a division. [See Votes and Proceedings.]"),
+    stored with no votes and a tally_note beginning "no names": untrusted,
+    not owed.
+    TWO GUARDS now: a transcript that prints "on the following division" (or
+    a division table) more often than it parses divisions is a gap; and the
+    session's Voting Records index (below), which links every standing vote
+    to its transcript from the 41st Parliament on, makes a cited sitting
+    stored with no division OWED, so the run reads it again, and a gap if it
+    still holds none.
     The question is the Speaker's "the question is ..." paragraph and the
     result the StyleLine before the table ("Motion negatived on the
     following division:"). A division is classified on its question, its
@@ -58,8 +79,17 @@ rules.
     with no recorded division on that bill and stage, is a voice decision.
 
 The per-member Voting Records index (Index/43rd2nd/2026-Votes?.htm) is a
-second, independent record of every standing vote; it is not read yet and
-would make a second tally check (scope "Built" notes).
+second, independent record of every standing vote. It is read for WHICH
+transcripts hold one (the guard above); its per-member positions are not
+compared with the transcript's yet.
+
+MEMBERS THE API'S ROSTER LACKS. allMemberParliaments lists a parliament's
+members at its end: the 39th omits Gordon Campbell, Iain Black and Barry
+Penner, who resigned in 2011-12. A Hansard list entry no roster term fits is
+matched against every member the API knows (allMembers) on surname, given
+name AND riding, unique-or-nothing, and gets a MEMBERSHIP term (source
+'hansard-list') spanning exactly the sittings it is listed on; the sittings
+its votes left unresolved are read again in the same run.
 """
 
 from __future__ import annotations
@@ -384,7 +414,7 @@ def _given_tokens(given):
     return [t for t in toks if t and t not in _GIVEN_HONORIFICS]
 
 
-def resolve_member_list(parsed, resolver, date, legislature):
+def resolve_member_list(parsed, resolver, date, legislature, known=None, found=None):
     """([(member_key, party)], problems): each entry's member among those
     holding a roster term that day, by surname (and, for two entries on one
     line, by the longest run of words ending the text that is a surname),
@@ -433,6 +463,23 @@ def resolve_member_list(parsed, resolver, date, legislature):
             cands = [p for p in cands if riding in p["ridings"]] or cands
         if len(cands) == 1:
             pairs.append((cands[0]["key"], e["party"]))
+        elif not cands and known and surname and given and riding:
+            # Nobody holding a roster term fits: a member the API's roster of
+            # the parliament leaves out (it lists the 39th's members at its
+            # end, not Campbell, Black or Penner, who resigned in 2011-12). A
+            # member the Assembly knows (allMembers) is taken only on surname,
+            # given name AND riding together, unique-or-nothing.
+            hits = [m for m in known if pn.squash(m["surname"]) == surname and pn.squash(m["riding"]) == riding
+                    and m["key"] not in valid and any(g.startswith(given[0]) or given[0].startswith(g)
+                                                      for g in m["given_tokens"])]
+            if len(hits) == 1:
+                pairs.append((hits[0]["key"], e["party"]))
+                if found is not None:
+                    found.append((hits[0], row["riding"]))
+            else:
+                problems.append("{0}, {1} ({2}): {3}".format(
+                    e["pre"], e["given"], e["party"], "nobody holding a term that day fits, and "
+                    "{0} member(s) of the Assembly with that name and riding".format(len(hits))))
         else:
             problems.append("{0}, {1} ({2}): {3}".format(
                 e["pre"], e["given"], e["party"], "nobody holding a term that day fits" if not cands else
@@ -593,6 +640,29 @@ def covered(conn, legislature, date):
         "AND start<=? AND end>=?", (PROV, PARTY_SOURCE, legislature, date, date)).fetchone()[0])
 
 
+LIST_SOURCE = "hansard-list"
+Q_ALL_MEMBERS = ("{ allMembers { nodes { id firstName lastName middleName "
+                 "constituencyByConstituencyId { name } } } }")
+
+
+def known_members(ctx):
+    """Every member the Assembly's API knows (allMembers), read once a run:
+    [{key, name, surname, given, given_tokens, riding (latest)}]."""
+    if getattr(ctx, "bc_known", None) is None:
+        reply = ctx.post_json(GRAPHQL, json.dumps({"query": Q_ALL_MEMBERS}), "members-all")
+        nodes = (((reply or {}).get("data") or {}).get("allMembers") or {}).get("nodes") or []
+        ctx.bc_known = []
+        for m in nodes:
+            given = " ".join(x for x in (m.get("firstName"), m.get("middleName")) if x)
+            riding = (m.get("constituencyByConstituencyId") or {}).get("name")
+            if m.get("lastName") and riding:
+                ctx.bc_known.append({
+                    "key": str(m["id"]), "surname": m["lastName"], "given": given, "riding": riding,
+                    "name": " ".join(x for x in (m.get("firstName"), m.get("lastName")) if x),
+                    "given_tokens": [pn.squash(g) for g in re.split(r"[\s-]+", given) if g]})
+    return ctx.bc_known
+
+
 def read_party_list(ctx, legislature, date, url, resolver):
     """Read one issue's list of members and store its parties. None when it
     cannot be read or its tally fails; else {'pairs': [(member_key, party)],
@@ -617,9 +687,25 @@ def read_party_list(ctx, legislature, date, url, resolver):
         ctx.gap("bc {0}: the member list of {1} does not add up ({2}); no party taken from it".format(
             date, url, why))
         return None
-    pairs, problems = resolve_member_list(parsed, resolver, date, legislature)
+    found = []
+    pairs, problems = resolve_member_list(parsed, resolver, date, legislature, known=known_members(ctx),
+                                          found=found)
     for p in problems:
         ctx.gap("bc {0}: Hansard member list: {1}".format(date, p))
+    if found and not ctx.dry_run:
+        for m, riding in found:
+            ps.upsert_member(ctx.conn, PROV, m["key"], name=m["name"], surname=m["surname"], given=m["given"],
+                             riding=m["riding"])
+            # A MEMBERSHIP term (not party-only), exactly the sittings the
+            # member is seen listed on, as Saskatchewan's cover lists are.
+            ps.extend_term(ctx.conn, PROV, m["key"], legislature, None, m["riding"], date, LIST_SOURCE,
+                           party_dated=False)
+        ctx.bc_members_added = getattr(ctx, "bc_members_added", 0) + len(found)
+        resolver.members.update({m["key"]: {"name": m["name"], "surname": m["surname"], "given": m["given"]}
+                                 for m, _ in found})
+        resolver.terms.extend({"member_key": m["key"], "legislature": legislature, "party": None,
+                               "riding": m["riding"], "start": date, "end": date, "party_dated": 0,
+                               "source": LIST_SOURCE} for m, _ in found)
     if not ctx.dry_run:
         odd = {"split": [], "conflict": []}
         for key, party in pairs:
@@ -789,13 +875,17 @@ def fetch_bills(ctx, s, wl):
 
 # -- Hansard ----------------------------------------------------------------
 
+_RECORD = re.compile(r"^(\d{4})(\d{2})(\d{2})(am|pm)-Hansard-(?:v\d+)?n(\d+)\.html?$")
+
+
 def list_records(listing, code):
-    """[(date, part, issue, url)] House transcripts from the debates JSON."""
+    """[(date, part, issue, url)] House transcripts from the debates JSON.
+    File names: '20260219am-Hansard-n119.html' from the 41st Parliament on,
+    '20100531am-Hansard-v19n3.htm' (volume and number) in the 39th and 40th."""
     out = []
-    nodes = ((listing or {}).get("allHansardFileAttributes") or {}).get("nodes") or []
-    for n in nodes:
+    for n in _nodes(listing):
         name = n.get("fileName") or ""
-        m = re.match(r"^(\d{4})(\d{2})(\d{2})(am|pm)-Hansard-n(\d+)\.html?$", name)
+        m = _RECORD.match(name)
         if not m or not n.get("published", True):
             continue
         path = n.get("filePath") or "/Debates/" + code
@@ -804,32 +894,89 @@ def list_records(listing, code):
     return sorted(set(out))
 
 
-_BLOCK = re.compile(r'<p class="([^"]*)"[^>]*>(.*?)</p>|<table class="DivisionTable[^"]*"[^>]*>(.*?)</table>',
-                    re.S)
+def _nodes(listing):
+    return ((listing or {}).get("allHansardFileAttributes") or {}).get("nodes") or []
+
+
+def unread_transcripts(listing):
+    """House transcript file names the listing holds that list_records does
+    not take: each one is a sitting silently never read (the 39th and 40th
+    Parliaments' 'v19n3' names went unread until 2 October 2026)."""
+    out = []
+    for n in _nodes(listing):
+        name = n.get("fileName") or ""
+        if re.match(r"^\d{8}(am|pm)-Hansard-", name) and n.get("published", True) and not _RECORD.match(name):
+            out.append(name)
+    return sorted(out)
+
+
+# Five markups since 2009, read alike: 'DivisionTable' with its headers in
+# <th> (2026) or in <td><p class="DivisionHeader"> (2009-2017), and
+# 'division-table' with <p class="division-header"> and lower-case,
+# hyphenated paragraph classes (2018-2024). Classes are compared folded:
+# 'Subject-Heading', 'SubjectHeading' and 'subject-heading' are one class.
+# Also: '<table border="0" ... class="DivisionTable">' (2011); upper-case
+# tags with unquoted classes, '<TABLE class=DivisionTable>' (2015); and a
+# StyleLine left open before its table, '<p class="StyleLine">Amendment
+# negatived on the following division:<br> <table ...>' (20 November 2014),
+# so a paragraph ends at '</p>' or where a table begins, never inside one.
+_DIV_CLASS = r'(?:"(?:DivisionTable|division-table)[^"]*"|(?:DivisionTable|division-table)\b)'
+_BLOCK = re.compile(r'<p\b[^>]*?\bclass=(?:"([^"]*)"|([^\s>"]+))[^>]*>((?:(?!<table\b).)*?)(?:</p>|(?=<table\b))'
+                    r'|<table\b[^>]*\bclass=' + _DIV_CLASS + r'[^>]*>(.*?)</table>', re.S | re.I)
+_DIVISION_TABLE = re.compile(r'<table\b[^>]*\bclass=' + _DIV_CLASS, re.I)
+# The House's own words for a recorded division, in every markup.
+_DIVISION_WORDS = re.compile(r"on the following division", re.I)
+# A division the transcript records WITHOUT names (60 of them 2010-2026): "Second
+# reading of Bill 2 approved unanimously on a division. [See Votes and
+# Proceedings.]" The names are printed only in the Votes and Proceedings.
+_NO_NAMES = re.compile(r"unanimously on (?:a )?division|on (?:a )?division\.?\s*\[See Votes and Proceedings", re.I)
+# The question put: "the question is ...", "the motion before you ... is"
+# (2014), or the mover's own "I move the bill be introduced and read a first
+# time now" (2017, where nobody restates it before the division).
+_QUESTION = re.compile(r"question (?:before the House )?is\b|the motion before you|"
+                       r"\bI move (?:that )?the bill be (?:introduced and )?read (?:for )?a "
+                       r"(?:first|second|third) time", re.I)
+_PAGE_NUMBER = re.compile(r'<span\b[^>]*\bclass="?PageNumber"?[^>]*>.*?</span>', re.S | re.I)
 _HEAD = re.compile(r"^(YEAS|NAYS|ABSTENTIONS)\s*[—–-]+\s*(\d+)\s*$", re.I)
 
 
-def parse_division_table(table_html):
-    """{'Yea': (printed, [labels]), 'Nay': ...}"""
-    out, current = {}, None
-    for tag, body in re.findall(r"<(th|td)[^>]*>(.*?)</\1>", table_html, re.S):
-        text = html_text(body)
-        if tag == "th":
-            h = _HEAD.match(text)
-            if h:
-                current = {"YEAS": "Yea", "NAYS": "Nay", "ABSTENTIONS": "Abstain"}[h.group(1).upper()]
-                out[current] = (int(h.group(2)), [])
+def parse_division_table(table_html, out=None, current=None):
+    """{'Yea': (printed, [labels]), 'Nay': ...}. With `out` and `current`, a
+    table CONTINUING a division (a page break splits the names into a second
+    table, 2010-2012) adds to that division's lists."""
+    out = {} if out is None else out
+    for _tag, body in re.findall(r"<(th|td)[^>]*>(.*?)</\1>", table_html, re.S | re.I):
+        # The printed page number can fall inside a cell, before a name or a
+        # header: '<span class="PageNumber">[ <a name="8656">Page 8656</a> ]</span>'
+        # (2014-2017), read as a name '[ Page 8656 ] NAYS — 45' until 2 October 2026.
+        body = _PAGE_NUMBER.sub(" ", body)
+        text = re.sub(r"\[\s*Page\s+\d+\s*\]", " ", html_text(body)).strip()
+        text = re.sub(r"\s+", " ", text)
+        # A header is a header in a <th> or a <td>: before 2018 'YEAS — 42'
+        # sat in a <td colspan="3"> and was read as a NAME (the 19 gaps of 2017).
+        h = _HEAD.match(text)
+        if h:
+            current = {"YEAS": "Yea", "NAYS": "Nay", "ABSTENTIONS": "Abstain"}[h.group(1).upper()]
+            out[current] = (int(h.group(2)), [])
             continue
         if text and current:
             out[current][1].append(text)
     return out
 
 
+def _last_section(parsed):
+    return list(parsed)[-1] if parsed else None
+
+
+def _klass(cls):
+    return re.sub(r"[^a-z]", "", (cls or "").lower())
+
+
 def stage_of(question):
     q = (question or "").lower()
-    for word, stage in (("first reading", "First Reading"), ("second reading", "Second Reading"),
-                        ("third reading", "Third Reading")):
-        if word in q:
+    for word, stage in (("first", "First Reading"), ("second", "Second Reading"), ("third", "Third Reading")):
+        # 'first reading', or the mover's 'read for a first time now' (2017)
+        if re.search(r"\b{0} reading|read (?:for )?a {0} time".format(word), q):
             return stage
     if "committee of supply" in q:
         return "Motion"
@@ -852,11 +999,23 @@ def parse_hansard(html):
     heading = business = anchor = None
     paras, debate = [], []
     presented = {}
+    announced = False
     for m in _BLOCK.finditer(html or ""):
-        cls, body, table = m.group(1), m.group(2), m.group(3)
+        cls, body, table = m.group(1) or m.group(2), m.group(3), m.group(4)
         if table is not None:
-            question = next((p for p in reversed(paras[-14:]) if re.search(
-                r"question (?:before the House )?is\b", p, re.I)), None)
+            if out and not announced:
+                # No "on the following division" since the last table: this
+                # one continues it (the names run on after a page break).
+                last = out[-1]
+                parsed = {k: (last["printed"][k], last["labels"][k]) for k in last["printed"]}
+                parse_division_table(table, parsed, _last_section(parsed))
+                last["printed"] = {k: v[0] for k, v in parsed.items()}
+                last["labels"] = {k: v[1] for k, v in parsed.items()}
+                last["tables"] = last.get("tables", 1) + 1
+                paras = []
+                continue
+            announced = False
+            question = next((p for p in reversed(paras[-14:]) if _QUESTION.search(p)), None)
             result = next((p for p in reversed(paras[-3:]) if "division" in p.lower()), None)
             parsed = parse_division_table(table)
             out.append({"seq": len(out) + 1, "anchor": anchor, "heading": heading, "business": business,
@@ -867,17 +1026,28 @@ def parse_hansard(html):
             paras = []
             continue
         text = html_text(body)
-        if cls == "Time-Stamp":
+        k = _klass(cls)
+        if k in ("timestamp", "timeline"):
             ident = re.search(r'id="([^"]+)"', m.group(0))
             anchor = ident.group(1) if ident else anchor
             continue
-        if cls == "Business-Heading":
+        if k in ("businessheading", "proceduralheading", "procedureheading"):
             business, heading, debate = text, None, []
-        elif cls == "Subject-Heading":
+        elif k == "subjectheading":
             heading, debate = text, []
         elif text:
             paras.append(text)
-            if cls.startswith("Speaker"):
+            if _DIVISION_WORDS.search(text):
+                announced = True
+            elif _NO_NAMES.search(text):
+                sentence = re.search(r"[^.\]]*(?:unanimously )?on (?:a )?division\.?(?:\s*\[See Votes and Proceedings\.?\])?",
+                                     text, re.I)
+                question = next((p for p in reversed(paras[-14:]) if _QUESTION.search(p)), None)
+                out.append({"seq": len(out) + 1, "anchor": anchor, "heading": heading, "business": business,
+                            "question": question, "result": " ".join(sentence.group(0).split()) if sentence else text,
+                            "debate": list(debate), "printed": {}, "labels": {}, "presented": dict(presented),
+                            "no_names": True})
+            if k.startswith("speaker"):
                 debate.append(text)
             p = re.search(r"presented a bill intituled (.+?)\.?$", text)
             if p:
@@ -888,7 +1058,7 @@ def parse_hansard(html):
 def bill_for(d, titles, leg, sess):
     """(bill_key, unnumbered_title) for a division."""
     for text in (d["heading"], d["question"]):
-        m = re.search(r"\bBill (M?\d+)\b", text or "")
+        m = re.search(r"\bBill (M?\d+)\b", text or "", re.I)      # 'BILL 2', 'BIll 21' (2010)
         if m:
             return ps.bill_key(PROV, leg, sess, m.group(1)), None
     head = pn.fold(re.sub(r"\s*\(Bill [^)]*\)", "", d["heading"] or ""))
@@ -898,6 +1068,23 @@ def bill_for(d, titles, leg, sess):
         if pn.fold(title) == head:
             return ps.bill_key(PROV, leg, sess, "x-" + slug(title)), title
     return None, None
+
+
+def settle_by_elimination(votes, resolver, date, leg):
+    """A bare surname two members share, where the SAME division names the
+    other one by initial: 'Black' beside 'D. Black' (2010-2011) is Iain
+    Black, because Dawn Black cannot vote twice. Only when exactly one
+    candidate is left; the tally check still runs on the result."""
+    taken = {v["member_key"] for v in votes if v.get("member_key")}
+    for v in votes:
+        how = str(v.get("how") or "")
+        if v.get("member_key") or not how.startswith("ambiguous: "):
+            continue
+        left = [k.strip() for k in how[len("ambiguous: "):].split(",") if k.strip() not in taken]
+        if len(left) == 1:
+            v["member_key"], v["how"] = left[0], "surname (the other one is named in the same division)"
+            v["party_at_vote"] = resolver.party_at(left[0], date, leg)
+            taken.add(left[0])
 
 
 def read_sitting(ctx, leg, sess, date, part, issue, url, resolver, wl, titles):
@@ -911,6 +1098,16 @@ def read_sitting(ctx, leg, sess, date, part, issue, url, resolver, wl, titles):
         return [], 1
     divisions = parse_hansard(page)
     gaps, stored = 0, []
+    # The House's words count the divisions; a division table without them
+    # still means at least one (a table can continue the one before it).
+    printed_divisions = len(_DIVISION_WORDS.findall(page)) or (1 if _DIVISION_TABLE.search(page) else 0)
+    if len(divisions) < printed_divisions:
+        # The House says a division happened and we read fewer: a markup we
+        # do not know (2018-2024's 'division-table' was read as 0 divisions,
+        # status 'ok', in 725 sittings). Never 'ok': the sitting stays owed.
+        gaps += 1
+        ctx.gap("{0}: the transcript prints {1} recorded division(s) ('on the following division'), "
+                "{2} parsed; the sitting stays owed".format(skey, printed_divisions, len(divisions)))
     for d in divisions:
         votes = []
         for position in ("Yea", "Nay", "Abstain"):
@@ -919,9 +1116,15 @@ def read_sitting(ctx, leg, sess, date, part, issue, url, resolver, wl, titles):
                 votes.append({"position": position, "ordinal": k, "raw_label": label,
                               "member_key": key, "how": how,
                               "party_at_vote": resolver.party_at(key, date, leg) if key else None})
+        settle_by_elimination(votes, resolver, date, leg)
         printed = {p: d["printed"].get(p) for p in ("Yea", "Nay", "Abstain")}
         ok, note = ps.tally(printed, votes)
-        if "Yea" not in d["printed"] or "Nay" not in d["printed"]:
+        if d.get("no_names"):
+            # Known and untrusted, but not owed: no re-read of the
+            # transcript can give names it does not print.
+            ok, note = None, ("no names: the transcript records {0!r}; the names are printed only in the "
+                              "Votes and Proceedings".format(d["result"]))
+        elif "Yea" not in d["printed"] or "Nay" not in d["printed"]:
             ok, note = False, "; ".join(x for x in ("a YEAS or NAYS header is missing", note) if x)
         bkey, unnumbered = bill_for(d, titles, leg, sess)
         if unnumbered:
@@ -942,20 +1145,24 @@ def read_sitting(ctx, leg, sess, date, part, issue, url, resolver, wl, titles):
                           bill_key=bkey, inherit=pc.Result(b_areas, b_terms, b_tier) if b_areas else None)
         seq = "{0}.{1}".format(issue, d["seq"])
         dkey = ps.division_key(PROV, leg, sess, date, seq)
-        if not ok:
+        if ok is False:
             gaps += 1
             ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, note))
         question = " | ".join(x for x in (d["heading"] or d["business"], d["question"]) if x) or None
+        # Before 2018 the question is often not restated before the division:
+        # the business heading ('Committee of the Whole House', 'Introduction
+        # and First Reading') then says the stage.
+        stage = stage_of(d["question"] if d["question"] else d["business"])
         ps.store_division(ctx.conn, {
             "division_key": dkey, "prov": PROV, "legislature": leg, "session": sess, "date": date,
             "seq": seq, "kind": "recorded", "question": question,
             "vote_on": vote_on(d["question"]),
-            "bill_key": bkey, "stage": stage_of(d["question"]), "result": d["result"],
+            "bill_key": bkey, "stage": stage, "result": d["result"],
             "yeas": printed["Yea"], "nays": printed["Nay"], "abstentions": printed["Abstain"],
             "source_url": url + ("#" + d["anchor"] if d["anchor"] else ""),
             "areas": res.areas, "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
             "positions_ok": 1 if ok else 0, "tally_note": note, "votes": votes})
-        stored.append((bkey, stage_of(d["question"])))
+        stored.append((bkey, stage))
     ps.store_sitting(ctx.conn, PROV, skey, date, url, divisions=len(divisions),
                      status="gap" if gaps else "ok")
     ctx.conn.commit()
@@ -966,6 +1173,16 @@ def store_voice(ctx, leg, sess, read_dates):
     """Reading dates in the bills JSON, on days read, with no recorded
     division on that bill and stage: voice decisions."""
     n = 0
+    # A reading stored as voice while its division went unparsed (2018-2024)
+    # is withdrawn once the recorded division is stored.
+    retracted = ctx.conn.execute(
+        "DELETE FROM prov_divisions WHERE prov=? AND legislature=? AND session=? AND kind='voice' "
+        "AND EXISTS (SELECT 1 FROM prov_divisions r WHERE r.prov=prov_divisions.prov AND r.kind='recorded' "
+        "AND r.bill_key=prov_divisions.bill_key AND r.date=prov_divisions.date AND r.stage=prov_divisions.stage)",
+        (PROV, leg, sess)).rowcount
+    if retracted:
+        ctx.log("  bc {0}-{1}: {2} voice decision(s) withdrawn: a recorded division of that bill, stage "
+                "and day is now stored".format(leg, sess, retracted))
     for key, stages, page_url in ctx.conn.execute(
             "SELECT bill_key, stages, page_url FROM prov_bills WHERE prov=? AND legislature=? "
             "AND session=? AND number IS NOT NULL", (PROV, leg, sess)).fetchall():
@@ -1011,11 +1228,20 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     except ValueError:
         ctx.gap("bc debates list {0}: not JSON".format(code))
         listing = None
-    records = [r for r in list_records(listing, code) if ctx.in_window(r[0])]
+    every = list_records(listing, code)
+    unread = unread_transcripts(listing)
+    if unread:
+        ctx.gap("bc {0}: {1} House transcript(s) listed in a file name list_records does not read "
+                "(e.g. {2}); those sittings are not read".format(code, len(unread), unread[0]))
+    if listing is not None and _nodes(listing) and not every:
+        ctx.gap("bc {0}: the debates listing holds {1} file(s) but no House transcript was taken "
+                "from it".format(code, len(_nodes(listing))))
+    records = [r for r in every if ctx.in_window(r[0])]
     stats["records_listed"] = len(records)
     if ctx.dry_run:
         return stats
-    resolver = pn.Resolver.from_conn(ctx.conn, PROV)
+    cited = owe_cited(ctx, leg, sess, code, records)
+    resolver = pn.Resolver.from_conn(ctx.conn, PROV).with_record(PROV)
     titles = {pn.fold(t): k for k, t in ctx.conn.execute(
         "SELECT bill_key, title_en FROM prov_bills WHERE prov=? AND legislature=? AND session=? "
         "AND title_en IS NOT NULL", (PROV, leg, sess)).fetchall()}
@@ -1039,10 +1265,134 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     for date, _part, _issue, _url in records:
         per_day[date] = per_day.get(date, 0) + 1
     read_dates = {d for d, n in per_day.items() if len(done.get(d, [])) == n}
+    stats["index_misses"] = check_cited(ctx, leg, sess, records, cited)
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps,
                   "voice": store_voice(ctx, leg, sess, read_dates) if bills else 0})
+    added = getattr(ctx, "bc_members_added", 0)
     stats.update(party_at_votes(ctx, leg, sess, listing))
+    if getattr(ctx, "bc_members_added", 0) > added:
+        # A member the API's roster lacks was found on the day's list of
+        # members: the sittings their names left unresolved are read again.
+        again = 0
+        resolver = pn.Resolver.from_conn(ctx.conn, PROV).with_record(PROV)
+        for date, part, issue, url in records:
+            if ps.sitting_done(ctx.conn, url) or ctx.stop():
+                continue
+            again += 1
+            stored, g = read_sitting(ctx, leg, sess, date, part, issue, url, resolver, wl, titles)
+            stats["divisions"] += len(stored)
+        ctx.log("  bc {0}-{1}: {2} sitting(s) read again with the members found on the lists".format(
+            leg, sess, again))
+        stats.update(party_at_votes(ctx, leg, sess, listing))
+        stats["tally_gaps"] = ctx.conn.execute(
+            "SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND legislature=? AND session=? "
+            "AND kind='recorded' AND positions_ok=0", (PROV, leg, sess)).fetchone()[0]
     return stats
+
+
+# -- the Voting Records index: an independent record of every standing vote ----
+#
+# Each session's Hansard index ("/hdms/index/<code>", title "Voting Records")
+# lists every member's standing votes, one page per letter. From the 41st
+# Parliament each vote links the transcript and time it happened in
+# ("../../Debates/42nd2nd/20210602pm-Hansard-n82.html#82B:1845"); the 39th's
+# and 40th's print the vote without a link. A transcript the index cites that
+# is stored with no division is a silent loss: 725 sittings of 2018-2024 were
+# stored 'ok' with 0 divisions, their 'division-table' markup unread. Such a
+# sitting is made OWED before the session is read, so the run reads it
+# again, and anything still short after the read is a gap.
+
+INDEX = "https://lims.leg.bc.ca/hdms/index/{0}"
+
+
+def index_vote_files(index_json):
+    """[(filePath, fileName)] of the session's Voting Records pages."""
+    return [(n.get("filePath"), n.get("fileName")) for n in _nodes(index_json)
+            if "voting" in (n.get("title") or "").lower() and n.get("fileName")]
+
+
+def letter_pages(main_html, main_name):
+    """The per-letter pages a Voting Records page links ('2018-votesb.htm')."""
+    stem = re.sub(r"(?:mhds)?\.html?$", "", main_name or "").lower()
+    out = []
+    # '2026-Votesa.htm#mh1' from '2026-votesmhds.htm': the case differs
+    for href in re.findall(r'href="([^"#/]+\.html?)(?:#[^"]*)?"', main_html or ""):
+        if href.lower().startswith(stem) and href != main_name and href not in out:
+            out.append(href)
+    return out
+
+
+def cited_transcripts(letter_html):
+    """{transcript file name: {anchors}} a letter page links votes to."""
+    out = {}
+    for name, anchor in re.findall(r'href="[^"]*/Debates/[^"/]+/([^"/#]+\.html?)#([^"]+)"', letter_html or ""):
+        out.setdefault(name, set()).add(anchor)
+    return out
+
+
+def fetch_cited(ctx, code):
+    """{file name: {anchors}}: every transcript the session's Voting Records
+    cite a standing vote in; {} where the index prints no links (39th, 40th)
+    or cannot be read (a gap)."""
+    raw = ctx.text(INDEX.format(code), "index-{0}".format(code))
+    try:
+        files = index_vote_files(json.loads(raw)) if raw else []
+    except ValueError:
+        ctx.gap("bc {0}: the Hansard index listing is not JSON".format(code))
+        return {}
+    out = {}
+    for path, name in files:
+        main = ctx.text(FILE.format(path, name), "votes-{0}".format(name))
+        letters = letter_pages(main, name)
+        for k, letter in enumerate(letters):
+            if ctx.budget is not None and ctx.budget.exhausted():
+                ctx.gap("bc {0}: the Voting Records index was not read to the end (time budget)".format(code))
+                return out
+            page = ctx.text(FILE.format(path, letter), "votes-{0}".format(letter))
+            got = cited_transcripts(page)
+            if not got and k == 0:
+                break                        # an index without links: nothing to check
+            for f, anchors in got.items():
+                out.setdefault(f, set()).update(anchors)
+    return out
+
+
+def owe_cited(ctx, leg, sess, code, records):
+    """Make OWED every sitting in the window the Voting Records cite a vote
+    in but that is stored 'ok' with no division. Returns the citations."""
+    if not records:
+        return {}
+    cited = fetch_cited(ctx, code)
+    owed = 0
+    for date, part, issue, url in records:
+        if url.rsplit("/", 1)[-1] not in cited:
+            continue
+        n = ctx.conn.execute(
+            "UPDATE prov_sittings SET status='owed' WHERE record_url=? AND status='ok' AND COALESCE(divisions, 0)=0",
+            (url,)).rowcount
+        owed += n
+    ctx.conn.commit()
+    if owed:
+        ctx.log("  bc {0}: {1} sitting(s) stored with no division but cited by the Voting Records index; "
+                "read again".format(code, owed))
+    return cited
+
+
+def check_cited(ctx, leg, sess, records, cited):
+    """After the read: a cited transcript still holding no division is a gap."""
+    n = 0
+    for date, part, issue, url in records:
+        if url.rsplit("/", 1)[-1] not in cited:
+            continue
+        row = ctx.conn.execute("SELECT divisions, status FROM prov_sittings WHERE record_url=? "
+                               "ORDER BY read_at DESC LIMIT 1", (url,)).fetchone()
+        if row and not row[0]:
+            n += 1
+            ctx.gap("bc {0}: the Voting Records index cites {1} standing vote(s) in {2}, none parsed".format(
+                date, len(cited[url.rsplit("/", 1)[-1]]), url))
+            ctx.conn.execute("UPDATE prov_sittings SET status='gap' WHERE record_url=?", (url,))
+    ctx.conn.commit()
+    return n
 
 
 def party_at_votes(ctx, leg, sess, listing):

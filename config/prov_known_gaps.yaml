@@ -38,3 +38,16 @@ ab:
       reading as "The question being put, the motion was agreed to", with no
       division; the one division that afternoon (43-14) was the Standing Order
       64(5) question on the Appropriation Bill, Bill 19, whose own page flags it.
+
+# British Columbia: the 3 October 2022 morning Hansard (42nd3rd/20221003am-
+# Hansard-n221.pdf), regenerated in January 2024, prints 2024's list of
+# members; the afternoon issue of the same day prints 2022's. Its parties are
+# refuted by the sittings either side on every read (src/ingest/prov_bc.py,
+# refute_lone_lists) and never used. Reviewed 2 October 2026.
+bc:
+  - contains: "bc 2022-10-03: that issue's list is not the day's"
+    reviewed: 2026-10-02
+    why: >-
+      The issue itself prints another day's list (Banman "Conservative Party
+      of BC" and the Liberals as "BC United" in October 2022). No re-read can
+      change it; the refutation is the right outcome and is printed each run.

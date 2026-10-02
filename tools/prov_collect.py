@@ -167,7 +167,8 @@ def report(conn, ctx, stats, log=print):
         "{0}={1}".format(k, v) for k, v in sorted((stats or {}).items()))))
     log("  store: {members} member(s), {terms} term(s); {bills} bill(s), {bills_ours} on our "
         "ground; {sittings} record(s) read; {recorded} recorded division(s) ({recorded_ok} "
-        "tally ok, {recorded_gap} gap, {recorded_totals_only} totals only); {voice} voice decision(s); "
+        "tally ok, {recorded_gap} gap, {recorded_totals_only} totals only, {recorded_no_names} no names); "
+        "{voice} voice decision(s); "
         "{ours} division(s) on our "
         "ground; {votes} vote(s), {unresolved} unresolved, {with_party} with a dated party at the vote".format(**s))
     if ctx.prov in pc.FRENCH_LAYERS:
