@@ -116,7 +116,9 @@ serves.
   collector is now built (phase 2 below). A 503 is an outage to record, not
   an empty week.
 - **Supreme Court RSS**: the guessed `decisions.scc-csc.ca` path returns 404.
-  The case index page answers 200. The right feed has not been found yet.
+  The case index page answers 200. (Found 1 October: the JSON feeds are
+  `…/scc-csc/en/json/rss.do`; the collector is built, see "Supreme Court of
+  Canada" below.)
 - **Order Paper written questions** were not probed; the `NoticePaper` XML
   path tried was a 404.
 
@@ -588,6 +590,51 @@ blocked, but the next deploy would have been.
    eight divisions are evidence only until then.
 4. **Say whether the sheets go anywhere.** They are written locally and
    posted nowhere, like every other 5CA.
+
+## Supreme Court of Canada, built 2 October 2026
+
+`tools/ca_courts.py`, from section (5) of the federal-sources scope. Not
+scheduled yet: it joins `ca-weekly.yml` after `ca_hansard` in its own try,
+and `ca_judgments` needs a `tools/coverage.py` FEEDS line the same day
+(`tests/test_coverage.py` fails until it has one, by design).
+
+- **Sources.** Lexum's JSON feeds for judgments and for leave to appeal (100
+  items each), and the year index (`<YYYY>/nav_date.do`, 25 a page) for
+  `--backfill --since 2010`. The judgments feed re-lists *updated* old
+  documents (Ford v. Quebec, 1988, beside 2026 SCC 31), so each Lexum id is
+  read once and only re-seen after that.
+- **What is matched.** The headnote, from "Indexed as" to "Cases Cited", with
+  the subjects and the case name as title passages. Never the full text, which
+  drags in every precedent it cites (Carter picks up abortion that way), and
+  never the style of cause, whose intervener names are not what the Court
+  decided. Titles alone match nothing. Carter is area 2, Bedford 7 and 12,
+  Trinity Western 7 and 8 (and 2, via "coercion": the judge's to separate).
+- **Interveners** are stored as a JSON list (`NULL` = could not be read,
+  `[]` = none): Carter has 26, Trinity Western 24. This is the ally and
+  opponent map per case.
+- **Leave.** Every leave decision is stored by docket. A *granted* one is
+  classified on the Registrar's case summary from the docket page on
+  scc-csc.ca, which is the early warning; a dismissed one carries no summary.
+- **The judge.** `tools/ca_triage.py` now scores `ca_judgments` on our ground
+  under its own frame (a judgment, judged on its holding). Not run yet.
+- **Context only.** A judgment never places anyone and never enters a 5CA
+  sheet; a stance file may cite one in a reading's `why`.
+- **Norma.** Lexum's platform served a CAPTCHA (403) after about 200 pages at
+  one a second, on both the SCC and Federal Court instances. The JSON feeds
+  kept answering 200; every HTML page (items, year index) was still 403 more
+  than five hours later. It is never answered: the run stops with one gap and
+  carries on next time. Whether the block lifts by itself, and after how long,
+  is not yet known: until it does, the collector cannot read a page. The
+  collector paces at one request per 3 s and caps a run at 60 pages
+  (`--limit`), so the first run and the backfill (about 1,000 pages) drain
+  over several dispatches.
+- **Federal Court** (`--federal-court`): three in four items are immigration
+  (area 11, hidden) and are skipped unread; the rest are matched on their
+  reasons with the two-passage rule. Low yield, off by default.
+- **Not covered: provincial courts.** CanLII is the only uniform route and
+  answers 401 without a key (free for non-commercial use, on request). The
+  Saskatchewan pronoun case and Alberta's gender laws sit there. Applying is
+  Christopher's call.
 
 ## The weekly schedule, 26 September 2026
 
