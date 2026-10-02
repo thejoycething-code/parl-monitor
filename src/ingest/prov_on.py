@@ -383,92 +383,25 @@ def _read_cover(ctx, legislature, date, pdf_url):
 # of the same legislature is the same member.
 
 def _seat(legislature, riding, surname):
-    return (int(legislature), pn.squash(riding), pn.squash(surname))
+    return ps.seat(legislature, riding, surname)
 
 
 def seat_holders(conn, legislature):
     """{(legislature, riding, surname) squashed: {member_key}} from the
-    Hansard-cover terms of one legislature."""
-    out = {}
-    for key, riding, surname in conn.execute(
-            "SELECT t.member_key, t.riding, m.surname FROM prov_member_terms t JOIN prov_members m "
-            "ON m.prov=t.prov AND m.member_key=t.member_key WHERE t.prov=? AND t.source='hansard-cover' "
-            "AND t.legislature=? AND t.riding IS NOT NULL", (PROV, legislature)):
-        out.setdefault(_seat(legislature, riding, surname), set()).add(key)
-    return out
+    Hansard-cover terms of one legislature (prov_store.seat_holders)."""
+    return ps.seat_holders(conn, PROV, legislature)
 
 
 def canonical_key(conn, member, seats, legislature):
-    """The key a parsed cover member is stored under: its own when the
-    store knows it, else the ONE key already holding the same seat under the
-    same surname in this legislature, else its own (a new member)."""
-    if conn.execute("SELECT 1 FROM prov_members WHERE prov=? AND member_key=?",
-                    (PROV, member["key"])).fetchone():
-        return member["key"]
-    keys = seats.get(_seat(legislature, member.get("riding"), member["surname"])) if member.get("riding") else None
-    return next(iter(keys)) if keys and len(keys) == 1 else member["key"]
+    """The key a parsed cover member is stored under (prov_store.canonical_key)."""
+    return ps.canonical_key(conn, PROV, member, seats, legislature)
 
 
 def merge_split_members(conn, log=print):
-    """Fold the second keys the store already holds into one per seat (see
-    above). Within one legislature, keys sharing a riding and a surname are
-    one member; the key kept is the one most votes already name (fewest rows
-    move). Votes, terms, and bill sponsorships move to it, the other member
-    rows go. Returns [(kept, [merged])]."""
-    groups = {}
-    for key, leg, riding, surname in conn.execute(
-            "SELECT DISTINCT t.member_key, t.legislature, t.riding, m.surname FROM prov_member_terms t "
-            "JOIN prov_members m ON m.prov=t.prov AND m.member_key=t.member_key "
-            "WHERE t.prov=? AND t.source='hansard-cover' AND t.riding IS NOT NULL "
-            "AND t.legislature IS NOT NULL", (PROV,)):
-        groups.setdefault(_seat(leg, riding, surname), set()).add(key)
-    # a key in two groups (two legislatures) joins them into one member
-    parent = {}
-
-    def find(k):
-        while parent.setdefault(k, k) != k:
-            k = parent[k]
-        return k
-    for keys in groups.values():
-        keys = sorted(keys)
-        for k in keys[1:]:
-            parent[find(k)] = find(keys[0])
-    sets = {}
-    for k in list(parent):
-        sets.setdefault(find(k), set()).add(k)
-    done = []
-    for keys in sets.values():
-        if len(keys) < 2:
-            continue
-        votes = {k: conn.execute("SELECT COUNT(*) FROM prov_votes WHERE member_key=? AND division_key LIKE ?",
-                                 (k, PROV + "-%")).fetchone()[0] for k in keys}
-        kept = sorted(keys, key=lambda k: (-votes[k], k))[0]
-        merged = sorted(keys - {kept})
-        for k in merged:
-            conn.execute("UPDATE prov_votes SET member_key=? WHERE member_key=? AND division_key LIKE ?",
-                         (kept, k, PROV + "-%"))
-            conn.execute("UPDATE prov_member_terms SET member_key=? WHERE prov=? AND member_key=?", (kept, PROV, k))
-            conn.execute("UPDATE prov_bills SET sponsor_key=? WHERE prov=? AND sponsor_key=?", (kept, PROV, k))
-            conn.execute("DELETE FROM prov_members WHERE prov=? AND member_key=?", (PROV, k))
-        # the moved terms: one row per (legislature, party, riding, source)
-        rows = conn.execute("SELECT rowid, legislature, party, riding, source, start, end FROM prov_member_terms "
-                            "WHERE prov=? AND member_key=? ORDER BY rowid", (PROV, kept)).fetchall()
-        first = {}
-        for rowid, leg, party, riding, source, start, end in rows:
-            k = (leg, party, riding, source)
-            if k not in first:
-                first[k] = [rowid, start, end]
-                continue
-            f = first[k]
-            f[1] = min(x for x in (f[1], start) if x) if (f[1] or start) else None
-            f[2] = max(x for x in (f[2], end) if x) if (f[2] or end) else None
-            conn.execute("DELETE FROM prov_member_terms WHERE rowid=?", (rowid,))
-            conn.execute("UPDATE prov_member_terms SET start=?, end=? WHERE rowid=?", (f[1], f[2], f[0]))
-        log("  on roster: {0} kept for {1} ({2} vote(s) moved)".format(
-            kept, ", ".join(merged), sum(votes[k] for k in merged)))
-        done.append((kept, merged))
-    conn.commit()
-    return done
+    """Fold the second keys the store already holds into one per seat
+    (prov_store.merge_split_members, shared with Manitoba since 2 October
+    2026). Returns [(kept, [merged])]."""
+    return ps.merge_split_members(conn, PROV, log=log)
 
 
 # -- Votes and Proceedings ----------------------------------------------------

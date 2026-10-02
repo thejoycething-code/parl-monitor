@@ -435,6 +435,231 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT status FROM prov_sittings").fetchone()[0], "gap")
 
 
+class ReviewedTotalTests(unittest.TestCase):
+    """Christopher, 2 October 2026: a reviewed Hansard total may REPLACE a
+    misprinted printed one, stating the figure it overrides."""
+    KEY = "mb-40-3-2013-12-05-4"
+
+    def test_the_replace_form_applies_only_while_the_record_prints_that_figure(self):
+        r = pn.ReviewedDivisions.load("mb")
+        total, note = r.total(self.KEY, "Nay", 18)
+        self.assertEqual(total, 17)
+        self.assertIn("replaces the record's printed 18", note)
+        self.assertIn("Nays 17", note)
+        self.assertEqual(r.total(self.KEY, "Nay", 19)[0], 19)        # the record changed: not used
+        self.assertIn("not used", r.total(self.KEY, "Nay", 19)[1])
+        self.assertEqual(r.total(self.KEY, "Yea", 32), (32, None))
+        self.assertEqual(r.total("mb-40-3-2013-12-05-3", "Nay", 18), (18, None))   # one division only
+
+    def test_without_replaces_a_printed_total_is_still_never_replaced(self):
+        r = pn.ReviewedDivisions({"hansard_totals": [{"division": "x", "position": "Nay", "total": 17,
+                                                     "quoted": "Nays 17"}]})
+        self.assertEqual(r.total("x", "Nay", 18)[0], 18)
+        self.assertEqual(r.total("x", "Nay", None)[0], 17)
+
+    def test_5_december_2013_passes_held_to_hansards_17(self):
+        d = mb.parse_vp(fx("mb_vp_131205.txt"))[0][3]
+        d2, notes = mb.apply_reviewed(d, pn.ReviewedDivisions.load("mb"), self.KEY)
+        self.assertEqual((d2["yeas"], d2["nays"]), (32, 17))
+        # the names are checked against 17 exactly as against a printed total
+        votes = [{"position": "Nay", "member_key": "k{0}".format(i), "raw_label": l}
+                 for i, l in enumerate(d2["nay_labels"])] + \
+                [{"position": "Yea", "member_key": "y{0}".format(i), "raw_label": l}
+                 for i, l in enumerate(d2["yea_labels"])]
+        self.assertTrue(ps.tally({"Yea": d2["yeas"], "Nay": d2["nays"]}, votes)[0])
+        self.assertFalse(ps.tally({"Yea": d2["yeas"], "Nay": d2["nays"]}, votes[1:])[0])
+        self.assertTrue(any("replaces the record's printed 18" in n for n in notes))
+
+
+class HansardDivisionTests(unittest.TestCase):
+    """The days whose V&P is not served are read from Hansard's own lists,
+    for the days config/prov_record.yaml names, only."""
+
+    def test_25_april_2022_three_divisions(self):
+        divisions, expected = mb.parse_hansard_divisions(fx("mb_hansard_220425_div.txt"))
+        self.assertEqual((expected, len(divisions)), (3, 3))
+        self.assertEqual([(d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"]), d["vote_on"])
+                          for d in divisions],
+                         [(20, 32, 20, 32, "amendment"), (32, 20, 32, 20, "motion"), (31, 17, 31, 17, "motion")])
+        self.assertEqual([d["result"] for d in divisions],
+                         ["It was negatived, on a recorded vote (Hansard)",
+                          "It was agreed to, on a recorded vote (Hansard)",
+                          "It was agreed to, on a recorded vote (Hansard)"])
+        self.assertEqual((divisions[2]["bill_number"], divisions[2]["stage"]), ("18", "Second Reading"))
+        self.assertIn("(Mr. Friesen), that this House approves in general the budgetary policy",
+                      divisions[1]["question"])
+        self.assertIn("Smith (Lagimodière)", divisions[0]["nay_labels"])
+        self.assertIn("Fontai ne", divisions[0]["yea_labels"])           # as pypdf reads it
+        self.assertTrue(all(d["problem"] is None for d in divisions))
+
+    def test_5_december_2017_adjourning_debate_on_bill_8(self):
+        divisions, expected = mb.parse_hansard_divisions(fx("mb_hansard_171205b_div.txt"))
+        self.assertEqual((expected, len(divisions)), (1, 1))
+        d = divisions[0]
+        self.assertEqual((d["yeas"], d["nays"], d["bill_number"], d["stage"]), (35, 17, "8", "Motion"))
+        self.assertIn("Smith (Southdale)", d["yea_labels"])
+        self.assertIn("Morley -Lecomte", d["yea_labels"])
+        self.assertIn("Marcelino (Tyndall Park)", d["nay_labels"])
+
+    def test_a_split_surname_is_closed_only_into_a_roster_surname(self):
+        vocab = {("fontaine",), ("johnson",), ("smith",), ("ne",), ("de", "jonge")}
+        self.assertEqual(mb.close_hansard_label("Fontai ne", vocab), "Fontaine")
+        self.assertEqual(mb.close_hansard_label("J ohnson", vocab), "Johnson")
+        self.assertEqual(mb.close_hansard_label("Smith (Point  Douglas)", vocab), "Smith (Point  Douglas)")
+        self.assertEqual(mb.close_hansard_label("De Jonge", vocab), "De Jonge")
+        self.assertEqual(mb.close_hansard_label("Fon taine x", vocab), "Fon taine x")
+
+    def test_a_declared_result_against_the_count_is_a_problem(self):
+        text = ("The question before the House is the motion. Division A RECORDED VOTE was taken, the "
+                "result being as follows: Yeas Cox, Cullen. Nays Kinew. Clerk: Yeas 2, Nays 1. "
+                "Madam Speaker: I declare the motion lost.")
+        d = mb.parse_hansard_divisions(text)[0][0]
+        self.assertIn("does not follow the count", d["problem"])
+
+    def test_the_reviewed_days(self):
+        days = {e["date"]: e for e in pn.load_vp_not_served("mb")}
+        self.assertEqual(sorted(days), ["2017-12-05", "2022-04-25"])
+        self.assertEqual(days["2022-04-25"]["divisions"], 3)
+        self.assertEqual(days["2017-12-05"]["record"],
+                         "https://www.gov.mb.ca/legislature/business/41st/3rd/votes_010.pdf")
+
+
+class HansardDayReadTests(unittest.TestCase):
+    """read_sitting falls back to Hansard only for a reviewed day, only when
+    its listed V&P fails, and only from PDFs the day's listing names."""
+    VP = "https://www.gov.mb.ca/legislature/business/41st/3rd/votes_010.pdf"
+    H10A = "https://www.gov.mb.ca/legislature/hansard/41st_3rd/hansardpdf/10a.pdf"
+    H10B = "https://www.gov.mb.ca/legislature/hansard/41st_3rd/hansardpdf/10b.pdf"
+    DATE = "2017-12-05"
+
+    def setUp(self):
+        self._pdf = mb.pdf_text
+        texts = {b"%PDF-a": "Vol. LXX No. 10A\nNo recorded vote this morning.\n",
+                 b"%PDF-b": fx("mb_hansard_171205b_div.txt")}
+
+        def fake(raw, pages=None):
+            if raw not in texts:
+                raise mb.Unreadable("not a PDF ({0} bytes)".format(len(raw)))
+            return texts[raw]
+        mb.pdf_text = fake
+
+    def tearDown(self):
+        mb.pdf_text = self._pdf
+
+    def _ctx(self, pages, entries):
+        conn = db.init_db(db.connect(":memory:"))
+        ctx = Context(conn, _Client(pages), "mb", log=lambda *a: None)
+        ctx.tax = pc.load_taxonomy()
+        ctx.mb_not_served = entries
+        ctx.mb_reviewed = pn.ReviewedDivisions.load("mb")
+        return conn, ctx
+
+    def test_the_reviewed_day_is_read_from_hansard(self):
+        entry = [e for e in pn.load_vp_not_served("mb") if e["date"] == self.DATE]
+        conn, ctx = self._ctx({self.VP: "<html>Resource Not Found</html>", self.H10A: "%PDF-a",
+                               self.H10B: "%PDF-b"}, entry)
+        n, g = mb.read_sitting(ctx, 41, 3, self.DATE, self.VP, {self.DATE: [self.H10A, self.H10B]},
+                               pc.load_watchlist("mb"))
+        # no roster for the day in this store: the names do not resolve, a
+        # gap, never a guess -- but the division is read and announced
+        self.assertEqual(n, 1)
+        row = conn.execute("SELECT yeas, nays, source_url, tally_note FROM prov_divisions "
+                           "WHERE division_key='mb-41-3-2017-12-05-1'").fetchone()
+        self.assertEqual(tuple(row)[:3], (35, 17, self.H10B))
+        self.assertIn("read from Hansard", row[3])
+        self.assertFalse(any("not a PDF" in x for x in ctx.gaps))
+
+    def test_without_a_reviewed_entry_the_failing_vp_is_a_gap(self):
+        conn, ctx = self._ctx({self.VP: "<html>Resource Not Found</html>", self.H10B: "%PDF-b"}, [])
+        self.assertEqual(mb.read_sitting(ctx, 41, 3, self.DATE, self.VP, {self.DATE: [self.H10B]},
+                                         pc.load_watchlist("mb")), (0, 1))
+        self.assertTrue(any("not a PDF" in x for x in ctx.gaps))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_divisions").fetchone()[0], 0)
+
+    def test_a_hansard_pdf_not_in_the_days_listing_is_never_read(self):
+        entry = [e for e in pn.load_vp_not_served("mb") if e["date"] == self.DATE]
+        conn, ctx = self._ctx({self.VP: "<html>x</html>", self.H10A: "%PDF-a", self.H10B: "%PDF-b"}, entry)
+        self.assertEqual(mb.read_sitting(ctx, 41, 3, self.DATE, self.VP, {self.DATE: [self.H10A]},
+                                         pc.load_watchlist("mb")), (0, 1))
+        self.assertIn("not in the day's Hansard listing", ctx.gaps[-1])
+        self.assertNotIn(self.H10B, ctx.client.asked)
+
+    def test_a_served_vp_is_read_and_hansard_is_not(self):
+        entry = [dict(e, record=self.VP) for e in pn.load_vp_not_served("mb") if e["date"] == self.DATE]
+        conn, ctx = self._ctx({self.VP: "%PDF-v", self.H10A: "%PDF-a", self.H10B: "%PDF-b"}, entry)
+        texts = {b"%PDF-v": fx("mb_vp_100603.txt").replace("June 3, 2010", "December 5, 2017")}
+        mb.pdf_text = lambda raw, pages=None: texts[raw] if raw in texts else self.fail("Hansard read")
+        mb.read_sitting(ctx, 41, 3, self.DATE, self.VP, {}, pc.load_watchlist("mb"))
+        self.assertNotIn(self.H10B, ctx.client.asked)
+
+
+class OneMemberOneKeyTests(unittest.TestCase):
+    """The covers print a given name differently across years. The seat
+    rule joins keys within one legislature; a reviewed same_person entry
+    joins Graydon's across legislatures; nothing else merges."""
+
+    def _store(self, rows):
+        conn = db.init_db(db.connect(":memory:"))
+        for key, given, sur, leg, party, riding, date in rows:
+            ps.upsert_member(conn, "mb", key, name=given + " " + sur, surname=sur, given=given)
+            ps.extend_term(conn, "mb", key, leg, party, riding, date, "hansard-cover")
+        conn.commit()
+        return conn
+
+    ROWS = [
+        ("gregory-dewar", "Gregory", "Dewar", 40, "NDP", "Selkirk", "2011-10-31"),
+        ("greg-dewar", "Greg", "Dewar", 40, "NDP", "Selkirk", "2014-12-01"),
+        ("tom-nevakshonoff", "Tom", "Nevakshonoff", 40, "NDP", "Interlake", "2011-10-31"),
+        ("thomas-nevakshonoff", "Thomas", "Nevakshonoff", 40, "NDP", "Interlake", "2015-05-08"),
+        ("cliff-graydon", "Cliff", "Graydon", 40, "PC", "Emerson", "2011-10-31"),
+        ("clifford-graydon", "Clifford", "Graydon", 41, "PC", "Emerson", "2016-05-26"),
+        # same surname and riding, different legislatures, different people
+        ("rosann-wowchuk", "Rosann", "Wowchuk", 39, "NDP", "Swan River", "2010-03-26"),
+        ("rick-wowchuk", "Rick", "Wowchuk", 41, "PC", "Swan River", "2016-05-26"),
+        # same surname, same legislature, different ridings
+        ("andrew-smith", "Andrew", "Smith", 42, "PC", "Lagimodière", "2021-10-14"),
+        ("bernadette-smith", "Bernadette", "Smith", 42, "NDP", "Point Douglas", "2021-10-14"),
+        ("flor-marcelino", "Flor", "Marcelino", 40, "NDP", "Logan", "2011-10-31"),
+        ("ted-marcelino", "Ted", "Marcelino", 40, "NDP", "Tyndall Park", "2011-10-31"),
+        ("kevin-lamoureux", "Kevin", "Lamoureux", 39, "Lib.", "Inkster", "2010-03-26"),
+        ("cindy-lamoureux", "Cindy", "Lamoureux", 41, "Lib.", "Burrows", "2016-05-26"),
+    ]
+
+    def test_the_three_merge_and_nothing_else(self):
+        conn = self._store(self.ROWS)
+        conn.execute("INSERT INTO prov_divisions (division_key, prov, date, kind) VALUES ('mb-40-1-x-1','mb','2014-12-01','recorded')")
+        conn.execute("INSERT INTO prov_votes (division_key, position, ordinal, raw_label, member_key) "
+                     "VALUES ('mb-40-1-x-1','Yea',1,'DEWAR','greg-dewar')")
+        done = ps.merge_split_members(conn, "mb", same_person=pn.load_same_person("mb"), log=lambda *a: None)
+        self.assertEqual(sorted(sorted([k] + m) for k, m in done),
+                         [["cliff-graydon", "clifford-graydon"], ["greg-dewar", "gregory-dewar"],
+                          ["thomas-nevakshonoff", "tom-nevakshonoff"]])
+        keys = {r[0] for r in conn.execute("SELECT member_key FROM prov_members")}
+        for k in ("rosann-wowchuk", "rick-wowchuk", "andrew-smith", "bernadette-smith", "flor-marcelino",
+                  "ted-marcelino", "kevin-lamoureux", "cindy-lamoureux"):
+            self.assertIn(k, keys)
+        self.assertEqual(len(keys), len(self.ROWS) - 3)
+        # the vote is re-keyed in place, to the key most votes name
+        self.assertEqual(conn.execute("SELECT member_key FROM prov_votes").fetchone()[0], "greg-dewar")
+        dewar = conn.execute("SELECT legislature, start, end FROM prov_member_terms "
+                             "WHERE member_key='greg-dewar'").fetchall()
+        self.assertEqual([tuple(t) for t in dewar], [(40, "2011-10-31", "2014-12-01")])
+        self.assertEqual(ps.merge_split_members(conn, "mb", same_person=pn.load_same_person("mb"),
+                                                log=lambda *a: None), [])          # idempotent
+
+    def test_without_the_reviewed_entry_graydon_stays_two(self):
+        conn = self._store(self.ROWS)
+        done = ps.merge_split_members(conn, "mb", log=lambda *a: None)
+        self.assertNotIn("graydon", " ".join(k for k, _m in done))
+
+    def test_a_cover_variant_is_stored_under_the_seats_key(self):
+        conn = self._store(self.ROWS[:1])
+        seats = ps.seat_holders(conn, "mb", 40)
+        m = {"key": "greg-dewar", "surname": "Dewar", "riding": "Selkirk"}
+        self.assertEqual(ps.canonical_key(conn, "mb", m, seats, 40), "gregory-dewar")
+        self.assertEqual(ps.canonical_key(conn, "mb", m, ps.seat_holders(conn, "mb", 41), 41), "greg-dewar")
+
+
 class CopiedRecordTests(unittest.TestCase):
     """42-4 lists votes_041.pdf for 25 April 2022, but the file is V&P No. 42
     of the 26th, which votes_042.pdf is listed for. The 25th's own record is

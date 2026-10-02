@@ -29,11 +29,25 @@
 #                  October 2026). Where Hansard is explicit for the SAME
 #                  division: settle one bare AMBIGUOUS label in one list (the
 #                  member must be one of the candidates), or supply a total
-#                  the record omits (a printed total is never replaced; the
-#                  tally check then holds the names to it). A bill correction
-#                  applies only while the record still prints `printed_bill`,
-#                  and leaves the printed number in tally_note. None of these
-#                  is ever an alias outside its division.
+#                  the record omits (the tally check then holds the names to
+#                  it). A printed total is replaced ONLY by an entry with
+#                  `replaces:` stating the figure the record prints, and
+#                  only while it still prints exactly that (Christopher, 2
+#                  October 2026); the printed figure stays in tally_note. A
+#                  bill correction applies only while the record still prints
+#                  `printed_bill`, and leaves the printed number in
+#                  tally_note. None of these is ever an alias outside its
+#                  division.
+#   vp_not_served  (mb) A sitting day whose listed V&P is not served (an
+#                  error page, or a copy of another day's record): the
+#                  day's Hansard PDFs named here are read for their own
+#                  division lists INSTEAD, that day only, and only while the
+#                  listed record still fails. The Clerk's counts are the
+#                  totals the tally check holds the names to.
+#   same_person    (mb) Member keys that are ONE person across
+#                  legislatures, where the seat rule (same surname, same
+#                  riding, same legislature) cannot join them. Merged in
+#                  place by prov_store.merge_split_members.
 #
 # Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
 # (3 October 2026). Alberta's entries added 2 October 2026 for the
@@ -138,6 +152,69 @@ provinces:
         why: >-
           The 39th Parliament's division lists print the surname he then
           sat under; the roster carries only the later one.
+  "mb":
+    hansard_totals:
+      - division: mb-40-3-2013-12-05-4
+        position: Nay
+        total: 17
+        replaces: 18
+        document: https://www.gov.mb.ca/legislature/business/40th/3rd/votes_017.pdf
+        hansard: https://www.gov.mb.ca/legislature/hansard/40th_3rd/hansardpdf/17b.pdf
+        quoted: "Clerk (Ms. Patricia Chaychuk): Yeas 32, Nays 17."
+        why: >-
+          The V&P's fourth division of 5 December 2013 (concurrence and third
+          reading of Bill 27, The Highway Traffic Amendment Act (Charter Bus
+          Service)) prints "WISHART ... 18" under 17 Nay names. Hansard for
+          the SAME division (p. 705, "The question before the House is
+          concurrence and third reading of Bill 27") lists the same 32 Yeas and
+          the same 17 Nays, Briese to Wishart, and the Clerk reads "Yeas 32,
+          Nays 17". The printed 18 is a misprint; the 17 names are held to 17.
+    vp_not_served:
+      - date: "2017-12-05"
+        record: https://www.gov.mb.ca/legislature/business/41st/3rd/votes_010.pdf
+        hansard:
+          - https://www.gov.mb.ca/legislature/hansard/41st_3rd/hansardpdf/10a.pdf
+          - https://www.gov.mb.ca/legislature/hansard/41st_3rd/hansardpdf/10b.pdf
+        divisions: 1
+        verified_against: >-
+          The 41-3 calendar links 5 December 2017 to votes_010.pdf, which
+          serves the province's "Resource Not Found" page (11,391 bytes) on
+          every fetch (2 October 2026). The day's Hansard, Vol. LXX No. 10A
+          and 10B, both listed under 5 December on 41st_3rd.html: 10A has no
+          recorded vote; 10B p. 377 has one, "the motion to adjourn the
+          debate for second reading of Bill 8", "Deputy Clerk (Mr. Rick
+          Yarish): Yeas 35, Nays 17."
+        why: >-
+          The day's only record of its division is Hansard's own list.
+      - date: "2022-04-25"
+        record: https://www.gov.mb.ca/legislature/business/42nd/4th/votes_041.pdf
+        hansard:
+          - https://www.gov.mb.ca/legislature/hansard/42nd_4th/hansardpdf/41.pdf
+        divisions: 3
+        verified_against: >-
+          The 42-4 calendar lists votes_041.pdf for Monday 25 April 2022, but
+          the file is "VOTES AND PROCEEDINGS No. 42" of Tuesday 26 April,
+          which votes_042.pdf is also listed for. Hansard Vol. LXXVI No. 41
+          ("1:30 p.m., Monday, April 25, 2022") records three divisions: the
+          Opposition amendment to the budget motion ("Yeas 20, Nays 32"), the
+          budget motion ("Yeas 32, Nays 20") and second reading of Bill 18,
+          The Legislative Security Amendment Act ("Yeas 31, Nays 17").
+        why: >-
+          The 25th's own V&P (No. 41) is served nowhere the listing links.
+    same_person:
+      - keys: [cliff-graydon, clifford-graydon]
+        document: https://www.gov.mb.ca/legislature/members/mla_bio_living.html
+        verified_against: >-
+          The Assembly's former-members page has ONE entry, "GRAYDON, Cliff
+          (Emerson) (PC) (IND) October 22, 2018. Elected g.e. May 22, 2007,
+          Re-elected g.e. October 4, 2011, Re-elected g.e. April 19, 2016".
+          The covers print "GRAYDON, Cliff Emerson PC" in the 39th and 40th
+          Legislatures and "GRAYDON, Clifford Emerson" in the 41st, PC until
+          October 2018 and Ind. from the 25 October 2018 cover, as the page
+          dates it.
+        why: >-
+          The same member for Emerson in three legislatures; the seat rule
+          joins keys within one legislature only.
   "on":
     misprints:
       - printed: "Cuzzeto"

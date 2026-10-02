@@ -42,6 +42,12 @@ an error page: no rules.
     "N.D.P."/"P.C."; a total may lack its dot leader ("WOWCHUK 49"); a list
     may have no YEA header at all; "on division." can head a full roll call;
     and a listed file that copies another listed day's record is a gap.
+  * REVIEWED FACTS (config/prov_record.yaml, Christopher, 2 October 2026):
+    a Hansard total replacing a misprinted one (`hansard_totals` with
+    `replaces:`); days whose V&P is not served, read from Hansard's own
+    division lists (`vp_not_served`, read_hansard_day); and one key per
+    member (prov_store.canonical_key / merge_split_members, plus
+    `same_person` across legislatures).
   * VOICE. "It was agreed to." with "The Bill was accordingly read a Second
     Time ...", "... concurred in, read a Third Time and passed", "It was
     negatived, on division" (dissent noted, no names), and the day's list of
@@ -316,13 +322,19 @@ def roster_for_day(ctx, legislature, date, hansard, owed=False):
     is_newest = newest is None or date >= newest
     if is_newest:
         ctx.conn.execute("UPDATE prov_members SET sitting=0 WHERE prov=?", (PROV,))
+    # One member, one key (prov_store.canonical_key, as Ontario): a cover
+    # printing "Greg DEWAR" after the store holds "Gregory DEWAR" for
+    # Selkirk in the same legislature stores the term under the held key.
+    seats = ps.seat_holders(ctx.conn, PROV, legislature)
     for m in members:
-        ps.upsert_member(ctx.conn, PROV, m["key"], name=m["given"] + " " + m["surname"],
-                         surname=m["surname"], given=m["given"],
+        key = ps.canonical_key(ctx.conn, PROV, m, seats, legislature)
+        own = key == m["key"]
+        ps.upsert_member(ctx.conn, PROV, key, name=m["given"] + " " + m["surname"] if own else None,
+                         surname=m["surname"] if own else None, given=m["given"] if own else None,
                          riding=m["riding"] if is_newest else None,
                          party=m["party"] if is_newest else None,
                          sitting=1 if is_newest else None)
-        ps.extend_term(ctx.conn, PROV, m["key"], legislature, m["party"], m["riding"],
+        ps.extend_term(ctx.conn, PROV, key, legislature, m["party"], m["riding"],
                        date, "hansard-cover")
     ctx.conn.commit()
     return len(members)
@@ -543,6 +555,189 @@ def resolve_division(raw, resolver, date, legislature):
     return votes, ok, note
 
 
+def apply_reviewed(d, reviewed, division_key):
+    """(division, notes) with the division-scoped reviewed facts of
+    config/prov_record.yaml applied (pn.ReviewedDivisions): a Hansard total
+    that replaces a misprinted one, or a bill the record misnumbers. Every
+    applied or refused fact is a note, stored in tally_note."""
+    if reviewed is None:
+        return d, []
+    d, notes = dict(d), []
+    for position, field in (("Yea", "yeas"), ("Nay", "nays")):
+        value, note = reviewed.total(division_key, position, d[field])
+        if note:
+            notes.append(note)
+        d[field] = value
+    number, note = reviewed.bill(division_key, d["bill_number"])
+    if note:
+        notes.append(note)
+    d["bill_number"] = number
+    return d, notes
+
+
+# -- Hansard's own division lists, for a day whose V&P is not served ----------
+#
+# Christopher, 2 October 2026: where the V&P the calendar lists is not served
+# (an error page, or a copy of another day's record), a REVIEWED entry in
+# config/prov_record.yaml (`vp_not_served`) names the day, the failing V&P
+# and the day's Hansard PDFs, and Hansard's own lists are read instead:
+#
+#     Division
+#     A RECORDED VOTE was taken, the result being as follows:
+#     Yeas
+#     Bindle, Clarke, Cox, ..., Smith (Southdale), ...
+#     Nays
+#     Allum, Altemeyer, ...
+#     Deputy Clerk (Mr. Rick Yarish): Yeas 35, Nays 17.
+#
+# The Clerk's counts are the printed totals the tally check holds the names
+# to. Never used for a day whose V&P is served.
+
+_HAN_FURNITURE = re.compile(r"^\s*(?:=+PAGE|\*\s*\*\s*\*|\*\s*\(\d{1,2}:\d{2}\))|LEGISLATIVE ASSEMBLY OF MANITOBA")
+_HAN_DIVISION = re.compile(
+    r"A\s+RECORDED\s+VOTE\s+was\s+taken,\s*the\s+result\s+being\s+as\s+follows:\s*Yeas\s*(?P<yeas>.*?)\s*Nays\s*(?P<nays>.*?)"
+    r"\s*(?:Deputy\s+)?Clerk[^:]*:\s*Yeas\s*(?P<y>\d+)\s*,\s*Nays\s*(?P<n>\d+)\s*\.", re.S)
+# the question runs to its full stop, not to the one in "(Mr. Friesen)"
+_HAN_QUESTION = re.compile(r"The question before the House (?:now )?is\s+(.*?)"
+                           r"(?:(?<!\bMr)(?<!\bMrs)(?<!\bMs)(?<!\bHon)(?<!\bDr)\.\s|\?\s|$)", re.S)
+_HAN_DECLARED = re.compile(r"\b(carried|passed|lost|defeated|negatived)\b", re.I)
+
+
+def _han_labels(text):
+    """'Bindle, Clarke, Smith (Southdale), Smook , Morley -Lecomte.' -> labels."""
+    t = re.sub(r"\s+", " ", text or "").strip().rstrip(".")
+    return [x.strip() for x in t.split(",") if x.strip()]
+
+
+def parse_hansard_divisions(text):
+    """(divisions, expected) from a Hansard day's text: one dict per "A
+    RECORDED VOTE", shaped as parse_vp's, labels as printed (mixed case)."""
+    lines = [l for l in (text or "").splitlines() if not _HAN_FURNITURE.search(l)]
+    flat = re.sub(r"[ \t]+", " ", "\n".join(lines))
+    expected = len(re.findall(r"A\s+RECORDED\s+VOTE\s+was\s+taken", flat))
+    out = []
+    for m in _HAN_DIVISION.finditer(flat):
+        before = flat[max(0, m.start() - 2500):m.start()]
+        qs = _HAN_QUESTION.findall(before)
+        question = re.sub(r"\s+", " ", qs[-1]).strip() if qs else None
+        yeas, nays = int(m.group("y")), int(m.group("n"))
+        declared = _HAN_DECLARED.search(flat[m.end():m.end() + 300])
+        word = declared.group(1).lower() if declared else None
+        passed = word in ("carried", "passed") if word else None
+        problem = None
+        if passed is None:
+            problem = "no result declared after the Clerk's count"
+        elif passed != (yeas > nays):
+            problem = "the declared result ({0}) does not follow the count {1}-{2}".format(word, yeas, nays)
+        q = (question or "").lower()
+        bill = re.findall(r"\bBill\s+(\d+)", question or "")
+        out.append({"seq": len(out) + 1,
+                    "vote_on": "subamendment" if q.startswith(("the proposed subamendment", "the subamendment"))
+                               else "amendment" if q.startswith(("the proposed amendment", "the amendment"))
+                               else "motion",
+                    "yeas": yeas, "nays": nays,
+                    "yea_labels": _han_labels(m.group("yeas")), "nay_labels": _han_labels(m.group("nays")),
+                    "question": ("The question before the House is " + question)[:700] if question else None,
+                    "result": "It was {0}, on a recorded vote (Hansard)".format(
+                        "agreed to" if passed else "negatived") if passed is not None else None,
+                    "stage": "Motion" if "adjourn" in q or not bill else
+                             "Third Reading" if "third reading" in q else
+                             "Second Reading" if "second reading" in q else "Motion",
+                    "bill_number": bill[-1] if bill else None,
+                    "problem": problem})
+    return out, expected
+
+
+def close_hansard_label(label, vocab):
+    """'Fontai ne' -> 'Fontaine' and 'J ohnson' -> 'Johnson': pypdf splits a
+    surname; it is closed up only when the joined form is a surname on the
+    roster and the split form is not."""
+    m = re.match(r"^(.*?)\s*(\([^()]*\))?$", label.strip())
+    name, riding = m.group(1).strip(), m.group(2)
+    toks = tuple(pn.fold(name).replace("-", " - ").split())
+    if len(toks) > 1 and toks not in vocab and ("".join(toks),) in vocab:
+        name = name.replace(" ", "")
+    return name + (" " + riding if riding else "")
+
+
+def read_hansard_day(ctx, legislature, session, listed_date, url, entry, hansard, wl):
+    """The reviewed Hansard read for a day whose V&P is not served."""
+    day = (hansard or {}).get(listed_date) or []
+    missing = [u for u in entry["hansard"] if u not in day]
+    if missing:
+        ctx.gap("mb {0}: reviewed Hansard {1} is not in the day's Hansard listing; not read".format(
+            listed_date, ", ".join(missing)))
+        return 0, 1
+    divisions, expected, source = [], 0, None
+    for h in entry["hansard"]:
+        raw = ctx.bytes(h, "hansard-{0}".format(listed_date))
+        if not raw:
+            return 0, 1
+        try:
+            found, n = parse_hansard_divisions(pdf_text(raw))
+        except Unreadable as exc:
+            ctx.gap("mb {0}: Hansard {1}: {2}".format(listed_date, h, exc))
+            return 0, 1
+        for d in found:
+            d["source_url"] = h
+        divisions += found
+        expected += n
+    for k, d in enumerate(divisions, 1):
+        d["seq"] = k
+    gaps = 0
+    if not (expected == len(divisions) == entry["divisions"]):
+        gaps += 1
+        ctx.gap("mb {0}: Hansard prints {1} recorded vote(s), {2} parsed, the reviewed entry says {3}".format(
+            listed_date, expected, len(divisions), entry["divisions"]))
+    if divisions:
+        roster_for_day(ctx, legislature, listed_date, hansard)
+    resolver = pn.Resolver.from_conn(ctx.conn, PROV)
+    vocab = resolver.surname_vocab()
+    for d in divisions:
+        d["yea_labels"] = [close_hansard_label(x, vocab) for x in d["yea_labels"]]
+        d["nay_labels"] = [close_hansard_label(x, vocab) for x in d["nay_labels"]]
+    gaps += _store_divisions(ctx, legislature, session, listed_date, divisions, None, wl, resolver,
+                             note="read from Hansard: the day's V&P is not served ({0})".format(pn.REVIEWED))
+    ps.store_sitting(ctx.conn, PROV, ps.sitting_key(PROV, legislature, session, listed_date), listed_date,
+                     url, divisions=len(divisions), status="gap" if gaps else "ok")
+    ctx.conn.commit()
+    ctx.log("  mb {0}: V&P not served; {1} division(s) read from Hansard".format(listed_date, len(divisions)))
+    return len(divisions), gaps
+
+
+def _not_served(ctx, listed_date, url):
+    for e in getattr(ctx, "mb_not_served", None) or []:
+        if e["date"] == listed_date and e["record"] == url:
+            return e
+    return None
+
+
+def _store_divisions(ctx, legislature, session, date, divisions, url, wl, resolver, note=None):
+    """Resolve, tally and store recorded divisions; returns the gaps."""
+    gaps = 0
+    reviewed = getattr(ctx, "mb_reviewed", None)
+    for d in divisions:
+        dkey = ps.division_key(PROV, legislature, session, date, d["seq"])
+        d, notes = apply_reviewed(d, reviewed, dkey)
+        votes, ok, tally_note = resolve_division(d, resolver, date, legislature)
+        tally_note = "; ".join(x for x in [note] + notes + [tally_note] if x) or None
+        bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
+        b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
+        res = pc.classify(ctx.tax, wl, PROV, texts=[d["question"]], bill_key=bkey,
+                          inherit=pc.Result(b_areas, b_terms, b_tier) if b_areas else None)
+        if not ok:
+            gaps += 1
+            ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, tally_note))
+        ps.store_division(ctx.conn, {
+            "division_key": dkey, "prov": PROV, "legislature": legislature, "session": session,
+            "date": date, "seq": d["seq"], "kind": "recorded", "question": d["question"],
+            "vote_on": d["vote_on"], "bill_key": bkey, "stage": d["stage"], "result": d["result"],
+            "yeas": d["yeas"], "nays": d["nays"], "source_url": d.get("source_url") or url,
+            "areas": res.areas, "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
+            "positions_ok": 1 if ok else 0, "tally_note": tally_note, "votes": votes})
+    return gaps
+
+
 def read_sitting(ctx, legislature, session, listed_date, url, hansard, wl):
     """Read one V&P. Returns (divisions, gaps_in_it)."""
     data = ctx.bytes(url, "vp-{0}".format(listed_date or "undated"))
@@ -551,6 +746,9 @@ def read_sitting(ctx, legislature, session, listed_date, url, hansard, wl):
     try:
         text = pdf_text(data)
     except Unreadable as exc:
+        entry = _not_served(ctx, listed_date, url)
+        if entry and ctx.in_window(listed_date):
+            return read_hansard_day(ctx, legislature, session, listed_date, url, entry, hansard, wl)
         ctx.gap("mb {0}: {1}: {2}".format(listed_date, url, exc))
         if listed_date:
             ps.store_sitting(ctx.conn, PROV, ps.sitting_key(PROV, legislature, session, listed_date),
@@ -560,6 +758,9 @@ def read_sitting(ctx, legislature, session, listed_date, url, hansard, wl):
     if listed_date and date != listed_date:
         other = (getattr(ctx, "mb_listed", None) or {}).get(date)
         if other and other != url and ctx.in_window(listed_date):
+            entry = _not_served(ctx, listed_date, url)
+            if entry:
+                return read_hansard_day(ctx, legislature, session, listed_date, url, entry, hansard, wl)
             # The file is a second copy of ANOTHER listed day's record, so the
             # listed day's own record is not served at all: 42-4 votes_041.pdf
             # (listed for 25 April 2022) is V&P No. 42 of the 26th, and the
@@ -597,23 +798,7 @@ def read_sitting(ctx, legislature, session, listed_date, url, hansard, wl):
         gaps += 1
         ctx.gap("{0}: the record says 'on the following division' {1} time(s) but {2} "
                 "division(s) were parsed".format(skey, expected, len(divisions)))
-    for d in divisions:
-        votes, ok, note = resolve_division(d, resolver, date, legislature)
-        bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
-        b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
-        res = pc.classify(ctx.tax, wl, PROV, texts=[d["question"]], bill_key=bkey,
-                          inherit=pc.Result(b_areas, b_terms, b_tier) if b_areas else None)
-        dkey = ps.division_key(PROV, legislature, session, date, d["seq"])
-        if not ok:
-            gaps += 1
-            ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, note))
-        ps.store_division(ctx.conn, {
-            "division_key": dkey, "prov": PROV, "legislature": legislature, "session": session,
-            "date": date, "seq": d["seq"], "kind": "recorded", "question": d["question"],
-            "vote_on": d["vote_on"], "bill_key": bkey, "stage": d["stage"], "result": d["result"],
-            "yeas": d["yeas"], "nays": d["nays"], "source_url": url, "areas": res.areas,
-            "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
-            "positions_ok": 1 if ok else 0, "tally_note": note, "votes": votes})
+    gaps += _store_divisions(ctx, legislature, session, date, divisions, url, wl, resolver)
     for v in voices:
         bkey = ps.bill_key(PROV, legislature, session, v["bill_number"])
         areas, terms, tier = ps.bill_areas(ctx.conn, bkey)
@@ -717,6 +902,8 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     legislature, sess = parse_session(session)
     ctx.tax = pc.load_taxonomy()
     wl = pc.load_watchlist(PROV)
+    ctx.mb_reviewed = pn.ReviewedDivisions.load(PROV)
+    ctx.mb_not_served = pn.load_vp_not_served(PROV)
     stats = {}
     if bills:
         stats.update(fetch_bills(ctx, legislature, sess, wl))
@@ -753,5 +940,10 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         divs += n
         gaps += g
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps})
+    # One member, one key, in place, with nothing fetched: the seat rule
+    # within a legislature, and the reviewed same_person entries across them.
+    merged = ps.merge_split_members(ctx.conn, PROV, same_person=pn.load_same_person(PROV), log=ctx.log)
+    if merged:
+        stats["keys_merged"] = sum(len(m) for _k, m in merged)
     ctx.conn.commit()
     return stats
