@@ -23,6 +23,17 @@
 #   riding_aliases A constituency as a record abbreviates it, with the
 #                  constituency's own name. Same reader; a riding still has
 #                  to match one of the member's own terms that day.
+#   hansard_labels, hansard_totals, bill_corrections
+#                  Facts about ONE division (`division:` is its key), read
+#                  by src/prov_names.ReviewedDivisions (Christopher, 2
+#                  October 2026). Where Hansard is explicit for the SAME
+#                  division: settle one bare AMBIGUOUS label in one list (the
+#                  member must be one of the candidates), or supply a total
+#                  the record omits (a printed total is never replaced; the
+#                  tally check then holds the names to it). A bill correction
+#                  applies only while the record still prints `printed_bill`,
+#                  and leaves the printed number in tally_note. None of these
+#                  is ever an alias outside its division.
 #
 # Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
 # (3 October 2026). Alberta's entries added 2 October 2026 for the
@@ -62,6 +73,55 @@ provinces:
           With two Nixons sitting (Jason, and Jeremy for Calgary-Klein) the
           V&P names Jason "Nixon (Rimbey-Rocky Mtn. House-Sundre)", which did
           not match his riding: unresolved in 185 recorded divisions, 2019-2023.
+    hansard_labels:
+      - division: ab-28-1-2013-11-19-2
+        position: Nay
+        printed: "Johnson"
+        member: "0801"
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20131119_1200_01_vp.pdf
+        hansard: https://docs.assembly.ab.ca/LADDAR_files/docs/hansards/han/legislature_28/session_1/20131119_1930_01_han.pdf#page=25
+        quoted: "Johnson, L."
+        why: >-
+          The V&P prints a bare "Johnson" in the Nays on amendment A4 to Bill
+          30 while Jeff (0778) and Linda (0801) Johnson both sat. Hansard for
+          the SAME division (Alberta Hansard p. 2953: "the question on
+          amendment A4", For 5, "Totals: For - 5 Against - 35") lists the same
+          names in the same order with "Johnson, L." in the Against list.
+          Linda Johnson in this division only; a bare Johnson stays ambiguous
+          everywhere else.
+    hansard_totals:
+      - division: ab-28-1-2012-12-03-7
+        position: Nay
+        total: 29
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20121203_1200_01_vp.pdf
+        hansard: https://docs.assembly.ab.ca/LADDAR_files/docs/hansards/han/legislature_28/session_1/20121203_1930_01_han.pdf#page=23
+        quoted: "Totals: For - 9 Against - 29"
+        why: >-
+          The V&P prints "Against the amendment" with no total. Hansard for the
+          SAME division (Alberta Hansard p. 1239, "the question, then, on
+          amendment A8", Mr. Saskiw's amendment striking "3 years") lists the
+          same nine names For, in the same order, and gives "Against - 29".
+          The 29 is then held against the names the V&P lists, as any printed
+          total is.
+    bill_corrections:
+      - division: ab-29-1-2015-11-26-3
+        printed_bill: "9"
+        bill: "5"
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_1/20151126_1200_01_vp.pdf
+        verified_against: >-
+          The same V&P, after the division: "The following Bill was read a
+          Second time and referred to Committee of the Whole: Bill 5 Public
+          Sector Compensation Transparency Act -- Hon. Ms Ganley", and before
+          it "On the motion that the following Bill be now read a Second time:
+          Bill 5 Public Sector Compensation Transparency Act". Bill 5's own page
+          (bills-by-legislature 29-1) marks Second Reading on 26 Nov 2015
+          "passed on division"; Bill 9 is the Appropriation Act, 2015, read a
+          third time earlier that day.
+        why: >-
+          The V&P's narrative before the division reads "Debate resumed on the
+          motion for Second Reading of Bill 9, Public Sector Compensation
+          Transparency Act": the right title under the wrong number. Stored
+          under Bill 5; tally_note keeps "the record names Bill 9".
   "ns":
     label_aliases:
       - printed: "Tom Taggar"
