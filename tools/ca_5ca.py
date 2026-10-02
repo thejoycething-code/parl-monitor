@@ -296,11 +296,17 @@ def build_rows(conn, area, chamber, entries, bill_entries, today=None):
                     label, st, " ".join((entry.get("why_sponsored") or "").split())[:120]))
             else:
                 r["lines"].append("{0} [{1}]".format(label, not_placed(entry)))
-        for s in conn.execute("SELECT * FROM ca_speeches WHERE person_id IS NOT NULL"):
+        # Only this chamber's speeches (2 Oct 2026): Senate debates and
+        # committee evidence share the table, and a senator's speech on a
+        # Commons sheet would list someone the sheet never counts.
+        for s in conn.execute("SELECT * FROM ca_speeches WHERE person_id IS NOT NULL "
+                              "AND COALESCE(chamber, 'commons') = ?", (chamber,)):
             if _in_area(s["areas"], area):
+                where = ("COMMITTEE {0}".format(s["committee"] or "?")
+                         if (s["forum"] or "floor") == "committee" else "SPEECH")
                 rec(s["person_id"])["lines"].append(
-                    "{0} SPEECH {1}: \"{2}\" [activity, not direction]".format(
-                        s["date"] or "?", (s["subject"] or s["rubric"] or "")[:50],
+                    "{0} {1} {2}: \"{3}\" [activity, not direction]".format(
+                        s["date"] or "?", where, (s["subject"] or s["rubric"] or "")[:50],
                         " ".join((s["excerpt"] or "").split())[:100]))
         for line_mp, line in petition_lines(conn, area):
             rec(line_mp)["lines"].append(line)

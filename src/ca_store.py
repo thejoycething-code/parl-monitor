@@ -212,6 +212,14 @@ SCHEMA = (
 # would silently lack it; each is added here if missing.
 ADDED_COLUMNS = (
     ("ca_divisions", "abstentions", "INTEGER"),   # the Senate records them; the House does not
+    # 2 October 2026: Senate debates and committee evidence join ca_speeches.
+    # chamber: 'commons' (NULL on older rows means commons) or 'senate';
+    # forum: 'floor' (NULL means floor) or 'committee'; committee: the
+    # acronym (JUST, AMAD, LCJC) when forum is committee. A speech is
+    # activity in the 5CA, never direction, wherever it was given.
+    ("ca_speeches", "chamber", "TEXT"),
+    ("ca_speeches", "forum", "TEXT"),
+    ("ca_speeches", "committee", "TEXT"),
     # Phase 3 (the 5CA). Sponsoring a private member's bill is a chosen act
     # of advancing a text, so the sponsor must join to a member by id, never
     # by name. LEGISinfo gives SponsorPersonId for House bills.
