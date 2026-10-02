@@ -344,6 +344,15 @@ class TitleGateTests(unittest.TestCase):
         self.assertEqual(cm.speech_id(44, 1, "AMAD", 10, "11717363"),
                          "cmte-441-AMAD-10-11717363")
 
+class KeyCommitteesTests(unittest.TestCase):
+    def test_sdir_is_a_key_committee_read_in_full(self):
+        """Christopher, 2 October 2026: "add SDIR". Its persecution hearings
+        match no taxonomy term in their study titles, so the title gate
+        collected nothing; it is now read in full, not gated."""
+        self.assertIn("SDIR", cm.KEY_COMMITTEES)
+        self.assertNotIn("SDIR", cm.EXTRA)
+        self.assertEqual(len(cm.KEY_COMMITTEES), 9)
+
 
 if __name__ == "__main__":
     unittest.main()

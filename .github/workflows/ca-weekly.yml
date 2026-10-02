@@ -87,7 +87,7 @@ on:
         default: false
       # THE FEDERAL BACKFILLS TO 2010 (Christopher, 2 October 2026: "Go ahead
       # with all four"). One input naming its parts, any of: senate (floor
-      # debates since 40-3, oldest first), committees (the key eight's
+      # debates since 40-3, oldest first), committees (the key nine's
       # evidence, 44-1 back to 40-3), courts (SCC judgments by year index
       # since 2010). Each part drains on a 45-minute clock and resumes on the
       # next dispatch; dispatch ONE part a run, as announced, from CI.
@@ -208,7 +208,7 @@ jobs:
         # senators the speeches resolve against, and after the bills.
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/ca_senate_debates.py --session 45-1 --budget-seconds 900 | tee /tmp/ca-senate-debates.log
-      - name: Committee evidence (the key eight; others by study title)
+      - name: Committee evidence (the key nine, SDIR included; others by study title)
         # 3 October 2026 (tools/ca_committees.py). Members' interventions to
         # ca_speeches (forum='committee'); witnesses only to ca_testimony.
         if: always() && steps.fetch.outcome == 'success'
@@ -307,7 +307,7 @@ jobs:
       - name: "Federal backfill: Senate debates since 40-3"
         if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'senate')
         run: python3 tools/ca_senate_debates.py --backfill --limit 400 --budget-seconds 2700 | tee /tmp/ca-fb-senate.log
-      - name: "Federal backfill: the key eight committees, 44-1 back to 40-3"
+      - name: "Federal backfill: the key nine committees, 44-1 back to 40-3"
         if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'committees')
         run: |
           # One clock across the sessions, newest first: 44-1 is the one a

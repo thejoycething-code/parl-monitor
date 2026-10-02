@@ -132,7 +132,7 @@ Divisions per year are measured where a sample was taken and marked "est." other
   - The V&P parser was proven on the 31st Legislature, then on the 27th-30th by the 2010 backfill (below). A layout it does not know still shows up as a tally gap, not wrong votes.
   - A division's bill is the last bill named before it. Committee of the Whole sittings that take several bills together could attach a division to the wrong one.
   - The taxonomy's tier-1 "named person" (added for Holyrood) tags Alberta's Professional Governance Act (Bill 40) as area 6. That is a false positive, and the fix is a taxonomy decision.
-- **The 2010 backfill's tally gaps (2 October 2026).** 358 of 1,338 recorded divisions failed the tally check, 306 of them in the 30th Legislature. Re-read locally from 186 fetched V&Ps (the 136 failing days, the six flag days and a 46-day sample of passing ones): 355 now pass, 3 are the record's own errors, 0 regressions, and no identity on a previously passing division changed. By cause (a division can show several):
+- **The 2010 backfill's tally gaps (2 October 2026).** 358 of 1,338 recorded divisions failed the tally check, 306 of them in the 30th Legislature. Re-read locally from 186 fetched V&Ps (the 136 failing days, the six flag days and a 46-day sample of passing ones): 355 now pass in the parser and resolver and 2 more through reviewed Hansard facts; 1 (a name the V&P left out) is left, 0 regressions, and no identity on a previously passing division changed. By cause (a division can show several):
 
   | Cause | Divisions | Fix |
   |---|---|---|
@@ -145,9 +145,11 @@ Divisions per year are measured where a sample was taken and marked "est." other
 
   **Roster terms were being overwritten.** Reading one legislature's roster replaced ALL of a member's member-page terms with that legislature's, so a member who sat in the 29th, 30th and 31st kept only the last one read; re-reading their earlier divisions failed. `ps.replace_terms(..., legislature=)` now replaces one legislature's terms. The published store's terms are still in the overwritten state. The next Alberta backfill dispatch rebuilds them (a legislature's member page is re-read for any member holding no term in it) and re-reads the 136 gap sittings, which are still owed.
 
-  **Left, each in config/prov_known_gaps.yaml with its evidence:** 3 Dec 2012 (the V&P prints no Nay total; Hansard gives 29, the list holds 29); 13 May 2013 (the V&P lists 13 under "14"; Hansard's list has Wilson); 19 Nov 2013 (a bare "Johnson" with two sitting; Hansard says "Johnson, L.", but an alias may not settle an ambiguity).
+  **The record's own errors.** Christopher's decisions (2 October 2026) let a reviewed entry in config/prov_record.yaml, keyed to ONE division, use Hansard where it is explicit for the same division: 3 Dec 2012 (`hansard_totals`: the V&P prints no Nay total; Hansard's "Against - 29" is supplied and the 29 names are held to it) and 19 Nov 2013 (`hansard_labels`: a bare "Johnson" with two sitting; Hansard's "Johnson, L." settles that label in that list of that division only, and only because Linda Johnson is one of the two candidates). Both pass now. **Left in config/prov_known_gaps.yaml:** 13 May 2013 (the V&P lists 13 under "14"; Hansard's list has Wilson, but no reviewed fact may add a name the record left out).
 
-  **The six "passed on division" flags with no division:** three were the parser (a Standing Order 64 question "on the Appropriation Bill standing on the Order Paper" names no bill; it now takes the one Appropriation bill the outcome line lists: 28 Apr 2011 Bill 17, 22 Jun 2015 Bill 3, 20 Nov 2019 Bill 24). Two are the record's own errors (known gaps): Bill 20's page on 26 Mar 2026 (the V&P passed it on the voice), and 26 Nov 2015, where the V&P calls Bill 5 "Bill 9". One is ours: on 23 Mar 2022 one question approved Bills 7 and 8 together, and a division is stored against one bill, so Bill 7 shows no division.
+  **The six "passed on division" flags with no division:** three were the parser (a Standing Order 64 question "on the Appropriation Bill standing on the Order Paper" names no bill; it now takes the one Appropriation bill the outcome line lists: 28 Apr 2011 Bill 17, 22 Jun 2015 Bill 3, 20 Nov 2019 Bill 24). 26 Nov 2015, where the V&P calls Bill 5 "Bill 9", is a reviewed `bill_corrections` entry: the division is stored under Bill 5 and its tally_note keeps "the record names Bill 9". 23 Mar 2022, one question approving Bills 7 and 8 together, is now linked to both (below). Left in known gaps: Bill 20's page on 26 Mar 2026, which is wrong (the V&P passed it on the voice).
+
+  **One division, several bills: `prov_division_bills`** (division_key, bill_key, is_primary). `prov_divisions.bill_key` stays the primary bill, so every reader of it is unchanged; the link table holds the primary and every other bill the same question decided. `ps.store_division` writes it from `bill_key` plus `also_bill_keys`; `ps.ON_BILL` asks "did a division decide this bill" of both column and table; `ps.linked_bills` lists them. Alberta's areas inherit from every linked bill (and every watched one), its bill-page cross-check uses ON_BILL, and tools/prov_5ca.py names every linked bill on a vote line. Only Alberta's parser writes a second bill, on the one wording seen ("The question was put on the approval of Bill 7 ..., and Bill 8 ..."); the other provinces' cross-checks can switch to ON_BILL when a parser of theirs has the evidence.
 
 ### Saskatchewan (step 2): `src/ingest/prov_sk.py`
 
@@ -317,6 +319,14 @@ Christopher, 3 October 2026: "Fix New Brunswick and NL."
 3. **Dated party: New Brunswick complete** from the Hansard member lists; **NL for the current Assembly only** (History of the Standings). Earlier NL Assemblies stay NULL, for the reason above. Coverage in the smoke stores: NB 921 of 921 votes; NL 416 of 2,453 (all of 51-1).
 4. **Committee of the Whole with no count: unchanged.** No count exists elsewhere in the record. NB unanimous divisions keep the existing rule (the printed YEAS total is checked).
 5. **Taxonomy false positives: documented, not masked.** Neither is a statute name, and the provincial watchlist cannot remove an area. `config/taxonomy.yaml` was not edited.
+
+### Decisions, 2 October 2026 (afternoon)
+
+Christopher: "Leave NL blank, skip NWT and Nunavut, add SDIR".
+
+1. **NL party before the 51st Assembly stays blank.** No hand-keyed party from Elections NL's reports: they give a label on election day only, and for the 50th Assembly they conflict with the Chief Electoral Officer's own figures. Those votes carry no party, and the 5CA sheets say so; nothing is guessed.
+2. **NWT and Nunavut are skipped.** Neither is built, scheduled or collected, not even as evidence. They are consensus legislatures with no parties, and recorded votes are rare. The scoping notes below are kept in case the decision is revisited.
+3. **SDIR joins the key committees** (federal; tools/ca_committees.py, `KEY_COMMITTEES`), read in full rather than by study title. Recorded here because it came in the same message.
 
 ### Quebec (step 7, built early at Christopher's "all provinces"): `src/ingest/prov_qc.py`
 

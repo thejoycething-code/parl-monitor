@@ -516,6 +516,51 @@ def _decided_bill(question, listed):
     return None
 
 
+_JOINT = re.compile(r"question was put on the approval of (Bill \d+.*?)(?:,? which was\b|$)", re.I)
+
+
+def _joint_bills(question):
+    """Every bill ONE question decided, when the record names two or more in
+    the same "question was put on the approval of" clause (23 Mar 2022: "The
+    question was put on the approval of Bill 7, Appropriation Act, 2022 ($),
+    and Bill 8, Appropriation (Supplementary Supply) Act, 2022 ($), which was
+    agreed to"). Bills read in turn, each with its own question and its own
+    division (22 and 24 Mar 2022), are not joint. [] otherwise."""
+    hits = _JOINT.findall(question or "")
+    if not hits:
+        return []
+    bills = re.findall(r"\bBill (\d+)\b", hits[-1])
+    return bills if len(set(bills)) >= 2 else []
+
+
+def apply_reviewed(d, reviewed, division_key):
+    """One parsed division with the province's reviewed facts for its key
+    applied (config/prov_record.yaml): a total the record omits, supplied
+    from Hansard, and a bill number the record misprints. Each applied fact
+    leaves a note in d['reviewed_notes'], stored in tally_note, so nothing is
+    corrected silently. The tally check then runs on the result as normal."""
+    if reviewed is None:
+        return d
+    d = dict(d)
+    notes = []
+    supplied = False
+    for position, field in (("Yea", "yeas"), ("Nay", "nays")):
+        value, note = reviewed.total(division_key, position, d[field])
+        if note:
+            notes.append(note)
+        if value != d[field]:
+            d[field], supplied = value, True
+    if supplied:
+        d["result"] = division_result(d.get("result_words"), d["yeas"], d["nays"],
+                                      voice=d.get("voice_first", False))
+    number, note = reviewed.bill(division_key, d["bill_number"])
+    if note:
+        notes.append(note)
+    d["bill_number"] = number
+    d["reviewed_notes"] = notes
+    return d
+
+
 def parse_vp(text, vocab):
     """Divisions in one day's V&P text, in order, names unresolved.
 
@@ -559,17 +604,20 @@ def parse_vp(text, vocab):
                 problem = "no 'Against the {0}' list after 'For the {0}: {1}'".format(vote_on, yeas)
             ctx_text = re.sub(r"\s+", " ", " ".join(context)).strip()
             results = _RESULT.findall(ctx_text)
-            result = division_result(results[-1].strip() if results else None, yeas, nays,
-                                     voice="on the voice vote" in ctx_text.lower())
+            words = results[-1].strip() if results else None
+            voice_first = "on the voice vote" in ctx_text.lower()
+            result = division_result(words, yeas, nays, voice=voice_first)
             named = re.findall(r"\bBill (\d+)\b", ctx_text)
             decided = _decided_bill(ctx_text, _outcome_bills(lines, i))
+            primary = decided or (named[-1] if named else bill)
             out.append({
                 "seq": len(out) + 1, "vote_on": vote_on, "yeas": yeas, "nays": nays,
                 "yea_labels": pn.split_name_run(yea_lines, vocab),
                 "nay_labels": pn.split_name_run(nay_lines, vocab),
                 "question": ctx_text[-600:] or None,
-                "result": result,
-                "stage": stage, "bill_number": decided or (named[-1] if named else bill),
+                "result": result, "result_words": words, "voice_first": voice_first,
+                "stage": stage, "bill_number": primary,
+                "also_bills": [b for b in _joint_bills(ctx_text) if b != primary],
                 "problem": problem})
             context = []
             continue
@@ -591,8 +639,14 @@ def parse_vp(text, vocab):
     return out
 
 
-def resolve_division(raw, resolver, date, legislature, document=None):
-    """Votes with members resolved, and the tally verdict."""
+def resolve_division(raw, resolver, date, legislature, document=None, reviewed=None,
+                     division_key=None):
+    """Votes with members resolved, and the tally verdict.
+
+    With `reviewed` (pn.ReviewedDivisions) and the division's key, a bare
+    label the resolver found ambiguous may be settled by a reviewed Hansard
+    entry for THAT division and THAT list only, before the tally runs. The
+    notes of every reviewed fact applied ride in the tally note."""
     votes = []
     for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"])):
         for k, label in enumerate(labels, 1):
@@ -600,13 +654,37 @@ def resolve_division(raw, resolver, date, legislature, document=None):
             votes.append({"position": position, "ordinal": k, "raw_label": label,
                           "member_key": key, "how": how,
                           "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
+    notes = list(raw.get("reviewed_notes") or [])
+    if reviewed is not None and division_key:
+        notes += reviewed.settle(division_key, votes, getattr(resolver, "base", resolver),
+                                 date, legislature)
     ok, note = ps.tally({"Yea": raw["yeas"], "Nay": raw["nays"]}, votes)
     if raw.get("problem"):
         ok, note = False, "; ".join(x for x in (raw["problem"], note) if x)
+    note = "; ".join(x for x in [note] + notes if x) or None
     return votes, ok, note
 
 
-def read_sitting(ctx, legislature, session, date, url, resolver, wl, vocab):
+def division_classification(ctx, wl, question, bill_keys):
+    """A division's areas: its own words, plus what EVERY bill it decided
+    inherits from its stored text classification and the watchlist. The
+    primary bill goes to classify(); any other bill is merged the same way,
+    so a division on two watched bills is on both bills' ground."""
+    inherit = None
+    for key in bill_keys:
+        areas, terms, tier = ps.bill_areas(ctx.conn, key)
+        if areas:
+            inherit = pc.Result(areas, terms, tier).merge(inherit)
+    res = pc.classify(ctx.tax, wl, PROV, texts=[question], bill_key=bill_keys[0] if bill_keys else None,
+                      inherit=inherit)
+    for key in bill_keys[1:]:
+        entry = pc.watched_bill(PROV, key)
+        if entry:
+            res = res.merge(pc.Result(entry.get("areas") or [], [key], 1))
+    return res
+
+
+def read_sitting(ctx, legislature, session, date, url, resolver, wl, vocab, reviewed=None):
     """Read one V&P. Returns (divisions, gaps_in_it)."""
     raw = ctx.bytes(url, "vp-{0}".format(date))
     part = re.search(r"_(\d{2})_vp\.pdf$", url)
@@ -622,21 +700,26 @@ def read_sitting(ctx, legislature, session, date, url, resolver, wl, vocab):
         return 0, 1
     divisions = parse_vp(text, vocab)
     gaps = 0
+    if reviewed is None:
+        reviewed = pn.ReviewedDivisions.load(PROV)
     for d in divisions:
-        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url)
-        bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
-        b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
-        inherit = pc.Result(b_areas, b_terms, b_tier) if b_areas else None
-        res = pc.classify(ctx.tax, wl, PROV, texts=[d["question"]], bill_key=bkey, inherit=inherit)
         dkey = ps.division_key(PROV, legislature, session, date,
                                "{0}.{1}".format(part, d["seq"]) if part else d["seq"])
+        d = apply_reviewed(d, reviewed, dkey)
+        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url,
+                                           reviewed=reviewed, division_key=dkey)
+        bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
+        also = [ps.bill_key(PROV, legislature, session, n) for n in d.get("also_bills") or []
+                if n != d["bill_number"]]
+        res = division_classification(ctx, wl, d["question"], ([bkey] if bkey else []) + also)
         if not ok:
             gaps += 1
             ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, note))
         ps.store_division(ctx.conn, {
             "division_key": dkey, "prov": PROV, "legislature": legislature, "session": session,
             "date": date, "seq": d["seq"], "kind": "recorded", "question": d["question"],
-            "vote_on": d["vote_on"], "bill_key": bkey, "stage": d["stage"], "result": d["result"],
+            "vote_on": d["vote_on"], "bill_key": bkey, "also_bill_keys": also,
+            "stage": d["stage"], "result": d["result"],
             "yeas": d["yeas"], "nays": d["nays"], "abstentions": None, "source_url": url,
             "areas": res.areas, "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
             "positions_ok": 1 if ok else 0, "tally_note": note, "votes": votes})
@@ -658,8 +741,8 @@ def check_division_flags(ctx, legislature, session, read_dates):
             if s.get("status", "").lower() != "passed on division" or s.get("date") not in read_dates:
                 continue
             hit = ctx.conn.execute(
-                "SELECT COUNT(*) FROM prov_divisions WHERE bill_key=? AND date=? AND kind='recorded'",
-                (key, s["date"])).fetchone()[0]
+                "SELECT COUNT(*) FROM prov_divisions WHERE " + ps.ON_BILL + " AND date=? "
+                "AND kind='recorded'", (key, key, s["date"])).fetchone()[0]
             if not hit:
                 misses += 1
                 ctx.gap("{0}: bill page says {1} on {2} passed on division; no recorded division "
@@ -694,6 +777,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     base = make_resolver(ctx.conn)
     resolver = pn.Aliased(base, pn.load_aliases(PROV), base=base)
     vocab = base.surname_vocab()
+    reviewed = pn.ReviewedDivisions.load(PROV)
     read = divs = gaps = 0
     read_dates = set()
     for date, url in records:
@@ -703,7 +787,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         if ctx.stop():
             break
         ctx.records_read += 1
-        n, g = read_sitting(ctx, legislature, sess, date, url, resolver, wl, vocab)
+        n, g = read_sitting(ctx, legislature, sess, date, url, resolver, wl, vocab, reviewed)
         read += 1
         divs += n
         gaps += g

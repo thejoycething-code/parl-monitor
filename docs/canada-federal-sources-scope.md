@@ -257,6 +257,7 @@ committees, so:
 **Recommendation: gate the fetch, then match.**
 
 - Fetch every meeting of the key eight.
+- **SDIR is a key committee since 2 October 2026** (Christopher: "add SDIR"). The international human rights subcommittee's hearings on persecution, Nigeria for example, match no taxonomy term in their study titles, so the title gate collected nothing from it. It is now read in full, weekly and in the backfill.
 - For the other committees, fetch only meetings whose study title matches
   the taxonomy.
 

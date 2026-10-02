@@ -344,6 +344,103 @@ def load_riding_aliases(prov, path=None):
                      ("printed", "riding", "document", "verified_against", "why"), path)
 
 
+# -- reviewed facts about ONE division ---------------------------------------
+#
+# Christopher, 2 October 2026: where Hansard is explicit for the SAME division,
+# a reviewed entry may settle a bare ambiguous name or supply a total the V&P
+# omits; and a reviewed entry may correct a bill number the record misprints.
+# Every entry is keyed to ONE division_key (and, for a name, one printed
+# label in one list): it never becomes a general alias. The tally check runs
+# exactly as before on the result.
+
+_DIVISION_FACT_FIELDS = {
+    "hansard_labels": ("division", "position", "printed", "member", "document", "hansard",
+                       "quoted", "why"),
+    "hansard_totals": ("division", "position", "total", "document", "hansard", "quoted", "why"),
+    "bill_corrections": ("division", "printed_bill", "bill", "document", "verified_against", "why"),
+}
+REVIEWED = "reviewed, config/prov_record.yaml"
+
+
+class ReviewedDivisions:
+    """The province's division-scoped reviewed facts, by division_key."""
+
+    def __init__(self, entries=None):
+        self.by = {}
+        for section, items in (entries or {}).items():
+            for a in items:
+                self.by.setdefault(str(a["division"]), {}).setdefault(section, []).append(a)
+
+    @classmethod
+    def load(cls, prov, path=None):
+        entries = {}
+        for section, fields in _DIVISION_FACT_FIELDS.items():
+            entries[section] = _reviewed(prov, section, fields, path)
+        return cls(entries)
+
+    def facts(self, division_key):
+        return self.by.get(str(division_key), {})
+
+    def total(self, division_key, position, printed):
+        """(total, note): a reviewed total for a list the record printed
+        WITHOUT one. A printed total is never replaced."""
+        for a in self.facts(division_key).get("hansard_totals", []):
+            if a["position"] != position:
+                continue
+            if printed is not None:
+                return printed, "reviewed {0} total {1} not used: the record prints {2}".format(
+                    position, a["total"], printed)
+            return int(a["total"]), "{0} total {1} from Hansard ({2!r}; {3})".format(
+                position, a["total"], " ".join(str(a["quoted"]).split()), REVIEWED)
+        return printed, None
+
+    def bill(self, division_key, printed):
+        """(number, note): the reviewed bill for a division whose record
+        prints the wrong one. Applied only when the record still prints the
+        number the entry was checked against."""
+        for a in self.facts(division_key).get("bill_corrections", []):
+            if str(a["printed_bill"]) == str(printed):
+                return str(a["bill"]), "bill: the record names Bill {0}; stored as Bill {1} ({2})".format(
+                    printed, a["bill"], REVIEWED)
+            return printed, "reviewed bill correction not used: the record now names Bill {0}, " \
+                            "not Bill {1}".format(printed, a["printed_bill"])
+        return printed, None
+
+    def settle(self, division_key, votes, resolver, date, legislature=None):
+        """Settle bare AMBIGUOUS labels named by a reviewed entry, in place.
+        The entry's member must be one of the candidates the resolver found
+        and hold a term on the day, and the printed label must occur exactly
+        once in that list. Returns the notes."""
+        notes = []
+        for a in self.facts(division_key).get("hansard_labels", []):
+            hits = [v for v in votes if v["position"] == a["position"]
+                    and _norm_label(v["raw_label"]) == _norm_label(a["printed"])]
+            if len(hits) != 1:
+                notes.append("reviewed label {0!r} not used: {1} such label(s) in the {2} list".format(
+                    a["printed"], len(hits), a["position"]))
+                continue
+            v = hits[0]
+            how = str(v.get("how") or "")
+            candidates = [k.strip() for k in how.partition(":")[2].split(",")] \
+                if how.startswith("ambiguous") else []
+            member = str(a["member"])
+            if v.get("member_key") or member not in candidates:
+                notes.append("reviewed label {0!r} not used: {1}".format(
+                    a["printed"], "already resolved" if v.get("member_key")
+                    else "{0} is not among the members it could be ({1})".format(member, how)))
+                continue
+            if resolver.term_for(member, date, legislature) is None:
+                notes.append("reviewed label {0!r} not used: {1} holds no term on {2}".format(
+                    a["printed"], member, date))
+                continue
+            v["member_key"] = member
+            v["how"] = "hansard ({0})".format(REVIEWED)
+            v["party_at_vote"] = resolver.party_at(member, date, legislature)
+            notes.append("{0} {1!r} settled from Hansard ({2!r}; {3})".format(
+                a["position"], a["printed"], " ".join(str(a["quoted"]).split()), REVIEWED))
+        return notes
+
+
 class Aliased:
     """Wrap a resolver: the reviewed aliases are consulted ONLY when the
     normal resolver found nobody ('unknown ...'), never over an ambiguous or

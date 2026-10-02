@@ -113,6 +113,20 @@ SCHEMA = (
         last_seen    TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS prov_divisions_prov_date ON prov_divisions (prov, date)",
+    # Every bill a division decided (2 October 2026). prov_divisions.bill_key
+    # stays the PRIMARY bill, so everything that reads it is unchanged; this
+    # table holds the primary too (is_primary=1) and any other bill decided by
+    # the SAME question: Alberta, 23 March 2022, "The question was put on the
+    # approval of Bill 7, Appropriation Act, 2022 ($), and Bill 8, ...". A
+    # reader that asks "which divisions decided bill X" asks here, through
+    # ON_BILL, so a division on two watched bills shows under both.
+    """CREATE TABLE IF NOT EXISTS prov_division_bills (
+        division_key TEXT NOT NULL,
+        bill_key     TEXT NOT NULL,
+        is_primary   INTEGER NOT NULL DEFAULT 0,   -- 1 for prov_divisions.bill_key
+        PRIMARY KEY (division_key, bill_key)
+    )""",
+    "CREATE INDEX IF NOT EXISTS prov_division_bills_bill ON prov_division_bills (bill_key)",
     """CREATE TABLE IF NOT EXISTS prov_votes (
         division_key TEXT NOT NULL,
         position     TEXT NOT NULL,      -- 'Yea' / 'Nay' / 'Abstain'
@@ -375,6 +389,34 @@ def extend_term(conn, prov, member_key, legislature, party, riding, date, source
                  (min(start or date, date), max(end or date, date), rowid))
 
 
+def division_bill_keys(d):
+    """The bills of one division dict, primary first: d['bill_key'] and then
+    d['also_bill_keys'] (other bills decided by the same question)."""
+    out = [d["bill_key"]] if d.get("bill_key") else []
+    for key in d.get("also_bill_keys") or []:
+        if key and key not in out:
+            out.append(key)
+    return out
+
+
+# "Did a division decide this bill?" -- the primary column OR the link table.
+# Rows stored before prov_division_bills existed carry only the column, so
+# both are asked. Bind the bill key TWICE: ... WHERE {ON_BILL} AND date=?
+ON_BILL = ("(bill_key=? OR division_key IN "
+           "(SELECT division_key FROM prov_division_bills WHERE bill_key=?))")
+
+
+def linked_bills(conn, division_key):
+    """Every bill a stored division decided, primary first."""
+    rows = conn.execute("SELECT bill_key FROM prov_division_bills WHERE division_key=? "
+                        "ORDER BY is_primary DESC, bill_key", (division_key,)).fetchall()
+    if rows:
+        return [r[0] for r in rows]
+    row = conn.execute("SELECT bill_key FROM prov_divisions WHERE division_key=?",
+                       (division_key,)).fetchone()
+    return [row[0]] if row and row[0] else []
+
+
 def store_division(conn, d, when=None):
     """Write one division (a dict) and, if recorded, its votes.
 
@@ -402,6 +444,10 @@ def store_division(conn, d, when=None):
          json.dumps(d.get("areas") or []), json.dumps(d.get("matched_terms") or []),
          d.get("tier"), d.get("excerpt"), d.get("positions_ok"), d.get("tally_note"),
          when, when))
+    conn.execute("DELETE FROM prov_division_bills WHERE division_key=?", (d["division_key"],))
+    for k, key in enumerate(division_bill_keys(d)):
+        conn.execute("INSERT OR IGNORE INTO prov_division_bills (division_key, bill_key, is_primary) "
+                     "VALUES (?,?,?)", (d["division_key"], key, 1 if k == 0 and d.get("bill_key") else 0))
     conn.execute("DELETE FROM prov_votes WHERE division_key=?", (d["division_key"],))
     if d["kind"] != "recorded":
         return
