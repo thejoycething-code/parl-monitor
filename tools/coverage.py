@@ -143,6 +143,9 @@ FEEDS = [
     ("ca_bills", "last_seen", 7, 4, "LEGISinfo bills (Canada weekly)"),
     ("ca_members", "last_seen", 7, 4, "House of Commons roster (Canada weekly)"),
     ("ca_petitions", "last_seen", 7, 7, "House petitions, presented and open (Canada weekly)"),
+    # The SCC feed always lists 100 items and every one is re-stamped, so
+    # this moves every week, recess included (tools/ca_courts.py).
+    ("ca_judgments", "last_seen", 7, 4, "Supreme Court judgments feed (Canada weekly)"),
 ]
 
 # Which feeds each pipeline is responsible for. This drives the check
@@ -249,6 +252,7 @@ ONCE_EVER = {
     "ca_senate_sittings": "one row per Senate sitting read, stored once",
     "ca_committee_meetings": "one row per committee meeting read, stored once",
     "ca_testimony": "one row per witness intervention on our ground, stored once",
+    "ca_leave": "one row per leave-to-appeal decision, written once",
     "items": "new rows only: PQs, SIs, consultations and what's on are "
              "inserted when they appear and not re-stamped",
     "sp_affiliations": "new rows only: an MSP's committee places",

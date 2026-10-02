@@ -203,6 +203,13 @@ jobs:
         # ca_speeches (forum='committee'); witnesses only to ca_testimony.
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/ca_committees.py --session 45-1 --budget-seconds 1200 | tee /tmp/ca-committees.log
+      - name: Supreme Court judgments and leave to appeal (feeds)
+        # 3 October 2026 (tools/ca_courts.py). Context only: never places
+        # anyone. Lexum's bot check (Norma) blocked the laptop's VPN after
+        # ~200 pages; the collector stops at the first challenge with ONE
+        # gap, waits 3 s between requests and reads at most 60 pages a run.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_courts.py | tee /tmp/ca-courts.log
       - name: Petitions (owed a refresh, newly presented, newly open)
         # 300 page fetches: the open e-petition probe alone is ~190 numbers
         # a week, nearly all of them empty 0-byte answers.
@@ -308,7 +315,7 @@ jobs:
           {
             echo "## Canada weekly"
             echo '```'
-            grep -hE "ca-rollcalls:|ca-senate:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
+            grep -hE "ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
               /tmp/ca-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/ca-*.log 2>/dev/null \

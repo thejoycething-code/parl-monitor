@@ -1,7 +1,8 @@
 """Tables for the Canadian monitor: House divisions and bills (phase 1),
 Hansard, petitions, Senate votes and the Canada Gazette (phase 2), Senate
 Debates and House and joint committee evidence (ca_senate_sittings,
-ca_committee_meetings, ca_testimony; 2 October 2026).
+ca_committee_meetings, ca_testimony; 2 October 2026), and the Supreme Court
+of Canada (ca_judgments, ca_leave).
 
 WHY A MODULE OF ITS OWN. Every other jurisdiction's schema lives in
 `src/db.py`. These tables were kept here while the Canadian monitor was
@@ -271,6 +272,58 @@ SCHEMA = (
         first_seen   TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS ca_testimony_meeting ON ca_testimony (meeting_key)",
+    # Supreme Court of Canada (tools/ca_courts.py, 2 October 2026). CONTEXT
+    # ONLY: a judgment never places a parliamentarian and never enters a 5CA
+    # sheet; a stance file may cite one in a reading's `why`.
+    #
+    # Every judgment READ gets a row, ours or not, so the feed's re-listing
+    # of an updated old judgment (Ford v. Quebec, 1988, beside 2026 SCC 31)
+    # is recognised by its id and never read twice.
+    """CREATE TABLE IF NOT EXISTS ca_judgments (
+        judgment_id  TEXT PRIMARY KEY,   -- Lexum item id ('14637'); a Federal Court row is 'fc-<id>'
+        court        TEXT NOT NULL,      -- 'SCC' or 'FC'
+        citation     TEXT,               -- '2015 SCC 5'
+        scr          TEXT,               -- '[2015] 1 SCR 331', once reported
+        docket       TEXT,               -- the SCC case number; joins ca_leave.docket
+        date         TEXT,
+        title        TEXT,
+        subjects     TEXT,               -- JSON list, the Court's own ('Constitutional law')
+        judges       TEXT,               -- JSON list, as printed ('McLachlin, Beverley')
+        on_appeal_from TEXT,             -- 'British Columbia'
+        interveners  TEXT,               -- JSON list of names; NULL = not parsed, [] = none
+        headnote     TEXT,               -- from 'Indexed as' up to 'Cases Cited': what is matched
+        excerpt      TEXT,               -- the strongest qualifying passage
+        matched_on   TEXT,               -- 'headnote', 'opening' (no Cases Cited found) or 'reasons' (FC)
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        triage_score INTEGER,            -- tools/ca_triage.py, once ever
+        why_it_matters TEXT,
+        url          TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # Applications for leave to appeal: the early-warning layer. A GRANTED
+    # leave is classified on the Registrar's case summary from the docket
+    # page; a dismissed one is stored with no summary (the lower court's
+    # ruling stands, and the leave text names only the parties).
+    """CREATE TABLE IF NOT EXISTS ca_leave (
+        docket       TEXT PRIMARY KEY,   -- the SCC case number
+        lexum_id     TEXT,               -- the leave document's Lexum id: a feed item is read once
+        status       TEXT,               -- 'Granted' / 'Dismissed', the Court's word
+        decided      TEXT,
+        title        TEXT,
+        on_appeal_from TEXT,
+        summary      TEXT,               -- Registrar's keywords + summary (granted only)
+        excerpt      TEXT,
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        url          TEXT,               -- the docket page
+        first_seen   TEXT                -- written once per decision: no sighting column
+    )""",
+    "CREATE INDEX IF NOT EXISTS ca_judgments_docket ON ca_judgments (docket)",
+    "CREATE INDEX IF NOT EXISTS ca_leave_lexum ON ca_leave (lexum_id)",
     "CREATE INDEX IF NOT EXISTS ca_gazette_items_issue ON ca_gazette_items (issue_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_sitting ON ca_speeches (sitting_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_person ON ca_speeches (person_id)",
