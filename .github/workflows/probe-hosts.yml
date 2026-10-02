@@ -1,0 +1,36 @@
+name: Probe legislature hosts
+
+# 3 October 2026. Nova Scotia (TCP reset), PEI (Radware CAPTCHA) and Yukon
+# (Cloudflare challenge) refused the scoping probe, which ran from a VPN exit
+# in Dublin. Before any of them is written off, this asks the same pages from
+# a GitHub runner -- the IP the collectors would really use -- and prints what
+# came back. Read-only: no store, no commit, nothing published.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Ask each host once, politely
+        run: |
+          UA="parl-monitor (CitizenGO parliamentary research; https://citizengo.org)"
+          for url in \
+            https://nslegislature.ca/ \
+            https://nslegislature.ca/legislative-business/journals \
+            https://www.assembly.pe.ca/ \
+            https://www.assembly.pe.ca/legislative-business/house-records \
+            https://yukonassembly.ca/ \
+            https://yukonassembly.ca/house-business/votes-proceedings ; do
+            out=$(curl -s -o /tmp/body -w "%{http_code} %{size_download}" -A "$UA" --max-time 30 "$url" || echo "ERR")
+            title=$(grep -o "<title>[^<]*" /tmp/body 2>/dev/null | head -1 | cut -c8-90)
+            flag=""
+            grep -qiE "captcha|cf-chl|challenge-platform|Attention Required|radware" /tmp/body 2>/dev/null && flag="  <-- bot challenge"
+            echo "$url -> $out | $title$flag"
+            sleep 2
+          done
