@@ -580,6 +580,388 @@ divisions:
       C-11 is on our ground, but only amendments specifically about speech
       score (Christopher, 3 October 2026). A whole-bill vote on broadcasting
       regulation is kept as evidence, never placed.
+
+  # --- C-11 amendments, READ 3 October 2026 for Christopher -------------------
+  # "Only score amendments specifically related to speech." Every C-11
+  # amendment division was read from the Journals (House and Senate) and its
+  # page/line references checked against the bill as passed by the House
+  # (parl.ca/Content/Bills/441/Government/C-11/C-11_3/C-11_3.PDF), which is
+  # the print the Senate's references use. The ground in the bill:
+  #   s.4.1(1) "This Act does not apply in respect of a program that is
+  #     uploaded to an online undertaking that provides a social media service
+  #     by a user of the service for transmission over the Internet and
+  #     reception by other users of the service."
+  #   s.4.1(2) "Despite subsection (1), this Act applies ... if the program
+  #     (a) is uploaded to the social media service by the provider of the
+  #     service ... or (b) is prescribed by regulations made under section 4.2."
+  #   s.4.2 the CRTC "may make regulations prescribing programs in respect of
+  #     which this Act applies", weighing "the extent to which a program,
+  #     uploaded to an online undertaking that provides a social media
+  #     service, directly or indirectly generates revenues".
+  # FOUR amendments are speech-specific, all in the Senate, and are drafted
+  # below. Every House amendment was a whole-bill, scope or procedural
+  # motion. Movers and seconders all voted Yea on their own Senate
+  # amendments; the two House movers with no recorded vote are named.
+  - key: senate-44-1-598845
+    draft: true
+    title: "C-11 -- Senate third reading amendment (Sen. Plett): delete s.4.1(2) and s.4.2"
+    dated: 2023-02-02
+    result: "Defeated 16-44-1"
+    lobbies: "Yea: C 10, CSG 6. Nay: ISG 25, PSG 10, Non-affiliated 5, CSG 4"
+    moved_by: "Senator Donald Plett, seconded by Senator Housakos (both voted Yea)"
+    source: >
+      Journals of the Senate, 2 February 2023
+      (sencanada.ca/en/content/sen/chamber/441/journals/096jr_2023-02-02-e);
+      lines read against C-11 as passed by the House, pp. 9-10
+    text: >
+      That Bill C-11, as amended, be not now read a third time, but that it be
+      further amended, in clause 4 (as amended by the decision of the Senate
+      on December 14, 2022), (a) on page 9, by deleting lines 30 to 37; (b) on
+      page 10, by deleting lines 9 to 32.
+    # TEXT READ 3 October 2026. Page 9 lines 30-37 are all of s.4.1(2), the
+    # clause that brings user uploads back under the Act; page 10 lines 9-32
+    # are all of s.4.2, the CRTC's power to prescribe them by regulation. With
+    # both gone, s.4.1(1) stands alone: the Act would not apply to programs
+    # users upload to social media. THE cleanest speech vote on C-11, and the
+    # only one whose sole effect is user uploads. Nay is -1, not -2, as on
+    # Senator Martin's C-9 amendment: the deletion also took out s.4.1(2)(a)
+    # (programs the platform itself uploads), and the committee's amendment
+    # 3 had already narrowed s.4.2, so a Nay need not be a vote for
+    # regulating users.
+    yea: 2
+    why_yea: >
+      Voted to delete the CRTC's power to bring programs users upload to
+      social media under the Broadcasting Act (s.4.1(2) and s.4.2), leaving
+      user uploads outside the Act.
+    nay: -1
+    why_nay: >
+      Voted to keep the CRTC's power to bring user-uploaded social-media
+      programs under the Broadcasting Act by regulation (s.4.2).
+  - key: senate-44-1-605567
+    draft: true
+    title: "C-11 -- Commons message, subamendment (Sen. MacDonald): insist on Senate amendment 3 alone"
+    dated: 2023-04-26
+    result: "Defeated 15-53-2"
+    lobbies: "Yea: C 12, CSG 3. Nay: ISG 33, PSG 10, Non-affiliated 5, CSG 5"
+    moved_by: "Senator Michael MacDonald, seconded by Senator Housakos (both voted Yea)"
+    source: >
+      Journals of the Senate, 20 and 26 April 2023
+      (sencanada.ca/en/content/sen/chamber/441/journals/114jr_2023-04-20-e and
+      116jr_2023-04-26-e); amendment 3 from the Senate's message, Journals of
+      the House of Commons No. 153, 3 February 2023; the House's reason for
+      disagreeing from ourcommons.ca/members/en/votes/44/1/292
+    text: >
+      That the motion in amendment be amended: 1. in the proposed new wording
+      for sub-paragraph (b), by replacing the words "amendments to which the
+      House of Commons disagrees;" by the following: "amendment 3 to which the
+      House of Commons disagrees; and (c) do not insist on its other
+      amendments to which the House of Commons disagrees;"; and 2. in the
+      proposed new paragraph empowering the Standing Senate Committee on
+      Transport and Communications to develop the Senate's reasons for its
+      insistence, by replacing the word "amendments" by the word "amendment".
+    # TEXT READ 3 October 2026. Senate amendment 3 (Clause 4, page 10)
+    # replaced the s.4.2(2) matters -- including "the extent to which a
+    # program ... directly or indirectly generates revenues" -- with: "(a)
+    # the extent to which a program contains a sound recording that has been
+    # assigned a unique identifier under an international standards system;
+    # (b) the fact that the program has been uploaded ... by the owner or the
+    # exclusive licensee of the copyright in the sound recording, or an agent
+    # of the owner; and (c) the fact that the program or a significant part
+    # of it has been broadcast by a broadcasting undertaking that (i) is
+    # required to be carried on under a licence, or (ii) is required to be
+    # registered". The House rejected it as limiting the power "to
+    # appropriately scope the regulation of social media services". The
+    # subamendment's sole effect: the Senate insists on amendment 3 and
+    # drops the rest. +/-1, not +/-2: amendment 3 narrows what the CRTC
+    # weighs rather than excluding user uploads, and not insisting is the
+    # Senate's ordinary course on a Commons message.
+    yea: 1
+    why_yea: >
+      Voted for the Senate to insist, against the House, on its amendment
+      narrowing CRTC regulation of user-uploaded social-media programs to
+      commercial sound recordings.
+    nay: -1
+    why_nay: >
+      Voted against insisting on the Senate amendment narrowing CRTC
+      regulation of user-uploaded social-media programs to commercial sound
+      recordings.
+  - key: senate-44-1-598337
+    draft: true
+    title: "C-11 -- Senate third reading amendment (Sen. Manning): $10 million floor on s.4.2 regulations"
+    dated: 2023-01-31
+    result: "Defeated 16-52-1"
+    lobbies: "Yea: C 11, CSG 4, Non-affiliated 1. Nay: ISG 31, PSG 11, Non-affiliated 6, CSG 4"
+    moved_by: "Senator Fabian Manning, seconded by Senator Batters (both voted Yea)"
+    source: >
+      Journals of the Senate, 31 January 2023
+      (sencanada.ca/en/content/sen/chamber/441/journals/094jr_2023-01-31-e)
+    text: >
+      That Bill C-11, as amended, be not now read a third time, but that it be
+      further amended in clause 4 (as amended by the decision of the Senate on
+      December 14, 2022), on page 10, by adding the following after line 32:
+      "(4) The regulations shall not prescribe a program of a broadcasting
+      undertaking that generates annual revenues of less than $10 million.".
+    # TEXT READ 3 October 2026. Page 10 line 32 is the end of s.4.2(3), the
+    # list of programs the user-upload regulations may not prescribe; this
+    # adds a fourth exclusion. Speech-specific because it narrows the only
+    # power the bill gives over user uploads, but +/-1: it is a revenue
+    # threshold, and its reach is uncertain -- s.2(2.1) says a user uploading
+    # to social media is NOT a broadcasting undertaking, so "a program of a
+    # broadcasting undertaking" may not reach individual users at all.
+    # Confirm only if that reading is accepted.
+    yea: 1
+    why_yea: >
+      Voted to bar the CRTC's user-upload regulations (s.4.2) from
+      prescribing a program of a broadcasting undertaking earning under $10
+      million a year.
+    nay: -1
+    why_nay: >
+      Voted against a $10 million revenue floor on the programs the CRTC's
+      user-upload regulations (s.4.2) may prescribe.
+  - key: senate-44-1-598860
+    draft: true
+    title: "C-11 -- Senate third reading amendment (Sen. Housakos): discoverability"
+    dated: 2023-02-02
+    result: "Defeated 13-42-3"
+    lobbies: "Yea: C 9, CSG 4. Nay: ISG 25, PSG 9, Non-affiliated 4, CSG 4"
+    moved_by: "Senator Leo Housakos, seconded by Senator Martin (both voted Yea)"
+    source: >
+      Journals of the Senate, 2 February 2023
+      (sencanada.ca/en/content/sen/chamber/441/journals/096jr_2023-02-02-e);
+      lines read against C-11 as passed by the House, pp. 8 and 14
+    text: >
+      That Bill C-11, as amended, be not now read a third time, but that it be
+      further amended, (a) in clause 3 (as amended by the decision of the
+      Senate on December 14, 2022), on page 8, by replacing line 31 with the
+      following: "(i) allow the discoverability of Canadian program-"; (b) in
+      clause 10 (as amended by the decision of the Senate on December 14,
+      2022), on page 14, by replacing lines 27 to 30 with the following:
+      "services for selection by the public;".
+    # TEXT READ 3 October 2026. (a) changes s.3(1)(q)(i), online undertakings
+    # "should (i) ensure the discoverability of Canadian programming services
+    # and original Canadian programs", from "ensure" to "allow". (b) cuts
+    # s.9.1(1)(e), the CRTC's power to impose conditions respecting "the
+    # presentation of programs and programming services for selection by the
+    # public, including the showcasing and the discoverability of Canadian
+    # programs and programming services, such as original French language
+    # programs", back to "... for selection by the public;". Speech-specific
+    # under the discoverability test (who decides what users are shown), but
+    # +/-1: it reaches streaming services' catalogues as much as social
+    # media feeds, and the CRTC keeps a general power over "presentation".
+    yea: 1
+    why_yea: >
+      Voted to remove the CRTC's power to order online platforms to showcase
+      and make discoverable Canadian programs, and to soften their duty from
+      "ensure" to "allow" discoverability.
+    nay: -1
+    why_nay: >
+      Voted to keep the CRTC's power to order online platforms to showcase
+      and make discoverable Canadian programs.
+
+  # Not speech-specific: whole-bill, scope, bundle or procedural. Evidence only.
+  - key: commons-44-1-87
+    placeable: false
+    title: "C-11 second reading -- subamendment (report-back deadline)"
+    dated: 2022-05-12
+    result: "Negatived 109-209"
+    moved_by: "Jeremy Patzer (Conservative; voted Yea)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/87 (sitting 70)"
+    text: >
+      That the amendment be amended by adding the following: "; and that the
+      committee report back no later than 10 sitting days following the
+      adoption of this motion.".
+    reason: "Procedure: a deadline on the referral proposed by amendment 88."
+  - key: commons-44-1-88
+    placeable: false
+    title: "C-11 second reading -- amendment (withdraw the bill, refer the subject matter)"
+    dated: 2022-05-12
+    result: "Negatived 111-209"
+    moved_by: "Michelle Rempel Garner (Conservative; no recorded vote on her own amendment)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/88 (sitting 70)"
+    text: >
+      That the motion be amended by deleting all the words after the word
+      "That" and substituting the following: "Bill C-11, An Act to amend the
+      Broadcasting Act and to make related and consequential amendments to
+      other Acts, be not now read a second time but that the order be
+      discharged, the bill withdrawn and the subject matter thereof referred
+      to the Standing Committee on Canadian Heritage.".
+    reason: "A whole-bill motion at second reading: withdraw the bill and study its subject."
+  - key: commons-44-1-158
+    placeable: false
+    title: "C-11 report stage -- Motions 1 and 3 (Thomas): delete clauses 2 and 4"
+    dated: 2022-06-20
+    result: "Negatived 117-209"
+    lobbies: "Yea: Conservative 116, Independent 1. Nay: Liberal 152, Bloc 31, NDP 24, Green 2"
+    moved_by: >
+      Rachael Thomas (Conservative, Lethbridge), seconded by Kelly McCauley;
+      Thomas has no recorded vote on it (absent from the Journals list), McCauley voted Yea
+    source: >
+      Journals No. 91, 17 June 2022 (the motions) and No. 92, 20 June 2022
+      (the vote: "Accordingly, Motion No. 3 was also negatived on the same
+      division"); ourcommons.ca/DocumentViewer/en/44-1/house/sitting-92/journals
+    text: >
+      Motion No. 1: "That Bill C-11 be amended by deleting Clause 2." Motion
+      No. 3: "That Bill C-11 be amended by deleting Clause 4."
+    reason: >
+      READ 3 October 2026; a judgement call, flagged for Christopher. Clause 2
+      is the definitions clause: it makes "online undertaking" a class of
+      broadcasting undertaking, and holds the s.2(2.1)-(2.3) exclusions
+      (users uploading to social media do not carry on a broadcasting
+      undertaking). Clause 4 is all of s.4.1 and s.4.2. Deleting both takes
+      the internet out of the Act altogether -- Netflix and Spotify as much
+      as user uploads -- so it is a vote on the bill's scope, like the
+      whole-bill votes, not one specifically about speech. It also deletes
+      the user exclusions themselves.
+  - key: commons-44-1-160
+    placeable: false
+    title: "C-11 -- concurrence at report stage"
+    dated: 2022-06-20
+    result: "Agreed 210-118"
+    reason: "A whole-bill vote: the bill as amended concurred in at report stage."
+  - key: commons-44-1-163
+    placeable: false
+    title: "C-11 third reading -- hoist amendment (six months hence)"
+    dated: 2022-06-21
+    result: "Negatived 116-209"
+    moved_by: "Blake Richards (Conservative; voted Yea)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/163 (sitting 93)"
+    text: >
+      That the motion be amended by deleting all the words after the word
+      "That" and substituting the following: "Bill C-11, An Act to amend the
+      Broadcasting Act and to make related and consequential amendments to
+      other Acts, be not now read a third time but that it be read a third
+      time this day six months hence.".
+    reason: "A whole-bill motion: a hoist kills the bill."
+  - key: commons-44-1-291
+    placeable: false
+    title: "C-11 -- motion respecting Senate amendments, amendment (withdraw the bill)"
+    dated: 2023-03-30
+    result: "Negatived 113-205"
+    moved_by: "Rachael Thomas (Conservative; voted Yea)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/291 (sitting 176)"
+    text: >
+      That the motion be amended by deleting all the words after the word
+      "That" and substituting the following: "the order for the consideration
+      of the amendments made by the Senate to Bill C-11, An Act to amend the
+      Broadcasting Act and to make related and consequential amendments to
+      other Acts, be discharged and the bill withdrawn.".
+    reason: "A whole-bill motion: withdraw C-11."
+  - key: commons-44-1-292
+    placeable: false
+    title: "C-11 -- motion respecting Senate amendments"
+    dated: 2023-03-30
+    result: "Agreed 202-117"
+    lobbies: "Yea: Liberal 146, Bloc 31, NDP 24, Ind 1. Nay: Conservative 114, Green 2, Ind 1"
+    moved_by: "Pablo Rodriguez (Liberal; Minister of Canadian Heritage)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/292 (sitting 176)"
+    text: >
+      That a message be sent to the Senate to acquaint Their Honours that, in
+      relation to Bill C-11, ... the House: agrees with amendments 1(a)(ii),
+      1(b), 2(a), 2(b), 2(c), 2(d)(i), 2(e), 4, 5, 7(b)(i), 8, 9(a), 10 and 12
+      made by the Senate; respectfully disagrees with amendment 1(a)(i) ...;
+      respectfully disagrees with amendment 2(d)(ii) ...; respectfully
+      disagrees with amendment 3 because this would affect the Governor in
+      Council's ability to publicly consult on, and issue, a policy direction
+      to the CRTC to appropriately scope the regulation of social media
+      services with respect to their distribution of commercial programs ...;
+      respectfully disagrees with amendment 6 ...; proposes that amendment
+      7(a) be amended ...; respectfully disagrees with amendment 7(b)(ii) ...;
+      proposes that amendment 9(b) be amended ...; respectfully disagrees with
+      amendment 11 ...
+    reason: >
+      READ 3 October 2026. A package answering twelve Senate amendments at
+      once: it accepted the Senate's freedom-of-expression and privacy
+      additions (1(b), 2(b)) and rejected amendment 3 (narrowing user-upload
+      regulation) alongside the age-verification amendment 2(d)(ii), the
+      genres, Canadian-program and CBC amendments. Not specifically speech.
+      The speech-specific answer to the rejection of amendment 3 is Senator
+      MacDonald's subamendment, senate-44-1-605567.
+  - key: commons-44-1-149
+    placeable: false
+    title: "Government Business No. 16 (proceedings on C-11), amendment"
+    reason: "Programming of a bill's timetable: procedure, not substance."
+  - key: commons-44-1-150
+    placeable: false
+    title: "Government Business No. 16 (proceedings on C-11)"
+    reason: "Programming of a bill's timetable: procedure, not substance."
+  - key: senate-44-1-597012
+    placeable: false
+    title: "C-11 -- TRCM Report No. 3 with amendments (Senate)"
+    dated: 2022-12-14
+    result: "Adopted 51-15"
+    lobbies: "Yea: ISG 28, PSG 11, Non-affiliated 7, CSG 5. Nay: C 10, CSG 5"
+    moved_by: "Senator Housakos (committee chair), seconded by Senator Martin"
+    source: >
+      Journals of the Senate, 14 December 2022
+      (sencanada.ca/en/content/sen/chamber/441/journals/092jr_2022-12-14-e);
+      the twelve amendments as messaged, Journals of the House of Commons No.
+      153, 3 February 2023
+    reason: >
+      READ 3 October 2026. The report carried all twelve Senate amendments as
+      one vote: amendment 3 (narrowing user-upload regulation to commercial
+      sound recordings), "creators" added to the freedom-of-expression
+      clause and a new objective to "ensure freedom of expression and
+      journalistic independence", beside age verification for online
+      pornography, Indigenous-language, community-media, CBC and
+      Status-of-the-Artist amendments. A bundle, like the C-9 RIDR report:
+      evidence only. The speech parts were voted on alone later (605567).
+  - key: senate-44-1-598556
+    placeable: false
+    title: "C-11 -- Senate third reading amendment (Sen. Downe): CBC penalties and salaries"
+    dated: 2023-02-01
+    result: "Defeated 20-46-2"
+    moved_by: "Senator Percy Downe, seconded by Senator Francis (both voted Yea)"
+    source: "Journals of the Senate, 1 February 2023 (sencanada.ca/en/content/sen/chamber/441/journals/095jr_2023-02-01-e)"
+    reason: >
+      READ 3 October 2026: a $2 million administrative penalty on CBC/Radio-
+      Canada for missing regional or local programming minimums, paid to a
+      local library, and disclosure of CBC salaries above a senator's
+      allowance. CBC/Radio-Canada, not speech.
+  - key: senate-44-1-598861
+    placeable: false
+    title: "C-11 -- Senate third reading"
+    dated: 2023-02-02
+    result: "Adopted 43-15"
+    reason: >
+      C-11 is on our ground, but only amendments specifically about speech
+      score (Christopher, 3 October 2026). A whole-bill vote on broadcasting
+      regulation is kept as evidence, never placed.
+  - key: senate-44-1-604953
+    placeable: false
+    title: "C-11 Commons message -- adjournment of debate on the MacDonald subamendment"
+    dated: 2023-04-20
+    result: "Defeated 16-46"
+    reason: "Procedure: a motion (Senator Martin) to adjourn debate."
+  - key: senate-44-1-605386
+    placeable: false
+    title: "C-11 Commons message -- time allocation (Government Motion No. 96)"
+    dated: 2023-04-25
+    result: "Adopted 52-12"
+    reason: "Procedure, not substance."
+  - key: senate-44-1-605586
+    placeable: false
+    title: "C-11 Commons message -- amendment (Sen. Plett): insist on every rejected amendment"
+    dated: 2023-04-26
+    result: "Defeated 17-47"
+    lobbies: "Yea: C 12, CSG 5. Nay: ISG 30, PSG 9, Non-affiliated 4, CSG 4"
+    moved_by: "Senator Donald Plett, seconded by Senator Housakos (both voted Yea)"
+    source: "Journals of the Senate, 20 and 26 April 2023 (114jr_2023-04-20-e, 116jr_2023-04-26-e)"
+    text: >
+      That the motion, as amended, be further amended: 1. by replacing
+      sub-paragraph (b) by the following: "(b) insist on its amendments to
+      which the House of Commons disagrees;"; 2. by adding, before the final
+      paragraph, the following new paragraph: "That, pursuant to rule 16-3,
+      the Standing Senate Committee on Transport and Communications be
+      charged with drawing up the reasons for the Senate's insistence on its
+      amendments; and"; and 3. by replacing, in the final paragraph, the words
+      "That a message be sent" by the words "That, once the reasons for the
+      insistence have been agreed to by the Senate, a message be sent".
+    reason: >
+      READ 3 October 2026. Insists on all six amendments the House rejected
+      -- 3 (user uploads) with 1(a)(i) (community element), 2(d)(ii) (age
+      verification), 6 (genres), 7(b)(ii) (Canadian programs) and 11 (CBC
+      advertising). A bundle; amendment 3 alone was put by Senator MacDonald
+      (605567), which is the reading that scores.
   - key: commons-41-1-181
     placeable: false
     title: "C-310 trafficking (report stage)"
@@ -615,7 +997,13 @@ divisions:
   - key: commons-44-1-159
     placeable: false
     title: "C-11 report stage motion (326-0)"
-    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+    moved_by: "Omar Alghabra (Liberal; Minister of Transport), for the government"
+    text: >
+      Motion No. 2: That Bill C-11, in Clause 3, be amended by replacing lines
+      25 and 26 on page 8 with the following: "limitation, closed captioning
+      services and described video services available to assist persons
+      living with a visual or auditory im-" (Journals No. 91, 17 June 2022).
+    reason: "Unanimous (326-0), and accessibility, not speech."
   - key: commons-41-2-205
     placeable: false
     title: "C-36 time allocation"

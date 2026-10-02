@@ -277,5 +277,27 @@ class StanceFileTests(unittest.TestCase):
         ridr = c5.load_stance(section="divisions")["senate-45-1-699935"]
         self.assertEqual(c5.status(ridr), "unplaceable")
 
+    def test_c11_scores_only_the_speech_amendments(self):
+        """Christopher, 3 October 2026: "C-11, the Online Streaming Act, is on
+        our ground but only score amendments specifically related to speech."
+        Every 44-1 C-11 division has an entry; only the four Senate
+        speech amendments carry values, and they are drafts until he
+        confirms them. Each carries the text it was read from."""
+        divs = c5.load_stance(section="divisions")
+        speech = ("senate-44-1-598845", "senate-44-1-605567", "senate-44-1-598337", "senate-44-1-598860")
+        evidence = ("commons-44-1-86", "commons-44-1-87", "commons-44-1-88", "commons-44-1-89",
+                    "commons-44-1-149", "commons-44-1-150", "commons-44-1-158", "commons-44-1-159",
+                    "commons-44-1-160", "commons-44-1-163", "commons-44-1-164", "commons-44-1-291",
+                    "commons-44-1-292", "senate-44-1-579724", "senate-44-1-590158", "senate-44-1-597012",
+                    "senate-44-1-598556", "senate-44-1-598861", "senate-44-1-604953", "senate-44-1-605386",
+                    "senate-44-1-605586", "senate-44-1-605960")
+        self.assertEqual([k for k in speech if c5.status(divs.get(k)) != "draft"], [])
+        self.assertEqual([k for k in evidence if c5.status(divs.get(k)) != "unplaceable"], [])
+        for k in speech:
+            self.assertTrue(divs[k].get("text") and divs[k].get("moved_by") and divs[k].get("source"), k)
+        # Only the one whose sole effect is user uploads reaches +2.
+        self.assertEqual(divs["senate-44-1-598845"]["yea"], 2)
+        self.assertEqual({divs[k]["yea"] for k in speech[1:]}, {1})
+
 if __name__ == "__main__":
     unittest.main()
