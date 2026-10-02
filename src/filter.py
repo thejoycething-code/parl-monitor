@@ -132,12 +132,17 @@ def load_taxonomy(path):
                 # when the text also contains one of the guards. See the
                 # docstring -- some vocabulary belongs to several policy areas
                 # at once and needs company to disambiguate.
-                guards = []
+                # The mirror image, {term, without: [...]} (v1.16, 2 October
+                # 2026): a veto present in the same text stops the match. A
+                # labour code's "organ donor leave" says organ donor and is
+                # employment law, not transplant ethics.
+                guards, vetoes = [], []
                 if isinstance(t, dict):
                     guards = [_compile_term(g) for g in (t.get("with") or [])]
+                    vetoes = [_compile_term(g) for g in (t.get("without") or [])]
                     t = t.get("term")
                 pattern, cs = _compile_term(t)
-                compiled.append((t, pattern, cs, guards))
+                compiled.append((t, pattern, cs, guards, vetoes))
             terms[area][tier_num] = compiled
     exclusions = {str(e).lower() for e in (raw.get("exclusions_global") or [])}
     return Taxonomy(version=str(raw.get("version")), terms=terms, exclusions=exclusions)
@@ -218,7 +223,7 @@ def _scan_taxonomy(text_lower, text_orig, taxonomy):
     hits = []  # (area, tier, term)
     for area, tiers in taxonomy.terms.items():
         for tier_num, compiled_terms in tiers.items():
-            for term, pattern, cs, guards in compiled_terms:
+            for term, pattern, cs, guards, vetoes in compiled_terms:
                 if not pattern.search(text_orig if cs else text_lower):
                     continue
                 # A guarded term needs one of its guards present too. Scoped
@@ -228,6 +233,9 @@ def _scan_taxonomy(text_lower, text_orig, taxonomy):
                 # another does not thereby become an abortion item.
                 if guards and not any(
                         g.search(text_orig if gcs else text_lower) for g, gcs in guards):
+                    continue
+                if vetoes and any(
+                        v.search(text_orig if vcs else text_lower) for v, vcs in vetoes):
                     continue
                 hits.append((area, tier_num, term))
     return hits

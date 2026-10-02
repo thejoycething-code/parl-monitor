@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Quebec French keyword taxonomy
 
-**Version 0.2 | 3 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
+**Version 0.3 | 2 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
 
 ## Purpose
 
@@ -211,9 +211,9 @@ words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online). After the ful
 ### 13. Organ donation and transplant ethics {#13_organ_donation}
 
 - **Name:** Organ donation and transplant ethics
-- **Tier 1:** "don* d'organes"; "donneur* d'organes"; "transplantation* d'organes"; "greffe* d'organes"; "consentement présumé" [with: organe*, don*, greffe*]; "présomption de consentement" [with: organe*, don*, greffe*]; "trafic d'organes"; "Transplant Québec"
+- **Tier 1:** "don* d'organes" [without: "normes du travail", "Code du travail", "s'absenter"]; "donneur* d'organes" [without: "normes du travail", "Code du travail", "s'absenter"]; "transplantation* d'organes"; "greffe* d'organes"; "consentement présumé" [with: organe*, don*, greffe*]; "présomption de consentement" [with: organe*, don*, greffe*]; "trafic d'organes"; "Transplant Québec"
 - **Tier 2:** "don* de tissus"
-- **Notes:** Measured: Bill 125 (2010) "Loi facilitant les dons d'organes et de tissus", Bill 197 (37-2) "facilitant les dons d'organes", and Bill 194 (43-1, still listed in 43-3) "instaurant une présomption de consentement au don d'organes ou de tissus après le décès" -- the Quebec form of deemed consent, which says "présomption de consentement", not "consentement présumé"; both are listed and both are guarded.
+- **Notes:** v0.3 (2026-10-02), the mirror of the English v1.16 veto (Christopher: "guard both taxonomy terms"): "don* d'organes" and "donneur* d'organes" do not match beside "normes du travail", "Code du travail" or "s'absenter". Quebec's Act respecting labour standards lets an employee be absent for organ or tissue donation, which is employment law, as Manitoba's and Newfoundland and Labrador's organ-donor leave are. "absence" is deliberately NOT a veto: a presumed-consent Bill speaks of "l'absence de refus". Measured: Bill 125 (2010) "Loi facilitant les dons d'organes et de tissus", Bill 197 (37-2) "facilitant les dons d'organes", and Bill 194 (43-1, still listed in 43-3) "instaurant une présomption de consentement au don d'organes ou de tissus après le décès" -- the Quebec form of deemed consent, which says "présomption de consentement", not "consentement présumé"; both are listed and both are guarded.
 
 ## Global exclusions
 

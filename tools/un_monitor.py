@@ -40,7 +40,7 @@ def area_terms(tax, areas):
     out = []
     for area in areas:
         for tier in (tax.terms.get(area) or {}).values():
-            out.extend(term for term, _p, _cs, _g in tier)
+            out.extend(entry[0] for entry in tier)
     return [t.rstrip("*") for t in out]
 
 

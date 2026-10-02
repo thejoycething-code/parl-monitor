@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-qc.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang qc
-version: 0.2
+version: 0.3
 areas:
   1_abortion:
     tier1: ["avortement*", "interruption* volontaire* de grossesse", IVG, "pilule* abortive*", mifépristone, {term: "zone* tampon*", with: ["avortement*", IVG, "grossesse*", "clinique*"]}]
@@ -55,7 +55,7 @@ areas:
     # note: Measured: Bill 1194 (2017) "afin d'inclure les notions d'exploitation sexuelle et de traite des personnes". Quebec's 2019-2020 special committee was on "l'exploitation sexuelle des mineurs"; the phrase is how the Assemblée names this ground.
   13_organ_donation:
     name: Organ donation and transplant ethics
-    tier1: ["don* d'organes", "donneur* d'organes", "transplantation* d'organes", "greffe* d'organes", {term: "consentement présumé", with: ["organe*", "don*", "greffe*"]}, {term: "présomption de consentement", with: ["organe*", "don*", "greffe*"]}, "trafic d'organes", "Transplant Québec"]
+    tier1: [{term: "don* d'organes", without: ["normes du travail", "Code du travail", "s'absenter"]}, {term: "donneur* d'organes", without: ["normes du travail", "Code du travail", "s'absenter"]}, "transplantation* d'organes", "greffe* d'organes", {term: "consentement présumé", with: ["organe*", "don*", "greffe*"]}, {term: "présomption de consentement", with: ["organe*", "don*", "greffe*"]}, "trafic d'organes", "Transplant Québec"]
     tier2: ["don* de tissus"]
-    # note: Measured: Bill 125 (2010) "Loi facilitant les dons d'organes et de tissus", Bill 197 (37-2) "facilitant les dons d'organes", and Bill 194 (43-1, still listed in 43-3) "instaurant une présomption de consentement au don d'organes ou de tissus après le décès" -- the Quebec form of deemed consent, which says "présomption de consentement", not "consentement présumé"; both are listed and both are guarded.
+    # note: v0.3 (2026-10-02), the mirror of the English v1.16 veto (Christopher: "guard both taxonomy terms"): "don* d'organes" and "donneur* d'organes" do not match beside "normes du travail", "Code du travail" or "s'absenter". Quebec's Act respecting labour standards lets an employee be absent for organ or tissue donation, which is employment law, as Manitoba's and Newfoundland and Labrador's organ-donor leave are. "absence" is deliberately NOT a veto: a presumed-consent Bill speaks of "l'absence de refus". Measured: Bill 125 (2010) "Loi facilitant les dons d'organes et de tissus", Bill 197 (37-2) "facilitant les dons d'organes", and Bill 194 (43-1, still listed in 43-3) "instaurant une présomption de consentement au don d'organes ou de tissus après le décès" -- the Quebec form of deemed consent, which says "présomption de consentement", not "consentement présumé"; both are listed and both are guarded.
 exclusions_global: [genre, sexe, trans, conversion, transition, famille, enfant, parent, religion, liberté, égalité, éducation, vie, culte]

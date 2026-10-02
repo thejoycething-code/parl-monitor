@@ -73,7 +73,9 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.13 (3 October 2026): the named person and the Scottish smacking ban.
         # v1.14 (the same day): the Children and Young People (Scotland) Bill.
         # v1.15 (the same day): "gender expression", and Quebec's laicity terms.
-        self.assertEqual(version, "1.15")
+        # v1.16 (2 October 2026): "right to withdraw" guarded, and the
+        # [without:] veto for organ-donor leave in labour codes.
+        self.assertEqual(version, "1.16")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -140,6 +142,83 @@ class TaxonomySyncTests(unittest.TestCase):
         six = areas["6_parental_rights_education"]
         for term in ('"child sexual exploitation"', '"rape gang*"', "CSE"):
             self.assertIn(term, six["tier2"])
+
+
+class WithdrawGuardAndOrganLeaveVetoTests(unittest.TestCase):
+    """v1.16 / qc v0.3 (Christopher, 2 October 2026): "guard both taxonomy
+    terms". The texts are the measured cases from the store and the two
+    provincial Bills, quoted from their official pages."""
+
+    def _areas(self, text, yaml_name="taxonomy.yaml"):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", yaml_name))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_quebec_opt_out_is_not_parental_rights(self):
+        self.assertNotIn(6, self._areas(
+            "When the federal proposal clearly includes the right to withdraw "
+            "with full financial compensation, we will vote in favour."))
+
+    def test_strikes_are_not_parental_rights(self):
+        self.assertNotIn(6, self._areas(
+            "the legislation undermines the fundamental rights of workers, most "
+            "notably their right to withdraw their labour"))
+
+    def test_withdrawal_from_religious_observance_still_matches(self):
+        self.assertIn(6, self._areas(
+            "Any regulations for a pupil's right to withdraw from religious "
+            "observance would require significant consultation"))
+
+    def test_parents_right_to_withdraw_still_matches(self):
+        self.assertIn(6, self._areas(
+            "the Member is wrong to say that I'm denying parents the right to withdraw"))
+
+    def test_manitoba_organ_donation_leave_is_employment_law(self):
+        self.assertNotIn(13, self._areas(
+            "for a leave under section 59.2 (compassionate care leave); "
+            "section 59.6 (unpaid leave for organ donation); section 59.8 "
+            "(leave related to critical illness)"))
+
+    def test_newfoundland_organ_donation_leave_is_employment_law(self):
+        self.assertNotIn(13, self._areas(
+            "PART VII.9 LEAVE RELATED TO LONG-TERM ILLNESS, LONG-TERM INJURY AND "
+            "ORGAN DONATION. 43.42 In this Part, \"organ donation\" includes organ "
+            "or tissue removal from an individual for transplant."))
+
+    def test_deemed_consent_still_matches(self):
+        self.assertIn(13, self._areas(
+            "Organ Donation (Deemed Consent) Bill: opt-out organ donation in England"))
+
+    def test_quebec_labour_standards_absence_is_vetoed(self):
+        self.assertNotIn(13, self._areas(
+            "Loi sur les normes du travail : un salarié peut s'absenter du travail "
+            "pour un don d'organes ou de tissus", "taxonomy-qc.yaml"))
+
+    def test_quebec_presumed_consent_still_matches(self):
+        self.assertIn(13, self._areas(
+            "Loi instaurant une présomption de consentement au don d'organes ou "
+            "de tissus après le décès", "taxonomy-qc.yaml"))
+
+
+class WithoutBracketGeneratorTests(unittest.TestCase):
+    def test_without_alone(self):
+        self.assertEqual(generate_taxonomy._split_guarded('"organ donor*" [without: "organ donor leave", "Labour Code"]'),
+                         ('"organ donor*"', [], ['"organ donor leave"', '"Labour Code"']))
+
+    def test_both_brackets(self):
+        self.assertEqual(generate_taxonomy._split_guarded('x [with: a, b] [without: c]'),
+                         ("x", ["a", "b"], ["c"]))
+        self.assertEqual(generate_taxonomy._yaml_term('x [with: a] [without: c]'),
+                         "{term: x, with: [a], without: [c]}")
+
+    def test_with_alone_is_unchanged(self):
+        self.assertEqual(generate_taxonomy._yaml_term('"buffer zone*" [with: clinic*, abortion]'),
+                         '{term: "buffer zone*", with: ["clinic*", abortion]}')
+
+    def test_a_bracket_given_twice_is_refused(self):
+        with self.assertRaises(SystemExit):
+            generate_taxonomy._split_guarded("x [without: a] [without: b]")
 
 
 if __name__ == "__main__":

@@ -19,6 +19,11 @@ Markdown conventions parsed here:
     For terms whose words belong to more than one policy area -- a buffer zone
     is an abortion clinic zone, a pesticide margin and a military perimeter --
     the guard is what keeps someone else's subject out of ours.
+  * a term may be vetoed by company:     "organ donor*" [without: "organ donor leave"]
+    which does NOT match where the text also contains one of the vetoes. For
+    terms whose own words are ours but sit inside someone else's subject: a
+    labour code's organ-donor leave is employment law, not transplant ethics
+    (v1.16, 2 October 2026). Both brackets may follow one term, with first.
   * - **Notes:** lines become YAML comments (the loader ignores prose)
   * global exclusions:                   - **Terms:** termination; conversion
   * version from the header line:        **Version 0.2 | ...**
@@ -99,16 +104,26 @@ def parse_master(text):
     return version, areas, exclusions
 
 
-WITH = re.compile(r'^(?P<term>.+?)\s*\[with:\s*(?P<guards>[^\]]+)\]\s*$')
+GUARD = re.compile(r'\s*\[(?P<kind>with|without):\s*(?P<terms>[^\]]+)\]\s*$')
 
 
 def _split_guarded(term):
-    """('term', ['guard', ...]) for `"buffer zone*" [with: clinic*, abortion]`."""
-    m = WITH.match(term)
-    if not m:
-        return term, []
-    guards = [g.strip() for g in m.group("guards").split(",") if g.strip()]
-    return m.group("term").strip(), guards
+    """('term', [with...], [without...]) for `"buffer zone*" [with: clinic*, abortion]`.
+
+    Brackets are peeled from the right, so `x [with: a] [without: b]` gives
+    both lists; a bracket kind given twice is a master error, not a merge.
+    """
+    lists = {"with": None, "without": None}
+    while True:
+        m = GUARD.search(term)
+        if not m:
+            break
+        kind = m.group("kind")
+        if lists[kind] is not None:
+            raise SystemExit("term %r has two [%s:] brackets" % (term, kind))
+        lists[kind] = [g.strip() for g in m.group("terms").split(",") if g.strip()]
+        term = term[:m.start()]
+    return term.strip(), lists["with"] or [], lists["without"] or []
 
 
 def _yaml_term(term):
@@ -118,10 +133,14 @@ def _yaml_term(term):
     terms are emitted bare unless YAML would misread them. A guarded term
     becomes a mapping, which is what the filter reads to require company.
     """
-    bare, guards = _split_guarded(term)
-    if guards:
-        return "{{term: {0}, with: [{1}]}}".format(
-            _yaml_term(bare), ", ".join(_yaml_term(g) for g in guards))
+    bare, guards, vetoes = _split_guarded(term)
+    if guards or vetoes:
+        parts = ["term: " + _yaml_term(bare)]
+        if guards:
+            parts.append("with: [%s]" % ", ".join(_yaml_term(g) for g in guards))
+        if vetoes:
+            parts.append("without: [%s]" % ", ".join(_yaml_term(g) for g in vetoes))
+        return "{%s}" % ", ".join(parts)
     term = bare
     if term.startswith('"') and term.endswith('"'):
         return term
