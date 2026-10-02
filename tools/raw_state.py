@@ -114,6 +114,7 @@ def extract_union(tar_path, folder_path):
     """Unpack beneath the folder WITHOUT overwriting any local file: the
     merge for two runs that archived into the same day. Rejects members
     that would escape the folder."""
+    folder_path = os.path.abspath(folder_path)    # a relative path failed the escape check
     os.makedirs(folder_path, exist_ok=True)
     added = 0
     with tarfile.open(tar_path, "r") as tar:
