@@ -1548,6 +1548,8 @@ TABLES = (
     "ca_senators",
     "ca_gazette_issues",
     "ca_gazette_items",
+    "ca_judgments",
+    "ca_leave",
     "de_members",
     # The Bundestag's own register, a different id space from
     # abgeordnetenwatch's de_members above; the two join by name, never id.

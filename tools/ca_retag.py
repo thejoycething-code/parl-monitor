@@ -23,7 +23,11 @@ holds them:
     a notice matched on its title alone, from its title and department; a
     regulation whose body lives at its URL, from its excerpt -- part of the
     body, so a match there is a match on the body, but the excerpt cannot
-    reproduce every tag the body earned (the trust check reports it).
+    reproduce every tag the body earned (the trust check reports it);
+  * a Supreme Court judgment from its subjects and stored headnote, with its
+    case name as a title passage; a leave decision from the Registrar's
+    summary, likewise (ca_courts). Both keep their full inputs, so both are
+    gated.
 A match on those is a match on what the collector read, so adding is safe;
 re-deriving and writing back would drop any tag earned from text the store
 no longer keeps. ca_rollcalls.reclassify is NOT this: it re-derives every
@@ -103,6 +107,19 @@ def _rows(conn, tax, wl):
         again = (_item(filt.filter_item(tax, wl, r[3] or "", r[8] or ""))
                  if r[7] == "title" else _passages(tax, wl, r[1] or r[2], r[3]))
         yield ("ca_gazette_items", "item_key", r[0], r[4], r[5], r[6], again)
+    # Supreme Court judgments from their subjects and headnote, with the case
+    # name as a title passage (ca_courts.classify_judgment); a Federal Court
+    # row was matched on reasons the store does not keep, so it is left out.
+    for r in conn.execute("SELECT judgment_id, title, subjects, headnote, areas, matched_terms, "
+                          "tier FROM ca_judgments WHERE court = 'SCC'"):
+        text = "\n".join(json.loads(r[2] or "[]") + [r[3] or ""])
+        yield ("ca_judgments", "judgment_id", r[0], r[4], r[5], r[6],
+               _passages(tax, wl, text, r[1]))
+    # Leave decisions from the Registrar's summary with the case name as a
+    # title passage (ca_courts.classify_leave).
+    for r in conn.execute("SELECT docket, title, summary, areas, matched_terms, tier "
+                          "FROM ca_leave"):
+        yield ("ca_leave", "docket", r[0], r[3], r[4], r[5], _passages(tax, wl, r[2], r[1]))
 
 
 # THE TRUST CHECK (29 September 2026). Re-matching a row from its stored
@@ -114,7 +131,7 @@ def _rows(conn, tax, wl):
 # re-read from its excerpt, not its body, so that table is reported, not
 # gated.
 TRUST_FLOOR = 0.99
-GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches")
+GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches", "ca_judgments", "ca_leave")
 
 
 class Untrusted(RuntimeError):
