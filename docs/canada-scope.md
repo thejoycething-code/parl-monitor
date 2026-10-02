@@ -424,6 +424,104 @@ The weekly load is about:
 - 2 Gazette issues;
 - the Senate's vote list.
 
+### Committee evidence (House and joint), built 2 October 2026
+
+`tools/ca_committees.py`. Nothing schedules it yet.
+
+**The source.** Three hops per committee and session, and no search
+(robots.txt disallows `/Search/` on ourcommons.ca):
+
+1. The meeting list,
+   `ourcommons.ca/Committees/en/<ACR>/Meetings?parl=P&session=S`. Joint
+   committees (AMAD, REGS, BILI) are on **parl.ca**; the ourcommons URL
+   404s for them. One page holds the whole session: date, number, study
+   titles, an In Camera lock, and an Evidence link.
+2. The Evidence page (`DocumentViewer/.../meeting-<N>/evidence`). It is
+   about 700 KB, and its only use is the link to the XML. It is not
+   archived.
+3. The XML (`/Content/Committee/<PS>/<ACR>/Evidence/EV<id>/...-E.XML`). It
+   uses House Hansard's own schema, so `ca_hansard.parse_sitting` reads it
+   unchanged. It is archived. Committee files have no debate title, so the
+   meeting's **study titles** are the title passage.
+
+**Who is who comes from the XML's `Affiliation Type`.** The codes were
+observed, not documented, so the tests pin them:
+
+- **28 is a witness.** A witness never gets a `person_id` and never goes
+  into `ca_speeches`. What a witness says on our ground goes to
+  **`ca_testimony`**, with their name, affiliation and organisation. The
+  organisation is the last part of the first label, so "Dr. Ramona Coelho
+  (Physician, As an Individual)" gives "As an Individual".
+- **35 and 36 are the chair, 26 a committee researcher and 27 the clerk.**
+  These, and any label starting "The ", are counted and not stored.
+- **Everyone else is a member.** An MP resolves by riding, then by a
+  unique name, against `ca_members`. A senator on a joint committee
+  resolves by a unique name against `ca_senators`. If neither resolves
+  uniquely, the speaker stays NULL; nobody is guessed.
+  - A first name may be a short form only when the document itself calls
+    the speaker a senator: "Stan" and "Stanley" Kutcher are the same man.
+  - Committee DbIds are not Hansard DbIds, and one person can have two in
+    the same file (Mégie). So identity is learned per document, and
+    `ca_speaker_roles` is never touched.
+
+**What is stored.** Only interventions on our ground (per passage, as in
+Hansard):
+
+- A member's goes to `ca_speeches` with `forum='committee'`,
+  `committee=<ACR>`, `chamber` set to `commons` or `senate`, and a
+  speech_id of `cmte-<PS>-<ACR>-<NN>-<intervention id>`, which can never
+  collide with a Hansard id.
+- Every meeting read gets a **`ca_committee_meetings`** row with its totals.
+  Its status is one of:
+  - `read`;
+  - `in_camera` (no Evidence link, which is not a gap);
+  - `no_evidence` (public, but no transcript linked yet; checked again on
+    every run).
+
+  A meeting that is `read` or `in_camera` is never fetched again.
+
+**Committees.** By default it reads every public meeting of the key eight:
+JUST, HESA, FEWO, ETHI, AMAD, SECU, HUMA and CHPC. `--all-committees` adds
+every other committee on the House's committee page, plus SDIR. For those,
+it fetches a meeting only if its study title matches the taxonomy.
+
+**Gaps.** These are recorded with `db.record_gaps` and the meeting gets no
+row, so it is retried:
+
+- a meeting list that won't load;
+- an Evidence page with no XML link;
+- an XML that won't parse, or that belongs to another meeting.
+
+If five meetings in a row fail, the run stops. `--limit` counts meetings
+attempted.
+
+**Measured (smoke run, 2 October 2026, AMAD 44-1 meetings 1-5, scratch
+store):**
+
+- 42 meetings listed, 12 in camera.
+- 1,123 interventions:
+  - 415 by the chair and officers, counted;
+  - 312 by witnesses, all on our ground and all in `ca_testimony`;
+  - 396 by members and senators. 328 of them were on our ground, and all
+    328 were attributed. The other 68 were the election of the joint
+    chairs at meeting 1.
+- Senators resolved once `ca_senators` was filled from two Senate vote
+  pages. With it empty, 70 of the senators' interventions stayed NULL, as
+  they should.
+
+**Two limits.**
+
+- **The title gate is strict.** SDIR's 44-1 study titles ("Current Human
+  Rights Situation in Nigeria", "Situation of the Hazaras in Afghanistan")
+  match no taxonomy term, so none of its 63 meetings passed. Make SDIR a
+  key committee, or widen the taxonomy, if religious persecution hearings
+  should come in.
+- **The committee page lists only the current committees.** A special
+  committee from an older Parliament has to be named with `--committee`.
+
+**Not built:** committee reports (`ca_committee_reports`, matched on the
+PDF body) and Senate committees.
+
 ## Phase 3: the Canadian 5CA, built 26 September 2026
 
 `tools/ca_5ca.py` writes one sheet per area and chamber to
