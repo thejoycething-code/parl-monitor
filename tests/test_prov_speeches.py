@@ -437,7 +437,12 @@ class ToolTests(unittest.TestCase):
         self.tool = _load("prov_speeches")
 
     def test_a_reader_for_every_built_province_and_none_for_the_rest(self):
-        self.assertEqual(sorted(self.tool.READERS), sorted(self.tool.collector.MODULES))
+        # Nova Scotia (built 2 October 2026) reads its divisions from Hansard
+        # but has no speeches reader yet: the one named exception, so a new
+        # province without one still fails here.
+        no_reader_yet = {"ns"}
+        self.assertEqual(sorted(self.tool.READERS),
+                         sorted(set(self.tool.collector.MODULES) - no_reader_yet))
         with self.assertRaises(SystemExit):
             self.tool.reader_for("pe")
 

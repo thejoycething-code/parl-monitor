@@ -3,7 +3,7 @@
 # Every entry here was READ BY A PERSON in an official document and checked
 # against a second record. Nothing is inferred: an entry names the document
 # it was read in, the date, and what it was checked against. The collectors
-# (src/ingest/prov_nb.py, src/ingest/prov_nl.py) read this file; nothing in
+# (src/ingest/prov_nb.py, prov_nl.py, prov_ns.py) read this file; nothing in
 # it overrides a record that resolves on its own.
 #
 #   label_aliases  A printed name in a division list that is a typo in the
@@ -20,6 +20,34 @@
 # (3 October 2026).
 
 provinces:
+  "ns":
+    label_aliases:
+      - printed: "Tom Taggar"
+        member: tom-taggart
+        date: 2025-03-25
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_25mar25
+        verified_against: >-
+          The 65th Assembly's Members table (/members/profiles-table) lists one
+          Taggart (Tom Taggart, Colchester North) and no Taggar; the Hansard of
+          8 April 2026 (house_26apr08) prints "Tom Taggart" in the YEAS of the
+          third reading of Bill 201. Read from CI on 2 October 2026.
+        why: >-
+          Hansard's YEAS for the third reading of Bill 6 (carried 39-11) print
+          "Tom  Taggar". It was the division's only unresolved label: with it
+          the 39 YEAS the Clerk counted are all accounted for.
+      - printed: "Hon. Timothy Hallman"
+        member: timothy-halman
+        date: 2024-04-05
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_24apr05
+        verified_against: >-
+          The same Hansard's first recorded division that day (the motion to
+          recommit Bill 419, defeated 21-28) prints "Hon. Timothy Halman" in
+          the NAYS; the 64th Assembly's Members table lists one Halman (Timothy
+          Halman, Dartmouth East) and no Hallman. Read from CI on 2 October 2026.
+        why: >-
+          Printed "Hon. Timothy Hallman" in the YEAS of Bill 419's third
+          reading (carried 28-17), the division's only unresolved label. The
+          surname itself is misprinted, so the surname-only retry cannot help.
   "nb":
     label_aliases:
       - printed: "Mr. Russel"

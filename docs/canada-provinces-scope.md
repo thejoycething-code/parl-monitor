@@ -48,8 +48,8 @@ Divisions per year are measured where a sample was taken and marked "est." other
 | **New Brunswick** | Yes. Journals PDF, three columns ("Hon. Mr. Higgs", initials where needed), English and French files | Journals 1995 (53rd) | HTML bill page with timeline | PDF, bilingual two-column edition, current | HTML with party | ~25 (5 in 10 sampled sittings) | 3 | 4 |
 | **Quebec** | Yes. Before 2025: Journal des débats HTML prose roll call (surname and riding). Since electronic voting (2025): **names only in the procès-verbal PDF annex**, with party | JD 1963+; vote register 42-1+ | HTML bill page in French and English with tallies per stage | JD HTML, French only | HTML with party | ~200+ (vote no. 139 by 1 Apr 2026) | 4 | 4 |
 | **Newfoundland and Labrador** | Yes. Journals PDF, two columns, initial and surname | Daily files from the 45th GA | HTML progress of bills | Word-exported HTML; PDFs to 1909 | JS array with party | ~10 | 3 | 2 |
-| **Nova Scotia** | Unverified (TCP reset to us). Wayback shows Hansard HTML YEAS/NAYS tables with full names | Hansard 56th–65th Assembly (Wayback) | Unverified | HTML (Wayback) | Unverified | Unknown | 4 (blocked) | 3 |
-| **PEI** | Blocked (Radware CAPTCHA on inner pages) | peildo.ca has historical journals | Search app (POST) | Search app | Blocked | Unknown | 5 | 2 |
+| **Nova Scotia** | Yes. Hansard HTML, one page a sitting: a YEAS/NAYS table (seen 2019–2026) or paragraph lines (seen 2010), then the Clerk's count "For, 39. Against, 11." Read from CI (the laptop's VPN exit is reset) | Hansard listed from the 56th Assembly; Journals to 63-3 (2021) only | HTML listing per session, a page per bill with stage dates, first-reading text in HTML | HTML per sitting | HTML table per Assembly (61st on); profiles date party by year | ~15–35 (22 in the 25 sittings sampled) | 3 | 3 |
+| **PEI** | Blocked, from CI too: every inner page 302s to a Radware CAPTCHA (validate.perfdrive.com) | peildo.ca holds the 32nd–43rd Assemblies' Journals only | Search app (POST), behind the challenge | Search app, behind the challenge | Behind the challenge | Unknown | 5 | 2 |
 | **Yukon** | Blocked (Cloudflare managed challenge, even robots.txt) | Hansard 1978 (search only) | Unverified | PDF (search only) | Unverified | Unknown | 5 | 3 |
 | **Northwest Territories** | Yes. Hansard HTML; members called **by constituency**. V&P are scans with no text layer | Hansard 2000 | HTML with stages | HTML, docx and PDF | HTML, **no parties** | ~30–60 (est.) | 2 | 2 |
 | **Nunavut** | Yes but rare. Hansard PDF only, by surname | Hansard 2003 at least | HTML table, current session only | PDF in English and Inuktitut | HTML, **no parties** | 0–5 | 3 | 1 |
@@ -309,11 +309,54 @@ Christopher, 3 October 2026: "Fix New Brunswick and NL."
   - A former member missing from depcir and named by no PV read stays absent; a lazily completed member's last term ends at the dated resignation if the biography gives one, else stays open.
   - The French layer is an AI draft with no Quebec reader yet.
 
+### Nova Scotia (step 9): `src/ingest/prov_ns.py`
+
+Built 2 October 2026, entirely from CI: `nslegislature.ca` resets the laptop's VPN exit and answers a GitHub runner, so every fixture and every live sample was fetched by `.github/workflows/probe-hosts.yml` on the branch and downloaded as an artifact (`tools/probe_hosts.py`, below). robots.txt disallows only Drupal's admin paths and sets **`Crawl-delay: 10`**, honoured per host (`prov_fetch`), and kept by the module itself if robots.txt ever fails to answer.
+
+- **The record is Hansard.** The Journals stop at the 63rd Assembly's third session (2021). Hansard is an HTML page per sitting, listed per session 45 to a page (`?page=1`, ...), linked as listed: some 2011 sittings live under the French path (`61e-assemblee-2e-session/house_11mar31`), and a part letter appears (`house_24feb27a`).
+- **Divisions, three layouts, all read live:**
+  - The table layout (seen from April 2019 to 2026): header row YEAS | NAYS (`<td>` or `<th>`), continued in a second table after the page break. Malformed rows are met and handled: rows with no `<tr>` (4 April 2024), cells with no `</td>` (25 March 2025), a continuation that repeats the header (9 November 2023).
+  - October 2019: a "YEAS NAYS" paragraph, then a table with its own "Yeas | Nay" header.
+  - The paragraph layout (seen in 2010; when it gave way to the table between 2011 and 2019 is not yet read): one paragraph per printed line, the two columns cut by a run of spaces ("Mr. Landry     Mr. Samson"). When one column runs out the rest are one name a line; they belong to the **longer** column, which the Clerk's count names. The tally check still runs on the whole.
+  - The count: "THE CLERK: For, 39. Against, 11." (2010: "For, 28, Against 12."). The question is the Chair's "The motion is ..." before the bells, or the paragraph before the request ("We have a dilatory motion on the floor for the bill to recommit", 5 April 2024). **The stage comes from the question only**: that recommit motion (defeated 21–28) is a Motion on Bill 419, not its third reading (carried 28–17 minutes later).
+- **Voice:** "The motion is for third reading of Bill No. 133. Would all those in favour ... The motion is carried." with no recorded vote, stored as `kind = 'voice'`. A reading that was divided is never also stored as voice.
+- **Roster, per session:**
+  - `/members/profiles-table/<assembly>` (61st on) lists everyone who sat in the Assembly, with the profile slug (`member_key`), district and the Member's **latest** party in that Assembly (Trevor Zinck is "IND" for the 61st): stored undated, never written on a vote.
+  - **Cut to the session's own list of Members** where the Journals print one (61-1 to 63-3, `.../journals/<leg>-<sess>/...Member...pdf`): constituency and Member read by x-position, matched by constituency **and** surname, footnoted by-election winners by the constituency of the row their mark is on. The 61st Assembly had two David Wilsons; the 61-2 list names David A. Wilson (Sackville-Cobequid) only, and "Mr. Wilson" in May 2010 is his. Without the list both are valid and every NDP division that spring is a gap (tested).
+  - **Dated by the profile**, `/members/profiles/<slug>` (the page Hansard links every speaker to; the table's `/history` link is a biography with no party table, checked from CI). Its "Constituency / Party / Start Date" rows ("PC 2017 - 2021", "Independent 2021") cut each Member's term to whole years: "Mr. Wilson" in April 2019 is Gordon Wilson because Dave Wilson's last year is 2018.
+- **Party at the vote, dated by year.** The same rows are party-only terms (source `party-profile`). In the year a Member changed party two rows cover the day, so that year's votes carry no party: Brendan Maguire and Fred Tilley (Liberal to PC, 2024), Alana Paon (2019), Trevor Zinck (2010), Becky Druhan (PC, Independent 2025, Liberal 2026). A profile is read once per Member, and again only when the current Assembly's table shows another party.
+- **Names.** Hansard prints full names in the 64th and 65th Assemblies ("Hon. Brian Comer") and honorific plus surname before ("Mr. Churchill", "Ms. K. Regan"). Allowances, all unique-or-nothing: the printed case may split Susan Leblanc from Colton LeBlanc; a middle initial the roster lacks is dropped; a misprinted **given** name falls back to the surname alone ("Diane Timmins", "Suzie Hansen", 24 March 2025; "Hon. Alan MacMaster", 26 March 2024). Misprinted **surnames** need a reviewed alias (`config/prov_record.yaml`): "Tom  Taggar" (25 March 2025) and "Hon. Timothy Hallman" (5 April 2024), each checked against another division.
+- **Bills:** the session listing (type, the first-reading text linked from the number, latest status). Every text is read once and classified per passage; a bill quiet since the window opened is not read again. The bill's own page (stage dates, sponsor) is read only for a bill on our ground, a watched bill, or one a recorded division names: at ten seconds a request, every page would cost a session an extra hour. A window with no sitting reads no bills. **Cross-check:** every "Second/Third Reading Passed" on a page-read bill, dated to a day whose Hansard was read, must be found there.
+- **On our ground, measured** (texts and pages fetched from CI): Bill 133 of 63-2 (deemed consent to organ donation; third reading 12 April 2019 **on voice**) area 13; Bill 242 of 63-2 (abortion access zones; third reading 10 March 2020 on voice) area 1; Bill 140 of 61-4 (gender identity and expression in the Human Rights Act, 2012) area 5; Bill 1 of 63-2 (conversion therapy) area 4. Bill 16 of 63-2, the conversion-practices ban, says "efforts to change **their** sexual orientation or gender identity" and matches nothing: it is watched by key. The four that passed (16, 133, 242 of 63-2; 140 of 61-4) are keys in `config/watchlist-prov.yaml`.
+
+**Smoke runs (2 October 2026).** The collector could not be run from CI (only the read-only probe may run there), so the probe fetched every page a run would ask for and the collector was run offline against those bytes, into scratch stores, with `--no-bills`:
+
+| Session | Window | Hansards read | Recorded divisions (tally ok) | Voice | Votes (unresolved); party |
+|---|---|---|---|---|---|
+| 65-1 | 18–26 Mar 2025 | 7 | 2 (2) | 8 | 94 (0); 94 |
+| 64-1 | 25 Mar–5 Apr 2024 | 6 | 5 (5) | 1 | 237 (0); 228 |
+| 63-2 | 8–12 Apr 2019 | 5 | 5 (5) | 11 | 236 (0); 230 |
+| 61-2 | 3–11 May 2010 | 7 | 2 (2) | 17 | 87 (0); 85 |
+
+Every one of the 22 divisions in the 25 sittings sampled (2010–2026) reads exactly as many names as the Clerk counted. Known partisans are on their side: Premier Houston Yea and Claudia Chender Nay on Bill 6 (25 March 2025, 39–11); Premier McNeil Yea and Houston Nay on the 2019 appropriations; Premier Dexter Yea and McNeil Nay on Bill 24 (6 May 2010, 28–12). The 17 votes with no party are the change-year votes above.
+
+**The backfill to 2010, measured from the listings** (fetched from CI): 12 sessions, 61-2 to 65-1 (61-1 overlaps 2010 only by its prorogation and has no sitting in it); about **765 sittings** (exact for 8 sessions, ±22 for 61-3, 61-4, 62-2 and 63-1, whose last listing page was not fetched), **2,192 bills** (64-1 alone has 501), about 170 Member profiles once. At ten seconds a request that is about **3,300 requests, 9.3 hours**: two backfill dispatches at the 300-minute clock, a third to mop up. Recorded divisions run at roughly 15–35 a year (22 in the 25 sittings sampled, most on government bills at third reading).
+
+**Known limits:**
+- Party is dated to the year, not the day: a change year's votes have none. The Journals' member-list footnotes date changes exactly ("Alana Paon became an Independent on June 24, 2019") but are read only for who sat, not for party.
+- Sessions with no Journal list (62-2, 62-3, 63-1, 64-1, 65-1) keep every Member of the Assembly, dated by profile year: two Members with one surname overlapping in a by-election year leave a surname-only label ambiguous (a gap). From the 64th Assembly Hansard prints full names, which resolve.
+- Hansard speeches are not stored. Committee of the Whole House proceedings are separate transcripts and are not read.
+- The CI probe could not fetch the four 61-3, 61-4, 62-2 and 63-1 listing tails, so their sitting counts are estimates; the backfill reads them in full.
+
+### Prince Edward Island: not built, out of reach
+
+From a GitHub runner on 2 October 2026 (`probe-hosts.yml`, honest UA): the home page answers 200 but carries Radware's bot manager (`stormcaster.js`, `validate.perfdrive.com`), and the first inner page asked, `/legislative-business/house-records`, **302s to the Radware CAPTCHA** at `validate.perfdrive.com`. The probe stopped on the host there, as it must: we never solve or work around a challenge. `peildo.ca` (PEI Legislative Documents Online) answers, but lists the Journals of the 32nd to 43rd General Assemblies only, nothing since 2010. `docs.assembly.pe.ca` serves PDFs by UUID, and the UUIDs are only on the challenged pages. `tools/prov_collect.py --prov pe` says so. **Next step:** ask the Clerk of the Legislative Assembly of PEI to allowlist the CitizenGO User-Agent or provide the Journals and division records since 2010.
+
 ### Schedule and backfill (3 October 2026)
 
 Christopher: "Schedule the provincial collectors and backfill to 2010", and for Quebec "DO what is necessary" (the month form POST is approved; backfill as deep as the PV annex allows; refresh the roster after the 5 October election).
 
-- **The weekly** (`.github/workflows/prov-weekly.yml`, "Provinces weekly"): Wednesday 10:00 UTC, retry slot 12:00 behind a gate job, in the `parl-monitor-state` group. Wednesday 10:00–18:00 holds no other stateful cron (a test keeps it so). One step per province (ab, sk, bc, mb, on, nb, nl, qc), each `if: always()`, each on its own `--budget-seconds` and step timeout, so one province failing never costs the others. Quebec's roster is read again every week (`--roster-only`) before Quebec is collected. Then `tools/prov_5ca.py --all` per province, the raw archive, the store and the sidecar commit, exactly as the Canada weekly does. Registered in `alert.yml`, `tools/coverage.py` (`PIPELINES`, `FEEDS`, `PIPELINE_FEEDS`, `ONCE_EVER`) and the structural tests.
+- **The weekly** (`.github/workflows/prov-weekly.yml`, "Provinces weekly"): Wednesday 10:00 UTC, retry slot 12:00 behind a gate job, in the `parl-monitor-state` group. Wednesday 10:00–18:00 holds no other stateful cron (a test keeps it so). One step per province (ab, sk, bc, mb, on, nb, nl, qc, and ns since its build), each `if: always()`, each on its own `--budget-seconds` and step timeout, so one province failing never costs the others. Quebec's roster is read again every week (`--roster-only`) before Quebec is collected. Then `tools/prov_5ca.py --all` per province, the raw archive, the store and the sidecar commit, exactly as the Canada weekly does. Registered in `alert.yml`, `tools/coverage.py` (`PIPELINES`, `FEEDS`, `PIPELINE_FEEDS`, `ONCE_EVER`) and the structural tests.
 - **The window is resumed, not fixed** (`tools/prov_collect.py --resume`): from the newest record already read, less 14 days, or from the oldest record still owed in the last 120 days. On a province with nothing read it is the module's own default (the whole current session; Saskatchewan's last 60 days), said in the log.
 - **Sessions come from the legislature's own index**, never from a list typed into the repo (`list_sessions` in each module; `src/prov_fetch.py`, "sessions"). A session the index lists that is newer than the module's `CURRENT_SESSION` is collected that week **and** recorded as a gap ("set CURRENT_SESSION"), so the run fails loudly until a person moves the constant. Quebec's 44th legislature will arrive this way after the 5 October election.
 - **The backfill:** dispatch the same workflow with `provinces` (one code is the intended use, e.g. `nb`) and `since` (default `2010-01-01`), optionally `minutes` (default 280, capped at 300; the job is killed at 330). It runs `prov_collect.py --all-sessions --since …` for each named province: every session the index lists whose dates touch the window, oldest first, on one clock. A dispatch with `provinces` set skips the weekly steps. Cut short by its clock, it says which sessions were not started, and the next dispatch resumes: a record read cleanly is never fetched again, and a closed session's bill page already read with its text is not re-read (Alberta and Quebec used to re-read every bill page every run). Saskatchewan's archive is listed by date, a calendar year at a time, each year on its own page cap (a year still paging at the cap is a gap, never a silent cut).
@@ -330,6 +373,7 @@ Christopher: "Schedule the provincial collectors and backfill to 2010", and for 
 | Ontario | from the house-documents index (40-1 on in the fixture; 39-2, 2010–2011, if the live index lists it) | V&P HTML to 2008 | the 2022+ tables, the late-2025 doubled names, and the pre-2022 layout on 2015 | 2008–2014 V&P untested; the roster is the Hansard PDF's member list (2015 needed a fix) |
 | New Brunswick | 56-4 to 61-2 (17), from the journals page's selector | Journals to the 53rd Legislature (1995) | 60-2 (2023) and 61-2 (2025) | a past session without a compiled Journal has no roster: all its divisions are gaps. 10-second crawl-delay: about 10 minutes per session's journals plus its bills, so expect two or three dispatches |
 | Newfoundland and Labrador | 46-2 to 51-1 (15), from the Hansard index | Hansard to the 23rd General Assembly; attendance summaries 2009+ | 48-1 (2016), 50-2, 51-1 | 46th–47th GA Hansard (2010–2015) untested; 2024 attendance summary is a scan (5 divisions of 2024 stay gaps) |
+| Nova Scotia | 61-1 to 65-1 (13; 61-1 has no sitting in 2010), from the Hansard index, dated by each Assembly's dates page | Hansard to the 56th Assembly; Members tables from the 61st | 61-2 (2010), 63-2 (2019), 64-1 (2023–24), 65-1 (2025–26), every layout met | 61-3 to 62-3 untested but in the paragraph and table layouts already read; about 9.3 h at the 10-second crawl-delay, so two or three dispatches |
 | Quebec | 39-1 to 43-3 (9), from the sitting index's session select | the select lists sessions back to 1867; depcir roster stored from 1960 | PV annexes of 2013, 2014, 2019, 2023, 2025, 2026 | the PV annex is checked from 29 October 2013 only: 39-1, 39-2 and 40-1 before that date (2010–2013) are untested, and a PV without an annex leaves its votes as gaps |
 
 **Coverage:** `prov_members` and `prov_bills` are watched as heartbeats (re-stamped every run, measured); `prov_divisions` and `prov_sittings` are write-once in practice (`ONCE_EVER`). Until the workflow's first heartbeat, their empty tables are reported "AWAITING FIRST RUN" instead of overdue (`AWAITING_FIRST_RUN` in `tools/coverage.py`); the excuse expires by itself at the first run. The watch is per table: one province going dark shows as its own failed step and the failure alert, not in the coverage watch.
@@ -616,8 +660,9 @@ Days are what each legislature's own index lists for every session touching 2010
 - **Other sources:** bills in HTML (`HouseBusiness/Bills/ga51session1/`); Hansard as Word-HTML; the roster is the JS array `js/members-index.js`.
 - **Effort:** about 16 h, +6 h for Hansard.
 
-### Nova Scotia (nslegislature.ca): value 3, difficulty 4 while blocked
+### Nova Scotia (nslegislature.ca): value 3, difficulty 3 (built, from CI)
 
+- **Built** (step 9, above). Reachable from a GitHub runner; still reset from the laptop's VPN exit.
 - **Not reachable from the probe IP:** the TCP connection is reset on the TLS ClientHello, before our UA is ever sent, so this is not a UA filter.
 - **Wayback only (unverified live):** Hansard HTML has YEAS/NAYS tables with full names. Example: Bill 6, third reading, 25 March 2025; YEAS include Hon. Tim Houston, NAYS include Claudia Chender. The journals appear to lag years behind (63-3, 2021).
 - **Next step:** re-test from CI. If it is still reset, ask the Clerk to allowlist us.
@@ -625,6 +670,7 @@ Days are what each legislature's own index lists for every session touching 2010
 
 ### Prince Edward Island (assembly.pe.ca): value 2, difficulty 5
 
+- **Blocked, from CI too** (2 October 2026; see "Prince Edward Island: not built, out of reach" above).
 - **Blocked:** every inner page redirects to a Radware CAPTCHA (`validate.perfdrive.com`). I did not attempt it.
 - Bills and debates are POST search apps. `docs.assembly.pe.ca` serves PDFs by UUID, but the UUIDs can only be found from the challenged pages. `peildo.ca` has historical journals.
 - **Out of reach** without allowlisting.
@@ -774,7 +820,7 @@ pypdf 6.x is installed. `src/ca_gazette_pdf.py`'s column split, using the privat
 
 ## What is honestly out of reach
 
-- **Yukon, PEI and probably Nova Scotia**, unless CI gets through or the Clerks allowlist us. We do not solve CAPTCHAs or challenges.
+- **Yukon and PEI**, unless their Clerks allowlist us: both challenge a GitHub runner too. We do not solve CAPTCHAs or challenges. (Nova Scotia was the VPN exit; it is built from CI.)
 - **Quebec's vote register JSON**, which robots.txt disallows. The procès-verbal PDFs are the lawful route.
 - **NWT Votes and Proceedings**, which are scans. Hansard covers the votes.
 - **Stable member ids on votes** anywhere. Every province needs name resolution.
@@ -813,3 +859,8 @@ pypdf 6.x is installed. `src/ca_gazette_pdf.py`'s column split, using the privat
 - **Yukon:** 403 with a Cloudflare "Just a moment..." challenge, from the runner too. **Out of reach.** We do not work around bot challenges. If Yukon matters, ask the Assembly's clerk for access or a data export.
 
 Nova Scotia and PEI can be built. Their live probes and fixtures must come from CI, because the laptop's VPN exit is still refused.
+
+**Second round, 2 October 2026 (branch `prov-ns-pe`, runs 36989641244 to 36998529890).** `probe-hosts.yml` was extended to take URLs as dispatch inputs and run `tools/probe_hosts.py`: GET only, the repo's honest UA, robots.txt read first and honoured by both of the repo's readers, at least 2 s per host and the Crawl-delay where one is set (10 s for Nova Scotia), same-site redirects only, and a bot challenge, a 403/429 or a robots.txt that does not answer **stops the host for the run**. What was fetched is uploaded as an artifact. Nine runs fetched 267 Nova Scotia pages (264 answered 200, 3 same-site redirects); one run's every request to Nova Scotia timed out (run 36995006229: six pages and robots.txt, no answer within 60 s), and the probe was fixed so that a silent robots.txt stops the host instead of meaning "no rules".
+
+- **PEI:** the home page answers, carrying Radware's bot-manager script; the house-records page 302s to the Radware CAPTCHA, from CI as from the laptop. Stopped there. Out of reach.
+- **Nova Scotia:** 200 throughout, `Crawl-delay: 10` honoured. Built.

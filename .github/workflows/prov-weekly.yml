@@ -28,7 +28,7 @@ on:
       # A dispatch with `provinces` set runs the backfill INSTEAD of the
       # weekly steps (the weekly keeps its Wednesday slot).
       provinces:
-        description: "Backfill these provinces, space-separated (ab sk bc mb on nb nl qc); blank = the weekly"
+        description: "Backfill these provinces, space-separated (ab sk bc mb on nb nl qc ns); blank = the weekly"
         type: string
         default: ""
       since:
@@ -103,11 +103,13 @@ jobs:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
-    # The weekly's eight vote clocks add up to 110 minutes at most and its
-    # eight speech clocks to 85 (a first run on an empty store is the one that
-    # spends them); a normal week is a fraction of that. The backfill gets the 330-minute maximum; its own clock is
-    # capped at 300 below.
-    timeout-minutes: ${{ inputs.provinces != '' && 330 || 240 }}
+    # The weekly's vote clocks add up to 125 minutes at most (Nova Scotia's
+    # 15 were added with its collector) and its eight speech clocks to 85 (a
+    # first run on an empty store is the one that spends them); a normal week
+    # is a fraction of that. 260 leaves room for the pulls, the 5CA sheets
+    # and the publish. The backfill gets the 330-minute maximum; its own
+    # clock is capped at 300 below.
+    timeout-minutes: ${{ inputs.provinces != '' && 330 || 260 }}
     env:
       # Unbuffered, or a step killed mid-run leaves an empty log.
       PYTHONUNBUFFERED: "1"
@@ -182,6 +184,13 @@ jobs:
         if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
         timeout-minutes: 25
         run: python3 tools/prov_collect.py --prov nl --resume --budget-seconds 600 | tee /tmp/prov-nl.log
+      - name: Nova Scotia
+        # crawl-delay 10 on nslegislature.ca, like legnb.ca. Reachable from a
+        # runner, not from the laptop's VPN exit (docs/canada-provinces-scope.md).
+        # Sittings first, then bills: on a short clock the divisions come first.
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 30
+        run: python3 tools/prov_collect.py --prov ns --resume --budget-seconds 900 | tee /tmp/prov-ns.log
       - name: Quebec roster (read again every week)
         # The general election of 5 October 2026: election.html closes the
         # 43rd legislature's terms once it lists the poll, and the 44th
@@ -265,8 +274,8 @@ jobs:
           rc=0
           for p in "$@"; do
             case "$p" in
-              ab|sk|bc|mb|on|nb|nl|qc) ;;
-              *) echo "::error::$p is not a built province (ab sk bc mb on nb nl qc)"; rc=1; continue ;;
+              ab|sk|bc|mb|on|nb|nl|qc|ns) ;;
+              *) echo "::error::$p is not a built province (ab sk bc mb on nb nl qc ns)"; rc=1; continue ;;
             esac
             python3 tools/prov_collect.py --prov "$p" --all-sessions --since "$SINCE" \
               --budget-seconds "$PER" | tee -a "/tmp/prov-bf-$p.log" || rc=1
@@ -328,6 +337,9 @@ jobs:
       - name: 5CA sheets, Newfoundland and Labrador
         if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
         run: python3 tools/prov_5ca.py --prov nl --all | tee /tmp/prov-5ca-nl.log
+      - name: 5CA sheets, Nova Scotia
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        run: python3 tools/prov_5ca.py --prov ns --all | tee /tmp/prov-5ca-ns.log
       - name: 5CA sheets, Quebec
         if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
         run: python3 tools/prov_5ca.py --prov qc --all | tee /tmp/prov-5ca-qc.log
@@ -338,7 +350,7 @@ jobs:
         run: |
           rc=0
           for p in $PROVINCES; do
-            case "$p" in ab|sk|bc|mb|on|nb|nl|qc) ;; *) continue ;; esac
+            case "$p" in ab|sk|bc|mb|on|nb|nl|qc|ns) ;; *) continue ;; esac
             python3 tools/prov_5ca.py --prov "$p" --all | tee -a /tmp/prov-5ca-bf.log || rc=1
           done
           exit $rc
@@ -358,7 +370,7 @@ jobs:
               /tmp/prov-*.log 2>/dev/null | head -90 || echo "(no summary lines)"
             echo '```'
             for f in /tmp/prov-ab.log /tmp/prov-sk.log /tmp/prov-bc.log /tmp/prov-mb.log /tmp/prov-on.log \
-                     /tmp/prov-nb.log /tmp/prov-nl.log /tmp/prov-qc-roster.log /tmp/prov-qc.log /tmp/prov-bf-*.log \
+                     /tmp/prov-nb.log /tmp/prov-nl.log /tmp/prov-ns.log /tmp/prov-qc-roster.log /tmp/prov-qc.log /tmp/prov-bf-*.log \
                      /tmp/prov-sp-*.log; do
               [ -f "$f" ] || continue
               N=$({ grep -c "\[gap\]" "$f" 2>/dev/null || true; } | awk '{s+=$1} END {print s+0}')
