@@ -441,6 +441,49 @@ provinces:
           term (25 October to 30 November 2022) would be stored under
           "Guitar" and "Mr. Guitard" in that autumn's division lists would
           resolve to nobody.
+    titles:
+      # The title the Journals print for a member, read where the record joins
+      # it to the member's full name. Used by src/ingest/prov_nb.CaseExact only
+      # for a label the resolver found AMBIGUOUS: a candidate whose title is
+      # the other one is ruled out, and the label resolves only if one is
+      # left. In 58-1 every division list prints "Hon. Ms. Landry" and "Hon.
+      # Mr. Landry" (Francine, Denis) and "Ms. LeBlanc" beside "Mr. Bernard
+      # LeBlanc" (Monique; Bertrand LeBlanc also sat). Read 2 October 2026.
+      - member: francine-landry
+        title: "Ms."
+        document: https://www.legnb.ca/content/house_business/58/1/journals/03141204e.pdf
+        quoted: "By Hon. Ms. Landry, Bill 3,"
+        verified_against: >-
+          Bill 3 of 58-1 (An Act to Amend the Employment Standards Act), whose
+          bill page names its sponsor "Hon. Francine LANDRY"
+          (legnb.ca/en/legislation/bills/58/1/3).
+        why: &titles_why >-
+          Without it every 58-1 division with both Landrys (and "Ms. LeBlanc")
+          is a tally gap: the shared resolver ignores titles.
+      - member: denis-landry
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/57/2/journals/04111129e.pdf
+        quoted: "Mr. D. Landry, Member for Centre-Péninsule—Saint-Sauveur"
+        verified_against: >-
+          The 57-2 compiled Journal's members page: Centre-Péninsule–Saint-Sauveur,
+          Denis Landry.
+        why: *titles_why
+      - member: bernard-leblanc
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/58/1/journals/16150213e.pdf
+        quoted: "Mr. Bernard LeBlanc, Member for Memramcook-Tantramar"
+        verified_against: >-
+          The 58-1 compiled Journal's members page: Memramcook-Tantramar, Bernard
+          LeBlanc.
+        why: *titles_why
+      - member: bertrand-leblanc
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/57/2/journals/02111124e.pdf
+        quoted: "Mr. Bertrand LeBlanc, Member for Rogersville-Kouchibouguac"
+        verified_against: >-
+          The 57-2 compiled Journal's members page: Rogersville-Kouchibouguac,
+          Bertrand LeBlanc.
+        why: *titles_why
     roster_bridges:
       # A session whose journals listing links no compiled Journal, read
       # from the next session's members page as it stood on that session's

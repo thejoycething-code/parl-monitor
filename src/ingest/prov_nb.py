@@ -908,8 +908,10 @@ class CaseExact:
     folds case, so both labels come back ambiguous between the two. Here an
     AMBIGUOUS label is settled only when its surname, exactly as printed
     (capitals included), is the surname of exactly one of the candidates;
-    anything else stays ambiguous. Still unique-or-nothing, and the tally
-    check runs on the result."""
+    or, failing that, when reviewed titles (`titles:`, load_titles) rule out
+    all candidates but one ("Hon. Ms. Landry" beside "Hon. Mr. Landry",
+    58-1). Anything else stays ambiguous. Still unique-or-nothing, and the
+    tally check runs on the result."""
 
     def __init__(self, inner, titles=None):
         self.inner = inner
@@ -936,13 +938,14 @@ class CaseExact:
         if len(exact) == 1 and printed != printed.lower() and printed != printed.upper():
             return exact[0], "surname, as capitalised ({0})".format(how)
         # The title as printed ("Hon. Ms. Landry" and "Hon. Mr. Landry" in one
-        # list, 58-1: Francine and Denis Landry), against reviewed titles:
-        # settled only when EVERY candidate has one, and exactly one matches.
+        # list, 58-1: Francine and Denis Landry), against reviewed titles: a
+        # candidate whose reviewed title is the other one is ruled out, and
+        # the label is settled only when exactly one candidate is left.
         cls = _title_class(next((w for w in words if _title_class(w)), None))
-        if cls and candidates and all(k in self.titles for k in candidates):
-            same = [k for k in candidates if self.titles[k] == cls]
-            if len(same) == 1:
-                return same[0], "title (reviewed, config/prov_record.yaml; {0})".format(how)
+        if cls and candidates:
+            left = [k for k in candidates if self.titles.get(k, cls) == cls]
+            if len(left) == 1 and len(left) < len(candidates):
+                return left[0], "title (reviewed, config/prov_record.yaml; {0})".format(how)
         return key, how
 
 
@@ -1415,6 +1418,15 @@ _OWN_DATE = re.compile(r"\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|
                        r")\s+(\d{1,2}),?\s+(\d{4})\b")
 
 
+def is_french(text):
+    """True when a Journal listed as English is the French one: its first
+    page says "Jour de séance" or "Journaux de l'Assemblée" and nowhere
+    "Journal of Assembly" or "Daily sitting"."""
+    head = re.sub(r"\s+", " ", (text or "")[:4000])
+    return (("Jour de séance" in head or "Journaux de l" in head)
+            and "Journal of Assembly" not in head and "Daily sitting" not in head)
+
+
 def journal_date(text):
     """The sitting day a Journal names for itself ("Daily sitting 52 Friday,
     June 8, 2012"; "Wednesday, October 27, 2010"), from its first page, or
@@ -1472,6 +1484,14 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
     # earlier parser's rows (a division stored under the wrong day, a seq
     # that has moved) must not outlive the re-read.
     clear_sitting(ctx.conn, legislature, session, date)
+    if is_french(text):
+        # 58-1 links "March 11, 2015" to 22150311e.pdf, and the file is the
+        # FRENCH Journal ("Jour de séance 22 le mercredi 11 mars 2015"). French
+        # is never classified, and its readings are not cross-checked.
+        ctx.gap("{0}: the English Journal {1} is the French text; not read".format(skey, url))
+        ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")
+        ctx.conn.commit()
+        return 0, 1
     own = journal_date(text)
     if own and own != date:
         # The listing files another day's Journal under this date (57-4: "May

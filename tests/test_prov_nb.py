@@ -648,6 +648,29 @@ class Backfill2010RosterTests(unittest.TestCase):
         self.assertIsNone(r.resolve("Mr. MACDONALD", "2011-12-06", 57)[0])     # no capitals to go by
         self.assertIsNone(r.resolve("Mr. Mcdonald", "2011-12-06", 57)[0])      # neither, as printed
 
+    def test_two_landrys_and_three_leblancs_are_told_apart_by_reviewed_titles(self):
+        p = nb.parse_compiled_roster(rows("nb_roster_581_rows.json"), reviewed=nb.load_roster_rows(), document=J581)
+        conn = db.init_db(db.connect(":memory:"))
+        for m, t in nb.terms_from_compiled(p, 58, "2014-10-24", "2015-06-05"):
+            ps.upsert_member(conn, "nb", m["key"], name=m["name"], surname=m["surname"], given=m["given"])
+            ps.replace_terms(conn, "nb", m["key"], [t], "journal-58-1")
+        r = nb.make_resolver(conn)
+        day = "2015-02-20"
+        self.assertEqual(r.resolve("Hon. Ms. Landry", day, 58)[0], "francine-landry")
+        self.assertEqual(r.resolve("Hon. Mr. Landry", day, 58)[0], "denis-landry")
+        self.assertEqual(r.resolve("Ms. LeBlanc", day, 58)[0], "monique-leblanc")
+        self.assertIsNone(r.resolve("Mr. LeBlanc", day, 58)[0])          # Bernard or Bertrand: still ambiguous
+        bare = nb.CaseExact(pn.Aliased(pn.Resolver.from_conn(conn, "nb"), []), titles=[])
+        self.assertIsNone(bare.resolve("Hon. Ms. Landry", day, 58)[0])
+        # Motion 18, 20 February 2015, carried 25-23: Premier Gallant Yea,
+        # interim Opposition Leader Fitch Nay
+        (d,), _ = nb.parse_journal(fx("nb_journal_150220_trim.txt"))
+        votes, ok, note = nb.resolve_division(d, r, day, 58)
+        self.assertTrue(ok, note)
+        side = {v["member_key"]: v["position"] for v in votes}
+        self.assertEqual((side["brian-gallant"], side["bruce-fitch"]), ("Yea", "Nay"))
+        self.assertEqual((side["kirk-macdonald"], side["brian-macdonald"]), ("Nay", "Nay"))
+
     def test_without_the_reviewed_rows_the_page_is_read_as_printed_or_not_at_all(self):
         p = nb.parse_compiled_roster(rows("nb_roster_572_rows.json"))
         self.assertEqual(len(p["members"]), 54)
@@ -745,6 +768,27 @@ class Backfill2010JournalTests(unittest.TestCase):
         divs, _ = nb.parse_journal(fx("nb_journal_100326_trim.txt"))
         self.assertEqual([(d["yeas"], len(d["yea_labels"]), d["nays"], len(d["nay_labels"])) for d in divs],
                          [(17, 17, 24, 24), (24, 24, 18, 18)])
+
+    def test_an_english_file_holding_the_french_journal_is_not_read(self):
+        # 58-1: "March 11, 2015" -> 22150311e.pdf, "Jour de séance 22 le mercredi 11 mars 2015"
+        text = fx("nb_journal_150311_french_head.txt")
+        self.assertTrue(nb.is_french(text))
+        self.assertFalse(nb.is_french(fx("nb_journal_120608.txt")))
+        self.assertFalse(nb.is_french(fx("nb_journal_230615.txt")))
+        conn = conn_602()
+        ctx = Context(conn, _Client({"https://www.legnb.ca/robots.txt": "User-agent: *\nDisallow:\n",
+                                     "u": b"%PDF-fr"}), "nb", log=lambda *a: None)
+        ctx.tax = pc.load_taxonomy()
+        saved = nb.pdf_text
+        nb.pdf_text = lambda raw, pages=None: text
+        try:
+            got = nb.read_sitting(ctx, 58, 1, {"date": "2015-03-11", "url": "u"},
+                                  pn.Resolver.from_conn(conn, "nb"), pc.load_watchlist("nb"))
+        finally:
+            nb.pdf_text = saved
+        self.assertEqual(got, (0, 1))
+        self.assertIn("is the French text", ctx.gaps[0])
+        self.assertEqual(conn.execute("SELECT status FROM prov_sittings").fetchone()[0], "unreadable")
 
     def test_yays_in_committee_of_the_whole(self):
         # 20 December 2011: "YAYS - 31", the record's own spelling; the guard
