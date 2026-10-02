@@ -497,6 +497,122 @@ class _Client:
         return self.posts["sessions" if "allSessions" in q else "members"]
 
 
+def fxb(name):
+    with open(os.path.join(FIX, name), "rb") as fh:
+        return fh.read()
+
+
+class VotesAndProceedingsTests(unittest.TestCase):
+    """Hansard prints 61 divisions only as 'approved unanimously on a
+    division. [See Votes and Proceedings.]'; the V&P prints their names."""
+
+    def test_the_tables_of_four_years(self):
+        got = {}
+        for name in ("bc_vp_v140312.htm", "bc_vp_v151007.htm", "bc_vp_v181122.htm", "bc_vp_v260421.htm"):
+            got[name] = [(t["unanimous"], sorted(t["bills"]), t["printed"], {k: len(v) for k, v in t["labels"].items()})
+                         for t in bc.parse_vp(bc.decode_vp(fxb(name)))]
+        self.assertEqual(got["bc_vp_v140312.htm"], [(True, ["9"], {"Yea": 80}, {"Yea": 80})])
+        # 7 October 2015 is served as UTF-16
+        self.assertEqual(got["bc_vp_v151007.htm"], [(True, ["38"], {"Yea": 68}, {"Yea": 68})])
+        # a committee section's unanimous division, then two divided ones, then the House's unanimous one
+        self.assertEqual([g[:3] for g in got["bc_vp_v181122.htm"]],
+                         [(True, ["45"], {"Yea": 17}), (False, ["45"], {"Yea": 43, "Nay": 39}),
+                          (False, ["49"], {"Yea": 43, "Nay": 39}), (True, ["50"], {"Yea": 80})])
+        self.assertEqual(got["bc_vp_v260421.htm"], [(True, ["14"], {"Yea": 89}, {"Yea": 89})])
+
+    def test_matching_is_in_order_and_checked_by_bill(self):
+        tables = bc.parse_vp(bc.decode_vp(fxb("bc_vp_v181122.htm")))
+        days = [{"division_key": "bc-41-3-2018-11-22-195.1", "bill_key": "bc-41-3/45"},
+                {"division_key": "bc-41-3-2018-11-22-196.1", "bill_key": "bc-41-3/50"}]
+        pairs, why = bc.match_vp(days, tables)
+        self.assertIsNone(why)
+        self.assertEqual([t["printed"]["Yea"] for _, t in pairs], [17, 80])
+        # the bill a division names must be among those the table's paragraphs name
+        pairs, why = bc.match_vp([dict(days[0], bill_key="bc-41-3/99"), days[1]], tables)
+        self.assertIsNone(pairs)
+        self.assertIn("do not match", why)
+        # with one Hansard division for two unanimous tables, only a bill only one names will do
+        pairs, why = bc.match_vp([days[1]], tables)
+        self.assertEqual(pairs[0][1]["printed"]["Yea"], 80)
+        self.assertIsNone(bc.match_vp([dict(days[1], bill_key="bc-41-3/55")], tables)[0])
+        # Hansard prints the House's division before the committee's: by bill, not by order
+        pairs, why = bc.match_vp(list(reversed(days)), tables)
+        self.assertEqual([(d["bill_key"], t["printed"]["Yea"]) for d, t in pairs],
+                         [("bc-41-3/50", 80), ("bc-41-3/45", 17)])
+        # two divisions on one bill, out of order: no unique match, so nothing
+        self.assertIsNone(bc.match_vp([days[1], dict(days[0], bill_key="bc-41-3/50")], tables)[0])
+
+    def test_a_private_members_bill_matched_by_its_number(self):
+        """6 May 2025: two unanimous divisions in the V&P, one of them printed
+        with names in Hansard; 'Bill (No. M 213)' names the other."""
+        tables = bc.parse_vp(bc.decode_vp(fxb("bc_vp_v250506.htm")))
+        self.assertEqual([(t["unanimous"], sorted(t["bills"]), t["printed"].get("Yea")) for t in tables],
+                         [(True, ["M213"], 92), (False, ["5"], 41), (True, [], 89)])
+        pairs, why = bc.match_vp([{"division_key": "bc-43-1-2025-05-06-56.1", "bill_key": "bc-43-1/M213"}], tables)
+        self.assertEqual(pairs[0][1]["printed"]["Yea"], 92)
+
+    def test_a_committee_divided_nemine_contradicente_as_follows(self):
+        """6 November 2014: 'the Committee divided, nemine contradicente as
+        follows' -- no 'division' in the sentence."""
+        (t,) = bc.parse_vp(bc.decode_vp(fxb("bc_vp_v141106.htm")))
+        self.assertEqual((t["unanimous"], t["bills"], t["printed"]), (True, {"2"}, {"Yea": 65}))
+
+    def test_the_older_listings_mark_every_file_unpublished(self):
+        files = bc._nodes_vp(json.loads(fx("bc_vp_list_39th2nd.json")))
+        self.assertEqual(sorted((f["fileName"], f["date"]) for f in files),
+                         [("v100325.htm", "2010-03-25"), ("v110214.htm", "2011-02-14")])
+
+    def setup_43(self, note=None):
+        conn = db.init_db(db.connect(":memory:"))
+        store_43(conn)
+        ps.store_division(conn, {
+            "division_key": "bc-43-2-2026-04-21-159.1", "prov": "bc", "legislature": 43, "session": 2,
+            "date": "2026-04-21", "seq": "159.1", "kind": "recorded", "bill_key": "bc-43-2/14",
+            "stage": "Third Reading", "positions_ok": 0, "votes": [],
+            "tally_note": note or ("no names: the transcript records 'Motion approved unanimously on a division. "
+                                   "[See Votes and Proceedings.]'; the names are printed only in the Votes and "
+                                   "Proceedings")})
+        url = bc.VP_FILE.format("/ldp/43rd2nd/votes", "v260421.htm")
+        client = _Client({bc.VP_LIST.format("43rd2nd"): fx("bc_vp_list_43rd2nd.json")}, {},
+                         {url: fxb("bc_vp_v260421.htm")})
+        return conn, Context(conn, client, "bc", log=lambda *a: None)
+
+    def test_the_names_of_a_unanimous_third_reading(self):
+        """Bill 14, Forests Statutes Amendment Act, 2026, third reading, 21
+        April 2026: 'Motion agreed to nemine contradicente', Yeas — 89."""
+        conn, ctx = self.setup_43()
+        self.assertEqual(bc.vp_names(ctx, 43, 2, "43rd2nd"), {"vp_named": 1, "vp_not_named": 0})
+        row = conn.execute("SELECT positions_ok, yeas, nays, tally_note FROM prov_divisions").fetchone()
+        self.assertEqual(tuple(row)[:3], (1, 89, None))
+        self.assertTrue(row[3].startswith("names from the Votes and Proceedings: https://lims.leg.bc.ca/pdms/ldp/"
+                                          "43rd2nd/votes/v260421.htm"))
+        names = {r[0] for r in conn.execute("SELECT m.name FROM prov_votes v JOIN prov_members m "
+                                            "ON m.member_key=v.member_key AND m.prov='bc'")}
+        self.assertEqual(len(names), 89)
+        self.assertTrue({"David Eby", "John Rustad", "Brittny Anderson", "Larry Neufeld", "Tara Armstrong"} <= names)
+        self.assertEqual(ctx.gaps, [])
+        # tried once: the next run fetches nothing
+        ctx.client.blobs, ctx.client.pages = {}, {}
+        self.assertEqual(bc.vp_names(ctx, 43, 2, "43rd2nd"), {})
+        self.assertEqual(ctx.gaps, [])
+
+    def test_a_day_the_listing_does_not_hold_stays_no_names_and_is_not_tried_again(self):
+        conn, ctx = self.setup_43()
+        conn.execute("UPDATE prov_divisions SET date='2026-04-22'")
+        self.assertEqual(bc.vp_names(ctx, 43, 2, "43rd2nd"), {"vp_named": 0, "vp_not_named": 1})
+        note = conn.execute("SELECT tally_note FROM prov_divisions").fetchone()[0]
+        self.assertTrue(note.startswith("no names"))
+        self.assertIn("Votes and Proceedings read: no Votes and Proceedings listed for 2026-04-22", note)
+        self.assertEqual(bc.vp_names(ctx, 43, 2, "43rd2nd"), {})
+
+    def test_a_failed_fetch_is_tried_again(self):
+        conn, ctx = self.setup_43()
+        ctx.client.blobs = {}
+        self.assertEqual(bc.vp_names(ctx, 43, 2, "43rd2nd"), {"vp_named": 0, "vp_not_named": 0})
+        self.assertNotIn("Votes and Proceedings read",
+                         conn.execute("SELECT tally_note FROM prov_divisions").fetchone()[0])
+
+
 N119_PDF = "https://lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260219am-Hansard-n119.pdf"
 
 

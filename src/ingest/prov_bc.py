@@ -56,8 +56,9 @@ rules.
     one before it after a page break, unquoted upper-case markup (2015),
     and, throughout (2010-2026), a division the transcript records WITHOUT names
     ("approved unanimously on a division. [See Votes and Proceedings.]"),
-    stored with no votes and a tally_note beginning "no names": untrusted,
-    not owed.
+    stored with no votes and a tally_note beginning "no names", untrusted
+    and not owed, until the day's Votes and Proceedings give its names
+    (vp_names, below: read once, for those days only).
     TWO GUARDS now: a transcript that prints "on the following division" (or
     a division table) more often than it parses divisions is a gap; and the
     session's Voting Records index (below), which links every standing vote
@@ -1295,7 +1296,236 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
             "SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND legislature=? AND session=? "
             "AND kind='recorded' AND positions_ok=0 AND COALESCE(tally_note, '') NOT LIKE 'no names%'",
             (PROV, leg, sess)).fetchone()[0]
+    stats.update(vp_names(ctx, leg, sess, code))
     return stats
+
+
+# -- the Votes and Proceedings: names for the divisions Hansard prints without -----
+#
+# Hansard records some divisions only as "Second reading of Bill 38 approved
+# unanimously on a division. [See Votes and Proceedings.]" (61 of them,
+# 2010-2026). The Votes and Proceedings of the day print them in full:
+# "Motion agreed to nemine contradicente on the following division:" and a
+# <table class="division"> with a "Yeas — 68" head and the names, <br>
+# between them, in four columns. Listed per session by
+# lims.leg.bc.ca/pdms/votes-and-proceedings/<code> (JSON: fileName, filePath,
+# date), served at lims.leg.bc.ca/pdms/ldp/<code>/votes/v151007.htm; some are
+# UTF-16 (2015). Read ONLY for the days holding such a division, once: the
+# division keeps its Hansard key and gains the V&P's names, the source named
+# in tally_note; if the V&P cannot settle it, the reason is added to the note
+# ("Votes and Proceedings read") and it is not tried again.
+
+VP_LIST = "https://lims.leg.bc.ca/pdms/votes-and-proceedings/{0}"
+VP_FILE = "https://lims.leg.bc.ca/pdms{0}/{1}"
+VP_READ = "Votes and Proceedings read"
+VP_NAMED = "names from the Votes and Proceedings"
+_VP_BLOCK = re.compile(r'<p\b[^>]*>((?:(?!<table\b).)*?)(?:</p>|(?=<table\b))'
+                       r'|<table\b[^>]*\bclass="?division"?[^>]*>(.*?)</table>', re.S | re.I)
+_VP_HEAD = re.compile(r"^(Yeas|Nays|Abstentions)\s*[—–-]+\s*(\d+)$", re.I)
+_VP_UNANIMOUS = re.compile(r"nemine\s+contradicente|unanimously", re.I)
+
+
+def decode_vp(raw):
+    """The V&P bytes as text: UTF-16 where a byte-order mark says so (2015)."""
+    if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return raw.decode("utf-16")
+    if raw[:3] == b"\xef\xbb\xbf":
+        return raw[3:].decode("utf-8", "replace")
+    return raw.decode("utf-8", "replace")
+
+
+def parse_vp(page):
+    """Division tables of one Votes and Proceedings, in order:
+    [{intro, bills, unanimous, printed: {Yea: n}, labels: {Yea: [...]}}].
+    `bills` holds the bill numbers named in the paragraphs since the last
+    table ("Bill (No. 38)", "Bill (No. M213)")."""
+    out, paras = [], []
+    for m in _VP_BLOCK.finditer(page or ""):
+        if m.group(2) is None:
+            text = html_text(m.group(1))
+            if text:
+                paras.append(text)
+            continue
+        sections, current = {}, None
+        for cell in re.findall(r"<td\b[^>]*>(.*?)</td>", m.group(2), re.S | re.I):
+            for piece in re.split(r"<br\s*/?>", cell, flags=re.I):
+                text = html_text(piece)
+                if not text:
+                    continue
+                h = _VP_HEAD.match(text)
+                if h:
+                    current = {"yeas": "Yea", "nays": "Nay", "abstentions": "Abstain"}[h.group(1).lower()]
+                    sections[current] = (int(h.group(2)), [])
+                elif current:
+                    sections[current][1].append(text)
+        # "Motion agreed to nemine contradicente on the following division:",
+        # or, in committee, "the Committee divided, nemine contradicente, as
+        # follows:" (2014)
+        intro = next((p for p in reversed(paras[-3:]) if re.search(r"division|divided", p, re.I)), None)
+        out.append({"intro": intro, "unanimous": bool(intro and _VP_UNANIMOUS.search(intro)),
+                    "bills": _nearest_bills(paras),
+                    "printed": {k: v[0] for k, v in sections.items()},
+                    "labels": {k: v[1] for k, v in sections.items()}})
+        paras = []
+    return out
+
+
+def _nearest_bills(paras):
+    """The bill numbers of the nearest paragraph before a table that names
+    any ('On the motion for second reading of Bill (No. 38) ...'), among
+    those since the last table: the bill the division is on. 'Bill (No. M
+    213)' (2025) has a space after the M."""
+    for p in reversed(paras):
+        found = {a + b for a, b in re.findall(r"Bill \(No\.\s*(M?)\s*(\d+)\)", p)}
+        if found:
+            return found
+    return set()
+
+
+def _seq_order(division_key):
+    seq = division_key.rsplit("-", 1)[-1]
+    return tuple(int(x) if x.isdigit() else 0 for x in seq.split("."))
+
+
+def match_vp(divisions, tables):
+    """[(division, table)] pairing the day's no-names divisions with the
+    V&P's tables, or (None, why). In order when both count the same
+    unanimous divisions and every bill either names agrees; otherwise by a
+    bill number that one table alone names. Never by position alone where
+    the counts differ."""
+    unanimous = [t for t in tables if t["unanimous"]]
+
+    def number(d):
+        return d["bill_key"].rsplit("/", 1)[-1] if d.get("bill_key") else None
+
+    why = None
+    if len(unanimous) == len(divisions):
+        for d, t in zip(divisions, unanimous):
+            n = number(d)
+            if n and t["bills"] and n not in t["bills"]:
+                why = "the day's unanimous divisions do not match in order (Bill {0} against {1})".format(
+                    n, ", ".join(sorted(t["bills"])))
+                break
+        if why is None:
+            return list(zip(divisions, unanimous)), None
+    # By bill: 22 November 2018 prints Committee Section A's division
+    # before the House's, Hansard the other way round.
+    pairs = []
+    for d in divisions:
+        n = number(d)
+        hits = [t for t in unanimous if n and n in t["bills"]]
+        if len(hits) != 1 or any(hits[0] is t for _, t in pairs):
+            return None, "; ".join(x for x in (why, "{0} unanimous division(s) in the Votes and Proceedings for "
+                                               "{1} in Hansard, and no unique match by bill".format(
+                                                   len(unanimous), len(divisions))) if x)
+        pairs.append((d, hits[0]))
+    return pairs, None
+
+
+def vp_names(ctx, leg, sess, code):
+    """Names from the Votes and Proceedings for the session's stored
+    no-names divisions not yet tried. Returns stats."""
+    pending = [dict(r) for r in ctx.conn.execute(
+        "SELECT * FROM prov_divisions WHERE prov=? AND legislature=? AND session=? AND kind='recorded' "
+        "AND tally_note LIKE 'no names%' AND tally_note NOT LIKE ?", (PROV, leg, sess, "%" + VP_READ + "%"))]
+    if not pending or ctx.dry_run:
+        return {}
+    raw = ctx.text(VP_LIST.format(code), "vp-list-{0}".format(code))
+    try:
+        files = _nodes_vp(json.loads(raw)) if raw else None
+    except ValueError:
+        files = None
+    if files is None:
+        ctx.gap("bc {0}: the Votes and Proceedings listing could not be read; {1} division(s) still have "
+                "no names".format(code, len(pending)))
+        return {"vp_pending": len(pending)}
+    resolver = pn.Resolver.from_conn(ctx.conn, PROV).with_record(PROV)
+    named = refused = 0
+    for date in sorted({d["date"] for d in pending}):
+        day = [dict(r) for r in ctx.conn.execute(
+            "SELECT * FROM prov_divisions WHERE prov=? AND legislature=? AND session=? AND date=? AND kind='recorded' "
+            "AND (tally_note LIKE 'no names%' OR tally_note LIKE ?)", (PROV, leg, sess, date, VP_NAMED + "%"))]
+        day.sort(key=lambda d: _seq_order(d["division_key"]))
+        todo = [d for d in day if d["tally_note"].startswith("no names")]
+        urls = [VP_FILE.format(f["filePath"], f["fileName"]) for f in sorted(files, key=lambda f: f["fileName"])
+                if f["date"] == date]
+        if not urls:
+            refused += note_vp(ctx, todo, "no Votes and Proceedings listed for {0}".format(date))
+            continue
+        tables, fetched = [], True
+        for url in urls:
+            b = ctx.bytes(url, "vp-{0}".format(url.rsplit("/", 1)[-1]))
+            if b is None:
+                fetched = False
+                break
+            tables += [dict(t, url=url) for t in parse_vp(decode_vp(b))]
+        if not fetched:
+            continue                           # a failed fetch is tried again next run
+        pairs, why = match_vp(day, tables)
+        if pairs is None:
+            refused += note_vp(ctx, todo, "{0} ({1})".format(why, " ".join(urls)))
+            continue
+        for d, t in pairs:
+            if not d["tally_note"].startswith("no names"):
+                continue                       # named on an earlier run
+            ok = store_vp_votes(ctx, d, t, resolver)
+            named += 1 if ok else 0
+            refused += 0 if ok else 1
+    ctx.conn.commit()
+    if named or refused:
+        ctx.log("  bc {0}-{1}: Votes and Proceedings read for {2} division(s) Hansard prints without names: "
+                "{3} named, {4} not".format(leg, sess, named + refused, named, refused))
+    return {"vp_named": named, "vp_not_named": refused}
+
+
+def _nodes_vp(listing):
+    # Every node, as the Assembly's own V&P page lists them: the older
+    # sessions mark every file "published": false (all 47 of 39th2nd) though
+    # each is served and shown.
+    return [{"fileName": n.get("fileName"), "filePath": n.get("filePath"), "date": (n.get("date") or "")[:10]}
+            for n in ((listing or {}).get("allParliamentaryFileAttributes") or {}).get("nodes") or []
+            if n.get("fileName") and n.get("filePath")]
+
+
+def note_vp(ctx, divisions, why):
+    """Keep the divisions 'no names', with why the V&P could not settle them."""
+    for d in divisions:
+        ctx.conn.execute("UPDATE prov_divisions SET tally_note=? WHERE division_key=?",
+                         ("{0}; {1}: {2}".format(d["tally_note"], VP_READ, why), d["division_key"]))
+    return len(divisions)
+
+
+def store_vp_votes(ctx, d, t, resolver):
+    """Write the V&P's names onto the division; True when its tally holds."""
+    date, leg = d["date"], d["legislature"]
+    votes = []
+    for position in ("Yea", "Nay", "Abstain"):
+        for k, label in enumerate(t["labels"].get(position, []), 1):
+            key, how = resolver.resolve(label, date, leg)
+            votes.append({"position": position, "ordinal": k, "raw_label": label, "member_key": key,
+                          "how": how, "party_at_vote": resolver.party_at(key, date, leg) if key else None})
+    settle_by_elimination(votes, resolver, date, leg)
+    printed = {p: t["printed"].get(p) for p in ("Yea", "Nay", "Abstain")}
+    ok, note = ps.tally(printed, votes)
+    if not t["unanimous"] and printed["Nay"] is None:
+        ok, note = False, "; ".join(x for x in ("the Votes and Proceedings print no NAYS head", note) if x)
+    if not votes:
+        ok, note = False, "the Votes and Proceedings table holds no names"
+    if ok:
+        tally_note = "{0}: {1} ({2!r})".format(VP_NAMED, t["url"], t["intro"])
+    else:
+        tally_note = "{0} ({1}) do not add up: {2}".format(VP_NAMED, t["url"], note)
+        ctx.gap("{0}: {1}".format(d["division_key"], tally_note))
+    ctx.conn.execute("DELETE FROM prov_votes WHERE division_key=?", (d["division_key"],))
+    for v in votes:
+        ctx.conn.execute(
+            "INSERT INTO prov_votes (division_key, position, ordinal, raw_label, member_key, how, party_at_vote) "
+            "VALUES (?,?,?,?,?,?,?)", (d["division_key"], v["position"], v["ordinal"], v["raw_label"],
+                                       v["member_key"], v["how"], v["party_at_vote"]))
+    ctx.conn.execute("UPDATE prov_divisions SET yeas=?, nays=?, abstentions=?, positions_ok=?, tally_note=? "
+                     "WHERE division_key=?", (printed["Yea"], printed["Nay"], printed["Abstain"],
+                                              1 if ok else 0, tally_note, d["division_key"]))
+    return bool(ok)
 
 
 # -- the Voting Records index: an independent record of every standing vote ----

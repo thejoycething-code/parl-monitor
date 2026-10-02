@@ -1,0 +1,36 @@
+{
+"allParliamentaryFileAttributes": {
+"nodes": [
+{
+"fileName": "v110214.htm",
+"filePath": "/ldp/39th2nd/votes",
+"published": false,
+"publishTime": "2011-02-14T00:00:00",
+"date": "2011-02-14T00:00:00",
+"title": null,
+"votesAttributesByFileId": {
+"nodes": [
+{
+"voteNumbers": "80"
+}
+]
+}
+},
+{
+"fileName": "v100325.htm",
+"filePath": "/ldp/39th2nd/votes",
+"published": false,
+"publishTime": "2010-03-25T00:00:00",
+"date": "2010-03-25T00:00:00",
+"title": null,
+"votesAttributesByFileId": {
+"nodes": [
+{
+"voteNumbers": "24 and 25"
+}
+]
+}
+}
+]
+}
+}
