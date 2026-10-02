@@ -17,8 +17,10 @@
 #
 # Every entry says why, and which text it was measured on. A term added
 # without a measurement is a guess; mark it so. Titles and keys for the
-# provinces NOT YET BUILT (mb, on, nb, qc) come from the scope probe and
-# were not re-read for this file; confirm each when that province is built.
+# provinces NOT YET BUILT (nb, qc) come from the scope probe and were not
+# re-read for this file; confirm each when that province is built. The
+# Manitoba and Ontario entries were re-read from the records on 2 October
+# 2026, when those collectors were built.
 
 terms:
   - term: "Parents' Bill of Rights"
@@ -94,13 +96,15 @@ provinces:
   "mb":
     bills:
       "mb-42-3/207": {title: "The Abortion Protest Buffer Zone Act", areas: [1],
-                      why: "Second reading negatived 20-30 on 14 Oct 2021. MANITOBA IS NOT BUILT (the AI-crawler robots policy is Christopher's call first)."}
+                      why: "Abortion clinic buffer zones (Nahanni Fontaine, NDP opposition). Second reading NEGATIVED 20-30 on 14 Oct 2021 (V&P No. 82): the NDP and Liberals for, the PC government against. Its text matches area 1 on its own; the key makes it tier 1."}
       "mb-43-2/43": {title: "The Human Rights Code Amendment Act", areas: [5],
-                     why: "Adds 'gender expression'. Third reading 33-16 on 2 June 2025. Not built."}
+                     why: "Adds 'gender expression' to the Human Rights Code. Third reading carried 33-16 on 2 June 2025 (V&P No. 63): NDP for, PC against. Its title names a statute and says nothing of gender: only the key and the text catch it."}
   "on":
     bills:
       "on-41-1/77": {title: "Affirming Sexual Orientation and Gender Identity Act, 2015", areas: [4],
-                     why: "Conversion therapy ban. Passed on VOICE: no member record exists. Not built."}
+                     why: "Conversion-practices ban ('efforts to change sexual orientation or gender identity'). Third reading 'Carried.' on 4 June 2015 by VOICE: no member record exists, and the 5CA must say so rather than place anyone."}
+      "on-43-1/28": {title: "Keeping Students in Class Act, 2022", areas: [7],
+                     why: "A labour bill that pre-emptively invoked the notwithstanding clause over Charter ss. 2, 7 and 15 (time allocation 78-33, second reading 76-32, third reading 74-34 on 3 Nov 2022; repealed weeks later). Listed because the scope names it for the s.33 precedent. AREA 7 IS A DRAFT JUDGEMENT (civil liberties: s.2 freedoms overridden), not a reviewed one -- Christopher may prefer no area, since the subject is labour, not our ground."}
   "nb":
     bills:
       "nb-60-2/52": {title: "Human Organ and Tissue Donation Act", areas: [13],

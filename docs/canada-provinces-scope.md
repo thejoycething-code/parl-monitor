@@ -69,11 +69,18 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
 | Alberta 31-1 | 28 Oct–5 Dec 2024 | 19 V&P | 40 (40) | 36 | 2,789 (0) | 75, all texts read (6) | 0 |
 | Saskatchewan 29-3 | October 2023 | 9 Minutes | 12 (12) | 0 | 550 (0) | 1 (1) | 0 |
 | British Columbia 43-2 | 12–28 Feb 2026 | 12 transcripts | 5 (5) | 13 | 442 (0) | 46 incl. 2 unnumbered, 44 texts (3) | 0 |
+| Manitoba 42-3 | 12–14 Oct 2021 | 3 V&P | 7 (7) | 2 | 359 (0) | 120, 119 texts (4) | 0 |
+| Manitoba 43-2 | 26 May–2 Jun 2025 | 5 V&P | 13 (13) | 28 | 618 (0) | 87, 86 texts (2) | 0 |
+| Ontario 43-1 | 3 Nov 2022 | 1 V&P | 4 (3, plus 1 totals only) | 5 | 327 (0) | 7 pages read (1) | 0 |
+| Ontario 41-1 | 4 Jun 2015 | 1 V&P | 4 (4) | 21 | 346 (0) | 17 pages read (1) | 0 after the fix below |
+| Ontario 44-1 | 17–27 Nov 2025 | 8 V&P | 19 (17, plus 2 totals only) | 14 | 1,830 (0) | 25 pages read (0) | 0 after the fix below |
 
 - **Alberta:** 91 members with 116 dated terms; every bill-page "passed on division" stage matched a parsed division.
 - **Saskatchewan:** 61 members from the day covers. Bill 137 has eleven divisions on our ground.
 - **British Columbia:** 93 members. The whole session lists 73 transcripts (dry run).
-- **5CA:** `tools/prov_5ca.py --all` wrote 4 Alberta, 1 Saskatchewan and 4 BC evidence sheets, with nobody placed (the stance file is empty).
+- **Manitoba:** 56 members per day from the Hansard covers (85 across the two legislatures). Mark Wasyliw is NDP on 14 October 2021 and Independent on 2 June 2025: party at the vote is the day's.
+- **Ontario:** 123 members from the 2022 Hansard list, 107 from 2015's, 124 from 2025's. Two first runs failed honestly and were fixed: the 2015 Hansard prints its member list ten pages from the end, not in the last six (0 members, so every 2015 division was a tally gap); and the late-2025 V&P prints every name twice (English and hidden French div) and drops the table under a nil list, so 7 of 9 divisions were refused by the tally check ('Allsopp Allsopp') and 4 were missed (caught by the "on the following division" count). No wrong position was stored either time.
+- **5CA:** `tools/prov_5ca.py --all` wrote 4 Alberta, 1 Saskatchewan and 4 BC evidence sheets; on the Manitoba/Ontario store it wrote 1 Manitoba (area 1) and 3 Ontario sheets (areas 4, 5, 7), the Bill 77 sheet ending "Passed on voice, no member record: 2015-06-04 on-41-1/77 Third Reading", with nobody placed (the stance file is empty).
 
 ### Foundation (step 0)
 
@@ -138,6 +145,53 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
     - A dated source is needed: the caucus history, or the per-member Voting Records index read against a dated caucus list.
   - The per-member Voting Records index (`Index/43rd2nd/2026-Votes?.htm`) is not read. It would give a second, independent tally check and each vote's stage label.
   - Hansard speeches are not stored.
+
+### Manitoba (step 4): `src/ingest/prov_mb.py`
+
+Collected on Christopher's decision of 2 October 2026 (see "Decisions"). The collector reads gov.mb.ca's robots.txt on every run with `src/prov_fetch.Robots`: the named AI-crawler groups do not name our agent, and every `*` rule is obeyed. If Manitoba names us there, every fetch becomes a gap. If Manitoba asks us to stop, we stop.
+
+- **What it does:**
+  - **Listings, never constructed:** `business/votes_proceedings.html` gives each session's V&P calendar, `hansard/hansard_archive.html` each Hansard calendar, and `web2.gov.mb.ca/bills/sess/index.php` each bills page. A V&P link with no day number (42-3 repeats `votes_029` blank in the 6 October cell) is dropped when the file is listed under its day. The PDF's own printed date is the record's date.
+  - **Roster, dated to the day:** the second page of each division day's Hansard PDF lists the whole House as at that sitting ("COX, Cathy, Hon. Kildonan-River East PC", "Vacant Fort Whyte"). Terms cover exactly the days seen, as for Saskatchewan. Party at the vote is a fact of the day.
+  - **Divisions:** V&P PDFs, YEA (42nd Legislature) or AYE (43rd), one capitalised name per line, the riding only where two share a surname ("SMITH (Lagimodière)"), the printed total on the last name's line. A second check counts "on the following division" in the text: a division the parser missed is a gap.
+  - **Voice:** "It was agreed to." with "The Bill was accordingly read a Second Time…" or "…concurred in, read a Third Time and passed", "on division" (dissent noted, no names), and the day's first-reading list.
+  - **Bills:** every bill's HTML text from the session's bills page, classified per passage.
+- **Proof reproduced live:** Bill 207, The Abortion Protest Buffer Zone Act, second reading on 14 October 2021, negatived 20–30, tally matched. Fontaine, Kinew and Asagwara (NDP) voted Yea; Cox, Cullen and Pedersen (PC) voted Nay. Smith (Lagimodière) was told from Bernadette Smith by riding. Bill 207's text matches area 1 on its own. Bill 43 (gender expression) third reading 33–16 on 2 June 2025 also tallied; it is caught only by its watchlist key, because the taxonomy has no "gender expression".
+- **Known limits:**
+  - Hansard speeches are not read, nor `billstatus.pdf`: stage dates come only from the V&P read.
+  - Hansard lags the V&P by days. A division day with no Hansard yet is a gap and is read again next run.
+  - The cover parser assumes one given name before the constituency when "Hon." is absent (true for every member of the 42nd and 43rd). A two-word given name would make that member's riding unmatchable: a gap, never a wrong member.
+  - V&P layouts before the 42nd Legislature are untested; a change shows as a tally or count gap.
+  - Taxonomy false positive: 42-3 Bill 44 (Employment Standards Code, organ-donor leave) is tagged area 13 on "organ donation".
+
+### Ontario (step 5): `src/ingest/prov_on.py`
+
+- **Access:** the repo's standard UA passes Akamai, and nothing else is used. robots.txt's second `User-agent: *` group says `Disallow: /*?`, which `urllib.robotparser` cannot read: it ignores every `*` group after the first and treats `*` literally. `src/prov_fetch.Robots` (RFC 9309: merged groups, `*` and `$`, longest match) replaces it for every province, and no query-string URL is ever requested. A test asserts that.
+- **What it does:**
+  - **Sittings:** house-documents → the session page → each day's hub (`…/<date>/hansard`). The hub names the day's V&P and Hansard PDF.
+  - **Roster, dated to the day:** the member list in the back of the day's Hansard PDF, read by column position (`prov_fetch.pdf_fragments`), because ridings wrap and carry a French name after " / ". Terms cover exactly the days seen.
+  - **Divisions:** three V&P layouts, all tested:
+    - since 2022, bilingual event tables with `divisionHeader` / `votesList`;
+    - since late 2025, each name doubled in English and hidden French divs, and a nil list printed as a header with no table;
+    - before 2022 (2015 checked), one table of English/French cells, with "AYES / POUR - 95" and "… - Continued".
+    - The printed totals and the "on the following division" count are both checked.
+  - **Totals only:** a dilatory motion's division ("Carried on the following division – Ayes 74, Nays 30") prints no names. It is stored recorded with `positions_ok = 0` and a "totals only" note. It is not a gap, because no re-read can resolve it. `prov_store.summary` counts these apart from gaps.
+  - **Voice:** "Carried." / "Lost." after a reading, and the day's first-, second- and third-reading lists.
+  - **Bills:** only the bill pages (about 750 KB each, text included) that the window's records or the watchlist name.
+- **Proofs reproduced live:**
+  - **Bill 28, 3 November 2022.** Time allocation 78–33, second reading 76–32 and third reading 74–34, every tally matched. At third reading Lecce (PC) voted Yea; Fife (NDP) and Schreiner (GRN) voted Nay. Both Fords, both Chos, the Joneses and four Smiths were told apart by riding. The adjournment-of-debate division on Bill 26 was stored as totals only.
+  - **Bill 77, 4 June 2015.** Third reading is stored as a voice decision ("Carried.") with no member record. The same day's four recorded divisions all tallied against the 2015 Hansard list. Bill 77's text matches area 4 on "efforts to change sexual orientation or gender identity".
+- **Known limits:**
+  - Hansard speeches are not read, so the names behind a totals-only division are not collected.
+  - One URL is constructed: the session's bills listing (`/en/legislative-business/bills/parliament-N/session-M`). No index links past sessions' listings except from inside a bill. A wrong guess is a 404 and a gap.
+  - A sitting costs the hub page (about 300 KB) plus the V&P (150–200 KB), and the Hansard PDF (650 KB to 1.3 MB) on division days.
+  - Bill 28's area 7 is a draft judgement (see "Decisions needed" below).
+
+### Decisions needed (Manitoba and Ontario build, 2 October 2026)
+
+- **Ontario Bill 28: area 7 or no area?** It is a labour bill that invoked s.33 over Charter ss. 2, 7 and 15. The watchlist gives it area 7 (civil liberties) as a draft, so its three divisions appear on an area-7 evidence sheet.
+- **Manitoba Bill 43 (gender expression):** area 5 is from the scope. The taxonomy has no "gender expression", so similar bills elsewhere will be missed. Adding the term is a taxonomy-versioning call.
+- **Schedule:** none of the five provincial collectors is scheduled. Wiring one into a workflow means the `last_read` → `last_seen` rename and a `tools/coverage.py` entry.
 
 ---
 
@@ -226,7 +280,7 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
 - **Hansard:** HTML, e.g. `hansard/43rd_3rd/vol_60/h60.html`, back to 1958. Speakers are labelled with full name and riding.
 - **Roster:** `legislature/members/mla_list_alphabetical.html` (NDP / PC).
 - **Volume:** 48 divisions across all 72 V&P of 43-2.
-- **Policy flag:** gov.mb.ca's robots.txt gives `Disallow: /` to GPTBot, ClaudeBot, anthropic-ai, Claude-Web, CCBot and others. Our UA is not on the list and the `*` rules allow /legislature/. But the province has said plainly that it objects to AI crawlers, and our pipeline uses Claude to judge items. **Christopher should decide this before we build.** The ask-permission route is the Clerk's office.
+- **Policy flag:** gov.mb.ca's robots.txt gives `Disallow: /` to GPTBot, ClaudeBot, anthropic-ai, Claude-Web, CCBot and others. Our UA is not on the list and the `*` rules allow /legislature/. But the province has said plainly that it objects to AI crawlers, and our pipeline uses Claude to judge items. **Christopher should decide this before we build.** The ask-permission route is the Clerk's office. *(Decided 2 October 2026: collect. See "Decisions" and the Manitoba "Built" notes.)*
 - **Effort:** 12–16 h for divisions, bills and roster; +6 h for Hansard.
 
 ### Ontario (ola.org): value 3, difficulty 2

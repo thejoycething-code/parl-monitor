@@ -51,6 +51,8 @@ MODULES = {
     "ab": "src.ingest.prov_ab",
     "sk": "src.ingest.prov_sk",
     "bc": "src.ingest.prov_bc",
+    "mb": "src.ingest.prov_mb",
+    "on": "src.ingest.prov_on",
 }
 NOT_BUILT = {p: "not built yet (docs/canada-provinces-scope.md, build order)"
              for p in prov_store.PROVINCES if p not in MODULES}
@@ -69,7 +71,8 @@ def report(conn, ctx, stats, log=print):
         "{0}={1}".format(k, v) for k, v in sorted((stats or {}).items()))))
     log("  store: {members} member(s), {terms} term(s); {bills} bill(s), {bills_ours} on our "
         "ground; {sittings} record(s) read; {recorded} recorded division(s) ({recorded_ok} "
-        "tally ok, {recorded_gap} gap); {voice} voice decision(s); {ours} division(s) on our "
+        "tally ok, {recorded_gap} gap, {recorded_totals_only} totals only); {voice} voice decision(s); "
+        "{ours} division(s) on our "
         "ground; {votes} vote(s), {unresolved} unresolved".format(**s))
     log("  Matched against the ENGLISH taxonomy plus config/watchlist-prov.yaml, a "
         "groundwork draft nobody in Canada has reviewed.")
