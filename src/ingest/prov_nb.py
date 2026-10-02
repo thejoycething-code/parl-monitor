@@ -111,14 +111,26 @@ def _url(href):
 # -- the journals listing ---------------------------------------------------
 
 _LINK = re.compile(r'<a[^>]*href="([^"]+\.pdf)"[^>]*>(.*?)</a>', re.S | re.I)
-_DAILY = re.compile(r"/(\d{1,3})(\d{6})e(\d*)\.pdf$", re.I)
+# '47230615e2.pdf' (sitting 47, 15 June 2023, revision 2); before the 57th
+# Legislature's second session the file carries no sitting number:
+# '100416e.pdf' (56-4, 16 April 2010), '110610e.pdf' (57-1).
+_DAILY = re.compile(r"/(\d{1,3})?(\d{6})([ef])(\d*)\.pdf$", re.I)
+# The compiled Journal is labelled "Journals (Compiled)" from 58-4 on and
+# "Journals 2011 - 2012" before it (57-2 to 58-3); 56-4 and 57-1 list none.
+_COMPILED = re.compile(r"^journals?\s*(?:\(compiled\)|\d{4}\s*[-–]\s*\d{4})\s*$", re.I)
 
 
 def list_records(html):
-    """{'daily': [{date, url, sitting, revision}], 'compiled': url|None}
-    from one session's journals listing. English files only; where a date
-    is listed twice the highest revision is kept."""
-    daily, compiled = {}, None
+    """{'daily': [{date, url, sitting, revision}], 'compiled': url|None,
+    'french_only': [{date, url}]} from one session's journals listing.
+    English files only; where a date is listed twice the highest revision is
+    kept. A date the English listing links ONLY to a French file ('f') is
+    returned in french_only: it is never read (English is the record we
+    classify), and the caller says so as a gap. A link outside the
+    session's journals folder (60-1 lists "October 4, 2022" as
+    qp_transcripts/87221003e.pdf) is returned in not_journal, never read
+    as a Journal."""
+    daily, compiled, french, other = {}, None, {}, []
     section = (html or "")
     start = section.find('class="file-list"')
     if start >= 0:
@@ -126,7 +138,7 @@ def list_records(html):
     for href, inner in _LINK.findall(section):
         label = html_text(inner)
         url = _url(href)
-        if label.lower().startswith("journals (compiled)"):
+        if _COMPILED.match(label):
             compiled = url
             continue
         m = _DAILY.search(url)
@@ -136,11 +148,20 @@ def list_records(html):
         if not date:
             ymd = m.group(2)
             date = "20{0}-{1}-{2}".format(ymd[:2], ymd[2:4], ymd[4:])
-        rev = int(m.group(3) or 1)
+        if "/journals/" not in url.lower():
+            other.append({"date": date, "url": url})
+            continue
+        if m.group(3).lower() == "f":
+            french.setdefault(date, {"date": date, "url": url})
+            continue
+        rev = int(m.group(4) or 1)
         have = daily.get(date)
         if have is None or rev > have["revision"]:
-            daily[date] = {"date": date, "url": url, "sitting": int(m.group(1)), "revision": rev}
-    return {"daily": sorted(daily.values(), key=lambda r: r["date"]), "compiled": compiled}
+            daily[date] = {"date": date, "url": url, "sitting": int(m.group(1)) if m.group(1) else None,
+                           "revision": rev}
+    return {"daily": sorted(daily.values(), key=lambda r: r["date"]), "compiled": compiled,
+            "french_only": sorted((v for d, v in french.items() if d not in daily), key=lambda r: r["date"]),
+            "not_journal": sorted((v for v in other if v["date"] not in daily), key=lambda r: r["date"])}
 
 
 # The journals page's own session selector: one block per legislature
@@ -242,9 +263,67 @@ def ordinal_value(word):
 
 
 _SESSION_HEAD = re.compile(r"\b([A-Za-z]+)\s+Session\s+of\s+the\s+([A-Za-z\-–]+)\s+Legislative\s+Assembly", re.I)
+_DATE_TXT = r"(\w+\s+\d{1,2},\s*\d{4})"
+# The footnotes under the members page, every form printed 2011-2023:
+#   "* By-election June 25, 2012, vice Hon. Margaret-Ann Blaney resigned May 25, 2012."
+#   "* Donald Arseneault resigned December 1, 2017."           (58-4: the seat is "Vacant")
+#   "*Hon. Gregory Thompson, P.C.deceased September 10, 2019."  (59-2: after the session)
+#   "* Lisa Harris resigned August 16, 2021."   (60-1: marked on Réjean Savoie's row, her successor)
+#   "*Charlotte-Campobello named Saint Croix, October 31, 2016" (58-3: a riding renamed)
 _FOOTNOTE = re.compile(
-    r"^(\*+)\s*By-election\s+(\w+\s+\d{1,2},\s*\d{4}),\s*vice\s+(.+?),?\s+"
-    r"(resigned|deceased|died|appointed[^,]*?)\s*(?:on\s+)?(\w+\s+\d{1,2},\s*\d{4})\.?\s*$", re.I)
+    r"^(\*+)\s*By-election\s+" + _DATE_TXT + r",\s*vice\s+(.+?),?\s+"
+    r"(resigned|deceased|died|appointed[^,]*?)\s*(?:on\s+)?" + _DATE_TXT + r"\.?\s*$", re.I)
+_FOOT_LEFT = re.compile(
+    r"^(\*+)\s*(.+?),?\s*(resigned|deceased|died)\s*(?:on\s+)?" + _DATE_TXT + r"\.?\s*$", re.I)
+_FOOT_RENAMED = re.compile(r"^(\*+)\s*(.+?)\s+named\s+(.+?),?\s+" + _DATE_TXT + r"\.?\s*$", re.I)
+_HEADS = ("Constituency", "Member", "Residence")
+_HONORIFIC = re.compile(r"^(?:Hon\.|The Honourable|Dr\.)\s+")
+_POSTNOMINAL = re.compile(r",?\s*(?:K\.C\.|Q\.C\.|P\.C\.)\s*$")
+# A member as the page prints one: words that start with a capital
+# ("Hédard Albert", "John W. Betts", "Marie-Claude Blais"). Anything else
+# ("0DGHODLQH'XEp", a font the PDF cannot map) is not a name, and the row
+# is a problem unless a reviewed `roster_rows` entry reads it.
+_NAME = re.compile(r"^[A-ZÀ-Þ][\w’'.\-]*(?:\s+[A-ZÀ-Þ][\w’'.\-]*)+$")
+
+
+def clean_member(text):
+    """'Hon. Marie-Claude Blais, Q.C.' -> 'Marie-Claude Blais'; 'Dr. Jim
+    Parrott' -> 'Jim Parrott'; spaced hyphens closed ('Belle -Baie')."""
+    m = re.sub(r"\s*-\s*", "-", (text or "").strip())
+    m = _POSTNOMINAL.sub("", m).strip()
+    while _HONORIFIC.match(m):
+        m = _HONORIFIC.sub("", m).strip()
+    return _POSTNOMINAL.sub("", m).strip()
+
+
+def _row_text(frags):
+    return re.sub(r"\s+", " ", " ".join(f[2] for f in frags)).strip()
+
+
+def _space_columns(frags):
+    """The 2011-2016 members pages draw each row as ONE fragment with the
+    columns padded by runs of spaces ('Albert      Wayne Steeves      Lower
+    Coverdale'). Returns the cells, or None for a row that is not one
+    fragment."""
+    if len(frags) != 1:
+        return None
+    return [c.strip() for c in re.split(r"\s{2,}", frags[0][2].strip()) if c.strip()]
+
+
+def load_roster_rows(path=None):
+    """`roster_rows:` (nb) -- one printed row of one compiled Journal's
+    members page, read by a person: a row drawn with no gap between
+    constituency and member, in a font the PDF cannot map, or with a
+    misprinted name. Needs document, printed, member, verified_against and
+    why; a member row needs `riding` too, and may quote the row's own
+    `footnote` (which binds it where the page prints one mark twice). An
+    entry whose `printed` is a FOOTNOTE ("*** By-election ..., vice Daniel
+    Guitar resigned ...") gives the member the footnote misprints."""
+    out = pn._reviewed(PROV, "roster_rows", ("printed", "document", "member", "verified_against", "why"), path)
+    for a in out:
+        if not str(a["printed"]).lstrip().startswith("*") and not a.get("riding"):
+            raise ValueError("nb roster_rows entry {0!r} lacks riding".format(a["printed"]))
+    return out
 
 
 def roster_rows(raw):
@@ -256,12 +335,25 @@ def roster_rows(raw):
     return []
 
 
-def parse_compiled_roster(rows):
-    """{'session': (leg, sess)|None, 'members': [...], 'notes': [...], 'problems': [...]}
+def parse_compiled_roster(rows, reviewed=None, document=None):
+    """{'session': (leg, sess)|None, 'members': [...], 'vacant': [...],
+    'notes': [...], 'problems': [...]}
 
-    rows: one page as [[(x0, x1, text), ...], ...] lines (roster_rows)."""
-    out = {"session": None, "members": [], "notes": [], "problems": []}
+    rows: one page as [[(x0, x1, text), ...], ...] lines (roster_rows).
+    reviewed: `roster_rows` entries (load_roster_rows). An entry applies
+    only to its own document and only while the row is printed exactly as
+    it quotes it.
+
+    Two layouts: columns by x-position (the heading's three fragments give
+    the edges; 2017 on) and columns padded by spaces (one fragment a row;
+    2011-2016). A row neither reads is a problem, never a guess."""
+    out = {"session": None, "members": [], "notes": [], "problems": [], "vacant": []}
+    by_row = {}
+    for a in reviewed or []:
+        if document is not None and a["document"] == document:
+            by_row[re.sub(r"\s+", " ", str(a["printed"])).strip()] = a
     edges = None
+    carry = ""          # a constituency wrapped onto the next row ("Bathurst East-Nepisiguit-", 58-2)
     for frags in rows:
         frags = [tuple(f) for f in frags]
         line = join_fragments(frags)
@@ -272,40 +364,142 @@ def parse_compiled_roster(rows):
                 if sess and leg:
                     out["session"] = (leg, sess)
         if edges is None:
-            heads = [f for f in frags if f[2].strip() in ("Constituency", "Member", "Residence")]
+            heads = [f for f in frags if f[2].strip() in _HEADS]
             if len(heads) == 3:
                 edges = [heads[0][0], heads[1][0], heads[2][0]]
+            elif _space_columns(frags) == list(_HEADS):
+                edges = "spaces"
             continue
         if line.startswith("OFFICERS OF THE ASSEMBLY"):
             edges = False
             continue
         if edges is False:
             if line.startswith("*"):
-                fn = _FOOTNOTE.match(line)
-                if fn:
-                    out["notes"].append({"mark": fn.group(1), "elected": _date(fn.group(2)),
-                                         "vice": fn.group(3).strip(), "why": fn.group(4).lower(),
-                                         "left": _date(fn.group(5))})
+                note = _footnote(line)
+                fix = by_row.get(_row_text(frags)) or by_row.get(line)
+                if note and fix and note["kind"] in ("by-election", "left"):
+                    # a misprinted name in the footnote itself (60-2: "vice
+                    # Daniel Guitar"): the reviewed reading of who left
+                    note["vice" if note["kind"] == "by-election" else "who"] = clean_member(str(fix["member"]))
+                    note["reviewed"] = True
+                if note:
+                    out["notes"].append(note)
                 else:
                     out["problems"].append("footnote not understood: {0!r}".format(line))
             continue
-        riding, member, _residence = split_columns(frags, edges)
-        if not riding or not member:
+        text = _row_text(frags)
+        fact = by_row.get(text)
+        if fact:
+            riding, member = str(fact["riding"]), str(fact["member"])
+            marks = re.findall(r"\*+", text)
+            mark = marks[0] if marks else None
+        else:
+            if edges == "spaces":
+                cells = _space_columns(frags) or []
+                if len(cells) == 1 and cells[0].endswith("-") and not carry:
+                    carry = cells[0]
+                    continue
+                if carry and len(cells) == 3:
+                    cells[0] = carry + cells[0]
+                carry = ""
+                if len(cells) == 2 and " Hon. " in cells[0]:
+                    # 'Grand Falls–Drummond–Saint-André Hon. Danny Soucy' (57-3): one
+                    # space where the columns meet, but "Hon." only ever opens a member
+                    cells = cells[0].split(" Hon. ", 1) + cells[1:]
+                    cells[1] = "Hon. " + cells[1]
+                if len(cells) != 3:
+                    out["problems"].append("members page row not read (not three cells: constituency, "
+                                           "member, residence): {0!r}".format(text))
+                    continue
+                riding, member, _residence = cells
+            else:
+                riding, member, _residence = split_columns(frags, edges)
+            if not riding or not member:
+                continue
+            marks = re.findall(r"\*+", riding + " " + member)
+            mark = marks[0] if marks else None
+            riding = re.sub(r"\s*\*+\s*", "", riding)
+            member = re.sub(r"\s*\*+\s*", " ", member).strip()
+        # 'S h e d i a c-B e a u b a s s i n-C a p-P e l é' (58-4): drawn one
+        # glyph at a time
+        toks = riding.split()
+        if len(toks) >= 6 and all(len(t) <= 3 for t in toks):
+            riding = "".join(toks)
+        riding = re.sub(r"\s*-\s*", "-", riding).strip()
+        if member.strip().lower() == "vacant":
+            out["vacant"].append({"riding": riding, "mark": mark})
             continue
-        mark = re.search(r"(\*+)\s*$", riding)
-        riding = re.sub(r"\s*\*+\s*$", "", riding)
-        riding = re.sub(r"\s*-\s*", "-", riding)
-        member = re.sub(r"\s*-\s*", "-", member)
-        member = re.sub(r",?\s*(?:K\.C\.|Q\.C\.)\s*$", "", member).strip()
-        member = re.sub(r"^(?:Hon\.|The Honourable)\s+", "", member).strip()
+        member = clean_member(member)
+        if not _NAME.match(clean_given(member)):
+            out["problems"].append("members page row: {0!r} is not a name ({1!r})".format(member, text))
+            continue
         given, surname = _split_name(member)
         out["members"].append({"riding": riding, "given": given, "surname": surname,
                                "name": clean_given(given) + " " + surname,
-                               "key": member_key(given, surname),
-                               "mark": mark.group(1) if mark else None})
+                               "key": member_key(given, surname), "mark": mark,
+                               "reviewed": bool(fact),
+                               "footnote": str(fact["footnote"]) if fact and fact.get("footnote") else None})
     if not out["members"]:
         out["problems"].append("no members read from the compiled Journal's members page")
+    _bind_notes(out)
     return out
+
+
+def _bind_notes(out):
+    """Give each marked row its footnote. A mark printed on exactly one row
+    and over exactly one footnote binds them. A mark the page uses twice
+    (58-1 prints "*" on Fairgrieve and on Savoie, and "*" over both
+    by-election notes, in the opposite order) binds only through a
+    reviewed `roster_rows` entry quoting the row's footnote; without one
+    those rows get NO term (their votes are gaps), never the wrong date."""
+    rows = out["members"] + out["vacant"]
+    for r in rows:
+        r["note"], r["unbound"] = None, False
+    printed = {re.sub(r"\s+", " ", n["line"]).lstrip("* ") for n in out["notes"]}
+    for r in rows:
+        if r.get("footnote"):
+            quoted = re.sub(r"\s+", " ", r["footnote"]).lstrip("* ")
+            note = _footnote("* " + quoted)
+            if note is None or quoted not in printed:
+                out["problems"].append("reviewed footnote {0!r} {1}".format(
+                    r["footnote"], "not understood" if note is None else "is not printed on the page"))
+                r["unbound"] = True
+            else:
+                note["mark"] = r["mark"]
+                r["note"] = note
+    for mark in sorted({r["mark"] for r in rows if r["mark"]}):
+        marked = [r for r in rows if r["mark"] == mark and r["note"] is None and not r["unbound"]]
+        notes = [n for n in out["notes"] if n["mark"] == mark]
+        if not marked:
+            continue
+        if len(marked) == 1 and len(notes) == 1 and len([r for r in rows if r["mark"] == mark]) == 1:
+            marked[0]["note"] = notes[0]
+            continue
+        for r in marked:
+            r["unbound"] = True
+            out["problems"].append("the mark {0!r} on {1} ({2}) has {3} footnote(s) and {4} row(s): not bound "
+                                   "without a reviewed roster_rows entry; no term stored for it".format(
+                                       mark, r.get("name") or "a vacant seat", r["riding"], len(notes),
+                                       len([x for x in rows if x["mark"] == mark])))
+
+
+def _footnote(line):
+    line = re.sub(r"\s+", " ", line or "").strip()
+    fn = _FOOTNOTE.match(line)
+    if fn:
+        return {"mark": fn.group(1), "kind": "by-election", "elected": _date(fn.group(2)),
+                "vice": clean_member(fn.group(3)), "why": fn.group(4).lower(), "left": _date(fn.group(5)),
+                "line": line}
+    fn = _FOOT_RENAMED.match(line)
+    if fn and _date(fn.group(4)):
+        return {"mark": fn.group(1), "kind": "renamed", "riding": fn.group(2).strip(),
+                "renamed": re.sub(r"\s*-\s*", "-", fn.group(3)).strip(), "date": _date(fn.group(4)),
+                "line": line}
+    fn = _FOOT_LEFT.match(line)
+    if fn and _date(fn.group(4)):
+        return {"mark": fn.group(1), "kind": "left", "who": clean_member(fn.group(2)),
+                "why": fn.group(3).lower(), "left": _date(fn.group(4)), "line": line}
+    return None
 
 
 def _split_name(full):
@@ -315,24 +509,67 @@ def _split_name(full):
     return " ".join(toks[:-1]), toks[-1]
 
 
+def _same_surname(a, b):
+    return pn.fold(_split_name(a)[1]) == pn.fold(_split_name(b)[1])
+
+
+def _day_after(date):
+    return (datetime.date.fromisoformat(date) + datetime.timedelta(days=1)).isoformat()
+
+
 def terms_from_compiled(parsed, legislature, first, last):
     """[(member dict, term dict)] for one session: first/last are its first
-    and last sitting dates (last None while the session runs)."""
-    notes = {n["mark"]: n for n in parsed["notes"]}
+    and last sitting dates (last None while the session runs).
+
+    A footnote dates the marked row. A by-election starts its member's term
+    and ends the predecessor's ("vice ... resigned"). "X resigned/deceased
+    DATE" ends X's term: X is the row's own member when the surnames agree;
+    otherwise X is the PREDECESSOR of the row's member (60-1: "* Lisa Harris
+    resigned August 16, 2021" under Réjean Savoie), whose term then starts
+    no earlier than the day after the vacancy -- the footnote gives no
+    by-election date, so that is the bound the seat itself sets, never a
+    guess at the polling day -- or of a seat printed "Vacant" (58-4). A
+    riding renamed is only a note: the page prints the new name. A term
+    wholly outside the session's sittings is not stored."""
     out = []
+
+    def add(member, start, end):
+        if first and end and end < first:
+            return
+        if last and start and start > last:
+            return
+        out.append((member, {"legislature": legislature, "party": None, "riding": member["riding"],
+                             "start": start, "end": end, "party_dated": 0}))
+
+    def predecessor(name, riding, left):
+        given, surname = _split_name(name)
+        add({"given": given, "surname": surname, "name": clean_given(given) + " " + surname,
+             "key": member_key(given, surname), "riding": riding}, first, left)
+
     for m in parsed["members"]:
-        start = first
-        note = notes.get(m["mark"]) if m["mark"] else None
-        if note and note["elected"] and (not first or note["elected"] > first):
-            start = note["elected"]
-        out.append((m, {"legislature": legislature, "party": None, "riding": m["riding"],
-                        "start": start, "end": last, "party_dated": 0}))
-        if note and note["vice"] and note["left"] and (not first or note["left"] >= first):
-            given, surname = _split_name(note["vice"])
-            out.append(({"given": given, "surname": surname, "name": note["vice"],
-                         "key": member_key(given, surname), "riding": m["riding"]},
-                        {"legislature": legislature, "party": None, "riding": m["riding"],
-                         "start": first, "end": note["left"], "party_dated": 0}))
+        if m.get("unbound"):
+            continue
+        start, end = first, last
+        note = m.get("note")
+        kind = note["kind"] if note else None
+        if kind == "by-election":
+            if note["elected"] and (not first or note["elected"] > first):
+                start = note["elected"]
+            if note["vice"] and note["left"]:
+                predecessor(note["vice"], m["riding"], note["left"])
+        elif kind == "left" and note["left"]:
+            if _same_surname(note["who"], m["name"]):
+                if not last or note["left"] < last:
+                    end = note["left"]
+            else:
+                predecessor(note["who"], m["riding"], note["left"])
+                after = _day_after(note["left"])
+                start = after if not first or after > first else first
+        add(m, start, end)
+    for v in parsed.get("vacant", []):
+        note = v.get("note")
+        if note and note["kind"] == "left" and note["left"]:
+            predecessor(note["who"], v["riding"], note["left"])
     return out
 
 
@@ -350,7 +587,8 @@ def fetch_roster(ctx, legislature, session, listing):
         raw = ctx.bytes(listing["compiled"], "compiled-{0}-{1}".format(legislature, session))
         if raw:
             try:
-                parsed = parse_compiled_roster(roster_rows(raw))
+                parsed = parse_compiled_roster(roster_rows(raw), reviewed=load_roster_rows(),
+                                               document=listing["compiled"])
             except Unreadable as exc:
                 ctx.gap("nb {0}-{1}: compiled Journal {2}: {3}".format(legislature, session, listing["compiled"], exc))
                 parsed = None
@@ -365,9 +603,82 @@ def fetch_roster(ctx, legislature, session, listing):
                     return _store_compiled(ctx, legislature, session, parsed, first, last)
     if legislature == _current_legislature():
         return fetch_current(ctx, legislature)
+    bridge = next((b for b in load_roster_bridges() if b["session"] == "{0}-{1}".format(legislature, session)),
+                  None)
+    if bridge and not listing["compiled"]:
+        have = ctx.conn.execute(
+            "SELECT COUNT(DISTINCT member_key) FROM prov_member_terms WHERE prov=? AND legislature=? AND source=?",
+            (PROV, legislature, "journal-{0}-{1}-bridge".format(legislature, session))).fetchone()[0]
+        if have and not ctx.refresh:
+            return have
+        n = _store_bridge(ctx, legislature, session, bridge, first, last)
+        if n:
+            return n
     ctx.gap("nb {0}-{1}: no roster for the session (no usable compiled Journal, and the site lists "
             "only current members); its divisions cannot be resolved".format(legislature, session))
     return 0
+
+
+def load_roster_bridges(path=None):
+    """`roster_bridges:` (nb) -- a session that lists no compiled Journal,
+    whose roster is the members page of the NEXT session of the same
+    Legislature as it stood on that session's first sitting. Reviewed: an
+    entry names the session, the compiled Journal it is read from (which
+    must still be the one that session's listing links), the date
+    (`as_of`, the next session's first sitting), the evidence that nobody
+    entered or left the House between the two (`verified_against`) and why.
+    The terms are stored under their own source ('journal-<s>-bridge') and
+    the run checks them: every division of the session must resolve and
+    tally, or it is a gap like any other."""
+    return pn._reviewed(PROV, "roster_bridges", ("session", "document", "from_session", "as_of",
+                                                 "verified_against", "why"), path)
+
+
+def _store_bridge(ctx, legislature, session, bridge, first, last):
+    src = str(bridge["from_session"])
+    fleg, fsess = parse_session(src)
+    if fleg != legislature:
+        ctx.gap("nb {0}-{1}: roster bridge from {2} crosses a Legislature; not used".format(
+            legislature, session, src))
+        return 0
+    html = ctx.text(JOURNALS.format(fleg, fsess), "journals-{0}-{1}".format(fleg, fsess))
+    other = list_records(html or "")
+    if other["compiled"] != bridge["document"]:
+        ctx.gap("nb {0}-{1}: roster bridge: the {2} listing now links {3!r}, not the reviewed {4}; "
+                "not used".format(legislature, session, src, other["compiled"], bridge["document"]))
+        return 0
+    as_of = str(bridge["as_of"])
+    if not other["daily"] or other["daily"][0]["date"] != as_of:
+        ctx.gap("nb {0}-{1}: roster bridge: {2}'s first sitting is not {3}; not used".format(
+            legislature, session, src, as_of))
+        return 0
+    raw = ctx.bytes(bridge["document"], "compiled-{0}-{1}".format(fleg, fsess))
+    try:
+        parsed = parse_compiled_roster(roster_rows(raw), reviewed=load_roster_rows(),
+                                       document=bridge["document"]) if raw else None
+    except Unreadable as exc:
+        ctx.gap("nb {0}-{1}: roster bridge: {2}: {3}".format(legislature, session, bridge["document"], exc))
+        return 0
+    if not parsed or parsed["session"] != (fleg, fsess) or parsed["problems"]:
+        ctx.gap("nb {0}-{1}: roster bridge: {2}'s members page did not read cleanly ({3}); not used".format(
+            legislature, session, src, "; ".join((parsed or {}).get("problems") or ["unreadable"])))
+        return 0
+    # who sat on the next session's first sitting, as that page dates them
+    sat = [m for m, t in terms_from_compiled(parsed, fleg, as_of, other["daily"][-1]["date"])
+           if (not t["start"] or t["start"] <= as_of) and (not t["end"] or t["end"] >= as_of)]
+    if ctx.dry_run:
+        return len(sat)
+    source = "journal-{0}-{1}-bridge".format(legislature, session)
+    for m in sat:
+        ps.upsert_member(ctx.conn, PROV, m["key"], name=m["name"], surname=m["surname"],
+                         given=clean_given(m["given"]))
+        ps.replace_terms(ctx.conn, PROV, m["key"], [{
+            "legislature": legislature, "party": None, "riding": m["riding"], "start": first,
+            "end": last, "party_dated": 0}], source)
+    ctx.conn.commit()
+    ctx.log("  nb roster {0}-{1}: {2} member(s) from the {3} members page as of {4} (reviewed bridge)".format(
+        legislature, session, len(sat), src, as_of))
+    return len(sat)
 
 
 def _store_compiled(ctx, legislature, session, parsed, first, last):
@@ -550,7 +861,16 @@ def fetch_party_lists(ctx, legislature, session, resolver, dates):
             ctx.conn.commit()
         return True
 
-    for date in sorted(dates):
+    todo = [d for d in sorted(dates) if ctx.refresh or not covered(d)]
+    if todo and not listing():
+        # Hansard is published from the 58th Legislature's third session
+        # (November 2016) on; earlier transcripts are "available upon
+        # request" from the Legislative Library. One gap for the session,
+        # not two for every division day.
+        ctx.gap("nb {0}-{1}: the Hansard listing names no transcript for the session, so no party at "
+                "the vote for its {2} division day(s)".format(legislature, session, len(todo)))
+        return 0
+    for date in todo:
         if not ctx.refresh and covered(date):
             continue
         url = listing().get(date)
@@ -576,8 +896,73 @@ def fetch_party_lists(ctx, legislature, session, resolver, dates):
 
 def make_resolver(conn):
     """The run's resolver, with the reviewed label aliases of
-    config/prov_record.yaml consulted after it fails."""
-    return pn.Aliased(pn.Resolver.from_conn(conn, PROV), pn.load_aliases(PROV))
+    config/prov_record.yaml consulted after it fails, and the Journal's own
+    capitals telling two surnames apart (CaseExact)."""
+    return CaseExact(pn.Aliased(pn.Resolver.from_conn(conn, PROV), pn.load_aliases(PROV)))
+
+
+class CaseExact:
+    """The 57th Legislature seated Kirk MacDonald (York North) and Brian
+    Macdonald (Fredericton-Silverwood); every Journal prints them "Mr.
+    MacDonald" and "Mr. Macdonald", in the same list. The shared resolver
+    folds case, so both labels come back ambiguous between the two. Here an
+    AMBIGUOUS label is settled only when its surname, exactly as printed
+    (capitals included), is the surname of exactly one of the candidates;
+    anything else stays ambiguous. Still unique-or-nothing, and the tally
+    check runs on the result."""
+
+    def __init__(self, inner, titles=None):
+        self.inner = inner
+        self.base = getattr(inner, "base", inner)
+        self.titles = {}
+        for a in (load_titles() if titles is None else titles):
+            self.titles[str(a["member"])] = _title_class(a["title"])
+
+    def party_at(self, member_key, date, legislature=None):
+        return self.inner.party_at(member_key, date, legislature)
+
+    def term_for(self, member_key, date, legislature=None):
+        return self.base.term_for(member_key, date, legislature)
+
+    def resolve(self, raw, date, legislature=None, document=None):
+        key, how = self.inner.resolve(raw, date, legislature, document=document)
+        if key or not str(how).startswith("ambiguous:"):
+            return key, how
+        candidates = [k.strip() for k in str(how).partition(":")[2].split(",") if k.strip()]
+        words = re.sub(r"\(.*?\)", " ", raw or "").replace(",", " ").split()
+        printed = words[-1] if words else ""
+        exact = [k for k in candidates
+                 if (self.base.members.get(k) or {}).get("surname") == printed]
+        if len(exact) == 1 and printed != printed.lower() and printed != printed.upper():
+            return exact[0], "surname, as capitalised ({0})".format(how)
+        # The title as printed ("Hon. Ms. Landry" and "Hon. Mr. Landry" in one
+        # list, 58-1: Francine and Denis Landry), against reviewed titles:
+        # settled only when EVERY candidate has one, and exactly one matches.
+        cls = _title_class(next((w for w in words if _title_class(w)), None))
+        if cls and candidates and all(k in self.titles for k in candidates):
+            same = [k for k in candidates if self.titles[k] == cls]
+            if len(same) == 1:
+                return same[0], "title (reviewed, config/prov_record.yaml; {0})".format(how)
+        return key, how
+
+
+_TITLES = {"mr": "m", "ms": "f", "mrs": "f", "miss": "f", "mme": "f", "m": None}
+
+
+def _title_class(word):
+    return _TITLES.get(re.sub(r"[^a-z]", "", (word or "").lower())) if word else None
+
+
+def load_titles(path=None):
+    """`titles:` (nb) -- the title the record prints for a member ("Ms.",
+    "Mr."), read where the record joins it to the member's full name: a bill
+    the Journal says was introduced "By Hon. Ms. Landry" whose bill page
+    names its sponsor "Hon. Francine LANDRY", or "Mr. Bernard LeBlanc,
+    Member for Memramcook-Tantramar". Needs member, title, document, quoted,
+    verified_against and why. Read by CaseExact, and only for a label the
+    resolver found AMBIGUOUS."""
+    return pn._reviewed(PROV, "titles", ("member", "title", "document", "quoted", "verified_against", "why"),
+                        path)
 
 
 # -- bills ------------------------------------------------------------------
@@ -725,13 +1110,26 @@ def fetch_bills(ctx, legislature, session, tax, wl):
 
 # -- the Journal --------------------------------------------------------------
 
-HEADER = re.compile(r"^\s*(YEAS|NAYS)\s*[-–—]+\s*(\d+|Nil)\s*$", re.I)
+# "YAYS" is the record's own spelling in 57-2 and 57-3 (20 December 2011, 29 May 2013).
+HEADER = re.compile(r"^\s*(YEAS|YAYS|NAYS)\s*[-–—]+\s*(\d+|Nil)\s*$", re.I)
+_COW_Q = re.compile(r"the Chair put the question on the motion that Bill (\d+)\b", re.I)
+_MONTHS = r"(?:January|February|March|April|May|June|July|August|September|October|November|December)"
+# Running heads. 2011 on: "236 60-61 Elizabeth II, 2011-2012 June 8" and
+# "June 8 Journal of Assembly 237". The 56th Legislature and 57-1 draw the
+# page number against the words: "218 March 2458-59 Elizabeth II,
+# 2009-2010" (page 218, 24 March, 58-59 Elizabeth II) and "March 26
+# 225Journal of Assembly" -- a name list or a bill list running over the
+# page must not end at them (26 March 2010).
 _FURNITURE = re.compile(
     r"^\s*(?:=====PAGE|\d+\s+[\d\-–]+\s+(?:Elizabeth|Charles)\s+(?:II|III)\b.*"
-    r"|(?:January|February|March|April|May|June|July|August|September|October|November|December)"
-    r"\s+\d{1,2}\s+Journal of Assembly\s+\d+)\s*$")
+    r"|\d+\s+" + _MONTHS + r"\s+\d{1,2}\s*\d{2}\s*[-–]\s*\d{2}\s+(?:Elizabeth|Charles)\s+(?:II|III)\b.*"
+    r"|" + _MONTHS + r"\s+\d{1,2}\s+(?:\d+\s*)?Journal of Assembly(?:\s+\d+)?)\s*$")
+# "Hon. Mr. Holder", "Ms. M. Wilson"; and, in the 56th Legislature's
+# Journals, a minister with no Mr./Ms.: "Hon. S. Graham", "Hon. V. Boudreau"
+# (4 February 2010).
 _LABEL = re.compile(
-    r"(?:Hon\.\s*)?(?:Mr|Mrs|Ms|Miss|Dr|Mme)\.\s+(?:[A-Z]\.\s*)*[A-ZÀ-Þ][\w’'\-]*"
+    r"(?:Hon\.\s*(?:(?:Mr|Mrs|Ms|Miss|Dr|Mme)\.\s+)?|(?:Mr|Mrs|Ms|Miss|Dr|Mme)\.\s+)"
+    r"(?:[A-Z]\.\s*)*[A-ZÀ-Þ][\w’'\-]*"
     r"(?:\s+(?!(?:Hon|Mr|Mrs|Ms|Miss|Dr|Mme)\.)[A-ZÀ-Þ][\w’'\-]*)*")
 
 
@@ -779,8 +1177,12 @@ _ITEM_START = re.compile(
 _VOICE_Q = re.compile(
     r"question being put that Bill (\d+) be now read a (first|second|third) time,\s*"
     r"it was (resolved in the affirmative|resolved in the negative|defeated|carried|negatived)\s*\.", re.I)
-_VOICE_LIST = re.compile(r"^The following Bills? (?:was|were) (?:introduced and )?read a (first|second|third) time\s*:?\s*$",
-                         re.I)
+# "where" is the record's own typo (30 May 2012: "The following Bills where
+# read a third time:").
+_VOICE_LIST = re.compile(r"^The following (?:Private )?Bills? (?:was|were|where) (?:introduced and )?read a (first|second|third) "
+                         r"time(?: and passed)?\s*[:.]?\s*$", re.I)
+_LIST_SPONSOR = re.compile(r"^By (?:the )?(?:Hon(?:ourable)?\.?\s+)?(?:(?:Mr|Mrs|Ms|Miss|Dr|Mme)\.?\s+)?\S.{0,80},\s*$")
+_LIST_ITEM = re.compile(r"^(?:By [^,]{1,80},\s*)?Bill (\d+),")
 
 
 def parse_journal(text):
@@ -812,7 +1214,7 @@ def parse_journal(text):
     while i < n:
         line = lines[i]
         h = HEADER.match(line)
-        if h and h.group(1).upper() == "YEAS":
+        if h and h.group(1).upper() in ("YEAS", "YAYS"):
             yeas = 0 if h.group(2).lower() == "nil" else int(h.group(2))
             yea_labels, i = take(i + 1)
             while i < n and is_furniture(lines[i]):
@@ -868,9 +1270,12 @@ def _division(context, seq, yeas, nays, yea_labels, nay_labels, problem):
     reads = [(m.start(), m.group(1), m.group(2)) for m in _READ_Q.finditer(item)]
     reads += [(m.start(), m.group(2), m.group(1)) for m in _ORDER_READ.finditer(item)]
     reads += [(m.start(), m.group(1), m.group(2)) for m in _READ_DEBATE.finditer(item)]
+    # Committee of the Whole: "the Chair put the question on the motion that
+    # Bill 19, ..., be reported as agreed to" (20 December 2011)
+    reads += [(m.start(), m.group(1), "committee") for m in _COW_Q.finditer(tail)]
     if reads:
         _, bill, word = max(reads)
-        stage = word.title() + " Reading"
+        stage = "Committee of the Whole" if word == "committee" else word.title() + " Reading"
     else:
         ms = _MOTION.findall(tail) or _MOTION.findall(item)
         motion = ms[-1] if ms else None
@@ -899,19 +1304,95 @@ def _voices(prose):
             seen.add(k)
             out.append({"bill_number": number, "stage": stage, "result": result})
 
-    text = " ".join(paras)
+    text = re.sub(r"\s+", " ", " ".join(paras))
     for m in _VOICE_Q.finditer(text):
         add(m.group(1), m.group(2).title() + " Reading", re.sub(r"\s+", " ", m.group(0)))
-    for k, p in enumerate(paras):
-        m = _VOICE_LIST.match(p.strip())
-        if not m:
+    for m in _VOICE_MOTION.finditer(text):
+        add(m.group(2), m.group(1).title() + " Reading", m.group(0))
+    for number, stage, result in voice_items(text):
+        add(number, stage, result)
+    for num, stage, word in voice_lists(prose):
+        add(num, stage, "read a {0} time (listed; no recorded division)".format(word))
+    return out
+
+
+# 56-4: "the question being put, the motion for second reading of Bill 57
+# was defeated." (8 April 2010)
+_VOICE_MOTION = re.compile(
+    r"the motion for (second|third) reading of Bill (\d+),?\s+(?:was|is)\s+"
+    r"(?:defeated|carried|negatived|resolved in the (?:affirmative|negative))\s*\.", re.I)
+_READ_ITEM = re.compile(
+    r"(?:The Order being read for|Debate resumed on the motion for) (second|third) reading of Bill (\d+)\b", re.I)
+_ITEM_END = re.compile(r"The Order being read|Debate resumed|Pursuant to Notice of Motion|"
+                       r"The House resolved itself|And then,? \d", re.I)
+_ITEM_RESULT = re.compile(
+    r"question being put,?\s+the motion (?:was|is)\s+"
+    r"(defeated|carried|negatived|resolved in the (?:affirmative|negative))\s*\.", re.I)
+
+
+def voice_items(text):
+    """[(bill_number, stage, result)] for a reading decided on voice where
+    the decision names only "the motion": "Debate resumed on the motion for
+    second reading of Bill 23, No One Left Behind Act. ... And the debate
+    being ended and the question being put, the motion was defeated." (14
+    January 2010). The item runs from its own opening to the next item; an
+    item with a recorded division in it is the division's, never a voice
+    decision."""
+    out = []
+    starts = list(_READ_ITEM.finditer(text))
+    for m in starts:
+        rest = text[m.end():]
+        nxt = _ITEM_END.search(rest)
+        seg = rest[:nxt.start()] if nxt else rest
+        if re.search(r"recorded\s+division", seg, re.I):
             continue
-        stage = m.group(1).title() + " Reading"
-        for q in paras[k + 1:]:
-            if not re.match(r"^\s*(?:By [^,]+,\s*)?Bill \d+,", q):
+        r = _ITEM_RESULT.search(seg)
+        if r:
+            out.append((m.group(2), m.group(1).title() + " Reading", re.sub(r"\s+", " ", r.group(0))))
+    return out
+
+
+def voice_lists(lines):
+    """[(bill_number, stage, word)] from "The following Bills were read a
+    third time:" lists, read LINE BY LINE. The Journals before 2016 come out
+    of pypdf with no blank lines at all (8 June 2012, 30 May 2012), so a
+    list cannot be found by paragraphs: the header is a line (or two lines
+    joined, when it wraps), then each item starts its own line with
+    "Bill N," (a "By Hon. Mr. Fitch," sponsor line may come before it), and
+    a title that wraps continues on the next line until it ends with a full
+    stop. The first other line ends the list."""
+    lines = [l.strip() for l in lines]
+    out = []
+    i, n = 0, len(lines)
+    while i < n:
+        head = _VOICE_LIST.match(lines[i])
+        used = 1
+        if not head and i + 1 < n and lines[i] and lines[i + 1] and lines[i].lower().startswith(("the following bill", "the following private bill")):
+            head = _VOICE_LIST.match(lines[i] + " " + lines[i + 1])
+            used = 2
+        if not head:
+            i += 1
+            continue
+        stage = head.group(1).title() + " Reading"
+        word = head.group(1).lower()
+        j, open_title = i + used, False
+        while j < n:
+            line = lines[j]
+            if not line:
+                j += 1
+                continue
+            item = _LIST_ITEM.match(line)
+            if item:
+                out.append((item.group(1), stage, word))
+                open_title = not line.endswith((".", ";"))
+            elif _LIST_SPONSOR.match(line) and not open_title:
+                pass
+            elif open_title and not _VOICE_LIST.match(line):
+                open_title = not line.endswith((".", ";"))
+            else:
                 break
-            for num in re.findall(r"\bBill (\d+),", q):
-                add(num, stage, "read a {0} time (listed; no recorded division)".format(m.group(1).lower()))
+            j += 1
+        i = j
     return out
 
 
@@ -929,6 +1410,50 @@ def resolve_division(raw, resolver, date, legislature, document=None):
     return votes, ok, note
 
 
+_PRINTED_DIVISION = re.compile(r"\bon\s+the\s+following\s+recorded\s+division", re.I)
+_OWN_DATE = re.compile(r"\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(" + _MONTHS +
+                       r")\s+(\d{1,2}),?\s+(\d{4})\b")
+
+
+def journal_date(text):
+    """The sitting day a Journal names for itself ("Daily sitting 52 Friday,
+    June 8, 2012"; "Wednesday, October 27, 2010"), from its first page, or
+    None. The listing's label is not always the file's day: 57-4 links "May
+    20, 2014" to 69140521e.pdf, the Journal of 21 May, and 60-1 links "October
+    4, 2022" to a Question Period transcript."""
+    head = re.sub(r"\s+", " ", (text or "")[:4000])
+    m = _OWN_DATE.search(head)
+    return _date("{0} {1}, {2}".format(m.group(1), m.group(2), m.group(3))) if m else None
+
+
+def printed_divisions(text):
+    """How many recorded divisions the Journal's own words announce: the
+    phrase "on the following recorded division", or a YEAS header, whichever
+    is counted more often (a header the parser does not know still has its
+    phrase, and the reverse)."""
+    lines = [normalise(l) for l in (text or "").splitlines()]
+    flat = re.sub(r"\s+", " ", " ".join(lines))
+    heads = sum(1 for l in lines if re.match(r"^\s*Y[EA]AS\b\s*[-–—]", l, re.I))
+    return max(len(_PRINTED_DIVISION.findall(flat)), heads)
+
+
+def resolver_has_roster(resolver, date, legislature):
+    base = getattr(resolver, "base", resolver)
+    return bool(base.valid_terms(date, legislature))
+
+
+def clear_sitting(conn, legislature, session, date):
+    """Delete the divisions, voice decisions and votes stored for one sitting."""
+    keys = [r[0] for r in conn.execute(
+        "SELECT division_key FROM prov_divisions WHERE prov=? AND legislature=? AND session=? AND date=?",
+        (PROV, legislature, session, date))]
+    for k in keys:
+        conn.execute("DELETE FROM prov_votes WHERE division_key=?", (k,))
+        conn.execute("DELETE FROM prov_division_bills WHERE division_key=?", (k,))
+        conn.execute("DELETE FROM prov_divisions WHERE division_key=?", (k,))
+    return len(keys)
+
+
 def read_sitting(ctx, legislature, session, rec, resolver, wl):
     """Read one day's Journal. Returns (divisions, gaps_in_it)."""
     date, url = rec["date"], rec["url"]
@@ -943,10 +1468,36 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
         ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")
         ctx.conn.commit()
         return 0, 1
+    # A Journal read again replaces everything stored from it before: an
+    # earlier parser's rows (a division stored under the wrong day, a seq
+    # that has moved) must not outlive the re-read.
+    clear_sitting(ctx.conn, legislature, session, date)
+    own = journal_date(text)
+    if own and own != date:
+        # The listing files another day's Journal under this date (57-4: "May
+        # 20, 2014" is 69140521e.pdf, the Journal of 21 May). Nothing is stored
+        # for the day: its own record is not served.
+        ctx.gap("{0}: the listing files the Journal of {1} under {2} ({3}); nothing stored for the day".format(
+            skey, own, date, url))
+        # 'unreadable': the day's own record is not what is served, so its
+        # listed readings are not cross-checked against it, and it stays owed
+        ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")
+        ctx.conn.commit()
+        return 0, 1
     divisions, voices = parse_journal(text)
     gaps = 0
+    printed = printed_divisions(text)
+    if len(divisions) < printed:
+        # The Journal says a recorded division happened and fewer were
+        # read: a layout we do not know. Never 'ok': the sitting stays owed.
+        gaps += 1
+        ctx.gap("{0}: the Journal prints {1} recorded division(s) ('on the following recorded division'), "
+                "{2} parsed; the sitting stays owed".format(skey, printed, len(divisions)))
+    no_roster = not resolver_has_roster(resolver, date, legislature)
     for d in divisions:
         votes, ok, note = resolve_division(d, resolver, date, legislature, document=url)
+        if no_roster and not ok:
+            note = "no roster for {0}-{1}; {2}".format(legislature, session, note)
         bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         inherit = pc.Result(b_areas, b_terms, b_tier) if b_areas else None
@@ -965,6 +1516,8 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
             "yeas": d["yeas"], "nays": d["nays"], "abstentions": None, "source_url": url,
             "areas": res.areas, "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
             "positions_ok": 1 if ok else 0, "tally_note": note or d.get("note"), "votes": votes})
+    divided = {(d["bill_number"], d["stage"]) for d in divisions if d["bill_number"]}
+    voices = [v for v in voices if (v["bill_number"], v["stage"]) not in divided]
     for v in voices:
         bkey = ps.bill_key(PROV, legislature, session, v["bill_number"])
         areas, terms, tier = ps.bill_areas(ctx.conn, bkey)
@@ -1003,6 +1556,81 @@ def check_listing_stages(ctx, legislature, session, read_dates):
     return misses
 
 
+def _listed_misses(ctx, legislature, session):
+    """{date: [(bill_key, stage), ...]}: the second and third readings the
+    bills listing dates to a day, passed or defeated, for which the store
+    holds no division and no voice decision on that bill, stage and day."""
+    out = {}
+    for key, stages in ctx.conn.execute(
+            "SELECT bill_key, stages FROM prov_bills WHERE prov=? AND legislature=? AND session=?",
+            (PROV, legislature, session)).fetchall():
+        for s in json.loads(stages or "[]"):
+            if s.get("stage") not in ("Second Reading", "Third Reading") or not s.get("date") \
+                    or (s.get("status") or "").lower() not in ("passed", "defeated"):
+                continue
+            hit = ctx.conn.execute(
+                "SELECT COUNT(*) FROM prov_divisions WHERE bill_key=? AND date=? AND stage=?",
+                (key, s["date"], s["stage"])).fetchone()[0]
+            if not hit:
+                out.setdefault(s["date"], []).append((key, s["stage"]))
+    return out
+
+
+def sitting_done(conn, skey):
+    """True when this SITTING was read cleanly. Keyed by the sitting, not the
+    file: a listing can link one file under two days (57-4, 58-2, 59-2)."""
+    row = conn.execute("SELECT status FROM prov_sittings WHERE sitting_key=?", (skey,)).fetchone()
+    return bool(row) and row[0] == "ok"
+
+
+# Every sitting stored by a parser older than this date is read once more:
+# the 2010 backfill (CI run 37026741496, 2 October 2026) stored 181 sittings
+# of 57-2 to 57-4 with the old reader, 110 of them 'ok' and EMPTY although
+# their Journals list readings (no blank lines), print "YAYS", or are another
+# day's Journal (57-3 "May 7, 2013" is the Journal of 8 May). Neither the
+# bills listing nor a gap points at all of them, so the repair is by date.
+REREAD_BEFORE = "2026-10-03"
+
+
+def owe_stale(ctx, legislature, session, records):
+    """Make OWED every sitting of the window read before REREAD_BEFORE and
+    stored 'ok'. Returns how many."""
+    owed = 0
+    for rec in records:
+        owed += ctx.conn.execute(
+            "UPDATE prov_sittings SET status='owed' WHERE sitting_key=? AND status='ok' AND read_at < ?",
+            (ps.sitting_key(PROV, legislature, session, rec["date"]), REREAD_BEFORE)).rowcount
+    ctx.conn.commit()
+    if owed:
+        ctx.log("  nb {0}-{1}: {2} sitting(s) stored 'ok' by the parser before {3}; read again".format(
+            legislature, session, owed, REREAD_BEFORE))
+    return owed
+
+
+def owe_listed(ctx, legislature, session, records):
+    """The targeted repair for sittings stored 'ok' by an older parser. A
+    sitting 'ok' on whose day the bills listing dates a second or third
+    reading the store has neither as a division nor on voice is made OWED,
+    so this run reads it again (the 2010 backfill stored 2012-06-08 'ok'
+    with nothing, though the Journal lists Bill 69 read a second and a
+    third time: the old reader looked for the lists by paragraph, and the
+    Journals before 2016 have no blank lines). A sitting still missing a
+    listed reading after the re-read is a gap (check_listing_stages).
+    Returns how many were made owed."""
+    misses = _listed_misses(ctx, legislature, session)
+    owed = 0
+    for rec in records:
+        if rec["date"] in misses:
+            owed += ctx.conn.execute(
+                "UPDATE prov_sittings SET status='owed' WHERE sitting_key=? AND status='ok'",
+                (ps.sitting_key(PROV, legislature, session, rec["date"]),)).rowcount
+    ctx.conn.commit()
+    if owed:
+        ctx.log("  nb {0}-{1}: {2} sitting(s) stored 'ok' miss a reading the bills listing dates to them; "
+                "read again".format(legislature, session, owed))
+    return owed
+
+
 def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
     legislature, sess = parse_session(session)
     ctx.tax = pc.load_taxonomy()
@@ -1012,6 +1640,14 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
     if html and not listing["daily"]:
         ctx.gap("nb journals {0}: no daily Journals parsed from the listing".format(session))
     records = [r for r in listing["daily"] if ctx.in_window(r["date"])]
+    for f in listing.get("not_journal") or []:
+        if ctx.in_window(f["date"]):
+            ctx.gap("nb {0}: the journals listing links {1} for {2}, which is not a Journal; the day's Journal "
+                    "is not listed".format(session, f["url"], f["date"]))
+    for f in listing.get("french_only") or []:
+        if ctx.in_window(f["date"]):
+            ctx.gap("nb {0}: the English journals listing links only the French Journal for {1} ({2}); "
+                    "not read".format(session, f["date"], f["url"]))
     stats = {"records_listed": len(records)}
     if roster:
         stats["members"] = fetch_roster(ctx, legislature, sess, listing)
@@ -1019,11 +1655,15 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
         stats.update(fetch_bills(ctx, legislature, sess, ctx.tax, wl))
     if ctx.dry_run:
         return stats
+    if not ctx.refresh:
+        stats["owed_stale"] = owe_stale(ctx, legislature, sess, records)
+    if bills and not ctx.refresh:
+        stats["owed_listed"] = owe_listed(ctx, legislature, sess, records)
     resolver = make_resolver(ctx.conn)
     read = divs = gaps = 0
     read_dates = set()
     for rec in records:
-        if not ctx.refresh and ps.sitting_done(ctx.conn, rec["url"]):
+        if not ctx.refresh and sitting_done(ctx.conn, ps.sitting_key(PROV, legislature, sess, rec["date"])):
             read_dates.add(rec["date"])
             continue
         if ctx.stop():
@@ -1033,8 +1673,8 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
         read += 1
         divs += n
         gaps += g
-        status = ctx.conn.execute("SELECT status FROM prov_sittings WHERE record_url=?",
-                                  (rec["url"],)).fetchone()
+        status = ctx.conn.execute("SELECT status FROM prov_sittings WHERE sitting_key=?",
+                                  (ps.sitting_key(PROV, legislature, sess, rec["date"]),)).fetchone()
         if status and status[0] != "unreadable":
             read_dates.add(rec["date"])
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps,
