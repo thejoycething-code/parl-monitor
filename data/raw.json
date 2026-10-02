@@ -351,11 +351,11 @@
       "sha256": "14ec95731451bbb48233b5d1f455642e7d1cc6c69d0e247f377d811225342374"
     },
     "2026-09-29": {
-      "bytes": 40037078,
-      "files": 577,
-      "published_by": "run 36638276576",
-      "published_utc": "2026-09-29T22:36:57Z",
-      "sha256": "fd21a8e1e0a738c35f2c9020ed6303b86bee3dbd90e5fdbd0034f787773ecd4a"
+      "bytes": 68012124,
+      "files": 3121,
+      "published_by": "local",
+      "published_utc": "2026-10-02T02:22:11Z",
+      "sha256": "fd1b9236e33384ab5502ae48df9c900dd61df4601f2002f94959a06339645df3"
     },
     "2026-09-30": {
       "bytes": 119,
@@ -372,11 +372,11 @@
       "sha256": "6ab8736df0e864c8fa67176ce21275a7d336db1596245a1408811e1947c5b4ac"
     },
     "2026-10-02": {
-      "bytes": 1794885,
-      "files": 40,
-      "published_by": "run 36954561209",
-      "published_utc": "2026-10-02T02:18:20Z",
-      "sha256": "263824a79eb0b8c6810861208f253899e056ee4eb08b99bc0db251a74f6d8cef"
+      "bytes": 39578864,
+      "files": 393,
+      "published_by": "local",
+      "published_utc": "2026-10-02T02:22:11Z",
+      "sha256": "49e95439aa44034e9da484b07e84080c2b2a97cd42d4fcd95be1481714463b62"
     },
     "eu-probe-2026-09-01": {
       "bytes": 15724967,
