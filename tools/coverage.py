@@ -67,7 +67,7 @@ PIPELINES = {
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
-    "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC"),
+    "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
 }
 
 # Pipelines deliberately not running. Listed so a PAUSE never reads as a

@@ -111,6 +111,12 @@ class Prober:
             if status == 200 and CHALLENGE.search(text[:5000]):
                 self.blocked[host] = "robots.txt is a challenge page"
                 text = ""
+            elif status is None or status >= 500 or status in (403, 429):
+                # No answer (a timeout, a reset) is not "no rules": the
+                # Crawl-delay is unknown, so nothing more is asked of the host.
+                self.blocked[host] = "robots.txt did not answer ({0})".format(
+                    status if status is not None else body.decode("utf-8", "replace")[:80])
+                text = ""
             self.save(host, "robots.txt", body or b"")
             rp = Robots(text)
             rp.star_rules = star_rules(text, UA)
@@ -145,6 +151,9 @@ class Prober:
                 return None
             if not self.allowed(url):
                 self.index(host, "ROBOTS-DISALLOWED\t-\t-\t{0}".format(url))
+                return None
+            if host in self.blocked:          # robots.txt itself did not answer
+                print("SKIP {0}: host stopped ({1})".format(url, self.blocked[host]))
                 return None
             status, headers, body = self.raw_get(url)
             ctype = headers.get("Content-Type") or headers.get("content-type") or ""

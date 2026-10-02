@@ -32,12 +32,12 @@ sys.path.insert(0, ROOT)
 
 from src import db, prov_store as ps  # noqa: E402
 from src.ingest import (prov_ab as ab, prov_bc as bc, prov_mb as mb, prov_nb as nb,  # noqa: E402
-                        prov_nl as nl, prov_on as on, prov_qc as qc, prov_sk as sk)
+                        prov_nl as nl, prov_ns as ns, prov_on as on, prov_qc as qc, prov_sk as sk)
 from src.prov_fetch import Context, overlaps, session_order  # noqa: E402
 
 FIX = os.path.join(ROOT, "tests", "fixtures", "prov")
 WORKFLOW = os.path.join(ROOT, ".github", "workflows", "prov-weekly.yml")
-BUILT = ("ab", "sk", "bc", "mb", "on", "nb", "nl", "qc")
+BUILT = ("ab", "sk", "bc", "mb", "on", "nb", "nl", "qc", "ns")
 
 
 def fx(name):
@@ -129,8 +129,16 @@ class SessionListTests(unittest.TestCase):
         self.assertIn({"code": "39-2", "start": "2011-02-23", "end": "2012-08-01"}, s)
         self.assertEqual(qc.parse_sessions(fx("qc_sittings_43-2.html"))[-1]["code"], "43-3")
 
+    def test_nova_scotia_from_the_hansard_index_dated_by_the_assembly_pages(self):
+        pairs = ns.index_sessions(fx("ns_hansard_index.html"))
+        self.assertIn((61, 2), pairs)
+        self.assertEqual(pairs[0], (65, 1))
+        d = ns.parse_assembly_dates(fx("ns_assembly_dates_61.html"), 61)
+        self.assertEqual(d[2], {"start": "2010-03-25", "end": "2011-03-31"})
+        self.assertEqual(ns.parse_assembly_dates(fx("ns_assembly_dates_65.html"), 65)[1]["end"], None)
+
     def test_every_session_based_module_lists_sessions_and_sk_is_date_driven(self):
-        for mod in (ab, bc, mb, on, nb, nl, qc):
+        for mod in (ab, bc, mb, on, nb, nl, qc, ns):
             self.assertTrue(callable(getattr(mod, "list_sessions", None)), mod.__name__)
         self.assertTrue(sk.DATE_DRIVEN)
 
@@ -459,7 +467,7 @@ class WorkflowTests(unittest.TestCase):
 
     def test_the_backfill_refuses_an_unbuilt_province_by_name(self):
         bf = next(s for s in steps() if "--all-sessions" in s.get("run", ""))
-        self.assertIn("ab|sk|bc|mb|on|nb|nl|qc)", bf["run"])
+        self.assertIn("ab|sk|bc|mb|on|nb|nl|qc|ns)", bf["run"])
 
     def test_no_slack_credential_and_no_model_key(self):
         t = text()
