@@ -51,6 +51,8 @@ MODULES = {
     "ab": "src.ingest.prov_ab",
     "sk": "src.ingest.prov_sk",
     "bc": "src.ingest.prov_bc",
+    "nb": "src.ingest.prov_nb",
+    "nl": "src.ingest.prov_nl",
 }
 NOT_BUILT = {p: "not built yet (docs/canada-provinces-scope.md, build order)"
              for p in prov_store.PROVINCES if p not in MODULES}
