@@ -1,0 +1,61 @@
+# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
+# Source of truth: docs/keyword-taxonomy-qc.md
+# Regenerate: python3 tools/generate_taxonomy.py --lang qc
+version: 0.1
+areas:
+  1_abortion:
+    tier1: ["avortement*", "interruption* volontaire* de grossesse", IVG, "pilule* abortive*", mifépristone, {term: "zone* tampon*", with: ["avortement*", IVG, "grossesse*", "clinique*"]}]
+    tier2: ["interruption* de grossesse", "santé reproductive", "droits reproductifs", "santé sexuelle et reproductive", "enfant* à naître", fœtus, foetus, "mort-né*", "objection de conscience", contraception]
+    # note: Measured: Bill 595 (2016), "accès aux établissements où se pratiquent des interruptions volontaires de grossesse", the only Quebec abortion bill in 2,317 titles; the stems take the plural of its title. `avortement*` matched nothing in titles and is the plain word of debate and of motions. `zone* tampon*` is guarded because it is also a farming and planning term. Bare `interruption* de grossesse` moved to tier 2 after the 42-1 sweep: it is also the parental-insurance benefit after a pregnancy ends (Bill 51, 2020), and a miscarriage is not our ground.
+  2_assisted_dying:
+    tier1: ["aide médicale à mourir", "soins de fin de vie", euthanasie, "suicide assisté", "aide au suicide", "mourir dans la dignité", "sédation palliative continue"]
+    tier2: ["soins palliatifs", "fin de vie", "directives médicales anticipées", "maison* de soins palliatifs"]
+    # note: Measured: Bill 52 (2013, reinstated 2014) "Loi concernant les soins de fin de vie" and Bill 11 (2023) "Loi modifiant la Loi concernant les soins de fin de vie", both in titles and in every passage of their texts that grants "l'aide médicale à mourir". The English taxonomy carries "end of life care" at tier 2 only; in Quebec "soins de fin de vie" is the name of the regime, so it is tier 1 here. `mourir dans la dignité` is the 2009-2012 select committee's name.
+  3_gender_medicine_children:
+    tier1: ["dysphorie de genre", "bloqueur* de puberté", "bloqueur* d'hormones", "inhibiteur* de puberté", "mineur* transgenre*", "enfant* transgenre*", {term: "transition de genre", with: ["mineur*", "enfant*", "jeune*", "élève*"]}, "Comité de sages sur l'identité de genre"]
+    tier2: ["transgenre*", "identité de genre", "affirmation de genre", "personne* trans", "détransition*", "réassignation sexuelle"]
+    # note: Measured: Bill 103 (2016) "améliorer notamment la situation des mineurs transgenres" is the only title. `identité de genre` is tier 2 on purpose: it is a Charter ground cited in many texts that are not about medicine or children (Bill 70, Bill 2), and tier 2 sends it to the judge.
+  4_conversion_practices:
+    tier1: ["thérapie* de conversion", "pratique* de conversion", "thérapie* réparatrice*"]
+    tier2: [{term: "orientation sexuelle", with: [changer, modifier, réprimer]}]
+    # note: Measured: Bill 70 (2020) "Loi visant à protéger les personnes contre les thérapies de conversion", title and text. Bare `conversion` is excluded: Bill 222 (2016) converts two mutual insurers.
+  5_sex_based_rights:
+    tier1: ["mention du sexe", "mention de sexe", "identité ou expression de genre", "sexe biologique", "non-mixité", "espace* non mixte*", {term: toilettes, with: [genre, sexe, "trans*", "mixte*"]}, {term: "vestiaire*", with: [genre, sexe, "trans*", "mixte*"]}, {term: "sport* féminin*", with: ["trans*", genre, sexe, "admissib*"]}, "athlète* trans*"]
+    tier2: ["violence* faite* aux femmes", "violence* conjugale*"]
+    # note: Measured: Bill 2 (2021) family-law reform, which rewrote the civil-status rules on "la mention du sexe"; Bill 103 (2016), which added "l'identité ou l'expression de genre" to the Charter -- so the phrase is stemmed in the text as "identité ou l'expression de genre" and the term needs the article-free form the titles use; private members' Bills 895 and 598 (2016) on "la mention du sexe". `égalité entre les femmes et les hommes` is tier 2: it is the laicity bills' own justification and on its own is equality law.
+  6_parental_rights_education:
+    tier1: ["éducation à la sexualité", "éducation sexuelle", "droits parentaux", "droit* des parents", "consentement parental", "consentement des parents", "enseignement à la maison", "scolarisation à la maison", "école à la maison", "éthique et culture religieuse", "culture et citoyenneté québécoise", {term: "pronom*", with: ["élève*", "école*", "enseignant*", "parent*"]}, "châtiment* corporel*"]
+    tier2: ["école* privée* confessionnelle*", "cellulaire* à l'école"]
+    # note: Measured: Bill 898 (2016) "permettre aux parents d'inscrire leur enfant dans l'école de leur choix" is caught by nothing here and is left to the judge: school choice is not our ground. `éthique et culture religieuse` (ECR) and `culture et citoyenneté québécoise` (CCQ, which replaced ECR from 2023) are the compulsory course that carries religion and sexuality content. `protection de la jeunesse` is in dozens of titles and stays tier 2.
+  7_free_speech_online_safety:
+    name: "Free speech, privacy and civil liberties"
+    tier1: ["liberté d'expression", "liberté académique", "discours haineux", "propos haineux", "identité numérique", {term: "vérification de l'âge", with: ["pornograph*", "réseaux sociaux", "contenu* sexuel*", "site* pornographique*"]}, islamophobie, "monnaie numérique de banque centrale"]
+    tier2: [censure, "liberté de la presse", "crime* haineux", désinformation, "poursuite* abusive*", "carte d'identité"]
+    # note: Measured: Bill 32 (2022) "Loi sur la liberté académique dans le milieu universitaire"; Bill 9 (2009, 39-1) "favoriser le respect de la liberté d'expression" (the anti-SLAPP law); Bill 82 (2025) "Loi concernant l'identité numérique nationale", the analogue of the English tier-1 "digital identity". `censure` is tier 2: in the Assemblée it is also the "motion de censure", and it tagged the draft constitution (Bill 1, 43-2) at tier 1. `vérification de l'âge` is guarded by pornography and social-media words: its first guard, "en ligne", let through Bill 9 of 43-3 (no energy drinks to under-16s, online included).
+  8_freedom_of_religion:
+    tier1: [laïcité, "liberté de religion", "liberté de conscience et de religion", "liberté religieuse", "neutralité religieuse", "signe* religieux", "symbole* religieux", "visage découvert", "accommodement* pour un motif religieux", "prière* de rue", "prière* dans l'espace public", "Charte des valeurs", "persécution* religieuse*"]
+    tier2: ["laïque*", "lieu* de culte", "intégrisme religieux", "patrimoine religieux", "accommodement* raisonnable*", "motif religieux"]
+    # note: Measured: Bill 21 (2019) "Loi sur la laïcité de l'État", Bill 94 (2025), Bill 52 (2024, renewing the notwithstanding clause for Bill 21), Bill 9 (2025) "Loi sur le renforcement de la laïcité au Québec", Bill 60 (2013) the Charter of values, private members' Bills 398 and 492 (2013), Bill 62 (2017) "neutralité religieuse de l'État" and its "visage découvert" rule. The English "laicity" was the only English term that would have found Bill 21, and only on its English title. CitizenGO's position on the laicity bills is a stance for Christopher; this file only finds them.
+  9_marriage_family:
+    tier1: ["union parentale", "droit de la famille", filiation, "mariage* entre personnes de même sexe", "mariage* entre conjoints de même sexe"]
+    tier2: ["union civile", mariage, mariages, divorce, polygamie, "mariage* forcé*", natalité, "politique familiale"]
+    # note: `union civile` moved to tier 2 after the 42-1 sweep: every statute that defines a spouse says "lié par un mariage ou une union civile" (Bill 84, 2021, victims of crime). Measured: Bill 84 (2002) "instituant l'union civile et établissant de nouvelles règles de filiation" (Quebec's civil unions, open to same-sex couples, three years before federal marriage); Bill 2 (2021) and Bill 12 (2023) on filiation; Bill 56 (2024) "instituant le régime d'union parentale"; Bill 797 (2016). `filiation` is tier 1 because every Quebec bill that redefines who a parent is says it, and it is never used for anything else.
+  10_surrogacy_embryology:
+    tier1: ["gestation pour autrui", "grossesse pour autrui", "mère* porteuse*", "procréation assistée", "procréation médicalement assistée", "fécondation in vitro", "embryon*", "don* de gamètes", "don* d'ovules", "don* de sperme"]
+    tier2: [FIV, "projet parental", "gamète*"]
+    # note: Measured: Bill 12 (2023), whose text regulates "un projet parental impliquant une grossesse pour autrui" (the Quebec legal term; "mère porteuse" is the press word and both are listed); Bill 26 (39-1) and Bill 89 (37-2) "activités cliniques et de recherche en matière de procréation assistée"; Bill 73 (2021); Bill 95 (38-1) on "la conservation des organes, des tissus, des gamètes et des embryons", which `embryon*` takes into area 10 and `don* d'organes` does not take into 13 (it says "conservation des organes").
+  11_migration:
+    tier1: ["immigration irrégulière", "migrant* irrégulier*", "passage* irrégulier*", "chemin Roxham", "seuil* d'immigration"]
+    tier2: ["politique* d'immigration", "demandeur* d'asile", "réfugié*", asile]
+    # note: Collated, never campaigned (src/partner.py HIDDEN_AREAS). Listed so the area has the same keys as English. Bare `immigration` was dropped after the first live run: it is in the title of the minister who moved Bill 21 ("ministre de l'Immigration, de la Diversité et de l'Inclusion"), so it tagged the Bill 21 vote as area 11.
+  12_prostitution:
+    name: "Prostitution, trafficking and sexual exploitation"
+    tier1: ["exploitation sexuelle", "traite des personnes", "traite de personnes", proxénétisme, "proxénète*", "achat de services sexuels", {term: "modèle nordique", with: [prostitution, "exploitation sexuelle", "proxénète*", achat]}]
+    tier2: [prostitution, "travail du sexe", "travailleu* du sexe", "salon* de massage*"]
+    # note: Measured: Bill 1194 (2017) "afin d'inclure les notions d'exploitation sexuelle et de traite des personnes". Quebec's 2019-2020 special committee was on "l'exploitation sexuelle des mineurs"; the phrase is how the Assemblée names this ground.
+  13_organ_donation:
+    name: Organ donation and transplant ethics
+    tier1: ["don* d'organes", "donneur* d'organes", "transplantation* d'organes", "greffe* d'organes", {term: "consentement présumé", with: ["organe*", "don*", "greffe*"]}, {term: "présomption de consentement", with: ["organe*", "don*", "greffe*"]}, "trafic d'organes", "Transplant Québec"]
+    tier2: ["don* de tissus"]
+    # note: Measured: Bill 125 (2010) "Loi facilitant les dons d'organes et de tissus", Bill 197 (37-2) "facilitant les dons d'organes", and Bill 194 (43-1, still listed in 43-3) "instaurant une présomption de consentement au don d'organes ou de tissus après le décès" -- the Quebec form of deemed consent, which says "présomption de consentement", not "consentement présumé"; both are listed and both are guarded.
+exclusions_global: [genre, sexe, trans, conversion, transition, famille, enfant, parent, religion, liberté, égalité, éducation, vie, culte]

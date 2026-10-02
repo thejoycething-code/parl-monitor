@@ -267,6 +267,39 @@ class HttpClient:
         self._archive(raw, feed, slug)
         return json.loads(raw.decode("utf-8"))
 
+    def post_form(self, url, fields, feed, slug, timeout=None, archive=False):
+        """POST an HTML form (application/x-www-form-urlencoded); return text.
+
+        Added for the Assemblee nationale du Quebec (2 October 2026), whose
+        sitting index shows one month at a time and changes month only by an
+        ASP.NET postback of its own form: the month's procès-verbal links are
+        nowhere else, and their ids cannot be guessed. A read-only listing
+        request, so the same politeness as a GET: the throttle, the per-host
+        cap and the honest UA. Like post_json it does NOT retry -- a POST is
+        not obviously safe to repeat -- and it is not archived by default:
+        the page is a listing whose links are the provenance.
+        """
+        from urllib.parse import urlencode
+        timeout = self.default_timeout if timeout is None else timeout
+        state = self._host_state(urlsplit(url).netloc)
+        payload = urlencode(list(fields.items()) if isinstance(fields, dict) else fields).encode("utf-8")
+        request = urllib.request.Request(
+            url, data=payload, method="POST",
+            headers={"User-Agent": self._ua_for(url),
+                     "Content-Type": "application/x-www-form-urlencoded",
+                     "Accept": "text/html;q=0.9, */*;q=0.8"})
+        with state.semaphore:
+            self._throttle(state)
+            try:
+                response = self._opener.open(request, timeout=timeout)
+                raw = response.read()
+            except (urllib.error.HTTPError, urllib.error.URLError, socket.timeout,
+                    TimeoutError, OSError, http.client.IncompleteRead) as exc:
+                raise FetchError(url, feed, slug, 1, exc)
+        if archive:
+            self._archive(raw, feed, slug)
+        return raw.decode("utf-8", errors="replace")
+
     # -- internals ----------------------------------------------------------
 
     def _host_state(self, host):

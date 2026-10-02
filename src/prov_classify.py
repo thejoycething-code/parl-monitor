@@ -9,6 +9,14 @@ and the passages of the debate under that heading -- never on the title
 alone. The same lesson as the Canada Gazette: match per passage, never on
 the whole document, or one passing citation tags the lot.
 
+QUEBEC IS CLASSIFIED IN FRENCH (2 October 2026). Its bills, Journal des
+débats and procès-verbaux are French only, and the English taxonomy cannot
+read them. config/taxonomy-qc.yaml (master docs/keyword-taxonomy-qc.md,
+same area keys) is the French layer: classify(..., fr_tax=, fr_title=,
+fr_texts=) runs it over FRENCH text only, and the English taxonomy over the
+English title only. Neither is ever run over the other language's text: the
+German lesson is that substring matching across languages collides.
+
 Three layers, all needed:
   * config/taxonomy.yaml, unchanged (Christopher's to version);
   * config/watchlist-prov.yaml `terms:` -- provincial policy vocabulary the
@@ -31,6 +39,7 @@ from __future__ import annotations
 
 import os
 import re
+import unicodedata
 
 import yaml
 
@@ -38,6 +47,10 @@ from src import filter as filt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
+TAXONOMY_QC = os.path.join(ROOT, "config", "taxonomy-qc.yaml")
+# Which provinces read French, and with which layer. New Brunswick's French
+# column is DROPPED, not classified (its English column says the same).
+FRENCH_LAYERS = {"qc": TAXONOMY_QC}
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-prov.yaml")
 # Migration is collated, never campaigned (src/partner.py HIDDEN_AREAS).
 HIDDEN_AREAS = (11,)
@@ -59,6 +72,12 @@ def _raw(path=None):
 
 def load_taxonomy(path=None):
     return filt.load_taxonomy(path or TAXONOMY)
+
+
+def load_french_taxonomy(prov):
+    """The French layer for a province, or None where there is none."""
+    path = FRENCH_LAYERS.get(prov)
+    return filt.load_taxonomy(path) if path else None
 
 
 def load_watchlist(prov, path=None):
@@ -103,6 +122,43 @@ def mask_statute_names(text):
     return _ACT_NAME.sub(" [statute] ", text or "")
 
 
+# A Quebec statute cited in a bill carries its chapter number: "Loi
+# concernant les soins de fin de vie (chapitre S-32.0001)", "Charte des
+# droits et libertés de la personne (chapitre C-12)". The citation is what is
+# masked, so a bill that amends the end-of-life care Act for one cross-
+# reference is not filed under area 2 on the Act's name alone. The bill's own
+# title is matched unmasked, and an Act named without its chapter is left.
+# pypdf splits the capital from its word in the "LOIS MODIFIÉES PAR CE
+# PROJET DE LOI" list ("– L oi favorisant le respect de la neutralité
+# religieuse ... (chapitre R-26.2.01)"): Bills 23 and 37 of 42-1 were filed
+# under area 8 on that list alone until the split form was allowed.
+_LOI_CITED = re.compile(
+    r"\b(?:L\s?oi|C\s?ode|C\s?harte|R\s?èglement)\b[^()]{0,220}?\(\s*(?:\d{4}\s*,\s*)?chapitre\s+[^)]{1,24}\)",
+    re.S)
+# An omnibus bill heads each amended Act's section with the Act's name in
+# capitals and no chapter number: "LOI FAVORISANT LE RESPECT DE LA
+# NEUTRALITÉ RELIGIEUSE DE L'ÉTAT ET VISANT NOTAMMENT À ENCADRER LES
+# DEMANDES D'ACCOMMODEMENTS POUR UN MOTIF RELIGIEUX" filed Bill 37 of 2020
+# (government procurement) under freedom of religion. The heading and its
+# capitalised continuation lines are masked, before the lines are reflowed.
+_LOI_HEADING = re.compile(r"^[ \t]*(?:LOI|CODE|CHARTE|RÈGLEMENT)\b[^\na-zà-ÿ]*$(?:\n[^\na-zà-ÿ]*[A-ZÀ-Ý][^\na-zà-ÿ]*$)*",
+                          re.M)
+
+
+def mask_statute_names_fr(text):
+    return _LOI_CITED.sub(" [loi citée] ", text or "")
+
+
+def mask_statute_headings_fr(text):
+    return _LOI_HEADING.sub(" [loi citée] ", text or "")
+
+
+def nfc(text):
+    """Composed characters: pypdf can hand back 'i' + combining diaeresis,
+    which 'laïcité' would never match."""
+    return unicodedata.normalize("NFC", text or "")
+
+
 class Result:
     __slots__ = ("areas", "terms", "tier", "excerpt")
 
@@ -140,11 +196,19 @@ def reflow(text):
     return re.sub(r"[ \t]*(?<!\n)\n(?!\n)[ \t]*", " ", text or "")
 
 
-def classify_text(tax, wl, title=None, body=None, mask=True):
+def classify_text(tax, wl, title=None, body=None, mask=True, french=False):
     """Per-passage classification of one text. The title, when given, is a
-    passage of its own and is never masked."""
+    passage of its own and is never masked. french=True normalises to NFC
+    and masks Quebec-style statute citations instead of English Act names."""
+    if french:
+        title, body = (nfc(title) or None), nfc(body)
+        if mask and body:
+            body = mask_statute_headings_fr(body)
     body = reflow(body)
-    text = mask_statute_names(body) if (mask and body) else (body or "")
+    if mask and body:
+        text = mask_statute_names_fr(body) if french else mask_statute_names(body)
+    else:
+        text = body or ""
     matches = filt.match_passages(tax, wl, text, title=title or None)
     areas, terms, excerpt = filt.aggregate_passages(matches)
     tiers = [m.result.tier for m in matches if m.result.tier]
@@ -152,13 +216,25 @@ def classify_text(tax, wl, title=None, body=None, mask=True):
 
 
 def classify(tax, wl, prov, title=None, texts=(), bill_key=None, mask=True,
-             inherit=None):
+             inherit=None, fr_tax=None, fr_title=None, fr_texts=()):
     """Title + any number of body texts + a watched bill key + the areas a
-    division INHERITS from its bill's stored text classification."""
+    division INHERITS from its bill's stored text classification.
+
+    `title`/`texts` are ENGLISH and go to `tax`; `fr_title`/`fr_texts` are
+    FRENCH and go to `fr_tax` (Quebec). French text without a French layer
+    is refused: the English taxonomy would read it and find nothing,
+    silently."""
     res = classify_text(tax, wl, title=title, body=None)
     for body in texts:
         if body:
             res = res.merge(classify_text(tax, wl, body=body, mask=mask))
+    if (fr_title or any(fr_texts or ())) and fr_tax is None:
+        raise ValueError("French text for {0} without a French taxonomy layer".format(prov))
+    if fr_title:
+        res = res.merge(classify_text(fr_tax, wl, title=fr_title, body=None, french=True))
+    for body in fr_texts or ():
+        if body:
+            res = res.merge(classify_text(fr_tax, wl, body=body, mask=mask, french=True))
     if inherit is not None:
         res = res.merge(inherit)
     entry = watched_bill(prov, bill_key)

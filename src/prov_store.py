@@ -61,6 +61,7 @@ SCHEMA = (
         riding       TEXT,               -- latest seen; prov_member_terms is dated
         party        TEXT,               -- latest seen; prov_votes.party_at_vote is at the vote
         sitting      INTEGER,            -- 1 on the latest roster read, 0 former, NULL unknown
+        page_url     TEXT,               -- the member's own page, as linked from a listing (qc)
         first_seen   TEXT,
         last_read    TEXT,
         PRIMARY KEY (prov, member_key)
@@ -168,7 +169,9 @@ SCHEMA = (
     )""",
 )
 
-ADDED_COLUMNS = ()
+# page_url (2 October 2026, Quebec): the member page a roster gap is
+# completed from (prov_qc.complete_members) -- linked from depcir, never built.
+ADDED_COLUMNS = (("prov_members", "page_url", "TEXT"),)
 
 
 def ensure_schema(conn):
@@ -245,11 +248,11 @@ def tally(printed, votes):
 # -- writes -----------------------------------------------------------------
 
 def upsert_member(conn, prov, member_key, name=None, surname=None, given=None,
-                  riding=None, party=None, sitting=None, when=None):
+                  riding=None, party=None, sitting=None, when=None, page_url=None):
     when = when or today()
     conn.execute(
         "INSERT INTO prov_members (prov, member_key, name, surname, given, riding, "
-        "party, sitting, first_seen, last_read) VALUES (?,?,?,?,?,?,?,?,?,?) "
+        "party, sitting, page_url, first_seen, last_read) VALUES (?,?,?,?,?,?,?,?,?,?,?) "
         "ON CONFLICT(prov, member_key) DO UPDATE SET "
         "name=COALESCE(excluded.name, prov_members.name), "
         "surname=COALESCE(excluded.surname, prov_members.surname), "
@@ -257,8 +260,9 @@ def upsert_member(conn, prov, member_key, name=None, surname=None, given=None,
         "riding=COALESCE(excluded.riding, prov_members.riding), "
         "party=COALESCE(excluded.party, prov_members.party), "
         "sitting=COALESCE(excluded.sitting, prov_members.sitting), "
+        "page_url=COALESCE(excluded.page_url, prov_members.page_url), "
         "last_read=excluded.last_read",
-        (prov, member_key, name, surname, given, riding, party, sitting, when, when))
+        (prov, member_key, name, surname, given, riding, party, sitting, page_url, when, when))
 
 
 def replace_terms(conn, prov, member_key, terms, source):

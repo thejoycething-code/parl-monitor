@@ -94,6 +94,12 @@ class Context:
             except FetchError:
                 text = ""             # no robots.txt: no rules
             rp = Robots(text)
+            # Two independent readers, and a URL is fetched only if BOTH allow
+            # it: the Robots class (built for Ontario's '/*?' wildcard) and
+            # star_rules (built for Quebec's rules split across many '*'
+            # groups and its literal query paths). They were written the same
+            # day by two builds; neither is allowed to be the weaker one.
+            rp.star_rules = star_rules(text, self.client.user_agent)
             delay = rp.crawl_delay(self.client.user_agent)
             if delay and float(delay) > (self.client.throttle or 0):
                 self.log("  {0}: robots.txt Crawl-delay {1}s honoured".format(host, delay))
@@ -109,7 +115,9 @@ class Context:
         if not self.robots:
             return True
         rp = self._parser(url)
-        return rp.can_fetch(self.client.user_agent, url) and rp.can_fetch("*", url)
+        if not (rp.can_fetch(self.client.user_agent, url) and rp.can_fetch("*", url)):
+            return False
+        return rule_allows(getattr(rp, "star_rules", []), url)
 
     # -- fetches: None on failure, with the gap recorded ------------------------
 
@@ -136,6 +144,16 @@ class Context:
             return self.client.get_bytes(url, self.feed, slug, archive=False)
         except FetchError as exc:
             self.gap("{0}: {1}".format(url, exc.cause))
+            return None
+
+    def post_form(self, url, fields, slug):
+        """An HTML form POST (Quebec's month-by-month sitting index)."""
+        if not self._guard(url):
+            return None
+        try:
+            return self.client.post_form(url, fields, self.feed, slug)
+        except FetchError as exc:
+            self.gap("{0} (form post): {1}".format(url, exc.cause))
             return None
 
     def post_json(self, url, body, slug):
@@ -225,6 +243,62 @@ class Robots:
         if not delays and (user_agent or "*") != "*":
             delays = [g[2] for g in self._groups_for("*") if g[2]]
         return max(delays) if delays else None
+
+# -- robots.txt: every group that names us or '*' -----------------------------
+
+def star_rules(text, user_agent):
+    """[(allow, path)] from EVERY group of robots.txt that names '*' or us.
+
+    urllib.robotparser keeps only the FIRST 'User-agent: *' group and drops
+    the rest. assnat.qc.ca writes one group per rule (2 October 2026): its
+    'Disallow: /json/' -- the vote register's data feed -- sits in the
+    seventh '*' group, so the standard parser reported the feed ALLOWED. It
+    also failed to match the six disallowed /Media/Process.aspx?MediaId=...
+    documents literally, because it re-quotes the query. This reads every
+    matching group and compares paths literally (and unquoted), longest rule
+    first, as the robots standard says."""
+    rules, agents, in_rules = [], [], False
+    ua = (user_agent or "").lower()
+    for raw in (text or "").splitlines():
+        line = raw.split("#", 1)[0].strip().lstrip("\ufeff")
+        if not line or ":" not in line:
+            continue
+        field, _, value = line.partition(":")
+        field, value = field.strip().lower(), value.strip()
+        if field == "user-agent":
+            if in_rules:
+                agents, in_rules = [], False
+            agents.append(value.lower())
+            continue
+        if field not in ("allow", "disallow"):
+            continue
+        in_rules = True
+        ours = any(a == "*" or (a and a in ua) for a in agents)
+        if ours and value:
+            rules.append((field == "allow", value))
+    return rules
+
+
+def rule_allows(rules, url):
+    from urllib.parse import unquote
+    parts = urlsplit(url)
+    target = parts.path + ("?" + parts.query if parts.query else "")
+    forms = {target, unquote(target)}
+    best = None
+
+    def matches(pattern, target):
+        # RFC 9309: '*' is any run of characters, a trailing '$' anchors the
+        # end; everything else is literal and matches from the start.
+        anchored = pattern.endswith("$")
+        body = pattern[:-1] if anchored else pattern
+        rx = ".*".join(re.escape(part) for part in body.split("*"))
+        return re.match(rx + ("$" if anchored else ""), target) is not None
+
+    for allow, path in rules:
+        if any(matches(path, f) or matches(unquote(path), f) for f in forms):
+            if best is None or len(path) > len(best[1]) or (len(path) == len(best[1]) and allow):
+                best = (allow, path)
+    return True if best is None else best[0]
 
 
 # -- document helpers -------------------------------------------------------

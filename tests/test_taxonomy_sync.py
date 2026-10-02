@@ -183,6 +183,49 @@ class GermanTaxonomyTests(unittest.TestCase):
                          "the two taxonomies must describe the same areas")
 
 
+class QuebecTaxonomyTests(unittest.TestCase):
+    """The Quebec French master generates its own yaml (2 October 2026, for
+    src/ingest/prov_qc.py), with the same areas as English. The behaviour of
+    the terms on real Quebec titles and passages is locked down in
+    tests/test_prov_qc.py (FrenchClassificationTests)."""
+
+    def test_yaml_matches_its_own_master(self):
+        master, config = generate_taxonomy.MASTERS["qc"]
+        with open(config, "r", encoding="utf-8") as handle:
+            on_disk = handle.read()
+        self.assertEqual(
+            on_disk, generate_taxonomy.generate(master, "qc"),
+            "config/taxonomy-qc.yaml is out of sync with its master; run: "
+            "python3 tools/generate_taxonomy.py --lang qc")
+
+    def test_the_header_names_its_own_master_and_command(self):
+        _master, config = generate_taxonomy.MASTERS["qc"]
+        with open(config, "r", encoding="utf-8") as handle:
+            head = "".join(handle.readlines()[:3])
+        self.assertIn("docs/keyword-taxonomy-qc.md", head)
+        self.assertIn("--lang qc", head)
+
+    def test_it_carries_the_same_areas_as_english(self):
+        import yaml
+        loaded = {}
+        for lang in ("en", "qc"):
+            with open(generate_taxonomy.MASTERS[lang][1], "r", encoding="utf-8") as handle:
+                loaded[lang] = set((yaml.safe_load(handle).get("areas") or {}))
+        self.assertEqual(loaded["qc"], loaded["en"])
+
+    def test_every_area_says_how_it_was_measured(self):
+        """A term added without a measurement is a guess: every area's Notes
+        line names the titles or texts its terms were measured on."""
+        master, _config = generate_taxonomy.MASTERS["qc"]
+        with open(master, "r", encoding="utf-8") as handle:
+            _v, areas, _x = generate_taxonomy.parse_master(handle.read())
+        for key, spec in areas.items():
+            self.assertTrue(spec["tier1"], key)
+            note = spec.get("note") or ""
+            self.assertTrue("Measured" in note or "Collated" in note,
+                            "{0} has no measurement note".format(key))
+
+
 class GermanRegressionTests(unittest.TestCase):
     """The votes the German draft was validated against, locked down.
 

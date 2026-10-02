@@ -1,0 +1,103 @@
+﻿# Fichier "robots.txt" du site de l'Assemblee nationale du Quebec
+# http://www.assnat.qc.ca/robots.txt
+# 
+# Fichier cree le 5 fevrier 2013 [Prospection]
+
+# Exclure le robot PetalBot
+
+User-agent: PetalBot
+Disallow: /
+
+
+# Outils de validation Prospection
+
+User-agent: COAST
+User-agent: Web+Link+Validator
+Disallow:
+
+# Exclusion rss
+
+User-agent: *
+Disallow: /fr/fils-rss.html
+Disallow: /en/fils-rss.html
+Disallow: /fr/rss/
+Disallow: /en/rss/
+Disallow: /fr/travaux-parlementaires/journaux-debats/index-jd/recherche.html
+Disallow: /en/travaux-parlementaires/journaux-debats/index-jd/recherche.html
+Disallow: /fr/envoyer-ami.html
+Disallow: /en/envoyer-ami.html
+
+Disallow: /Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_103903&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+Disallow: /Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_82975&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+Disallow: /Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_137843&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+Disallow: /Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_129643&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+Disallow: /Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_113237&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+Disallow: /Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_129641&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+
+# Exclusion de langues non gérées
+
+User-agent: *
+Disallow: /de/
+Disallow: /es/
+Disallow: /pt/
+
+# Exclusion xslt
+
+User-agent: *
+Disallow: /xslt/
+
+# Exclusion scripts
+
+User-agent: *
+Disallow: /scripts/
+
+# Exclusion images
+
+User-agent: *
+Disallow: /images/
+
+# Exclusion json
+
+User-agent: *
+Disallow: /json/
+
+# Exclusion styles
+
+User-agent: *
+Disallow: /styles/
+
+# Exclusion Recherche
+
+User-agent: *
+Disallow: /fr/recherche/
+Disallow: /en/recherche/
+
+
+# Exclusion indexweb section archives
+
+User-agent: *
+Disallow: /indexweb/
+
+# Exclusion application media repository
+
+User-agent: *
+Disallow: /media/
+
+# Exclusion lien telechargement video
+
+User-agent: *
+Disallow: /wmv/
+
+# Exclusion Voeux du président
+
+User-agent: *
+Disallow: /voeux/
+
+# Exclusion Page Visionneuses Presse Canadienne
+User-agent: *
+Disallow: /fr/video-audio/videoaudiovisionneusespc.html
+Disallow: /en/video-audio/videoaudiovisionneusespc.html
+
+# Exclusion du dossier soutien pour des pages web du centre de service
+User-agent: *
+Disallow: /soutien/
