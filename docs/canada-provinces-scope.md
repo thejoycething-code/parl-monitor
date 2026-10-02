@@ -69,6 +69,23 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
 | Alberta 31-1 | 28 Oct–5 Dec 2024 | 19 V&P | 40 (40) | 36 | 2,789 (0) | 75, all texts read (6) | 0 |
 | Saskatchewan 29-3 | October 2023 | 9 Minutes | 12 (12) | 0 | 550 (0) | 1 (1) | 0 |
 | British Columbia 43-2 | 12–28 Feb 2026 | 12 transcripts | 5 (5) | 13 | 442 (0) | 46 incl. 2 unnumbered, 44 texts (3) | 0 |
+| New Brunswick 60-2 | 9 May–16 Jun 2023 | 16 Journals | 16 (16) | 68 | 712 (0) | 61, 33 texts (1) | 1 |
+| New Brunswick 61-2 | 18–21 Nov 2025 | 4 Journals | 5 (3) | 16 | 209 (2) | 51, 19 texts (0) | 2 |
+| Newfoundland and Labrador 48-1 | calendar 2016 | 57 Hansards | 34 (32) | 179 | 1,152 (0) | 72, 64 texts (1) | 3 |
+| Newfoundland and Labrador 50-2 | 5 Oct 2022–22 May 2025 (whole session) | 120 Hansards | 27 (15) | 493 | 884 (157) | 114, 104 texts (2) | 15 |
+| Newfoundland and Labrador 51-1 | 3 Nov 2025–17 Sep 2026 (whole session) | 39 Hansards | 11 (11) | 60 | 416 (0) | 19, all texts (0) | 3 |
+
+(The NB and NL rows are the FINAL runs, after the fixes listed below; New Brunswick and Newfoundland were run on 2 October 2026 into a scratch store each.)
+
+- **New Brunswick:** every gap is the source's. The Journal of 9 June 2023 is served truncated (129,024 bytes, no `%%EOF`, twice), so it is stored `unreadable` and stays owed; the Journal of 20 November 2025 prints "Mr. Russel" twice. All 16 divisions of May–June 2023 tally, and every second and third reading the bills listing dates to a read day was found. The 2 unresolved votes are the two "Mr. Russel" labels.
+- **Newfoundland and Labrador, divisions per year:** 34 in 2016 (57 sittings), 10 in 2022 (from October; 15 sittings), 8 in 2023, 5 in 2024, 4 in 2025, then 11 in the 51st Assembly's first session (38 sittings in 2026). That is about 5–35 a year: the scope's "about 10" holds for the 50th Assembly and the 2016 budget year is the outlier. 2016's are mostly the budget, the deficit levy (Bill 14) and supply.
+- **Newfoundland and Labrador, gaps by cause:**
+  - Committee of the Whole divisions whose count was never read aloud: 8 (2 in 2016, 6 on 12–18 October 2022). Names, no total: nothing to check against.
+  - The 2024 attendance summary is a scan with no text layer, so the 5 divisions of 2024 do not resolve (157 unresolved votes are all from them). Decision below.
+  - Hansard typos: "Lloyd Parrot" (19 October 2022). One gap.
+  - The progress table dates a reading to a day whose Hansard has no record of it: 5 (for example Bill 62's second reading, dated 12 December 2016, whose debate began that day and did not conclude in that file).
+  - One count with no division read before it (1 April 2026).
+- **NL on our ground:** the Access to Abortion Services Act (Bill 43, 2016) passed every reading on voice. Two false positives from the English taxonomy: the Credit Union Act amendment (50-2 Bill 8) on "right to withdraw" (area 6), and a Labour Standards Act amendment (50-2 Bill 82) whose organ-donor leave matched "organ donation*" (area 13). Both are taxonomy calls, not parser errors.
 
 - **Alberta:** 91 members with 116 dated terms; every bill-page "passed on division" stage matched a parsed division.
 - **Saskatchewan:** 61 members from the day covers. Bill 137 has eleven divisions on our ground.
@@ -138,6 +155,53 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
     - A dated source is needed: the caucus history, or the per-member Voting Records index read against a dated caucus list.
   - The per-member Voting Records index (`Index/43rd2nd/2026-Votes?.htm`) is not read. It would give a second, independent tally check and each vote's stage label.
   - Hansard speeches are not stored.
+
+### New Brunswick (step 6): `src/ingest/prov_nb.py`
+
+- **Politeness:** robots.txt sets `crawl-delay: 10`. `prov_fetch` now raises the interval for that HOST only (`HttpClient.set_host_throttle`), so the run waits 10 s between legnb.ca requests without slowing anything else. A session's journals and bill pages take 20–30 minutes.
+- **What it does:**
+  - **Listing:** `/en/house-business/journals/<leg>/<sess>`. English files only ("e"; the French "f" files would count every division twice). File names are taken as listed, backslashes turned; where a date is listed twice the highest revision wins (`47230615e2.pdf`).
+  - **Roster, dated by session:** the site lists only current members. For a past session the roster is the **compiled Journal's members page** (constituency and member), read by x-position (`prov_fetch.pdf_rows`). Its by-election footnotes date the terms: Susan Holt from 24 April 2023, Denis Landry to his resignation on 30 November 2022. The compiled Journal names its own session and is checked: the 60-3 listing links a file named for 2022–2023.
+    - For the current legislature, when no compiled Journal exists yet (61-1 and 61-2), the roster is `/en/members/current`, with party but undated.
+  - **Party is NOT stored at the vote for New Brunswick.** The compiled Journal prints no party and nothing on the site dates one, so `party_at_vote` stays NULL (as for BC). Today's party joined to a 2023 vote would misattribute Dominic Cardy, who left the PC caucus in October 2022.
+  - **Bills:** the session's bills listing gives every stage date ("2nd Reading Passed: 5/11/2023", "Defeated"). For bills with a stage in the window (all, without one), the bill page gives the type, the sponsor and the English HTML text (`Bill-52-e.htm`), classified per passage.
+  - **Divisions:** "on the following recorded division: YEAS - 26", three columns of "Hon. Mr. Holder", "Ms. M. Wilson", then "NAYS - 20". The question is the item from its start ("Pursuant to Notice of Motion 50 ...", "Debate resumed on ... Bill 46"), so a committee report read earlier the same morning does not classify the division.
+  - **A unanimous recorded division prints YEAS only** (Motion 36 as amended, 8 June 2023: "YEAS - 44" and the next item). No NAYS total is printed, so none is checked; the 44 must all resolve, and the division says "no NAYS list printed (unanimous)".
+  - **A division's bill is its own item's**, the last mention winning, including "The Order being read for third reading of Bill 37 ... on the following recorded division" (16 June 2023, where Bill 32's voice third reading came just before).
+  - **Voice decisions:** "the question being put that Bill 52 be now read a third time, it was resolved in the affirmative." with no division, and the "following Bills were read a third time:" lists.
+  - **Bill text:** the English HTML first, the PDF if the HTML is empty (`Bill-57-e.htm` in 60-2 is served as 0 bytes), and a gap if neither gives text.
+  - **Cross-check:** every second or third reading the bills listing dates to a day whose Journal was read must be in that Journal, divided or on voice. A miss is a gap.
+- **Fixed in the shared resolver:** "M." after another honorific is an initial, not Monsieur. "Mr. M. LeBlanc" and "Ms. M. Wilson" had come back ambiguous, and all five divisions of 15 June 2023 were gaps until it was fixed.
+- **Known limits:**
+  - Hansard is not read (bilingual two-column PDFs). The 20 November 2025 Hansard is truncated at source, and so is the **Journal** of 9 June 2023 (129,024 bytes, no `%%EOF`, on two fetches). Any record like them is stored `unreadable` and stays owed (tested); that day's listed readings are not cross-checked.
+  - The Journal of 20 November 2025 prints "Mr. Russel" for Kevin Russell twice. Both divisions are tally gaps, as they should be; a reviewed alias list would clear them (decision below).
+  - A past session with no compiled Journal has no roster. Its divisions come back as gaps.
+
+### Newfoundland and Labrador (step 8): `src/ingest/prov_nl.py`
+
+- **The record is Hansard, not the Journal.** The scope proposed the Journals. Read live, they print **no totals** ("Ayes Nayes", then names), so there is nothing to check a tally against, and the 51st General Assembly's are not posted. Hansard (Word-HTML, one file per sitting) reads every name standing and then the Clerk's count, "Speaker, the ayes: 21; the nays: 14". The count is the printed total.
+- **What it does:**
+  - **Listing:** the session's Hansard calendar (`/HouseBusiness/Hansard/ga48session1/`); file names as linked.
+  - **Divisions:** one per "please rise" call that the Clerk answers with names. Handled variants: "please stand" in Committee of the Whole, counts in words ("the nays: nine"), "ayes: 25" without "the", lists interrupted by "SOME HON. MEMBERS: Hear, hear!", the Chair's aside before the Clerk, and a call the Speaker withdrew ("please rise. Sorry."). A division whose count was never read (Committee of the Whole, 12 May and 6 December 2016, 12 October 2022) is stored with NULL totals and is a gap. From the 50th Assembly: names read by a "TABLE OFFICER" (or "Table Officer"), "SOME HON. MEMBERS: Hear, hear!" between the call and the names, a list broken off with a dash and resumed ("Jeff Dwyer – ... CLERK: – Pleaman Forsey"), a list the Clerk starts again, and a unanimous vote with no call for those against ("the nays: 0" or "zero"; any other count without a list is a gap).
+  - **Roster:** current members from `js/members-index.js` (named by `/Members/members.aspx`; party undated). For past years the only official list is the annual **Members' Attendance summary** (one PDF per calendar year, "all Members ... including those who resigned or were elected"). Each member gets a calendar-year term with district and no party. Both layouts seen are read: "Surname, Given" (2022) and given name first (2016).
+  - **Names:** Hansard reads familiar names ("Eddie Joyce", "Pam Parsons", "Sherry Gambin-Walsh"); the summaries print formal ones ("Joyce, Edward", "Parsons, Pamela", "Gambin-Walsh, Sheryl"). A full name that does not resolve is retried as initial plus surname, the Journal's own form, still unique-or-nothing. Hyphen and space are the same in a surname (the 2016 PDF drops the hyphen).
+  - The 2023 summary prints "LOA" (leave of absence) where the counts go; it is read as a count cell. The 2025 summary is set upside down and is read in reverse; the 2024 summary is a scan with no text and gives nobody (a gap).
+  - **`ROSTER_CORRECTIONS`:** one entry. The 2022 summary prints "Dempter, Lisa"; Hansard and the Journal print Dempster. Without it every 2022 division would be a gap.
+  - **Bills:** the progress-of-bills table (stage dates, loose formats such as "Decd. 14/2016") and each bill's HTML text, classified per passage.
+  - **Voice decisions:** Hansard's formal record line, "On motion, a bill, '…', read a third time, ordered passed … (Bill 43)", with no division on that bill and stage that day. **Cross-check:** every listed second or third reading on a read day must be found.
+- **Known limits:**
+  - Party at the vote is never stored for NL. Nothing on the site dates party except the current Assembly's standings prose.
+  - Roster terms are a calendar year wide. Resolution leans on the name, so an over-wide term matters only when two members share a surname and initial in the same year.
+  - A member's key follows the summary's spelling, so "Sherry" (2016) and "Sheryl" (2022) Gambin-Walsh are two keys. Per-date resolution is right; a career view would need a join.
+  - Hansard speeches are not stored. The Journals are not read; they could serve as a second, independent check of each division's names.
+
+### Open decisions from New Brunswick and Newfoundland and Labrador
+
+1. **Label aliases.** "Mr. Russel" (NB, 20 November 2025) and "Lloyd Parrot" (NL Hansard, 19 October 2022) are source typos that make their divisions gaps. ("Brain Warr", 24 May 2023, already resolves: the initial-plus-surname retry finds Brian Warr, the only Warr.) Should a reviewed alias list, like NL's `ROSTER_CORRECTIONS` but for printed labels, clear them? Each entry would be checked against the same day's other record. The default is no: they stay gaps.
+2. **NL 2024 roster.** The 2024 attendance summary is a scan. The options are to OCR it, to bridge 2024 with members present in both the 2023 and 2025 summaries (an inference), or to leave the 5 divisions of 2024 as gaps (the current state).
+3. **Dated party for NB and NL.** Neither site dates party, so `party_at_vote` is NULL in both. Elections NB / Elections NL results plus caucus-change news would be a hand-kept dated list. Is it worth keeping one for the 5CA?
+4. **Committee of the Whole divisions with no count** (NL): the names are complete but no total is read. Should a CoW division ever place on names alone? The default, and the rule everywhere else, is no.
+5. **Taxonomy:** "right to withdraw" (area 6) and "organ donation*" (area 13) gave false positives on two NL bills (see the smoke notes).
 
 ---
 
