@@ -28,7 +28,7 @@ class WorkflowWiringTests(unittest.TestCase):
     STATEFUL = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "sunday-pull.yml", "monday-publish.yml", "upr-monthly.yml",
                 "backfill.yml", "score-stance.yml", "member-profiles.yml",
-                "de-weekly.yml")
+                "de-weekly.yml", "prov-weekly.yml")
 
     def test_every_stateful_workflow_pulls_and_pushes(self):
         for name in self.STATEFUL:
@@ -313,7 +313,8 @@ class FailureAlertTests(unittest.TestCase):
 
     WATCHED = ("Sunday pull", "Monday publish", "NI Assembly weekly",
                "Holyrood weekly", "Senedd weekly", "UPR monthly",
-               "Historic backfill", "Score stance", "Germany weekly")
+               "Historic backfill", "Score stance", "Germany weekly",
+               "Provinces weekly")
 
     def test_the_watcher_exists_and_fires_on_failure_and_cancellation(self):
         """A job that hits timeout-minutes is reported as 'cancelled' (19 Sept
@@ -351,7 +352,7 @@ class FailureAlertTests(unittest.TestCase):
     # and the manual state tools, which have no reason to speak.
     NO_SLACK = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "backfill.yml", "score-stance.yml", "upr-monthly.yml",
-                "member-profiles.yml")
+                "member-profiles.yml", "prov-weekly.yml")
 
     def test_the_watching_briefs_hold_no_slack_credential(self):
         """The property the watcher exists to preserve: had the alert been a
@@ -802,8 +803,9 @@ class RetrySlotsAreGuardedTests(unittest.TestCase):
         # FIVE since 22 September 2026: de-weekly.yml was written with the
         # gate already in it rather than acquiring one after it had billed a
         # month of duplicate collection, which is what the other four did.
+        # SIX since 3 October 2026: prov-weekly.yml, gated from the start.
         for name in ("eu-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
-                     "ni-weekly.yml", "de-weekly.yml"):
+                     "ni-weekly.yml", "de-weekly.yml", "prov-weekly.yml"):
             text = workflow(name)
             self.assertIn("needs: gate", text, name)
             self.assertIn("needs.gate.outputs.go == 'true'", text, name)

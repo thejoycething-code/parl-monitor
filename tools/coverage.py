@@ -65,6 +65,9 @@ PIPELINES = {
     "Day sweep": (1, 3, "the day's speeches on our issues, and the radar"),
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
+    # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
+    # the other weeklies.
+    "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC"),
 }
 
 # Pipelines deliberately not running. Listed so a PAUSE never reads as a
@@ -146,6 +149,15 @@ FEEDS = [
     # The SCC feed always lists 100 items and every one is re-stamped, so
     # this moves every week, recess included (tools/ca_courts.py).
     ("ca_judgments", "last_seen", 7, 4, "Supreme Court judgments feed (Canada weekly)"),
+    # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
+    # writer: Alberta, BC and Newfoundland upsert their whole roster on every
+    # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
+    # Alberta, BC, Manitoba and Quebec re-store every bill on the session's
+    # listing on every run, recess included -- so these two move every week.
+    # The watch is per TABLE, not per province: one province dying shows as
+    # its own failed step (and the failure alert), not here.
+    ("prov_members", "last_seen", 7, 4, "provincial rosters (Provinces weekly)"),
+    ("prov_bills", "last_seen", 7, 4, "provincial bills, from each session's listing (Provinces weekly)"),
 ]
 
 # Which feeds each pipeline is responsible for. This drives the check
@@ -207,6 +219,19 @@ PIPELINE_FEEDS = {
     # The three that move every run whatever Parliament did; petitions and
     # the Gazette can legitimately be quiet, which would cry clobber.
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
+    # The two provincial tables re-stamped on every run; prov_divisions is
+    # write-once in practice (ONCE_EVER) and cannot support this check.
+    "Provinces weekly": ["prov_members", "prov_bills"],
+}
+
+# A pipeline that has never run yet: its tables exist (db.init_db creates
+# every table in db.TABLES) but are empty, and an empty watched table is a
+# fault -- except here, and only until the pipeline's first heartbeat. The
+# excuse expires by itself: once source_runs holds the pipeline, an empty
+# table is OVERDUE again, so this entry can never hide a later wipe.
+AWAITING_FIRST_RUN = {
+    "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
+                         "scheduled 3 October 2026; its tables fill on its first run"),
 }
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
@@ -253,6 +278,14 @@ ONCE_EVER = {
     "ca_committee_meetings": "one row per committee meeting read, stored once",
     "ca_testimony": "one row per witness intervention on our ground, stored once",
     "ca_leave": "one row per leave-to-appeal decision, written once",
+    # Canada's provinces (3 October 2026), MEASURED: store_division re-stamps
+    # last_seen only when its sitting record is read again (a clean one never
+    # is) or when a bill page naming a voice decision is re-read, so the table
+    # gains rows in sitting weeks and goes quiet in recess.
+    "prov_divisions": "re-stamped only when its record, or a bill page naming a "
+                      "voice decision, is read again: quiet in recess",
+    "prov_sittings": "one row per provincial sitting record read; a clean record "
+                     "is never read again",
     "items": "new rows only: PQs, SIs, consultations and what's on are "
              "inserted when they appear and not re-stamped",
     "sp_affiliations": "new rows only: an MSP's committee places",
@@ -335,6 +368,15 @@ def table_exists(conn, table):
     return bool(row)
 
 
+def awaiting_first_run(table, seen):
+    """The reason an EMPTY table is excused, or None: only while the pipeline
+    that fills it has never stamped a heartbeat (AWAITING_FIRST_RUN)."""
+    for pipeline, (tables, why) in AWAITING_FIRST_RUN.items():
+        if table in tables and pipeline not in seen:
+            return "{0}: {1}".format(pipeline, why)
+    return None
+
+
 def check(conn, today=None, log=print, quiet=False):
     today = today or datetime.date.today()
     overdue = []
@@ -389,6 +431,11 @@ def check(conn, today=None, log=print, quiet=False):
             if reason:
                 if not quiet:
                     log("  {0:<22} EMPTY BY DESIGN   {1}".format(table, reason))
+                continue
+            waiting = awaiting_first_run(table, seen)
+            if waiting:
+                if not quiet:
+                    log("  {0:<22} AWAITING FIRST RUN   {1}".format(table, waiting))
                 continue
             overdue.append("{0} holds NO ROWS AT ALL; it is watched because we "
                            "expect data in it ({1})".format(table, why))
@@ -456,7 +503,11 @@ def check(conn, today=None, log=print, quiet=False):
         col = next((c for c in ("last_seen", "captured_at") if c in cols), None)
         val, age = age_of(conn, table, col, today) if col else (None, None)
         empty = conn.execute("SELECT COUNT(*) FROM {0}".format(table)).fetchone()[0] == 0
-        if empty and table not in ALLOWED_EMPTY:
+        waiting = awaiting_first_run(table, seen) if empty else None
+        if waiting:
+            if not quiet:
+                log("  {0:<22} AWAITING FIRST RUN   {1}".format(table, waiting))
+        elif empty and table not in ALLOWED_EMPTY:
             overdue.append("{0} is written once per item and holds NO ROWS AT "
                            "ALL: every row it had is gone ({1})".format(table, why))
             log("  {0:<22} NO ROWS AT ALL  <-- OVERDUE   {1}".format(table, why))
