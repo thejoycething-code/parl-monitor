@@ -35,3 +35,4 @@ data/raw/
 data/.raw-pulled
 # Debate pack footage: large, licensed, local
 data/packs/*/clips/
+.claude/worktrees/
