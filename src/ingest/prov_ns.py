@@ -1111,6 +1111,12 @@ def parse_bill_page(html):
     sp = re.search(r'Introduced by[^<]*<a href="/members/profiles/([^"/]+)">([^<]+)</a>', body)
     if sp:
         out["sponsor_key"], out["sponsor"] = sp.group(1), html_text(sp.group(2))
+    else:
+        # "Introduced by Honourable Stephen McNeil, President of the
+        # Executive Council" (Bill 133, 2019): a name with no link, so no key.
+        nm = re.search(r"Introduced by\s+(?:the\s+)?(?:Honourable\s+|Hon\.\s+)?([^,<]+)", body)
+        if nm:
+            out["sponsor"] = html_text(nm.group(1))
     meta = re.search(r"<th>Bill No\.</th>.*?<tbody>\s*<tr[^>]*>(.*?)</tr>", body, re.S)
     if meta:
         cells = [html_text(c) for c in _CELL.findall(meta.group(1))]
@@ -1378,6 +1384,13 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         if status and status[0] != "unreadable":
             read_dates.add(rec["date"])
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps})
+    if bills and not records:
+        # A bill is introduced, read and assented to on a sitting day: a
+        # window with no sitting (a recess week; 61-1, prorogued in March 2010
+        # after its last sitting in November 2009) has no bill news, and a
+        # session's bills cost a request each at ten seconds.
+        ctx.log("  ns {0}: no sitting in the window; the bills are not read".format(session))
+        bills = False
     if bills:
         # The pages of the bills a recorded division named are read too,
         # for the cross-check and the sponsor.

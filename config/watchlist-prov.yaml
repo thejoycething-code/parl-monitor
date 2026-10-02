@@ -19,7 +19,7 @@
 # without a measurement is a guess; mark it so. Titles and keys for the
 # Every province's entries were re-read from the records when its collector
 # was built (Alberta, Saskatchewan and BC; Manitoba, Ontario, New Brunswick,
-# Newfoundland and Labrador and Quebec, 2 October 2026).
+# Newfoundland and Labrador and Quebec, 2 October 2026; Nova Scotia from CI).
 
 terms:
   - term: "Parents' Bill of Rights"
@@ -98,6 +98,20 @@ provinces:
                       why: "Abortion clinic buffer zones (Nahanni Fontaine, NDP opposition). Second reading NEGATIVED 20-30 on 14 Oct 2021 (V&P No. 82): the NDP and Liberals for, the PC government against. Its text matches area 1 on its own; the key makes it tier 1."}
       "mb-43-2/43": {title: "The Human Rights Code Amendment Act", areas: [5],
                      why: "Adds 'gender expression' to the Human Rights Code. Third reading carried 33-16 on 2 June 2025 (V&P No. 63): NDP for, PC against. Its title names a statute and says nothing of gender: only the key and the text catch it."}
+  "ns":
+    # Read from the bill pages and first-reading texts fetched from a GitHub
+    # runner on 2 October 2026 (nslegislature.ca resets the laptop's VPN).
+    # "On voice" means the sitting's Hansard puts the reading and records
+    # "The motion is carried." with no recorded vote (src/ingest/prov_ns.py).
+    bills:
+      "ns-63-2/16": {title: "Sexual Orientation and Gender Identity Protection Act", areas: [4],
+                     why: "Conversion-practices ban: 'change efforts' are not insured services and get no public money (Mark Furey, government bill). Third reading 25 Sep 2018, assent 11 Oct 2018. Its text says 'efforts to change THEIR sexual orientation or gender identity', which neither the taxonomy nor the watchlist term matches: only the key catches it."}
+      "ns-63-2/133": {title: "Human Organ and Tissue Donation Act", areas: [13],
+                      why: "Deemed (presumed) consent to organ donation (introduced by Stephen McNeil, government bill). Third reading 12 Apr 2019 on VOICE: the Hansard of that day puts it and records it carried, with no recorded vote. Its text matches area 13 on its own; the key makes it tier 1."}
+      "ns-63-2/242": {title: "Protecting Access to Reproductive Health Care Act", areas: [1],
+                      why: "Abortion access zones: 'access zone', 'besetting', 'interference' around facilities providing abortion services (Claudia Chender, NDP private member's bill). Third reading 10 Mar 2020 on VOICE (Hansard of that day). Its text matches area 1 on its own."}
+      "ns-61-4/140": {title: "Transgendered Persons Protection Act", areas: [5],
+                      why: "Adds gender identity and gender expression to the Human Rights Act (Ross Landry, NDP government). Third reading 30 Nov 2012, assent 6 Dec 2012. Its title names no subject the taxonomy knows; its text matches 'gender expression'."}
   "on":
     bills:
       "on-41-1/77": {title: "Affirming Sexual Orientation and Gender Identity Act, 2015", areas: [4],

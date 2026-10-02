@@ -372,6 +372,27 @@ class BillTests(unittest.TestCase):
         self.assertEqual(st["Third Reading"], "2025-03-25")
         self.assertEqual(st["Royal Assent"], "2025-03-26")
 
+    def test_a_government_bill_names_its_sponsor_without_a_link(self):
+        page = ns.parse_bill_page(fx("ns_bill133_632.html"))
+        self.assertEqual((page["sponsor"], page["sponsor_key"]), ("Stephen McNeil", None))
+        self.assertIn({"stage": "Third Reading", "date": "2019-04-12", "status": "passed"}, page["stages"])
+
+    def test_deemed_consent_passed_on_voice_and_is_watched(self):
+        divs, voices = ns.parse_hansard(fx("ns_hansard_190412_bill133.htm"))
+        self.assertEqual(divs, [])
+        self.assertEqual(voices, [{"bill_number": "133", "stage": "Third Reading",
+                                   "result": "The motion is carried (no recorded vote)"}])
+        res = pc.classify(pc.load_taxonomy(), pc.load_watchlist("ns"), "ns",
+                          title="Human Organ and Tissue Donation Act", bill_key="ns-63-2/133")
+        self.assertEqual((res.areas, res.tier), ([13], 1))
+        # The conversion-practices ban's text says "efforts to change THEIR
+        # sexual orientation": only its key files it.
+        res = pc.classify(pc.load_taxonomy(), pc.load_watchlist("ns"), "ns",
+                          texts=["The purpose of this Act is to protect Nova Scotia youth from damaging efforts to "
+                                 "change their sexual orientation or gender identity."])
+        self.assertEqual(res.areas, [])
+        self.assertEqual(pc.watched_bill("ns", "ns-63-2/16")["areas"], [4])
+
     def test_the_bill_text_is_the_bill_not_the_site(self):
         body = ns.bill_body(fx("ns_billtext_240_651.htm"))
         self.assertTrue(body.startswith("BILL NO. 240"))

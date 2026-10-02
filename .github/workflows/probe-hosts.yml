@@ -6,10 +6,17 @@ name: Probe legislature hosts
 # collectors really use -- and prints what came back.
 #
 # READ-ONLY: no store, no commit, no secrets, nothing published. GET only,
-# with the repo's honest User-Agent, robots.txt honoured, at least `delay`
-# seconds between requests to a host. A bot challenge STOPS that host for the
-# run (tools/probe_hosts.py): it is recorded, never solved or worked around.
-# What was fetched is uploaded as a workflow artifact, for fixtures.
+# with the repo's honest User-Agent, robots.txt honoured (its Crawl-delay
+# too: 10 s on nslegislature.ca), at least `delay` seconds between requests
+# to a host. A bot challenge, a 403/429, or a robots.txt that does not answer
+# STOPS that host for the run (tools/probe_hosts.py): it is recorded, never
+# solved or worked around. What was fetched is uploaded as a workflow
+# artifact (kept 7 days), for fixtures.
+#
+# 2 October 2026: this is how the Nova Scotia collector (src/ingest/prov_ns.py)
+# was built -- the laptop's VPN exit is reset by nslegislature.ca -- and how
+# PEI was found to challenge a runner too (docs/canada-provinces-scope.md).
+# Dispatch with `urls` (and optionally `follow`, a regex of links to queue).
 
 on:
   workflow_dispatch:
@@ -41,7 +48,7 @@ defaults:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -57,7 +64,8 @@ jobs:
           DELAY: ${{ inputs.delay }}
         run: |
           if ! [[ "$MAX" =~ ^[0-9]+$ ]]; then MAX=10; fi
-          if [ "$MAX" -gt 400 ]; then MAX=400; fi
+          # 250 pages at a 10 s Crawl-delay is 42 minutes: inside the timeout.
+          if [ "$MAX" -gt 250 ]; then MAX=250; fi
           if ! [[ "$DELAY" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then DELAY=2; fi
           python3 tools/probe_hosts.py --out probe-out --max "$MAX" --delay "$DELAY" \
             --follow "$FOLLOW" $URLS | tee probe-out.log
