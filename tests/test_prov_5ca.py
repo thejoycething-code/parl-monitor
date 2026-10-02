@@ -54,17 +54,19 @@ class StanceFileTests(unittest.TestCase):
         remains; read-first entries carry no values and place nobody."""
         entries = p5.load_stance(p5.STANCE_PATH, "divisions")
         self.assertGreater(len(entries), 10)
-        # The only drafts are the read-first entries drafted on 2 October 2026
-        # ("Draft the 10 'read first' readings"), unconfirmed until he deletes
-        # their `draft: true`; each carries the text it was read from.
-        drafted_2_oct = ["ab-31-1-2024-11-27-3", "ab-31-1-2024-11-27-4",
-                         "ab-31-1-2024-11-27-5", "bc-43-2-2026-02-26-126.1"]
-        self.assertEqual(sorted(k for k, e in entries.items() if p5.status(e) == "draft"),
-                         drafted_2_oct)
+        # The read-first entries drafted on 2 October 2026 ("Draft the 10
+        # 'read first' readings") were confirmed the same day ("Confirm all
+        # the readings"): no draft remains, and each keeps the text it was
+        # read from.
+        read_2_oct = ["ab-31-1-2024-11-27-3", "ab-31-1-2024-11-27-4",
+                      "ab-31-1-2024-11-27-5", "bc-43-2-2026-02-26-126.1"]
+        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "draft"], [])
         self.assertEqual([k for k, e in entries.items() if p5.status(e) == "unread"], [])
-        for k in drafted_2_oct + ["sk-29-3-2023-10-19-6"]:
+        self.assertEqual({p5.status(entries[k]) for k in read_2_oct}, {"confirmed"})
+        self.assertEqual(p5.status(entries["sk-29-3-2023-10-19-6"]), "unplaceable")
+        for k in read_2_oct + ["sk-29-3-2023-10-19-6"]:
             self.assertTrue(entries[k].get("text") and entries[k].get("moved_by")
-                            and entries[k].get("source") and entries[k].get("draft"), k)
+                            and entries[k].get("source"), k)
         self.assertEqual(p5.status(entries["ab-31-1-2024-12-03-2"]), "confirmed")
         with open(p5.STANCE_PATH, encoding="utf-8") as fh:
             header = fh.read()

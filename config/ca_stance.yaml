@@ -22,9 +22,10 @@
 #     values that are still drafts. The five read-first entries added with
 #     the 2010-2024 landmarks (C-279 x2, C-36, the C-16 Senate amendment,
 #     S-224) were read and DRAFTED on 2 October 2026 (Christopher: "Draft the
-#     10 'read first' readings"): UNCONFIRMED, each carries `draft: true` and
-#     places nobody until he deletes it. Two of them (the C-279 report stage
-#     amendments) are proposed as `placeable: false`.
+#     10 'read first' readings") and CONFIRMED the same day ("Confirm all the
+#     readings, score the C-279 definition separately"). Motions 1-8's
+#     removal of "gender expression" (642) is evidence only; the definition
+#     of gender identity (643) is scored on its own at +/-1.
 #
 # Keys are the store's: `commons-<parl>-<sess>-<number>` and
 # `senate-<parl>-<sess>-<details id>`; bills are `<parl>-<sess>/<number>`.
@@ -1010,10 +1011,9 @@ divisions:
     reason: "Procedure, not substance."
   # --- The five read-first entries, DRAFTED 2 October 2026 -------------------
   # (Christopher: "Draft the 10 'read first' readings".) Each text was read
-  # from the Journals; the lobbies are counted from ca_votes. UNCONFIRMED:
-  # every entry carries `draft: true` and places nobody until he deletes it.
+  # from the Journals; the lobbies are counted from ca_votes. CONFIRMED by
+  # Christopher the same day, the C-279 definition (643) scored separately.
   - key: commons-41-1-642
-    draft: true
     placeable: false
     title: "C-279 report stage, Garrison Motions 1, 2, 4, 7 and 8: strike 'gender expression'"
     dated: 2013-03-20
@@ -1035,7 +1035,7 @@ divisions:
       Motion No. 8: "physical disability, gender identity, sexual
       orientation, or any other".
     reason: >
-      TEXT READ 2 October 2026 (draft). The sponsor's own amendment NARROWING
+      TEXT READ 2 October 2026. The sponsor's own amendment NARROWING
       his bill: it takes "gender expression" out of every clause. On its face
       a Yea is our direction, but it was cast by the bill's supporters to
       carry it, and the Conservative Nay was opposition to the bill, not to
@@ -1045,8 +1045,6 @@ divisions:
       at +/-2); a value here would either reward the bill's supporters or
       count the same vote twice.
   - key: commons-41-1-643
-    draft: true
-    placeable: false
     title: "C-279 report stage, Garrison Motions 3, 5, 6 and 9: statutory definition of 'gender identity'"
     dated: 2013-03-20
     result: "Agreed To 148-140"
@@ -1065,17 +1063,25 @@ divisions:
       correspond with the sex that the individual was assigned at birth."
       Motions 5, 6 and 9 apply the same definition to s.3 of the Human Rights
       Act and to ss.318 and 718.2 of the Criminal Code.
-    reason: >
-      TEXT READ 2 October 2026 (draft). The definition writes "the sex that
-      the individual was assigned at birth" into statute, which is against
-      sex-based rights on its face -- but it too was the sponsor's amendment
-      to carry the bill, and it split as the third reading (645): 283 of 286
-      voted the same way; the three exceptions (Bruce Stanton, Bernard
-      Trottier, Erin O'Toole: Nay here, Yea at third reading) are none of
-      them sitting. Evidence only, as for 642. IF Christopher prefers to
-      score the definition on its own, the shape would be Yea -1 / Nay +1.
+    yea: -1
+    why_yea: >
+      Voted to write into statute a definition of gender identity as an inner
+      experience that "may or may not correspond with the sex that the
+      individual was assigned at birth".
+    nay: 1
+    why_nay: >
+      Voted against writing a self-identified definition of gender identity,
+      measured against a sex "assigned at birth", into the Human Rights Act
+      and the Criminal Code.
+    note: >
+      TEXT READ 2 October 2026. SCORED ON ITS OWN by Christopher's choice
+      (2 October 2026: "score the C-279 definition separately"), although it
+      split as the third reading (645): 283 of 286 voted the same way; the
+      three exceptions (Bruce Stanton, Bernard Trottier, Erin O'Toole: Nay
+      here, Yea at third reading) are none of them sitting. At +/-1, below
+      the third reading's +/-2, because it was the sponsor's amendment to
+      carry the bill.
   - key: commons-41-2-235
-    draft: true
     title: "C-36 report stage, May Motions 1-52: delete every part of the bill"
     dated: 2014-09-29
     result: "Negatived 120-144"
@@ -1093,7 +1099,7 @@ divisions:
       Motion No. 3: That Bill C-36 be amended by deleting Clause 1. Motions
       Nos. 4 to 52 delete each further clause in the same words, to Clause
       49 (45.1 included).
-    # TEXT READ 2 October 2026 (draft). Fifty-two deletions that together
+    # TEXT READ 2 October 2026. Fifty-two deletions that together
     # strike the whole bill: a vote to kill the Nordic model at report stage.
     # It split as the third reading (249) inverted: of the 248 who voted on
     # both, 107 Yea here were Nay at third reading and 140 Nay here were Yea;
@@ -1105,7 +1111,6 @@ divisions:
     nay: 1
     why_nay: "Voted against gutting C-36, the Nordic-model law criminalising the purchase of sex (+1: the whole bill, at report stage)."
   - key: senate-42-1-457865
-    draft: true
     title: "C-16 -- Senate third reading amendment (Sen. Plett): nothing in the Act requires a particular word or expression"
     dated: 2017-06-13
     result: "Defeated 28-49-4"
@@ -1121,7 +1126,7 @@ divisions:
       adding the following after section 4: 4.1 For greater certainty,
       nothing in this Act requires the use of a particular word or expression
       that corresponds to the gender identity or expression of any person.".
-    # TEXT READ 2 October 2026 (draft). THE vote on compelled pronouns. The
+    # TEXT READ 2 October 2026. THE vote on compelled pronouns. The
     # Senate's vote page labels this division "Amendment (Sen. Plett) --
     # Adjournment of Debate", but the 28 Yeas and 49 Nays in ca_votes are
     # name for name the Journals' division on the motion in amendment; the
@@ -1142,7 +1147,6 @@ divisions:
       Voted against stating in C-16 that the Act compels no one to use
       particular words or pronouns for gender identity.
   - key: commons-44-1-853
-    draft: true
     title: "S-224 report stage, Carrie Motions 1 and 2: restore the bill the committee gutted (trafficking: exploitation without proof of fear)"
     dated: 2024-06-19
     result: "Negatived 118-207"
@@ -1165,7 +1169,7 @@ divisions:
       or authority, or any other similar act. (2) Subsection 279.04(2) of the
       Act is repealed." (Motion No. 1 restores the long title, "An Act to
       amend the Criminal Code (trafficking in persons)".)
-    # TEXT READ 2 October 2026 (draft). The Justice Committee had deleted the
+    # TEXT READ 2 October 2026. The Justice Committee had deleted the
     # bill's only clause; this vote was on putting it back. Its effect: a
     # trafficking conviction would no longer need proof that the victim
     # feared for their safety (the Palermo-protocol definition). When it

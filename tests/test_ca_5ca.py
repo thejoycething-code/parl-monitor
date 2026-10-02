@@ -277,20 +277,23 @@ class StanceFileTests(unittest.TestCase):
         ridr = c5.load_stance(section="divisions")["senate-45-1-699935"]
         self.assertEqual(c5.status(ridr), "unplaceable")
 
-    def test_the_read_first_entries_are_drafts_with_their_text(self):
-        """Drafted 2 October 2026 ("Draft the 10 'read first' readings"):
-        none is read-first any more, none is confirmed, and each carries the
-        text it was read from. The C-279 report stage pair is evidence only."""
+    def test_the_read_first_entries_are_confirmed_with_their_text(self):
+        """Drafted 2 October 2026 ("Draft the 10 'read first' readings") and
+        confirmed the same day ("Confirm all the readings, score the C-279
+        definition separately"): Motions 1-8 (642) stay evidence only, the
+        definition of gender identity (643) is scored on its own at +/-1."""
         divs = c5.load_stance(section="divisions")
-        drafted = ("commons-41-1-642", "commons-41-1-643", "commons-41-2-235",
-                   "senate-42-1-457865", "commons-44-1-853")
-        self.assertEqual([k for k, e in divs.items() if c5.status(e) == "unread"], [])
-        for k in drafted:
+        read = ("commons-41-1-642", "commons-41-1-643", "commons-41-2-235",
+                "senate-42-1-457865", "commons-44-1-853")
+        self.assertEqual([k for k, e in divs.items() if c5.status(e) in ("unread", "draft")], [])
+        for k in read:
             e = divs[k]
-            self.assertTrue(e.get("draft") and e.get("text") and e.get("moved_by")
+            self.assertTrue(e.get("text") and e.get("moved_by")
                             and e.get("source") and e.get("lobbies"), k)
-        self.assertEqual({c5.status(divs[k]) for k in drafted[:2]}, {"unplaceable"})
-        self.assertEqual({c5.status(divs[k]) for k in drafted[2:]}, {"draft"})
+        self.assertEqual(c5.status(divs["commons-41-1-642"]), "unplaceable")
+        self.assertEqual({c5.status(divs[k]) for k in read[1:]}, {"confirmed"})
+        self.assertEqual(c5.vote_stance(divs["commons-41-1-643"], "Yea")[0], -1)
+        self.assertEqual(c5.vote_stance(divs["commons-41-1-643"], "Nay")[0], 1)
 
     def test_c11_scores_only_the_speech_amendments(self):
         """Christopher, 3 October 2026: "C-11, the Online Streaming Act, is on
