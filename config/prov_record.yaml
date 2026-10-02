@@ -322,6 +322,30 @@ provinces:
           (defeated 17-24) and the NAYS of Motion 4 as amended (carried 26-16).
           With it unresolved both were tally gaps; each list is otherwise
           complete and both tally once it is cleared.
+      - printed: "Mr. Faigrieve"
+        member: stewart-fairgrieve
+        date: 2018-11-02
+        document: https://www.legnb.ca/content/house_business/59/1/journals/08181102e.pdf
+        verified_against: >-
+          The 59-1 compiled Journal's members page (Journal_59-1.pdf): Carleton,
+          Stewart Fairgrieve; no Faigrieve sits in the 59th Legislature. The same
+          Journal prints "Faigrieve" all three times and never "Fairgrieve".
+        why: >-
+          Printed "Mr. Faigrieve" in all three recorded divisions of 2 November
+          2018, each then a tally gap (two of them also on "Mr. LeBlanc" and
+          "Ms. LeBlanc", settled by the reviewed titles).
+      - printed: "Mr. D’Amour"
+        member: jean-claude-d-amours
+        date: 2019-05-30
+        document: https://www.legnb.ca/content/house_business/59/2/journals/31190530e.pdf
+        verified_against: >-
+          The 59-2 compiled Journal's members page (Journal_59-2.pdf):
+          Edmundston-Madawaska Centre, "Jean - Claude (JC) D’Amours"; no D'Amour
+          sits in the 59th Legislature. The division lists of the 59th print "Mr.
+          D’Amours" on every other day (29 November 2018).
+        why: >-
+          Printed "Mr. D’Amour" in both recorded divisions of 30 May 2019; each
+          was a tally gap on that label (and "Ms. LeBlanc").
     roster_rows:
       # Rows of a compiled Journal's MEMBERS OF THE LEGISLATIVE ASSEMBLY page
       # (src/ingest/prov_nb.parse_compiled_roster) that the page prints in a
@@ -483,6 +507,15 @@ provinces:
         verified_against: >-
           The 57-2 compiled Journal's members page: Rogersville-Kouchibouguac,
           Bertrand LeBlanc.
+        why: *titles_why
+      - member: monique-leblanc
+        title: "Ms."
+        document: https://www.legnb.ca/content/house_business/58/3/journals/24170214e.pdf
+        quoted: "By Ms. LeBlanc, Bill 43,"
+        verified_against: >-
+          Bill 43 of 58-3, whose bill page names its sponsor "Monique LEBLANC"
+          (legnb.ca/en/legislation/bills/58/3/43); Bill 63 of 58-3 likewise
+          (Journal of 29 March 2017, "By Ms. LeBlanc, Bill 63,").
         why: *titles_why
     roster_bridges:
       # A session whose journals listing links no compiled Journal, read

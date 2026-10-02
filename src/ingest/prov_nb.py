@@ -101,6 +101,12 @@ def _date(text, fmts=("%B %d, %Y", "%m/%d/%Y")):
     return None
 
 
+def _ascii_url(path):
+    """Percent-encode only what is not printable ASCII ('é' -> '%C3%A9'), so
+    every other URL stays exactly as before."""
+    return re.sub(r"[^\x21-\x7e]", lambda m: quote(m.group(0)), path)
+
+
 def _url(href):
     """A listing href as a URL: backslashes turned, spaces quoted, nothing
     else touched."""
@@ -993,7 +999,10 @@ def parse_bill_list(html):
                 stages.append({"stage": stage, "status": word.strip() or None,
                                "date": _date(when) if when.strip() else None})
         out.append({"number": num.group(1).strip(), "title": html_text(link.group(2)),
-                    "href": urljoin(BASE, _html.unescape(link.group(1))),
+                    # quoted: 58-2's bill pages are named by their titles,
+                    # accents and all ("...-Société-..."), and an unquoted é
+                    # crashed the request (urllib sends ASCII only)
+                    "href": urljoin(BASE, _ascii_url(_html.unescape(link.group(1)))),
                     "amended": "bill-amendment-count" in item, "stages": stages})
     return out
 
@@ -1126,6 +1135,10 @@ _MONTHS = r"(?:January|February|March|April|May|June|July|August|September|Octob
 _FURNITURE = re.compile(
     r"^\s*(?:=====PAGE|\d+\s+[\d\-–]+\s+(?:Elizabeth|Charles)\s+(?:II|III)\b.*"
     r"|\d+\s+" + _MONTHS + r"\s+\d{1,2}\s*\d{2}\s*[-–]\s*\d{2}\s+(?:Elizabeth|Charles)\s+(?:II|III)\b.*"
+    # 58-3: "April 26 65-66 Elizabeth II, 2016-2017 157" and "152 Journal of
+    # Assembly April 25"
+    r"|\d+\s+Journal of Assembly\s+" + _MONTHS + r"\s+\d{1,2}"
+    r"|" + _MONTHS + r"\s+\d{1,2}\s+\d{2}\s*[-–]\s*\d{2}\s+(?:Elizabeth|Charles)\s+(?:II|III)\b.*"
     r"|" + _MONTHS + r"\s+\d{1,2}\s+(?:\d+\s*)?Journal of Assembly(?:\s+\d+)?)\s*$")
 # "Hon. Mr. Holder", "Ms. M. Wilson"; and, in the 56th Legislature's
 # Journals, a minister with no Mr./Ms.: "Hon. S. Graham", "Hon. V. Boudreau"
@@ -1143,6 +1156,7 @@ def normalise(line):
     s = re.sub(r"\bM\s+(s|rs|r)\.", r"M\1.", s)
     s = re.sub(r"(\w)\s+-(\w)", r"\1-\2", s)
     s = re.sub(r"\bHon\.\s+Mr\s*,", "Hon. Mr.", s)
+    s = re.sub(r"\bBil l\b", "Bill", s)          # "Bil l 17" (17 November 2016)
     return re.sub(r"[ \t]+", " ", s).strip()
 
 
@@ -1407,6 +1421,13 @@ def resolve_division(raw, resolver, date, legislature, document=None):
             votes.append({"position": position, "ordinal": k, "raw_label": label, "member_key": key,
                           "how": how,
                           "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
+    # British Columbia's rule (prov_bc.settle_by_elimination): an ambiguous
+    # label whose other candidate is already placed in the same division is
+    # the one left. 59-2 prints "Ms. LeBlanc" and "Mr. LeBlanc" (Monique,
+    # Jacques); the reviewed title places "Mr. LeBlanc", and Jacques cannot
+    # vote twice.
+    from src.ingest.prov_bc import settle_by_elimination
+    settle_by_elimination(votes, resolver, date, legislature)
     ok, note = ps.tally({"Yea": raw["yeas"], "Nay": raw["nays"]}, votes)
     if raw.get("problem"):
         ok, note = False, "; ".join(x for x in (raw["problem"], note) if x)
@@ -1414,8 +1435,14 @@ def resolve_division(raw, resolver, date, legislature, document=None):
 
 
 _PRINTED_DIVISION = re.compile(r"\bon\s+the\s+following\s+recorded\s+division", re.I)
-_OWN_DATE = re.compile(r"\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+(" + _MONTHS +
-                       r")\s+(\d{1,2}),?\s+(\d{4})\b")
+# A weekday as pypdf may break it ("Thursd ay", 7 December 2017).
+_WEEKDAY = "(?:" + "|".join(r"\s?".join(d) for d in
+                            ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")) + ")"
+_DAY_TAIL = _WEEKDAY + r",?\s+(" + _MONTHS + r")\s+(\d{1,2}),?\s+(\d{4})\b"
+# "Daily sitting 19 Thursday, December 7, 2017" (57-2 on)
+_OWN_SITTING = re.compile(r"Daily\s+sitting\s+\d+\s+" + _DAY_TAIL)
+# a line that is only the day: "Wednesday, October 27, 2010" (56-4, 57-1)
+_OWN_LINE = re.compile(r"^\s*" + _DAY_TAIL + r"\.?\s*$", re.M)
 
 
 def is_french(text):
@@ -1433,8 +1460,8 @@ def journal_date(text):
     None. The listing's label is not always the file's day: 57-4 links "May
     20, 2014" to 69140521e.pdf, the Journal of 21 May, and 60-1 links "October
     4, 2022" to a Question Period transcript."""
-    head = re.sub(r"\s+", " ", (text or "")[:4000])
-    m = _OWN_DATE.search(head)
+    head = (text or "")[:4000]
+    m = _OWN_SITTING.search(re.sub(r"\s+", " ", head)) or _OWN_LINE.search(head)
     return _date("{0} {1}, {2}".format(m.group(1), m.group(2), m.group(3))) if m else None
 
 
@@ -1493,7 +1520,18 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
         ctx.conn.commit()
         return 0, 1
     own = journal_date(text)
-    if own and own != date:
+    m = _DAILY.search(url)
+    named = "20{0}-{1}-{2}".format(m.group(2)[:2], m.group(2)[2:4], m.group(2)[4:]) if m else None
+    if own and own != date and own == named and own not in (rec.get("listed") or ()):
+        # The LABEL is wrong and nothing is lost: 59-1 lists "November 3, 2018"
+        # (a Saturday) for 09181120e.pdf, "Daily sitting 9 Tuesday, November 20,
+        # 2018", a day the listing names nowhere else. Read under its own day;
+        # the label's day is stored 'ok' and empty so it is not read again.
+        ctx.log("  {0}: the listing labels the Journal of {1} as {2}; read under {1}".format(skey, own, date))
+        ps.store_sitting(ctx.conn, PROV, skey, date, url, status="ok")
+        date, skey = own, ps.sitting_key(PROV, legislature, session, own)
+        clear_sitting(ctx.conn, legislature, session, date)
+    elif own and own != date:
         # The listing files another day's Journal under this date (57-4: "May
         # 20, 2014" is 69140521e.pdf, the Journal of 21 May). Nothing is stored
         # for the day: its own record is not served.
@@ -1682,6 +1720,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
     resolver = make_resolver(ctx.conn)
     read = divs = gaps = 0
     read_dates = set()
+    listed = {r["date"] for r in listing["daily"]}
     for rec in records:
         if not ctx.refresh and sitting_done(ctx.conn, ps.sitting_key(PROV, legislature, sess, rec["date"])):
             read_dates.add(rec["date"])
@@ -1689,7 +1728,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
         if ctx.stop():
             break
         ctx.records_read += 1
-        n, g = read_sitting(ctx, legislature, sess, rec, resolver, wl)
+        n, g = read_sitting(ctx, legislature, sess, dict(rec, listed=listed), resolver, wl)
         read += 1
         divs += n
         gaps += g

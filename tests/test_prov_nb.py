@@ -616,6 +616,15 @@ class Backfill2010ListingTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_divisions WHERE date='2012-06-07'").fetchone()[0], 0)
 
 
+    def test_a_bill_page_named_with_an_accent_is_requested_in_ascii(self):
+        # 58-2 Bill 17: '...Filles-de-J&#xE9;sus-Moncton' crashed the backfill's request
+        (b,) = nb.parse_bill_list(fx("nb_bills_582_accent.html"))
+        self.assertEqual(b["href"], "https://www.legnb.ca/en/legislation/bills/58/2/17/"
+                                    "An-Act-to-Incorporate-the-Filles-de-J%C3%A9sus-Moncton")
+        self.assertTrue(b["href"].isascii())
+        self.assertEqual(b["title"], "An Act to Incorporate the Filles de Jésus Moncton")
+
+
 class Backfill2010RosterTests(unittest.TestCase):
     """The compiled Journals' members pages, 57-2 to 60-1."""
 
@@ -670,6 +679,28 @@ class Backfill2010RosterTests(unittest.TestCase):
         side = {v["member_key"]: v["position"] for v in votes}
         self.assertEqual((side["brian-gallant"], side["bruce-fitch"]), ("Yea", "Nay"))
         self.assertEqual((side["kirk-macdonald"], side["brian-macdonald"]), ("Nay", "Nay"))
+
+    def test_ms_leblanc_beside_mr_leblanc_by_title_then_elimination(self):
+        doc = "https://www.legnb.ca/content/house_business/59/2/journals/Journal_59-2.pdf"
+        p = nb.parse_compiled_roster(rows("nb_roster_592_rows.json"), reviewed=nb.load_roster_rows(), document=doc)
+        self.assertEqual(p["problems"], [])
+        conn = db.init_db(db.connect(":memory:"))
+        for m, t in nb.terms_from_compiled(p, 59, "2018-11-20", "2019-06-14"):
+            ps.upsert_member(conn, "nb", m["key"], name=m["name"], surname=m["surname"], given=m["given"])
+            ps.replace_terms(conn, "nb", m["key"], [t], "journal-59-2")
+        r = nb.make_resolver(conn)
+        day = "2018-11-29"
+        self.assertEqual(r.resolve("Mr. LeBlanc", day, 59)[0], "jacques-leblanc")     # Monique is Ms.
+        self.assertIsNone(r.resolve("Ms. LeBlanc", day, 59)[0])                       # Jacques has no title
+        # Wage sub-amendment, 29 November 2018, defeated 22-26: both LeBlancs
+        # are Yeas, so "Ms. LeBlanc" is the one left; Higgs (PC) Nay, Gallant Yea
+        divs, _ = nb.parse_journal(fx("nb_journal_181129_trim.txt"))
+        votes, ok, note = nb.resolve_division(divs[0], r, day, 59)
+        self.assertTrue(ok, note)
+        side = {v["member_key"]: (v["position"], v["how"]) for v in votes}
+        self.assertEqual(side["monique-leblanc"][0], "Yea")
+        self.assertIn("same division", side["monique-leblanc"][1])
+        self.assertEqual((side["blaine-higgs"][0], side["brian-gallant"][0]), ("Nay", "Yea"))
 
     def test_without_the_reviewed_rows_the_page_is_read_as_printed_or_not_at_all(self):
         p = nb.parse_compiled_roster(rows("nb_roster_572_rows.json"))
@@ -748,6 +779,12 @@ class Backfill2010JournalTests(unittest.TestCase):
             self.assertIn((n, "Second Reading"), got)
             self.assertIn((n, "Third Reading"), got)
 
+    def test_a_list_runs_over_the_58_3_running_head(self):
+        # 26 April 2017: "April 26 65-66 Elizabeth II, 2016-2017 157" in mid-list
+        got = {n for n, s in self.voices("nb_journal_170426_trim.txt") if s == "Third Reading"}
+        self.assertEqual(got, {"30", "32", "37", "39", "42", "44", "45", "46", "48", "49", "51", "53", "54",
+                               "55", "56"})
+
     def test_read_a_third_time_and_passed(self):
         got = self.voices("nb_journal_100223_trim.txt")
         self.assertTrue({("41", "Third Reading"), ("42", "Third Reading"), ("41", "Second Reading")} <= got)
@@ -820,6 +857,26 @@ class Backfill2010JournalTests(unittest.TestCase):
         self.assertEqual((n, gaps), (0, 1))
         self.assertEqual(conn.execute("SELECT status FROM prov_sittings").fetchone()[0], "gap")
         self.assertIn("1 recorded division(s)", ctx.gaps[0])
+
+
+class Backfill2010KnownGapTests(unittest.TestCase):
+    def setUp(self):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import prov_collect
+        self.known = prov_collect.known_gap
+
+    def test_the_record_errors_are_known_and_nothing_else_is(self):
+        self.assertTrue(self.known("nb", "nb-56-4-2010-02-04-1: tally check failed (no roster for 56-4; "
+                                         "Yea: unresolved 'Mr. Fitch'); positions not trusted"))
+        self.assertTrue(self.known("nb", "nb 57-2: the Hansard listing names no transcript for the session, "
+                                         "so no party at the vote for its 6 division day(s)"))
+        self.assertTrue(self.known("nb", "nb-57-4-2014-05-20: the listing files the Journal of 2014-05-21 under "
+                                         "2014-05-20 (u); nothing stored for the day"))
+        # a tally gap with a roster, or another day misfiled, still fails the run
+        self.assertFalse(self.known("nb", "nb-57-2-2011-12-06-1: tally check failed (Nay: unresolved "
+                                          "'Mr. MacDonald'); positions not trusted"))
+        self.assertFalse(self.known("nb", "nb-57-4-2014-05-27: the listing files the Journal of 2014-05-28 "
+                                          "under 2014-05-27 (u); nothing stored for the day"))
 
 
 class Backfill2010RepairTests(unittest.TestCase):
