@@ -1551,6 +1551,15 @@ TABLES = (
     "ca_committee_meetings",
     "ca_testimony",
     "ca_senate_sittings",
+    # Canadian provinces (tools/prov_collect.py), created by
+    # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
+    "prov_members",
+    "prov_member_terms",
+    "prov_divisions",
+    "prov_votes",
+    "prov_bills",
+    "prov_sittings",
+    "prov_speeches",
     "de_members",
     # The Bundestag's own register, a different id space from
     # abgeordnetenwatch's de_members above; the two join by name, never id.
@@ -1808,4 +1817,6 @@ def init_db(conn):
     # carries them and db.TABLES stays true.
     from src import ca_store
     ca_store.ensure_schema(conn)
+    from src import prov_store
+    prov_store.ensure_schema(conn)
     return conn

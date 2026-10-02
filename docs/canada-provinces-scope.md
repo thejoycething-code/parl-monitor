@@ -56,6 +56,91 @@ Divisions per year are measured where a sample was taken and marked "est." other
 
 ---
 
+## Built
+
+Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads their tables. Run one province at a time, into a scratch store first:
+
+    python3 tools/prov_collect.py --prov ab --session 31-1 --since 2024-10-28 --until 2024-12-05 --db /tmp/prov.db
+
+**Live smoke runs (2 October 2026, one scratch store, from the probe IP):**
+
+| Province | Window | Records read | Recorded divisions (tally ok) | Voice decisions | Votes (unresolved) | Bills (on our ground) | Gaps |
+|---|---|---|---|---|---|---|---|
+| Alberta 31-1 | 28 Oct–5 Dec 2024 | 19 V&P | 40 (40) | 36 | 2,789 (0) | 75, all texts read (6) | 0 |
+| Saskatchewan 29-3 | October 2023 | 9 Minutes | 12 (12) | 0 | 550 (0) | 1 (1) | 0 |
+| British Columbia 43-2 | 12–28 Feb 2026 | 12 transcripts | 5 (5) | 13 | 442 (0) | 46 incl. 2 unnumbered, 44 texts (3) | 0 |
+
+- **Alberta:** 91 members with 116 dated terms; every bill-page "passed on division" stage matched a parsed division.
+- **Saskatchewan:** 61 members from the day covers. Bill 137 has eleven divisions on our ground.
+- **British Columbia:** 93 members. The whole session lists 73 transcripts (dry run).
+- **5CA:** `tools/prov_5ca.py --all` wrote 4 Alberta, 1 Saskatchewan and 4 BC evidence sheets, with nobody placed (the stance file is empty).
+
+### Foundation (step 0)
+
+- **Tables** (`src/prov_store.py`, in `db.TABLES`, created by `db.init_db`): `prov_members`, `prov_member_terms`, `prov_divisions`, `prov_votes`, `prov_bills`, `prov_sittings`, `prov_speeches`, keyed by `prov`.
+  - The sighting column is `last_read`, not `last_seen`: `tests/test_coverage.py` would otherwise require a `tools/coverage.py` entry for a feed nothing schedules. Rename it when a workflow runs these.
+  - `prov_divisions.kind` is `recorded` or `voice`. A voice decision has NULL totals, NULL `positions_ok` and no votes, so "passed on voice, no member record" can be said.
+- **Name resolution** (`src/prov_names.py`): against the roster terms valid **on the day** of the division, unique-or-nothing. It handles surnames, ridings (wrapped or not), initials in both orders, honorifics, full names, accents and two-word surnames. An unresolved label is stored with a NULL member and its reason in `prov_votes.how`.
+- **The tally check** (`prov_store.tally`): resolved names must account for the printed totals one member per label. Otherwise `positions_ok = 0`, a row in `gaps`, the sitting's status is `gap`, and the record is read again on the next run. Only `positions_ok = 1` places anyone.
+  - It earned its keep on the first live run: a member-page parsing bug gave every Alberta member wrong dates, and all 40 divisions came back as gaps instead of 2,789 silently wrong positions.
+- **Classification** (`src/prov_classify.py`, `config/watchlist-prov.yaml`): bill TEXT, per passage, with PDF line breaks reflowed and statute names masked. Watched bills are matched by KEY only. Measured terms the taxonomy lacks: preferred names and pronouns, parental notification, Policy 713, SOGI 123, "Parents' Bill of Rights", mixed-sex leagues, the s.33 formula "operate notwithstanding".
+- **Runner** (`tools/prov_collect.py --prov <code>`): `--session`, `--since/--until`, `--limit` (records), `--budget-seconds`, `--dry-run`, `--refresh`, `--no-roster`, `--no-bills`. It honours robots.txt (a disallowed URL is a gap; a Crawl-delay raises the throttle), never goes below 1.1 s per host, and writes gaps through `db.record_gaps`. Exit 1 on any gap.
+- **The 5CA** (`tools/prov_5ca.py --prov ab --area 3`, `config/prov_stance.yaml`): the mirror of `tools/ca_5ca.py`.
+  - The stance file ships EMPTY, so every provincial sheet is an evidence list. A reading starts `draft: true` and places nobody until that line is deleted.
+  - Only a division whose tally check passed can place anyone. An untrusted division is named at the foot of the sheet and its positions are never shown.
+  - Voice decisions on the area are listed as "Passed on voice, no member record".
+  - NWT and Nunavut are refused, because they are consensus legislatures.
+  - The suggested first readings to draft are listed in the stance file's header.
+
+### Alberta (step 1): `src/ingest/prov_ab.py`
+
+- **What it does:**
+  - **Roster:** the roster listing for the legislature, then every member's information page. Terms are the dated party affiliations intersected with each spell of service, so `party_at_vote` is the party on the day. Pete Guthrie's four parties in 2025 are four terms.
+  - **Bills:** the session's bills listing, every bill page (stages, dates, "passed" or "passed on division", sponsor by mid) and every bill-text PDF, classified per passage.
+  - **Voice decisions:** a stage marked plain "passed" is stored as a voice decision.
+  - **Divisions:** Votes and Proceedings PDFs, file names taken from the session listing (backslashes turned, nothing constructed). Divisions are parsed with question, stage, bill, the record's own result words and printed totals.
+  - **Cross-check:** every "passed on division" stage on a day read must match a recorded division on that bill, or it is a gap.
+- **Proof reproduced:** on 3 December 2024, third readings of Bill 26 (47–35, area 3), Bill 27 (47–33, area 6) and Bill 29 (47–33, area 5) all had their tallies matched. Smith and LaGrange voted Yea; Notley and Gray voted Nay. Party at the vote was United Conservative or Alberta NDP.
+- **Known limits:**
+  - Hansard (speeches) is not read.
+  - The V&P parser knows the 31st-Legislature layout; older layouts are untested and will show up as tally gaps, not wrong votes.
+  - A division's bill is the last bill named before it. Committee of the Whole sittings that take several bills together could attach a division to the wrong one.
+  - The taxonomy's tier-1 "named person" (added for Holyrood) tags Alberta's Professional Governance Act (Bill 40) as area 6. That is a false positive, and the fix is a taxonomy decision.
+
+### Saskatchewan (step 2): `src/ingest/prov_sk.py`
+
+- **What it does:**
+  - **Listing:** the Legislative Meeting Archive, filtered to the Assembly and the date window. It gives each day's Minutes (PDF, plus HTML from the 30th Legislature) and Debates, with their real names. Those names cover both path roots, both date formats, the "Revised" suffixes and the prorogation day that carries Minutes for two sessions.
+  - **Roster, dated to the day:** for every day with a recorded division, the second page of that day's Hansard PDF, which lists every member with riding and party *as at that sitting*, plus the standings. Each term covers exactly the days it was seen on, and the standings are the roster's own tally check.
+  - **Minutes:** the 30L HTML tables (full names) and the 29L bilingual PDFs (surnames, ridings wrapping across lines). "It was agreed to and the said bill was accordingly read a second time" is stored as a voice decision.
+- **Proof reproduced:** Bill 137 third reading on 20 October 2023, 40–12, tally matched. Moe (SP) voted Yea and Beck (NDP) voted Nay. Both Harrisons, both McLeods, both Youngs and both Rosses were told apart by riding.
+  - The live run of October 2023 also read first reading (12 Oct, 37–12), second reading (19 Oct, 37–11) and seven Committee-of-the-Whole clause and amendment divisions on the same bill. All tallies matched.
+- **Known limits:**
+  - Bill text is not read. There is no per-bill page; the bill text is on publications.saskatchewan.ca and progress-of-bills is a session PDF. Bills are rows made from the Minutes' own "Bill No. N — title" lines, classified on title, terms and key.
+  - Stage is best-effort from headings and "be now read a … time".
+  - Hansard speeches are not read.
+  - Without `--since`, a run reads the last 60 days and says so.
+
+### British Columbia (step 3): `src/ingest/prov_bc.py`
+
+- **What it does:**
+  - **Sessions:** from the LIMS GraphQL API (POST only). `43-2` becomes id 206 and path code `43rd2nd`.
+  - **Roster:** `allMemberParliaments`, with by-election and resignation dates as term bounds.
+  - **Bills:** the progress-of-bills JSON, which gives reading dates, sponsor memberId and the text-file paths. Texts are served under `lims.leg.bc.ca/pdms` and classified per passage.
+    - The trap is guarded: a reply whose file paths do not name the session's code (an unknown key answers 2006 data) is refused as a gap.
+  - **Transcripts:** the House files in the session's debates JSON listing.
+  - **Divisions:** each `DivisionTable` in a transcript, with the Speaker's question, the StyleLine result, the Subject-Heading and the debate passages under it, all used for classification.
+  - **Unnumbered bills:** a bill refused first reading is stored from the transcript as `bc-<leg>-<sess>/x-<slug>`.
+  - **Voice decisions:** a reading date on a day whose transcripts were ALL read, with no recorded division on that bill and stage, is stored as a voice decision.
+- **Proof reproduced:** the Gender Ideology and Child Protection Act was refused first reading on 19 February 2026, 38–49, tally matched. Rustad, Armstrong and Brodie voted Yea; Eby, Dix and Sharma voted Nay. The two Neufelds and two Andersons were told apart by initial. The bill is stored unnumbered with areas 3 and 6.
+- **Known limits:**
+  - **Party is NOT stored at the vote for BC.** The API has one party per member per parliament and no dates. Armstrong and Brodie, who left the Conservative caucus in 2025, show Independent for the whole parliament, so `party_dated = 0` and `party_at_vote` stays NULL.
+    - A dated source is needed: the caucus history, or the per-member Voting Records index read against a dated caucus list.
+  - The per-member Voting Records index (`Index/43rd2nd/2026-Votes?.htm`) is not read. It would give a second, independent tally check and each vote's stage label.
+  - Hansard speeches are not stored.
+
+---
+
 ## Per-legislature detail
 
 ### Alberta (assembly.ab.ca): value 5, difficulty 3
