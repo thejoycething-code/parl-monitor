@@ -1,0 +1,46 @@
+# Canadian PROVINCIAL legislatures: what a vote or a sponsorship MEANS,
+# written by a human.
+#
+# The provincial mirror of config/ca_stance.yaml, under the same rule:
+# reading a division's direction is the campaigner's judgement, and no tool
+# estimates it. tools/prov_5ca.py applies these lines; it never invents one.
+#
+# EMPTY ON PURPOSE (2 October 2026). The Alberta, Saskatchewan and BC
+# collectors are built, but no reading has been drafted, reviewed or
+# confirmed, so every provincial 5CA sheet is an EVIDENCE LIST: every column
+# blank, every vote listed with its date, question and result.
+#
+# HOW AN ENTRY PLACES PEOPLE. An entry carrying `draft: true` places NOBODY.
+# Every entry starts as a draft; to confirm a reading, delete its `draft:
+# true` line. Three kinds of entry, exactly as for Canada:
+#   * `yea:` / `nay:` on the stance scale (-2..2), with why_yea / why_nay
+#     lines -- a reading that, once confirmed, places every member who voted;
+#   * `placeable: false` with a `reason:` -- unanimous, or procedure;
+#     evidence only, for ever;
+#   * `read_first:` with no values -- the text was not read yet.
+#
+# ONLY A TRUSTED DIVISION CAN PLACE ANYONE. A division whose resolved names
+# did not account for its printed totals (prov_divisions.positions_ok = 0,
+# the tally check) places nobody whatever its reading says, and a VOICE
+# decision has no member record at all: the sheet says "passed on voice, no
+# member record", never an empty column.
+#
+# Keys are the store's: divisions '<prov>-<leg>-<sess>-<date>-<seq>' (for
+# example ab-31-1-2024-12-03-2, the Bill 26 third reading), bills
+# '<prov>-<leg>-<sess>/<number>' (or '/x-<slug>' for a bill refused first
+# reading). Sponsorship places only for a private member's bill: a minister
+# sponsoring a government bill is office, not choice.
+#
+# Consensus legislatures (nt, nu) have no parties and cabinet abstains as a
+# bloc: no 5CA there unless an area has at least two recorded votes, and a
+# minister's abstention scores 0, never soft opposition (scope document).
+#
+# Suggested first readings for Christopher to draft, from the built proofs:
+#   ab-31-1-2024-12-03-2 (Bill 26, third reading, 47-35), -4 (Bill 27), -6
+#   (Bill 29); sk-29-3-2023-10-20-1 (Bill 137, third reading, 40-12);
+#   bc-43-2-2026-02-19-119.1 (Gender Ideology and Child Protection Act,
+#   first reading refused 38-49).
+
+divisions: []
+
+bills: []

@@ -72,7 +72,12 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
   - It earned its keep on the first live run: a member-page parsing bug gave every Alberta member wrong dates, and all 40 divisions came back as gaps instead of 2,789 silently wrong positions.
 - **Classification** (`src/prov_classify.py`, `config/watchlist-prov.yaml`): bill TEXT, per passage, with PDF line breaks reflowed and statute names masked. Watched bills are matched by KEY only. Measured terms the taxonomy lacks: preferred names and pronouns, parental notification, Policy 713, SOGI 123, "Parents' Bill of Rights", mixed-sex leagues, the s.33 formula "operate notwithstanding".
 - **Runner** (`tools/prov_collect.py --prov <code>`): `--session`, `--since/--until`, `--limit` (records), `--budget-seconds`, `--dry-run`, `--refresh`, `--no-roster`, `--no-bills`. It honours robots.txt (a disallowed URL is a gap; a Crawl-delay raises the throttle), never goes below 1.1 s per host, and writes gaps through `db.record_gaps`. Exit 1 on any gap.
-- **Not built:** `config/prov_stance.yaml` and `tools/prov_5ca.py`. The 5CA mirror of `ca_stance.yaml` is the next step; every reading should start `draft: true`.
+- **The 5CA** (`tools/prov_5ca.py --prov ab --area 3`, `config/prov_stance.yaml`): the mirror of `tools/ca_5ca.py`.
+  - The stance file ships EMPTY, so every provincial sheet is an evidence list. A reading starts `draft: true` and places nobody until that line is deleted.
+  - Only a division whose tally check passed can place anyone. An untrusted division is named at the foot of the sheet and its positions are never shown.
+  - Voice decisions on the area are listed as "Passed on voice, no member record".
+  - NWT and Nunavut are refused, because they are consensus legislatures.
+  - The suggested first readings to draft are listed in the stance file's header.
 
 ### Alberta (step 1): `src/ingest/prov_ab.py`
 
