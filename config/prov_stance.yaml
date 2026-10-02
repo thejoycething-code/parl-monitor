@@ -9,6 +9,15 @@
 # Christopher: "Confirm all the readings." The read-first entries carry no
 # values and place nobody until their text is read.
 #
+# DRAFTS, 2 October 2026, UNCONFIRMED. The five read-first entries (Alberta
+# Bill 27 amendments -3, -4 and -5 of 27 November 2024; Saskatchewan Bill 137
+# amendment sk-29-3-2023-10-19-6; BC Human Rights Code Repeal Act first
+# reading) were read and drafted by Claude (Christopher: "Draft the 10 'read
+# first' readings"). Each now carries `text:`, `moved_by:`, `source:`,
+# `lobbies:` and `draft: true`: it places nobody until he deletes that line.
+# None remains read-first. The BC bill was never printed, so its entry is
+# read from the member's first-reading statement.
+#
 # HOW AN ENTRY PLACES PEOPLE. An entry carrying `draft: true` places NOBODY.
 # Every entry starts as a draft; to confirm a reading, delete its `draft:
 # true` line. Three kinds of entry, exactly as for Canada:
@@ -95,18 +104,126 @@ divisions:
     why_yea: "Voted to pass the law requiring parental notification and consent for an under-16's new name or pronouns at school and parental opt-in to sex education."
     nay: -2
     why_nay: "Voted against the law requiring parental notification and consent on names, pronouns and sex education."
+  # The three Committee of the Whole amendments below were READ and DRAFTED on
+  # 2 October 2026 (Christopher: "Draft the 10 'read first' readings") from
+  # the Votes and Proceedings of 27 November 2024, against Bill 27 as
+  # introduced. UNCONFIRMED: each carries `draft: true`. The day's divisions
+  # in order are Bill 24 third reading (1), Bill 26 clauses (2), these three
+  # (3-5) and the Bill 27 clauses (6); the V&P tallies match the titles, but
+  # the store's seq numbers were not checked (prov tables empty locally).
+  # Lobbies are counted from the printed V&P lists, party from the 31st
+  # Legislature's dated terms (tests/fixtures/prov/ab_terms_31.json).
   - key: ab-31-1-2024-11-27-3
-    read_first: true
-    title: "Bill 27 -- Pancholi amendment (notify the student first)"
-    reason: "The board would tell the student of its obligations, and proceed only if the student chose to. Whether that dilutes parental notification needs the bill's own words beside it; no value proposed."
+    draft: true
+    title: "Bill 27 -- Pancholi amendment A1 (tell the student first; notify parents only if the student proceeds)"
+    dated: 2024-11-27
+    result: "Defeated 32-44"
+    lobbies: "Yea: NDP 32. Nay: UCP 44 (counted from the V&P)"
+    moved_by: "Rakhi Pancholi (NDP, Edmonton-Whitemud), who voted Yea; the minister, Demetrios Nicolaides, voted Nay"
+    source: >
+      Votes and Proceedings, 27 November 2024, pp. 5-6
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241127_1200_01_vp.pdf);
+      Sessional Paper 678/2023-24; read against s.33.2 of Bill 27 as
+      introduced
+    text: >
+      that the Bill be amended in section 9, in the proposed section 33.2(2),
+      by striking out "the board shall" and substituting "the board shall
+      notify the student of the board's obligations under clauses (a) and (b)
+      and, if the student decides to proceed with the request, shall".
+    # TEXT READ 2 October 2026 (draft). Under the bill, a pupil's request for
+    # a new preferred name or pronouns itself triggers notice to the parent
+    # (and, under 16, the parent's consent). Under A1 the pupil is warned
+    # first and can withdraw, and then the parent is never told the request
+    # was made. The name still could not be used without notice (s.33.2(3)
+    # is untouched), so this is the mildest of the three: -1/+1, as for the
+    # Bill 26 and Bill 137 opposition amendments.
+    yea: -1
+    why_yea: "Voted to let a pupil withdraw a request for a new name or pronouns before the school tells the parents, so parents learn of it only if the pupil goes ahead."
+    nay: 1
+    why_nay: "Voted against letting a pupil's request for a new name or pronouns be kept from the parents by withdrawing it once warned."
   - key: ab-31-1-2024-11-27-4
-    read_first: true
-    title: "Bill 27 -- Committee amendment on parental consent forms (32-44)"
-    reason: "The stored text is the tail of the amendment and the mover is not in it; read the full amendment before proposing a side."
+    draft: true
+    title: "Bill 27 -- Pancholi amendment A2 (parental consent for sexuality instruction only if a board's policies require it)"
+    dated: 2024-11-27
+    result: "Defeated 32-44"
+    lobbies: "Yea: NDP 32. Nay: UCP 44 (counted from the V&P)"
+    moved_by: "Rakhi Pancholi (NDP, Edmonton-Whitemud), who voted Yea; Nicolaides voted Nay"
+    source: >
+      Votes and Proceedings, 27 November 2024, pp. 6-8 (same PDF); Sessional
+      Paper 679/2023-24; read against ss.58.11 and 58.12 of Bill 27 as
+      introduced
+    text: >
+      that the Bill be amended in section 12 as follows: (a) in the proposed
+      section 58.11 as follows: (i) in subsection (1) by striking out "provide
+      notice to, and seek the consent of" and substituting "provide notice to
+      and, if required by the policies, seek the consent of"; [...] (iii) in
+      subsection (4) by striking out "Where no consent has been provided
+      under this section in respect of a student" and substituting "If a
+      parent's consent is required under this section in respect of a student
+      and that consent is not provided, or if a parent's consent is not
+      required in respect of a student and the parent makes a signed written
+      request that the student be excluded from all or part of the
+      instruction, course or program of study or use of instructional
+      materials"; (b) in the proposed section 58.12 [...] (C) by adding the
+      following immediately after subclause (ii): (ii.1) whether the board is
+      required to seek a parent's consent under section 58.11(1);
+    # TEXT READ 2 October 2026 (draft). The stored text was the tail of this
+    # amendment; the V&P prints it whole and names the mover. It turns the
+    # bill's parental
+    # OPT-IN for instruction dealing "primarily and explicitly with gender
+    # identity, sexual orientation or human sexuality" into a choice for each
+    # board: where its policies do not require consent, the parent is only
+    # notified and must ask in writing to withdraw the child (opt-out). The
+    # V&P records the voice vote as "agreed to"; the division defeated it
+    # (Sessional Paper 679: "Defeated on division").
+    yea: -1
+    why_yea: "Voted to let each school board decide whether parents must opt in to sexuality and gender-identity instruction, leaving parents elsewhere only an opt-out."
+    nay: 1
+    why_nay: "Voted to keep parental opt-in consent for all school instruction on gender identity, sexual orientation and human sexuality."
   - key: ab-31-1-2024-11-27-5
-    read_first: true
-    title: "Bill 27 -- Committee amendment on preferred names and pronouns (43-32)"
-    reason: "A government-side amendment on when a new preferred name or pronoun may be used; read the full text before proposing a side."
+    draft: true
+    title: "Bill 27 -- Government amendment A3 (religious instruction exempted; names and pronouns clause restated)"
+    dated: 2024-11-27
+    result: "Agreed 43-32"
+    lobbies: "Yea: UCP 43. Nay: NDP 32 (counted from the V&P)"
+    moved_by: "Demetrios Nicolaides (UCP; Minister of Education, the bill's sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 27 November 2024, pp. 8-10 (same PDF); Sessional
+      Paper 680/2023-24; read against ss.18.1 and 33.2 of Bill 27 as
+      introduced
+    text: >
+      A Section 7 is amended in the proposed section 18.1 (a) in subsection
+      (2) by striking out "A board" and substituting "Subject to subsection
+      (3.1), a board"; (b) by adding the following after subsection (3):
+      (3.1) Subsection (2) does not apply where the learning and teaching
+      resources are used or provided to provide religious instruction. [...]
+      B Section 9 is amended in the proposed section 33.2 (a) by striking out
+      subsection (2) and substituting the following: (2) Subject to
+      subsection (4), if a student requests that a new preferred name or
+      pronouns be used by teachers, teacher leaders and other school staff
+      when referring to the student in school, the board shall notify the
+      student's parent of the request. (b) in subsection (3) [...] (b) in the
+      case of a student who is under 16 years of age, (i) until the student's
+      parent is notified under subsection (2), and (ii) unless the parent
+      provides consent for the new preferred name or pronouns to be used by
+      teachers, teacher leaders and other school staff when referring to the
+      student in school.
+    # TEXT READ 2 October 2026 (draft). Part A frees religious instruction
+    # from the rule that resources dealing "primarily and explicitly with
+    # gender identity, sexual orientation or human sexuality" need the
+    # Minister's approval (an outside provider of it still needs approval):
+    # religious freedom for faith-based and Catholic schools. Part B keeps
+    # the bill's rule -- every parent notified, under-16s need the parent's
+    # consent -- and only moves the duty from the board "seeking" consent to
+    # the parent "providing" it. Nothing on our ground is weakened, so Yea is
+    # our side. +/-1: it split exactly as the Bill 27 clause vote (6, 44-32),
+    # and the readings carry the bill. ALTERNATIVE for Christopher:
+    # placeable: false on that ground, if he would rather the government's
+    # drafting amendments not score at all.
+    yea: 1
+    why_yea: "Voted to exempt religious instruction from ministerial approval of sexuality and gender-identity resources, and for parental notice and under-16 consent on new names and pronouns."
+    nay: -1
+    why_nay: "Voted against exempting religious instruction from ministerial approval of sexuality resources, and against the restated parental notice and consent rule on names and pronouns."
   - key: ab-31-1-2024-11-26-2
     title: "Bill 29, Fairness and Safety in Sport Act -- second reading"
     dated: 2024-11-26
@@ -171,9 +288,34 @@ divisions:
     nay: 1
     why_nay: "Voted against letting school professionals waive parental consent on a pupil's new name or pronoun."
   - key: sk-29-3-2023-10-19-6
-    read_first: true
-    title: "Bill 137 -- amendment for a parent-engagement strategy (11-33)"
-    reason: "An opposition amendment requiring the minister to consult on a parent-engagement strategy; whether it was offered instead of or beside the consent clause needs the full text."
+    draft: true
+    placeable: false
+    title: "Bill 137 -- Love amendment adding a parental engagement strategy (new s.197.5)"
+    dated: 2023-10-19
+    result: "Negatived 11-33"
+    lobbies: "Yea: NDP 11. Nay: Saskatchewan Party 32, Ind. 1 (Nadine Wilson) (counted from the Minutes; party from the Hansard member list of 20 October 2023)"
+    moved_by: "Matt Love (NDP, Saskatoon Eastview), who voted Yea"
+    source: >
+      Minutes (Votes and Proceedings), 19 October 2023, pp. 5-6
+      (docs.legassembly.sk.ca/legdocs/Assembly/Minutes/29L3S/231019Minutes.pdf)
+    text: >
+      In Clause 4 of the printed Bill, insert the following subsection after
+      proposed section 197.4: "Parental Engagement Strategy 197.5(1) The
+      Ministry shall develop a parental engagement strategy to enhance
+      parental engagement in the delivery of education in the province within
+      one year of this section coming into force. (2) In developing the
+      parental engagement strategy, the Ministry must facilitate consultation
+      with parents, teachers, school community councils, and school
+      divisions. (3) The parental engagement strategy shall be reviewed on an
+      annual basis and the review must include consultations with parents,
+      teachers, school community councils, and school divisions."
+    reason: >
+      TEXT READ 2 October 2026 (draft). It was offered BESIDE the consent
+      clause, not instead of it: a new s.197.5 inserted after s.197.4, leaving
+      the parental-consent rule untouched. A consultation strategy neither
+      strengthens nor weakens parental consent, so neither lobby is on our
+      ground; and it split exactly as the readings (NDP 11 against the
+      government 33), which carry Bill 137. Evidence only.
   - key: sk-29-3-2023-10-19-2
     placeable: false
     title: "Bill 137 -- clause votes in Committee of the Whole (19 October 2023)"
@@ -209,8 +351,50 @@ divisions:
     why_nay: "Voted to refuse the Gender Ideology and Child Protection Act even a first reading."
     note: "Introduced by Tara Armstrong. Refusing first reading is rare in BC; the House voted it down before any debate."
   - key: bc-43-2-2026-02-26-126.1
-    read_first: true
-    title: "Human Rights Code Repeal Act -- first reading (refused 37-50)"
-    reason: "Introduced by Tara Armstrong; tagged free speech. Its text has not been read, so no side is proposed."
+    draft: true
+    title: "Human Rights Code Repeal Act -- first reading (refused)"
+    dated: 2026-02-26
+    result: "Negatived 37-50"
+    lobbies: >
+      Yea 37: Conservative 25, Independent 12 (Armstrong, Brodie, Kealy and
+      nine others). Nay 50: NDP 47, Green 2, Independent 1 (Sturko). Counted
+      from the Hansard division list; party is the LIMS API's, which is
+      undated (one per parliament, today's caucus), so the Conservative /
+      Independent line is NOT party at the vote.
+    moved_by: "Tara Armstrong (Kelowna–Lake Country–Coldstream), who voted Yea"
+    source: >
+      Hansard, 26 February 2026 a.m., issue 126
+      (lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260226am-Hansard-n126.html).
+      THE BILL WAS NEVER PRINTED: refused first reading, it has no number and
+      is absent from the session's progress-of-bills JSON
+      (lims.leg.bc.ca/pdms/bills/progress-of-bills/206), so the only account
+      of its content is the member's first-reading statement.
+    text: >
+      Tara Armstrong: I move that a bill intituled Human Rights Code Repeal
+      Act, of which notice has been given in my name on the order paper, be
+      introduced and read a first time now. The purpose of this bill is to
+      end the assault on freedom of speech by our Human Rights Tribunal. [...]
+      It will abolish the Human Rights Tribunal, a kangaroo court, and repeal
+      the human rights code that the Left is using to punish and profit from
+      anyone who doesn't adopt their views. The bill will terminate the
+      position of a Human Rights Commissioner, who makes over $300,000 a year
+      to police speech, and it will invalidate any outstanding orders made by
+      the tribunal against Canadians like Mr. Neufeld.
+    # TEXT READ 2 October 2026 (draft), from the statement: no bill text
+    # exists. It answers what she called the Tribunal's fine on Barry Neufeld
+    # the week before, for "refusing to believe that a man could become a
+    # woman". +/-1, as for the Gender Ideology and Child
+    # Protection Act (119.1): first reading is leave to introduce, not the
+    # principle. FLAG FOR CHRISTOPHER: the bill repeals the WHOLE Code --
+    # including its protection against discrimination on religion -- so a
+    # Nay may be a vote to keep anti-discrimination law rather than against
+    # free speech (Elenore Sturko, shown Independent, voted Nay). If that
+    # weighs, drop the `nay` value and let only the Yea place, as on the
+    # C-62 reasoned amendment (commons-44-1-640).
+    yea: 1
+    why_yea: "Voted to let the Human Rights Code Repeal Act be introduced, a bill to abolish the Human Rights Tribunal after its fine on Barry Neufeld (+1: first reading is leave to introduce, not the bill's principle)."
+    nay: -1
+    why_nay: "Voted to refuse the Human Rights Code Repeal Act even a first reading."
+    note: "Introduced by Tara Armstrong a week after the Gender Ideology and Child Protection Act was refused first reading; tagged free speech."
 
 bills: []
