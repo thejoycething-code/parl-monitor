@@ -1560,6 +1560,7 @@ TABLES = (
     "prov_bills",
     "prov_sittings",
     "prov_speeches",
+    "prov_speech_sittings",
     "ca_judgments",
     "ca_leave",
     "de_members",

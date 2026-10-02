@@ -15,8 +15,11 @@ modules stay parsers plus a short `collect()`:
   * the gaps collected on the way, written once at the end through
     db.record_gaps so a run log is never the only record.
 
-Nothing is archived to data/raw: provincial PDFs run to a megabyte each and
-the URL stored on every row is the provenance (as for the Canada Gazette).
+The vote collectors archive nothing to data/raw: provincial PDFs run to a
+megabyte each and the URL stored on every row is the provenance (as for the
+Canada Gazette). The Hansard readers (src/prov_speeches.py) DO archive each
+day's transcript, by passing archive=True: a speech is stored only when it
+is on our ground, so the raw day is the only record of everything else said.
 """
 
 from __future__ import annotations
@@ -127,21 +130,21 @@ class Context:
             return False
         return True
 
-    def text(self, url, slug, encoding=None):
+    def text(self, url, slug, encoding=None, archive=False):
         if not self._guard(url):
             return None
         try:
-            return self.client.get_text(url, self.feed, slug, archive=False,
+            return self.client.get_text(url, self.feed, slug, archive=archive,
                                         fallback_encoding=encoding)
         except FetchError as exc:
             self.gap("{0}: {1}".format(url, exc.cause))
             return None
 
-    def bytes(self, url, slug):
+    def bytes(self, url, slug, archive=False):
         if not self._guard(url):
             return None
         try:
-            return self.client.get_bytes(url, self.feed, slug, archive=False)
+            return self.client.get_bytes(url, self.feed, slug, archive=archive)
         except FetchError as exc:
             self.gap("{0}: {1}".format(url, exc.cause))
             return None

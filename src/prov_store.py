@@ -159,26 +159,73 @@ SCHEMA = (
         read_at      TEXT,
         status       TEXT                -- 'ok', 'gap' (a tally failed) or 'unreadable'
     )""",
+    # Hansard speeches (src/prov_speeches.py, tools/prov_speeches.py, 2 October
+    # 2026). ONLY SPEECHES ON OUR GROUND ARE STORED, as in ca_speeches; every
+    # day read gets a prov_speech_sittings row with its totals whatever it held.
     """CREATE TABLE IF NOT EXISTS prov_speeches (
-        speech_id    TEXT PRIMARY KEY,
+        speech_id    TEXT PRIMARY KEY,   -- '<sitting_key>-<seq>': seq counts every turn, chair included
         prov         TEXT NOT NULL,
-        sitting_key  TEXT,
+        sitting_key  TEXT,               -- prov_speech_sittings.sitting_key
         date         TEXT,
-        subject      TEXT,
-        bill_key     TEXT,
+        subject      TEXT,               -- the debate heading the speech sits under
+        bill_key     TEXT,               -- prov_bills.bill_key, from the heading, never from the speech
         member_key   TEXT,               -- NULL when unresolved; never guessed
-        speaker_label TEXT,
-        language     TEXT,
+        speaker_label TEXT,              -- exactly as printed
+        language     TEXT,               -- 'en' or 'fr'
         text         TEXT,
         areas        TEXT,
         excerpt      TEXT,
-        first_seen   TEXT
+        first_seen   TEXT,
+        legislature  INTEGER,
+        session      INTEGER,
+        seq          INTEGER,
+        rubric       TEXT,               -- 'Oral Questions', 'Orders of the Day', ...
+        how          TEXT,               -- how the speaker resolved, or why not
+        matched_terms TEXT,
+        tier         INTEGER,
+        source_url   TEXT
     )""",
+    "CREATE INDEX IF NOT EXISTS prov_speeches_member ON prov_speeches (prov, member_key)",
+    # One row per Hansard day (or part) READ for speeches. Kept apart from
+    # prov_sittings on purpose: tools/prov_collect.py resumes the VOTE
+    # collectors from prov_sittings and skips a record URL already read
+    # there, and British Columbia and Newfoundland read divisions from the
+    # very Hansard file read here -- a shared table would let one reader
+    # mark the other's work done. No sighting column: written once per day.
+    """CREATE TABLE IF NOT EXISTS prov_speech_sittings (
+        sitting_key  TEXT PRIMARY KEY,   -- '<prov>-<leg>-<sess>-<date>[-<part>]'
+        prov         TEXT NOT NULL,
+        legislature  INTEGER,
+        session      INTEGER,
+        date         TEXT,
+        record_url   TEXT,
+        turns        INTEGER,            -- every speaker turn in the day
+        chair        INTEGER,            -- presiding officer and collective labels: counted, not stored
+        members      INTEGER,            -- the other turns
+        resolved     INTEGER,            -- of those, resolved to a prov_members key
+        stored       INTEGER,            -- speeches on our ground stored
+        unresolved   INTEGER,            -- of those, stored with no member_key
+        chars        INTEGER,
+        read_at      TEXT,
+        status       TEXT,               -- 'ok', 'gap' (read, but something was owed) or 'unreadable'
+        note         TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS prov_speech_sittings_prov_date ON prov_speech_sittings (prov, date)",
 )
 
 # page_url (2 October 2026, Quebec): the member page a roster gap is
 # completed from (prov_qc.complete_members) -- linked from depcir, never built.
-ADDED_COLUMNS = (("prov_members", "page_url", "TEXT"),)
+# prov_speeches' columns after the first eight (2 October 2026): the table
+# shipped empty from the foundation, and a store created then carries only those.
+ADDED_COLUMNS = (("prov_members", "page_url", "TEXT"),
+                 ("prov_speeches", "legislature", "INTEGER"),
+                 ("prov_speeches", "session", "INTEGER"),
+                 ("prov_speeches", "seq", "INTEGER"),
+                 ("prov_speeches", "rubric", "TEXT"),
+                 ("prov_speeches", "how", "TEXT"),
+                 ("prov_speeches", "matched_terms", "TEXT"),
+                 ("prov_speeches", "tier", "INTEGER"),
+                 ("prov_speeches", "source_url", "TEXT"))
 
 
 # The sighting column's old name (before the Provinces weekly, 3 October 2026).
