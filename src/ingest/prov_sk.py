@@ -50,6 +50,21 @@ CURRENT_SESSION = "30-2"
 BASE = "https://www.legassembly.sk.ca"
 ARCHIVE = BASE + "/legislative-business/archive/?Start={0}&End={1}&Committee=280140000"
 DEFAULT_WINDOW_DAYS = 60
+LISTING_PAGE_CAP = 60          # per calendar-year window of the archive listing
+# The archive lists records by DATE across every session, so a window needs
+# no session list: tools/prov_collect.py --all-sessions passes the window on.
+DATE_DRIVEN = True
+
+
+def year_windows(since, until):
+    """[(since, until)] cut at each 31 December: '2010-03-01'..'2011-06-30'
+    is two windows."""
+    out, lo = [], since
+    while lo <= until:
+        hi = min(until, "{0}-12-31".format(lo[:4]))
+        out.append((lo, hi))
+        lo = "{0}-01-01".format(int(lo[:4]) + 1)
+    return out
 
 _SESSION_IN_PATH = re.compile(r"/(\d{2})L(\d)S/")
 
@@ -442,14 +457,24 @@ def collect(ctx, session=None, roster=True, bills=True):
                           - datetime.timedelta(days=DEFAULT_WINDOW_DAYS)).isoformat()
     if not ctx.since:
         ctx.log("  sk: no --since; reading the {0} days to {1}".format(DEFAULT_WINDOW_DAYS, until))
-    url, records, pages = ARCHIVE.format(since, until), [], 0
-    while url and pages < 60:
-        page = ctx.text(url, "archive-{0}-{1}-{2}".format(since, until, pages))
-        if page is None:
-            break
-        records.extend(list_records(page))
-        pages += 1
-        url = next_page(page)
+    records, pages = [], 0
+    # The archive is asked one calendar year at a time, each with its own
+    # page cap, so a backfill to 2010 (some 115 listing pages) is never cut
+    # off in silence by a cap sized for a week; a year that still has a next
+    # page at the cap is a gap.
+    for lo, hi in year_windows(since, until):
+        url, n = ARCHIVE.format(lo, hi), 0
+        while url and n < LISTING_PAGE_CAP:
+            page = ctx.text(url, "archive-{0}-{1}-{2}".format(lo, hi, n))
+            if page is None:
+                break
+            records.extend(list_records(page))
+            n += 1
+            url = next_page(page)
+        if url and n >= LISTING_PAGE_CAP:
+            ctx.gap("sk archive {0}..{1}: still a next page after {2} listing pages; the rest of "
+                    "that window was not listed".format(lo, hi, LISTING_PAGE_CAP))
+        pages += n
     records = [r for r in records if since <= r["date"] <= until]
     if want:
         records = [r for r in records if (r["legislature"], r["session"]) == want]

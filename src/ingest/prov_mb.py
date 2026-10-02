@@ -59,7 +59,7 @@ import re
 from urllib.parse import urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import Unreadable, html_text, pdf_text, slug
+from src.prov_fetch import Unreadable, html_text, pdf_text, sessions_sorted, slug, year_span
 
 PROV = "mb"
 CURRENT_SESSION = "43-3"
@@ -109,6 +109,35 @@ def session_pages(html, base, kind):
     elif kind == "bills":
         for href, leg, sess in re.findall(r'href="((?:\.\./)?(\d+)-(\d)/index\.php)"', html or ""):
             out.setdefault((int(leg), int(sess)), urljoin(base, href))
+    return out
+
+
+_VP_SESSION_HREF = re.compile(r'href="((\d+){0}/\2{0}_(\d){0}\.html)"'.format(_ORD))
+_YEARS = re.compile(r"(?<!\d)(\d{4})(?:\s*-\s*(\d{4}))?(?!\d)")
+
+
+def parse_sessions(html):
+    """Every session on the V&P sessions page, one table row each: the
+    years cell ("2010 - 2011", "&nbsp;2016&nbsp;") and the session's link.
+    A row without years still names its session, with no span (it is read
+    by any window)."""
+    out = []
+    for row in re.findall(r"<tr\b(.*?)</tr>", html or "", re.S | re.I):
+        link = _VP_SESSION_HREF.search(row)
+        if not link:
+            continue
+        code = "{0}-{1}".format(int(link.group(2)), int(link.group(3)))
+        years = _YEARS.search(_html.unescape(re.sub(r"<[^>]+>", " ", row[:link.start()])))
+        out.append(year_span(code, years.group(1), years.group(2)) if years
+                   else {"code": code, "start": None, "end": None})
+    return sessions_sorted(out)
+
+
+def list_sessions(ctx):
+    listing = ctx.text(VP_SESSIONS, "vp-sessions")
+    out = parse_sessions(listing)
+    if listing and not out:
+        ctx.gap("mb: no sessions parsed from {0}".format(VP_SESSIONS))
     return out
 
 

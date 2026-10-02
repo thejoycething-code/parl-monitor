@@ -59,7 +59,8 @@ import re
 from urllib.parse import quote, urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import Unreadable, html_text, pdf_rows, pdf_text, slug, split_columns, join_fragments
+from src.prov_fetch import (Unreadable, html_text, join_fragments, pdf_rows, pdf_text, sessions_sorted, slug,
+                            split_columns, year_span)
 
 PROV = "nb"
 CURRENT_SESSION = "61-2"
@@ -132,6 +133,48 @@ def list_records(html):
         if have is None or rev > have["revision"]:
             daily[date] = {"date": date, "url": url, "sitting": int(m.group(1)), "revision": rev}
     return {"daily": sorted(daily.values(), key=lambda r: r["date"]), "compiled": compiled}
+
+
+# The journals page's own session selector: one block per legislature
+# ('id="leg_60"'), each session a link ("journals/57/1" ... "(2010-2011)")
+# except the page's own, printed as <span class="selected">.
+_SEL_TOKEN = re.compile(
+    r'id="leg_(?P<leg>\d+)"'
+    r'|journals/(?P<lleg>\d+)/(?P<lsess>\d)"\s*>\s*<span>[^(<]*(?:<sup>[^<]*</sup>)?[^(<]*\((?P<lyears>[^)]*)\)'
+    r'|class="selected">\s*(?P<ssess>\d)\s*(?:<sup>[^<]*</sup>)?[^(<]*\((?P<syears>[^)]*)\)')
+_SPAN = re.compile(r"^\s*(\d{4})\s*(-)?\s*(\d{4})?\s*$")
+
+
+def _years(code, text):
+    """'2010-2011', '2018' (one year) or '2025-' (still open)."""
+    m = _SPAN.match(text or "")
+    if not m:
+        return {"code": code, "start": None, "end": None}
+    return year_span(code, m.group(1), m.group(3), open_ended=bool(m.group(2)) and not m.group(3))
+
+
+def parse_sessions(html):
+    """Every session in the journals page's selector, back to the 53rd
+    Legislature (1995), oldest first."""
+    out, leg = [], None
+    for m in _SEL_TOKEN.finditer(html or ""):
+        if m.group("leg"):
+            leg = int(m.group("leg"))
+        elif m.group("lleg"):
+            out.append(_years("{0}-{1}".format(int(m.group("lleg")), int(m.group("lsess"))), m.group("lyears")))
+        elif m.group("ssess") and leg:
+            out.append(_years("{0}-{1}".format(leg, int(m.group("ssess"))), m.group("syears")))
+    return sessions_sorted(out)
+
+
+def list_sessions(ctx):
+    legislature, session = parse_session(CURRENT_SESSION)
+    url = JOURNALS.format(legislature, session)
+    html = ctx.text(url, "journals-sessions-{0}-{1}".format(legislature, session))
+    out = parse_sessions(html)
+    if html and not out:
+        ctx.gap("nb: no session selector parsed from {0}".format(url))
+    return out
 
 
 # -- rosters ----------------------------------------------------------------

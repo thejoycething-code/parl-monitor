@@ -79,14 +79,39 @@ class SchemaTests(unittest.TestCase):
             self.assertIn(t, names)
             self.assertIn(t, db.TABLES)
 
-    def test_no_prov_table_carries_a_sighting_column(self):
-        """tests/test_coverage.py would demand a coverage.py entry for it,
-        and nothing schedules these collectors yet."""
+    def test_the_sighting_column_is_last_seen_now_a_workflow_runs_them(self):
+        """Renamed from last_read on 3 October 2026, when prov-weekly.yml
+        started running the collectors: tools/coverage.py watches last_seen,
+        and tests/test_coverage.py demands an entry for every table with one."""
         conn = _conn()
+        sighted = set()
         for (name,) in conn.execute("SELECT name FROM sqlite_master WHERE type='table' "
                                     "AND name LIKE 'prov|_%' ESCAPE '|'"):
             cols = {c[1] for c in conn.execute("PRAGMA table_info({0})".format(name))}
-            self.assertFalse(cols & {"last_seen", "captured_at"}, name)
+            self.assertNotIn("last_read", cols, name)
+            if "last_seen" in cols:
+                sighted.add(name)
+        self.assertEqual(sighted, {"prov_members", "prov_divisions", "prov_bills"})
+
+    def test_a_store_with_the_old_column_is_renamed_once_and_keeps_its_rows(self):
+        conn = db.connect(":memory:")
+        conn.execute("CREATE TABLE prov_members (prov TEXT NOT NULL, member_key TEXT NOT NULL, "
+                     "name TEXT, first_seen TEXT, last_read TEXT, PRIMARY KEY (prov, member_key))")
+        conn.execute("INSERT INTO prov_members VALUES ('ab', '0814', 'Danielle Smith', "
+                     "'2026-10-02', '2026-10-02')")
+        ps.ensure_schema(conn)
+        ps.ensure_schema(conn)             # idempotent: the second call is a no-op
+        cols = {c[1] for c in conn.execute("PRAGMA table_info(prov_members)")}
+        self.assertIn("last_seen", cols)
+        self.assertNotIn("last_read", cols)
+        self.assertEqual(conn.execute("SELECT last_seen FROM prov_members").fetchone()[0], "2026-10-02")
+
+    def test_every_write_restamps_last_seen(self):
+        conn = _conn()
+        ps.upsert_member(conn, "ab", "0814", name="Danielle Smith", when="2026-10-02")
+        ps.upsert_member(conn, "ab", "0814", name="Danielle Smith", when="2026-10-07")
+        self.assertEqual(tuple(conn.execute("SELECT first_seen, last_seen FROM prov_members").fetchone()),
+                         ("2026-10-02", "2026-10-07"))
 
 
 class TallyTests(unittest.TestCase):

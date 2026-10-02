@@ -65,7 +65,7 @@ from collections import Counter
 from urllib.parse import urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import Unreadable, html_text, pdf_fragments, slug
+from src.prov_fetch import Unreadable, html_text, pdf_fragments, sessions_sorted, slug
 
 PROV = "on"
 CURRENT_SESSION = "44-1"
@@ -93,6 +93,36 @@ def session_page(index_html, legislature, session):
     m = re.search(r'href="(/en/legislative-business/house-documents/parliament-{0}/session-{1}/?)"'.format(
         legislature, session), index_html or "")
     return urljoin(BASE, m.group(1)) if m else None
+
+
+_SESSION_LINK = re.compile(
+    r'href="/en/legislative-business/house-documents/parliament-(\d+)/session-(\d+)/?"[^>]*>(.*?)</a>', re.S)
+_EN_DATE = re.compile(r"(January|February|March|April|May|June|July|August|September|October|November|"
+                      r"December)\s+(\d{1,2}),\s+(\d{4})")
+_EN_MONTHS = {m: i for i, m in enumerate(("January", "February", "March", "April", "May", "June", "July",
+                                          "August", "September", "October", "November", "December"), 1)}
+
+
+def parse_sessions(index_html):
+    """Every session on the house-documents index, with the dates its own
+    label prints ("2nd Session (October 4, 2021–May 3, 2022)"); a session
+    still sitting prints no end date."""
+    out = []
+    for leg, sess, label in _SESSION_LINK.findall(index_html or ""):
+        dates = ["{0}-{1:02d}-{2:02d}".format(y, _EN_MONTHS[m], int(d))
+                 for m, d, y in _EN_DATE.findall(html_text(label))]
+        out.append({"code": "{0}-{1}".format(int(leg), int(sess)),
+                    "start": dates[0] if dates else None,
+                    "end": dates[1] if len(dates) > 1 else None})
+    return sessions_sorted(out)
+
+
+def list_sessions(ctx):
+    index = ctx.text(HOUSE_DOCS, "house-documents-sessions")
+    out = parse_sessions(index)
+    if index and not out:
+        ctx.gap("on: no sessions parsed from {0}".format(HOUSE_DOCS))
+    return out
 
 
 def list_sittings(html, legislature, session):

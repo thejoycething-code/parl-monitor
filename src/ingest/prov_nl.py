@@ -58,7 +58,7 @@ from collections import Counter
 from urllib.parse import urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import Unreadable, html_text, join_fragments, pdf_rows, slug
+from src.prov_fetch import Unreadable, html_text, join_fragments, pdf_rows, sessions_sorted, slug, year_span
 
 PROV = "nl"
 CURRENT_SESSION = "51-1"
@@ -129,6 +129,31 @@ def list_records(html, base_url):
             continue
         out.append({"date": date, "url": url, "part": slug(part) if part else None})
     return sorted(out, key=lambda r: (r["date"], r["part"] or ""))
+
+
+# -- sessions ---------------------------------------------------------------
+
+HANSARD_INDEX = BASE + "/HouseBusiness/Hansard/"
+_SESSION_ITEM = re.compile(
+    r'href="(?:[^"]*/)?ga(\d+)session(\d)/"[^>]*>\s*\d+(?:st|nd|rd|th)\s+Session\s*[–—-]\s*'
+    r'(\d{4})(?:\s*(-)\s*(\d{4})?)?', re.I)
+
+
+def parse_sessions(html):
+    """Every session on the Hansard index ("3rd Session – 2010-2011", "4th
+    Session – 2011", and the open "1st Session – 2025--"), oldest first. The
+    swearing-in links under each General Assembly are not sessions."""
+    return sessions_sorted(
+        year_span("{0}-{1}".format(int(ga), int(sess)), y1, y2, open_ended=bool(dash) and not y2)
+        for ga, sess, y1, dash, y2 in _SESSION_ITEM.findall(html or ""))
+
+
+def list_sessions(ctx):
+    html = ctx.text(HANSARD_INDEX, "hansard-index")
+    out = parse_sessions(html)
+    if html and not out:
+        ctx.gap("nl: no sessions parsed from {0}".format(HANSARD_INDEX))
+    return out
 
 
 # -- rosters ----------------------------------------------------------------

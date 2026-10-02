@@ -38,7 +38,7 @@ import re
 from urllib.parse import urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import Unreadable, html_text, pdf_text
+from src.prov_fetch import Unreadable, html_text, pdf_text, sessions_sorted, year_span
 
 PROV = "ab"
 CURRENT_SESSION = "31-2"
@@ -86,6 +86,28 @@ def list_records(html):
             m = re.search(r"/(\d{8})_\d{4}_\d{2}_vp\.pdf$", url)
             date = m and "{0}-{1}-{2}".format(m.group(1)[:4], m.group(1)[4:6], m.group(1)[6:])
         out.append((date, url))
+    return out
+
+
+# -- sessions ---------------------------------------------------------------
+
+_SESSION_MENU = re.compile(r"Legislature\s+(\d+),\s+Session\s+(\d+)\s+\((\d{4})(?:\s*-\s*(\d{4}))?\)")
+
+
+def parse_sessions(html):
+    """Every session in the V&P listing's own menu ("Legislature 27,
+    Session 3 (2010-2011)"), back to the 22nd Legislature (1990), oldest
+    first. The selected session is printed in the menu too."""
+    return sessions_sorted(year_span("{0}-{1}".format(leg, sess), y1, y2)
+                           for leg, sess, y1, y2 in _SESSION_MENU.findall(html or ""))
+
+
+def list_sessions(ctx):
+    leg, sess = parse_session(CURRENT_SESSION)
+    html = ctx.text(VP_LIST.format(leg, sess), "vp-sessions-{0}-{1}".format(leg, sess))
+    out = parse_sessions(html)
+    if html and not out:
+        ctx.gap("ab: no session menu parsed from the V&P listing {0}".format(VP_LIST.format(leg, sess)))
     return out
 
 
@@ -269,9 +291,19 @@ def fetch_bills(ctx, legislature, session, tax, wl):
         ctx.gap("ab bills {0}-{1}: no bills parsed from the listing".format(legislature, session))
     if ctx.dry_run:
         return {"bills": len(items)}
-    read = texts = 0
+    read = texts = kept = 0
+    # A CLOSED session's bill pages no longer change: a page already read
+    # with its text is not fetched again (its stages and voice decisions are
+    # stored), so a re-dispatched backfill does not spend its clock re-reading
+    # 2,000 finished bill pages before it reaches the records it still owes.
+    closed = (legislature, session) < parse_session(CURRENT_SESSION)
     for it in items:
         key = ps.bill_key(PROV, legislature, session, it["number"])
+        if closed and not ctx.refresh and ctx.conn.execute(
+                "SELECT 1 FROM prov_bills WHERE bill_key=? AND text_read=1 AND stages IS NOT NULL",
+                (key,)).fetchone():
+            kept += 1
+            continue
         if ctx.budget is not None and ctx.budget.exhausted():
             ctx.log(ctx.budget.disclose("bill pages", read))
             break
@@ -311,8 +343,9 @@ def fetch_bills(ctx, legislature, session, tax, wl):
                                          matched_terms=res.terms, tier=res.tier, excerpt=res.excerpt))
         store_voice_stages(ctx, key, legislature, session, page["stages"], it["href"])
     ctx.conn.commit()
-    ctx.log("  ab bills {0}-{1}: {2} listed, {3} page(s) read, {4} text(s) read".format(
-        legislature, session, len(items), read, texts))
+    ctx.log("  ab bills {0}-{1}: {2} listed, {3} page(s) read, {4} text(s) read{5}".format(
+        legislature, session, len(items), read, texts,
+        ", {0} finished page(s) of a closed session kept".format(kept) if kept else ""))
     return {"bills": len(items), "bill_texts": texts}
 
 

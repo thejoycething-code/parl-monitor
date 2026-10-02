@@ -78,7 +78,7 @@ import re
 from urllib.parse import urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import Unreadable, html_text
+from src.prov_fetch import Unreadable, html_text, sessions_sorted
 
 PROV = "qc"
 CURRENT_SESSION = "43-3"
@@ -205,6 +205,34 @@ def parse_sittings(page):
                     "extraordinary": "extraordinaire" in pn.fold(head),
                     "pv_url": urljoin(BASE, _html.unescape(pv.group(1))) if pv else None,
                     "jd_url": urljoin(BASE, jd.group(1)) if jd else None})
+    return out
+
+
+_SESSION_OPTION = re.compile(
+    r'<option\b[^>]*value="[^"]*/assemblee-nationale/(\d+)-(\d)/index\.html"[^>]*>([^<]*)</option>', re.I)
+
+
+def parse_sessions(page):
+    """Every session in the sitting index's own session select ("39e
+    législature, 2e session (23 février 2011 - 1 août 2012)"), oldest first.
+    A session still sitting prints no end date."""
+    out = []
+    for leg, sess, label in _SESSION_OPTION.findall(page or ""):
+        span = _html.unescape(label)
+        inside = span[span.find("(") + 1:span.rfind(")")] if "(" in span else ""
+        first, _, last = inside.partition(" - ")
+        out.append({"code": "{0}-{1}".format(int(leg), int(sess)),
+                    "start": fr_date(first), "end": fr_date(last) if last.strip() else None})
+    return sessions_sorted(out)
+
+
+def list_sessions(ctx):
+    legislature, session = parse_session(CURRENT_SESSION)
+    url = SITTINGS.format(legislature, session)
+    page = ctx.text(url, "sittings-sessions-{0}-{1}".format(legislature, session))
+    out = parse_sessions(page)
+    if page and not out:
+        ctx.gap("qc: no session select parsed from {0}".format(url))
     return out
 
 
@@ -546,11 +574,11 @@ def link_ids(ridings, current):
 
 
 def fetch_roster(ctx):
-    have = ctx.conn.execute("SELECT COUNT(*), MAX(last_read) FROM prov_members WHERE prov=?",
+    have = ctx.conn.execute("SELECT COUNT(*), MAX(last_seen) FROM prov_members WHERE prov=?",
                             (PROV,)).fetchone()
     fresh = have[1] and (datetime.date.today() - datetime.date.fromisoformat(have[1])).days < ROSTER_MAX_AGE_DAYS
-    if have[0] and fresh and not ctx.refresh:
-        ctx.log("  qc roster: {0} member(s) read on {1}; not re-read (--refresh to force)".format(*have))
+    if have[0] and fresh and not (ctx.refresh or getattr(ctx, "refresh_roster", False)):
+        ctx.log("  qc roster: {0} member(s) read on {1}; not re-read (--refresh-roster to force)".format(*have))
         return have[0]
     elections, legislatures = parse_elections(ctx.text(ELECTIONS, "elections") or "")
     byelections = parse_byelections(ctx.text(BYELECTIONS, "byelections") or "")
@@ -736,9 +764,21 @@ def fetch_bills(ctx, legislature, session, tax, fr_tax, wl):
     if ctx.dry_run:
         return {"bills": len(items)}
     wanted = getattr(ctx, "bill_numbers", None)
-    read = texts = 0
+    read = texts = kept = 0
+    # A CLOSED session's bill pages no longer change: one already read with
+    # its text is not fetched again (stages and voice decisions are stored),
+    # so a re-dispatched backfill spends its clock on the records it owes.
+    # Only a bill OF this session: one reinstated from an earlier session
+    # (Bill 94, qc-43-1/94, listed in 43-2) is read again, for its new stages.
+    closed = (legislature, session) < parse_session(CURRENT_SESSION)
+    own = ps.bill_key(PROV, legislature, session, "")
     for it in items:
         if wanted and it["number"] not in wanted:
+            continue
+        if closed and not ctx.refresh and not wanted and it["key"].startswith(own) and ctx.conn.execute(
+                "SELECT 1 FROM prov_bills WHERE bill_key=? AND text_read=1 AND stages IS NOT NULL",
+                (it["key"],)).fetchone():
+            kept += 1
             continue
         if ctx.budget is not None and ctx.budget.exhausted():
             ctx.log(ctx.budget.disclose("bill pages", read))
@@ -789,8 +829,9 @@ def fetch_bills(ctx, legislature, session, tax, fr_tax, wl):
                                          matched_terms=res.terms, tier=res.tier, excerpt=res.excerpt))
         store_voice(ctx, it["key"], bill, it["href"])
     ctx.conn.commit()
-    ctx.log("  qc bills {0}-{1}: {2} listed, {3} page(s) read, {4} text(s) read".format(
-        legislature, session, len(items), read, texts))
+    ctx.log("  qc bills {0}-{1}: {2} listed, {3} page(s) read, {4} text(s) read{5}".format(
+        legislature, session, len(items), read, texts,
+        ", {0} finished page(s) of a closed session kept".format(kept) if kept else ""))
     return {"bills": len(items), "bill_pages": read, "bill_texts": texts}
 
 
@@ -1448,6 +1489,16 @@ def check_bill_tallies(ctx, read_dates):
                         "division on that bill with those totals was read from that day's PV".format(
                             key, s["stage"], s["date"], yeas, nays))
     return misses
+
+
+def refresh_roster(ctx):
+    """The roster alone, read again whatever its age (tools/prov_collect.py
+    --roster-only): depcir, election.html and partielles.html. Scheduled in
+    prov-weekly.yml so the general election of 5 October 2026 closes the
+    43rd legislature's terms as soon as election.html lists it, and the 44th
+    legislature's members arrive as soon as depcir prints them."""
+    ctx.refresh_roster = True
+    return {"members": fetch_roster(ctx)}
 
 
 def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
