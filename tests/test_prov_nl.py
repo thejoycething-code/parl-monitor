@@ -191,6 +191,25 @@ class VariantTests(unittest.TestCase):
         self.assertEqual(p, [])
         self.assertEqual([(x["yeas"], x["nays"]) for x in d], [(9, 25)])
 
+    def test_a_table_officer_reads_the_names(self):
+        d, _v, p = self.parse("table_officer")
+        self.assertEqual(p, [])
+        self.assertEqual([(x["yeas"], x["nays"], len(x["yea_labels"]), len(x["nay_labels"])) for x in d],
+                         [(15, 18, 15, 18)])
+
+    def test_a_list_broken_off_and_resumed_with_a_dash(self):
+        d, _v, _p = self.parse("resumed_after_dash")
+        x = d[0]
+        self.assertEqual((x["yeas"], x["nays"], len(x["nay_labels"])), (21, 15, 15))
+        self.assertIn("Jeff Dwyer", x["nay_labels"])                    # not 'Jeff Dwyer –'
+        self.assertEqual(x["nay_labels"][-1], "Lela Evans")
+
+    def test_a_list_the_clerk_starts_again(self):
+        d, _v, _p = self.parse("restarted_list")
+        self.assertEqual([(x["yeas"], x["nays"], len(x["yea_labels"]), len(x["nay_labels"])) for x in d][:1],
+                         [(15, 16, 15, 16)])
+        self.assertEqual(d[0]["yea_labels"].count("Barry Petten"), 1)
+
     def test_lists_interrupted_by_hear_hear(self):
         d, _v, p = self.parse("interrupted_lists")
         self.assertEqual(p, [])

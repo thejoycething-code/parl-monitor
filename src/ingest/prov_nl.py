@@ -173,42 +173,70 @@ def _clean(text):
     return re.sub(r"\s+", " ", (text or "").replace("\t", " ").replace("‐", "-")).strip()
 
 
+_DIGITS = re.compile(r"^\s*\d+\s*$")
+
+
+def _is_header(fr):
+    words = [_clean(f[2]) for f in fr]
+    return "Member" in words and "District" in words
+
+
 def parse_attendance(pages, year):
     """[{surname, given, district}] from the attendance summary's rows.
 
-    pages: pdf_rows() output. The table's column headings are centred, so
-    the district column's left edge is measured from the data: the
-    commonest fragment start between 100 and 330 pt. A line with only a
-    district fragment is a wrapped district."""
-    rows = [fr for page in pages for _, fr in page]
-    start = None
-    for k, fr in enumerate(rows):
-        words = [_clean(f[2]) for f in fr]
-        if "Member" in words and "District" in words:
-            start = k + 1
-            break
-    if start is None:
+    pages: pdf_rows() output. A data row is a name, a district and the two
+    absence counts (digits). The column headings are centred, so the
+    district column's left edge is measured from the data: the commonest
+    fragment start between 100 and 330 pt. A line with only a district
+    fragment is a wrapped district. The 2025 summary is set upside down
+    (its rows come out last name first, the heading BELOW them): a page
+    whose heading follows most of its data rows is read in reverse."""
+    rows = []
+    found = False
+    for page in pages:
+        lines = [fr for _, fr in page]
+        head = next((k for k, fr in enumerate(lines) if _is_header(fr)), None)
+        if head is not None:
+            found = True
+            data_before = sum(1 for fr in lines[:head] if any(_DIGITS.match(f[2]) for f in fr))
+            data_after = sum(1 for fr in lines[head + 1:] if any(_DIGITS.match(f[2]) for f in fr))
+            if data_before > data_after:
+                lines = lines[::-1]
+        rows.extend(lines)
+    if not found:
         return []
-    data = rows[start:]
-    edges = Counter(round(f[0]) for fr in data for f in fr if 100 <= f[0] <= 330)
+    edges = Counter(round(f[0]) for fr in rows for f in fr
+                    if 100 <= f[0] <= 330 and any(_DIGITS.match(g[2]) for g in fr))
     if not edges:
         return []
     edge = edges.most_common(1)[0][0] - 2
     out = []
-    for fr in data:
-        name = _clean(join_fragments([f for f in fr if f[0] < edge]))
-        district = _clean(join_fragments([f for f in fr if edge <= f[0] < 370]))
-        nums = [f for f in fr if f[0] >= 370]
-        if not name and district and out and not nums:
+    for fr in rows:
+        if _is_header(fr):
+            continue
+        parts = re.split(r"\s{3,}", fr[0][2].strip()) if len(fr) == 1 else []
+        if len(parts) >= 3 and _DIGITS.match(parts[-1]):
+            # one fragment padded with spaces ('Parsons, Jim     Corner Brook
+            # 0     0', the 2025 summary)
+            nums = [p for p in parts[1:] if _DIGITS.match(p)]
+            name = _clean(parts[0])
+            district = _clean(" ".join(p for p in parts[1:] if not _DIGITS.match(p)))
+        else:
+            nums = [f for f in fr if f[0] >= edge and _DIGITS.match(f[2])]
+            name = _clean(join_fragments([f for f in fr if f[0] < edge]))
+            district = _clean(join_fragments([f for f in fr if f[0] >= edge and not _DIGITS.match(f[2])]))
+        if not name and district and out and not nums and out[-1].get("open"):
             out[-1]["district"] = _clean(out[-1]["district"] + " " + district)
             continue
+        if out:
+            out[-1].pop("open", None)
         if not name or re.search(r"\d", name) or not nums:
             continue
         name = re.sub(r"\s*-\s*", "-", name)
         if "," in name:
             surname, _, given = name.partition(",")
         else:
-            # Given name first (the summaries to about 2018). The LAST word is
+            # Given name first (the 2016 summary). The LAST word is
             # taken as the surname and the rest as given names: 'Carol Anne
             # Haley' -> Haley, and 'Sherry Gambin Walsh' -> Walsh with
             # 'Sherry Gambin', which the resolver still matches to 'Ms.
@@ -217,8 +245,10 @@ def parse_attendance(pages, year):
             given, surname = " ".join(toks[:-1]), toks[-1]
         surname, given = surname.strip(), given.strip()
         surname, given = ROSTER_CORRECTIONS.get((surname, given), (surname, given))
-        out.append({"surname": surname, "given": given, "district": re.sub(r"\s*[-–]\s*", " - ", district),
-                    "year": year})
+        out.append({"surname": surname, "given": given, "district": district, "year": year, "open": True})
+    for r in out:
+        r.pop("open", None)
+        r["district"] = re.sub(r"\s*[-\u2013]\s*", " - ", r["district"])
     return out
 
 
@@ -430,7 +460,8 @@ def count_value(text):
     if len(parts) == 2 and parts[0] in ("twenty", "thirty", "forty") and _WORDS.get(parts[1], 99) < 10:
         return _WORDS[parts[0]] + _WORDS[parts[1]]
     return None
-_CLERK = re.compile(r"CLERK(?:\s*\([^)]*\))?\s*:\s*")
+# The names are read by the Clerk or, since 2023, a Table Officer.
+_CLERK = re.compile(r"(?:CLERK|TABLE\s+OFFICER)(?:\s*\([^)]*\))?\s*:\s*")
 _TAG = re.compile(r"\b(?:(?:MR|MS|MRS)\.\s+|MADAM\s+)?(?:DEPUTY\s+)?(?:SPEAKER|CHAIR)(?:\s*\([^)]*\))?\s*:")
 _LEAD = re.compile(r"(?:(?:Mr\.|Madam|Mister)\s+)?(?:Speaker|Chair)\s*,?\s*$", re.I)
 _DECLARE = re.compile(r"I\s+declare\s+the\s+[\w\-]+(?:\s+as\s+amended)?\s+\w+(?:\s+and\s+said\s+bill\s+passed)?|"
@@ -482,6 +513,38 @@ def _answered_calls(text):
     return out
 
 
+_RESUME = re.compile("(?:CLERK|TABLE\\s+OFFICER)(?:\\s*\\([^)]*\\))?\\s*:\\s*[\u2013\u2014-]\\s*")
+
+
+def _read_list(window, start, limit=None):
+    """(names, end) of one list read from `start`. The list ends at the next
+    speaker label or the Clerk's count. A list broken off with a dash and
+    resumed after the interruption ('Jeff Dwyer \u2013 SOME HON. MEMBERS: Oh,
+    oh! SPEAKER: Order, please! CLERK: \u2013 Pleaman Forsey, ...', 24 May
+    2023) is followed to its end; one the Clerk starts again from the top
+    ("Barry Petten \u2013 ... CHAIR: Okay, please continue. CLERK: Barry Petten,
+    Helen Conway Ottenheimer, ...", 12 October 2022) is read from the restart."""
+    limit = len(window) if limit is None else limit
+    names, pos = [], start
+    while True:
+        stop = _SPEAKER_LABEL.search(window, pos, limit)
+        count = TOTALS.search(window, pos, limit)
+        end = min([x.start() for x in (stop, count) if x] or [limit])
+        seg = window[pos:end]
+        broken = seg.rstrip().endswith(("\u2013", "\u2014", "-"))
+        names.extend(_names(seg.rstrip().rstrip("\u2013\u2014-")))
+        if broken and stop and end == stop.start():
+            again = _CLERK.search(window, stop.start(), min(limit, stop.start() + 600))
+            if again:
+                resumed = _RESUME.match(window, again.start())
+                if resumed:                    # '– Pleaman Forsey, ...': carry on
+                    pos = resumed.end()
+                else:                          # the Clerk starts the list again
+                    names, pos = [], again.end()   # (12 October 2022)
+                continue
+        return names, end
+
+
 def parse_hansard(text):
     """(divisions, voices, problems) from one sitting's Hansard text.
 
@@ -505,16 +568,12 @@ def parse_hansard(text):
         if not ag or not c1 or c1.start() > ag.start():
             problem = "the Clerk's list of those in favour was not found"
         else:
-            stop = _SPEAKER_LABEL.search(window, c1.end())
-            yea_names = _names(window[c1.end():stop.start() if stop and stop.start() < ag.start() else ag.start()])
+            yea_names, _ = _read_list(window, c1.end(), ag.start())
             c2 = _CLERK.search(window, ag.end())
             if not c2 or c2.start() - ag.end() > 200:
                 problem = "the Clerk's list of those against was not found"
             else:
-                stop = _SPEAKER_LABEL.search(window, c2.end())
-                count = TOTALS.search(window, c2.end())
-                nays_end = min(x.start() for x in (stop, count) if x) if (stop or count) else len(window)
-                nay_names = _names(window[c2.end():nays_end])
+                nay_names, nays_end = _read_list(window, c2.end())
         tot = TOTALS.search(window, nays_end) if nays_end is not None else None
         if tot and tot.start() - nays_end > 300:
             tot = None

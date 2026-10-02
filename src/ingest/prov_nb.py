@@ -540,6 +540,7 @@ _RESULT_HEAD = re.compile(
     r"\s+was\s+.+)$", re.I)
 _READ_Q = re.compile(r"question being put that Bill (\d+) be now read a (first|second|third) time", re.I)
 _READ_DEBATE = re.compile(r"the motion that Bill (\d+),[^.]*?be now read a (second|third) time", re.I)
+_ORDER_READ = re.compile(r"The Order being read for (second|third) reading of Bill (\d+)", re.I)
 _MOTION = re.compile(r"\bMotion (\d+)\b")
 _ITEM_START = re.compile(
     r"(?:Pursuant to Notice of Motion \d+|Debate resumed|The Order being read|"
@@ -586,14 +587,21 @@ def parse_journal(text):
             while i < n and is_furniture(lines[i]):
                 i += 1
             h2 = HEADER.match(lines[i]) if i < n else None
-            nays, nay_labels, problem = None, [], None
+            nays, nay_labels, problem, note = None, [], None, None
             if h2 and h2.group(1).upper() == "NAYS":
                 nays = 0 if h2.group(2).lower() == "nil" else int(h2.group(2))
                 nay_labels, i = take(i + 1)
+            elif i < n and lines[i].strip():
+                # A unanimous recorded division prints YEAS only (Motion 36
+                # as amended, 8 June 2023: YEAS - 44 and then the next
+                # item). No NAYS total is printed, so none is checked; the
+                # YEAS still must account for every name.
+                note = "no NAYS list printed (unanimous)"
             else:
                 problem = "no NAYS list after 'YEAS - {0}'".format(yeas)
             divisions.append(_division(context, len(divisions) + 1, yeas, nays,
                                        yea_labels, nay_labels, problem))
+            divisions[-1]["note"] = note
             prose.append("")
             context = []
             continue
@@ -622,17 +630,20 @@ def _division(context, seq, yeas, nays, yea_labels, nay_labels, problem):
                "amendment" if re.search(r"(?:on the (?:proposed )?amendment|the amendment was|amendment,? it was)", low[-400:])
                else "motion")
     bill = stage = motion = None
-    q = _READ_Q.findall(tail)
-    if q:
-        bill, stage = q[-1][0], q[-1][1].title() + " Reading"
+    # The bill and stage come from the ITEM the division closes, the last
+    # mention there winning: on 16 June 2023 the context of Bill 37's
+    # third-reading division also held Bill 32's third reading, carried on
+    # voice just before it.
+    reads = [(m.start(), m.group(1), m.group(2)) for m in _READ_Q.finditer(item)]
+    reads += [(m.start(), m.group(2), m.group(1)) for m in _ORDER_READ.finditer(item)]
+    reads += [(m.start(), m.group(1), m.group(2)) for m in _READ_DEBATE.finditer(item)]
+    if reads:
+        _, bill, word = max(reads)
+        stage = word.title() + " Reading"
     else:
-        d = _READ_DEBATE.findall(item)
-        if d:
-            bill, stage = d[-1][0], d[-1][1].title() + " Reading"
-        else:
-            ms = _MOTION.findall(tail) or _MOTION.findall(item)
-            if ms:
-                motion, stage = ms[-1], "Motion"
+        ms = _MOTION.findall(tail) or _MOTION.findall(item)
+        motion = ms[-1] if ms else None
+        stage = "Motion"
     return {"seq": seq, "yeas": yeas, "nays": nays, "yea_labels": yea_labels,
             "nay_labels": nay_labels, "question": item[-1500:] or None, "item": item,
             "result": result, "vote_on": vote_on, "stage": stage, "bill_number": bill,
@@ -722,7 +733,7 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
             "vote_on": d["vote_on"], "bill_key": bkey, "stage": d["stage"], "result": d["result"],
             "yeas": d["yeas"], "nays": d["nays"], "abstentions": None, "source_url": url,
             "areas": res.areas, "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
-            "positions_ok": 1 if ok else 0, "tally_note": note, "votes": votes})
+            "positions_ok": 1 if ok else 0, "tally_note": note or d.get("note"), "votes": votes})
     for v in voices:
         bkey = ps.bill_key(PROV, legislature, session, v["bill_number"])
         areas, terms, tier = ps.bill_areas(ctx.conn, bkey)

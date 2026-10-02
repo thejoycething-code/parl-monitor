@@ -210,7 +210,16 @@ def pdf_rows(raw, pages=None):
                 if f["text"].strip():
                     lines.setdefault(round(f["ty"]), []).append(
                         (float(f["tx"]), float(f["displaced_tx"]), f["text"]))
-            out.append([(y, sorted(lines[y])) for y in sorted(lines, reverse=True)])
+            # Fragments of one printed row can sit a point apart (the 2025
+            # NL attendance summary set 'Parsons, Jim' 1 pt above his
+            # district): rows within 2 pt are one line.
+            merged = []
+            for y in sorted(lines, reverse=True):
+                if merged and merged[-1][0] - y <= 2:
+                    merged[-1][1].extend(lines[y])
+                else:
+                    merged.append((y, list(lines[y])))
+            out.append([(y, sorted(fr)) for y, fr in merged])
         return out
     except Unreadable:
         raise

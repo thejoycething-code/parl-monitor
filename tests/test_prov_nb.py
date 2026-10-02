@@ -166,6 +166,29 @@ class ProofTests(unittest.TestCase):
                          [("52", "Third Reading"), ("30", "Third Reading")])
         self.assertIn("resolved in the affirmative", self.voices[0]["result"])
 
+    def test_a_unanimous_division_prints_yeas_only(self):
+        """8 June 2023, Motion 36 as amended: YEAS - 44 and no NAYS list. No
+        NAYS total is printed, so none is checked; the 44 must all resolve."""
+        divisions, _ = nb.parse_journal(fx("nb_journal_230608.txt"))
+        d = divisions[0]
+        self.assertEqual((d["yeas"], d["nays"], d["problem"], d["note"]), (44, None, None, "no NAYS list printed (unanimous)"))
+        _votes, ok, note = nb.resolve_division(d, pn.Resolver.from_conn(conn_602(), "nb"), "2023-06-08", 60)
+        self.assertTrue(ok, note)
+
+    def test_the_bill_is_the_items_own_not_the_one_before_it(self):
+        """16 June 2023: Bill 32's third reading carried on voice just before
+        the item 'The Order being read for third reading of Bill 37 ... on
+        the following recorded division'. The division is Bill 37's."""
+        divisions, voices = nb.parse_journal(fx("nb_journal_230616.txt"))
+        self.assertEqual([(d["yeas"], d["nays"], d["stage"], d["bill_number"]) for d in divisions],
+                         [(44, 3, "Motion", None), (28, 18, "Third Reading", "37"),
+                          (28, 19, "Third Reading", "40"), (28, 19, "Third Reading", "45")])
+        self.assertIn(("32", "Third Reading"), [(v["bill_number"], v["stage"]) for v in voices])
+        r = pn.Resolver.from_conn(conn_602(), "nb")
+        for d in divisions:
+            _votes, ok, note = nb.resolve_division(d, r, "2023-06-16", 60)
+            self.assertTrue(ok, note)
+
     def test_a_typo_in_a_name_list_is_a_gap_never_a_guess(self):
         conn = db.init_db(db.connect(":memory:"))
         for m in json.loads(fx("nb_members_61.json")):
