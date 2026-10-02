@@ -9,12 +9,35 @@ rules.
   * SESSIONS AND ROSTER: the LIMS GraphQL API (api.lims.leg.bc.ca/graphql,
     POST only). allSessions maps "43-2" to its id (206) and its dates;
     allMemberParliaments gives each member of a parliament with party and
-    constituency, plus election and resignation dates. THE PARTY IS ONE PER
-    PARLIAMENT AND UNDATED: Tara Armstrong and Dallas Brodie left the
-    Conservative caucus in 2025 and the API now shows them Independent for
-    the whole parliament. So BC terms carry party_dated=0 and
-    prov_votes.party_at_vote stays NULL: today's party joined to an earlier
-    vote is exactly the misattribution the NI roster taught us to refuse.
+    constituency, plus election and resignation dates. THE API'S PARTY IS
+    ONE PER PARLIAMENT AND UNDATED: Tara Armstrong and Dallas Brodie left the
+    Conservative caucus in 2025 and the API shows them Independent for the
+    whole parliament; it shows Bruce Banman, elected a BC Liberal in 2020,
+    Conservative for all of the 42nd. Those terms (source 'api') carry
+    party_dated=0 and are never written on a vote: today's party joined to
+    an earlier vote is the misattribution the NI roster taught us to refuse.
+    (memberElections carries a party only for 2024, and no election dates.)
+  * PARTY AT THE VOTE, DATED TO THE SITTING: every House issue's PDF
+    (pdfLink in the debates JSON, 25 August 2009 on) prints the
+    "ALPHABETICAL LIST OF MEMBERS" with each Member's party, and the party
+    standings. It is the list for that sitting: the 6 February 2023 issue,
+    produced in January 2024, still shows Banman "(BC Liberal Party)". The
+    standings are a tally check; each entry resolves against the roster
+    terms valid that day; the parties are stored as party-only terms
+    (source 'party-hansard') spanning the sittings they were seen on.
+    Read: every division day, each session's first and last sitting, and
+    then the sittings between a member's last list in one party and first
+    in another, by bisection, until the change lies between two sittings
+    in a row. NOT EVERY ISSUE'S LIST IS ITS DAY'S: the 3 October 2022
+    morning issue, regenerated in 2024, prints 2024's parties. So a party
+    seen on one sitting alone is believed only when a sitting beside it
+    agrees (lone_lists, refute_lone_lists). A vote in such a window, or on a day whose list cannot be
+    read and whose neighbours disagree, carries NO party. party_at_vote is
+    rewritten from these terms for every stored vote of the session
+    (prov_store.refresh_party), so votes stored before the lists were read
+    are repaired without fetching their transcripts again. Sources:
+    lims.leg.bc.ca/hdms/debates/<session code> (pdfLink) and
+    lims.leg.bc.ca/hdms/file/Debates/<code>/<issue>.pdf.
   * HANSARD LISTING: /hdms/debates/<43rd2nd> (JSON) lists every House
     transcript file of the session; names are taken from it.
   * DIVISIONS: each transcript prints a division as
@@ -45,13 +68,14 @@ import json
 import re
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import html_text, sessions_sorted, slug
+from src.prov_fetch import Unreadable, html_text, pdf_text, sessions_sorted, slug
 
 PROV = "bc"
 CURRENT_SESSION = "43-2"
 GRAPHQL = "https://api.lims.leg.bc.ca/graphql"
 DEBATES = "https://lims.leg.bc.ca/hdms/debates/{0}"
 FILE = "https://lims.leg.bc.ca/hdms/file{0}/{1}"
+PDF_FILE = "https://lims.leg.bc.ca/hdms/file{0}"
 BILLS = "https://lims.leg.bc.ca/pdms/bills/progress-of-bills/{0}"
 BILL_TEXT = "https://lims.leg.bc.ca/pdms{0}"
 
@@ -155,15 +179,551 @@ def fetch_roster(ctx, s):
     for key, m, t in rows:
         ps.upsert_member(ctx.conn, PROV, key, name=m["name"], surname=m["surname"], given=m["given"],
                          riding=m["riding"], party=m["party"], sitting=1 if m["active"] else 0)
-        ctx.conn.execute("DELETE FROM prov_member_terms WHERE prov=? AND member_key=? AND "
-                         "legislature=? AND source='api'", (PROV, key, t["legislature"]))
-        ctx.conn.execute(
-            "INSERT INTO prov_member_terms (prov, member_key, legislature, party, riding, start, "
-            "end, party_dated, source) VALUES (?,?,?,?,?,?,?,?,?)",
-            (PROV, key, t["legislature"], t["party"], t["riding"], t["start"], t["end"], 0, "api"))
+        # One parliament's roster replaces that parliament's terms only: the
+        # Alberta fault (ffd13b9e) was a re-read deleting every legislature's.
+        ps.replace_terms(ctx.conn, PROV, key, [t], "api", legislature=t["legislature"])
     ctx.conn.commit()
     ctx.log("  bc roster parliament {0}: {1} member(s)".format(parl["number"], len(rows)))
     return len(rows)
+
+
+# -- party at the vote: the Hansard's own list of members ----------------------
+#
+# Every House issue of the Official Report, as a PDF (pdfLink in the debates
+# JSON), prints a few pages in an "ALPHABETICAL LIST OF MEMBERS" with each
+# Member's party, and the party standings under it. It is the Assembly's
+# list for THAT sitting: the 6 February 2023 issue, produced in January 2024,
+# still shows Bruce Banman "(BC Liberal Party)" though he sat as a
+# Conservative from September 2023. Three layouts, all read:
+#   39th Parliament   'Dix, adrian (nDP) ....... Vancouver-kingsway' (small
+#                     capitals come out lower-case; '(l)' is Liberal) and
+#                     "Party Standings: liberal 49; new Democratic 35; independent 1"
+#   40th-42nd         'Banman, Bruce (BC Liberal Party) ....... Abbotsford South'
+#                     and "Party Standings: BC NDP 57; BC Liberal Party 28; ..."
+#   43rd              'ALPHABETICAL LIST OF MEMBERS BY PARTY', one heading per
+#                     party ('CONSERV ATIVE PARTY OF BC'), two entries on a line
+#                     where the columns meet, and "BC NDP – 47 | ..."
+# THE STANDINGS ARE THE TALLY CHECK: a list whose entries per party do not
+# add up to the printed standings is refused whole, as a division whose
+# names do not add up is. Each entry is resolved against the roster terms
+# valid that day, unique-or-nothing, and stored as a PARTY-ONLY term
+# (source 'party-hansard', prov_names: it never makes anyone a member)
+# spanning the sittings it was seen on.
+
+PARTY_SOURCE = "party-hansard"
+BISECT_READS = 60          # per session: lists read to narrow a change to two sittings
+
+# The printed party, squashed (prov_names.squash), to the members API's own
+# party names, so a dated party reads like prov_members.party.
+PARTY_NAMES = {
+    "British Columbia Liberal Party": ("l", "liberal", "bcliberal", "bcliberals", "bcliberalparty",
+                                       "britishcolumbialiberalparty"),
+    "British Columbia New Democratic Party": ("ndp", "bcndp", "newdemocratic", "newdemocraticparty",
+                                              "britishcolumbianewdemocraticparty"),
+    "British Columbia United": ("bcunited", "britishcolumbiaunited"),
+    "Conservative Party of British Columbia": ("c", "conservative", "bcconservative", "bcconservatives",
+                                               "bcconservativeparty", "conservativeparty",
+                                               "conservativepartyofbc", "conservativepartyofbritishcolumbia"),
+    "British Columbia Green Party": ("g", "green", "greenparty", "bcgreen", "bcgreens", "bcgreenparty",
+                                     "britishcolumbiagreenparty"),
+    "Independent": ("i", "ind", "independent", "independents"),
+    "OneBC": ("onebc",),
+}
+_PARTY = {code: name for name, codes in PARTY_NAMES.items() for code in codes}
+_MONTHS = {m: i for i, m in enumerate(("january", "february", "march", "april", "may", "june", "july",
+                                        "august", "september", "october", "november", "december"), 1)}
+_ENTRY = re.compile(r"^(?P<pre>.*?),\s*(?P<given>[^()]*?)\s*(?:\((?P<party>[^()]*)\))?\s*$")
+_LIST_START = re.compile(r"list\s+of\s+members", re.I)
+_LIST_END = re.compile(r"list\s+of\s+members\s+by\s+riding|list\s+of\s+ridings|party\s+standings|=====PAGE", re.I)
+_GIVEN_HONORIFICS = {"hon", "dr", "kc", "qc", "rev", "mr", "mrs", "ms"}
+
+
+def party_name(printed):
+    """The API's name for a party as the list prints it, or None."""
+    return _PARTY.get(pn.squash(printed))
+
+
+def list_pdfs(listing):
+    """{date: [(part, pdf url)]} for the House transcripts of a debates JSON
+    that have a PDF. Every file name since 2009 begins 'YYYYMMDDam|pm-'."""
+    out = {}
+    for n in ((listing or {}).get("allHansardFileAttributes") or {}).get("nodes") or []:
+        m = re.match(r"^(\d{4})(\d{2})(\d{2})(am|pm)-Hansard-", n.get("fileName") or "")
+        if not m or not n.get("published", True):
+            continue
+        for a in (n.get("debateAttributes") or {}).get("nodes") or []:
+            if a.get("pdfLink") and (a.get("debateType") or {}).get("name") in ("House", None):
+                date = "{0}-{1}-{2}".format(*m.groups()[:3])
+                out.setdefault(date, []).append((m.group(4), PDF_FILE.format(a["pdfLink"])))
+    return {d: sorted(set(v)) for d, v in out.items()}
+
+
+def parse_standings(text):
+    """{party: seats} from the standings the list prints, Vacant left out;
+    None when there are none, or a party in them is not one we know."""
+    m = re.search(r"party\s+standings:?(.*)", text or "", re.I | re.S)
+    if not m:
+        return None
+    pieces = []
+    for line in m.group(1).splitlines():
+        line = line.strip()
+        if not line or re.match(r"total\s+seats", line, re.I):
+            continue
+        if not re.search(r"\d", line):
+            if pieces:
+                break
+            continue
+        pieces += re.split(r"[;|]", line)
+        if not re.search(r"[;|]\s*$", line):
+            break
+    out = {}
+    for p in pieces:
+        pm = re.match(r"^\s*(.+?)\s*[–—-]?\s*(\d+)\s*$", p)
+        if not pm:
+            continue
+        if pn.squash(pm.group(1)) == "vacant":
+            continue
+        name = party_name(pm.group(1))
+        if not name:
+            return None
+        out[name] = out.get(name, 0) + int(pm.group(2))
+    return out or None
+
+
+def parse_member_list(text):
+    """The Hansard's list of members, or None when it prints none:
+    {'parliament', 'date', 'standings', 'entries': [{pre, given, party,
+    riding, merged}], 'unknown': [printed parties not recognised]}.
+
+    'pre' is the text before the comma: the surname, or, where two entries
+    share a line (the 43rd's columns), the first entry's riding then the
+    second's surname ('Saanich North and the Islands Valeriote'), which
+    resolve_member_list cuts with the roster's surnames."""
+    text = text or ""
+    start = _LIST_START.search(text)
+    if not start:
+        return None
+    out = {"parliament": None, "date": None, "standings": None, "entries": [], "unknown": [],
+           "headings": []}
+    p = re.search(r"(\d{2})(?:st|nd|rd|th)\s+Parliament", text[:start.start()] or text[:3000])
+    if p:
+        out["parliament"] = int(p.group(1))
+    d = re.search(r"(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s+([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})",
+                  text[:start.start()] or text[:3000])
+    if d and d.group(1).lower() in _MONTHS:
+        out["date"] = "{0}-{1:02d}-{2:02d}".format(d.group(3), _MONTHS[d.group(1).lower()], int(d.group(2)))
+    # The page holding the list carries the standings, before it (43rd) or after.
+    page_start = text.rfind("=====PAGE", 0, start.start())
+    page_end = text.find("=====PAGE", start.end())
+    page = text[page_start + 1 if page_start >= 0 else 0:page_end if page_end >= 0 else None]
+    out["standings"] = parse_standings(page)
+    end = _LIST_END.search(text, start.end())
+    block = text[start.end():end.start() if end else None]
+    section = None
+    for line in block.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if not re.search(r"\.{2,}", line):
+            # A party heading of the 43rd's layout ('CONSERV ATIVE PARTY OF BC').
+            # Any other capitalised line that is not the list's own title
+            # ends the section: entries under a heading we cannot name carry
+            # no party, and the tally then refuses the list.
+            if party_name(line):
+                section = party_name(line)
+            elif line.isupper() and not _LIST_START.search(line) and pn.squash(line) != "byparty":
+                section = None
+                out["headings"].append(line)
+            continue
+        segs = [s.strip() for s in re.split(r"\s*\.{2,}\s*", line)]
+        names, ridings = [segs[0]], []
+        for mid in segs[1:-1]:
+            ridings.append(mid)          # riding of the entry before, then the next name
+            names.append(mid)
+        ridings.append(segs[-1])
+        for k, name in enumerate(names):
+            m = _ENTRY.match(name)
+            if not m:
+                continue
+            party = section
+            if m.group("party") is not None:
+                party = party_name(m.group("party"))
+                if party is None:
+                    out["unknown"].append(m.group("party"))
+                    continue
+            out["entries"].append({"pre": m.group("pre").strip(), "given": m.group("given").strip(),
+                                   "party": party, "riding": ridings[k] if k == len(names) - 1 else None,
+                                   "merged": k > 0})
+    return out
+
+
+def tally_member_list(parsed):
+    """None when the entries per party add up to the printed standings,
+    else why not."""
+    if not parsed or not parsed["entries"]:
+        return "no members listed"
+    if parsed["unknown"]:
+        return "unknown party {0!r}".format(parsed["unknown"][0])
+    if not parsed["standings"]:
+        return "no party standings printed (or a party in them unknown)"
+    counts = {}
+    for e in parsed["entries"]:
+        if not e["party"]:
+            return "an entry with no party ({0}, {1})".format(e["pre"], e["given"])
+        counts[e["party"]] = counts.get(e["party"], 0) + 1
+    if counts != parsed["standings"]:
+        return "entries {0} against standings {1}".format(
+            ", ".join("{0} {1}".format(k, v) for k, v in sorted(counts.items())),
+            ", ".join("{0} {1}".format(k, v) for k, v in sorted(parsed["standings"].items())))
+    return None
+
+
+def _given_tokens(given):
+    # 'Dr.Andrew' (Weaver, 2017) has no space after the honorific
+    toks = [pn.squash(t) for t in re.split(r"[\s/,.]+", given or "")]
+    return [t for t in toks if t and t not in _GIVEN_HONORIFICS]
+
+
+def resolve_member_list(parsed, resolver, date, legislature):
+    """([(member_key, party)], problems): each entry's member among those
+    holding a roster term that day, by surname (and, for two entries on one
+    line, by the longest run of words ending the text that is a surname),
+    then the given name, then the riding. Unique-or-nothing: a member two
+    entries resolve to gets no party at all."""
+    valid = {}
+    for t in resolver.valid_terms(date, legislature):
+        valid.setdefault(t["member_key"], []).append(t)
+    people = []
+    for key, ts in valid.items():
+        m = resolver.members.get(key) or {}
+        if m.get("surname"):
+            people.append({"key": key, "surname": pn.squash(m["surname"]),
+                           "given": [pn.squash(g) for g in re.split(r"[\s-]+", m.get("given") or "") if g],
+                           "ridings": {pn.squash(t.get("riding")) for t in ts if t.get("riding")}})
+    surnames = {p["surname"] for p in people}
+    rows = []
+    for e in parsed["entries"]:
+        row = {"e": e, "surname": pn.squash(e["pre"]), "riding": e["riding"]}
+        if e["merged"]:
+            # 'Saanich North and the Islands Valeriote': the longest run of
+            # words ending the text that is a surname; the rest is the riding
+            # of the entry before it on the line.
+            words, row["surname"] = e["pre"].split(), None
+            for k in range(len(words)):
+                if pn.squash(" ".join(words[k:])) in surnames:
+                    row["surname"] = pn.squash(" ".join(words[k:]))
+                    if rows and k:
+                        rows[-1]["riding"] = " ".join(words[:k])
+                    break
+        rows.append(row)
+    pairs, problems = [], []
+    for row in rows:
+        e, surname = row["e"], row["surname"]
+        given = _given_tokens(e["given"])
+        cands = [p for p in people if surname and p["surname"] == surname]
+        if not cands and surname and len(surname) >= 4 and given:
+            # A surname the member later lengthened (2009's 'Herbert' is the
+            # roster's 'Chandra Herbert'): matched on its end, given name required.
+            cands = [p for p in people if p["surname"].endswith(surname)]
+        if given:
+            cands = [p for p in cands if not p["given"] or any(
+                g.startswith(given[0]) or given[0].startswith(g) for g in p["given"])]
+        riding = pn.squash(row["riding"] or "")
+        if len(cands) > 1 and riding:
+            cands = [p for p in cands if riding in p["ridings"]] or cands
+        if len(cands) == 1:
+            pairs.append((cands[0]["key"], e["party"]))
+        else:
+            problems.append("{0}, {1} ({2}): {3}".format(
+                e["pre"], e["given"], e["party"], "nobody holding a term that day fits" if not cands else
+                "ambiguous: " + ", ".join(sorted(p["key"] for p in cands))))
+    keys = [k for k, _ in pairs]
+    for k in sorted({k for k in keys if keys.count(k) > 1}):
+        problems.append("{0} matched more than one entry; no party stored for them".format(k))
+        pairs = [(x, p) for x, p in pairs if x != k]
+    return pairs, problems
+
+
+def extend_party(conn, member_key, legislature, party, date):
+    """Record that `member_key` sat for `party` on `date`. The term in force
+    before the day widens to it when the party is the same, or the one after
+    when that is; otherwise a one-day term starts. A day inside a run of
+    another party, assumed between the run's two ends, SPLITS the run back to
+    those ends ('split'); a day an end of another party's run already holds
+    gets a term of its own, so two terms cover it and party_at gives NOTHING
+    there ('conflict')."""
+    rows = conn.execute(
+        "SELECT rowid, party, start, end FROM prov_member_terms WHERE prov=? AND member_key=? "
+        "AND legislature=? AND source=? ORDER BY start", (PROV, member_key, legislature, PARTY_SOURCE)).fetchall()
+    inside = [r for r in rows if r[2] <= date <= r[3]]
+    if any(r[1] == party for r in inside):
+        return None
+
+    def insert(p, start, end):
+        conn.execute(
+            "INSERT INTO prov_member_terms (prov, member_key, legislature, party, riding, start, end, "
+            "party_dated, source) VALUES (?,?,?,?,?,?,?,1,?)",
+            (PROV, member_key, legislature, p, None, start, end, PARTY_SOURCE))
+
+    if inside:
+        rowid, other, start, end = inside[0]
+        if start < date < end:
+            # The run was only ASSUMED between its two ends: keep the two
+            # ends, which were seen, and let bisection read the sittings
+            # between them again (an issue printing another day's list is
+            # then refuted by its neighbours; a real change is found).
+            conn.execute("UPDATE prov_member_terms SET end=? WHERE rowid=?", (start, rowid))
+            insert(other, end, end)
+            insert(party, date, date)
+            return "split"
+        insert(party, date, date)            # two parties seen on one day: none that day
+        return "conflict"
+    # The term that ENDS last before the day and the one that STARTS first
+    # after it: no other term lies between them, so widening one never jumps
+    # over a term in another party.
+    before = sorted((r for r in rows if r[3] < date), key=lambda r: r[3])[-1:]
+    after = sorted((r for r in rows if r[2] > date), key=lambda r: r[2])[:1]
+    if before and before[0][1] == party:
+        if after and after[0][1] == party:
+            conn.execute("UPDATE prov_member_terms SET end=? WHERE rowid=?", (after[0][3], before[0][0]))
+            conn.execute("DELETE FROM prov_member_terms WHERE rowid=?", (after[0][0],))
+        else:
+            conn.execute("UPDATE prov_member_terms SET end=? WHERE rowid=?", (date, before[0][0]))
+    elif after and after[0][1] == party:
+        conn.execute("UPDATE prov_member_terms SET start=? WHERE rowid=?", (date, after[0][0]))
+    else:
+        insert(party, date, date)
+    return None
+
+
+def change_windows(conn, legislature):
+    """[(after, before)]: the open days between a member's last sighting in
+    one party and first in another, in one parliament."""
+    by = {}
+    for key, party, start, end in conn.execute(
+            "SELECT member_key, party, start, end FROM prov_member_terms WHERE prov=? AND source=? "
+            "AND legislature=? ORDER BY member_key, start", (PROV, PARTY_SOURCE, legislature)):
+        by.setdefault(key, []).append((party, start, end))
+    out = set()
+    for ts in by.values():
+        for a, b in zip(ts, ts[1:]):
+            if a[0] != b[0] and a[2] < b[1]:
+                out.add((a[2], b[1]))
+    return sorted(out)
+
+
+def _terms_by_member(conn, legislature):
+    by = {}
+    for rowid, key, party, start, end in conn.execute(
+            "SELECT rowid, member_key, party, start, end FROM prov_member_terms WHERE prov=? AND source=? "
+            "AND legislature=? ORDER BY member_key, start, end", (PROV, PARTY_SOURCE, legislature)):
+        by.setdefault(key, []).append((rowid, party, start, end))
+    return by
+
+
+def lone_lists(conn, legislature):
+    """[(member_key, day)]: a member's party seen on ONE sitting only, with
+    another party on a list before or after it. An issue's list can be a
+    later one: the 3 October 2022 morning issue, regenerated in January
+    2024, prints 2024's parties (Banman 'Conservative Party of BC', the
+    Liberals 'BC United', Adam Walker 'Independent') where the afternoon
+    issue of the same day prints 2022's. So such a list
+    is believed only once a neighbouring sitting agrees; fetch_party_lists
+    reads the listed sittings either side to see."""
+    out = []
+    for key, ts in _terms_by_member(conn, legislature).items():
+        for i, t in enumerate(ts):
+            if t[2] != t[3] or len(ts) < 2:
+                continue
+            if any(o is not t and o[2] <= t[2] <= o[3] for o in ts):
+                continue                     # two parties on one day: none that day already
+            out.append((key, t[2]))
+    return out
+
+
+def _party_on(ts, day):
+    hits = {o[1] for o in ts if o[2] <= day <= o[3]}
+    return hits.pop() if len(hits) == 1 else None
+
+
+def refute_lone_lists(ctx, legislature, dates, seen, refuted=None):
+    """Drop a lone list's party (see lone_lists) once the listed sittings
+    either side of it have been READ this run (`seen`) and the one after
+    shows the member in another party, as does the one before (or the
+    member is not on it). Where the two sides agree, their terms are joined
+    across the day, as for a day whose list cannot be read. Returns how many
+    were dropped."""
+    n = 0
+    dropped = {}
+    for key, day in lone_lists(ctx.conn, legislature):
+        ts = _terms_by_member(ctx.conn, legislature).get(key) or []
+        t = next((o for o in ts if o[2] == o[3] == day), None)
+        if t is None:
+            continue                         # joined into a term by an earlier refutation
+        before = [d for d in dates if d < day][-1:]
+        after = [d for d in dates if d > day][:1]
+        # Judged only with BOTH sides read: a day opening the session's
+        # listing has its other side in the session before, read there.
+        if not after or not before or after[0] not in seen or before[0] not in seen:
+            continue
+        p_after = _party_on(ts, after[0])
+        p_before = _party_on(ts, before[0]) if before else None
+        if p_after is None or p_after == t[1] or p_before == t[1]:
+            continue
+        ctx.conn.execute("DELETE FROM prov_member_terms WHERE rowid=?", (t[0],))
+        if p_before is not None and p_before == p_after:
+            left = next(o for o in ts if o[2] <= before[0] <= o[3])
+            right = next(o for o in ts if o[2] <= after[0] <= o[3])
+            ctx.conn.execute("UPDATE prov_member_terms SET end=? WHERE rowid=?", (right[3], left[0]))
+            ctx.conn.execute("DELETE FROM prov_member_terms WHERE rowid=?", (right[0],))
+        dropped.setdefault(day, []).append("{0} ({1}; {2} after)".format(key, t[1], p_after))
+        if refuted is not None:
+            refuted.add((key, day))
+        n += 1
+    for day, who in sorted(dropped.items()):
+        ctx.gap("bc {0}: that issue's list is not the day's -- {1} member(s) in a party no sitting either "
+                "side shows them in; not used: {2}".format(day, len(who), ", ".join(who)))
+    ctx.conn.commit()
+    return n
+
+
+def covered(conn, legislature, date):
+    return bool(conn.execute(
+        "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source=? AND legislature=? "
+        "AND start<=? AND end>=?", (PROV, PARTY_SOURCE, legislature, date, date)).fetchone()[0])
+
+
+def read_party_list(ctx, legislature, date, url, resolver):
+    """Read one issue's list of members and store its parties. None when it
+    cannot be read or its tally fails; else {'pairs': [(member_key, party)],
+    'split': [member_key whose assumed run it split]}."""
+    raw = ctx.bytes(url, "hansard-pdf-{0}".format(url.rsplit("/", 1)[-1]))
+    if raw is None:
+        return None
+    try:
+        parsed = parse_member_list(pdf_text(raw, pages=range(8)))
+    except Unreadable as exc:
+        ctx.gap("bc {0}: Hansard {1}: {2}; no member list read".format(date, url, exc))
+        return None
+    if parsed is None:
+        ctx.gap("bc {0}: Hansard {1} prints no list of members".format(date, url))
+        return None
+    if parsed["parliament"] not in (None, legislature) or parsed["date"] not in (None, date):
+        ctx.gap("bc {0}: Hansard {1} is for {2} of the {3} Parliament; not used".format(
+            date, url, parsed["date"], parsed["parliament"]))
+        return None
+    why = tally_member_list(parsed)
+    if why:
+        ctx.gap("bc {0}: the member list of {1} does not add up ({2}); no party taken from it".format(
+            date, url, why))
+        return None
+    pairs, problems = resolve_member_list(parsed, resolver, date, legislature)
+    for p in problems:
+        ctx.gap("bc {0}: Hansard member list: {1}".format(date, p))
+    if not ctx.dry_run:
+        odd = {"split": [], "conflict": []}
+        for key, party in pairs:
+            what = extend_party(ctx.conn, key, legislature, party, date)
+            if what:
+                odd[what].append(key)
+        if odd["split"]:
+            ctx.log("  bc {0}: {1} member(s) listed in another party inside a run assumed between two "
+                    "lists; the run is read again: {2}".format(date, len(odd["split"]), " ".join(odd["split"])))
+        if odd["conflict"]:
+            ctx.gap("bc {0}: {1} listed in two parties on that day; no party for them that day".format(
+                date, " ".join(odd["conflict"])))
+        ctx.conn.commit()
+        return {"pairs": pairs, "split": odd["split"]}
+    return {"pairs": pairs, "split": []}
+
+
+def fetch_party_lists(ctx, legislature, session, listing, days, parts=None):
+    """Read the member lists the votes need, then narrow every change.
+
+    Read: each division day in `days` (the issue of the part that held a
+    division, from `parts`), and the session's first and last listed
+    sittings. A division day with no PDF, or an unreadable one, is covered
+    only by the nearest lists either side: the same party on both, and the
+    term spans it; else that day has no party. Then each window between a
+    member's last sighting in one party and first in another is BISECTED
+    through the session's listed sittings, until the change lies between two
+    sittings in a row: as exact as the Hansard allows. Returns lists read."""
+    pdfs = list_pdfs(listing)
+    if not pdfs:
+        return 0
+    dates = sorted(pdfs)
+    resolver = pn.Resolver.from_conn(ctx.conn, PROV)
+    parts = parts or {}
+    tried, seen, read = set(), set(), 0
+    sightings, refuted = {}, set()
+
+    def replay(keys):
+        # A split run loses the sightings inside it; those read THIS run are
+        # put back from memory (earlier runs' are read again by bisection).
+        for day in sorted(sightings):
+            for key in keys:
+                party = sightings[day].get(key)
+                if party and (key, day) not in refuted:
+                    extend_party(ctx.conn, key, legislature, party, day)
+        ctx.conn.commit()
+
+    def read_day(day):
+        nonlocal read
+        tried.add(day)
+        if ctx.budget is not None and ctx.budget.exhausted():
+            return False
+        # The part that held the division first, then the day's other part:
+        # the 28 November 2017 morning issue prints no list, the afternoon's does.
+        options = sorted(pdfs.get(day) or [], key=lambda o: o[0] != parts.get(day))
+        for _part, url in options:
+            got = read_party_list(ctx, legislature, day, url, resolver)
+            if got is not None:
+                read += 1
+                seen.add(day)
+                sightings[day] = dict(got["pairs"])
+                if got["split"]:
+                    replay(got["split"])
+                return True
+        return False
+
+    for day in sorted(set(days) | {dates[0], dates[-1]}):
+        if not ctx.refresh and covered(ctx.conn, legislature, day):
+            continue
+        if day in pdfs and read_day(day):
+            continue
+        if day not in days:
+            continue
+        if day not in pdfs:
+            ctx.gap("bc {0}: no Hansard PDF listed for the day".format(day))
+        for side in ([d for d in dates if d < day][-1:] + [d for d in dates if d > day][:1]):
+            if side not in tried and not covered(ctx.conn, legislature, side):
+                read_day(side)
+        if not covered(ctx.conn, legislature, day):
+            ctx.gap("bc {0}: no party at the vote that day (its own list unread and none read either "
+                    "side covers it)".format(day))
+    spent = 0
+    while spent < BISECT_READS:
+        refute_lone_lists(ctx, legislature, dates, seen, refuted)
+        targets = set()
+        for after, before in change_windows(ctx.conn, legislature):
+            between = [d for d in dates if after < d < before and d not in tried]
+            if between:
+                targets.add(between[len(between) // 2])
+        # a party seen on one sitting is believed when a sitting beside it agrees
+        for _key, day in lone_lists(ctx.conn, legislature):
+            for side in [d for d in dates if d < day][-1:] + [d for d in dates if d > day][:1]:
+                if side not in tried:
+                    targets.add(side)
+        if not targets:
+            break
+        for day in sorted(targets):
+            read_day(day)
+            spent += 1
+        if ctx.budget is not None and ctx.budget.exhausted():
+            ctx.log(ctx.budget.disclose("bc member lists", read))
+            break
+    refute_lone_lists(ctx, legislature, dates, seen, refuted)
+    return read
 
 
 # -- bills ------------------------------------------------------------------
@@ -481,4 +1041,30 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     read_dates = {d for d, n in per_day.items() if len(done.get(d, [])) == n}
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps,
                   "voice": store_voice(ctx, leg, sess, read_dates) if bills else 0})
+    stats.update(party_at_votes(ctx, leg, sess, listing))
     return stats
+
+
+def party_at_votes(ctx, leg, sess, listing):
+    """Read the member lists of the session's division days in the window
+    (fetch_party_lists), then write party_at_vote onto EVERY stored vote of
+    the session from the dated terms (prov_store.refresh_party): so a vote
+    stored before its day's list was read -- the 8,508 of the first backfill
+    -- gets its party without its transcript being fetched again."""
+    days = {r[0] for r in ctx.conn.execute(
+        "SELECT DISTINCT date FROM prov_divisions WHERE prov=? AND legislature=? AND session=? "
+        "AND kind='recorded'", (PROV, leg, sess)) if ctx.in_window(r[0])}
+    parts = {}
+    for key, n in ctx.conn.execute(
+            "SELECT sitting_key, divisions FROM prov_sittings WHERE prov=? AND sitting_key LIKE ? "
+            "ORDER BY sitting_key", (PROV, "{0}-{1}-{2}-%".format(PROV, leg, sess))):
+        m = re.search(r"-(\d{4}-\d{2}-\d{2})-(am|pm)$", key)
+        if m and n:
+            parts.setdefault(m.group(1), m.group(2))
+    lists = fetch_party_lists(ctx, leg, sess, listing, days, parts) if listing else 0
+    n, with_party = ps.refresh_party(ctx.conn, PROV, pn.Resolver.from_conn(ctx.conn, PROV), leg, sess)
+    ctx.conn.commit()
+    if lists or n:
+        ctx.log("  bc {0}-{1}: {2} member list(s) read; {3} of {4} vote(s) carry a dated party".format(
+            leg, sess, lists, with_party, n))
+    return {"party_lists": lists, "votes_with_party": "{0}/{1}".format(with_party, n)}

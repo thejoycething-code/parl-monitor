@@ -106,25 +106,284 @@ class HansardTests(unittest.TestCase):
         self.assertEqual(bc.vote_on("The question is the amendment to section 3."), "amendment")
 
 
+CON, IND, NDP = ("Conservative Party of British Columbia", "Independent",
+                  "British Columbia New Democratic Party")
+LIB, UNITED = "British Columbia Liberal Party", "British Columbia United"
+
+
+def store_43(conn):
+    """The 43rd Parliament's roster terms (api) in a store."""
+    for key, m, t in resolver()[1]:
+        ps.upsert_member(conn, "bc", key, name=m["name"], surname=m["surname"], given=m["given"],
+                         riding=m["riding"], party=m["party"])
+        ps.replace_terms(conn, "bc", key, [t], "api", legislature=43)
+    return {m["name"]: k for k, m, t in resolver()[1]}
+
+
+def read_list(conn, name, date, leg=43):
+    """Resolve one fixture list against the store's roster and record it."""
+    parsed = bc.parse_member_list(fx(name))
+    pairs, problems = bc.resolve_member_list(parsed, pn.Resolver.from_conn(conn, "bc"), date, leg)
+    for key, party in pairs:
+        bc.extend_party(conn, key, leg, party, date)
+    return parsed, pairs, problems
+
+
+class PartyListTests(unittest.TestCase):
+    """Each House issue's PDF prints the Assembly's list of members with
+    party, and the standings: the dated source the API is not."""
+
+    LISTS = (("bc_hansard_members_20090825.txt", 39, "2009-08-25", 85),
+             ("bc_hansard_members_20210412.txt", 42, "2021-04-12", 87),
+             ("bc_hansard_members_20240220.txt", 42, "2024-02-20", 87),
+             ("bc_hansard_members_20250218.txt", 43, "2025-02-18", 93),
+             ("bc_hansard_members_20250402.txt", 43, "2025-04-02", 93),
+             ("bc_hansard_members_20260219.txt", 43, "2026-02-19", 93))
+
+    def test_three_layouts_add_up_to_their_standings(self):
+        for name, leg, date, n in self.LISTS:
+            p = bc.parse_member_list(fx(name))
+            self.assertEqual((p["parliament"], p["date"], len(p["entries"])), (leg, date, n), name)
+            self.assertIsNone(bc.tally_member_list(p), name)
+
+    def test_the_39th_small_capitals(self):
+        """'van Dongen, John (l)', 'huntington, Vicki (ind.)', 'Y amamoto'."""
+        p = bc.parse_member_list(fx("bc_hansard_members_20090825.txt"))
+        self.assertEqual(p["standings"], {LIB: 49, NDP: 35, IND: 1})
+        by = {pn.squash(e["pre"]): e["party"] for e in p["entries"]}
+        self.assertEqual((by["vandongen"], by["huntington"], by["yamamoto"], by["dix"]), (LIB, IND, LIB, NDP))
+
+    def test_the_43rd_by_party_with_two_entries_on_a_line(self):
+        conn = db.init_db(db.connect(":memory:"))
+        keys = store_43(conn)
+        p, pairs, problems = read_list(conn, "bc_hansard_members_20260219.txt", "2026-02-19")
+        self.assertEqual(problems, [])
+        self.assertEqual(len(pairs), 93)
+        got = dict(pairs)
+        self.assertEqual(got[keys["Jeremy Valeriote"]], "British Columbia Green Party")
+        self.assertEqual(got[keys["Rob Botterell"]], "British Columbia Green Party")
+        # the API calls these Independent for the whole parliament; that day
+        # they sat with the Conservatives
+        for name in ("Bruce Banman", "Peter Milobar", "Teresa Wat", "Á'a:líya Warbus"):
+            self.assertEqual(got[keys[name]], CON, name)
+        self.assertEqual(got[keys["Larry Neufeld"]], CON)
+        self.assertEqual(got[keys["Korky Neufeld"]], CON)
+
+    def test_a_list_that_does_not_add_up_is_refused(self):
+        text = fx("bc_hansard_members_20250402.txt").replace(
+            "Kealy, Jordan ............................................................. Peace River North\n", "")
+        p = bc.parse_member_list(text)
+        self.assertIn("against standings", bc.tally_member_list(p))
+        # a heading we cannot name leaves the entries under it partyless
+        text = fx("bc_hansard_members_20250402.txt").replace("INDEPENDENT", "ONE NEW CAUCUS")
+        self.assertIn("no party", bc.tally_member_list(bc.parse_member_list(text)))
+
+
+class DatedPartyTests(unittest.TestCase):
+    """Tara Armstrong went Independent between 18 February and 2 April
+    2025; Elenore Sturko between 2 April 2025 and 19 February 2026; Adrian
+    Dix never changed."""
+
+    def setUp(self):
+        self.conn = db.init_db(db.connect(":memory:"))
+        self.keys = store_43(self.conn)
+        for name, date in (("bc_hansard_members_20250218.txt", "2025-02-18"),
+                           ("bc_hansard_members_20250402.txt", "2025-04-02"),
+                           ("bc_hansard_members_20260219.txt", "2026-02-19")):
+            _, _, problems = read_list(self.conn, name, date)
+            self.assertEqual(problems, [], name)
+        self.r = pn.Resolver.from_conn(self.conn, "bc")
+
+    def party(self, name, date):
+        return self.r.party_at(self.keys[name], date, 43)
+
+    def test_one_who_went_independent(self):
+        self.assertEqual(self.party("Tara Armstrong", "2025-02-18"), CON)
+        self.assertIsNone(self.party("Tara Armstrong", "2025-03-10"))     # the change lies here: no party
+        self.assertEqual(self.party("Tara Armstrong", "2025-04-02"), IND)
+        self.assertEqual(self.party("Tara Armstrong", "2025-10-01"), IND)  # Independent on both sides
+        self.assertEqual(self.party("Elenore Sturko", "2025-04-02"), CON)
+        self.assertIsNone(self.party("Elenore Sturko", "2025-10-01"))
+        self.assertEqual(self.party("Elenore Sturko", "2026-02-19"), IND)
+
+    def test_one_who_never_changed(self):
+        for date in ("2025-02-18", "2025-03-10", "2025-10-01", "2026-02-19"):
+            self.assertEqual(self.party("Adrian Dix", date), NDP)
+        self.assertIsNone(self.party("Adrian Dix", "2026-03-01"))         # after the last list read
+
+    def test_the_change_window_is_what_bisection_narrows(self):
+        windows = bc.change_windows(self.conn, 43)
+        self.assertIn(("2025-02-18", "2025-04-02"), windows)
+        self.assertIn(("2025-04-02", "2026-02-19"), windows)
+
+    def test_one_who_crossed_the_floor_in_the_42nd(self):
+        """Bruce Banman, elected a BC Liberal in 2020, sat as a Conservative
+        by February 2024; the API shows him Conservative for the whole 42nd.
+        Peter Milobar stayed in the party that renamed itself BC United."""
+        conn = db.init_db(db.connect(":memory:"))
+        parl = {"id": 42, "number": 42, "startDate": "2020-12-07", "endDate": "2024-09-21"}
+        rows = bc.terms_from_members(json.loads(fx("bc_members_42.json"))["data"]["allMemberParliaments"]["nodes"],
+                                     parl)
+        for key, m, t in rows:
+            ps.upsert_member(conn, "bc", key, name=m["name"], surname=m["surname"], given=m["given"])
+            ps.replace_terms(conn, "bc", key, [t], "api", legislature=42)
+        keys = {m["name"]: k for k, m, t in rows}
+        self.assertEqual(next(t["party"] for k, m, t in rows if k == keys["Bruce Banman"]), CON)  # the API
+        for name, date in (("bc_hansard_members_20210412.txt", "2021-04-12"),
+                           ("bc_hansard_members_20240220.txt", "2024-02-20")):
+            _, pairs, problems = read_list(conn, name, date, leg=42)
+            self.assertEqual((problems, len(pairs)), ([], 87), name)
+        r = pn.Resolver.from_conn(conn, "bc")
+        self.assertEqual(r.party_at(keys["Bruce Banman"], "2021-04-12", 42), LIB)
+        self.assertIsNone(r.party_at(keys["Bruce Banman"], "2023-10-01", 42))
+        self.assertEqual(r.party_at(keys["Bruce Banman"], "2024-02-20", 42), CON)
+        self.assertEqual(r.party_at(keys["Peter Milobar"], "2021-04-12", 42), LIB)
+        self.assertEqual(r.party_at(keys["Peter Milobar"], "2024-02-20", 42), UNITED)
+        self.assertEqual(r.party_at(keys["Adrian Dix"], "2022-11-01", 42), NDP)
+
+    def test_a_given_name_run_into_its_honorific(self):
+        """'Weaver, Dr.Andrew' (41st Parliament, November 2017)."""
+        self.assertEqual(bc._given_tokens("Dr.Andrew"), ["andrew"])
+        self.assertEqual(bc._given_tokens("Hon. Tamara / Laanas"), ["tamara", "laanas"])
+
+    def test_a_party_left_and_rejoined_keeps_three_terms(self):
+        conn = db.init_db(db.connect(":memory:"))
+        for date, party in (("2020-01-01", CON), ("2020-03-01", IND), ("2020-05-01", CON), ("2020-02-01", CON)):
+            bc.extend_party(conn, "9", 43, party, date)
+        rows = conn.execute("SELECT party, start, end FROM prov_member_terms ORDER BY start").fetchall()
+        self.assertEqual([tuple(r) for r in rows], [(CON, "2020-01-01", "2020-02-01"),
+                                                    (IND, "2020-03-01", "2020-03-01"),
+                                                    (CON, "2020-05-01", "2020-05-01")])
+        # two parties on one day: none that day
+        self.assertEqual(bc.extend_party(conn, "9", 43, IND, "2020-05-01"), "conflict")
+        self.assertIsNone(self.resolver_of(conn).party_at("9", "2020-05-01", 43))
+
+    @staticmethod
+    def resolver_of(conn):
+        return pn.Resolver({}, [dict(zip(("member_key", "legislature", "party", "start", "end", "party_dated",
+                                          "source"), t)) for t in conn.execute(
+            "SELECT member_key, legislature, party, start, end, party_dated, source FROM prov_member_terms")])
+
+    def test_a_list_printing_another_days_parties_is_refuted_by_its_neighbours(self):
+        """The 3 October 2022 morning issue prints 2024's parties; the
+        sittings either side print 2022's. A list seen inside a run that was
+        only assumed splits the run; once the sittings either side are read
+        and agree with each other, the odd list is dropped."""
+        conn = db.init_db(db.connect(":memory:"))
+        ctx = Context(conn, _Client({}, {}), "bc", log=lambda *a: None)
+        bc.extend_party(conn, "7", 42, LIB, "2022-02-08")
+        bc.extend_party(conn, "7", 42, LIB, "2023-02-06")
+        self.assertEqual(self.resolver_of(conn).party_at("7", "2022-06-01", 42), LIB)   # assumed run
+        self.assertEqual(bc.extend_party(conn, "7", 42, CON, "2022-10-03"), "split")
+        self.assertIsNone(self.resolver_of(conn).party_at("7", "2022-06-01", 42))       # no longer assumed
+        self.assertIn(("7", "2022-10-03"), bc.lone_lists(conn, 42))
+        dates = ["2022-02-08", "2022-05-30", "2022-10-03", "2022-10-04", "2023-02-06"]
+        self.assertEqual(bc.refute_lone_lists(ctx, 42, dates, set()), 0)    # its neighbours not read yet
+        bc.extend_party(conn, "7", 42, LIB, "2022-10-04")
+        bc.extend_party(conn, "7", 42, LIB, "2022-05-30")
+        self.assertEqual(bc.refute_lone_lists(ctx, 42, dates, {"2022-05-30", "2022-10-04"}), 1)
+        rows = conn.execute("SELECT party, start, end FROM prov_member_terms").fetchall()
+        self.assertEqual([tuple(r) for r in rows], [(LIB, "2022-02-08", "2023-02-06")])
+        self.assertTrue(any("is not the day's" in g for g in ctx.gaps))
+
+    def test_the_october_2022_issue_from_end_to_end(self):
+        """Three real issues: 2 June 2022, 3 October 2022 a.m. (n221, which
+        prints 2024's parties) and 4 October 2022 a.m. Rustad's change
+        (BC Liberal to Independent) makes bisection read n221, whose list
+        splits the Liberals' assumed run; its neighbours refute it."""
+        conn = db.init_db(db.connect(":memory:"))
+        parl = {"id": 42, "number": 42, "startDate": "2020-12-07", "endDate": "2024-09-21"}
+        for key, m, t in bc.terms_from_members(
+                json.loads(fx("bc_members_42.json"))["data"]["allMemberParliaments"]["nodes"], parl):
+            ps.upsert_member(conn, "bc", key, name=m["name"], surname=m["surname"], given=m["given"])
+            ps.replace_terms(conn, "bc", key, [t], "api", legislature=42)
+        keys = {n: k for k, n in conn.execute("SELECT member_key, name FROM prov_members")}
+        issues = (("20220602am-Hansard-n219", "bc_hansard_members_220602am.txt"),
+                  ("20221003am-Hansard-n221", "bc_hansard_members_221003am.txt"),
+                  ("20221004am-Hansard-n223", "bc_hansard_members_221004am.txt"))
+        listing = {"allHansardFileAttributes": {"nodes": [
+            {"fileName": f + ".html", "published": True, "debateAttributes": {"nodes": [
+                {"pdfLink": "/Debates/42nd3rd/{0}.pdf".format(f), "debateType": {"name": "House"}}]}}
+            for f, _ in issues]}}
+        blobs = {bc.PDF_FILE.format("/Debates/42nd3rd/{0}.pdf".format(f)): name.encode() for f, name in issues}
+        ctx = Context(conn, _Client({}, {}, blobs), "bc", log=lambda *a: None)
+        saved, bc.pdf_text = bc.pdf_text, lambda raw, pages=None: fx(raw.decode())
+        try:
+            self.assertEqual(bc.fetch_party_lists(ctx, 42, 3, listing, {"2022-10-04"}), 3)
+        finally:
+            bc.pdf_text = saved
+        r = pn.Resolver.from_conn(conn, "bc")
+        for name in ("Mike Bernier", "Bruce Banman"):
+            self.assertEqual([r.party_at(keys[name], d, 42) for d in ("2022-06-02", "2022-10-03", "2022-10-04")],
+                             [LIB, LIB, LIB], name)
+        self.assertEqual([r.party_at(keys["John Rustad"], d, 42) for d in ("2022-06-02", "2022-10-03", "2022-10-04")],
+                         [LIB, None, IND])
+        self.assertEqual(r.party_at(keys["Elenore Sturko"], "2022-10-03", 42), None)   # elected September 2022
+        self.assertEqual(r.party_at(keys["Elenore Sturko"], "2022-10-04", 42), LIB)
+        self.assertTrue(any("2022-10-03: that issue's list is not the day's" in g for g in ctx.gaps))
+
+    def test_a_lone_list_between_two_other_parties_leaves_the_day_without_one(self):
+        """John Rustad, 2022: BC Liberal to 2 June, the 3 October morning
+        issue's 'Conservative', Independent from the afternoon of 4 October."""
+        conn = db.init_db(db.connect(":memory:"))
+        ctx = Context(conn, _Client({}, {}), "bc", log=lambda *a: None)
+        for date, party in (("2022-06-02", LIB), ("2022-10-03", CON), ("2022-10-04", IND), ("2022-10-05", IND)):
+            bc.extend_party(conn, "64", 42, party, date)
+        dates = ["2022-06-02", "2022-10-03", "2022-10-04", "2022-10-05"]
+        self.assertEqual(bc.refute_lone_lists(ctx, 42, dates, {"2022-06-02", "2022-10-04"}), 1)
+        r = self.resolver_of(conn)
+        self.assertIsNone(r.party_at("64", "2022-10-03", 42))
+        self.assertEqual((r.party_at("64", "2022-06-02", 42), r.party_at("64", "2022-10-04", 42)), (LIB, IND))
+
+    def test_a_real_change_is_confirmed_by_the_next_sitting(self):
+        conn = db.init_db(db.connect(":memory:"))
+        ctx = Context(conn, _Client({}, {}), "bc", log=lambda *a: None)
+        bc.extend_party(conn, "7", 42, LIB, "2023-05-11")
+        bc.extend_party(conn, "7", 42, CON, "2023-10-02")
+        self.assertIn(("7", "2023-10-02"), bc.lone_lists(conn, 42))
+        bc.extend_party(conn, "7", 42, CON, "2023-10-03")
+        self.assertNotIn(("7", "2023-10-02"), bc.lone_lists(conn, 42))
+        self.assertEqual(bc.change_windows(conn, 42), [("2023-05-11", "2023-10-02")])
+        dates = ["2023-05-11", "2023-10-02", "2023-10-03"]
+        self.assertEqual(bc.refute_lone_lists(ctx, 42, dates, set(dates)), 0)
+        self.assertEqual(self.resolver_of(conn).party_at("7", "2023-10-02", 42), CON)
+
+
 class _Client:
     user_agent = "CitizenGO-ParlMonitor/1.0 (contact: test)"
     throttle = 1.1
 
-    def __init__(self, pages, posts):
-        self.pages, self.posts = pages, posts
+    def __init__(self, pages, posts, blobs=None):
+        self.pages, self.posts, self.blobs = pages, posts, blobs or {}
 
     def get_text(self, url, feed, slug, archive=True, fallback_encoding=None):
         if url not in self.pages:
             raise FetchError(url, feed, slug, 1, "HTTP Error 404: Not Found")
         return self.pages[url]
 
+    def get_bytes(self, url, feed, slug, archive=True):
+        if url not in self.blobs:
+            raise FetchError(url, feed, slug, 1, "HTTP Error 404: Not Found")
+        return self.blobs[url]
+
     def post_json(self, url, body, feed, slug, headers=None, timeout=None):
         q = json.loads(body)["query"]
         return self.posts["sessions" if "allSessions" in q else "members"]
 
 
+N119_PDF = "https://lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260219am-Hansard-n119.pdf"
+
+
 class CollectTests(unittest.TestCase):
-    def run_collect(self, bills_reply):
+    def setUp(self):
+        # The PDF itself is 1.4 MB; its member-list text is the fixture.
+        self._pdf_text = bc.pdf_text
+        bc.pdf_text = lambda raw, pages=None: fx(raw.decode())
+
+    def tearDown(self):
+        bc.pdf_text = self._pdf_text
+
+    def run_collect(self, bills_reply, pdfs=True):
         conn = db.init_db(db.connect(":memory:"))
         n119 = "https://lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260219am-Hansard-n119.html"
         n120 = "https://lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260219pm-Hansard-n120.html"
@@ -136,7 +395,8 @@ class CollectTests(unittest.TestCase):
                           n119: "<p class=\"Hansard\">Hansard</p>" + fx("bc_hansard_n119.html"),
                           n120: "<p class=\"Hansard\">Hansard</p><p class=\"Subject-Heading\">Nothing divided</p>"}),
                          {"sessions": json.loads(fx("bc_sessions.json")),
-                          "members": json.loads(fx("bc_members_43.json"))})
+                          "members": json.loads(fx("bc_members_43.json"))},
+                         {N119_PDF: b"bc_hansard_members_20260219.txt"} if pdfs else {})
         ctx = Context(conn, client, "bc", since=DATE, until=DATE, log=lambda *a: None)
         stats = bc.collect(ctx, session="43-2")
         return conn, ctx, stats
@@ -155,8 +415,41 @@ class CollectTests(unittest.TestCase):
                                        "First Reading refused", "[3, 6]"))
         rustad = conn.execute("SELECT v.position, v.party_at_vote FROM prov_votes v JOIN prov_members m "
                               "ON m.prov='bc' AND m.member_key=v.member_key WHERE m.surname='Rustad'").fetchone()
-        self.assertEqual(tuple(rustad), ("Yea", None))       # BC party is undated: never joined
+        # Party at the vote: that sitting's own list of members, not the API's
+        self.assertEqual(tuple(rustad), ("Yea", CON))
+        banman = conn.execute("SELECT v.party_at_vote, m.party FROM prov_votes v JOIN prov_members m "
+                              "ON m.prov='bc' AND m.member_key=v.member_key WHERE m.surname='Banman'").fetchone()
+        self.assertEqual(tuple(banman), (CON, IND))
+        self.assertEqual(stats["votes_with_party"], "87/87")
         self.assertEqual(ctx.gaps, [])
+
+    def test_a_vote_whose_day_has_no_list_carries_no_party(self):
+        conn, ctx, stats = self.run_collect(fx("bc_bills_206.json"), pdfs=False)
+        self.assertEqual(stats["votes_with_party"], "0/87")
+        self.assertTrue(any("no party at the vote that day" in g for g in ctx.gaps))
+
+    def test_votes_stored_before_the_lists_get_their_party_without_a_transcript(self):
+        """The repair of the first backfill: re-running the session reads
+        the lists and rewrites party_at_vote; the transcript is not fetched
+        again (it was read cleanly)."""
+        conn, ctx, _ = self.run_collect(fx("bc_bills_206.json"), pdfs=False)
+        ctx.client.blobs = {N119_PDF: b"bc_hansard_members_20260219.txt"}
+        ctx.client.pages = {k: v for k, v in ctx.client.pages.items() if "Hansard-n1" not in k}
+        stats = bc.collect(ctx, session="43-2")
+        self.assertEqual((stats["records_read"], stats["votes_with_party"]), (0, "87/87"))
+
+    def test_a_roster_reread_keeps_other_parliaments_terms(self):
+        """The Alberta fault (ffd13b9e): one parliament's re-read must not
+        delete a member's terms in another."""
+        conn, ctx, _ = self.run_collect(fx("bc_bills_206.json"))
+        key = conn.execute("SELECT member_key FROM prov_members WHERE surname='Banman'").fetchone()[0]
+        ps.replace_terms(conn, "bc", key, [{"legislature": 42, "party": LIB, "start": "2020-12-07",
+                                            "end": "2024-09-21"}], "api", legislature=42)
+        bc.fetch_roster(ctx, bc.find_session(json.loads(fx("bc_sessions.json"))["data"]["allSessions"]["nodes"],
+                                             43, 2))
+        legs = sorted(r[0] for r in conn.execute("SELECT legislature FROM prov_member_terms WHERE member_key=? "
+                                                 "AND source='api'", (key,)))
+        self.assertEqual(legs, [42, 43])
 
     def test_a_reply_for_the_wrong_session_is_a_gap_and_stores_no_bills(self):
         conn, ctx, stats = self.run_collect(fx("bc_bills_wrong_session.json"))

@@ -29,7 +29,8 @@ PARTY IS A FACT OF THE VOTE, NOT A JOIN. `prov_member_terms` keeps party
 over time (Alberta's dated affiliations, Saskatchewan's Hansard cover list
 of the sitting day); `prov_votes.party_at_vote` is filled only from a term
 dated to cover the vote. Where the source cannot date a party (BC's members
-API gives one party per parliament) it stays NULL -- the NI and federal
+API gives one party per parliament, so BC dates it from each Hansard
+issue's list of members instead) it stays NULL -- the NI and federal
 lesson is that today's party joined to an old vote misattributes every
 floor-crosser.
 
