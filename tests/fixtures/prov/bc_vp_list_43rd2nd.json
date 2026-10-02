@@ -1,0 +1,36 @@
+{
+"allParliamentaryFileAttributes": {
+"nodes": [
+{
+"fileName": "v260219.htm",
+"filePath": "/ldp/43rd2nd/votes",
+"published": true,
+"publishTime": null,
+"date": "2026-02-19T21:00:00",
+"title": null,
+"votesAttributesByFileId": {
+"nodes": [
+{
+"voteNumbers": "4 and 5"
+}
+]
+}
+},
+{
+"fileName": "v260421.htm",
+"filePath": "/ldp/43rd2nd/votes",
+"published": true,
+"publishTime": null,
+"date": "2026-04-21T21:00:00",
+"title": null,
+"votesAttributesByFileId": {
+"nodes": [
+{
+"voteNumbers": "43 and 44"
+}
+]
+}
+}
+]
+}
+}
