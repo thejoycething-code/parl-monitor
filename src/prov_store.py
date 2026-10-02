@@ -4,8 +4,8 @@ Scoped in docs/canada-provinces-scope.md ("Proposed common design"). One
 set of tables serves all thirteen legislatures, keyed by `prov`: ab, bc,
 mb, nb, nl, ns, nt, nu, on, pe, qc, sk, yt.
 
-SEPARATION GUARANTEE. Nothing outside tools/prov_*.py and src/ingest/prov_*
-reads or writes these tables, and nothing here touches a federal (ca_*),
+SEPARATION GUARANTEE. Nothing outside tools/prov_*.py, src/ingest/prov_* and
+src/prov_speeches.py (the Hansard speeches engine) reads or writes these tables, and nothing here touches a federal (ca_*),
 Westminster, devolved, EU or German table. `db.init_db` calls
 `ensure_schema` and the names are in `db.TABLES` from day one: the federal
 tables were left out of db.TABLES until phase 3 and tests/test_db.py failed
