@@ -62,6 +62,19 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
 
     python3 tools/prov_collect.py --prov ab --session 31-1 --since 2024-10-28 --until 2024-12-05 --db /tmp/prov.db
 
+**Live smoke runs (2 October 2026, one scratch store, from the probe IP):**
+
+| Province | Window | Records read | Recorded divisions (tally ok) | Voice decisions | Votes (unresolved) | Bills (on our ground) | Gaps |
+|---|---|---|---|---|---|---|---|
+| Alberta 31-1 | 28 Oct–5 Dec 2024 | 19 V&P | 40 (40) | 36 | 2,789 (0) | 75, all texts read (6) | 0 |
+| Saskatchewan 29-3 | October 2023 | 9 Minutes | 12 (12) | 0 | 550 (0) | 1 (1) | 0 |
+| British Columbia 43-2 | 12–28 Feb 2026 | 12 transcripts | 5 (5) | 13 | 442 (0) | 46 incl. 2 unnumbered, 44 texts (3) | 0 |
+
+- **Alberta:** 91 members with 116 dated terms; every bill-page "passed on division" stage matched a parsed division.
+- **Saskatchewan:** 61 members from the day covers. Bill 137 has eleven divisions on our ground.
+- **British Columbia:** 93 members. The whole session lists 73 transcripts (dry run).
+- **5CA:** `tools/prov_5ca.py --all` wrote 4 Alberta, 1 Saskatchewan and 4 BC evidence sheets, with nobody placed (the stance file is empty).
+
 ### Foundation (step 0)
 
 - **Tables** (`src/prov_store.py`, in `db.TABLES`, created by `db.init_db`): `prov_members`, `prov_member_terms`, `prov_divisions`, `prov_votes`, `prov_bills`, `prov_sittings`, `prov_speeches`, keyed by `prov`.

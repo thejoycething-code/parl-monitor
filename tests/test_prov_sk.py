@@ -190,6 +190,8 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(tuple(row), ("sk-29-3-2023-10-20-1", "sk-29-3/137", "Third Reading", 40, 12, 1, "[6]"))
         terms = conn.execute("SELECT start, end, party FROM prov_member_terms WHERE member_key='scott-moe'").fetchall()
         self.assertEqual([tuple(t) for t in terms], [(DATE, DATE, "SP")])
+        # the newest cover read is the sitting list, which the 5CA counts
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_members WHERE sitting=1").fetchone()[0], 61)
         self.assertEqual(ctx.gaps, [])
 
 

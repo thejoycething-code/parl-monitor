@@ -163,9 +163,20 @@ def roster_for_day(ctx, rec):
     if total is not None and total != len(members):
         ctx.gap("sk {0}: Hansard cover lists {1} member(s), standings say {2}".format(
             rec["date"], len(members), total))
+    # The newest cover read is the sitting list: members on it are sitting,
+    # everyone else held only on older covers is former. An older cover
+    # (a backfill) never changes that.
+    newest = ctx.conn.execute("SELECT MAX(end) FROM prov_member_terms WHERE prov=? AND "
+                              "source='hansard-cover'", (PROV,)).fetchone()[0]
+    is_newest = newest is None or rec["date"] >= newest
+    if is_newest:
+        ctx.conn.execute("UPDATE prov_members SET sitting=0 WHERE prov=?", (PROV,))
     for m in members:
         ps.upsert_member(ctx.conn, PROV, m["key"], name=m["given"] + " " + m["surname"],
-                         surname=m["surname"], given=m["given"], riding=m["riding"], party=m["party"])
+                         surname=m["surname"], given=m["given"],
+                         riding=m["riding"] if is_newest else None,
+                         party=m["party"] if is_newest else None,
+                         sitting=1 if is_newest else None)
         ps.extend_term(ctx.conn, PROV, m["key"], rec["legislature"], m["party"], m["riding"],
                        rec["date"], "hansard-cover")
     ctx.conn.commit()
