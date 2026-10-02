@@ -67,8 +67,11 @@ from src import prov_classify as pc, prov_names as pn, prov_store as ps
 DEFAULT_WINDOW_DAYS = 60       # a first weekly on an empty store reads this far back, said out loud
 RESUME_LOOKBACK_DAYS = 14
 OWED_DAYS = 120
-MIN_RESOLVED_SHARE = 0.5       # below this, a day with >= MIN_SPEAKERS speakers is a gap
-MIN_SPEAKERS = 5
+MIN_RESOLVED_SHARE = 0.5       # below this, a day with >= MIN_SPEAKERS speaker turns is a gap
+# A broken roster leaves a whole day's debate unresolved; a short ceremonial
+# day does not -- Saskatchewan's opening of 22 October 2025 had six turns by
+# elders and guests who are rightly nobody's member key.
+MIN_SPEAKERS = 20
 
 
 def feed(prov):
@@ -89,6 +92,11 @@ _COLLECTIVE = re.compile(
     r"(?:members?|voix|deputes?|voices?|interjections?)$")
 
 
+# Bold labels that open a paragraph but are nobody speaking (Saskatchewan
+# prints a bold "Disclaimer:" on its opening-day HTML).
+NOT_SPEAKERS = {"disclaimer", "note", "nota", "avis", "editor's note"}
+
+
 def fold_label(label):
     return pn.fold(re.sub(r"[:\s—–\-]+$", "", label or "")).strip()
 
@@ -98,7 +106,7 @@ def is_chair(label):
     f = fold_label(label or "")
     if not f:
         return True
-    if _CHAIR.match(f) or _COLLECTIVE.match(f):
+    if _CHAIR.match(f) or _COLLECTIVE.match(f) or f in NOT_SPEAKERS:
         return True
     # pypdf's spacing ('The C hair'), tried only after the label as printed.
     g = fold_label(unsplit(label or ""))

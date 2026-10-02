@@ -55,7 +55,8 @@ def parse_day(html):
         if tag == "h2":
             blocks.append(("rubric", english(sp.text_of(inner))))
         elif tag == "h3":
-            blocks.append(("subject", english(sp.text_of(inner)), None))
+            text = english(sp.text_of(inner))
+            blocks.append(("subject", text, sp.bill_number(text)))
         elif "speakerStart" in cls:
             lab = _STRONG.match(inner)
             if lab:

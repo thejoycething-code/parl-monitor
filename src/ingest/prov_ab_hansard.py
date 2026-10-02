@@ -78,14 +78,19 @@ def is_label(line):
 
 def parse_pdf(text):
     lines = [_SPACES.sub(" ", l).rstrip() for l in (text or "").splitlines()]
-    start = next((i for i, l in enumerate(lines) if l.startswith("head:")), len(lines))
+    # The sitting starts at its "Title:" line (an evening sitting in
+    # Committee of the Whole prints no 'head:' line at all), else at the
+    # first 'head:'.
+    start = next((i for i, l in enumerate(lines) if l.startswith("Title:")), None)
+    if start is None:
+        start = next((i for i, l in enumerate(lines) if l.startswith("head:")), len(lines))
     kept = []
     for l in lines[start:]:
         s = l.strip()
         if not s or _FURNITURE.match(s):
             continue
         kept.append(l)
-    blocks, para, heading = [], None, None
+    blocks, para, heading = [], None, []      # lines before the first label are headings
 
     def flush():
         nonlocal para
