@@ -406,20 +406,23 @@ def parse_bill_page(html):
         party = html_text(p.group(1)) if p else None
     docs = [(html_text(label), _url(href)) for href, label in _DOC.findall(html or "")]
     reading = [d for d in docs if "reading" in d[0].lower()]
-    text = next((u for l, u in reversed(reading) if u.lower().endswith((".htm", ".html"))), None) \
-        or next((u for l, u in reversed(reading) if u.lower().endswith(".pdf")), None)
+    # The latest reading's text, English HTML first and its PDF as the
+    # fallback: Bill-57-e.htm (60-2) is served as an empty document.
+    texts = [u for l, u in reversed(reading) if u.lower().endswith((".htm", ".html"))][:1] + \
+        [u for l, u in reversed(reading) if u.lower().endswith(".pdf")][:1]
     return {"bill_type": prop("Bill Type"), "sponsor": sponsor, "sponsor_party": party,
-            "docs": docs, "text_url": text}
+            "docs": docs, "texts": texts, "text_url": texts[0] if texts else None}
 
 
 def bill_text(ctx, url, slug_):
-    """English text of a bill document (HTML preferred), or None with a gap."""
+    """English text of one bill document, or None. An empty document is
+    reported back as None so the caller can try the next one."""
     if url.lower().endswith(".pdf"):
         raw = ctx.bytes(url, slug_)
         if raw is None:
             return None
         try:
-            return pdf_text(raw)
+            return pdf_text(raw).strip() or None
         except Unreadable as exc:
             ctx.gap("nb bill text {0}: {1}".format(url, exc))
             return None
@@ -429,7 +432,7 @@ def bill_text(ctx, url, slug_):
     body = re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", raw)
     # paragraphs and headings to line breaks, so passages stay passages
     body = re.sub(r"(?i)</(p|h\d|div|tr|li)>|<br[^>]*>", "\n\n", body)
-    return "\n".join(html_text(l) for l in body.split("\n\n") if html_text(l))
+    return "\n".join(html_text(l) for l in body.split("\n\n") if html_text(l)) or None
 
 
 def _stage_dates_in_window(ctx, stages):
@@ -473,18 +476,25 @@ def fetch_bills(ctx, legislature, session, tax, wl):
         page = parse_bill_page(page_html) if page_html else {"docs": [], "text_url": None}
         pages += 1 if page_html else 0
         body = None
-        if page.get("text_url"):
-            body = bill_text(ctx, page["text_url"], "billtext-{0}-{1}-{2}".format(
-                legislature, session, it["number"]))
-            texts += 1 if body else 0
-        elif page_html:
+        text_url = None
+        for k, url in enumerate(page.get("texts") or []):
+            body = bill_text(ctx, url, "billtext-{0}-{1}-{2}-{3}".format(
+                legislature, session, it["number"], k))
+            if body:
+                text_url = url
+                texts += 1
+                break
+        if page_html and not page.get("texts"):
             ctx.gap("{0}: the bill page lists no bill-text document".format(key))
+        elif page_html and not body:
+            ctx.gap("{0}: no bill-text document gave any text ({1}); classified on its title".format(
+                key, ", ".join(page["texts"])))
         res = pc.classify(tax, wl, PROV, title=it["title"], texts=[body] if body else [], bill_key=key)
         ps.store_bill(ctx.conn, dict(
             record, sponsor=page.get("sponsor"), bill_type=page.get("bill_type"),
             is_government=1 if (page.get("bill_type") or "").startswith("Government") else
             (0 if page.get("bill_type") else None),
-            text_url=page.get("text_url"), text_read=1 if body else 0, areas=res.areas,
+            text_url=text_url or page.get("text_url"), text_read=1 if body else 0, areas=res.areas,
             matched_terms=res.terms, tier=res.tier, excerpt=res.excerpt))
     ctx.conn.commit()
     ctx.log("  nb bills {0}-{1}: {2} listed, {3} page(s) read, {4} text(s) read".format(

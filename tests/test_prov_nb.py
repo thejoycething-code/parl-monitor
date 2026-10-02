@@ -225,6 +225,29 @@ class BillTests(unittest.TestCase):
         self.assertEqual(page["sponsor_party"], "Liberal Party")
         self.assertEqual(page["text_url"], "https://www.legnb.ca/content/house_business/60/2/bills/Bill-52-e.htm")
 
+    def test_an_empty_html_text_falls_back_to_the_pdf(self):
+        """Bill-57-e.htm (60-2) is served as 0 bytes: the PDF is read instead,
+        and only when every document is empty is it a gap."""
+        page = nb.parse_bill_page(fx("nb_bill52_page.html"))
+        self.assertEqual(page["texts"], ["https://www.legnb.ca/content/house_business/60/2/bills/Bill-52-e.htm",
+                                         "https://www.legnb.ca/content/house_business/60/2/bills/Bill-52.pdf"])
+        saved = nb.pdf_text
+        nb.pdf_text = lambda raw, pages=None: "A person is deemed to have consented to the donation of organs."
+        try:
+            conn = db.init_db(db.connect(":memory:"))
+            listing = nb.BILLS.format(60, 2)
+            pages = {"https://www.legnb.ca/robots.txt": "User-agent: *\nDisallow:\n", listing: fx("nb_bills_602.html"),
+                     "https://www.legnb.ca/en/legislation/bills/60/2/52/human-organ-and-tissue-donation-act":
+                         fx("nb_bill52_page.html"),
+                     page["texts"][0]: "", page["texts"][1]: b"%PDF-bill52"}
+            ctx = Context(conn, _Client(pages), "nb", since="2023-06-15", until="2023-06-15", log=lambda *a: None)
+            nb.fetch_bills(ctx, 60, 2, pc.load_taxonomy(), pc.load_watchlist("nb"))
+        finally:
+            nb.pdf_text = saved
+        row = conn.execute("SELECT text_read, text_url, areas FROM prov_bills WHERE bill_key='nb-60-2/52'").fetchone()
+        self.assertEqual(tuple(row), (1, page["texts"][1], "[13]"))
+        self.assertFalse(any("nb-60-2/52" in g for g in ctx.gaps))
+
     def test_bill_52_is_watched_for_area_13(self):
         res = pc.classify(pc.load_taxonomy(), pc.load_watchlist("nb"), "nb",
                           title="Human Organ and Tissue Donation Act", bill_key="nb-60-2/52")
