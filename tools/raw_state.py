@@ -395,17 +395,28 @@ def push(log=print):
                 continue
             current = (side["folders"].get(folder) or {}).get("sha256")
             remote = (theirs.get(folder) or {}).get("sha256")
-            if remote and remote != current and remote not in held.get(folder, []):
-                # The folder moved under us: someone published it since we
-                # pulled. Merge their tar beneath our files, then publish the
-                # union -- never their loss, never ours.
+            published_sha = remote or current
+            # MERGE BEFORE EVERY UPLOAD OF A FOLDER THAT IS ALREADY PUBLISHED
+            # (3 October 2026), not only when it moved since our pull. A pull
+            # fetches only changed folders, so a folder this checkout created
+            # under the same date never received the published files -- and
+            # uploading it REPLACED them: 577 CI files of 2026-09-29 were
+            # clobbered by a laptop folder of 3,121 before this was caught.
+            # The only safe skip is a copy this checkout itself published.
+            if (published_sha and digest != published_sha
+                    and published_sha not in held.get(folder, [])):
                 dest = os.path.join(tmp, asset_name(folder))
                 if download_asset(folder, dest):
                     added = extract_union(dest, path)
-                    log("  {0}: published by another run since our pull -- merged {1} of their "
-                        "file(s) in".format(folder, added))
+                    if added or remote != current:
+                        log("  {0}: merged {1} published file(s) in before uploading".format(
+                            folder, added))
                     merged += 1
                     digest, n, size = folder_digest(path)
+                else:
+                    log("  [gap] {0}: could not download the published copy to merge; "
+                        "NOT uploading, so it is not replaced".format(folder))
+                    continue
             if digest == current and digest == (remote or current):
                 unchanged += 1
                 continue

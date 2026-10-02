@@ -54,6 +54,45 @@ class DigestAndTarTests(unittest.TestCase):
         self.assertEqual(open(os.path.join(dst, "d", "b.gz"), "rb").read(), b"B")
         self.assertTrue(os.path.exists(os.path.join(dst, "c.gz")))     # nothing deleted
 
+    def test_a_published_folder_is_merged_in_even_when_it_has_not_moved(self):
+        """3 October 2026: a laptop folder created under a date CI had already
+        published never received CI's files (a pull fetches changed folders
+        only), and pushing it REPLACED them -- 577 files of 2026-09-29. The
+        push now merges the published copy before every upload."""
+        raw = tempfile.mkdtemp()
+        published = _folder({"ci-only.json.gz": b"ci"})
+        tar = os.path.join(tempfile.mkdtemp(), "published.tar")
+        rs.make_tar(published, tar)
+        pub_digest = rs.folder_digest(published)[0]
+        os.makedirs(os.path.join(raw, "2026-09-29"))
+        with open(os.path.join(raw, "2026-09-29", "laptop-only.json.gz"), "wb") as fh:
+            fh.write(b"laptop")
+        uploaded = {}
+        saved = {k: getattr(rs, k) for k in ("RAW", "ensure_release", "origin_sidecar", "load_sidecar",
+                                             "write_sidecar", "_held", "_hold", "download_asset",
+                                             "upload_asset", "local_folders")}
+        try:
+            rs.RAW = raw
+            rs.ensure_release = lambda *a, **k: True
+            side = {"folders": {"2026-09-29": {"sha256": pub_digest, "files": 1}}}
+            rs.origin_sidecar = lambda *a, **k: {"2026-09-29": {"sha256": pub_digest}}
+            rs.load_sidecar = lambda *a, **k: side
+            rs.write_sidecar = lambda *a, **k: None
+            rs._held = lambda *a, **k: {}
+            rs._hold = lambda *a, **k: None
+            rs.local_folders = lambda *a, **k: ["2026-09-29"]
+            rs.download_asset = lambda folder, dest: shutil.copy(tar, dest) or True
+            def up(folder, path):
+                import tarfile
+                with tarfile.open(path) as t:
+                    uploaded[folder] = sorted(m.name.lstrip("./") for m in t.getmembers() if m.isfile())
+            rs.upload_asset = up
+            rs.push(log=lambda *a: None)
+        finally:
+            for k, v in saved.items():
+                setattr(rs, k, v)
+        self.assertEqual(uploaded["2026-09-29"], ["ci-only.json.gz", "laptop-only.json.gz"])
+
     def test_a_tar_member_that_escapes_is_refused(self):
         import tarfile, io
         tar = os.path.join(tempfile.mkdtemp(), "evil.tar")
