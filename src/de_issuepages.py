@@ -46,7 +46,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 HIDDEN = (11,)              # migration: collated, never campaigned
 WINDOW_DAYS = 183           # six months, as Westminster's pages use
-TAXONOMY_VERSION = "v0.5"
+TAXONOMY_VERSION = "v0.6"
 
 # FALSE UNTIL THE GERMAN TEAM HAS SIGNED THE TAXONOMY OFF. True writes the
 # pages into partner_site/, which the Monday publish deploys to production.

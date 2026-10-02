@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Quebec French keyword taxonomy
 
-**Version 0.1 | 2 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
+**Version 0.2 | 3 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
 
 ## Purpose
 
@@ -160,9 +160,9 @@ words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online). After the ful
 
 ### 5. Sex-based rights and single-sex spaces {#5_sex_based_rights}
 
-- **Tier 1:** "mention du sexe"; "mention de sexe"; "identité ou expression de genre"; "sexe biologique"; "non-mixité"; "espace* non mixte*"; toilettes [with: genre, sexe, trans*, mixte*]; vestiaire* [with: genre, sexe, trans*, mixte*]; "sport* féminin*" [with: trans*, genre, sexe, admissib*]; "athlète* trans*"
+- **Tier 1:** "mention du sexe"; "mention de sexe"; "expression de genre"; "sexe biologique"; "non-mixité"; "espace* non mixte*"; toilettes [with: genre, sexe, trans*, mixte*]; vestiaire* [with: genre, sexe, trans*, mixte*]; "sport* féminin*" [with: trans*, genre, sexe, admissib*]; "athlète* trans*"
 - **Tier 2:** "violence* faite* aux femmes"; "violence* conjugale*"
-- **Notes:** Measured: Bill 2 (2021) family-law reform, which rewrote the civil-status rules on "la mention du sexe"; Bill 103 (2016), which added "l'identité ou l'expression de genre" to the Charter -- so the phrase is stemmed in the text as "identité ou l'expression de genre" and the term needs the article-free form the titles use; private members' Bills 895 and 598 (2016) on "la mention du sexe". `égalité entre les femmes et les hommes` is tier 2: it is the laicity bills' own justification and on its own is equality law.
+- **Notes:** v0.2 (Christopher, 2026-10-03: "Add 'gender expression' to the taxonomy, for all parliaments"). "identité ou expression de genre" is widened to "expression de genre", which catches both that title form and the text's "identité ou l'expression de genre". Measured: Bill 2 (2021) family-law reform, which rewrote the civil-status rules on "la mention du sexe"; Bill 103 (2016), which added "l'identité ou l'expression de genre" to the Charter -- so the phrase is stemmed in the text as "identité ou l'expression de genre" and the term needs the article-free form the titles use; private members' Bills 895 and 598 (2016) on "la mention du sexe". `égalité entre les femmes et les hommes` is tier 2: it is the laicity bills' own justification and on its own is equality law.
 
 ### 6. Parental rights and education {#6_parental_rights_education}
 

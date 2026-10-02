@@ -553,47 +553,33 @@ divisions:
     nay: 1
     why_nay: "Voted against M-103 over its undefined 'Islamophobia'."
   - key: commons-44-1-89
-    draft: true
+    placeable: false
     title: "C-11, Online Streaming Act -- second reading"
-    dated: 2022-05-12
-    result: "Agreed To 208-111"
-    lobbies: "Nay: Conservative 111. Yea: Liberal 148, Bloc Québécois 32, NDP 25, Green Party 2, Independent 1"
-    yea: -1
-    why_yea: "Voted for the principle of CRTC regulation of online streaming, which critics said could reach user-generated content."
-    nay: 1
-    why_nay: "Voted against CRTC regulation of online streaming over its reach into user-generated content."
-    note: >
-      READ BEFORE CONFIRMING: whether C-11 is CitizenGO's ground at all is your call; +/-1 throughout for that reason.
+    reason: >
+      C-11 is on our ground, but only amendments specifically about speech
+      score (Christopher, 3 October 2026). A whole-bill vote on broadcasting
+      regulation is kept as evidence, never placed.
   - key: commons-44-1-164
-    draft: true
+    placeable: false
     title: "C-11 -- third reading"
-    dated: 2022-06-21
-    result: "Agreed To 208-117"
-    lobbies: "Nay: Conservative 115, Green Party 1, Independent 1. Yea: Liberal 152, Bloc Québécois 31, NDP 24, Green Party 1"
-    yea: -1
-    why_yea: "Voted to pass the Online Streaming Act."
-    nay: 1
-    why_nay: "Voted against the Online Streaming Act."
+    reason: >
+      C-11 is on our ground, but only amendments specifically about speech
+      score (Christopher, 3 October 2026). A whole-bill vote on broadcasting
+      regulation is kept as evidence, never placed.
   - key: senate-44-1-590158
-    draft: true
+    placeable: false
     title: "C-11 -- Senate second reading"
-    dated: 2022-10-25
-    result: "Adopted 49-19"
-    lobbies: "Yea: ISG 31, PSG 12, Non-affiliated 6. Nay: C 10, CSG 9"
-    yea: -1
-    why_yea: "Voted for the principle of the Online Streaming Act in the Senate."
-    nay: 1
-    why_nay: "Voted against the Online Streaming Act at Senate second reading."
+    reason: >
+      C-11 is on our ground, but only amendments specifically about speech
+      score (Christopher, 3 October 2026). A whole-bill vote on broadcasting
+      regulation is kept as evidence, never placed.
   - key: senate-44-1-605960
-    draft: true
+    placeable: false
     title: "C-11 -- Senate concurrence in the Commons message (final passage)"
-    dated: 2023-04-27
-    result: "Adopted 52-16"
-    lobbies: "Yea: ISG 32, PSG 8, Non-affiliated 7, CSG 5. Nay: C 10, CSG 5, ISG 1"
-    yea: -1
-    why_yea: "Voted for the final Senate passage of the Online Streaming Act."
-    nay: 1
-    why_nay: "Voted against the final Senate passage of the Online Streaming Act."
+    reason: >
+      C-11 is on our ground, but only amendments specifically about speech
+      score (Christopher, 3 October 2026). A whole-bill vote on broadcasting
+      regulation is kept as evidence, never placed.
   - key: commons-41-1-181
     placeable: false
     title: "C-310 trafficking (report stage)"

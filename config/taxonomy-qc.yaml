@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-qc.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang qc
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["avortement*", "interruption* volontaire* de grossesse", IVG, "pilule* abortive*", mifépristone, {term: "zone* tampon*", with: ["avortement*", IVG, "grossesse*", "clinique*"]}]
@@ -20,9 +20,9 @@ areas:
     tier2: [{term: "orientation sexuelle", with: [changer, modifier, réprimer]}]
     # note: Measured: Bill 70 (2020) "Loi visant à protéger les personnes contre les thérapies de conversion", title and text. Bare `conversion` is excluded: Bill 222 (2016) converts two mutual insurers.
   5_sex_based_rights:
-    tier1: ["mention du sexe", "mention de sexe", "identité ou expression de genre", "sexe biologique", "non-mixité", "espace* non mixte*", {term: toilettes, with: [genre, sexe, "trans*", "mixte*"]}, {term: "vestiaire*", with: [genre, sexe, "trans*", "mixte*"]}, {term: "sport* féminin*", with: ["trans*", genre, sexe, "admissib*"]}, "athlète* trans*"]
+    tier1: ["mention du sexe", "mention de sexe", "expression de genre", "sexe biologique", "non-mixité", "espace* non mixte*", {term: toilettes, with: [genre, sexe, "trans*", "mixte*"]}, {term: "vestiaire*", with: [genre, sexe, "trans*", "mixte*"]}, {term: "sport* féminin*", with: ["trans*", genre, sexe, "admissib*"]}, "athlète* trans*"]
     tier2: ["violence* faite* aux femmes", "violence* conjugale*"]
-    # note: Measured: Bill 2 (2021) family-law reform, which rewrote the civil-status rules on "la mention du sexe"; Bill 103 (2016), which added "l'identité ou l'expression de genre" to the Charter -- so the phrase is stemmed in the text as "identité ou l'expression de genre" and the term needs the article-free form the titles use; private members' Bills 895 and 598 (2016) on "la mention du sexe". `égalité entre les femmes et les hommes` is tier 2: it is the laicity bills' own justification and on its own is equality law.
+    # note: v0.2 (Christopher, 2026-10-03: "Add 'gender expression' to the taxonomy, for all parliaments"). "identité ou expression de genre" is widened to "expression de genre", which catches both that title form and the text's "identité ou l'expression de genre". Measured: Bill 2 (2021) family-law reform, which rewrote the civil-status rules on "la mention du sexe"; Bill 103 (2016), which added "l'identité ou l'expression de genre" to the Charter -- so the phrase is stemmed in the text as "identité ou l'expression de genre" and the term needs the article-free form the titles use; private members' Bills 895 and 598 (2016) on "la mention du sexe". `égalité entre les femmes et les hommes` is tier 2: it is the laicity bills' own justification and on its own is equality law.
   6_parental_rights_education:
     tier1: ["éducation à la sexualité", "éducation sexuelle", "droits parentaux", "droit* des parents", "consentement parental", "consentement des parents", "enseignement à la maison", "scolarisation à la maison", "école à la maison", "éthique et culture religieuse", "culture et citoyenneté québécoise", {term: "pronom*", with: ["élève*", "école*", "enseignant*", "parent*"]}, "châtiment* corporel*"]
     tier2: ["école* privée* confessionnelle*", "cellulaire* à l'école"]

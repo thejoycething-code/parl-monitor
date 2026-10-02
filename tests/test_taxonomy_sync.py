@@ -72,7 +72,8 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.12 (2 October 2026): two Welsh parental-rights Bills in area 6.
         # v1.13 (3 October 2026): the named person and the Scottish smacking ban.
         # v1.14 (the same day): the Children and Young People (Scotland) Bill.
-        self.assertEqual(version, "1.14")
+        # v1.15 (the same day): "gender expression", and Quebec's laicity terms.
+        self.assertEqual(version, "1.15")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -569,3 +570,28 @@ class ScottishParentalRightsTests(unittest.TestCase):
 
     def test_named_personality_is_not_caught(self):
         self.assertNotIn(6, self._areas("Jamie O'Rourke Named Personality of the Year 2024"))
+
+
+class GenderExpressionEverywhereTests(unittest.TestCase):
+    """v1.15 / de v0.6 / qc v0.2 (Christopher, 3 October 2026): "Add 'gender
+    expression' to the taxonomy, for all parliaments"."""
+
+    def _areas(self, yaml_name, text):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", yaml_name))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_english(self):
+        self.assertIn(5, self._areas("taxonomy.yaml",
+                      "An Act to amend the Human Rights Code (gender identity and gender expression)"))
+
+    def test_german(self):
+        self.assertIn(5, self._areas("taxonomy-de.yaml", "Schutz des Geschlechtsausdrucks im Grundgesetz"))
+
+    def test_quebec_french(self):
+        self.assertIn(5, self._areas("taxonomy-qc.yaml",
+                      "Loi visant à protéger l'identité ou l'expression de genre"))
+
+    def test_quebec_laicity_in_english(self):
+        self.assertIn(8, self._areas("taxonomy.yaml", "An Act respecting the laicity of the State"))

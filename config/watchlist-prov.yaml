@@ -103,7 +103,7 @@ provinces:
       "on-41-1/77": {title: "Affirming Sexual Orientation and Gender Identity Act, 2015", areas: [4],
                      why: "Conversion-practices ban ('efforts to change sexual orientation or gender identity'). Third reading 'Carried.' on 4 June 2015 by VOICE: no member record exists, and the 5CA must say so rather than place anyone."}
       "on-43-1/28": {title: "Keeping Students in Class Act, 2022", areas: [7],
-                     why: "A labour bill that pre-emptively invoked the notwithstanding clause over Charter ss. 2, 7 and 15 (time allocation 78-33, second reading 76-32, third reading 74-34 on 3 Nov 2022; repealed weeks later). Listed because the scope names it for the s.33 precedent. AREA 7 IS A DRAFT JUDGEMENT (civil liberties: s.2 freedoms overridden), not a reviewed one -- Christopher may prefer no area, since the subject is labour, not our ground."}
+                     why: "A labour bill that pre-emptively invoked the notwithstanding clause over Charter ss. 2, 7 and 15 (time allocation 78-33, second reading 76-32, third reading 74-34 on 3 Nov 2022; repealed weeks later). Listed because the scope names it for the s.33 precedent. AREA 7 IS A DRAFT JUDGEMENT (civil liberties: s.2 freedoms overridden), not a reviewed one -- Christopher decided 3 Oct 2026: keep it (area 7, as evidence of the s.33 precedent) but it never scores in the 5CA -- config/prov_stance.yaml marks its three divisions placeable: false."}
   "nb":
     bills:
       "nb-60-2/52": {title: "Human Organ and Tissue Donation Act", areas: [13],

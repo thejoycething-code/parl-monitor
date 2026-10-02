@@ -192,6 +192,25 @@ divisions:
     title: "Bill 137 -- clause votes in Committee of the Whole (19 October 2023)"
     reason: "Clauses 1-6 split as the readings (32-33 to 11): the readings carry it. The same applies to -3, -4, -7, -8 and -9."
 
+  # --- Ontario, 43rd Parliament, 1st session ---------------------------------
+  # Bill 28, Keeping Students in Class Act, 2022. Christopher, 3 October 2026:
+  # "Keep Ontario Bill 28 but don't have it score in the 5CA." A labour bill
+  # that pre-emptively invoked the notwithstanding clause over Charter ss. 2,
+  # 7 and 15: collected and shown as evidence of the s.33 precedent, never
+  # placed.
+  - key: on-43-1-2022-11-03-1
+    placeable: false
+    title: "Bill 28 -- time allocation"
+    reason: "Kept as evidence, never scored (Christopher, 3 October 2026); procedure as well."
+  - key: on-43-1-2022-11-03-3
+    placeable: false
+    title: "Bill 28, Keeping Students in Class Act -- second reading"
+    reason: "Kept as evidence of the notwithstanding-clause precedent, never scored (Christopher, 3 October 2026)."
+  - key: on-43-1-2022-11-03-4
+    placeable: false
+    title: "Bill 28 -- third reading"
+    reason: "Kept as evidence of the notwithstanding-clause precedent, never scored (Christopher, 3 October 2026)."
+
   # --- British Columbia, 43rd Parliament, 2nd session ------------------------
   - key: bc-43-2-2026-02-19-119.1
     draft: true
