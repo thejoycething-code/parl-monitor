@@ -55,29 +55,13 @@ bc:
 # Manitoba: the 2010 backfill's gaps, re-read 2 October 2026. Of 86, 82 are
 # cleared in the parser (cover party spellings and Mc surnames, unclosed
 # calendar cells, totals without dot leaders, unheaded YEA lists, the
-# division count). Four are the record's own: three files the listing
-# links that do not exist in English, and one misprinted total. A fifth,
-# found while re-reading, used to be only a log line: a listed file that
-# is a copy of the next day's record, so a day with three divisions has none.
+# division count). Of the record's own errors, three are now cleared by
+# reviewed facts in config/prov_record.yaml (Christopher, 2 October 2026):
+# the misprinted Nay total of 5 Dec 2013 replaced from Hansard, and the
+# days whose V&P is not served (5 Dec 2017; 25 Apr 2022, whose listed file
+# is a copy of the 26th) read from Hansard's own division lists. Left: a
+# V&P served only in French (a day with no division) and a blank stray link.
 mb:
-  - contains: "mb-40-3-2013-12-05-4: tally check failed"
-    reviewed: 2026-10-02
-    why: >-
-      The V&P (business/40th/3rd/votes_017.pdf, the fourth division: Bill 27,
-      The Highway Traffic Amendment Act, concurrence and third reading)
-      prints "WISHART ... 18" under 17 Nay names. Hansard for the same
-      division (hansard/40th_3rd/hansardpdf/17b.pdf, p. 705) lists the same 17
-      and the Clerk reads "Yeas 32, Nays 17": the printed 18 is a misprint.
-      A reviewed fact may supply a total the record omits, never replace a
-      printed one, so the division stays untrusted.
-  - contains: "business/41st/3rd/votes_010.pdf: not a PDF"
-    reviewed: 2026-10-02
-    why: >-
-      The 41-3 calendar links 5 December 2017 to votes_010.pdf, which serves
-      the province's "Resource Not Found" page (11,391 bytes) on every fetch.
-      Hansard that day (hansard/41st_3rd/hansardpdf/10b.pdf, p. 377) records
-      one division the store therefore lacks: adjourning the second-reading
-      debate on Bill 8, carried 35-17 (the PCs for; NDP, Liberals and Fletcher against).
   - contains: "business/42nd/4th/votes_036.pdf: HTTP Error 300"
     reviewed: 2026-10-02
     why: >-
@@ -93,32 +77,13 @@ mb:
       Reports link). It serves "Resource Not Found"; no day's record is
       missing (the calendars' sittings 1-12 and 22 on are all listed, in
       both the V&P and the Hansard calendar).
-  - contains: "mb 2022-04-25: the record listed for the day"
-    reviewed: 2026-10-02
-    why: >-
-      The 42-4 calendar lists votes_041.pdf for Monday 25 April 2022, but the
-      file is V&P No. 42 of Tuesday 26 April, which votes_042.pdf is also
-      listed for. The 25th's own V&P (No. 41) is served nowhere the listing
-      links. Hansard No. 41 (hansard/42nd_4th/hansardpdf/41.pdf) records three
-      divisions the store therefore lacks: the Opposition amendment to the
-      budget motion (20-32), the budget motion (32-20) and second reading of
-      Bill 18, The Legislative Security Amendment Act (31-17).
 
 # Ontario: the 2010 backfill's tally gaps, re-read 2 October 2026. Of 393,
-# 390 cleared in the parser, the roster and one reviewed misprint
-# (config/prov_record.yaml); these are the record's own, with Hansard's
-# evidence. The tally check is untouched.
+# 391 cleared in the parser, the roster and two reviewed facts in
+# config/prov_record.yaml (the "Cuzzeto" misprint; the 21 Sep 2017 casting
+# vote, placed at Christopher's decision); these are the record's own, with
+# Hansard's evidence. The tally check is untouched.
 "on":
-  - contains: "on-41-2-2017-09-21-1: tally check failed"
-    reviewed: 2026-10-02
-    why: >-
-      Second reading of Bill 146 (Gas Pricing Transparency Act). The V&P prints
-      17-16 with "Deputy Speaker" as the 17th Aye. Hansard
-      (21-SEP-2017_L095.pdf, p. 5136): "The ayes are 16; the nays are 16. The
-      Deputy Speaker (Ms. Soo Wong): I declare the motion carried": the chair's
-      casting vote on a tie, printed as an office, not a member. Placing it is
-      Christopher's decision (a casting vote follows convention, not a stance);
-      until then the division places nobody.
   - contains: "on-42-1-2019-04-04-1: tally check failed"
     reviewed: 2026-10-02
     why: >-

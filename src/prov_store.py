@@ -582,3 +582,151 @@ def refresh_party(conn, prov, resolver, legislature=None, session=None):
         if party != have:
             conn.execute("UPDATE prov_votes SET party_at_vote=? WHERE rowid=?", (party, rowid))
     return n, with_party
+
+
+# -- one member, one key ------------------------------------------------------
+#
+# Built for Ontario (prov_on, 2 October 2026) and shared with Manitoba the
+# same day: where the roster is read from each day's Hansard cover, the
+# member key is the given name plus surname, and a cover that prints the
+# given name differently ("Gregory" and "Greg" DEWAR, Selkirk) makes a
+# second key for the same person. A legislature has ONE member per riding at
+# a time, so the same surname in the same riding of the same legislature is
+# the same member. Across legislatures that inference is NOT made (Rosann
+# and Rick Wowchuk both sat for Swan River): there only a reviewed entry
+# naming both keys joins them (`same_person`).
+
+def seat(legislature, riding, surname):
+    from src import prov_names as pn
+    return (int(legislature), pn.squash(riding), pn.squash(surname))
+
+
+def seat_holders(conn, prov, legislature):
+    """{(legislature, riding, surname) squashed: {member_key}} from the
+    Hansard-cover terms of one legislature."""
+    out = {}
+    for key, riding, surname in conn.execute(
+            "SELECT t.member_key, t.riding, m.surname FROM prov_member_terms t JOIN prov_members m "
+            "ON m.prov=t.prov AND m.member_key=t.member_key WHERE t.prov=? AND t.source='hansard-cover' "
+            "AND t.legislature=? AND t.riding IS NOT NULL", (prov, legislature)):
+        out.setdefault(seat(legislature, riding, surname), set()).add(key)
+    return out
+
+
+def same_given(a, b):
+    """True when two printings of a given name can be one member's: the
+    letters of one occur within the other's ('kevindaniel' / 'kevindaniel',
+    'maileen' / 'aileen', 'greg' / 'gregory'). 'Jim' and 'Bob' cannot, nor
+    'Tom' and 'Thomas' (Manitoba's Nevakshonoff is joined by a reviewed
+    same_person entry instead). The guard against a by-election successor of
+    the same surname in the same riding (Ontario, 2 October 2026)."""
+    from src import prov_names as pn
+    a, b = pn.squash(a), pn.squash(b)
+    if not a or not b:
+        return True
+    short, long_ = sorted((a, b), key=len)
+    return short in long_
+
+
+def given_of(conn, prov, key):
+    row = conn.execute("SELECT given FROM prov_members WHERE prov=? AND member_key=?", (prov, key)).fetchone()
+    return row[0] if row else None
+
+
+def canonical_key(conn, prov, member, seats, legislature, same_person=()):
+    """The key a parsed cover member is stored under: its own when the
+    store knows it, else the ONE key already holding the same seat under the
+    same surname in this legislature when the given names agree (or a
+    reviewed same_person set names both keys), else its own (a new member)."""
+    if conn.execute("SELECT 1 FROM prov_members WHERE prov=? AND member_key=?",
+                    (prov, member["key"])).fetchone():
+        return member["key"]
+    keys = seats.get(seat(legislature, member.get("riding"), member["surname"])) \
+        if member.get("riding") else None
+    if keys and len(keys) == 1:
+        key = next(iter(keys))
+        if same_given(given_of(conn, prov, key), member.get("given")) or \
+                any({key, member["key"]} <= set(s) for s in same_person):
+            return key
+    return member["key"]
+
+
+def merge_split_members(conn, prov, same_person=(), log=print):
+    """Fold the second keys the store already holds into one per seat.
+    Within one legislature, keys sharing a riding and a surname are one
+    member when their given names agree (same_given; otherwise nothing is
+    merged and it is logged); `same_person` adds reviewed sets of keys that
+    are one member, across legislatures or under given names the guard
+    cannot match. The key kept is the one most votes already name (fewest
+    rows move). Votes, terms and bill sponsorships move to it in place, the
+    other member rows go; nothing is fetched. Returns [(kept, [merged])]."""
+    groups = {}
+    for key, leg, riding, surname in conn.execute(
+            "SELECT DISTINCT t.member_key, t.legislature, t.riding, m.surname FROM prov_member_terms t "
+            "JOIN prov_members m ON m.prov=t.prov AND m.member_key=t.member_key "
+            "WHERE t.prov=? AND t.source='hansard-cover' AND t.riding IS NOT NULL "
+            "AND t.legislature IS NOT NULL", (prov,)):
+        groups.setdefault(seat(leg, riding, surname), set()).add(key)
+    known = {r[0] for r in conn.execute("SELECT member_key FROM prov_members WHERE prov=?", (prov,))}
+    for n, keys in enumerate(same_person):
+        present = {str(k) for k in keys} & known
+        if len(present) > 1:
+            groups[("reviewed", n)] = present
+    # a key in two groups (two legislatures) joins them into one member
+    parent = {}
+
+    def find(k):
+        while parent.setdefault(k, k) != k:
+            k = parent[k]
+        return k
+    for keys in groups.values():
+        keys = sorted(keys)
+        for k in keys[1:]:
+            parent[find(k)] = find(keys[0])
+    sets = {}
+    for k in list(parent):
+        sets.setdefault(find(k), set()).add(k)
+    done = []
+    like = prov + "-%"
+    for keys in sets.values():
+        if len(keys) < 2:
+            continue
+        votes = {k: conn.execute("SELECT COUNT(*) FROM prov_votes WHERE member_key=? AND division_key LIKE ?",
+                                 (k, like)).fetchone()[0] for k in keys}
+        kept = sorted(keys, key=lambda k: (-votes[k], k))[0]
+        merged = []
+        for k in sorted(keys - {kept}):
+            if same_given(given_of(conn, prov, kept), given_of(conn, prov, k)) or \
+                    any({kept, k} <= set(str(x) for x in s) for s in same_person):
+                merged.append(k)
+            else:
+                log("  {0} roster: NOT merged, same seat and surname but given names differ: "
+                    "{1} ({2!r}) and {3} ({4!r})".format(prov, kept, given_of(conn, prov, kept),
+                                                        k, given_of(conn, prov, k)))
+        if not merged:
+            continue
+        for k in merged:
+            conn.execute("UPDATE prov_votes SET member_key=? WHERE member_key=? AND division_key LIKE ?",
+                         (kept, k, like))
+            conn.execute("UPDATE prov_member_terms SET member_key=? WHERE prov=? AND member_key=?", (kept, prov, k))
+            conn.execute("UPDATE prov_bills SET sponsor_key=? WHERE prov=? AND sponsor_key=?", (kept, prov, k))
+            conn.execute("DELETE FROM prov_members WHERE prov=? AND member_key=?", (prov, k))
+        # the moved terms: one row per (legislature, party, riding, source)
+        rows = conn.execute("SELECT rowid, legislature, party, riding, source, start, end FROM prov_member_terms "
+                            "WHERE prov=? AND member_key=? ORDER BY rowid", (prov, kept)).fetchall()
+        first = {}
+        for rowid, leg, party, riding, source, start, end in rows:
+            k = (leg, party, riding, source)
+            if k not in first:
+                first[k] = [rowid, start, end]
+                continue
+            f = first[k]
+            f[1] = min(x for x in (f[1], start) if x) if (f[1] or start) else None
+            f[2] = max(x for x in (f[2], end) if x) if (f[2] or end) else None
+            conn.execute("DELETE FROM prov_member_terms WHERE rowid=?", (rowid,))
+            conn.execute("UPDATE prov_member_terms SET start=?, end=? WHERE rowid=?", (f[1], f[2], f[0]))
+        log("  {0} roster: {1} kept for {2} ({3} vote(s) moved)".format(
+            prov, kept, ", ".join(merged), sum(votes[k] for k in merged)))
+        done.append((kept, merged))
+    conn.commit()
+    return done

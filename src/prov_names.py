@@ -354,11 +354,44 @@ def load_misprints(prov, path=None):
     verified_against and why. Read by Aliased exactly as a label alias:
     only after the normal resolver found nobody, only on a day inside the
     span and in a document under the prefix, only to a member holding a
-    term that day."""
+    term that day. The fact type was approved by Christopher on 2 October
+    2026."""
     out = []
     for a in _reviewed(prov, "misprints", ("printed", "member", "from", "to", "document_prefix",
                                            "documents", "verified_against", "why"), path):
         out.append(dict(a, **{"from": str(a["from"]), "to": str(a["to"])}))
+    return out
+
+
+def load_same_person(prov, path=None):
+    """`same_person:` -- reviewed sets of member keys that are ONE member
+    whose keys the seat rule cannot join (two legislatures: Manitoba's "Cliff"
+    GRAYDON of the 39th-40th and "Clifford" GRAYDON of the 41st, Emerson,
+    one entry on the Assembly's former-members page). Needs keys (two or
+    more), document, verified_against and why. Read by
+    prov_store.merge_split_members as `same_person`."""
+    out = []
+    for a in _reviewed(prov, "same_person", ("keys", "document", "verified_against", "why"), path):
+        keys = [str(k) for k in a["keys"]]
+        if len(set(keys)) < 2:
+            raise ValueError("{0} same_person entry {1!r} names fewer than two keys".format(prov, keys))
+        out.append(keys)
+    return out
+
+
+def load_vp_not_served(prov, path=None):
+    """`vp_not_served:` -- sitting days whose Votes and Proceedings the
+    legislature does not serve (the listed file is an error page, or a copy
+    of another day's record), with the Hansard PDFs whose own division
+    lists are read INSTEAD, for that day only. Needs date, record (the
+    listed V&P URL, which must still fail), hansard (the day's PDFs, which
+    must be in the day's Hansard listing), divisions (how many recorded
+    votes Hansard prints that day), verified_against and why."""
+    out = []
+    for a in _reviewed(prov, "vp_not_served", ("date", "record", "hansard", "divisions",
+                                               "verified_against", "why"), path):
+        out.append(dict(a, date=str(a["date"]), hansard=[str(u) for u in a["hansard"]],
+                        divisions=int(a["divisions"])))
     return out
 
 
@@ -401,15 +434,28 @@ class ReviewedDivisions:
 
     def total(self, division_key, position, printed):
         """(total, note): a reviewed total for a list the record printed
-        WITHOUT one. A printed total is never replaced."""
+        WITHOUT one; or, in the REPLACE form, for a list whose printed total
+        is a misprint. The replace form must state `replaces:`, the figure
+        the record prints, and applies only while the record still prints
+        exactly that figure (as a bill correction does); the printed figure
+        stays in the note. Without `replaces:` a printed total is never
+        replaced (Christopher, 2 October 2026: Manitoba's 5 Dec 2013 "18"
+        over 17 names, Hansard "Nays 17")."""
         for a in self.facts(division_key).get("hansard_totals", []):
             if a["position"] != position:
                 continue
+            quoted = " ".join(str(a["quoted"]).split())
+            if a.get("replaces") is not None:
+                if printed is not None and int(printed) == int(a["replaces"]):
+                    return int(a["total"]), "{0} total {1} from Hansard replaces the record's printed {2} " \
+                                            "({3!r}; {4})".format(position, a["total"], printed, quoted, REVIEWED)
+                return printed, "reviewed {0} total {1} not used: the record prints {2}, not {3}".format(
+                    position, a["total"], printed, a["replaces"])
             if printed is not None:
                 return printed, "reviewed {0} total {1} not used: the record prints {2}".format(
                     position, a["total"], printed)
             return int(a["total"]), "{0} total {1} from Hansard ({2!r}; {3})".format(
-                position, a["total"], " ".join(str(a["quoted"]).split()), REVIEWED)
+                position, a["total"], quoted, REVIEWED)
         return printed, None
 
     def bill(self, division_key, printed):
@@ -442,6 +488,14 @@ class ReviewedDivisions:
             candidates = [k.strip() for k in how.partition(":")[2].split(",")] \
                 if how.startswith("ambiguous") else []
             member = str(a["member"])
+            # `office: true` -- the list prints an OFFICE, not a name (Ontario,
+            # 21 Sep 2017: "Deputy Speaker" among the Ayes, the chair's casting
+            # vote). No member can match it, so there are no candidates; the
+            # label must have resolved to nobody, and Hansard for the same
+            # division names who held the office (Christopher, 2 October 2026:
+            # casting votes are placed).
+            if a.get("office") and not v.get("member_key") and how.startswith("unknown"):
+                candidates = [member]
             if v.get("member_key") or member not in candidates:
                 notes.append("reviewed label {0!r} not used: {1}".format(
                     a["printed"], "already resolved" if v.get("member_key")
