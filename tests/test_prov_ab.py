@@ -525,6 +525,177 @@ class RosterLegislatureTests(unittest.TestCase):
         self.assertEqual(r.resolve("Notley", "2019-06-05", 30)[0], "0791")
 
 
+# -- Christopher's three decisions (2 October 2026) ----------------------------
+#
+# 1. Where Hansard is explicit for the SAME division, a reviewed entry may
+#    settle a bare ambiguous name or supply a total the V&P omits.
+# 2. One division on two bills is linked to both (prov_division_bills).
+# 3. A reviewed bill-number correction, scoped to one division, visible.
+
+JOHNSON_KEY = "ab-28-1-2013-11-19-2"
+NOTOTAL_KEY = "ab-28-1-2012-12-03-7"
+MISNUMBERED_KEY = "ab-29-1-2015-11-26-3"
+
+
+def reviewed(**sections):
+    """A ReviewedDivisions of synthetic entries (the shipped ones are tested
+    from config/prov_record.yaml itself)."""
+    return pn.ReviewedDivisions({k: v for k, v in sections.items()})
+
+
+class ReviewedDivisionTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.conn = conn_with_history()
+        cls.r = ab.make_resolver(cls.conn)
+        cls.vocab = cls.r.surname_vocab()
+        cls.shipped = pn.ReviewedDivisions.load("ab")
+
+    def run_division(self, fixture, date, legislature, key, facts):
+        (d,) = ab.parse_vp(fx(fixture), self.vocab)
+        d = ab.apply_reviewed(d, facts, key)
+        votes, ok, note = ab.resolve_division(d, self.r, date, legislature,
+                                              reviewed=facts, division_key=key)
+        return d, votes, ok, note
+
+    # 1a. the bare Johnson
+    def test_hansard_settles_the_bare_johnson_in_that_division(self):
+        d, votes, ok, note = self.run_division("ab_vp_20131119_bare_johnson.txt", "2013-11-19", 28,
+                                               JOHNSON_KEY, self.shipped)
+        self.assertTrue(ok, note)
+        (v,) = [v for v in votes if v["raw_label"] == "Johnson"]
+        self.assertEqual((v["position"], v["member_key"]), ("Nay", "0801"))      # Linda Johnson
+        self.assertTrue(v["how"].startswith("hansard"), v["how"])
+        self.assertIn("'Johnson, L.'", note)
+
+    def test_the_same_label_stays_ambiguous_in_any_other_division(self):
+        """Scope: the entry is keyed to one division. The same page under any
+        other key -- and every other bare 'Johnson' -- is still a gap."""
+        d, votes, ok, note = self.run_division("ab_vp_20131119_bare_johnson.txt", "2013-11-19", 28,
+                                               "ab-28-1-2013-11-19-1", self.shipped)
+        self.assertFalse(ok)
+        self.assertIn("unresolved 'Johnson'", note)
+        key, how = self.r.resolve("Johnson", "2013-11-19", 28)
+        self.assertIsNone(key)
+        self.assertTrue(how.startswith("ambiguous"), how)
+
+    def test_a_hansard_name_never_settles_another_list_or_a_non_candidate(self):
+        entry = {"division": JOHNSON_KEY, "position": "Yea", "printed": "Johnson", "member": "0801",
+                 "document": "x", "hansard": "x", "quoted": "Johnson, L.", "why": "x"}
+        _, _, ok, note = self.run_division("ab_vp_20131119_bare_johnson.txt", "2013-11-19", 28,
+                                           JOHNSON_KEY, reviewed(hansard_labels=[entry]))
+        self.assertFalse(ok)
+        self.assertIn("0 such label(s) in the Yea list", note)
+        wrong = dict(entry, position="Nay", member="0757")       # not one of the two Johnsons
+        _, _, ok, note = self.run_division("ab_vp_20131119_bare_johnson.txt", "2013-11-19", 28,
+                                           JOHNSON_KEY, reviewed(hansard_labels=[wrong]))
+        self.assertFalse(ok)
+        self.assertIn("not among the members it could be", note)
+
+    # 1b. the missing total
+    def test_hansard_supplies_the_total_the_vp_omits_and_the_tally_still_runs(self):
+        d, votes, ok, note = self.run_division("ab_vp_20121203_nototal.txt", "2012-12-03", 28,
+                                               NOTOTAL_KEY, self.shipped)
+        self.assertEqual((d["yeas"], d["nays"]), (9, 29))
+        self.assertTrue(ok, note)
+        self.assertTrue(d["result"].startswith("the amendment was defeated on division, 9-29"), d["result"])
+        self.assertIn("Nay total 29 from Hansard", note)
+        # The supplied total is held against the names, as a printed one is.
+        entry = {"division": NOTOTAL_KEY, "position": "Nay", "total": 30, "document": "x",
+                 "hansard": "x", "quoted": "x", "why": "x"}
+        d, _, ok, note = self.run_division("ab_vp_20121203_nototal.txt", "2012-12-03", 28,
+                                           NOTOTAL_KEY, reviewed(hansard_totals=[entry]))
+        self.assertFalse(ok)
+        self.assertIn("Nay: 29 name(s) read, 30 printed", note)
+        # Elsewhere, no total appears from anywhere.
+        _, _, ok, note = self.run_division("ab_vp_20121203_nototal.txt", "2012-12-03", 28,
+                                           "ab-28-1-2012-12-03-6", self.shipped)
+        self.assertFalse(ok)
+        self.assertIn("no printed total", note)
+
+    def test_a_printed_total_is_never_replaced(self):
+        entry = {"division": "k", "position": "Nay", "total": 45, "document": "x",
+                 "hansard": "x", "quoted": "x", "why": "x"}
+        value, note = reviewed(hansard_totals=[entry]).total("k", "Nay", 44)
+        self.assertEqual(value, 44)
+        self.assertIn("not used: the record prints 44", note)
+
+    # 3. the bill-number correction
+    def test_the_misnumbered_bill_is_stored_under_the_corrected_number_and_says_so(self):
+        d, votes, ok, note = self.run_division("ab_vp_20151126_misnumbered.txt", "2015-11-26", 29,
+                                               MISNUMBERED_KEY, self.shipped)
+        self.assertTrue(ok, note)
+        self.assertEqual(d["bill_number"], "5")
+        self.assertIn("the record names Bill 9; stored as Bill 5", note)
+        self.assertIn("Bill 9, Publ", d["question"])                  # the record's words kept
+        # Not applied under any other key, nor once the record says otherwise.
+        other = ab.apply_reviewed(ab.parse_vp(fx("ab_vp_20151126_misnumbered.txt"), self.vocab)[0],
+                                  self.shipped, "ab-29-1-2015-11-26-2")
+        self.assertEqual(other["bill_number"], "9")
+        entry = {"division": "k", "printed_bill": "9", "bill": "5", "document": "x",
+                 "verified_against": "x", "why": "x"}
+        number, note = reviewed(bill_corrections=[entry]).bill("k", "11")
+        self.assertEqual(number, "11")
+        self.assertIn("not used", note)
+
+    def test_every_shipped_entry_carries_its_evidence(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False) as fh:
+            fh.write('provinces:\n  "ab":\n    hansard_totals:\n      - division: k\n'
+                     '        position: Nay\n        total: 29\n')
+        try:
+            with self.assertRaises(ValueError):
+                pn.ReviewedDivisions.load("ab", fh.name)
+        finally:
+            os.unlink(fh.name)
+        self.assertEqual(sorted(self.shipped.by), [NOTOTAL_KEY, JOHNSON_KEY, MISNUMBERED_KEY])
+
+
+class JointBillTests(unittest.TestCase):
+    """23 Mar 2022: "The question was put on the approval of Bill 7,
+    Appropriation Act, 2022 ($), and Bill 8, Appropriation (Supplementary
+    Supply) Act, 2022 ($), which was agreed to." One division, two bills."""
+
+    def test_one_question_on_two_bills_names_both(self):
+        (d,) = ab.parse_vp(fx("ab_vp_20220323_joint.txt"), set())
+        self.assertEqual((d["bill_number"], d["also_bills"]), ("8", ["7"]))
+        self.assertEqual(ab._joint_bills("The question being put on Bill 7, Appropriation Act, 2022 "
+                                         "($), the motion was agreed to."), [])
+
+    def store(self, conn):
+        for n, areas in (("7", [3]), ("8", [6])):
+            ps.store_bill(conn, {"bill_key": "ab-30-3/" + n, "prov": "ab", "legislature": 30,
+                                 "session": 3, "number": n, "areas": areas, "text_read": 1,
+                                 "stages": [{"stage": "Committee of the Whole", "date": "2022-03-23",
+                                             "status": "passed on division"}]})
+        ctx = Context(conn, _Client({}), "ab", log=lambda *a: None)
+        ctx.tax = pc.load_taxonomy()
+        (d,) = ab.parse_vp(fx("ab_vp_20220323_joint.txt"), set())
+        keys = ["ab-30-3/8", "ab-30-3/7"]
+        res = ab.division_classification(ctx, pc.load_watchlist("ab"), d["question"], keys)
+        ps.store_division(conn, {"division_key": "ab-30-3-2022-03-23-1", "prov": "ab", "legislature": 30,
+                                 "session": 3, "date": "2022-03-23", "seq": 1, "kind": "recorded",
+                                 "bill_key": keys[0], "also_bill_keys": keys[1:], "areas": res.areas,
+                                 "positions_ok": 1, "votes": []})
+        conn.commit()
+        return ctx, res
+
+    def test_the_division_is_linked_inherits_and_cross_checks_against_both(self):
+        conn = db.init_db(db.connect(":memory:"))
+        ctx, res = self.store(conn)
+        self.assertEqual(res.areas, [3, 6])                      # both bills' ground
+        self.assertEqual(ps.linked_bills(conn, "ab-30-3-2022-03-23-1"), ["ab-30-3/8", "ab-30-3/7"])
+        self.assertEqual(conn.execute("SELECT bill_key FROM prov_divisions").fetchone()[0], "ab-30-3/8")
+        for key in ("ab-30-3/7", "ab-30-3/8"):
+            self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_divisions WHERE " + ps.ON_BILL,
+                                          (key, key)).fetchone()[0], 1)
+        self.assertEqual(ab.check_division_flags(ctx, 30, 3, {"2022-03-23"}), 0)
+        # Re-storing with one bill drops the second link: the table is the division's own.
+        ps.store_division(conn, {"division_key": "ab-30-3-2022-03-23-1", "prov": "ab", "kind": "recorded",
+                                 "bill_key": "ab-30-3/8", "votes": []})
+        self.assertEqual(ps.linked_bills(conn, "ab-30-3-2022-03-23-1"), ["ab-30-3/8"])
+
+
 class NameRunTests(unittest.TestCase):
     def test_letter_spacing(self):
         self.assertEqual(pn.close_letter_spacing("(Leduc-Beaumont) G a n l e y  P a y n e "),

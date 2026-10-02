@@ -59,7 +59,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, intel, prov_names as pn, stance  # noqa: E402
+from src import db, intel, prov_names as pn, prov_store as ps, stance  # noqa: E402
 
 STANCE_PATH = os.path.join(ROOT, "config", "prov_stance.yaml")
 OUT_DIR = os.path.join(ROOT, "data", "5ca")
@@ -143,8 +143,11 @@ def build_rows(conn, prov, area, entries, bill_entries):
 
     for d in trusted:
         entry = entries.get(d["division_key"])
+        # Every bill the division decided (prov_division_bills): one question
+        # on two bills names both, so the line reads true under either.
+        bills = " + ".join(ps.linked_bills(conn, d["division_key"]))
         base = "{0} {1}{2} ({3} {4}-{5})".format(
-            d["date"], (d["bill_key"] + " " if d["bill_key"] else ""), d["stage"] or d["vote_on"] or "",
+            d["date"], (bills + " " if bills else ""), d["stage"] or d["vote_on"] or "",
             d["result"] or "?", d["yeas"], d["nays"])
         for key, (position, party) in votes[d["division_key"]].items():
             r = rec(key)

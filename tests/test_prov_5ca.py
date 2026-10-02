@@ -111,6 +111,16 @@ class SheetTests(unittest.TestCase):
         rows, *_ = p5.build_rows(self.conn, "ab", 3, draft, {})
         self.assertTrue(all(r["column"] == "0" for r in rows))
 
+    def test_a_division_on_two_bills_names_both_on_the_sheet(self):
+        """prov_division_bills (2 October 2026): one question deciding two
+        bills is shown under both, never as if it decided only the primary."""
+        self.conn.execute("INSERT INTO prov_division_bills (division_key, bill_key, is_primary) "
+                          "VALUES (?, 'ab-31-1/99', 0)", (self.key,))
+        rows, *_ = p5.build_rows(self.conn, "ab", 3, {}, {})
+        smith = [r for r in rows if r["key"] == "0814"][0]
+        self.assertTrue(any("ab-31-1/26 + ab-31-1/99 Third Reading" in c for c in smith["comments"]),
+                        smith["comments"][:3])
+
     def test_an_untrusted_division_places_nobody_and_shows_no_positions(self):
         self.conn.execute("UPDATE prov_divisions SET positions_ok=0 WHERE division_key=?", (self.key,))
         reading = {self.key: {"key": self.key, "yea": 2, "nay": -2}}

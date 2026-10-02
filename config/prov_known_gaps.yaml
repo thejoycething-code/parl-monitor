@@ -16,34 +16,20 @@ nb:
     why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."
 
 # Alberta: the 2010 backfill's tally gaps, re-read 2 October 2026. Of 358,
-# 355 cleared in the parser and resolver; these are the record's own errors.
-# The tally check is untouched: each division stays positions_ok=0.
+# 355 cleared in the parser and resolver; of the record's own errors, three
+# are now cleared by division-scoped reviewed facts in config/prov_record.yaml
+# (a Hansard total, a Hansard name, a bill-number correction). What is left
+# cannot be cleared by any of those. The tally check is untouched.
 ab:
-  - contains: "ab-28-1-2012-12-03-7: tally check failed"
-    reviewed: 2026-10-02
-    why: >-
-      The V&P (legislature_28/session_1/20121203_1200_01_vp.pdf) prints
-      "Against the amendment" with NO total over 29 names. Hansard
-      (hansards/han/legislature_28/session_1/20121203_1930_01_han.pdf) gives
-      "Totals: For - 9 Against - 29" for amendment A8. The V&P's own check is
-      missing, so its names are stored and not trusted.
   - contains: "ab-28-1-2013-05-13-2: tally check failed"
     reviewed: 2026-10-02
     why: >-
       The V&P (legislature_28/session_1/20130513_1200_01_vp.pdf, p.9) prints
       "Against the motion: 14" over 13 names. Hansard for the same division,
       second reading of Bill 22 (20130513_1930_01_han.pdf), lists 14 with
-      Wilson, "Totals: For - 36 Against - 14". The V&P dropped Wilson.
-  - contains: "ab-28-1-2013-11-19-2: tally check failed"
-    reviewed: 2026-10-02
-    why: >-
-      The V&P (legislature_28/session_1/20131119_1200_01_vp.pdf) prints a bare
-      "Johnson" in the Nays on amendment A4 to Bill 30 while Jeff and Linda
-      Johnson both sat; elsewhere the V&P prints "Johnson (Calgary-Glenmore)"
-      and "Johnson (Athabasca-Sturgeon-Redwater)".
-      Hansard (20131119_1930_01_han.pdf) prints "Johnson, L.". The resolver
-      will not choose between two members, and an alias may not settle an
-      ambiguity (src/prov_names.Aliased), so it stays a gap.
+      Wilson, "Totals: For - 36 Against - 14". The V&P dropped Wilson. A
+      reviewed fact may settle a bare name or supply a missing total, never
+      add a name the record left out, so the division stays untrusted.
   - contains: "ab-31-2/20: bill page says Third Reading on 2026-03-26 passed on division"
     reviewed: 2026-10-02
     why: >-
@@ -52,12 +38,3 @@ ab:
       reading as "The question being put, the motion was agreed to", with no
       division; the one division that afternoon (43-14) was the Standing Order
       64(5) question on the Appropriation Bill, Bill 19, whose own page flags it.
-  - contains: "ab-29-1/5: bill page says Second Reading on 2015-11-26 passed on division"
-    reviewed: 2026-10-02
-    why: >-
-      The V&P misnumbers the bill. Its narrative before the division reads
-      "Debate resumed on the motion for Second Reading of Bill 9, Public
-      Sector Compensation Transparency Act" (that Act is Bill 5; Bill 9 is the
-      Appropriation Act, read a third time earlier that day), and the outcome
-      line after it says Bill 5 was read a Second time. The division
-      (ab-29-1-2015-11-26-3, 47-0) is stored under the bill the record names, Bill 9.

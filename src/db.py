@@ -1557,6 +1557,7 @@ TABLES = (
     "prov_member_terms",
     "prov_divisions",
     "prov_votes",
+    "prov_division_bills",
     "prov_bills",
     "prov_sittings",
     "prov_speeches",
