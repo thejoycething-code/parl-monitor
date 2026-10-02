@@ -243,6 +243,12 @@ ONCE_EVER = {
     # read_at is when the ISSUE was read, one row per issue: a write-once
     # table, not a sighting column the cadence check may use (RecessTests).
     "ca_gazette_issues": "one row per Gazette issue read, stored once",
+    # 3 October 2026: Senate debates and committee evidence. One row per
+    # sitting or meeting read, stored once; testimony one row per witness
+    # intervention on our ground. All quiet in recess.
+    "ca_senate_sittings": "one row per Senate sitting read, stored once",
+    "ca_committee_meetings": "one row per committee meeting read, stored once",
+    "ca_testimony": "one row per witness intervention on our ground, stored once",
     "items": "new rows only: PQs, SIs, consultations and what's on are "
              "inserted when they appear and not re-stamped",
     "sp_affiliations": "new rows only: an MSP's committee places",

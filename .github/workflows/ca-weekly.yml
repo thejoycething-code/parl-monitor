@@ -143,7 +143,7 @@ jobs:
     # 60 for the weekly since the judge step (27 September 2026): collection
     # takes ~5 minutes and the judge's clock is 20 by default, 45 at most, and
     # a job killed by its timeout never reaches "Publish the store".
-    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || ((inputs.backfill || inputs.retag || inputs.rollcall_sessions != '') && 120 || 60) }}
+    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || ((inputs.backfill || inputs.retag || inputs.rollcall_sessions != '') && 120 || 90) }}
     env:
       # Unbuffered, or a step killed mid-run leaves an empty log (the EU
       # weekly's 30-minute kill read as an empty log, not a timeout).
@@ -192,6 +192,17 @@ jobs:
         # session's seed (tools/ca_hansard.py SEED_SITTING), never at 1.
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/ca_hansard.py --session 45-1 | tee /tmp/ca-hansard.log
+      - name: Senate debates since the last sitting read
+        # 3 October 2026 (tools/ca_senate_debates.py): floor speeches on our
+        # ground, chamber='senate'. After ca_senate, which stores the
+        # senators the speeches resolve against, and after the bills.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_senate_debates.py --session 45-1 --budget-seconds 900 | tee /tmp/ca-senate-debates.log
+      - name: Committee evidence (the key eight; others by study title)
+        # 3 October 2026 (tools/ca_committees.py). Members' interventions to
+        # ca_speeches (forum='committee'); witnesses only to ca_testimony.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_committees.py --session 45-1 --budget-seconds 1200 | tee /tmp/ca-committees.log
       - name: Petitions (owed a refresh, newly presented, newly open)
         # 300 page fetches: the open e-petition probe alone is ~190 numbers
         # a week, nearly all of them empty 0-byte answers.
