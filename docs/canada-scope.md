@@ -318,6 +318,56 @@ How it works:
 - **Senate titles use a bill's short title** ("Combatting Hate Act – C-9"),
   so the long title is joined in from `ca_bills`.
 
+### Senate debates (floor speeches), built 2 October 2026
+
+`tools/ca_senate_debates.py` reads the session index
+(`/en/in-the-chamber/debates/<P-S>`) and then each sitting page it links. It
+is not scheduled yet: it joins `ca-weekly.yml` after `ca_hansard`, and
+`coverage.py` needs a `ca_senate_sittings` line (write-once), the day it is.
+
+- **URLs come only from the index.** Its hrefs use backslashes and are
+  normalised; the one forward-slash link is the "latest sitting" box and is
+  dropped. A made-up URL returns 200 with an empty `<title>`, so a page with
+  no `THE SENATE` heading or no speaker labels is a **gap**, recorded and
+  retried, never an empty sitting.
+- **Speakers.** `Hon. First Last (role)` resolves against `ca_senators` on
+  surname plus any given name (the floor says "Margaret Dawn Anderson", the
+  vote pages "Anderson, Dawn"), and `Senator [K.] Last` resolves to the Hon.
+  label seen in the same sitting. The chair and collective labels are
+  counted, not stored. Senators who left before 42-1 (Dec 2015, where the
+  vote record starts) are stored with `person_id` NULL and `speaker_key`, the
+  folded full name, and no id is ever made from a name. A senator appointed
+  since the last recorded vote resolves on the next run after they vote.
+- **Ministers and witnesses.** A minister answering in the Senate
+  (`..., M.P.`) is stored with the House PersonId only if the name is unique
+  in `ca_members`; a witness is stored unattributed. Neither writes a member
+  table or reaches a 5CA sheet.
+- **Matching.** The title passage is h2 + h3 plus the bill's long title,
+  joined on (parliament, session, number). The bill comes from the "On the
+  Order" line or the mover's own sentence. A stage heading under the same
+  subject (a motion in amendment) inherits it. `ca_store.speech_title` builds
+  the passage, so `ca_retag` re-reads exactly what was read.
+- **Storage.** Speeches on our ground go into `ca_speeches` with
+  `chamber='senate'` and `forum='floor'`, keyed `sen-<PS>-<NNN>-<seq>`. Every
+  sitting read gets a `ca_senate_sittings` row. Senate sittings are kept out
+  of `ca_sittings`, whose highest number is the House frontier.
+- **5CA.** Senate sheets now list senators' floor speeches as evidence,
+  "activity, not direction". Commons sheets list only `chamber='commons'`.
+
+**Measured live on 2 October 2026**, against a scratch store holding the
+real `ca_senators` and `ca_bills`:
+
+| Sitting | Interventions | Chair / collective | Speakers resolved | On our ground |
+|---|---|---|---|---|
+| 43-2 / 28, 16 Feb 2021 | 132 | 32 | 42 of 42 | 39 |
+| 43-2 / 29, 17 Feb 2021 (C-7 third reading) | 76 | 18 | 22 of 22 | 12 |
+| 43-2 / 30, 15 Mar 2021 | 154 | 55 | 28 of 28 | 21 |
+
+Plett and Dean resolve and are stored on C-7. On the saved 4 June 2026 page
+(C-9), 89 speeches are on our ground against the scope's 21. The difference
+is the motion-in-amendment debates, which now carry C-9's long title. They
+are C-9 debate, but many are one-line procedural exchanges.
+
 ### The Canada Gazette
 
 `tools/ca_gazette.py` starts from the Part I and Part II RSS feeds. These
