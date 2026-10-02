@@ -113,9 +113,16 @@ def build_rows(conn, prov, area, entries, bill_entries):
     members = {r["member_key"]: dict(r) for r in conn.execute(
         "SELECT * FROM prov_members WHERE prov=?", (prov,))}
     resolver = pn.Resolver.from_conn(conn, prov)
+    # A reading may state the areas it belongs to (3 October 2026): the
+    # amendment writing "comprehensive reproductive healthcare" into Alberta's
+    # Bill of Rights is an abortion vote, but its bill (Bill 24) is tagged
+    # free speech, so the division's own areas put it on the wrong sheet.
+    def division_areas(r):
+        stated = (entries.get(r["division_key"]) or {}).get("areas")
+        return json.dumps(stated) if stated else r["areas"]
     all_divs = [dict(r) for r in conn.execute(
         "SELECT * FROM prov_divisions WHERE prov=? ORDER BY date, division_key", (prov,))
-        if _in_area(r["areas"], area)]
+        if _in_area(division_areas(r), area)]
     trusted = [d for d in all_divs if d["kind"] == "recorded" and d["positions_ok"] == 1]
     untrusted = [d for d in all_divs if d["kind"] == "recorded" and d["positions_ok"] != 1]
     voice = [d for d in all_divs if d["kind"] == "voice"]

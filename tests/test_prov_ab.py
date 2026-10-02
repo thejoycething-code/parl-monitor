@@ -183,8 +183,21 @@ class ProofTests(unittest.TestCase):
             ("32", "Committee of the Whole", "motion", 75, 0),
             ("34", "Committee of the Whole", "motion", 44, 17),
             ("35", "Committee of the Whole", "amendment", 17, 42)])
-        self.assertEqual(self.divs[1]["result"],
-                         "The question being immediately put, the motion for Third Reading was agreed to")
+        self.assertTrue(self.divs[1]["result"].startswith("the motion was carried on division, 47-35"),
+                        self.divs[1]["result"])
+        # The voice vote is printed first and the division decides: an
+        # amendment the Speaker called on the voice vote can still be defeated.
+        self.assertTrue(self.divs[0]["result"].startswith("the amendment was defeated on division, 35-47"),
+                        self.divs[0]["result"])
+
+    def test_the_division_decides_not_the_voice_vote(self):
+        """3 Oct 2026: Bill 26's first reading was "defeated on the voice
+        vote" and carried 45-34 on division; the stored result said defeated."""
+        r = ab.division_result("the motion was defeated", 45, 34, voice=True)
+        self.assertTrue(r.startswith("the motion was carried on division, 45-34"), r)
+        self.assertIn("voice vote before the division", r)
+        self.assertTrue(ab.division_result("the amendment was agreed to", 32, 44)
+                        .startswith("the amendment was defeated on division, 32-44"))
 
     def test_every_tally_matches_and_the_partisans_sit_where_they_should(self):
         for d in self.divs:

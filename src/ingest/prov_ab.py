@@ -344,6 +344,34 @@ _READ_A = re.compile(r"On the motion that the following Bills? be now read a (Fi
 _BILL_LINE = re.compile(r"^\s*Bill (\d+)\s+(.+?)\s+[—–-]\s+(?:Hon\.|Mr\.|Ms|Mrs\.|Dr\.|Member|MLA)")
 _RESULT = re.compile(r"((?:the|which)\s[^.]{0,140}?\s(?:was|were)\s(?:agreed to|defeated|carried|negatived|lost))",
                      re.I)
+def division_result(voice_text, yeas, nays, voice=False):
+    """The outcome a RECORDED division decided (3 October 2026).
+
+    Alberta's Votes and Proceedings prints the Speaker's VOICE-VOTE call first
+    ("the amendment was agreed to on the voice vote") and then, when members
+    demand a division, the names. The division decides the question, so the
+    outcome comes from the printed totals; the voice-vote line is kept beside
+    it. Storing the voice line alone recorded the government's 45-34 win on
+    Bill 26's first reading as "defeated", and a 32-44 loss as "agreed to"."""
+    subject = "question"
+    if voice_text:
+        m = re.search(r"\b(motion|amendment|subamendment|bill|clauses?)\b", voice_text, re.I)
+        if m:
+            subject = m.group(1).lower()
+    if yeas is None or nays is None:
+        return voice_text
+    if yeas > nays:
+        outcome = "carried"
+    elif nays > yeas:
+        outcome = "defeated"
+    else:
+        outcome = "tied (decided by the Chair)"
+    out = "the {0} was {1} on division, {2}-{3}".format(subject, outcome, yeas, nays)
+    if voice_text and (voice or "voice vote" in voice_text.lower()):
+        out += " (voice vote before the division: {0})".format(voice_text)
+    return out
+
+
 _RESETS = {
     "introduction of bills": "First Reading", "second reading": "Second Reading",
     "third reading": "Third Reading", "committee of the whole": "Committee of the Whole",
@@ -397,13 +425,15 @@ def parse_vp(text, vocab):
                 problem = "no 'Against the {0}' list after 'For the {0}: {1}'".format(vote_on, yeas)
             ctx_text = re.sub(r"\s+", " ", " ".join(context)).strip()
             results = _RESULT.findall(ctx_text)
+            result = division_result(results[-1].strip() if results else None, yeas, nays,
+                                     voice="on the voice vote" in ctx_text.lower())
             named = re.findall(r"\bBill (\d+)\b", ctx_text)
             out.append({
                 "seq": len(out) + 1, "vote_on": vote_on, "yeas": yeas, "nays": nays,
                 "yea_labels": pn.split_name_run(yea_lines, vocab),
                 "nay_labels": pn.split_name_run(nay_lines, vocab),
                 "question": ctx_text[-600:] or None,
-                "result": results[-1].strip() if results else None,
+                "result": result,
                 "stage": stage, "bill_number": named[-1] if named else bill,
                 "problem": problem})
             context = []

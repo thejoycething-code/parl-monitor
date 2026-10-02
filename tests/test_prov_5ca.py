@@ -49,13 +49,22 @@ def store_proof(conn):
 
 
 class StanceFileTests(unittest.TestCase):
-    def test_the_shipped_stance_file_is_empty_and_places_nobody(self):
-        self.assertEqual(p5.load_stance(p5.STANCE_PATH, "divisions"), {})
-        self.assertEqual(p5.load_stance(p5.STANCE_PATH, "bills"), {})
+    def test_the_shipped_stance_file_places_nobody_until_confirmed(self):
+        """3 October 2026: readings drafted for Christopher. Nothing is
+        confirmed until he deletes a `draft: true` line."""
+        entries = p5.load_stance(p5.STANCE_PATH, "divisions")
+        self.assertGreater(len(entries), 10)
+        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "confirmed"], [])
         with open(p5.STANCE_PATH, encoding="utf-8") as fh:
             header = fh.read()
         self.assertIn("draft: true", header)
         self.assertIn("places NOBODY", header)
+
+    def test_a_reading_can_state_its_own_area(self):
+        src = open(p5.__file__, encoding="utf-8").read()
+        self.assertIn('(entries.get(r["division_key"]) or {}).get("areas")', src)
+        e = p5.load_stance(p5.STANCE_PATH, "divisions")["ab-31-1-2024-10-30-2"]
+        self.assertEqual(e.get("areas"), [1])
 
     def test_status(self):
         self.assertEqual(p5.status({"key": "k", "yea": 2, "nay": -2, "draft": True}), "draft")

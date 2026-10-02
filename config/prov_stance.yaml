@@ -5,10 +5,10 @@
 # reading a division's direction is the campaigner's judgement, and no tool
 # estimates it. tools/prov_5ca.py applies these lines; it never invents one.
 #
-# EMPTY ON PURPOSE (2 October 2026). The Alberta, Saskatchewan and BC
-# collectors are built, but no reading has been drafted, reviewed or
-# confirmed, so every provincial 5CA sheet is an EVIDENCE LIST: every column
-# blank, every vote listed with its date, question and result.
+# DRAFTED, NOT CONFIRMED (3 October 2026). The Alberta, Saskatchewan and BC
+# readings below are Claude drafts for Christopher; until he confirms them
+# every provincial 5CA sheet is an EVIDENCE LIST: every column blank, every
+# vote listed with its date, question and result.
 #
 # HOW AN ENTRY PLACES PEOPLE. An entry carrying `draft: true` places NOBODY.
 # Every entry starts as a draft; to confirm a reading, delete its `draft:
@@ -41,6 +41,171 @@
 #   bc-43-2-2026-02-19-119.1 (Gender Ideology and Child Protection Act,
 #   first reading refused 38-49).
 
-divisions: []
+divisions:
+  # DRAFTED 3 October 2026 for Christopher ("Draft the provincial readings").
+  # Each mover's or sponsor's own vote was checked against the direction:
+  # LaGrange, Nicolaides, Schow and Moe voted Yea on their government bills,
+  # Rustad Yea on the BC first reading; Pancholi, Sabir and Love voted Yea on
+  # their own amendments. Provincial votes are near-total party lines, so a
+  # second reading is +/-1 and only the third reading is +/-2: two readings of
+  # one bill must not read as twice the conviction. Clause-by-clause votes
+  # that split exactly as the bill are left out (placeable: false).
+
+  # --- Alberta, 31st Legislature, 1st session (fall 2024) -------------------
+  - key: ab-31-1-2024-11-26-1
+    draft: true
+    title: "Bill 26, Health Statutes Amendment Act, 2024 (No. 2) -- second reading"
+    dated: 2024-11-26
+    result: "Carried 44-32"
+    yea: 1
+    why_yea: "Voted for the principle of the bill restricting puberty blockers and cross-sex hormones for under-16s and surgery for minors."
+    nay: -1
+    why_nay: "Voted against the principle of restricting puberty blockers, hormones and surgery for minors."
+  - key: ab-31-1-2024-12-03-2
+    draft: true
+    title: "Bill 26 -- third reading"
+    dated: 2024-12-03
+    result: "Carried 47-35"
+    yea: 2
+    why_yea: "Voted to pass the law restricting puberty blockers and cross-sex hormones for under-16s and gender surgery for minors."
+    nay: -2
+    why_nay: "Voted against the law restricting puberty blockers, hormones and gender surgery for minors."
+  - key: ab-31-1-2024-11-26-4
+    draft: true
+    title: "Bill 26 -- Pancholi amendment (parental consent exception)"
+    dated: 2024-11-26
+    result: "Defeated 31-43"
+    yea: -1
+    why_yea: "Voted to let puberty blockers and hormones be given to minors with a parent's consent, carving an exception into the restriction."
+    nay: 1
+    why_nay: "Voted against a parental-consent exception to the restriction on puberty blockers and hormones for minors."
+  - key: ab-31-1-2024-12-03-1
+    placeable: false
+    title: "Bill 26 -- six-month hoist at third reading"
+    reason: "A delaying amendment that split exactly as the third reading (35-47): the third reading carries the reading."
+  - key: ab-31-1-2024-11-19-1
+    draft: true
+    title: "Bill 27, Education Amendment Act, 2024 -- second reading"
+    dated: 2024-11-19
+    result: "Carried 48-30"
+    yea: 1
+    why_yea: "Voted for the principle of parental notification and consent on a pupil's new name or pronouns and parental opt-in to sex education."
+    nay: -1
+    why_nay: "Voted against the principle of parental notification and consent on names, pronouns and sex education."
+  - key: ab-31-1-2024-12-03-4
+    draft: true
+    title: "Bill 27 -- third reading"
+    dated: 2024-12-03
+    result: "Carried 47-33"
+    yea: 2
+    why_yea: "Voted to pass the law requiring parental notification and consent for an under-16's new name or pronouns at school and parental opt-in to sex education."
+    nay: -2
+    why_nay: "Voted against the law requiring parental notification and consent on names, pronouns and sex education."
+  - key: ab-31-1-2024-11-27-3
+    read_first: true
+    title: "Bill 27 -- Pancholi amendment (notify the student first)"
+    reason: "The board would tell the student of its obligations, and proceed only if the student chose to. Whether that dilutes parental notification needs the bill's own words beside it; no value proposed."
+  - key: ab-31-1-2024-11-27-4
+    read_first: true
+    title: "Bill 27 -- Committee amendment on parental consent forms (32-44)"
+    reason: "The stored text is the tail of the amendment and the mover is not in it; read the full amendment before proposing a side."
+  - key: ab-31-1-2024-11-27-5
+    read_first: true
+    title: "Bill 27 -- Committee amendment on preferred names and pronouns (43-32)"
+    reason: "A government-side amendment on when a new preferred name or pronoun may be used; read the full text before proposing a side."
+  - key: ab-31-1-2024-11-26-2
+    draft: true
+    title: "Bill 29, Fairness and Safety in Sport Act -- second reading"
+    dated: 2024-11-26
+    result: "Carried 44-31"
+    yea: 1
+    why_yea: "Voted for the principle of reserving female school and amateur sport for female athletes."
+    nay: -1
+    why_nay: "Voted against the principle of reserving female sport for female athletes."
+  - key: ab-31-1-2024-12-03-6
+    draft: true
+    title: "Bill 29 -- third reading"
+    dated: 2024-12-03
+    result: "Carried 47-33"
+    yea: 2
+    why_yea: "Voted to pass the law reserving female school and amateur sport for female athletes."
+    nay: -2
+    why_nay: "Voted against the law reserving female sport for female athletes."
+  - key: ab-31-1-2024-11-26-5
+    placeable: false
+    title: "Bill 29 -- clauses in Committee of the Whole"
+    reason: "Split exactly as the readings: the readings carry it."
+  - key: ab-31-1-2024-10-30-2
+    draft: true
+    areas: [1]          # abortion, though Bill 24 is tagged free speech (tools/prov_5ca.py)
+    title: "Bill 24, Alberta Bill of Rights Amendment Act -- amendment adding a right to 'comprehensive reproductive healthcare'"
+    dated: 2024-10-30
+    result: "Defeated 17-46"
+    yea: -2
+    why_yea: "Voted to write a right of access to 'comprehensive reproductive healthcare', which includes abortion, into the Alberta Bill of Rights."
+    nay: 1
+    why_nay: "Voted against writing a right to 'comprehensive reproductive healthcare' into the Alberta Bill of Rights (+1: a Nay also carries the government whip)."
+
+  # --- Saskatchewan, 29th Legislature, 3rd session (October 2023) -----------
+  - key: sk-29-3-2023-10-12-1
+    draft: true
+    title: "Bill 137, The Education (Parents' Bill of Rights) Amendment Act, 2023 -- first reading"
+    dated: 2023-10-12
+    result: "Carried 37-12"
+    yea: 1
+    why_yea: "Voted to introduce the Parents' Bill of Rights (a recorded division at first reading: the opposition opposed its introduction)."
+    nay: -1
+    why_nay: "Voted against even introducing the Parents' Bill of Rights."
+  - key: sk-29-3-2023-10-19-1
+    draft: true
+    title: "Bill 137 -- second reading"
+    dated: 2023-10-19
+    result: "Carried 37-11"
+    yea: 1
+    why_yea: "Voted for the principle of parental consent before a pupil under 16 uses a new name or pronoun at school, and parents' say over sex education."
+    nay: -1
+    why_nay: "Voted against the principle of the Parents' Bill of Rights."
+  - key: sk-29-3-2023-10-20-1
+    draft: true
+    title: "Bill 137 -- third reading"
+    dated: 2023-10-20
+    result: "Carried 40-12"
+    yea: 2
+    why_yea: "Voted to pass the Parents' Bill of Rights, protected by the notwithstanding clause: parental consent for an under-16's new name or pronoun at school."
+    nay: -2
+    why_nay: "Voted against the Parents' Bill of Rights."
+  - key: sk-29-3-2023-10-19-5
+    draft: true
+    title: "Bill 137 -- Love amendment (consent not required where professionals foresee harm)"
+    dated: 2023-10-19
+    result: "Negatived 11-33"
+    yea: -1
+    why_yea: "Voted to let school professionals waive parental consent where they judged a plan could not be made without harm to the pupil."
+    nay: 1
+    why_nay: "Voted against letting school professionals waive parental consent on a pupil's new name or pronoun."
+  - key: sk-29-3-2023-10-19-6
+    read_first: true
+    title: "Bill 137 -- amendment for a parent-engagement strategy (11-33)"
+    reason: "An opposition amendment requiring the minister to consult on a parent-engagement strategy; whether it was offered instead of or beside the consent clause needs the full text."
+  - key: sk-29-3-2023-10-19-2
+    placeable: false
+    title: "Bill 137 -- clause votes in Committee of the Whole (19 October 2023)"
+    reason: "Clauses 1-6 split as the readings (32-33 to 11): the readings carry it. The same applies to -3, -4, -7, -8 and -9."
+
+  # --- British Columbia, 43rd Parliament, 2nd session ------------------------
+  - key: bc-43-2-2026-02-19-119.1
+    draft: true
+    title: "Gender Ideology and Child Protection Act -- first reading (refused)"
+    dated: 2026-02-19
+    result: "Negatived 38-49"
+    yea: 1
+    why_yea: "Voted to let the Gender Ideology and Child Protection Act be introduced (+1: first reading is leave to introduce, not the bill's principle)."
+    nay: -1
+    why_nay: "Voted to refuse the Gender Ideology and Child Protection Act even a first reading."
+    note: "Introduced by Tara Armstrong. Refusing first reading is rare in BC; the House voted it down before any debate."
+  - key: bc-43-2-2026-02-26-126.1
+    read_first: true
+    title: "Human Rights Code Repeal Act -- first reading (refused 37-50)"
+    reason: "Introduced by Tara Armstrong; tagged free speech. Its text has not been read, so no side is proposed."
 
 bills: []
