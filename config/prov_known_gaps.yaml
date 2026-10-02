@@ -51,3 +51,55 @@ bc:
       The issue itself prints another day's list (Banman "Conservative Party
       of BC" and the Liberals as "BC United" in October 2022). No re-read can
       change it; the refutation is the right outcome and is printed each run.
+
+# Ontario: the 2010 backfill's tally gaps, re-read 2 October 2026. Of 393,
+# 390 cleared in the parser, the roster and one reviewed misprint
+# (config/prov_record.yaml); these are the record's own, with Hansard's
+# evidence. The tally check is untouched.
+"on":
+  - contains: "on-41-2-2017-09-21-1: tally check failed"
+    reviewed: 2026-10-02
+    why: >-
+      Second reading of Bill 146 (Gas Pricing Transparency Act). The V&P prints
+      17-16 with "Deputy Speaker" as the 17th Aye. Hansard
+      (21-SEP-2017_L095.pdf, p. 5136): "The ayes are 16; the nays are 16. The
+      Deputy Speaker (Ms. Soo Wong): I declare the motion carried": the chair's
+      casting vote on a tie, printed as an office, not a member. Placing it is
+      Christopher's decision (a casting vote follows convention, not a stance);
+      until then the division places nobody.
+  - contains: "on-42-1-2019-04-04-1: tally check failed"
+    reviewed: 2026-10-02
+    why: >-
+      The V&P prints each list's first two columns twice and drops the rest: 12
+      names twice under "AYES / POUR - 22", 26 twice under "NAYS / CONTRE - 51".
+      Hansard (04-APR-2019_L088_0.pdf, p. 50): "The ayes are 22; the nays are
+      51." No reviewed fact may add names the record left out.
+  - contains: "on-42-2-2022-04-04-1: tally check failed"
+    reviewed: 2026-10-02
+    why: >-
+      Private Members' Notice of Motion 36 (Ms. French). The V&P prints the 19
+      Ayes as plain paragraphs with no "Ayes/pour (19)" header, so no Ayes list
+      exists to read. Hansard (04-APR-2022_L052.pdf, p. 19): "The ayes are 19;
+      the nays are 39."
+  - contains: "on-43-1-2022-12-06: the record says 'on the following division' 6 time(s)"
+    reviewed: 2026-10-02
+    why: >-
+      The sixth mention is a tie on adjourning the debate, printed "the votes
+      were declared a tie, on the following division – 0 Ayes, 0 Nays" and
+      settled by the Acting Speaker's casting vote. No division with names or
+      totals is printed; the day's five other divisions are all stored.
+  - contains: "on-41-2-2017-09-26-2: "
+    reviewed: 2026-10-02
+    why: >-
+      The day's hub lists a second V&P (.../2017-09-26/votes-proceedings-1)
+      whose page has no proceedings at all; the day's V&P proper is read.
+  - contains: "on-43-1-2022-08-08: "
+    reviewed: 2026-10-02
+    why: >-
+      The 43rd Parliament's first sitting (the proclamation and the Speaker's
+      election), a hand-made page with no event tables and no division.
+  - contains: "on-43-1-2022-08-09: "
+    reviewed: 2026-10-02
+    why: >-
+      The Speech from the Throne, a hand-made page with no event tables and no
+      division.

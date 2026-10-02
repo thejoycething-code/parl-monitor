@@ -21,7 +21,7 @@ prov_bills through the title.
 WHO SPOKE: full names ("Hon. Doug Ford", "MPP Jamie West"), resolved
 against the members list printed in the back of THAT DAY's Hansard PDF --
 read through prov_on.roster_for_day, exactly as the vote collector reads it
-on a division day, when no term already covers the day.
+on a division day, unless a term already starts or ends on the day (trust_store).
 """
 
 from __future__ import annotations
@@ -97,7 +97,7 @@ def read_day(ctx, day, roster=True):
     problems = []
     if roster:
         _vps, pdf_url = base.hub_documents(html, day["date"])
-        if not base.roster_for_day(ctx, day["legislature"], day["date"], pdf_url):
+        if not base.roster_for_day(ctx, day["legislature"], day["date"], pdf_url, trust_store=True):
             problems.append("no members list read for the day")
     return turns, problems
 

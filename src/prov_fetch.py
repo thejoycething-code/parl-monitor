@@ -327,12 +327,32 @@ def pdf_text(raw, pages=None, joiner="\n=====PAGE\n"):
         raise Unreadable("PDF could not be read: {0}".format(exc))
 
 
-def pdf_fragments(raw, pages=None, want=None):
+def glyph_width(text, font_dict, font_size):
+    """Advance width of `text` in text-space units, from the font's own
+    /Widths (500/1000 em for a glyph it does not list); a font we cannot
+    measure falls back to a mean advance of 0.43 em."""
+    try:
+        widths, first = font_dict.get("/Widths"), int(font_dict.get("/FirstChar", 0))
+        if widths is not None:
+            ws = [float(w) for w in widths]
+            total = 0.0
+            for c in text:
+                k = ord(c) - first
+                total += ws[k] if 0 <= k < len(ws) and ws[k] else 500.0
+            return total / 1000.0 * float(font_size or 10.0)
+    except Exception:  # noqa: BLE001
+        pass
+    return len(text) * 0.43 * float(font_size or 10.0)
+
+
+def pdf_fragments(raw, pages=None, want=None, extents=False):
     """Positioned text of a PDF: [(page, x, y, text)] in drawing order, for
     pages laid out in columns (Ontario's Hansard member list), where plain
     extraction runs the columns together. `pages` may index from the end
     (-1 is the last page); `want`, if given, keeps only pages whose plain
-    text contains it."""
+    text contains it. With `extents`, each fragment also carries where it
+    ENDS, from its font's glyph widths: (page, x, y, text, x_end), so a
+    reader can tell two words drawn apart from one word drawn in pieces."""
     if not raw or not raw[:5] == b"%PDF-":
         raise Unreadable("not a PDF ({0} bytes)".format(len(raw or b"")))
     if b"%%EOF" not in raw[-2048:]:
@@ -346,13 +366,18 @@ def pdf_fragments(raw, pages=None, want=None):
         for i in idx:
             got = []
 
-            def visit(text, cm, tm, _fd, _fs, got=got):
+            def visit(text, cm, tm, fd, fs, got=got):
                 if text and text.strip():
-                    got.append((round(tm[4] * cm[0] + cm[4], 1), round(tm[5] * cm[3] + cm[5], 1), text))
+                    x = round(tm[4] * cm[0] + cm[4], 1)
+                    end = x + glyph_width(text, fd or {}, fs) * (tm[0] or 1.0) * (cm[0] or 1.0)
+                    got.append((x, round(tm[5] * cm[3] + cm[5], 1), text, round(end, 1)))
             plain = reader.pages[i].extract_text(visitor_text=visit) or ""
             if want and want not in plain:
                 continue
-            out.extend((i, x, y, t) for x, y, t in got)
+            if extents:
+                out.extend((i, x, y, t, e) for x, y, t, e in got)
+            else:
+                out.extend((i, x, y, t) for x, y, t, _e in got)
         return out
     except Exception as exc:
         raise Unreadable("PDF could not be read: {0}".format(exc))
