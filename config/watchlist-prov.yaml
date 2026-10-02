@@ -17,7 +17,7 @@
 #
 # Every entry says why, and which text it was measured on. A term added
 # without a measurement is a guess; mark it so. Titles and keys for the
-# provinces NOT YET BUILT (mb, on, nb, qc) come from the scope probe and
+# provinces NOT YET BUILT (mb, on, nb) come from the scope probe and
 # were not re-read for this file; confirm each when that province is built.
 
 terms:
@@ -59,10 +59,10 @@ terms:
     why: "Tier 2 in the taxonomy, where match_passages drops it. Provincial MAID bills (QC Bill 11) are wholly on this ground."
   - term: "laicity"
     areas: [8]
-    why: "Quebec Bill 21 English title 'An Act respecting the laicity of the State'. QUEBEC IS NOT BUILT: its records are French and need a French term layer."
+    why: "Quebec Bill 21 English title 'An Act respecting the laicity of the State'. Quebec's own records are French and are read by config/taxonomy-qc.yaml; this term reads only the English bill titles."
   - term: "religious symbols"
     areas: [8]
-    why: "Quebec Bill 21 / Bill 94 subject. Same caveat."
+    why: "Quebec Bill 21 / Bill 94 subject, in the English titles. The French layer carries 'signe* religieux'."
   - term: "notwithstanding clause"
     areas: []
     why: "No area of its own: listed so the judge sees it. Alberta Bill 9 (2025) and Ontario Bill 28 (2022) turn on it; the bill KEY gives the areas where they are ours."
@@ -106,10 +106,17 @@ provinces:
       "nb-60-2/52": {title: "Human Organ and Tissue Donation Act", areas: [13],
                      why: "Deemed consent. Passed third reading on VOICE, 15 June 2023. Not built."}
   "qc":
+    # Keys are the bill's OWN page link (projet-loi-<n>-<leg>-<sess>.html):
+    # a bill reinstated in a later session keeps its first session's key.
+    # Measured 2 October 2026 from the bill pages and the procès-verbaux.
     bills:
-      "qc-42-1/21": {title: "An Act respecting the laicity of the State", areas: [8],
-                     why: "Adopted 73-35 on 16 June 2019. Not built (French)."}
-      "qc-40-1/52": {title: "An Act respecting end-of-life care", areas: [2],
-                     why: "Principle 84-26 (2013). Not built."}
-      "qc-43-1/11": {title: "An Act to amend the Act respecting end-of-life care and other legislative provisions", areas: [2],
-                     why: "MAID expansion (2023): 107-0 at principle, 103-2-1 at adoption. Not built."}
+      "qc-42-1/21": {title: "Loi sur la laïcité de l'État (An Act respecting the laicity of the State)", areas: [8],
+                     why: "Bans religious symbols for public employees in positions of authority, under the notwithstanding clause. Adopted 73-35 on 16 June 2019 (PV vote no. 165): Legault and Jolin-Barrette for, Nadeau-Dubois against. Report stage 73-35 the same day; principle 77-38 on 4 June 2019."}
+      "qc-43-1/94": {title: "Loi visant notamment à renforcer la laïcité dans le réseau de l'éducation", areas: [8, 6],
+                     why: "Extends Bill 21's laicity rules to school staff and volunteers and to home schooling (its text regulates 'l'enseignement à la maison', hence area 6). Presented 2025 in 43-1, reinstated in 43-2, adopted 70-27 on 30 October 2025 (PV vote no. 53; report stage on voice, 28 October). The key is 43-1: the bill's own page link."}
+      "qc-40-1/52": {title: "Loi concernant les soins de fin de vie (as first presented)", areas: [2],
+                     why: "Quebec's MAID law as first presented by Véronique Hivon. Principle adopted 84-26 on 29 October 2013 (PV vote no. 64). Died at the 2014 dissolution."}
+      "qc-41-1/52": {title: "Loi concernant les soins de fin de vie (An Act respecting end-of-life care)", areas: [2],
+                     why: "The same bill reinstated in the 41st legislature by unanimous motion on 22 May 2014 and adopted 94-22 on 5 June 2014 (PV vote no. 10). A different bill page, so a different KEY from qc-40-1/52; both are watched."}
+      "qc-43-1/11": {title: "Loi modifiant la Loi concernant les soins de fin de vie et d'autres dispositions législatives", areas: [2],
+                     why: "MAID expansion (advance requests, neuromotor disabilities). Principle on 4 April 2023 with NO recorded vote (a voice decision); report stage 107-0 on 2 June 2023; adoption 103-2-1 on 7 June 2023 (PV vote no. 113). The scope probe's '107-0 at principle' was the report stage."}
