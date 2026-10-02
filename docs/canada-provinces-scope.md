@@ -399,3 +399,12 @@ pypdf 6.x is installed. `src/ca_gazette_pdf.py`'s column split, using the privat
 - NL: https://www.assembly.nl.ca/HouseBusiness/Journals/ga50session2/22-11-01.pdf (probe agent)
 - NT: https://www.ntlegislativeassembly.ca/hansard/hn260604 (probe agent)
 - NU: https://assembly.nu.ca/sites/default/files/Hansard_20031104.pdf (probe agent)
+
+## Decisions (Christopher, 2 October 2026)
+
+"Go with your defaults and collect Manitoba. No CanLII key for now."
+
+- **Manitoba is collected.** Its robots.txt bans named AI crawlers. Our collector is not one of them: it is not a training crawler, it identifies itself honestly, it reads public parliamentary records at about one request a second, and it obeys any path disallowed for `*`. If Manitoba names it, or asks us to stop, we stop.
+- **No CanLII key**, so provincial appeal courts stay out of scope. The SCC collector covers the Supreme Court.
+- **Committees:** every meeting of the key eight (JUST, HESA, FEWO, ETHI, AMAD, SECU, HUMA, CHPC). Other committees are fetched only when a meeting's study title matches the taxonomy.
+- **Witness testimony** is collected for internal use (`ca_testimony`). It is never part of a member's record and never shown on a reader-facing page.
