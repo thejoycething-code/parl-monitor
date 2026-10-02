@@ -18,6 +18,13 @@ What can place a member, once a reading is confirmed:
   * SPONSORING a private member's bill -- weight 3 (a government bill's
     sponsor is a minister acting in office, never placed).
 What never places anyone:
+  * a SPEECH (prov_speeches, tools/prov_speeches.py): activity, not
+    direction, as on the federal sheets (tools/ca_5ca.py). A speech's
+    direction is exactly what a person must read; the tool never guesses it.
+    A member's speeches on the area in one debate on one day are one line
+    ("SPEECH x12"), quoting the first, so a day-long Committee of the Whole
+    does not bury the votes. A former member with only speeches is not
+    listed (everyone who VOTED is);
   * a division with positions_ok = 0: its names did not account for the
     printed totals, so its positions are not trusted. Counted in the log,
     never shown against a member;
@@ -174,6 +181,9 @@ def build_rows(conn, prov, area, entries, bill_entries):
         else:
             r["lines"].append("{0} [{1}]".format(label, not_placed(entry)))
 
+    for key, line in speech_lines(conn, prov, area):
+        rec(key)["lines"].append(line)
+
     decisive = [d for d in trusted if status(entries.get(d["division_key"])) == "confirmed"
                 and max(entries[d["division_key"]].get("yea") or 0,
                         entries[d["division_key"]].get("nay") or 0) >= 2]
@@ -213,6 +223,26 @@ def build_rows(conn, prov, area, entries, bill_entries):
     order = {c: i for i, c in enumerate(stance.COLUMNS)}
     rows.sort(key=lambda x: (order[x["column"]], not x["sitting"], -x["n_events"], x["decision_maker"]))
     return rows, trusted, untrusted, voice
+
+
+def speech_lines(conn, prov, area):
+    """[(member_key, line)]: a member's speeches on the area, one line per
+    member per day per debate. Speeches with no member key are counted on
+    the run's log by prov_speeches.py, never shown against anyone."""
+    groups = {}
+    for s in conn.execute("SELECT member_key, date, subject, rubric, excerpt, areas, seq FROM prov_speeches "
+                          "WHERE prov=? AND member_key IS NOT NULL ORDER BY date, sitting_key, seq", (prov,)):
+        if not _in_area(s["areas"], area):
+            continue
+        k = (s["member_key"], s["date"], s["subject"] or s["rubric"] or "")
+        groups.setdefault(k, []).append(s)
+    out = []
+    for (key, date, subject), rows in groups.items():
+        first = next((r for r in rows if r["excerpt"]), rows[0])
+        out.append((key, "{0} SPEECH{1} {2}: \"{3}\" [activity, not direction]".format(
+            date or "?", " x{0}".format(len(rows)) if len(rows) > 1 else "", subject[:60],
+            " ".join((first["excerpt"] or "").split())[:100])))
+    return out
 
 
 def write_sheet(path, rows, voice, untrusted):

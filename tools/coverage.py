@@ -232,6 +232,15 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
+    # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
+    # "Provinces speeches" into source_runs at the end of every stored run.
+    # Keyed on the workflow it would have expired at the first vote backfill
+    # dispatch, which runs no speeches step, and the empty speech tables
+    # would have cried wipe until the next Wednesday. Once the step has run,
+    # an empty table here is a wipe again.
+    "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
+                           "Hansard speeches step added to Provinces weekly 2 October 2026; "
+                           "its tables fill on the step's first run"),
 }
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
@@ -286,6 +295,11 @@ ONCE_EVER = {
                       "voice decision, is read again: quiet in recess",
     "prov_sittings": "one row per provincial sitting record read; a clean record "
                      "is never read again",
+    # Provincial Hansard speeches (2 October 2026): one row per Hansard day
+    # read, stored once (read_at is when it was read, not a sighting), and
+    # speeches on our ground written once per day read. Quiet in recess.
+    "prov_speech_sittings": "one row per provincial Hansard day read for speeches, stored once",
+    "prov_speeches": "speeches on our ground, written once per Hansard day read",
     "items": "new rows only: PQs, SIs, consultations and what's on are "
              "inserted when they appear and not re-stamped",
     "sp_affiliations": "new rows only: an MSP's committee places",

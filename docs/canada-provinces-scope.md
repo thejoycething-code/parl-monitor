@@ -58,7 +58,7 @@ Divisions per year are measured where a sample was taken and marked "est." other
 
 ## Built
 
-**Scheduled since 3 October 2026** (`.github/workflows/prov-weekly.yml`, "Provinces weekly", Wednesdays; see "Schedule and backfill" below). Nothing outside `tools/prov_*.py` reads their tables. By hand, run one province at a time, into a scratch store first:
+**Hansard speeches are read too, since 2 October 2026** (`tools/prov_speeches.py`; see "Hansard speeches" below). **Scheduled since 3 October 2026** (`.github/workflows/prov-weekly.yml`, "Provinces weekly", Wednesdays; see "Schedule and backfill" below). Nothing outside `tools/prov_*.py` reads their tables. By hand, run one province at a time, into a scratch store first:
 
     python3 tools/prov_collect.py --prov ab --session 31-1 --since 2024-10-28 --until 2024-12-05 --db /tmp/prov.db
 
@@ -333,6 +333,121 @@ Christopher: "Schedule the provincial collectors and backfill to 2010", and for 
 | Quebec | 39-1 to 43-3 (9), from the sitting index's session select | the select lists sessions back to 1867; depcir roster stored from 1960 | PV annexes of 2013, 2014, 2019, 2023, 2025, 2026 | the PV annex is checked from 29 October 2013 only: 39-1, 39-2 and 40-1 before that date (2010–2013) are untested, and a PV without an annex leaves its votes as gaps |
 
 **Coverage:** `prov_members` and `prov_bills` are watched as heartbeats (re-stamped every run, measured); `prov_divisions` and `prov_sittings` are write-once in practice (`ONCE_EVER`). Until the workflow's first heartbeat, their empty tables are reported "AWAITING FIRST RUN" instead of overdue (`AWAITING_FIRST_RUN` in `tools/coverage.py`); the excuse expires by itself at the first run. The watch is per table: one province going dark shows as its own failed step and the failure alert, not in the coverage watch.
+
+### Hansard speeches (2 October 2026): `tools/prov_speeches.py`
+
+Christopher: provincial Hansard speeches, so the provincial 5CA sheets get speech evidence, not only votes. Built for all eight provinces that have vote collectors. This section supersedes the "Hansard speeches are not read" lines in each province's "Known limits" above.
+
+- **The tool** (`tools/prov_speeches.py`) is the sibling of `prov_collect.py`, as `ca_hansard.py` is of the federal roll-call collector. It never writes a division, a vote, a bill or `prov_sittings`, so the vote collectors and the vote backfill behave exactly as before. Engine: `src/prov_speeches.py`; one reader per province: `src/ingest/prov_<code>_hansard.py`.
+- **What a speech is:** a turn, meaning a paragraph opening with a speaker label plus the paragraphs after it, up to the next label or heading. Each turn sits under its rubric (Oral Questions, Orders of the Day) and its subject heading. The chair, the table and the collective labels (The Speaker, Le Président, Mr. Chairperson, Some Hon. Members, Des voix, the Clerk, His Honour) are counted, not stored.
+- **Only speeches on our ground are stored, with an excerpt.** Matching is per passage (`filter.match_passages` through `prov_classify.classify_text`). Quebec uses the French layer (`config/taxonomy-qc.yaml`); every other province uses the English taxonomy plus `config/watchlist-prov.yaml`.
+  - The subject heading, plus the bill's titles when the heading names a bill, is a passage of its own.
+  - A watched bill KEY lends its areas to the debate held under its heading. A bill's TEXT classification does not, because an omnibus bill's passing citation would file every speech of a budget debate.
+  - Statute names are not masked in speeches: a member who names an Act is talking about it.
+  - The excerpt is the member's own best passage, or the speech's opening words, never the heading.
+- **The bill** comes from the heading, or from the procedural text between the heading and its first turn ("Bill 27, An Act to enact …"). It never comes from a speech. It is joined to `prov_bills` in the same session only (the Senate lesson), or by exact short title where the heading prints only that (Ontario, Manitoba).
+- **Who spoke:** the province's own resolver, wrapped as its vote collector wraps it (reviewed aliases, Newfoundland's `NameResolver`, Quebec's `MemberPages`), against the roster terms valid ON THE DAY, unique-or-nothing. The allowances:
+  - A bracket is tried as a riding, then dropped as a role or nickname: "Hon. Jon Gerrard (River Heights)", "Hon. Kelvin Goertzen (Government House Leader)", "Mrs. Jennifer (Jennie) Stevens".
+  - A full name whose given name differs from the roster's is retried as initial plus surname ("Mike" for Michael), Newfoundland's rule.
+  - A word the PDF split ("Coc krill") is rejoined.
+  - A name printed in two languages ("Laanas / Tamara Davidson") is tried on each side.
+  - **Within one sitting only:** a bare surname that is ambiguous on the day resolves to the one candidate the same sitting named in full. Where two were named, the matching honorific decides: "Mrs. Bernadette Smith", so "Mrs. Smith".
+  - Quebec's centred heading above a turn gives the speaker's full name.
+- **Never is a name invented.** An unresolved label is stored as printed with `member_key` NULL, and counted per day in `prov_speech_sittings` (`members` less `resolved`; `unresolved` among the stored) and per run in the log. A day with at least 20 speaker turns where fewer than half resolve is a gap and stays owed: the roster is missing, not the members.
+- **Record of days read:** `prov_speech_sittings`, one row per Hansard day or part read, whatever it held. It is deliberately not `prov_sittings`: BC and Newfoundland read their divisions from the very file read here, and a shared record would let one reader mark the other's work done. A truncated or unparseable file is `unreadable` and stays owed.
+- **Raw archive:** each day's transcript is archived through `HttpClient` (`archive=True`, feed `prov-<code>-speeches`, names lowercased by `http.slugify`). The vote collectors still archive nothing.
+- **The roster comes first.** Speakers resolve against what the vote collector stored, so the weekly runs the speeches steps after the collectors.
+  - Where the vote collector reads its roster from each day's Hansard member list (Saskatchewan, Manitoba, Ontario), the speeches reader reads that day's list too, through the same function, when no term covers the day yet. That costs the PDF on a non-division day, and Saskatchewan reuses the bytes when it read the PDF for speeches.
+  - BC, Alberta, New Brunswick, Newfoundland and Quebec read their roster once when the store holds none for that legislature.
+  - **Back-fill a province's votes before its speeches.**
+- **5CA** (`tools/prov_5ca.py`): speeches are evidence, never direction, as on the federal sheets. Each member's speeches on the area in one debate on one day are one line ("2021-10-14 SPEECH x9 Bill 207… : "…" [activity, not direction]"). A former member with only speeches is not listed; everyone who voted still is.
+- **The weekly** (`prov-weekly.yml`): one "Speeches, <province>" step per province after the collectors and before the 5CA sheets, each `--resume` on its own clock.
+  - The clocks add up to 85 minutes; the weekly job timeout rose from 150 to 240 minutes.
+  - `--resume` starts at the newest day read, less 14 days, or at the oldest day still owed in 120 days.
+  - On a province with nothing read it reads the last 60 days, never the backlog.
+- **The speeches backfill is its own dispatch input:** `speeches_since`, default blank.
+  - Blank: a `provinces`/`since`/`minutes` dispatch is the vote backfill, unchanged (its step now also checks `speeches_since == ''`, which a blank input always is).
+  - Set: the same dispatch backfills the named provinces' speeches from that date INSTEAD of their votes, on the same clock (`prov_speeches.py --all-sessions --since …`). Re-dispatch until nothing is left.
+- **Coverage:** `prov_speeches` and `prov_speech_sittings` are `ONCE_EVER`.
+  - Their empty-table excuse (`AWAITING_FIRST_RUN`) is keyed on a STEP heartbeat: `prov_speeches.py` stamps "Provinces speeches" into `source_runs`.
+  - It is not keyed on "Provinces weekly", because a vote backfill dispatch runs no speeches step and would have expired the excuse days before the first speeches run.
+
+**Per province** (sizes measured on the days read on 2 October 2026; "turns resolved" from the test runs below):
+
+| Province | Source (from the legislature's own index) | Format, mean size a day | Labels | Turns resolved | Notes |
+|---|---|---|---|---|---|
+| Alberta | `transcripts-by-type?legl=&session=` (one file per sitting: _1000_, _1330_, _1930_) | PDF, 885 KB | surname ("Mr. Nicolaides", "Member Irwin", "Ms Gray") | 96.1% | `head:` lines are the rubric; an evening Committee of the Whole has none and starts at its "Title:" line; "3:50  Bill 27" heads a bill. Two members of one surname on the day (the Wrights, the Sigurdsons) stay unattributed: no riding is printed. |
+| Saskatchewan | Legislative Meeting Archive, by year | HTML from the 30th Legislature (about 300 KB, plus the day's PDF for the roster); PDF only before it (690 KB) | surname ": —" | 98.1% | The HTML is never requested where the archive lists none (29L and earlier); the PDF text is clean. The day's cover PDF is the roster. |
+| British Columbia | the session's debates JSON (House transcripts only) | HTML, 240 KB | full name | 98.6% | Committee rooms are not read. |
+| Manitoba | Hansard calendar → the day's `summary.html` → `h<n>.html` | Word HTML (windows-1252), 320 KB | riding first, then surname | 99.5% | "Questions" and "Debate" headings keep the bill; robots.txt read every run. |
+| Ontario | the day's hub (`…/<date>/hansard`) IS the Hansard | HTML, 480 KB | full name ("MPP Jamie West") | 99.8% | Bilingual headings: the English half is kept; the division lists (`voteText`) are skipped. |
+| New Brunswick | `/en/house-business/hansard/<leg>/<sess>` | bilingual PDF, 1.1 MB; 10 s crawl-delay | "Hon. Mr. Herron", "Ms. M. Wilson" | 99.7% | Left column as spoken, right column its translation, paragraph by paragraph. Pages are read with positions and glyph widths; the English paragraph of each pair is kept by its function words. French is never classified. Truncated PDFs at source (14 June 2023, 3 June 2026) are `unreadable` and owed. |
+| Newfoundland and Labrador | the session's Hansard calendar | Word HTML, 460 KB | "S. CROCKER", "PREMIER WAKEHAM" | 100% | No subject headings; the Clerk's reading of a bill's title "(Bill 7)" sets the subject. |
+| Quebec | the sitting index (month form POST, approved 3 Oct) | HTML, French, 550 KB | "M. Legault", plus the full-name heading above | 99.5% | French taxonomy layer; "Projet de loi n° 21" headings keep their bill through the stage headings. |
+
+**Test runs (2 October 2026, live, from the laptop's VPN exit, scratch stores only):**
+
+Cumulative over all the scratch stores. "Turns" are speaker turns other than the chair's; "unresolved" were stored, or would have been, with no member key, and were counted.
+
+| Province | Days read (owed) | Days | Speaker turns | Resolved | Unresolved | Speeches on our ground | of them unattributed | Members with speeches |
+|---|---|---|---|---|---|---|---|---|
+| Alberta | 11 (0) | 25 Nov–4 Dec 2024 (Bills 26, 27, 29) | 1,291 | 1,241 (96.1%) | 50 | 105 | 5 | 33 |
+| Saskatchewan | 21 (0) | 16–31 Oct 2023 (PDF, Bill 137), 22 Oct–6 Nov 2025 (HTML) | 1,207 | 1,184 (98.1%) | 23 | 192 | 1 | 24 |
+| British Columbia | 12 (0) | 12–26 Feb 2026 | 831 | 819 (98.6%) | 12 | 9 | 0 | 7 |
+| Manitoba | 12 (0) | 12–14 Oct 2021 (Bill 207), 26 May–2 Jun 2025 | 1,851 | 1,841 (99.5%) | 10 | 35 | 0 | 12 |
+| Ontario | 12 (0) | 1–4 Jun 2015 (Bill 77), 17–27 Nov 2025 | 2,483 | 2,478 (99.8%) | 5 | 12 | 1 | 10 |
+| New Brunswick | 10 (2) | 6–16 Jun 2023 (Policy 713), 3–4 Jun 2026 | 622 | 620 (99.7%) | 2 | 58 | 0 | 18 |
+| Newfoundland and Labrador | 7 (0) | 21–23 Nov 2016 (Bill 43), 30 Mar–2 Apr 2026 | 1,259 | 1,259 (100%) | 0 | 4 | 0 | 3 |
+| Quebec | 9 (0) | 14–16 Jun 2019 (Bill 21), 1–9 Jun 2023 (Bill 11) | 1,896 | 1,886 (99.5%) | 10 | 451 | 2 | 49 |
+| **Total** | **94 (2)** | | **11,440** | **11,328 (99.0%)** | **112** | **866** | **9** | |
+
+- **Owed:** the two New Brunswick days are PDFs served truncated (14 June 2023, 3 June 2026), stored `unreadable`.
+- **Saskatchewan on 22 October 2025:** the opening ceremony, where elders and guests spoke, gave 4 of 9 resolved, rightly. It was a gap until the gap threshold was set at 20 speaker turns.
+- **Proofs on our ground:**
+  - Manitoba, Bill 207 second reading: Fontaine x12, Naylor, Martin, Asagwara, Nesbitt and Gerrard, the questions keeping the bill.
+  - Alberta, 3 December 2024: LaGrange moving Bill 26; Hoffman, Shepherd and Al-Guneid against.
+  - New Brunswick, 15 June 2023, Policy 713: Holt, Hogan, Higgs, Austin, Coon, Mitton and the two Arseneaults.
+  - Quebec, 16 June 2019, Bill 21's closure and adoption: Jolin-Barrette, Legault, David and Nadeau-Dubois, classified in French.
+  - Saskatchewan, Bill 137: Cockrill, Beck and Young.
+  - British Columbia: Armstrong's Gender Ideology and Child Protection Act.
+  - Ontario: Naqvi's Bill 77 motion.
+- **What stayed unattributed was honest:**
+  - surnames shared on the day ("Ms Wright" in Alberta, both Wrights sitting);
+  - non-members (guests and elders at an opening);
+  - one-word fragments ("Á’a", an Indigenous-language word printed in the speaker-name style).
+  None was guessed.
+
+**Backfill size to 2010 (measured 2 October 2026 by listing every session's Hansard days in a dry run; sizes from the mean day sizes above):**
+
+Days are what each legislature's own index lists for every session touching 2010-01-01 onwards. "Fetched" is the transcripts alone; "archived" is what `data/raw` grows by (gzip).
+
+| Province | Sessions | Hansard days (files) since 2010 | Fetched | Archived | Also fetched | Time at the polite rate | Dispatches of 280 min (`speeches_since`) |
+|---|---|---|---|---|---|---|---|
+| Alberta | 18 (27-2 to 31-2) | 1,402 PDFs | ~1.2 GB | ~1.2 GB (PDFs do not compress) | each legislature's member pages, once (~90 each) | ~2.5–3.5 h (fetch plus pypdf, ~6–8 s a file) | 1 |
+| Saskatchewan | date-driven | 1,057 | ~0.7 GB | ~0.4 GB | nothing more on PDF days; the day's PDF on 30L HTML days | ~2.5 h | 1, but see below |
+| British Columbia | 23 (39-1 to 43-2) | 982 | ~0.24 GB | ~0.06 GB | one members query per parliament | ~0.5 h | 1 |
+| Manitoba | 19 (39-4 to 43-3) | 1,535 | ~0.5 GB (+ 14 KB summary a day) | ~0.12 GB | the day's Hansard PDF where the vote backfill has not read that day's cover (not measured; under 1 MB) | ~1.5–2.5 h | 1 |
+| Ontario | 11 (39-1 to 44-1) | 1,334 | ~0.64 GB | ~0.18 GB | the day's Hansard PDF where no cover term covers the day: 650 KB–1.3 MB, up to ~1.3 GB | ~1.5–2.5 h | 1 |
+| New Brunswick | 17 listed; **only 58-3 to 61-2 published online** | 347 | ~0.38 GB | ~0.34 GB | each session's compiled Journal, once | ~1.5–2 h (10 s crawl-delay) | 1 |
+| Newfoundland and Labrador | 15 (46-2 to 51-1) | 798 | ~0.37 GB | ~0.06 GB | attendance summaries per year, once | ~0.5 h | 1 |
+| Quebec | 9 (39-1 to 43-3) | 1,251 (and 24 sittings the listing gives no Journal link: two in 41-1 and 22 in the spring 2020 sittings of 42-1; each is a gap) | ~0.69 GB | ~0.18 GB | the month form POSTs (about 10 a session) | ~0.7–1 h | 1 |
+
+**Pacing and prerequisites:**
+- **Back-fill a province's votes first, then its speeches.** For Saskatchewan, Manitoba and Ontario the vote backfill reads the covers of division days; this reads the rest.
+- **One province per dispatch**, as for votes. Every province fits one 280-minute clock on these estimates. Alberta is the slowest; a run cut short resumes where it stopped.
+- **The raw archive grows by about 2.5 GB** for all eight, Quebec included. Alberta and New Brunswick are most of it, because PDFs do not compress.
+
+**Not readable yet, found by the measurement and the probes (the vote collectors were not changed, as briefed):**
+- **Saskatchewan before 2023: the vote collector's own archive listing finds nothing.** `prov_sk.list_records` reads "<span>Minutes (<a>…)</span>"; the archive before its 2023 redesign prints a bare "<a href=…Minutes.pdf>Minutes</a>". A 2015 archive page gives 0 records to the vote collector (13 for October 2023), with no gap recorded. **A vote backfill of Saskatchewan to 2010 would silently read nothing before 2023.** The speeches reader takes links by path and lists all 1,057 days.
+- **Saskatchewan's Hansard cover before 2023 does not parse** (`prov_sk.parse_cover`: "no members parsed" on 25 and 26 November 2015). Until it does, every 27th–28th Legislature speech day is a gap with its speakers unattributed (0 of 69 resolved on 25 November 2015). The day's turns parse; only the roster is missing.
+- **New Brunswick before 58-3 (2010–2017):** the Hansard page offers sessions from 58-3 only. Earlier transcripts are "available upon request through the Legislative Library". These are logged as not published, not as gaps.
+
+**Known limits:**
+- Same-surname members in surname-only Hansards (Alberta, Saskatchewan, Manitoba, Newfoundland) resolve only where the same sitting printed the full name, riding or initial. Otherwise they stay unattributed and counted. Honorific gender is used only within a sitting.
+- The heading parsers were proven on the windows above. Older layouts (Alberta before the 31st Legislature, Saskatchewan's 26th–28th Legislature PDFs, Manitoba before the 42nd, NB before 2023) are untested. A layout that defeats them shows as fewer turns, or as a "no speaker turns parsed" or "only N of M resolved" gap, never as a speech pinned on the wrong member.
+- New Brunswick's 2023 Hansard prints its headings one language per column; the 2026 one prints them bilingual. Both are handled, and a heading in a pair can come out in French when neither half scores English ("Logement").
+- Rubric and subject come out imperfect in places (Newfoundland's debate before the Clerk's reading has no subject; Quebec subjects are question titles). Classification still reads the speech's own words per passage.
+- The excerpt and the matching are English or French taxonomy only, with the same false positives the vote collectors document (organ-donor leave, "Down syndrome" in a budget debate).
 
 ---
 

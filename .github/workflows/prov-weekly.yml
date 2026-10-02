@@ -42,6 +42,16 @@ on:
         description: "Collection clock for the dispatch, in minutes (max 300)"
         type: string
         default: "280"
+      # THE SPEECHES BACKFILL IS A SEPARATE ACT (2 October 2026). Blank -- the
+      # default -- leaves a `provinces` dispatch exactly the vote backfill it
+      # always was. Set, the same dispatch backfills the named provinces'
+      # Hansard SPEECHES from this date INSTEAD of their votes, on the same
+      # clock (tools/prov_speeches.py --all-sessions). Backfill a province's
+      # votes first: speakers are resolved against the roster that writes.
+      speeches_since:
+        description: "Backfill Hansard SPEECHES from this date instead of votes (YYYY-MM-DD; blank = no, the vote backfill)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -93,11 +103,11 @@ jobs:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
-    # The weekly's eight clocks add up to 110 minutes at most (a first run on
-    # an empty store is the one that spends them); a normal week is a fraction
-    # of that. The backfill gets the 330-minute maximum; its own clock is
+    # The weekly's eight vote clocks add up to 110 minutes at most and its
+    # eight speech clocks to 85 (a first run on an empty store is the one that
+    # spends them); a normal week is a fraction of that. The backfill gets the 330-minute maximum; its own clock is
     # capped at 300 below.
-    timeout-minutes: ${{ inputs.provinces != '' && 330 || 150 }}
+    timeout-minutes: ${{ inputs.provinces != '' && 330 || 240 }}
     env:
       # Unbuffered, or a step killed mid-run leaves an empty log.
       PYTHONUNBUFFERED: "1"
@@ -121,10 +131,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/db_state.py --pull
       - name: Fetch the raw archive
-        # The provincial collectors read with archive=False and add nothing to
-        # data/raw (the URL on every row is the provenance), but EVERY store
-        # publisher publishes the archive too (tests/test_raw_state.py). It
-        # merges, never clobbers, so this is cheap.
+        # The vote collectors read with archive=False and add nothing to
+        # data/raw (the URL on every row is the provenance); the speeches
+        # steps archive each Hansard day they read (a speech is stored only
+        # when it is on our ground, so the raw day is the record of the rest).
+        # EVERY store publisher publishes the archive too
+        # (tests/test_raw_state.py). It merges, never clobbers.
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
@@ -189,9 +201,50 @@ jobs:
         timeout-minutes: 30
         run: python3 tools/prov_collect.py --prov qc --resume --budget-seconds 900 | tee /tmp/prov-qc.log
 
+      # --- Hansard speeches, one step per province (tools/prov_speeches.py) --
+      # After the collectors: speakers resolve against the roster they just
+      # stored. --resume starts at the newest Hansard day read, less 14 days;
+      # a province with none read reads its last 60 days, never its backlog
+      # (that is the speeches backfill below). Each step on its own clock,
+      # each run whatever the one before did; legnb.ca's 10 s crawl-delay
+      # makes New Brunswick the longest. Manitoba's robots.txt is honoured
+      # as for its votes.
+      - name: Speeches, Alberta
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 20
+        run: python3 tools/prov_speeches.py --prov ab --resume --budget-seconds 600 | tee /tmp/prov-sp-ab.log
+      - name: Speeches, Saskatchewan
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 20
+        run: python3 tools/prov_speeches.py --prov sk --resume --budget-seconds 600 | tee /tmp/prov-sp-sk.log
+      - name: Speeches, British Columbia
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 15
+        run: python3 tools/prov_speeches.py --prov bc --resume --budget-seconds 480 | tee /tmp/prov-sp-bc.log
+      - name: Speeches, Manitoba
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 20
+        run: python3 tools/prov_speeches.py --prov mb --resume --budget-seconds 600 | tee /tmp/prov-sp-mb.log
+      - name: Speeches, Ontario
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 20
+        run: python3 tools/prov_speeches.py --prov on --resume --budget-seconds 600 | tee /tmp/prov-sp-on.log
+      - name: Speeches, New Brunswick
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 25
+        run: python3 tools/prov_speeches.py --prov nb --resume --budget-seconds 900 | tee /tmp/prov-sp-nb.log
+      - name: Speeches, Newfoundland and Labrador
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 15
+        run: python3 tools/prov_speeches.py --prov nl --resume --budget-seconds 480 | tee /tmp/prov-sp-nl.log
+      - name: Speeches, Quebec
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 20
+        run: python3 tools/prov_speeches.py --prov qc --resume --budget-seconds 600 | tee /tmp/prov-sp-qc.log
+
       # --- The backfill, only when dispatched with `provinces` ---------------
       - name: "Backfill: every listed session since the chosen date"
-        if: always() && steps.fetch.outcome == 'success' && inputs.provinces != ''
+        if: always() && steps.fetch.outcome == 'success' && inputs.provinces != '' && inputs.speeches_since == ''
         timeout-minutes: 305
         env:
           PROVINCES: ${{ inputs.provinces }}
@@ -217,6 +270,37 @@ jobs:
             esac
             python3 tools/prov_collect.py --prov "$p" --all-sessions --since "$SINCE" \
               --budget-seconds "$PER" | tee -a "/tmp/prov-bf-$p.log" || rc=1
+          done
+          exit $rc
+      - name: "Backfill: Hansard speeches since the chosen date"
+        # Only with `speeches_since` set, and then INSTEAD of the vote backfill
+        # above. Same rules: one clock shared by the named provinces, a day
+        # read cleanly is never fetched again, re-dispatch until nothing is left.
+        if: always() && steps.fetch.outcome == 'success' && inputs.provinces != '' && inputs.speeches_since != ''
+        timeout-minutes: 305
+        env:
+          PROVINCES: ${{ inputs.provinces }}
+          SPEECHES_SINCE: ${{ inputs.speeches_since }}
+          MINUTES: ${{ inputs.minutes }}
+        run: |
+          if ! [[ "$SPEECHES_SINCE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "::error::speeches_since must be YYYY-MM-DD, not '$SPEECHES_SINCE'"; exit 1
+          fi
+          MINUTES="${MINUTES:-280}"
+          if ! [[ "$MINUTES" =~ ^[0-9]+$ ]]; then MINUTES=280; fi
+          if [ "$MINUTES" -gt 300 ]; then MINUTES=300; fi
+          set -- $PROVINCES
+          N=$#
+          PER=$(( MINUTES * 60 / N ))
+          echo "speeches backfill: $N province(s) from $SPEECHES_SINCE, ${PER}s of clock each"
+          rc=0
+          for p in "$@"; do
+            case "$p" in
+              ab|sk|bc|mb|on|nb|nl|qc) ;;
+              *) echo "::error::$p has no Hansard reader (ab sk bc mb on nb nl qc)"; rc=1; continue ;;
+            esac
+            python3 tools/prov_speeches.py --prov "$p" --all-sessions --since "$SPEECHES_SINCE" \
+              --budget-seconds "$PER" | tee -a "/tmp/prov-sp-bf-$p.log" || rc=1
           done
           exit $rc
 
@@ -264,15 +348,18 @@ jobs:
         run: |
           {
             echo "## Provinces weekly"
-            if [ -n "${{ inputs.provinces }}" ]; then
+            if [ -n "${{ inputs.provinces }}" ] && [ -n "${{ inputs.speeches_since }}" ]; then
+              echo "speeches backfill: \`${{ inputs.provinces }}\` since ${{ inputs.speeches_since }}"
+            elif [ -n "${{ inputs.provinces }}" ]; then
               echo "backfill: \`${{ inputs.provinces }}\` since ${{ inputs.since }}"
             fi
             echo '```'
-            grep -hE "^prov-collect |^  store:|resuming from|nothing read for this province|session\(s\) listed|sessions not started|time budget|record cap|newer than CURRENT_SESSION" \
-              /tmp/prov-*.log 2>/dev/null | head -60 || echo "(no summary lines)"
+            grep -hE "^prov-collect |^prov-speeches |^  store:|resuming from|nothing read for this province|no Hansard day read|session\(s\) listed|sessions not started|time budget|record cap|newer than CURRENT_SESSION" \
+              /tmp/prov-*.log 2>/dev/null | head -90 || echo "(no summary lines)"
             echo '```'
             for f in /tmp/prov-ab.log /tmp/prov-sk.log /tmp/prov-bc.log /tmp/prov-mb.log /tmp/prov-on.log \
-                     /tmp/prov-nb.log /tmp/prov-nl.log /tmp/prov-qc-roster.log /tmp/prov-qc.log /tmp/prov-bf-*.log; do
+                     /tmp/prov-nb.log /tmp/prov-nl.log /tmp/prov-qc-roster.log /tmp/prov-qc.log /tmp/prov-bf-*.log \
+                     /tmp/prov-sp-*.log; do
               [ -f "$f" ] || continue
               N=$({ grep -c "\[gap\]" "$f" 2>/dev/null || true; } | awk '{s+=$1} END {print s+0}')
               echo "- $(basename "$f" .log): $N gap(s)"
