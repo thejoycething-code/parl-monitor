@@ -1283,10 +1283,18 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
             stats["divisions"] += len(stored)
         ctx.log("  bc {0}-{1}: {2} sitting(s) read again with the members found on the lists".format(
             leg, sess, again))
+        # A tally gap the second read closed is no longer owed: it is not
+        # recorded as one (the log above says it was read twice).
+        closed = {k for (k,) in ctx.conn.execute(
+            "SELECT division_key FROM prov_divisions WHERE prov=? AND legislature=? AND session=? "
+            "AND positions_ok=1", (PROV, leg, sess))}
+        ctx.gaps[:] = [g for g in ctx.gaps if not (str(g).split(":", 1)[0] in closed
+                                                    and "tally check failed" in str(g))]
         stats.update(party_at_votes(ctx, leg, sess, listing))
         stats["tally_gaps"] = ctx.conn.execute(
             "SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND legislature=? AND session=? "
-            "AND kind='recorded' AND positions_ok=0", (PROV, leg, sess)).fetchone()[0]
+            "AND kind='recorded' AND positions_ok=0 AND COALESCE(tally_note, '') NOT LIKE 'no names%'",
+            (PROV, leg, sess)).fetchone()[0]
     return stats
 
 
