@@ -101,6 +101,163 @@ class CoverTests(unittest.TestCase):
         self.assertEqual(by["jelynn-dela-cruz"]["surname"], "Dela Cruz")
 
 
+class ThirtyNinthLegislatureTests(unittest.TestCase):
+    """The 2010 backfill (2 October 2026): the 39th Legislature's covers print
+    the party as "N.D.P." and "P.C.", so only the two "Lib." lines were read
+    and every division of 2010-2011 failed the tally; "McFADYEN" (mixed case)
+    never matched the capitals pattern in any year, so 25 divisions of
+    2011-2012 failed on his one name."""
+
+    def test_the_dotted_parties_and_the_mc_surname_are_read(self):
+        members, vacant = mb.parse_cover(fx("mb_cover_100326.txt"))
+        self.assertEqual((len(members), vacant), (57, 0))
+        by = {m["key"]: m for m in members}
+        self.assertEqual((by["hugh-mcfadyen"]["surname"], by["hugh-mcfadyen"]["riding"],
+                          by["hugh-mcfadyen"]["party"]), ("McFadyen", "Fort Whyte", "PC"))
+        self.assertEqual(by["diane-mcgifford"]["surname"], "McGifford")
+        self.assertEqual((by["nancy-allan"]["party"], by["nancy-allan"]["riding"], by["nancy-allan"]["hon"]),
+                         ("NDP", "St. Vital", True))
+        self.assertEqual(by["gord-mackintosh"]["surname"], "Mackintosh")
+        self.assertEqual(by["kerri-irvin-ross"]["surname"], "Irvin-Ross")
+        self.assertEqual(by["jon-gerrard"]["party"], "Lib.")
+        self.assertEqual(sorted({m["party"] for m in members}), ["Lib.", "NDP", "PC"])
+
+    def test_a_total_without_its_dot_leader_and_a_bare_nil(self):
+        # 3 June 2010: "WOWCHUK 49" ends the YEA list, a bare "0" is the NAY
+        # list; read before as "unexpected line in a name list".
+        date = "2010-06-03"
+        divisions, voices, titles, expected = mb.parse_vp(fx("mb_vp_100603.txt"))
+        self.assertEqual(mb.printed_date(fx("mb_vp_100603.txt")), date)
+        self.assertEqual((expected, len(divisions)), (1, 1))
+        d = divisions[0]
+        self.assertEqual((d["yeas"], d["nays"], d["nay_labels"], d["problem"]), (49, 0, [], None))
+        self.assertEqual(d["yea_labels"][-1], "WOWCHUK")
+        conn = conn_from_cover("mb_cover_100326.txt", date, 39)
+        votes, ok, note = mb.resolve_division(d, pn.Resolver.from_conn(conn, "mb"), date, 39)
+        self.assertTrue(ok, note)
+        by = {v["member_key"]: v for v in votes}
+        self.assertEqual((by["hugh-mcfadyen"]["position"], by["hugh-mcfadyen"]["party_at_vote"]),
+                         ("Yea", "PC"))
+        self.assertEqual(by["greg-selinger"]["party_at_vote"], "NDP")
+
+    def test_a_bare_number_inside_a_list_is_not_a_total(self):
+        # a page number between names is furniture; only a bare 0 opening an
+        # empty list is the nil total
+        divisions = mb.parse_vp("It was agreed to, on the following division:\nYEA\nALLAN\n243\n"
+                                "ASHTON ........ 2\nNAY\n0\n")[0]
+        self.assertEqual((divisions[0]["yea_labels"], divisions[0]["yeas"], divisions[0]["nays"]),
+                         (["ALLAN", "ASHTON"], 2, 0))
+
+    def test_a_cover_read_by_an_older_parser_is_read_again_when_its_sitting_is_owed(self):
+        conn = db.init_db(db.connect(":memory:"))
+        date, url = "2010-03-26", "https://www.gov.mb.ca/legislature/hansard/39th_4th/hansardpdf/21.pdf"
+        # what the old parser left: the two Liberals only
+        for key, given, sur, riding in (("jon-gerrard", "Jon", "Gerrard", "River Heights"),
+                                        ("kevin-lamoureux", "Kevin", "Lamoureux", "Inkster")):
+            ps.upsert_member(conn, "mb", key, name=given + " " + sur, surname=sur, given=given)
+            ps.extend_term(conn, "mb", key, 39, "Lib.", riding, date, "hansard-cover")
+        client = _Client({url: "%PDF-h"})
+        ctx = Context(conn, client, "mb", log=lambda *a: None)
+        pdf = mb.pdf_text
+        mb.pdf_text = lambda raw, pages=None: fx("mb_cover_100326.txt")
+        try:
+            self.assertEqual(mb.roster_for_day(ctx, 39, date, {date: [url]}), 57)
+            # a full cover is not fetched again for a clean sitting...
+            self.assertEqual(mb.roster_for_day(ctx, 39, date, {date: [url]}), 57)
+            self.assertEqual(client.asked.count(url), 1)
+            # ...but is for an owed one
+            mb.roster_for_day(ctx, 39, date, {date: [url]}, owed=True)
+            self.assertEqual(client.asked.count(url), 2)
+        finally:
+            mb.pdf_text = pdf
+        self.assertIsNotNone(pn.Resolver.from_conn(conn, "mb").resolve("MCFADYEN", date, 39)[0])
+
+
+class FortiethLegislatureTests(unittest.TestCase):
+    """2011-2016 layouts the 2010 backfill met (2 October 2026)."""
+
+    def test_an_unclosed_calendar_cell_does_not_swallow_the_next_day(self):
+        # 16 April 2013's cell has no </td>: Volume 24 was filed under the
+        # 16th and the 17th's division had "no Hansard listed".
+        base = "https://www.gov.mb.ca/legislature/hansard/40th_2nd/40th_2nd.html"
+        h = mb.list_hansard(fx("mb_hansard_40_2.html"), base)
+        self.assertEqual(h["2013-04-16"], ["https://www.gov.mb.ca/legislature/hansard/40th_2nd/hansardpdf/23.pdf"])
+        self.assertEqual(h["2013-04-17"], ["https://www.gov.mb.ca/legislature/hansard/40th_2nd/hansardpdf/24.pdf"])
+
+    def test_a_roll_call_under_on_division_is_announced(self):
+        # 19 April 2012: "It was agreed to, on division." then a full YEA/NAY
+        # roll call with its totals; the count check said 1 announced, 2 read.
+        text = fx("mb_vp_120419.txt")
+        divisions = mb.parse_vp(text)[0]
+        self.assertEqual((mb.expected_divisions(text), len(divisions)), (2, 2))
+        self.assertEqual([(d["yeas"], d["nays"], d["vote_on"]) for d in divisions],
+                         [(19, 35, "amendment"), (36, 19, "motion")])
+        self.assertEqual(divisions[1]["result"], "It was agreed to, on division")
+        self.assertEqual(divisions[0]["result"], "It was negatived, on the following division")
+        self.assertIn("MCFADYEN", divisions[1]["nay_labels"])
+
+    def test_a_letter_spaced_phrase_is_still_counted(self):
+        # 29 April 2013 prints "on th e / following division"
+        text = fx("mb_vp_130429.txt")
+        self.assertEqual((mb.expected_divisions(text), len(mb.parse_vp(text)[0])), (2, 2))
+
+    def test_a_phrase_printed_twice_running_is_one_announcement(self):
+        # 11 June 2012: "on the following divisi on, on the following division:"
+        text = fx("mb_vp_120611.txt")
+        divisions = mb.parse_vp(text)[0]
+        self.assertEqual((mb.expected_divisions(text), len(divisions)), (2, 2))
+        self.assertEqual([(d["yeas"], d["nays"]) for d in divisions], [(32, 19), (20, 30)])
+
+    def test_on_division_without_a_roll_call_is_not_a_recorded_division(self):
+        text = "And the Question being put. It was agreed to, on division.\n\nThe Bill was read.\n"
+        self.assertEqual(mb.expected_divisions(text), 0)
+
+    def test_a_misprinted_total_still_fails_the_tally(self):
+        # 5 December 2013, the fourth division (Bill 27 third reading): the
+        # V&P prints "WISHART ... 18" under 17 Nay names; Hansard (17b.pdf
+        # p. 705) gives "Yeas 32, Nays 17" with the same 17. A record error:
+        # config/prov_known_gaps.yaml, never a loosened check.
+        divisions = mb.parse_vp(fx("mb_vp_131205.txt"))[0]
+        self.assertEqual(len(divisions), 5)
+        d = divisions[3]
+        self.assertEqual((d["yeas"], len(d["yea_labels"]), d["nays"], len(d["nay_labels"])), (32, 32, 18, 17))
+        self.assertNotIn("GERRARD", d["nay_labels"])
+        _votes, ok, note = mb.resolve_division(d, pn.Resolver({}, []), "2013-12-05", 40)
+        self.assertFalse(ok)
+        self.assertIn("Nay: 17 name(s) read, 18 printed", note)
+
+
+class UnheadedYeaTests(unittest.TestCase):
+    """The record sometimes prints no "YEA" header at all (it is not in the
+    PDF's text): the names follow "on the following division:" directly and
+    only the NAY header follows the first total."""
+
+    def test_24_may_2018_second_division_bill_229(self):
+        text = fx("mb_vp_180524.txt")
+        divisions = mb.parse_vp(text)[0]
+        self.assertEqual((mb.expected_divisions(text), len(divisions)), (2, 2))
+        d = divisions[1]
+        self.assertEqual((d["yeas"], d["nays"], d["bill_number"], d["stage"], d["problem"]),
+                         (15, 30, "229", "Second Reading", None))
+        self.assertEqual((d["yea_labels"][0], d["nay_labels"][-1]), ("ALLUM", "YAKIMOSKI"))
+
+    def test_15_march_2019_first_reading_45_0(self):
+        text = fx("mb_vp_190315.txt")
+        divisions = mb.parse_vp(text)[0]
+        self.assertEqual((mb.expected_divisions(text), len(divisions)), (1, 1))
+        d = divisions[0]
+        self.assertEqual((d["yeas"], len(d["yea_labels"]), d["nays"], d["nay_labels"]), (45, 45, 0, []))
+
+    def test_names_after_the_phrase_still_need_the_nay_header(self):
+        text = "It was negatived, on the following division:\nALLUM\nWIEBE ........ 2\n"
+        d = mb.parse_vp(text)[0][0]
+        self.assertEqual(d["problem"], "no NAY list after the YEA list")
+
+    def test_a_name_line_elsewhere_is_not_a_list(self):
+        text = "And the Question being put. It was agreed to.\nWIEBE\nNAY\n"
+        self.assertEqual(mb.parse_vp(text)[0], [])
+
+
 class ProofTests(unittest.TestCase):
     def setUp(self):
         self.conn = conn_from_cover("mb_cover_211014.txt", DATE, 42)
@@ -276,6 +433,53 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(stats["tally_gaps"], 2)
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_votes WHERE member_key IS NOT NULL").fetchone()[0], 0)
         self.assertEqual(conn.execute("SELECT status FROM prov_sittings").fetchone()[0], "gap")
+
+
+class CopiedRecordTests(unittest.TestCase):
+    """42-4 lists votes_041.pdf for 25 April 2022, but the file is V&P No. 42
+    of the 26th, which votes_042.pdf is listed for. The 25th's own record is
+    not served (Hansard No. 41 has three recorded votes that day): a gap."""
+    BASE = "https://www.gov.mb.ca/legislature/business/42nd/42nd_4th.html"
+    V41 = "https://www.gov.mb.ca/legislature/business/42nd/4th/votes_041.pdf"
+    V42 = "https://www.gov.mb.ca/legislature/business/42nd/4th/votes_042.pdf"
+
+    def setUp(self):
+        self._pdf = mb.pdf_text
+        mb.pdf_text = lambda raw, pages=None: fx("mb_vp_42_4_votes_041_head.txt")
+
+    def tearDown(self):
+        mb.pdf_text = self._pdf
+
+    def test_the_listing(self):
+        recs = mb.list_records(fx("mb_vp_42_4_april.html"), self.BASE)
+        self.assertIn(("2022-04-25", self.V41), recs)
+        self.assertIn(("2022-04-26", self.V42), recs)
+
+    def _ctx(self):
+        conn = db.init_db(db.connect(":memory:"))
+        ctx = Context(conn, _Client({self.V41: "%PDF-x", self.V42: "%PDF-x"}), "mb", log=lambda *a: None)
+        ctx.mb_listed = {d: u for d, u in mb.list_records(fx("mb_vp_42_4_april.html"), self.BASE) if d}
+        return conn, ctx
+
+    def test_a_copy_of_another_listed_day_is_a_gap_and_stores_nothing_under_that_day(self):
+        conn, ctx = self._ctx()
+        self.assertEqual(mb.read_sitting(ctx, 42, 4, "2022-04-25", self.V41, {}, []), (0, 1))
+        self.assertIn("mb 2022-04-25: the record listed for the day", ctx.gaps[0])
+        self.assertIn("the day's own V&P is not served", ctx.gaps[0])
+        self.assertEqual([tuple(r) for r in conn.execute("SELECT sitting_key, status FROM prov_sittings")],
+                         [("mb-42-4-2022-04-25", "gap")])
+        self.assertFalse(ps.sitting_done(conn, self.V41))      # still owed
+
+    def test_a_misplaced_link_whose_day_is_not_listed_is_read(self):
+        # 42-5 lists votes_005.pdf under 7 November 2022 and it prints the
+        # 21st, which nothing else is listed for: the record's date is used.
+        conn, ctx = self._ctx()
+        ctx.mb_listed.pop("2022-04-26")
+        ctx.tax = pc.load_taxonomy()
+        self.assertEqual(mb.read_sitting(ctx, 42, 4, "2022-04-25", self.V41, {}, pc.load_watchlist("mb")), (0, 0))
+        self.assertEqual(ctx.gaps, [])
+        self.assertEqual([tuple(r) for r in conn.execute("SELECT sitting_key FROM prov_sittings")],
+                         [("mb-42-4-2022-04-26",)])
 
 
 if __name__ == "__main__":
