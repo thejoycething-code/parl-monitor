@@ -39,6 +39,58 @@ ab:
       division; the one division that afternoon (43-14) was the Standing Order
       64(5) question on the Appropriation Bill, Bill 19, whose own page flags it.
 
+# Manitoba: the 2010 backfill's gaps, re-read 2 October 2026. Of 86, 82 are
+# cleared in the parser (cover party spellings and Mc surnames, unclosed
+# calendar cells, totals without dot leaders, unheaded YEA lists, the
+# division count). Four are the record's own: three files the listing
+# links that do not exist in English, and one misprinted total. A fifth,
+# found while re-reading, used to be only a log line: a listed file that
+# is a copy of the next day's record, so a day with three divisions has none.
+mb:
+  - contains: "mb-40-3-2013-12-05-4: tally check failed"
+    reviewed: 2026-10-02
+    why: >-
+      The V&P (business/40th/3rd/votes_017.pdf, the fourth division: Bill 27,
+      The Highway Traffic Amendment Act, concurrence and third reading)
+      prints "WISHART ... 18" under 17 Nay names. Hansard for the same
+      division (hansard/40th_3rd/hansardpdf/17b.pdf, p. 705) lists the same 17
+      and the Clerk reads "Yeas 32, Nays 17": the printed 18 is a misprint.
+      A reviewed fact may supply a total the record omits, never replace a
+      printed one, so the division stays untrusted.
+  - contains: "business/41st/3rd/votes_010.pdf: not a PDF"
+    reviewed: 2026-10-02
+    why: >-
+      The 41-3 calendar links 5 December 2017 to votes_010.pdf, which serves
+      the province's "Resource Not Found" page (11,391 bytes) on every fetch.
+      Hansard that day (hansard/41st_3rd/hansardpdf/10b.pdf, p. 377) records
+      one division the store therefore lacks: adjourning the second-reading
+      debate on Bill 8, carried 35-17 (the PCs for; NDP, Liberals and Fletcher against).
+  - contains: "business/42nd/4th/votes_036.pdf: HTTP Error 300"
+    reviewed: 2026-10-02
+    why: >-
+      13 April 2022: the server answers 300 Multiple Choices and offers only
+      votes_036.fr.pdf, the French text. Hansard that day
+      (hansard/42nd_4th/hansardpdf/36.pdf) has no recorded vote, so no
+      division is missing.
+  - contains: "business/43rd/3rd/votes_013.pdf: not a PDF"
+    reviewed: 2026-10-02
+    why: >-
+      A blank link with no day (43rd_3rd.html prints it, empty, in the
+      29 September 2026 and 4 March 2026 cells, after the Inter-Sessional
+      Reports link). It serves "Resource Not Found"; no day's record is
+      missing (the calendars' sittings 1-12 and 22 on are all listed, in
+      both the V&P and the Hansard calendar).
+  - contains: "mb 2022-04-25: the record listed for the day"
+    reviewed: 2026-10-02
+    why: >-
+      The 42-4 calendar lists votes_041.pdf for Monday 25 April 2022, but the
+      file is V&P No. 42 of Tuesday 26 April, which votes_042.pdf is also
+      listed for. The 25th's own V&P (No. 41) is served nowhere the listing
+      links. Hansard No. 41 (hansard/42nd_4th/hansardpdf/41.pdf) records three
+      divisions the store therefore lacks: the Opposition amendment to the
+      budget motion (20-32), the budget motion (32-20) and second reading of
+      Bill 18, The Legislative Security Amendment Act (31-17).
+
 # Ontario: the 2010 backfill's tally gaps, re-read 2 October 2026. Of 393,
 # 390 cleared in the parser, the roster and one reviewed misprint
 # (config/prov_record.yaml); these are the record's own, with Hansard's

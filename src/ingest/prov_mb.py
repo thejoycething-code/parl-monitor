@@ -37,7 +37,11 @@ an error page: no rules.
     share a surname ("SMITH (Lagimodière)"), the printed total on the last
     name's line ("WIEBE ......... 20"), then "NAY". The totals are the tally
     check, and the count of "on the following division" phrases in the text
-    is a second one: a division the parser missed is a gap.
+    is a second one: a division the parser missed is a gap. The 2010
+    backfill (2 October 2026) added the older forms: the 39th's covers print
+    "N.D.P."/"P.C."; a total may lack its dot leader ("WOWCHUK 49"); a list
+    may have no YEA header at all; "on division." can head a full roll call;
+    and a listed file that copies another listed day's record is a gap.
   * VOICE. "It was agreed to." with "The Bill was accordingly read a Second
     Time ...", "... concurred in, read a Third Time and passed", "It was
     negatived, on division" (dissent noted, no names), and the day's list of
@@ -142,6 +146,7 @@ def list_sessions(ctx):
 
 
 _CAL = re.compile(r'<table class="calendar">(.*?)</table>', re.S)
+_CELL = re.compile(r"<td\b[^>]*>(.*?)(?=<td\b|</td>|</tr>|</tbody>|</table>|$)", re.S)
 _CAL_TITLE = re.compile(r'thead_title">(?:<a[^>]*></a>)?\s*([A-Za-z]+)\s+(\d{4})')
 
 
@@ -154,7 +159,11 @@ def parse_calendar(html, base, href_rx):
         if not t or t.group(1).lower() not in _MONTHS:
             continue
         month, year = _MONTHS[t.group(1).lower()], int(t.group(2))
-        for cell in re.findall(r"<td[^>]*>(.*?)</td>", table, re.S):
+        # A cell ends where the next one starts, not at its own </td>: the
+        # 40-2 Hansard calendar leaves 16 April 2013's cell unclosed, which
+        # filed the 17th's Volume 24 under the 16th and left the 17th's
+        # division with no roster.
+        for cell in _CELL.findall(table):
             text = html_text(cell)
             day = re.match(r"(\d{1,2})\b", text)
             for href, label in re.findall(r'<a href="([^"]+)"[^>]*>(.*?)</a>', cell, re.S):
@@ -200,13 +209,25 @@ def list_hansard(html, base):
 
 # -- the Hansard cover roster -----------------------------------------------
 
-_COVER_LINE = re.compile(r"^\s*(?P<sur>[A-ZÀ-Ý][A-ZÀ-Ý'’ .\-]+?),\s*(?P<rest>.+?)\s+"
-                         r"(?P<party>NDP|PC|Lib\.|Liberal|Ind\.|IND|Ind|Green|[A-Z][A-Za-z]{0,4}\.?)\s*$")
+# The surname in capitals, except a Scottish prefix the cover prints in
+# mixed case ("McFADYEN, Hugh", "McGIFFORD, Diane"). The party as printed:
+# "NDP"/"PC" from the 40th Legislature, "N.D.P."/"P.C." in the 39th's covers
+# (2010-2011), which the old pattern never matched -- only the two "Lib."
+# lines were read and every division of those days failed the tally.
+_COVER_LINE = re.compile(r"^\s*(?P<sur>(?:Ma?c)?[A-ZÀ-Ý][A-ZÀ-Ý'’ .\-]+?),\s*(?P<rest>.+?)\s+"
+                         r"(?P<party>N\.D\.P\.|P\.C\.|NDP|PC|Lib\.|Liberal|Ind\.|IND|Ind|Green"
+                         r"|[A-Z][A-Za-z]{0,4}\.?)\s*$")
+# One spelling per party across the years, so party at the vote compares.
+_PARTY_SPELLING = {"N.D.P.": "NDP", "P.C.": "PC"}
 
 
 def _title(surname):
-    return "-".join(" ".join(w[:1] + w[1:].lower() for w in part.split(" "))
-                    for part in surname.split("-"))
+    def word(w):
+        m = re.match(r"^(Ma?c)([A-ZÀ-Ý].*)$", w)
+        if m:                                  # McFADYEN -> McFadyen
+            return m.group(1) + m.group(2)[:1] + m.group(2)[1:].lower()
+        return w[:1] + w[1:].lower()
+    return "-".join(" ".join(word(w) for w in part.split(" ")) for part in surname.split("-"))
 
 
 def parse_cover(text):
@@ -242,13 +263,22 @@ def parse_cover(text):
             given, _, riding = rest.partition(" ")
         surname = _title(m.group("sur").strip())
         members.append({"surname": surname, "given": given, "riding": riding.strip() or None,
-                        "party": m.group("party"), "hon": hon,
+                        "party": _PARTY_SPELLING.get(m.group("party"), m.group("party")), "hon": hon,
                         "key": slug(given + " " + surname)})
     return members, vacant
 
 
-def roster_for_day(ctx, legislature, date, hansard):
-    """Read the day's Hansard cover and widen every member's term to it."""
+COVER_MIN = 40     # fewer members than this read from a cover is a gap
+
+
+def roster_for_day(ctx, legislature, date, hansard, owed=False):
+    """Read the day's Hansard cover and widen every member's term to it.
+
+    owed: the sitting is being read AGAIN because an earlier read left a gap.
+    Its cover is then read again too: a cover read by an older parser can
+    hold most of the House and still miss the member whose name failed the
+    tally (Hugh McFadyen, 2011-2012: "McFADYEN" never matched the capitals
+    pattern), and the terms it left behind would otherwise say "read"."""
     # Was THIS day's cover read already? Terms are widened to each cover
     # read, so only a term that starts or ends on the day says so; one that
     # merely spans it does not (2 October 2026, the fault Saskatchewan's
@@ -258,7 +288,9 @@ def roster_for_day(ctx, legislature, date, hansard):
     have = ctx.conn.execute(
         "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source='hansard-cover' "
         "AND (start=? OR end=?)", (PROV, date, date)).fetchone()[0]
-    if have and not ctx.refresh:
+    # A cover that gave fewer than COVER_MIN members (the 39th Legislature's
+    # "N.D.P." covers gave 2) was not read: its two terms do not count.
+    if have >= COVER_MIN and not ctx.refresh and not owed:
         return have
     urls = (hansard or {}).get(date) or []
     if not urls:
@@ -274,7 +306,7 @@ def roster_for_day(ctx, legislature, date, hansard):
         ctx.gap("mb {0}: Hansard cover {1}: {2}".format(date, urls[0], exc))
         return 0
     members, _vacant = parse_cover(text)
-    if len(members) < 40:
+    if len(members) < COVER_MIN:
         ctx.gap("mb {0}: only {1} member(s) parsed from the Hansard cover {2}".format(
             date, len(members), urls[0]))
         if not members:
@@ -300,6 +332,10 @@ def roster_for_day(ctx, legislature, date, hansard):
 
 HEADER = re.compile(r"^\s*(YEAS?|AYES?|NAYS?)\s*:?\s*$")
 _LEADER = re.compile(r"^(.*?)\s*\.{4,}\s*(\d+)\s*$")
+# The total without its dot leader: 3 June 2010 prints "WOWCHUK 49" and,
+# for the nil NAY list, a bare "0" (a bare 0 is never a page number).
+_BARE_TOTAL = re.compile(r"^([A-ZÀ-Ý][A-ZÀ-Ý'’ .\-]*?(?:\s*\([^()]*\))?)\s+(\d{1,2})$")
+_NIL = re.compile(r"^\s*0\s*$")
 _SEPARATOR = re.compile(r"^\s*_{6,}\s*$")
 _BILL_NO = re.compile(r"Bill\s*\(No\.\s*(\d+)\)")
 _TITLE = re.compile(r"\(No\.\s*(\d+)\)\s*[–—-]\s*(.+?)\s*/\s*(?:Loi|Code)\b")
@@ -329,7 +365,7 @@ def _blocks(text):
             blocks.append(cur)
             cur = []
             continue
-        if pn.is_furniture(line):
+        if pn.is_furniture(line) and not _NIL.match(line):
             continue
         cur.append(line.rstrip())
     blocks.append(cur)
@@ -350,6 +386,12 @@ def _take_list(lines, i):
             if lead.group(1).strip():
                 labels.append(lead.group(1).strip())
             return labels, int(lead.group(2)), i + 1, None
+        bare = _BARE_TOTAL.match(s)
+        if bare:
+            labels.append(bare.group(1).strip())
+            return labels, int(bare.group(2)), i + 1, None
+        if _NIL.match(s) and not labels:
+            return labels, 0, i + 1, None
         if HEADER.match(s):
             return labels, None, i, "a list ended without its printed total"
         if s.startswith("(") and labels and not labels[-1].endswith(")"):
@@ -364,6 +406,38 @@ def _take_list(lines, i):
     return labels, None, i, "the record ended inside a name list"
 
 
+def _unheaded_yea(context, line):
+    """True when `line` opens a YEA list the record printed without its
+    header: the name comes straight after "on the following division:"
+    (24 May 2018's second division and 15 March 2019 have no "YEA" in the
+    PDF at all, only the NAY header after the first list's total). The YEA
+    list always comes first, so the list is the YEA list; the NAY header
+    and both printed totals are still required by the tally check."""
+    if not re.match(r"^[A-ZÀ-Ý][A-ZÀ-Ý'’ .\-]*(?:\s*\([^()]*\)?)?$", line.strip()) or HEADER.match(line):
+        return False
+    tail = [l for l in context if l.strip()][-2:]
+    return re.sub(r"\s+", "", " ".join(tail)).lower().endswith(("onthefollowingdivision:",
+                                                                   "onthefollowingdivision"))
+
+
+def expected_divisions(text):
+    """How many recorded divisions the record itself announces: every "on the
+    following division", counted with page furniture and all spacing removed
+    (29 April 2013 prints "on th e following division"; a page break can
+    fall inside the phrase), plus every "on division." that runs straight
+    into a YEA/AYE list: 19 April 2012 prints "It was agreed to, on
+    division." over a full roll call with its totals."""
+    lines = [l for l in (text or "").splitlines() if not pn.is_furniture(l)]
+    squashed = re.sub(r"\s+", "", " ".join(lines)).lower()
+    rolled = sum(1 for k, l in enumerate(lines[:-1])
+                 if re.search(r"\bon\s*division\s*[.:,]?\s*$", l, re.I) and HEADER.match(lines[k + 1])
+                 and HEADER.match(lines[k + 1]).group(1).upper().startswith(("YEA", "AYE")))
+    # A phrase the record printed twice running is one announcement: 11 June
+    # 2012, "It was negatived, on the following divisi on, on the following
+    # division:" over one roll call.
+    return len(re.findall(r"(?:onthefollowingdivision[,:;.]?)+", squashed)) + rolled
+
+
 def parse_vp(text):
     """(divisions, voices, titles, expected) from one day's V&P text.
 
@@ -374,22 +448,29 @@ def parse_vp(text):
     expected:  how many times the text says "on the following division"."""
     divisions, voices, titles = [], [], {}
     flat = re.sub(r"\s+", " ", text or "")
-    expected = len(re.findall(r"on the following division", flat, re.I))
+    expected = expected_divisions(text)
     for num, title in _TITLE.findall(flat):
         titles.setdefault(num, title.strip(" ,"))
     for block in _blocks(text):
         joined = re.sub(r"\s+", " ", " ".join(block)).strip()
-        bill = (_BILL_NO.findall(joined) or [None])[-1]
+        # "Bill (No. 226)", or a motion naming the bill only by its titled
+        # number: "THAT (No. 229) – The Intoxicated Persons Detention
+        # Amendment Act/Loi ..., be now read a Second Time" (24 May 2018).
+        bill = (_BILL_NO.findall(joined) or [n for n, _t in _TITLE.findall(joined)] or [None])[-1]
         context, i, n = [], 0, len(block)
         block_divs = []
         while i < n:
             line = block[i]
             h = HEADER.match(line)
-            if not h or not h.group(1).upper().startswith(("YEA", "AYE")):
+            if h and h.group(1).upper().startswith(("YEA", "AYE")):
+                first = i + 1
+            elif _unheaded_yea(context, line):
+                first = i
+            else:
                 context.append(line)
                 i += 1
                 continue
-            yea_labels, yeas, i, problem = _take_list(block, i + 1)
+            yea_labels, yeas, i, problem = _take_list(block, first)
             while i < n and not block[i].strip():
                 i += 1
             nay_labels, nays = [], None
@@ -407,7 +488,9 @@ def parse_vp(text):
                             "subamendment" if on.startswith("sub") else "motion",
                  "yeas": yeas, "nays": nays, "yea_labels": yea_labels, "nay_labels": nay_labels,
                  "question": ctx_text[-700:] or None,
-                 "result": "It was {0}, on the following division".format(puts[-1][1].lower()) if puts else None,
+                 # the record's own words: "on division" over a roll call (19 April 2012) stays so
+                 "result": "It was {0}{1}".format(puts[-1][1].lower(), re.sub(r"\s+", " ", puts[-1][2])
+                                                  or ", on the following division") if puts else None,
                  "stage": _stage(upto) or "Motion",
                  "bill_number": (_BILL_NO.findall(upto) or [bill])[-1],
                  "problem": problem}
@@ -475,6 +558,19 @@ def read_sitting(ctx, legislature, session, listed_date, url, hansard, wl):
         return 0, 1
     date = printed_date(text) or listed_date
     if listed_date and date != listed_date:
+        other = (getattr(ctx, "mb_listed", None) or {}).get(date)
+        if other and other != url and ctx.in_window(listed_date):
+            # The file is a second copy of ANOTHER listed day's record, so the
+            # listed day's own record is not served at all: 42-4 votes_041.pdf
+            # (listed for 25 April 2022) is V&P No. 42 of the 26th, and the
+            # 25th's three recorded divisions (Hansard No. 41) are in no V&P
+            # the site serves. A hole, never a silent log line.
+            ctx.gap("mb {0}: the record listed for the day ({1}) is a copy of {2}'s ({3}); "
+                    "the day's own V&P is not served".format(listed_date, url, date, other))
+            ps.store_sitting(ctx.conn, PROV, ps.sitting_key(PROV, legislature, session, listed_date),
+                             listed_date, url, status="gap")
+            ctx.conn.commit()
+            return 0, 1
         ctx.log("  mb: {0} is listed under {1} but prints {2}; the record's own date is used".format(
             url, listed_date, date))
     if not date:
@@ -486,7 +582,9 @@ def read_sitting(ctx, legislature, session, listed_date, url, hansard, wl):
     divisions, voices, titles, expected = parse_vp(text)
     gaps = 0
     if divisions:
-        roster_for_day(ctx, legislature, date, hansard)
+        before = ctx.conn.execute("SELECT status FROM prov_sittings WHERE record_url=? "
+                                  "ORDER BY read_at DESC LIMIT 1", (url,)).fetchone()
+        roster_for_day(ctx, legislature, date, hansard, owed=bool(before) and before[0] != "ok")
     resolver = pn.Resolver.from_conn(ctx.conn, PROV)
     for number, title in titles.items():
         key = ps.bill_key(PROV, legislature, session, number)
@@ -628,6 +726,8 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         ctx.gap("mb V&P: session {0} is not on {1}".format(session, VP_SESSIONS))
     page = ctx.text(vp_url, "vp-list-{0}".format(session)) if vp_url else None
     records = [r for r in list_records(page, vp_url) if r[0] is None or ctx.in_window(r[0])] if page else []
+    # every day the session's calendar lists a record for, whatever the window
+    ctx.mb_listed = {d: u for d, u in (list_records(page, vp_url) if page else []) if d}
     if page and not list_records(page, vp_url):
         ctx.gap("mb V&P {0}: no records parsed from {1}".format(session, vp_url))
     stats["records_listed"] = len(records)
