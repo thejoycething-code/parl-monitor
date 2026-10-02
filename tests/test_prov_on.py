@@ -414,6 +414,64 @@ class BackfillVPTests(unittest.TestCase):
         self.assertEqual(len(on._DIVISION_SAID.findall(" ".join(e[1] for e in ev if e[0] == "p"))), len(ds))
 
 
+class CastingVoteTests(unittest.TestCase):
+    """21 September 2017, Bill 146 second reading: a 16-16 tie the Deputy
+    Speaker broke, printed "Deputy Speaker" among the Ayes. Christopher (2
+    October 2026): casting votes are placed. config/prov_record.yaml,
+    hansard_labels with office: true, this division only."""
+    KEY = "on-41-2-2017-09-21-1"
+    VP = "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-09-21/votes-proceedings"
+
+    def setUp(self):
+        self.conn = db.init_db(db.connect(":memory:"))
+        for m in on.parse_member_pages(frags_of("on_members_20170921.json")):
+            ps.upsert_member(self.conn, "on", m["key"], name=m["given"] + " " + m["surname"],
+                             surname=m["surname"], given=m["given"])
+            ps.extend_term(self.conn, "on", m["key"], 41, m["party"], m["riding"], "2017-09-21", "hansard-cover")
+        self.r = on.make_resolver(self.conn)
+        self.d = on.parse_vp(on.vp_events(fx("on_vp_20170921_casting.html")))[0][0]
+
+    def test_the_chair_is_placed_from_hansard_and_the_tally_holds(self):
+        self.assertEqual((self.d["bill_number"], self.d["yeas"], self.d["nays"]), ("146", 17, 16))
+        self.assertIn("Deputy Speaker", self.d["yea_labels"])
+        votes, ok, note = on.resolve_division(self.d, self.r, "2017-09-21", 41, document=self.VP,
+                                              reviewed=pn.ReviewedDivisions.load("on"), division_key=self.KEY)
+        self.assertTrue(ok, note)
+        chair = [v for v in votes if v["raw_label"] == "Deputy Speaker"][0]
+        self.assertEqual((chair["member_key"], chair["position"], chair["party_at_vote"]), ("soo-wong", "Yea", "LIB"))
+        self.assertIn("settled from Hansard", note)
+
+    def test_only_in_that_division(self):
+        votes, ok, note = on.resolve_division(self.d, self.r, "2017-09-21", 41, document=self.VP,
+                                              reviewed=pn.ReviewedDivisions.load("on"),
+                                              division_key="on-41-2-2017-09-21-2")
+        self.assertFalse(ok)
+        self.assertIn("unresolved 'Deputy Speaker'", note)
+        self.assertIsNone(self.r.resolve("Deputy Speaker", "2017-09-21", 41, document=self.VP)[0])
+
+
+class SameSeatGuardTests(unittest.TestCase):
+    def test_given_names_must_agree(self):
+        for a, b in (("KevinDaniel", "Kevin Daniel"), ("M. Aileen", "Aileen"), ("Christina", "Christina Maria"),
+                     ("L’hon . Andrea", "Andrea")):
+            self.assertTrue(on.same_given(a, b), (a, b))
+        self.assertFalse(on.same_given("Jim", "Bob"))
+
+    def test_a_same_surname_successor_in_the_same_seat_is_not_merged(self):
+        conn = db.init_db(db.connect(":memory:"))
+        for key, given, date in (("jim-smith", "Jim", "2013-03-20"), ("bob-smith", "Bob", "2014-03-20")):
+            ps.upsert_member(conn, "on", key, name=given + " Smith", surname="Smith", given=given)
+            ps.extend_term(conn, "on", key, 40, "PC", "Nipissing", date, "hansard-cover")
+        said = []
+        self.assertEqual(on.merge_split_members(conn, log=said.append), [])
+        self.assertTrue(any("NOT merged" in s for s in said), said)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_members").fetchone()[0], 2)
+        m = {"key": "robert-smith", "surname": "Smith", "given": "Robert", "riding": "Nipissing"}
+        conn.execute("DELETE FROM prov_members WHERE member_key='bob-smith'")
+        conn.execute("DELETE FROM prov_member_terms WHERE member_key='bob-smith'")
+        self.assertEqual(on.canonical_key(conn, m, on.seat_holders(conn, 40), 40), "robert-smith")
+
+
 class MisprintTests(unittest.TestCase):
     """The V&P printed "Cuzzeto" for Rudy Cuzzetto from July 2018 to July
     2020 (config/prov_record.yaml, misprints)."""

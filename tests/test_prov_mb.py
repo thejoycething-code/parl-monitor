@@ -647,15 +647,27 @@ class OneMemberOneKeyTests(unittest.TestCase):
         self.assertEqual(ps.merge_split_members(conn, "mb", same_person=pn.load_same_person("mb"),
                                                 log=lambda *a: None), [])          # idempotent
 
-    def test_without_the_reviewed_entry_graydon_stays_two(self):
+    def test_without_the_reviewed_entries_only_dewar_merges(self):
+        # Graydon's keys are in two legislatures; Tom and Thomas fail the
+        # given-name guard (neither contains the other), logged, not merged
         conn = self._store(self.ROWS)
-        done = ps.merge_split_members(conn, "mb", log=lambda *a: None)
-        self.assertNotIn("graydon", " ".join(k for k, _m in done))
+        said = []
+        done = ps.merge_split_members(conn, "mb", log=said.append)
+        self.assertEqual([sorted([k] + m) for k, m in done], [["greg-dewar", "gregory-dewar"]])
+        self.assertTrue(any("NOT merged" in x and "nevakshonoff" in x for x in said), said)
+
+    def test_a_reviewed_variant_on_a_new_cover_is_stored_under_the_seats_key(self):
+        conn = self._store(self.ROWS[2:3])                      # tom-nevakshonoff, 40th
+        seats = ps.seat_holders(conn, "mb", 40)
+        m = {"key": "thomas-nevakshonoff", "surname": "Nevakshonoff", "riding": "Interlake", "given": "Thomas"}
+        self.assertEqual(ps.canonical_key(conn, "mb", m, seats, 40), "thomas-nevakshonoff")
+        self.assertEqual(ps.canonical_key(conn, "mb", m, seats, 40, same_person=pn.load_same_person("mb")),
+                         "tom-nevakshonoff")
 
     def test_a_cover_variant_is_stored_under_the_seats_key(self):
         conn = self._store(self.ROWS[:1])
         seats = ps.seat_holders(conn, "mb", 40)
-        m = {"key": "greg-dewar", "surname": "Dewar", "riding": "Selkirk"}
+        m = {"key": "greg-dewar", "surname": "Dewar", "riding": "Selkirk", "given": "Greg"}
         self.assertEqual(ps.canonical_key(conn, "mb", m, seats, 40), "gregory-dewar")
         self.assertEqual(ps.canonical_key(conn, "mb", m, ps.seat_holders(conn, "mb", 41), 41), "greg-dewar")
 

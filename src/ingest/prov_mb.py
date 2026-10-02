@@ -326,8 +326,11 @@ def roster_for_day(ctx, legislature, date, hansard, owed=False):
     # printing "Greg DEWAR" after the store holds "Gregory DEWAR" for
     # Selkirk in the same legislature stores the term under the held key.
     seats = ps.seat_holders(ctx.conn, PROV, legislature)
+    same = getattr(ctx, "mb_same_person", None)
+    if same is None:
+        same = ctx.mb_same_person = pn.load_same_person(PROV)
     for m in members:
-        key = ps.canonical_key(ctx.conn, PROV, m, seats, legislature)
+        key = ps.canonical_key(ctx.conn, PROV, m, seats, legislature, same_person=same)
         own = key == m["key"]
         ps.upsert_member(ctx.conn, PROV, key, name=m["given"] + " " + m["surname"] if own else None,
                          surname=m["surname"] if own else None, given=m["given"] if own else None,
@@ -904,6 +907,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     wl = pc.load_watchlist(PROV)
     ctx.mb_reviewed = pn.ReviewedDivisions.load(PROV)
     ctx.mb_not_served = pn.load_vp_not_served(PROV)
+    ctx.mb_same_person = pn.load_same_person(PROV)
     stats = {}
     if bills:
         stats.update(fetch_bills(ctx, legislature, sess, wl))
@@ -942,7 +946,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps})
     # One member, one key, in place, with nothing fetched: the seat rule
     # within a legislature, and the reviewed same_person entries across them.
-    merged = ps.merge_split_members(ctx.conn, PROV, same_person=pn.load_same_person(PROV), log=ctx.log)
+    merged = ps.merge_split_members(ctx.conn, PROV, same_person=ctx.mb_same_person, log=ctx.log)
     if merged:
         stats["keys_merged"] = sum(len(m) for _k, m in merged)
     ctx.conn.commit()

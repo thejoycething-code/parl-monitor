@@ -79,20 +79,11 @@ mb:
       both the V&P and the Hansard calendar).
 
 # Ontario: the 2010 backfill's tally gaps, re-read 2 October 2026. Of 393,
-# 390 cleared in the parser, the roster and one reviewed misprint
-# (config/prov_record.yaml); these are the record's own, with Hansard's
-# evidence. The tally check is untouched.
+# 391 cleared in the parser, the roster and two reviewed facts in
+# config/prov_record.yaml (the "Cuzzeto" misprint; the 21 Sep 2017 casting
+# vote, placed at Christopher's decision); these are the record's own, with
+# Hansard's evidence. The tally check is untouched.
 "on":
-  - contains: "on-41-2-2017-09-21-1: tally check failed"
-    reviewed: 2026-10-02
-    why: >-
-      Second reading of Bill 146 (Gas Pricing Transparency Act). The V&P prints
-      17-16 with "Deputy Speaker" as the 17th Aye. Hansard
-      (21-SEP-2017_L095.pdf, p. 5136): "The ayes are 16; the nays are 16. The
-      Deputy Speaker (Ms. Soo Wong): I declare the motion carried": the chair's
-      casting vote on a tie, printed as an office, not a member. Placing it is
-      Christopher's decision (a casting vote follows convention, not a stance);
-      until then the division places nobody.
   - contains: "on-42-1-2019-04-04-1: tally check failed"
     reviewed: 2026-10-02
     why: >-

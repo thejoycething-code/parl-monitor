@@ -354,7 +354,8 @@ def load_misprints(prov, path=None):
     verified_against and why. Read by Aliased exactly as a label alias:
     only after the normal resolver found nobody, only on a day inside the
     span and in a document under the prefix, only to a member holding a
-    term that day."""
+    term that day. The fact type was approved by Christopher on 2 October
+    2026."""
     out = []
     for a in _reviewed(prov, "misprints", ("printed", "member", "from", "to", "document_prefix",
                                            "documents", "verified_against", "why"), path):
@@ -487,6 +488,14 @@ class ReviewedDivisions:
             candidates = [k.strip() for k in how.partition(":")[2].split(",")] \
                 if how.startswith("ambiguous") else []
             member = str(a["member"])
+            # `office: true` -- the list prints an OFFICE, not a name (Ontario,
+            # 21 Sep 2017: "Deputy Speaker" among the Ayes, the chair's casting
+            # vote). No member can match it, so there are no candidates; the
+            # label must have resolved to nobody, and Hansard for the same
+            # division names who held the office (Christopher, 2 October 2026:
+            # casting votes are placed).
+            if a.get("office") and not v.get("member_key") and how.startswith("unknown"):
+                candidates = [member]
             if v.get("member_key") or member not in candidates:
                 notes.append("reviewed label {0!r} not used: {1}".format(
                     a["printed"], "already resolved" if v.get("member_key")

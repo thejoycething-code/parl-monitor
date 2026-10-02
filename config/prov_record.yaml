@@ -37,17 +37,26 @@
 #                  bill correction applies only while the record still prints
 #                  `printed_bill`, and leaves the printed number in
 #                  tally_note. None of these is ever an alias outside its
-#                  division.
+#                  division. A hansard_labels entry with `office: true` names
+#                  who held an office the list prints instead of a name (the
+#                  chair's casting vote, "Deputy Speaker"); it applies only to
+#                  a label that resolved to nobody (Christopher, 2 October
+#                  2026: casting votes are placed).
+#   misprints      (on) One misspelling of one member's name repeated over a
+#                  span of days, in documents under a URL prefix; read by
+#                  Aliased like a label alias. Approved by Christopher, 2
+#                  October 2026.
 #   vp_not_served  (mb) A sitting day whose listed V&P is not served (an
 #                  error page, or a copy of another day's record): the
 #                  day's Hansard PDFs named here are read for their own
 #                  division lists INSTEAD, that day only, and only while the
 #                  listed record still fails. The Clerk's counts are the
 #                  totals the tally check holds the names to.
-#   same_person    (mb) Member keys that are ONE person across
-#                  legislatures, where the seat rule (same surname, same
-#                  riding, same legislature) cannot join them. Merged in
-#                  place by prov_store.merge_split_members.
+#   same_person    (mb) Member keys that are ONE person where the seat rule
+#                  (same surname, same riding, same legislature, given names
+#                  one inside the other) cannot join them: across
+#                  legislatures, or "Tom" and "Thomas". Merged in place by
+#                  prov_store.merge_split_members.
 #
 # Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
 # (3 October 2026). Alberta's entries added 2 October 2026 for the
@@ -215,7 +224,39 @@ provinces:
         why: >-
           The same member for Emerson in three legislatures; the seat rule
           joins keys within one legislature only.
+      - keys: [tom-nevakshonoff, thomas-nevakshonoff]
+        document: https://www.gov.mb.ca/legislature/members/mla_bio_living.html
+        verified_against: >-
+          The Assembly's former-members page has ONE entry, "NEVAKSHONOFF,
+          Thomas (Interlake) (NDP). Elected g.e. September 21, 1999 ...
+          Re-elected g.e. October 4, 2011, Defeated g.e. April 19, 2016. April
+          29, 2015 - May 3, 2016 Minister of Conservation and Water
+          Stewardship". The covers print "NEVAKSHONOFF, Tom Interlake NDP" in
+          the 39th and 40th Legislatures to December 2014 and "Thomas, Hon."
+          from 8 May 2015, the week after he became a minister.
+        why: >-
+          The same member for Interlake; the seat rule's given-name guard
+          (one name contained in the other) cannot match Tom and Thomas.
   "on":
+    hansard_labels:
+      - division: on-41-2-2017-09-21-1
+        position: Yea
+        printed: "Deputy Speaker"
+        office: true
+        member: soo-wong
+        document: https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-09-21/votes-proceedings
+        hansard: https://www.ola.org/sites/default/files/node-files/hansard/document/pdf/2017/2017-09/house-document-hansard-transcript-2-EN-21-SEP-2017_L095.pdf
+        quoted: >-
+          The ayes are 16; the nays are 16. The Deputy Speaker (Ms. Soo Wong): I
+          declare the motion carried.
+        why: >-
+          Second reading of Bill 146 (Gas Pricing Transparency Act, Mr.
+          McNaughton). The V&P prints 17-16 with "Deputy Speaker" as the 17th
+          Aye: the chair's casting vote on a tie. Hansard for the SAME division
+          (p. 5136) names the chair, Soo Wong, who held the office. Christopher
+          (2 October 2026) chose to place casting votes, against the convention
+          that a casting vote is not a stance. This division only: "Deputy
+          Speaker" maps to nobody anywhere else.
     misprints:
       - printed: "Cuzzeto"
         member: rudy-cuzzetto

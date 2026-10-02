@@ -613,26 +613,53 @@ def seat_holders(conn, prov, legislature):
     return out
 
 
-def canonical_key(conn, prov, member, seats, legislature):
+def same_given(a, b):
+    """True when two printings of a given name can be one member's: the
+    letters of one occur within the other's ('kevindaniel' / 'kevindaniel',
+    'maileen' / 'aileen', 'greg' / 'gregory'). 'Jim' and 'Bob' cannot, nor
+    'Tom' and 'Thomas' (Manitoba's Nevakshonoff is joined by a reviewed
+    same_person entry instead). The guard against a by-election successor of
+    the same surname in the same riding (Ontario, 2 October 2026)."""
+    from src import prov_names as pn
+    a, b = pn.squash(a), pn.squash(b)
+    if not a or not b:
+        return True
+    short, long_ = sorted((a, b), key=len)
+    return short in long_
+
+
+def given_of(conn, prov, key):
+    row = conn.execute("SELECT given FROM prov_members WHERE prov=? AND member_key=?", (prov, key)).fetchone()
+    return row[0] if row else None
+
+
+def canonical_key(conn, prov, member, seats, legislature, same_person=()):
     """The key a parsed cover member is stored under: its own when the
     store knows it, else the ONE key already holding the same seat under the
-    same surname in this legislature, else its own (a new member)."""
+    same surname in this legislature when the given names agree (or a
+    reviewed same_person set names both keys), else its own (a new member)."""
     if conn.execute("SELECT 1 FROM prov_members WHERE prov=? AND member_key=?",
                     (prov, member["key"])).fetchone():
         return member["key"]
     keys = seats.get(seat(legislature, member.get("riding"), member["surname"])) \
         if member.get("riding") else None
-    return next(iter(keys)) if keys and len(keys) == 1 else member["key"]
+    if keys and len(keys) == 1:
+        key = next(iter(keys))
+        if same_given(given_of(conn, prov, key), member.get("given")) or \
+                any({key, member["key"]} <= set(s) for s in same_person):
+            return key
+    return member["key"]
 
 
 def merge_split_members(conn, prov, same_person=(), log=print):
     """Fold the second keys the store already holds into one per seat.
     Within one legislature, keys sharing a riding and a surname are one
-    member; `same_person` adds reviewed sets of keys that are one member
-    across legislatures. The key kept is the one most votes already name
-    (fewest rows move). Votes, terms and bill sponsorships move to it in
-    place, the other member rows go; nothing is fetched. Returns
-    [(kept, [merged])]."""
+    member when their given names agree (same_given; otherwise nothing is
+    merged and it is logged); `same_person` adds reviewed sets of keys that
+    are one member, across legislatures or under given names the guard
+    cannot match. The key kept is the one most votes already name (fewest
+    rows move). Votes, terms and bill sponsorships move to it in place, the
+    other member rows go; nothing is fetched. Returns [(kept, [merged])]."""
     groups = {}
     for key, leg, riding, surname in conn.execute(
             "SELECT DISTINCT t.member_key, t.legislature, t.riding, m.surname FROM prov_member_terms t "
@@ -667,7 +694,17 @@ def merge_split_members(conn, prov, same_person=(), log=print):
         votes = {k: conn.execute("SELECT COUNT(*) FROM prov_votes WHERE member_key=? AND division_key LIKE ?",
                                  (k, like)).fetchone()[0] for k in keys}
         kept = sorted(keys, key=lambda k: (-votes[k], k))[0]
-        merged = sorted(keys - {kept})
+        merged = []
+        for k in sorted(keys - {kept}):
+            if same_given(given_of(conn, prov, kept), given_of(conn, prov, k)) or \
+                    any({kept, k} <= set(str(x) for x in s) for s in same_person):
+                merged.append(k)
+            else:
+                log("  {0} roster: NOT merged, same seat and surname but given names differ: "
+                    "{1} ({2!r}) and {3} ({4!r})".format(prov, kept, given_of(conn, prov, kept),
+                                                        k, given_of(conn, prov, k)))
+        if not merged:
+            continue
         for k in merged:
             conn.execute("UPDATE prov_votes SET member_key=? WHERE member_key=? AND division_key LIKE ?",
                          (kept, k, like))
