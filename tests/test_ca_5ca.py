@@ -266,7 +266,14 @@ class StanceFileTests(unittest.TestCase):
         entries = list(c5.load_stance(section="divisions").values()) + \
             list(c5.load_stance(section="bills").values())
         self.assertGreater(len(entries), 20)
-        self.assertEqual([e["key"] for e in entries if c5.status(e) == "draft"], [])
+        confirmed_2_oct = ("commons-44-1-377", "commons-44-1-423", "commons-44-1-641", "commons-44-1-646",
+                           "commons-44-1-640", "commons-44-1-874", "commons-44-1-609", "commons-45-1-86",
+                           "commons-45-1-93", "commons-45-1-92", "commons-45-1-167", "senate-45-1-700362",
+                           "senate-45-1-700344")
+        divs = c5.load_stance(section="divisions")
+        self.assertEqual([k for k in confirmed_2_oct if c5.status(divs[k]) != "confirmed"], [])
+        # The 2010-2024 landmarks drafted on 3 October are drafts until he confirms.
+        self.assertEqual(c5.status(divs["commons-41-1-466"]), "draft")
         ridr = c5.load_stance(section="divisions")["senate-45-1-699935"]
         self.assertEqual(c5.status(ridr), "unplaceable")
 

@@ -388,6 +388,285 @@ divisions:
   # delay -- with nothing that is our ground in either direction. Its eight
   # divisions (45-1: 134-137, 153; Senate 702758) stay evidence only.
 
+  # --- 2010-2024 landmarks, DRAFTED 3 October 2026 for Christopher --------
+  # Tagged by the bill KEY (src/ca_store.add_bill_key_areas) and fetched by
+  # the rollcall_sessions run. Every mover or sponsor voted Yea on their own
+  # measure (Woodworth, Siksay, Garrison, Storseth, MacKay, Wagantall, Khalid,
+  # Scheer, Wilson-Raybould, Rodriguez). Free and conscience votes carry
+  # full strength; second readings and whole-bill whipped votes +/-1.
+  - key: commons-41-1-466
+    draft: true
+    title: "M-312 (Woodworth): special committee on when a child becomes a human being (s.223(1) Criminal Code)"
+    dated: 2012-09-26
+    result: "Negatived 91-203"
+    lobbies: "Nay: NDP 96, Conservative 74, Liberal 28, Bloc Québécois 3, Green Party 1, Independent 1. Yea: Conservative 86, Liberal 4, Independent Conservative 1"
+    yea: 2
+    why_yea: "Voted to study whether the law should recognise a child as a human being before birth."
+    nay: -1
+    why_nay: "Voted against studying when a child becomes a human being in law (-1: some opposed reopening the question, not the question itself)."
+    note: >
+      A free vote: the Conservative caucus split 86-74, so each side is a personal choice. The only Commons vote on the question since 1988.
+  - key: commons-40-3-165
+    draft: true
+    title: "C-389 (Siksay): gender identity and expression in the Human Rights Act and Criminal Code -- third reading"
+    dated: 2011-02-09
+    result: "Agreed To 143-135"
+    lobbies: "Yea: Liberal 59, Bloc Québécois 43, NDP 35, Conservative 6. Nay: Conservative 126, Liberal 7, Independent Conservative 1, Independent 1"
+    yea: -2
+    why_yea: "Voted to add gender identity and gender expression to the Human Rights Act and the hate-crime provisions."
+    nay: 2
+    why_nay: "Voted against adding gender identity and expression to the Human Rights Act and the Criminal Code."
+  - key: commons-41-1-271
+    draft: true
+    title: "C-279 (Garrison): gender identity -- second reading"
+    dated: 2012-06-06
+    result: "Agreed To 150-132"
+    lobbies: "Yea: NDP 99, Liberal 31, Conservative 15, Bloc Québécois 3, Green Party 1, Independent 1. Nay: Conservative 132"
+    yea: -1
+    why_yea: "Voted for the principle of adding gender identity to the Human Rights Act and Criminal Code."
+    nay: 1
+    why_nay: "Voted against the principle of the gender identity bill."
+  - key: commons-41-1-645
+    draft: true
+    title: "C-279: gender identity -- third reading"
+    dated: 2013-03-20
+    result: "Agreed To 149-137"
+    lobbies: "Yea: NDP 99, Liberal 25, Conservative 18, Bloc Québécois 5, Green Party 1, Independent 1. Nay: Conservative 136, Independent Conservative 1"
+    yea: -2
+    why_yea: "Voted to pass the bill adding gender identity to the Human Rights Act and Criminal Code."
+    nay: 2
+    why_nay: "Voted against passing the gender identity bill."
+    note: >
+      18 Conservatives voted Yea: not a pure party line.
+  - key: commons-42-1-126
+    draft: true
+    title: "C-16 (government): gender identity and expression -- second reading"
+    dated: 2016-10-18
+    result: "Agreed To 248-40"
+    lobbies: "Yea: Liberal 162, NDP 39, Conservative 38, Bloc Québécois 8, Green Party 1. Nay: Conservative 40"
+    yea: -2
+    why_yea: "Voted for the bill adding gender identity and expression to the Human Rights Act and Criminal Code."
+    nay: 2
+    why_nay: "Voted against the gender identity and expression bill (passed into law in 2017)."
+  - key: senate-42-1-458503
+    draft: true
+    title: "C-16 -- Senate third reading"
+    dated: 2017-06-15
+    result: "Adopted 67-11"
+    lobbies: "Nay: C 11. Yea: ISG 28, C 20, Lib. 15, Non-affiliated 4"
+    yea: -2
+    why_yea: "Voted to pass C-16, adding gender identity and expression to the Human Rights Act and Criminal Code."
+    nay: 2
+    why_nay: "Voted against passing C-16."
+  - key: commons-41-1-133
+    draft: true
+    title: "C-304 (Storseth): repeal of section 13 of the Human Rights Act -- second reading"
+    dated: 2012-02-15
+    result: "Agreed To 158-131"
+    lobbies: "Nay: NDP 94, Liberal 32, Bloc Québécois 4, Green Party 1. Yea: Conservative 156, Independent Conservative 1, Liberal 1"
+    yea: 1
+    why_yea: "Voted for the principle of repealing the Human Rights Act's online hate-speech complaints provision (s.13)."
+    nay: -1
+    why_nay: "Voted against the principle of repealing section 13."
+  - key: commons-41-1-269
+    draft: true
+    title: "C-304: repeal of section 13 -- third reading"
+    dated: 2012-06-06
+    result: "Agreed To 153-136"
+    lobbies: "Nay: NDP 99, Liberal 32, Bloc Québécois 3, Green Party 1, Independent 1. Yea: Conservative 152, Liberal 1"
+    yea: 2
+    why_yea: "Voted to repeal section 13 of the Human Rights Act, the online hate-speech complaints provision used against speech on religion and sexuality."
+    nay: -2
+    why_nay: "Voted to keep section 13."
+  - key: commons-41-2-209
+    draft: true
+    title: "C-36: Protection of Communities and Exploited Persons Act -- second reading"
+    dated: 2014-06-16
+    result: "Agreed To 139-117"
+    lobbies: "Nay: NDP 88, Liberal 27, Green Party 2. Yea: Conservative 137, Independent 1, Conservative Independent 1"
+    yea: 1
+    why_yea: "Voted for the principle of criminalising the purchase of sex (the Nordic model) after Bedford."
+    nay: -1
+    why_nay: "Voted against the principle of criminalising the purchase of sex."
+  - key: commons-41-2-249
+    draft: true
+    title: "C-36 -- third reading"
+    dated: 2014-10-06
+    result: "Agreed To 156-124"
+    lobbies: "Nay: NDP 83, Liberal 34, Independent 4, Green Party 2, Bloc Québécois 1. Yea: Conservative 154, Independent 1, Conservative Independent 1"
+    yea: 2
+    why_yea: "Voted to pass the law criminalising the purchase of sex and third-party profit from prostitution."
+    nay: -2
+    why_nay: "Voted against criminalising the purchase of sex."
+  - key: commons-42-1-61
+    draft: true
+    title: "Opposition motion: freedom of conscience for physicians under MAID"
+    dated: 2016-05-17
+    result: "Negatived 96-214"
+    lobbies: "Yea: Conservative 90, NDP 5, Green Party 1. Nay: Liberal 169, NDP 35, Bloc Québécois 10"
+    yea: 2
+    why_yea: "Voted to protect the conscience rights of physicians and health professionals who decline to take part in MAID."
+    nay: -1
+    why_nay: "Voted against the motion protecting physicians' conscience under MAID (-1: the government whipped against it)."
+  - key: commons-42-1-131
+    draft: true
+    title: "C-225 (Wagantall): Cassie and Molly's Law -- second reading"
+    dated: 2016-10-19
+    result: "Negatived 76-209"
+    lobbies: "Nay: Liberal 157, NDP 39, Bloc Québécois 9, Conservative 3, Green Party 1. Yea: Conservative 76"
+    yea: 2
+    why_yea: "Voted for a separate offence of injuring or killing a preborn child in an assault on the mother."
+    nay: -2
+    why_nay: "Voted against recognising harm to a preborn child as a separate offence."
+    note: >
+      Read with C-311 (2023), confirmed at +/-2.
+  - key: commons-44-1-186
+    draft: true
+    title: "C-230 (Wagantall): Protection of Freedom of Conscience Act -- second reading"
+    dated: 2022-10-05
+    result: "Negatived 115-208"
+    lobbies: "Yea: Conservative 114, Independent 1. Nay: Liberal 149, Bloc Québécois 32, NDP 24, Green Party 2, Independent 1"
+    yea: 2
+    why_yea: "Voted to protect health professionals from being intimidated into taking part in MAID."
+    nay: -2
+    why_nay: "Voted against protecting health professionals' conscience over MAID."
+  - key: commons-42-1-201
+    draft: true
+    title: "Opposition motion condemning discrimination against all religions (the counter to M-103)"
+    dated: 2017-02-21
+    result: "Negatived 126-165"
+    lobbies: "Nay: Liberal 164, Independent 1. Yea: Conservative 82, NDP 34, Bloc Québécois 9, Green Party 1"
+    yea: 1
+    why_yea: "Voted to condemn discrimination against all religious communities without singling out 'Islamophobia' undefined."
+    nay: -1
+    why_nay: "Voted against the motion condemning discrimination against all religions."
+    note: >
+      NDP and Bloc voted with the Conservatives; the government voted against.
+  - key: commons-42-1-237
+    draft: true
+    title: "M-103 (Khalid): systemic racism and religious discrimination ('Islamophobia')"
+    dated: 2017-03-23
+    result: "Agreed To 201-91"
+    lobbies: "Nay: Conservative 86, Bloc Québécois 5. Yea: Liberal 163, NDP 34, Conservative 2, Independent 1, Green Party 1"
+    yea: -1
+    why_yea: "Voted for M-103, which condemned 'Islamophobia' without defining it; the free-speech concern was the debate."
+    nay: 1
+    why_nay: "Voted against M-103 over its undefined 'Islamophobia'."
+  - key: commons-44-1-89
+    draft: true
+    title: "C-11, Online Streaming Act -- second reading"
+    dated: 2022-05-12
+    result: "Agreed To 208-111"
+    lobbies: "Nay: Conservative 111. Yea: Liberal 148, Bloc Québécois 32, NDP 25, Green Party 2, Independent 1"
+    yea: -1
+    why_yea: "Voted for the principle of CRTC regulation of online streaming, which critics said could reach user-generated content."
+    nay: 1
+    why_nay: "Voted against CRTC regulation of online streaming over its reach into user-generated content."
+    note: >
+      READ BEFORE CONFIRMING: whether C-11 is CitizenGO's ground at all is your call; +/-1 throughout for that reason.
+  - key: commons-44-1-164
+    draft: true
+    title: "C-11 -- third reading"
+    dated: 2022-06-21
+    result: "Agreed To 208-117"
+    lobbies: "Nay: Conservative 115, Green Party 1, Independent 1. Yea: Liberal 152, Bloc Québécois 31, NDP 24, Green Party 1"
+    yea: -1
+    why_yea: "Voted to pass the Online Streaming Act."
+    nay: 1
+    why_nay: "Voted against the Online Streaming Act."
+  - key: senate-44-1-590158
+    draft: true
+    title: "C-11 -- Senate second reading"
+    dated: 2022-10-25
+    result: "Adopted 49-19"
+    lobbies: "Yea: ISG 31, PSG 12, Non-affiliated 6. Nay: C 10, CSG 9"
+    yea: -1
+    why_yea: "Voted for the principle of the Online Streaming Act in the Senate."
+    nay: 1
+    why_nay: "Voted against the Online Streaming Act at Senate second reading."
+  - key: senate-44-1-605960
+    draft: true
+    title: "C-11 -- Senate concurrence in the Commons message (final passage)"
+    dated: 2023-04-27
+    result: "Adopted 52-16"
+    lobbies: "Yea: ISG 32, PSG 8, Non-affiliated 7, CSG 5. Nay: C 10, CSG 5, ISG 1"
+    yea: -1
+    why_yea: "Voted for the final Senate passage of the Online Streaming Act."
+    nay: 1
+    why_nay: "Voted against the final Senate passage of the Online Streaming Act."
+  - key: commons-41-1-181
+    placeable: false
+    title: "C-310 trafficking (report stage)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-41-1-627
+    placeable: false
+    title: "C-452 trafficking (second reading)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-41-2-148
+    placeable: false
+    title: "M-456 palliative care strategy (amendment)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-41-2-149
+    placeable: false
+    title: "M-456 palliative care strategy"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-44-1-247
+    placeable: false
+    title: "M-62 Uyghurs (amendment)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-44-1-248
+    placeable: false
+    title: "M-62 Uyghurs (as amended)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-44-1-271
+    placeable: false
+    title: "S-224 trafficking (second reading)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: senate-42-1-457511
+    placeable: false
+    title: "C-16 Senate amendment (68-0)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-44-1-159
+    placeable: false
+    title: "C-11 report stage motion (326-0)"
+    reason: "Unanimous or near-unanimous: the vote tells no member apart."
+  - key: commons-41-2-205
+    placeable: false
+    title: "C-36 time allocation"
+    reason: "Procedure, not substance."
+  - key: commons-41-2-233
+    placeable: false
+    title: "C-36 time allocation"
+    reason: "Procedure, not substance."
+  - key: commons-44-1-86
+    placeable: false
+    title: "C-11 time allocation"
+    reason: "Procedure, not substance."
+  - key: senate-44-1-579724
+    placeable: false
+    title: "C-11 Senate pre-study motion"
+    reason: "Procedure, not substance."
+  - key: commons-41-1-642
+    read_first: true
+    title: "C-279 report stage amendment"
+    reason: "The amendment's text has not been read, so no side is proposed."
+  - key: commons-41-1-643
+    read_first: true
+    title: "C-279 report stage amendment"
+    reason: "The amendment's text has not been read, so no side is proposed."
+  - key: commons-41-2-235
+    read_first: true
+    title: "C-36 report stage amendment"
+    reason: "The amendment's text has not been read, so no side is proposed."
+  - key: senate-42-1-457865
+    read_first: true
+    title: "C-16 Senate amendment (28-49)"
+    reason: "The amendment's text has not been read, so no side is proposed."
+  - key: commons-44-1-853
+    read_first: true
+    title: "S-224 report stage amendment (118-207)"
+    reason: "The amendment's text has not been read, so no side is proposed."
+
 # Sponsoring a private member's bill is a chosen act of advancing a text, the
 # Canadian equivalent of proposing a motion (NI) or sponsoring an EDM. A
 # government bill's sponsor is the minister, which is office, not choice:
