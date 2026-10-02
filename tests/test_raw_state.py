@@ -93,6 +93,39 @@ class DigestAndTarTests(unittest.TestCase):
                 setattr(rs, k, v)
         self.assertEqual(uploaded["2026-09-29"], ["ci-only.json.gz", "laptop-only.json.gz"])
 
+    def test_a_tar_over_the_asset_ceiling_is_never_uploaded(self):
+        """2 October 2026: GitHub refuses a release asset of 2 GiB or more, and
+        --clobber replaces the published copy. An oversized day is held back,
+        its sidecar entry kept, and the push fails loudly."""
+        raw = tempfile.mkdtemp()
+        os.makedirs(os.path.join(raw, "2026-10-03"))
+        with open(os.path.join(raw, "2026-10-03", "big.pdf.gz"), "wb") as fh:
+            fh.write(b"x" * 4096)
+        uploaded, lines = [], []
+        side = {"folders": {}}
+        saved = {k: getattr(rs, k) for k in ("RAW", "ensure_release", "origin_sidecar", "load_sidecar",
+                                             "write_sidecar", "_held", "_hold", "upload_asset",
+                                             "local_folders", "ASSET_LIMIT")}
+        try:
+            rs.RAW = raw
+            rs.ASSET_LIMIT = 1024
+            rs.ensure_release = lambda *a, **k: True
+            rs.origin_sidecar = lambda *a, **k: {}
+            rs.load_sidecar = lambda *a, **k: side
+            rs.write_sidecar = lambda *a, **k: None
+            rs._held = lambda *a, **k: {}
+            rs._hold = lambda *a, **k: None
+            rs.local_folders = lambda *a, **k: ["2026-10-03"]
+            rs.upload_asset = lambda folder, path: uploaded.append(folder)
+            rc = rs.push(log=lines.append)
+        finally:
+            for k, v in saved.items():
+                setattr(rs, k, v)
+        self.assertEqual(uploaded, [])
+        self.assertEqual(rc, 1)
+        self.assertNotIn("2026-10-03", side["folders"])
+        self.assertTrue(any("NOT uploading" in l for l in lines))
+
     def test_a_tar_member_that_escapes_is_refused(self):
         import tarfile, io
         tar = os.path.join(tempfile.mkdtemp(), "evil.tar")

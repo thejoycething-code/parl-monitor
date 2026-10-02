@@ -95,6 +95,17 @@ def list_records(html):
         for label, links in _DOC.findall(body):
             hrefs = [_html.unescape(h) for h in re.findall(r'href="([^"]+)"', links)]
             docs.append((label.strip(), hrefs))
+        # THE PRE-2023 LAYOUT (measured 2 October 2026 on a November 2015
+        # page): a bare <a href=".../Minutes/27L4S/151126Minutes.pdf">Minutes</a>
+        # with no "<span>Minutes (" wrapper, which _DOC never matched -- so a
+        # backfill read NOTHING before 2023 and logged no gap. Such links are
+        # taken by their path, as prov_sk_hansard.list_debates does.
+        if not any(label.startswith("Minutes") for label, _ in docs):
+            bare = [_html.unescape(h) for h in re.findall(r'href="([^"]+)"', body)]
+            for label, part in (("Minutes", "/Minutes/"), ("Debates", "/Debates/")):
+                hs = [h for h in bare if part in h and _SESSION_IN_PATH.search(h)]
+                if hs:
+                    docs.append((label, hs))
         debates = [h for label, hs in docs if label.startswith("Debates") for h in hs
                    if h.lower().endswith(".pdf")]
         for label, hrefs in docs:

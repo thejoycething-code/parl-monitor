@@ -58,6 +58,8 @@ SIDECAR = os.path.join(ROOT, "data", "raw.json")
 PULLED = os.path.join(ROOT, "data", ".raw-pulled")      # local: {folder: [digests held]}
 REPO = "thejoycething-code/parl-monitor"
 TAG = "raw-archive"
+# GitHub's release-asset limit is 2 GiB; keep a margin for the tar headers.
+ASSET_LIMIT = int(1.9e9)
 API = "https://api.github.com"
 
 
@@ -384,7 +386,7 @@ def push(log=print):
             "moved-under-you check.")
         theirs = {}
     held = _held()
-    published = unchanged = merged = 0
+    published = unchanged = merged = oversized = 0
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     run = os.environ.get("GITHUB_RUN_ID") and "run " + os.environ["GITHUB_RUN_ID"] or "local"
     tmp = tempfile.mkdtemp(prefix="raw-push-")
@@ -423,6 +425,22 @@ def push(log=print):
                 continue
             tar_path = os.path.join(tmp, asset_name(folder))
             make_tar(path, tar_path)
+            # GITHUB REFUSES A RELEASE ASSET OF 2 GiB OR MORE (2 October 2026,
+            # before the provincial speeches backfill: Alberta alone archives
+            # ~1.2 GB of PDFs, and every run of one UTC day shares a folder).
+            # An upload with --clobber replaces the published copy, so an
+            # oversized tar is never sent: the published copy stays, the
+            # sidecar keeps its entry, and the push fails loudly. Pace the
+            # backfills (one big province a UTC day) rather than raise this.
+            tar_bytes = os.path.getsize(tar_path)
+            if tar_bytes > ASSET_LIMIT:
+                log("  [gap] {0}: the tar is {1:.2f} GB, over the {2:.1f} GB release-asset "
+                    "ceiling; NOT uploading, so the published copy is not replaced. Split "
+                    "the day's backfills across days.".format(folder, tar_bytes / 1e9,
+                                                             ASSET_LIMIT / 1e9))
+                os.remove(tar_path)
+                oversized += 1
+                continue
             upload_asset(folder, tar_path)
             os.remove(tar_path)
             side["folders"][folder] = {"sha256": digest, "files": n, "bytes": size,
@@ -435,6 +453,10 @@ def push(log=print):
     write_sidecar(side)
     log("raw archive published: {0} folder(s) uploaded, {1} unchanged, {2} merged; sidecar "
         "written -- COMMIT IT so the repo records this state.".format(published, unchanged, merged))
+    if oversized:
+        log("RAW ARCHIVE INCOMPLETE: {0} folder(s) over the asset ceiling were not "
+            "published.".format(oversized))
+        return 1
     return 0
 
 

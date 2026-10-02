@@ -55,6 +55,18 @@ class ListingTests(unittest.TestCase):
         self.assertTrue(oct20["debates"].endswith("/29L3S/20231020Debates.pdf"))
 
 
+    def test_the_pre_2023_bare_links_are_listed(self):
+        """2 October 2026: a November 2015 archive card carries a bare
+        <a>Minutes</a>, no <span> wrapper, and the listing returned NOTHING
+        for it -- a backfill before 2023 would have read no day, silently."""
+        recs = sk.list_records(fx("sk_archive_2015_11_trim.html"))
+        self.assertEqual([r["date"] for r in recs], ["2015-11-26", "2015-11-25"])
+        r = recs[0]
+        self.assertEqual((r["legislature"], r["session"], r["label"]), (27, 4, "Minutes"))
+        self.assertTrue(r["minutes_pdf"].endswith("/Minutes/27L4S/151126Minutes.pdf"))
+        self.assertTrue(r["debates"].endswith("/Debates/27L4S/151126Debates.pdf"))
+        self.assertNotIn("Orders", r["minutes_pdf"])
+
 class CoverTests(unittest.TestCase):
     def test_the_hansard_cover_is_the_dated_roster(self):
         members, total = sk.parse_cover(fx("sk_cover_231020.txt"))
