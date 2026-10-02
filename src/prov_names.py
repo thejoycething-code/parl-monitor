@@ -74,8 +74,14 @@ class Label:
 
 def _strip_honorifics(tokens):
     out = list(tokens)
+    stripped = 0
     while out and fold(out[0]).rstrip(".,") in HONORIFICS:
+        # 'M.' is the French 'Monsieur' only in FIRST place: after another
+        # honorific it is an initial ('Mr. M. LeBlanc', New Brunswick).
+        if stripped and fold(out[0]).rstrip(".,") == "m" and len(out) > 1:
+            break
         out.pop(0)
+        stripped += 1
     while out and fold(out[-1]).rstrip(".,") in {"kc", "qc", "eca", "mla"}:
         out.pop()
     return out

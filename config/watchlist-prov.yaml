@@ -17,10 +17,10 @@
 #
 # Every entry says why, and which text it was measured on. A term added
 # without a measurement is a guess; mark it so. Titles and keys for the
-# provinces NOT YET BUILT (nb, qc) come from the scope probe and were not
-# re-read for this file; confirm each when that province is built. The
-# Manitoba and Ontario entries were re-read from the records on 2 October
-# 2026, when those collectors were built.
+# provinces NOT YET BUILT (qc) come from the scope probe and were not
+# re-read for this file; confirm each when that province is built. Manitoba,
+# Ontario, New Brunswick and Newfoundland and Labrador were re-read from the
+# records when their collectors were built (2 October 2026).
 
 terms:
   - term: "Parents' Bill of Rights"
@@ -108,7 +108,11 @@ provinces:
   "nb":
     bills:
       "nb-60-2/52": {title: "Human Organ and Tissue Donation Act", areas: [13],
-                     why: "Deemed consent. Passed third reading on VOICE, 15 June 2023. Not built."}
+                     why: "Deemed (presumed) consent to organ donation; Jean-Claude D'Amours's private member's bill. Second reading 11 May 2023 and third reading 15 June 2023 both passed on VOICE (the Journal: 'it was resolved in the affirmative', no division), so no member record exists. Built 2 Oct 2026; the key is needed because the 15 June Journal names the bill only by title and number."}
+  "nl":
+    bills:
+      "nl-48-1/43": {title: "Access to Abortion Services Act", areas: [1],
+                     why: "Safe access zones around abortion facilities and providers' homes (2016). Second reading and committee 17 Nov 2016, third reading 21 Nov 2016, all on VOICE: Hansard 'Carried', no division. The TITLE matches area 1; the key keeps it tier 1 whatever its text says. Built 2 Oct 2026."}
   "qc":
     bills:
       "qc-42-1/21": {title: "An Act respecting the laicity of the State", areas: [8],

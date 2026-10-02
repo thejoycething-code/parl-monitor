@@ -115,6 +115,7 @@ class _HostState:
         self.lock = threading.Lock()          # serialises throttle bookkeeping
         self.semaphore = threading.Semaphore(concurrency)
         self.last_request_at = None           # monotonic timestamp of last call
+        self.min_interval = None              # per-host floor above the client throttle
 
 
 class HttpClient:
@@ -316,13 +317,27 @@ class HttpClient:
         with gzip.open(path, "rb") as handle:
             return handle.read()
 
+    def set_host_throttle(self, host, seconds):
+        """Space requests to ONE host at least `seconds` apart, above the
+        client-wide throttle: a robots.txt Crawl-delay (legnb.ca asks for
+        10 s) slows that host without slowing every other host the run
+        reads. Never lowers an interval already set."""
+        state = self._host_state(host)
+        state.min_interval = max(float(seconds), state.min_interval or 0.0)
+
+    def host_throttle(self, host):
+        """The interval this host's requests are spaced at."""
+        state = self._host_state(host)
+        return max(self.throttle, state.min_interval or 0.0)
+
     def _throttle(self, state):
-        """Ensure at least `throttle` seconds since this host's last request."""
+        """Ensure at least `throttle` seconds (or the host's own floor) since
+        this host's last request."""
         with state.lock:
             now = self._clock()
             if state.last_request_at is not None:
                 elapsed = now - state.last_request_at
-                wait = self.throttle - elapsed
+                wait = max(self.throttle, state.min_interval or 0.0) - elapsed
                 if wait > 0:
                     self._sleep(wait)
                     now = self._clock()
