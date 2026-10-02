@@ -15,6 +15,9 @@ The forms that occur, all handled by `parse_label` and `Resolver.resolve`:
     honorifics                           Hon. Mr. Higgs, Mme, M., Member, KC, ECA
     full name                            Scott Moe, Betty Nippi -Albright
     French accents                       Rattée, Lagimodière -- folded to ASCII on both sides
+    a footnote mark                      Amery*, Hanson * -- Alberta's "* Member voted remotely"
+    an earlier surname (reviewed)        Glasgo (Michaela Frey) -- Resolver.with_record
+    an abbreviated riding (reviewed)     Nixon (Rimbey-Rocky Mtn. House-Sundre)
 
 AN UNRESOLVED LABEL RESOLVES TO None, NEVER TO A GUESS. Unique-or-nothing:
 if two members valid on the day fit a label, the answer is None with the
@@ -109,6 +112,11 @@ def _strip_honorifics(tokens):
 def parse_label(raw):
     s = (raw or "").translate(_DASHES).strip()
     s = re.sub(r"\s*-\s*", "-", s)
+    # A trailing '*' is a FOOTNOTE MARK, not part of the name: Alberta's V&P
+    # of the COVID sittings marks each member who voted remotely ("Amery*",
+    # "Sigurdson (Highwood)*") and explains it under the list ("* Member
+    # voted remotely"). The raw label keeps the mark; the name is read without it.
+    s = re.sub(r"\s*\*+$", "", s)
     riding = None
     m = _PAREN.search(s)
     if m:
@@ -139,11 +147,37 @@ class Resolver:
     members: {member_key: {'surname', 'given', 'name'}}
     terms:   [{'member_key', 'legislature', 'party', 'riding', 'start', 'end',
                'party_dated'}]
+
+    Two kinds of REVIEWED fact may widen what a label can match, both read
+    from config/prov_record.yaml by `with_record` and never inferred:
+
+      other_surnames  {member_key: [surname, ...]}: a surname the member also
+                      sat under, as the member's own official page says
+                      ("Michaela Frey (Also served under Glasgo)"). The label
+                      is still matched against every member valid on the
+                      day, so a second Glasgo would make it ambiguous.
+      riding_aliases  {printed riding: riding}: the record's own abbreviation
+                      of a constituency ("Rimbey-Rocky Mtn. House-Sundre").
     """
 
-    def __init__(self, members, terms):
+    def __init__(self, members, terms, other_surnames=None, riding_aliases=None):
         self.members = members
         self.terms = list(terms)
+        self.other_surnames = {k: [fold(s) for s in v] for k, v in (other_surnames or {}).items()}
+        self.riding_aliases = {squash(k): squash(v) for k, v in (riding_aliases or {}).items()}
+
+    def with_record(self, prov, path=None):
+        """This resolver with the province's reviewed other_surnames and
+        riding_aliases (config/prov_record.yaml) loaded."""
+        for a in load_other_surnames(prov, path):
+            self.other_surnames.setdefault(str(a["member"]), []).append(fold(a["surname"]))
+        for a in load_riding_aliases(prov, path):
+            self.riding_aliases[squash(a["printed"])] = squash(a["riding"])
+        return self
+
+    def _riding_is(self, printed, riding):
+        p = squash(printed)
+        return squash(riding) in (p, self.riding_aliases.get(p))
 
     @classmethod
     def from_conn(cls, conn, prov):
@@ -181,6 +215,8 @@ class Resolver:
         for m in self.members.values():
             if m.get("surname"):
                 out.add(tuple(fold(m["surname"]).split()))
+        for names in self.other_surnames.values():
+            out.update(tuple(s.split()) for s in names)
         return out
 
     def term_for(self, member_key, date, legislature=None):
@@ -209,25 +245,29 @@ class Resolver:
         n = len(lab.tokens)
         for key, ts in by_key.items():
             m = self.members.get(key) or {}
-            sur = fold(m.get("surname"))
             given = fold(m.get("given"))
-            if not sur:
-                continue
+            surnames = [fold(m.get("surname"))] if m.get("surname") else []
+            surnames += self.other_surnames.get(key, [])
             how = None
-            for i in range(n):
-                if " ".join(lab.tokens[i:]) != sur:
-                    continue
-                giv = lab.tokens[:i]
-                if giv:
-                    gtoks = given.replace("-", " ").split()
-                    if not gtoks or not all(
-                            any(g == x or (len(g) == 1 and x.startswith(g)) for x in gtoks)
-                            for g in giv):
+            for k_sur, sur in enumerate(surnames):
+                for i in range(n):
+                    if " ".join(lab.tokens[i:]) != sur:
                         continue
-                    how = "full-name"
-                else:
-                    how = "surname"
-                break
+                    giv = lab.tokens[:i]
+                    if giv:
+                        gtoks = given.replace("-", " ").split()
+                        if not gtoks or not all(
+                                any(g == x or (len(g) == 1 and x.startswith(g)) for x in gtoks)
+                                for g in giv):
+                            continue
+                        how = "full-name"
+                    else:
+                        how = "surname"
+                    break
+                if how is not None:
+                    if k_sur:
+                        how = "other-" + how      # a reviewed other surname
+                    break
             if how is None:
                 continue
             if lab.initials:
@@ -235,7 +275,7 @@ class Resolver:
                     continue
                 how = "initial"
             if lab.riding:
-                if not any(squash(t.get("riding")) == squash(lab.riding) for t in ts):
+                if not any(self._riding_is(lab.riding, t.get("riding")) for t in ts):
                     continue
                 how = "surname+riding" if how == "surname" else how + "+riding"
             hits[key] = how
@@ -274,6 +314,34 @@ def load_aliases(prov, path=None):
             raise ValueError("{0} label alias {1!r} lacks {2}".format(prov, a.get("printed"), ", ".join(missing)))
         out.append(dict(a, date=str(a["date"])))
     return out
+
+
+def _reviewed(prov, section, fields, path=None):
+    """Entries of one reviewed-fact section; an entry missing a field is refused."""
+    out = []
+    for a in load_record(prov, path).get(section) or []:
+        missing = [f for f in fields if not a.get(f)]
+        if missing:
+            raise ValueError("{0} {1} entry {2!r} lacks {3}".format(
+                prov, section, a.get(fields[0]), ", ".join(missing)))
+        out.append(a)
+    return out
+
+
+def load_other_surnames(prov, path=None):
+    """`other_surnames:` -- a surname a member also sat under, read on the
+    member's own official page. Needs member, surname, document,
+    verified_against and why."""
+    return _reviewed(prov, "other_surnames",
+                     ("surname", "member", "document", "verified_against", "why"), path)
+
+
+def load_riding_aliases(prov, path=None):
+    """`riding_aliases:` -- a constituency as a record abbreviates it, with
+    the constituency's own name. Needs printed, riding, document,
+    verified_against and why."""
+    return _reviewed(prov, "riding_aliases",
+                     ("printed", "riding", "document", "verified_against", "why"), path)
 
 
 class Aliased:
@@ -331,17 +399,52 @@ def is_furniture(line):
     return bool(_PAGE_FURNITURE.match(line or "")) or not (line or "").strip()
 
 
+_SPACED = re.compile(r"(?<!\S)(?:\S ){2,}\S(?!\S)")
+
+
+def close_letter_spacing(line):
+    """'G a n l e y  P a y n e' -> 'Ganley  Payne'. pypdf reads some of
+    Alberta's V&P names one glyph at a time (24 June 2015: "(Leduc-Beaumont)
+    G a n l e y  P a y n e"; 29 May 2019: "v a n  D i j k e n"), with ONE
+    space between letters and two between words. A run of three or more
+    single characters each separated by one space is closed up; two (an
+    initial pair, 'R J') is left alone."""
+    return _SPACED.sub(lambda m: m.group(0).replace(" ", ""), line or "")
+
+
+def close_split_names(line, vocab_tokens):
+    """'Cortes-Vargas La rivee Shepherd' -> 'Cortes-Vargas Larivee Shepherd'.
+    pypdf sometimes breaks one surname in two with a space (Alberta V&P,
+    December 2017 to November 2018). A lower-case fragment is joined to the
+    word before it ONLY when the fragment is not itself a surname token
+    ('van', 'de') and the joined word IS one; anything else is left to fail
+    honestly."""
+    parts = re.split(r"(\s+)", line or "")
+    out = []
+    for p in parts:
+        if (p and p[0].islower() and fold(p).strip(".,") not in vocab_tokens
+                and len(out) >= 2 and out[-1] == " " and out[-2][:1].isupper()
+                and fold(out[-2] + p) in vocab_tokens):
+            out.pop()
+            out[-1] = out[-1] + p
+            continue
+        out.append(p)
+    return "".join(out)
+
+
 def is_name_line(line, vocab_tokens):
     """True when every word on the line could be part of a member's name:
     capitalised (or a known surname token such as 'de', 'van'), no digits,
     no sentence punctuation, and not a heading word. A wrapped riding line
-    '(Edmonton-Riverview)' or 'Jaw North)' counts."""
-    s = (line or "").strip()
+    '(Edmonton-Riverview)' or 'Jaw North)' counts, and so does a line holding
+    only the remote-vote footnote mark '*' wrapped from the name before it."""
+    s = close_split_names(close_letter_spacing((line or "").strip()), vocab_tokens)
     if not s:
         return False
     if re.search(r"[0-9:;!?“”\"]", s):
         return False
     body = re.sub(r"\([^()]*\)?|^[^()]*\)", " ", s)     # ridings, open or closed
+    body = body.replace("*", " ")                       # footnote marks ('Amery*')
     for w in body.split():
         f = fold(w).strip(".,")
         if not f:
@@ -365,8 +468,13 @@ def split_name_run(lines, vocab):
     Sabir' is three members, not four; a token matching nothing becomes a
     one-word label of its own and fails resolution honestly. A parenthesised
     riding -- on the same line or wrapped onto the next, open or split across
-    two lines -- attaches to the label just before it."""
-    text = " ".join(l.strip() for l in lines if l and not is_furniture(l))
+    two lines -- attaches to the label just before it, and so does a
+    footnote mark '*' standing on its own ('Hanson *', or 'Gotfried' with
+    its '*' wrapped to the start of the next line): it always FOLLOWS the
+    name it marks, and the label becomes 'Hanson*'."""
+    tokens = vocab_tokens(vocab)
+    text = " ".join(close_split_names(close_letter_spacing(l.strip()), tokens)
+                    for l in lines if l and not is_furniture(l))
     text = (text or "").translate(_DASHES)
     parts = re.findall(r"\([^()]*\)|[^\s()]+", text)
     # A riding split as '(Moose' ... 'Jaw North)' over two lines is joined by
@@ -381,12 +489,17 @@ def split_name_run(lines, vocab):
                 labels[-1] = labels[-1] + " " + p
             i += 1
             continue
+        if set(p) == {"*"}:
+            if labels:
+                labels[-1] = labels[-1] + p
+            i += 1
+            continue
         take = 1
         for k in range(min(longest, len(parts) - i), 1, -1):
             chunk = parts[i:i + k]
-            if any(c.startswith("(") for c in chunk):
+            if any(c.startswith("(") or c.endswith("*") for c in chunk[:-1]) or chunk[-1].startswith("("):
                 continue
-            if tuple(fold(c) for c in chunk) in vocab:
+            if tuple(fold(c).rstrip("*") for c in chunk) in vocab:
                 take = k
                 break
         labels.append(" ".join(parts[i:i + take]))
