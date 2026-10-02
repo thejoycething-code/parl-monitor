@@ -1,5 +1,6 @@
 """Tables for the Canadian monitor: House divisions and bills (phase 1),
-Hansard, petitions, Senate votes and the Canada Gazette (phase 2).
+Hansard, petitions, Senate votes and the Canada Gazette (phase 2), and
+House and joint committee evidence (ca_committee_meetings, ca_testimony).
 
 WHY A MODULE OF ITS OWN. Every other jurisdiction's schema lives in
 `src/db.py`. These tables were kept here while the Canadian monitor was
@@ -198,6 +199,56 @@ SCHEMA = (
         text         TEXT,               -- a NOTICE's own text; a regulation's lives at url
         first_seen   TEXT
     )""",
+    # Committee evidence (tools/ca_committees.py, 2 October 2026). Every
+    # meeting READ gets a row whatever it held -- as every Hansard sitting
+    # does -- so a quiet meeting is not mistaken for one never read. Members'
+    # interventions go to ca_speeches (forum='committee'); witnesses never do.
+    """CREATE TABLE IF NOT EXISTS ca_committee_meetings (
+        meeting_key  TEXT PRIMARY KEY,   -- '<parl>-<session>-<ACR>-<number>', e.g. '44-1-AMAD-10'
+        committee    TEXT NOT NULL,      -- the acronym: JUST, AMAD, ...
+        parliament   INTEGER NOT NULL,
+        session      INTEGER NOT NULL,
+        number       INTEGER NOT NULL,
+        date         TEXT,
+        studies      TEXT,               -- JSON list of the meeting list's study titles
+        in_camera    INTEGER,            -- 1 = the list shows the lock
+        status       TEXT,               -- 'read' / 'in_camera' (no evidence, never a gap) / 'no_evidence' (public, transcript not linked yet: re-checked)
+        site_meeting_id TEXT,            -- the site's meeting id (meeting-item-<id>)
+        evidence_url TEXT,
+        xml_url      TEXT,
+        interventions INTEGER,           -- every Intervention in the XML
+        chair        INTEGER,            -- chair and officers: counted, not stored
+        members      INTEGER,            -- members' and senators' interventions
+        witnesses    INTEGER,            -- Affiliation Type 28
+        speeches     INTEGER,            -- members' on our ground (ca_speeches)
+        testimony    INTEGER,            -- witnesses' on our ground (ca_testimony)
+        unresolved   INTEGER,            -- stored speeches with no person_id
+        chars        INTEGER,
+        read_on      TEXT
+    )""",
+    # A WITNESS (Affiliation Type 28) is never a member: no person_id, never
+    # in ca_speeches, never in any member's record. What they said on our
+    # ground is kept here as a witness index -- who testified, for whom.
+    """CREATE TABLE IF NOT EXISTS ca_testimony (
+        testimony_id TEXT PRIMARY KEY,   -- 'cmte-<PS>-<ACR>-<NN>-<intervention id>'
+        intervention_id TEXT,            -- the XML's Intervention id
+        meeting_key  TEXT NOT NULL,
+        committee    TEXT,
+        date         TEXT,
+        time         TEXT,
+        subject      TEXT,               -- the meeting's study titles, the title passage
+        db_id        TEXT,               -- the committee Affiliation DbId (not a Hansard one)
+        label        TEXT,               -- this intervention's label as printed
+        witness      TEXT,               -- 'Dr. Ramona Coelho', from the first full label
+        affiliation  TEXT,               -- 'Physician, As an Individual', as printed
+        organisation TEXT,               -- its last part: 'As an Individual'
+        text         TEXT,
+        excerpt      TEXT,
+        areas        TEXT,
+        matched_terms TEXT,
+        first_seen   TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS ca_testimony_meeting ON ca_testimony (meeting_key)",
     "CREATE INDEX IF NOT EXISTS ca_gazette_items_issue ON ca_gazette_items (issue_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_sitting ON ca_speeches (sitting_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_person ON ca_speeches (person_id)",

@@ -277,6 +277,10 @@ def parse_sitting(xml_text):
             paras = [_all_text(p) for p in el.iter("ParaText")]
             out.append({"id": el.get("id"), "kind": el.get("Type"),
                         "db_id": aff.get("DbId") if aff is not None else None,
+                        # The Affiliation's own Type. Unused by the floor; in
+                        # committee Evidence (the same schema) 28 is a WITNESS
+                        # and 35/36 the chair (tools/ca_committees.py).
+                        "aff_type": aff.get("Type") if aff is not None else None,
                         "label": label, "text": "\n".join(p for p in paras if p),
                         "rubric": state["rubric"], "subject": state["subject"],
                         "bill": state["bill"], "time": state["time"]})

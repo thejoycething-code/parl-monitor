@@ -18,7 +18,9 @@ holds them:
   * a bill from its long and short titles;
   * a petition from its category + keywords and its prayer (ca_petitions);
   * a speech from its full text, per passage, with its subject as a title
-    passage (ca_hansard);
+    passage (ca_hansard; a committee speech's subject is its meeting's
+    study titles, ca_committees);
+  * committee testimony the same way (ca_committees);
   * a Gazette item from its stored text per passage (a notice, a PDF item);
     a notice matched on its title alone, from its title and department; a
     regulation whose body lives at its URL, from its excerpt -- part of the
@@ -96,6 +98,13 @@ def _rows(conn, tax, wl):
                           "FROM ca_speeches"):
         yield ("ca_speeches", "speech_id", r[0], r[3], r[4], None,
                _passages(tax, wl, r[1], r[2]))
+    # Committee testimony is matched exactly as a committee speech: its full
+    # text per passage, the meeting's study titles (stored as subject) as the
+    # title passage (tools/ca_committees.py).
+    for r in conn.execute("SELECT testimony_id, text, subject, areas, matched_terms "
+                          "FROM ca_testimony"):
+        yield ("ca_testimony", "testimony_id", r[0], r[3], r[4], None,
+               _passages(tax, wl, r[1], r[2]))
     for r in conn.execute("SELECT item_key, text, excerpt, title, areas, matched_terms, "
                           "tier, matched_on, department FROM ca_gazette_items"):
         # A notice whose anchor was missing was matched on its title and
@@ -114,7 +123,8 @@ def _rows(conn, tax, wl):
 # re-read from its excerpt, not its body, so that table is reported, not
 # gated.
 TRUST_FLOOR = 0.99
-GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches")
+GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches", "ca_testimony")
+UNTIERED = ("ca_speeches", "ca_testimony")    # no tier column
 
 
 class Untrusted(RuntimeError):
@@ -155,7 +165,7 @@ def retag(conn, tax, wl, dry_run=False, log=print, floor=TRUST_FLOOR):
         merged_terms = sorted(set(json.loads(terms or "[]")) | set(new_terms))
         sets = ["areas = ?", "matched_terms = ?"]
         args = [json.dumps(sorted(stored | added)), json.dumps(merged_terms, ensure_ascii=False)]
-        if table != "ca_speeches":
+        if table not in UNTIERED:
             # Tier 1 outranks tier 2; a tier only ever improves here.
             best = min(t for t in (tier, new_tier) if t is not None) if (tier or new_tier) else None
             sets.append("tier = ?")
