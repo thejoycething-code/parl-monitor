@@ -7,7 +7,8 @@ modules stay parsers plus a short `collect()`:
     a per-host throttle of at least 1.1 s -- docs/canada-provinces-scope.md);
   * robots.txt, read once per host and HONOURED: a disallowed URL is never
     requested and is recorded as a gap; a Crawl-delay larger than the
-    throttle raises the throttle (New Brunswick asks for 10 s). A robots.txt
+    throttle raises that HOST's interval (HttpClient.set_host_throttle; New
+    Brunswick asks for 10 s, and the run waits 10 s between its requests). A robots.txt
     that answers 404 -- or, as lims.leg.bc.ca does, an HTML error page with
     status 404 -- means no rules;
   * the run's budget (src/drain), its record --limit and --dry-run;
@@ -98,7 +99,11 @@ class Context:
             delay = rp.crawl_delay(self.client.user_agent) or rp.crawl_delay("*")
             if delay and float(delay) > (self.client.throttle or 0):
                 self.log("  {0}: robots.txt Crawl-delay {1}s honoured".format(host, delay))
-                self.client.throttle = float(delay)
+                if hasattr(self.client, "set_host_throttle"):
+                    # Per host: legnb.ca's 10 s must not slow every other host.
+                    self.client.set_host_throttle(host, float(delay))
+                else:
+                    self.client.throttle = float(delay)
             self._robots[host] = rp
         return self._robots[host]
 
@@ -166,6 +171,78 @@ def pdf_text(raw, pages=None, joiner="\n=====PAGE\n"):
         return joiner.join(reader.pages[i].extract_text() or "" for i in idx)
     except Exception as exc:  # pypdf raises a zoo of errors on a damaged file
         raise Unreadable("PDF could not be read: {0}".format(exc))
+
+
+def pdf_rows(raw, pages=None):
+    """The text fragments of a PDF's pages WITH their x positions: for the
+    tables whose columns plain extraction runs together (New Brunswick's
+    members list, Newfoundland's attendance summary, where a name column
+    and a district column are both free text).
+
+    [[(y, [(x0, x1, text), ...]), ...] per page], lines top to bottom,
+    fragments left to right. Built on pypdf's layout engine, the private
+    interface src/ca_gazette_pdf.py already uses; if it moves, the parse
+    comes back empty and the caller records a gap."""
+    if not raw or not raw[:5] == b"%PDF-":
+        raise Unreadable("not a PDF ({0} bytes)".format(len(raw or b"")))
+    if b"%%EOF" not in raw[-2048:]:
+        raise Unreadable("truncated PDF: no %%EOF marker in {0} bytes".format(len(raw)))
+    import logging
+
+    try:
+        import pypdf
+        from pypdf._text_extraction._layout_mode import _fixed_width_page as fw
+        logging.getLogger("pypdf").setLevel(logging.ERROR)
+        reader = pypdf.PdfReader(io.BytesIO(raw))
+        idx = range(len(reader.pages)) if pages is None else [
+            i for i in pages if i < len(reader.pages)]
+        out = []
+        for i in idx:
+            page = reader.pages[i]
+            contents = page.get_contents()
+            if contents is None:
+                out.append([])
+                continue
+            ops = iter(pypdf.generic.ContentStream(contents, reader, "bytes").operations)
+            frags = fw.text_show_operations(ops, page._layout_mode_fonts(), True, None)
+            lines = {}
+            for f in frags or []:
+                if f["text"].strip():
+                    lines.setdefault(round(f["ty"]), []).append(
+                        (float(f["tx"]), float(f["displaced_tx"]), f["text"]))
+            out.append([(y, sorted(lines[y])) for y in sorted(lines, reverse=True)])
+        return out
+    except Unreadable:
+        raise
+    except Exception as exc:  # pypdf raises a zoo of errors on a damaged file
+        raise Unreadable("PDF could not be read: {0}".format(exc))
+
+
+def join_fragments(frags):
+    """One string from left-to-right fragments: a fragment that starts where
+    the last one ended (within 1 pt) is the same word."""
+    out, end = "", None
+    for x0, x1, text in frags:
+        if end is not None and x0 - end < 1.0:
+            out += text
+        else:
+            out += (" " if out else "") + text.lstrip()
+        end = x1
+    return re.sub(r"\s+", " ", out).strip()
+
+
+def split_columns(frags, edges):
+    """Cut one line's fragments into columns at the given left edges (the x
+    of each column heading). A fragment belongs to the last column whose
+    edge is at or left of its start (2 pt of slack)."""
+    cols = [[] for _ in edges]
+    for f in frags:
+        k = 0
+        for j, e in enumerate(edges):
+            if f[0] >= e - 2:
+                k = j
+        cols[k].append(f)
+    return [join_fragments(c) for c in cols]
 
 
 _TAG = re.compile(r"<[^>]+>")
