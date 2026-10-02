@@ -153,15 +153,25 @@ class Prober:
             title = re.search(r"<title[^>]*>([^<]*)", head, re.I)
             flag = ""
             ttl = title.group(1) if title else ""
-            if (loc and (CHALLENGE.search(loc) or CAPTCHA.search(loc))) or CHALLENGE.search(head) \
-                    or CAPTCHA.search(ttl) or (len(body) < 15000 and CAPTCHA.search(head)):
+            # A real page may CARRY a bot manager's script (assembly.pe.ca's
+            # pages load Radware's stormcaster.js and name validate.perfdrive.com
+            # in its config) and still be the page. The challenge is the
+            # redirect to it, a challenge title, or a short page that is
+            # nothing but the challenge.
+            if (loc and (CHALLENGE.search(loc) or CAPTCHA.search(loc))) \
+                    or CHALLENGE.search(ttl) or CAPTCHA.search(ttl) \
+                    or (len(body) < 15000 and (CHALLENGE.search(head) or CAPTCHA.search(head))):
                 flag = "BOT-CHALLENGE"
+            elif CHALLENGE.search(head):
+                flag = "bot-manager-script"
             name = safe_name(url)
             self.save(host, name, body)
             self.index(host, "\t".join(str(x) for x in (
                 status, len(body), ctype.split(";")[0], url, (title.group(1).strip()[:80] if title else ""),
                 flag + (" -> " + loc if loc else ""), name)))
-            if flag:
+            if status in (403, 429) and not flag:
+                flag = "REFUSED"
+            if flag in ("BOT-CHALLENGE", "REFUSED"):
                 self.blocked[host] = "challenge at {0}".format(url)
                 print("STOP {0}: bot challenge; no further requests to this host".format(host))
                 return None
