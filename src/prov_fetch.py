@@ -23,7 +23,6 @@ from __future__ import annotations
 import html as _html
 import io
 import re
-import urllib.robotparser
 from urllib.parse import urlsplit
 
 from src.http import FetchError
@@ -88,14 +87,13 @@ class Context:
         parts = urlsplit(url)
         host = parts.netloc
         if host not in self._robots:
-            rp = urllib.robotparser.RobotFileParser()
             try:
                 text = self.client.get_text("{0}://{1}/robots.txt".format(parts.scheme, host),
                                             self.feed, "robots-" + host, archive=False)
-                rp.parse(text.splitlines())
             except FetchError:
-                rp.parse([])          # no robots.txt: no rules
-            delay = rp.crawl_delay(self.client.user_agent) or rp.crawl_delay("*")
+                text = ""             # no robots.txt: no rules
+            rp = Robots(text)
+            delay = rp.crawl_delay(self.client.user_agent)
             if delay and float(delay) > (self.client.throttle or 0):
                 self.log("  {0}: robots.txt Crawl-delay {1}s honoured".format(host, delay))
                 self.client.throttle = float(delay)
@@ -145,6 +143,85 @@ class Context:
             return None
 
 
+# -- robots.txt -------------------------------------------------------------
+
+class Robots:
+    """robots.txt as the major crawlers read it (RFC 9309).
+
+    Written because urllib.robotparser cannot honour Ontario's: ola.org
+    ends its file with a SECOND `User-agent: *` group holding `Disallow: /*?`
+    (no query strings), and the standard library both ignores every `*`
+    group after the first and treats `*` and `$` in a path literally -- so
+    it would have let us fetch every query-string URL ola.org forbids.
+
+      * groups naming the same agent are merged;
+      * our agent uses the groups whose name is a token of its product name
+        ('citizengo-parlmonitor'), else the `*` groups. Manitoba's groups for
+        GPTBot, ClaudeBot and the rest do not name us; if Manitoba ever names
+        us, this obeys it (docs/canada-provinces-scope.md, "Decisions");
+      * `*` matches any run of characters, a trailing `$` anchors the end;
+      * the longest matching rule wins, and Allow wins a tie.
+    """
+
+    def __init__(self, text):
+        self.groups = []           # [(agents, [(allow, pattern)], crawl_delay)]
+        agents, rules, delay, in_rules = [], [], None, False
+        for raw in (text or "").splitlines():
+            line = raw.split("#", 1)[0].strip()
+            if ":" not in line:
+                continue
+            field, _, value = line.partition(":")
+            field, value = field.strip().lower(), value.strip()
+            if field == "user-agent":
+                if in_rules:
+                    self.groups.append((agents, rules, delay))
+                    agents, rules, delay, in_rules = [], [], None, False
+                agents.append(value.lower())
+            elif field in ("allow", "disallow"):
+                in_rules = True
+                if agents and value:
+                    rules.append((field == "allow", value))
+            elif field == "crawl-delay":
+                in_rules = True
+                try:
+                    delay = float(value)
+                except ValueError:
+                    pass
+        if agents:
+            self.groups.append((agents, rules, delay))
+
+    def _groups_for(self, user_agent):
+        product = (user_agent or "*").split("/")[0].strip().lower()
+        named = [g for g in self.groups
+                 if any(a != "*" and a and a in product for a in g[0])] if product != "*" else []
+        return named or [g for g in self.groups if "*" in g[0]]
+
+    @staticmethod
+    def _matches(pattern, path):
+        anchored = pattern.endswith("$")
+        body = pattern[:-1] if anchored else pattern
+        rx = "^" + ".*".join(re.escape(p) for p in body.split("*")) + ("$" if anchored else "")
+        return re.match(rx, path) is not None
+
+    def can_fetch(self, user_agent, url):
+        parts = urlsplit(url)
+        path = (parts.path or "/") + ("?" + parts.query if parts.query else "")
+        best = None                  # (length, allow)
+        for _agents, rules, _delay in self._groups_for(user_agent):
+            for allow, pattern in rules:
+                if self._matches(pattern, path):
+                    key = (len(pattern), allow)
+                    if best is None or key > best:
+                        best = key
+        return True if best is None else best[1]
+
+    def crawl_delay(self, user_agent):
+        delays = [g[2] for g in self._groups_for(user_agent) if g[2]]
+        if not delays and (user_agent or "*") != "*":
+            delays = [g[2] for g in self._groups_for("*") if g[2]]
+        return max(delays) if delays else None
+
+
 # -- document helpers -------------------------------------------------------
 
 class Unreadable(Exception):
@@ -165,6 +242,37 @@ def pdf_text(raw, pages=None, joiner="\n=====PAGE\n"):
             i for i in pages if i < len(reader.pages)]
         return joiner.join(reader.pages[i].extract_text() or "" for i in idx)
     except Exception as exc:  # pypdf raises a zoo of errors on a damaged file
+        raise Unreadable("PDF could not be read: {0}".format(exc))
+
+
+def pdf_fragments(raw, pages=None, want=None):
+    """Positioned text of a PDF: [(page, x, y, text)] in drawing order, for
+    pages laid out in columns (Ontario's Hansard member list), where plain
+    extraction runs the columns together. `pages` may index from the end
+    (-1 is the last page); `want`, if given, keeps only pages whose plain
+    text contains it."""
+    if not raw or not raw[:5] == b"%PDF-":
+        raise Unreadable("not a PDF ({0} bytes)".format(len(raw or b"")))
+    if b"%%EOF" not in raw[-2048:]:
+        raise Unreadable("truncated PDF: no %%EOF marker in {0} bytes".format(len(raw)))
+    try:
+        import pypdf
+        reader = pypdf.PdfReader(io.BytesIO(raw))
+        n = len(reader.pages)
+        idx = range(n) if pages is None else sorted({i % n for i in pages if -n <= i < n})
+        out = []
+        for i in idx:
+            got = []
+
+            def visit(text, cm, tm, _fd, _fs, got=got):
+                if text and text.strip():
+                    got.append((round(tm[4] * cm[0] + cm[4], 1), round(tm[5] * cm[3] + cm[5], 1), text))
+            plain = reader.pages[i].extract_text(visitor_text=visit) or ""
+            if want and want not in plain:
+                continue
+            out.extend((i, x, y, t) for x, y, t in got)
+        return out
+    except Exception as exc:
         raise Unreadable("PDF could not be read: {0}".format(exc))
 
 

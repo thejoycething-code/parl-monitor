@@ -408,7 +408,13 @@ def summary(conn, prov):
         "sittings": one("SELECT COUNT(*) FROM prov_sittings WHERE prov=?"),
         "recorded": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded'"),
         "recorded_ok": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded' AND positions_ok=1"),
-        "recorded_gap": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded' AND positions_ok=0"),
+        # A division whose source prints totals and no names (Ontario's
+        # dilatory motions) is untrusted but is not a gap: no re-read can
+        # resolve it. Counted apart so a gap count means "owed".
+        "recorded_gap": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded' AND positions_ok=0 "
+                            "AND COALESCE(tally_note, '') NOT LIKE 'totals only%'"),
+        "recorded_totals_only": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='recorded' "
+                                    "AND positions_ok=0 AND tally_note LIKE 'totals only%'"),
         "voice": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND kind='voice'"),
         "ours": one("SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND areas NOT IN ('[]', '')"),
         "votes": one("SELECT COUNT(*) FROM prov_votes v JOIN prov_divisions d USING (division_key) WHERE d.prov=?"),

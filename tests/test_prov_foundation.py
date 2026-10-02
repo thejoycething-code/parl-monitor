@@ -337,6 +337,19 @@ class ContextTests(unittest.TestCase):
         self.assertNotIn("https://x.ca/private/a", client.asked)
         self.assertIn("robots.txt disallows", ctx.gaps[0])
 
+    def test_robots_wildcards_and_a_second_star_group_are_honoured(self):
+        # Ontario's file: the stdlib robotparser drops the second `*` group and
+        # reads `/*?` literally, so it would allow every query string.
+        client = FakeClient({"https://z.ca/robots.txt": "User-agent: *\nDisallow: /core/\n"
+                                                        "Allow: /core/*.css$\n\nUser-agent: *\nDisallow: /*?\n",
+                             "https://z.ca/a/b": "page"})
+        ctx = Context(_conn(), client, "on", log=lambda *a: None)
+        self.assertEqual(ctx.text("https://z.ca/a/b", "b"), "page")
+        self.assertIsNone(ctx.text("https://z.ca/a/b?page=2", "b2"))
+        self.assertNotIn("https://z.ca/a/b?page=2", client.asked)
+        self.assertTrue(ctx.allowed("https://z.ca/core/x.css"))
+        self.assertFalse(ctx.allowed("https://z.ca/core/x.css.map"))   # `$` anchors the end
+
     def test_a_missing_robots_txt_means_no_rules(self):
         client = FakeClient({"https://y.ca/doc": "body"})
         ctx = Context(_conn(), client, "bc", log=lambda *a: None)
