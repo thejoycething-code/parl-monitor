@@ -172,6 +172,14 @@ MASTERS = {
     "en": (MASTER, CONFIG),
     "de": (os.path.join(ROOT, "docs", "keyword-taxonomy-de.md"),
            os.path.join(ROOT, "config", "taxonomy-de.yaml")),
+    # Quebec French (2 October 2026), for the Assemblee nationale collector
+    # (src/ingest/prov_qc.py). "qc", not "fr": the terms are measured against
+    # Quebec's own legislative French ("aide medicale a mourir", "grossesse
+    # pour autrui", "laicite de l'Etat"), which is not the vocabulary of the
+    # French Republic or of Brussels, and a France or EU French layer would
+    # be a different file.
+    "qc": (os.path.join(ROOT, "docs", "keyword-taxonomy-qc.md"),
+           os.path.join(ROOT, "config", "taxonomy-qc.yaml")),
 }
 
 
