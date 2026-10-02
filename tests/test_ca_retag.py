@@ -93,3 +93,14 @@ class RetagTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+
+class BillKeyRetagTests(unittest.TestCase):
+    """3 Oct 2026: the v1.15 Canadian retag refused (ca_divisions 91.8%)
+    because the collectors honour a watched bill KEY and the retag did not."""
+
+    def test_the_retag_applies_bill_key_areas(self):
+        src = open(os.path.join(ROOT, "tools", "ca_retag.py"), encoding="utf-8").read()
+        body = src[src.index("def _rows("):src.index("ca_bills", src.index("def _rows(") + 400)]
+        self.assertIn("add_bill_key_areas", body)

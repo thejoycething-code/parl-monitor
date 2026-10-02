@@ -89,8 +89,12 @@ def _rows(conn, tax, wl):
         fields = [r[4] or ""]
         if r[1] == "senate":
             fields.append(titles.get((r[2], r[3], r[5])) or "")
-        yield ("ca_divisions", "division_key", r[0], r[6], r[7], r[8],
-               _item(filt.filter_item(tax, wl, *fields)))
+        # The collectors also honour a watched bill KEY (3 October 2026:
+        # the 2010-2024 landmarks, C-16 under its generic title), so the
+        # retag must too, or it fails to reproduce exactly those rows.
+        res = ca_store.add_bill_key_areas(filt.filter_item(tax, wl, *fields),
+                                          r[2], r[3], r[5])
+        yield ("ca_divisions", "division_key", r[0], r[6], r[7], r[8], _item(res))
     for r in conn.execute("SELECT bill_key, long_title, short_title, areas, matched_terms, "
                           "tier FROM ca_bills"):
         yield ("ca_bills", "bill_key", r[0], r[3], r[4], r[5],
