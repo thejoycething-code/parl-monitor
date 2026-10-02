@@ -1,10 +1,10 @@
 {
   "asset": "thejoycething-code/parl-monitor release db-state",
-  "bytes": 635744256,
+  "bytes": 635760640,
   "note": "Derived state; the bytes live as a release asset. See tools/db_state.py.",
-  "published_at": "run 36947020935",
-  "published_utc": "2026-10-02T01:09:54Z",
-  "sha256": "8678e0f98523febe19661a74c91089862da0dfb13475a2d257938422150f6929",
+  "published_at": "run 36951072187",
+  "published_utc": "2026-10-02T01:47:21Z",
+  "sha256": "ab1c07de2ef6e88baf0ab915c3285cd10bf16289afc7e574d9ba0a3a2dff4e17",
   "tables": {
     "api_spend": 5014,
     "appg_officers": 24,
