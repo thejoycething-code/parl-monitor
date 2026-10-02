@@ -2,35 +2,70 @@ name: Probe legislature hosts
 
 # 3 October 2026. Nova Scotia (TCP reset), PEI (Radware CAPTCHA) and Yukon
 # (Cloudflare challenge) refused the scoping probe, which ran from a VPN exit
-# in Dublin. Before any of them is written off, this asks the same pages from
-# a GitHub runner -- the IP the collectors would really use -- and prints what
-# came back. Read-only: no store, no commit, nothing published.
+# in Dublin. This asks the same pages from a GitHub runner -- the IP the
+# collectors really use -- and prints what came back.
+#
+# READ-ONLY: no store, no commit, no secrets, nothing published. GET only,
+# with the repo's honest User-Agent, robots.txt honoured, at least `delay`
+# seconds between requests to a host. A bot challenge STOPS that host for the
+# run (tools/probe_hosts.py): it is recorded, never solved or worked around.
+# What was fetched is uploaded as a workflow artifact, for fixtures.
 
 on:
   workflow_dispatch:
+    inputs:
+      urls:
+        description: "Space-separated URLs to fetch first"
+        type: string
+        default: "https://nslegislature.ca/ https://nslegislature.ca/legislative-business/journals https://www.assembly.pe.ca/ https://www.assembly.pe.ca/legislative-business/house-records https://yukonassembly.ca/"
+      follow:
+        description: "Regex: also fetch links on those pages that match it (blank = none)"
+        type: string
+        default: ""
+      max:
+        description: "Most pages fetched in all"
+        type: string
+        default: "10"
+      delay:
+        description: "Seconds between requests to one host (at least 2)"
+        type: string
+        default: "2"
 
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 45
     steps:
-      - name: Ask each host once, politely
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml pypdf==6.14.2
+      - name: Ask each host, politely
+        env:
+          URLS: ${{ inputs.urls }}
+          FOLLOW: ${{ inputs.follow }}
+          MAX: ${{ inputs.max }}
+          DELAY: ${{ inputs.delay }}
         run: |
-          UA="parl-monitor (CitizenGO parliamentary research; https://citizengo.org)"
-          for url in \
-            https://nslegislature.ca/ \
-            https://nslegislature.ca/legislative-business/journals \
-            https://www.assembly.pe.ca/ \
-            https://www.assembly.pe.ca/legislative-business/house-records \
-            https://yukonassembly.ca/ \
-            https://yukonassembly.ca/house-business/votes-proceedings ; do
-            out=$(curl -s -o /tmp/body -w "%{http_code} %{size_download}" -A "$UA" --max-time 30 "$url" || echo "ERR")
-            title=$(grep -o "<title>[^<]*" /tmp/body 2>/dev/null | head -1 | cut -c8-90)
-            flag=""
-            grep -qiE "captcha|cf-chl|challenge-platform|Attention Required|radware" /tmp/body 2>/dev/null && flag="  <-- bot challenge"
-            echo "$url -> $out | $title$flag"
-            sleep 2
-          done
+          if ! [[ "$MAX" =~ ^[0-9]+$ ]]; then MAX=10; fi
+          if [ "$MAX" -gt 400 ]; then MAX=400; fi
+          if ! [[ "$DELAY" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then DELAY=2; fi
+          python3 tools/probe_hosts.py --out probe-out --max "$MAX" --delay "$DELAY" \
+            --follow "$FOLLOW" $URLS | tee probe-out.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: probe-out
+          path: |
+            probe-out
+            probe-out.log
+          retention-days: 7
