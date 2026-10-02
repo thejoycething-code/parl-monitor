@@ -210,9 +210,15 @@ def parse_member_pages(frags):
 
 
 def roster_for_day(ctx, legislature, date, pdf_url):
+    # Was THIS day's cover read already? Terms are widened to each cover
+    # read, so only a term that starts or ends on the day says so; one that
+    # merely spans it does not (2 October 2026, the fault Saskatchewan's
+    # backfill exposed: a member on an early and a late cover but not this
+    # one would be "covered", and a later member missing, so the day's
+    # divisions fail the tally).
     have = ctx.conn.execute(
         "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source='hansard-cover' "
-        "AND start<=? AND end>=?", (PROV, date, date)).fetchone()[0]
+        "AND (start=? OR end=?)", (PROV, date, date)).fetchone()[0]
     if have and not ctx.refresh:
         return have
     if not pdf_url:
