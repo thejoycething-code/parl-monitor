@@ -2,7 +2,7 @@
 """Who said what in House of Commons (and joint) committees, on our issues --
 and which witnesses told them.
 
-    python3 tools/ca_committees.py                         # key eight, current session
+    python3 tools/ca_committees.py                         # key committees, current session
     python3 tools/ca_committees.py --session 44-1 --committee AMAD --limit 3
     python3 tools/ca_committees.py --all-committees        # + title-gated others
     python3 tools/ca_committees.py --dry-run               # read and count, store nothing
@@ -59,11 +59,15 @@ its totals whatever it held, so "never read" differs from "quiet":
   * status 'no_evidence'-- public but no transcript linked yet (a recent
     meeting): re-checked every run from the list, costs nothing.
 
-WHICH COMMITTEES. The key eight (JUST, HESA, FEWO, ETHI, AMAD, SECU, HUMA,
-CHPC): every public meeting. With --all-committees, every other committee
-on the House's committee home page, plus the human-rights subcommittee
-SDIR, but only meetings whose STUDY TITLE matches the taxonomy -- the title
-gate, so 26 committees' worth of Estimates and fisheries is never fetched.
+WHICH COMMITTEES. The key nine (JUST, HESA, FEWO, ETHI, AMAD, SECU, HUMA,
+CHPC, and the international human rights subcommittee SDIR): every public
+meeting. SDIR joined the key committees on 2 October 2026 (Christopher:
+"add SDIR"): its hearings on the persecution of Christians and other
+believers -- Nigeria, say -- match no taxonomy term in their study titles,
+so the title gate below collected nothing from it. With --all-committees,
+every other committee on the House's committee home page, but only meetings
+whose STUDY TITLE matches the taxonomy -- the title gate, so 26 committees'
+worth of Estimates and fisheries is never fetched.
 
 GAPS are printed and recorded (db.record_gaps), never swallowed: a meeting
 list that will not load, an Evidence page with no XML link, an XML that does
@@ -72,7 +76,7 @@ next run retries it. Meetings are independent, so one gap never stops the
 run; MAX_FAILING in a row does (a host that is down), and says so. --limit
 counts meetings ATTEMPTED, so a failing host cannot cost more than the cap.
 
-ONE WRITER AT A TIME on the store. A backfill (~3,400 key-eight meetings
+ONE WRITER AT A TIME on the store. A backfill (~3,400 key-committee meetings
 since 2010, ~3 GB at two fetches each) runs from CI, paced, and announced.
 """
 
@@ -118,11 +122,12 @@ COMMONS = "https://www.ourcommons.ca"
 PARL = "https://www.parl.ca"
 MEETINGS = "{0}/Committees/en/{1}/Meetings?parl={2}&session={3}"
 HOME = COMMONS + "/Committees/en/Home"
-KEY_EIGHT = ("JUST", "HESA", "FEWO", "ETHI", "AMAD", "SECU", "HUMA", "CHPC")
+KEY_COMMITTEES = ("JUST", "HESA", "FEWO", "ETHI", "AMAD", "SECU", "HUMA", "CHPC", "SDIR")
 # Joint committees are served from parl.ca; the ourcommons URL 404s.
 JOINT = frozenset(("AMAD", "REGS", "BILI"))
 # Subcommittees the home page does not list, read under --all-committees.
-EXTRA = ("SDIR",)
+# Empty since SDIR became a key committee; kept for the next one.
+EXTRA = ()
 DEFAULT_LIMIT = 40          # meetings whose evidence is fetched per run
 MAX_FAILING = 5             # consecutive gapped meetings before the run stops: a host down
 WITNESS_TYPES = frozenset(("28",))
@@ -219,7 +224,7 @@ def title_passage(studies):
 
 
 def on_our_ground_title(tax, wl, studies):
-    """The title gate for committees outside the key eight."""
+    """The title gate for committees outside the key committees."""
     t = title_passage(studies)
     if not t:
         return False
@@ -492,7 +497,7 @@ def read_meeting(conn, client, m, tax, wl, today, roster, senators, log):
     return store_meeting(conn, m, date, ivs, tax, wl, today, roster, senators), None
 
 
-def pull(conn, client, today, session=CURRENT_SESSION, committees=KEY_EIGHT,
+def pull(conn, client, today, session=CURRENT_SESSION, committees=KEY_COMMITTEES,
          gated=(), limit=DEFAULT_LIMIT, tax=None, wl=None, log=print, budget=None,
          bases=None):
     """Walk each committee's meeting list for one session and read every
@@ -610,7 +615,7 @@ def main():
     today = datetime.date.today().isoformat()
     conn = ca_store.ensure_schema(db.init_db(db.connect(":memory:" if args.dry_run else args.db)))
     committees = tuple(c.strip().upper() for c in args.committee.split(",")) \
-        if args.committee else KEY_EIGHT
+        if args.committee else KEY_COMMITTEES
     gated, bases = (), {}
     if args.all_committees:
         try:

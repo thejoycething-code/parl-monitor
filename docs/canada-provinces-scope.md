@@ -300,6 +300,14 @@ Christopher, 3 October 2026: "Fix New Brunswick and NL."
 4. **Committee of the Whole with no count: unchanged.** No count exists elsewhere in the record. NB unanimous divisions keep the existing rule (the printed YEAS total is checked).
 5. **Taxonomy false positives: documented, not masked.** Neither is a statute name, and the provincial watchlist cannot remove an area. `config/taxonomy.yaml` was not edited.
 
+### Decisions, 2 October 2026 (afternoon)
+
+Christopher: "Leave NL blank, skip NWT and Nunavut, add SDIR".
+
+1. **NL party before the 51st Assembly stays blank.** No hand-keyed party from Elections NL's reports: they give a label on election day only, and for the 50th Assembly they conflict with the Chief Electoral Officer's own figures. Those votes carry no party, and the 5CA sheets say so; nothing is guessed.
+2. **NWT and Nunavut are skipped.** Neither is built, scheduled or collected, not even as evidence. They are consensus legislatures with no parties, and recorded votes are rare. The scoping notes below are kept in case the decision is revisited.
+3. **SDIR joins the key committees** (federal; tools/ca_committees.py, `KEY_COMMITTEES`), read in full rather than by study title. Recorded here because it came in the same message.
+
 ### Quebec (step 7, built early at Christopher's "all provinces"): `src/ingest/prov_qc.py`
 
 - **robots.txt, read in full.** `urllib.robotparser` keeps only the FIRST `User-agent: *` group, and assnat.qc.ca writes one group per rule: the standard parser reported `/json/` (the vote register's feed) ALLOWED and did not match the six disallowed `Process.aspx` documents. `src/prov_fetch.star_rules` now reads every group naming `*` or us, longest rule first, for every province. The vote register is never requested.
