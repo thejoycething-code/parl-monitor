@@ -43,7 +43,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, drain, prov_store  # noqa: E402
+from src import db, drain, prov_classify as pc, prov_store  # noqa: E402
 from src.http import HttpClient  # noqa: E402
 from src.prov_fetch import Context  # noqa: E402
 
@@ -51,6 +51,7 @@ MODULES = {
     "ab": "src.ingest.prov_ab",
     "sk": "src.ingest.prov_sk",
     "bc": "src.ingest.prov_bc",
+    "qc": "src.ingest.prov_qc",
 }
 NOT_BUILT = {p: "not built yet (docs/canada-provinces-scope.md, build order)"
              for p in prov_store.PROVINCES if p not in MODULES}
@@ -71,18 +72,25 @@ def report(conn, ctx, stats, log=print):
         "ground; {sittings} record(s) read; {recorded} recorded division(s) ({recorded_ok} "
         "tally ok, {recorded_gap} gap); {voice} voice decision(s); {ours} division(s) on our "
         "ground; {votes} vote(s), {unresolved} unresolved".format(**s))
-    log("  Matched against the ENGLISH taxonomy plus config/watchlist-prov.yaml, a "
-        "groundwork draft nobody in Canada has reviewed.")
+    if ctx.prov in pc.FRENCH_LAYERS:
+        log("  French text matched against config/taxonomy-qc.yaml (AI draft, no Quebec reader "
+            "yet), English titles against the English taxonomy, plus config/watchlist-prov.yaml.")
+    else:
+        log("  Matched against the ENGLISH taxonomy plus config/watchlist-prov.yaml, a "
+            "groundwork draft nobody in Canada has reviewed.")
 
 
 def run(conn, client, prov, session=None, since=None, until=None, limit=None,
         budget_seconds=drain.DEFAULT_S, dry_run=False, refresh=False, roster=True,
-        bills=True, log=print, budget=None):
+        bills=True, log=print, budget=None, bill_numbers=None):
     """Drive one province. Returns (stats, gaps)."""
     mod = module_for(prov)
     ctx = Context(conn, client, prov, since=since, until=until, limit=limit,
                   budget=budget or drain.Budget(budget_seconds), dry_run=dry_run,
                   refresh=refresh, log=log)
+    # --bill N: read only these bills' pages (the listing is still read in
+    # full, for the number -> key map). Honoured by qc; the others read all.
+    ctx.bill_numbers = set(bill_numbers) if bill_numbers else None
     stats = mod.collect(ctx, session=session or mod.CURRENT_SESSION,
                         roster=roster, bills=bills) or {}
     if not dry_run:
@@ -111,6 +119,8 @@ def main(argv=None):
                     help="re-read records already read cleanly")
     ap.add_argument("--no-roster", action="store_true")
     ap.add_argument("--no-bills", action="store_true")
+    ap.add_argument("--bill", action="append", metavar="N",
+                    help="read only this bill number's page (repeatable; qc only)")
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     args = ap.parse_args(argv)
     module_for(args.prov)
@@ -123,7 +133,7 @@ def main(argv=None):
                        until=args.until, limit=args.limit,
                        budget_seconds=args.budget_seconds, dry_run=args.dry_run,
                        refresh=args.refresh, roster=not args.no_roster,
-                       bills=not args.no_bills)
+                       bills=not args.no_bills, bill_numbers=args.bill)
     conn.close()
     return 1 if gaps else 0
 
