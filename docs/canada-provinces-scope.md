@@ -493,3 +493,13 @@ pypdf 6.x is installed. `src/ca_gazette_pdf.py`'s column split, using the privat
 - **No CanLII key**, so provincial appeal courts stay out of scope. The SCC collector covers the Supreme Court.
 - **Committees:** every meeting of the key eight (JUST, HESA, FEWO, ETHI, AMAD, SECU, HUMA, CHPC). Other committees are fetched only when a meeting's study title matches the taxonomy.
 - **Witness testimony** is collected for internal use (`ca_testimony`). It is never part of a member's record and never shown on a reader-facing page.
+
+## Re-probe from a GitHub runner (3 October 2026, run 36951730486)
+
+`.github/workflows/probe-hosts.yml` asked the three blocked hosts from the IP the collectors would use:
+
+- **Nova Scotia:** 200 on the home page and the Journals. The reset was the VPN exit, not us.
+- **PEI:** 200 on the home page; the house-records page redirects (302). Also the VPN exit.
+- **Yukon:** 403 with a Cloudflare "Just a moment..." challenge, from the runner too. **Out of reach.** We do not work around bot challenges. If Yukon matters, ask the Assembly's clerk for access or a data export.
+
+Nova Scotia and PEI can be built. Their live probes and fixtures must come from CI, because the laptop's VPN exit is still refused.
