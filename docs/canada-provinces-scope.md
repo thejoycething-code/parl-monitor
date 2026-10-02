@@ -103,6 +103,24 @@ Nothing schedules these collectors and nothing outside `tools/prov_*.py` reads t
   - Hansard speeches are not read.
   - Without `--since`, a run reads the last 60 days and says so.
 
+### British Columbia (step 3): `src/ingest/prov_bc.py`
+
+- **What it does:**
+  - **Sessions:** from the LIMS GraphQL API (POST only). `43-2` becomes id 206 and path code `43rd2nd`.
+  - **Roster:** `allMemberParliaments`, with by-election and resignation dates as term bounds.
+  - **Bills:** the progress-of-bills JSON, which gives reading dates, sponsor memberId and the text-file paths. Texts are served under `lims.leg.bc.ca/pdms` and classified per passage.
+    - The trap is guarded: a reply whose file paths do not name the session's code (an unknown key answers 2006 data) is refused as a gap.
+  - **Transcripts:** the House files in the session's debates JSON listing.
+  - **Divisions:** each `DivisionTable` in a transcript, with the Speaker's question, the StyleLine result, the Subject-Heading and the debate passages under it, all used for classification.
+  - **Unnumbered bills:** a bill refused first reading is stored from the transcript as `bc-<leg>-<sess>/x-<slug>`.
+  - **Voice decisions:** a reading date on a day whose transcripts were ALL read, with no recorded division on that bill and stage, is stored as a voice decision.
+- **Proof reproduced:** the Gender Ideology and Child Protection Act was refused first reading on 19 February 2026, 38–49, tally matched. Rustad, Armstrong and Brodie voted Yea; Eby, Dix and Sharma voted Nay. The two Neufelds and two Andersons were told apart by initial. The bill is stored unnumbered with areas 3 and 6.
+- **Known limits:**
+  - **Party is NOT stored at the vote for BC.** The API has one party per member per parliament and no dates. Armstrong and Brodie, who left the Conservative caucus in 2025, show Independent for the whole parliament, so `party_dated = 0` and `party_at_vote` stays NULL.
+    - A dated source is needed: the caucus history, or the per-member Voting Records index read against a dated caucus list.
+  - The per-member Voting Records index (`Index/43rd2nd/2026-Votes?.htm`) is not read. It would give a second, independent tally check and each vote's stage label.
+  - Hansard speeches are not stored.
+
 ---
 
 ## Per-legislature detail
