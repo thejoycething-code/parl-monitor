@@ -126,7 +126,10 @@ jobs:
       - name: Install dependencies
         # pypdf is pinned, as in ca-weekly: the provincial PDF readers use its
         # layout fragments (src/prov_fetch.pdf_fragments).
-        run: pip install pyyaml pypdf==6.14.2
+        # cryptography: pypdf needs it for AES-encrypted PDFs (2 October 2026:
+        # seven Alberta 31-1 bill texts failed "cryptography>=3.1 is required
+        # for AES algorithm" and were classified on their titles only).
+        run: pip install pyyaml pypdf==6.14.2 cryptography
       - name: Fetch the store
         id: fetch
         env:
