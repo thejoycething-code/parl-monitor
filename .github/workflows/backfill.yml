@@ -227,6 +227,10 @@ jobs:
           head -4 /tmp/baseline-taxonomy.yaml | grep -i version
           python3 tools/retag_items.py --apply --baseline /tmp/baseline-taxonomy.yaml | tee /tmp/bf-retag.log
           python3 tools/retag_passages.py --apply | grep -vE "^  (Spoke| +areas| +excerpt)" | tee -a /tmp/bf-retag.log
+          # NI division areas are owned by ni_classify (offline, from the
+          # archived Hansard); it also honours areas a signed verdict states
+          # for a clause vote with no text (3 Oct 2026).
+          python3 tools/ni_classify.py --apply | grep -vE "^      " | tee -a /tmp/bf-retag.log
           # Signed verdicts are re-applied after a retag: a division the new
           # taxonomy tags may already carry one (2 Oct 2026: the Welsh
           # smacking-ban and Curriculum Bills). Offline, no model.

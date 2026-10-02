@@ -294,6 +294,19 @@ class NorthernIrelandTests(unittest.TestCase):
         self.assertEqual(sorted(k for k, v in by.items() if v.get("not_ours")),
                          ["369499", "448609", "449970", "449976", "475390"])
 
+    def test_a_stated_area_reaches_a_textless_clause_vote(self):
+        """3 Oct 2026: the trafficking clause 6 and fetal-impairment clause 1
+        verdicts were signed but untagged, so they reached no page."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "ni_classify", os.path.join(ROOT, "tools", "ni_classify.py"))
+        nc = importlib.util.module_from_spec(spec); spec.loader.exec_module(nc)
+        stated = nc.stated_areas()
+        self.assertEqual(stated.get("211082"), [12])
+        self.assertEqual(stated.get("360779"), [1])
+        src = open(os.path.join(ROOT, "tools", "ni_classify.py"), encoding="utf-8").read()
+        self.assertIn("if not areas and str(row[\"doc_id\"]) in stated:", src)
+
     def test_the_classifier_honours_the_strike(self):
         """ni_classify is the only writer of ni_divisions.areas and re-derives
         them weekly, so the strike must live there or return on Thursday."""

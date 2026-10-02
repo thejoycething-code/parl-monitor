@@ -548,6 +548,7 @@ divisions:
   # clause 1 and are left out.
   - key: "211082"
     dated: 2014-10-20
+    areas: [12]   # stated: the clause has no text to classify (tools/ni_classify.stated_areas)
     issue: prostitution-trafficking
     stage: "Consideration Stage, Human Trafficking and Exploitation Bill, Clause 6"
     landmark: true
@@ -572,6 +573,7 @@ divisions:
 
   - key: "360779"
     dated: 2021-12-14
+    areas: [1]   # stated: the clause has no text to classify (tools/ni_classify.stated_areas)
     issue: abortion
     stage: "Consideration Stage, Severe Fetal Impairment Abortion (Amendment) Bill, Clause 1"
     landmark: true

@@ -70,7 +70,8 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.10 (29 September 2026): "Marriage (Same Sex Couples)" in area 9.
         # v1.11 (the same day): the broader same-sex marriage phrases.
         # v1.12 (2 October 2026): two Welsh parental-rights Bills in area 6.
-        self.assertEqual(version, "1.12")
+        # v1.13 (3 October 2026): the named person and the Scottish smacking ban.
+        self.assertEqual(version, "1.13")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -505,3 +506,21 @@ class WelshParentalRightsBillsTests(unittest.TestCase):
 
     def test_englands_curriculum_review_is_not_caught(self):
         self.assertNotIn(6, self._areas("Curriculum and Assessment Review: final report"))
+
+
+class ScottishParentalRightsTests(unittest.TestCase):
+    """v1.13: five signed Holyrood verdicts sat on untagged divisions."""
+
+    def _areas(self, text):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_the_holyrood_titles_reach_parental_rights(self):
+        for text in ("Named Persons", "the named persons scheme",
+                     "Children (Equal Protection from Assault) (Scotland) Bill"):
+            self.assertIn(6, self._areas(text), text)
+
+    def test_named_personality_is_not_caught(self):
+        self.assertNotIn(6, self._areas("Jamie O'Rourke Named Personality of the Year 2024"))

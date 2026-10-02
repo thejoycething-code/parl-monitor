@@ -108,8 +108,26 @@ def not_ours_keys():
     return {str(d["key"]) for d in divs if d.get("not_ours")}
 
 
+def stated_areas():
+    """Areas a SIGNED verdict states for itself, used only when the text
+    yields none (3 October 2026). A clause-stand-part vote carries no
+    wording at all -- "Clause 6 stand part" of the Human Trafficking Bill is
+    Lord Morrow's paying-for-sex offence -- so the classifier rightly tags
+    nothing, and a verdict Christopher signed then appeared on no page and
+    placed nobody. The human who read the Bill states the area; the
+    classifier never overrides text it did match."""
+    import yaml
+    path = os.path.join(ROOT, "config", "nia_votes.yaml")
+    if not os.path.exists(path):
+        return {}
+    divs = (yaml.safe_load(open(path, encoding="utf-8")) or {}).get("divisions") or []
+    return {str(d["key"]): list(d["areas"]) for d in divs
+            if d.get("signed_off") and d.get("areas") and not d.get("not_ours")}
+
+
 def main():
     struck = not_ours_keys()
+    stated = stated_areas()
     apply = "--apply" in sys.argv
     want = None
     if "--area" in sys.argv:
@@ -165,6 +183,9 @@ def main():
             else:
                 no_text += 1
             areas, terms, excerpt = classify(tax, wl, ev)
+            if not areas and str(row["doc_id"]) in stated:
+                areas = stated[str(row["doc_id"])]
+                terms = terms or ["(stated in config/nia_votes.yaml)"]
             if str(row["doc_id"]) in struck:
                 areas = []          # a human read the Record; the title lies
             before = json.loads(row["areas"] or "[]")
