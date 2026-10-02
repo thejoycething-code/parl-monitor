@@ -132,7 +132,9 @@ class ClassificationTests(unittest.TestCase):
     def test_bill_26_text_is_area_3_and_not_organ_donation(self):
         res = pc.classify(self.tax, self.wl, "ab", title="Health Statutes Amendment Act, 2024 (No. 2)",
                           texts=[fx("ab_bill26_excerpt.txt")])
-        self.assertEqual((res.areas, res.tier), ([3], 1))
+        # Area 5 too since taxonomy v1.15 (3 Oct 2026): the bill's text says
+        # "gender identity or gender expression".
+        self.assertEqual((res.areas, res.tier), ([3, 5], 1))
 
     def test_bill_27_text_is_area_6_on_pronouns_and_notification(self):
         res = pc.classify(self.tax, self.wl, "ab", title="Education Amendment Act, 2024",
