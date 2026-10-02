@@ -76,7 +76,7 @@ def report(conn, ctx, stats, log=print):
         "ground; {sittings} record(s) read; {recorded} recorded division(s) ({recorded_ok} "
         "tally ok, {recorded_gap} gap, {recorded_totals_only} totals only); {voice} voice decision(s); "
         "{ours} division(s) on our "
-        "ground; {votes} vote(s), {unresolved} unresolved".format(**s))
+        "ground; {votes} vote(s), {unresolved} unresolved, {with_party} with a dated party at the vote".format(**s))
     if ctx.prov in pc.FRENCH_LAYERS:
         log("  French text matched against config/taxonomy-qc.yaml (AI draft, no Quebec reader "
             "yet), English titles against the English taxonomy, plus config/watchlist-prov.yaml.")
