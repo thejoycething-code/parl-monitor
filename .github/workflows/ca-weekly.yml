@@ -85,6 +85,16 @@ on:
         description: "Repair members' names/parties/ridings from the rosters (six pages)"
         type: boolean
         default: false
+      # THE FEDERAL BACKFILLS TO 2010 (Christopher, 2 October 2026: "Go ahead
+      # with all four"). One input naming its parts, any of: senate (floor
+      # debates since 40-3, oldest first), committees (the key eight's
+      # evidence, 44-1 back to 40-3), courts (SCC judgments by year index
+      # since 2010). Each part drains on a 45-minute clock and resumes on the
+      # next dispatch; dispatch ONE part a run, as announced, from CI.
+      federal_backfill:
+        description: "Federal backfill parts to run: senate committees courts (one a run)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -143,7 +153,7 @@ jobs:
     # 60 for the weekly since the judge step (27 September 2026): collection
     # takes ~5 minutes and the judge's clock is 20 by default, 45 at most, and
     # a job killed by its timeout never reaches "Publish the store".
-    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || ((inputs.backfill || inputs.retag || inputs.rollcall_sessions != '') && 120 || 90) }}
+    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || ((inputs.backfill || inputs.retag || inputs.rollcall_sessions != '' || inputs.federal_backfill != '') && 120 || 90) }}
     env:
       # Unbuffered, or a step killed mid-run leaves an empty log (the EU
       # weekly's 30-minute kill read as an empty log, not a timeout).
@@ -287,6 +297,33 @@ jobs:
         run: |
           set -f   # the globs are for SQLite, not the shell
           python3 tools/ca_gazette.py --since "$SINCE" --budget-seconds 3000 ${FORGET:+--forget $FORGET} | tee /tmp/ca-old-gazette.log
+
+      # --- The federal backfills to 2010, only when named at dispatch --------
+      # 2,700 s each, so one part plus the weekly and the judge ends inside
+      # the 120-minute wall. Each tool skips what it has read, so the next
+      # dispatch carries on; a run that reads nothing new says so in its
+      # summary line ("0 sitting(s) read", "0 meeting(s) read", "0
+      # judgment(s) read"), which is how the chain knows a part is done.
+      - name: "Federal backfill: Senate debates since 40-3"
+        if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'senate')
+        run: python3 tools/ca_senate_debates.py --backfill --limit 400 --budget-seconds 2700 | tee /tmp/ca-fb-senate.log
+      - name: "Federal backfill: the key eight committees, 44-1 back to 40-3"
+        if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'committees')
+        run: |
+          # One clock across the sessions, newest first: 44-1 is the one a
+          # campaigner is likeliest to need, and a run cut short leaves the
+          # oldest for the next dispatch.
+          rc=0; end=$((SECONDS + 2700))
+          for s in 44-1 43-2 43-1 42-1 41-2 41-1 40-3; do
+            left=$((end - SECONDS)); [ "$left" -lt 180 ] && { echo "  clock spent before $s; the next dispatch carries on"; break; }
+            python3 tools/ca_committees.py --session "$s" --limit 400 --budget-seconds "$left" | tee -a /tmp/ca-fb-committees.log || rc=1
+          done
+          exit $rc
+      - name: "Federal backfill: Supreme Court judgments since 2010"
+        # Lexum's Norma CAPTCHA stops the tool at the first challenge and it
+        # is never worked around: 3 s a request, 200 item pages a run.
+        if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'courts')
+        run: python3 tools/ca_courts.py --backfill --since 2010 --limit 200 --budget-seconds 2700 | tee /tmp/ca-fb-courts.log
 
       - name: Refresh members from the rosters (a repair)
         if: always() && steps.fetch.outcome == 'success' && inputs.refresh_members
