@@ -19,7 +19,9 @@ no rules. No WAF.
     division, that day's Hansard cover is read and each member's term is
     widened to cover exactly that day (prov_store.extend_term). Party at the
     vote is then a fact of the day. The standings are the roster's own
-    tally check.
+    tally check. The 26th and 27th Legislatures (to spring 2016) print a
+    table instead ("Boyd, Hon. Bill SP Kindersley"), with no standings:
+    parse_table_cover.
   * DIVISIONS. Minutes ("Votes and Proceedings"). From the 30th Legislature
     an HTML edition (Word export, windows-1252) prints each recorded division
     as a table with one full name per paragraph ("Scott Moe"). Before it, the
@@ -135,9 +137,65 @@ _COVER = re.compile(r"^\s*(?P<sur>[^,—]+?),\s*(?P<given>[^—]+?)\s+[—–]\s
                     r"(?P<riding>.+?)\s+\((?P<party>[^()]+)\)\s*$")
 
 
+# THE 26th AND 27th LEGISLATURE COVER (measured 2 October 2026 on nine covers,
+# March 2010 to November 2015; every cover from the 28th Legislature, June
+# 2016 on, is the layout above). A three-column table, party BEFORE riding,
+# party as a bare code, and no "Party Standings" line:
+#
+#   Name of Member Political Affiliation Constituency
+#   Belanger, Buckley NDP Athabasca
+#   Boyd, Hon. Bill SP Kindersley
+#   Huyghebaert, D.F. (Yogi) SP Wood River
+#   Vacant  Prince Albert Carlton
+#
+# The codes are the ones the newer covers print in brackets ("(SP)", "(NDP)"),
+# so a member's party reads the same across the change.
+_TABLE_HEAD = re.compile(r"^\s*Name of Member\s+Political Affiliation\s+Constituency\s*$", re.M)
+_TABLE_ROW = re.compile(r"^(?P<sur>[^,]+?),\s*(?P<given>.+?)\s+(?P<party>[A-Z]{2,4}|Ind\.?)\s+"
+                        r"(?P<riding>[A-Z].*?)\s*$")
+_VACANT = re.compile(r"^Vacant\b")
+
+
+def _member(surname, given, riding, party):
+    given = " ".join(t for t in given.split() if pn.fold(t).rstrip(".") not in pn.HONORIFICS)
+    surname = surname.strip()
+    return {"surname": surname, "given": given, "riding": riding.strip(),
+            "party": party.strip(), "key": slug(given + " " + surname)}
+
+
+def parse_table_cover(text):
+    """(members, listed) from the 26th-27th Legislature's table cover, or
+    None when the text has no such table. There are no standings to check
+    against, so `listed` is the number of member lines the table prints
+    (every non-blank line under the header that is not "Vacant"): a line the
+    pattern misses makes listed != len(members), and roster_for_day records
+    that as a gap, exactly as a standings mismatch is recorded."""
+    m = _TABLE_HEAD.search(text or "")
+    if not m:
+        return None
+    body = text[m.end():].split("=====PAGE")[0]
+    members, listed = [], 0
+    for line in body.splitlines():
+        s = line.strip()
+        if not s or _VACANT.match(s):
+            continue
+        listed += 1
+        row = _TABLE_ROW.match(s)
+        if row:
+            members.append(_member(row.group("sur"), row.group("given"), row.group("riding"),
+                                   row.group("party")))
+    return members, listed
+
+
 def parse_cover(text):
     """(members, standings_total) from a Hansard PDF's second page.
-    members: [{surname, given, riding, party, key}]"""
+    members: [{surname, given, riding, party, key}]. Either layout: the
+    26th-27th Legislature table (parse_table_cover, whose total is the count
+    of member lines it prints) or the "Surname, Given — Riding (Party)" list
+    with its Party Standings from the 28th on."""
+    table = parse_table_cover(text)
+    if table is not None:
+        return table
     lines = (text or "").splitlines()
     joined, buf = [], ""
     for l in lines:
@@ -154,10 +212,7 @@ def parse_cover(text):
         m = _COVER.match(s)
         if not m or s.startswith(("Speaker", "Premier", "Leader", "Lieutenant", "Clerk")):
             continue
-        given = " ".join(t for t in m.group("given").split() if pn.fold(t).rstrip(".") not in pn.HONORIFICS)
-        surname = m.group("sur").strip()
-        members.append({"surname": surname, "given": given, "riding": m.group("riding").strip(),
-                        "party": m.group("party").strip(), "key": slug(given + " " + surname)})
+        members.append(_member(m.group("sur"), m.group("given"), m.group("riding"), m.group("party")))
     stand = re.search(r"Standings(.*?)(?:Clerks|$)", text or "", re.S)
     total = sum(int(n) for n in re.findall(r"\)\s*[—–-]\s*(\d+)", stand.group(1))) if stand else None
     return members, total
@@ -169,9 +224,16 @@ def roster_for_day(ctx, rec):
     if not url:
         ctx.gap("sk {0}: no Hansard PDF listed for the day, so no roster as at the day".format(rec["date"]))
         return 0
+    # Was THIS day's cover read already? A term starts and ends only on a day
+    # whose cover was read, so a term that starts or ends on the day says so.
+    # A term that merely spans the day does not: read 2012-03-29 after
+    # 2015-11-26 and every member on both is "covered" on 2012-04-23 -- but
+    # McMillan and Hickie, on the 2012 cover but not the 2015 one, are not,
+    # and five 2012 divisions failed the tally (measured 2 October 2026 on a
+    # scratch store).
     have = ctx.conn.execute(
         "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source='hansard-cover' "
-        "AND start<=? AND end>=?", (PROV, rec["date"], rec["date"])).fetchone()[0]
+        "AND (start=? OR end=?)", (PROV, rec["date"], rec["date"])).fetchone()[0]
     if have and not ctx.refresh:
         return have
     raw = ctx.bytes(url, "debates-{0}".format(rec["date"]))
@@ -215,8 +277,11 @@ HEADER = re.compile(r"^\s*(YEAS|NAYS)(?:\s*/\s*(?:POUR|CONTRE))?\s*[—–-]+\s*
 _BILL = re.compile(r"Bill No\.\s*(\d+)\s*[—–-]\s*(.+?)"
                    r"(?=\s+(?:be now read|Projet de loi|/|Moved|The Hon|The Assembly|\[)|\s*$)")
 _STAGE = re.compile(r"read (?:a|the)\s+(first|second|third)\s+time", re.I)
-_RESULT = re.compile(r"it was (agreed to|negatived)", re.I)
-_VOICE = re.compile(r"it was (agreed to|negatived) and the said bill was accordingly read (?:a|the)\s+"
+# "which was agreed to on the following Recorded Division" (26th-27th
+# Legislature, when the Speaker puts the question under a rule) and "it was
+# a greed to" (a spaced PDF word, 24 November 2016) are the same results.
+_RESULT = re.compile(r"(?:it|which) was (a\s?greed to|negatived)", re.I)
+_VOICE = re.compile(r"it was (agreed to|negatived) and the said bill was,? accordingly,? read (?:a|the)\s+"
                     r"(first|second|third)\s+time", re.I)
 _PUT_ON = re.compile(r"question being put on the (motion as amended|motion|amendment|subamendment|sub-amendment)",
                      re.I)
@@ -256,10 +321,36 @@ def _paras(fragment):
     return out
 
 
+_DROP_CAP = re.compile(r"^\s*[A-Z]\s*$")
+_DROP_TAIL = re.compile(r"^\s*(?:[A-Z]{2}|[a-z])")
+
+
+def join_drop_caps(lines):
+    """The 27th Legislature's Minutes open headings and paragraphs with a drop
+    capital, which the PDF text gives as a line of its own: "Y" then
+    "EAS – 9", "A" then "DJOURNED DEBATES", "B" then "ill No. 127", "T" then
+    "he question being put" (measured 2 October 2026 on 12 March 2014 and 19
+    November 2015). A lone capital followed by a line that goes on in
+    capitals, or in lower case, is one line; "A" before "Bill No." is not."""
+    out, i = [], 0
+    while i < len(lines):
+        if (_DROP_CAP.match(lines[i]) and i + 1 < len(lines) and _DROP_TAIL.match(lines[i + 1])):
+            out.append(lines[i].strip() + lines[i + 1].strip())
+            i += 2
+            continue
+        out.append(lines[i])
+        i += 1
+    return out
+
+
+def _is_heading(line):
+    return len(line) > 3 and re.sub(r"[^A-Za-z]", "", line).isupper()
+
+
 def blocks_from_pdf(text, vocab):
     """The 29th-Legislature PDF as blocks: an all-caps line is a heading, a
     YEAS/NAYS header opens a name run, everything else is prose."""
-    lines = (text or "").splitlines()
+    lines = join_drop_caps((text or "").splitlines())
     tokens = pn.vocab_tokens(vocab)
     out, i, n = [], 0, len(lines)
     while i < n:
@@ -276,7 +367,11 @@ def blocks_from_pdf(text, vocab):
                     if pn.is_furniture(l):
                         i += 1
                         continue
-                    if HEADER.match(l.strip()) or not pn.is_name_line(l, tokens):
+                    # A heading in capitals ends the run even with no blank
+                    # line before it ("ADJOURNED DEBATES", 12 March 2014):
+                    # the members' names are never printed in capitals.
+                    if (HEADER.match(l.strip()) or _is_heading(l.strip())
+                            or not pn.is_name_line(l, tokens)):
                         break
                     got.append(l)
                     i += 1
@@ -287,7 +382,7 @@ def blocks_from_pdf(text, vocab):
             continue
         if pn.is_furniture(line):
             pass
-        elif len(line) > 3 and re.sub(r"[^A-Za-z]", "", line).isupper():
+        elif _is_heading(line):
             out.append(("h", line))
         else:
             out.append(("p", line))
@@ -357,7 +452,8 @@ def parse_minutes(blocks):
             "seq": len(divisions) + 1, "yeas": printed.get("Yea"), "nays": printed.get("Nay"),
             "yea_labels": labels.get("Yea", []), "nay_labels": labels.get("Nay", []),
             "question": text[-700:] or None,
-            "result": ("it was " + res[-1]) if res else None,
+            "result": ("it was " + ("negatived" if res[-1].lower() == "negatived" else "agreed to"))
+                      if res else None,
             "vote_on": ("amendment" if put and "amend" in put[-1].lower() and "as amended" not in put[-1].lower()
                         else "motion"),
             "stage": stage, "bill_number": bill,
@@ -390,6 +486,17 @@ def _vocab(resolver):
     return vocab
 
 
+def has_division(text):
+    """Does the day's Minutes record a division, so that the day's roster is
+    needed? The phrase wraps in the 28th Legislature's PDF ("... on the
+    following Recorded" / "Division:", 2 June and 24 November 2016, where
+    the roster was never read and nobody resolved), so it is matched across
+    the line break, and a YEAS or NAYS header line counts on its own."""
+    if re.search(r"recorded\s+division", text or "", re.I):
+        return True
+    return any(HEADER.match(l) for l in join_drop_caps((text or "").splitlines()))
+
+
 def read_sitting(ctx, rec, wl):
     url = rec["minutes_html"] or rec["minutes_pdf"]
     leg, sess, date = rec["legislature"], rec["session"], rec["date"]
@@ -411,7 +518,7 @@ def read_sitting(ctx, rec, wl):
             ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")
             return 0, 1
         quick = raw
-    if "recorded division" in quick.lower():
+    if has_division(quick):
         roster_for_day(ctx, rec)
     resolver = pn.Resolver.from_conn(ctx.conn, PROV)
     vocab = _vocab(resolver)

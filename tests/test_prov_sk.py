@@ -80,6 +80,141 @@ class CoverTests(unittest.TestCase):
         self.assertEqual((len(members), total), (61, 61))
 
 
+class OldCoverTests(unittest.TestCase):
+    """The 26th and 27th Legislature cover (2010 to spring 2016): a table,
+    party code before riding, no standings. Fixtures are the real second
+    pages of the 9 December 2010 and 19 November 2015 Hansards."""
+
+    def test_the_2015_table_cover_is_the_dated_roster(self):
+        members, total = sk.parse_cover(fx("sk_cover_151119.txt"))
+        self.assertEqual((len(members), total), (57, 57))          # 58 seats, one vacant
+        by = {m["key"]: m for m in members}
+        self.assertEqual((by["scott-moe"]["party"], by["scott-moe"]["riding"]), ("SP", "Rosthern-Shellbrook"))
+        self.assertEqual((by["cam-broten"]["party"], by["cam-broten"]["riding"]), ("NDP", "Saskatoon Massey Place"))
+        # Party is the day's: SP here, 'Ind.' on the 2023 cover.
+        self.assertEqual((by["nadine-wilson"]["given"], by["nadine-wilson"]["party"]), ("Nadine", "SP"))
+        self.assertEqual(by["d-f-yogi-huyghebaert"]["surname"], "Huyghebaert")
+        self.assertEqual(by["laura-ross"]["riding"], "Regina Qu’Appelle Valley")
+        self.assertFalse([m for m in members if "Vacant" in m["surname"] or "Albert Carlton" in m["riding"]])
+        self.assertFalse([m for m in members if m["surname"] in ("Speaker", "Premier")])
+        # the same member keys as the newer layout gives
+        new = {m["key"] for m in sk.parse_cover(fx("sk_cover_231020.txt"))[0]}
+        self.assertIn("scott-moe", new & set(by))
+
+    def test_the_2010_table_cover(self):
+        members, total = sk.parse_cover(fx("sk_cover_101209.txt"))
+        self.assertEqual((len(members), total), (58, 58))
+        by = {m["key"]: m for m in members}
+        self.assertEqual((by["tim-mcmillan"]["party"], by["tim-mcmillan"]["riding"]), ("SP", "Lloydminster"))
+        self.assertEqual(by["dwain-lingenfelter"]["party"], "NDP")
+
+    def test_a_line_the_table_pattern_misses_is_counted_not_dropped(self):
+        text = fx("sk_cover_151119.txt").replace("Young, Colleen SP Lloydminster",
+                                                 "Young, Colleen Lloydminster")
+        members, total = sk.parse_cover(text)
+        self.assertEqual((len(members), total), (56, 57))          # roster_for_day records the gap
+
+    def test_drop_capitals_rejoin(self):
+        self.assertEqual(sk.join_drop_caps(["Y", "EAS – 9", "B", "ill No. 127", "T", "he question",
+                                            "A", "Bill No. 5"]),
+                         ["YEAS – 9", "Bill No. 127", "The question", "A", "Bill No. 5"])
+
+    def test_bill_609_second_reading_negatived_9_36(self):
+        """19 November 2015: drop-capital headers ('Y' / 'EAS – 9') and a
+        NAYS list that runs over a page break."""
+        conn = conn_from_cover("sk_cover_151119.txt", "2015-11-19", 27)
+        r = pn.Resolver.from_conn(conn, "sk")
+        divisions, voices, titles = sk.parse_minutes(
+            sk.blocks_from_pdf(fx("sk_minutes_151119_trim.txt"), sk._vocab(r)))
+        self.assertEqual(len(divisions), 1)
+        d = divisions[0]
+        self.assertEqual((d["yeas"], d["nays"], d["bill_number"], d["stage"], d["result"]),
+                         (9, 36, "609", "Second Reading", "it was negatived"))
+        self.assertEqual(titles["609"], "The Residents-in-Care Bill of Rights Act")
+        votes, ok, note = sk.resolve_division(d, r, "2015-11-19", 27)
+        self.assertTrue(ok, note)
+        by = {v["member_key"]: v for v in votes}
+        self.assertEqual((by["cam-broten"]["position"], by["cam-broten"]["party_at_vote"]), ("Yea", "NDP"))
+        self.assertEqual((by["scott-moe"]["position"], by["scott-moe"]["party_at_vote"]), ("Nay", "SP"))
+        self.assertEqual(by["kevin-phillips"]["position"], "Nay")          # after the page break
+
+    def test_a_heading_in_capitals_ends_a_name_run(self):
+        """12 March 2014: 'ADJOURNED DEBATES' follows the NAYS with no blank
+        line, and was read as three more Nays (6 read, 3 printed)."""
+        vocab = set()
+        for cover in ("sk_cover_101209.txt", "sk_cover_151119.txt"):
+            vocab |= {tuple(pn.fold(m["surname"]).split()) for m in sk.parse_cover(fx(cover))[0]}
+        divisions, voices, _ = sk.parse_minutes(sk.blocks_from_pdf(fx("sk_minutes_140312_trim.txt"), vocab))
+        self.assertEqual(len(divisions), 1)
+        d = divisions[0]
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"])), (38, 3, 38))
+        self.assertEqual(d["nay_labels"], ["Forbes", "Chartier", "Nilson"])
+        # "was, accordingly, read a second time": a voice decision
+        self.assertEqual([(v["bill_number"], v["stage"]) for v in voices], [("127", "Second Reading")])
+
+    def test_which_was_agreed_to_is_the_result(self):
+        """2 April 2015: the Speaker puts the question under a rule, 'which
+        was agreed to on the following Recorded Division'; the NAYS header
+        opens the next page."""
+        vocab = {tuple(pn.fold(m["surname"]).split()) for m in sk.parse_cover(fx("sk_cover_151119.txt"))[0]}
+        divisions, _, _ = sk.parse_minutes(sk.blocks_from_pdf(fx("sk_minutes_150402_trim.txt"), vocab))
+        self.assertEqual([(d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"]), d["result"])
+                          for d in divisions], [(39, 5, 39, 5, "it was agreed to")])
+
+    def test_a_wrapped_recorded_division_still_reads_the_roster(self):
+        """24 November 2016 (28th Legislature): '... on the following
+        Recorded' / 'Division:' -- the day's roster was never read and none
+        of the 56 Yeas resolved."""
+        text = fx("sk_minutes_161124_trim.txt")
+        self.assertNotIn("recorded division", text.lower())
+        self.assertTrue(sk.has_division(text))
+        self.assertTrue(sk.has_division("Y\nEAS – 9\n"))
+        self.assertFalse(sk.has_division("it was read the third time and passed"))
+        d = sk.parse_minutes(sk.blocks_from_pdf(text, set()))[0][0]
+        self.assertEqual(d["result"], "it was agreed to")              # "it was a greed to"
+
+    def test_a_term_spanning_the_day_does_not_skip_its_cover(self):
+        """Covers read out of order (2015, then 2012) widen a term across
+        2012-04-23 without that day's cover being read; the day must still
+        read its own."""
+        conn = db.init_db(db.connect(":memory:"))
+        for day in ("2012-03-29", "2015-11-19"):
+            ps.upsert_member(conn, "sk", "scott-moe", name="Scott Moe", surname="Moe", given="Scott")
+            ps.extend_term(conn, "sk", "scott-moe", 27, "SP", "Rosthern-Shellbrook", day, "hansard-cover")
+        url = "https://docs.legassembly.sk.ca/legdocs/Assembly/Debates/27L1S/120423Debates.pdf"
+        client = _Client({url: "%PDF-cover"})
+        ctx = Context(conn, client, "sk", log=lambda *a: None)
+        ctx.allowed = lambda u: True
+        saved = sk.pdf_text
+        sk.pdf_text = lambda raw, pages=None: fx("sk_cover_151119.txt")
+        try:
+            n = sk.roster_for_day(ctx, {"date": "2012-04-23", "legislature": 27, "debates": url})
+            self.assertEqual(n, 57)
+            self.assertEqual(client.asked, [url])
+            # read once, the day is now an end of every term: not read again
+            self.assertTrue(sk.roster_for_day(ctx, {"date": "2012-04-23", "legislature": 27, "debates": url}))
+            self.assertEqual(client.asked, [url])
+        finally:
+            sk.pdf_text = saved
+
+
+class OldHansardTests(unittest.TestCase):
+    def test_a_spaced_honorific_stop_still_resolves(self):
+        """25 November 2015: 'Hon. Mr . Duncan : —' was the one unresolved
+        speaker of 69."""
+        from src import prov_speeches as sp
+        from src.ingest import prov_sk_hansard as skh
+        turns = skh.parse_pdf(fx("sk_debates_151125_trim.txt"))
+        labels = [t["label"] for t in turns]
+        self.assertIn("Hon. Mr. Duncan", labels)
+        conn = conn_from_cover("sk_cover_151119.txt", "2015-11-25", 27)
+        r = pn.Resolver.from_conn(conn, "sk")
+        keys = sp.resolve_turns(conn, "sk", r, turns, "2015-11-25", 27)
+        by = {t["label"]: k[0] for t, k in zip(turns, keys)}
+        self.assertEqual(by["Hon. Mr. Duncan"], "dustin-duncan")
+        self.assertEqual(by["Hon. Mr. Wall"], "brad-wall")
+
+
 class ProofTests(unittest.TestCase):
     def setUp(self):
         self.conn = conn_from_cover("sk_cover_231020.txt", DATE, 29)

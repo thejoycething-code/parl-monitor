@@ -63,6 +63,7 @@ _FURNITURE = re.compile(
     r"\s+\d{1,2},\s+\d{4})?|" + _MONTH + r"\s+\d{1,2},\s+\d{4}|\[\d{1,2}:\d{2}\]|\d{1,4})$")
 _LABEL = re.compile(r"^(?P<l>[A-Z][^:]{1,90}?)\s*:\s*[—–]\s*(?P<r>.*)$", re.S)
 _CAPS = re.compile(r"^[A-Z0-9 ,.'’()\-—–&/]+$")
+_SPACED_STOP = re.compile(r"\b(Hon|Mr|Mrs|Ms|Dr)\s+\.")
 
 
 def parse_pdf(text):
@@ -87,7 +88,10 @@ def parse_pdf(text):
         m = _LABEL.match(p)
         prev = blocks[-1][0] if blocks else None
         if m and len(m.group("l").split()) <= 8:
-            blocks.append(("label", m.group("l").strip(), m.group("r").strip()))
+            # The 27th Legislature's PDF text sometimes spaces an honorific's
+            # full stop ("Hon. Mr . Duncan", 25 November 2015).
+            label = _SPACED_STOP.sub(r"\1.", m.group("l").strip())
+            blocks.append(("label", label, m.group("r").strip()))
         elif p.startswith("[") and p.endswith("]"):
             blocks.append(("proc", p))
         elif p.startswith("Bill No."):
