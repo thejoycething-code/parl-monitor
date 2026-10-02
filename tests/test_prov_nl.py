@@ -277,5 +277,169 @@ class CollectTests(unittest.TestCase):
         self.assertFalse(ps.sitting_done(conn, url))
 
 
+def attendance_pages(year):
+    return nl.parse_attendance([[(None, fr) for fr in page]
+                                for page in json.loads(fx("nl_attendance_{0}_pages.json".format(year)))], year)
+
+
+def bridged_2024():
+    return nl.bridge_year(attendance(2023), attendance_pages(2025), 2024, pn.load_record("nl").get("by_elections"))
+
+
+def conn_with(rows, source):
+    conn = db.init_db(db.connect(":memory:"))
+    for r in rows:
+        key = nl.member_key(r["given"], r["surname"])
+        ps.upsert_member(conn, "nl", key, name=r["given"] + " " + r["surname"], surname=r["surname"], given=r["given"])
+        conn.execute("INSERT INTO prov_member_terms (prov, member_key, riding, start, end, party_dated, source) "
+                     "VALUES ('nl', ?, ?, ?, ?, 0, ?)", (key, r["district"], r["start"], r["end"], source))
+    conn.commit()
+    return conn
+
+
+DIVS = None
+
+
+def division(date):
+    global DIVS
+    DIVS = DIVS or json.loads(fx("nl_hansard_divisions_2022_2024.json"))
+    d, _v, p = nl.parse_hansard(DIVS[date])
+    assert len(d) == 1 and not p, (date, p)
+    return d[0]
+
+
+class AliasTests(unittest.TestCase):
+    """19 October 2022: Hansard prints 'Lloyd Parrot'; the Journal the same
+    day prints 'L. Parrott' at the same place. The reviewed alias clears it."""
+
+    URL = "https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session2/22-10-19.htm"
+
+    def test_bill_3_third_reading_tallies_with_the_alias(self):
+        d = division("2022-10-19")
+        self.assertEqual((d["yeas"], d["nays"], d["stage"], d["bill_number"]), (29, 3, "Third Reading", "3"))
+        r = nl.make_resolver(conn_for(2022))
+        votes, ok, note = nl.resolve_division(d, r, "2022-10-19", 50, document=self.URL)
+        self.assertTrue(ok, note)
+        parrot = next(v for v in votes if v["raw_label"] == "Lloyd Parrot")
+        self.assertEqual((parrot["member_key"], parrot["how"][:5]), ("lloyd-parrott", "alias"))
+        # without the alias (the old resolver) it stays a gap
+        _v, ok, note = nl.resolve_division(d, nl.NameResolver(pn.Resolver.from_conn(conn_for(2022), "nl")),
+                                           "2022-10-19", 50)
+        self.assertFalse(ok)
+        self.assertIn("unresolved 'Lloyd Parrot'", note)
+        # nor on another day
+        self.assertIsNone(r.resolve("Lloyd Parrot", "2022-10-20", 50, document=self.URL)[0])
+
+
+class Roster2024Tests(unittest.TestCase):
+    """The 2024 Members' Attendance summary is a scan with no text. 2024 is
+    bridged from the 2023 and 2025 summaries and the Elections NL by-election
+    reports (config/prov_record.yaml), and all five divisions of 2024 tally."""
+
+    def test_the_bridge_and_its_by_elections(self):
+        members, problems = bridged_2024()
+        self.assertEqual(problems, [])
+        by = {(m["surname"], m["given"]): m for m in members}
+        self.assertEqual(len(by), 43)       # the scan's 42 rows, read by eye, plus Jim McKenna, whom it omits
+        span = lambda s, g: (by[(s, g)]["start"], by[(s, g)]["end"])  # noqa: E731
+        self.assertEqual(span("Hutton", "Fred"), ("2024-02-21", "2024-12-31"))
+        self.assertEqual(span("Bragg", "Derrick"), ("2024-01-01", "2024-01-22"))
+        self.assertEqual(span("Warr", "Brian"), ("2024-01-01", "2024-03-01"))
+        self.assertEqual(span("McKenna", "Jim"), ("2024-05-02", "2024-12-31"))
+        self.assertEqual(span("Paddock", "Lin"), ("2024-06-26", "2024-12-31"))
+        self.assertEqual(span("Osborne", "Thomas"), ("2024-01-01", "2024-07-08"))
+        self.assertEqual(span("Korab", "Jamie"), ("2024-09-13", "2024-12-31"))
+        self.assertEqual(span("Dinn", "James"), ("2024-01-01", "2024-12-31"))   # 'Jim' in 2025: same initial
+        self.assertNotIn(("Brazil", "David J"), by)                              # resigned 29 Dec 2023
+        # the 2023 summary's 'St. Barb' is corrected, so Howell bridges
+        self.assertEqual(by[("Howell", "Krista Lynn")]["district"], "St. Barbe - L’Anse aux Meadows")
+
+    def test_all_five_divisions_of_2024_tally(self):
+        members, _ = bridged_2024()
+        r = nl.make_resolver(conn_with(members, "attendance-2024-bridged"))
+        got = []
+        for date in ("2024-03-13", "2024-03-21", "2024-05-02", "2024-05-15", "2024-12-03"):
+            d = division(date)
+            votes, ok, note = nl.resolve_division(d, r, date, 50)
+            self.assertTrue(ok, (date, note))
+            got.append((d["yeas"], d["nays"], len(votes)))
+        self.assertEqual(got, [(19, 16, 35), (20, 0, 20), (19, 17, 36), (17, 15, 32), (17, 15, 32)])
+
+    def test_two_names_joined_by_and(self):
+        d = division("2024-05-02")
+        self.assertEqual(d["yea_labels"][-2:], ["Lucy Stoyles", "Perry Trimper"])
+
+    def test_a_member_who_vanishes_with_no_record_gets_no_term(self):
+        later = [r for r in attendance_pages(2025) if r["surname"] != "Lane"]
+        members, problems = nl.bridge_year(attendance(2023), later, 2024, pn.load_record("nl").get("by_elections"))
+        self.assertNotIn("Lane", {m["surname"] for m in members})
+        self.assertTrue(any("Paul Lane" in p and "no official record" in p for p in problems), problems)
+        # ...so a 2024 division he voted in fails the tally check instead of guessing
+        r = nl.make_resolver(conn_with(members, "attendance-2024-bridged"))
+        _v, ok, note = nl.resolve_division(division("2024-03-13"), r, "2024-03-13", 50)
+        self.assertFalse(ok)
+        self.assertIn("Paul Lane", note)
+
+    def test_a_by_election_winner_missing_from_the_later_summary_is_a_problem(self):
+        later = [r for r in attendance_pages(2025) if r["surname"] != "Korab"]
+        members, problems = nl.bridge_year(attendance(2023), later, 2024, pn.load_record("nl").get("by_elections"))
+        self.assertTrue(any("Korab" in p for p in problems), problems)
+
+
+class StandingsPartyTests(unittest.TestCase):
+    """Party at the vote for the current (51st) General Assembly, from the
+    House's History of the Standings and the members page."""
+
+    def setUp(self):
+        self.st = nl.parse_standings(fx("nl_standings_51.html"))
+        self.rows = nl.parse_members_js(fx("nl_members_index_51.js"))
+
+    def test_the_page(self):
+        self.assertEqual((self.st["assembly"], self.st["election"], self.st["unknown"]), (51, "2025-10-14", []))
+        self.assertEqual(self.st["counts"], {"pc": 21, "lib": 15, "ndp": 2, "ind": 2})
+        self.assertEqual(self.st["events"], [{"date": "2026-09-14", "name": "Keith Russell",
+                                              "party": "Independent/Non-Affiliated"}])
+
+    def test_every_member_dated_and_the_one_change_reconciled(self):
+        terms, problems = nl.standings_party_terms(self.rows, self.st, "2026-10-02")
+        self.assertEqual((len(terms), problems), (40, []))
+        self.assertEqual(terms["keith-russell"], [("2025-10-14", "2026-09-13", "Progressive Conservative"),
+                                                  ("2026-09-14", "2026-10-02", "Independent/Non-Affiliated")])
+        self.assertEqual(terms["andrea-barbour"], [("2025-10-14", "2026-10-02", "Progressive Conservative")])
+
+    def test_counts_that_do_not_reconcile_store_nothing(self):
+        st = dict(self.st, counts={"pc": 22, "lib": 14, "ndp": 2, "ind": 2})
+        terms, problems = nl.standings_party_terms(self.rows, st, "2026-10-02")
+        self.assertEqual(terms, {})
+        self.assertTrue(problems)
+
+    def test_a_sentence_not_understood_stores_nothing(self):
+        st = dict(self.st, unknown=["On May 1, 2026, the Member for X resigned."])
+        self.assertEqual(nl.standings_party_terms(self.rows, st, "2026-10-02")[0], {})
+
+    def test_party_reaches_the_votes(self):
+        conn = db.init_db(db.connect(":memory:"))
+        terms, _ = nl.standings_party_terms(self.rows, self.st, "2026-10-02")
+        for r in self.rows:
+            ps.upsert_member(conn, "nl", r["key"], surname=r["surname"], given=r["given"])
+            ps.replace_terms(conn, "nl", r["key"], [{"legislature": 51, "party": r["party"], "riding": r["district"],
+                                                    "party_dated": 0}], "roster")
+            ps.replace_terms(conn, "nl", r["key"], [{"legislature": 51, "party": p, "start": a, "end": b,
+                                                    "party_dated": 1} for a, b, p in terms[r["key"]]],
+                             nl.STANDINGS_SOURCE)
+        for date in ("2026-03-30", "2026-09-30"):
+            ps.store_division(conn, {"division_key": "nl-51-1-{0}-1".format(date), "prov": "nl", "legislature": 51,
+                                     "session": 1, "date": date, "seq": 1, "kind": "recorded",
+                                     "votes": [{"position": "Yea", "ordinal": 1, "raw_label": "Keith Russell",
+                                                "member_key": "keith-russell"}]})
+        n, with_party = ps.refresh_party(conn, "nl", pn.Resolver.from_conn(conn, "nl"), 51, 1)
+        self.assertEqual((n, with_party), (2, 2))
+        self.assertEqual([r[0] for r in conn.execute("SELECT party_at_vote FROM prov_votes ORDER BY division_key")],
+                         ["Progressive Conservative", "Independent/Non-Affiliated"])
+        # the undated roster party is never used; a past Assembly has no party at all
+        r = pn.Resolver.from_conn(conn, "nl")
+        self.assertIsNone(r.party_at("keith-russell", "2024-03-13", 50))
+
+
 if __name__ == "__main__":
     unittest.main()

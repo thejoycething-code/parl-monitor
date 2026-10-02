@@ -24,11 +24,19 @@ division twice.
     by-elections ("By-election April 24, 2023, vice Denis Landry resigned
     November 30, 2022"). A term runs from the session's first sitting (or
     the by-election) to its last sitting (or the resignation). The page
-    prints NO PARTY, and nothing on the site dates one, so party_at_vote
-    stays NULL for New Brunswick (as for BC): today's party joined to a 2023
-    vote would misattribute every floor-crosser (Dominic Cardy left the PC
-    caucus in October 2022). The compiled Journal's header names its session
-    and is checked: the 60-3 listing links a file named for 2022-2023.
+    prints NO PARTY. The compiled Journal's header names its session and is
+    checked: the 60-3 listing links a file named for 2022-2023.
+  * PARTY AT THE VOTE, DATED TO THE SITTING. Each daily Hansard prints a
+    "LIST OF MEMBERS BY CONSTITUENCY" with party codes and a legend
+    ("Fredericton West-Hanwell (I) Dominic Cardy", 15 June 2023). For every
+    day with a recorded division that list is read (fetch_party_lists) and
+    stored as party-only terms spanning the sittings seen; party_at_vote is
+    then written from them (prov_store.refresh_party). Today's party from
+    /en/members/current is never used for a vote: it would misattribute
+    every floor-crosser (Cardy left the PC caucus in October 2022).
+  * LABEL ALIASES. A typo in a division list ("Mr. Russel", 20 November
+    2025) is cleared only by a reviewed entry in config/prov_record.yaml,
+    after the normal resolver fails, on that day and in that Journal.
   * BILLS. /en/legislation/bills/<leg>/<sess> gives every bill with its
     stage dates ("2nd Reading Passed: 5/11/2023"); each bill page gives the
     type, sponsor and the bill-text documents, the English HTML preferred.
@@ -402,6 +410,176 @@ def fetch_current(ctx, legislature):
     return len(rows)
 
 
+# -- party at the vote: the Hansard's list of members -------------------------
+#
+# Each daily Hansard (the bilingual "b"/"bil" PDF) prints, a few pages in,
+# "LIST OF MEMBERS BY CONSTITUENCY" for that sitting: constituency, party
+# code and member ("Fredericton West-Hanwell (I) Dominic Cardy", 15 June
+# 2023), with a legend ("(I) Independent"). It is the only source on
+# legnb.ca that dates a party, and it dates it to the sitting. For every day
+# with a recorded division the list is read and each member's party is
+# stored as a PARTY-ONLY term (source 'party-hansard', prov_names: it never
+# makes anyone a member) spanning exactly the sittings it was seen on, as
+# for Saskatchewan's and Manitoba's cover lists. A day whose Hansard is not
+# listed or cannot be read gets no party, and a member whose party changed
+# between two read days has none for the days between: NULL, never a guess.
+
+HANSARD = BASE + "/en/house-business/hansard/{0}/{1}"
+PARTY_SOURCE = "party-hansard"
+_LIST_ROW = re.compile(
+    r"^\s*(?P<riding>\S.*?)\s+\(?(?P<code>PC|L|G|I|PA|NDP|IND)\)?\s+(?P<name>\S.*?)\s*$")
+_LEGEND = re.compile(r"^\s*\((?P<code>[A-Z]{1,4})\)\s+(?P<party>\S.*?)\s*$")
+
+
+def list_hansards(html):
+    """{date: url} from one session's Hansard listing. File names as listed
+    ('49 2023-10-17bil.pdf'), backslashes turned; never constructed."""
+    out = {}
+    for href, inner in _LINK.findall(html or ""):
+        date = _date(html_text(inner))
+        if date and date not in out:
+            out[date] = _url(href)
+    return out
+
+
+def parse_member_list(text):
+    """{'session', 'legend': {code: party}, 'rows': [{riding, code, name}]}
+    from a Hansard's text, or None when it prints no member list."""
+    start = text.find("LIST OF MEMBERS BY CONSTITUENCY")
+    if start < 0:
+        return None
+    end = text.find("=====PAGE", start)
+    block = text[start:end if end > 0 else None]
+    out = {"session": None, "legend": {}, "rows": []}
+    m = re.search(r"(\w+) Session of the (\d+)\w* Legislative Assembly", block)
+    if m:
+        out["session"] = (int(m.group(2)), ordinal_value(m.group(1)))
+    for line in block.splitlines():
+        lg = _LEGEND.match(line)
+        if lg:
+            out["legend"][lg.group("code")] = lg.group("party")
+            continue
+        if re.match(r"^\s*(?:Constituencies|LIST OF|Speaker|Deputy|Second|First|Third|Fourth)\b", line):
+            continue
+        r = _LIST_ROW.match(normalise(line))
+        if r and not r.group("name").lower().startswith("vacant"):
+            out["rows"].append({"riding": r.group("riding"), "code": r.group("code"),
+                                "name": r.group("name")})
+    return out
+
+
+def _list_label(name):
+    """'Hon. Rob McKee, K.C.' -> 'Hon. Rob McKee'."""
+    return re.sub(r",?\s*(?:K\.C\.|Q\.C\.)\s*$", "", name or "").strip()
+
+
+def resolve_member_list(parsed, resolver, date, legislature):
+    """([(member_key, party)], problems): each row's member, by full name
+    and then surname alone, against the roster terms valid that day --
+    unique-or-nothing, as for a vote."""
+    out, problems = [], []
+    for r in parsed["rows"]:
+        party = parsed["legend"].get(r["code"]) or r["code"]
+        label = _list_label(r["name"])
+        # as printed; without a middle initial ('Mary E. Wilson' against a
+        # roster 'Mary Wilson'); then the surname alone
+        bare = re.sub(r"(?<=\s)[A-Z]\.\s+(?=\S)", "", label)
+        tokens = pn.parse_label(label).tokens
+        key = how = None
+        for attempt in (label, bare, tokens[-1] if tokens else ""):
+            if not attempt:
+                continue
+            key, how = resolver.resolve(attempt, date, legislature)
+            if key:
+                break
+        if key:
+            out.append((key, party))
+        else:
+            problems.append("{0!r} ({1}): {2}".format(r["name"], r["riding"], how))
+    keys = [k for k, _ in out]
+    for k in {k for k in keys if keys.count(k) > 1}:
+        problems.append("{0} matched more than one row; no party stored for them".format(k))
+        out = [(x, p) for x, p in out if x != k]
+    return out, problems
+
+
+def fetch_party_lists(ctx, legislature, session, resolver, dates):
+    """Read the Hansard member list of each date in `dates` not already
+    covered, and store the parties as party-only terms. Returns days read.
+
+    A division day whose own Hansard is missing or unreadable (20 November
+    2025 is served truncated) is covered only from the listed sittings
+    either side of it: if a member's party is the same on both, the term
+    spans the day, as every list-built term spans the sittings it was seen
+    on; if it differs, or a side cannot be read, the day has no party."""
+    state = {"listing": None}
+    read = 0
+
+    def covered(date):
+        return bool(ctx.conn.execute(
+            "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source=? AND legislature=? "
+            "AND start<=? AND end>=?", (PROV, PARTY_SOURCE, legislature, date, date)).fetchone()[0])
+
+    def listing():
+        if state["listing"] is None:
+            html = ctx.text(HANSARD.format(legislature, session), "hansards-{0}-{1}".format(legislature, session))
+            state["listing"] = list_hansards(html) if html else {}
+        return state["listing"]
+
+    def read_list(date, url):
+        raw = ctx.bytes(url, "hansard-{0}".format(date))
+        if raw is None:
+            return False
+        try:
+            parsed = parse_member_list(pdf_text(raw, pages=range(10)))
+        except Unreadable as exc:
+            ctx.gap("nb {0}: Hansard {1}: {2}; no member list read".format(date, url, exc))
+            return False
+        if not parsed or not parsed["rows"]:
+            ctx.gap("nb {0}: Hansard {1} prints no list of members".format(date, url))
+            return False
+        if parsed["session"] and parsed["session"] != (legislature, session):
+            ctx.gap("nb {0}: Hansard {1} lists members for session {2}; not used".format(date, url, parsed["session"]))
+            return False
+        pairs, problems = resolve_member_list(parsed, resolver, date, legislature)
+        for p in problems:
+            ctx.gap("nb {0}: Hansard member list: {1}".format(date, p))
+        if not ctx.dry_run:
+            for key, party in pairs:
+                ps.extend_term(ctx.conn, PROV, key, legislature, party, None, date, PARTY_SOURCE, party_dated=True)
+            ctx.conn.commit()
+        return True
+
+    for date in sorted(dates):
+        if not ctx.refresh and covered(date):
+            continue
+        url = listing().get(date)
+        if url and read_list(date, url):
+            read += 1
+            continue
+        if not url:
+            ctx.gap("nb {0}: no Hansard listed for the day".format(date))
+        days = sorted(listing())
+        before = [d for d in days if d < date][-1:]
+        after = [d for d in days if d > date][:1]
+        for d in before + after:
+            if covered(d) and not ctx.refresh:
+                continue
+            read += 1 if read_list(d, listing()[d]) else 0
+        if covered(date):
+            ctx.log("  nb {0}: own Hansard unread; party taken from lists read either side of it".format(date))
+        else:
+            ctx.gap("nb {0}: no party at the vote that day (its own Hansard unread and no lists read either "
+                    "side cover it)".format(date))
+    return read
+
+
+def make_resolver(conn):
+    """The run's resolver, with the reviewed label aliases of
+    config/prov_record.yaml consulted after it fails."""
+    return pn.Aliased(pn.Resolver.from_conn(conn, PROV), pn.load_aliases(PROV))
+
+
 # -- bills ------------------------------------------------------------------
 
 _BILL_ITEM = re.compile(r'<li class="bill-item">(.*?)</li>\s*(?=<li class="bill-item">|</ul>)', re.S)
@@ -737,11 +915,11 @@ def _voices(prose):
     return out
 
 
-def resolve_division(raw, resolver, date, legislature):
+def resolve_division(raw, resolver, date, legislature, document=None):
     votes = []
     for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"])):
         for k, label in enumerate(labels, 1):
-            key, how = resolver.resolve(label, date, legislature)
+            key, how = resolver.resolve(label, date, legislature, document=document)
             votes.append({"position": position, "ordinal": k, "raw_label": label, "member_key": key,
                           "how": how,
                           "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
@@ -768,7 +946,7 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
     divisions, voices = parse_journal(text)
     gaps = 0
     for d in divisions:
-        votes, ok, note = resolve_division(d, resolver, date, legislature)
+        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url)
         bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         inherit = pc.Result(b_areas, b_terms, b_tier) if b_areas else None
@@ -825,7 +1003,7 @@ def check_listing_stages(ctx, legislature, session, read_dates):
     return misses
 
 
-def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
+def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
     legislature, sess = parse_session(session)
     ctx.tax = pc.load_taxonomy()
     wl = pc.load_watchlist(PROV)
@@ -841,7 +1019,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         stats.update(fetch_bills(ctx, legislature, sess, ctx.tax, wl))
     if ctx.dry_run:
         return stats
-    resolver = pn.Resolver.from_conn(ctx.conn, PROV)
+    resolver = make_resolver(ctx.conn)
     read = divs = gaps = 0
     read_dates = set()
     for rec in records:
@@ -861,5 +1039,15 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
             read_dates.add(rec["date"])
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps,
                   "listing_misses": check_listing_stages(ctx, legislature, sess, read_dates) if bills else 0})
+    # Party at the vote, from each division day's Hansard member list, then
+    # written onto every stored vote of the session the dated terms cover.
+    days = {r[0] for r in ctx.conn.execute(
+        "SELECT DISTINCT date FROM prov_divisions WHERE prov=? AND legislature=? AND session=? "
+        "AND kind='recorded'", (PROV, legislature, sess)) if ctx.in_window(r[0])}
+    if party and days:
+        stats["party_lists"] = fetch_party_lists(ctx, legislature, sess, pn.Resolver.from_conn(ctx.conn, PROV),
+                                                 days)
+    n, with_party = ps.refresh_party(ctx.conn, PROV, pn.Resolver.from_conn(ctx.conn, PROV), legislature, sess)
+    stats["votes_with_party"] = "{0}/{1}".format(with_party, n)
     ctx.conn.commit()
     return stats

@@ -441,4 +441,32 @@ def summary(conn, prov):
         "votes": one("SELECT COUNT(*) FROM prov_votes v JOIN prov_divisions d USING (division_key) WHERE d.prov=?"),
         "unresolved": one("SELECT COUNT(*) FROM prov_votes v JOIN prov_divisions d USING (division_key) "
                           "WHERE d.prov=? AND v.member_key IS NULL"),
+        "with_party": one("SELECT COUNT(*) FROM prov_votes v JOIN prov_divisions d USING (division_key) "
+                          "WHERE d.prov=? AND v.party_at_vote IS NOT NULL"),
     }
+
+
+def refresh_party(conn, prov, resolver, legislature=None, session=None):
+    """Re-derive prov_votes.party_at_vote for a province's stored votes from
+    the terms that DATE a party (resolver.party_at), so a party record read
+    after the divisions (New Brunswick's Hansard member lists, Newfoundland's
+    election results) reaches the votes already stored. A vote no dated term
+    covers is set back to NULL: never today's party. Returns (resolved votes,
+    votes with a party)."""
+    sql = ("SELECT v.rowid, v.member_key, v.party_at_vote, d.date, d.legislature FROM prov_votes v "
+           "JOIN prov_divisions d USING (division_key) WHERE d.prov=? AND v.member_key IS NOT NULL")
+    args = [prov]
+    if legislature is not None:
+        sql += " AND d.legislature=?"
+        args.append(legislature)
+    if session is not None:
+        sql += " AND d.session=?"
+        args.append(session)
+    n = with_party = 0
+    for rowid, key, have, date, leg in conn.execute(sql, args).fetchall():
+        party = resolver.party_at(key, date, leg)
+        n += 1
+        with_party += 1 if party else 0
+        if party != have:
+            conn.execute("UPDATE prov_votes SET party_at_vote=? WHERE rowid=?", (party, rowid))
+    return n, with_party

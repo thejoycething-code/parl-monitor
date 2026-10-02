@@ -20,12 +20,31 @@ AN UNRESOLVED LABEL RESOLVES TO None, NEVER TO A GUESS. Unique-or-nothing:
 if two members valid on the day fit a label, the answer is None with the
 reason ("ambiguous: ...") -- the caller stores the label with a NULL member
 and the tally check turns the division into a gap.
+
+PARTY-ONLY TERMS. A term whose `source` starts with "party" (New Brunswick's
+Hansard member list, Newfoundland's election results) dates a PARTY and
+nothing else: it never makes anyone a member on a day. `resolve`,
+`valid_terms` and `term_for` ignore it; only `party_at` reads it.
+
+REVIEWED LABEL ALIASES (config/prov_record.yaml, `label_aliases:`). A
+printed label that is a typo in the source ("Mr. Russel", "Lloyd Parrot")
+is cleared by `Aliased` only AFTER the normal resolver has found nobody,
+only on the day and in the document the entry was checked against, and
+only when its member holds a term that day. It is a list of single
+reviewed facts, never a fuzzy matcher: an entry names the document, the
+date, the printed form, the member and the evidence.
 """
 
 from __future__ import annotations
 
+import os
 import re
 import unicodedata
+
+import yaml
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RECORD = os.path.join(ROOT, "config", "prov_record.yaml")
 
 HONORIFICS = {
     "hon", "honourable", "honorable", "the", "mr", "mrs", "ms", "miss", "mx",
@@ -133,14 +152,18 @@ class Resolver:
                 "SELECT member_key, name, surname, given FROM prov_members WHERE prov=?", (prov,)):
             members[key] = {"name": name, "surname": surname, "given": given}
         terms = [dict(zip(("member_key", "legislature", "party", "riding", "start",
-                           "end", "party_dated"), r)) for r in conn.execute(
-            "SELECT member_key, legislature, party, riding, start, end, party_dated "
+                           "end", "party_dated", "source"), r)) for r in conn.execute(
+            "SELECT member_key, legislature, party, riding, start, end, party_dated, source "
             "FROM prov_member_terms WHERE prov=?", (prov,))]
         return cls(members, terms)
 
-    def valid_terms(self, date, legislature=None):
+    def valid_terms(self, date, legislature=None, party_only=False):
+        """Terms valid on `date`. Party-only terms (source 'party...') are
+        left out unless party_only=True asks for them as well."""
         out = []
         for t in self.terms:
+            if not party_only and is_party_only(t):
+                continue
             if legislature is not None and t.get("legislature") is not None \
                     and int(t["legislature"]) != int(legislature):
                 continue
@@ -168,12 +191,13 @@ class Resolver:
 
     def party_at(self, member_key, date, legislature=None):
         """The party on the day, ONLY from a term whose source dates it."""
-        hits = {t.get("party") for t in self.valid_terms(date, legislature)
+        hits = {t.get("party") for t in self.valid_terms(date, legislature, party_only=True)
                 if t["member_key"] == member_key and t.get("party_dated")}
         return hits.pop() if len(hits) == 1 else None
 
-    def resolve(self, raw, date, legislature=None):
-        """(member_key, how) or (None, why)."""
+    def resolve(self, raw, date, legislature=None, document=None):
+        """(member_key, how) or (None, why). `document` is accepted for the
+        Aliased wrapper's sake and not used here."""
         lab = parse_label(raw)
         if not lab.tokens:
             return None, "empty label"
@@ -220,6 +244,74 @@ class Resolver:
         if not hits:
             return None, "unknown on {0}".format(date)
         return None, "ambiguous: {0}".format(", ".join(sorted(hits)))
+
+
+def is_party_only(term):
+    return str(term.get("source") or "").startswith("party")
+
+
+# -- reviewed label aliases ---------------------------------------------------
+
+_ALIAS_FIELDS = ("printed", "member", "date", "document", "verified_against", "why")
+
+
+def load_record(prov, path=None):
+    """The province's section of config/prov_record.yaml ({} when none)."""
+    path = path or RECORD
+    with open(path, encoding="utf-8") as fh:
+        raw = yaml.safe_load(fh) or {}
+    return (raw.get("provinces") or {}).get(prov) or {}
+
+
+def load_aliases(prov, path=None):
+    """The province's reviewed label aliases. An entry missing any of
+    printed, member, date, document, verified_against or why is refused:
+    an alias nobody can check is not a reviewed one."""
+    out = []
+    for a in load_record(prov, path).get("label_aliases") or []:
+        missing = [f for f in _ALIAS_FIELDS if not a.get(f)]
+        if missing:
+            raise ValueError("{0} label alias {1!r} lacks {2}".format(prov, a.get("printed"), ", ".join(missing)))
+        out.append(dict(a, date=str(a["date"])))
+    return out
+
+
+class Aliased:
+    """Wrap a resolver: the reviewed aliases are consulted ONLY when the
+    normal resolver found nobody ('unknown ...'), never over an ambiguous or
+    a resolved label. A match must be exact (the label as printed, whitespace
+    aside), on the entry's own date and, when the caller says which, in the
+    entry's own document; its member must hold a term that day. Still
+    unique-or-nothing, and the tally check still runs on the result."""
+
+    def __init__(self, inner, aliases, base=None):
+        self.inner = inner
+        self.base = base or getattr(inner, "r", inner)
+        self.by = {}
+        for a in aliases or []:
+            self.by.setdefault((_norm_label(a["printed"]), a["date"]), []).append(a)
+
+    def party_at(self, member_key, date, legislature=None):
+        return self.inner.party_at(member_key, date, legislature)
+
+    def resolve(self, raw, date, legislature=None, document=None):
+        key, how = self.inner.resolve(raw, date, legislature)
+        if key or not str(how).startswith("unknown"):
+            return key, how
+        hits = [a for a in self.by.get((_norm_label(raw), date), [])
+                if document is None or a["document"] == document]
+        targets = sorted({a["member"] for a in hits})
+        if not targets:
+            return key, how
+        if len(targets) > 1:
+            return None, "ambiguous alias: {0}".format(", ".join(targets))
+        if self.base.term_for(targets[0], date, legislature) is None:
+            return None, "alias {0!r} -> {1}, who holds no term on {2}".format(raw, targets[0], date)
+        return targets[0], "alias (reviewed, config/prov_record.yaml)"
+
+
+def _norm_label(s):
+    return re.sub(r"\s+", " ", (s or "").translate(_DASHES)).strip()
 
 
 # -- column-run splitting (Alberta V&P, Saskatchewan 29L minutes) ------------

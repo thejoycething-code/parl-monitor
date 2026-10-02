@@ -25,7 +25,17 @@ total and the tally check runs against it.
     Members ... including those who resigned or were elected during the
     reporting period", with district. A term from it is that calendar year,
     no party: precise only to the year, so resolution leans on the name.
-    Party at the vote is never stored for Newfoundland and Labrador.
+    A summary with no text (2024 is a scan) is BRIDGED (bridge_year) from
+    the summaries either side and the Elections NL by-election reports in
+    config/prov_record.yaml; anyone the bridge cannot account for gets no
+    term, so their divisions fail the tally check instead of guessing.
+  * PARTY AT THE VOTE: dated for the CURRENT General Assembly only, from the
+    House's History of the Standings and the members page (see
+    "party at the vote" below). Earlier Assemblies have no official dated
+    party record and their votes carry none.
+  * LABEL ALIASES: a typo in Hansard's division list ("Lloyd Parrot", 19
+    October 2022) is cleared only by a reviewed entry in
+    config/prov_record.yaml, checked against the same day's Journal.
   * NAMES. Hansard reads familiar names ("Eddie Joyce", "Pam Parsons",
     "Sherry Gambin-Walsh"); the attendance summary prints formal ones
     ("Joyce, Edward", "Parsons, Pamela", "Gambin-Walsh, Sheryl"). A full
@@ -75,6 +85,15 @@ STAGE_CODE = {"First Reading": "1r", "Second Reading": "2r", "Third Reading": "3
 # in the source, read against both.
 ROSTER_CORRECTIONS = {
     ("Dempter", "Lisa"): ("Dempster", "Lisa"),   # 2022 summary; Hansard and Journal print Dempster
+}
+# A district name misprinted in a summary, keyed by its squashed form. Read
+# against the other summaries and the Roll of Members, never inferred.
+DISTRICT_CORRECTIONS = {
+    # The 2022 and 2023 summaries print 'St. Barb - L'Anse aux Meadows'; the
+    # 2025 summary, the 2024 scan and the 50th Assembly's Roll of Members
+    # print St. Barbe. Without it Krista Lynn Howell could not be bridged
+    # into 2024 (same district on both sides is the bridge's condition).
+    "stbarblanseauxmeadows": "St. Barbe - L’Anse aux Meadows",
 }
 
 
@@ -275,6 +294,7 @@ def parse_attendance(pages, year):
     for r in out:
         r.pop("open", None)
         r["district"] = re.sub(r"\s*[-\u2013]\s*", " - ", r["district"])
+        r["district"] = DISTRICT_CORRECTIONS.get(pn.squash(r["district"]), r["district"])
     return out
 
 
@@ -300,9 +320,13 @@ def fetch_roster(ctx, legislature, years):
                     "legislature": legislature, "party": r["party"], "riding": r["district"],
                     "start": None, "end": None, "party_dated": 0}], "roster")
             ctx.conn.commit()
-            ctx.log("  nl roster: {0} current member(s) (General Assembly {1}; party undated)".format(
-                len(rows), legislature))
+            ctx.log("  nl roster: {0} current member(s) (General Assembly {1})".format(len(rows), legislature))
+            _store_standings_party(ctx, legislature, rows)
         n += len(rows)
+    else:
+        ctx.log("  nl: party at the vote is dated only for the current General Assembly (the House's "
+                "History of the Standings); General Assembly {0} has no official dated party record, "
+                "so its votes carry none".format(legislature))
     if not years:
         return n
     listing = ctx.text(ATTENDANCE, "attendance")
@@ -310,8 +334,8 @@ def fetch_roster(ctx, legislature, years):
     for year in sorted(years):
         source = "attendance-{0}".format(year)
         if not ctx.refresh and ctx.conn.execute(
-                "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source=?",
-                (PROV, source)).fetchone()[0]:
+                "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source IN (?, ?)",
+                (PROV, source, source + "-bridged")).fetchone()[0]:
             continue
         url = reports.get(year)
         if not url:
@@ -328,7 +352,8 @@ def fetch_roster(ctx, legislature, years):
             ctx.gap("nl attendance {0}: {1}: {2}".format(year, url, exc))
             continue
         if not rows:
-            ctx.gap("nl attendance {0}: no members parsed from {1}".format(year, url))
+            got = _bridge(ctx, reports, year, url)
+            n += got
             continue
         if ctx.dry_run:
             n += len(rows)
@@ -347,6 +372,295 @@ def fetch_roster(ctx, legislature, years):
     return n
 
 
+# -- party at the vote: the House's History of the Standings -------------------
+#
+# The only official record that DATES a Newfoundland and Labrador member's
+# party is the House's "History of the Standings" page, which covers the
+# CURRENT General Assembly only: the parties returned at the general
+# election, then every change with its date ("On September 14, 2026, it was
+# announced MHA Keith Russell would sit as an Independent/Non-Affiliated
+# Member."). With the members page (each member's party today) it dates
+# everyone's party from the election to the day of reading:
+#   * a member the page never names has had today's party since the election;
+#   * a member it names has the new party from the change's date; the party
+#     BEFORE the change is not printed, and is taken only when the election
+#     counts leave exactly one answer (21 PC returned, 20 PC today, one
+#     change: Russell was PC). Otherwise it is NULL;
+#   * if the counts do not reconcile, or a sentence on the page is not
+#     understood, no party is stored for the Assembly at all.
+# Earlier Assemblies have no such page. Elections NL's reports give a label
+# only on election day, and for the 50th Assembly they disagree with the
+# Chief Electoral Officer's own later seat counts (docs/canada-provinces-
+# scope.md), so their votes carry no party: NULL, never a guess.
+
+STANDINGS = BASE + "/Members/HistoricalStandings.aspx"
+STANDINGS_SOURCE = "party-standings"
+_LONG_DATE = r"((?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4})"
+
+
+def canon_party(name):
+    """'Progressive Conservative Members' / 'PC' -> 'pc'; 'Independent/Non-affiliated' -> 'ind'."""
+    f = pn.fold(name)
+    if "conservative" in f or f in ("pc", "p.c."):
+        return "pc"
+    if "liberal" in f or f == "lib":
+        return "lib"
+    if "new democrat" in f or f == "ndp":
+        return "ndp"
+    if "independent" in f or "affiliated" in f or f in ("ind", "na"):
+        return "ind"
+    return f or None
+
+
+def _iso(text):
+    try:
+        return datetime.datetime.strptime(re.sub(r"\s+", " ", text.strip()), "%B %d, %Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+def parse_standings(html):
+    """{'assembly', 'election', 'counts': {canon: n}, 'events': [{date, name, party}], 'unknown': [...]}"""
+    body = re.sub(r"(?is)<(script|style|head|nav|header|footer)\b.*?</\1>", " ", html or "")
+    m = re.search(r"<h1[^>]*>\s*History of the Standings in the (\d+)\w*\s+General Assembly\s*</h1>(.*?)"
+                  r"(?:<footer|<!--\s*Footer|$)", body, re.S | re.I)
+    out = {"assembly": None, "election": None, "counts": {}, "events": [], "unknown": []}
+    if not m:
+        return out
+    out["assembly"] = int(m.group(1))
+    text = html_text(m.group(2))
+    for sentence in re.split(r"(?<=\.)\s+(?=[A-Z])", text):
+        s = sentence.strip()
+        if not s:
+            continue
+        e = re.match(r"After the General Election of " + _LONG_DATE + r", there were (.+?) returned to the House", s)
+        if e:
+            out["election"] = _iso(e.group(1))
+            for n, party in re.findall(r"(\d+)\s+([A-Z][\w/\-]*(?:\s+[A-Z][\w/\-]*)*?)\s+Members?", e.group(2)):
+                out["counts"][canon_party(party)] = out["counts"].get(canon_party(party), 0) + int(n)
+            continue
+        c = re.match(r"On " + _LONG_DATE + r", it was announced (?:that )?(?:MHA |the Member for [^,]+, )?"
+                     r"(.+?) would (?:now )?sit as (?:an? )?(.+?)(?: Member)?\.$", s)
+        if c:
+            out["events"].append({"date": _iso(c.group(1)), "name": c.group(2).strip(), "party": c.group(3).strip()})
+            continue
+        if re.search(r"\b(?:sworn|affirmed|recount)", s, re.I) and not re.search(
+                r"\b(?:resign|vacan|by-election|died|passed away|sit as|joined|left)\b", s, re.I):
+            continue                     # who took a seat when: no party in it
+        out["unknown"].append(s)
+    return out
+
+
+def standings_party_terms(members, standings, today):
+    """({member_key: [term]}, problems). members: the members page's rows
+    ({key, surname, given, party}); every term is party-only and dated."""
+    problems = list("sentence not understood: {0!r}".format(u) for u in standings["unknown"])
+    election, counts = standings["election"], dict(standings["counts"])
+    if not election or not counts:
+        problems.append("no election and counts read from the page")
+    if sum(counts.values()) != len(members):
+        problems.append("{0} returned at the election, {1} members today: a seat changed hands, which "
+                        "this reading does not follow".format(sum(counts.values()), len(members)))
+    by_event = {}
+    for ev in standings["events"]:
+        hits = [m for m in members if pn.fold(m["given"] + " " + m["surname"]) == pn.fold(ev["name"])
+                or (pn.fold(ev["name"]).endswith(" " + pn.fold(m["surname"]))
+                    and pn.initials_of(m["given"])[:1] == pn.fold(ev["name"])[:1])]
+        if len(hits) != 1:
+            problems.append("{0!r} ({1}) matches {2} current member(s)".format(ev["name"], ev["date"], len(hits)))
+            continue
+        by_event.setdefault(hits[0]["key"], []).append(ev)
+    if problems:
+        return {}, problems
+    changed = {m["key"] for m in members if m["key"] in by_event}
+    # The election counts, less the members who never changed, must leave
+    # exactly one returned party per member who did.
+    before = Counter(counts)
+    before.subtract(Counter(canon_party(m["party"]) for m in members if m["key"] not in changed))
+    if any(v < 0 for v in before.values()) or sum(before.values()) != len(changed):
+        return {}, problems + ["the election counts {0} do not reconcile with today's parties and the "
+                               "page's changes".format(dict(counts))]
+    returned = sorted(+before)          # the parties the changers were returned under
+    one_answer = len(returned) == 1 or len(changed) == 1
+    terms = {}
+    for m in members:
+        party = m["party"]
+        evs = sorted(by_event.get(m["key"], []), key=lambda e: e["date"])
+        if not evs:
+            terms[m["key"]] = [(election, today, party)]
+            continue
+        if canon_party(evs[-1]["party"]) != canon_party(party):
+            problems.append("{0}: the page's last change says {1}, the members page says {2}; no party "
+                            "stored for them".format(m["key"], evs[-1]["party"], party))
+            continue
+        spans = []
+        for k, ev in enumerate(evs):
+            end = evs[k + 1]["date"] if k + 1 < len(evs) else None
+            last = (datetime.date.fromisoformat(end) - datetime.timedelta(days=1)).isoformat() if end else today
+            spans.append((ev["date"], last, ev["party"] if end else party))
+        if one_answer and len(evs) == 1:
+            first = (datetime.date.fromisoformat(evs[0]["date"]) - datetime.timedelta(days=1)).isoformat()
+            spans.insert(0, (election, first, _party_name(returned[0], members)))
+        terms[m["key"]] = spans
+    return terms, problems
+
+
+def _party_name(canon, members):
+    """The members page's own spelling of a party ('pc' -> 'Progressive Conservative')."""
+    for m in members:
+        if canon_party(m["party"]) == canon:
+            return m["party"]
+    return canon
+
+
+def _store_standings_party(ctx, legislature, rows):
+    html = ctx.text(STANDINGS, "standings")
+    if not html:
+        return
+    st = parse_standings(html)
+    if st["assembly"] != legislature:
+        ctx.gap("nl: {0} describes General Assembly {1}, not {2}; no party at the vote".format(
+            STANDINGS, st["assembly"], legislature))
+        return
+    terms, problems = standings_party_terms(rows, st, datetime.date.today().isoformat())
+    for p in problems:
+        ctx.gap("nl standings: {0}".format(p))
+    if ctx.dry_run:
+        return
+    for r in rows:
+        ps.replace_terms(ctx.conn, PROV, r["key"], [
+            {"legislature": legislature, "party": party, "riding": None, "start": a, "end": b, "party_dated": 1}
+            for a, b, party in terms.get(r["key"], [])], STANDINGS_SOURCE)
+    ctx.conn.commit()
+    ctx.log("  nl party: {0} of {1} current member(s) dated from the History of the Standings".format(
+        len(terms), len(rows)))
+
+
+def _same_person(a, b):
+    """Two summary rows name the same person: the same surname (hyphen and
+    space alike, accents folded) and the same first initial. The summaries
+    print 'Dinn, James' (2023) and 'Dinn, Jim' (2025), 'Gambin-Walsh,
+    Sheryl' and 'Sherry'; the two Dinns (James, Paul) and the two Parsons
+    (Andrew, Pamela) differ by initial."""
+    sa, sb = (pn.fold(x["surname"]).replace("-", " ") for x in (a, b))
+    ga, gb = (pn.initials_of(x["given"])[:1] for x in (a, b))
+    return sa == sb and ga and ga == gb
+
+
+def _same_district(a, b):
+    return pn.squash(a) == pn.squash(b)
+
+
+def bridge_year(prev_rows, next_rows, year, by_elections):
+    """(members, problems): the roster of a year whose own summary cannot be
+    read, from the summaries either side of it and the official by-election
+    record. Nothing else is assumed.
+
+      * A member in BOTH summaries for the same district, where no vacancy
+        or by-election in that district touches the year, sat all year.
+      * Around a by-election (config/prov_record.yaml `by_elections`, read
+        from the Elections NL reports): the member who left sat from 1
+        January to the vacancy date; the member elected sat from the day
+        they were sworn in to 31 December. Each must be found in the
+        summary on their side, under that district.
+      * Anyone in the earlier summary but not the later one, with no
+        official record of leaving, gets NO term and is a problem (a gap):
+        the year's divisions they voted in will then fail the tally check
+        rather than be resolved on a guess.
+
+    members: [{surname, given, district, start, end, how}]."""
+    y0, y1 = "{0}-01-01".format(year), "{0}-12-31".format(year)
+    events = [e for e in by_elections or []
+              if str(e.get("left") or "9999") <= y1 and str(e.get("sworn") or e.get("polling") or "0000") >= y0]
+    touched = {pn.squash(e["district"]): e for e in events}
+    out, problems, used_prev = [], [], set()
+    for e in events:
+        d = e["district"]
+        left, sworn = str(e.get("left") or ""), str(e.get("sworn") or e.get("polling") or "")
+        gone = e.get("vacated_by") or {}
+        prev = [k for k, r in enumerate(prev_rows) if _same_district(r["district"], d) and _same_person(r, gone)]
+        if len(prev) == 1:
+            used_prev.add(prev[0])
+            if left >= y0:
+                r = prev_rows[prev[0]]
+                out.append(dict(r, start=y0, end=min(left, y1),
+                                how="left {0} ({1}); {2}".format(left, e.get("why_left") or "vacancy", e.get("source"))))
+        elif left >= y0:
+            problems.append("{0} {1} ({2}), who left on {3}, is not in the {4} summary".format(
+                gone.get("given"), gone.get("surname"), d, left, year - 1))
+        new = e.get("elected") or {}
+        nxt = [r for r in next_rows if _same_district(r["district"], d) and _same_person(r, new)]
+        if len(nxt) == 1 and sworn <= y1:
+            out.append(dict(nxt[0], start=max(sworn, y0), end=y1,
+                            how="by-election {0}, sworn {1}; {2}".format(e.get("polling"), sworn, e.get("source"))))
+        elif sworn <= y1:
+            problems.append("{0} {1}, elected for {2} on {3}, is not in the {4} summary".format(
+                new.get("given"), new.get("surname"), d, e.get("polling"), year + 1))
+    for k, r in enumerate(prev_rows):
+        if k in used_prev:
+            continue
+        later = [x for x in next_rows if _same_district(x["district"], r["district"]) and _same_person(x, r)]
+        if pn.squash(r["district"]) in touched:
+            problems.append("{0} {1} ({2}) sat in a district with a by-election in {3} but is not the "
+                            "member it names".format(r["given"], r["surname"], r["district"], year))
+        elif len(later) == 1:
+            out.append(dict(r, start=y0, end=y1, how="in the {0} and {1} summaries, same district".format(
+                year - 1, year + 1)))
+        else:
+            problems.append("{0} {1} ({2}) is in the {3} summary but not the {4} one, and no official record "
+                            "says when they left: no {5} term".format(r["given"], r["surname"], r["district"],
+                                                                     year - 1, year + 1, year))
+    return out, problems
+
+
+def _attendance_rows(ctx, reports, year):
+    url = reports.get(year)
+    if not url:
+        return None
+    raw = ctx.bytes(url, "attendance-{0}".format(year))
+    if raw is None:
+        return None
+    try:
+        return parse_attendance(pdf_rows(raw), year) or None
+    except Unreadable:
+        return None
+
+
+def _bridge(ctx, reports, year, url):
+    """A summary with no text (2024 is a scan): bridge the year, or say why not."""
+    prev, nxt = _attendance_rows(ctx, reports, year - 1), _attendance_rows(ctx, reports, year + 1)
+    if not prev or not nxt:
+        ctx.gap("nl attendance {0}: no members parsed from {1} (a scan with no text), and the {2} and {3} "
+                "summaries needed to bridge it are not both readable".format(year, url, year - 1, year + 1))
+        return 0
+    members, problems = bridge_year(prev, nxt, year, pn.load_record(PROV).get("by_elections"))
+    for p in problems:
+        ctx.gap("nl roster {0} (bridged): {1}".format(year, p))
+    if ctx.dry_run or not members:
+        return len(members)
+    source = "attendance-{0}-bridged".format(year)
+    by_key = {}
+    for m in members:
+        by_key.setdefault(member_key(m["given"], m["surname"]), (m, []))[1].append({
+            "legislature": None, "party": None, "riding": m["district"], "start": m["start"],
+            "end": m["end"], "party_dated": 0})
+    for key, (m, terms) in by_key.items():
+        ps.upsert_member(ctx.conn, PROV, key, name=m["given"] + " " + m["surname"],
+                         surname=m["surname"], given=m["given"])
+        ps.replace_terms(ctx.conn, PROV, key, terms, source)
+    ctx.conn.commit()
+    ctx.log("  nl roster {0}: the summary {1} is a scan with no text; {2} member(s) bridged from the {3} and "
+            "{4} summaries and the by-election record ({5} problem(s))".format(
+                year, url, len(by_key), year - 1, year + 1, len(problems)))
+    return len(by_key)
+
+
+def make_resolver(conn):
+    """The run's resolver: Newfoundland's NameResolver, with the reviewed
+    label aliases of config/prov_record.yaml consulted after it fails."""
+    return pn.Aliased(NameResolver(pn.Resolver.from_conn(conn, PROV)), pn.load_aliases(PROV))
+
+
 class NameResolver:
     """prov_names.Resolver with Newfoundland's two allowances: hyphen equals
     space in a surname, and a full name that does not resolve is retried as
@@ -360,7 +674,10 @@ class NameResolver:
     def party_at(self, key, date, legislature=None):
         return self.r.party_at(key, date, legislature)
 
-    def resolve(self, raw, date, legislature=None):
+    def term_for(self, key, date, legislature=None):
+        return self.r.term_for(key, date, legislature)
+
+    def resolve(self, raw, date, legislature=None, document=None):
         label = re.sub(r"(\w)-(\w)", r"\1 \2", raw or "")
         key, how = self.r.resolve(label, date, legislature)
         if key or not how.startswith("unknown"):
@@ -523,7 +840,10 @@ def _names(segment):
     s = s.rstrip(".").strip()
     if not s or re.fullmatch(r"(?i)nil|none", s):
         return []
-    return [n.strip().rstrip(".").strip() for n in s.split(",") if n.strip().rstrip(".").strip()]
+    # 'Scott Reid, Lucy Stoyles and Perry Trimper' (2 May 2024): the last two
+    # names joined by 'and'. No member's name contains the word.
+    parts = [p for n in s.split(",") for p in re.split(r"\s+and\s+", n)]
+    return [n.strip().rstrip(".").strip() for n in parts if n.strip().rstrip(".").strip()]
 
 
 def _answered_calls(text):
@@ -685,13 +1005,14 @@ def parse_hansard(text):
     return divisions, voices, problems
 
 
-def resolve_division(raw, resolver, date, legislature):
+def resolve_division(raw, resolver, date, legislature, document=None):
     votes = []
     for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"])):
         for k, label in enumerate(labels, 1):
-            key, how = resolver.resolve(label, date, legislature)
+            key, how = resolver.resolve(label, date, legislature, document=document)
             votes.append({"position": position, "ordinal": k, "raw_label": label, "member_key": key,
-                          "how": how, "party_at_vote": None})
+                          "how": how,
+                          "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
     ok, note = ps.tally({"Yea": raw["yeas"], "Nay": raw["nays"]}, votes)
     if raw.get("problem"):
         ok, note = False, "; ".join(x for x in (raw["problem"], note) if x)
@@ -717,7 +1038,7 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
         ctx.gap("{0}: {1}".format(skey, p))
     seq_prefix = "{0}.".format(rec["part"]) if rec.get("part") else ""
     for d in divisions:
-        votes, ok, note = resolve_division(d, resolver, date, legislature)
+        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url)
         bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         inherit = pc.Result(b_areas, b_terms, b_tier) if b_areas else None
@@ -785,7 +1106,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         stats.update(fetch_bills(ctx, legislature, sess, ctx.tax, wl))
     if ctx.dry_run:
         return stats
-    resolver = NameResolver(pn.Resolver.from_conn(ctx.conn, PROV))
+    resolver = make_resolver(ctx.conn)
     read = divs = gaps = 0
     read_dates = set()
     for rec in records:
@@ -805,5 +1126,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
             read_dates.add(rec["date"])
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps,
                   "listing_misses": check_listing_stages(ctx, legislature, sess, read_dates) if bills else 0})
+    n, with_party = ps.refresh_party(ctx.conn, PROV, pn.Resolver.from_conn(ctx.conn, PROV), legislature, sess)
+    stats["votes_with_party"] = "{0}/{1}".format(with_party, n)
     ctx.conn.commit()
     return stats

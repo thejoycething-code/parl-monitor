@@ -1,0 +1,91 @@
+# Canadian PROVINCIAL legislatures: reviewed facts from official records.
+#
+# Every entry here was READ BY A PERSON in an official document and checked
+# against a second record. Nothing is inferred: an entry names the document
+# it was read in, the date, and what it was checked against. The collectors
+# (src/ingest/prov_nb.py, src/ingest/prov_nl.py) read this file; nothing in
+# it overrides a record that resolves on its own.
+#
+#   label_aliases  A printed name in a division list that is a typo in the
+#                  source. Consulted by src/prov_names.Aliased ONLY after the
+#                  normal resolver has found nobody, ONLY on that date and in
+#                  that document, and ONLY if the member holds a term that
+#                  day. The tally check still runs. Never a fuzzy matcher:
+#                  add an entry only after reading the record yourself.
+#   by_elections   (nl) Vacancies and by-elections in a year whose Members'
+#                  Attendance summary has no text (2024 is a scan). Used by
+#                  prov_nl.bridge_year to date the roster terms around them.
+#
+# Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
+# (3 October 2026).
+
+provinces:
+  "nb":
+    label_aliases:
+      - printed: "Mr. Russel"
+        member: kevin-russell
+        date: 2025-11-20
+        document: https://www.legnb.ca/content/house_business/61/2/journals/15251120e.pdf
+        verified_against: >-
+          The same Journal's third recorded division that day (Motion 3) prints
+          "Mr. Russell" in the NAYS; the 61st Legislature has one Russell
+          (Kevin Russell, Miramichi West, /en/members/current) and no Russel.
+        why: >-
+          Printed "Mr. Russel" in the YEAS of the sub-amendment to Motion 4
+          (defeated 17-24) and the NAYS of Motion 4 as amended (carried 26-16).
+          With it unresolved both were tally gaps; each list is otherwise
+          complete and both tally once it is cleared.
+  "nl":
+    label_aliases:
+      - printed: "Lloyd Parrot"
+        member: lloyd-parrott
+        date: 2022-10-19
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session2/22-10-19.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga50session2/22-10-19.pdf)
+          prints "L. Parrott" at the same place in the Ayes (23rd, between
+          P. Dinn and J. Dwyer); the 2022 Members' Attendance summary has one
+          Parrott (Lloyd, Terra Nova) and no Parrot.
+        why: >-
+          Hansard's Clerk's list for the third reading of Bill 3 (Pay Equity and
+          Pay Transparency Act), carried 29-3, prints "Lloyd Parrot". It was the
+          division's only unresolved label.
+    by_elections:
+      # Read from the Elections NL by-election reports (Chief Electoral
+      # Officer, "By-Election Summary", "Return of the Writ") and checked
+      # against the House's Roll of Members of the 50th General Assembly
+      # (assembly.nl.ca/Members/Rolls/HOA_Roll_50GA.pdf, a scan: "By-Election,
+      # January 30, 2024" etc. under each district). `left` is the vacancy
+      # date the report gives; `sworn` is the day the new Member could vote.
+      - district: "Conception Bay East - Bell Island"
+        vacated_by: {surname: Brazil, given: David}
+        left: 2023-12-29
+        why_left: "resigned his seat"
+        polling: 2024-01-30
+        elected: {surname: Hutton, given: Fred, party: Liberal}
+        sworn: 2024-02-21
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-conceptionbayeast-bellislandby-electionreport.pdf
+      - district: "Fogo Island - Cape Freels"
+        vacated_by: {surname: Bragg, given: Derrick}
+        left: 2024-01-22
+        why_left: "passed away"
+        polling: 2024-04-15
+        elected: {surname: McKenna, given: Jim, party: Progressive Conservative}
+        sworn: 2024-05-02
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-fogoisland-capefreelsby-electionreport.pdf
+      - district: "Baie Verte - Green Bay"
+        vacated_by: {surname: Warr, given: Brian}
+        left: 2024-03-01
+        why_left: "resignation announced 26 February 2024, effective 1 March 2024"
+        polling: 2024-05-27
+        elected: {surname: Paddock, given: Lin, party: Progressive Conservative}
+        sworn: 2024-06-26
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-baieverte-greenbayby-electionreport.pdf
+      - district: "Waterford Valley"
+        vacated_by: {surname: Osborne, given: Thomas}
+        left: 2024-07-08
+        why_left: "resignation announced 24 May 2024, effective 8 July 2024"
+        polling: 2024-08-22
+        elected: {surname: Korab, given: Jamie, party: Liberal}
+        sworn: 2024-09-13
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-waterfordvalleyby-electionreport2024.pdf

@@ -326,5 +326,198 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(client.throttle, 1.1)
 
 
+def conn_61():
+    conn = db.init_db(db.connect(":memory:"))
+    for m in json.loads(fx("nb_members_61.json")):
+        ps.upsert_member(conn, "nb", m["key"], surname=m["surname"], given=m["given"])
+        ps.replace_terms(conn, "nb", m["key"], [{"legislature": 61, "party": m["party"],
+                                                "riding": m["riding"], "party_dated": 0}], "roster")
+    conn.commit()
+    return conn
+
+
+JOURNAL_251120 = "https://www.legnb.ca/content/house_business/61/2/journals/15251120e.pdf"
+
+
+class AliasTests(unittest.TestCase):
+    """20 November 2025: the Journal prints 'Mr. Russel' for Kevin Russell
+    in two divisions, and 'Mr. Russell' in the third. The reviewed alias in
+    config/prov_record.yaml clears the two, on that day and in that Journal
+    only, after the normal resolver has failed."""
+
+    def setUp(self):
+        self.divisions, _ = nb.parse_journal(fx("nb_journal_251120.txt"))
+        self.r = nb.make_resolver(conn_61())
+
+    def test_all_three_divisions_tally_with_the_alias(self):
+        self.assertEqual([(d["yeas"], d["nays"]) for d in self.divisions], [(17, 24), (26, 16), (23, 17)])
+        for d in self.divisions:
+            votes, ok, note = nb.resolve_division(d, self.r, "2025-11-20", 61, document=JOURNAL_251120)
+            self.assertTrue(ok, note)
+        votes, _, _ = nb.resolve_division(self.divisions[0], self.r, "2025-11-20", 61, document=JOURNAL_251120)
+        russel = next(v for v in votes if v["raw_label"] == "Mr. Russel")
+        self.assertEqual(russel["member_key"], "kevin-russell")
+        self.assertIn("alias (reviewed", russel["how"])
+        # the correctly printed label in the third division resolves normally
+        votes, _, _ = nb.resolve_division(self.divisions[2], self.r, "2025-11-20", 61, document=JOURNAL_251120)
+        self.assertEqual(next(v for v in votes if v["raw_label"] == "Mr. Russell")["how"], "surname")
+
+    def test_the_alias_holds_only_on_its_day_and_in_its_document(self):
+        self.assertIsNone(self.r.resolve("Mr. Russel", "2025-11-21", 61, document=JOURNAL_251120)[0])
+        self.assertIsNone(self.r.resolve("Mr. Russel", "2025-11-20", 61, document="https://x/other.pdf")[0])
+        votes, ok, note = nb.resolve_division(self.divisions[0], self.r, "2025-11-21", 61, document=JOURNAL_251120)
+        self.assertFalse(ok)
+        self.assertIn("unresolved 'Mr. Russel'", note)
+
+    def test_an_alias_never_overrides_an_ambiguous_label(self):
+        al = pn.Aliased(pn.Resolver.from_conn(conn_61(), "nb"),
+                        [{"printed": "Mr. LeBlanc", "member": "marco-leblanc", "date": "2025-11-20",
+                          "document": JOURNAL_251120, "verified_against": "x", "why": "x"}])
+        key, how = al.resolve("Mr. LeBlanc", "2025-11-20", 61, document=JOURNAL_251120)
+        self.assertIsNone(key)
+        self.assertTrue(how.startswith("ambiguous"), how)
+
+    def test_an_alias_without_its_evidence_is_refused(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False) as fh:
+            fh.write('provinces:\n  "nb":\n    label_aliases:\n      - {printed: "Mr. Russel", member: kevin-russell, '
+                     'date: 2025-11-20, document: "https://x"}\n')
+        with self.assertRaises(ValueError):
+            pn.load_aliases("nb", fh.name)
+        os.unlink(fh.name)
+        # every entry in the real file carries its evidence
+        for prov in ("nb", "nl"):
+            for a in pn.load_aliases(prov):
+                self.assertTrue(a["verified_against"] and a["why"] and a["document"].startswith("https://"))
+
+
+class PartyTests(unittest.TestCase):
+    """Party at the vote from the Hansard's 'LIST OF MEMBERS BY CONSTITUENCY',
+    dated to the sitting. 15 June 2023 is the Policy 713 day: Dominic Cardy
+    sat as an Independent, Kris Austin and Michelle Conroy as PCs."""
+
+    def test_the_list_parses_in_both_layouts(self):
+        p = nb.parse_member_list(fx("nb_hansard_members_230615.txt"))
+        self.assertEqual((p["session"], len(p["rows"])), ((60, 2), 49))
+        self.assertEqual(p["legend"]["I"], "Independent")
+        row = next(r for r in p["rows"] if "Cardy" in r["name"])
+        self.assertEqual((row["riding"], row["code"]), ("Fredericton West-Hanwell", "I"))
+        q = nb.parse_member_list(fx("nb_hansard_members_251105.txt"))     # no parentheses in 2025
+        self.assertEqual((q["session"], len(q["rows"])), ((61, 2), 49))
+        self.assertIn({"riding": "Miramichi West", "code": "PC", "name": "Kevin Russell"}, q["rows"])
+        self.assertIsNone(nb.parse_member_list("no list here"))
+
+    def test_every_member_on_the_list_resolves_unique_or_nothing(self):
+        r = pn.Resolver.from_conn(conn_602(), "nb")
+        pairs, problems = nb.resolve_member_list(nb.parse_member_list(fx("nb_hansard_members_230615.txt")),
+                                                 r, DATE, 60)
+        self.assertEqual((len(pairs), problems), (49, []))
+        party = dict(pairs)
+        self.assertEqual(party["dominic-cardy"], "Independent")
+        self.assertEqual(party["kris-austin"], "Progressive Conservative Party of New Brunswick")
+        self.assertEqual(party["susan-holt"], "Liberal Party of New Brunswick")
+        # 'Mary E. Wilson' against a roster that prints 'Mary Wilson' (2025)
+        pairs, problems = nb.resolve_member_list(nb.parse_member_list(fx("nb_hansard_members_251105.txt")),
+                                                 pn.Resolver.from_conn(conn_61(), "nb"), "2025-11-05", 61)
+        self.assertEqual((len(pairs), problems), (49, []))
+
+    def _store_lists(self, conn, days):
+        """The fetch loop with the network replaced by the fixture list."""
+        text = fx("nb_hansard_members_230615.txt")
+        listing = "".join('<a href="/content/house_business\\60\\2\\hansard\\{0} {1}bil.pdf">{2}</a>'.format(
+            k, d, nb.datetime.date.fromisoformat(d).strftime("%B %-d, %Y")) for k, d in enumerate(days, 40))
+        pages = {"https://www.legnb.ca/robots.txt": "User-agent: *\nDisallow:\n",
+                 nb.HANSARD.format(60, 2): listing}
+        for k, d in enumerate(days, 40):
+            pages["https://www.legnb.ca/content/house_business/60/2/hansard/{0}%20{1}bil.pdf".format(k, d)] = \
+                ("%PDF-" + d).encode()
+        saved = nb.pdf_text
+        nb.pdf_text = lambda raw, pages=None: text
+        try:
+            ctx = Context(conn, _Client(pages), "nb", log=lambda *a: None)
+            n = nb.fetch_party_lists(ctx, 60, 2, pn.Resolver.from_conn(conn, "nb"), set(days))
+        finally:
+            nb.pdf_text = saved
+        return n, ctx
+
+    def test_party_lands_on_the_votes_of_the_day_and_nowhere_else(self):
+        conn = conn_602()
+        r = pn.Resolver.from_conn(conn, "nb")
+        divisions, _ = nb.parse_journal(fx("nb_journal_230615.txt"))
+        for d in divisions:
+            votes, ok, note = nb.resolve_division(d, r, DATE, 60)
+            ps.store_division(conn, {"division_key": ps.division_key("nb", 60, 2, DATE, d["seq"]), "prov": "nb",
+                                     "legislature": 60, "session": 2, "date": DATE, "seq": d["seq"],
+                                     "kind": "recorded", "positions_ok": 1 if ok else 0, "votes": votes})
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_votes WHERE party_at_vote IS NOT NULL").fetchone()[0], 0)
+        n, ctx = self._store_lists(conn, [DATE])
+        self.assertEqual((n, ctx.gaps), (1, []))
+        total, with_party = ps.refresh_party(conn, "nb", pn.Resolver.from_conn(conn, "nb"), 60, 2)
+        self.assertEqual(with_party, total)
+        got = dict(conn.execute("SELECT member_key, party_at_vote FROM prov_votes WHERE division_key=?",
+                                ("nb-60-2-2023-06-15-5",)).fetchall())
+        self.assertEqual(got["dominic-cardy"], "Independent")
+        self.assertEqual(got["trevor-holder"], "Progressive Conservative Party of New Brunswick")
+        self.assertEqual(got["blaine-higgs"], "Progressive Conservative Party of New Brunswick")
+        # the party term dates a party and nothing else: no one becomes a member by it
+        r2 = pn.Resolver.from_conn(conn, "nb")
+        self.assertEqual(r2.party_at("dominic-cardy", DATE, 60), "Independent")
+        self.assertIsNone(r2.party_at("dominic-cardy", "2023-06-16", 60))       # a day not read
+        self.assertTrue(all(not pn.is_party_only(t) for t in r2.valid_terms(DATE, 60)))
+
+    def test_a_party_change_between_read_days_leaves_the_days_between_null(self):
+        conn = conn_602()
+        ps.extend_term(conn, "nb", "dominic-cardy", 60, "Progressive Conservative Party of New Brunswick", None,
+                       "2022-06-01", nb.PARTY_SOURCE)
+        ps.extend_term(conn, "nb", "dominic-cardy", 60, "Independent", None, "2022-11-15", nb.PARTY_SOURCE)
+        r = pn.Resolver.from_conn(conn, "nb")
+        self.assertEqual(r.party_at("dominic-cardy", "2022-06-01", 60), "Progressive Conservative Party of New Brunswick")
+        self.assertIsNone(r.party_at("dominic-cardy", "2022-10-25", 60))
+        self.assertEqual(r.party_at("dominic-cardy", "2022-11-15", 60), "Independent")
+
+    def test_an_unreadable_hansard_is_covered_only_by_the_sittings_either_side(self):
+        """20 November 2025's Hansard is served truncated. The lists of the
+        sittings before and after it are read; a party the same on both
+        spans the day, a party that differs leaves it NULL."""
+        days = ["2023-06-14", DATE, "2023-06-16"]
+        text = fx("nb_hansard_members_230615.txt")
+        changed = text.replace("(I)              Dominic Cardy", "(PC)             Dominic Cardy")
+        self.assertNotEqual(changed, text)
+        texts = {b"%PDF-2023-06-14": changed, b"%PDF-2023-06-16": text}
+        listing = "".join('<a href="/content/house_business\\60\\2\\hansard\\{0} {1}bil.pdf">{2}</a>'.format(
+            k, d, nb.datetime.date.fromisoformat(d).strftime("%B %-d, %Y")) for k, d in enumerate(days, 40))
+        pages = {"https://www.legnb.ca/robots.txt": "User-agent: *\nDisallow:\n", nb.HANSARD.format(60, 2): listing}
+        for k, d in enumerate(days, 40):
+            pages["https://www.legnb.ca/content/house_business/60/2/hansard/{0}%20{1}bil.pdf".format(k, d)] = \
+                ("%PDF-" + d).encode()
+
+        def fake(raw, pages=None):
+            if raw not in texts:
+                raise nb.Unreadable("truncated PDF: no %%EOF marker")
+            return texts[raw]
+        conn = conn_602()
+        saved = nb.pdf_text
+        nb.pdf_text = fake
+        try:
+            ctx = Context(conn, _Client(pages), "nb", log=lambda *a: None)
+            n = nb.fetch_party_lists(ctx, 60, 2, pn.Resolver.from_conn(conn, "nb"), {DATE})
+        finally:
+            nb.pdf_text = saved
+        self.assertEqual(n, 2)
+        self.assertTrue(any("truncated" in g for g in ctx.gaps))
+        r = pn.Resolver.from_conn(conn, "nb")
+        self.assertEqual(r.party_at("blaine-higgs", DATE, 60), "Progressive Conservative Party of New Brunswick")
+        self.assertIsNone(r.party_at("dominic-cardy", DATE, 60))      # PC the day before, Independent after
+
+    def test_a_day_with_no_hansard_listed_is_a_gap_and_no_party(self):
+        conn = conn_602()
+        ctx = Context(conn, _Client({"https://www.legnb.ca/robots.txt": "User-agent: *\nDisallow:\n",
+                                     nb.HANSARD.format(60, 2): "<ul></ul>"}), "nb", log=lambda *a: None)
+        self.assertEqual(nb.fetch_party_lists(ctx, 60, 2, pn.Resolver.from_conn(conn, "nb"), {DATE}), 0)
+        self.assertIn("no Hansard listed", ctx.gaps[0])
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_member_terms WHERE source=?",
+                                      (nb.PARTY_SOURCE,)).fetchone()[0], 0)
+
+
 if __name__ == "__main__":
     unittest.main()
