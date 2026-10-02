@@ -33,7 +33,16 @@
 #                  tally check then holds the names to it). A bill correction
 #                  applies only while the record still prints `printed_bill`,
 #                  and leaves the printed number in tally_note. None of these
-#                  is ever an alias outside its division.
+#                  is ever an alias outside its division. A hansard_labels
+#                  entry with `office: true` names who held an office the
+#                  list prints instead of a name (the chair's casting vote,
+#                  "Deputy Speaker"); it applies only to a label that
+#                  resolved to nobody (Christopher, 2 October 2026: casting
+#                  votes are placed).
+#   misprints      (on) One misspelling of one member's name repeated over a
+#                  span of days, in documents under a URL prefix; read by
+#                  Aliased like a label alias. Approved by Christopher, 2
+#                  October 2026.
 #
 # Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
 # (3 October 2026). Alberta's entries added 2 October 2026 for the
@@ -139,6 +148,25 @@ provinces:
           The 39th Parliament's division lists print the surname he then
           sat under; the roster carries only the later one.
   "on":
+    hansard_labels:
+      - division: on-41-2-2017-09-21-1
+        position: Yea
+        printed: "Deputy Speaker"
+        office: true
+        member: soo-wong
+        document: https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-09-21/votes-proceedings
+        hansard: https://www.ola.org/sites/default/files/node-files/hansard/document/pdf/2017/2017-09/house-document-hansard-transcript-2-EN-21-SEP-2017_L095.pdf
+        quoted: >-
+          The ayes are 16; the nays are 16. The Deputy Speaker (Ms. Soo Wong): I
+          declare the motion carried.
+        why: >-
+          Second reading of Bill 146 (Gas Pricing Transparency Act, Mr.
+          McNaughton). The V&P prints 17-16 with "Deputy Speaker" as the 17th
+          Aye: the chair's casting vote on a tie. Hansard for the SAME division
+          (p. 5136) names the chair, Soo Wong, who held the office. Christopher
+          (2 October 2026) chose to place casting votes, against the convention
+          that a casting vote is not a stance. This division only: "Deputy
+          Speaker" maps to nobody anywhere else.
     misprints:
       - printed: "Cuzzeto"
         member: rudy-cuzzetto

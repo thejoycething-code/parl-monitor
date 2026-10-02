@@ -380,7 +380,14 @@ def _read_cover(ctx, legislature, date, pdf_url):
 # (2 October 2026: 15 such pairs in the published store; 25 members had two
 # or three keys once the backfill's covers were read again). The seat settles it: a legislature
 # has ONE member per riding at a time, so the same surname in the same riding
-# of the same legislature is the same member.
+# of the same legislature is the same member. Approved by Christopher, 2
+# October 2026. The one way it could be wrong is a by-election successor of
+# the same surname in the same riding: the given names must also agree
+# (one contained in the other once letters alone are compared: "KevinDaniel"
+# and "Kevin Daniel", "M. Aileen" and "Aileen", "Christina" and "Christina
+# Maria"), or nothing is merged and it is logged. A successor with the SAME
+# full name would still merge; none is known. The store has no Ontario
+# by-election dates to test against.
 
 def _seat(legislature, riding, surname):
     return (int(legislature), pn.squash(riding), pn.squash(surname))
@@ -398,6 +405,22 @@ def seat_holders(conn, legislature):
     return out
 
 
+def same_given(a, b):
+    """True when two printings of a given name can be one member's: the
+    letters of one occur within the other's ('kevindaniel' / 'kevindaniel',
+    'maileen' / 'aileen'). 'Jim' and 'Bob' cannot."""
+    a, b = pn.squash(a), pn.squash(b)
+    if not a or not b:
+        return True
+    short, long_ = sorted((a, b), key=len)
+    return short in long_
+
+
+def _given_of(conn, key):
+    row = conn.execute("SELECT given FROM prov_members WHERE prov=? AND member_key=?", (PROV, key)).fetchone()
+    return row[0] if row else None
+
+
 def canonical_key(conn, member, seats, legislature):
     """The key a parsed cover member is stored under: its own when the
     store knows it, else the ONE key already holding the same seat under the
@@ -406,7 +429,11 @@ def canonical_key(conn, member, seats, legislature):
                     (PROV, member["key"])).fetchone():
         return member["key"]
     keys = seats.get(_seat(legislature, member.get("riding"), member["surname"])) if member.get("riding") else None
-    return next(iter(keys)) if keys and len(keys) == 1 else member["key"]
+    if keys and len(keys) == 1:
+        key = next(iter(keys))
+        if same_given(_given_of(conn, key), member.get("given")):
+            return key
+    return member["key"]
 
 
 def merge_split_members(conn, log=print):
@@ -443,7 +470,15 @@ def merge_split_members(conn, log=print):
         votes = {k: conn.execute("SELECT COUNT(*) FROM prov_votes WHERE member_key=? AND division_key LIKE ?",
                                  (k, PROV + "-%")).fetchone()[0] for k in keys}
         kept = sorted(keys, key=lambda k: (-votes[k], k))[0]
-        merged = sorted(keys - {kept})
+        merged = []
+        for k in sorted(keys - {kept}):
+            if same_given(_given_of(conn, kept), _given_of(conn, k)):
+                merged.append(k)
+            else:
+                log("  on roster: NOT merged, same seat and surname but given names differ: "
+                    "{0} ({1!r}) and {2} ({3!r})".format(kept, _given_of(conn, kept), k, _given_of(conn, k)))
+        if not merged:
+            continue
         for k in merged:
             conn.execute("UPDATE prov_votes SET member_key=? WHERE member_key=? AND division_key LIKE ?",
                          (kept, k, PROV + "-%"))
@@ -725,7 +760,12 @@ def make_resolver(conn, record=None):
                       misprints=pn.load_misprints(PROV, record))
 
 
-def resolve_division(raw, resolver, date, legislature, document=None):
+def resolve_division(raw, resolver, date, legislature, document=None, reviewed=None,
+                     division_key=None):
+    """Votes resolved and the tally verdict. With `reviewed`
+    (pn.ReviewedDivisions) and the division's key, a reviewed Hansard label
+    for THAT division (config/prov_record.yaml, hansard_labels) is applied
+    before the tally runs, and noted in the tally note."""
     votes = []
     for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"])):
         for k, label in enumerate(labels, 1):
@@ -736,9 +776,13 @@ def resolve_division(raw, resolver, date, legislature, document=None):
     if raw.get("totals_only"):
         return votes, False, ("totals only: the V&P prints no names for this division (a dilatory "
                               "motion); the names are in Hansard, which is not read")
+    notes = []
+    if reviewed is not None and division_key:
+        notes = reviewed.settle(division_key, votes, getattr(resolver, "base", resolver), date, legislature)
     ok, note = ps.tally({"Yea": raw["yeas"], "Nay": raw["nays"]}, votes)
     if raw.get("problem"):
         ok, note = False, "; ".join(x for x in (raw["problem"], note) if x)
+    note = "; ".join(x for x in [note] + notes if x) or None
     return votes, ok, note
 
 
@@ -759,6 +803,7 @@ def read_vp(ctx, legislature, session, date, part, url, pdf_url, wl, named):
     if any(not d["totals_only"] for d in divisions):
         roster_for_day(ctx, legislature, date, pdf_url)
     resolver = make_resolver(ctx.conn)
+    reviewed = pn.ReviewedDivisions.load(PROV)
     for number, title in titles.items():
         key = ps.bill_key(PROV, legislature, session, number)
         named.add(number)
@@ -776,13 +821,14 @@ def read_vp(ctx, legislature, session, date, part, url, pdf_url, wl, named):
     for d in divisions:
         if d["bill_number"]:
             named.add(d["bill_number"])
-        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url)
+        seq = "{0}.{1}".format(part, d["seq"]) if part else d["seq"]
+        dkey = ps.division_key(PROV, legislature, session, date, seq)
+        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url,
+                                           reviewed=reviewed, division_key=dkey)
         bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         res = pc.classify(ctx.tax, wl, PROV, texts=[d["question"]], bill_key=bkey,
                           inherit=pc.Result(b_areas, b_terms, b_tier) if b_areas else None)
-        seq = "{0}.{1}".format(part, d["seq"]) if part else d["seq"]
-        dkey = ps.division_key(PROV, legislature, session, date, seq)
         if not ok and not d["totals_only"]:
             gaps += 1
             ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, note))
