@@ -309,5 +309,238 @@ class CollectTests(unittest.TestCase):
         self.assertIn("passed on division", ctx.gaps[0])
 
 
+# -- the 2010 backfill's tally gaps (2 October 2026) ---------------------------
+#
+# 358 of 1,338 recorded divisions failed the tally check after the backfill.
+# Each cause below is pinned by a trimmed page of the real V&P text (pypdf's
+# own extraction, glyph spacing and all) and resolved against the dated
+# terms of the 28th-30th Legislatures as collected from the member pages.
+
+def conn_with_history():
+    """Terms of every member of the 28th, 29th and 30th Legislatures, one
+    set per legislature, as the fixed roster reader stores them."""
+    conn = db.init_db(db.connect(":memory:"))
+    data = json.loads(fx("ab_terms_28_30.json"))
+    for m in data["members"]:
+        ps.upsert_member(conn, "ab", m["member_key"], name=m["name"], surname=m["surname"],
+                         given=m["given"])
+    by = {}
+    for t in data["terms"]:
+        by.setdefault((t["member_key"], t["legislature"]), []).append(t)
+    for (key, leg), ts in by.items():
+        ps.replace_terms(conn, "ab", key, ts, "member-page", legislature=leg)
+    conn.commit()
+    return conn
+
+
+class HistoryTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.conn = conn_with_history()
+        cls.r = ab.make_resolver(cls.conn)
+        cls.vocab = cls.r.surname_vocab()
+
+    def divisions(self, name):
+        return ab.parse_vp(fx(name), self.vocab)
+
+    def verdicts(self, name, date, legislature, resolver=None):
+        out = []
+        for d in self.divisions(name):
+            votes, ok, note = ab.resolve_division(d, resolver or self.r, date, legislature)
+            out.append((d, votes, ok, note))
+        return out
+
+    def test_the_remote_vote_asterisk_is_a_footnote_mark_not_a_name(self):
+        """2 June 2021. The V&P explains its own mark under every list:
+        "* Member voted remotely". It follows the name ('Amery*'), stands
+        apart from it ('Hanson *', 'Toor *') or wraps onto the next line
+        ('Allard' / '* Hunter Rutherford', 'Hanson' / '*'). Every list used
+        to stop at the first lone '*'."""
+        got = self.verdicts("ab_vp_20210602_remote.txt", "2021-06-02", 30)
+        self.assertEqual([(d["yeas"], d["nays"]) for d, _, _, _ in got],
+                         [(7, 30), (7, 31), (6, 31), (7, 33), (3, 44)])
+        for d, votes, ok, note in got:
+            self.assertTrue(ok, (d["seq"], note))
+        labels = [v["raw_label"] for v in got[1][1]]
+        self.assertIn("Allard*", labels)                 # 'Allard' / '* Hunter ...'
+        self.assertIn("Hanson*", labels)                 # 'Hanson' / '*'
+        self.assertIn("Hunter", labels)
+        self.assertFalse(any("remotely" in l or l.strip() == "*" for l in labels))
+        by = {v["raw_label"]: v["member_key"] for v in got[3][1]}
+        self.assertEqual(by["Sigurdson (Highwood)*"], "0945")    # R.J. Sigurdson
+        self.assertEqual(by["Sigurdson (Edmonton-Riverview)"], "0875")
+        self.assertEqual(by["Nixon (Calgary-Klein)*"], "0932")   # Jeremy Nixon
+
+    def test_a_heading_after_the_list_is_not_two_surnames(self):
+        """26 Oct 2015: "Intersessional Deposits" follows the Nay list."""
+        (d, votes, ok, note), = self.verdicts("ab_vp_20151026_heading.txt", "2015-10-26", 29)
+        self.assertEqual((d["yeas"], d["nays"]), (56, 9))
+        self.assertNotIn("Intersessional", d["nay_labels"])
+        self.assertTrue(ok, note)
+
+    def test_names_read_one_glyph_at_a_time_are_closed_up(self):
+        """24 June 2015: "(Leduc-Beaumont) G a n l e y  P a y n e" ended the list at 'Anderson'."""
+        (d, votes, ok, note), = self.verdicts("ab_vp_20150624_spaced.txt", "2015-06-24", 29)
+        self.assertIn("Ganley", d["nay_labels"])
+        self.assertIn("Payne", d["nay_labels"])
+        self.assertEqual(len(d["nay_labels"]), 45)
+        self.assertTrue(ok, note)
+
+    def test_a_surname_split_by_the_extraction_is_rejoined_only_when_known(self):
+        """13 Dec 2017: "Cortes-Vargas La rivee Shepherd"."""
+        (d, votes, ok, note), = self.verdicts("ab_vp_20171213_split.txt", "2017-12-13", 29)
+        self.assertIn("Larivee", d["yea_labels"])
+        self.assertTrue(ok, note)
+        self.assertEqual(pn.close_split_names("Cortes-Vargas La rivee Shepherd", {"larivee"}),
+                         "Cortes-Vargas Larivee Shepherd")
+        # 'van' is a surname token of its own; an unknown join is not made
+        self.assertEqual(pn.close_split_names("Orr van Dijken", {"van", "dijken", "orrvan"}),
+                         "Orr van Dijken")
+        self.assertEqual(pn.close_split_names("La rivee", {"lariviere"}), "La rivee")
+
+    def test_a_header_without_the_article_is_still_a_header(self):
+        """22 Apr 2013: "Against amendment:  44"."""
+        (d, votes, ok, note), = self.verdicts("ab_vp_20130422_noarticle.txt", "2013-04-22", 28)
+        self.assertEqual((d["yeas"], d["nays"], len(d["nay_labels"])), (23, 44, 44))
+        self.assertTrue(ok, note)
+
+    def test_a_list_without_a_printed_total_is_read_but_never_trusted(self):
+        """3 Dec 2012: the V&P prints "Against the amendment" with no total.
+        Hansard gives 29 and the list holds 29, but the V&P's own check is
+        missing, so the division stays a gap (config/prov_known_gaps.yaml)."""
+        (d, votes, ok, note), = self.verdicts("ab_vp_20121203_nototal.txt", "2012-12-03", 28)
+        self.assertEqual((d["yeas"], d["nays"], len(d["nay_labels"])), (9, None, 29))
+        self.assertFalse(ok)
+        self.assertIn("no printed total", note)
+
+    def test_a_name_the_record_left_out_stays_a_gap(self):
+        """13 May 2013: "Against the motion: 14" over 13 names. Hansard's
+        list for the same division has Wilson; the V&P dropped him. The check
+        is not loosened and no name is supplied."""
+        (d, votes, ok, note), = self.verdicts("ab_vp_20130513_misprint.txt", "2013-05-13", 28)
+        self.assertFalse(ok)
+        self.assertEqual(note, "Nay: 13 name(s) read, 14 printed")
+
+    def test_glasgo_is_michaela_frey_and_the_abbreviated_riding_is_jason_nixon(self):
+        """23 May 2019, 80-0. Both from config/prov_record.yaml, reviewed:
+        Frey's member page says "Also served under Glasgo"; the V&P writes
+        "Rimbey-Rocky Mtn. House-Sundre"."""
+        (d, votes, ok, note), = self.verdicts("ab_vp_20190523_glasgo_nixon.txt", "2019-05-23", 30)
+        self.assertTrue(ok, note)
+        by = {v["raw_label"]: (v["member_key"], v["how"]) for v in votes}
+        self.assertEqual(by["Glasgo"], ("0918", "other-surname"))
+        self.assertEqual(by["Nixon (Rimbey-Rocky Mtn. House-Sundre)"], ("0892", "surname+riding"))
+        self.assertEqual(by["Nixon (Calgary-Klein)"], ("0932", "surname+riding"))
+        # Without the reviewed facts, both are gaps, never guesses.
+        bare = pn.Resolver.from_conn(self.conn, "ab")
+        (_, votes, ok, note), = self.verdicts("ab_vp_20190523_glasgo_nixon.txt", "2019-05-23", 30, bare)
+        self.assertFalse(ok)
+        self.assertIn("'Glasgo'", note)
+        self.assertIn("'Nixon (Rimbey-Rocky Mtn. House-Sundre)'", note)
+
+    def test_an_other_surname_is_still_unique_or_nothing(self):
+        members = {"0918": {"surname": "Frey", "given": "Michaela"},
+                   "x1": {"surname": "Glasgo", "given": "Someone"}}
+        terms = [{"member_key": k, "legislature": 30, "riding": None, "start": "2019-04-16",
+                  "end": None} for k in members]
+        r = pn.Resolver(members, terms, other_surnames={"0918": ["Glasgo"]})
+        key, how = r.resolve("Glasgo", "2019-05-23", 30)
+        self.assertIsNone(key)
+        self.assertTrue(how.startswith("ambiguous"), how)
+        self.assertEqual(r.resolve("Frey", "2019-05-23", 30)[0], "0918")
+
+    def test_reviewed_entries_must_carry_their_evidence(self):
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False) as fh:
+            fh.write('provinces:\n  "ab":\n    other_surnames:\n      - member: "0918"\n'
+                     '        surname: "Glasgo"\n')
+        try:
+            with self.assertRaises(ValueError):
+                pn.load_other_surnames("ab", fh.name)
+        finally:
+            os.unlink(fh.name)
+        self.assertEqual([a["surname"] for a in pn.load_other_surnames("ab")], ["Glasgo"])
+        self.assertEqual([a["printed"] for a in pn.load_riding_aliases("ab")],
+                         ["Rimbey-Rocky Mtn. House-Sundre"])
+
+
+class DivisionBillTests(unittest.TestCase):
+    """Which bill a division decided: three of the six bill-page flags no
+    parsed division matched were Standing Order 64 questions "on the
+    Appropriation Bill standing on the Order Paper", which name no bill."""
+
+    def bills(self, name):
+        return [d["bill_number"] for d in ab.parse_vp(fx(name), set())]
+
+    def test_the_appropriation_bill_is_the_one_the_outcome_line_names(self):
+        """28 Apr 2011: Bill 16 was debated last; the question was on Bill 17."""
+        self.assertEqual(self.bills("ab_vp_20110428_so64.txt"), ["17"])
+
+    def test_with_two_appropriation_bills_the_main_act_is_meant(self):
+        """26 Mar 2026: Bills 19 (Appropriation Act) and 20 (Supplementary
+        Supply) are both listed; Bill 20 passed on the voice earlier."""
+        self.assertEqual(self.bills("ab_vp_20260326_so64.txt"), ["19"])
+
+    def test_the_outcome_line_never_overrides_a_named_bill(self):
+        """9 Dec 2025: a division on adjourning Bill 9's debate, then the line
+        "The following Bill was read a Third time and passed: Bill 13" -- the
+        report of an earlier division. The division stays on Bill 9."""
+        self.assertEqual(self.bills("ab_vp_20251209_adjourn.txt"), ["9"])
+
+
+class RosterLegislatureTests(unittest.TestCase):
+    """Reading the 31st Legislature's roster deleted the member-page terms
+    stored for the 29th and 30th: one member page, one delete for ALL of
+    that member's terms, re-inserted under the legislature being read. A
+    2015-2023 member then held no term in the 30th, and re-reading its
+    divisions failed (Rachel Notley, Jason Nixon). Terms are replaced per
+    legislature now."""
+
+    def test_replace_terms_can_be_scoped_to_one_legislature(self):
+        conn = db.init_db(db.connect(":memory:"))
+        for leg in (29, 30, 31):
+            ps.replace_terms(conn, "ab", "0791", [{"legislature": leg, "party": "NDP"}],
+                             "member-page", legislature=leg)
+        ps.replace_terms(conn, "ab", "0791", [{"legislature": 31, "party": "NDP"}],
+                         "member-page", legislature=31)
+        legs = [r[0] for r in conn.execute("SELECT legislature FROM prov_member_terms ORDER BY 1")]
+        self.assertEqual(legs, [29, 30, 31])
+
+    def test_reading_two_rosters_keeps_both_legislatures_terms(self):
+        """The 31st roster fixture stands in for both rosters: what is under
+        test is that the second read leaves the first one's terms alone."""
+        conn = db.init_db(db.connect(":memory:"))
+        page = "https://www.assembly.ab.ca/members/members-of-the-legislative-assembly/member-information?mid=0791"
+        rows = {r["mid"]: r for r in ab.parse_roster(fx("ab_roster_31.html"))}
+        client = _Client({ab.ROSTER.format(30): fx("ab_roster_31.html"),
+                          ab.ROSTER.format(31): fx("ab_roster_31.html"),
+                          rows["0791"]["href"]: fx("ab_member_0791.html"), page: fx("ab_member_0791.html")})
+        ctx = Context(conn, client, "ab", log=lambda *a: None, robots=False)
+        ab.fetch_roster(ctx, 30)
+        ab.fetch_roster(ctx, 31)
+        legs = {r[0] for r in conn.execute(
+            "SELECT legislature FROM prov_member_terms WHERE member_key='0791' AND source='member-page'")}
+        self.assertEqual(legs, {30, 31})
+        r = pn.Resolver.from_conn(conn, "ab")
+        self.assertEqual(r.resolve("Notley", "2019-06-05", 30)[0], "0791")
+
+
+class NameRunTests(unittest.TestCase):
+    def test_letter_spacing(self):
+        self.assertEqual(pn.close_letter_spacing("(Leduc-Beaumont) G a n l e y  P a y n e "),
+                         "(Leduc-Beaumont) Ganley  Payne ")
+        self.assertEqual(pn.close_letter_spacing("Sigurdson, R J"), "Sigurdson, R J")
+
+    def test_the_mark_is_kept_on_the_label_and_dropped_from_the_name(self):
+        lab = pn.parse_label("Sigurdson (Highwood)*")
+        self.assertEqual((lab.tokens, lab.riding), (["sigurdson"], "Highwood"))
+        self.assertEqual(pn.split_name_run(["Allard", "* Hunter Rutherford", "van Dijken *"],
+                                           {("van", "dijken"), ("allard",), ("hunter",)}),
+                         ["Allard*", "Hunter", "Rutherford", "van Dijken*"])
+        self.assertFalse(pn.is_name_line("* Member voted remotely", set()))
+        self.assertFalse(pn.is_name_line("*Member voted remotely", set()))
+        self.assertTrue(pn.is_name_line("*", set()))
+
+
 if __name__ == "__main__":
     unittest.main()

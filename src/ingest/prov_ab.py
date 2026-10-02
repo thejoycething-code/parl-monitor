@@ -24,7 +24,13 @@ robots.txt carries only a sitemap line.
     "For the motion: 47" then three columns of surnames, a riding where two
     members share one ("Sigurdson (Highwood)", sometimes wrapped onto the
     next line), then "Against the motion: 35". The printed totals are the
-    tally check.
+    tally check. Older layouts read too (2 October 2026, the 2010 backfill):
+    the COVID-era remote-vote mark ("Amery*", explained under each list as
+    "* Member voted remotely"), names pypdf reads one glyph at a time, a
+    heading straight after a list, "Against amendment:" and a header with no
+    total (read, and failed by the tally check). Reviewed facts from
+    config/prov_record.yaml: Michaela Frey sat as Glasgo; the V&P writes
+    "Rimbey-Rocky Mtn. House-Sundre".
 
 Hansard (PDF, speeches) is not read yet: see the scope's "Built" notes.
 """
@@ -211,16 +217,19 @@ def fetch_roster(ctx, legislature):
             continue
         page_html = None if ctx.stop() else ctx.text(r["href"], "member-{0}".format(r["mid"]))
         page = parse_member_page(page_html) if page_html else None
+        # Terms are replaced for THIS legislature only: a member page is read
+        # once per legislature the member sat in, and each read must leave the
+        # other legislatures' terms alone (see ps.replace_terms).
         if page and page["affiliations"]:
             ps.replace_terms(ctx.conn, PROV, r["mid"], terms_from_page(page, legislature, r["riding"]),
-                             "member-page")
-            ps.replace_terms(ctx.conn, PROV, r["mid"], [], "roster")
+                             "member-page", legislature=legislature)
+            ps.replace_terms(ctx.conn, PROV, r["mid"], [], "roster", legislature=legislature)
             pages += 1
         else:
             # The listing alone: party and riding as listed, NOT dated.
             ps.replace_terms(ctx.conn, PROV, r["mid"], [{
                 "legislature": legislature, "party": r["caucus"], "riding": r["riding"],
-                "start": None, "end": None, "party_dated": 0}], "roster")
+                "start": None, "end": None, "party_dated": 0}], "roster", legislature=legislature)
     ctx.conn.commit()
     ctx.log("  ab roster legl={0}: {1} member(s), {2} member page(s) read".format(
         legislature, len(rows), pages))
@@ -371,8 +380,17 @@ def store_voice_stages(ctx, key, legislature, session, stages, page_url):
 
 # -- Votes and Proceedings ----------------------------------------------------
 
-HEADER = re.compile(r"^\s*(For|Against) the (motion|amendment|subamendment|sub-amendment)\s*:\s*(\d+)\s*$",
-                    re.I)
+# "For the motion: 47". Two variants of the record are read as well (2 October
+# 2026): "Against amendment: 44" with no "the" (22 April 2013), and a header
+# with NO total, "Against the amendment" (3 December 2012). A list read under
+# a header with no total keeps its names, and the tally check -- which has no
+# printed total to hold them to -- fails it: the names are stored, never trusted.
+HEADER = re.compile(r"^\s*(For|Against)\s+(?:the\s+)?(motion|amendment|subamendment|sub-amendment)"
+                    r"\s*(?::\s*(\d+))?\s*$", re.I)
+
+
+def _total(m):
+    return int(m.group(3)) if m.group(3) is not None else None
 _READ_A = re.compile(r"On the motion that the following Bills? be now read a (First|Second|Third) time", re.I)
 _BILL_LINE = re.compile(r"^\s*Bill (\d+)\s+(.+?)\s+[—–-]\s+(?:Hon\.|Mr\.|Ms|Mrs\.|Dr\.|Member|MLA)")
 _RESULT = re.compile(r"((?:the|which)\s[^.]{0,140}?\s(?:was|were)\s(?:agreed to|defeated|carried|negatived|lost))",
@@ -413,7 +431,89 @@ _RESETS = {
     "orders of the day": None, "ministerial statements": None, "members' statements": None,
     "presenting petitions": None, "tabling returns and reports": None, "adjournment": None,
     "emergency debate": "Motion",
+    # Every word of this heading is capitalised, so it once read as two
+    # surnames at the foot of a Nay list (26 Oct 2015, 25 Oct 2021, 28 Feb
+    # 2024, 24 Feb 2026: "Nay: 11 name(s) read, 9 printed; unresolved
+    # 'Intersessional', 'Deposits'"). A heading ends a name list.
+    "intersessional deposits": None,
 }
+
+
+_OUTCOME = re.compile(r"^\s*The following Bills? (?:was|were) (?:read a (?:First|Second|Third) time|reported)",
+                      re.I)
+_LISTED_BILL = re.compile(r"^\s*Bill (\d+)\s+(.*)")
+_CHAIR = re.compile(r"^\s*(?:And after some time spent therein, )?the (?:Deputy |Acting )?Speaker "
+                    r"(?:resumed|assumed) the Chair\.?\s*$", re.I)
+
+
+def _outcome_bills(lines, i):
+    """[(number, title)] of the bills named by the outcome line that comes
+    IMMEDIATELY after a division's lists ("The following Bill was read a
+    Third time and passed:", "The following Bills were reported:"), or []
+    when the next line is anything else. Only the Chair's return from
+    Committee of the Whole may stand between them."""
+    n = len(lines)
+    while i < n and (pn.is_furniture(lines[i]) or _CHAIR.match(lines[i])):
+        i += 1
+    if i >= n or not _OUTCOME.match(lines[i]):
+        return []
+    out = []
+    for line in lines[i + 1:i + 14]:
+        if pn.is_furniture(line):
+            continue
+        b = _LISTED_BILL.match(line)
+        if b:
+            out.append([b.group(1), b.group(2)])
+        elif out and not _sponsor_read(out[-1][1]):
+            out[-1][1] += " " + line.strip()             # a title or sponsor wrapped
+        else:
+            break
+    return [tuple(x) for x in out]
+
+
+_HONORIFIC_WORDS = {"hon", "h", "on", "mr", "ms", "mrs", "dr", "mla", "member", "behalf", "of"}
+
+
+def _sponsor_read(entry):
+    """True once a listed bill's line has its sponsor's NAME after the dash:
+    'Bill 28 Electoral Divisions Act — Hon. Ms Redford' is whole; 'Bill 24
+    Carbon Capture ... ($ ) — Hon.' and 'Bill 22 Reform of Agencies ...'
+    continue on the next line."""
+    parts = re.split(r"[—–]", entry)
+    if len(parts) < 2:
+        return False
+    words = [w for w in re.split(r"[\s.]+", parts[-1]) if w and w.lower() not in _HONORIFIC_WORDS]
+    return bool(words)
+
+
+def _decided_bill(question, listed):
+    """The bill an UNNAMED-bill division decided, from the outcome line
+    after it; else None and the caller keeps the bill named last before it.
+
+    Built on the six "passed on division" stages no parsed division matched
+    (2 October 2026). Under Standing Order 64 the Chair puts "the question
+    on the Appropriation Bill standing on the Order Paper" without naming
+    it, and the bill named last before it was one debated earlier (28 Apr
+    2011: Bill 16 for Bill 17; 22 Jun 2015: Bill 1 for Bill 3; 20 Nov 2019:
+    none for Bill 24). Such a question takes the ONE listed bill titled
+    Appropriation..., or failing that the one titled exactly "Appropriation
+    Act" (26 Mar 2026 lists the main and the supplementary Act; the Standing
+    Order means the main one). The plural ("the Appropriation Bills") is one
+    question on two bills and is left alone.
+
+    The outcome line is NOT used for any other division: it reports what
+    the House decided since the last report, not what the division just
+    above it decided. After a division on adjourning the debate on Bill 9,
+    the next line reported Bill 13 read a third time by the division before
+    (9 Dec 2025); after an amendment to Bill 4, Bill 5 reported (2 Dec 2015)."""
+    if not listed:
+        return None
+    if re.search(r"\bappropriation bill\s+standing on the order paper", question or "", re.I):
+        for pattern in (r"^appropriation\b", r"^appropriation act\b"):
+            hits = [num for num, title in listed if re.match(pattern, title.strip(), re.I)]
+            if len(hits) == 1:
+                return hits[0]
+    return None
 
 
 def parse_vp(text, vocab):
@@ -435,7 +535,8 @@ def parse_vp(text, vocab):
             if pn.is_furniture(l):
                 i += 1
                 continue
-            if HEADER.match(l) or not pn.is_name_line(l, tokens):
+            if HEADER.match(l) or l.strip().lower().rstrip(":") in _RESETS \
+                    or not pn.is_name_line(l, tokens):
                 break
             got.append(l)
             i += 1
@@ -445,14 +546,14 @@ def parse_vp(text, vocab):
         line = lines[i]
         m = HEADER.match(line)
         if m and m.group(1).lower() == "for":
-            vote_on, yeas = m.group(2).lower(), int(m.group(3))
+            vote_on, yeas = m.group(2).lower(), _total(m)
             yea_lines, i = take(i + 1)
             while i < n and pn.is_furniture(lines[i]):
                 i += 1
             m2 = HEADER.match(lines[i]) if i < n else None
             problem, nays, nay_lines = None, None, []
             if m2 and m2.group(1).lower() == "against":
-                nays = int(m2.group(3))
+                nays = _total(m2)
                 nay_lines, i = take(i + 1)
             else:
                 problem = "no 'Against the {0}' list after 'For the {0}: {1}'".format(vote_on, yeas)
@@ -461,13 +562,14 @@ def parse_vp(text, vocab):
             result = division_result(results[-1].strip() if results else None, yeas, nays,
                                      voice="on the voice vote" in ctx_text.lower())
             named = re.findall(r"\bBill (\d+)\b", ctx_text)
+            decided = _decided_bill(ctx_text, _outcome_bills(lines, i))
             out.append({
                 "seq": len(out) + 1, "vote_on": vote_on, "yeas": yeas, "nays": nays,
                 "yea_labels": pn.split_name_run(yea_lines, vocab),
                 "nay_labels": pn.split_name_run(nay_lines, vocab),
                 "question": ctx_text[-600:] or None,
                 "result": result,
-                "stage": stage, "bill_number": named[-1] if named else bill,
+                "stage": stage, "bill_number": decided or (named[-1] if named else bill),
                 "problem": problem})
             context = []
             continue
@@ -489,12 +591,12 @@ def parse_vp(text, vocab):
     return out
 
 
-def resolve_division(raw, resolver, date, legislature):
+def resolve_division(raw, resolver, date, legislature, document=None):
     """Votes with members resolved, and the tally verdict."""
     votes = []
     for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"])):
         for k, label in enumerate(labels, 1):
-            key, how = resolver.resolve(label, date, legislature)
+            key, how = resolver.resolve(label, date, legislature, document=document)
             votes.append({"position": position, "ordinal": k, "raw_label": label,
                           "member_key": key, "how": how,
                           "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
@@ -521,7 +623,7 @@ def read_sitting(ctx, legislature, session, date, url, resolver, wl, vocab):
     divisions = parse_vp(text, vocab)
     gaps = 0
     for d in divisions:
-        votes, ok, note = resolve_division(d, resolver, date, legislature)
+        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url)
         bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         inherit = pc.Result(b_areas, b_terms, b_tier) if b_areas else None
@@ -565,6 +667,14 @@ def check_division_flags(ctx, legislature, session, read_dates):
     return misses
 
 
+def make_resolver(conn, record=None):
+    """The dated resolver with Alberta's reviewed facts from
+    config/prov_record.yaml: other surnames read on members' own pages
+    (Michaela Frey, who sat as Glasgo) and the V&P's abbreviated ridings
+    ('Rimbey-Rocky Mtn. House-Sundre'). Unique-or-nothing as always."""
+    return pn.Resolver.from_conn(conn, PROV).with_record(PROV, record)
+
+
 def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     legislature, sess = parse_session(session)
     ctx.tax = pc.load_taxonomy()
@@ -581,8 +691,9 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     stats["records_listed"] = len(records)
     if ctx.dry_run:
         return stats
-    resolver = pn.Resolver.from_conn(ctx.conn, PROV)
-    vocab = resolver.surname_vocab()
+    base = make_resolver(ctx.conn)
+    resolver = pn.Aliased(base, pn.load_aliases(PROV), base=base)
+    vocab = base.surname_vocab()
     read = divs = gaps = 0
     read_dates = set()
     for date, url in records:

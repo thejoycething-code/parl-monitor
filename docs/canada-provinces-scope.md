@@ -129,9 +129,25 @@ Divisions per year are measured where a sample was taken and marked "est." other
 - **Proof reproduced:** on 3 December 2024, third readings of Bill 26 (47–35, area 3), Bill 27 (47–33, area 6) and Bill 29 (47–33, area 5) all had their tallies matched. Smith and LaGrange voted Yea; Notley and Gray voted Nay. Party at the vote was United Conservative or Alberta NDP.
 - **Known limits:**
   - Hansard (speeches) is not read.
-  - The V&P parser knows the 31st-Legislature layout; older layouts are untested and will show up as tally gaps, not wrong votes.
+  - The V&P parser was proven on the 31st Legislature, then on the 27th-30th by the 2010 backfill (below). A layout it does not know still shows up as a tally gap, not wrong votes.
   - A division's bill is the last bill named before it. Committee of the Whole sittings that take several bills together could attach a division to the wrong one.
   - The taxonomy's tier-1 "named person" (added for Holyrood) tags Alberta's Professional Governance Act (Bill 40) as area 6. That is a false positive, and the fix is a taxonomy decision.
+- **The 2010 backfill's tally gaps (2 October 2026).** 358 of 1,338 recorded divisions failed the tally check, 306 of them in the 30th Legislature. Re-read locally from 186 fetched V&Ps (the 136 failing days, the six flag days and a 46-day sample of passing ones): 355 now pass, 3 are the record's own errors, 0 regressions, and no identity on a previously passing division changed. By cause (a division can show several):
+
+  | Cause | Divisions | Fix |
+  |---|---|---|
+  | "Nixon (Rimbey-Rocky Mtn. House-Sundre)": the V&P abbreviates Jason Nixon's riding | 185 | reviewed `riding_aliases` in config/prov_record.yaml |
+  | "Glasgo": Michaela Frey sat as Glasgo until 2021; her member page says "Also served under Glasgo" | 133 | reviewed `other_surnames` in config/prov_record.yaml |
+  | A list cut short or miscounted | 101 | glyph-spaced names closed up ("G a n l e y  P a y n e"); a split surname rejoined only when the join is a known surname ("La rivee"); "Against amendment:" with no "the"; a header with no total read, and failed |
+  | The remote-vote mark "Amery*", "Hanson *", or a lone "*" wrapped to the next line. The V&P's own footnote: "* Member voted remotely" | 42 | the mark is kept on the raw label and dropped from the name |
+  | A shared surname printed bare (the list was cut before its riding line) | 35 | the list fixes above |
+  | "Intersessional Deposits" read as two surnames | 4 | the heading ends a name list |
+
+  **Roster terms were being overwritten.** Reading one legislature's roster replaced ALL of a member's member-page terms with that legislature's, so a member who sat in the 29th, 30th and 31st kept only the last one read; re-reading their earlier divisions failed. `ps.replace_terms(..., legislature=)` now replaces one legislature's terms. The published store's terms are still in the overwritten state. The next Alberta backfill dispatch rebuilds them (a legislature's member page is re-read for any member holding no term in it) and re-reads the 136 gap sittings, which are still owed.
+
+  **Left, each in config/prov_known_gaps.yaml with its evidence:** 3 Dec 2012 (the V&P prints no Nay total; Hansard gives 29, the list holds 29); 13 May 2013 (the V&P lists 13 under "14"; Hansard's list has Wilson); 19 Nov 2013 (a bare "Johnson" with two sitting; Hansard says "Johnson, L.", but an alias may not settle an ambiguity).
+
+  **The six "passed on division" flags with no division:** three were the parser (a Standing Order 64 question "on the Appropriation Bill standing on the Order Paper" names no bill; it now takes the one Appropriation bill the outcome line lists: 28 Apr 2011 Bill 17, 22 Jun 2015 Bill 3, 20 Nov 2019 Bill 24). Two are the record's own errors (known gaps): Bill 20's page on 26 Mar 2026 (the V&P passed it on the voice), and 26 Nov 2015, where the V&P calls Bill 5 "Bill 9". One is ours: on 23 Mar 2022 one question approved Bills 7 and 8 together, and a division is stored against one bill, so Bill 7 shows no division.
 
 ### Saskatchewan (step 2): `src/ingest/prov_sk.py`
 

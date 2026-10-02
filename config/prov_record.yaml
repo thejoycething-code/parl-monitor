@@ -3,7 +3,7 @@
 # Every entry here was READ BY A PERSON in an official document and checked
 # against a second record. Nothing is inferred: an entry names the document
 # it was read in, the date, and what it was checked against. The collectors
-# (src/ingest/prov_nb.py, prov_nl.py, prov_ns.py) read this file; nothing in
+# (src/ingest/prov_nb.py, prov_nl.py, prov_ns.py, prov_ab.py) read this file; nothing in
 # it overrides a record that resolves on its own.
 #
 #   label_aliases  A printed name in a division list that is a typo in the
@@ -15,11 +15,53 @@
 #   by_elections   (nl) Vacancies and by-elections in a year whose Members'
 #                  Attendance summary has no text (2024 is a scan). Used by
 #                  prov_nl.bridge_year to date the roster terms around them.
+#   other_surnames A surname a member ALSO sat under, as the member's own
+#                  official page states it. Read by
+#                  src/prov_names.Resolver.with_record: the label is still
+#                  matched against every member valid on the day, so the
+#                  answer stays unique-or-nothing.
+#   riding_aliases A constituency as a record abbreviates it, with the
+#                  constituency's own name. Same reader; a riding still has
+#                  to match one of the member's own terms that day.
 #
 # Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
-# (3 October 2026).
+# (3 October 2026). Alberta's entries added 2 October 2026 for the
+# 2010 backfill's tally gaps.
 
 provinces:
+  "ab":
+    other_surnames:
+      - member: "0918"
+        surname: "Glasgo"
+        document: https://www.assembly.ab.ca/members/members-of-the-legislative-assembly/member-information?mid=0918
+        verified_against: >-
+          The member page heads "Michaela Frey (Also served under Glasgo)",
+          30th Legislature, Brooks-Medicine Hat, 16 Apr 2019 - 6 Oct 2022.
+          The V&P of 23 May 2019 (legislature_30/session_1/20190523_1200_01_vp.pdf)
+          prints "Ms Glasgo, Hon. Member for Brooks-Medicine Hat" and the V&P
+          of 25 Oct 2021 (legislature_30/session_2/20211025_1200_01_vp.pdf)
+          "Mrs. Frey, Hon. Member for Brooks-Medicine Hat". Division lists
+          print "Glasgo" from 23 May 2019 to 16 Jun 2021 and "Frey" from
+          25 Oct 2021, never both in one list; the 30th Legislature has no
+          other Glasgo.
+        why: >-
+          "Glasgo" was unresolved in 133 recorded divisions of the 30th
+          Legislature (2019-2021): the roster carries only her later surname.
+    riding_aliases:
+      - printed: "Rimbey-Rocky Mtn. House-Sundre"
+        riding: "Rimbey-Rocky Mountain House-Sundre"
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_1/20190523_1200_01_vp.pdf
+        verified_against: >-
+          Jason Nixon's member page (member-information?mid=0892) gives
+          Rimbey-Rocky Mountain House-Sundre for the 29th, 30th and 31st
+          Legislatures; the V&P of 16 Mar 2015
+          (legislature_28/session_3/20150316_1200_01_vp.pdf) spells it in
+          full ("Hon. Member for Rimbey-Rocky Mountain House-Sundre"). No
+          other Alberta constituency begins "Rimbey-Rocky".
+        why: >-
+          With two Nixons sitting (Jason, and Jeremy for Calgary-Klein) the
+          V&P names Jason "Nixon (Rimbey-Rocky Mtn. House-Sundre)", which did
+          not match his riding: unresolved in 185 recorded divisions, 2019-2023.
   "ns":
     label_aliases:
       - printed: "Tom Taggar"
