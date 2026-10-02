@@ -19,7 +19,12 @@
 #   * `read_first:` with no values -- the text was not read, so no direction
 #     is proposed. None remain: the seven were read on 26 September 2026 and
 #     now carry their `text:`, `moved_by:` and `source:`, with proposed
-#     values that are still drafts.
+#     values that are still drafts. The five read-first entries added with
+#     the 2010-2024 landmarks (C-279 x2, C-36, the C-16 Senate amendment,
+#     S-224) were read and DRAFTED on 2 October 2026 (Christopher: "Draft the
+#     10 'read first' readings"): UNCONFIRMED, each carries `draft: true` and
+#     places nobody until he deletes it. Two of them (the C-279 report stage
+#     amendments) are proposed as `placeable: false`.
 #
 # Keys are the store's: `commons-<parl>-<sess>-<number>` and
 # `senate-<parl>-<sess>-<details id>`; bills are `<parl>-<sess>/<number>`.
@@ -1003,26 +1008,186 @@ divisions:
     placeable: false
     title: "C-11 Senate pre-study motion"
     reason: "Procedure, not substance."
+  # --- The five read-first entries, DRAFTED 2 October 2026 -------------------
+  # (Christopher: "Draft the 10 'read first' readings".) Each text was read
+  # from the Journals; the lobbies are counted from ca_votes. UNCONFIRMED:
+  # every entry carries `draft: true` and places nobody until he deletes it.
   - key: commons-41-1-642
-    read_first: true
-    title: "C-279 report stage amendment"
-    reason: "The amendment's text has not been read, so no side is proposed."
+    draft: true
+    placeable: false
+    title: "C-279 report stage, Garrison Motions 1, 2, 4, 7 and 8: strike 'gender expression'"
+    dated: 2013-03-20
+    result: "Agreed To 152-134"
+    lobbies: "Yea: NDP 99, Liberal 28, Conservative 18, Bloc Québécois 5, Green Party 1, Independent 1. Nay: Conservative 133, Independent Conservative 1"
+    moved_by: "Randall Garrison (NDP, Esquimalt—Juan de Fuca; the bill's sponsor), seconded by Kennedy Stewart (both voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/41/1/642 (sitting 225); the
+      motions as moved, Journals 27 February 2013
+      (ourcommons.ca/DocumentViewer/en/41-1/house/sitting-215/journals); the
+      division and "Motions Nos. 2, 4, 7 and 8 were also agreed to on the
+      same division", Journals 20 March 2013 (sitting-225/journals)
+    text: >
+      Motion No. 1: That Bill C-279 be amended by replacing the long title on
+      page 1 with the following: "An Act to amend the Canadian Human Rights
+      Act and the Criminal Code (gender identity)". Motions 2, 4, 7 and 8
+      rewrite the same lines in the Human Rights Act (ss.2 and 3) and the
+      Criminal Code (ss.318 and 718.2) without "gender expression", e.g.
+      Motion No. 8: "physical disability, gender identity, sexual
+      orientation, or any other".
+    reason: >
+      TEXT READ 2 October 2026 (draft). The sponsor's own amendment NARROWING
+      his bill: it takes "gender expression" out of every clause. On its face
+      a Yea is our direction, but it was cast by the bill's supporters to
+      carry it, and the Conservative Nay was opposition to the bill, not to
+      the narrowing. It split as the third reading (645): 282 of the 283
+      members who voted on both voted the same way (one exception, Ryan
+      Leef, not sitting). The readings already carry C-279 (271 at +/-1, 645
+      at +/-2); a value here would either reward the bill's supporters or
+      count the same vote twice.
   - key: commons-41-1-643
-    read_first: true
-    title: "C-279 report stage amendment"
-    reason: "The amendment's text has not been read, so no side is proposed."
+    draft: true
+    placeable: false
+    title: "C-279 report stage, Garrison Motions 3, 5, 6 and 9: statutory definition of 'gender identity'"
+    dated: 2013-03-20
+    result: "Agreed To 148-140"
+    lobbies: "Yea: NDP 99, Liberal 27, Conservative 15, Bloc Québécois 5, Green Party 1, Independent 1. Nay: Conservative 139, Independent Conservative 1"
+    moved_by: "Randall Garrison (NDP, Esquimalt—Juan de Fuca; the bill's sponsor), seconded by Kennedy Stewart (both voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/41/1/643 (sitting 225); the
+      motions as moved, Journals 27 February 2013 (sitting-215/journals);
+      "Motions Nos. 5, 6 and 9 were also agreed to on the same division",
+      Journals 20 March 2013 (sitting-225/journals)
+    text: >
+      Motion No. 3: That Bill C-279, in Clause 1, be amended by adding after
+      line 21 on page 1 the following: "(2) In this section, "gender
+      identity" means, in respect of an individual, the individual's deeply
+      felt internal and individual experience of gender, which may or may not
+      correspond with the sex that the individual was assigned at birth."
+      Motions 5, 6 and 9 apply the same definition to s.3 of the Human Rights
+      Act and to ss.318 and 718.2 of the Criminal Code.
+    reason: >
+      TEXT READ 2 October 2026 (draft). The definition writes "the sex that
+      the individual was assigned at birth" into statute, which is against
+      sex-based rights on its face -- but it too was the sponsor's amendment
+      to carry the bill, and it split as the third reading (645): 283 of 286
+      voted the same way; the three exceptions (Bruce Stanton, Bernard
+      Trottier, Erin O'Toole: Nay here, Yea at third reading) are none of
+      them sitting. Evidence only, as for 642. IF Christopher prefers to
+      score the definition on its own, the shape would be Yea -1 / Nay +1.
   - key: commons-41-2-235
-    read_first: true
-    title: "C-36 report stage amendment"
-    reason: "The amendment's text has not been read, so no side is proposed."
+    draft: true
+    title: "C-36 report stage, May Motions 1-52: delete every part of the bill"
+    dated: 2014-09-29
+    result: "Negatived 120-144"
+    lobbies: "Yea: NDP 87, Liberal 29, Green Party 2, Independent 1, Bloc Québécois 1. Nay: Conservative 142, Independent 1, Conservative Independent 1"
+    moved_by: "Elizabeth May (Green Party, Saanich—Gulf Islands), seconded by Bruce Hyer (both voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/41/2/235 (sitting 118); the
+      52 motions as moved, Journals 22 September 2014
+      (ourcommons.ca/DocumentViewer/en/41-2/house/sitting-113/journals);
+      "Motions Nos. 2 to 52 were also negatived on the same division",
+      Journals 29 September 2014 (sitting-118/journals)
+    text: >
+      Motion No. 1: That Bill C-36 be amended by deleting the long title.
+      Motion No. 2: That Bill C-36 be amended by deleting the preamble.
+      Motion No. 3: That Bill C-36 be amended by deleting Clause 1. Motions
+      Nos. 4 to 52 delete each further clause in the same words, to Clause
+      49 (45.1 included).
+    # TEXT READ 2 October 2026 (draft). Fifty-two deletions that together
+    # strike the whole bill: a vote to kill the Nordic model at report stage.
+    # It split as the third reading (249) inverted: of the 248 who voted on
+    # both, 107 Yea here were Nay at third reading and 140 Nay here were Yea;
+    # one exception. +/-1, not +/-2, as for Lawton's motion to withdraw C-9
+    # (commons-45-1-167): a whole-bill vote at a procedural stage, and the
+    # third reading already carries the full-strength reading.
+    yea: -1
+    why_yea: "Voted to strike every clause of C-36, the law criminalising the purchase of sex (-1: the whole bill, at report stage)."
+    nay: 1
+    why_nay: "Voted against gutting C-36, the Nordic-model law criminalising the purchase of sex (+1: the whole bill, at report stage)."
   - key: senate-42-1-457865
-    read_first: true
-    title: "C-16 Senate amendment (28-49)"
-    reason: "The amendment's text has not been read, so no side is proposed."
+    draft: true
+    title: "C-16 -- Senate third reading amendment (Sen. Plett): nothing in the Act requires a particular word or expression"
+    dated: 2017-06-13
+    result: "Defeated 28-49-4"
+    lobbies: "Yea: C 27, ISG 1. Nay: ISG 28, Lib. 16, Non-affiliated 5. Abstention: C 3, ISG 1"
+    moved_by: "Senator Donald Plett, seconded by Senator Unger (both voted Yea)"
+    source: >
+      Journals of the Senate, 13 June 2017
+      (sencanada.ca/en/content/sen/chamber/421/journals/131jr_2017-06-13-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/457865/42-1
+    text: >
+      That Bill C-16 be not now read a third time, but that it be amended on
+      page 2, by adding the following after line 3: "2.1 The Act is amended by
+      adding the following after section 4: 4.1 For greater certainty,
+      nothing in this Act requires the use of a particular word or expression
+      that corresponds to the gender identity or expression of any person.".
+    # TEXT READ 2 October 2026 (draft). THE vote on compelled pronouns. The
+    # Senate's vote page labels this division "Amendment (Sen. Plett) --
+    # Adjournment of Debate", but the 28 Yeas and 49 Nays in ca_votes are
+    # name for name the Journals' division on the motion in amendment; the
+    # adjournment that followed carried 76-3-3. It tells members apart: 20
+    # Conservative senators voted for C-16 at third reading (458503), and
+    # Senator Tannas told the Senate he supported both the amendment and the
+    # bill. Nay is -1, not -2, as on Senator Martin's C-9 amendment: Tannas
+    # summed up the other side as "It's already covered; you don't need to
+    # worry about it" -- a senator can think the clause redundant without
+    # wanting speech compelled.
+    yea: 2
+    why_yea: >
+      Voted to write into C-16 that nothing in the Human Rights Act requires
+      anyone to use a particular word or expression for another person's
+      gender identity -- protection against compelled pronouns.
+    nay: -1
+    why_nay: >
+      Voted against stating in C-16 that the Act compels no one to use
+      particular words or pronouns for gender identity.
   - key: commons-44-1-853
-    read_first: true
-    title: "S-224 report stage amendment (118-207)"
-    reason: "The amendment's text has not been read, so no side is proposed."
+    draft: true
+    title: "S-224 report stage, Carrie Motions 1 and 2: restore the bill the committee gutted (trafficking: exploitation without proof of fear)"
+    dated: 2024-06-19
+    result: "Negatived 118-207"
+    lobbies: "Yea: Conservative 117, Independent 1. Nay: Liberal 149, Bloc Québécois 31, NDP 23, Green Party 2, Independent 2. Paired: Liberal 1, Bloc Québécois 1"
+    moved_by: "Colin Carrie (Conservative, Oshawa; the bill's House sponsor), seconded by Glen Motz (both voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/44/1/853 (sitting 335); the
+      motions as moved, Journals 23 May 2024
+      (ourcommons.ca/DocumentViewer/en/44-1/house/sitting-316/journals); the
+      Speaker's ruling, Journals 19 June 2024 (sitting-335/journals)
+    text: >
+      Motion No. 2: That Bill S-224 be amended by restoring Clause 1 as
+      follows: "Criminal Code 1 (1) Subsection 279.04(1) of the Criminal Code
+      is replaced by the following: Exploitation 279.04 (1) For the purposes
+      of sections 279.01 to 279.03, a person exploits another person if they
+      engage in conduct that (a) causes the other person to provide or offer
+      to provide labour or a service; and (b) involves, in relation to any
+      person, the use or threatened use of force or another form of coercion,
+      the use of deception or fraud, the abuse of a position of trust, power
+      or authority, or any other similar act. (2) Subsection 279.04(2) of the
+      Act is repealed." (Motion No. 1 restores the long title, "An Act to
+      amend the Criminal Code (trafficking in persons)".)
+    # TEXT READ 2 October 2026 (draft). The Justice Committee had deleted the
+    # bill's only clause; this vote was on putting it back. Its effect: a
+    # trafficking conviction would no longer need proof that the victim
+    # feared for their safety (the Palermo-protocol definition). When it
+    # failed, the Speaker ruled that "nothing remained of Bill S-224 except
+    # its number" and dropped it. Second reading was unanimous (271, evidence
+    # only), so this is the one vote on S-224 that tells members apart.
+    # (The Journals' HTML prints "279.?04"; the "?" is a lost thin space and
+    # is left out above.) +/-1 under the whole-bill-whipped rule: every
+    # Conservative Yea, every other party Nay. Nay is not hostility to
+    # fighting trafficking -- the Parliamentary Secretary said existing law
+    # already applies "including those that involve only psychological forms
+    # of coercion", and the Bloc said it supported the principle -- though
+    # the NDP's stated worry was "defining all sex work as trafficking",
+    # which is the Nordic-model argument from the other side.
+    yea: 1
+    why_yea: >
+      Voted to restore S-224, which would have removed the need for a
+      trafficking victim to prove they feared for their safety.
+    nay: -1
+    why_nay: >
+      Voted to leave S-224 gutted, keeping the requirement that a trafficking
+      victim show fear for their safety.
 
 # Sponsoring a private member's bill is a chosen act of advancing a text, the
 # Canadian equivalent of proposing a motion (NI) or sponsoring an EDM. A
