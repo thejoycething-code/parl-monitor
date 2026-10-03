@@ -324,7 +324,9 @@ def load_roster_rows(path=None):
     why; a member row needs `riding` too, and may quote the row's own
     `footnote` (which binds it where the page prints one mark twice). An
     entry whose `printed` is a FOOTNOTE ("*** By-election ..., vice Daniel
-    Guitar resigned ...") gives the member the footnote misprints."""
+    Guitar resigned ...") gives the member the footnote misprints. A row may
+    carry `elected:`, the by-election date of a successor whose footnote
+    names only the vacancy; it can only move the term's start later."""
     out = pn._reviewed(PROV, "roster_rows", ("printed", "document", "member", "verified_against", "why"), path)
     for a in out:
         if not str(a["printed"]).lstrip().startswith("*") and not a.get("riding"):
@@ -444,7 +446,8 @@ def parse_compiled_roster(rows, reviewed=None, document=None):
                                "name": clean_given(given) + " " + surname,
                                "key": member_key(given, surname), "mark": mark,
                                "reviewed": bool(fact),
-                               "footnote": str(fact["footnote"]) if fact and fact.get("footnote") else None})
+                               "footnote": str(fact["footnote"]) if fact and fact.get("footnote") else None,
+                               "elected": str(fact["elected"]) if fact and fact.get("elected") else None})
     if not out["members"]:
         out["problems"].append("no members read from the compiled Journal's members page")
     _bind_notes(out)
@@ -571,6 +574,10 @@ def terms_from_compiled(parsed, legislature, first, last):
                 predecessor(note["who"], m["riding"], note["left"])
                 after = _day_after(note["left"])
                 start = after if not first or after > first else first
+        if m.get("elected") and (not start or m["elected"] > start):
+            # a reviewed by-election date for a successor the footnote dates
+            # only by the vacancy (60-1: Savoie and Dawson, elected 20 June 2022)
+            start = m["elected"]
         add(m, start, end)
     for v in parsed.get("vacant", []):
         note = v.get("note")
@@ -1262,7 +1269,10 @@ def parse_journal(text):
             prose.append("")
             context.append("")
         i += 1
-    return divisions, _voices(prose)
+    # a reading decided by a recorded division is never also a voice decision
+    # ("Accordingly, Bill 46 ... was read a second time" follows its division)
+    divided = {(d["bill_number"], d["stage"]) for d in divisions if d["bill_number"] and d["vote_on"] == "motion"}
+    return divisions, [v for v in _voices(prose) if (v["bill_number"], v["stage"]) not in divided]
 
 
 def _division(context, seq, yeas, nays, yea_labels, nay_labels, problem):
@@ -1326,6 +1336,8 @@ def _voices(prose):
         add(m.group(1), m.group(2).title() + " Reading", re.sub(r"\s+", " ", m.group(0)))
     for m in _VOICE_MOTION.finditer(text):
         add(m.group(2), m.group(1).title() + " Reading", m.group(0))
+    for m in _ACCORDINGLY.finditer(text):
+        add(m.group(1), m.group(2).title() + " Reading", re.sub(r"\s+", " ", m.group(0)))
     for number, stage, result in voice_items(text):
         add(number, stage, result)
     for num, stage, word in voice_lists(prose):
@@ -1335,6 +1347,11 @@ def _voices(prose):
 
 # 56-4: "the question being put, the motion for second reading of Bill 57
 # was defeated." (8 April 2010)
+# The record of the outcome itself: "Accordingly, Bill 5, An Act to Amend
+# the Executive Council Act, was read a second time and ordered referred
+# ..." (27 November 2019, where pypdf printed the question as "the ques tion
+# being put").
+_ACCORDINGLY = re.compile(r"\bAccordingly,\s+Bill (\d+),.{0,240}?\bwas\s+read\s+a\s+(second|third)\s+time\b", re.I)
 _VOICE_MOTION = re.compile(
     r"the motion for (second|third) reading of Bill (\d+),?\s+(?:was|is)\s+"
     r"(?:defeated|carried|negatived|resolved in the (?:affirmative|negative))\s*\.", re.I)
@@ -1574,7 +1591,7 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
             "yeas": d["yeas"], "nays": d["nays"], "abstentions": None, "source_url": url,
             "areas": res.areas, "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
             "positions_ok": 1 if ok else 0, "tally_note": note or d.get("note"), "votes": votes})
-    divided = {(d["bill_number"], d["stage"]) for d in divisions if d["bill_number"]}
+    divided = {(d["bill_number"], d["stage"]) for d in divisions if d["bill_number"] and d["vote_on"] == "motion"}
     voices = [v for v in voices if (v["bill_number"], v["stage"]) not in divided]
     for v in voices:
         bkey = ps.bill_key(PROV, legislature, session, v["bill_number"])

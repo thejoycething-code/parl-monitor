@@ -346,6 +346,18 @@ provinces:
         why: >-
           Printed "Mr. D’Amour" in both recorded divisions of 30 May 2019; each
           was a tally gap on that label (and "Ms. LeBlanc").
+      - printed: "Mr. D’Amour"
+        member: jean-claude-d-amours
+        date: 2021-03-25
+        document: https://www.legnb.ca/content/house_business/60/1/journals/22210325e.pdf
+        verified_against: >-
+          The 60-1 compiled Journal's members page (Journal-60-1-2020-2022-E.pdf):
+          Edmundston-Madawaska Centre, "Jean - Claude (JC) D’Amours"; no D'Amour
+          sits in the 60th Legislature. The same Journal prints "D’Amours" twice
+          elsewhere.
+        why: >-
+          Printed "Mr. D’Amour" in the NAYS of the day's recorded division, its
+          only unresolved label.
     roster_rows:
       # Rows of a compiled Journal's MEMBERS OF THE LEGISLATIVE ASSEMBLY page
       # (src/ingest/prov_nb.parse_compiled_roster) that the page prints in a
@@ -454,6 +466,35 @@ provinces:
         why: >-
           The member and residence cells are set in a font the PDF cannot map
           to text ("0DGHODLQH 'XEp (GPXQGVWRQ").
+      - printed: "Miramichi Bay - Neguac * Hon. Réjean Savoie Neguac"
+        document: https://www.legnb.ca/content/house_business/60/1/journals/Journal-60-1-2020-2022-E.pdf
+        riding: "Miramichi Bay-Neguac"
+        member: "Réjean Savoie"
+        elected: "2022-06-20"
+        verified_against: &by60 >-
+          Legislative Activities 2022 (legnb.ca/content/house_business/60/3/
+          tabled_documents/2022 LEG EN.pdf, p. 1): "polling day was June 20. The
+          Progressive Conservatives claimed both ridings, with Réjean Savoie
+          elected in Miramichi Bay-Neguac and Mike Dawson elected in Southwest
+          Miramichi-Bay du Vin"; sworn 5 July; "On this day [4 October 2022], Mr.
+          Dawson and Mr. R. Savoie were also formally introduced". The Journals
+          print "Hon. Mr. Savoie" for Glen Savoie alone until June 2022 and "Hon.
+          Mr. G. Savoie" and "Mr. R. Savoie" from 5 October 2022.
+        why: &by60_why >-
+          The page's footnote ("* Lisa Harris resigned August 16, 2021") dates
+          only the vacancy, so the successor's term started the day after it,
+          and 22 divisions of November 2021 to June 2022 printing "Hon. Mr.
+          Savoie" (Glen) became ambiguous gaps.
+      - printed: "Southwest Miramichi - Bay du Vin ** Mike Dawson South Nelson"
+        document: https://www.legnb.ca/content/house_business/60/1/journals/Journal-60-1-2020-2022-E.pdf
+        riding: "Southwest Miramichi-Bay du Vin"
+        member: "Mike Dawson"
+        elected: "2022-06-20"
+        verified_against: *by60
+        why: >-
+          The same footnote form ("** Jake Stewart resigned August 18, 2021"):
+          without the date his term would start ten months before he was
+          elected.
       - printed: "*** By-election April 24, 2023, vice Daniel Guitar resigned November 30, 2022."
         document: https://www.legnb.ca/content/house_business/60/2/journals/Journal_60-2_2022-2023-E.pdf
         member: "Daniel Guitard"

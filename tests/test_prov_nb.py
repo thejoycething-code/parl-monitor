@@ -744,6 +744,11 @@ class Backfill2010RosterTests(unittest.TestCase):
         t = terms_by_key(p, 60, "2020-10-07", "2022-10-25")
         self.assertEqual(t["lisa-harris"], [("2020-10-07", "2021-08-16", "Miramichi Bay-Neguac")])
         self.assertEqual(t["rejean-savoie"], [("2021-08-17", "2022-10-25", "Miramichi Bay-Neguac")])
+        # the reviewed by-election date (Legislative Activities 2022: 20 June 2022)
+        p = nb.parse_compiled_roster(rows("nb_roster_601_rows.json"), reviewed=nb.load_roster_rows(), document=J601)
+        t = terms_by_key(p, 60, "2020-10-07", "2022-10-25")
+        self.assertEqual(t["rejean-savoie"], [("2022-06-20", "2022-10-25", "Miramichi Bay-Neguac")])
+        self.assertEqual(t["mike-dawson"][0][0], "2022-06-20")
         self.assertIn("william-oliver", t)                 # "William (Bill) Oliver"
         self.assertIn("jean-claude-d-amours", t)           # "Jean - Claude (JC) D’Amours"
 

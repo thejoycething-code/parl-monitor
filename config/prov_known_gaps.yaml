@@ -51,6 +51,18 @@ nb:
     why: >-
       The listing links both "July 5, 2016" and "July 6, 2016" to
       37160706e.pdf, the Journal of 6 July. The Journal of 5 July is not listed.
+  - contains: "nb-59-2-2019-05-28: the listing files the Journal of 2019-03-28"
+    reviewed: 2026-10-03
+    why: >-
+      The listing's "May 28, 2019" links 19190328e.pdf, the Journal of 28 March
+      2019, which the listing also gives under its own day. The Journal of 28
+      May is not listed.
+  - contains: "for 2022-10-04, which is not a Journal"
+    reviewed: 2026-10-03
+    why: >-
+      60-1's journals listing links "October 4, 2022" to
+      qp_transcripts/87221003e.pdf, a Question Period transcript. The Journal of
+      4 October 2022 (the day Savoie and Dawson took their seats) is not listed.
   - contains: "nb-58-1-2015-03-11: the English Journal"
     reviewed: 2026-10-02
     why: >-
@@ -66,6 +78,20 @@ nb:
       for Opposition Members' Business; the Journal of 20 March records "the
       question being put that Bill 14 be now read a second time, it was
       resolved in the affirmative", stored as a voice decision that day.
+  - contains: "nb-60-2-2022-11-15: "
+    reviewed: 2026-10-03
+    why: "The Journal of 15 November 2022 (09221115e.pdf) is served truncated at 129,024 bytes, no %%EOF, on two fetches (2 and 3 October 2026), like 9 June 2023."
+  - contains: "nb-60-2-2023-03-30: "
+    reviewed: 2026-10-03
+    why: "The Journal of 30 March 2023 (31230330e.pdf) is served truncated at 129,024 bytes, no %%EOF, on two fetches (2 and 3 October 2026)."
+  - contains: "the bills listing says Third Reading passed on 2020-12-18"
+    reviewed: 2026-10-02
+    why: >-
+      Bills 2, 4 and 21 of 60-1: the bills listing's date is a day late. The
+      Journal of 17 December 2020 records "The following Bills were read a
+      third time: Bill 2, ... Bill 4, ... Bill 21, ...", stored as voice
+      decisions that day; the Journal of 18 December lists Bills 6, 7, 8 and
+      12 only.
   - contains: "nb-58-3/16: the bills listing says Second Reading passed on 2016-11-17"
     reviewed: 2026-10-02
     why: >-
