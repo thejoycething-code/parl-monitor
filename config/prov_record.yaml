@@ -322,6 +322,264 @@ provinces:
           (defeated 17-24) and the NAYS of Motion 4 as amended (carried 26-16).
           With it unresolved both were tally gaps; each list is otherwise
           complete and both tally once it is cleared.
+      - printed: "Mr. Faigrieve"
+        member: stewart-fairgrieve
+        date: 2018-11-02
+        document: https://www.legnb.ca/content/house_business/59/1/journals/08181102e.pdf
+        verified_against: >-
+          The 59-1 compiled Journal's members page (Journal_59-1.pdf): Carleton,
+          Stewart Fairgrieve; no Faigrieve sits in the 59th Legislature. The same
+          Journal prints "Faigrieve" all three times and never "Fairgrieve".
+        why: >-
+          Printed "Mr. Faigrieve" in all three recorded divisions of 2 November
+          2018, each then a tally gap (two of them also on "Mr. LeBlanc" and
+          "Ms. LeBlanc", settled by the reviewed titles).
+      - printed: "Mr. D’Amour"
+        member: jean-claude-d-amours
+        date: 2019-05-30
+        document: https://www.legnb.ca/content/house_business/59/2/journals/31190530e.pdf
+        verified_against: >-
+          The 59-2 compiled Journal's members page (Journal_59-2.pdf):
+          Edmundston-Madawaska Centre, "Jean - Claude (JC) D’Amours"; no D'Amour
+          sits in the 59th Legislature. The division lists of the 59th print "Mr.
+          D’Amours" on every other day (29 November 2018).
+        why: >-
+          Printed "Mr. D’Amour" in both recorded divisions of 30 May 2019; each
+          was a tally gap on that label (and "Ms. LeBlanc").
+      - printed: "Mr. D’Amour"
+        member: jean-claude-d-amours
+        date: 2021-03-25
+        document: https://www.legnb.ca/content/house_business/60/1/journals/22210325e.pdf
+        verified_against: >-
+          The 60-1 compiled Journal's members page (Journal-60-1-2020-2022-E.pdf):
+          Edmundston-Madawaska Centre, "Jean - Claude (JC) D’Amours"; no D'Amour
+          sits in the 60th Legislature. The same Journal prints "D’Amours" twice
+          elsewhere.
+        why: >-
+          Printed "Mr. D’Amour" in the NAYS of the day's recorded division, its
+          only unresolved label.
+    roster_rows:
+      # Rows of a compiled Journal's MEMBERS OF THE LEGISLATIVE ASSEMBLY page
+      # (src/ingest/prov_nb.parse_compiled_roster) that the page prints in a
+      # way no rule reads honestly. Each applies to its own document only,
+      # and only while the row is printed exactly as quoted. Read 2 October
+      # 2026 for the 2010 backfill.
+      - printed: "Grand Falls–Drummond–Saint-André Danny Soucy Grand Falls"
+        document: https://www.legnb.ca/content/house_business/57/2/journals/Journal57-2.pdf
+        riding: "Grand Falls–Drummond–Saint-André"
+        member: "Danny Soucy"
+        verified_against: >-
+          The 57-3 compiled Journal (Journal-57-3-E.pdf) prints the same row as
+          "Grand Falls–Drummond–Saint-André Hon. Danny Soucy Grand Falls"; the
+          Journal of 30 May 2012 (46120530e.pdf) reads "Mr. Soucy, Member for
+          Grand Falls—Drummond—Saint-André".
+        why: >-
+          The page draws constituency and member with one space between them,
+          so the columns cannot be told apart; every other row of the page has
+          two or more.
+      - printed: "Victoria-Tobique Wes McClean Perth-Andover"
+        document: https://www.legnb.ca/content/house_business/57/2/journals/Journal57-2.pdf
+        riding: "Victoria-Tobique"
+        member: "Wes McLean"
+        verified_against: &mclean >-
+          The 57-4 compiled Journal (JOURNALS_2013-2014.pdf) prints "Victoria-
+          Tobique Wes McLean Perth-Andover"; Legislative Activities 2014
+          (legnb.ca, tabled 58-2) lists "Wes McLean, Victoria-Tobique" among the
+          57th Legislature's members; the division lists of the 57th print
+          "Mr. McLean" (13 June 2012) and never McClean.
+        why: &mclean_why >-
+          A misprint of the member's surname on the members page. Read as
+          printed, "Mr. McLean" resolves to nobody and every division he voted
+          in is a tally gap.
+      - printed: "Victoria-Tobique Wes McClean Perth-Andover"
+        document: https://www.legnb.ca/content/house_business/57/3/journals/Journal-57-3-E.pdf
+        riding: "Victoria-Tobique"
+        member: "Wes McLean"
+        verified_against: *mclean
+        why: *mclean_why
+      - printed: "Fredericton-Grand Lake Pan Lynch Fredericton"
+        document: https://www.legnb.ca/content/house_business/58/1/journals/JOURNAL2014-2015-E.pdf
+        riding: "Fredericton-Grand Lake"
+        member: "Pam Lynch"
+        verified_against: &lynch >-
+          The 58-4 compiled Journal (Journal_58-4.pdf) prints "Fredericton-Grand
+          Lake Pam Lynch Fredericton"; Legislative Activities 2014 lists "Pam
+          Lynch, Fredericton-Grand Lake" in the 58th; the 57th's pages print Pam
+          Lynch (Fredericton-Fort Nashwaak).
+        why: &lynch_why >-
+          "Pan" is a misprint of her given name. It would not stop "Ms. Lynch"
+          resolving, but it would file her 58-1 to 58-3 votes under a second
+          key, "pan-lynch".
+      - printed: "Fredericton-Grand Lake Pan Lynch Fredericton"
+        document: https://www.legnb.ca/content/house_business/58/2/journals/JOURNAL2015-2016-E.pdf
+        riding: "Fredericton-Grand Lake"
+        member: "Pam Lynch"
+        verified_against: *lynch
+        why: *lynch_why
+      - printed: "Fredericton - Grand Lake Pan Lynch Fredericton"
+        document: https://www.legnb.ca/content/house_business/58/3/journals/Journal2016-2017E.pdf
+        riding: "Fredericton-Grand Lake"
+        member: "Pam Lynch"
+        verified_against: *lynch
+        why: *lynch_why
+      - printed: "Carleton Stewart Fairgrieve* Riceville"
+        document: https://www.legnb.ca/content/house_business/58/1/journals/JOURNAL2014-2015-E.pdf
+        riding: "Carleton"
+        member: "Stewart Fairgrieve"
+        footnote: "By-election October 5, 2015, vice David Alward resigned May 22, 2015."
+        verified_against: &by58 >-
+          Legislative Activities 2014 (legnb.ca/content/house_business/58/2/
+          tabled_documents/2/LegislativeActivities2014.pdf, "Members of the 58th
+          Legislative Assembly as of December 31, 2014") lists "David Alward,
+          Carleton" and "Glen Savoie, Saint John East": Savoie already sat for
+          Saint John East in 2014, so his by-election is the November 2014 one
+          (vice Keating), and Carleton's member was still Alward.
+        why: &by58_why >-
+          The page prints "*" on both rows and "*" over both by-election
+          footnotes, Keating's first, so the mark alone cannot say which note is
+          whose.
+      - printed: "Saint John East Glen Savoie* Garnett Settlement"
+        document: https://www.legnb.ca/content/house_business/58/1/journals/JOURNAL2014-2015-E.pdf
+        riding: "Saint John East"
+        member: "Glen Savoie"
+        footnote: "By-election November 17, 2014, vice Gary Keating resigned October 14, 2014."
+        verified_against: *by58
+        why: *by58_why
+      - printed: "Restigouche - Chaleur Daniel Guitard Pointe - Verte"
+        document: https://www.legnb.ca/content/house_business/58/3/journals/Journal2016-2017E.pdf
+        riding: "Restigouche-Chaleur"
+        member: "Daniel Guitard"
+        verified_against: >-
+          The 58-2 and 58-4 compiled Journals print "Restigouche-Chaleur Daniel
+          Guitard Pointe-Verte".
+        why: >-
+          The PDF draws "Daniel" and "Guitard" touching, so the row reads
+          "DanielGuitard", which is not a name.
+      - printed: "Edmundston-Madawaska Centre** 0DGHODLQH\u0003'XEp (GPXQGVWRQ"
+        document: https://www.legnb.ca/content/house_business/58/4/journals/Journal_58-4.pdf
+        riding: "Edmundston-Madawaska Centre"
+        member: "Madeleine Dubé"
+        verified_against: >-
+          The row's own mark "**" is explained under the page as "** Madeleine
+          Dubé resigned July 1, 2018."; the 58-3 compiled Journal prints
+          "Edmundston-Madawaska Centre Madeleine Dubé Edmundston".
+        why: >-
+          The member and residence cells are set in a font the PDF cannot map
+          to text ("0DGHODLQH 'XEp (GPXQGVWRQ").
+      - printed: "Miramichi Bay - Neguac * Hon. Réjean Savoie Neguac"
+        document: https://www.legnb.ca/content/house_business/60/1/journals/Journal-60-1-2020-2022-E.pdf
+        riding: "Miramichi Bay-Neguac"
+        member: "Réjean Savoie"
+        elected: "2022-06-20"
+        verified_against: &by60 >-
+          Legislative Activities 2022 (legnb.ca/content/house_business/60/3/
+          tabled_documents/2022 LEG EN.pdf, p. 1): "polling day was June 20. The
+          Progressive Conservatives claimed both ridings, with Réjean Savoie
+          elected in Miramichi Bay-Neguac and Mike Dawson elected in Southwest
+          Miramichi-Bay du Vin"; sworn 5 July; "On this day [4 October 2022], Mr.
+          Dawson and Mr. R. Savoie were also formally introduced". The Journals
+          print "Hon. Mr. Savoie" for Glen Savoie alone until June 2022 and "Hon.
+          Mr. G. Savoie" and "Mr. R. Savoie" from 5 October 2022.
+        why: &by60_why >-
+          The page's footnote ("* Lisa Harris resigned August 16, 2021") dates
+          only the vacancy, so the successor's term started the day after it,
+          and 22 divisions of November 2021 to June 2022 printing "Hon. Mr.
+          Savoie" (Glen) became ambiguous gaps.
+      - printed: "Southwest Miramichi - Bay du Vin ** Mike Dawson South Nelson"
+        document: https://www.legnb.ca/content/house_business/60/1/journals/Journal-60-1-2020-2022-E.pdf
+        riding: "Southwest Miramichi-Bay du Vin"
+        member: "Mike Dawson"
+        elected: "2022-06-20"
+        verified_against: *by60
+        why: >-
+          The same footnote form ("** Jake Stewart resigned August 18, 2021"):
+          without the date his term would start ten months before he was
+          elected.
+      - printed: "*** By-election April 24, 2023, vice Daniel Guitar resigned November 30, 2022."
+        document: https://www.legnb.ca/content/house_business/60/2/journals/Journal_60-2_2022-2023-E.pdf
+        member: "Daniel Guitard"
+        verified_against: >-
+          The 60-1 compiled Journal prints "Restigouche-Chaleur Daniel Guitard";
+          so do the 58th Legislature's.
+        why: >-
+          The footnote misprints the surname of the member who resigned, so his
+          term (25 October to 30 November 2022) would be stored under
+          "Guitar" and "Mr. Guitard" in that autumn's division lists would
+          resolve to nobody.
+    titles:
+      # The title the Journals print for a member, read where the record joins
+      # it to the member's full name. Used by src/ingest/prov_nb.CaseExact only
+      # for a label the resolver found AMBIGUOUS: a candidate whose title is
+      # the other one is ruled out, and the label resolves only if one is
+      # left. In 58-1 every division list prints "Hon. Ms. Landry" and "Hon.
+      # Mr. Landry" (Francine, Denis) and "Ms. LeBlanc" beside "Mr. Bernard
+      # LeBlanc" (Monique; Bertrand LeBlanc also sat). Read 2 October 2026.
+      - member: francine-landry
+        title: "Ms."
+        document: https://www.legnb.ca/content/house_business/58/1/journals/03141204e.pdf
+        quoted: "By Hon. Ms. Landry, Bill 3,"
+        verified_against: >-
+          Bill 3 of 58-1 (An Act to Amend the Employment Standards Act), whose
+          bill page names its sponsor "Hon. Francine LANDRY"
+          (legnb.ca/en/legislation/bills/58/1/3).
+        why: &titles_why >-
+          Without it every 58-1 division with both Landrys (and "Ms. LeBlanc")
+          is a tally gap: the shared resolver ignores titles.
+      - member: denis-landry
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/57/2/journals/04111129e.pdf
+        quoted: "Mr. D. Landry, Member for Centre-Péninsule—Saint-Sauveur"
+        verified_against: >-
+          The 57-2 compiled Journal's members page: Centre-Péninsule–Saint-Sauveur,
+          Denis Landry.
+        why: *titles_why
+      - member: bernard-leblanc
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/58/1/journals/16150213e.pdf
+        quoted: "Mr. Bernard LeBlanc, Member for Memramcook-Tantramar"
+        verified_against: >-
+          The 58-1 compiled Journal's members page: Memramcook-Tantramar, Bernard
+          LeBlanc.
+        why: *titles_why
+      - member: bertrand-leblanc
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/57/2/journals/02111124e.pdf
+        quoted: "Mr. Bertrand LeBlanc, Member for Rogersville-Kouchibouguac"
+        verified_against: >-
+          The 57-2 compiled Journal's members page: Rogersville-Kouchibouguac,
+          Bertrand LeBlanc.
+        why: *titles_why
+      - member: monique-leblanc
+        title: "Ms."
+        document: https://www.legnb.ca/content/house_business/58/3/journals/24170214e.pdf
+        quoted: "By Ms. LeBlanc, Bill 43,"
+        verified_against: >-
+          Bill 43 of 58-3, whose bill page names its sponsor "Monique LEBLANC"
+          (legnb.ca/en/legislation/bills/58/3/43); Bill 63 of 58-3 likewise
+          (Journal of 29 March 2017, "By Ms. LeBlanc, Bill 63,").
+        why: *titles_why
+    roster_bridges:
+      # A session whose journals listing links no compiled Journal, read
+      # from the next session's members page as it stood on that session's
+      # first sitting (src/ingest/prov_nb._store_bridge). Read 2 October 2026.
+      - session: "57-1"
+        from_session: "57-2"
+        document: https://www.legnb.ca/content/house_business/57/2/journals/Journal57-2.pdf
+        as_of: "2011-11-23"
+        verified_against: >-
+          The 57-2 page footnotes the one change of 57-2 (Blaney resigned 25 May
+          2012, Flemming elected 25 June 2012), so on 23 November 2011 the House
+          was the 55 members it lists with Blaney for Rothesay. Nobody entered
+          or left between the 27 September 2010 election and that day:
+          Legislative Activities 2010 (the swearing-in of 12 October 2010, "42
+          seats ... 13") and 2011 (the year in review, which reports every
+          by-election and resignation, as the 2009 and 2010 reports do) record
+          none, and no 57-1 Journal records a Member taking a seat or
+          resigning. Every 57-1 division resolves against it and tallies
+          (scratch re-run, 2 October 2026).
+        why: >-
+          The 57-1 listing links no compiled Journal and the site lists only
+          current members, so without it all 57-1 divisions are gaps.
   "nl":
     label_aliases:
       - printed: "Lloyd Parrot"

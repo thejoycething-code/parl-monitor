@@ -14,6 +14,92 @@ nb:
   - contains: "2023-06-09"
     reviewed: 2026-10-03
     why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."
+  # New Brunswick: the 2010 backfill (CI run 37026741496), re-read 2 October
+  # 2026 on a scratch store. What is left is the record's own.
+  - contains: "nb 56-4: no roster for the session"
+    reviewed: 2026-10-02
+    why: >-
+      56-4 (November 2009 - April 2010) is the last session of the 56th
+      Legislature. Its journals listing links no compiled Journal, nor do
+      56-1 to 56-3's; the site lists only current members; Elections NB
+      answers 403; no later session of the 56th exists to bridge from. The
+      Legislative Library holds the compiled Journals on request.
+  - contains: "(no roster for 56-4; "
+    reviewed: 2026-10-02
+    why: "The 7 recorded divisions of 56-4 in 2010: no roster (above), so no name can be resolved."
+  - contains: "the Hansard listing names no transcript for the session"
+    reviewed: 2026-10-02
+    why: >-
+      legnb.ca publishes Hansard from the 58th Legislature's third session
+      (November 2016); 56-4 to 58-2 list none ("available upon request through
+      the Legislative Library"), so those sessions' votes carry no party at
+      the vote. One gap per session.
+  - contains: "nb-57-3-2013-05-07: the listing files the Journal of 2013-05-08"
+    reviewed: 2026-10-02
+    why: >-
+      The listing's "May 7, 2013" (34130507e.pdf) is a copy of the Journal of
+      8 May ("Daily sitting 35 Wednesday, May 8, 2013"; 176,820 bytes against
+      35130508e.pdf's 176,821). The Journal of 7 May is not served.
+  - contains: "nb-57-4-2014-05-20: the listing files the Journal of 2014-05-21"
+    reviewed: 2026-10-02
+    why: >-
+      The listing links both "May 20, 2014" and "May 21, 2014" to
+      69140521e.pdf, the Journal of 21 May. The Journal of 20 May (sitting 68)
+      is not listed.
+  - contains: "nb-58-2-2016-07-05: the listing files the Journal of 2016-07-06"
+    reviewed: 2026-10-02
+    why: >-
+      The listing links both "July 5, 2016" and "July 6, 2016" to
+      37160706e.pdf, the Journal of 6 July. The Journal of 5 July is not listed.
+  - contains: "nb-59-2-2019-05-28: the listing files the Journal of 2019-03-28"
+    reviewed: 2026-10-03
+    why: >-
+      The listing's "May 28, 2019" links 19190328e.pdf, the Journal of 28 March
+      2019, which the listing also gives under its own day. The Journal of 28
+      May is not listed.
+  - contains: "for 2022-10-04, which is not a Journal"
+    reviewed: 2026-10-03
+    why: >-
+      60-1's journals listing links "October 4, 2022" to
+      qp_transcripts/87221003e.pdf, a Question Period transcript. The Journal of
+      4 October 2022 (the day Savoie and Dawson took their seats) is not listed.
+  - contains: "nb-58-1-2015-03-11: the English Journal"
+    reviewed: 2026-10-02
+    why: >-
+      22150311e.pdf, listed as the English Journal of 11 March 2015, is the
+      French one ("Jour de séance 22 le mercredi 11 mars 2015"). French is not
+      read. The bills listing dates Bills 6 and 12's second readings to that
+      day; they cannot be checked.
+  - contains: "nb-58-1/14: the bills listing says Second Reading passed on 2015-03-19"
+    reviewed: 2026-10-02
+    why: >-
+      The bills listing's date is a day early. The Journal of 19 March 2015
+      records the debate on Bill 14's second reading adjourned at the time
+      for Opposition Members' Business; the Journal of 20 March records "the
+      question being put that Bill 14 be now read a second time, it was
+      resolved in the affirmative", stored as a voice decision that day.
+  - contains: "nb-60-2-2022-11-15: "
+    reviewed: 2026-10-03
+    why: "The Journal of 15 November 2022 (09221115e.pdf) is served truncated at 129,024 bytes, no %%EOF, on two fetches (2 and 3 October 2026), like 9 June 2023."
+  - contains: "nb-60-2-2023-03-30: "
+    reviewed: 2026-10-03
+    why: "The Journal of 30 March 2023 (31230330e.pdf) is served truncated at 129,024 bytes, no %%EOF, on two fetches (2 and 3 October 2026)."
+  - contains: "the bills listing says Third Reading passed on 2020-12-18"
+    reviewed: 2026-10-02
+    why: >-
+      Bills 2, 4 and 21 of 60-1: the bills listing's date is a day late. The
+      Journal of 17 December 2020 records "The following Bills were read a
+      third time: Bill 2, ... Bill 4, ... Bill 21, ...", stored as voice
+      decisions that day; the Journal of 18 December lists Bills 6, 7, 8 and
+      12 only.
+  - contains: "nb-58-3/16: the bills listing says Second Reading passed on 2016-11-17"
+    reviewed: 2026-10-02
+    why: >-
+      Bill 16 was not read a second time on 17 November 2016: the Journal
+      records the amendment that it "be not now read a second time but that
+      the order for second reading be discharged and the subject matter of
+      the Bill referred to the Standing Committee on Law Amendments" moved
+      and "resolved in the affirmative". The bills listing shows it passed.
 
 # Alberta: the 2010 backfill's tally gaps, re-read 2 October 2026. Of 358,
 # 355 cleared in the parser and resolver; of the record's own errors, three
