@@ -33,6 +33,18 @@ watches:
   source: bill
   bill: 4254
   min_speakers: 8
+- date: '2026-10-13'
+  house: Lords
+  term: Health Bill - second reading
+  area: 3
+  note: 'auto: Legislation; tracker: Health Bill'
+  source: auto
+- date: '2026-10-14'
+  house: Commons
+  term: Infants, Parents and Carers Bill
+  area: 6
+  note: 'auto: Debate; Infants, Parents and Carers Bill'
+  source: auto
 - date: '2026-10-15'
   house: Commons
   term: Immigration and Asylum Bill
