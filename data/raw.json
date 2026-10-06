@@ -400,11 +400,11 @@
       "sha256": "395231c8971466ae806883471e7ff68e32b908a3b732e704b996f6200fb28e02"
     },
     "2026-10-06": {
-      "bytes": 638798226,
-      "files": 1219,
-      "published_by": "run 37496067403",
-      "published_utc": "2026-10-06T16:35:29Z",
-      "sha256": "625a736b2fcd1c10b0c6ca6cdb7fc22e44fbd56c3824eb0871d92afd1e2dda64"
+      "bytes": 638798345,
+      "files": 1221,
+      "published_by": "run 37540884770",
+      "published_utc": "2026-10-06T22:29:30Z",
+      "sha256": "e05cb168ac68641497401ce86e42e1c245d2395743b86980ee0f67701a3d255c"
     },
     "eu-probe-2026-09-01": {
       "bytes": 15724967,
