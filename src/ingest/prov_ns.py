@@ -1729,7 +1729,10 @@ def check_listing_stages(ctx, legislature, session, read_dates):
 # printed with no header (9 March 2026) and a three-column list (17 October
 # 2022), and knew one form of the Clerk's count. Neither a gap nor the bills
 # cross-check points at all of them, so the repair is by date.
-REREAD_BEFORE = "2026-10-08"
+# 7 October, not the 8th: the re-run is dispatched on the 7th (UTC), and
+# anything it re-reads is stamped that day, so a cutoff of the 8th would have
+# made the next weekly read all ~860 pages again.
+REREAD_BEFORE = "2026-10-07"
 
 
 def owe_stale(ctx, legislature, session, records):
