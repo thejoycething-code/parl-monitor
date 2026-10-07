@@ -409,6 +409,9 @@ _DIVISION_FACT_FIELDS = {
                        "quoted", "why"),
     "hansard_totals": ("division", "position", "total", "document", "hansard", "quoted", "why"),
     "bill_corrections": ("division", "printed_bill", "bill", "document", "verified_against", "why"),
+    # Christopher, 7 October 2026: a member the Clerk's count includes and the
+    # printed list omits, where a SECOND official record states the vote.
+    "added_members": ("division", "position", "member", "document", "record", "quoted", "why"),
 }
 REVIEWED = "reviewed, config/prov_record.yaml"
 
@@ -469,6 +472,38 @@ class ReviewedDivisions:
             return printed, "reviewed bill correction not used: the record now names Bill {0}, " \
                             "not Bill {1}".format(printed, a["printed_bill"])
         return printed, None
+
+    def add(self, division_key, votes, printed, resolver, date, legislature=None):
+        """Add a member the printed list omits, named by a reviewed
+        `added_members` entry for THIS division (Christopher, 7 October 2026).
+        Only while the list prints fewer names than the record's own count
+        for that side (`printed`: {'Yea': n, ...}), only for a member placed
+        nowhere in the division who holds a term on the day, and only from
+        an entry citing a second official record that states the vote
+        (`record`, `quoted`). The tally check then runs as normal. Returns
+        the notes."""
+        notes = []
+        for a in self.facts(division_key).get("added_members", []):
+            position, member = a["position"], str(a["member"])
+            total = printed.get(position)
+            have = [v for v in votes if v["position"] == position]
+            if total is None or len(have) >= int(total):
+                notes.append("reviewed addition of {0} not used: the {1} list already prints {2} name(s) for "
+                             "a count of {3}".format(member, position, len(have), total))
+                continue
+            if any(v.get("member_key") == member for v in votes):
+                notes.append("reviewed addition of {0} not used: already placed in the division".format(member))
+                continue
+            if resolver.term_for(member, date, legislature) is None:
+                notes.append("reviewed addition of {0} not used: no term on {1}".format(member, date))
+                continue
+            votes.append({"position": position, "ordinal": max([v["ordinal"] for v in have] + [0]) + 1,
+                          "raw_label": "[not printed]", "member_key": member,
+                          "how": "added from {0} ({1})".format(a["record"], REVIEWED),
+                          "party_at_vote": resolver.party_at(member, date, legislature)})
+            notes.append("{0} {1} added: counted, not printed; {2} says {3!r} ({4})".format(
+                position, member, a["record"], " ".join(str(a["quoted"]).split()), REVIEWED))
+        return notes
 
     def settle(self, division_key, votes, resolver, date, legislature=None):
         """Settle bare AMBIGUOUS labels named by a reviewed entry, in place.
