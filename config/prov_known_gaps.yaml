@@ -223,31 +223,11 @@ mb:
 # end to end on a scratch store, 7 October 2026. What is left is the record's
 # own; each entry names the evidence.
 nl:
-  - contains: "nl attendance 2010: no members parsed"
-    reviewed: 2026-10-07
-    why: >-
-      The Members' Attendance summaries for 2009 and 2010 are scans with no
-      text layer, so 2010 has no roster and cannot be bridged (the bridge
-      needs the summaries either side). OCR, or the 2007 general election and
-      2008-2010 by-election records, would be needed: a decision for
-      Christopher.
   - contains: "nl-46-3-2010-05-19-1: tally check failed"
     reviewed: 2026-10-07
     why: >-
-      No 2010 roster (above); and the record prints no count: 'Seeing nobody
+      The record prints no count: 41 names read in favour, then 'Seeing nobody
       is standing, the Chair declares the resolution carried unanimously.'
-  - contains: "nl-46-3-2010-06-14-1: tally check failed"
-    reviewed: 2026-10-07
-    why: "No 2010 roster (above): no name can be resolved."
-  - contains: "nl-46-3-2010-06-23-1: tally check failed"
-    reviewed: 2026-10-07
-    why: "No 2010 roster (above): no name can be resolved."
-  - contains: "nl nl-46-2-2010-"
-    reviewed: 2026-10-07
-    why: "Speech days of 2010: no roster (above), so no speaker turn resolves."
-  - contains: "nl nl-46-3-2010-"
-    reviewed: 2026-10-07
-    why: "Speech days of 2010: no roster (above), so no speaker turn resolves."
   - contains: "nl-47-2-2013-11-20-1: tally check failed"
     reviewed: 2026-10-07
     why: >-
