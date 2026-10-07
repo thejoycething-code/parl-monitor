@@ -718,6 +718,61 @@ class Backfill2010NameTests(unittest.TestCase):
         self.assertEqual({v["raw_label"]: v["member_key"] for v in votes}["Mr. Wilson"], "gordon-l-wilson")
 
 
+class Backfill2010DecisionTests(unittest.TestCase):
+    """Christopher's decisions on the backfill's leftovers (7 October 2026)."""
+
+    def test_stage_from_the_bill_page_where_hansard_prints_no_question(self):
+        """25 March 2026: "we will finish where we left off yesterday" and "The
+        Clerk will conduct a recorded vote on Bill No. 247." The question was
+        put the day before; the bill page dates Bill 247's third reading to
+        25 March, and nothing else that day holds it."""
+        conn = _conn()
+        divs, voices = ns.parse_hansard(fx("ns_hansard_260325.htm"))
+        (d,) = divs
+        self.assertEqual((d["bill_number"], d["stage"], d["question_printed"]), ("247", "Motion", False))
+        stages = [{"stage": "Second Reading", "date": "2026-03-24", "status": "passed"},
+                  {"stage": "Third Reading", "date": "2026-03-25", "status": "passed"}]
+        conn.execute("INSERT INTO prov_bills (bill_key, prov, legislature, session, number, stages, page_url) "
+                     "VALUES ('ns-65-1/247', 'ns', 65, 1, '247', ?, 'https://nslegislature.ca/bill-247')",
+                     (json.dumps(stages),))
+        ns.stage_from_bill_page(conn, 65, 1, "2026-03-25", divs, voices)
+        self.assertEqual((d["bill_number"], d["stage"]), ("247", "Third Reading"))
+        self.assertIn("stage from the bill page", d["note"])
+        # Never where the question is printed, nor a reading the day already holds.
+        (q,), _ = ns.parse_hansard(fx("ns_hansard_250325.htm"))
+        self.assertTrue(q["question_printed"])
+        divs2, _v = ns.parse_hansard(fx("ns_hansard_260325.htm"))
+        ns.stage_from_bill_page(conn, 65, 1, "2026-03-25", divs2,
+                                [{"bill_number": "247", "stage": "Third Reading"}])
+        self.assertEqual(divs2[0]["stage"], "Motion")
+
+    def test_a_reviewed_addition_of_a_member_counted_but_not_printed(self):
+        """The fact type only (Christopher, 7 October 2026). The five Nova
+        Scotia divisions it was built for have no second record of the vote,
+        so config/prov_record.yaml holds no entry; this entry is a test's."""
+        import tempfile
+        import yaml
+        divs, _, r, _ = _hansard("ns_hansard_230411.htm", 64, 1)
+        third = divs[1]
+        entry = {"division": "ns-64-1-2023-04-11-2", "position": "Yea", "member": "tim-houston",
+                 "document": H + "assembly-64-session-1/house_23apr11", "record": "a test record",
+                 "quoted": "the Premier voted yea", "why": "test"}
+        with tempfile.NamedTemporaryFile("w", suffix=".yaml", delete=False) as fh:
+            yaml.safe_dump({"provinces": {"ns": {"added_members": [entry]}}}, fh)
+        rev = pn.ReviewedDivisions.load("ns", fh.name)
+        os.unlink(fh.name)
+        votes, ok, note = ns.resolve_division(third, r, "2023-04-11", 64, division_key="ns-64-1-2023-04-11-2",
+                                              reviewed=rev)
+        self.assertTrue(ok, note)
+        self.assertEqual(_by(votes)["tim-houston"], "Yea")
+        self.assertIn("counted, not printed", note)
+        # Not where the list already holds the count (the second reading, 28 of 28).
+        votes, ok, note = ns.resolve_division(divs[0], r, "2023-04-11", 64, division_key="ns-64-1-2023-04-11-2",
+                                              reviewed=rev)
+        self.assertNotIn("tim-houston", _by(votes))
+        self.assertIn("not used", note)
+
+
 class Backfill2010VoiceTests(unittest.TestCase):
     def test_readings_put_without_a_division(self):
         # The mover's words, put at once (7 May 2010, Bill 1)

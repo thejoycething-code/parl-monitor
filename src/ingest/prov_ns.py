@@ -1185,6 +1185,7 @@ def _division(context, seq, yeas, nays, yea_labels, nay_labels, result, problem,
     reqs = [n for n, t in enumerate(context) if _REQUEST.search(t)]
     if question is None and reqs and _READING.search(context[reqs[-1]]):
         question = _LABEL_PREFIX.sub("", context[reqs[-1]]).strip()
+    printed = question is not None
     if question is None and reqs:
         for t in reversed(context[max(0, reqs[-1] - 4):reqs[-1]]):
             body = _LABEL_PREFIX.sub("", t).strip()
@@ -1228,7 +1229,42 @@ def _division(context, seq, yeas, nays, yea_labels, nay_labels, result, problem,
                else "amendment" if "amendment" in low else "motion")
     return {"seq": seq, "yeas": yeas, "nays": nays, "yea_labels": yea_labels, "nay_labels": nay_labels,
             "question": (question or item[-1500:] or None), "item": item, "result": result,
-            "vote_on": vote_on, "stage": stage, "bill_number": bill, "problem": problem, "note": note}
+            "vote_on": vote_on, "stage": stage, "bill_number": bill, "problem": problem, "note": note,
+            "question_printed": printed, "context_bill": heading_bill}
+
+
+def stage_from_bill_page(conn, legislature, session, date, divisions, voices):
+    """Where Hansard prints no question for a division but names the bill
+    (or the division falls under the bill's own heading), and the bill page
+    dates exactly ONE second or third reading of that bill to that day, which
+    nothing else in the day's record holds, the division is that reading
+    (Christopher, 7 October 2026). 25 October 2019: "We'll now move on with
+    the vote on Bill No. 203."; 27 February 2026: "Is the House ready for
+    the question?" in Bill 201's debate; 25 March 2026: "a recorded vote on
+    Bill No. 247", the question put the day before. The division keeps a
+    note saying where its stage came from. Changes `divisions` in place."""
+    held = {(d["bill_number"], d["stage"]) for d in divisions if d["stage"] in STAGE_CODE} | \
+           {(v["bill_number"], v["stage"]) for v in voices}
+    for d in divisions:
+        if d.get("question_printed", True) or d["stage"] != "Motion":
+            continue
+        number = d["bill_number"] or d.get("context_bill")
+        if not number:
+            continue
+        row = conn.execute("SELECT stages, page_url FROM prov_bills WHERE bill_key=?",
+                           (ps.bill_key(PROV, legislature, session, number),)).fetchone()
+        if not row:
+            continue
+        readings = [st for st in json.loads(row[0] or "[]")
+                    if st.get("stage") in STAGE_CODE and st.get("date") == date]
+        if len(readings) != 1 or (number, readings[0]["stage"]) in held:
+            continue
+        d["bill_number"], d["stage"] = number, readings[0]["stage"]
+        held.add((number, d["stage"]))
+        d["note"] = "; ".join(x for x in (d.get("note"), "stage from the bill page ({0}: {1} {2} {3}); Hansard "
+                                          "prints no question for this division".format(
+                                              row[1] or "bill page", d["stage"], readings[0].get("status") or "",
+                                              date)) if x)
 
 
 def _bill_moved(paras, stage_word):
@@ -1412,6 +1448,7 @@ class NameResolver:
                     # Regan" would. Hansard prints "Mr. David Wilson" for
                     # Dave Wilson (the roster's name) beside "Mr. Gordon
                     # Wilson", 2013-2018: "D. Wilson" is one member.
+                    # Approved by Christopher, 7 October 2026.
                     initial = words[:-n][0][:1]
                     if initial.isalpha() and initial.isupper():
                         key4, _how4 = self._try("{0}. {1}".format(initial, " ".join(words[-n:])),
@@ -1442,7 +1479,10 @@ def resolve_division(raw, resolver, date, legislature, document=None, division_k
     from src.ingest.prov_bc import settle_by_elimination
     notes = []
     if reviewed is not None and division_key:
-        notes += reviewed.settle(division_key, votes, getattr(resolver, "base", resolver), date, legislature)
+        base = getattr(resolver, "base", resolver)
+        notes += reviewed.settle(division_key, votes, base, date, legislature)
+        notes += reviewed.add(division_key, votes, {"Yea": raw["yeas"], "Nay": raw["nays"],
+                                                    "Abstain": raw.get("abstentions")}, base, date, legislature)
     settle_by_elimination(votes, resolver, date, legislature)
     ok, note = ps.tally({"Yea": raw["yeas"], "Nay": raw["nays"], "Abstain": raw.get("abstentions")}, votes)
     if raw.get("problem"):
@@ -1656,6 +1696,7 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl, reviewed=None):
                 "was not parsed".format(skey, t[:80]))
     if reviewed is None:
         reviewed = pn.ReviewedDivisions.load(PROV)
+    stage_from_bill_page(ctx.conn, legislature, session, date, divisions, voices)
     recorded = set()
     for d in divisions:
         seq = seq_prefix + str(d["seq"])

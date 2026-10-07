@@ -300,6 +300,15 @@ ns:
   # October 2026 (probe-hosts runs 37568416383, 37572696872). What is left is
   # the record's own: a list that does not hold the names the Clerk counted.
   # The tally check is not loosened for any of them, so none places anyone.
+  # Five of them (14 April 2021, 18 October 2022, 11 April 2023, 26 February
+  # 2025 twice) count a Premier no list prints. A reviewed `added_members`
+  # entry could place him (Christopher, 7 October 2026), but only from a
+  # second official record of the vote, and there is none: the Journal of 14
+  # April 2021 (journals/63-3/017 2021Apr14.pdf, read from CI on 7 October
+  # 2026) records Bill 98's second reading as "The question being put by the
+  # Speaker, the bill was forthwith read a second time" with no names, the
+  # Journals stop at the 63rd Assembly, and the House publishes no other vote
+  # record. Hansard's narrative of each day does not say how he voted.
   - contains: "ns-61-5-2013-04-23-1: tally check failed"
     reviewed: 2026-10-07
     why: >-
@@ -366,34 +375,15 @@ ns:
       the Clerk counted 40; Premier Tim Houston is in neither list, and Damian
       Stoilov and Danny MacGillivray vote in the day's other divisions and are
       not printed here.
-  # Readings the bill pages date to a day whose Hansard holds no question for
-  # them. The division (or the decision) is there; its stage is not printed.
-  - contains: "ns-63-2/203: the bill page says Third Reading passed on 2019-10-25"
-    reviewed: 2026-10-07
-    why: >-
-      Bill 203 (Crown Attorneys' Labour Relations). Hansard of 25 October 2019
-      records the division after a point of order as "We'll now move
-      on with the vote on Bill No. 203."; the motion is never restated, so the
-      division is stored on Bill 203 as a Motion, not as its third reading.
+  # A reading the bill page dates to a day whose Hansard holds no decision for
+  # it. (Where Hansard holds the division but prints no question, the stage is
+  # now taken from the bill page: Christopher, 7 October 2026.)
   - contains: "ns-64-1/109: the bill page says Second Reading passed on 2022-03-31"
     reviewed: 2026-10-07
     why: >-
       Bill 109 (Income Tax Act, fertility and surrogacy rebate). Hansard of 31
       March 2022 prints "The motion is for second reading of Bill No. 109." and
       goes straight on to Bill 112: no decision is printed.
-  - contains: "ns-65-1/201: the bill page says Second Reading passed on 2026-02-27"
-    reviewed: 2026-10-07
-    why: >-
-      Bill 201 (Justice and Social Services). Hansard of 27 February 2026 puts
-      the question as "Is the House ready for the question?" and records the
-      division with no motion named; it is stored as a Motion.
-  - contains: "ns-65-1/247: the bill page says Third Reading passed on 2026-03-25"
-    reviewed: 2026-10-07
-    why: >-
-      Bill 247. The question was put on 24 March 2026; Hansard of 25 March
-      opens "we will finish where we left off yesterday" and "The Clerk will
-      conduct a recorded vote on Bill No. 247.", so the division (carried
-      37-12) is stored on Bill 247 as a Motion.
 
 # Quebec: the 2010 backfill (CI run 37048289773), re-read 7 October 2026 on
 # a scratch store. What is left is the record's own: the procès-verbal's

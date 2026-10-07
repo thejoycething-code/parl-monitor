@@ -33,6 +33,18 @@
 #   riding_aliases A constituency as a record abbreviates it, with the
 #                  constituency's own name. Same reader; a riding still has
 #                  to match one of the member's own terms that day.
+#   added_members  (Christopher, 7 October 2026) A member the Clerk's count
+#                  includes and the printed list omits, with the side, for
+#                  ONE division. Applies only while that side prints fewer
+#                  names than its count, to a member placed nowhere in the
+#                  division, and only from a SECOND official record that
+#                  states the vote (Hansard narrative, the Journals, the
+#                  Assembly's vote record): `record` cites it and `quoted`
+#                  quotes it. Read by src/prov_names.ReviewedDivisions.add;
+#                  the tally check then runs as normal. Nova Scotia's five
+#                  "Premier counted, not printed" divisions (2021-2025) have
+#                  no such record (the Journals print no names and stop in
+#                  2021), so none is entered and they stay known gaps.
 #   hansard_labels, hansard_totals, bill_corrections
 #                  Facts about ONE division (`division:` is its key), read
 #                  by src/prov_names.ReviewedDivisions (Christopher, 2
@@ -324,6 +336,9 @@ provinces:
           Printed "Hon. Timothy Hallman" in the YEAS of Bill 419's third
           reading (carried 28-17), the division's only unresolved label. The
           surname itself is misprinted, so the surname-only retry cannot help.
+      # The 24 aliases below and the hansard_labels entry for 23 April 2013
+      # were read for the 2010 backfill repair (7 October 2026) and signed
+      # off by Christopher on 7 October 2026.
       - printed: "Mr. Whynot"
         member: mat-whynott
         date: 2010-12-03
