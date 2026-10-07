@@ -1242,6 +1242,33 @@ provinces:
           "Charette (CAQ)"; no list prints both.
         verified_against: "As for 10 February 2021."
         why: "The same misspelling, in one procès-verbal."
+    # list_positions (Christopher, 7 October 2026): a list the annex prints
+    # under the wrong heading, for ONE division, while it still prints that
+    # many names there; the printed heading stays in tally_note.
+    list_positions:
+      - division: qc-41-1-2017-12-07-404
+        printed_position: Nay
+        position: Abstain
+        count: 20
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_134619&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20171207/210373.html
+        quoted: "Maintenant, que les députés contre cette motion veuillent bien se lever. Y a-t-il des abstentions? Le Secrétaire adjoint : M. Legault (L'Assomption), ... M. Spénard (Beauce-Nord). ... Le Secrétaire : Pour : 89 Contre : 0 Abstentions : 20"
+        why: >-
+          The annex heads the 20 CAQ members "CONTRE - 20"; the PV body says
+          Contre : 0, Abstentions : 20. In the Journal the chair calls those
+          against and asks for abstentions in one breath, the Secretary
+          reads the same 20 CAQ members, and proclaims 89-0-20.
+      - division: qc-41-1-2017-12-07-405
+        printed_position: Nay
+        position: Abstain
+        count: 20
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_134619&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20171207/210373.html
+        quoted: "Maintenant, que les députés contre cette motion veuillent bien se lever. Et les députés qui s'abstiennent. Le Secrétaire adjoint : M. Legault (L'Assomption), ... M. Spénard (Beauce-Nord). ... Le Secrétaire : Pour : 89 Contre : 0 Abstentions : 20"
+        why: >-
+          The second vote of the day, printed "Identique au vote n° 404" in
+          the annex; the Journal's second roll call reads the same 20 CAQ
+          members as abstaining and proclaims 89-0-20.
     bill_corrections:
       - division: qc-42-2-2021-11-30-116
         printed_bill: "192"

@@ -422,18 +422,57 @@ qc:
   - contains: "qc-41-1-2017-05-10-330: "
     reviewed: 2026-10-07
     why: "The annex prints 98 names under \"POUR – 99\"; the body says Pour : 99."
-  - contains: "qc-41-1-2017-12-07-404: "
+  # The 2020-2021 group votes (Christopher, 7 October 2026: they stay gaps).
+  # The annex prints a bare "Picard (CAQ)" / "Proulx (CAQ)" while two CAQ
+  # members of that name sit (Marc Picard, Chutes-de-la-Chaudière, and
+  # Marilyne Picard, Soulanges; Caroline Proulx, Berthier, and Marie-Eve
+  # Proulx, Côte-du-Sud). Leaders answered for their groups, so the Journal
+  # des débats reads no names, and no record says which member voted.
+  - contains: "qc-42-1-2020-05-27-326: "
     reviewed: 2026-10-07
-    why: >-
-      The annex heads the 20 CAQ members "CONTRE - 20"; the body says
-      Contre : 0, Abstentions : 20, and the Journal des débats (41-1,
-      7 December 2017) reads them after "Y a-t-il des abstentions?" and
-      the Secretary proclaims "Pour : 89 Contre : 0 Abstentions : 20". The
-      names are right and the heading wrong; no reviewed fact type moves a
-      list to another position (a decision for Christopher).
-  - contains: "qc-41-1-2017-12-07-405: "
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-05-27-327: "
     reviewed: 2026-10-07
-    why: "As vote 404, the same day (\"Identique\")."
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-10-21-524: "
+    reviewed: 2026-10-07
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-12-08-650: "
+    reviewed: 2026-10-07
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-12-08-651: "
+    reviewed: 2026-10-07
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-12-08-652: "
+    reviewed: 2026-10-07
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-12-08-653: "
+    reviewed: 2026-10-07
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-12-08-654: "
+    reviewed: 2026-10-07
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2020-12-08-655: "
+    reviewed: 2026-10-07
+    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2021-02-03-753: "
+    reviewed: 2026-10-07
+    why: "Bare \"Proulx (CAQ)\", two CAQ Proulx sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2021-02-03-754: "
+    reviewed: 2026-10-07
+    why: "Bare \"Proulx (CAQ)\", two CAQ Proulx sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2021-06-10-1106: "
+    reviewed: 2026-10-07
+    why: "Bare \"Proulx (CAQ)\", two CAQ Proulx sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2021-06-10-1107: "
+    reviewed: 2026-10-07
+    why: "Bare \"Proulx (CAQ)\", two CAQ Proulx sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2021-06-10-1108: "
+    reviewed: 2026-10-07
+    why: "Bare \"Proulx (CAQ)\", two CAQ Proulx sitting; group vote, no record names the member."
+  - contains: "qc-42-1-2021-06-10-1109: "
+    reviewed: 2026-10-07
+    why: "Bare \"Proulx (CAQ)\", two CAQ Proulx sitting; group vote, no record names the member."
   - contains: "qc-42-1-2020-09-22-438: "
     reviewed: 2026-10-07
     why: >-

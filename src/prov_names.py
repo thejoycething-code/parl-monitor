@@ -412,6 +412,10 @@ _DIVISION_FACT_FIELDS = {
     # Christopher, 7 October 2026: a member the Clerk's count includes and the
     # printed list omits, where a SECOND official record states the vote.
     "added_members": ("division", "position", "member", "document", "record", "quoted", "why"),
+    # Christopher, 7 October 2026: a printed list under the wrong heading,
+    # moved to the position the proclaimed result and the Journal show.
+    "list_positions": ("division", "printed_position", "position", "count", "document", "hansard",
+                       "quoted", "why"),
 }
 REVIEWED = "reviewed, config/prov_record.yaml"
 
@@ -460,6 +464,26 @@ class ReviewedDivisions:
             return int(a["total"]), "{0} total {1} from Hansard ({2!r}; {3})".format(
                 position, a["total"], quoted, REVIEWED)
         return printed, None
+
+    def list_position(self, division_key, printed_position, count):
+        """(position, note): where a list the record prints under
+        `printed_position` belongs, for ONE division whose Hansard reads the
+        same members under another position (Quebec, 7 December 2017: the
+        annex heads the 20 CAQ members "CONTRE - 20", the Journal reads them
+        after "Y a-t-il des abstentions?" and the Secretary proclaims
+        "Abstentions : 20"). Applied only while the record still prints
+        exactly `count` names under `printed_position`; the printed heading
+        stays in the note (Christopher, 7 October 2026)."""
+        for a in self.facts(division_key).get("list_positions", []):
+            if a["printed_position"] != printed_position:
+                continue
+            quoted = " ".join(str(a["quoted"]).split())
+            if int(a["count"]) != int(count):
+                return printed_position, "reviewed list position not used: the record prints {0} name(s) " \
+                                         "under {1}, not {2}".format(count, printed_position, a["count"])
+            return a["position"], "the record prints these {0} under {1}; Hansard reads them as {2} " \
+                                  "({3!r}; {4})".format(count, printed_position, a["position"], quoted, REVIEWED)
+        return printed_position, None
 
     def bill(self, division_key, printed):
         """(number, note): the reviewed bill for a division whose record
