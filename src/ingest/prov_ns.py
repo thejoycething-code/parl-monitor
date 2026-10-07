@@ -27,13 +27,18 @@ Against, 11." The Clerk's count is the printed total the tally check needs.
     some 2011 sittings are linked under the French path
     ("61e-assemblee-2e-session/house_11mar31"), and file names carry a part
     letter ("house_24feb27a"). Nothing is constructed.
-  * DIVISIONS, TWO LAYOUTS. Since about 2015 the names are an HTML table,
-    one row a pair, the header row "YEAS | NAYS", continued in a second
-    table after a page break. Before, they are paragraphs: "YEAS NAYS" and
-    then one paragraph per printed line, the two columns separated by a run
-    of spaces ("Mr. Landry     Mr. Samson"). When one column runs out, the
-    lines that follow carry ONE name: they belong to the longer column,
-    which the Clerk's count names. The tally check still runs on the whole.
+  * DIVISIONS. An HTML table, one row a pair, the header row "YEAS | NAYS",
+    continued after a page break (in 2012 a column may be ONE cell, a name
+    a line, with the header in it); or paragraphs, "YEAS NAYS" and one
+    printed line each (2010-2014, and again 2021-2026). The paragraph lines
+    are placed by the Clerk's count: the first min(YEAS, NAYS) lines hold
+    two names and the rest the longer column's; a line is cut at each
+    title, else only where it leaves two full names (7 October 2026: the
+    run of spaces that once marked the columns falls inside names as often,
+    and from 2023 the columns run together with one space). A third column
+    of ABSTENTIONS, a list with no header between the roll call and the
+    count, and a Clerk's count that follows no list read (a gap, never
+    'ok') are handled too. The tally check still runs on the whole.
   * ROSTER. /members/profiles-table/<assembly> lists every Member of that
     Assembly, including those who left it, with the profile slug (the
     member_key: the House's own id), district and party. That party is the
@@ -69,6 +74,7 @@ from __future__ import annotations
 
 import datetime
 import html as _html
+import itertools
 import json
 import re
 from urllib.parse import urljoin
@@ -641,15 +647,28 @@ def fetch_profiles(ctx, rows):
 
 # -- the Hansard: blocks ------------------------------------------------------------
 
-_BLOCK = re.compile(r"(?is)<table\b.*?</table>|<p\b[^>]*>.*?</p>")
+# A paragraph ends at its </p>, or, where the record never closes it, at the
+# next <p>, <table> or </div>: the Hansards of late 2011 close no paragraph
+# at all ('<p class="hsd_general">'), and 14, 25 and 28 November 2011 were
+# read as ten paragraphs each, nothing found and the sitting stored 'ok'. A
+# paragraph never runs over a table: 11 May 2015 leaves a page marker's <p>
+# open across the second half of a division list ("<p>[Page 5245]</td></tr>
+# <table class="vote">...</table><p>THE CLERK ...</p>").
+_BLOCK = re.compile(r"(?is)<table\b.*?</table>|<p\b[^>]*>(?:(?!<table\b|<p\b|</div>).)*?"
+                    r"(?:</p>|(?=<table\b|<p\b|</div>)|$)")
 _ROW_EDGE = re.compile(r"(?is)</tr\s*>|<tr\b[^>]*>")
 _TD = re.compile(r"(?is)<t[dh]\b[^>]*>(.*?)(?=<t[dh]\b|</tr>|$)")
 
 
 def _cell_text(fragment):
-    s = re.sub(r"(?is)<[^>]+>", "", fragment or "")
+    """A cell's text, whitespace squashed, with each <br> kept as a newline:
+    in 2012 a whole column of names is ONE cell, a name a line ("Mr.
+    Landry<br />Ms. More<br />...", 27 April 2012)."""
+    s = re.sub(r"(?is)<br\s*/?>", "\n", fragment or "")
+    s = re.sub(r"(?is)<[^>]+>", "", s)
     s = _html.unescape(s).replace("\xa0", " ")
-    return re.sub(r"\s+", " ", s).strip()
+    lines = [re.sub(r"\s+", " ", x).strip() for x in s.split("\n")]
+    return "\n".join(x for x in lines if x)
 
 
 def _para_text(fragment):
@@ -692,10 +711,20 @@ def flat(text):
 
 # -- the Hansard: divisions ---------------------------------------------------------
 
-_HEADER = re.compile(r"^\s*YEAS?\s+NAYS?\s*$", re.I)
+_HEADER = re.compile(r"^\s*YEAS?\s+NAYS?(?:\s+ABSTENTIONS?)?\s*$", re.I)
 _FURNITURE = re.compile(r"^\s*(?:\[\s*Page\s*\d+\s*\]|\[\s*\d{1,2}:\d{2}\s*[ap]\.?\s*m\.?\]|)\s*$", re.I)
-_COUNT = re.compile(r"\bFor\s*,?\s*(?P<yea>\d+|[A-Za-z][A-Za-z\- ]*?)\s*[.,;:]?\s*"
-                    r"Against\s*,?\s*(?P<nay>\d+|[A-Za-z][A-Za-z\- ]*?)\s*[.,;]?\s*$", re.I)
+# The Clerk's count, in every form met 2010-2026: "For, 39. Against, 11.",
+# "For, 28, Against 12." (2010), "For, 23. Against. 23. (Applause)" (2013),
+# "Those in favour of the motion, 31; those against, 17." (2014-2017), "in
+# favour of Resolution No. 35, 33; against, 13 - meeting the two-thirds
+# threshold" (2016), "Yays, 47. Nays, 0." (2023), "For, 28. Nay, 17.
+# Abstentions, 1." (17 October 2022).
+_NUM = r"(?:\d+|[A-Za-z][A-Za-z\-]*(?: [A-Za-z\-]+)?)"
+_COUNT = re.compile(
+    r"(?:\bFor|\bYeas?|\bYays|\bin favour(?: of [^,;]*?)?)\s*,?\s*(?P<yea>" + _NUM + r")\s*[.,;:]?\s*"
+    r"(?:those\s+)?(?:Against|Nays?)\s*[.,]?\s*(?P<nay>" + _NUM + r")\s*[.,;]?"
+    r"(?:\s*Abstentions?\s*,?\s*(?P<abs>" + _NUM + r")\s*[.,;]?)?"
+    r"\s*(?:\([^)]*\)\s*\.?)?\s*(?:-\s.*)?$", re.I)
 _RESULT = re.compile(r"((?:The|That)\s+(?:main\s+)?(?:motion|amendment|sub-?amendment|bill)\s+"
                      r"(?:as amended\s+)?(?:is|was|has been)\s+(?:carried|defeated|negatived|lost|passed)"
                      r"|motion (?:is )?(?:carried|defeated))", re.I)
@@ -706,7 +735,7 @@ _CLERK = re.compile(r"^\s*THE\s+CLERK\s*:?", re.I)
 # Bill No. 6.", "The motion is that the House concur in the report ...".
 _PUT = re.compile(r"\bThe (?:main )?(?:motion|question|amendment|sub-?amendment)(?: before the House)?"
                   r"(?: as amended)? is (?!(?:carried|defeated|negatived|lost|passed|in order|out of order|"
-                  r"not|now (?:before|on))\b)[a-z]", re.I)
+                  r"not|put|now (?:before|on))\b)[a-z]", re.I)
 _REQUEST = re.compile(r"request for a recorded vote|recorded vote (?:has been|is being) (?:called|requested)|"
                       r"call(?:ed)? for a recorded vote|recorded vote,? please|recorded vote has been called", re.I)
 _LABEL_PREFIX = re.compile(r"^[A-Z][A-Z .'\-]+?(?:\s*«\s*»|\s*«|\s*»)?\s*:\s*")
@@ -714,11 +743,19 @@ _PROCEDURE = re.compile(r"^(?:All those in favour|Contrary minded|Are the Whips|
                         r"Order|Before we proceed|Two members|Is it agreed|Some Honourable|I would ask|I'll (?:just )?remind|Please remain|The Clerk|"
                         r"\[|\(|The honourable|We will ring|We will now)", re.I)
 _RECORDED = re.compile(r"recorded vote|recorded division|The Clerk call", re.I)
-_BILL = re.compile(r"\bBill No\.\s*(\d+)\b")
-_READING = re.compile(r"\b(second|third)\s+reading(?:\s+debate)?\s+(?:of|on)\s+Bill No\.\s*(\d+)", re.I)
-_MOVE_READ = re.compile(r"Bill No\.\s*(\d+)\b[^.]{0,160}?\bbe now read a (second|third) time", re.I)
+# "Bill No. 6", and "Bill 49" / "Bill 204" without the No. (2014, 2022).
+_BILL = re.compile(r"\bBill(?: No\.)?\s*(\d{1,3})\b")
+_READING = re.compile(r"\b(second|third)\s+reading(?:\s+debate)?\s+(?:of|on)\s+Bill(?: No\.)?\s*(\d{1,3})\b", re.I)
+# "be now read a third time", "be read a third time" (2 April 2026), "now be
+# read a second time", "be read for a second time".
+_MOVE_READ = re.compile(r"Bill(?: No\.)?\s*(\d{1,3})\b[^.]{0,160}?\b(?:now\s+)?be\s+(?:now\s+)?read\s+(?:for\s+)?"
+                        r"a\s+(second|third)\s+time", re.I)
+# The Chair names the reading but not the bill: "The motion is for second
+# reading." (17 October 2019). The stage is still the question's; the bill
+# is the one whose reading was moved.
+_STAGE_ONLY = re.compile(r"\bThe motion is (?:for|to close|to move) (?:the )?(second|third) reading\s*\.?$", re.I)
+_VOTE_ON_BILL = re.compile(r"\b(?:recorded )?vote on Bill(?: No\.)?\s*(\d{1,3})\b", re.I)
 _BILL_HEADING = re.compile(r"^\s*Bill No\.\s*(\d+)\s*[-–—]")
-_HON = r"(?:Hon\.|Mr\.|Mrs\.|Ms\.|Miss|Dr\.|Honourable)"
 _WORDS = {"nil": 0, "none": 0, "zero": 0, "no": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
           "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
           "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17,
@@ -737,18 +774,16 @@ def count_value(text):
     return total if t else None
 
 
-def _split_line(text):
-    """One printed line of a paragraph-era list: one or two names. Columns
-    are cut at runs of two or more spaces; a piece that is only an
-    honorific ('Mr.') joins the next."""
-    pieces = [p.strip() for p in re.split(r"\s{2,}", text.strip()) if p.strip()]
-    out = []
-    for p in pieces:
-        if out and re.fullmatch(_HON, out[-1]):
-            out[-1] = out[-1] + " " + p
-        else:
-            out.append(p)
-    return out
+def clerk_count(text):
+    """(yeas, nays, abstentions) from the Clerk's count, or None. A total
+    that is not a number (a word the count misreads) is None in its place,
+    and the division is then a gap."""
+    c = _COUNT.search(_CLERK.sub("", flat(text)))
+    if not c:
+        return None
+    out = (count_value(c.group("yea")), count_value(c.group("nay")),
+           count_value(c.group("abs")) if c.group("abs") else None)
+    return out if out[0] is not None or out[1] is not None else None
 
 
 def _label_ok(text):
@@ -762,13 +797,35 @@ def _label_ok(text):
 
 
 def _is_header_row(cells):
-    return bool(_HEADER.match(" ".join(c for c in cells if c)))
+    """The YEAS | NAYS row; in 2012 a cell may hold its header AND its
+    column's names, a line each ("YEAS<br>Mr. Landry<br>...", 5 November
+    2012), so only each cell's first line is the header."""
+    return bool(_HEADER.match(" ".join(c.split("\n")[0] for c in cells if c)))
+
+
+def _header_rest(cells):
+    """The names a header row's cells carry under their header line."""
+    rest = ["\n".join(c.split("\n")[1:]) for c in cells]
+    return [rest] if any(rest) else []
 
 
 def _skip_furniture(bl, k):
     while k < len(bl) and bl[k][0] == "p" and _FURNITURE.match(bl[k][1]):
         k += 1
     return k
+
+
+def _cell_names(cell):
+    """The names in one cell: one a line (a <br> between), page furniture
+    left out ("[Page 6013]" inside the YEAS cell, 12 April 2023), and an
+    entity split around the name closed ("&Mr. Rankinnbsp;", 7 November
+    2014, is "Mr. Rankin&nbsp;" typeset wrongly)."""
+    out = []
+    for x in (cell or "").split("\n"):
+        x = re.sub(r"^&(\S.*?)nbsp;$", r"\1", flat(x))
+        if x and not _FURNITURE.match(x):
+            out.append(x)
+    return out
 
 
 def _read_table_names(bl, k, rows):
@@ -778,45 +835,80 @@ def _read_table_names(bl, k, rows):
     while True:
         for cells in rows:
             cells = list(cells) + [""] * (2 - len(cells))
-            a, b = flat(cells[0]), flat(cells[1])
-            if a:
-                yeas.append(a)
-            if b:
-                nays.append(b)
+            if not any(c for c in cells[1:]) and len(_segments(cells[0])) == 2 and "\n" not in cells[0]:
+                # One cell holding a YEA and a NAY, the cell break lost:
+                # ['Mr. Churchill Mr. Dunn'] (6 May 2016). Two titles, two names.
+                cells = _segments(cells[0])
+            yeas.extend(_cell_names(cells[0]))
+            nays.extend(_cell_names(cells[1]))
         # A continuation table after a page marker: it may repeat the header
         # row (November 2023). A new division always has the Clerk's count
-        # between, so a table straight after the names is the same list.
+        # between, so a table straight after the names is the same list. So
+        # is one after the Chair breaks into the roll call ("Can the
+        # honourable member for Halifax Chebucto please stand with his
+        # vote?", 5 May 2015; the gallery cleared and "We will now continue
+        # with the recorded vote", the header printed again, 18 December
+        # 2015): a few paragraphs with no count and no result between.
         n = _skip_furniture(bl, k)
+        m = n
+        while m < min(len(bl), n + 6) and bl[m][0] == "p" and not _interrupts_list(bl[m][1]):
+            m += 1
+        if m > n and m < len(bl) and bl[m][0] == "table" and bl[m][1]:
+            n = m
         if n < len(bl) and bl[n][0] == "table" and bl[n][1]:
             more = bl[n][1][1:] if _is_header_row(bl[n][1][0]) else bl[n][1]
-            if all(_label_ok(c) or not c for r in more for c in r[:2]):
+            if all(_label_ok(x) for r in more for c in r[:2] for x in _cell_names(c)):
                 rows = more
                 k = n + 1
                 continue
         return yeas, nays, k
 
 
+def _interrupts_list(text):
+    """True when a paragraph inside a roll call ENDS the list: the Clerk's
+    count, a result, or a new request for a vote."""
+    t = flat(text)
+    return bool(_CLERK.match(t) and clerk_count(t)) or bool(_RESULT.search(t)) or bool(_REQUEST.search(t))
+
+
+def _line_ok(text):
+    """A paragraph-era line that could hold one or two members' names."""
+    t = flat(text)
+    return 0 < len(t) <= 120 and all(_label_ok(s) for s in _segments(t))
+
+
 def _read_names(bl, i):
     """Read a division's names from the header block i. Returns (yeas,
-    nays, singles, next_index, problem): the two columns as printed, and,
-    in the paragraph layout, the one-name lines after one column ran out.
+    nays, lines, next_index): the two columns as a table prints them, or,
+    in the paragraph layouts, the printed LINES (lines is None for a
+    table), which are placed only once the Clerk's count is known
+    (_place_lines).
 
-    Three layouts are met: a table whose first row is the header (2015 on;
-    <td> or <th>); a "YEAS NAYS" paragraph followed by such a table, with
-    its own "Yeas | Nay" header row (October 2019); and the paragraph
-    layout of 2010-2014, one paragraph per printed line."""
+    Three layouts are met: a table whose first row is the header (2012 on;
+    <td> or <th>; in 2012 a column is one cell, a name a line); a "YEAS
+    NAYS" paragraph followed by such a table, with its own "Yeas | Nay"
+    header row (October 2019); and a paragraph per printed line (2010-2014,
+    and again in 2021-2026)."""
     kind, val = bl[i]
     if kind == "table":
-        yeas, nays, j = _read_table_names(bl, i + 1, val[1:])
-        return yeas, nays, [], j, None
+        yeas, nays, j = _read_table_names(bl, i + 1, _header_rest(val[0]) + val[1:])
+        lines, j = _name_lines(bl, j)
+        return yeas, nays, lines, j
     n = _skip_furniture(bl, i + 1)
     if n < len(bl) and bl[n][0] == "table" and bl[n][1]:
-        rows = bl[n][1][1:] if _is_header_row(bl[n][1][0]) else bl[n][1]
+        rows = _header_rest(bl[n][1][0]) + bl[n][1][1:] if _is_header_row(bl[n][1][0]) else bl[n][1]
         yeas, nays, j = _read_table_names(bl, n + 1, rows)
-        return yeas, nays, [], j, None
-    yeas, nays, singles, problem = [], [], [], None
-    j = i + 1
-    paired_done = False
+        lines, j = _name_lines(bl, j)
+        return yeas, nays, lines, j
+    lines, j = _name_lines(bl, i + 1)
+    return [], [], lines, j
+
+
+def _name_lines(bl, j):
+    """The paragraph lines of names from block j: ([line, ...], next_index).
+    They follow a header paragraph, or finish a list a table began (13
+    March 2026: the YEAS run on after the table, a name a paragraph)."""
+    lines = []
     while j < len(bl):
         k, text = bl[j]
         if k == "table":
@@ -824,29 +916,139 @@ def _read_names(bl, i):
         if _FURNITURE.match(text):
             j += 1
             continue
-        names = _split_line(text)
-        if not names or not all(_label_ok(x) for x in names) or len(names) > 2:
+        if not _line_ok(text):
             break
-        if len(names) == 2:
-            if paired_done:
-                problem = "a two-name line after the one-name lines began ({0!r})".format(flat(text))
-            yeas.append(names[0])
-            nays.append(names[1])
-        else:
-            paired_done = True
-            singles.append(names[0])
+        lines.append(text)
         j += 1
-    return yeas, nays, singles, j, problem
+    return lines, j
 
 
-def parse_hansard(page):
+_HON_TOKEN = re.compile(r"^(?:Hon|Mr|Mrs|Ms|Miss|Dr|Honourable)\.?$")
+
+
+def _segments(line):
+    """A printed line cut before every title but the first: 'Mr. Landry
+    Mr.  Belliveau'; 'Ms. Maureen  MacDonald  Mr. Samson' (6 December 2012:
+    the double space is no column mark, it falls inside a name as often as
+    between two); 'Ronnie LeBlanc Hon. Greg Morrow'."""
+    # A title run into the name is two words: "Mr.Scott", 22 April 2010.
+    line = re.sub(r"\b(Hon|Mr|Mrs|Ms|Dr)\.(?=[A-Z])", r"\1. ", flat(line))
+    out = []
+    for w in line.split():
+        if _HON_TOKEN.match(w) and not (out and all(_HON_TOKEN.match(x) for x in out[-1])):
+            out.append([w])
+        elif not out:
+            out.append([w])
+        else:
+            out[-1].append(w)
+    return [" ".join(x) for x in out]
+
+
+def _bare(words):
+    return [w for w in words if not _HON_TOKEN.match(w)]
+
+
+def _full_name(words):
+    """Two or more words besides any title, the last not an initial."""
+    b = _bare(words)
+    return len(b) >= 2 and not re.fullmatch(r"[A-Z]\.?", b[-1])
+
+
+def _ends_in_surname(words, vocab):
+    toks = tuple(pn.fold(w) for w in words)
+    return any(toks[-len(v):] == tuple(v) for v in vocab if 0 < len(v) <= len(toks))
+
+
+def _split_n(line, n, vocab=None):
+    """`n` names from one printed line, or None. Where no title marks a name
+    ('Elizabeth Smith-McCrossin Larry Harrison', 18 October 2023; 'Hon.
+    Nolan Young Claudia Chender', 25 March 2026: the columns run together
+    with ONE space) every cut must leave full names, a title only ever at a
+    name's start; if more than one set of cuts does, only cuts with a known
+    surname before each count. Anything else is None, never a guess."""
+    words = flat(line).split()
+    if n == 1:
+        return [" ".join(words)] if words else None
+    found = []
+    for cuts in itertools.combinations(range(1, len(words)), n - 1):
+        bounds = (0,) + cuts + (len(words),)
+        parts = [words[bounds[k]:bounds[k + 1]] for k in range(n)]
+        if all(_clean_part(p) for p in parts):
+            found.append(parts)
+    if len(found) > 1 and vocab:
+        found = [parts for parts in found if all(_ends_in_surname(p, vocab) for p in parts)]
+    if len(found) != 1:
+        return None
+    return [" ".join(p) for p in found[0]]
+
+
+def _clean_part(words):
+    """A full name with its titles, if any, all at the start."""
+    k = 0
+    while k < len(words) and _HON_TOKEN.match(words[k]):
+        k += 1
+    rest = words[k:]
+    return _full_name(rest) and not any(_HON_TOKEN.match(w) for w in rest)
+
+
+def _place_lines(lines, count, vocab=None):
+    """(yeas, nays, abstentions, note, problem) from the printed lines of a
+    paragraph-era list. The columns fill side by side and the shorter runs
+    out first, so with the Clerk's count of Y and N the first min(Y, N)
+    lines hold two names (YEA, NAY) and every line after holds the longer
+    column's; a one-column list (N or Y nil) is a name a line, cut only at
+    each title it carries ('Mr. MacDonell Ms. Zann', one line of a 38-0
+    list, 3 December 2010). Abstentions are a third column, so the first A
+    lines hold three names (17 October 2022). Without a count the lines
+    cannot be placed."""
+    if count is None or None in count[:2]:
+        return [x for l in lines for x in _segments(l)], [], [], None, None
+    y, n = count[0], count[1]
+    a = count[2] or 0
+    paired = min(y, n)
+    if len(lines) < paired or a > paired:
+        return [], [], [], None, "{0} line(s) of names for {1} paired".format(len(lines), paired)
+    yeas, nays, abst = [], [], []
+    for k, line in enumerate(lines[:paired]):
+        width = 3 if k < a else 2
+        segs = _segments(line)
+        names = segs if len(segs) == width else _split_n(line, width, vocab)
+        if names is None:
+            return [], [], [], None, "a line of the paired columns that is not {0} names ({1!r})".format(
+                width, flat(line))
+        yeas.append(names[0])
+        nays.append(names[1])
+        abst.extend(names[2:])
+    rest = [x for l in lines[paired:] for x in _segments(l)]
+    note = None
+    if rest:
+        if y > n:
+            yeas += rest
+        elif n > y:
+            nays += rest
+        else:
+            return yeas, nays, abst, None, "{0} name(s) after the paired lines of a {1}-{2} list".format(
+                len(rest), y, n)
+        if paired:
+            note = "{0} one-name line(s) read as {1} (the longer column by the Clerk's count)".format(
+                len(lines) - paired, "YEAS" if y > n else "NAYS")
+    return yeas, nays, abst, note, None
+
+
+def parse_hansard(page, vocab=None, strays=None):
     """(divisions, voices) from one sitting's Hansard page, names unresolved.
 
     divisions: [{seq, yeas, nays, yea_labels, nay_labels, question, item, result,
                  vote_on, stage, bill_number, problem, note}]
-    voices:    [{bill_number, stage, result}]"""
+    voices:    [{bill_number, stage, result}]
+
+    `vocab` (Resolver.surname_vocab()) only settles where a printed line of
+    two full names is cut. `strays`, when a list, receives every Clerk's
+    count that follows no list of names the parser read: a division the
+    record holds and the parser missed (read_sitting makes it a gap)."""
     bl = blocks(page)
     divisions, voices = [], []
+    used = set()
     last_end = 0
     heading_bill = None
     i = 0
@@ -858,19 +1060,25 @@ def parse_hansard(page):
             h = _BILL_HEADING.match(flat(val))
             if h:
                 heading_bill = h.group(1)
+            if not is_header and _CLERK.match(flat(val)) and clerk_count(val):
+                d = _headerless(bl, i, last_end, vocab, heading_bill, len(divisions) + 1)
+                if d is not None:
+                    used.add(i)
+                    divisions.append(d)
+                    last_end = i + 1
         if not is_header:
             i += 1
             continue
-        yeas, nays, singles, j, problem = _read_names(bl, i)
+        yeas, nays, lines, j = _read_names(bl, i)
         # The Clerk's count, within the few blocks after the names.
         count, result, k = None, None, j
         while k < min(len(bl), j + 8):
             if bl[k][0] == "p":
                 t = flat(bl[k][1])
-                if count is None and (_CLERK.match(t) or _COUNT.search(t)):
-                    c = _COUNT.search(_CLERK.sub("", t))
-                    if c:
-                        count = (count_value(c.group("yea")), count_value(c.group("nay")))
+                if count is None and (_CLERK.match(t) or re.match(r"For\b", t)):
+                    count = clerk_count(t)
+                    if count:
+                        used.add(k)
                 elif count is not None:
                     r = _RESULT.search(t)
                     if r:
@@ -880,30 +1088,84 @@ def parse_hansard(page):
                     if _SPEAKER.match(t) and not r:
                         break
             k += 1
-        note = None
+        note = problem = None
         printed_y = count[0] if count else None
         printed_n = count[1] if count else None
-        if singles:
-            # One-name lines continue the LONGER column, which the Clerk's
-            # count names; without a count they cannot be placed.
-            if count is None or None in count:
-                problem = problem or "one-name lines with no Clerk's count to place them"
-                yeas = yeas + singles
-            elif printed_y >= printed_n:
-                yeas = yeas + singles
-                note = "{0} one-name line(s) read as YEAS (the longer column by the Clerk's count)".format(len(singles))
-            else:
-                nays = nays + singles
-                note = "{0} one-name line(s) read as NAYS (the longer column by the Clerk's count)".format(len(singles))
+        printed_a = count[2] if count else None
+        abst = []
+        if lines:
+            # Lines after a table finish its list: they are placed by what
+            # the Clerk's count leaves once the table's names are counted.
+            rest = count
+            if count and (yeas or nays):
+                rest = tuple(None if c is None else c - len(got)
+                             for c, got in zip(count, (yeas, nays, [])))
+                if any(c is not None and c < 0 for c in rest[:2]):
+                    problem, rest = "more names in the table than the Clerk counted", None
+            ry, rn, abst, note, placed = _place_lines(lines, rest, vocab)
+            yeas, nays = yeas + ry, nays + rn
+            problem = problem or placed
+        elif printed_a:
+            problem = "abstentions counted in a table layout, which no record has shown yet"
         if count is None:
-            problem = problem or "no Clerk's count ('For, N. Against, M.') after the names"
+            problem = "no Clerk's count ('For, N. Against, M.') after the names"
         context = [flat(t) for kd, t in bl[last_end:i] if kd == "p" and flat(t)]
-        divisions.append(_division(context, len(divisions) + 1, printed_y, printed_n, yeas, nays,
-                                   result, problem, note, heading_bill))
+        d = _division(context, len(divisions) + 1, printed_y, printed_n, yeas, nays,
+                      result, problem, note, heading_bill)
+        if printed_a or abst:
+            d["abstentions"], d["abs_labels"] = printed_a, abst
+        divisions.append(d)
         last_end = k
         i = k
+    if strays is not None:
+        for k, (kd, v) in enumerate(bl):
+            if kd == "p" and k not in used:
+                t = flat(v)
+                if _CLERK.match(t) and clerk_count(t):
+                    strays.append(t[:120])
     voices = _voices(bl)
     return divisions, voices
+
+
+_ROLL_CALL = re.compile(r"^\[?\s*The\s+Clerks?\s+call(?:s|ed)\s+the\s+roll\.?\s*\]?$", re.I)
+
+
+def _headerless(bl, k, last_end, vocab, heading_bill, seq):
+    """A division printed with no YEAS NAYS header: the lines of names
+    between "[The Clerk called the roll.]" and the Clerk's count at block
+    k (9 March 2026, the second division: Hansard goes straight from the
+    roll call to "Hon. Brian Comer Claudia Chender"). Only between those
+    two marks; anything else is left to the stray-count gap."""
+    j = k - 1
+    lines = []
+    while j >= last_end:
+        kd, v = bl[j]
+        if kd != "p":
+            return None
+        if _FURNITURE.match(v):
+            j -= 1
+            continue
+        if not _line_ok(v) or _ROLL_CALL.match(flat(v)):
+            break
+        lines.insert(0, v)
+        j -= 1
+    if not lines or j < last_end or not _ROLL_CALL.match(flat(bl[j][1])):
+        return None
+    count = clerk_count(bl[k][1])
+    yeas, nays, abst, note, problem = _place_lines(lines, count, vocab)
+    result = None
+    for kd, v in bl[k + 1:k + 4]:
+        r = _RESULT.search(flat(v)) if kd == "p" else None
+        if r:
+            result = r.group(1)
+            break
+    context = [flat(t) for kd, t in bl[last_end:j] if kd == "p" and flat(t)]
+    note = "; ".join(x for x in ("no YEAS NAYS header printed: the names between the roll call and the "
+                                 "Clerk's count", note) if x)
+    d = _division(context, seq, count[0], count[1], yeas, nays, result, problem, note, heading_bill)
+    if count[2] or abst:
+        d["abstentions"], d["abs_labels"] = count[2], abst
+    return d
 
 
 def _division(context, seq, yeas, nays, yea_labels, nay_labels, result, problem, note, heading_bill):
@@ -939,9 +1201,13 @@ def _division(context, seq, yeas, nays, yea_labels, nay_labels, result, problem,
     # carried 28-17).
     rd = [(m.group(1), m.group(2)) for m in _READING.finditer(q)] + \
          [(m.group(2), m.group(1)) for m in _MOVE_READ.finditer(q)]
+    only = _STAGE_ONLY.search(q)
     if rd:
         stage = rd[-1][0].title() + " Reading"
         bill = rd[-1][1]
+    elif only:
+        stage = only.group(1).title() + " Reading"
+        bill = _bill_moved(window[-15:], only.group(1).lower()) or heading_bill
     else:
         stage = "Motion"
         b = _BILL.findall(q)
@@ -951,6 +1217,12 @@ def _division(context, seq, yeas, nays, yea_labels, nay_labels, result, problem,
             # "the bill to recommit": the bill under debate
             near = [m.group(2) for m in _READING.finditer(" ".join(window[-15:]))]
             bill = near[-1] if near else heading_bill
+        else:
+            # "The Clerk will conduct a recorded vote on Bill No. 247." (25
+            # March 2026: the question was put the day before): the bill,
+            # never a stage.
+            near = [m.group(1) for t in window[-6:] for m in _VOTE_ON_BILL.finditer(t)]
+            bill = near[-1] if near else None
     low = q.lower()
     vote_on = ("subamendment" if "subamendment" in low or "sub-amendment" in low
                else "amendment" if "amendment" in low else "motion")
@@ -959,22 +1231,54 @@ def _division(context, seq, yeas, nays, yea_labels, nay_labels, result, problem,
             "vote_on": vote_on, "stage": stage, "bill_number": bill, "problem": problem, "note": note}
 
 
-_VOICE_Q = re.compile(r"The motion is for (second|third) reading of Bill No\.\s*(\d+)", re.I)
+def _bill_moved(paras, stage_word):
+    """The bill whose `stage_word` ('second'/'third') reading the nearest
+    paragraph moved or named, from the end; None if none does."""
+    for t in reversed(paras):
+        hits = [m.group(2) for m in _READING.finditer(t) if m.group(1).lower() == stage_word] + \
+               [m.group(1) for m in _MOVE_READ.finditer(t) if m.group(2).lower() == stage_word]
+        if hits:
+            return hits[-1]
+    return None
+
+
+# The Chair puts a reading: "The motion is for third reading of Bill No.
+# 133.", "... to close third reading of Bill No. 348" (2023), "... to move
+# second reading of Bill No. 419" (2024), "... for second reading on Bill No.
+# 203" (2026), "The motion is that Bill No. 198 be read a third time".
+_VOICE_Q = re.compile(r"The motion is (?:for|to close|to move)\s+(?:the\s+)?(second|third)\s+reading\s+(?:of|on)\s+"
+                      r"Bill(?: No\.)?\s*(\d{1,3})\b", re.I)
+_VOICE_Q2 = re.compile(r"The motion is that Bill(?: No\.)?\s*(\d{1,3})\b[^.]{0,120}?\bbe\s+(?:now\s+)?read\s+"
+                       r"a\s+(second|third)\s+time", re.I)
+# The mover's own words when the Chair puts it at once without restating it
+# ("I move second reading of Bill No. 1." / "Would all those in favour ...",
+# 7 May 2010).
+_MOVER = re.compile(r"\bI (?:now )?move (?:the )?(second|third) reading of Bill(?: No\.)?\s*(\d{1,3})\b", re.I)
 _IN_FAVOUR = re.compile(r"(?:all those in favour|those in favour|in favour of the motion)", re.I)
-_CARRIED = re.compile(r"The motion is (carried|defeated)", re.I)
+# Carried in so many words, or by the order that follows a carried reading
+# ("Ordered that the bill be referred to Standing Committee on Public
+# Bills.", 6 March 2025, with no "The motion is carried." printed).
+_CARRIED = re.compile(r"The motion is (carried|defeated)|Ordered that (?:this|the) bill (?:be referred|do pass)", re.I)
 
 
 def _voices(bl):
     """Second and third readings put and decided without a recorded vote."""
-    paras = [flat(v) if k == "p" else "YEAS" if any(_HEADER.match(" ".join(r)) for r in v[:1]) else ""
+    paras = [flat(v) if k == "p" else "YEAS" if any(_is_header_row(r) for r in v[:1]) else ""
              for k, v in bl]
     out, seen = [], set()
     for idx, t in enumerate(paras):
-        m = _VOICE_Q.search(t)
-        if not m:
+        found = [(m.group(0), m.group(2), m.group(1)) for m in _VOICE_Q.finditer(t)] + \
+                [(m.group(0), m.group(1), m.group(2)) for m in _VOICE_Q2.finditer(t)]
+        if not found:
+            m = _MOVER.search(t)
+            nxt = next((x for x in paras[idx + 1:idx + 3] if x), "")
+            if m and _IN_FAVOUR.search(nxt):
+                found = [(m.group(0), m.group(2), m.group(1))]
+        if not found:
             continue
+        text, number, stage = found[-1]
         window = " ".join(paras[idx:idx + 6])
-        after = window[window.find(m.group(0)):]
+        after = window[window.find(text):]
         if _RECORDED.search(after.split("The motion is carried")[0]) or "YEAS" in after:
             continue
         if not _IN_FAVOUR.search(after):
@@ -982,13 +1286,45 @@ def _voices(bl):
         c = _CARRIED.search(after)
         if not c:
             continue
-        key = (m.group(2), m.group(1).lower())
+        key = (number, stage.lower())
         if key in seen:
             continue
         seen.add(key)
-        out.append({"bill_number": m.group(2), "stage": m.group(1).title() + " Reading",
-                    "result": "The motion is {0} (no recorded vote)".format(c.group(1).lower())})
+        outcome = (c.group(1) or "carried").lower()
+        out.append({"bill_number": number, "stage": stage.title() + " Reading",
+                    "result": "The motion is {0} (no recorded vote)".format(outcome)})
+    # Bills called together and read at once: "Bill No. 84 - Animal
+    # Protection Act." "Bill No. 85 - ..." then "The motions are carried."
+    # and "Ordered that these bills do pass." (28 November 2011, 4 May 2012).
+    # The order names the stage: "do pass" a third reading, "be referred"
+    # a second.
+    for idx, t in enumerate(paras):
+        if not _BATCH_CARRIED.search(t):
+            continue
+        order = next((x for x in paras[idx + 1:idx + 3] if x), "")
+        o = _BATCH_ORDER.search(order)
+        if not o:
+            continue
+        stage = "Third Reading" if o.group(1).lower() == "do pass" else "Second Reading"
+        k = idx - 1
+        numbers = []
+        while k >= 0 and (not paras[k] or _FURNITURE.match(paras[k]) or _BILL_HEADING.match(paras[k])):
+            h = _BILL_HEADING.match(paras[k])
+            if h:
+                numbers.insert(0, h.group(1))
+            k -= 1
+        for number in numbers:
+            key = (number, stage.split()[0].lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append({"bill_number": number, "stage": stage,
+                        "result": "The motions are carried (bills read together, no recorded vote)"})
     return out
+
+
+_BATCH_CARRIED = re.compile(r"^(?:M[RS]\.?\s+SPEAKER|THE\s+SPEAKER|MADAM\s+SPEAKER)[^:]*:\s*The motions are carried\.?$", re.I)
+_BATCH_ORDER = re.compile(r"^Ordered that these bills (do pass|be referred)", re.I)
 
 
 # -- names ------------------------------------------------------------------------
@@ -1037,6 +1373,22 @@ class NameResolver:
         return None, how
 
     def resolve(self, raw, date, legislature=None, document=None):
+        key, how = self._resolve(raw, date, legislature)
+        if key or not how.startswith("unknown"):
+            return key, how
+        # Two typesetting slips that are not names (the raw label keeps
+        # them): an honorific run into the surname, "Mr.Whynott" and
+        # "Mr.Scott" (22 April 2010), and a full stop after the surname,
+        # "Mr. Ince." (10 April 2018).
+        clean = re.sub(r"^((?:Hon|Mr|Mrs|Ms|Dr)\.)(?=[A-Z])", r"\1 ", (raw or "").strip())
+        clean = re.sub(r"(?<=[a-z]{2})\.$", "", clean)
+        if clean != (raw or "").strip():
+            key2, how2 = self._resolve(clean, date, legislature)
+            if key2:
+                return key2, how2 + " (typesetting slip closed)"
+        return key, how
+
+    def _resolve(self, raw, date, legislature=None):
         key, how = self._try(raw, date, legislature)
         if key or how.startswith("ambiguous"):
             return key, how
@@ -1055,21 +1407,48 @@ class NameResolver:
                 if key3:
                     return key3, "surname only (the given name as printed is not the roster's)"
                 if how3.startswith("ambiguous"):
+                    # Two members share the surname: the printed given name
+                    # still names one of them by its INITIAL, as "Ms. K.
+                    # Regan" would. Hansard prints "Mr. David Wilson" for
+                    # Dave Wilson (the roster's name) beside "Mr. Gordon
+                    # Wilson", 2013-2018: "D. Wilson" is one member.
+                    initial = words[:-n][0][:1]
+                    if initial.isalpha() and initial.isupper():
+                        key4, _how4 = self._try("{0}. {1}".format(initial, " ".join(words[-n:])),
+                                                date, legislature)
+                        if key4:
+                            return key4, "initial of the printed given name (the given name as printed " \
+                                         "is not the roster's)"
                     return None, how3
         return key, how
 
 
-def resolve_division(raw, resolver, date, legislature, document=None):
+def resolve_division(raw, resolver, date, legislature, document=None, division_key=None, reviewed=None):
+    """(votes, ok, note). With `reviewed` (pn.ReviewedDivisions) and the
+    division's key, a bare ambiguous label a reviewed hansard_labels entry
+    names is settled first (config/prov_record.yaml); then British
+    Columbia's elimination; then the tally check, as ever."""
     votes = []
-    for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"])):
+    for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"]),
+                             ("Abstain", raw.get("abs_labels") or [])):
         for k, label in enumerate(labels, 1):
             key, how = resolver.resolve(label, date, legislature, document=document)
             votes.append({"position": position, "ordinal": k, "raw_label": label, "member_key": key,
                           "how": how,
                           "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
-    ok, note = ps.tally({"Yea": raw["yeas"], "Nay": raw["nays"]}, votes)
+    # British Columbia's rule (prov_bc.settle_by_elimination): an ambiguous
+    # bare surname whose other candidate is placed in the same division is
+    # the one left ("Mr. Wilson" beside "Mr. Gordon Wilson", 4 April 2014).
+    from src.ingest.prov_bc import settle_by_elimination
+    notes = []
+    if reviewed is not None and division_key:
+        notes += reviewed.settle(division_key, votes, getattr(resolver, "base", resolver), date, legislature)
+    settle_by_elimination(votes, resolver, date, legislature)
+    ok, note = ps.tally({"Yea": raw["yeas"], "Nay": raw["nays"], "Abstain": raw.get("abstentions")}, votes)
     if raw.get("problem"):
         ok, note = False, "; ".join(x for x in (raw["problem"], note) if x)
+    if notes:
+        note = "; ".join(x for x in [note] + notes if x)
     return votes, ok, note
 
 
@@ -1234,7 +1613,19 @@ def fetch_bills(ctx, legislature, session, tax, wl, want_pages=()):
 
 # -- a sitting --------------------------------------------------------------------
 
-def read_sitting(ctx, legislature, session, rec, resolver, wl):
+def clear_record(conn, url):
+    """Delete the divisions, voice decisions and votes stored from one
+    Hansard page."""
+    keys = [r[0] for r in conn.execute(
+        "SELECT division_key FROM prov_divisions WHERE prov=? AND source_url=?", (PROV, url))]
+    for k in keys:
+        conn.execute("DELETE FROM prov_votes WHERE division_key=?", (k,))
+        conn.execute("DELETE FROM prov_division_bills WHERE division_key=?", (k,))
+        conn.execute("DELETE FROM prov_divisions WHERE division_key=?", (k,))
+    return len(keys)
+
+
+def read_sitting(ctx, legislature, session, rec, resolver, wl, reviewed=None):
     """Read one sitting's Hansard. Returns (divisions, gaps_in_it)."""
     date, url = rec["date"], rec["url"]
     skey = ps.sitting_key(PROV, legislature, session, date, rec.get("part"))
@@ -1246,20 +1637,37 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
         ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")
         ctx.conn.commit()
         return 0, 1
-    divisions, voices = parse_hansard(raw)
+    strays = []
+    base = getattr(resolver, "base", resolver)
+    divisions, voices = parse_hansard(raw, vocab=base.surname_vocab() if hasattr(base, "surname_vocab") else None,
+                                      strays=strays)
     gaps = 0
     seq_prefix = "{0}.".format(rec["part"]) if rec.get("part") else ""
+    # A record read again replaces everything stored from it: a division an
+    # older parser stored under another seq, or split in two, must not
+    # outlive the re-read.
+    clear_record(ctx.conn, url)
+    for t in strays:
+        # The record says a division happened that the parser did not read:
+        # a gap, never 'ok' (12 November 2012's "YEAS" inside its cell;
+        # 17 October 2022's three-column list with abstentions).
+        gaps += 1
+        ctx.gap("{0}: the Clerk's count {1!r} follows no list of names read; a recorded division "
+                "was not parsed".format(skey, t[:80]))
+    if reviewed is None:
+        reviewed = pn.ReviewedDivisions.load(PROV)
     recorded = set()
     for d in divisions:
-        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url)
+        seq = seq_prefix + str(d["seq"])
+        dkey = ps.division_key(PROV, legislature, session, date, seq)
+        votes, ok, note = resolve_division(d, resolver, date, legislature, document=url,
+                                           division_key=dkey, reviewed=reviewed)
         bkey = ps.bill_key(PROV, legislature, session, d["bill_number"]) if d["bill_number"] else None
         if bkey and d["stage"] in STAGE_CODE:
             recorded.add((bkey, d["stage"]))
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         inherit = pc.Result(b_areas, b_terms, b_tier) if b_areas else None
         res = pc.classify(ctx.tax, wl, PROV, texts=[d["question"]], bill_key=bkey, inherit=inherit)
-        seq = seq_prefix + str(d["seq"])
-        dkey = ps.division_key(PROV, legislature, session, date, seq)
         if not ok:
             gaps += 1
             ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, note))
@@ -1267,9 +1675,10 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
             "division_key": dkey, "prov": PROV, "legislature": legislature, "session": session,
             "date": date, "seq": seq, "kind": "recorded", "question": d["question"],
             "vote_on": d["vote_on"], "bill_key": bkey, "stage": d["stage"], "result": d["result"],
-            "yeas": d["yeas"], "nays": d["nays"], "abstentions": None, "source_url": url,
+            "yeas": d["yeas"], "nays": d["nays"], "abstentions": d.get("abstentions"), "source_url": url,
             "areas": res.areas, "matched_terms": res.terms, "tier": res.tier, "excerpt": res.excerpt,
-            "positions_ok": 1 if ok else 0, "tally_note": note or d.get("note"), "votes": votes})
+            "positions_ok": 1 if ok else 0,
+            "tally_note": "; ".join(x for x in (note, d.get("note")) if x) or None, "votes": votes})
     nvoice = 0
     for v in voices:
         bkey = ps.bill_key(PROV, legislature, session, v["bill_number"])
@@ -1308,6 +1717,67 @@ def check_listing_stages(ctx, legislature, session, read_dates):
                 ctx.gap("{0}: the bill page says {1} passed on {2}; that day's Hansard gave neither a "
                         "recorded division nor a voice decision for it".format(key, st["stage"], st["date"]))
     return misses
+
+
+# -- owed sittings ------------------------------------------------------------------
+
+# Every sitting stored 'ok' by a parser older than this date is read once more.
+# The 2010 backfill (CI runs 37076568654 and 37108083021, 3 October 2026) read
+# with the parser of 2 October, which closed no paragraph the record left
+# open (late 2011: 14, 25 and 28 November stored 'ok' and EMPTY), missed a
+# header inside its cell (5 November 2012, Bill 94's second reading), a list
+# printed with no header (9 March 2026) and a three-column list (17 October
+# 2022), and knew one form of the Clerk's count. Neither a gap nor the bills
+# cross-check points at all of them, so the repair is by date.
+# 7 October, not the 8th: the re-run is dispatched on the 7th (UTC), and
+# anything it re-reads is stamped that day, so a cutoff of the 8th would have
+# made the next weekly read all ~860 pages again.
+REREAD_BEFORE = "2026-10-07"
+
+
+def owe_stale(ctx, legislature, session, records):
+    """Make OWED every sitting of the window stored 'ok' before
+    REREAD_BEFORE. Returns how many."""
+    owed = 0
+    for rec in records:
+        owed += ctx.conn.execute(
+            "UPDATE prov_sittings SET status='owed' WHERE sitting_key=? AND status='ok' AND read_at < ?",
+            (ps.sitting_key(PROV, legislature, session, rec["date"], rec.get("part")), REREAD_BEFORE)).rowcount
+    ctx.conn.commit()
+    if owed:
+        ctx.log("  ns {0}-{1}: {2} sitting(s) stored 'ok' by the parser before {3}; read again".format(
+            legislature, session, owed, REREAD_BEFORE))
+    return owed
+
+
+def owe_listed(ctx, legislature, session, records):
+    """The lasting, targeted repair: a sitting stored 'ok' on whose day a
+    bill page dates a second or third reading the store holds neither as a
+    division nor on voice is made OWED, so the run reads it again (the
+    cross-check after the bills makes it a gap if it is still missing).
+    Returns how many."""
+    days = set()
+    for key, stages in ctx.conn.execute(
+            "SELECT bill_key, stages FROM prov_bills WHERE prov=? AND legislature=? AND session=?",
+            (PROV, legislature, session)).fetchall():
+        for st in json.loads(stages or "[]"):
+            if st.get("stage") not in STAGE_CODE or not st.get("date"):
+                continue
+            hit = ctx.conn.execute("SELECT COUNT(*) FROM prov_divisions WHERE bill_key=? AND date=? AND stage=?",
+                                   (key, st["date"], st["stage"])).fetchone()[0]
+            if not hit:
+                days.add(st["date"])
+    owed = 0
+    for rec in records:
+        if rec["date"] in days:
+            owed += ctx.conn.execute(
+                "UPDATE prov_sittings SET status='owed' WHERE sitting_key=? AND status='ok'",
+                (ps.sitting_key(PROV, legislature, session, rec["date"], rec.get("part")),)).rowcount
+    ctx.conn.commit()
+    if owed:
+        ctx.log("  ns {0}-{1}: {2} sitting(s) 'ok' but missing a reading their bill pages date to them; "
+                "read again".format(legislature, session, owed))
+    return owed
 
 
 # -- the run ------------------------------------------------------------------------
@@ -1366,6 +1836,9 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
             stats.update(fetch_bills(ctx, legislature, sess, ctx.tax, wl))
         return stats
     resolver = make_resolver(ctx.conn)
+    reviewed = pn.ReviewedDivisions.load(PROV)
+    stats["owed_stale"] = owe_stale(ctx, legislature, sess, records)
+    stats["owed_listed"] = owe_listed(ctx, legislature, sess, records)
     read = divs = gaps = 0
     read_dates = set()
     for rec in records:
@@ -1375,7 +1848,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         if ctx.stop():
             break
         ctx.records_read += 1
-        n, g = read_sitting(ctx, legislature, sess, rec, resolver, wl)
+        n, g = read_sitting(ctx, legislature, sess, rec, resolver, wl, reviewed=reviewed)
         read += 1
         divs += n
         gaps += g

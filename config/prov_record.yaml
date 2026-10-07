@@ -12,9 +12,18 @@
 #                  that document, and ONLY if the member holds a term that
 #                  day. The tally check still runs. Never a fuzzy matcher:
 #                  add an entry only after reading the record yourself.
-#   by_elections   (nl) Vacancies and by-elections in a year whose Members'
-#                  Attendance summary has no text (2024 is a scan). Used by
-#                  prov_nl.bridge_year to date the roster terms around them.
+#   by_elections   (nl) Vacancies and by-elections, each read in the Elections
+#                  NL report. Used by prov_nl.bridge_year for a year whose
+#                  Members' Attendance summary has no text (2024 is a scan),
+#                  and by prov_nl.date_terms to date the summaries'
+#                  calendar-year terms around them (7 October 2026).
+#   general_elections (nl) Election days, each read in the Elections NL
+#                  report; prov_nl.date_terms ends or starts a summary's term
+#                  on it when the member is absent from the next or the
+#                  previous year's summary.
+#   titles         (nb, nl) The title a record prints for a member, read
+#                  where it joins the title to the full name; settles an
+#                  AMBIGUOUS label only (prov_nb.CaseExact, prov_nl.Titled).
 #   other_surnames A surname a member ALSO sat under, as the member's own
 #                  official page states it. Read by
 #                  src/prov_names.Resolver.with_record: the label is still
@@ -57,6 +66,13 @@
 #                  one inside the other) cannot join them: across
 #                  legislatures, or "Tom" and "Thomas". Merged in place by
 #                  prov_store.merge_split_members.
+#
+#   roster_rows, titles, roster_bridges
+#                  (nb) Rows of a compiled Journal's members page (with an
+#                  optional by-election date, `elected:`), the title a record
+#                  prints for a member, and a session's roster read from the
+#                  next session's members page. All three APPROVED by
+#                  Christopher, 7 October 2026 (the 57-1 bridge by name).
 #
 # Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
 # (3 October 2026). Alberta's entries added 2 October 2026 for the
@@ -307,6 +323,287 @@ provinces:
           Printed "Hon. Timothy Hallman" in the YEAS of Bill 419's third
           reading (carried 28-17), the division's only unresolved label. The
           surname itself is misprinted, so the surname-only retry cannot help.
+      - printed: "Mr. Whynot"
+        member: mat-whynott
+        date: 2010-12-03
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-2/house_10dec03
+        verified_against: >-
+          The same Hansard's first and second recorded divisions that day print "Mr. Whynott" in the YEAS; the 61st Assembly's Members table (/members/profiles-table/61,
+          as the 3 October 2026 backfill stored it) lists Mat Whynott and no member
+          named "Whynot". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Whynot" in the third division that day (carried 22-1); unresolved, it made the division a tally gap.
+      - printed: "Mr. Zinc"
+        member: trevor-zinck
+        date: 2012-04-27
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-4/house_12apr27
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Mr. Zinck" in the NAYS; the 61st Assembly's Members table (/members/profiles-table/61,
+          as the 3 October 2026 backfill stored it) lists Trevor Zinck and no member
+          named "Zinc". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Zinc" in the NAYS of the third reading of Bill 69 (carried 28-19); unresolved, it made the division a tally gap.
+      - printed: "Mr. Bellivau"
+        member: sterling-belliveau
+        date: 2014-04-01
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-1/house_14apr01
+        verified_against: >-
+          The Hansard of 4 April 2014 (house_14apr04) prints "Mr. Belliveau" in the recorded divisions of that day; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Sterling Belliveau and no member
+          named "Bellivau". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Bellivau" in all three recorded divisions of the day (the motion defeated 6-32 and two on the second reading of Bill 37, 37-6); unresolved, it made the division a tally gap.
+      - printed: "Mr. McMaster"
+        member: allan-macmaster
+        date: 2014-04-01
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-1/house_14apr01
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Mr. MacMaster" in the NAYS; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Allan MacMaster and no member
+          named "McMaster". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. McMaster" in the YEAS of the second and third recorded divisions of the day (Bill 37, 37-6); unresolved, it made the division a tally gap.
+      - printed: "Mr. MacNeil"
+        member: stephen-mcneil
+        date: 2014-04-04
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-1/house_14apr04
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Mr. McNeil" in the YEAS; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Stephen McNeil and no member
+          named "MacNeil". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. MacNeil" in the YEAS of the third reading of Bill 37 (carried 31-17); unresolved, it made the division a tally gap.
+      - printed: "Ms. Whelan"
+        member: diana-whalen
+        date: 2014-09-29
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_14sep29
+        verified_against: >-
+          The Hansard of 30 September 2014 (house_14sep30) prints "Ms. Whalen" in its recorded divisions; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Diana Whalen and no member
+          named "Whelan". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Whelan" in the YEAS of the day's recorded division (carried 29-17); unresolved, it made the division a tally gap.
+      - printed: "Ms. Whelan"
+        member: diana-whalen
+        date: 2015-05-11
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_15may11
+        verified_against: >-
+          The same Hansard's first, second and third recorded divisions that day print "Ms. Whalen"; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Diana Whalen and no member
+          named "Whelan". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Whelan" in the NAYS of the fourth recorded division of the day (Bill 108, defeated 14-28); unresolved, it made the division a tally gap.
+      - printed: "Mr. Bailey"
+        member: jamie-baillie
+        date: 2014-10-20
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_14oct20
+        verified_against: >-
+          The Hansard of 14 October 2014 (house_14oct14) prints "Mr. Baillie" in its recorded division; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Jamie Baillie and no member
+          named "Bailey". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Bailey" in the NAYS of the second reading of Bill 6 (carried 36-9); unresolved, it made the division a tally gap.
+      - printed: "Mr. Bailey"
+        member: jamie-baillie
+        date: 2016-12-05
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-3/house_16dec05
+        verified_against: >-
+          The Hansard of 8 November 2016 (house_16nov08) prints "Mr. Baillie" in its recorded division; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Jamie Baillie and no member
+          named "Bailey". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Bailey" in the NAYS of the day's recorded division (carried 29-16); unresolved, it made the division a tally gap.
+      - printed: "Ms. McFarlane"
+        member: karla-macfarlane
+        date: 2014-11-14
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_14nov14
+        verified_against: >-
+          The same Hansard's first and second recorded divisions that day print "Ms. MacFarlane"; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Karla MacFarlane and no member
+          named "McFarlane". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. McFarlane" in the NAYS of the third reading of Bill 64 (carried 31-9); unresolved, it made the division a tally gap.
+      - printed: "Ms. Lohnes-Craft"
+        member: suzanne-lohnes-croft
+        date: 2017-10-26
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_17oct26
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Ms. Lohnes-Croft" in the YEAS; the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Suzanne Lohnes-Croft and no member
+          named "Lohnes-Craft". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Lohnes-Craft" in the YEAS of the third reading of Bill 39 (carried 25-22); unresolved, it made the division a tally gap.
+      - printed: "Ms. DiConstanzo"
+        member: rafah-dicostanzo
+        date: 2017-10-26
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_17oct26
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Ms. DiCostanzo" in the YEAS; the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Rafah DiCostanzo and no member
+          named "DiConstanzo". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. DiConstanzo" in the YEAS of the third reading of Bill 39 (carried 25-22); unresolved, it made the division a tally gap.
+      - printed: "Ms. Maslund"
+        member: kim-masland
+        date: 2018-04-10
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_18apr10
+        verified_against: >-
+          The Hansard of 6 April 2018 (house_18apr06) prints "Ms. Masland" in its recorded divisions; the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Kim Masland and no member
+          named "Maslund". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Maslund" in the YEAS of the third reading of Bill 76 (carried 41-7); unresolved, it made the division a tally gap.
+      - printed: "Ms. Smith McCrossin"
+        member: elizabeth-smith-mccrossin
+        date: 2017-10-13
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_17oct13
+        verified_against: >-
+          The same Hansard's first and third recorded divisions that day print "Ms. Smith-McCrossin" (hyphenated); the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Elizabeth Smith-McCrossin and no member
+          named "Smith McCrossin". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Smith McCrossin" in the NAYS of the second reading of Bill 48 (25-23; the division also prints fewer NAYS than the Clerk counted, a known gap); unresolved, it made the division a tally gap.
+      - printed: "Hon. Derek Mombourquett"
+        member: derek-mombourquette
+        date: 2023-04-12
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23apr12
+        verified_against: >-
+          The Hansard of 11 April 2023 (house_23apr11) prints "Hon. Derek Mombourquette" in both its recorded divisions; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Derek Mombourquette and no member
+          named "Derek Mombourquett". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Derek Mombourquett" in the NAYS of the third reading of Bill 279 (carried 30-19); unresolved, it made the division a tally gap.
+      - printed: "Hon. Greg Murrow"
+        member: greg-morrow
+        date: 2023-11-09
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23nov09
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Greg Morrow" in the YEAS; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Greg Morrow and no member
+          named "Greg Murrow". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Greg Murrow" in the YEAS of the third reading of Bill 340 (carried 36-7); unresolved, it made the division a tally gap.
+      - printed: "Twila Gross"
+        member: twila-rose-grosse
+        date: 2023-10-26
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23oct26
+        verified_against: >-
+          The same Hansard's first and second recorded divisions that day print "Hon. Twila Grosse"; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Twila Grosse and no member
+          named "Twila Gross". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Twila Gross" in the YEAS of the second reading of Bill 340 (carried 33-8); unresolved, it made the division a tally gap.
+      - printed: "Hon. Twila Gross"
+        member: twila-rose-grosse
+        date: 2026-03-24
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar24
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Twila Grosse" in the YEAS; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Twila Grosse and no member
+          named "Twila Gross". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Twila Gross" in the YEAS of the day's first recorded division (carried 39-13); unresolved, it made the division a tally gap.
+      - printed: "Hon. Twila Gross"
+        member: twila-rose-grosse
+        date: 2026-03-25
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar25
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Twila Grosse"; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Twila Grosse and no member
+          named "Twila Gross". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Twila Gross" in the YEAS of the third reading of Bill 247 (carried 37-12); unresolved, it made the division a tally gap.
+      - printed: "Chris Palme"
+        member: chris-palmer
+        date: 2023-10-25
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23oct25
+        verified_against: >-
+          The Hansard of 26 October 2023 (house_23oct26) prints "Chris Palmer" in its recorded divisions; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Chris Palmer and no member
+          named "Chris Palme". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Chris Palme" in the YEAS of the day's recorded division (carried 28-15); unresolved, it made the division a tally gap.
+      - printed: "Danny MacGillivary"
+        member: danny-macgillivray
+        date: 2026-04-07
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26apr07
+        verified_against: >-
+          The Hansard of 8 April 2026 (house_26apr08) prints "Danny MacGillivray" in the YEAS of the third reading of Bill 201; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Danny MacGillivray and no member
+          named "Danny MacGillivary". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Danny MacGillivary" in the YEAS of the third reading of Bill 203 (carried 45-0); unresolved, it made the division a tally gap.
+      - printed: "Ryan Robichaud"
+        member: ryan-robicheau
+        date: 2026-03-09
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar09
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Ryan Robicheau" in the YEAS; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Ryan Robicheau and no member
+          named "Ryan Robichaud". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ryan Robichaud" in the YEAS of the day's first recorded division (carried 36-13); unresolved, it made the division a tally gap.
+      - printed: "Ryan Robichaud"
+        member: ryan-robicheau
+        date: 2026-04-08
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26apr08
+        verified_against: >-
+          The Hansard of 7 April 2026 (house_26apr07) prints "Ryan Robicheau" in the YEAS of the third reading of Bill 203; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Ryan Robicheau and no member
+          named "Ryan Robichaud". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ryan Robichaud" in the YEAS of the third reading of Bill 201 (carried 39-12); unresolved, it made the division a tally gap.
+      - printed: "Hon. Colton LeBlancoHon"
+        member: colton-leblanc
+        date: 2026-03-09
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar09
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Colton LeBlanc" in the YEAS; the 65th Assembly's other LeBlanc is Susan Leblanc (NDP), who is printed "Susan Leblanc" in the NAYS of the same division; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Colton LeBlanc and no member
+          named "Colton LeBlancoHon". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Colton LeBlancoHon" in the YEAS of the day's first recorded division (carried 36-13); the line runs the next title into the name; unresolved, it made the division a tally gap.
+    hansard_labels:
+      - division: ns-61-5-2013-04-23-2
+        position: Yea
+        printed: "Ms. MacDonald"
+        member: maureen-macdonald
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-5/house_13apr23
+        hansard: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-5/house_13apr23
+        quoted: "Ms.  MacDonald"
+        why: >-
+          The 61st Assembly has two MacDonalds, Manning (Liberal, Cape Breton
+          South) and Maureen (NDP, Halifax Needham), so the bare surname is
+          ambiguous. The division (third reading of Bill 58, carried 27-20)
+          prints "Ms." in the government's YEAS; the same day's first
+          division prints "Ms. Maureen MacDonald" among the government
+          members, and Manning MacDonald is printed "Mr. Manning MacDonald"
+          (6 December 2012) and appears in neither list of this division.
+          Read from CI on 7 October 2026 (probe-hosts run 37568416383).
   "nb":
     label_aliases:
       - printed: "Mr. Russel"
@@ -359,6 +656,7 @@ provinces:
           Printed "Mr. D’Amour" in the NAYS of the day's recorded division, its
           only unresolved label.
     roster_rows:
+      # Fact type, with `elected:`, approved by Christopher, 7 October 2026.
       # Rows of a compiled Journal's MEMBERS OF THE LEGISLATIVE ASSEMBLY page
       # (src/ingest/prov_nb.parse_compiled_roster) that the page prints in a
       # way no rule reads honestly. Each applies to its own document only,
@@ -507,6 +805,7 @@ provinces:
           "Guitar" and "Mr. Guitard" in that autumn's division lists would
           resolve to nobody.
     titles:
+      # Fact type approved by Christopher, 7 October 2026.
       # The title the Journals print for a member, read where the record joins
       # it to the member's full name. Used by src/ingest/prov_nb.CaseExact only
       # for a label the resolver found AMBIGUOUS: a candidate whose title is
@@ -559,6 +858,7 @@ provinces:
           (Journal of 29 March 2017, "By Ms. LeBlanc, Bill 63,").
         why: *titles_why
     roster_bridges:
+      # Approved by Christopher, 7 October 2026.
       # A session whose journals listing links no compiled Journal, read
       # from the next session's members page as it stood on that session's
       # first sitting (src/ingest/prov_nb._store_bridge). Read 2 October 2026.
@@ -595,6 +895,45 @@ provinces:
           Hansard's Clerk's list for the third reading of Bill 3 (Pay Equity and
           Pay Transparency Act), carried 29-3, prints "Lloyd Parrot". It was the
           division's only unresolved label.
+      - printed: "Tom Osbourne"
+        member: thomas-osborne
+        date: 2022-05-18
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session1/22-05-18.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga50session1/22-05-18.pdf,
+          p. 322, "The House divided.") prints "T. Osborne" in the Nays, fifth,
+          after G. Byrne, as Hansard's list does; the 2022 Members' Attendance
+          summary has one Osborne (Thomas, Waterford Valley) and no Osbourne.
+        why: >-
+          Hansard's Clerk's list prints "Tom Osbourne"; it was the division's
+          only unresolved label (read 7 October 2026).
+      - printed: "Mr. Brown"
+        member: mark-browne
+        date: 2017-12-05
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session2/17-12-05.htm
+        verified_against: >-
+          The 2017 Members' Attendance summary lists no Brown and one Browne
+          (Mark, Placentia West - Bellevue); the same Hansard calls "the
+          Member for Placentia West - Bellevue. MR. BROWNE:" in the same
+          Committee of the Whole debate. The Journal does not record
+          Committee of the Whole divisions.
+        why: >-
+          The Committee of the Whole division of 5 December 2017 (5-23)
+          prints "Mr. Brown" among the Nays; it was the division's only
+          unresolved label (read 7 October 2026).
+      - printed: "Mr. Brown"
+        member: mark-browne
+        date: 2019-04-15
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session4/19-04-15.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga48session4/19-04-15.pdf,
+          second reading of Bill 3) prints "Mr. Browne" at the same place in
+          the list in favour (13th, between Mr. Letto and Mr. Bragg); the 2019
+          summary's only Brown, Jordan, was elected on 16 May 2019.
+        why: >-
+          Hansard's list for the second reading of Bill 3 (28-0) prints "Mr.
+          Brown"; it was the division's only unresolved label (read 7
+          October 2026).
     by_elections:
       # Read from the Elections NL by-election reports (Chief Electoral
       # Officer, "By-Election Summary", "Return of the Writ") and checked
@@ -634,6 +973,200 @@ provinces:
         elected: {surname: Korab, given: Jamie, party: Liberal}
         sworn: 2024-09-13
         source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-waterfordvalleyby-electionreport2024.pdf
+      # Added 7 October 2026 for the 2010 backfill (prov_nl.date_terms dates
+      # the summaries' calendar-year terms with them). Each is read in the
+      # Elections NL report named in `source`; `sworn` is the report's
+      # swearing-in date, or, where it gives none, `polling` stands for it.
+      - district: "Humber West"
+        vacated_by: {surname: Williams, given: Danny}
+        left: 2010-12-03
+        why_left: "resigned as Premier and Member"
+        polling: 2011-02-15
+        elected: {surname: Granter, given: Vaughn}
+        sworn: 2011-03-16
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-11-hw-by-election-report.pdf
+      - district: "Cartwright - L'Anse au Clair"
+        vacated_by: {surname: Jones, given: Yvonne}
+        left: 2013-04-08
+        why_left: "resigned her seat"
+        polling: 2013-06-25
+        elected: {surname: Dempster, given: Lisa}
+        sworn: 2013-07-18
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-13-clac-by-election-report-plain.pdf
+      - district: "Carbonear - Harbour Grace"
+        vacated_by: {surname: Kennedy, given: Jerome}
+        left: 2013-10-02
+        why_left: "resigned his seat"
+        polling: 2013-11-26
+        elected: {surname: Slade, given: Sam}
+        sworn: 2013-12-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-13-chg-by-election-report-plain.pdf
+      - district: "Virginia Waters"
+        vacated_by: {surname: Dunderdale, given: Kathy}
+        left: 2014-02-28
+        why_left: "resigned her seat"
+        polling: 2014-04-09
+        elected: {surname: Bennett, given: Cathy}
+        sworn: 2014-05-05
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-vw-by-election-report-plain-final.pdf
+      - district: "St. George's - Stephenville East"
+        vacated_by: {surname: Shea, given: Joan}
+        left: 2014-06-02
+        why_left: "resigned her seat"
+        polling: 2014-08-26
+        elected: {surname: Reid, given: Scott}
+        sworn: 2014-09-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf
+      - district: "Conception Bay South"
+        vacated_by: {surname: French, given: Terry}
+        left: 2014-09-18
+        why_left: "resigned his seat"
+        polling: 2014-11-05
+        elected: {surname: Hillier, given: Rex}
+        sworn: 2014-11-21
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-cbs-by-election-report-plain.pdf
+      - district: "Mount Pearl North"
+        vacated_by: {surname: Kent, given: Steve}
+        left: 2017-10-11
+        why_left: "resigned his seat"
+        polling: 2017-11-21
+        elected: {surname: Lester, given: Jim}
+        sworn: 2017-12-07
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-17.mountpearlnorth.pdf
+      - district: "Windsor Lake"
+        vacated_by: {surname: Bennett, given: Cathy}
+        left: 2018-08-21
+        why_left: "resigned her seat"
+        polling: 2018-09-20
+        elected: {surname: Crosbie, given: Ches}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-18.windsorlake.pdf
+      - district: "Topsail - Paradise"
+        vacated_by: {surname: Davis, given: Paul}
+        left: 2018-11-02
+        why_left: "resigned his seat"
+        polling: 2019-01-24
+        elected: {surname: Dinn, given: Paul}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-19.topsailparadise.pdf
+    other_surnames:
+      - member: joan-shea
+        surname: "Burke"
+        document: https://www.assembly.nl.ca/Members/Attendance/reports/SummaryMembersAttendance2012.pdf
+        verified_against: >-
+          The 2011 summary lists "Burke, Joan" for St. George's - Stephenville
+          East; the 2012, 2013 and 2014 summaries list "Shea, Joan" for the
+          same district, and the Elections NL report of the 2014 by-election
+          there (resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf)
+          gives "the resignation of Progressive Conservative Member of the
+          House of Assembly, Joan Shea, on June 2, 2014". No by-election was
+          held in the district between the 2011 general election and 2014.
+          Hansard's division lists print "Ms Burke" up to 14 June 2012 and
+          "Ms Shea" from 28 November 2012, never both in one list.
+        why: >-
+          The summaries name her Shea for the whole of 2012, so "Ms Burke" in
+          the twenty divisions of January-June 2012 resolved to nobody
+          (read 7 October 2026).
+    titles:
+      # The title Hansard prints for a member, read where it joins the title
+      # to the full name. Used by src/ingest/prov_nl.Titled only for a label
+      # the resolver found AMBIGUOUS: a candidate whose title is the other
+      # one is ruled out. Read 7 October 2026.
+      - member: cathy-bennett
+        title: "Ms"
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session4/15-05-27.htm
+        quoted: "Ms Cathy Bennett, Mr. Jim Bennett"
+        verified_against: >-
+          The 2015 summary: Bennett, Cathy (Windsor Lake) and Bennett, Jim
+          (St. Barbe); the Elections NL report of the 2018 Windsor Lake
+          by-election: "Cathy Bennett ... resigned her seat".
+        why: &nl_titles_why >-
+          'Mr. Bennett' and 'Ms Bennett' (2014-2018), 'Ms Osborne' and 'Mr.
+          Osborne' (2011) came back ambiguous: the shared resolver ignores
+          titles, and each pair sat together.
+      - member: jim-bennett
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session4/15-05-27.htm
+        quoted: "Ms Cathy Bennett, Mr. Jim Bennett"
+        verified_against: The 2015 summary, Bennett, Jim (St. Barbe).
+        why: *nl_titles_why
+      - member: derek-bennett
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session2/17-04-05.htm
+        quoted: "Mr. Bernard Davis, Mr. Derek Bennett, Mr. Holloway"
+        verified_against: The 2017 summary, Bennett, Derek (Lewisporte - Twillingate).
+        why: *nl_titles_why
+      - member: sheila-osborne
+        title: "Ms"
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga46session4/11-04-20.htm
+        quoted: "Mr. Pollard, Ms Sheila Osborne, Mr. Peach"
+        verified_against: The 2011 summary, Osborne, Sheila (St. John's West).
+        why: *nl_titles_why
+      - member: tom-osborne
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga46session4/11-04-20.htm
+        quoted: "Mr. Felix Collins, Mr. Tom Osborne, Mr. Kelly"
+        verified_against: >-
+          The 2011 summary, Osborne, Tom (St. John's South); the Journal of 27
+          October 2011 (HouseBusiness/Journals/ga47session1/11-10-27.pdf):
+          "Mr. Tom Osborne and Mr. Ross Wiseman" (nominations for Speaker).
+        why: *nl_titles_why
+    hansard_labels:
+      - division: nl-47-1-2011-10-27-1
+        position: Nay
+        printed: "Mr. Parsons"
+        member: andrew-parsons
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/11-10-27.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Journals/ga47session1/11-10-27.pdf
+        quoted: "Against: Ms Jones, Mr. Ball, Mr. Andrew Parsons, Mr. Edmunds, Ms Michael, Ms Rogers, Mr. Murphy, Mr. Mitchelmore."
+        why: >-
+          Hansard's list of those against prints "Mr. Parsons" (Andrew and
+          Kevin Parsons both sat; Kevin is named in full among the Ayes). The
+          Journal of the same day records the same division (35-8) with the
+          same eight names against, in the same order, and prints "Mr. Andrew
+          Parsons" (read 7 October 2026).
+    hansard_totals:
+      - division: nl-47-1-2012-06-14-4
+        position: Yea
+        total: 32
+        replaces: 31
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm
+        quoted: "AN HON. MEMBER: (Inaudible). CLERK: Mr. Speaker, the ayes: thirty-two; the nays: eleven."
+        why: >-
+          Third reading of Bill 29 (Access to Information and Protection of
+          Privacy). The Clerk reads "the ayes: thirty-one; the nays: eleven",
+          is interrupted, and reads the count again as thirty-two, before
+          the Speaker speaks; thirty-two names are read in favour. The
+          corrected count is the record's own (read 7 October 2026).
+      - division: nl-47-1-2012-12-12-1
+        position: Nay
+        total: 5
+        replaces: 6
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-12-12.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-12-12.htm
+        quoted: "MR. SPEAKER: I wonder if we could read into the record again, please, the corrected number. CLERK: The ayes: thirty-seven; the nays: five."
+        why: >-
+          The amendment's division reads five names against (Michael,
+          Kirby, Murphy, Mitchelmore, Rogers) and a count of six; on Mr.
+          King's point of order ("you indicated six nays; observation was
+          five") the Speaker has the Clerk read the corrected count into the
+          record before the next division (read 7 October 2026).
+    general_elections:
+      # Read in the Elections NL general election reports. prov_nl.date_terms
+      # ends the term of a member absent from the next year's summary on
+      # this day, and starts the term of one absent from the previous year's
+      # summary (and elected at no by-election) on it.
+      - date: 2011-10-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2011.pdf
+      - date: 2015-11-30
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2015.pdf
+      - date: 2019-05-16
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2019.pdf
+      - date: 2021-02-13
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2021.pdf
+        note: the report's polling day; voting was extended by mail and results were declared on 27 March 2021. The House did not sit between.
+      - date: 2025-10-14
+        source: https://www.elections.gov.nl.ca/files/2025-General-Election-Report.pdf
+
   # Quebec: the 2010 backfill (CI run 37048289773, 2 October 2026), read
   # again on a scratch store 7 October 2026. The Assembly's own rule for
   # which figure is the vote: "le secrétaire général communique le résultat

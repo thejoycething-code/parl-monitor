@@ -335,6 +335,34 @@ class ReaderTests(unittest.TestCase):
                          ("Introduction and First Reading of Bills", "Gender Ideology and Child Protection Act"))
         self.assertTrue(any(t["bill"] == "6" for t in turns))
 
+    def test_british_columbia_every_markup_since_2009(self):
+        """The speaker label is an 'Attribution' span with the colon inside
+        (2009-2017; '<SPAN class=Attribution>' in 2015), an 'attribution' span
+        with an id (2018-2024), a 'Speaker-Name' span (2025-). Until 7
+        October 2026 only the last was read: 1,481 days of 2010-2024 parsed
+        no turn."""
+        want = {"bc_hansard_20100525am_v18n6.htm": ("N. Macdonald", "Committee of the Whole House",
+                                                    "BIll 21 — Forestry Service Providers Protection Act"),
+                "bc_hansard_20141023am_v16n2.htm": ("Hon. C. Oakes", "Throne Speech Debate", ""),
+                "bc_hansard_20150526pm_v27n4.htm": ("Deputy Speaker", "Third Reading of Bills",
+                                                    "BILL 20 — ELECTION AMENDMENT ACT, 2015"),
+                "bc_hansard_20170626pm_n4.html": ("Hon. M. de Jong", "Introduction and First Reading of Bills",
+                                                  "BILL 2 — LEGISLATIVE ASSEMBLY MANAGEMENT COMMITTEE AMENDMENT "
+                                                  "ACT, 2017"),
+                "bc_hansard_20210602pm_n82.html": ("S. Cadieux", "Committee of the Whole House",
+                                                   "BILL 6 — ACCESSIBLE BRITISH COLUMBIA ACT")}
+        for name, (label, rubric, subject) in want.items():
+            turns = bc.parse_day(fx(name))
+            self.assertEqual((turns[0]["label"], turns[0]["rubric"], turns[0]["subject"] or ""),
+                             (label, rubric, subject), name)
+        labels = [t["label"] for t in bc.parse_day(fx("bc_hansard_20170626pm_n4.html"))]
+        self.assertIn("An Hon. Member", labels)
+        self.assertTrue(sp.is_chair("An Hon. Member") and sp.is_chair("Mr. Speaker") and sp.is_chair("The Chair"))
+        self.assertFalse(sp.is_chair("Hon. M. de Jong"))
+        # a division ends the turn: no division name is read as speech
+        turns = bc.parse_day(fx("bc_hansard_20210602pm_n82.html"))
+        self.assertFalse(any(p.strip() in ("Ashton", "Banman") for t in turns for p in t["paras"]))
+
     def test_manitoba_keeps_the_bill_through_its_questions(self):
         turns = mb.parse_day(fx("mb_hansard_211014_trim.html"))
         self.assertEqual(turns[1]["label"], "Ms. Nahanni Fontaine (St. Johns)")
