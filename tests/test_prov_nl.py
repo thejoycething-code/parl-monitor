@@ -441,5 +441,310 @@ class StandingsPartyTests(unittest.TestCase):
         self.assertIsNone(r.party_at("keith-russell", "2024-03-13", 50))
 
 
+V2010 = None
+
+
+def v2010(case):
+    """parse_hansard on one sitting of the 2010 backfill's failures
+    (tests/fixtures/prov/nl_hansard_variants_2010_2022.json: real Hansard
+    text, trimmed to the division)."""
+    global V2010
+    V2010 = V2010 or json.loads(fx("nl_hansard_variants_2010_2022.json"))
+    return nl.parse_hansard(V2010[case])
+
+
+def shape(divisions):
+    return [(d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])) for d in divisions]
+
+
+RECORD = pn.load_record("nl")
+
+
+def dated(year, prev=None, nxt=None):
+    """date_terms on the fixture summaries (pages for 2011-2015 and 2018,
+    rows for 2016)."""
+    def rows(y):
+        if y is None:
+            return None
+        return attendance(y) if y == 2016 else attendance_pages(y)
+    return nl.date_terms(rows(year), year, rows(prev), rows(nxt), RECORD.get("by_elections"),
+                         nl.load_general_elections(RECORD), nl._other_surnames(RECORD))
+
+
+def span(members, surname, given):
+    m = [x for x in members if (x["surname"], x["given"]) == (surname, given)]
+    assert len(m) == 1, (surname, given, m)
+    return m[0]["start"], m[0]["end"]
+
+
+class Backfill2010CallTests(unittest.TestCase):
+    """CI run 37044556156 (2 October 2026), 2010 backfill: 84 of 189 recorded
+    divisions failed the tally check and 28 Clerk's counts had no division.
+    Every case below is a real sitting that failed."""
+
+    def test_a_long_call_with_hon_and_a_list_resumed_after_order(self):
+        # 23 June 2010: 'All those in favour of the motion as put forward by
+        # the hon. the Member for the District of Burgeo & La Poile, please
+        # stand' (the 'hon.' hid the call); the Nays resumed after 'SOME HON.
+        # MEMBERS: Oh, oh! MR. SPEAKER: Order, please! CLERK: Mr. Davis, ...'
+        d, _v, p = v2010("resumed_after_order_2010")
+        self.assertEqual((shape(d), p), ([(4, 33, 4, 33)], []))
+        self.assertEqual(d[0]["nay_labels"][16], "Mr. Davis")
+
+    def test_an_ellipsis_and_the_speakers_request_inside_a_list(self):
+        d, _v, p = v2010("ellipsis_and_speaker_request_2011")
+        self.assertEqual((shape(d), p), ([(35, 5, 35, 5), (35, 5, 35, 5)], []))
+        self.assertIn("Mr. Harding", d[0]["yea_labels"])                 # not 'Mr. Harding…'
+        self.assertEqual(d[0]["vote_on"], "amendment")
+
+    def test_all_in_favour_and_all_opposed(self):
+        d, _v, p = v2010("all_in_favour_all_opposed_2011")
+        self.assertEqual((shape(d), p), ([(35, 8, 35, 8)], []))
+
+    def test_a_call_with_no_please_rise(self):
+        d, _v, p = v2010("no_please_rise_2012")                          # 'All those in favour of the motion? CLERK:'
+        self.assertEqual((shape(d), p), ([(34, 11, 34, 11)], []))
+
+    def test_a_dash_and_the_clerk_carrying_on_is_not_a_restart(self):
+        d, _v, p = v2010("dash_then_clerk_continues_2012")
+        self.assertEqual((shape(d), p), ([(37, 5, 37, 5)], []))
+        self.assertEqual(d[0]["yea_labels"][:4], ["Ms Dunderdale", "Mr. Kennedy", "Ms Burke", "Mr. King"])
+        self.assertEqual((d[0]["stage"], d[0]["bill_number"]), ("Second Reading", "12"))
+
+    def test_the_nays_called_first_with_all_those_for(self):
+        d, _v, p = v2010("nays_called_first_2013")
+        self.assertEqual((shape(d), p), ([(39, 2, 39, 2)], []))
+        self.assertEqual(d[0]["nay_labels"], ["Ms Michael", "Ms Rogers"])
+
+    def test_unanimous_counts(self):
+        self.assertEqual(shape(v2010("unanimous_the_ayes_2014")[0]), [(34, 0, 34, 0)])   # 'it is unanimous: the ayes thirty-four'
+        self.assertEqual(shape(v2010("unanimous_n_ayes_2015")[0]), [(39, 0, 39, 0)])     # 'it is unanimous, thirty-nine ayes'
+        self.assertEqual(shape(v2010("there_are_no_nays_2022")[0]), [(31, 0, 31, 0)])    # 'The ayes: 31; there are no nays'
+        d, _v, _p = v2010("unanimous_no_count_2013")       # 'The vote is unanimous in favour': no number, a gap
+        self.assertEqual((d[0]["yeas"], d[0]["problem"]), (None, "no Clerk's count read after the names"))
+
+    def test_quoted_ayes_and_a_leading_and(self):
+        d, _v, p = v2010("quoted_ayes_and_2014")           # "the 'ayes' thirty-one; the 'nays' fourteen"
+        self.assertEqual((shape(d), p), ([(31, 14, 31, 14)], []))
+        self.assertEqual(d[0]["yea_labels"][-1], "Mr. Russell")          # 'Mr. Dinn, and Mr. Russell'
+
+    def test_voice_calls_answered_by_the_clerk_reading_heads_are_not_divisions(self):
+        # 12 May 2016, Committee of Supply: "All those against, 'nay.'
+        # Carried. On motion, subhead 1.1.01 carried. CLERK: Office of the
+        # Executive Council, ..." -- the first rewrite read 17 such as divisions.
+        self.assertEqual(v2010("voice_calls_in_supply_2016")[0], [])
+        d, _v, _p = v2010("voice_calls_in_supply_2016_division")         # the real one: names, no count (known)
+        self.assertEqual([(x["yeas"], len(x["yea_labels"]), len(x["nay_labels"])) for x in d], [(None, 23, 6)])
+
+    def test_more_call_and_list_forms(self):
+        self.assertEqual(shape(v2010("in_favor_2017")[0]), [(27, 10, 27, 10)])
+        self.assertEqual(shape(v2010("semicolon_2018")[0]), [(29, 2, 29, 2)])          # 'Ms. Michael; Ms. Rogers'
+        self.assertEqual(shape(v2010("members_against_2019")[0]), [(21, 9, 21, 9)])    # 'all those Members against'
+        self.assertEqual(shape(v2010("order_please_before_clerk_2020")[0]), [(20, 16, 20, 16)])
+        self.assertEqual(shape(v2010("not_in_favour_or_against_2022")[0]), [(20, 13, 20, 13)])
+        d, _v, _p = v2010("full_stop_between_names_2020")                 # 'Mr. Byrne. Ms. Dempster'
+        self.assertEqual(shape(d), [(35, 2, 35, 2)])
+        d, _v, _p = v2010("exchange_before_clerk_2019")                   # 'MS. COADY: Of the sub-amendment?'
+        self.assertEqual(shape(d)[0], (20, 19, 20, 19))
+        self.assertEqual(d[0]["vote_on"], "subamendment")
+
+    def test_a_count_after_an_interruption_and_a_count_repeated(self):
+        d, _v, p = v2010("late_count_2017")                # 'Now I ask for a report from the Clerk.'
+        self.assertEqual((shape(d), p), ([(32, 0, 32, 0)], []))
+        self.assertIn("characters after the names", d[0]["count_note"])
+        d, _v, p = v2010("speaker_repeats_count_2018")      # the Speaker repeats 'The ayes: 8, and the nays: 20'
+        self.assertEqual((shape(d), p), ([(8, 20, 8, 20)], []))
+
+    def test_a_clerks_recount_is_one_count_too_many_until_reviewed(self):
+        d, _v, p = v2010("clerk_recount_2012")
+        self.assertEqual(shape(d)[-1], (31, 11, 32, 11))
+        self.assertEqual(p, ["1 Clerk's count(s) with no division read before them"])
+
+
+class Backfill2010ReadingTests(unittest.TestCase):
+    """The backfill's 52 listing misses: a reading the progress table dates to
+    a day whose Hansard was read, found neither divided nor on voice. 44 were
+    the voice reader's; every form below is a real sitting's."""
+
+    def voices(self, case):
+        d, v, p = nl.parse_hansard(json.loads(fx("nl_hansard_readings_2010_2025.json"))[case])
+        return [(x["bill_number"], x["stage"]) for x in v], p, v
+
+    def test_loose_formal_lines(self):
+        self.assertIn(("2", "Third Reading"), self.voices("third_no_time_2013")[0])      # 'read a third, ordered passed'
+        self.assertIn(("8", "Third Reading"), self.voices("read_third_time_2014")[0])    # 'read third time'
+        self.assertEqual(self.voices("as_amended_2020")[0], [("26", "Second Reading")])  # 'Bill 26, as amended, read'
+
+    def test_the_speakers_words_and_the_clerks(self):
+        self.assertEqual(self.voices("speaker_only_2013")[0], [("1", "Second Reading")])
+        self.assertEqual(self.voices("been_a_second_time_2011")[0], [("15", "Second Reading")])
+        got, problems, _ = self.voices("clerk_names_stage_2014")    # 'CLERK: The second reading of Bill 23.'
+        self.assertIn(("23", "Second Reading"), got)
+        self.assertNotIn(("2", "Second Reading"), got)              # the formal line's misprinted 'Bill 2'
+        self.assertEqual(problems, [])
+
+    def test_a_formal_line_that_contradicts_the_clerk(self):
+        got, problems, v = self.voices("formal_line_contradicts_2018")   # '(Bill 6) On motion, Bill 14 read ...'
+        self.assertEqual((got, problems), ([("6", "Second Reading")], []))
+        self.assertIn("the formal line prints", v[0]["result"])
+        # with nothing else naming Bill 6's reading, it is a gap, never Bill 14
+        text = json.loads(fx("nl_hansard_readings_2010_2025.json"))["formal_line_contradicts_2018"]
+        text = text.replace("that Bill 6 be now read a second time", "that it be now read a second time")
+        d, v, p = nl.parse_hansard(text)
+        self.assertEqual([x for x in v if x["bill_number"] in ("6", "14") and x["stage"] == "Second Reading"], [])
+        self.assertTrue(any("names Bill 14 just after the Clerk reads Bill 6" in x for x in p), p)
+
+    def test_the_question_put_carried_and_the_title_read(self):
+        self.assertEqual(self.voices("put_and_carried_2010")[0], [("10", "Second Reading"), ("10", "Third Reading")])
+        self.assertEqual(self.voices("put_and_carried_2025")[0], [("90", "Third Reading")])
+
+
+class Backfill2010RosterTests(unittest.TestCase):
+    """The Members' Attendance summaries as the 2010 backfill read them."""
+
+    def test_credentials_wrapped_rows_and_the_heading(self):
+        rows = attendance_pages(2012)
+        by = {r["surname"]: r for r in rows}
+        self.assertEqual((by["Kennedy"]["given"], by["King"]["given"]), ("Jerome", "Darin"))   # ', Q.C.', ', Ph.D'
+        self.assertEqual(by["Hunter"]["district"], "Grand Falls - Windsor - Green Bay South")  # set the other way up
+        self.assertEqual(by["Hedderson"]["district"], "Harbour Main")                          # not '... South'
+        self.assertEqual(len(rows), 48)
+        self.assertFalse([r for r in attendance_pages(2011) if "Absences" in r["district"]])
+        self.assertEqual({r["district"] for r in attendance_pages(2018) if r["surname"] == "Bennett"},
+                         {"Windsor Lake", "Lewisporte - Twillingate"})                         # '5.5' is a count
+
+    def test_members_who_resigned_are_added_up_to_the_vacancy(self):
+        members, notes = dated(2013, prev=2012)
+        self.assertEqual(span(members, "Jones", "Yvonne"), ("2013-01-01", "2013-04-08"))
+        self.assertEqual(span(members, "Kennedy", "Jerome"), ("2013-01-01", "2013-10-02"))
+        self.assertEqual(span(members, "Dempster", "Lisa"), ("2013-07-18", "2013-12-31"))
+        self.assertEqual(len(notes), 2)
+
+    def test_by_elections_date_the_year(self):
+        members, _ = dated(2014, prev=2013, nxt=2015)
+        self.assertEqual(span(members, "Dunderdale", "Kathy"), ("2014-01-01", "2014-02-28"))
+        self.assertEqual(span(members, "Bennett", "Cathy"), ("2014-05-05", "2014-12-31"))
+        self.assertEqual(span(members, "Shea", "Joan"), ("2014-01-01", "2014-06-02"))
+        self.assertEqual(span(members, "Hillier", "Rex"), ("2014-11-21", "2014-12-31"))
+
+    def test_the_general_election_dates_who_came_and_went(self):
+        members, _ = dated(2015, prev=2014, nxt=2016)
+        self.assertEqual(span(members, "Davis", "Bernard"), ("2015-11-30", "2015-12-31"))
+        self.assertEqual(span(members, "Davis", "Paul"), ("2015-01-01", "2015-12-31"))
+        self.assertEqual(span(members, "King", "Neil"), ("2015-11-30", "2015-12-31"))
+        self.assertEqual(span(members, "Bennett", "Jim"), ("2015-01-01", "2015-11-30"))
+        members, _ = dated(2011, nxt=2012)          # 2010 is a scan: no start is dated in 2011
+        self.assertEqual(span(members, "Parsons", "Kelvin"), ("2011-01-01", "2011-10-11"))
+        self.assertEqual(span(members, "Parsons", "Kevin"), ("2011-01-01", "2011-12-31"))   # 'K' twice: not him
+        self.assertEqual(span(members, "Burke", "Joan"), ("2011-01-01", "2011-12-31"))     # Shea in 2012 (reviewed)
+        self.assertEqual(span(members, "Osborne", "Sheila"), ("2011-01-01", "2011-10-11"))
+
+    def resolver(self, *years_args):
+        rows = []
+        for year, prev, nxt in years_args:
+            rows += dated(year, prev, nxt)[0]
+        return nl.make_resolver(conn_with(rows, "summary-test"))
+
+    def test_the_2015_labels(self):
+        r = self.resolver((2015, 2014, 2016))
+        for label, key in (("Mr. Davis", "paul-davis"), ("Mr. King", "darin-king"), ("Mr. Bennett", "jim-bennett"),
+                           ("Ms Bennett", "cathy-bennett")):
+            self.assertEqual(r.resolve(label, "2015-01-22", 47)[0], key, label)
+        self.assertTrue(r.resolve("Mr. Bennett", "2015-01-22", 47)[1].startswith("title (reviewed"))
+        self.assertIsNone(r.resolve("Mr. Davis", "2015-12-15", 48)[0])          # both sat by then
+
+    def test_ms_burke_in_2012_and_the_spacing_typos(self):
+        r = self.resolver((2012, 2011, 2013))
+        self.assertEqual(r.resolve("Ms Burke", "2012-03-07", 47)[0], "joan-shea")
+        self.assertEqual(r.resolve("Mr. Kennedy", "2012-03-07", 47)[0], "jerome-kennedy")
+        r = nl.make_resolver(conn_for(2016))
+        self.assertEqual(r.resolve("Ms. Gambin- Walsh", "2016-05-03", 48)[0], "sherry-walsh")
+        r = nl.make_resolver(conn_for(2022))
+        self.assertEqual(r.resolve("Loyola O' Driscoll", "2022-05-12", 50)[0], "loyola-o-driscoll")
+
+    def test_the_2011_division_settled_from_the_journal(self):
+        d = v2010("all_in_favour_all_opposed_2011")[0][0]
+        r = self.resolver((2011, None, 2012))
+        rv = pn.ReviewedDivisions.load("nl")
+        key = "nl-47-1-2011-10-27-1"
+        votes, ok, note = nl.resolve_division(d, r, "2011-10-27", 47, reviewed=rv, division_key=key)
+        self.assertTrue(ok, note)
+        self.assertEqual(next(v["member_key"] for v in votes if v["raw_label"] == "Mr. Parsons"), "andrew-parsons")
+        _v, ok, note = nl.resolve_division(d, r, "2011-10-27", 47)
+        self.assertFalse(ok)                                                    # without the reviewed fact
+
+    def test_osbourne_alias(self):
+        d = v2010("osbourne_2022")[0][0]
+        url = "https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session1/22-05-18.htm"
+        votes, ok, note = nl.resolve_division(d, nl.make_resolver(conn_for(2022)), "2022-05-18", 50, document=url)
+        self.assertTrue(ok, note)
+        self.assertEqual(next(v["member_key"] for v in votes if v["raw_label"] == "Tom Osbourne"), "thomas-osborne")
+
+
+class Backfill2010OwedTests(unittest.TestCase):
+    """The repair: sittings stored 'ok' by the old parser are read again, and
+    speech days with an unresolved speaker read before the roster fixes."""
+
+    def test_stale_sittings_and_speech_days_are_owed_once(self):
+        from src import prov_speeches as sp
+        from src.ingest import prov_nl_hansard as nh
+        conn = db.init_db(db.connect(":memory:"))
+        old = HANSARD_481 + "16-11-21.htm"
+        new = HANSARD_481 + "16-11-22.htm"
+        ps.store_sitting(conn, "nl", "nl-48-1-2016-11-21", "2016-11-21", old, when="2026-10-02")
+        ps.store_sitting(conn, "nl", "nl-48-1-2016-11-22", "2016-11-22", new, when="2026-10-08")
+        ctx = Context(conn, _Client({}), "nl", log=lambda *a: None)
+        self.assertEqual(nl.owe_stale(ctx, [{"url": old}, {"url": new}]), 1)
+        self.assertFalse(ps.sitting_done(conn, old))
+        self.assertTrue(ps.sitting_done(conn, new))
+        day = lambda k, d: {"key": k, "date": d, "legislature": 48, "session": 1, "url": old}  # noqa: E731
+        sp.store_sitting(conn, "nl", day("a", "2016-11-21"), {"members": 10, "resolved": 9}, "ok", when="2026-10-02")
+        sp.store_sitting(conn, "nl", day("b", "2016-11-22"), {"members": 10, "resolved": 10}, "ok", when="2026-10-02")
+        ctx.prov = "nl"
+        self.assertEqual(nh.owe_unresolved(ctx, [{"key": "a"}, {"key": "b"}]), 1)
+        self.assertEqual((sp.day_done(conn, "a"), sp.day_done(conn, "b")), (False, True))
+
+
+class Backfill2010SpeechTests(unittest.TestCase):
+    def test_a_bold_opened_before_the_paragraph_is_still_a_speaker(self):
+        # 12 December 2012: '<b>\n<p ...>MR. SPEAKER (Wiseman): </b>Order, please!</p>'
+        # -- the day read as 'no speaker turns parsed'
+        from src.ingest import prov_nl_hansard as nh
+        turns = nh.parse_day(fx("nl_hansard_121212_head.htm"))
+        self.assertEqual([t["label"] for t in turns][:2], ["MR. SPEAKER (Wiseman)", "SOME HON. MEMBERS"])
+        self.assertIn("MR. EDMUNDS", [t["label"] for t in turns])
+
+
+class Backfill2010ReadTests(unittest.TestCase):
+    URL ="https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm"
+
+    def test_a_reviewed_recount_and_a_reread_that_replaces(self):
+        rows = dated(2012, 2011, 2013)[0]
+        conn = conn_with(rows, "summary-2012")
+        page = "<html><body><p>" + json.loads(fx("nl_hansard_variants_2010_2022.json"))["clerk_recount_2012"] + \
+               "</p></body></html>"
+        ps.store_division(conn, {"division_key": "nl-47-1-2012-06-14-9", "prov": "nl", "legislature": 47,
+                                 "session": 1, "date": "2012-06-14", "seq": "9", "kind": "recorded",
+                                 "source_url": self.URL, "votes": []})
+        ctx = Context(conn, _Client({"https://www.assembly.nl.ca/robots.txt": "", self.URL: page}), "nl",
+                      log=lambda *a: None)
+        ctx.tax = pc.load_taxonomy()
+        ctx.nl_reviewed = pn.ReviewedDivisions.load("nl")
+        n, gaps = nl.read_sitting(ctx, 47, 1, {"date": "2012-06-14", "url": self.URL, "part": None},
+                                  nl.make_resolver(conn), pc.load_watchlist("nl"))
+        self.assertEqual((n, gaps), (4, 0), ctx.gaps)
+        got = conn.execute("SELECT division_key, yeas, positions_ok, tally_note FROM prov_divisions "
+                           "ORDER BY division_key").fetchall()
+        self.assertEqual([g[:3] for g in got], [("nl-47-1-2012-06-14-{0}".format(k), y, 1)
+                                                for k, y in ((1, 31), (2, 31), (3, 32), (4, 32))])
+        self.assertIn("replaces the record's printed 31", got[3][3])
+        # without the reviewed fact: the recount is a stray count and the division a gap
+        ctx.nl_reviewed = None
+        ctx.gaps = []
+        n, gaps = nl.read_sitting(ctx, 47, 1, {"date": "2012-06-14", "url": self.URL, "part": None},
+                                  nl.make_resolver(conn), pc.load_watchlist("nl"))
+        self.assertEqual(gaps, 2)
+
+
 if __name__ == "__main__":
     unittest.main()

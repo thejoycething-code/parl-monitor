@@ -41,6 +41,11 @@ NOT_RUBRICS = ("Division", "Recess", "")
 def parse_day(html):
     i = (html or "").find("<body")
     body = (html or "")[i:] if i >= 0 else (html or "")
+    # Some Word exports open the bold BEFORE the paragraph ('<b>\n<p ALIGN="LEFT"
+    # DIR="LTR">MR. SPEAKER (Wiseman): </b>Order, please!</p>', 12 December
+    # 2012 and late 2013): no speaker label was found and the day read as
+    # having no turns. The bold is moved inside the paragraph.
+    body = re.sub(r"(?i)<(b|strong)>\s*(<p\b[^>]*>)", r"\2<\1>", body)
     blocks = []
     for attrs, inner in _BLOCK.findall(body):
         text = sp.text_of(inner)
@@ -72,6 +77,8 @@ def list_days(ctx, session):
     days = [{"key": "nl-{0}-{1}-{2}".format(leg, sess, r["date"]) + ("-" + r["part"] if r.get("part") else ""),
              "date": r["date"], "part": r.get("part"), "legislature": leg, "session": sess,
              "url": r["url"], "document": r["url"]} for r in records]
+    if not ctx.dry_run and not ctx.refresh:
+        owe_unresolved(ctx, [d for d in days if ctx.in_window(d["date"])])
     wanted = sorted({int(d["date"][:4]) for d in days if ctx.in_window(d["date"])})
     missing = [y for y in wanted if not ctx.conn.execute(
         "SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND source NOT LIKE 'party%' "
@@ -80,6 +87,31 @@ def list_days(ctx, session):
     if missing and not ctx.dry_run:
         base.fetch_roster(ctx, leg, set(missing))
     return days
+
+
+# Every day read before this date with a speaker turn left unresolved is read
+# once more: the roster fixes of 7 October 2026 (credentials read as names,
+# 'Ms Burke' under her later surname, terms dated to the by-elections and
+# general elections) resolve most of 2012-2015's turns, and a day stored 'ok'
+# is otherwise never read again. Turns the new roster still cannot resolve
+# (Committee of the Whole witnesses, 2010 with no roster) stay unresolved.
+REREAD_BEFORE = "2026-10-08"
+
+
+def owe_unresolved(ctx, days):
+    """Make OWED every listed day stored 'ok' before REREAD_BEFORE with an
+    unresolved speaker turn. Returns how many."""
+    owed = 0
+    for d in days:
+        owed += ctx.conn.execute(
+            "UPDATE prov_speech_sittings SET status='owed' WHERE sitting_key=? AND status='ok' "
+            "AND read_at < ? AND COALESCE(members, 0) > COALESCE(resolved, 0)",
+            (d["key"], REREAD_BEFORE)).rowcount
+    ctx.conn.commit()
+    if owed:
+        ctx.log("  nl: {0} Hansard day(s) read before {1} with unresolved speakers; read again".format(
+            owed, REREAD_BEFORE))
+    return owed
 
 
 def read_day(ctx, day):

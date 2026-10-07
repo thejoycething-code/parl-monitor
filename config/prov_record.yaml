@@ -12,9 +12,18 @@
 #                  that document, and ONLY if the member holds a term that
 #                  day. The tally check still runs. Never a fuzzy matcher:
 #                  add an entry only after reading the record yourself.
-#   by_elections   (nl) Vacancies and by-elections in a year whose Members'
-#                  Attendance summary has no text (2024 is a scan). Used by
-#                  prov_nl.bridge_year to date the roster terms around them.
+#   by_elections   (nl) Vacancies and by-elections, each read in the Elections
+#                  NL report. Used by prov_nl.bridge_year for a year whose
+#                  Members' Attendance summary has no text (2024 is a scan),
+#                  and by prov_nl.date_terms to date the summaries'
+#                  calendar-year terms around them (7 October 2026).
+#   general_elections (nl) Election days, each read in the Elections NL
+#                  report; prov_nl.date_terms ends or starts a summary's term
+#                  on it when the member is absent from the next or the
+#                  previous year's summary.
+#   titles         (nb, nl) The title a record prints for a member, read
+#                  where it joins the title to the full name; settles an
+#                  AMBIGUOUS label only (prov_nb.CaseExact, prov_nl.Titled).
 #   other_surnames A surname a member ALSO sat under, as the member's own
 #                  official page states it. Read by
 #                  src/prov_names.Resolver.with_record: the label is still
@@ -886,6 +895,45 @@ provinces:
           Hansard's Clerk's list for the third reading of Bill 3 (Pay Equity and
           Pay Transparency Act), carried 29-3, prints "Lloyd Parrot". It was the
           division's only unresolved label.
+      - printed: "Tom Osbourne"
+        member: thomas-osborne
+        date: 2022-05-18
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session1/22-05-18.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga50session1/22-05-18.pdf,
+          p. 322, "The House divided.") prints "T. Osborne" in the Nays, fifth,
+          after G. Byrne, as Hansard's list does; the 2022 Members' Attendance
+          summary has one Osborne (Thomas, Waterford Valley) and no Osbourne.
+        why: >-
+          Hansard's Clerk's list prints "Tom Osbourne"; it was the division's
+          only unresolved label (read 7 October 2026).
+      - printed: "Mr. Brown"
+        member: mark-browne
+        date: 2017-12-05
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session2/17-12-05.htm
+        verified_against: >-
+          The 2017 Members' Attendance summary lists no Brown and one Browne
+          (Mark, Placentia West - Bellevue); the same Hansard calls "the
+          Member for Placentia West - Bellevue. MR. BROWNE:" in the same
+          Committee of the Whole debate. The Journal does not record
+          Committee of the Whole divisions.
+        why: >-
+          The Committee of the Whole division of 5 December 2017 (5-23)
+          prints "Mr. Brown" among the Nays; it was the division's only
+          unresolved label (read 7 October 2026).
+      - printed: "Mr. Brown"
+        member: mark-browne
+        date: 2019-04-15
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session4/19-04-15.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga48session4/19-04-15.pdf,
+          second reading of Bill 3) prints "Mr. Browne" at the same place in
+          the list in favour (13th, between Mr. Letto and Mr. Bragg); the 2019
+          summary's only Brown, Jordan, was elected on 16 May 2019.
+        why: >-
+          Hansard's list for the second reading of Bill 3 (28-0) prints "Mr.
+          Brown"; it was the division's only unresolved label (read 7
+          October 2026).
     by_elections:
       # Read from the Elections NL by-election reports (Chief Electoral
       # Officer, "By-Election Summary", "Return of the Writ") and checked
@@ -925,3 +973,196 @@ provinces:
         elected: {surname: Korab, given: Jamie, party: Liberal}
         sworn: 2024-09-13
         source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-waterfordvalleyby-electionreport2024.pdf
+      # Added 7 October 2026 for the 2010 backfill (prov_nl.date_terms dates
+      # the summaries' calendar-year terms with them). Each is read in the
+      # Elections NL report named in `source`; `sworn` is the report's
+      # swearing-in date, or, where it gives none, `polling` stands for it.
+      - district: "Humber West"
+        vacated_by: {surname: Williams, given: Danny}
+        left: 2010-12-03
+        why_left: "resigned as Premier and Member"
+        polling: 2011-02-15
+        elected: {surname: Granter, given: Vaughn}
+        sworn: 2011-03-16
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-11-hw-by-election-report.pdf
+      - district: "Cartwright - L'Anse au Clair"
+        vacated_by: {surname: Jones, given: Yvonne}
+        left: 2013-04-08
+        why_left: "resigned her seat"
+        polling: 2013-06-25
+        elected: {surname: Dempster, given: Lisa}
+        sworn: 2013-07-18
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-13-clac-by-election-report-plain.pdf
+      - district: "Carbonear - Harbour Grace"
+        vacated_by: {surname: Kennedy, given: Jerome}
+        left: 2013-10-02
+        why_left: "resigned his seat"
+        polling: 2013-11-26
+        elected: {surname: Slade, given: Sam}
+        sworn: 2013-12-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-13-chg-by-election-report-plain.pdf
+      - district: "Virginia Waters"
+        vacated_by: {surname: Dunderdale, given: Kathy}
+        left: 2014-02-28
+        why_left: "resigned her seat"
+        polling: 2014-04-09
+        elected: {surname: Bennett, given: Cathy}
+        sworn: 2014-05-05
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-vw-by-election-report-plain-final.pdf
+      - district: "St. George's - Stephenville East"
+        vacated_by: {surname: Shea, given: Joan}
+        left: 2014-06-02
+        why_left: "resigned her seat"
+        polling: 2014-08-26
+        elected: {surname: Reid, given: Scott}
+        sworn: 2014-09-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf
+      - district: "Conception Bay South"
+        vacated_by: {surname: French, given: Terry}
+        left: 2014-09-18
+        why_left: "resigned his seat"
+        polling: 2014-11-05
+        elected: {surname: Hillier, given: Rex}
+        sworn: 2014-11-21
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-cbs-by-election-report-plain.pdf
+      - district: "Mount Pearl North"
+        vacated_by: {surname: Kent, given: Steve}
+        left: 2017-10-11
+        why_left: "resigned his seat"
+        polling: 2017-11-21
+        elected: {surname: Lester, given: Jim}
+        sworn: 2017-12-07
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-17.mountpearlnorth.pdf
+      - district: "Windsor Lake"
+        vacated_by: {surname: Bennett, given: Cathy}
+        left: 2018-08-21
+        why_left: "resigned her seat"
+        polling: 2018-09-20
+        elected: {surname: Crosbie, given: Ches}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-18.windsorlake.pdf
+      - district: "Topsail - Paradise"
+        vacated_by: {surname: Davis, given: Paul}
+        left: 2018-11-02
+        why_left: "resigned his seat"
+        polling: 2019-01-24
+        elected: {surname: Dinn, given: Paul}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-19.topsailparadise.pdf
+    other_surnames:
+      - member: joan-shea
+        surname: "Burke"
+        document: https://www.assembly.nl.ca/Members/Attendance/reports/SummaryMembersAttendance2012.pdf
+        verified_against: >-
+          The 2011 summary lists "Burke, Joan" for St. George's - Stephenville
+          East; the 2012, 2013 and 2014 summaries list "Shea, Joan" for the
+          same district, and the Elections NL report of the 2014 by-election
+          there (resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf)
+          gives "the resignation of Progressive Conservative Member of the
+          House of Assembly, Joan Shea, on June 2, 2014". No by-election was
+          held in the district between the 2011 general election and 2014.
+          Hansard's division lists print "Ms Burke" up to 14 June 2012 and
+          "Ms Shea" from 28 November 2012, never both in one list.
+        why: >-
+          The summaries name her Shea for the whole of 2012, so "Ms Burke" in
+          the twenty divisions of January-June 2012 resolved to nobody
+          (read 7 October 2026).
+    titles:
+      # The title Hansard prints for a member, read where it joins the title
+      # to the full name. Used by src/ingest/prov_nl.Titled only for a label
+      # the resolver found AMBIGUOUS: a candidate whose title is the other
+      # one is ruled out. Read 7 October 2026.
+      - member: cathy-bennett
+        title: "Ms"
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session4/15-05-27.htm
+        quoted: "Ms Cathy Bennett, Mr. Jim Bennett"
+        verified_against: >-
+          The 2015 summary: Bennett, Cathy (Windsor Lake) and Bennett, Jim
+          (St. Barbe); the Elections NL report of the 2018 Windsor Lake
+          by-election: "Cathy Bennett ... resigned her seat".
+        why: &nl_titles_why >-
+          'Mr. Bennett' and 'Ms Bennett' (2014-2018), 'Ms Osborne' and 'Mr.
+          Osborne' (2011) came back ambiguous: the shared resolver ignores
+          titles, and each pair sat together.
+      - member: jim-bennett
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session4/15-05-27.htm
+        quoted: "Ms Cathy Bennett, Mr. Jim Bennett"
+        verified_against: The 2015 summary, Bennett, Jim (St. Barbe).
+        why: *nl_titles_why
+      - member: derek-bennett
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session2/17-04-05.htm
+        quoted: "Mr. Bernard Davis, Mr. Derek Bennett, Mr. Holloway"
+        verified_against: The 2017 summary, Bennett, Derek (Lewisporte - Twillingate).
+        why: *nl_titles_why
+      - member: sheila-osborne
+        title: "Ms"
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga46session4/11-04-20.htm
+        quoted: "Mr. Pollard, Ms Sheila Osborne, Mr. Peach"
+        verified_against: The 2011 summary, Osborne, Sheila (St. John's West).
+        why: *nl_titles_why
+      - member: tom-osborne
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga46session4/11-04-20.htm
+        quoted: "Mr. Felix Collins, Mr. Tom Osborne, Mr. Kelly"
+        verified_against: >-
+          The 2011 summary, Osborne, Tom (St. John's South); the Journal of 27
+          October 2011 (HouseBusiness/Journals/ga47session1/11-10-27.pdf):
+          "Mr. Tom Osborne and Mr. Ross Wiseman" (nominations for Speaker).
+        why: *nl_titles_why
+    hansard_labels:
+      - division: nl-47-1-2011-10-27-1
+        position: Nay
+        printed: "Mr. Parsons"
+        member: andrew-parsons
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/11-10-27.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Journals/ga47session1/11-10-27.pdf
+        quoted: "Against: Ms Jones, Mr. Ball, Mr. Andrew Parsons, Mr. Edmunds, Ms Michael, Ms Rogers, Mr. Murphy, Mr. Mitchelmore."
+        why: >-
+          Hansard's list of those against prints "Mr. Parsons" (Andrew and
+          Kevin Parsons both sat; Kevin is named in full among the Ayes). The
+          Journal of the same day records the same division (35-8) with the
+          same eight names against, in the same order, and prints "Mr. Andrew
+          Parsons" (read 7 October 2026).
+    hansard_totals:
+      - division: nl-47-1-2012-06-14-4
+        position: Yea
+        total: 32
+        replaces: 31
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm
+        quoted: "AN HON. MEMBER: (Inaudible). CLERK: Mr. Speaker, the ayes: thirty-two; the nays: eleven."
+        why: >-
+          Third reading of Bill 29 (Access to Information and Protection of
+          Privacy). The Clerk reads "the ayes: thirty-one; the nays: eleven",
+          is interrupted, and reads the count again as thirty-two, before
+          the Speaker speaks; thirty-two names are read in favour. The
+          corrected count is the record's own (read 7 October 2026).
+      - division: nl-47-1-2012-12-12-1
+        position: Nay
+        total: 5
+        replaces: 6
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-12-12.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-12-12.htm
+        quoted: "MR. SPEAKER: I wonder if we could read into the record again, please, the corrected number. CLERK: The ayes: thirty-seven; the nays: five."
+        why: >-
+          The amendment's division reads five names against (Michael,
+          Kirby, Murphy, Mitchelmore, Rogers) and a count of six; on Mr.
+          King's point of order ("you indicated six nays; observation was
+          five") the Speaker has the Clerk read the corrected count into the
+          record before the next division (read 7 October 2026).
+    general_elections:
+      # Read in the Elections NL general election reports. prov_nl.date_terms
+      # ends the term of a member absent from the next year's summary on
+      # this day, and starts the term of one absent from the previous year's
+      # summary (and elected at no by-election) on it.
+      - date: 2011-10-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2011.pdf
+      - date: 2015-11-30
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2015.pdf
+      - date: 2019-05-16
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2019.pdf
+      - date: 2021-02-13
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2021.pdf
+        note: the report's polling day; voting was extended by mail and results were declared on 27 March 2021. The House did not sit between.
+      - date: 2025-10-14
+        source: https://www.elections.gov.nl.ca/files/2025-General-Election-Report.pdf
