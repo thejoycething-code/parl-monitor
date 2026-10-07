@@ -169,7 +169,8 @@ class TrackTests(unittest.TestCase):
         self.assertIn("\\1c&HF48542&", ass)                              # principal blue plate
         self.assertIn("\\1c&H5C5752&", ass)                              # Dark Gray strip (brand Q3 2026)
         self.assertEqual(ass.count(",Name,"), 2)
-        self.assertIn("Helvetica Neue", ass)
+        self.assertEqual(sc.FONT, "Roboto")                             # bundled in docs/fonts
+        self.assertIn("Style: Caption,Roboto,", ass)
 
     def test_colours(self):
         self.assertEqual(sc.ass_colour("#4285F4"), "&H00F48542&")
