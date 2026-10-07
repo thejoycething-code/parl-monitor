@@ -41,6 +41,12 @@ class SequenceTests(unittest.TestCase):
 
 
 class CaptionTests(unittest.TestCase):
+    def test_vertical_captions_keep_to_four_words_a_line(self):
+        text = "Pregnant women are not factories, and babies are not goods to be ordered."
+        for card in sc.chunk_caption(text):
+            for line in card:
+                self.assertLessEqual(len(line.split()), 4, line)
+
     def test_short_sentence_is_one_card_of_one_or_two_lines(self):
         cards = sc.chunk_caption("Pregnant women are not factories.")
         self.assertEqual(len(cards), 1)
@@ -161,7 +167,7 @@ class TrackTests(unittest.TestCase):
             self.assertIn("\\pos(540,1600)", l)
         self.assertEqual(captions[2].split(",")[1], "0:00:10.60")          # second item's card starts at 6.8 + 3.9 - 0.1
         self.assertIn("\\1c&HF48542&", ass)                              # principal blue plate
-        self.assertIn("\\1c&H242120&", ass)                              # ink strip
+        self.assertIn("\\1c&H5C5752&", ass)                              # Dark Gray strip (brand Q3 2026)
         self.assertEqual(ass.count(",Name,"), 2)
         self.assertIn("Helvetica Neue", ass)
 

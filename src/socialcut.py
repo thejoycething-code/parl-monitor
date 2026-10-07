@@ -13,8 +13,11 @@ What this encodes (learnt on the surrogacy debate, 7-8 September 2026):
 * captions are the SPOKEN words, one or two lines, centred on one fixed point so the
   text never moves between cards; Hansard wording belongs in the article, not on the
   picture, because a caption that differs from the audio reads as a misquote;
-* the name plate is CitizenGO principal blue over an ink strip, shown for the first
-  five seconds of each excerpt; the white logo sits top-left; no end card unless asked;
+* the name plate is CitizenGO principal blue over a Dark Gray strip, shown for the first
+  five seconds of each excerpt; the white logo sits top-left; no intro or end card
+  (Christopher, 7 Oct 2026: parliament videos carry no CitizenGO intro or outro);
+* captions are white Roboto, at most four words a line on the vertical (brand
+  guidelines Q3 2026: 3-4 words vertical, 8-10 horizontal);
 * a contact sheet (one frame per speaker) is written so the crop can be checked by eye.
 
 Pure functions here are tested; the pipeline (`build`) needs yt-dlp, ffmpeg and
@@ -31,17 +34,23 @@ import subprocess
 
 from src import alignclip
 
-# CitizenGO brand tokens (the Clacton page's :root): principal blue, ink, muted grey.
+# CitizenGO brand tokens, Brand Guidelines (Updated Q3 2026): Brand Blue, Dark Gray, Light Gray.
 BLUE = "#4285F4"
-INK = "#202124"
-MUTED = "#52575C"
-FONT = "Helvetica Neue"          # Roboto is the brand face; it is not installed on the build Mac
+INK = "#52575C"                  # Dark Gray; was #202124 before 7 Oct 2026
+MUTED = "#C4C4C4"                # Light Gray
+FONTS_DIR = os.path.join("docs", "fonts")
+# Roboto is the brand face. Put Roboto-*.ttf in docs/fonts/ to use it; until then libass
+# falls back to Helvetica Neue from the system fonts copied in at render time.
+FONT = "Roboto" if os.path.exists(os.path.join(FONTS_DIR, "Roboto-Bold.ttf")) else "Helvetica Neue"
+SYSTEM_FONTS = ("/System/Library/Fonts/HelveticaNeue.ttc", "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+                "/System/Library/Fonts/Supplemental/Arial.ttf")
 FRAME_W, FRAME_H = 1080, 1920
 CROP_W, CROP_H = 608, 1080       # 9:16 of a 1080-tall frame (even width for yuv420p)
 CAPTION_POS = (540, 1600)        # every caption card is centred here
 CAPTION_SIZE = 66
 CAPTION_MAX_CHARS = 30
 CAPTION_MAX_LINES = 2
+CAPTION_MAX_WORDS = 4           # words per line on the vertical (brand: 3-4)
 PLATE_SECONDS = 5.2
 PLATE_Y = 1290
 LOGO_W = 300
@@ -99,15 +108,24 @@ def slug(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
+def copy_fonts(fontsdir):
+    """Brand Roboto from docs/fonts when present, then the system fallbacks, into the libass fonts dir."""
+    os.makedirs(fontsdir, exist_ok=True)
+    extra = [os.path.join(FONTS_DIR, f) for f in sorted(os.listdir(FONTS_DIR))] if os.path.isdir(FONTS_DIR) else []
+    for f in extra + list(SYSTEM_FONTS):
+        if os.path.exists(f) and not os.path.exists(os.path.join(fontsdir, os.path.basename(f))):
+            shutil.copy(f, fontsdir)
+
+
 # ---------------------------------------------------------------- captions
 
 _SENTENCE_END = re.compile(r"(?<=[.!?;])\s+")
 
 
-def _wrap(words, max_chars):
+def _wrap(words, max_chars, max_words=None):
     lines, cur = [], ""
     for w in words:
-        if cur and len(cur) + 1 + len(w) > max_chars:
+        if cur and (len(cur) + 1 + len(w) > max_chars or (max_words and cur.count(" ") + 1 >= max_words)):
             lines.append(cur)
             cur = w
         else:
@@ -117,7 +135,7 @@ def _wrap(words, max_chars):
     return lines
 
 
-def _balanced(words, n_lines, max_chars):
+def _balanced(words, n_lines, max_chars, max_words=None):
     """Split words into n_lines lines of roughly equal length."""
     if n_lines <= 1:
         return [" ".join(words)]
@@ -135,27 +153,27 @@ def _balanced(words, n_lines, max_chars):
     if cur:
         lines.append(" ".join(cur))
     # a balanced line may still overrun on one long word: fall back to greedy wrapping
-    if any(len(l) > max_chars for l in lines):
-        return _wrap(words, max_chars)
+    if any(len(l) > max_chars or (max_words and len(l.split()) > max_words) for l in lines):
+        return _wrap(words, max_chars, max_words)
     return lines
 
 
 _CLAUSE_END = re.compile(r"(?<=[,;:])\s+")
 
 
-def _fits(words, max_chars, max_lines):
-    return len(_wrap(words, max_chars)) <= max_lines
+def _fits(words, max_chars, max_lines, max_words=None):
+    return len(_wrap(words, max_chars, max_words)) <= max_lines
 
 
-def _card(words, max_chars, max_lines):
+def _card(words, max_chars, max_lines, max_words=None):
     """Balance a group of words that is known to fit; keep the greedy wrap if balancing overruns."""
-    n = len(_wrap(words, max_chars))
-    lines = _balanced(words, n, max_chars)
-    return lines if len(lines) <= max_lines else _wrap(words, max_chars)
+    n = len(_wrap(words, max_chars, max_words))
+    lines = _balanced(words, n, max_chars, max_words)
+    return lines if len(lines) <= max_lines else _wrap(words, max_chars, max_words)
 
 
-def chunk_caption(text, max_chars=CAPTION_MAX_CHARS, max_lines=CAPTION_MAX_LINES):
-    """Cards of at most `max_lines` lines of at most `max_chars` characters.
+def chunk_caption(text, max_chars=CAPTION_MAX_CHARS, max_lines=CAPTION_MAX_LINES, max_words=CAPTION_MAX_WORDS):
+    """Cards of at most `max_lines` lines of at most `max_chars` characters and `max_words` words.
 
     A card never crosses a sentence boundary. A sentence that needs more than one
     card is split at its clauses (commas, semicolons, colons) so a card ends where a
@@ -167,27 +185,27 @@ def chunk_caption(text, max_chars=CAPTION_MAX_CHARS, max_lines=CAPTION_MAX_LINES
         clauses = [c.split() for c in _CLAUSE_END.split(sentence) if c.split()]
         cur = []
         for clause in clauses:
-            if cur and _fits(cur + clause, max_chars, max_lines):
+            if cur and _fits(cur + clause, max_chars, max_lines, max_words):
                 cur = cur + clause
                 continue
             if cur:
-                cards.append(_card(cur, max_chars, max_lines))
+                cards.append(_card(cur, max_chars, max_lines, max_words))
                 cur = []
-            if _fits(clause, max_chars, max_lines):
+            if _fits(clause, max_chars, max_lines, max_words):
                 cur = clause
                 continue
             # a clause too long for one card: spread its words evenly over as few cards as fit,
             # so no card is left holding two orphaned words
-            groups = _even_groups(clause, max_chars, max_lines)
+            groups = _even_groups(clause, max_chars, max_lines, max_words)
             for g in groups[:-1]:
-                cards.append(_card(g, max_chars, max_lines))
+                cards.append(_card(g, max_chars, max_lines, max_words))
             cur = groups[-1]             # the clause's tail may still join the next clause
         if cur:
-            cards.append(_card(cur, max_chars, max_lines))
+            cards.append(_card(cur, max_chars, max_lines, max_words))
     return cards
 
 
-def _even_groups(words, max_chars, max_lines):
+def _even_groups(words, max_chars, max_lines, max_words=None):
     """Split words into the fewest groups that each fit a card; among those, the split
     whose longest group is shortest (so the cards are of a size)."""
     n = len(words)
@@ -196,7 +214,7 @@ def _even_groups(words, max_chars, max_lines):
     for j in range(1, n + 1):
         for i in range(j - 1, -1, -1):
             group = words[i:j]
-            if not _fits(group, max_chars, max_lines):
+            if not _fits(group, max_chars, max_lines, max_words):
                 if len(group) > 1:
                     break
                 continue
@@ -520,9 +538,7 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
     open(os.path.join(pack_dir, "social-cut.ass"), "w", encoding="utf-8").write(ass)
     fontsdir = os.path.join(hd, "fonts")
     os.makedirs(fontsdir, exist_ok=True)
-    for f in ("/System/Library/Fonts/HelveticaNeue.ttc", "/System/Library/Fonts/Supplemental/Arial Bold.ttf", "/System/Library/Fonts/Supplemental/Arial.ttf"):
-        if os.path.exists(f) and not os.path.exists(os.path.join(fontsdir, os.path.basename(f))):
-            shutil.copy(f, fontsdir)
+    copy_fonts(fontsdir)
     logo = LOGO if os.path.exists(LOGO) else None
     filt = ("[1:v]scale=%d:-1[lg];[0:v][lg]overlay=60:70[v1];[v1]" % LOGO_W if logo else "[0:v]") + \
            "ass=%s:fontsdir=%s[v]" % (os.path.join(pack_dir, "social-cut.ass"), fontsdir)

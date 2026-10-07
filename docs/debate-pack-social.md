@@ -178,7 +178,8 @@ crop: centre
 * `crop:` is `left`, `centre`, `right`, or the speaker's horizontal centre in pixels
   of the 1920-wide frame. Speakers in Westminster Hall are usually a little left of
   centre; check the contact sheet.
-* Six excerpts of 6-16 seconds make about 55 seconds. No end card unless asked.
+* Six excerpts of 6-16 seconds make about 55 seconds. No CitizenGO intro or end card:
+  parliament videos never carry one (Christopher, 7 October 2026).
 
 ## What the tool does, and why
 
@@ -192,14 +193,17 @@ crop: centre
   "his or herself" became "themselves"; a whole clause was added to Rebecca Smith).
 * **Vertical is a full-height 9:16 crop**, placed per speaker, not a blurred
   letterbox: the speaker fills the frame. The landscape master is kept alongside.
-* **Captions are the spoken words**, one or two lines of at most 30 characters,
+* **Captions are the spoken words** in white, one or two lines of at most 30 characters
+  and at most four words a line on the vertical (ten on the landscape speech cuts,
+  five on 4:5), per the CitizenGO Brand Guidelines (Updated Q3 2026),
   never crossing a sentence, every card centred on the same point (540, 1600) so
   the text never moves. Hansard wording belongs in the article; a caption that
   differs from the audio reads as a misquote.
 * **Name plates** for the first 5.2 seconds of each excerpt: name in bold on
-  CitizenGO principal blue `#4285F4`, party and seat on an ink `#202124` strip,
-  bottom-left above the captions. White CitizenGO logo top-left. Font Helvetica
-  Neue (Roboto, the brand face, is not installed on the build Mac).
+  CitizenGO Brand Blue `#4285F4`, party and seat on a Dark Gray `#52575C` strip
+  (was ink `#202124` until 7 October 2026), bottom-left above the captions. White
+  CitizenGO logo top-left. Font Roboto, the brand face, when `docs/fonts/Roboto-*.ttf`
+  is present; Helvetica Neue otherwise.
 * **Contact sheet and report** so the crop and the words are checked by eye before
   anything is posted.
 * Footage is Parliament's, under the Parliamentary Recording Unit's terms, which

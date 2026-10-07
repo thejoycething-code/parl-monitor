@@ -37,6 +37,7 @@ PLAY = (1920, 1080)
 CAPTION_POS = (960, 985)
 CAPTION_SIZE = 46
 CAPTION_MAX_CHARS = 44
+CAPTION_MAX_WORDS = 10          # horizontal: 8-10 words a line (brand guidelines Q3 2026)
 PLATE_Y, PLATE_X = 840, 80
 TAIL = 0.8
 
@@ -242,7 +243,7 @@ def late_tail(words, text, after=0, offsets=LATE_HEAD_OFFSETS, n=ANCHOR_WORDS):
 
 
 def caption_items(name, party, duration, heard, text):
-    cards = sc.chunk_caption(text, max_chars=CAPTION_MAX_CHARS)
+    cards = sc.chunk_caption(text, max_chars=CAPTION_MAX_CHARS, max_words=CAPTION_MAX_WORDS)
     times = sc.card_times(heard, cards, text)
     return {"name": name, "party": party, "duration": duration,
             "cards": [(c, t[0], t[1]) for c, t in zip(cards, times)]}
@@ -288,10 +289,7 @@ def build(pack_dir, ff, log=print, whisper_model="small.en", only=None, provisio
     hd, final = os.path.join(clips, "speech-hd"), os.path.join(clips, "final")
     for d in (hd, final):
         os.makedirs(d, exist_ok=True)
-    fontsdir = os.path.join(hd, "fonts"); os.makedirs(fontsdir, exist_ok=True)
-    for f in ("/System/Library/Fonts/HelveticaNeue.ttc", "/System/Library/Fonts/Supplemental/Arial Bold.ttf", "/System/Library/Fonts/Supplemental/Arial.ttf"):
-        if os.path.exists(f) and not os.path.exists(os.path.join(fontsdir, os.path.basename(f))):
-            shutil.copy(f, fontsdir)
+    fontsdir = os.path.join(hd, "fonts"); sc.copy_fonts(fontsdir)
     logo = sc.LOGO if os.path.exists(sc.LOGO) else None
     rows = []
     for s, c, span in todo:
@@ -396,9 +394,9 @@ def write_report(pack_dir, rows, keep_others=False):
 
 
 ASPECTS = {
-    # name: (crop width in the 1920x1080 source, output size, caption pos, caption size, max chars, plate y, plate x)
-    "16:9": (1920, (1920, 1080), CAPTION_POS, CAPTION_SIZE, CAPTION_MAX_CHARS, PLATE_Y, PLATE_X),
-    "4:5": (864, (1080, 1350), (540, 1215), 50, 30, 1030, 60),
+    # name: (crop width in the 1920x1080 source, output size, caption pos, caption size, max chars, max words, plate y, plate x)
+    "16:9": (1920, (1920, 1080), CAPTION_POS, CAPTION_SIZE, CAPTION_MAX_CHARS, CAPTION_MAX_WORDS, PLATE_Y, PLATE_X),
+    "4:5": (864, (1080, 1350), (540, 1215), 50, 30, 5, 1030, 60),
 }
 
 
@@ -415,14 +413,14 @@ def recaption(pack_dir, ff, log=print, only=None, provisional=True, aspect="16:9
     if os.path.exists(seq_path):
         for e in sc.parse_sequence(open(seq_path, encoding="utf-8").read()):
             crops[_bare(e["name"])] = e.get("crop") or "centre"
-    crop_w, play, cpos, csize, cmax, plate_y, plate_x = ASPECTS[aspect]
+    crop_w, play, cpos, csize, cmax, cwords, plate_y, plate_x = ASPECTS[aspect]
     suffix = "" if aspect == "16:9" else "-" + aspect.replace(":", "x")
 
     def onside(s):
         return s.get("confirmed") == "yes" or (provisional and debatereport.stands_in_for_onside(s))
     clips = os.path.join(pack_dir, "clips")
     hd, final = os.path.join(clips, "speech-hd"), os.path.join(clips, "final")
-    fontsdir = os.path.join(hd, "fonts")
+    fontsdir = os.path.join(hd, "fonts"); sc.copy_fonts(fontsdir)
     logo = sc.LOGO if os.path.exists(sc.LOGO) else None
     done = []
     n = 0
@@ -447,7 +445,7 @@ def recaption(pack_dir, ff, log=print, only=None, provisional=True, aspect="16:9
         dur = sc._dur(ff, part)
         name = s["name"] if s["name"].endswith(" MP") else s["name"] + " MP"
         party = " · ".join(x for x in (sc.PARTY.get(s.get("party"), s.get("party")), s.get("seat")) if x)
-        cards = sc.chunk_caption(c["text"], max_chars=cmax)
+        cards = sc.chunk_caption(c["text"], max_chars=cmax, max_words=cwords)
         times = sc.card_times(heard, cards, c["text"])
         item = {"name": name, "party": party, "duration": dur, "cards": [(cd, tm[0], tm[1]) for cd, tm in zip(cards, times)]}
         ass_path = os.path.join(hd, tag + suffix + ".ass")
