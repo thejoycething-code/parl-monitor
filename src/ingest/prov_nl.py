@@ -32,8 +32,9 @@ total and the tally check runs against it.
     A readable year is DATED inside the year (date_terms) from the same
     by-election reports and the general election dates: Bernard Davis
     from 30 November 2015, Paul Davis to 2 November 2018 (7 October 2026,
-    the 2010 backfill's tally gaps). 2009 and 2010 are scans and 2010 has
-    no summary either side to bridge from: 2010 has no roster.
+    the 2010 backfill's tally gaps; the dating rules approved by Christopher
+    on 7 October 2026). The 2009 and 2010 summaries are text set as padded
+    lines, not scans (read since 7 October 2026).
   * PARTY AT THE VOTE: dated for the CURRENT General Assembly only, from the
     House's History of the Standings and the members page (see
     "party at the vote" below). Earlier Assemblies have no official dated
@@ -228,11 +229,15 @@ def _clean(text):
 
 # An absence count, or a leave of absence ("LOA": Derrick Bragg, 2023 summary).
 # Half days too ('Cathy Bennett  Windsor Lake  5.5  0', 2018).
-_DIGITS = re.compile(r"^\s*(?:\d+(?:\.\d+)?|LOA|N\/A)\s*$")
+# 'n/a' for a member who sat no day of the year (2010: Diane Whalen, deceased;
+# David Brazil, elected in December).
+_DIGITS = re.compile(r"^\s*(?:\d+(?:\.\d+)?|LOA|N\/A)\s*$", re.I)
 
 
 def _is_header(fr):
-    words = [_clean(f[2]) for f in fr]
+    # one fragment per heading, or the whole heading in one fragment padded
+    # with spaces ('Member      District      Approved', 2009 and 2010)
+    words = [w for f in fr for w in _clean(f[2]).split()]
     return "Member" in words and "District" in words
 
 
@@ -281,21 +286,37 @@ def parse_attendance(pages, year):
         return []
     edges = Counter(round(f[0]) for fr in rows for f in fr
                     if 100 <= f[0] <= 330 and any(_DIGITS.match(g[2]) for g in fr))
-    if not edges:
-        return []
-    edge = edges.most_common(1)[0][0] - 2
+    # The 2009 and 2010 summaries set every row as text padded with spaces
+    # (one or two fragments): there is no column edge to measure, and the row
+    # is split on its runs of spaces. (They were taken for scans until 7
+    # October 2026; they have a text layer, in this layout.)
+    edge = edges.most_common(1)[0][0] - 2 if edges else None
     out = []
     held = None
+    held_name = None
     for fr in rows:
         if _is_header(fr) or _is_subheader(fr):
             continue
-        parts = re.split(r"\s{3,}", fr[0][2].strip()) if len(fr) == 1 else []
+        if edge is None:
+            parts = re.split(r"\s{3,}", "   ".join(f[2].strip() for f in fr).strip())
+        else:
+            parts = re.split(r"\s{3,}", fr[0][2].strip()) if len(fr) == 1 else []
+        if edge is None and len(parts) == 1 and "," in parts[0] and not re.search(r"\d", parts[0]):
+            held_name = _clean(parts[0])      # 'Brazil, David' / '(elected Dec. 2010)  Conception ...'
+            continue
+        if edge is None and len(parts) >= 3 and parts[0].startswith("(") and held_name:
+            parts = [held_name] + parts[1:]
+        held_name = None
         if len(parts) >= 3 and _DIGITS.match(parts[-1]):
             # one fragment padded with spaces ('Parsons, Jim     Corner Brook
             # 0     0', the 2025 summary)
             nums = [p for p in parts[1:] if _DIGITS.match(p)]
             name = _clean(parts[0])
             district = _clean(" ".join(p for p in parts[1:] if not _DIGITS.match(p)))
+            # '(elected Nov. 26/09)   Terra Nova' (2009): the note is not the district
+            district = _clean(re.sub(r"\((?:elected|resigned|deceased)[^)]*\)", " ", district, flags=re.I))
+        elif edge is None:
+            continue                          # a note line ('(resigned December, 2010)')
         else:
             nums = [f for f in fr if f[0] >= edge and _DIGITS.match(f[2])]
             name = _clean(join_fragments([f for f in fr if f[0] < edge]))
@@ -318,6 +339,7 @@ def parse_attendance(pages, year):
         if not name or re.search(r"\d", name) or not nums:
             continue
         name = _CREDENTIAL.sub("", re.sub(r"\s*-\s*", "-", name)).strip()
+        name = re.sub(r"\s*\((?:deceased|resigned[^)]*|elected[^)]*)\)\s*", " ", name, flags=re.I).strip()
         if "," in name:
             surname, _, given = name.partition(",")
         else:
@@ -476,7 +498,8 @@ def drop_orphans(conn):
 # say they include them. Such a member, found in the previous year's summary
 # for the district the by-election report names, is added to the year up to
 # the vacancy. Nothing else is inferred: a member the records do not date
-# keeps the calendar year.
+# keeps the calendar year. Both rules (election day; the omitted member kept
+# to the vacancy) were APPROVED by Christopher on 7 October 2026.
 
 def load_general_elections(record):
     """`general_elections:` -- [{date, source}], each read in the Elections NL
@@ -923,7 +946,8 @@ class Titled:
     Bennett; the shared resolver ignores titles, so both came back ambiguous.
     An AMBIGUOUS label is settled only when reviewed titles rule out every
     candidate but one (a candidate with no reviewed title is never ruled
-    out). Still unique-or-nothing; the tally check runs on the result."""
+    out). Still unique-or-nothing; the tally check runs on the result.
+    The NL titles facts were approved by Christopher on 7 October 2026."""
 
     def __init__(self, inner, titles=None):
         self.inner = inner

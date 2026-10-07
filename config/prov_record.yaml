@@ -20,7 +20,8 @@
 #   general_elections (nl) Election days, each read in the Elections NL
 #                  report; prov_nl.date_terms ends or starts a summary's term
 #                  on it when the member is absent from the next or the
-#                  previous year's summary.
+#                  previous year's summary. Approved by Christopher, 7
+#                  October 2026.
 #   titles         (nb, nl) The title a record prints for a member, read
 #                  where it joins the title to the full name; settles an
 #                  AMBIGUOUS label only (prov_nb.CaseExact, prov_nl.Titled).
@@ -1047,6 +1048,26 @@ provinces:
         polling: 2019-01-24
         elected: {surname: Dinn, given: Paul}
         source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-19.topsailparadise.pdf
+      # 2010 (added 7 October 2026, when the 2009 and 2010 summaries were
+      # found to have a text layer after all). The Topsail report is the
+      # poll-by-poll recapitulation only: it dates polling day and names Paul
+      # Davis (PC) the winner, but gives no vacancy date, so the member who
+      # left (Elizabeth Marshall, in the 2009 summary and not the 2010 one)
+      # gets no 2010 term from it.
+      - district: "Topsail"
+        vacated_by: {surname: Marshall, given: Elizabeth}
+        why_left: "vacancy (the report gives no date)"
+        polling: 2010-03-16
+        elected: {surname: Davis, given: Paul A.}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-10.topsailbyelectionreport.pdf
+      - district: "Conception Bay East - Bell Island"
+        vacated_by: {surname: Whalen, given: Diane}
+        left: 2010-10-03
+        why_left: "death of Progressive Conservative Dianne Whalen"
+        polling: 2010-12-02
+        elected: {surname: Brazil, given: David}
+        sworn: 2010-12-20
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-10-cbe-bi-by-election-report.pdf
     other_surnames:
       - member: joan-shea
         surname: "Burke"
@@ -1069,7 +1090,8 @@ provinces:
       # The title Hansard prints for a member, read where it joins the title
       # to the full name. Used by src/ingest/prov_nl.Titled only for a label
       # the resolver found AMBIGUOUS: a candidate whose title is the other
-      # one is ruled out. Read 7 October 2026.
+      # one is ruled out. Read 7 October 2026; APPROVED by Christopher, 7
+      # October 2026.
       - member: cathy-bennett
         title: "Ms"
         document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session4/15-05-27.htm
@@ -1154,7 +1176,9 @@ provinces:
       # Read in the Elections NL general election reports. prov_nl.date_terms
       # ends the term of a member absent from the next year's summary on
       # this day, and starts the term of one absent from the previous year's
-      # summary (and elected at no by-election) on it.
+      # summary (and elected at no by-election) on it. This rule, and keeping
+      # a member the summary omits in their resignation year up to the
+      # vacancy (by_elections), were APPROVED by Christopher, 7 October 2026.
       - date: 2011-10-11
         source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2011.pdf
       - date: 2015-11-30

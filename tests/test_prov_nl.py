@@ -705,6 +705,36 @@ class Backfill2010OwedTests(unittest.TestCase):
         self.assertEqual((sp.day_done(conn, "a"), sp.day_done(conn, "b")), (False, True))
 
 
+class Roster2010Tests(unittest.TestCase):
+    """The 2009 and 2010 summaries were taken for scans: they have a text
+    layer, every row one line padded with spaces (7 October 2026)."""
+
+    def test_the_padded_layout(self):
+        rows = attendance_pages(2010)
+        self.assertEqual(len(rows), 49)
+        by = {(r["surname"], r["given"]): r["district"] for r in rows}
+        self.assertEqual(by[("Brazil", "David")], "Conception Bay East - Bell Island")   # name on its own line
+        self.assertEqual(by[("Whalen", "Diane")], "Conception Bay East - Bell Island")   # '(deceased)', 'n/a'
+        self.assertEqual(by[("Williams", "Danny")], "Humber West")                       # two fragments
+        self.assertEqual(by[("Davis", "Paul A.")], "Topsail")
+        r2009 = {(r["surname"], r["given"]): r["district"] for r in attendance_pages(2009)}
+        self.assertEqual(r2009[("Collins", "Sandy")], "Terra Nova")                      # not '(elected Nov. 26/09) Terra Nova'
+
+    def test_2010_dated_and_a_2010_division_tallies(self):
+        members, notes = dated(2010, prev=2009, nxt=2011)
+        self.assertEqual(span(members, "Davis", "Paul A."), ("2010-03-16", "2010-12-31"))
+        self.assertEqual(span(members, "Whalen", "Diane"), ("2010-01-01", "2010-10-03"))
+        self.assertEqual(span(members, "Brazil", "David"), ("2010-12-20", "2010-12-31"))
+        self.assertEqual(span(members, "Williams", "Danny"), ("2010-01-01", "2010-12-03"))
+        d = v2010("resumed_after_order_2010")[0][0]
+        r = nl.make_resolver(conn_with(members, "summary-2010"))
+        votes, ok, note = nl.resolve_division(d, r, "2010-06-23", 46)
+        self.assertTrue(ok, note)
+        side = {v["raw_label"]: v["member_key"] for v in votes}
+        self.assertEqual((side["Mr. Kelvin Parsons"], side["Mr. Kevin Parsons"], side["Ms Burke"]),
+                         ("kelvin-parsons", "kevin-parsons", "joan-burke"))
+
+
 class Backfill2010SpeechTests(unittest.TestCase):
     def test_a_bold_opened_before_the_paragraph_is_still_a_speaker(self):
         # 12 December 2012: '<b>\n<p ...>MR. SPEAKER (Wiseman): </b>Order, please!</p>'
