@@ -406,6 +406,13 @@
       "published_utc": "2026-10-06T22:29:30Z",
       "sha256": "e05cb168ac68641497401ce86e42e1c245d2395743b86980ee0f67701a3d255c"
     },
+    "2026-10-07": {
+      "bytes": 544935,
+      "files": 9,
+      "published_by": "run 37560742956",
+      "published_utc": "2026-10-07T02:14:25Z",
+      "sha256": "93ced610a017efb864cfee28636b72f230036eb7fab321a691c5868522f78e31"
+    },
     "eu-probe-2026-09-01": {
       "bytes": 15724967,
       "files": 44,
