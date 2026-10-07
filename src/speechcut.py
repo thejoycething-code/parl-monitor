@@ -396,7 +396,7 @@ def write_report(pack_dir, rows, keep_others=False):
 ASPECTS = {
     # name: (crop width in the 1920x1080 source, output size, caption pos, caption size, max chars, max words, plate y, plate x)
     "16:9": (1920, (1920, 1080), CAPTION_POS, CAPTION_SIZE, CAPTION_MAX_CHARS, CAPTION_MAX_WORDS, PLATE_Y, PLATE_X),
-    "4:5": (864, (1080, 1350), (540, 1215), 50, 30, 5, 1030, 60),
+    "4:5": (864, (1080, 1350), (540, 1215), 50, 30, 5, 960, 60),   # plate clear of the caption box
 }
 
 

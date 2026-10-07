@@ -193,9 +193,10 @@ crop: centre
   "his or herself" became "themselves"; a whole clause was added to Rebecca Smith).
 * **Vertical is a full-height 9:16 crop**, placed per speaker, not a blurred
   letterbox: the speaker fills the frame. The landscape master is kept alongside.
-* **Captions are the spoken words** in white, one or two lines of at most 30 characters
-  and at most four words a line on the vertical (ten on the landscape speech cuts,
-  five on 4:5), per the CitizenGO Brand Guidelines (Updated Q3 2026),
+* **Captions are the spoken words** in white Roboto with no outline, on a Brand Blue
+  highlight box (Multimedia handbook, Subtitling Style Guide, social videos), one or two
+  lines of at most 30 characters and at most four words a line on the vertical (ten on
+  the landscape speech cuts, five on 4:5),
   never crossing a sentence, every card centred on the same point (540, 1600) so
   the text never moves. Hansard wording belongs in the article; a caption that
   differs from the audio reads as a misquote.

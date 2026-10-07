@@ -16,8 +16,9 @@ What this encodes (learnt on the surrogacy debate, 7-8 September 2026):
 * the name plate is CitizenGO principal blue over a Dark Gray strip, shown for the first
   five seconds of each excerpt; the white logo sits top-left; no intro or end card
   (Christopher, 7 Oct 2026: parliament videos carry no CitizenGO intro or outro);
-* captions are white Roboto, at most four words a line on the vertical (brand
-  guidelines Q3 2026: 3-4 words vertical, 8-10 horizontal);
+* captions are white Roboto with no outline on a Brand Blue highlight box, at most four
+  words a line on the vertical (Multimedia handbook, Subtitling Style Guide, Q3 2026:
+  social videos 3-4 words vertical, 8-10 horizontal);
 * a contact sheet (one frame per speaker) is written so the crop can be checked by eye.
 
 Pure functions here are tested; the pipeline (`build`) needs yt-dlp, ffmpeg and
@@ -386,7 +387,9 @@ def ass_document(items, font, play, caption_pos, caption_size, plate_y, plate_x)
         "WrapStyle: 2", "ScaledBorderAndShadow: yes", "",
         "[V4+ Styles]",
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-        "Style: Caption,%s,%d,&H00FFFFFF,&H00FFFFFF,%s,%s,-1,0,0,0,100,100,0,0,1,5,0,5,80,80,0,1" % (font, caption_size, ass_colour(INK), ass_colour(INK)),
+        # Social subtitles per the Multimedia handbook (Q3 2026): white Roboto, no outline, on a Brand Blue
+        # highlight box (BorderStyle 3 draws an opaque box in the outline colour; Outline is its padding).
+        "Style: Caption,%s,%d,&H00FFFFFF,&H00FFFFFF,%s,%s,-1,0,0,0,100,100,0,0,3,%d,0,5,80,80,0,1" % (font, caption_size, ass_colour(BLUE), ass_colour(BLUE), max(6, caption_size // 6)),
         "Style: Name,%s,56,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1" % font,
         "Style: Party,%s,40,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1" % font,
         "Style: Shape,%s,20,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1" % font,
