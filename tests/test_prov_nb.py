@@ -864,6 +864,61 @@ class Backfill2010JournalTests(unittest.TestCase):
         self.assertIn("1 recorded division(s)", ctx.gaps[0])
 
 
+class ElectionPartyTests(unittest.TestCase):
+    """Party before Hansard (Christopher, 7 October 2026): the Chief Electoral
+    Officer's reports tabled in the House, carried to the first agreeing
+    Hansard list."""
+
+    def test_the_reports_read(self):
+        g = nb.parse_general_report(fx("nb_ceo_general_2014_p7.txt"))
+        self.assertEqual(g["date"], "2014-09-22")
+        self.assertEqual(len(g["elected"]), 5)                       # districts 1-5, one "E" each
+        got, problems = nb.match_elected(g["elected"], [("daniel-guitard", "Daniel", "Guitard"),
+                                                        ("denis-landry", "Denis", "Landry")])
+        self.assertEqual((got, problems), ({"daniel-guitard": "L", "denis-landry": "L"}, []))
+        b = nb.parse_by_election_report(fx("nb_ceo_bye_sje_2014_trim.txt"))
+        self.assertEqual((b["name"], b["party"], b["oath"]), ("Glen Savoie", "PC", "2014-12-02"))
+        self.assertEqual({k: v for k, v in b["seats"].items() if v}, {"L": 26, "PC": 22, "PVNBGP": 1})
+        c = nb.parse_by_election_report(fx("nb_ceo_bye_carleton_2015_trim.txt"))
+        self.assertEqual((c["name"], c["party"], c["oath"]), ("Stewart Fairgrieve", "PC", "2015-10-29"))
+        self.assertEqual(c["seats"]["L"], 26)                        # the table pypdf prints before its heading
+
+    def _conn(self, first_hansard):
+        conn = db.init_db(db.connect(":memory:"))
+        pc_, lib = nb.PARTY_CODES["PC"], nb.PARTY_CODES["L"]
+        for key, party, start, roster_end in (("a", pc_, "2014-09-22", "2017-10-24"),
+                                              ("b", lib, "2014-09-22", "2017-10-24"),
+                                              ("c", pc_, "2014-09-22", "2015-05-22")):   # resigned before 58-3
+            ps.upsert_member(conn, "nb", key, name=key, surname=key, given="")
+            ps.replace_terms(conn, "nb", key, [{"legislature": 58, "start": "2014-10-24", "end": roster_end}],
+                             "journal-58-1")
+            ps.replace_terms(conn, "nb", key, [{"legislature": 58, "party": party, "start": start}],
+                             nb.ELECTION_RESULT, legislature=58)
+        for key, party in first_hansard.items():
+            ps.extend_term(conn, "nb", key, 58, party, None, "2016-11-04", nb.PARTY_SOURCE, party_dated=True)
+        return conn
+
+    def test_carried_to_the_first_hansard_list_that_agrees_and_no_further(self):
+        conn = self._conn({"a": nb.PARTY_CODES["PC"], "b": nb.PARTY_CODES["PC"]})     # b crossed the floor
+        carried, withheld = nb.carry_election_party(conn, 58, log=lambda *a: None)
+        r = pn.Resolver.from_conn(conn, "nb")
+        self.assertEqual(r.party_at("a", "2015-03-01", 58), nb.PARTY_CODES["PC"])
+        self.assertIsNone(r.party_at("b", "2015-03-01", 58))          # changed: the window is uncertain
+        self.assertEqual(r.party_at("b", "2016-11-04", 58), nb.PARTY_CODES["PC"])     # Hansard's own
+        self.assertEqual(r.party_at("c", "2015-03-01", 58), nb.PARTY_CODES["PC"])     # no list, no standings
+        self.assertEqual((carried, withheld), (2, 1))
+
+    def test_a_member_with_no_hansard_list_needs_the_standings_to_reconcile(self):
+        conn = self._conn({"a": nb.PARTY_CODES["PC"], "b": nb.PARTY_CODES["L"]})
+        conn.execute("INSERT INTO prov_member_terms (prov, member_key, legislature, party, start, end, party_dated, "
+                     "source) VALUES ('nb', '_standings', 58, ?, '2015-01-01', '2015-01-01', 0, ?)",
+                     (json.dumps({"PC": 1, "L": 2}), nb.ELECTION_RESULT + "-standings"))   # does not reconcile
+        nb.carry_election_party(conn, 58, log=lambda *a: None)
+        r = pn.Resolver.from_conn(conn, "nb")
+        self.assertIsNone(r.party_at("c", "2015-03-01", 58))
+        self.assertEqual(r.party_at("a", "2015-03-01", 58), nb.PARTY_CODES["PC"])     # confirmed by Hansard
+
+
 class Backfill2010KnownGapTests(unittest.TestCase):
     def setUp(self):
         sys.path.insert(0, os.path.join(ROOT, "tools"))

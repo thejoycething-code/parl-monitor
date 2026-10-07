@@ -58,6 +58,13 @@
 #                  legislatures, or "Tom" and "Thomas". Merged in place by
 #                  prov_store.merge_split_members.
 #
+#   roster_rows, titles, roster_bridges
+#                  (nb) Rows of a compiled Journal's members page (with an
+#                  optional by-election date, `elected:`), the title a record
+#                  prints for a member, and a session's roster read from the
+#                  next session's members page. All three APPROVED by
+#                  Christopher, 7 October 2026 (the 57-1 bridge by name).
+#
 # Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
 # (3 October 2026). Alberta's entries added 2 October 2026 for the
 # 2010 backfill's tally gaps.
@@ -640,6 +647,7 @@ provinces:
           Printed "Mr. D’Amour" in the NAYS of the day's recorded division, its
           only unresolved label.
     roster_rows:
+      # Fact type, with `elected:`, approved by Christopher, 7 October 2026.
       # Rows of a compiled Journal's MEMBERS OF THE LEGISLATIVE ASSEMBLY page
       # (src/ingest/prov_nb.parse_compiled_roster) that the page prints in a
       # way no rule reads honestly. Each applies to its own document only,
@@ -788,6 +796,7 @@ provinces:
           "Guitar" and "Mr. Guitard" in that autumn's division lists would
           resolve to nobody.
     titles:
+      # Fact type approved by Christopher, 7 October 2026.
       # The title the Journals print for a member, read where the record joins
       # it to the member's full name. Used by src/ingest/prov_nb.CaseExact only
       # for a label the resolver found AMBIGUOUS: a candidate whose title is
@@ -840,6 +849,7 @@ provinces:
           (Journal of 29 March 2017, "By Ms. LeBlanc, Bill 63,").
         why: *titles_why
     roster_bridges:
+      # Approved by Christopher, 7 October 2026.
       # A session whose journals listing links no compiled Journal, read
       # from the next session's members page as it stood on that session's
       # first sitting (src/ingest/prov_nb._store_bridge). Read 2 October 2026.
