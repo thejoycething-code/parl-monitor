@@ -428,6 +428,309 @@ class BillTests(unittest.TestCase):
 
 # -- the run, end to end -----------------------------------------------------------------
 
+# -- the 2010 backfill (CI runs 37076568654 and 37108083021, 3 October 2026) -----------
+#
+# The backfill stored 169 recorded divisions and 108 failed the tally check.
+# Every fixture below is a trimmed copy of a page fetched from a GitHub runner
+# on 7 October 2026 (probe-hosts.yml, run 37568416383), each the record of a
+# division the backfill could not read or a reading it missed.
+
+def _hansard(name, leg, sess, keys=None, histories=None):
+    """(divisions, voices, resolver, strays) for a fixture, against the
+    session's roster from its own fixtures."""
+    conn = store_roster(_conn(), leg, sess, keys=keys, histories=histories)
+    r = ns.make_resolver(conn)
+    strays = []
+    divs, voices = ns.parse_hansard(fx(name), vocab=r.base.surname_vocab(), strays=strays)
+    return divs, voices, r, strays
+
+
+def _resolve(d, r, date, leg, doc=None, key=None):
+    votes, ok, note = ns.resolve_division(d, r, date, leg, document=(H + doc) if doc else None,
+                                          division_key=key, reviewed=pn.ReviewedDivisions.load("ns"))
+    return votes, ok, note
+
+
+def _by(votes):
+    return {v["member_key"]: v["position"] for v in votes}
+
+
+class Backfill2010LayoutTests(unittest.TestCase):
+    """The layouts the parser of 2 October did not know."""
+
+    def test_a_column_of_names_in_one_cell(self):
+        """27 April 2012: each column is ONE cell, a name a line ("Mr. Landry<br />
+        Ms. More<br />..."), continued after the page break. Read as one name
+        each: 1 of 29 and 1 of 19 before."""
+        d1, d2 = ns.parse_hansard(fx("ns_hansard_120427.htm"))[0]
+        self.assertEqual((d1["yeas"], d1["nays"], len(d1["yea_labels"]), len(d1["nay_labels"])), (29, 19, 29, 19))
+        self.assertEqual((d2["bill_number"], d2["stage"]), ("69", "Third Reading"))
+        self.assertEqual(d1["yea_labels"][:2], ["Mr. Landry", "Ms. More"])
+        self.assertIn("Mr. Zinc", d2["nay_labels"])           # "Mr. Zinck" in the first list
+        self.assertIn("Mr. Zinck", d1["nay_labels"])
+
+    def test_the_header_inside_its_cell_was_a_silent_loss(self):
+        """5 November 2012: "YEAS<br>Mr. Landry<br>..." in one cell. No header
+        row was seen, nothing was read and the sitting was stored 'ok' with no
+        division, though Bill 94 passed second reading 28-19 on a recorded vote."""
+        (d,), _ = ns.parse_hansard(fx("ns_hansard_121105.htm"))
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (28, 19, 28, 19))
+        self.assertEqual((d["bill_number"], d["stage"]), ("94", "Second Reading"))
+        self.assertEqual(d["yea_labels"][0], "Mr. Landry")
+
+    def test_a_double_space_inside_a_name_is_no_column_mark(self):
+        """6 December 2012: "Ms. Maureen  MacDonald  Mr. Samson". Cut at runs of
+        spaces it was three names, the list ended at six lines, and the Clerk's
+        count was never reached."""
+        (d,), _ = ns.parse_hansard(fx("ns_hansard_121206.htm"))
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (26, 22, 26, 22))
+        self.assertIn("Ms. Maureen MacDonald", d["yea_labels"])
+        self.assertIn("Mr. Samson", d["nay_labels"])
+        self.assertIn("Mr. Burrill", d["yea_labels"])           # the one-name lines are the longer column's
+        self.assertIsNone(d["problem"])
+
+    def test_columns_run_together_with_one_space(self):
+        """18 October 2023: "Elizabeth Smith-McCrossin Larry Harrison". The
+        Clerk's count says how many lines hold two names; each is cut where it
+        leaves two full names."""
+        divs, _, r, _ = _hansard("ns_hansard_231018.htm", 64, 1)
+        (d,) = divs
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (19, 28, 19, 28))
+        self.assertIn("Elizabeth Smith-McCrossin", d["yea_labels"])
+        self.assertIn("Larry Harrison", d["nay_labels"])
+        self.assertIn("Lorelei Nicoll", d["yea_labels"])
+        self.assertIn("Hon. Colton LeBlanc", d["nay_labels"])
+        _v, ok, note = _resolve(d, r, "2023-10-18", 64)
+        self.assertTrue(ok, note)
+
+    def test_a_line_that_is_not_two_names_is_a_gap_not_a_guess(self):
+        y, n, a, note, problem = ns._place_lines(["Hon. Nolan Young Claudia Chender", "Kent Smith Lena Diab Rod"],
+                                                 (2, 2, None))
+        self.assertIsNotNone(problem)
+        self.assertEqual(ns._split_n("Hon. Nolan Young Claudia Chender", 2), ["Hon. Nolan Young", "Claudia Chender"])
+        self.assertEqual(ns._split_n("John A. MacDonald Larry Harrison", 2), ["John A. MacDonald", "Larry Harrison"])
+        self.assertIsNone(ns._split_n("Lena Metlege Diab Kent Smith", 2))              # two cuts, no vocabulary
+        vocab = {("diab",), ("smith",), ("metlege", "diab")}
+        self.assertEqual(ns._split_n("Lena Metlege Diab Kent Smith", 2, vocab), ["Lena Metlege Diab", "Kent Smith"])
+
+    def test_one_column_full_names_and_a_three_column_list(self):
+        """17 October 2022. A one-column list prints a name a line, "Dave  Ritcey"
+        with two spaces (44-0, Bill 204); the earlier list that day has a third
+        column, ABSTENTIONS, and the count "For, 28. Nay, 17. Abstentions, 1.":
+        never read before, a division silently lost."""
+        divs, _, r, _ = _hansard("ns_hansard_221017.htm", 64, 1)
+        hours, bill = divs
+        self.assertEqual((hours["yeas"], hours["nays"], hours["abstentions"]), (28, 17, 1))
+        self.assertEqual(hours["abs_labels"], ["E. Smith-McCrossin"])
+        votes, ok, note = _resolve(hours, r, "2022-10-17", 64)
+        self.assertTrue(ok, note)
+        self.assertEqual(_by(votes)["elizabeth-smith-mccrossin"], "Abstain")
+        self.assertEqual(_by(votes)["claudia-chender"], "Nay")
+        self.assertEqual((bill["yeas"], bill["nays"], len(bill["yea_labels"])), (44, 0, 44))
+        self.assertEqual((bill["bill_number"], bill["stage"]), ("204", "Second Reading"))   # "Bill 204", no "No."
+        self.assertIn("Dave Ritcey", bill["yea_labels"])
+        self.assertTrue(_resolve(bill, r, "2022-10-17", 64)[1])
+
+    def test_a_list_printed_with_no_header(self):
+        """9 March 2026: the second list runs straight from "[The Clerk called the
+        roll.]" to the Clerk's count, with no YEAS NAYS. Read between those two
+        marks only; it was a division silently lost."""
+        divs, _, r, strays = _hansard("ns_hansard_260309.htm", 65, 1)
+        self.assertEqual(strays, [])
+        first, second = divs
+        self.assertEqual((second["yeas"], second["nays"], len(second["yea_labels"]), len(second["nay_labels"])),
+                         (38, 10, 38, 10))
+        self.assertIn("no YEAS NAYS header printed", second["note"])
+        self.assertTrue(_resolve(second, r, "2026-03-09", 65)[1])
+        # The first list misprints two names; each is a reviewed alias, on its day and in its record only.
+        _v, ok, note = _resolve(first, r, "2026-03-09", 65, doc="elsewhere")
+        self.assertFalse(ok)
+        self.assertIn("LeBlancoHon", note)
+        votes, ok, note = _resolve(first, r, "2026-03-09", 65, doc="assembly-65-session-1/house_26mar09")
+        self.assertTrue(ok, note)
+        self.assertEqual(_by(votes)["ryan-robicheau"], "Yea")
+
+    def test_a_list_a_table_begins_and_paragraphs_finish(self):
+        """13 March 2026: the YEAS run on after the table, a name a paragraph,
+        to the Clerk's count ten blocks on: no count was found."""
+        divs, _, r, strays = _hansard("ns_hansard_260313.htm", 65, 1)
+        d = divs[1]
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (37, 13, 37, 13))
+        self.assertEqual((d["bill_number"], d["stage"]), ("198", "Second Reading"))
+        votes, ok, note = _resolve(d, r, "2026-03-13", 65)
+        self.assertTrue(ok, note)
+        # Financial Measures (2026), whipped: the Premier for, the NDP leader against.
+        self.assertEqual((_by(votes)["tim-houston"], _by(votes)["claudia-chender"]), ("Yea", "Nay"))
+        self.assertEqual(strays, [])
+
+    def test_unclosed_paragraphs_late_2011(self):
+        """25 November 2011 closes no <p>: the page read as ten paragraphs and
+        the sitting was stored 'ok' and empty. Bill 102's second reading was
+        divided (25-13)."""
+        divs, voices = ns.parse_hansard(fx("ns_hansard_111125.htm"))
+        (d,) = divs
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (25, 13, 25, 13))
+        self.assertEqual((d["bill_number"], d["stage"]), ("102", "Second Reading"))
+
+    def test_a_paragraph_left_open_over_a_table(self):
+        """11 May 2015: a page marker's <p> is left open over the second half of
+        the list, which was read as one paragraph with the Clerk's count."""
+        divs, _, r, _ = _hansard("ns_hansard_150511.htm", 62, 2)
+        self.assertEqual(len(divs), 5)
+        d = divs[0]
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (15, 27, 15, 27))
+        for d in divs:
+            self.assertTrue(_resolve(d, r, "2015-05-11", 62, doc="assembly-62-session-2/house_15may11")[1])
+
+    def test_the_roll_call_interrupted(self):
+        """The Chair breaks in: "Can the honourable member for Halifax Chebucto
+        please stand with his vote?" (5 May 2015); the gallery is cleared and
+        the header printed again (18 December 2015). The same list goes on."""
+        divs, _, r, _ = _hansard("ns_hansard_150505.htm", 62, 2)
+        self.assertEqual((divs[0]["yeas"], divs[0]["nays"], len(divs[0]["yea_labels"]), len(divs[0]["nay_labels"])),
+                         (13, 24, 13, 24))
+        divs, _, r, _ = _hansard("ns_hansard_151218.htm", 62, 2)
+        (d,) = divs
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (30, 14, 30, 14))
+        votes, ok, note = _resolve(d, r, "2015-12-18", 62)
+        self.assertTrue(ok, note)
+        self.assertEqual((_by(votes)["stephen-mcneil"], _by(votes)["jamie-baillie"]), ("Yea", "Nay"))
+
+    def test_typesetting_slips(self):
+        # Two cells run into one: ['Mr. Churchill Mr. Dunn'] (6 May 2016)
+        divs = ns.parse_hansard(fx("ns_hansard_160506.htm"))[0]
+        self.assertEqual([(d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])) for d in divs],
+                         [(32, 12, 32, 12)] * 3)
+        self.assertEqual((divs[1]["yea_labels"][0], divs[1]["nay_labels"][0]), ("Mr. Churchill", "Mr. Dunn"))
+        # An entity split around a name: "&Mr. Rankinnbsp;" (7 November 2014)
+        divs = ns.parse_hansard(fx("ns_hansard_141107.htm"))[0]
+        self.assertIn("Mr. Rankin", divs[1]["yea_labels"])
+        # Two names on one line of a one-column list: "Mr. MacDonell Ms. Zann" (3 December 2010, 38-0)
+        d = ns.parse_hansard(fx("ns_hansard_101203.htm"))[0][0]
+        self.assertEqual((d["yeas"], d["nays"], len(d["yea_labels"]), len(d["nay_labels"])), (38, 0, 38, 0))
+        self.assertTrue({"Mr. MacDonell", "Ms. Zann"} <= set(d["yea_labels"]))
+        # A title run into the name: "Mr.Scott", "Mr.Whynott" (22 April 2010)
+        (d,), _ = ns.parse_hansard(fx("ns_hansard_100422.htm"))
+        self.assertIn("Mr. Scott", d["nay_labels"])
+        self.assertIn("Mr. Whynott", d["yea_labels"])
+
+    def test_every_form_of_the_clerks_count(self):
+        cases = {
+            "THE CLERK: For, 28, Against 12.": (28, 12, None),
+            "THE CLERK « » : For, 23. Against. 20. (Applause)": (23, 20, None),
+            "THE CLERK » : Those in favour of the motion, 31; those against, 17.": (31, 17, None),
+            "THE CLERK « » : Those in favour of the motion 30, those against 11.": (30, 11, None),
+            "THE CLERK « » : Those in favour of the motion to concur, 25. Those against, 23.": (25, 23, None),
+            "THE CLERK « » : Mr. Speaker, in favour of Resolution No. 35, 33; against, 13 - meeting the "
+            "two-thirds threshold.": (33, 13, None),
+            "THE CLERK « » : The results of the recorded vote are as follows: Yays, 47. Nays, 0.": (47, 0, None),
+            "THE CLERK » : For, 28. Nay, 17. Abstentions, 1.": (28, 17, 1),
+            "THE CLERK » : For, 36. Against,13.": (36, 13, None),
+        }
+        for text, want in cases.items():
+            self.assertEqual(ns.clerk_count(text), want, text)
+        self.assertIsNone(ns.clerk_count("THE CLERK « » : That the committee has met and considered the following bill:"))
+        self.assertIsNone(ns.clerk_count("YEAS NAYS"))
+
+
+class Backfill2010NameTests(unittest.TestCase):
+    def test_mr_david_wilson_is_dave_wilson_by_initial(self):
+        """2013-2018 Hansard prints "Mr. David Wilson" for the Member the roster
+        calls Dave Wilson (his own profile: "The Honourable Dave Wilson",
+        "Bills introduced by David Wilson"), beside "Mr. Gordon Wilson". The
+        given name is not the roster's, and the surname alone is two Members:
+        the INITIAL of the printed given name is one. 69 votes in 62 divisions
+        were unresolved."""
+        divs, _, r, _ = _hansard("ns_hansard_141020.htm", 62, 2)
+        (d,) = divs
+        votes, ok, note = _resolve(d, r, "2014-10-20", 62, doc="assembly-62-session-2/house_14oct20")
+        self.assertTrue(ok, note)
+        by_label = {v["raw_label"]: v["member_key"] for v in votes}
+        self.assertEqual(by_label["Mr. David Wilson"], "david-wilson")
+        self.assertEqual(by_label["Mr. Gordon Wilson"], "gordon-l-wilson")
+        self.assertEqual(by_label["Mr. Bailey"], "jamie-baillie")              # reviewed alias, this day only
+        self.assertIsNone(r.resolve("Mr. Bailey", "2014-10-21", 62, document=H + "elsewhere")[0])
+        # Never a guess: an initial no Wilson has stays unresolved.
+        key, how = r.resolve("Mr. Peter Wilson", "2014-10-20", 62)
+        self.assertIsNone(key)
+        self.assertTrue(how.startswith("ambiguous"), how)
+
+    def test_a_bare_wilson_beside_gordon_wilson_by_elimination(self):
+        """4 April 2014: "Mr. Wilson" and "Mr. Gordon Wilson" in one 48-0 list.
+        Gordon Wilson cannot vote twice (British Columbia's rule)."""
+        divs, _, r, _ = _hansard("ns_hansard_140404.htm", 62, 1)
+        first, bill37 = divs
+        self.assertEqual((first["yeas"], first["nays"]), (48, 0))       # "Those in favour of the motion, 48 ..."
+        votes, ok, note = _resolve(first, r, "2014-04-04", 62)
+        self.assertTrue(ok, note)
+        self.assertEqual({v["raw_label"]: v["member_key"] for v in votes}["Mr. Wilson"], "david-wilson")
+        # Bill 37 (essential health services), third reading 31-17, whipped:
+        # Premier McNeil for; Baillie (PC) and Maureen MacDonald (NDP) against.
+        self.assertEqual((bill37["bill_number"], bill37["stage"], bill37["yeas"], bill37["nays"]),
+                         ("37", "Third Reading", 31, 17))
+        votes, ok, note = _resolve(bill37, r, "2014-04-04", 62, doc="assembly-62-session-1/house_14apr04")
+        self.assertTrue(ok, note)                                      # "Mr. MacNeil", reviewed
+        by = _by(votes)
+        self.assertEqual((by["stephen-mcneil"], by["jamie-baillie"], by["maureen-macdonald"]), ("Yea", "Nay", "Nay"))
+
+    def test_ms_macdonald_settled_by_a_reviewed_hansard_label(self):
+        """23 April 2013: a bare "Ms. MacDonald" with Manning and Maureen
+        MacDonald both sitting; reviewed in config/prov_record.yaml for that
+        division only. The first division that day stays a gap: it prints 25
+        NAYS and the Clerk counted 26 (a record error, a known gap)."""
+        # Glace Bay's David Wilson had left before 61-2: its Journal's list of
+        # Members names only David A. Wilson (test above), so he sits in no
+        # later session of the 61st.
+        keys = {row["key"] for row in roster(61)} - {"david-wilson-0"}
+        divs, _, r, _ = _hansard("ns_hansard_130423.htm", 61, 5, keys=keys)
+        first, bill58 = divs
+        bare = ns.resolve_division(bill58, r, "2013-04-23", 61)
+        self.assertFalse(bare[1])
+        votes, ok, note = _resolve(bill58, r, "2013-04-23", 61, key="ns-61-5-2013-04-23-2")
+        self.assertTrue(ok, note)
+        self.assertEqual({v["raw_label"]: v["member_key"] for v in votes}["Ms. MacDonald"], "maureen-macdonald")
+        _v, ok, note = _resolve(first, r, "2013-04-23", 61, key="ns-61-5-2013-04-23-1")
+        self.assertFalse(ok)
+        self.assertIn("25 name(s) read, 26 printed", note)
+
+    def test_a_record_that_prints_fewer_names_than_counted_stays_a_gap(self):
+        """11 April 2023: Bill 316's third reading lists 27 YEAS and the Clerk
+        counted 28 (Premier Houston is in no list that day). The tally check
+        is never loosened: the division places nobody."""
+        divs, _, r, _ = _hansard("ns_hansard_230411.htm", 64, 1)
+        self.assertTrue(_resolve(divs[0], r, "2023-04-11", 64)[1])
+        _v, ok, note = _resolve(divs[1], r, "2023-04-11", 64)
+        self.assertFalse(ok)
+        self.assertIn("Yea: 27 name(s) read, 28 printed", note)
+
+    def test_the_stage_from_a_question_that_names_no_bill(self):
+        """17 October 2019: "The motion is for second reading." The stage is
+        the question's; the bill is the one whose second reading was moved."""
+        keys = set()
+        for name in ("ns_memberlist_632a_rows.json", "ns_memberlist_632b_rows.json"):
+            keys |= ns.match_members(ns.parse_member_list(json.loads(fx(name))), roster(63))[0]
+        (d,), _, r, _ = _hansard("ns_hansard_191017.htm", 63, 2, keys=keys,
+                                 histories={"david-wilson": "ns_profile_david-wilson.html",
+                                            "gordon-l-wilson": "ns_profile_gordon-l-wilson.html"})
+        self.assertEqual((d["bill_number"], d["stage"], d["yeas"], d["nays"]), ("203", "Second Reading", 24, 20))
+        votes, ok, note = _resolve(d, r, "2019-10-17", 63)
+        self.assertTrue(ok, note)
+        self.assertEqual({v["raw_label"]: v["member_key"] for v in votes}["Mr. Wilson"], "gordon-l-wilson")
+
+
+class Backfill2010VoiceTests(unittest.TestCase):
+    def test_readings_put_without_a_division(self):
+        # The mover's words, put at once (7 May 2010, Bill 1)
+        self.assertIn(("1", "Second Reading"), {(v["bill_number"], v["stage"])
+                                               for v in ns.parse_hansard(fx("ns_hansard_100507.htm"))[1]})
+        # Carried by the order that follows, no "The motion is carried." (6 March 2025, Bill 68)
+        self.assertIn(("68", "Second Reading"), {(v["bill_number"], v["stage"])
+                                                for v in ns.parse_hansard(fx("ns_hansard_250306.htm"))[1]})
+        # Bills called together: "The motions are carried." / "Ordered that these bills do pass." (28 Nov 2011)
+        got = {(v["bill_number"], v["stage"]) for v in ns.parse_hansard(fx("ns_hansard_111128.htm"))[1]}
+        self.assertTrue({("84", "Third Reading"), ("85", "Third Reading")} <= got, got)
+
+
 class CollectTests(unittest.TestCase):
     def _pages(self):
         listing = ns.HANSARD.format(65, 1)
@@ -470,6 +773,37 @@ class CollectTests(unittest.TestCase):
         ctx = Context(conn, _Client(pages), "ns", since="2025-03-25", until="2025-03-25", log=lambda *a: None)
         ns.collect(ctx, session="65-1", bills=False)
         self.assertEqual(conn.execute("SELECT status FROM prov_sittings").fetchone()[0], "unreadable")
+        self.assertFalse(ps.sitting_done(conn, HANSARD_250325))
+
+    def test_a_sitting_the_old_parser_stored_ok_is_read_again_and_replaced(self):
+        """The CI repair (REREAD_BEFORE): every sitting stored 'ok' before the
+        parser of 7 October 2026 is owed once; a re-read replaces what the
+        record stored before, so a division an older parse left is gone."""
+        conn = _conn()
+        pages = self._pages()
+        ctx = Context(conn, _Client(pages), "ns", since="2025-03-25", until="2025-03-25", log=lambda *a: None)
+        ns.collect(ctx, session="65-1", bills=False)
+        conn.execute("UPDATE prov_sittings SET read_at='2026-10-03'")
+        ps.store_division(conn, {"division_key": "ns-65-1-2025-03-25-9", "prov": "ns", "legislature": 65,
+                                 "session": 1, "date": "2025-03-25", "seq": "9", "kind": "recorded",
+                                 "source_url": HANSARD_250325, "positions_ok": 0, "votes": []})
+        conn.commit()
+        ctx = Context(conn, _Client(pages), "ns", since="2025-03-25", until="2025-03-25", log=lambda *a: None)
+        stats = ns.collect(ctx, session="65-1", bills=False)
+        self.assertEqual((stats["owed_stale"], stats["records_read"]), (1, 1))
+        keys = [r[0] for r in conn.execute("SELECT division_key FROM prov_divisions WHERE kind='recorded'")]
+        self.assertEqual(keys, ["ns-65-1-2025-03-25-1"])
+        self.assertEqual(conn.execute("SELECT status FROM prov_sittings").fetchone()[0], "ok")
+
+    def test_a_clerks_count_with_no_list_read_is_a_gap_never_ok(self):
+        import re as _re
+        pages = self._pages()
+        pages[HANSARD_250325] = _re.sub(r"(?is)<table\b.*?</table>", "", fx("ns_hansard_250325.htm"))
+        conn = _conn()
+        ctx = Context(conn, _Client(pages), "ns", since="2025-03-25", until="2025-03-25", log=lambda *a: None)
+        ns.collect(ctx, session="65-1", bills=False)
+        self.assertTrue(any("follows no list of names read" in g for g in ctx.gaps), ctx.gaps)
+        self.assertEqual(conn.execute("SELECT status FROM prov_sittings").fetchone()[0], "gap")
         self.assertFalse(ps.sitting_done(conn, HANSARD_250325))
 
 

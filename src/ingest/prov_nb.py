@@ -34,6 +34,18 @@ division twice.
     then written from them (prov_store.refresh_party). Today's party from
     /en/members/current is never used for a vote: it would misattribute
     every floor-crosser (Cardy left the PC caucus in October 2022).
+  * PARTY BEFORE HANSARD (Christopher, 7 October 2026). The 58th
+    Legislature's votes before its first Hansard member list (58-1, 58-2)
+    take the party each member was elected under, from the Chief Electoral
+    Officer's reports tabled in the House: the general election of 22
+    September 2014 (58/1/tabled_documents/3/GeneralElectionGenerale2014.pdf)
+    and the by-elections of Saint John East, 17 November 2014 (58/1/
+    tabled_documents/3/SaintJohnEastByElectionPartielleSaintJohnEst2014.pdf)
+    and Carleton, 5 October 2015 (58/2/tabled_documents/1/
+    ByElectionPartielle-Carleton.pdf), carried only to the first Hansard list
+    that agrees (fetch_election_results, carry_election_party). The 57th
+    stays NULL: its 2010 report is not tabled on legnb.ca and Elections NB
+    answers 403.
   * LABEL ALIASES. A typo in a division list ("Mr. Russel", 20 November
     2025) is cleared only by a reviewed entry in config/prov_record.yaml,
     after the normal resolver fails, on that day and in that Journal.
@@ -881,7 +893,7 @@ def fetch_party_lists(ctx, legislature, session, resolver, dates):
         # request" from the Legislative Library. One gap for the session,
         # not two for every division day.
         ctx.gap("nb {0}-{1}: the Hansard listing names no transcript for the session, so no party at "
-                "the vote for its {2} division day(s)".format(legislature, session, len(todo)))
+                "the vote from Hansard for its {2} division day(s)".format(legislature, session, len(todo)))
         return 0
     for date in todo:
         if not ctx.refresh and covered(date):
@@ -905,6 +917,273 @@ def fetch_party_lists(ctx, legislature, session, resolver, dates):
             ctx.gap("nb {0}: no party at the vote that day (its own Hansard unread and no lists read either "
                     "side cover it)".format(date))
     return read
+
+
+# -- party at the vote before Hansard: the Chief Electoral Officer's reports --
+#
+# Christopher, 7 October 2026: before the Hansard member lists (58-3 on),
+# take the party a member was ELECTED under from the Chief Electoral Officer's
+# report tabled in the House, and carry it only to the first Hansard list
+# that agrees. The reports, as legnb.ca's tabled-documents listings name them
+# (never constructed):
+#   * 58th Legislature: "Report of the Chief Electoral Officer on the General
+#     Election of the Thirty-Eighth Legislative Assembly" (22 September 2014),
+#     58/1/tabled_documents/3/GeneralElectionGenerale2014.pdf; the Saint John
+#     East by-election of 17 November 2014 (58/1/tabled_documents/3/...
+#     SaintJohnEstByElection...2014.pdf, Glen Savoie, PC, oath 2 December 2014);
+#     the Carleton by-election of 5 October 2015 (58/2/tabled_documents/1/
+#     ByElectionPartielle-Carleton.pdf, Stewart Fairgrieve, PC, oath 29
+#     October 2015). Each by-election report also prints the seat distribution
+#     on the oath date ("L 26, PC 22, PVNBGP 1"): the standings check below.
+#   * 57th Legislature (27 September 2010): the report is NOT tabled on
+#     legnb.ca (the 57-1 to 57-4 listings hold only the 2013 Kent by-election
+#     report), and Elections NB (electionsnb.ca, and its gnb.ca pages) answers
+#     our honest client 403. Not worked around: the 57th stays NULL.
+# A party on election day is stored as a 'party-election-result' term
+# (party_dated 0: never itself written onto a vote). It is CARRIED, as a
+# dated 'party-election' term, from the election (or the by-election oath)
+# to the member's first Hansard list only when that list prints the same
+# party. A member with no Hansard list in the Legislature (Alward resigned
+# in May 2015) is carried to the end of his roster term only when every
+# seat distribution the by-election reports print within it reconciles with
+# the election parties of the members then sitting; otherwise, and for a
+# member whose first Hansard party differs (a floor-crosser), nothing is
+# carried: no party in the uncertain window, as for Nova Scotia.
+
+TABLED = BASE + "/en/house-business/tabled-documents/{0}/{1}"
+ELECTION_RESULT = "party-election-result"
+ELECTION_SOURCE = "party-election"
+# The legislatures whose earlier sessions have no Hansard member lists.
+ELECTION_REPORT_LEGISLATURES = (57, 58)
+# Report codes, in the Hansard legend's own names, so one party is one string.
+PARTY_CODES = {"PC": "Progressive Conservative Party of New Brunswick", "L": "Liberal Party of New Brunswick",
+               "PVNBGP": "Green Party of New Brunswick", "PANB": "People’s Alliance of New Brunswick",
+               "NDP": "New Democratic Party", "IND": "Independent"}
+_CEO = re.compile(r"^Report of the Chief Electoral Officer", re.I)
+_RESULT_CODE = re.compile(r"\b(PC|L|NDP/ ?NPD|NBNDP/ ?NPDNB|PVNBGP|PANB(?:/AGNB)?|IND)\s+([\d,]+)(\s+E)?\b")
+_LONG_PARTY = re.compile(r"(Progressive Conservative Party|Liberal Party|Green Party|People’s Alliance|"
+                         r"New Democratic Party|Independent)")
+
+
+def _code(word):
+    w = re.sub(r"\s+", "", word or "")
+    return {"NDP/NPD": "NDP", "NBNDP/NPDNB": "NDP", "PANB/AGNB": "PANB"}.get(w, w)
+
+
+def list_election_reports(html):
+    """[(label, url)] of the Chief Electoral Officer's reports a session's
+    tabled-documents listing links."""
+    out = []
+    for href, inner in re.findall(r'<a[^>]*href="([^"]+\.pdf)"[^>]*>(.*?)</a>', html or "", re.S | re.I):
+        label = html_text(inner)
+        if _CEO.match(label):
+            out.append((label, _url(href)))
+    return out
+
+
+def parse_general_report(text):
+    """{'date', 'elected': [(record text, party code)]} from a general
+    election report's "Summary of Votes Received by Candidate" pages: one
+    record per candidate, starting with the district number; an elected
+    candidate's party code and votes are followed by "E"."""
+    m = re.search(r"(" + _MONTHS + r" \d{1,2}, \d{4}) NB General Election", text or "")
+    out = {"date": _date(m.group(1)) if m else None, "elected": []}
+    for page in (text or "").split("=====PAGE"):
+        if "Summary of Votes Received by Candidate" not in page:
+            continue
+        for chunk in re.split(r"(?m)^(?=\d{1,2} \S)", page):
+            flat = re.sub(r"\s+", " ", chunk).strip()
+            r = _RESULT_CODE.search(flat)
+            if r and r.group(3) and re.match(r"\d{1,2} ", flat):
+                out["elected"].append((flat, _code(r.group(1))))
+    return out
+
+
+def parse_by_election_report(text):
+    """{'name', 'party', 'oath', 'seats': {code: n}} from a by-election
+    report: the elected candidate's block (name, district, party affiliation)
+    and the "Distribution of seats in the Legislative Assembly as of <oath
+    date>" (note (**): the date of the elected candidate's oath)."""
+    flat = re.sub(r"\s+", " ", text or "")
+    out = {"name": None, "party": None, "oath": None, "seats": {}}
+    m = re.search(r"Adresse de résidence ([A-ZÀ-Þ][\w’'\-]+(?: [A-ZÀ-Þ]\.)?(?: [A-ZÀ-Þ][\w’'\-]+)+?) "
+                  r".{0,80}?" + _LONG_PARTY.pattern, flat)
+    if m:
+        out["name"], long_name = m.group(1), m.group(2)
+        out["party"] = {"Progressive Conservative Party": "PC", "Liberal Party": "L", "Green Party": "PVNBGP",
+                        "People’s Alliance": "PANB", "New Democratic Party": "NDP",
+                        "Independent": "IND"}[long_name]
+    s = re.search(r"Distribution of seats in the Legislative Assembly as of (" + _MONTHS + r" \d{1,2}, \d{4})", flat)
+    if s:
+        out["oath"] = _date(s.group(1))
+        # the table prints after the heading (Saint John East, 2014) or, in
+        # the text pypdf gives, before it (Carleton, 2015)
+        seat = r"\b(L|PC|NBNDP/NPDNB|NDP/NPD|PANB/AGNB|PVNBGP|IND) (\d+)\b"
+        found = re.findall(seat, flat[s.end():s.end() + 600])
+        if len(found) < 3:
+            found = re.findall(seat, flat[max(0, s.start() - 700):s.start()])
+        for code, n in found:
+            out["seats"].setdefault(_code(code), int(n))
+    return out
+
+
+def _roster_members(conn, legislature):
+    return conn.execute(
+        "SELECT DISTINCT m.member_key, m.given, m.surname FROM prov_members m JOIN prov_member_terms t "
+        "ON t.prov=m.prov AND t.member_key=m.member_key WHERE m.prov=? AND t.legislature=? "
+        "AND t.source LIKE 'journal-%'", (PROV, legislature)).fetchall()
+
+
+def match_elected(records, members):
+    """{member_key: party code}: a member is the ONE elected record carrying
+    their surname as a word (and, when several do, their first given name
+    too). Unique-or-nothing."""
+    out, problems = {}, []
+    for key, given, surname in members:
+        sur = r"\b" + re.escape(pn.fold(surname)) + r"\b"
+        hits = [r for r in records if re.search(sur, pn.fold(r[0]))]
+        if len(hits) > 1 and given:
+            first = pn.fold(clean_given(given)).split()[0]
+            hits = [r for r in hits if re.search(r"\b" + re.escape(first) + r"\b", pn.fold(r[0]))]
+        if len(hits) == 1:
+            out[key] = hits[0][1]
+        else:
+            problems.append("{0}: {1} elected record(s)".format(key, len(hits)))
+    return out, problems
+
+
+def fetch_election_results(ctx, legislature):
+    """Read the Chief Electoral Officer's reports tabled in the Legislature's
+    first two sessions and store each member's party on election day
+    (ELECTION_RESULT terms). Once per Legislature; returns members stored."""
+    have = ctx.conn.execute("SELECT COUNT(*) FROM prov_member_terms WHERE prov=? AND legislature=? AND source=?",
+                            (PROV, legislature, ELECTION_RESULT)).fetchone()[0]
+    if have and not ctx.refresh:
+        return have
+    reports = []
+    for sess in (1, 2):
+        html = ctx.text(TABLED.format(legislature, sess), "tabled-{0}-{1}".format(legislature, sess))
+        reports += list_election_reports(html or "")
+    general = [u for l, u in reports if "general election" in l.lower()]
+    byes = [u for l, u in reports if "by-election" in l.lower()]
+    if not general:
+        ctx.gap("nb {0}: no report of the Chief Electoral Officer on the general election is tabled on legnb.ca "
+                "(tabled documents of {0}-1 and {0}-2), and Elections NB answers 403; votes before the first "
+                "Hansard member list carry no party".format(legislature))
+        return 0
+    members = _roster_members(ctx.conn, legislature)
+    results = {}
+    try:
+        raw = ctx.bytes(general[0], "ceo-general-{0}".format(legislature))
+        rep = parse_general_report(pdf_text(raw)) if raw else None
+    except Unreadable as exc:
+        ctx.gap("nb {0}: election report {1}: {2}".format(legislature, general[0], exc))
+        rep = None
+    if rep:
+        got, problems = match_elected(rep["elected"], members)
+        for key, code in got.items():
+            results[key] = (code, rep["date"], general[0])
+    checkpoints = []
+    for url in byes:
+        try:
+            raw = ctx.bytes(url, "ceo-bye-{0}".format(legislature))
+            b = parse_by_election_report(pdf_text(raw)) if raw else None
+        except Unreadable as exc:
+            ctx.gap("nb {0}: by-election report {1}: {2}".format(legislature, url, exc))
+            continue
+        if not b or not b["name"] or not b["party"] or not b["oath"]:
+            ctx.gap("nb {0}: by-election report {1} not read (elected candidate, party or oath date)".format(
+                legislature, url))
+            continue
+        got, _p = match_elected([(b["name"], b["party"])], [m for m in members if m[0] not in results])
+        if len(got) == 1:
+            key = next(iter(got))
+            results[key] = (b["party"], b["oath"], url)
+        else:
+            ctx.gap("nb {0}: by-election report {1}: {2!r} matches no single member".format(legislature, url, b["name"]))
+        if b["seats"]:
+            checkpoints.append((b["oath"], b["seats"], url))
+    unmatched = [m[0] for m in members if m[0] not in results]
+    for key in unmatched:
+        ctx.gap("nb {0}: {1} not found among the elected in the Chief Electoral Officer's reports; no party "
+                "before the first Hansard list".format(legislature, key))
+    if ctx.dry_run:
+        return len(results)
+    for key, (code, date, url) in results.items():
+        ps.replace_terms(ctx.conn, PROV, key, [{"legislature": legislature, "party": PARTY_CODES.get(code, code),
+                                                "riding": None, "start": date, "end": None, "party_dated": 0}],
+                         ELECTION_RESULT, legislature=legislature)
+    ctx.conn.execute("DELETE FROM prov_member_terms WHERE prov=? AND legislature=? AND source=?",
+                     (PROV, legislature, ELECTION_RESULT + "-standings"))
+    for date, seats, url in checkpoints:
+        ctx.conn.execute(
+            "INSERT INTO prov_member_terms (prov, member_key, legislature, party, riding, start, end, party_dated, "
+            "source) VALUES (?,?,?,?,?,?,?,0,?)",
+            (PROV, "_standings", legislature, json.dumps(seats, sort_keys=True), url, date, date,
+             ELECTION_RESULT + "-standings"))
+    ctx.conn.commit()
+    ctx.log("  nb {0}: party on election day for {1} member(s) from the Chief Electoral Officer's report(s); "
+            "{2} seat distribution(s)".format(legislature, len(results), len(checkpoints)))
+    return len(results)
+
+
+def carry_election_party(conn, legislature, log=print):
+    """Derive the dated ELECTION_SOURCE terms (see the block comment above).
+    Returns (carried, withheld)."""
+    rows = conn.execute("SELECT member_key, party, start FROM prov_member_terms WHERE prov=? AND legislature=? "
+                        "AND source=?", (PROV, legislature, ELECTION_RESULT)).fetchall()
+    if not rows:
+        return 0, 0
+    elected = {k: (p, s) for k, p, s in rows}
+    roster = {}
+    for k, s, e in conn.execute("SELECT member_key, start, end FROM prov_member_terms WHERE prov=? AND "
+                                "legislature=? AND source LIKE 'journal-%'", (PROV, legislature)):
+        roster.setdefault(k, []).append((s, e))
+    # standings: every seat distribution must equal the count of election
+    # parties among the members whose roster terms cover its date
+    reconciled = True
+    for seats, date in conn.execute("SELECT party, start FROM prov_member_terms WHERE prov=? AND legislature=? "
+                                    "AND source=?", (PROV, legislature, ELECTION_RESULT + "-standings")):
+        want = {c: n for c, n in json.loads(seats).items() if n}
+        have = {}
+        for k, terms in roster.items():
+            # sitting on the date: from the earlier of the election (or oath) and
+            # the first roster term to the last roster term's end, so the days
+            # between two sessions count (Carleton's oath, 29 October 2015)
+            starts = [s for s, e in terms if s] + ([elected[k][1]] if k in elected and elected[k][1] else [])
+            ends = [e for s, e in terms]
+            last = None if None in ends else max(ends)
+            if k in elected and starts and min(starts) <= date and (last is None or last >= date):
+                code = next((c for c, name in PARTY_CODES.items() if name == elected[k][0]), elected[k][0])
+                have[code] = have.get(code, 0) + 1
+        if have != want:
+            reconciled = False
+            log("  nb {0}: the seat distribution of {1} ({2}) does not reconcile with the election parties of the "
+                "members then sitting ({3})".format(legislature, date, want, have))
+    carried = withheld = 0
+    for key, (party, start) in elected.items():
+        first = conn.execute("SELECT party, start FROM prov_member_terms WHERE prov=? AND member_key=? AND "
+                             "legislature=? AND source=? ORDER BY start LIMIT 1",
+                             (PROV, key, legislature, PARTY_SOURCE)).fetchone()
+        if first:
+            end = first[1] if first[0] == party else None
+        else:
+            ends = [e for s, e in roster.get(key, [])]
+            end = (max(ends) if ends and None not in ends else None) if reconciled else None
+        if end and start and end >= start:
+            ps.replace_terms(conn, PROV, key, [{"legislature": legislature, "party": party, "riding": None,
+                                                "start": start, "end": end, "party_dated": 1}],
+                             ELECTION_SOURCE, legislature=legislature)
+            carried += 1
+        else:
+            conn.execute("DELETE FROM prov_member_terms WHERE prov=? AND member_key=? AND legislature=? AND source=?",
+                         (PROV, key, legislature, ELECTION_SOURCE))
+            withheld += 1
+            log("  nb {0}: {1}'s election party ({2}) not carried ({3})".format(
+                legislature, key, party, "first Hansard list prints " + first[0] if first else
+                "no Hansard list, standings not reconciled"))
+    conn.commit()
+    return carried, withheld
 
 
 def make_resolver(conn):
@@ -1763,6 +2042,15 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
     if party and days:
         stats["party_lists"] = fetch_party_lists(ctx, legislature, sess, pn.Resolver.from_conn(ctx.conn, PROV),
                                                  days)
+    if party and legislature in ELECTION_REPORT_LEGISLATURES:
+        # Before Hansard: the Chief Electoral Officer's reports, carried to the
+        # first agreeing Hansard list; derived again on every run, so a later
+        # session's lists reach the earlier sessions' votes, and the whole
+        # Legislature's stored votes are refreshed without re-reading a Journal.
+        stats["election_results"] = fetch_election_results(ctx, legislature)
+        stats["election_carried"], stats["election_withheld"] = carry_election_party(ctx.conn, legislature,
+                                                                                     log=ctx.log)
+        ps.refresh_party(ctx.conn, PROV, pn.Resolver.from_conn(ctx.conn, PROV), legislature)
     n, with_party = ps.refresh_party(ctx.conn, PROV, pn.Resolver.from_conn(ctx.conn, PROV), legislature, sess)
     stats["votes_with_party"] = "{0}/{1}".format(with_party, n)
     ctx.conn.commit()

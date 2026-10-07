@@ -37,6 +37,10 @@ on:
         description: "Seconds between requests to one host (at least 2)"
         type: string
         default: "2"
+      show_links:
+        description: "Links printed per seed page (0 for a long list of seeds)"
+        type: string
+        default: "150"
 
 permissions:
   contents: read
@@ -62,13 +66,15 @@ jobs:
           FOLLOW: ${{ inputs.follow }}
           MAX: ${{ inputs.max }}
           DELAY: ${{ inputs.delay }}
+          SHOW_LINKS: ${{ inputs.show_links }}
         run: |
           if ! [[ "$MAX" =~ ^[0-9]+$ ]]; then MAX=10; fi
           # 250 pages at a 10 s Crawl-delay is 42 minutes: inside the timeout.
           if [ "$MAX" -gt 250 ]; then MAX=250; fi
           if ! [[ "$DELAY" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then DELAY=2; fi
+          if ! [[ "$SHOW_LINKS" =~ ^[0-9]+$ ]]; then SHOW_LINKS=150; fi
           python3 tools/probe_hosts.py --out probe-out --max "$MAX" --delay "$DELAY" \
-            --follow "$FOLLOW" $URLS | tee probe-out.log
+            --show-links "$SHOW_LINKS" --follow "$FOLLOW" $URLS | tee probe-out.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:

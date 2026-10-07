@@ -254,7 +254,12 @@ jobs:
           # every mid-week Deploy tracker run, which ships the committed
           # tree, put the 17 August front page back in front of partners.
           # .gitignore keeps .vercel/ and .env.local out.
-          git add config/debate_watch.yaml data/ editions/ reviews/ docs/judge-eval.md partner_site/
+          # docs/mp-votes.html too (7 October 2026): tools/make_vote_tracker.py
+          # writes the public and the partner page together, and since Monday
+          # began committing all of partner_site/ (2 October) the public copy
+          # was left stale in git -- the two builds the suite holds
+          # byte-identical diverged at the 5 October publish.
+          git add config/debate_watch.yaml data/ editions/ reviews/ docs/judge-eval.md docs/mp-votes.html partner_site/
           git diff --cached --quiet || git commit -m "Monday publish: $(date -u +%Y-%m-%dT%H:%M)Z"
           # The sidecar MUST land: the store was already published above,
           # so a failed push leaves the release ahead of the repo -- the

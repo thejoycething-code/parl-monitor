@@ -23,10 +23,22 @@ nb:
       Legislature. Its journals listing links no compiled Journal, nor do
       56-1 to 56-3's; the site lists only current members; Elections NB
       answers 403; no later session of the 56th exists to bridge from. The
-      Legislative Library holds the compiled Journals on request.
+      compiled Journal was requested from the Legislative Library, 7 Oct 2026
+      (Christopher).
   - contains: "(no roster for 56-4; "
-    reviewed: 2026-10-02
-    why: "The 7 recorded divisions of 56-4 in 2010: no roster (above), so no name can be resolved."
+    reviewed: 2026-10-07
+    why: >-
+      The 7 recorded divisions of 56-4 in 2010: no roster (above), so no name
+      can be resolved. The compiled Journal was requested from the Legislative
+      Library, 7 Oct 2026.
+  - contains: "nb 57: no report of the Chief Electoral Officer on the general election is tabled"
+    reviewed: 2026-10-07
+    why: >-
+      The 2010 general election report is not among the tabled documents of
+      57-1 to 57-4 on legnb.ca (57-3 holds only the 2013 Kent by-election
+      report), and Elections NB (electionsnb.ca and its gnb.ca pages) answers
+      our honest client 403, which is not worked around. The 57th Legislature's
+      votes carry no party (Christopher, 7 October 2026: "the 57th stays NULL").
   - contains: "the Hansard listing names no transcript for the session"
     reviewed: 2026-10-02
     why: >-
@@ -301,3 +313,104 @@ nl:
   - contains: "nl-50-1/62: the progress table dates Second Reading to 2022-05-18"
     reviewed: 2026-10-07
     why: "18 May 2022: second reading of Bill 62 began and the debate was adjourned ('I move that we adjourn debate on Bill 62')."
+
+ns:
+  # Nova Scotia: the 2010 backfill (CI runs 37076568654 and 37108083021, 3
+  # October 2026), re-read on a scratch store from Hansard fetched from CI on 7
+  # October 2026 (probe-hosts runs 37568416383, 37572696872). What is left is
+  # the record's own: a list that does not hold the names the Clerk counted.
+  # The tally check is not loosened for any of them, so none places anyone.
+  - contains: "ns-61-5-2013-04-23-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      23 April 2013, the first division (21-26). Hansard prints 25 NAYS and
+      the Clerk's count is "For, 21. Against, 26." Bill Estabrooks and Graham
+      Steele vote in the day's second division and are in neither list here;
+      which one the count includes cannot be read from the record.
+  - contains: "ns-62-2-2015-05-06-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      6 May 2015, Bill 115 (28-14). Hansard prints 26 YEAS and the Clerk
+      counted 28; Diana Whalen, Leo Glavine and Randy Delorey vote in the
+      day's second division and are in neither list here.
+  - contains: "ns-63-1-2017-10-13-2: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      13 October 2017, second reading of Bill 48 (25-23). Hansard prints 21
+      NAYS and the Clerk counted 23; before the count the Speaker records
+      that the member for Halifax Chebucto "changed his vote and it will be
+      recorded as 'no'". Claudia Chender and Lisa Roberts vote in the day's
+      other divisions and are in neither list here.
+  - contains: "ns-63-3-2021-04-14-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      14 April 2021, a motion carried 45-0 (members in the Chamber and
+      virtually). Hansard prints 44 names; Premier Iain Rankin is not among
+      them.
+  - contains: "ns-64-1-2022-10-18-2: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      18 October 2022, an amendment defeated 9-27. Hansard prints 26 NAYS and
+      the Clerk counted 27; Premier Tim Houston is in neither list.
+  - contains: "ns-64-1-2022-10-19-2: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      19 October 2022, second reading of Bill 211 (50-0). Hansard prints
+      "Larry Harrison" twice among the 50 names; Tory Rushton and Lisa
+      Lachance vote in the day's other divisions and are not printed here.
+      Who the second "Larry Harrison" is cannot be read from the record.
+  - contains: "ns-64-1-2023-04-11-2: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      11 April 2023, third reading of Bill 316 (28-17). Hansard prints 27
+      YEAS and the Clerk counted 28; Premier Tim Houston is in neither list,
+      and Rafah DiCostanzo and Trevor Boudreau vote in the second reading an
+      hour before and are in neither list here.
+  - contains: "ns-64-1-2023-10-24-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      24 October 2023, a motion carried 28-14. Hansard prints the 14 NAYS and
+      then eight of them again ("Hon. Colton LeBlanc   Lisa  Lachance", "Hon.
+      Jill Balser   Hon.  Tony Ince", ...) beside the rest of the YEAS, so the
+      lines cannot be placed by the Clerk's count.
+  - contains: "ns-65-1-2025-02-26-2: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      26 February 2025, a motion defeated 12-40. Hansard prints 39 NAYS and
+      the Clerk counted 40; Premier Tim Houston is in neither list, and Marco
+      MacLeod votes in the day's other divisions and is not printed here.
+  - contains: "ns-65-1-2025-02-26-3: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      26 February 2025, a motion carried 40-12. Hansard prints 38 YEAS and
+      the Clerk counted 40; Premier Tim Houston is in neither list, and Damian
+      Stoilov and Danny MacGillivray vote in the day's other divisions and are
+      not printed here.
+  # Readings the bill pages date to a day whose Hansard holds no question for
+  # them. The division (or the decision) is there; its stage is not printed.
+  - contains: "ns-63-2/203: the bill page says Third Reading passed on 2019-10-25"
+    reviewed: 2026-10-07
+    why: >-
+      Bill 203 (Crown Attorneys' Labour Relations). Hansard of 25 October 2019
+      records the division after a point of order as "We'll now move
+      on with the vote on Bill No. 203."; the motion is never restated, so the
+      division is stored on Bill 203 as a Motion, not as its third reading.
+  - contains: "ns-64-1/109: the bill page says Second Reading passed on 2022-03-31"
+    reviewed: 2026-10-07
+    why: >-
+      Bill 109 (Income Tax Act, fertility and surrogacy rebate). Hansard of 31
+      March 2022 prints "The motion is for second reading of Bill No. 109." and
+      goes straight on to Bill 112: no decision is printed.
+  - contains: "ns-65-1/201: the bill page says Second Reading passed on 2026-02-27"
+    reviewed: 2026-10-07
+    why: >-
+      Bill 201 (Justice and Social Services). Hansard of 27 February 2026 puts
+      the question as "Is the House ready for the question?" and records the
+      division with no motion named; it is stored as a Motion.
+  - contains: "ns-65-1/247: the bill page says Third Reading passed on 2026-03-25"
+    reviewed: 2026-10-07
+    why: >-
+      Bill 247. The question was put on 24 March 2026; Hansard of 25 March
+      opens "we will finish where we left off yesterday" and "The Clerk will
+      conduct a recorded vote on Bill No. 247.", so the division (carried
+      37-12) is stored on Bill 247 as a Motion.
