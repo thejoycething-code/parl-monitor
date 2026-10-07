@@ -1101,10 +1101,11 @@ UNANIMOUS = re.compile(r"(?:it\s+is\s+)?unanimous[,:]?\s+(?:(?:the\s+)?" + _Q + 
 # in favour or against the resolution' (30 May 2022); 'All in favour of the
 # motion, please stand' and 'All opposed?' (27 October 2011); 'All those in
 # support of the motion' (2 April 2014); 'All those please signify by
-# standing' for the Ayes (20 March 2019). The words after the side
+# standing' for the Ayes (20 March 2019); 'all Members who are in favour of
+# the motion to adjourn, to please rise' (26 April 2018). The words after the side
 # do not matter: a call is a division call only when the Clerk answers it
 # with names (_answer).
-_CALL = re.compile(r"\b(?:All\s+(?:of\s+)?)?those\s+(?:Members\s+)?"
+_CALL = re.compile(r"\b(?:All\s+(?:of\s+)?)?(?:those\s+(?:Members\s+)?|Members\s+who\s+are\s+)"
                    r"(?:(?P<ag>not\s+in\s+favou?r(?:\s+or\s+against)?|against|opposed)|"
                    r"(?P<fav>in\s+favou?r|in\s+support|please\s+signify\s+by\s+standing))\b|"
                    r"\bAll\s+(?:of\s+)?those\s+(?P<for>for)\b|"
@@ -1117,7 +1118,7 @@ _INTERJECTION = re.compile(r"(?i)^\s*(?:(?:order,?\s+please|order|okay,?\s+pleas
 # The Clerk reading something other than names after a call.
 _NOT_NAMES = re.compile(r"\s*(?:A\s+bill|An\s+Act|Bill\s+\d|Clauses?\b|Be\s+it\s+enacted|Motion\b|Title\b|"
                         r"(?:The\s+)?Schedule|Subheads?\b|Heads?\b|The\s+total|WHEREAS|Resolution\b|That\b|[\"\u201c]|"
-                        r"(?:The\s+)?(?:first|second|third)\s+reading)", re.I)
+                        r"(?:The\s+)?(?:first|second|third)\s+reading|Carried\b|No\b|Agreed\b)", re.I)
 _RISE = re.compile(r"please\s+(?:rise|stand)|signify\s+by\s+standing", re.I)
 # A speaker label ends a list of names: 'SOME HON. MEMBERS:', 'MR. SPEAKER:',
 # 'CLERK (Barnes):'. Names are read in mixed case, so they never match.
@@ -1267,6 +1268,12 @@ def _answer(text, call):
     if rise:
         return clerk
     between = text[call.end():clerk.start()]
+    # ...and the call must be a whole sentence: 'All those in favour – CLERK:
+    # The independent Member is not here, so you need to ring the bells' (5 May
+    # 2026) is the Clerk interrupting.
+    last = text[call.end():(label.start() if label and label.start() < clerk.start() else clerk.start())]
+    if not re.search("[?.][\'\u2019]?\\s*$", last):
+        return None
     if len(own) > 100 or re.search(r"(?i)\b(?:carried|on\s+motion|defeated)\b", between) or \
             re.search(r"(?i)MEMBERS?\s*:\s*['\u2018\u2019]?\s*(?:aye|nay)\b", between):
         return None
@@ -1331,6 +1338,10 @@ def _read_list(window, start, limit=None):
     if not again:
         return names, end
     resumed = _RESUME.match(window, again.start())
+    if re.match(r"\s*(?:(?:Mr\.|Madam|Mister)\s+)?(?:Speaker|Chair)\b", window[again.end():again.end() + 40], re.I):
+        # the Clerk addressing the chair reads the count, not names: 'CLERK:
+        # Speaker, on the amendment, the ayes: ...' (22 April 2026)
+        return names, end
     more, more_end = _read_list(window, resumed.end() if resumed else again.end(), limit)
     if not more:
         return names, more_end            # the Clerk went on to read the count

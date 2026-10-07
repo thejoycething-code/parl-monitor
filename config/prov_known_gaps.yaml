@@ -206,3 +206,98 @@ mb:
     why: >-
       The Speech from the Throne, a hand-made page with no event tables and no
       division.
+
+# Newfoundland and Labrador: the 2010 backfill (CI run 37044556156), re-read
+# end to end on a scratch store, 7 October 2026. What is left is the record's
+# own; each entry names the evidence.
+nl:
+  - contains: "nl attendance 2010: no members parsed"
+    reviewed: 2026-10-07
+    why: >-
+      The Members' Attendance summaries for 2009 and 2010 are scans with no
+      text layer, so 2010 has no roster and cannot be bridged (the bridge
+      needs the summaries either side). OCR, or the 2007 general election and
+      2008-2010 by-election records, would be needed: a decision for
+      Christopher.
+  - contains: "nl-46-3-2010-05-19-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      No 2010 roster (above); and the record prints no count: 'Seeing nobody
+      is standing, the Chair declares the resolution carried unanimously.'
+  - contains: "nl-46-3-2010-06-14-1: tally check failed"
+    reviewed: 2026-10-07
+    why: "No 2010 roster (above): no name can be resolved."
+  - contains: "nl-46-3-2010-06-23-1: tally check failed"
+    reviewed: 2026-10-07
+    why: "No 2010 roster (above): no name can be resolved."
+  - contains: "nl nl-46-2-2010-"
+    reviewed: 2026-10-07
+    why: "Speech days of 2010: no roster (above), so no speaker turn resolves."
+  - contains: "nl nl-46-3-2010-"
+    reviewed: 2026-10-07
+    why: "Speech days of 2010: no roster (above), so no speaker turn resolves."
+  - contains: "nl-47-2-2013-11-20-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      Hansard reads 34 names in favour and then 'The vote is unanimous in
+      favour of the motion, as amended.' No count is read, so there is
+      nothing to hold the names to.
+  - contains: "nl-47-3-2015-01-22-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      Committee of the Whole: 40 names read in favour; on a point of order the
+      Government House Leader withdraws the Premier's vote and the Clerk then
+      reads 'the ayes, thirty-nine'. The record does not say which label is
+      withdrawn in the list itself.
+  - contains: "nl-48-1-2016-05-12-1: tally check failed"
+    reviewed: 2026-10-07
+    why: "Committee of the Whole: names read, no count ('The motion is carried')."
+  - contains: "nl-48-1-2016-12-06-1: tally check failed"
+    reviewed: 2026-10-07
+    why: "Committee of the Whole: names read, no count."
+  - contains: "nl-50-2-2022-10-12-"
+    reviewed: 2026-10-07
+    why: "Committee of the Whole, 12 October 2022: names read, no count (five divisions)."
+  - contains: "nl-50-2-2022-10-18-1: tally check failed"
+    reviewed: 2026-10-07
+    why: "Committee of the Whole: names read, no count."
+  - contains: "nl-48-3-2018-10-31-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      Hansard prints 'Division CLERK (Barnes): Mr. Andrew Parsons, ...' with no
+      call for those in favour transcribed, then a point of order, then 'I'll
+      ask those against the motion, please rise. CLERK: Mr. Speaker, the ayes:
+      27; the nays: zero.' The list is not attributed to a side by the record.
+  - contains: "nl-50-1-2021-06-14-1: tally check failed"
+    reviewed: 2026-10-07
+    why: >-
+      21 names read against; three more members (E. Joyce, Lane, Trimper) are
+      added orally after a point of order ('He's against the motion, okay.
+      What about Mr. Lane?') and the count is the ayes 15, the nays 24. The
+      list as read does not contain them.
+  - contains: "nl-50-1-2022-10-03:"
+    reviewed: 2026-10-07
+    why: "The Hansard of 3 October 2022 is served truncated (no closing </html>)."
+  - contains: "nl-46-3/6: the progress table dates Second Reading to 2010-05-31"
+    reviewed: 2026-10-07
+    why: "The Hansard of 31 May 2010 records no second reading of Bill 6: a progress-table date error."
+  - contains: "the progress table dates Third Reading to 2012-05-02"
+    reviewed: 2026-10-07
+    why: >-
+      Bills 3, 5 and 9 of 47-1: the Hansard of 2 May 2012 records no third
+      reading at all ('read a third' does not occur in it).
+  - contains: "nl-47-1/33: the progress table dates Second Reading to 2012-06-19"
+    reviewed: 2026-10-07
+    why: "The Hansard of 19 June 2012 reads Bills 37 and 38 a second time, not Bill 33."
+  - contains: "nl-47-3/8: the progress table dates Second Reading to 2014-05-22"
+    reviewed: 2026-10-07
+    why: "The Hansard of 22 May 2014 reads Bills 4 and 7 a second time, not Bill 8."
+  - contains: "nl-47-3/24: the progress table dates Second Reading to 2014-06-05"
+    reviewed: 2026-10-07
+    why: >-
+      5 June 2014: by unanimous consent 'Bill 24 will not be debated in second
+      reading'; the day's Hansard records its third reading and no second
+      reading line.
+  - contains: "nl-50-1/62: the progress table dates Second Reading to 2022-05-18"
+    reviewed: 2026-10-07
+    why: "18 May 2022: second reading of Bill 62 began and the debate was adjourned ('I move that we adjourn debate on Bill 62')."

@@ -705,8 +705,18 @@ class Backfill2010OwedTests(unittest.TestCase):
         self.assertEqual((sp.day_done(conn, "a"), sp.day_done(conn, "b")), (False, True))
 
 
+class Backfill2010SpeechTests(unittest.TestCase):
+    def test_a_bold_opened_before_the_paragraph_is_still_a_speaker(self):
+        # 12 December 2012: '<b>\n<p ...>MR. SPEAKER (Wiseman): </b>Order, please!</p>'
+        # -- the day read as 'no speaker turns parsed'
+        from src.ingest import prov_nl_hansard as nh
+        turns = nh.parse_day(fx("nl_hansard_121212_head.htm"))
+        self.assertEqual([t["label"] for t in turns][:2], ["MR. SPEAKER (Wiseman)", "SOME HON. MEMBERS"])
+        self.assertIn("MR. EDMUNDS", [t["label"] for t in turns])
+
+
 class Backfill2010ReadTests(unittest.TestCase):
-    URL = "https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm"
+    URL ="https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm"
 
     def test_a_reviewed_recount_and_a_reread_that_replaces(self):
         rows = dated(2012, 2011, 2013)[0]

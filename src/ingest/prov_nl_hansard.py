@@ -41,6 +41,11 @@ NOT_RUBRICS = ("Division", "Recess", "")
 def parse_day(html):
     i = (html or "").find("<body")
     body = (html or "")[i:] if i >= 0 else (html or "")
+    # Some Word exports open the bold BEFORE the paragraph ('<b>\n<p ALIGN="LEFT"
+    # DIR="LTR">MR. SPEAKER (Wiseman): </b>Order, please!</p>', 12 December
+    # 2012 and late 2013): no speaker label was found and the day read as
+    # having no turns. The bold is moved inside the paragraph.
+    body = re.sub(r"(?i)<(b|strong)>\s*(<p\b[^>]*>)", r"\2<\1>", body)
     blocks = []
     for attrs, inner in _BLOCK.findall(body):
         text = sp.text_of(inner)
