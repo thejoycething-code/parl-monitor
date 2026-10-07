@@ -979,6 +979,16 @@ class AnnexLayoutTests(unittest.TestCase):
         self.assertIn(1002, got)
 
 
+class CancelledSittingTests(unittest.TestCase):
+    def test_a_cancelled_sitting_owes_no_pv(self):
+        """May 2020: the index lists 12 and 14 May as "Séance annulée" (the
+        COVID suspension) and 13 May with its PV."""
+        rows = {r["date"]: r for r in qc.parse_sittings(fx("qc_sittings_42-1_202005_trim.html"))}
+        self.assertEqual({d: r["cancelled"] for d, r in rows.items()},
+                         {"2020-05-12": True, "2020-05-13": False, "2020-05-14": True})
+        self.assertIsNone(rows["2020-05-12"]["pv_url"])
+
+
 class BodyNumberTests(unittest.TestCase):
     def test_a_number_printed_twice_in_the_body(self):
         """10 December 2021: "(Vote n° 180 en annexe)" for Bill 11 and again
@@ -1140,6 +1150,27 @@ class ReviewedQuebecTests(unittest.TestCase):
         votes, ok, _, _ = qc.resolve_division(body, self.annex, self.r, "2020-12-08", reviewed=rev,
                                               division_key="qc-42-1-2020-12-08-651")
         self.assertFalse(ok)
+
+    def test_a_list_printed_under_the_wrong_heading(self):
+        """7 December 2017, vote 404: the annex heads the 20 CAQ members
+        "CONTRE - 20"; the body and the Journal's proclaimed result say
+        Abstentions : 20 (config/prov_record.yaml, list_positions)."""
+        body, a = body_votes("20171207")[404], annex("20171207")[404]
+        self.assertEqual(len(a["labels"]["Nay"]), 20)
+        _, ok, note, _ = qc.resolve_division(body, a, backfill_resolver(), "2017-12-07")
+        self.assertFalse(ok)
+        rev = pn.ReviewedDivisions.load("qc")
+        votes, ok, note, _ = qc.resolve_division(body, a, backfill_resolver(), "2017-12-07", reviewed=rev,
+                                                 division_key="qc-41-1-2017-12-07-404")
+        self.assertTrue(ok, note)
+        self.assertEqual(sum(1 for v in votes if v["position"] == "Abstain"), 20)
+        self.assertIn("under Nay", note)
+        # Not while the record prints a different number there.
+        short = dict(a, labels=dict(a["labels"], Nay=a["labels"]["Nay"][:19]))
+        _, ok, note, _ = qc.resolve_division(body, short, backfill_resolver(), "2017-12-07", reviewed=rev,
+                                             division_key="qc-41-1-2017-12-07-404")
+        self.assertFalse(ok)
+        self.assertIn("not used", note)
 
     def test_a_body_total_replaced_only_while_it_prints_the_misprint(self):
         annex_v = {"counts": {"Yea": 2}, "labels": {"Yea": ["Picard (CAQ) (Soulanges)",

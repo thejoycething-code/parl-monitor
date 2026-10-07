@@ -203,7 +203,11 @@ def parse_sittings(page):
                        body)
         if not date:
             continue
-        out.append({"date": date, "label": head,
+        # "Séance annulée": the Assembly's own index says the sitting did
+        # not take place (the COVID suspension of 18 March - 14 May 2020,
+        # 9 May 2017, 8 June 2018), so there is no procès-verbal to owe.
+        cancelled = not pv and "seance annulee" in pn.fold(html_text(body))
+        out.append({"date": date, "label": head, "cancelled": cancelled,
                     "extraordinary": "extraordinaire" in pn.fold(head),
                     "pv_url": urljoin(BASE, _html.unescape(pv.group(1))) if pv else None,
                     "jd_url": urljoin(BASE, jd.group(1)) if jd else None})
@@ -1713,6 +1717,22 @@ def resolve_division(body_vote, annex_vote, resolver, date, legislature=None, re
                          "non-zero total is {0} {1}".format(nonzero[0], len(unheaded)))
         else:
             problems.append("{0} name(s) in the annex under no position heading".format(len(unheaded)))
+    if reviewed is not None and division_key and annex_vote is not None:
+        moved = {}
+        for position, names in labels.items():
+            to, why = reviewed.list_position(division_key, position, len(names))
+            if why:
+                notes.append(why)
+            if to != position and to not in labels and to not in moved:
+                moved[to] = (position, names)
+        if moved:
+            counts = dict(annex_vote.get("counts") or {})
+            for to, (frm, names) in moved.items():
+                labels.pop(frm)
+                labels[to] = names
+                if frm in counts:
+                    counts[to] = counts.pop(frm)
+            annex_vote = dict(annex_vote, counts=counts)
     if reviewed is not None and division_key and printed:
         for position in ps.POSITIONS:
             total, why = reviewed.total(division_key, position, printed.get(position))
@@ -2042,9 +2062,13 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         ctx.bill_map = {it["number"]: it["key"] for it in parse_bill_list(page or "")}
     records, pages = list_records(ctx, legislature, sess)
     stats.update({"records_listed": len(records), "listing_pages": pages})
-    missing = [r for r in records if not r["pv_url"]]
+    missing = [r for r in records if not r["pv_url"] and not r.get("cancelled")]
     for r in missing:
         ctx.gap("qc {0} {1}: the listing has no procès-verbal link".format(session, r["date"]))
+    cancelled = [r["date"] for r in records if r.get("cancelled")]
+    if cancelled:
+        ctx.log("  qc {0}: {1} sitting(s) the listing marks 'Séance annulée', no PV: {2}".format(
+            session, len(cancelled), " ".join(cancelled)))
     if ctx.dry_run:
         return stats
     stats["owed_missed"] = owe_missed(ctx, legislature, sess, records)
