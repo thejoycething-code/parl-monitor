@@ -95,7 +95,7 @@ def list_days(ctx, session):
 # general elections) resolve most of 2012-2015's turns, and a day stored 'ok'
 # is otherwise never read again. Turns the new roster still cannot resolve
 # (Committee of the Whole witnesses, 2010 with no roster) stay unresolved.
-REREAD_BEFORE = "2026-10-08"
+REREAD_BEFORE = "2026-10-07"   # the re-run is dispatched on the 7th (UTC); see prov_ns.REREAD_BEFORE
 
 
 def owe_unresolved(ctx, days):

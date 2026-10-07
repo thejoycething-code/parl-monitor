@@ -1671,7 +1671,7 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
 # 'it is unanimous, thirty-nine ayes', 'read a third, ordered passed'), so no
 # gap points at the days that need it, and the roster fixes change who a
 # label resolves to. The repair is by date, as New Brunswick's was.
-REREAD_BEFORE = "2026-10-08"
+REREAD_BEFORE = "2026-10-07"   # the re-run is dispatched on the 7th (UTC); see prov_ns.REREAD_BEFORE
 
 
 def owe_stale(ctx, records):
