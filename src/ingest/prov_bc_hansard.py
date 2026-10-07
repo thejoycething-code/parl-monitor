@@ -13,9 +13,19 @@ not read.
   <p class="SpeakerContinues">...</p>                     the same turn
   <table class="DivisionTable">                           a division: ends the turn
 
-WHO SPOKE: full names ("Hon. David Eby", "Korky Neufeld"), against the LIMS
-members API terms of the parliament (src/ingest/prov_bc.fetch_roster, read
-here once if the vote collector has not stored that parliament yet).
+That is the 2025- markup. Before it the label is an 'Attribution' span with
+the colon inside (2009-2017, upper-case and unquoted in 2015) or an
+'attribution' span with an id (2018-2024); the blocks are read with the vote
+reader's grammar (prov_bc._BLOCK), which knows every markup since 2009.
+Until 7 October 2026 only 2025- was read: the speeches backfill left 1,481
+days of 2010-2024 owed with "no speaker turns parsed".
+
+WHO SPOKE: full names ("Hon. David Eby", "Korky Neufeld") from 2025, initial
+and surname before ("Hon. P. Bell", "N. Macdonald"), against BC's dated terms
+of the day (the LIMS members API, and members the API's roster lacks found
+on the Hansard lists, source 'hansard-list'), unique-or-nothing, with the
+reviewed other surnames ('Herbert', 2009). The roster is read here once if
+the vote collector has not stored that parliament yet.
 """
 
 from __future__ import annotations
@@ -30,30 +40,40 @@ PROV = "bc"
 LANGUAGE = "en"
 CURRENT_SESSION = base.CURRENT_SESSION
 
-_BLOCK = re.compile(r'<p class="([^"]*)"[^>]*>(.*?)</p>|<table class="DivisionTable[^"]*"[^>]*>.*?</table>',
-                    re.S)
-_NAME = re.compile(r'^\s*(?:<a[^>]*>\s*</a>\s*)?<span class="Speaker-Name">(.*?)</span>\s*'
-                   r'(?:<span class="Bold">\s*:\s*</span>|:)?(.*)$', re.S)
+# The speaker label, in every markup since 2009, read on the vote reader's
+# block grammar (prov_bc._BLOCK: classes compared folded, upper-case and
+# unquoted markup, a paragraph never running into a table):
+#   2025-   <span class="Speaker-Name">Hon. Ravi Parmar</span><span class="Bold">:</span>
+#   2018-24 <span class="attribution" id="tt5945">S. Cadieux: </span>
+#   2009-17 <span class="Attribution">Hon. C. Oakes: </span>   (2015: <SPAN class=Attribution>)
+# Before 2025 a member is printed by initial and surname ("N. Macdonald"),
+# which the resolver matches against the day's terms, unique-or-nothing.
+_NAME = re.compile(r'^\s*(?:<a\b[^>]*>\s*</a>\s*)?<span\b[^>]*\bclass="?(?:Speaker-Name|attribution)"?[^>]*>(.*?)</span>\s*'
+                   r'(?:<span\b[^>]*\bclass="?Bold"?[^>]*>\s*:\s*</span>|:)?(.*)$', re.S | re.I)
 
 
 def parse_day(html):
     blocks = []
-    for m in _BLOCK.finditer(html or ""):
-        cls, inner = m.group(1), m.group(2)
-        if cls is None:
+    for m in base._BLOCK.finditer(html or ""):
+        cls, inner = m.group(1) or m.group(2), m.group(3)
+        # the printed page number inside a speech ('[ Page 5678 ]', 2009-2017) is not speech
+        inner = base._PAGE_NUMBER.sub(" ", inner or "")
+        if m.group(4) is not None:
             blocks.append(("break",))
             continue
-        if cls in ("Business-Heading", "Business-continued"):
+        k = base._klass(cls)
+        if k in ("businessheading", "businesscontinued", "proceduralheading", "procedureheading"):
             blocks.append(("rubric", sp.text_of(inner)))
-        elif cls == "Subject-Heading":
+        elif k == "subjectheading":
             blocks.append(("subject", sp.text_of(inner), sp.bill_number(sp.text_of(inner))))
-        elif cls.startswith("SpeakerBegins"):
+        elif k.startswith("speakerbegins"):
             lab = _NAME.match(inner)
             if lab:
-                blocks.append(("label", sp.text_of(lab.group(1)), sp.text_of(lab.group(2)).lstrip(": ")))
+                blocks.append(("label", sp.text_of(lab.group(1)).rstrip(": "),
+                               sp.text_of(lab.group(2)).lstrip(": ")))
             else:
                 blocks.append(("para", sp.text_of(inner)))
-        elif cls == "SpeakerContinues":
+        elif k == "speakercontinues":
             blocks.append(("para", sp.text_of(inner)))
         else:
             blocks.append(("proc", sp.text_of(inner)))
@@ -98,4 +118,6 @@ def read_day(ctx, day):
 
 
 def resolver(ctx):
-    return pn.Resolver.from_conn(ctx.conn, PROV)
+    # BC's dated terms, 'hansard-list' members included, and the reviewed
+    # other surnames ('Herbert', 2009)
+    return pn.Resolver.from_conn(ctx.conn, PROV).with_record(PROV)
