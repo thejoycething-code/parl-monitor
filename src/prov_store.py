@@ -651,15 +651,17 @@ def canonical_key(conn, prov, member, seats, legislature, same_person=()):
     return member["key"]
 
 
-def merge_split_members(conn, prov, same_person=(), log=print):
+def merge_split_members(conn, prov, same_person=(), log=print, keep=()):
     """Fold the second keys the store already holds into one per seat.
     Within one legislature, keys sharing a riding and a surname are one
     member when their given names agree (same_given; otherwise nothing is
     merged and it is logged); `same_person` adds reviewed sets of keys that
     are one member, across legislatures or under given names the guard
-    cannot match. The key kept is the one most votes already name (fewest
-    rows move). Votes, terms and bill sponsorships move to it in place, the
-    other member rows go; nothing is fetched. Returns [(kept, [merged])]."""
+    cannot match. The key kept is the one in `keep` (a reviewed entry's
+    `keep:`, Newfoundland's current spelling), else the one most votes
+    already name (fewest rows move). Votes, terms, speeches and bill
+    sponsorships move to it in place, the other member rows go; nothing is
+    fetched. Returns [(kept, [merged])]."""
     groups = {}
     for key, leg, riding, surname in conn.execute(
             "SELECT DISTINCT t.member_key, t.legislature, t.riding, m.surname FROM prov_member_terms t "
@@ -693,7 +695,7 @@ def merge_split_members(conn, prov, same_person=(), log=print):
             continue
         votes = {k: conn.execute("SELECT COUNT(*) FROM prov_votes WHERE member_key=? AND division_key LIKE ?",
                                  (k, like)).fetchone()[0] for k in keys}
-        kept = sorted(keys, key=lambda k: (-votes[k], k))[0]
+        kept = sorted(keys, key=lambda k: (k not in keep, -votes[k], k))[0]
         merged = []
         for k in sorted(keys - {kept}):
             if same_given(given_of(conn, prov, kept), given_of(conn, prov, k)) or \
@@ -710,6 +712,9 @@ def merge_split_members(conn, prov, same_person=(), log=print):
                          (kept, k, like))
             conn.execute("UPDATE prov_member_terms SET member_key=? WHERE prov=? AND member_key=?", (kept, prov, k))
             conn.execute("UPDATE prov_bills SET sponsor_key=? WHERE prov=? AND sponsor_key=?", (kept, prov, k))
+            # speeches too (7 October 2026): before, a merged key's speeches
+            # kept naming a member row that no longer existed
+            conn.execute("UPDATE prov_speeches SET member_key=? WHERE prov=? AND member_key=?", (kept, prov, k))
             conn.execute("DELETE FROM prov_members WHERE prov=? AND member_key=?", (prov, k))
         # the moved terms: one row per (legislature, party, riding, source)
         rows = conn.execute("SELECT rowid, legislature, party, riding, source, start, end FROM prov_member_terms "

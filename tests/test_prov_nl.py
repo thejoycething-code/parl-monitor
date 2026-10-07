@@ -735,6 +735,52 @@ class Roster2010Tests(unittest.TestCase):
                          ("kelvin-parsons", "kevin-parsons", "joan-burke"))
 
 
+class MergeTests(unittest.TestCase):
+    """Christopher, 7 October 2026: "Merge them". Five members with two (one
+    with three) keys become one each; nothing else merges."""
+
+    PEOPLE = {"joan-shea": ["joan-burke"], "thomas-osborne": ["tom-osborne"],
+              "sherry-gambin-walsh": ["sherry-walsh", "sheryl-gambin-walsh"],
+              "jordan-brown": ["jordon-brown"], "james-dinn": ["jim-dinn"]}
+
+    def store(self):
+        conn = db.init_db(db.connect(":memory:"))
+        keys = [k for kept, others in self.PEOPLE.items() for k in [kept] + others] + \
+            ["kelvin-parsons", "kevin-parsons", "sheila-osborne", "paul-dinn"]
+        for n, key in enumerate(keys):
+            given, _, surname = key.partition("-")
+            ps.upsert_member(conn, "nl", key, name=key, surname=surname.title(), given=given.title())
+            ps.replace_terms(conn, "nl", key, [{"legislature": None, "riding": "Seat {0}".format(n), "start": "2015-01-01",
+                                                "end": "2015-12-31", "party_dated": 0}], "summary-2015")
+            ps.store_division(conn, {"division_key": "nl-47-4-2015-05-0{0}-1".format(n % 9 + 1) + str(n),
+                                     "prov": "nl", "date": "2015-05-01", "seq": "1", "kind": "recorded",
+                                     "votes": [{"position": "Yea", "ordinal": 1, "raw_label": key,
+                                                "member_key": key}]})
+            conn.execute("INSERT INTO prov_speeches (speech_id, prov, member_key) VALUES (?, 'nl', ?)",
+                         ("s-" + key, key))
+        conn.commit()
+        return conn
+
+    def test_the_five_merge_and_nothing_else(self):
+        conn = self.store()
+        done = dict(nl.merge_members(conn, log=lambda *a: None))
+        self.assertEqual({k: sorted(v) for k, v in done.items()},
+                         {k: sorted(v) for k, v in self.PEOPLE.items()})
+        left = {r[0] for r in conn.execute("SELECT member_key FROM prov_members WHERE prov='nl'")}
+        self.assertEqual(left, set(self.PEOPLE) | {"kelvin-parsons", "kevin-parsons", "sheila-osborne", "paul-dinn"})
+        for kept, others in self.PEOPLE.items():
+            n = 1 + len(others)
+            self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_votes WHERE member_key=?", (kept,)).fetchone()[0], n)
+            self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_speeches WHERE member_key=?", (kept,)).fetchone()[0], n)
+            self.assertEqual(conn.execute("SELECT COUNT(*) FROM prov_member_terms WHERE member_key=?",
+                                          (kept,)).fetchone()[0], n)
+        self.assertEqual(nl.merge_members(conn, log=lambda *a: None), [])        # idempotent
+
+    def test_titles_and_surnames_follow_the_kept_key(self):
+        t = nl.Titled(nl.NameResolver(pn.Resolver({}, [])))
+        self.assertEqual((t.titles["thomas-osborne"], t.titles["tom-osborne"]), ("m", "m"))
+
+
 class Backfill2010SpeechTests(unittest.TestCase):
     def test_a_bold_opened_before_the_paragraph_is_still_a_speaker(self):
         # 12 December 2012: '<b>\n<p ...>MR. SPEAKER (Wiseman): </b>Order, please!</p>'

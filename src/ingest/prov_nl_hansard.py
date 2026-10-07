@@ -86,6 +86,8 @@ def list_days(ctx, session):
         (PROV, "{0}-07-01".format(y), "{0}-07-01".format(y))).fetchone()[0]]
     if missing and not ctx.dry_run:
         base.fetch_roster(ctx, leg, set(missing))
+    if not ctx.dry_run:
+        base.merge_members(ctx.conn, log=ctx.log)       # one key per member, as the vote collector keeps it
     return days
 
 

@@ -379,6 +379,20 @@ def load_same_person(prov, path=None):
     return out
 
 
+def load_same_person_keep(prov, path=None):
+    """The key each reviewed same_person entry says to KEEP (`keep:`,
+    optional; Newfoundland, 7 October 2026), as a set. It must be one of the
+    entry's keys. An entry without it keeps the key most votes already name."""
+    out = set()
+    for a in _reviewed(prov, "same_person", ("keys", "document", "verified_against", "why"), path):
+        if a.get("keep") is None:
+            continue
+        if str(a["keep"]) not in [str(k) for k in a["keys"]]:
+            raise ValueError("{0} same_person keep {1!r} is not one of {2!r}".format(prov, a["keep"], a["keys"]))
+        out.add(str(a["keep"]))
+    return out
+
+
 def load_vp_not_served(prov, path=None):
     """`vp_not_served:` -- sitting days whose Votes and Proceedings the
     legislature does not serve (the listed file is an error page, or a copy

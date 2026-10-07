@@ -915,6 +915,19 @@ def _bridge(ctx, reports, year, url):
     return n
 
 
+def merge_members(conn, log=print):
+    """One key per member. A member's key follows the summary's spelling, so
+    five people had two (Joan Burke/Shea, Tom/Thomas Osborne, Sherry/Sheryl
+    Gambin-Walsh, Jordan/Jordon Brown, Jim/James Dinn). The reviewed
+    `same_person` entries of config/prov_record.yaml join them through
+    prov_store.merge_split_members (votes, terms, speeches and sponsorships
+    re-keyed in place, nothing fetched), keeping each entry's `keep:` key.
+    Nothing else is merged: NL has no Hansard-cover seat terms, so only the
+    reviewed sets apply. Christopher, 7 October 2026: "Merge them"."""
+    return ps.merge_split_members(conn, PROV, same_person=pn.load_same_person(PROV), log=log,
+                                  keep=pn.load_same_person_keep(PROV))
+
+
 def make_resolver(conn):
     """The run's resolver: Newfoundland's NameResolver (with the reviewed
     other_surnames of config/prov_record.yaml: Joan Shea, 'Ms Burke' in 2012),
@@ -954,6 +967,14 @@ class Titled:
         self.base = getattr(inner, "base", inner)
         self.titles = {str(a["member"]): _title_class(a["title"])
                        for a in (load_titles() if titles is None else titles)}
+        # a title read under one key holds for every key of the same
+        # reviewed person (tom-osborne's 'Mr.' for thomas-osborne, the key
+        # kept since the merge of 7 October 2026)
+        for keys in pn.load_same_person(PROV):
+            got = {self.titles[k] for k in keys if k in self.titles}
+            if len(got) == 1:
+                for k in keys:
+                    self.titles.setdefault(k, next(iter(got)))
 
     def party_at(self, member_key, date, legislature=None):
         return self.inner.party_at(member_key, date, legislature)
@@ -1746,6 +1767,10 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         stats.update(fetch_bills(ctx, legislature, sess, ctx.tax, wl))
     if ctx.dry_run:
         return stats
+    # Every run, before anything is resolved: a year's roster read again
+    # recreates the key its summary spells, and the store may hold votes
+    # under the second key from before the merge was built.
+    stats["keys_merged"] = sum(len(m) for _k, m in merge_members(ctx.conn, log=ctx.log))
     ctx.nl_reviewed = pn.ReviewedDivisions.load(PROV)
     if not ctx.refresh:
         stats["owed_stale"] = owe_stale(ctx, records)

@@ -1101,6 +1101,71 @@ provinces:
           The summaries name her Shea for the whole of 2012, so "Ms Burke" in
           the twenty divisions of January-June 2012 resolved to nobody
           (read 7 October 2026).
+    same_person:
+      # One member, two (or three) keys: a key follows each summary's spelling.
+      # Merged by prov_nl.merge_members (prov_store.merge_split_members) on
+      # every collect, keeping `keep:` -- the spelling of the Assembly's
+      # current members page for a sitting member, else the spelling of the
+      # member's own later records. Christopher, 7 October 2026: "Merge them".
+      # Each seat had no by-election between the keys' years (the Elections NL
+      # by-election reports list none in these districts in those spans).
+      - keys: [joan-burke, joan-shea]
+        keep: joan-shea
+        document: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf
+        verified_against: >-
+          The summaries list "Burke, Joan" for St. George's - Stephenville
+          East in 2009-2011 and "Shea, Joan" for the same district in
+          2012-2014; the 2014 by-election report records "the resignation of
+          ... Joan Shea, on June 2, 2014". Hansard calls "the hon. the
+          Minister of Advanced Education and Skills. MS BURKE:" on 18 June
+          2012 (ga47session1/12-06-18.htm) and the same minister "MS SHEA:" on
+          26 November 2012 (ga47session1/12-11-26.htm). No record of the change
+          itself was found on assembly.nl.ca; the same seat, the same office
+          and no by-election between are the evidence.
+        why: >-
+          One member under her earlier and later surnames; joan-shea is the
+          name she sat under from 2012 and resigned under.
+      - keys: [tom-osborne, thomas-osborne]
+        keep: thomas-osborne
+        document: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-waterfordvalleyby-electionreport2024.pdf
+        verified_against: >-
+          The summaries list "Osborne, Tom" for St. John's South (2010-2014)
+          and Waterford Valley (2015-2018), and "Osborne, Thomas" for
+          Waterford Valley (2019-2023); the 2024 by-election report names the
+          member who left Waterford Valley Thomas Osborne. The Journal of 27
+          October 2011 prints "Mr. Tom Osborne" (Speaker nominations).
+        why: >-
+          One member; Thomas is the spelling of his later records and of the
+          by-election report on his resignation.
+      - keys: [sherry-walsh, sherry-gambin-walsh, sheryl-gambin-walsh]
+        keep: sherry-gambin-walsh
+        document: https://www.assembly.nl.ca/Members/members.aspx
+        verified_against: >-
+          The current members page (js/members-index.js) lists "Gambin-Walsh,
+          Sherry", Placentia - St. Mary's. The summaries list her for the same
+          district every year: "Sherry Gambin Walsh" given name first
+          (2015-2018, read as Walsh, Sherry Gambin), "Gambin-Walsh, Sherry"
+          (2019, 2025) and "Gambin-Walsh, Sheryl" (2020-2024). Hansard reads
+          "Sherry Gambin-Walsh" throughout.
+        why: One sitting member under three printings; the members page's spelling is kept.
+      - keys: [jordan-brown, jordon-brown]
+        keep: jordan-brown
+        document: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2019.pdf
+        verified_against: >-
+          The 2019 general election report: "The elected Member for the
+          district of Labrador West (Jordan Brown) was later affirmed on June
+          25, 2019." The summaries list "Brown, Jordan", Labrador West, in
+          2019-2023 and "Brown, Jordon", Labrador West, in 2025 only.
+        why: One member; "Jordon" is the 2025 summary's misprint.
+      - keys: [jim-dinn, james-dinn]
+        keep: james-dinn
+        document: https://www.assembly.nl.ca/Members/members.aspx
+        verified_against: >-
+          The current members page lists "Dinn, James", St. John's Centre; the
+          summaries list "Dinn, James", St. John's Centre, in 2019-2023 and
+          "Dinn, Jim", St. John's Centre, in 2025. The other Dinns sat for
+          Kilbride (John, 2010-2015) and Topsail - Paradise (Paul, 2019 on).
+        why: One sitting member; the members page's spelling is kept.
     titles:
       # The title Hansard prints for a member, read where it joins the title
       # to the full name. Used by src/ingest/prov_nl.Titled only for a label
