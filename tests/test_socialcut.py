@@ -172,8 +172,10 @@ class TrackTests(unittest.TestCase):
         self.assertEqual(sc.FONT, "Roboto")                             # bundled in docs/fonts
         self.assertIn("Style: Caption,Roboto,", ass)
         caption_style = [l for l in ass.splitlines() if l.startswith("Style: Caption,")][0].split(",")
-        self.assertEqual(caption_style[15], "3")                         # opaque box, no outline (Multimedia handbook)
-        self.assertEqual(caption_style[5], "&H00F48542&")                # box in Brand Blue #4285F4
+        self.assertEqual(caption_style[15], "1")                         # outline, no box (chosen 7 Oct 2026)
+        self.assertEqual(caption_style[5], "&H00000000&")                # thin black outline
+        self.assertEqual(caption_style[17], "0")                         # no shadow
+        self.assertLessEqual(float(caption_style[16]), 3.5)              # thin
 
     def test_colours(self):
         self.assertEqual(sc.ass_colour("#4285F4"), "&H00F48542&")

@@ -193,8 +193,8 @@ crop: centre
   "his or herself" became "themselves"; a whole clause was added to Rebecca Smith).
 * **Vertical is a full-height 9:16 crop**, placed per speaker, not a blurred
   letterbox: the speaker fills the frame. The landscape master is kept alongside.
-* **Captions are the spoken words** in white Roboto with no outline, on a Brand Blue
-  highlight box (Multimedia handbook, Subtitling Style Guide, social videos), one or two
+* **Captions are the spoken words** in clean white Roboto with a thin black outline,
+  no box and no shadow (chosen by Christopher from eight mock-ups, 7 October 2026), one or two
   lines of at most 30 characters and at most four words a line on the vertical (ten on
   the landscape speech cuts, five on 4:5),
   never crossing a sentence, every card centred on the same point (540, 1600) so
