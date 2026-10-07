@@ -25,7 +25,9 @@ lawful route to the names.
     of 29 Oct 2013, 16 Jun 2019, 7 Jun 2023 and 1 Apr 2026. Since electronic
     voting the Journal des débats prints totals only, so the PV is the only
     source of names; before it, the PV carries them too, and the Journal is
-    not needed for votes at all.
+    not needed for votes at all. Before autumn 2012 the annex prints
+    surnames only (is_bare); the 2010 backfill's repairs are listed in
+    docs/canada-provinces-scope.md ("The 2010 backfill").
   * PARTY AT THE VOTE is printed in the annex beside each name ("Dubé
     (IND)") and is stored exactly as printed: it is a fact of the record, not
     a join to a roster.
@@ -492,6 +494,12 @@ def parse_mandates(page):
 _PLACE = r"([A-ZÀ-Ý][\w'’]*(?:[\-–][\w'’]+)*(?:\s(?:[A-ZÀ-Ý]|de\s|des\s|du\s|la\s|l['’])[\w'’\-–]*)*)"
 _BIO_LEFT = re.compile(r"[^.]*\b(?:démission|décédée?|nommée?\s+(?:juge|sénat))[^.]*")
 _DATE_TXT = r"\d{1,2}(?:er)?\s+\S+\s+\d{4}"
+# A sentence about being elected to the ASSEMBLY: "Élu député libéral dans
+# Fabre en 2012.", "Réélu en 2014." -- not "Élue en 2019 vice-présidente de
+# l'Amicale des anciens parlementaires ..., puis présidente en 2022" (France
+# Dionne, member 1985-1997), which gave her a 43rd-legislature term from 2022
+# and made every "Dionne (CAQ)" of 2022-2026 ambiguous.
+_BIO_ELECTED = re.compile(r"(?:Élue?\s+députée?\b|Réélue?\s+(?:députée?\b|en\s+\d{4}|dans\b|aux\b|lors\b|à\s+l))")
 
 
 def parse_bio_mandates(page, elections):
@@ -507,7 +515,7 @@ def parse_bio_mandates(page, elections):
     out, riding = [], None
     # html_text joins <p> elements with no space: "démission.Élu député ..."
     for sentence in re.split(r"(?<=\.)\s*(?=[A-ZÀ-Ý])", text):
-        if not re.match(r"(?:Élue?|Réélue?)\b", sentence):
+        if not _BIO_ELECTED.match(sentence):
             continue
         m = re.search(r"\bdans\s+(?:la\s+circonscription\s+d(?:e\s+|['’]))?" + _PLACE, sentence) \
             or re.match(r"(?:Élue?|Réélue?)\s+députée?\s+d(?:e\s+|['’])" + _PLACE, sentence)
@@ -571,6 +579,47 @@ def link_ids(ridings, current):
                 continue
             key = (pn.fold(r["surname"]), pn.fold(r["given"]))
             r["member_id"] = by_name.get(key) or "x-" + re.sub(r"[^a-z0-9]+", "-", " ".join(key)).strip("-")
+
+
+def recheck_page_terms(ctx, elections, legislatures):
+    """Re-derive every lazily completed ('member-page') term from
+    ROSTER_FROM_YEAR on from the member's page, whenever the roster itself is
+    re-read. MemberPages.complete adds such terms only for a label nobody
+    matched, so a wrong one (France Dionne's 2022 term, from a sentence about
+    a former members' association) never met the parser that would now
+    refuse it: it made the label AMBIGUOUS, and an ambiguous label never
+    asks for the page again. A page that cannot be fetched keeps its terms
+    (the fetch is a gap). Returns the number of members whose terms changed."""
+    rows = ctx.conn.execute(
+        "SELECT DISTINCT t.member_key, m.page_url, m.party FROM prov_member_terms t "
+        "JOIN prov_members m ON m.prov=t.prov AND m.member_key=t.member_key "
+        "WHERE t.prov=? AND t.source='member-page' AND t.start>=? AND m.page_url IS NOT NULL "
+        "ORDER BY t.member_key", (PROV, "{0}-01-01".format(ROSTER_FROM_YEAR))).fetchall()
+    ctx.page_terms_checked = True
+    changed = 0
+    for key, url, party in rows:
+        if ctx.stop():
+            break
+        page = ctx.text(url, "member-" + key)
+        if page is None:
+            continue
+        mandates, left = parse_mandates(page), None
+        if not mandates:
+            mandates, left = parse_bio_mandates(page, elections)
+        have = {r[0] for r in ctx.conn.execute(
+            "SELECT start FROM prov_member_terms WHERE prov=? AND member_key=? AND source!='member-page'",
+            (PROV, key))}
+        terms = [t for t in mandate_terms(mandates, elections, party, legislatures, left=left)
+                 if t["start"] not in have]
+        old = sorted((r[0], r[1]) for r in ctx.conn.execute(
+            "SELECT start, end FROM prov_member_terms WHERE prov=? AND member_key=? AND source='member-page'",
+            (PROV, key)))
+        if sorted((t["start"], t["end"]) for t in terms) != old:
+            ps.replace_terms(ctx.conn, PROV, key, terms, "member-page")
+            changed += 1
+            ctx.log("  qc roster: member {0}'s page terms re-read: {1} -> {2}".format(
+                key, old, sorted((t["start"], t["end"]) for t in terms)))
+    return changed
 
 
 def fetch_roster(ctx):
@@ -646,6 +695,8 @@ def fetch_roster(ctx):
                          party=last["party"], sitting=1 if cur else (0 if current else None),
                          page_url=cur[4] if cur else m.get("href"))
         ps.replace_terms(ctx.conn, PROV, key, ts, "depcir")
+    recheck_page_terms(ctx, elections, legislatures)
+    ctx.page_terms_checked = True
     ctx.conn.commit()
     ctx.log("  qc roster: {0} riding(s) on {1} page(s), {2} member(s), {3} term(s); "
             "{4} sitting now, {5} completed from their member page".format(
@@ -861,7 +912,13 @@ _VOTE_MARK = re.compile(r"\(\s*Vote\s+n\s*[°o]\s*(\d+)\s+en\s+annexe\s*\)", re.
 _TOTALS = re.compile(r"Pour\s*:\s*(\d+)\s+Contre\s*:\s*(\d+)\s+Abstentions?\s*:\s*(\d+)", re.I)
 _RESULT = re.compile(r"((?:La|Le|Les|L['’])\s?[^.:;]{0,120}?\s(?:est|sont)\s+(?:adopté|rejeté)e?s?)\s+par\s+le\s+vote\s+suivant",
                      re.I)
-_BILL_NO = re.compile(r"projet\s+de\s+loi\s+n\s*[°o]?\s*(\d+)", re.I)
+# "projet de loi n° 94"; a presentation prints "saisie du projet de loi
+# suivant : n° 391 Loi ...", a private bill "projet de loi d'intérêt privé
+# n° 211". Without those two forms 30 May 2019's vote on Bill 391 was filed
+# under Bill 26, named earlier in the same item, and 124 presentation votes
+# missed their bill.
+_BILL_NO = re.compile(r"projets?\s+de\s+loi\s+(?:d['’]\s*int[ée]r[êe]t\s+priv[ée]\s+)?(?:suivants?\s*:\s*)?"
+                      r"n\s*[°o]?\s*(\d+)", re.I)
 _FURNITURE = re.compile(r"^\s*(?:=+PAGE|_+|\d{1,4}|\d{1,2}(?:er)?\s+\w+\s+\d{4})\s*$")
 
 
@@ -961,14 +1018,19 @@ def parse_pv_body(text):
 # -- the procès-verbal: the annex (layout) -----------------------------------
 
 _ANNEX_LINE = re.compile(r"^\s*ANNEXE\s*$")
-_VOTE_HEAD = re.compile(r"^\(\s*Vote\s+n\s*[°o]\s*(\d+)\s*\)$", re.I)
+# "(Vote n° 62)"; 23 March 2010 prints "(Vote No. 70)", 13 May 2020 "Vote n° 309".
+_VOTE_HEAD = re.compile(r"^\(?\s*Vote\s+n\s*[°o]\.?\s*(\d+)\s*\)?$", re.I)
+_PLAIN_HEAD = re.compile(r"^\s*\(?\s*Vote\s+n\s*[°o]\.?\s*(\d+)\s*\)?\s*$", re.I | re.M)
+_PLAIN_SAME = re.compile(r"Identique\s+au\s*vote\s+n\s*[°o]?\.?\s*(\d(?:[\d ]*\d)?)", re.I)
 _POS_HEAD = re.compile(r"^(POUR|CONTRE|ABSTENTIONS?)\s*[-–]\s*(\d+)$")
-_SAME_AS = re.compile(r"^\(\s*Identique\s+au\s+vote\s+n\s*[°o]?\s*(\d+)\s*\)$", re.I)
+# "(Identique au vote n° 16)"; 13 June 2014 also prints "auvote".
+_SAME_AS = re.compile(r"^\(\s*Identique\s+au\s*vote\s+n\s*[°o]?\.?\s*(\d+)\s*\)$", re.I)
 _PARTY = r"\(([A-Z]{2,4})\)"
 _NAME_CELL = re.compile(r"^[^()]+\s*" + _PARTY + r"(?:\s*\([^()]*\)?)?$")
 _RIDING_CELL = re.compile(r"^\([^()]*\)?$|^[^()]+\)$")
 _SKIP = re.compile(r"^(?:ANNEXE|Votes par appel nominal|Votes électroniques|\d{1,4}|"
                    r"\d{1,2}(?:er)?\s+\S+\s+\d{4})$")
+UNHEADED = "Unheaded"
 POSITION = {"POUR": "Yea", "CONTRE": "Nay", "ABSTENTION": "Abstain", "ABSTENTIONS": "Abstain"}
 
 
@@ -1035,7 +1097,15 @@ def _tidy(text):
     runs that the plain text joins."""
     t = re.sub(r"\s+", " ", text or "").strip()
     t = re.sub(r"\(\s+", "(", t)
-    return re.sub(r"\s+\)", ")", t)
+    t = re.sub(r"\s+\)", ")", t)
+    # 7 October 2015 drops one opening: "Arcand PLQ)". Known codes only.
+    t = re.sub(r"^([^()]+?)\s+(" + "|".join(sorted(set(PARTIES.values()))) + r")\)$", r"\1 (\2)", t)
+    # 12 November 2014 doubles both: "Arcand ((PLQ))".
+    t = re.sub(r"\(\(([A-Z]{2,4})\)\)", r"(\1)", t)
+    # 22 November 2012 closes every party twice: "Arcand (PLQ))".
+    while t.count(")") > t.count("(") and "))" in t:
+        t = t.replace("))", ")", 1)
+    return t
 
 
 def plain_spellings(text):
@@ -1112,7 +1182,14 @@ def _edges(xs, tol=8.0):
     # whose second half began at 169.8 pt, 30 October 2025) is not a column,
     # and taken as one it cut "(Lac-Saint-Jean)" in two.
     floor = max(1, int(0.15 * max((len(g) for g in groups), default=0)))
-    return [g[0] for g in groups if len(g) >= floor]
+    kept = [g for g in groups if len(g) >= floor]
+    # Columns are about 105 pt apart. A glyph run the layout engine splits
+    # the same way on several rows ("St" / "-Amand (PLQ)", "Po" / "ëti
+    # (PLQ)", 4 December 2012) clears the floor 8 pt inside a real column;
+    # the start shared by fewer cells within 40 pt of a busier one is not a
+    # column.
+    return [g[0] for g in kept
+            if not any(o is not g and abs(o[0] - g[0]) < 40.0 and len(o) > len(g) for o in kept)]
 
 
 def _column(x, edges, tol=8.0):
@@ -1123,6 +1200,121 @@ def _column(x, edges, tol=8.0):
     return best
 
 
+# -- the annex before autumn 2012: surnames only -------------------------------
+#
+# The PVs of the 39th legislature (2008-2012) print the same four-column
+# annex WITHOUT the party: "Arcand Cloutier Leclair Reid", a riding under
+# its name where two VOTING members share it ("Bachand" / "[Arthabaska]").
+# Two encodings were met: 2011 writes one fragment per name (x-positions
+# give the columns, as later); 2010 writes a whole ROW as one fragment
+# ("Arcand Charette Huot  Pelletier ") with the riding in [brackets], so a
+# row is cut into its names and they take the columns left to right. A
+# riding put in the wrong column by that cut attaches to a name it does not
+# belong to, and the resolver (which requires the riding to be the member's
+# own) then finds nobody: a gap, never another member.
+
+_PARTICLE = re.compile(r"^(?:De|Du|Des|Le|La|Van|Von|Di|Da)$")
+_BARE_TOKEN = re.compile(r"\([^()]*\)?|[^\s()]+\)|[^\s()]+")
+BARE_COLUMNS = 4
+
+
+def is_bare(pages, plain=None):
+    """True when the annex prints no '(PARTY)' anywhere: the 2008-2012 form."""
+    # Read on the joined lines: a fragment may hold "(" alone and "CAQ)" in
+    # the next one.
+    texts = [plain or ""] + [_line_text(_cells(items)) for page in pages or [] for _, items in _lines(page)]
+    return bool(pages) and not any(re.search(_PARTY, t) for t in texts)
+
+
+def _bracketless(text):
+    return (text or "").replace("[", "(").replace("]", ")")
+
+
+def plain_words(text):
+    """{squashed word: spelling} of the annex's plain text, whose glyph runs
+    are joined where the layout engine splits them ("Dia mond", "Si mard"
+    in layout mode on 9 June 2011; "Diamond", "Simard" in the text)."""
+    out = {}
+    for tok in _BARE_TOKEN.findall(_bracketless(text)):
+        if not tok.startswith("("):
+            out.setdefault(pn.squash(tok), tok)
+    return out
+
+
+def bare_tokens(text, words):
+    """The names and '(Riding)'s of one bare-annex cell or row, in order. A
+    glyph run split by the layout engine is joined back only when the joined
+    form is a word of the plain text and its parts are not all words of it;
+    a particle ("De Courcy") keeps its surname."""
+    toks = _BARE_TOKEN.findall(_bracketless(text))
+    out, i = [], 0
+    while i < len(toks):
+        for span in (3, 2):
+            part = toks[i:i + span]
+            if len(part) == span and not any("(" in t or ")" in t for t in part) \
+                    and pn.squash("".join(part)) in words \
+                    and not all(pn.squash(t) in words for t in part):
+                out.append(words[pn.squash("".join(part))])
+                i += span
+                break
+        else:
+            out.append(toks[i])
+            i += 1
+    joined = []
+    for t in out:
+        if joined and _PARTICLE.match(joined[-1]) and t[:1].isupper():
+            joined[-1] += " " + t
+        else:
+            joined.append(t)
+    return joined
+
+
+def _bare_edges(lines, words):
+    """The four column edges of one bare-annex page: where cells start, if
+    the page writes one fragment per name; else four even columns across
+    the name rows' width (the 2010 whole-row fragments)."""
+    starts, ends = [], []
+    for _, items in lines:
+        toks = [t for _, _, text in items for t in bare_tokens(text, words)]
+        if toks and all(_BARE_NAME.match(t) or _RIDING_CELL.match(t) for t in toks):
+            starts += [tx for tx, _, _ in items]
+            ends += [e for _, e, _ in items]
+    edges = _edges(starts)
+    if len(edges) >= BARE_COLUMNS or not starts:
+        return edges
+    left, width = min(starts), (max(ends) - min(starts)) / BARE_COLUMNS
+    return [round(left + k * width, 1) for k in range(BARE_COLUMNS)]
+
+
+def _bare_cells(items, edges, words):
+    """[(x, text)], one per name or riding of one bare-annex line, x being
+    its column's edge. A fragment that starts between edges continues the
+    cell before it; a cell holding several names fills the columns from its
+    own to the right."""
+    if not edges:
+        return []
+    groups = []
+    for tx, e, text in items:
+        if groups and not any(abs(tx - edge) <= 8.0 for edge in edges):
+            g = groups[-1]
+            g[1] += ("" if tx - g[2] < 1.0 else " ") + text
+            g[2] = max(g[2], e)
+        else:
+            groups.append([tx, text, e])
+    out, col = [], -1
+    for x, text, _ in groups:
+        # The NEAREST edge: the even columns of 2010 are an estimate, and a
+        # lone riding line ("D'Youville]" at 323 pt) is 16 pt from its edge.
+        nearest = min(range(len(edges)), key=lambda k: abs(edges[k] - x))
+        c = max(nearest, col + 1)
+        for tok in bare_tokens(text, words):
+            col = c
+            x_at = edges[c] if c < len(edges) else edges[-1] + 100.0 * (c - len(edges) + 1)
+            out.append((x_at, _tidy(tok)))
+            c += 1
+    return out
+
+
 def parse_annex(pages, plain=None):
     """{vote number: {heading, counts: {pos: n}, labels: {pos: [label]}}}
 
@@ -1131,10 +1323,15 @@ def parse_annex(pages, plain=None):
     left to right), across page breaks; a '(Riding)' cell belongs to the
     name before it in that order, which is the name above it in its own
     column -- not the name beside it in the text stream. `plain` (the
-    annex's plain text) repairs spelling only (plain_spellings)."""
+    annex's plain text) repairs spelling only (plain_spellings). An annex
+    with no party anywhere (2008-2012) is read name by name (bare_tokens)
+    and each of its votes says `bare: True`."""
     spellings = plain_spellings(plain)
+    bare = is_bare(pages, plain)
+    words = plain_words(plain) if bare else {}
     votes, order = {}, []
     cur = pos = None
+    fresh = False
     heading = []
     cells_of = {}
     # Read from the "ANNEXE" line where there is one; an annex without the
@@ -1149,19 +1346,33 @@ def parse_annex(pages, plain=None):
         # recorded end runs on (6 April 2023: "Champagne Jourdain" and
         # "Guillemette (CAQ)" as one cell), so name rows are re-cut at the
         # edges, fragment by fragment.
-        page_edges = _edges([x for _, cells in lines if _is_name_row(cells) for x, _ in cells])
-        by_col = {ty: _column_cells(items, page_edges) for ty, items in raw_lines}
+        if bare:
+            page_edges = _bare_edges(raw_lines, words)
+            by_col = {ty: _bare_cells(items, page_edges, words) for ty, items in raw_lines}
+        else:
+            page_edges = _edges([x for _, cells in lines if _is_name_row(cells) for x, _ in cells])
+            by_col = {ty: _column_cells(items, page_edges) for ty, items in raw_lines}
         page_cells = []
         for ty, cells in lines:
             text = _line_text(cells)
             if not started:
                 started = bool(_ANNEX_LINE.match(text))
                 continue
+            # A number split by the layout engine ("(Identique au vote n° 2
+            # 78)", 7 April 2022) is closed up before it is read.
+            text = re.sub(r"(?<=\d)\s+(?=\d)", "", text) if re.search(r"(?i)\bvote\b", text) else text
             vh = _VOTE_HEAD.match(text)
             if vh:
-                cur, pos = int(vh.group(1)), None
+                cur, pos, fresh = int(vh.group(1)), None, True
+                if cur in votes:
+                    # The same number printed twice in a row ("(Vote n° 938)"
+                    # twice on 20 April 2021, the second for 939): kept apart
+                    # and settled below from the sequence, never merged.
+                    cur = ("again", cur, len(order))
                 votes[cur] = {"heading": re.sub(r"\s+", " ", " ".join(heading)).strip() or None,
                               "counts": {}, "labels": {}}
+                if bare:
+                    votes[cur]["bare"] = True
                 order.append(cur)
                 heading = []
                 continue
@@ -1171,17 +1382,21 @@ def parse_annex(pages, plain=None):
                 continue
             ph = _POS_HEAD.match(text)
             if ph and cur is not None:
-                pos = POSITION[ph.group(1)]
+                pos, fresh = POSITION[ph.group(1)], False
                 votes[cur]["counts"][pos] = int(ph.group(2))
                 continue
             if _SKIP.match(text):
                 continue
             row = by_col.get(ty) if _is_name_row(by_col.get(ty)) else cells
-            if pos is not None and cur is not None and _is_name_row(row):
+            if cur is not None and (pos is not None or fresh) and _is_name_row(row):
+                # 13 May 2020 prints votes 310-313 as a bare list, no "POUR -
+                # 120" over it: kept apart, never assumed to be any position
+                # (resolve_division decides from the body's totals, or not).
+                pos = pos or UNHEADED
                 for x, t in row:
                     page_cells.append((cur, pos, x, ty, t))
                 continue
-            pos = None
+            pos, fresh = None, False
             heading.append(text)
         edges = _edges([x for _, _, x, _, _ in page_cells])
         for cur_v, p, x, ty, t in page_cells:
@@ -1191,7 +1406,8 @@ def parse_annex(pages, plain=None):
         pending = None
         for _, _, _, t in sorted(cells):
             if pending is not None:
-                t = pending + " " + t
+                # "(Marguerite-" / "D'Youville)": a riding broken at its hyphen
+                t = pending + ("" if pending.endswith(("-", "–")) else " ") + t
                 pending = None
             if t.count("(") > t.count(")"):
                 pending = t
@@ -1206,12 +1422,47 @@ def parse_annex(pages, plain=None):
         if pending:
             labels.append(pending)
         votes[v]["labels"][p] = [_respell(l, spellings) for l in labels]
+    for i, k in enumerate(order):
+        if not isinstance(k, tuple):
+            continue
+        n = k[1]
+        nxt = next((o for o in order[i + 1:] if not isinstance(o, tuple)), None)
+        if order[i - 1] == n and n + 1 not in votes and nxt in (n + 2, None):
+            votes[n + 1] = votes.pop(k)
+            votes[n + 1]["renumbered"] = "the annex heads two lists 'Vote n° {0}'; the second, before " \
+                                         "{1}, read as vote {2}".format(n, n + 2, n + 1)
+            order[i] = n + 1
+        else:
+            votes.pop(k)
+            order[i] = None
+            votes[n]["doubled"] = True
+    order = [o for o in order if o is not None]
+    # The layout engine can misorder a number's glyphs: on 14 February 2018
+    # vote no. 421's "4" and "2" share one x-position and it read "241". The
+    # plain text keeps content order, so when it prints exactly as many vote
+    # headings, all different, its numbers are the votes' numbers.
+    heads = [int(h) for h in _PLAIN_HEAD.findall(plain or "")]
+    if heads and len(heads) == len(order) and len(set(heads)) == len(heads) and heads != order:
+        votes = {h: votes[o] for o, h in zip(order, heads)}
+        order = heads
+    # The same holds for "(Identique au vote n° 98)": read "89" on 21 April
+    # 2015, "324" for 243 and "917" for 179 in 2016, and a scrambled number
+    # can name a real, trusted, EARLIER vote (earlier_lists). The plain
+    # text's references, in order, replace the layout's when there are as
+    # many; a reference the plain text does not print is never followed.
+    refs = [int(re.sub(r"\s+", "", r)) for r in _PLAIN_SAME.findall(plain or "")]
+    with_ref = [v for v in (votes[o] for o in order) if "same_as" in v]
+    if refs and len(refs) == len(with_ref):
+        for v, ref in zip(with_ref, refs):
+            v["same_as"] = ref
+    for v in with_ref:
+        v["same_as_printed"] = v["same_as"] in refs
     # "(Identique au vote n° 109)" (2 June 2023): the same members voted the
     # same way. Their list is the earlier vote's, said so in `same_as`; the
     # body's own totals still have to match it.
     for v in votes.values():
         ref = votes.get(v.get("same_as"))
-        if ref is not None and not v["labels"]:
+        if ref is not None and not v["labels"] and (v.get("same_as_printed") or not plain):
             v["labels"] = {p: list(l) for p, l in ref["labels"].items()}
             v["counts"] = dict(ref["counts"])
     return votes
@@ -1292,6 +1543,7 @@ class MemberPages:
 
     def __init__(self, ctx, resolver):
         self.ctx, self.resolver, self.pages, self.completed = ctx, resolver, {}, set()
+        self.aliased = None
         self._elections = None
 
     def page(self, key):
@@ -1340,11 +1592,14 @@ class MemberPages:
             self.resolver.members, self.resolver.terms = fresh.members, fresh.terms
         return added
 
-    def resolve(self, name, date, legislature=None):
+    def resolve(self, name, date, legislature=None, document=None, lazy=True):
         key, how = self.resolver.resolve(name, date, legislature)
         if key:
             return key, how
-        if how.startswith("unknown") and self.complete(" ".join(pn.parse_label(name).tokens)):
+        # lazy=False: no member page is fetched (the 2008-2012 annex, whose
+        # roster depcir holds whole; a misplaced riding there would fetch
+        # every member of a common surname for nothing).
+        if lazy and how.startswith("unknown") and self.complete(" ".join(pn.parse_label(name).tokens)):
             key, how = self.resolver.resolve(name, date, legislature)
             if key:
                 return key, how + " (member page)"
@@ -1364,23 +1619,131 @@ class MemberPages:
             keep = [c for c in cands if not self.presided(c, date)]
             if len(keep) == 1 and len(cands) == 2:
                 return keep[0], "surname (the other was President of the Assembly)"
+        if how.startswith("unknown") and document:
+            # A reviewed misprint ("Charrette" for Benoit Charette), only in
+            # the documents and days config/prov_record.yaml names.
+            if self.aliased is None:
+                self.aliased = pn.Aliased(self.resolver, pn.load_aliases(PROV), base=self.resolver,
+                                          misprints=pn.load_misprints(PROV))
+            key, why = self.aliased.resolve(name, date, legislature, document=document)
+            if key:
+                return key, why
         return None, how
 
 
-def resolve_division(body_vote, annex_vote, resolver, date, legislature=None):
+_LABEL_PARTS = re.compile(r"^(?P<name>[^()]+?)\s*(?:\((?P<party>[A-Z]{2,4})\))?\s*(?:\((?P<riding>[^()]+)\))?$")
+
+
+def _label(name, party, riding):
+    return name + (" ({0})".format(party) if party else "") + (" ({0})".format(riding) if riding else "")
+
+
+def place_bare_ridings(votes, resolver, date, legislature=None):
+    """A riding read under the wrong name. The 2010 annex writes a riding
+    that wraps alone on its line (" [Marguerite-D'Youville]") with no usable
+    x-position, so it lands in the wrong column and is read as "Deltell
+    (Marguerite-D'Youville)", which nobody matches, while the bare "Richard"
+    it belonged to stays ambiguous (12 February 2020 does the same with
+    "Zanetti (QS) (Berthier)" and a bare "Proulx (CAQ)"). The riding still
+    names ONE member: whoever held that seat on the day. It is moved to the
+    one ambiguous label without a riding, in the same list, whose surname is
+    that member's and whose candidates include them; anything less clear is
+    left as it was (a gap). In place; returns the notes."""
+    base = getattr(resolver, "resolver", resolver)
+    notes = []
+    for v in votes:
+        m = _LABEL_PARTS.match(v["raw_label"])
+        if v.get("member_key") or not m or not m.group("riding") \
+                or not str(v.get("how") or "").startswith("unknown"):
+            continue
+        holders = {t["member_key"] for t in base.valid_terms(date, legislature)
+                   if base._riding_is(m.group("riding"), t.get("riding"))}
+        if len(holders) != 1:
+            continue
+        member = holders.pop()
+        sur = pn.fold((base.members.get(member) or {}).get("surname"))
+        takers = []
+        for w in votes:
+            wm = _LABEL_PARTS.match(w["raw_label"])
+            if w is v or w["position"] != v["position"] or w.get("member_key") or not wm or wm.group("riding"):
+                continue
+            how = str(w.get("how") or "")
+            if pn.fold(wm.group("name")) == sur and how.startswith("ambiguous") \
+                    and member in [c.strip() for c in how.split(":", 1)[1].split(",")]:
+                takers.append((w, wm))
+        if len(takers) != 1:
+            continue
+        name = m.group("name").strip()
+        key, how = resolver.resolve(name, date, legislature, lazy=False) if isinstance(resolver, MemberPages) \
+            else resolver.resolve(name, date, legislature)
+        w, wm = takers[0]
+        w.update({"raw_label": _label(wm.group("name").strip(), wm.group("party"), m.group("riding")),
+                  "member_key": member, "how": "surname+riding (riding printed out of column)"})
+        v.update({"raw_label": _label(name, m.group("party"), None), "member_key": key, "how": how})
+        notes.append("{0}: '({1})' read under {2!r}, placed under {3!r}, the only {4} in the list".format(
+            v["position"], m.group("riding"), name, w["raw_label"], sur))
+    return notes
+
+
+def resolve_division(body_vote, annex_vote, resolver, date, legislature=None, reviewed=None,
+                     division_key=None, document=None):
     """Votes resolved, and the tally verdict against the BODY's printed
     totals (the annex's own counts must agree with them too). `resolver`
-    is a prov_names.Resolver or a MemberPages."""
-    votes, problems = [], []
+    is a prov_names.Resolver or a MemberPages.
+
+    With `reviewed` (pn.ReviewedDivisions, config/prov_record.yaml) and the
+    division's key: a body total the Journal des débats shows to be a
+    misprint is replaced (hansard_totals with `replaces:`), and a bare
+    AMBIGUOUS surname the Journal's roll call names with its riding is
+    settled (hansard_labels). Both are scoped to that one division; the
+    tally check then runs exactly as before."""
+    votes, problems, notes = [], [], []
+    bare = bool((annex_vote or {}).get("bare"))
+    printed = dict((body_vote or {}).get("totals") or {}) or None
+    labels = dict((annex_vote or {}).get("labels") or {})
+    unheaded = labels.pop(UNHEADED, None)
+    if unheaded:
+        # A list with no POUR/CONTRE/ABSTENTIONS heading over it is placed
+        # only where the body leaves no choice: exactly one position has a
+        # non-zero total, and it equals the number of names.
+        nonzero = [p for p in ps.POSITIONS if (printed or {}).get(p)]
+        if not labels and printed and len(nonzero) == 1 and printed[nonzero[0]] == len(unheaded):
+            labels[nonzero[0]] = unheaded
+            notes.append("the annex prints this list with no position heading; the body's only "
+                         "non-zero total is {0} {1}".format(nonzero[0], len(unheaded)))
+        else:
+            problems.append("{0} name(s) in the annex under no position heading".format(len(unheaded)))
+    if reviewed is not None and division_key and printed:
+        for position in ps.POSITIONS:
+            total, why = reviewed.total(division_key, position, printed.get(position))
+            printed[position] = total
+            if why:
+                notes.append(why)
     for position in ps.POSITIONS:
-        for k, label in enumerate((annex_vote or {}).get("labels", {}).get(position, []), 1):
+        for k, label in enumerate(labels.get(position, []), 1):
             name, party = split_label(label)
-            key, how = resolver.resolve(name, date, legislature) if party else (None, "unparsed label")
+            # The 2008-2012 annex prints no party: its labels are read as
+            # printed ("Bachand (Arthabaska)"), and the party stays NULL.
+            readable = party or (bare and _BARE_NAME.match(re.sub(r"\s*\([^()]*\)$", "", name or "")))
+            if not readable:
+                key, how = None, "unparsed label"
+            elif bare and isinstance(resolver, MemberPages):
+                key, how = resolver.resolve(name, date, legislature, document=document, lazy=False)
+            else:
+                key, how = resolver.resolve(name, date, legislature, document=document)
             votes.append({"position": position, "ordinal": k, "raw_label": label,
                           "member_key": key, "how": how, "party_at_vote": party})
-    printed = (body_vote or {}).get("totals")
+    notes += place_bare_ridings(votes, resolver, date, legislature)
+    if reviewed is not None and division_key:
+        base = getattr(resolver, "resolver", resolver)
+        notes += reviewed.settle(division_key, votes, base, date, legislature)
+        for v in votes:
+            if str(v.get("how") or "").startswith("hansard"):
+                v["party_at_vote"] = split_label(v["raw_label"])[1]   # the annex's, as printed
     if annex_vote is None:
         problems.append("no annex list for this vote")
+    elif annex_vote.get("doubled"):
+        problems.append("the annex prints two lists under this vote's number")
     elif printed:
         for position, n in (annex_vote.get("counts") or {}).items():
             if printed.get(position) != n:
@@ -1392,7 +1755,81 @@ def resolve_division(body_vote, annex_vote, resolver, date, legislature=None):
     ok, note = ps.tally(printed, votes)
     if problems:
         ok, note = False, "; ".join(problems + ([note] if note else []))
+    note = "; ".join(x for x in [note] + notes if x) or None
     return votes, ok, note, printed
+
+
+def renumber_annex(annex, body_numbers):
+    """(annex, {number: note}): an annex heading whose number the body never
+    prints, standing between n-1 and n+1 in the annex's own order, where n
+    is a body vote the annex otherwise lacks, is vote n. The annex of 9
+    June 2021 prints "(Vote n° 1002)" between 1101 and 1103; the body's vote
+    1102 had no list. The record's own sequence decides; anything less
+    tidy is left alone (and stays a gap). The tally check still holds the
+    list to vote n's printed totals."""
+    order = list(annex)
+    out, notes = dict(annex), {}
+    for i in range(1, len(order) - 1):
+        n, prev, nxt = order[i], order[i - 1], order[i + 1]
+        want = prev + 1
+        if n in body_numbers or nxt != prev + 2 or want not in body_numbers or want in annex:
+            continue
+        out[want] = out.pop(n)
+        notes[want] = "the annex heads this list 'Vote n° {0}', between votes {1} and {2}; read as " \
+                      "vote {3}, the body's".format(n, prev, nxt, want)
+    return out, notes
+
+
+def renumber_body(body_votes, annex_numbers):
+    """(body votes, {number: note}): the body of 10 December 2021 prints
+    "(Vote n° 180 en annexe)" twice, the second for the vote the annex
+    numbers 181. A number printed twice in a row, where the next body vote
+    is n+2 and n+1 is in the annex but nowhere in the body, is n+1 the
+    second time. In place; anything else is left alone."""
+    nums = [v["number"] for v in body_votes]
+    notes = {}
+    for i in range(1, len(body_votes)):
+        n = nums[i]
+        nxt = nums[i + 1] if i + 1 < len(nums) else None
+        if n == nums[i - 1] and n + 1 not in nums and n + 1 in annex_numbers and nxt in (n + 2, None) \
+                and nums.count(n) == 2:
+            body_votes[i]["number"] = nums[i] = n + 1
+            notes[n + 1] = "the body prints 'Vote n° {0}' twice; the second, before vote {1}, read as " \
+                           "vote {2}, the annex's".format(n, n + 2, n + 1)
+    return body_votes, notes
+
+
+def earlier_lists(conn, annex, legislature, session):
+    """'(Identique au vote n° 278)' naming a vote of an EARLIER sitting of
+    the session (7 April 2022): the list is that division's as stored, if it
+    is a trusted one, labels as printed then. In place; the body's own
+    totals still have to match it."""
+    for v in annex.values():
+        ref = v.get("same_as")
+        if ref is None or ref in annex or v.get("labels"):
+            continue
+        if not v.get("same_as_printed"):
+            v["earlier_note"] = "the annex's 'identique au vote n° {0}' is not in its plain text; not " \
+                                "followed".format(ref)
+            continue
+        rows = conn.execute(
+            "SELECT division_key, date FROM prov_divisions WHERE prov=? AND legislature=? AND session=? "
+            "AND seq=? AND kind='recorded' AND positions_ok=1", (PROV, legislature, session, str(ref))).fetchall()
+        if len(rows) != 1:
+            v["earlier_note"] = "the annex says identical to vote n° {0}, which is not a trusted division " \
+                                "of this session in the store".format(ref)
+            continue
+        labels = {}
+        for position, label in conn.execute(
+                "SELECT position, raw_label FROM prov_votes WHERE division_key=? ORDER BY position, ordinal",
+                (rows[0][0],)):
+            labels.setdefault(position, []).append(label)
+        v["labels"] = labels
+        v["counts"] = {p: len(l) for p, l in labels.items()}
+        if labels and not any(split_label(l)[1] for ls in labels.values() for l in ls):
+            v["bare"] = True
+        v["earlier_note"] = "the annex says identical to vote n° {0} ({1}); that division's list is " \
+                            "used".format(ref, rows[0][1])
 
 
 def read_sitting(ctx, rec, legislature, session, resolver, tax_fr, wl):
@@ -1410,24 +1847,42 @@ def read_sitting(ctx, rec, legislature, session, resolver, tax_fr, wl):
         return 0, 1
     body_votes = parse_pv_body(body)
     annex = parse_annex(frags, plain) if frags else {}
-    numbers = sorted({v["number"] for v in body_votes} | set(annex))
+    body_votes, renumbered = renumber_body(body_votes, set(annex))
     by_number = {v["number"]: v for v in body_votes}
+    annex, renumbered_annex = renumber_annex(annex, set(by_number))
+    renumbered.update(renumbered_annex)
+    earlier_lists(ctx.conn, annex, legislature, session)
+    numbers = sorted(set(by_number) | set(annex))
     bill_map = getattr(ctx, "bill_map", None) or {}
+    reviewed = getattr(ctx, "qc_reviewed", None)
+    if reviewed is None:
+        reviewed = ctx.qc_reviewed = pn.ReviewedDivisions.load(PROV)
     gaps = 0
     for n in numbers:
         bv, av = by_number.get(n), annex.get(n)
-        votes, ok, note, printed = resolve_division(bv, av, resolver, rec["date"])
+        dkey = ps.division_key(PROV, legislature, session, rec["date"], n)
+        votes, ok, note, printed = resolve_division(bv, av, resolver, rec["date"], reviewed=reviewed,
+                                                    division_key=dkey, document=url)
+        extra = [x for x in (renumbered.get(n), (av or {}).get("renumbered"), (av or {}).get("earlier_note")) if x]
+        if extra:
+            note = "; ".join(x for x in [note] + extra if x)
         # The annex heading names the vote's own subject; the body's last
         # 800 characters are the fallback. Neither: no bill, never a guess.
         number = (_BILL_NO.findall((av or {}).get("heading") or "") or [None])[-1] \
             or (bv or {}).get("bill_number")
+        if number:
+            # A reviewed bill_corrections entry, only while the PV still
+            # prints the misprinted number (30 November 2021: private bill
+            # 219 printed "n° 192", which is the oath bill).
+            number, why = reviewed.bill(dkey, number)
+            if why:
+                note = "; ".join(x for x in (note, why) if x)
         bkey = (bill_map.get(number) or ps.bill_key(PROV, legislature, session, number)) if number else None
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         inherit = pc.Result(b_areas, b_terms, b_tier) if b_areas else None
         question = (bv or {}).get("question") or (av or {}).get("heading")
         res = pc.classify(ctx.tax, wl, PROV, bill_key=bkey, inherit=inherit, fr_tax=tax_fr,
                           fr_texts=[question, (av or {}).get("heading")])
-        dkey = ps.division_key(PROV, legislature, session, rec["date"], n)
         if not ok:
             gaps += 1
             ctx.gap("{0}: tally check failed ({1}); positions not trusted".format(dkey, note))
@@ -1441,10 +1896,70 @@ def read_sitting(ctx, rec, legislature, session, resolver, tax_fr, wl):
             "areas": res.areas, "matched_terms": res.terms, "tier": res.tier,
             "excerpt": res.excerpt, "positions_ok": 1 if ok else 0, "tally_note": note,
             "votes": votes})
+    # A re-read replaces the PV's recorded divisions WHOLE: the old reader
+    # stored vote "241" of 14 February 2018 (its 421, glyphs misordered) and
+    # "1002" of 9 June 2021 beside the real ones, as gap rows.
+    kept = {ps.division_key(PROV, legislature, session, rec["date"], n) for n in numbers}
+    for (k,) in ctx.conn.execute("SELECT division_key FROM prov_divisions WHERE prov=? AND source_url=? "
+                                 "AND kind='recorded'", (PROV, url)).fetchall():
+        if k not in kept:
+            ctx.conn.execute("DELETE FROM prov_votes WHERE division_key=?", (k,))
+            ctx.conn.execute("DELETE FROM prov_divisions WHERE division_key=?", (k,))
     ps.store_sitting(ctx.conn, PROV, skey, rec["date"], url, divisions=len(numbers),
                      status="gap" if gaps else "ok")
     ctx.conn.commit()
     return len(numbers), gaps
+
+
+# Sittings stored 'ok' by a reader older than this are read ONCE more when
+# a bill page dates a named vote to them that the store does not hold (the
+# 2010 backfill, CI run 37048289773, 2 October 2026: 157 such misses, 124
+# of them presentation votes whose bill the old _BILL_NO could not read). A
+# re-read stamps read_at today, so a miss the record itself causes is
+# never fetched again: it stays a gap.
+REREAD_BEFORE = "2026-10-07"
+
+
+def bill_tally_misses(conn, legislature=None, session=None):
+    """{date: [(bill_key, stage, yeas, nays)]}: bill-page named votes with no
+    recorded division on that bill, that day, with those totals."""
+    out = {}
+    q = "SELECT bill_key, stages FROM prov_bills WHERE prov=?"
+    args = [PROV]
+    if legislature is not None:
+        q += " AND legislature=? AND session=?"
+        args += [legislature, session]
+    for key, stages in conn.execute(q, args).fetchall():
+        for s in json.loads(stages or "[]"):
+            if not s.get("tally") or not s.get("date"):
+                continue
+            hit = conn.execute(
+                "SELECT COUNT(*) FROM prov_divisions WHERE bill_key=? AND date=? AND kind='recorded' "
+                "AND yeas=? AND nays=?", (key, s["date"], s["tally"][0], s["tally"][1])).fetchone()[0]
+            if not hit:
+                out.setdefault(s["date"], []).append((key, s.get("stage"), s["tally"][0], s["tally"][1]))
+    return out
+
+
+def owe_missed(ctx, legislature, session, records):
+    """Make OWED each sitting of the window stored 'ok' before
+    REREAD_BEFORE on whose day a bill page dates a named vote the store
+    lacks (bill_tally_misses). Returns how many. A bill reinstated from an
+    earlier session keeps that session's key, so the misses are read over
+    every bill, not only this session's."""
+    misses = bill_tally_misses(ctx.conn)
+    owed = 0
+    for rec in records:
+        if rec["date"] not in misses or not rec.get("pv_url"):
+            continue
+        owed += ctx.conn.execute(
+            "UPDATE prov_sittings SET status='owed' WHERE prov=? AND record_url=? AND status='ok' "
+            "AND read_at < ?", (PROV, rec["pv_url"], REREAD_BEFORE)).rowcount
+    ctx.conn.commit()
+    if owed:
+        ctx.log("  qc {0}-{1}: {2} sitting(s) stored 'ok' before {3} on a day a bill page dates a named "
+                "vote the store lacks; read again".format(legislature, session, owed, REREAD_BEFORE))
+    return owed
 
 
 def check_bill_tallies(ctx, read_dates):
@@ -1509,6 +2024,14 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
     stats = {}
     if roster:
         stats["members"] = fetch_roster(ctx)
+        if not ctx.dry_run and not getattr(ctx, "page_terms_checked", False):
+            # Once per run even when the roster is fresh: the backfill
+            # dispatch does not re-read the roster, and a stale page term
+            # (France Dionne's) breaks every division it touches.
+            elections, legislatures = parse_elections(ctx.text(ELECTIONS, "elections") or "")
+            if elections:
+                stats["page_terms_changed"] = recheck_page_terms(ctx, elections, legislatures)
+                ctx.conn.commit()
     if bills:
         stats.update(fetch_bills(ctx, legislature, sess, ctx.tax, tax_fr, wl))
     else:
@@ -1524,6 +2047,7 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True):
         ctx.gap("qc {0} {1}: the listing has no procès-verbal link".format(session, r["date"]))
     if ctx.dry_run:
         return stats
+    stats["owed_missed"] = owe_missed(ctx, legislature, sess, records)
     resolver = MemberPages(ctx, pn.Resolver.from_conn(ctx.conn, PROV))
     read = divs = gaps = 0
     read_dates = set()

@@ -1,0 +1,4735 @@
+{
+"members": {
+"1001": {
+"given": "Sylvain",
+"name": "Sylvain Gaudreault",
+"surname": "Gaudreault"
+},
+"1003": {
+"given": "Germain",
+"name": "Germain Chevarie",
+"surname": "Chevarie"
+},
+"1017": {
+"given": "Lucie",
+"name": "Lucie Charlebois",
+"surname": "Charlebois"
+},
+"1025": {
+"given": "Stéphane",
+"name": "Stéphane Billette",
+"surname": "Billette"
+},
+"1051": {
+"given": "Henri-François",
+"name": "Henri-François Gautrin",
+"surname": "Gautrin"
+},
+"1059": {
+"given": "Danielle",
+"name": "Danielle St-Amand",
+"surname": "St-Amand"
+},
+"1063": {
+"given": "Nathalie",
+"name": "Nathalie Normandeau",
+"surname": "Normandeau"
+},
+"1077": {
+"given": "Alexandre",
+"name": "Alexandre Cloutier",
+"surname": "Cloutier"
+},
+"11": {
+"given": "François",
+"name": "François Bonnardel",
+"surname": "Bonnardel"
+},
+"1107": {
+"given": "Pierre",
+"name": "Pierre Corbeil",
+"surname": "Corbeil"
+},
+"1113": {
+"given": "Pierre",
+"name": "Pierre Paradis",
+"surname": "Paradis"
+},
+"1115": {
+"given": "Claude",
+"name": "Claude Pinard",
+"surname": "Pinard"
+},
+"1123": {
+"given": "Yves-François",
+"name": "Yves-François Blanchet",
+"surname": "Blanchet"
+},
+"113": {
+"given": "Nicole",
+"name": "Nicole Ménard",
+"surname": "Ménard"
+},
+"1135": {
+"given": "Pierre",
+"name": "Pierre Curzi",
+"surname": "Curzi"
+},
+"1141": {
+"given": "Raymond",
+"name": "Raymond Bernier",
+"surname": "Bernier"
+},
+"1171": {
+"given": "Filomena",
+"name": "Filomena Rotiroti",
+"surname": "Rotiroti"
+},
+"11785": {
+"given": "Roland",
+"name": "Roland Richer",
+"surname": "Richer"
+},
+"11789": {
+"given": "Marc",
+"name": "Marc Tanguay",
+"surname": "Tanguay"
+},
+"1179": {
+"given": "Gerry",
+"name": "Gerry Sklavounos",
+"surname": "Sklavounos"
+},
+"1199": {
+"given": "Bertrand",
+"name": "Bertrand St-Arnaud",
+"surname": "St-Arnaud"
+},
+"1201": {
+"given": "Sylvie",
+"name": "Sylvie Roy",
+"surname": "Roy"
+},
+"12163": {
+"given": "Sylvain",
+"name": "Sylvain Roy",
+"surname": "Roy"
+},
+"12165": {
+"given": "Donald",
+"name": "Donald Martel",
+"surname": "Martel"
+},
+"12167": {
+"given": "Jean",
+"name": "Jean Rousselle",
+"surname": "Rousselle"
+},
+"12169": {
+"given": "Jean-François",
+"name": "Jean-François Lisée",
+"surname": "Lisée"
+},
+"12173": {
+"given": "Karine",
+"name": "Karine Vallières",
+"surname": "Vallières"
+},
+"12175": {
+"given": "Léo",
+"name": "Léo Bureau-Blouin",
+"surname": "Bureau-Blouin"
+},
+"12177": {
+"given": "Gilles",
+"name": "Gilles Chapadeau",
+"surname": "Chapadeau"
+},
+"12179": {
+"given": "Denise",
+"name": "Denise Trudel",
+"surname": "Trudel"
+},
+"12181": {
+"given": "Luc",
+"name": "Luc Trudel",
+"surname": "Trudel"
+},
+"12183": {
+"given": "Michelyne C.",
+"name": "Michelyne C. St-Laurent",
+"surname": "St-Laurent"
+},
+"12187": {
+"given": "Nathalie",
+"name": "Nathalie Roy",
+"surname": "Roy"
+},
+"12189": {
+"given": "Alain",
+"name": "Alain Therrien",
+"surname": "Therrien"
+},
+"12193": {
+"given": "Jacques",
+"name": "Jacques Duchesneau",
+"surname": "Duchesneau"
+},
+"12195": {
+"given": "Jean-Marie",
+"name": "Jean-Marie Claveau",
+"surname": "Claveau"
+},
+"12197": {
+"given": "Élaine",
+"name": "Élaine Zakaïb",
+"surname": "Zakaïb"
+},
+"12199": {
+"given": "Diane",
+"name": "Diane Gadoury-Hamelin",
+"surname": "Gadoury-Hamelin"
+},
+"12201": {
+"given": "Hélène",
+"name": "Hélène Daneault",
+"surname": "Daneault"
+},
+"12203": {
+"given": "Robert",
+"name": "Robert Poëti",
+"surname": "Poëti"
+},
+"12205": {
+"given": "Françoise",
+"name": "Françoise David",
+"surname": "David"
+},
+"12207": {
+"given": "Ghislain",
+"name": "Ghislain Bolduc",
+"surname": "Bolduc"
+},
+"12209": {
+"given": "Jeannine",
+"name": "Jeannine Richard",
+"surname": "Richard"
+},
+"12211": {
+"given": "André",
+"name": "André Spénard",
+"surname": "Spénard"
+},
+"12213": {
+"given": "Sylvain",
+"name": "Sylvain Lévesque",
+"surname": "Lévesque"
+},
+"12217": {
+"given": "Rita Lc",
+"name": "Rita Lc De Santis",
+"surname": "De Santis"
+},
+"12221": {
+"given": "Diane",
+"name": "Diane De Courcy",
+"surname": "De Courcy"
+},
+"12223": {
+"given": "Christian",
+"name": "Christian Dubé",
+"surname": "Dubé"
+},
+"12225": {
+"given": "Daniel",
+"name": "Daniel Breton",
+"surname": "Breton"
+},
+"12227": {
+"given": "Alexandre",
+"name": "Alexandre Iracà",
+"surname": "Iracà"
+},
+"12229": {
+"given": "Gaétan",
+"name": "Gaétan Lelièvre",
+"surname": "Lelièvre"
+},
+"12231": {
+"given": "Jacques",
+"name": "Jacques Marcotte",
+"surname": "Marcotte"
+},
+"12235": {
+"given": "Suzanne",
+"name": "Suzanne Proulx",
+"surname": "Proulx"
+},
+"12237": {
+"given": "Serge",
+"name": "Serge Cardin",
+"surname": "Cardin"
+},
+"12239": {
+"given": "Pierre",
+"name": "Pierre Duchesne",
+"surname": "Duchesne"
+},
+"12241": {
+"given": "Daniel",
+"name": "Daniel Goyer",
+"surname": "Goyer"
+},
+"12243": {
+"given": "Élizabeth",
+"name": "Élizabeth Larouche",
+"surname": "Larouche"
+},
+"12245": {
+"given": "Gilles",
+"name": "Gilles Ouimet",
+"surname": "Ouimet"
+},
+"12267": {
+"given": "Réjean",
+"name": "Réjean Hébert",
+"surname": "Hébert"
+},
+"12269": {
+"given": "Stéphane",
+"name": "Stéphane Le Bouyonnec",
+"surname": "Le Bouyonnec"
+},
+"1227": {
+"given": "René",
+"name": "René Gauvreau",
+"surname": "Gauvreau"
+},
+"1235": {
+"given": "Christine",
+"name": "Christine St-Pierre",
+"surname": "St-Pierre"
+},
+"1239": {
+"given": "Serge",
+"name": "Serge Simard",
+"surname": "Simard"
+},
+"1253": {
+"given": "Nicolas",
+"name": "Nicolas Girard",
+"surname": "Girard"
+},
+"1263": {
+"given": "Marguerite",
+"name": "Marguerite Blais",
+"surname": "Blais"
+},
+"1273": {
+"given": "Sam",
+"name": "Sam Hamad",
+"surname": "Hamad"
+},
+"13": {
+"given": "Daniel",
+"name": "Daniel Bernard",
+"surname": "Bernard"
+},
+"1303": {
+"given": "Mathieu",
+"name": "Mathieu Traversy",
+"surname": "Traversy"
+},
+"1317": {
+"given": "Tony",
+"name": "Tony Tomassi",
+"surname": "Tomassi"
+},
+"1337": {
+"given": "Janvier",
+"name": "Janvier Grondin",
+"surname": "Grondin"
+},
+"1341": {
+"given": "Guillaume",
+"name": "Guillaume Tremblay",
+"surname": "Tremblay"
+},
+"1355": {
+"given": "Lise",
+"name": "Lise Thériault",
+"surname": "Thériault"
+},
+"1365": {
+"given": "Johanne",
+"name": "Johanne Gonthier",
+"surname": "Gonthier"
+},
+"1389": {
+"given": "Denis",
+"name": "Denis Trottier",
+"surname": "Trottier"
+},
+"1407": {
+"given": "Dave",
+"name": "Dave Turcotte",
+"surname": "Turcotte"
+},
+"1419": {
+"given": "Lawrence S.",
+"name": "Lawrence S. Bergman",
+"surname": "Bergman"
+},
+"1423": {
+"given": "François",
+"name": "François Gendron",
+"surname": "Gendron"
+},
+"1443": {
+"given": "Stéphane",
+"name": "Stéphane Bergeron",
+"surname": "Bergeron"
+},
+"1457": {
+"given": "Stéphane",
+"name": "Stéphane Bédard",
+"surname": "Bédard"
+},
+"149": {
+"given": "Étienne-Alexis",
+"name": "Étienne-Alexis Boucher",
+"surname": "Boucher"
+},
+"15": {
+"given": "Guy",
+"name": "Guy Leclair",
+"surname": "Leclair"
+},
+"15357": {
+"given": "Mario",
+"name": "Mario Laframboise",
+"surname": "Laframboise"
+},
+"15359": {
+"given": "Simon",
+"name": "Simon Jolin-Barrette",
+"surname": "Jolin-Barrette"
+},
+"15361": {
+"given": "Jean-François",
+"name": "Jean-François Roberge",
+"surname": "Roberge"
+},
+"15369": {
+"given": "Marie",
+"name": "Marie Montpetit",
+"surname": "Montpetit"
+},
+"15371": {
+"given": "David",
+"name": "David Birnbaum",
+"surname": "Birnbaum"
+},
+"15379": {
+"given": "Hélène",
+"name": "Hélène David",
+"surname": "David"
+},
+"15383": {
+"given": "André",
+"name": "André Fortin",
+"surname": "Fortin"
+},
+"15389": {
+"given": "Lise",
+"name": "Lise Lavallée",
+"surname": "Lavallée"
+},
+"15391": {
+"given": "Carlos J",
+"name": "Carlos J Leitão",
+"surname": "Leitão"
+},
+"15397": {
+"given": "Gaétan",
+"name": "Gaétan Barrette",
+"surname": "Barrette"
+},
+"15399": {
+"given": "Sylvie",
+"name": "Sylvie D'Amours",
+"surname": "D'Amours"
+},
+"15401": {
+"given": "André",
+"name": "André Lamontagne",
+"surname": "Lamontagne"
+},
+"15403": {
+"given": "Mathieu",
+"name": "Mathieu Lemay",
+"surname": "Lemay"
+},
+"15407": {
+"given": "Saul",
+"name": "Saul Polo",
+"surname": "Polo"
+},
+"15409": {
+"given": "Claire",
+"name": "Claire Samson",
+"surname": "Samson"
+},
+"15417": {
+"given": "Chantal",
+"name": "Chantal Soucy",
+"surname": "Soucy"
+},
+"15421": {
+"given": "Manon",
+"name": "Manon Massé",
+"surname": "Massé"
+},
+"15439": {
+"given": "Marie-Claude",
+"name": "Marie-Claude Nichols",
+"surname": "Nichols"
+},
+"15479": {
+"given": "Harold",
+"name": "Harold Lebel",
+"surname": "Lebel"
+},
+"155": {
+"given": "Marie",
+"name": "Marie Bouillé",
+"surname": "Bouillé"
+},
+"157": {
+"given": "Daniel",
+"name": "Daniel Ratthé",
+"surname": "Ratthé"
+},
+"15725": {
+"given": "François",
+"name": "François Paradis",
+"surname": "Paradis"
+},
+"1623": {
+"given": "Jean",
+"name": "Jean D'Amour",
+"surname": "D'Amour"
+},
+"1635": {
+"given": "Clément",
+"name": "Clément Gignac",
+"surname": "Gignac"
+},
+"16493": {
+"given": "Monique",
+"name": "Monique Sauvé",
+"surname": "Sauvé"
+},
+"16495": {
+"given": "Martin",
+"name": "Martin Ouellet",
+"surname": "Ouellet"
+},
+"16499": {
+"given": "Dominique",
+"name": "Dominique Anglade",
+"surname": "Anglade"
+},
+"1659": {
+"given": "Yvon",
+"name": "Yvon Vallières",
+"surname": "Vallières"
+},
+"16775": {
+"given": "Catherine",
+"name": "Catherine Fournier",
+"surname": "Fournier"
+},
+"16777": {
+"given": "Éric",
+"name": "Éric Lefebvre",
+"surname": "Lefebvre"
+},
+"16779": {
+"given": "Isabelle",
+"name": "Isabelle Melançon",
+"surname": "Melançon"
+},
+"16827": {
+"given": "Gabriel",
+"name": "Gabriel Nadeau-Dubois",
+"surname": "Nadeau-Dubois"
+},
+"16885": {
+"given": "Geneviève",
+"name": "Geneviève Guilbault",
+"surname": "Guilbault"
+},
+"17": {
+"given": "Gérard",
+"name": "Gérard Deltell",
+"surname": "Deltell"
+},
+"177": {
+"given": "Marc",
+"name": "Marc Carrière",
+"surname": "Carrière"
+},
+"17823": {
+"given": "Pierre",
+"name": "Pierre Dufour",
+"surname": "Dufour"
+},
+"17825": {
+"given": "Suzanne",
+"name": "Suzanne Blais",
+"surname": "Blais"
+},
+"17827": {
+"given": "Agnès",
+"name": "Agnès Grondin",
+"surname": "Grondin"
+},
+"17829": {
+"given": "Luc",
+"name": "Luc Provençal",
+"surname": "Provençal"
+},
+"17831": {
+"given": "Samuel",
+"name": "Samuel Poulin",
+"surname": "Poulin"
+},
+"17833": {
+"given": "Claude",
+"name": "Claude Reid",
+"surname": "Reid"
+},
+"17835": {
+"given": "Stéphanie",
+"name": "Stéphanie Lachance",
+"surname": "Lachance"
+},
+"17837": {
+"given": "Caroline",
+"name": "Caroline Proulx",
+"surname": "Proulx"
+},
+"17839": {
+"given": "Nadine",
+"name": "Nadine Girault",
+"surname": "Girault"
+},
+"17841": {
+"given": "Paule",
+"name": "Paule Robitaille",
+"surname": "Robitaille"
+},
+"17843": {
+"given": "Richard",
+"name": "Richard Campeau",
+"surname": "Campeau"
+},
+"17845": {
+"given": "Isabelle",
+"name": "Isabelle Charest",
+"surname": "Charest"
+},
+"17847": {
+"given": "Sonia",
+"name": "Sonia LeBel",
+"surname": "LeBel"
+},
+"17849": {
+"given": "Vincent",
+"name": "Vincent Caron",
+"surname": "Caron"
+},
+"17851": {
+"given": "Mathieu",
+"name": "Mathieu Lévesque",
+"surname": "Lévesque"
+},
+"17855": {
+"given": "Jonatan",
+"name": "Jonatan Julien",
+"surname": "Julien"
+},
+"17857": {
+"given": "Jean-Bernard",
+"name": "Jean-Bernard Émond",
+"surname": "Émond"
+},
+"17859": {
+"given": "André",
+"name": "André Bachand",
+"surname": "Bachand"
+},
+"17861": {
+"given": "Émilie",
+"name": "Émilie Foster",
+"surname": "Foster"
+},
+"17863": {
+"given": "Denis",
+"name": "Denis Tardif",
+"surname": "Tardif"
+},
+"17865": {
+"given": "MarieChantal",
+"name": "MarieChantal Chassé",
+"surname": "Chassé"
+},
+"17867": {
+"given": "Vincent",
+"name": "Vincent Marissal",
+"surname": "Marissal"
+},
+"17871": {
+"given": "Émilise",
+"name": "Émilise Lessard-Therrien",
+"surname": "Lessard-Therrien"
+},
+"17873": {
+"given": "Christopher",
+"name": "Christopher Skeete",
+"surname": "Skeete"
+},
+"17877": {
+"given": "Geneviève",
+"name": "Geneviève Hébert",
+"surname": "Hébert"
+},
+"17879": {
+"given": "Louis",
+"name": "Louis Lemieux",
+"surname": "Lemieux"
+},
+"17881": {
+"given": "Youri",
+"name": "Youri Chassin",
+"surname": "Chassin"
+},
+"17883": {
+"given": "Marwah",
+"name": "Marwah Rizqy",
+"surname": "Rizqy"
+},
+"17887": {
+"given": "Danielle",
+"name": "Danielle Mccann",
+"surname": "Mccann"
+},
+"17889": {
+"given": "Christine",
+"name": "Christine Labrie",
+"surname": "Labrie"
+},
+"17891": {
+"given": "Marilyne",
+"name": "Marilyne Picard",
+"surname": "Picard"
+},
+"17893": {
+"given": "Lionel",
+"name": "Lionel Carmant",
+"surname": "Carmant"
+},
+"17895": {
+"given": "Catherine",
+"name": "Catherine Dorion",
+"surname": "Dorion"
+},
+"17897": {
+"given": "Pierre",
+"name": "Pierre Fitzgibbon",
+"surname": "Fitzgibbon"
+},
+"17899": {
+"given": "Jean",
+"name": "Jean Boulet",
+"surname": "Boulet"
+},
+"17901": {
+"given": "Denis",
+"name": "Denis Lamothe",
+"surname": "Lamothe"
+},
+"17903": {
+"given": "Ian",
+"name": "Ian Lafrenière",
+"surname": "Lafrenière"
+},
+"17905": {
+"given": "Mario",
+"name": "Mario Asselin",
+"surname": "Asselin"
+},
+"17907": {
+"given": "Suzanne",
+"name": "Suzanne Dansereau",
+"surname": "Dansereau"
+},
+"17909": {
+"given": "Frantz",
+"name": "Frantz Benjamin",
+"surname": "Benjamin"
+},
+"17911": {
+"given": "Jennifer",
+"name": "Jennifer Maccarone",
+"surname": "Maccarone"
+},
+"17913": {
+"given": "Andrée",
+"name": "Andrée Laforest",
+"surname": "Laforest"
+},
+"17915": {
+"given": "Marie-Eve",
+"name": "Marie-Eve Proulx",
+"surname": "Proulx"
+},
+"17917": {
+"given": "François",
+"name": "François Tremblay",
+"surname": "Tremblay"
+},
+"17921": {
+"given": "Robert",
+"name": "Robert Bussière",
+"surname": "Bussière"
+},
+"17923": {
+"given": "Monsef",
+"name": "Monsef Derraji",
+"surname": "Derraji"
+},
+"17925": {
+"given": "Gilles",
+"name": "Gilles Bélanger",
+"surname": "Bélanger"
+},
+"17927": {
+"given": "Mathieu",
+"name": "Mathieu Lacombe",
+"surname": "Lacombe"
+},
+"17929": {
+"given": "Eric",
+"name": "Eric Girard",
+"surname": "Girard"
+},
+"17931": {
+"given": "Chantal",
+"name": "Chantal Rouleau",
+"surname": "Rouleau"
+},
+"17933": {
+"given": "Ruba",
+"name": "Ruba Ghazal",
+"surname": "Ghazal"
+},
+"17935": {
+"given": "Alexandre",
+"name": "Alexandre Leduc",
+"surname": "Leduc"
+},
+"17937": {
+"given": "François",
+"name": "François Jacques",
+"surname": "Jacques"
+},
+"17939": {
+"given": "Claire",
+"name": "Claire Isabelle",
+"surname": "Isabelle"
+},
+"17941": {
+"given": "Simon",
+"name": "Simon Allaire",
+"surname": "Allaire"
+},
+"17943": {
+"given": "Enrico",
+"name": "Enrico Ciccone",
+"surname": "Ciccone"
+},
+"17945": {
+"given": "Isabelle",
+"name": "Isabelle Lecours",
+"surname": "Lecours"
+},
+"17947": {
+"given": "Joël",
+"name": "Joël Arseneau",
+"surname": "Arseneau"
+},
+"17949": {
+"given": "Lucie",
+"name": "Lucie Lecours",
+"surname": "Lecours"
+},
+"17951": {
+"given": "Gregory",
+"name": "Gregory Kelley",
+"surname": "Kelley"
+},
+"17953": {
+"given": "Andrés",
+"name": "Andrés Fontecilla",
+"surname": "Fontecilla"
+},
+"17955": {
+"given": "Sol",
+"name": "Sol Zanetti",
+"surname": "Zanetti"
+},
+"17957": {
+"given": "Eric",
+"name": "Eric Girard",
+"surname": "Girard"
+},
+"17959": {
+"given": "Chantale",
+"name": "Chantale Jeannotte",
+"surname": "Jeannotte"
+},
+"18071": {
+"given": "Marie-Louise",
+"name": "Marie-Louise Tardif",
+"surname": "Tardif"
+},
+"18073": {
+"given": "Louis-Charles",
+"name": "Louis-Charles Thouin",
+"surname": "Thouin"
+},
+"18217": {
+"given": "Méganne",
+"name": "Méganne Perry Mélançon",
+"surname": "Perry Mélançon"
+},
+"18247": {
+"given": "Nancy",
+"name": "Nancy Guillemette",
+"surname": "Guillemette"
+},
+"183": {
+"given": "Gilles",
+"name": "Gilles Robert",
+"surname": "Robert"
+},
+"18561": {
+"given": "Joëlle",
+"name": "Joëlle Boutin",
+"surname": "Boutin"
+},
+"189": {
+"given": "Jean-Paul",
+"name": "Jean-Paul Diamond",
+"surname": "Diamond"
+},
+"191": {
+"given": "Dominique",
+"name": "Dominique Vien",
+"surname": "Vien"
+},
+"195": {
+"given": "Benoit",
+"name": "Benoit Charette",
+"surname": "Charette"
+},
+"209": {
+"given": "Bernard",
+"name": "Bernard Drainville",
+"surname": "Drainville"
+},
+"223": {
+"given": "Stéphanie",
+"name": "Stéphanie Vallée",
+"surname": "Vallée"
+},
+"229": {
+"given": "Noëlla",
+"name": "Noëlla Champagne",
+"surname": "Champagne"
+},
+"25": {
+"given": "Amir",
+"name": "Amir Khadir",
+"surname": "Khadir"
+},
+"255": {
+"given": "Marie",
+"name": "Marie Malavoy",
+"surname": "Malavoy"
+},
+"27": {
+"given": "Véronique",
+"name": "Véronique Hivon",
+"surname": "Hivon"
+},
+"287": {
+"given": "Lorraine",
+"name": "Lorraine Richard",
+"surname": "Richard"
+},
+"29": {
+"given": "Scott",
+"name": "Scott Mckay",
+"surname": "Mckay"
+},
+"293": {
+"given": "Louise",
+"name": "Louise Beaudoin",
+"surname": "Beaudoin"
+},
+"297": {
+"given": "Yves",
+"name": "Yves Bolduc",
+"surname": "Bolduc"
+},
+"299": {
+"given": "André",
+"name": "André Drolet",
+"surname": "Drolet"
+},
+"31": {
+"given": "Georges",
+"name": "Georges Mamelonet",
+"surname": "Mamelonet"
+},
+"3233": {
+"given": "Jean-Marc",
+"name": "Jean-Marc Fournier",
+"surname": "Fournier"
+},
+"329": {
+"given": "Pierre",
+"name": "Pierre Reid",
+"surname": "Reid"
+},
+"33": {
+"given": "Kathleen",
+"name": "Kathleen Weil",
+"surname": "Weil"
+},
+"35": {
+"given": "Gilles",
+"name": "Gilles Lehouillier",
+"surname": "Lehouillier"
+},
+"353": {
+"given": "Jacques",
+"name": "Jacques Chagnon",
+"surname": "Chagnon"
+},
+"359": {
+"given": "Pierre",
+"name": "Pierre Moreau",
+"surname": "Moreau"
+},
+"363": {
+"given": "Emmanuel",
+"name": "Emmanuel Dubourg",
+"surname": "Dubourg"
+},
+"39": {
+"given": "Michel",
+"name": "Michel Matte",
+"surname": "Matte"
+},
+"409": {
+"given": "Monique",
+"name": "Monique Richard",
+"surname": "Richard"
+},
+"41": {
+"given": "Maka",
+"name": "Maka Kotto",
+"surname": "Kotto"
+},
+"4131": {
+"given": "François",
+"name": "François Legault",
+"surname": "Legault"
+},
+"421": {
+"given": "Pierre",
+"name": "Pierre Arcand",
+"surname": "Arcand"
+},
+"423": {
+"given": "Marjolain",
+"name": "Marjolain Dufour",
+"surname": "Dufour"
+},
+"427": {
+"given": "Michel",
+"name": "Michel Pigeon",
+"surname": "Pigeon"
+},
+"43": {
+"given": "Patrick",
+"name": "Patrick Huot",
+"surname": "Huot"
+},
+"441": {
+"given": "Émilien",
+"name": "Émilien Pelletier",
+"surname": "Pelletier"
+},
+"45": {
+"given": "Lisette",
+"name": "Lisette Lapointe",
+"surname": "Lapointe"
+},
+"47": {
+"given": "Martin",
+"name": "Martin Lemay",
+"surname": "Lemay"
+},
+"471": {
+"given": "Vincent",
+"name": "Vincent Auclair",
+"surname": "Auclair"
+},
+"475": {
+"given": "Jacques P.",
+"name": "Jacques P. Dupuis",
+"surname": "Dupuis"
+},
+"485": {
+"given": "Éric",
+"name": "Éric Caire",
+"surname": "Caire"
+},
+"49": {
+"given": "Yolande",
+"name": "Yolande James",
+"surname": "James"
+},
+"499": {
+"given": "Norbert",
+"name": "Norbert Morin",
+"surname": "Morin"
+},
+"509": {
+"given": "Jean-Martin",
+"name": "Jean-Martin Aussant",
+"surname": "Aussant"
+},
+"51": {
+"given": "Charlotte",
+"name": "Charlotte L'Écuyer",
+"surname": "L'Écuyer"
+},
+"525": {
+"given": "Jean",
+"name": "Jean Charest",
+"surname": "Charest"
+},
+"53": {
+"given": "Yvon",
+"name": "Yvon Marcoux",
+"surname": "Marcoux"
+},
+"531": {
+"given": "Claude",
+"name": "Claude Bachand",
+"surname": "Bachand"
+},
+"5369": {
+"given": "Jean-François",
+"name": "Jean-François Simard",
+"surname": "Simard"
+},
+"549": {
+"given": "Guy",
+"name": "Guy Ouellette",
+"surname": "Ouellette"
+},
+"55": {
+"given": "Geoffrey",
+"name": "Geoffrey Kelley",
+"surname": "Kelley"
+},
+"565": {
+"given": "Raymond",
+"name": "Raymond Bachand",
+"surname": "Bachand"
+},
+"57": {
+"given": "Agnès",
+"name": "Agnès Maltais",
+"surname": "Maltais"
+},
+"59": {
+"given": "Pierre",
+"name": "Pierre Marsan",
+"surname": "Marsan"
+},
+"5909": {
+"given": "Sébastien",
+"name": "Sébastien Schneeberger",
+"surname": "Schneeberger"
+},
+"5921": {
+"given": "Laurent",
+"name": "Laurent Lessard",
+"surname": "Lessard"
+},
+"61": {
+"given": "Fatima",
+"name": "Fatima Houda-Pepin",
+"surname": "Houda-Pepin"
+},
+"63": {
+"given": "Nicole",
+"name": "Nicole Léger",
+"surname": "Léger"
+},
+"635": {
+"given": "Francine",
+"name": "Francine Charbonneau",
+"surname": "Charbonneau"
+},
+"641": {
+"given": "Robert",
+"name": "Robert Dutil",
+"surname": "Dutil"
+},
+"649": {
+"given": "Julie",
+"name": "Julie Boulet",
+"surname": "Boulet"
+},
+"65": {
+"given": "David",
+"name": "David Whissell",
+"surname": "Whissell"
+},
+"651": {
+"given": "Alain",
+"name": "Alain Paquet",
+"surname": "Paquet"
+},
+"655": {
+"given": "Marc",
+"name": "Marc Picard",
+"surname": "Picard"
+},
+"663": {
+"given": "Line",
+"name": "Line Beauchamp",
+"surname": "Beauchamp"
+},
+"67": {
+"given": "Norman",
+"name": "Norman Macmillan",
+"surname": "Macmillan"
+},
+"685": {
+"given": "Luc",
+"name": "Luc Ferland",
+"surname": "Ferland"
+},
+"725": {
+"given": "Monique",
+"name": "Monique Gagnon-Tremblay",
+"surname": "Gagnon-Tremblay"
+},
+"727": {
+"given": "Denise",
+"name": "Denise Beaudoin",
+"surname": "Beaudoin"
+},
+"7289": {
+"given": "Nicolas",
+"name": "Nicolas Marceau",
+"surname": "Marceau"
+},
+"729": {
+"given": "Sylvain",
+"name": "Sylvain Simard",
+"surname": "Simard"
+},
+"79": {
+"given": "Pauline",
+"name": "Pauline Marois",
+"surname": "Marois"
+},
+"81": {
+"given": "François",
+"name": "François Rebello",
+"surname": "Rebello"
+},
+"821": {
+"given": "Irvin",
+"name": "Irvin Pelletier",
+"surname": "Pelletier"
+},
+"8431": {
+"given": "Martine",
+"name": "Martine Ouellet",
+"surname": "Ouellet"
+},
+"857": {
+"given": "François",
+"name": "François Ouimet",
+"surname": "Ouimet"
+},
+"859": {
+"given": "Michelle",
+"name": "Michelle Courchesne",
+"surname": "Courchesne"
+},
+"887": {
+"given": "Claude",
+"name": "Claude Béchard",
+"surname": "Béchard"
+},
+"9": {
+"given": "Carole",
+"name": "Carole Poirier",
+"surname": "Poirier"
+},
+"91": {
+"given": "Danielle",
+"name": "Danielle Doyer",
+"surname": "Doyer"
+},
+"925": {
+"given": "Claude",
+"name": "Claude Cousineau",
+"surname": "Cousineau"
+},
+"959": {
+"given": "Maryse",
+"name": "Maryse Gaudreault",
+"surname": "Gaudreault"
+},
+"97": {
+"given": "André",
+"name": "André Villeneuve",
+"surname": "Villeneuve"
+},
+"987": {
+"given": "Sylvain",
+"name": "Sylvain Pagé",
+"surname": "Pagé"
+},
+"991": {
+"given": "Pascal",
+"name": "Pascal Bérubé",
+"surname": "Bérubé"
+},
+"9939": {
+"given": "André",
+"name": "André Simard",
+"surname": "Simard"
+}
+},
+"source": "depcir terms as read live on 2 October 2026 (CI run 37048289773), cut to the members sitting on 2010-02-11, 2010-02-16, 2010-03-23, 2011-06-09, 2012-11-22, 2012-12-04, 2020-05-13",
+"terms": [
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1001",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Jonquière",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1001",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Jonquière",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "1001",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Jonquière",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1003",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Îles-De-La-Madeleine",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1017",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Soulanges",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1017",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Soulanges",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1025",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Huntingdon",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1025",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Huntingdon",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1051",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Verdun",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1051",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Verdun",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1059",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Trois-Rivières",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1059",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Trois-Rivières",
+"start": "2012-09-04"
+},
+{
+"end": "2011-09-06",
+"legislature": 39,
+"member_key": "1063",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Bonaventure",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1077",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Lac-Saint-Jean",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1077",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Lac-Saint-Jean",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "11",
+"party": "ADQ",
+"party_dated": 0,
+"riding": "Shefford",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "11",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Granby",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "11",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Granby",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1107",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Abitibi-Est",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1113",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Brome-Missisquoi",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1113",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Brome-Missisquoi",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1115",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Saint-Maurice",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1123",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Drummond",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1123",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Johnson",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "113",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laporte",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "113",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laporte",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "113",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laporte",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1135",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Borduas",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1141",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Montmorency",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1171",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jeanne-Mance–Viger",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1171",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jeanne-Mance–Viger",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "1171",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jeanne-Mance–Viger",
+"start": "2018-10-01"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "11785",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Argenteuil",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "11789",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Lafontaine",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "11789",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Lafontaine",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1179",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laurier-Dorion",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1179",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laurier-Dorion",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1199",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Chambly",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1199",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Chambly",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1201",
+"party": "ADQ",
+"party_dated": 0,
+"riding": "Lotbinière",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1201",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Arthabaska",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12163",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Bonaventure",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "12163",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Bonaventure",
+"start": "2018-10-01"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12165",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Nicolet-Bécancour",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "12165",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Nicolet-Bécancour",
+"start": "2018-10-01"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12167",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Vimont",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "12167",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Vimont",
+"start": "2018-10-01"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12169",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rosemont",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12173",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Richmond",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12175",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Laval-Des-Rapides",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12177",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rouyn-Noranda–Témiscamingue",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12179",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Charlesbourg",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12181",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Saint-Maurice",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12183",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Montmorency",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12187",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Montarville",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "12187",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Montarville",
+"start": "2018-10-01"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12189",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Sanguinet",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12193",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Saint-Jérôme",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12195",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Dubuc",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12197",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Richelieu",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12199",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Masson",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12201",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Groulx",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12203",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Marguerite-Bourgeoys",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12205",
+"party": "QS",
+"party_dated": 0,
+"riding": "Gouin",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12207",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mégantic",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12209",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Îles-De-La-Madeleine",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12211",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Beauce-Nord",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12213",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Vanier-Les Rivières",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "12213",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Chauveau",
+"start": "2018-10-01"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12217",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Bourassa-Sauvé",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12221",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Crémazie",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12223",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Lévis",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "12223",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "La Prairie",
+"start": "2018-10-01"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12225",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Sainte-Marie–Saint-Jacques",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12227",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Papineau",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12229",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Gaspé",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12231",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Portneuf",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12235",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Sainte-Rose",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12237",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Sherbrooke",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12239",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Borduas",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12241",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Deux-Montagnes",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12243",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Abitibi-Est",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12245",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Fabre",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12267",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Saint-François",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "12269",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "La Prairie",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1227",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Groulx",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1235",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Acadie",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1235",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Acadie",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "1235",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Acadie",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1239",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Dubuc",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1253",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Gouin",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1263",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-Henri–Sainte-Anne",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1263",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-Henri–Sainte-Anne",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "1263",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Prévost",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1273",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Louis-Hébert",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1273",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Louis-Hébert",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "13",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Rouyn-Noranda–Témiscamingue",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1303",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Terrebonne",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1303",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Terrebonne",
+"start": "2012-09-04"
+},
+{
+"end": "2012-05-03",
+"legislature": 39,
+"member_key": "1317",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Lafontaine",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1337",
+"party": "ADQ",
+"party_dated": 0,
+"riding": "Beauce-Nord",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1341",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Masson",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1355",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Anjou",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1355",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Anjou–Louis-Riel",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "1355",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Anjou–Louis-Riel",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1365",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mégantic-Compton",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1389",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Roberval",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1389",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Roberval",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1407",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Saint-Jean",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1407",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Saint-Jean",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1419",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "D'Arcy-Mcgee",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1419",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "D'Arcy-Mcgee",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1423",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Abitibi-Ouest",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1423",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Abitibi-Ouest",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1443",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Verchères",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1443",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Verchères",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1457",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Chicoutimi",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1457",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Chicoutimi",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "149",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Johnson",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "15",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Beauharnois",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "15",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Beauharnois",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15357",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Blainville",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15359",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Borduas",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15361",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Chambly",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15369",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Maurice-Richard",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15371",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "D'Arcy-Mcgee",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15379",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Marguerite-Bourgeoys",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15383",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Pontiac",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15389",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Repentigny",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15391",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Robert-Baldwin",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15397",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "La Pinière",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15399",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Mirabel",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15401",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Johnson",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15403",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Masson",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15407",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laval-Des-Rapides",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15409",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Iberville",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15417",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Saint-Hyacinthe",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15421",
+"party": "QS",
+"party_dated": 0,
+"riding": "Sainte-Marie–Saint-Jacques",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15439",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Vaudreuil",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15479",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rimouski",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "155",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Iberville",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "155",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Iberville",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "157",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Blainville",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "157",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Blainville",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "15725",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Lévis",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1623",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Rivière-Du-Loup",
+"start": "2009-06-22"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "1623",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Rivière-Du-Loup–Témiscouata",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1635",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Marguerite-Bourgeoys",
+"start": "2009-06-22"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "16493",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Fabre",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "16495",
+"party": "PQ",
+"party_dated": 0,
+"riding": "René-Lévesque",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "16499",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-Henri–Sainte-Anne",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "1659",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Richmond",
+"start": "2008-12-08"
+},
+{
+"end": "2022-04-10",
+"legislature": 42,
+"member_key": "16775",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Marie-Victorin",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "16777",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Arthabaska",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "16779",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Verdun",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "16827",
+"party": "QS",
+"party_dated": 0,
+"riding": "Gouin",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "16885",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Louis-Hébert",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "17",
+"party": "ADQ",
+"party_dated": 0,
+"riding": "Chauveau",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "17",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Chauveau",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "177",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Chapleau",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "177",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Chapleau",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17823",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Abitibi-Est",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17825",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Abitibi-Ouest",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17827",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Argenteuil",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17829",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Beauce-Nord",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17831",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Beauce-Sud",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17833",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Beauharnois",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17835",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Bellechasse",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17837",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Berthier",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17839",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Bertrand",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17841",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Bourassa-Sauvé",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17843",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Bourget",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17845",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Brome-Missisquoi",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17847",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Champlain",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17849",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Portneuf",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17851",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Chapleau",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17855",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Charlesbourg",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17857",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Richelieu",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17859",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Richmond",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17861",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Charlevoix–Côte-De-Beaupré",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17863",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Rivière-Du-Loup–Témiscouata",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17865",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Châteauguay",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17867",
+"party": "QS",
+"party_dated": 0,
+"riding": "Rosemont",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17871",
+"party": "QS",
+"party_dated": 0,
+"riding": "Rouyn-Noranda–Témiscamingue",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17873",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Sainte-Rose",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17877",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Saint-François",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17879",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Saint-Jean",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17881",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Saint-Jérôme",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17883",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-Laurent",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17887",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Sanguinet",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17889",
+"party": "QS",
+"party_dated": 0,
+"riding": "Sherbrooke",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17891",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Soulanges",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17893",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Taillon",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17895",
+"party": "QS",
+"party_dated": 0,
+"riding": "Taschereau",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17897",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Terrebonne",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17899",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Trois-Rivières",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17901",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Ungava",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17903",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Vachon",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17905",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Vanier-Les Rivières",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17907",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Verchères",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17909",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Viau",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17911",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Westmount–Saint-Louis",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17913",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Chicoutimi",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17915",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Côte-Du-Sud",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17917",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Dubuc",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17921",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Gatineau",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17923",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Nelligan",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17925",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Orford",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17927",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Papineau",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17929",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Groulx",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17931",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Pointe-Aux-Trembles",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17933",
+"party": "QS",
+"party_dated": 0,
+"riding": "Mercier",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17935",
+"party": "QS",
+"party_dated": 0,
+"riding": "Hochelaga-Maisonneuve",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17937",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Mégantic",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17939",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Huntingdon",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17941",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Maskinongé",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17943",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Marquette",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17945",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Lotbinière-Frontenac",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17947",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Îles-De-La-Madeleine",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17949",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Les Plaines",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17951",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jacques-Cartier",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17953",
+"party": "QS",
+"party_dated": 0,
+"riding": "Laurier-Dorion",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17955",
+"party": "QS",
+"party_dated": 0,
+"riding": "Jean-Lesage",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17957",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Lac-Saint-Jean",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "17959",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Labelle",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "18071",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Laviolette–Saint-Maurice",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "18073",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Rousseau",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "18217",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Gaspé",
+"start": "2018-10-01"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "18247",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Roberval",
+"start": "2018-12-10"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "183",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Prévost",
+"start": "2008-12-08"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "18561",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Jean-Talon",
+"start": "2019-12-02"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "189",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Maskinongé",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "189",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Maskinongé",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "191",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Bellechasse",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "191",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Bellechasse",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "195",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Deux-Montagnes",
+"start": "2008-12-08"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "195",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Deux-Montagnes",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "209",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Marie-Victorin",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "209",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Marie-Victorin",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "223",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Gatineau",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "223",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Gatineau",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "229",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Champlain",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "229",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Champlain",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "25",
+"party": "QS",
+"party_dated": 0,
+"riding": "Mercier",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "25",
+"party": "QS",
+"party_dated": 0,
+"riding": "Mercier",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "255",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Taillon",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "255",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Taillon",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "27",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Joliette",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "27",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Joliette",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "27",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Joliette",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "287",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Duplessis",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "287",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Duplessis",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "287",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Duplessis",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "29",
+"party": "PQ",
+"party_dated": 0,
+"riding": "L'Assomption",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "29",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Repentigny",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "293",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rosemont",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "297",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jean-Talon",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "297",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jean-Talon",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "299",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jean-Lesage",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "299",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jean-Lesage",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "31",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Gaspé",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "3233",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-Laurent",
+"start": "2010-09-13"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "3233",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-Laurent",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "329",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Orford",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "329",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Orford",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "33",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Notre-Dame-De-Grâce",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "33",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Notre-Dame-De-Grâce",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "33",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Notre-Dame-De-Grâce",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "35",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Lévis",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "353",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Westmount–Saint-Louis",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "353",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Westmount–Saint-Louis",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "359",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Châteauguay",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "359",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Châteauguay",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "363",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Viau",
+"start": "2008-12-08"
+},
+{
+"end": "2013-08-09",
+"legislature": 40,
+"member_key": "363",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Viau",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "39",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Portneuf",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "409",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Marguerite-D'Youville",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "41",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Bourget",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "41",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Bourget",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "4131",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "L'Assomption",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "4131",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "L'Assomption",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "421",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mont-Royal",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "421",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mont-Royal",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "421",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mont-Royal–Outremont",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "423",
+"party": "PQ",
+"party_dated": 0,
+"riding": "René-Lévesque",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "423",
+"party": "PQ",
+"party_dated": 0,
+"riding": "René-Lévesque",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "427",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Charlesbourg",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "43",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Vanier",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "441",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Saint-Hyacinthe",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "441",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Saint-Hyacinthe",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "45",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Crémazie",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "47",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Sainte-Marie–Saint-Jacques",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "471",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Vimont",
+"start": "2008-12-08"
+},
+{
+"end": "2010-08-09",
+"legislature": 39,
+"member_key": "475",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-Laurent",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "485",
+"party": "ADQ",
+"party_dated": 0,
+"riding": "La Peltrie",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "485",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "La Peltrie",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "485",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "La Peltrie",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "49",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Nelligan",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "49",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Nelligan",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "499",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Montmagny-L'Islet",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "499",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Côte-Du-Sud",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "509",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Nicolet-Yamaska",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "51",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Pontiac",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "51",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Pontiac",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "525",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Sherbrooke",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "53",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Vaudreuil",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "53",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Vaudreuil",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "531",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Arthabaska",
+"start": "2008-12-08"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "5369",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Montmorency",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "549",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Chomedey",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "549",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Chomedey",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "549",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Chomedey",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "55",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jacques-Cartier",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "55",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Jacques-Cartier",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "565",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Outremont",
+"start": "2008-12-08"
+},
+{
+"end": "2013-09-13",
+"legislature": 40,
+"member_key": "565",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Outremont",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "57",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Taschereau",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "57",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Taschereau",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "59",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Robert-Baldwin",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "59",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Robert-Baldwin",
+"start": "2012-09-04"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "5909",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Drummond–Bois-Francs",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "5909",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Drummond–Bois-Francs",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "5921",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Frontenac",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "5921",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Lotbinière-Frontenac",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "61",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "La Pinière",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "61",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "La Pinière",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "63",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Pointe-Aux-Trembles",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "63",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Pointe-Aux-Trembles",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "635",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mille-Îles",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "635",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mille-Îles",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "635",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Mille-Îles",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "641",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Beauce-Sud",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "641",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Beauce-Sud",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "649",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laviolette",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "649",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laviolette",
+"start": "2012-09-04"
+},
+{
+"end": "2011-12-16",
+"legislature": 39,
+"member_key": "65",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Argenteuil",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "651",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Laval-Des-Rapides",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "655",
+"party": "ADQ",
+"party_dated": 0,
+"riding": "Chutes-De-La-Chaudière",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "655",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Chutes-De-La-Chaudière",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "655",
+"party": "CAQ",
+"party_dated": 0,
+"riding": "Chutes-De-La-Chaudière",
+"start": "2018-10-01"
+},
+{
+"end": "2012-05-14",
+"legislature": 39,
+"member_key": "663",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Bourassa-Sauvé",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "67",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Papineau",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "685",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Ungava",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "685",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Ungava",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "725",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Saint-François",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "727",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Mirabel",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "727",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Mirabel",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "7289",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rousseau",
+"start": "2009-09-21"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "7289",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rousseau",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "729",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Richelieu",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "79",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Charlevoix",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "79",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Charlevoix–Côte-De-Beaupré",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "81",
+"party": "PQ",
+"party_dated": 0,
+"riding": "La Prairie",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "821",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rimouski",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "821",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Rimouski",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "8431",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Vachon",
+"start": "2010-07-05"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "8431",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Vachon",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "857",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Marquette",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "857",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Marquette",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "859",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Fabre",
+"start": "2008-12-08"
+},
+{
+"end": "2010-09-03",
+"legislature": 39,
+"member_key": "887",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Kamouraska-Témiscouata",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "9",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Hochelaga-Maisonneuve",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "9",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Hochelaga-Maisonneuve",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "91",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Matapédia",
+"start": "2008-12-08"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "925",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Bertrand",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "925",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Bertrand",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "959",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Hull",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "959",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Hull",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "959",
+"party": "PLQ",
+"party_dated": 0,
+"riding": "Hull",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "97",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Berthier",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "97",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Berthier",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "987",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Labelle",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "987",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Labelle",
+"start": "2012-09-04"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "991",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Matane",
+"start": "2008-12-08"
+},
+{
+"end": "2014-04-06",
+"legislature": 40,
+"member_key": "991",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Matane-Matapédia",
+"start": "2012-09-04"
+},
+{
+"end": "2022-10-02",
+"legislature": 42,
+"member_key": "991",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Matane-Matapédia",
+"start": "2018-10-01"
+},
+{
+"end": "2012-09-03",
+"legislature": 39,
+"member_key": "9939",
+"party": "PQ",
+"party_dated": 0,
+"riding": "Kamouraska-Témiscouata",
+"start": "2010-11-29"
+}
+]
+}

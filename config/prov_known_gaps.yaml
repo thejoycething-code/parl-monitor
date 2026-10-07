@@ -206,3 +206,91 @@ mb:
     why: >-
       The Speech from the Throne, a hand-made page with no event tables and no
       division.
+
+# Quebec: the 2010 backfill (CI run 37048289773), re-read 7 October 2026 on
+# a scratch store. What is left is the record's own: the procès-verbal's
+# annex and its body disagree and no other record says which list is right.
+# The Assembly proclaims the Secretary General's result ("le secrétaire
+# général communique le résultat à la présidence, qui le proclame",
+# assnat.qc.ca lexique, vote électronique / vote par appel nominal); where the
+# Journal des débats shows the BODY is the misprint the total is replaced in
+# config/prov_record.yaml instead (24 September 2024, vote 311).
+qc:
+  - contains: "qc-39-1-2010-05-12-87: "
+    reviewed: 2026-10-07
+    why: >-
+      The annex prints 56 names (and their ridings) under "CONTRE - 60",
+      in both its layout and its plain text; the body says Contre : 60.
+  - contains: "qc-41-1-2017-05-10-330: "
+    reviewed: 2026-10-07
+    why: "The annex prints 98 names under \"POUR – 99\"; the body says Pour : 99."
+  - contains: "qc-41-1-2017-12-07-404: "
+    reviewed: 2026-10-07
+    why: >-
+      The annex heads the 20 CAQ members "CONTRE - 20"; the body says
+      Contre : 0, Abstentions : 20, and the Journal des débats (41-1,
+      7 December 2017) reads them after "Y a-t-il des abstentions?" and
+      the Secretary proclaims "Pour : 89 Contre : 0 Abstentions : 20". The
+      names are right and the heading wrong; no reviewed fact type moves a
+      list to another position (a decision for Christopher).
+  - contains: "qc-41-1-2017-12-07-405: "
+    reviewed: 2026-10-07
+    why: "As vote 404, the same day (\"Identique\")."
+  - contains: "qc-42-1-2020-09-22-438: "
+    reviewed: 2026-10-07
+    why: >-
+      The annex says "(Identique au vote n° 428)", a 120-0 list; the body
+      says 46-73, the totals of vote 436 (the previous Weil amendment). The
+      COVID-era Journal reads group votes, no names.
+  - contains: "qc-42-1-2020-09-22-439: "
+    reviewed: 2026-10-07
+    why: "As vote 438."
+  - contains: "qc-42-1-2020-12-10-688: "
+    reviewed: 2026-10-07
+    why: "The annex lists 109 names under \"POUR - 109\"; the body says Pour : 119. Group votes: no names in the Journal."
+  - contains: "qc-42-1-2020-12-10-689: "
+    reviewed: 2026-10-07
+    why: "As vote 688."
+  - contains: "qc-42-1-2021-03-11-820: "
+    reviewed: 2026-10-07
+    why: >-
+      The annex lists one name more than the body's total (Contre 73
+      against 72). Group votes: the Journal reads no names or totals, so
+      the extra name cannot be known.
+  - contains: "qc-42-1-2021-03-11-821: "
+    reviewed: 2026-10-07
+    why: "As vote 820."
+  - contains: "qc-42-1-2021-03-11-822: "
+    reviewed: 2026-10-07
+    why: "As vote 820."
+  - contains: "qc-42-1-2021-03-11-823: "
+    reviewed: 2026-10-07
+    why: "As vote 820."
+  - contains: "qc-42-1-2021-03-11-824: "
+    reviewed: 2026-10-07
+    why: "As vote 820 (Pour 119 against 118)."
+  - contains: "qc-42-1-2021-03-16-839: "
+    reviewed: 2026-10-07
+    why: "The annex lists 71 under CONTRE, the body says 70. Group votes."
+  - contains: "qc-42-1-2021-09-14-1129: "
+    reviewed: 2026-10-07
+    why: "The annex lists 116 under POUR, the body says 119. Group votes."
+  - contains: "qc-42-1-2021-09-29-1229: "
+    reviewed: 2026-10-07
+    why: "The annex lists 43 under POUR, the body says 44. Group votes."
+  - contains: "qc-42-2-2021-12-03-139: "
+    reviewed: 2026-10-07
+    why: "The annex lists 115 under POUR, the body says 114. Group votes."
+  - contains: "qc-42-2-2021-12-10-185: "
+    reviewed: 2026-10-07
+    why: >-
+      The annex says "(Identique au vote n° 183)", a 116-0 list; the body
+      says 73-43, the totals of vote 184. Group votes.
+  - contains: "qc-43-3-2026-06-11-60: "
+    reviewed: 2026-10-07
+    why: >-
+      Bill 10, adoption. The annex lists 103 names under "POUR - 103"; the
+      body says Pour : 102, and the Journal des débats (43-3, 11 June 2026,
+      437307.html) records the Secretary's "Pour : 102 Contre : 1
+      Abstentions : 1", proclaimed. The proclaimed result is the vote, so
+      the annex has one name too many and which one cannot be known.

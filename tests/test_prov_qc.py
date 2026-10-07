@@ -808,6 +808,375 @@ class MemberPagesTests(unittest.TestCase):
                          [("2018-11-27", "2022-08-28")])
 
 
+# -- the 2010 backfill (CI run 37048289773, 2 October 2026) --------------------------------
+#
+# 294 tally gaps, 157 bill-page misses, 1,147 unresolved votes. Every fixture
+# below is a real procès-verbal page, cut to the votes it proves.
+
+def backfill_resolver():
+    data = json.loads(fx("qc_terms_backfill.json"))
+    return pn.Resolver(data["members"], data["terms"])
+
+
+def body_votes(day):
+    return {v["number"]: v for v in qc.parse_pv_body(fx("qc_pv_{0}_body.txt".format(day)))}
+
+
+class BareAnnexTests(unittest.TestCase):
+    """2008-2012: the annex prints surnames only, no party."""
+
+    def test_2010_prints_whole_rows_as_one_fragment(self):
+        """16 February 2010: "Arcand Charette Huot  Pelletier " is ONE
+        fragment and ridings are in [brackets]; the old reader took the row
+        for one name and stopped at the first bracket (1 name of 111)."""
+        v = annex("20100216")[62]
+        self.assertTrue(v["bare"])
+        self.assertEqual((v["counts"], len(v["labels"]["Yea"])), ({"Yea": 111}, 111))
+        for label in ("Arcand", "Pelletier (Rimouski)", "Bachand (Arthabaska)", "Bachand (Outremont)",
+                      "Richard (Marguerite-D'Youville)", "Richard (Duplessis)", "Simard (Richelieu)"):
+            self.assertIn(label, v["labels"]["Yea"])
+        votes, ok, note, _ = qc.resolve_division(body_votes("20100216")[62], v, backfill_resolver(), "2010-02-16")
+        self.assertTrue(ok, note)
+        self.assertEqual({x["party_at_vote"] for x in votes}, {None})    # never printed, never invented
+
+    def test_2011_glyph_runs_are_joined_from_the_plain_text(self):
+        """9 June 2011: one fragment per name, but the layout engine splits
+        "Dia mond" and "Si mard"; the plain text spells them whole."""
+        v = annex("20110609")[36]
+        self.assertEqual(len(v["labels"]["Yea"]), 112)
+        self.assertIn("Diamond", v["labels"]["Yea"])
+        self.assertEqual(sum(1 for x in v["labels"]["Yea"] if x.startswith("Simard (")), 3)
+        votes, ok, note, _ = qc.resolve_division(body_votes("20110609")[36], v, backfill_resolver(), "2011-06-09")
+        self.assertTrue(ok, note)
+
+    def test_a_lone_riding_line_is_placed_by_its_seat(self):
+        """11 February 2010: "  [Marguerite-D'Youville]" alone on its line,
+        no x-position, read under Deltell; it is Monique Richard's seat, and
+        "Richard" is the one bare Richard in the list."""
+        votes, ok, note, _ = qc.resolve_division(body_votes("20100211")[61], annex("20100211")[61],
+                                                 backfill_resolver(), "2010-02-11")
+        self.assertTrue(ok, note)
+        labels = {v["raw_label"] for v in votes}
+        self.assertIn("Richard (Marguerite-D'Youville)", labels)
+        self.assertIn("Deltell", labels)
+        self.assertIn("placed under", note)
+
+    def test_a_riding_in_the_wrong_column_finds_nobody(self):
+        """A bare riding that lands under another surname resolves to nobody:
+        the resolver requires the riding to be the member's own."""
+        self.assertIsNone(backfill_resolver().resolve("Lessard (Duplessis)", "2010-02-16")[0])
+
+    def test_a_label_without_party_is_read_only_in_a_bare_annex(self):
+        v = {"counts": {"Yea": 1}, "labels": {"Yea": ["Arcand"]}}
+        votes, ok, _, _ = qc.resolve_division({"totals": {"Yea": 1, "Nay": 0, "Abstain": 0}}, v,
+                                              backfill_resolver(), "2010-02-16")
+        self.assertEqual((votes[0]["how"], ok), ("unparsed label", False))
+
+    def test_tokens(self):
+        words = qc.plain_words("Dupuis Diamond Courcy")
+        self.assertEqual(qc.bare_tokens("[Mirabel]   Dia mond De Courcy  [Marguerite-", words),
+                         ["(Mirabel)", "Diamond", "De Courcy", "(Marguerite-"])
+
+
+class AnnexLayoutTests(unittest.TestCase):
+    def test_vote_no_with_a_full_stop(self):
+        """23 March 2010: "(Vote No. 70)"."""
+        self.assertEqual(len(annex("20100323")[70]["labels"]["Yea"]), 113)
+
+    def test_every_party_closed_twice(self):
+        """22 November 2012: "Arcand (PLQ))"."""
+        v = annex("20121122")[10]
+        self.assertEqual({p: len(l) for p, l in v["labels"].items()}, {"Yea": 62, "Nay": 47})
+        self.assertIn("Arcand (PLQ)", v["labels"]["Yea"])
+
+    def test_a_split_glyph_run_repeated_down_a_column_is_not_a_column(self):
+        """4 December 2012: "St" / "-Amand (PLQ)" and "Po" / "ëti (PLQ)" on
+        several rows cleared the 15 % floor as columns of their own."""
+        v = annex("20121204")[13]
+        self.assertEqual(len(v["labels"]["Nay"]), 65)
+        for label in ("St-Amand (PLQ)", "St-Laurent (CAQ)", "St-Pierre (PLQ)", "Poëti (PLQ)"):
+            self.assertIn(label, v["labels"]["Nay"])
+
+    def test_every_party_doubled(self):
+        """12 November 2014: "Arcand ((PLQ))"."""
+        v = annex("20141112")[47]
+        self.assertEqual({p: len(l) for p, l in v["labels"].items()}, {"Yea": 82, "Nay": 25})
+        self.assertIn("Arcand (PLQ)", v["labels"]["Yea"])
+
+    def test_a_missing_opening_bracket_on_a_list_with_no_heading(self):
+        """7 October 2015, vote 136: no "POUR - 106" and "Arcand PLQ)"."""
+        v = annex("20151007")[136]
+        self.assertEqual(len(v["labels"][qc.UNHEADED]), 106)
+        self.assertEqual(v["labels"][qc.UNHEADED][0], "Arcand (PLQ)")
+
+    def test_a_scrambled_reference_is_read_from_the_plain_text(self):
+        """21 April 2015: the layout reads vote 100's "(Identique au vote n°
+        98)" as 89 -- a real, earlier vote of the session. The plain text's
+        references replace the layout's; without the plain text a reference
+        is not followed at all."""
+        data = json.loads(fx("qc_pv_20150421_annex.json"))
+        pages = [[tuple(f) for f in p] for p in data["pages"]]
+        self.assertEqual(qc.parse_annex(pages, data["plain"])[100]["same_as"], 98)
+        blind = qc.parse_annex(pages, "")
+        self.assertEqual(blind[100]["same_as"], 89)
+        conn = db.init_db(db.connect(":memory:"))
+        ps.store_division(conn, {"division_key": "qc-41-1-2015-04-16-89", "prov": "qc", "legislature": 41,
+                                 "session": 1, "date": "2015-04-16", "seq": 89, "kind": "recorded",
+                                 "positions_ok": 1, "votes": [{"position": "Yea", "ordinal": 1,
+                                                               "raw_label": "Arcand (PLQ)", "member_key": "1"}]})
+        qc.earlier_lists(conn, blind, 41, 1)
+        self.assertEqual(blind[100]["labels"], {})
+        self.assertIn("not followed", blind[100]["earlier_note"])
+
+    def test_identique_auvote(self):
+        """13 June 2014: "(Identique auvote n° 16)"."""
+        a = annex("20140613")
+        self.assertEqual(a[19]["same_as"], 16)
+        self.assertEqual(a[19]["labels"], a[16]["labels"])
+
+    def test_a_vote_number_is_read_in_content_order(self):
+        """14 February 2018: the layout engine put vote 421's "4" and "2" at
+        one x-position and read 241; the plain text says 421."""
+        a = annex("20180214")
+        self.assertEqual(list(a), [421])
+
+    def test_a_split_number_is_closed_up(self):
+        """7 April 2022: "(Identique au vote n° 2 78)"."""
+        self.assertEqual(annex("20220407")[294]["same_as"], 278)
+
+    def test_a_list_with_no_position_heading(self):
+        """13 May 2020: "Vote n° 310" (no brackets) and the 120 names under no
+        "POUR - 120". Placed only because the body leaves no choice."""
+        a, body = annex("20200513"), body_votes("20200513")
+        self.assertEqual(a[309]["counts"], {"Yea": 120})
+        self.assertEqual((a[310]["counts"], len(a[310]["labels"][qc.UNHEADED])), ({}, 120))
+        votes, ok, note, _ = qc.resolve_division(body[310], a[310], resolver(), "2020-05-13")
+        self.assertEqual(sum(1 for v in votes if v["position"] == "Yea"), 120)
+        self.assertIn("no position heading", note)
+        split = {"totals": {"Yea": 100, "Nay": 20, "Abstain": 0}}
+        votes, ok, note, _ = qc.resolve_division(split, a[310], resolver(), "2020-05-13")
+        self.assertFalse(ok)
+        self.assertEqual(votes, [])
+
+    def test_a_heading_printed_twice(self):
+        """20 April 2021 heads two lists "(Vote n° 938)" before 940: the
+        second is 939. Never merged into one list."""
+        a = annex("20210420")
+        self.assertEqual(sorted(a), [937, 938, 939, 940])
+        self.assertEqual((a[938]["same_as"], a[939]["same_as"]), (936, 936))
+        self.assertIn("read as vote 939", a[939]["renumbered"])
+
+    def test_a_misnumbered_heading_takes_its_place_in_the_sequence(self):
+        """9 June 2021 prints "(Vote n° 1002)" between 1101 and 1103."""
+        a = annex("20210609")
+        self.assertEqual(list(a), [1100, 1101, 1002])
+        got, notes = qc.renumber_annex({**a, 1103: {"labels": {}}},set(range(1099, 1106)))
+        self.assertIn(1102, got)
+        self.assertNotIn(1002, got)
+        self.assertIn("1002", notes[1102])
+        # Not flanked by n-1 and n+1: left alone.
+        got, notes = qc.renumber_annex(a, set(range(1099, 1106)))
+        self.assertIn(1002, got)
+
+
+class BodyNumberTests(unittest.TestCase):
+    def test_a_number_printed_twice_in_the_body(self):
+        """10 December 2021: "(Vote n° 180 en annexe)" for Bill 11 and again
+        for Bill 9; the annex numbers Bill 9's vote 181."""
+        votes, notes = qc.renumber_body(qc.parse_pv_body(fx("qc_pv_20211210_body.txt")), {179, 180, 181, 182})
+        self.assertEqual([(v["number"], v["bill_number"]) for v in votes],
+                         [(179, None), (180, "11"), (181, "9"), (182, "7")])
+        self.assertIn(181, notes)
+        # Without 181 in the annex nothing is renumbered.
+        votes, notes = qc.renumber_body(qc.parse_pv_body(fx("qc_pv_20211210_body.txt")), {179, 180, 182})
+        self.assertEqual([v["number"] for v in votes], [179, 180, 180, 182])
+
+
+class RidingPlacementTests(unittest.TestCase):
+    """12 February 2020, vote 289: the annex reads "Zanetti (QS) (Berthier)"
+    and a bare "Proulx (CAQ)"; Berthier is Caroline Proulx's seat."""
+
+    def setUp(self):
+        members = {"17837": {"surname": "Proulx", "given": "Caroline", "name": "Caroline Proulx"},
+                   "17915": {"surname": "Proulx", "given": "Marie-Eve", "name": "Marie-Eve Proulx"},
+                   "19000": {"surname": "Zanetti", "given": "Sol", "name": "Sol Zanetti"}}
+        terms = [{"member_key": k, "legislature": 42, "party": p, "riding": r, "start": "2018-10-01",
+                  "end": "2022-10-02"} for k, p, r in (("17837", "CAQ", "Berthier"), ("17915", "CAQ", "Côte-du-Sud"),
+                                                      ("19000", "QS", "Jean-Lesage"))]
+        self.r = pn.Resolver(members, terms)
+
+    def test_the_riding_goes_to_the_one_name_it_can_belong_to(self):
+        annex_v = {"counts": {"Yea": 3}, "labels": {"Yea": ["Proulx (CAQ)", "Proulx (CAQ) (Côte-du-Sud)",
+                                                             "Zanetti (QS) (Berthier)"]}}
+        votes, ok, note, _ = qc.resolve_division({"totals": {"Yea": 3, "Nay": 0, "Abstain": 0}}, annex_v,
+                                                 self.r, "2020-02-12")
+        self.assertTrue(ok, note)
+        got = {v["raw_label"]: (v["member_key"], v["party_at_vote"]) for v in votes}
+        self.assertEqual(got["Proulx (CAQ) (Berthier)"], ("17837", "CAQ"))
+        self.assertEqual(got["Zanetti (QS)"], ("19000", "QS"))
+
+    def test_two_possible_takers_move_nothing(self):
+        annex_v = {"counts": {"Yea": 3}, "labels": {"Yea": ["Proulx (CAQ)", "Proulx (CAQ)", "Zanetti (QS) (Berthier)"]}}
+        _, ok, _, _ = qc.resolve_division({"totals": {"Yea": 3, "Nay": 0, "Abstain": 0}}, annex_v, self.r,
+                                          "2020-02-12")
+        self.assertFalse(ok)
+
+
+class EarlierListTests(unittest.TestCase):
+    """7 April 2022: "(Identique au vote n° 278)" names a vote of an earlier
+    sitting."""
+
+    def setUp(self):
+        self.conn = db.init_db(db.connect(":memory:"))
+
+    def _store(self, ok):
+        ps.store_division(self.conn, {
+            "division_key": "qc-42-2-2022-04-06-278", "prov": "qc", "legislature": 42, "session": 2,
+            "date": "2022-04-06", "seq": 278, "kind": "recorded", "yeas": 1, "nays": 1,
+            "positions_ok": 1 if ok else 0,
+            "votes": [{"position": "Yea", "ordinal": 1, "raw_label": "Arcand (PLQ)", "member_key": "1"},
+                      {"position": "Nay", "ordinal": 1, "raw_label": "Allaire (CAQ)", "member_key": "2"}]})
+
+    def test_a_trusted_earlier_division_lends_its_list(self):
+        self._store(True)
+        a = annex("20220407")
+        qc.earlier_lists(self.conn, a, 42, 2)
+        self.assertEqual(a[294]["labels"], {"Yea": ["Arcand (PLQ)"], "Nay": ["Allaire (CAQ)"]})
+        self.assertIn("2022-04-06", a[294]["earlier_note"])
+
+    def test_an_untrusted_one_does_not(self):
+        self._store(False)
+        a = annex("20220407")
+        qc.earlier_lists(self.conn, a, 42, 2)
+        self.assertEqual(a[294]["labels"], {})
+        self.assertIn("not a trusted division", a[294]["earlier_note"])
+
+
+class BillNumberTests(unittest.TestCase):
+    def test_presentation_and_private_bills(self):
+        """The PV's own words (30 May 2019, vote 126; 26 May 2020, vote 315)."""
+        q126 = ("M. Bonnardel, ministre des Transports, propose que l’Assemblée soit saisie du projet de loi "
+                "suivant : n° 26 Loi concernant le Réseau structurant de transport en commun de la Ville de "
+                "Québec La motion est adoptée. En conséquence, l’Assemblée est saisie du projet de loi n° 26. "
+                "M. Gaudreault (Jonquière) propose que l’Assemblée soit saisie du projet de loi suivant : "
+                "n° 391 Loi modif iant la Loi sur la qualité de l ’environnement")
+        self.assertEqual(qc._BILL_NO.findall(q126)[-1], "391")
+        q315 = ("propose que l’Assemblée soit saisie du projet de loi d’intérêt privé n° 211, L oi "
+                "concernant SSQ mutuelle.")
+        self.assertEqual(qc._BILL_NO.findall(q315), ["211"])
+
+
+class PageTermTests(unittest.TestCase):
+    """France Dionne (member 1985-1997): "Élue en 2019 vice-présidente de
+    l'Amicale des anciens parlementaires ..., puis présidente en 2022" gave
+    her a 43rd-legislature term, and every "Dionne (CAQ)" of 2022-2026
+    became ambiguous with Amélie Dionne."""
+
+    URL = "https://www.assnat.qc.ca/fr/deputes/dionne-france-2911/index.html"
+
+    def test_an_association_is_not_a_mandate(self):
+        elections, _ = qc.parse_elections(fx("qc_elections.html"))
+        mandates, _ = qc.parse_bio_mandates(fx("qc_member_dionne_2911.html"), elections)
+        self.assertEqual([m[1][:4] for m in mandates], ["1985", "1989", "1994"])
+
+    def test_a_stale_page_term_is_re_read_with_the_roster(self):
+        conn = db.init_db(db.connect(":memory:"))
+        ps.upsert_member(conn, "qc", "2911", name="France Dionne", surname="Dionne", given="France",
+                         party="PLQ", page_url=self.URL)
+        ps.replace_terms(conn, "qc", "2911", [{"legislature": 35, "party": "PLQ", "riding": "Kamouraska-Témiscouata",
+                                               "start": "1994-09-12", "end": "1997-05-02"}], "depcir")
+        ps.replace_terms(conn, "qc", "2911", [{"legislature": 43, "party": "PLQ", "riding": "Kamouraska-Témiscouata",
+                                               "start": "2022-10-03", "end": None}], "member-page")
+        ctx = _ctx(_Client(gets={self.URL: fx("qc_member_dionne_2911.html")}), conn=conn)
+        elections, legislatures = qc.parse_elections(fx("qc_elections.html"))
+        self.assertEqual(qc.recheck_page_terms(ctx, elections, legislatures), 1)
+        self.assertIsNone(pn.Resolver.from_conn(conn, "qc").term_for("2911", "2024-01-01"))
+
+
+class OwedTests(unittest.TestCase):
+    def test_a_day_with_a_missed_bill_vote_is_read_again_once(self):
+        conn = db.init_db(db.connect(":memory:"))
+        ps.store_bill(conn, {"bill_key": "qc-42-1/391", "prov": "qc", "legislature": 42, "session": 1,
+                             "number": "391", "stages": [{"stage": "Présentation", "date": "2019-05-30",
+                                                          "tally": [110, 0, 0]}]})
+        old = "https://x/pv-old"
+        ps.store_sitting(conn, "qc", "qc-42-1-2019-05-30", "2019-05-30", old, status="ok", when="2026-10-02")
+        ps.store_sitting(conn, "qc", "qc-42-1-2019-05-31", "2019-05-31", "https://x/b", status="ok",
+                         when="2026-10-02")
+        recs = [{"date": "2019-05-30", "pv_url": old}, {"date": "2019-05-31", "pv_url": "https://x/b"}]
+        ctx = _ctx(_Client(), conn=conn)
+        self.assertEqual(qc.owe_missed(ctx, 42, 1, recs), 1)
+        self.assertFalse(ps.sitting_done(conn, old))
+        # Read again today and still missed: not owed a second time.
+        ps.store_sitting(conn, "qc", "qc-42-1-2019-05-30", "2019-05-30", old, status="ok")
+        self.assertEqual(qc.owe_missed(ctx, 42, 1, recs), 0)
+
+
+class ReviewedQuebecTests(unittest.TestCase):
+    """Facts from the Journal des débats, scoped to one division."""
+
+    def setUp(self):
+        members = {"655": {"surname": "Picard", "given": "Marc", "name": "Marc Picard"},
+                   "17891": {"surname": "Picard", "given": "Marilyne", "name": "Marilyne Picard"}}
+        terms = [{"member_key": "655", "legislature": 42, "party": "CAQ", "riding": "Chutes-de-la-Chaudière",
+                  "start": "2018-10-01", "end": "2022-10-02"},
+                 {"member_key": "17891", "legislature": 42, "party": "CAQ", "riding": "Soulanges",
+                  "start": "2018-10-01", "end": "2022-10-02"}]
+        self.r = pn.Resolver(members, terms)
+        self.annex = {"counts": {"Nay": 1}, "labels": {"Nay": ["Picard (CAQ)"]}}
+
+    def test_a_bare_surname_settled_by_the_roll_call(self):
+        rev = pn.ReviewedDivisions({"hansard_labels": [{
+            "division": "qc-42-1-2020-12-08-650", "position": "Nay", "printed": "Picard (CAQ)",
+            "member": "17891", "quoted": "Mme Picard (Soulanges)"}]})
+        body = {"totals": {"Yea": 0, "Nay": 1, "Abstain": 0}}
+        votes, ok, _, _ = qc.resolve_division(body, self.annex, self.r, "2020-12-08")
+        self.assertFalse(ok)
+        votes, ok, note, _ = qc.resolve_division(body, self.annex, self.r, "2020-12-08", reviewed=rev,
+                                                 division_key="qc-42-1-2020-12-08-650")
+        self.assertTrue(ok, note)
+        self.assertEqual((votes[0]["member_key"], votes[0]["party_at_vote"]), ("17891", "CAQ"))
+        # Another division of the same day is not touched.
+        votes, ok, _, _ = qc.resolve_division(body, self.annex, self.r, "2020-12-08", reviewed=rev,
+                                              division_key="qc-42-1-2020-12-08-651")
+        self.assertFalse(ok)
+
+    def test_a_body_total_replaced_only_while_it_prints_the_misprint(self):
+        annex_v = {"counts": {"Yea": 2}, "labels": {"Yea": ["Picard (CAQ) (Soulanges)",
+                                                             "Picard (CAQ) (Chutes-de-la-Chaudière)"]}}
+        rev = pn.ReviewedDivisions({"hansard_totals": [{
+            "division": "d", "position": "Yea", "total": 2, "replaces": 1, "quoted": "Pour : 2"}]})
+        votes, ok, note, printed = qc.resolve_division({"totals": {"Yea": 1, "Nay": 0, "Abstain": 0}}, annex_v,
+                                                       self.r, "2020-12-08", reviewed=rev, division_key="d")
+        self.assertTrue(ok, note)
+        self.assertEqual(printed["Yea"], 2)
+        self.assertIn("replaces the record's printed 1", note)
+        _, ok, _, _ = qc.resolve_division({"totals": {"Yea": 3, "Nay": 0, "Abstain": 0}}, annex_v,
+                                          self.r, "2020-12-08", reviewed=rev, division_key="d")
+        self.assertFalse(ok)
+
+
+class MisprintTests(unittest.TestCase):
+    """"Charrette" for Benoit Charette (config/prov_record.yaml, misprints):
+    only in a procès-verbal, only inside the reviewed span."""
+
+    PV = "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_34721&process=Default"
+
+    def setUp(self):
+        conn = db.init_db(db.connect(":memory:"))
+        ps.upsert_member(conn, "qc", "195", name="Benoit Charette", surname="Charette", given="Benoit")
+        ps.replace_terms(conn, "qc", "195", [{"legislature": 39, "party": "PQ", "riding": "Deux-Montagnes",
+                                              "start": "2008-12-08", "end": "2012-09-03"}], "depcir")
+        self.pages = qc.MemberPages(_ctx(_Client(), conn=conn), pn.Resolver.from_conn(conn, "qc"))
+
+    def test_inside_the_span_in_a_pv(self):
+        self.assertEqual(self.pages.resolve("Charrette", "2010-05-18", document=self.PV)[0], "195")
+
+    def test_outside_the_span_or_without_the_document(self):
+        self.assertIsNone(self.pages.resolve("Charrette", "2011-05-18", document=self.PV)[0])
+        self.assertIsNone(self.pages.resolve("Charrette", "2010-05-18")[0])
+
+
 class RunnerTests(unittest.TestCase):
     def test_quebec_is_built(self):
         sys.path.insert(0, os.path.join(ROOT, "tools"))

@@ -634,3 +634,253 @@ provinces:
         elected: {surname: Korab, given: Jamie, party: Liberal}
         sworn: 2024-09-13
         source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-waterfordvalleyby-electionreport2024.pdf
+  # Quebec: the 2010 backfill (CI run 37048289773, 2 October 2026), read
+  # again on a scratch store 7 October 2026. The Assembly's own rule for
+  # which figure is the vote: "le secrétaire général communique le résultat
+  # à la présidence, qui le proclame à l'Assemblée. Les noms des
+  # parlementaires ayant voté ainsi que leur position sont consignés au
+  # procès-verbal" (https://www.assnat.qc.ca/fr/patrimoine/lexique/vote-electronique.html;
+  # the same words for the roll call, .../lexique/vote-par-appel-nominal.html).
+  # The PROCLAIMED result, as the Journal des débats records it, decides
+  # between the procès-verbal's body and its annex: a body total that
+  # contradicts it is replaced (hansard_totals, replaces:); an annex list
+  # that contradicts it stays a gap (config/prov_known_gaps.yaml).
+  "qc":
+    misprints:
+      - printed: "Charrette"
+        member: "195"
+        from: 2010-05-18
+        to: 2010-09-29
+        document_prefix: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_
+        documents: >-
+          The procès-verbal annexes of 18 May to 29 September 2010 (39-1),
+          e.g. vote no. 88 (18 May 2010, MediaId ..._34721) and no. 107
+          (29 September 2010, ..._40287), print the bare "Charrette" where
+          the annexes before and after print "Charette". No member named
+          Charrette has ever sat (depcir).
+        verified_against: >-
+          The Journal des débats roll calls of the same sittings name "M.
+          Charette (Deux-Montagnes)" (39-1/journal-debats/20100518/17453.html
+          and 20100929/23027.html), Benoit Charette, PQ, Deux-Montagnes
+          2008-2012.
+        why: >-
+          One misspelling repeated across 14 divisions on seven sittings of
+          2010; a label alias per sitting would be seven entries of the same
+          fact.
+      - printed: "Charrette"
+        member: "195"
+        from: 2021-02-10
+        to: 2021-02-10
+        document_prefix: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_171537
+        documents: >-
+          The procès-verbal of 10 February 2021 (42-1): votes nos. 770-776
+          print "Charrette (CAQ)", vote no. 777 of the same annex "Charette
+          (CAQ)"; no list prints both.
+        verified_against: >-
+          The same annex, and every annex of 2 February to 11 June 2021,
+          print "Charette (CAQ)" for Benoit Charette (CAQ, Deux-Montagnes),
+          the only member of either spelling. The Journal des débats of that
+          period records group votes (leaders answer for their groups) and
+          reads no names, so the annex is the only list.
+        why: "The same misspelling as 2010, in one procès-verbal."
+      - printed: "Charrette"
+        member: "195"
+        from: 2021-06-01
+        to: 2021-06-01
+        document_prefix: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_174791
+        documents: >-
+          The procès-verbal of 1 June 2021 (42-1): votes nos. 1041-1046
+          print "Charrette (CAQ)", nos. 1047-1049 of the same annex
+          "Charette (CAQ)"; no list prints both.
+        verified_against: "As for 10 February 2021."
+        why: "The same misspelling, in one procès-verbal."
+    bill_corrections:
+      - division: qc-42-2-2021-11-30-116
+        printed_bill: "192"
+        bill: "219"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_178767&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        verified_against: >-
+          The bill page of private bill 219 (projet-loi-219-42-1.html, Loi
+          concernant un immeuble situé sur la rue University à Montréal (site
+          de l'hôpital Royal Victoria)) dates its principle to 30 November 2021,
+          "Vote : Pour 98, Contre 17", this division's totals; Bill 192 (the
+          members' oath) has no stage that day.
+        why: >-
+          The PV item reads "le principe du projet de loi d'intérêt privé
+          n° 192, Loi concernant un immeuble situé sur la rue University ..."
+          (and the same for its adoption): Bill 219's title under the number
+          192.
+      - division: qc-42-2-2021-11-30-117
+        printed_bill: "192"
+        bill: "219"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_178767&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        verified_against: >-
+          The bill page of private bill 219 (projet-loi-219-42-1.html, Loi
+          concernant un immeuble situé sur la rue University à Montréal (site
+          de l'hôpital Royal Victoria)) dates its adoption to 30 November 2021,
+          "Vote : Pour 98, Contre 17", this division's totals; Bill 192 (the
+          members' oath) has no stage that day.
+        why: >-
+          The PV item reads "le principe du projet de loi d'intérêt privé
+          n° 192, Loi concernant un immeuble situé sur la rue University ..."
+          (and the same for its adoption): Bill 219's title under the number
+          192.
+    hansard_totals:
+      - division: qc-43-1-2024-09-26-311
+        position: Yea
+        total: 32
+        replaces: 28
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_203215&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/43-1/journal-debats/20240926/389187.html
+        quoted: "Le Secrétaire : Pour : 32 Contre : 72 Abstentions : 1 Le Vice-Président (M. Lévesque) : C'est ce que j'avais noté. Alors, la motion est rejetée."
+        why: >-
+          Vote no. 311 is the amendment of the member for Jean-Talon to the
+          Northvolt motion. The PV body prints "Pour : 28 Contre : 72
+          Abstention : 5", the figures of the main motion (no. 312) that
+          followed; the annex lists 32 Pour, 72 Contre, 1 Abstention. The
+          Journal records the Secretary General's corrected announcement
+          for the amendment, 32-72-1, proclaimed by the chair; the main
+          motion's 28-72-5 is announced separately after it.
+      - division: qc-43-1-2024-09-26-311
+        position: Abstain
+        total: 1
+        replaces: 5
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_203215&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/43-1/journal-debats/20240926/389187.html
+        quoted: "Le Secrétaire : Pour : 32 Contre : 72 Abstentions : 1"
+        why: "The same division and announcement as the Yea entry above."
+    # Bare surnames the annex prints while a homonym sits, settled by the
+    # Journal des debats roll call of the SAME division (the Secretary reads
+    # every member by surname and riding before the electronic vote of
+    # September 2023; during the 2020-2021 group votes nobody is read, and
+    # those stay gaps). Generated from the Journal pages fetched 7 October
+    # 2026; each quoted roll call was read.
+    hansard_labels:
+      - division: qc-41-1-2014-10-21-40
+        position: Yea
+        printed: "Paradis (PLQ)"
+        member: "1113"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_84833&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20141021/118177.html"
+        quoted: "M. Paradis (Brome-Missisquoi)"
+        why: "Bare 'Paradis (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (78-25-0) names only Pierre Paradis."
+      - division: qc-41-1-2014-10-22-41
+        position: Nay
+        printed: "Paradis (PLQ)"
+        member: "1113"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_84973&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20141022/118285.html"
+        quoted: "M. Paradis (Brome-Missisquoi)"
+        why: "Bare 'Paradis (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (46-56-0) names only Pierre Paradis."
+      - division: qc-41-1-2015-09-15-129
+        position: Yea
+        printed: "Blais (PLQ)"
+        member: "15365"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_107125&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20150915/153331.html"
+        quoted: "M. Blais (Charlesbourg)"
+        why: "Bare 'Blais (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (116-0-0) names only François Blais."
+      - division: qc-41-1-2015-11-10-146
+        position: Nay
+        printed: "Ouellet (PQ)"
+        member: "8431"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_109267&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20151110/158391.html"
+        quoted: "Mme Ouellet (Vachon)"
+        why: "Bare 'Ouellet (PQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (63-48-0) names only Martine Ouellet."
+      - division: qc-41-1-2015-11-11-147
+        position: Nay
+        printed: "Ouellet (PQ)"
+        member: "8431"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_109269&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20151111/158493.html"
+        quoted: "Mme Ouellet (Vachon)"
+        why: "Bare 'Ouellet (PQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (74-31-0) names only Martine Ouellet."
+      - division: qc-41-1-2015-11-11-148
+        position: Yea
+        printed: "Ouellet (PQ)"
+        member: "8431"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_109269&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20151111/158493.html"
+        quoted: "Mme Ouellet (Vachon)"
+        why: "Bare 'Ouellet (PQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (27-77-0) names only Martine Ouellet."
+      - division: qc-41-1-2016-12-07-270
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126373&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161207/186553.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (108-0-0) names only Jean-Marc Fournier."
+      - division: qc-41-1-2016-12-08-271
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126375&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161208/186697.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (107-0-0) names only Jean-Marc Fournier."
+      - division: qc-41-1-2016-12-09-272
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126377&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (100-2-0) names only Jean-Marc Fournier."
+      - division: qc-41-1-2016-12-09-273
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126377&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (100-2-0) names only Jean-Marc Fournier."
+      - division: qc-42-1-2019-03-21-41
+        position: Nay
+        printed: "Proulx (CAQ)"
+        member: "17915"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_143663&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20190321/237879.html
+        quoted: "Mme Proulx (Côte-du-Sud)"
+        why: >-
+          The annex prints "Proulx (CAQ) (Berthier)" and a bare "Proulx (CAQ)" in the same division.
+          The Journal's roll call with this division's totals (39-67-0)
+          reads both homonyms by riding, Mme Proulx (Côte-du-Sud) among those against: the bare
+          label is Marie-Eve Proulx.
+      - division: qc-42-1-2019-10-08-191
+        position: Yea
+        printed: "Proulx (CAQ)"
+        member: "17837"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_151249&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20191008/254021.html
+        quoted: "Mme Proulx (Berthier)"
+        why: >-
+          The annex prints "Proulx (CAQ) (Côte-du-Sud)" and a bare "Proulx (CAQ)" in the same division.
+          The Journal's roll call with this division's totals (111-0-0)
+          reads both homonyms by riding, Mme Proulx (Berthier) among those for: the bare
+          label is Caroline Proulx.
+      - division: qc-42-1-2019-10-31-232
+        position: Nay
+        printed: "Proulx (CAQ)"
+        member: "17915"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_151943&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20191031/256273.html
+        quoted: "Mme Proulx (Côte-du-Sud)"
+        why: >-
+          The annex prints "Proulx (CAQ) (Berthier)" and a bare "Proulx (CAQ)" in the same division.
+          The Journal's roll call with this division's totals (40-65-0)
+          reads both homonyms by riding, Mme Proulx (Côte-du-Sud) among those against: the bare
+          label is Marie-Eve Proulx.
+      - division: qc-41-1-2018-06-14-488
+        position: Abstain
+        printed: "Ouellet (IND)"
+        member: "8431"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_139461&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20180614/223669.html
+        quoted: "Mme Ouellet (Vachon)"
+        why: >-
+          The annex prints "Ouellet (PQ) (René-Lévesque)" and a bare "Ouellet (IND)" in the same division.
+          The Journal's roll call with this division's totals (45-60-2)
+          reads both homonyms by riding, Mme Ouellet (Vachon) among those abstaining: the bare
+          label is Martine Ouellet.
