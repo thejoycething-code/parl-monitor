@@ -254,6 +254,2299 @@ divisions:
     nay: 1
     why_nay: "Voted against writing a right to 'comprehensive reproductive healthcare' into the Alberta Bill of Rights (+1: a Nay also carries the government whip)."
 
+
+  # DRAFTED 8 October 2026 (Christopher: "draft READINGS for Alberta's
+  # recorded divisions on our ground"). Every recorded Alberta division with
+  # areas and no entry above, plus one the taxonomy missed (Bill 13 third
+  # reading, stated `areas: [7]`). ALL ARE DRAFTS: none places anyone until
+  # its `draft: true` line is deleted. Directions follow the confirmed
+  # Bill 26/27/29 precedents: a second reading or a first-reading division
+  # +/-1, a third reading +/-2, an opposition amendment +/-1; clause, hoist,
+  # concurrence and time-allocation votes that split exactly as the readings
+  # are `placeable: false`. Each mover's or sponsor's own vote was checked
+  # against the direction in prov_votes (all as expected), and the party
+  # splits are the store's (`lobbies:`, party at the vote). Bill texts were
+  # read from docs.assembly.ab.ca where the V&P excerpt did not settle it.
+  # A stated `areas:` corrects a division the taxonomy put on the wrong sheet.
+
+  # --- Alberta, 31st Legislature (current members) ------------------------
+  - key: ab-31-1-2024-10-28-1
+    placeable: false
+    title: "Written Question WQ3 (continuing-care penalties) -- rejected"
+    dated: 2024-10-28
+    result: "Defeated 18-46"
+    lobbies: "Yea: NDP 18. Nay: UCP 46 (store, prov_votes; party at the vote)"
+    moved_by: "Lori Sigurdson (NDP), per the V&P ('Hon. Ms Sigurdson')"
+    source: >
+      Votes and Proceedings, 2024-10-28
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241028_1200_01_vp.pdf)
+    text: >
+      WQ3: How many operators were subject to a penalty as a result of a
+      contravention of the Continuing Care Health Services Standards [...]
+      during the period from January 1, 2023, to December 31, 2023?
+    reason: >
+      TAXONOMY FALSE POSITIVE: a written question on continuing-care
+      penalties, linked to Bill 24 (first read that day) and tagged with
+      Bill 24's terms. Not on our ground.
+    draft: true
+  - key: ab-31-1-2024-10-30-1
+    placeable: false
+    title: "Bill 24, Alberta Bill of Rights Amendment Act -- amendment on solar energy systems"
+    dated: 2024-10-30
+    result: "Defeated 18-46"
+    lobbies: "Yea: NDP 18. Nay: UCP 46 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt; the Yea lobby is the NDP's 18"
+    source: >
+      Votes and Proceedings, 2024-10-30
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241030_1200_01_vp.pdf)
+    text: >
+      (1.1) For the purpose of subsection (1)(a.1), the right to the
+      enjoyment of property includes the right of an individual not to be
+      restricted or prohibited from installing or using a solar energy
+      system that is attached to the individual's property [...]
+    reason: >
+      NOT OURS: property rights and solar panels, tagged only because Bill
+      24 is. Evidence only.
+    draft: true
+  - key: ab-31-1-2024-10-31-1
+    title: "Bill 26, Health Statutes Amendment Act, 2024 (No. 2) -- first reading"
+    dated: 2024-10-31
+    result: "Carried 45-34"
+    lobbies: "Yea: UCP 45. Nay: NDP 34 (store, prov_votes; party at the vote)"
+    moved_by: "Adriana LaGrange (UCP; Minister of Health, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2024-10-31
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241031_1200_01_vp.pdf)
+    text: >
+      On the motion that the following Bill be now read a First time: Bill
+      26 Health Statutes Amendment Act, 2024 (No. 2) -- Hon. Min. LaGrange.
+      The question being put, the motion was defeated on the voice vote
+      [then carried on division].
+    # A recorded division at first reading: the opposition opposed even the
+    # bill's introduction. +/-1 as for Saskatchewan Bill 137's first reading
+    # (sk-29-3-2023-10-12-1, confirmed).
+    yea: 1
+    why_yea: "Voted to introduce Bill 26, restricting puberty blockers, cross-sex hormones and gender surgery for minors (a recorded division at first reading)."
+    nay: -1
+    why_nay: "Voted against even introducing Bill 26, the restriction on puberty blockers, hormones and gender surgery for minors."
+    draft: true
+  - key: ab-31-1-2024-11-26-3
+    placeable: false
+    title: "Bill 24 -- remaining clauses in Committee of the Whole"
+    dated: 2024-11-26
+    result: "Carried 41-30"
+    lobbies: "Yea: UCP 41. Nay: NDP 30 (store, prov_votes; party at the vote)"
+    moved_by: "the question on the clauses; Mickey Amery (UCP; Minister of Justice) the sponsor"
+    source: >
+      Votes and Proceedings, 2024-11-26
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241126_1200_01_vp.pdf)
+    text: >
+      The question being put on the remaining clauses of Bill 24, Alberta
+      Bill of Rights Amendment Act, 2024, the motion was agreed to on the
+      voice vote.
+    reason: >
+      SPLIT AS THE READINGS: UCP 41 to NDP 30, as the third reading
+      (ab-31-1-2024-11-27-1). The readings carry the bill; a clause, hoist
+      or concurrence vote that divides exactly as they do would only count
+      the same conviction twice.
+    draft: true
+  - key: ab-31-1-2024-11-27-1
+    areas: [7]          # civil liberties; 'gender expression' only quotes the existing Act (no area 5)
+    title: "Bill 24, Alberta Bill of Rights Amendment Act, 2024 -- third reading"
+    dated: 2024-11-27
+    result: "Carried 46-31"
+    lobbies: "Yea: UCP 46. Nay: NDP 31 (store, prov_votes; party at the vote)"
+    moved_by: "Mickey Amery (UCP; Minister of Justice, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2024-11-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241127_1200_01_vp.pdf);
+      Bill 24 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_1/20230530_bill-024.pdf)
+    text: >
+      Bill 24 adds to the Bill of Rights: 'freedom of speech and
+      expression'; the right of an individual with capacity 'not to be
+      subjected to, or coerced into receiving, medical care, medical
+      treatment or a medical procedure without the consent of that
+      individual', and the same for 'a vaccine'; property and firearms
+      rights; a preamble acknowledging 'the supremacy of God' and 'the
+      position of the family in a society of free people and free
+      institutions'; paramountcy over other Alberta law and a court remedy.
+    # TEXT READ 8 October 2026. Our ground is real (expression made paramount
+    # and enforceable, freedom from coerced treatment, God and the family in
+    # the preamble) but shares the bill with property and firearms, so a Nay
+    # need not be a vote against free speech: +/-1, not +/-2. CLOSE CALL:
+    # Christopher may prefer yea only (drop nay), as on the BC Human Rights
+    # Code Repeal Act flag.
+    yea: 1
+    why_yea: "Voted to add freedom of expression, freedom from coerced medical treatment and vaccination, and the family to the Alberta Bill of Rights, and to make it paramount."
+    nay: -1
+    why_nay: "Voted against the Bill of Rights amendments adding freedom of expression and freedom from coerced medical treatment."
+    draft: true
+  - key: ab-31-1-2024-11-27-2
+    placeable: false
+    title: "Bill 26 -- clauses in Committee of the Whole"
+    dated: 2024-11-27
+    result: "Carried 44-32"
+    lobbies: "Yea: UCP 44. Nay: NDP 32 (store, prov_votes; party at the vote)"
+    moved_by: "the question on the clauses; Adriana LaGrange the sponsor"
+    source: >
+      Votes and Proceedings, 2024-11-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241127_1200_01_vp.pdf)
+    text: >
+      The question being put on the clauses of Bill 26, Health Statutes
+      Amendment Act, 2024 (No. 2), the motion was agreed to on the voice
+      vote.
+    reason: >
+      SPLIT AS THE READINGS: UCP 44 to NDP 32, as the second and third
+      readings. The readings carry the bill; a clause, hoist or concurrence
+      vote that divides exactly as they do would only count the same
+      conviction twice.
+    draft: true
+  - key: ab-31-1-2024-11-27-6
+    placeable: false
+    title: "Bill 27 -- remaining clauses in Committee of the Whole"
+    dated: 2024-11-27
+    result: "Carried 44-32"
+    lobbies: "Yea: UCP 44. Nay: NDP 32 (store, prov_votes; party at the vote)"
+    moved_by: "the question on the clauses; Demetrios Nicolaides the sponsor"
+    source: >
+      Votes and Proceedings, 2024-11-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241127_1200_01_vp.pdf)
+    text: >
+      The question being put on the remaining clauses of Bill 27, Education
+      Amendment Act, 2024, the motion was agreed to on the voice vote.
+    reason: >
+      SPLIT AS THE READINGS: UCP 44 to NDP 32, as the readings (and as A3,
+      -5). The readings carry the bill; a clause, hoist or concurrence vote
+      that divides exactly as they do would only count the same conviction
+      twice.
+    draft: true
+  - key: ab-31-1-2024-12-03-3
+    placeable: false
+    title: "Bill 27 -- six-month hoist at third reading"
+    dated: 2024-12-03
+    result: "Defeated 33-47"
+    lobbies: "Yea: NDP 33. Nay: UCP 47 (store, prov_votes; party at the vote)"
+    moved_by: "Christina Gray (NDP; Leader of the Official Opposition in the House), per the V&P ('Hon. Ms Gray')"
+    source: >
+      Votes and Proceedings, 2024-12-03
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241203_1200_01_vp.pdf)
+    text: >
+      Bill 27, Education Amendment Act, 2024, be not now read a Third time
+      but that it be read a Third time this day six months hence. Sessional
+      Paper 739/2023-24
+    reason: >
+      SPLIT AS THE READINGS: 33-47, the third reading (ab-31-1-2024-12-03-4)
+      reversed; as the confirmed Bill 26 hoist, ab-31-1-2024-12-03-1. The
+      readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-31-1-2024-12-03-5
+    placeable: false
+    title: "Bill 29 -- six-month hoist at third reading"
+    dated: 2024-12-03
+    result: "Defeated 33-47"
+    lobbies: "Yea: NDP 33. Nay: UCP 47 (store, prov_votes; party at the vote)"
+    moved_by: "Christina Gray (NDP), per the V&P ('Hon. Ms Gray')"
+    source: >
+      Votes and Proceedings, 2024-12-03
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20241203_1200_01_vp.pdf)
+    text: >
+      Bill 29, Fairness and Safety in Sport Act, be not now read a Third
+      time but that it be read a Third time this day six months hence.
+      Sessional Paper 740/2023-24
+    reason: >
+      SPLIT AS THE READINGS: 33-47, the third reading (ab-31-1-2024-12-03-6)
+      reversed; as the confirmed Bill 26 hoist. The readings carry the bill;
+      a clause, hoist or concurrence vote that divides exactly as they do
+      would only count the same conviction twice.
+    draft: true
+  - key: ab-31-1-2025-05-12-5
+    placeable: false
+    title: "Bill 51, Education Amendment Act, 2025 -- third reading"
+    dated: 2025-05-12
+    result: "Carried 43-16"
+    lobbies: "Yea: UCP 43. Nay: NDP 16 (store, prov_votes; party at the vote)"
+    moved_by: "Demetrios Nicolaides (UCP; Minister of Education)"
+    source: >
+      Votes and Proceedings, 2025-05-12
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_1/20250512_1200_01_vp.pdf);
+      Bill 51 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_1/20230530_bill-051.pdf)
+    text: >
+      On the motion that the following Bill be now read a Third time: Bill
+      51 Education Amendment Act, 2025 -- Hon. Mr. Nicolaides.
+    reason: >
+      TAXONOMY FALSE POSITIVE: TEXT READ 8 October 2026. 'home education'
+      matched only the preamble's list of school types. The bill renames
+      private schools 'independent schools', changes trustee codes of
+      conduct, teacher discipline, school property and the electoral
+      register; nothing on parental rights or our other areas. Not on our
+      ground.
+    draft: true
+  # Bill 2, Back to School Act (October 2025): a labour bill. Not ours.
+  - key: ab-31-2-2025-10-27-4
+    placeable: false
+    title: "Government Motion 5 (Bill 2 may pass several stages in a day) -- adjournment of debate"
+    dated: 2025-10-27
+    result: "Carried 44-38"
+    lobbies: "Yea: UCP 44. Nay: NDP 36, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Joseph Schow (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      Hon. Mr. Schow moved adjournment of the debate [on Government Motion
+      5], which was agreed to on the voice vote.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-6
+    placeable: false
+    title: "Government Motion 5 (Bill 2 may pass several stages in a day)"
+    dated: 2025-10-27
+    result: "Carried 44-37"
+    lobbies: "Yea: UCP 44. Nay: NDP 35, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Joseph Schow (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      (a) pursuant to Standing Order 77(2), Bill 2, Back to School Act, may
+      be advanced two or more stages in one day [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-7
+    placeable: false
+    title: "Bill 2 -- first reading"
+    dated: 2025-10-27
+    result: "Carried 44-37"
+    lobbies: "Yea: UCP 44. Nay: NDP 35, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Nate Horner (UCP; President of Treasury Board and Minister of Finance, the sponsor)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      Introduction of Bills (First Reading) Notice having been given: Bill 2
+      Back to School Act -- Hon. Mr. Horner.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground.
+    draft: true
+  - key: ab-31-2-2025-10-27-8
+    placeable: false
+    title: "Bill 2 -- second reading, adjournment of debate"
+    dated: 2025-10-27
+    result: "Carried 44-35"
+    lobbies: "Yea: UCP 44. Nay: NDP 34, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "Nate Horner (UCP)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      Hon. Mr. Horner moved adjournment of the debate, which was agreed to
+      on the voice vote.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-9
+    placeable: false
+    title: "Government Motion 7 -- time allocation at second reading"
+    dated: 2025-10-27
+    result: "Carried 44-36"
+    lobbies: "Yea: UCP 44. Nay: NDP 35, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "Joseph Schow (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      not more than one hour shall be allotted to any further consideration
+      of the Bill in Second Reading [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-10
+    placeable: false
+    title: "Bill 2 -- second reading"
+    dated: 2025-10-27
+    result: "Carried 44-37"
+    lobbies: "Yea: UCP 44. Nay: NDP 35, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Nate Horner (UCP)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the motion for Second Reading of
+      Bill 2, Back to School Act.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground.
+    draft: true
+  - key: ab-31-2-2025-10-27-11
+    placeable: false
+    title: "Bill 2 -- Committee of the Whole, report progress"
+    dated: 2025-10-27
+    result: "Carried 43-33"
+    lobbies: "Yea: UCP 43. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "the Committee's question"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      The question being put that progress be reported on Bill 2, Back to
+      School Act.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-12
+    placeable: false
+    title: "Government Motion 8 -- time allocation in Committee of the Whole"
+    dated: 2025-10-27
+    result: "Carried 44-33"
+    lobbies: "Yea: UCP 44. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Joseph Schow (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      not more than one hour shall be allotted to any further consideration
+      of the Bill in Committee of the Whole [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-13
+    placeable: false
+    title: "Bill 2 -- Chapman amendment A1 (strike out section 3)"
+    dated: 2025-10-27
+    result: "Defeated 33-43"
+    lobbies: "Yea: NDP 31, Ind. 2. Nay: UCP 43 (store, prov_votes; party at the vote)"
+    moved_by: "Amanda Chapman (NDP, Calgary-Beddington)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      Ms Chapman, Hon. Member for Calgary-Beddington, moved that the Bill be
+      amended by striking out section 3.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground.
+    draft: true
+  - key: ab-31-2-2025-10-27-14
+    placeable: false
+    title: "Bill 2 -- clauses in Committee of the Whole"
+    dated: 2025-10-27
+    result: "Carried 43-33"
+    lobbies: "Yea: UCP 43. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "the Committee's question"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the clauses of Bill 2, Back to
+      School Act.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground.
+    draft: true
+  - key: ab-31-2-2025-10-27-15
+    placeable: false
+    title: "Bill 2 -- title and preamble in Committee of the Whole"
+    dated: 2025-10-27
+    result: "Carried 43-33"
+    lobbies: "Yea: UCP 43. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "the Committee's question"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the title and preamble of Bill 2.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground.
+    draft: true
+  - key: ab-31-2-2025-10-27-16
+    placeable: false
+    title: "Bill 2 -- that the bill be reported"
+    dated: 2025-10-27
+    result: "Carried 43-33"
+    lobbies: "Yea: UCP 43. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "the Committee's question"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      the question was immediately put that Bill 2, Back to School Act, be
+      reported.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground.
+    draft: true
+  - key: ab-31-2-2025-10-27-17
+    placeable: false
+    title: "Bill 2 -- third reading, adjournment of debate"
+    dated: 2025-10-27
+    result: "Carried 44-33"
+    lobbies: "Yea: UCP 44. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Nate Horner (UCP)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      Hon. Mr. Horner moved adjournment of the debate, which was agreed to
+      on the voice vote.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-18
+    placeable: false
+    title: "Government Motion 9 -- time allocation at third reading"
+    dated: 2025-10-27
+    result: "Carried 44-33"
+    lobbies: "Yea: UCP 44. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Joseph Schow (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      not more than one hour shall be allotted to any further consideration
+      of the Bill in Third Reading [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground. Procedure as well.
+    draft: true
+  - key: ab-31-2-2025-10-27-19
+    placeable: false
+    title: "Bill 2 -- third reading"
+    dated: 2025-10-27
+    result: "Carried 44-33"
+    lobbies: "Yea: UCP 44. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Nate Horner (UCP)"
+    source: >
+      Votes and Proceedings, 2025-10-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251027_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the motion for Third Reading of
+      Bill 2, Back to School Act.
+    reason: >
+      TAXONOMY FALSE POSITIVE: Bill 2, Back to School Act (Hon. Nate
+      Horner): ends the 2025 teachers' strike and orders a collective
+      agreement, invoking the notwithstanding clause. Tagged from the
+      agreement's anti-discrimination boilerplate ('gender expression',
+      'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
+      Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
+      Not on our ground.
+    draft: true
+  # Bill 9, Protecting Alberta's Children Statutes Amendment Act, 2025: the
+  # notwithstanding clause over Bills 26, 27 and 29. Squarely ours.
+  - key: ab-31-2-2025-11-18-1
+    title: "Bill 9, Protecting Alberta's Children Statutes Amendment Act, 2025 -- first reading"
+    dated: 2025-11-18
+    result: "Carried 48-35"
+    lobbies: "Yea: UCP 46, Ind. 2. Nay: NDP 35 (store, prov_votes; party at the vote)"
+    moved_by: "Mickey Amery (UCP; Minister of Justice, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2025-11-18
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251118_1200_01_vp.pdf);
+      Bill 9 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_2/20251023_bill-009.pdf)
+    text: >
+      Bill 9 declares that the Education Act's ss.18(1)(d.1)-(d.2), 18.1,
+      33.2, 58.11 and 58.12 (Bill 27), the Fairness and Safety in Sport Act
+      (Bill 29) and the Health Professions Act's ss.1.91-1.93 (Bill 26)
+      'shall operate notwithstanding (a) sections 2 and 7 to 15 of the
+      Canadian Charter of Rights and Freedoms, (b) the Alberta Bill of
+      Rights, and (c) the Alberta Human Rights Act'.
+    # TEXT READ 8 October 2026. A recorded first-reading division: +/-1 as for
+    # sk-29-3-2023-10-12-1. Peter Guthrie (Ind.) voted Yea here and Nay at
+    # second and third reading; Scott Sinclair (Ind.) Yea.
+    yea: 1
+    why_yea: "Voted to introduce Bill 9, shielding Alberta's laws on gender medicine for minors, parental consent on names and pronouns and female sport with the notwithstanding clause."
+    nay: -1
+    why_nay: "Voted against even introducing Bill 9, the notwithstanding-clause shield for Bills 26, 27 and 29."
+    draft: true
+  - key: ab-31-2-2025-12-04-1
+    placeable: false
+    title: "Government Motion 18 -- time allocation on Bill 9 at second reading"
+    dated: 2025-12-04
+    result: "Carried 41-11"
+    lobbies: "Yea: UCP 41. Nay: NDP 11 (store, prov_votes; party at the vote)"
+    moved_by: "Dan Williams (UCP; Deputy Government House Leader), per the V&P"
+    source: >
+      Votes and Proceedings, 2025-12-04
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251204_1200_01_vp.pdf)
+    text: >
+      not more than one hour shall be allotted to any further consideration
+      of the Bill in Second Reading [...]
+    reason: >
+      PROCEDURE: time allocation (41-11, a thin House). A vote on the
+      House's time, not on the bill's content.
+    draft: true
+  - key: ab-31-2-2025-12-08-1
+    placeable: false
+    title: "Adjournment of the Assembly until 7:30 p.m. (linked to Bill 9)"
+    dated: 2025-12-08
+    result: "Carried 45-33"
+    lobbies: "Yea: UCP 45. Nay: NDP 31, Ind. 2 (store, prov_votes; party at the vote)"
+    moved_by: "Joseph Schow (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2025-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251208_1200_01_vp.pdf)
+    text: >
+      Hon. Mr. Schow, Government House Leader, moved adjournment of the
+      Assembly until 7:30 p.m, which was agreed to on the voice vote.
+    reason: >
+      PROCEDURE: an adjournment of the sitting after unanimous consent to
+      take up Government business was refused; linked to Bill 9 only because
+      Bill 9 was the day's business (a taxonomy false positive too). A vote
+      on the House's time, not on the bill's content.
+    draft: true
+  - key: ab-31-2-2025-12-08-3
+    title: "Bill 9 -- second reading"
+    dated: 2025-12-08
+    result: "Carried 45-34"
+    lobbies: "Yea: UCP 45. Nay: NDP 33, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "Mickey Amery (UCP; the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2025-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251208_1200_01_vp.pdf);
+      Bill 9 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_2/20251023_bill-009.pdf)
+    text: >
+      Bill 9 declares that the Education Act's ss.18(1)(d.1)-(d.2), 18.1,
+      33.2, 58.11 and 58.12 (Bill 27), the Fairness and Safety in Sport Act
+      (Bill 29) and the Health Professions Act's ss.1.91-1.93 (Bill 26)
+      'shall operate notwithstanding (a) sections 2 and 7 to 15 of the
+      Canadian Charter of Rights and Freedoms, (b) the Alberta Bill of
+      Rights, and (c) the Alberta Human Rights Act'.
+    # TEXT READ 8 October 2026. +/-1, as every second reading in the confirmed
+    # Alberta set.
+    yea: 1
+    why_yea: "Voted for the principle of shielding Alberta's laws on gender medicine for minors, parental consent on names and pronouns and female sport with the notwithstanding clause."
+    nay: -1
+    why_nay: "Voted against the principle of the notwithstanding-clause shield for Bills 26, 27 and 29."
+    draft: true
+  - key: ab-31-2-2025-12-09-1
+    placeable: false
+    title: "Government motion endorsing the Alberta-Canada energy MOU (linked to Bill 9)"
+    dated: 2025-12-09
+    result: "Carried 63-0"
+    lobbies: "Yea: UCP 44, NDP 19. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (a Government motion)"
+    source: >
+      Votes and Proceedings, 2025-12-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251209_1200_01_vp.pdf)
+    text: >
+      B. And be it further resolved that the Legislative Assembly (a)
+      express its full endorsement of the commitments contained in the MOU,
+      and (b) urge the parties to the MOU [...] to take all necessary steps
+      to ensure these commitments can be achieved as quickly as possible.
+    reason: >
+      UNANIMOUS (63-0): no lobby against, so it tells no member apart.
+      TAXONOMY FALSE POSITIVE: an energy motion linked to Bill 9 by date.
+      Not on our ground.
+    draft: true
+  - key: ab-31-2-2025-12-09-4
+    placeable: false
+    title: "Government motion -- time allocation on Bill 9 in Committee of the Whole"
+    dated: 2025-12-09
+    result: "Carried 40-32"
+    lobbies: "Yea: UCP 40. Nay: NDP 32 (store, prov_votes; party at the vote)"
+    moved_by: "Dan Williams (UCP; Deputy Government House Leader), per the V&P"
+    source: >
+      Votes and Proceedings, 2025-12-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251209_1200_01_vp.pdf)
+    text: >
+      not more than one hour shall be allotted to any further consideration
+      of the Bill in Committee of the Whole [...]
+    reason: >
+      PROCEDURE: time allocation. A vote on the House's time, not on the
+      bill's content.
+    draft: true
+  - key: ab-31-2-2025-12-09-9
+    placeable: false
+    title: "Bill 9 -- clauses in Committee of the Whole"
+    dated: 2025-12-09
+    result: "Carried 43-33"
+    lobbies: "Yea: UCP 43. Nay: NDP 33 (store, prov_votes; party at the vote)"
+    moved_by: "the Committee's question; Mickey Amery the sponsor"
+    source: >
+      Votes and Proceedings, 2025-12-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251209_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the clauses of Bill 9, Protecting
+      Alberta's Children Statutes Amendment Act, 2025, which was agreed to
+      on the voice vote.
+    reason: >
+      SPLIT AS THE READINGS: UCP 43 to NDP 33, as the second and third
+      readings. The readings carry the bill; a clause, hoist or concurrence
+      vote that divides exactly as they do would only count the same
+      conviction twice.
+    draft: true
+  - key: ab-31-2-2025-12-09-12
+    placeable: false
+    title: "Bill 9 -- third reading, adjournment of debate"
+    dated: 2025-12-09
+    result: "Carried 44-34"
+    lobbies: "Yea: UCP 44. Nay: NDP 33, undated 1 (store, prov_votes; party at the vote; no dated party for Guthrie)"
+    moved_by: "Dan Williams (UCP), on behalf of Mickey Amery"
+    source: >
+      Votes and Proceedings, 2025-12-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251209_1200_01_vp.pdf)
+    text: >
+      Hon. Mr. Williams moved adjournment of the debate, which was agreed to
+      on the voice vote.
+    reason: >
+      PROCEDURE: adjournment of the third-reading debate. A vote on the
+      House's time, not on the bill's content.
+    draft: true
+  - key: ab-31-2-2025-12-09-13
+    placeable: false
+    title: "Government motion -- time allocation on Bill 9 at third reading"
+    dated: 2025-12-09
+    result: "Carried 44-34"
+    lobbies: "Yea: UCP 44. Nay: NDP 33, undated 1 (store, prov_votes; party at the vote; no dated party for Guthrie)"
+    moved_by: "Joseph Schow (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2025-12-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251209_1200_01_vp.pdf)
+    text: >
+      not more than one hour shall be allotted to any further consideration
+      of the Bill in Third Reading [...]
+    reason: >
+      PROCEDURE: time allocation. A vote on the House's time, not on the
+      bill's content.
+    draft: true
+  - key: ab-31-2-2025-12-09-14
+    title: "Bill 9 -- third reading"
+    dated: 2025-12-09
+    result: "Carried 43-34"
+    lobbies: "Yea: UCP 43. Nay: NDP 33, undated 1 (store, prov_votes; party at the vote; no dated party for Guthrie)"
+    moved_by: "Mickey Amery (UCP; the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2025-12-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251209_1200_01_vp.pdf);
+      Bill 9 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_2/20251023_bill-009.pdf)
+    text: >
+      Bill 9 declares that the Education Act's ss.18(1)(d.1)-(d.2), 18.1,
+      33.2, 58.11 and 58.12 (Bill 27), the Fairness and Safety in Sport Act
+      (Bill 29) and the Health Professions Act's ss.1.91-1.93 (Bill 26)
+      'shall operate notwithstanding (a) sections 2 and 7 to 15 of the
+      Canadian Charter of Rights and Freedoms, (b) the Alberta Bill of
+      Rights, and (c) the Alberta Human Rights Act'.
+    # TEXT READ 8 October 2026. +/-2: the law that keeps Bills 26, 27 and 29
+    # in force against Charter challenge. Peter Guthrie (Ind.; no dated party
+    # in the store) voted Nay.
+    yea: 2
+    why_yea: "Voted to pass the law shielding Alberta's protections on gender medicine for minors, parental consent on names and pronouns and female sport with the notwithstanding clause."
+    nay: -2
+    why_nay: "Voted against the notwithstanding-clause shield for Alberta's laws on gender medicine for minors, parental consent and female sport."
+    draft: true
+  # Bill 13, Regulated Professions Neutrality Act (2025): professionals' free
+  # speech off duty. Bill 13 carries no areas in the store (a taxonomy MISS);
+  # both entries state `areas: [7]`.
+  - key: ab-31-2-2025-12-02-1
+    areas: [7]          # free speech; tagged 5 only from 'gender expression' in the amendment
+    title: "Bill 13, Regulated Professions Neutrality Act -- Sabir amendment A1 (regulators may sanction off-duty 'hateful' communications)"
+    dated: 2025-12-02
+    result: "Defeated 14-44"
+    lobbies: "Yea: NDP 14. Nay: UCP 44 (store, prov_votes; party at the vote)"
+    moved_by: "Irfan Sabir (NDP, Calgary-Bhullar-McCall), who voted Yea"
+    source: >
+      Votes and Proceedings, 2025-12-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251202_1200_01_vp.pdf),
+      pp. 4-5; Sessional Paper 242/2025; Bill 13 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_2/20251023_bill-013.pdf)
+    text: >
+      (viii) communications intended to vilify, humiliate or incite or
+      promote hatred against a person or a class of persons on the basis of
+      race, religious beliefs, colour, gender, sexual orientation, gender
+      identity, gender expression, age, physical disability, mental
+      disability, ancestry or place of origin. (b) [...] (3) Nothing in this
+      section precludes a regulatory appeal body or regulatory body from
+      imposing a sanction on a regulated professional for [...] (b)
+      communications of the kind described in subsection (2)(b)(viii).
+    # TEXT READ 8 October 2026. Bill 13 s.5(2) bars a regulator from
+    # sanctioning a professional's expressive conduct outside practice except
+    # for threats, misuse of position, convictions, boundary and sexual
+    # misconduct. A1 adds a 'hate' exception -- the ground on which gender-
+    # critical professionals have been disciplined -- so a Yea re-opens off-
+    # duty speech to discipline. +/-1, as the Bill 26/27 opposition
+    # amendments.
+    yea: -1
+    why_yea: "Voted to let professional regulators discipline members for off-duty speech judged hateful, including on gender identity and expression."
+    nay: 1
+    why_nay: "Voted against letting professional regulators discipline members for off-duty speech judged hateful."
+    draft: true
+  - key: ab-31-2-2025-12-09-11
+    areas: [7]          # the store gives this division no areas: taxonomy miss
+    title: "Bill 13, Regulated Professions Neutrality Act -- third reading"
+    dated: 2025-12-09
+    result: "Carried 44-34"
+    lobbies: "Yea: UCP 44. Nay: NDP 33, undated 1 (store, prov_votes; party at the vote; no dated party for Guthrie)"
+    moved_by: "Mickey Amery (UCP; Minister of Justice, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2025-12-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20251209_1200_01_vp.pdf);
+      Bill 13 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_2/20251023_bill-013.pdf)
+    text: >
+      Mr. Shepherd [...] moved that the motion be amended [...] be read a
+      Third time this day six months hence. [...] The question being put,
+      the amendment was defeated. The question being immediately put, the
+      motion for Third Reading was agreed to on the voice vote.
+    # TEXT READ 8 October 2026. The preamble: 'freedom of thought, belief,
+    # opinion and expression is of foundational importance'; s.5(2) forbids
+    # sanctions for off-duty expressive conduct save the listed harms.
+    # Squarely free speech: +/-2 at third reading. Peter Guthrie (no dated
+    # party) voted Nay.
+    yea: 2
+    why_yea: "Voted to pass the law protecting regulated professionals from discipline for their opinions expressed outside their practice."
+    nay: -2
+    why_nay: "Voted against protecting regulated professionals from discipline for their opinions expressed outside their practice."
+    draft: true
+  - key: ab-31-2-2026-04-22-1
+    title: "Bill 18, Safeguards for Last Resort Termination of Life Act -- third reading"
+    dated: 2026-04-22
+    result: "Carried 44-15"
+    lobbies: "Yea: UCP 43, Ind. 1. Nay: NDP 15 (store, prov_votes; party at the vote)"
+    moved_by: "Mickey Amery (UCP; Minister of Justice, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2026-04-22
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_31/session_2/20260422_1200_01_vp.pdf);
+      Bill 18 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_31/session_2/20251023_bill-018.pdf)
+    text: >
+      Purposes 2 [...] (b) to ensure that the rules and standards [...]
+      uphold the sanctity of human life [...]. 4(2) A practitioner must not
+      provide medical assistance in dying to an individual except [...] only
+      if (a) the individual makes a request [...] that (i) is not based on a
+      mental illness being the individual's sole underlying medical
+      condition [...], (b) the individual is at least 18 years of age [...],
+      (c) [...] the individual's natural death is reasonably foreseeable
+      within 12 months [...]. Part 2 Division 2: a health care facility's
+      right to refuse provision of medical assistance in dying.
+    # TEXT READ 8 October 2026. Alberta closes MAID to mental illness alone,
+    # to minors and to deaths not foreseeable within 12 months, protects
+    # facilities that refuse it and writes 'the sanctity of human life' into
+    # the purposes. Second reading and committee were voice. +/-2 at third
+    # reading. CLOSE CALL only in that the Act regulates rather than ends
+    # MAID, which is federal law.
+    yea: 2
+    why_yea: "Voted to pass Alberta's restrictions on assisted suicide: no MAID for mental illness alone, for minors, or where death is not foreseeable within 12 months, and facilities free to refuse it."
+    nay: -2
+    why_nay: "Voted against Alberta's restrictions on assisted suicide for mental illness, minors and those not near death."
+    draft: true
+
+  # --- Alberta, 30th Legislature (2019-2023) -----------------------------
+  - key: ab-30-1-2019-10-21-2
+    title: "Motion Other Than Government Motion 506 (review abortion access, remove barriers)"
+    dated: 2019-10-21
+    result: "Defeated 11-43"
+    lobbies: "Yea: NDP 11. Nay: UCP 43 (store, prov_votes; party at the vote)"
+    moved_by: "Marie Renaud (NDP, St. Albert), who voted Yea"
+    source: >
+      Votes and Proceedings, 2019-10-21
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_1/20191021_1200_01_vp.pdf)
+    text: >
+      Be it resolved that the Legislative Assembly urge the Government to
+      conduct a thorough review of access to abortion services and
+      reproductive health services in Alberta, take action to remove
+      barriers to these services, and ensure access to safe, timely, and
+      equitable services in all communities across the province.
+    # Bill key ab-30-1/202 in the store is wrong (a date link): this is a
+    # private member's motion. Read as the confirmed Bill 24 'reproductive
+    # healthcare' amendment (ab-31-1-2024-10-30-2): Yea -2, Nay +1 (the Nay
+    # also carries the government whip). CLOSE CALL: a non-binding motion; -1
+    # would be defensible.
+    yea: -2
+    why_yea: "Voted to urge the Government to remove barriers to abortion across Alberta."
+    nay: 1
+    why_nay: "Voted against urging the Government to remove barriers to abortion (+1: a Nay also carries the government whip)."
+    draft: true
+  - key: ab-30-1-2019-11-07-1
+    areas: [8]          # conscience; tagged 5 only from 'gender expression' quoted in the bill
+    title: "Bill 207, Conscience Rights (Health Care Providers) Protection Act -- first reading"
+    dated: 2019-11-07
+    result: "Carried 36-15"
+    lobbies: "Yea: UCP 36. Nay: NDP 15 (store, prov_votes; party at the vote)"
+    moved_by: "Dan Williams (UCP, Peace River; private member's bill), who voted Yea"
+    source: >
+      Votes and Proceedings, 2019-11-07
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_1/20191107_1200_01_vp.pdf);
+      Bill 207 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_30/session_1/20190521_bill-207.pdf)
+    text: >
+      Notice having been given, on the motion that the following Bill be now
+      read a First time: Bill 207 Conscience Rights (Health Care Providers)
+      Protection Act -- Mr. Williams.
+    # TEXT READ 8 October 2026: s.3, a provider or religious health care
+    # organization 'is not required to provide' a service, referral included,
+    # that infringes its conscientious beliefs; s.4, regulators may not compel
+    # it; s.5, such complaints are dismissed. A recorded first-reading
+    # division: +/-1 (sk-29-3-2023-10-12-1). The bill never passed second
+    # reading. Williams's sponsorship is a `bills:` entry, not drafted here.
+    yea: 1
+    why_yea: "Voted to introduce a bill protecting health care providers' freedom of conscience (a recorded division at first reading)."
+    nay: -1
+    why_nay: "Voted against even introducing a bill protecting health care providers' freedom of conscience."
+    draft: true
+  - key: ab-30-2-2020-06-02-1
+    placeable: false
+    title: "Bill 15, Choice in Education Act, 2020 -- referral amendment at second reading"
+    dated: 2020-06-02
+    result: "Defeated 7-28"
+    lobbies: "Yea: NDP 7. Nay: UCP 28 (store, prov_votes; party at the vote)"
+    moved_by: "Sarah Hoffman (NDP, Edmonton-Glenora)"
+    source: >
+      Votes and Proceedings, 2020-06-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20200602_1200_01_vp.pdf)
+    text: >
+      Bill 15, Choice in Education Act, 2020, be not now read a Second time
+      but that the subject matter of the Bill be referred to the Standing
+      Committee on Families and Communities in accordance with Standing
+      Order 74.2. Sessional Paper 163/2020
+    reason: >
+      SPLIT AS THE READINGS: NDP 7 to UCP 28, as the third reading
+      (ab-30-2-2020-06-24-3); a referral to kill the bill, read like a
+      hoist. The readings carry the bill; a clause, hoist or concurrence
+      vote that divides exactly as they do would only count the same
+      conviction twice.
+    draft: true
+  - key: ab-30-2-2020-06-17-3
+    placeable: false
+    title: "Bill 15 -- Hoffman amendment (strike out section 7, charter school applications)"
+    dated: 2020-06-17
+    result: "Defeated 7-28"
+    lobbies: "Yea: NDP 7. Nay: UCP 28 (store, prov_votes; party at the vote)"
+    moved_by: "Sarah Hoffman (NDP, Edmonton-Glenora)"
+    source: >
+      Votes and Proceedings, 2020-06-17
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20200617_1200_01_vp.pdf);
+      Bill 15 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_30/session_2/20200225_bill-015.pdf)
+    text: >
+      Ms Hoffman, Hon. Member for Edmonton-Glenora, moved that the Bill be
+      amended by striking out section 7. [Section 7 replaces s.24(2) of the
+      Education Act: how the Minister handles a charter school application.]
+    reason: >
+      NOT OURS, AND SPLIT AS THE READINGS: charter-school administration,
+      NDP 7 to UCP 28 as the third reading. Evidence only.
+    draft: true
+  - key: ab-30-2-2020-06-24-2
+    placeable: false
+    title: "Bill 15 -- Renaud amendment (charter school focus; private schools' disability non-discrimination policy)"
+    dated: 2020-06-24
+    result: "Defeated 6-21"
+    lobbies: "Yea: NDP 6. Nay: UCP 21 (store, prov_votes; party at the vote)"
+    moved_by: "the Hon. Member for St. Albert (Marie Renaud, NDP)"
+    source: >
+      Votes and Proceedings, 2020-06-24
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20200624_1200_01_vp.pdf)
+    text: >
+      [...] (b) the private school implements a policy of non-discrimination
+      with respect to the enrollment of students with physical or mental
+      disabilities. (2) A private school must not be registered or
+      accredited [...] unless it implements a policy referred to in
+      subsection (1)(b).
+    reason: >
+      NOT OURS, AND SPLIT AS THE READINGS: charter-school criteria and
+      disability enrolment, NDP 6 to UCP 21. Evidence only.
+    draft: true
+  - key: ab-30-2-2020-06-24-3
+    title: "Bill 15, Choice in Education Act, 2020 -- third reading"
+    dated: 2020-06-24
+    result: "Carried 25-8"
+    lobbies: "Yea: UCP 25. Nay: NDP 8 (store, prov_votes; party at the vote)"
+    moved_by: "Adriana LaGrange (UCP; Minister of Education, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2020-06-24
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20200624_1200_01_vp.pdf);
+      Bill 15 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_30/session_2/20200225_bill-015.pdf)
+    text: >
+      2 The preamble is amended (a) by adding the following after the 8th
+      recital: WHEREAS parents have a prior right to choose the kind of
+      education that may be provided to their children; [...] 5 [home
+      education: a parent may provide a home education program without a
+      board's supervision] [...] [and charter schools may apply directly to
+      the Minister].
+    # TEXT READ 8 October 2026. Parents' 'prior right to choose the kind of
+    # education' written into the Education Act, and unsupervised home
+    # education. Second reading was voice. CLOSE CALL on weight: +/-2 as a
+    # third reading on parental rights in education; +/-1 if Christopher reads
+    # school choice as structure rather than conviction.
+    yea: 2
+    why_yea: "Voted to write parents' prior right to choose their children's education into law and to free home education from school-board supervision."
+    nay: -2
+    why_nay: "Voted against parents' prior right to choose their children's education and unsupervised home education."
+    draft: true
+  - key: ab-30-2-2020-12-02-1
+    placeable: false
+    title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
+    dated: 2020-12-02
+    result: "Defeated 10-19"
+    lobbies: "Yea: NDP 10. Nay: UCP 19 (store, prov_votes; party at the vote)"
+    moved_by: "Sarah Hoffman (NDP, Edmonton-Glenora)"
+    source: >
+      Votes and Proceedings, 2020-12-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201202_1200_01_vp.pdf)
+    text: >
+      Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020, be not now
+      read a Second time because [...] the proposed legislation will not
+      ensure the safety of workers in Alberta [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
+      Health and Safety Act's harassment and discrimination wording. Not on
+      our ground.
+    draft: true
+  - key: ab-30-2-2020-12-02-2
+    placeable: false
+    title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
+    dated: 2020-12-02
+    result: "Carried 20-10"
+    lobbies: "Yea: UCP 20. Nay: NDP 10 (store, prov_votes; party at the vote)"
+    moved_by: "Jason Copping (UCP; the sponsor)"
+    source: >
+      Votes and Proceedings, 2020-12-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201202_1200_01_vp.pdf)
+    text: >
+      The question [for Second Reading of Bill 47] being put, the motion was
+      agreed to.
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
+      Health and Safety Act's harassment and discrimination wording. Not on
+      our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-12
+    placeable: false
+    title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
+    dated: 2020-12-08
+    result: "Carried 26-7"
+    lobbies: "Yea: UCP 26. Nay: NDP 7 (store, prov_votes; party at the vote)"
+    moved_by: "Jason Nixon (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      time allocation on Bill 47 in Committee of the Whole
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
+      Health and Safety Act's harassment and discrimination wording. Not on
+      our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-17
+    placeable: false
+    title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
+    dated: 2020-12-08
+    result: "Carried 23-8"
+    lobbies: "Yea: UCP 23. Nay: NDP 8 (store, prov_votes; party at the vote)"
+    moved_by: "the Committee's question"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      the question was immediately put [...] that Bill 47 [...] be reported
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
+      Health and Safety Act's harassment and discrimination wording. Not on
+      our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-19
+    placeable: false
+    title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
+    dated: 2020-12-08
+    result: "Carried 27-8"
+    lobbies: "Yea: UCP 27. Nay: NDP 8 (store, prov_votes; party at the vote)"
+    moved_by: "Jason Copping (UCP; the sponsor)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the motion for Third Reading of
+      Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
+      Health and Safety Act's harassment and discrimination wording. Not on
+      our ground.
+    draft: true
+  - key: ab-30-2-2020-12-03-2
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-03
+    result: "Carried 17-7"
+    lobbies: "Yea: UCP 17. Nay: NDP 7 (store, prov_votes; party at the vote)"
+    moved_by: "Tyler Shandro (UCP; Minister of Health, the sponsor)"
+    source: >
+      Votes and Proceedings, 2020-12-03
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201203_1200_01_vp.pdf)
+    text: >
+      Bill 46, Health Statutes Amendment Act, 2020 (No. 2) -- second reading
+      (a reasoned amendment on health information safeguards was defeated
+      first)
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-2
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-08
+    result: "Carried 26-7"
+    lobbies: "Yea: UCP 26. Nay: NDP 7 (store, prov_votes; party at the vote)"
+    moved_by: "Jason Nixon (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      time allocation on Bill 46 in Committee of the Whole
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-4
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-08
+    result: "Defeated 7-24"
+    lobbies: "Yea: NDP 7. Nay: UCP 24 (store, prov_votes; party at the vote)"
+    moved_by: "David Shepherd (NDP, Edmonton-City Centre)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      that the Bill be amended by striking out section 63 [privacy impact
+      assessments under the Health Information Act]
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-5
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-08
+    result: "Defeated 7-24"
+    lobbies: "Yea: NDP 7. Nay: UCP 24 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (amendment A5, NDP lobby)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      amendment A5 [...] (b.1) make accessible, or attempt to make
+      accessible, health information in contravention of this Act
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-6
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-08
+    result: "Carried 24-7"
+    lobbies: "Yea: UCP 24. Nay: NDP 7 (store, prov_votes; party at the vote)"
+    moved_by: "the Committee's question"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the clauses of Bill 46
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-11
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-08
+    result: "Carried 25-7"
+    lobbies: "Yea: UCP 25. Nay: NDP 7 (store, prov_votes; party at the vote)"
+    moved_by: "Jason Nixon (UCP; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      time allocation on Bill 46 at third reading
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-13
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-08
+    result: "Defeated 6-23"
+    lobbies: "Yea: NDP 6. Nay: UCP 23 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (NDP lobby)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      Bill 46 [...] be not now read a Third time but that it be read a Third
+      time this day six months hence. Sessional Paper 543/2020
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2020-12-08-14
+    placeable: false
+    title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
+    dated: 2020-12-08
+    result: "Carried 25-6"
+    lobbies: "Yea: UCP 25. Nay: NDP 6 (store, prov_votes; party at the vote)"
+    moved_by: "Tyler Shandro (UCP; the sponsor)"
+    source: >
+      Votes and Proceedings, 2020-12-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20201208_1200_01_vp.pdf)
+    text: >
+      the question was immediately put on the motion for Third Reading of
+      Bill 46
+    reason: >
+      TAXONOMY FALSE POSITIVE: 'surrogate' is the Health Professions Act's
+      surrogate decision-maker ('a person authorized by an individual or by
+      the individual's guardian'), not surrogacy. Bill 46 is health
+      information and professional regulation. Not on our ground.
+    draft: true
+  - key: ab-30-2-2021-06-01-1
+    placeable: false
+    title: "Bill 63, Police (Street Checks and Carding) Amendment Act, 2021 -- amendment in Committee of the Whole"
+    dated: 2021-06-01
+    result: "Defeated 8-33"
+    lobbies: "Yea: NDP 8. Nay: UCP 33 (store, prov_votes; party at the vote)"
+    moved_by: "Irfan Sabir (NDP, Calgary-McCall)"
+    source: >
+      Votes and Proceedings, 2021-06-01
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20210601_1200_01_vp.pdf)
+    text: >
+      (c) 'prohibited ground of discrimination' means (i) any ground on
+      which discrimination is prohibited under section 4 of the Alberta
+      Human Rights Act, or (ii) [...] section 15 of the Canadian Charter
+    reason: >
+      TAXONOMY FALSE POSITIVE: street checks and carding; 'gender
+      expression' is in the list of prohibited grounds. Not on our ground.
+    draft: true
+  - key: ab-30-2-2021-06-02-1
+    placeable: false
+    title: "Bill 63, Police (Street Checks and Carding) Amendment Act, 2021 -- amendment in Committee of the Whole"
+    dated: 2021-06-02
+    result: "Defeated 7-30"
+    lobbies: "Yea: NDP 7. Nay: UCP 30 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (NDP lobby)"
+    source: >
+      Votes and Proceedings, 2021-06-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20210602_1200_01_vp.pdf)
+    text: >
+      [police services shall] (b) establish a public education program and
+      outreach strategy regarding community policing [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: street checks and carding; 'gender
+      expression' is in the list of prohibited grounds. Not on our ground.
+    draft: true
+  - key: ab-30-2-2021-06-02-2
+    placeable: false
+    title: "Bill 63, Police (Street Checks and Carding) Amendment Act, 2021 -- amendment in Committee of the Whole"
+    dated: 2021-06-02
+    result: "Defeated 7-31"
+    lobbies: "Yea: NDP 7. Nay: UCP 31 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (NDP lobby)"
+    source: >
+      Votes and Proceedings, 2021-06-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20210602_1200_01_vp.pdf)
+    text: >
+      (a) the reason includes details, recorded in writing by the police
+      officer [...] that caused the police officer to reasonably suspect
+      [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: street checks and carding; 'gender
+      expression' is in the list of prohibited grounds. Not on our ground.
+    draft: true
+  - key: ab-30-2-2021-06-08-2
+    placeable: false
+    title: "Motion condemning the London, Ontario attack and Islamophobia"
+    dated: 2021-06-08
+    result: "Carried 45-0"
+    lobbies: "Yea: UCP 36, NDP 7, Ind. 2. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (moved by unanimous consent)"
+    source: >
+      Votes and Proceedings, 2021-06-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20210608_1200_01_vp.pdf)
+    text: >
+      (c) denounce unequivocally the hatred of Islam which motivated this
+      attack, while condemning all forms of hatred in our society; (d) call
+      upon the Government of Alberta to strengthen law enforcement,
+      educational and other efforts to combat Islamophobia, and all forms of
+      bigotry and hatred [...]
+    reason: >
+      UNANIMOUS (45-0): no lobby against, so it tells no member apart.
+    draft: true
+  - key: ab-30-2-2021-11-02-1
+    placeable: false
+    title: "Government motion on Alberta's Senate nominees (linked to Bill 75)"
+    dated: 2021-11-02
+    result: "Carried 27-7"
+    lobbies: "Yea: UCP 27. Nay: NDP 7 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (a Government motion)"
+    source: >
+      Votes and Proceedings, 2021-11-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20211102_1200_01_vp.pdf)
+    text: >
+      (b) congratulate the three candidates who received the greatest number
+      of votes [...] and (c) call on the Prime Minister to respect the
+      democratic decision of Albertans [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: a Senate-election motion linked to Bill 75 by
+      date; 'freedom of expression' is Bill 75's term. Not on our ground.
+    draft: true
+  - key: ab-30-2-2021-11-22-2
+    placeable: false
+    title: "Bill 75, Arts Professions Recognition Act -- amendment in Committee of the Whole"
+    dated: 2021-11-22
+    result: "Defeated 7-26"
+    lobbies: "Yea: NDP 7. Nay: UCP 26 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (NDP lobby)"
+    source: >
+      Votes and Proceedings, 2021-11-22
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20211122_1200_01_vp.pdf)
+    text: >
+      (ii) in clause (d) by striking out 'Government of Alberta or a public
+      agency' and substituting 'Government of Alberta, a municipality or a
+      public agency' [...] 'contracting party'
+    reason: >
+      TAXONOMY FALSE POSITIVE: artists' contracts; 'freedom of expression'
+      is in the preamble. Not on our ground.
+    draft: true
+  - key: ab-30-2-2021-11-22-3
+    placeable: false
+    title: "Bill 75, Arts Professions Recognition Act -- amendment in Committee of the Whole"
+    dated: 2021-11-22
+    result: "Defeated 8-26"
+    lobbies: "Yea: NDP 8. Nay: UCP 26 (store, prov_votes; party at the vote)"
+    moved_by: "Nicole Goehring (NDP, Edmonton-Castle Downs)"
+    source: >
+      Votes and Proceedings, 2021-11-22
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_2/20211122_1200_01_vp.pdf)
+    text: >
+      by striking out 'traditional knowledge' and substituting 'cultural
+      knowledge or Indigenous traditional knowledge' [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: artists' contracts; 'freedom of expression'
+      is in the preamble. Not on our ground.
+    draft: true
+  - key: ab-30-3-2022-05-02-2
+    placeable: false
+    title: "Bill 205, Human Tissue and Organ Donation (Mandatory Referral) Amendment Act, 2022 -- concurrence in the committee's report to proceed"
+    dated: 2022-05-02
+    result: "Carried 39-0"
+    lobbies: "Yea: UCP 32, NDP 7. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "Brad Rutherford (UCP; committee chair) for concurrence; the bill is Mr. Sigurdson's (UCP, R.J. Sigurdson), per the V&P"
+    source: >
+      Votes and Proceedings, 2022-05-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_3/20220502_1200_01_vp.pdf)
+    text: >
+      Bill 205, Human Tissue and Organ Donation (Mandatory Referral)
+      Amendment Act, 2022 -- Mr. Sigurdson.
+    reason: >
+      UNANIMOUS (39-0): no lobby against, so it tells no member apart. Area
+      13 is scored, but a unanimous vote tells no member apart.
+    draft: true
+  - key: ab-30-3-2022-05-09-1
+    placeable: false
+    title: "Bill 205 -- second reading"
+    dated: 2022-05-09
+    result: "Carried 39-0"
+    lobbies: "Yea: UCP 31, NDP 8. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "Brad Rutherford (UCP; committee chair) for concurrence; the bill is Mr. Sigurdson's (UCP, R.J. Sigurdson), per the V&P"
+    source: >
+      Votes and Proceedings, 2022-05-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_3/20220509_1200_01_vp.pdf)
+    text: >
+      Bill 205, Human Tissue and Organ Donation (Mandatory Referral)
+      Amendment Act, 2022 -- Mr. Sigurdson.
+    reason: >
+      UNANIMOUS (39-0): no lobby against, so it tells no member apart. Area
+      13 is scored, but a unanimous vote tells no member apart.
+    draft: true
+
+  # --- Alberta, 29th Legislature (2015-2019) -----------------------------
+  - key: ab-29-1-2015-12-01-1
+    placeable: false
+    title: "Bill 7, Alberta Human Rights Amendment Act, 2015 -- second reading"
+    dated: 2015-12-01
+    result: "Carried 66-0"
+    lobbies: "Yea: NDP 40, Wildrose 16, PC 7, Alberta Party 1, Ind. 1, Liberal 1. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "Kathleen Ganley (NDP; Minister of Justice, the sponsor)"
+    source: >
+      Votes and Proceedings, 2015-12-01
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_1/20151201_1200_01_vp.pdf)
+    text: >
+      Bill 7 adds 'gender identity, gender expression' to the Alberta Human
+      Rights Act's grounds.
+    reason: >
+      UNANIMOUS (66-0): no lobby against, so it tells no member apart. On
+      our ground (area 5), but no lobby against.
+    draft: true
+  - key: ab-29-1-2015-12-07-2
+    placeable: false
+    title: "Bill 4 (tax measures and Fiscal Planning and Transparency Act) -- Fildebrandt amendment"
+    dated: 2015-12-07
+    result: "Defeated 17-40"
+    lobbies: "Yea: Wildrose 12, PC 4, Alberta Party 1. Nay: NDP 38, Liberal 1, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Wildrose, Strathmore-Brooks)"
+    source: >
+      Votes and Proceedings, 2015-12-07
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_1/20151207_1200_01_vp.pdf)
+    text: >
+      moved that the Bill be amended in Schedule 1 in section 6 by striking
+      out subsection (2).
+    reason: >
+      TAXONOMY FALSE POSITIVE: a tax bill's amendment, linked to Bill 7 in
+      the store; the store's bill key is wrong. Not on our ground.
+    draft: true
+  - key: ab-29-2-2016-06-01-2
+    title: "Government Motion 17 -- regulate medical assistance in dying after Carter"
+    dated: 2016-06-01
+    result: "Carried 41-18"
+    lobbies: "Yea: NDP 40, Alberta Party 1. Nay: Wildrose 12, PC 6 (store, prov_votes; party at the vote)"
+    moved_by: "Brandy Payne (NDP; Associate Minister of Health), who voted Yea"
+    source: >
+      Votes and Proceedings, 2016-06-01
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_2/20160601_1200_01_vp.pdf)
+      (motion text read in full there)
+    text: >
+      Be it resolved that the Legislative Assembly urge the Government to
+      implement measures to regulate medical assistance in dying, consistent
+      with the decision of the Supreme Court of Canada in Carter [...] so
+      that: (a) Albertans may exercise their rights to access medical
+      assistance in dying; (b) appropriate safeguards be put in place to
+      protect vulnerable Albertans; (c) conscience rights are respected
+      while ensuring the right of patients to access this service; [...]
+    # The store links it to Bill 20 (Climate Leadership) by date: wrong bill
+    # key. A motion that leads with access and makes conscience rights yield
+    # to it: Yea -1, Nay +1. Not -2: it also asks for safeguards and
+    # conscience rights, and is non-binding.
+    yea: -1
+    why_yea: "Voted to urge the Government to implement access to medical assistance in dying in Alberta, with conscience rights subject to patients' access."
+    nay: 1
+    why_nay: "Voted against urging the Government to implement access to medical assistance in dying."
+    draft: true
+  - key: ab-29-3-2017-04-06-1
+    placeable: false
+    title: "Bill 1, An Act to Reduce School Fees -- Swann amendment (strike out section 4)"
+    dated: 2017-04-06
+    result: "Defeated 7-34"
+    lobbies: "Yea: Wildrose 5, Liberal 1, PC 1. Nay: NDP 34 (store, prov_votes; party at the vote)"
+    moved_by: "David Swann (Liberal, Calgary-Mountain View)"
+    source: >
+      Votes and Proceedings, 2017-04-06
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20170406_1200_01_vp.pdf)
+    text: >
+      Dr. Swann, Hon. Member for Calgary-Mountain View, moved that the Bill
+      be amended by striking out section 4.
+    reason: >
+      TAXONOMY FALSE POSITIVE: school fees; 'home education' matched the
+      Education Act's fee provisions. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-11-08-1
+    areas: [6]          # parental rights (and faith schools); tagged 5 only from 'gender expression'
+    title: "Bill 24, An Act to Support Gay-Straight Alliances (2017) -- second reading"
+    dated: 2017-11-08
+    result: "Carried 44-9"
+    lobbies: "Yea: NDP 39, Alberta Party 2, PC 1, Liberal 1, Ind. 1. Nay: UCP 8, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "David Eggen (NDP; Minister of Education, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2017-11-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171108_1200_01_vp.pdf);
+      Bill 24 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_29/session_3/20170302_bill-024.pdf)
+    text: >
+      16.1(6) The principal is responsible for ensuring that notification,
+      if any, respecting a voluntary student organization or an activity
+      referred to in subsection (1) is limited to the fact of the
+      establishment of the organization or the holding of the activity.
+      [...] 9 Section 50.1 is amended by adding [...] (4) For greater
+      certainty, this section does not apply with respect to the
+      establishment or operation of a voluntary student organization
+      referred to in section 16.1 [...]. [And s.16.1 and related sections
+      are applied to private schools.]
+    # TEXT READ 8 October 2026. The bill bars a school from telling parents
+    # more than that a GSA exists, exempts GSA activities from the parental
+    # notice and opt-out for instruction on human sexuality (s.50.1), and
+    # imposes both on private faith schools. Yea is against our side: -1/+1 at
+    # second reading.
+    yea: -1
+    why_yea: "Voted for the principle of barring schools from telling parents their child joined a gay-straight alliance, in public and faith schools alike."
+    nay: 1
+    why_nay: "Voted against barring schools from telling parents of their child's gay-straight alliance participation."
+    draft: true
+  - key: ab-29-3-2017-11-09-1
+    areas: [6]          # parental rights (and faith schools); tagged 5 only from 'gender expression'
+    title: "Bill 24 (2017) -- Ellis amendment (strike out section 9: keep parental notice and opt-out for GSA activities)"
+    dated: 2017-11-09
+    result: "Defeated 11-38"
+    lobbies: "Yea: UCP 11. Nay: NDP 37, Alberta Party 1 (store, prov_votes; party at the vote)"
+    moved_by: "Mike Ellis (UCP, Calgary-West), who voted Yea"
+    source: >
+      Votes and Proceedings, 2017-11-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171109_1200_01_vp.pdf);
+      Bill 24 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_29/session_3/20170302_bill-024.pdf)
+    text: >
+      Mr. Ellis, Hon. Member for Calgary-West, moved that the Bill be
+      amended by striking out section 9. [Section 9 exempts GSA
+      organizations and activities from s.50.1 of the School Act: notice to
+      parents, and their right to withdraw the child, where instruction
+      deals primarily and explicitly with religion or human sexuality.]
+    # TEXT READ 8 October 2026 against the bill as introduced. +/-1, an
+    # opposition amendment.
+    yea: 1
+    why_yea: "Voted to keep parents' right to notice and to withdraw their child from sexuality-related activities in school gay-straight alliances."
+    nay: -1
+    why_nay: "Voted to exempt gay-straight alliance activities from parents' notice and opt-out on sexuality instruction."
+    draft: true
+  - key: ab-29-3-2017-11-09-2
+    placeable: false
+    title: "Bill 24 (2017) -- Committee of the Whole, rise and report progress"
+    dated: 2017-11-09
+    result: "Carried 33-7"
+    lobbies: "Yea: NDP 33. Nay: UCP 7 (store, prov_votes; party at the vote)"
+    moved_by: "Deron Bilous (NDP; Deputy Government House Leader)"
+    source: >
+      Votes and Proceedings, 2017-11-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171109_1200_01_vp.pdf)
+    text: >
+      Hon. Mr. Bilous, Deputy Government House Leader, moved that the
+      Committee rise and report progress [...]
+    reason: >
+      PROCEDURE: rise and report progress. A vote on the House's time, not
+      on the bill's content.
+    draft: true
+  - key: ab-29-3-2017-11-14-2
+    placeable: false
+    title: "Bill 24 (2017) -- concurrence in the report of Committee of the Whole"
+    dated: 2017-11-14
+    result: "Carried 39-10"
+    lobbies: "Yea: NDP 38, Liberal 1. Nay: UCP 10 (store, prov_votes; party at the vote)"
+    moved_by: "the question on concurrence; David Eggen the sponsor"
+    source: >
+      Votes and Proceedings, 2017-11-14
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171114_1200_01_vp.pdf)
+    text: >
+      On the motion to concur in the report of Committee of the Whole, the
+      question being put [...]
+    reason: >
+      SPLIT AS THE READINGS: NDP and Liberal 39 to UCP 10, as the readings.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-3-2017-11-15-1
+    areas: [6]          # parental rights (and faith schools); tagged 5 only from 'gender expression'
+    title: "Bill 24, An Act to Support Gay-Straight Alliances (2017) -- third reading"
+    dated: 2017-11-15
+    result: "Carried 42-23"
+    lobbies: "Yea: NDP 38, Alberta Party 2, PC 1, Liberal 1. Nay: UCP 22, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "David Eggen (NDP; the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2017-11-15
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171115_1200_01_vp.pdf);
+      Bill 24 as introduced
+      (docs.assembly.ab.ca/LADDAR_files/docs/bills/bill/legislature_29/session_3/20170302_bill-024.pdf)
+    text: >
+      16.1(6) The principal is responsible for ensuring that notification,
+      if any, respecting a voluntary student organization or an activity
+      referred to in subsection (1) is limited to the fact of the
+      establishment of the organization or the holding of the activity.
+      [...] 9 Section 50.1 is amended by adding [...] (4) For greater
+      certainty, this section does not apply with respect to the
+      establishment or operation of a voluntary student organization
+      referred to in section 16.1 [...]. [And s.16.1 and related sections
+      are applied to private schools.]
+    # TEXT READ 8 October 2026. The law Bill 27 (2024) reversed. -2/+2 at
+    # third reading.
+    yea: -2
+    why_yea: "Voted to pass the law barring schools from telling parents their child joined a gay-straight alliance, imposed on faith schools too."
+    nay: 2
+    why_nay: "Voted against barring schools from telling parents of their child's gay-straight alliance participation."
+    draft: true
+  - key: ab-29-3-2017-12-04-1
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-04
+    result: "Carried 51-0"
+    lobbies: "Yea: NDP 40, UCP 10, PC 1. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "not settled from the stored excerpt (debate on Richard Gotfried's referral amendment)"
+    source: >
+      Votes and Proceedings, 2017-12-04
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171204_1200_01_vp.pdf)
+    text: >
+      Bill 30 [...] be not now read a Second time but that the subject
+      matter of the Bill be referred to the Standing Committee on Alberta's
+      Economic Future [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground. Also unanimous (51-0).
+    draft: true
+  - key: ab-29-3-2017-12-05-1
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-05
+    result: "Carried 36-10"
+    lobbies: "Yea: NDP 35, Alberta Party 1. Nay: UCP 10 (store, prov_votes; party at the vote)"
+    moved_by: "not settled from the stored excerpt (debate on Richard Gotfried's referral amendment)"
+    source: >
+      Votes and Proceedings, 2017-12-05
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171205_1200_01_vp.pdf)
+    text: >
+      Bill 30 [...] be not now read a Second time but that the subject
+      matter [...] be referred [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-12-05-2
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-05
+    result: "Defeated 9-31"
+    lobbies: "Yea: UCP 9. Nay: NDP 31 (store, prov_votes; party at the vote)"
+    moved_by: "Richard Gotfried (UCP, Calgary-Fish Creek)"
+    source: >
+      Votes and Proceedings, 2017-12-05
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171205_1200_01_vp.pdf)
+    text: >
+      Bill 30 [...] be not now read a Second time but that the subject
+      matter [...] be referred [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-12-11-1
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-11
+    result: "Defeated 9-42"
+    lobbies: "Yea: UCP 9. Nay: NDP 39, Alberta Party 2, PC 1 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (UCP lobby)"
+    source: >
+      Votes and Proceedings, 2017-12-11
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171211_1200_01_vp.pdf)
+    text: >
+      [a reasoned amendment:] the Government has not provided Albertans
+      enough time to be consulted [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-12-11-2
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-11
+    result: "Carried 42-9"
+    lobbies: "Yea: NDP 39, Alberta Party 2, PC 1. Nay: UCP 9 (store, prov_votes; party at the vote)"
+    moved_by: "Christina Gray (NDP; Minister of Labour, the sponsor)"
+    source: >
+      Votes and Proceedings, 2017-12-11
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171211_1200_01_vp.pdf)
+    text: >
+      The question for Second Reading of Bill 30 being put, the motion was
+      agreed to.
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-12-12-3
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-12
+    result: "Defeated 7-38"
+    lobbies: "Yea: UCP 7. Nay: NDP 38 (store, prov_votes; party at the vote)"
+    moved_by: "Grant Hunter (UCP, Cardston-Taber-Warner)"
+    source: >
+      Votes and Proceedings, 2017-12-12
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171212_1200_01_vp.pdf)
+    text: >
+      amended in Schedule 1 in section 41 [...] 'the regulations and the OHS
+      code' [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-12-12-4
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-12
+    result: "Defeated 8-40"
+    lobbies: "Yea: UCP 8. Nay: NDP 39, Alberta Party 1 (store, prov_votes; party at the vote)"
+    moved_by: "Grant Hunter (UCP)"
+    source: >
+      Votes and Proceedings, 2017-12-12
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171212_1200_01_vp.pdf)
+    text: >
+      amended in Schedule 2 in section 18, in the proposed section 24.3
+      [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-12-12-5
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-12
+    result: "Defeated 8-39"
+    lobbies: "Yea: UCP 8. Nay: NDP 39 (store, prov_votes; party at the vote)"
+    moved_by: "Grant Hunter (UCP)"
+    source: >
+      Votes and Proceedings, 2017-12-12
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171212_1200_01_vp.pdf)
+    text: >
+      When an officer inspects a work site, the officer [or the employer]
+      [...]
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-3-2017-12-12-12
+    placeable: false
+    title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
+    dated: 2017-12-12
+    result: "Carried 43-10"
+    lobbies: "Yea: NDP 41, Alberta Party 1, Ind. 1. Nay: UCP 10 (store, prov_votes; party at the vote)"
+    moved_by: "Christina Gray (NDP; the sponsor)"
+    source: >
+      Votes and Proceedings, 2017-12-12
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_3/20171212_1200_01_vp.pdf)
+    text: >
+      On the motion that the following Bill be now read a Third time: Bill
+      30 An Act to Protect the Health and Well-being of Working Albertans --
+      Hon. Ms Gray
+    reason: >
+      TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
+      compensation; 'coercion' and 'gender expression' are in the OHS
+      harassment wording. Not on our ground.
+    draft: true
+  - key: ab-29-4-2018-05-03-2
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt reasoned amendment at second reading (freedom of expression and assembly)"
+    dated: 2018-05-03
+    result: "Defeated 1-41"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 38, Alberta Party 2, PC 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative, Strathmore-Brooks)"
+    source: >
+      Votes and Proceedings, 2018-05-03
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180503_1200_01_vp.pdf)
+    text: >
+      Bill 9 [...] be not now read a Second time because the Assembly is of
+      the view that the Bill does not appropriately balance the need to
+      protect individuals from harassment with the right to freedom of
+      expression and freedom of assembly [...]
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-03-3
+    title: "Bill 9, Protecting Choice for Women Accessing Health Care Act (2018) -- second reading"
+    dated: 2018-05-03
+    result: "Carried 42-1"
+    lobbies: "Yea: NDP 37, Alberta Party 3, PC 1, Liberal 1. Nay: Ind. Conservative 1 (store, prov_votes; party at the vote)"
+    moved_by: "Sarah Hoffman (NDP; Deputy Premier, Minister of Health, the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2018-05-03
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180503_1200_01_vp.pdf)
+    text: >
+      [Summary; the 2018 bill text was not re-read:] Bill 9, Protecting
+      Choice for Women Accessing Health Care Act: access ('bubble') zones
+      around abortion facilities and providers' homes, within which protest
+      and trying to advise or persuade a person not to access abortion
+      services are prohibited (the zone is 50 metres, up to 150 by
+      regulation, per amendment ab-29-4-2018-05-08-3; 160 metres for homes,
+      per ab-29-4-2018-05-15-2).
+    # Bubble zones restrict pro-life witness and speech: Yea is against our
+    # side. -1/+1 at second reading. The only Nay is Derek Fildebrandt; the
+    # UCP abstained by absence, which the store does not record as a position.
+    yea: -1
+    why_yea: "Voted for the principle of abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
+    nay: 1
+    why_nay: "Voted against abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
+    draft: true
+  - key: ab-29-4-2018-05-08-3
+    placeable: false
+    title: "Bill 9 (2018) -- government amendment (zones up to 150 metres)"
+    dated: 2018-05-08
+    result: "Carried 37-1"
+    lobbies: "Yea: NDP 34, Alberta Party 2, PC 1. Nay: Ind. Conservative 1 (store, prov_votes; party at the vote)"
+    moved_by: "MLA Drever (NDP, Calgary-Bow), on behalf of Sarah Hoffman, per the V&P"
+    source: >
+      Votes and Proceedings, 2018-05-08
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180508_1200_01_vp.pdf)
+    text: >
+      (b.1) increasing the dimensions of an access zone [...] to a distance
+      not exceeding 150 metres from the boundaries of the parcel of land on
+      which the facility is located
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-09-1
+    placeable: false
+    title: "Bill 9 (2018) -- amendment (exemption for police and bylaw officers)"
+    dated: 2018-05-09
+    result: "Carried 39-0"
+    lobbies: "Yea: NDP 37, Ind. Conservative 1, Alberta Party 1. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt"
+    source: >
+      Votes and Proceedings, 2018-05-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180509_1200_01_vp.pdf)
+    text: >
+      [the prohibitions do not apply to] (a) police officers; (b) persons
+      empowered to enforce a bylaw [...] while those persons are carrying
+      out their duties
+    reason: >
+      UNANIMOUS (39-0): no lobby against, so it tells no member apart.
+    draft: true
+  - key: ab-29-4-2018-05-09-2
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt amendment (journalists exempt)"
+    dated: 2018-05-09
+    result: "Defeated 1-36"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 35, Alberta Party 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative)"
+    source: >
+      Votes and Proceedings, 2018-05-09
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180509_1200_01_vp.pdf)
+    text: >
+      Sections 2(1)(c), 3 and 5(1)(a) and (b) do not apply to a person
+      communicating for a journalistic purpose.
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-10-5
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt amendment (define 'intimidate')"
+    dated: 2018-05-10
+    result: "Defeated 1-36"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 33, PC 1, Alberta Party 1, Liberal 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative)"
+    source: >
+      Votes and Proceedings, 2018-05-10
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180510_1200_01_vp.pdf)
+    text: >
+      (e.1) 'intimidate' means to threaten violence or other injury to
+      another person or to damage the property of another person;
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-15-2
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt amendment (zones 10 metres, not 160)"
+    dated: 2018-05-15
+    result: "Defeated 1-37"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 33, Alberta Party 3, PC 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative)"
+    source: >
+      Votes and Proceedings, 2018-05-15
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180515_1200_01_vp.pdf)
+    text: >
+      in subsection (3) by striking out '160 metres' and substituting '10
+      metres' [...]
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-15-3
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt amendment (strike out s.2(1)(b))"
+    dated: 2018-05-15
+    result: "Defeated 1-37"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 32, Alberta Party 3, PC 1, Liberal 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative)"
+    source: >
+      Votes and Proceedings, 2018-05-15
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180515_1200_01_vp.pdf)
+    text: >
+      moved that the Bill be amended in section 2(1) by striking out clause
+      (b).
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-15-4
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt amendment (strike out s.13(4))"
+    dated: 2018-05-15
+    result: "Defeated 1-37"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 32, Alberta Party 3, PC 1, Liberal 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative)"
+    source: >
+      Votes and Proceedings, 2018-05-15
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180515_1200_01_vp.pdf)
+    text: >
+      moved that the Bill be amended in section 13 by striking out
+      subsection (4).
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-15-5
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt amendment (strike out s.5(1)(c))"
+    dated: 2018-05-15
+    result: "Defeated 1-37"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 32, Alberta Party 3, PC 1, Liberal 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative)"
+    source: >
+      Votes and Proceedings, 2018-05-15
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180515_1200_01_vp.pdf)
+    text: >
+      moved that the Bill be amended in section 5(1) by striking out clause
+      (c).
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-15-6
+    placeable: false
+    title: "Bill 9 (2018) -- Fildebrandt amendment (s.1(d)(iv) and s.15(a))"
+    dated: 2018-05-15
+    result: "Defeated 1-37"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 32, Alberta Party 3, PC 1, Liberal 1 (store, prov_votes; party at the vote)"
+    moved_by: "Derek Fildebrandt (Ind. Conservative)"
+    source: >
+      Votes and Proceedings, 2018-05-15
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180515_1200_01_vp.pdf)
+    text: >
+      A. Section 1(d) is amended [...] by striking out subclause (iv). B.
+      Section 15 is amended by striking out clause (a).
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-30-3
+    placeable: false
+    title: "Bill 9 (2018) -- recommittal amendment at third reading"
+    dated: 2018-05-30
+    result: "Defeated 1-45"
+    lobbies: "Yea: Ind. Conservative 1. Nay: NDP 40, Alberta Party 3, PC 1, Liberal 1 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (the Yea is Fildebrandt alone)"
+    source: >
+      Votes and Proceedings, 2018-05-30
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180530_1200_01_vp.pdf)
+    text: >
+      Bill 9 [...] be not now read a Third time but that it be recommitted
+      to Committee of the Whole for the purpose of reconsidering sections 2,
+      7 and 8.
+    reason: >
+      SPLIT AS THE READINGS: Derek Fildebrandt (Ind. Conservative) alone
+      against the House, as both readings; the UCP did not vote on Bill 9.
+      The readings carry the bill; a clause, hoist or concurrence vote that
+      divides exactly as they do would only count the same conviction twice.
+    draft: true
+  - key: ab-29-4-2018-05-30-4
+    title: "Bill 9, Protecting Choice for Women Accessing Health Care Act (2018) -- third reading"
+    dated: 2018-05-30
+    result: "Carried 45-1"
+    lobbies: "Yea: NDP 40, Alberta Party 3, PC 1, Liberal 1. Nay: Ind. Conservative 1 (store, prov_votes; party at the vote)"
+    moved_by: "Sarah Hoffman (NDP; the sponsor), who voted Yea"
+    source: >
+      Votes and Proceedings, 2018-05-30
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180530_1200_01_vp.pdf)
+    text: >
+      [Summary; the 2018 bill text was not re-read:] Bill 9, Protecting
+      Choice for Women Accessing Health Care Act: access ('bubble') zones
+      around abortion facilities and providers' homes, within which protest
+      and trying to advise or persuade a person not to access abortion
+      services are prohibited (the zone is 50 metres, up to 150 by
+      regulation, per amendment ab-29-4-2018-05-08-3; 160 metres for homes,
+      per ab-29-4-2018-05-15-2). Debate continued on the main motion. The
+      question being put, the motion was agreed to.
+    # -2/+2 at third reading. Derek Fildebrandt the only Nay.
+    yea: -2
+    why_yea: "Voted to pass abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
+    nay: 2
+    why_nay: "Voted against abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
+    draft: true
+  - key: ab-29-4-2018-05-31-1
+    placeable: false
+    title: "Bill 18, Statutes Amendment Act, 2018 -- clauses in Committee of the Whole"
+    dated: 2018-05-31
+    result: "Carried 43-0"
+    lobbies: "Yea: NDP 34, UCP 8, Alberta Party 1. Nay: none (store, prov_votes; party at the vote)"
+    moved_by: "Brian Mason (NDP; the sponsor)"
+    source: >
+      Votes and Proceedings, 2018-05-31
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20180531_1200_01_vp.pdf)
+    text: >
+      The question was put on the clauses of the Bill, which was agreed to.
+    reason: >
+      UNANIMOUS (43-0): no lobby against, so it tells no member apart.
+    draft: true
+  - key: ab-29-4-2018-11-27-2
+    placeable: false
+    title: "Bill 22, An Act for Strong Families Building Stronger Communities -- McIver subamendment (Child and Youth Advocate on the review committee)"
+    dated: 2018-11-27
+    result: "Defeated 9-38"
+    lobbies: "Yea: UCP 8, PC 1. Nay: NDP 37, Alberta Party 1 (store, prov_votes; party at the vote)"
+    moved_by: "Ric McIver (UCP, Calgary-Hays)"
+    source: >
+      Votes and Proceedings, 2018-11-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20181127_1200_01_vp.pdf)
+    text: >
+      (iv) the Office of the Child and Youth Advocate,
+    reason: >
+      NOT OURS: oversight of the child-intervention system. Tagged 5 only
+      from 'gender expression' in the bill. Evidence only.
+    draft: true
+  - key: ab-29-4-2018-11-27-3
+    placeable: false
+    title: "Bill 22 -- McIver subamendment (review committee to sit in public)"
+    dated: 2018-11-27
+    result: "Defeated 9-37"
+    lobbies: "Yea: UCP 8, PC 1. Nay: NDP 36, Alberta Party 1 (store, prov_votes; party at the vote)"
+    moved_by: "Ric McIver (UCP, Calgary-Hays)"
+    source: >
+      Votes and Proceedings, 2018-11-27
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20181127_1200_01_vp.pdf)
+    text: >
+      (8) The proceedings of the review committee must be conducted in
+      public.
+    reason: >
+      NOT OURS: oversight of the child-intervention system. Tagged 5 only
+      from 'gender expression' in the bill. Evidence only.
+    draft: true
+  - key: ab-29-4-2018-11-28-2
+    placeable: false
+    title: "Bill 22 -- Opposition amendment (report child deaths and injuries to the Minister and a committee)"
+    dated: 2018-11-28
+    result: "Defeated 8-32"
+    lobbies: "Yea: UCP 8. Nay: NDP 31, Alberta Party 1 (store, prov_votes; party at the vote)"
+    moved_by: "Angela Pitt (UCP, Airdrie), on behalf of Jason Nixon"
+    source: >
+      Votes and Proceedings, 2018-11-28
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20181128_1200_01_vp.pdf)
+    text: >
+      Director's Duty 105.74(1) When a director becomes aware of (a) an
+      incident giving rise to a serious injury to or the death of a child
+      that occurred while the child was receiving intervention services
+      [...]
+    reason: >
+      NOT OURS: oversight of the child-intervention system. Tagged 5 only
+      from 'gender expression' in the bill. Evidence only.
+    draft: true
+  - key: ab-29-4-2018-11-28-1
+    areas: [9]          # family; tagged 5 only from 'gender expression' in the bill
+    title: "Bill 22 -- Starke amendment (the family is the basic unit of society)"
+    dated: 2018-11-28
+    result: "Defeated 11-32"
+    lobbies: "Yea: UCP 8, Alberta Party 1, FCP 1, PC 1. Nay: NDP 32 (store, prov_votes; party at the vote)"
+    moved_by: "Richard Starke (PC, Vermilion-Lloydminster), who voted Yea"
+    source: >
+      Votes and Proceedings, 2018-11-28
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_4/20181128_1200_01_vp.pdf);
+      the division list read there
+    text: >
+      Dr. Starke, Hon. Member for Vermilion-Lloydminster, moved that the
+      Bill be amended in section 3, in the proposed section 1.1, by adding
+      the following after clause (d): (e) the family is the basic unit of
+      society.
+    # To the principles governing child intervention. Yea 11: UCP 8, PC,
+    # Alberta Party and FCP 1 each; Nay: the NDP government 32. +/-1, an
+    # opposition amendment. CLOSE CALL: a Nay may be drafting objection, but
+    # it is a vote against the words.
+    yea: 1
+    why_yea: "Voted to write into Alberta's child-intervention law that the family is the basic unit of society."
+    nay: -1
+    why_nay: "Voted against writing into Alberta's child-intervention law that the family is the basic unit of society."
+    draft: true
+
+  # --- Alberta, 28th and 27th Legislatures (2008-2015) --------------------
+  - key: ab-28-1-2012-10-30-3
+    placeable: false
+    title: "Bill 3, Education Act (2012) -- amendment in Committee of the Whole"
+    dated: 2012-10-30
+    result: "Defeated 15-30"
+    lobbies: "Yea: Wildrose 13, Liberal 1, NDP 1. Nay: PC 30 (store, prov_votes; party at the vote)"
+    moved_by: "Bruce McAllister (Wildrose)"
+    source: >
+      Votes and Proceedings, 2012-10-30
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20121030_1200_01_vp.pdf)
+    text: >
+      (1.1) A board shall not charge a parent of a student a fee relating to
+      (a) a program or course that is considered to be mandatory, or (b)
+      administrative costs.
+    reason: >
+      NOT OURS: school fees and grading. Tagged from the Education Act's
+      terms. Evidence only.
+    draft: true
+  - key: ab-28-1-2012-10-30-4
+    placeable: false
+    title: "Bill 3, Education Act (2012) -- amendment in Committee of the Whole"
+    dated: 2012-10-30
+    result: "Defeated 7-33"
+    lobbies: "Yea: Wildrose 7. Nay: PC 31, Liberal 1, NDP 1 (store, prov_votes; party at the vote)"
+    moved_by: "Bruce McAllister (Wildrose)"
+    source: >
+      Votes and Proceedings, 2012-10-30
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20121030_1200_01_vp.pdf)
+    text: >
+      (h.1) ensure that teachers are free to assign grades of zero for work
+      not submitted by students,
+    reason: >
+      NOT OURS: school fees and grading. Tagged from the Education Act's
+      terms. Evidence only.
+    draft: true
+  - key: ab-28-1-2012-11-19-3
+    title: "Bill 3, Education Act (2012) -- third reading"
+    dated: 2012-11-19
+    result: "Carried 37-2"
+    lobbies: "Yea: PC 30, Wildrose 7. Nay: NDP 1, Liberal 1 (store, prov_votes; party at the vote)"
+    moved_by: "Jeff Johnson (PC; Minister of Education, the sponsor)"
+    source: >
+      Votes and Proceedings, 2012-11-19
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20121119_1200_01_vp.pdf)
+    text: >
+      On the motion that the following Bill be now read a Third time: Bill 3
+      Education Act -- Hon. Mr. Johnson. [Yea 37: PC 30, Wildrose 7. Nay 2:
+      NDP 1, Liberal 1.]
+    read_first: >
+      The whole school code re-enacted, passed 37-2 with the Wildrose. It
+      carries the preamble on parents' right to make informed decisions and
+      the s.16 duty to respect the Alberta Human Rights Act that home
+      educators opposed, so a direction cannot be read from the bill alone.
+      SEARCHED: the V&P excerpt and the store's bill excerpt only. NEEDED:
+      Hansard of 19 November 2012 for why the two Nays (NDP, Liberal) voted
+      against; if it was school fees or class size, mark it placeable:
+      false.
+    draft: true
+  - key: ab-28-1-2013-03-11-1
+    placeable: false
+    title: "Written Question WQ9 (staff-to-patient ratios in long-term care) -- rejected"
+    dated: 2013-03-11
+    result: "Defeated 18-40"
+    lobbies: "Yea: Wildrose 14, Liberal 3, NDP 1. Nay: PC 40 (store, prov_votes; party at the vote)"
+    moved_by: "Kerry Towle (Wildrose), on behalf of Heather Forsyth"
+    source: >
+      Votes and Proceedings, 2013-03-11
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20130311_1200_01_vp.pdf)
+    text: >
+      WQ9: What is the ratio of front line staff to patients or residents at
+      long-term care facilities, seniors' lodges, and continuing care
+      facilities [...]?
+    reason: >
+      TAXONOMY FALSE POSITIVE: a written question linked to Bill 207 (organ
+      donation) by date. Not on our ground.
+    draft: true
+  - key: ab-28-3-2014-12-02-1
+    title: "Bill 10 (2014) -- second reading"
+    dated: 2014-12-02
+    result: "Carried 42-10"
+    lobbies: "Yea: PC 38, Wildrose 3, Ind. 1. Nay: NDP 4, Liberal 3, Wildrose 2, PC 1 (store, prov_votes; party at the vote)"
+    moved_by: "Sandra Jansen (PC, the sponsor)"
+    source: >
+      Votes and Proceedings, 2014-12-02
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_3/20141202_1200_01_vp.pdf)
+    text: >
+      Bill 10, An Act to Amend the Alberta Bill of Rights to Protect our
+      Children (2014): adds 'sexual orientation' and '(g) the right of
+      parents to make informed decisions respecting the education of their
+      children' to the Bill of Rights, and gives students a route to a
+      gay-straight alliance when a board refuses one.
+    read_first: >
+      The lobbies cross party lines (2nd reading Nay: NDP 4, Liberal 3,
+      Wildrose 2, PC 1; the 3 December amendment Nay: Wildrose 5, NDP 4,
+      Liberal 4, PC 3, Ind. 1), and members voted Nay from both sides: the
+      left because GSAs were not mandatory, others for parents and faith
+      schools. Party cannot stand in for the reason. SEARCHED: the V&P
+      excerpt and Bill 10 as introduced (store excerpt). NEEDED: Hansard of
+      1-3 December 2014 for each Nay's stated reason, and the amendment's
+      full text (A: Minister to facilitate a GSA a board refuses).
+    draft: true
+  - key: ab-28-3-2014-12-03-1
+    title: "Bill 10 (2014) -- government amendment in Committee of the Whole (Minister to facilitate a GSA a board refuses)"
+    dated: 2014-12-03
+    result: "Carried 38-17"
+    lobbies: "Yea: PC 38. Nay: Wildrose 5, NDP 4, Liberal 4, PC 3, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "not in the stored excerpt (Yea lobby: PC 38)"
+    source: >
+      Votes and Proceedings, 2014-12-03
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_3/20141203_1200_01_vp.pdf)
+    text: >
+      [...] the board decides that it will not support a student in
+      establishing the organization [...], the Minister shall facilitate and
+      support the establishment of the organization. D Section 3(12) is
+      amended [...] (3) A decision of the board under section 123 with
+      respect to an appeal relating to subsection (1) is final.
+    read_first: >
+      The lobbies cross party lines (2nd reading Nay: NDP 4, Liberal 3,
+      Wildrose 2, PC 1; the 3 December amendment Nay: Wildrose 5, NDP 4,
+      Liberal 4, PC 3, Ind. 1), and members voted Nay from both sides: the
+      left because GSAs were not mandatory, others for parents and faith
+      schools. Party cannot stand in for the reason. SEARCHED: the V&P
+      excerpt and Bill 10 as introduced (store excerpt). NEEDED: Hansard of
+      1-3 December 2014 for each Nay's stated reason, and the amendment's
+      full text (A: Minister to facilitate a GSA a board refuses).
+    draft: true
+  - key: ab-28-3-2014-12-03-2
+    placeable: false
+    title: "Bill 10 (2014) -- time allocation in Committee of the Whole"
+    dated: 2014-12-03
+    result: "Carried 42-12"
+    lobbies: "Yea: PC 42. Nay: NDP 4, Liberal 4, Wildrose 3, Ind. 1 (store, prov_votes; party at the vote)"
+    moved_by: "Jonathan Denis (PC; Government House Leader)"
+    source: >
+      Votes and Proceedings, 2014-12-03
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_3/20141203_1200_01_vp.pdf)
+    text: >
+      not more than two hours shall be allotted to any further consideration
+      of the Bill in Committee of the Whole [...]
+    reason: >
+      PROCEDURE: time allocation. A vote on the House's time, not on the
+      bill's content.
+    draft: true
+  - key: ab-27-5-2012-03-14-1
+    title: "Bill 2, Education Act (2012) -- Anderson subamendment SA1 (parents' 'paramount right' in education)"
+    dated: 2012-03-14
+    result: "Defeated 4-27"
+    lobbies: "Yea: Wildrose 4. Nay: PC 24, Liberal 2, NDP 1 (store, prov_votes; party at the vote)"
+    moved_by: "Rob Anderson (Wildrose, Airdrie-Chestermere), who voted Yea"
+    source: >
+      Votes and Proceedings, 2012-03-14
+      (docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_27/session_5/20120314_1200_01_vp.pdf),
+      pp. 5-6; Sessional Paper 162/2012
+    text: >
+      moved that amendment A1 to the Bill be further amended as follows: A.
+      in part A [...] (ii) by adding the following after 'the Government of
+      Alberta recognizes that parents have': 'the paramount right and
+      responsibility to make decisions respecting the education of their
+      children, which includes' B. [...] The Preamble is amended by striking
+      out the following recital: 'Whereas parents have the right and the
+      responsibility to make informed decisions respecting the education of
+      their children;'
+    # TEXT READ 8 October 2026: part B strikes the weaker recital only because
+    # part A replaces it with a 'paramount right'. Yea 4 (Wildrose), Nay 27
+    # (PC, Liberal, NDP). YEA ONLY: a Nay kept the existing parental-rights
+    # recital, so it is not a vote against parents (as the C-62 reasoned
+    # amendment, commons-44-1-640).
+    yea: 1
+    why_yea: "Voted to recognise parents' 'paramount right and responsibility' for their children's education in the Education Act."
+    draft: true
+
   # --- Saskatchewan, 29th Legislature, 3rd session (October 2023) -----------
   - key: sk-29-3-2023-10-12-1
     title: "Bill 137, The Education (Parents' Bill of Rights) Amendment Act, 2023 -- first reading"
