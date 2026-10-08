@@ -1193,6 +1193,3579 @@ divisions:
       Voted to leave S-224 gutted, keeping the requirement that a trafficking
       victim show fear for their safety.
 
+  # --- Every remaining federal division with areas, DRAFTED 8 October 2026 ---
+  # (Christopher: draft readings for the recorded divisions on our ground
+  # that have none, ahead of Greg's blind 5CA sample, Q4 Rock 2.) ALL are
+  # `draft: true`: none places anyone until he confirms it. Each text was
+  # read from the House Journals (ourcommons.ca DocumentViewer, by sitting),
+  # the vote page or the Journals of the Senate; line references were read
+  # against the bill print the motion names (C-7_2, C-7_3, C-14_2). Every
+  # mover voted Yea on their own motion (checked in ca_votes); the lobbies
+  # are counted from the store. The scale follows the confirmed entries:
+  #   * a bill whose WHOLE purpose is our ground (C-7, C-384, C-233): second
+  #     reading and report-stage concurrence +/-1, third reading +/-2;
+  #   * a package or whipped whole-bill vote with other content: +/-1;
+  #   * a clause-specific amendment that IS the question (Barrett on mental
+  #     illness, Kutcher, Wallin, Cowan, Joyal): +/-2 our way; safeguard
+  #     amendments +/-1; conscience protections +2 / -1;
+  #   * where the losing lobby is OUR ALLIES TOGETHER WITH OUR OPPONENTS --
+  #     Liberals and Conservatives voting down an NDP/Bloc expansion, or the
+  #     C-14 Nay that joined MAID's opponents to those who wanted it wider --
+  #     that side gets no value, as on C-62's reasoned amendment (640).
+  # The C-16 (2026) divisions record Christopher's 2 October decision that
+  # C-16 is not our ground.
+  - key: commons-45-1-134
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-16 (Protecting Victims Act)"
+    dated: 2026-06-04
+    result: "Agreed To 169-164"
+    lobbies: "Yea: Liberal 169. Nay: Conservative 136, Bloc Québécois 20, NDP 5, Independent 2, Green Party 1. Paired: Liberal 3, Conservative 2, Bloc Québécois 1"
+    moved_by: "Sean Fraser (Liberal, Central Nova; Minister of Justice)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/45/1/134 (sitting 129);
+      Journals ourcommons.ca/DocumentViewer/en/45-1/house/sitting-129/journals
+    reason: >
+      Procedure, and C-16 is not our ground. TAXONOMY FALSE POSITIVE (areas 5,
+      6 matched on the title words "child protection, gender-based violence").
+      Christopher's review of 2 October 2026 read the Library of Parliament
+      summary: an omnibus justice bill (coercive control, femicide, criminal
+      harassment, deepfake intimate images, mandatory-minimum relief, court
+      delay) with nothing on our ground in either direction. Its divisions
+      stay evidence only.
+  - key: commons-45-1-135
+    draft: true
+    placeable: false
+    title: "C-16 report stage, Gazan Motions 1 and 3: delete lines 9-10 on page 18 (clause 28)"
+    dated: 2026-06-08
+    result: "Negatived 7-323"
+    lobbies: "Yea: NDP 5, Green Party 1, Independent 1. Nay: Liberal 168, Conservative 135, Bloc Québécois 19, Independent 1. Paired: Liberal 5, Conservative 3, Bloc Québécois 2"
+    moved_by: "Leah Gazan (NDP, Winnipeg Centre), seconded by Jenny Kwan"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/45/1/135 (sitting 131);
+      Journals ourcommons.ca/DocumentViewer/en/45-1/house/sitting-131/journals
+    text: >
+      Motion No. 1: That Bill C-16, in Clause 28, be amended by deleting lines
+      9 and 10 on page 18. ("Accordingly, Motion No. 3 was also negatived on
+      the same division.")
+    reason: >
+      TAXONOMY FALSE POSITIVE (areas 5, 6 matched on the title words "child
+      protection, gender-based violence"). Christopher's review of 2 October
+      2026 read the Library of Parliament summary: an omnibus justice bill
+      (coercive control, femicide, criminal harassment, deepfake intimate
+      images, mandatory-minimum relief, court delay) with nothing on our
+      ground in either direction. Its divisions stay evidence only.
+  - key: commons-45-1-136
+    draft: true
+    placeable: false
+    title: "C-16 report stage, Gazan Motion 2: delete clause 63"
+    dated: 2026-06-08
+    result: "Negatived 142-189"
+    lobbies: "Yea: Conservative 136, NDP 5, Independent 1. Nay: Liberal 168, Bloc Québécois 19, Independent 1, Green Party 1. Paired: Liberal 5, Conservative 3, Bloc Québécois 2"
+    moved_by: "Leah Gazan (NDP, Winnipeg Centre), seconded by Jenny Kwan"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/45/1/136 (sitting 131);
+      Journals ourcommons.ca/DocumentViewer/en/45-1/house/sitting-131/journals
+    text: "Motion No. 2: That Bill C-16 be amended by deleting Clause 63."
+    reason: >
+      TAXONOMY FALSE POSITIVE (areas 5, 6 matched on the title words "child
+      protection, gender-based violence"). Christopher's review of 2 October
+      2026 read the Library of Parliament summary: an omnibus justice bill
+      (coercive control, femicide, criminal harassment, deepfake intimate
+      images, mandatory-minimum relief, court delay) with nothing on our
+      ground in either direction. Its divisions stay evidence only.
+  - key: commons-45-1-137
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-16"
+    dated: 2026-06-08
+    result: "Agreed To 195-136"
+    lobbies: "Yea: Liberal 168, Bloc Québécois 19, NDP 5, Independent 2, Green Party 1. Nay: Conservative 136. Paired: Liberal 5, Conservative 3, Bloc Québécois 2"
+    moved_by: "Sean Fraser (Liberal, Central Nova; Minister of Justice), seconded by Rechie Valdez"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/45/1/137 (sitting 131);
+      Journals ourcommons.ca/DocumentViewer/en/45-1/house/sitting-131/journals
+    text: "That the bill, as amended, be concurred in at report stage."
+    reason: >
+      TAXONOMY FALSE POSITIVE (areas 5, 6 matched on the title words "child
+      protection, gender-based violence"). Christopher's review of 2 October
+      2026 read the Library of Parliament summary: an omnibus justice bill
+      (coercive control, femicide, criminal harassment, deepfake intimate
+      images, mandatory-minimum relief, court delay) with nothing on our
+      ground in either direction. Its divisions stay evidence only.
+  - key: commons-45-1-153
+    draft: true
+    placeable: false
+    title: "3rd reading of Bill C-16"
+    dated: 2026-06-11
+    result: "Agreed To 192-133"
+    lobbies: "Yea: Liberal 167, Bloc Québécois 17, NDP 5, Independent 2, Green Party 1. Nay: Conservative 133. Paired: Liberal 6, Bloc Québécois 3, Conservative 3"
+    moved_by: "Sean Fraser (Liberal, Central Nova; Minister of Justice), seconded by Joël Lightbound"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/45/1/153 (sitting 134);
+      Journals ourcommons.ca/DocumentViewer/en/45-1/house/sitting-134/journals
+    text: >
+      That Bill C-16, An Act to amend certain Acts in relation to criminal and
+      correctional matters (child protection, gender-based violence, delays
+      and other measures), be now read a third time and do pass.
+    reason: >
+      TAXONOMY FALSE POSITIVE (areas 5, 6 matched on the title words "child
+      protection, gender-based violence"). Christopher's review of 2 October
+      2026 read the Library of Parliament summary: an omnibus justice bill
+      (coercive control, femicide, criminal harassment, deepfake intimate
+      images, mandatory-minimum relief, court delay) with nothing on our
+      ground in either direction. Its divisions stay evidence only.
+  - key: senate-45-1-702758
+    draft: true
+    placeable: false
+    title: "Protecting Victims Act -- C-16 -- Third Reading (Senate)"
+    dated: 2026-06-18
+    result: "Adopted 64-14-1"
+    lobbies: "Yea: ISG 27, CSG 16, PSG 14, GRO 5, C 1, Non-affiliated 1. Nay: C 8, ISG 5, CSG 1. Abstention: ISG 1"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/451/journals/086jr_2026-06-18-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/702758/45-1
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-16 is not our ground (Christopher's review, 2
+      October 2026; see the House entries). Evidence only.
+  - key: commons-44-1-645
+    draft: true
+    placeable: false
+    title: "C-62 third reading: the previous question"
+    dated: 2024-02-15
+    result: "Agreed To 281-30"
+    lobbies: "Yea: Liberal 148, Conservative 108, NDP 21, Independent 3, Green Party 1. Nay: Bloc Québécois 30. Paired: Liberal 2, Bloc Québécois 1, Conservative 1"
+    moved_by: "Rob Moore (Conservative, Fundy Royal), seconded by Michael Cooper"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/44/1/645 (sitting 283);
+      Journals ourcommons.ca/DocumentViewer/en/44-1/house/sitting-283/journals
+    text: "That this question be now put."
+    reason: >
+      Procedure: the previous question on C-62's third reading. The third
+      reading itself (646) carries the reading; this vote split the same way
+      and would count it twice.
+  - key: commons-43-2-14
+    draft: true
+    title: "2nd reading of Bill C-6 (conversion therapy)"
+    dated: 2020-10-28
+    result: "Agreed To 305-7"
+    lobbies: "Yea: Liberal 151, Conservative 96, Bloc Québécois 31, NDP 22, Green Party 3, Independent 2. Nay: Conservative 7"
+    moved_by: >
+      David Lametti (Liberal; Minister of Justice), seconded by Marie-Claude
+      Bibeau (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/14 (sitting 21);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-21/journals
+    text: >
+      That Bill C-6, An Act to amend the Criminal Code (conversion therapy),
+      be now read a second time and referred to the Standing Committee on
+      Justice and Human Rights.
+    nay: 1
+    why_nay: >
+      Voted against the principle of C-6, the criminal ban on "conversion
+      therapy" whose definition reached counselling and a child's gender
+      expression.
+    note: >
+      No `yea` value, as on C-62's second reading (641): 305 of 312 voted Yea,
+      the Conservative caucus included, to send the bill to committee to fix
+      its definition, so a Yea tells almost no member apart. Only the seven
+      Conservative Nays place, at +1 (second reading).
+  - key: commons-43-2-175
+    draft: true
+    title: "3rd reading of Bill C-6 (conversion therapy)"
+    dated: 2021-06-22
+    result: "Agreed To 263-63"
+    lobbies: "Yea: Liberal 152, Conservative 51, Bloc Québécois 32, NDP 23, Independent 4, Green Party 1. Nay: Conservative 62, Independent 1"
+    moved_by: >
+      David Lametti (Liberal; Minister of Justice), seconded by Karina Gould
+      (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/175 (sitting 123);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-123/journals
+    text: >
+      That Bill C-6, An Act to amend the Criminal Code (conversion therapy),
+      be now read a third time and do pass.
+    yea: -1
+    why_yea: >
+      Voted to pass C-6, criminalising "conversion therapy" under a definition
+      that reached counselling and a child's gender expression (-1: see note).
+    nay: 2
+    why_nay: >
+      Voted against C-6, whose "conversion therapy" offences reached
+      counselling, parents and a child's gender expression.
+    note: >
+      Conservatives split 62 Nay, 51 Yea; their leader, Erin O'Toole, voted
+      Yea. Yea is -1, not -2, as on S-210's Nay: a Yea for banning coercive
+      conversion therapy is not, by itself, hostility to counselling or
+      parents. The Nay was the chosen act.
+  - key: commons-43-2-15
+    draft: true
+    title: "2nd reading of Bill C-7 (MAID: end of the reasonably-foreseeable-death requirement)"
+    dated: 2020-10-29
+    result: "Agreed To 246-78"
+    lobbies: "Yea: Liberal 149, Conservative 40, Bloc Québécois 30, NDP 22, Green Party 3, Independent 2. Nay: Conservative 78"
+    moved_by: >
+      David Lametti (Liberal; Minister of Justice), seconded by Steven
+      Guilbeault (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/15 (sitting 22);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-22/journals
+    text: >
+      That Bill C-7, An Act to amend the Criminal Code (medical assistance in
+      dying), be now read a second time and referred to the Standing Committee
+      on Justice and Human Rights.
+    yea: -1
+    why_yea: >
+      Voted for the principle of C-7, extending MAID to people whose death is
+      not reasonably foreseeable.
+    nay: 1
+    why_nay: "Voted against the principle of C-7, which extended MAID beyond the end of life."
+    note: "+/-1: a second reading. Not a party line: 40 Conservatives voted Yea."
+  - key: commons-43-2-26
+    draft: true
+    title: "C-7 report stage, Cooper Motions 2 and 3: keep the 10-day reflection period; 120 days' assessment"
+    dated: 2020-12-03
+    result: "Negatived 113-204"
+    lobbies: "Yea: Conservative 113. Nay: Liberal 145, Bloc Québécois 30, NDP 20, Conservative 4, Green Party 3, Independent 2"
+    moved_by: >
+      Michael Cooper (Conservative, St. Albert—Edmonton), seconded by Garnett
+      Genuis (both voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/26 (sitting 42);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-42/journals;
+      the motions as moved, Journals 2 December 2020 (sitting-41/journals);
+      the bill as reported,
+      parl.ca/Content/Bills/432/Government/C-7/C-7_2/C-7_2.PDF
+    text: >
+      Motion No. 2: That Bill C-7, in Clause 1, be amended by deleting lines
+      25 to 31 on page 3. Motion No. 3: That Bill C-7, in Clause 1, be amended
+      by replacing line 8 on page 5 with the following: "(i) ensure that there
+      are at least 120 clear days between". ("Accordingly, Motion No. 3 was
+      also negatived on the same division.")
+    yea: 1
+    why_yea: >
+      Voted to keep the 10-day reflection period before MAID and lengthen the
+      assessment for non-terminal requests to 120 days.
+    nay: -1
+    why_nay: >
+      Voted to remove the 10-day reflection period before MAID and keep the
+      90-day assessment for non-terminal requests.
+    note: >
+      TEXT READ 8 October 2026. Page 3 lines 25-31 of the reprint are clause
+      1(5), which replaces s.241.2(3)(g) -- the 10 clear days between request
+      and death -- with the communication paragraph; deleting it keeps the
+      reflection period (Genuis in the debate: "These amendments include
+      reintroducing a 10-day reflection period"). +/-1: safeguard amendments
+      on a whipped report stage; 4 Conservatives voted Nay.
+  - key: commons-43-2-27
+    draft: true
+    title: "Concurrence at report stage of Bill C-7"
+    dated: 2020-12-03
+    result: "Agreed To 213-103"
+    lobbies: "Yea: Liberal 142, Bloc Québécois 30, NDP 20, Conservative 16, Green Party 3, Independent 2. Nay: Conservative 102, Liberal 1"
+    moved_by: >
+      David Lametti (Liberal; Minister of Justice), seconded by Dan Vandal
+      (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/27 (sitting 42);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-42/journals
+    text: "That the bill, as amended, be concurred in at report stage."
+    yea: -1
+    why_yea: "Voted to concur in C-7, extending MAID beyond the end of life (-1: report stage)."
+    nay: 1
+    why_nay: >
+      Voted against concurring in C-7, which extended MAID beyond the end of
+      life (+1: report stage).
+  - key: commons-43-2-39
+    draft: true
+    title: "3rd reading of Bill C-7 (MAID beyond the end of life)"
+    dated: 2020-12-10
+    result: "Agreed To 213-106"
+    lobbies: "Yea: Liberal 142, Bloc Québécois 31, NDP 20, Conservative 15, Green Party 3, Independent 2. Nay: Conservative 103, Liberal 2, Independent 1"
+    moved_by: >
+      David Lametti (Liberal; Minister of Justice), seconded by Diane
+      Lebouthillier (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/39 (sitting 47);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-47/journals
+    text: >
+      That Bill C-7, An Act to amend the Criminal Code (medical assistance in
+      dying), be now read a third time and do pass.
+    yea: -2
+    why_yea: >
+      Voted to pass C-7, which removed the requirement that death be
+      reasonably foreseeable and allowed waiver of final consent.
+    nay: 2
+    why_nay: "Voted against C-7, which extended MAID to people who are not dying."
+    note: >
+      +/-2, not the C-9 +/-1 whole-bill rule: the whole bill IS our ground
+      (MAID's expansion), as for C-16 (2016) and C-279. Not a party line: 15
+      Conservatives voted Yea, 2 Liberals Nay.
+  - key: commons-43-2-70
+    draft: true
+    placeable: false
+    title: "Closure on the Senate amendments to C-7"
+    dated: 2021-03-11
+    result: "Agreed To 184-148"
+    lobbies: "Yea: Liberal 149, Bloc Québécois 32, Independent 3. Nay: Conservative 119, NDP 23, Green Party 3, Independent 2, Liberal 1"
+    moved_by: "Catherine McKenna (Liberal; Minister of Infrastructure), seconded by David Lametti"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/70 (sitting 71);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-71/journals
+    text: >
+      That, in relation to the consideration of Senate amendments to Bill C-7,
+      An Act to amend the Criminal Code (medical assistance in dying), the
+      debate not be further adjourned.
+    reason: "Procedure: closure."
+  - key: commons-43-2-71
+    draft: true
+    title: "C-7 Senate amendments, Barrett amendment: reject MAID for mental illness alone"
+    dated: 2021-03-11
+    result: "Negatived 152-179"
+    lobbies: "Yea: Conservative 118, NDP 24, Liberal 5, Green Party 3, Independent 2. Nay: Liberal 144, Bloc Québécois 32, Independent 3"
+    moved_by: >
+      Michael Barrett (Conservative, Leeds—Grenville—Thousand Islands and
+      Rideau Lakes), seconded by John Brassard (both voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/71 (sitting 71);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-71/journals
+    text: >
+      That the motion be amended by: (a) replacing the words "agrees with
+      amendment 1(a)(ii) made by the Senate" with the words "respectfully
+      disagrees with amendment 1(a)(ii) made by the Senate because, in the
+      Justice Department's own words, it "could be seen as undermining suicide
+      prevention initiatives and normalizing death as a solution to many forms
+      of suffering""; (b) deleting all the words beginning with the words "as
+      a consequence" and concluding with the words "receive the report.";";
+      and (c) replacing the words "section 6 be amended by replacing the words
+      "18 months after" with the words "on the second anniversary of"" with
+      the words "section 6 be deleted".
+    yea: 2
+    why_yea: >
+      Voted to reject the Senate amendment opening MAID to people whose sole
+      condition is a mental illness.
+    nay: -2
+    why_nay: >
+      Voted to accept the Senate amendment opening MAID to mental illness as
+      the sole condition (after two years).
+    note: >
+      TEXT READ 8 October 2026. Senate amendment 1(a)(ii) is Senator Kutcher's
+      sunset of the mental-illness exclusion (senate-43-2-554255). The
+      clause-specific vote, so full strength, as for C-314. Not a party line:
+      NDP 24 and 5 Liberals voted Yea with the Conservatives.
+  - key: commons-43-2-72
+    draft: true
+    title: "Motion respecting Senate amendments to Bill C-7 (accept MAID for mental illness after two years)"
+    dated: 2021-03-11
+    result: "Agreed To 180-149"
+    lobbies: "Yea: Liberal 144, Bloc Québécois 32, Independent 3, Green Party 1. Nay: Conservative 118, NDP 24, Liberal 3, Green Party 2, Independent 2"
+    moved_by: "David Lametti (Liberal; Minister of Justice) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/72 (sitting 71);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-71/journals
+    text: >
+      That a message be sent to the Senate to acquaint Their Honours that, in
+      relation to Bill C-7, An Act to amend the Criminal Code (medical
+      assistance in dying), the House: agrees with amendment 1(a)(ii) made by
+      the Senate; respectfully disagrees with amendment 1(a)(i) ...
+      respectfully disagrees with amendment 1(a)(iii), 1(b) and 1(c) ...
+    yea: -1
+    why_yea: >
+      Voted for the House's answer to the Senate that accepted MAID for mental
+      illness alone (-1: a package of amendments).
+    nay: 1
+    why_nay: >
+      Voted against the answer to the Senate that accepted MAID for mental
+      illness alone (+1: a package).
+    note: >
+      The package that became law. +/-1 under the whole-bill rule: the
+      clause-specific vote is Barrett's amendment (71), and the package also
+      rejected Senate amendments (advance requests among them). NDP 24 voted
+      Nay with the Conservatives.
+  - key: commons-43-2-125
+    draft: true
+    title: "2nd reading of Bill C-233 (sex-selective abortion)"
+    dated: 2021-06-02
+    result: "Negatived 82-248"
+    lobbies: "Yea: Conservative 81, Independent 1. Nay: Liberal 150, Conservative 38, Bloc Québécois 31, NDP 22, Independent 4, Green Party 3"
+    moved_by: >
+      Cathay Wagantall (Conservative, Yorkton—Melville; the bill's sponsor),
+      seconded by Ted Falk (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/125 (sitting 109);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-109/journals
+    text: >
+      That Bill C-233, An Act to amend the Criminal Code (sex-selective
+      abortion), be now read a second time and referred to the Standing
+      Committee on Justice and Human Rights.
+    yea: 2
+    why_yea: >
+      Voted to advance a bill making it an offence to perform an abortion
+      knowing it is sought solely on the child's sex.
+    nay: -2
+    why_nay: "Voted to stop, at second reading, a bill prohibiting sex-selective abortion."
+    note: >
+      Read with C-311 and C-225 (pro-life private members' bills, +/-2 at
+      second reading). Not a party line: 38 Conservatives voted Nay.
+  - key: commons-43-2-55
+    draft: true
+    placeable: false
+    title: "Opposition motion (genocide of Uyghurs), Bloc amendment: move the 2022 Olympics"
+    dated: 2021-02-22
+    result: "Agreed To 230-28"
+    lobbies: "Yea: Conservative 118, Liberal 52, Bloc Québécois 31, NDP 22, Independent 4, Green Party 3. Nay: Liberal 27, Independent 1"
+    moved_by: >
+      Alexis Brunelle-Duceppe (Bloc Québécois, Lac-Saint-Jean), seconded by
+      Stéphane Bergeron
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/55 (sitting 63);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-63/journals
+    text: >
+      That the motion be amended by adding, after the words "against Uyghurs
+      and other Turkic Muslims", the following: "call upon the International
+      Olympic Committee to move the 2022 Olympic Games if the Chinese
+      government continues this genocide".
+    reason: >
+      Not our ground: the amendment is about the Olympic venue. The motion it
+      amended was carried unanimously (56). Evidence only, as for M-62
+      (commons-44-1-247).
+  - key: commons-43-2-56
+    draft: true
+    placeable: false
+    title: "Opposition motion: the genocide of Uyghurs and other Turkic Muslims (as amended)"
+    dated: 2021-02-22
+    result: "Agreed To 266-0"
+    lobbies: "Yea: Conservative 118, Liberal 87, Bloc Québécois 31, NDP 22, Independent 5, Green Party 3"
+    moved_by: "Michael Chong (Conservative, Wellington—Halton Hills), seconded by Garnett Genuis"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/43/2/56 (sitting 63);
+      Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-63/journals
+    reason: "Unanimous (266-0): a vote everyone cast the same way tells no member apart."
+  - key: senate-43-2-554255
+    draft: true
+    title: "C-7 -- Senate third reading amendment (Sen. Kutcher): repeal the mental-illness exclusion after 18 months"
+    dated: 2021-02-09
+    result: "Adopted 57-21-6"
+    lobbies: "Yea: ISG 32, PSG 9, C 9, CSG 6, Non-affiliated 1. Nay: C 11, ISG 6, CSG 4. Abstention: Non-affiliated 3, ISG 3"
+    moved_by: "Senator Stan Kutcher, seconded by Senator Dalphond (Kutcher voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/025jr_2021-02-09-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554255/43-2
+    text: >
+      That Bill C-7 be not now read a third time, but that it be amended (a)
+      in clause 1, on page 3, by adding the following after line 7: "(2.1)
+      Subsection 241.2(2.1) of the Act is repealed."; (b) on page 9, by adding
+      the following after line 30: "Coming Into Force 5 Subsection 1(2.1)
+      comes into force 18 months after the day on which this Act receives
+      royal assent.".
+    yea: -2
+    why_yea: >
+      Voted to repeal, after 18 months, the exclusion of mental illness as the
+      sole condition for MAID.
+    nay: 1
+    why_nay: "Voted against ending the exclusion of mental illness as the sole condition for MAID."
+    note: >
+      TEXT READ 8 October 2026: s.241.2(2.1) is C-7's "a mental illness is not
+      considered to be an illness, disease or disability". THE origin of MAID
+      for mental illness alone. Nay is +1, not +2: the Nay lobby (C 11, ISG 6,
+      CSG 4) may hold senators who objected to the timetable rather than the
+      expansion.
+  - key: senate-43-2-554295
+    draft: true
+    placeable: false
+    title: "C-7 -- Senate third reading amendment (Sen. Boisvenu): review of MAID for neurodegenerative disease"
+    dated: 2021-02-09
+    result: "Defeated 28-47-6"
+    lobbies: "Yea: C 19, CSG 7, ISG 1, Non-affiliated 1. Nay: ISG 34, PSG 8, Non-affiliated 3, CSG 2. Abstention: ISG 2, PSG 2, C 1, CSG 1"
+    moved_by: "Senator Pierre-Hugues Boisvenu, seconded by Senator Carignan (Boisvenu voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/025jr_2021-02-09-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554295/43-2
+    text: >
+      That Bill C-7, as amended, be not now read a third time, but that it be
+      further amended on page 9 by adding the following after line 30: "Review
+      5 (1) Within 90 days after the day on which this Act receives royal
+      assent, a comprehensive review of access to medical assistance in dying
+      for persons who suffer from a neurodegenerative disease must be
+      undertaken by any committee ...".
+    reason: >
+      TEXT READ 8 October 2026. A parliamentary review of MAID access for
+      neurodegenerative disease. Its direction cannot be read from the text: a
+      review can lead to wider access (advance requests) or to none, and the
+      Yea lobby was mostly Conservative (C 19). Evidence only.
+  - key: senate-43-2-554408
+    draft: true
+    title: "C-7 -- Senate third reading amendment (Sen. Plett): offence to raise MAID unprompted"
+    dated: 2021-02-10
+    result: "Defeated 18-66-1"
+    lobbies: "Yea: C 14, ISG 3, CSG 1. Nay: ISG 37, PSG 11, CSG 9, C 5, Non-affiliated 4. Abstention: C 1"
+    moved_by: "Senator Donald Plett, seconded by Senator Martin (Plett voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/026jr_2021-02-10-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554408/43-2
+    text: >
+      That Bill C-7, as amended, be not now read a third time, but that it be
+      further amended on page 7 by adding the following after line 30: "1.1
+      The Act is amended by adding the following after section 241.2: 241.21
+      (1) A medical practitioner or nurse practitioner who provides
+      information on medical assistance in dying to a person who has a
+      grievous and irremediable medical condition is guilty of an offence
+      punishable on summary conviction. (2) Subsection (1) does not apply if
+      the information provided on medical assistance in dying was requested by
+      that person.".
+    yea: 1
+    why_yea: >
+      Voted to forbid doctors and nurse practitioners from raising MAID with a
+      patient who has not asked about it.
+    nay: -1
+    why_nay: "Voted against forbidding practitioners from raising MAID unprompted."
+    note: >
+      +/-1: a criminal offence for practitioners is a step a senator can
+      oppose without wanting MAID pushed on patients.
+  - key: senate-43-2-554432
+    draft: true
+    title: "C-7 -- Senate third reading amendment (Sen. Wallin): advance requests"
+    dated: 2021-02-10
+    result: "Adopted 47-28-8"
+    lobbies: "Yea: ISG 25, CSG 10, C 9, PSG 2, Non-affiliated 1. Nay: ISG 10, C 8, PSG 7, Non-affiliated 3. Abstention: ISG 5, C 2, PSG 1"
+    moved_by: "Senator Pamela Wallin, seconded by Senator Dagenais (Wallin voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/026jr_2021-02-10-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554432/43-2
+    text: >
+      That Bill C-7, as amended, be not now read a third time, but that it be
+      further amended, in clause 1, (a) on page 3, by adding the following
+      after line 18: "(3.1) Subparagraph 241.2(3)(b)(ii) of the Act is
+      replaced by the following: (ii) signed and dated before or after the
+      person was informed by a medical practitioner or nurse practitioner that
+      the person has a grievous and irremediable medical condition;" ...
+    yea: -2
+    why_yea: >
+      Voted to let a MAID request be signed before a person is told they have
+      a grievous and irremediable condition -- advance requests.
+    nay: 1
+    why_nay: "Voted against allowing MAID requests in advance of a diagnosis (advance requests)."
+    note: >
+      TEXT READ 8 October 2026. Adopted 47-28; the House later disagreed with
+      it (the C-7 message, commons-43-2-72). Nay +1: the Nay lobby is mixed
+      (ISG 10, C 8, PSG 7).
+  - key: senate-43-2-554450
+    draft: true
+    title: "C-7 -- Senate third reading amendment (Sen. Batters): restore two witnesses and the 10-day reflection period"
+    dated: 2021-02-10
+    result: "Defeated 23-52-2"
+    lobbies: "Yea: C 12, ISG 7, CSG 3, Non-affiliated 1. Nay: ISG 30, PSG 10, C 5, CSG 4, Non-affiliated 3. Abstention: C 2"
+    moved_by: "Senator Denise Batters, seconded by Senator Plett (Batters voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/026jr_2021-02-10-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554450/43-2
+    text: >
+      That Bill C-7, as amended, be not now read a third time, but that it be
+      further amended, in clause 1, (a) on page 3, by deleting lines 19 to 34;
+      (b) on page 4, by replacing line 19 with the following: "tion (4) —
+      before two independent witnesses who then al-".
+    yea: 1
+    why_yea: "Voted to keep two independent witnesses and the 10-day reflection period for MAID."
+    nay: -1
+    why_nay: "Voted to cut MAID's witnesses to one and remove the 10-day reflection period."
+    note: >
+      TEXT READ 8 October 2026, against C-7 as passed by the House (C-7_3):
+      page 3 lines 19-34 are clause 1(4)-(6) -- one independent witness, the
+      replacement of the 10-day reflection period, and the repeal of final
+      consent's old position; page 4 line 19 is the witness rule for the
+      non-terminal track. +/-1: safeguard amendment.
+  - key: senate-43-2-554468
+    draft: true
+    title: "C-7 -- Senate third reading amendment (Sen. Martin): strike 'involuntary gestures are not refusal'"
+    dated: 2021-02-10
+    result: "Defeated 15-61-1"
+    lobbies: "Yea: C 13, ISG 2. Nay: ISG 35, PSG 10, CSG 7, C 5, Non-affiliated 4. Abstention: C 1"
+    moved_by: "Senator Yonah Martin, seconded by Senator Plett (Martin voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/026jr_2021-02-10-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554468/43-2
+    text: >
+      That Bill C-7, as amended, be not now read a third time, but that it be
+      further amended in clause 1, on page 6, by deleting lines 16 to 19.
+    yea: 1
+    why_yea: >
+      Voted to delete the clause saying involuntary words, sounds or gestures
+      are not a refusal of MAID under a waiver of final consent.
+    nay: -1
+    why_nay: >
+      Voted to keep the clause discounting involuntary words, sounds or
+      gestures as a refusal of MAID.
+    note: >
+      TEXT READ 8 October 2026 against C-7_3: page 6 lines 16-19 are
+      s.241.2(3.3), "For greater certainty, involuntary words, sounds or
+      gestures made in response to contact do not constitute a demonstration
+      of refusal or resistance for the purposes of paragraph (3.2)(c)". +/-1:
+      safeguard amendment.
+  - key: senate-43-2-554678
+    draft: true
+    title: "C-7 -- Senate third reading amendment (Sen. Plett): offence to compel anyone to provide or facilitate MAID"
+    dated: 2021-02-11
+    result: "Defeated 12-63-3"
+    lobbies: "Yea: C 10, ISG 2. Nay: ISG 37, PSG 10, CSG 7, C 5, Non-affiliated 4. Abstention: CSG 2, C 1"
+    moved_by: "Senator Donald Plett, seconded by Senator Batters (Plett voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/027jr_2021-02-11-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554678/43-2
+    text: >
+      That Bill C-7, as amended, be not now read a third time, but that it be
+      further amended on page 7 by adding the following after line 30: "1.1
+      The Act is amended by adding the following after section 241.2: 241.21
+      (1) Every person who compels another person to provide or facilitate the
+      provision of medical assistance in dying is guilty of an offence
+      punishable on summary conviction. (2) For the purposes of subsection
+      (1), a person who provides information on medical assistance in dying to
+      a person who requests it does not facilitate the provision of medical
+      assistance in dying.".
+    yea: 2
+    why_yea: >
+      Voted to make it an offence to compel anyone to provide or facilitate
+      MAID -- conscience protection.
+    nay: -1
+    why_nay: >
+      Voted against an offence protecting health workers from being compelled
+      to take part in MAID.
+    note: "Read with the conscience votes (commons-42-1-61, commons-44-1-186): +2 / -1."
+  - key: senate-43-2-554941
+    draft: true
+    title: "C-7 -- Senate third reading (as amended: mental-illness sunset, advance requests)"
+    dated: 2021-02-17
+    result: "Adopted 66-19-3"
+    lobbies: "Yea: ISG 36, PSG 11, CSG 9, C 6, Non-affiliated 4. Nay: C 14, ISG 4, CSG 1. Abstention: ISG 2, CSG 1"
+    moved_by: "Senator Chantal Petitclerc, seconded by Senator Gold (Petitclerc voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/029jr_2021-02-17-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/554941/43-2
+    text: >
+      ... for the third reading of Bill C-7, An Act to amend the Criminal Code
+      (medical assistance in dying), as amended.
+    yea: -2
+    why_yea: >
+      Voted to pass C-7, MAID beyond the end of life, as amended to open it to
+      mental illness and advance requests.
+    nay: 2
+    why_nay: "Voted against passing C-7, which extended MAID beyond the end of life."
+    note: "The whole bill is our ground, as for the House third reading (commons-43-2-39)."
+  - key: senate-43-2-555864
+    draft: true
+    title: "C-7 -- Senate: do not insist; concur in the Commons amendments (final passage)"
+    dated: 2021-03-17
+    result: "Adopted 60-25-5"
+    lobbies: "Yea: ISG 37, PSG 9, CSG 9, Non-affiliated 5. Nay: C 20, ISG 2, PSG 2, CSG 1. Abstention: ISG 3, CSG 2"
+    moved_by: >
+      Senator Marc Gold (Government Representative), seconded by Senator Boehm
+      (Gold voted Yea)
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/432/journals/032jr_2021-03-17-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/555864/43-2
+    text: >
+      That, in relation to Bill C-7, An Act to amend the Criminal Code
+      (medical assistance in dying), the Senate: (a) do not insist on its
+      amendments 1(a)(i), 1(a)(iii), 1(b) and 1(c), with which the House of
+      Commons has disagreed; (b) agree to the amendments made by the House of
+      Commons to Senate amendment 2; (c) agree to the amendment made by the
+      House of Commons in consequence of Senate amendments 1(a)(ii) and 3; and
+      (d) agree to the amendments made by the House of Commons to Senate
+      amendment 3 ...
+    yea: -1
+    why_yea: >
+      Voted for the final settlement of C-7, which kept MAID for mental
+      illness alone after two years (-1: a package).
+    nay: 1
+    why_nay: "Voted against the final settlement of C-7 (+1: a package)."
+    note: "Nay: C 20, ISG 2, PSG 2, CSG 1. +/-1, like the House message (commons-43-2-72)."
+  - key: commons-42-1-22
+    draft: true
+    title: "Opposition motion: renew the Office of Religious Freedom"
+    dated: 2016-03-21
+    result: "Negatived 90-225"
+    lobbies: "Yea: Conservative 90. Nay: Liberal 173, NDP 41, Bloc Québécois 10, Green Party 1"
+    moved_by: "Garnett Genuis (Conservative, Sherwood Park—Fort Saskatchewan) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/22 (sitting 32);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-32/journals
+    text: >
+      That the House (a) recognize the good work being done by Canada's Office
+      of Religious Freedom, in particular its work within the Department of
+      Global Affairs to build the Department's capacity to address threats to
+      religious freedom, and to directly promote peace, freedom, tolerance,
+      and communal harmony; and, as a consequence, (b) call on the government
+      to renew the current mandate of the Office, since the continuation of
+      its vital work is needed now more than ever.
+    yea: 1
+    why_yea: "Voted to renew Canada's Office of Religious Freedom."
+    nay: -1
+    why_nay: "Voted against renewing Canada's Office of Religious Freedom."
+    note: >
+      +/-1, as for the 2017 motion on discrimination against all religions
+      (commons-42-1-201): a foreign-policy institution, and the Liberals voted
+      Nay as one (173).
+  - key: commons-42-1-47
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-14 (second reading)"
+    dated: 2016-05-04
+    result: "Agreed To 165-140"
+    lobbies: "Yea: Liberal 165. Nay: Conservative 93, NDP 37, Bloc Québécois 8, Green Party 1, Liberal 1"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/47 (sitting 48);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-48/journals
+    reason: "Programming of a bill's timetable: procedure, not substance."
+  - key: commons-42-1-63
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-14 (report and third reading)"
+    dated: 2016-05-18
+    result: "Agreed To 172-137"
+    lobbies: "Yea: Liberal 172. Nay: Conservative 87, NDP 40, Bloc Québécois 9, Green Party 1"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/63 (sitting 58);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-58/journals
+    reason: "Programming of a bill's timetable: procedure, not substance."
+  - key: commons-42-1-48
+    draft: true
+    placeable: false
+    title: "C-14 second reading: the previous question"
+    dated: 2016-05-04
+    result: "Agreed To 169-141"
+    lobbies: "Yea: Liberal 169. Nay: Conservative 93, NDP 38, Bloc Québécois 8, Green Party 1, Liberal 1"
+    moved_by: "Ginette Petitpas Taylor (Liberal)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/48 (sitting 48);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-48/journals
+    text: "That the question be now put."
+    reason: >
+      Procedure: the previous question. A party-line vote (Liberal 169 Yea,
+      everyone else Nay).
+  - key: commons-42-1-49
+    draft: true
+    title: "2nd reading of Bill C-14 (MAID legalised)"
+    dated: 2016-05-04
+    result: "Agreed To 235-75"
+    lobbies: "Yea: Liberal 169, NDP 37, Conservative 20, Bloc Québécois 8, Green Party 1. Nay: Conservative 73, NDP 1, Liberal 1"
+    moved_by: >
+      Jody Wilson-Raybould (Liberal; Minister of Justice), seconded by Diane
+      Lebouthillier (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/49 (sitting 48);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-48/journals
+    text: >
+      That Bill C-14, An Act to amend the Criminal Code and to make related
+      amendments to other Acts (medical assistance in dying), be now read a
+      second time and referred to the Standing Committee on Justice and Human
+      Rights.
+    yea: -1
+    why_yea: >
+      Voted for the principle of C-14, legalising medical assistance in dying
+      (-1: second reading).
+    nay: 1
+    why_nay: "Voted against the principle of legalising medical assistance in dying."
+    note: >
+      Unlike the later C-14 votes, the second-reading Nay is clean:
+      Conservative 73, NDP 1, Liberal 1 -- the NDP voted Yea on the principle.
+      20 Conservatives voted Yea.
+  - key: commons-42-1-65
+    draft: true
+    title: "C-14 report stage, Rankin Motion 1: delete clause 3"
+    dated: 2016-05-30
+    result: "Negatived 47-271"
+    lobbies: "Yea: NDP 42, Liberal 4, Green Party 1. Nay: Liberal 171, Conservative 91, Bloc Québécois 9"
+    moved_by: "Murray Rankin (NDP, Victoria), seconded by Brigitte Sansoucy (Rankin voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/65 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: "Motion No. 1: That Bill C-14 be amended by deleting Clause 3."
+    yea: -1
+    why_yea: >
+      Voted to strike C-14's eligibility rules and safeguards (clause 3),
+      which the mover held narrower than Carter.
+    note: >
+      Clause 3 is s.241.1-241.4: the eligibility criteria, including
+      reasonably foreseeable death, and the safeguards. The mover's aim is in
+      his own reasoned amendment at third reading (75): eligibility
+      "consistent with ... Carter". Yea lobby NDP 42, Liberal 4, Green 1. No
+      `nay` value: the Nay was the Liberals and Conservatives together.
+  - key: commons-42-1-66
+    draft: true
+    title: "C-14 report stage, Genuis Motion 3: palliative-care consultation before a request"
+    dated: 2016-05-30
+    result: "Negatived 91-229"
+    lobbies: "Yea: Conservative 86, Liberal 4, NDP 1. Nay: Liberal 173, NDP 41, Bloc Québécois 9, Conservative 5, Green Party 1"
+    moved_by: >
+      Garnett Genuis (Conservative, Sherwood Park—Fort Saskatchewan), seconded
+      by Michael Cooper (Genuis voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/66 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: >
+      Motion No. 3: That Bill C-14, in Clause 3, be amended by adding after
+      line 5 on page 6 the following: "(f) prior to making the request, they
+      consulted a medical practitioner regarding palliative care options and
+      were informed of the full range of options."
+    yea: 1
+    why_yea: "Voted to require a palliative-care consultation before a request for MAID."
+    nay: -1
+    why_nay: "Voted against requiring a palliative-care consultation before a request for MAID."
+  - key: commons-42-1-67
+    draft: true
+    title: "C-14 report stage, Cooper Motions 4 and 9: psychiatric examination where there is a mental-health condition"
+    dated: 2016-05-30
+    result: "Negatived 96-225"
+    lobbies: "Yea: Conservative 91, Liberal 4, NDP 1. Nay: Liberal 174, NDP 41, Bloc Québécois 9, Green Party 1"
+    moved_by: >
+      Michael Cooper (Conservative, St. Albert—Edmonton), seconded by Garnett
+      Genuis (Cooper voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/67 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: >
+      Motion No. 4: That Bill C-14, in Clause 3, be amended by adding after
+      line 5 on page 6 the following: "(f) they have, if they suffer from an
+      underlying mental health condition, undergone a psychiatric examination
+      performed by a certified psychiatrist to confirm their capacity to give
+      informed consent to receive medical assistance in dying." ("Accordingly,
+      Motion No. 9 was also negatived on the same division.")
+    yea: 1
+    why_yea: >
+      Voted to require a psychiatric capacity examination before MAID where
+      there is a mental-health condition.
+    nay: -1
+    why_nay: >
+      Voted against requiring a psychiatric capacity examination before MAID
+      for people with a mental-health condition.
+  - key: commons-42-1-68
+    draft: true
+    title: "C-14 report stage, Thériault Motion 6: delete the reasonably-foreseeable-death requirement"
+    dated: 2016-05-30
+    result: "Negatived 60-260"
+    lobbies: "Yea: NDP 42, Bloc Québécois 9, Liberal 7, Green Party 1, Conservative 1. Nay: Liberal 170, Conservative 90"
+    moved_by: >
+      Luc Thériault (Bloc Québécois, Montcalm), seconded by Gabriel Ste-Marie
+      (Thériault voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/68 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: >
+      Motion No. 6: That Bill C-14, in Clause 3, be amended by deleting lines
+      17 to 21 on page 6.
+    yea: -2
+    why_yea: >
+      Voted to strike the requirement that natural death be reasonably
+      foreseeable -- MAID for people who are not dying.
+    note: >
+      Lines 17-21 on page 6 are paragraph (d), reasonably foreseeable death
+      (Genuis's Motion 7, division 69, replaces the same lines). No `nay`
+      value, as on C-62's reasoned amendment (640): the Nay was the Liberals
+      and Conservatives together.
+  - key: commons-42-1-69
+    draft: true
+    title: "C-14 report stage, Genuis Motion 7: 'imminent' natural death"
+    dated: 2016-05-30
+    result: "Negatived 86-236"
+    lobbies: "Yea: Conservative 86. Nay: Liberal 178, NDP 42, Bloc Québécois 10, Conservative 5, Green Party 1"
+    moved_by: >
+      Garnett Genuis (Conservative, Sherwood Park—Fort Saskatchewan), seconded
+      by Michael Cooper (Genuis voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/69 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: >
+      Motion No. 7: That Bill C-14, in Clause 3, be amended by replacing lines
+      17 to 21 on page 6 with the following: "(d) their imminent natural death
+      has become foreseeable, taking into account all of their medical
+      circumstances."
+    yea: 1
+    why_yea: "Voted to confine MAID to people whose natural death is imminent."
+    nay: -1
+    why_nay: "Voted against confining MAID to people whose natural death is imminent."
+  - key: commons-42-1-70
+    draft: true
+    title: "C-14 report stage, Genuis Motion 12: no practitioner-administered death for those able to self-administer"
+    dated: 2016-05-30
+    result: "Negatived 53-267"
+    lobbies: "Yea: Conservative 52, Liberal 1. Nay: Liberal 177, NDP 42, Conservative 37, Bloc Québécois 10, Green Party 1"
+    moved_by: >
+      Garnett Genuis (Conservative, Sherwood Park—Fort Saskatchewan), seconded
+      by Michael Cooper (Genuis voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/70 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: >
+      Motion No. 12: That Bill C-14, in Clause 3, be amended by adding after
+      line 30 on page 7 the following: "(3.1) As it relates to medical
+      assistance in dying, no medical practitioner or nurse practitioner may
+      administer a substance to a person if they and the medical practitioner
+      or nurse practitioner referred to in paragraph (3)(e) concur that the
+      person is capable of self-administering the substance."
+    yea: 1
+    why_yea: >
+      Voted to bar practitioners from administering a lethal substance to a
+      person able to self-administer.
+    note: >
+      No `nay` value: 37 Conservatives voted Nay with the Liberals, so the Nay
+      holds allies who may have objected to writing self-administration into
+      law.
+  - key: commons-42-1-71
+    draft: true
+    title: "C-14 report stage, Genuis Motion 13: prior review by a legal authority"
+    dated: 2016-05-30
+    result: "Negatived 69-253"
+    lobbies: "Yea: Conservative 69. Nay: Liberal 177, NDP 42, Conservative 22, Bloc Québécois 10, Green Party 1"
+    moved_by: >
+      Garnett Genuis (Conservative, Sherwood Park—Fort Saskatchewan), seconded
+      by Michael Cooper (Genuis voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/71 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: >
+      Motion No. 13: That Bill C-14, in Clause 3, be amended by adding after
+      line 30 on page 7 the following: "(3.1) The medical practitioner or
+      nurse practitioner shall not provide a person with assistance in dying
+      if the criteria in subsection (1) and the safeguards in subsection (3)
+      have not been reviewed and verified in advance (a) by a competent legal
+      authority designated by the province for that purpose; or (b) if no
+      designation is made under paragraph (a), by a legal authority designated
+      by the Minister of Health in conjunction with the Minister of Justice
+      for that purpose. ..."
+    yea: 1
+    why_yea: >
+      Voted to require a legal authority to verify the criteria and safeguards
+      before MAID is provided.
+    note: "No `nay` value: 22 Conservatives voted Nay."
+  - key: commons-42-1-72
+    draft: true
+    title: "C-14 report stage, Cooper Motion 14: conscience protection"
+    dated: 2016-05-30
+    result: "Negatived 97-222"
+    lobbies: "Yea: Conservative 91, Liberal 3, NDP 2, Green Party 1. Nay: Liberal 172, NDP 40, Bloc Québécois 10"
+    moved_by: >
+      Michael Cooper (Conservative, St. Albert—Edmonton), seconded by Garnett
+      Genuis (Cooper voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/72 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: >
+      Motion No. 14: That Bill C-14, in Clause 3, be amended by adding after
+      line 26 on page 8 the following: "(7.1) It is recognized that the
+      medical practitioner, nurse practitioner, pharmacist or other health
+      care institution care provider, or any such institution, is free to
+      refuse to provide direct or indirect medical assistance in dying. (7.2)
+      No medical practitioner, nurse practitioner, pharmacist or other
+      healthcare institution care provider, or any such institution, shall be
+      deprived of any benefit, or be subject to any obligation or sanction,
+      under any law of the Parliament of Canada solely by reason of their
+      exercise, in respect of medical assistance in dying, of the freedom of
+      conscience and religion ..."
+    yea: 2
+    why_yea: >
+      Voted to protect practitioners and institutions who refuse, in
+      conscience, to take part in MAID.
+    nay: -1
+    why_nay: "Voted against protecting the conscience of practitioners and institutions over MAID."
+    note: "As for the 2016 conscience motion (commons-42-1-61): +2 / -1."
+  - key: commons-42-1-73
+    draft: true
+    title: "C-14 report stage, May Motion 16: start the reviews of minors, advance requests and mental illness within 45 days"
+    dated: 2016-05-30
+    result: "Negatived 57-264"
+    lobbies: "Yea: NDP 40, Bloc Québécois 10, Liberal 5, Green Party 1, Conservative 1. Nay: Liberal 172, Conservative 90, NDP 2"
+    moved_by: >
+      Elizabeth May (Green Party, Saanich—Gulf Islands), seconded by Luc
+      Thériault (May voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/73 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals;
+      the bill as reported,
+      parl.ca/Content/Bills/421/Government/C-14/C-14_2/C-14_2.PDF
+    text: >
+      Motion No. 16: That Bill C-14, in Clause 9.1, be amended by replacing
+      line 22 on page 13 with the following: "Health, no later than 45 days
+      after the day"
+    yea: -1
+    why_yea: >
+      Voted to bring forward, to 45 days, the reviews of MAID for mature
+      minors, advance requests and mental illness.
+    note: >
+      Clause 9.1 orders "independent reviews of issues relating to requests by
+      mature minors ..., to advance requests and to requests where mental
+      illness is the sole underlying medical condition" within 180 days. No
+      `nay` value: the Nay was the Liberals and Conservatives together.
+  - key: commons-42-1-74
+    draft: true
+    title: "Concurrence at report stage of Bill C-14"
+    dated: 2016-05-30
+    result: "Agreed To 192-129"
+    lobbies: "Yea: Liberal 173, Conservative 19. Nay: Conservative 72, NDP 42, Bloc Québécois 10, Liberal 4, Green Party 1"
+    moved_by: "Jody Wilson-Raybould (Liberal; Minister of Justice) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/74 (sitting 61);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-61/journals
+    text: "That the bill, as amended, be concurred in at report stage."
+    yea: -1
+    why_yea: "Voted to concur in C-14, legalising medical assistance in dying (-1: report stage)."
+    note: >
+      C-14 (2016) was opposed from BOTH sides: Conservatives who thought it
+      too permissive and NDP/Bloc members who thought it narrower than Carter
+      allowed. A Nay on the whole bill cannot tell an ally from an opponent,
+      so only the Yea carries a value.
+  - key: commons-42-1-75
+    draft: true
+    title: "C-14 third reading, Rankin reasoned amendment: rewrite eligibility to Carter"
+    dated: 2016-05-31
+    result: "Negatived 54-267"
+    lobbies: "Yea: NDP 41, Bloc Québécois 10, Green Party 1, Conservative 1, Liberal 1. Nay: Liberal 174, Conservative 93"
+    moved_by: "Murray Rankin (NDP, Victoria), seconded by Peter Julian (Rankin voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/75 (sitting 62);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-62/journals
+    text: >
+      That the motion be amended by deleting all the words after the word
+      "That" and substituting the following: "Bill C-14, An Act to amend the
+      Criminal Code and to make related amendments to other Acts (medical
+      assistance in dying), be not now read a third time but be referred back
+      to the Standing Committee on Justice and Human Rights for the purpose of
+      reconsidering Clause 3 with a view to ensuring that the eligibility
+      criteria contained therein are consistent with the constitutional
+      parameters set out by the Supreme Court in its Carter v. Canada
+      decision.".
+    yea: -2
+    why_yea: >
+      Voted to send C-14 back to widen MAID eligibility beyond the end of
+      life, to the limits of Carter.
+    note: "No `nay` value: the Nay was the Liberals and Conservatives together (174 + 93)."
+  - key: commons-42-1-76
+    draft: true
+    title: "3rd reading of Bill C-14 (MAID legalised)"
+    dated: 2016-05-31
+    result: "Agreed To 186-137"
+    lobbies: "Yea: Liberal 172, Conservative 14. Nay: Conservative 81, NDP 41, Bloc Québécois 10, Liberal 4, Green Party 1"
+    moved_by: >
+      Jody Wilson-Raybould (Liberal; Minister of Justice), seconded by Hunter
+      Tootoo (the mover voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/76 (sitting 62);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-62/journals
+    text: >
+      That Bill C-14, An Act to amend the Criminal Code and to make related
+      amendments to other Acts (medical assistance in dying), be now read a
+      third time and do pass.
+    yea: -1
+    why_yea: "Voted to pass C-14, legalising medical assistance in dying."
+    note: >
+      C-14 (2016) was opposed from BOTH sides: Conservatives who thought it
+      too permissive and NDP/Bloc members who thought it narrower than Carter
+      allowed. A Nay on the whole bill cannot tell an ally from an opponent,
+      so only the Yea carries a value. -1, not -2: the bill answered the
+      Supreme Court's Carter ruling, and 14 Conservatives voted Yea.
+  - key: commons-42-1-102
+    draft: true
+    title: "C-14 Senate amendments, Rankin amendment: accept the Senate's removal of the end-of-life requirement"
+    dated: 2016-06-16
+    result: "Negatived 54-240"
+    lobbies: "Yea: NDP 39, Bloc Québécois 6, Liberal 6, Conservative 2, Green Party 1. Nay: Liberal 162, Conservative 78"
+    moved_by: "Murray Rankin (NDP, Victoria), seconded by Brigitte Sansoucy (Rankin voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/102 (sitting 74);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-74/journals
+    text: >
+      That the motion be amended by: (a) deleting the paragraph commencing
+      with the words "respectfully disagrees with amendments numbered 2(b),
+      2(c)(ii), and 2(c)(iii)"; and (b) replacing the words "agrees with
+      amendments numbered 1, 2(d), 2(e), 4, and 5" with the words "agrees with
+      amendments numbered 1, 2(b), 2(c)(ii), 2(c)(iii), 2(d), 2(e), 4, and 5".
+    yea: -2
+    why_yea: >
+      Voted to accept the Senate amendment striking the requirement that death
+      be reasonably foreseeable.
+    note: >
+      Senate amendment 2(b) is Senator Joyal's (senate-42-1-431585). No `nay`
+      value: the Nay was the Liberals and Conservatives together (162 + 78).
+  - key: commons-42-1-103
+    draft: true
+    title: "Motion respecting Senate amendments to Bill C-14 (keep the end-of-life requirement)"
+    dated: 2016-06-16
+    result: "Agreed To 190-108"
+    lobbies: "Yea: Liberal 168, Conservative 22. Nay: Conservative 58, NDP 40, Bloc Québécois 6, Liberal 3, Green Party 1"
+    moved_by: "Jody Wilson-Raybould (Liberal; Minister of Justice) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/103 (sitting 74);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-74/journals
+    text: >
+      That a Message be sent to the Senate to acquaint their Honours that this
+      House: agrees with the amendments numbered 1, 2(d), 2(e), 4, and 5 made
+      by the Senate to Bill C-14 ...; proposes that amendment 2(c)(i) be
+      amended ... "... including palliative care."; ... respectfully disagrees
+      with amendment 2(a) because requiring ...
+    yea: -1
+    why_yea: "Voted for the settlement that enacted C-14, legalising medical assistance in dying."
+    note: >
+      C-14 (2016) was opposed from BOTH sides: Conservatives who thought it
+      too permissive and NDP/Bloc members who thought it narrower than Carter
+      allowed. A Nay on the whole bill cannot tell an ally from an opponent,
+      so only the Yea carries a value.
+  - key: commons-42-1-101
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-223 (Canadian Organ Donor Registry)"
+    dated: 2016-06-15
+    result: "Negatived 131-171"
+    lobbies: "Yea: Conservative 85, NDP 39, Liberal 6, Green Party 1. Nay: Liberal 163, Bloc Québécois 8"
+    moved_by: "Ziad Aboultaif (Conservative, Edmonton Manning) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/101 (sitting 73);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-73/journals
+    text: "That the Bill be now read a second time and referred to the Standing Committee on Health."
+    reason: >
+      Area 13 (organ donation) is stance-scored but has no 5CA sheet
+      (Christopher, 26 September 2026), and a national donor registry is not
+      the contested ground (presumed consent, organ harvesting). Evidence
+      only.
+  - key: commons-42-1-936
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-316 (organ donors, CRA)"
+    dated: 2018-11-07
+    result: "Agreed To 272-0"
+    lobbies: "Yea: Liberal 152, Conservative 75, NDP 34, Bloc Québécois 7, Independent 2, Green Party 1, Co-operative Commonwealth Federation 1. Paired: Liberal 1, Bloc Québécois 1"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/42/1/936 (sitting 351);
+      Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-351/journals
+    reason: "Unanimous (272-0)."
+  - key: senate-42-1-431585
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Joyal): strike the end-of-life requirement"
+    dated: 2016-06-08
+    result: "Adopted 41-30"
+    lobbies: "Yea: C 19, Lib. 13, Non-affiliated 9. Nay: C 20, Non-affiliated 7, Lib. 3"
+    moved_by: "Senator Serge Joyal, seconded by Senator Tardif (Joyal voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/045jr_2016-06-08-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/431585/42-1
+    text: >
+      That Bill C-14 be not now read a third time, but that it be amended in
+      clause 3, (a) on page 5, (i) by adding after line 6 the following:
+      "irremediable, in respect of a medical condition, means not remediable
+      by any treatment that is acceptable to the person who has the medical
+      condition.", and (ii) by replacing line 36 with the following:
+      "condition — including an illness, disease or disability — that causes
+      enduring suffering that is intolerable to them in the circumstances of
+      their condition;"; and (b) on page 6, (i) by deleting lines 6 to 21, and
+      (ii) ...
+    yea: -2
+    why_yea: >
+      Voted to strike C-14's requirement that death be reasonably foreseeable
+      and define "irremediable" as whatever treatment the person will not
+      accept.
+    nay: 1
+    why_nay: "Voted to keep C-14's requirement that death be reasonably foreseeable."
+    note: >
+      Adopted 41-30; the House rejected it (commons-42-1-103). Nay +1: the Nay
+      lobby holds senators defending the government's bill as well as
+      opponents of MAID.
+  - key: senate-42-1-431767
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Carignan): judicial authorisation when not at the end of life"
+    dated: 2016-06-09
+    result: "Defeated 32-37-4"
+    lobbies: "Yea: C 21, Lib. 7, Non-affiliated 4. Nay: C 15, Lib. 12, Non-affiliated 10. Abstention: Non-affiliated 3, C 1"
+    moved_by: "Senator Claude Carignan, seconded by Senator Martin (Carignan voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/046jr_2016-06-09-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/431767/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in clause 3, (a) on page 6, (i) by adding after line 5 the
+      following: "(1.1) In addition to the criteria set out in subsection (1),
+      a person who is not at the end of life may receive medical assistance in
+      dying only with the authorization of a judge of a superior court. ..."
+    yea: 1
+    why_yea: >
+      Voted to require a superior-court judge's authorisation for MAID for
+      anyone not at the end of life.
+    nay: -1
+    why_nay: >
+      Voted against requiring judicial authorisation for MAID for people not
+      at the end of life.
+  - key: senate-42-1-431787
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Eaton): palliative-care consultation"
+    dated: 2016-06-09
+    result: "Adopted 38-29-5"
+    lobbies: "Yea: C 31, Lib. 6, Non-affiliated 1. Nay: Non-affiliated 13, Lib. 11, C 5. Abstention: Non-affiliated 2, C 2, Lib. 1"
+    moved_by: "Senator Nicole Eaton, seconded by Senator Unger (Eaton voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/046jr_2016-06-09-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/431787/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in clause 3, on page 6, by replacing line 5 with the following:
+      "-sistance in dying after having had a palliative care consultation and
+      having been informed of treatment, technology or support options
+      available to relieve their suffering.".
+    yea: 1
+    why_yea: "Voted to require a palliative-care consultation before consenting to MAID."
+    nay: -1
+    why_nay: "Voted against requiring a palliative-care consultation before MAID."
+  - key: senate-42-1-431794
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Batters): end of life and a terminal condition"
+    dated: 2016-06-09
+    result: "Defeated 17-47-6"
+    lobbies: "Yea: C 17. Nay: Lib. 18, C 15, Non-affiliated 14. Abstention: C 5, Non-affiliated 1"
+    moved_by: "Senator Denise Batters, seconded by Senator Tannas (Batters voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/046jr_2016-06-09-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/431794/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in clause 3, on page 5, (a) by adding after line 34 the
+      following: "(b.1) they are at the end of life;"; and (b) by adding after
+      line 36 ... the following: "(c.1) their grievous and irremediable
+      medical condition is a terminal disease or illness;".
+    yea: 1
+    why_yea: "Voted to confine MAID to people at the end of life with a terminal illness."
+    nay: -1
+    why_nay: "Voted against confining MAID to people at the end of life with a terminal illness."
+  - key: senate-42-1-431823
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Plett): no one compelled to provide, assist or refer"
+    dated: 2016-06-09
+    result: "Defeated 27-46-1"
+    lobbies: "Yea: C 27. Nay: Lib. 19, Non-affiliated 15, C 12. Abstention: Non-affiliated 1"
+    moved_by: "Senator Donald Plett, seconded by Senator Martin (Plett voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/046jr_2016-06-09-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/431823/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in clause 3, (a) on page 8, (i) by replacing lines 32 and 33
+      with the following: "(9) No person shall compel an individual or
+      organization to provide or assist in providing medical assistance in
+      dying or to provide a referral for medical as-" ...
+    yea: 2
+    why_yea: >
+      Voted that no person or organisation may be compelled to provide, assist
+      in or refer for MAID.
+    nay: -1
+    why_nay: >
+      Voted against protecting individuals and organisations from being
+      compelled to provide or refer for MAID.
+    note: "As for the conscience votes: +2 / -1."
+  - key: senate-42-1-431897
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Plett): no beneficiary may assist or witness"
+    dated: 2016-06-10
+    result: "Adopted 49-20-2"
+    lobbies: "Yea: C 35, Lib. 11, Non-affiliated 3. Nay: Non-affiliated 11, Lib. 7, C 2. Abstention: Lib. 1, C 1"
+    moved_by: "Senator Donald Plett, seconded by Senator Frum (Plett voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/047jr_2016-06-10-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/431897/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in clause 3, (a) on page 4, by replacing line 24 with the
+      following: "ance in dying in accordance with section 241.2, except if
+      they know or believe that they are a beneficiary under the will of that
+      other person, or a recipient, in any other way, of a financial or other
+      material benefit resulting from that person's death."; and (b) on page 7
+      ...
+    yea: 1
+    why_yea: >
+      Voted to bar anyone who stands to benefit from a death from assisting in
+      it or witnessing the request.
+    nay: -1
+    why_nay: >
+      Voted against barring beneficiaries of a death from assisting in MAID or
+      witnessing the request.
+  - key: senate-42-1-431912
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Batters): psychiatric assessment and 90 days for mental illness"
+    dated: 2016-06-10
+    result: "Defeated 25-36-4"
+    lobbies: "Yea: C 23, Non-affiliated 1, Lib. 1. Nay: Lib. 16, Non-affiliated 11, C 9. Abstention: C 3, Lib. 1"
+    moved_by: "Senator Denise Batters, seconded by Senator Oh (Batters voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/047jr_2016-06-10-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/431912/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in clause 3, ... (b) on page 6, by adding the following after
+      line 26: "(a.1) ensure that, if the person has a mental illness, the
+      person has been assessed by a psychiatrist or psychologist as being
+      capable of making decisions with respect to that person's health;"; ...
+      "(3.1) If the person requesting medical assistance in dying has a mental
+      illness in addition to the grievous and irremediable medical condition
+      ..., the period referred to in paragraph (3)(g) is increased to at least
+      90 clear days." ...
+    yea: 1
+    why_yea: >
+      Voted to require a psychiatric capacity assessment and 90 days'
+      reflection where a MAID applicant has a mental illness.
+    nay: -1
+    why_nay: >
+      Voted against extra capacity and reflection safeguards for MAID
+      applicants with a mental illness.
+  - key: senate-42-1-432056
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Unger): nurse practitioners only on a physician's instruction"
+    dated: 2016-06-13
+    result: "Defeated 35-36"
+    lobbies: "Yea: C 34, Non-affiliated 1. Nay: Lib. 17, Non-affiliated 17, C 2"
+    moved_by: "Senator Betty Unger, seconded by Senator Doyle (Unger voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/048jr_2016-06-13-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/432056/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended (a) in clause 2, on page 3, (i) by replacing line 10 with the
+      following: "acting on the instruction of a medical practitioner commits
+      culpable homicide if they provide a person with" ...
+    yea: 1
+    why_yea: "Voted that nurse practitioners may provide MAID only on a physician's instruction."
+    nay: -1
+    why_nay: "Voted to let nurse practitioners provide MAID without a physician's instruction."
+    note: "+/-1: a narrowing of who may provide MAID. Defeated 35-36."
+  - key: senate-42-1-432095
+    draft: true
+    placeable: false
+    title: "C-14 -- Senate: Jaffer subamendment to Cowan's advance-request amendment (two-year delay)"
+    dated: 2016-06-13
+    result: "Defeated 19-51-2"
+    lobbies: "Yea: Lib. 15, Non-affiliated 3, C 1. Nay: C 36, Non-affiliated 13, Lib. 2. Abstention: Non-affiliated 2"
+    moved_by: "Senator Mobina Jaffer, seconded by Senator Cordy (Jaffer voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/048jr_2016-06-13-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/432095/42-1
+    text: >
+      That the motion in amendment moved by the Honourable Senator Cowan be
+      amended by adding after subparagraph (a)(iii) the following: "(iii.1) on
+      page 8, by adding after line 34 the following: "(10) Despite anything in
+      this section, no person may receive and no medical practitioner or nurse
+      practitioner may provide medical assistance in dying pursuant to an
+      advance request before the day that is two years after the day on which
+      this section comes into force.", and".
+    reason: >
+      TEXT READ 8 October 2026. A two-year delay to an amendment allowing
+      advance requests: an opponent of advance requests could vote either way
+      (delay them, or refuse to improve the amendment), and the Conservatives
+      voted Nay (C 36). Direction unreadable. Cowan's amendment itself
+      (432114) carries the reading.
+  - key: senate-42-1-432114
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Cowan): advance requests"
+    dated: 2016-06-13
+    result: "Defeated 23-47-2"
+    lobbies: "Yea: Lib. 13, C 7, Non-affiliated 3. Nay: C 30, Non-affiliated 14, Lib. 3. Abstention: Non-affiliated 1, Lib. 1"
+    moved_by: "Senator James Cowan, seconded by Senator Fraser (Cowan voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/048jr_2016-06-13-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/432114/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in (a) clause 3, (i) on page 5, (A) by adding after line 6 the
+      following: "advance request means a request for medical assistance in
+      dying ... made by a capable person who is at least 18 years of age that
+      (a) specifies the conditions ... that the person believes would, for
+      them, constitute intolerable suffering ...; and (b) provides their
+      consent to receive medical assistance in dying in the event that, at
+      some time in the future, the specified conditions are met and the person
+      has lost the capacity to make or the ability to communicate decisions
+      with respect to their health." ...
+    yea: -2
+    why_yea: >
+      Voted to allow advance requests: MAID for a person who has lost
+      capacity, on consent given years before.
+    nay: 1
+    why_nay: "Voted against advance requests for MAID."
+    note: >
+      Nay +1: the Nay lobby (C 30, Non-affiliated 14, Lib. 3) holds government
+      loyalists as well as opponents of MAID.
+  - key: senate-42-1-432315
+    draft: true
+    title: "C-14 -- Senate third reading amendment (Sen. Lankin): wider reviews with reports in 18 months"
+    dated: 2016-06-14
+    result: "Defeated 31-42-1"
+    lobbies: "Yea: Lib. 17, Non-affiliated 13, C 1. Nay: C 36, Non-affiliated 4, Lib. 2. Abstention: Non-affiliated 1"
+    moved_by: "Senator Frances Lankin, seconded by Senator Omidvar (Lankin voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/049jr_2016-06-14-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/432315/42-1
+    text: >
+      That Bill C-14, as amended, be not now read a third time, but that it be
+      amended in clause 9.1, on page 13, (a) by replacing line 21 ...; and (b)
+      by replacing lines 26 to 28 with the following: "sistance in dying, to
+      advance requests, to requests where mental illness is the sole
+      underlying medical condition, and to requests where social conditions
+      and social determinants of health contribute to a person's suffering and
+      may call into question the voluntariness of their request. (2) The
+      Minister of Justice and the Minister of Health must, no later than 18
+      months after the day on which a review is initiated, cause one or more
+      reports on the review ... to be laid before each House of Parliament.".
+    yea: -1
+    why_yea: >
+      Voted to require reports within 18 months on MAID for mature minors,
+      advance requests and mental illness.
+    nay: 1
+    why_nay: >
+      Voted against fast-tracking reports on extending MAID to minors, advance
+      requests and mental illness.
+    note: >
+      A JUDGEMENT CALL, flagged. It also adds a review of requests driven by
+      "social conditions" that "may call into question the voluntariness" -- a
+      protective concern. Scored on its operative effect (a reporting deadline
+      on the expansion reviews) and on the lobby: Lib. 17 and Non-affiliated
+      13 Yea, C 36 Nay. If read as neutral, make it placeable: false.
+  - key: senate-42-1-432564
+    draft: true
+    title: "C-14 -- Senate third reading (as amended: end-of-life requirement struck)"
+    dated: 2016-06-15
+    result: "Adopted 64-12-1"
+    lobbies: "Yea: C 29, Lib. 19, Non-affiliated 16. Nay: C 10, Non-affiliated 2. Abstention: Lib. 1"
+    moved_by: "Senator George Baker, seconded by Senator Harder"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/050jr_2016-06-15-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/432564/42-1
+    text: >
+      ... for the third reading of Bill C-14, An Act to amend the Criminal
+      Code and to make related amendments to other Acts (medical assistance in
+      dying), as amended.
+    yea: -1
+    why_yea: >
+      Voted to pass C-14, legalising MAID, as amended by the Senate to drop
+      the end-of-life requirement.
+    nay: 2
+    why_nay: "Voted against legalising medical assistance in dying."
+    note: >
+      Nay: Batters, Doyle, Enverga, Manning, Meredith, Ngo, Plett, Poirier,
+      Runciman, Sibbeston, Tkachuk, Unger (C 10, Non-affiliated 2) -- a clean
+      lobby. Yea -1, as for the House third reading: 29 Conservative senators
+      voted Yea.
+  - key: senate-42-1-432969
+    draft: true
+    title: "C-14 -- Senate, House message: Joyal amendment (end-of-life requirement only after a Supreme Court reference)"
+    dated: 2016-06-17
+    result: "Defeated 28-42-3"
+    lobbies: "Yea: Lib. 15, C 11, Non-affiliated 2. Nay: C 24, Non-affiliated 15, Lib. 3. Abstention: C 3"
+    moved_by: "Senator Serge Joyal, seconded by Senator Tardif (Joyal voted Yea)"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/052jr_2016-06-17-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/432969/42-1
+    text: >
+      That the motion moved by the Honourable Senator Harder be not now
+      adopted, but that it be amended by replacing the second paragraph by the
+      following: "That the Senate do not insist on its amendment 2(a); That,
+      in lieu of its amendments 2(b), 2(c)(ii) and 2(c)(iii), Bill C-14 be
+      amended, on page 6, by adding after line 21 the following: "(2.1)
+      Subject to subsection (2.2), paragraph 241.2(2)(d) of the Criminal Code
+      ... comes into force on a day to be fixed by order of the Governor in
+      Council. (2.2) No order may be made under subsection (2.1) unless the
+      Supreme Court of Canada has rendered an opinion ... stating that
+      paragraph 241.2(2)(d) ... is consistent with the Canadian Charter of
+      Rights and Freedoms."" ...
+    yea: -1
+    why_yea: "Voted to suspend C-14's end-of-life requirement until the Supreme Court approved it."
+    note: >
+      No `nay` value: the Nay (C 24, Non-affiliated 15, Lib. 3) was government
+      loyalists and MAID opponents together.
+  - key: senate-42-1-433010
+    draft: true
+    title: "C-14 -- Senate: concur in the Commons amendments, do not insist (final passage)"
+    dated: 2016-06-17
+    result: "Adopted 44-28"
+    lobbies: "Yea: C 23, Non-affiliated 15, Lib. 6. Nay: C 14, Lib. 11, Non-affiliated 3"
+    moved_by: >
+      Senator Peter Harder (Government Representative), seconded by Senator
+      Baker (Harder voted Yea)
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/052jr_2016-06-17-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/433010/42-1
+    text: >
+      That the Senate concur in the amendments made by the House of Commons to
+      its amendments 2(c)(i) and 3 to Bill C-14 ...; That the Senate do not
+      insist on its amendments 2(a), 2(b), 2(c)(ii) and 2(c)(iii), to which
+      the House of Commons has disagreed; and That a message be sent to the
+      House of Commons to acquaint that house accordingly.
+    yea: -1
+    why_yea: "Voted for the final settlement enacting C-14, legalising medical assistance in dying."
+    note: >
+      C-14 (2016) was opposed from BOTH sides: Conservatives who thought it
+      too permissive and NDP/Bloc members who thought it narrower than Carter
+      allowed. A Nay on the whole bill cannot tell an ally from an opponent,
+      so only the Yea carries a value. Nay: C 14, Lib. 11, Non-affiliated 3.
+  - key: senate-42-1-457917
+    draft: true
+    placeable: false
+    title: "C-16 -- Senate third reading: adjournment of debate"
+    dated: 2017-06-13
+    result: "Adopted 76-3-3"
+    lobbies: "Yea: C 34, ISG 26, Lib. 12, Non-affiliated 4. Nay: ISG 2, Non-affiliated 1. Abstention: Lib. 2, C 1"
+    source: >
+      Journals of the Senate
+      (sencanada.ca/en/content/sen/chamber/421/journals/131jr_2017-06-13-e);
+      vote details sencanada.ca/en/in-the-chamber/votes/details/457917/42-1
+    reason: >
+      Procedure: the adjournment that followed Senator Plett's amendment
+      (76-3-3; see senate-42-1-457865).
+  - key: commons-41-1-190
+    draft: true
+    title: "Concurrence at report stage of Bill C-304 (repeal of section 13)"
+    dated: 2012-05-09
+    result: "Agreed To 149-129"
+    lobbies: "Yea: Conservative 147, Independent Conservative 1, Liberal 1. Nay: NDP 93, Liberal 30, Bloc Québécois 4, Green Party 1, Independent 1"
+    moved_by: "Brian Storseth (Conservative, Westlock—St. Paul; the bill's sponsor) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/41/1/190 (sitting 120);
+      Journals ourcommons.ca/DocumentViewer/en/41-1/house/sitting-120/journals
+    text: >
+      That Bill C-304, An Act to amend the Canadian Human Rights Act
+      (protecting freedom), as amended, be concurred in at report stage.
+    yea: 1
+    why_yea: "Voted to concur in the repeal of section 13 of the Human Rights Act (+1: report stage)."
+    nay: -1
+    why_nay: "Voted against concurring in the repeal of section 13 (-1: report stage)."
+  - key: commons-41-1-644
+    draft: true
+    title: "Concurrence at report stage of Bill C-279 (gender identity)"
+    dated: 2013-03-20
+    result: "Agreed To 150-137"
+    lobbies: "Yea: NDP 99, Liberal 27, Conservative 17, Bloc Québécois 5, Green Party 1, Independent 1. Nay: Conservative 136, Independent Conservative 1"
+    moved_by: "Randall Garrison (NDP, Esquimalt—Juan de Fuca; the bill's sponsor) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/41/1/644 (sitting 225);
+      Journals ourcommons.ca/DocumentViewer/en/41-1/house/sitting-225/journals
+    text: >
+      That Bill C-279, An Act to amend the Canadian Human Rights Act and the
+      Criminal Code (gender identity and gender expression), as amended, be
+      concurred in at report stage.
+    yea: -1
+    why_yea: >
+      Voted to concur in C-279, adding gender identity to the Human Rights Act
+      and Criminal Code (-1: report stage).
+    nay: 1
+    why_nay: "Voted against concurring in C-279 (+1: report stage)."
+  - key: commons-41-1-668
+    draft: true
+    placeable: false
+    title: "M-382 (Shipley): religious freedom in foreign policy"
+    dated: 2013-04-24
+    result: "Agreed To 276-0"
+    lobbies: "Yea: Conservative 154, NDP 88, Liberal 29, Bloc Québécois 4, Green Party 1"
+    moved_by: "Bev Shipley (Conservative, Lambton—Kent—Middlesex)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/41/1/668 (sitting 239);
+      Journals ourcommons.ca/DocumentViewer/en/41-1/house/sitting-239/journals
+    reason: "Unanimous (276-0)."
+  - key: commons-41-2-236
+    draft: true
+    title: "Concurrence at report stage of Bill C-36 (Protection of Communities and Exploited Persons Act)"
+    dated: 2014-09-29
+    result: "Agreed To 143-122"
+    lobbies: "Yea: Conservative 142, Conservative Independent 1. Nay: NDP 87, Liberal 29, Independent 3, Green Party 2, Bloc Québécois 1"
+    moved_by: "Peter MacKay (Conservative; Minister of Justice) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/41/2/236 (sitting 118);
+      Journals ourcommons.ca/DocumentViewer/en/41-2/house/sitting-118/journals
+    text: >
+      That Bill C-36, An Act to amend the Criminal Code in response to the
+      Supreme Court of Canada decision in Attorney General of Canada v.
+      Bedford and to make consequential amendments to other Acts, as amended,
+      be concurred in at report stage.
+    yea: 1
+    why_yea: "Voted to concur in C-36, criminalising the purchase of sex (+1: report stage)."
+    nay: -1
+    why_nay: "Voted against concurring in C-36, the Nordic-model law (-1: report stage)."
+  - key: commons-40-3-34
+    draft: true
+    title: "2nd reading of Bill C-384 (Lalonde: \"right to die with dignity\")"
+    dated: 2010-04-21
+    result: "Negatived 59-228"
+    lobbies: "Yea: Bloc Québécois 43, Liberal 8, NDP 5, Conservative 2, Independent 1. Nay: Conservative 137, Liberal 59, NDP 30, Bloc Québécois 2. Paired: Conservative 2, Bloc Québécois 2"
+    moved_by: >
+      Francine Lalonde (Bloc Québécois, La Pointe-de-l'Île; the bill's
+      sponsor), seconded by Diane Bourgeois (Lalonde voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/40/3/34 (sitting 30);
+      Journals ourcommons.ca/DocumentViewer/en/40-3/house/sitting-30/journals
+    text: >
+      That Bill C-384, An Act to amend the Criminal Code (right to die with
+      dignity), be now read a second time and referred to the Standing
+      Committee on Justice and Human Rights.
+    yea: -2
+    why_yea: "Voted to advance a bill legalising euthanasia and assisted suicide."
+    nay: 2
+    why_nay: "Voted against legalising euthanasia and assisted suicide."
+    note: >
+      Before Carter, and not a party line: Liberals 59 and NDP 30 voted Nay
+      with the Conservatives.
+  - key: commons-40-3-128
+    draft: true
+    placeable: false
+    title: "C-22 report stage, Dechert Motion 1: restore the short title"
+    dated: 2010-11-16
+    result: "Negatived 126-138"
+    lobbies: "Yea: Conservative 124, Independent Conservative 1, Independent 1. Nay: Liberal 65, Bloc Québécois 39, NDP 34. Paired: Conservative 8, Bloc Québécois 8"
+    moved_by: >
+      Bob Dechert (Conservative; Parliamentary Secretary to the Minister of
+      Justice), seconded by Daniel Petit (Dechert voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/40/3/128 (sitting 97);
+      Journals ourcommons.ca/DocumentViewer/en/40-3/house/sitting-97/journals
+    text: >
+      Motion No. 1: That Bill C-22 be amended by restoring Clause 1 as
+      follows: "1. This Act may be cited as the Protecting Children from
+      Online Sexual Exploitation Act."
+    reason: >
+      TEXT READ 8 October 2026. A vote on the bill's SHORT TITLE, which the
+      committee had struck; the bill's substance (mandatory reporting of
+      online child sexual abuse material) is not in it. Evidence only.
+  - key: commons-40-3-141
+    draft: true
+    title: "Concurrence at report stage of Bill C-389 (gender identity and expression)"
+    dated: 2010-12-08
+    result: "Agreed To 143-131"
+    lobbies: "Yea: Liberal 63, Bloc Québécois 41, NDP 34, Conservative 5. Nay: Conservative 127, Liberal 3, Independent 1"
+    moved_by: "Bill Siksay (NDP, Burnaby—Douglas; the bill's sponsor) (voted Yea)"
+    source: >
+      https://www.ourcommons.ca/members/en/votes/40/3/141 (sitting 113);
+      Journals ourcommons.ca/DocumentViewer/en/40-3/house/sitting-113/journals
+    text: >
+      That Bill C-389, An Act to amend the Canadian Human Rights Act and the
+      Criminal Code (gender identity and gender expression), as amended, be
+      concurred in at report stage.
+    yea: -1
+    why_yea: >
+      Voted to concur in C-389, adding gender identity and expression to the
+      Human Rights Act and Criminal Code (-1: report stage).
+    nay: 1
+    why_nay: "Voted against concurring in C-389 (+1: report stage)."
+  - key: commons-40-3-151
+    draft: true
+    title: "2nd reading of Bill C-510 (Roxanne's Law: coercing a woman to abort)"
+    dated: 2010-12-15
+    result: "Negatived 97-178"
+    lobbies: "Yea: Conservative 87, Liberal 10. Nay: Liberal 55, Conservative 49, Bloc Québécois 41, NDP 32, Independent 1"
+    moved_by: >
+      Rod Bruinooge (Conservative, Winnipeg South; the bill's sponsor),
+      seconded by Kelly Block (Bruinooge voted Yea)
+    source: >
+      https://www.ourcommons.ca/members/en/votes/40/3/151 (sitting 118);
+      Journals ourcommons.ca/DocumentViewer/en/40-3/house/sitting-118/journals
+    text: >
+      That Bill C-510, An Act to amend the Criminal Code (coercion), be now
+      read a second time and referred to the Standing Committee on Justice and
+      Human Rights.
+    yea: 2
+    why_yea: "Voted to advance a bill making it an offence to coerce a woman into an abortion."
+    nay: -1
+    why_nay: >
+      Voted against a bill making it an offence to coerce a woman into an
+      abortion (-1: see note).
+    note: >
+      AREA MISFILED: tagged area 2 (assisted dying) on the word "coercion"; it
+      is area 1 (abortion). Retag before confirming, or this places members on
+      the MAID sheet. Nay is -1, as on M-312: 49 Conservatives voted Nay, so a
+      Nay is not always hostility to the question itself.
+
+  # --- Area 11 (migration), 8 October 2026: never placed -------------------
+  # Migration is collated, never campaigned, and has no 5CA sheet
+  # (excluded_from_5ca, Christopher 5 August 2026). These entries exist so
+  # every tagged division has a line; the motion texts were NOT read and no
+  # direction is proposed. Taxonomy false positives and misfiles are named
+  # in their reasons.
+  - key: commons-45-1-36
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-3, An Act to amend the Citizenship Act (2025)"
+    dated: 2025-09-22
+    result: "Agreed To 189-138"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/36"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-44
+    draft: true
+    placeable: false
+    title: "Bill C-3, An Act to amend the Citizenship Act (2025) (report stage amendment)"
+    dated: 2025-11-03
+    result: "Agreed To 170-163"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/44"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-45
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-3, An Act to amend the Citizenship Act (2025)"
+    dated: 2025-11-03
+    result: "Agreed To 169-163"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/45"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-47
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-3, An Act to amend the Citizenship Act (2025)"
+    dated: 2025-11-05
+    result: "Agreed To 177-163"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/47"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-56
+    draft: true
+    placeable: false
+    title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
+    dated: 2025-12-11
+    result: "Negatived 147-188"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/56"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-57
+    draft: true
+    placeable: false
+    title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
+    dated: 2025-12-11
+    result: "Negatived 8-327"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/57"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-58
+    draft: true
+    placeable: false
+    title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
+    dated: 2025-12-11
+    result: "Agreed To 327-8"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/58"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-59
+    draft: true
+    placeable: false
+    title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
+    dated: 2025-12-11
+    result: "Agreed To 327-8"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/59"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-67
+    draft: true
+    placeable: false
+    title: "Opposition Motion (Serious crimes and refugee claims)"
+    dated: 2026-02-12
+    result: "Negatived 131-191"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/67"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-72
+    draft: true
+    placeable: false
+    title: "Opposition Motion (Federal benefits and asylum claimants)"
+    dated: 2026-02-25
+    result: "Negatived 134-198"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/72"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-45-1-89
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-220, An Act to amend the Criminal Code (immigration status in sentencing)"
+    dated: 2026-03-25
+    result: "Negatived 158-171"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/45/1/89"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-45-1-678348
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act (2025) – C-3 – Third Reading – Amendment (Sen. Housakos)"
+    dated: 2025-11-19
+    result: "Defeated 18-56-1"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/678348/45-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-45-1-688863
+    draft: true
+    placeable: false
+    title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Youance)"
+    dated: 2026-03-11
+    result: "Defeated 31-47-3"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/688863/45-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-45-1-688886
+    draft: true
+    placeable: false
+    title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Simons)"
+    dated: 2026-03-11
+    result: "Defeated 23-48-3"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/688886/45-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-45-1-688915
+    draft: true
+    placeable: false
+    title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Mohamed)"
+    dated: 2026-03-11
+    result: "Defeated 25-41-6"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/688915/45-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-45-1-689268
+    draft: true
+    placeable: false
+    title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Coyle)"
+    dated: 2026-03-12
+    result: "Defeated 24-41-3"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/689268/45-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-45-1-689285
+    draft: true
+    placeable: false
+    title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Woo)"
+    dated: 2026-03-12
+    result: "Defeated 19-38"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/689285/45-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-45-1-689298
+    draft: true
+    placeable: false
+    title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. McPhedran)"
+    dated: 2026-03-12
+    result: "Defeated 14-35-3"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/689298/45-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-50
+    draft: true
+    placeable: false
+    title: "Third report of the Standing Committee on Citizenship and Immigration"
+    dated: 2022-03-29
+    result: "Agreed To 175-154"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/50"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-76
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-242, An Act to amend the Immigration and Refugee Protection Act (temporary resident ..."
+    dated: 2022-05-04
+    result: "Agreed To 330-1"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/76"
+    reason: >
+      Unanimous or near-unanimous (330-1). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-98
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill S-223, An Act to amend the Criminal Code and the Immigration and Refugee Protection ..."
+    dated: 2022-05-18
+    result: "Agreed To 318-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/98"
+    reason: >
+      TAXONOMY MISFILE: S-223 is about trafficking in human organs (areas
+      12/13 ground), tagged as migration. Unanimous or near-unanimous (318-0).
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-191
+    draft: true
+    placeable: false
+    title: "Fifth report of the Standing Committee on Citizenship and Immigration"
+    dated: 2022-10-18
+    result: "Agreed To 327-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/191"
+    reason: >
+      Unanimous or near-unanimous (327-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-198
+    draft: true
+    placeable: false
+    title: "Sixth report of the Standing Committee on Citizenship and Immigration"
+    dated: 2022-10-25
+    result: "Agreed To 258-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/198"
+    reason: >
+      Unanimous or near-unanimous (258-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-200
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-242, An Act to amend the Immigration and Refugee Protection Act ..."
+    dated: 2022-10-26
+    result: "Agreed To 319-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/200"
+    reason: >
+      Unanimous or near-unanimous (319-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-216
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill S-245, An Act to amend the Citizenship Act (granting citizenship to certain Canadians)"
+    dated: 2022-11-16
+    result: "Agreed To 309-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/216"
+    reason: >
+      Unanimous or near-unanimous (309-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-245
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill S-223, An Act to amend the Criminal Code and the Immigration and Refugee ..."
+    dated: 2022-12-14
+    result: "Agreed To 324-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/245"
+    reason: >
+      TAXONOMY MISFILE: S-223 is about trafficking in human organs (areas
+      12/13 ground), tagged as migration. Unanimous or near-unanimous (324-0).
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-258
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to make consequential ..."
+    dated: 2023-02-13
+    result: "Agreed To 314-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/258"
+    reason: >
+      Unanimous or near-unanimous (314-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-296
+    draft: true
+    placeable: false
+    title: "14th report of the Standing Committee on Citizenship and Immigration"
+    dated: 2023-04-19
+    result: "Agreed To 314-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/296"
+    reason: >
+      Unanimous or near-unanimous (314-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-303
+    draft: true
+    placeable: false
+    title: "15th report of the Standing Committee on Citizenship and Immigration"
+    dated: 2023-04-25
+    result: "Agreed To 204-113"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/303"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-322
+    draft: true
+    placeable: false
+    title: "Opposition Motion (Immigration levels)"
+    dated: 2023-05-15
+    result: "Negatived 138-170"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/322"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-383
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to make ..."
+    dated: 2023-06-16
+    result: "Agreed To 172-135"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/383"
+    reason: >
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-44-1-386
+    draft: true
+    placeable: false
+    title: "Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to make consequential amendments to ..."
+    dated: 2023-06-19
+    result: "Negatived 112-202"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/386"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-387
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to ..."
+    dated: 2023-06-19
+    result: "Agreed To 317-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/387"
+    reason: >
+      Unanimous or near-unanimous (317-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-438
+    draft: true
+    placeable: false
+    title: "Opposition Motion (Immigration threshold and integration capacity)"
+    dated: 2023-11-01
+    result: "Agreed To 323-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/438"
+    reason: >
+      Unanimous or near-unanimous (323-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-44-1-635
+    draft: true
+    placeable: false
+    title: "Opposition Motion (Federal immigration targets) (amendment)"
+    dated: 2024-02-12
+    result: "Agreed To 175-152"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/635"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-636
+    draft: true
+    placeable: false
+    title: "Opposition Motion (Federal immigration targets)"
+    dated: 2024-02-12
+    result: "Agreed To 173-150"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/636"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-44-1-799
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-353, An Act to provide for the imposition of restrictive measures against foreign ..."
+    dated: 2024-06-05
+    result: "Agreed To 173-141"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/44/1/799"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-353 is the Foreign Hostage Takers
+      Accountability Act (sanctions), matched on immigration-law wording. Area
+      11 (migration) is collated but excluded from the 5CA (Christopher, 5
+      August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-43-2-40
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-8, An Act to amend the Citizenship Act (Truth and Reconciliation Commission of ..."
+    dated: 2020-12-10
+    result: "Agreed To 288-28"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/43/2/40"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-43-2-58
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-223, An Act to amend the Citizenship Act (adequate knowledge of French in Quebec)"
+    dated: 2021-02-24
+    result: "Negatived 147-172"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/43/2/58"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-42-1-32
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-6, An Act to amend the Citizenship Act and to make consequential amendments to ..."
+    dated: 2016-03-21
+    result: "Agreed To 226-90"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/32"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-42-1-58
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-6, An Act to amend the Citizenship Act and to make consequential ..."
+    dated: 2016-05-17
+    result: "Agreed To 218-88"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/58"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-42-1-141
+    draft: true
+    placeable: false
+    title: "Private Members' Business M-39 (Immigration to Atlantic Canada)"
+    dated: 2016-11-02
+    result: "Agreed To 283-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/141"
+    reason: >
+      Unanimous or near-unanimous (283-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-42-1-181
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-306, An Act to establish a Crimean Tatar Deportation (“Sürgünlik”) Memorial Day and ..."
+    dated: 2016-12-13
+    result: "Negatived 137-160"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/181"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-306 is a Crimean Tatar deportation memorial
+      day, matched on "deportation". Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-42-1-318
+    draft: true
+    placeable: false
+    title: "Motion respecting Senate amendments to Bill C-6, An Act to amend the Citizenship Act and to make ..."
+    dated: 2017-06-13
+    result: "Agreed To 214-92"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/318"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-42-1-362
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill S-226, An Act to provide for the taking of restrictive measures in ..."
+    dated: 2017-10-04
+    result: "Agreed To 277-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/362"
+    reason: >
+      TAXONOMY FALSE POSITIVE: S-226 is the Magnitsky Act (sanctions on
+      corrupt foreign officials). Unanimous or near-unanimous (277-0). Area 11
+      (migration) is collated but excluded from the 5CA (Christopher, 5 August
+      2026: config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-42-1-423
+    draft: true
+    placeable: false
+    title: "11th Report of the Standing Committee on Citizenship and Immigration"
+    dated: 2017-12-04
+    result: "Agreed To 288-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/423"
+    reason: >
+      Unanimous or near-unanimous (288-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-42-1-649
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill S-210, An Act to amend An Act to amend the Immigration and Refugee Protection Act, the ..."
+    dated: 2018-04-18
+    result: "Agreed To 293-1"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/649"
+    reason: >
+      TAXONOMY MISFILE: S-210 renames S-7's short title (the Barbaric Cultural
+      Practices Act, area 9 ground), tagged as migration. Unanimous or
+      near-unanimous (293-1). Area 11 (migration) is collated but excluded
+      from the 5CA (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-42-1-666
+    draft: true
+    placeable: false
+    title: "15th Report of the Standing Committee on Citizenship and Immigration"
+    dated: 2018-05-22
+    result: "Agreed To 278-6"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/666"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-42-1-755
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill S-210, An Act to amend An Act to amend the Immigration and Refugee ..."
+    dated: 2018-06-13
+    result: "Agreed To 293-1"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/755"
+    reason: >
+      TAXONOMY MISFILE: S-210 renames S-7's short title (the Barbaric Cultural
+      Practices Act, area 9 ground), tagged as migration. Unanimous or
+      near-unanimous (293-1). Area 11 (migration) is collated but excluded
+      from the 5CA (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-42-1-973
+    draft: true
+    placeable: false
+    title: "18th Report of the Standing Committee on Citizenship and Immigration"
+    dated: 2018-12-05
+    result: "Agreed To 290-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/42/1/973"
+    reason: >
+      Unanimous or near-unanimous (290-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: senate-42-1-450644
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-03-30
+    result: "Defeated 28-39"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/450644/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-450667
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-03-30
+    result: "Defeated 21-29"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/450667/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-451075
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-04-04
+    result: "Defeated 33-44-6"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/451075/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-451079
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-04-04
+    result: "Adopted 50-33"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/451079/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-451598
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-04-06
+    result: "Adopted 35-27-3"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/451598/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-451972
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-04-11
+    result: "Adopted 47-24-3"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/451972/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-452435
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-04-13
+    result: "Defeated 28-51"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/452435/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-453028
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-05-02
+    result: "Defeated 28-44-4"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/453028/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-453227
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
+    dated: 2017-05-03
+    result: "Adopted 45-29"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/453227/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: senate-42-1-458543
+    draft: true
+    placeable: false
+    title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Government ..."
+    dated: 2017-06-15
+    result: "Adopted 51-29"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "sencanada.ca/en/in-the-chamber/votes/details/458543/42-1"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-154
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
+    dated: 2014-05-28
+    result: "Agreed To 143-113"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/154"
+    reason: >
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-2-157
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
+    dated: 2014-05-29
+    result: "Negatived 101-140"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/157"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-158
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
+    dated: 2014-05-29
+    result: "Agreed To 140-101"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/158"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-169
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
+    dated: 2014-06-09
+    result: "Agreed To 134-102"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/169"
+    reason: >
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-2-199
+    draft: true
+    placeable: false
+    title: "Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to other Acts (report ..."
+    dated: 2014-06-10
+    result: "Negatived 125-145"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/199"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-200
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-24, An Act to amend the Citizenship Act and to make consequential ..."
+    dated: 2014-06-10
+    result: "Agreed To 145-125"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/200"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-210
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-24, An Act to amend the Citizenship Act and to make consequential ..."
+    dated: 2014-06-16
+    result: "Agreed To 137-118"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/210"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-305
+    draft: true
+    placeable: false
+    title: "Private Members' Business M-505 (Immigration and Refugee Protection Regulations)"
+    dated: 2014-12-10
+    result: "Agreed To 154-113"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/305"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-336
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the ..."
+    dated: 2015-02-19
+    result: "Agreed To 132-111"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/336"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher.
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-2-337
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the Secure ..."
+    dated: 2015-02-23
+    result: "Negatived 87-176"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/337"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher. Area
+      11 (migration) is collated but excluded from the 5CA (Christopher, 5
+      August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-338
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the Secure ..."
+    dated: 2015-02-23
+    result: "Agreed To 176-87"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/338"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher. Area
+      11 (migration) is collated but excluded from the 5CA (Christopher, 5
+      August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-352
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the Civil ..."
+    dated: 2015-03-12
+    result: "Agreed To 134-109"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/352"
+    reason: >
+      TAXONOMY MISFILE: S-7 is the Zero Tolerance for Barbaric Cultural
+      Practices Act (forced and child marriage, polygamy, the provocation
+      defence for 'honour' killings) -- area 9 ground tagged only as
+      migration; flagged for Christopher. Procedure. Area 11 (migration) is
+      collated but excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-41-2-365
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill S-219, An Act respecting a national day of commemoration of the exodus of Vietnamese ..."
+    dated: 2015-03-25
+    result: "Agreed To 266-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/365"
+    reason: >
+      TAXONOMY FALSE POSITIVE: S-219 is the Journey to Freedom Day Act
+      (commemorating Vietnamese refugees). Unanimous or near-unanimous
+      (266-0). Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-2-389
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the ..."
+    dated: 2015-04-30
+    result: "Agreed To 134-104"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/389"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher.
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-2-391
+    draft: true
+    placeable: false
+    title: "Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the Secure Air Travel Act, ..."
+    dated: 2015-05-04
+    result: "Negatived 79-169"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/391"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher. Area
+      11 (migration) is collated but excluded from the 5CA (Christopher, 5
+      August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-392
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-51, An Act to enact the Security of Canada Information Sharing Act ..."
+    dated: 2015-05-04
+    result: "Agreed To 169-79"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/392"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher. Area
+      11 (migration) is collated but excluded from the 5CA (Christopher, 5
+      August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-394
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and ..."
+    dated: 2015-05-06
+    result: "Negatived 95-183"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/394"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher. Area
+      11 (migration) is collated but excluded from the 5CA (Christopher, 5
+      August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-395
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and ..."
+    dated: 2015-05-06
+    result: "Agreed To 183-96"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/395"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-51 is the Anti-terrorism Act, 2015 (security
+      information-sharing, no-fly list, a new offence of advocating terrorism
+      offences), matched on the immigration law it amends. Its speech offence
+      is area 7 ground the taxonomy did not tag; flagged for Christopher. Area
+      11 (migration) is collated but excluded from the 5CA (Christopher, 5
+      August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-2-435
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the Civil ..."
+    dated: 2015-06-09
+    result: "Agreed To 138-116"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/435"
+    reason: >
+      TAXONOMY MISFILE: S-7 is the Zero Tolerance for Barbaric Cultural
+      Practices Act (forced and child marriage, polygamy, the provocation
+      defence for 'honour' killings) -- area 9 ground tagged only as
+      migration; flagged for Christopher. Procedure. Area 11 (migration) is
+      collated but excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-41-2-454
+    draft: true
+    placeable: false
+    title: "Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the Civil Marriage Act and the ..."
+    dated: 2015-06-15
+    result: "Negatived 115-151"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/454"
+    reason: >
+      TAXONOMY MISFILE: S-7 is the Zero Tolerance for Barbaric Cultural
+      Practices Act (forced and child marriage, polygamy, the provocation
+      defence for 'honour' killings) -- area 9 ground tagged only as
+      migration; flagged for Christopher. Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-41-2-455
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the ..."
+    dated: 2015-06-15
+    result: "Agreed To 182-84"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/455"
+    reason: >
+      TAXONOMY MISFILE: S-7 is the Zero Tolerance for Barbaric Cultural
+      Practices Act (forced and child marriage, polygamy, the provocation
+      defence for 'honour' killings) -- area 9 ground tagged only as
+      migration; flagged for Christopher. Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-41-2-456
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the ..."
+    dated: 2015-06-16
+    result: "Agreed To 185-86"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/2/456"
+    reason: >
+      TAXONOMY MISFILE: S-7 is the Zero Tolerance for Barbaric Cultural
+      Practices Act (forced and child marriage, polygamy, the provocation
+      defence for 'honour' killings) -- area 9 ground tagged only as
+      migration; flagged for Christopher. Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-41-1-32
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the ..."
+    dated: 2011-09-27
+    result: "Agreed To 158-133"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/32"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Procedure. Area 11 (migration) is collated but excluded from the
+      5CA (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-33
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State ..."
+    dated: 2011-09-28
+    result: "Negatived 132-159"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/33"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-34
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State ..."
+    dated: 2011-09-28
+    result: "Agreed To 159-134"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/34"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-80
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the ..."
+    dated: 2011-11-30
+    result: "Agreed To 156-124"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/80"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Procedure. Area 11 (migration) is collated but excluded from the
+      5CA (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-81
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 126-155"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/81"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-82
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 96-183"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/82"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-83
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 124-157"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/83"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-84
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 126-155"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/84"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-85
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 125-155"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/85"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-86
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 125-155"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/86"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-87
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 123-157"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/87"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-88
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 125-155"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/88"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-89
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 125-155"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/89"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-90
+    draft: true
+    placeable: false
+    title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
+    dated: 2011-11-30
+    result: "Negatived 125-155"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/90"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-91
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to ..."
+    dated: 2011-11-30
+    result: "Agreed To 155-125"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/91"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-98
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to ..."
+    dated: 2011-12-05
+    result: "Agreed To 157-127"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/98"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-147
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the ..."
+    dated: 2012-03-07
+    result: "Agreed To 150-122"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/147"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Procedure. Area 11 (migration) is collated but excluded from the
+      5CA (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-152
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced ..."
+    dated: 2012-03-12
+    result: "Agreed To 152-118"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/152"
+    reason: >
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-155
+    draft: true
+    placeable: false
+    title: "Motion respecting Senate amendments to Bill C-10, An Act to enact the Justice for Victims of Terrorism Act ..."
+    dated: 2012-03-12
+    result: "Negatived 129-154"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/155"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-156
+    draft: true
+    placeable: false
+    title: "Motion respecting Senate amendments to Bill C-10, An Act to enact the Justice for Victims of Terrorism Act ..."
+    dated: 2012-03-12
+    result: "Agreed To 154-129"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/156"
+    reason: >
+      TAXONOMY FALSE POSITIVE: C-10 is the Safe Streets and Communities Act,
+      an omnibus crime bill matched on the immigration provisions in its long
+      title. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-182
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee ..."
+    dated: 2012-04-23
+    result: "Negatived 121-146"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/182"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-183
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee ..."
+    dated: 2012-04-23
+    result: "Agreed To 146-121"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/183"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-228
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced ..."
+    dated: 2012-05-29
+    result: "Agreed To 157-125"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/228"
+    reason: >
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-237
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/237"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-238
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/238"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-239
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/239"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-240
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/240"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-241
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/241"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-242
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 135-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/242"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-243
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 135-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/243"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-244
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/244"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-245
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 135-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/245"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-246
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/246"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-247
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 133-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/247"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-248
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/248"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-249
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Agreed To 149-134"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/249"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-250
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 135-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/250"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-251
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 38-244"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/251"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-252
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 38-246"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/252"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-253
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/253"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-254
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Agreed To 153-131"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/254"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-255
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 135-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/255"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-256
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 136-148"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/256"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-257
+    draft: true
+    placeable: false
+    title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
+    dated: 2012-06-04
+    result: "Negatived 135-149"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/257"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-258
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the ..."
+    dated: 2012-06-04
+    result: "Agreed To 149-136"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/258"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-276
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the ..."
+    dated: 2012-06-11
+    result: "Negatived 130-159"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/276"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-277
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the ..."
+    dated: 2012-06-11
+    result: "Agreed To 159-132"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/277"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-474
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
+    dated: 2012-10-16
+    result: "Agreed To 252-31"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/474"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-602
+    draft: true
+    placeable: false
+    title: "Time allocation for Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
+    dated: 2013-01-30
+    result: "Agreed To 152-127"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/602"
+    reason: >
+      Procedure. Area 11 (migration) is collated but excluded from the 5CA
+      (Christopher, 5 August 2026: config/stance_overrides.yaml
+      excluded_from_5ca), so no reading is drafted and the motion text was not
+      read.
+  - key: commons-41-1-603
+    draft: true
+    placeable: false
+    title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
+    dated: 2013-01-30
+    result: "Negatived 128-153"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/603"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-604
+    draft: true
+    placeable: false
+    title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
+    dated: 2013-01-30
+    result: "Negatived 129-153"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/604"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-605
+    draft: true
+    placeable: false
+    title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
+    dated: 2013-01-30
+    result: "Negatived 129-153"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/605"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-606
+    draft: true
+    placeable: false
+    title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
+    dated: 2013-01-30
+    result: "Negatived 129-153"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/606"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-607
+    draft: true
+    placeable: false
+    title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
+    dated: 2013-01-30
+    result: "Negatived 129-153"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/607"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-608
+    draft: true
+    placeable: false
+    title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
+    dated: 2013-01-30
+    result: "Negatived 129-153"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/608"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-609
+    draft: true
+    placeable: false
+    title: "Concurrence at report stage of Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
+    dated: 2013-01-30
+    result: "Agreed To 153-129"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/609"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-612
+    draft: true
+    placeable: false
+    title: "3rd reading and adoption of Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
+    dated: 2013-02-06
+    result: "Agreed To 149-130"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/612"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-41-1-620
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-425, An Act to amend the Citizenship Act (honouring the Canadian Armed Forces)"
+    dated: 2013-02-27
+    result: "Agreed To 276-3"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/41/1/620"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-40-3-95
+    draft: true
+    placeable: false
+    title: "2nd reading of Bill C-440, An Act to amend the Immigration and Refugee Protection Act (war resisters)"
+    dated: 2010-09-29
+    result: "Negatived 136-143"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/40/3/95"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+  - key: commons-40-3-166
+    draft: true
+    placeable: false
+    title: "Seventh Report of the Standing Committee on Citizenship and Immigration"
+    dated: 2011-02-09
+    result: "Agreed To 284-0"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/40/3/166"
+    reason: >
+      Unanimous or near-unanimous (284-0). Area 11 (migration) is collated but
+      excluded from the 5CA (Christopher, 5 August 2026:
+      config/stance_overrides.yaml excluded_from_5ca), so no reading is
+      drafted and the motion text was not read.
+  - key: commons-40-3-189
+    draft: true
+    placeable: false
+    title: "Eighth Report of the Standing Committee on Citizenship and Immigration"
+    dated: 2011-03-02
+    result: "Agreed To 145-136"
+    lobbies: "positions not in the store (not fetched for this division)"
+    source: "https://www.ourcommons.ca/members/en/votes/40/3/189"
+    reason: >
+      Area 11 (migration) is collated but excluded from the 5CA (Christopher,
+      5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
+      reading is drafted and the motion text was not read.
+
 # Sponsoring a private member's bill is a chosen act of advancing a text, the
 # Canadian equivalent of proposing a motion (NI) or sponsoring an EDM. A
 # government bill's sponsor is the minister, which is office, not choice:

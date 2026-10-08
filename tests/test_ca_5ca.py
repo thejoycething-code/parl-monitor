@@ -285,7 +285,9 @@ class StanceFileTests(unittest.TestCase):
         divs = c5.load_stance(section="divisions")
         read = ("commons-41-1-642", "commons-41-1-643", "commons-41-2-235",
                 "senate-42-1-457865", "commons-44-1-853")
-        self.assertEqual([k for k, e in divs.items() if c5.status(e) in ("unread", "draft")], [])
+        self.assertEqual([k for k, e in divs.items() if c5.status(e) == "unread"], [])
+        # Drafts remain only from 8 October 2026 (tested below); these are not among them.
+        self.assertEqual([k for k in read if divs[k].get("draft")], [])
         for k in read:
             e = divs[k]
             self.assertTrue(e.get("text") and e.get("moved_by")
@@ -318,6 +320,39 @@ class StanceFileTests(unittest.TestCase):
         # "score Plett at +1" (Christopher, 3 October 2026).
         self.assertEqual(divs["senate-44-1-598845"]["yea"], 1)
         self.assertEqual({divs[k]["yea"] for k in speech[1:]}, {1})
+
+    def test_the_8_october_readings_are_drafts_with_their_text(self):
+        """Christopher, 8 October 2026: draft readings for every federal
+        division with areas and no entry. All are drafts until he confirms;
+        every one with values carries the text it was read from, its mover
+        and its source; migration (area 11) is never placed."""
+        divs = c5.load_stance(section="divisions")
+        new = {k: e for k, e in divs.items() if e.get("draft")}
+        self.assertEqual(len(new), 215)
+        valued = [k for k, e in new.items() if c5.status(e) == "draft"]
+        self.assertEqual(len(valued), 52)
+        for k in valued:
+            e = new[k]
+            self.assertTrue(e.get("text") and e.get("moved_by") and e.get("source")
+                            and e.get("lobbies") and e.get("dated") and e.get("result"), k)
+            self.assertTrue(all(abs(e[s]) <= 2 for s in ("yea", "nay") if s in e), k)
+            for s in ("yea", "nay"):
+                if s in e:
+                    self.assertTrue(e.get("why_" + s), k)
+        unplaceable = [e for e in new.values() if c5.status(e) == "unplaceable"]
+        self.assertEqual(len(unplaceable), 163)
+        self.assertTrue(all(e.get("reason") for e in unplaceable))
+        self.assertEqual(sum(1 for e in unplaceable if "excluded_from_5ca" in e["reason"]), 143)
+        # C-16 (2026) is not our ground (Christopher, 2 October 2026).
+        for k in ("commons-45-1-134", "commons-45-1-135", "commons-45-1-136", "commons-45-1-137",
+                  "commons-45-1-153", "senate-45-1-702758"):
+            self.assertEqual(c5.status(divs[k]), "unplaceable", k)
+        # The mental-illness vote is clause-specific and full strength.
+        self.assertEqual((divs["commons-43-2-71"]["yea"], divs["commons-43-2-71"]["nay"]), (2, -2))
+        # A losing lobby of allies and opponents together carries no value.
+        self.assertNotIn("nay", divs["commons-42-1-75"])
+        self.assertNotIn("nay", divs["commons-42-1-76"])
+
 
 if __name__ == "__main__":
     unittest.main()
