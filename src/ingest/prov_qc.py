@@ -920,9 +920,51 @@ _RESULT = re.compile(r"((?:La|Le|Les|L['’])\s?[^.:;]{0,120}?\s(?:est|sont)\s+(
 # suivant : n° 391 Loi ...", a private bill "projet de loi d'intérêt privé
 # n° 211". Without those two forms 30 May 2019's vote on Bill 391 was filed
 # under Bill 26, named earlier in the same item, and 124 presentation votes
-# missed their bill.
-_BILL_NO = re.compile(r"projets?\s+de\s+loi\s+(?:d['’]\s*int[ée]r[êe]t\s+priv[ée]\s+)?(?:suivants?\s*:\s*)?"
-                      r"n\s*[°o]?\s*(\d+)", re.I)
+# missed their bill. The layout engine also prints "d ’intérêt privé" (4
+# November 2020, Bill 210) and "d’inté rêt privé" (10 December 2020, Bill
+# 218): the committee report on each was voted with the bill unread.
+_BILL_NO = re.compile(r"projets?\s+de\s+loi\s+(?:d\s*['’]\s*int\s*[ée]\s*r\s*[êe]\s*t\s+priv\s*[ée]\s+)?"
+                      r"(?:suivants?\s*:\s*)?n\s*[°o]?\s*(\d+)", re.I)
+# A bill's report stage: the item opens on the report of a named committee
+# "qui a procédé à l'étude détaillée du projet de loi n° 31" (taken into
+# consideration, its debate resumed, or its deferred votes held), the
+# amendments are voted, and the last vote is "Est enfin mis aux voix le
+# rapport [tel qu'amendé] de la Commission de la santé et des services
+# sociaux", which names the committee and not the bill. 3 December 2019 (Bill
+# 31), 21 October 2020 (45), 8 December 2020 (70), 10 December 2020 (75), 2
+# June 2021 (78), 16 September 2021 (64), 12 May 2022 (96): each was a
+# bill-page miss, because that day had other unanimous votes of the same
+# totals and the join refuses two candidates.
+_REPORT_OPENS = re.compile(r"rapport\s+de\s+(?:la\s+)?(Commission\s[^;]{3,120}?)\s+qui\s+a\s+proc[ée]d[ée]\s+"
+                           r"[àa]\s+l\s*['’]\s*[ée]\s*tude\s+d[ée]\s*taill[ée]e\s+du\s+projet\s+de\s+loi\s+"
+                           r"n\s*[°o]?\s*(\d+)", re.I)
+_REPORT_VOTED = re.compile(r"mis\s+aux\s+voix\s+le\s+rapport\s+(?:tel\s+qu\s*['’]\s*amend[ée]\s+)?"
+                           r"de\s+(?:la\s+)?(Commission\s[^;.]{3,120}?)\s*[;.]", re.I)
+
+
+def _committee(name):
+    return re.sub(r"[\s\-–−]", "", pn.fold(name or ""))
+
+
+def whole_item(text):
+    """The text after the last section heading, across earlier votes: a
+    vote's totals line ("Pour : 44 Contre : 68 Abstention : 0") stands
+    alone like a heading, and own_item cuts there by design."""
+    lines = (text or "").splitlines()
+    cut = max((i for i in range(len(lines)) if _is_heading(lines, i) and not _TOTALS.search(lines[i])
+               and not re.search(r"\bPour\s*:|\bContre\s*:|\bAbstentions?\s*:", lines[i])), default=-1)
+    return "\n".join(lines[cut + 1:])
+
+
+def report_bill(item, window):
+    """The bill of a report-stage vote whose own words name only the
+    committee: the one bill that the same item opens on the report of THAT
+    committee for. None unless exactly one such bill (unique or nothing)."""
+    voted = _REPORT_VOTED.findall(clean_body(window))
+    if len(voted) != 1:
+        return None
+    bills = {n for c, n in _REPORT_OPENS.findall(clean_body(item)) if _committee(c) == _committee(voted[0])}
+    return bills.pop() if len(bills) == 1 else None
 _FURNITURE = re.compile(r"^\s*(?:=+PAGE|_+|\d{1,4}|\d{1,2}(?:er)?\s+\w+\s+\d{4})\s*$")
 
 
@@ -1006,7 +1048,7 @@ def parse_pv_body(text):
         prev = tot.end() if tot else m.end()
         question = clean_body(window)
         results = _RESULT.findall(question)
-        bills = _BILL_NO.findall(question)
+        bills = _BILL_NO.findall(question) or [x for x in [report_bill(whole_item(text[:m.start()]), window)] if x]
         q = question[-700:]
         if len(question) > 700:
             q = "... " + q[q.find(" ") + 1:]
@@ -1937,7 +1979,10 @@ def read_sitting(ctx, rec, legislature, session, resolver, tax_fr, wl):
 # of them presentation votes whose bill the old _BILL_NO could not read). A
 # re-read stamps read_at today, so a miss the record itself causes is
 # never fetched again: it stays a gap.
-REREAD_BEFORE = "2026-10-07"
+# Moved to 8 October 2026: the committee-report join (report_bill) and the
+# spaced "d ’intérêt privé" reading clear 9 of the 12 misses left by the
+# 7 October re-run, whose sittings were all read on the 7th.
+REREAD_BEFORE = "2026-10-08"
 
 
 def bill_tally_misses(conn, legislature=None, session=None):
