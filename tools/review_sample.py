@@ -16,12 +16,15 @@ draft can never enter a sample). Only SITTING members whose column is not
 per member, chosen at random among the areas that place them, so the
 sample spreads over people rather than piling one member's six sheets in.
 
-THE SAMPLE: 30 federal (Commons and Senate together) and 50 provincial,
-at least 5 per scored province and the rest in proportion to each
+THE SAMPLE: 50 a round (Christopher, 9 October 2026: "run 50 tests a
+time"): 20 federal (Commons and Senate together) and 30 provincial,
+at least 4 per scored province and the rest in proportion to each
 province's placed population. NL and Nova Scotia are EXEMPT (Christopher,
 8 October 2026: "Option 1" -- no recorded division on our ground places a
 sitting member there), as PEI is (not collected). A province with fewer
-than 5 placed members gives all it has, and the shortfall is printed.
+than 4 placed members gives all it has, and the shortfall is printed.
+A member drawn in an EARLIER round (any data/review/<other>/items.json) is
+not drawn again, so each round of 50 is fresh people.
 
 TWO FILES, so the blind holds on the server and not only on screen:
 items.json carries what the reviewer sees (name, party, seat, area) and
@@ -58,7 +61,7 @@ SCORED_PROVS = ("ab", "sk", "bc", "mb", "on", "qc", "nb")
 EXEMPT_PROVS = ("nl", "ns", "pe")
 PROV_NAMES = {"ab": "Alberta", "sk": "Saskatchewan", "bc": "British Columbia", "mb": "Manitoba",
               "on": "Ontario", "qc": "Quebec", "nb": "New Brunswick"}
-FEDERAL, PROVINCIAL, MIN_PER_PROV = 30, 50, 5
+FEDERAL, PROVINCIAL, MIN_PER_PROV = 20, 30, 4
 OUT_DIR = os.path.join(ROOT, "data", "review")
 
 
@@ -123,10 +126,28 @@ def allocate(sizes, total=PROVINCIAL, floor=MIN_PER_PROV):
     return take
 
 
-def draw(pop, round_name, federal=FEDERAL, provincial=PROVINCIAL):
-    """(items, ours, report). Seeded by the round name."""
+def earlier_rounds(round_name, out_dir=None):
+    """{(jurisdiction, member)} drawn in every OTHER round written so far."""
+    out_dir = out_dir or OUT_DIR
+    seen = set()
+    for name in sorted(os.listdir(out_dir)) if os.path.isdir(out_dir) else []:
+        path = os.path.join(out_dir, name, "items.json")
+        if name == round_name or not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as h:
+            seen |= {(i["jurisdiction"], i["member"]) for i in json.load(h)}
+    return seen
+
+
+def draw(pop, round_name, federal=FEDERAL, provincial=PROVINCIAL, prior=frozenset()):
+    """(items, ours, report). Seeded by the round name; members in `prior`
+    ((jurisdiction, member) from earlier rounds) are not drawn again."""
     seed = int(hashlib.sha256(round_name.encode()).hexdigest()[:12], 16)
     rng = random.Random(seed)
+    if prior:
+        pop = {k: {pid: cs for pid, cs in v.items()
+                   if not any((c["jurisdiction"], c["member"]) in prior for c in cs)}
+               for k, v in pop.items()}
     picked = []
     fed_ids = sorted(pop["federal"])
     for pid in rng.sample(fed_ids, min(federal, len(fed_ids))):
@@ -161,7 +182,8 @@ def main(argv=None):
     args = ap.parse_args(argv)
     names = intel.area_names(os.path.join(ROOT, "config", "taxonomy.yaml"))
     conn = db.init_db(db.connect(args.db))
-    items, ours, report = draw(population(conn, names, _excluded()), args.round)
+    items, ours, report = draw(population(conn, names, _excluded()), args.round,
+                               prior=earlier_rounds(args.round))
     print(json.dumps(report, indent=2))
     short = [p for p, r in report["provinces"].items() if r["short"]]
     if short:

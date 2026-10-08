@@ -33,9 +33,9 @@ def pop(fed=60, provs=None):
 class AllocateTests(unittest.TestCase):
     def test_floor_then_proportion_and_the_total_holds(self):
         take = rs.allocate({"ab": 40, "sk": 10, "bc": 30, "mb": 3, "on": 25, "qc": 50, "nb": 8})
-        self.assertEqual(sum(take.values()), 50)
+        self.assertEqual(sum(take.values()), 30)
         self.assertEqual(take["mb"], 3)                    # all it has: short of the floor
-        self.assertTrue(all(take[p] >= 5 for p in ("ab", "sk", "bc", "on", "qc", "nb")))
+        self.assertTrue(all(take[p] >= 4 for p in ("ab", "sk", "bc", "on", "qc", "nb")))
         self.assertGreater(take["qc"], take["sk"])         # the rest goes by size
 
     def test_never_more_than_a_province_has(self):
@@ -46,7 +46,7 @@ class AllocateTests(unittest.TestCase):
 class DrawTests(unittest.TestCase):
     def test_items_never_carry_our_column(self):
         items, ours, _ = rs.draw(pop(), "R1")
-        self.assertEqual(len(items), 80)
+        self.assertEqual(len(items), 50)                   # "run 50 tests a time"
         for it in items:
             self.assertNotIn("column", it)
             self.assertNotIn("evidence", it)
@@ -66,8 +66,25 @@ class DrawTests(unittest.TestCase):
         self.assertEqual(len(members), len(set(members)))
         self.assertFalse({"Newfoundland and Labrador", "Nova Scotia", "Prince Edward Island"}
                          & {i["jurisdiction"] for i in items})
-        self.assertEqual(report["provinces"]["mb"]["short"], 2)
-        self.assertEqual(report["federal_drawn"], 30)
+        self.assertEqual(report["provinces"]["mb"]["short"], 1)
+        self.assertEqual(report["federal_drawn"], 20)
+
+
+    def test_a_later_round_draws_fresh_people(self):
+        r1, _, _ = rs.draw(pop(), "R1")
+        prior = {(i["jurisdiction"], i["member"]) for i in r1}
+        r2, _, _ = rs.draw(pop(), "R2", prior=prior)
+        self.assertFalse(prior & {(i["jurisdiction"], i["member"]) for i in r2})
+
+    def test_earlier_rounds_are_read_from_disk_but_not_this_one(self):
+        import json
+        import tempfile
+        d = tempfile.mkdtemp()
+        for name, member in (("R1", "MP 1 (LPC)"), ("R2", "MP 2 (LPC)")):
+            os.makedirs(os.path.join(d, name))
+            with open(os.path.join(d, name, "items.json"), "w") as h:
+                json.dump([{"jurisdiction": "Federal", "member": member}], h)
+        self.assertEqual(rs.earlier_rounds("R2", d), {("Federal", "MP 1 (LPC)")})
 
 
 if __name__ == "__main__":

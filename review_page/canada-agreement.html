@@ -70,6 +70,10 @@ textarea { width: 100%; min-height: 2.4em; resize: vertical; background: var(--b
 .evidence li { margin: 2px 0; overflow-wrap: anywhere }
 .btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); border-radius: 6px; padding: 5px 12px; cursor: pointer; font-size: .85rem; font-weight: 600 }
 .btn.ghost { background: transparent; color: var(--accent) }
+.decide { display: grid; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg) }
+.decide .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.decide .why { color: var(--muted); font-size: .82rem }
+.btn:disabled { opacity: .45; cursor: not-allowed }
 .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px }
 .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px }
 .stat .k { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted) }
@@ -96,7 +100,7 @@ tr:last-child td { border-bottom: 0 }
   </header>
 
   <div class="note-box" id="intro">
-    <b>How this works.</b> For each member, score where they stand on the named issue, on the same five columns the 5CA sheets use, from what you know of their record. Our own score stays hidden until the round closes; then both appear side by side, and you can flag any disagreement. The round passes when at least 80% of scores land on the same column or one step away, and no more than 5% fall on opposite sides.
+    <b>How this works.</b> Each round is 50 members. <b>First, score blind:</b> for each member, pick where they stand on the named issue, on the same five columns the 5CA sheets use, from what you know of their record. Our score stays hidden until the round closes. <b>Then approve or amend:</b> once the round closes, our column and its evidence appear on each card. Approve it, or amend it to the column you think is right and say why. Your blind score is locked by then, so the test stays fair. The round passes when at least 80% of blind scores land on the same column or one step away, and no more than 5% fall on opposite sides.
   </div>
 
   <div class="scale-key" aria-label="Scale">
@@ -113,8 +117,8 @@ tr:last-child td { border-bottom: 0 }
       <h2>Round results</h2>
       <div class="summary" id="summary"></div>
       <div class="tablewrap"><table id="by-jur"><thead><tr><th>Jurisdiction</th><th>Scored</th><th>Same or one step</th><th>Opposite sides</th><th>Can't judge</th></tr></thead><tbody></tbody></table></div>
-      <h2>Flags</h2>
-      <div class="tablewrap"><table id="flag-table"><thead><tr><th>Item</th><th>Flag</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
+      <h2>Amendments</h2>
+      <div class="tablewrap"><table id="flag-table"><thead><tr><th>Member</th><th>Ours → proposed</th><th>Reason</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
     </div>
   </section>
 
@@ -224,6 +228,7 @@ function roundRevealed() { const r = S.rounds.find((x) => x.id === S.round); ret
 
 async function saveScore(item, score, note) {
   if (!S.uid || S.readOnly) return;
+  if (roundRevealed() && score != null) return;   // the blind score is locked once our column is shown
   const prev = S.mine[item.id] || {};
   const body = { item: item.id, round: item.round, score: score ?? prev.score ?? null,
                  note: note ?? prev.note ?? "", at: new Date().toISOString() };
@@ -235,6 +240,29 @@ async function saveScore(item, score, note) {
     if (e && e.code === "invalid_argument") { S.readOnly = true; render(); }
     else alertLine("Your score was not saved (" + (e && e.code) + "). Try again in a moment.");
   }
+}
+// After the round closes: approve our column, or amend it with a reason.
+async function saveDecision(item, decision, amendTo, reason) {
+  if (!S.uid || S.readOnly || !roundRevealed()) return;
+  if (decision === "amend" && (!amendTo || !reason.trim())) return;
+  const prev = S.mine[item.id] || {};
+  const body = { ...prev, item: item.id, round: item.round, decision,
+                 amend_to: decision === "amend" ? amendTo : null,
+                 amend_reason: decision === "amend" ? reason.trim() : "",
+                 decided_at: new Date().toISOString(), amend_status: null, amend_response: "" };
+  try {
+    if (!Object.keys(S.mine).length) await S.db.doc("scores/" + S.uid).set({ reviewer: true, round: item.round, updated: body.decided_at });
+    await S.db.doc("scores/" + S.uid + "/items/" + item.id).set(body);
+  } catch (e) {
+    if (e && e.code === "invalid_argument") { S.readOnly = true; render(); }
+    else alertLine("Your decision was not saved (" + (e && e.code) + "). Try again in a moment.");
+  }
+}
+// The owner's answer to an amendment, written onto the reviewer's own item.
+async function answerAmendment(rid, itemId, status, note) {
+  try { await S.db.doc("scores/" + rid + "/items/" + itemId).update({ amend_status: status, amend_response: (note || "").trim(),
+          answered_at: new Date().toISOString() }); }
+  catch (e) { alertLine("The answer was not saved (" + (e && e.code) + ")."); }
 }
 async function addFlag(item, text) {
   if (!text.trim()) return;
@@ -272,27 +300,37 @@ function renderOwner() {
   const scoreFor = (iid) => { for (const r of rids) { const s = S.reviewers[r][iid]; if (s && s.score) return s.score; } return null; };
   const st = stats(scoreFor);
   const scored = S.items.filter((i) => scoreFor(i.id)).length;
+  const decisions = rids.flatMap((r) => Object.entries(S.reviewers[r]).map(([iid, d]) => ({ rid: r, iid, ...d }))).filter((d) => d.decision);
+  const approved = decisions.filter((d) => d.decision === "approve").length;
+  const amended = decisions.filter((d) => d.decision === "amend");
   const nearOk = st.n && st.near / st.n >= 0.8, oppOk = st.n && st.opp / st.n <= 0.05;
   $("summary").replaceChildren(
     el("div", { class: "stat" }, el("span", { class: "k", text: "Scored" }), el("span", { class: "v", text: scored + " / " + S.items.length }), el("span", { class: "t", text: rids.length + " reviewer(s)" })),
     el("div", { class: "stat" }, el("span", { class: "k", text: "Same or one step" }), el("span", { class: "v", text: pct(st.near, st.n) }), el("span", { class: "t", text: "pass at 80% or more" }), st.n ? el("span", { class: "pill " + (nearOk ? "ok" : "bad"), text: nearOk ? "passing" : "below" }) : null),
     el("div", { class: "stat" }, el("span", { class: "k", text: "Opposite sides" }), el("span", { class: "v", text: pct(st.opp, st.n) }), el("span", { class: "t", text: "pass at 5% or less" }), st.n ? el("span", { class: "pill " + (oppOk ? "ok" : "bad"), text: oppOk ? "passing" : "above" }) : null),
     el("div", { class: "stat" }, el("span", { class: "k", text: "Can't judge" }), el("span", { class: "v", text: String(st.cant) }), el("span", { class: "t", text: "left out of both rates" })),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Approved" }), el("span", { class: "v", text: approved + " / " + S.items.length }), el("span", { class: "t", text: amended.length + " amended, " + amended.filter((d) => !d.amend_status).length + " awaiting your answer" })),
     el("div", { class: "stat" }, el("span", { class: "k", text: "Round" }), el("span", { class: "v", text: roundRevealed() ? "Closed" : "Open" }), el("span", { class: "t", text: roundRevealed() ? "reviewers see both columns" : "our columns hidden from reviewers" })));
   $("by-jur").tBodies[0].replaceChildren(...Object.entries(st.byJur).sort().map(([j, s]) =>
     el("tr", {}, el("td", { text: j }), el("td", { text: String(s.n) }), el("td", { text: pct(s.near, s.n) }), el("td", { text: pct(s.opp, s.n) }), el("td", { text: String(s.cant) }))));
-  const rows = S.flags.sort((a, b) => (a.status === "open" ? 0 : 1) - (b.status === "open" ? 0 : 1) || (a.opened || "").localeCompare(b.opened || ""));
-  $("flag-table").tBodies[0].replaceChildren(...(rows.length ? rows.map((f) => {
-    const reason = el("textarea", { id: "close-" + f.id, placeholder: "Test case and fix, or the written reason", "aria-label": "Reason for closing" });
-    const days = Math.floor((Date.now() - Date.parse(f.opened || 0)) / 86400000);
+  const byId = Object.fromEntries(S.items.map((x) => [x.id, x]));
+  const rows = amended.sort((a, b) => (a.amend_status ? 1 : 0) - (b.amend_status ? 1 : 0) || (a.decided_at || "").localeCompare(b.decided_at || ""));
+  $("flag-table").tBodies[0].replaceChildren(...(rows.length ? rows.map((d) => {
+    const it = byId[d.iid] || {};
+    const ours = (S.ours[d.iid] || S.revealed[d.iid] || {}).column;
+    const note = el("textarea", { id: "answer-" + d.rid + "-" + d.iid, placeholder: "Your note: what changes, or why ours stands", "aria-label": "Answer to the amendment for " + (it.member || d.iid) });
+    const days = Math.floor((Date.now() - Date.parse(d.decided_at || 0)) / 86400000);
     return el("tr", {},
-      el("td", {}, el("div", { text: f.member || f.item }), el("div", { class: "meta", text: (f.area_name || "") + " · " + f.item })),
-      el("td", { text: f.note || "" }),
-      el("td", {}, el("span", { class: "pill " + (f.status === "open" ? (days > 13 ? "bad" : "warn") : "ok"), text: f.status === "open" ? "open " + days + "d" : "closed" }),
-        f.reason ? el("div", { class: "meta", text: f.reason }) : null),
-      el("td", {}, f.status === "open" ? el("div", { style: "display:grid;gap:6px;min-width:200px" }, reason,
-        el("button", { class: "btn ghost", text: "Close flag", onclick: () => closeFlag(f, reason.value) })) : null));
-  }) : [el("tr", {}, el("td", { colspan: "4", class: "meta", text: "No flags in this round." }))]));
+      el("td", {}, el("div", { text: it.member || d.iid }), el("div", { class: "meta", text: (it.area_name || "") + " · " + d.iid })),
+      el("td", {}, ours ? chip(ours) : el("span", { class: "meta", text: "?" }), el("span", { class: "meta", text: " → " }), chip(d.amend_to)),
+      el("td", { text: d.amend_reason || "" }),
+      el("td", {}, el("span", { class: "pill " + (d.amend_status === "accepted" ? "ok" : d.amend_status === "declined" ? "na" : (days > 13 ? "bad" : "warn")),
+          text: d.amend_status || ("awaiting " + days + "d") }), d.amend_response ? el("div", { class: "meta", text: d.amend_response }) : null),
+      el("td", {}, d.amend_status ? null : el("div", { style: "display:grid;gap:6px;min-width:200px" }, note,
+        el("div", { class: "row", style: "display:flex;gap:6px;flex-wrap:wrap" },
+          el("button", { class: "btn", text: "Accept", onclick: () => answerAmendment(d.rid, d.iid, "accepted", note.value) }),
+          el("button", { class: "btn ghost", text: "Decline", onclick: () => { if (note.value.trim()) answerAmendment(d.rid, d.iid, "declined", note.value); else note.focus(); } })))));
+  }) : [el("tr", {}, el("td", { colspan: "5", class: "meta", text: "No amendments in this round." }))]));
 }
 
 function card(it) {
@@ -310,13 +348,14 @@ function card(it) {
     for (const col of [...COLS, "?"]) {
       const b = el("button", { type: "button", "aria-pressed": String(mine.score === col),
         onclick: () => saveScore(it, col, null) }, chip(col));
-      b.disabled = S.readOnly || !S.uid;
+      b.disabled = S.readOnly || !S.uid || roundRevealed();
       choices.append(b);
     }
     const note = el("textarea", { id: "note-" + it.id, placeholder: "Optional note: what you based this on", "aria-label": "Note on " + it.member });
     note.value = mine.note || "";
     note.addEventListener("change", () => saveScore(it, null, note.value));
-    c.append(choices, note, el("span", { class: "saved", text: mine.at ? "Saved " + new Date(mine.at).toLocaleString() : (S.readOnly ? "Read-only: ask Christopher for Contributor access." : "Not scored yet") }));
+    c.append(el("span", { class: "meta", text: roundRevealed() ? "Your blind score (locked)" : "Your blind score" }), choices, note,
+      el("span", { class: "saved", text: mine.at ? "Saved " + new Date(mine.at).toLocaleString() : (S.readOnly ? "Read-only: ask Christopher for Contributor access." : "Not scored yet") }));
   }
   if (S.owner) {
     const rids = Object.keys(S.reviewers);
@@ -326,6 +365,11 @@ function card(it) {
     else line.append(el("span", { class: "meta", text: "not scored yet" }));
     c.append(line);
     if (theirs[0] && rev) line.append(verdictPill(agree(theirs[0].score, rev.column)));
+    theirs.filter((t) => t.decision).forEach((t) => c.append(el("div", { class: "verdict" },
+      el("span", { class: "meta", text: "Decision:" }),
+      t.decision === "approve" ? el("span", { class: "pill ok", text: "approved" })
+        : el("span", {}, el("span", { class: "pill warn", text: "amend to" }), " ", chip(t.amend_to)),
+      t.amend_reason ? el("span", { class: "meta", text: "“" + t.amend_reason + "”" }) : null)));
   }
   if (showOurs && rev) {
     const box = el("div", { class: "reveal" });
@@ -334,15 +378,42 @@ function card(it) {
     box.append(v);
     if (rev.based_on) box.append(el("div", { class: "meta", text: "Based on " + rev.based_on }));
     if ((rev.evidence || []).length) box.append(el("ul", { class: "evidence" }, ...rev.evidence.map((e) => el("li", { text: e }))));
-    if (!S.owner && roundRevealed() && S.uid) {
-      const t = el("textarea", { id: "flag-" + it.id, placeholder: "Flag this: what is wrong with our column?", "aria-label": "Flag " + it.member });
-      box.append(t, el("div", {}, el("button", { class: "btn", text: "Flag it", onclick: () => { addFlag(it, t.value); t.value = ""; } })));
-      const mineFlags = S.flags.filter((f) => f.item === it.id);
-      mineFlags.forEach((f) => box.append(el("div", { class: "meta", text: "Flag " + f.status + ": " + f.note + (f.reason ? " — " + f.reason : "") })));
-    }
+    if (!S.owner && roundRevealed() && S.uid) box.append(decideBox(it, mine, rev));
     c.append(box);
   }
   return c;
+}
+
+function decideBox(it, mine, rev) {
+  const box = el("div", { class: "decide" });
+  const pick = { col: mine.decision === "amend" ? mine.amend_to : null };
+  const status = mine.decision === "approve" ? el("span", { class: "pill ok", text: "You approved our column" })
+    : mine.decision === "amend" ? el("span", {}, el("span", { class: "pill warn", text: "You amended it to" }), " ", chip(mine.amend_to))
+    : el("span", { class: "meta", text: "Approve our column, or amend it." });
+  const approve = el("button", { class: "btn", type: "button", text: "Approve " + (SHOW[rev.column] || rev.column),
+    onclick: () => saveDecision(it, "approve", null, "") });
+  approve.disabled = S.readOnly;
+  const cols = el("div", { class: "choices", role: "group", "aria-label": "Amend " + it.member + " to" });
+  const reason = el("textarea", { id: "amend-" + it.id, placeholder: "Why? Name the vote, statement or record that puts them in that column.", "aria-label": "Reason for amending " + it.member });
+  reason.value = mine.amend_reason || "";
+  const save = el("button", { class: "btn ghost", type: "button", text: "Save amendment" });
+  const refresh = () => {
+    save.disabled = S.readOnly || !pick.col || !reason.value.trim();
+    [...cols.children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.col === pick.col)));
+  };
+  for (const col of COLS.filter((x) => x !== rev.column)) {
+    const b = el("button", { type: "button", "data-col": col, onclick: () => { pick.col = col; refresh(); } }, chip(col));
+    b.disabled = S.readOnly;
+    cols.append(b);
+  }
+  reason.addEventListener("input", refresh);
+  save.addEventListener("click", () => saveDecision(it, "amend", pick.col, reason.value));
+  refresh();
+  box.append(el("div", { class: "row" }, status),
+    el("div", { class: "row" }, approve, el("span", { class: "meta", text: "or amend to" }), cols),
+    reason, el("div", { class: "row" }, save, el("span", { class: "why", text: "A reason is required to amend." })));
+  if (mine.amend_status) box.append(el("div", { class: "meta", text: "Christopher " + mine.amend_status + " this" + (mine.amend_response ? ": " + mine.amend_response : ".") }));
+  return box;
 }
 
 function render() {
