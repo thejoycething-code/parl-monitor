@@ -60,9 +60,12 @@ class StanceFileTests(unittest.TestCase):
         # read from.
         read_2_oct = ["ab-31-1-2024-11-27-3", "ab-31-1-2024-11-27-4",
                       "ab-31-1-2024-11-27-5", "bc-43-2-2026-02-26-126.1"]
-        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "draft"], [])
-        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "unread"], [])
         self.assertEqual({p5.status(entries[k]) for k in read_2_oct}, {"confirmed"})
+        # The confirmed entries stay confirmed: only entries carrying `draft:
+        # true` are drafts, and none of the 2-3 October readings carries it.
+        for k, e in entries.items():
+            if p5.status(e) == "draft":
+                self.assertTrue(e.get("draft"), k)
         self.assertEqual(p5.status(entries["sk-29-3-2023-10-19-6"]), "unplaceable")
         for k in read_2_oct + ["sk-29-3-2023-10-19-6"]:
             self.assertTrue(entries[k].get("text") and entries[k].get("moved_by")
@@ -72,6 +75,37 @@ class StanceFileTests(unittest.TestCase):
             header = fh.read()
         self.assertIn("draft: true", header)
         self.assertIn("places NOBODY", header)
+
+    def test_the_8_october_drafts(self):
+        """Drafted 8 October 2026 for BC, Ontario, Manitoba, Saskatchewan, New
+        Brunswick and Nova Scotia ("draft READINGS for the provincial recorded
+        divisions on our ground that have none"). Every one is `draft: true`,
+        so none places anybody until Christopher confirms it."""
+        import collections
+        entries = p5.load_stance(p5.STANCE_PATH, "divisions")
+        provs = ("bc", "on", "mb", "sk", "nb", "ns")
+        new = {k: e for k, e in entries.items() if k.split("-")[0] in provs and e.get("draft")}
+        by = collections.Counter((k.split("-")[0], p5.status(e)) for k, e in new.items())
+        self.assertEqual(dict(by), {
+            ("bc", "draft"): 3, ("bc", "unplaceable"): 36,
+            ("on", "draft"): 7, ("on", "unplaceable"): 31,
+            ("mb", "draft"): 6, ("mb", "unplaceable"): 14,
+            ("sk", "unplaceable"): 5,
+            ("nb", "draft"): 2, ("nb", "unplaceable"): 3,
+            ("ns", "unplaceable"): 2, ("ns", "unread"): 1})
+        for k, e in new.items():
+            for field in ("title", "text", "moved_by", "source", "dated", "result", "lobbies"):
+                self.assertTrue(e.get(field), (k, field))
+            if p5.status(e) == "draft":
+                self.assertTrue(e.get("why_yea") or e.get("why_nay"), k)
+        # Motion 13 (BC, 83-3): only the Nay places; a Yea tells no member apart.
+        m13 = entries["bc-43-2-2026-03-12-141.2"]
+        self.assertIsNone(m13.get("yea"))
+        self.assertEqual(m13.get("nay"), 1)
+        # Confirmed entries in these provinces were not touched.
+        self.assertEqual(p5.status(entries["sk-29-3-2023-10-20-1"]), "confirmed")
+        self.assertEqual(p5.status(entries["on-43-1-2022-11-03-3"]), "unplaceable")
+        self.assertFalse(entries["on-43-1-2022-11-03-3"].get("draft"))
 
     def test_a_reading_can_state_its_own_area(self):
         src = open(p5.__file__, encoding="utf-8").read()
