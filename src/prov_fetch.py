@@ -311,6 +311,38 @@ class Unreadable(Exception):
     a GAP, never an empty sitting (the NB Hansard of 20 November 2025)."""
 
 
+def rebuild_cut_xref(raw):
+    """A PDF cut off INSIDE its closing cross-reference table, with every
+    object before it intact -> the same bytes with that table rebuilt from
+    the objects themselves and a trailer appended; None when the file is cut
+    anywhere else. legnb.ca serves dozens of Hansard PDFs that way (measured
+    9 October 2026: the 3 June 2026 sitting stops at byte 1,999,872 inside a
+    7,000-entry table of free objects, and the rebuilt file reads all 182
+    pages to "The House adjourned at 6 p.m."). The caller must still prove
+    the text complete; rebuilding the index adds no text that was not there."""
+    import re
+    if not raw or raw[:5] != b"%PDF-" or b"%%EOF" in raw[-2048:]:
+        return None
+    cut = raw.rfind(b"\nxref")
+    if cut < 0 or raw.rfind(b"endobj") > cut:
+        return None                       # cut inside the body, not the table
+    root = re.findall(rb"(\d+) 0 obj\s*<<[^>]*?/Type\s*/Catalog", raw[:cut])
+    if len(root) != 1:
+        return None
+    body = raw[:cut + 1]
+    offsets = {}
+    for m in re.finditer(rb"(?<![0-9])(\d+) 0 obj", body):
+        offsets[int(m.group(1))] = m.start()
+    if not offsets:
+        return None
+    size = max(offsets) + 1
+    rows = [b"xref\n0 %d\n" % size, b"0000000000 65535 f \n"]
+    for i in range(1, size):
+        rows.append(b"%010d 00000 n \n" % offsets[i] if i in offsets else b"0000000000 65535 f \n")
+    return (body + b"".join(rows)
+            + b"trailer\n<< /Size %d /Root %s 0 R >>\nstartxref\n%d\n%%%%EOF\n" % (size, root[0], len(body)))
+
+
 def pdf_text(raw, pages=None, joiner="\n=====PAGE\n"):
     """Text of a PDF's pages (all, or the given indexes)."""
     if not raw or not raw[:5] == b"%PDF-":

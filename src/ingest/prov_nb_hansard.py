@@ -35,7 +35,7 @@ import re
 
 from src import prov_speeches as sp
 from src.ingest import prov_nb as base
-from src.prov_fetch import Unreadable
+from src.prov_fetch import Unreadable, rebuild_cut_xref
 
 PROV = "nb"
 LANGUAGE = "en"
@@ -69,6 +69,11 @@ def english_score(text):
     return (en - fr, -accents)
 
 
+# The close of a sitting as the bilingual Hansard prints it: "(The House
+# adjourned at 6 p.m.)" / "(La séance est levée à 18 h.)".
+ADJOURNED = re.compile(r"House\s+(?:is\s+now\s+)?adjourned|s[ée]ance\s+est\s+lev[ée]e", re.I)
+
+
 def fragments(raw):
     """[(page, x, y, text, x_end)]: prov_fetch.pdf_fragments with each
     fragment's END, from its font's own glyph widths, so the space between
@@ -79,10 +84,21 @@ def fragments(raw):
     import pypdf
     if not raw or raw[:5] != b"%PDF-":
         raise Unreadable("not a PDF ({0} bytes)".format(len(raw or b"")))
+    rebuilt = False
     if b"%%EOF" not in raw[-2048:]:
-        raise Unreadable("truncated PDF: no %%EOF marker in {0} bytes".format(len(raw)))
+        # legnb.ca serves many Hansards cut off inside their closing
+        # cross-reference table (9 October 2026; prov_fetch.rebuild_cut_xref).
+        # The rebuilt file is taken only when its last page reaches the
+        # adjournment, so a record cut short in its TEXT stays a gap.
+        fixed = rebuild_cut_xref(raw)
+        if fixed is None:
+            raise Unreadable("truncated PDF: no %%EOF marker in {0} bytes".format(len(raw)))
+        raw, rebuilt = fixed, True
     try:
         reader = pypdf.PdfReader(io.BytesIO(raw))
+        if rebuilt and not ADJOURNED.search(reader.pages[-1].extract_text() or ""):
+            raise Unreadable("truncated PDF: cross-reference rebuilt, but the last page does not "
+                             "reach the adjournment")
         out = []
         for i, page in enumerate(reader.pages):
             got = []
@@ -97,6 +113,8 @@ def fragments(raw):
             page.extract_text(visitor_text=visit)
             out.extend(got)
         return out
+    except Unreadable:
+        raise
     except Exception as exc:
         raise Unreadable("PDF could not be read: {0}".format(exc))
 
