@@ -60,12 +60,14 @@ class StanceFileTests(unittest.TestCase):
         # read from.
         read_2_oct = ["ab-31-1-2024-11-27-3", "ab-31-1-2024-11-27-4",
                       "ab-31-1-2024-11-27-5", "bc-43-2-2026-02-26-126.1"]
-        # Alberta drafts of 8 October 2026 (Christopher: "draft READINGS for
-        # Alberta's recorded divisions on our ground") are the only drafts and
-        # the only read-first entries; none places anyone until confirmed.
+        # The drafts of 8 October 2026 (Christopher: "draft READINGS for the
+        # recorded divisions on our ground"): Alberta's are counted here,
+        # Quebec's in tests/test_prov_stance_qc.py; none places anyone until
+        # confirmed, and no other province has a draft or read-first entry.
         def ab(state):
             return sorted(k for k, e in entries.items() if k.startswith("ab-") and p5.status(e) == state)
-        self.assertEqual([k for k, e in entries.items() if not k.startswith("ab-")
+        drafted = ("ab-", "qc-")
+        self.assertEqual([k for k, e in entries.items() if not k.startswith(drafted)
                           and p5.status(e) in ("draft", "unread")], [])
         self.assertEqual(len(ab("draft")), 19)
         self.assertEqual(ab("unread"), ["ab-28-1-2012-11-19-3", "ab-28-3-2014-12-02-1",
