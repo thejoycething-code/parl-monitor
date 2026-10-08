@@ -1542,3 +1542,9 @@ choices are a local harvest from the Mini or dropping the source.
 BUILT the same evening (Christopher: "Run the HUDOC search from the Mini"): the Mini
 relays the searches through data/hudoc-relay/ daily, and tools/eu_courts.py reads the
 relay when refused, live first (docs/mac-mini.md).
+CAUSE FOUND, same evening: the 403 is a Cloudflare bot CHALLENGE on the JSON API
+(`cf-mitigated: challenge`), and our Python client gets it from the Mini too (curl does
+not; switching client to dodge a bot check was ruled out). HUDOC's own RSS search feed,
+`/app/transform/rss?library=echreng&query=...`, answers our client with the same query
+grammar but no conclusion text. Order now: JSON API, RSS feed, Mini relay. The 10 Oct
+EU weekly shows whether the RSS feed also answers GitHub Actions.
