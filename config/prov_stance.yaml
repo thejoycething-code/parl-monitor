@@ -421,7 +421,7 @@ divisions:
   # home-schooling face rule, Bill 59's marriage clauses, Bill 70's
   # 'identité de genre'), the reading states its own `areas:`.
   # "TAXONOMY FALSE POSITIVE" in a reason names a tag that was wrong: supply
-  # bills tagged laicity on the minister's budget line, budget bills on
+  # bills tagged laicity on a line of their schedule, budget bills on
   # 'identité numérique' or IVF tax credits, and motions that inherited a tag
   # from the item before them in the procès-verbal.
   # --- Quebec, 43rd Legislature --------------------------------------------------
@@ -441,7 +441,7 @@ divisions:
       qu’elle en adopte le principe et qu’elle adopte le projet de loi.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-3-2026-06-02-18
     placeable: false
@@ -571,7 +571,7 @@ divisions:
       loi soit adopté; QUE le projet de loi soit adopté.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-2-2026-02-12-102
     areas: [8]          # stored: [5, 7, 8]
@@ -975,7 +975,7 @@ divisions:
       et qu’elle adopte le projet de loi.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-1-2025-04-10-453
     placeable: false
@@ -1010,7 +1010,7 @@ divisions:
       de loi soit adopté.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-1-2025-03-20-395
     placeable: false
@@ -1364,7 +1364,7 @@ divisions:
       qu’elle adopte le projet de loi.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-1-2024-05-01-269
     placeable: false
@@ -1445,7 +1445,7 @@ divisions:
       de loi soit adopté.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-1-2024-02-08-196
     placeable: false
@@ -1700,7 +1700,7 @@ divisions:
       qu’elle adopte le projet de loi.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-1-2023-04-06-69
     placeable: false
@@ -1784,7 +1784,7 @@ divisions:
       de loi soit adopté.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-43-1-2023-03-15-38
     placeable: false
@@ -1926,7 +1926,7 @@ divisions:
       le projet de loi soit adopté.
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
-      the Minister responsible for Laicity's budget line. A supply vote, not ours.
+      the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
     draft: true
   - key: qc-42-2-2022-02-24-257
     placeable: false
