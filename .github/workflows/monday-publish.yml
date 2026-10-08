@@ -9,6 +9,17 @@ on:
     # cost nothing when the primary ran and save the morning when it did not.
     - cron: "30 5 * * 1"
     - cron: "0 7 * * 1"
+  # THE CLOCK, off the laptop (8 October 2026; Christopher: "Start the move
+  # off the laptop now"). GitHub creates this repo's scheduled runs 7-8 hours
+  # late (5 Oct: the 03:00 UTC slot ran at 10:03), and the cloud routine
+  # "Parl monitor: Monday publish dispatch" cannot dispatch (its GitHub app
+  # has no Actions write: 403, 28 Sept). But a PUSH it makes starts a
+  # workflow at once (probe run 37731046806, 8 Oct). So at 04:00 London the
+  # routine pushes an empty commit to claude/monday-publish-<date>, this
+  # runs on main (never the trigger branch) as a real publish, and the
+  # trigger branch is deleted at the end. Idempotent per week as ever.
+  push:
+    branches: ["claude/monday-publish**"]
   workflow_dispatch:
     inputs:
       dry_run:
@@ -66,7 +77,7 @@ jobs:
       # anywhere. These workflows act on repo STATE, so the tip is always
       # the right thing to act on.
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event_name == 'push' && 'main' || github.ref_name }}
       - uses: actions/setup-python@v7
         if: env.SKIP != '1'
         with:
@@ -273,3 +284,8 @@ jobs:
             echo "push rejected (attempt $attempt); retrying"
             sleep $((attempt * 5))
           done
+      - name: Delete the trigger branch (push runs only)
+        # The routine's empty commit is not state: the branch only exists to
+        # start this run. Deleted whatever the run's outcome.
+        if: always() && github.event_name == 'push' && env.SKIP != '1'
+        run: git push origin --delete "${{ github.ref_name }}" || echo "trigger branch already gone"
