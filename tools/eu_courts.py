@@ -22,7 +22,23 @@ existence, court and date, never its reasoning, which a human reads on
 the page. If the page shape moves, the parse yields ids without titles
 and the run records a gap rather than storing blanks.
 
-Separation guarantee: writes eu_judgments only.
+THE MAC MINI RELAY (8 October 2026). HUDOC began answering 403 to GitHub
+Actions with the EU weekly catch-up of that day, while the same query from
+the Mac Mini's home connection answers 200 (docs/api-notes.md). Christopher:
+"Run the HUDOC search from the Mini". So the Mini runs
+
+    python3 tools/eu_courts.py --relay
+
+each morning (tools/hudoc_relay.sh, launchd), which fetches the same HUDOC
+searches and commits their replies to data/hudoc-relay/<term>.json -- it
+never touches the store, so ONE WRITER AT A TIME holds. When the live
+search is refused here, pull() reads the relay instead if it is at most
+RELAY_MAX_AGE_DAYS old, and says so in the log; an older or missing relay
+is a gap, as before. Live always comes first: if HUDOC lifts the block,
+the relay simply stops being read.
+
+Separation guarantee: writes eu_judgments only (and, with --relay,
+data/hudoc-relay/ only).
 ONE WRITER AT A TIME on data/parl-monitor.db.
 """
 
@@ -105,13 +121,78 @@ def eurlex_cases(client, term, start, end, log=print):
     return rows, True
 
 
+RELAY_DIR = os.path.join(ROOT, "data", "hudoc-relay")
+RELAY_MAX_AGE_DAYS = 8
+
+
+def relay_path(term, relay_dir=RELAY_DIR):
+    return os.path.join(relay_dir, term.replace(" ", "-") + ".json")
+
+
+def read_relay(term, today, relay_dir=RELAY_DIR):
+    """(reply, fetched_on) from the Mini's relay; reply is None when the
+    file is missing, unreadable or older than RELAY_MAX_AGE_DAYS."""
+    try:
+        with open(relay_path(term, relay_dir), encoding="utf-8") as fh:
+            rec = json.load(fh)
+        fetched = rec["fetched_on"]
+        age = (datetime.date.fromisoformat(today)
+               - datetime.date.fromisoformat(fetched)).days
+    except (OSError, ValueError, KeyError, TypeError):
+        return None, None
+    if age > RELAY_MAX_AGE_DAYS or not isinstance(rec.get("reply"), dict):
+        return None, fetched
+    return rec["reply"], fetched
+
+
+def write_relay(client, today, relay_dir=RELAY_DIR, log=print):
+    """The Mini's half: fetch every HUDOC search live and write its reply.
+    -> (written, failed). A failed term leaves its previous file alone, so
+    the age check, not a blank file, decides whether CI may use it."""
+    start = (datetime.date.fromisoformat(today)
+             - datetime.timedelta(days=LOOKBACK_DAYS)).isoformat()
+    os.makedirs(relay_dir, exist_ok=True)
+    written = failed = 0
+    for term in SEARCH_TERMS:
+        try:
+            reply = client.get_json(build_query('"{0}"'.format(term), start),
+                                    "eu-courts",
+                                    term.replace(" ", "-"), archive=False)
+        except (FetchError, ValueError) as exc:
+            log("  [relay gap] hudoc '{0}': {1}".format(term, exc))
+            failed += 1
+            continue
+        with open(relay_path(term, relay_dir), "w", encoding="utf-8") as fh:
+            json.dump({"term": term, "fetched_on": today, "start": start,
+                       "reply": reply}, fh, indent=1, sort_keys=True)
+            fh.write("\n")
+        written += 1
+    return written, failed
+
+
+def hudoc_search(client, term, start, today, log=print, relay_dir=RELAY_DIR):
+    """Live first; on refusal, the Mini's relay if fresh; else raise."""
+    try:
+        return client.get_json(build_query('"{0}"'.format(term), start),
+                               "eu-courts",
+                               term.replace(" ", "-"), archive=False)
+    except (FetchError, ValueError) as exc:
+        reply, fetched = read_relay(term, today, relay_dir)
+        if reply is None:
+            raise
+        cause = getattr(exc, "cause", exc)
+        log("  hudoc '{0}': refused here ({1}); read the Mac Mini relay "
+            "of {2}".format(term, cause, fetched))
+        return reply
+
+
 def build_query(term, start):
     q = ('contentsitename:ECHR AND {0} AND ((languageisocode="ENG")) '
          'AND (kpdate>="{1}")').format(term, start)
     return QUERY.format(urllib.parse.quote(q, safe=""))
 
 
-def pull(conn, client, today, log=print):
+def pull(conn, client, today, log=print, relay_dir=RELAY_DIR):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     start = (datetime.date.fromisoformat(today)
@@ -120,9 +201,7 @@ def pull(conn, client, today, log=print):
     seen = stored = gaps = 0
     for term in SEARCH_TERMS:
         try:
-            reply = client.get_json(build_query('"{0}"'.format(term), start),
-                                    "eu-courts",
-                                    term.replace(" ", "-"), archive=False)
+            reply = hudoc_search(client, term, start, today, log, relay_dir)
         except (FetchError, ValueError) as exc:
             log("  [gap] hudoc '{0}': {1}".format(term, exc))
             gaps += 1
@@ -194,6 +273,12 @@ def pull(conn, client, today, log=print):
 
 def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    if "--relay" in sys.argv[1:]:
+        today = datetime.date.today().isoformat()
+        written, failed = write_relay(client, today)
+        print("hudoc relay: {0} search(es) written to data/hudoc-relay, "
+              "{1} failed.".format(written, failed))
+        return 1 if failed and not written else 0
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
                                               "parl-monitor.db")))
     today = datetime.date.today().isoformat()

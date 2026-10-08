@@ -118,5 +118,87 @@ class RecallAuditTests(unittest.TestCase):
                       "the first audit's finding must be acted on")
 
 
+class RelayTests(unittest.TestCase):
+    """HUDOC answers 403 to GitHub Actions since 8 October 2026 but 200 to
+    the Mac Mini, which relays its replies through data/hudoc-relay
+    (Christopher: "Run the HUDOC search from the Mini")."""
+
+    REPLY = {"resultcount": 1, "results": [{"columns": {
+        "itemid": "001-999999", "docname": "CASE OF X v. POLAND",
+        "doctype": "HEJUD", "appno": "1/26",
+        "conclusion": "Violation of Article 8 - abortion", "kpdate":
+        "2026-09-30T00:00:00", "respondent": "POL"}}]}
+
+    class Refused:
+        def get_json(self, url, feed, slug, **kw):
+            from src.http import FetchError
+            raise FetchError(url, feed, slug, 1, "HTTP Error 403: Forbidden")
+
+        def get_text(self, url, feed, slug, **kw):
+            return ""
+
+    class Live:
+        def __init__(self, reply):
+            self.reply = reply
+
+        def get_json(self, url, feed, slug, **kw):
+            return self.reply
+
+    def setUp(self):
+        import tempfile
+        self.dir = tempfile.mkdtemp()
+
+    def _store(self):
+        import sqlite3
+        from src import db
+        conn = sqlite3.connect(":memory:")
+        conn.row_factory = sqlite3.Row
+        db.init_db(conn)
+        return conn
+
+    def test_the_mini_writes_one_file_per_search(self):
+        written, failed = courts.write_relay(self.Live(self.REPLY), "2026-10-08",
+                                             self.dir, log=lambda *a: None)
+        self.assertEqual((written, failed), (len(courts.SEARCH_TERMS), 0))
+        reply, fetched = courts.read_relay("abortion", "2026-10-09", self.dir)
+        self.assertEqual((reply, fetched), (self.REPLY, "2026-10-08"))
+
+    def test_a_refused_search_leaves_the_old_file_alone(self):
+        courts.write_relay(self.Live(self.REPLY), "2026-10-08", self.dir,
+                           log=lambda *a: None)
+        written, failed = courts.write_relay(self.Refused(), "2026-10-09",
+                                             self.dir, log=lambda *a: None)
+        self.assertEqual(written, 0)
+        self.assertEqual(courts.read_relay("abortion", "2026-10-09", self.dir)[1],
+                         "2026-10-08")
+
+    def test_ci_reads_a_fresh_relay_when_refused(self):
+        courts.write_relay(self.Live(self.REPLY), "2026-10-08", self.dir,
+                           log=lambda *a: None)
+        lines = []
+        seen, stored, gaps = courts.pull(self._store(), self.Refused(),
+                                         "2026-10-10", log=lines.append,
+                                         relay_dir=self.dir)
+        self.assertGreaterEqual(stored, 1)
+        self.assertTrue(any("Mac Mini relay of 2026-10-08" in l for l in lines))
+        self.assertFalse(any("[gap] hudoc" in l for l in lines))
+
+    def test_a_stale_relay_is_a_gap(self):
+        courts.write_relay(self.Live(self.REPLY), "2026-09-20", self.dir,
+                           log=lambda *a: None)
+        lines = []
+        courts.pull(self._store(), self.Refused(), "2026-10-10",
+                    log=lines.append, relay_dir=self.dir)
+        self.assertTrue(any("[gap] hudoc 'abortion'" in l for l in lines))
+
+    def test_live_comes_first(self):
+        courts.write_relay(self.Live({"results": []}), "2026-10-08", self.dir,
+                           log=lambda *a: None)
+        reply = courts.hudoc_search(self.Live(self.REPLY), "abortion",
+                                    "2026-07-10", "2026-10-09",
+                                    log=lambda *a: None, relay_dir=self.dir)
+        self.assertEqual(reply, self.REPLY)
+
+
 if __name__ == "__main__":
     unittest.main()

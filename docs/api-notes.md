@@ -1538,4 +1538,7 @@ a home connection, answers 200 with results. The 26 September run had no HUDOC
 gaps, so the block is new and looks like the runner IP range (as the Senedd
 WAF, see the Senedd notes). Each refusal is recorded as a gap, so nothing is
 lost silently. Next check: the 10 October Saturday slots. If it holds, the
-choices are a local harvest from the Mini or dropping the source; not built.
+choices are a local harvest from the Mini or dropping the source.
+BUILT the same evening (Christopher: "Run the HUDOC search from the Mini"): the Mini
+relays the searches through data/hudoc-relay/ daily, and tools/eu_courts.py reads the
+relay when refused, live first (docs/mac-mini.md).
