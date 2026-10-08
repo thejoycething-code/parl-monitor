@@ -389,5 +389,26 @@
    ],
    "first": "2026-09-07T16:51:54+01:00"
   }
- ]
+ ],
+ "alignment": {
+  "measured_at": "2026-10-07T10:39:14",
+  "ok": true,
+  "tolerance_s": 45.0,
+  "drift_s": 4.720000000113579,
+  "anchors": [
+   {
+    "label": "opener Dave Robertson at 0:00:00",
+    "expected_s": 0.0,
+    "heard_s": 22.4,
+    "offset_s": 22.4
+   },
+   {
+    "label": "closer Dave Robertson at 1:26:00",
+    "expected_s": 5160.0,
+    "heard_s": 5187.120000000114,
+    "offset_s": 27.120000000113578
+   }
+  ],
+  "summary": "opener Dave Robertson at 0:00:00: +22.4s; closer Dave Robertson at 1:26:00: +27.1s; drift 4.7s"
+ }
 }
