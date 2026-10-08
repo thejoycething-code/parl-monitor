@@ -1529,3 +1529,13 @@ Proof: w/c 2026-07-20 now renders the two Immigration and Asylum Bill
 divisions (reasoned amendment lost 97-358, second reading carried 264-90),
 EDM 603 on the Amnesty anti-rights report, and a Written Statement on Tying
 the Knot -- a live campaign of ours that would have gone unmentioned.
+
+## HUDOC refuses GitHub Actions (8 October 2026)
+
+The EU weekly catch-up run (37828564972) got `HTTP Error 403: Forbidden` on all
+11 HUDOC searches in tools/eu_courts.py; the same query, from the Mac Mini on
+a home connection, answers 200 with results. The 26 September run had no HUDOC
+gaps, so the block is new and looks like the runner IP range (as the Senedd
+WAF, see the Senedd notes). Each refusal is recorded as a gap, so nothing is
+lost silently. Next check: the 10 October Saturday slots. If it holds, the
+choices are a local harvest from the Mini or dropping the source; not built.
