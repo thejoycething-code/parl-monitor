@@ -444,7 +444,8 @@ def bill_key_areas(path=None):
 
 
 def add_bill_key_areas(res, parliament, session, bill_number, path=None):
-    """Merge a watched bill KEY's areas into a FilterResult, in place."""
+    """Merge a watched bill KEY's areas into a FilterResult, in place, then
+    apply the bill's reviewed area correction if it has one."""
     if not bill_number:
         return res
     key = "{0}-{1}/{2}".format(parliament, session, bill_number)
@@ -454,4 +455,53 @@ def add_bill_key_areas(res, parliament, session, bill_number, path=None):
         res.tier = res.tier or 1
         if key not in (res.watchlist_hits or []):
             res.watchlist_hits = list(res.watchlist_hits or []) + [key]
+    return correct_areas(res, parliament, session, bill_number)
+
+
+_CORRECTIONS = {}
+
+
+def area_corrections(path=None):
+    """{'<parl>-<sess>/<number>': {'areas': [...], 'not_areas': [...]}} from
+    config/ca_area_corrections.yaml (8 October 2026: Roxanne's Law, C-510 of
+    the 40th Parliament, filed under assisted dying on the word "coercion").
+    Each entry is reviewed and keyed to one bill."""
+    import os
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "config", "ca_area_corrections.yaml")
+    if path not in _CORRECTIONS:
+        raw = {}
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as fh:
+                raw = yaml.safe_load(fh) or {}
+        _CORRECTIONS[path] = {str(k): {"areas": list(v.get("areas") or []),
+                                       "not_areas": list(v.get("not_areas") or [])}
+                              for k, v in (raw.get("bills") or {}).items()}
+    return _CORRECTIONS[path]
+
+
+def removed_areas(parliament, session, bill_number, path=None):
+    """The areas a reviewed correction takes off this bill and its divisions."""
+    if not bill_number:
+        return set()
+    c = area_corrections(path).get("{0}-{1}/{2}".format(parliament, session, bill_number))
+    return set(c["not_areas"]) if c else set()
+
+
+def correct_areas(res, parliament, session, bill_number, path=None):
+    """Apply a bill's reviewed area correction to a FilterResult, in place:
+    its `areas` added, its `not_areas` removed, and the correction named
+    among the hits ('corrected:<key>')."""
+    if not bill_number:
+        return res
+    key = "{0}-{1}/{2}".format(parliament, session, bill_number)
+    c = area_corrections(path).get(key)
+    if not c:
+        return res
+    res.issue_areas = sorted((set(res.issue_areas or []) | set(c["areas"])) - set(c["not_areas"]))
+    res.tier = (res.tier or 1) if res.issue_areas else None
+    mark = "corrected:" + key
+    if mark not in (res.watchlist_hits or []):
+        res.watchlist_hits = list(res.watchlist_hits or []) + [mark]
     return res

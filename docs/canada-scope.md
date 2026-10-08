@@ -147,6 +147,17 @@ feed. Two things matter before anyone says yes to provinces:
   build clear of work in progress on the shared schema. Fold it into
   `init_db` when the monitor is adopted.
 - `config/watchlist-ca.yaml` holds the Canadian additions.
+- `config/ca_area_corrections.yaml` (8 October 2026) holds reviewed area
+  corrections, one bill each, for a bill the taxonomy files under the wrong
+  area. The watchlist can only add an area to a bill key, so a wrong one
+  could never come off. The first is Roxanne's Law (40-3/C-510, coerced
+  abortion), tagged area 2 (assisted dying) on the word "coercion": it is
+  now area 1 and not area 2 on the bill and its division (commons-40-3-151).
+  `src/ca_store.correct_areas` applies it wherever a Canadian bill or
+  division is classified, and `tools/ca_retag.py` writes it to stored rows,
+  the one thing the retag ever removes. Speeches are not corrected: eight
+  speeches from the C-510 debate carry areas 1 and 2 because their own
+  passages say "coercion", and they are matched per passage, not by bill.
 - `tests/test_ca_rollcalls.py` has 13 tests, and none of them uses the
   network.
 

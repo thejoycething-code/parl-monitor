@@ -270,7 +270,8 @@ def pull_bills(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None):
         if b.get("IsProForma"):
             continue    # C-1 and S-1: introduced to assert the House's right, never debated
         number = b.get("NumberCode")
-        res = classify(tax, wl, b.get("LongTitleEn") or "", b.get("ShortTitleEn") or "")
+        res = ca_store.correct_areas(classify(tax, wl, b.get("LongTitleEn") or "", b.get("ShortTitleEn") or ""),
+                                     parl, sess, number)
         if on_our_ground(res.issue_areas):
             ours += 1
         conn.execute(

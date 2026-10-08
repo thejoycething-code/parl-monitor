@@ -2889,10 +2889,12 @@ divisions:
       Voted against a bill making it an offence to coerce a woman into an
       abortion (-1: see note).
     note: >
-      AREA MISFILED: tagged area 2 (assisted dying) on the word "coercion"; it
-      is area 1 (abortion). Retag before confirming, or this places members on
-      the MAID sheet. Nay is -1, as on M-312: 49 Conservatives voted Nay, so a
-      Nay is not always hostility to the question itself.
+      AREA CORRECTED (8 October 2026): the taxonomy tagged it area 2 (assisted
+      dying) on the word "coercion"; config/ca_area_corrections.yaml makes the
+      bill and this division area 1 (abortion) and not area 2, so it sits on
+      the abortion sheet (in the store once ca-weekly runs with retag). Nay
+      is -1, as on M-312: 49 Conservatives voted Nay, so a Nay is not always
+      hostility to the question itself.
 
   # --- Area 11 (migration), 8 October 2026: never placed -------------------
   # Migration is collated, never campaigned, and has no 5CA sheet
