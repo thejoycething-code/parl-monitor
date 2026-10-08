@@ -51,8 +51,19 @@ def future_sittings(client, today, log=print):
     years = sorted({t.year, end.year})
     out = []
     for y in years:
-        reply = client.get_json(MEETINGS.format(y), "eu-agenda",
-                                "meetings-{0}".format(y), archive=False)
+        try:
+            reply = client.get_json(MEETINGS.format(y), "eu-agenda",
+                                    "meetings-{0}".format(y), archive=False)
+        except ValueError:
+            # Next year's calendar answers 204 with an EMPTY body until the
+            # EP publishes it (probed 8 Oct 2026: 2027 -> 204). From October
+            # the 90-day horizon crosses New Year, and this crashed the whole
+            # EU weekly on 3 Oct. Next year unpublished is not a gap; this
+            # year empty is, and fails loudly as before.
+            if y == t.year:
+                raise
+            log("  eu-agenda: {0} calendar not published yet".format(y))
+            continue
         for m in reply.get("data") or []:
             d = m.get("activity_date")
             if d and today <= d <= end.isoformat():

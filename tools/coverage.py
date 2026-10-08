@@ -100,7 +100,6 @@ FEEDS = [
     ("de_judgments", "last_seen", 7, 4, "Bundesverfassungsgericht cases listed for decision"),
     ("de_amendments", "last_seen", 7, 4, "Änderungsanträge to bills (Germany weekly)"),
     ("de_committee_reports", "last_seen", 7, 4, "Bundestag committee reports and laid papers (Germany weekly)"),
-    ("hansard_sections", "captured_at", 7, 3, "Hansard's section list per sitting day (Sunday pull)"),
     ("judge_verdicts", "captured_at", 7, 3, "the judge evaluation bank (Sunday pull)"),
     ("dv_petitions", "last_seen", 7, 4, "Senedd and Holyrood petitions (devolved weeklies)"),
     ("dv_petition_snapshots", "captured_at", 7, 4, "devolved petition signature snapshots"),
@@ -272,6 +271,11 @@ ON_DEMAND = {
 # only gains rows goes quiet in recess through no fault of anyone, and
 # alarming on it would train people to ignore the alert.
 ONCE_EVER = {
+    # 8 October 2026, MEASURED: the Sunday pull writes sections only for the
+    # sitting days of the week just ended (run_weekly.sweep_hansard_sections),
+    # so both Houses in conference recess means no rows, and it failed the
+    # coverage watch daily from 5 Oct while the Sunday pull ran green.
+    "hansard_sections": "one row per section of a sitting day; quiet in recess",
     # Canada: senators are written only when a Senate vote ON OUR GROUND is
     # fetched, and sittings once each -- both only gain rows, and both go
     # quiet in recess.

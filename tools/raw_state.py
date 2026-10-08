@@ -49,6 +49,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import time
 import urllib.error
 import urllib.request
 
@@ -263,14 +264,21 @@ def download_asset(folder, dest):
     """-> True if the tar landed at dest, False if there is no such asset."""
     name = asset_name(folder)
     if have_gh():
-        out = subprocess.run(["gh", "release", "download", TAG, "--repo", REPO, "--pattern", name,
-                              "--output", dest, "--clobber"], capture_output=True, text=True)
-        if out.returncode:
+        # A GitHub 5xx on one asset failed the whole Senedd weekly on 8 Oct
+        # 2026 (HTTP 500 on raw-2026-09-29.tar): retry server errors, never
+        # a missing asset.
+        for attempt in range(3):
+            out = subprocess.run(["gh", "release", "download", TAG, "--repo", REPO, "--pattern", name,
+                                  "--output", dest, "--clobber"], capture_output=True, text=True)
+            if not out.returncode:
+                return True
             err = (out.stderr or "").lower()
             if "no assets match" in err or "release not found" in err or "not found" in err:
                 return False
-            raise RuntimeError("gh download failed for {0}: {1}".format(name, out.stderr.strip()))
-        return True
+            if not any("http {0}".format(c) in err for c in (500, 502, 503, 504)) or attempt == 2:
+                break
+            time.sleep(10 * (attempt + 1))
+        raise RuntimeError("gh download failed for {0}: {1}".format(name, out.stderr.strip()))
     tok = token()
     if not tok:
         raise RuntimeError("no gh and no github_token in config/secrets.yaml")
