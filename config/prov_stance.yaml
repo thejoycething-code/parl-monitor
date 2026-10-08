@@ -29,8 +29,10 @@
 # Yea-only; Quebec's laicity bills stand as drafted, read as limits on
 # religious freedom. Greg (Canada reviewer) may amend any reading after the
 # blind agreement round. The four `read_first:` entries (Alberta Bill 3 of
-# 2012 and Bill 10 of 2014 x2, Nova Scotia Bill 112 of 2015) stay drafts and
-# place nobody until their Hansard is read.
+# 2012 and Bill 10 of 2014 x2, Nova Scotia Bill 112 of 2015) were read from
+# Hansard on 9 October 2026 ("Read the four unscored debates"): Bill 3 and
+# Bill 10's second reading place the Nay only (-1); the Bill 10 amendment and
+# Bill 112 are evidence only. No read-first or draft entry remains.
 #
 # HOW AN ENTRY PLACES PEOPLE. An entry carrying `draft: true` places NOBODY.
 # Every entry starts as a draft; to confirm a reading, delete its `draft:
@@ -2333,16 +2335,23 @@ divisions:
       On the motion that the following Bill be now read a Third time: Bill 3
       Education Act -- Hon. Mr. Johnson. [Yea 37: PC 30, Wildrose 7. Nay 2:
       NDP 1, Liberal 1.]
-    read_first: >
-      The whole school code re-enacted, passed 37-2 with the Wildrose. It
-      carries the preamble on parents' right to make informed decisions and
-      the s.16 duty to respect the Alberta Human Rights Act that home
-      educators opposed, so a direction cannot be read from the bill alone.
-      SEARCHED: the V&P excerpt and the store's bill excerpt only. NEEDED:
-      Hansard of 19 November 2012 for why the two Nays (NDP, Liberal) voted
-      against; if it was school fees or class size, mark it placeable:
-      false.
-    draft: true
+    # READ 9 October 2026 (Christopher: "Read the four unscored debates"):
+    # Alberta Hansard, 19 November 2012 evening, third reading. Both Nays
+    # said why. Hehr (Liberal): "I will be voting against this bill"
+    # because of "the way we treat the Canadian Charter of Rights and
+    # Freedoms as well as the Alberta Human Rights Act" -- the earlier
+    # drafts (Bill 18, Bill 2) made schools subject to both, and Bill 3
+    # dropped that. Bilous (NDP), "first and foremost": the Human Rights
+    # Act "is now being removed", and Bill 44's parental opt-out from
+    # sexual-orientation teaching is "quite alarming"; school fees and
+    # class size came second. So the Nay is a vote against the parental
+    # and faith-school settlement: -1 at third reading of a whole code.
+    # The read-first note's "s.16 duty to respect the Alberta Human Rights
+    # Act" was the EARLIER drafts', not Bill 3's. No `yea` value: 37 voted
+    # for the entire Education Act, school fees, inclusion and all, so a
+    # Yea is not a vote on parents' rights.
+    nay: -1
+    why_nay: "Voted against the 2012 Education Act because it dropped the explicit subjection of all schools, faith and home education included, to the Charter and the Alberta Human Rights Act, and kept parents' opt-out from sexual-orientation teaching."
   - key: ab-28-1-2013-03-11-1
     placeable: false
     title: "Written Question WQ9 (staff-to-patient ratios in long-term care) -- rejected"
@@ -2375,16 +2384,23 @@ divisions:
       parents to make informed decisions respecting the education of their
       children' to the Bill of Rights, and gives students a route to a
       gay-straight alliance when a board refuses one.
-    read_first: >
-      The lobbies cross party lines (2nd reading Nay: NDP 4, Liberal 3,
-      Wildrose 2, PC 1; the 3 December amendment Nay: Wildrose 5, NDP 4,
-      Liberal 4, PC 3, Ind. 1), and members voted Nay from both sides: the
-      left because GSAs were not mandatory, others for parents and faith
-      schools. Party cannot stand in for the reason. SEARCHED: the V&P
-      excerpt and Bill 10 as introduced (store excerpt). NEEDED: Hansard of
-      1-3 December 2014 for each Nay's stated reason, and the amendment's
-      full text (A: Minister to facilitate a GSA a board refuses).
-    draft: true
+    # READ 9 October 2026 (Christopher: "Read the four unscored debates"):
+    # Alberta Hansard, 2 December 2014. The Liberals moved a hoist (H1),
+    # lost on voice; the 42-10 division is second reading itself
+    # ("[Motion carried; Bill 10 read a second time]"). Every Nay who spoke
+    # opposed the bill for NOT securing gay-straight alliances: Blakeman
+    # (her own Bill 202 mandated them; "Can they go and get a GSA today?
+    # No"), Notley (the court route is a "$25,000 bill" for a child),
+    # Sherman, and Danielle Smith (Wildrose), who said she had been
+    # "prepared to support" Bill 202 and that sending a refused student to
+    # a board or a court is "not reasonable". None voted Nay for parents or
+    # faith schools; the Wildrose members who argued that balance (Anderson)
+    # voted Yea. So the Nay is -1 (second reading). No `yea` value: the Yea
+    # is the government's whip on a compromise that also wrote sexual
+    # orientation into the Bill of Rights and moved s.11.1 out of the Human
+    # Rights Act, alongside the parents' right.
+    nay: -1
+    why_nay: "Voted against Bill 10 (2014) at second reading because it left faith and other school boards free to refuse a gay-straight alliance, wanting such clubs on demand."
   - key: ab-28-3-2014-12-03-1
     title: "Bill 10 (2014) -- government amendment in Committee of the Whole (Minister to facilitate a GSA a board refuses)"
     dated: 2014-12-03
@@ -2400,16 +2416,21 @@ divisions:
       support the establishment of the organization. D Section 3(12) is
       amended [...] (3) A decision of the board under section 123 with
       respect to an appeal relating to subsection (1) is final.
-    read_first: >
-      The lobbies cross party lines (2nd reading Nay: NDP 4, Liberal 3,
-      Wildrose 2, PC 1; the 3 December amendment Nay: Wildrose 5, NDP 4,
-      Liberal 4, PC 3, Ind. 1), and members voted Nay from both sides: the
-      left because GSAs were not mandatory, others for parents and faith
-      schools. Party cannot stand in for the reason. SEARCHED: the V&P
-      excerpt and Bill 10 as introduced (store excerpt). NEEDED: Hansard of
-      1-3 December 2014 for each Nay's stated reason, and the amendment's
-      full text (A: Minister to facilitate a GSA a board refuses).
-    draft: true
+    placeable: false
+    reason: >
+      READ 9 October 2026 (Christopher: "Read the four unscored debates"):
+      Alberta Hansard, 3 December 2014 (afternoon and evening). Amendment A2
+      was the government's, moved by Sandra Jansen: a board's refusal on
+      appeal is final, and "the Minister shall facilitate and support the
+      establishment of the organization" -- off school premises, as the
+      debate read it. The Nay came from OPPOSITE directions: Blakeman,
+      Mason and Notley because an off-site club is "segregation" and every
+      school should host one; Anderson (Wildrose) because an off-site club
+      "makes no sense" and the school itself should owe the bullied student
+      a support strategy, while defending faith-based schools' autonomy. The
+      Yea is PC 38 on the government whip. Neither lobby votes on parents'
+      or faith schools' rights, so neither side places anyone: evidence
+      only.
   - key: ab-28-3-2014-12-03-2
     placeable: false
     title: "Bill 10 (2014) -- time allocation in Committee of the Whole"
@@ -7960,15 +7981,18 @@ divisions:
     text: >
       (the store's record of the question) The motion is for third reading of
       Bill No. 112. Would all those in favour of the motion please say Aye.
-    read_first: >
-      Not read. The stored text adds to the best-interests factors '(ga) the
-      child's sexual orientation, gender identity and gender expression' (on our
-      ground, as Ontario's Bill 89), but the only Nays were six NDP members,
-      whose objection was not read: the Hansard of 11 December 2015
-      (nslegislature.ca house_15dec11) was requested on 8 October 2026 and the
-      host did not answer from this laptop (VPN exit; src/ingest/prov_ns.py).
-      Read the third-reading debate before giving values: if the NDP Nay was not
-      about clause (ga), this is placeable: false.
-    draft: true
+    placeable: false
+    reason: >
+      READ 9 October 2026 from the Mac Mini, which nslegislature.ca answers
+      (Christopher: "Read the four unscored debates"). Hansard, 10 and 11
+      December 2015, third reading. The NDP Nays objected to the definition
+      of neglect and its reach into poor, Mi'kmaq and African Nova Scotian
+      families, and to the lack of consultation with those communities
+      (Zann on 11 December; Mancini and MacDonald on 10 December), and to
+      the system's readiness: social workers' caseloads and resources
+      (Peterson-Rafuse, 10 December). Neither day's debate
+      mentions sexual orientation, gender identity or clause (ga). By the
+      test this entry set itself, the Nay was not about our ground and the
+      Yea was Liberal and PC together: evidence only.
 
 bills: []

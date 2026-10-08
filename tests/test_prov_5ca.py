@@ -72,10 +72,16 @@ class StanceFileTests(unittest.TestCase):
         # Confirmed on Christopher's delegation, 8 October 2026 ("Score for
         # me and Greg can amend if necessary"): only the read-first remain.
         self.assertEqual(len(ab("draft")), 0)
-        self.assertEqual(ab("unread"), ["ab-28-1-2012-11-19-3", "ab-28-3-2014-12-02-1",
-                                        "ab-28-3-2014-12-03-1"])
-        self.assertEqual(len(ab("unplaceable")), 90)
-        self.assertEqual(len(ab("confirmed")), 30)
+        # The three read-first entries were read on 9 October 2026 ("Read
+        # the four unscored debates"): two Nay-only readings, one evidence.
+        self.assertEqual(ab("unread"), [])
+        self.assertEqual(len(ab("unplaceable")), 91)
+        self.assertEqual(len(ab("confirmed")), 32)
+        bill3, bill10, a2 = (entries[k] for k in ("ab-28-1-2012-11-19-3", "ab-28-3-2014-12-02-1",
+                                                   "ab-28-3-2014-12-03-1"))
+        self.assertEqual((bill3.get("yea"), bill3["nay"]), (None, -1))
+        self.assertEqual((bill10.get("yea"), bill10["nay"]), (None, -1))
+        self.assertEqual(p5.status(a2), "unplaceable")
         for k in ab("unread"):
             self.assertTrue(entries[k].get("draft"), k)
         for k in ab("draft") + ab("unread") + ab("unplaceable"):
@@ -118,7 +124,7 @@ class StanceFileTests(unittest.TestCase):
             ("mb", "confirmed"): 6, ("mb", "unplaceable"): 14,
             ("sk", "confirmed"): 4, ("sk", "unplaceable"): 7,
             ("nb", "confirmed"): 2, ("nb", "unplaceable"): 3,
-            ("ns", "unplaceable"): 2, ("ns", "unread"): 1})
+            ("ns", "unplaceable"): 3})
         new = {k: e for k, e in allp.items() if e.get("text") or p5.status(e) == "unread"}
         for k, e in new.items():
             for field in ("title", "text", "moved_by", "source", "dated", "result", "lobbies"):
