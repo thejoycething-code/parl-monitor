@@ -61,7 +61,9 @@ jobs:
     # days took twelve. Twenty-five minutes covers a Monday-morning run that
     # finds Friday, the weekend boundary and Monday itself pending, with room
     # for the retry a refused term triggers.
-    timeout-minutes: 25
+    # 40 since 8 October 2026: the morning slot also drips the Supreme Court
+    # backfill (about 10 minutes at 3 s a page) until it is done.
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v7
         # The branch TIP, not github.sha: a run queued behind another in the
@@ -99,13 +101,29 @@ jobs:
           if [ -n "${{ inputs.since }}" ]; then ARGS="$ARGS --since ${{ inputs.since }}"; fi
           if [ "${{ inputs.radar_only }}" = "true" ]; then ARGS="$ARGS --radar-only"; fi
           python3 tools/day_sweep.py $ARGS 2>&1 | tee /tmp/sweep.log
+      - name: Supreme Court backfill, a daily drip (morning slot)
+        # Off the laptop (Christopher, 8 October 2026: "Start the move off the
+        # laptop now"). Lexum's Norma served its CAPTCHA after ~193 pages in
+        # one CI run on 7 October, so the remaining ~800 judgments go 150 a
+        # day: ca_courts stops at the first challenge and never answers it.
+        # Folded into the day sweep, not its own cron: GitHub keeps ONE run
+        # pending per concurrency group, and a new daily arrival would cancel
+        # whatever was waiting (a Monday publish, say). When a run reads
+        # nothing new and hits no challenge, the marker file ends the drip.
+        if: always() && steps.fetch.outcome == 'success' && github.event.schedule == '0 7 * * 2-6' && hashFiles('data/ca-courts-backfill.done') == ''
+        run: |
+          python3 tools/ca_courts.py --backfill --since 2010 --limit 150 --budget-seconds 900 2>&1 | tee /tmp/ca-courts.log || true
+          if grep -q "^ca-courts: 0 judgment(s) read" /tmp/ca-courts.log && ! grep -q "Norma\|\[gap\]" /tmp/ca-courts.log; then
+            date -u +%Y-%m-%dT%H:%MZ > data/ca-courts-backfill.done
+            echo "Supreme Court backfill complete; the drip stops here."
+          fi
       - name: Summary
         if: always()
         run: |
           {
             echo "## Day sweep"
             echo '```'
-            grep -E "pending|did not sit|ledger row|worth a pack|gap" /tmp/sweep.log | tail -30 \
+            grep -hE "pending|did not sit|ledger row|worth a pack|gap|^ca-courts:|Norma" /tmp/sweep.log /tmp/ca-courts.log 2>/dev/null | tail -30 \
               || tail -10 /tmp/pending.log || echo "(no summary lines)"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
@@ -133,6 +151,7 @@ jobs:
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
           git add data/parl-monitor.db.json data/raw.json
+          if [ -f data/ca-courts-backfill.done ]; then git add data/ca-courts-backfill.done; fi
           git diff --cached --quiet || git commit -m "Day sweep: $(date -u +%Y-%m-%dT%H:%M)Z"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin main || true

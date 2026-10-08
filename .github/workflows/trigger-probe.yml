@@ -1,0 +1,22 @@
+name: Trigger probe
+
+# 8 October 2026 (Christopher: "Start the move off the laptop now"). Can a
+# Claude cloud routine start a workflow WITHOUT the laptop and without a new
+# token? Its GitHub app cannot dispatch (403 on 28 Sept), but a push it makes
+# to a claude/* branch should start any workflow listening for that push.
+# This workflow only reports that it ran: no store, no secrets, no commit.
+on:
+  push:
+    branches: ["claude/trigger-probe**"]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - run: |
+          echo "trigger probe ran: ref=${{ github.ref }} actor=${{ github.actor }} sha=${{ github.sha }}"
+          echo "created $(date -u +%Y-%m-%dT%H:%M:%SZ)"
