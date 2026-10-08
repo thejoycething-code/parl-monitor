@@ -24,6 +24,8 @@ misattributes every floor-crosser (src/ni_store.py).
 
 from __future__ import annotations
 
+import re
+
 SCHEMA = (
     """CREATE TABLE IF NOT EXISTS ca_members (
         person_id    TEXT PRIMARY KEY,   -- the House's PersonId
@@ -476,9 +478,57 @@ def area_corrections(path=None):
             with open(path, encoding="utf-8") as fh:
                 raw = yaml.safe_load(fh) or {}
         _CORRECTIONS[path] = {str(k): {"areas": list(v.get("areas") or []),
-                                       "not_areas": list(v.get("not_areas") or [])}
+                                       "not_areas": list(v.get("not_areas") or []),
+                                       "speech_titles": list(v.get("speech_titles") or [])}
                               for k, v in (raw.get("bills") or {}).items()}
     return _CORRECTIONS[path]
+
+
+def _fold_title(text):
+    t = (text or "").replace("\u2019", "'").replace("\u2018", "'")
+    return " ".join(t.split()).casefold()
+
+
+def speech_correction(sitting_key, bill_number, subject, path=None):
+    """(bill key, correction) when a speech belongs to a corrected bill's
+    debate, else (None, None). A speech belongs to it when its sitting is in
+    the bill's session (the key opens '<parl>-<sess>-') and either its
+    bill_number is the bill's or its subject is one of the entry's
+    `speech_titles` (the debate heading as the House prints it: Roxanne's
+    Law's second-reading debate of 1 November 2010 is headed by its short
+    title and carries no bill number). 8 October 2026."""
+    m = re.match(r"^(\d+)-(\d+)-", sitting_key or "")
+    if not m:
+        return None, None
+    prefix = "{0}-{1}/".format(m.group(1), m.group(2))
+    for key, c in area_corrections(path).items():
+        if not key.startswith(prefix):
+            continue
+        if bill_number and bill_number == key[len(prefix):]:
+            return key, c
+        if subject and _fold_title(subject) in {_fold_title(t) for t in c["speech_titles"]}:
+            return key, c
+    return None, None
+
+
+def correct_speech_areas(areas, terms, sitting_key, bill_number, subject, path=None):
+    """(areas, terms) with a corrected bill's correction applied to a speech of
+    its debate: `not_areas` removed (the speech's own passages decide every
+    other area, so `areas` is NOT added), and 'corrected:<key>' among the
+    terms. Unchanged for any other speech."""
+    key, c = speech_correction(sitting_key, bill_number, subject, path)
+    if not c:
+        return list(areas or []), list(terms or [])
+    out = sorted(set(areas or []) - set(c["not_areas"]))
+    if out == sorted(set(areas or [])):
+        return list(areas or []), list(terms or [])
+    mark = "corrected:" + key
+    return out, list(terms or []) + ([mark] if mark not in (terms or []) else [])
+
+
+def removed_speech_areas(sitting_key, bill_number, subject, path=None):
+    _, c = speech_correction(sitting_key, bill_number, subject, path)
+    return set(c["not_areas"]) if c else set()
 
 
 def removed_areas(parliament, session, bill_number, path=None):

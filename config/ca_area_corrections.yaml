@@ -12,12 +12,18 @@
 #
 #   areas:      the areas the bill is about (added)
 #   not_areas:  the areas it was filed under wrongly (removed)
+#   speech_titles: the debate headings the House prints for the bill where a
+#               speech carries no bill number. A speech of the bill's debate
+#               (its session, and its bill number or one of these headings)
+#               loses `not_areas` too; nothing is added to a speech, whose
+#               own passages decide its other areas (8 October 2026).
 #   reviewed / why: who decided, and the record it rests on
 
 bills:
   "40-3/C-510":
     areas: [1]
     not_areas: [2]
+    speech_titles: ["An Act to Prevent Coercion of Pregnant Women to Abort (Roxanne's Law)"]
     reviewed: 2026-10-08
     why: >-
       Roxanne's Law, "An Act to amend the Criminal Code (coercion)", short
@@ -27,4 +33,7 @@ bills:
       The taxonomy filed it under area 2 (assisted dying) on the word
       "coercion" alone; it is area 1 (abortion, coerced abortion). Flagged
       in config/ca_stance.yaml ("AREA MISFILED"); Christopher, 8 October
-      2026: make it area 1 and not area 2.
+      2026: make it area 1 and not area 2. Its debates (1 November and 13
+      December 2010): ten speeches carried area 2 for saying "coercion" (four
+      on 1 November, six on 13 December; first reported as eight, a
+      miscounting query); Christopher, 8 October 2026: "Remove the tag."

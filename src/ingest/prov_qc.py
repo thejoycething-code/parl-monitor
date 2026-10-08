@@ -1800,8 +1800,10 @@ def resolve_division(body_vote, annex_vote, resolver, date, legislature=None, re
         base = getattr(resolver, "resolver", resolver)
         notes += reviewed.settle(division_key, votes, base, date, legislature)
         for v in votes:
-            if str(v.get("how") or "").startswith("hansard"):
-                v["party_at_vote"] = split_label(v["raw_label"])[1]   # the annex's, as printed
+            if str(v.get("how") or "").startswith(("hansard", "by exclusion")):
+                # the annex's, as printed ("Tardif (CAQ) ()" has a blank riding split_label refuses)
+                v["party_at_vote"] = split_label(v["raw_label"])[1] or \
+                    (re.findall(_PARTY, v["raw_label"] or "") or [None])[0]
     if annex_vote is None:
         problems.append("no annex list for this vote")
     elif annex_vote.get("doubled"):

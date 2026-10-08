@@ -1561,6 +1561,27 @@ provinces:
           Bill 106, adoption. The Journal's roll call ("La Secrétaire adjointe : M. Couillard (Roberval),
           M. Fournier (Saint-Laurent), ...") ends "Pour : 62 Contre : 38 Abstentions : 0", this
           division's totals; no other Fournier is read.
+      # BY EXCLUSION (Christopher, 8 October 2026: "Place Tardif."). The
+      # annex prints the riding blank and the group vote has no named roll
+      # call; the only other CAQ Tardif sitting is printed with her riding in
+      # the same list, so the label is Denis Tardif. Applies only while she is
+      # placed in this division and he is not (pn.ReviewedDivisions.settle).
+      - division: qc-42-2-2022-02-09-225
+        position: Yea
+        printed: "Tardif (CAQ) ()"
+        member: "17863"
+        by_exclusion: ["18071"]
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_180159&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-2/journal-debats/20220209/317639.html"
+        quoted: "Tardif (CAQ) (Laviolette–Saint-Maurice) ... Tardif (CAQ) ( )"
+        why: >-
+          Vote 225 (98-0-17) prints two CAQ Tardifs among those for: Marie-Louise
+          Tardif with her riding, and one with the riding blank. Two CAQ
+          Tardifs sat (Laviolette–Saint-Maurice, 18071; Rivière-du-Loup–Témiscouata,
+          17863), and the day's three other votes print both with ridings. The
+          Journal reads no names: "j'invite maintenant les leaders
+          parlementaires à m'indiquer le vote de leurs groupes". Placed as
+          Denis Tardif by exclusion, by Christopher's decision of 8 October 2026.
       - division: qc-42-1-2019-03-21-41
         position: Nay
         printed: "Proulx (CAQ)"

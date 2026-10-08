@@ -161,6 +161,40 @@ class AreaCorrectionTests(unittest.TestCase):
         self.assertTrue(any("ca_divisions" in m and "1/1" in m for m in said), said)
 
 
+class SpeechCorrectionTests(unittest.TestCase):
+    """The C-510 debates (1 November and 13 December 2010): speeches carrying
+    area 2 for the word "coercion" lose it (Christopher, 8 October 2026:
+    "Remove the tag."). Only that debate's speeches; nothing is added."""
+
+    def speech(self, conn, sid, key, subject, bill, text, areas):
+        conn.execute("INSERT INTO ca_speeches (speech_id, sitting_key, subject, bill_number, text, areas, "
+                     "matched_terms) VALUES (?,?,?,?,?,?,?)",
+                     (sid, key, subject, bill, text, areas, json.dumps(["abortion", "coercion"])))
+
+    def test_only_the_c510_debate_loses_area_2(self):
+        conn = store()
+        text = ("This bill protects a pregnant woman from coercion to have an abortion. "
+                "No woman should face an abortion she does not want.")
+        short = "An Act to Prevent Coercion of Pregnant Women to Abort (Roxanne\u2019s Law)"
+        self.speech(conn, "a", "40-3-91", short, None, text, "[1, 2]")            # 1 Nov 2010, no bill number
+        self.speech(conn, "b", "40-3-116", "Criminal Code", "C-510", text, "[1, 2]")  # 13 Dec 2010
+        self.speech(conn, "c", "45-1-20", "Criminal Code", "C-260", text, "[1, 2]")   # another debate
+        self.speech(conn, "d", "41-1-5", short, None, text, "[1, 2]")             # another session
+        changes = rt.retag(conn, TAX, WL, log=lambda *a: None)
+        self.assertEqual(sorted((c[1], c[4]) for c in changes if len(c) > 4), [("a", [2]), ("b", [2])])
+        got = dict(conn.execute("SELECT speech_id, areas FROM ca_speeches").fetchall())
+        self.assertEqual(got, {"a": "[1]", "b": "[1]", "c": "[1, 2]", "d": "[1, 2]"})
+        self.assertIn("corrected:40-3/C-510",
+                      json.loads(conn.execute("SELECT matched_terms FROM ca_speeches WHERE speech_id='b'").fetchone()[0]))
+        self.assertEqual([c for c in rt.retag(conn, TAX, WL, log=lambda *a: None) if c[0] == "ca_speeches"], [])
+
+    def test_the_collector_path(self):
+        self.assertEqual(ca_store.correct_speech_areas([1, 2], ["coercion"], "40-3-116", "C-510", "Criminal Code"),
+                         ([1], ["coercion", "corrected:40-3/C-510"]))
+        self.assertEqual(ca_store.correct_speech_areas([2], ["coercion"], "45-1-3", "C-260", "Criminal Code"),
+                         ([2], ["coercion"]))
+
+
 def _load_tool(name):
     spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, "tools", name + ".py"))
     mod = importlib.util.module_from_spec(spec)

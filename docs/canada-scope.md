@@ -155,9 +155,14 @@ feed. Two things matter before anyone says yes to provinces:
   now area 1 and not area 2 on the bill and its division (commons-40-3-151).
   `src/ca_store.correct_areas` applies it wherever a Canadian bill or
   division is classified, and `tools/ca_retag.py` writes it to stored rows,
-  the one thing the retag ever removes. Speeches are not corrected: eight
-  speeches from the C-510 debate carry areas 1 and 2 because their own
-  passages say "coercion", and they are matched per passage, not by bill.
+  the one thing the retag ever removes. The bill's debates are corrected
+  too (Christopher, 8 October 2026: "Remove the tag."): a speech in the
+  bill's session with its bill number, or headed by one of the entry's
+  `speech_titles` (1 November 2010 prints only the short title), loses
+  `not_areas` and gains nothing (`ca_store.correct_speech_areas`, applied by
+  `tools/ca_hansard.py` and the retag). Ten speeches change, four on 1
+  November and six on 13 December 2010, each [1, 2] on "coercion" alone; the
+  first count, eight, came from a query that missed two of 1 November's.
 - `tests/test_ca_rollcalls.py` has 13 tests, and none of them uses the
   network.
 
