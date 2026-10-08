@@ -114,14 +114,20 @@ def _rows(conn, tax, wl):
     # sitting belongs to; re-reading it from the subject alone would fail the
     # trust check on every speech whose tags came from that title.
     for r in conn.execute("SELECT s.speech_id, s.text, s.subject, s.areas, s.matched_terms, "
-                          "s.chamber, s.bill_number, ss.parliament, ss.session "
+                          "s.chamber, s.bill_number, ss.parliament, ss.session, s.sitting_key "
                           "FROM ca_speeches s LEFT JOIN ca_senate_sittings ss "
                           "ON ss.sitting_key = s.sitting_key"):
         title = r[2]
         if r[5] == "senate" and r[7] is not None:
             title = ca_store.speech_title(r[2], r[6], titles.get((r[7], r[8], r[6])))
+        new, terms, tier = _passages(tax, wl, r[1], title)
+        # A speech of a corrected bill's debate (config/ca_area_corrections.yaml)
+        corrected, _ = ca_store.speech_correction(r[9], r[6], r[2])
+        drop = ca_store.removed_speech_areas(r[9], r[6], r[2])
+        if corrected and drop & set(json.loads(r[3] or "[]")):
+            terms = terms + ["corrected:" + corrected]
         yield ("ca_speeches", "speech_id", r[0], r[3], r[4], None,
-               _passages(tax, wl, r[1], title), set())
+               (new - drop, terms, tier), drop)
     # Committee testimony is matched exactly as a committee speech: its full
     # text per passage, the meeting's study titles (stored as subject) as the
     # title passage (tools/ca_committees.py).
