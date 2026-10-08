@@ -791,6 +791,72 @@ class Backfill2010SpeechTests(unittest.TestCase):
         self.assertIn("MR. EDMUNDS", [t["label"] for t in turns])
 
 
+class NoSittingPageTests(unittest.TestCase):
+    """The five days that failed every speeches run with 'no speaker turns
+    parsed' (29 March 2018, 3 and 18 April 2019, 2 March 2020, 16 March 2023):
+    the calendar links a page that is only the Assembly's notice that the
+    House did not sit. Pages as served on 8 October 2026."""
+
+    PAGES = json.loads(fx("nl_hansard_no_sitting_pages.json"))["pages"]
+
+    def test_each_notice_is_read_as_no_sitting(self):
+        from src.ingest import prov_nl_hansard as nh
+        got = {u.rsplit("/", 1)[1]: nh.no_sitting(h) for u, h in self.PAGES.items()}
+        self.assertEqual(sorted(got), ["18-03-29.htm", "19-04-03.htm", "19-04-18.htm", "20-03-02.htm",
+                                       "23-03-16.htm"])
+        self.assertTrue(got["20-03-02.htm"].startswith("The House of Assembly did not sit on Monday, March 2, 2020"))
+        self.assertTrue(got["19-04-03.htm"].startswith("The Third Session of the 48th General Assembly prorogued"))
+        self.assertTrue(all(got.values()))
+
+    def test_a_transcript_is_never_a_notice(self):
+        from src.ingest import prov_nl_hansard as nh
+        self.assertIsNone(nh.no_sitting(fx("nl_hansard_121212_head.htm")))
+        # a notice sentence with a speaker label after it is a transcript
+        page = list(self.PAGES.values())[0].replace(
+            "</body>", "<p><b>MR. SPEAKER: </b>Order, please!</p></body>")
+        self.assertIsNone(nh.no_sitting(page))
+        # a long page that happens to open with the sentence is a transcript
+        page = "<html><body><p>The House of Assembly did not sit " + "x " * 300 + "</p></body></html>"
+        self.assertIsNone(nh.no_sitting(page))
+
+    def test_the_day_is_stored_ok_with_the_notice_and_not_owed(self):
+        from src import prov_speeches as sp
+        from src.ingest import prov_nl_hansard as nh
+        url = [u for u in self.PAGES if u.endswith("20-03-02.htm")][0]
+
+        class Fake:
+            def __init__(self, conn):
+                self.conn, self.prov, self.gaps, self.logs = conn, "nl", [], []
+                self.dry_run = self.refresh = False
+                self.records_read = 0
+
+            def in_window(self, date):
+                return True
+
+            def stop(self):
+                return False
+
+            def gap(self, d):
+                self.gaps.append(d)
+
+            def log(self, m):
+                self.logs.append(m)
+
+            def text(self, u, slug, encoding=None, archive=False):
+                return pages[u]
+
+        pages = self.PAGES
+        ctx = Fake(db.init_db(db.connect(":memory:")))
+        day = {"key": "nl-49-1-2020-03-02", "date": "2020-03-02", "legislature": 49, "session": 1, "url": url}
+        stats = sp.collect_days(ctx, [day], lambda d: nh.read_day(ctx, d), lambda d: None, None, None)
+        row = ctx.conn.execute("SELECT status, turns, note FROM prov_speech_sittings").fetchone()
+        self.assertEqual((row[0], row[1]), ("ok", 0))
+        self.assertTrue(row[2].startswith("no sitting: The House of Assembly did not sit"))
+        self.assertEqual((ctx.gaps, stats["day_gaps"], stats["no_sitting"]), ([], 0, 1))
+        self.assertIn("no sitting", ctx.logs[0])
+        self.assertTrue(sp.day_done(ctx.conn, day["key"]))
+
+
 class Backfill2010ReadTests(unittest.TestCase):
     URL ="https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm"
 

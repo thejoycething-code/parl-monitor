@@ -503,6 +503,40 @@ qc:
     why: >-
       The annex says "(Identique au vote n° 183)", a 116-0 list; the body
       says 73-43, the totals of vote 184. Group votes.
+  # Read 8 October 2026. The annex prints the second Tardif with an EMPTY
+  # riding, "Tardif (CAQ) ( )" (PV of 9 February 2022, vote 225, column
+  # four), beside "Tardif (CAQ) (Laviolette–Saint-Maurice)"; the day's three
+  # other votes print both ridings. It was a group vote ("j'invite
+  # maintenant les leaders parlementaires à m'indiquer le vote de leurs
+  # groupes", Journal 42-2, 20220209/317639.html), so the Journal reads no
+  # names. Only Denis Tardif (Rivière-du-Loup–Témiscouata) is left by
+  # exclusion, but no record names him for this vote: not placed.
+  - contains: "qc-42-2-2022-02-09-225: "
+    reviewed: 2026-10-08
+    why: "\"Tardif (CAQ) ( )\": the annex prints the riding blank; group vote, no record names the member."
+  # Bill pages whose named vote disagrees with the procès-verbal of the
+  # day, where the PV's body and its annex agree with each other (the
+  # division is stored with the PV's totals, tally ok). Read 8 October 2026.
+  - contains: "qc-42-1/18: bill page says Adoption on 2020-06-02 was a named vote 120-0"
+    reviewed: 2026-10-08
+    why: >-
+      The bill page prints "Vote : Pour 120, Contre 0"; the PV's vote 341
+      ("En conséquence, le projet de loi n° 18 est adopté") prints Pour :
+      121 Contre : 0, and its annex lists 121.
+  - contains: "qc-42-1/50: bill page says Prise en considération du rapport de commission on 2020-10-06 was a named vote 119-0"
+    reviewed: 2026-10-08
+    why: >-
+      The bill page prints "Vote : Pour 119, Contre 0"; the PV's vote 488,
+      "L'Assemblée prend en considération le rapport ... du projet de loi
+      n° 50 ... Le rapport est adopté", prints Pour : 109 Contre : 0 (a
+      registered vote after 21 h 30), and its annex lists 109. The day's
+      119-0 votes are Bill 56's.
+  - contains: "qc-43-1/195: bill page says Présentation on 2023-02-02 was a named vote 112-0"
+    reviewed: 2026-10-08
+    why: >-
+      The bill page prints "Vote : Pour 112, Contre 0"; the PV's vote 25
+      (Mme Rizqy's motion that the Assembly take up Bill 195) prints Pour :
+      115 Contre : 0, and its annex lists 115.
   - contains: "qc-43-3-2026-06-11-60: "
     reviewed: 2026-10-07
     why: >-

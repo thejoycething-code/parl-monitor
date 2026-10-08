@@ -405,6 +405,22 @@ def store_sitting(conn, prov, day, totals, status, note=None, when=None):
          totals.get("chars"), when or ps.today(), status, note))
 
 
+class NoSitting(Exception):
+    """Raised by a reader's read_day when the page the listing links for a
+    day is only the legislature's own notice that the House did not sit that
+    day (NL, 29 March 2018: "The House of Assembly stands adjourned to the
+    call of the Chair"). The day is stored 'ok' with no turns and the notice
+    as its note, and logged: it is read, not owed, and never read again."""
+
+
+def store_no_sitting(ctx, day, notice):
+    ctx.log("  {0} {1}: no sitting, the page is the notice \"{2}\"".format(ctx.prov, day["key"], notice[:160]))
+    store_sitting(ctx.conn, ctx.prov, day, {"turns": 0, "chair": 0, "members": 0, "resolved": 0,
+                                            "stored": 0, "unresolved": 0, "chars": 0},
+                  "ok", "no sitting: " + notice)
+    ctx.conn.commit()
+
+
 def store_unreadable(ctx, day, why):
     ctx.gap("{0} {1}: {2}".format(ctx.prov, day["key"], why))
     store_sitting(ctx.conn, ctx.prov, day, {}, "unreadable", why)
@@ -442,7 +458,8 @@ def resume_since(conn, prov, today=None, log=print):
 
 def collect_days(ctx, days, read_day, resolver_for, tax, wl, language="en"):
     """Read every listed day in the window not already read cleanly.
-    read_day(day) -> (turns, problems) or raises prov_fetch.Unreadable;
+    read_day(day) -> (turns, problems) or raises prov_fetch.Unreadable, or
+    NoSitting when the page is the House's own notice that it did not sit;
     resolver_for(day) -> the resolver for that day (built once a session)."""
     from src.prov_fetch import Unreadable
     stats = {"days_listed": len(days), "days_read": 0, "turns": 0, "members": 0, "resolved": 0,
@@ -463,6 +480,10 @@ def collect_days(ctx, days, read_day, resolver_for, tax, wl, language="en"):
         except Unreadable as exc:
             store_unreadable(ctx, day, str(exc))
             stats["day_gaps"] += 1
+            continue
+        except NoSitting as exc:
+            store_no_sitting(ctx, day, str(exc))
+            stats["no_sitting"] = stats.get("no_sitting", 0) + 1
             continue
         if turns is None:
             store_unreadable(ctx, day, "; ".join(problems or ["not fetched"]))

@@ -1,6 +1,7 @@
 """The Canadian 5CA (tools/ca_5ca.py). No network."""
 
 import csv
+import json
 import importlib.util
 import os
 import sqlite3
@@ -356,3 +357,29 @@ class StanceFileTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RoxannesLawSheetTests(unittest.TestCase):
+    """40-3/C-510 (coerced abortion) after its reviewed area correction: its
+    division is on the abortion sheet and not on the MAID sheet."""
+
+    def test_c510_lands_on_area_1_not_area_2(self):
+        spec = importlib.util.spec_from_file_location("ca_rollcalls", os.path.join(ROOT, "tools", "ca_rollcalls.py"))
+        ro = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(ro)
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-ca.yaml"))
+        subject = "2nd reading of Bill C-510, An Act to amend the Criminal Code (coercion)"
+        areas = ro.classify_division(tax, wl, subject, 40, 3, "C-510").issue_areas
+        conn = store(divisions=[("commons-40-3-151", "2010-12-15T15:05:00", subject, json.dumps(areas))],
+                     votes={"commons-40-3-151": {"1": "Yea", "2": "Nay"}})
+        entry = {"commons-40-3-151": {"key": "commons-40-3-151", "yea": 2, "nay": -1,
+                                      "why_yea": "for", "why_nay": "against"}}
+        self.assertEqual(areas, [1])
+        rows1, divs1, _ = c5.build_rows(conn, 1, "commons", entry, {}, today="2026-10-08")
+        rows2, divs2, _ = c5.build_rows(conn, 2, "commons", entry, {}, today="2026-10-08")
+        self.assertEqual([d["division_key"] for d in divs1], ["commons-40-3-151"])
+        self.assertEqual(divs2, [])
+        self.assertTrue(any("C-510" in c for c in {r["person_id"]: r for r in rows1}["1"]["comments"]))
+        self.assertFalse(any("C-510" in c for r in rows2 for c in r["comments"]))

@@ -1489,7 +1489,7 @@ provinces:
         printed: "Fournier (PLQ)"
         member: "3233"
         document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126377&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
-        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187037.html"
         quoted: "M. Fournier (Saint-Laurent)"
         why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (100-2-0) names only Jean-Marc Fournier."
       - division: qc-41-1-2016-12-09-273
@@ -1497,9 +1497,70 @@ provinces:
         printed: "Fournier (PLQ)"
         member: "3233"
         document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126377&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
-        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187037.html"
         quoted: "M. Fournier (Saint-Laurent)"
         why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (100-2-0) names only Jean-Marc Fournier."
+      # Read 8 October 2026: the five the 7 October generator missed. Its
+      # pattern wanted 'Pour :' and 21 October 2014 prints 'Alors, pour :';
+      # the 9 December 2016 extraordinary sitting has its own Journal page.
+      - division: qc-41-1-2014-10-21-39
+        position: Yea
+        printed: "Paradis (PLQ)"
+        member: "1113"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_84833&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20141021/118177.html"
+        quoted: "M. Paradis (Brome-Missisquoi)"
+        why: >-
+          Deferred vote on Bill 2's adoption. The Journal's roll call ("que les députés en faveur de cette
+          motion veuillent bien se lever. La Secrétaire adjointe : M. Couillard (Roberval), M. Fournier
+          (Saint-Laurent), Mme Thériault (Anjou—Louis-Riel), M. Paradis (Brome-Missisquoi), ...") ends
+          "Alors, pour : 90 Contre : 20 Abstentions : 0", this division's totals; Pierre Paradis is the
+          only Paradis among those for, François Paradis (Lévis, CAQ) is in no PLQ list.
+      - division: qc-41-1-2016-12-09-274
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: >-
+          Extraordinary sitting, the motion fixing the time frame (PV: "la motion fixant le cadre temporel
+          est mise aux voix"). The Journal's roll call reads "M. Fournier (Saint-Laurent)" first among
+          those for and ends "La Secrétaire : Pour : 58 Contre : 35 Abstentions : 0"; Catherine Fournier
+          (Marie-Victorin, PQ) is read in neither list.
+      - division: qc-41-1-2016-12-09-275
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "Le Président : Même vote. Alors, la motion est adoptée, et on inscrit le même vote que nous avions précédemment."
+        why: >-
+          The exceptional legislative procedure motion, put straight after vote 274. The Journal has the
+          chair record it as the same vote as the roll call just read (vote 274, 58-35, which names
+          "M. Fournier (Saint-Laurent)" among those for); the PV prints 58-35 again.
+      - division: qc-41-1-2016-12-09-276
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: >-
+          Bill 106, the amended report. The Journal's roll call ("La Secrétaire adjointe : M. Fournier
+          (Saint-Laurent), M. Paradis (Brome-Missisquoi), ...") ends "Pour : 60 Contre : 35 Abstentions :
+          0", this division's totals; no other Fournier is read.
+      - division: qc-41-1-2016-12-09-277
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: >-
+          Bill 106, adoption. The Journal's roll call ("La Secrétaire adjointe : M. Couillard (Roberval),
+          M. Fournier (Saint-Laurent), ...") ends "Pour : 62 Contre : 38 Abstentions : 0", this
+          division's totals; no other Fournier is read.
       - division: qc-42-1-2019-03-21-41
         position: Nay
         printed: "Proulx (CAQ)"

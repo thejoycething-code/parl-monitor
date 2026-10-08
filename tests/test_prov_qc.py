@@ -1217,3 +1217,57 @@ class RunnerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ReportStageBillTests(unittest.TestCase):
+    """The 12 bill-page misses left by the 7 October 2026 re-run (read 8
+    October). A report stage's last vote, "Est enfin mis aux voix le rapport
+    de la Commission ...", names the committee and not the bill; the item it
+    closes opens on that committee's report on ONE bill. And the layout
+    engine's "d ’intérêt privé" / "d’inté rêt privé" hid two private bills."""
+
+    PV = json.loads(fx("qc_pv_report_items_2019_2021.json"))
+
+    def bills(self, day):
+        return {v["number"]: v["bill_number"] for v in qc.parse_pv_body(self.PV[day])}
+
+    def test_the_report_vote_takes_the_bill_its_item_opens_on(self):
+        # 3 December 2019: deferred votes on an amendment and on the report on Bill 31
+        self.assertEqual(self.bills("2019-12-03"), {259: "31", 260: "31"})
+
+    def test_the_committee_must_be_the_same_one(self):
+        # 2 June 2021: Bill 78's report (Commission de l'économie et du travail,
+        # printed "le rapport de Commission ...") and Bill 79's (Commission des
+        # relations avec les citoyens), each closed by an unnumbered report vote
+        got = self.bills("2021-06-02")
+        self.assertEqual((got[1053], got[1055], got[1064]), ("78", "79", "79"))
+        self.assertIsNone(got[1056])         # an amendment vote names no bill, and gets none
+
+    def test_private_bills_printed_with_layout_spaces(self):
+        self.assertEqual(self.bills("2020-11-04"), {567: "210"})
+        self.assertEqual(self.bills("2020-12-10"), {672: "218"})
+
+    def test_unique_or_nothing(self):
+        opens = ("L’Assemblée prend en considération le rapport de la Commission des institutions qui a "
+                 "procédé à l’étude détaillée du projet de loi n° {0}, Loi ... ")
+        vote = "Est enfin mis aux voix le rapport de la Commission des institutions; un vote est tenu. "
+        self.assertEqual(qc.report_bill(opens.format(45), vote), "45")
+        self.assertIsNone(qc.report_bill(opens.format(45) + opens.format(46), vote))
+        self.assertIsNone(qc.report_bill(opens.format(45), vote.replace("des institutions", "des finances publiques")))
+        self.assertIsNone(qc.report_bill(opens.format(45), "Le rapport est mis aux voix. "))
+
+
+class HomonymsReadOctober8Tests(unittest.TestCase):
+    """The five bare homonyms the Journal's roll calls name (config/prov_record.yaml)."""
+
+    def test_each_is_a_reviewed_label_for_its_own_division_only(self):
+        rev = pn.ReviewedDivisions.load("qc")
+        want = {"qc-41-1-2014-10-21-39": ("Paradis (PLQ)", "1113"),
+                "qc-41-1-2016-12-09-274": ("Fournier (PLQ)", "3233"),
+                "qc-41-1-2016-12-09-275": ("Fournier (PLQ)", "3233"),
+                "qc-41-1-2016-12-09-276": ("Fournier (PLQ)", "3233"),
+                "qc-41-1-2016-12-09-277": ("Fournier (PLQ)", "3233")}
+        for key, (printed, member) in want.items():
+            got = [(a["printed"], str(a["member"]), a["position"]) for a in rev.facts(key).get("hansard_labels", [])]
+            self.assertEqual(got, [(printed, member, "Yea")], key)
+        self.assertEqual(rev.facts("qc-42-2-2022-02-09-225").get("hansard_labels", []), [])

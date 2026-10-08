@@ -67,6 +67,37 @@ def parse_day(html):
     return sp.turns_from_blocks(blocks)
 
 
+# The calendar links a page for some days the House did not sit, and the page
+# is then only the Assembly's notice (each read 8 October 2026):
+#   18-03-29  "The House of Assembly stands adjourned to the call of the Chair. ..."
+#   19-04-03  "The Third Session of the 48th General Assembly prorogued on April 2nd, 2019."
+#   19-04-18  "The 48th General Assembly was dissolved on April 17, 2019. ..."
+#   20-03-02  "The House of Assembly did not sit on Monday, March 2, 2020, due to inclement weather. ..."
+#   23-03-16  "The House of Assembly did not sit on Thursday, March 16, 2023, due to inclement weather. ..."
+# They read as 'no speaker turns parsed' and failed every speeches run. A page
+# is a notice only when its whole text is short, holds no bold (no speaker
+# label) and opens with one of these sentences; anything else is read as a
+# transcript, so a real day can never be waved through as no sitting.
+_NO_SITTING = re.compile(
+    r"^The\s+House\s+of\s+Assembly\s+(?:did\s+not\s+sit\b|stands\s+adjourned\s+to\s+the\s+call\s+of\s+the\s+Chair\b)|"
+    r"^The\s+\w+\s+Session\s+of\s+the\s+\d+(?:st|nd|rd|th)\s+General\s+Assembly\s+prorogued\b|"
+    r"^The\s+\d+(?:st|nd|rd|th)\s+General\s+Assembly\s+was\s+dissolved\b")
+NOTICE_MAX_CHARS = 400
+
+
+def no_sitting(html):
+    """The notice's text when the page is only the Assembly's notice that the
+    House did not sit, else None."""
+    i = (html or "").find("<body")
+    body = (html or "")[i:] if i >= 0 else (html or "")
+    if re.search(r"(?i)<(?:b|strong)\b", body):
+        return None
+    text = sp.text_of(body)
+    if len(text) > NOTICE_MAX_CHARS or not _NO_SITTING.match(text):
+        return None
+    return text
+
+
 def list_days(ctx, session):
     leg, sess = base.parse_session(session)
     listing_url = base.HANSARD.format(leg, sess)
@@ -122,6 +153,9 @@ def read_day(ctx, day):
         return None, ["the Hansard file was not fetched"]
     if "</html>" not in raw[-4000:].lower():
         return None, ["truncated Hansard (no closing </html>)"]
+    notice = no_sitting(raw)
+    if notice:
+        raise sp.NoSitting(notice)
     return parse_day(raw), []
 
 
