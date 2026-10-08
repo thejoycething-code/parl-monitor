@@ -25,7 +25,7 @@ from src import socialcut  # noqa: E402
 
 
 def tools():
-    yt = shutil.which("yt-dlp") or os.path.expanduser("~/Library/Python/3.9/bin/yt-dlp")
+    yt = shutil.which("yt-dlp") or os.path.expanduser("~/Library/Python/{0}.{1}/bin/yt-dlp".format(*sys.version_info[:2]))
     ff = shutil.which("ffmpeg")
     if not ff:
         try:
