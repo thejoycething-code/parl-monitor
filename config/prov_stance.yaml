@@ -2613,6 +2613,102 @@ divisions:
     title: "Bill 137 -- clause votes in Committee of the Whole (19 October 2023)"
     reason: "Clauses 1-6 split as the readings (32-33 to 11): the readings carry it. The same applies to -3, -4, -7, -8 and -9."
 
+  # Saskatchewan, drafted 8 October 2026: the remaining Bill 137 clause votes.
+  - key: sk-29-3-2023-10-19-3
+    title: "Bill 137 -- clause 2 in Committee of the Whole"
+    placeable: false
+    dated: 2023-10-19
+    result: "Carried 33-11"
+    lobbies: "Yea: Saskatchewan Party 32, Independent 1. Nay: NDP 11 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/29L3S/231019Minutes.pdf"
+    text: >
+      (the store's record of the question) The question being put on clause 2,
+      it was agreed to on the following recorded division: La question, mise aux
+      voix sur l’article 2, est adoptée:
+    reason: >
+      Procedural: a clause vote that split as the readings (Saskatchewan Party
+      and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
+      in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
+      now.
+    draft: true
+  - key: sk-29-3-2023-10-19-4
+    title: "Bill 137 -- clause 3 in Committee of the Whole"
+    placeable: false
+    dated: 2023-10-19
+    result: "Carried 33-11"
+    lobbies: "Yea: Saskatchewan Party 32, Independent 1. Nay: NDP 11 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/29L3S/231019Minutes.pdf"
+    text: >
+      (the store's record of the question) The question being put on clause 3,
+      it was agreed to on the following recorded division: La question, mise aux
+      voix sur l’article 3, est adoptée:
+    reason: >
+      Procedural: a clause vote that split as the readings (Saskatchewan Party
+      and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
+      in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
+      now.
+    draft: true
+  - key: sk-29-3-2023-10-19-7
+    title: "Bill 137 -- clause 4 in Committee of the Whole"
+    placeable: false
+    dated: 2023-10-19
+    result: "Carried 32-11"
+    lobbies: "Yea: Saskatchewan Party 31, Independent 1. Nay: NDP 11 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/29L3S/231019Minutes.pdf"
+    text: >
+      (the store's record of the question) The Chair informed the committee that
+      time for consideration of the bill had elapsed pursuant to an order of the
+      Assembly dated October 16, 2023. The question being put on clause 4, it
+      was agreed to on the following recorded division: Le président du comité
+      informe le comité que le délai pour l’étude du projet de loi a expiré
+      conformément à l’Ordre de l’Assemblée du 16 octobre 20 23. La question,
+      mise aux voix sur [...]
+    reason: >
+      Procedural: a clause vote that split as the readings (Saskatchewan Party
+      and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
+      in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
+      now.
+    draft: true
+  - key: sk-29-3-2023-10-19-8
+    title: "Bill 137 -- clause 5 in Committee of the Whole"
+    placeable: false
+    dated: 2023-10-19
+    result: "Carried 32-11"
+    lobbies: "Yea: Saskatchewan Party 31, Independent 1. Nay: NDP 11 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/29L3S/231019Minutes.pdf"
+    text: >
+      (the store's record of the question) The question being put on clause 5,
+      it was agreed to on the following recorded division: La question, mise aux
+      voix sur l’article 5, est adoptée:
+    reason: >
+      Procedural: a clause vote that split as the readings (Saskatchewan Party
+      and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
+      in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
+      now.
+    draft: true
+  - key: sk-29-3-2023-10-19-9
+    title: "Bill 137 -- clause 6 in Committee of the Whole"
+    placeable: false
+    dated: 2023-10-19
+    result: "Carried 32-11"
+    lobbies: "Yea: Saskatchewan Party 31, Independent 1. Nay: NDP 11 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/29L3S/231019Minutes.pdf"
+    text: >
+      (the store's record of the question) The question being put on clause 6,
+      it was agreed to on the following recorded division: La question, mise aux
+      voix sur l’article 6, est adoptée:
+    reason: >
+      Procedural: a clause vote that split as the readings (Saskatchewan Party
+      and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
+      in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
+      now.
+    draft: true
+
   # --- Ontario, 43rd Parliament, 1st session ---------------------------------
   # Bill 28, Keeping Students in Class Act, 2022. Christopher, 3 October 2026:
   # "Keep Ontario Bill 28 but don't have it score in the 5CA." A labour bill
@@ -2631,6 +2727,700 @@ divisions:
     placeable: false
     title: "Bill 28 -- third reading"
     reason: "Kept as evidence of the notwithstanding-clause precedent, never scored (Christopher, 3 October 2026)."
+
+  # ONTARIO, DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
+  # recorded divisions on our ground that have none"). Every entry below is
+  # `draft: true` and places nobody until confirmed. Values were checked
+  # against the mover's own vote and the party splits in prov_votes; each
+  # valued entry says what text was read. `placeable: false` entries carry the
+  # store's own record of the question and say why: procedure, unanimity, or
+  # a taxonomy false positive ("tagged but not ours"). dated/result/lobbies
+  # are counted from the store.
+  # Skipped, positions_ok = 0 (they place nobody): on-40-2-2013-12-02-4 and the
+  # thirteen Bill 13 (Accepting Schools Act) adjournment divisions of March-May 2012.
+  - key: on-43-1-2024-02-26-1
+    title: "Bill 13 (Mantha), Northern Health Travel Grant Advisory Committee Act -- second reading"
+    placeable: false
+    dated: 2024-02-26
+    result: "Negatived 32-73"
+    lobbies: "Yea: NDP 21, Liberal 7, Independent 2, Green 2. Nay: PC 73 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Mantha, Michael (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-43/session-1/2024-02-26/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 13, An Act to
+      enact the Northern Health Travel Grant Advisory Committee Act, 2022. Lost
+      on the following division:
+    reason: >
+      tagged but not ours (taxonomy false positive: 'gender expression' in a
+      list of committee members)
+    draft: true
+  - key: on-43-1-2024-12-10-1
+    title: "Bill 229 -- time allocation"
+    placeable: false
+    dated: 2024-12-10
+    result: "Carried 68-35"
+    lobbies: "Yea: PC 67, Independent 1. Nay: NDP 24, Liberal 6, Independent 3, Green 2 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Piccini, Hon. David (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-43/session-1/2024-12-10/votes-proceedings"
+    text: >
+      (the store's record of the question) Motion for allocation of time on Bill
+      229, An Act to enact the Skilled Trades Week Act, 2024 and to amend
+      various statutes with respect to employment and labour and other matters.
+      Carried on the following division:
+    reason: >
+      Procedural (time allocation), and tagged but not ours (taxonomy false
+      positive: 'surrogacy')
+    draft: true
+  - key: on-43-1-2024-12-11-1
+    title: "Bill 229 -- second reading"
+    placeable: false
+    dated: 2024-12-11
+    result: "Carried 100-0 (unanimous on a division)"
+    lobbies: "Yea: PC 65, NDP 24, Liberal 6, Independent 3, Green 2. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Piccini, Hon. David (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-43/session-1/2024-12-11/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 229, An Act to
+      enact the Skilled Trades Week Act, 2024 and to amend various statutes with
+      respect to employment and labour and other matters. Carried on the
+      following division:
+    reason: >
+      Unanimous (100-0), and tagged but not ours (taxonomy false positive:
+      'surrogacy' in employment leave)
+    draft: true
+  - key: on-43-1-2024-12-12-2
+    title: "Bill 229, Working for Workers Six Act, 2024 -- third reading"
+    placeable: false
+    dated: 2024-12-12
+    result: "Carried 97-0 (unanimous on a division)"
+    lobbies: "Yea: PC 66, NDP 23, Independent 3, Liberal 3, Green 2. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Piccini, Hon. David (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-43/session-1/2024-12-12/votes-proceedings"
+    text: >
+      (the store's record of the question) Third Reading of Bill 229, An Act to
+      enact the Skilled Trades Week Act, 2024 and to amend various statutes with
+      respect to employment and labour and other matters. Carried on the
+      following division:
+    reason: >
+      Unanimous (97-0), and tagged but not ours (taxonomy false positive:
+      'surrogacy' in employment leave)
+    draft: true
+  - key: on-42-1-2019-03-21-3
+    title: "Bill 76 (Mamakwa), UNDRIP Act, 2019 -- second reading"
+    placeable: false
+    dated: 2019-03-21
+    result: "Carried 91-0 (unanimous on a division)"
+    lobbies: "Yea: PC 56, NDP 32, Liberal 2, Green 1. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Mamakwa, Sol (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-1/2019-03-21/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 76, An Act to
+      ensure that the laws of Ontario are in harmony with the United Nations
+      Declaration on the Rights of Indigenous Peoples. Debate arose and after
+      some time, Carried on the following division:-
+    reason: >
+      Unanimous (91-0), and tagged but not ours (taxonomy false positive:
+      'Article 7' and 'freedom of expression' in the Declaration)
+    draft: true
+  - key: on-42-1-2019-11-27-1
+    title: "Bill 136, Provincial Animal Welfare Services Act, 2019 -- second reading"
+    placeable: false
+    dated: 2019-11-27
+    result: "Carried 107-0 (unanimous on a division)"
+    lobbies: "Yea: PC 67, NDP 35, Liberal 4, Independent 1. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Jones, Hon. Sylvia (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-1/2019-11-27/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 136, An Act to
+      enact the Provincial Animal Welfare Services Act, 2019 and make
+      consequential amendments with respect to animal protection. Carried on the
+      following division:-
+    reason: >
+      Unanimous (107-0), and tagged but not ours (taxonomy false positive:
+      'euthanasia' of animals)
+    draft: true
+  - key: on-42-1-2019-12-05-1
+    title: "Bill 144, Northern Health Travel Grant Advisory Committee Act, 2019 -- second reading"
+    placeable: false
+    dated: 2019-12-05
+    result: "Carried 83-0 (unanimous on a division)"
+    lobbies: "Yea: PC 51, NDP 30, Independent 1, Green 1. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Monteith-Farrell, Judith (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-1/2019-12-05/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 144, An Act to
+      enact the Northern Health Travel Grant Advisory Committee Act, 2019.
+      Debate arose and after some time, Carried on the following division:-
+    reason: >
+      Unanimous (83-0), and tagged but not ours (taxonomy false positive:
+      'gender expression')
+    draft: true
+  - key: on-42-1-2021-03-22-5
+    title: "Bill 256 (Monteith-Farrell), Awenen Niin Act (Who Am I) Respecting Identity Documents -- second reading"
+    placeable: false
+    dated: 2021-03-22
+    result: "Negatived 27-39"
+    lobbies: "Yea: NDP 21, Liberal 5, Green 1. Nay: PC 39 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Monteith-Farrell, Judith (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-1/2021-03-22/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 256, An Act to
+      amend the Photo Card Act, 2008 and the Vital Statistics Act respecting
+      access to identification documents. Lost on the following division:-
+    reason: >
+      tagged but not ours (taxonomy false positive: 'gender expression' in the
+      list of stakeholders an advisory committee must include; the bill waives
+      fees for photo cards and birth certificates)
+    draft: true
+  - key: on-42-2-2021-11-18-1
+    title: "Bill 37 -- second reading"
+    placeable: false
+    dated: 2021-11-18
+    result: "Carried 48-27"
+    lobbies: "Yea: PC 47, Independent 1. Nay: NDP 22, Liberal 4, Green 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Phillips, Rod (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-2/2021-11-18/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 37, An Act to
+      enact the Fixing Long-Term Care Act, 2021 and amend or repeal various
+      Acts. Carried on the following division:-
+    reason: >
+      tagged but not ours (taxonomy false positive: 'gender expression' and
+      'citizenship'; long-term care)
+    draft: true
+  - key: on-42-2-2021-12-07-2
+    title: "Bill 37, Providing More Care, Protecting Seniors, and Building More Beds Act, 2021 -- third reading"
+    placeable: false
+    dated: 2021-12-07
+    result: "Carried 46-24"
+    lobbies: "Yea: PC 45, Independent 1. Nay: NDP 19, Liberal 4, Green 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Phillips, Rod (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-2/2021-12-07/votes-proceedings"
+    text: >
+      (the store's record of the question) Third Reading of Bill 37, An Act to
+      enact the Fixing Long-Term Care Act, 2021 and amend or repeal various
+      Acts. Carried on the following division:-
+    reason: >
+      tagged but not ours (taxonomy false positive: 'gender expression' and
+      'citizenship' in a residents' bill of rights; long-term care)
+    draft: true
+  - key: on-42-2-2021-12-08-1
+    title: "Bill 52 (Tabuns), Stopping Illegal Handgun Smuggling Act, 2021 -- second reading"
+    placeable: false
+    dated: 2021-12-08
+    result: "Negatived 26-44"
+    lobbies: "Yea: NDP 20, Liberal 5, Green 1. Nay: PC 43, Independent 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Tabuns, Peter (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-2/2021-12-08/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 52, An Act to
+      Enact the Stopping Illegal Handgun Smuggling Act, 2021. Lost on the
+      following division:-
+    reason: >
+      tagged but not ours (taxonomy false positive: 'border security')
+    draft: true
+  - key: on-42-2-2022-03-03-2
+    title: "Bill 67 (Lindo), Racial Equity in the Education System Act, 2022 -- second reading"
+    placeable: false
+    dated: 2022-03-03
+    result: "Carried 72-1"
+    lobbies: "Yea: PC 52, NDP 14, Liberal 4, Independent 1, Green 1. Nay: New Blue 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Lindo, Laura Mae (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-2/2022-03-03/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 67, An Act to
+      amend various Acts with respect to racial equity. Carried on the following
+      division:-
+    reason: >
+      Near-unanimous (72-1), and tagged but not ours: an anti-racism education
+      bill matched on 'Islamophobia'.
+    draft: true
+  - key: on-42-2-2022-03-03-3
+    title: "Motion to refer Bill 86 (anti-Islamophobia) to committee"
+    placeable: false
+    dated: 2022-03-03
+    result: "Carried 44-2"
+    lobbies: "Yea: PC 44. Nay: Liberal 1, New Blue 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-2/2022-03-03/votes-proceedings"
+    text: >
+      (the store's record of the question) Mr. Calandra moved, That pursuant to
+      Standing Order 77(a), the Order for Second Reading of Bill 86, An Act to
+      enact two new Acts and to amend various Acts to combat Islamophobia and
+      hatred, be discharged and the Bill be referred to the Standing Committee
+      on Justice Policy. The question was then put. Carried on the following
+      division:-
+    reason: >
+      Procedural (discharge and referral to committee), and tagged on
+      'Islamophobia'.
+    draft: true
+  - key: on-41-1-2015-04-02-2
+    title: "Bill 77 (DiNovo), Affirming Sexual Orientation and Gender Identity Act, 2015 -- second reading"
+    placeable: false
+    dated: 2015-04-02
+    result: "Carried 52-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 33, NDP 12, PC 7. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: DiNovo, Cheri (private member's bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-1/2015-04-02/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 77, An Act to
+      amend the Health Insurance Act and the Regulated Health Professions Act,
+      1991 regarding efforts to change or direct sexual orientation or gender
+      identity. Debate arose. Carried on the following division:-
+    reason: >
+      Unanimous (52-0): on our ground (it banned 'conversion' counselling for
+      minors) but no member to tell apart; its third reading is not a recorded
+      division in the store.
+    draft: true
+  - key: on-41-1-2015-09-15-1
+    title: "Bill 52 (anti-SLAPP) -- second reading"
+    placeable: false
+    dated: 2015-09-15
+    result: "Carried 87-8"
+    lobbies: "Yea: Liberal 52, PC 18, NDP 17. Nay: PC 8 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Meilleur, Hon. Madeleine (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-1/2015-09-15/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 52, An Act to
+      amend the Courts of Justice Act, the Libel and Slander Act and the
+      Statutory Powers Procedure Act in order to protect expression on matters
+      of public interest. Carried on the following division:-
+    reason: >
+      Tagged but not ours, as on-41-1-2015-10-28-2.
+    draft: true
+  - key: on-41-1-2015-10-28-2
+    title: "Bill 52, Protection of Public Participation Act, 2015 (anti-SLAPP) -- third reading"
+    placeable: false
+    dated: 2015-10-28
+    result: "Carried 87-7"
+    lobbies: "Yea: Liberal 55, NDP 17, PC 15. Nay: PC 7 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Meilleur, Hon. Madeleine (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-1/2015-10-28/votes-proceedings"
+    text: >
+      (the store's record of the question) Third Reading of Bill 52, An Act to
+      amend the Courts of Justice Act, the Libel and Slander Act and the
+      Statutory Powers Procedure Act in order to protect expression on matters
+      of public interest. Carried on the following division:-
+    reason: >
+      Tagged but not ours: civil procedure to dismiss defamation suits on
+      matters of public interest; no viewpoint is at stake. PCs split 15-7.
+      CLOSE CALL: Christopher may read anti-SLAPP as free speech (Yea +1).
+    draft: true
+  - key: on-41-1-2015-12-09-1
+    title: "Bill 132 -- second reading"
+    placeable: false
+    dated: 2015-12-09
+    result: "Carried 97-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 55, PC 25, NDP 17. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: MacCharles, Hon. Tracy (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-1/2015-12-09/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 132, An Act to
+      amend various statutes with respect to sexual violence, sexual harassment,
+      domestic violence and related matters. Carried on the following division:-
+    reason: >
+      Unanimous (97-0), and tagged but not ours (taxonomy false positive:
+      'gender expression')
+    draft: true
+  - key: on-41-1-2016-03-08-1
+    title: "Bill 132, Sexual Violence and Harassment Action Plan Act -- third reading"
+    placeable: false
+    dated: 2016-03-08
+    result: "Carried 94-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 54, PC 25, NDP 15. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: MacCharles, Hon. Tracy (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-1/2016-03-08/votes-proceedings"
+    text: >
+      (the store's record of the question) Third Reading of Bill 132, An Act to
+      amend various statutes with respect to sexual violence, sexual harassment,
+      domestic violence and related matters. Carried on the following division:-
+    reason: >
+      Unanimous (94-0), and tagged but not ours (taxonomy false positive:
+      'gender expression')
+    draft: true
+  - key: on-41-2-2016-11-29-1
+    title: "Bill 27, Burden Reduction Act, 2017 -- second reading"
+    placeable: false
+    dated: 2016-11-29
+    result: "Carried 65-13"
+    lobbies: "Yea: Liberal 48, PC 17. Nay: NDP 13 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Duguid, Hon. Brad (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2016-11-29/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 27, Act to
+      reduce the regulatory burden on business, to enact various new Acts and to
+      make other amendments and repeals. Carried on the following division:-
+    reason: >
+      tagged but not ours (taxonomy false positive: 'Article 7')
+    draft: true
+  - key: on-41-2-2016-11-29-2
+    title: "Bill 28, All Families Are Equal Act, 2016 -- third reading"
+    placeable: false
+    dated: 2016-11-29
+    result: "Carried 79-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 48, PC 17, NDP 14. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Naqvi, Hon. Yasir (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2016-11-29/votes-proceedings"
+    text: >
+      (the store's record of the question) Third Reading of Bill 28, An Act to
+      amend the Children's Law Reform Act, the Vital Statistics Act and various
+      other Acts respecting parentage and related registrations. Carried on the
+      following division:-
+    reason: >
+      Unanimous (79-0): on our ground (parentage, surrogacy agreements) but no
+      member to tell apart.
+    draft: true
+  - key: on-41-2-2017-02-23-1
+    title: "Motion (Khalil) condemning Islamophobia and anti-Muslim rhetoric"
+    placeable: false
+    dated: 2017-02-23
+    result: "Carried 81-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 40, PC 25, NDP 16. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-02-23/votes-proceedings"
+    text: >
+      (the store's record of the question) have made, and continue to make, to
+      Ontario's cultural and social fabric and prosperity; stand against all
+      forms of hatred, hostility, prejudice, racism and intolerance; rebuke the
+      notable growing tide of anti-Muslim rhetoric and sentiments; denounce
+      hate-attacks, threats of violence and hate crimes against people of the
+      Muslim faith; condemn all forms of Islamophobia and reaffirm its support
+      for government's [...]
+    reason: >
+      Unanimous (81-0): Ontario's counterpart to M-103, on our ground (free
+      speech) but no member to tell apart.
+    draft: true
+  - key: on-41-2-2017-03-02-2
+    title: "Bill 27, Burden Reduction Act, 2017 -- third reading"
+    placeable: false
+    dated: 2017-03-02
+    result: "Carried 76-14"
+    lobbies: "Yea: Liberal 52, PC 24. Nay: NDP 14 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Duguid, Hon. Brad (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-03-02/votes-proceedings"
+    text: >
+      (the store's record of the question) Third Reading of Bill 27, An Act to
+      reduce the regulatory burden on business, to enact various new Acts and to
+      make other amendments and repeals. Carried on the following division:-
+    reason: >
+      tagged but not ours (taxonomy false positive: 'Article 7')
+    draft: true
+  - key: on-41-2-2017-03-09-1
+    title: "Closure on Bill 84 second reading"
+    placeable: false
+    dated: 2017-03-09
+    result: "Carried 50-33"
+    lobbies: "Yea: Liberal 50. Nay: PC 18, NDP 15 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-03-09/votes-proceedings"
+    text: >
+      (the store's record of the question) DEFERRED VOTES Motion for closure on
+      Second Reading of Bill 84, An Act to amend various Acts with respect to
+      medical assistance in dying. Carried on the following division:-
+    reason: >
+      Procedural (closure).
+    draft: true
+  - key: on-41-2-2017-03-09-2
+    title: "Closure on Bill 89 second reading -- MIS-LINKED to Bill 84 in the store"
+    placeable: false
+    dated: 2017-03-09
+    result: "Carried 50-33"
+    lobbies: "Yea: Liberal 50. Nay: PC 18, NDP 15 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hoskins, Hon. Eric (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-03-09/votes-proceedings"
+    text: >
+      (the store's record of the question) Referred to the Standing Committee on
+      Finance and Economic Affairs. Motion for closure on Second Reading of Bill
+      89, An Act to enact the Child, Youth and Family Services Act, 2017, to
+      amend and repeal the Child and Family Services Act and to make related
+      amendments to other Acts. Carried on the following division:-
+    reason: >
+      Procedural (closure on Bill 89 second reading); the store links it to Bill
+      84 because the record opens with Bill 84's referral to committee.
+    draft: true
+  - key: on-41-2-2017-03-09-3
+    title: "Bill 89, Supporting Children, Youth and Families Act, 2017 -- second reading"
+    placeable: false
+    dated: 2017-03-09
+    result: "Carried 83-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 50, PC 18, NDP 15. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Coteau, Hon. Michael (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-03-09/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 89, An Act to
+      enact the Child, Youth and Family Services Act, 2017, to amend and repeal
+      the Child and Family Services Act and to make related amendments to other
+      Acts. Carried on the following division:-
+    reason: >
+      Unanimous (83-0): the PCs voted for it at second reading; the third
+      reading (on-41-2-2017-06-01-2) is where the House divided.
+    draft: true
+  - key: on-41-2-2017-04-26-1
+    title: "Bill 114, Anti-Racism Act, 2017 -- second reading"
+    placeable: false
+    dated: 2017-04-26
+    result: "Carried 85-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 52, PC 19, NDP 14. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Coteau, Hon. Michael (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-04-26/votes-proceedings"
+    text: >
+      (the store's record of the question) Second Reading of Bill 114, An Act to
+      provide for Anti-Racism Measures. Carried on the following division:-
+    reason: >
+      Unanimous (85-0), and tagged on 'Islamophobia'.
+    draft: true
+  - key: on-41-2-2017-05-09-1
+    title: "Closure on Bill 84 third reading"
+    placeable: false
+    dated: 2017-05-09
+    result: "Carried 48-39"
+    lobbies: "Yea: Liberal 48. Nay: PC 26, NDP 13 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-05-09/votes-proceedings"
+    text: >
+      (the store's record of the question) DEFERRED VOTES Motion for closure on
+      Third Reading of Bill 84, An Act to amend various Acts with respect to
+      medical assistance in dying. Carried on the following division:-
+    reason: >
+      Procedural (closure): Bill 84's third reading (on-41-2-2017-05-09-2)
+      carries it.
+    draft: true
+  - key: on-41-2-2017-05-09-2
+    title: "Bill 84, Medical Assistance in Dying Statute Law Amendment Act, 2017 -- third reading"
+    dated: 2017-05-09
+    result: "Carried 61-26"
+    lobbies: "Yea: Liberal 48, NDP 13. Nay: PC 26 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Eric Hoskins (Liberal; Minister of Health, the bill's sponsor), who voted Yea"
+    source: "Votes and Proceedings, 9 May 2017 (ola.org); Bill 84 as enacted, S.O. 2017 c.7, explanatory note (ola.org bill---text-41-2-en-b084ra_e.pdf)"
+    text: >
+      Explanatory note: The Excellent Care for All Act, 2010 is amended to
+      provide protection against litigation for care providers and for doctors,
+      nurse practitioners and people assisting them for performing medical
+      assistance in dying. [...] The Minister is required to establish a care
+      coordination service to assist patients and caregivers in accessing
+      additional information and services for medical assistance in dying [...].
+      The Freedom of Information and Protection of Privacy Act [...] amended to
+      provide that they do not apply to identifying information relating to
+      medical assistance in dying.
+    # TEXT READ 8 October 2026. Party line: PC 26 Nay; Liberal 48 and NDP 13
+    # Yea. The PCs moved Bill 129 (conscience) the same month. CLOSE CALL: the
+    # bill implements a federal law rather than legalising MAID; +/-1 is the
+    # alternative.
+    yea: -2
+    why_yea: "Voted to pass Ontario's MAID statute: immunity from suit for MAID providers, MAID records closed to FOI, a state MAID coordination service, and no conscience protection."
+    nay: 2
+    why_nay: "Voted against Ontario's MAID statute, which gave providers immunity and left out conscience protection."
+    draft: true
+  - key: on-41-2-2017-05-09-3
+    title: "Closure on Bill 39 (Aggregate Resources Act and Mining Act) third reading -- MIS-LINKED to Bill 84 in the store"
+    placeable: false
+    dated: 2017-05-09
+    result: "Carried 49-39"
+    lobbies: "Yea: Liberal 49. Nay: PC 26, NDP 13 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hoskins, Hon. Eric (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-05-09/votes-proceedings"
+    text: >
+      (the store's record of the question) The Bill passed. Motion for closure
+      on Third Reading of Bill 39, An Act to amend the Aggregate Resources Act
+      and the Mining Act. Carried on the following division:-
+    reason: >
+      Procedural, and not ours: the question is closure on Bill 39; the store
+      links it to Bill 84 because the record opens with Bill 84's 'The Bill
+      passed.'
+    draft: true
+  - key: on-41-2-2017-05-18-5
+    title: "Bill 129 (Yurek), Regulated Health Professions Amendment Act (Freedom of Conscience in Health Care), 2017 -- second reading (lost)"
+    dated: 2017-05-18
+    result: "Negatived 23-39"
+    lobbies: "Yea: PC 23. Nay: Liberal 34, NDP 5 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Jeff Yurek (PC), the sponsor, who voted Yea"
+    source: "Votes and Proceedings, 18 May 2017 (ola.org); Bill 129 first reading text, explanatory note (ola.org bill---text-41-2-en-b129_e.pdf)"
+    text: >
+      Explanatory note: Member participation in medical assistance in dying
+      shall be voluntary. A member shall not be subject to civil,
+      administrative, disciplinary, employment, credentialing, regulatory or
+      other sanction or penalty [...] for refusing to participate in medical
+      assistance in dying. Participation includes, but is not limited to,
+      performing, assisting in the performance of or making a referral for any
+      activities related to, or for the purpose of, medical assistance in dying.
+    # TEXT READ 8 October 2026. +/-2 as the federal C-230 (commons-44-1-186): a
+    # private member's bill that died at its only reading. PC 23 Yea; Liberal 34
+    # and NDP 5 Nay.
+    yea: 2
+    why_yea: "Voted to protect health professionals from sanction for refusing to take part in, or refer for, MAID."
+    nay: -2
+    why_nay: "Voted against protecting health professionals' conscience over MAID, including referral."
+    draft: true
+  - key: on-41-2-2017-05-29-2
+    title: "Bill 114, Anti-Racism Act, 2017 -- time allocation"
+    placeable: false
+    dated: 2017-05-29
+    result: "Carried 51-38"
+    lobbies: "Yea: Liberal 51. Nay: PC 25, NDP 13 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Coteau, Hon. Michael (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-05-29/votes-proceedings"
+    text: >
+      (the store's record of the question) Government Notice of Motion Number 32
+      for allocation of time on Bill 114, An Act to provide for Anti-Racism
+      Measures. Carried on the following division:-
+    reason: >
+      Procedural (time allocation), and tagged on 'Islamophobia'.
+    draft: true
+  - key: on-41-2-2017-05-30-1
+    title: "Bill 89 -- time allocation"
+    placeable: false
+    dated: 2017-05-30
+    result: "Carried 52-40"
+    lobbies: "Yea: Liberal 52. Nay: PC 22, NDP 17, Independent 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Coteau, Hon. Michael (government bill)"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-05-30/votes-proceedings"
+    text: >
+      (the store's record of the question) Government Notice of Motion Number 33
+      for allocation of time on Bill 89, An Act to enact the Child, Youth and
+      Family Services Act, 2017, to amend and repeal the Child and Family
+      Services Act and to make related amendments to other Acts. Carried on the
+      following division:-
+    reason: >
+      Procedural (time allocation): Bill 89's third reading
+      (on-41-2-2017-06-01-2) carries it.
+    draft: true
+  - key: on-41-2-2017-06-01-2
+    areas: [6, 8]
+    title: "Bill 89, Supporting Children, Youth and Families Act, 2017 -- third reading"
+    dated: 2017-06-01
+    result: "Carried 63-23"
+    lobbies: "Yea: Liberal 52, NDP 11. Nay: PC 22, Independent 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Michael Coteau (Liberal; Minister of Children and Youth Services, the bill's sponsor), who voted Yea"
+    source: "Votes and Proceedings, 1 June 2017 (ola.org, parliament-41/session-2/2017-06-01/votes-proceedings); Bill 89 as enacted, S.O. 2017 c.14, explanatory note and s.74(3) (ola.org bill---text-41-2-en-b089ra_e.pdf)"
+    text: >
+      Explanatory note: 'the current Act includes the religious faith in which
+      the child is being raised while the new Act includes the child's race,
+      ancestry, place of origin, colour, ethnic origin, citizenship, family
+      diversity, disability, creed, sex, sexual orientation, gender identity and
+      gender expression.' s.74(3)(c)(iii): in determining a child's best
+      interests, consider 'the child's race, ancestry, [...] creed, sex, sexual
+      orientation, gender identity and gender expression'.
+    # TEXT READ 8 October 2026. Areas stated: parental rights (6) and religious
+    # freedom (8); the store's area 11 matched 'citizenship' in the
+    # best-interests list and is a false positive. The second reading was
+    # unanimous (on-41-2-2017-03-09-3, 83-0), so only this reading separates the
+    # House: PC 22 and one Independent Nay, Liberal 52 and NDP 11 Yea. The PC
+    # Nay also carried objections to the bill's breadth, not only this clause.
+    yea: -2
+    why_yea: "Voted to pass the child-welfare law that dropped 'the religious faith in which the child is being raised' from a child's best interests and added the child's gender identity and gender expression."
+    nay: 2
+    why_nay: "Voted against the child-welfare law that dropped the child's religious upbringing from best interests and added gender identity and expression."
+    draft: true
+  - key: on-41-2-2017-10-17-1
+    title: "Bill 163, Protecting a Woman's Right to Access Abortion Services Act, 2017 -- second reading"
+    dated: 2017-10-17
+    result: "Carried 85-1"
+    lobbies: "Yea: Liberal 47, PC 23, NDP 15. Nay: Independent 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Yasir Naqvi (Liberal; Attorney General, the bill's sponsor), who voted Yea"
+    source: "Votes and Proceedings, 17 October 2017 (ola.org); Bill 163 as enacted, S.O. 2017 c.19, explanatory note (ola.org bill---text-41-2-en-b163ra_e.pdf)"
+    text: >
+      Explanatory note: Section 3 prohibits certain activities in access zones
+      for clinics or facilities. The prohibited activities include advising a
+      person to refrain from accessing abortion services, informing a person
+      concerning issues related to abortion services, performing certain acts of
+      disapproval, certain persistent requests and certain actions for the
+      purpose of dissuading a person from accessing abortion services [...].
+      Section 4 prohibits certain activities in access zones for residences of
+      protected service providers.
+    # TEXT READ 8 October 2026. Only Jack MacLaren (Independent) voted Nay; 23
+    # PCs voted Yea under the leadership's agreement to pass it quickly.
+    yea: -1
+    why_yea: "Voted for the principle of abortion 'access zones' banning sidewalk counselling, prayerful witness and 'acts of disapproval' near clinics and providers' homes."
+    nay: 1
+    why_nay: "Voted against the principle of abortion access zones that ban sidewalk counselling and pro-life witness."
+    draft: true
+  - key: on-41-2-2017-10-25-1
+    title: "Bill 163 -- third reading"
+    dated: 2017-10-25
+    result: "Carried 86-1"
+    lobbies: "Yea: Liberal 48, PC 23, NDP 15. Nay: Independent 1 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Yasir Naqvi (Liberal; Attorney General), who voted Yea"
+    source: "Votes and Proceedings, 25 October 2017 (ola.org); Bill 163 as enacted (as on-41-2-2017-10-17-1)"
+    text: >
+      Third Reading of Bill 163, An Act to enact the Safe Access to Abortion
+      Services Act, 2017 and to amend the Freedom of Information and Protection
+      of Privacy Act in relation to abortion services. (Text as read for the
+      second reading.)
+    # TEXT READ 8 October 2026. CLOSE CALL: 86-1, with 23 PCs Yea and many
+    # absent. The reading follows the vote, not the caucus: a PC Yea scores -2.
+    # If Christopher would rather near-unanimity not place 86 members at --, the
+    # alternative is to let only the Nay place (MacLaren, +2).
+    yea: -2
+    why_yea: "Voted to pass Ontario's abortion access-zone law, banning sidewalk counselling, prayerful witness and 'acts of disapproval' near clinics and providers' homes."
+    nay: 2
+    why_nay: "Voted against Ontario's abortion access-zone law."
+    draft: true
+  - key: on-40-1-2012-05-03-1
+    areas: [6, 8]
+    title: "Bill 13, Accepting Schools Act, 2012 -- second reading"
+    dated: 2012-05-03
+    result: "Carried 66-33"
+    lobbies: "Yea: Liberal 49, NDP 17. Nay: PC 33 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Laurel C. Broten (Liberal; Minister of Education, the bill's sponsor), who voted Yea"
+    source: "Votes and Proceedings, 3 May 2012 (ola.org); Bill 13 as enacted, S.O. 2012 c.5, s.303.1 (ola.org bill---text-40-1-en-b013ra.pdf)"
+    text: >
+      303.1 (1) Every board shall support pupils who want to establish and lead
+      activities and organizations that promote a safe and inclusive learning
+      environment, the acceptance of and respect for others and the creation of
+      a positive school climate, including, [...] (d) activities or
+      organizations that promote the awareness and understanding of, and respect
+      for, people of all sexual orientations and gender identities, including
+      organizations with the name gay-straight alliance or another name. (2) For
+      greater certainty, neither the board nor the principal shall refuse to
+      allow a pupil to use the name gay-straight alliance or a similar name for
+      an organization described in clause (1)(d).
+    # TEXT READ 8 October 2026 (the enacted s.303.1). Areas stated: parental
+    # rights (6) and religious freedom (8), because the clause binds Catholic
+    # boards; the store's areas 5 and 11 matched 'gender expression' and
+    # 'citizenship'. The thirteen adjournment divisions on Bill 13 have
+    # positions_ok = 0 and place nobody.
+    yea: -1
+    why_yea: "Voted for the principle of requiring every school board, Catholic boards included, to allow pupil groups named 'gay-straight alliance'."
+    nay: 1
+    why_nay: "Voted against the principle of compelling Catholic and other boards to allow groups named 'gay-straight alliance'."
+    draft: true
+  - key: on-40-1-2012-06-05-1
+    areas: [6, 8]
+    title: "Bill 13, Accepting Schools Act, 2012 -- third reading"
+    dated: 2012-06-05
+    result: "Carried 65-36"
+    lobbies: "Yea: Liberal 48, NDP 17. Nay: PC 36 (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Laurel C. Broten (Liberal; Minister of Education), who voted Yea"
+    source: "Votes and Proceedings, 5 June 2012 (ola.org); Bill 13 as enacted (as on-40-1-2012-05-03-1)"
+    text: >
+      Third Reading of Bill 13, An Act to amend the Education Act with respect
+      to bullying and other matters. (s.303.1 as read for the second reading.)
+    # TEXT READ 8 October 2026. PC 36 Nay; Liberal 48 and NDP 17 Yea.
+    yea: -2
+    why_yea: "Voted to pass the law requiring every board, Catholic boards included, to allow pupil groups named 'gay-straight alliance'."
+    nay: 2
+    why_nay: "Voted against compelling Catholic and other boards to allow groups named 'gay-straight alliance'."
+    draft: true
+  - key: on-40-2-2013-09-19-1
+    title: "Private Member's Motion 42 (Kwinter): oppose legislation restricting freedom of expression and religion in public places"
+    placeable: false
+    dated: 2013-09-19
+    result: "Carried 82-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 39, PC 30, NDP 13. Nay: none (counted from prov_votes; party at the vote, from the day's Hansard roster)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.ola.org/en/legislative-business/house-documents/parliament-40/session-2/2013-09-19/votes-proceedings"
+    text: >
+      (the store's record of the question) Mr. Kwinter moved, Private Members’
+      Notice of Motion No. 42:- That, in the opinion of this House, the
+      Government of Ontario should oppose any legislation that would restrict or
+      prohibit people's freedom of expression and religion in public places and
+      affirm that Ontario greatly values our diverse population and the social,
+      cultural and economic contributions they make to help our society thrive.
+      Debate arose. [...]
+    reason: >
+      Unanimous (82-0): on our side (against Quebec's proposed Charter of
+      Values) but no member to tell apart.
+    draft: true
 
   # --- British Columbia, 43rd Parliament, 2nd session ------------------------
   - key: bc-43-2-2026-02-19-119.1
@@ -6330,6 +7120,1236 @@ divisions:
     reason: >
       Unanimous (112-0): asking Ottawa to include contraception and abortion in its G8
       maternal-health initiative. Tells no member apart: evidence only.
+  # BRITISH COLUMBIA, DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
+  # recorded divisions on our ground that have none"). Every entry below is
+  # `draft: true` and places nobody until confirmed. Values were checked
+  # against the mover's own vote and the party splits in prov_votes; each
+  # valued entry says what text was read. `placeable: false` entries carry the
+  # store's own record of the question and say why: procedure, unanimity, or
+  # a taxonomy false positive ("tagged but not ours"). dated/result/lobbies
+  # are counted from the store.
+    draft: true
+  - key: bc-43-1-2025-03-13-26.1
+    title: "Bill 4, Business Practices and Consumer Protection Amendment Act, 2025 -- Conservative amendment in committee"
+    placeable: false
+    dated: 2025-03-13
+    result: "Negatived 38-47"
+    lobbies: "Yea: Conservative 38. Nay: NDP 45, Green 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Niki Sharma (government bill)"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/43rd1st/20250313pm-Hansard-n26.html#26B:1505"
+    text: >
+      (the store's record of the question) Bill 4 — Business Practices and
+      Consumer Protection Amendment Act, 2025
+    reason: >
+      tagged but not ours (taxonomy false positive: 'freedom of expression' in
+      the minister's reply; the clause bars contracts that forbid consumer
+      reviews)
+    draft: true
+  - key: bc-43-1-2025-03-13-26.2
+    title: "Bill 4 -- second Conservative amendment in committee"
+    placeable: false
+    dated: 2025-03-13
+    result: "Negatived 38-48"
+    lobbies: "Yea: Conservative 38. Nay: NDP 46, Green 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Niki Sharma (government bill)"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/43rd1st/20250313pm-Hansard-n26.html#26B:1605"
+    text: >
+      (the store's record of the question) Bill 4 — Business Practices and
+      Consumer Protection Amendment Act, 2025
+    reason: >
+      tagged but not ours (taxonomy false positive: 'freedom of expression';
+      consumer-contract rules)
+    draft: true
+  - key: bc-43-1-2025-10-06-76.1
+    title: "Bill 12, Motor Vehicle Amendment Act, 2025 -- adjournment of second-reading debate"
+    placeable: false
+    dated: 2025-10-06
+    result: "Negatived 2-47"
+    lobbies: "Yea: Green 2. Nay: NDP 43, OneBC 2, Independent 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Garry Begg (government bill)"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/43rd1st/20251006pm-Hansard-n76.html#76B:1755"
+    text: >
+      (the store's record of the question) Bill 12 — Motor Vehicle Amendment
+      Act, 2025
+    reason: >
+      Procedural (adjournment of debate), and tagged but not ours (taxonomy
+      false positive: 'parental consent' for learner drivers)
+    draft: true
+  - key: bc-43-1-2025-10-06-76.2
+    areas: [1, 5, 8]
+    title: "Private Member's Motion 38 (Arora) -- condemning the 'intolerant views' of the Association for Reformed Political Action"
+    dated: 2025-10-06
+    result: "Carried 48-3"
+    lobbies: "Yea: NDP 45, Green 2, Independent 1. Nay: OneBC 2, Independent 1 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Rohini Arora (NDP), who voted Yea"
+    source: "Hansard, 6 October 2025 a.m., issue 75 (motion moved) and p.m., issue 76 (deferred division) (lims.leg.bc.ca/hdms/file/Debates/43rd1st/20251006pm-Hansard-n76.html)"
+    text: >
+      That this House condemns the intolerant views of the Association for
+      Reformed Political Action (ARPA), including its harmful discrimination
+      against transgender people, its belief that homosexuality is 'immoral' and
+      its explicit policy goal of restricting abortion access in British
+      Columbia.
+    # TEXT READ 8 October 2026. The Conservative caucus cast no vote (none on
+    # either list), so the sheet shows them NO RECORDED VOTE, not Nay. Areas
+    # stated: abortion and gender as tagged, and religious freedom (8), because
+    # the motion condemns a religious organisation for its beliefs. CLOSE CALL:
+    # +/-1 as a motion; Christopher may prefer Yea -2 for condemning a faith
+    # group by name.
+    yea: -1
+    why_yea: "Voted to condemn a Christian advocacy group, ARPA, by name for its beliefs on marriage, sexuality and gender and its pro-life aims."
+    nay: 1
+    why_nay: "One of three members to vote against the House condemning ARPA, a Christian advocacy group, for its beliefs and its pro-life aims."
+    draft: true
+  - key: bc-43-1-2025-10-08-79.1
+    title: "Protecting Minors from Gender Transition Act -- first reading (refused)"
+    dated: 2025-10-08
+    result: "Negatived 40-48"
+    lobbies: "Yea: Conservative 37, OneBC 2, Independent 1. Nay: NDP 45, Green 2, Independent 1 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Tara Armstrong (Kelowna-Lake Country-Coldstream), who voted Yea"
+    source: "Hansard, 8 October 2025 p.m., issue 79 (lims.leg.bc.ca/hdms/file/Debates/43rd1st/20251008pm-Hansard-n79.html). Refused first reading, the bill was never printed: the member's first-reading statement is the only account of it."
+    text: >
+      Tara Armstrong: I move that a bill intituled Protecting Minors from Gender
+      Transition Act [...] be introduced and read a first time now. [...] This
+      bill will bring B.C. in line with the U.K. and other progressive European
+      countries that have banned harmful and unscientific social and medical
+      gender-transition procedures for minors. In our schools, it will stop them
+      using the wrong pronouns, keep boys out of girls' bathrooms and remove
+      gender ideology from school libraries and curricula. It will stop doctors
+      from attempting to change the sex of minors.
+    yea: 1
+    why_yea: "Voted to let the Protecting Minors from Gender Transition Act be introduced: no puberty blockers, cross-sex hormones or surgery for minors, no social transition at school (+1: first reading is leave to introduce, not the bill's principle)."
+    nay: -1
+    why_nay: "Voted to refuse the Protecting Minors from Gender Transition Act even a first reading."
+    note: "Read as the confirmed Gender Ideology and Child Protection Act (bc-43-2-2026-02-19-119.1): +/-1. Elenore Sturko (shown Independent) voted Nay."
+    draft: true
+  - key: bc-43-2-2026-03-09-136.1
+    title: "Bill 2, Budget Measures Implementation Act, 2026 -- second reading"
+    placeable: false
+    dated: 2026-03-09
+    result: "Carried 46-45"
+    lobbies: "Yea: NDP 46. Nay: Conservative 39, Independent 4, Green 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Brenda Bailey (government bill)"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260309pm-Hansard-n136.html#136B:1745"
+    text: >
+      (the store's record of the question) Bill 2 — Budget Measures
+      Implementation Act, 2026 (continued) | The Speaker: Members, the question
+      is second reading of Bill 2, Budget Measures Implementation Act, 2026.
+    reason: >
+      tagged but not ours (taxonomy false positive: 'Down syndrome' in a budget
+      debate; a budget bill is a confidence vote)
+    draft: true
+  - key: bc-43-2-2026-03-12-141.2
+    title: "Government Motion 13 -- 'unequivocal support' for the Human Rights Code and the Tribunal's powers to enforce it"
+    dated: 2026-03-12
+    result: "Carried 83-3"
+    lobbies: "Yea: NDP 46, Conservative 33, Green 2, Independent 2. Nay: Independent 3 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Mike Farnworth (NDP; the Speaker puts it as 'tabled by the Minister of Transportation'), who voted Yea"
+    source: "Hansard, 12 March 2026 p.m., issue 141 (lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260312pm-Hansard-n141.html)"
+    text: >
+      That this House affirms its unequivocal support for the B.C. Human Rights
+      Code and the Tribunal's powers to enforce it, protecting people from hate
+      speech and discrimination based on Indigenous identity, race, colour,
+      ancestry, place of origin, religion, marital status, family status,
+      physical or mental disability, sex, sexual orientation, gender identity or
+      expression, and age.
+    # TEXT READ 8 October 2026. The government's answer to the Human Rights Code
+    # Repeal Act refused first reading on 26 February
+    # (bc-43-2-2026-02-26-126.1). Only the Nay places: the Yea of 83 takes in
+    # the NDP, the Greens and the whole Conservative caucus, who first moved
+    # (Warbus, bc-43-2-2026-03-12-141.1, Negatived 36-50) to strike the
+    # Tribunal's powers and the hate-speech words and then voted for the motion
+    # as it stood, so a Yea tells no member apart. As the C-62 reasoned
+    # amendment (commons-44-1-640), the other way about. The Warbus amendment
+    # carries no areas in the store and so has no entry: it is the better vote
+    # on our ground if the taxonomy is widened to it.
+    nay: 1
+    why_nay: "One of three members to vote against affirming 'unequivocal support' for the Human Rights Tribunal's powers to police 'hate speech', a fortnight after its fine on Barry Neufeld."
+    draft: true
+  - key: bc-43-2-2026-05-19-178.1
+    title: "Bill 9, FOIPPA Amendment Act, 2026 -- clause 1 in Section A (5-5, Chair's casting vote)"
+    placeable: false
+    dated: 2026-05-19
+    result: "Carried 5-5"
+    lobbies: "Yea: NDP 5. Nay: Conservative 4, Green 1 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Diana Gibson (government bill)"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260519pm-Hansard-n178.html#178A:1725"
+    text: >
+      (the store's record of the question) Bill 9 — Freedom of Information and
+      Protection of Privacy Amendment Act, 2026 | The question is whether or not
+      clause 1 shall pass.
+    reason: >
+      tagged but not ours (taxonomy false positive: 'abortion' appears only in a
+      member listing the Act's existing exception for abortion-services records;
+      clause 1 is about FOI and legal discovery)
+    draft: true
+  - key: bc-43-2-2026-05-20-179.2
+    title: "Bill 20, K'omoks Treaty Act -- motion"
+    placeable: false
+    dated: 2026-05-20
+    result: "Carried 48-42"
+    lobbies: "Yea: NDP 46, Green 2. Nay: Conservative 37, Independent 5 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Spencer Chandra Herbert (government bill)"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/43rd2nd/20260520pm-Hansard-n179.html#179B:1810"
+    text: >
+      (the store's record of the question) Bill 20 — K’ómoks Treaty Act
+      (continued)
+    reason: >
+      tagged but not ours (taxonomy false positive: 'freedom of speech' in a
+      treaty debate)
+    draft: true
+  - key: bc-42-3-2022-05-05-199.1
+    title: "Bill 10, Labour Relations Code Amendment Act, 2022 -- second reading"
+    placeable: false
+    dated: 2022-05-05
+    result: "Carried 44-20"
+    lobbies: "Yea: NDP 43, Green 1. Nay: Liberal 20 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/42nd3rd/20220505pm-Hansard-n199.html#199B:1620"
+    text: >
+      (the store's record of the question) Debate Continued | Deputy Speaker:
+      The question is second reading of Bill 10.
+    reason: >
+      tagged but not ours (taxonomy false positive: 'free speech' in a
+      labour-law debate)
+    draft: true
+  - key: bc-42-4-2023-03-28-291.1
+    title: "Bill 15, Vital Statistics Amendment Act, 2023 -- committee rise and report"
+    placeable: false
+    dated: 2023-03-28
+    result: "Carried 75-0 (unanimous on a division)"
+    lobbies: "Yea: NDP 49, Liberal 24, Green 1, Independent 1. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/42nd4th/20230328am-Hansard-n291.html#291B:1155"
+    text: >
+      (the store's record of the question) BILL 15 — VITAL STATISTICS AMENDMENT
+      ACT, 2023 | I know that we’re standing between lunch and the vote. The
+      question is that the committee rise and report the bill complete without
+      amendment.
+    reason: >
+      Unanimous on a division (75-0): no member to tell apart, whatever the
+      bill's content ('parental consent' matched; not read).
+    draft: true
+  - key: bc-42-4-2023-03-29-293.1
+    title: "Bill 14, Miscellaneous Statutes (Modernization) Amendment Act, 2023 -- committee rise and report"
+    placeable: false
+    dated: 2023-03-29
+    result: "Carried 78-0 (unanimous on a division)"
+    lobbies: "Yea: NDP 51, Liberal 26, Green 1. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/42nd4th/20230329pm-Hansard-n293.html#293B:1525"
+    text: >
+      (the store's record of the question) BILL 14 — MISCELLANEOUS STATUTES
+      (MODERNIZATION) AMENDMENT ACT, 2023 | The question is shall the committee
+      rise and report Bill 14 complete without amendment.
+    reason: >
+      Unanimous on a division (no Nays), and tagged but not ours (taxonomy false
+      positive: 'surrogate')
+    draft: true
+  - key: bc-42-4-2023-03-29-293.2
+    title: "Bill 14 -- third reading"
+    placeable: false
+    dated: 2023-03-29
+    result: "Carried 79-0 (unanimous on a division)"
+    lobbies: "Yea: NDP 52, Liberal 26, Green 1. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/42nd4th/20230329pm-Hansard-n293.html#293B:1530"
+    text: >
+      (the store's record of the question) BILL 14 — MISCELLANEOUS STATUTES
+      (MODERNIZATION) AMENDMENT ACT, 2023 | Members, the question is third
+      reading of Bill 17.
+    reason: >
+      Unanimous on a division (no Nays), and tagged but not ours (taxonomy false
+      positive: 'surrogate')
+    draft: true
+  - key: bc-41-2-2017-11-28-70.1
+    title: "Bill 6, Electoral Reform Referendum 2018 Act -- hoist amendment"
+    placeable: false
+    dated: 2017-11-28
+    result: "Negatived 38-44"
+    lobbies: "Yea: Liberal 38. Nay: NDP 41, Green 3 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st2nd/20171128pm-Hansard-n70.html#70B:1815"
+    text: >
+      (the store's record of the question) Debate Continued | Mr. Speaker:
+      Members, the question is the hoist amendment on Bill 6, put forth by the
+      member for Nechako Lakes.
+    reason: >
+      Procedural (hoist), and tagged but not ours (taxonomy false positive:
+      'abortion' and 'immigration' as debate asides)
+    draft: true
+  - key: bc-41-2-2017-11-28-70.2
+    title: "Bill 6, Electoral Reform Referendum 2018 Act -- second reading"
+    placeable: false
+    dated: 2017-11-28
+    result: "Carried 44-38"
+    lobbies: "Yea: NDP 41, Green 3. Nay: Liberal 38 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st2nd/20171128pm-Hansard-n70.html#70B:1820"
+    text: >
+      (the store's record of the question) Debate Continued | Mr. Speaker:
+      Seeing no further speakers, the question is second reading of Bill 6.
+    reason: >
+      tagged but not ours (taxonomy false positive: 'abortion' and 'immigration'
+      as debate asides; electoral reform)
+    draft: true
+  - key: bc-41-3-2018-10-23-166.2
+    title: "Bill 40, Electoral Reform Referendum 2018 Amendment Act -- amendment at second reading"
+    placeable: false
+    dated: 2018-10-23
+    result: "Negatived 41-43"
+    lobbies: "Yea: Liberal 41. Nay: NDP 40, Green 3 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st3rd/20181023pm-Hansard-n166.html#166B:1820"
+    text: >
+      (the store's record of the question) BILL 40 — ELECTORAL REFORM REFERENDUM
+      2018 AMENDMENT ACT, 2018
+    reason: >
+      tagged but not ours (taxonomy false positive: 'freedom of expression';
+      electoral reform)
+    draft: true
+  - key: bc-41-3-2018-10-30-173.1
+    title: "Bill 49, Professional Governance Act -- second reading"
+    placeable: false
+    dated: 2018-10-30
+    result: "Carried 43-38"
+    lobbies: "Yea: NDP 40, Green 3. Nay: Liberal 38 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st3rd/20181030pm-Hansard-n173.html#173B:1525"
+    text: >
+      (the store's record of the question) BILL 49 — PROFESSIONAL GOVERNANCE ACT
+    reason: >
+      tagged but not ours (taxonomy false positive: 'free speech' in a debate on
+      engineers' and foresters' regulators)
+    draft: true
+  - key: bc-41-4-2019-02-19-200.1
+    title: "Bill 2, Protection of Public Participation Act -- Liberal amendment"
+    placeable: false
+    dated: 2019-02-19
+    result: "Negatived 36-40"
+    lobbies: "Yea: Liberal 36. Nay: NDP 38, Green 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st4th/20190219am-Hansard-n200.html#200B:1150"
+    text: >
+      (the store's record of the question) BILL 2 — PROTECTION OF PUBLIC
+      PARTICIPATION ACT | The Chair: Members, the question is the amendment
+      proposed by the member for Vancouver-Langara.
+    reason: >
+      Tagged but not ours: anti-SLAPP civil procedure, as
+      bc-41-4-2019-03-06-216.2.
+    draft: true
+  - key: bc-41-4-2019-03-06-216.2
+    title: "Bill 2, Protection of Public Participation Act (anti-SLAPP) -- Liberal amendment on section 4"
+    placeable: false
+    dated: 2019-03-06
+    result: "Negatived 35-42"
+    lobbies: "Yea: Liberal 35. Nay: NDP 40, Green 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st4th/20190306pm-Hansard-n216.html#216B:1855"
+    text: >
+      (the store's record of the question) BILL 2 — PROTECTION OF PUBLIC
+      PARTICIPATION ACT | The Chair: The question is the amendment on section 4
+      proposed by Vancouver-Langara.
+    reason: >
+      Tagged but not ours: civil procedure for dismissing defamation suits on
+      matters of public interest; no viewpoint is at stake ('hate speech' arose
+      as an aside). CLOSE CALL, read with Ontario's Bill 52 (2015).
+    draft: true
+  - key: bc-41-4-2019-10-31-287.1
+    title: "Bill 41, Declaration on the Rights of Indigenous Peoples Act -- second reading"
+    placeable: false
+    dated: 2019-10-31
+    result: "Carried 79-0 (unanimous on a division)"
+    lobbies: "Yea: NDP 40, Liberal 36, Green 3. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st4th/20191031am-Hansard-n287.html#287B:1155"
+    text: >
+      (the store's record of the question) BILL 41 — DECLARATION ON THE RIGHTS
+      OF INDIGENOUS PEOPLES ACT
+    reason: >
+      Unanimous on a division, and tagged but not ours (taxonomy false positive:
+      'freedom of expression')
+    draft: true
+  - key: bc-41-4-2019-11-26-299.1
+    title: "Bill 42, Fuel Price Transparency Act -- second reading"
+    placeable: false
+    dated: 2019-11-26
+    result: "Carried 82-0 (unanimous on a division)"
+    lobbies: "Yea: NDP 40, Liberal 39, Green 3. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st4th/20191126pm-Hansard-n299.html#299B:1530"
+    text: >
+      (the store's record of the question) BILL 42 — FUEL PRICE TRANSPARENCY ACT
+    reason: >
+      Unanimous on a division, and tagged but not ours (taxonomy false positive:
+      'freedom of speech')
+    draft: true
+  - key: bc-41-4-2019-11-26-299.2
+    title: "Bill 41, Declaration on the Rights of Indigenous Peoples Act -- committee"
+    placeable: false
+    dated: 2019-11-26
+    result: "Carried 82-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 40, NDP 39, Green 3. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/41st4th/20191126pm-Hansard-n299.html#299B:1820"
+    text: >
+      (the store's record of the question) BILL 41 — DECLARATION ON THE RIGHTS
+      OF INDIGENOUS PEOPLES ACT
+    reason: >
+      Unanimous on a division, and tagged but not ours (taxonomy false positive:
+      'freedom of expression')
+    draft: true
+  - key: bc-40-2-2014-03-11-2.1
+    title: "Bill 3, Missing Persons Act -- NDP amendment in committee"
+    placeable: false
+    dated: 2014-03-11
+    result: "Negatived 35-45"
+    lobbies: "Yea: NDP 34, Independent 1. Nay: Liberal 44, Independent 1 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th2nd/20140311pm-Hansard-v8n2.htm"
+    text: >
+      (the store's record of the question) Debate Continued | The Chair: Seeing
+      no further speakers to the amendment, I'll put the question. The question
+      is on the amendment proposed by the member for Burnaby–Deer Lake.
+    reason: >
+      tagged but not ours (taxonomy false positive: 'free speech' in a member's
+      list of rights; police access to records about missing persons)
+    draft: true
+  - key: bc-40-2-2014-03-12-3.1
+    title: "Bill 9, Pooled Registered Pension Plans Act -- second reading"
+    placeable: false
+    dated: 2014-03-12
+    result: "Carried 80-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 46, NDP 32, Independent 2. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th2nd/20140312pm-Hansard-v8n3.htm"
+    text: >
+      (the store's record of the question) BILL 9 — POOLED REGISTERD PENSION
+      PLANS ACT | Hon. Members, the question is second reading of Bill 9, Pooled
+      Registered Pension Plans Act.
+    reason: >
+      Unanimous on a division, and tagged but not ours (taxonomy false positive:
+      'family breakdown')
+    draft: true
+  - key: bc-40-4-2015-02-26-7.1
+    title: "Budget debate -- subamendment (Oak Bay-Gordon Head)"
+    placeable: false
+    dated: 2015-02-26
+    result: "Negatived 19-40"
+    lobbies: "Yea: NDP 17, Independent 2. Nay: Liberal 40 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th4th/20150226pm-Hansard-v20n7.htm"
+    text: >
+      (the store's record of the question) Throne Speech Debate | Madame
+      Speaker: Hon. Members, the question is the subamendment put forward by the
+      member for Oak Bay–Gordon Head.
+    reason: >
+      A budget subamendment is a confidence vote, and tagged but not ours
+      (taxonomy false positive: 'hospice' and 'end-of-life care' in a member
+      reading out budget spending)
+    draft: true
+  - key: bc-40-4-2015-02-26-7.2
+    title: "Budget debate -- amendment"
+    placeable: false
+    dated: 2015-02-26
+    result: "Negatived 17-42"
+    lobbies: "Yea: NDP 17. Nay: Liberal 40, Independent 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th4th/20150226pm-Hansard-v20n7.htm"
+    text: >
+      (the store's record of the question) Throne Speech Debate
+    reason: >
+      A budget amendment is a confidence vote, and tagged but not ours (taxonomy
+      false positive: 'hospice' and 'end-of-life care' in the budget debate)
+    draft: true
+  - key: bc-40-4-2015-05-12-3.1
+    title: "Bill 20, Election Amendment Act, 2015 -- second reading"
+    placeable: false
+    dated: 2015-05-12
+    result: "Carried 42-36"
+    lobbies: "Yea: Liberal 41, Independent 1. Nay: NDP 34, Independent 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th4th/20150512am-Hansard-v26n3.htm"
+    text: >
+      (the store's record of the question) BILL 20 — ELECTION AMENDMENT ACT,
+      2015
+    reason: >
+      tagged but not ours (taxonomy false positive: 'free speech' on election
+      law)
+    draft: true
+  - key: bc-40-4-2015-09-28-9.1
+    title: "Bill 29, Property Taxation (Exemptions) Statutes Amendment Act, 2015 -- second reading"
+    placeable: false
+    dated: 2015-09-28
+    result: "Carried 64-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 39, NDP 23, Independent 2. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th4th/20150928pm-Hansard-v28n9.htm"
+    text: >
+      (the store's record of the question) BILL 29 — PROPERTY TAXATION
+      (EXEMPTIONS) STATUTES AMENDMENT ACT, 2015
+    reason: >
+      Unanimous on a division, and tagged but not ours (taxonomy false positive:
+      'religious education')
+    draft: true
+  - key: bc-40-4-2015-10-01-14.1
+    title: "Bill 34, Red Tape Reduction Day Act -- second reading"
+    placeable: false
+    dated: 2015-10-01
+    result: "Carried 57-1"
+    lobbies: "Yea: Liberal 38, NDP 19. Nay: Independent 1 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th4th/20151001pm-Hansard-v28n14.htm"
+    text: >
+      (the store's record of the question) BILL 34 — RED TAPE REDUCTION DAY ACT
+    reason: >
+      tagged but not ours (taxonomy false positive: 'Down syndrome' and 'organ
+      donation' as debate asides)
+    draft: true
+  - key: bc-40-5-2016-02-23-4.2
+    title: "Budget debate -- amendment"
+    placeable: false
+    dated: 2016-02-23
+    result: "Negatived 27-39"
+    lobbies: "Yea: NDP 25, Independent 2. Nay: Liberal 39 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th5th/20160223pm-Hansard-v33n4.htm"
+    text: >
+      (the store's record of the question) Debate Continued
+    reason: >
+      A budget amendment is a confidence vote, and tagged but not ours (taxonomy
+      false positive: 'organ donor' as a debate aside)
+    draft: true
+  - key: bc-40-5-2016-04-07-6.1
+    title: "Bill 17 -- NDP amendment"
+    placeable: false
+    dated: 2016-04-07
+    result: "Negatived 31-41"
+    lobbies: "Yea: NDP 29, Independent 2. Nay: Liberal 41 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th5th/20160407am-Hansard-v36n6.htm"
+    text: >
+      (the store's record of the question) BILL 17 — LOCAL ELECTIONS CAMPAIGN
+      FINANCING (ELECTION EXPENSES) AMENDMENT ACT, 2016
+    reason: >
+      tagged but not ours (taxonomy false positive: 'free speech' on spending
+      limits in local elections)
+    draft: true
+  - key: bc-40-5-2016-04-11-9.1
+    title: "Bill 17, Local Elections Campaign Financing (Election Expenses) Amendment Act -- NDP amendment"
+    placeable: false
+    dated: 2016-04-11
+    result: "Negatived 31-43"
+    lobbies: "Yea: NDP 29, Independent 2. Nay: Liberal 43 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th5th/20160411pm-Hansard-v36n9.htm"
+    text: >
+      (the store's record of the question) BILL 17 — LOCAL ELECTIONS CAMPAIGN
+      FINANCING (ELECTION EXPENSES) AMENDMENT ACT, 2016
+    reason: >
+      tagged but not ours (taxonomy false positive: 'freedom of expression' on
+      spending limits in local elections)
+    draft: true
+  - key: bc-40-6-2017-03-13-7.1
+    title: "Bill 3, Discriminatory Provisions (Historical Wrongs) Repeal Act -- second reading"
+    placeable: false
+    dated: 2017-03-13
+    result: "Carried 74-0 (unanimous on a division)"
+    lobbies: "Yea: Liberal 41, NDP 32, Independent 1. Nay: none (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/40th6th/20170313pm-Hansard-v43n7.htm"
+    text: >
+      (the store's record of the question) BILL 3 — DISCRIMINATORY PROVISIONS
+      (HISTORICAL WRONGS) REPEAL ACT | Madame Speaker: Hon. Members, the
+      question is second reading of Bill 3, Discriminatory Provisions
+      (Historical Wrongs) Repeal Act.
+    reason: >
+      Unanimous on a division, and tagged but not ours (taxonomy false positive:
+      'freedom of speech')
+    draft: true
+  - key: bc-39-3-2011-05-03-11.1
+    title: "Budget debate -- that the Speaker leave the chair for Committee of Supply"
+    placeable: false
+    dated: 2011-05-03
+    result: "Carried 46-30"
+    lobbies: "Yea: Liberal 45, Independent 1. Nay: NDP 29, Independent 1 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/39th3rd/20110503am-Hansard-v20n11.htm"
+    text: >
+      (the store's record of the question) Budget Debate | Mr. Speaker: Hon.
+      Members, the question before the House is that the Speaker do now leave
+      the chair for the House to go into Committee of Supply.
+    reason: >
+      Procedural (supply), and tagged but not ours (taxonomy false positive:
+      'deportation')
+    draft: true
+  - key: bc-39-4-2012-03-12-2.2
+    title: "Bill 22, Education Improvement Act -- amendment at second reading"
+    placeable: false
+    dated: 2012-03-12
+    result: "Negatived 29-44"
+    lobbies: "Yea: NDP 27, Independent 2. Nay: Liberal 44 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/39th4th/20120312pm-Hansard-v32n2.htm"
+    text: >
+      (the store's record of the question) BILL 22 — EDUCATION IMPROVEMENT ACT |
+      The first question is on the amendment to second reading moved by the
+      Opposition House Leader, Thursday, March 8.
+    reason: >
+      tagged but not ours (taxonomy false positive: 'right to withdraw'; a
+      teachers' labour bill)
+    draft: true
+  - key: bc-39-4-2012-03-12-2.3
+    title: "Bill 22, Education Improvement Act -- second reading"
+    placeable: false
+    dated: 2012-03-12
+    result: "Carried 44-29"
+    lobbies: "Yea: Liberal 44. Nay: NDP 27, Independent 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/39th4th/20120312pm-Hansard-v32n2.htm"
+    text: >
+      (the store's record of the question) BILL 22 — EDUCATION IMPROVEMENT ACT |
+      Mr. Speaker: The second question is on second reading of Bill 22.
+    reason: >
+      tagged but not ours (taxonomy false positive: 'right to withdraw'; a
+      teachers' labour bill)
+    draft: true
+  - key: bc-39-4-2012-03-14-5.1
+    title: "Bill 22, Education Improvement Act -- NDP amendment in committee"
+    placeable: false
+    dated: 2012-03-14
+    result: "Negatived 31-45"
+    lobbies: "Yea: NDP 30, Independent 1. Nay: Liberal 44, Independent 1 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/39th4th/20120314pm-Hansard-v32n5.htm"
+    text: >
+      (the store's record of the question) BILL 22 — EDUCATION IMPROVEMENT ACT
+    reason: >
+      tagged but not ours (taxonomy false positive: 'surrogate'; a teachers'
+      labour bill)
+    draft: true
+  - key: bc-39-4-2012-03-27-4.2
+    title: "Bill 20, Auditor General for Local Government Act -- committee"
+    placeable: false
+    dated: 2012-03-27
+    result: "Carried 42-33"
+    lobbies: "Yea: Liberal 41, Independent 1. Nay: NDP 31, Independent 2 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/39th4th/20120327pm-Hansard-v33n4.htm"
+    text: >
+      (the store's record of the question) BILL 20 — AUDITOR GENERAL FOR LOCAL
+      GOVERNMENT ACT
+    reason: >
+      tagged but not ours (taxonomy false positive: 'censorship')
+    draft: true
+  - key: bc-39-4-2012-05-29-5.1
+    title: "Bill 53, Family Day Act -- second reading"
+    placeable: false
+    dated: 2012-05-29
+    result: "Carried 74-3"
+    lobbies: "Yea: Liberal 41, NDP 33. Nay: Independent 3 (counted from prov_votes; party is the LIMS API's undated label, today's caucus, not party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://lims.leg.bc.ca/hdms/file/Debates/39th4th/20120529am-Hansard-v39n5.htm"
+    text: >
+      (the store's record of the question) BILL 53 — FAMILY DAY ACT
+    reason: >
+      tagged but not ours (taxonomy false positive: 'freedom of expression'; a
+      statutory holiday)
+    draft: true
+
+  # --- Manitoba ---------------------------------------------------------------
+  # DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
+  # recorded divisions on our ground that have none"). Every entry below is
+  # `draft: true` and places nobody until confirmed. Values were checked
+  # against the mover's own vote and the party splits in prov_votes; each
+  # valued entry says what text was read. `placeable: false` entries carry the
+  # store's own record of the question and say why: procedure, unanimity, or
+  # a taxonomy false positive ("tagged but not ours"). dated/result/lobbies
+  # are counted from the store.
+  - key: mb-43-1-2024-04-23-1
+    title: "Shall the ruling of the Chair be sustained? (privilege)"
+    placeable: false
+    dated: 2024-04-23
+    result: "Ruling sustained 29-20"
+    lobbies: "Yea: NDP 29. Nay: PC 20 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.gov.mb.ca/legislature/business/43rd/1st/votes_048.pdf"
+    text: >
+      (the store's record of the question) between two Members as to the
+      allegations of facts does not fulfill the conditions of parliamentary
+      privilege. Accordingly, I rule that a prima facie case of a breach of
+      privilege has not been established in th e case. The last comment I will
+      make is that although we are all protected by parliamentary privilege
+      while in the Chamber that grants us freedom of speech, personal attacks
+      and disrespect will never help win [...]
+    reason: >
+      Procedural (appeal of a Speaker's ruling on privilege); tagged but not
+      ours (taxonomy false positive: 'freedom of speech' as parliamentary
+      privilege)
+    draft: true
+  - key: mb-43-1-2024-05-27-1
+    title: "Bill 37 -- PC amendment to withdraw the bill and refer its subject matter to committee"
+    placeable: false
+    dated: 2024-05-27
+    result: "Negatived 19-27"
+    lobbies: "Yea: PC 19. Nay: NDP 27 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Minister Sala (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/43rd/1st/votes_062.pdf"
+    text: >
+      (the store's record of the question) the words after the word “ THAT” and
+      substituting the following: Bill (No. 37) – The Budget Implementation and
+      Tax Statutes Amendment Act, 2024/Loi d’exécution du budget de 2024 et
+      modifiant diverses dispositions législatives en matière de fiscalité , be
+      not now r ead a Second Time but that the O rder for Second Reading be
+      discharged, the Bill withdrawn from the Order Paper and the subject matter
+      thereof referred to [...]
+    reason: >
+      Procedural (referral), on a budget bill, as mb-43-1-2024-11-07-3.
+    draft: true
+  - key: mb-43-1-2024-05-30-1
+    areas: [3, 5]
+    title: "Bill 208 (Oxenham), The Two-Spirit and Transgender Day of Visibility Act -- third reading"
+    dated: 2024-05-30
+    result: "Carried 40-4"
+    lobbies: "Yea: NDP 30, PC 9, Liberal 1. Nay: PC 4 (counted from prov_votes; party at the vote)"
+    moved_by: "Logan Oxenham (NDP), the sponsor, who voted Yea"
+    source: "Votes and Proceedings No. 65, 30 May 2024 (gov.mb.ca/legislature/business/43rd/1st/votes_065.pdf); Bill 208 text (web2.gov.mb.ca/bills/43-1/b208e.php)"
+    text: >
+      SCHEDULE 5.1 TWO-SPIRIT AND TRANSGENDER DAY OF VISIBILITY WHEREAS people
+      who are two-spirit, transgender or non-binary are deserving of dignity,
+      respect and freedom to live their lives fully and with meaning [...]
+    # TEXT READ 8 October 2026 (the stored excerpt of the enacted schedule).
+    # +/-1: a commemorative day, not a change in rights. The PCs split:
+    # Goertzen, Guenter, Narth and Schuler Nay; nine PCs Yea. Area 7
+    # ('disinformation') dropped as a false positive.
+    yea: -1
+    why_yea: "Voted to make a statutory Two-Spirit and Transgender Day of Visibility."
+    nay: 1
+    why_nay: "One of four members to vote against a statutory Two-Spirit and Transgender Day of Visibility."
+    draft: true
+  - key: mb-43-1-2024-06-03-1
+    title: "Bill 8, The Safe Access to Abortion Services Act -- third reading"
+    dated: 2024-06-03
+    result: "Carried 29-19"
+    lobbies: "Yea: NDP 28, Liberal 1. Nay: PC 19 (counted from prov_votes; party at the vote)"
+    moved_by: "Nahanni Fontaine (NDP; a minister, the bill's sponsor), who voted Yea"
+    source: "Votes and Proceedings No. 66, 3 June 2024 (gov.mb.ca/legislature/business/43rd/1st/votes_066.pdf); bill page web2.gov.mb.ca/bills/43-1/b008e.php"
+    text: >
+      THAT Bill (No. 8) - The Safe Access to Abortion Services Act [...]
+      reported from the Standing Committee on Justice, be concurred in and be
+      now read for a Third Time and passed.
+    # TEXT READ 8 October 2026 (the V&P motion; the bill's title states its
+    # purpose, as Fontaine's earlier Bills 200 and 207). NDP 28 and Lamoureux
+    # Yea; PC 19 Nay.
+    yea: -2
+    why_yea: "Voted to pass Manitoba's abortion 'safe access zones' law restricting pro-life presence and speech near clinics."
+    nay: 2
+    why_nay: "Voted against Manitoba's abortion safe-access-zones law."
+    draft: true
+  - key: mb-43-1-2024-10-10-1
+    title: "Bill 37 -- second reading"
+    placeable: false
+    dated: 2024-10-10
+    result: "Carried 30-21"
+    lobbies: "Yea: NDP 30. Nay: PC 20, Liberal 1 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Minister Sala (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/43rd/1st/votes_074.pdf"
+    text: >
+      (the store's record of the question) The House resumed the debate on the
+      proposed motion of Hon. Min. SALA: THAT Bill (No. 37) – The Budget
+      Implementation and Tax Statutes Amendment Act, 2024/Loi d’exécution du
+      budget de 2024 et modifiant diverses dispositions législatives en matière
+      de fiscalité , be now read a Second Time and be referred to a Committee of
+      this House. And the debate continuing, And Ms. BYRAM and Messrs. BALCAEN,
+      NARTH, SCHULER and [...]
+    reason: >
+      Budget bill, as mb-43-1-2024-11-07-3.
+    draft: true
+  - key: mb-43-1-2024-11-07-3
+    title: "Bill 37, Budget Implementation and Tax Statutes Amendment Act, 2024 -- third reading"
+    placeable: false
+    dated: 2024-11-07
+    result: "Carried 32-19"
+    lobbies: "Yea: NDP 31, Independent 1. Nay: PC 19 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Minister Sala (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/43rd/1st/votes_85.pdf"
+    text: >
+      (the store's record of the question) Hon. Min. SALA moved: THAT Bill (No.
+      37) – The Budget Implementation and Tax Statutes Amendment Act, 2024/Loi
+      d’exécution du budget de 2024 et modifiant diverses dispositions
+      législatives en matière de fiscalité , as amended and reported from the
+      Committee of the Whole, be concurred in and be now read for a Third Time
+      and passed. And a debate arising, And Hon. Min. SALA, Mrs. STONE and Mr.
+      WASYLIW having spoken, And [...]
+    reason: >
+      A budget implementation bill (confidence). On our ground in one clause --
+      s.26 extends the fertility tax credit to sperm or ova 'to enable the
+      conception of a child by [...] a surrogate' and to surrogacy expenses --
+      but the House divided on the budget, not on surrogacy.
+    draft: true
+  - key: mb-43-2-2025-06-02-6
+    title: "Bill 43, The Human Rights Code Amendment Act -- third reading"
+    dated: 2025-06-02
+    result: "Carried 33-16"
+    lobbies: "Yea: NDP 32, Liberal 1. Nay: PC 16 (counted from prov_votes; party at the vote)"
+    moved_by: "Matt Wiebe (NDP; Minister of Justice, the bill's sponsor), who voted Yea"
+    source: "Votes and Proceedings No. 63, 2 June 2025 (gov.mb.ca/legislature/business/43rd/2nd/votes_063.pdf); Bill 43 text (web2.gov.mb.ca/bills/43-2/b043e.php)"
+    text: >
+      2 Subsection 9(2) is amended (a) in clause (g) of the French version, by
+      striking out 'sexuelle' and substituting 'de genre'; and (b) by adding the
+      following after clause (g): (g.1) gender expression;
+    # TEXT READ 8 October 2026. Read as federal C-16 (commons-42-1-126,
+    # senate-42-1-458503): +/-2. NDP 32 and Lamoureux (Lib.) Yea; PC 16 Nay.
+    # Second reading was not a recorded division.
+    yea: -2
+    why_yea: "Voted to add 'gender expression' to the protected characteristics of Manitoba's Human Rights Code."
+    nay: 2
+    why_nay: "Voted against adding 'gender expression' to Manitoba's Human Rights Code."
+    draft: true
+  - key: mb-42-3-2021-10-14-1
+    title: "Bill 207 (Fontaine), The Abortion Protest Buffer Zone Act -- second reading (negatived)"
+    dated: 2021-10-14
+    result: "Negatived 20-30"
+    lobbies: "Yea: NDP 17, Liberal 3. Nay: PC 30 (counted from prov_votes; party at the vote)"
+    moved_by: "Nahanni Fontaine (NDP), the sponsor, who voted Yea"
+    source: "Votes and Proceedings No. 82, 14 October 2021 (gov.mb.ca/legislature/business/42nd/3rd/votes_082.pdf); bill page web2.gov.mb.ca/bills/42-3/b207e.php"
+    text: >
+      THAT Bill (No. 207) - The Abortion Protest Buffer Zone Act [...] be now
+      read a Second Time and be referred to a Committee of this House.
+    # TEXT READ 8 October 2026 (the V&P motion; the title states the purpose).
+    # +/-2 as a private member's bill that died at its only reading (C-225,
+    # C-230). NDP 17 and Liberal 3 Yea; PC 30 Nay.
+    yea: -2
+    why_yea: "Voted for abortion buffer zones restricting pro-life protest and witness near clinics."
+    nay: 2
+    why_nay: "Voted against abortion buffer zones restricting pro-life protest and witness."
+    draft: true
+  - key: mb-42-4-2022-05-10-1
+    title: "Opposition Day Motion (Fontaine) -- abortion access and buffer zones"
+    dated: 2022-05-10
+    result: "Negatived 20-28"
+    lobbies: "Yea: NDP 17, Liberal 3. Nay: PC 28 (counted from prov_votes; party at the vote)"
+    moved_by: "Nahanni Fontaine (NDP), who voted Yea"
+    source: "Votes and Proceedings No. 46, 10 May 2022 (gov.mb.ca/legislature/business/42nd/4th/votes_046.pdf)"
+    text: >
+      THAT the Legislative Assembly of Manitoba call on the Provincial
+      Government to protect the rights of women, girls and gender diverse
+      citizens by ensuring access to reproductive health care throughout
+      Manitoba, particularly in northern and rural areas, which includes
+      equitable access to both medical (Mifegymiso) and surgical abortions, and
+      to protect access to abortion services by creating buffer zones around
+      clinics and facilities providing abortion services, schools and the
+      residences of medical professionals who provide those services.
+    # TEXT READ 8 October 2026. NDP 17 and Liberal 3 Yea; PC 28 Nay.
+    yea: -1
+    why_yea: "Voted to urge equitable access to medical and surgical abortion and buffer zones around clinics, schools and providers' homes."
+    nay: 1
+    why_nay: "Voted against a motion urging wider abortion access and buffer zones around clinics and providers' homes (+1: a Nay also carried the government whip)."
+    draft: true
+  - key: mb-41-1-2016-10-17-1
+    title: "Bill 15 -- second reading"
+    placeable: false
+    dated: 2016-10-17
+    result: "Carried 51-0 (unanimous on a division)"
+    lobbies: "Yea: PC 36, NDP 12, Liberal 3. Nay: none (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Mr. Wishart (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/41st/1st/votes_044.pdf"
+    text: >
+      (the store's record of the question) ion Act and Private Vocational
+      Institutions Act Amended)/Loi sur la sensibilisation et la prévention en
+      matière de violence à caractère sexuel (modification de la Loi sur
+      l'administration de l'enseignement postsecondaire et de la Loi sur les
+      établissements d'enseignement professionnel privés), be now read a Second
+      Time and be referred to a Committee of this House. And a debate arising,
+      And Hon. Mr. WISHART having [...]
+    reason: >
+      Unanimous (51-0), and tagged but not ours (taxonomy false positive:
+      'gender expression')
+    draft: true
+  - key: mb-41-1-2016-11-03-1
+    title: "Bill 15, Sexual Violence Awareness and Prevention Act -- NDP amendment (culturally sensitive policy)"
+    placeable: false
+    dated: 2016-11-03
+    result: "Negatived 16-38"
+    lobbies: "Yea: NDP 13, Liberal 3. Nay: PC 38 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.gov.mb.ca/legislature/business/41st/1st/votes_055.pdf"
+    text: >
+      (the store's record of the question) culturally sensitive policy 2.2(4.1)
+      For the purpose of subsection (4), a culturally sensitive policy is one
+      that (a) reflects the perspectives of those most vulnerable to
+      experiencing sexual violence, including those who are vulnerable because
+      of age, disability, ethnicity, gender, gender identity, gender expression,
+      sexual identity or sexual expression; and (b) is in keeping with the
+      requirements of The Human [...]
+    reason: >
+      tagged but not ours (taxonomy false positive: 'gender expression' in a
+      list of groups a campus sexual-violence policy must reflect)
+    draft: true
+  - key: mb-41-1-2016-11-03-3
+    title: "Bill 15 -- NDP amendment (culturally sensitive policy)"
+    placeable: false
+    dated: 2016-11-03
+    result: "Negatived 16-36"
+    lobbies: "Yea: NDP 13, Liberal 3. Nay: PC 36 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.gov.mb.ca/legislature/business/41st/1st/votes_055.pdf"
+    text: >
+      (the store's record of the question) aning of culturally sensitive policy
+      13.1(2.1) For the purpose of subsection (2), a culturally sensitive policy
+      is one that (a) reflects the perspectives of those most vulnerable to
+      experiencing sexual violence, including those who are vulnerable because
+      of age, disability, ethnicity, gender, gender identity, gender expression,
+      sexual identity or sexual expression; and (b) is in keeping with the
+      requirements of The [...]
+    reason: >
+      tagged but not ours (taxonomy false positive: 'gender expression', as
+      mb-41-1-2016-11-03-1)
+    draft: true
+  - key: mb-41-1-2016-11-03-5
+    title: "Bill 15 -- third reading"
+    placeable: false
+    dated: 2016-11-03
+    result: "Carried 51-0 (unanimous on a division)"
+    lobbies: "Yea: PC 36, NDP 14, Liberal 1. Nay: none (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Mr. Wishart (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/41st/1st/votes_055.pdf"
+    text: >
+      (the store's record of the question) THAT Bill (No. 15) – The Sexual
+      Violence Awareness and Prevention Act (Advanced Education Administration
+      Act and Private Vocational Institutions Act Amended)/Loi sur la
+      sensibilisation et la prévention en matière de violence à caractère sexuel
+      (modification de la Loi sur l'administration de l'enseignement
+      postsecondaire et de la Loi sur les éta blissements d'enseignement
+      professionnel privés) , reported from the [...]
+    reason: >
+      Unanimous (51-0), and tagged but not ours (taxonomy false positive:
+      'gender expression')
+    draft: true
+  - key: mb-41-2-2017-04-24-1
+    title: "Bill 16 -- second reading"
+    placeable: false
+    dated: 2017-04-24
+    result: "Carried 37-15"
+    lobbies: "Yea: PC 37. Nay: NDP 12, Liberal 2, Independent 1 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Mrs. Stefanson (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/41st/2nd/votes_043.pdf"
+    text: >
+      (the store's record of the question) The House resumed the Adjourned
+      Debate on the Proposed Motion of Hon. Mrs. STEFANSON: THAT Bill (No. 16) –
+      The Fatalit y Inquiries Amendment Act/Loi modifiant la Loi sur les
+      enquêtes médico-légales, be now read a Second Time and be referred to a
+      Committee of this House. And the Question being put. It was agreed to, on
+      the following division:
+    reason: >
+      Tagged but not ours as divided, as mb-41-2-2017-06-01-1.
+    draft: true
+  - key: mb-41-2-2017-05-30-2
+    title: "Bill 16 -- Swan report-stage amendment (inquest recommendations)"
+    placeable: false
+    dated: 2017-05-30
+    result: "Negatived 14-39"
+    lobbies: "Yea: NDP 11, Liberal 3. Nay: PC 39 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Mrs. Stefanson (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/41st/2nd/votes_060.pdf"
+    text: >
+      (the store's record of the question) The Order of the Day having been read
+      for consideration of Report Stage Amendment of Bill (No. 16) – The
+      Fatality Inquiries Amendment Act/Loi modifiant la Loi sur les enquêtes
+      médico - légales, reported from the Standing Committee on Justice: Mr.
+      SWAN moved: THAT Bill 16 be amended in Clause 18 by replacing the proposed
+      clause 19(2)(b) with the following: (b) an inquest may enable the
+      presiding provincial judge to [...]
+    reason: >
+      Tagged but not ours: it would let an inquest judge recommend changes to
+      laws and programmes (clause 19(2)(b)); nothing on MAID.
+    draft: true
+  - key: mb-41-2-2017-06-01-1
+    title: "Bill 16, The Fatality Inquiries Amendment Act -- third reading"
+    placeable: false
+    dated: 2017-06-01
+    result: "Carried 36-14"
+    lobbies: "Yea: PC 36. Nay: NDP 10, Liberal 3, Independent 1 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Mrs. Stefanson (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/41st/2nd/votes_062.pdf"
+    text: >
+      (the store's record of the question) Hon. Mrs. STEFANSON moved: THAT Bill
+      (No. 16) – The Fatality Inquiries Amendment Act/Loi modifiant la Loi sur
+      les enquêtes médico-légales, reported from the Standing Committee on
+      Justice, be concurred in and be now read a Third Time and passed. And a
+      debate arising, And Hon. Mrs. STEFANSON, Mr. SWAN and Hon. Mr. GERRARD
+      having spoken, And the Question being put. It was agreed to, on the
+      following division:
+    reason: >
+      Tagged but not ours as divided: s.7.1(2) says a MAID death is not
+      'suicide' or 'homicide' for reporting to the medical examiner, but the
+      House divided over the inquest reforms (Swan's amendment,
+      mb-41-2-2017-05-30-2), not MAID. CLOSE CALL.
+    draft: true
+  - key: mb-41-3-2018-10-04-3
+    title: "Bill 12 -- second reading"
+    placeable: false
+    dated: 2018-10-04
+    result: "Carried 36-15"
+    lobbies: "Yea: PC 35, Manitoba Party 1. Nay: NDP 10, Liberal 4, Independent 1 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Mrs. Mayer (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/41st/3rd/votes_073.pdf"
+    text: >
+      (the store's record of the question) Hon. Mrs. MAYER moved: THAT Bill (No.
+      12) – The Red Tape Reduction and Government Efficiency Act, 2018/Loi de
+      2018 sur la réduction du fardeau administratif et l'efficacité du
+      gouvernement, be now read a Second Time and be referred to a Committee of
+      this House. And a debate arising, And Hon. Mrs. M AYER having spoken, And
+      Mrs. SMITH (Point Douglas), Mr. LAMONT and Hon. Mr. FLETCHER having
+      questioned the Minister, [...]
+    reason: >
+      tagged but not ours (taxonomy false positive: 'home schooling', as
+      mb-41-3-2018-11-08-3)
+    draft: true
+  - key: mb-41-3-2018-11-08-3
+    title: "Bill 12, The Red Tape Reduction and Government Efficiency Act, 2018 -- third reading"
+    placeable: false
+    dated: 2018-11-08
+    result: "Carried 34-16"
+    lobbies: "Yea: PC 34. Nay: NDP 12, Liberal 4 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Mrs. Mayer (government bill)"
+    source: "https://www.gov.mb.ca/legislature/business/41st/3rd/votes_088.pdf"
+    text: >
+      (the store's record of the question) Hon. Mrs. MAYER moved: THAT Bill (No.
+      12) – The Red Tape Reduction and Government Efficiency Act, 2018/Loi de
+      2018 sur la réduction du fardeau administratif et l'efficacité du
+      gouvernement, reported from the Standing Committee on Social and Economic
+      Development, be concurred in and be now read a Third Time and passed. And
+      a debate arising, And Hon. Mrs. M AYER, Mrs. SMITH (Point Douglas) and Mr.
+      LAMONT having [...]
+    reason: >
+      tagged but not ours (taxonomy false positive: 'home schooling' -- the
+      omnibus bill repeals unproclaimed 1980s Public Schools Act provisions on
+      home schooling and screening assessments)
+    draft: true
+  - key: mb-41-4-2018-12-06-1
+    title: "Bill 200 (Fontaine), The Safe Access to Abortion Services Act -- second reading (negatived)"
+    dated: 2018-12-06
+    result: "Negatived 11-32"
+    lobbies: "Yea: NDP 8, Liberal 3. Nay: PC 32 (counted from prov_votes; party at the vote)"
+    moved_by: "Nahanni Fontaine (NDP), the sponsor, who voted Yea"
+    source: "Votes and Proceedings No. 12, 6 December 2018 (gov.mb.ca/legislature/business/41st/4th/votes_012.pdf); bill page web2.gov.mb.ca/bills/41-4/b200e.php"
+    text: >
+      THAT Bill (No. 200) - The Safe Access to Abortion Services Act [...] be
+      now read a Second Time and be referred to a Committee of this House.
+    # TEXT READ 8 October 2026 (the V&P motion). +/-2 as Bill 207. NDP 8 and
+    # Liberal 3 Yea; PC 32 Nay.
+    yea: -2
+    why_yea: "Voted for abortion safe-access zones restricting pro-life presence and speech near clinics."
+    nay: 2
+    why_nay: "Voted against abortion safe-access zones."
+    draft: true
+  - key: mb-41-4-2019-04-10-1
+    title: "Shall the ruling of the Chair be sustained? (privilege)"
+    placeable: false
+    dated: 2019-04-10
+    result: "Ruling sustained 31-14"
+    lobbies: "Yea: PC 31. Nay: NDP 9, Liberal 4, Independent 1 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.gov.mb.ca/legislature/business/41st/4th/votes_037.pdf"
+    text: >
+      (the store's record of the question) or comments that he makes in the
+      House under the protection of freedom of speech. Persons outside of the
+      House can contact Members requesting apologies for comments made by
+      Members in the House if they so wish, but it is not a violation of the
+      privileges of the House if individuals write to request such an apology.
+      Nor can Members be held liable for statements made during a proceeding of
+      Parliament or of the [...]
+    reason: >
+      Procedural (appeal of a Speaker's ruling on privilege); tagged but not
+      ours (taxonomy false positive: 'freedom of speech' as parliamentary
+      privilege)
+    draft: true
+
+  # --- New Brunswick ----------------------------------------------------------
+  # DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
+  # recorded divisions on our ground that have none"). Every entry below is
+  # `draft: true` and places nobody until confirmed. Values were checked
+  # against the mover's own vote and the party splits in prov_votes; each
+  # valued entry says what text was read. `placeable: false` entries carry the
+  # store's own record of the question and say why: procedure, unanimity, or
+  # a taxonomy false positive ("tagged but not ours"). dated/result/lobbies
+  # are counted from the store.
+  - key: nb-60-1-2020-12-17-1
+    title: "Motion 4 (Clinic 554) -- Landry sub-amendment: fund abortion outside hospitals, including in private clinics"
+    dated: 2020-12-17
+    result: "Negatived 20-27"
+    lobbies: "Yea: Liberal 17, Green 3. Nay: PC 26, People's Alliance 1 (counted from prov_votes; party at the vote)"
+    moved_by: "Ms. Landry (Liberal), seconded by Mr. K. Chiasson; Landry voted Yea"
+    source: "Journal of the Legislative Assembly, 17 December 2020, pp. 100-103 (legnb.ca/content/house_business/60/1/journals/13201217e.pdf)"
+    text: >
+      SUB-AMENDMENT That the following be added after the second resolution
+      clause: 'BE IT FURTHER RESOLVED that the Legislative Assembly urge the
+      government to fund expanded access to abortion services provided in a
+      clinical setting outside of hospitals including those provided in private
+      clinics.'
+    # TEXT READ 8 October 2026. Liberal 17 and Green 3 Yea; PC 26 and People's
+    # Alliance 1 Nay. The government amendment it would have added to (RHAs to
+    # check Canada Health Act compliance) and the motion as amended passed on
+    # voice.
+    yea: -1
+    why_yea: "Voted to urge public funding of abortion outside hospitals, including in private clinics."
+    nay: 1
+    why_nay: "Voted against urging public funding of abortion in private clinics (+1: a Nay also carried the government whip)."
+    draft: true
+  - key: nb-60-1-2022-05-31-1
+    title: "Law Amendments Committee report on Bill 61 (presumed consent to organ donation) -- concurrence"
+    placeable: false
+    dated: 2022-05-31
+    result: "Carried 25-18"
+    lobbies: "Yea: PC 25. Nay: Liberal 15, Green 3 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.legnb.ca/content/house_business/60/1/journals/79210531e.pdf"
+    text: >
+      (the store's record of the question) istical support for transp lantation,
+      as there are potential donors whose organs are not able to be u sed
+      because retrieval does not occur in time. It should also includ e public
+      education about the need for organ donation. While only a small fraction
+      of hospital deaths are suitable candidates for organ donation, every
+      single donation has a ripple effect which can save and improve multiple
+      lives. RECOMMENDATIONS The [...]
+    reason: >
+      Not ours on either side: the report 'strongly supports the intent' of
+      presumed (deemed) consent and only recommends the government bring its own
+      bill; the split (PC Yea, Liberal and Green Nay) is over whose bill, not
+      over deemed consent. Area 13 also has no 5CA sheet.
+    draft: true
+  - key: nb-60-1-2022-06-03-1
+    title: "Bill 114, Child and Youth Well-Being Act -- Gauvin amendment to refer the subject matter to committee"
+    placeable: false
+    dated: 2022-06-03
+    result: "Negatived 16-25"
+    lobbies: "Yea: Liberal 13, Green 3. Nay: PC 25 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Hon. Bruce FITCH (government bill)"
+    source: "https://www.legnb.ca/content/house_business/60/1/journals/82220603e.pdf"
+    text: >
+      (the store's record of the question) Debate resumed on the adjourned
+      debate on the amendment to the motion that Bill 114, Child and Youth
+      Well-Being Act, be now read a second time, moved by Mr. Gauvin, seconded
+      by Mr. McKee, on May 19, 2022. And the debate being ended, and the
+      question being put on the amendment, it was resolved in the negative on
+      the following recorded division:
+    reason: >
+      Procedural (discharge and referral to the Law Amendments Committee), and
+      tagged but not ours: a child-protection statute matched on 'parental
+      rights', 'surrogate' (decision-maker) and 'gender expression'.
+    draft: true
+  - key: nb-60-2-2023-06-15-4
+    title: "Motion 50 -- Chiasson amendment (consultations instead of reverting Policy 713)"
+    placeable: false
+    dated: 2023-06-15
+    result: "Carried 26-20"
+    lobbies: "Yea: Liberal 16, PC 6, Green 3, Independent 1. Nay: PC 20 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false); no bill linked"
+    source: "https://www.legnb.ca/content/house_business/60/2/journals/47230615e2.pdf"
+    text: >
+      (the store's record of the question) [Motion 50] Pursuant to Notice of
+      Motion 50, Ms. Holt moved, seconded by Ms. Landry: WHEREAS the Child and
+      Youth Advocate, the New Brunswick Women’s Council, the minister
+      responsible for the Child and Youth Well-Being Act, and the Human Rights
+      Commission have identified serious problems with the process to review
+      Policy 713; WHEREAS the changes proposed in the new version of Policy 713
+      disregard the rights of [...]
+    reason: >
+      Split exactly as Motion 50 as amended (26-20, the same members): the
+      motion (nb-60-2-2023-06-15-5) carries the reading.
+    draft: true
+  - key: nb-60-2-2023-06-15-5
+    title: "Motion 50 (Holt), as amended -- Policy 713 'disregard[s] the rights of children'; urge consultations by the Child and Youth Advocate"
+    dated: 2023-06-15
+    result: "Carried 26-20"
+    lobbies: "Yea: Liberal 16, PC 6, Green 3, Independent 1. Nay: PC 20 (counted from prov_votes; party at the vote)"
+    moved_by: "Ms. Holt (Liberal leader), seconded by Ms. Landry; Holt voted Yea. The amendment was moved by Mr. C. Chiasson (Liberal), seconded by Ms. Landry"
+    source: "Journal of the Legislative Assembly, 15 June 2023, pp. 6-8 (legnb.ca/content/house_business/60/2/journals/47230615e2.pdf)"
+    text: >
+      WHEREAS the Child and Youth Advocate, the New Brunswick Women's Council,
+      the minister responsible for the Child and Youth Well-Being Act, and the
+      Human Rights Commission have identified serious problems with the process
+      to review Policy 713; WHEREAS the changes proposed in the new version of
+      Policy 713 disregard the rights of children and youth and the best
+      interest of the child; [...] BE IT RESOLVED that the Legislative Assembly
+      urge the government to request that the Office of the Child and Youth
+      Advocate conduct full consultations with relevant stakeholders on any
+      changes to Policy 713 and the impact of such changes, and make public the
+      results of such consultations by August 15, 2023.
+    # TEXT READ 8 October 2026. As moved, the motion urged reverting to the
+    # August 2020 Policy 713; the amendment (-4) softened that to consultations.
+    # Six PCs -- Holder, Shephard, Allain, Carr, Anderson-Mason and Wetmore --
+    # voted with the opposition, which is what makes this vote tell members
+    # apart. +/-1 as a non-binding motion; CLOSE CALL, it is the province's
+    # defining vote on parental consent.
+    yea: -1
+    why_yea: "Voted for a motion declaring that the government's Policy 713 changes -- parental consent before an under-16 uses a new name or pronoun at school -- 'disregard the rights of children'."
+    nay: 1
+    why_nay: "Voted against the motion condemning the Policy 713 changes requiring parental consent before an under-16 uses a new name or pronoun at school."
+    draft: true
+
+  # --- Nova Scotia ------------------------------------------------------------
+  # DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
+  # recorded divisions on our ground that have none"). Every entry below is
+  # `draft: true` and places nobody until confirmed. Values were checked
+  # against the mover's own vote and the party splits in prov_votes; each
+  # valued entry says what text was read. `placeable: false` entries carry the
+  # store's own record of the question and say why: procedure, unanimity, or
+  # a taxonomy false positive ("tagged but not ours"). dated/result/lobbies
+  # are counted from the store.
+  - key: ns-63-1-2018-03-02-1
+    title: "Bill 72 -- second reading"
+    placeable: false
+    dated: 2018-03-02
+    result: "Carried 24-22"
+    lobbies: "Yea: Liberal 24. Nay: PC 15, NDP 7 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Zach Churchill (government bill)"
+    source: "https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_18mar02"
+    text: >
+      (the store's record of the question) The motion is for second reading of
+      Bill No. 72.
+    reason: >
+      As ns-63-1-2018-03-08-1.
+    draft: true
+  - key: ns-63-1-2018-03-08-1
+    title: "Bill 72, Education Reform (2018) Act -- third reading"
+    placeable: false
+    dated: 2018-03-08
+    result: "Carried 25-21"
+    lobbies: "Yea: Liberal 25. Nay: PC 14, NDP 7 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Zach Churchill (government bill)"
+    source: "https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_18mar08"
+    text: >
+      (the store's record of the question) The motion is for third reading of
+      Bill No. 72.
+    reason: >
+      Tagged but not ours as divided: the bill abolished the seven elected
+      English regional school boards (the Glaze report), which is what the PC
+      and NDP Nay opposed; it matched 'home education' on s.84 (the Minister may
+      stop a home education programme that does not meet the requirements).
+      CLOSE CALL: whether s.84 is new or re-enacts the Education Act was not
+      checked -- nslegislature.ca does not answer from this laptop (VPN exit;
+      prov_ns.py).
+    draft: true
+  - key: ns-62-2-2015-12-11-1
+    title: "Bill 112, Children and Family Services Act (amended) -- third reading"
+    dated: 2015-12-11
+    result: "Carried 38-6"
+    lobbies: "Yea: Liberal 29, PC 9. Nay: NDP 6 (counted from prov_votes; party at the vote)"
+    moved_by: "Not checked (placeable: false). The bill's sponsor, per the store: Joanne Bernard (government bill)"
+    source: "https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_15dec11"
+    text: >
+      (the store's record of the question) The motion is for third reading of
+      Bill No. 112. Would all those in favour of the motion please say Aye.
+    read_first: >
+      Not read. The stored text adds to the best-interests factors '(ga) the
+      child's sexual orientation, gender identity and gender expression' (on our
+      ground, as Ontario's Bill 89), but the only Nays were six NDP members,
+      whose objection was not read: the Hansard of 11 December 2015
+      (nslegislature.ca house_15dec11) was requested on 8 October 2026 and the
+      host did not answer from this laptop (VPN exit; src/ingest/prov_ns.py).
+      Read the third-reading debate before giving values: if the NDP Nay was not
+      about clause (ga), this is placeable: false.
     draft: true
 
 bills: []
