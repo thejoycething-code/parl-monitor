@@ -60,8 +60,24 @@ class StanceFileTests(unittest.TestCase):
         # read from.
         read_2_oct = ["ab-31-1-2024-11-27-3", "ab-31-1-2024-11-27-4",
                       "ab-31-1-2024-11-27-5", "bc-43-2-2026-02-26-126.1"]
-        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "draft"], [])
-        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "unread"], [])
+        # Alberta drafts of 8 October 2026 (Christopher: "draft READINGS for
+        # Alberta's recorded divisions on our ground") are the only drafts and
+        # the only read-first entries; none places anyone until confirmed.
+        def ab(state):
+            return sorted(k for k, e in entries.items() if k.startswith("ab-") and p5.status(e) == state)
+        self.assertEqual([k for k, e in entries.items() if not k.startswith("ab-")
+                          and p5.status(e) in ("draft", "unread")], [])
+        self.assertEqual(len(ab("draft")), 19)
+        self.assertEqual(ab("unread"), ["ab-28-1-2012-11-19-3", "ab-28-3-2014-12-02-1",
+                                        "ab-28-3-2014-12-03-1"])
+        self.assertEqual(len(ab("unplaceable")), 90)
+        self.assertEqual(len(ab("confirmed")), 11)
+        for k in ab("draft") + ab("unread") + ab("unplaceable"):
+            e = entries[k]
+            if k in ("ab-31-1-2024-12-03-1", "ab-31-1-2024-11-26-5"):
+                continue  # confirmed placeable: false entries of 3 October
+            self.assertTrue(e.get("draft") and e.get("text") and e.get("moved_by") and e.get("source")
+                            and e.get("dated") and e.get("result") and e.get("lobbies"), k)
         self.assertEqual({p5.status(entries[k]) for k in read_2_oct}, {"confirmed"})
         self.assertEqual(p5.status(entries["sk-29-3-2023-10-19-6"]), "unplaceable")
         for k in read_2_oct + ["sk-29-3-2023-10-19-6"]:
