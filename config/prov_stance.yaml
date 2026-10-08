@@ -19,6 +19,19 @@
 # None remains read-first. The BC bill was never printed, so its entry is
 # read from the member's first-reading statement.
 #
+# CONFIRMED, 8 October 2026, ON DELEGATION. Christopher: "Score for me and
+# Greg can amend if necessary." Claude reviewed every draft (the Alberta,
+# Ontario, Manitoba, BC, New Brunswick, Nova Scotia, Saskatchewan and
+# Quebec batches) and deleted their `draft: true` lines; section comments
+# below that still say "drafts" or "not confirmed" describe how each batch
+# was drafted, not its status now. Calls made on the flags: Alberta Bill 24
+# (2024) kept at +/-1 both ways; the BC Human Rights Code Repeal Act is
+# Yea-only; Quebec's laicity bills stand as drafted, read as limits on
+# religious freedom. Greg (Canada reviewer) may amend any reading after the
+# blind agreement round. The four `read_first:` entries (Alberta Bill 3 of
+# 2012 and Bill 10 of 2014 x2, Nova Scotia Bill 112 of 2015) stay drafts and
+# place nobody until their Hansard is read.
+#
 # HOW AN ENTRY PLACES PEOPLE. An entry carrying `draft: true` places NOBODY.
 # Every entry starts as a draft; to confirm a reading, delete its `draft:
 # true` line. Three kinds of entry, exactly as for Canada:
@@ -288,7 +301,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: a written question on continuing-care
       penalties, linked to Bill 24 (first read that day) and tagged with
       Bill 24's terms. Not on our ground.
-    draft: true
   - key: ab-31-1-2024-10-30-1
     placeable: false
     title: "Bill 24, Alberta Bill of Rights Amendment Act -- amendment on solar energy systems"
@@ -307,7 +319,6 @@ divisions:
     reason: >
       NOT OURS: property rights and solar panels, tagged only because Bill
       24 is. Evidence only.
-    draft: true
   - key: ab-31-1-2024-10-31-1
     title: "Bill 26, Health Statutes Amendment Act, 2024 (No. 2) -- first reading"
     dated: 2024-10-31
@@ -329,7 +340,6 @@ divisions:
     why_yea: "Voted to introduce Bill 26, restricting puberty blockers, cross-sex hormones and gender surgery for minors (a recorded division at first reading)."
     nay: -1
     why_nay: "Voted against even introducing Bill 26, the restriction on puberty blockers, hormones and gender surgery for minors."
-    draft: true
   - key: ab-31-1-2024-11-26-3
     placeable: false
     title: "Bill 24 -- remaining clauses in Committee of the Whole"
@@ -349,7 +359,6 @@ divisions:
       (ab-31-1-2024-11-27-1). The readings carry the bill; a clause, hoist
       or concurrence vote that divides exactly as they do would only count
       the same conviction twice.
-    draft: true
   - key: ab-31-1-2024-11-27-1
     areas: [7]          # civil liberties; 'gender expression' only quotes the existing Act (no area 5)
     title: "Bill 24, Alberta Bill of Rights Amendment Act, 2024 -- third reading"
@@ -381,7 +390,6 @@ divisions:
     why_yea: "Voted to add freedom of expression, freedom from coerced medical treatment and vaccination, and the family to the Alberta Bill of Rights, and to make it paramount."
     nay: -1
     why_nay: "Voted against the Bill of Rights amendments adding freedom of expression and freedom from coerced medical treatment."
-    draft: true
   - key: ab-31-1-2024-11-27-2
     placeable: false
     title: "Bill 26 -- clauses in Committee of the Whole"
@@ -401,7 +409,6 @@ divisions:
       readings. The readings carry the bill; a clause, hoist or concurrence
       vote that divides exactly as they do would only count the same
       conviction twice.
-    draft: true
   - key: ab-31-1-2024-11-27-6
     placeable: false
     title: "Bill 27 -- remaining clauses in Committee of the Whole"
@@ -420,7 +427,6 @@ divisions:
       -5). The readings carry the bill; a clause, hoist or concurrence vote
       that divides exactly as they do would only count the same conviction
       twice.
-    draft: true
   - key: ab-31-1-2024-12-03-3
     placeable: false
     title: "Bill 27 -- six-month hoist at third reading"
@@ -440,7 +446,6 @@ divisions:
       reversed; as the confirmed Bill 26 hoist, ab-31-1-2024-12-03-1. The
       readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-31-1-2024-12-03-5
     placeable: false
     title: "Bill 29 -- six-month hoist at third reading"
@@ -460,7 +465,6 @@ divisions:
       reversed; as the confirmed Bill 26 hoist. The readings carry the bill;
       a clause, hoist or concurrence vote that divides exactly as they do
       would only count the same conviction twice.
-    draft: true
   - key: ab-31-1-2025-05-12-5
     placeable: false
     title: "Bill 51, Education Amendment Act, 2025 -- third reading"
@@ -483,7 +487,6 @@ divisions:
       conduct, teacher discipline, school property and the electoral
       register; nothing on parental rights or our other areas. Not on our
       ground.
-    draft: true
   # Bill 2, Back to School Act (October 2025): a labour bill. Not ours.
   - key: ab-31-2-2025-10-27-4
     placeable: false
@@ -506,7 +509,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-6
     placeable: false
     title: "Government Motion 5 (Bill 2 may pass several stages in a day)"
@@ -528,7 +530,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-7
     placeable: false
     title: "Bill 2 -- first reading"
@@ -550,7 +551,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground.
-    draft: true
   - key: ab-31-2-2025-10-27-8
     placeable: false
     title: "Bill 2 -- second reading, adjournment of debate"
@@ -572,7 +572,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-9
     placeable: false
     title: "Government Motion 7 -- time allocation at second reading"
@@ -594,7 +593,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-10
     placeable: false
     title: "Bill 2 -- second reading"
@@ -616,7 +614,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground.
-    draft: true
   - key: ab-31-2-2025-10-27-11
     placeable: false
     title: "Bill 2 -- Committee of the Whole, report progress"
@@ -638,7 +635,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-12
     placeable: false
     title: "Government Motion 8 -- time allocation in Committee of the Whole"
@@ -660,7 +656,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-13
     placeable: false
     title: "Bill 2 -- Chapman amendment A1 (strike out section 3)"
@@ -682,7 +677,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground.
-    draft: true
   - key: ab-31-2-2025-10-27-14
     placeable: false
     title: "Bill 2 -- clauses in Committee of the Whole"
@@ -704,7 +698,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground.
-    draft: true
   - key: ab-31-2-2025-10-27-15
     placeable: false
     title: "Bill 2 -- title and preamble in Committee of the Whole"
@@ -725,7 +718,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground.
-    draft: true
   - key: ab-31-2-2025-10-27-16
     placeable: false
     title: "Bill 2 -- that the bill be reported"
@@ -747,7 +739,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground.
-    draft: true
   - key: ab-31-2-2025-10-27-17
     placeable: false
     title: "Bill 2 -- third reading, adjournment of debate"
@@ -769,7 +760,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-18
     placeable: false
     title: "Government Motion 9 -- time allocation at third reading"
@@ -791,7 +781,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground. Procedure as well.
-    draft: true
   - key: ab-31-2-2025-10-27-19
     placeable: false
     title: "Bill 2 -- third reading"
@@ -813,7 +802,6 @@ divisions:
       'coercion') and 'operate notwithstanding'. A labour bill, as Ontario's
       Bill 28 (Christopher, 3 October 2026: kept as evidence, never scored).
       Not on our ground.
-    draft: true
   # Bill 9, Protecting Alberta's Children Statutes Amendment Act, 2025: the
   # notwithstanding clause over Bills 26, 27 and 29. Squarely ours.
   - key: ab-31-2-2025-11-18-1
@@ -841,7 +829,6 @@ divisions:
     why_yea: "Voted to introduce Bill 9, shielding Alberta's laws on gender medicine for minors, parental consent on names and pronouns and female sport with the notwithstanding clause."
     nay: -1
     why_nay: "Voted against even introducing Bill 9, the notwithstanding-clause shield for Bills 26, 27 and 29."
-    draft: true
   - key: ab-31-2-2025-12-04-1
     placeable: false
     title: "Government Motion 18 -- time allocation on Bill 9 at second reading"
@@ -858,7 +845,6 @@ divisions:
     reason: >
       PROCEDURE: time allocation (41-11, a thin House). A vote on the
       House's time, not on the bill's content.
-    draft: true
   - key: ab-31-2-2025-12-08-1
     placeable: false
     title: "Adjournment of the Assembly until 7:30 p.m. (linked to Bill 9)"
@@ -877,7 +863,6 @@ divisions:
       take up Government business was refused; linked to Bill 9 only because
       Bill 9 was the day's business (a taxonomy false positive too). A vote
       on the House's time, not on the bill's content.
-    draft: true
   - key: ab-31-2-2025-12-08-3
     title: "Bill 9 -- second reading"
     dated: 2025-12-08
@@ -902,7 +887,6 @@ divisions:
     why_yea: "Voted for the principle of shielding Alberta's laws on gender medicine for minors, parental consent on names and pronouns and female sport with the notwithstanding clause."
     nay: -1
     why_nay: "Voted against the principle of the notwithstanding-clause shield for Bills 26, 27 and 29."
-    draft: true
   - key: ab-31-2-2025-12-09-1
     placeable: false
     title: "Government motion endorsing the Alberta-Canada energy MOU (linked to Bill 9)"
@@ -922,7 +906,6 @@ divisions:
       UNANIMOUS (63-0): no lobby against, so it tells no member apart.
       TAXONOMY FALSE POSITIVE: an energy motion linked to Bill 9 by date.
       Not on our ground.
-    draft: true
   - key: ab-31-2-2025-12-09-4
     placeable: false
     title: "Government motion -- time allocation on Bill 9 in Committee of the Whole"
@@ -939,7 +922,6 @@ divisions:
     reason: >
       PROCEDURE: time allocation. A vote on the House's time, not on the
       bill's content.
-    draft: true
   - key: ab-31-2-2025-12-09-9
     placeable: false
     title: "Bill 9 -- clauses in Committee of the Whole"
@@ -959,7 +941,6 @@ divisions:
       readings. The readings carry the bill; a clause, hoist or concurrence
       vote that divides exactly as they do would only count the same
       conviction twice.
-    draft: true
   - key: ab-31-2-2025-12-09-12
     placeable: false
     title: "Bill 9 -- third reading, adjournment of debate"
@@ -976,7 +957,6 @@ divisions:
     reason: >
       PROCEDURE: adjournment of the third-reading debate. A vote on the
       House's time, not on the bill's content.
-    draft: true
   - key: ab-31-2-2025-12-09-13
     placeable: false
     title: "Government motion -- time allocation on Bill 9 at third reading"
@@ -993,7 +973,6 @@ divisions:
     reason: >
       PROCEDURE: time allocation. A vote on the House's time, not on the
       bill's content.
-    draft: true
   - key: ab-31-2-2025-12-09-14
     title: "Bill 9 -- third reading"
     dated: 2025-12-09
@@ -1019,7 +998,6 @@ divisions:
     why_yea: "Voted to pass the law shielding Alberta's protections on gender medicine for minors, parental consent on names and pronouns and female sport with the notwithstanding clause."
     nay: -2
     why_nay: "Voted against the notwithstanding-clause shield for Alberta's laws on gender medicine for minors, parental consent and female sport."
-    draft: true
   # Bill 13, Regulated Professions Neutrality Act (2025): professionals' free
   # speech off duty. Bill 13 carries no areas in the store (a taxonomy MISS);
   # both entries state `areas: [7]`.
@@ -1055,7 +1033,6 @@ divisions:
     why_yea: "Voted to let professional regulators discipline members for off-duty speech judged hateful, including on gender identity and expression."
     nay: 1
     why_nay: "Voted against letting professional regulators discipline members for off-duty speech judged hateful."
-    draft: true
   - key: ab-31-2-2025-12-09-11
     areas: [7]          # the store gives this division no areas: taxonomy miss
     title: "Bill 13, Regulated Professions Neutrality Act -- third reading"
@@ -1082,7 +1059,6 @@ divisions:
     why_yea: "Voted to pass the law protecting regulated professionals from discipline for their opinions expressed outside their practice."
     nay: -2
     why_nay: "Voted against protecting regulated professionals from discipline for their opinions expressed outside their practice."
-    draft: true
   - key: ab-31-2-2026-04-22-1
     title: "Bill 18, Safeguards for Last Resort Termination of Life Act -- third reading"
     dated: 2026-04-22
@@ -1114,7 +1090,6 @@ divisions:
     why_yea: "Voted to pass Alberta's restrictions on assisted suicide: no MAID for mental illness alone, for minors, or where death is not foreseeable within 12 months, and facilities free to refuse it."
     nay: -2
     why_nay: "Voted against Alberta's restrictions on assisted suicide for mental illness, minors and those not near death."
-    draft: true
 
   # --- Alberta, 30th Legislature (2019-2023) -----------------------------
   - key: ab-30-1-2019-10-21-2
@@ -1141,7 +1116,6 @@ divisions:
     why_yea: "Voted to urge the Government to remove barriers to abortion across Alberta."
     nay: 1
     why_nay: "Voted against urging the Government to remove barriers to abortion (+1: a Nay also carries the government whip)."
-    draft: true
   - key: ab-30-1-2019-11-07-1
     areas: [8]          # conscience; tagged 5 only from 'gender expression' quoted in the bill
     title: "Bill 207, Conscience Rights (Health Care Providers) Protection Act -- first reading"
@@ -1168,7 +1142,6 @@ divisions:
     why_yea: "Voted to introduce a bill protecting health care providers' freedom of conscience (a recorded division at first reading)."
     nay: -1
     why_nay: "Voted against even introducing a bill protecting health care providers' freedom of conscience."
-    draft: true
   - key: ab-30-2-2020-06-02-1
     placeable: false
     title: "Bill 15, Choice in Education Act, 2020 -- referral amendment at second reading"
@@ -1190,7 +1163,6 @@ divisions:
       hoist. The readings carry the bill; a clause, hoist or concurrence
       vote that divides exactly as they do would only count the same
       conviction twice.
-    draft: true
   - key: ab-30-2-2020-06-17-3
     placeable: false
     title: "Bill 15 -- Hoffman amendment (strike out section 7, charter school applications)"
@@ -1210,7 +1182,6 @@ divisions:
     reason: >
       NOT OURS, AND SPLIT AS THE READINGS: charter-school administration,
       NDP 7 to UCP 28 as the third reading. Evidence only.
-    draft: true
   - key: ab-30-2-2020-06-24-2
     placeable: false
     title: "Bill 15 -- Renaud amendment (charter school focus; private schools' disability non-discrimination policy)"
@@ -1230,7 +1201,6 @@ divisions:
     reason: >
       NOT OURS, AND SPLIT AS THE READINGS: charter-school criteria and
       disability enrolment, NDP 6 to UCP 21. Evidence only.
-    draft: true
   - key: ab-30-2-2020-06-24-3
     title: "Bill 15, Choice in Education Act, 2020 -- third reading"
     dated: 2020-06-24
@@ -1258,7 +1228,6 @@ divisions:
     why_yea: "Voted to write parents' prior right to choose their children's education into law and to free home education from school-board supervision."
     nay: -2
     why_nay: "Voted against parents' prior right to choose their children's education and unsupervised home education."
-    draft: true
   - key: ab-30-2-2020-12-02-1
     placeable: false
     title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
@@ -1277,7 +1246,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
       Health and Safety Act's harassment and discrimination wording. Not on
       our ground.
-    draft: true
   - key: ab-30-2-2020-12-02-2
     placeable: false
     title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
@@ -1295,7 +1263,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
       Health and Safety Act's harassment and discrimination wording. Not on
       our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-12
     placeable: false
     title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
@@ -1312,7 +1279,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
       Health and Safety Act's harassment and discrimination wording. Not on
       our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-17
     placeable: false
     title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
@@ -1329,7 +1295,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
       Health and Safety Act's harassment and discrimination wording. Not on
       our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-19
     placeable: false
     title: "Bill 47, Ensuring Safety and Cutting Red Tape Act, 2020 (OHS and workers' compensation)"
@@ -1347,7 +1312,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: 'gender expression' matched the Occupational
       Health and Safety Act's harassment and discrimination wording. Not on
       our ground.
-    draft: true
   - key: ab-30-2-2020-12-03-2
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1367,7 +1331,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-2
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1385,7 +1348,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-4
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1404,7 +1366,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-5
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1423,7 +1384,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-6
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1441,7 +1401,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-11
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1459,7 +1418,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-13
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1478,7 +1436,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2020-12-08-14
     placeable: false
     title: "Bill 46, Health Statutes Amendment Act, 2020 (No. 2)"
@@ -1497,7 +1454,6 @@ divisions:
       surrogate decision-maker ('a person authorized by an individual or by
       the individual's guardian'), not surrogacy. Bill 46 is health
       information and professional regulation. Not on our ground.
-    draft: true
   - key: ab-30-2-2021-06-01-1
     placeable: false
     title: "Bill 63, Police (Street Checks and Carding) Amendment Act, 2021 -- amendment in Committee of the Whole"
@@ -1515,7 +1471,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: street checks and carding; 'gender
       expression' is in the list of prohibited grounds. Not on our ground.
-    draft: true
   - key: ab-30-2-2021-06-02-1
     placeable: false
     title: "Bill 63, Police (Street Checks and Carding) Amendment Act, 2021 -- amendment in Committee of the Whole"
@@ -1532,7 +1487,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: street checks and carding; 'gender
       expression' is in the list of prohibited grounds. Not on our ground.
-    draft: true
   - key: ab-30-2-2021-06-02-2
     placeable: false
     title: "Bill 63, Police (Street Checks and Carding) Amendment Act, 2021 -- amendment in Committee of the Whole"
@@ -1550,7 +1504,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: street checks and carding; 'gender
       expression' is in the list of prohibited grounds. Not on our ground.
-    draft: true
   - key: ab-30-2-2021-06-08-2
     placeable: false
     title: "Motion condemning the London, Ontario attack and Islamophobia"
@@ -1569,7 +1522,6 @@ divisions:
       bigotry and hatred [...]
     reason: >
       UNANIMOUS (45-0): no lobby against, so it tells no member apart.
-    draft: true
   - key: ab-30-2-2021-11-02-1
     placeable: false
     title: "Government motion on Alberta's Senate nominees (linked to Bill 75)"
@@ -1587,7 +1539,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a Senate-election motion linked to Bill 75 by
       date; 'freedom of expression' is Bill 75's term. Not on our ground.
-    draft: true
   - key: ab-30-2-2021-11-22-2
     placeable: false
     title: "Bill 75, Arts Professions Recognition Act -- amendment in Committee of the Whole"
@@ -1605,7 +1556,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: artists' contracts; 'freedom of expression'
       is in the preamble. Not on our ground.
-    draft: true
   - key: ab-30-2-2021-11-22-3
     placeable: false
     title: "Bill 75, Arts Professions Recognition Act -- amendment in Committee of the Whole"
@@ -1622,7 +1572,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: artists' contracts; 'freedom of expression'
       is in the preamble. Not on our ground.
-    draft: true
   - key: ab-30-3-2022-05-02-2
     placeable: false
     title: "Bill 205, Human Tissue and Organ Donation (Mandatory Referral) Amendment Act, 2022 -- concurrence in the committee's report to proceed"
@@ -1639,7 +1588,6 @@ divisions:
     reason: >
       UNANIMOUS (39-0): no lobby against, so it tells no member apart. Area
       13 is scored, but a unanimous vote tells no member apart.
-    draft: true
   - key: ab-30-3-2022-05-09-1
     placeable: false
     title: "Bill 205 -- second reading"
@@ -1656,7 +1604,6 @@ divisions:
     reason: >
       UNANIMOUS (39-0): no lobby against, so it tells no member apart. Area
       13 is scored, but a unanimous vote tells no member apart.
-    draft: true
 
   # --- Alberta, 29th Legislature (2015-2019) -----------------------------
   - key: ab-29-1-2015-12-01-1
@@ -1675,7 +1622,6 @@ divisions:
     reason: >
       UNANIMOUS (66-0): no lobby against, so it tells no member apart. On
       our ground (area 5), but no lobby against.
-    draft: true
   - key: ab-29-1-2015-12-07-2
     placeable: false
     title: "Bill 4 (tax measures and Fiscal Planning and Transparency Act) -- Fildebrandt amendment"
@@ -1692,7 +1638,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a tax bill's amendment, linked to Bill 7 in
       the store; the store's bill key is wrong. Not on our ground.
-    draft: true
   - key: ab-29-2-2016-06-01-2
     title: "Government Motion 17 -- regulate medical assistance in dying after Carter"
     dated: 2016-06-01
@@ -1719,7 +1664,6 @@ divisions:
     why_yea: "Voted to urge the Government to implement access to medical assistance in dying in Alberta, with conscience rights subject to patients' access."
     nay: 1
     why_nay: "Voted against urging the Government to implement access to medical assistance in dying."
-    draft: true
   - key: ab-29-3-2017-04-06-1
     placeable: false
     title: "Bill 1, An Act to Reduce School Fees -- Swann amendment (strike out section 4)"
@@ -1736,7 +1680,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: school fees; 'home education' matched the
       Education Act's fee provisions. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-11-08-1
     areas: [6]          # parental rights (and faith schools); tagged 5 only from 'gender expression'
     title: "Bill 24, An Act to Support Gay-Straight Alliances (2017) -- second reading"
@@ -1768,7 +1711,6 @@ divisions:
     why_yea: "Voted for the principle of barring schools from telling parents their child joined a gay-straight alliance, in public and faith schools alike."
     nay: 1
     why_nay: "Voted against barring schools from telling parents of their child's gay-straight alliance participation."
-    draft: true
   - key: ab-29-3-2017-11-09-1
     areas: [6]          # parental rights (and faith schools); tagged 5 only from 'gender expression'
     title: "Bill 24 (2017) -- Ellis amendment (strike out section 9: keep parental notice and opt-out for GSA activities)"
@@ -1793,7 +1735,6 @@ divisions:
     why_yea: "Voted to keep parents' right to notice and to withdraw their child from sexuality-related activities in school gay-straight alliances."
     nay: -1
     why_nay: "Voted to exempt gay-straight alliance activities from parents' notice and opt-out on sexuality instruction."
-    draft: true
   - key: ab-29-3-2017-11-09-2
     placeable: false
     title: "Bill 24 (2017) -- Committee of the Whole, rise and report progress"
@@ -1810,7 +1751,6 @@ divisions:
     reason: >
       PROCEDURE: rise and report progress. A vote on the House's time, not
       on the bill's content.
-    draft: true
   - key: ab-29-3-2017-11-14-2
     placeable: false
     title: "Bill 24 (2017) -- concurrence in the report of Committee of the Whole"
@@ -1828,7 +1768,6 @@ divisions:
       SPLIT AS THE READINGS: NDP and Liberal 39 to UCP 10, as the readings.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-3-2017-11-15-1
     areas: [6]          # parental rights (and faith schools); tagged 5 only from 'gender expression'
     title: "Bill 24, An Act to Support Gay-Straight Alliances (2017) -- third reading"
@@ -1857,7 +1796,6 @@ divisions:
     why_yea: "Voted to pass the law barring schools from telling parents their child joined a gay-straight alliance, imposed on faith schools too."
     nay: 2
     why_nay: "Voted against barring schools from telling parents of their child's gay-straight alliance participation."
-    draft: true
   - key: ab-29-3-2017-12-04-1
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -1876,7 +1814,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground. Also unanimous (51-0).
-    draft: true
   - key: ab-29-3-2017-12-05-1
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -1894,7 +1831,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-12-05-2
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -1912,7 +1848,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-12-11-1
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -1930,7 +1865,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-12-11-2
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -1948,7 +1882,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-12-12-3
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -1966,7 +1899,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-12-12-4
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -1984,7 +1916,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-12-12-5
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -2002,7 +1933,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-3-2017-12-12-12
     placeable: false
     title: "Bill 30, An Act to Protect the Health and Well-being of Working Albertans (2017)"
@@ -2021,7 +1951,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: occupational health and safety and workers'
       compensation; 'coercion' and 'gender expression' are in the OHS
       harassment wording. Not on our ground.
-    draft: true
   - key: ab-29-4-2018-05-03-2
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt reasoned amendment at second reading (freedom of expression and assembly)"
@@ -2042,7 +1971,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-03-3
     title: "Bill 9, Protecting Choice for Women Accessing Health Care Act (2018) -- second reading"
     dated: 2018-05-03
@@ -2067,7 +1995,6 @@ divisions:
     why_yea: "Voted for the principle of abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
     nay: 1
     why_nay: "Voted against abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
-    draft: true
   - key: ab-29-4-2018-05-08-3
     placeable: false
     title: "Bill 9 (2018) -- government amendment (zones up to 150 metres)"
@@ -2087,7 +2014,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-09-1
     placeable: false
     title: "Bill 9 (2018) -- amendment (exemption for police and bylaw officers)"
@@ -2104,7 +2030,6 @@ divisions:
       out their duties
     reason: >
       UNANIMOUS (39-0): no lobby against, so it tells no member apart.
-    draft: true
   - key: ab-29-4-2018-05-09-2
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt amendment (journalists exempt)"
@@ -2123,7 +2048,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-10-5
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt amendment (define 'intimidate')"
@@ -2142,7 +2066,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-15-2
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt amendment (zones 10 metres, not 160)"
@@ -2161,7 +2084,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-15-3
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt amendment (strike out s.2(1)(b))"
@@ -2180,7 +2102,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-15-4
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt amendment (strike out s.13(4))"
@@ -2199,7 +2120,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-15-5
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt amendment (strike out s.5(1)(c))"
@@ -2218,7 +2138,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-15-6
     placeable: false
     title: "Bill 9 (2018) -- Fildebrandt amendment (s.1(d)(iv) and s.15(a))"
@@ -2237,7 +2156,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-30-3
     placeable: false
     title: "Bill 9 (2018) -- recommittal amendment at third reading"
@@ -2257,7 +2175,6 @@ divisions:
       against the House, as both readings; the UCP did not vote on Bill 9.
       The readings carry the bill; a clause, hoist or concurrence vote that
       divides exactly as they do would only count the same conviction twice.
-    draft: true
   - key: ab-29-4-2018-05-30-4
     title: "Bill 9, Protecting Choice for Women Accessing Health Care Act (2018) -- third reading"
     dated: 2018-05-30
@@ -2281,7 +2198,6 @@ divisions:
     why_yea: "Voted to pass abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
     nay: 2
     why_nay: "Voted against abortion-clinic 'bubble zones' banning pro-life protest and counselling nearby."
-    draft: true
   - key: ab-29-4-2018-05-31-1
     placeable: false
     title: "Bill 18, Statutes Amendment Act, 2018 -- clauses in Committee of the Whole"
@@ -2296,7 +2212,6 @@ divisions:
       The question was put on the clauses of the Bill, which was agreed to.
     reason: >
       UNANIMOUS (43-0): no lobby against, so it tells no member apart.
-    draft: true
   - key: ab-29-4-2018-11-27-2
     placeable: false
     title: "Bill 22, An Act for Strong Families Building Stronger Communities -- McIver subamendment (Child and Youth Advocate on the review committee)"
@@ -2312,7 +2227,6 @@ divisions:
     reason: >
       NOT OURS: oversight of the child-intervention system. Tagged 5 only
       from 'gender expression' in the bill. Evidence only.
-    draft: true
   - key: ab-29-4-2018-11-27-3
     placeable: false
     title: "Bill 22 -- McIver subamendment (review committee to sit in public)"
@@ -2329,7 +2243,6 @@ divisions:
     reason: >
       NOT OURS: oversight of the child-intervention system. Tagged 5 only
       from 'gender expression' in the bill. Evidence only.
-    draft: true
   - key: ab-29-4-2018-11-28-2
     placeable: false
     title: "Bill 22 -- Opposition amendment (report child deaths and injuries to the Minister and a committee)"
@@ -2348,7 +2261,6 @@ divisions:
     reason: >
       NOT OURS: oversight of the child-intervention system. Tagged 5 only
       from 'gender expression' in the bill. Evidence only.
-    draft: true
   - key: ab-29-4-2018-11-28-1
     areas: [9]          # family; tagged 5 only from 'gender expression' in the bill
     title: "Bill 22 -- Starke amendment (the family is the basic unit of society)"
@@ -2373,7 +2285,6 @@ divisions:
     why_yea: "Voted to write into Alberta's child-intervention law that the family is the basic unit of society."
     nay: -1
     why_nay: "Voted against writing into Alberta's child-intervention law that the family is the basic unit of society."
-    draft: true
 
   # --- Alberta, 28th and 27th Legislatures (2008-2015) --------------------
   - key: ab-28-1-2012-10-30-3
@@ -2393,7 +2304,6 @@ divisions:
     reason: >
       NOT OURS: school fees and grading. Tagged from the Education Act's
       terms. Evidence only.
-    draft: true
   - key: ab-28-1-2012-10-30-4
     placeable: false
     title: "Bill 3, Education Act (2012) -- amendment in Committee of the Whole"
@@ -2410,7 +2320,6 @@ divisions:
     reason: >
       NOT OURS: school fees and grading. Tagged from the Education Act's
       terms. Evidence only.
-    draft: true
   - key: ab-28-1-2012-11-19-3
     title: "Bill 3, Education Act (2012) -- third reading"
     dated: 2012-11-19
@@ -2451,7 +2360,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a written question linked to Bill 207 (organ
       donation) by date. Not on our ground.
-    draft: true
   - key: ab-28-3-2014-12-02-1
     title: "Bill 10 (2014) -- second reading"
     dated: 2014-12-02
@@ -2518,7 +2426,6 @@ divisions:
     reason: >
       PROCEDURE: time allocation. A vote on the House's time, not on the
       bill's content.
-    draft: true
   - key: ab-27-5-2012-03-14-1
     title: "Bill 2, Education Act (2012) -- Anderson subamendment SA1 (parents' 'paramount right' in education)"
     dated: 2012-03-14
@@ -2545,7 +2452,6 @@ divisions:
     # amendment, commons-44-1-640).
     yea: 1
     why_yea: "Voted to recognise parents' 'paramount right and responsibility' for their children's education in the Education Act."
-    draft: true
 
   # --- Saskatchewan, 29th Legislature, 3rd session (October 2023) -----------
   - key: sk-29-3-2023-10-12-1
@@ -2631,7 +2537,6 @@ divisions:
       and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
       in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
       now.
-    draft: true
   - key: sk-29-3-2023-10-19-4
     title: "Bill 137 -- clause 3 in Committee of the Whole"
     placeable: false
@@ -2649,7 +2554,6 @@ divisions:
       and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
       in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
       now.
-    draft: true
   - key: sk-29-3-2023-10-19-7
     title: "Bill 137 -- clause 4 in Committee of the Whole"
     placeable: false
@@ -2671,7 +2575,6 @@ divisions:
       and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
       in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
       now.
-    draft: true
   - key: sk-29-3-2023-10-19-8
     title: "Bill 137 -- clause 5 in Committee of the Whole"
     placeable: false
@@ -2689,7 +2592,6 @@ divisions:
       and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
       in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
       now.
-    draft: true
   - key: sk-29-3-2023-10-19-9
     title: "Bill 137 -- clause 6 in Committee of the Whole"
     placeable: false
@@ -2707,7 +2609,6 @@ divisions:
       and Nadine Wilson against the NDP 11); the readings carry Bill 137. Named
       in the reason of sk-29-3-2023-10-19-2 but had no entry of its own until
       now.
-    draft: true
 
   # --- Ontario, 43rd Parliament, 1st session ---------------------------------
   # Bill 28, Keeping Students in Class Act, 2022. Christopher, 3 October 2026:
@@ -2753,7 +2654,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'gender expression' in a
       list of committee members)
-    draft: true
   - key: on-43-1-2024-12-10-1
     title: "Bill 229 -- time allocation"
     placeable: false
@@ -2770,7 +2670,6 @@ divisions:
     reason: >
       Procedural (time allocation), and tagged but not ours (taxonomy false
       positive: 'surrogacy')
-    draft: true
   - key: on-43-1-2024-12-11-1
     title: "Bill 229 -- second reading"
     placeable: false
@@ -2787,7 +2686,6 @@ divisions:
     reason: >
       Unanimous (100-0), and tagged but not ours (taxonomy false positive:
       'surrogacy' in employment leave)
-    draft: true
   - key: on-43-1-2024-12-12-2
     title: "Bill 229, Working for Workers Six Act, 2024 -- third reading"
     placeable: false
@@ -2804,7 +2702,6 @@ divisions:
     reason: >
       Unanimous (97-0), and tagged but not ours (taxonomy false positive:
       'surrogacy' in employment leave)
-    draft: true
   - key: on-42-1-2019-03-21-3
     title: "Bill 76 (Mamakwa), UNDRIP Act, 2019 -- second reading"
     placeable: false
@@ -2821,7 +2718,6 @@ divisions:
     reason: >
       Unanimous (91-0), and tagged but not ours (taxonomy false positive:
       'Article 7' and 'freedom of expression' in the Declaration)
-    draft: true
   - key: on-42-1-2019-11-27-1
     title: "Bill 136, Provincial Animal Welfare Services Act, 2019 -- second reading"
     placeable: false
@@ -2838,7 +2734,6 @@ divisions:
     reason: >
       Unanimous (107-0), and tagged but not ours (taxonomy false positive:
       'euthanasia' of animals)
-    draft: true
   - key: on-42-1-2019-12-05-1
     title: "Bill 144, Northern Health Travel Grant Advisory Committee Act, 2019 -- second reading"
     placeable: false
@@ -2854,7 +2749,6 @@ divisions:
     reason: >
       Unanimous (83-0), and tagged but not ours (taxonomy false positive:
       'gender expression')
-    draft: true
   - key: on-42-1-2021-03-22-5
     title: "Bill 256 (Monteith-Farrell), Awenen Niin Act (Who Am I) Respecting Identity Documents -- second reading"
     placeable: false
@@ -2871,7 +2765,6 @@ divisions:
       tagged but not ours (taxonomy false positive: 'gender expression' in the
       list of stakeholders an advisory committee must include; the bill waives
       fees for photo cards and birth certificates)
-    draft: true
   - key: on-42-2-2021-11-18-1
     title: "Bill 37 -- second reading"
     placeable: false
@@ -2887,7 +2780,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'gender expression' and
       'citizenship'; long-term care)
-    draft: true
   - key: on-42-2-2021-12-07-2
     title: "Bill 37, Providing More Care, Protecting Seniors, and Building More Beds Act, 2021 -- third reading"
     placeable: false
@@ -2903,7 +2795,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'gender expression' and
       'citizenship' in a residents' bill of rights; long-term care)
-    draft: true
   - key: on-42-2-2021-12-08-1
     title: "Bill 52 (Tabuns), Stopping Illegal Handgun Smuggling Act, 2021 -- second reading"
     placeable: false
@@ -2918,7 +2809,6 @@ divisions:
       following division:-
     reason: >
       tagged but not ours (taxonomy false positive: 'border security')
-    draft: true
   - key: on-42-2-2022-03-03-2
     title: "Bill 67 (Lindo), Racial Equity in the Education System Act, 2022 -- second reading"
     placeable: false
@@ -2934,7 +2824,6 @@ divisions:
     reason: >
       Near-unanimous (72-1), and tagged but not ours: an anti-racism education
       bill matched on 'Islamophobia'.
-    draft: true
   - key: on-42-2-2022-03-03-3
     title: "Motion to refer Bill 86 (anti-Islamophobia) to committee"
     placeable: false
@@ -2953,7 +2842,6 @@ divisions:
     reason: >
       Procedural (discharge and referral to committee), and tagged on
       'Islamophobia'.
-    draft: true
   - key: on-41-1-2015-04-02-2
     title: "Bill 77 (DiNovo), Affirming Sexual Orientation and Gender Identity Act, 2015 -- second reading"
     placeable: false
@@ -2971,7 +2859,6 @@ divisions:
       Unanimous (52-0): on our ground (it banned 'conversion' counselling for
       minors) but no member to tell apart; its third reading is not a recorded
       division in the store.
-    draft: true
   - key: on-41-1-2015-09-15-1
     title: "Bill 52 (anti-SLAPP) -- second reading"
     placeable: false
@@ -2987,7 +2874,6 @@ divisions:
       of public interest. Carried on the following division:-
     reason: >
       Tagged but not ours, as on-41-1-2015-10-28-2.
-    draft: true
   - key: on-41-1-2015-10-28-2
     title: "Bill 52, Protection of Public Participation Act, 2015 (anti-SLAPP) -- third reading"
     placeable: false
@@ -3005,7 +2891,6 @@ divisions:
       Tagged but not ours: civil procedure to dismiss defamation suits on
       matters of public interest; no viewpoint is at stake. PCs split 15-7.
       CLOSE CALL: Christopher may read anti-SLAPP as free speech (Yea +1).
-    draft: true
   - key: on-41-1-2015-12-09-1
     title: "Bill 132 -- second reading"
     placeable: false
@@ -3021,7 +2906,6 @@ divisions:
     reason: >
       Unanimous (97-0), and tagged but not ours (taxonomy false positive:
       'gender expression')
-    draft: true
   - key: on-41-1-2016-03-08-1
     title: "Bill 132, Sexual Violence and Harassment Action Plan Act -- third reading"
     placeable: false
@@ -3037,7 +2921,6 @@ divisions:
     reason: >
       Unanimous (94-0), and tagged but not ours (taxonomy false positive:
       'gender expression')
-    draft: true
   - key: on-41-2-2016-11-29-1
     title: "Bill 27, Burden Reduction Act, 2017 -- second reading"
     placeable: false
@@ -3052,7 +2935,6 @@ divisions:
       make other amendments and repeals. Carried on the following division:-
     reason: >
       tagged but not ours (taxonomy false positive: 'Article 7')
-    draft: true
   - key: on-41-2-2016-11-29-2
     title: "Bill 28, All Families Are Equal Act, 2016 -- third reading"
     placeable: false
@@ -3069,7 +2951,6 @@ divisions:
     reason: >
       Unanimous (79-0): on our ground (parentage, surrogacy agreements) but no
       member to tell apart.
-    draft: true
   - key: on-41-2-2017-02-23-1
     title: "Motion (Khalil) condemning Islamophobia and anti-Muslim rhetoric"
     placeable: false
@@ -3089,7 +2970,6 @@ divisions:
     reason: >
       Unanimous (81-0): Ontario's counterpart to M-103, on our ground (free
       speech) but no member to tell apart.
-    draft: true
   - key: on-41-2-2017-03-02-2
     title: "Bill 27, Burden Reduction Act, 2017 -- third reading"
     placeable: false
@@ -3104,7 +2984,6 @@ divisions:
       make other amendments and repeals. Carried on the following division:-
     reason: >
       tagged but not ours (taxonomy false positive: 'Article 7')
-    draft: true
   - key: on-41-2-2017-03-09-1
     title: "Closure on Bill 84 second reading"
     placeable: false
@@ -3119,7 +2998,6 @@ divisions:
       medical assistance in dying. Carried on the following division:-
     reason: >
       Procedural (closure).
-    draft: true
   - key: on-41-2-2017-03-09-2
     title: "Closure on Bill 89 second reading -- MIS-LINKED to Bill 84 in the store"
     placeable: false
@@ -3137,7 +3015,6 @@ divisions:
     reason: >
       Procedural (closure on Bill 89 second reading); the store links it to Bill
       84 because the record opens with Bill 84's referral to committee.
-    draft: true
   - key: on-41-2-2017-03-09-3
     title: "Bill 89, Supporting Children, Youth and Families Act, 2017 -- second reading"
     placeable: false
@@ -3154,7 +3031,6 @@ divisions:
     reason: >
       Unanimous (83-0): the PCs voted for it at second reading; the third
       reading (on-41-2-2017-06-01-2) is where the House divided.
-    draft: true
   - key: on-41-2-2017-04-26-1
     title: "Bill 114, Anti-Racism Act, 2017 -- second reading"
     placeable: false
@@ -3168,7 +3044,6 @@ divisions:
       provide for Anti-Racism Measures. Carried on the following division:-
     reason: >
       Unanimous (85-0), and tagged on 'Islamophobia'.
-    draft: true
   - key: on-41-2-2017-05-09-1
     title: "Closure on Bill 84 third reading"
     placeable: false
@@ -3184,7 +3059,6 @@ divisions:
     reason: >
       Procedural (closure): Bill 84's third reading (on-41-2-2017-05-09-2)
       carries it.
-    draft: true
   - key: on-41-2-2017-05-09-2
     title: "Bill 84, Medical Assistance in Dying Statute Law Amendment Act, 2017 -- third reading"
     dated: 2017-05-09
@@ -3210,7 +3084,6 @@ divisions:
     why_yea: "Voted to pass Ontario's MAID statute: immunity from suit for MAID providers, MAID records closed to FOI, a state MAID coordination service, and no conscience protection."
     nay: 2
     why_nay: "Voted against Ontario's MAID statute, which gave providers immunity and left out conscience protection."
-    draft: true
   - key: on-41-2-2017-05-09-3
     title: "Closure on Bill 39 (Aggregate Resources Act and Mining Act) third reading -- MIS-LINKED to Bill 84 in the store"
     placeable: false
@@ -3227,7 +3100,6 @@ divisions:
       Procedural, and not ours: the question is closure on Bill 39; the store
       links it to Bill 84 because the record opens with Bill 84's 'The Bill
       passed.'
-    draft: true
   - key: on-41-2-2017-05-18-5
     title: "Bill 129 (Yurek), Regulated Health Professions Amendment Act (Freedom of Conscience in Health Care), 2017 -- second reading (lost)"
     dated: 2017-05-18
@@ -3250,7 +3122,6 @@ divisions:
     why_yea: "Voted to protect health professionals from sanction for refusing to take part in, or refer for, MAID."
     nay: -2
     why_nay: "Voted against protecting health professionals' conscience over MAID, including referral."
-    draft: true
   - key: on-41-2-2017-05-29-2
     title: "Bill 114, Anti-Racism Act, 2017 -- time allocation"
     placeable: false
@@ -3265,7 +3136,6 @@ divisions:
       Measures. Carried on the following division:-
     reason: >
       Procedural (time allocation), and tagged on 'Islamophobia'.
-    draft: true
   - key: on-41-2-2017-05-30-1
     title: "Bill 89 -- time allocation"
     placeable: false
@@ -3283,7 +3153,6 @@ divisions:
     reason: >
       Procedural (time allocation): Bill 89's third reading
       (on-41-2-2017-06-01-2) carries it.
-    draft: true
   - key: on-41-2-2017-06-01-2
     areas: [6, 8]
     title: "Bill 89, Supporting Children, Youth and Families Act, 2017 -- third reading"
@@ -3310,7 +3179,6 @@ divisions:
     why_yea: "Voted to pass the child-welfare law that dropped 'the religious faith in which the child is being raised' from a child's best interests and added the child's gender identity and gender expression."
     nay: 2
     why_nay: "Voted against the child-welfare law that dropped the child's religious upbringing from best interests and added gender identity and expression."
-    draft: true
   - key: on-41-2-2017-10-17-1
     title: "Bill 163, Protecting a Woman's Right to Access Abortion Services Act, 2017 -- second reading"
     dated: 2017-10-17
@@ -3333,7 +3201,6 @@ divisions:
     why_yea: "Voted for the principle of abortion 'access zones' banning sidewalk counselling, prayerful witness and 'acts of disapproval' near clinics and providers' homes."
     nay: 1
     why_nay: "Voted against the principle of abortion access zones that ban sidewalk counselling and pro-life witness."
-    draft: true
   - key: on-41-2-2017-10-25-1
     title: "Bill 163 -- third reading"
     dated: 2017-10-25
@@ -3354,7 +3221,6 @@ divisions:
     why_yea: "Voted to pass Ontario's abortion access-zone law, banning sidewalk counselling, prayerful witness and 'acts of disapproval' near clinics and providers' homes."
     nay: 2
     why_nay: "Voted against Ontario's abortion access-zone law."
-    draft: true
   - key: on-40-1-2012-05-03-1
     areas: [6, 8]
     title: "Bill 13, Accepting Schools Act, 2012 -- second reading"
@@ -3383,7 +3249,6 @@ divisions:
     why_yea: "Voted for the principle of requiring every school board, Catholic boards included, to allow pupil groups named 'gay-straight alliance'."
     nay: 1
     why_nay: "Voted against the principle of compelling Catholic and other boards to allow groups named 'gay-straight alliance'."
-    draft: true
   - key: on-40-1-2012-06-05-1
     areas: [6, 8]
     title: "Bill 13, Accepting Schools Act, 2012 -- third reading"
@@ -3400,7 +3265,6 @@ divisions:
     why_yea: "Voted to pass the law requiring every board, Catholic boards included, to allow pupil groups named 'gay-straight alliance'."
     nay: 2
     why_nay: "Voted against compelling Catholic and other boards to allow groups named 'gay-straight alliance'."
-    draft: true
   - key: on-40-2-2013-09-19-1
     title: "Private Member's Motion 42 (Kwinter): oppose legislation restricting freedom of expression and religion in public places"
     placeable: false
@@ -3420,7 +3284,6 @@ divisions:
     reason: >
       Unanimous (82-0): on our side (against Quebec's proposed Charter of
       Values) but no member to tell apart.
-    draft: true
 
   # --- British Columbia, 43rd Parliament, 2nd session ------------------------
   - key: bc-43-2-2026-02-19-119.1
@@ -3472,15 +3335,16 @@ divisions:
     # free speech (Elenore Sturko, shown Independent, voted Nay). If that
     # weighs, drop the `nay` value and let only the Yea place, as on the
     # C-62 reasoned amendment (commons-44-1-640).
+    # DECIDED 8 October 2026 (Christopher delegated the call: "Score for me
+    # and Greg can amend if necessary"): it weighs. Yea only; the Nay places
+    # nobody.
     yea: 1
     why_yea: "Voted to let the Human Rights Code Repeal Act be introduced, a bill to abolish the Human Rights Tribunal after its fine on Barry Neufeld (+1: first reading is leave to introduce, not the bill's principle)."
-    nay: -1
-    why_nay: "Voted to refuse the Human Rights Code Repeal Act even a first reading."
     note: "Introduced by Tara Armstrong a week after the Gender Ideology and Child Protection Act was refused first reading; tagged free speech."
 
   # --- QUEBEC (Assemblée nationale), DRAFTED 8 October 2026 -----------------
   # Christopher: "draft READINGS for Quebec's recorded divisions on our ground".
-  # NOT CONFIRMED: every entry carries `draft: true` and places nobody.
+  # Drafted with `draft: true`; confirmed 8 October 2026 (see the header).
   # All 179 recorded divisions the store tagged with an area (prov='qc',
   # 39th-43rd Legislatures) have an entry: 21 carry values, 158 are
   # `placeable: false` (113 unanimous, 45 contested but procedure, supply or
@@ -3525,7 +3389,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-3-2026-06-02-18
     placeable: false
     title: "Motion: condemning threats after a prayer gathering by a Trois-Rivières mosque and hateful speech; a condemnation, not speech law"
@@ -3546,7 +3409,6 @@ divisions:
     reason: >
       Unanimous (104-0): condemning threats after a prayer gathering by a Trois-Rivières mosque
       and hateful speech; a condemnation, not speech law. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-3-2026-05-28-16
     placeable: false
     title: "Motion: condemning fundamentalist threats against Fatima Aboubakr for her stand on laicity"
@@ -3567,7 +3429,6 @@ divisions:
     reason: >
       Unanimous (89-0): condemning fundamentalist threats against Fatima Aboubakr for her stand
       on laicity. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-2-2026-04-02-140
     areas: [8]          # stored: [5, 7, 8]
     title: "Bill 9 (43-2), Loi sur le renforcement de la laïcité au Québec -- adoption (third reading)"
@@ -3594,7 +3455,6 @@ divisions:
     why_yea: "Voted to pass Bill 9, extending the religious-symbols ban to daycare and subsidised private-school staff, banning religious practice on public-institution premises and cutting subsidies to faith-based schools."
     nay: 2
     why_nay: "Voted against Bill 9's extension of the religious-symbols ban, its ban on religious practice in public institutions and its cut to faith-based schools' subsidies."
-    draft: true
   - key: qc-43-2-2026-04-01-139
     title: "Bill 1 (43-2), Loi constitutionnelle de 2025 sur le Québec -- adoption du principe (second reading)"
     dated: 2026-04-01
@@ -3619,7 +3479,6 @@ divisions:
     # died with the 43rd Legislature).
     yea: -1
     why_yea: "Voted for the principle of a Quebec constitution that entrenches 'la liberté des femmes d'avoir recours à une interruption volontaire de grossesse', a Charter right to end-of-life care (MAID), and sex equality over freedom of religion."
-    draft: true
   - key: qc-43-2-2026-03-31-136
     placeable: false
     title: "Bill 1 (43-2), constitution -- Dufour motion to defer the principle (motion de report)"
@@ -3637,7 +3496,6 @@ divisions:
     reason: >
       Procedure: a delaying motion (motion de report); the opposition's case was process. The
       principle vote (139) carries the reading.
-    draft: true
   - key: qc-43-2-2026-03-19-127
     placeable: false
     title: "Bill 26 (43-2), Loi n° 1 sur les crédits, 2026-2027 -- supply (principle and adoption in one motion)"
@@ -3655,7 +3513,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-2-2026-02-12-102
     areas: [8]          # stored: [5, 7, 8]
     title: "Bill 9 (43-2), Loi sur le renforcement de la laïcité au Québec -- adoption du principe (second reading)"
@@ -3682,7 +3539,6 @@ divisions:
     why_yea: "Voted for the principle of Bill 9: a wider religious-symbols ban, no religious practice on public-institution premises, no subsidies for faith-based schools."
     nay: 1
     why_nay: "Voted against the principle of Bill 9's wider religious-symbols ban and its limits on religious practice and faith-based schools."
-    draft: true
   - key: qc-43-2-2026-02-05-98
     placeable: false
     title: "Motion: that sex equality must prevail over freedom of religion where they conflict (7 abstained)"
@@ -3703,7 +3559,6 @@ divisions:
     reason: >
       Unanimous (93-0): that sex equality must prevail over freedom of religion where they
       conflict (7 abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-2-2026-02-04-96
     placeable: false
     title: "Motion: that no accommodation can justify refusing to be served by a woman; cites Bill 9's power to refuse such requests"
@@ -3724,7 +3579,6 @@ divisions:
     reason: >
       Unanimous (103-0): that no accommodation can justify refusing to be served by a woman;
       cites Bill 9's power to refuse such requests. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-2-2025-12-11-91
     placeable: false
     title: "Motion: taking note of a state-funded study of the 'anti-abortion movement' and undertaking to study its recommendations to strengthen abortion access"
@@ -3746,7 +3600,6 @@ divisions:
       Unanimous (94-0): taking note of a state-funded study of the 'anti-abortion movement' and
       undertaking to study its recommendations to strengthen abortion access. Tells no member
       apart: evidence only.
-    draft: true
   - key: qc-43-2-2025-12-04-84
     placeable: false
     title: "Bill 7 (43-2), bureaucracy and Transplant Québec merger -- Maccarone motion to defer the principle"
@@ -3764,7 +3617,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an administrative-reform bill tagged organ donation because it
       folds Transplant Québec's duties into another body; and procedure (a motion de report).
-    draft: true
   - key: qc-43-2-2025-12-03-81
     placeable: false
     title: "Motion: on the decline of French in Montreal"
@@ -3786,7 +3638,6 @@ divisions:
       Unanimous (93-0): on the decline of French in Montreal. TAXONOMY FALSE POSITIVE: a
       French-language motion, joined to Bill 1 (the constitution) and tagged abortion / assisted
       dying / religion through the bill. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-2-2025-11-27-74
     placeable: false
     title: "Motion: asking the government to ensure no abortion clinic closes or cuts services"
@@ -3807,7 +3658,6 @@ divisions:
     reason: >
       Unanimous (90-0): asking the government to ensure no abortion clinic closes or cuts
       services. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-2-2025-11-27-71
     placeable: false
     title: "Introduction of Bill 9, Loi sur le renforcement de la laïcité au Québec (the principle and adoption votes carry the reading)"
@@ -3824,7 +3674,6 @@ divisions:
       Unanimous (92-0): introduction of Bill 9, Loi sur le renforcement de la laïcité au Québec
       (the principle and adoption votes carry the reading). Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-43-2-2025-10-30-53
     areas: [8]          # stored: [6, 8]
     title: "Bill 94 (43-1), Loi visant notamment à renforcer la laïcité dans le réseau de l'éducation -- adoption (third reading)"
@@ -3851,7 +3700,6 @@ divisions:
     why_yea: "Voted to pass Bill 94, extending the religious-symbols ban to all school service centre staff and imposing uncovered faces in schools."
     nay: 2
     why_nay: "Voted against extending the religious-symbols ban to school staff and the face-covering rules of Bill 94."
-    draft: true
   - key: qc-43-2-2025-10-24-49
     placeable: false
     title: "Bill 2 (43-2), doctors' collective responsibility for access to medical services (special law) -- adoption"
@@ -3869,7 +3717,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: the doctors' remuneration and access law, tagged assisted dying
       on 'soins de fin de vie' in its list of services. Not ours.
-    draft: true
   - key: qc-43-2-2025-10-24-48
     placeable: false
     title: "Bill 2 (43-2), doctors' collective responsibility for access to medical services (special law) -- report stage, with Arseneau's amendments"
@@ -3894,7 +3741,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: the doctors' remuneration and access law, tagged assisted dying
       on 'soins de fin de vie' in its list of services. Not ours.
-    draft: true
   - key: qc-43-2-2025-10-24-47
     placeable: false
     title: "Bill 2 (43-2), doctors' collective responsibility for access to medical services (special law) -- adoption du principe"
@@ -3912,7 +3758,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: the doctors' remuneration and access law, tagged assisted dying
       on 'soins de fin de vie' in its list of services. Not ours.
-    draft: true
   - key: qc-43-2-2025-10-09-8
     placeable: false
     title: "Bill 1 (43-2), Loi constitutionnelle de 2025 sur le Québec -- introduction (recorded division)"
@@ -3930,7 +3775,6 @@ divisions:
     reason: >
       Leave to introduce, opposed by the PLQ, QS and PQ on the constitution's process: the
       principle vote (139) carries the reading, and a Nay here is not our side.
-    draft: true
   - key: qc-43-2-2025-10-02-3
     placeable: false
     title: "Motion: in memory of Nooran Rezayi, denouncing hateful remarks on social media about youth; not speech law"
@@ -3951,7 +3795,6 @@ divisions:
     reason: >
       Unanimous (85-0): in memory of Nooran Rezayi, denouncing hateful remarks on social media
       about youth; not speech law. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-2-2025-10-01-2
     placeable: false
     title: "Motion: to abolish the link between the State of Quebec and the British monarchy"
@@ -3974,7 +3817,6 @@ divisions:
       Unanimous (110-0): to abolish the link between the State of Quebec and the British
       monarchy. TAXONOMY FALSE POSITIVE: joined to bill qc-43-1/99 and tagged
       surrogacy/embryology on 'embryon*'. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2025-05-28-487
     placeable: false
     title: "Motion: that reproductive health, 'y compris le droit à l'avortement', must be firmly protected against 'mouvements anti-choix'"
@@ -3995,7 +3837,6 @@ divisions:
     reason: >
       Unanimous (110-0): that reproductive health, 'y compris le droit à l'avortement', must be
       firmly protected against 'mouvements anti-choix'. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2025-05-28-484
     placeable: false
     title: "Bill 84 (43-1), Loi sur l'intégration à la nation québécoise -- adoption"
@@ -4014,7 +3855,6 @@ divisions:
       Not ours. TEXT READ: the national-integration model names « la laïcité de l'État » among
       Quebec's foundations but restricts no religious practice; the tag is right on the word,
       the bill is not on our ground.
-    draft: true
   - key: qc-43-1-2025-05-27-480
     areas: [8]          # stored: [6, 8]
     title: "Bill 94 (43-1), laicity in the education network -- adoption du principe (second reading)"
@@ -4041,7 +3881,6 @@ divisions:
     why_yea: "Voted for the principle of Bill 94, extending the religious-symbols ban to school staff and imposing uncovered faces in schools."
     nay: 1
     why_nay: "Voted against the principle of Bill 94's religious-symbols and face-covering rules (QS alone; the PLQ voted Yea here and Nay at adoption)."
-    draft: true
   - key: qc-43-1-2025-05-22-476
     placeable: false
     title: "Bill 102 (43-1), Loi n° 2 sur les crédits, 2025-2026 -- supply (principle and adoption in one motion)"
@@ -4059,7 +3898,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-1-2025-04-10-453
     placeable: false
     title: "Bill 91 (43-1), Loi instaurant le Tribunal unifié de la famille -- adoption"
@@ -4076,7 +3914,6 @@ divisions:
     reason: >
       Not ours. TEXT READ: a court-organisation bill; 'grossesse pour autrui', 'union parentale'
       and 'projet parental' appear only in the list of matters the new family tribunal hears.
-    draft: true
   - key: qc-43-1-2025-03-26-402
     placeable: false
     title: "Bill 96 (43-1), Loi n° 1 sur les crédits, 2025-2026 -- supply (principle and adoption in one motion)"
@@ -4094,7 +3931,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-1-2025-03-20-395
     placeable: false
     title: "Introduction of Bill 94 (laicity in the education network); the principle and adoption votes carry the reading"
@@ -4111,7 +3947,6 @@ divisions:
     reason: >
       Unanimous (101-0): introduction of Bill 94 (laicity in the education network); the
       principle and adoption votes carry the reading. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2025-02-06-380
     placeable: false
     title: "Motion: praising the sexuality-education programme for treating gender identity and gender expression 'de façon neutre et ouverte', with ..."
@@ -4133,7 +3968,6 @@ divisions:
       Unanimous (95-0): praising the sexuality-education programme for treating gender identity
       and gender expression 'de façon neutre et ouverte', with collaboration with parents (3
       abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2025-01-30-373
     placeable: false
     title: "Introduction of Bill 84, Loi sur l'intégration nationale (not on our ground; see the adoption entry)"
@@ -4149,7 +3983,6 @@ divisions:
     reason: >
       Unanimous (105-0): introduction of Bill 84, Loi sur l'intégration nationale (not on our
       ground; see the adoption entry). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-12-04-366
     placeable: false
     title: "Motion: asking the government to stop funding organisations that encourage the sexual exploitation of minors ('sugaring')"
@@ -4170,7 +4003,6 @@ divisions:
     reason: >
       Unanimous (100-0): asking the government to stop funding organisations that encourage the
       sexual exploitation of minors ('sugaring'). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-12-03-361
     placeable: false
     title: "Motion: asking Parliament to repeal the religious-text defence in Criminal Code ss.319(3)(b) and 319(3.1)(b) on hate speech; against our ground on ..."
@@ -4192,7 +4024,6 @@ divisions:
       Unanimous (106-0): asking Parliament to repeal the religious-text defence in Criminal Code
       ss.319(3)(b) and 319(3.1)(b) on hate speech; against our ground on free speech and
       religion, but unanimous. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-11-06-342
     placeable: false
     title: "Motion: affirming the 'consensus social inébranlable' for abortion rights and asking for the abortion-access plan"
@@ -4213,7 +4044,6 @@ divisions:
     reason: >
       Unanimous (105-0): affirming the 'consensus social inébranlable' for abortion rights and
       asking for the abortion-access plan. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-10-30-334
     placeable: false
     title: "Motion: condemning the Jacques-Cartier bridge blockade; free expression must not endanger public safety"
@@ -4234,7 +4064,6 @@ divisions:
     reason: >
       Unanimous (109-0): condemning the Jacques-Cartier bridge blockade; free expression must
       not endanger public safety. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-10-24-332
     placeable: false
     title: "Motion: that defending sex equality, laicity and French is not 'surenchère identitaire' (1 abstained)"
@@ -4254,7 +4083,6 @@ divisions:
     reason: >
       Unanimous (97-0): that defending sex equality, laicity and French is not 'surenchère
       identitaire' (1 abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-10-24-329
     areas: [8]          # stored: [8]
     title: "Bérubé (PQ) motion: strengthen laicity in schools, register places of worship, end funding of religious schools"
@@ -4282,7 +4110,6 @@ divisions:
     # not a vote for religious freedom. The PLQ's 15 Yea votes are as printed in the annex.
     yea: -1
     why_yea: "Voted to demand a compulsory register of places of worship and religious organisations, a ban on their links with schools and daycares, and an end to public funding of religious schools."
-    draft: true
   - key: qc-43-1-2024-10-22-327
     placeable: false
     title: "Motion: on the Bedford school: no religious manifestations in public schools"
@@ -4303,7 +4130,6 @@ divisions:
     reason: >
       Unanimous (108-0): on the Bedford school: no religious manifestations in public schools.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-10-03-321
     placeable: false
     title: "Motion: on public safety and peaceful assembly; invites calm expression"
@@ -4324,7 +4150,6 @@ divisions:
     reason: >
       Unanimous (99-0): on public safety and peaceful assembly; invites calm expression. Tells
       no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-09-17-305
     placeable: false
     title: "Motion: that hiring teachers by religion breaches laicity; renews the call for Amira Elghawaby's resignation"
@@ -4345,7 +4170,6 @@ divisions:
     reason: >
       Unanimous (109-0): that hiring teachers by religion breaches laicity; renews the call for
       Amira Elghawaby's resignation. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-05-31-293
     placeable: false
     title: "Motion: recognising the social consensus for abortion rights and asking for free, accessible abortion everywhere in Quebec"
@@ -4366,7 +4190,6 @@ divisions:
     reason: >
       Unanimous (80-0): recognising the social consensus for abortion rights and asking for
       free, accessible abortion everywhere in Quebec. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-05-09-279
     placeable: false
     title: "Morin (PLQ) motion: no one should condemn recourse to the courts"
@@ -4386,7 +4209,6 @@ divisions:
     reason: >
       Not ours: the motion is about the rule of law and recourse to the courts; 'liberté
       d'expression' is a proviso added by amendment. Context (what was condemned) not read.
-    draft: true
   - key: qc-43-1-2024-05-09-278
     placeable: false
     title: "Cliche-Rivard (QS) amendment to the Morin motion: 'sous réserve du droit à la liberté d'expression'"
@@ -4407,7 +4229,6 @@ divisions:
     reason: >
       Not ours: the motion is about the rule of law and recourse to the courts; 'liberté
       d'expression' is a proviso added by amendment. Context (what was condemned) not read.
-    draft: true
   - key: qc-43-1-2024-05-02-273
     areas: [8]          # stored: [8]
     title: "Bill 52 (43-1), renewing the notwithstanding clause of the Laicity Act (Bill 21) -- adoption"
@@ -4430,7 +4251,6 @@ divisions:
     why_yea: "Voted to renew for five years the notwithstanding clause that shields Bill 21's religious-symbols ban from the Charters' freedom of religion."
     nay: 2
     why_nay: "Voted against renewing the notwithstanding clause that shields Bill 21's religious-symbols ban from the Charters."
-    draft: true
   - key: qc-43-1-2024-05-02-271
     placeable: false
     title: "Bill 58 (43-1), Loi n° 2 sur les crédits, 2024-2025 -- supply (principle and adoption in one motion)"
@@ -4448,7 +4268,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-1-2024-05-01-269
     placeable: false
     title: "Motion: that public transit is a mission of the State"
@@ -4469,7 +4288,6 @@ divisions:
       Unanimous (106-0): that public transit is a mission of the State. TAXONOMY FALSE POSITIVE:
       the motion voted was on public transit; a preceding undebated motion on the Laicity Act
       carried the tag. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-04-25-265
     placeable: false
     title: "Motion: denouncing Ottawa's look at Islamic mortgages as contrary to laicity (9 abstained)"
@@ -4490,7 +4308,6 @@ divisions:
     reason: >
       Unanimous (92-0): denouncing Ottawa's look at Islamic mortgages as contrary to laicity (9
       abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-04-23-262
     placeable: false
     title: "Motion: denouncing Ottawa's look at Islamic mortgages as contrary to laicity (10 abstained)"
@@ -4511,7 +4328,6 @@ divisions:
     reason: >
       Unanimous (99-0): denouncing Ottawa's look at Islamic mortgages as contrary to laicity (10
       abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2024-03-13-214
     placeable: false
     title: "Bill 55 (43-1), Loi n° 1 sur les crédits, 2024-2025 -- supply (principle and adoption in one motion)"
@@ -4529,7 +4345,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-1-2024-02-08-196
     placeable: false
     title: "Motion: supporting authors of children's books 'la cible de censure' (Élise Gravel and others) and reaffirming freedom of expression"
@@ -4551,7 +4366,6 @@ divisions:
       Unanimous (106-0): supporting authors of children's books 'la cible de censure' (Élise
       Gravel and others) and reaffirming freedom of expression. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-43-1-2024-02-07-193
     placeable: false
     title: "Motion: asking Parliament to amend the Criminal Code to allow advance requests for medical aid in dying in Quebec (4 abstained)"
@@ -4572,7 +4386,6 @@ divisions:
     reason: >
       Unanimous (109-0): asking Parliament to amend the Criminal Code to allow advance requests
       for medical aid in dying in Quebec (4 abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-12-08-186
     placeable: false
     title: "Bill 15 (43-1), Loi visant à rendre le système de santé et de services sociaux plus efficace (Santé Québec) -- adoption"
@@ -4589,7 +4402,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: the 1,000-section law creating Santé Québec, tagged abortion,
       assisted dying, embryology and organ donation because it re-points those statutes to the
       new agency. Not ours.
-    draft: true
   - key: qc-43-1-2023-12-06-175
     placeable: false
     title: "Motion: reaffirming new rights for trans and non-binary persons and asking that the Comité de sages cause no setback"
@@ -4610,7 +4422,6 @@ divisions:
     reason: >
       Unanimous (96-0): reaffirming new rights for trans and non-binary persons and asking that
       the Comité de sages cause no setback. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-11-30-167
     placeable: false
     title: "Motion: denouncing the federal Boeing P-8A contract"
@@ -4632,7 +4443,6 @@ divisions:
       Unanimous (105-0): denouncing the federal Boeing P-8A contract. TAXONOMY FALSE POSITIVE:
       joined to Bill 15 (Santé Québec) and tagged through it. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-43-1-2023-10-17-141
     placeable: false
     title: "Motion: committing to study presumed consent to organ donation in committee"
@@ -4653,7 +4463,6 @@ divisions:
     reason: >
       Unanimous (104-0): committing to study presumed consent to organ donation in committee.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-06-09-116
     placeable: false
     title: "Principle of Bill 194, presumed consent to organ and tissue donation after death (private member's bill, Fortin)"
@@ -4670,7 +4479,6 @@ divisions:
     reason: >
       Unanimous (104-0): principle of Bill 194, presumed consent to organ and tissue donation
       after death (private member's bill, Fortin). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-06-08-115
     placeable: false
     title: "Motion: asking the Grand Prix and hotels to act against pimping and sexual exploitation"
@@ -4691,7 +4499,6 @@ divisions:
     reason: >
       Unanimous (96-0): asking the Grand Prix and hotels to act against pimping and sexual
       exploitation. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-06-07-113
     title: "Bill 11 (43-1), Loi modifiant la Loi concernant les soins de fin de vie -- adoption (third reading)"
     dated: 2023-06-07
@@ -4711,7 +4518,6 @@ divisions:
     why_yea: "Voted to pass Bill 11, extending medical aid in dying to advance requests for people facing incapacity and to people with a severe physical impairment."
     nay: 2
     why_nay: "Voted against extending medical aid in dying to advance requests and to severe physical impairment (Linda Caron and Filomena Rotiroti, PLQ)."
-    draft: true
   - key: qc-43-1-2023-06-02-111
     placeable: false
     title: "Report stage of Bill 11 (medical aid in dying, advance requests); the adoption vote (113) carries the reading"
@@ -4726,7 +4532,6 @@ divisions:
     reason: >
       Unanimous (107-0): report stage of Bill 11 (medical aid in dying, advance requests); the
       adoption vote (113) carries the reading. Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-06-02-109
     placeable: false
     title: "Bill 11 (43-1), MAID -- Maccarone amendment at report stage (a right to care)"
@@ -4748,7 +4553,6 @@ divisions:
       A declaratory right to care, which Maccarone called an 'aide médicale à vivre'; the
       government voted it down as redundant. Neither lobby is on the MAID question: the PLQ and
       QS who voted Yea voted for the bill. Evidence only.
-    draft: true
   - key: qc-43-1-2023-05-31-104
     placeable: false
     title: "Bill 15 (43-1), Loi visant à rendre le système de santé et de services sociaux plus efficace (Santé Québec) -- adoption du principe"
@@ -4766,7 +4570,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: the 1,000-section law creating Santé Québec, tagged abortion,
       assisted dying, embryology and organ donation because it re-points those statutes to the
       new agency. Not ours.
-    draft: true
   - key: qc-43-1-2023-05-11-90
     placeable: false
     title: "Bill 21 (43-1), Loi n° 2 sur les crédits, 2023-2024 -- supply (principle and adoption in one motion)"
@@ -4784,7 +4587,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-1-2023-04-06-69
     placeable: false
     title: "Motion: on keeping the CLSCs' mission in Bill 15"
@@ -4807,7 +4609,6 @@ divisions:
       Unanimous (102-0): on keeping the CLSCs' mission in Bill 15. TAXONOMY FALSE POSITIVE: a
       health-administration motion, tagged through Bill 15. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-43-1-2023-04-05-48
     placeable: false
     title: "Motion: that prayer rooms in public schools, of any faith, go against laicity"
@@ -4828,7 +4629,6 @@ divisions:
     reason: >
       Unanimous (104-0): that prayer rooms in public schools, of any faith, go against laicity.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-04-04-47
     placeable: false
     title: "Motion: that drag queens reading stories to children must not face hate, and that exposing children 'à la différence' makes Quebec an example"
@@ -4850,7 +4650,6 @@ divisions:
       Unanimous (109-0): that drag queens reading stories to children must not face hate, and
       that exposing children 'à la différence' makes Quebec an example. Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-43-1-2023-03-22-42
     placeable: false
     title: "Bill 18 (43-1), Loi n° 1 sur les crédits, 2023-2024 -- supply (principle and adoption in one motion)"
@@ -4868,7 +4667,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-43-1-2023-03-15-38
     placeable: false
     title: "Motion: denouncing any link between racism and Bill 21"
@@ -4889,7 +4687,6 @@ divisions:
     reason: >
       Unanimous (107-0): denouncing any link between racism and Bill 21. Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-43-1-2023-01-31-23
     placeable: false
     title: "Motion: denouncing Amira Elghawaby's remarks and asking for the end of her mandate (11 abstained)"
@@ -4910,7 +4707,6 @@ divisions:
     reason: >
       Unanimous (108-0): denouncing Amira Elghawaby's remarks and asking for the end of her
       mandate (11 abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-43-1-2023-01-31-21
     placeable: false
     title: "Motion: anniversary of the Quebec City mosque attack; condemning hatred and Islamophobia"
@@ -4931,7 +4727,6 @@ divisions:
     reason: >
       Unanimous (119-0): anniversary of the Quebec City mosque attack; condemning hatred and
       Islamophobia. Tells no member apart: evidence only.
-    draft: true
 
   # --- Quebec, 42nd Legislature --------------------------------------------------
   - key: qc-42-2-2022-06-03-345
@@ -4950,7 +4745,6 @@ divisions:
     reason: >
       Unanimous (88-0): adoption of Bill 32, Loi sur la liberté académique dans le milieu
       universitaire (8 abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2022-05-03-312
     placeable: false
     title: "Motion: reaffirming the right to abortion after the US draft Dobbs ruling"
@@ -4971,7 +4765,6 @@ divisions:
     reason: >
       Unanimous (93-0): reaffirming the right to abortion after the US draft Dobbs ruling. Tells
       no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2022-03-31-273
     placeable: false
     title: "Motion: asking that Bill 2 be amended to meet LGBTQi+ communities' concerns and adopted before the election"
@@ -4992,7 +4785,6 @@ divisions:
     reason: >
       Unanimous (87-0): asking that Bill 2 be amended to meet LGBTQi+ communities' concerns and
       adopted before the election. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2022-03-23-270
     placeable: false
     title: "Bill 31 (42-2), Loi n° 1 sur les crédits, 2022-2023 -- supply (principle and adoption in one motion)"
@@ -5010,7 +4802,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: an appropriations bill (Loi sur les crédits), tagged laicity on
       the word 'laïcité' in its schedule of appropriations (Annexe 1). A supply vote, not ours.
-    draft: true
   - key: qc-42-2-2022-02-24-257
     placeable: false
     title: "Motion: on the special commission's report on the sexual exploitation of minors"
@@ -5030,7 +4821,6 @@ divisions:
     reason: >
       Unanimous (116-0): on the special commission's report on the sexual exploitation of
       minors. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2022-02-03-213
     placeable: false
     title: "Referral of Bill 9 (student ombudsman) to committee"
@@ -5047,7 +4837,6 @@ divisions:
       Unanimous (115-0): referral of Bill 9 (student ombudsman) to committee. TAXONOMY FALSE
       POSITIVE: Bill 9 of 42-2 is the Loi sur le protecteur national de l'élève, tagged on
       'enseignement à la maison'; procedure as well. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2022-02-03-212
     placeable: false
     title: "Principle of Bill 9, Loi sur le protecteur national de l'élève"
@@ -5065,7 +4854,6 @@ divisions:
       Unanimous (115-0): principle of Bill 9, Loi sur le protecteur national de l'élève.
       TAXONOMY FALSE POSITIVE: the student-ombudsman bill, tagged on 'enseignement à la maison'.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2022-02-01-201
     placeable: false
     title: "Referral of Bill 2 (family law) to committee: procedure"
@@ -5081,7 +4869,6 @@ divisions:
     reason: >
       Unanimous (115-0): referral of Bill 2 (family law) to committee: procedure. Tells no
       member apart: evidence only.
-    draft: true
   - key: qc-42-2-2022-02-01-200
     areas: [9, 10]          # stored: [1, 3, 5, 9, 10]
     title: "Bill 2 (42-2), family-law reform (filiation, surrogacy, civil status) -- adoption du principe"
@@ -5105,7 +4892,6 @@ divisions:
     # prefer placeable: false for a mixed bill.
     yea: -1
     why_yea: "Voted for the principle of Bill 2, which 'reconnaît la gestation pour autrui et l'encadre' and adds a gender-identity mention to the birth record."
-    draft: true
   - key: qc-42-2-2022-02-01-188
     placeable: false
     title: "Motion: anniversary of the Quebec City mosque attack; condemning hatred and Islamophobia"
@@ -5125,7 +4911,6 @@ divisions:
     reason: >
       Unanimous (118-0): anniversary of the Quebec City mosque attack; condemning hatred and
       Islamophobia. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-12-10-185
     placeable: false
     title: "Bill 5 (42-2), budget measures of 25 March 2021 -- adoption"
@@ -5143,7 +4928,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a budget-implementation bill tagged marriage/family on
       'filiation'. The tally check also failed (positions_ok = 0).
-    draft: true
   - key: qc-42-2-2021-12-10-184
     placeable: false
     title: "Bill 5 (42-2), budget measures of 25 March 2021 -- report stage"
@@ -5162,7 +4946,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a budget-implementation bill tagged marriage/family on
       'filiation'.
-    draft: true
   - key: qc-42-2-2021-12-10-181
     placeable: false
     title: "Special consultations on Bill 9 (student ombudsman): procedure"
@@ -5183,7 +4966,6 @@ divisions:
       Unanimous (115-0): special consultations on Bill 9 (student ombudsman): procedure.
       TAXONOMY FALSE POSITIVE: tagged on 'enseignement à la maison' through the
       student-ombudsman bill. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-12-10-179
     placeable: false
     title: "Motion: tribute to Quebec's police officers"
@@ -5204,7 +4986,6 @@ divisions:
       Unanimous (115-0): tribute to Quebec's police officers. TAXONOMY FALSE POSITIVE: a tribute
       that names 'exploitation sexuelle des mineurs' in passing. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-42-2-2021-12-08-154
     placeable: false
     title: "Introduction of Bill 18 (public security, missing persons)"
@@ -5222,7 +5003,6 @@ divisions:
       Unanimous (118-0): introduction of Bill 18 (public security, missing persons). TAXONOMY
       FALSE POSITIVE: tagged on 'enseignement à la maison'. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-42-2-2021-12-03-138
     placeable: false
     title: "Motion: that immigration levels follow Quebec's capacity to integrate"
@@ -5242,7 +5022,6 @@ divisions:
     reason: >
       Unanimous (116-0): that immigration levels follow Quebec's capacity to integrate. Area 11
       (migration) is collated, never campaigned. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-12-03-134
     placeable: false
     title: "Introduction of Bill 19, health and social-services information"
@@ -5260,7 +5039,6 @@ divisions:
       Unanimous (116-0): introduction of Bill 19, health and social-services information.
       TAXONOMY FALSE POSITIVE: a health-records bill, tagged on passing mentions of organ
       donation, end-of-life care and assisted procreation. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-11-25-112
     placeable: false
     title: "Motion: denouncing Ontario teaching material linking Bill 21 and Islamophobia (10 abstained)"
@@ -5280,7 +5058,6 @@ divisions:
     reason: >
       Unanimous (106-0): denouncing Ontario teaching material linking Bill 21 and Islamophobia
       (10 abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-11-23-101
     placeable: false
     title: "Special consultations on Bill 2 (family law): procedure"
@@ -5300,7 +5077,6 @@ divisions:
     reason: >
       Unanimous (116-0): special consultations on Bill 2 (family law): procedure. Tells no
       member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-11-23-98
     placeable: false
     title: "Introduction of Bill 9, Loi sur le protecteur national de l'élève"
@@ -5317,7 +5093,6 @@ divisions:
       Unanimous (116-0): introduction of Bill 9, Loi sur le protecteur national de l'élève.
       TAXONOMY FALSE POSITIVE: tagged on 'enseignement à la maison'. Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-2-2021-11-23-97
     placeable: false
     title: "Referral of Bill 5 (budget measures) to committee"
@@ -5333,7 +5108,6 @@ divisions:
     reason: >
       Unanimous (115-0): referral of Bill 5 (budget measures) to committee. TAXONOMY FALSE
       POSITIVE: a budget bill tagged on 'filiation'. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-11-23-96
     placeable: false
     title: "Bill 5 (42-2), budget measures of 25 March 2021 -- adoption du principe"
@@ -5350,7 +5124,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a budget-implementation bill tagged marriage/family on
       'filiation'.
-    draft: true
   - key: qc-42-2-2021-11-10-77
     placeable: false
     title: "Motion: on early-childhood educators' pay"
@@ -5370,7 +5143,6 @@ divisions:
     reason: >
       Unanimous (116-0): on early-childhood educators' pay. TAXONOMY FALSE POSITIVE: a
       daycare-wages motion joined to Bill 2 (family law). Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-11-02-46
     placeable: false
     title: "Introduction of Bill 5 (budget measures)"
@@ -5387,7 +5159,6 @@ divisions:
     reason: >
       Unanimous (117-0): introduction of Bill 5 (budget measures). TAXONOMY FALSE POSITIVE: a
       budget bill tagged on 'filiation'. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-10-26-14
     placeable: false
     title: "Motion: condolences on the death of an Olymel executive"
@@ -5408,7 +5179,6 @@ divisions:
       Unanimous (118-0): condolences on the death of an Olymel executive. TAXONOMY FALSE
       POSITIVE: an obituary motion joined to Bill 2 (family law). Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-2-2021-10-21-8
     placeable: false
     title: "Introduction of Bill 2 (family law reform: surrogacy, gender-identity mention); the principle vote carries the reading"
@@ -5426,7 +5196,6 @@ divisions:
     reason: >
       Unanimous (117-0): introduction of Bill 2 (family law reform: surrogacy, gender-identity
       mention); the principle vote carries the reading. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-2-2021-10-20-5
     placeable: false
     title: "Letting the special commission on the end-of-life care Act continue its work: procedure"
@@ -5446,7 +5215,6 @@ divisions:
     reason: >
       Unanimous (118-0): letting the special commission on the end-of-life care Act continue its
       work: procedure. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-06-10-1113
     placeable: false
     title: "Adoption of Bill 83, health coverage for children of parents with precarious migratory status (title later amended to also amend the end-of-life care ..."
@@ -5468,7 +5236,6 @@ divisions:
       precarious migratory status (title later amended to also amend the end-of-life care Act).
       TAXONOMY FALSE POSITIVE: a health-coverage bill; its end-of-life amendment is technical.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-06-10-1112
     placeable: false
     title: "Report stage of Bill 83 (health coverage for migrant children)"
@@ -5489,7 +5256,6 @@ divisions:
     reason: >
       Unanimous (117-0): report stage of Bill 83 (health coverage for migrant children).
       TAXONOMY FALSE POSITIVE: as for its adoption. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-05-27-1039
     placeable: false
     title: "Bill 82 (42-1), budget implementation of 10 March 2020 -- adoption"
@@ -5506,7 +5272,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a budget omnibus tagged civil liberties on 'identité numérique';
       a vote on the budget, not on digital ID.
-    draft: true
   - key: qc-42-1-2021-05-26-1029
     placeable: false
     title: "Bill 74 (42-1), budget measures of 10 March 2020 -- adoption"
@@ -5523,7 +5288,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a fiscal bill tagged embryology on its IVF tax-credit clauses; a
       vote on the budget.
-    draft: true
   - key: qc-42-1-2021-05-26-1028
     placeable: false
     title: "Bill 82 (42-1), budget implementation of 10 March 2020 -- report stage"
@@ -5540,7 +5304,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a budget omnibus tagged civil liberties on 'identité numérique';
       a vote on the budget, not on digital ID.
-    draft: true
   - key: qc-42-1-2021-05-26-1027
     placeable: false
     title: "Bill 82 (42-1), budget implementation of 10 March 2020 -- government amendments at report stage"
@@ -5565,7 +5328,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a budget omnibus tagged civil liberties on 'identité numérique';
       a vote on the budget, not on digital ID.
-    draft: true
   - key: qc-42-1-2021-05-25-1018
     placeable: false
     title: "Bill 74 (42-1), budget measures of 10 March 2020 -- report stage"
@@ -5586,7 +5348,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a fiscal bill tagged embryology on its IVF tax-credit clauses; a
       vote on the budget.
-    draft: true
   - key: qc-42-1-2021-05-11-995
     placeable: false
     title: "Referral of Bill 83 to committee"
@@ -5602,7 +5363,6 @@ divisions:
     reason: >
       Unanimous (117-0): referral of Bill 83 to committee. TAXONOMY FALSE POSITIVE: as for its
       adoption; procedure as well. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-05-11-994
     placeable: false
     title: "Principle of Bill 83 (health coverage for migrant children)"
@@ -5620,7 +5380,6 @@ divisions:
     reason: >
       Unanimous (120-0): principle of Bill 83 (health coverage for migrant children). TAXONOMY
       FALSE POSITIVE: as for its adoption. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-04-27-960
     placeable: false
     title: "Motion: that the Assembly may require members to sit with uncovered faces, save for health or disability"
@@ -5640,7 +5399,6 @@ divisions:
     reason: >
       Unanimous (119-0): that the Assembly may require members to sit with uncovered faces, save
       for health or disability. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-04-21-947
     placeable: false
     title: "Motion: that Quebec never consented to the 1982 constitutional order and its laws apply everywhere"
@@ -5660,7 +5418,6 @@ divisions:
     reason: >
       Unanimous (118-0): that Quebec never consented to the 1982 constitutional order and its
       laws apply everywhere. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-03-25-894
     placeable: false
     title: "Special consultations on Bill 83: procedure"
@@ -5680,7 +5437,6 @@ divisions:
     reason: >
       Unanimous (119-0): special consultations on Bill 83: procedure. TAXONOMY FALSE POSITIVE:
       as for Bill 83. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-03-10-810
     placeable: false
     title: "Adoption of Bill 73, Loi modifiant diverses dispositions en matière de procréation assistée"
@@ -5697,7 +5453,6 @@ divisions:
     reason: >
       Unanimous (120-0): adoption of Bill 73, Loi modifiant diverses dispositions en matière de
       procréation assistée. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-03-10-807
     placeable: false
     title: "Motion: creating a national day against the sexual exploitation of minors"
@@ -5717,7 +5472,6 @@ divisions:
     reason: >
       Unanimous (118-0): creating a national day against the sexual exploitation of minors.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-03-09-800
     placeable: false
     title: "Report stage of Bill 73 (assisted procreation)"
@@ -5738,7 +5492,6 @@ divisions:
     reason: >
       Unanimous (119-0): report stage of Bill 73 (assisted procreation). Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2021-02-17-791
     placeable: false
     title: "Referral of Bill 82 (budget) to committee"
@@ -5754,7 +5507,6 @@ divisions:
     reason: >
       Unanimous (117-0): referral of Bill 82 (budget) to committee. TAXONOMY FALSE POSITIVE: a
       budget bill tagged on 'identité numérique'. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-02-17-790
     placeable: false
     title: "Bill 82 (42-1), budget implementation of 10 March 2020 -- adoption du principe"
@@ -5771,7 +5523,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a budget omnibus tagged civil liberties on 'identité numérique';
       a vote on the budget, not on digital ID.
-    draft: true
   - key: qc-42-1-2021-02-02-751
     placeable: false
     title: "Referral of Bill 74 (budget measures) to committee"
@@ -5788,7 +5539,6 @@ divisions:
       Unanimous (117-0): referral of Bill 74 (budget measures) to committee. TAXONOMY FALSE
       POSITIVE: a budget bill tagged on its IVF tax-credit clauses. Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2021-02-02-750
     placeable: false
     title: "Bill 74 (42-1), budget measures of 10 March 2020 -- adoption du principe"
@@ -5805,7 +5555,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a fiscal bill tagged embryology on its IVF tax-credit clauses; a
       vote on the budget.
-    draft: true
   - key: qc-42-1-2021-02-02-749
     placeable: false
     title: "Referral of Bill 73 (assisted procreation) to committee: procedure"
@@ -5821,7 +5570,6 @@ divisions:
     reason: >
       Unanimous (117-0): referral of Bill 73 (assisted procreation) to committee: procedure.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2021-02-02-748
     placeable: false
     title: "Principle of Bill 73 (assisted procreation)"
@@ -5841,7 +5589,6 @@ divisions:
     reason: >
       Unanimous (119-0): principle of Bill 73 (assisted procreation). Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2020-12-11-691
     placeable: false
     title: "Introduction of Bill 82 (budget)"
@@ -5859,7 +5606,6 @@ divisions:
     reason: >
       Unanimous (119-0): introduction of Bill 82 (budget). TAXONOMY FALSE POSITIVE: a budget
       bill tagged on 'identité numérique'. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-12-10-670
     placeable: false
     title: "Introduction of Bill 83 (health coverage for migrant children)"
@@ -5877,7 +5623,6 @@ divisions:
     reason: >
       Unanimous (121-0): introduction of Bill 83 (health coverage for migrant children).
       TAXONOMY FALSE POSITIVE: as for Bill 83. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-12-09-668
     placeable: false
     title: "Adoption of Bill 70, the conversion-therapy ban; every member present voted for it"
@@ -5895,7 +5640,6 @@ divisions:
     reason: >
       Unanimous (121-0): adoption of Bill 70, the conversion-therapy ban; every member present
       voted for it. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-12-08-650
     areas: [4]          # stored: [3, 4, 5]
     title: "Bill 70 (42-1), conversion therapy -- Maccarone amendment 0.1 (a blanket ban) at report stage"
@@ -5916,7 +5660,6 @@ divisions:
     # votes, so this is a party position recorded against every member.
     yea: -1
     why_yea: "Voted to turn the conversion-therapy law into a blanket rule: 'Les thérapies de conversion sont interdites et nul ne peut offrir de tels services.'"
-    draft: true
   - key: qc-42-1-2020-12-03-634
     placeable: false
     title: "Motion: on the special commission's report on the sexual exploitation of minors"
@@ -5936,7 +5679,6 @@ divisions:
     reason: >
       Unanimous (120-0): on the special commission's report on the sexual exploitation of
       minors. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-12-02-629
     placeable: false
     title: "Introduction of Bill 74 (budget measures)"
@@ -5953,7 +5695,6 @@ divisions:
     reason: >
       Unanimous (121-0): introduction of Bill 74 (budget measures). TAXONOMY FALSE POSITIVE: a
       budget bill tagged on its IVF tax-credit clauses. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-11-26-624
     placeable: false
     title: "Special consultations on Bill 73: procedure"
@@ -5973,7 +5714,6 @@ divisions:
     reason: >
       Unanimous (109-0): special consultations on Bill 73: procedure. Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2020-11-11-583
     placeable: false
     title: "Introduction of Bill 73 (assisted procreation)"
@@ -5990,7 +5730,6 @@ divisions:
     reason: >
       Unanimous (121-0): introduction of Bill 73 (assisted procreation). Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2020-11-10-581
     placeable: false
     title: "Referral of Bill 70 (conversion therapy) to committee: procedure"
@@ -6006,7 +5745,6 @@ divisions:
     reason: >
       Unanimous (119-0): referral of Bill 70 (conversion therapy) to committee: procedure. Tells
       no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-11-10-580
     placeable: false
     title: "Principle of Bill 70, the conversion-therapy ban"
@@ -6024,7 +5762,6 @@ divisions:
     reason: >
       Unanimous (120-0): principle of Bill 70, the conversion-therapy ban. Tells no member
       apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-10-28-548
     placeable: false
     title: "Motion: on protecting children from online sexual exploitation"
@@ -6044,7 +5781,6 @@ divisions:
     reason: >
       Unanimous (120-0): on protecting children from online sexual exploitation. Tells no member
       apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-10-27-543
     placeable: false
     title: "Special consultations on Bill 70: procedure"
@@ -6064,7 +5800,6 @@ divisions:
     reason: >
       Unanimous (120-0): special consultations on Bill 70: procedure. Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2020-10-27-542
     placeable: false
     title: "Motion: that freedom of conscience and religion are fundamental values and everyone may live without intimidation"
@@ -6084,7 +5819,6 @@ divisions:
     reason: >
       Unanimous (120-0): that freedom of conscience and religion are fundamental values and
       everyone may live without intimidation. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-10-22-529
     placeable: false
     title: "Introduction of Bill 70 (conversion therapy)"
@@ -6102,7 +5836,6 @@ divisions:
     reason: >
       Unanimous (120-0): introduction of Bill 70 (conversion therapy). Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2020-10-20-504
     placeable: false
     title: "Changing the composition of committees"
@@ -6123,7 +5856,6 @@ divisions:
       Unanimous (121-0): changing the composition of committees. TAXONOMY FALSE POSITIVE: a
       housekeeping motion that names the sexual-exploitation commission; procedure. Tells no
       member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-09-23-448
     placeable: false
     title: "Motion: asking Ottawa to regulate social-media algorithms; takes note of its plan to legislate on online hate speech"
@@ -6143,7 +5875,6 @@ divisions:
     reason: >
       Unanimous (121-0): asking Ottawa to regulate social-media algorithms; takes note of its
       plan to legislate on online hate speech. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2020-09-22-428
     placeable: false
     title: "Introduction of private member's Bill 599 (Maccarone), Loi visant le respect de l'orientation sexuelle et de l'identité de genre"
@@ -6160,7 +5891,6 @@ divisions:
       Unanimous (120-0): introduction of private member's Bill 599 (Maccarone), Loi visant le
       respect de l'orientation sexuelle et de l'identité de genre. Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-42-1-2020-06-09-380
     placeable: false
     title: "Virtual sittings for the sexual-exploitation commission: procedure"
@@ -6180,7 +5910,6 @@ divisions:
     reason: >
       Unanimous (120-0): virtual sittings for the sexual-exploitation commission: procedure.
       Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2019-11-05-235
     placeable: false
     title: "Introduction of private member's Bill 399 (Fortin), presumed consent to organ donation"
@@ -6201,7 +5930,6 @@ divisions:
     reason: >
       Unanimous (111-0): introduction of private member's Bill 399 (Fortin), presumed consent to
       organ donation. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2019-06-16-165
     areas: [8]          # stored: [8]
     title: "Bill 21 (42-1), Loi sur la laïcité de l'État -- adoption (third reading)"
@@ -6220,7 +5948,6 @@ divisions:
     why_yea: "Voted to pass the Laicity Act, banning religious symbols for teachers, police, judges and other public employees in authority, under the notwithstanding clause."
     nay: 2
     why_nay: "Voted against the Laicity Act's ban on religious symbols for teachers and other public employees."
-    draft: true
   - key: qc-42-1-2019-06-16-164
     placeable: false
     title: "Bill 21 (42-1), Laicity Act -- report stage (rapport amendé)"
@@ -6245,7 +5972,6 @@ divisions:
     reason: >
       Split exactly as the adoption (73-35, CAQ and PQ against PLQ and QS): the adoption carries
       it.
-    draft: true
   - key: qc-42-1-2019-06-14-155
     placeable: false
     title: "Benjamin (PLQ) amendment on the membership of the special commission on the sexual exploitation of minors"
@@ -6269,7 +5995,6 @@ divisions:
       5e alinéa.
     reason: >
       Procedure: who sits on the commission (13 or 17 members). Not a vote on exploitation.
-    draft: true
   - key: qc-42-1-2019-06-12-148
     placeable: false
     title: "Motion: asking for consultations before extending medical aid in dying to people with Alzheimer's"
@@ -6290,7 +6015,6 @@ divisions:
     reason: >
       Unanimous (114-0): asking for consultations before extending medical aid in dying to
       people with Alzheimer's. Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2019-06-04-131
     areas: [8]          # stored: [8]
     title: "Bill 21 (42-1), Loi sur la laïcité de l'État -- adoption du principe (second reading)"
@@ -6310,7 +6034,6 @@ divisions:
     why_yea: "Voted for the principle of the Laicity Act's religious-symbols ban for public employees in authority."
     nay: 1
     why_nay: "Voted against the principle of the Laicity Act's religious-symbols ban."
-    draft: true
   - key: qc-42-1-2019-04-11-80
     areas: [8]          # stored: [8]
     title: "David (PLQ) motion: Bill 21 'restreint la liberté de religion'; no closure"
@@ -6339,7 +6062,6 @@ divisions:
     why_yea: "Voted that the Assembly recognise Bill 21 'restreint la liberté de religion de certaines personnes' and be allowed to study it without closure."
     nay: -1
     why_nay: "Voted against recognising that Bill 21 restricts freedom of religion and against studying it without closure."
-    draft: true
   - key: qc-42-1-2019-03-28-47
     placeable: false
     title: "Moving the crucifix out of the Salon bleu after Bill 21 passes (stored as an 'Adoption' of Bill 21: it is a motion)"
@@ -6360,7 +6082,6 @@ divisions:
     reason: >
       Unanimous (103-0): moving the crucifix out of the Salon bleu after Bill 21 passes (stored
       as an 'Adoption' of Bill 21: it is a motion). Tells no member apart: evidence only.
-    draft: true
   - key: qc-42-1-2019-02-28-35
     placeable: false
     title: "Bérubé (PQ) motion: abolish the Ethics and Religious Culture (ECR) course"
@@ -6382,7 +6103,6 @@ divisions:
       opposed ECR as compulsory relativism (Loyola, Drummondville), but the PQ asked from the
       laicity side, and the course's 2023 replacement (CCQ) carries sexuality and gender
       content. Neither lobby is clearly ours.
-    draft: true
 
   # --- Quebec, 41st Legislature --------------------------------------------------
   - key: qc-41-1-2018-06-12-484
@@ -6404,7 +6124,6 @@ divisions:
       FALSE POSITIVE: employment law tagged organ donation (donor leave) and sex-based rights;
       the v0.3 'normes du travail' veto post-dates this tag. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-41-1-2018-05-30-471
     placeable: false
     title: "Motion: reaffirming freedom of expression and of the press after the intimidation of Vice journalists"
@@ -6425,7 +6144,6 @@ divisions:
     reason: >
       Unanimous (107-0): reaffirming freedom of expression and of the press after the
       intimidation of Vice journalists. Tells no member apart: evidence only.
-    draft: true
   - key: qc-41-1-2018-03-14-428
     placeable: false
     title: "Motion: asking Ottawa to bring Bill C-452 (human trafficking) into force (3 abstained)"
@@ -6446,7 +6164,6 @@ divisions:
     reason: >
       Unanimous (107-0): asking Ottawa to bring Bill C-452 (human trafficking) into force (3
       abstained). Tells no member apart: evidence only.
-    draft: true
   - key: qc-41-1-2017-11-09-389
     areas: [6]          # stored: [6]
     title: "Bill 144 (41-1), free education services and compulsory school attendance (home-schooling rules) -- adoption"
@@ -6470,7 +6187,6 @@ divisions:
     # objections were not read). CLOSE CALL: -1 for parental rights in education.
     yea: -1
     why_yea: "Voted to pass Bill 144, setting state conditions and norms on home schooling and giving inspectors powers to enforce compulsory school attendance."
-    draft: true
   - key: qc-41-1-2017-10-24-382
     placeable: false
     title: "Motion: asking members to hand over files to their successors"
@@ -6492,7 +6208,6 @@ divisions:
       Unanimous (114-0): asking members to hand over files to their successors. TAXONOMY FALSE
       POSITIVE: a preceding undebated motion on face coverings carried the tag. Tells no member
       apart: evidence only.
-    draft: true
   - key: qc-41-1-2017-10-18-376
     areas: [8]          # stored: [8]
     title: "Bill 62 (41-1), religious neutrality of the State (face uncovered for public services) -- adoption"
@@ -6515,7 +6230,6 @@ divisions:
     # FOR CHRISTOPHER.
     yea: -1
     why_yea: "Voted to pass Bill 62, requiring faces uncovered to give or receive public services and barring religious instruction in subsidised daycares."
-    draft: true
   - key: qc-41-1-2017-10-05-374
     placeable: false
     title: "Bill 62 (41-1), religious neutrality -- report stage"
@@ -6529,7 +6243,6 @@ divisions:
       Le rapport est mis aux voix; un vote par appel nominal est exigé.
     reason: >
       Split as the adoption (PLQ against PQ and CAQ): the adoption carries it.
-    draft: true
   - key: qc-41-1-2017-10-04-365
     placeable: false
     title: "Adoption of Bill 99, youth protection"
@@ -6547,7 +6260,6 @@ divisions:
     reason: >
       Unanimous (112-0): adoption of Bill 99, youth protection. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-41-1-2017-10-03-363
     placeable: false
     title: "Principle of Bill 144 (free education, compulsory attendance, home schooling); its adoption (389) split"
@@ -6566,7 +6278,6 @@ divisions:
     reason: >
       Unanimous (109-0): principle of Bill 144 (free education, compulsory attendance, home
       schooling); its adoption (389) split. Tells no member apart: evidence only.
-    draft: true
   - key: qc-41-1-2017-06-16-356
     placeable: false
     title: "Adoption of Bill 113, adoption and disclosure of information"
@@ -6584,7 +6295,6 @@ divisions:
     reason: >
       Unanimous (97-0): adoption of Bill 113, adoption and disclosure of information. Tells no
       member apart: evidence only.
-    draft: true
   - key: qc-41-1-2017-04-11-306
     placeable: false
     title: "Revoking the referral of Bill 131 (wetlands compensation)"
@@ -6606,7 +6316,6 @@ divisions:
       Unanimous (108-0): revoking the referral of Bill 131 (wetlands compensation). TAXONOMY
       FALSE POSITIVE: a preceding undebated motion on sex education carried the tag. Tells no
       member apart: evidence only.
-    draft: true
   - key: qc-41-1-2017-02-16-285
     areas: [8]          # stored: [8]
     title: "Roy (CAQ) motion: ban religious symbols for judges, Crown prosecutors, police and prison guards (Bouchard-Taylor)"
@@ -6633,7 +6342,6 @@ divisions:
     why_yea: "Voted to ask that Bill 62 ban religious symbols for judges, prosecutors, police officers and prison guards."
     nay: 1
     why_nay: "Voted against adding a religious-symbols ban for judges, prosecutors, police and prison guards to Bill 62."
-    draft: true
   - key: qc-41-1-2016-12-02-269
     placeable: false
     title: "Principle of Bill 113, adoption and disclosure of information"
@@ -6651,7 +6359,6 @@ divisions:
     reason: >
       Unanimous (94-0): principle of Bill 113, adoption and disclosure of information. Tells no
       member apart: evidence only.
-    draft: true
   - key: qc-41-1-2016-11-23-264
     placeable: false
     title: "Motion: on federal funding for the Fédération des femmes du Québec"
@@ -6673,7 +6380,6 @@ divisions:
       Unanimous (99-0): on federal funding for the Fédération des femmes du Québec. TAXONOMY
       FALSE POSITIVE: joined to Bill 62 and tagged through it. Tells no member apart: evidence
       only.
-    draft: true
   - key: qc-41-1-2016-11-17-259
     placeable: false
     title: "Bill 105 (41-1), Loi modifiant la Loi sur l'instruction publique (school governance) -- adoption"
@@ -6690,7 +6396,6 @@ divisions:
     reason: >
       TAXONOMY FALSE POSITIVE: a school-governance bill tagged religion on 'liberté de
       conscience et de religion' in a passage of the education Act it amends.
-    draft: true
   - key: qc-41-1-2016-11-15-256
     areas: [8]          # stored: [8]
     title: "Bill 62 (41-1), religious neutrality -- adoption du principe"
@@ -6709,7 +6414,6 @@ divisions:
     # Only the Yea places: the CAQ's 16 Nay votes were for a stronger ban.
     yea: -1
     why_yea: "Voted for the principle of Bill 62's uncovered-face rule for public services."
-    draft: true
   - key: qc-41-1-2016-05-25-215
     placeable: false
     title: "Government amendment to a motion on Bill 59 asking withdrawal of its Part 1 (the hate-speech Act)"
@@ -6731,7 +6435,6 @@ divisions:
     reason: >
       Unanimous (109-0): government amendment to a motion on Bill 59 asking withdrawal of its
       Part 1 (the hate-speech Act). Tells no member apart: evidence only.
-    draft: true
   - key: qc-41-1-2016-03-17-176
     placeable: false
     title: "Roy (CAQ) motion: do not raise immigration levels"
@@ -6752,7 +6455,6 @@ divisions:
       nement de tenir compte du contexte actuel et de ne pas hausser les seuils d'immigration.
     reason: >
       Not ours: area 11 (migration) is collated, never campaigned.
-    draft: true
   - key: qc-41-1-2015-12-04-161
     placeable: false
     title: "Adoption of Bill 54, the legal status of animals"
@@ -6770,7 +6472,6 @@ divisions:
       Unanimous (109-0): adoption of Bill 54, the legal status of animals. TAXONOMY FALSE
       POSITIVE: tagged assisted dying on 'euthanasie' (of animals). Tells no member apart:
       evidence only.
-    draft: true
   - key: qc-41-1-2015-11-19-153
     areas: [7]          # stored: [7, 9]
     title: "Bill 59 (41-1), hate-speech Act and protection of persons -- adoption du principe"
@@ -6797,7 +6498,6 @@ divisions:
     why_yea: "Voted for the principle of Bill 59's hate-speech Act: Human Rights Commission complaints, fines, and a public online list of those found to have spoken."
     nay: 1
     why_nay: "Voted against the principle of Bill 59's hate-speech Act and its public list of offenders."
-    draft: true
   - key: qc-41-1-2015-11-17-151
     placeable: false
     title: "Bill 59 (41-1) -- LeBel (PQ) motion to defer the principle (motion de report)"
@@ -6816,7 +6516,6 @@ divisions:
       Vallée, ministre de la Justice.
     reason: >
       Procedure: a delaying motion; the principle vote (153) carries the reading.
-    draft: true
   - key: qc-41-1-2015-11-10-146
     placeable: false
     title: "Bill 20 (41-1), family-medicine access and assisted procreation -- adoption"
@@ -6837,7 +6536,6 @@ divisions:
       IVF coverage (replaced by a tax credit, with new limits). The House split on the doctors'
       quotas; the IVF cut is not a vote on protecting embryos, and neither lobby took that
       ground.
-    draft: true
   - key: qc-41-1-2015-11-05-145
     placeable: false
     title: "Bill 59 (41-1) -- Gaudreault (PQ) motion to split off the hate-speech Act (motion de scission)"
@@ -6862,7 +6560,6 @@ divisions:
     reason: >
       Procedure: a motion to split the bill in two; the principle vote (153) carries the
       reading.
-    draft: true
   - key: qc-41-1-2015-05-20-120
     placeable: false
     title: "Bill 20 (41-1) -- adoption du principe"
@@ -6883,7 +6580,6 @@ divisions:
       IVF coverage (replaced by a tax credit, with new limits). The House split on the doctors'
       quotas; the IVF cut is not a vote on protecting embryos, and neither lobby took that
       ground.
-    draft: true
   - key: qc-41-1-2015-05-12-117
     placeable: false
     title: "Bill 20 (41-1) -- Villeneuve (CAQ) motion to defer the principle"
@@ -6904,7 +6600,6 @@ divisions:
       family-doctor quotas and ended public IVF coverage (replaced by a tax credit, with new
       limits). The House split on the doctors' quotas; the IVF cut is not a vote on protecting
       embryos, and neither lobby took that ground.
-    draft: true
   - key: qc-41-1-2015-04-16-88
     placeable: false
     title: "Bill 20 (41-1) -- Paradis (CAQ) motion to split the bill"
@@ -6926,7 +6621,6 @@ divisions:
       family-doctor quotas and ended public IVF coverage (replaced by a tax credit, with new
       limits). The House split on the doctors' quotas; the IVF cut is not a vote on protecting
       embryos, and neither lobby took that ground.
-    draft: true
   - key: qc-41-1-2015-04-01-86
     placeable: false
     title: "Motion: reaffirming the right to free, accessible abortion against any effect of Bill 20"
@@ -6947,7 +6641,6 @@ divisions:
     reason: >
       Unanimous (112-0): reaffirming the right to free, accessible abortion against any effect
       of Bill 20. Tells no member apart: evidence only.
-    draft: true
   - key: qc-41-1-2014-06-05-10
     areas: [2]          # stored: [2]
     title: "Bill 52 (41-1), Loi concernant les soins de fin de vie (medical aid in dying) -- adoption (third reading)"
@@ -6966,7 +6659,6 @@ divisions:
     why_yea: "Voted to pass Quebec's end-of-life care Act, which legalised 'aide médicale à mourir'."
     nay: 2
     why_nay: "Voted against legalising medical aid in dying (22 PLQ members; the PLQ split 44-22)."
-    draft: true
 
   # --- Quebec, 40th Legislature --------------------------------------------------
   - key: qc-40-1-2014-02-12-83
@@ -6989,7 +6681,6 @@ divisions:
     reason: >
       Unanimous (115-0): introduction of private member's Bill 491, religious neutrality and the
       fight against religious fundamentalism. Tells no member apart: evidence only.
-    draft: true
   - key: qc-40-1-2013-11-14-70
     placeable: false
     title: "Tanguay (PLQ) motion: hear the Justice Minister on the Human Rights Commission's view of the Charter of Values"
@@ -7013,7 +6704,6 @@ divisions:
       15 minutes soit [...]
     reason: >
       Procedure: a committee-hearing motion on the Charter of Values (PQ against PLQ and CAQ).
-    draft: true
   - key: qc-40-1-2013-10-29-64
     areas: [2]          # stored: [2]
     title: "Bill 52 (40-1), Loi concernant les soins de fin de vie -- adoption du principe (second reading)"
@@ -7032,7 +6722,6 @@ divisions:
     why_yea: "Voted for the principle of legalising medical aid in dying."
     nay: 1
     why_nay: "Voted against the principle of legalising medical aid in dying."
-    draft: true
 
   # --- Quebec, 39th Legislature --------------------------------------------------
   - key: qc-39-1-2011-02-15-137
@@ -7056,7 +6745,6 @@ divisions:
     # annex prints no parties (party '?'). LAICITY JUDGEMENT FOR CHRISTOPHER.
     yea: -1
     why_yea: "Voted for the principle of Bill 94 (2010), requiring faces uncovered to give or receive public services."
-    draft: true
   - key: qc-39-1-2011-02-09-136
     placeable: false
     title: "Motion: supporting the ban on the kirpan in the Assembly's precincts during the Bill 94 consultations"
@@ -7077,7 +6765,6 @@ divisions:
     reason: >
       Unanimous (113-0): supporting the ban on the kirpan in the Assembly's precincts during the
       Bill 94 consultations. Tells no member apart: evidence only.
-    draft: true
   - key: qc-39-1-2010-05-19-89
     placeable: false
     title: "Motion: reaffirming women's right to free, accessible abortion"
@@ -7099,7 +6786,6 @@ divisions:
     reason: >
       Unanimous (109-0): reaffirming women's right to free, accessible abortion. Tells no member
       apart: evidence only.
-    draft: true
   - key: qc-39-1-2010-04-27-84
     placeable: false
     title: "Motion: asking Ottawa to include contraception and abortion in its G8 maternal-health initiative"
@@ -7128,7 +6814,6 @@ divisions:
   # store's own record of the question and say why: procedure, unanimity, or
   # a taxonomy false positive ("tagged but not ours"). dated/result/lobbies
   # are counted from the store.
-    draft: true
   - key: bc-43-1-2025-03-13-26.1
     title: "Bill 4, Business Practices and Consumer Protection Amendment Act, 2025 -- Conservative amendment in committee"
     placeable: false
@@ -7144,7 +6829,6 @@ divisions:
       tagged but not ours (taxonomy false positive: 'freedom of expression' in
       the minister's reply; the clause bars contracts that forbid consumer
       reviews)
-    draft: true
   - key: bc-43-1-2025-03-13-26.2
     title: "Bill 4 -- second Conservative amendment in committee"
     placeable: false
@@ -7159,7 +6843,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'freedom of expression';
       consumer-contract rules)
-    draft: true
   - key: bc-43-1-2025-10-06-76.1
     title: "Bill 12, Motor Vehicle Amendment Act, 2025 -- adjournment of second-reading debate"
     placeable: false
@@ -7174,7 +6857,6 @@ divisions:
     reason: >
       Procedural (adjournment of debate), and tagged but not ours (taxonomy
       false positive: 'parental consent' for learner drivers)
-    draft: true
   - key: bc-43-1-2025-10-06-76.2
     areas: [1, 5, 8]
     title: "Private Member's Motion 38 (Arora) -- condemning the 'intolerant views' of the Association for Reformed Political Action"
@@ -7199,7 +6881,6 @@ divisions:
     why_yea: "Voted to condemn a Christian advocacy group, ARPA, by name for its beliefs on marriage, sexuality and gender and its pro-life aims."
     nay: 1
     why_nay: "One of three members to vote against the House condemning ARPA, a Christian advocacy group, for its beliefs and its pro-life aims."
-    draft: true
   - key: bc-43-1-2025-10-08-79.1
     title: "Protecting Minors from Gender Transition Act -- first reading (refused)"
     dated: 2025-10-08
@@ -7221,7 +6902,6 @@ divisions:
     nay: -1
     why_nay: "Voted to refuse the Protecting Minors from Gender Transition Act even a first reading."
     note: "Read as the confirmed Gender Ideology and Child Protection Act (bc-43-2-2026-02-19-119.1): +/-1. Elenore Sturko (shown Independent) voted Nay."
-    draft: true
   - key: bc-43-2-2026-03-09-136.1
     title: "Bill 2, Budget Measures Implementation Act, 2026 -- second reading"
     placeable: false
@@ -7237,7 +6917,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'Down syndrome' in a budget
       debate; a budget bill is a confidence vote)
-    draft: true
   - key: bc-43-2-2026-03-12-141.2
     title: "Government Motion 13 -- 'unequivocal support' for the Human Rights Code and the Tribunal's powers to enforce it"
     dated: 2026-03-12
@@ -7264,7 +6943,6 @@ divisions:
     # on our ground if the taxonomy is widened to it.
     nay: 1
     why_nay: "One of three members to vote against affirming 'unequivocal support' for the Human Rights Tribunal's powers to police 'hate speech', a fortnight after its fine on Barry Neufeld."
-    draft: true
   - key: bc-43-2-2026-05-19-178.1
     title: "Bill 9, FOIPPA Amendment Act, 2026 -- clause 1 in Section A (5-5, Chair's casting vote)"
     placeable: false
@@ -7281,7 +6959,6 @@ divisions:
       tagged but not ours (taxonomy false positive: 'abortion' appears only in a
       member listing the Act's existing exception for abortion-services records;
       clause 1 is about FOI and legal discovery)
-    draft: true
   - key: bc-43-2-2026-05-20-179.2
     title: "Bill 20, K'omoks Treaty Act -- motion"
     placeable: false
@@ -7296,7 +6973,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'freedom of speech' in a
       treaty debate)
-    draft: true
   - key: bc-42-3-2022-05-05-199.1
     title: "Bill 10, Labour Relations Code Amendment Act, 2022 -- second reading"
     placeable: false
@@ -7311,7 +6987,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'free speech' in a
       labour-law debate)
-    draft: true
   - key: bc-42-4-2023-03-28-291.1
     title: "Bill 15, Vital Statistics Amendment Act, 2023 -- committee rise and report"
     placeable: false
@@ -7328,7 +7003,6 @@ divisions:
     reason: >
       Unanimous on a division (75-0): no member to tell apart, whatever the
       bill's content ('parental consent' matched; not read).
-    draft: true
   - key: bc-42-4-2023-03-29-293.1
     title: "Bill 14, Miscellaneous Statutes (Modernization) Amendment Act, 2023 -- committee rise and report"
     placeable: false
@@ -7344,7 +7018,6 @@ divisions:
     reason: >
       Unanimous on a division (no Nays), and tagged but not ours (taxonomy false
       positive: 'surrogate')
-    draft: true
   - key: bc-42-4-2023-03-29-293.2
     title: "Bill 14 -- third reading"
     placeable: false
@@ -7360,7 +7033,6 @@ divisions:
     reason: >
       Unanimous on a division (no Nays), and tagged but not ours (taxonomy false
       positive: 'surrogate')
-    draft: true
   - key: bc-41-2-2017-11-28-70.1
     title: "Bill 6, Electoral Reform Referendum 2018 Act -- hoist amendment"
     placeable: false
@@ -7376,7 +7048,6 @@ divisions:
     reason: >
       Procedural (hoist), and tagged but not ours (taxonomy false positive:
       'abortion' and 'immigration' as debate asides)
-    draft: true
   - key: bc-41-2-2017-11-28-70.2
     title: "Bill 6, Electoral Reform Referendum 2018 Act -- second reading"
     placeable: false
@@ -7391,7 +7062,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'abortion' and 'immigration'
       as debate asides; electoral reform)
-    draft: true
   - key: bc-41-3-2018-10-23-166.2
     title: "Bill 40, Electoral Reform Referendum 2018 Amendment Act -- amendment at second reading"
     placeable: false
@@ -7406,7 +7076,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'freedom of expression';
       electoral reform)
-    draft: true
   - key: bc-41-3-2018-10-30-173.1
     title: "Bill 49, Professional Governance Act -- second reading"
     placeable: false
@@ -7420,7 +7089,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'free speech' in a debate on
       engineers' and foresters' regulators)
-    draft: true
   - key: bc-41-4-2019-02-19-200.1
     title: "Bill 2, Protection of Public Participation Act -- Liberal amendment"
     placeable: false
@@ -7436,7 +7104,6 @@ divisions:
     reason: >
       Tagged but not ours: anti-SLAPP civil procedure, as
       bc-41-4-2019-03-06-216.2.
-    draft: true
   - key: bc-41-4-2019-03-06-216.2
     title: "Bill 2, Protection of Public Participation Act (anti-SLAPP) -- Liberal amendment on section 4"
     placeable: false
@@ -7453,7 +7120,6 @@ divisions:
       Tagged but not ours: civil procedure for dismissing defamation suits on
       matters of public interest; no viewpoint is at stake ('hate speech' arose
       as an aside). CLOSE CALL, read with Ontario's Bill 52 (2015).
-    draft: true
   - key: bc-41-4-2019-10-31-287.1
     title: "Bill 41, Declaration on the Rights of Indigenous Peoples Act -- second reading"
     placeable: false
@@ -7468,7 +7134,6 @@ divisions:
     reason: >
       Unanimous on a division, and tagged but not ours (taxonomy false positive:
       'freedom of expression')
-    draft: true
   - key: bc-41-4-2019-11-26-299.1
     title: "Bill 42, Fuel Price Transparency Act -- second reading"
     placeable: false
@@ -7482,7 +7147,6 @@ divisions:
     reason: >
       Unanimous on a division, and tagged but not ours (taxonomy false positive:
       'freedom of speech')
-    draft: true
   - key: bc-41-4-2019-11-26-299.2
     title: "Bill 41, Declaration on the Rights of Indigenous Peoples Act -- committee"
     placeable: false
@@ -7497,7 +7161,6 @@ divisions:
     reason: >
       Unanimous on a division, and tagged but not ours (taxonomy false positive:
       'freedom of expression')
-    draft: true
   - key: bc-40-2-2014-03-11-2.1
     title: "Bill 3, Missing Persons Act -- NDP amendment in committee"
     placeable: false
@@ -7513,7 +7176,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'free speech' in a member's
       list of rights; police access to records about missing persons)
-    draft: true
   - key: bc-40-2-2014-03-12-3.1
     title: "Bill 9, Pooled Registered Pension Plans Act -- second reading"
     placeable: false
@@ -7529,7 +7191,6 @@ divisions:
     reason: >
       Unanimous on a division, and tagged but not ours (taxonomy false positive:
       'family breakdown')
-    draft: true
   - key: bc-40-4-2015-02-26-7.1
     title: "Budget debate -- subamendment (Oak Bay-Gordon Head)"
     placeable: false
@@ -7546,7 +7207,6 @@ divisions:
       A budget subamendment is a confidence vote, and tagged but not ours
       (taxonomy false positive: 'hospice' and 'end-of-life care' in a member
       reading out budget spending)
-    draft: true
   - key: bc-40-4-2015-02-26-7.2
     title: "Budget debate -- amendment"
     placeable: false
@@ -7560,7 +7220,6 @@ divisions:
     reason: >
       A budget amendment is a confidence vote, and tagged but not ours (taxonomy
       false positive: 'hospice' and 'end-of-life care' in the budget debate)
-    draft: true
   - key: bc-40-4-2015-05-12-3.1
     title: "Bill 20, Election Amendment Act, 2015 -- second reading"
     placeable: false
@@ -7575,7 +7234,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'free speech' on election
       law)
-    draft: true
   - key: bc-40-4-2015-09-28-9.1
     title: "Bill 29, Property Taxation (Exemptions) Statutes Amendment Act, 2015 -- second reading"
     placeable: false
@@ -7590,7 +7248,6 @@ divisions:
     reason: >
       Unanimous on a division, and tagged but not ours (taxonomy false positive:
       'religious education')
-    draft: true
   - key: bc-40-4-2015-10-01-14.1
     title: "Bill 34, Red Tape Reduction Day Act -- second reading"
     placeable: false
@@ -7604,7 +7261,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'Down syndrome' and 'organ
       donation' as debate asides)
-    draft: true
   - key: bc-40-5-2016-02-23-4.2
     title: "Budget debate -- amendment"
     placeable: false
@@ -7618,7 +7274,6 @@ divisions:
     reason: >
       A budget amendment is a confidence vote, and tagged but not ours (taxonomy
       false positive: 'organ donor' as a debate aside)
-    draft: true
   - key: bc-40-5-2016-04-07-6.1
     title: "Bill 17 -- NDP amendment"
     placeable: false
@@ -7633,7 +7288,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'free speech' on spending
       limits in local elections)
-    draft: true
   - key: bc-40-5-2016-04-11-9.1
     title: "Bill 17, Local Elections Campaign Financing (Election Expenses) Amendment Act -- NDP amendment"
     placeable: false
@@ -7648,7 +7302,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'freedom of expression' on
       spending limits in local elections)
-    draft: true
   - key: bc-40-6-2017-03-13-7.1
     title: "Bill 3, Discriminatory Provisions (Historical Wrongs) Repeal Act -- second reading"
     placeable: false
@@ -7665,7 +7318,6 @@ divisions:
     reason: >
       Unanimous on a division, and tagged but not ours (taxonomy false positive:
       'freedom of speech')
-    draft: true
   - key: bc-39-3-2011-05-03-11.1
     title: "Budget debate -- that the Speaker leave the chair for Committee of Supply"
     placeable: false
@@ -7681,7 +7333,6 @@ divisions:
     reason: >
       Procedural (supply), and tagged but not ours (taxonomy false positive:
       'deportation')
-    draft: true
   - key: bc-39-4-2012-03-12-2.2
     title: "Bill 22, Education Improvement Act -- amendment at second reading"
     placeable: false
@@ -7697,7 +7348,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'right to withdraw'; a
       teachers' labour bill)
-    draft: true
   - key: bc-39-4-2012-03-12-2.3
     title: "Bill 22, Education Improvement Act -- second reading"
     placeable: false
@@ -7712,7 +7362,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'right to withdraw'; a
       teachers' labour bill)
-    draft: true
   - key: bc-39-4-2012-03-14-5.1
     title: "Bill 22, Education Improvement Act -- NDP amendment in committee"
     placeable: false
@@ -7726,7 +7375,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'surrogate'; a teachers'
       labour bill)
-    draft: true
   - key: bc-39-4-2012-03-27-4.2
     title: "Bill 20, Auditor General for Local Government Act -- committee"
     placeable: false
@@ -7740,7 +7388,6 @@ divisions:
       GOVERNMENT ACT
     reason: >
       tagged but not ours (taxonomy false positive: 'censorship')
-    draft: true
   - key: bc-39-4-2012-05-29-5.1
     title: "Bill 53, Family Day Act -- second reading"
     placeable: false
@@ -7754,7 +7401,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'freedom of expression'; a
       statutory holiday)
-    draft: true
 
   # --- Manitoba ---------------------------------------------------------------
   # DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
@@ -7785,7 +7431,6 @@ divisions:
       Procedural (appeal of a Speaker's ruling on privilege); tagged but not
       ours (taxonomy false positive: 'freedom of speech' as parliamentary
       privilege)
-    draft: true
   - key: mb-43-1-2024-05-27-1
     title: "Bill 37 -- PC amendment to withdraw the bill and refer its subject matter to committee"
     placeable: false
@@ -7804,7 +7449,6 @@ divisions:
       thereof referred to [...]
     reason: >
       Procedural (referral), on a budget bill, as mb-43-1-2024-11-07-3.
-    draft: true
   - key: mb-43-1-2024-05-30-1
     areas: [3, 5]
     title: "Bill 208 (Oxenham), The Two-Spirit and Transgender Day of Visibility Act -- third reading"
@@ -7825,7 +7469,6 @@ divisions:
     why_yea: "Voted to make a statutory Two-Spirit and Transgender Day of Visibility."
     nay: 1
     why_nay: "One of four members to vote against a statutory Two-Spirit and Transgender Day of Visibility."
-    draft: true
   - key: mb-43-1-2024-06-03-1
     title: "Bill 8, The Safe Access to Abortion Services Act -- third reading"
     dated: 2024-06-03
@@ -7844,7 +7487,6 @@ divisions:
     why_yea: "Voted to pass Manitoba's abortion 'safe access zones' law restricting pro-life presence and speech near clinics."
     nay: 2
     why_nay: "Voted against Manitoba's abortion safe-access-zones law."
-    draft: true
   - key: mb-43-1-2024-10-10-1
     title: "Bill 37 -- second reading"
     placeable: false
@@ -7863,7 +7505,6 @@ divisions:
       NARTH, SCHULER and [...]
     reason: >
       Budget bill, as mb-43-1-2024-11-07-3.
-    draft: true
   - key: mb-43-1-2024-11-07-3
     title: "Bill 37, Budget Implementation and Tax Statutes Amendment Act, 2024 -- third reading"
     placeable: false
@@ -7885,7 +7526,6 @@ divisions:
       s.26 extends the fertility tax credit to sperm or ova 'to enable the
       conception of a child by [...] a surrogate' and to surrogacy expenses --
       but the House divided on the budget, not on surrogacy.
-    draft: true
   - key: mb-43-2-2025-06-02-6
     title: "Bill 43, The Human Rights Code Amendment Act -- third reading"
     dated: 2025-06-02
@@ -7904,7 +7544,6 @@ divisions:
     why_yea: "Voted to add 'gender expression' to the protected characteristics of Manitoba's Human Rights Code."
     nay: 2
     why_nay: "Voted against adding 'gender expression' to Manitoba's Human Rights Code."
-    draft: true
   - key: mb-42-3-2021-10-14-1
     title: "Bill 207 (Fontaine), The Abortion Protest Buffer Zone Act -- second reading (negatived)"
     dated: 2021-10-14
@@ -7922,7 +7561,6 @@ divisions:
     why_yea: "Voted for abortion buffer zones restricting pro-life protest and witness near clinics."
     nay: 2
     why_nay: "Voted against abortion buffer zones restricting pro-life protest and witness."
-    draft: true
   - key: mb-42-4-2022-05-10-1
     title: "Opposition Day Motion (Fontaine) -- abortion access and buffer zones"
     dated: 2022-05-10
@@ -7944,7 +7582,6 @@ divisions:
     why_yea: "Voted to urge equitable access to medical and surgical abortion and buffer zones around clinics, schools and providers' homes."
     nay: 1
     why_nay: "Voted against a motion urging wider abortion access and buffer zones around clinics and providers' homes (+1: a Nay also carried the government whip)."
-    draft: true
   - key: mb-41-1-2016-10-17-1
     title: "Bill 15 -- second reading"
     placeable: false
@@ -7964,7 +7601,6 @@ divisions:
     reason: >
       Unanimous (51-0), and tagged but not ours (taxonomy false positive:
       'gender expression')
-    draft: true
   - key: mb-41-1-2016-11-03-1
     title: "Bill 15, Sexual Violence Awareness and Prevention Act -- NDP amendment (culturally sensitive policy)"
     placeable: false
@@ -7984,7 +7620,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'gender expression' in a
       list of groups a campus sexual-violence policy must reflect)
-    draft: true
   - key: mb-41-1-2016-11-03-3
     title: "Bill 15 -- NDP amendment (culturally sensitive policy)"
     placeable: false
@@ -8004,7 +7639,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'gender expression', as
       mb-41-1-2016-11-03-1)
-    draft: true
   - key: mb-41-1-2016-11-03-5
     title: "Bill 15 -- third reading"
     placeable: false
@@ -8024,7 +7658,6 @@ divisions:
     reason: >
       Unanimous (51-0), and tagged but not ours (taxonomy false positive:
       'gender expression')
-    draft: true
   - key: mb-41-2-2017-04-24-1
     title: "Bill 16 -- second reading"
     placeable: false
@@ -8042,7 +7675,6 @@ divisions:
       the following division:
     reason: >
       Tagged but not ours as divided, as mb-41-2-2017-06-01-1.
-    draft: true
   - key: mb-41-2-2017-05-30-2
     title: "Bill 16 -- Swan report-stage amendment (inquest recommendations)"
     placeable: false
@@ -8062,7 +7694,6 @@ divisions:
     reason: >
       Tagged but not ours: it would let an inquest judge recommend changes to
       laws and programmes (clause 19(2)(b)); nothing on MAID.
-    draft: true
   - key: mb-41-2-2017-06-01-1
     title: "Bill 16, The Fatality Inquiries Amendment Act -- third reading"
     placeable: false
@@ -8084,7 +7715,6 @@ divisions:
       'suicide' or 'homicide' for reporting to the medical examiner, but the
       House divided over the inquest reforms (Swan's amendment,
       mb-41-2-2017-05-30-2), not MAID. CLOSE CALL.
-    draft: true
   - key: mb-41-3-2018-10-04-3
     title: "Bill 12 -- second reading"
     placeable: false
@@ -8104,7 +7734,6 @@ divisions:
     reason: >
       tagged but not ours (taxonomy false positive: 'home schooling', as
       mb-41-3-2018-11-08-3)
-    draft: true
   - key: mb-41-3-2018-11-08-3
     title: "Bill 12, The Red Tape Reduction and Government Efficiency Act, 2018 -- third reading"
     placeable: false
@@ -8125,7 +7754,6 @@ divisions:
       tagged but not ours (taxonomy false positive: 'home schooling' -- the
       omnibus bill repeals unproclaimed 1980s Public Schools Act provisions on
       home schooling and screening assessments)
-    draft: true
   - key: mb-41-4-2018-12-06-1
     title: "Bill 200 (Fontaine), The Safe Access to Abortion Services Act -- second reading (negatived)"
     dated: 2018-12-06
@@ -8142,7 +7770,6 @@ divisions:
     why_yea: "Voted for abortion safe-access zones restricting pro-life presence and speech near clinics."
     nay: 2
     why_nay: "Voted against abortion safe-access zones."
-    draft: true
   - key: mb-41-4-2019-04-10-1
     title: "Shall the ruling of the Chair be sustained? (privilege)"
     placeable: false
@@ -8163,7 +7790,6 @@ divisions:
       Procedural (appeal of a Speaker's ruling on privilege); tagged but not
       ours (taxonomy false positive: 'freedom of speech' as parliamentary
       privilege)
-    draft: true
 
   # --- New Brunswick ----------------------------------------------------------
   # DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
@@ -8195,7 +7821,6 @@ divisions:
     why_yea: "Voted to urge public funding of abortion outside hospitals, including in private clinics."
     nay: 1
     why_nay: "Voted against urging public funding of abortion in private clinics (+1: a Nay also carried the government whip)."
-    draft: true
   - key: nb-60-1-2022-05-31-1
     title: "Law Amendments Committee report on Bill 61 (presumed consent to organ donation) -- concurrence"
     placeable: false
@@ -8217,7 +7842,6 @@ divisions:
       presumed (deemed) consent and only recommends the government bring its own
       bill; the split (PC Yea, Liberal and Green Nay) is over whose bill, not
       over deemed consent. Area 13 also has no 5CA sheet.
-    draft: true
   - key: nb-60-1-2022-06-03-1
     title: "Bill 114, Child and Youth Well-Being Act -- Gauvin amendment to refer the subject matter to committee"
     placeable: false
@@ -8237,7 +7861,6 @@ divisions:
       Procedural (discharge and referral to the Law Amendments Committee), and
       tagged but not ours: a child-protection statute matched on 'parental
       rights', 'surrogate' (decision-maker) and 'gender expression'.
-    draft: true
   - key: nb-60-2-2023-06-15-4
     title: "Motion 50 -- Chiasson amendment (consultations instead of reverting Policy 713)"
     placeable: false
@@ -8257,7 +7880,6 @@ divisions:
     reason: >
       Split exactly as Motion 50 as amended (26-20, the same members): the
       motion (nb-60-2-2023-06-15-5) carries the reading.
-    draft: true
   - key: nb-60-2-2023-06-15-5
     title: "Motion 50 (Holt), as amended -- Policy 713 'disregard[s] the rights of children'; urge consultations by the Child and Youth Advocate"
     dated: 2023-06-15
@@ -8286,7 +7908,6 @@ divisions:
     why_yea: "Voted for a motion declaring that the government's Policy 713 changes -- parental consent before an under-16 uses a new name or pronoun at school -- 'disregard the rights of children'."
     nay: 1
     why_nay: "Voted against the motion condemning the Policy 713 changes requiring parental consent before an under-16 uses a new name or pronoun at school."
-    draft: true
 
   # --- Nova Scotia ------------------------------------------------------------
   # DRAFTED 8 October 2026 for Christopher ("draft READINGS for the provincial
@@ -8310,7 +7931,6 @@ divisions:
       Bill No. 72.
     reason: >
       As ns-63-1-2018-03-08-1.
-    draft: true
   - key: ns-63-1-2018-03-08-1
     title: "Bill 72, Education Reform (2018) Act -- third reading"
     placeable: false
@@ -8330,7 +7950,6 @@ divisions:
       CLOSE CALL: whether s.84 is new or re-enacts the Education Act was not
       checked -- nslegislature.ca does not answer from this laptop (VPN exit;
       prov_ns.py).
-    draft: true
   - key: ns-62-2-2015-12-11-1
     title: "Bill 112, Children and Family Services Act (amended) -- third reading"
     dated: 2015-12-11

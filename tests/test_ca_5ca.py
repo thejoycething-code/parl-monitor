@@ -328,10 +328,11 @@ class StanceFileTests(unittest.TestCase):
         every one with values carries the text it was read from, its mover
         and its source; migration (area 11) is never placed."""
         divs = c5.load_stance(section="divisions")
-        new = {k: e for k, e in divs.items() if e.get("draft")}
-        self.assertEqual(len(new), 215)
-        valued = [k for k, e in new.items() if c5.status(e) == "draft"]
-        self.assertEqual(len(valued), 52)
+        # Confirmed 8 October 2026 on delegation ("Score for me and Greg can
+        # amend if necessary"): no draft remains.
+        self.assertEqual([k for k, e in divs.items() if e.get("draft")], [])
+        new = {k: e for k, e in divs.items() if e.get("moved_by") or c5.status(e) == "unplaceable"}
+        valued = [k for k, e in new.items() if c5.status(e) == "confirmed"]
         for k in valued:
             e = new[k]
             self.assertTrue(e.get("text") and e.get("moved_by") and e.get("source")
@@ -341,7 +342,7 @@ class StanceFileTests(unittest.TestCase):
                 if s in e:
                     self.assertTrue(e.get("why_" + s), k)
         unplaceable = [e for e in new.values() if c5.status(e) == "unplaceable"]
-        self.assertEqual(len(unplaceable), 163)
+        self.assertEqual(len(unplaceable), 205)
         self.assertTrue(all(e.get("reason") for e in unplaceable))
         self.assertEqual(sum(1 for e in unplaceable if "excluded_from_5ca" in e["reason"]), 143)
         # C-16 (2026) is not our ground (Christopher, 2 October 2026).

@@ -25,11 +25,13 @@ class QuebecReadingsTests(unittest.TestCase):
     def test_counts(self):
         st = collections.Counter(p5.status(e) for e in self.qc.values())
         self.assertEqual(len(self.qc), 179)
-        self.assertEqual(st, {"draft": 21, "unplaceable": 158})
+        # Confirmed 8 October 2026 on delegation ("Score for me and Greg can
+        # amend if necessary").
+        self.assertEqual(st, {"confirmed": 21, "unplaceable": 158})
 
-    def test_every_entry_is_a_draft_with_its_record(self):
+    def test_every_entry_is_confirmed_with_its_record(self):
         for k, e in self.qc.items():
-            self.assertIs(e.get("draft"), True, k)
+            self.assertFalse(e.get("draft"), k)
             for field in ("title", "dated", "result", "lobbies", "source", "text"):
                 self.assertTrue(e.get(field), (k, field))
             if p5.status(e) == "unplaceable":
@@ -41,8 +43,8 @@ class QuebecReadingsTests(unittest.TestCase):
                         self.assertIn(e[side], (-2, -1, 1, 2), k)
                         self.assertTrue(e.get("why_" + side), k)
 
-    def test_a_draft_places_nobody(self):
-        self.assertEqual([k for k, e in self.qc.items() if p5.status(e) == "confirmed"], [])
+    def test_no_quebec_reading_is_left_in_draft(self):
+        self.assertEqual([k for k, e in self.qc.items() if p5.status(e) == "draft"], [])
 
     def test_laicity_and_assisted_dying_directions(self):
         bill21 = self.qc["qc-42-1-2019-06-16-165"]          # Bill 21, adoption

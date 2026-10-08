@@ -69,16 +69,20 @@ class StanceFileTests(unittest.TestCase):
         drafted = ("ab-", "qc-", "bc-", "on-", "mb-", "sk-", "nb-", "ns-")
         self.assertEqual([k for k, e in entries.items() if not k.startswith(drafted)
                           and p5.status(e) in ("draft", "unread")], [])
-        self.assertEqual(len(ab("draft")), 19)
+        # Confirmed on Christopher's delegation, 8 October 2026 ("Score for
+        # me and Greg can amend if necessary"): only the read-first remain.
+        self.assertEqual(len(ab("draft")), 0)
         self.assertEqual(ab("unread"), ["ab-28-1-2012-11-19-3", "ab-28-3-2014-12-02-1",
                                         "ab-28-3-2014-12-03-1"])
         self.assertEqual(len(ab("unplaceable")), 90)
-        self.assertEqual(len(ab("confirmed")), 11)
+        self.assertEqual(len(ab("confirmed")), 30)
+        for k in ab("unread"):
+            self.assertTrue(entries[k].get("draft"), k)
         for k in ab("draft") + ab("unread") + ab("unplaceable"):
             e = entries[k]
             if k in ("ab-31-1-2024-12-03-1", "ab-31-1-2024-11-26-5"):
                 continue  # confirmed placeable: false entries of 3 October
-            self.assertTrue(e.get("draft") and e.get("text") and e.get("moved_by") and e.get("source")
+            self.assertTrue(e.get("text") and e.get("moved_by") and e.get("source")
                             and e.get("dated") and e.get("result") and e.get("lobbies"), k)
         self.assertEqual({p5.status(entries[k]) for k in read_2_oct}, {"confirmed"})
         # The confirmed entries stay confirmed: only entries carrying `draft:
@@ -104,19 +108,22 @@ class StanceFileTests(unittest.TestCase):
         import collections
         entries = p5.load_stance(p5.STANCE_PATH, "divisions")
         provs = ("bc", "on", "mb", "sk", "nb", "ns")
-        new = {k: e for k, e in entries.items() if k.split("-")[0] in provs and e.get("draft")}
-        by = collections.Counter((k.split("-")[0], p5.status(e)) for k, e in new.items())
+        # Confirmed 8 October 2026 on delegation ("Score for me and Greg can
+        # amend if necessary"): no draft remains bar Nova Scotia's read-first.
+        allp = {k: e for k, e in entries.items() if k.split("-")[0] in provs}
+        by = collections.Counter((k.split("-")[0], p5.status(e)) for k, e in allp.items())
         self.assertEqual(dict(by), {
-            ("bc", "draft"): 3, ("bc", "unplaceable"): 36,
-            ("on", "draft"): 7, ("on", "unplaceable"): 31,
-            ("mb", "draft"): 6, ("mb", "unplaceable"): 14,
-            ("sk", "unplaceable"): 5,
-            ("nb", "draft"): 2, ("nb", "unplaceable"): 3,
+            ("bc", "confirmed"): 5, ("bc", "unplaceable"): 36,
+            ("on", "confirmed"): 7, ("on", "unplaceable"): 34,
+            ("mb", "confirmed"): 6, ("mb", "unplaceable"): 14,
+            ("sk", "confirmed"): 4, ("sk", "unplaceable"): 7,
+            ("nb", "confirmed"): 2, ("nb", "unplaceable"): 3,
             ("ns", "unplaceable"): 2, ("ns", "unread"): 1})
+        new = {k: e for k, e in allp.items() if e.get("text") or p5.status(e) == "unread"}
         for k, e in new.items():
             for field in ("title", "text", "moved_by", "source", "dated", "result", "lobbies"):
                 self.assertTrue(e.get(field), (k, field))
-            if p5.status(e) == "draft":
+            if p5.status(e) == "confirmed":
                 self.assertTrue(e.get("why_yea") or e.get("why_nay"), k)
         # Motion 13 (BC, 83-3): only the Nay places; a Yea tells no member apart.
         m13 = entries["bc-43-2-2026-03-12-141.2"]

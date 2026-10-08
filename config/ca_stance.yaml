@@ -10,6 +10,16 @@
 # unscored." To take a reading out of play without deleting it, put
 # `draft: true` back -- a draft places nobody.
 #
+# CONFIRMED, 8 October 2026, ON DELEGATION. Christopher: "Score for me and
+# Greg can amend if necessary." Claude reviewed the 2010-2024 backfill
+# drafts (C-7, C-14, C-6, C-233, C-304, C-279, C-36, C-384, C-389, C-510,
+# the Senate's C-7 and C-14 amendments, the 2016 Office of Religious Freedom
+# motion and 163 procedural or unanimous entries) and deleted their
+# `draft: true` lines. The flagged calls stand as drafted: Lankin's C-14
+# review amendment at -1/+1; C-51 and S-7 stay evidence only (area 11 is
+# excluded from the 5CA). Greg (Canada reviewer) may amend any reading after
+# the blind agreement round.
+#
 # Three kinds of entry:
 #   * `yea:` / `nay:` values on the Westminster stance scale (-2..2), with
 #     why lines -- a reading that, once confirmed, places every member.
@@ -1215,7 +1225,6 @@ divisions:
   # The C-16 (2026) divisions record Christopher's 2 October decision that
   # C-16 is not our ground.
   - key: commons-45-1-134
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-16 (Protecting Victims Act)"
     dated: 2026-06-04
@@ -1234,7 +1243,6 @@ divisions:
       delay) with nothing on our ground in either direction. Its divisions
       stay evidence only.
   - key: commons-45-1-135
-    draft: true
     placeable: false
     title: "C-16 report stage, Gazan Motions 1 and 3: delete lines 9-10 on page 18 (clause 28)"
     dated: 2026-06-08
@@ -1256,7 +1264,6 @@ divisions:
       images, mandatory-minimum relief, court delay) with nothing on our
       ground in either direction. Its divisions stay evidence only.
   - key: commons-45-1-136
-    draft: true
     placeable: false
     title: "C-16 report stage, Gazan Motion 2: delete clause 63"
     dated: 2026-06-08
@@ -1275,7 +1282,6 @@ divisions:
       images, mandatory-minimum relief, court delay) with nothing on our
       ground in either direction. Its divisions stay evidence only.
   - key: commons-45-1-137
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-16"
     dated: 2026-06-08
@@ -1294,7 +1300,6 @@ divisions:
       images, mandatory-minimum relief, court delay) with nothing on our
       ground in either direction. Its divisions stay evidence only.
   - key: commons-45-1-153
-    draft: true
     placeable: false
     title: "3rd reading of Bill C-16"
     dated: 2026-06-11
@@ -1316,7 +1321,6 @@ divisions:
       images, mandatory-minimum relief, court delay) with nothing on our
       ground in either direction. Its divisions stay evidence only.
   - key: senate-45-1-702758
-    draft: true
     placeable: false
     title: "Protecting Victims Act -- C-16 -- Third Reading (Senate)"
     dated: 2026-06-18
@@ -1330,7 +1334,6 @@ divisions:
       TAXONOMY FALSE POSITIVE: C-16 is not our ground (Christopher's review, 2
       October 2026; see the House entries). Evidence only.
   - key: commons-44-1-645
-    draft: true
     placeable: false
     title: "C-62 third reading: the previous question"
     dated: 2024-02-15
@@ -1346,7 +1349,6 @@ divisions:
       reading itself (646) carries the reading; this vote split the same way
       and would count it twice.
   - key: commons-43-2-14
-    draft: true
     title: "2nd reading of Bill C-6 (conversion therapy)"
     dated: 2020-10-28
     result: "Agreed To 305-7"
@@ -1372,7 +1374,6 @@ divisions:
       its definition, so a Yea tells almost no member apart. Only the seven
       Conservative Nays place, at +1 (second reading).
   - key: commons-43-2-175
-    draft: true
     title: "3rd reading of Bill C-6 (conversion therapy)"
     dated: 2021-06-22
     result: "Agreed To 263-63"
@@ -1400,7 +1401,6 @@ divisions:
       conversion therapy is not, by itself, hostility to counselling or
       parents. The Nay was the chosen act.
   - key: commons-43-2-15
-    draft: true
     title: "2nd reading of Bill C-7 (MAID: end of the reasonably-foreseeable-death requirement)"
     dated: 2020-10-29
     result: "Agreed To 246-78"
@@ -1423,7 +1423,6 @@ divisions:
     why_nay: "Voted against the principle of C-7, which extended MAID beyond the end of life."
     note: "+/-1: a second reading. Not a party line: 40 Conservatives voted Yea."
   - key: commons-43-2-26
-    draft: true
     title: "C-7 report stage, Cooper Motions 2 and 3: keep the 10-day reflection period; 120 days' assessment"
     dated: 2020-12-03
     result: "Negatived 113-204"
@@ -1459,7 +1458,6 @@ divisions:
       reintroducing a 10-day reflection period"). +/-1: safeguard amendments
       on a whipped report stage; 4 Conservatives voted Nay.
   - key: commons-43-2-27
-    draft: true
     title: "Concurrence at report stage of Bill C-7"
     dated: 2020-12-03
     result: "Agreed To 213-103"
@@ -1478,7 +1476,6 @@ divisions:
       Voted against concurring in C-7, which extended MAID beyond the end of
       life (+1: report stage).
   - key: commons-43-2-39
-    draft: true
     title: "3rd reading of Bill C-7 (MAID beyond the end of life)"
     dated: 2020-12-10
     result: "Agreed To 213-106"
@@ -1503,7 +1500,6 @@ divisions:
       (MAID's expansion), as for C-16 (2016) and C-279. Not a party line: 15
       Conservatives voted Yea, 2 Liberals Nay.
   - key: commons-43-2-70
-    draft: true
     placeable: false
     title: "Closure on the Senate amendments to C-7"
     dated: 2021-03-11
@@ -1519,7 +1515,6 @@ divisions:
       debate not be further adjourned.
     reason: "Procedure: closure."
   - key: commons-43-2-71
-    draft: true
     title: "C-7 Senate amendments, Barrett amendment: reject MAID for mental illness alone"
     dated: 2021-03-11
     result: "Negatived 152-179"
@@ -1555,7 +1550,6 @@ divisions:
       clause-specific vote, so full strength, as for C-314. Not a party line:
       NDP 24 and 5 Liberals voted Yea with the Conservatives.
   - key: commons-43-2-72
-    draft: true
     title: "Motion respecting Senate amendments to Bill C-7 (accept MAID for mental illness after two years)"
     dated: 2021-03-11
     result: "Agreed To 180-149"
@@ -1584,7 +1578,6 @@ divisions:
       rejected Senate amendments (advance requests among them). NDP 24 voted
       Nay with the Conservatives.
   - key: commons-43-2-125
-    draft: true
     title: "2nd reading of Bill C-233 (sex-selective abortion)"
     dated: 2021-06-02
     result: "Negatived 82-248"
@@ -1609,7 +1602,6 @@ divisions:
       Read with C-311 and C-225 (pro-life private members' bills, +/-2 at
       second reading). Not a party line: 38 Conservatives voted Nay.
   - key: commons-43-2-55
-    draft: true
     placeable: false
     title: "Opposition motion (genocide of Uyghurs), Bloc amendment: move the 2022 Olympics"
     dated: 2021-02-22
@@ -1631,7 +1623,6 @@ divisions:
       amended was carried unanimously (56). Evidence only, as for M-62
       (commons-44-1-247).
   - key: commons-43-2-56
-    draft: true
     placeable: false
     title: "Opposition motion: the genocide of Uyghurs and other Turkic Muslims (as amended)"
     dated: 2021-02-22
@@ -1643,7 +1634,6 @@ divisions:
       Journals ourcommons.ca/DocumentViewer/en/43-2/house/sitting-63/journals
     reason: "Unanimous (266-0): a vote everyone cast the same way tells no member apart."
   - key: senate-43-2-554255
-    draft: true
     title: "C-7 -- Senate third reading amendment (Sen. Kutcher): repeal the mental-illness exclusion after 18 months"
     dated: 2021-02-09
     result: "Adopted 57-21-6"
@@ -1673,7 +1663,6 @@ divisions:
       CSG 4) may hold senators who objected to the timetable rather than the
       expansion.
   - key: senate-43-2-554295
-    draft: true
     placeable: false
     title: "C-7 -- Senate third reading amendment (Sen. Boisvenu): review of MAID for neurodegenerative disease"
     dated: 2021-02-09
@@ -1697,7 +1686,6 @@ divisions:
       review can lead to wider access (advance requests) or to none, and the
       Yea lobby was mostly Conservative (C 19). Evidence only.
   - key: senate-43-2-554408
-    draft: true
     title: "C-7 -- Senate third reading amendment (Sen. Plett): offence to raise MAID unprompted"
     dated: 2021-02-10
     result: "Defeated 18-66-1"
@@ -1727,7 +1715,6 @@ divisions:
       +/-1: a criminal offence for practitioners is a step a senator can
       oppose without wanting MAID pushed on patients.
   - key: senate-43-2-554432
-    draft: true
     title: "C-7 -- Senate third reading amendment (Sen. Wallin): advance requests"
     dated: 2021-02-10
     result: "Adopted 47-28-8"
@@ -1755,7 +1742,6 @@ divisions:
       it (the C-7 message, commons-43-2-72). Nay +1: the Nay lobby is mixed
       (ISG 10, C 8, PSG 7).
   - key: senate-43-2-554450
-    draft: true
     title: "C-7 -- Senate third reading amendment (Sen. Batters): restore two witnesses and the 10-day reflection period"
     dated: 2021-02-10
     result: "Defeated 23-52-2"
@@ -1781,7 +1767,6 @@ divisions:
       consent's old position; page 4 line 19 is the witness rule for the
       non-terminal track. +/-1: safeguard amendment.
   - key: senate-43-2-554468
-    draft: true
     title: "C-7 -- Senate third reading amendment (Sen. Martin): strike 'involuntary gestures are not refusal'"
     dated: 2021-02-10
     result: "Defeated 15-61-1"
@@ -1809,7 +1794,6 @@ divisions:
       of refusal or resistance for the purposes of paragraph (3.2)(c)". +/-1:
       safeguard amendment.
   - key: senate-43-2-554678
-    draft: true
     title: "C-7 -- Senate third reading amendment (Sen. Plett): offence to compel anyone to provide or facilitate MAID"
     dated: 2021-02-11
     result: "Defeated 12-63-3"
@@ -1839,7 +1823,6 @@ divisions:
       to take part in MAID.
     note: "Read with the conscience votes (commons-42-1-61, commons-44-1-186): +2 / -1."
   - key: senate-43-2-554941
-    draft: true
     title: "C-7 -- Senate third reading (as amended: mental-illness sunset, advance requests)"
     dated: 2021-02-17
     result: "Adopted 66-19-3"
@@ -1860,7 +1843,6 @@ divisions:
     why_nay: "Voted against passing C-7, which extended MAID beyond the end of life."
     note: "The whole bill is our ground, as for the House third reading (commons-43-2-39)."
   - key: senate-43-2-555864
-    draft: true
     title: "C-7 -- Senate: do not insist; concur in the Commons amendments (final passage)"
     dated: 2021-03-17
     result: "Adopted 60-25-5"
@@ -1889,7 +1871,6 @@ divisions:
     why_nay: "Voted against the final settlement of C-7 (+1: a package)."
     note: "Nay: C 20, ISG 2, PSG 2, CSG 1. +/-1, like the House message (commons-43-2-72)."
   - key: commons-42-1-22
-    draft: true
     title: "Opposition motion: renew the Office of Religious Freedom"
     dated: 2016-03-21
     result: "Negatived 90-225"
@@ -1915,7 +1896,6 @@ divisions:
       (commons-42-1-201): a foreign-policy institution, and the Liberals voted
       Nay as one (173).
   - key: commons-42-1-47
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-14 (second reading)"
     dated: 2016-05-04
@@ -1926,7 +1906,6 @@ divisions:
       Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-48/journals
     reason: "Programming of a bill's timetable: procedure, not substance."
   - key: commons-42-1-63
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-14 (report and third reading)"
     dated: 2016-05-18
@@ -1937,7 +1916,6 @@ divisions:
       Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-58/journals
     reason: "Programming of a bill's timetable: procedure, not substance."
   - key: commons-42-1-48
-    draft: true
     placeable: false
     title: "C-14 second reading: the previous question"
     dated: 2016-05-04
@@ -1952,7 +1930,6 @@ divisions:
       Procedure: the previous question. A party-line vote (Liberal 169 Yea,
       everyone else Nay).
   - key: commons-42-1-49
-    draft: true
     title: "2nd reading of Bill C-14 (MAID legalised)"
     dated: 2016-05-04
     result: "Agreed To 235-75"
@@ -1979,7 +1956,6 @@ divisions:
       Conservative 73, NDP 1, Liberal 1 -- the NDP voted Yea on the principle.
       20 Conservatives voted Yea.
   - key: commons-42-1-65
-    draft: true
     title: "C-14 report stage, Rankin Motion 1: delete clause 3"
     dated: 2016-05-30
     result: "Negatived 47-271"
@@ -2000,7 +1976,6 @@ divisions:
       "consistent with ... Carter". Yea lobby NDP 42, Liberal 4, Green 1. No
       `nay` value: the Nay was the Liberals and Conservatives together.
   - key: commons-42-1-66
-    draft: true
     title: "C-14 report stage, Genuis Motion 3: palliative-care consultation before a request"
     dated: 2016-05-30
     result: "Negatived 91-229"
@@ -2021,7 +1996,6 @@ divisions:
     nay: -1
     why_nay: "Voted against requiring a palliative-care consultation before a request for MAID."
   - key: commons-42-1-67
-    draft: true
     title: "C-14 report stage, Cooper Motions 4 and 9: psychiatric examination where there is a mental-health condition"
     dated: 2016-05-30
     result: "Negatived 96-225"
@@ -2048,7 +2022,6 @@ divisions:
       Voted against requiring a psychiatric capacity examination before MAID
       for people with a mental-health condition.
   - key: commons-42-1-68
-    draft: true
     title: "C-14 report stage, Thériault Motion 6: delete the reasonably-foreseeable-death requirement"
     dated: 2016-05-30
     result: "Negatived 60-260"
@@ -2072,7 +2045,6 @@ divisions:
       value, as on C-62's reasoned amendment (640): the Nay was the Liberals
       and Conservatives together.
   - key: commons-42-1-69
-    draft: true
     title: "C-14 report stage, Genuis Motion 7: 'imminent' natural death"
     dated: 2016-05-30
     result: "Negatived 86-236"
@@ -2093,7 +2065,6 @@ divisions:
     nay: -1
     why_nay: "Voted against confining MAID to people whose natural death is imminent."
   - key: commons-42-1-70
-    draft: true
     title: "C-14 report stage, Genuis Motion 12: no practitioner-administered death for those able to self-administer"
     dated: 2016-05-30
     result: "Negatived 53-267"
@@ -2120,7 +2091,6 @@ divisions:
       holds allies who may have objected to writing self-administration into
       law.
   - key: commons-42-1-71
-    draft: true
     title: "C-14 report stage, Genuis Motion 13: prior review by a legal authority"
     dated: 2016-05-30
     result: "Negatived 69-253"
@@ -2147,7 +2117,6 @@ divisions:
       before MAID is provided.
     note: "No `nay` value: 22 Conservatives voted Nay."
   - key: commons-42-1-72
-    draft: true
     title: "C-14 report stage, Cooper Motion 14: conscience protection"
     dated: 2016-05-30
     result: "Negatived 97-222"
@@ -2178,7 +2147,6 @@ divisions:
     why_nay: "Voted against protecting the conscience of practitioners and institutions over MAID."
     note: "As for the 2016 conscience motion (commons-42-1-61): +2 / -1."
   - key: commons-42-1-73
-    draft: true
     title: "C-14 report stage, May Motion 16: start the reviews of minors, advance requests and mental illness within 45 days"
     dated: 2016-05-30
     result: "Negatived 57-264"
@@ -2205,7 +2173,6 @@ divisions:
       illness is the sole underlying medical condition" within 180 days. No
       `nay` value: the Nay was the Liberals and Conservatives together.
   - key: commons-42-1-74
-    draft: true
     title: "Concurrence at report stage of Bill C-14"
     dated: 2016-05-30
     result: "Agreed To 192-129"
@@ -2223,7 +2190,6 @@ divisions:
       allowed. A Nay on the whole bill cannot tell an ally from an opponent,
       so only the Yea carries a value.
   - key: commons-42-1-75
-    draft: true
     title: "C-14 third reading, Rankin reasoned amendment: rewrite eligibility to Carter"
     dated: 2016-05-31
     result: "Negatived 54-267"
@@ -2248,7 +2214,6 @@ divisions:
       life, to the limits of Carter.
     note: "No `nay` value: the Nay was the Liberals and Conservatives together (174 + 93)."
   - key: commons-42-1-76
-    draft: true
     title: "3rd reading of Bill C-14 (MAID legalised)"
     dated: 2016-05-31
     result: "Agreed To 186-137"
@@ -2272,7 +2237,6 @@ divisions:
       so only the Yea carries a value. -1, not -2: the bill answered the
       Supreme Court's Carter ruling, and 14 Conservatives voted Yea.
   - key: commons-42-1-102
-    draft: true
     title: "C-14 Senate amendments, Rankin amendment: accept the Senate's removal of the end-of-life requirement"
     dated: 2016-06-16
     result: "Negatived 54-240"
@@ -2295,7 +2259,6 @@ divisions:
       Senate amendment 2(b) is Senator Joyal's (senate-42-1-431585). No `nay`
       value: the Nay was the Liberals and Conservatives together (162 + 78).
   - key: commons-42-1-103
-    draft: true
     title: "Motion respecting Senate amendments to Bill C-14 (keep the end-of-life requirement)"
     dated: 2016-06-16
     result: "Agreed To 190-108"
@@ -2318,7 +2281,6 @@ divisions:
       allowed. A Nay on the whole bill cannot tell an ally from an opponent,
       so only the Yea carries a value.
   - key: commons-42-1-101
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-223 (Canadian Organ Donor Registry)"
     dated: 2016-06-15
@@ -2335,7 +2297,6 @@ divisions:
       the contested ground (presumed consent, organ harvesting). Evidence
       only.
   - key: commons-42-1-936
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-316 (organ donors, CRA)"
     dated: 2018-11-07
@@ -2346,7 +2307,6 @@ divisions:
       Journals ourcommons.ca/DocumentViewer/en/42-1/house/sitting-351/journals
     reason: "Unanimous (272-0)."
   - key: senate-42-1-431585
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Joyal): strike the end-of-life requirement"
     dated: 2016-06-08
     result: "Adopted 41-30"
@@ -2378,7 +2338,6 @@ divisions:
       lobby holds senators defending the government's bill as well as
       opponents of MAID.
   - key: senate-42-1-431767
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Carignan): judicial authorisation when not at the end of life"
     dated: 2016-06-09
     result: "Defeated 32-37-4"
@@ -2403,7 +2362,6 @@ divisions:
       Voted against requiring judicial authorisation for MAID for people not
       at the end of life.
   - key: senate-42-1-431787
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Eaton): palliative-care consultation"
     dated: 2016-06-09
     result: "Adopted 38-29-5"
@@ -2424,7 +2382,6 @@ divisions:
     nay: -1
     why_nay: "Voted against requiring a palliative-care consultation before MAID."
   - key: senate-42-1-431794
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Batters): end of life and a terminal condition"
     dated: 2016-06-09
     result: "Defeated 17-47-6"
@@ -2445,7 +2402,6 @@ divisions:
     nay: -1
     why_nay: "Voted against confining MAID to people at the end of life with a terminal illness."
   - key: senate-42-1-431823
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Plett): no one compelled to provide, assist or refer"
     dated: 2016-06-09
     result: "Defeated 27-46-1"
@@ -2471,7 +2427,6 @@ divisions:
       compelled to provide or refer for MAID.
     note: "As for the conscience votes: +2 / -1."
   - key: senate-42-1-431897
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Plett): no beneficiary may assist or witness"
     dated: 2016-06-10
     result: "Adopted 49-20-2"
@@ -2498,7 +2453,6 @@ divisions:
       Voted against barring beneficiaries of a death from assisting in MAID or
       witnessing the request.
   - key: senate-42-1-431912
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Batters): psychiatric assessment and 90 days for mental illness"
     dated: 2016-06-10
     result: "Defeated 25-36-4"
@@ -2527,7 +2481,6 @@ divisions:
       Voted against extra capacity and reflection safeguards for MAID
       applicants with a mental illness.
   - key: senate-42-1-432056
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Unger): nurse practitioners only on a physician's instruction"
     dated: 2016-06-13
     result: "Defeated 35-36"
@@ -2548,7 +2501,6 @@ divisions:
     why_nay: "Voted to let nurse practitioners provide MAID without a physician's instruction."
     note: "+/-1: a narrowing of who may provide MAID. Defeated 35-36."
   - key: senate-42-1-432095
-    draft: true
     placeable: false
     title: "C-14 -- Senate: Jaffer subamendment to Cowan's advance-request amendment (two-year delay)"
     dated: 2016-06-13
@@ -2574,7 +2526,6 @@ divisions:
       voted Nay (C 36). Direction unreadable. Cowan's amendment itself
       (432114) carries the reading.
   - key: senate-42-1-432114
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Cowan): advance requests"
     dated: 2016-06-13
     result: "Defeated 23-47-2"
@@ -2605,7 +2556,6 @@ divisions:
       Nay +1: the Nay lobby (C 30, Non-affiliated 14, Lib. 3) holds government
       loyalists as well as opponents of MAID.
   - key: senate-42-1-432315
-    draft: true
     title: "C-14 -- Senate third reading amendment (Sen. Lankin): wider reviews with reports in 18 months"
     dated: 2016-06-14
     result: "Defeated 31-42-1"
@@ -2641,7 +2591,6 @@ divisions:
       on the expansion reviews) and on the lobby: Lib. 17 and Non-affiliated
       13 Yea, C 36 Nay. If read as neutral, make it placeable: false.
   - key: senate-42-1-432564
-    draft: true
     title: "C-14 -- Senate third reading (as amended: end-of-life requirement struck)"
     dated: 2016-06-15
     result: "Adopted 64-12-1"
@@ -2667,7 +2616,6 @@ divisions:
       lobby. Yea -1, as for the House third reading: 29 Conservative senators
       voted Yea.
   - key: senate-42-1-432969
-    draft: true
     title: "C-14 -- Senate, House message: Joyal amendment (end-of-life requirement only after a Supreme Court reference)"
     dated: 2016-06-17
     result: "Defeated 28-42-3"
@@ -2695,7 +2643,6 @@ divisions:
       No `nay` value: the Nay (C 24, Non-affiliated 15, Lib. 3) was government
       loyalists and MAID opponents together.
   - key: senate-42-1-433010
-    draft: true
     title: "C-14 -- Senate: concur in the Commons amendments, do not insist (final passage)"
     dated: 2016-06-17
     result: "Adopted 44-28"
@@ -2721,7 +2668,6 @@ divisions:
       allowed. A Nay on the whole bill cannot tell an ally from an opponent,
       so only the Yea carries a value. Nay: C 14, Lib. 11, Non-affiliated 3.
   - key: senate-42-1-457917
-    draft: true
     placeable: false
     title: "C-16 -- Senate third reading: adjournment of debate"
     dated: 2017-06-13
@@ -2735,7 +2681,6 @@ divisions:
       Procedure: the adjournment that followed Senator Plett's amendment
       (76-3-3; see senate-42-1-457865).
   - key: commons-41-1-190
-    draft: true
     title: "Concurrence at report stage of Bill C-304 (repeal of section 13)"
     dated: 2012-05-09
     result: "Agreed To 149-129"
@@ -2752,7 +2697,6 @@ divisions:
     nay: -1
     why_nay: "Voted against concurring in the repeal of section 13 (-1: report stage)."
   - key: commons-41-1-644
-    draft: true
     title: "Concurrence at report stage of Bill C-279 (gender identity)"
     dated: 2013-03-20
     result: "Agreed To 150-137"
@@ -2772,7 +2716,6 @@ divisions:
     nay: 1
     why_nay: "Voted against concurring in C-279 (+1: report stage)."
   - key: commons-41-1-668
-    draft: true
     placeable: false
     title: "M-382 (Shipley): religious freedom in foreign policy"
     dated: 2013-04-24
@@ -2784,7 +2727,6 @@ divisions:
       Journals ourcommons.ca/DocumentViewer/en/41-1/house/sitting-239/journals
     reason: "Unanimous (276-0)."
   - key: commons-41-2-236
-    draft: true
     title: "Concurrence at report stage of Bill C-36 (Protection of Communities and Exploited Persons Act)"
     dated: 2014-09-29
     result: "Agreed To 143-122"
@@ -2803,7 +2745,6 @@ divisions:
     nay: -1
     why_nay: "Voted against concurring in C-36, the Nordic-model law (-1: report stage)."
   - key: commons-40-3-34
-    draft: true
     title: "2nd reading of Bill C-384 (Lalonde: \"right to die with dignity\")"
     dated: 2010-04-21
     result: "Negatived 59-228"
@@ -2826,7 +2767,6 @@ divisions:
       Before Carter, and not a party line: Liberals 59 and NDP 30 voted Nay
       with the Conservatives.
   - key: commons-40-3-128
-    draft: true
     placeable: false
     title: "C-22 report stage, Dechert Motion 1: restore the short title"
     dated: 2010-11-16
@@ -2847,7 +2787,6 @@ divisions:
       committee had struck; the bill's substance (mandatory reporting of
       online child sexual abuse material) is not in it. Evidence only.
   - key: commons-40-3-141
-    draft: true
     title: "Concurrence at report stage of Bill C-389 (gender identity and expression)"
     dated: 2010-12-08
     result: "Agreed To 143-131"
@@ -2867,7 +2806,6 @@ divisions:
     nay: 1
     why_nay: "Voted against concurring in C-389 (+1: report stage)."
   - key: commons-40-3-151
-    draft: true
     title: "2nd reading of Bill C-510 (Roxanne's Law: coercing a woman to abort)"
     dated: 2010-12-15
     result: "Negatived 97-178"
@@ -2903,7 +2841,6 @@ divisions:
   # direction is proposed. Taxonomy false positives and misfiles are named
   # in their reasons.
   - key: commons-45-1-36
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-3, An Act to amend the Citizenship Act (2025)"
     dated: 2025-09-22
@@ -2915,7 +2852,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-44
-    draft: true
     placeable: false
     title: "Bill C-3, An Act to amend the Citizenship Act (2025) (report stage amendment)"
     dated: 2025-11-03
@@ -2927,7 +2863,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-45
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-3, An Act to amend the Citizenship Act (2025)"
     dated: 2025-11-03
@@ -2939,7 +2874,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-47
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-3, An Act to amend the Citizenship Act (2025)"
     dated: 2025-11-05
@@ -2951,7 +2885,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-56
-    draft: true
     placeable: false
     title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
     dated: 2025-12-11
@@ -2963,7 +2896,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-57
-    draft: true
     placeable: false
     title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
     dated: 2025-12-11
@@ -2975,7 +2907,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-58
-    draft: true
     placeable: false
     title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
     dated: 2025-12-11
@@ -2987,7 +2918,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-59
-    draft: true
     placeable: false
     title: "Bill C-12, An Act respecting certain measures relating to the security of Canada's borders and the ..."
     dated: 2025-12-11
@@ -2999,7 +2929,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-67
-    draft: true
     placeable: false
     title: "Opposition Motion (Serious crimes and refugee claims)"
     dated: 2026-02-12
@@ -3011,7 +2940,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-72
-    draft: true
     placeable: false
     title: "Opposition Motion (Federal benefits and asylum claimants)"
     dated: 2026-02-25
@@ -3023,7 +2951,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-45-1-89
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-220, An Act to amend the Criminal Code (immigration status in sentencing)"
     dated: 2026-03-25
@@ -3035,7 +2962,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-45-1-678348
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act (2025) – C-3 – Third Reading – Amendment (Sen. Housakos)"
     dated: 2025-11-19
@@ -3047,7 +2973,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-45-1-688863
-    draft: true
     placeable: false
     title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Youance)"
     dated: 2026-03-11
@@ -3059,7 +2984,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-45-1-688886
-    draft: true
     placeable: false
     title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Simons)"
     dated: 2026-03-11
@@ -3071,7 +2995,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-45-1-688915
-    draft: true
     placeable: false
     title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Mohamed)"
     dated: 2026-03-11
@@ -3083,7 +3006,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-45-1-689268
-    draft: true
     placeable: false
     title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Coyle)"
     dated: 2026-03-12
@@ -3095,7 +3017,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-45-1-689285
-    draft: true
     placeable: false
     title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. Woo)"
     dated: 2026-03-12
@@ -3107,7 +3028,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-45-1-689298
-    draft: true
     placeable: false
     title: "Strengthening Canada's Immigration System and Borders Act – C-12 – Third Reading – Amendment (Sen. McPhedran)"
     dated: 2026-03-12
@@ -3119,7 +3039,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-50
-    draft: true
     placeable: false
     title: "Third report of the Standing Committee on Citizenship and Immigration"
     dated: 2022-03-29
@@ -3131,7 +3050,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-76
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-242, An Act to amend the Immigration and Refugee Protection Act (temporary resident ..."
     dated: 2022-05-04
@@ -3144,7 +3062,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-98
-    draft: true
     placeable: false
     title: "2nd reading of Bill S-223, An Act to amend the Criminal Code and the Immigration and Refugee Protection ..."
     dated: 2022-05-18
@@ -3158,7 +3075,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-191
-    draft: true
     placeable: false
     title: "Fifth report of the Standing Committee on Citizenship and Immigration"
     dated: 2022-10-18
@@ -3171,7 +3087,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-198
-    draft: true
     placeable: false
     title: "Sixth report of the Standing Committee on Citizenship and Immigration"
     dated: 2022-10-25
@@ -3184,7 +3099,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-200
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-242, An Act to amend the Immigration and Refugee Protection Act ..."
     dated: 2022-10-26
@@ -3197,7 +3111,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-216
-    draft: true
     placeable: false
     title: "2nd reading of Bill S-245, An Act to amend the Citizenship Act (granting citizenship to certain Canadians)"
     dated: 2022-11-16
@@ -3210,7 +3123,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-245
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill S-223, An Act to amend the Criminal Code and the Immigration and Refugee ..."
     dated: 2022-12-14
@@ -3224,7 +3136,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-258
-    draft: true
     placeable: false
     title: "2nd reading of Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to make consequential ..."
     dated: 2023-02-13
@@ -3237,7 +3148,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-296
-    draft: true
     placeable: false
     title: "14th report of the Standing Committee on Citizenship and Immigration"
     dated: 2023-04-19
@@ -3250,7 +3160,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-303
-    draft: true
     placeable: false
     title: "15th report of the Standing Committee on Citizenship and Immigration"
     dated: 2023-04-25
@@ -3262,7 +3171,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-322
-    draft: true
     placeable: false
     title: "Opposition Motion (Immigration levels)"
     dated: 2023-05-15
@@ -3274,7 +3182,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-383
-    draft: true
     placeable: false
     title: "Time allocation for Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to make ..."
     dated: 2023-06-16
@@ -3287,7 +3194,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-44-1-386
-    draft: true
     placeable: false
     title: "Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to make consequential amendments to ..."
     dated: 2023-06-19
@@ -3299,7 +3205,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-387
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill S-8, An Act to amend the Immigration and Refugee Protection Act, to ..."
     dated: 2023-06-19
@@ -3312,7 +3217,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-438
-    draft: true
     placeable: false
     title: "Opposition Motion (Immigration threshold and integration capacity)"
     dated: 2023-11-01
@@ -3325,7 +3229,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-44-1-635
-    draft: true
     placeable: false
     title: "Opposition Motion (Federal immigration targets) (amendment)"
     dated: 2024-02-12
@@ -3337,7 +3240,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-636
-    draft: true
     placeable: false
     title: "Opposition Motion (Federal immigration targets)"
     dated: 2024-02-12
@@ -3349,7 +3251,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-44-1-799
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-353, An Act to provide for the imposition of restrictive measures against foreign ..."
     dated: 2024-06-05
@@ -3363,7 +3264,6 @@ divisions:
       August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-43-2-40
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-8, An Act to amend the Citizenship Act (Truth and Reconciliation Commission of ..."
     dated: 2020-12-10
@@ -3375,7 +3275,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-43-2-58
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-223, An Act to amend the Citizenship Act (adequate knowledge of French in Quebec)"
     dated: 2021-02-24
@@ -3387,7 +3286,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-42-1-32
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-6, An Act to amend the Citizenship Act and to make consequential amendments to ..."
     dated: 2016-03-21
@@ -3399,7 +3297,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-42-1-58
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-6, An Act to amend the Citizenship Act and to make consequential ..."
     dated: 2016-05-17
@@ -3411,7 +3308,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-42-1-141
-    draft: true
     placeable: false
     title: "Private Members' Business M-39 (Immigration to Atlantic Canada)"
     dated: 2016-11-02
@@ -3424,7 +3320,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-42-1-181
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-306, An Act to establish a Crimean Tatar Deportation (“Sürgünlik”) Memorial Day and ..."
     dated: 2016-12-13
@@ -3438,7 +3333,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-42-1-318
-    draft: true
     placeable: false
     title: "Motion respecting Senate amendments to Bill C-6, An Act to amend the Citizenship Act and to make ..."
     dated: 2017-06-13
@@ -3450,7 +3344,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-42-1-362
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill S-226, An Act to provide for the taking of restrictive measures in ..."
     dated: 2017-10-04
@@ -3464,7 +3357,6 @@ divisions:
       2026: config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-42-1-423
-    draft: true
     placeable: false
     title: "11th Report of the Standing Committee on Citizenship and Immigration"
     dated: 2017-12-04
@@ -3477,7 +3369,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-42-1-649
-    draft: true
     placeable: false
     title: "2nd reading of Bill S-210, An Act to amend An Act to amend the Immigration and Refugee Protection Act, the ..."
     dated: 2018-04-18
@@ -3492,7 +3383,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-42-1-666
-    draft: true
     placeable: false
     title: "15th Report of the Standing Committee on Citizenship and Immigration"
     dated: 2018-05-22
@@ -3504,7 +3394,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-42-1-755
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill S-210, An Act to amend An Act to amend the Immigration and Refugee ..."
     dated: 2018-06-13
@@ -3519,7 +3408,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-42-1-973
-    draft: true
     placeable: false
     title: "18th Report of the Standing Committee on Citizenship and Immigration"
     dated: 2018-12-05
@@ -3532,7 +3420,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: senate-42-1-450644
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-03-30
@@ -3544,7 +3431,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-450667
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-03-30
@@ -3556,7 +3442,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-451075
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-04-04
@@ -3568,7 +3453,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-451079
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-04-04
@@ -3580,7 +3464,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-451598
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-04-06
@@ -3592,7 +3475,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-451972
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-04-11
@@ -3604,7 +3486,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-452435
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-04-13
@@ -3616,7 +3497,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-453028
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-05-02
@@ -3628,7 +3508,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-453227
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Third ..."
     dated: 2017-05-03
@@ -3640,7 +3519,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: senate-42-1-458543
-    draft: true
     placeable: false
     title: "An Act to amend the Citizenship Act and to make consequential amendments to another Act – C-6 – Government ..."
     dated: 2017-06-15
@@ -3652,7 +3530,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-154
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
     dated: 2014-05-28
@@ -3665,7 +3542,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-2-157
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
     dated: 2014-05-29
@@ -3677,7 +3553,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-158
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
     dated: 2014-05-29
@@ -3689,7 +3564,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-169
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to ..."
     dated: 2014-06-09
@@ -3702,7 +3576,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-2-199
-    draft: true
     placeable: false
     title: "Bill C-24, An Act to amend the Citizenship Act and to make consequential amendments to other Acts (report ..."
     dated: 2014-06-10
@@ -3714,7 +3587,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-200
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-24, An Act to amend the Citizenship Act and to make consequential ..."
     dated: 2014-06-10
@@ -3726,7 +3598,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-210
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-24, An Act to amend the Citizenship Act and to make consequential ..."
     dated: 2014-06-16
@@ -3738,7 +3609,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-305
-    draft: true
     placeable: false
     title: "Private Members' Business M-505 (Immigration and Refugee Protection Regulations)"
     dated: 2014-12-10
@@ -3750,7 +3620,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-336
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the ..."
     dated: 2015-02-19
@@ -3767,7 +3636,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-2-337
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the Secure ..."
     dated: 2015-02-23
@@ -3783,7 +3651,6 @@ divisions:
       August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-338
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the Secure ..."
     dated: 2015-02-23
@@ -3799,7 +3666,6 @@ divisions:
       August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-352
-    draft: true
     placeable: false
     title: "Time allocation for Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the Civil ..."
     dated: 2015-03-12
@@ -3815,7 +3681,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-41-2-365
-    draft: true
     placeable: false
     title: "2nd reading of Bill S-219, An Act respecting a national day of commemoration of the exodus of Vietnamese ..."
     dated: 2015-03-25
@@ -3830,7 +3695,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-2-389
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the ..."
     dated: 2015-04-30
@@ -3847,7 +3711,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-2-391
-    draft: true
     placeable: false
     title: "Bill C-51, An Act to enact the Security of Canada Information Sharing Act and the Secure Air Travel Act, ..."
     dated: 2015-05-04
@@ -3863,7 +3726,6 @@ divisions:
       August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-392
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-51, An Act to enact the Security of Canada Information Sharing Act ..."
     dated: 2015-05-04
@@ -3879,7 +3741,6 @@ divisions:
       August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-394
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and ..."
     dated: 2015-05-06
@@ -3895,7 +3756,6 @@ divisions:
       August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-395
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-51, An Act to enact the Security of Canada Information Sharing Act and ..."
     dated: 2015-05-06
@@ -3911,7 +3771,6 @@ divisions:
       August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-2-435
-    draft: true
     placeable: false
     title: "Time allocation for Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the Civil ..."
     dated: 2015-06-09
@@ -3927,7 +3786,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-41-2-454
-    draft: true
     placeable: false
     title: "Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the Civil Marriage Act and the ..."
     dated: 2015-06-15
@@ -3943,7 +3801,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-41-2-455
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the ..."
     dated: 2015-06-15
@@ -3959,7 +3816,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-41-2-456
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill S-7, An Act to amend the Immigration and Refugee Protection Act, the ..."
     dated: 2015-06-16
@@ -3975,7 +3831,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-41-1-32
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the ..."
     dated: 2011-09-27
@@ -3990,7 +3845,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-33
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State ..."
     dated: 2011-09-28
@@ -4005,7 +3859,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-34
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State ..."
     dated: 2011-09-28
@@ -4020,7 +3873,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-80
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the ..."
     dated: 2011-11-30
@@ -4035,7 +3887,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-81
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4050,7 +3901,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-82
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4065,7 +3915,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-83
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4080,7 +3929,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-84
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4095,7 +3943,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-85
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4110,7 +3957,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-86
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4125,7 +3971,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-87
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4140,7 +3985,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-88
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4155,7 +3999,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-89
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4170,7 +4013,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-90
-    draft: true
     placeable: false
     title: "Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the State Immunity Act, ..."
     dated: 2011-11-30
@@ -4185,7 +4027,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-91
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to ..."
     dated: 2011-11-30
@@ -4200,7 +4041,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-98
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to ..."
     dated: 2011-12-05
@@ -4215,7 +4055,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-147
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-10, An Act to enact the Justice for Victims of Terrorism Act and to amend the ..."
     dated: 2012-03-07
@@ -4230,7 +4069,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-152
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced ..."
     dated: 2012-03-12
@@ -4243,7 +4081,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-155
-    draft: true
     placeable: false
     title: "Motion respecting Senate amendments to Bill C-10, An Act to enact the Justice for Victims of Terrorism Act ..."
     dated: 2012-03-12
@@ -4258,7 +4095,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-156
-    draft: true
     placeable: false
     title: "Motion respecting Senate amendments to Bill C-10, An Act to enact the Justice for Victims of Terrorism Act ..."
     dated: 2012-03-12
@@ -4273,7 +4109,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-182
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee ..."
     dated: 2012-04-23
@@ -4285,7 +4120,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-183
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee ..."
     dated: 2012-04-23
@@ -4297,7 +4131,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-228
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced ..."
     dated: 2012-05-29
@@ -4310,7 +4143,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-237
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4322,7 +4154,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-238
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4334,7 +4165,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-239
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4346,7 +4176,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-240
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4358,7 +4187,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-241
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4370,7 +4198,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-242
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4382,7 +4209,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-243
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4394,7 +4220,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-244
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4406,7 +4231,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-245
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4418,7 +4242,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-246
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4430,7 +4253,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-247
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4442,7 +4264,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-248
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4454,7 +4275,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-249
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4466,7 +4286,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-250
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4478,7 +4297,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-251
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4490,7 +4308,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-252
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4502,7 +4319,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-253
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4514,7 +4330,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-254
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4526,7 +4341,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-255
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4538,7 +4352,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-256
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4550,7 +4363,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-257
-    draft: true
     placeable: false
     title: "Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the Balanced Refugee Reform Act, ..."
     dated: 2012-06-04
@@ -4562,7 +4374,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-258
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the ..."
     dated: 2012-06-04
@@ -4574,7 +4385,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-276
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the ..."
     dated: 2012-06-11
@@ -4586,7 +4396,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-277
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-31, An Act to amend the Immigration and Refugee Protection Act, the ..."
     dated: 2012-06-11
@@ -4598,7 +4407,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-474
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
     dated: 2012-10-16
@@ -4610,7 +4418,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-602
-    draft: true
     placeable: false
     title: "Time allocation for Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
     dated: 2013-01-30
@@ -4623,7 +4430,6 @@ divisions:
       excluded_from_5ca), so no reading is drafted and the motion text was not
       read.
   - key: commons-41-1-603
-    draft: true
     placeable: false
     title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
     dated: 2013-01-30
@@ -4635,7 +4441,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-604
-    draft: true
     placeable: false
     title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
     dated: 2013-01-30
@@ -4647,7 +4452,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-605
-    draft: true
     placeable: false
     title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
     dated: 2013-01-30
@@ -4659,7 +4463,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-606
-    draft: true
     placeable: false
     title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
     dated: 2013-01-30
@@ -4671,7 +4474,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-607
-    draft: true
     placeable: false
     title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
     dated: 2013-01-30
@@ -4683,7 +4485,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-608
-    draft: true
     placeable: false
     title: "Bill C-43, An Act to amend the Immigration and Refugee Protection Act (report stage amendment)"
     dated: 2013-01-30
@@ -4695,7 +4496,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-609
-    draft: true
     placeable: false
     title: "Concurrence at report stage of Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
     dated: 2013-01-30
@@ -4707,7 +4507,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-612
-    draft: true
     placeable: false
     title: "3rd reading and adoption of Bill C-43, An Act to amend the Immigration and Refugee Protection Act"
     dated: 2013-02-06
@@ -4719,7 +4518,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-41-1-620
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-425, An Act to amend the Citizenship Act (honouring the Canadian Armed Forces)"
     dated: 2013-02-27
@@ -4731,7 +4529,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-40-3-95
-    draft: true
     placeable: false
     title: "2nd reading of Bill C-440, An Act to amend the Immigration and Refugee Protection Act (war resisters)"
     dated: 2010-09-29
@@ -4743,7 +4540,6 @@ divisions:
       5 August 2026: config/stance_overrides.yaml excluded_from_5ca), so no
       reading is drafted and the motion text was not read.
   - key: commons-40-3-166
-    draft: true
     placeable: false
     title: "Seventh Report of the Standing Committee on Citizenship and Immigration"
     dated: 2011-02-09
@@ -4756,7 +4552,6 @@ divisions:
       config/stance_overrides.yaml excluded_from_5ca), so no reading is
       drafted and the motion text was not read.
   - key: commons-40-3-189
-    draft: true
     placeable: false
     title: "Eighth Report of the Standing Committee on Citizenship and Immigration"
     dated: 2011-03-02
