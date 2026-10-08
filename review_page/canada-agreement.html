@@ -1,0 +1,370 @@
+<title>Canada Agreement Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Spectral:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one column of member cards under a sticky round bar; the owner's view adds a summary band and a flags table above the same cards. */
+:root {
+  --bg: #f6f5f1; --surface: #ffffff; --ink: #1f2522; --muted: #5f6964; --line: #dcdfd8;
+  --accent: #2f5d50; --accent-ink: #ffffff; --accent-soft: #e3ece8;
+  --with2: #1e6b5c; --with1: #5b9a8b; --zero: #8a8f8b; --against1: #c27a5b; --against2: #9c3b25;
+  --ok: #2e7d4f; --warn: #a66a00; --bad: #a33a2b;
+  --display: "Spectral", Georgia, "Times New Roman", serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141816; --surface: #1c211f; --ink: #e6ebe8; --muted: #9aa49f; --line: #2e3532;
+  --accent: #7fb8a6; --accent-ink: #0f1513; --accent-soft: #22302b;
+  --with2: #6cc3ad; --with1: #4f9585; --zero: #7c837f; --against1: #d08a6c; --against2: #e06b52;
+  --ok: #6cc38f; --warn: #e0a640; --bad: #ec7a68; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141816; --surface: #1c211f; --ink: #e6ebe8; --muted: #9aa49f; --line: #2e3532;
+  --accent: #7fb8a6; --accent-ink: #0f1513; --accent-soft: #22302b;
+  --with2: #6cc3ad; --with1: #4f9585; --zero: #7c837f; --against1: #d08a6c; --against2: #e06b52;
+  --ok: #6cc38f; --warn: #e0a640; --bad: #ec7a68; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); margin: 0; padding-inline: 16px; padding-block: 0 48px }
+.wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 20px }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 12px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px }
+h1 { font: 600 1.5rem/1.2 var(--display); margin: 0; text-wrap: balance }
+h2 { font: 600 1.15rem/1.3 var(--display); margin: 0 }
+.sub { color: var(--muted); font-size: .88rem }
+.spacer { flex: 1 }
+select, textarea, button, input { font: inherit; color: inherit }
+select { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px }
+.progress { display: flex; align-items: center; gap: 10px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums }
+.bar { width: 140px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden }
+.bar > i { display: block; height: 100%; background: var(--accent) }
+.note-box { background: var(--accent-soft); border-radius: 8px; padding: 12px 14px; font-size: .9rem }
+.note-box b { font-weight: 600 }
+.scale-key { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .82rem; color: var(--muted) }
+.scale-key span { display: inline-flex; align-items: center; gap: 6px }
+.chip { display: inline-grid; place-items: center; min-width: 2.3em; height: 1.7em; padding: 0 .4em; border-radius: 5px; font: 600 .85rem var(--mono); color: #fff }
+.c-pp { background: var(--with2) } .c-p { background: var(--with1) } .c-0 { background: var(--zero) }
+.c-m { background: var(--against1) } .c-mm { background: var(--against2) } .c-q { background: transparent; color: var(--muted); border: 1px dashed var(--muted) }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: .88rem }
+.cards { display: grid; gap: 10px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; min-width: 0 }
+.card.done { border-left: 4px solid var(--accent) }
+.card-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline }
+.who { font-weight: 600; font-size: 1.02rem }
+.meta { color: var(--muted); font-size: .85rem }
+.area { font-size: .85rem; background: var(--accent-soft); color: var(--ink); border-radius: 4px; padding: 1px 8px }
+.seq { font: .78rem var(--mono); color: var(--muted) }
+.choices { display: flex; flex-wrap: wrap; gap: 6px }
+.choices button { border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 5px 10px; cursor: pointer; font-size: .85rem; display: inline-flex; align-items: center; gap: 6px }
+.choices button:hover { border-color: var(--accent) }
+.choices button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 600 }
+.choices button:focus-visible, button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+textarea { width: 100%; min-height: 2.4em; resize: vertical; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; font-size: .88rem }
+.saved { font-size: .78rem; color: var(--muted) }
+.reveal { border-top: 1px dashed var(--line); padding-top: 10px; display: grid; gap: 6px; font-size: .88rem }
+.verdict { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap }
+.pill { font-size: .75rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; border-radius: 999px; padding: 2px 9px }
+.pill.ok { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok) }
+.pill.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn) }
+.pill.bad { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad) }
+.pill.na { background: var(--line); color: var(--muted) }
+.evidence { margin: 0; padding-left: 18px; color: var(--muted); font-size: .84rem }
+.evidence li { margin: 2px 0; overflow-wrap: anywhere }
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); border-radius: 6px; padding: 5px 12px; cursor: pointer; font-size: .85rem; font-weight: 600 }
+.btn.ghost { background: transparent; color: var(--accent) }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px }
+.stat .k { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted) }
+.stat .v { font: 600 1.6rem/1.1 var(--display); font-variant-numeric: tabular-nums }
+.stat .t { font-size: .8rem; color: var(--muted) }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px }
+table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600 }
+tr:last-child td { border-bottom: 0 }
+.empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; padding: 28px 20px; color: var(--muted); text-align: center }
+.err { color: var(--bad); font-size: .85rem }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Canada Agreement Review</h1>
+    <span class="sub" id="who-line">Loading…</span>
+    <span class="spacer"></span>
+    <label class="sub" for="round-pick">Round</label>
+    <select id="round-pick"><option value="">—</option></select>
+    <div class="progress" id="progress" hidden><div class="bar"><i id="bar-fill" style="width:0%"></i></div><span id="progress-text"></span></div>
+  </header>
+
+  <div class="note-box" id="intro">
+    <b>How this works.</b> For each member, score where they stand on the named issue, on the same five columns the 5CA sheets use, from what you know of their record. Our own score stays hidden until the round closes; then both appear side by side, and you can flag any disagreement. The round passes when at least 80% of scores land on the same column or one step away, and no more than 5% fall on opposite sides.
+  </div>
+
+  <div class="scale-key" aria-label="Scale">
+    <span><b class="chip c-pp">++</b> champion, will vote with us</span>
+    <span><b class="chip c-p">+</b> leans with us</span>
+    <span><b class="chip c-0">0</b> neutral or mixed</span>
+    <span><b class="chip c-m">−</b> leans against</span>
+    <span><b class="chip c-mm">−−</b> firmly against</span>
+    <span><b class="chip c-q">?</b> can't judge</span>
+  </div>
+
+  <section id="owner-panel" hidden>
+    <div style="display:grid;gap:12px">
+      <h2>Round results</h2>
+      <div class="summary" id="summary"></div>
+      <div class="tablewrap"><table id="by-jur"><thead><tr><th>Jurisdiction</th><th>Scored</th><th>Same or one step</th><th>Opposite sides</th><th>Can't judge</th></tr></thead><tbody></tbody></table></div>
+      <h2>Flags</h2>
+      <div class="tablewrap"><table id="flag-table"><thead><tr><th>Item</th><th>Flag</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <div class="filters" id="filters" hidden>
+    <label for="jur-pick">Show</label>
+    <select id="jur-pick"><option value="">All jurisdictions</option></select>
+    <select id="state-pick"><option value="">All members</option><option value="todo">Not yet scored</option><option value="done">Scored</option><option value="disagree">Disagreements</option></select>
+  </div>
+
+  <div class="cards" id="cards"><div class="empty">The sample appears here once a round is loaded. It is drawn from confirmed readings only, so it waits until enough readings are confirmed.</div></div>
+</div>
+
+<script>
+const COLS = ["++", "+", "0", "-", "--"];
+const VAL = { "++": 2, "+": 1, "0": 0, "-": -1, "--": -2 };
+const CHIP = { "++": "c-pp", "+": "c-p", "0": "c-0", "-": "c-m", "--": "c-mm", "?": "c-q" };
+const SHOW = { "++": "++", "+": "+", "0": "0", "-": "−", "--": "−−", "?": "?" };
+const S = { db: null, user: null, uid: null, owner: false, rounds: [], round: "", items: [], mine: {},
+            revealed: {}, ours: {}, reviewers: {}, flags: [], unsubs: [], readOnly: false };
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else if (v != null) n.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) n.append(k);
+  return n;
+}
+function chip(c) { return el("b", { class: "chip " + (CHIP[c] || "c-q"), text: SHOW[c] || c }); }
+function agree(a, b) {
+  if (a == null || b == null || a === "?" || b === "?") return null;
+  const x = VAL[a], y = VAL[b];
+  return { near: Math.abs(x - y) <= 1, opposite: x * y < 0, same: x === y };
+}
+function verdictPill(r) {
+  if (!r) return el("span", { class: "pill na", text: "not compared" });
+  if (r.opposite) return el("span", { class: "pill bad", text: "opposite sides" });
+  if (r.same) return el("span", { class: "pill ok", text: "same column" });
+  if (r.near) return el("span", { class: "pill ok", text: "one step" });
+  return el("span", { class: "pill warn", text: "two or more steps" });
+}
+
+function unsubAll() { S.unsubs.forEach((u) => { try { u(); } catch (e) {} }); S.unsubs = []; }
+
+async function boot() {
+  S.db = await claude.use("db");
+  S.user = await claude.use("user");
+  if (!S.db) { $("who-line").textContent = "Sign in to claude.ai to take part."; return; }
+  S.uid = S.user ? await S.user.id() : null;
+  S.owner = S.user ? (await S.user.isOwner()) || (await S.user.canEdit()) : false;
+  const me = S.user ? await S.user.me() : null;
+  $("who-line").textContent = S.owner ? "Owner view: you see our columns and every reviewer's scores."
+    : "Reviewing as " + ((me && me.name) || "you") + ". Our columns stay hidden until the round closes.";
+  S.db.collection("rounds").onSnapshot((snap) => {
+    S.rounds = snap.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => (a.opens || "").localeCompare(b.opens || ""));
+    const pick = $("round-pick"), keep = S.round;
+    pick.replaceChildren(el("option", { value: "", text: S.rounds.length ? "Choose a round" : "No rounds yet" }),
+      ...S.rounds.map((r) => el("option", { value: r.id, text: r.name || r.id })));
+    const open = S.rounds.filter((r) => !r.revealed).pop() || S.rounds[S.rounds.length - 1];
+    const next = keep && S.rounds.some((r) => r.id === keep) ? keep : (open ? open.id : "");
+    pick.value = next;
+    if (next !== S.round) selectRound(next); else render();
+  }, (e) => { $("who-line").textContent = "The review store could not be reached (" + e.code + ")."; });
+  $("round-pick").addEventListener("change", (e) => selectRound(e.target.value));
+  $("jur-pick").addEventListener("change", render);
+  $("state-pick").addEventListener("change", render);
+}
+
+function selectRound(id) {
+  unsubAll();
+  S.round = id; S.items = []; S.mine = {}; S.revealed = {}; S.ours = {}; S.reviewers = {};
+  if (!id) { render(); return; }
+  const db = S.db;
+  S.unsubs.push(db.collection("items").where("round", "==", id).onSnapshot((snap) => {
+    S.items = snap.docs.map((d) => d.data()).sort((a, b) => a.seq - b.seq);
+    const jurs = [...new Set(S.items.map((i) => i.jurisdiction))];
+    $("jur-pick").replaceChildren(el("option", { value: "", text: "All jurisdictions" }), ...jurs.map((j) => el("option", { value: j, text: j })));
+    render();
+  }));
+  if (S.uid) S.unsubs.push(db.collection("scores/" + S.uid + "/items").where("round", "==", id).onSnapshot((snap) => {
+    S.mine = Object.fromEntries(snap.docs.map((d) => [d.data().item, d.data()])); render();
+  }, () => {}));
+  S.unsubs.push(db.collection("revealed").where("round", "==", id).onSnapshot((snap) => {
+    S.revealed = Object.fromEntries(snap.docs.map((d) => [d.id, d.data()])); render();
+  }, () => {}));
+  S.unsubs.push(db.collection("flags").where("round", "==", id).onSnapshot((snap) => {
+    S.flags = snap.docs.map((d) => ({ id: d.id, ...d.data() })); render();
+  }, () => {}));
+  if (S.owner) {
+    S.unsubs.push(db.collection("ours").where("round", "==", id).onSnapshot((snap) => {
+      S.ours = Object.fromEntries(snap.docs.map((d) => [d.id, d.data()])); render();
+    }, () => {}));
+    S.unsubs.push(db.collection("scores").onSnapshot((snap) => {
+      for (const d of snap.docs) {
+        if (S.reviewers[d.id] || d.id === S.uid) continue;
+        S.reviewers[d.id] = {};
+        S.unsubs.push(db.collection("scores/" + d.id + "/items").where("round", "==", id).onSnapshot((s2) => {
+          S.reviewers[d.id] = Object.fromEntries(s2.docs.map((x) => [x.data().item, x.data()])); render();
+        }, () => {}));
+      }
+    }, () => {}));
+  }
+}
+
+function roundRevealed() { const r = S.rounds.find((x) => x.id === S.round); return !!(r && r.revealed); }
+
+async function saveScore(item, score, note) {
+  if (!S.uid || S.readOnly) return;
+  const prev = S.mine[item.id] || {};
+  const body = { item: item.id, round: item.round, score: score ?? prev.score ?? null,
+                 note: note ?? prev.note ?? "", at: new Date().toISOString() };
+  if (prev.score === body.score && (prev.note || "") === body.note) return;
+  try {
+    if (!Object.keys(S.mine).length) await S.db.doc("scores/" + S.uid).set({ reviewer: true, round: item.round, updated: body.at });
+    await S.db.doc("scores/" + S.uid + "/items/" + item.id).set(body);
+  } catch (e) {
+    if (e && e.code === "invalid_argument") { S.readOnly = true; render(); }
+    else alertLine("Your score was not saved (" + (e && e.code) + "). Try again in a moment.");
+  }
+}
+async function addFlag(item, text) {
+  if (!text.trim()) return;
+  try { await S.db.collection("flags").add({ round: item.round, item: item.id, member: item.member,
+          area_name: item.area_name, note: text.trim(), by: S.uid, status: "open", opened: new Date().toISOString() }); }
+  catch (e) { alertLine("The flag was not saved (" + (e && e.code) + ")."); }
+}
+async function closeFlag(f, reason) {
+  if (!reason.trim()) return;
+  try { await S.db.doc("flags/" + f.id).update({ status: "closed", reason: reason.trim(), closed: new Date().toISOString() }); }
+  catch (e) { alertLine("The flag was not closed (" + (e && e.code) + ")."); }
+}
+function alertLine(t) { const n = $("who-line"); n.textContent = t; n.classList.add("err"); }
+
+function stats(scoreFor) {
+  const out = { n: 0, near: 0, opp: 0, cant: 0, byJur: {} };
+  for (const it of S.items) {
+    const ours = (S.ours[it.id] || S.revealed[it.id] || {}).column;
+    const theirs = scoreFor(it.id);
+    if (theirs == null || ours == null) continue;
+    const j = (out.byJur[it.jurisdiction] ||= { n: 0, near: 0, opp: 0, cant: 0 });
+    if (theirs === "?") { out.cant++; j.cant++; continue; }
+    const r = agree(theirs, ours); out.n++; j.n++;
+    if (r.near) { out.near++; j.near++; } if (r.opposite) { out.opp++; j.opp++; }
+  }
+  return out;
+}
+const pct = (a, b) => (b ? Math.round((100 * a) / b) + "%" : "—");
+
+function renderOwner() {
+  const panel = $("owner-panel");
+  panel.hidden = !S.owner || !S.round;
+  if (panel.hidden) return;
+  const rids = Object.keys(S.reviewers);
+  const scoreFor = (iid) => { for (const r of rids) { const s = S.reviewers[r][iid]; if (s && s.score) return s.score; } return null; };
+  const st = stats(scoreFor);
+  const scored = S.items.filter((i) => scoreFor(i.id)).length;
+  const nearOk = st.n && st.near / st.n >= 0.8, oppOk = st.n && st.opp / st.n <= 0.05;
+  $("summary").replaceChildren(
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Scored" }), el("span", { class: "v", text: scored + " / " + S.items.length }), el("span", { class: "t", text: rids.length + " reviewer(s)" })),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Same or one step" }), el("span", { class: "v", text: pct(st.near, st.n) }), el("span", { class: "t", text: "pass at 80% or more" }), st.n ? el("span", { class: "pill " + (nearOk ? "ok" : "bad"), text: nearOk ? "passing" : "below" }) : null),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Opposite sides" }), el("span", { class: "v", text: pct(st.opp, st.n) }), el("span", { class: "t", text: "pass at 5% or less" }), st.n ? el("span", { class: "pill " + (oppOk ? "ok" : "bad"), text: oppOk ? "passing" : "above" }) : null),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Can't judge" }), el("span", { class: "v", text: String(st.cant) }), el("span", { class: "t", text: "left out of both rates" })),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Round" }), el("span", { class: "v", text: roundRevealed() ? "Closed" : "Open" }), el("span", { class: "t", text: roundRevealed() ? "reviewers see both columns" : "our columns hidden from reviewers" })));
+  $("by-jur").tBodies[0].replaceChildren(...Object.entries(st.byJur).sort().map(([j, s]) =>
+    el("tr", {}, el("td", { text: j }), el("td", { text: String(s.n) }), el("td", { text: pct(s.near, s.n) }), el("td", { text: pct(s.opp, s.n) }), el("td", { text: String(s.cant) }))));
+  const rows = S.flags.sort((a, b) => (a.status === "open" ? 0 : 1) - (b.status === "open" ? 0 : 1) || (a.opened || "").localeCompare(b.opened || ""));
+  $("flag-table").tBodies[0].replaceChildren(...(rows.length ? rows.map((f) => {
+    const reason = el("textarea", { id: "close-" + f.id, placeholder: "Test case and fix, or the written reason", "aria-label": "Reason for closing" });
+    const days = Math.floor((Date.now() - Date.parse(f.opened || 0)) / 86400000);
+    return el("tr", {},
+      el("td", {}, el("div", { text: f.member || f.item }), el("div", { class: "meta", text: (f.area_name || "") + " · " + f.item })),
+      el("td", { text: f.note || "" }),
+      el("td", {}, el("span", { class: "pill " + (f.status === "open" ? (days > 13 ? "bad" : "warn") : "ok"), text: f.status === "open" ? "open " + days + "d" : "closed" }),
+        f.reason ? el("div", { class: "meta", text: f.reason }) : null),
+      el("td", {}, f.status === "open" ? el("div", { style: "display:grid;gap:6px;min-width:200px" }, reason,
+        el("button", { class: "btn ghost", text: "Close flag", onclick: () => closeFlag(f, reason.value) })) : null));
+  }) : [el("tr", {}, el("td", { colspan: "4", class: "meta", text: "No flags in this round." }))]));
+}
+
+function card(it) {
+  const mine = S.mine[it.id] || {};
+  const rev = S.revealed[it.id] || (S.owner ? S.ours[it.id] : null);
+  const showOurs = S.owner || roundRevealed();
+  const c = el("article", { class: "card" + (mine.score ? " done" : ""), id: "card-" + it.id });
+  c.append(el("div", { class: "card-head" },
+    el("span", { class: "who", text: it.member }),
+    el("span", { class: "meta", text: it.chamber + " · " + it.jurisdiction }),
+    el("span", { class: "area", text: it.area_name }),
+    el("span", { class: "spacer" }), el("span", { class: "seq", text: it.id })));
+  if (!S.owner) {
+    const choices = el("div", { class: "choices", role: "group", "aria-label": "Your score for " + it.member });
+    for (const col of [...COLS, "?"]) {
+      const b = el("button", { type: "button", "aria-pressed": String(mine.score === col),
+        onclick: () => saveScore(it, col, null) }, chip(col));
+      b.disabled = S.readOnly || !S.uid;
+      choices.append(b);
+    }
+    const note = el("textarea", { id: "note-" + it.id, placeholder: "Optional note: what you based this on", "aria-label": "Note on " + it.member });
+    note.value = mine.note || "";
+    note.addEventListener("change", () => saveScore(it, null, note.value));
+    c.append(choices, note, el("span", { class: "saved", text: mine.at ? "Saved " + new Date(mine.at).toLocaleString() : (S.readOnly ? "Read-only: ask Christopher for Contributor access." : "Not scored yet") }));
+  }
+  if (S.owner) {
+    const rids = Object.keys(S.reviewers);
+    const theirs = rids.map((r) => S.reviewers[r][it.id]).filter(Boolean);
+    const line = el("div", { class: "verdict" }, el("span", { class: "meta", text: "Reviewer:" }));
+    if (theirs.length) theirs.forEach((t) => line.append(chip(t.score), t.note ? el("span", { class: "meta", text: "“" + t.note + "”" }) : null));
+    else line.append(el("span", { class: "meta", text: "not scored yet" }));
+    c.append(line);
+    if (theirs[0] && rev) line.append(verdictPill(agree(theirs[0].score, rev.column)));
+  }
+  if (showOurs && rev) {
+    const box = el("div", { class: "reveal" });
+    const v = el("div", { class: "verdict" }, el("span", { class: "meta", text: "Our column:" }), chip(rev.column));
+    if (!S.owner && mine.score) v.append(verdictPill(agree(mine.score, rev.column)));
+    box.append(v);
+    if (rev.based_on) box.append(el("div", { class: "meta", text: "Based on " + rev.based_on }));
+    if ((rev.evidence || []).length) box.append(el("ul", { class: "evidence" }, ...rev.evidence.map((e) => el("li", { text: e }))));
+    if (!S.owner && roundRevealed() && S.uid) {
+      const t = el("textarea", { id: "flag-" + it.id, placeholder: "Flag this: what is wrong with our column?", "aria-label": "Flag " + it.member });
+      box.append(t, el("div", {}, el("button", { class: "btn", text: "Flag it", onclick: () => { addFlag(it, t.value); t.value = ""; } })));
+      const mineFlags = S.flags.filter((f) => f.item === it.id);
+      mineFlags.forEach((f) => box.append(el("div", { class: "meta", text: "Flag " + f.status + ": " + f.note + (f.reason ? " — " + f.reason : "") })));
+    }
+    c.append(box);
+  }
+  return c;
+}
+
+function render() {
+  const has = !!S.round && S.items.length > 0;
+  $("filters").hidden = !has;
+  renderOwner();
+  const done = S.items.filter((i) => (S.mine[i.id] || {}).score).length;
+  $("progress").hidden = S.owner || !has;
+  if (has) { $("bar-fill").style.width = pct(done, S.items.length).replace("—", "0%"); $("progress-text").textContent = done + " of " + S.items.length + " scored"; }
+  const jur = $("jur-pick").value, state = $("state-pick").value;
+  const shown = S.items.filter((i) => {
+    if (jur && i.jurisdiction !== jur) return false;
+    const s = (S.mine[i.id] || {}).score;
+    if (state === "todo") return !s; if (state === "done") return !!s;
+    if (state === "disagree") { const o = (S.revealed[i.id] || S.ours[i.id] || {}).column; const r = agree(s, o); return r && !r.near; }
+    return true;
+  });
+  const cards = $("cards");
+  if (!S.round) { cards.replaceChildren(el("div", { class: "empty", text: S.rounds.length ? "Choose a round above." : "No round has been loaded yet. The sample is drawn from confirmed readings, so it appears here once enough readings are confirmed." })); return; }
+  if (!S.items.length) { cards.replaceChildren(el("div", { class: "empty", text: "This round has no members loaded yet." })); return; }
+  cards.replaceChildren(...(shown.length ? shown.map(card) : [el("div", { class: "empty", text: "Nothing matches this filter." })]));
+}
+
+boot();
+</script>

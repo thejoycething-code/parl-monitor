@@ -36,3 +36,6 @@ data/.raw-pulled
 # Debate pack footage: large, licensed, local
 data/packs/*/clips/
 .claude/worktrees/
+
+# The blind agreement-test sample (tools/review_sample.py): our columns live only in the review page's store
+data/review/
