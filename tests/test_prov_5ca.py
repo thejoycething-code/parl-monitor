@@ -60,7 +60,10 @@ class StanceFileTests(unittest.TestCase):
         # read from.
         read_2_oct = ["ab-31-1-2024-11-27-3", "ab-31-1-2024-11-27-4",
                       "ab-31-1-2024-11-27-5", "bc-43-2-2026-02-26-126.1"]
-        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "draft"], [])
+        # Quebec's readings were DRAFTED on 8 October 2026 and are not
+        # confirmed yet (tests/test_prov_stance_qc.py counts them).
+        self.assertEqual([k for k, e in entries.items() if p5.status(e) == "draft"
+                          and not k.startswith("qc-")], [])
         self.assertEqual([k for k, e in entries.items() if p5.status(e) == "unread"], [])
         self.assertEqual({p5.status(entries[k]) for k in read_2_oct}, {"confirmed"})
         self.assertEqual(p5.status(entries["sk-29-3-2023-10-19-6"]), "unplaceable")
