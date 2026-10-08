@@ -64,6 +64,22 @@ if $SSH "$DEST" 'pgrep -xq Claude'; then echo "Quit the Claude app on the Mini f
 
 FLAGS="-a"
 [ "$GO" = "--go" ] || FLAGS="-an"
+
+# The Mini's OWN Claude data is moved aside first, never merged over: a merge
+# would overwrite its settings, chat lists and app-profile databases with the
+# laptop's half by half. Moving is instant and loses nothing.
+present=$($SSH "$DEST" 'for p in .claude .claude.json "Library/Application Support/Claude" "Library/Application Support/Claude-Personal" "Library/Application Support/Claude-Work"; do [ -e "$HOME/$p" ] && echo "$p"; done')
+if [ -n "$present" ]; then
+  echo "The Mini already has Claude data:"; echo "$present" | sed 's/^/    /'
+  if [ "$GO" = "--go" ]; then
+    stamp=$(date +%Y%m%d-%H%M)
+    $SSH "$DEST" "set -e; b=\"\$HOME/claude-mini-backup-$stamp\"; mkdir -p \"\$b/Library/Application Support\"
+      for p in .claude .claude.json 'Library/Application Support/Claude' 'Library/Application Support/Claude-Personal' 'Library/Application Support/Claude-Work'; do
+        [ -e \"\$HOME/\$p\" ] && mv \"\$HOME/\$p\" \"\$b/\$p\"; done; echo \"  moved aside to \$b\""
+  else
+    echo "  --go will move these to ~/claude-mini-backup-<date>/ on the Mini before copying."
+  fi
+fi
 [ "$GO" = "--go" ] && echo "COPYING." || echo "DRY RUN: nothing is written. Add --go to copy."
 
 fails=0
