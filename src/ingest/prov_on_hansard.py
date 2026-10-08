@@ -36,7 +36,11 @@ LANGUAGE = "en"
 CURRENT_SESSION = base.CURRENT_SESSION
 
 _BLOCK = re.compile(r"<(h2|h3|p)\b([^>]*)>(.*?)</\1\s*>", re.S | re.I)
-_STRONG = re.compile(r"^\s*(?:<span[^>]*/>\s*)*<strong>(.*?)</strong>(.*)$", re.S | re.I)
+# The label may sit inside an OPENING span as well as after empty ones: some
+# days print <p class="speakerStart"><span id="para263"><strong>The Speaker
+# (...):</strong> ...</span></p>, and 51 sittings (2010-2026) parsed to no turns
+# when only self-closing spans were allowed (9 October 2026).
+_STRONG = re.compile(r"^\s*(?:<span[^>]*>\s*)*<strong>(.*?)</strong>(.*)$", re.S | re.I)
 _START = re.compile(r'<p class="(?:procedure|speakerStart)"')
 
 

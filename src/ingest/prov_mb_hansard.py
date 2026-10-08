@@ -44,7 +44,10 @@ _VOL = re.compile(r"/vol_(\d+)([a-z]?)/summary(?:_[a-z])?\.html$", re.I)
 # Private members' business prints the bill's question period and its debate
 # as headings of the same level as the bill's own.
 SUB_HEADINGS = ("Questions", "Debate", "Debate (Continued)", "Questions (Continued)")
-_TRANSCRIPT = re.compile(r'href="?(h\d+[a-z]?\.html)"?', re.I)
+# Relative ("h18.html") or, in the 2010-11 summaries, absolute with a
+# section anchor ("https://.../vol_18/h18.html#IoNM"): 146 days read as
+# "links no HTML transcript" until both were allowed (9 October 2026).
+_TRANSCRIPT = re.compile(r'href\s*=\s*"?(?:[^"\s>]*/)?(h\d+[a-z]?\.html)(?:#[^"\s>]*)?"?', re.I)
 
 
 def parse_day(html):

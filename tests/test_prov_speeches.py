@@ -328,6 +328,22 @@ class ReaderTests(unittest.TestCase):
         self.assertTrue(bill and all(t["bill"] == "27" for t in bill))   # from the opening line, English half
         self.assertFalse(any("Allsopp" in p for t in turns for p in t["paras"]))   # the division list
 
+    def test_ontario_label_inside_an_opening_span(self):
+        """51 sittings (2010-2026) print the label inside <span id="paraN">;
+        only self-closing spans were allowed, so each parsed to no turns."""
+        html = ('<p class="procedure"><span id="para262">The House met at 0900.</span></p>'
+                '<p class="speakerStart"><span id="para263"><strong>The Speaker (Hon. Donna Skelly):'
+                '</strong> Good morning, everyone. Let us pray.</span></p>')
+        turns = on.parse_day(html)
+        self.assertEqual([t["label"] for t in turns], ["The Speaker (Hon. Donna Skelly):"])
+        self.assertEqual(turns[0]["paras"], ["Good morning, everyone. Let us pray."])
+
+    def test_manitoba_summary_links_old_and_new(self):
+        """2010-11 summaries link the transcript absolutely, with an anchor."""
+        for page, want in (('<a\nhref="https://www.gov.mb.ca/legislature/hansard/39th_4th/vol_18/h18.html#IoNM">',
+                            "h18.html"), ('<a href="h01a.html">', "h01a.html")):
+            self.assertEqual(mb._TRANSCRIPT.search(page).group(1), want)
+
     def test_british_columbia(self):
         turns = bc.parse_day(fx("bc_hansard_n119.html"))
         arm = next(t for t in turns if t["label"] == "Tara Armstrong")
