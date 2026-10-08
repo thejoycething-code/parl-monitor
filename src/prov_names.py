@@ -569,6 +569,24 @@ class ReviewedDivisions:
             # casting votes are placed).
             if a.get("office") and not v.get("member_key") and how.startswith("unknown"):
                 candidates = [member]
+            # `by_exclusion: [keys]` -- the label prints a surname whose
+            # distinguishing riding is lost or blank, and the record names
+            # nobody (Quebec, 9 February 2022, vote 225: "Tardif (CAQ) ( )"
+            # in a group vote). Every OTHER member it could be is named in
+            # this same division (here Marie-Louise Tardif, printed with her
+            # riding), so it is the entry's member, provided he is named
+            # nowhere else in it (Christopher, 8 October 2026: placed by
+            # exclusion). Scoped to this division and label like every entry.
+            if a.get("by_exclusion") and not v.get("member_key") and \
+                    (how.startswith("unknown") or how.startswith("unparsed")):
+                placed = {str(x.get("member_key")) for x in votes if x.get("member_key")}
+                others = [str(k) for k in a["by_exclusion"]]
+                if all(k in placed for k in others) and member not in placed:
+                    candidates = [member]
+                else:
+                    notes.append("reviewed label {0!r} not used: by exclusion needs {1} placed and {2} "
+                                 "absent in this division".format(a["printed"], ", ".join(others), member))
+                    continue
             if v.get("member_key") or member not in candidates:
                 notes.append("reviewed label {0!r} not used: {1}".format(
                     a["printed"], "already resolved" if v.get("member_key")
@@ -579,10 +597,12 @@ class ReviewedDivisions:
                     a["printed"], member, date))
                 continue
             v["member_key"] = member
-            v["how"] = "hansard ({0})".format(REVIEWED)
+            v["how"] = "{0} ({1})".format("by exclusion" if a.get("by_exclusion") else "hansard", REVIEWED)
             v["party_at_vote"] = resolver.party_at(member, date, legislature)
-            notes.append("{0} {1!r} settled from Hansard ({2!r}; {3})".format(
-                a["position"], a["printed"], " ".join(str(a["quoted"]).split()), REVIEWED))
+            notes.append("{0} {1!r} settled {2} ({3!r}; {4})".format(
+                a["position"], a["printed"],
+                "by exclusion of {0}".format(", ".join(str(k) for k in a["by_exclusion"]))
+                if a.get("by_exclusion") else "from Hansard", " ".join(str(a["quoted"]).split()), REVIEWED))
         return notes
 
 

@@ -1270,4 +1270,43 @@ class HomonymsReadOctober8Tests(unittest.TestCase):
         for key, (printed, member) in want.items():
             got = [(a["printed"], str(a["member"]), a["position"]) for a in rev.facts(key).get("hansard_labels", [])]
             self.assertEqual(got, [(printed, member, "Yea")], key)
-        self.assertEqual(rev.facts("qc-42-2-2022-02-09-225").get("hansard_labels", []), [])
+
+
+class TardifByExclusionTests(unittest.TestCase):
+    """9 February 2022, vote 225: "Tardif (CAQ) ()" (the annex prints the riding
+    blank; group vote, no named roll call). Placed as Denis Tardif BY EXCLUSION
+    (Christopher, 8 October 2026), this division and label only."""
+
+    def setUp(self):
+        members = {"18071": {"surname": "Tardif", "given": "Marie-Louise", "name": "Marie-Louise Tardif"},
+                   "17863": {"surname": "Tardif", "given": "Denis", "name": "Denis Tardif"}}
+        terms = [{"member_key": "18071", "legislature": 42, "party": "CAQ", "riding": "Laviolette–Saint-Maurice",
+                  "start": "2018-10-01", "end": "2022-10-02"},
+                 {"member_key": "17863", "legislature": 42, "party": "CAQ",
+                  "riding": "Rivière-du-Loup–Témiscouata", "start": "2018-10-01", "end": "2022-10-02"}]
+        self.r = pn.Resolver(members, terms)
+        self.rev = pn.ReviewedDivisions.load("qc")
+        self.body = {"totals": {"Yea": 2, "Nay": 0, "Abstain": 0}}
+
+    def annex(self, *labels):
+        return {"counts": {"Yea": len(labels)}, "labels": {"Yea": list(labels)}}
+
+    def test_placed_in_its_own_division(self):
+        a = self.annex("Tardif (CAQ) (Laviolette–Saint-Maurice)", "Tardif (CAQ) ()")
+        votes, ok, note, _ = qc.resolve_division(self.body, a, self.r, "2022-02-09", reviewed=self.rev,
+                                                 division_key="qc-42-2-2022-02-09-225")
+        self.assertTrue(ok, note)
+        self.assertEqual([(v["member_key"], v["party_at_vote"]) for v in votes], [("18071", "CAQ"), ("17863", "CAQ")])
+        self.assertIn("by exclusion", note)
+
+    def test_nowhere_else_and_not_without_the_other_tardif(self):
+        a = self.annex("Tardif (CAQ) (Laviolette–Saint-Maurice)", "Tardif (CAQ) ()")
+        _, ok, _, _ = qc.resolve_division(self.body, a, self.r, "2022-02-09", reviewed=self.rev,
+                                          division_key="qc-42-2-2022-02-09-224")
+        self.assertFalse(ok)
+        # Marie-Louise not placed in the list: the exclusion does not hold
+        a = self.annex("Blais (CAQ)", "Tardif (CAQ) ()")
+        votes, ok, note, _ = qc.resolve_division(self.body, a, self.r, "2022-02-09", reviewed=self.rev,
+                                                 division_key="qc-42-2-2022-02-09-225")
+        self.assertFalse(ok)
+        self.assertIsNone(votes[1]["member_key"])
