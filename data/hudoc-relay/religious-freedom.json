@@ -1,0 +1,33 @@
+{
+ "fetched_on": "2026-10-08",
+ "reply": {
+  "resultcount": 2,
+  "results": [
+   {
+    "columns": {
+     "appno": "-",
+     "conclusion": null,
+     "docname": "Judgment G.K. and A.S. v. Switzerland - authorities\u2019 overly formalistic approach to complaints about lack of access to vegan diet while in detention",
+     "doctype": null,
+     "itemid": "003-8594795-12229573",
+     "kpdate": "2026-07-20",
+     "respondent": "Switzerland - Authorities\u2019 Overly Formalistic Approach To Complaints About Lack Of Access To Vegan Diet While In Detention"
+    }
+   },
+   {
+    "columns": {
+     "appno": "55299/20;31515/22",
+     "conclusion": null,
+     "docname": "CASE OF G.K. AND A.S. v. SWITZERLAND",
+     "doctype": "Chamber Judgment",
+     "itemid": "001-251193",
+     "kpdate": "2026-07-16",
+     "respondent": "Switzerland"
+    }
+   }
+  ],
+  "via": "rss"
+ },
+ "start": "2026-07-10",
+ "term": "religious freedom"
+}

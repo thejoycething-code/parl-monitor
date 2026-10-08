@@ -1,0 +1,55 @@
+{
+ "fetched_on": "2026-10-08",
+ "reply": {
+  "resultcount": 4,
+  "results": [
+   {
+    "columns": {
+     "appno": "5142/16",
+     "conclusion": null,
+     "docname": "CASE OF CHRISTIAN RELIGIOUS ORGANIZATION OF JEHOVAH'S WITNESSES v. ARMENIA",
+     "doctype": "Committee Judgment",
+     "itemid": "001-252514",
+     "kpdate": "2026-10-01",
+     "respondent": "Armenia"
+    }
+   },
+   {
+    "columns": {
+     "appno": "45588/16",
+     "conclusion": null,
+     "docname": "CASE OF RELIGIOUS CULT \u2018BISERICA UNIFIC\u0102RII\u2019 AND AKHUNZYANOV v. THE REPUBLIC OF MOLDOVA",
+     "doctype": "Committee Judgment",
+     "itemid": "001-251185",
+     "kpdate": "2026-07-16",
+     "respondent": "The Republic Of Moldova"
+    }
+   },
+   {
+    "columns": {
+     "appno": "55299/20;31515/22",
+     "conclusion": null,
+     "docname": "G.K. and A.S. v. Switzerland",
+     "doctype": "Legal Summary",
+     "itemid": "002-14630",
+     "kpdate": "2026-07-16",
+     "respondent": "Switzerland"
+    }
+   },
+   {
+    "columns": {
+     "appno": "55299/20;31515/22",
+     "conclusion": null,
+     "docname": "CASE OF G.K. AND A.S. v. SWITZERLAND",
+     "doctype": "Chamber Judgment",
+     "itemid": "001-251193",
+     "kpdate": "2026-07-16",
+     "respondent": "Switzerland"
+    }
+   }
+  ],
+  "via": "rss"
+ },
+ "start": "2026-07-10",
+ "term": "freedom of religion"
+}
