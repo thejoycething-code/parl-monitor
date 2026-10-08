@@ -1582,6 +1582,83 @@ provinces:
           Journal reads no names: "j'invite maintenant les leaders
           parlementaires à m'indiquer le vote de leurs groupes". Placed as
           Denis Tardif by exclusion, by Christopher's decision of 8 October 2026.
+      # MARILYNE PICARD, FROM THE CHAIR (Christopher, 9 October 2026: "place
+      # Marilyne Picard"). The six group votes of 8 December 2020 on Jennifer
+      # Maccarone's amendments to Bill 70 (conversion therapy) print a bare
+      # "Picard (CAQ)" among those against; two CAQ Picards sat (Soulanges,
+      # 17891; Chutes-de-la-Chaudière, 655), and the annex prints the riding
+      # whenever both are listed (1,578 votes "Picard (CAQ) (Soulanges)"). The
+      # Journal shows Marc Picard, first Vice-President, IN THE CHAIR for all
+      # six ("Le Vice-Président (M. Picard)"), and the chair does not vote:
+      # across the 42nd Legislature Marc Picard has 4 recorded votes and
+      # Marilyne Picard 1,578. So the Picard voting is Marilyne Picard. The
+      # same evidence holds for each vote; only 650 is on our ground.
+      - division: qc-42-1-2020-12-08-650
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le premier amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 1 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-651
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le deuxième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 2 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-652
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, ce troisième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 3 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-653
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le quatrième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 4 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-654
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, ce cinquième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 5 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-655
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le sixième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 6 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
       - division: qc-42-1-2019-03-21-41
         position: Nay
         printed: "Proulx (CAQ)"

@@ -1272,6 +1272,40 @@ class HomonymsReadOctober8Tests(unittest.TestCase):
             self.assertEqual(got, [(printed, member, "Yea")], key)
 
 
+class PicardFromTheChairTests(unittest.TestCase):
+    """8 December 2020, votes 650-655 (Bill 70, Maccarone's six amendments):
+    a bare "Picard (CAQ)" against, with Marc Picard in the chair. Placed as
+    Marilyne Picard from the Journal (Christopher, 9 October 2026: "place
+    Marilyne Picard"), those six divisions only."""
+
+    def setUp(self):
+        members = {"17891": {"surname": "Picard", "given": "Marilyne", "name": "Marilyne Picard"},
+                   "655": {"surname": "Picard", "given": "Marc", "name": "Marc Picard"}}
+        terms = [{"member_key": "17891", "legislature": 42, "party": "CAQ", "riding": "Soulanges",
+                  "start": "2018-10-01", "end": "2022-10-02"},
+                 {"member_key": "655", "legislature": 42, "party": "CAQ", "riding": "Chutes-de-la-Chaudière",
+                  "start": "2018-10-01", "end": "2022-10-02"}]
+        self.r = pn.Resolver(members, terms)
+        self.rev = pn.ReviewedDivisions.load("qc")
+        self.body = {"totals": {"Yea": 0, "Nay": 1, "Abstain": 0}}
+        self.annex = {"counts": {"Nay": 1}, "labels": {"Nay": ["Picard (CAQ)"]}}
+
+    def test_placed_in_each_of_the_six(self):
+        for seq in range(650, 656):
+            votes, ok, note, _ = qc.resolve_division(self.body, self.annex, self.r, "2020-12-08",
+                                                     reviewed=self.rev,
+                                                     division_key="qc-42-1-2020-12-08-{0}".format(seq))
+            self.assertTrue(ok, (seq, note))
+            self.assertEqual(votes[0]["member_key"], "17891")
+
+    def test_nowhere_else(self):
+        for key in ("qc-42-1-2020-12-08-656", "qc-42-1-2020-10-21-524", "qc-42-1-2020-05-27-326"):
+            votes, ok, _, _ = qc.resolve_division(self.body, self.annex, self.r, "2020-12-08",
+                                                  reviewed=self.rev, division_key=key)
+            self.assertFalse(ok, key)
+            self.assertIsNone(votes[0]["member_key"])
+
+
 class TardifByExclusionTests(unittest.TestCase):
     """9 February 2022, vote 225: "Tardif (CAQ) ()" (the annex prints the riding
     blank; group vote, no named roll call). Placed as Denis Tardif BY EXCLUSION

@@ -417,24 +417,6 @@ qc:
   - contains: "qc-42-1-2020-10-21-524: "
     reviewed: 2026-10-07
     why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
-  - contains: "qc-42-1-2020-12-08-650: "
-    reviewed: 2026-10-07
-    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
-  - contains: "qc-42-1-2020-12-08-651: "
-    reviewed: 2026-10-07
-    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
-  - contains: "qc-42-1-2020-12-08-652: "
-    reviewed: 2026-10-07
-    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
-  - contains: "qc-42-1-2020-12-08-653: "
-    reviewed: 2026-10-07
-    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
-  - contains: "qc-42-1-2020-12-08-654: "
-    reviewed: 2026-10-07
-    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
-  - contains: "qc-42-1-2020-12-08-655: "
-    reviewed: 2026-10-07
-    why: "Bare \"Picard (CAQ)\", two CAQ Picards sitting; group vote, no record names the member."
   - contains: "qc-42-1-2021-02-03-753: "
     reviewed: 2026-10-07
     why: "Bare \"Proulx (CAQ)\", two CAQ Proulx sitting; group vote, no record names the member."
