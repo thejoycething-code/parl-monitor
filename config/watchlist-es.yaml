@@ -11,4 +11,6 @@
 # dissolution of 6 October 2026 ended every pending XV initiative, so entries
 # for the XVI (convenes 23 December 2026) need new keys. XV entries stay for
 # the record of votes already taken.
-initiatives: {}
+initiatives:
+  "15/102/000001": {areas: [1],
+                    why: "Proyecto de reforma del artículo 43 de la Constitución: the Government's bill to write abortion into the Constitution. Its title names only the article, so no abortion term can see it. The PP and VOX totality amendments failed 171-177 on 30 April 2026 (congreso-15-177-12); it lapsed at the dissolution of 6 October 2026. Constitutional-reform bills (type 102) are not in the open-data initiative files."}

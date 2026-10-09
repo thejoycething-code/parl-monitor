@@ -173,6 +173,27 @@ class DayPage(unittest.TestCase):
         self.assertEqual(esr.division_key(self.votes[0]), "congreso-15-196-1")
 
 
+class Investiture(unittest.TestCase):
+    def test_an_image_only_vote_is_kept_without_a_file(self):
+        # 16 November 2023: the investiture of Pedro Sánchez, 'pública por
+        # llamamiento', published as a chart image with no JSON.
+        votes = esr.parse_day(text("day-2023-11-16.html.gz"))
+        self.assertEqual(len(votes), 1)
+        v = votes[0]
+        self.assertIsNone(v["json_url"])
+        self.assertEqual((v["expediente"], v["yes"], v["no"]), ("080/000002", 179, 171))
+        self.assertIn("Sánchez Pérez-Castejón", v["title"])
+
+    def test_it_is_stored_and_never_fetched(self):
+        conn = store()
+        client = FakeClient(pages={"targetDate=16/11/2023": text("day-2023-11-16.html.gz"),
+                                   "/es/opendata/votaciones": text("landing-xv.html.gz")})
+        _leg, nd, ns, nf, gaps = esr.pull_votes(conn, client, "2026-10-09",
+                                                log=lambda *_: None, days=["2023-11-16"])
+        self.assertEqual((nd, ns, nf, gaps), (1, 1, 0, 0))
+        self.assertIsNone(conn.execute("SELECT json_url FROM es_divisions").fetchone()[0])
+
+
 class VoteFile(unittest.TestCase):
     def test_positions_and_totals(self):
         v = esr.parse_vote_json(fixture("vote-15-196-1.json.gz"))

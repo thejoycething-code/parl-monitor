@@ -154,8 +154,8 @@ _DAY_TOKENS = re.compile(
     r'|<h6 class="con_est">(?P<point>.*?)</h6>'
     r'|_iniciativas_id=(?P<exp>\d{3}/\d{6})'
     r'|<p>Si: (?P<yes>\d+)</p>\s*<p>No: (?P<no>\d+)</p>\s*<p>Abstenciones: (?P<abs>\d+)</p>'
-    r'|href="(?P<json>/webpublica/opendata/votaciones/Leg(?P<leg>\d+)/Sesion(?P<ses>\d+)/'
-    r'(?P<ymd>\d{8})/Votacion(?P<num>\d+)/[^"]+?\.json)"',
+    r'|(?:href|src)="(?P<file>/webpublica/opendata/votaciones/Leg(?P<leg>\d+)/Sesion(?P<ses>\d+)/'
+    r'(?P<ymd>\d{8})/Votacion(?P<num>\d+)/[^"]+?\.(?P<ext>json|png))"',
     re.S)
 
 
@@ -166,12 +166,19 @@ def parse_day(page):
     followed by its expediente link, sometimes a sub-group (a bare h5, such
     as 'Votación separada por puntos.') and points (h6.con_est), and then the
     vote's totals and file links. Read as a stream of tokens: an item resets
-    the expediente, the group and the point; the JSON link closes a vote."""
-    votes = []
+    the expediente, the group and the point; the first file link of a vote
+    number opens the vote.
+
+    AN INVESTITURE HAS NO VOTE FILE. A vote 'pública por llamamiento' (the
+    investitures of 27 and 29 September and 16 November 2023, and the reform
+    of article 49 of the Constitution on 18 January 2024) is published as a
+    chart image only: totals on the page,
+    no JSON, no positions. It is stored with json_url NULL rather than
+    dropped, so the vote exists in the store even though the names do not."""
+    votes, by_num = [], {}
     session = section = item = group = point = exp = None
     counts = (None, None, None)
     for m in _DAY_TOKENS.finditer(page):
-        kind = m.lastgroup
         if m.group("session") is not None:
             session = fold(m.group("session"))
         elif m.group("section") is not None:
@@ -188,18 +195,23 @@ def parse_day(page):
             exp = m.group("exp")
         elif m.group("yes") is not None:
             counts = (int(m.group("yes")), int(m.group("no")), int(m.group("abs")))
-        elif m.group("json") is not None:
+        elif m.group("file") is not None:
+            num = (int(m.group("ses")), int(m.group("num")))
+            url = BASE + m.group("file") if m.group("ext") == "json" else None
+            if num in by_num:
+                if url and not by_num[num]["json_url"]:
+                    by_num[num]["json_url"] = url
+                continue
             ymd = m.group("ymd")
             votes.append({
-                "legislature": int(m.group("leg")), "session": int(m.group("ses")),
-                "vote_number": int(m.group("num")),
+                "legislature": int(m.group("leg")), "session": num[0], "vote_number": num[1],
                 "date": "{0}-{1}-{2}".format(ymd[:4], ymd[4:6], ymd[6:]),
                 "session_title": session, "section": section, "title": item or section,
                 "subgroup": " ".join(x for x in (group, point) if x) or None,
                 "expediente": exp, "yes": counts[0], "no": counts[1], "abstain": counts[2],
-                "json_url": BASE + m.group("json")})
+                "json_url": url})
+            by_num[num] = votes[-1]
             counts = (None, None, None)
-        del kind
     return votes
 
 
@@ -374,8 +386,8 @@ def pull_votes(conn, client, today, legislature=None, tax=None, log=print, budge
             continue
         votes = [v for v in parse_day(page) if v["date"] == day]
         if not votes:
-            _gap(conn, today, "votes {0}: the day page listed no vote file".format(day))
-            log("  [gap] votes {0}: the day page listed no vote file".format(day))
+            _gap(conn, today, "votes {0}: the day page listed no vote".format(day))
+            log("  [gap] votes {0}: the day page listed no vote".format(day))
             gaps += 1
             continue
         for v in votes:
@@ -606,10 +618,12 @@ def summary(conn, log=print):
         rows = conn.execute("SELECT areas FROM {0} WHERE areas IS NOT NULL".format(table))
         return sum(on_our_ground(json.loads(a)) for (a,) in rows)
     log("  store: {0} initiative(s), {1} on our ground; {2} division(s), {3} on our ground, "
-        "{4} unclassified; {5} member(s), {6} position(s)".format(
+        "{4} unclassified, {5} published without a vote file; {6} member(s), "
+        "{7} position(s)".format(
             n("SELECT COUNT(*) FROM es_initiatives"), ours("es_initiatives"),
             n("SELECT COUNT(*) FROM es_divisions"), ours("es_divisions"),
             n("SELECT COUNT(*) FROM es_divisions WHERE areas IS NULL"),
+            n("SELECT COUNT(*) FROM es_divisions WHERE json_url IS NULL"),
             n("SELECT COUNT(*) FROM es_members"), n("SELECT COUNT(*) FROM es_votes")))
 
 

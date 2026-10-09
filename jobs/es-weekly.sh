@@ -23,7 +23,7 @@
 # it. Any other failure publishes NOTHING and exits non-zero.
 set -eo pipefail
 cd "$(dirname "$0")/.."
-# The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
+# The heartbeat (source_runs, stamped when the store is published) is keyed on the
 # workflow's name; on the Mini there is no GITHUB_WORKFLOW, so name it here or
 # the coverage watch would never see the Mini's runs.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Spain weekly}"

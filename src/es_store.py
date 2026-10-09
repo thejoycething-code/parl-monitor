@@ -95,7 +95,7 @@ SCHEMA = (
         no           INTEGER,
         abstain      INTEGER,
         not_voting   INTEGER,
-        json_url     TEXT,                -- the vote file; positions are read from it
+        json_url     TEXT,                -- the vote file; NULL for an image-only investiture
         positions    INTEGER,             -- positions stored; NULL until the file is read
         own_areas    TEXT,                -- JSON: matched on the vote's OWN text
         areas        TEXT,                -- JSON: own + its initiative's; NULL = unclassified
