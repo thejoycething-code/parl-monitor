@@ -42,8 +42,8 @@ it). Until then areas stay NULL, and only config/watchlist-uy.yaml, applied
 by key ('ley:20431'), lends areas. ACCENTS ARE FOLDED ON BOTH SIDES: the
 Parliament writes titles in capitals and often drops the accents
 ("ADOPCION", "GENERO"), and src/filter.py matches accents exactly, so this
-module folds the taxonomy's terms and the text alike (measured: 21 bills
-matched folded against 18 unfolded in the 402-title snapshot).
+module folds the taxonomy's terms and the text alike (measured: 19 bills
+matched folded against 15 unfolded in the 402-title snapshot).
 
 Separation guarantee: writes uy_* tables and the shared gaps table only.
 ONE WRITER AT A TIME on the store.
