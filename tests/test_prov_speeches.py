@@ -338,6 +338,24 @@ class ReaderTests(unittest.TestCase):
         self.assertEqual([t["label"] for t in turns], ["The Speaker (Hon. Donna Skelly):"])
         self.assertEqual(turns[0]["paras"], ["Good morning, everyone. Let us pray."])
 
+    def test_ontario_label_after_an_empty_span_pair(self):
+        html = ('<p class="procedure">The House met at 0900.</p><p class="speakerStart"><span id="para248"></span>'
+                '<strong>The Speaker (Hon. Donna Skelly):</strong> Good morning.</p>')
+        self.assertEqual([t["label"] for t in on.parse_day(html)], ["The Speaker (Hon. Donna Skelly):"])
+
+    def test_ontario_older_unclassed_layout(self):
+        """Some 2010-11 days carry no paragraph classes: turns are plain <p>
+        with a <strong> label, rubrics class="th", subjects class="td"."""
+        html = ('<p><span id="PARA23"/><em>The House met at 0900.</em></p>'
+                '<p><span id="PARA24"/><strong>The Speaker (Hon. Steve Peters):</strong> Good morning.</p>'
+                '<p align="LEFT" class="th"><span id="P69"/><strong>ORDERS OF THE DAY</strong></p>'
+                '<p align="LEFT" class="td"><span id="P70"/>ENERGY CONSUMER PROTECTION ACT, 2010 / LOI DE 2010</p>'
+                '<p><span id="PARA34"/>Resuming the debate.</p>'
+                '<p><span id="PARA35"/><strong>Mr. Peter Kormos:</strong> It is a pleasure.</p>')
+        turns = on.parse_day(html)
+        self.assertEqual([t["label"] for t in turns], ["The Speaker (Hon. Steve Peters):", "Mr. Peter Kormos:"])
+        self.assertEqual((turns[1]["rubric"], turns[1]["subject"]), ("ORDERS OF THE DAY", "ENERGY CONSUMER PROTECTION ACT, 2010"))
+
     def test_manitoba_summary_links_old_and_new(self):
         """2010-11 summaries link the transcript absolutely, with an anchor."""
         for page, want in (('<a\nhref="https://www.gov.mb.ca/legislature/hansard/39th_4th/vol_18/h18.html#IoNM">',

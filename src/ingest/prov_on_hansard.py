@@ -40,8 +40,14 @@ _BLOCK = re.compile(r"<(h2|h3|p)\b([^>]*)>(.*?)</\1\s*>", re.S | re.I)
 # days print <p class="speakerStart"><span id="para263"><strong>The Speaker
 # (...):</strong> ...</span></p>, and 51 sittings (2010-2026) parsed to no turns
 # when only self-closing spans were allowed (9 October 2026).
-_STRONG = re.compile(r"^\s*(?:<span[^>]*>\s*)*<strong>(.*?)</strong>(.*)$", re.S | re.I)
+# ... and some print an EMPTY pair first: <span id="para248"></span><strong>
+# (3 June 2025; 19 more days, 2010-2026, read on 9 October 2026).
+_STRONG = re.compile(r"^\s*(?:</?span[^>]*>\s*)*<strong>(.*?)</strong>(.*)$", re.S | re.I)
 _START = re.compile(r'<p class="(?:procedure|speakerStart)"')
+# The OLDER layout (some 2010-2011 days): no paragraph classes; the day
+# opens on "The House met at", speaker turns are plain <p> with a <strong>
+# label, rubrics are <p class="th">, subjects <p class="td"> (9 Oct 2026).
+_START_OLD = re.compile(r"<p>\s*(?:<span[^>]*/>\s*)*<em>The House met at", re.I)
 
 
 def english(heading):
@@ -51,6 +57,10 @@ def english(heading):
 def parse_day(html):
     """Turns from one day's Hansard HTML."""
     m = _START.search(html or "")
+    old = False
+    if not m:
+        m = _START_OLD.search(html or "")
+        old = bool(m)
     body = (html or "")[m.start():] if m else ""
     blocks = []
     for tag, attrs, inner in _BLOCK.findall(body):
@@ -61,7 +71,12 @@ def parse_day(html):
         elif tag == "h3":
             text = english(sp.text_of(inner))
             blocks.append(("subject", text, sp.bill_number(text)))
-        elif "speakerStart" in cls:
+        elif old and cls == "th":
+            blocks.append(("rubric", english(sp.text_of(inner))))
+        elif old and cls == "td":
+            text = english(sp.text_of(inner))
+            blocks.append(("subject", text, sp.bill_number(text)))
+        elif "speakerStart" in cls or (old and not cls and _STRONG.match(inner)):
             lab = _STRONG.match(inner)
             if lab:
                 blocks.append(("label", sp.text_of(lab.group(1)), sp.text_of(lab.group(2))))

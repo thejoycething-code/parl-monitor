@@ -56,6 +56,13 @@ _CLOCK = re.compile(r"^\d{1,2}:\d{2}$")
 _LABEL = re.compile(r"^(?P<l>(?:Hon\.\s*|The\s+)?(?:Mr\.|Ms\.|Mrs\.|Miss|Dr\.|Madam|Mister|Mr|Ms|Speaker|"
                     r"Deputy\s+Speaker|Chair|Clerk|Hon\.\s+Members|Some\s+Hon\.\s+Members|An\s+Hon\.\s+Member)"
                     r"[^:]{0,60}?)\s*:\s*(?P<r>.*)$", re.S)
+# A long set-piece speech opens in narration, not "Name:" (Throne Speech and
+# Budget replies): "Mr. McKee, resuming the adjourned debate on the motion on
+# the address in reply to the speech from the throne, spoke as follows: Mr.
+# Speaker, ..." (27 October 2022; three opening-week days read as "no
+# speaker turns parsed" until this, 9 October 2026).
+_NARRATED = re.compile(r"^(?P<l>(?:Hon\.\s*)?(?:Mr\.|Ms\.|Mrs\.|Miss|Dr\.)\s*[^,:]{1,50}),\s"
+                       r"[^:]{0,300}?\bspoke as follows\s*:\s*(?P<r>.*)$", re.S)
 
 
 def english_score(text):
@@ -96,8 +103,12 @@ def fragments(raw):
         raw, rebuilt = fixed, True
     try:
         reader = pypdf.PdfReader(io.BytesIO(raw))
-        if rebuilt and not ADJOURNED.search(reader.pages[-1].extract_text() or ""):
-            raise Unreadable("truncated PDF: cross-reference rebuilt, but the last page does not "
+        # The close may sit a page or two before the end: the bilingual files
+        # end on a page carrying only the running header ("2772 2021 June 1
+        # juin", 1 June 2021), so the last THREE pages are read.
+        tail = " ".join(reader.pages[i].extract_text() or "" for i in range(max(0, len(reader.pages) - 3), len(reader.pages)))
+        if rebuilt and not ADJOURNED.search(tail):
+            raise Unreadable("truncated PDF: cross-reference rebuilt, but the last pages do not "
                              "reach the adjournment")
         out = []
         for i, page in enumerate(reader.pages):
@@ -222,7 +233,7 @@ def parse_paragraphs(paras):
                 blocks[-1] = ("rubric", blocks[-1][1])
             blocks.append(("subject", best, sp.bill_number(best)))
             continue
-        m = _LABEL.match(p)
+        m = _NARRATED.match(p) or _LABEL.match(p)
         if m and len(m.group("l").split()) <= 7:
             blocks.append(("label", m.group("l").strip(), m.group("r").strip()))
         elif p.startswith("(") and p.endswith(")") or p.startswith("[") and p.endswith("]"):

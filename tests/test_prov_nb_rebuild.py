@@ -53,7 +53,7 @@ class RebuildTests(unittest.TestCase):
         # "adjourned" alone is not the close: the House itself must adjourn.
         with self.assertRaises(Unreadable) as ctx:
             h.fragments(whole[:len(body) + 2000])
-        self.assertIn("does not reach the adjournment", str(ctx.exception))
+        self.assertIn("do not reach the adjournment", str(ctx.exception))
 
     def test_a_file_cut_inside_its_text_is_not_rebuilt(self):
         body, _ = pdf("(The House adjourned at 6 p.m.)")
@@ -68,6 +68,18 @@ class RebuildTests(unittest.TestCase):
     def test_the_french_close_counts(self):
         self.assertTrue(h.ADJOURNED.search("(La séance est levée à 18 h.)"))
         self.assertTrue(h.ADJOURNED.search("the House is now adjourned."))
+
+
+class NarratedOpeningTests(unittest.TestCase):
+    def test_a_set_piece_speech_opens_in_narration(self):
+        """27 October 2022: the whole sitting was one Throne Speech reply."""
+        turns = h.parse_paragraphs([
+            "(The House met at 10 a.m., with Hon. Mr. Oliver, the Speaker, in the chair.)",
+            "Mr. McKee, resuming the adjourned debate on the motion on the address in reply to the speech "
+            "from the throne, spoke as follows: Mr. Speaker, honourable members, I am pleased to rise.",
+            "Thank you very much."])
+        self.assertEqual([t["label"] for t in turns], ["Mr. McKee"])
+        self.assertTrue(turns[0]["paras"][0].startswith("Mr. Speaker, honourable members"))
 
 
 if __name__ == "__main__":
