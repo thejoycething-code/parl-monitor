@@ -588,6 +588,22 @@ wording** (listed, the taxonomy not edited; Christopher's call):
   contributions to Super PACs (free speech?). The two voter-ID votes
   (2026 votes 144 and 151) and the migration-only votes are not ours.
 
+**Done at taxonomy v1.21** (Christopher, 9 October 2026: "add the three
+terms"): "home educator*" (tier 1) and "secondary education scholarship*"
+(tier 2) in area 6, "family planning" (tier 2) in area 1, with home school,
+school choice, the scholarship granting organizations and "reproductive
+health service*" beside them (docs/keyword-taxonomy.md has each term's
+measured effect; bare "reproductive health" and "religious school*" were
+rejected as noise). All three votes stand on their own purpose again: vote
+356 area 6, vote 358 area 6, vote 402 area 1. Measured on a read-only copy
+of the published store with each Senate purpose filled as `--reclassify`
+fills it: Senate votes on our ground 112 to 115; House roll calls 84 to 85
+(2026 roll 269, the NDAA amendment for a military school-choice pilot);
+US bills on our ground 759 to 782; 6 Federal Register documents gain an
+area (the IRS scholarship tax credit rules, the National School Choice Week
+proclamations, a TANF clean-up rule naming family planning). The borderline
+votes above are untouched.
+
 ### (Superseded) Senate roll calls: blocked from the laptop
 
 `senate.gov` returned **403 Access Denied on every page, including the
