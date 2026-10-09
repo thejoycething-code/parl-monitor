@@ -1,0 +1,38 @@
+# Hungary watchlist -- seeded 10 October 2026 from docs/hungary-scope.md,
+# not yet reviewed by anyone who campaigns in Hungary.
+#
+# APPLIED BY KEY, NEVER BY TITLE. Two sections, merged by the edition
+# (src/hu_store.watchlist):
+#
+#   gazette:  keyed on the Magyar Közlöny entry's official designation,
+#             verbatim ('2026. évi XXIV. törvény', '22/2026. (V. 27.) OGY
+#             határozat'; an amendment to the Fundamental Law is its heading
+#             with its date). Read by tools/hu_gazette.py and the edition.
+#   papers:   keyed on the Országgyűlés's paper number ('T/324'), for
+#             phase 1 (the W-API, HU1). Nothing reads them yet; they are kept
+#             here so the promulgation can be joined to its bill once votes
+#             arrive. Paper numbers restart each term (43rd from 9 May 2026).
+#
+# Each entry: {areas: [area numbers], why: "one plain sentence"}.
+# After a change: python3 tools/hu_gazette.py --reclassify (or dispatch the
+# Hungary weekly with "reclassify").
+gazette:
+  # HU4 already shows every amendment; these two are watched by name so the
+  # edition says which bill each one was.
+  "Magyarország Alaptörvényének tizenhatodik módosítása (2026. június 15.)":
+    {areas: [], why: "The sixteenth amendment to the Fundamental Law (paper T/51), the first of the 43rd term; promulgated in Magyar Közlöny No. 74 of 19 June 2026. Read in full under HU4."}
+  "Magyarország Alaptörvényének tizenhetedik módosítása (2026. július 13.)":
+    {areas: [], why: "The seventeenth amendment to the Fundamental Law (paper T/324); promulgated in Magyar Közlöny No. 92 of 18 July 2026, and being worked through other legislation as terminology changes. Read in full under HU4."}
+  "2026. évi XXIV. törvény":
+    {areas: [7], why: "Abolishes the Sovereignty Protection Office (paper T/123), set up under the 2023 Sovereignty Protection Act; promulgated 30 June 2026."}
+  "2026. évi XX. törvény":
+    {areas: [7], why: "Curbs 'hate-inciting' political advertising (paper T/122); promulgated 26 June 2026. A speech law: who decides what incites hatred."}
+papers:
+  "T/51": {areas: [], why: "Sixteenth amendment to the Fundamental Law; passed, promulgated 15 June 2026."}
+  "T/324": {areas: [], why: "Seventeenth amendment to the Fundamental Law; passed, promulgated 13 July 2026."}
+  "T/123": {areas: [7], why: "Abolishes the Sovereignty Protection Office; enacted as Act XXIV of 2026."}
+  "T/122": {areas: [7], why: "Hate-inciting political advertising; enacted as Act XX of 2026."}
+  "T/294": {areas: [5, 7], why: "Bans symbols 'referring to sexual and gender orientations' (the rainbow-flag ban). Not in the gazette by 9 October 2026."}
+  "T/573": {areas: [12], why: "Chemical castration for paedophile offenders. Not in the gazette by 9 October 2026."}
+  "T/48": {areas: [6], why: "Protecting children from the harms of digital devices. Not in the gazette by 9 October 2026."}
+  "H/179": {areas: [11], why: "Fidesz-KDNP resolution rejecting the EU Migration Pact."}

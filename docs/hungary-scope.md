@@ -452,6 +452,79 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase: the gazette collector (HU6, build now). Not built at the merge: Hungary has no collector on this branch yet.
+- Phase: the gazette collector (HU6, build now). **Built 10 October 2026, branch `hu-gazette`**: see "Phase 0, as built" below.
 - W-API token registration (HU1, name to confirm) and a letter to the Office if the CAPTCHA persists (HU2): Chris. The CAPTCHA is never solved or bypassed.
 - karzat's CC BY data with attribution (HU7) when the collector is written.
+
+## Phase 0, as built (10 October 2026, branch `hu-gazette`)
+
+- **Collector:** `tools/hu_gazette.py`, tables `hu_gazette_issues` and
+  `hu_gazette_entries` (`src/hu_store.py`, declared in `db.TABLES`). Reads
+  the RSS feed (Magyar Közlöny issues only, by `mag:type`), and on the first
+  run walks the front-page listing (`magyarkozlony.hu?page=N`, ten journals
+  a page) back to the start of the term, 9 May 2026, because the feed holds
+  only about eleven weeks. Each new issue's PDF is fetched once (one request
+  every 2 s, the repo's UA), archived to `data/raw/<date>/hu-gazette_*`, and
+  its contents page read with the stdlib reader `src/sv_pdf.py`, extended
+  for InDesign PDFs (nested resource dictionaries, a bare CR before
+  `endstream`, the Hungarian ő and ű in a font's own `/Differences`).
+- **Keys:** the official designation, verbatim ("2026. évi LVI. törvény",
+  "62/2026. (IX. 22.) OGY határozat"); an amendment to the Fundamental Law
+  is its heading with its date; the consolidated text of the Fundamental
+  Law, which recurs, is keyed on its issue.
+- **Classification:** taxonomy-hu on the Hungarian TITLE only (accents fold,
+  X3). The designation is left out because "NMHH rendelet" would file every
+  telecoms decree. **HU4 applied:** an amendment is stored with rule `HU4`
+  and shown as watched whatever its words. **A taxonomy fix for Chris:**
+  with accents folded, `válás*` (divorce) matches "választás" (election);
+  both of its hits in the term's gazette were elections. The collector
+  guards it (`FALSE_FRIENDS`); the guard belongs in
+  `docs/keyword-taxonomy-hu.md` as `{term: "válás*", without: ["választ*"]}`
+  when the list is next regenerated.
+- **Backfill measured** (laptop, 9 October 2026, scratch store, not
+  published; the Mini's first scheduled run makes the real one): 108
+  issues from No. 44 of 9 May to No. 151 of 9 October, 736 contents
+  entries, every contents page read (after three layout fixes: the title's
+  first letter left of the tab, a page number without its tab, the
+  consolidated Fundamental Law). By type: 171 government resolutions, 153
+  presidential (KE) decisions, 117 ministerial decrees, 110 government
+  decrees, 61 Prime Minister's decisions, 55 OGY resolutions, 47 Acts, 5 AB
+  decisions, 2 amendments to the Fundamental Law (the sixteenth, 15 June,
+  paper T/51; the seventeenth, 13 July, paper T/324), 15 others. 41 on our
+  ground (2 under HU4). Of those the edition would show 31 over the term:
+  migration items are stored but never shown, appointments (KE, ME) are
+  left out, and the noise rules drop 3 telecoms decrees.
+- **Edition:** `src/editions/hu.py` ("Laws" and "Gazette notices", the
+  Hungarian title verbatim, an English takeaway built from the designation
+  and the title's legal formula, never a model), the standing notice that
+  bills and votes await the token, `config/edition-noise-hu.yaml`,
+  `config/edition-mute-hu.yaml`, `config/watchlist-hu.yaml` (the two
+  amendments, Acts XX and XXIV of 2026, and the term's known papers for
+  phase 1). DM to Chris alone. Sample: `editions/hu-monitor-2026-10-09.md`.
+- **Schedule:** `hu-weekly`, Wednesdays 03:00 London on the Mini; GitHub
+  backup Wednesdays 03:00 and 05:00 UTC, gated by `mini-check` with
+  `HU_WEEKLY` (docs/mac-mini.md).
+
+## HU7: karzat's data, how it would be loaded (not built)
+
+karzat publishes a downloadable open dataset: its derived tables are files
+in its GitHub repository, `data/derived/` (licensed CC BY 4.0 there; code
+MIT), among them `votes_index.json` (every vote), `votes_positions.json`
+(positions by member), `iromany_records.json` (papers), `mps.json`
+(members) and `committees.json`, plus per-vote CSV and JSON on its site
+(down on 9 October). Loading them reads only those files from GitHub, never
+parlament.hu. When phase 1 is built:
+
+- A one-off `tools/hu_karzat_backfill.py`, run as a Mini backfill job,
+  reads those files at a pinned commit, keeps term 43 (from 9 May 2026 to
+  the data's end, 28 August 2026) and writes `hu_members`, `hu_papers`,
+  `hu_divisions` and `hu_votes`, keyed exactly as the W-API would (paper
+  number, vote timestamp), with `source = 'karzat@<commit>'` on every row.
+- The W-API's first run overwrites any karzat row it also returns: the
+  House's record wins; karzat fills only the gap before the token.
+- Attribution, wherever such a row is shown: "Votes before <date> from
+  karzat (github.com/abognar-git/karzat), CC BY 4.0, derived from the
+  Országgyűlés's record", in the edition's Coverage and in the store's
+  provenance.
+- Karzat's own caveat stands: the underlying record conveys no rights,
+  which is why it is a bridge to our own token, not a substitute.

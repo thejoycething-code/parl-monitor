@@ -1632,6 +1632,10 @@ TABLES = (
     "pl_processes",
     "pl_divisions",
     "pl_votes",
+    # Hungary's official gazette, the Magyar Közlöny (tools/hu_gazette.py,
+    # phase 0), created by src/hu_store.ensure_schema -- declared from day one.
+    "hu_gazette_issues",
+    "hu_gazette_entries",
     # Italy's Parliament (tools/it_rollcalls.py), created by
     # src/it_store.ensure_schema -- declared from day one.
     "it_members",
@@ -2075,6 +2079,8 @@ def init_db(conn):
     nl_store.ensure_schema(conn)
     from src import pl_store
     pl_store.ensure_schema(conn)
+    from src import hu_store
+    hu_store.ensure_schema(conn)
     from src import it_store
     it_store.ensure_schema(conn)
     from src import ch_store

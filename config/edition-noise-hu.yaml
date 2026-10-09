@@ -1,0 +1,21 @@
+# Hungary edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text: lower case, accents stripped.
+# A watched item (and so an amendment to the Fundamental Law, HU4) is never
+# filtered.
+#
+# Measured on the 43rd term's gazette (9 May to 9 October 2026, 108 issues,
+# 736 contents entries, read 10 October 2026 under taxonomy-hu v0.1): 43
+# entries on our ground before these rules. The collector classifies the
+# title alone and guards `válás*` against "választás" (tools/hu_gazette.py,
+# FALSE_FRIENDS). What was left that is not ours: the media regulator's
+# technical decrees (frequency fees, the network register, subscriber
+# contracts), which cite an "NMHH rendelet" in their titles. Its decree on
+# safe services for minors is kept. Migration items are matched and stored
+# but never shown (X-rule, area 11).
+exclude_titles:
+  - '\bfrekvencia'
+  - '\bhirkozles halozati nyilvantartas'
+  - '\belektronikus hirkozlesi elofizetoi szerzodes'
+alert:
+  title_tier1: true
+  distinct_terms: 2

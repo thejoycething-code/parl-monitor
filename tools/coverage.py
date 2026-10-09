@@ -77,6 +77,8 @@ PIPELINES = {
     "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions, and the Dutch edition"),
     # Scheduled 9 October 2026, Sundays (pl-weekly.yml; the Mac Mini first).
     "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes, and the Polish edition"),
+    # Scheduled 10 October 2026, Wednesdays (hu-weekly.yml; the Mac Mini first).
+    "Hungary weekly": (7, 4, "Hungary's Magyar Közlöny (phase 0: what became law), and the Hungarian edition"),
     # Scheduled 9 October 2026, Saturdays (it-weekly.yml; the Mac Mini first).
     "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes, and the Italian edition"),
     # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
@@ -346,6 +348,14 @@ FEEDS = [
     ("pl_prints", "last_seen", 7, 4, "Sejm prints, the whole term's list (Poland weekly)"),
     ("pl_processes", "last_seen", 7, 4, "Sejm legislative processes (Poland weekly)"),
     ("pl_divisions", "last_seen", 31, 31, "Sejm recorded votes (Poland weekly)"),
+    # Hungary (10 October 2026). MEASURED which re-stamp: every issue the RSS
+    # feed still shows (its newest 100 journals, about eleven weeks of the
+    # Magyar Közlöny) is re-stamped on every run, so the issues move every
+    # week. Entries are written once per issue: a week with no new issue
+    # (the gazette has never gone a week without one this term) cannot move
+    # them, so they get a month plus a month's grace.
+    ("hu_gazette_issues", "last_seen", 7, 4, "Magyar Közlöny issues (Hungary weekly)"),
+    ("hu_gazette_entries", "last_seen", 31, 31, "Magyar Közlöny contents entries (Hungary weekly)"),
     # Italy (9 October 2026). MEASURED which re-stamp: every bill reading of
     # the legislature is re-read whole from dati.senato.it every run, and so
     # are the 212 senators, so bills and members move every week, recess
@@ -636,6 +646,8 @@ PIPELINE_FEEDS = {
     # Re-read whole every run; votes are left out for the US's reason.
     "Netherlands weekly": ["nl_members", "nl_fracties"],
     "Poland weekly": ["pl_processes", "pl_members"],
+    # Issues only: the feed's issues are re-stamped every run.
+    "Hungary weekly": ["hu_gazette_issues"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
     "Italy weekly": ["it_bills", "it_members"],
     # The two Swiss tables re-read whole every run; divisions move only in session.
@@ -704,6 +716,8 @@ AWAITING_FIRST_RUN = {
                            "scheduled 9 October 2026; its tables fill on its first run"),
     "Poland weekly": (("pl_members", "pl_processes", "pl_divisions", "pl_prints"),
                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Hungary weekly": (("hu_gazette_issues", "hu_gazette_entries"),
+                       "scheduled 10 October 2026; its tables fill on its first run"),
     "Italy weekly": (("it_members", "it_bills", "it_divisions"),
                      "scheduled 9 October 2026; its tables fill on its first run"),
     "Switzerland weekly": (("ch_members", "ch_sessions", "ch_businesses", "ch_divisions"),
