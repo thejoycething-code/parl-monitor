@@ -95,7 +95,7 @@ POSITIONS = (("taVotes", "Yes"), ("nilVotes", "No"), ("staonVotes", "Abstain"))
 # Struck from text before matching (see the module docstring). Only the
 # office: 'migration' anywhere else in the text still counts.
 OFFICES = re.compile(r"\b(?:Minister|Ministers|Department|Minister of State)"
-                     r"(?: of State)?(?: at the Department of| for) Justice, Home Affairs and Migration",
+                     r"(?: of State)?(?: at the Department of| for| of) Justice, Home Affairs and Migration",
                      re.I)
 BILL_IN_TITLE = re.compile(r"^(.*?\bBill,? \d{4})\b")
 

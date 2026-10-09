@@ -1,0 +1,53 @@
+{
+ "@odata.context": "https://handbookapi.aph.gov.au/api/$metadata#parliaments(PID,Name,DateElection,DateOpening,DateDissolution,ParliamentEnd,PartiesByParliament())",
+ "value": [
+  {
+   "PID": 48,
+   "Name": "Forty-eighth Parliament",
+   "DateElection": "2025-05-03",
+   "DateOpening": "2025-07-22",
+   "DateDissolution": "",
+   "ParliamentEnd": "",
+   "PartiesByParliament": [
+    {
+     "pID": 0,
+     "Name": "Australian Greens",
+     "Abbrev": "GRN",
+     "Colour": null,
+     "Active": null
+    },
+    {
+     "pID": 0,
+     "Name": "Australian Labor Party",
+     "Abbrev": "ALP",
+     "Colour": null,
+     "Active": null
+    }
+   ]
+  },
+  {
+   "PID": 47,
+   "Name": "Forty-seventh Parliament",
+   "DateElection": "2022-05-21",
+   "DateOpening": "2022-07-26",
+   "DateDissolution": "2025-03-28",
+   "ParliamentEnd": "2025-05-02",
+   "PartiesByParliament": [
+    {
+     "pID": 0,
+     "Name": "Australian Greens",
+     "Abbrev": "GRN",
+     "Colour": null,
+     "Active": null
+    },
+    {
+     "pID": 0,
+     "Name": "Australian Labor Party",
+     "Abbrev": "ALP",
+     "Colour": null,
+     "Active": null
+    }
+   ]
+  }
+ ]
+}
