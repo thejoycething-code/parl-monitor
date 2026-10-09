@@ -57,11 +57,13 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
    `areas_of(row["areas"])` is non-empty or its key is watched
    (`on_ground(areas_raw, watched)`); never add an item on a keyword alone.
 
-3. AN ITEM is a dict (src/latam.py's shape, plus four optional fields):
+3. AN ITEM is a dict (src/latam.py's shape, plus five optional fields):
 
        cc, kind, key, date, title, status, areas, tier, watched, url,
        lines, terms, body, refs,
        takeaway   English line under the title (what it is, where it stands)
+       watch_key  the watchlist key, when it is not `key` (a vote on a
+                  watched bill); the Watchlist section and "why" use it
        group      votes sharing a group (one bill's amendments and final
                   vote, one floor vote recorded on several items) render
                   as one entry; the group's heading is `group_title`
@@ -98,7 +100,12 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
    resent), with "# mini_run: commit editions" in the job and editions/
    added in the workflow's commit step (see jobs/at-weekly.sh).
 
-Change log of the interface: 10 October 2026, first version.
+Change log of the interface (additive only):
+  10 October 2026  first version.
+  10 October 2026  item(..., watch_key=) added; one_per_group() helper;
+                   rebels(..., skip=) for independents; an item's
+                   group_title is shown under its title ("On: ...");
+                   items of one kind with one title collapse into one.
 
 Read-only on the store.
 """
@@ -227,11 +234,11 @@ def watchlist_file(cc, config_dir=None):
 
 def item(cc, kind, key, date, title, areas, tier, watched=False, status=None, url=None,
          lines=None, terms=None, body=None, refs=None, takeaway=None, group=None,
-         group_title=None, final=False, own=None):
+         group_title=None, final=False, own=None, watch_key=None):
     it = latam.item(cc, kind, key, date, title, areas, tier, watched, status, url, lines,
                     terms, body, refs)
     it.update(takeaway=clean(takeaway) or None, group=group, group_title=clean(group_title)
-              or None, final=bool(final), own=own)
+              or None, final=bool(final), own=own, watch_key=watch_key)
     return it
 
 
@@ -310,12 +317,15 @@ def group_counts(pairs, yes=("yes",), no=("no",), abstain=("abstain",)):
     return out
 
 
-def rebels(rows_, yes=("yes",), no=("no",)):
+def rebels(rows_, yes=("yes",), no=("no",), skip=()):
     """'Name (Group)' for members who voted yes/no against their group's
-    yes/no majority, from (name, group, position) rows."""
+    yes/no majority, from (name, group, position) rows. Groups in `skip`
+    (independents, who have no group line to break) are left out."""
     counts = group_counts([(g, p) for _, g, p in rows_], yes, no)
     out = []
     for name, g, p in rows_:
+        if not g or g in skip:
+            continue
         c = counts.get(g)
         if not c or c[0] == c[1]:
             continue
@@ -408,7 +418,48 @@ def gather(conn, country, since, until, config_dir=None, dropped=None):
     kept, out = noise_for(country).split(got, config_dir)
     if dropped is not None:
         dropped.extend(out)
-    return score(kept)
+    return score(collapse_titles(kept))
+
+
+def collapse_titles(items):
+    """One entry for items of one kind (not votes) with the same title: the
+    same written question put to every ministry, its fourteen answers. The
+    entry keeps the first key and lists the others in a line."""
+    out, seen = [], {}
+    for it in sorted(items, key=lambda i: (i["date"], i["key"])):
+        if it["kind"] == "vote" or not it["title"]:
+            out.append(it)
+            continue
+        k = (it["kind"], noise_mod.fold(it["title"]))
+        if k not in seen:
+            seen[k] = dict(it, lines=list(it["lines"]), same=[])
+            out.append(seen[k])
+            continue
+        first = seen[k]
+        first["same"].append(it["key"])
+        first["watched"] = first["watched"] or it["watched"]
+        first["areas"] = sorted(set(first["areas"]) | set(it["areas"]))
+        if it["tier"] and (not first["tier"] or it["tier"] < first["tier"]):
+            first["tier"] = it["tier"]
+    for it in out:
+        same = it.pop("same", None)
+        if same:
+            it["lines"].append("{0} more with the same title: {1}.".format(
+                len(same), ", ".join(same[:10]) + (", ..." if len(same) > 10 else "")))
+    return out
+
+
+def one_per_group(items):
+    """The first item of each vote group, every other item as it is."""
+    out, seen = [], set()
+    for it in items:
+        g = it.get("group")
+        if g:
+            if g in seen:
+                continue
+            seen.add(g)
+        out.append(it)
+    return out
 
 
 def lead(country, items, config_dir=None):
@@ -428,8 +479,12 @@ def count_text(items):
                      for k in order if c.get(k))
 
 
+def watch_key(it):
+    return it.get("watch_key") or it["key"]
+
+
 def why_watched(it, wl):
-    entry = wl.get(it["key"]) or {}
+    entry = wl.get(watch_key(it)) or {}
     why = entry.get("why") if isinstance(entry, dict) else None
     if not why:
         return None
@@ -448,9 +503,12 @@ def head_line(it):
 def item_lines(it, wl, indent=""):
     out = [indent + head_line(it),
            indent + "  *{0}*".format(clip(it["title"], 400) or "(no title published)")]
+    if it.get("group_title") and it["group_title"] != it["title"]:
+        out.append(indent + "  On: *{0}*".format(clip(it["group_title"], 300)))
     bits = []
     if it.get("takeaway"):
-        bits.append(it["takeaway"].rstrip(".") + ".")
+        t = it["takeaway"]
+        bits.append(t if t.endswith(("…", ".", "?", "!")) else t + ".")
     if it["status"]:
         bits.append("Status: “{0}”.".format(clip(it["status"], 200).rstrip(".")))
     if it.get("own") is False:
@@ -508,9 +566,10 @@ def vote_lines(group, wl):
     if headline["url"]:
         out.append("    [Source]({0})".format(headline["url"]))
     for v in others[:MAX_GROUP_VOTES]:
-        tally = next((ln for ln in v["lines"] if ln.startswith("Tally:")), "")
+        tally = next((ln for ln in v["lines"] if ln.startswith("Tally:")),
+                     next(iter(v["lines"]), "")).replace("Tally: ", "").strip()
         out.append("  - {0}: *{1}*. {2}".format(short_date(v["date"]), clip(v["title"], 200),
-                                                tally.replace("Tally: ", "").strip()))
+                                                tally).rstrip())
     if len(others) > MAX_GROUP_VOTES:
         out.append("  - _And {0} more votes on the same item, in the store._".format(
             len(others) - MAX_GROUP_VOTES))
@@ -570,8 +629,15 @@ def dropped_text(dropped):
                      for w, n in sorted(why.items(), key=lambda kv: (-kv[1], kv[0])))
 
 
-def title_line(country, today):
+def title_line(country, today, since=None):
+    """'# Austria Monitor - week to 9 October 2026'; a window that is not a
+    week (the first edition after a gap, a sample) names both ends."""
     d = datetime.date.fromisoformat(today)
+    if since:
+        first = datetime.date.fromisoformat(since) + datetime.timedelta(days=1)
+        if (d - first).days != DEFAULT_DAYS - 1:
+            return "# {0} Monitor - {1} to {2}".format(
+                country.name, long_date(first.isoformat()), long_date(today))
     return "# {0} Monitor - week to {1} {2} {3}".format(
         country.name, d.day, MONTHS[d.month - 1], d.year)
 
@@ -590,12 +656,12 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
             config_dir)
     wl = watchlist_of(country, config_dir)
     seen = last_read(conn, country.cc)
-    out = [title_line(country, today), ""]
+    out = [title_line(country, today, since), ""]
     if sample:
-        out += ["> **{0}.** Rendered on {1} from the scoping store built on 9 October 2026, "
-                "reclassified under the current taxonomy and watchlist. Not a real edition: "
-                "the store is partial and the week is illustrative.".format(
-                    SAMPLE_MARK, long_date(today)), ""]
+        out += ["> **{0}.** Rendered from a scoping store (built 9 October 2026), "
+                "reclassified under the current taxonomy and watchlist, for the period in "
+                "the title. Not a real edition: the store is partial and never sent.".format(
+                    SAMPLE_MARK), ""]
     first = (datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()
     out += ["_{0}. Edition {1}, covering {2} to {3}. Weekly, to Chris by DM._".format(
         country.chamber, "sample" if sample else edition_number(country.cc, today, directory),
@@ -613,11 +679,11 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
         return text
 
     out.append(honesty(country))
-    out += ["", "## This week", ""]
+    out += ["", "## In brief", ""]
     n_watch = sum(it["watched"] for it in got)
     out.append("**{0} item(s) on our ground**: {1}; {2} watched.".format(
         len(got), count_text(got) or "none", n_watch or "none"))
-    top = lead(country, got, config_dir)[:5]
+    top = one_per_group(lead(country, got, config_dir))[:5]
     if top:
         out += ["", "Leading:"]
         for it in top:
@@ -651,12 +717,12 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     moved = [it for it in got if it["watched"]]
     out += ["## Watchlist", ""]
     if moved:
-        keys = sorted({it["key"] for it in moved})
-        out.append("{0} watched item(s) with activity this week: {1}. {2} other watched "
-                   "item(s) had none.".format(len(keys), ", ".join(keys[:12]),
+        keys = sorted({watch_key(it) for it in moved})
+        out.append("{0} watched item(s) with activity in this edition: {1}. {2} other "
+                   "watched item(s) had none.".format(len(keys), ", ".join(keys[:12]),
                                              max(len(wl) - len(keys), 0)))
     else:
-        out.append("None of the {0} watched item(s) moved this week.".format(len(wl)))
+        out.append("None of the {0} watched item(s) moved in this edition's period.".format(len(wl)))
     out.append("")
 
     if ahead:
@@ -672,7 +738,7 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
         out.append("- No agenda is collected yet, so there is no week-ahead section.")
     out += ["- **Left out by the noise filters** (config/edition-noise-{0}.yaml, "
             "config/edition-mute-{0}.yaml; never a watched item): {1}.".format(
-                country.cc, dropped_text(dropped) or "nothing this week"),
+                country.cc, dropped_text(dropped) or "nothing"),
             "- Decisions: [docs/country-decisions-2026-10-10.md]({0}docs/"
             "country-decisions-2026-10-10.md).".format(REPO), ""]
     text = "\n".join(out)
@@ -700,21 +766,11 @@ def dm_summary(conn, country, today, since=None, path=None, config_dir=None, dir
     if got:
         lines.append("*{0} item(s) on our ground*: {1}; {2} watched.".format(
             len(got), count_text(got), sum(it["watched"] for it in got) or "none"))
-        top = lead(country, got, config_dir) or got
-        seen_groups = set()
-        shown = 0
-        for it in top:
-            g = it.get("group")
-            if g and g in seen_groups:
-                continue
-            seen_groups.add(g)
+        for it in one_per_group(lead(country, got, config_dir) or got)[:5]:
             lines.append("• {0}: _{1}_ ({2}{3})".format(
                 KIND_NAMES.get(it["kind"], (it["kind"],))[0].capitalize(),
                 clip(it.get("group_title") or it["title"], 90),
                 area_text(it["areas"]) or "watched", ", watched" if it["watched"] else ""))
-            shown += 1
-            if shown == 5:
-                break
     else:
         lines.append("*A quiet week*: nothing on our ground{0}.".format(
             " in recorded votes" if country.dm_kinds == ("vote",) else ""))

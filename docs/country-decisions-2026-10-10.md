@@ -277,6 +277,38 @@ the Mac Mini would be a judge at zero API cost. Nothing below is built.
   updated, so the model tag is pinned. It is still a judge: X16 deferred
   the judge, so switching it on is Chris's call.
 
+## The weekly country editions as built (branch `editions-core`)
+
+- One framework, `src/country_edition.py`, renders a weekly edition per
+  own-edition country from a small adapter (`src/editions/<cc>.py`, the
+  interface in the module docstring); `tools/<cc>_monitor.py` is the entry
+  point; the edition is the last step of `jobs/<cc>-weekly.sh` (Mini first,
+  GitHub backup), DMed to Chris alone once a day and archived to
+  `editions/<cc>-monitor-<date>.md`. Stub triage only (X16); no [ACT] items.
+- The Latam noise filters are generalised into `src/noise.py`
+  (`src/latam_noise.py` is now its Latam instance, behaviour unchanged);
+  each edition reads `config/edition-noise-<cc>.yaml` and
+  `config/edition-mute-<cc>.yaml`.
+- Batch 1: Austria (Klub votes; member positions derived and labelled,
+  X5), the Netherlands (votes only, NL3; derived positions on a show of
+  hands, X5), Belgium (the full edition: BE6's votes-only step is
+  superseded now the terms are approved), Poland (every deputy's position).
+- Samples (SAMPLE, never sent), from the 9 October scoping stores
+  reclassified under the current taxonomies: `editions/at-monitor-2026-07-10.md`
+  (the Sterbeverfügung week: the week to 9 October held only questions),
+  `editions/nl-monitor-2026-10-09.md`, `editions/be-monitor-2026-10-09.md`,
+  `editions/pl-monitor-2026-10-09.md` (a month, since the week held only the
+  alcohol-bill votes the noise rules leave out).
+- Noise measured on those stores: Poland, 24 votes on the alcohol bills
+  (druki 2007 and 2010, area 7 through "weryfikacj* wieku" and "radiofonii
+  i telewizji" in the Sejm's summary) and 3 procedural votes left out; the
+  Netherlands, one Defence workplace-conduct motion ("seksuele
+  intimidatie"); Austria, the same question put to every ministry is
+  folded into one entry (fourteen Pride Month answers); Belgium, nothing.
+  A taxonomy-pl guard on "weryfikacj* wieku" (online company, not alcohol)
+  would fix the Polish case at the source; the taxonomy is generated, so it
+  is left for the next term-list round.
+
 ## Not acted on
 
 - U1 (Uruguay Ley 20.431 referendum): ignore.
