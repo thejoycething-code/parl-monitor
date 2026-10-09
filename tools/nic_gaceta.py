@@ -148,6 +148,24 @@ def pdf_pages(data):
     return pages
 
 
+# Notices that cannot be a legal-status decision, whatever words they carry:
+# university title registrations ("Universidad Evangélica" matched
+# evangelic*), trademark applications (a "Target Brands" class list matched
+# maternidad), accountants' licence renewals ("custodia" of records). They are
+# most of every issue. MEASURED on Nos. 167-184 of 2026: 77 of 83 matched
+# notices were these, and the real one (Acuerdo Ministerial No. 08-2026-OSFL,
+# No. 181) is none of them.
+BOILERPLATE = re.compile(
+    r"Registro Acad[eé]mico|CERTIFICADO DE INSCRIPCI|CERTIFICACI[OÓ]N El (?:suscrito|Departamento)"
+    r"|T[ií]tulo de:|Solicitante:|Clasificaci[oó]n de Viena|Productos/Servicios"
+    r"|CONTADOR P[UÚ]BLICO AUTORIZADO|Renovaci[oó]n de Quinquenio|Profesi[oó]n de Contador",
+    re.I)
+
+
+def boilerplate(text):
+    return bool(BOILERPLATE.search(text or ""))
+
+
 SPLIT = re.compile(r"_{6,}|(?=\bReg\. \d{4}-\d+)")
 
 
@@ -189,6 +207,8 @@ def store_issue(conn, path, issue, date, pdf, tax, today):
     items = notices(pages)
     kept = 0
     for n, text in enumerate(items, 1):
+        if boilerplate(text):
+            continue
         areas, terms, tier = classify(tax, text)
         if not areas:
             continue
@@ -210,9 +230,14 @@ def store_issue(conn, path, issue, date, pdf, tax, today):
 
 
 def reclassify(conn, tax):
+    """Re-derive every stored notice's areas; a notice that no longer
+    matches, or is boilerplate, is deleted (only matched notices are kept)."""
     n = 0
     for key, text in conn.execute("SELECT item_key, text FROM nic_gazette_items").fetchall():
         areas, terms, tier = classify(tax, text or "")
+        if not areas or boilerplate(text):
+            conn.execute("DELETE FROM nic_gazette_items WHERE item_key=?", (key,))
+            continue
         conn.execute("UPDATE nic_gazette_items SET areas=?, matched_terms=?, tier=? "
                      "WHERE item_key=?", (json.dumps(areas), json.dumps(terms, ensure_ascii=False),
                                           tier, key))

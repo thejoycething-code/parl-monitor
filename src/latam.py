@@ -518,10 +518,14 @@ def ve_items(conn, since, until, config_dir=None):
 
 
 def nic_items(conn, since, until):
-    """Nicaragua's gazette notices on our ground; the edition shows area 8."""
+    """Nicaragua's gazette notices in area 8 (religious freedom), the one
+    thing the gazette is read for (NI2). Notices the taxonomy put in other
+    areas are stored but neither shown nor alerted: in the gazette they are
+    telecoms rules that say "causales" and nationality certificates, measured
+    on the first month read."""
     out = []
     for r in rows(conn, "SELECT * FROM nic_gazette_items WHERE " + _win("date"), (since, until)):
-        if on_ground(r["areas"], False):
+        if 8 in areas_of(r["areas"]):
             out.append(item("nic", "gazette", r["item_key"], r["date"], r["heading"],
                             areas_of(r["areas"]), r["tier"], False,
                             "La Gaceta No. {0}".format(r["issue"]), r["url"]))

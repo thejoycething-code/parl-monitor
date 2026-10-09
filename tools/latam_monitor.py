@@ -253,8 +253,10 @@ def nicaragua_section(conn, since, until, items):
                               "nic_gazette_issues WHERE substr(date,1,10) > ? AND substr(date,1,10) <= ?",
                         (since, until))
     n, first, last, blind = issues[0] if issues else (0, None, None, 0)
-    relig = [it for it in items if 8 in it["areas"]]
-    other = len(items) - len(relig)
+    relig = items
+    got = latam.rows(conn, "SELECT COUNT(*) FROM nic_gazette_items WHERE substr(date,1,10) > ? AND "
+                           "substr(date,1,10) <= ?", (since, until))
+    other = (got[0][0] if got else 0) - len(relig)
     out = ["## Nicaragua (La Gaceta)", "",
            "_No parliamentary section (NI1). La Gaceta, the official gazette, is read for "
            "religious-freedom items: cancellations of the legal status of churches, religious "

@@ -87,6 +87,8 @@ def build_store(path):
       "('2026/184/12',184,'2026-10-08','https://www.lagaceta.gob.ni/la-gaceta-no-184/',"
       "'Acuerdo Ministerial No. 45-2026 cancela la personalidad jurídica de la Iglesia Monte Sion',"
       "'...','[8]',1)")
+    x("INSERT INTO nic_gazette_items (item_key, issue, date, url, heading, text, areas, tier) VALUES "
+      "('2026/184/30',184,'2026-10-08','u','Normativa de portabilidad numérica: causales','...','[1]',1)")
     conn.commit()
     return conn
 
@@ -158,6 +160,8 @@ class EditionTests(Fixture):
         self.assertNotIn("Sismo en Sucre", text)
         self.assertIn("1 issue(s) read", text)
         self.assertIn("cancela la personalidad jurídica", text)
+        self.assertIn("1 other notice(s) matched other areas and are not shown", text)
+        self.assertNotIn("portabilidad", text)
 
     def test_ledger_moves_become_stage_moves(self):
         ledger = {"moves": [{"date": "2026-10-02", "cc": "co", "key": "camara/2026/53", "old": "Radicado",
@@ -235,6 +239,7 @@ class AlertTests(Fixture):
         self.assertIn("cl|vote|camara-1", keys)                # watched bill's vote
         self.assertIn("uy|pedido|L50/07799", keys)             # tier 1
         self.assertIn("nic|gazette|2026/184/12", keys)         # tier 1
+        self.assertNotIn("nic|gazette|2026/184/30", keys)      # not area 8: not read for it
         self.assertIn("ve|news|https://www.asambleanacional.gob.ve/noticias/a", keys)
         self.assertNotIn("co|new|camara/2026/217", keys)       # tier 2
         self.assertNotIn("hn|press|press-p1", keys)            # tier 2
@@ -370,6 +375,15 @@ class NicaraguaTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT item_key FROM nic_gazette_items").fetchall(),
                          [("2026/9/1",)])
         self.assertEqual(conn.execute("SELECT pages, items FROM nic_gazette_issues").fetchone(), (1, 2))
+
+    def test_boilerplate_notices_are_never_kept(self):
+        conn = sqlite3.connect(":memory:")
+        from src import latam_store
+        latam_store.ensure_schema(conn)
+        pdf = _pdf(b"BT [(Reg. 2026-TP22127 CERTIFICACI\323N El Departamento de Registro Acad\351mico "
+                   b"de la Universidad Evang\351lica certifica el t\355tulo de la estudiante.)]TJ ET")
+        self.assertEqual(nic_gaceta.store_issue(conn, "/x/", 170, "2026-09-11", pdf,
+                                                nic_gaceta.load_taxonomy(), "2026-09-12"), 0)
 
     def test_no_text_layer_yields_nothing(self):
         self.assertEqual(nic_gaceta.pdf_pages(b"%PDF-1.7 not really"), [])
