@@ -1,0 +1,7 @@
+# Round 1: discovery
+--max 45 --follow 'votaci|lanordi|tabla|iniciativ|gp_indice|gp_hoy' https://gaceta.diputados.gob.mx/gp_indice.html https://gaceta.diputados.gob.mx/gp_hoy.html
+--max 30 --follow 'votaci|estadistico|listados|iniciativ' https://sitl.diputados.gob.mx/LXVI_leg/votacionesxperiodonplxvi.php?pert=1 https://sitl.diputados.gob.mx/LXVI_leg/listado_diputados_gpnp.php?tipot=TOTAL https://sitl.diputados.gob.mx/LXVI_leg/
+--max 6 https://web.diputados.gob.mx/ https://www.diputados.gob.mx/LeyesBiblio/index.htm https://datos.diputados.gob.mx/
+--max 4 https://www.senado.gob.mx/66/votaciones https://www.senado.gob.mx/
+--max 4 https://sil.gobernacion.gob.mx/portal https://nsil.gobernacion.gob.mx/
+--max 3 https://www.datos.gob.mx/ https://datos.gob.mx/busca/api/3/action/package_search?q=votaciones

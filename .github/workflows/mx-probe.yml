@@ -1,0 +1,37 @@
+# ONE-OFF SCOPING PROBE (9 October 2026): does Mexico's Congress answer
+# GitHub's runners? diputados.gob.mx times out from the laptop and
+# senado.gob.mx serves it an Incapsula challenge. Read-only: no secrets, no
+# store, no commit. Each line of ops/mx-probe-args.txt is one run of
+# tools/mx_probe.py; the raw archive is uploaded as an artifact.
+# Delete once the Mexico collector is built and dry-run on CI.
+name: Mexico probe
+on:
+  push:
+    branches: [mexico]
+    paths: [.github/workflows/mx-probe.yml, ops/mx-probe-args.txt]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Probe
+        run: |
+          while IFS= read -r line; do
+            case "$line" in ''|'#'*) continue;; esac
+            echo "### $line"
+            eval "python3 tools/mx_probe.py $line" || true
+          done < ops/mx-probe-args.txt 2>&1 | tee probe.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mx-probe
+          path: |
+            data/raw
+            probe.log
+          retention-days: 7
