@@ -78,11 +78,12 @@ jobs:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
-    # The first run reads the Diputados register back to 1 March 2024 (about
-    # twenty pages at one every ten seconds: datos.hcdn.gob.ar drops clients
-    # that ask faster) and the current year's Senate actas, one detail page
-    # each. Later weeks read only what is new. The 2024 and 2025 Senate actas
-    # are a one-off backfill by hand dispatch or on the laptop
+    # datos.hcdn.gob.ar turns away a client whose query hangs, so the
+    # Diputados register is read a calendar month per request, at most seven
+    # a run, newest first: the backfill to March 2024 (32 months) finishes
+    # over about eight Saturdays, each reading the last 45 days first. The
+    # Senate side reads the current year's actas, one detail page per new
+    # acta. The 2024 and 2025 Senate actas are a one-off backfill by hand
     # (--years 2024 2025 2026), as measured in docs/argentina-scope.md.
     timeout-minutes: 60
     env:

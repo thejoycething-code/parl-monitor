@@ -299,34 +299,37 @@ class PullTests(unittest.TestCase):
         self.assertEqual(self.conn.execute("SELECT has_detail, source_url FROM ar_divisions").fetchone(),
                          (0, arr.ACTA_PDF.format(2603)))
 
-    def test_register_pull_and_watermark(self):
+    def test_register_first_run_walks_back_newest_first_within_the_ration(self):
         client = FakeClient({"datastore_search_sql": fixture("hcdn_proyectos.json")})
         rows, ours, gaps = arr.pull_proyectos(self.conn, client, TODAY, self.tax, self.wl,
-                                              log=self.log.append)
-        self.assertEqual((rows, ours, gaps), (4, 0, 0))
-        self.assertEqual(len(client.calls), 1)           # a short page is the last
-        self.assertIn(arr.FIRST_PROYECTOS_DATE, client.calls[0])
-        client.calls.clear()
-        arr.pull_proyectos(self.conn, client, TODAY, self.tax, self.wl, log=self.log.append)
-        # 45 days before the newest stored Trámite Parlamentario (2026-09-01).
-        self.assertIn("2026-07-18", client.calls[0])
+                                              log=self.log.append, max_requests=3)
+        self.assertEqual((ours, gaps), (0, 0))
+        self.assertEqual(len(client.calls), 3)
+        self.assertIn("2026-10-01", client.calls[0])      # this month first
+        self.assertNotIn("ORDER", client.calls[0])        # no sort, no offset: see the docstring
+        self.assertNotIn("OFFSET", client.calls[0])
+        self.assertIn("the host's ration", self.log[-1])
         self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM ar_bills").fetchone()[0], 4)
 
-    def test_register_stops_at_the_hosts_ration(self):
-        page = json.loads(fixture("hcdn_proyectos.json"))
-        page["result"]["records"] = page["result"]["records"] * (arr.DATOS_PAGE // 4)
-        client = FakeClient({"datastore_search_sql": json.dumps(page)})
-        rows, ours, gaps = arr.pull_proyectos(self.conn, client, TODAY, self.tax, self.wl,
-                                              log=self.log.append, max_requests=3)
-        self.assertEqual((len(client.calls), gaps), (3, 0))
-        self.assertIn("the host's ration", self.log[-1])
+    def test_register_windows(self):
+        # Nothing stored: every month back to the floor, newest first.
+        w = arr.register_windows("2026-10-09")
+        self.assertEqual((len(w), w[0], w[-1]), (32, ("2026-10-01", "2026-11-01"),
+                                                 ("2024-03-01", "2024-04-01")))
+        # Refresh 45 days, then re-read the oldest month whole and keep going back.
+        w = arr.register_windows("2026-10-09", newest="2026-10-06", oldest="2026-06-05")
+        self.assertEqual(w[:4], [("2026-10-01", "2026-11-01"), ("2026-09-01", "2026-10-01"),
+                                 ("2026-08-22", "2026-09-01"), ("2026-06-01", "2026-07-01")])
+        # Backfill done: only the refresh.
+        self.assertEqual(len(arr.register_windows("2026-10-09", newest="2026-10-06",
+                                                  oldest="2024-03-04")), 3)
 
     def test_register_refusal_is_one_gap(self):
         client = FakeClient(fail=("datos.hcdn",))
         rows, ours, gaps = arr.pull_proyectos(self.conn, client, TODAY, self.tax, self.wl,
                                               log=self.log.append)
         self.assertEqual((rows, gaps), (0, 1))
-        self.assertEqual(len(client.calls), 1)     # the host punishes persistence
+        self.assertEqual(len(client.calls), 1)     # the host turns away persistence
 
     def test_a_short_senate_roster_is_refused(self):
         client = FakeClient({"ExportarListadoSenadores/json": fixture("senadores.json")})

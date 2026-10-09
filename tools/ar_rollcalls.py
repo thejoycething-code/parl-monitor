@@ -33,16 +33,17 @@ it once, briefly, and says what it got; a refusal is the known state and is
 NOT a gap (it would turn every weekly red for a block we already know of).
 If it ever answers, the log says so loudly.
 
-DATOS.HCDN.GOB.AR RATIONS EACH CLIENT. On 9 October 2026 it stopped
-accepting connections from the laptop three times (04:11-04:21, 04:23-04:40
-and from 04:55 UTC) while a GitHub runner was answered. The pattern fits a
-sliding allowance of roughly thirty requests an hour: after the first block
-lifted only four requests got through, then two, then one. So a run spends
-at most DATOS_MAX_REQUESTS there (the members, then the register in pages
-of DATOS_PAGE rows, one every DATOS_THROTTLE_S seconds). The weekly needs
-two; the first run's backfill to March 2024 needs about nine. The first
-refusal ends the pull for the run: a gap, and the next run starts again from
-its watermark.
+DATOS.HCDN.GOB.AR TURNS AWAY A CLIENT WHOSE QUERY HANGS. On 9 October 2026
+it stopped accepting connections from the laptop four times, for ten to
+forty minutes, each time straight after a request that hung past a minute
+(the 5 MB CSV download, aggregate and wide sorted SQL queries, an OFFSET
+page), while a GitHub runner was answered throughout. A plain query for
+one month of the register answered at once. So: one calendar month per
+request, no ORDER BY and no OFFSET, at most DATOS_MAX_REQUESTS a run, one
+every DATOS_THROTTLE_S seconds, and the first refusal ends the pull for the
+run (a gap; the next run starts again). The weekly re-reads the last 45 days
+(two or three months) and then walks the backfill one month further back
+per spare request, newest first, until FIRST_PROYECTOS_DATE.
 
 CLASSIFICATION. The English taxonomy is blind to Spanish (docs/germany-scope.md
 made the same finding for German). Until Christopher approves a Spanish term
@@ -88,9 +89,9 @@ SENATORS_HIST = SENADO + "/micrositios/DatosAbiertos/ExportarListadoSenadoresHis
 DATOS = "https://datos.hcdn.gob.ar/api/3/action/datastore_search_sql"
 PROYECTOS_RES = "22b2d52c-7a0e-426b-ac0a-a3326c388ba6"   # Proyectos Parlamentarios
 DIPUTADOS_RES = "169de2eb-465f-4007-a4c2-39a5ba4c0df3"   # Diputados, one row per bloc spell
-DATOS_PAGE = 2000
+DATOS_WINDOW_CAP = 5000     # rows; a month is about 650, so hitting this is a gap
 DATOS_THROTTLE_S = 20.0
-DATOS_MAX_REQUESTS = 12     # per run, members included; see the docstring
+DATOS_MAX_REQUESTS = 8      # per run, members included; see the docstring
 SENADO_THROTTLE_S = 1.0
 VOTACIONES_HCDN = "https://votaciones.hcdn.gob.ar/"
 
@@ -552,12 +553,52 @@ def _sql_url(sql):
     return DATOS + "?" + urllib.parse.urlencode({"sql": sql})
 
 
-def proyectos_sql(since, offset, page=DATOS_PAGE):
-    """The register from `since`, paged on _id (the datastore's own key, so
-    paging is stable and cheap)."""
+def proyectos_sql(start, end):
+    """One calendar window of the register: a plain filter, no ORDER BY and
+    no OFFSET (see the docstring: a query that hangs gets the client
+    turned away)."""
     return ('SELECT "PROYECTO_ID","TITULO","PUBLICACION_FECHA","PUBLICACION_ID","CAMARA_ORIGEN",'
             '"EXP_DIPUTADOS","EXP_SENADO","TIPO","AUTOR" FROM "{0}" WHERE "PUBLICACION_FECHA" >= '
-            "'{1}' ORDER BY \"_id\" LIMIT {2} OFFSET {3}".format(PROYECTOS_RES, since, page, offset))
+            "'{1}' AND \"PUBLICACION_FECHA\" < '{2}' LIMIT {3}".format(
+                PROYECTOS_RES, start, end, DATOS_WINDOW_CAP))
+
+
+def _month_start(d):
+    return d.replace(day=1)
+
+
+def _next_month(d):
+    return (d.replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
+
+
+def register_windows(today, newest=None, oldest=None, first=FIRST_PROYECTOS_DATE,
+                     lookback=PROYECTOS_LOOKBACK_DAYS):
+    """The month windows a run should read, in order: the refresh (the last
+    `lookback` days before the newest stored date, newest month first), then
+    the backfill (every month before the oldest stored one, back to `first`,
+    newest first). With nothing stored it is all backfill, from this month."""
+    t = datetime.date.fromisoformat(today)
+    floor = _month_start(datetime.date.fromisoformat(first))
+    out = []
+    if newest:
+        since = datetime.date.fromisoformat(newest) - datetime.timedelta(days=lookback)
+        m = _month_start(t)
+        while m >= _month_start(since):
+            out.append((max(m, since).isoformat(), _next_month(m).isoformat()))
+            m = _month_start(m - datetime.timedelta(days=1))
+        # The oldest stored month is read again whole (a run that stopped
+        # mid-backfill may have read only its end), unless it is the floor:
+        # then the backfill is done.
+        m = _month_start(datetime.date.fromisoformat(oldest or first))
+        if m <= floor:
+            return out
+    else:
+        m = _month_start(t)
+    while m >= floor:
+        if (m.isoformat(), _next_month(m).isoformat()) not in out:
+            out.append((m.isoformat(), _next_month(m).isoformat()))
+        m = _month_start(m - datetime.timedelta(days=1))
+    return out
 
 
 def proyecto_record(r):
@@ -579,29 +620,36 @@ def proyecto_record(r):
 
 def pull_proyectos(conn, client, today, tax, wl, since=None, log=print, wl_path=None,
                    budget=None, max_requests=DATOS_MAX_REQUESTS):
-    """The register since `since`. Stops at the first refusal (the host
-    rations clients) and records one gap; stops quietly at `max_requests`
-    and says so. Either way the next run starts again from its watermark.
-    Returns (rows, on our ground, gaps)."""
-    if since is None:
-        last = conn.execute("SELECT MAX(published) FROM ar_bills WHERE chamber='diputados'").fetchone()[0]
-        since = FIRST_PROYECTOS_DATE if not last else (
-            datetime.date.fromisoformat(last) - datetime.timedelta(days=PROYECTOS_LOOKBACK_DAYS)).isoformat()
-    rows, ours, offset, asked = 0, 0, 0, 0
-    while True:
+    """The register, a calendar month per request (register_windows). Stops
+    at the first refusal (one gap) or quietly at `max_requests`, saying so.
+    `since` forces a re-read from that date instead. Returns (rows, on our
+    ground, gaps)."""
+    if since:
+        windows = register_windows(today, newest=today, oldest=FIRST_PROYECTOS_DATE, lookback=(
+            datetime.date.fromisoformat(today) - datetime.date.fromisoformat(since)).days)
+    else:
+        newest, oldest = conn.execute("SELECT MAX(published), MIN(published) FROM ar_bills "
+                                      "WHERE chamber='diputados'").fetchone()
+        windows = register_windows(today, newest=newest, oldest=oldest)
+    rows, ours = 0, 0
+    for asked, (start, end) in enumerate(windows):
         if asked >= max_requests or (budget is not None and budget.exhausted()):
-            log("  register: stopped after {0} request(s) at offset {1} (the host's ration); "
-                "the rest is read on later runs -- disclosed, not silent".format(asked, offset))
+            log("  register: stopped after {0} month(s), {1} left (the host's ration); "
+                "they are read on later runs -- disclosed, not silent".format(asked, len(windows) - asked))
             return rows, ours, 0
-        asked += 1
         try:
-            payload = client.get_json(_sql_url(proyectos_sql(since, offset)), FEED,
-                                      "hcdn-proyectos-{0}-{1}".format(since, offset))
+            payload = client.get_json(_sql_url(proyectos_sql(start, end)), FEED,
+                                      "hcdn-proyectos-{0}".format(start))
             recs = payload["result"]["records"]
         except (FetchError, KeyError, TypeError, ValueError) as exc:
-            _gap(conn, today, "hcdn proyectos since {0} offset {1}: {2}".format(since, offset, exc))
+            _gap(conn, today, "hcdn proyectos {0} to {1}: {2}".format(start, end, exc))
             conn.commit()
-            log("  [gap] hcdn proyectos offset {0}: {1}".format(offset, str(exc)[:80]))
+            log("  [gap] hcdn proyectos {0}: {1}".format(start, str(exc)[:80]))
+            return rows, ours, 1
+        if len(recs) >= DATOS_WINDOW_CAP:
+            _gap(conn, today, "hcdn proyectos {0}: {1} rows, the window cap; some may be "
+                 "missing".format(start, len(recs)))
+            log("  [gap] hcdn proyectos {0}: hit the window cap".format(start))
             return rows, ours, 1
         for r in recs:
             rec = proyecto_record(r)
@@ -611,9 +659,7 @@ def pull_proyectos(conn, client, today, tax, wl, since=None, log=print, wl_path=
             rows += 1
             ours += on_our_ground(res.issue_areas)
         conn.commit()
-        if len(recs) < DATOS_PAGE:
-            return rows, ours, 0
-        offset += DATOS_PAGE
+    return rows, ours, 0
 
 
 def diputados_sql(today):
