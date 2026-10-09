@@ -19,6 +19,13 @@ on:
         description: "Reclassify stored PT initiatives and votes under the current taxonomy"
         type: boolean
         default: false
+      legislature:
+        # PT6 (Chris, 10 October 2026): backfill the XV and XVI from CI, one
+        # dispatch each (about 167 MB in all), announced as the Bundestag rule
+        # asks. Empty: the current legislature, as the weekly reads.
+        description: "Legislature to read instead of the current one (XV or XVI for the PT6 backfill)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -113,6 +120,7 @@ jobs:
         env:
           PT_PUBLISH: "false"
           PT_RECLASSIFY: ${{ inputs.reclassify }}
+          PT_LEGISLATURE: ${{ inputs.legislature }}
         run: bash jobs/pt-weekly.sh | tee /tmp/pt-weekly.log
       - name: Health summary
         if: always()

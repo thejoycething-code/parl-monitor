@@ -35,7 +35,15 @@ if [ "${PT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/pt_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/pt_rollcalls.py --budget-seconds 2700 || rc=$?
+# PT6 (10 October 2026): PT_LEGISLATURE=XV or XVI reads that legislature's
+# files instead of the current one (the backfill, dispatched from CI).
+leg=()
+case "${PT_LEGISLATURE:-}" in
+  "") ;;
+  XV|XVI|XVII) leg=(--legislature "$PT_LEGISLATURE") ;;
+  *) echo "pt-weekly: unknown legislature '${PT_LEGISLATURE}'"; exit 2 ;;
+esac
+python3 tools/pt_rollcalls.py --budget-seconds 2700 "${leg[@]}" || rc=$?
 if [ "${PT_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi

@@ -34,7 +34,15 @@ if [ "${DO_RECLASSIFY:-}" = "true" ]; then
   python3 tools/do_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/do_rollcalls.py --budget-seconds 2700 || rc=$?
+# DO4 (Chris, 10 October 2026): backfill the 2020-2024 period's votes too.
+# The current period is always read first (tools/do_rollcalls.py), so the
+# backfill only spends what the budget leaves, spread over a few runs; what
+# is stored is not asked again. DO_BACKFILL=false turns it off.
+periods=()
+if [ "${DO_BACKFILL:-true}" = "true" ]; then
+  periods=(--period 2020-2024)
+fi
+python3 tools/do_rollcalls.py --budget-seconds 2700 "${periods[@]}" || rc=$?
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "do-rollcalls failed (exit $rc); nothing published"
   exit "$rc"

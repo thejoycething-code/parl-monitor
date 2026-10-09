@@ -17,6 +17,13 @@ on:
         description: "Reclassify stored AR expedientes and divisions under the current terms"
         type: boolean
         default: false
+      senate_backfill:
+        # AR6 (Chris, 10 October 2026): store the 2024 and 2025 Senate actas
+        # once. Dispatch with this ticked; the budget stops the run cleanly
+        # and a second dispatch finishes what remains.
+        description: "Also read the 2024 and 2025 Senate actas (AR6 one-off backfill)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -115,6 +122,7 @@ jobs:
         env:
           AR_PUBLISH: "false"
           AR_RECLASSIFY: ${{ inputs.reclassify }}
+          AR_SENATE_BACKFILL: ${{ inputs.senate_backfill }}
         run: bash jobs/ar-weekly.sh | tee /tmp/ar-weekly.log
       - name: Health summary
         if: always()

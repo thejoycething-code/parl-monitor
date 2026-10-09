@@ -36,7 +36,13 @@ if [ "${AR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/ar_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/ar_rollcalls.py --budget-seconds 2700 || rc=$?
+# AR6 (10 October 2026): AR_SENATE_BACKFILL=true also reads the 2024 and 2025
+# Senate actas (a one-off; the weekly reads the current year only).
+years=()
+if [ "${AR_SENATE_BACKFILL:-}" = "true" ]; then
+  years=(--years 2024 2025 "$(date -u +%Y)")
+fi
+python3 tools/ar_rollcalls.py --budget-seconds 2700 "${years[@]}" || rc=$?
 if [ "${AR_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi
