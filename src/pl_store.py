@@ -26,6 +26,12 @@ club (klub or koło) the vote record itself names, which is the club at the
 time of the vote. Deputies move between clubs mid-term (Centrum and
 RozwojPlus formed in 2026); `pl_members.club` is only the latest.
 
+THE VOTE TABLE IS THE BIG ONE. 460 positions a vote, 4,941 votes in the 10th
+term by 9 October 2026: about 2.3 million rows. Measured on a scratch store,
+WITHOUT ROWID (no separate primary-key index) costs about 60 bytes a
+position with the member index, against about 100 with a rowid table: some
+135 MB for the whole term, 50 MB a year after that.
+
 A BILL DOES NOT ALWAYS LAPSE WITH THE TERM. Under the Sejm's rules bills fall
 at the end of a term (dyskontynuacja), EXCEPT citizens' bills (projekty
 obywatelskie), which carry over into the next term under a new number. The
@@ -124,7 +130,7 @@ SCHEMA = (
         club         TEXT,               -- AT THE VOTE, as the vote record names it
         list_votes   TEXT,               -- ON_LIST only: JSON {optionIndex: 'YES'/'NO'}
         PRIMARY KEY (division_key, mp_key)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS pl_votes_member ON pl_votes (mp_key)",
     "CREATE INDEX IF NOT EXISTS pl_prints_process ON pl_prints (process_key)",
 )
