@@ -1,0 +1,18 @@
+# France edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text: lower case, accents stripped.
+# A watched item is never filtered.
+#
+# Measured on the scoping store (9 October 2026, replayed offline from the
+# raw archive, taxonomy-fr v0.1), 9 September to 9 October: 4 dossiers on
+# our ground and no scrutin (the AN returned on 1 October; its scrutins
+# that week were on the budget); none was noise. Over the legislature's
+# 1,227 scrutins on our ground the only procedure was the demande de
+# suspension de seance (6 on the aide a mourir bill, an obstruction tool).
+# Motions de rejet prealable and de renvoi en commission are kept: they
+# are how a text is killed.
+procedural_votes:
+  - '^\W*la demande de suspension de seance\b'
+  - '\bdemande de (verification du )?quorum\b'
+alert:
+  title_tier1: true
+  distinct_terms: 2
