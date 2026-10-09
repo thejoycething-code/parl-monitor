@@ -3,7 +3,7 @@
 version: measure-do
 areas:
   1_abortion:
-    tier1: ["aborto*", "interrupcion voluntaria del embarazo", "interrupcion del embarazo",
+    tier1: ["aborto*", "interrupcion voluntaria del embarazo", "interrupcion del embarazo", "terminacion del embarazo",
             "tres causales", "causales", "no nacido*", "por nacer", "desde la concepcion",
             "vida desde la concepcion", "misoprostol", "mifepristona", "pildora del dia despues",
             "anticoncepcion de emergencia", "objecion de conciencia"]
