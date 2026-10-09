@@ -129,9 +129,23 @@ MEMBER_UPSERT = (
         newer="COALESCE(excluded.as_of, '') >= COALESCE(us_members.as_of, '')")
 
 
+# Added after the first live run (9 October 2026): the judge's score and
+# why-line (tools/us_triage.py). Scored once, ever, as every judge here is.
+ADDED_COLUMNS = (
+    ("us_bills", "triage_score", "INTEGER"),
+    ("us_bills", "why_it_matters", "TEXT"),
+    ("us_divisions", "triage_score", "INTEGER"),
+    ("us_divisions", "why_it_matters", "TEXT"),
+)
+
+
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, column, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if column not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
 

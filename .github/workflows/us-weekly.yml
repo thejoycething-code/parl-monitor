@@ -98,13 +98,32 @@ jobs:
         # senate.gov refuses some networks (the laptop, 9 October 2026) and
         # answers GitHub's runners, so the Senate half only ever runs here.
         run: python3 tools/us_rollcalls.py --congress 119 --budget-seconds 2700 | tee /tmp/us-rollcalls.log
+      - name: Write secrets file
+        # The DM goes to Christopher alone (9 October 2026: "US edition will
+        # just be me for now"), the same recipient the German edition uses.
+        run: |
+          cat > config/secrets.yaml <<EOF
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: Judge new US items (only when the repository variable US_JUDGE is 'on')
+        # SPEND NEEDS A YES (the repo rule of 5 August 2026). The backlog was
+        # 769 items, about $1.83 by tools/us_triage.py --dry-run; a normal week
+        # is a handful. Christopher's yes is recorded by setting US_JUDGE=on.
+        if: always() && steps.fetch.outcome == 'success' && vars.US_JUDGE == 'on'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 tools/us_triage.py --limit 800 --budget-seconds 1800 | tee /tmp/us-triage.log
+      - name: Write the US edition and DM the summary
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/us_monitor.py --edition --dm | tee /tmp/us-monitor.log
       - name: Health summary
         if: always()
         run: |
           {
             echo "## US weekly"
             echo '```'
-            grep -hE "us-rollcalls:|store:|\[gap\]" /tmp/us-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            grep -hE "us-rollcalls:|us-triage:|store:|edition:|dm:|\[gap\]" /tmp/us-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/us-*.log 2>/dev/null \
                       || true; } | awk '{s+=$1} END {print s+0}')
@@ -134,7 +153,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ editions/
           git diff --cached --quiet || git commit -m "US weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
