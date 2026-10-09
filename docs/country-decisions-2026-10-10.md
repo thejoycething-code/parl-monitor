@@ -160,6 +160,123 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
 - Not done: one consolidated `latam-weekly` Mini job (each country keeps its
   own job and gate; see docs/mac-mini.md).
 
+## Latam noise filters (branch `latam-noise`)
+
+Chris, 10 October 2026: "no judge yet, we need free alternatives". With the
+stub triage only, tier-1 matches were noisy, worst in Honduras's press
+releases and the Dominican Cámara's procedural votes. Added, all free and
+deterministic, none touching a watched item:
+
+- `config/latam-noise.yaml` (hand-edited; read by `src/latam_noise.py`):
+  procedural votes (order of the day, minutes, quorum, recesses, agenda
+  changes; for the Dominican Republic also "liberado del trámite de
+  lectura", "dejado sobre la mesa", the bulk "grupo de resoluciones
+  internas" votes and the honours committee's reports) and excluded titles
+  (Dominican honours resolutions, and a vote naming only such bills) leave
+  the edition and so the alerts. Referral of a bill to a committee is kept:
+  sending a Penal Code bill to the bicameral commission is where the
+  causales fight moves. Nicaragua's gazette notices need a cancellation or a
+  religious body in their text (approvals of sports associations say
+  "personalidad jurídica" too).
+- Minimum evidence for an alert: a tier-1 item that is not watched alerts
+  only with a tier-1 term in its own title, or two distinct terms in shown
+  areas (variants of one term count once; migration terms do not count).
+  Honduras's press releases alert only on a watchlist hit, a decree or
+  expediente number, or a tier-1 term in the headline; the rest are
+  edition-only.
+- `config/watchlist-hn.yaml` entries carry `match` phrases (the bill's name
+  as releases write it), so a release naming the Ley de Derechos Parentales
+  counts as a watchlist hit.
+- `config/latam-mute.yaml`: Chris's mute list, by alert key or title
+  pattern; the alerts always honour it, the edition while
+  `mute_in_edition` is true. A pattern never mutes a watched item.
+- The edition's Coverage section counts what the filters left out, per
+  country and reason.
+- Taxonomy-es (v0.1, `docs/keyword-taxonomy-es.md`, regenerated): guards on
+  four terms that misfired in the sample. `capellan*` now needs religious,
+  military, hospital or prison company (it matched the surname Capellán,
+  as the Dominican scope doc had measured); `materno infantil` and
+  `materno-infantil` need abortion, unborn, conception, prenatal or
+  gestation company (every sample hit was hospital funding, as El
+  Salvador's scope doc had measured); bare `custodia` needs a child,
+  parent, divorce or visiting-rights word (it matched police and prison
+  custody); `seguridad ciudadana` keeps its free-speech guards but loses
+  the loose `libertad*` and `reforma` (it matched Honduran policing
+  releases), and gains "Ley Mordaza", "4/2015" and the rights of assembly
+  and demonstration.
+
+Measured on the October sample (the scoping stores, 9 September to 9
+October 2026): every item the old rules put in the edition (106) or in an
+alert (35), labelled by hand as on our ground, doubtful (counted as on our
+ground) or noise. The rules were written on the same set, so these numbers
+flatter them; the next real month is the honest test.
+
+| | Before | After |
+|---|---|---|
+| Edition items | 106 | 83 |
+| Edition precision | 55.7% | 71.1% |
+| Edition recall | 100% | 100% |
+| Alerts | 35 | 27 |
+| Alert precision | 77.1% | 100% |
+| Alert recall | 100% | 100% |
+
+By country (edition, alerts): Honduras 23 to 15 and 10 to 4; Dominican
+Republic 28 to 15 and 4 to 4; Venezuela alerts 3 to 2; Nicaragua 2 to 0
+and 1 to 0; Colombia, Chile, Peru, Bolivia, Uruguay, Panama and El
+Salvador unchanged. The remaining edition noise is tier 2 (hospital and
+church funding in Honduras, school-discipline and computer-crime bills in
+Peru), left for the mute list rather than more rules.
+
+The guards, over every store held (all rows, not only the month): Spain
+and the Argentine Senate unchanged; Argentina's Diputados 83 to 82 (a
+flag "en custodia" in a museum); Colombia 112 to 109 and Chile 97 to 93
+(custody of evidence, weapons, deposits); Uruguay 67 to 64 (prison guards,
+state property); Dominican Republic 196 to 174 bills and 196 to 172 votes
+(hospital resolutions, the surname Capellán, police custody); Honduras's
+press 208 to 186 (policing, hospital funding); Nicaragua 13 to 12. Every
+row lost was read and was noise. Mexico, Guatemala, Ecuador's bills and
+the countries without a store were not measured.
+
+### A free local model as judge, later (not installed)
+
+If the deterministic filters stop being enough, a small open model run on
+the Mac Mini would be a judge at zero API cost. Nothing below is built.
+
+- **What it needs.** Ollama (`brew install ollama`, then `brew services
+  start ollama`; it serves on `http://127.0.0.1:11434` and starts with the
+  Mini) or llama.cpp's `llama-server`. A 7 to 9 billion parameter instruct
+  model at 4-bit quantisation, good in Spanish: Qwen2.5 7B Instruct
+  (Apache 2.0), Llama 3.1 8B Instruct (Meta's community licence) or Gemma
+  2 9B. About 5 GB of disk and 6 to 8 GB of RAM while loaded, so a 16 GB
+  Mini runs it beside everything else; an 8 GB Mini should use a 3 to 4
+  billion parameter model (Qwen2.5 3B, Llama 3.2 3B) and expect weaker
+  Spanish. `ollama pull qwen2.5:7b-instruct` once.
+- **Expected speed** on Apple silicon: roughly 20 to 40 tokens a second
+  generated and a few hundred read. A Latam item is about 300 tokens in
+  and 60 out, so 2 to 5 seconds an item; a month's edition (100 to 200
+  candidates) in 5 to 15 minutes, a weekly alert pass in a minute or two.
+- **How it plugs in.** `src/triage.py` already takes an injectable
+  transport: `score_live(items, transport=...)` builds the payload with the
+  system prompt and the JSON contract and parses the reply with
+  `_parse_reply`. A `local_transport(payload, api_key)` would post the same
+  system prompt and items to Ollama's `/api/chat` (`format: "json"`,
+  temperature 0, a fixed seed) and wrap the answer as
+  `{"content": [{"type": "text", "text": ...}], "usage": {}}`; a
+  `TRIAGE=local` mode in `triage.triage()` would select it, and
+  `src/latam.score()` would pass `mode="local"` instead of `"stub"` when
+  the Mini's server answers. The noise filters stay in front, so the model
+  sees only what survives them; GitHub backups, with no model, fall back to
+  the stub.
+- **Risks.** Quality first: a small model over-flags or misses, and must
+  be measured on a labelled set (the one above, and `docs/judge-eval.md`)
+  before it changes what Chris sees; its score should order items and gate
+  alerts, never delete from the edition. Malformed JSON: a batch that fails
+  to parse falls back to the stub, as the live judge does. It runs on the
+  Mini only, which must be awake and not busy clipping; the first load of
+  the model takes 10 to 30 seconds. Results drift when the model is
+  updated, so the model tag is pinned. It is still a judge: X16 deferred
+  the judge, so switching it on is Chris's call.
+
 ## Not acted on
 
 - U1 (Uruguay Ley 20.431 referendum): ignore.
