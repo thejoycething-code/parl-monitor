@@ -1,0 +1,45 @@
+# Australian watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed
+# by anyone who campaigns in Australia.
+#
+# The shared taxonomy does part of the work. This file carries only what it
+# cannot: bills of the 48th Parliament whose titles say nothing the taxonomy
+# knows. Each was found by reading every bill title the Hansard named between
+# 22 July 2025 and 17 September 2026 (docs/australia-scope.md). The bills'
+# texts were NOT read: www.aph.gov.au and ParlInfo refuse the laptop, so the
+# explanatory memoranda and bills digests are out of reach. Each "why" says
+# what is known and from where.
+#
+# APPLIED BY ID, NEVER BY TITLE (src/au_store.add_watch_areas). Keys are the
+# Parliament's own bill IDs ('r' = introduced in the House, 's' = in the
+# Senate). Every bill lapses when the House is dissolved and returns, if at
+# all, under a new ID, so every entry must be re-keyed after the next election.
+bills:
+  # --- area 1: abortion -----------------------------------------------------
+  "r7511": {areas: [1],
+            why: "Human Rights (Children Born Alive Protection) Bill 2026. The taxonomy's term is the hyphenated 'born-alive' on purpose (the open phrase is ordinary obstetrics), so the title matched nothing."}
+  # --- area 5: sex-based rights ----------------------------------------------
+  "r7479": {areas: [5],
+            why: "Sex Discrimination Amendment (Sex-based Rights) Bill 2026. 'Sex-based rights' is the area's name but not one of its terms."}
+  "s1463": {areas: [5],
+            why: "Sex Discrimination Amendment (Restoring Biological Definitions) Bill 2025. One Senate division (first reading, 31 July 2025) matched nothing."}
+  "s1499": {areas: [5],
+            why: "Anti-Discrimination Legislation Amendment (Sexual Orientation, Gender Identity and Sex Characteristics Discrimination Commissioner) Bill 2026. Two Senate divisions on 30 June 2026 matched nothing: 'gender identity' is not a term."}
+  # --- areas 6 and 7: children online, speech --------------------------------
+  "r7512": {areas: [6, 7],
+            why: "Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026: enforcement of the under-16 social media ban. Eleven divisions (House 1 July and 10 September, Senate 9 and 10 September 2026); one matched, on its motion text."}
+  "s1480": {areas: [6, 7],
+            why: "Social Media Minimum Age Repeal Bill 2025: would repeal the under-16 ban."}
+  "r7347": {areas: [6, 7],
+            why: "Criminal Code Amendment (Using Technology to Generate Child Abuse Material) Bill 2025. 'Child abuse material' is the Australian Criminal Code's name for what the taxonomy calls child sexual abuse material; nudification tools sit in area 7."}
+  "r7420": {areas: [7],
+            why: "Combatting Antisemitism, Hate and Extremism Bill 2026, the principal bill of the package introduced at the January 2026 recall sitting: hate speech and hate group law. Two divisions (Senate, 23 March 2026), neither matched. Whether area 8 (religious leaders and texts) also applies is for Christopher: the text was not read."}
+  "r7422": {areas: [7],
+            why: "Combatting Antisemitism, Hate and Extremism (Criminal and Migration Laws) Bill 2026: the criminal offences of the January 2026 package. Twenty divisions (20 January, 4 and 23 March 2026); its title matched only 'migration' (area 11, collated, never campaigned) and three divisions matched 'hate crime' on their motion text. The package's firearms bill (r7421, 14 divisions) is not our ground and is left out."}
+  "r7488": {areas: [7, 8],
+            why: "Human Rights Bill 2026: a federal charter of rights. How it weighs speech and religion is our ground; the text was not read."}
+  "s1487": {areas: [7],
+            why: "Online Safety Amendment (Broadening Adult Cyber Abuse Protections) Bill 2026: widens the eSafety Commissioner's take-down powers over adult speech."}
+  "s1491": {areas: [7],
+            why: "Online Safety Amendment (Fix Our Feeds) Bill 2026: platform recommender duties under the Online Safety Act."}
+  "s1471": {areas: [7],
+            why: "Online Safety and Other Legislation Amendment (My Face, My Rights) Bill 2025: likeness and deepfake rights under the Online Safety Act."}
