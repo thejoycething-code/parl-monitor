@@ -271,8 +271,14 @@ class ClassificationTests(unittest.TestCase):
     def test_the_watchlist_is_applied_by_id_never_by_title(self):
         title = "Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026"
         self.assertEqual(aur.classify_bill(TAX, WL, "r7512", title).issue_areas, [6, 7])
-        # The same words under another ID borrow nothing.
-        self.assertEqual(aur.classify_bill(TAX, WL, "r9999", title).issue_areas, [])
+        # Since taxonomy v1.20 ("online safety", "social media minimum age")
+        # those words match on their own, so the by-ID rule is shown on a
+        # title the taxonomy still cannot read: the same words under another
+        # ID borrow nothing.
+        self.assertEqual(aur.classify_bill(TAX, WL, "r7488", "Human Rights Bill 2026").issue_areas,
+                         [7, 8])
+        self.assertEqual(aur.classify_bill(TAX, WL, "r9999", "Human Rights Bill 2026").issue_areas,
+                         [])
 
     def test_watchlist_entries_are_well_formed(self):
         wl = au_store.watchlist()
