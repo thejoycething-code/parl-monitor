@@ -446,3 +446,17 @@ grace 260) when this merges.
    `~/Library/LaunchAgents`, bootstrap it, and add the `docs/mac-mini.md`
    row. **Merge to main** when ready: the weekly workflow is inert until
    then.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (DO1) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code; X11 brings the gender-violence and femicide terms in at tier 2.
+- DO4: the weekly now also backfills the 2020-2024 period, after the current period, within the budget.
+
+Later phases and items for Chris (not built at the merge):
+
+- Chamber-only votes (DO2).
+- The Senate credentials in its front end stay unused (S2).

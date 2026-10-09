@@ -215,3 +215,16 @@ Only Nicaragua's own: `docs/nicaragua-scope.md`, `tools/nic_probe.py`.
 4. Party affiliation is behind a Cloudflare challenge on www.asamblea.gob.ni.
    Only matters if any per-member work is ever wanted; it is not
    recommended.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Terms merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code (code `nic`).
+
+Later phases and items for Chris (not built at the merge):
+
+- No parliamentary section (NI1).
+- Phase: La Gaceta in scope for religious-freedom tracking, church and NGO closures (NI2).

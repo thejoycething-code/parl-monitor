@@ -366,3 +366,20 @@ Guatemalan matching traps:
    ask the Court for access; it is a major channel for our issues here.
 6. **Merge order**: the workflow can only be dispatched or scheduled once this
    branch reaches main.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (GT2) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+- X9: fortnightly on GitHub Actions, even ISO weeks; moved to Saturday 07:30/10:30 UTC.
+
+Later phases and items for Chris (not built at the merge):
+
+- Run the curl check from the Mini (GT1).
+- Current bloc only (GT4).
+- The Constitutional Court access request (GT5): Chris.
+- X6: party history.
+- PDFs are not fetched (robots.txt).

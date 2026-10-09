@@ -449,3 +449,18 @@ New files only otherwise: `src/sv_store.py`, `src/sv_pdf.py`,
 6. **The first-run backfill** (about four hours of slow requests, six
    Sundays at the job's budget, or one manual four-hour run on the Mini):
    say which, or whether to limit it to the last twelve months.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (SV2, SV3 state of exception, SV4 church items) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+- SV5: vote PDFs are now archived to data/raw.
+- SV7: the backfill runs over six Sundays at the job's budget, as built.
+- Weekly moved to Sunday 10:00/13:00 UTC (the Dominican Republic holds 09:00/12:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- The unpublished votes (SV6): a request in Chris's name.

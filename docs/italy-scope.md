@@ -485,3 +485,17 @@ own way; no aggregator was probed.
 5. **The edition and the judge** (phase 1b): the judge spends money, so it
    needs your yes as the US one did.
 6. **Regions**: when, and in what order.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (IT1); `config/taxonomy-it.yaml` generated and loaded for `it`.
+- X15: positions now read for every vote, our ground first.
+
+Later phases and items for Chris (not built at the merge):
+
+- Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
+- Phase: regional councils after national (IT3).

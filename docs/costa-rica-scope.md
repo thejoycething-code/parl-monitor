@@ -314,3 +314,15 @@ collector exists) and `ops/cr-probe-args.txt`. No change to `src/db.py`,
    (assumed yes, by key)?
 4. **Recheck date**: if the block turns out to be temporary, rerun the probe
    (edit `ops/cr-probe-args.txt` and push to `costa-rica`) before building.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (CR2, CR3 bill 25825, CR4 bill 25829 as religious freedom) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+
+Later phases and items for Chris (not built at the merge):
+
+- No collector until access is cleared: a request to the Asamblea in Chris's name (CR1).

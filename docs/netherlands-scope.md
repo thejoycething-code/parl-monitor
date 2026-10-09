@@ -427,3 +427,18 @@ Everything else is new and Netherlands-only.
 7. **Someone reads the portal's terms** at
    `opendata.tweedekamer.nl/disclaimer` before the weekly runs unattended
    (the feed names it in every response).
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (NL1); `config/taxonomy-nl.yaml` (shared with Flanders) generated and loaded for `nl`.
+- X5: `nl_store.derived_member_positions()` gives each member their fractie's position on a show of hands, labelled derived.
+
+Later phases and items for Chris (not built at the merge):
+
+- The DM carries votes only (NL3): for the edition phase.
+- Phase: the Eerste Kamer via its web pages (NL4).
+- Chris reads the open-data disclaimer (NL5) before the weekly runs unattended.

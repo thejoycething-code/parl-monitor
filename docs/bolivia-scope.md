@@ -364,3 +364,16 @@ edited; its job table needs a row for `bo-weekly` (Sundays 11:00, backup
    first run once with `backfill` ticked.
 5. **Phase 2 go-ahead** for written questions, the one member-attributed
    source Bolivia offers.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (BO1) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+
+Later phases and items for Chris (not built at the merge):
+
+- Bills only (BO2).
+- Phase 2: written questions (BO4).

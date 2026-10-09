@@ -478,3 +478,12 @@ variable `MINI_LAST_PL_WEEKLY` is written by the Mini's first clean run.
    knowledge.
 6. **Merge and install** the Mini job when ready; the first two or three
    runs are the backfill.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (PL1); `config/taxonomy-pl.yaml` generated.
+- The Senate gap is accepted (PL2).

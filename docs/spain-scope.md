@@ -508,3 +508,17 @@ otherwise: `src/es_store.py`, `tools/es_rollcalls.py`,
    the Mini): announced here; say if it should run differently.
 6. **The edition**: build it now, or for the XVI's first votes in January
    2027 (recommended, given the dissolution)?
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved as drafted (ES1) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code; ES2 (Democratic Memory guarded to the Church and Cuelgamuros), ES3 (sexual-offences law, tier 2) and ES4 (the VOX public-space bill, area 8 tier 2) applied.
+- Weekly moved to Saturday 08:30/11:30 UTC (Switzerland holds 11:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- Phase: the Spanish edition (ES6, build now): a DM edition on the store, as the US and Australian ones. Not built at the merge; next.
+- Senado open-data contact (ES5): a message in Chris's name, not sent by the pipeline.

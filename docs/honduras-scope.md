@@ -461,3 +461,11 @@ than 2026-08-01, linked in for the run, and the working-copy store
 6. **The first-run backfill** (about 770 requests, mostly the 360 session
    agendas, at 1.2 s each over one or two Sundays, on the Mini): announced
    here; say if it should run differently.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (HN2, HN3 criminal defamation, HN4 emergency contraception tier 1, HN5 prayer sessions and church grants) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.

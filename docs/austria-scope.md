@@ -406,3 +406,17 @@ the rest; without them a further 63 fail for the same reason.
    phase 1b items first (named votes, Ministerialentwürfe, week ahead).
 6. **meineabgeordneten.at**: ask them for a licence, or leave it.
 7. **Landtage**: which first, when national is settled.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Additions approved (AT1, AT2 family benefits area 9, AT3 Pride and queer funding) and generated as the addendum `config/taxonomy-atch.yaml` (taxonomy-de plus Austria and Switzerland); the collector loads it for `at`.
+- X5: `at_store.derived_member_positions()` gives each member their Klub's position, labelled derived (Klub at the latest sighting).
+
+Later phases and items for Chris (not built at the merge):
+
+- meineabgeordneten.at licence (AT5): a request in Chris's name.
+- Phase: the Landtage after national (AT6).

@@ -400,3 +400,18 @@ Everything else is new and Belgium's own: `src/be_store.py`,
    weekly DM (watchlist dossiers, new votes) is wanted before that.
 6. Not needed: no key, no account, no paid service. The Chamber's
    `Crawl-delay: 5` makes the first run slow, not blocked.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term lists approved (BE1, BE3 stillborn-child bills area 1, BE4 religious symbols and laicity, BE5 labour trafficking area 12); Dutch terms in `config/taxonomy-nl.yaml`, French in the `config/taxonomy-fr.yaml` addendum.
+- The collector now classifies dossier titles and division headings with both, for `be`, unioned with the watchlist.
+- Weekly moved to Saturday 02:30/04:30 UTC (Austria holds 03:00/05:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- A votes-only DM before the full edition (BE6): the edition phase.
+- Not expressible as additions to the Quebec base: the euthanasie animal veto and the tier differences the scope proposed against taxonomy-qc. They need a Belgium-specific override if wanted.

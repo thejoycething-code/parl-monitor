@@ -435,3 +435,17 @@ Not touched: `docs/mac-mini.md` (install steps are above instead),
    GitHub backup runs, unmeasured against this host.
 6. **Watchlist entries**: none yet. Any current-term bill the Panama team
    already follows whose title hides it should be added by ficha.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (PA2, PA3 family maintenance, PA4 sterilisation tier 2 area 1) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+- Weekly moved to Saturday 17:30/21:30 UTC (Portugal holds 16:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- No votes (PA1).
+- The watchlist stays empty (PA5 deferred).

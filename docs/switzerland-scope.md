@@ -412,3 +412,17 @@ name).
    Italian texts here (every business has one).
 7. **A Swiss reader**: none of the German or French proposals has been read
    by someone who campaigns in Switzerland.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- German additions (CH2 individual taxation area 9, CH3 E-ID, CH4 burqa ban) in `config/taxonomy-atch.yaml`, French in `config/taxonomy-fr.yaml`; both loaded for `ch`.
+- X15: positions now read for every division, our ground first.
+
+Later phases and items for Chris (not built at the merge):
+
+- Phase: the Italian texts (CH6): fetch the Italian business records (a third Language pass), store title_it, and match `config/taxonomy-it.yaml` for `ch`. Not built at the merge: it needs a schema column, a fetch pass and fixtures.
+- The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.

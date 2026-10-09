@@ -451,3 +451,17 @@ Everything else is Portugal's own: `tools/pt_rollcalls.py`,
 5. **The parlamento.pt terms of reuse** for the open data have not been
    read. Someone should, before the weekly runs unattended.
 6. **The Constitutional Court** as a source (phase 4): wanted?
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (PT1, PT2 family policy area 9, PT3 school choice area 6, PT4 face covering, PT5 Church abuse compensation) and merged into the shared `config/taxonomy-pt.yaml` (`docs/keyword-taxonomy-pt.md`), loaded for this country's code.
+- X5: `pt_store.derived_member_positions()`: named deputies are facts, the rest of a whole-group row derived and labelled.
+- PT6: the weekly workflow takes a `legislature` dispatch input (XV, XVI) for the backfill from CI.
+
+Later phases and items for Chris (not built at the merge):
+
+- Chris reads the parlamento.pt reuse terms (PT7).

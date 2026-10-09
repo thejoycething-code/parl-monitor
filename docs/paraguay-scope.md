@@ -422,3 +422,16 @@ None. This branch adds only `docs/paraguay-scope.md` and
 5. **Watchlist seeds** (expediente IDs) once access is cleared: 127033 and
    126680 (Transformación Educativa), 127284 (Resolution 29664), 121879
    (pro vida y pro familia core group), 128194 (personas trans day).
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (PY2) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+
+Later phases and items for Chris (not built at the merge):
+
+- No collector until access is cleared: a request to the Senate's IT office in Chris's name (PY1).
+- PY3 (declarations and pedidos count): the Latam edition.

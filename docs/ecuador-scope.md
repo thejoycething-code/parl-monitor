@@ -456,3 +456,16 @@ files only otherwise: `src/ec_store.py`, `tools/ec_rollcalls.py`,
    schedules only from main); copy the plist to the Mini and bootstrap it.
    No secret or key is needed. The first run backfills period 8 (about 520
    requests, half an hour, on the Mini).
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (EC1, EC2 palliative care area 2, EC3 children's code and LOEI tier 2) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code; the collector now reads taxonomy-es, not a separate taxonomy-ec.
+- Weekly moved to Saturday 15:30/19:30 UTC (France and Portugal hold 15:00/19:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- The bill portal's embedded login stays unused (EC4).

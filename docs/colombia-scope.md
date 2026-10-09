@@ -438,3 +438,18 @@ untouched.
 6. **Install on the Mini** after merge: copy the plist and bootstrap it
    (`docs/mac-mini.md`). Merging is Chris's decision; nothing here was
    pushed to main.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (CO1, CO2 enfoque de genero tier 1) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+- Weekly moved to Thursday 09:30/11:30 UTC (Chile holds 09:00/11:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- No votes for now (CO3).
+- Phase (X8): the Constitutional Court section (CO4).
+- Phase (X7): OCR for scanned records.

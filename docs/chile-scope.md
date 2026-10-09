@@ -383,3 +383,16 @@ Chile's own files: `src/cl_store.py`, `tools/cl_rollcalls.py`,
 5. **The Senate's party at the vote** is the party at collection. Acceptable
    for phase 1, or should senators' party history be sourced (the BCN has
    it) before any 5CA?
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (CL1; CL2 migration watched but hidden, as area 11 is everywhere) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+
+Later phases and items for Chris (not built at the merge):
+
+- X6: source party history before relying on party at the vote.
+- The Senate-vote backfill still reads bills on our ground only; X15 would widen it.

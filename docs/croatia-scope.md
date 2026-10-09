@@ -498,3 +498,17 @@ New files: `src/hr_store.py`, `tools/hr_rollcalls.py`,
    the party in the member list the week the vote is collected. Exact for
    weekly runs, approximate for the backfill. Acceptable, or should phase 4
    read party from the transcripts' "(HDZ)" headings instead?
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (HR1, HR2 WHO declaration, HR3 Sunday trading area 8, HR4 ombudsperson reports); `config/taxonomy-hr.yaml` generated.
+- Weekly moved to Saturday 01:30/03:30 UTC (Austria holds 03:00/05:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- X6: source party history before relying on party at the vote.
+- Phase (X7): Tesseract OCR on the Mini for scanned records.

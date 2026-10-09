@@ -423,3 +423,18 @@ buildings, associations), so they matter for campaigns rather than law.
    the edition goes beyond Christopher.
 6. **Senat phase 2**: confirm it is wanted before the 126 MB dump is read
    weekly (about 16 MB to download).
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- French additions approved (FR1, FR2 political Islam in area 8) and generated as the addendum `config/taxonomy-fr.yaml` (taxonomy-qc plus France, Belgium, Switzerland); the collector loads it for `fr`.
+- FR3: the AN weekly zips are now archived to data/raw.
+- Weekly moved to Saturday 13:00/15:00 UTC (Austria and Belgium hold the early slots).
+
+Later phases and items for Chris (not built at the merge):
+
+- Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
+- Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.

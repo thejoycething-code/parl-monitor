@@ -441,3 +441,17 @@ the term list.
 7. **karzat's derived data (CC BY 4.0):** may it be used to backfill term
    43 from 9 May to the token's first run, with attribution? The record
    underneath is the House's own.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (HU3, HU4 constitutional amendments always triaged, HU5 interpellation votes count); `config/taxonomy-hu.yaml` generated, ready for the collector.
+
+Later phases and items for Chris (not built at the merge):
+
+- Phase: the gazette collector (HU6, build now). Not built at the merge: Hungary has no collector on this branch yet.
+- W-API token registration (HU1, name to confirm) and a letter to the Office if the CAPTCHA persists (HU2): Chris. The CAPTCHA is never solved or bypassed.
+- karzat's CC BY data with attribution (HU7) when the collector is written.

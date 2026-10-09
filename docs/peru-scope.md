@@ -388,3 +388,17 @@ edited; its job table needs a row for `pe-weekly` (Saturdays 16:00, backup
 6. **Scan-only sessions**: accept the loss (installation week, Diputados
    13 August), or approve an OCR step later?
 7. **Regional councils**: which first, and when.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (PE1) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+
+Later phases and items for Chris (not built at the merge):
+
+- Phase: the expediente endpoint (PE2, approved). Its identifiers are AES-encrypted with a key in the public front end; stdlib Python has no AES, and reproducing the obfuscation sits close to the rule against using keys found in a site's code, so it is flagged for Chris rather than built.
+- Phase: regional councils (PE4).
+- Phase (X7): OCR for scan-only sessions.

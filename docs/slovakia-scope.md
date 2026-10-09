@@ -399,3 +399,16 @@ Slovakia's own files: `docs/slovakia-scope.md`, `src/sk_store.py`,
 `tests/fixtures/sk/`, `jobs/sk-weekly.sh`,
 `ops/launchd/net.citizengo.parlmonitor.sk-weekly.plist`,
 `.github/workflows/sk-weekly.yml`.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (SK1, SK2 NGO Act, SK3 Education Act net, SK4 parental allowance area 9); `config/taxonomy-sk.yaml` generated.
+- X15: `--positions all` is now the default, our ground first.
+
+Later phases and items for Chris (not built at the merge):
+
+- Phase 2: bill documents (SK6).

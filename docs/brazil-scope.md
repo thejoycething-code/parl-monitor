@@ -504,3 +504,17 @@ here, as Germany's Länder carry part of its ground.
    takeaways (as Germany), or English throughout?
 6. **Watchlist review** (`config/watchlist-br.yaml`, 12 bills): add the
    bills CitizenGO Brazil is actually campaigning on.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (BR1, BR2 misogyny area 7) and merged into the shared `config/taxonomy-pt.yaml` (`docs/keyword-taxonomy-pt.md`), loaded for this country's code.
+- Weekly moved to Saturday 09:30/13:30 UTC (Switzerland and France hold 09:00/13:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- BR3 (gambling) and BR4 (drug decriminalisation) are in scope but the scope proposed no terms or area: they need terms before they match.
+- Portuguese source text with English takeaways (BR5): the edition phase.

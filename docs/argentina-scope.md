@@ -505,3 +505,18 @@ unescapes them.
    want them in the store.
 8. **Ley 13.640 lapse rule** (bills lapse after two parliamentary years):
    to be confirmed by an Argentine contact before any board relies on it.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (AR1) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+- AR6: the weekly workflow takes a `senate_backfill` dispatch input that reads the 2024 and 2025 Senate actas once.
+- Weekly moved to Saturday 18:30/20:30 UTC (Austria holds 03:00/05:00).
+
+Later phases and items for Chris (not built at the merge):
+
+- AR2-AR4: Diputados votes tried from the Mini, the register read gently, and www.hcdn.gob.ar read only by the scheduled monitor script, never by a Claude session.
+- AR7: the Ley 13.640 lapse rule confirmed.

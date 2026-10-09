@@ -470,3 +470,18 @@ temporarily, 64 of the 74 pass; the other 10 glob for later raw dates.
    no secret or key is needed.
 6. **Vote totals from the Diario PDFs (Phase 1b)**: build, or wait for access
    to parlamento.gub.uy?
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (UY2) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code; the collector now reads taxonomy-es, not a separate taxonomy-uy.
+- Weekly moved to Sunday 08:00/11:00 UTC: Saturday had no free pair of slots left.
+
+Later phases and items for Chris (not built at the merge):
+
+- Probe parlamento.gub.uy from the Mini first (UY1).
+- Phase: vote totals from the Diario de Sesiones PDFs (UY5, build now). Not built at the merge.
+- UY3 (pedidos reported) and UY4 (INAU guarded): the Latam edition.

@@ -410,3 +410,16 @@ Each of the 32 has its own site; there is no Open States for Mexico.
 6. **A Mexican reader.** As with German, terms that are correct Spanish but
    not the words the Chamber uses will only be caught by someone who reads
    Mexican legislation; CitizenGO Mexico is the obvious reviewer.
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (MX1, MX2 feminicide, MX3 political gender violence area 7) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+- X9: fortnightly on GitHub Actions, odd ISO weeks; moved to Saturday 14:30/16:30 UTC.
+
+Later phases and items for Chris (not built at the merge):
+
+- The Senate stays out per its robots.txt (MX4).
