@@ -1721,6 +1721,13 @@ TABLES = (
     "ar_bills",
     "ar_divisions",
     "ar_votes",
+    # Colombia's Congress (tools/co_rollcalls.py), created by
+    # src/co_store.ensure_schema -- declared from day one.
+    "co_bills",
+    "co_members",
+    "co_attendance",
+    "co_divisions",
+    "co_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2039,4 +2046,6 @@ def init_db(conn):
     mx_store.ensure_schema(conn)
     from src import ar_store
     ar_store.ensure_schema(conn)
+    from src import co_store
+    co_store.ensure_schema(conn)
     return conn

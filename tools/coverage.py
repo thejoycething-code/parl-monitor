@@ -114,6 +114,8 @@ PIPELINES = {
     "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions"),
     # Scheduled 9 October 2026, Saturdays (ar-weekly.yml; the Mac Mini first).
     "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls"),
+    # Scheduled 9 October 2026, Thursdays (co-weekly.yml; the Mac Mini first).
+    "Colombia weekly": (7, 4, "Colombia's Congress: both chambers' bills, attendance, Senate roll calls"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -434,6 +436,16 @@ FEEDS = [
     ("ar_members", "last_seen", 7, 4, "Congress members, both chambers (Argentina weekly)"),
     ("ar_bills", "last_seen", 7, 4, "Diputados register and Senate expedientes (Argentina weekly)"),
     ("ar_divisions", "last_seen", 31, 31, "Senate roll calls (Argentina weekly)"),
+    # Colombia (9 October 2026). MEASURED which re-stamp: both chambers'
+    # registers, the Cámara attendance file and the Senate roll-call file are
+    # each re-read whole every run and upserted, so all three move every week,
+    # recess included. co_divisions moving means only that the Senate's file
+    # still answers: its newest roll call is 25 September 2024 (see
+    # docs/colombia-scope.md). co_attendance and co_votes carry no sighting
+    # column.
+    ("co_bills", "last_seen", 7, 4, "Cámara and Senate bill registers (Colombia weekly)"),
+    ("co_members", "last_seen", 7, 4, "Cámara attendance roster and Senate roll-call names (Colombia weekly)"),
+    ("co_divisions", "last_seen", 7, 4, "Senate published roll calls, frozen at 2024-09-25 (Colombia weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -551,6 +563,7 @@ PIPELINE_FEEDS = {
     "Mexico weekly": ["mx_members", "mx_iniciativas", "mx_divisions"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
     "Argentina weekly": ["ar_bills", "ar_members"],
+    "Colombia weekly": ["co_bills", "co_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -608,6 +621,8 @@ AWAITING_FIRST_RUN = {
                       "written 9 October 2026; its tables fill on its first run"),
     "Argentina weekly": (("ar_members", "ar_bills", "ar_divisions"),
                          "scheduled 9 October 2026; its tables fill on its first run"),
+    "Colombia weekly": (("co_bills", "co_members", "co_divisions"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
