@@ -1,6 +1,7 @@
-# ONE-OFF PROBE (9 October 2026): does senate.gov answer GitHub's runners?
-# It refuses the laptop on every page (403, VPN off, curl and urllib alike).
-# Read-only, no secrets, no store. Delete once the Senate collector is built.
+# ONE-OFF PROBE (9 October 2026): senate.gov refuses the laptop on every
+# page (403, VPN off, curl and urllib alike) but answers GitHub's runners.
+# This run saves sample files as test fixtures. Read-only, no secrets, no
+# store. Delete once the Senate collector is built.
 name: US Senate probe
 on:
   push:
@@ -11,14 +12,34 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe senate.gov
+      - name: Save sample Senate files
         run: |
+          mkdir -p senate && cd senate
           UA="CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
-          for u in https://www.senate.gov/ \
-                   https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_1.xml \
-                   https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_2.xml \
-                   https://www.senate.gov/legislative/LIS/roll_call_votes/vote1191/vote_119_1_00001.xml; do
-            code=$(curl -s -A "$UA" -o /tmp/p -w "%{http_code} %{size_download}" "$u")
-            echo "PROBE $code $u :: $(head -c 160 /tmp/p | tr '\n' ' ')"
-          done
-          curl -s -A "$UA" https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_2.xml | grep -c "<vote>" | sed 's/^/PROBE votes listed in 119-2: /'
+          for s in 1 2; do curl -s -A "$UA" -o menu_119_$s.xml "https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_$s.xml"; done
+          python3 - <<'PY'
+          import re, subprocess, xml.etree.ElementTree as ET
+          UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
+          want = {}
+          for s in (1, 2):
+              for v in ET.parse(f"menu_119_{s}.xml").getroot().iter("vote"):
+                  issue = (v.findtext("issue") or "").strip()
+                  title = (v.findtext("title") or "")
+                  n = int(v.findtext("vote_number"))
+                  key = None
+                  if issue in ("S. 6", "S. 9", "S.6", "S.9"): key = "flagship"
+                  elif title.lower().startswith("on the cloture motion") and len([k for k in want.values() if k == "cloture"]) < 1: key = "cloture"
+                  elif "nomination" in title.lower() and len([k for k in want.values() if k == "nomination"]) < 1: key = "nomination"
+                  elif "amendment" in title.lower() and len([k for k in want.values() if k == "amendment"]) < 1: key = "amendment"
+                  if key: want[(s, n)] = key
+          for (s, n), why in want.items():
+              url = f"https://www.senate.gov/legislative/LIS/roll_call_votes/vote119{s}/vote_119_{s}_{n:05d}.xml"
+              subprocess.run(["curl", "-s", "-A", UA, "-o", f"vote_119_{s}_{n:05d}.xml", url], check=True)
+              print("SAVED", why, s, n)
+          PY
+          ls -la
+      - uses: actions/upload-artifact@v4
+        with:
+          name: senate-samples
+          path: senate/
+          retention-days: 7
