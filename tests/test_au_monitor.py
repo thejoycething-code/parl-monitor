@@ -194,7 +194,7 @@ class JobTests(unittest.TestCase):
         self.assertIn("--dm", send.split("\nfi")[0])
 
     def test_the_runner_commits_editions_and_the_dm_goes_to_christopher_alone(self):
-        self.assertIn("\n# mini_run: commit editions\n", self.job)
+        self.assertIn("\n# mini_run: commit editions partner_site docs\n", self.job)
         self.assertIn("U05LJP0BT61", self.job)
         with open(os.path.join(ROOT, ".github", "workflows", "au-weekly.yml"), encoding="utf-8") as fh:
             self.assertIn("git add data/ editions/", fh.read())
