@@ -30,6 +30,7 @@ item and never re-stamped are listed as such and never fail the run.
 from __future__ import annotations
 
 import datetime
+import json
 import os
 import sqlite3
 import sys
@@ -424,9 +425,17 @@ def awaiting_first_run(table, seen):
     return None
 
 
-def check(conn, today=None, log=print, quiet=False):
+def check(conn, today=None, log=print, quiet=False, found=None):
+    """The overdue lines, for a human. `found`, if given, also receives one
+    (key, age) per problem: a stable key, so --state can tell a problem it
+    has reported from a new one, and its age in days (None when it has none)."""
     today = today or datetime.date.today()
     overdue = []
+    found = found if found is not None else []
+
+    def flag(key, age, text):
+        overdue.append(text)
+        found.append((key, age))
 
     log("PIPELINES  (did the workflow run at all?)")
     seen = {}
@@ -447,8 +456,9 @@ def check(conn, today=None, log=print, quiet=False):
             continue
         late = age > days + grace
         if late:
-            overdue.append("{0} last published {1} days ago (expected every "
-                           "{2})".format(name, age, days))
+            flag("pipeline:" + name, age,
+                 "{0} last published {1} days ago (expected every "
+                 "{2})".format(name, age, days))
         if late or not quiet:
             log("  {0:<20} {1:>3} days ago{2}   {3}".format(
                 name, age, "  <-- OVERDUE" if late else "", why))
@@ -484,14 +494,16 @@ def check(conn, today=None, log=print, quiet=False):
                 if not quiet:
                     log("  {0:<22} AWAITING FIRST RUN   {1}".format(table, waiting))
                 continue
-            overdue.append("{0} holds NO ROWS AT ALL; it is watched because we "
-                           "expect data in it ({1})".format(table, why))
+            flag("empty:" + table, None,
+                 "{0} holds NO ROWS AT ALL; it is watched because we "
+                 "expect data in it ({1})".format(table, why))
             log("  {0:<22} NO ROWS AT ALL  <-- OVERDUE   {1}".format(table, why))
             continue
         late = age > days + grace
         if late:
-            overdue.append("{0} last saw data {1} days ago (expected every "
-                           "{2})".format(table, age, days))
+            flag("feed:" + table, age,
+                 "{0} last saw data {1} days ago (expected every "
+                 "{2})".format(table, age, days))
         if late or not quiet:
             log("  {0:<22} {1:>3} days ago{2}   {3}".format(
                 table, age, "  <-- OVERDUE" if late else "", why))
@@ -523,10 +535,10 @@ def check(conn, today=None, log=print, quiet=False):
             # inside a pipeline that ran is normal; a month is not.
             if age is not None and age > pipe_age + 7:
                 flagged = True
-                overdue.append(
-                    "{0} ran {1} days ago but {2} has not refreshed in {3} "
-                    "-- it stored nothing, or its store was overwritten"
-                    .format(name, pipe_age, table, age))
+                flag("lost:{0}:{1}".format(name, table), age,
+                     "{0} ran {1} days ago but {2} has not refreshed in {3} "
+                     "-- it stored nothing, or its store was overwritten"
+                     .format(name, pipe_age, table, age))
                 log("  {0:<20} ran {1}d ago, {2} is {3}d old   <-- LOST WORK"
                     .format(name, pipe_age, table, age))
     if not flagged:
@@ -555,8 +567,9 @@ def check(conn, today=None, log=print, quiet=False):
             if not quiet:
                 log("  {0:<22} AWAITING FIRST RUN   {1}".format(table, waiting))
         elif empty and table not in ALLOWED_EMPTY:
-            overdue.append("{0} is written once per item and holds NO ROWS AT "
-                           "ALL: every row it had is gone ({1})".format(table, why))
+            flag("empty:" + table, None,
+                 "{0} is written once per item and holds NO ROWS AT "
+                 "ALL: every row it had is gone ({1})".format(table, why))
             log("  {0:<22} NO ROWS AT ALL  <-- OVERDUE   {1}".format(table, why))
         elif not quiet:
             log("  {0:<22} {1:>3} days ago   {2}".format(
@@ -564,10 +577,70 @@ def check(conn, today=None, log=print, quiet=False):
     return overdue
 
 
+# --state: SAY A PROBLEM ONCE (docs/mac-mini-runner.md, step 5). Until
+# 9 October 2026 this exited 1 every day an overdue source stayed overdue,
+# so the same DM arrived daily and was learned to be ignored -- the failure
+# mode the Monday retry-slot fix (tests/test_db_state.py) was written against.
+# With --state it fails only for a problem it has not reported, or one that
+# has grown a week (ESCALATE days) since it last said so: NI 12 days overdue
+# is said at 12 and again at 19, not at 13, 14, 15. The daily health summary
+# (tools/health_summary.py) still lists every overdue source, every day.
+ESCALATE = 7
+
+
+def triage(found, state, today):
+    """(new, worse, known, resolved, next_state) for this run's problems.
+
+    found: [(key, age)] from check(). state: {key: {"first", "reported_age",
+    "reported"}} from the last run. A problem with no age (an emptied table)
+    never grows, so it is said once until it clears.
+    """
+    today_s = today.isoformat()
+    new, worse, known, nxt = [], [], [], {}
+    for key, age in found:
+        was = state.get(key)
+        if was is None:
+            new.append(key)
+            nxt[key] = {"first": today_s, "reported_age": age, "reported": today_s}
+        elif age is not None and was.get("reported_age") is not None \
+                and age >= was["reported_age"] + ESCALATE:
+            worse.append(key)
+            nxt[key] = dict(was, reported_age=age, reported=today_s)
+        else:
+            known.append(key)
+            nxt[key] = was
+    resolved = sorted(k for k in state if k not in nxt)
+    return new, worse, known, resolved, nxt
+
+
+def load_state(path):
+    try:
+        with open(path, encoding="utf-8") as handle:
+            return json.load(handle)
+    except (OSError, ValueError):
+        return {}
+
+
+def save_state(path, state):
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(state, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+
+
+def _arg(name):
+    if name in sys.argv:
+        i = sys.argv.index(name)
+        if i + 1 < len(sys.argv):
+            return sys.argv[i + 1]
+    return None
+
+
 def main():
     quiet = "--quiet" in sys.argv
+    state_path = _arg("--state")
     conn = sqlite3.connect(os.path.join(ROOT, "data", "parl-monitor.db"))
-    overdue = check(conn, quiet=quiet)
+    found = []
+    overdue = check(conn, quiet=quiet, found=found)
     stamped = set()
     if conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND "
                     "name='source_runs'").fetchone():
@@ -581,7 +654,15 @@ def main():
         print("{0} SOURCE(S) OVERDUE:".format(len(overdue)))
         for line in overdue:
             print("  * {0}".format(line))
+        if state_path:
+            return report_against_state(found, overdue, state_path)
         return 1
+    if state_path:
+        _new, _worse, _known, resolved, nxt = triage([], load_state(state_path),
+                                                     datetime.date.today())
+        if resolved:
+            print("Cleared since last run: {0}".format(", ".join(resolved)))
+        save_state(state_path, nxt)
     missing = sorted(n for n in PIPELINES if n not in stamped)
     if missing:
         print("Feeds are within cadence. {0} pipeline(s) have not stamped a "
@@ -590,6 +671,24 @@ def main():
         return 0
     print("Every pipeline and feed is within its expected cadence.")
     return 0
+
+
+def report_against_state(found, overdue, state_path):
+    """Exit 1 only for what is new or a week worse; save what was said."""
+    new, worse, known, resolved, nxt = triage(
+        found, load_state(state_path), datetime.date.today())
+    text = dict((k, line) for (k, _a), line in zip(found, overdue))
+    print("")
+    for label, keys in (("NEW", new), ("WORSE", worse)):
+        for key in keys:
+            print("  {0}: {1}".format(label, text[key]))
+    if known:
+        print("  {0} already reported and no worse (listed in the daily "
+              "health summary).".format(len(known)))
+    if resolved:
+        print("  Cleared since last run: {0}".format(", ".join(resolved)))
+    save_state(state_path, nxt)
+    return 1 if (new or worse) else 0
 
 
 if __name__ == "__main__":
