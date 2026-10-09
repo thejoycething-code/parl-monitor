@@ -175,6 +175,30 @@ class RuleTests(unittest.TestCase):
                      "'... no funds to Planned Parenthood or for abortion ...')")
         self.assertEqual(rec.BillTitles(conn, TAX, rec.empty_watchlist()).areas("119/hr/1"), [])
 
+    def test_an_included_acts_title_lends_nothing(self):
+        # The FY2027 NDAA lists "Military Chaplains Modernization Act of
+        # 2026" among its short titles; it lent 31 speeches area 8 before.
+        conn = store()
+        conn.execute("INSERT INTO us_bills (bill_key, congress, bill_type, number, title, "
+                     "short_titles) VALUES ('119/hr/8800', 119, 'hr', 8800, 'National Defense "
+                     "Authorization Act for Fiscal Year 2027', '[\"Military Chaplains "
+                     "Modernization Act of 2026\", \"To authorize appropriations for fiscal "
+                     "year 2027 for military activities.\"]')")
+        titles = rec.BillTitles(conn, TAX, rec.empty_watchlist())
+        self.assertEqual(titles.areas("119/hr/8800"), [])
+        self.assertEqual(titles.areas("119/hr/7834"), [6])
+
+    def test_reclassify_drops_what_no_longer_lends(self):
+        conn = store()
+        read(conn)
+        conn.execute("UPDATE us_bills SET title='Cloud Act', short_titles='[]' "
+                     "WHERE bill_key='119/hr/7834'")
+        rec.reclassify(conn, log=lambda *_: None)
+        self.assertIsNone(conn.execute("SELECT 1 FROM us_record_speeches WHERE speech_key=?",
+                                       (CLOUD + "/L000597",)).fetchone())
+        self.assertIsNotNone(conn.execute("SELECT 1 FROM us_record_speeches WHERE "
+                                          "speech_key=?", (HYDE + "/S000522",)).fetchone())
+
 
 class DayTests(unittest.TestCase):
     def test_reads_a_day(self):

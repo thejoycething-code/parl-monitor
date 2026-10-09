@@ -62,8 +62,10 @@ THE RULE (classify_speech; the one place it lives):
       - 'watch': the granule is ABOUT a bill on config/watchlist-us.yaml
         (GovInfo context TITLE or HEADERLINE). By KEY, as everywhere in the US.
       - 'bill': the speech's own text is AMBIGUOUS -- it matched nothing --
-        AND the granule is ABOUT a bill AND that bill's own TITLES (not its
-        CRS summary) are on our ground AND the member spoke at least
+        AND the granule is ABOUT a bill AND that bill's own TITLES (its
+        display and official titles: not its CRS summary, nor the short
+        title of an Act folded into it) are on our ground AND the member
+        spoke at least
         MIN_WORDS words. A member arguing for H.R. 28 who never says
         "women's sports" is still speaking to it; one yielding two minutes
         is not a speech, and an appropriations bill (on our ground only by
@@ -369,8 +371,23 @@ def lead(text, n=EXCERPT):
     return t if len(t) <= n else t[:n].rsplit(" ", 1)[0] + "..."
 
 
+# A short title that names an Act ("Military Chaplains Modernization Act of
+# 2026") may be a PORTION of an omnibus: BILLSTATUS lists the short titles of
+# every Act folded into the NDAA, and on the 119th's backfill the FY2027
+# NDAA lent "freedom of religion" to 31 speeches through that one. So a bill
+# lends from its display title and its official titles ("To prohibit
+# taxpayer funded abortions."), never from another Act's name.
+_ACT_TITLE = re.compile(r"\bAct(?: of \d{4})?\.?$")
+
+
+def lending_titles(title, short_titles):
+    return [t for t in [title] + [x for x in short_titles or [] if not _ACT_TITLE.search(x.strip())]
+            if t]
+
+
 class BillTitles:
-    """A bill's areas from its TITLES alone (never the CRS summary), cached."""
+    """A bill's areas from its OWN TITLES alone (never the CRS summary, never
+    an included Act's short title: lending_titles), cached."""
 
     def __init__(self, conn, tax, wl):
         self.conn, self.tax, self.wl, self.cache = conn, tax, wl, {}
@@ -381,8 +398,8 @@ class BillTitles:
                                     (key,)).fetchone() if key else None
             areas = []
             if row:
-                titles = [row[0] or ""] + list(json.loads(row[1] or "[]"))
-                res = filt.filter_item(self.tax, self.wl, *[t for t in titles if t])
+                titles = lending_titles(row[0], json.loads(row[1] or "[]"))
+                res = filt.filter_item(self.tax, self.wl, *titles)
                 areas = sorted(set(res.issue_areas or []))
             self.cache[key] = areas
         return self.cache[key]
@@ -709,7 +726,7 @@ def reclassify(conn, log=print):
     wl = empty_watchlist()
     titles = BillTitles(conn, tax, wl)
     watch = us_store.watchlist()
-    changed = 0
+    changed = dropped = 0
     for (sk, own, words, subject, areas) in conn.execute(
             "SELECT speech_key, own_areas, words, subject_bill, areas FROM us_record_speeches"
     ).fetchall():
@@ -725,10 +742,17 @@ def reclassify(conn, log=print):
                 source = "bill"
         value = us_store.dumps(sorted(new))
         changed += value != (areas or "[]")
+        if not on_our_ground(new):
+            # Only speeches on our ground are stored: one that was there only
+            # on a lent area no longer lent goes.
+            conn.execute("DELETE FROM us_record_speeches WHERE speech_key=?", (sk,))
+            dropped += 1
+            continue
         conn.execute("UPDATE us_record_speeches SET areas=?, areas_from=? WHERE speech_key=?",
                      (value, source, sk))
     conn.commit()
-    log("us-record: reclassified; {0} speech(es) changed area".format(changed))
+    log("us-record: reclassified; {0} speech(es) changed area, {1} left our ground and "
+        "were dropped".format(changed, dropped))
     return changed
 
 
