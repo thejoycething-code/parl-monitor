@@ -1,16 +1,12 @@
 name: Colombia weekly
 on:
   schedule:
-    # Thursday 09:00 UTC, retry 11:00 UTC (9 October 2026). Congress sits in
-    # plenary on Tuesdays and Wednesdays; 09:00 UTC Thursday is 04:00 in
-    # Bogotá, after both. Clear of every other workflow's cron: Thursday
-    # holds only 06:00 and 14:00 (sd-weekly), 05:30 (coverage), 07:00 and
-    # 21:00 (day-sweep), 18:00 and 21:00 (division-watch) and 23:00
-    # (eu-day-sweep). Other country branches (Spain, Argentina, Mexico,
-    # Chile, Peru and more) are being written in parallel and may pick the
-    # same slot; check the crons again when the branches meet.
-    - cron: "0 9 * * 4"
-    - cron: "0 11 * * 4"
+    # Thursday 09:30 UTC, retry 11:30 UTC (9 October 2026). Congress sits in
+    # plenary on Tuesdays and Wednesdays; 09:30 UTC Thursday is 04:30 in
+    # Bogotá, after both. Moved half an hour from 09:00/11:00 at the
+    # countries merge (10 October 2026): Chile holds those Thursday slots.
+    - cron: "30 9 * * 4"
+    - cron: "30 11 * * 4"
   workflow_dispatch:
     inputs:
       reclassify:
@@ -34,10 +30,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # The Mac Mini runs this on Thursdays at 09:00 London (tools/mini_run.sh
+  # The Mac Mini runs this on Thursdays at 09:30 London (tools/mini_run.sh
   # co-weekly); these crons are the backup. The Mini runs ONCE for both
-  # slots, so its run must count for the 11:00 retry too: at 09:00 London in
-  # summer it stamps 08:00 UTC, three hours before that slot, hence a grace
+  # slots, so its run must count for the 11:30 retry too: at 09:30 London in
+  # summer it stamps 08:30 UTC, three hours before that slot, hence a grace
   # of 200 minutes rather than the default 75.
   mini-check:
     uses: ./.github/workflows/mini-check.yml
@@ -46,7 +42,7 @@ jobs:
       grace-minutes: 200
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
-  # when the 09:00 backup already ran today, 11:00 has nothing to do.
+  # when the 09:30 backup already ran today, 11:30 has nothing to do.
   gate:
     needs: mini-check
     if: needs.mini-check.outputs.run == 'true'

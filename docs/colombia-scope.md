@@ -391,11 +391,11 @@ editions will need the same, and it may be worth doing once in
 
 ## The weekly schedule
 
-`.github/workflows/co-weekly.yml`: Thursday 09:00 UTC, retry 11:00 UTC
+`.github/workflows/co-weekly.yml`: Thursday 09:30 UTC, retry 11:30 UTC (half an hour later than first built; Chile holds 09:00 and 11:00)
 (04:00 in Bogotá, after the Tuesday and Wednesday plenaries), gated by
 `mini-check` with `job: CO_WEEKLY` (repo variable `MINI_LAST_CO_WEEKLY`,
 grace 200 minutes). The Mini runs `jobs/co-weekly.sh` from
-`ops/launchd/net.citizengo.parlmonitor.co-weekly.plist` at 09:00 London on
+`ops/launchd/net.citizengo.parlmonitor.co-weekly.plist` at 09:30 London on
 Thursdays. Watched by the failure alert and `tools/coverage.py` (bills,
 members and divisions weekly; all three are re-read whole each run, so they
 move in recess too). Other country branches may choose the same slot:
