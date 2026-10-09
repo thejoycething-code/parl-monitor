@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Fridays (au-weekly.yml; the Mac Mini first).
+    "Australia weekly": (7, 4, "Australia's Federal Parliament: bills, House and Senate divisions"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,18 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Australia (9 October 2026). MEASURED which re-stamp: the OpenAustralia
+    # member lists are re-read whole every run, and every bill that became an
+    # Act is re-stamped from the Federal Register's listing every run, so
+    # members and bills move every week, recess included. Divisions move only
+    # when a Hansard day file is new or re-parsed, and Canberra sits in
+    # blocks (no sitting day between 17 September and 9 October 2026, nor
+    # between 2 July and 11 August): a month plus a month's grace, as for
+    # the US. au_offices, au_votes and au_hansard_files carry no sighting
+    # column.
+    ("au_members", "last_seen", 7, 4, "Federal Parliament members (Australia weekly)"),
+    ("au_bills", "last_seen", 7, 4, "Federal bills, from Hansard and the Register of Legislation (Australia weekly)"),
+    ("au_divisions", "last_seen", 31, 31, "House and Senate divisions (Australia weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +244,8 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # Divisions left out for the same reason as the US: a recess week cannot move them.
+    "Australia weekly": ["au_bills", "au_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -243,6 +259,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Australia weekly": (("au_members", "au_bills", "au_divisions"),
+                         "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
