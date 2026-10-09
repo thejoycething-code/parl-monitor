@@ -1,0 +1,21 @@
+# Netherlands edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text: lower case, accents stripped.
+# A watched item is never filtered.
+#
+# Measured on the scoping store (9 October 2026, reclassified under
+# taxonomy-nl v0.1), votes from 8 September to 9 October: 43 votes on our
+# ground once migration-only votes are hidden. One was noise: a motion on
+# the Defence budget for a zero-tolerance policy on "discriminatie,
+# seksuele intimidatie of ander grensoverschrijdend gedrag" (workplace
+# conduct; "seksuele intimidatie" is a tier-2 area-12 term). Motions whose
+# areas come only from the dossier (the trafficking directive bill) are
+# kept and labelled: they were on the bill's ground (victims, platforms).
+procedural_votes:
+  - '^\W*(vaststelling|wijziging) van de (agenda|stemmingslijst)\b'
+  - '\bverzoek om (uitstel van )?(de )?stemming\b'
+  - '\bordevoorstel\b'
+exclude_titles:
+  - '\bgrensoverschrijdend gedrag\b'
+alert:
+  title_tier1: true
+  distinct_terms: 2
