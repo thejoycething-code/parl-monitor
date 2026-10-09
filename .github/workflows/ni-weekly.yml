@@ -158,6 +158,14 @@ jobs:
         # not published state. Offline, no API calls; a sheet that places
         # nobody is deleted and the run says so.
         run: python3 tools/devolved_5ca.py --nation ni | tee /tmp/ni-5ca.log
+      - name: Rebuild the MLA votes page with each member's record
+        if: always()
+        # Member profiles on our ground (Christopher, 2026-10-09: parity
+        # with Westminster): divisions with the signed 5CA reading, questions,
+        # motions, speeches and 5CA placement per area, offline from the store
+        # this run just refreshed (src/devolved_intel.py). Deployed with the
+        # partner site; committed below so the deploy finds it.
+        run: python3 tools/make_devolved_votes.py --nation ni | tee /tmp/ni-profiles.log
       - name: Health summary
         # The tools print their gaps and then exit 0, so a PARTIAL refresh is
         # a green tick with the detail buried in the log. Lifting the gap lines
@@ -222,7 +230,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ partner_site/mla-votes.html docs/mla-votes.html
           git diff --cached --quiet || git commit -m "NI weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # The sidecar MUST land: the store was already published above,
           # so a failed push leaves the release ahead of the repo -- the
