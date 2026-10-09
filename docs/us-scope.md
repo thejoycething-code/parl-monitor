@@ -588,6 +588,22 @@ wording** (listed, the taxonomy not edited; Christopher's call):
   contributions to Super PACs (free speech?). The two voter-ID votes
   (2026 votes 144 and 151) and the migration-only votes are not ours.
 
+**Done at taxonomy v1.21** (Christopher, 9 October 2026: "add the three
+terms"): "home educator*" (tier 1) and "secondary education scholarship*"
+(tier 2) in area 6, "family planning" (tier 2) in area 1, with home school,
+school choice, the scholarship granting organizations and "reproductive
+health service*" beside them (docs/keyword-taxonomy.md has each term's
+measured effect; bare "reproductive health" and "religious school*" were
+rejected as noise). All three votes stand on their own purpose again: vote
+356 area 6, vote 358 area 6, vote 402 area 1. Measured on a read-only copy
+of the published store with each Senate purpose filled as `--reclassify`
+fills it: Senate votes on our ground 112 to 115; House roll calls 84 to 85
+(2026 roll 269, the NDAA amendment for a military school-choice pilot);
+US bills on our ground 759 to 782; 6 Federal Register documents gain an
+area (the IRS scholarship tax credit rules, the National School Choice Week
+proclamations, a TANF clean-up rule naming family planning). The borderline
+votes above are untouched.
+
 ### (Superseded) Senate roll calls: blocked from the laptop
 
 `senate.gov` returned **403 Access Denied on every page, including the
@@ -750,6 +766,16 @@ failure alert and `tools/coverage.py` (bills and members weekly; votes a
 month plus a month's grace, because the House cast no vote between
 16 September and the midterms). A hand dispatch can reclassify first.
 **It runs only once merged to main**: GitHub schedules from the default branch.
+
+## The same-day vote brief (built 9 October 2026, branch `vote-briefs`)
+
+Parity with the UK Division watch (Christopher: "start the same-day vote briefs"). `tools/us_division_brief.py` (rules and rendering in `src/vote_brief.py`), `jobs/us-division-watch.sh`, `.github/workflows/us-division-watch.yml` (`US_DIVISION_WATCH`), `ops/launchd/net.citizengo.parlmonitor.us-division-watch.plist`. No store.
+
+- **House.** The Clerk has no index and answers 200 for a roll that does not exist, so the newest roll is found by bisection (about ten small requests) and the walk goes down from it to the start of the window (two days). Each roll in the window is archived. A vote is classified exactly as `us_rollcalls.classify_division` does, with the bill's areas from that bill's own BILLSTATUS file on GovInfo (`bulkdata/BILLSTATUS/<c>/<type>/BILLSTATUS-<c><type><n>.xml`, keyless, a few KB), which also carries the House amendments and the rolls they were voted on. BILLSTATUS lags the floor by days, so a same-day amendment vote's purpose comes from Congress.gov when `CONGRESS_API_KEY` is set; otherwise the brief says the purpose is not published yet and the vote keeps its bill's areas.
+- **What it says.** Chamber and roll, date, measure, question, the Clerk's result word, the tally, the party split, what matched (`amendment`, `own text` or `bill only`, with the areas and terms), the amendment's purpose, the full name lists by position, links, and the 5CA reading's STATUS for that key in `config/us_stance.yaml` ("reading awaiting sign-off" while it is a draft). Never a direction, never a verdict.
+- **Schedule, from measurement.** The 314 House roll calls of 2026 (to 16 September): votes Monday evening to Friday; the last vote of a sitting day fell 00:00-01:00 London on 17 days, 21:00-24:00 on 28, 15:00-16:00 on 9 getaway days, 02:00-04:00 on 5. The Wayback Machine caught rolls 243 and 293 live 42 and 54 minutes after the gavel (the crawler is the limit, not the Clerk). Slots: 22:40 London Mon-Fri, 01:40 and 04:40 London Tue-Sat, the Mac Mini first, GitHub the gated backup.
+- **The Senate: its half runs on GitHub only.** senate.gov refuses the Mini's network (403 on 9 October 2026, as the laptop) and answers GitHub's runners, and the Mini's gate would skip a GitHub backup it did not need, so the Senate half is its own UNGATED job in the same workflow (`senate`, crons `50 0,3 * * 2-6`, 00:50 and 03:50 UTC Tue-Sat, after the Senate's evening votes). One menu request per session dates every vote; each vote in the window is read from its own file, whose amendment purpose is part of its own text. About ten Actions minutes a week. The weekly still collects every Senate vote for the edition; the watch only adds the same-day brief. If senate.gov ever refuses GitHub too, the job fails loudly (alert) and the weekly remains the record.
+- Dry run of 9 October 2026 (House not sitting since 16 September, so a window from 14 July): 79 roll calls read, 10 on our ground, among them the three NDAA amendment votes the 5CA drafts name (266, 267, 268), each matched on its amendment purpose and shown as "reading awaiting sign-off".
 
 ## Proposed phasing
 

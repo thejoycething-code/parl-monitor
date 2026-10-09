@@ -58,7 +58,7 @@ Divisions per year are measured where a sample was taken and marked "est." other
 
 ## Built
 
-**Hansard speeches are read too, since 2 October 2026** (`tools/prov_speeches.py`; see "Hansard speeches" below). **Scheduled since 3 October 2026** (`.github/workflows/prov-weekly.yml`, "Provinces weekly", Wednesdays; see "Schedule and backfill" below). Nothing outside `tools/prov_*.py` reads their tables. By hand, run one province at a time, into a scratch store first:
+**Hansard speeches are read too, since 2 October 2026** (`tools/prov_speeches.py`; see "Hansard speeches" below). **A weekly edition and a judge since 9 October 2026** (`tools/prov_monitor.py`, `tools/prov_triage.py`; see "The edition and the judge" below). **Scheduled since 3 October 2026** (`.github/workflows/prov-weekly.yml`, "Provinces weekly", Wednesdays; see "Schedule and backfill" below). Nothing outside `tools/prov_*.py` reads their tables. By hand, run one province at a time, into a scratch store first:
 
     python3 tools/prov_collect.py --prov ab --session 31-1 --since 2024-10-28 --until 2024-12-05 --db /tmp/prov.db
 
@@ -770,6 +770,29 @@ Days are what each legislature's own index lists for every session touching 2010
 - New Brunswick's 2023 Hansard prints its headings one language per column; the 2026 one prints them bilingual. Both are handled, and a heading in a pair can come out in French when neither half scores English ("Logement").
 - Rubric and subject come out imperfect in places (Newfoundland's debate before the Clerk's reading has no subject; Quebec subjects are question titles). Classification still reads the speech's own words per passage.
 - The excerpt and the matching are English or French taxonomy only, with the same false positives the vote collectors document (organ-donor leave, "Down syndrome" in a budget debate).
+
+### The edition and the judge (9 October 2026): `tools/prov_monitor.py`, `tools/prov_triage.py`
+
+Christopher: the provinces had collection and a signed 5CA but no edition and no judge. Both are built, modelled on the US, Irish and Latam editions.
+
+**The edition** (`tools/prov_monitor.py --edition / --dm / --print / --date / --since`) writes `editions/prov-monitor-<date>.md` and DMs a summary to Christopher alone (U05LJP0BT61; the user id is forced, whatever `secrets.yaml` says). Nothing posts to a channel.
+- **Window:** from the last edition (exclusive) to the run date, or seven days when there is none. A record dated up to 30 days before the window that the store first saw inside it is shown too, marked "collected late" (votes and proceedings are printed days after the sitting).
+- **Top lines** across provinces: which provinces had activity and what, the recorded divisions on our ground (tally and party split), royal assents, and bills that fell. Quiet provinces share one line; Prince Edward Island is named as out of reach.
+- **One section per province with activity:** divisions on our ground (the legislature's own result, the printed tally, the split by party at the vote; voice decisions say "no member record"), bills on our ground that were new, moved (a dated stage in the window, or a division on them), received royal assent, or fell; Hansard speeches on our ground, one line per member per debate per day with the link, never the speech; and the province's **5CA headline**.
+- **No verdicts.** A direction is printed only where `config/prov_stance.yaml` holds a CONFIRMED reading of that division ("Signed reading: Yea +2, Nay -2"); a `placeable: false` reading is printed as evidence only. The 5CA headline is read from the sheets `tools/prov_5ca.py` writes just before the edition (their Totals rows), so it counts only members placed by confirmed readings. Reading the sheets rather than rebuilding them keeps the edition to about two seconds (rebuilding them in memory took two minutes).
+- **Fallen bills** are shown the week a province's next session first appears in the store: the previous session's bills on our ground without royal assent died with it. A dissolution with no new session yet (Quebec's, before the 5 October 2026 election) shows when the 44th legislature's first session is collected.
+- **Known limits:** Manitoba, Ontario and Saskatchewan bill pages give the store no dated stages, so their bills show only through a division. Nova Scotia has no speeches reader. British Columbia's roster marks 227 of 236 members as sitting (the legislature has 93 seats), so the BC 5CA lines' "not placed" and "of N sitting" counts are inflated: a roster flag to fix in `src/ingest/prov_bc.py`, not in the edition.
+
+**The judge** (`tools/prov_triage.py`, same model and rubric as every other judge, `src/triage.py`, with a provincial frame: Policy 713, SOGI 123, Parents' Bill of Rights, MAID and *aide médicale à mourir*, laïcité, safe access zones, the notwithstanding clause). It scores, once ever:
+- bills on our ground (migration-only excluded);
+- divisions on our ground whose bill is not on our ground (a division inherits its bill's areas, so one on a bill on our ground takes the bill's score: never paid twice);
+- speeches on our ground from the last 90 days only (`--all-speeches` for the backlog).
+
+Scores live in their own table, `prov_scores` (item, prov, score, why, model, scored_at), not on the rows: a Hansard day read again deletes and rewrites its speeches, and a score on the row would be lost and paid for again. `--rescore <item>` re-queues one on a human's say-so; spend lands in `api_spend` as `prov-triage`.
+
+**Gated, and OFF.** Both callers of the Provinces weekly (`jobs/prov-weekly.sh` on the Mac Mini, `.github/workflows/prov-weekly.yml` as the backup) run the judge only when the repository variable `PROV_JUDGE` is `on`. **Backlog by `--dry-run` on the published store of 9 October 2026: 426 items (314 bills, 109 divisions, 3 speeches from the last 90 days), about $1.01; with every speech on our ground since 2010 (`--all-speeches`), 13,474 items, about $32.07.** A first run takes the newest 500 within a 20-minute budget.
+
+**Order in the weekly:** collectors, speeches, judge (gated), 5CA sheets, edition and DM, then the raw archive and the store. Once a day: an edition already committed for the date is rewritten, not resent. Both callers commit `editions/`. The workflow now carries the Slack token (one "Write secrets file" step) and the model key (the judge step alone); `tests/test_prov_schedule.py` keeps each to its step.
 
 ---
 

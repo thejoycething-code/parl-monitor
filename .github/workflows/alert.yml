@@ -85,6 +85,14 @@ on:
       # The same-day division brief. A silent failure here on a Friday
       # afternoon is the whole point missed (2026-09-07).
       - "Division watch"
+      # Its devolved sibling (2026-10-09): Holyrood, the Senedd, the Assembly.
+      - "Devolved watch"
+      # The same-day vote briefs for the US, Ireland and Australia (9 October
+      # 2026), the UK watch's siblings. The US one also carries the Senate
+      # half, which only GitHub can read.
+      - "US division watch"
+      - "Ireland division watch"
+      - "Australia division watch"
       # Sign-off to site on the day of a division; a silent failure here
       # leaves the supporter emails pointing at Monday's pages.
       - "Deploy tracker"

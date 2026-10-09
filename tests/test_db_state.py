@@ -353,7 +353,11 @@ class FailureAlertTests(unittest.TestCase):
     # and the manual state tools, which have no reason to speak.
     NO_SLACK = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "backfill.yml", "score-stance.yml", "upr-monthly.yml",
-                "member-profiles.yml", "prov-weekly.yml")
+                "member-profiles.yml")
+    # prov-weekly.yml left this list on 9 October 2026: it now writes the
+    # provinces edition and DMs it to Christopher, as ie-weekly.yml does
+    # (tests/test_prov_schedule.py keeps the token to that one step). Its
+    # failure alert is still the watcher's, never a step of its own.
 
     def test_the_watching_briefs_hold_no_slack_credential(self):
         """The property the watcher exists to preserve: had the alert been a
@@ -807,8 +811,13 @@ class RetrySlotsAreGuardedTests(unittest.TestCase):
 
     # Two slots that are two different passes, not a retry: the Day sweep runs
     # in the evening and again next morning for text Hansard publishes late,
-    # and the Division watch polls the House through a sitting day.
-    DIFFERENT_PASSES = ("day-sweep.yml", "division-watch.yml")
+    # and the Division watch polls the House through a sitting day; the
+    # Devolved watch looks back a week in an evening pass and a next-day pass.
+    # The US, Ireland and Australia division watches (9 October 2026) poll
+    # the same way: each slot looks for divisions the last one could not see.
+    DIFFERENT_PASSES = ("day-sweep.yml", "division-watch.yml", "devolved-watch.yml",
+                        "us-division-watch.yml", "ie-division-watch.yml",
+                        "au-division-watch.yml")
 
     def _scheduled(self):
         import glob

@@ -211,6 +211,26 @@ The Latam monitor (docs/country-decisions-2026-10-10.md, "Edition structure"): o
 - **Install on the Mini** (after the branch is merged to main): `cp ops/launchd/net.citizengo.parlmonitor.latam-monthly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.latam-monthly.plist`.
 - **Sources:** www.asambleanacional.gob.ve (robots.txt allows all) and www.lagaceta.gob.ni (robots.txt 404, nothing disallowed; the issue PDF is embedded in each issue page) both answered the laptop on 9 October 2026 with the honest UA.
 
+## Devolved watch and devolved member records (9 October 2026, branch `devolved-intel`)
+
+Christopher: parity for Scotland, Wales and Northern Ireland.
+
+**The devolved watch** (`jobs/devolved-watch.sh` -> `tools/devolved_brief.py`) is the Westminster division watch's sibling: for each NEW division on our ground at Holyrood, the Senedd or the Assembly it writes `data/briefs/<nation>-division-<id>.md` and sends one DM per run to Christopher alone (U05LJP0BT61, fixed in the tool): the question, result, tally, party split (and the designation split in NI), what matched, the link and the 5CA reading status (the signed direction per lobby, or "awaiting sign-off"). No verdicts. It speaks once per division and looks back seven days, so late publication is caught by the next slot. It touches no store (`# mini_run: no-store`); the runner commits `data/briefs` and `data/raw.json`.
+
+- **Slots, London time:** 20:30 Mon-Thu (after Holyrood's Decision Time results, published 17:08-19:00 on 17 of 27 measured sitting days; the Senedd votes Tue/Wed evening, the Assembly divides Mon/Tue) and 12:45 Tue-Fri (Holyrood's next-morning batch, 09:10-12:22 on 7 of 27 days). At least an hour from every Westminster division watch slot on the runner lock (19:00 and 22:00 Mon-Thu; 14:00, 16:00, 18:00 Fri). GitHub's backup: `.github/workflows/devolved-watch.yml`, crons 19:30 UTC Mon-Thu and 11:45 UTC Tue, Thu and Fri (Wednesday midday is the Provinces weekly's window on GitHub), gated by `mini-check` with `MINI_LAST_DEVOLVED_WATCH`.
+- **Needs** `SLACK_BOT_TOKEN` in `~/runner/env` (already there for Division watch). A run fetches Holyrood's 2026 votes (~2MB) and, when there is a division to classify, the motions dump (110MB, about 40 seconds); the Senedd index and vote XMLs; parlparse (27MB) only when a Senedd division is to be briefed; the Assembly's division list, results, member votes and Hansard.
+- **First run:** it briefs anything on our ground from the last seven days once. To see what it would say first, without a DM:
+  `cd ~/runner/parl-monitor && python3 tools/devolved_brief.py --no-dm --out /tmp/devolved-briefs`
+
+Install, after `git pull` in `~/runner/parl-monitor`:
+```
+cp ~/runner/parl-monitor/ops/launchd/net.citizengo.parlmonitor.devolved-watch.plist ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.devolved-watch.plist
+```
+A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run.sh devolved-watch` (this sends the DM for anything new). One nation, or a longer look back: `DEVOLVED_NATION=ni DEVOLVED_SINCE=2026-09-28 bash ~/runner/parl-monitor/tools/mini_run.sh devolved-watch`.
+
+**Member records** need no install: the Holyrood, Senedd and Assembly weeklies (`jobs/{sp,sd,ni}-weekly.sh`) now rebuild `msp-votes.html`, `ms-votes.html` and `mla-votes.html` after the 5CA sheets, and the runner commits them (`# mini_run: commit partner_site/... docs/...`). Each member's card carries "On our ground": divisions with their lobby and the signed 5CA reading where there is one, questions and motions as one line and a link, speeches, and the 5CA placement per area (`src/devolved_intel.py`). The Monday publish deploys them as before.
+
 ## Weekly country editions (10 October 2026, branch `editions-core`)
 
 The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition structure") each get a weekly edition, to Chris alone by DM, archived to `editions/<cc>-monitor-<date>.md`. One framework renders them all (`src/country_edition.py`; adapters in `src/editions/<cc>.py`; entry points `tools/<cc>_monitor.py`). First batch: Austria, the Netherlands (votes only, NL3), Belgium and Poland. Second batch (branch `editions-it-ch-fr-pt`): Italy, Switzerland, France and Portugal, in `jobs/{it,ch,fr,pt}-weekly.sh` the same way.
@@ -229,6 +249,30 @@ cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.
 ```
 
 It skips jobs already loaded, so it is safe to rerun. Mexico's plist is only the clock that dispatches its GitHub run; Guatemala is installed only if `congreso.gob.gt` answers the Mini (GT1), otherwise it stays on GitHub. It also runs the approved reachability checks for Uruguay (UY1, parlamento.gub.uy) and Argentina (AR2, votaciones.hcdn.gob.ar). Log: `~/parl-chains/install-countries.log`.
+
+## US, Ireland and Australia division watches (9 October 2026, branch `vote-briefs`)
+
+Christopher: "start the same-day vote briefs" for the US, Ireland and Australia, in parity with the UK Division watch. Three jobs, each `# mini_run: no-store` (no store pulled or published; the raw archive is published), each speaking once per division (a brief in `data/briefs/<cc>-division-<key>.md` is never rewritten or resent), one DM per run to Christopher alone (`src/vote_brief.py` fixes the recipient). Shared code: `src/vote_brief.py`; tools: `tools/{us,ie,au}_division_brief.py`.
+
+| Job | Mini (London, launchd) | GitHub backup (UTC, gated by `mini-check`) | Why (measured 9 October 2026) |
+|---|---|---|---|
+| `us-division-watch` (House) | 22:40 Mon-Fri; 01:40 and 04:40 Tue-Sat | `40 21 * * 1-5`, `40 0,3 * * 2-6` (`US_DIVISION_WATCH`) | the last House vote of a 2026 sitting day fell 21:00-01:00 London on 45 of 72 days, 15:00-16:00 on getaway days, 02:00-04:00 on 5; the Clerk's file is up within the hour |
+| US Senate half | none: senate.gov refuses the Mini | `50 0,3 * * 2-6`, ungated (`senate` job) | the only network that can read senate.gov; about ten minutes a week |
+| `ie-division-watch` | 22:50 Tue-Thu; 07:50 Wed-Fri | `50 21 * * 2-4`, `50 6 * * 3-5` (`IE_DIVISION_WATCH`) | Wednesday deferred divisions 19:00-19:40, late nights to 23:30; the API's lag is unmeasured (no per-division stamp), so an evening and a next-morning slot |
+| `au-division-watch` | 01:20 and 06:20 Tue-Fri | `20 0,5 * * 2-5` (`AU_DIVISION_WATCH`) | OpenAustralia posts a sitting day at 09:05 Canberra the next morning: 22:05-00:05 London by season |
+
+- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch). `CONGRESS_API_KEY`, already there for the US weekly, lets the US watch give a same-day House amendment vote its purpose before BILLSTATUS catches up.
+- **Install on the Mini** (after the branch is merged to main, because `mini_run.sh` records the slot only for main):
+
+```
+cd ~/runner/parl-monitor && git pull --ff-only
+for j in us-division-watch ie-division-watch au-division-watch; do
+  cp ops/launchd/net.citizengo.parlmonitor.$j.plist ~/Library/LaunchAgents/
+  launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.$j.plist
+done
+```
+
+- **A dry run by hand** (prints what would be briefed, sends nothing, writes into a scratch folder): `python3 tools/us_division_brief.py --since 2026-09-15 --no-dm --out /tmp/briefs --raw-dir /tmp/raw` (same flags for `ie_` and `au_`). Optional heartbeats: `HC_US_DIVISION_WATCH`, `HC_IE_DIVISION_WATCH`, `HC_AU_DIVISION_WATCH`.
 
 ## Backfills run on the Mini (9 October 2026)
 

@@ -638,6 +638,15 @@ alert and `tools/coverage.py` (members, bills and divisions all weekly).
 **It runs only once merged to main**, and the launchd job needs installing
 on the Mini (docs/mac-mini.md).
 
+## The same-day vote brief (built 9 October 2026, branch `vote-briefs`)
+
+Parity with the UK Division watch (Christopher: "start the same-day vote briefs"). `tools/ie_division_brief.py` (rules and rendering in `src/vote_brief.py`), `jobs/ie-division-watch.sh`, `.github/workflows/ie-division-watch.yml` (`IE_DIVISION_WATCH`), `ops/launchd/net.citizengo.parlmonitor.ie-division-watch.plist`. No store.
+
+- **Read directly from the API**: `/votes` for the Dail, the Seanad and committees over the window (three days), archived; `/legislation` since the Dail's first day (one request, 419 bills, 3.7 MB; not archived, the weekly archives it), because the API's date filter is on a bill's events and a Second Stage resumed for a deferred division is not one (measured: the three-day-wait Bill of 17 June is absent from a 15-18 June window); `/members` for party spells; the day's transcript only for an amendment vote. Joined and classified exactly as `ie_rollcalls` does (debate section join, `classify_division`, party AT THE VOTE via `PartyBook`).
+- **What it says.** House or committee, date, debate, the subject line, the API's outcome word, Tá/Níl/Staon, the party split, what matched (`amendment`, `own text` or `bill only`), the amendment as moved when the transcript has it (or that it is not published yet), the tellers, name lists, and the 5CA reading's STATUS in `config/ie_stance.yaml`.
+- **Schedule, from measurement.** From the debate transcripts' recorded times: Wednesday's deferred divisions fall 19:00-19:40 (23 and 30 September), late sittings divide until 22:00-23:30 (Budget day 6 October, 8 July). The API has no per-division timestamp and the Dail did not sit on 9 October, so the API's own lag could not be timed; Thursday 8 October's record was up by 10:04 UTC the next morning at the latest. Slots: 22:50 London Tue-Thu and 07:50 London Wed-Fri. Each brief records its generation time, so the first weeks measure the lag; drop or move a slot then.
+- Dry run of 9 October 2026 (window 22 September to 9 October): 29 divisions, none on our ground. On 15-18 June: 24 divisions, 2 on our ground, among them `dail/34/2026-06-17/vote_149` (the three-day-wait Bill, FF 12-30, FG 11-23), "reading awaiting sign-off".
+
 ## Proposed phasing
 
 1. **Phase 1 (built): members, bills, divisions with every vote.** Plenary

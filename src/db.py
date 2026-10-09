@@ -1799,6 +1799,7 @@ TABLES = (
     "prov_sittings",
     "prov_speeches",
     "prov_speech_sittings",
+    "prov_scores",
     "ca_judgments",
     "ca_leave",
     "de_members",
