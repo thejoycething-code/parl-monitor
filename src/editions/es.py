@@ -90,6 +90,12 @@ def _lookup(table, text):
     return next((en for start, en in table if t.startswith(start)), None)
 
 
+def sentence(text):
+    """A takeaway ends with a full stop: a group's decisive vote prints it as is."""
+    text = (text or "").strip()
+    return text if not text or text.endswith((".", "…", "?", "!")) else text + "."
+
+
 def roman(n):
     return ROMAN.get(int(n)) if n else None
 
@@ -237,7 +243,7 @@ def divisions(conn, since, until, wl):
             terms=_terms(r["matched_terms"], init), body=ce.clean(r["section"]),
             url=DAY_PAGE.format(leg=roman(r["legislature"]) or r["legislature"],
                                 date=_ddmmyyyy(r["date"])),
-            takeaway=takeaway, group=("es", key), group_title=r["title"],
+            takeaway=sentence(takeaway), group=("es", key), group_title=r["title"],
             final=is_final(r["subgroup"], r["title"]),
             own=False if own is False else None))
     return out

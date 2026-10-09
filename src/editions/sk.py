@@ -61,6 +61,12 @@ def _fold(text):
     return fold(text)
 
 
+def sentence(text):
+    """A takeaway ends with a full stop: a group's decisive vote prints it as is."""
+    text = (text or "").strip()
+    return text if not text or text.endswith((".", "…", "?", "!")) else text + "."
+
+
 def split_label(name):
     """(head, question): the print-and-reading part and the question put,
     both verbatim. A label without a question is all head."""
@@ -152,7 +158,7 @@ def votes(conn, since, until, wl):
         out.append(ce.vote(
             CC, key, r["date"], vote_title(r["name"]), ce.areas_of(r["areas"]), r["tier"],
             watched, vote_lines(conn, r), terms=r["matched_terms"], body=ce.clean(r["name"]),
-            url=VOTE_URL.format(id=r["voting_id"]), takeaway=takeaway or None,
+            url=VOTE_URL.format(id=r["voting_id"]), takeaway=sentence(takeaway) or None,
             group=("sk", key), group_title=bill_title(conn, r["bill_key"]) or head,
             final="ako o celku" in _fold(r["name"]),
             own=False if own is False else None))
@@ -194,7 +200,7 @@ def interpellations(conn, since, until, wl):
             out.append(ce.item(
                 CC, kind, "int:{0}".format(r["int_id"]), r[col], r["subject"],
                 ce.areas_of(r["areas"]), r["tier"], False, status=r["state"],
-                terms=r["matched_terms"], takeaway=take))
+                terms=r["matched_terms"], takeaway=sentence(take)))
     return out
 
 

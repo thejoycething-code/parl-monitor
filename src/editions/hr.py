@@ -44,6 +44,12 @@ def _fold(text):
     return fold(text)
 
 
+def sentence(text):
+    """A takeaway ends with a full stop: a group's decisive vote prints it as is."""
+    text = (text or "").strip()
+    return text if not text or text.endswith((".", "…", "?", "!")) else text + "."
+
+
 def watchlist(config_dir=None):
     """{key: {'areas', 'why'}}, keyed as src/hr_store.py keys them: a bill
     '11/41', or an agenda appearance 'item:214612'."""
@@ -149,7 +155,7 @@ def votes(conn, since, until, wl):
         out.append(ce.vote(
             CC, key, r["voted_at"], title, ce.areas_of(r["areas"]), r["tier"], watched,
             vote_lines(conn, r, how), terms=r["matched_terms"], url=r["url"] or
-            VOTE_URL.format(tid=r["tid"]), takeaway=takeaway or None,
+            VOTE_URL.format(tid=r["tid"]), takeaway=sentence(takeaway) or None,
             group=("hr", key), group_title=title,
             final=_fold(title).startswith("konacni prijedlog")))
     return out
@@ -227,7 +233,7 @@ def week_ahead(conn, today, wl):
         out.append(ce.item(
             CC, "agenda", key_of(r["tid"], r["bill_key"]), r["last_seen"], r["title"],
             ce.areas_of(r["areas"]), r["tier"], watched, url=r["url"],
-            terms=r["matched_terms"], takeaway=take))
+            terms=r["matched_terms"], takeaway=sentence(take)))
     return out
 
 
