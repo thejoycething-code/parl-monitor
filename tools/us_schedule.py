@@ -69,7 +69,8 @@ from src import db, drain, filter as filt, us_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "us-schedule"
-CURRENT_CONGRESS = 119
+# Derived from the date, as in us_rollcalls: the 120th from 3 January 2027.
+CURRENT_CONGRESS = us_store.congress_on()
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 HOUSE_FLOOR = "https://docs.house.gov/billsthisweek/{0}/{0}.xml"
 HOUSE_FLOOR_INDEX = "https://docs.house.gov/floor/"

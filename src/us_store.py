@@ -21,12 +21,27 @@ Clerk printed on that roll call. `us_members.party` is only the latest seen.
 A BILL DIES WITH ITS CONGRESS. Every pending bill falls when the Congress
 ends (3 January of odd years). Nothing in a bill's own record says so, so
 `us_bills.congress` is what the board reads, never `latest_action`.
+
+THE CURRENT CONGRESS IS A DATE, NOT A CONSTANT. Congress n sits from noon on
+3 January of 1789 + 2(n - 1) (the Twentieth Amendment) to 3 January two
+years later: the 119th from 3 January 2025, the 120th from 3 January 2027.
+Its first session is the odd year, its second the even one. 1 and 2 January
+of an odd year still belong to the old Congress. `congress_on` and
+`session_on` are what the collector, the job script (`us_rollcalls.py
+--print-congress`) and the edition read; nothing hard-codes 119 any more.
+
+AMENDMENT PURPOSES (phase 1b): `us_divisions.amendment_key`,
+`amendment_text` and `purpose_source` ('billstatus', keyless and first, or
+'congress-api', keyed, for what BILLSTATUS has not explained yet). The rule
+that uses them is in tools/us_rollcalls.py.
 """
 
 from __future__ import annotations
 
+import datetime
 import json
 import os
+import re
 
 SCHEMA = (
     """CREATE TABLE IF NOT EXISTS us_members (
@@ -207,6 +222,10 @@ ADDED_COLUMNS = (
     ("us_divisions", "amendment_key", "TEXT"),      # '119/hamdt/150'
     ("us_divisions", "amendment_text", "TEXT"),     # description | purpose
     ("us_divisions", "amendment_checked", "TEXT"),
+    # Which source gave amendment_text: 'billstatus' (the bulk files, keyless,
+    # tried first) or 'congress-api' (keyed, only for what BILLSTATUS has not
+    # explained yet). Added with the keyless route, 9 October 2026.
+    ("us_divisions", "purpose_source", "TEXT"),
 )
 
 
@@ -219,6 +238,81 @@ def ensure_schema(conn):
             conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
+
+
+# --- does a vote stand on its own amendment purpose? -------------------------
+#
+# Shared by the collector (tools/us_rollcalls.classify_division, where the
+# rule is documented) and the edition, so both read it the same way.
+
+EN_BLOC = re.compile(r"\ben bloc\b|comprised of the following amendments", re.I)
+
+
+def has_own_purpose(amendment_text, chamber="house"):
+    """True for a HOUSE vote whose amendment text is a real purpose, not an
+    en bloc list of amendment numbers."""
+    return bool(amendment_text) and (chamber or "house") == "house" \
+        and not EN_BLOC.search(amendment_text)
+
+
+# --- which Congress is sitting ----------------------------------------------
+
+FIRST_CONGRESS_YEAR = 1789
+
+
+def _as_date(day=None):
+    if day is None:
+        return datetime.date.today()
+    if isinstance(day, str):
+        return datetime.date.fromisoformat(day[:10])
+    return day
+
+
+def congress_start(congress):
+    """3 January of the Congress's first year: 119 -> 2025-01-03."""
+    return datetime.date(FIRST_CONGRESS_YEAR + 2 * (int(congress) - 1), 1, 3)
+
+
+def congress_end(congress):
+    """The day the Congress ends, which is the next one's first day."""
+    return congress_start(int(congress) + 1)
+
+
+def congress_on(day=None):
+    """The Congress sitting on a date: 2026-10-09 -> 119, 2027-01-02 -> 119,
+    2027-01-03 -> 120."""
+    d = _as_date(day)
+    year = d.year
+    if year % 2 == 1 and d < datetime.date(year, 1, 3):
+        year -= 1
+    return (year - FIRST_CONGRESS_YEAR) // 2 + 1
+
+
+def session_on(day=None):
+    """1 in the Congress's odd (first) year, 2 in its even one."""
+    d = _as_date(day)
+    return 1 if d.year == congress_start(congress_on(d)).year else 2
+
+
+def congress_ended(congress, day=None):
+    """True once the Congress is over: every bill of it not enacted has fallen."""
+    return _as_date(day) >= congress_end(congress)
+
+
+# Weeks after a new Congress starts during which the old one is collected
+# too: the last votes and bill statuses of the old Congress keep arriving in
+# BILLSTATUS (a bill presented before 3 January can be signed after it, and
+# the Library of Congress catches up on actions for weeks).
+CATCH_UP_DAYS = 45
+
+
+def catch_up_congress(day=None):
+    """The previous Congress while its records are still settling, else None."""
+    d = _as_date(day)
+    current = congress_on(d)
+    if (d - congress_start(current)).days < CATCH_UP_DAYS:
+        return current - 1
+    return None
 
 
 # --- the US watchlist, applied by bill KEY ---------------------------------
