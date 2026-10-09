@@ -48,7 +48,8 @@ jobs:
         # quiet, or a pipeline ran green over data it did not refresh.
         # The Failure alert workflow watches this one, so that becomes a
         # DM rather than a line in a log nobody opens.
-        run: python3 tools/coverage.py | tee /tmp/coverage.log
+        # jobs/coverage.sh is shared with the Mac Mini runner.
+        run: bash jobs/coverage.sh | tee /tmp/coverage.log
       - name: Report
         if: always()
         run: |
