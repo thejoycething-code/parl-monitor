@@ -2,7 +2,8 @@
 # US weekly: members, bills, House roll calls and Senate votes of the current
 # Congress, the week ahead (floor lists and committee meetings, both
 # chambers), the Federal Register's executive actions and the Supreme Court
-# (9 October 2026), the judge when US_JUDGE is on, then the edition and its DM.
+# (9 October 2026), the fifty state legislatures (Open States, same day), the
+# judge when US_JUDGE is on, then the edition and its DM.
 #
 # Called by .github/workflows/us-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh us-weekly. One script, two callers (docs/mac-mini.md).
@@ -56,6 +57,8 @@ if [ "${US_RECLASSIFY:-}" = "true" ]; then
   python3 tools/us_rollcalls.py --reclassify | tee "$LOG/us-reclassify.log"
   python3 tools/us_federal_register.py --reclassify | tee -a "$LOG/us-reclassify.log"
   python3 tools/us_courts.py --reclassify | tee -a "$LOG/us-reclassify.log"
+  # Narrows only: a widened net needs `tools/us_states.py --full` (bulk re-read).
+  python3 tools/us_states.py --reclassify | tee -a "$LOG/us-reclassify.log"
 fi
 
 if [ "${US_SENATE_ONLY:-}" = "true" ]; then
@@ -132,6 +135,20 @@ python3 tools/us_federal_register.py | tee "$LOG/us-federal-register.log" \
   || echo "  [gap] Federal Register step failed; this week's executive actions may be missing"
 python3 tools/us_courts.py --budget-seconds 900 | tee "$LOG/us-courts.log" \
   || echo "  [gap] Supreme Court step failed; this week's opinions and grants may be missing"
+
+# The fifty state legislatures (tools/us_states.py, 9 October 2026), through
+# Open States, before the judge so state bills that moved can be scored.
+# A state's first read is its bulk files (keyless, about 2 GB for all fifty);
+# after that the week is read from the API, which allows this key 10 requests
+# a minute and 250 a day: the step spends at most 200 and a state too busy
+# for that reads its bulk file instead. States not reached inside the budget
+# go first next week (the rotation). 10 minutes on GitHub keeps the job's
+# step budgets under its 120; 30 on the Mini, inside its three hours.
+# No OPENSTATES_API_KEY: one [gap] line and the step skips.
+if [ -n "${GITHUB_ACTIONS:-}" ]; then STATES_BUDGET="${US_STATES_BUDGET:-600}"
+else STATES_BUDGET="${US_STATES_BUDGET:-1800}"; fi
+python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" | tee "$LOG/us-states.log" \
+  || echo "  [gap] the state legislatures step ended with gaps; the edition says what it has"
 
 JUDGE="${US_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
