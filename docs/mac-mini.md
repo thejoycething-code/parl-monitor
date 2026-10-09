@@ -211,6 +211,26 @@ The Latam monitor (docs/country-decisions-2026-10-10.md, "Edition structure"): o
 - **Install on the Mini** (after the branch is merged to main): `cp ops/launchd/net.citizengo.parlmonitor.latam-monthly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.latam-monthly.plist`.
 - **Sources:** www.asambleanacional.gob.ve (robots.txt allows all) and www.lagaceta.gob.ni (robots.txt 404, nothing disallowed; the issue PDF is embedded in each issue page) both answered the laptop on 9 October 2026 with the honest UA.
 
+## Devolved watch and devolved member records (9 October 2026, branch `devolved-intel`)
+
+Christopher: parity for Scotland, Wales and Northern Ireland.
+
+**The devolved watch** (`jobs/devolved-watch.sh` -> `tools/devolved_brief.py`) is the Westminster division watch's sibling: for each NEW division on our ground at Holyrood, the Senedd or the Assembly it writes `data/briefs/<nation>-division-<id>.md` and sends one DM per run to Christopher alone (U05LJP0BT61, fixed in the tool): the question, result, tally, party split (and the designation split in NI), what matched, the link and the 5CA reading status (the signed direction per lobby, or "awaiting sign-off"). No verdicts. It speaks once per division and looks back seven days, so late publication is caught by the next slot. It touches no store (`# mini_run: no-store`); the runner commits `data/briefs` and `data/raw.json`.
+
+- **Slots, London time:** 20:30 Mon-Thu (after Holyrood's Decision Time results, published 17:08-19:00 on 17 of 27 measured sitting days; the Senedd votes Tue/Wed evening, the Assembly divides Mon/Tue) and 12:45 Tue-Fri (Holyrood's next-morning batch, 09:10-12:22 on 7 of 27 days). At least an hour from every Westminster division watch slot on the runner lock (19:00 and 22:00 Mon-Thu; 14:00, 16:00, 18:00 Fri). GitHub's backup: `.github/workflows/devolved-watch.yml`, crons 19:30 and 11:45 UTC, gated by `mini-check` with `MINI_LAST_DEVOLVED_WATCH`.
+- **Needs** `SLACK_BOT_TOKEN` in `~/runner/env` (already there for Division watch). A run fetches Holyrood's 2026 votes (~2MB) and, when there is a division to classify, the motions dump (110MB, about 40 seconds); the Senedd index and vote XMLs; parlparse (27MB) only when a Senedd division is to be briefed; the Assembly's division list, results, member votes and Hansard.
+- **First run:** it briefs anything on our ground from the last seven days once. To see what it would say first, without a DM:
+  `cd ~/runner/parl-monitor && python3 tools/devolved_brief.py --no-dm --out /tmp/devolved-briefs`
+
+Install, after `git pull` in `~/runner/parl-monitor`:
+```
+cp ~/runner/parl-monitor/ops/launchd/net.citizengo.parlmonitor.devolved-watch.plist ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.devolved-watch.plist
+```
+A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run.sh devolved-watch` (this sends the DM for anything new). One nation, or a longer look back: `DEVOLVED_NATION=ni DEVOLVED_SINCE=2026-09-28 bash ~/runner/parl-monitor/tools/mini_run.sh devolved-watch`.
+
+**Member records** need no install: the Holyrood, Senedd and Assembly weeklies (`jobs/{sp,sd,ni}-weekly.sh`) now rebuild `msp-votes.html`, `ms-votes.html` and `mla-votes.html` after the 5CA sheets, and the runner commits them (`# mini_run: commit partner_site/... docs/...`). Each member's card carries "On our ground": divisions with their lobby and the signed 5CA reading where there is one, questions and motions as one line and a link, speeches, and the 5CA placement per area (`src/devolved_intel.py`). The Monday publish deploys them as before.
+
 ## Installing the country jobs (10 October 2026)
 
 One command installs every country-edition job and the Latam monthly, after the runner clone has pulled main:

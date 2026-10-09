@@ -1548,3 +1548,14 @@ not; switching client to dodge a bot check was ruled out). HUDOC's own RSS searc
 `/app/transform/rss?library=echreng&query=...`, answers our client with the same query
 grammar but no conclusion text. Order now: JSON API, RSS feed, Mini relay. The 10 Oct
 EU weekly shows whether the RSS feed also answers GitHub Actions.
+
+## Devolved division publication times (9 October 2026)
+
+Measured for the devolved watch (tools/devolved_brief.py), probing live on Friday 9 October at 21:30.
+
+* **Holyrood** `votesmotion?year=N` rows carry `UpdatedElasticDate`, a per-row publication stamp. Rows of the old Parliament were all re-stamped in bulk (8 April and 30 July 2026), so only the new Parliament's 27 sitting days (21 May to 8 October) measure anything. Same evening on 17: 16:08-18:00 UTC, i.e. 17:08-19:00 London, after Decision Time at about 17:00 (the latest: 23 June, 18:00 UTC). Next morning on 7: 08:10-11:22 UTC (09:10-12:22 London). Two to six days late on 3 (8 Sept published the 10th; 10 Sept the 16th; 11 June the 16th). `Time.Start` is the start of the business slot, not the decision.
+* **Holyrood motion text.** The motions dump (`/api/Motionsquestionsanswersmotions`, 85,494 rows, 37 seconds) is current to the hour: the amendments lodged on 7 October for the 8 October debate were in it. No per-id motion endpoint exists (`/Motionsquestionsanswersmotions/<id>`, `/motions/<id>` and `?id=` all 404). The public motion page answers for a base motion (`/chamber-and-committees/votes-and-motions/S7M-01517`) and lists its amendments with results but not their text; an AMENDMENT's own page (`.../S7M-01517.3`) returns a MirrorWeb "Verifying your browser" bot check, which we do not get past.
+* **Senedd** XMLExport carries no publication stamp: neither the index (`MeetingDate` is the sitting's start, 13:30) nor the Votes XML, and the download answers a HEAD with a 302. The 6 and 7 October sittings' votes were present by the Friday.
+* **Assembly** `GetVotesOnDivision_JSON` carries the division's own time (`DivisionDate`, to the second: 21:40 on 28 September, the latest of the session so far) and no publication stamp. `GetDivisionResult_JSON` gives the untruncated title, the outcome as announced, and tallies by designation (501653: 70 ayes = 29 Nationalist + 26 Unionist + 15 Other). The 5 and 6 October divisions and that week's Hansard were all present by the Friday. The list's `endDate` is EXCLUSIVE of a division later in the day: 28 September to 28 September omitted the 21:40 division.
+* Every brief records when the watch first saw its division ("First seen by the devolved watch ..."), so the Senedd's and the Assembly's lag measures itself from the first sitting week; tighten the slots from those stamps.
+

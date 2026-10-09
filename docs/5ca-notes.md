@@ -177,3 +177,23 @@ Federal Parliament of Australia. Built on the provinces and Canada pattern:
 * Ireland: the store holds the 34th Dail and 27th Seanad only, so the safe
   access zones and hate offences votes (33rd Dail) cannot be read until
   `ie_rollcalls.py` backfills it.
+
+## Devolved member records and same-day briefs (9 October 2026)
+
+* `src/devolved_intel.py` reads each MSP's, MS's and MLA's record on our ground
+  from the store and the 5CA placement per area from the SAME `build_rows` the
+  sheets use (`sp_5ca`, `sd_5ca`, `ni_5ca`; the first two now carry the
+  member's id on each row), so a profile and a sheet cannot disagree.
+* A vote shows its lobby and, only where a human signed the reading in
+  `config/{sp,sd,ni}_stance.yaml`, that lobby's signed direction. Otherwise
+  "awaiting sign-off" (no entry, or a draft), or "read and settled: places
+  nobody" (an entry with no lobby values, the Senedd LCM family). An
+  abstention is a position without a direction; Holyrood's "Not Voted" is
+  counted as an absence and never listed.
+* Holyrood motions and questions show at tier 1 (the sp_items.tier rule) and
+  Holyrood divisions at tier 1 or where a reading exists. Area 11 (migration)
+  is collated and never shown as a member's record.
+* The same-day briefs (`tools/devolved_brief.py`) report the reading status in
+  the same three words and attach no verdict: the next step they name is
+  signing the reading in the stance file, after which the weekly places members.
+
