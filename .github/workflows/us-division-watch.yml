@@ -1,0 +1,153 @@
+name: US division watch
+
+# The same-day vote brief for the US Congress (Christopher, 9 October 2026:
+# "start the same-day vote briefs"; parity with division-watch.yml). For each
+# new roll call on our ground: data/briefs/us-division-<key>.md and one DM to
+# Christopher (tools/us_division_brief.py, src/vote_brief.py). Speaks once
+# per division. Touches no store.
+#
+# MEASURED (9 October 2026, all 314 House roll calls of 2026): the House
+# votes Monday evening to Friday; the LAST vote of a sitting day fell at
+# 00:00-01:00 London on 17 days, 21:00-24:00 on 28, 15:00-16:00 on 9
+# (Thursday/Friday getaway days) and 02:00-04:00 on 5. The Clerk's file is
+# up within the hour (the Wayback Machine caught rolls 243 and 293 42 and 54
+# minutes after the gavel; the crawler, not the Clerk, is the limit). So
+# three slots: 22:40 London Mon-Fri, 01:40 and 04:40 London Tue-Sat.
+#
+# THE SENATE HALF RUNS HERE ONLY. senate.gov refuses the Mac Mini's network
+# (403, 9 October 2026) and answers GitHub's runners, so the `senate` job is
+# not gated: it is the only reader. Two slots after the Senate's evening
+# votes (the vote files of the fixtures were modified 50 minutes to hours
+# after the vote): 00:50 and 03:50 UTC Tue-Sat, about ten minutes a week.
+on:
+  schedule:
+    - cron: "40 21 * * 1-5"        # House: 22:40 London (BST), the Mini first
+    - cron: "40 0,3 * * 2-6"       # House: 01:40 and 04:40 London (BST), the Mini first
+    - cron: "50 0,3 * * 2-6"       # Senate: GitHub only
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Look back to this date (YYYY-MM-DD; blank = the tool's window)"
+        required: false
+        default: ""
+      force:
+        description: "Rewrite and resend briefs that already exist"
+        type: boolean
+        default: false
+      chamber:
+        description: "house (the Mini's half) or senate (GitHub's half)"
+        type: choice
+        options: [house, senate]
+        default: house
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Commits the raw sidecar and briefs alongside the workflows that publish state.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs the House half at the London hours above
+  # (tools/mini_run.sh us-division-watch); these crons are the backup and
+  # skip a slot the Mini already ran. Not asked on a Senate slot.
+  mini-check:
+    if: github.event.schedule != '50 0,3 * * 2-6' && inputs.chamber != 'senate'
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: US_DIVISION_WATCH
+
+  house:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Brief new House roll calls, publish the raw archive
+        # The job script is shared with the Mac Mini runner.
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIVISION_SINCE: ${{ inputs.since }}
+          DIVISION_FORCE: ${{ inputs.force }}
+        run: |
+          bash jobs/us-division-watch.sh | tee /tmp/us-division-watch.log
+          { echo "## US division watch (House)"; echo '```'; cat /tmp/us-division-watch.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit briefs and archived payloads
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/raw.json data/briefs
+          git diff --cached --quiet && exit 0
+          git commit -m "US division watch (House) $(date -u +%FT%H:%MZ)"
+          # Hardened loop (docs/mac-mini-runner.md, step 4): never retry
+          # while stuck mid-rebase, and wait long enough to lose a race once.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin main; then
+              git push origin main && exit 0
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            sleep $(( attempt * 10 + RANDOM % 10 ))
+          done
+          echo "push failed six times"; exit 1
+
+  senate:
+    if: github.event.schedule == '50 0,3 * * 2-6' || inputs.chamber == 'senate'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Brief new Senate votes, publish the raw archive
+        # The job script is shared with the Mac Mini runner.
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIVISION_SINCE: ${{ inputs.since }}
+          DIVISION_FORCE: ${{ inputs.force }}
+          US_DIVISION_CHAMBER: senate
+        run: |
+          bash jobs/us-division-watch.sh | tee /tmp/us-division-watch.log
+          { echo "## US division watch (Senate)"; echo '```'; cat /tmp/us-division-watch.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit briefs and archived payloads
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/raw.json data/briefs
+          git diff --cached --quiet && exit 0
+          git commit -m "US division watch (Senate) $(date -u +%FT%H:%MZ)"
+          # Hardened loop (docs/mac-mini-runner.md, step 4): never retry
+          # while stuck mid-rebase, and wait long enough to lose a race once.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin main; then
+              git push origin main && exit 0
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            sleep $(( attempt * 10 + RANDOM % 10 ))
+          done
+          echo "push failed six times"; exit 1
