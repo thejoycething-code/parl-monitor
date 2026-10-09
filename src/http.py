@@ -183,6 +183,8 @@ class HttpClient:
 
         self._hosts = {}
         self._hosts_guard = threading.Lock()
+        # The last reply's headers, lower-cased (see _request_once).
+        self.last_headers = {}
 
     # -- public API ---------------------------------------------------------
 
@@ -441,6 +443,14 @@ class HttpClient:
             if "TLSV1_ALERT_PROTOCOL_VERSION" not in str(exc):
                 raise
             return self._fetch_via_curl(url, timeout, exc)
+        # The reply's headers, for a caller that paces itself on them
+        # (api.data.gov's X-RateLimit-Remaining, 9 October 2026). Never the
+        # request's: a keyed request's own headers carry the key.
+        try:
+            self.last_headers = {k.lower(): v for k, v in
+                                 (getattr(response, "headers", None) or {}).items()}
+        except AttributeError:
+            self.last_headers = {}
         try:
             return response.read()
         finally:
@@ -483,6 +493,14 @@ class HttpClient:
                     " (curl exit {0})".format(done.returncode) if done.returncode else "",
                     url))
         return body
+
+    def archive(self, raw, feed, slug):
+        """Archive bytes fetched with archive=False, once the caller knows
+        they are worth keeping: the Congressional Record collector reads
+        every speech of a day but keeps the page only of the speeches it
+        stores (9 October 2026). Never call it with a keyed request's reply
+        unless the reply itself carries no key."""
+        return self._archive(raw, feed, slug)
 
     def _archive(self, raw, feed, slug):
         """Write raw bytes to data/raw/<date>/<feed>_<slug>.json.gz."""
