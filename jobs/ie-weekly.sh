@@ -1,7 +1,8 @@
 #!/bin/bash
 # Ireland weekly: Oireachtas members, bills and divisions (with the amendment
-# behind each amendment vote) into the ie_* tables, the judge when IE_JUDGE is
-# on, then the edition and its DM to Christopher.
+# behind each amendment vote) into the ie_* tables; the week ahead,
+# parliamentary questions and debate speeches (phase 2); the judge when
+# IE_JUDGE is on; then the edition and its DM to Christopher.
 #
 # Called by .github/workflows/ie-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh ie-weekly. One script, two callers (docs/mac-mini.md).
@@ -10,7 +11,11 @@
 #     IE_RECLASSIFY=true   re-derive stored areas offline first (after a
 #                          taxonomy or watchlist-ie change)
 #     IE_JUDGE=on          score new items (Christopher's yes; read from the
-#                          repo variable when unset and gh is available). OFF.
+#                          repo variable when unset and gh is available). ON
+#                          since 9 October 2026.
+#     IE_QUESTIONS_BUDGET / IE_DEBATES_BUDGET
+#                          seconds for the questions and debates steps (else
+#                          what the job has left, capped; see below)
 #     IE_PUBLISH=false     leave publishing to the caller (the workflow, whose
 #                          own guarded steps publish the archive and the
 #                          store, as in us-weekly.yml); exit with the
@@ -50,6 +55,42 @@ if ! grep -q "  store: " "$LOG"; then
   exit "$rc"
 fi
 [ "$rc" -ne 0 ] && echo "ie-weekly: finished with gaps (exit $rc); going on with what it stored"
+
+# Phase 2 (9 October 2026): the week ahead, parliamentary questions and debate
+# speeches, before the judge (which scores questions and speeches) and the
+# edition (its Coming up, Questions and Debate sections). Their gaps are
+# logged, never fatal: the edition says what the store holds, as in
+# jobs/us-weekly.sh.
+#
+# The schedule is one page (about 1.7 MB) and seconds. Questions and debates
+# read a week at a time, newest first, and their backfill to the Dáil's first
+# sitting (about 95 weeks: 30 s a week of questions, 25 s a week of debates,
+# measured) DRAINS OVER RUNS. Each gets WHAT THE JOB HAS LEFT, capped: at most
+# 5 minutes each on GitHub (the backup; keep it inside the workflow's 45) and
+# 15 and 20 on the Mini, always keeping 20 minutes for the judge and 5 for
+# the edition and the store transfers.
+python3 tools/ie_schedule.py | tee "$LOG_DIR/ie-schedule.log" \
+  || echo "  [gap] the week-ahead step ended with gaps; the edition says what it has"
+if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=2700; Q_MAX=300; D_MAX=300
+else JOB_LIMIT="${JOB_TIMEOUT:-10800}"; Q_MAX=900; D_MAX=1200; fi
+budget_left() {  # $1: the step's cap
+  local left=$(( JOB_LIMIT - SECONDS - 1200 - 300 ))
+  echo $(( left < $1 ? left : $1 ))
+}
+Q_BUDGET="${IE_QUESTIONS_BUDGET:-$(budget_left "$Q_MAX")}"
+if [ "$Q_BUDGET" -ge 60 ]; then
+  python3 tools/ie_questions.py --budget-seconds "$Q_BUDGET" | tee "$LOG_DIR/ie-questions.log" \
+    || echo "  [gap] the questions step ended with gaps; the edition shows what the store holds"
+else
+  echo "  [gap] questions skipped: ${Q_BUDGET}s left in the job's budget" | tee "$LOG_DIR/ie-questions.log"
+fi
+D_BUDGET="${IE_DEBATES_BUDGET:-$(budget_left "$D_MAX")}"
+if [ "$D_BUDGET" -ge 60 ]; then
+  python3 tools/ie_debates.py --budget-seconds "$D_BUDGET" | tee "$LOG_DIR/ie-debates.log" \
+    || echo "  [gap] the debates step ended with gaps; the edition shows what the store holds"
+else
+  echo "  [gap] debates skipped: ${D_BUDGET}s left in the job's budget" | tee "$LOG_DIR/ie-debates.log"
+fi
 
 JUDGE="${IE_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
