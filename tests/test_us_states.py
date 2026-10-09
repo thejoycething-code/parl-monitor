@@ -168,7 +168,9 @@ class BulkTests(unittest.TestCase):
         sess = conn.execute("SELECT * FROM uss_sessions WHERE state='wy'").fetchone()
         self.assertEqual((sess["bills_read"], sess["bills_ours"], sess["read_via"]),
                          (3, 2, "bulk"))
-        self.assertEqual(sess["data_through"], "2026-09-22")
+        # The day before the file's stamp: the nightly export lags the
+        # scrapers by about a day (Pennsylvania, 8 October 2026).
+        self.assertEqual(sess["data_through"], "2026-09-21")
         # The bulk file is never archived (its URL and stamp are the provenance).
         self.assertEqual(client.archived, [])
 
@@ -320,6 +322,200 @@ class RateLimitTests(unittest.TestCase):
         with self.assertRaises(ust.ApiSpent):
             api.get("/x", {}, "c")
         self.assertEqual(len(calls), 2)
+
+
+class LedgerTests(unittest.TestCase):
+    """No paid tier: the key's 250 a day is guarded across runs by the store."""
+
+    def api(self, conn, budget=10, cap=3, answers=None):
+        calls = []
+
+        class Client:
+            def get_bytes(self, url, feed, slug, headers=None, **kw):
+                calls.append(url)
+                a = (answers or [b"{}"]).pop(0) if answers else b"{}"
+                if isinstance(a, Exception):
+                    raise a
+                return a
+
+            def _archive(self, raw, feed, slug):
+                pass
+        ledger = ust.Ledger(conn, cap=cap, day=lambda: TODAY)
+        return ust.OpenStates(Client(), "k", budget=budget, sleep=lambda s: None,
+                              clock=lambda: 0.0, log=lambda *_: None, ledger=ledger), calls
+
+    def test_two_runs_in_a_day_cannot_overrun_the_cap(self):
+        conn = store()
+        first, c1 = self.api(conn)
+        first.get("/x", {}, "a")
+        first.get("/x", {}, "b")
+        second, c2 = self.api(conn)
+        self.assertEqual(second.remaining(), 1)
+        second.get("/x", {}, "c")
+        with self.assertRaises(ust.ApiSpent) as ctx:
+            second.get("/x", {}, "d")
+        self.assertIn("ledger", str(ctx.exception))
+        self.assertEqual(len(c1) + len(c2), 3)
+        self.assertEqual(ust.Ledger(conn, day=lambda: TODAY).spent(), 3)
+        # Another day starts afresh.
+        self.assertEqual(ust.Ledger(conn, cap=3, day=lambda: "2026-10-10").left(), 3)
+
+    def test_a_refused_request_still_counts(self):
+        conn = store()
+        api, _ = self.api(conn, answers=[refusal(404, "nf")])
+        with self.assertRaises(FetchError):
+            api.get("/x", {}, "a")
+        self.assertEqual(ust.Ledger(conn, day=lambda: TODAY).spent(), 1)
+
+    def test_a_day_refusal_closes_the_day_for_every_run(self):
+        conn = store()
+        api, _ = self.api(conn, cap=225,
+                          answers=[refusal(429, '{"detail":"exceeded limit of 250/day: 251"}')])
+        with self.assertRaises(ust.ApiSpent):
+            api.get("/x", {}, "a")
+        later, _ = self.api(conn, cap=225)
+        self.assertEqual(later.remaining(), 0)
+
+    def test_zip_through_is_the_day_before_the_stamp(self):
+        self.assertEqual(ust.zip_through("2026-10-08T23:18:09.003648+00:00"), "2026-10-07")
+        self.assertIsNone(ust.zip_through(None))
+
+
+class RouteTests(unittest.TestCase):
+    """Bulk files carry the week; the API only tops up the last day."""
+
+    SESSION = {"state": "wy", "session": "2026", "name": "2026", "classification": "primary",
+               "start_date": "2026-02-09", "end_date": "2026-03-06",
+               "zip_url": "https://data.openstates.org/csv/latest/WY_2026_csv_x.zip",
+               "zip_updated": "2026-09-22T23:19:36+00:00"}
+
+    def args(self, **kw):
+        return ust.argparse.Namespace(**dict({"full": False, "since": None, "max_pages": 10}, **kw))
+
+    def test_unread_whole_then_unchanged_not_downloaded_then_changed_since(self):
+        conn = store()
+        s = dict(self.SESSION)
+        ust.store_session_meta(conn, s, TODAY)
+        client = FakeClient({"WY_2026": fixture("WY_2026_csv_trimmed.zip")})
+        tally = ust.Tally()
+        quiet = lambda *_: None  # noqa: E731
+        ust.collect_state(conn, client, TAX, WL, "wy", [s], TODAY, self.args(), tally, log=quiet)
+        self.assertEqual(len(client.asked), 1)
+        self.assertEqual(tally.read, 3)
+        # The same stamp: Open States wrote no new file, so nothing is fetched.
+        ust.collect_state(conn, client, TAX, WL, "wy", [s], TODAY, self.args(), tally, log=quiet)
+        self.assertEqual(len(client.asked), 1)
+        # A newer file (a new name each export): read for bills with an action
+        # since data_through less the overlap. The fixture's bills all acted
+        # in spring, so none is re-read.
+        s2 = dict(s, zip_url=s["zip_url"].replace("_x", "_y"),
+                  zip_updated="2026-10-08T23:19:36+00:00")
+        ust.store_session_meta(conn, s2, TODAY)
+        tally = ust.Tally()
+        ust.collect_state(conn, client, TAX, WL, "wy", [s2], TODAY, self.args(), tally, log=quiet)
+        self.assertEqual(len(client.asked), 2)
+        self.assertIn("_y", client.asked[-1][0])
+        self.assertEqual(tally.stored, 0)
+        self.assertEqual(ust.read_state(conn, "wy", "2026")[:2],
+                         ("2026-10-08T23:19:36+00:00", "2026-10-07"))
+        # No keyed request anywhere in the bulk route.
+        self.assertTrue(all(h is None for _, h in client.asked))
+
+    def _vt_store(self):
+        page = json.loads(fixture("api_bills_vt.json", "r"))
+        conn = store()
+        conn.execute("INSERT INTO uss_sessions (state, session, zip_url, zip_updated, "
+                     "read_zip_updated, data_through, read_at) VALUES "
+                     "('vt','2025-2026','u','2026-10-06T23:00:00+00:00',"
+                     "'2026-10-06T23:00:00+00:00','2026-10-05','2026-10-07')")
+        conn.execute("INSERT INTO uss_bills (bill_id, bill_key, state, session, identifier, areas, "
+                     "latest_action_at, tier) VALUES (?,?,?,?,?,?,?,?)",
+                     (page["results"][0]["id"], "VT/2025-2026/H951", "vt", "2025-2026", "H 951",
+                      "[1]", "2026-10-01", 1))
+        # Off our ground, and on it but long quiet: neither is asked for.
+        conn.execute("INSERT INTO uss_bills (bill_id, bill_key, state, session, identifier, areas, "
+                     "latest_action_at) VALUES ('ocd-bill/x','VT/2025-2026/H1','vt','2025-2026',"
+                     "'H 1','[11]','2026-10-01')")
+        conn.execute("INSERT INTO uss_bills (bill_id, bill_key, state, session, identifier, areas, "
+                     "latest_action_at) VALUES ('ocd-bill/y','VT/2025-2026/H2','vt','2025-2026',"
+                     "'H 2','[5]','2026-05-01')")
+        conn.commit()
+        return conn, page
+
+    def test_topup_asks_only_live_bills_on_our_ground_by_identifier(self):
+        conn, page = self._vt_store()
+        sessions = {"vt": [{"state": "vt", "session": "2025-2026", "name": "x",
+                            "classification": "primary", "start_date": "2025-01-08",
+                            "end_date": "2026-05-30", "zip_url": "u",
+                            "zip_updated": "2026-10-06T23:00:00+00:00"}]}
+        plan = ust.topup_plan(conn, sessions, ["vt"], TODAY)
+        self.assertEqual(plan, [("vt", "2025-2026", "2026-10-05", ["H 951"])])
+
+        class Api:
+            used = 0
+
+            def remaining(self):
+                return 10
+
+            def get(self, path, params, slug):
+                self.used += 1
+                self.params = params
+                return {"pagination": {"max_page": 1}, "results": [page["results"][0]]}
+        api = Api()
+        tally = ust.Tally()
+        n, got, done, left = ust.topup(conn, api, TAX, WL, plan, TODAY, tally, log=lambda *_: None)
+        self.assertEqual((n, got, done, left), (1, 1, ["vt"], []))
+        self.assertEqual(api.params["identifier"], ["H 951"])
+        self.assertEqual(api.params["session"], "2025-2026")
+        self.assertEqual(api.params["action_since"], "2026-10-05")
+        self.assertNotIn("updated_since", api.params)
+        conn.row_factory = sqlite3.Row
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM uss_votes").fetchone()[0], 3)
+
+    def test_topup_batches_twenty_and_stops_when_spent(self):
+        conn = store()
+        ids = ["HB {0}".format(i) for i in range(45)]
+
+        class Api:
+            used = 0
+            batches = []
+
+            def remaining(self):
+                return 2 - self.used
+
+            def get(self, path, params, slug):
+                if not self.remaining():
+                    raise ust.ApiSpent("spent")
+                self.used += 1
+                self.batches.append(len(params["identifier"]))
+                return {"results": []}
+        api = Api()
+        n, got, done, left = ust.topup(conn, api, TAX, WL, [("tx", "89R", "2026-10-05", ids)],
+                                       TODAY, ust.Tally(), log=lambda *_: None)
+        self.assertEqual(api.batches, [20, 20])
+        self.assertEqual((n, done, left), (2, [], ["tx"]))
+
+    def test_salience_orders_the_plan(self):
+        conn = store()
+        for st, n in (("ca", 1), ("tx", 3)):
+            conn.execute("INSERT INTO uss_sessions (state, session, data_through, read_at) "
+                         "VALUES (?,?,?,?)", (st, "s", "2026-10-07", "2026-10-08"))
+            for i in range(n):
+                conn.execute("INSERT INTO uss_bills (bill_id, bill_key, state, session, identifier, "
+                             "areas, latest_action_at) VALUES (?,?,?,?,?,?,?)",
+                             ("ocd-bill/{0}{1}".format(st, i), "k", st, "s", "B {0}".format(i),
+                              "[1]", "2026-10-06"))
+        # Florida's file is a week behind (an export missed): it goes first.
+        conn.execute("INSERT INTO uss_sessions (state, session, data_through, read_at) "
+                     "VALUES ('fl','s','2026-10-01','2026-10-08')")
+        conn.execute("INSERT INTO uss_bills (bill_id, bill_key, state, session, identifier, areas, "
+                     "latest_action_at) VALUES ('ocd-bill/fl','k','fl','s','B 1','[1]','2026-09-30')")
+        sess = lambda st: [{"state": st, "session": "s", "name": "s", "classification": "",  # noqa: E731
+                            "start_date": "2026-01-01", "end_date": None, "zip_url": "u",
+                            "zip_updated": None}]
+        plan = ust.topup_plan(conn, {st: sess(st) for st in ("ca", "tx", "fl")},
+                              ["ca", "tx", "fl"], TODAY)
+        self.assertEqual([p[0] for p in plan], ["fl", "tx", "ca"])
 
 
 class SessionTests(unittest.TestCase):
