@@ -99,8 +99,9 @@ jobs:
     # The step budgets in jobs/us-weekly.sh add up to: roll calls 2700 s,
     # Federal Register under 120 s (its whole backfill), Supreme Court order
     # PDFs 900 s (its 18-minute first backfill drains over two weeks), week
-    # ahead 600 s, judge 1800 s when US_JUDGE is on: about 6100 s, plus the
-    # store and archive transfers. In a new Congress's first 45 days the
+    # ahead 600 s, judge 1800 s when US_JUDGE is on, the state legislatures
+    # 600 s (9 October 2026): about 6700 s, plus the store and archive
+    # transfers. In a new Congress's first 45 days the
     # catch-up adds up to 1200 s; that is the one week that could press the
     # limit with the judge on, and each step still stops at its own budget.
     timeout-minutes: 120
@@ -144,6 +145,9 @@ jobs:
           # Phase 1b: House amendment purposes from Congress.gov (sent as a
           # header by tools/us_rollcalls.py; on the Mini it is in ~/runner/env).
           CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
+          # The fifty states (tools/us_states.py): sent as the X-API-KEY
+          # header only. Unset: one [gap] and the step skips.
+          OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           US_JUDGE: ${{ vars.US_JUDGE }}
           US_RECLASSIFY: ${{ inputs.reclassify }}
