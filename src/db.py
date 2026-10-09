@@ -1597,6 +1597,13 @@ TABLES = (
     "nl_zaken",
     "nl_divisions",
     "nl_votes",
+    # Poland's Sejm (tools/pl_rollcalls.py), created by
+    # src/pl_store.ensure_schema -- declared from day one.
+    "pl_members",
+    "pl_prints",
+    "pl_processes",
+    "pl_divisions",
+    "pl_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1879,4 +1886,6 @@ def init_db(conn):
     at_store.ensure_schema(conn)
     from src import nl_store
     nl_store.ensure_schema(conn)
+    from src import pl_store
+    pl_store.ensure_schema(conn)
     return conn
