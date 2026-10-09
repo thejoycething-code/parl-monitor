@@ -144,3 +144,36 @@ readings:
   way (23%); ++ held at 99%. The cap that now keeps former Aye voters at + is
   the right column for them: + means "might", not "will".
 * 2421 (puberty blockers, 8 Sept 2026): a whipped vote; no movement either way.
+
+## The US, Ireland and Australia (9 October 2026)
+
+Christopher asked for 5CA parity for the US Congress, the Oireachtas and the
+Federal Parliament of Australia. Built on the provinces and Canada pattern:
+
+* `tools/us_5ca.py`, `tools/ie_5ca.py`, `tools/au_5ca.py`, sharing
+  `src/readings5ca.py` (readings, placement, the sheet, the sign-off guide).
+  Output `data/5ca/<cc>-5ca-<chamber>-<area>.csv`, stable names, every
+  5CA area (migration and organ donation excluded, as everywhere).
+* `config/us_stance.yaml`, `config/ie_stance.yaml`, `config/au_stance.yaml`:
+  the readings. **Every entry is a Claude draft (`draft: true`) and places
+  nobody.** With nothing signed, each sheet's last row says "NO SIGNED
+  READINGS ... every row sits at 0": an evidence list, never an inference.
+* `docs/5ca-us-readings.md`, `docs/5ca-ie-readings.md`,
+  `docs/5ca-au-readings.md`: one checkbox per reading (motion, what an Aye
+  means, lobbies, proposed direction, a flag where the call is doubtful).
+  Tick, then `python3 tools/<cc>_5ca.py --sign-from-doc` deletes the ticked
+  entries' `draft: true` and stamps `signed:`. `--signoff-doc` rewrites the
+  guide from the stance file.
+* Evidence and weights: a vote 5 everywhere; sponsoring a bill 3 (US, and an
+  Irish Private Member's bill); US cosponsoring 2, drafted at +/-1 so it alone
+  never reaches ++. Never placing: Present / Not Voting, Staon, an Australian
+  PAIR (Hansard does not publish which side), a withdrawn cosponsorship, US
+  floor speeches (counted per member, activity not direction).
+* Here, unlike `ca_5ca.py`, `draft` outranks `placeable: false`: a drafted
+  "evidence only" call is still Claude's call, so it counts as unsigned.
+* Run weekly, offline, after the collectors in `jobs/us-weekly.sh`,
+  `jobs/ie-weekly.sh` and `jobs/au-weekly.sh` (as `prov_5ca.py` runs in the
+  provinces weekly); a failure is a `[gap]` line, never a lost week.
+* Ireland: the store holds the 34th Dail and 27th Seanad only, so the safe
+  access zones and hate offences votes (33rd Dail) cannot be read until
+  `ie_rollcalls.py` backfills it.
