@@ -1,0 +1,161 @@
+name: Hungary weekly
+on:
+  schedule:
+    # Wednesday 03:00 UTC, retry 05:00 UTC (10 October 2026). Phase 0 reads
+    # the Magyar Közlöny, which publishes most weekdays; the Országgyűlés
+    # sits on Mondays and Tuesdays, so Wednesday morning also leaves room for
+    # phase 1's votes. Clear of every other workflow's cron: Wednesday holds
+    # 05:30 (coverage), 07:00, 10:00, 12:00, 18:00, 21:00 and 23:00 only;
+    # Saturday is full.
+    - cron: "0 3 * * 3"
+    - cron: "0 5 * * 3"
+  workflow_dispatch:
+    inputs:
+      reclassify:
+        # After a taxonomy-hu or watchlist-hu change: re-derive every stored
+        # gazette entry's areas, offline, before the pull.
+        description: "Reclassify stored HU gazette entries under the current taxonomy"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: read      # the gate reads this workflow's own runs
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Same group as everything that commits data/: one writer at a time.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs this on Wednesdays at 03:00 London (tools/mini_run.sh
+  # hu-weekly); these crons are the backup. The Mini runs ONCE for both
+  # slots, so its run must count for the 05:00 retry too: at 03:00 London in
+  # summer it stamps 02:00 UTC, three hours before that slot, hence a grace
+  # of 200 minutes rather than the default 75.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: HU_WEEKLY
+      grace-minutes: 200
+
+  # The second slot is a retry, not a second pass (copied from us-weekly.yml):
+  # when the 03:00 backup already ran today, 05:00 has nothing to do.
+  gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
+          BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/hu-weekly.yml/runs?per_page=50" \
+                 --jq "[.workflow_runs[]
+                        | select(.created_at >= \"$TODAY\")
+                        | select(.id != ${{ github.run_id }})
+                        | select(.conclusion == \"success\" or .status == \"in_progress\" or .status == \"queued\")]
+                       | length" 2>/dev/null || echo 0)
+          if [ "${BUSY:-0}" -gt 0 ]; then
+            echo "$BUSY run(s) already succeeded or are running today; this retry slot has nothing to do"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "no earlier run today; this slot does the work"
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  pull:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    # The first run backfills the 43rd term's gazette from 9 May 2026 (about
+    # 150 issues, ten minutes at one request every 2 s), cut at 30 minutes by
+    # the collector's own budget and resumed by the next run
+    # (docs/hungary-scope.md). Later weeks read the week's new issues.
+    timeout-minutes: 45
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
+      - name: Magyar Közlöny contents and the Hungarian edition; publish
+        # jobs/hu-weekly.sh is shared with the Mac Mini runner. It publishes
+        # the raw archive and then the store itself (tools/raw_state.py,
+        # then tools/db_state.py), only when the collector finished, gaps
+        # included; the next step commits the sidecars.
+        if: steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HU_RECLASSIFY: ${{ inputs.reclassify }}
+          # The edition DMs Chris alone (src/country_edition.py forces his id).
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+        run: bash jobs/hu-weekly.sh | tee /tmp/hu-weekly.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Hungary weekly"
+            echo '```'
+            grep -hE "hu-gazette:|store:|\[gap\]" /tmp/hu-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            echo '```'
+            TOTAL=$({ grep -hc "\[gap\]" /tmp/hu-weekly.log 2>/dev/null \
+                      || true; } | awk '{s+=$1} END {print s+0}')
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step log."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit state
+        # Paired with the publish inside the job script -- an uncommitted
+        # sidecar next to a published store is the divergence this repo has
+        # already paid for.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ editions/
+          git diff --cached --quiet || git commit -m "Hungary weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)"; then
+              git push && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
+          done
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi

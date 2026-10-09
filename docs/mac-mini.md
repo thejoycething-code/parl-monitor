@@ -195,6 +195,22 @@ docs/mac-mini-runner.md (the migration list for the launchd runner) is not on th
 - **Install on the Mini** (after the branch is merged to main, because `mini_run.sh` records the slot only for main): `cp ops/launchd/net.citizengo.parlmonitor.co-weekly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.co-weekly.plist`.
 - **Sources:** www.camara.gov.co, leyes.senado.gov.co and www.datos.gov.co all answered the laptop on 9 October 2026 with the honest UA. Whether the Mini's network fares differently has not been tried.
 
+## Hungary weekly, phase 0 (10 October 2026, branch `hu-gazette`)
+
+The Magyar Közlöny (Hungary's official gazette) and the Hungarian edition (HU6, docs/hungary-scope.md). The Országgyűlés's own site answers with a CAPTCHA, so bills and votes wait for the W-API token (HU1).
+
+| Job | Mini (launchd, London time) | GitHub backup (UTC) | Gate |
+|---|---|---|---|
+| `hu-weekly` | Wednesdays 03:00 (`ops/launchd/net.citizengo.parlmonitor.hu-weekly.plist`) | Wednesdays 03:00, retry 05:00 (`.github/workflows/hu-weekly.yml`) | `MINI_LAST_HU_WEEKLY`, grace 200 minutes |
+
+- **One script, two callers:** `jobs/hu-weekly.sh` runs `tools/hu_gazette.py` (the RSS feed, then each new issue's PDF and its contents page, one request every 2 s), then the edition (`tools/hu_monitor.py --edition --dm`, to Chris alone, once a day), then publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`). Its `# mini_run: commit editions` line makes the runner commit `editions/` too.
+- **The slot:** Saturday is full; nothing else starts on a Wednesday before 05:30 UTC (the coverage watch) on GitHub, or before the 08:00 day sweep on the Mini. Wednesday morning follows the Monday and Tuesday sittings, which suits phase 1's votes too.
+- **The first run is the backfill:** no stored issue, so the collector reads back to the start of the term (9 May 2026) through the front-page listing; its 30-minute budget stops it cleanly and the next run resumes. It is the scheduled job's own first run, not a dispatch.
+- **Heartbeat name:** the script sets `GITHUB_WORKFLOW` to "Hungary weekly" when it is unset.
+- **Exit codes:** the collector exits 3 when it stored what it could and recorded gaps (an issue whose contents could not be read); the script publishes and exits 0. Any other failure publishes nothing and exits non-zero.
+- **Install on the Mini** (after the branch is merged to main): `bash ops/install_country_jobs.sh` (it lists `hu-weekly`), or `cp ops/launchd/net.citizengo.parlmonitor.hu-weekly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.hu-weekly.plist`.
+- **Source:** magyarkozlony.hu answered the laptop on 9 and 10 October 2026 with the honest UA; its robots.txt disallows nothing. Never parlament.hu.
+
 ## Latam monthly and the Latam alerts (10 October 2026, branch `latam`)
 
 The Latam monitor (docs/country-decisions-2026-10-10.md, "Edition structure"): one monthly edition for the fifteen CitizenGO Latam countries, to Chris alone by DM, plus instant alerts between editions.

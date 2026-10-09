@@ -23,7 +23,7 @@ echo "== install_country_jobs $(date -u +%Y-%m-%dT%H:%MZ) at $(git -C "$REPO" re
 JOBS="at-weekly nl-weekly pl-weekly it-weekly ch-weekly be-weekly fr-weekly
 pt-weekly sk-weekly hr-weekly es-weekly br-weekly ar-weekly mx-weekly
 co-weekly cl-weekly pe-weekly ec-weekly bo-weekly uy-weekly pa-weekly
-hn-weekly sv-weekly do-weekly latam-monthly"
+hn-weekly sv-weekly do-weekly hu-weekly latam-monthly"
 
 install_job() {
   local label="net.citizengo.parlmonitor.$1"
