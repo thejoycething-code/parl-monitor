@@ -867,6 +867,13 @@ ON_DEMAND = {
                                "allowance; no GitHub workflow, and a run with "
                                "nothing pending or claude signed out publishes "
                                "nothing, so no cadence is expected.",
+    "Editions session judge": "Mac Mini only (jobs/editions-session-judge.sh, "
+                              "Sundays after the country weeklies): Claude Code "
+                              "scores pending items of the fifteen country "
+                              "editions and the Latam monitor on the plan "
+                              "allowance; no GitHub workflow, and a run with "
+                              "claude signed out publishes nothing, so no "
+                              "cadence is expected; mini_run.sh DMs its failures.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",

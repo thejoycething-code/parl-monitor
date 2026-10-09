@@ -31,8 +31,11 @@ NO VERDICTS. A vote carries its tally, the source's own words for the
 result and its party split, never "a win" or "a defeat". Which way a vote
 cut is a signed human judgement, as everywhere in this repo.
 
-SCORES. The AI judge is deferred (X16): items are ordered by the stub
-triage (tier 1 or watched before tier 2) and the edition says so. Nothing
+SCORES. The paid AI judge is deferred (X16): items are ordered by the stub
+triage (tier 1 or watched before tier 2) and the edition says so. Where the
+free session judge (src/edition_judge.py, Claude Code on the Mac Mini, plan
+allowance) has read an item, its score 0-3 orders it and its why-line is
+shown, and an unwatched item it scored 0 is left out (counted). Nothing
 here is an [ACT] item, and the render refuses one without an owner
 (CLAUDE.md hard rule) should a later change ever add one.
 
@@ -52,7 +55,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, latam  # noqa: E402
+from src import db, edition_judge, latam  # noqa: E402
 
 REPO = "https://github.com/thejoycething-code/parl-monitor/blob/main/"
 CHRIS = "U05LJP0BT61"          # the DM goes to Chris alone
@@ -74,6 +77,15 @@ HONESTY = (
     "is never made here. Migration is matched and stored but not shown. Procedural votes, "
     "the patterns in config/latam-noise.yaml and Chris's mutes are left out (counted under "
     "Coverage); a watched item never is."
+)
+
+
+JUDGED = (
+    "**The session judge.** {0} item(s) here were read for relevance by the free session "
+    "judge (Claude Code on the Mac Mini, on the plan allowance; the paid API judge stays off, "
+    "X16): each shows its score [0-3] and why-line, an unwatched item it scored 0 is left out "
+    "(counted under Coverage), and the scores order the items. Items without a score are "
+    "ordered by tier as above."
 )
 
 
@@ -166,6 +178,9 @@ def item_lines(it, config_dir=None):
     t = takeaway(it, config_dir)
     if t:
         out.append("  " + t)
+    judge = edition_judge.why_line(it)
+    if judge:
+        out.append("  " + judge)
     for line in it["lines"]:
         out.append("  " + latam.clean(line))
     if it["url"]:
@@ -232,7 +247,8 @@ DROPPED = {"procedural vote": ("procedural vote", "procedural votes"),
            "names only excluded bills": ("vote on excluded bills only", "votes on excluded bills only"),
            "missing required context": ("item without the required context",
                                         "items without the required context"),
-           "muted": ("muted item", "muted items")}
+           "muted": ("muted item", "muted items"),
+           edition_judge.DROP_REASON: ("item the judge scored 0", "items the judge scored 0")}
 
 
 def dropped_line(dropped):
@@ -337,7 +353,11 @@ def render_edition(conn, today, since=None, sample=False, ledger=None, config_di
                 edition_number(today) if not sample else "sample",
                 long_date((datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()),
                 long_date(until)), "",
-            HONESTY.format(taxonomy_version()), ""]
+            HONESTY.format(taxonomy_version())]
+    n_judged = sum(edition_judge.judged(got[cc]) for cc in got)
+    if n_judged:
+        out += [">", "> " + JUDGED.format(n_judged)]
+    out.append("")
 
     out += ["## This month", ""]
     if active:
@@ -443,7 +463,10 @@ def dm_summary(conn, today, since=None, path=None, ledger=None, config_dir=None)
     lines.append("Venezuela: {0} news item(s) on our ground. Nicaragua: {1} religious-freedom "
                  "notice(s) in La Gaceta.".format(len(got["ve"]),
                                                    sum(8 in it["areas"] for it in got["nic"])))
-    lines.append("_Ordered by tier; the AI judge is off (X16)._")
+    lines.append("_Ordered by the session judge's scores where it has read an item, by tier "
+                 "elsewhere; the paid judge stays off (X16)._"
+                 if any(edition_judge.judged(got[c]) for c in got) else
+                 "_Ordered by tier; the AI judge is off (X16)._")
     if path:
         lines.append("Full edition: {0}{1}".format(REPO, os.path.relpath(path, ROOT)))
     return "\n".join(lines)
