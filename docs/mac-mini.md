@@ -54,7 +54,7 @@ Christopher: "add the US weekly to the Mini". `jobs/us-weekly.sh` is now the one
 - **senate.gov refuses Christopher's home connection** (the laptop, 9 October). If it refuses the Mini too, the script dispatches a Senate-only run on GitHub (`senate_only=true`), waits for it to publish the store, fetches the store again and does the rest with `--no-senate`. If that fails, the edition goes out without the week's Senate votes and the log says so in a `[gap]` line.
 - **The edition is committed by the runner**: the script's `# mini_run: commit editions` line tells `mini_run.sh` to commit `editions/` beside `data/`.
 - **Speaks once a day**: an edition already committed for today is rewritten without resending the DM, so a GitHub backup after a Mini run cannot DM twice.
-- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when the repo variable `US_JUDGE` is `on`, `ANTHROPIC_API_KEY`. `JOB_TIMEOUT` is set to two hours in the plist.
+- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when the repo variable `US_JUDGE` is `on`, `ANTHROPIC_API_KEY`. `JOB_TIMEOUT` is three hours in the plist: the step budgets (roll calls, Federal Register, Supreme Court, week ahead, judge, a wait for the Senate half on GitHub) add up to about two and a quarter.
 
 Install on the Mini, after `git pull` in `~/runner/parl-monitor`:
 ```
