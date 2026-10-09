@@ -104,8 +104,8 @@ rc=$?
 [ "$rc" -eq 142 ] && fail "timed out after ${JOB_TIMEOUT}s"
 [ "$rc" -ne 0 ] && fail "exit $rc"
 
-# 4. Commit data/ only. Publishing the store and the raw archive is the
-# job's own last step (db_state.py / raw_state.py --push, as on GitHub),
+# 4. Commit data/, plus any folder the job names. Publishing the store and
+# the raw archive is the job's own last step (db_state.py / raw_state.py --push, as on GitHub),
 # and each push rewrites its sidecar. A store that changed while its
 # sidecar did not was never published: committing then would go out half.
 STAGE="commit state"
@@ -113,6 +113,11 @@ if [ data/parl-monitor.db -nt data/.store-pulled ] && git diff --quiet -- data/p
   fail "the job changed the store but did not publish it (db_state.py --push)"
 fi
 git add -A data
+# A job that writes outside data/ names the folder: "# mini_run: commit editions".
+for extra in $(sed -n 's/^# mini_run: commit //p' "jobs/$JOB.sh"); do
+  case "$extra" in data|data/*|""|/*|*..*) continue ;; esac
+  [ -e "$extra" ] && git add -A -- "$extra"
+done
 if ! git diff --cached --quiet; then
   git commit -q -m "$JOB (Mini): $(date -u +%Y-%m-%dT%H:%M)Z"
   STAGE=push
