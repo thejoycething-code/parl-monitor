@@ -258,6 +258,47 @@ def pull_divisions(conn, client, today, session=CURRENT_SESSION, tax=None,
     return len(rows), ours, fetched, gaps
 
 
+# THE LIST FEED'S OWN DATES (9 October 2026, for tools/ca_monitor.py). The
+# list's LatestBillEventDateTime is a placeholder ('0001-01-01T00:00:00') for
+# every bill, and IsGovernmentBill is False for every bill, C-9 included
+# (measured on all 191 bills of 45-1). The stage dates (Passed*DateTime,
+# ReceivedRoyalAssentDateTime) and the document type are real, so a bill's
+# last completed stage and its date come from them, with no extra call.
+STAGE_DATES = ("PassedHouseFirstReadingDateTime", "PassedHouseSecondReadingDateTime",
+               "PassedHouseThirdReadingDateTime", "PassedSenateFirstReadingDateTime",
+               "PassedSenateSecondReadingDateTime", "PassedSenateThirdReadingDateTime",
+               "ReceivedRoyalAssentDateTime")
+
+
+def _day(value):
+    """'2026-06-10' from an ISO date-time; None for the placeholder or nothing."""
+    value = (value or "")[:10]
+    return value if value[:4].isdigit() and value[:4] > "1900" else None
+
+
+def introduced_at(b):
+    """First reading in the chamber the bill started in."""
+    days = [_day(b.get(k)) for k in ("PassedHouseFirstReadingDateTime",
+                                      "PassedSenateFirstReadingDateTime")]
+    days = [d for d in days if d]
+    return min(days) if days else None
+
+
+def last_stage_at(b):
+    days = [d for d in (_day(b.get(k)) for k in STAGE_DATES) if d]
+    return max(days) if days else None
+
+
+def is_government(b):
+    """From the document type ('House Government Bill', 'Senate Government
+    Bill'); the list's IsGovernmentBill flag is False for every bill."""
+    kind = b.get("BillDocumentTypeNameEn")
+    if kind:
+        return int("Government" in kind)
+    flag = b.get("IsGovernmentBill")
+    return None if flag is None else int(bool(flag))
+
+
 def pull_bills(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None):
     """Store every bill of one session. Returns (listed, ours)."""
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
@@ -278,11 +319,15 @@ def pull_bills(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None):
             "INSERT INTO ca_bills (bill_key, parliament, session, number, "
             "legisinfo_id, long_title, short_title, status, is_government, "
             "sponsor, latest_event, latest_event_at, royal_assent_at, areas, "
-            "matched_terms, tier, first_seen, last_seen, sponsor_person_id) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+            "matched_terms, tier, first_seen, last_seen, sponsor_person_id, "
+            "bill_type, introduced_at, last_stage, last_stage_at) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
             "ON CONFLICT(bill_key) DO UPDATE SET long_title=excluded.long_title, "
             "sponsor_person_id=excluded.sponsor_person_id, "
             "short_title=excluded.short_title, status=excluded.status, "
+            "is_government=excluded.is_government, bill_type=excluded.bill_type, "
+            "introduced_at=excluded.introduced_at, last_stage=excluded.last_stage, "
+            "last_stage_at=excluded.last_stage_at, "
             "sponsor=excluded.sponsor, latest_event=excluded.latest_event, "
             "latest_event_at=excluded.latest_event_at, "
             "royal_assent_at=excluded.royal_assent_at, areas=excluded.areas, "
@@ -291,13 +336,16 @@ def pull_bills(conn, client, today, session=CURRENT_SESSION, tax=None, wl=None):
             ("{0}-{1}/{2}".format(parl, sess, number), parl, sess, number,
              str(b.get("Id") or ""), b.get("LongTitleEn"),
              b.get("ShortTitleEn") or None, b.get("StatusNameEn"),
-             None if b.get("IsGovernmentBill") is None else int(bool(b.get("IsGovernmentBill"))),
+             is_government(b),
              (b.get("SponsorPersonName") or "").strip() or None, b.get("LatestBillEventTypeNameEn"),
              b.get("LatestBillEventDateTime"), b.get("ReceivedRoyalAssentDateTime"),
              json.dumps(res.issue_areas or []),
              json.dumps((res.matched_terms or []) + (res.watchlist_hits or [])),
              res.tier, today, today,
-             str(b.get("SponsorPersonId")) if b.get("SponsorPersonId") else None))
+             str(b.get("SponsorPersonId")) if b.get("SponsorPersonId") else None,
+             b.get("BillDocumentTypeNameEn"), introduced_at(b),
+             b.get("LatestCompletedMajorStageNameWithChamberSuffix")
+             or b.get("LatestCompletedMajorStageNameEn"), last_stage_at(b)))
     conn.commit()
     return len(bills), ours
 
