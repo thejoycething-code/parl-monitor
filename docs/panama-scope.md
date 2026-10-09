@@ -231,8 +231,8 @@ Courts are a channel for a later phase; referendums are not a regular one.
   stage history of ficha 7653, the deputies JSON without e-mails, the agenda
   list and the 8 October agenda's extracted text).
 - `jobs/pa-weekly.sh`, `ops/launchd/net.citizengo.parlmonitor.pa-weekly.plist`
-  (Saturdays 12:00 London), `.github/workflows/pa-weekly.yml` (Saturdays 12:00
-  and 16:00 UTC, gated by `mini-check` with `PA_WEEKLY`, grace 320 minutes).
+  (Saturdays 17:30 London), `.github/workflows/pa-weekly.yml` (Saturdays 17:30
+  and 21:30 UTC since the countries merge, Portugal holding 16:00; gated by `mini-check` with `PA_WEEKLY`, grace 320 minutes).
   Publishes raw archive then store, the order `tests/test_raw_state` expects.
 - **Measured runs into a scratch store**: first run 71 deputies, 47 pages,
   931 bills, 24 agendas listed (one without a PDF), 15 read, 2,553 items, 0
