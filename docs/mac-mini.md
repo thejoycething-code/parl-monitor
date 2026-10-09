@@ -63,6 +63,44 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonito
 ```
 A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run.sh us-weekly` (it posts the DM if no edition is committed for today).
 
+## Next on the Mini: the aph.gov.au probe (9 October 2026)
+
+**Why.** www.aph.gov.au and parlinfo.aph.gov.au refuse the laptop and, since
+run 37887925082 the same day, GitHub's runners too (403 on robots.txt); the
+High Court times out. The Mini is the last network to try before asking APH
+for access. An email to the APH Web Manager (webmanager@aph.gov.au) is
+waiting in Christopher's Gmail drafts and is **held until this probe has
+run**: if the Mini is answered, it may not be needed.
+
+**Steps** (in the development clone, not the runner clone; the probe touches
+no store and commits nothing):
+
+```
+cd ~/parl-monitor && git pull
+mkdir -p /tmp/au-probe && python3 tools/au_probe.py --out /tmp/au-probe | tee /tmp/au-probe/summary.txt
+```
+
+It asks once per target (Bills Search, a bill homepage, ParlInfo, Votes and
+Proceedings, the Journals of the Senate, the sitting calendar, committees,
+Senate estimates, the High Court), honours robots.txt, waits at least 3 s
+between requests, and **stops a host at its first 403 or challenge: never
+retry with another User-Agent, a VPN or a browser.**
+
+**Then:**
+
+1. Record the table in docs/australia-scope.md, under "The aph.gov.au probe",
+   as a "From the Mac Mini" row set beside the GitHub one, and commit it
+   (docs only, so straight to main is fine; `git pull --rebase` first).
+2. Tell Christopher in one line (Slack self-DM D05LMLVU090):
+   - **Refused** (403 or challenge on aph.gov.au/ParlInfo): "APH refuses the
+     Mini too; send the APH draft."
+   - **Answered**: "APH answers the Mini; hold the APH draft." Then aph.gov.au
+     becomes a Mini-only source, as senate.gov is GitHub-only for the US:
+     phase 1b (amendment sheets, bills digests, the sitting calendar) can be
+     built to run from the Mini, with the GitHub backup logging one [gap].
+3. The High Court is separate: a timeout there is not a block, so note it
+   and move on.
+
 ## Australia weekly (9 October 2026, branch `australia`)
 
 docs/mac-mini-runner.md (the migration list for the launchd runner) is not on this branch, so the new job is recorded here; move this entry into that list when the branches meet.
