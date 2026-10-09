@@ -1,0 +1,44 @@
+#!/bin/bash
+# Guatemala weekly: initiatives, plenary votes with every deputy's position,
+# and deputies of the Congreso de la República (tools/gt_rollcalls.py), then
+# publish the raw archive and the store.
+#
+# Called by .github/workflows/gt-weekly.yml and, on the Mac Mini, by
+# tools/mini_run.sh gt-weekly. One script, two callers. Both callers fetch
+# the store first and commit data/ afterwards; publishing is this script's
+# own last step, as mini_run.sh requires.
+#
+#     GT_RECLASSIFY=true    re-derive every stored GT initiative's and
+#                           division's areas, offline, before the pull (after
+#                           config/taxonomy-es.yaml or watchlist-gt changes)
+#
+# The first runs backfill the X legislature from 14 January 2024: 190 session
+# pages and about 2,660 vote pages at one request every two seconds. The
+# budget (45 minutes) stops each run cleanly and the next resumes from the
+# store, so the backfill is spread over three runs or so.
+#
+# Exit codes. The collector exits 3 when it stored what it could and recorded
+# gaps: that run is still published, and this script exits 0 so the caller
+# commits the sidecars with it. Exit 1 includes a BOT CHALLENGE (the scoping
+# laptop was refused by the site's WAF; GitHub's runners were not): nothing
+# is published, and on the Mini the GitHub backup then runs at its slot.
+set -eo pipefail
+cd "$(dirname "$0")/.."
+# The heartbeat (source_runs, stamped when the store is published) is keyed
+# on the workflow's name; on the Mini there is no GITHUB_WORKFLOW, so name it
+# here or the coverage watch would never see the Mini's runs.
+export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Guatemala weekly}"
+if [ "${GT_RECLASSIFY:-}" = "true" ]; then
+  python3 tools/gt_rollcalls.py --reclassify
+fi
+rc=0
+python3 tools/gt_rollcalls.py --budget-seconds 2700 || rc=$?
+if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
+  echo "gt-rollcalls failed (exit $rc); nothing published"
+  exit "$rc"
+fi
+[ "$rc" -eq 3 ] && echo "gt-rollcalls recorded gaps; publishing what it stored"
+# The archive before the store: a store that cites payloads the archive
+# lacks is the worse of the two failures. Both merge, never clobber.
+python3 tools/raw_state.py --push
+python3 tools/db_state.py --push
