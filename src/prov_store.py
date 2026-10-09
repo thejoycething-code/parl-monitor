@@ -227,6 +227,21 @@ SCHEMA = (
         note         TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS prov_speech_sittings_prov_date ON prov_speech_sittings (prov, date)",
+    # The judge's scores (tools/prov_triage.py, 9 October 2026), kept APART
+    # from the rows they score: a Hansard day read again deletes and rewrites
+    # its speeches (src/prov_speeches.py), and a score written on the row
+    # would be lost and paid for twice. Keyed '<table>:<key>', as in
+    # 'prov_bills:ab-31-2/26' or 'prov_speeches:<speech_id>' (a speech id is
+    # stable across re-reads: its seq counts every turn of the day). Read by
+    # tools/prov_monitor.py. No sighting column: written once per item, ever.
+    """CREATE TABLE IF NOT EXISTS prov_scores (
+        item         TEXT PRIMARY KEY,
+        prov         TEXT NOT NULL,
+        score        INTEGER NOT NULL,   -- 0-3, src/triage.py's rubric
+        why          TEXT,
+        model        TEXT,
+        scored_at    TEXT
+    )""",
 )
 
 # page_url (2 October 2026, Quebec): the member page a roster gap is

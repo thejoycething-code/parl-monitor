@@ -353,7 +353,11 @@ class FailureAlertTests(unittest.TestCase):
     # and the manual state tools, which have no reason to speak.
     NO_SLACK = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "backfill.yml", "score-stance.yml", "upr-monthly.yml",
-                "member-profiles.yml", "prov-weekly.yml")
+                "member-profiles.yml")
+    # prov-weekly.yml left this list on 9 October 2026: it now writes the
+    # provinces edition and DMs it to Christopher, as ie-weekly.yml does
+    # (tests/test_prov_schedule.py keeps the token to that one step). Its
+    # failure alert is still the watcher's, never a step of its own.
 
     def test_the_watching_briefs_hold_no_slack_credential(self):
         """The property the watcher exists to preserve: had the alert been a
