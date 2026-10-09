@@ -22,7 +22,7 @@ seats).
 
 `tools/hr_rollcalls.py` into `hr_members`, `hr_items`, `hr_divisions` and
 `hr_votes` (schema in `src/hr_store.py`, declared in `db.TABLES`), scheduled
-by `jobs/hr-weekly.sh` (Mini, Saturdays 03:00 London) with
+by `jobs/hr-weekly.sh` (Mini, Saturdays 01:30 London) with
 `.github/workflows/hr-weekly.yml` as the backup behind the `HR_WEEKLY` mini
 check. Tests: `tests/test_hr_rollcalls.py`, on real responses saved in
 `tests/fixtures/hr/`. Live run into a scratch database, not the store:
@@ -492,7 +492,8 @@ New files: `src/hr_store.py`, `tools/hr_rollcalls.py`,
    Mini job nor the GitHub backup runs.
 6. **Cron slot:** Saturday 03:00 and 05:00 UTC are claimed here, clear of
    everything on main. The other country branches may claim the same slots;
-   worth a glance at merge time.
+   worth a glance at merge time. At the countries merge (10 October 2026)
+   Austria kept them and Croatia moved to 01:30 and 03:30.
 7. **Party at the vote:** the service prints no party, so `party_seen` is
    the party in the member list the week the vote is collected. Exact for
    weekly runs, approximate for the backfill. Acceptable, or should phase 4

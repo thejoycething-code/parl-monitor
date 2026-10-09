@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Croatia weekly on the Mac Mini: Saturdays at 03:00 London, after the
+<!-- Croatia weekly on the Mac Mini: Saturdays at 01:30 London, after the
      Sabor's Friday voting block (it votes on Fridays at the end of a sitting
-     week, 12:00-13:00 Zagreb). The GitHub crons (03:00 and 05:00 UTC on
+     week, 12:00-13:00 Zagreb). The GitHub crons (01:30 and 03:30 UTC on
      Saturdays, .github/workflows/hr-weekly.yml) are the backup and skip
      themselves when this has run (the gate allows 200 minutes, because
-     03:00 London is 02:00 UTC in summer).
+     01:30 London is 00:30 UTC in summer).
      Install: cp to ~/Library/LaunchAgents, then
      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.hr-weekly.plist -->
 <plist version="1.0">
@@ -20,7 +20,7 @@
   </array>
   <key>StartCalendarInterval</key>
   <array>
-    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>3</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>1</integer><key>Minute</key><integer>30</integer></dict>
   </array>
   <key>StandardOutPath</key>
   <string>/Users/christopherjoyce/runner/logs/hr-weekly.log</string>
