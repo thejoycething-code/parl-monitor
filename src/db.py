@@ -1558,6 +1558,12 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Uruguay (tools/uy_rollcalls.py), created by
+    # src/uy_store.ensure_schema -- declared from day one.
+    "uy_members",
+    "uy_questions",
+    "uy_sittings",
+    "uy_laws",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1838,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import uy_store
+    uy_store.ensure_schema(conn)
     return conn
