@@ -1558,6 +1558,14 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Honduras's Congreso Nacional (tools/hn_rollcalls.py), created by
+    # src/hn_store.ensure_schema -- declared from day one.
+    "hn_members",
+    "hn_sessions",
+    "hn_agenda_items",
+    "hn_bills",
+    "hn_news",
+    "hn_gazette",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1840,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import hn_store
+    hn_store.ensure_schema(conn)
     return conn
