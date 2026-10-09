@@ -34,6 +34,10 @@ AREA_NAMES = {
     11: "Migration",
     12: "Prostitution, trafficking and sexual exploitation",
     13: "Organ donation and transplant ethics",
+    # Brazil only (BR3, BR4; 10 October 2026): every term in taxonomy-pt is
+    # tagged [only: br], so no other edition can carry these numbers.
+    14: "Gambling and betting",
+    15: "Drug decriminalisation",
 }
 # Ordering by triage score, highest first, replacing the retired
 # ACT/WATCH/NOTE editorial tags. Line.tag now carries the SCORE (int or None).
