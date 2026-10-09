@@ -85,6 +85,8 @@ PIPELINES = {
     "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes"),
     # Scheduled 9 October 2026, Saturdays (fr-weekly.yml; the Mac Mini first).
     "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies"),
+    # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
+    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -288,6 +290,14 @@ FEEDS = [
     ("fr_dossiers", "last_seen", 7, 4, "Assemblee nationale dossiers legislatifs (France weekly)"),
     ("fr_members", "last_seen", 7, 4, "Assemblee nationale deputies (France weekly)"),
     ("fr_divisions", "last_seen", 31, 31, "Assemblee nationale scrutins (France weekly)"),
+    # Portugal (9 October 2026). MEASURED which re-stamp: the Assembleia's
+    # dumps are per legislature and re-read whole every run, and every
+    # initiative, vote and deputy in them is upserted, so all three move every
+    # week, recess included. pt_authors, pt_group_votes and pt_votes carry no
+    # sighting column.
+    ("pt_members", "last_seen", 7, 4, "Assembleia deputies (Portugal weekly)"),
+    ("pt_initiatives", "last_seen", 7, 4, "Assembleia initiatives (Portugal weekly)"),
+    ("pt_divisions", "last_seen", 7, 4, "Assembleia plenary votes (Portugal weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -378,6 +388,8 @@ PIPELINE_FEEDS = {
     "Belgium weekly": ["be_dossiers", "be_members"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
     "France weekly": ["fr_dossiers", "fr_members"],
+    # All three are re-stamped on every run (the whole legislature is re-read).
+    "Portugal weekly": ["pt_initiatives", "pt_divisions", "pt_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -409,6 +421,8 @@ AWAITING_FIRST_RUN = {
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "France weekly": (("fr_dossiers", "fr_members", "fr_divisions"),
                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Portugal weekly": (("pt_members", "pt_initiatives", "pt_divisions"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py

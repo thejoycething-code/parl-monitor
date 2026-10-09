@@ -1631,6 +1631,14 @@ TABLES = (
     "fr_dossiers",
     "fr_divisions",
     "fr_votes",
+    # Portugal's Assembleia da Republica (tools/pt_rollcalls.py), created by
+    # src/pt_store.ensure_schema -- declared from day one.
+    "pt_members",
+    "pt_initiatives",
+    "pt_authors",
+    "pt_divisions",
+    "pt_group_votes",
+    "pt_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1923,4 +1931,6 @@ def init_db(conn):
     be_store.ensure_schema(conn)
     from src import fr_store
     fr_store.ensure_schema(conn)
+    from src import pt_store
+    pt_store.ensure_schema(conn)
     return conn
