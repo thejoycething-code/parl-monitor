@@ -104,6 +104,9 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
   Office if the CAPTCHA persists (HU2); build the gazette collector now (HU6);
   use karzat's CC BY data with attribution (HU7).
 - Brazil: Portuguese source text with English takeaways (BR5).
+- Brazil: BR3 and BR4 terms approved by Chris on 10 October 2026, added to
+  `docs/keyword-taxonomy-pt.md` as areas 14 (gambling and betting) and 15
+  (drug decriminalisation), every term tagged [only: br].
 - Argentina: try Diputados votes from the Mini (AR2); read the register gently
   (AR3); the monitor may read www.hcdn.gob.ar (AR4; no Claude session crawls
   it, the scheduled monitor script only); store 2024-25 Senate actas (AR6);
