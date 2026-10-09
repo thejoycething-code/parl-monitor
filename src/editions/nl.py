@@ -98,8 +98,9 @@ COUNTRY = ce.Country(
     taxonomies=(("taxonomy-nl.yaml", "nl"),),
     items=items, kinds=("vote",), dm_kinds=("vote",), flag=":flag-nl:",
     members_note=("Most votes are by show of hands, one position per fractie; member "
-                  "positions shown for them are DERIVED from the fractie vote (X5), with the "
-                  "fractie at the member's latest sighting. Roll calls record every member"),
+                  "positions shown for them are DERIVED from the fractie vote (X5), given to "
+                  "every member the store lists under that fractie by their latest fractie. "
+                  "Roll calls record every member"),
     coverage=("Votes only (NL3): the store holds the zaken the Kamer voted on; new bills and "
               "stage moves are not collected.",
               "The Eerste Kamer is not collected yet (NL4).",

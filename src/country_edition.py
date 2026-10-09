@@ -658,10 +658,10 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     seen = last_read(conn, country.cc)
     out = [title_line(country, today, since), ""]
     if sample:
-        out += ["> **{0}.** Rendered on {1} from the scoping store built on 9 October 2026, "
-                "reclassified under the current taxonomy and watchlist. Not a real edition: "
-                "the store is partial and the period is illustrative.".format(
-                    SAMPLE_MARK, long_date(today)), ""]
+        out += ["> **{0}.** Rendered from a scoping store (built 9 October 2026), "
+                "reclassified under the current taxonomy and watchlist, for the period in "
+                "the title. Not a real edition: the store is partial and never sent.".format(
+                    SAMPLE_MARK), ""]
     first = (datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()
     out += ["_{0}. Edition {1}, covering {2} to {3}. Weekly, to Chris by DM._".format(
         country.chamber, "sample" if sample else edition_number(country.cc, today, directory),
