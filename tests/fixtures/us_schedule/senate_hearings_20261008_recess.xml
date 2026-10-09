@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><css_meetings_scheduled>
+  <meeting>
+    <cmte_code/>
+    <committee/>
+    <type/>
+    <date>08-OCT-2026</date>
+    <date_iso_8601>2026-10-08</date_iso_8601>
+    <day_of_week>Today</day_of_week>
+    <time>22:00:00</time>
+    <room/>
+    <matter>No committee hearings scheduled</matter>
+    <video_url/>
+    <senate_cable_channel/>
+  </meeting>
+</css_meetings_scheduled>

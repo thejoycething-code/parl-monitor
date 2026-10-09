@@ -27,14 +27,43 @@ of 9 October trusted the status and stored 640 error pages; parse_roll
 returns None for anything without <vote-metadata>, and the walk stops at
 the first run of misses.
 
-A VOTE IS CLASSIFIED WITH ITS BILL. The Clerk's description line is blank
-on most amendment and procedural votes: on its own text the taxonomy found
-9 of the 119th's 676 roll calls; joined to the bill by number, 116. So
-`areas` is the vote's own areas plus its bill's, and `own_areas` keeps the
-first set apart. That matters for omnibus bills: every amendment vote on
-an appropriations bill inherits "abortion" from the Hyde language in its
-summary, which is always true and rarely news. Amendment purposes (phase
-1b) need the Congress.gov key and are what will tell those votes apart.
+A VOTE IS CLASSIFIED WITH ITS BILL, UNLESS IT HAS ITS OWN PURPOSE. The
+Clerk's description line is blank on most amendment and procedural votes:
+on its own text the taxonomy found 9 of the 119th's 676 roll calls; joined
+to the bill by number, 116. The rule (classify_division, the one place it
+lives):
+
+  * `own_areas` is ALWAYS what the vote's own text matched: the Clerk's
+    question, description and amendment line, plus `amendment_text` when
+    known. It never contains a bill's areas.
+  * `areas` (what the edition and the judge read) is `own_areas` ALONE for
+    a HOUSE vote whose `amendment_text` is a real purpose, and `own_areas`
+    plus the bill's areas for every other vote: passage, recommit, rules,
+    Senate votes (their purpose is already in `description`), and an EN
+    BLOC amendment, whose text is a list of amendment numbers, not a
+    purpose ("comprised of the following amendments ... Nos. 266, 267...").
+
+Why: every amendment vote on an omnibus inherits "abortion" from the Hyde
+language in an appropriations summary, or "freedom of religion" from the
+chaplains section of the NDAA, which is always true and rarely news. A vote
+to defund the National Endowment for Democracy is not an abortion vote.
+
+AMENDMENT PURPOSES (phase 1b), two sources filling the same fields
+(`amendment_key`, `amendment_text`, `purpose_source`, `amendment_checked`):
+
+  1. BILLSTATUS, FIRST AND KEYLESS. The bulk files already downloaded for
+     the bills carry every House amendment to each bill, with its
+     description, its purpose and the roll calls it was voted on. No extra
+     request; joined on the roll number (link_amendments).
+  2. CONGRESS.GOV, KEYED, ONLY FOR WHAT BILLSTATUS HAS NOT EXPLAINED.
+     BILLSTATUS lags the floor by days; with a key, fill_amendments asks
+     the API about the House amendment votes still unexplained.
+
+Also probed (9 October 2026): rules.house.gov and the Rules Committee
+reports on GovInfo answer, and number made-in-order amendments as the
+Clerk does ("Part A Amendment No. 1"): a fallback, not needed. The Clerk
+XML gives only the sponsor-or-designee and the report number. congress.gov's
+own amendment pages answer 403 to our client; not worked around.
 
 EVERY POSITION IS STORED. Unlike Canada, the positions arrive in the same
 file as the vote, so keeping them costs no request, and a vote that gains
@@ -67,7 +96,9 @@ from src import db, drain, filter as filt, us_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "us-rollcalls"
-CURRENT_CONGRESS = 119
+# Derived from the date (us_store.congress_on), never hard-coded: the 119th
+# ends on 3 January 2027 and the 120th begins.
+CURRENT_CONGRESS = us_store.congress_on()
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 BILL_TYPES = ("hr", "s", "hres", "sres", "hjres", "sjres", "hconres", "sconres")
 BILLSTATUS = "https://www.govinfo.gov/bulkdata/BILLSTATUS/{0}/{1}/BILLSTATUS-{0}-{1}.zip"
@@ -194,18 +225,20 @@ def on_our_ground(areas):
     return any(a not in HIDDEN_AREAS for a in (areas or []))
 
 
-def classify_division(tax, wl, d, bill_areas):
-    """(own FilterResult, combined areas). The bill lends its areas: see the
-    module docstring for why, and for what that costs on omnibus bills.
+EN_BLOC = us_store.EN_BLOC
 
-    EXCEPT WHEN THE AMENDMENT IS KNOWN (phase 1b). An amendment vote whose
-    description and purpose came from Congress.gov is about the AMENDMENT:
-    a vote to defund the National Endowment for Democracy is not an abortion
-    vote because the spending bill it amends mentions Hyde. So it is matched
-    on its own text alone and borrows nothing from the bill."""
+
+def has_own_purpose(d):
+    """A House vote whose amendment text is a real purpose (not an en bloc
+    list of numbers). See the module docstring."""
+    return us_store.has_own_purpose(d.get("amendment_text"), d.get("chamber"))
+
+
+def classify_division(tax, wl, d, bill_areas):
+    """(own FilterResult, areas): the rule in the module docstring."""
     own = filt.filter_item(tax, wl, d.get("description") or "", d.get("question") or "",
                            d.get("amendment_author") or "", d.get("amendment_text") or "")
-    if d.get("amendment_text"):
+    if has_own_purpose(d):
         return own, sorted(set(own.issue_areas or []))
     return own, sorted(set(own.issue_areas or []) | set(bill_areas or []))
 
@@ -220,6 +253,13 @@ def _bill_areas(conn, key):
 def store_division(conn, d, tax, wl, today):
     key = division_key(d)
     bkey = legis_bill_key(d["legis_num"], d["congress"])
+    if not d.get("amendment_text"):
+        # An amendment text stored earlier survives a re-store: the Clerk file
+        # never carries one, so re-reading it must not put the bill's areas back.
+        prev = conn.execute("SELECT amendment_text FROM us_divisions WHERE division_key=?",
+                            (key,)).fetchone()
+        if prev and prev[0]:
+            d = dict(d, amendment_text=prev[0])
     own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey))
     conn.execute(
         "INSERT INTO us_divisions (division_key, chamber, congress, session, roll, date, "
@@ -269,13 +309,15 @@ def _gap(conn, today, detail):
                  (today, FEED, detail))
 
 
-def pull_rolls(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=None,
+def pull_rolls(conn, client, today, congress=None, tax=None, wl=None,
                log=print, limit=None, budget=None, years=None):
     """Walk each year of the Congress from the roll after the last one stored.
 
     Returns (stored, ours, gaps). Resuming from the store means a run cut
     short by the budget or the cap picks up where it stopped, and the
     weekly run costs one miss per year once the House is caught up."""
+    # The Congress sitting on the RUN date, not at import: see us_store.congress_on.
+    congress = congress if congress is not None else us_store.congress_on(today)
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else empty_watchlist()
     stored = ours = gaps = 0
@@ -458,9 +500,11 @@ def resolve_senators(d, lis_map):
     return [p["lis_id"] for p in unknown]
 
 
-def pull_senate(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=None,
+def pull_senate(conn, client, today, congress=None, tax=None, wl=None,
                 log=print, limit=None, budget=None):
     """Every Senate vote of the Congress not yet stored. Returns (stored, ours, gaps)."""
+    # The Congress sitting on the RUN date, not at import: see us_store.congress_on.
+    congress = congress if congress is not None else us_store.congress_on(today)
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else empty_watchlist()
     stored = ours = gaps = 0
@@ -524,7 +568,9 @@ def pull_senate(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=Non
 # (roll 27 of 2026 -> H.Amdt. 150) and the amendment record carries a
 # description and a purpose ("to prohibit funding for the National Endowment
 # for Democracy"). Two keyed calls per amendment vote; 90 in the whole 119th
-# Congress to 16 September 2026, so a backfill is minutes.
+# Congress to 16 September 2026, so a backfill is minutes. It runs AFTER
+# link_amendments (BILLSTATUS, keyless, below) and asks only about the votes
+# BILLSTATUS has not explained: those with amendment_checked still NULL.
 #
 # The key is congress_api_key in config/secrets.yaml, or CONGRESS_API_KEY in
 # the environment (GitHub secret; ~/runner/env on the Mini). It is sent as an
@@ -588,17 +634,126 @@ def fill_amendments(conn, client, today, key, tax=None, wl=None, log=print, budg
         akey = ("{0}/{1}/{2}".format(congress, atype.lower(), anum) if atype and anum else None)
         text = amendment_text(record)
         d = {"description": desc, "question": question, "amendment_author": author,
-             "amendment_text": text}
+             "amendment_text": text, "chamber": "house"}
         own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey))
         conn.execute("UPDATE us_divisions SET amendment_key=?, amendment_text=?, "
-                     "amendment_checked=?, own_areas=?, areas=?, matched_terms=?, tier=? "
-                     "WHERE division_key=?",
-                     (akey, text, today, us_store.dumps(own.issue_areas), us_store.dumps(areas),
+                     "amendment_checked=?, purpose_source=?, own_areas=?, areas=?, "
+                     "matched_terms=?, tier=? WHERE division_key=?",
+                     (akey, text, today, "congress-api" if text else None, us_store.dumps(own.issue_areas), us_store.dumps(areas),
                       us_store.dumps(own.matched_terms), own.tier, dkey))
         conn.commit()
         filled += 1
         ours += on_our_ground(areas)
     return filled, ours, gaps
+
+
+# --- phase 1b, first source: BILLSTATUS (keyless) ----------------------------
+
+ROLL_NO = re.compile(r"\(Roll no\. (\d+)\)")
+
+
+def parse_amendments(bill):
+    """The House amendments in one BILLSTATUS record, each with the House
+    roll calls it was voted on as division keys ('house-119-2-255').
+
+    The record repeats an action dozens of times (amendment 254 to H.R. 8800
+    lists roll 266 eighty-odd times), so rolls are a set. Older records name
+    the roll only in the action's words, "(Roll no. 276)"."""
+    out = []
+    for a in bill.findall("amendments/amendment"):
+        if (_text(a, "type") or "").upper() != "HAMDT" or not _int(a, "number"):
+            continue
+        congress = _int(a, "congress")
+        rolls = set()
+        for rv in a.iter("recordedVote"):
+            if (_text(rv, "chamber") or "House").lower() != "house":
+                continue
+            n, sess = _int(rv, "rollNumber"), _int(rv, "sessionNumber")
+            if n and sess:
+                rolls.add("house-{0}-{1}-{2}".format(_int(rv, "congress") or congress, sess, n))
+        if not rolls:
+            for it in a.iter("item"):
+                hit = ROLL_NO.search(_text(it, "text") or "")
+                when = _text(it, "actionDate")
+                if hit and when and congress:
+                    rolls.add("house-{0}-{1}-{2}".format(congress, us_store.session_on(when),
+                                                         hit.group(1)))
+        sp = a.find("sponsors/item")
+        out.append({
+            "key": "{0}/hamdt/{1}".format(congress, _int(a, "number")),
+            "number": _int(a, "number"),
+            "text": amendment_text({"description": _text(a, "description"),
+                                    "purpose": _text(a, "purpose")}),
+            "sponsor_last": _text(sp, "lastName") if sp is not None else None,
+            "rolls": sorted(rolls),
+        })
+    return out
+
+
+def collect_amendments(amap, b):
+    """Add one bill's amendments to {division_key: [candidate, ...]}."""
+    for a in b.get("amendments") or []:
+        for key in a["rolls"]:
+            amap.setdefault(key, []).append(a)
+    return amap
+
+
+def pick_amendment(candidates, author):
+    """The amendment a roll call was on when several records claim it (a
+    second-degree amendment's vote is also listed under the first): the one
+    whose sponsor the Clerk names (who may be a designee: Boebert offered
+    Roy's amendments to H.R. 8800), then one with text, then the latest."""
+    author = (author or "").lower()
+    return sorted(candidates, key=lambda a: (
+        bool(a["sponsor_last"]) and a["sponsor_last"].lower() in author,
+        a["text"] is not None, a["number"]))[-1]
+
+
+def is_amendment_vote(question):
+    """The Clerk's question on a House amendment: 'On Agreeing to the
+    Amendment'. Concurring in a SENATE amendment is not one of ours."""
+    q = (question or "").lower()
+    return "amendment" in q and "senate amendment" not in q
+
+
+def link_amendments(conn, amap, today, tax=None, wl=None):
+    """Write each stored House amendment vote's amendment and text from the
+    BILLSTATUS map, and re-derive its areas. Returns (linked, with_text).
+
+    Run after the roll calls, so a vote stored in the same run is linked in
+    the same run, and before fill_amendments, which then asks Congress.gov
+    only about what is left. A text the API gave is never overwritten, and
+    no text is ever replaced by none."""
+    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
+    wl = wl if wl is not None else empty_watchlist()
+    linked = with_text = 0
+    for key, candidates in amap.items():
+        row = conn.execute("SELECT question, amendment_author, amendment_key, amendment_text, "
+                           "purpose_source, bill_key, description FROM us_divisions "
+                           "WHERE division_key=? AND chamber='house'", (key,)).fetchone()
+        if not row or not is_amendment_vote(row[0]):
+            continue
+        question, author, akey, text, source, bkey, desc = row
+        linked += 1
+        if source == "congress-api" and text:
+            with_text += 1
+            continue
+        a = pick_amendment(candidates, author)
+        new_text = a["text"] or text
+        with_text += new_text is not None
+        if (a["key"], new_text) == (akey, text) and source == "billstatus":
+            continue
+        own, areas = classify_division(tax, wl, {
+            "description": desc, "question": question, "amendment_author": author,
+            "amendment_text": new_text, "chamber": "house"}, _bill_areas(conn, bkey))
+        conn.execute("UPDATE us_divisions SET amendment_key=?, amendment_text=?, "
+                     "purpose_source='billstatus', amendment_checked=CASE WHEN ? IS NULL THEN "
+                     "amendment_checked ELSE COALESCE(amendment_checked, ?) END, "
+                     "own_areas=?, areas=?, matched_terms=?, tier=? WHERE division_key=?",
+                     (a["key"], new_text, new_text, today, us_store.dumps(own.issue_areas),
+                      us_store.dumps(areas), us_store.dumps(own.matched_terms), own.tier, key))
+    conn.commit()
+    return linked, with_text
 
 
 # --- bills -------------------------------------------------------------------
@@ -655,6 +810,7 @@ def parse_billstatus(raw):
         "law": ("{0} {1}".format(_text(law, "type") or "Public Law", _text(law, "number"))
                 if law is not None and _text(law, "number") else None),
         "update_date": _text(bill, "updateDate"),
+        "amendments": parse_amendments(bill),
     }
 
 
@@ -703,9 +859,14 @@ def store_bill(conn, b, res, today):
     return key
 
 
-def pull_bills(conn, client, today, congress=CURRENT_CONGRESS, types=BILL_TYPES,
-               tax=None, wl=None, log=print, budget=None):
-    """Every bill of the Congress, one bulk zip per type. Returns (read, ours, gaps)."""
+def pull_bills(conn, client, today, congress=None, types=BILL_TYPES,
+               tax=None, wl=None, log=print, budget=None, amendments=None):
+    """Every bill of the Congress, one bulk zip per type. Returns (read, ours, gaps).
+
+    Pass a dict as `amendments` to collect every House amendment's roll
+    calls on the way through, for link_amendments once the rolls are in."""
+    # The Congress sitting on the RUN date, not at import: see us_store.congress_on.
+    congress = congress if congress is not None else us_store.congress_on(today)
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else empty_watchlist()
     read = ours = gaps = 0
@@ -736,6 +897,8 @@ def pull_bills(conn, client, today, congress=CURRENT_CONGRESS, types=BILL_TYPES,
                 continue
             res = classify_bill(tax, wl, b)
             store_bill(conn, b, res, today)
+            if amendments is not None:
+                collect_amendments(amendments, b)
             ours += on_our_ground(res.issue_areas)
             n += 1
         conn.commit()
@@ -803,11 +966,11 @@ def reclassify(conn, tax=None, log=print):
         conn.execute("UPDATE us_bills SET areas=?, matched_terms=?, tier=? WHERE bill_key=?",
                      (new, us_store.dumps((res.matched_terms or []) + (res.watchlist_hits or [])),
                       res.tier, key))
-    for (key, bkey, desc, question, author, amend, areas) in conn.execute(
+    for (key, bkey, desc, question, author, amend, chamber, areas) in conn.execute(
             "SELECT division_key, bill_key, description, question, amendment_author, "
-            "amendment_text, areas FROM us_divisions").fetchall():
+            "amendment_text, chamber, areas FROM us_divisions").fetchall():
         d = {"description": desc, "question": question, "amendment_author": author,
-             "amendment_text": amend}
+             "amendment_text": amend, "chamber": chamber}
         own, combined = classify_division(tax, wl, d, _bill_areas(conn, bkey))
         new = us_store.dumps(combined)
         changed_d += new != (areas or "[]")
@@ -825,6 +988,15 @@ def summary(conn, log=print):
     n = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
     ours = lambda t: sum(on_our_ground(json.loads(a or "[]"))  # noqa: E731
                          for (a,) in conn.execute("SELECT areas FROM {0}".format(t)))
+    log("  store: {0} House amendment vote(s), {1} with amendment text ({2} from BILLSTATUS, "
+        "{3} from Congress.gov)".format(
+            n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house' "
+              "AND amendment_author IS NOT NULL"),
+            n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house' "
+              "AND amendment_text IS NOT NULL"),
+            n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='billstatus' "
+              "AND amendment_text IS NOT NULL"),
+            n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='congress-api'")))
     log("  store: {0} bill(s), {1} on our ground; {2} roll call(s) (House and Senate), "
         "{3} on our ground; {4} member(s), {5} position(s), {6} cosponsorship(s)".format(
             n("SELECT COUNT(*) FROM us_bills"), ours("us_bills"),
@@ -836,7 +1008,11 @@ def summary(conn, log=print):
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--congress", type=int, default=CURRENT_CONGRESS)
+    ap.add_argument("--congress", type=int, default=None,
+                    help="default: the Congress sitting today (us_store.congress_on)")
+    ap.add_argument("--print-congress", action="store_true",
+                    help="print 'CONGRESS SESSION CATCH_UP' for today and exit: CATCH_UP is "
+                         "the previous Congress during the first weeks of a new one, else '-'")
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--types", default=",".join(BILL_TYPES),
                     help="bill types to pull, comma-separated (default: all eight)")
@@ -851,8 +1027,13 @@ def main():
     ap.add_argument("--dry-run", action="store_true",
                     help="parse the first roll call of the Congress, store nothing")
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     today = datetime.date.today().isoformat()
+    if args.print_congress:
+        print(congress_line(today))
+        return 0
+    if args.congress is None:
+        args.congress = us_store.congress_on(today)
+    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     if args.dry_run:
         year = congress_years(args.congress)[0]
         d = parse_roll(client.get_bytes(ROLL.format(year, 1), FEED, "dry", archive=False))
@@ -870,13 +1051,15 @@ def main():
     wl = empty_watchlist()
     budget = drain.Budget(args.budget_seconds)
     gaps = 0
+    amap = {}
     if not args.no_members:
         print("us-rollcalls: {0} current member(s) from the crosswalk".format(
             pull_members(conn, client, today)))
     if not args.no_bills:
         types = tuple(t.strip() for t in args.types.split(",") if t.strip())
         read, ours, g = pull_bills(conn, client, today, congress=args.congress,
-                                   types=types, tax=tax, wl=wl, budget=budget)
+                                   types=types, tax=tax, wl=wl, budget=budget,
+                                   amendments=amap)
         gaps += g
         print("us-rollcalls: {0} bill(s) read, {1} on our ground, {2} gap(s)".format(read, ours, g))
     if not args.no_rolls:
@@ -885,6 +1068,10 @@ def main():
         gaps += g
         print("us-rollcalls: {0} new House roll call(s), {1} on our ground, {2} gap(s)".format(
             stored, ours, g))
+    if amap:
+        linked, explained = link_amendments(conn, amap, today, tax=tax, wl=wl)
+        print("us-rollcalls: {0} House amendment vote(s) matched in BILLSTATUS, {1} with "
+              "amendment text (en bloc lists count; they still inherit)".format(linked, explained))
     if not args.no_rolls:
         key = congress_key()
         if key:
@@ -894,8 +1081,8 @@ def main():
             print("us-rollcalls: {0} House amendment vote(s) given their purpose, {1} on "
                   "our ground, {2} gap(s)".format(filled, ours, g))
         else:
-            print("us-rollcalls: no congress_api_key; House amendment purposes skipped "
-                  "(those votes keep their bill's areas)")
+            print("us-rollcalls: no congress_api_key; votes BILLSTATUS has not explained "
+                  "yet keep their bill's areas")
     if not args.no_senate:
         stored, ours, g = pull_senate(conn, client, today, congress=args.congress, tax=tax,
                                       wl=wl, limit=args.limit, budget=budget)
@@ -905,6 +1092,13 @@ def main():
     summary(conn)
     conn.close()
     return 1 if gaps else 0
+
+
+def congress_line(today):
+    """'119 2 -' or, in the first weeks of the 120th, '120 1 119'."""
+    prev = us_store.catch_up_congress(today)
+    return "{0} {1} {2}".format(us_store.congress_on(today), us_store.session_on(today),
+                                prev if prev else "-")
 
 
 if __name__ == "__main__":

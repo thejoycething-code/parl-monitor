@@ -53,8 +53,28 @@ def roll_xml(roll, legis="H R 8800", question="On Agreeing to the Amendment", de
                 date=date, desc=desc, recs=recs).encode("utf-8")
 
 
+def amendment_xml(number, description, rolls=(), sponsor="Roy", purpose=None, session=2,
+                  action_only=False):
+    """One <amendment> as BILLSTATUS prints it, with its roll calls. The real
+    records repeat the same recorded vote many times; so does this one."""
+    votes = "".join("<recordedVotes><recordedVote><rollNumber>{0}</rollNumber>"
+                    "<chamber>House</chamber><congress>119</congress>"
+                    "<sessionNumber>{1}</sessionNumber></recordedVote></recordedVotes>".format(
+                        r, session) for r in rolls) * (0 if action_only else 2)
+    acts = "".join("<item><actionDate>2026-07-22</actionDate><text>On agreeing to the {0} "
+                   "amendment (A001) Failed by recorded vote: 1 - 2 (Roll no. {1}).</text>"
+                   "{2}</item>".format(sponsor, r, votes) for r in rolls)
+    return ("<amendment><number>{0}</number><congress>119</congress><type>HAMDT</type>"
+            "<description>{1}</description>{2}"
+            "<sponsors><item><bioguideId>R000614</bioguideId><lastName>{3}</lastName></item>"
+            "</sponsors><actions><actions>{4}</actions></actions></amendment>").format(
+                number, description, "<purpose>{0}</purpose>".format(purpose) if purpose else "",
+                sponsor, acts)
+
+
 def bill_xml(btype="HR", number=15, title="Equality Act", subjects=(), summary="",
-             cosponsors=(), law=None, policy="Civil Rights and Liberties, Minority Issues"):
+             cosponsors=(), law=None, policy="Civil Rights and Liberties, Minority Issues",
+             amendments=()):
     cos = "".join(
         "<item><bioguideId>{0}</bioguideId><fullName>Rep. {1} [D-CA-1]</fullName>"
         "<party>D</party><state>CA</state><district>1</district>"
@@ -81,9 +101,10 @@ def bill_xml(btype="HR", number=15, title="Equality Act", subjects=(), summary="
             "<titles><item><title>{title}</title></item><item><title>{title} of 2025</title></item>"
             "</titles>{laws}<latestAction><actionDate>2025-04-29</actionDate>"
             "<text>Referred to the Committee on the Judiciary.</text></latestAction>"
+            "<amendments>{amds}</amendments>"
             "</bill></billStatus>").format(number=number, btype=btype, cos=cos, policy=policy,
                                            subj=subj, title=title, summary=summary,
-                                           laws=laws).encode("utf-8")
+                                           laws=laws, amds="".join(amendments)).encode("utf-8")
 
 
 class FakeClient:
@@ -193,6 +214,153 @@ class ClassificationTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT areas FROM us_divisions").fetchone()[0], "[1]")
 
 
+NDAA_SUMMARY = "Prohibits the Hyde Amendment from lapsing."
+
+
+def ndaa(conn, *amendments):
+    b = usr.parse_billstatus(bill_xml(btype="HR", number=8800, title="National Defense "
+                                      "Authorization Act", summary=NDAA_SUMMARY,
+                                      amendments=amendments))
+    usr.store_bill(conn, b, usr.classify_bill(TAX, WL, b), "2026-10-09")
+    return b
+
+
+class AmendmentPurposeTests(unittest.TestCase):
+    """Phase 1b: a House amendment vote with a known purpose stands on it."""
+
+    def test_billstatus_amendments_parse_with_their_rolls_once_each(self):
+        b = usr.parse_billstatus(bill_xml(btype="HR", number=8800, amendments=(
+            amendment_xml(242, "An amendment numbered 1 printed in Part A of House Report "
+                               "119-755 to increase funding for drones.", rolls=(255,)),
+            amendment_xml(246, "An amendment comprised of the following amendments printed in "
+                               "Part A of House Report 119-755 as en bloc No. 1: Nos. 5, 6."),
+            amendment_xml(250, "An amendment to prohibit funds for abortion travel.",
+                          rolls=(262,), action_only=True))))
+        got = {a["key"]: a for a in b["amendments"]}
+        self.assertEqual(got["119/hamdt/242"]["rolls"], ["house-119-2-255"])
+        self.assertIn("drones", got["119/hamdt/242"]["text"])
+        self.assertTrue(usr.EN_BLOC.search(got["119/hamdt/246"]["text"]))
+        # Only the action's words carry the roll: read from "(Roll no. 262)".
+        self.assertEqual(got["119/hamdt/250"]["rolls"], ["house-119-2-262"])
+
+    def _setup(self, *amendments):
+        conn = store()
+        b = ndaa(conn, *amendments)
+        for roll in (255, 256, 257):
+            usr.store_division(conn, usr.parse_roll(roll_xml(roll)), TAX, WL, "2026-10-09")
+        amap = usr.collect_amendments({}, b)
+        return conn, amap
+
+    def row(self, conn, roll):
+        conn.row_factory = sqlite3.Row
+        return conn.execute("SELECT * FROM us_divisions WHERE roll=?", (roll,)).fetchone()
+
+    def test_a_purpose_stops_the_vote_inheriting_its_bills_areas(self):
+        conn, amap = self._setup(
+            amendment_xml(242, "to increase funding for drones.", rolls=(255,)),
+            amendment_xml(243, "to prohibit funds for abortion travel.", rolls=(256,)))
+        self.assertEqual(json.loads(self.row(conn, 255)["areas"]), [1])  # inherited, before
+        self.assertEqual(usr.link_amendments(conn, amap, "2026-10-09", TAX, WL), (2, 2))
+        drones, abortion, unlinked = self.row(conn, 255), self.row(conn, 256), self.row(conn, 257)
+        self.assertEqual(json.loads(drones["areas"]), [])
+        self.assertEqual(json.loads(drones["own_areas"]), [])
+        self.assertEqual(drones["amendment_key"], "119/hamdt/242")
+        self.assertEqual(drones["purpose_source"], "billstatus")
+        self.assertEqual(json.loads(abortion["own_areas"]), [1])
+        self.assertEqual(json.loads(abortion["areas"]), [1])
+        # No purpose known: still inherits, as before phase 1b.
+        self.assertEqual(json.loads(unlinked["areas"]), [1])
+        self.assertIsNone(unlinked["amendment_text"])
+        self.assertIsNone(unlinked["amendment_checked"])  # left for the keyed lookup
+
+    def test_an_en_bloc_amendment_has_no_purpose_and_keeps_inheriting(self):
+        conn, amap = self._setup(amendment_xml(
+            246, "An amendment comprised of the following amendments printed in Part A as "
+                 "en bloc No. 1: Nos. 5, 6.", rolls=(255,), sponsor="Rogers"))
+        usr.link_amendments(conn, amap, "2026-10-09", TAX, WL)
+        r = self.row(conn, 255)
+        self.assertEqual(r["amendment_key"], "119/hamdt/246")
+        self.assertIn("en bloc", r["amendment_text"])
+        self.assertEqual(json.loads(r["areas"]), [1])
+
+    def test_a_purpose_survives_a_restore_and_a_reclassify(self):
+        conn, amap = self._setup(amendment_xml(242, "to increase funding for drones.",
+                                               rolls=(255,)))
+        usr.link_amendments(conn, amap, "2026-10-09", TAX, WL)
+        usr.store_division(conn, usr.parse_roll(roll_xml(255)), TAX, WL, "2026-10-10")
+        self.assertEqual(json.loads(self.row(conn, 255)["areas"]), [])
+        self.assertIn("drones", self.row(conn, 255)["amendment_text"])
+        conn.row_factory = None
+        usr.reclassify(conn, TAX, log=lambda *a: None)
+        self.assertEqual(json.loads(self.row(conn, 255)["areas"]), [])
+
+    def test_a_roll_claimed_twice_goes_to_the_amendment_the_clerk_names(self):
+        first = {"key": "119/hamdt/1", "number": 1, "text": "x", "sponsor_last": "Roy"}
+        second = {"key": "119/hamdt/2", "number": 2, "text": "y", "sponsor_last": "Cole"}
+        self.assertEqual(usr.pick_amendment([first, second], "Roy of Texas Amendment No. 1"),
+                         first)
+        self.assertEqual(usr.pick_amendment([first, second], "Boebert of Colorado"), second)
+
+    def test_a_senate_amendment_concurrence_is_not_linked(self):
+        conn = store()
+        b = ndaa(conn, amendment_xml(242, "to increase funding for drones.", rolls=(255,)))
+        usr.store_division(conn, usr.parse_roll(roll_xml(
+            255, question="On Motion to Concur in the Senate Amendment", author="")),
+            TAX, WL, "2026-10-09")
+        self.assertEqual(usr.link_amendments(conn, usr.collect_amendments({}, b), "2026-10-09", TAX, WL),
+                         (0, 0))
+
+    def test_the_keyed_lookup_asks_only_what_billstatus_left(self):
+        conn, amap = self._setup(amendment_xml(242, "to increase funding for drones.",
+                                               rolls=(255,)))
+        usr.link_amendments(conn, amap, "2026-10-09", TAX, WL)
+        asked = []
+
+        class Api:
+            def get_bytes(self, url, feed, slug, archive=True, headers=None, **kw):
+                asked.append(url)
+                if "/house-vote/" in url:
+                    return json.dumps({"houseRollCallVote": {"amendmentType": "HAMDT",
+                                                             "amendmentNumber": "999"}}).encode()
+                return json.dumps({"amendment": {"description": "to prohibit funds for "
+                                                                "abortion travel."}}).encode()
+        filled, ours, gaps = usr.fill_amendments(conn, Api(), "2026-10-09", "KEY", tax=TAX,
+                                                 wl=WL, log=lambda *a: None)
+        self.assertEqual(filled, 2)  # rolls 256 and 257; 255 came from BILLSTATUS
+        self.assertFalse(any("/house-vote/119/2/255" in u for u in asked))
+        self.assertEqual(self.row(conn, 255)["purpose_source"], "billstatus")
+        self.assertEqual(self.row(conn, 256)["purpose_source"], "congress-api")
+        # A later BILLSTATUS run never overwrites what the API gave.
+        usr.link_amendments(conn, usr.collect_amendments({}, ndaa(conn, amendment_xml(
+            243, "to increase funding for ships.", rolls=(256,)))), "2026-10-10", TAX, WL)
+        self.assertIn("abortion", self.row(conn, 256)["amendment_text"])
+
+
+class CongressCalendarTests(unittest.TestCase):
+    """The current Congress is a date, never a constant (rollover, 3 January 2027)."""
+
+    def test_congress_and_session_from_the_date(self):
+        cases = [("2025-01-02", 118, 2), ("2025-01-03", 119, 1), ("2026-10-09", 119, 2),
+                 ("2027-01-02", 119, 2), ("2027-01-03", 120, 1), ("2028-12-31", 120, 2),
+                 ("2029-01-03", 121, 1)]
+        for day, congress, session in cases:
+            self.assertEqual((us_store.congress_on(day), us_store.session_on(day)),
+                             (congress, session), day)
+
+    def test_start_and_end(self):
+        self.assertEqual(us_store.congress_start(119).isoformat(), "2025-01-03")
+        self.assertEqual(us_store.congress_end(119).isoformat(), "2027-01-03")
+        self.assertFalse(us_store.congress_ended(119, "2027-01-02"))
+        self.assertTrue(us_store.congress_ended(119, "2027-01-03"))
+        self.assertEqual(usr.congress_years(us_store.congress_on("2027-06-01")), (2027, 2028))
+
+    def test_the_old_congress_is_caught_up_for_the_first_weeks(self):
+        self.assertEqual(usr.congress_line("2026-10-09"), "119 2 -")
+        self.assertEqual(usr.congress_line("2027-01-03"), "120 1 119")
+        self.assertEqual(usr.congress_line("2027-02-16"), "120 1 119")
+        self.assertEqual(usr.congress_line("2027-02-17"), "120 1 -")
+
+
 class PullRollsTests(unittest.TestCase):
     URL = staticmethod(lambda year, n: usr.ROLL.format(year, n))
 
@@ -201,7 +369,7 @@ class PullRollsTests(unittest.TestCase):
                  self.URL(2025, 2): roll_xml(2, session="1st", date="3-Jan-2025"),
                  self.URL(2025, 4): roll_xml(4, session="1st", date="4-Jan-2025")}
         conn, client = store(), FakeClient(pages)
-        stored, ours, gaps = usr.pull_rolls(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, ours, gaps = usr.pull_rolls(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                             log=lambda *a: None)
         self.assertEqual((stored, gaps), (3, 1))
         self.assertIn("rolls 3-3 answered with no vote",
@@ -212,9 +380,9 @@ class PullRollsTests(unittest.TestCase):
     def test_a_second_run_resumes_after_the_last_stored_roll(self):
         conn = store()
         usr.pull_rolls(conn, FakeClient({self.URL(2025, 1): roll_xml(1, session="1st")}),
-                       "2025-06-01", tax=TAX, wl=WL, log=lambda *a: None)
+                       "2025-06-01", congress=119, tax=TAX, wl=WL, log=lambda *a: None)
         client = FakeClient({self.URL(2025, 2): roll_xml(2, session="1st")})
-        stored, _o, _g = usr.pull_rolls(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, _o, _g = usr.pull_rolls(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                         log=lambda *a: None)
         self.assertEqual(stored, 1)
         self.assertEqual(client.asked[0], self.URL(2025, 2))
@@ -222,7 +390,7 @@ class PullRollsTests(unittest.TestCase):
     def test_an_http_failure_is_a_gap_and_stops_the_year(self):
         conn = store()
         client = FakeClient({self.URL(2025, 1): FetchError(usr.ROLL.format(2025, 1), usr.FEED, "x", 4, "HTTP 503")})
-        stored, _o, gaps = usr.pull_rolls(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, _o, gaps = usr.pull_rolls(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                           log=lambda *a: None)
         self.assertEqual((stored, gaps), (0, 1))
         self.assertEqual(client.asked, [self.URL(2025, 1)])
@@ -230,7 +398,7 @@ class PullRollsTests(unittest.TestCase):
     def test_every_position_is_stored_with_party_at_the_vote(self):
         conn = store()
         usr.pull_rolls(conn, FakeClient({self.URL(2025, 1): roll_xml(1, session="1st")}),
-                       "2025-06-01", tax=TAX, wl=WL, log=lambda *a: None)
+                       "2025-06-01", congress=119, tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual(conn.execute("SELECT bioguide, position, party FROM us_votes "
                                       "ORDER BY bioguide").fetchall(),
                          [("A000370", "Nay", "D"), ("S001214", "Yea", "R")])
@@ -246,12 +414,12 @@ class PullBillsAndMembersTests(unittest.TestCase):
         url = usr.BILLSTATUS.format(119, "hr")
         conn = store()
         read, ours, gaps = usr.pull_bills(conn, FakeClient({url: buf.getvalue()}), "2026-10-09",
-                                          types=("hr",), tax=TAX, wl=WL, log=lambda *a: None)
+                                          congress=119, types=("hr",), tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual((read, ours, gaps), (2, 1, 0))
 
     def test_a_missing_zip_is_a_gap_not_an_empty_congress(self):
         conn = store()
-        read, ours, gaps = usr.pull_bills(conn, FakeClient(), "2026-10-09", types=("hr",),
+        read, ours, gaps = usr.pull_bills(conn, FakeClient(), "2026-10-09", congress=119, types=("hr",),
                                           tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual((read, gaps), (0, 1))
 
@@ -349,7 +517,7 @@ class SenateTests(unittest.TestCase):
         client = FakeClient({usr.SENATE_MENU.format(119, 1): senate_menu(11),
                              usr.SENATE_VOTE.format(119, 1, 11): fixture("vote_119_1_00011.xml")},
                             json_pages={usr.MEMBERS_HISTORICAL: history})
-        stored, ours, gaps = usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, ours, gaps = usr.pull_senate(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                              log=lambda *a: None)
         self.assertEqual((stored, ours, gaps), (1, 1, 1))
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM us_votes").fetchone()[0], 99)
@@ -358,7 +526,7 @@ class SenateTests(unittest.TestCase):
                          .fetchone()[0], "B000001")
         # A second run asks only for votes it does not hold.
         client.asked = []
-        self.assertEqual(usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        self.assertEqual(usr.pull_senate(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                          log=lambda *a: None)[0], 0)
         self.assertEqual(client.asked, [usr.SENATE_MENU.format(119, 1)])
 
@@ -369,7 +537,7 @@ class SenateTests(unittest.TestCase):
         client = FakeClient({usr.SENATE_MENU.format(119, 1): senate_menu(648, issue="S.Con.Res. 7"),
                              usr.SENATE_VOTE.format(119, 1, 648): blank},
                             json_pages={usr.MEMBERS_HISTORICAL: []})
-        usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL, log=lambda *a: None)
+        usr.pull_senate(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual(conn.execute("SELECT legis_num, bill_key FROM us_divisions").fetchone(),
                          ("S.Con.Res. 7", "119/sconres/7"))
 
@@ -378,7 +546,7 @@ class SenateTests(unittest.TestCase):
         refused = FetchError(usr.SENATE_MENU.format(119, 1), usr.FEED, "x", 4, "HTTP 403")
         client = FakeClient({usr.SENATE_MENU.format(119, 1): refused,
                              usr.SENATE_MENU.format(119, 2): senate_menu()})
-        stored, _o, gaps = usr.pull_senate(conn, client, "2026-10-09", tax=TAX, wl=WL,
+        stored, _o, gaps = usr.pull_senate(conn, client, "2026-10-09", congress=119, tax=TAX, wl=WL,
                                            log=lambda *a: None)
         self.assertEqual((stored, gaps), (0, 1))
         self.assertIn(usr.SENATE_MENU.format(119, 2), client.asked)

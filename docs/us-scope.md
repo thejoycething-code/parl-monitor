@@ -19,7 +19,17 @@ legislatures are a later decision, taken in blocks (see the end).
   is not a term of its own: it is caught where it meets the areas already
   watched (gender, sex-based rights, schools).
 - **The US edition goes to Christopher alone** until it is good.
-- Not yet decided: the executive-actions section.
+- **Executive actions: yes** (9 October 2026). A section of the US edition
+  from the Federal Register: executive orders, proclamations and memoranda,
+  final and proposed rules, with comment-period close dates. Classified
+  through the shared taxonomy, noise guarded and measured. Built the same
+  day (below).
+- **Supreme Court: yes** (9 October 2026). A section of its own: the term's
+  opinions, the certiorari grants from the order lists, and the docket
+  (caption and question presented) for each grant. Built the same day.
+- **A US guard on area 12: yes** (9 October 2026). Immigration and
+  border-enforcement bills must not land in area 12 on "human trafficking"
+  alone. Taxonomy v1.18; measured below.
 
 ## Phase 1: built, 9 October 2026
 
@@ -43,12 +53,216 @@ Act, the Protect Children's Innocence Act.
 - **Every position is stored.** The positions come in the same file as the
   vote, so there is no per-division fetch to save, unlike Canada.
 - **Votes inherit their bill's areas**; `own_areas` keeps the vote's own
-  match apart. The cost is visible already: all 21 FY2027 NDAA amendment
-  votes carry area 8 because the bill's summary mentions chaplains. Phase 1b
-  (amendment purposes) is what separates them.
+  match apart. The cost was visible at once: every FY2027 NDAA amendment
+  vote carried area 8 because the bill's summary mentions chaplains. Phase 1b
+  (below) stops that for every House amendment vote whose purpose is known.
 - **Not scheduled.** The three sighting tables are exempt in
   `tools/coverage.py` until a US weekly workflow exists; that exemption must
   move to FEEDS when it does.
+
+## Phase 1b: amendment purposes, built 9 October 2026 (two sources)
+
+A House amendment vote's `amendment_key` ('119/hamdt/242'),
+`amendment_text` ("description | purpose"), `amendment_checked` and
+`purpose_source` on `us_divisions` are filled from two sources, in order:
+
+1. **BILLSTATUS, keyless, first.** The purpose was already in a file we
+   download: the BILLSTATUS bulk record of a bill lists every House
+   amendment to it, with its description ("An amendment numbered 1 printed
+   in Part A of House Report 119-755 to strike section 1213..."), its
+   purpose and the roll calls it was voted on. Read with the bills, at no
+   extra request (`link_amendments`, `purpose_source='billstatus'`).
+2. **Congress.gov API, keyed, for what BILLSTATUS has not explained.**
+   BILLSTATUS lags the floor by days. With `CONGRESS_API_KEY` (an
+   X-Api-Key header, never in a URL, log or gap row), `fill_amendments`
+   maps each remaining roll call to its amendment (`house-vote`, then
+   `amendment`) and marks it `purpose_source='congress-api'`. A later
+   BILLSTATUS run never overwrites what the API gave. No key: the step
+   says so and the vote waits for BILLSTATUS.
+
+Keyless sources probed live on 9 October 2026:
+
+| Source | Answers | Gives |
+|---|---|---|
+| BILLSTATUS bulk (GovInfo) | yes | every House amendment, its purpose, its roll calls. **The route.** |
+| rules.house.gov bill pages | yes (920 KB for H.R. 8800) | all 1,400 submitted NDAA amendments with one-line summaries and status; links to the Rules reports |
+| Rules Committee reports (GovInfo CRPT HTML) | yes | the made-in-order summaries numbered as the Clerk numbers them ("Part A Amendment No. 1"). A fallback, not needed |
+| Clerk roll-call XML | yes | the amendment's sponsor-or-designee and its floor sequence number only; no purpose |
+| congress.gov amendment pages | **403** | not worked around |
+
+Two traps the Clerk sets: the "Amendment No." in its author line is the
+**Rules report's** number, not the floor sequence (`amendment-num`); and
+the member named may be a designee (Boebert offered Roy's amendments Nos.
+1 to 4 to H.R. 8800). The BILLSTATUS route joins on the roll number, so
+neither matters; where two amendment records claim one roll, the one whose
+sponsor the Clerk names wins. An **en bloc** amendment's description is a
+list of numbers, not a purpose: it is stored with no purpose and keeps
+inheriting.
+
+**The rule** (documented once, in `tools/us_rollcalls.py`; the en bloc
+test is `us_store.has_own_purpose`, shared with the edition): `own_areas`
+is always what the vote's own text matched, now including the amendment
+text. A House vote whose amendment text is a real purpose takes `own_areas`
+**alone**; every other vote (passage, recommit, rules, en bloc, Senate
+votes, an amendment no source has explained yet) still adds its bill's
+areas. The edition prints the purpose
+under the vote and says "matched on amendment purpose".
+
+**Measured on the 119th Congress, BILLSTATUS alone, no key** (676 House
+roll calls, scratch store):
+
+- **90 House amendment votes; all 90 matched to a BILLSTATUS amendment,
+  89 with a purpose** (the 90th is an en bloc on H.R. 3944). Six more votes
+  concur in a Senate amendment; they are not House amendments and are left
+  alone.
+- **House roll calls on our ground: 132 before, 83 after.** Every one of
+  the 49 that left was an amendment vote that had only inherited.
+- **NDAA FY2027 (H.R. 8800): 19 amendment votes, all 19 inherited area 8
+  before; 2 kept an area on their own purpose, 17 lost it.** Kept: roll
+  266 (Boebert No. 18, codify the ban on transgender service members: sex
+  based rights) and roll 273 (Self No. 28, protections for chaplains:
+  freedom of religion).
+- **NDAA FY2026 (H.R. 3838): 17 amendment votes, all inherited; 2 kept,
+  15 lost.**
+- **Appropriations (H.R. 3944, 4016, 4553, 7006, 7148, 8469, 8595): 29
+  amendment votes, 18 inherited before; 1 kept (the H.R. 3944 en bloc,
+  still inheriting), 17 lost.** None of the 17 is on our ground on a
+  reading (Ukraine, Taiwan, Israel, the UN, Fulbright, two judges' pay).
+
+**What the strict rule now misses: American wording, again.** Five of the
+votes that lost their inherited area are on our ground, and the taxonomy
+does not match their purposes: H.R. 8800 rolls 267 ("gender related medical
+care under TRICARE") and 268 ("male participation in female sports at
+DoDEA schools"); H.R. 3838 rolls 246 ("gender-related medical treatment"),
+247 (male cadets in women's athletics) and 248 (a survey on "gender
+identity"). Before, they showed only as noise under "freedom of religion";
+now they do not show at all. The fix is terms in docs/keyword-taxonomy.md
+(Christopher's call, then regenerate `config/taxonomy.yaml`), not a return
+to inheritance.
+
+**Done at taxonomy v1.19** (Christopher approved the terms, 9 October 2026):
+"gender-related medical*" (and unhyphenated) in area 3; "male participation
+in female sport*", "designated exclusively for females" guarded by sport
+company, and "gender identity" guarded by survey-and-form wording in area 5.
+All five votes regain an area (rolls 246 and 267 area 3; 247, 248 and 268
+area 5): House roll calls on our ground 79 to 84. Four US bills gain an
+area, all on our ground (H.R. 1015, H.R. 5592, H.R. 10127 area 3; H.R. 4138
+area 5); no UK, devolved, EU, Canadian, Federal Register or Supreme Court
+row gains.
+
+## Executive actions and the Supreme Court: built, 9 October 2026
+
+Both run in the US weekly (`jobs/us-weekly.sh`) after the roll calls and
+before the judge; a refused source is a [gap] line, never a stopped
+edition. Live runs went into a scratch copy of the store, not the store.
+
+### Federal Register (`tools/us_federal_register.py`, `us_fr_documents`)
+
+`federalregister.gov/api/v1/documents.json`, keyless. Types PRESDOCU, RULE
+and PRORULE; agency notices (about 10,000 since January 2025, nearly all
+permits, meetings and information collections) are not read. Keyed on the
+FR document number; first backfill from 20 January 2025, then incremental
+by publication date with a fourteen-day overlap, so corrections and
+reopened comment periods are re-seen. Matched on title, abstract, action
+line and CFR index terms; never the body.
+
+| 20 Jan 2025 to 9 Oct 2026 | Read | On our ground |
+|---|---|---|
+| Presidential documents | 650 | 13 |
+| Final rules | 4,522 | 22 |
+| Proposed rules | 2,800 | 19 |
+| **All** | **7,972** | **54** |
+
+A first run takes under two minutes (8 pages of 1,000).
+
+**Noise, measured.** "Euthanasia" never reaches the matched text: the 13
+documents carrying it are animal welfare and carry it in the body. Seven
+documents were noise and are now guarded: two EPA air-toxics rules (a
+pollutant "surrogate"), one EPA wildlife-contraceptive pesticide tolerance,
+one Livestock Indemnity rule ("unborn" livestock), all three vetoed in
+taxonomy v1.18; and three USCIS rules carrying the CFR index term "Adoption
+and foster care", which is printed on every 8 CFR rule and is dropped in
+the collector where "Aliens" or "Immigration" sits beside it. Left in on
+purpose: CMS hospice and home-health payment rules (tier 2, area 2's
+positive flank; the FY2027 hospice rule discusses medical aid in dying)
+and a CFPB coerced-debt rule (tier 2 "coercion"), for the judge to weigh.
+
+**What it finds.** The January and February 2025 orders on gender ideology,
+the Hyde Amendment, the Mexico City Policy, chemical and surgical
+mutilation, K-12 indoctrination, women's sports, anti-Christian bias and
+IVF; the Religious Liberty Commission; State's two foreign-assistance rules
+(Protecting Life, Combating Gender Ideology); the Title IX recodification;
+the HHS disability rule on gender dysphoria. **Misses on the title alone:**
+the White House Faith Office order, "Fostering the Future for American
+Children and Families", the annual Trafficking in Persons determinations
+("trafficking in persons" is not a term), and the DEI orders (DEI is not a
+term by decision).
+
+**The section.** New on our ground this week, and every proposed rule on
+our ground still open for comment with its close date and regulations.gov
+link, bold when it closes within fourteen days and named in the top lines.
+On 9 October 2026 one is open: ACF's "Reforming Federal Reporting and
+Assessments in Child Welfare", closing 4 November 2026.
+
+### Supreme Court (`tools/us_courts.py`, `us_court_cases`, `us_court_orders`)
+
+All on supremecourt.gov, keyless, one request a second (robots.txt:
+Crawl-delay 1; /rss/, /images/ and /cdn/ disallowed and not used). Nothing
+refused us; one docket page timed out and is a gap.
+
+- **Opinions:** `opinions/slipopinion/<term>`, re-read whole each run. The
+  link's title attribute carries the Court's one-sentence holding, which is
+  what is matched (case names are party names).
+- **Grants:** every order list and miscellaneous order PDF of the term,
+  read once (`us_court_orders`); plenary certiorari grants are taken out,
+  grant-vacate-remand orders and stays left out. For each grant the docket
+  page gives the caption and the questions-presented PDF, which is what is
+  matched.
+- First run reads from October Term 2024 (about eighteen minutes, 275
+  PDFs); later runs read the current term and the last.
+
+| OT2024 to 9 Oct 2026 | Read | On our ground |
+|---|---|---|
+| Opinions (OT2024, OT2025) | 140 | 7 |
+| Certiorari grants | 114 | 13 |
+
+On our ground: Skrmetti, Mahmoud v. Taylor, Medina v. Planned Parenthood,
+Free Speech Coalition v. Paxton, Catholic Charities, Chiles v. Salazar,
+West Virginia v. B. P. J.; grants including Little v. Hecox, St. Isidore,
+First Choice Women's Resource Centers, Landor, and Crowther v. Board of
+Regents. **Missed:** the First Choice opinion (its holding speaks of a
+subpoena and donors, not pregnancy centres); the grant is caught.
+The docket's JSON (under /RSS/) is not used; the granted/noted list page
+was empty when probed.
+
+### Area 12 guard (taxonomy v1.18)
+
+`"human trafficking" [without: "border security", "unlawful immigration",
+"illegal immigration", "illegal alien*"]`. The first two are the words of
+the CRS subject term "Border security and unlawful immigration".
+
+- **US bills in area 12: 90 before, 74 after.** The 16 that left: Kayla
+  Hamilton Act (H.R. 4371), Secure America Act (S. 2), both FY2026 NDAA
+  texts (S. 1071, S. 2296), Stopping Border Surges, Expedited Removal of
+  Criminal Aliens, Shadow Wolves, SHIELD Against CCP, the Mexico security
+  and drug-trafficking bills, and seven appropriations and reconciliation
+  vehicles (H.R. 1, H.R. 7148, H.R. 4213, H.R. 7006, H.R. 1968, H.R. 5371).
+- **Roll calls in area 12: 160 before, 15 after**, almost all NDAA and
+  appropriations amendment votes that inherited it (measured before phase
+  1b's purpose rule, which stops most of that inheritance on its own).
+- **Stay:** H.R. 1503 (Stop Forced Organ Harvesting), the Trafficking
+  Survivors Relief Acts, the Human Trafficking Survivor Tax Relief Acts,
+  the trafficking victims protection reauthorizations, the WISE Act, and
+  the Stop Human Trafficking of Unaccompanied Migrant Children Act (it
+  carries none of the vetoes; a judgement call worth a look).
+- **UK and elsewhere:** re-derived across 203,662 Holyrood, Senedd, NI
+  and EU rows, none changed; no Westminster item is in area 12, and none
+  of the 1,010 Westminster member events in area 12 carries the company in
+  its stored excerpt. Canada would move on re-derivation: 7 Commons
+  speeches (Bill C-12, border management), 2 committee testimonies and 4
+  provincial speeches from 12 to 11. That is the rule working as meant;
+  Canada's retag is additive, so stored rows keep their tags until
+  re-derived.
 
 ## The finding that shapes everything
 
@@ -115,9 +329,10 @@ as with "pornograph*" in Canada):
 
 ### What it caught that it should not have
 
-Area 12 (trafficking) is noisy in the US: "human trafficking" appears in
+Area 12 (trafficking) was noisy in the US: "human trafficking" appears in
 almost every border and immigration bill (Kayla Hamilton Act, Secure America
-Act, the FY2026 NDAA), so those land in 12 when they are really area 11. The
+Act, the FY2026 NDAA), so those landed in 12 when they are really area 11.
+Guarded at taxonomy v1.18 (above). The
 CBDC and encryption terms pull in crypto-market and telecoms bills (CLARITY
 Act, a housing bill, a mobile-networks bill). Triage would score these low,
 but area 12 needs a US guard.
@@ -140,12 +355,10 @@ bills**, not as standalone bills. Of the 38 voted measures, the heaviest are:
 So the bill-level match says "this omnibus touches abortion", which is
 always true and never news. **What matters is which amendment was voted
 on.** The roll-call XML names the amendment and its author ("Roy of Texas
-Amendment No. 1") but not its purpose. The purpose text lives in two places:
-
-- the Congress.gov API `amendment` endpoint (needs a key, see below);
-- the House Rules Committee's amendment lists (rules.house.gov), which give
-  each made-in-order amendment's one-line summary before the floor vote.
-  Not probed yet.
+Amendment No. 1") but not its purpose. The purpose text lives in the
+BILLSTATUS amendment records (keyless), the Congress.gov API `amendment`
+endpoint (keyed) and the House Rules Committee's amendment lists and
+reports (rules.house.gov, keyless). Phase 1b above uses the first two.
 
 This is the US equivalent of the EU lesson: match the division on its own
 text, inherit from the parent bill only with care. Amendment-level matching
@@ -232,12 +445,75 @@ with Bioguide, LIS (Senate vote ID), GovTrack, OpenSecrets, Wikidata and
 other IDs. It is a volunteer project, but it is the standard crosswalk and
 the Bioguide IDs come from Congress. Use it for identity, not for votes.
 
-### Floor schedule: works today, open, no key
+### Floor schedule and committee meetings: built 9 October 2026, no key
 
-`docs.house.gov/billsthisweek/<yyyymmdd>/<yyyymmdd>.xml` is the Majority
-Leader's list for the week, with bill text links. The latest is the week of
-14 September 2026. Nothing has been posted since, because the House is out
-campaigning ahead of the midterms. This is the What's On equivalent.
+The What's On equivalent. `tools/us_schedule.py` reads what is SCHEDULED
+from today to the Sunday after the coming Monday (a Friday run: ten days)
+into `us_schedule` (one bill at one event, keyed on the bill key and joined
+to `us_bills` for areas and scores), `us_meetings` (every committee meeting,
+with or without a bill) and `us_schedule_weeks` (what each source answered
+for each week asked). The edition prints it as **Coming up**, after the
+dates that matter. Run from `jobs/us-weekly.sh` after the bills and before
+the edition. Sources, all keyless:
+
+- **House floor:** `docs.house.gov/billsthisweek/<yyyymmdd>/<yyyymmdd>.xml`,
+  the Majority Leader's list for the week, by WEEK only (it never says which
+  day). A week the House is out answers **404**, read as "no list", not a
+  failure. `docs.house.gov/floor/` names the latest week posted; when no
+  week ahead is listed, that list is read again so the edition can say when
+  the House last scheduled business, and the table keeps moving in recess.
+- **House committees:** the repository's day pages
+  (`Committee/Calendar/ByDay.aspx?DayID=<mmddyyyy>`), then each meeting's
+  page for its kind, its status (rescheduled, postponed, cancelled) and its
+  "Text of Legislation". The week view is NOT complete (14 meetings for the
+  week of 14 September against 17 on the 16th alone). The "Meeting XML" is a
+  postback, and on the one markup tried its `<legis-num>` dropped the bill
+  type on half the bills ("10355" for H.R. 10355), so the page is read.
+- **Senate committees:** `senate.gov/general/committee_schedules/hearings.xml`,
+  with the bills each meeting takes as `<AssociatedDocument>` (`PN`, a
+  nomination, is left out).
+- **Senate floor:** `senate.gov/legislative/schedule/floor_schedule.htm`, the
+  next sitting only ("Convene at 3:00 p.m."), rarely with a bill.
+
+**senate.gov refuses the laptop** (403, as for the roll calls) and answered
+the `probe-hosts` workflow from GitHub on 9 October. So the Senate half runs
+in the Senate-only GitHub run the Mini asks for (`--senate-only`, in the
+same branch of `jobs/us-weekly.sh` as the Senate votes); locally it logs one
+`[gap]`, marks the weeks `refused`, and the edition says the Senate was not
+read. A refusal never overwrites a week an earlier run read. The Senate
+fixtures of the week of 14 September are senate.gov's own files as the
+Internet Archive saved them that morning; the recess ones came from the
+probe workflow.
+
+Each scheduled bill is classified on its OWN line too (`own_areas`): the
+floor item's text, the House legislation entry, the Senate document
+description. Never the meeting's title, which would lend one bill's words to
+every other bill on the agenda (the first build gave all ten bills of a
+Senate Commerce markup "free speech" because one of them was the JAWBONE
+Act).
+
+**Measured, week of 14 to 18 September 2026** (the last the House sat; live
+for the House, fixtures for the Senate, joined to the real store):
+
+| | Listed | Bill rows | On our ground |
+|---|---|---|---|
+| House floor list | 78 items (3 categories), every one naming a bill | 78 | 2: H.R. 7834 Safe Cloud Storage Act, H.R. 9086 Foreign Service Modernization Act |
+| House committee meetings | 41 (30 hearings, 9 markups, 2 meetings) | 118 | 0 |
+| Senate committee meetings | 17 (13 hearings, 4 business meetings) | 39 | 1: the Commerce markup taking S. 4749, the JAWBONE Act |
+
+Every one of the 235 bill rows joined a bill already in `us_bills`. The
+week took 47 requests and 11 seconds. **Live, 9 October 2026** (into a
+scratch copy of the store): no list for the weeks of 5 and 12 October (404),
+no House committee meeting on any of the ten days, the 14 September list
+read again, and the House committee week of 14 September read once as a
+seed (a first run in recess would otherwise leave `us_meetings` empty for
+weeks, which the coverage watch reads as a wipe); Senate one gap.
+
+Watched by `tools/coverage.py`: `us_schedule_weeks` weekly (a row per week
+asked, every run), `us_schedule` weekly with a week's grace, `us_meetings` a
+month plus a month's grace (the House posts no meeting in recess). The step
+stamps its own heartbeat, `US schedule`, which excuses the empty tables
+until its first run.
 
 ### Congressional Record (debates): works, keyed
 
@@ -276,7 +552,7 @@ Westminster's sections map as follows: bills (BILLSTATUS), divisions (House
 roll calls, Senate when unblocked), debates (Congressional Record), What's
 On (floor schedule plus committee meetings), consultations (Federal Register
 comment periods). No PQs, no EDMs, no petitions. Add an **executive actions**
-section (executive orders and agency rules), which Westminster does not need.
+section (executive orders and agency rules), which Westminster does not need. (Built 9 October 2026, with a Supreme Court section.)
 
 **The 5CA translates.** Every member has a Bioguide ID, every House vote
 carries positions and party-at-the-time, and cosponsorship is a strong
@@ -288,7 +564,7 @@ position, so it can sit just under a vote in the evidence hierarchy.
 
 `.github/workflows/us-weekly.yml`: Friday 10:00 UTC, retry 12:00 (06:00 in
 Washington, after Thursday's votes). Members, all bills (the BILLSTATUS zips
-are re-read whole), new House roll calls, new Senate votes. Watched by the
+are re-read whole), new House roll calls, new Senate votes, the week ahead. Watched by the
 failure alert and `tools/coverage.py` (bills and members weekly; votes a
 month plus a month's grace, because the House cast no vote between
 16 September and the midterms). A hand dispatch can reclassify first.
@@ -302,10 +578,10 @@ month plus a month's grace, because the House cast no vote between
    BILLSTATUS bulk, matched on titles + CRS subjects + summary. Divisions keyed
    to bill IDs (`119/hr/28`), never titles. A `config/watchlist-us.yaml` with the
    misses above.
-2. **Phase 1b: amendment purposes.** Needs the Congress.gov key. Without it
-   the NDAA and appropriations votes are unreadable.
-3. **Phase 2: Senate votes (built 9 October)**, then the **floor
-   schedule** and the **Federal Register**.
+2. **Phase 1b: amendment purposes (built 9 October):** BILLSTATUS first,
+   keyless; the Congress.gov key, when present, fills the lag.
+3. **Phase 2: Senate votes and the week ahead (floor lists, committee
+   meetings; both built 9 October)**, then the **Federal Register**.
 4. **Phase 3: Congressional Record** debate packs and the US 5CA (votes +
    cosponsorships).
 5. **Phase 4: state legislatures, in blocks.** See below.
@@ -319,11 +595,37 @@ month plus a month's grace, because the House cast no vote between
   must-pass bills where riders on our ground will be fought.
 - **3 January 2027: the 119th Congress ends and every pending bill dies.**
   All 19,596 bills and resolutions fall at once. This is a prorogation fall
-  on a two-year cycle and `board.py`'s fall logic needs a US rule for it: a
-  bill is dead when its Congress ends, whatever its last action says.
+  on a two-year cycle: a bill is dead when its Congress ends, whatever its
+  last action says (built: see the rollover below).
   Bills are re-introduced in the 120th under new numbers, so the watchlist
   must be keyed per Congress, with the short title as the link between
   versions.
+
+### The rollover (built 9 October 2026)
+
+- **The current Congress is a date.** `us_store.congress_on(day)`: Congress
+  n sits from 3 January of 1789 + 2(n - 1), so the 120th from 3 January
+  2027; session 1 in the odd year, 2 in the even. 1 and 2 January 2027 are
+  still the 119th. Nothing hard-codes 119 any more: `us_rollcalls.py`
+  defaults to it, and `jobs/us-weekly.sh` reads
+  `us_rollcalls.py --print-congress` ("119 2 -") for the Congress, the
+  session and the Senate menu (`vote_menu_<congress>_<session>.xml`).
+  `tools/us_schedule.py` derives the Congress the same way for the bill
+  numbers it reads off the week-ahead pages.
+- **The old Congress is finished off.** For the first 45 days of a new
+  Congress `--print-congress` names the previous one ("120 1 119") and the
+  job collects it first, every week: its bills' final statuses in
+  BILLSTATUS (a bill presented before 3 January can be signed after it),
+  any late roll calls, and their amendment purposes. A gap there does not
+  stop the current Congress's run.
+- **The edition shows the fall.** Once a Congress has ended, its bills not
+  enacted are "Fell with the 119th Congress", never pending: they leave
+  the live and committee lists, the header and the countdown move to the
+  120th, and for 60 days a top line and a "Fell with the 119th Congress"
+  section (most-backed 15) count them; the DM says so too. A simple
+  resolution agreed to in its chamber is finished business, not a fall,
+  and no longer counts as pending either (740 pending on 9 October became
+  727 that can actually fall).
 
 ## State legislatures: all 50 (decided 9 October 2026, not built)
 
@@ -365,10 +667,13 @@ jurisdictions). Possible build orders:
 1. ~~Who reads it?~~ Own edition, to Christopher alone for now (decided
    9 October): a Slack DM, and he owns the Asana task.
 2. **The Congress.gov / api.data.gov key.** Free and immediate, but it should
-   be requested in his name or the team's. Phase 1b needs it.
+   be requested in his name or the team's. Phase 1b no longer needs it (it
+   only closes BILLSTATUS's lag); the Congressional Record and
+   Regulations.gov still do.
 3. ~~Taxonomy~~: shared list, merged into the areas (decided 9 October; v1.17).
 4. **Scope:** DEI, antisemitism, contraception. In or out?
-5. **Executive actions** as a section: yes or no?
+5. ~~Executive actions~~: yes, with the Supreme Court (decided and built
+   9 October 2026).
 6. ~~Senate~~: built 9 October; collected from CI, where senate.gov answers.
 7. ~~Which state block first?~~ All 50 (decided 9 October), via Open
    States: **an account and API key are needed**.

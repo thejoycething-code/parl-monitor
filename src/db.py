@@ -1558,6 +1558,15 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # The week ahead (tools/us_schedule.py, 9 October 2026).
+    "us_schedule",
+    "us_meetings",
+    "us_schedule_weeks",
+    # The US executive and the Supreme Court (9 October 2026):
+    # tools/us_federal_register.py and tools/us_courts.py, same module.
+    "us_fr_documents",
+    "us_court_cases",
+    "us_court_orders",
     # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
     # src/ie_store.ensure_schema -- declared from day one.
     "ie_members",
