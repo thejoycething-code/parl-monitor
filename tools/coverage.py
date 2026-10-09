@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Sundays (do-weekly.yml; the Mac Mini first).
+    "Dominican Republic weekly": (7, 4, "Dominican Republic: Camara de Diputados iniciativas, sessions, votes"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,17 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Dominican Republic (9 October 2026). MEASURED which re-stamp: the whole
+    # 2024-2028 iniciativa list and the legislator list are re-read every
+    # run, so bills and members move every week, recess included. Sessions
+    # and votes are written when the Chamber sits, and it breaks between
+    # legislatures (late July to mid-August, and the January recess): a
+    # month plus a month's grace, as for the US. do_votes carries no
+    # sighting column.
+    ("do_bills", "last_seen", 7, 4, "Camara de Diputados iniciativas, SIL (Dominican Republic weekly)"),
+    ("do_members", "last_seen", 7, 4, "Legislators in the Chamber's SIL (Dominican Republic weekly)"),
+    ("do_sessions", "last_seen", 31, 31, "Chamber plenary sessions (Dominican Republic weekly)"),
+    ("do_divisions", "last_seen", 31, 31, "Chamber recorded votes (Dominican Republic weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +243,8 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # Sessions and votes left out: a recess week cannot move them.
+    "Dominican Republic weekly": ["do_bills", "do_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -243,6 +258,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Dominican Republic weekly": (("do_bills", "do_members", "do_sessions", "do_divisions"),
+                                  "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
