@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Panama weekly on the Mac Mini: Saturdays at 17:30 London, after the
+     Asamblea's Monday-Thursday plenary week (Panama keeps UTC-5 all year).
+     The GitHub crons (17:30 and 21:30 UTC on Saturdays,
+     .github/workflows/pa-weekly.yml) are the backup and skip themselves when
+     this has run (the gate allows 320 minutes, because 17:30 London is 16:30
+     UTC in summer, five hours before the retry slot).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.pa-weekly.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.pa-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>pa-weekly</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>17</integer><key>Minute</key><integer>30</integer></dict>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/pa-weekly.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/pa-weekly.log</string>
+</dict>
+</plist>

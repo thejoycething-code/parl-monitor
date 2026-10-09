@@ -1,0 +1,64 @@
+# Belgian watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Belgium. See docs/belgium-scope.md.
+#
+# Until a Belgian Dutch and French term list is approved, this file is the
+# ONLY source of areas for the Belgian tables: tools/be_rollcalls.py applies
+# it to every dossier and every recorded vote on it, and matches nothing on
+# text. Each entry below was found by the PROPOSED terms in the scope doc and
+# read by title (French and Dutch) before it was kept.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/be_store.watch_areas). Keys are
+# '<legislature>/<document number>': the Chamber numbers dossiers from 1 in
+# every legislature, so every entry must be re-keyed after the next federal
+# election (due June 2029), when pending dossiers lapse unless the new
+# Chamber revives them.
+dossiers:
+  # --- 1 Abortion -------------------------------------------------------
+  "56/30": {areas: [1], why: "Revision of article 22 of the Constitution to recognise a right to abortion (vrijwillige zwangerschapsafbreking / IVG)."}
+  "56/35": {areas: [1], why: "Private member's bill relaxing the conditions for abortion."}
+  "56/40": {areas: [1], why: "Bill amending the abortion rules. The Justice committee proposed its rejection; the plenary adopted that proposal on 25 June 2026 (division 56/131/27, 93-37-0)."}
+  "56/42": {areas: [1], why: "Private member's bill 'updating' the abortion law."}
+  "56/44": {areas: [1], why: "Bill on abortion (zwangerschapsafbreking / interruption de grossesse)."}
+  "56/270": {areas: [1], why: "Bill to remove abortion from the criminal law entirely and relax its conditions."}
+  "56/822": {areas: [1], why: "Private member's bill relaxing the conditions for abortion (a second text after 56/35)."}
+  "56/1122": {areas: [1], why: "Constitutional revision inserting an article 23bis on sexual and reproductive rights, including a right to abortion and to contraception."}
+  "56/1150": {areas: [1], why: "Resolution to strengthen access to 'safe and affordable' abortion as part of health care."}
+  "56/1266": {areas: [1], why: "Declaration of revision of Title II of the Constitution to guarantee a right to abortion."}
+  "56/1303": {areas: [1], why: "Resolution recognising 'harm' to people convicted under the former criminal provisions on abortion."}
+  "56/153": {areas: [1], why: "Rules on stillborn children (levenloos geboren kinderen / enfants nés sans vie): legal recognition of the unborn child."}
+  "56/170": {areas: [1], why: "Recognition of and support for parents of stillborn children, and bereavement leave on losing a child."}
+  "56/1080": {areas: [1], why: "Civil Code: recognition (erkenning) of a stillborn child."}
+  # Contraception is a life issue (area 1): Christopher's decision of
+  # 9 October 2026 for the shared taxonomy (docs/us-scope.md).
+  "56/60": {areas: [1], why: "Wider state reimbursement of long-acting contraceptives."}
+  "56/133": {areas: [1], why: "Contraceptive reimbursement extended to all insured people, whatever their age."}
+  "56/151": {areas: [1], why: "Free contraception extended to all women."}
+  "56/368": {areas: [1], why: "Recognised institutions allowed to supply emergency contraception."}
+  "56/749": {areas: [1], why: "Contraceptive reimbursement extended to men."}
+  "56/755": {areas: [1], why: "Free contraception (kosteloze anticonceptie)."}
+  # --- 2 Assisted dying ---------------------------------------------------
+  "56/183": {areas: [2], why: "Euthanasia law of 28 May 2002: extends the advance euthanasia declaration (wilsverklaring) to people who have lost capacity, i.e. dementia."}
+  "56/1338": {areas: [2], why: "Bereavement leave around 'planned euthanasia' (and palliative leave). Adopted 8 October 2026, 134-0-1 (division 56/143/5): it treats euthanasia as a scheduled event in employment law."}
+  # --- 3 Gender medicine and children ------------------------------------
+  "56/335": {areas: [3], why: "Resolution for a cautious approach to the medical transition of children with gender dysphoria and an independent KCE review of gender clinics. A text CitizenGO would SUPPORT."}
+  # --- 7 Free speech, privacy and civil liberties --------------------------
+  "56/63": {areas: [7], why: "Revision of article 150 of the Constitution so that all expressions inciting hatred are prosecuted alike (press offences go to the assize court today, which in practice means no prosecution except for racism)."}
+  "56/1071": {areas: [7], why: "Resolution rejecting the EU 'Chat Control' (CSAM) regulation."}
+  "56/1520": {areas: [7], why: "Constitutional revision to enshrine academic freedom (article 25bis)."}
+  "56/1656": {areas: [7], why: "Penal Code Book II: redefines the offence of incitement to hatred (aanzetten tot haat / incitation à la haine)."}
+  # --- 8 Freedom of religion ----------------------------------------------
+  "56/149": {areas: [8], why: "Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, 92-37-3)."}
+  "56/428": {areas: [8], why: "'LIGNE' bill: state neutrality and a ban on visible religious symbols for federal public servants."}
+  "56/429": {areas: [8], why: "Electoral Code: ban on visible religious symbols for polling station staff."}
+  "56/594": {areas: [8], why: "Constitutional revision to enshrine the 'political laicity' of the State."}
+  "56/1713": {areas: [8], why: "Resolution on combating the persecution of Christians worldwide (christenvervolging / christianophobie). A text CitizenGO would SUPPORT."}
+  # --- 9 Marriage and family -----------------------------------------------
+  "56/204": {areas: [9], why: "Extends the presumption of paternity and co-motherhood (meemoederschap) to legally cohabiting couples: filiation law."}
+  # --- 10 Surrogacy and embryology -----------------------------------------
+  "56/134": {areas: [10], why: "Bill on surrogacy (zwangerschap voor anderen / gestation pour autrui). Belgium has no surrogacy statute; this would create one."}
+  "56/94": {areas: [10], why: "Law of 6 July 2007 on medically assisted procreation and supernumerary embryos: anonymity of gamete donation."}
+  "56/199": {areas: [10], why: "Medically assisted procreation: non-anonymous gamete donation and donor-conceived children's right to identity."}
+  "56/783": {areas: [10], why: "Medically assisted procreation: non-anonymous donation and an institute holding donor data."}
+  "56/1112": {areas: [10], why: "Medically assisted procreation and supernumerary embryos: a special procedure for egg donation."}
+  # --- 12 Prostitution, trafficking and sexual exploitation ----------------
+  "56/109": {areas: [12], why: "Evaluation of the 2022 legal framework on prostitution (article 433quater/8 of the Penal Code), after decriminalisation."}

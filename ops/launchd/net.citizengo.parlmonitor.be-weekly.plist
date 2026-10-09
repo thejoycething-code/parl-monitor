@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Belgium weekly on the Mac Mini: Saturdays at 02:30 London, after the
+     Chamber's Thursday plenary votes (the record of a Thursday sitting is on
+     lachambre.be by the evening). The GitHub crons (02:30 and 04:30 UTC on
+     Saturdays, .github/workflows/be-weekly.yml) are the backup and skip
+     themselves when this has run (the gate allows 200 minutes, because
+     02:30 London is 01:30 UTC in summer).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.be-weekly.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.be-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>be-weekly</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>2</integer><key>Minute</key><integer>30</integer></dict>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/be-weekly.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/be-weekly.log</string>
+</dict>
+</plist>

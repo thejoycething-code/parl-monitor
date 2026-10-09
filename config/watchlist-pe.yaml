@@ -1,0 +1,22 @@
+# Peru watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Peru. See docs/peru-scope.md.
+#
+# The Spanish term list (proposed in docs/peru-scope.md, awaiting Chris's
+# approval as config/taxonomy-es.yaml) is meant to do most of the work. This
+# file carries only what it cannot: proyectos whose titles say nothing a term
+# could safely catch.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/pe_store.add_watch_areas). Keys are the
+# Congress's own number strings, exactly as the Sistema de Proyectos de Ley
+# prints them: '00502-2026-2031-CD' (Diputados), '00010-2026-2031-S'
+# (Senado), '10082/2024-CR' (the 2021-2026 single chamber). Numbers restart
+# per chamber and per period, so a bare number is never a key. A proyecto of
+# the old Congress re-filed under the 2026 rules ("ACTUALIZACION ... ANTES PL
+# 01330/2021-CR") is a new proyecto with a new key and needs its own entry.
+bills:
+  "00502-2026-2031-CD": {areas: [1, 9],
+                         why: "Amends Ley 32671, which made June the Month of Life and the Family, to fix a Day of the Family. Nothing in the title is a safe term: 'familia' alone would match every family-farming and police-family bill."}
+  "00522-2026-2031-CD": {areas: [6],
+                         why: "Pact between the State, the school and the family for the integral formation of children: the parents' place in schooling. The title carries no term."}
+  "10082/2024-CR": {areas: [5],
+                    why: "2021-2026 Congress. Interprets the word 'genero' in article 191 of the Constitution (the regional gender quota) as sex. 'Genero' alone cannot be a term: it matches literary genres and the gender pay gap."}

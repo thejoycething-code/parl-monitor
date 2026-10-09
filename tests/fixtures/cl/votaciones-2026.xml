@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VotacionesColeccion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opendata.camara.cl/camaradiputados/v1">
+    <Votacion>
+    <Id>90329</Id>
+    <Descripcion>Boletín N° 18684-05</Descripcion>
+    <Fecha>2026-10-07T13:21:57</Fecha>
+    <TotalSi>139</TotalSi>
+    <TotalNo>0</TotalNo>
+    <TotalAbstencion>0</TotalAbstencion>
+    <TotalDispensado>0</TotalDispensado>
+    <Quorum Valor="1">Quórum Simple</Quorum>
+    <Resultado Valor="1">Aprobado</Resultado>
+    <Tipo Valor="1">Proyecto de Ley</Tipo>
+  </Votacion>
+  <Votacion>
+    <Id>90328</Id>
+    <Descripcion>Boletín N° 15805-07</Descripcion>
+    <Fecha>2026-10-07T13:18:43</Fecha>
+    <TotalSi>111</TotalSi>
+    <TotalNo>23</TotalNo>
+    <TotalAbstencion>5</TotalAbstencion>
+    <TotalDispensado>0</TotalDispensado>
+    <Quorum Valor="1">Quórum Simple</Quorum>
+    <Resultado Valor="1">Aprobado</Resultado>
+    <Tipo Valor="1">Proyecto de Ley</Tipo>
+  </Votacion>
+  <Votacion>
+    <Id>90327</Id>
+    <Descripcion>Proyecto de Resolución N° 72</Descripcion>
+    <Fecha>2026-10-07T13:17:40</Fecha>
+    <TotalSi>81</TotalSi>
+    <TotalNo>39</TotalNo>
+    <TotalAbstencion>11</TotalAbstencion>
+    <TotalDispensado>0</TotalDispensado>
+    <Quorum Valor="1">Quórum Simple</Quorum>
+    <Resultado Valor="1">Aprobado</Resultado>
+    <Tipo Valor="2">Proyecto de Resolución</Tipo>
+  </Votacion>
+  <Votacion>
+    <Id>90326</Id>
+    <Descripcion>Proyecto de Acuerdo N° 33</Descripcion>
+    <Fecha>2026-10-07T13:16:46</Fecha>
+    <TotalSi>91</TotalSi>
+    <TotalNo>36</TotalNo>
+    <TotalAbstencion>5</TotalAbstencion>
+    <TotalDispensado>0</TotalDispensado>
+    <Quorum Valor="1">Quórum Simple</Quorum>
+    <Resultado Valor="1">Aprobado</Resultado>
+    <Tipo Valor="3">Proyecto de Acuerdo</Tipo>
+  </Votacion>
+  <Votacion>
+    <Id>90324</Id>
+    <Descripcion>1-Otros</Descripcion>
+    <Fecha>2026-10-07T12:33:16</Fecha>
+    <TotalSi>63</TotalSi>
+    <TotalNo>22</TotalNo>
+    <TotalAbstencion>0</TotalAbstencion>
+    <TotalDispensado>0</TotalDispensado>
+    <Quorum Valor="1">Quórum Simple</Quorum>
+    <Resultado Valor="1">Aprobado</Resultado>
+    <Tipo Valor="4">Otros</Tipo>
+  </Votacion>
+</VotacionesColeccion>

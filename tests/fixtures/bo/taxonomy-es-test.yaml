@@ -1,0 +1,17 @@
+# Test-only Spanish term list (tests/test_bo_rollcalls.py). NOT the proposed
+# taxonomy-es: that awaits Chris's approval (docs/bolivia-scope.md). Accented
+# on purpose, to prove the collector folds both sides.
+version: test
+areas:
+  2_assisted_dying:
+    tier1: ["eutanasia", "muerte digna"]
+    tier2: ["cuidados paliativos"]
+  6_parental_rights_education:
+    tier1: ["educación sexual integral"]
+    tier2: [{term: "currícula", with: ["sexual*", "género"]}]
+  8_freedom_of_religion:
+    tier1: ["libertad de conciencia"]
+    tier2: []
+  11_migration:
+    tier1: ["migración"]
+    tier2: []

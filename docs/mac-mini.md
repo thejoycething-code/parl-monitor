@@ -92,3 +92,45 @@ Like the US weekly, it **writes the store** and sends a DM:
 - The Mini runs it at 09:30 London, half an hour before the US weekly at 10:00; the lock queues the second for up to 30 minutes.
 - launchd: `ops/launchd/net.citizengo.parlmonitor.ie-weekly.plist`, Fridays 09:30 London. Backup: `.github/workflows/ie-weekly.yml`, cron `30 8 * * 5`, gated by `mini-check.yml` with job `IE_WEEKLY`. In winter (GMT) the GitHub slot comes an hour before the Mini, so a punctual backup can run first and the Mini then runs again; both are idempotent.
 - Install after merge to main: copy the plist to `~/Library/LaunchAgents` and `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.ie-weekly.plist`. Optional heartbeat: `HC_IE_WEEKLY` in `~/runner/env`.
+
+## Portugal weekly (9 October 2026, branch `portugal`)
+
+| Job | Mini (launchd, London time) | GitHub backup (UTC) | Gate |
+|---|---|---|---|
+| `pt-weekly` | Saturdays 15:00 (`ops/launchd/net.citizengo.parlmonitor.pt-weekly.plist`) | Saturdays 16:00, retry 19:00 (`.github/workflows/pt-weekly.yml`) | `MINI_LAST_PT_WEEKLY`, grace 320 minutes |
+
+- **One script, two callers:** `jobs/pt-weekly.sh` runs `tools/pt_rollcalls.py`, then publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line.
+- **Heartbeat name:** the script sets `GITHUB_WORKFLOW` to "Portugal weekly" on the Mini, so the coverage watch sees its runs.
+- **Why 320 minutes of grace:** the Mini runs once and must cover both GitHub slots. 15:00 London is 14:00 UTC in summer, five hours before the 19:00 retry.
+- **Exit codes:** the collector exits 3 when it stored what it could and recorded gaps; the script publishes and exits 0. Exit 1 (no initiatives read) publishes nothing.
+- **Install on the Mini** (after the branch is merged to main): `cp ops/launchd/net.citizengo.parlmonitor.pt-weekly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.pt-weekly.plist`.
+- **Source:** www.parlamento.pt and app.parlamento.pt answered the laptop on 9 October 2026; each run downloads about 98 MB (the initiatives file is 97 MB, about 80 seconds).
+
+## Slovakia weekly (9 October 2026, branch `slovakia`)
+
+docs/mac-mini-runner.md (the migration list for the launchd runner) is not on this branch, so the new job is recorded here; move this entry into that list when the branches meet. Same pattern as `au-weekly` on the `australia` branch.
+
+| Job | Mini (launchd, London time) | GitHub backup (UTC) | Gate |
+|---|---|---|---|
+| `sk-weekly` | Tuesdays 02:00 (`ops/launchd/net.citizengo.parlmonitor.sk-weekly.plist`) | Tuesdays 02:00, retry 04:00 (`.github/workflows/sk-weekly.yml`) | `MINI_LAST_SK_WEEKLY`, grace 200 minutes |
+
+- **One script, two callers:** `jobs/sk-weekly.sh` runs `tools/sk_rollcalls.py`, then on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. On GitHub it runs with `SK_PUBLISH=false` and the workflow publishes in its own guarded steps. It needs the store, so it carries no `no-store` line.
+- **Heartbeat name:** the script sets `GITHUB_WORKFLOW` to "Slovakia weekly" when it is unset, so the Mini's runs reach the coverage watch.
+- **Why 200 minutes of grace:** the Mini runs once and must cover both GitHub slots; 02:00 London is 01:00 UTC in summer.
+- **Install on the Mini** (after the branch is merged to main): `cp ops/launchd/net.citizengo.parlmonitor.sk-weekly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.sk-weekly.plist`.
+- **Source:** www.nrsr.sk only (its open-data JSON and its vote pages), both keyless; both answered the laptop on 9 October 2026. The vote pages took 1.7 to 96 seconds each, so the collector stops reading them at 45 minutes and resumes next week.
+
+## Colombia weekly (9 October 2026, branch `colombia`)
+
+docs/mac-mini-runner.md (the migration list for the launchd runner) is not on this branch, so the new job is recorded here; move this entry into that list when the branches meet.
+
+| Job | Mini (launchd, London time) | GitHub backup (UTC) | Gate |
+|---|---|---|---|
+| `co-weekly` | Thursdays 09:30 (`ops/launchd/net.citizengo.parlmonitor.co-weekly.plist`) | Thursdays 09:30, retry 11:30 (`.github/workflows/co-weekly.yml`) | `MINI_LAST_CO_WEEKLY`, grace 200 minutes |
+
+- **One script, two callers:** `jobs/co-weekly.sh` runs `tools/co_rollcalls.py`, then publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line.
+- **Heartbeat name:** the script sets `GITHUB_WORKFLOW` to "Colombia weekly" when it is unset, so the Mini's runs reach the coverage watch.
+- **Why 200 minutes of grace:** the Mini runs once and must cover both GitHub slots. 09:30 London is 08:30 UTC in summer, three hours before the 11:30 retry (half an hour later than first built: Chile holds 09:00 and 11:00).
+- **Exit codes:** the collector exits 3 when it stored what it could and recorded gaps; the script publishes and exits 0 so the commit step runs. Any other failure publishes nothing and exits non-zero.
+- **Install on the Mini** (after the branch is merged to main, because `mini_run.sh` records the slot only for main): `cp ops/launchd/net.citizengo.parlmonitor.co-weekly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.co-weekly.plist`.
+- **Sources:** www.camara.gov.co, leyes.senado.gov.co and www.datos.gov.co all answered the laptop on 9 October 2026 with the honest UA. Whether the Mini's network fares differently has not been tried.

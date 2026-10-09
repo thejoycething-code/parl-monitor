@@ -1,0 +1,57 @@
+# Italian watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Italy.
+#
+# WHY IT EXISTS BEFORE THE TERMS DO. The English taxonomy matches none of
+# the 8,411 bill readings of the 19th legislature (docs/italy-scope.md), and
+# the Italian term list is a proposal awaiting Christopher. Until
+# config/taxonomy-it.yaml exists, this file is the only thing that puts an
+# Italian bill on our ground, so it carries the flagship bills of each area,
+# found by reading the Senate's bill titles. Once the Italian terms land,
+# prune every entry they catch on their own and keep only the titles that
+# say nothing a term knows.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/it_store.add_watch_areas). Keys are
+# '<legislature>/<chamber>.<number>', one per reading: a bill that passes
+# both chambers needs both keys (C.887 at the Camera became S.824 at the
+# Senate). Every bill lapses at the end of the legislature (by October 2027)
+# and returns, if at all, under a new number.
+bills:
+  # --- area 1: abortion -----------------------------------------------------
+  "19/C.72": {areas: [1],
+              why: "Disposizioni sulla sepoltura dei feti umani (Magi): burial of aborted and miscarried children. Assigned, not examined."}
+  "19/C.1596": {areas: [1],
+                why: "Adds a paragraph to article 14 of Law 194/1978, the abortion law. Its title names only the statute's number."}
+  "19/S.165": {areas: [1],
+               why: "Amends article 1 of the Civil Code to give the conceived child legal capacity (capacità giuridica del concepito)."}
+  "19/S.171": {areas: [1],
+               why: "Istituzione della Giornata della vita nascente: a national day for unborn life."}
+  "19/C.2064": {areas: [1],
+                why: "Amends Law 194/1978 on choice and access to abortion (Sportiello, M5S, 2024)."}
+  "19/C.1825": {areas: [1],
+                why: "Constitutional bill (Sportiello): a right to abortion in article 32 of the Constitution."}
+  # --- area 2: assisted dying -----------------------------------------------
+  "19/S.1597": {areas: [2],
+                why: "Disposizioni in materia di aiuto medico alla morte volontaria: a popular-initiative bill, presented 15 July 2025, in committee. 'Aiuto medico' is a phrase the first draft of the terms missed."}
+  "19/S.104": {areas: [2],
+               why: "Morte volontaria medicalmente assistita (Bazoli and others), in committee since the start of the legislature."}
+  # --- area 3 / 5: gender ---------------------------------------------------
+  "19/C.2575": {areas: [3],
+                why: "Appropriatezza prescrittiva dei farmaci per la disforia di genere: the government bill (Schillaci, Roccella) on puberty-blocking drugs for minors, presented 11 August 2025, in committee."}
+  "19/C.401": {areas: [5, 7],
+               why: "Discrimination and violence on grounds of sex, gender, sexual orientation and gender identity (Zan and others): the ddl Zan re-presented, with its speech implications."}
+  "19/C.402": {areas: [4],
+               why: "Ban on conversion therapy for minors (Zan): terapie volte alla conversione dell'orientamento sessuale."}
+  # --- area 6: parental rights and education --------------------------------
+  "19/C.2423": {areas: [6],
+                why: "Consenso informato in ambito scolastico: parents' prior consent to sex and relationships education in schools, the government bill (Valditara). Camera reading, approved."}
+  "19/S.1735": {areas: [6],
+                why: "The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr. definit. Legge'."}
+  "19/C.1885": {areas: [6],
+                why: "Bans curriculum objectives founded on 'teorie del gender' (Ravetto and others). Assigned, not examined."}
+  # --- area 9 / 10: marriage, family, surrogacy -----------------------------
+  "19/C.887": {areas: [10],
+               why: "Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its title names only article 12 of Law 40/2004."}
+  "19/S.824": {areas: [10],
+               why: "The same bill at the Senate; became law ('appr. definit. Legge')."}
+  "19/S.130": {areas: [9, 10],
+               why: "Marriage and civil union for all, with parentage for same-sex couples (Maiorino and others)."}

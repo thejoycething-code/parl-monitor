@@ -1,0 +1,24 @@
+{
+ "data": {
+  "current_page": 1,
+  "data": [
+   {
+    "id": 305,
+    "titulo": "P.L. N° 411/2023-2024 C.D.",
+    "numero": "411",
+    "asunto": "QUE APRUEBA LA TRANSFERENCIA, A TÍTULO GRATUITO, DE UN BIEN INMUEBLE DE DOMINIO PÚBLICO DE PROPIEDAD DEL GOBIERNO AUTÓNOMO MUNICIPAL DE MONTERO, A FAVOR DE LA POLICÍA BOLIVIANA, CON DESTINO EXCLUSIVO PARA LA CONSTRUCCIÓN E IMPLEMENTACIÓN DE LA ESTACIÓN POLICIAL BOLIVIANA",
+    "documento": "images/9e4a99ec-36eb-4b8f-9e96-10b3c0ad3743_1740432471.pdf"
+   },
+   {
+    "id": 347,
+    "titulo": "P.L. N° 146/2024-2025 C.S.",
+    "numero": "146",
+    "asunto": "QUE DECLARA HÉROE NACIONAL A ANTONIO VICENTE SEOANE",
+    "documento": "images/9ff2d566-3ed5-47b1-9198-77b3fb062326_1758653111.pdf"
+   }
+  ],
+  "last_page": 1,
+  "total": 2,
+  "per_page": 100
+ }
+}

@@ -1,0 +1,44 @@
+# Colombian watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed
+# by anyone who campaigns in Colombia.
+#
+# The Spanish taxonomy is still a proposal (docs/colombia-scope.md), so until
+# Chris approves it and config/taxonomy-es.yaml is generated, THIS FILE IS
+# THE ONLY THING THAT GIVES A COLOMBIAN BILL AN AREA. Each entry was found by
+# reading every title of the 2026-2027 legislatura in both chambers' registers
+# (402 in the Cámara, 309 in the Senate, read 9 October 2026) and is on
+# CitizenGO's ground on the face of its title. The bills' texts were not read.
+#
+# APPLIED BY KEY, NEVER BY TITLE (tools/co_rollcalls.classify). A key is
+# '<chamber>/<year>/<number>' in the chamber that gave the number, as the
+# registers print it: 114/2026C is 'camara/2026/114', 211/26 in the Senate is
+# 'senado/2026/211'. Titles collide: the Cámara register holds two bills
+# called "TARIFA ESPECIAL PARA ENTIDADES RELIGIOSAS" (058/2026C, withdrawn,
+# and 361/2026C). A bill that reaches the other chamber gets a second number
+# there; add that key too when it appears.
+bills:
+  # --- area 1: abortion and the unborn ---------------------------------------
+  "camara/2026/114": {areas: [1],
+      why: "Acto legislativo: amends article 11 of the Constitution to protect human life 'desde la fecundación' and recognise the unborn as a subject of special protection. The direct legislative answer to Sentencia C-055 of 2022. In committee."}
+  "camara/2026/53": {areas: [1],
+      why: "'Protección de la vida desde la fecundación': protection of human life from fertilisation and state support for maternity. In committee."}
+  # --- area 3: gender medicine and children -----------------------------------
+  "senado/2026/211": {areas: [3],
+      why: "'Ley Laura, niños, no experimento': protection of minors from medical gender-affirmation interventions. Awaiting first-debate report in the Senate."}
+  # --- area 5: sex-based rights -----------------------------------------------
+  "senado/2026/156": {areas: [5],
+      why: "Female category in sport, eligibility on biological sex. ARCHIVED (withdrawn by its author) by 9 October 2026; kept so a re-filing under a new number can be linked."}
+  # --- area 6: parental rights and education ----------------------------------
+  "camara/2026/273": {areas: [6],
+      why: "'Ley los padres educan': parental rights over what schools teach. In committee."}
+  "camara/2026/367": {areas: [5, 6],
+      why: "'Ley él es él y ella es ella': sex education with a biological approach in the school system. In committee."}
+  # --- area 8: freedom of religion and conscience -----------------------------
+  "senado/2026/158": {areas: [8, 1],
+      why: "Conscience objection for health professionals (abortion and euthanasia are the live cases since C-055/2022 and C-233/2021). Awaiting first-debate report."}
+  "camara/2026/361": {areas: [8],
+      why: "Special utility tariff for recognised religious entities. In committee. Its twin 058/2026C was withdrawn."}
+  # --- area 10: surrogacy -----------------------------------------------------
+  "camara/2026/215": {areas: [10],
+      why: "Prohibits surrogacy ('explotación reproductiva mediante maternidad subrogada'). In committee. The Constitutional Court ordered Congress to regulate surrogacy (T-968 of 2009, T-127 of 2024)."}
+  "camara/2026/52": {areas: [10, 12],
+      why: "Prohibits surrogacy and child trafficking for reproductive ends. WITHDRAWN by 9 October 2026 (215/2026C is the live vehicle); kept for the record."}

@@ -1,0 +1,17 @@
+{
+ "success": true,
+ "data": [
+  {
+   "id": 771,
+   "numero_senado": "001/26",
+   "numero_camara": "",
+   "cuatrenio": "2026-2030",
+   "titulo": "POR MEDIO DEL CUAL SE MODIFICA EL ARTÍCULO 52 DE LA CONSTITUCIÓN POLÍTICA DE COLOMBIA Y SE RECONOCE EL DEPORTE, LA RECREACIÓN, LA EDUCACIÓN Y LA ACTIVIDAD FÍSICA COMO DERECHO FUNDAMENTAL",
+   "autor": "H.S. NORMA HURTADO SÁNCHEZ, LUIS EDUARDO DÍAZ MATEUS, NADIA BLEL SCAFF, ALFREDO DELUQUE ZULETA, HONORIO HENRÍQUEZ PINEDO, JUAN CARLOS GARCÉS ROJAS, H.R. CAMILO ÁVILA MORALES, LUZ MARINA GORDILLO y otras firmas ilegibles.  ",
+   "estado": "PENDIENTE RENDIR PONENCIA EN SENADO",
+   "type": "pal"
+  }
+ ],
+ "message": "Búsqueda completada",
+ "total_results": 1
+}

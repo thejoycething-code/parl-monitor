@@ -1,0 +1,42 @@
+{
+ "draw": "1",
+ "recordsTotal": "6710",
+ "recordsFiltered": "6710",
+ "data": [
+  {
+   "documentofk": "35881E5B-FC70-4736-A8F5-A1FC47352223",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/35881E5B-FC70-4736-A8F5-A1FC47352223.pdf  target=\"_blank\" >HACIENDA DICTAMEN No3 FAVORABLE </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "2",
+   "fecha": "15/05/2024"
+  },
+  {
+   "documentofk": "23350B73-C387-4101-9176-4C22D53DC35A",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/23350B73-C387-4101-9176-4C22D53DC35A.pdf  target=\"_blank\" >PIEZA 1A FS </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "1",
+   "fecha": "09/05/2024"
+  },
+  {
+   "documentofk": "B9C0EC10-ACD0-43A9-A1F4-A7C6DE796E25",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/B9C0EC10-ACD0-43A9-A1F4-A7C6DE796E25.pdf  target=\"_blank\" >PIEZA 1A DT </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "1",
+   "fecha": "09/05/2024"
+  },
+  {
+   "documentofk": "A95DBAC6-D2DA-477A-BF5A-DDF0419DB12F",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/A95DBAC6-D2DA-477A-BF5A-DDF0419DB12F.pdf  target=\"_blank\" >PIEZA 7A FS </a>",
+   "legislatura": "2021-2024",
+   "no_sesion": "149",
+   "fecha": "19/03/2024"
+  },
+  {
+   "documentofk": "DAE669FF-5E77-447E-878F-03E8B3F23CCD",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/DAE669FF-5E77-447E-878F-03E8B3F23CCD.pdf  target=\"_blank\" >PIEZA 7A DT </a>",
+   "legislatura": "2021-2024",
+   "no_sesion": "149",
+   "fecha": "19/03/2024"
+  }
+ ]
+}

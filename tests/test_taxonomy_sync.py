@@ -266,8 +266,11 @@ class GermanTaxonomyTests(unittest.TestCase):
         for lang, (_m, config) in generate_taxonomy.MASTERS.items():
             with open(config, "r", encoding="utf-8") as handle:
                 loaded[lang] = set((yaml.safe_load(handle).get("areas") or {}))
-        self.assertEqual(loaded["de"], loaded["en"],
-                         "the two taxonomies must describe the same areas")
+        # Every language, not only German (10 October 2026: the country
+        # editions' languages carry the same thirteen keys).
+        for lang, keys in loaded.items():
+            self.assertEqual(keys, loaded["en"],
+                             "taxonomy-%s must describe the same areas as English" % lang)
 
 
 class QuebecTaxonomyTests(unittest.TestCase):
@@ -682,3 +685,38 @@ class GenderExpressionEverywhereTests(unittest.TestCase):
     def test_quebec_laicity_in_english(self):
         self.assertIn(8, self._areas("taxonomy.yaml", "An Act respecting the laicity of the State"))
 
+
+
+class EveryLanguageInSyncTests(unittest.TestCase):
+    """Every language master present on disk generates exactly its yaml
+    (10 October 2026: the country editions' languages joined en/de/qc)."""
+
+    def test_every_master_in_sync(self):
+        for lang, (master, config) in sorted(generate_taxonomy.MASTERS.items()):
+            if not os.path.exists(master):
+                continue
+            with self.subTest(lang=lang):
+                with open(config, "r", encoding="utf-8") as handle:
+                    self.assertEqual(handle.read(), generate_taxonomy.generate(master, lang),
+                                     "regenerate: python3 tools/generate_taxonomy.py --lang " + lang)
+
+
+class CountryTagAndAddendumTests(unittest.TestCase):
+    def test_only_tag_round_trips(self):
+        self.assertEqual(generate_taxonomy._yaml_term('"Ley 4/2023" [only: ES, ar]'),
+                         '{term: "Ley 4/2023", only: [es, ar]}')
+        self.assertEqual(generate_taxonomy._yaml_term('registo* [with: civil] [only: pt]'),
+                         '{term: "registo*", with: [civil], only: [pt]}')
+
+    def test_addendum_appends_without_touching_the_base(self):
+        base = ("0.3", {"1_abortion": {"name": None, "note": "b", "tier1": ["avortement*"], "tier2": []},
+                        "2_assisted_dying": {"name": None, "note": None, "tier1": ["euthanasie"], "tier2": []}},
+                ["genre"])
+        add = ("0.1", {"1_abortion": {"name": None, "note": "fr", "tier1": ["avortement*", "\"délit d'entrave\""],
+                                      "tier2": []}}, ["sexe"])
+        version, areas, excl = generate_taxonomy._merge_addendum(base, add)
+        self.assertEqual(version, "0.1")
+        self.assertEqual(areas["1_abortion"]["tier1"], ["avortement*", "\"délit d'entrave\""])
+        self.assertEqual(areas["2_assisted_dying"]["tier1"], ["euthanasie"])
+        self.assertEqual(excl, ["genre", "sexe"])
+        self.assertEqual(base[1]["1_abortion"]["tier1"], ["avortement*"])

@@ -1,0 +1,198 @@
+{
+ "pagetype": "geschichtsseite",
+ "meta": {
+  "description": "Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht (139/UEA)",
+  "generationTime": "Thu Aug 13 20:49:06 UTC 2026",
+  "keywords": "\"Sport\", \"Frauen und Gleichbehandlung\"",
+  "lang": "de",
+  "title": "Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht (139/UEA) | Parlament Österreich",
+  "openGraph": {
+   "image": "https://www.parlament.gv.at/static/img/og.png",
+   "title": "Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht | Parlament Österreich",
+   "description": "139/UEA"
+  },
+  "scripts": [],
+  "styles": []
+ },
+ "content": {
+  "breadcrumbs": [
+   {
+    "title": "Start",
+    "url": "/"
+   },
+   {
+    "title": "Gegenstände",
+    "url": "/recherchieren/gegenstaende/"
+   },
+   {
+    "title": "Nationalrat - XXVIII. GP",
+    "url": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII"
+   },
+   {
+    "title": "Unselbständiger Entschließungsantrag",
+    "url": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&VHG=ANTR&DOKTYP=UEA"
+   },
+   {
+    "title": "139/UEA"
+   }
+  ],
+  "type": "Unselbständiger Entschließungsantrag",
+  "sntype": "Unselbständiger Entschließungsantrag",
+  "title": "Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht",
+  "zitation": "139/UEA",
+  "description": "Unselbständiger Entschließungsantrag der Abgeordneten Markus Leinfellner, Kolleginnen und Kollegen betreffend Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht",
+  "gp_code": "XXVIII",
+  "ityp": "UEA",
+  "inr": 139,
+  "doktyp": "UEA",
+  "update": "2026-08-13T22:49:06",
+  "nr_gp_code": "XXVIII",
+  "intranet": "N",
+  "group": "8",
+  "deleted": false,
+  "einlangen": "2025-10-15T00:00:00",
+  "history_ind": 1.1,
+  "vhg_fertig": "J",
+  "vhg_fertig_docs": "J",
+  "process": "N",
+  "statementsstate": "9 Keine Begutachtung bei dem Doktyp \"UEA\" möglich",
+  "approvalstate": "9 Keine Zustimmung bei dem Doktyp \"UEA\" möglich",
+  "stages": [
+   {
+    "date": "15.10.2025",
+    "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/44\">44. Sitzung des Nationalrates</a>: Unselbständiger Entschließungsantrag",
+    "priority": 1,
+    "fsth": [
+     {
+      "gp_code": "XXVIII",
+      "sitzung_id": 44,
+      "fund_von": null,
+      "fund_bis": null,
+      "url": "/dokument/XXVIII/NRSITZ/44/fnameorig_1764795.html#204.1",
+      "title": "20:32:14 - Rosa Ecker (FPÖ) - TOP 15-16 Sportbericht 2024 und Trainingsbedingungen für Sportlerinnen und Sportler (RN/204.1)",
+      "text": "RN/204.1"
+     },
+     {
+      "gp_code": "XXVIII",
+      "sitzung_id": 44,
+      "fund_von": null,
+      "fund_bis": null,
+      "url": "/dokument/XXVIII/NRSITZ/44/fnameorig_1764795.html#204.2",
+      "title": "20:32:14 - Rosa Ecker (FPÖ) - TOP 15-16 Sportbericht 2024 und Trainingsbedingungen für Sportlerinnen und Sportler (RN/204.2)",
+      "text": "RN/204.2"
+     }
+    ]
+   },
+   {
+    "date": "15.10.2025",
+    "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/44\">44. Sitzung des Nationalrates</a>: Unselbständiger Entschließungsantrag abgelehnt<br>Dafür: FPÖ, dagegen: ÖVP, SPÖ, NEOS, GRÜNE",
+    "fsth": [
+     {
+      "gp_code": "XXVIII",
+      "sitzung_id": 44,
+      "fund_von": null,
+      "fund_bis": null,
+      "url": "/dokument/XXVIII/NRSITZ/44/fnameorig_1764795.html#214.2",
+      "title": "21:17:13 - Abstimmung - TOP 15-16 Sportbericht 2024 und Trainingsbedingungen für Sportlerinnen und Sportler (RN/214.2)",
+      "text": "RN/214.2"
+     }
+    ]
+   }
+  ],
+  "documents": [
+   {
+    "title": "Entschließungsantrag (gescanntes Original)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/UEA/139/imfname_1716838.pdf",
+      "type": "PDF"
+     }
+    ]
+   }
+  ],
+  "names": [
+   {
+    "funktext": "Eingebracht von",
+    "name": "Markus Leinfellner",
+    "frak_code": "F",
+    "url": "/person/6407",
+    "portrait": {
+     "rendertype": "image",
+     "data": {
+      "src": "/dokument/bild/201426/20142650_384.jpg",
+      "alt": "Portraitfoto von Markus Leinfellner",
+      "bildId": 20142650,
+      "copyright": "Parlamentsdirektion/Thomas Topf"
+     }
+    }
+   }
+  ],
+  "reference": [
+   {
+    "text": "Bezug zu",
+    "subject": "Sportbericht 2024",
+    "zitation": "III-225 d.B.",
+    "url": "/gegenstand/XXVIII/III/225",
+    "art": "B"
+   }
+  ],
+  "topics": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Frauen und Gleichbehandlung",
+      "link": "/suche?thema=Frauen und Gleichbehandlung"
+     },
+     {
+      "label": "Sport",
+      "link": "/suche?thema=Sport"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "headwords": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Sport",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Sport"
+     },
+     {
+      "label": "Frauen und Gleichbehandlung",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Frauen und Gleichbehandlung"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "eurovoc": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Frau",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Frau"
+     },
+     {
+      "label": "Gleichbehandlung",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Gleichbehandlung"
+     },
+     {
+      "label": "Sport",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Sport"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  }
+ }
+}

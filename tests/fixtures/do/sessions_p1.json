@@ -1,0 +1,43 @@
+{
+ "page": 1,
+ "pageSize": 10,
+ "total": 2,
+ "results": [
+  {
+   "sesionId": 134544,
+   "fecha": "2026-10-07T00:00:00",
+   "numeroSesion": "00011-2026-SLO",
+   "duracion": "3:41",
+   "tipo": "Ordinaria",
+   "estadoId": 767,
+   "estado": "Levantada por la presidencia",
+   "horaCierre": "15:07:00",
+   "horaInicio": "11:26:00",
+   "lugar": "Hemiciclo Cámara de Diputados",
+   "iniciativas": [],
+   "documento": "",
+   "fechaCierre": "2026-10-07T00:00:00",
+   "legislatura": "2026-SLO",
+   "peridoId": 2761,
+   "secuencia": 11
+  },
+  {
+   "sesionId": 134514,
+   "fecha": "2026-06-18T00:00:00",
+   "numeroSesion": "00031-2026-PLO",
+   "duracion": "4:12",
+   "tipo": "Ordinaria",
+   "estadoId": 767,
+   "estado": "Levantada por la presidencia",
+   "horaCierre": "14:48:00",
+   "horaInicio": "10:36:00",
+   "lugar": "Hemiciclo Cámara de Diputados",
+   "iniciativas": [],
+   "documento": "",
+   "fechaCierre": "2026-06-18T00:00:00",
+   "legislatura": "2026-PLO",
+   "peridoId": 2761,
+   "secuencia": 31
+  }
+ ]
+}

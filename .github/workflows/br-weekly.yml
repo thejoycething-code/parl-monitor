@@ -1,0 +1,155 @@
+name: Brazil weekly
+on:
+  schedule:
+    # Saturday 09:30 UTC, retry 13:30 UTC (9 October 2026). Brasília sits
+    # Tuesday to Thursday; Saturday 09:30 UTC is 06:30 in Brasília, after
+    # the Câmara's daily rebuild of its bulk vote files (about 04:30-07:20
+    # UTC) has taken in Friday. Moved half an hour from 09:00/13:00 at the countries merge
+    # (10 October 2026): Switzerland and France hold those Saturday hours.
+    - cron: "30 9 * * 6"
+    - cron: "30 13 * * 6"
+  workflow_dispatch:
+    inputs:
+      reclassify:
+        # After a watchlist-br change, or once config/taxonomy-pt.yaml
+        # exists: re-derive every stored BR bill's and division's areas,
+        # offline, before the pull.
+        description: "Reclassify stored BR bills and divisions under the current watchlist and taxonomy"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: read      # the gate reads this workflow's own runs
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Same group as everything that commits data/: one writer at a time.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs this on Saturdays at 09:30 London (tools/mini_run.sh
+  # br-weekly); these crons are the backup. The Mini runs ONCE for both
+  # slots, so its run must count for the 13:30 retry too: at 09:30 London in
+  # summer it stamps 08:30 UTC, five hours before that slot, hence a grace
+  # of 300 minutes rather than the default 75.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: BR_WEEKLY
+      grace-minutes: 300
+
+  # The second slot is a retry, not a second pass (copied from us-weekly.yml):
+  # when the 09:30 backup already ran today, 13:30 has nothing to do.
+  gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
+          BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/br-weekly.yml/runs?per_page=50" \
+                 --jq "[.workflow_runs[]
+                        | select(.created_at >= \"$TODAY\")
+                        | select(.id != ${{ github.run_id }})
+                        | select(.conclusion == \"success\" or .status == \"in_progress\" or .status == \"queued\")]
+                       | length" 2>/dev/null || echo 0)
+          if [ "${BUSY:-0}" -gt 0 ]; then
+            echo "$BUSY run(s) already succeeded or are running today; this retry slot has nothing to do"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "no earlier run today; this slot does the work"
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  pull:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    # The first run backfills the 57th legislature (2023 onwards): about
+    # 1,600 Câmara nominal votes, one positions request each at about 3 s
+    # (about 90 minutes in all), plus the Senate's yearly lists. The
+    # collector stops at its own 2,700 s budget and the next run resumes, so
+    # the backfill spreads over two or three weeks and no run needs more than
+    # the hour. Measured from the laptop: see docs/brazil-scope.md. Later weeks
+    # read the current year's files and only the votes that are new.
+    timeout-minutes: 60
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
+      - name: Members, nominal votes and their bills (Câmara and Senado); publish
+        # jobs/br-weekly.sh is shared with the Mac Mini runner. It publishes
+        # the raw archive and then the store itself (tools/raw_state.py,
+        # then tools/db_state.py), and only when the collector finished, gaps
+        # included; the next step commits the sidecars.
+        if: steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BR_RECLASSIFY: ${{ inputs.reclassify }}
+        run: bash jobs/br-weekly.sh | tee /tmp/br-weekly.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Brazil weekly"
+            echo '```'
+            grep -hE "br-rollcalls:|store:|renumbered|\[gap\]" /tmp/br-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            echo '```'
+            TOTAL=$({ grep -hc "\[gap\]" /tmp/br-weekly.log 2>/dev/null \
+                      || true; } | awk '{s+=$1} END {print s+0}')
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step log."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit state
+        # Paired with the publish inside the job script -- an uncommitted
+        # sidecar next to a published store is the divergence this repo has
+        # already paid for.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Brazil weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
+            git push && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi
