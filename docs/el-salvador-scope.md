@@ -233,9 +233,9 @@ is not among that session's dictámenes or piezas.
 - **Exit codes**: 0 clean, 3 stored what it could and recorded gaps (the
   job still publishes), 1 otherwise.
 
-**The weekly** (`jobs/sv-weekly.sh`, shared by both runners): Sundays 09:00
+**The weekly** (`jobs/sv-weekly.sh`, shared by both runners): Sundays 10:00
 London on the Mac Mini (`ops/launchd/net.citizengo.parlmonitor.sv-weekly.plist`);
-`.github/workflows/sv-weekly.yml` at 09:00 and 12:00 UTC is the backup,
+`.github/workflows/sv-weekly.yml` at 10:00 and 13:00 UTC (an hour later than first built; the Dominican Republic holds 09:00 and 12:00) is the backup,
 gated by `mini-check` with job `SV_WEEKLY` (grace 260 minutes, as Spain).
 The plenary sits about once a week. **It runs only once merged to main.**
 After the backfill a week is about 22 archive calls (mostly 1 s) and 15

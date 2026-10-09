@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- El Salvador weekly on the Mac Mini: Sundays at 09:00 London, after the
+<!-- El Salvador weekly on the Mac Mini: Sundays at 10:00 London, after the
      Asamblea's plenary week (it sits one day a week, usually Wednesday).
-     The GitHub crons (09:00 and 12:00 UTC on Sundays,
+     The GitHub crons (10:00 and 13:00 UTC on Sundays,
      .github/workflows/sv-weekly.yml) are the backup and skip themselves when
-     this has run (the gate allows 260 minutes, because 09:00 London is
-     08:00 UTC in summer, four hours before the retry slot).
+     this has run (the gate allows 260 minutes, because 10:00 London is
+     09:00 UTC in summer, four hours before the retry slot).
      Install: cp to ~/Library/LaunchAgents, then
      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.sv-weekly.plist -->
 <plist version="1.0">
@@ -20,7 +20,7 @@
   </array>
   <key>StartCalendarInterval</key>
   <array>
-    <dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>10</integer><key>Minute</key><integer>0</integer></dict>
   </array>
   <key>StandardOutPath</key>
   <string>/Users/christopherjoyce/runner/logs/sv-weekly.log</string>
