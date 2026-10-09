@@ -543,7 +543,7 @@ def pull_house_committees(conn, client, days, today, tax, wl, log=print, dry=Fal
             try:
                 page = client.get_text(HOUSE_EVENT.format(ev["event_id"]), FEED,
                                        "house-cmte-event-" + ev["event_id"])
-                detail = parse_house_event(page)
+                detail = parse_house_event(page, us_store.congress_on(today))
             except FetchError as exc:
                 detail = None
                 log("  [gap] House meeting {0}: {1}".format(ev["event_id"], str(exc)[:80]))
@@ -554,7 +554,7 @@ def pull_house_committees(conn, client, days, today, tax, wl, log=print, dry=Fal
                 detail = {"kind": meeting_kind(ev["title"]), "title": ev["title"],
                           "committee": ev["committee"], "date": day.isoformat(),
                           "status": "scheduled", "legislation": [],
-                          "bills": bill_refs(ev["title"]), "lines": {}}
+                          "bills": bill_refs(ev["title"], us_store.congress_on(today)), "lines": {}}
             m = {"meeting_key": "house-" + ev["event_id"], "chamber": "house",
                  "event_id": ev["event_id"], "committee": ev["committee"] or detail["committee"],
                  "kind": detail["kind"], "title": detail["title"] or ev["title"],
@@ -591,8 +591,11 @@ def pull_senate(conn, client, first, last, today, tax, wl, log=print, dry=False,
     t = t or Tally()
     weeks = sorted({monday(first).isoformat(), monday(last).isoformat()})
     try:
-        meetings = parse_senate_hearings(client.get_bytes(SENATE_HEARINGS, FEED, "senate-hearings"))
-        floor = parse_senate_floor(client.get_text(SENATE_FLOOR, FEED, "senate-floor-schedule"))
+        congress = us_store.congress_on(today)
+        meetings = parse_senate_hearings(client.get_bytes(SENATE_HEARINGS, FEED, "senate-hearings"),
+                                         congress)
+        floor = parse_senate_floor(client.get_text(SENATE_FLOOR, FEED, "senate-floor-schedule"),
+                                   congress)
     except FetchError as exc:
         log("  [gap] senate.gov: {0} (it refuses some networks and answers CI; the Senate "
             "schedule runs from GitHub)".format(str(exc)[:70]))

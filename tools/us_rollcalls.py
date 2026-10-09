@@ -309,13 +309,15 @@ def _gap(conn, today, detail):
                  (today, FEED, detail))
 
 
-def pull_rolls(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=None,
+def pull_rolls(conn, client, today, congress=None, tax=None, wl=None,
                log=print, limit=None, budget=None, years=None):
     """Walk each year of the Congress from the roll after the last one stored.
 
     Returns (stored, ours, gaps). Resuming from the store means a run cut
     short by the budget or the cap picks up where it stopped, and the
     weekly run costs one miss per year once the House is caught up."""
+    # The Congress sitting on the RUN date, not at import: see us_store.congress_on.
+    congress = congress if congress is not None else us_store.congress_on(today)
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else empty_watchlist()
     stored = ours = gaps = 0
@@ -498,9 +500,11 @@ def resolve_senators(d, lis_map):
     return [p["lis_id"] for p in unknown]
 
 
-def pull_senate(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=None,
+def pull_senate(conn, client, today, congress=None, tax=None, wl=None,
                 log=print, limit=None, budget=None):
     """Every Senate vote of the Congress not yet stored. Returns (stored, ours, gaps)."""
+    # The Congress sitting on the RUN date, not at import: see us_store.congress_on.
+    congress = congress if congress is not None else us_store.congress_on(today)
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else empty_watchlist()
     stored = ours = gaps = 0
@@ -855,12 +859,14 @@ def store_bill(conn, b, res, today):
     return key
 
 
-def pull_bills(conn, client, today, congress=CURRENT_CONGRESS, types=BILL_TYPES,
+def pull_bills(conn, client, today, congress=None, types=BILL_TYPES,
                tax=None, wl=None, log=print, budget=None, amendments=None):
     """Every bill of the Congress, one bulk zip per type. Returns (read, ours, gaps).
 
     Pass a dict as `amendments` to collect every House amendment's roll
     calls on the way through, for link_amendments once the rolls are in."""
+    # The Congress sitting on the RUN date, not at import: see us_store.congress_on.
+    congress = congress if congress is not None else us_store.congress_on(today)
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else empty_watchlist()
     read = ours = gaps = 0

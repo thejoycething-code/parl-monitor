@@ -116,13 +116,13 @@ class BillRefTests(unittest.TestCase):
                 ["119/hr/4464", "119/hr/6470"],
         }
         for line, want in cases.items():
-            self.assertEqual(uss.bill_refs(line), want, line)
+            self.assertEqual(uss.bill_refs(line, 119), want, line)
 
     def test_what_is_not_a_bill(self):
         for line in ("H. Rept. 119-825 - Report from the Committee on Rules",
                      "under 42 U.S.C. 1983", "Twenty-Five Years After 9/11",
                      "Pub. L. 119-21", "items 5 and 6"):
-            self.assertEqual(uss.bill_refs(line), [], line)
+            self.assertEqual(uss.bill_refs(line, 119), [], line)
 
 
 class WindowTests(unittest.TestCase):
@@ -185,15 +185,15 @@ class HouseCommitteeTests(unittest.TestCase):
         self.assertIsNone(uss.parse_house_day("<html><body>Service unavailable</body></html>"))
 
     def test_each_bill_keeps_its_own_line(self):
-        ev = uss.parse_house_event(text("house_cmte_event_119568.html.gz"))
+        ev = uss.parse_house_event(text("house_cmte_event_119568.html.gz"), 119)
         self.assertTrue(ev["lines"]["119/hr/10329"].startswith(
             "H.R. 10329 \u2013 Combating Foreign Threats to Main Street Act"))
-        senate = uss.parse_senate_hearings(fixture("senate_hearings_20260914.xml"))
+        senate = uss.parse_senate_hearings(fixture("senate_hearings_20260914.xml"), 119)
         epw = [m for m in senate if m["identifier"] == "338754"][0]
         self.assertTrue(epw["lines"]["119/s/5045"].startswith("A bill to amend the Clean Air Act"))
 
     def test_a_markup_names_its_bills_from_the_legislation_list(self):
-        ev = uss.parse_house_event(text("house_cmte_event_119568.html.gz"))
+        ev = uss.parse_house_event(text("house_cmte_event_119568.html.gz"), 119)
         self.assertEqual((ev["kind"], ev["date"], ev["status"]), ("markup", "2026-09-16", "scheduled"))
         self.assertEqual(ev["committee"], "Committee on Small Business")
         self.assertEqual(len(ev["bills"]), 10)
@@ -201,21 +201,21 @@ class HouseCommitteeTests(unittest.TestCase):
         self.assertIn("119/hr/10355", ev["bills"])
 
     def test_bills_in_the_title(self):
-        ev = uss.parse_house_event(text("house_cmte_event_119566.html.gz"))
+        ev = uss.parse_house_event(text("house_cmte_event_119566.html.gz"), 119)
         self.assertEqual(ev["kind"], "markup")
         self.assertEqual(ev["bills"][:2], ["119/hr/4464", "119/hr/6470"])
 
     def test_a_rescheduled_legislative_hearing(self):
-        ev = uss.parse_house_event(text("house_cmte_event_119549.html.gz"))
+        ev = uss.parse_house_event(text("house_cmte_event_119549.html.gz"), 119)
         self.assertEqual((ev["kind"], ev["status"], ev["date"]),
                          ("hearing", "rescheduled", "2026-09-15"))
         self.assertEqual(len(ev["bills"]), 16)
 
     def test_a_rules_meeting_and_a_field_hearing(self):
-        rules = uss.parse_house_event(text("house_cmte_event_118858.html.gz"))
+        rules = uss.parse_house_event(text("house_cmte_event_118858.html.gz"), 119)
         self.assertEqual(rules["kind"], "meeting")
         self.assertIn("119/hjres/210", rules["bills"])
-        field = uss.parse_house_event(text("house_cmte_event_119539.html.gz"))
+        field = uss.parse_house_event(text("house_cmte_event_119539.html.gz"), 119)
         self.assertEqual((field["kind"], field["date"], field["bills"]),
                          ("hearing", "2026-09-14", []))
         self.assertEqual(field["title"], "Examining Healthcare Markets: Fraud and Competition")
@@ -223,7 +223,7 @@ class HouseCommitteeTests(unittest.TestCase):
 
 class SenateTests(unittest.TestCase):
     def test_the_hearings_file(self):
-        meetings = uss.parse_senate_hearings(fixture("senate_hearings_20260914.xml"))
+        meetings = uss.parse_senate_hearings(fixture("senate_hearings_20260914.xml"), 119)
         self.assertEqual(len(meetings), 17)           # the placeholder is not a meeting
         epw = [m for m in meetings if m["committee"] == "Environment and Public Works"][0]
         self.assertEqual((epw["date"], epw["time"], epw["kind"]), ("2026-09-16", "09:30", "markup"))
@@ -232,17 +232,17 @@ class SenateTests(unittest.TestCase):
         self.assertIn("119/hr/7022", commerce["bills"])
 
     def test_a_nomination_is_not_a_bill(self):
-        meetings = uss.parse_senate_hearings(fixture("senate_hearings_20260914.xml"))
+        meetings = uss.parse_senate_hearings(fixture("senate_hearings_20260914.xml"), 119)
         help_ = [m for m in meetings if m["committee"].startswith("Health, Education")][0]
         self.assertEqual(help_["bills"], [])
 
     def test_the_recess_file_is_empty(self):
-        self.assertEqual(uss.parse_senate_hearings(fixture("senate_hearings_20261008_recess.xml")), [])
+        self.assertEqual(uss.parse_senate_hearings(fixture("senate_hearings_20261008_recess.xml"), 119), [])
 
     def test_the_next_sitting(self):
-        self.assertEqual(uss.parse_senate_floor(text("senate_floor_schedule_20260914.htm")),
+        self.assertEqual(uss.parse_senate_floor(text("senate_floor_schedule_20260914.htm"), 119),
                          {"date": "2026-09-14", "note": "Convene at 3:00 p.m.", "bills": []})
-        recess = uss.parse_senate_floor(text("senate_floor_schedule_20261009_recess.htm"))
+        recess = uss.parse_senate_floor(text("senate_floor_schedule_20261009_recess.htm"), 119)
         self.assertEqual(recess["date"], "2026-10-09")
         self.assertIn("pro forma", recess["note"])
 

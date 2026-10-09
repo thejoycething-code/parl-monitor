@@ -369,7 +369,7 @@ class PullRollsTests(unittest.TestCase):
                  self.URL(2025, 2): roll_xml(2, session="1st", date="3-Jan-2025"),
                  self.URL(2025, 4): roll_xml(4, session="1st", date="4-Jan-2025")}
         conn, client = store(), FakeClient(pages)
-        stored, ours, gaps = usr.pull_rolls(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, ours, gaps = usr.pull_rolls(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                             log=lambda *a: None)
         self.assertEqual((stored, gaps), (3, 1))
         self.assertIn("rolls 3-3 answered with no vote",
@@ -380,9 +380,9 @@ class PullRollsTests(unittest.TestCase):
     def test_a_second_run_resumes_after_the_last_stored_roll(self):
         conn = store()
         usr.pull_rolls(conn, FakeClient({self.URL(2025, 1): roll_xml(1, session="1st")}),
-                       "2025-06-01", tax=TAX, wl=WL, log=lambda *a: None)
+                       "2025-06-01", congress=119, tax=TAX, wl=WL, log=lambda *a: None)
         client = FakeClient({self.URL(2025, 2): roll_xml(2, session="1st")})
-        stored, _o, _g = usr.pull_rolls(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, _o, _g = usr.pull_rolls(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                         log=lambda *a: None)
         self.assertEqual(stored, 1)
         self.assertEqual(client.asked[0], self.URL(2025, 2))
@@ -390,7 +390,7 @@ class PullRollsTests(unittest.TestCase):
     def test_an_http_failure_is_a_gap_and_stops_the_year(self):
         conn = store()
         client = FakeClient({self.URL(2025, 1): FetchError(usr.ROLL.format(2025, 1), usr.FEED, "x", 4, "HTTP 503")})
-        stored, _o, gaps = usr.pull_rolls(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, _o, gaps = usr.pull_rolls(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                           log=lambda *a: None)
         self.assertEqual((stored, gaps), (0, 1))
         self.assertEqual(client.asked, [self.URL(2025, 1)])
@@ -398,7 +398,7 @@ class PullRollsTests(unittest.TestCase):
     def test_every_position_is_stored_with_party_at_the_vote(self):
         conn = store()
         usr.pull_rolls(conn, FakeClient({self.URL(2025, 1): roll_xml(1, session="1st")}),
-                       "2025-06-01", tax=TAX, wl=WL, log=lambda *a: None)
+                       "2025-06-01", congress=119, tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual(conn.execute("SELECT bioguide, position, party FROM us_votes "
                                       "ORDER BY bioguide").fetchall(),
                          [("A000370", "Nay", "D"), ("S001214", "Yea", "R")])
@@ -414,12 +414,12 @@ class PullBillsAndMembersTests(unittest.TestCase):
         url = usr.BILLSTATUS.format(119, "hr")
         conn = store()
         read, ours, gaps = usr.pull_bills(conn, FakeClient({url: buf.getvalue()}), "2026-10-09",
-                                          types=("hr",), tax=TAX, wl=WL, log=lambda *a: None)
+                                          congress=119, types=("hr",), tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual((read, ours, gaps), (2, 1, 0))
 
     def test_a_missing_zip_is_a_gap_not_an_empty_congress(self):
         conn = store()
-        read, ours, gaps = usr.pull_bills(conn, FakeClient(), "2026-10-09", types=("hr",),
+        read, ours, gaps = usr.pull_bills(conn, FakeClient(), "2026-10-09", congress=119, types=("hr",),
                                           tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual((read, gaps), (0, 1))
 
@@ -517,7 +517,7 @@ class SenateTests(unittest.TestCase):
         client = FakeClient({usr.SENATE_MENU.format(119, 1): senate_menu(11),
                              usr.SENATE_VOTE.format(119, 1, 11): fixture("vote_119_1_00011.xml")},
                             json_pages={usr.MEMBERS_HISTORICAL: history})
-        stored, ours, gaps = usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        stored, ours, gaps = usr.pull_senate(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                              log=lambda *a: None)
         self.assertEqual((stored, ours, gaps), (1, 1, 1))
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM us_votes").fetchone()[0], 99)
@@ -526,7 +526,7 @@ class SenateTests(unittest.TestCase):
                          .fetchone()[0], "B000001")
         # A second run asks only for votes it does not hold.
         client.asked = []
-        self.assertEqual(usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL,
+        self.assertEqual(usr.pull_senate(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL,
                                          log=lambda *a: None)[0], 0)
         self.assertEqual(client.asked, [usr.SENATE_MENU.format(119, 1)])
 
@@ -537,7 +537,7 @@ class SenateTests(unittest.TestCase):
         client = FakeClient({usr.SENATE_MENU.format(119, 1): senate_menu(648, issue="S.Con.Res. 7"),
                              usr.SENATE_VOTE.format(119, 1, 648): blank},
                             json_pages={usr.MEMBERS_HISTORICAL: []})
-        usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL, log=lambda *a: None)
+        usr.pull_senate(conn, client, "2025-06-01", congress=119, tax=TAX, wl=WL, log=lambda *a: None)
         self.assertEqual(conn.execute("SELECT legis_num, bill_key FROM us_divisions").fetchone(),
                          ("S.Con.Res. 7", "119/sconres/7"))
 
@@ -546,7 +546,7 @@ class SenateTests(unittest.TestCase):
         refused = FetchError(usr.SENATE_MENU.format(119, 1), usr.FEED, "x", 4, "HTTP 403")
         client = FakeClient({usr.SENATE_MENU.format(119, 1): refused,
                              usr.SENATE_MENU.format(119, 2): senate_menu()})
-        stored, _o, gaps = usr.pull_senate(conn, client, "2026-10-09", tax=TAX, wl=WL,
+        stored, _o, gaps = usr.pull_senate(conn, client, "2026-10-09", congress=119, tax=TAX, wl=WL,
                                            log=lambda *a: None)
         self.assertEqual((stored, gaps), (0, 1))
         self.assertIn(usr.SENATE_MENU.format(119, 2), client.asked)
