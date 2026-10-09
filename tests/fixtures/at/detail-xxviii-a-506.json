@@ -1,0 +1,747 @@
+{
+ "pagetype": "geschichtsseite",
+ "meta": {
+  "description": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht (506/A(E))",
+  "generationTime": "Fri Aug 14 01:29:42 UTC 2026",
+  "keywords": "\"Sport\", \"Frauen und Gleichbehandlung\"",
+  "lang": "de",
+  "title": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht (506/A(E)) | Parlament Österreich",
+  "openGraph": {
+   "image": "https://www.parlament.gv.at/static/img/og.png",
+   "title": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht | Parlament Österreich",
+   "description": "506/A(E)"
+  },
+  "scripts": [],
+  "styles": []
+ },
+ "content": {
+  "breadcrumbs": [
+   {
+    "title": "Start",
+    "url": "/"
+   },
+   {
+    "title": "Gegenstände",
+    "url": "/recherchieren/gegenstaende/"
+   },
+   {
+    "title": "Nationalrat - XXVIII. GP",
+    "url": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII"
+   },
+   {
+    "title": "Selbständiger Entschließungsantrag",
+    "url": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&VHG=ANTR&VHG3=AE&DOKTYP=A(E)"
+   },
+   {
+    "title": "506/A(E)"
+   }
+  ],
+  "type": "Selbständiger Entschließungsantrag",
+  "sntype": "Selbständiger Entschließungsantrag",
+  "title": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht",
+  "zitation": "506/A(E)",
+  "description": "Antrag der Abgeordneten Markus Leinfellner, Kolleginnen und Kollegen betreffend Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht",
+  "gp_code": "XXVIII",
+  "ityp": "A",
+  "inr": 506,
+  "doktyp": "A(E)",
+  "update": "2026-08-14T03:29:42",
+  "nr_gp_code": "XXVIII",
+  "intranet": "N",
+  "group": "1",
+  "deleted": false,
+  "einlangen": "2025-10-15T00:00:00",
+  "history_ind": 2,
+  "vhg_fertig": "J",
+  "vhg_fertig_docs": "J",
+  "process": "J",
+  "statementsstate": "9 Keine Begutachtung bei dem Doktyp \"A(E)\" möglich",
+  "approvalstate": "9 Keine Zustimmung bei dem Doktyp \"A(E)\" möglich",
+  "status": {
+   "number": 5,
+   "description": "Entschließungsantrag abgelehnt (<a href=\"/gegenstand/XXVIII/I/505\">505 d.B.</a>)",
+   "documents": [
+    {
+     "title": "Berichterstattung",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/I/505/fname_1760919.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/I/505/fnameorig_1760919.html",
+       "type": "HTML"
+      }
+     ]
+    }
+   ]
+  },
+  "progress": [
+   {
+    "name": "Einbringung NR",
+    "id": 1,
+    "empty": false
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "empty": false
+   },
+   {
+    "name": "Plenarberatungen NR",
+    "id": 4,
+    "empty": false
+   }
+  ],
+  "phase": [
+   {
+    "name": "Einbringung NR",
+    "id": 1,
+    "stages": [
+     {
+      "date": "15.10.2025",
+      "text": "Einbringung im Nationalrat",
+      "priority": 1
+     },
+     {
+      "date": "15.10.2025",
+      "text": "Übermittlung an das Bundesministerium für Wohnen, Kunst, Kultur, Medien und Sport"
+     },
+     {
+      "date": "15.10.2025",
+      "text": "Vorgesehen für den <a href=\"/ausschuss/XXVIII/A-SP/1/00935\">Sportausschuss</a>"
+     },
+     {
+      "date": "15.10.2025",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/44\">44. Sitzung des Nationalrates</a>: Mitteilung der Einbringung",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 44,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/44/fnameorig_1764795.html#236",
+        "title": "22:01:13 - Präsidium (RN/236)",
+        "text": "RN/236"
+       }
+      ]
+     }
+    ],
+    "documents": []
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "stages": [
+     {
+      "date": "15.10.2025",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/45\">45. Sitzung des Nationalrates</a>: Zuweisung an den <a href=\"/ausschuss/XXVIII/A-SP/1/00935\">Sportausschuss</a>",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 45,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/45/fnameorig_1763103.html#2.3",
+        "title": "22:01:44 - Walter Rosenkranz, Präsident des Nationalrates - Präsidium (RN/2.3)",
+        "text": "RN/2.3"
+       }
+      ]
+     },
+     {
+      "date": "21.01.2026",
+      "text": "Verlangen der Abgeordneten <a href=\"/person/6407\" target=\"_blank\">Markus Leinfellner</a>, <a href=\"/person/87002\" target=\"_blank\">Rosa Ecker, MBA</a>, <a href=\"/person/30661\" target=\"_blank\">Mag. Katayun Pracher-Hilander</a>, <a href=\"/person/30648\" target=\"_blank\">Mag. Marie-Christine Giuliani-Sterrer, BA</a> und <a href=\"/person/35514\" target=\"_blank\">Wolfgang Zanger</a> auf Berichterstattung binnen eines Jahres nach Zuweisung durch den Sportausschuss (Frist: 15.10.2026)"
+     },
+     {
+      "date": "21.01.2026",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/64\">64. Sitzung des Nationalrates</a>: Mitteilung des Einlangens des Verlangens auf Berichterstattung binnen eines Jahres nach Zuweisung",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 64,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/64/A_-_19_08_43_00899240.html#2",
+        "title": "19:08:43 - Präsidium (RN/2)",
+        "text": "RN/2"
+       }
+      ]
+     },
+     {
+      "date": "28.05.2026",
+      "text": "Sportausschuss: auf <a href=\"/dokument/XXVIII/A-SP/1/00935/TO_16875297.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-SP/1/00935?selectedStage=105&selectedSession=4&selectedDate=28052026\">4. Sitzung des Ausschusses</a>"
+     },
+     {
+      "date": "28.05.2026",
+      "text": "Sportausschuss: Bericht <a href=\"/gegenstand/XXVIII/I/505\">505 d.B.</a>",
+      "priority": 1
+     }
+    ],
+    "documents": [
+     {
+      "title": "Berichterstattung",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/I/505/fname_1760919.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/I/505/fnameorig_1760919.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Sportausschuss diskutiert über Grundzüge der österreichischen Sportpolitik in Zeiten knapper Budgets",
+      "date": "28.05.2026",
+      "url": "/aktuelles/pk/jahr_2026/pk0489#XXVIII_A_00506"
+     }
+    ]
+   },
+   {
+    "name": "Plenarberatungen NR",
+    "id": 4,
+    "stages": [
+     {
+      "date": "10.06.2026",
+      "text": "Auf der <a href=\"/dokument/XXVIII/NRSITZ/81/TO_16604253.html\">Tagesordnung</a> der <a href=\"/gegenstand/XXVIII/NRSITZ/81\">81. Sitzung des Nationalrates</a>"
+     },
+     {
+      "date": "10.06.2026",
+      "text": "Wortmeldungen in der Debatte",
+      "reden": {
+       "rendertype": "table",
+       "data": {
+        "header": [
+         {
+          "label": "Name und Klub",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-namefraktion"
+         },
+         {
+          "label": "Wortmeldungsart",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-wortmeldungsart"
+         },
+         {
+          "label": "Protokoll",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-protokoll"
+         },
+         {
+          "label": "Video",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-video"
+         }
+        ],
+        "rows": [
+         [
+          "<a href=\"/person/87002\" target=\"_blank\">Rosa Ecker, MBA (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_16_55_27_00972434.html#86",
+            "title": "16:55:27 - Rosa Ecker (FPÖ) - TOP 13-14 Schutz des Frauensports (RN/86)",
+            "text": "RN/86"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781110535"
+          }
+         ],
+         [
+          "<a href=\"/person/5641\" target=\"_blank\">Maximilian Köllner, MA (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_00_19_00972461.html#87",
+            "title": "17:00:19 - Maximilian Köllner (SPÖ) - TOP 13-14 Schutz des Frauensports (RN/87)",
+            "text": "RN/87"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781110826"
+          }
+         ],
+         [
+          "<a href=\"/person/6407\" target=\"_blank\">Markus Leinfellner (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_05_42_00972491.html#88",
+            "title": "17:05:42 - Markus Leinfellner (FPÖ) - TOP 13-14 Schutz des Frauensports (RN/88)",
+            "text": "RN/88"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781111150"
+          }
+         ],
+         [
+          "<a href=\"/person/6151\" target=\"_blank\">Heike Eder, BSc MBA (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_13_14_00972525.html#92",
+            "title": "17:13:14 - Heike Eder (ÖVP) - TOP 13-14 Schutz des Frauensports (RN/92)",
+            "text": "RN/92"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781111604"
+          }
+         ],
+         [
+          "<a href=\"/person/2996\" target=\"_blank\">Ricarda Berger (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_18_02_00972540.html#93",
+            "title": "17:18:02 - Ricarda Berger (FPÖ) - TOP 13-14 Schutz des Frauensports (RN/93)",
+            "text": "RN/93"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781111890"
+          }
+         ],
+         [
+          "<a href=\"/person/5683\" target=\"_blank\">Henrike Brandstötter (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_24_04_00972576.html#94",
+            "title": "17:24:04 - Henrike Brandstötter (NEOS) - TOP 13-14 Schutz des Frauensports (RN/94)",
+            "text": "RN/94"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781112252"
+          }
+         ],
+         [
+          "<a href=\"/person/30665\" target=\"_blank\">Nicole Sunitsch (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_28_51_00972595.html#95",
+            "title": "17:28:51 - Nicole Sunitsch (FPÖ) - TOP 13-14 Schutz des Frauensports (RN/95)",
+            "text": "RN/95"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781112538"
+          }
+         ],
+         [
+          "<a href=\"/person/6502\" target=\"_blank\">Mag. Agnes Sirkka Prammer (G)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_33_08_00972613.html#96",
+            "title": "17:33:08 - Agnes Sirkka Prammer (Grüne) - TOP 13-14 Schutz des Frauensports (RN/96)",
+            "text": "RN/96"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781112796"
+          }
+         ],
+         [
+          "<a href=\"/person/25188\" target=\"_blank\">StS MMag. Michaela Schmidt (S)</a>",
+          "Regierungsbank",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_38_22_00972627.html#98",
+            "title": "17:38:22 - Michaela Schmidt, Staatssekretärin im Bundesministerium für Wohnen, Kunst, Kultur, Medien und Sport - TOP 13-14 Schutz des Frauensports (RN/98)",
+            "text": "RN/98"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781113109"
+          }
+         ],
+         [
+          "<a href=\"/person/30664\" target=\"_blank\">Mag. Harald Schuh (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_42_27_00972647.html#99",
+            "title": "17:42:27 - Harald Schuh (FPÖ) - TOP 13-14 Schutz des Frauensports (RN/99)",
+            "text": "RN/99"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781113355"
+          }
+         ],
+         [
+          "<a href=\"/person/5647\" target=\"_blank\">Petra Tanzler (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_45_53_00972666.html#100",
+            "title": "17:45:53 - Petra Tanzler (SPÖ) - TOP 13-14 Schutz des Frauensports (RN/100)",
+            "text": "RN/100"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781113561"
+          }
+         ],
+         [
+          "<a href=\"/person/35468\" target=\"_blank\">Dr. Dagmar Belakowitsch (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_49_31_00972678.html#101",
+            "title": "17:49:31 - Dagmar Belakowitsch (FPÖ) - TOP 13-14 Schutz des Frauensports (RN/101)",
+            "text": "RN/101"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781113780"
+          }
+         ],
+         [
+          "<a href=\"/person/1986\" target=\"_blank\">Dr. Gudrun Kugler (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_55_07_00972712.html#102",
+            "title": "17:55:07 - Gudrun Kugler (ÖVP) - TOP 13-14 Schutz des Frauensports (RN/102)",
+            "text": "RN/102"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781114115"
+          }
+         ],
+         [
+          "<a href=\"/person/5687\" target=\"_blank\">Mag. Yannick Shetty (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_17_59_05_00972742.html#103",
+            "title": "17:59:05 - Yannick Shetty (NEOS) - TOP 13-14 Schutz des Frauensports (RN/103)",
+            "text": "RN/103"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781114352"
+          }
+         ],
+         [
+          "<a href=\"/person/87001\" target=\"_blank\">David Stögmüller (G)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_18_04_53_00972763.html#104",
+            "title": "18:04:53 - David Stögmüller (Grüne) - TOP 13-14 Schutz des Frauensports (RN/104)",
+            "text": "RN/104"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781114701"
+          }
+         ],
+         [
+          "<a href=\"/person/86613\" target=\"_blank\">Mario Lindner (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_18_08_58_00972796.html#105",
+            "title": "18:08:58 - Mario Lindner (SPÖ) - TOP 13-14 Schutz des Frauensports (RN/105)",
+            "text": "RN/105"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781114945"
+          }
+         ],
+         [
+          "<a href=\"/person/32563\" target=\"_blank\">Mag. (FH) Janos Juvan (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_18_12_49_00972813.html#106",
+            "title": "18:12:49 - Janos Juvan (NEOS) - TOP 13-14 Schutz des Frauensports (RN/106)",
+            "text": "RN/106"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781115177"
+          }
+         ],
+         [
+          "<a href=\"/person/30648\" target=\"_blank\">Mag. Marie-Christine Giuliani-Sterrer, BA (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_18_16_00_00972840.html#108",
+            "title": "18:16:00 - Marie-Christine Giuliani-Sterrer (FPÖ) - TOP 13-14 Schutz des Frauensports (RN/108)",
+            "text": "RN/108"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781115369"
+          }
+         ],
+         [
+          "<a href=\"/person/2332\" target=\"_blank\">Christoph Zarits (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 81,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/81/A_-_18_19_48_00972869.html#110",
+            "title": "18:19:48 - Christoph Zarits (ÖVP) - TOP 13-14 Schutz des Frauensports (RN/110)",
+            "text": "RN/110"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/81?DEBATTE=7&TS=1781115597"
+          }
+         ]
+        ]
+       }
+      }
+     },
+     {
+      "date": "10.06.2026",
+      "text": "81. Sitzung des Nationalrates: Abstimmung: Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen: <b>angenommen</b><br>Dafür: ÖVP, SPÖ, NEOS, GRÜNE, dagegen: FPÖ",
+      "priority": 1,
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 81,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/81/A_-_18_30_24_00972937.html#112.2",
+        "title": "18:30:24 - Abstimmung - TOP 13-14 Schutz des Frauensports (RN/112.2)",
+        "text": "RN/112.2"
+       }
+      ]
+     }
+    ],
+    "documents": [],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Hitzige Debatte im Nationalrat über Fairness im Frauensport",
+      "date": "10.06.2026",
+      "url": "/aktuelles/pk/jahr_2026/pk0536#XXVIII_A_00506"
+     }
+    ]
+   }
+  ],
+  "documents": [
+   {
+    "title": "Selbständiger Entschließungsantrag (gescanntes Original)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/506/imfname_1716421.pdf",
+      "type": "PDF"
+     }
+    ]
+   },
+   {
+    "title": "Entschließungsantrag (elektr. übermittelte Version)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/506/fname_1720790.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/A/506/fnameorig_1720790.html",
+      "type": "HTML"
+     }
+    ]
+   }
+  ],
+  "names": [
+   {
+    "funktext": "Eingebracht von",
+    "name": "Markus Leinfellner",
+    "frak_code": "F",
+    "url": "/person/6407",
+    "portrait": {
+     "rendertype": "image",
+     "data": {
+      "src": "/dokument/bild/201426/20142650_384.jpg",
+      "alt": "Portraitfoto von Markus Leinfellner",
+      "bildId": 20142650,
+      "copyright": "Parlamentsdirektion/Thomas Topf"
+     }
+    }
+   }
+  ],
+  "correspondence": [
+   {
+    "additional": false,
+    "title": "Neu im Sportausschuss",
+    "date": "20.10.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0926#XXVIII_A_00506"
+   },
+   {
+    "additional": false,
+    "title": "Sportausschuss diskutiert über Grundzüge der österreichischen Sportpolitik in Zeiten knapper Budgets",
+    "date": "28.05.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0489#XXVIII_A_00506"
+   },
+   {
+    "additional": false,
+    "title": "Hitzige Debatte im Nationalrat über Fairness im Frauensport",
+    "date": "10.06.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0536#XXVIII_A_00506"
+   }
+  ],
+  "topics": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Frauen und Gleichbehandlung",
+      "link": "/suche?thema=Frauen und Gleichbehandlung"
+     },
+     {
+      "label": "Sport",
+      "link": "/suche?thema=Sport"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "headwords": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Sport",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Sport"
+     },
+     {
+      "label": "Frauen und Gleichbehandlung",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Frauen und Gleichbehandlung"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "eurovoc": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Frau",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Frau"
+     },
+     {
+      "label": "Gleichbehandlung",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Gleichbehandlung"
+     },
+     {
+      "label": "Sport",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Sport"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  }
+ }
+}

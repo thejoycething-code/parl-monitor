@@ -1,0 +1,58 @@
+# Austria watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Austria.
+#
+# The shared German taxonomy (config/taxonomy-de.yaml, never edited for
+# Austria) does most of the work. This file carries only what it cannot:
+# items on our ground whose titles use Austrian words the German list does
+# not have. Every entry below was MISSED by taxonomy-de on 9 October 2026
+# (measured; docs/austria-scope.md). When Christopher accepts the proposed
+# Austrian terms, most of these become redundant and can go.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/at_store.add_watch_areas). Keys are the
+# Parliament's own path without '/gegenstand/': 'XXVIII/I/525'. The same
+# title is printed on a Regierungsvorlage, its committee report, its
+# Abänderungsantrag and the Beschluss in the Bundesrat; each is its own item,
+# so each is its own entry. Items keep their keys for ever, but the next
+# Gesetzgebungsperiode starts numbering again under a new numeral.
+items:
+  # Assisted dying: the Sterbeverfügungsgesetz (2021) is Austria's assisted
+  # suicide law. taxonomy-de knows Sterbehilfe and Suizidhilfe, not this.
+  "XXVIII/I/525": {areas: [2],
+                   why: "Sterbeverfügungsgesetz-Novelle 2026 (Regierungsvorlage). Passed: Dafür F, V, S, N; dagegen G."}
+  "XXVIII/I/567": {areas: [2],
+                   why: "Sterbeverfügungsgesetz-Novelle 2026: the committee report (Ausschussbericht)."}
+  "XXVIII/AAA/51": {areas: [2],
+                    why: "Sterbeverfügungsgesetz-Novelle 2026: the Justizausschuss amendment."}
+  "XXVIII/AA/78": {areas: [2],
+                   why: "Sterbeverfügungsgesetz-Novelle 2026: the plenary amendment."}
+  "XXVIII/BNR/192": {areas: [2],
+                     why: "Sterbeverfügungsgesetz-Novelle 2026: the Nationalrat's Beschluss before the Bundesrat."}
+  "XXVIII/A/1026": {areas: [2],
+                    why: "Verbesserung der Sterbeverfügung (Entschließungsantrag, 23 September 2026)."}
+  # Sex-based rights: the FPÖ's two-sexes constitutional bills.
+  "XXVIII/A/1021": {areas: [5],
+                    why: "Es-gibt-nur-zwei-Geschlechter-Novelle (Gesetzesantrag, 23 September 2026). No taxonomy term in the title."}
+  "XXVIII/I/281": {areas: [5],
+                   why: "Bundesverfassungsgesetz über die zwei biologischen Geschlechter: committee report. taxonomy-de has 'biologisches Geschlecht' in the singular only."}
+  "XXVIII/UEA/26": {areas: [5],
+                    why: "Schutz der biologischen Geschlechter vor woker Genderideologie (motion)."}
+  "XXVIII/A/504": {areas: [5, 6],
+                   why: "Schluss mit Gender-Ideologie an Schulen! (motion)."}
+  # Gender medicine and children: Austria writes 'intergeschlechtlich'.
+  "XXVIII/A/117": {areas: [3],
+                   why: "Schutz von intergeschlechtlichen Kindern und Jugendlichen vor nicht notwendigen medizinischen Behandlungen (motion)."}
+  "XXVIII/A/640": {areas: [3],
+                   why: "Schutz von intergeschlechtlichen Kindern und Jugendlichen (motion)."}
+  # Marriage: Austria's eingetragene Partnerschaft, not the German Lebenspartnerschaft.
+  "XXVIII/A/934": {areas: [9],
+                   why: "Umwandlung von Eingetragener Partnerschaft in Ehe ermöglichen! (motion)."}
+  "XXVIII/UEA/106": {areas: [9],
+                     why: "Umwandlung von Eingetragener Partnerschaft in Ehe ermöglichen! (motion in plenary)."}
+  # Religion: the face-covering ban (Anti-Gesichtsverhüllungsgesetz, 2017).
+  "XXVIII/A/1054": {areas: [8],
+                    why: "Anti-Gesichtsverhüllungsgesetz- und Strafgesetzbuch-Novelle 2026 (Gesetzesantrag)."}
+  "XXVIII/A/1059": {areas: [8],
+                    why: "Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes (motion)."}
+  # Free speech online: Austria's 'Hass im Netz' package, not the German NetzDG.
+  "XXVIII/A/959": {areas: [7],
+                   why: "Lückenschluss im Medienrecht: Hass im Netz bekämpfen (motion)."}

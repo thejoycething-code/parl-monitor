@@ -71,6 +71,8 @@ PIPELINES = {
     "Australia weekly": (7, 4, "Australia's Federal Parliament: bills, House and Senate divisions"),
     # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
+    # Scheduled 9 October 2026, Saturdays (at-weekly.yml; the Mac Mini first).
+    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -202,6 +204,16 @@ FEEDS = [
     ("ie_members", "last_seen", 7, 4, "Dail and Seanad rosters (Ireland weekly)"),
     ("ie_bills", "last_seen", 7, 4, "Oireachtas bills (Ireland weekly)"),
     ("ie_divisions", "last_seen", 7, 4, "Dail, Seanad and committee divisions (Ireland weekly)"),
+    # Austria (9 October 2026). MEASURED which re-stamp: both chambers' item
+    # lists and both member lists are re-read whole every run, so items and
+    # members move every week, recess included. A division is re-stamped only
+    # when its item's history page is read again, which happens only when the
+    # item moved; the Nationalrat's summer recess runs from early July to
+    # mid-September. A month plus a month's grace, as for the US. at_votes
+    # carries no sighting column.
+    ("at_items", "last_seen", 7, 4, "Nationalrat and Bundesrat items (Austria weekly)"),
+    ("at_members", "last_seen", 7, 4, "Nationalrat and Bundesrat members (Austria weekly)"),
+    ("at_divisions", "last_seen", 31, 31, "Klub votes on our ground (Austria weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -279,6 +291,8 @@ PIPELINE_FEEDS = {
     "Australia weekly": ["au_bills", "au_members"],
     # All three are re-read whole and re-stamped every run (see FEEDS).
     "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions"],
+    # Divisions left out for the same reason: a recess week cannot move them.
+    "Austria weekly": ["at_items", "at_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -296,6 +310,8 @@ AWAITING_FIRST_RUN = {
                   "scheduled 9 October 2026; its tables fill on its first run"),
     "Australia weekly": (("au_members", "au_bills", "au_divisions"),
                          "scheduled 9 October 2026; its tables fill on its first run"),
+    "Austria weekly": (("at_items", "at_members", "at_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
