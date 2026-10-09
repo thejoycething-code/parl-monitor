@@ -31,6 +31,18 @@ last --days (default 14, so Guatemala's fortnightly pull is covered):
     the ledger remembers each watched item's last status. That move is
     also what the edition's "stage move" lines read for those countries.
 
+THE SESSION JUDGE GATES TIER 1 (10 October 2026; src/edition_judge.py).
+A watched item always alerts, as above. A tier-1 item that is not watched,
+once the free session judge (Claude Code on the Mac Mini, plan allowance,
+jobs/editions-session-judge.sh, weekly) has read it, alerts only when it
+scored 2 or 3 (the judge's reading replaces the minimum-evidence rule); one
+it scored 0 or 1 never alerts. While the judge is running (it scored
+something in the last 14 days), an unscored tier-1 item that would alert is
+HELD for it, recorded under "held" in the ledger: the judge's weekly job
+runs this pass for every country after scoring, and a held item still
+unscored after HOLD_DAYS goes out as before. When the judge is not running,
+nothing is held and nothing changes.
+
 DE-DUPLICATED. data/latam-alerts/<cc>.json records every alert sent, keyed
 on country, kind and item key (and the status, for a move), so a Mini run
 and its GitHub backup, or two runs a week apart, never send the same thing
@@ -59,13 +71,15 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, latam, latam_noise  # noqa: E402
+from src import db, edition_judge, latam, latam_noise  # noqa: E402
 
 CHRIS = "U05LJP0BT61"
 DEFAULT_DAYS = 14
 DEFAULT_MAX = 8
 KEEP_MOVES = 400
 KEEP_SENT_DAYS = 400
+HOLD_DAYS = 8          # a held tier-1 item still unscored after this goes out unscored
+KEEP_HELD_DAYS = 60
 
 
 # --- the ledger -------------------------------------------------------------------
@@ -86,6 +100,7 @@ def load(cc, directory=None):
     got.setdefault("sent", {})
     got.setdefault("status", {})
     got.setdefault("moves", [])
+    got.setdefault("held", {})
     return got
 
 
@@ -93,6 +108,8 @@ def save(ledger, today, directory=None):
     cutoff = (datetime.date.fromisoformat(today) - datetime.timedelta(days=KEEP_SENT_DAYS)).isoformat()
     ledger["sent"] = {k: v for k, v in ledger["sent"].items() if v >= cutoff}
     ledger["moves"] = ledger["moves"][-KEEP_MOVES:]
+    held_cut = (datetime.date.fromisoformat(today) - datetime.timedelta(days=KEEP_HELD_DAYS)).isoformat()
+    ledger["held"] = {k: v for k, v in ledger.get("held", {}).items() if v >= held_cut}
     path = ledger_path(ledger["cc"], directory)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as fh:
@@ -110,8 +127,24 @@ def alert_key(it):
 # --- what alerts ------------------------------------------------------------------
 
 def qualifies(it, config_dir=None):
-    """Watched, or tier 1 with the minimum evidence (src/latam_noise.py)."""
-    return latam_noise.alert_reason(it, config_dir) is not None
+    """Watched, or tier 1 with the minimum evidence (src/latam_noise.py); a
+    tier-1 item the session judge has read, only with a score of 2 or 3."""
+    if it.get("watched") or it.get("judge") is None:
+        return latam_noise.alert_reason(it, config_dir) is not None
+    if latam_noise.muted(it, config_dir) or it.get("tier") != 1 or it["kind"] == "updated":
+        return False
+    return it["judge"] >= 2
+
+
+def awaits_judge(it):
+    """An item that would alert on the evidence rule alone, before the judge has read it."""
+    return not it.get("watched") and it.get("judge") is None
+
+
+def held_long_enough(ledger, key, today, days=HOLD_DAYS):
+    first = ledger.get("held", {}).get(key)
+    return bool(first) and (datetime.date.fromisoformat(today)
+                            - datetime.date.fromisoformat(first)).days >= days
 
 
 def status_moves(conn, cc, ledger, today, config_dir=None):
@@ -175,6 +208,7 @@ def run(conn, countries, today, days=DEFAULT_DAYS, send=False, max_dms=DEFAULT_M
     would be, without send)."""
     sender = sender or send_dm
     out, budget, overflow = [], max_dms, 0
+    hold = edition_judge.alive(conn, today)
     for cc in countries:
         ledger = load(cc, directory)
         items = candidates(conn, cc, today, days, ledger, config_dir)
@@ -188,12 +222,18 @@ def run(conn, countries, today, days=DEFAULT_DAYS, send=False, max_dms=DEFAULT_M
             if send:
                 save(ledger, today, directory)
             continue
+        held = 0
         for it in fresh:
             key, text = alert_key(it), message(it)
+            if hold and awaits_judge(it) and not held_long_enough(ledger, key, today):
+                ledger["held"].setdefault(key, today)
+                held += 1
+                continue
             if budget <= 0:
                 overflow += 1
                 if send:
                     ledger["sent"][key] = today
+                    ledger["held"].pop(key, None)
                 continue
             budget -= 1
             if send:
@@ -202,11 +242,14 @@ def run(conn, countries, today, days=DEFAULT_DAYS, send=False, max_dms=DEFAULT_M
                     log("  [gap] latam-alerts: {0} not sent: {1}".format(key, res["error"]))
                     continue
                 ledger["sent"][key] = today
+                ledger["held"].pop(key, None)
             out.append((cc, key, text))
             log("latam-alerts: {0} {1}".format("sent" if send else "would send", key))
         if send:
             save(ledger, today, directory)
-        log("latam-alerts: {0}: {1} candidate(s), {2} new".format(cc, len(items), len(fresh)))
+        log("latam-alerts: {0}: {1} candidate(s), {2} new{3}".format(
+            cc, len(items), len(fresh), ", {0} held for the session judge".format(held)
+            if held else ""))
     if overflow:
         text = (":rotating_light: *Latam alerts*: {0} more watched or tier-1 item(s) landed this "
                 "run; they are in the next monthly edition.".format(overflow))
