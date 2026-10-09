@@ -851,6 +851,22 @@ ON_DEMAND = {
                                "nothing pending or claude signed out publishes "
                                "nothing, so no cadence is expected; mini_run.sh "
                                "DMs its failures.",
+    "US session judge": "Mac Mini only (jobs/us-session-judge.sh, Fridays "
+                        "19:30 after the US weekly): Claude Code scores pending "
+                        "US items on the plan allowance; no GitHub workflow, and "
+                        "a run with nothing pending or claude signed out "
+                        "publishes nothing, so no cadence is expected.",
+    "Ireland session judge": "Mac Mini only (jobs/ie-session-judge.sh, Fridays "
+                             "18:30 after the Ireland weekly): Claude Code scores "
+                             "pending Irish items on the plan allowance; no GitHub "
+                             "workflow, and a run with nothing pending or claude "
+                             "signed out publishes nothing, so no cadence is expected.",
+    "Australia session judge": "Mac Mini only (jobs/au-session-judge.sh, Fridays "
+                               "03:10 after the Australia weekly): Claude Code "
+                               "scores pending Australian items on the plan "
+                               "allowance; no GitHub workflow, and a run with "
+                               "nothing pending or claude signed out publishes "
+                               "nothing, so no cadence is expected.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",

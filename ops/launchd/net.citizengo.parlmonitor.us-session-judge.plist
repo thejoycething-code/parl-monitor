@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- US session judge on the Mac Mini (jobs/us-session-judge.sh): Fridays 19:30 London,
+     after the US weekly (10:00, up to three hours; if it or the Ireland session judge (18:30) is still
+     running this queues behind it on the runner lock), after Friday's 18:00 Division watch and clear of
+     the 22:00 Day sweep. Claude Code scores at most 150 pending items, 25 to a session, on the work subscription's plan allowance, not the API.
+     Mac Mini only: no GitHub workflow and no mini-check gate. Time limit two hours.
+     Needs Claude Code installed and signed in to the work account (claude auth login).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.us-session-judge.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.us-session-judge</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>us-session-judge</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>7200</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>5</integer><key>Hour</key><integer>19</integer><key>Minute</key><integer>30</integer></dict>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/us-session-judge.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/us-session-judge.log</string>
+</dict>
+</plist>
