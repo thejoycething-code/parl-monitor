@@ -327,6 +327,59 @@ def check_counts(accept_loss=False, log=print):
     return True, now
 
 
+def held_shas():
+    """Every sha this working copy has held, pulled or published."""
+    if not os.path.exists(PULLED):
+        return []
+    return [ln.strip() for ln in open(PULLED, encoding="utf-8") if ln.strip()]
+
+
+def _release_assets():
+    """[{name, digest}] on the release, or None if it cannot be read."""
+    out = subprocess.run(["gh", "api", "/repos/{0}/releases/tags/{1}".format(REPO, TAG)],
+                         capture_output=True, text=True)
+    if out.returncode:
+        return None
+    try:
+        return [{"name": a.get("name"), "digest": (a.get("digest") or "").replace("sha256:", "")}
+                for a in (json.loads(out.stdout).get("assets") or [])]
+    except ValueError:
+        return None
+
+
+def live_asset_is_ours(held, assets=None):
+    """The release itself, not just the pointer on main, must hold a store we have seen.
+
+    TWO MACHINES, NO SHARED LOCK. The Mac Mini runner (tools/mini_run.sh)
+    publishes the store while GitHub's writers still do, and they do not share
+    the parl-monitor-state concurrency group. A push uploads the asset FIRST
+    and commits the sidecar seconds later, so in that window origin/main's
+    pointer still names the old store and check_lineage alone would let a
+    second writer overwrite the first one's work. The asset's own digest has
+    no such window. A PREV asset means a push is part-way through.
+    """
+    assets = _release_assets() if assets is None else assets
+    if assets is None:
+        print("  [warn] could not read the release, so the live asset is "
+              "unchecked.")
+        return True
+    names = {a["name"]: a["digest"] for a in assets}
+    if PREV in names:
+        print("REFUSING TO PUBLISH: {0} is on the release, so another push "
+              "is part-way through (or failed part-way).\n  Fix: python3 "
+              "tools/db_state.py --pull, redo this run's work, push.".format(PREV))
+        return False
+    live = names.get(ASSET)
+    if live and held and live not in held:
+        print("THE STORE MOVED UNDER YOU. Refusing to publish.\n"
+              "  the release holds {0}, never seen here: another run has "
+              "uploaded it and has not committed its sidecar yet.\n"
+              "  Fix: python3 tools/db_state.py --pull, redo this run's work "
+              "on the current store, then push.".format(live[:12]))
+        return False
+    return True
+
+
 def check_lineage():
     """Refuse to publish a store that did not come from the current one.
 
@@ -350,7 +403,7 @@ def check_lineage():
         print("  [warn] could not read origin/main's sidecar, so this push "
               "is unguarded: if another run published since this store was "
               "pulled, its work is about to be discarded.")
-        return True
+        return live_asset_is_ours(held_shas())
     # EVERY sha this working copy has held, pulled or published -- not
     # just the last one. A push writes the new sha locally but the
     # sidecar reaches origin only when the commit lands, so comparing
@@ -358,13 +411,10 @@ def check_lineage():
     # push-then-push-again. What matters is not whether origin differs,
     # but whether origin holds something WE HAVE NEVER SEEN: that is
     # someone else's work.
-    held = []
-    if os.path.exists(PULLED):
-        held = [ln.strip() for ln in open(PULLED, encoding="utf-8")
-                if ln.strip()]
+    held = held_shas()
     ours = held[-1] if held else None
     if theirs in held:
-        return True
+        return live_asset_is_ours(held)
     if ours is None:
         print("REFUSING TO PUBLISH: this working copy has no record of "
               "pulling a store, so there is no way to tell what it would "

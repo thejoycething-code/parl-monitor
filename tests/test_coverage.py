@@ -222,6 +222,9 @@ class LineageGuardTests(unittest.TestCase):
 
     def setUp(self):
         self.db = _load("db_state")
+        # These are about the pointer on main. The release's own digest has
+        # its own tests (test_db_state.LiveAssetTests); never reach GitHub here.
+        self.db._release_assets = lambda: []
 
     def test_no_record_of_a_pull_refuses(self):
         self.db.published_sha = lambda: "beef" * 16

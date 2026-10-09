@@ -35,6 +35,15 @@ def _folder(files):
     return d
 
 
+
+def with_jobs(src):
+    """A workflow's text followed by the jobs/ scripts it runs: a workflow that
+    hands its work to a script shared with the Mac Mini runner publishes from
+    that script, in the order the script does it."""
+    for job in re.findall(r"jobs/[\w-]+\.sh", src):
+        src += open(os.path.join(WORKFLOWS, "..", "..", job), encoding="utf-8").read()
+    return src
+
 class DigestAndTarTests(unittest.TestCase):
     def test_digest_is_content_not_order_or_mtime(self):
         a = _folder({"x.json.gz": b"1", "sub/y.json.gz": b"22"})
@@ -199,7 +208,7 @@ class RepoWiringTests(unittest.TestCase):
         the way; publishing one without the other strands provenance."""
         import glob
         for path in glob.glob(os.path.join(WORKFLOWS, "*.yml")):
-            src = open(path, encoding="utf-8").read()
+            src = with_jobs(open(path, encoding="utf-8").read())
             if "db_state.py --push" in src:
                 self.assertIn("raw_state.py --push", src, os.path.basename(path))
                 self.assertLess(src.index("raw_state.py --push"), src.index("db_state.py --push"),
@@ -209,11 +218,7 @@ class RepoWiringTests(unittest.TestCase):
 
     def test_the_archive_writers_without_a_store_publish_it(self):
         for name in ("division-watch.yml", "deploy-tracker.yml"):
-            src = open(os.path.join(WORKFLOWS, name), encoding="utf-8").read()
-            # A workflow that hands its work to a jobs/ script (shared with
-            # the Mac Mini runner) publishes from that script.
-            for job in re.findall(r"jobs/[\w-]+\.sh", src):
-                src += open(os.path.join(WORKFLOWS, "..", "..", job), encoding="utf-8").read()
+            src = with_jobs(open(os.path.join(WORKFLOWS, name), encoding="utf-8").read())
             self.assertIn("raw_state.py --push", src, name)
 
     def test_the_merge_driver_is_bound(self):
