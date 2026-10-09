@@ -90,9 +90,9 @@ left alone, as designed).
 **Why.** www.aph.gov.au and parlinfo.aph.gov.au refuse the laptop and, since
 run 37887925082 the same day, GitHub's runners too (403 on robots.txt); the
 High Court times out. The Mini is the last network to try before asking APH
-for access. An email to the APH Web Manager (webmanager@aph.gov.au) is
-waiting in Christopher's Gmail drafts and is **held until this probe has
-run**: if the Mini is answered, it may not be needed.
+for access. The APH Web Manager (webmanager@aph.gov.au) was emailed on 9
+October 2026 asking for access; the probe still says whether the Mini is
+answered meanwhile.
 
 **Steps** (in the development clone, not the runner clone; the probe touches
 no store and commits nothing):
@@ -131,7 +131,7 @@ docs/mac-mini-runner.md (the migration list for the launchd runner) is not on th
 |---|---|---|---|
 | `au-weekly` | Fridays 02:00 (`ops/launchd/net.citizengo.parlmonitor.au-weekly.plist`) | Fridays 02:00, retry 04:00 (`.github/workflows/au-weekly.yml`) | `MINI_LAST_AU_WEEKLY`, grace 200 minutes |
 
-- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, the judge when the repo variable `AU_JUDGE` is `on` (it is not), then the edition (`tools/au_monitor.py --edition --dm`), and on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line; its `# mini_run: commit editions` line makes the runner commit `editions/` too.
+- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, the week ahead (`tools/au_schedule.py`, about 20 seconds), debates (`tools/au_debates.py`, 10-minute budget), the judge when the repo variable `AU_JUDGE` is `on` (it is, since 9 October 2026), then the edition (`tools/au_monitor.py --edition --dm`), and on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line; its `# mini_run: commit editions` line makes the runner commit `editions/` too.
 - **Speaks once a day**, as the US weekly: an edition already committed for today is rewritten without resending the DM.
 - **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when `AU_JUDGE` is `on`, `ANTHROPIC_API_KEY`.
 - **The aph.gov.au probe** can be run here by hand, read-only: `python3 tools/au_probe.py --out /tmp/au-probe` (Christopher decides; see docs/australia-scope.md).
@@ -230,6 +230,15 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonito
 A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run.sh devolved-watch` (this sends the DM for anything new). One nation, or a longer look back: `DEVOLVED_NATION=ni DEVOLVED_SINCE=2026-09-28 bash ~/runner/parl-monitor/tools/mini_run.sh devolved-watch`.
 
 **Member records** need no install: the Holyrood, Senedd and Assembly weeklies (`jobs/{sp,sd,ni}-weekly.sh`) now rebuild `msp-votes.html`, `ms-votes.html` and `mla-votes.html` after the 5CA sheets, and the runner commits them (`# mini_run: commit partner_site/... docs/...`). Each member's card carries "On our ground": divisions with their lobby and the signed 5CA reading where there is one, questions and motions as one line and a link, speeches, and the 5CA placement per area (`src/devolved_intel.py`). The Monday publish deploys them as before.
+
+## Weekly country editions (10 October 2026, branch `editions-core`)
+
+The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition structure") each get a weekly edition, to Chris alone by DM, archived to `editions/<cc>-monitor-<date>.md`. One framework renders them all (`src/country_edition.py`; adapters in `src/editions/<cc>.py`; entry points `tools/<cc>_monitor.py`). First batch: Austria, the Netherlands (votes only, NL3), Belgium and Poland.
+
+- **No new plists or workflows.** The edition is the last step of each country's existing weekly (`jobs/{at,nl,be,pl}-weekly.sh`), after the collector and before the publish, so it runs wherever the weekly runs: the Mini first, GitHub as the backup. A collector that failed outright (not exit 3, gaps) skips the edition.
+- **Committed and spoken once a day**, as the US weekly: each script carries `# mini_run: commit editions`, each workflow commits `data/ editions/`, and an edition already committed for today is rewritten without resending the DM.
+- **The DM** goes to Chris alone: the scripts default `SLACK_DM_USER_ID` to U05LJP0BT61 and the code forces it whatever the secrets say. On the Mini the token comes from `~/runner/env` (`SLACK_BOT_TOKEN`, already there); the workflows pass the secret. Without a token the DM is reported skipped and the run goes on.
+- **Noise:** `config/edition-noise-<cc>.yaml` and `config/edition-mute-<cc>.yaml` (src/noise.py, the Latam filters generalised; no model, X16).
 
 ## Installing the country jobs (10 October 2026)
 

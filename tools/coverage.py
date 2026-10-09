@@ -72,17 +72,17 @@ PIPELINES = {
     # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
     # Scheduled 9 October 2026, Saturdays (at-weekly.yml; the Mac Mini first).
-    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes"),
+    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes, and the Austrian edition"),
     # Scheduled 9 October 2026, Thursdays (nl-weekly.yml; the Mac Mini first).
-    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions"),
+    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions, and the Dutch edition"),
     # Scheduled 9 October 2026, Sundays (pl-weekly.yml; the Mac Mini first).
-    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes"),
+    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes, and the Polish edition"),
     # Scheduled 9 October 2026, Saturdays (it-weekly.yml; the Mac Mini first).
     "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes"),
     # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
     "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes"),
     # Scheduled 9 October 2026, Saturdays (be-weekly.yml; the Mac Mini first).
-    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes"),
+    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes, and the Belgian edition"),
     # Scheduled 9 October 2026, Saturdays (fr-weekly.yml; the Mac Mini first).
     "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies"),
     # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
@@ -231,6 +231,25 @@ FEEDS = [
     ("au_members", "last_seen", 7, 4, "Federal Parliament members (Australia weekly)"),
     ("au_bills", "last_seen", 7, 4, "Federal bills, from Hansard and the Register of Legislation (Australia weekly)"),
     ("au_divisions", "last_seen", 31, 31, "House and Senate divisions (Australia weekly)"),
+    # Australia's week ahead (tools/au_schedule.py, 9 October 2026). MEASURED
+    # on that day's live run, in a recess: the Register listed 277
+    # instruments open for disallowance and every one is re-stamped each run,
+    # and the Handbook's Parliaments are re-read whole, so both move weekly.
+    # A sitting day is re-stamped only while some open instrument's clock
+    # still ends on it; in the summer recess (early December to early
+    # February) instruments registered then are not yet tabled and carry no
+    # last day, so the days ahead can thin out: a month plus two months'
+    # recess grace.
+    ("au_instruments", "last_seen", 7, 4, "instruments open for disallowance (Australia week ahead)"),
+    ("au_parliaments", "last_seen", 7, 4, "the Handbook's Parliaments, for a dissolution (Australia week ahead)"),
+    ("au_sitting_days", "last_seen", 31, 62, "sitting days ahead, from the Register's disallowance clock (Australia week ahead)"),
+    # Australian debates (tools/au_debates.py, 9 October 2026). Every run
+    # re-stamps each day file the listing still names, so au_debate_days
+    # moves weekly, recess included. A speech is written only when its day is
+    # read (new or re-parsed), and Canberra's summer recess runs from early
+    # December to early February: a month plus two months' recess grace.
+    ("au_debate_days", "last_seen", 7, 4, "Hansard day files read for debates (Australia debates)"),
+    ("au_speeches", "last_seen", 31, 62, "House and Senate speeches and motions on our ground (Australia debates)"),
     # The week ahead (tools/us_schedule.py, 9 October 2026). MEASURED on the
     # live run of that day, in the election recess: us_schedule_weeks gains
     # or re-stamps a row for every week and source ASKED, 404 or not, so it
@@ -281,6 +300,20 @@ FEEDS = [
     ("ie_members", "last_seen", 7, 4, "Dail and Seanad rosters (Ireland weekly)"),
     ("ie_bills", "last_seen", 7, 4, "Oireachtas bills (Ireland weekly)"),
     ("ie_divisions", "last_seen", 7, 4, "Dail, Seanad and committee divisions (Ireland weekly)"),
+    # Ireland phase 2 (9 October 2026). MEASURED which re-stamp: questions
+    # and debates are read a week at a time and the last fourteen days are
+    # read again every run, so ie_windows moves every run, recess included;
+    # the schedule page is read whole every run, so ie_schedule_days does
+    # too. A question or speech on our ground is re-stamped only while its
+    # week is re-read, and a schedule line only while it is posted; the Dail
+    # rose on 16 July and returned on 16 September 2026 (62 days), so a month
+    # plus a month's grace, the US rule, covers a summer recess less the
+    # fortnight the re-read keeps them fresh.
+    ("ie_windows", "last_seen", 7, 4, "Oireachtas question and debate weeks read (Ireland weekly)"),
+    ("ie_schedule_days", "last_seen", 7, 4, "Oireachtas schedule days, as the page lists them (Ireland weekly)"),
+    ("ie_schedule", "last_seen", 31, 31, "Dail, Seanad and committee business scheduled (Ireland weekly)"),
+    ("ie_questions", "last_seen", 31, 31, "parliamentary questions on our ground (Ireland weekly)"),
+    ("ie_speeches", "last_seen", 31, 31, "Oireachtas debate speeches on our ground (Ireland weekly)"),
     # Austria (9 October 2026). MEASURED which re-stamp: both chambers' item
     # lists and both member lists are re-read whole every run, so items and
     # members move every week, recess included. A division is re-stamped only
@@ -595,7 +628,9 @@ PIPELINE_FEEDS = {
     # Divisions left out for the same reason as the US: a recess week cannot move them.
     "Australia weekly": ["au_bills", "au_members"],
     # All three are re-read whole and re-stamped every run (see FEEDS).
-    "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions"],
+    # ie_windows and ie_schedule_days move every run too (see FEEDS); the
+    # questions, speeches and schedule lines do not in a recess.
+    "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions", "ie_windows", "ie_schedule_days"],
     # Divisions left out for the same reason: a recess week cannot move them.
     "Austria weekly": ["at_items", "at_members"],
     # Re-read whole every run; votes are left out for the US's reason.
@@ -722,6 +757,16 @@ AWAITING_FIRST_RUN = {
     # stamps "US schedule" at the end of every stored run. Keyed on the step,
     # not on "US weekly", whose heartbeat already exists and would leave
     # these new tables crying wipe until the step first ran.
+    # A STEP heartbeat: tools/au_schedule.py stamps "AU week ahead" after
+    # every run that read the Register's list.
+    # A STEP heartbeat: tools/au_debates.py stamps "AU debates" after every
+    # run with no gap.
+    "AU debates": (("au_speeches", "au_debate_days"),
+                   "debates step added to Australia weekly 9 October 2026; its tables "
+                   "fill on the step's first run"),
+    "AU week ahead": (("au_instruments", "au_sitting_days", "au_parliaments"),
+                      "week-ahead step added to Australia weekly 9 October 2026; its "
+                      "tables fill on the step's first run"),
     "US schedule": (("us_schedule", "us_meetings", "us_schedule_weeks"),
                     "week-ahead step added to US weekly 9 October 2026; its tables "
                     "fill on the step's first run"),
@@ -750,6 +795,20 @@ AWAITING_FIRST_RUN = {
     "US record": (("us_record_days", "us_record_speeches", "us_record_bills"),
                   "Congressional Record step added to US weekly 9 October 2026; its "
                   "tables fill on the step's first run"),
+    # STEP heartbeats for Ireland's phase 2 (9 October 2026): each of
+    # tools/ie_schedule.py, ie_questions.py and ie_debates.py stamps its own
+    # source_runs row ('IE schedule' after every stored run, the other two
+    # after a run with no gap), because the Ireland weekly had its heartbeat
+    # before these tables existed.
+    "IE schedule": (("ie_schedule", "ie_schedule_days"),
+                    "week-ahead step added to Ireland weekly 9 October 2026; its tables "
+                    "fill on the step's first run"),
+    "IE questions": (("ie_questions",),
+                     "questions step added to Ireland weekly 9 October 2026; the table "
+                     "fills on the step's first run"),
+    "IE debates": (("ie_speeches",),
+                   "debates step added to Ireland weekly 9 October 2026; the table "
+                   "fills on the step's first run"),
     "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),

@@ -43,3 +43,27 @@ bills:
             why: "Online Safety Amendment (Fix Our Feeds) Bill 2026: platform recommender duties under the Online Safety Act."}
   "s1471": {areas: [7],
             why: "Online Safety and Other Legislation Amendment (My Face, My Rights) Bill 2025: likeness and deepfake rights under the Online Safety Act."}
+
+# --- principal Acts whose INSTRUMENTS are our ground (week ahead) -------------
+#
+# Added 9 October 2026 for tools/au_schedule.py, GROUNDWORK like the rest of
+# this file. A legislative instrument (rules, codes, standards, regulations)
+# is made under an Act and can be disallowed by either House within fifteen
+# sitting days of its tabling. The Federal Register of Legislation names the
+# Act each instrument is made under (its authorisedBy link), so an instrument
+# made under one of these Acts carries the Act's areas, BY THE REGISTER'S OWN
+# TITLE ID, never by name. Keys are Register title IDs, checked against
+# api.prod.legislation.gov.au/v1/titles on 9 October 2026.
+acts:
+  "C2021A00076": {areas: [6, 7],
+                  why: "Online Safety Act 2021: the eSafety Commissioner's industry codes and standards, the Basic Online Safety Expectations and the social media minimum age rules are all instruments under it."}
+  "C2004A02868": {areas: [5],
+                  why: "Sex Discrimination Act 1984: its regulations and exemptions touch the definition of sex."}
+  "C1961A00012": {areas: [9],
+                  why: "Marriage Act 1961: marriage celebrant and form-of-marriage regulations."}
+  "C2004A04863": {areas: [6],
+                  why: "Classification (Publications, Films and Computer Games) Act 1995: the classification guidelines and codes for what children can see."}
+  "C2004A01082": {areas: [10],
+                  why: "Research Involving Human Embryos Act 2002: embryo research licensing rules."}
+  "C2004A01081": {areas: [10],
+                  why: "Prohibition of Human Cloning for Reproduction Act 2002."}
