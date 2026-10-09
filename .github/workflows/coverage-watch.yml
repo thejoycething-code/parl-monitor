@@ -32,7 +32,6 @@ jobs:
     uses: ./.github/workflows/mini-check.yml
     with:
       job: COVERAGE
-      window-hours: 20
 
   coverage:
     needs: mini-check
