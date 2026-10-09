@@ -24,6 +24,17 @@ Markdown conventions parsed here:
     terms whose own words are ours but sit inside someone else's subject: a
     labour code's organ-donor leave is employment law, not transplant ethics
     (v1.16, 2 October 2026). Both brackets may follow one term, with first.
+  * a term may belong to some countries only:  "Ley 4/2023" [only: es]
+    (10 October 2026, X1/X2). A shared language list (Spanish for eighteen
+    countries, Portuguese for Brazil and Portugal) carries statute numbers,
+    national bodies and spelling variants that are one country's own; the
+    tag keeps them out of every other country's matching. The loader drops
+    a tagged term unless the collector names one of its countries.
+  * an addendum may extend another master:  **Extends:** qc
+    on its own line near the top. The generated file is the base master's
+    areas and exclusions with the addendum's terms appended, so France,
+    Belgium and Switzerland get Quebec's French plus their own words without
+    one character of taxonomy-qc.yaml changing.
   * - **Notes:** lines become YAML comments (the loader ignores prose)
   * global exclusions:                   - **Terms:** termination; conversion
   * version from the header line:        **Version 0.2 | ...**
@@ -50,6 +61,7 @@ NOTES = re.compile(r"^- \*\*Notes:\*\* (?P<note>.+)$")
 NAME = re.compile(r"^- \*\*Name:\*\* (?P<name>.+)$")
 EXCLUSIONS = re.compile(r"^- \*\*Terms:\*\* (?P<terms>.+)$")
 VERSION = re.compile(r"\*\*Version (?P<version>[0-9.]+)")
+EXTENDS = re.compile(r"^\*\*Extends:\*\* (?P<base>[a-z]+)\s*$")
 
 
 def split_terms(line):
@@ -104,7 +116,7 @@ def parse_master(text):
     return version, areas, exclusions
 
 
-GUARD = re.compile(r'\s*\[(?P<kind>with|without):\s*(?P<terms>[^\]]+)\]\s*$')
+GUARD = re.compile(r'\s*\[(?P<kind>with|without|only):\s*(?P<terms>[^\]]+)\]\s*$')
 
 
 def _split_guarded(term):
@@ -113,7 +125,13 @@ def _split_guarded(term):
     Brackets are peeled from the right, so `x [with: a] [without: b]` gives
     both lists; a bracket kind given twice is a master error, not a merge.
     """
-    lists = {"with": None, "without": None}
+    term, guards, vetoes, _only = _split_tagged(term)
+    return term, guards, vetoes
+
+
+def _split_tagged(term):
+    """_split_guarded plus the [only: ...] country tag (10 October 2026)."""
+    lists = {"with": None, "without": None, "only": None}
     while True:
         m = GUARD.search(term)
         if not m:
@@ -123,7 +141,8 @@ def _split_guarded(term):
             raise SystemExit("term %r has two [%s:] brackets" % (term, kind))
         lists[kind] = [g.strip() for g in m.group("terms").split(",") if g.strip()]
         term = term[:m.start()]
-    return term.strip(), lists["with"] or [], lists["without"] or []
+    return (term.strip(), lists["with"] or [], lists["without"] or [],
+            [c.lower() for c in (lists["only"] or [])])
 
 
 def _yaml_term(term):
@@ -133,13 +152,15 @@ def _yaml_term(term):
     terms are emitted bare unless YAML would misread them. A guarded term
     becomes a mapping, which is what the filter reads to require company.
     """
-    bare, guards, vetoes = _split_guarded(term)
-    if guards or vetoes:
+    bare, guards, vetoes, only = _split_tagged(term)
+    if guards or vetoes or only:
         parts = ["term: " + _yaml_term(bare)]
         if guards:
             parts.append("with: [%s]" % ", ".join(_yaml_term(g) for g in guards))
         if vetoes:
             parts.append("without: [%s]" % ", ".join(_yaml_term(g) for g in vetoes))
+        if only:
+            parts.append("only: [%s]" % ", ".join(only))
         return "{%s}" % ", ".join(parts)
     term = bare
     if term.startswith('"') and term.endswith('"'):
@@ -201,11 +222,66 @@ MASTERS = {
            os.path.join(ROOT, "config", "taxonomy-qc.yaml")),
 }
 
+# The country editions of 10 October 2026 (docs/country-decisions-2026-10-10.md,
+# X1, X2, X4). One file per LANGUAGE, not per country: "es" serves the
+# eighteen Spanish-speaking parliaments and "pt" Brazil and Portugal, with
+# country-only terms tagged [only: ...]; "nl" serves the Netherlands and
+# Flanders. "fr" and "atch" are ADDENDA (**Extends:**): Quebec's French plus
+# the words of France, Belgium and Switzerland, and Germany's German plus
+# Austria's and Switzerland's, so taxonomy-qc.yaml and taxonomy-de.yaml, and
+# with them Quebec and the Bundestag, are untouched.
+for _lang in ("es", "pt", "it", "nl", "pl", "hr", "sk", "hu", "fr", "atch"):
+    MASTERS[_lang] = (os.path.join(ROOT, "docs", "keyword-taxonomy-%s.md" % _lang),
+                      os.path.join(ROOT, "config", "taxonomy-%s.yaml" % _lang))
+
+
+def _base_of(text):
+    for line in text.splitlines()[:40]:
+        m = EXTENDS.match(line.strip())
+        if m:
+            return m.group("base")
+    return None
+
+
+def _merge_addendum(base, addendum):
+    """The base master's (version, areas, exclusions) with the addendum's
+    terms appended area by area, duplicates dropped. The addendum's version
+    and notes win; an area the addendum leaves out keeps the base's terms."""
+    _bv, base_areas, base_excl = base
+    version, add_areas, add_excl = addendum
+    areas = {}
+    for key, spec in base_areas.items():
+        merged = {"name": spec.get("name"), "note": spec.get("note"),
+                  "tier1": list(spec["tier1"]), "tier2": list(spec["tier2"])}
+        extra = add_areas.get(key)
+        if extra:
+            for tier in ("tier1", "tier2"):
+                for t in extra[tier]:
+                    if t not in merged[tier]:
+                        merged[tier].append(t)
+            if extra.get("note"):
+                merged["note"] = extra["note"]
+            if extra.get("name"):
+                merged["name"] = extra["name"]
+        areas[key] = merged
+    for key in add_areas:
+        if key not in areas:
+            raise SystemExit("addendum area %r is not in its base master" % key)
+    exclusions = list(base_excl) + [e for e in add_excl if e not in base_excl]
+    return version, areas, exclusions
+
 
 def generate(master=None, lang="en"):
     with open(master or MASTER, "r", encoding="utf-8") as handle:
         text = handle.read()
-    return emit_yaml(*parse_master(text), master=master or MASTER, lang=lang)
+    parsed = parse_master(text)
+    base = _base_of(text)
+    if base:
+        if base not in MASTERS or base == lang:
+            raise SystemExit("unknown base master %r" % base)
+        with open(MASTERS[base][0], "r", encoding="utf-8") as handle:
+            parsed = _merge_addendum(parse_master(handle.read()), parsed)
+    return emit_yaml(*parsed, master=master or MASTER, lang=lang)
 
 
 def main():

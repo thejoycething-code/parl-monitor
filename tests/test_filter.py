@@ -850,3 +850,33 @@ class AccentFoldingTests(unittest.TestCase):
         r = filt.filter_item(tax, wl, "Proyecto sobre ABORTÓ y anticoncepcion")
         self.assertEqual(r.tier, 1)
         self.assertEqual(sorted(r.matched_terms), ["aborto", "anticoncepción"])
+
+
+class CountryTagTests(unittest.TestCase):
+    """X1/X2 (10 October 2026): a shared language list tags a country's own
+    terms {term, only: [...]}; only that country's collector matches them."""
+
+    def setUp(self):
+        import tempfile, yaml
+        self.path = os.path.join(tempfile.mkdtemp(), "t.yaml")
+        with open(self.path, "w", encoding="utf-8") as fh:
+            yaml.safe_dump({"version": "t", "areas": {"5_sex_based_rights": {
+                "tier1": [{"term": '"Ley Trans"', "only": ["es"]}, '"identidad de género"'],
+                "tier2": []}}}, fh, allow_unicode=True)
+        self.wl = filt.Watchlist(entities=[], bill_titles=[], act_shorts=[])
+
+    def _terms(self, country):
+        tax = filt.load_taxonomy(self.path, country=country)
+        return [t[0] for t in tax.terms[5][1]]
+
+    def test_tagged_term_kept_for_its_country(self):
+        self.assertIn('"Ley Trans"', self._terms("es"))
+        self.assertIn('"Ley Trans"', self._terms("ES"))
+
+    def test_tagged_term_dropped_for_another_country_and_for_none(self):
+        self.assertNotIn('"Ley Trans"', self._terms("mx"))
+        self.assertNotIn('"Ley Trans"', self._terms(None))
+
+    def test_untagged_term_kept_everywhere(self):
+        for c in ("es", "mx", None):
+            self.assertIn('"identidad de género"', self._terms(c))

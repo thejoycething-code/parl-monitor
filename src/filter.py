@@ -159,9 +159,19 @@ class Taxonomy:
     exclusions: set
 
 
-def load_taxonomy(path):
+def load_taxonomy(path, country=None):
+    """Compile a generated taxonomy file.
+
+    country (10 October 2026): the shared language lists (taxonomy-es for
+    eighteen parliaments, taxonomy-pt for two) tag a country's own terms
+    {term, only: [...]}: its statute numbers, its institutions, its spelling.
+    A tagged term is kept only when `country` is one of them, so Spain's
+    "Ley 4/2023" never files a Mexican item, and a caller that names no
+    country gets the shared vocabulary alone. Untagged files are unaffected.
+    """
     with open(path, "r", encoding="utf-8") as handle:
         raw = yaml.safe_load(handle)
+    country = (country or "").lower() or None
     terms = {}
     for key, spec in (raw.get("areas") or {}).items():
         area = _area_number(key)
@@ -178,6 +188,9 @@ def load_taxonomy(path):
                 # labour code's "organ donor leave" says organ donor and is
                 # employment law, not transplant ethics.
                 guards, vetoes = [], []
+                if isinstance(t, dict) and t.get("only"):
+                    if country not in [str(c).lower() for c in t["only"]]:
+                        continue
                 if isinstance(t, dict):
                     guards = [_compile_term(g) for g in (t.get("with") or [])]
                     vetoes = [_compile_term(g) for g in (t.get("without") or [])]
