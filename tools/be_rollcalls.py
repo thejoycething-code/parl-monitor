@@ -3,7 +3,7 @@
 
     python3 tools/be_rollcalls.py                     # the current (56th) legislature
     python3 tools/be_rollcalls.py --dry-run           # parse the latest sitting, store nothing
-    python3 tools/be_rollcalls.py --reclassify        # re-apply watchlist-be, offline
+    python3 tools/be_rollcalls.py --reclassify        # re-apply taxonomy-nl, taxonomy-fr and watchlist-be, offline
     python3 tools/be_rollcalls.py --db /tmp/be.db --raw-dir /tmp/be-raw   # a scratch run
 
 PHASE 1 (9 October 2026). See docs/belgium-scope.md. No edition reads these
@@ -36,9 +36,11 @@ voor deze stemming? (Ja)"). The record then repeats "(Stemming/vote 2)". One
 division row is stored per electronic vote, and `subjects` lists every
 question its result decided.
 
-CLASSIFICATION. None on text until a Belgian term list is approved (the
-Germany precedent). Areas come only from config/watchlist-be.yaml, by
-dossier key; a division takes its dossier's.
+CLASSIFICATION (10 October 2026, BE1 approved): a dossier's Dutch title is
+matched against config/taxonomy-nl.yaml and its French title against
+config/taxonomy-fr.yaml, both loaded for country "be", and the areas are
+unioned with config/watchlist-be.yaml by dossier key. A division takes its
+dossier's areas plus whatever its own Dutch and French headings match.
 
 Separation guarantee: writes be_* tables and the shared gaps table only.
 ONE WRITER AT A TIME on the store.
@@ -60,9 +62,43 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import be_store, db, drain  # noqa: E402
+from src import filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "be-rollcalls"
+TAXONOMY_NL = os.path.join(ROOT, "config", "taxonomy-nl.yaml")
+TAXONOMY_FR = os.path.join(ROOT, "config", "taxonomy-fr.yaml")
+TAXONOMY_COUNTRY = "be"
+_TAX = {}
+_EMPTY_WL = filt.Watchlist(entities=[], bill_titles=[], act_shorts=[])
+
+
+def _taxonomies():
+    """(Dutch, French) taxonomies for Belgium, loaded once; None where absent."""
+    if not _TAX:
+        for lang, path in (("nl", TAXONOMY_NL), ("fr", TAXONOMY_FR)):
+            _TAX[lang] = (filt.load_taxonomy(path, country=TAXONOMY_COUNTRY)
+                          if os.path.exists(path) else None)
+    return _TAX["nl"], _TAX["fr"]
+
+
+def text_areas(text_nl, text_fr):
+    """(areas, terms) from the Dutch and the French text, each against its own list."""
+    areas, terms = set(), []
+    for tax, text in zip(_taxonomies(), (text_nl, text_fr)):
+        if tax is None or not text:
+            continue
+        res = filt.filter_item(tax, _EMPTY_WL, text)
+        areas.update(res.issue_areas)
+        terms += [t for t in res.matched_terms if t not in terms]
+    return areas, terms
+
+
+def classify(key, text_nl, text_fr, wl_path=None):
+    """(areas, matched_terms): the watchlist by key unioned with the text."""
+    w_areas, w_terms = be_store.watch_areas(key, wl_path)
+    t_areas, t_terms = text_areas(text_nl, text_fr)
+    return sorted(set(w_areas) | t_areas), list(w_terms) + t_terms
 HOST = "https://www.lachambre.be"
 CRAWL_DELAY_S = 5.0                 # robots.txt, measured 9 October 2026
 CURRENT_LEGISLATURE = 56            # elected 9 June 2024
@@ -540,7 +576,30 @@ def _upsert_dossier(conn, legislature, number, today, **fields):
     if cols:
         conn.execute("UPDATE be_dossiers SET {0} WHERE dossier_key=?".format(
             ", ".join("{0}=?".format(c) for c in cols)), list(cols.values()) + [key])
+    classify_dossier(conn, key)
     return key
+
+
+def classify_dossier(conn, key, wl_path=None):
+    row = conn.execute("SELECT title_nl, title_fr FROM be_dossiers WHERE dossier_key=?",
+                       (key,)).fetchone()
+    if not row:
+        return [], []
+    areas, terms = classify(key, row[0], row[1], wl_path)
+    conn.execute("UPDATE be_dossiers SET areas=?, matched_terms=? WHERE dossier_key=?",
+                 (be_store.dumps(areas), be_store.dumps(terms), key))
+    return areas, terms
+
+
+def division_areas(conn, dossier_key, heading_nl, heading_fr, wl_path=None):
+    """A division's areas: its dossier's (stored, text included) plus its own headings."""
+    areas, terms = classify(dossier_key, heading_nl, heading_fr, wl_path)
+    row = conn.execute("SELECT areas, matched_terms FROM be_dossiers WHERE dossier_key=?",
+                       (dossier_key or "",)).fetchone()
+    if row:
+        areas = sorted(set(areas) | set(json.loads(row[0] or "[]")))
+        terms += [t for t in json.loads(row[1] or "[]") if t not in terms]
+    return areas, terms
 
 
 def pull_index(conn, client, today, legislature=CURRENT_LEGISLATURE, log=print):
@@ -643,7 +702,7 @@ def store_sitting(conn, legislature, number, raw, parsed, today, index=None):
     index = index if index is not None else member_index(conn)
     unresolved = set()
     for d in parsed["divisions"]:
-        areas, terms = be_store.watch_areas(d["dossier_key"])
+        areas, terms = division_areas(conn, d["dossier_key"], d.get("heading_nl"), d.get("heading_fr"))
         conn.execute(
             "INSERT INTO be_divisions (division_key, legislature, sitting, vote_no, date, "
             "dossier_key, doc_refs, heading_nl, heading_fr, subjects, kind, yes, no, abstain, outcome, "
@@ -730,16 +789,16 @@ def pull_sittings(conn, client, today, legislature=CURRENT_LEGISLATURE, budget=N
 # --- offline -------------------------------------------------------------------
 
 def reclassify(conn, log=print, wl_path=None):
-    """Re-apply config/watchlist-be.yaml to every stored dossier and division."""
+    """Re-apply the taxonomies and config/watchlist-be.yaml to every stored
+    dossier and division, offline."""
     changed_d = changed_v = 0
     for key, areas in conn.execute("SELECT dossier_key, areas FROM be_dossiers").fetchall():
-        new, terms = be_store.watch_areas(key, wl_path)
+        new, terms = classify_dossier(conn, key, wl_path)
         changed_d += be_store.dumps(new) != (areas or "[]")
-        conn.execute("UPDATE be_dossiers SET areas=?, matched_terms=? WHERE dossier_key=?",
-                     (be_store.dumps(new), be_store.dumps(terms), key))
-    for key, dossier, areas in conn.execute(
-            "SELECT division_key, dossier_key, areas FROM be_divisions").fetchall():
-        new, terms = be_store.watch_areas(dossier, wl_path)
+    for key, dossier, areas, h_nl, h_fr in conn.execute(
+            "SELECT division_key, dossier_key, areas, heading_nl, heading_fr "
+            "FROM be_divisions").fetchall():
+        new, terms = division_areas(conn, dossier, h_nl, h_fr, wl_path)
         changed_v += be_store.dumps(new) != (areas or "[]")
         conn.execute("UPDATE be_divisions SET areas=?, matched_terms=? WHERE division_key=?",
                      (be_store.dumps(new), be_store.dumps(terms), key))

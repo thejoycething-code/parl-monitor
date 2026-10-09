@@ -158,3 +158,29 @@ def add_watch_areas(res, zaak_nummer, dossier_keys, path=None):
 
 def dumps(values):
     return json.dumps(values or [], ensure_ascii=False)
+
+
+def derived_member_positions(conn, besluit_id):
+    """Each member's position on one vote (X5, Chris, 10 October 2026:
+    derive member records from the group, labelled as derived).
+
+    A roll call (kind 'lid') records each member: `derived` False. A show of
+    hands records one position per fractie, and each member of that fractie
+    is given it with `derived` True. The fractie is the member's latest
+    (nl_members.fractie); the vote's own fractie label is kept in `party`.
+    Nothing is written.
+    """
+    out = []
+    rows = conn.execute("SELECT kind, fractie, persoon_id, actor, position FROM nl_votes "
+                        "WHERE besluit_id=? ORDER BY fractie, actor", (besluit_id,)).fetchall()
+    for kind, fractie, persoon_id, actor, position in rows:
+        if kind == "lid":
+            out.append({"member_id": persoon_id, "name": actor, "party": fractie,
+                        "position": position, "derived": False, "basis": "roll call"})
+            continue
+        for pid, name in conn.execute(
+                "SELECT persoon_id, name FROM nl_members WHERE fractie=? ORDER BY name", (fractie,)):
+            out.append({"member_id": pid, "name": name, "party": fractie,
+                        "position": position, "derived": True,
+                        "basis": "fractie vote; member's latest fractie"})
+    return out

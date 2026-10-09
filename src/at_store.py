@@ -145,3 +145,32 @@ def add_watch_areas(res, item_key, path=None):
 
 def dumps(values):
     return json.dumps(values or [], ensure_ascii=False)
+
+
+def derived_member_positions(conn, division_key):
+    """Each member's position on one division, DERIVED from their Klub's
+    (X5, Chris, 10 October 2026: party-group countries derive member records
+    from the group, labelled as derived).
+
+    The Nationalrat and Bundesrat record only the Klub's vote, so every row
+    here is an inference and says so: `derived` is always True and `basis`
+    names the rule. The member's Klub is the latest seen (at_members keeps no
+    history), so a member who changed Klub is attributed by today's Klub;
+    `basis` says that too. Nothing is written: a derivation is computed when
+    asked, never stored beside the record as if it were one.
+    """
+    div = conn.execute("SELECT body FROM at_divisions WHERE division_key=?",
+                       (division_key,)).fetchone()
+    if not div or div[0] not in ("NR", "BR"):
+        return []          # committees: no membership list to derive from
+    out = []
+    for klub, position in conn.execute(
+            "SELECT klub, position FROM at_votes WHERE division_key=? ORDER BY klub",
+            (division_key,)):
+        for pad, name in conn.execute(
+                "SELECT pad, name FROM at_members WHERE chamber=? AND klub=? ORDER BY name",
+                (div[0], klub)):
+            out.append({"member_id": pad, "name": name, "party": klub,
+                        "position": position, "derived": True,
+                        "basis": "Klub vote; member's latest Klub"})
+    return out

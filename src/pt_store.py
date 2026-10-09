@@ -174,3 +174,36 @@ def add_watch_areas(res, ini_key, path=None):
 
 def dumps(values):
     return json.dumps(values or [], ensure_ascii=False)
+
+
+def derived_member_positions(conn, division_key):
+    """Each deputy's position on one division (X5, Chris, 10 October 2026:
+    derive member records from the group, labelled as derived).
+
+    A deputy NAMED in the record (pt_votes) is a fact: `derived` False. Every
+    other deputy of a group with a whole-group row (members NULL) is given
+    that group's position with `derived` True. Counted blocks on a free vote
+    ('60-PSD') are never spread over unnamed deputies: which sixty is not in
+    the record. The group is the deputy's latest (pt_members.party). Nothing
+    is written.
+    """
+    out, named = [], set()
+    for name, party, position, cad_id in conn.execute(
+            "SELECT name, party, position, cad_id FROM pt_votes WHERE division_key=? "
+            "ORDER BY name", (division_key,)):
+        out.append({"member_id": cad_id, "name": name, "party": party,
+                    "position": position, "derived": False, "basis": "named in the record"})
+        if cad_id is not None:
+            named.add(cad_id)
+    for party, position in conn.execute(
+            "SELECT party, position FROM pt_group_votes WHERE division_key=? AND members IS NULL "
+            "ORDER BY party", (division_key,)):
+        for cad_id, name in conn.execute(
+                "SELECT cad_id, name FROM pt_members WHERE party=? AND situation LIKE 'Efetiv%' "
+                "ORDER BY name", (party,)):
+            if cad_id in named:
+                continue
+            out.append({"member_id": cad_id, "name": name, "party": party,
+                        "position": position, "derived": True,
+                        "basis": "group vote; deputy's latest group"})
+    return out

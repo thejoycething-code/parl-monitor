@@ -67,7 +67,7 @@ SCHEMA = (
         authors      TEXT,               -- JSON [[member_key, 'Forename, Surname', group], ...]
         eurovoc      TEXT,               -- JSON list of every Eurovoc descriptor (FR)
         detail_read  TEXT,               -- date the dossier page was last read; NULL never
-        areas        TEXT,               -- JSON; config/watchlist-be.yaml by key, nothing else yet
+        areas        TEXT,               -- JSON; taxonomy-nl + taxonomy-fr on the titles, and watchlist-be by key
         matched_terms TEXT,              -- JSON; 'watch:56/1338'
         first_seen   TEXT,
         last_seen    TEXT

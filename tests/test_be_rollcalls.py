@@ -430,5 +430,21 @@ class ScheduleTests(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(ROOT, "jobs", "be-weekly.sh")))
 
 
+class TextClassificationTests(unittest.TestCase):
+    """BE1 approved (10 October 2026): Dutch titles against taxonomy-nl,
+    French against taxonomy-fr, both for country "be", unioned with the
+    watchlist."""
+
+    def test_dutch_and_french_titles_classify(self):
+        areas, terms = ber.text_areas("Wetsvoorstel tot wijziging van de wet betreffende de euthanasie",
+                                      "Proposition de loi modifiant la loi relative à l'euthanasie")
+        self.assertIn(2, areas)
+
+    def test_an_unrelated_title_stays_empty(self):
+        areas, _ = ber.text_areas("Wetsvoorstel betreffende de spoorwegen",
+                                  "Proposition de loi relative aux chemins de fer")
+        self.assertEqual(sorted(areas), [])
+
+
 if __name__ == "__main__":
     unittest.main()
