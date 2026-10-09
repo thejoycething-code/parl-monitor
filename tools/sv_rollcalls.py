@@ -227,21 +227,45 @@ def pieza_key(legislature, session, orden):
 
 # --- the vote PDF --------------------------------------------------------------------
 
+KNOWN_PARTIES = ("NUEVAS IDEAS", "ARENA", "PCN", "PDC", "VAMOS", "FMLN", "GANA",
+                 "NUESTRO TIEMPO", "CD")
+
+
 def parse_vote_pdf(raw):
     """The vote PDF as a dict, or None when no text could be read.
 
     {meeting, vote_name, started, totals: {SI, NO, ABST, No Votado},
-     groups: {party: [yes, no]}, positions: [(name, party, position)]}"""
+     groups: {party: [yes, no]}, positions: [(name, party, position)]}
+
+    Two layouts, both measured on 9 October 2026 in the 2024-2027
+    legislature. From late July 2025 the export is in English ("Meeting:",
+    "Vote name:", "Individual Voting Results"), positions grouped by
+    position with the party on each line ("KALEFF BONILLA<tab>NUEVAS
+    IDEAS"). Before that it is in Spanish ("Reunión:", "Nombre de Voto:",
+    "Resultados de Votos Individuales"), positions grouped by party, then by
+    position, one name a line in mixed case ("Francisco Lira"); the first
+    page is an image of the totals and carries no text. Names are stored as
+    printed: the two layouts spell the same deputy differently."""
     pages = sv_pdf.pdf_lines(raw)
     lines = [ln for p in pages for ln in p]
     if not lines:
         return None
-    out = {"meeting": None, "vote_name": None, "started": None, "totals": {},
-           "groups": {}, "positions": []}
+    if any(ln.startswith(("Nombre de Voto", "Resultados de Votos")) for ln in lines):
+        return _parse_vote_es(lines)
+    return _parse_vote_en(lines)
+
+
+def _blank():
+    return {"meeting": None, "vote_name": None, "started": None, "totals": {},
+            "groups": {}, "positions": []}
+
+
+def _parse_vote_en(lines):
+    out = _blank()
     i = 0
     section = None
     position = None
-    name_lines = []
+    raw_positions = []
     while i < len(lines):
         ln = lines[i]
         cells = ln.split("\t")
@@ -269,35 +293,80 @@ def parse_vote_pdf(raw):
             out["totals"][POSITIONS[head]] = int(cells[-1])
         elif section == "groups":
             nums = [c for c in cells[1:] if c.strip().isdigit()]
-            if head.startswith("Total"):
-                pass
-            elif head and nums and not head.endswith(":"):
+            if head and nums and not head.endswith(":") and not head.startswith("Total"):
                 out["groups"][head] = [int(n) for n in nums]
         elif section == "individual":
             if ln.strip() in POSITIONS or head in POSITIONS and len(cells) == 1:
                 position = POSITIONS.get(ln.strip()) or POSITIONS[head]
             elif position and ln.strip() not in (".", ""):
-                out["positions"].append((None, ln, position))
+                raw_positions.append((ln, position))
         i += 1
-    parties = sorted(set(out["groups"]) | {"NUEVAS IDEAS", "ARENA", "PCN", "PDC", "VAMOS",
-                                             "FMLN", "GANA", "NUESTRO TIEMPO", "CD"},
-                     key=len, reverse=True)
-    positions = []
-    for _, ln, pos in out["positions"]:
+    parties = sorted(set(out["groups"]) | set(KNOWN_PARTIES), key=len, reverse=True)
+    for ln, pos in raw_positions:
         text = re.sub(r"\s+", " ", ln.replace("\t", " ")).strip()
         party = next((p for p in parties if text.upper().endswith(" " + p)), None)
         name = text[:-len(party)].strip() if party else text
-        positions.append((name, party, pos))
-    out["positions"] = positions
+        out["positions"].append((name, party, pos))
+    return out
+
+
+_ES_POSITIONS = {"SI:": "SI", "SÍ:": "SI", "NO:": "NO", "ABST.": "ABST", "ABST:": "ABST",
+                 "No se Votó": "No Votado", "No se votó": "No Votado", "No Votado": "No Votado"}
+
+
+def _parse_vote_es(lines):
+    out = _blank()
+    section = None
+    party = None
+    position = None
+    for ln in lines:
+        cells = [c.strip() for c in ln.split("\t")]
+        head = cells[0]
+        rest = " ".join(cells[1:]).strip()
+        if head == "Reunión:":
+            out["meeting"] = rest
+        elif head == "Nombre de Voto:":
+            out["vote_name"] = rest
+        elif head == "Inicio de los votos:":
+            out["started"] = _iso_ts(rest)
+        elif ln.startswith("Resultados de Votos Totales"):
+            section = "totals"
+        elif ln.startswith("Resultados de Votos en Grupo"):
+            section, party = "groups", None
+        elif ln.startswith("Resultados de Votos Individuales"):
+            section, party, position = "individual", None, None
+        elif section == "totals":
+            if head in _ES_POSITIONS and len(cells) > 1 and cells[1].isdigit():
+                out["totals"][_ES_POSITIONS[head]] = int(cells[1])
+        elif section == "groups":
+            if ln.strip().upper() in KNOWN_PARTIES or (len(cells) == 1 and ln.isupper() and head not in _ES_POSITIONS):
+                party = ln.strip()
+                out["groups"].setdefault(party, [0, 0])
+            elif party and head in ("SI:", "SÍ:", "NO:") and len(cells) > 1 and cells[1].isdigit():
+                out["groups"][party][0 if head != "NO:" else 1] = int(cells[1])
+        elif section == "individual":
+            if ln.strip() in out["groups"] or ln.strip().upper() in KNOWN_PARTIES:
+                party, position = ln.strip(), None
+            elif ln.strip() in _ES_POSITIONS:
+                position = _ES_POSITIONS[ln.strip()]
+            elif party and position and ln.strip() not in (".", ""):
+                out["positions"].append((re.sub(r"\s+", " ", ln.replace("\t", " ")).strip(), party, position))
+    if "No Votado" not in out["totals"] and out["positions"]:
+        out["totals"]["No Votado"] = sum(1 for p in out["positions"] if p[2] == "No Votado")
     return out
 
 
 def _iso_ts(text):
-    m = re.match(r"\s*(\d{1,2})/(\d{1,2})/(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})", text or "")
+    m = re.match(r"\s*(\d{1,2})/(\d{1,2})/(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})\s*([ap])?", text or "", re.I)
     if not m:
         return None
-    d, mo, y, h, mi, s = (int(x) for x in m.groups())
-    return "{0}-{1:02d}-{2:02d}T{3:02d}:{4:02d}:{5:02d}".format(y, mo, d, h, mi, s)
+    d, mo, y, h, mi, sec = (int(x) for x in m.groups()[:6])
+    ampm = (m.group(7) or "").lower()
+    if ampm == "p" and h < 12:
+        h += 12
+    elif ampm == "a" and h == 12:
+        h = 0
+    return "{0}-{1:02d}-{2:02d}T{3:02d}:{4:02d}:{5:02d}".format(y, mo, d, h, mi, sec)
 
 
 # --- the members page -----------------------------------------------------------------
