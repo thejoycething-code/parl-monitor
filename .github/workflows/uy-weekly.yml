@@ -1,14 +1,15 @@
 name: Uruguay weekly
 on:
   schedule:
-    # Saturday 09:30 UTC, retry 12:30 UTC (9 October 2026). The Cámara de
+    # Sunday 08:00 UTC, retry 11:00 UTC (9 October 2026). The Cámara de
     # Representantes sits on Tuesdays and Wednesdays; its open-data files are
     # regenerated every evening (Last-Modified about 18:30 UTC), and IMPO
     # publishes a law about a week after promulgation, so once a week is
-    # enough. Clear of every other workflow's cron on main: Saturday holds
-    # 05:30, 06:00, 07:00, 10:00, 14:00, 18:00, 21:00 and 23:00 only.
-    - cron: "30 9 * * 6"
-    - cron: "30 12 * * 6"
+    # enough. Moved from Saturday 09:30/12:30 at the countries merge (10
+    # October 2026): Saturday had no free pair of slots left, and Sunday
+    # 08:00 and 11:00 were clear.
+    - cron: "0 8 * * 0"
+    - cron: "0 11 * * 0"
   workflow_dispatch:
     inputs:
       reclassify:
@@ -32,10 +33,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # The Mac Mini runs this on Saturdays at 09:30 London (tools/mini_run.sh
+  # The Mac Mini runs this on Sundays at 08:00 London (tools/mini_run.sh
   # uy-weekly); these crons are the backup. The Mini runs ONCE for both
-  # slots, so its run must count for the 12:30 retry too: at 09:30 London in
-  # summer it stamps 08:30 UTC, four hours before that slot, hence a grace
+  # slots, so its run must count for the 11:00 retry too: at 08:00 London in
+  # summer it stamps 07:00 UTC, four hours before that slot, hence a grace
   # of 260 minutes rather than the default 75.
   mini-check:
     uses: ./.github/workflows/mini-check.yml
@@ -44,7 +45,7 @@ jobs:
       grace-minutes: 260
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
-  # when the 09:30 backup already ran today, 12:30 has nothing to do.
+  # when the 08:00 backup already ran today, 11:00 has nothing to do.
   gate:
     needs: mini-check
     if: needs.mini-check.outputs.run == 'true'
