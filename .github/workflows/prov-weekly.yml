@@ -265,6 +265,17 @@ jobs:
         timeout-minutes: 20
         run: python3 tools/prov_speeches.py --prov qc --resume --budget-seconds 600 | tee /tmp/prov-sp-qc.log
 
+      # --- The judge, only on Christopher's yes ---------------------------------
+      # tools/prov_triage.py runs only when the repository variable PROV_JUDGE
+      # is 'on' (SPEND NEEDS A YES, 5 August 2026). It is not on: the backlog
+      # on 9 October 2026 was 426 items, about $1.01 by --dry-run.
+      - name: Judge (PROV_JUDGE)
+        if: always() && steps.fetch.outcome == 'success' && vars.PROV_JUDGE == 'on' && (github.event_name == 'schedule' || inputs.provinces == '')
+        timeout-minutes: 25
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 tools/prov_triage.py --budget-seconds 1200 | tee /tmp/prov-triage.log
+
       # --- The backfill, only when dispatched with `provinces` ---------------
       - name: "Backfill: every listed session since the chosen date"
         if: always() && steps.fetch.outcome == 'success' && inputs.provinces != '' && inputs.speeches_since == ''
@@ -357,6 +368,28 @@ jobs:
       - name: 5CA sheets, Quebec
         if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
         run: python3 tools/prov_5ca.py --prov qc --all | tee /tmp/prov-5ca-qc.log
+      - name: Write secrets file
+        # The DM goes to Christopher alone (9 October 2026), as for the US and
+        # Irish editions.
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        run: |
+          cat > config/secrets.yaml <<EOF
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: Edition and DM
+        # tools/prov_monitor.py, after the 5CA sheets it quotes. SPEAKS ONCE
+        # A DAY: an edition already committed for today (the Mini ran) is
+        # rewritten, not resent.
+        if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          if git ls-files --error-unmatch "editions/prov-monitor-$TODAY.md" >/dev/null 2>&1; then
+            echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+            python3 tools/prov_monitor.py --edition | tee /tmp/prov-monitor.log
+          else
+            python3 tools/prov_monitor.py --edition --dm | tee /tmp/prov-monitor.log
+          fi
       - name: "5CA sheets, the backfilled provinces"
         if: always() && steps.fetch.outcome == 'success' && inputs.provinces != ''
         env:
@@ -418,7 +451,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ editions/
           git diff --cached --quiet || git commit -m "Provinces weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
           # jittered waits, and never retry while stuck mid-rebase.
