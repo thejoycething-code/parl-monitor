@@ -8,18 +8,31 @@ name: Mexico probe
 on:
   push:
     branches: [mexico]
-    paths: [.github/workflows/mx-probe.yml, ops/mx-probe-args.txt]
+    paths: [.github/workflows/mx-probe.yml, ops/mx-probe-args.txt, ops/mx-probe-collect]
 permissions:
   contents: read
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 58
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Collector, live, into a scratch store (never the real one)
+        if: hashFiles('ops/mx-probe-collect') != ''
+        run: |
+          python3 tools/mx_rollcalls.py --dry-run
+          rc=0
+          python3 tools/mx_rollcalls.py --db /tmp/mx-scratch.db --budget-seconds 2100 2>&1 | tee collector.log || rc=$?
+          echo "collector exit $rc"
+          mkdir -p scratch && cp /tmp/mx-scratch.db scratch/ || true
       - name: TLS chains (why urllib refuses sitl, web and sil)
         run: |
           for h in sitl.diputados.gob.mx web.diputados.gob.mx sil.gobernacion.gob.mx gaceta.diputados.gob.mx; do
@@ -42,4 +55,6 @@ jobs:
             data/raw
             probe.log
             tls.log
+            collector.log
+            scratch
           retention-days: 7
