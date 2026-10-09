@@ -56,7 +56,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, us_store  # noqa: E402
+from src import db, us_states_store, us_store  # noqa: E402
 
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 REPO = "https://github.com/thejoycething-code/parl-monitor/blob/main/"
@@ -730,6 +730,104 @@ def executive_court_tops(conn, since, today):
     return out
 
 
+# --- the fifty states (tools/us_states.py, 9 October 2026) -------------------
+
+# What each state calls its chambers. Open States says only 'lower' and
+# 'upper'; "the House" is wrong for the Assembly of California or the House
+# of Delegates of Virginia. Nebraska has one chamber ('legislature').
+LOWER_NAME = {"ca": "Assembly", "ny": "Assembly", "nv": "Assembly", "wi": "Assembly",
+              "nj": "General Assembly", "md": "House of Delegates", "va": "House of Delegates",
+              "wv": "House of Delegates"}
+STATE_EVENTS = (("law_at", "signed into law"), ("vetoed_at", "vetoed"),
+                ("passed_upper_at", "passed"), ("passed_lower_at", "passed"),
+                ("introduced_at", "introduced"))
+
+
+def chamber_name(state, chamber):
+    if chamber == "upper":
+        return "Senate"
+    if chamber == "legislature" or state == "ne":
+        return "Legislature"
+    return LOWER_NAME.get(state, "House")
+
+
+def state_event(r, since, today):
+    """(rank, label) for the furthest step a state bill took in the window,
+    or None: signed, vetoed, passed a chamber, or introduced."""
+    resolution = "resolution" in (r["classification"] or "")
+    for rank, (col, label) in enumerate(STATE_EVENTS):
+        d = r[col]
+        if d and since < d <= today:
+            if label == "passed":
+                chamber = chamber_name(r["state"], "upper" if col == "passed_upper_at" else "lower")
+                label = "{0} in the {1}".format("adopted" if resolution else "passed", chamber)
+            return rank, label, d
+    return None
+
+
+def states_week(conn, since, today):
+    """[(row, (rank, label, date))] for state bills on our ground that moved."""
+    rows = _rows(conn, "SELECT * FROM uss_bills WHERE latest_action_at > ? OR introduced_at > ?",
+                 (since, since))
+    out = []
+    for r in rows:
+        ev = state_event(r, since, today)
+        if ev:
+            out.append((r, ev))
+    return out
+
+
+def states_section(conn, since, today, names):
+    week = states_week(conn, since, today)
+    read = safe_count(conn, "SELECT COUNT(DISTINCT state) FROM uss_sessions WHERE read_at IS NOT NULL")
+    out = ["## The states", "",
+           "*The fifty state legislatures, through Open States: bills on our ground that were "
+           "signed, vetoed, passed a chamber or were introduced this week, by state. Matched on "
+           "the title, the state's subject terms and its abstract, where the state gives them "
+           "(many give neither).*", ""]
+    if not read:
+        out += ["*Not read yet: no state legislature has been collected.*", ""]
+        return out
+    by_state = {}
+    for r, ev in week:
+        by_state.setdefault(r["state"], []).append((r, ev))
+    signed = sum(ev[1] == "signed into law" for _, ev in week)
+    passed = sum(ev[1].startswith(("passed", "adopted")) for _, ev in week)
+    new = sum(ev[1] == "introduced" for _, ev in week)
+    out.append("**{0} signed into law, {1} passed a chamber, {2} introduced**, in {3} "
+               "state(s).".format(signed, passed, new, len(by_state)))
+    out.append("")
+    for st in sorted(by_state, key=lambda s: us_states_store.STATES.get(s, s)):
+        out += ["### {0}".format(us_states_store.STATES.get(st, st.upper())), ""]
+        for r, (rank, label, d) in sorted(by_state[st], key=lambda x: (x[1][0], x[0]["bill_key"])):
+            ident = "{0} {1}".format(st.upper(), r["identifier"])
+            link = "[{0}]({1})".format(ident, r["url"]) if r["url"] else ident
+            out.append("- {0} {1}: {2}. *{3} {4}; areas: {5}.*".format(
+                score_mark(r["triage_score"]), link, clip(r["title"], 110), label.capitalize(), d,
+                names_of(visible(r["areas"]), names)))
+            if r["why_it_matters"]:
+                out.append("  - *{0}*".format(oneline(r["why_it_matters"])))
+        out.append("")
+    if not week:
+        sitting = conn.execute(
+            "SELECT DISTINCT state FROM uss_sessions WHERE start_date <= ? AND end_date >= ?",
+            (today, today)).fetchall()
+        out += ["*Nothing on our ground moved in the states this week.* {0} of 50 "
+                "legislatures read; {1} with a session open today by Open States' dates "
+                "({2}).".format(read, len(sitting), ", ".join(
+                    sorted(r[0].upper() for r in sitting)) or "none"), ""]
+    return out
+
+
+def states_tops(conn, since, today):
+    week = states_week(conn, since, today)
+    laws = [(r, ev) for r, ev in week if ev[1] == "signed into law"]
+    if not laws:
+        return []
+    return ["- **{0} state bill(s) on our ground signed into law this week** ({1}).".format(
+        len(laws), ", ".join(sorted({r["state"].upper() for r, _ in laws})))]
+
+
 def render_edition(conn, today):
     conn.row_factory = sqlite3.Row
     names = area_names()
@@ -787,6 +885,7 @@ def render_edition(conn, today):
                     "enacted and have fallen; any that return must be re-introduced under a new "
                     "number.".format(ordinal(cur - 1), len(fell)))
     tops += executive_court_tops(conn, since, today)
+    tops += states_tops(conn, since, today)
     out += tops or ["*Nothing moved on our ground this week.*"]
     out.append("")
 
@@ -856,6 +955,7 @@ def render_edition(conn, today):
 
     out += [""] + executive_section(conn, since, today, names)
     out += court_section(conn, since, today, names)
+    out += states_section(conn, since, today, names)
 
     # Coverage
     n = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
@@ -890,10 +990,19 @@ def render_edition(conn, today):
                 safe_count(conn, "SELECT COUNT(*) FROM us_court_cases WHERE kind='opinion'"),
                 safe_count(conn, "SELECT COUNT(*) FROM us_court_cases WHERE kind='grant'"),
                 len(_rows(conn, "SELECT areas FROM us_court_cases"))),
+            "- **State legislatures** (Open States): {0} bills on our ground kept from {1} "
+            "state(s), {2} recorded votes with every legislator's position; {3} of 50 "
+            "legislatures read, the last on {4}.".format(
+                len(_rows(conn, "SELECT areas FROM uss_bills")),
+                safe_count(conn, "SELECT COUNT(DISTINCT state) FROM uss_bills"),
+                safe_count(conn, "SELECT COUNT(*) FROM uss_votes"),
+                safe_count(conn, "SELECT COUNT(DISTINCT state) FROM uss_sessions "
+                                 "WHERE read_at IS NOT NULL"),
+                (conn.execute("SELECT MAX(read_at) FROM uss_sessions").fetchone()[0]
+                 if safe_count(conn, "SELECT COUNT(*) FROM uss_sessions") else None) or "never"),
             "- **Not yet collected:** the Congressional Record (floor debates), Federal "
-            "Register notices (only presidential documents and rules are read), Supreme Court "
-            "dockets beyond the granted cases, and the fifty state legislatures (needs the "
-            "Open States key).",
+            "Register notices (only presidential documents and rules are read), and Supreme "
+            "Court dockets beyond the granted cases.",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
             "- Specification and decisions: [docs/us-scope.md]({0}docs/us-scope.md).".format(REPO),
             ""]
@@ -925,6 +1034,13 @@ def dm_summary(conn, today, path=None):
     if ahead:
         lines.append(ahead)
     lines += [t.replace("**", "*") for t in executive_court_tops(conn, since, today)]
+    sweek = states_week(conn, since, today)
+    if sweek:
+        lines.append("States: {0} signed into law, {1} passed a chamber, {2} introduced on our "
+                     "ground.".format(sum(ev[1] == "signed into law" for _, ev in sweek),
+                                      sum(ev[1].startswith(("passed", "adopted"))
+                                          for _, ev in sweek),
+                                      sum(ev[1] == "introduced" for _, ev in sweek)))
     top = rank_bills([b for b in moved + new if stage(b, today)[0] <= 4 or b in new], today)[:5]
     for r in top:
         why = r["why_it_matters"]
