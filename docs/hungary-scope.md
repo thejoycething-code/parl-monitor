@@ -477,10 +477,15 @@ Later phases and items for Chris (not built at the merge):
   telecoms decree. **HU4 applied:** an amendment is stored with rule `HU4`
   and shown as watched whatever its words. **A taxonomy fix for Chris:**
   with accents folded, `válás*` (divorce) matches "választás" (election);
-  both of its hits in the term's gazette were elections. The collector
-  guards it (`FALSE_FRIENDS`); the guard belongs in
-  `docs/keyword-taxonomy-hu.md` as `{term: "válás*", without: ["választ*"]}`
-  when the list is next regenerated.
+  both of its hits in the term's gazette were elections. **Fixed at the
+  source, 10 October 2026 (taxonomy-hu v0.2, branch `hu-karzat`):**
+  `válás*` is replaced by its explicit forms (válás, válást, válási*,
+  válásá*, válások*, válásr*, ...), none of which folds to "valasz", so
+  neither "választás" (election) nor "válasz"/"választ" (answer, the word in
+  every interpellation-answer vote) matches; a veto on `választ*` would have
+  missed "válasz". The collector's `FALSE_FRIENDS` guard is gone. Measured
+  on the backfill: the two election entries stay off area 9, nothing else
+  changed, and the divorce forms still match.
 - **Backfill measured** (laptop, 9 October 2026, scratch store, not
   published; the Mini's first scheduled run makes the real one): 108
   issues from No. 44 of 9 May to No. 151 of 9 October, 736 contents

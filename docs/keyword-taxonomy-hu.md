@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Hungarian keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -78,8 +78,8 @@ Scope calls applied while merging:
 ### 9. Marriage and family {#9_marriage_family}
 
 - **Tier 1:** házasság*; "egy férfi és egy nő"; "anya nő, az apa férfi"; "élettársi kapcsolat*"; "bejegyzett élettárs*"; "azonos nemű*"; örökbefogad*; családtámogatás*; családpolitik*; családvédel*; "Családvédelmi Akcióterv*"; babaváró*; CSOK; "családi otthonteremtési kedvezmény*"; "családi adókedvezmény*"; "gyermekgondozási díj*"; GYED; GYES; "gyermeknevelési támogatás*"; "családi pótlék*"
-- **Tier 2:** családok*; családi*; családügy*; családbarát*; sokgyermekes*; nagycsalád*; demográfi*; népességfogy*; gyermekvállalás*; édesanyá*; anyák*; "szülési szabadság*"; "apasági szabadság*"; gyermekgondozás*; gyermektartás*; "szülői felügyelet*"; válás*; kapcsolattartás*
-- **Notes:** Hungary: Family benefits (CSOK, babaváró, GYED, GYES) at tier 1 as drafted.
+- **Tier 2:** családok*; családi*; családügy*; családbarát*; sokgyermekes*; nagycsalád*; demográfi*; népességfogy*; gyermekvállalás*; édesanyá*; anyák*; "szülési szabadság*"; "apasági szabadság*"; gyermekgondozás*; gyermektartás*; "szülői felügyelet*"; válás; válást; válási*; válásá*; válások*; válásuk*; válásr*; válásb*; válásn*; válásh*; válással; válásig; válásért; válástól; váláskor; kapcsolattartás*
+- **Notes:** Hungary: Family benefits (CSOK, babaváró, GYED, GYES) at tier 1 as drafted. Divorce (v0.2, 10 October 2026): `válás*` is replaced by its explicit forms, because accents fold (X3) and the stem then matched "választás" (election) and "válasz"/"választ" (answer, the word in every vote on accepting a minister's reply to an interpellation, HU5). Measured on the term's gazette: 2 of 2 `válás*` hits were elections, none a divorce; on karzat's term-43 votes, every interpellation-answer vote. The forms cover the case endings and the possessive (válása, válásának) and none folds to "valasz".
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 
