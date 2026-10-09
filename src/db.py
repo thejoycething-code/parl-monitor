@@ -1558,6 +1558,13 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Spain's Congreso de los Diputados (tools/es_rollcalls.py), created by
+    # src/es_store.ensure_schema -- declared from day one.
+    "es_members",
+    "es_initiatives",
+    "es_divisions",
+    "es_votes",
+    "es_vote_days",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1839,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import es_store
+    es_store.ensure_schema(conn)
     return conn
