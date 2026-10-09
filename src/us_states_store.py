@@ -126,8 +126,10 @@ SCHEMA = (
     )""",
     # Every legislator's position. Rewritten whole each time its vote is
     # read. person_id is NULL where Open States could not link the name
-    # (whole states: Alaska, Kansas, Missouri; see the scope doc): the name
-    # is kept, never matched to a person by guesswork.
+    # (Colorado links 18%, New Hampshire 56%; see the scope doc): the name
+    # is kept, never matched to a person by guesswork. Alaska and Missouri
+    # give vote totals with no positions at all; Alabama, Arkansas, Kansas
+    # and New Jersey give no votes.
     """CREATE TABLE IF NOT EXISTS uss_vote_people (
         vote_id      TEXT NOT NULL,
         seq          INTEGER NOT NULL,

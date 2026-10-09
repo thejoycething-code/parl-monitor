@@ -197,8 +197,8 @@ FEEDS = [
     # Every run re-stamps every session Open States lists (two keyed
     # requests), and the people file of each state it reaches, so both move
     # weekly. A stored bill or vote is re-stamped only when it MOVES, and
-    # most legislatures are out for months (in October 2026 only eight had
-    # a session open by Open States' dates, and 24 of the 50 had no bill
+    # most legislatures are out for months (in October 2026 only seven had
+    # a session open by Open States' dates, and 33 of the 50 had no bill
     # with an action in the week): but the full-time legislatures (New
     # Jersey, Pennsylvania, Michigan, Massachusetts, New York, Ohio) move
     # all year, so a month plus a month's grace, as for the roll calls,
