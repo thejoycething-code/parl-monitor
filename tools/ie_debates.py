@@ -232,6 +232,25 @@ def lead(text, n=EXCERPT):
     return t if len(t) <= n else t[:n - 3].rsplit(" ", 1)[0] + "..."
 
 
+def around(text, terms, n=EXCERPT):
+    """At most n characters of a long passage, around the first term it
+    matched, so the excerpt shows why the speech is listed."""
+    t = " ".join((text or "").split())
+    if len(t) <= n:
+        return t
+    low, at = t.lower(), -1
+    for term in terms or []:
+        word = str(term).split(":")[-1].rstrip("*").strip().lower()
+        hit = low.find(word) if word else -1
+        if hit >= 0 and (at < 0 or hit < at):
+            at = hit
+    if at < n - 100:
+        return lead(t, n)
+    start = t.rfind(" ", 0, max(0, at - 150)) + 1
+    body = t[start:start + n - 6]
+    return "... " + body[:body.rfind(" ")] + "..."
+
+
 def classify_speech(tax, wl, sp, bills):
     """(own_areas, areas, areas_from, terms, tier, excerpt): the rule in the
     module docstring."""
@@ -239,7 +258,7 @@ def classify_speech(tax, wl, sp, bills):
     matches = filt.match_passages(tax, wl, text)
     own, terms, excerpt = filt.aggregate_passages(matches, max_excerpt=EXCERPT)
     if excerpt and len(excerpt) > EXCERPT:
-        excerpt = lead(excerpt)
+        excerpt = around(excerpt, terms)
     if own:
         return sorted(own), sorted(own), "own", terms, 1, excerpt
     if sp["words"] < MIN_WORDS:

@@ -259,6 +259,12 @@ class DebateTests(unittest.TestCase):
         self.assertEqual(cls[2], "heading")
         self.assertIn(1, cls[1])
 
+    def test_a_long_excerpt_is_cut_around_the_term(self):
+        text = "word " * 200 + "the abortion law matters " + "more " * 200
+        e = ied.around(text, ["abortion"])
+        self.assertIn("abortion", e)
+        self.assertLessEqual(len(e), ied.EXCERPT)
+
     def test_own_words_win_over_anything_lent(self):
         cls = ied.classify_speech(TAX, WL, self._sp("The abortion figures are rising.",
                                                     bill_key="2026/76"), self.bills)
