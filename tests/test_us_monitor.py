@@ -170,6 +170,22 @@ class AmendmentPurposeLineTests(unittest.TestCase):
         self.assertNotIn("Ukraine", usm.render_edition(conn, TODAY))
 
 
+    def test_a_senate_purpose_is_labelled_with_the_vote_title(self):
+        """The Senate names no author; its vote title names the amendment."""
+        conn = store()
+        bill(conn, "119/s/1383", "A bill", [5], "Received in the Senate.", "2026-07-23")
+        vote(conn, "senate-119-2-60", "senate", 60, "2026-10-08", "119/s/1383", "S. 1383",
+             [5], [5])
+        conn.execute("UPDATE us_divisions SET description='Motion to Invoke Cloture: Tuberville "
+                     "Amdt. No. 4421 | To protect women and girls in athletics. | To protect women "
+                     "and girls in athletics.', amendment_text='To protect women and girls in "
+                     "athletics.', purpose_source='senate-vote'")
+        text = usm.render_edition(conn, TODAY)
+        self.assertIn("matched on amendment purpose", text)
+        self.assertIn("  - Motion to Invoke Cloture: Tuberville Amdt. No. 4421: To protect women "
+                      "and girls in athletics.", text)
+
+
 class RolloverTests(unittest.TestCase):
     """3 January 2027: the 119th ends, the 120th begins, the 119th's bills fall."""
     AFTER = "2027-01-15"
