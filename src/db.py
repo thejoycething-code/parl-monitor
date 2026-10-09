@@ -1702,6 +1702,13 @@ TABLES = (
     "ec_roster",
     "ec_divisions",
     "ec_votes",
+    # Guatemala's Congreso de la República (tools/gt_rollcalls.py), created
+    # by src/gt_store.ensure_schema -- declared from day one.
+    "gt_members",
+    "gt_initiatives",
+    "gt_sessions",
+    "gt_divisions",
+    "gt_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2014,4 +2021,6 @@ def init_db(conn):
     pe_store.ensure_schema(conn)
     from src import ec_store
     ec_store.ensure_schema(conn)
+    from src import gt_store
+    gt_store.ensure_schema(conn)
     return conn

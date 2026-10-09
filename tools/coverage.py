@@ -105,6 +105,8 @@ PIPELINES = {
     "Peru weekly": (7, 4, "Peru's Congress: Senado and Diputados members, proyectos, plenary votes"),
     # Scheduled 9 October 2026, Saturdays (ec-weekly.yml; the Mac Mini first).
     "Ecuador weekly": (7, 4, "Ecuador's Asamblea Nacional: plenary votes, members"),
+    # Scheduled 9 October 2026, Saturdays (gt-weekly.yml; the Mac Mini first).
+    "Guatemala weekly": (7, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -398,6 +400,17 @@ FEEDS = [
     ("ec_members", "last_seen", 7, 4, "Asamblea member register (Ecuador weekly)"),
     ("ec_roster", "last_seen", 7, 4, "Asamblea sitting roster (Ecuador weekly)"),
     ("ec_divisions", "last_seen", 7, 4, "Asamblea plenary votes (Ecuador weekly)"),
+    # Guatemala (9 October 2026). MEASURED which re-stamp: the deputy cards,
+    # the 500-initiative listing and the session list are re-read whole every
+    # run, so those three move every week. Divisions move only when a session
+    # is new or within the fortnight re-read, and the Congreso's ordinary
+    # periods run 14 January to 15 May and 1 August to 30 November: the
+    # mid-year recess is 77 days, hence a month plus two months' grace.
+    # gt_votes carries no sighting column.
+    ("gt_members", "last_seen", 7, 4, "Congreso deputies (Guatemala weekly)"),
+    ("gt_initiatives", "last_seen", 7, 4, "Congreso initiatives (Guatemala weekly)"),
+    ("gt_sessions", "last_seen", 7, 4, "Congreso plenary sessions (Guatemala weekly)"),
+    ("gt_divisions", "last_seen", 31, 62, "Congreso plenary votes (Guatemala weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -510,6 +523,8 @@ PIPELINE_FEEDS = {
     "Peru weekly": ["pe_bills", "pe_members"],
     # All three re-stamp every run (see FEEDS).
     "Ecuador weekly": ["ec_divisions", "ec_members", "ec_roster"],
+    # Divisions left out as for the US: a recess cannot move them.
+    "Guatemala weekly": ["gt_initiatives", "gt_members", "gt_sessions"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -561,6 +576,8 @@ AWAITING_FIRST_RUN = {
                     "scheduled 9 October 2026; its tables fill on its first run"),
     "Ecuador weekly": (("ec_members", "ec_roster", "ec_divisions"),
                        "scheduled 9 October 2026; its tables fill on its first run"),
+    "Guatemala weekly": (("gt_members", "gt_initiatives", "gt_sessions", "gt_divisions"),
+                         "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
