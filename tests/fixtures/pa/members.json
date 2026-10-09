@@ -1,0 +1,1356 @@
+{
+"data": [
+{
+"ID": 1,
+"Id_persona": 1,
+"Foto": "/Uploads/diputado/foto/1/publicacion_1.jpg",
+"Slug": "Marco_Castillero",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Herrera",
+"Circuito": "6-3",
+"Suplentes": "Arenas Peña, Marcelino",
+"Biografia": null,
+"Persona": {
+"ID": 1,
+"Nombres": "MARCOS ENRIQUE",
+"Apellidos": "CASTILLERO BARAHONA",
+"Nombre_Completo": "MARCOS ENRIQUE CASTILLERO BARAHONA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 2,
+"Id_persona": 2,
+"Foto": "/Uploads/diputado/foto/2/publicacion_2.jpg",
+"Slug": "JAIME_EDGARDO_VARGAS_CENTELLA",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Darién",
+"Circuito": "5-2",
+"Suplentes": "Chocho Chiripua, Arquimilio",
+"Biografia": null,
+"Persona": {
+"ID": 2,
+"Nombres": "JAIME EDGARDO",
+"Apellidos": "VARGAS CENTELLA",
+"Nombre_Completo": "JAIME EDGARDO VARGAS CENTELLA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 7,
+"Id_persona": 9,
+"Foto": "/Uploads/diputado/foto/7/publicacion_7.jpg",
+"Slug": "CRISPIANO_ADAMES_NAVARRO",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Panamá",
+"Circuito": "8-7",
+"Suplentes": "Sandoya Barsallo, Marta Estela",
+"Biografia": null,
+"Persona": {
+"ID": 9,
+"Nombres": "CRISPIANO",
+"Apellidos": "ADAMES NAVARRO",
+"Nombre_Completo": "CRISPIANO ADAMES NAVARRO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 46,
+"Id_persona": 48,
+"Foto": "/Uploads/diputado/foto/46/publicacion_46.jpg",
+"Slug": "NESTOR_ANTONIO_GUARDIA_JAEN",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Coclé",
+"Circuito": "2-1",
+"Suplentes": "Moreno Flores, Berta N.",
+"Biografia": null,
+"Persona": {
+"ID": 48,
+"Nombres": "NESTOR ANTONIO",
+"Apellidos": "GUARDIA JAEN",
+"Nombre_Completo": "NESTOR ANTONIO GUARDIA JAEN",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 49,
+"Id_persona": 51,
+"Foto": "/Uploads/diputado/foto/49/publicacion_49.jpg",
+"Slug": "BENICIO_ROBINSON",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Bocas del Toro",
+"Circuito": "1-1",
+"Suplentes": "BENICIO ROBINSON GONZÁLEZ",
+"Biografia": null,
+"Persona": {
+"ID": 51,
+"Nombres": "BENICIO",
+"Apellidos": "ROBINSON",
+"Nombre_Completo": "BENICIO ROBINSON",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 56,
+"Id_persona": 57,
+"Foto": "",
+"Slug": "JAIRO_SALAZAR",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Colón",
+"Circuito": "3-1",
+"Suplentes": "  SARA JISELA MAGALLÓN CAICEDO",
+"Biografia": null,
+"Persona": {
+"ID": 57,
+"Nombres": "JAIRO",
+"Apellidos": "SALAZAR",
+"Nombre_Completo": "JAIRO SALAZAR",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 57,
+"Id_persona": 58,
+"Foto": "/Uploads/diputado/foto/57/publicacion_57.jpg",
+"Slug": "JAVIER_SUCRE",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Panamá",
+"Circuito": "8-4",
+"Suplentes": "  GABRIEL ANDRÉS SOLIS ARIAS",
+"Biografia": null,
+"Persona": {
+"ID": 58,
+"Nombres": "JAVIER FRANCISCO",
+"Apellidos": "SUCRE MEJÍA",
+"Nombre_Completo": "JAVIER FRANCISCO SUCRE MEJÍA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 66,
+"Id_persona": 67,
+"Foto": "/Uploads/diputado/foto/66/publicacion_66.jpg",
+"Slug": "NELSON_JACKSON",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Colón",
+"Circuito": "3-2",
+"Suplentes": "  EUGENIO DELGADO PÉREZ",
+"Biografia": null,
+"Persona": {
+"ID": 67,
+"Nombres": "NELSON",
+"Apellidos": "JACKSON",
+"Nombre_Completo": "NELSON JACKSON",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 68,
+"Id_persona": 69,
+"Foto": "/Uploads/diputado/foto/68/publicacion_68.jpg",
+"Slug": "RAUL__PINEDA",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Panamá",
+"Circuito": "8-2",
+"Suplentes": " JOANA YAMILETH CEDEÑO PINO",
+"Biografia": null,
+"Persona": {
+"ID": 69,
+"Nombres": "RAUL ",
+"Apellidos": "PINEDA",
+"Nombre_Completo": "RAUL  PINEDA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 75,
+"Id_persona": 17,
+"Foto": "/Uploads/diputado/foto/75/publicacion_75.jpg",
+"Slug": "ARQUESIO__ARIAS_FELIX",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Comarcas indígenas",
+"Circuito": "10-2",
+"Suplentes": "    González Benchiman, Higinio",
+"Biografia": null,
+"Persona": {
+"ID": 17,
+"Nombres": "ARQUESIO ",
+"Apellidos": "ARIAS FELIX",
+"Nombre_Completo": "ARQUESIO  ARIAS FELIX",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 76,
+"Id_persona": 35,
+"Foto": "/Uploads/diputado/foto/76/publicacion_76.jpg",
+"Slug": "ALAIN_ALBENIS_CEDENO_HERRERA",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá",
+"Circuito": "8-6",
+"Suplentes": "   ALAIN ALBENIS CEDEÑO NAVARRO",
+"Biografia": null,
+"Persona": {
+"ID": 35,
+"Nombres": "ALAIN ALBENIS",
+"Apellidos": "CEDEÑO HERRERA",
+"Nombre_Completo": "ALAIN ALBENIS CEDEÑO HERRERA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 77,
+"Id_persona": 18,
+"Foto": "/Uploads/diputado/foto/77/publicacion_77.jpg",
+"Slug": "LILIA_E_BATISTA_DE_GUERRA",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-4",
+"Suplentes": "  Ortega De León, Ariel Augusto ",
+"Biografia": null,
+"Persona": {
+"ID": 18,
+"Nombres": "LILIA EMÉRITA",
+"Apellidos": "BATISTA RODRÍGUEZ DE GUERRA",
+"Nombre_Completo": "LILIA EMÉRITA BATISTA RODRÍGUEZ DE GUERRA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 78,
+"Id_persona": 6,
+"Foto": "/Uploads/diputado/foto/78/publicacion_78.jpg",
+"Slug": "DANA__CASTANEDA",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Coclé",
+"Circuito": "2-3",
+"Suplentes": "  Maiquely del Carmen Aniño Medina",
+"Biografia": null,
+"Persona": {
+"ID": 6,
+"Nombres": "DANA DARIS",
+"Apellidos": "CASTAÑEDA GUARDIA",
+"Nombre_Completo": "DANA DARIS CASTAÑEDA GUARDIA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 79,
+"Id_persona": 76,
+"Foto": "/Uploads/diputado/foto/79/publicacion_79.jpg",
+"Slug": "AUGUSTO_PALACIOS",
+"Partido": "Libre Postulación",
+"Provincia": "Chiriquí",
+"Circuito": "4-1",
+"Suplentes": "   Aimee Elissa Wittgreen Kapell",
+"Biografia": null,
+"Persona": {
+"ID": 76,
+"Nombres": "AUGUSTO EFRAÍN",
+"Apellidos": "PALACIOS MUÑOZ",
+"Nombre_Completo": "AUGUSTO EFRAÍN PALACIOS MUÑOZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 80,
+"Id_persona": 77,
+"Foto": "/Uploads/diputado/foto/80/publicacion_80.jpg",
+"Slug": "JHONATHAN_VEGA",
+"Partido": "Libre Postulación",
+"Provincia": "Chiriquí",
+"Circuito": "4-5",
+"Suplentes": "  Luz D. Urriola",
+"Biografia": null,
+"Persona": {
+"ID": 77,
+"Nombres": "JHONATHAN EDIR",
+"Apellidos": "VEGA",
+"Nombre_Completo": "JHONATHAN EDIR VEGA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 81,
+"Id_persona": 78,
+"Foto": "/Uploads/diputado/foto/81/publicacion_81.jpg",
+"Slug": "JAIME_PRADO",
+"Partido": "Libre Postulación",
+"Provincia": "Veraguas",
+"Circuito": "9-1",
+"Suplentes": "Fransisco A. Jaén",
+"Biografia": null,
+"Persona": {
+"ID": 78,
+"Nombres": "JANINE",
+"Apellidos": "PRADO CASTAÑO",
+"Nombre_Completo": "JANINE PRADO CASTAÑO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 82,
+"Id_persona": 79,
+"Foto": "/Uploads/diputado/foto/82/publicacion_82.jpg",
+"Slug": "MIGUEL_ANGEL_CAMPOS",
+"Partido": "Libre Postulación",
+"Provincia": "Veraguas",
+"Circuito": "9-1",
+"Suplentes": "   Sara I. Gómez",
+"Biografia": null,
+"Persona": {
+"ID": 79,
+"Nombres": "MIGUEL ÁNGEL",
+"Apellidos": "CAMPOS",
+"Nombre_Completo": "MIGUEL ÁNGEL CAMPOS",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 83,
+"Id_persona": 80,
+"Foto": "/Uploads/diputado/foto/83/publicacion_83.jpg",
+"Slug": "CARLOS_SALDA209A",
+"Partido": "Libre Postulación",
+"Provincia": "Chiriquí",
+"Circuito": "4-1",
+"Suplentes": "   Tatiana Morales",
+"Biografia": null,
+"Persona": {
+"ID": 80,
+"Nombres": "CARLOS",
+"Apellidos": "SALDAÑA",
+"Nombre_Completo": "CARLOS SALDAÑA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 84,
+"Id_persona": 81,
+"Foto": "/Uploads/diputado/foto/84/publicacion_84.jpg",
+"Slug": "LENIN_A_ULATE",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-1",
+"Suplentes": "  Margaret Pimentel",
+"Biografia": null,
+"Persona": {
+"ID": 81,
+"Nombres": "LENIN A",
+"Apellidos": "ULATE",
+"Nombre_Completo": "LENIN A ULATE",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 85,
+"Id_persona": 82,
+"Foto": "/Uploads/diputado/foto/85/publicacion_85.jpg",
+"Slug": "MANUEL_CHENG_PENALBA",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-1",
+"Suplentes": "Yamileth Esther Rodriguez",
+"Biografia": null,
+"Persona": {
+"ID": 82,
+"Nombres": "MANUEL CHENG",
+"Apellidos": "PEÑALBA",
+"Nombre_Completo": "MANUEL CHENG PEÑALBA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 86,
+"Id_persona": 11,
+"Foto": "/Uploads/diputado/foto/86/publicacion_86.jpg",
+"Slug": "BETSARAI_RICHARD",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-6",
+"Suplentes": "   Maylin Prince",
+"Biografia": null,
+"Persona": {
+"ID": 11,
+"Nombres": "BETSERAI AYIZE",
+"Apellidos": "RICHARDS TAPIA",
+"Nombre_Completo": "BETSERAI AYIZE RICHARDS TAPIA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 87,
+"Id_persona": 12,
+"Foto": "/Uploads/diputado/foto/87/publicacion_87.jpg",
+"Slug": "MANUEL_SAMANIEGO",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-6",
+"Suplentes": "  Nayelis N. González",
+"Biografia": null,
+"Persona": {
+"ID": 12,
+"Nombres": "MANUEL",
+"Apellidos": "SAMANIEGO",
+"Nombre_Completo": "MANUEL SAMANIEGO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 88,
+"Id_persona": 13,
+"Foto": "/Uploads/diputado/foto/88/publicacion_88.jpg",
+"Slug": "NEFTALI_ZAMORA",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-5",
+"Suplentes": "  Daryelis Aponte",
+"Biografia": null,
+"Persona": {
+"ID": 13,
+"Nombres": "NEFTALÍ OMAR",
+"Apellidos": "ZAMORA IBARRA",
+"Nombre_Completo": "NEFTALÍ OMAR ZAMORA IBARRA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 89,
+"Id_persona": 14,
+"Foto": "/Uploads/diputado/foto/89/publicacion_89.jpg",
+"Slug": "JORGE_GONZALEZ",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-5",
+"Suplentes": "    Iveet J. Vargas",
+"Biografia": null,
+"Persona": {
+"ID": 14,
+"Nombres": "JORGE ALBERTO",
+"Apellidos": "GONZÁLEZ LÓPEZ",
+"Nombre_Completo": "JORGE ALBERTO GONZÁLEZ LÓPEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 90,
+"Id_persona": 15,
+"Foto": "/Uploads/diputado/foto/90/publicacion_90.jpg",
+"Slug": "YAMIRELIZ_CHONG",
+"Partido": "Libre Postulación",
+"Provincia": "Colón",
+"Circuito": "3-1",
+"Suplentes": "Moisés Wilson",
+"Biografia": null,
+"Persona": {
+"ID": 15,
+"Nombres": "YAMIRELIZ DAYMIRELKIS",
+"Apellidos": "CHONG SMITH",
+"Nombre_Completo": "YAMIRELIZ DAYMIRELKIS CHONG SMITH",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 91,
+"Id_persona": 19,
+"Foto": "/Uploads/diputado/foto/91/publicacion_91.jpg",
+"Slug": "ROBERTO_ZU209IGA",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-4",
+"Suplentes": "    Herminia E. Thompson",
+"Biografia": null,
+"Persona": {
+"ID": 19,
+"Nombres": "ROBERTO JOSÉ FEDERICO",
+"Apellidos": "ZÚÑIGA ALVARADO",
+"Nombre_Completo": "ROBERTO JOSÉ FEDERICO ZÚÑIGA ALVARADO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 92,
+"Id_persona": 73,
+"Foto": "/Uploads/diputado/foto/92/publicacion_92.jpg",
+"Slug": "JORGE_BLOISE_IGLESIAS",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-4",
+"Suplentes": "    Kochman Canavaggio de Novey, Viveca Myna",
+"Biografia": null,
+"Persona": {
+"ID": 73,
+"Nombres": "JORGE ISSAC ",
+"Apellidos": "BLOISE IGLESIAS",
+"Nombre_Completo": "JORGE ISSAC  BLOISE IGLESIAS",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 93,
+"Id_persona": 66,
+"Foto": "/Uploads/diputado/foto/93/publicacion_93.jpg",
+"Slug": "WALKIRIA_CHANDLER_D39ORCY",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-3",
+"Suplentes": "    Carlos Ho Solís",
+"Biografia": null,
+"Persona": {
+"ID": 66,
+"Nombres": "WALKIRIA AURORA",
+"Apellidos": "CHANDLER D'ORCY",
+"Nombre_Completo": "WALKIRIA AURORA CHANDLER D'ORCY",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 94,
+"Id_persona": 65,
+"Foto": "/Uploads/diputado/foto/94/publicacion_94.jpg",
+"Slug": "PAULETTE_THOMAS",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-3",
+"Suplentes": "   Edilberto A. Guerrero",
+"Biografia": null,
+"Persona": {
+"ID": 65,
+"Nombres": "OLGA PAULETTE",
+"Apellidos": "THOMAS HORLY",
+"Nombre_Completo": "OLGA PAULETTE THOMAS HORLY",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 95,
+"Id_persona": 72,
+"Foto": "/Uploads/diputado/foto/95/publicacion_95.jpg",
+"Slug": "EDUARDO_GAITAN",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-2",
+"Suplentes": "       Lydia Caballero",
+"Biografia": null,
+"Persona": {
+"ID": 72,
+"Nombres": "EDUARDO ALEJANDRO",
+"Apellidos": "GAITÁN BEITÍA",
+"Nombre_Completo": "EDUARDO ALEJANDRO GAITÁN BEITÍA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 96,
+"Id_persona": 64,
+"Foto": "/Uploads/diputado/foto/96/publicacion_96.jpg",
+"Slug": "ALEXANDRA_BRENES",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-2",
+"Suplentes": "García Rodriguez, Kareen Ariel",
+"Biografia": null,
+"Persona": {
+"ID": 64,
+"Nombres": "ALEXANDRA MARIA",
+"Apellidos": "BRENES SAMANIEGO DE VÁSQUEZ",
+"Nombre_Completo": "ALEXANDRA MARIA BRENES SAMANIEGO DE VÁSQUEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 97,
+"Id_persona": 63,
+"Foto": "/Uploads/diputado/foto/97/publicacion_97.jpg",
+"Slug": "LUIS_LUCHO_DUKE",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-2",
+"Suplentes": "    Grettel Quiroz",
+"Biografia": null,
+"Persona": {
+"ID": 63,
+"Nombres": "LUIS HENRIQUE",
+"Apellidos": "DUKE WALKER",
+"Nombre_Completo": "LUIS HENRIQUE DUKE WALKER",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 98,
+"Id_persona": 62,
+"Foto": "/Uploads/diputado/foto/98/publicacion_98.jpg",
+"Slug": "YARELIS_RODRIGUEZ",
+"Partido": "Libre Postulación",
+"Provincia": "Panamá",
+"Circuito": "8-2",
+"Suplentes": "   José González",
+"Biografia": null,
+"Persona": {
+"ID": 62,
+"Nombres": "YARELIS",
+"Apellidos": "RODRÍGUEZ",
+"Nombre_Completo": "YARELIS RODRÍGUEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 99,
+"Id_persona": 4,
+"Foto": "/Uploads/diputado/foto/99/publicacion_99.jpg",
+"Slug": "RONALD_DE_GRACIA",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Los Santos",
+"Circuito": "7-2",
+"Suplentes": "   Luis Batista",
+"Biografia": null,
+"Persona": {
+"ID": 4,
+"Nombres": "RONALD AMETH",
+"Apellidos": "DE GRACIA MORENO",
+"Nombre_Completo": "RONALD AMETH DE GRACIA MORENO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 100,
+"Id_persona": 7,
+"Foto": "/Uploads/diputado/foto/100/publicacion_100.jpg",
+"Slug": "JAMIS_ACOSTA",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Chiriquí",
+"Circuito": "4-1",
+"Suplentes": "Barrios Guerra, Estefani Teresa",
+"Biografia": null,
+"Persona": {
+"ID": 7,
+"Nombres": "JAMIS GASPAR",
+"Apellidos": "ACOSTA GUERRA",
+"Nombre_Completo": "JAMIS GASPAR ACOSTA GUERRA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 101,
+"Id_persona": 8,
+"Foto": "/Uploads/diputado/foto/101/publicacion_101.jpg",
+"Slug": "VICTOR_DE_JESUS",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Colón",
+"Circuito": "3-1",
+"Suplentes": "   Alejandro Salazar",
+"Biografia": null,
+"Persona": {
+"ID": 8,
+"Nombres": "VÍCTOR DE JESÚS",
+"Apellidos": "CASTILLO CORTEZ",
+"Nombre_Completo": "VÍCTOR DE JESÚS CASTILLO CORTEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 102,
+"Id_persona": 10,
+"Foto": "/Uploads/diputado/foto/102/publicacion_102.jpg",
+"Slug": "ROGELIO_REVELLO",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Colón",
+"Circuito": "3-1",
+"Suplentes": "   Aberlardo Antonio",
+"Biografia": null,
+"Persona": {
+"ID": 10,
+"Nombres": "ROGELIO RICARDO",
+"Apellidos": "REVELLO TEM",
+"Nombre_Completo": "ROGELIO RICARDO REVELLO TEM",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 103,
+"Id_persona": 60,
+"Foto": "/Uploads/diputado/foto/103/publicacion_103.jpg",
+"Slug": "SHIRLEY__CASTA209EDAS",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-1",
+"Suplentes": "  Ricardo Valencia",
+"Biografia": null,
+"Persona": {
+"ID": 60,
+"Nombres": "SHIRLEY DE LA ROSA",
+"Apellidos": "CASTAÑEDAS VALENTÍN",
+"Nombre_Completo": "SHIRLEY DE LA ROSA CASTAÑEDAS VALENTÍN",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 104,
+"Id_persona": 55,
+"Foto": "/Uploads/diputado/foto/104/publicacion_104.jpg",
+"Slug": "TOMAS_BENAVIDES",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Veraguas",
+"Circuito": "9-2",
+"Suplentes": "   Martinelli Linares , Ricardo Alberto ",
+"Biografia": null,
+"Persona": {
+"ID": 55,
+"Nombres": "TOMAS",
+"Apellidos": "BENAVIDES",
+"Nombre_Completo": "TOMAS BENAVIDES",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 105,
+"Id_persona": 54,
+"Foto": "/Uploads/diputado/foto/105/publicacion_105.jpg",
+"Slug": "LUIS_EDUARDO__CAMACHO",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá",
+"Circuito": "8-2",
+"Suplentes": "   Guzmán Cedeño de Boyd, Hilda Maria",
+"Biografia": null,
+"Persona": {
+"ID": 54,
+"Nombres": "LUIS EDUARDO ",
+"Apellidos": "CAMACHO",
+"Nombre_Completo": "LUIS EDUARDO  CAMACHO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 107,
+"Id_persona": 53,
+"Foto": "/Uploads/diputado/foto/107/publicacion_107.jpg",
+"Slug": "ARIEL_VALLARINO",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá",
+"Circuito": "8-5",
+"Suplentes": "   Luis Charris",
+"Biografia": null,
+"Persona": {
+"ID": 53,
+"Nombres": "ARIEL ULISES",
+"Apellidos": "VALLARINO APARICIO",
+"Nombre_Completo": "ARIEL ULISES VALLARINO APARICIO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 108,
+"Id_persona": 52,
+"Foto": "/Uploads/diputado/foto/108/publicacion_108.jpg",
+"Slug": "YUZAIDA_MARIN",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-4",
+"Suplentes": "   Eduardo A Núñez",
+"Biografia": null,
+"Persona": {
+"ID": 52,
+"Nombres": "YUZAIDA",
+"Apellidos": "MARÍN",
+"Nombre_Completo": "YUZAIDA MARÍN",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 109,
+"Id_persona": 46,
+"Foto": "/Uploads/diputado/foto/109/publicacion_109.jpg",
+"Slug": "OMAR_ORTEGA",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá",
+"Circuito": "8-2",
+"Suplentes": "Juan Domingo Díaz Concepción",
+"Biografia": null,
+"Persona": {
+"ID": 46,
+"Nombres": "LUIS OMAR",
+"Apellidos": "ORTEGA RIVERA",
+"Nombre_Completo": "LUIS OMAR ORTEGA RIVERA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 110,
+"Id_persona": 45,
+"Foto": "/Uploads/diputado/foto/110/publicacion_110.jpg",
+"Slug": "FLOR_BRENES",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Comarcas indígenas",
+"Circuito": "10-1",
+"Suplentes": "  Adames Arias, Nícolas",
+"Biografia": null,
+"Persona": {
+"ID": 45,
+"Nombres": "FLOR ISABEL",
+"Apellidos": "BRENES MEDINA",
+"Nombre_Completo": "FLOR ISABEL BRENES MEDINA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 111,
+"Id_persona": 47,
+"Foto": "/Uploads/diputado/foto/111/publicacion_111.jpg",
+"Slug": "RAPHAEL_BUCHANAN",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Panamá",
+"Circuito": "8-6",
+"Suplentes": "  Herrera Rodríguez de Henríquez, Claudina",
+"Biografia": null,
+"Persona": {
+"ID": 47,
+"Nombres": "RAPHAEL",
+"Apellidos": "BUCHANAN JOSEPH",
+"Nombre_Completo": "RAPHAEL BUCHANAN JOSEPH",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 113,
+"Id_persona": 49,
+"Foto": "/Uploads/diputado/foto/113/publicacion_113.jpg",
+"Slug": "NIXON_ANDRADE",
+"Partido": "Partido Revolucionario Democrático",
+"Provincia": "Comarcas indígenas",
+"Circuito": "12-2",
+"Suplentes": "   Bejarano Mitre, Dominga",
+"Biografia": null,
+"Persona": {
+"ID": 49,
+"Nombres": "NIXSON",
+"Apellidos": "ANDRADE RODRÍGUEZ",
+"Nombre_Completo": "NIXSON ANDRADE RODRÍGUEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 114,
+"Id_persona": 39,
+"Foto": "",
+"Slug": "JOSE_LUIS_POPI_VARELA",
+"Partido": "Partido Panameñista",
+"Provincia": "Herrera",
+"Circuito": "6-2",
+"Suplentes": "   Gumersinda de Polo",
+"Biografia": null,
+"Persona": {
+"ID": 39,
+"Nombres": "JOSÉ LUIS ",
+"Apellidos": "VARELA",
+"Nombre_Completo": "JOSÉ LUIS  VARELA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 115,
+"Id_persona": 38,
+"Foto": "/Uploads/diputado/foto/115/publicacion_115.jpg",
+"Slug": "RICARDO_VIGIL_LOPEZ",
+"Partido": "Partido Panameñista",
+"Provincia": "Chiriquí",
+"Circuito": "4-3",
+"Suplentes": "   ",
+"Biografia": null,
+"Persona": {
+"ID": 38,
+"Nombres": "RICARDO AGUSTIN",
+"Apellidos": "VIGIL LÓPEZ",
+"Nombre_Completo": "RICARDO AGUSTIN VIGIL LÓPEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 116,
+"Id_persona": 75,
+"Foto": "/Uploads/diputado/foto/116/publicacion_116.jpg",
+"Slug": "JORGE_HERRERA",
+"Partido": "Partido Panameñista",
+"Provincia": "Coclé",
+"Circuito": "2-4",
+"Suplentes": "  Bolivar Escala",
+"Biografia": null,
+"Persona": {
+"ID": 75,
+"Nombres": "JORGE LUIS",
+"Apellidos": "HERRERA",
+"Nombre_Completo": "JORGE LUIS HERRERA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 117,
+"Id_persona": 50,
+"Foto": "/Uploads/diputado/foto/117/publicacion_117.jpg",
+"Slug": "ROBERTO__ARCHIBOLD",
+"Partido": "Partido Panameñista",
+"Provincia": "Comarcas indígenas",
+"Circuito": "12-1",
+"Suplentes": "  Ellis Santo, Rosalia",
+"Biografia": null,
+"Persona": {
+"ID": 50,
+"Nombres": "ROBERTO ",
+"Apellidos": "ARCHIBOLD CHUITO",
+"Nombre_Completo": "ROBERTO  ARCHIBOLD CHUITO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 118,
+"Id_persona": 40,
+"Foto": "/Uploads/diputado/foto/118/publicacion_118.jpg",
+"Slug": "ARIANA__COBA",
+"Partido": "Partido Panameñista",
+"Provincia": "Chiriquí",
+"Circuito": "4-3",
+"Suplentes": "  Alexander Moreno",
+"Biografia": null,
+"Persona": {
+"ID": 40,
+"Nombres": "ARIANA MARISIN",
+"Apellidos": "COBA MARTÍNEZ",
+"Nombre_Completo": "ARIANA MARISIN COBA MARTÍNEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 119,
+"Id_persona": 42,
+"Foto": "/Uploads/diputado/foto/119/publicacion_119.jpg",
+"Slug": "MEDIN_JIMENEZ_PITTI",
+"Partido": "Partido Panameñista",
+"Provincia": "Chiriquí",
+"Circuito": "4-4",
+"Suplentes": "  Ariel Ríos",
+"Biografia": null,
+"Persona": {
+"ID": 42,
+"Nombres": "MEDIN",
+"Apellidos": "JIMÉNEZ PITTÍ",
+"Nombre_Completo": "MEDIN JIMÉNEZ PITTÍ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 120,
+"Id_persona": 31,
+"Foto": "",
+"Slug": "YESSICA__ROMERO",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Bocas del Toro",
+"Circuito": "1-1",
+"Suplentes": "   Elías Beker",
+"Biografia": null,
+"Persona": {
+"ID": 31,
+"Nombres": "YESSICA ",
+"Apellidos": "ROMERO GARCÍA",
+"Nombre_Completo": "YESSICA  ROMERO GARCÍA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 121,
+"Id_persona": 29,
+"Foto": "/Uploads/diputado/foto/121/publicacion_121.jpg",
+"Slug": "CARLOS_TITO_AFu",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Los Santos",
+"Circuito": "7-1",
+"Suplentes": "  Moreno S. de Montenegro, Mariela",
+"Biografia": null,
+"Persona": {
+"ID": 29,
+"Nombres": "CARLOS TITO",
+"Apellidos": "AFÚ",
+"Nombre_Completo": "CARLOS TITO AFÚ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 122,
+"Id_persona": 41,
+"Foto": "/Uploads/diputado/foto/122/publicacion_122.jpg",
+"Slug": "FRANCISCO__BREA",
+"Partido": "Partido Panameñista",
+"Provincia": "Veraguas",
+"Circuito": "9-3",
+"Suplentes": "   Pérez Fernández, Melvin Hamet",
+"Biografia": null,
+"Persona": {
+"ID": 41,
+"Nombres": "FRANCISCO ",
+"Apellidos": "BREA",
+"Nombre_Completo": "FRANCISCO  BREA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 123,
+"Id_persona": 43,
+"Foto": "/Uploads/diputado/foto/123/publicacion_123.jpg",
+"Slug": "EDWIN_VERGARA",
+"Partido": "Partido Panameñista",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-3",
+"Suplentes": "   Alberto Navarro",
+"Biografia": null,
+"Persona": {
+"ID": 43,
+"Nombres": "EDWIN",
+"Apellidos": "VERGARA",
+"Nombre_Completo": "EDWIN VERGARA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 124,
+"Id_persona": 30,
+"Foto": "/Uploads/diputado/foto/124/publicacion_124.jpg",
+"Slug": "MANUEL_COHEN_SALERNO",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Herrera",
+"Circuito": "6-1",
+"Suplentes": "    Malena de Morales",
+"Biografia": null,
+"Persona": {
+"ID": 30,
+"Nombres": "MANUEL COHEN",
+"Apellidos": "SALERNO",
+"Nombre_Completo": "MANUEL COHEN SALERNO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 125,
+"Id_persona": 32,
+"Foto": "/Uploads/diputado/foto/125/publicacion_125.jpg",
+"Slug": "DIDIANO_PINILLA_RIOS",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Veraguas",
+"Circuito": "9-4",
+"Suplentes": "    Ana María Poveda",
+"Biografia": null,
+"Persona": {
+"ID": 32,
+"Nombres": "DIDIANO ",
+"Apellidos": "PINILLA RÍOS",
+"Nombre_Completo": "DIDIANO  PINILLA RÍOS",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 126,
+"Id_persona": 33,
+"Foto": "/Uploads/diputado/foto/126/publicacion_126.jpg",
+"Slug": "ORLANDO_CARRASQUILLA",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Coclé",
+"Circuito": "2-2",
+"Suplentes": "  Marco Rangel",
+"Biografia": null,
+"Persona": {
+"ID": 33,
+"Nombres": "ORLANDO",
+"Apellidos": "CARRASQUILLA",
+"Nombre_Completo": "ORLANDO CARRASQUILLA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 127,
+"Id_persona": 34,
+"Foto": "/Uploads/diputado/foto/127/publicacion_127.jpg",
+"Slug": "JULIO_DE_LA_GUARDIA",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Coclé",
+"Circuito": "2-1",
+"Suplentes": "  Arnulfo Arias",
+"Biografia": null,
+"Persona": {
+"ID": 34,
+"Nombres": "JULIO",
+"Apellidos": "DE LA GUARDIA ARROCHA",
+"Nombre_Completo": "JULIO DE LA GUARDIA ARROCHA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 128,
+"Id_persona": 36,
+"Foto": "/Uploads/diputado/foto/128/publicacion_128.jpg",
+"Slug": "EDUARDO_VASQUEZ",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-2",
+"Suplentes": "  Carlito Saavedra",
+"Biografia": null,
+"Persona": {
+"ID": 36,
+"Nombres": "EDUARDO",
+"Apellidos": "VÁSQUEZ",
+"Nombre_Completo": "EDUARDO VÁSQUEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 129,
+"Id_persona": 37,
+"Foto": "/Uploads/diputado/foto/129/publicacion_129.jpg",
+"Slug": "GERTRUDIS_TULE_RODRIGUEZ",
+"Partido": "Partido Cambio Democrático",
+"Provincia": "Comarcas indígenas",
+"Circuito": "12-3",
+"Suplentes": "   César Pineda",
+"Biografia": null,
+"Persona": {
+"ID": 37,
+"Nombres": "GERTRUDIS ",
+"Apellidos": "RODRÍGUEZ DE GRACIA",
+"Nombre_Completo": "GERTRUDIS  RODRÍGUEZ DE GRACIA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 130,
+"Id_persona": 26,
+"Foto": "/Uploads/diputado/foto/130/publicacion_130.jpg",
+"Slug": "GRACE_HERNANDEZ",
+"Partido": "Partido Movimiento Otro Camino ",
+"Provincia": "Panamá",
+"Circuito": "8-4",
+"Suplentes": "  Pedro Quijano Mérida",
+"Biografia": null,
+"Persona": {
+"ID": 26,
+"Nombres": "GRACIELA MERCEDES ",
+"Apellidos": "HERNÁNDEZ LACAYO",
+"Nombre_Completo": "GRACIELA MERCEDES  HERNÁNDEZ LACAYO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 131,
+"Id_persona": 27,
+"Foto": "/Uploads/diputado/foto/131/publicacion_131.jpg",
+"Slug": "ERNESTO_CEDENO",
+"Partido": "Partido Movimiento Otro Camino ",
+"Provincia": "Panamá",
+"Circuito": "8-4",
+"Suplentes": "  Roberto Barsallo",
+"Biografia": null,
+"Persona": {
+"ID": 27,
+"Nombres": "ERNESTO",
+"Apellidos": "CEDEÑO ALVARADO",
+"Nombre_Completo": "ERNESTO CEDEÑO ALVARADO",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 132,
+"Id_persona": 28,
+"Foto": "/Uploads/diputado/foto/132/publicacion_132.jpg",
+"Slug": "JOSE_PEREZ_BARBONI",
+"Partido": "Partido Movimiento Otro Camino ",
+"Provincia": "Panamá",
+"Circuito": "8-3",
+"Suplentes": "   Kevin Carrillo",
+"Biografia": null,
+"Persona": {
+"ID": 28,
+"Nombres": "JOSE PÉREZ",
+"Apellidos": "BARBONI",
+"Nombre_Completo": "JOSE PÉREZ BARBONI",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 133,
+"Id_persona": 23,
+"Foto": "/Uploads/diputado/foto/133/publicacion_133.jpg",
+"Slug": "OSMAN_GOMEZ",
+"Partido": "Partido Alianza",
+"Provincia": "Chiriquí",
+"Circuito": "4-2",
+"Suplentes": "  Cesar Santamaria",
+"Biografia": null,
+"Persona": {
+"ID": 23,
+"Nombres": "OSMAN",
+"Apellidos": "GÓMEZ",
+"Nombre_Completo": "OSMAN GÓMEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 134,
+"Id_persona": 24,
+"Foto": "/Uploads/diputado/foto/134/publicacion_134.jpg",
+"Slug": "JONY_GUEVARA",
+"Partido": "Partido Alianza",
+"Provincia": "Panamá",
+"Circuito": "8-1",
+"Suplentes": "  Justino Banda",
+"Biografia": null,
+"Persona": {
+"ID": 24,
+"Nombres": "JOAN MANUEL",
+"Apellidos": "GUEVARA RODRÍGUEZ",
+"Nombre_Completo": "JOAN MANUEL GUEVARA RODRÍGUEZ",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 135,
+"Id_persona": 22,
+"Foto": "/Uploads/diputado/foto/135/publicacion_135.jpg",
+"Slug": "ELIECER_CASTRELLON",
+"Partido": "Partido Popular",
+"Provincia": "Chiriquí",
+"Circuito": "4-6",
+"Suplentes": "   Dalmacia de Rodríguez",
+"Biografia": null,
+"Persona": {
+"ID": 22,
+"Nombres": "ELIÉCER",
+"Apellidos": "CASTRELLÓN BARRIOS",
+"Nombre_Completo": "ELIÉCER CASTRELLÓN BARRIOS",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 136,
+"Id_persona": 21,
+"Foto": "/Uploads/diputado/foto/136/publicacion_136.jpg",
+"Slug": "PATSY__LEE_RENTERIA",
+"Partido": "Partido Popular",
+"Provincia": "Panamá Oeste",
+"Circuito": "13-4",
+"Suplentes": "   Eduardo Rangel",
+"Biografia": null,
+"Persona": {
+"ID": 21,
+"Nombres": "PATSY ",
+"Apellidos": "LEE RENTERÍA",
+"Nombre_Completo": "PATSY  LEE RENTERÍA",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 137,
+"Id_persona": 20,
+"Foto": "/Uploads/diputado/foto/137/publicacion_137.jpg",
+"Slug": "ISAAC_MOSQUERA",
+"Partido": "Partido Molirena",
+"Provincia": "Darién",
+"Circuito": "5-1",
+"Suplentes": "  Kathia Domínguez",
+"Biografia": null,
+"Persona": {
+"ID": 20,
+"Nombres": "ISAAC",
+"Apellidos": "MOSQUERA RIVAS",
+"Nombre_Completo": "ISAAC MOSQUERA RIVAS",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+},
+{
+"ID": 138,
+"Id_persona": 44,
+"Foto": "/Uploads/diputado/foto/138/publicacion_138.jpg",
+"Slug": "SERGIO_RAFAEL_GALVEZ_EVERS",
+"Partido": "Partido Realizando Metas",
+"Provincia": "Panamá",
+"Circuito": "8-3",
+"Suplentes": "Gálvez Useda, Mercedes ",
+"Biografia": null,
+"Persona": {
+"ID": 44,
+"Nombres": "SERGIO RAFAEL",
+"Apellidos": "GALVEZ EVERS",
+"Nombre_Completo": "SERGIO RAFAEL GALVEZ EVERS",
+"JuntaDirectiva": null
+},
+"Imagenes": null
+}
+],
+"totalRecords": 71,
+"pageSize": 100,
+"currentPage": 1
+}
