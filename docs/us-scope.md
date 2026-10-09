@@ -168,7 +168,33 @@ is a phase 1 requirement, not a refinement.
 - Also on Congress.gov as `/v3/house-vote/119` (beta), keyed, pointing back
   to the Clerk's XML. The Clerk is the primary source.
 
-### Senate roll calls: blocked from the laptop
+### Senate roll calls: built 9 October 2026, runs from CI only
+
+**Resolved.** senate.gov refuses the laptop on every page with Proton VPN
+OFF too (traffic straight through the home router), with curl and with
+Python's urllib alike: an address block, not a VPN or UA one. GitHub's
+runners get everything (the one-off `us-senate-probe.yml`). So the Senate
+half of `tools/us_rollcalls.py` runs in the US weekly workflow; locally it
+logs one gap per session and carries on. Its tests use real files that probe
+saved (`tests/fixtures/us_senate/`).
+
+What the Senate publishes, measured from CI: a menu per session (659 votes
+in 2025, 256 in 2026 to 30 September) and one XML per vote with every
+senator's position, party and LIS ID. Of the 915: **445 are nominations**
+(judges, cabinet, en bloc packages) which only the Senate votes on; **190
+link to a bill on our ground**, but about twenty of those are the same
+shutdown-CR cloture vote taken again and again, which the edition must
+fold. Unlike the House, a Senate amendment vote carries the amendment's
+**purpose** ("To prohibit the use of funds..."), and the vote file carries
+the bill's long title, so Senate votes classify on their own text before
+the bill lends anything.
+
+Positions are keyed on LIS IDs and mapped to Bioguide: sitting senators from
+the crosswalk (all 100 carry one), former senators from the historical
+crosswalk, fetched only when an unknown ID appears. An ID nobody knows is
+dropped and recorded as a gap, never stored under a guess.
+
+### (Superseded) Senate roll calls: blocked from the laptop
 
 `senate.gov` returned **403 Access Denied on every page, including the
 homepage**, with our honest UA and with curl's default. It is a network
@@ -258,6 +284,16 @@ signal Westminster lacks: H.R. 7 (No Taxpayer Funding for Abortion) has 128
 cosponsors, H.R. 15 (Equality Act) 218. Cosponsoring is a public, recorded
 position, so it can sit just under a vote in the evidence hierarchy.
 
+## The weekly schedule
+
+`.github/workflows/us-weekly.yml`: Friday 10:00 UTC, retry 12:00 (06:00 in
+Washington, after Thursday's votes). Members, all bills (the BILLSTATUS zips
+are re-read whole), new House roll calls, new Senate votes. Watched by the
+failure alert and `tools/coverage.py` (bills and members weekly; votes a
+month plus a month's grace, because the House cast no vote between
+16 September and the midterms). A hand dispatch can reclassify first.
+**It runs only once merged to main**: GitHub schedules from the default branch.
+
 ## Proposed phasing
 
 1. **Phase 1: House roll calls, bills, members.** `tools/us_rollcalls.py`
@@ -268,8 +304,8 @@ position, so it can sit just under a vote in the evidence hierarchy.
    misses above.
 2. **Phase 1b: amendment purposes.** Needs the Congress.gov key. Without it
    the NDAA and appropriations votes are unreadable.
-3. **Phase 2: Senate votes** (once reachable from CI), **floor schedule**,
-   **Federal Register**.
+3. **Phase 2: Senate votes (built 9 October)**, then the **floor
+   schedule** and the **Federal Register**.
 4. **Phase 3: Congressional Record** debate packs and the US 5CA (votes +
    cosponsorships).
 5. **Phase 4: state legislatures, in blocks.** See below.
@@ -333,8 +369,6 @@ jurisdictions). Possible build orders:
 3. ~~Taxonomy~~: shared list, merged into the areas (decided 9 October; v1.17).
 4. **Scope:** DEI, antisemitism, contraception. In or out?
 5. **Executive actions** as a section: yes or no?
-6. **Senate:** re-test from CI. If it is blocked there too, the fallback is
-   GovTrack or ProPublica-style third parties, which the Canada rule says not to
-   build on.
+6. ~~Senate~~: built 9 October; collected from CI, where senate.gov answers.
 7. ~~Which state block first?~~ All 50 (decided 9 October), via Open
    States: **an account and API key are needed**.

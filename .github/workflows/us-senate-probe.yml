@@ -2,6 +2,7 @@
 # included, on GitHub's runners into a THROWAWAY database before the US
 # weekly is merged. senate.gov refuses the laptop, so only CI can test the
 # Senate half end to end. Never touches the store. Delete after the merge.
+# Run 2: amendment votes take their bill from the session menu.
 name: US Senate probe
 on:
   push:

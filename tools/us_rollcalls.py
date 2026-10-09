@@ -350,17 +350,21 @@ def senate_date(text):
 
 
 def parse_senate_menu(raw):
-    """Every vote number of one session, from its menu."""
+    """{vote number: issue} for one session, from its menu.
+
+    The menu's issue ('S.Con.Res. 7') is kept because the vote FILE leaves
+    its document blank on amendment votes: the CI dry run of 9 October 2026
+    stored Duckworth's IVF amendment to the budget resolution with no bill."""
     try:
         root = ET.fromstring(raw)
     except ET.ParseError:
-        return []
-    out = []
+        return {}
+    out = {}
     for v in root.iter("vote"):
         n = _int(v, "vote_number")
         if n:
-            out.append(n)
-    return sorted(out)
+            out[n] = _text(v, "issue")
+    return out
 
 
 def parse_senate_vote(raw):
@@ -469,7 +473,7 @@ def pull_senate(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=Non
         have = {r for (r,) in conn.execute(
             "SELECT roll FROM us_divisions WHERE chamber='senate' AND congress=? AND session=?",
             (congress, session))}
-        for n in [n for n in numbers if n not in have]:
+        for n in sorted(n for n in numbers if n not in have):
             if limit is not None and stored >= limit:
                 log("  fetch cap ({0}) reached; the rest lands on the next run "
                     "-- disclosed, not silent".format(limit))
@@ -489,6 +493,8 @@ def pull_senate(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=Non
                 _gap(conn, today, "senate {0}-{1} vote {2}: {3}".format(congress, session, n, why))
                 gaps += 1
                 continue
+            if not d["legis_num"]:
+                d["legis_num"] = numbers.get(n)
             unknown = resolve_senators(d, lis_map)
             if unknown:
                 _gap(conn, today, "senate {0}-{1} vote {2}: no Bioguide for {3}".format(
