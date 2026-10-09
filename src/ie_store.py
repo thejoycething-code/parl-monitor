@@ -7,6 +7,9 @@ See docs/ireland-scope.md for what was measured and why. The schema follows
 the US precedent (src/us_store.py): its own module, idempotent statements,
 created by db.init_db so every store carries it and db.TABLES stays true.
 
+PHASE 2 (9 October 2026) adds parliamentary questions (tools/ie_questions.py),
+debate speeches (tools/ie_debates.py) and the week ahead (tools/ie_schedule.py).
+
 SEPARATION GUARANTEE. Nothing outside tools/ie_*.py writes these tables,
 and nothing here touches another jurisdiction's table.
 
@@ -138,13 +141,121 @@ SCHEMA = (
         party        TEXT,               -- AT THE VOTE, from ie_member_parties; NULL if none covers it
         PRIMARY KEY (division_key, member_code)
     )""",
+    # --- phase 2 (9 October 2026): questions, debates, the week ahead -------
+    #
+    # STORED ON OUR GROUND ONLY. About 8,000 questions and 15,000 utterances
+    # a sitting month; a row is written only when its own text is on our
+    # ground (questions) or by the speech rule in tools/ie_debates.py. The
+    # volumes read are kept per week in ie_windows, so the measurement
+    # survives without the rows.
+    """CREATE TABLE IF NOT EXISTS ie_questions (
+        question_key TEXT PRIMARY KEY,   -- '2026-10-07/pq_1' (the URI path; numbers restart daily)
+        ref          TEXT,               -- '[70836/26]' as printed: the PQ reference
+        date         TEXT,
+        qtype        TEXT,               -- 'written' / 'oral'
+        number       INTEGER,
+        house_key    TEXT,               -- 'dail/34' (the Seanad has no PQs)
+        member_code  TEXT,               -- the asker
+        asker        TEXT,
+        party        TEXT,               -- AT THE DATE, from ie_member_parties; NULL if none
+        department   TEXT,               -- the API's 'to': 'Justice'
+        minister     TEXT,               -- the office asked: 'Minister for Health'
+        heading      TEXT,               -- the debate section title: 'Protected Disclosures'
+        question     TEXT,               -- the question, '1. Deputy X asked the Minister...' cut, <= 600 chars
+        answered     INTEGER,            -- 1 when the record carries an answer
+        answer_by    TEXT,               -- the label: 'Minister for Health (Deputy Jennifer Carroll MacNeill)'
+        answer_shape TEXT,               -- src/ni_answers.shape: 'data not held', '' = substantive
+        answer_takeaway TEXT,            -- ONE sentence, <= 200 chars; never the answer
+        debate_uri   TEXT,
+        debate_section TEXT,
+        areas        TEXT,               -- JSON: the QUESTION's own text, offices struck first
+        matched_terms TEXT,
+        tier         INTEGER,
+        url          TEXT,               -- oireachtas.ie/en/debates/question/<date>/<n>/
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS ie_speeches (
+        speech_key   TEXT PRIMARY KEY,   -- '<record>/<dbsect_N>/<memberCode>': all one member said in one section
+        date         TEXT,
+        chamber      TEXT,               -- 'dail' / 'seanad' / 'committee'
+        house_key    TEXT,               -- 'dail/34'; a committee's parent House
+        committee    TEXT,               -- committee name, NULL in plenary
+        debate_uri   TEXT,               -- the day's record: '.../debateRecord/dail/2026-10-07/debate/main'
+        debate_section TEXT,             -- 'dbsect_12'
+        section_title TEXT,              -- 'Health (Assisted Human Reproduction) Bill 2024: Second Stage'
+        debate_type  TEXT,               -- the API's: 'debate', 'motion', 'statement', ...
+        member_code  TEXT,
+        speaker      TEXT,
+        party        TEXT,               -- AT THE DATE; NULL if no spell covers it
+        role         TEXT,               -- the label when an office speaks: 'Minister for Health (Deputy ...)'
+        words        INTEGER,
+        turns        INTEGER,            -- utterances folded into this row
+        bill_key     TEXT,               -- the section's bill, by ID (see tools/ie_debates.py)
+        own_areas    TEXT,               -- JSON: the member's OWN WORDS, passage by passage
+        areas        TEXT,               -- JSON: own, or what was lent (areas_from)
+        areas_from   TEXT,               -- 'own' / 'watch' / 'bill' / 'heading'
+        matched_terms TEXT,
+        tier         INTEGER,
+        excerpt      TEXT,               -- the best-matching passage, <= 400 chars; never the speech
+        url          TEXT,
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS ie_windows (
+        feed         TEXT NOT NULL,      -- 'questions' / 'debates-house' / 'debates-committee'
+        week_of      TEXT NOT NULL,      -- the Monday
+        status       TEXT,               -- 'read' / 'gap' / 'partial'
+        records      INTEGER,            -- questions, or debate records, read
+        items        INTEGER,            -- questions, or member speeches, read
+        ours         INTEGER,            -- stored on our ground
+        by_area      TEXT,               -- JSON {area: n} of what was stored
+        read_at      TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT,
+        PRIMARY KEY (feed, week_of)
+    )""",
+    """CREATE TABLE IF NOT EXISTS ie_schedule (
+        item_key     TEXT PRIMARY KEY,   -- '<chamber>/<date>/<HH:MM>/<n>': a slot, not a key to join on
+        chamber      TEXT,               -- 'dail' / 'seanad' / 'committee'
+        date         TEXT,
+        time         TEXT,
+        committee    TEXT,
+        text         TEXT,               -- the line as scheduled, <= 400 chars
+        bill_key     TEXT,               -- from the bill LINK on the line ('/en/bills/bill/2026/19/'), or NULL
+        bill_named   TEXT,               -- a bill the line names without a link: text, not a key
+        own_areas    TEXT,               -- JSON: the line's own text
+        matched_terms TEXT,
+        url          TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS ie_schedule_days (
+        chamber      TEXT NOT NULL,
+        date         TEXT NOT NULL,
+        status       TEXT,               -- 'listed' / 'none' (no business posted)
+        items        INTEGER,
+        note         TEXT,               -- 'Dáil Éireann resumes on Tuesday, 13 October 2026'
+        first_seen   TEXT,
+        last_seen    TEXT,
+        PRIMARY KEY (chamber, date)
+    )""",
+    "CREATE INDEX IF NOT EXISTS ie_questions_date ON ie_questions (date)",
+    "CREATE INDEX IF NOT EXISTS ie_speeches_date ON ie_speeches (date)",
+    "CREATE INDEX IF NOT EXISTS ie_speeches_bill ON ie_speeches (bill_key)",
+    "CREATE INDEX IF NOT EXISTS ie_schedule_bill ON ie_schedule (bill_key)",
     "CREATE INDEX IF NOT EXISTS ie_divisions_bill ON ie_divisions (bill_key)",
     "CREATE INDEX IF NOT EXISTS ie_votes_member ON ie_votes (member_code)",
     "CREATE INDEX IF NOT EXISTS ie_bill_debates_bill ON ie_bill_debates (bill_key)",
 )
 
 TABLES = ("ie_members", "ie_member_parties", "ie_bills", "ie_sponsors",
-          "ie_bill_debates", "ie_divisions", "ie_votes")
+          "ie_bill_debates", "ie_divisions", "ie_votes",
+          "ie_questions", "ie_speeches", "ie_windows", "ie_schedule", "ie_schedule_days")
 
 
 # Added with the edition (9 October 2026). The judge's score and why-line
@@ -214,3 +325,51 @@ def add_watch_areas(res, bill_key, path=None):
 
 def dumps(values):
     return json.dumps(values or [], ensure_ascii=False)
+
+
+# --- phase 2: reading by WEEK, newest first, within a budget ---------------
+#
+# Questions and debates are read a week at a time (Monday to Sunday). A week
+# is due when it was never read, when its read stopped (budget or gap), or
+# when it ends within `reread_days` of today (answers and transcripts are
+# revised for a week or two after the day). Due weeks go newest first, so a
+# budget-capped backfill fills the weeks the edition needs before the old
+# ones, and the rest drains on later runs.
+
+def monday(day):
+    import datetime
+    d = datetime.date.fromisoformat(str(day)[:10])
+    return d - datetime.timedelta(days=d.weekday())
+
+
+def due_weeks(conn, feed, start, today, reread_days):
+    """Mondays (ISO strings) to read, newest first."""
+    import datetime
+    first, last = monday(start), monday(today)
+    fresh = datetime.date.fromisoformat(today) - datetime.timedelta(days=reread_days)
+    done = {w for (w,) in conn.execute(
+        "SELECT week_of FROM ie_windows WHERE feed=? AND status='read'", (feed,))}
+    out, week = [], last
+    while week >= first:
+        sunday = week + datetime.timedelta(days=6)
+        if week.isoformat() not in done or sunday >= fresh:
+            out.append(week.isoformat())
+        week -= datetime.timedelta(days=7)
+    return out
+
+
+def record_week(conn, feed, week_of, status, records, items, ours, by_area, today):
+    conn.execute(
+        "INSERT INTO ie_windows (feed, week_of, status, records, items, ours, by_area, read_at, "
+        "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?) ON CONFLICT(feed, week_of) DO UPDATE "
+        "SET status=excluded.status, records=excluded.records, items=excluded.items, "
+        "ours=excluded.ours, by_area=excluded.by_area, read_at=excluded.read_at, "
+        "last_seen=excluded.last_seen",
+        (feed, week_of, status, records, items, ours,
+         json.dumps({str(k): v for k, v in sorted(by_area.items())}), today, today, today))
+
+
+def stamp(conn, heartbeat, today, note):
+    """A STEP heartbeat in source_runs (tools/coverage.py AWAITING_FIRST_RUN)."""
+    conn.execute("INSERT OR REPLACE INTO source_runs (source, last_run, run_id, note) "
+                 "VALUES (?,?,?,?)", (heartbeat, today, os.environ.get("GITHUB_RUN_ID"), note))
