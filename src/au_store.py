@@ -176,12 +176,63 @@ SCHEMA = (
         first_seen   TEXT,
         last_seen    TEXT
     )""",
+    # --- debates (tools/au_debates.py, 9 October 2026) ------------------------
+    # Speeches on our ground from the same OpenAustralia day files the
+    # divisions come from. Only speeches on our ground are stored, with an
+    # excerpt of at most 400 characters, never the text.
+    """CREATE TABLE IF NOT EXISTS au_speeches (
+        speech_key   TEXT PRIMARY KEY,   -- 'senate/2026-09-16.10.1': chamber + OpenAustralia
+                                         -- speech ID of the speech's first segment
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        parliament   INTEGER,
+        date         TEXT NOT NULL,
+        time         TEXT,
+        person_id    TEXT,               -- OpenAustralia person ID (au_members)
+        office_id    TEXT,
+        phid         TEXT,               -- APH Handbook ID, when au_members has one
+        name         TEXT,               -- as the Hansard names the speaker
+        party        TEXT,               -- AT THE TIME: the office spell's party
+        kind         TEXT,               -- 'speech' / 'motion' (moved: 'I move') /
+                                         -- 'notice' (under the NOTICES heading)
+        major_heading TEXT,
+        minor_heading TEXT,
+        bill_ids     TEXT,               -- JSON: bills tagged on the debate (it is ON them)
+        words        INTEGER,
+        own_areas    TEXT,               -- JSON: the speaker's own words (and the heading,
+                                         -- for a speech of MIN_WORDS or more)
+        areas        TEXT,               -- JSON: own + a bill's, in the narrow cases only
+        areas_from   TEXT,               -- 'own' / 'watch' / 'bill'
+        matched_terms TEXT,
+        tier         INTEGER,
+        excerpt      TEXT,               -- at most 400 characters
+        url          TEXT,               -- the OpenAustralia page for the speech
+        source_url   TEXT,               -- the ParlInfo Hansard page the parse names
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # One row per day file read for debates, with the listing's stamp (a
+    # re-parsed day is read again) and what came of it.
+    """CREATE TABLE IF NOT EXISTS au_debate_days (
+        path         TEXT PRIMARY KEY,   -- 'senate_debates/2026-09-16.xml'
+        chamber      TEXT,
+        date         TEXT,
+        listed_modified TEXT,
+        read_at      TEXT,
+        speeches     INTEGER,            -- speeches read (interjections and unknown speakers aside)
+        ours         INTEGER,            -- of those, stored as on our ground
+        unresolved   INTEGER,            -- segments whose speaker resolved to no person
+        last_seen    TEXT                -- re-stamped every run while the listing names it
+    )""",
+    "CREATE INDEX IF NOT EXISTS au_speeches_date ON au_speeches (date)",
     "CREATE INDEX IF NOT EXISTS au_votes_member ON au_votes (person_id)",
     "CREATE INDEX IF NOT EXISTS au_offices_person ON au_offices (person_id)",
 )
 
 TABLES = ("au_members", "au_offices", "au_bills", "au_divisions", "au_votes",
-          "au_hansard_files", "au_instruments", "au_sitting_days", "au_parliaments")
+          "au_hansard_files", "au_instruments", "au_sitting_days", "au_parliaments",
+          "au_speeches", "au_debate_days")
 
 
 # The judge's score and why-line (tools/au_triage.py), added after the first

@@ -1570,6 +1570,9 @@ TABLES = (
     "au_instruments",
     "au_sitting_days",
     "au_parliaments",
+    # Australian debates (tools/au_debates.py, 9 October 2026), same module.
+    "au_speeches",
+    "au_debate_days",
     # The week ahead (tools/us_schedule.py, 9 October 2026).
     "us_schedule",
     "us_meetings",
