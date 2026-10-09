@@ -23,9 +23,16 @@ signed human judgement and is never made here.
 CLASSIFICATION. Items come only from the store's own classification, which
 each collector made through src/filter.py with the country's taxonomy and
 watchlist; raw keyword hits are never read here. The stub triage
-(src/triage.py, mode "stub" whatever TRIAGE says; X16, the judge stays off)
-orders items. No [ACT] items are rendered, and render() refuses one without
-an owner (CLAUDE.md hard rule) should an adapter ever add one.
+(src/triage.py, mode "stub" whatever TRIAGE says; X16, the paid judge stays
+off) orders items. No [ACT] items are rendered, and render() refuses one
+without an owner (CLAUDE.md hard rule) should an adapter ever add one.
+
+THE FREE SESSION JUDGE (10 October 2026; src/edition_judge.py). Where Claude
+Code on the Mac Mini has scored an item (jobs/editions-session-judge.sh,
+weekly, plan allowance, no API spend), its score 0-3 and why-line are shown,
+an unwatched item scored 0 leaves the edition (counted under Coverage), the
+score orders the items, and the lead is watched items, items scored 3, and
+items scored 2 with the minimum evidence. Unscored items render as before.
 
 ======================================================================
 THE ADAPTER INTERFACE (stable; additive changes only, noted below)
@@ -126,6 +133,8 @@ Change log of the interface (additive only):
                    (replacing the wrappers in es.py and render_hooks.py);
                    a grouped vote shows a takeaway that differs from the
                    decisive vote's.
+  10 October 2026  the session judge's scores (src/edition_judge.py): items
+                   carry `judge` and `judge_why`; nothing for adapters to do.
 
 Read-only on the store.
 """
@@ -146,6 +155,7 @@ from typing import Callable, Optional
 
 import yaml
 
+from src import edition_judge
 from src import latam
 from src import noise as noise_mod
 
@@ -191,7 +201,8 @@ DROPPED = {"procedural vote": ("procedural vote", "procedural votes"),
                                         "items without the required context"),
            "too little evidence": ("item with too little evidence",
                                    "items with too little evidence"),
-           "muted": ("muted item", "muted items")}
+           "muted": ("muted item", "muted items"),
+           edition_judge.DROP_REASON: ("item the judge scored 0", "items the judge scored 0")}
 
 
 # --- the adapter ------------------------------------------------------------------
@@ -425,14 +436,18 @@ def edition_number(cc, today, directory=None):
 # --- gathering --------------------------------------------------------------------
 
 def score(items):
-    """Stub triage score on each item (X16: the judge stays off, whatever
-    TRIAGE says), ordered: watched, score, votes first, newest."""
+    """Stub triage score on each item (X16: the paid judge stays off, whatever
+    TRIAGE says), replaced by the session judge's where it has read the item
+    (src/edition_judge.py), ordered: watched, score, votes first, newest."""
     from src import triage
     tis = [triage.TriageItem(id=str(i), title=it["title"], text=it["title"], tier=it["tier"],
                              issue_areas=it["areas"], watchlist_hit=it["watched"])
            for i, it in enumerate(items)]
     for res in triage.triage(tis, mode="stub"):
         items[int(res.id)]["score"] = res.score
+    for it in items:
+        if it.get("judge") is not None:
+            it["score"] = it["judge"]
     return sorted(items, key=lambda it: (not it["watched"], -it.get("score", 0),
                                          it["kind"] != "vote", latam._neg(it["date"]),
                                          it["key"]))
@@ -453,9 +468,10 @@ def gather(conn, country, since, until, config_dir=None, dropped=None):
     if country.kinds:
         got = [it for it in got if it["kind"] in country.kinds]
     kept, out = noise_for(country).split(got, config_dir)
+    kept, judged_out = edition_judge.split(edition_judge.annotate(conn, collapse_titles(kept)))
     if dropped is not None:
-        dropped.extend(out)
-    return score(collapse_titles(kept))
+        dropped.extend(out + judged_out)
+    return score(kept)
 
 
 def collapse_titles(items):
@@ -500,9 +516,13 @@ def one_per_group(items):
 
 
 def lead(country, items, config_dir=None):
-    """Items that lead: watched, or tier 1 with the minimum evidence."""
+    """Items that lead: watched, or tier 1 with the minimum evidence; where the
+    session judge has read an item, watched, scored 3, or scored 2 with the
+    minimum evidence (src/edition_judge.leads)."""
     nz = noise_for(country)
-    return [it for it in items if nz.alert_reason(it, config_dir)]
+    return [it for it in items
+            if edition_judge.leads(it, nz.alert_reason(it, config_dir),
+                                   it.get("judge") is not None and nz.muted(it, config_dir))]
 
 
 # --- rendering --------------------------------------------------------------------
@@ -579,6 +599,9 @@ def item_lines(it, wl, indent=""):
         bits.append("Watched{0}".format(": " + why if why else "."))
     if bits:
         out.append(indent + "  " + " ".join(bits))
+    judge = edition_judge.why_line(it)
+    if judge:
+        out.append(indent + "  " + judge)
     for line in it["lines"]:
         out.append(indent + "  " + clean(line))
     if it["url"]:
@@ -624,6 +647,9 @@ def vote_lines(group, wl):
         why = next((why_watched(v, wl) for v in group if why_watched(v, wl)), None)
         if why:
             out.append("  Watched: " + why)
+    judge = next((edition_judge.why_line(v) for v in group if v.get("judge") is not None), None)
+    if judge:
+        out.append("  " + judge)
     others = [v for v in chrono if v is not headline]
     out.append("  - **{0}** ({1}): *{2}*".format(
         "Decisive vote" if headline.get("final") else "Latest vote",
@@ -649,21 +675,31 @@ def vote_lines(group, wl):
     return out
 
 
-def honesty(country):
+JUDGE_OFF = ("The AI judge is off (X16): nothing has been read for relevance by a model, items "
+             "are ordered by tier (watched and tier 1 first), and a tier-2 match can still be "
+             "noise.")
+JUDGE_ON = ("{0} item(s) here were read for relevance by the free session judge (Claude Code on "
+            "the Mac Mini, on the plan allowance; the paid API judge stays off, X16): each shows "
+            "its score [0-3] and why-line, an unwatched item it scored 0 is left out (counted "
+            "under Coverage), and the scores order the items. The rest are ordered by tier "
+            "(watched and tier 1 first), and a tier-2 match among them can still be noise.")
+
+
+def honesty(country, n_judged=0):
     tax = ", ".join("{0} v{1}".format(f.replace(".yaml", ""), taxonomy_version(f))
                     for f, _ in country.taxonomies)
+    judge = JUDGE_ON.format(n_judged) if n_judged else JUDGE_OFF
     return (
         "> **How to read this edition.** Items come from the {0} store, classified by "
-        "{1} (approved without a native read, X4) and config/watchlist-{2}.yaml. The AI judge "
-        "is off (X16): nothing has been read for relevance by a model, items are ordered by "
-        "tier (watched and tier 1 first), and a tier-2 match can still be noise. Titles are "
+        "{1} (approved without a native read, X4) and config/watchlist-{2}.yaml. {5} "
+        "Titles are "
         "the source's own {3}, verbatim; the English around them is ours. Tallies, results "
         "and splits are the record; whether a vote helped or hurt is a human call and is "
         "never made here. {4}Migration is matched and stored but not shown. Procedural "
         "votes, the patterns in config/edition-noise-{2}.yaml and Chris's mutes are left "
         "out (counted under Coverage); a watched item never is.".format(
             country.name, tax, country.cc, country.language,
-            (country.members_note.rstrip(".") + ". ") if country.members_note else ""))
+            (country.members_note.rstrip(".") + ". ") if country.members_note else "", judge))
 
 
 def taxonomy_version(filename):
@@ -752,7 +788,7 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
                 ""]
         return finish(conn, country, today, out, wl)
 
-    out.append(honesty(country))
+    out.append(honesty(country, edition_judge.judged(got)))
     out += ["", "## In brief", ""]
     n_watch = sum(it["watched"] for it in got)
     out.append("**{0} item(s) on our ground**: {1}; {2} watched.".format(
@@ -854,7 +890,9 @@ def dm_summary(conn, country, today, since=None, path=None, config_dir=None, dir
     else:
         lines.append("*A quiet {0}*: nothing on our ground{1}.".format(
             country.period, " in recorded votes" if country.dm_kinds == ("vote",) else ""))
-    lines.append("_Ordered by tier; the AI judge is off (X16)._")
+    lines.append("_Ordered by the session judge's scores where it has read an item, by tier "
+                 "elsewhere; the paid judge stays off (X16)._" if edition_judge.judged(got) else
+                 "_Ordered by tier; the AI judge is off (X16)._")
     if path:
         lines.append("Full edition: {0}{1}".format(REPO, os.path.relpath(path, ROOT)))
     return "\n".join(lines)
