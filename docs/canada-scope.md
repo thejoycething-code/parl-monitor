@@ -3,7 +3,10 @@
 Probed live on 26 September 2026. Every number below was measured, not
 estimated, and is reproducible from `tools/ca_rollcalls.py` and the notes
 here. Groundwork only: nothing is scheduled, nothing reads the `ca_*` tables,
-and the live run was made into a scratch database, not the store.
+and the live run was made into a scratch database, not the store. (That was
+the first day. The weekly has run since 26 September, and since 9 October
+2026 the Canada federal edition reads the tables: see "The Canada federal
+edition" below.)
 
 ## The finding that shapes everything
 
@@ -864,11 +867,88 @@ from 1 would, the second time, start at the frontier and never see the gap.
 `init_db` has created the eleven Canadian tables since phase 3. It fills
 them from the seeds forward.
 
+## The Canada federal edition, built 9 October 2026
+
+Christopher asked for a Canada federal edition on 9 October 2026. It is
+`tools/ca_monitor.py`, modelled on the US and Irish editions, and it goes to
+him alone as a DM (U05LJP0BT61); nothing posts to a channel.
+
+    python3 tools/ca_monitor.py --edition --dm     # editions/ca-monitor-<date>.md + DM
+    python3 tools/ca_monitor.py --print --date 2026-10-09 --db /tmp/scratch.db
+
+**Where it runs.** Both callers of the Canada weekly, after every collector
+and the judge and before the store is published: `jobs/ca-weekly.sh` on the
+Mac Mini (`# mini_run: commit editions`) and the workflow's backup run
+(`git add data/ editions/`). It speaks once a day, as the US weekly does: if
+today's edition is already committed, it is rewritten and the DM is not
+sent again. `tests/test_ca_monitor.py` holds the wiring.
+
+**Sections**, each from what the weekly already collects:
+
+1. **Top lines**: the week's divisions on our ground, bills that moved, new
+   bills, the most-presented petition text, judgments, and any division of
+   the week that has no signed 5CA reading.
+2. **Dates that matter**: 17 March 2027 (MAID for mental illness alone), the
+   fixed election date of 15 October 2029 (Canada Elections Act s.56.1;
+   earlier on a dissolution), open Gazette Part I comment periods, and the
+   last House and Senate sittings read. The sitting calendar is not
+   collected. The prorogation rule is stated: a bill of an earlier session
+   without Royal Assent is treated as fallen whatever its status says.
+3. **Divisions** (House and Senate): the chamber's own result, the tally,
+   the party split by caucus at the vote, and whether the areas came from
+   the division's **own text** or only its **bill** (re-read from the
+   subject alone). Repeats on one bill with one result fold into one line.
+   A quiet week falls back to the last 30 days, then to the latest held.
+4. **Bills**: moved this week (a stage completed, Royal Assent, or a
+   division on the bill), new, live, Royal Assent this session, fallen
+   (defeated, or of an earlier session; that list shows for 60 days after a
+   new session opens).
+5. **Debate on our ground** (House Hansard and the Senate floor): one line
+   per debate and day, the speakers and a link to the day's record, never
+   the text.
+6. **Committees**: witnesses on our ground (`ca_testimony`), one line per
+   meeting with the witnesses, their organisations and the evidence link.
+7. **Petitions**: one line per distinct text (a drive presented by many
+   members is one line), the judge's why-line as the takeaway, and the link.
+8. **Canada Gazette**: items on our ground on a tier-1 term, and comment
+   periods still open.
+9. **Supreme Court**: judgments on our ground with the judge's score, and
+   leave granted in the last 90 days.
+10. **5CA status**: counts of signed, draft, unread and never-placeable
+    readings in `config/ca_stance.yaml`, the drafts listed, divisions on our
+    ground with no reading at all, and private members' bills with no
+    sponsorship reading. It never states a direction, signed or not.
+11. **Coverage**: what is held, what is read with a lag, what is not
+    collected, and what is unscored.
+
+**Scores.** `tools/ca_triage.py` scores petitions and Supreme Court
+judgments. Those are shown at 2 or more, or unscored on a tier-1 term only;
+the rest are counted as held back. Divisions, bills, speeches, testimony and
+the Gazette are unscored and say so. With no judge run at all the edition
+still renders whole.
+
+**A collector fix it needed.** The LEGISinfo list's
+`LatestBillEventDateTime` is the placeholder `0001-01-01T00:00:00` for every
+bill, and `IsGovernmentBill` is False for every bill, C-9 included (measured
+on all 191 bills of 45-1, 9 October 2026). So `ca_bills.latest_event_at`
+never said when a bill moved. `tools/ca_rollcalls.py` now stores
+`bill_type` (the document type, which also sets `is_government`),
+`introduced_at` (first reading in the originating chamber), `last_stage` and
+`last_stage_at` from the list's real stage dates, with no extra call. The
+next weekly fills them for the whole session.
+
+**The first render** (9 October 2026, from a scratch copy of the store with
+the 45-1 bill list re-read): one House division on our ground, C-218's
+second reading on 7 October, negatived 141-187 (Lib 2-166, CPC 133-0, BQ
+0-21, NDP 5-0, GP 1-0), which has no 5CA reading yet; 9 live bills; 16
+speeches in 6 debates; 17 petitions in 8 texts, 7 shown (six C-218 MAID
+texts and e-7005); 2 Gazette items; one leave granted (Alberta v. Wirring).
+
 ## Proposed phasing
 
 1. **Phase 1 (done, scheduled): House divisions, positions, bills.**
 2. **Phase 2 (done, scheduled): Hansard, petitions, Senate votes, the
-   Canada Gazette.** Collected weekly; no edition reads them yet.
+   Canada Gazette.** Collected weekly; the edition reads them (below).
 3. **Phase 3 (built, awaiting sign-off): the Canadian 5CA.** See below.
    Every reading is a draft, so every sheet is an evidence list until
    Christopher confirms readings in `config/ca_stance.yaml`.
@@ -891,8 +971,9 @@ them from the seeds forward.
 
 ## Open questions for Christopher
 
-1. **Who reads it?** Is there a CitizenGO Canada team or campaigner, and do
-   they want an edition of their own (the EU and German pattern) or a DM?
+1. **Who reads it?** Answered 9 October 2026: Christopher, by DM, as the
+   US and Irish editions (see "The Canada federal edition" above). Whether a
+   Canadian campaigner or channel gets it later is still open.
 2. **Federal only, or provinces too?** If provinces, which ones, and is
    Quebec in, given it needs a French term layer?
 3. **The watchlist is a groundwork draft.** Someone who campaigns in Canada

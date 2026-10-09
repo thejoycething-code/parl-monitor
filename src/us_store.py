@@ -34,7 +34,8 @@ of an odd year still belong to the old Congress. `congress_on` and
 
 AMENDMENT PURPOSES (phase 1b): `us_divisions.amendment_key`,
 `amendment_text` and `purpose_source` ('billstatus', keyless and first, or
-'congress-api', keyed, for what BILLSTATUS has not explained yet). The rule
+'congress-api', keyed, for what BILLSTATUS has not explained yet; for the
+Senate 'senate-vote', the purpose printed in the vote file itself). The rule
 that uses them is in tools/us_rollcalls.py.
 """
 
@@ -92,7 +93,7 @@ SCHEMA = (
     )""",
     """CREATE TABLE IF NOT EXISTS us_divisions (
         division_key TEXT PRIMARY KEY,   -- 'house-119-1-240': chamber-congress-session-roll
-        chamber      TEXT NOT NULL,      -- 'house' (the Senate is phase 2)
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
         congress     INTEGER NOT NULL,
         session      INTEGER NOT NULL,
         roll         INTEGER NOT NULL,
@@ -368,12 +369,13 @@ ADDED_COLUMNS = (
     # Phase 1b (9 October 2026): a House amendment vote's amendment, from
     # Congress.gov. amendment_checked is the date it was asked for, so a vote
     # with no amendment record is asked once, not every week.
-    ("us_divisions", "amendment_key", "TEXT"),      # '119/hamdt/150'
+    ("us_divisions", "amendment_key", "TEXT"),      # '119/hamdt/150', '119/samdt/2307'
     ("us_divisions", "amendment_text", "TEXT"),     # description | purpose
     ("us_divisions", "amendment_checked", "TEXT"),
     # Which source gave amendment_text: 'billstatus' (the bulk files, keyless,
     # tried first) or 'congress-api' (keyed, only for what BILLSTATUS has not
-    # explained yet). Added with the keyless route, 9 October 2026.
+    # explained yet). Added with the keyless route, 9 October 2026. Senate
+    # votes: 'senate-vote', the purpose in senate.gov's own vote file.
     ("us_divisions", "purpose_source", "TEXT"),
 )
 
@@ -394,14 +396,33 @@ def ensure_schema(conn):
 # Shared by the collector (tools/us_rollcalls.classify_division, where the
 # rule is documented) and the edition, so both read it the same way.
 
-EN_BLOC = re.compile(r"\ben bloc\b|comprised of the following amendments", re.I)
+# An en bloc vote's text is a list of amendment numbers, not a purpose: the
+# House's "comprised of the following amendments ... Nos. 266, 267", the
+# Senate's "Amdts. Nos. 2310 and 2311".
+EN_BLOC = re.compile(r"\ben bloc\b|comprised of the following amendments"
+                     r"|\bamendments (?:nos?\.|numbered)|\bamdts\.", re.I)
+
+# Purposes that say nothing about what the amendment does, so the vote is on
+# the bill: a complete substitute ("In the nature of a substitute." is the
+# whole bill, rewritten: the One Big Beautiful Bill's substitute, every
+# appropriations substitute), the Senate's tree-filling placeholder ("To
+# improve the bill.") and a bare section number ("To strike section 2019.").
+NOT_A_PURPOSE = re.compile(r"^\W*(?:an amendment )?in the nature of a substitute\W*$"
+                           r"|^\W*to improve the bill\W*$"
+                           r"|^\W*to strike (?:section|title|subsection) [\w().]+\W*$", re.I)
 
 
-def has_own_purpose(amendment_text, chamber="house"):
-    """True for a HOUSE vote whose amendment text is a real purpose, not an
-    en bloc list of amendment numbers."""
-    return bool(amendment_text) and (chamber or "house") == "house" \
-        and not EN_BLOC.search(amendment_text)
+def has_own_purpose(amendment_text, chamber=None):
+    """True for a vote, House or Senate, whose amendment text is a real
+    purpose: not an en bloc list of amendment numbers and not a purpose that
+    names no subject (a substitute, a placeholder). `chamber` is kept for
+    callers; since 9 October 2026 the rule is the same in both chambers."""
+    if not amendment_text:
+        return False
+    if EN_BLOC.search(amendment_text):
+        return False
+    return not all(NOT_A_PURPOSE.search(part.strip())
+                   for part in amendment_text.split(" | ") if part.strip())
 
 
 # --- which Congress is sitting ----------------------------------------------
