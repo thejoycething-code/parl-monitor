@@ -192,13 +192,43 @@ is needed: see "Why not spread it over the week" below.
 - **Zips only is a flag away:** `--no-topup` spends the 2 list requests and
   nothing else; the edition is then good to Wednesday or Thursday.
 
-### 3 to 5. Other routes (to be completed)
+### 3. Running Open States' own scrapers (measured 9 October 2026)
 
-Running Open States' own scrapers, LegiScan's free tier (a free key
-Christopher would request; its site showed a Cloudflare challenge before
-and was not bypassed), and the official sources of Texas, New York,
-California, New Jersey and Massachusetts were being measured when this was
-written; their findings are to be added here. None is needed for the route
+Measured in a scratch directory on the laptop; nothing installed in the repo.
+
+- **Licence:** openstates-scrapers is GPL v3, openstates-core MIT. Running
+  them internally is fine; copyleft bites only if a modified version is
+  redistributed.
+- **Weight:** a shallow clone is 6.5 MB; it needs Python 3.13 (the Mini and
+  laptop ship 3.9, so a separate `uv` venv), 121 packages (Django 3.2, boto3,
+  pandas, pymupdf...), a 397 MB venv, 40 s to install. Scraping writes JSON
+  and needs no Postgres. The Docker image is 890 MB and amd64-only, so it
+  would run emulated on the Mini: the venv is the better route.
+- **Per state, the bills scraper:**
+
+| State | Source | Extra | Cost of a run |
+|---|---|---|---|
+| Texas | State FTP, one XML per bill, plus a capitol.texas.gov page for companions | none | No incremental mode. Measured: 146 requests and 118 bills in 10 minutes (about 4.8 s a bill); a 10-11k-bill regular session is **about 14-15 hours a run** |
+| New York | NY Senate Open Legislation API plus one Assembly vote page per bill | a free NY key (not requested) | Incremental `window=7d`: 1 API call + 2 per changed bill |
+| California | `pubinfo_2025.zip`, **1.29 GB**, loaded into a local MySQL | a MySQL server | one large download a run |
+| New Jersey | The Legislature's own bulk zips (CSV tables + 6 vote zips) | none | about 7 requests: cheap |
+| Massachusetts | JSON list, then an HTML crawl per bill with roll-call PDFs | none | about 35k requests, about 10 hours at 60 a minute |
+
+**Verdict:** free and easy to install, but cheap only for New Jersey (and
+New York with a free key). Texas and Massachusetts are long full crawls and
+California needs MySQL and a 1.3 GB download every run. Not adopted: the
+bulk-plus-top-up route above already keeps these states current a day
+behind, for at most 150 keyed requests a run. If one state ever matters
+enough to be same-day, New Jersey's bulk zips or New York's API
+(`window=7d`) are the ones to self-run.
+
+### 4 and 5. LegiScan and the states' own sources (not yet measured)
+
+LegiScan's free tier (reportedly 30,000 queries a month; a free key
+Christopher would request himself; its site showed a Cloudflare challenge
+before and was not bypassed) and the official bulk sources beyond the above
+(Texas FTP, California downloads, New York's API, New Jersey and
+Massachusetts) are documented as options only. None is needed for the route
 above.
 
 ## What Open States gives, per state
