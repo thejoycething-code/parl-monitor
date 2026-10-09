@@ -1,0 +1,100 @@
+# Latam monitor noise filters: free and deterministic, no model (X16, and
+# Chris on 10 October 2026: "no judge yet, we need free alternatives").
+# Read by src/latam_noise.py for the monthly edition (tools/latam_monitor.py)
+# and the instant alerts (tools/latam_alerts.py). Hand-edited; this is not a
+# generated file. Measured on the October 2026 sample (docs/country-
+# decisions-2026-10-10.md, "Latam noise filters").
+#
+# A WATCHED ITEM IS NEVER FILTERED: everything below applies to items the
+# taxonomy alone put on our ground.
+#
+# Patterns are Python regular expressions matched against the text folded
+# the way the taxonomy folds it: lower case, accents stripped ("dia", not
+# "día"). `default` applies to every country; a country's lists are added to
+# it, and its `alert` keys override the default's one by one.
+#
+#   procedural_votes  a recorded vote whose own words match is left out of
+#                     the edition and never alerts: order of the day,
+#                     minutes, quorum, recesses, agenda changes.
+#   exclude_titles    any item whose title matches is left out; a vote that
+#                     names only bills excluded this way goes with them.
+#   require_any       {kind: [patterns]}: an item of that kind is kept only
+#                     if its title or body matches one of them.
+#   alert             the minimum evidence for a tier-1 item that is not
+#                     watched to alert (otherwise it is edition-only):
+#                       title_tier1     a tier-1 term in the title itself;
+#                       distinct_terms  or at least this many distinct terms
+#                                       in shown areas (0 switches it off);
+#                       numbers         or a pattern (a decree or bill
+#                                       number) in the title or body.
+#   alert_by_kind     {kind: {...}}: the same keys, for one kind of item.
+
+default:
+  # Anchored to the procedural act itself, so that a motion merely
+  # mentioning the order of the day ("para tenerlo en el orden del día de
+  # mañana") is not taken for one.
+  procedural_votes:
+    - '^\W*(el )?orden del dia\b'
+    - '\b(aprob|modific|alter|cambi|inclu|exclu|retir)\w* (de |del |en |al )?(el |la )?(orden del dia|agenda)\b'
+    - '\b(aprob|lectura)\w* (de |del )?(el |la |las )?actas?\b'
+    - '\b(verificacion|comprobacion|constatacion|llamado) (de |del |al )?quorum\b'
+    - '^\W*quorum\b'
+    - '\b(declar|decret|solicit|aprob)\w* (un |el )?receso\b'
+    - '^\W*receso\b'
+    - '\blevanta(r|miento de) la sesion\b'
+    - '\bdeclar\w* (en )?sesion permanente\b'
+    - '\bprorroga(r)? (de )?la sesion\b'
+  alert:
+    title_tier1: true
+    distinct_terms: 2
+
+countries:
+  do:
+    # The Cámara's motions: dispensing a reading, leaving on the table, and
+    # the bulk "grupo de resoluciones internas" votes, which carry ten
+    # unrelated resolutions at once. Their areas are the named bills'
+    # (do_rollcalls), so they repeat a bill already listed. Referral to a
+    # committee is NOT here: sending a Penal Code bill to the bicameral
+    # commission is where the causales fight moves.
+    procedural_votes:
+      - 'liberad[oa]s? del tramite de lectura'
+      - 'dejad[oa]s? sobre la mesa'
+      - 'grupo de (proyectos de )?resoluciones internas'
+      - 'comision permanente de reconocimientos'
+    # Honours: resolutions recognising a person or group (the scope doc's
+    # "honours for named pastors" noise, docs/dominican-republic-scope.md).
+    exclude_titles:
+      - '\botorga(r)? (un |el )?reconocimiento\b'
+
+  hn:
+    # Congress press releases mention free speech, trafficking or security
+    # in passing in almost every speech report. Alert only on a watchlist
+    # hit (a watched expediente's number or match phrase), a decree or
+    # expediente number, or a tier-1 term in the headline; everything else
+    # is edition-only.
+    alert_by_kind:
+      press:
+        title_tier1: true
+        distinct_terms: 0
+        numbers: '\b(decreto|expediente)\s+(no\.?\s*|numero\s+|n.\s*)?\d{1,4}-\d{4}\b|\bexp-\d{4}-\d{3,4}\b'
+
+  nic:
+    # La Gaceta is read for cancellations of churches', religious bodies'
+    # and NGOs' legal status (NI2). Approvals of sports and civic
+    # associations say "personalidad jurídica" too.
+    require_any:
+      gazette:
+        - 'cancel'
+        - 'revoca'
+        - 'disolu'
+        - 'deja(r)? sin efecto'
+        - 'iglesia'
+        - 'religios'
+        - '\bculto'
+        - 'evangel'
+        - 'catolic'
+        - 'parroquia'
+        - 'diocesis'
+        - 'congregacion'
+        - 'misioner'
+        - 'cristian'

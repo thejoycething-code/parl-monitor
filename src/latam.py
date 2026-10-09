@@ -604,17 +604,27 @@ def ledger_moves(ledger, cc, since, until):
 SOURCE_MOVES = ("bo", "pa", "do", "hn")
 
 
-def country_items(conn, cc, since, until, ledger=None, config_dir=None):
+def country_items(conn, cc, since, until, ledger=None, config_dir=None, dropped=None):
+    """The country's items on our ground, after the noise filters
+    (src/latam_noise.py, config/latam-noise.yaml and config/latam-mute.yaml).
+    Items the filters leave out are appended to `dropped`, when given, each
+    with its reason under "dropped"."""
+    from src import latam_noise
     if cc == "ve":
-        return ve_items(conn, since, until, config_dir)
-    if cc == "nic":
-        return nic_items(conn, since, until)
-    if cc not in ADAPTERS:
+        got = ve_items(conn, since, until, config_dir)
+    elif cc == "nic":
+        got = nic_items(conn, since, until)
+    elif cc not in ADAPTERS:
         return []
-    got = ADAPTERS[cc](conn, since, until, watchlist(cc, config_dir))
-    if cc not in SOURCE_MOVES:
-        got += ledger_moves(ledger, cc, since, until)
-    return collapse(got)
+    else:
+        got = ADAPTERS[cc](conn, since, until, watchlist(cc, config_dir))
+        if cc not in SOURCE_MOVES:
+            got += ledger_moves(ledger, cc, since, until)
+        got = collapse(got)
+    kept, out = latam_noise.split(got, config_dir)
+    if dropped is not None:
+        dropped.extend(out)
+    return kept
 
 
 # --- watched items' current status (for moves) --------------------------------

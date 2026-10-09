@@ -19,8 +19,13 @@ last --days (default 14, so Guatemala's fortnightly pull is covered):
     of any kind: a new bill, a vote, an agenda listing, a register update;
   * any tier-1 item (the shared taxonomy-es's tier 1, through the
     collector's filter): a new bill, a vote, a committee report, a pedido, a
-    press item, a gazette notice, a law. A tier-1 bill merely re-stamped on
-    its register (Bolivia's "updated") does not alert unless watched;
+    press item, a gazette notice, a law, WITH THE MINIMUM EVIDENCE of
+    config/latam-noise.yaml (src/latam_noise.py): a tier-1 term in its own
+    title, or two distinct terms, or for a Honduras press release a decree
+    or expediente number. A tier-1 item without it, a procedural vote, and
+    anything on config/latam-mute.yaml waits for the edition (or, muted,
+    never comes). A tier-1 bill merely re-stamped on its register
+    (Bolivia's "updated") does not alert unless watched;
   * a watched item whose status changed since the last pass, even in a
     country whose store keeps no change dates (Colombia, Chile, Peru...):
     the ledger remembers each watched item's last status. That move is
@@ -54,7 +59,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, latam  # noqa: E402
+from src import db, latam, latam_noise  # noqa: E402
 
 CHRIS = "U05LJP0BT61"
 DEFAULT_DAYS = 14
@@ -104,10 +109,9 @@ def alert_key(it):
 
 # --- what alerts ------------------------------------------------------------------
 
-def qualifies(it):
-    if it["watched"]:
-        return True
-    return it["tier"] == 1 and it["kind"] != "updated"
+def qualifies(it, config_dir=None):
+    """Watched, or tier 1 with the minimum evidence (src/latam_noise.py)."""
+    return latam_noise.alert_reason(it, config_dir) is not None
 
 
 def status_moves(conn, cc, ledger, today, config_dir=None):
@@ -131,10 +135,11 @@ def candidates(conn, cc, today, days, ledger, config_dir=None):
     since = (datetime.date.fromisoformat(today) - datetime.timedelta(days=days)).isoformat()
     # ledger=None: the edition's ledger-derived moves are not news to the alerts.
     items = [it for it in latam.country_items(conn, cc, since, today, None, config_dir)
-             if qualifies(it)]
+             if qualifies(it, config_dir)]
     moves = status_moves(conn, cc, ledger, today, config_dir)
     if cc not in latam.SOURCE_MOVES:
-        items += moves          # the source's own moves already came through above
+        # the source's own moves already came through above
+        items += [m for m in moves if not latam_noise.muted(m, config_dir)]
     return latam.score(items)
 
 
