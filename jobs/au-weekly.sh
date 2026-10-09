@@ -80,6 +80,12 @@ else
   python3 tools/au_triage.py --dry-run
 fi
 
+# The 5CA sheets (tools/au_5ca.py, data/5ca/au-5ca-*.csv): offline, from the
+# store just collected, as prov_5ca.py runs in the provinces weekly. Only
+# SIGNED readings in config/au_stance.yaml place anyone. A failure is a gap,
+# never a lost week.
+python3 tools/au_5ca.py --all || echo "  [gap] the 5CA sheets failed; last week's stand"
+
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/au-monitor-$TODAY.md" >/dev/null 2>&1; then
   echo "edition for $TODAY already committed: rewriting it, not resending the DM"
