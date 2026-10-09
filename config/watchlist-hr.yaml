@@ -1,0 +1,11 @@
+# Croatia watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Croatia.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/hr_store.add_watch_areas). Two kinds:
+#   bills: '<saziv>/<number>', from "P.Z. br. N" / "P.Z.E. br. N" in the
+#          agenda title. PZ and PZE share one sequence; numbers restart with
+#          each saziv, so every entry is re-keyed after a general election.
+#   items: an agenda appearance's tid, for votes that are not bills
+#          (declarations, decisions, reports).
+bills: {}
+items: {}
