@@ -30,6 +30,7 @@
 # The vote pages are slow (1.7 to 96 seconds each, measured 9 October 2026),
 # so the collector stops reading them at 45 minutes and the next run resumes;
 # everything else it reads in under a minute.
+# mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -41,6 +42,22 @@ if [ "${SK_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/sk_rollcalls.py --budget-seconds 2700 || rc=$?
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  # The weekly edition (src/country_edition.py, tools/sk_monitor.py), to Chris
+  # alone by DM, archived to editions/. Once a day: an edition already
+  # committed for today is rewritten, not resent. A failed render never stops
+  # the publish below.
+  export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+  TODAY=$(date +%Y-%m-%d)
+  if git ls-files --error-unmatch "editions/sk-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/sk_monitor.py --edition \
+      || echo "  [gap] sk-monitor: the edition failed to render; the store is still published"
+  else
+    python3 tools/sk_monitor.py --edition --dm \
+      || echo "  [gap] sk-monitor: the edition or its DM failed; the store is still published"
+  fi
+fi
 if [ "${SK_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi

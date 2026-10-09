@@ -177,3 +177,16 @@ Federal Parliament of Australia. Built on the provinces and Canada pattern:
 * Ireland: the store holds the 34th Dail and 27th Seanad only, so the safe
   access zones and hate offences votes (33rd Dail) cannot be read until
   `ie_rollcalls.py` backfills it.
+
+## The European Parliament (9 October 2026)
+
+`tools/make_eu_5ca.py` keeps its own file shape: `config/eu_divisions.yaml` is
+a mapping keyed by decision-event id (`our_side`, `meaning_favor`,
+`meaning_against`, `signed_off`), read by the tracker and the edition too.
+393 DRAFT readings were added for the divisions on our ground; none is signed
+and none places anyone. `src/eureadings.py` writes the guide
+(`docs/5ca-eu-readings.md`, `--signoff-doc`) and signs from it
+(`--sign-from-doc`), reusing `readings5ca`'s checkbox format; a tick cannot
+sign a draft that proposes no side. The absence rule now caps ++ for an MEP in
+the chamber that day who did not vote on the latest signed division
+(docs/eu-monitor-spec.md, 9 October 2026).

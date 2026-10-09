@@ -375,6 +375,17 @@ ADDED_COLUMNS = (
     # 2011 names and ridings: "Michelle Rempel", Kyle Seeback in Brampton
     # West (29 September 2026).
     ("ca_members", "as_of", "TEXT"),
+    # 9 October 2026, for the edition (tools/ca_monitor.py): the list feed's
+    # LatestBillEventDateTime is a placeholder for every bill, so what moved
+    # this week comes from the stage dates. bill_type is LEGISinfo's document
+    # type ('House Government Bill', 'Private Member’s Bill', ...);
+    # introduced_at is first reading in the originating chamber; last_stage
+    # and last_stage_at are the latest completed major stage and the latest
+    # stage date (a defeat is not a stage: status says 'Bill defeated').
+    ("ca_bills", "bill_type", "TEXT"),
+    ("ca_bills", "introduced_at", "TEXT"),
+    ("ca_bills", "last_stage", "TEXT"),
+    ("ca_bills", "last_stage_at", "TEXT"),
 )
 
 
