@@ -1,6 +1,6 @@
 # Mac Mini runner: the Mini goes first, GitHub is the backup
 
-Written 9 Oct 2026 from the MacBook session "Mac Mini AI Agent setup". It's meant to be carried out **on the Mac Mini** by a Claude Code session using Chris's **personal** Claude account (the 20x plan). The work account stays on whatever already runs there.
+Written 9 Oct 2026 from the MacBook session "Mac Mini AI Agent setup". It's meant to be carried out **on the Mac Mini** by a Claude Code session on Chris's **work** Claude account (changed 9 Oct: safer, and his scheduled tasks already run there). That plan is 5x, so keep jobs lean: plain scripts where no judgement is needed, Claude only for drafting or judgement steps.
 
 ## Goal
 1. Every scheduled parl-monitor job runs **on the Mini first**, at the exact time.
@@ -20,7 +20,8 @@ Written 9 Oct 2026 from the MacBook session "Mac Mini AI Agent setup". It's mean
 
 ## Step 0: check before changing anything
 - Which user/account runs the existing scheduled tasks on this Mini? List them (Claude Desktop scheduled tasks, `launchctl list | grep -v com.apple`, `crontab -l`). Report them to Chris and don't move them.
-- Is the Claude Code CLI installed? Give the agent its own config dir so it never mixes with the work login: `CLAUDE_CONFIG_DIR=~/.claude-agent claude` → sign in with the personal account.
+- Is the Claude Code CLI installed and signed in to the work account (the same one the existing scheduled tasks use)? No separate config dir is needed.
+- Most parl-monitor jobs are plain Python and use no Claude at all. Run those straight from launchd so they cost no allowance.
 - Power: `pmset -g`, aiming for `sleep 0`, `autorestart 1` (restart after a power cut), `womp 1`. Changing these needs admin and the Mini is CGO-managed. If it's blocked, tell Chris instead of working around it. Check whether FileVault stops it coming back unattended after a restart.
 
 ## Step 1: a separate runner clone
