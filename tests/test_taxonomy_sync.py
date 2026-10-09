@@ -76,7 +76,9 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.16 (2 October 2026): "right to withdraw" guarded, and the
         # [without:] veto for organ-donor leave in labour codes.
         # v1.17 (9 October 2026): American vocabulary, merged into the areas.
-        self.assertEqual(version, "1.17")
+        # v1.18 (the same day): "human trafficking" vetoed by border-enforcement
+        # company, and the Federal Register's pollutant/pesticide/livestock noise.
+        self.assertEqual(version, "1.18")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -106,7 +108,8 @@ class TaxonomySyncTests(unittest.TestCase):
                       areas["6_parental_rights_education"]["tier1"])
         self.assertIn("\"Knowing Our Identity\"",
                       areas["3_gender_medicine_children"]["tier1"])
-        self.assertIn("unborn", areas["1_abortion"]["tier2"])
+        # v1.18: vetoed in livestock company (the Livestock Indemnity Program).
+        self.assertIn("unborn [without: livestock]", areas["1_abortion"]["tier2"])
         # v0.6: area 7 widened to civil liberties, Christopher 2026-08-20.
         seven = areas["7_free_speech_online_safety"]
         self.assertIn("\"pandemic treaty\"", seven["tier1"])

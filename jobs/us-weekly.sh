@@ -1,7 +1,8 @@
 #!/bin/bash
 # US weekly: members, bills, House roll calls and Senate votes of the current
 # Congress, the week ahead (floor lists and committee meetings, both
-# chambers), the judge when US_JUDGE is on, then the edition and its DM.
+# chambers), the Federal Register's executive actions and the Supreme Court
+# (9 October 2026), the judge when US_JUDGE is on, then the edition and its DM.
 #
 # Called by .github/workflows/us-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh us-weekly. One script, two callers (docs/mac-mini.md).
@@ -49,6 +50,8 @@ UA="parl-monitor (CitizenGO parliamentary monitor; thejoycething-code/parl-monit
 
 if [ "${US_RECLASSIFY:-}" = "true" ]; then
   python3 tools/us_rollcalls.py --reclassify | tee "$LOG/us-reclassify.log"
+  python3 tools/us_federal_register.py --reclassify | tee -a "$LOG/us-reclassify.log"
+  python3 tools/us_courts.py --reclassify | tee -a "$LOG/us-reclassify.log"
 fi
 
 if [ "${US_SENATE_ONLY:-}" = "true" ]; then
@@ -113,6 +116,18 @@ python3 tools/us_rollcalls.py --congress "$CONGRESS" --budget-seconds 2700 "${SE
 # store and said in the edition; it never stops the week's edition.
 python3 tools/us_schedule.py "${SENATE_ARGS[@]}" | tee "$LOG/us-schedule.log" \
   || echo "  [gap] the week ahead stopped early; the edition says what it has"
+
+# The executive and the Court. Neither depends on the Congress: the Federal
+# Register runs by publication date and the Court by its October Term, which
+# tools/us_courts.py derives from the date. Neither stops the edition: a
+# refused source is a [gap] line (and a gaps row), and the edition says what
+# it holds. The Court's first run reads about 275 order PDFs (some 18
+# minutes at robots.txt's one a second); its budget caps a run at 15 minutes
+# and the rest are read the next week, unread files never marked read.
+python3 tools/us_federal_register.py | tee "$LOG/us-federal-register.log" \
+  || echo "  [gap] Federal Register step failed; this week's executive actions may be missing"
+python3 tools/us_courts.py --budget-seconds 900 | tee "$LOG/us-courts.log" \
+  || echo "  [gap] Supreme Court step failed; this week's opinions and grants may be missing"
 
 JUDGE="${US_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then

@@ -21,6 +21,9 @@ never campaigned). Newest first by latest action, so a live bill is never
 queued behind a dead one. Votes are judged ONLY where their own text matched
 (own_areas): a vote that merely inherits its bill's areas takes the bill's
 score in the edition, so judging it again would pay twice for one story.
+Since 9 October 2026 also the Federal Register documents (us_fr_documents)
+and Supreme Court opinions and grants (us_court_cases) on our ground, each
+on the text its collector classified.
 
 SCORED ONCE, EVER. --rescore <key> puts one back on a human's say-so.
 Spend lands in api_spend as 'us-triage'.
@@ -55,7 +58,8 @@ TOKENS_OUT_PER_ITEM = 100
 SYSTEM_PROMPT_US = triage.SYSTEM_PROMPT.replace(
     "You are the triage layer of CitizenGO UK's parliamentary monitor. CitizenGO campaigns",
     "You are the triage layer of CitizenGO's US Congress monitor, covering bills and recorded "
-    "votes in the House of Representatives and the Senate. Never mark an item down for not "
+    "votes in the House of Representatives and the Senate, executive orders and agency rules "
+    "in the Federal Register, and Supreme Court opinions and grants of certiorari. Never mark an item down for not "
     "being British: an American matter in one of these areas is fully in scope. American "
     "names to know: 'medical aid in dying' and 'Death with Dignity' are assisted suicide; "
     "the Hyde Amendment and Planned Parenthood funding are abortion; Title IX disputes over "
@@ -65,10 +69,14 @@ SYSTEM_PROMPT_US = triage.SYSTEM_PROMPT.replace(
     "Much of this ground moves as riders inside appropriations, defence (NDAA) and "
     "reconciliation bills: score such a bill on what it does in these areas, not on its "
     "size. A BILL is given by its titles, its Congressional Research Service subject terms "
-    "and its CRS summary; a VOTE by its question and its own text. CitizenGO campaigns", 1)
+    "and its CRS summary; a VOTE by its question and its own text; an EXECUTIVE ACTION by "
+    "its title and the agency's abstract (a proposed rule open for comment is something "
+    "campaigners can act on); a COURT item by the case name and the Court's holding or the "
+    "question presented. CitizenGO campaigns", 1)
 assert SYSTEM_PROMPT_US != triage.SYSTEM_PROMPT
 
-SOURCES = {"us_bills": "bill_key", "us_divisions": "division_key"}
+SOURCES = {"us_bills": "bill_key", "us_divisions": "division_key",
+           "us_fr_documents": "document_number", "us_court_cases": "case_key"}
 
 
 def _ours(areas_json):
@@ -107,6 +115,37 @@ def pending(conn):
             r["result"] or "?").split())
         dated.append((r["date"] or "",
                       triage.TriageItem(id="us_divisions:" + r["division_key"], title=title,
+                                        text=text[:1500], tier=r["tier"] or 2,
+                                        issue_areas=areas, watchlist_hit=False)))
+    # Executive actions and the Court (9 October 2026): judged on what each
+    # collector classified, so the judge reads the text the filter read.
+    for r in conn.execute("SELECT * FROM us_fr_documents WHERE triage_score IS NULL "
+                          "AND areas NOT IN ('[]', '[11]')"):
+        areas = _ours(r["areas"])
+        if not areas:
+            continue
+        title = "{0}{1}: {2}".format(r["subtype"] or r["doc_type"],
+                                     " {0}".format(r["eo_number"]) if r["eo_number"] else "",
+                                     r["title"] or "")
+        text = " ".join("{0}. Agencies: {1}. {2} Comments close: {3}.".format(
+            r["action"] or r["doc_type"], ", ".join(json.loads(r["agencies"] or "[]")) or "?",
+            r["abstract"] or "", r["comments_close_on"] or "n/a").split())
+        dated.append((r["publication_date"] or "",
+                      triage.TriageItem(id="us_fr_documents:" + r["document_number"], title=title,
+                                        text=text[:1500], tier=r["tier"] or 2,
+                                        issue_areas=areas, watchlist_hit=False)))
+    for r in conn.execute("SELECT * FROM us_court_cases WHERE triage_score IS NULL "
+                          "AND areas NOT IN ('[]', '[11]')"):
+        areas = _ours(r["areas"])
+        if not areas:
+            continue
+        kind = "Supreme Court opinion" if r["kind"] == "opinion" else "Supreme Court grant of certiorari"
+        title = "{0}: {1} (No. {2})".format(kind, r["case_name"] or "?", r["docket"] or "?")
+        text = " ".join("{0}. {1}: {2}".format(
+            r["title"] or "", "Holding" if r["kind"] == "opinion" else "Question presented",
+            r["summary"] or "not read").split())
+        dated.append((r["decided"] or "",
+                      triage.TriageItem(id="us_court_cases:" + r["case_key"], title=title,
                                         text=text[:1500], tier=r["tier"] or 2,
                                         issue_areas=areas, watchlist_hit=False)))
     dated.sort(key=lambda d: (d[0], d[1].id), reverse=True)

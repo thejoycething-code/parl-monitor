@@ -169,6 +169,13 @@ FEEDS = [
     ("us_schedule_weeks", "last_seen", 7, 4, "the week ahead, one row per week and source asked (US weekly)"),
     ("us_schedule", "last_seen", 7, 7, "bills scheduled for the floor or a committee (US weekly)"),
     ("us_meetings", "last_seen", 31, 31, "House and Senate committee meetings (US weekly)"),
+    # The executive and the Court (9 October 2026). Each Federal Register run
+    # re-reads the last fourteen days of publication and re-stamps what it
+    # sees, and the Register publishes every working day, so this moves every
+    # week. The slip-opinion pages of the current and last term are re-read
+    # whole, like the SCC feed, so us_court_cases moves every week too.
+    ("us_fr_documents", "last_seen", 7, 4, "Federal Register: orders and rules (US weekly)"),
+    ("us_court_cases", "last_seen", 7, 4, "Supreme Court opinions and grants (US weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -240,7 +247,8 @@ PIPELINE_FEEDS = {
     # the Gazette can legitimately be quiet, which would cry clobber.
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
-    "US weekly": ["us_bills", "us_members", "us_schedule_weeks", "us_schedule"],
+    "US weekly": ["us_bills", "us_members", "us_schedule_weeks", "us_schedule",
+                  "us_fr_documents", "us_court_cases"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -269,6 +277,16 @@ AWAITING_FIRST_RUN = {
     # dispatch, which runs no speeches step, and the empty speech tables
     # would have cried wipe until the next Wednesday. Once the step has run,
     # an empty table here is a wipe again.
+    # STEP heartbeats, as for Provinces speeches: tools/us_federal_register.py
+    # and tools/us_courts.py stamp their own source_runs rows, so the new US
+    # tables are excused only until their own step has run once -- the US
+    # weekly itself had run before they existed.
+    "US Federal Register": (("us_fr_documents",),
+                            "executive actions added to US weekly 9 October 2026; "
+                            "the table fills on the step's first run"),
+    "US Supreme Court": (("us_court_cases", "us_court_orders"),
+                         "Supreme Court added to US weekly 9 October 2026; "
+                         "its tables fill on the step's first run"),
     "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),
@@ -323,6 +341,9 @@ ONCE_EVER = {
     "ca_committee_meetings": "one row per committee meeting read, stored once",
     "ca_testimony": "one row per witness intervention on our ground, stored once",
     "ca_leave": "one row per leave-to-appeal decision, written once",
+    # One row per Supreme Court order PDF read; an order list is final, so
+    # it is read once and never re-stamped.
+    "us_court_orders": "one row per Supreme Court order PDF read, stored once",
     # Canada's provinces (3 October 2026), MEASURED: store_division re-stamps
     # last_seen only when its sitting record is read again (a clean one never
     # is) or when a bill page naming a voice decision is re-read, so the table

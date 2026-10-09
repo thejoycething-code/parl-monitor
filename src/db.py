@@ -1562,6 +1562,11 @@ TABLES = (
     "us_schedule",
     "us_meetings",
     "us_schedule_weeks",
+    # The US executive and the Supreme Court (9 October 2026):
+    # tools/us_federal_register.py and tools/us_courts.py, same module.
+    "us_fr_documents",
+    "us_court_cases",
+    "us_court_orders",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
