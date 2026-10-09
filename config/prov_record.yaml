@@ -621,6 +621,53 @@ provinces:
           (6 December 2012) and appears in neither list of this division.
           Read from CI on 7 October 2026 (probe-hosts run 37568416383).
   "nb":
+    # A member of the current legislature who has left (Christopher, 9 Oct 2026). Read by
+    # prov_nb.fetch_current until the 61st's compiled Journal lists everyone who sat.
+    former_members:
+      - member: "mike-dawson"
+        name: "Mike Dawson"
+        legislature: 61
+        riding: "Miramichi West"
+        party: "Progressive Conservative Party of New Brunswick"
+        start: "2024-11-27"
+        end: "2025-03-25"
+        document: "https://www.legnb.ca/content/house_business/61/1/journals/17250325e.pdf"
+        verified_against: >-
+          The Journals of 28 Nov and 12 Dec 2024 print "Mr. Dawson" in their divisions; the
+          Journal of 25 Mar 2025 records "Madam Speaker recognized Mr. Dawson to make a farewell
+          speech in the House"; the Legislative Library's election database gives the reason
+          for the 6 Oct 2025 Miramichi West by-election as "Dawson, Mike - resigned".
+        why: >-
+          Re-elected for Miramichi West (PC) in Oct 2024, he resigned in March 2025 to stand
+          federally, so he is on no current members page. Start is the 61st's first sitting
+          in the store; end is his last recorded day, the farewell speech.
+    # The day's own Journal where the listing links another day's (Christopher, 9 Oct 2026:
+    # "Something else must need doing to cover gaps"). Read by prov_nb.read_sitting.
+    journal_urls:
+      - date: "2014-05-20"
+        listed: "https://www.legnb.ca/content/house_business/57/4/journals/69140521e.pdf"
+        document: "https://www.legnb.ca/content/house_business/57/4/journals/68140520e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 68, Tuesday, May 20, 2014"
+        why: >-
+          The sessional listing links 69140521e.pdf (the Journal of 21 May) under 2014-05-20; the day's own
+          Journal is served at 68140520e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
+      - date: "2016-07-05"
+        listed: "https://www.legnb.ca/content/house_business/58/2/journals/37160706e.pdf"
+        document: "https://www.legnb.ca/content/house_business/58/2/journals/36160705e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 36, Tuesday, July 5, 2016"
+        why: >-
+          The sessional listing links 37160706e.pdf (the Journal of 6 July) under 2016-07-05; the day's own
+          Journal is served at 36160705e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
+      - date: "2019-05-28"
+        listed: "https://www.legnb.ca/content/house_business/59/2/journals/19190328e.pdf"
+        document: "https://www.legnb.ca/content/house_business/59/2/journals/29190528e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 29, Tuesday, May 28, 2019"
+        why: >-
+          The sessional listing links 19190328e.pdf (the Journal of 28 March) under 2019-05-28; the day's own
+          Journal is served at 29190528e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
     label_aliases:
       - printed: "Mr. Russel"
         member: kevin-russell
@@ -1707,3 +1754,17 @@ provinces:
           The Journal's roll call with this division's totals (45-60-2)
           reads both homonyms by riding, Mme Ouellet (Vachon) among those abstaining: the bare
           label is Martine Ouellet.
+  "sk":
+    label_aliases:
+      - printed: "Barrett Kropf"
+        member: "barret-kropf"
+        date: 2025-05-05
+        document: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/30L1S/20250505Minutes-HTML.htm"
+        verified_against: >-
+          The same day's Minutes print "Barret Kropf" in the other division's yeas; the 30th
+          Legislature's Hansard covers list one Kropf (Barret Kropf, Dakota-Arm River) and no
+          Barrett. Read 9 Oct 2026.
+        why: >-
+          The second division of 5 May 2025 prints "Barrett Kropf" among the yeas. It was the
+          division's only unresolved label (Christopher, 9 Oct 2026: "Something else must need
+          doing to cover gaps").

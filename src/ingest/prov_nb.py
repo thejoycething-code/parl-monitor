@@ -79,7 +79,7 @@ import re
 from urllib.parse import quote, urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import (Unreadable, html_text, join_fragments, pdf_rows, pdf_text, sessions_sorted, slug,
+from src.prov_fetch import (Unreadable, rebuild_cut_xref, html_text, join_fragments, pdf_rows, pdf_text, sessions_sorted, slug,
                             split_columns, year_span)
 
 PROV = "nb"
@@ -740,10 +740,30 @@ def fetch_current(ctx, legislature):
         ps.replace_terms(ctx.conn, PROV, r["key"], [{
             "legislature": legislature, "party": r["party"], "riding": r["riding"],
             "start": None, "end": None, "party_dated": 0}], "roster")
+    # A member of THIS legislature who has since left is on no page legnb.ca
+    # serves until the compiled Journal appears (none yet for the 61st, 9 Oct
+    # 2026): reviewed `former_members`, dated from the Journal, fill the gap.
+    gone = [f for f in load_former_members() if int(f["legislature"]) == legislature]
+    for f in gone:
+        ps.upsert_member(ctx.conn, PROV, f["member"], name=f["name"], surname=f["name"].split()[-1],
+                         given=" ".join(f["name"].split()[:-1]), riding=f["riding"], party=f["party"], sitting=0)
+        ps.replace_terms(ctx.conn, PROV, f["member"], [{
+            "legislature": legislature, "party": f["party"], "riding": f["riding"],
+            "start": str(f["start"]), "end": str(f["end"]), "party_dated": 0}], "roster-former")
     ctx.conn.commit()
-    ctx.log("  nb roster: {0} current member(s) (legislature {1}; party undated)".format(
-        len(rows), legislature))
+    ctx.log("  nb roster: {0} current member(s), {1} reviewed former member(s) (legislature {2}; "
+            "party undated)".format(len(rows), len(gone), legislature))
     return len(rows)
+
+
+def load_former_members(path=None):
+    """`former_members:` (nb) -- a member of the CURRENT legislature who has
+    left it, so is on neither the current members page nor (until it is
+    published) a compiled Journal. Needs member, name, legislature, riding,
+    party, start, end, document, verified_against and why (9 Oct 2026: Mike
+    Dawson, whose 'Mr. Dawson' in two 2024 divisions resolved to nobody)."""
+    return pn._reviewed(PROV, "former_members", ("member", "name", "legislature", "riding", "party", "start",
+                                                 "end", "document", "verified_against", "why"), path)
 
 
 # -- party at the vote: the Hansard's list of members -------------------------
@@ -1789,15 +1809,54 @@ def clear_sitting(conn, legislature, session, date):
     return len(keys)
 
 
+# A Journal's close: "And then, 6 p.m., the House adjourned." (or until a day).
+_JOURNAL_CLOSE = re.compile(r"House\s+adjourned|s[ée]ance\s+est\s+lev[ée]e", re.I)
+
+
+def journal_text(raw):
+    """The Journal's text. legnb.ca serves many Journals cut off inside their
+    closing cross-reference table -- ten of the seventeen unread days stop at
+    exactly 129,024 bytes (measured 9 October 2026, as its Hansards do). The
+    table is rebuilt from the objects (prov_fetch.rebuild_cut_xref) and the
+    text taken only when it still ends on the House adjourning; anything
+    else stays Unreadable, a gap, never an empty day."""
+    try:
+        return pdf_text(raw)
+    except Unreadable as exc:
+        fixed = rebuild_cut_xref(raw) if "truncated" in str(exc) else None
+        if fixed is None:
+            raise
+        text = pdf_text(fixed)
+        if not _JOURNAL_CLOSE.search(text[-1500:]):
+            raise Unreadable("{0}; cross-reference rebuilt, but the text does not reach the "
+                             "adjournment".format(exc))
+        return text
+
+
+def load_journal_urls(path=None):
+    """`journal_urls:` (nb) -- a day the sessional listing files under
+    ANOTHER day's Journal, with the day's own Journal found on legnb.ca by
+    its file-name pattern (sitting number, yymmdd) and read to confirm its
+    date. Needs date, listed, document, verified_against and why; it is used
+    only while the listing still links `listed` for that date (9 Oct 2026)."""
+    return {str(a["date"]): a for a in pn._reviewed(
+        PROV, "journal_urls", ("date", "listed", "document", "verified_against", "why"), path)}
+
+
 def read_sitting(ctx, legislature, session, rec, resolver, wl):
     """Read one day's Journal. Returns (divisions, gaps_in_it)."""
     date, url = rec["date"], rec["url"]
+    fix = load_journal_urls().get(str(date))
+    if fix and fix["listed"] == url:
+        ctx.log("  nb {0}: the listing links {1}; reading the day's own Journal {2} (reviewed, "
+                "config/prov_record.yaml)".format(date, url, fix["document"]))
+        url = fix["document"]
     skey = ps.sitting_key(PROV, legislature, session, date)
     raw = ctx.bytes(url, "journal-{0}".format(date))
     if raw is None:
         return 0, 1
     try:
-        text = pdf_text(raw)
+        text = journal_text(raw)
     except Unreadable as exc:
         ctx.gap("{0}: {1}: {2}".format(skey, url, exc))
         ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")

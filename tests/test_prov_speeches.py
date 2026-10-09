@@ -356,6 +356,25 @@ class ReaderTests(unittest.TestCase):
         self.assertEqual([t["label"] for t in turns], ["The Speaker (Hon. Steve Peters):", "Mr. Peter Kormos:"])
         self.assertEqual((turns[1]["rubric"], turns[1]["subject"]), ("ORDERS OF THE DAY", "ENERGY CONSUMER PROTECTION ACT, 2010"))
 
+    def test_ontario_label_after_an_anchor(self):
+        html = ('<p class="procedure">The House met at 0900.</p><p class="speakerStart"><a id="para253" name="para253"></a>'
+                '<strong>The Speaker (Hon. Dave Levac):</strong> Good morning.</p>')
+        self.assertEqual([t["label"] for t in on.parse_day(html)], ["The Speaker (Hon. Dave Levac):"])
+
+    def test_ontario_older_layout_opening_inside_an_open_span(self):
+        html = ('<p>\n  <span id="PARA23">\n  <em>The House met at 1030.</em>\n</span></p>'
+                '<p><span id="PARA27"><strong>Mr. Bruce Crozier:</strong> It is a pleasure.</span></p>')
+        self.assertEqual([t["label"] for t in on.parse_day(html)], ["Mr. Bruce Crozier:"])
+
+    def test_british_columbia_name_split_over_spans(self):
+        """13 May 2025 pm and 20 Apr 2026 am print one name in two spans."""
+        html = ('<p class="SpeakerBegins-TOC" id="d0e1060"><a href="#d0e1060" class="Heading"></a>'
+                '<span class="Speaker-Name">Sheldon</span><span class="Speaker-Name"> Clare</span>'
+                '<span class="Bold">:</span> I move that Bill M237 be now read a second time.</p>')
+        turns = bc.parse_day(html)
+        self.assertEqual([t["label"] for t in turns], ["Sheldon Clare"])
+        self.assertTrue(turns[0]["paras"][0].startswith("I move that Bill M237"))
+
     def test_manitoba_summary_links_old_and_new(self):
         """2010-11 summaries link the transcript absolutely, with an anchor."""
         for page, want in (('<a\nhref="https://www.gov.mb.ca/legislature/hansard/39th_4th/vol_18/h18.html#IoNM">',

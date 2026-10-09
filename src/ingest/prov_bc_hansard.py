@@ -48,7 +48,11 @@ CURRENT_SESSION = base.CURRENT_SESSION
 #   2009-17 <span class="Attribution">Hon. C. Oakes: </span>   (2015: <SPAN class=Attribution>)
 # Before 2025 a member is printed by initial and surname ("N. Macdonald"),
 # which the resolver matches against the day's terms, unique-or-nothing.
-_NAME = re.compile(r'^\s*(?:<a\b[^>]*>\s*</a>\s*)?<span\b[^>]*\bclass="?(?:Speaker-Name|attribution)"?[^>]*>(.*?)</span>\s*'
+# Some days split one name over several spans -- <span class="Speaker-Name">Sheldon</span>
+# <span class="Speaker-Name"> Clare</span> (13 May 2025 pm, 20 Apr 2026 am: no turn
+# resolved until the spans were joined, 9 Oct 2026).
+_NAME = re.compile(r'^\s*(?:<a\b[^>]*>\s*</a>\s*)?'
+                   r'((?:<span\b[^>]*\bclass="?(?:Speaker-Name|attribution)"?[^>]*>.*?</span>\s*)+)'
                    r'(?:<span\b[^>]*\bclass="?Bold"?[^>]*>\s*:\s*</span>|:)?(.*)$', re.S | re.I)
 
 
@@ -69,7 +73,7 @@ def parse_day(html):
         elif k.startswith("speakerbegins"):
             lab = _NAME.match(inner)
             if lab:
-                blocks.append(("label", sp.text_of(lab.group(1)).rstrip(": "),
+                blocks.append(("label", " ".join(sp.text_of(lab.group(1)).split()).rstrip(": "),
                                sp.text_of(lab.group(2)).lstrip(": ")))
             else:
                 blocks.append(("para", sp.text_of(inner)))

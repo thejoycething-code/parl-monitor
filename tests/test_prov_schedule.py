@@ -523,6 +523,8 @@ class KnownGapsTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location(
             "prov_collect", os.path.join(ROOT, "tools", "prov_collect.py"))
         pc = importlib.util.module_from_spec(spec); spec.loader.exec_module(pc)
-        self.assertTrue(pc.known_gap("nb", "journal 2023-06-09: truncated PDF: no %%EOF marker"))
-        self.assertFalse(pc.known_gap("nb", "journal 2023-06-10: truncated"))
-        self.assertFalse(pc.known_gap("ab", "journal 2023-06-09: truncated"))
+        # (9 Oct 2026: the 2023-06-09 Journal is now read through a rebuilt
+        # cross-reference table, so its entry is gone; the 56-4 roster stays.)
+        self.assertTrue(pc.known_gap("nb", "nb 56-4: no roster for the session (journals listing)"))
+        self.assertFalse(pc.known_gap("nb", "journal 2023-06-09: truncated PDF: no %%EOF marker"))
+        self.assertFalse(pc.known_gap("ab", "nb 56-4: no roster for the session"))
