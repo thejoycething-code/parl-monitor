@@ -404,12 +404,12 @@ Tests: `tests/test_br_rollcalls.py` (27 tests) on real responses of
 
 - `jobs/br-weekly.sh`: the collector with a 2,700 s budget, then
   `raw_state.py --push` and `db_state.py --push`.
-- `ops/launchd/net.citizengo.parlmonitor.br-weekly.plist`: Saturdays 09:00
+- `ops/launchd/net.citizengo.parlmonitor.br-weekly.plist`: Saturdays 09:30
   London on the Mini, via `tools/mini_run.sh br-weekly` (which records
   `MINI_LAST_BR_WEEKLY`).
-- `.github/workflows/br-weekly.yml`: Saturday 09:00 and 13:00 UTC as the
+- `.github/workflows/br-weekly.yml`: Saturday 09:30 and 13:30 UTC (half an hour later than first built) as the
   backup, behind `mini-check` with job `BR_WEEKLY` and a 300-minute grace
-  (09:00 London is 08:00 UTC in summer, five hours before the retry), then
+  (09:30 London is 08:30 UTC in summer, five hours before the retry), then
   the same-day retry gate. Saturday was chosen because Brasília sits
   Tuesday to Thursday and the Câmara rebuilds its files by about 07:20 UTC;
   Saturday's other crons are 06:00, 07:00, 10:00, 14:00 and 18:00.

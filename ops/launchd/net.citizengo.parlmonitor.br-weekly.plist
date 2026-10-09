@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Brazil weekly on the Mac Mini: Saturdays at 09:00 London, after Brasília's
+<!-- Brazil weekly on the Mac Mini: Saturdays at 09:30 London, after Brasília's
      Tuesday-Thursday sitting week and after the Câmara's daily rebuild of its
-     bulk files (about 04:30-07:20 UTC). The GitHub crons (09:00 and 13:00 UTC
+     bulk files (about 04:30-07:20 UTC). The GitHub crons (09:30 and 13:30 UTC
      on Saturdays, .github/workflows/br-weekly.yml) are the backup and skip
      themselves when this has run (the gate allows 300 minutes, because
-     09:00 London is 08:00 UTC in summer, five hours before the 13:00 retry).
+     09:30 London is 08:30 UTC in summer, five hours before the 13:30 retry).
      Install: cp to ~/Library/LaunchAgents, then
      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.br-weekly.plist -->
 <plist version="1.0">
@@ -20,7 +20,7 @@
   </array>
   <key>StartCalendarInterval</key>
   <array>
-    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>30</integer></dict>
   </array>
   <key>StandardOutPath</key>
   <string>/Users/christopherjoyce/runner/logs/br-weekly.log</string>
