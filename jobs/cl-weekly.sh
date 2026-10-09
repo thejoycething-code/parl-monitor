@@ -28,6 +28,13 @@ if [ "${CL_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/cl_rollcalls.py --budget-seconds 2700 || rc=$?
+# Instant Latam alerts (tools/latam_alerts.py): this country's watched and
+# tier-1 items, a short DM each to Chris alone, de-duplicated in
+# data/latam-alerts/cl.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/latam_alerts.py --country cl --send \
+    || echo "  [gap] latam-alerts failed for cl; the next run retries"
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "cl-rollcalls failed (exit $rc); nothing published"
   exit "$rc"

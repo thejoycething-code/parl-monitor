@@ -112,6 +112,8 @@ jobs:
         # included; the next step commits the sidecars.
         if: steps.fetch.outcome == 'success'
         env:
+          # Latam alerts: a DM to Chris per watched or tier-1 item (latam_alerts.py)
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SV_RECLASSIFY: ${{ inputs.reclassify }}
         run: bash jobs/sv-weekly.sh | tee /tmp/sv-weekly.log

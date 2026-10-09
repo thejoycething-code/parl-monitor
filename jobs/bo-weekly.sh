@@ -44,6 +44,13 @@ args=(--budget-seconds 1800)
 [ "${BO_BACKFILL:-}" = "true" ] && args+=(--backfill)
 rc=0
 python3 tools/bo_rollcalls.py "${args[@]}" || rc=$?
+# Instant Latam alerts (tools/latam_alerts.py): this country's watched and
+# tier-1 items, a short DM each to Chris alone, de-duplicated in
+# data/latam-alerts/bo.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/latam_alerts.py --country bo --send \
+    || echo "  [gap] latam-alerts failed for bo; the next run retries"
+fi
 if [ "${BO_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi

@@ -113,6 +113,8 @@ jobs:
         # the commit step's condition, as in every store workflow.
         if: always() && steps.fetch.outcome == 'success'
         env:
+          # Latam alerts: a DM to Chris per watched or tier-1 item (latam_alerts.py)
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           PE_PUBLISH: "false"
           PE_RECLASSIFY: ${{ inputs.reclassify }}
         run: bash jobs/pe-weekly.sh | tee /tmp/pe-weekly.log

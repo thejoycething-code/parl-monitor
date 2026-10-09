@@ -32,6 +32,13 @@ if [ "${UY_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/uy_rollcalls.py --budget-seconds 2700 || rc=$?
+# Instant Latam alerts (tools/latam_alerts.py): this country's watched and
+# tier-1 items, a short DM each to Chris alone, de-duplicated in
+# data/latam-alerts/uy.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/latam_alerts.py --country uy --send \
+    || echo "  [gap] latam-alerts failed for uy; the next run retries"
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "uy-rollcalls failed (exit $rc); nothing published"
   exit "$rc"

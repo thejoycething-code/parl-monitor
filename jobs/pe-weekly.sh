@@ -37,6 +37,13 @@ if [ "${PE_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/pe_rollcalls.py --budget-seconds 2700 || rc=$?
+# Instant Latam alerts (tools/latam_alerts.py): this country's watched and
+# tier-1 items, a short DM each to Chris alone, de-duplicated in
+# data/latam-alerts/pe.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/latam_alerts.py --country pe --send \
+    || echo "  [gap] latam-alerts failed for pe; the next run retries"
+fi
 if [ "${PE_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi
