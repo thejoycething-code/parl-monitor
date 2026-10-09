@@ -1558,6 +1558,12 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Austria's Parliament (tools/at_rollcalls.py), created by
+    # src/at_store.ensure_schema -- declared from day one.
+    "at_members",
+    "at_items",
+    "at_divisions",
+    "at_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1838,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import at_store
+    at_store.ensure_schema(conn)
     return conn
