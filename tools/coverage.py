@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Sundays (hn-weekly.yml; the Mac Mini first).
+    "Honduras weekly": (7, 4, "Honduras's Congreso Nacional: agendas, expedientes, press, Gaceta"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,18 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Honduras (9 October 2026). MEASURED which re-stamp: the deputies and the
+    # four "recent expedientes" lists are re-read whole every run, so both
+    # move every week; press releases arrive at about 150 a month. Agenda
+    # items move only when a session is new or within the three-week re-read,
+    # and the Congreso's ordinary sessions end on 31 October (extendable):
+    # a month plus two months' grace covers the recess. La Gaceta's current
+    # and previous month are re-read every run.
+    ("hn_members", "last_seen", 7, 4, "Congreso Nacional deputies (Honduras weekly)"),
+    ("hn_bills", "last_seen", 7, 4, "Congreso Nacional expedientes (Honduras weekly)"),
+    ("hn_news", "last_seen", 7, 4, "Congreso Nacional press releases (Honduras weekly)"),
+    ("hn_gazette", "last_seen", 7, 4, "La Gaceta issues (Honduras weekly)"),
+    ("hn_agenda_items", "last_seen", 31, 62, "Congreso Nacional session agendas (Honduras weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +244,8 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # Agenda items left out as for US divisions: a recess cannot move them.
+    "Honduras weekly": ["hn_members", "hn_bills", "hn_gazette"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -243,6 +259,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Honduras weekly": (("hn_members", "hn_bills", "hn_news", "hn_gazette", "hn_agenda_items"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
