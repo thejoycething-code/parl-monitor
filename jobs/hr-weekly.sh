@@ -19,11 +19,11 @@
 # published, and this script exits 0 so the caller commits the sidecars with
 # it. Any other failure publishes NOTHING and exits non-zero.
 #
-# THE FIRST RUN DOES NOT FINISH IN ONE GO, by design: the 11th Sabor has
-# about 1,050 recorded votes and sabor.hr answers one every few seconds, so
-# the 45-minute budget stores the newest few hundred and discloses the rest,
-# which drain on the following runs (newest first). A normal week is the
-# two latest sessions' agendas and the handful of votes held since.
+# THE FIRST RUN reads the whole 11th Sabor: 30 minutes from the laptop on
+# 9 October 2026, inside the 45-minute budget. If the site is slower, the
+# budget stores the newest votes and discloses the rest, which drain on the
+# following runs. A normal week is the two latest sessions' agendas and the
+# handful of votes held since.
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the

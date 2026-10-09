@@ -29,6 +29,15 @@ THE VOTE SERVICE ANSWERS 200 FOR AN ITEM WITH NO VOTE. The body is a zeroed
 record (`"total_count":0`, time "01.01.0001. 00:00"), not an error. That is
 "no recorded vote", stored as vote_state 'none', never as a division.
 
+"ZA" IS NOT ALWAYS "FOR THE BILL". An opposition bill at first reading is
+usually disposed of by a vote on a CONCLUSION NOT TO ACCEPT it ("donesen je
+zaključak da se ne prihvaća Prijedlog zakona"), so the government majority
+votes Za to kill it: the Digital Protection of Children Act fell 76 Za to
+44 Protiv. The vote service never says which question was put; the item
+page's status sentence does. So every vote on our ground gets its item page
+read once (pull_outcomes) and `yes_means_reject` set from that sentence.
+A meaning is never signed from the totals alone.
+
 NOTHING IS CLASSIFIED UNTIL taxonomy-hr EXISTS. The English taxonomy is
 blind to Croatian (measured: docs/croatia-scope.md). Until Chris approves
 the proposed Croatian terms and config/taxonomy-hr.yaml is generated, areas
@@ -69,7 +78,8 @@ MEMBERS = (SITE + "/hr/zastupnici?field_saziv_target_id_all={0}"
            "&field_status_mandata_target_id=&page={1}")
 TAXONOMY_HR = os.path.join(ROOT, "config", "taxonomy-hr.yaml")
 # sabor.hr answers a session agenda in 4-10 seconds; one request a second is
-# polite and the first full read (about 1,050 votes) takes 20-25 minutes.
+# polite. The first full read (2,139 agenda items, 1,034 voted, 790 with a
+# record) took 30 minutes from the laptop on 9 October 2026.
 THROTTLE_S = 1.0
 RECENT_SESSIONS = 2
 VOTED = 8
@@ -182,6 +192,22 @@ def parse_vote(record):
             "abstain": int(record.get("abstained_count") or 0),
             "total": int(record.get("total_count") or 0), "session": session,
             "positions": positions}
+
+
+_STATUS_BLOCK = re.compile(r'view-display-id-status.*?<div class="field-content">(.*?)</div>', re.S)
+
+
+def parse_outcome(page):
+    """(sentence, yes_means_reject) from an item page's status block.
+    yes_means_reject is 1 for a conclusion not to accept, 0 when a sentence
+    was found without one, None when the page carries no status sentence."""
+    m = _STATUS_BLOCK.search(page or "")
+    if not m:
+        return None, None
+    sentence = _clean(m.group(1))
+    if not sentence:
+        return None, None
+    return sentence, (1 if re.search(r"zaključ\w*\s+da\s+se\s+ne\s+prihvaća", sentence, re.I) else 0)
 
 
 def vote_problems(v):
@@ -393,6 +419,39 @@ def pull_votes(conn, client, today, saziv=CURRENT_SAZIV, sessions_read=(), log=p
     return stored, none, gaps
 
 
+def pull_outcomes(conn, client, today, log=print, budget=None, everything=False):
+    """Read the item page once for every stored vote on our ground (or every
+    vote, with everything=True) whose outcome is not yet held. Returns
+    (read, gaps)."""
+    rows = conn.execute(
+        "SELECT d.division_key, i.url, d.areas FROM hr_divisions d JOIN hr_items i ON i.tid=d.tid "
+        "WHERE d.outcome IS NULL ORDER BY d.tid DESC").fetchall()
+    read = gaps = 0
+    for key, url, areas in rows:
+        if not everything and not on_our_ground(areas):
+            continue
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("vote outcomes", read))
+            break
+        try:
+            page = client.get_text(url, FEED, "item-" + key)
+        except FetchError as exc:
+            _gap(conn, today, "outcome {0}: {1}".format(key, exc))
+            log("  [gap] outcome {0}: {1}".format(key, str(exc)[:70]))
+            gaps += 1
+            continue
+        sentence, reject = parse_outcome(page)
+        if sentence is None:
+            _gap(conn, today, "outcome {0}: no status sentence on the item page".format(key))
+            gaps += 1
+            continue
+        conn.execute("UPDATE hr_divisions SET outcome=?, yes_means_reject=? WHERE division_key=?",
+                     (sentence, reject, key))
+        read += 1
+    conn.commit()
+    return read, gaps
+
+
 # --- offline -----------------------------------------------------------------
 
 def reclassify(conn, tax=None, log=print, watch_path=None):
@@ -439,6 +498,9 @@ def main():
                     help="sessions re-read on a normal run (default 2)")
     ap.add_argument("--no-members", action="store_true")
     ap.add_argument("--no-votes", action="store_true")
+    ap.add_argument("--all-outcomes", action="store_true",
+                    help="read the item page's result sentence for EVERY stored vote, "
+                         "not only those on our ground")
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive areas for stored items and divisions, offline")
     ap.add_argument("--budget-seconds", type=float, default=drain.DEFAULT_S)
@@ -487,6 +549,9 @@ def main():
         gaps += g
         print("hr-rollcalls: {0} new recorded vote(s), {1} voted item(s) with no record, "
               "{2} gap(s)".format(stored, none, g))
+        read_o, g = pull_outcomes(conn, client, today, budget=budget, everything=args.all_outcomes)
+        gaps += g
+        print("hr-rollcalls: {0} vote outcome(s) read from item pages, {1} gap(s)".format(read_o, g))
     summary(conn)
     conn.close()
     return 3 if gaps else 0

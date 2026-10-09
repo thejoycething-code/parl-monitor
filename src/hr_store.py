@@ -82,6 +82,10 @@ SCHEMA = (
         no           INTEGER,            -- Protiv
         abstain      INTEGER,            -- Suzdržan
         total        INTEGER,            -- members who voted
+        outcome      TEXT,               -- the item page's own result sentence
+        yes_means_reject INTEGER,        -- 1: the vote was on a conclusion NOT
+                                         -- to accept the bill, so "Za" is
+                                         -- against the bill; see hr_rollcalls
         areas        TEXT,
         matched_terms TEXT,
         tier         INTEGER,

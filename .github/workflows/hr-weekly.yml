@@ -78,10 +78,9 @@ jobs:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
-    # The collector's own budget is 45 minutes (jobs/hr-weekly.sh); the
-    # first run stores the newest votes it can in that time and the rest
-    # drain on later runs. A normal week takes a few minutes. Measured from
-    # the laptop: see docs/croatia-scope.md.
+    # The collector's own budget is 45 minutes (jobs/hr-weekly.sh). The
+    # first run reads the whole 11th Sabor (30 minutes from the laptop, see
+    # docs/croatia-scope.md); a normal week takes a few minutes.
     timeout-minutes: 60
     env:
       PYTHONUNBUFFERED: "1"

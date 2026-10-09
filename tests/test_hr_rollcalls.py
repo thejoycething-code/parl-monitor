@@ -45,6 +45,8 @@ INDEX = fixture("agenda_index_11.html.gz")
 MEMBERS_P4 = fixture("members_11_p4.html.gz")
 VOTE = json.loads(fixture("vote_214596.json.gz"))
 NO_VOTE = json.loads(fixture("vote_214605_none.json"))
+ITEM_REJECTED = fixture("item_214147_rejected.html.gz")
+ITEM_PASSED = fixture("item_214596_passed.html.gz")
 
 # A Croatian test taxonomy: NOT the proposed list, just enough to drive the
 # classification path (inflected stems, an internal-star phrase, diacritics).
@@ -140,6 +142,16 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(NO_VOTE["total_count"], 0)
         self.assertIsNone(hrr.parse_vote(NO_VOTE))
         self.assertIsNone(hrr.iso_time("01.01.0001. 00:00"))
+
+    def test_za_on_a_conclusion_not_to_accept_is_against_the_bill(self):
+        # Digital Protection of Children Act, 6 March 2026: 76 Za killed it.
+        sentence, reject = hrr.parse_outcome(ITEM_REJECTED)
+        self.assertIn("zaključak da se ne prihvaća", sentence)
+        self.assertEqual(reject, 1)
+        sentence, reject = hrr.parse_outcome(ITEM_PASSED)
+        self.assertIn("Zakon je donesen", sentence)
+        self.assertEqual(reject, 0)
+        self.assertEqual(hrr.parse_outcome("<html></html>"), (None, None))
 
     def test_inconsistent_vote_is_reported(self):
         v = hrr.parse_vote(dict(VOTE, total_count=125))
@@ -264,6 +276,27 @@ class CollectTests(unittest.TestCase):
         client = FakeClient(self.pages)
         hrr.pull_votes(self.conn, client, "2026-10-16", sessions_read=[161305], log=lambda *a: None)
         self.assertIn(hrr.VOTE.format(214604), client.calls)
+
+    def test_outcomes_are_read_for_votes_on_our_ground_only(self):
+        client = FakeClient(self.pages)
+        hrr.pull_agendas(self.conn, client, "2026-10-09", log=lambda *a: None)
+        hrr.pull_votes(self.conn, client, "2026-10-09", sessions_read=[], log=lambda *a: None)
+        url = self.conn.execute("SELECT url FROM hr_items WHERE tid=214596").fetchone()[0]
+        self.pages[url] = ITEM_PASSED
+        # Not classified, so not read by default.
+        self.assertEqual(hrr.pull_outcomes(self.conn, FakeClient(self.pages), "2026-10-09",
+                                           log=lambda *a: None), (0, 0))
+        self.conn.execute("UPDATE hr_divisions SET areas='[7]' WHERE tid=214596")
+        client = FakeClient(self.pages)
+        self.assertEqual(hrr.pull_outcomes(self.conn, client, "2026-10-09", log=lambda *a: None), (1, 0))
+        row = self.conn.execute("SELECT outcome, yes_means_reject FROM hr_divisions "
+                                "WHERE tid=214596").fetchone()
+        self.assertTrue(row[0].endswith('41 "suzdržan").'))
+        self.assertEqual(row[1], 0)
+        # Read once: a held outcome is not fetched again.
+        client = FakeClient(self.pages)
+        hrr.pull_outcomes(self.conn, client, "2026-10-16", log=lambda *a: None)
+        self.assertEqual(client.calls, [])
 
     def test_members_short_read_is_a_gap(self):
         client = FakeClient(self.pages)
