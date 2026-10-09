@@ -63,6 +63,22 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonito
 ```
 A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run.sh us-weekly` (it posts the DM if no edition is committed for today).
 
+## Next on the Mini: checklist (9 October 2026, end of day)
+
+Everything below is merged to main. In order, after `cd ~/runner/parl-monitor && git pull`:
+
+1. **Keys in `~/runner/env`** (no backticks around the values): `ANTHROPIC_API_KEY` (the US, Irish and Australian judges are on), `CONGRESS_API_KEY`, `OPENSTATES_API_KEY`; `SLACK_BOT_TOKEN` is already there.
+2. **Install the new plists** (skip any `launchctl list | grep parlmonitor` already shows):
+   ```
+   for j in us-weekly ie-weekly au-weekly us-division-watch ie-division-watch au-division-watch devolved-watch; do
+     cp ~/runner/parl-monitor/ops/launchd/net.citizengo.parlmonitor.$j.plist ~/Library/LaunchAgents/
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.$j.plist
+   done
+   ```
+   The division watches' first runs brief anything on our ground from their look-back window once; preview without a DM with each tool's `--no-dm --out /tmp/x`.
+3. **The re-derive runs for taxonomy v1.20 and v1.21**, one at a time (below, "the v1.20 retag"; the baseline `9437b29d~1` still holds for v1.21).
+4. **The aph.gov.au probe** (below). The APH Web Manager was emailed on 9 October regardless.
+
 ## Next on the Mini: the v1.20 retag (9 October 2026)
 
 Taxonomy v1.20 is merged. The US, Irish and Australian rows were re-derived by
