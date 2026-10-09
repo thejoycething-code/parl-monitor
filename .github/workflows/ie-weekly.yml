@@ -88,12 +88,11 @@ jobs:
         # jobs/ie-weekly.sh is shared with the Mac Mini runner. IE_PUBLISH
         # false: the steps below publish, guarded like every other publisher,
         # and the script exits with the collector's status, so a gap turns
-        # this step red (after the edition is written). The judge runs only
-        # when the repository variable IE_JUDGE is 'on' (SPEND NEEDS A YES,
-        # 5 August 2026; the backlog was about $0.10 by
-        # tools/ie_triage.py --dry-run on 9 October 2026). It is on since
-        # 9 October 2026; since phase 2 it judges questions and speeches too,
-        # the newest 200 items a run.
+        # this step red (after the edition is written). The paid API judge
+        # runs only when the repository variable IE_JUDGE is 'on' (SPEND NEEDS
+        # A YES, 5 August 2026), the newest 200 items a run; it is the
+        # alternative and off. The free default is the session judge, Mini
+        # only (jobs/ie-session-judge.sh, Fridays 18:30).
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           IE_JUDGE: ${{ vars.IE_JUDGE }}

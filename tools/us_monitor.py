@@ -977,9 +977,12 @@ def render_edition(conn, today):
     since = (datetime.date.fromisoformat(today) - datetime.timedelta(days=WEEK_DAYS)).isoformat()
     month = (datetime.date.fromisoformat(today) - datetime.timedelta(days=30)).isoformat()
     scored = conn.execute("SELECT COUNT(*) FROM us_bills WHERE triage_score IS NOT NULL").fetchone()[0]
-    score_note = ("Scores [0-3] and why-lines come from the judge (src/triage.py, US frame)."
-                  if scored else
-                  "**No item is scored yet**: the US judge has not been run, so items are "
+    score_note = ("Scores [0-3] and why-lines come from the judge (src/triage.py, US frame): "
+                  "the session judge, Claude Code on the Mac Mini on the plan allowance, or the "
+                  "paid API judge (US_JUDGE)." if scored else
+                  "**No item is scored yet**: the session judge (Claude Code on the Mac Mini, "
+                  "after the weekly) has not scored them and the paid API judge (US_JUDGE) is off, "
+                  "so items are "
                   "ranked by stage and cosponsors and carry the latest action in place of a "
                   "why-line.")
     week_votes = votes_on_our_ground(conn, since, today)

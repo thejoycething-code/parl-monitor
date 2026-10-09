@@ -757,6 +757,38 @@ signal Westminster lacks: H.R. 7 (No Taxpayer Funding for Abortion) has 128
 cosponsors, H.R. 15 (Equality Act) 218. Cosponsoring is a public, recorded
 position, so it can sit just under a vote in the evidence hierarchy.
 
+## The judge: the session judge by default (9 October 2026)
+
+**The free session judge is the default route** (Christopher, 9 October
+2026: "Switch US, Ireland and Australia scoring to the free route"):
+`jobs/us-session-judge.sh` on the Mac Mini, **Fridays 19:30 London** after
+the weekly, has Claude Code on the work subscription score up to **150**
+pending items, 25 to a session, newest first, through
+`tools/us_triage.py --queue-out / --queue-in` (plan allowance, no API spend),
+then rewrites the week's edition with the scores (no DM). It takes exactly
+what the API judge would: bills, roll calls on their own text (with the
+amendment's purpose), Federal Register documents, the Court, Record speeches
+on their own words and state bills that moved in the last 30 days, in the US
+frame. See docs/mac-mini.md, "Session judges".
+
+**`US_JUDGE`, the paid API judge inside the weekly, is the alternative and
+is off** (it scored the first backlog, 845 items, on 9 October 2026). The
+weekly keeps its gated step. `US_RESCORE` (the weekly's `rescore` input)
+stays with the paid path: it runs only when `US_JUDGE` is on.
+
+**Why 150.** Measured on the published store of 9 October 2026: nothing
+pending (the API judge had scored all 845 items on our ground: 746 bills,
+25 roll calls, 54 Federal Register documents, 20 Court items); by date, some
+5 new bills, 1 to 2 executive actions and a vote or two a week. The new
+sources are not yet in the published store: the Record's backfill holds
+1,083 speeches on their own words (about 12 a week across the Congress, 20
+to 25 in a sitting week) and lands over its first ten weeks at about 100 a
+week; state bills that moved in 30 days were 107 on 9 October (about 25 a
+week out of session, far more from January). So a week is 50 to 65 items,
+and 150 covers it with room for the Record's backfill. In the states'
+session the newest 150 go first and the rest wait, disclosed; raise
+`SESSION_JUDGE_MAX` in the plist then.
+
 ## The weekly schedule
 
 `.github/workflows/us-weekly.yml`: Friday 10:00 UTC, retry 12:00 (06:00 in

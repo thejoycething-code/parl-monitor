@@ -13,9 +13,13 @@
 #     AU_RECLASSIFY=true    re-derive every stored AU bill's and division's
 #                           areas, offline, before the pull (after a taxonomy
 #                           or watchlist-au change)
-#     AU_JUDGE=on           score new items (SPEND NEEDS A YES; read from the
-#                           repo variable when unset and gh is available). On
-#                           since 9 October 2026.
+#     AU_JUDGE=on           score new items with the PAID API judge (SPEND
+#                           NEEDS A YES; read from the repo variable when unset
+#                           and gh is available). The paid alternative, OFF:
+#                           since 9 October 2026 the free default is the
+#                           session judge, jobs/au-session-judge.sh (Claude
+#                           Code on the Mini, Fridays 03:10), which rewrites
+#                           this edition with its scores.
 #     AU_PUBLISH=false      collect and write the edition only. The GitHub workflow sets it and
 #                           publishes in its own steps, under the same
 #                           condition as its commit step, as every store

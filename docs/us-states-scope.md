@@ -510,7 +510,8 @@ line. Week to 9 October 2026: four bills introduced, all New Jersey. Week to
 
 **The judge** takes state bills only once they have an action in the last
 30 days: 107 on 9 October, about $0.25 by `tools/us_triage.py --dry-run`.
-Not run: spend needs a yes, and `US_JUDGE` decides it in the weekly.
+Since 9 October 2026 the free session judge (`jobs/us-session-judge.sh`, Claude Code
+on the Mac Mini) scores them; `US_JUDGE`, the paid API judge, is the alternative and off.
 
 ## Schedule and coverage
 

@@ -558,9 +558,12 @@ def render_edition(conn, today):
     since = (day - datetime.timedelta(days=WEEK_DAYS)).isoformat()
     month = (day - datetime.timedelta(days=30)).isoformat()
     scored = conn.execute("SELECT COUNT(*) FROM ie_bills WHERE triage_score IS NOT NULL").fetchone()[0]
-    score_note = ("Scores [0-3] and why-lines come from the judge (src/triage.py, Irish frame)."
-                  if scored else
-                  "**No item is scored yet**: the Irish judge has not been run, so items are "
+    score_note = ("Scores [0-3] and why-lines come from the judge (src/triage.py, Irish frame): "
+                  "the session judge, Claude Code on the Mac Mini on the plan allowance, or the "
+                  "paid API judge (IE_JUDGE)." if scored else
+                  "**No item is scored yet**: the session judge (Claude Code on the Mac Mini, "
+                  "after the weekly) has not scored them and the paid API judge (IE_JUDGE) is off, "
+                  "so items are "
                   "ranked by stage and carry their last stage in place of a why-line.")
     week = divisions_on_our_ground(conn, since, today)
     moved = bills_where(conn, "last_stage_at > ? AND last_stage_at <= ? "

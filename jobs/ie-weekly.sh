@@ -11,9 +11,13 @@
 #
 #     IE_RECLASSIFY=true   re-derive stored areas offline first (after a
 #                          taxonomy or watchlist-ie change)
-#     IE_JUDGE=on          score new items (Christopher's yes; read from the
-#                          repo variable when unset and gh is available). ON
-#                          since 9 October 2026.
+#     IE_JUDGE=on          score new items with the PAID API judge (read from
+#                          the repo variable when unset and gh is available).
+#                          The paid alternative, OFF: since 9 October 2026
+#                          the free default is the session judge,
+#                          jobs/ie-session-judge.sh (Claude Code on the Mini,
+#                          Fridays 18:30), which rewrites this edition with
+#                          its scores.
 #     IE_QUESTIONS_BUDGET / IE_DEBATES_BUDGET
 #                          seconds for the questions and debates steps (else
 #                          what the job has left, capped; see below)

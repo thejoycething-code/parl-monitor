@@ -54,7 +54,7 @@ Christopher: "add the US weekly to the Mini". `jobs/us-weekly.sh` is now the one
 - **senate.gov refuses Christopher's home connection** (the laptop, 9 October). If it refuses the Mini too, the script dispatches a Senate-only run on GitHub (`senate_only=true`), waits for it to publish the store, fetches the store again and does the rest with `--no-senate`. If that fails, the edition goes out without the week's Senate votes and the log says so in a `[gap]` line.
 - **The edition is committed by the runner**: the script's `# mini_run: commit editions` line tells `mini_run.sh` to commit `editions/` beside `data/`.
 - **Speaks once a day**: an edition already committed for today is rewritten without resending the DM, so a GitHub backup after a Mini run cannot DM twice.
-- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when the repo variable `US_JUDGE` is `on`, `ANTHROPIC_API_KEY`. `JOB_TIMEOUT` is three hours in the plist: the step budgets (roll calls, Federal Register, Supreme Court, week ahead, the states, judge, a wait for the Senate half on GitHub) add up to about two and three quarters; the Congressional Record runs last of the collectors on what is left, at most 15 minutes, always keeping 40 for the judge, the edition and the transfers. The Congressional Record step needs `CONGRESS_API_KEY` there too (the same key as the amendment purposes).
+- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when the repo variable `US_JUDGE` is `on` (the paid alternative; off since 9 October 2026, when the session judge, below, became the default), `ANTHROPIC_API_KEY`. `JOB_TIMEOUT` is three hours in the plist: the step budgets (roll calls, Federal Register, Supreme Court, week ahead, the states, judge, a wait for the Senate half on GitHub) add up to about two and three quarters; the Congressional Record runs last of the collectors on what is left, at most 15 minutes, always keeping 40 for the judge, the edition and the transfers. The Congressional Record step needs `CONGRESS_API_KEY` there too (the same key as the amendment purposes).
 
 Install on the Mini, after `git pull` in `~/runner/parl-monitor`:
 ```
@@ -67,15 +67,16 @@ A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run
 
 Everything below is merged to main. In order, after `cd ~/runner/parl-monitor && git pull`:
 
-1. **Keys in `~/runner/env`** (no backticks around the values): `ANTHROPIC_API_KEY` (the US, Irish and Australian judges are on), `CONGRESS_API_KEY`, `OPENSTATES_API_KEY`; `SLACK_BOT_TOKEN` is already there.
+1. **Keys in `~/runner/env`** (no backticks around the values): `CONGRESS_API_KEY`, `OPENSTATES_API_KEY`; `SLACK_BOT_TOKEN` is already there. The US, Irish and Australian judges no longer need `ANTHROPIC_API_KEY`: since 9 October 2026 the free session judges score them (below, "Session judges"), and `US_JUDGE`, `IE_JUDGE` and `AU_JUDGE` go off after the merge (the key stays for the UK passes, and for a paid judge switched back on).
 2. **Install the new plists** (skip any `launchctl list | grep parlmonitor` already shows):
    ```
-   for j in us-weekly ie-weekly au-weekly us-division-watch ie-division-watch au-division-watch devolved-watch; do
+   for j in us-weekly ie-weekly au-weekly us-division-watch ie-division-watch au-division-watch devolved-watch \
+            prov-session-judge us-session-judge ie-session-judge au-session-judge; do
      cp ~/runner/parl-monitor/ops/launchd/net.citizengo.parlmonitor.$j.plist ~/Library/LaunchAgents/
      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.$j.plist
    done
    ```
-   The division watches' first runs brief anything on our ground from their look-back window once; preview without a DM with each tool's `--no-dm --out /tmp/x`.
+   The division watches' first runs brief anything on our ground from their look-back window once; preview without a DM with each tool's `--no-dm --out /tmp/x`. The four session judges need Claude Code signed in to the work account first: `claude auth status --text` must show claude.ai, not an API key (below, "Session judges").
 3. **The re-derive runs for taxonomy v1.20 and v1.21**, one at a time (below, "the v1.20 retag"; the baseline `9437b29d~1` still holds for v1.21).
 4. **The aph.gov.au probe** (below). The APH Web Manager was emailed on 9 October regardless.
 
@@ -147,9 +148,9 @@ docs/mac-mini-runner.md (the migration list for the launchd runner) is not on th
 |---|---|---|---|
 | `au-weekly` | Fridays 02:00 (`ops/launchd/net.citizengo.parlmonitor.au-weekly.plist`) | Fridays 02:00, retry 04:00 (`.github/workflows/au-weekly.yml`) | `MINI_LAST_AU_WEEKLY`, grace 200 minutes |
 
-- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, the week ahead (`tools/au_schedule.py`, about 20 seconds), debates (`tools/au_debates.py`, 10-minute budget), the judge when the repo variable `AU_JUDGE` is `on` (it is, since 9 October 2026), then the edition (`tools/au_monitor.py --edition --dm`), and on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line; its `# mini_run: commit editions` line makes the runner commit `editions/` too.
+- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, the week ahead (`tools/au_schedule.py`, about 20 seconds), debates (`tools/au_debates.py`, 10-minute budget), the paid API judge when the repo variable `AU_JUDGE` is `on` (off: the free session judge, below, is the default since 9 October 2026), then the edition (`tools/au_monitor.py --edition --dm`), and on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line; its `# mini_run: commit editions` line makes the runner commit `editions/` too.
 - **Speaks once a day**, as the US weekly: an edition already committed for today is rewritten without resending the DM.
-- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when `AU_JUDGE` is `on`, `ANTHROPIC_API_KEY`.
+- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when `AU_JUDGE` is `on` (off), `ANTHROPIC_API_KEY`.
 - **The aph.gov.au probe** can be run here by hand, read-only: `python3 tools/au_probe.py --out /tmp/au-probe` (Christopher decides; see docs/australia-scope.md).
 - **Heartbeat name:** on the Mini there is no `GITHUB_WORKFLOW`, so the script sets it to "Australia weekly"; otherwise `db_state.py --push` would stamp the run as "local" and the coverage watch would never see it.
 - **Why 200 minutes of grace:** the Mini runs once and must cover both GitHub slots. 02:00 London is 01:00 UTC in summer, three hours before the 04:00 retry.
@@ -164,7 +165,7 @@ Like the US weekly, it **writes the store** and sends a DM:
 - `jobs/ie-weekly.sh` (one script, two callers): `tools/ie_rollcalls.py`, then, on the Mini, `raw_state.py --push` and `db_state.py --push`. There it exits 0 once both are published, even when the collector recorded gaps, because `mini_run.sh` commits `data/` only after a clean exit and a published store without its committed sidecar is refused by every later pull. Gaps stay in the gaps table and the log, and on the Mini they page nobody yet. On GitHub the workflow sets `IE_PUBLISH=false` and publishes with its own guarded steps, as us-weekly does, so a gap turns the run red and the store and sidecar still land.
 - It exports `GITHUB_WORKFLOW="Ireland weekly"` when unset, so a Mini run stamps the pipeline's heartbeat rather than "local".
 - **The edition** (`tools/ie_monitor.py`) is written by the same script after the collector, and its `# mini_run: commit editions` line makes the runner commit `editions/` beside `data/`. It **speaks once a day**: an edition already committed for today is rewritten without resending the DM. The DM goes to Christopher alone (`SLACK_DM_USER_ID` defaults to U05LJP0BT61); `~/runner/env` already holds `SLACK_BOT_TOKEN` for Division watch.
-- **The judge** (`tools/ie_triage.py`) runs only when the repo variable `IE_JUDGE` is `on` (read with `gh variable get` on the Mini); then `~/runner/env` also needs `ANTHROPIC_API_KEY`. It is off.
+- **The judge** (`tools/ie_triage.py`) runs only when the repo variable `IE_JUDGE` is `on` (read with `gh variable get` on the Mini); then `~/runner/env` also needs `ANTHROPIC_API_KEY`. It is off: the free session judge (below, "Session judges") is the default.
 - The Mini runs it at 09:30 London, half an hour before the US weekly at 10:00; the lock queues the second for up to 30 minutes.
 - launchd: `ops/launchd/net.citizengo.parlmonitor.ie-weekly.plist`, Fridays 09:30 London. Backup: `.github/workflows/ie-weekly.yml`, cron `30 8 * * 5`, gated by `mini-check.yml` with job `IE_WEEKLY`. In winter (GMT) the GitHub slot comes an hour before the Mini, so a punctual backup can run first and the Mini then runs again; both are idempotent.
 - Install after merge to main: copy the plist to `~/Library/LaunchAgents` and `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.ie-weekly.plist`. Optional heartbeat: `HC_IE_WEEKLY` in `~/runner/env`.
@@ -350,7 +351,34 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonito
 
   Claude Code must be installed for the user launchd runs as (`~/.local/bin/claude` is on `mini_run.sh`'s PATH) and signed in to the **work account** (`claude auth login`). Each run uses plan allowance (four short sessions of 25 items a week at most), not API spend. A first run by hand: `cd ~ && JOB_TIMEOUT=5400 ~/runner/parl-monitor/tools/mini_run.sh prov-session-judge`.
 - **Backlog:** 375 provincial items were unscored on our ground on the store of 9 October 2026 once the noise filter's mutes are left out (426 before); at 100 a week the backlog clears in four weeks, newest first. Raise `SESSION_JUDGE_MAX` in the plist's environment to go faster.
-- **For the US, Irish and Australian judges later:** the queue (`src/session_queue.py`) and the runner (`tools/session_judge.sh <judge tool> <max> <chunk>`) are generic. A judge adopts them by giving its tool `--queue-out PATH` (its `pending()` items, its own frame, its own marker line) and `--queue-in PATH` (`session_queue.read_queue`, then its own `apply()` with model `claude-code-session`), plus a `jobs/<cc>-session-judge.sh` and plist on this pattern with its own heartbeat name. Not built for them yet.
+- **The US, Irish and Australian judges** adopted the same queue and runner on 9 October 2026: below.
+
+## Session judges: US, Ireland, Australia (9 October 2026, branch `free-judges-us-ie-au`)
+
+Christopher: "Switch US, Ireland and Australia scoring to the free route". Built on the provinces pattern above: **Claude Code on the Mini scores each country's pending items on the work subscription's plan allowance, not the API, and is the default judge.** `US_JUDGE`, `IE_JUDGE` and `AU_JUDGE` (the paid API judges inside the weeklies, whose gated steps stay) are the alternative, and go off after the merge.
+
+| Job | Mini (launchd, London time) | Cap (`SESSION_JUDGE_MAX`) | `JOB_TIMEOUT` | Heartbeat (ON_DEMAND) |
+|---|---|---|---|---|
+| `au-session-judge` | Fridays **03:10**, after the Australia weekly (02:00, an hour at most), before the 04:40 US division watch | 100 (4 sessions) | 5400 | "Australia session judge" |
+| `ie-session-judge` | Fridays **18:30**, after the Ireland weekly (09:30) and Friday's 18:00 Division watch | 100 (4 sessions) | 5400 | "Ireland session judge" |
+| `us-session-judge` | Fridays **19:30**, after the US weekly (10:00, up to three hours) and the Ireland session judge, clear of the 22:00 Day sweep | 150 (6 sessions) | 7200 | "US session judge" |
+
+- **Each job** (`jobs/<cc>-session-judge.sh`, through `tools/mini_run.sh`; Mini only, no GitHub workflow, no `mini-check` gate): `tools/session_judge.sh tools/<cc>_triage.py <cap> 25`, i.e. rounds of `<cc>_triage.py --queue-out` (the newest 25 pending items, with that country's frame and the very text the API judge reads: US bills, roll calls with their amendment purposes, Federal Register, the Court, Record speeches and state bills; Irish bills, divisions, questions and speeches; Australian bills, divisions and speeches) -> `claude -p` (the same confined command as the provinces) -> `<cc>_triage.py --queue-in` (strict, item by item; another judge's file, by its marker line, is refused whole). Scores go through each tool's own `apply()` onto the rows (`triage_score`, `why_it_matters`), once ever; those rows have no model column, so `session_scores` notes each one as model `claude-code-session`. Then the latest edition of the last seven days is rewritten with the scores (no DM), and the raw archive and the store are published.
+- **No claude, signed out, or signed in with an API key:** one `[gap]` line, a clean exit, the store not opened or published, exactly as for the provinces. `ANTHROPIC_API_KEY` is never passed to claude.
+- **Why these caps** (Christopher's work plan is "5x, keep jobs lean"; 14 sessions of 25 a week, 22 with the provinces' four and the editions' four). Measured with each tool's `--dry-run` on a scratch copy of the store published on 9 October 2026: **nothing pending in any of the three**, because the paid judges scored their first backlogs that day (US 845, Ireland 52, Australia 97 items on our ground). The newer sources are not yet in the published store, so the weekly volume comes from their scope measurements: **US** some 50 to 65 items a week (5 bills, 1 to 2 executive actions, 20 to 25 Record speeches in a sitting week, about 25 state bills out of session), plus the Record's 1,083-speech backfill landing at about 100 a week for ten weeks: 150; **Ireland** about 50 a sitting week (36 questions, 13 speeches), plus a questions and debates backfill of about 3,000 that drains at some 50 a week: 100; **Australia** about 30 a sitting week, plus a 690-speech debates backfill over three runs: 100. Newest first everywhere, so each edition's week is scored before the history. Raise `SESSION_JUDGE_MAX` in a plist's `EnvironmentVariables` to drain faster.
+- **Install on the Mini** (after the branch is merged to main): in the checklist loop above, or
+
+```
+claude auth status --text          # must show the work account (claude.ai), not an API key
+cd ~/runner/parl-monitor && git pull --ff-only
+for j in us-session-judge ie-session-judge au-session-judge; do
+  cp ops/launchd/net.citizengo.parlmonitor.$j.plist ~/Library/LaunchAgents/
+  launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.$j.plist
+done
+```
+
+  A first run by hand: `cd ~ && JOB_TIMEOUT=7200 ~/runner/parl-monitor/tools/mini_run.sh us-session-judge` (and `ie-`, `au-`). Then switch the repo variables `US_JUDGE`, `IE_JUDGE` and `AU_JUDGE` off (Christopher, after the merge), so the weeklies stop paying.
+- **`US_RESCORE`** stays with the paid path (it runs only when `US_JUDGE` is on).
 
 ## Editions session judge (10 October 2026, branch `editions-free-judge`)
 
