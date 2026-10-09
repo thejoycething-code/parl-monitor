@@ -17,7 +17,7 @@ Leading:
 
 - **7 recorded votes on one item** · 28 May to 28 May · religious freedom · **watched**
   *PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI.*
-  Watched: Extends tax immunity for religious organisations (art.
+  Watched: Extends tax immunity for religious organisations (art. 150 of the Constitution).
   - **Decisive vote** (28 May): *Aprovada, em segundo turno, a Proposta de Emenda à Constituição n° 5, de 2023. Sim: 368; Não: 96; Abstenção: 7; Total: 471.*
     Câmara dos Deputados, plenary: second-round vote on the constitutional amendment, on PEC 5/2023 (bill now: passed the Câmara; awaiting the Senate)
     Tally: 368 for, 96 against, 7 abstaining; result as recorded: “approved”
@@ -25,12 +25,18 @@ Leading:
     Leaders' orientations (as recorded): Oposição Sim, Minoria Sim.
     472 member positions stored. Against their group's majority: Aliel Machado (PV), Castro Neto (MDB), Dagoberto Nogueira (PP), Dorinaldo Malafaia (PDT), Dr. Daniel Soranz (PSD), Fausto Pinato (UNIÃO), Fábio Teruel (MDB), Gervásio Maia (PCdoB) and 9 more. 'Obstrução' and 'Artigo 17' (the presiding deputy) are stored as printed and not counted for or against.
     [Source](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506)
-  - 28 May: *Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.*. 467 for, 4 against, 1 abstaining; result as recorded: “approved”
-  - 28 May: *Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5, de 2023, na forma da Emenda Aglutinativa Substitutiva nº 3. Sim: 385; Não: 93; Abstenção: 7; Total: 485.*. 385 for, 93 against, 7 abstaining; result as recorded: “approved”
-  - 28 May: *Mantido o texto. Sim: 340; Não: 110; Abstenção: 7; Total: 457.*. 340 for, 110 against, 7 abstaining
-  - 28 May: *Mantido o texto. Sim: 342; Não: 113; Abstenção: 5; Total: 460.*. 342 for, 113 against, 5 abstaining
-  - 28 May: *Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457.*. 335 for, 117 against, 5 abstaining
-  - 28 May: *Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.*. 102 for, 322 against, 1 abstaining; result as recorded: “rejected”
+  - 28 May: *Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.* 467 for, 4 against, 1 abstaining; result as recorded: “approved”
+    Câmara dos Deputados, plenary: vote on which text is voted first (preference), on PEC 5/2023 (bill now: passed the Câmara; awaiting the Senate).
+  - 28 May: *Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5, de 2023, na forma da Emenda Aglutinativa Substitutiva nº 3. Sim: 385; Não: 93; Abstenção: 7; Total: 485.* 385 for, 93 against, 7 abstaining; result as recorded: “approved”
+    Câmara dos Deputados, plenary: first-round vote on the constitutional amendment, on PEC 5/2023 (bill now: passed the Câmara; awaiting the Senate).
+  - 28 May: *Mantido o texto. Sim: 340; Não: 110; Abstenção: 7; Total: 457.* 340 for, 110 against, 7 abstaining
+    Câmara dos Deputados, plenary: separate vote on a passage (destaque): the text was kept, on PEC 5/2023 (bill now: passed the Câmara; awaiting the Senate).
+  - 28 May: *Mantido o texto. Sim: 342; Não: 113; Abstenção: 5; Total: 460.* 342 for, 113 against, 5 abstaining
+    Câmara dos Deputados, plenary: separate vote on a passage (destaque): the text was kept, on PEC 5/2023 (bill now: passed the Câmara; awaiting the Senate).
+  - 28 May: *Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457.* 335 for, 117 against, 5 abstaining
+    Câmara dos Deputados, plenary: separate vote on a passage (destaque): the text was kept, on PEC 5/2023 (bill now: passed the Câmara; awaiting the Senate).
+  - 28 May: *Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.* 102 for, 322 against, 1 abstaining; result as recorded: “rejected”
+    Câmara dos Deputados, plenary: vote on a procedural motion, on PEC 5/2023 (bill now: passed the Câmara; awaiting the Senate).
 - **Recorded vote** · camara-2433663-44 · 28 May · drug decriminalisation · tier 2
   *Rejeitado o Requerimento. Sim: 99; Não: 277; Total: 376.*
   On: *PL 1822/2024: Garante aos pais ou responsáveis a imediata internação de jovens e adolescentes, viciados em substancias psicoativas, em vulnerabilidade social, ou ameaçados de morte por traficantes e facções criminosas para tratamento da dependência química em entidades que tratem desta doença, legi…*

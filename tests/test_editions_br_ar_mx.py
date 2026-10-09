@@ -1,5 +1,5 @@
 """The Brazilian, Argentine and Mexican editions (src/editions/br.py, ar.py,
-mx.py, src/editions/render_hooks.py) on small stores built here, with the
+mx.py; Argentina's post_render and Mexico's fortnightly cadence) on small stores built here, with the
 real noise configs (config/edition-noise-{br,ar,mx}.yaml)."""
 import json
 import os
@@ -15,7 +15,7 @@ sys.path.insert(0, ROOT)
 from src import ar_store, br_store, mx_store  # noqa: E402
 from src import country_edition as ce  # noqa: E402
 from src import noise  # noqa: E402
-from src.editions import ar, br, mx, render_hooks  # noqa: E402
+from src.editions import ar, br, mx  # noqa: E402
 
 
 def conn_with(store):
@@ -219,9 +219,8 @@ class ArgentinaTests(Base):
     def test_edition_with_lapse_section_split_and_noise(self):
         c = self.store()
         self.watch('expedientes:\n  "sen/7-CD-2025": {areas: [1], why: "Unborn child."}\n')
-        text = render_hooks.render(c, ar.COUNTRY, "2026-10-09", "2026-10-02",
-                                   config_dir=self.cfg, directory=self.eds,
-                                   post_render=ar.post_render)
+        text = ce.render(c, ar.COUNTRY, "2026-10-09", "2026-10-02",
+                         config_dir=self.cfg, directory=self.eds)
         self.assertIn("## Nearing lapse (Ley 13.640)", text)
         self.assertLess(text.index("## Nearing lapse"), text.index("## Watchlist"))
         self.assertIn("**dip/100-D-2025** · lapses 28 February 2027", text)
@@ -284,8 +283,8 @@ class MexicoTests(Base):
     def test_fortnightly_edition_new_moved_votes_and_noise(self):
         c = self.store()
         self.watch("iniciativas: {}\n")
-        text = render_hooks.render(c, mx.COUNTRY, "2026-10-10", None, config_dir=self.cfg,
-                                   directory=self.eds, cadence_days=mx.CADENCE_DAYS)
+        text = ce.render(c, mx.COUNTRY, "2026-10-10", None, config_dir=self.cfg,
+                         directory=self.eds)
         self.assertIn("# Mexico Monitor - 27 September 2026 to 10 October 2026", text)
         self.assertIn("Fortnightly (X9), to Chris by DM.", text)
         self.assertIn("*Que reforma la Ley General de Salud, en materia de eutanasia.*", text)
@@ -309,8 +308,22 @@ class MexicoTests(Base):
         self.assertEqual(mx.clean_title("81Que reforma"), "Que reforma")
 
     def test_fortnight_wording(self):
-        self.assertEqual(render_hooks.fortnightly("**A quiet week.** Weekly, to Chris by DM."),
-                         "**A quiet fortnight.** Fortnightly (X9), to Chris by DM.")
+        c = conn_with(mx_store)
+        self.watch("iniciativas: {}\n")
+        text = ce.render(c, mx.COUNTRY, "2026-10-10", "2026-10-03", config_dir=self.cfg,
+                         directory=self.eds)
+        self.assertIn("# Mexico Monitor - fortnight to 10 October 2026", text)
+        self.assertIn("**A quiet fortnight.** Nothing on our ground", text)
+        self.assertIn("Fortnightly (X9), to Chris by DM.", text)
+        dm = ce.dm_summary(c, mx.COUNTRY, "2026-10-10", config_dir=self.cfg, directory=self.eds)
+        self.assertIn("*Mexico Monitor - fortnight to 10 October 2026*", dm)
+        self.assertIn("*A quiet fortnight*", dm)
+
+    def test_fortnightly_dm_window_is_a_fortnight(self):
+        c = self.store()
+        self.watch("iniciativas: {}\n")
+        dm = ce.dm_summary(c, mx.COUNTRY, "2026-10-10", config_dir=self.cfg, directory=self.eds)
+        self.assertIn("eutanasia", dm)        # presented 1 October: inside 14 days, not 7
 
 
 if __name__ == "__main__":

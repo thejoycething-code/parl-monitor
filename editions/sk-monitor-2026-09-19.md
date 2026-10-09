@@ -26,6 +26,7 @@ Leading:
     150 member positions stored.
     [Source](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=58272)
   - 16 Sep: *Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. P. Puškárová. Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zák…*. 118 for, 1 against, 20 abstaining (counted from the 150 member positions: 0 not voting, 11 absent); result as recorded: “Návrh prešiel”
+    Vote on amendments, second reading. The record says the motion passed.
 - **3 recorded votes on one item** · 15 Sep to 15 Sep · marriage and family
   *Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov*
   - **Decisive vote** (15 Sep): *Hlasovanie o návrhu zákona ako o celku. Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení…*
@@ -35,7 +36,9 @@ Leading:
     150 member positions stored.
     [Source](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=58252)
   - 15 Sep: *Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. Plaváková. Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA…*. 52 for, 50 against, 39 abstaining (counted from the 150 member positions: 0 not voting, 9 absent); result as recorded: “Návrh neprešiel”
+    Vote on amendments, second reading. The record says the motion did not pass.
   - 15 Sep: *Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. Puškárová. Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA…*. 78 for, 0 against, 62 abstaining (counted from the 150 member positions: 1 not voting, 9 absent); result as recorded: “Návrh prešiel”
+    Vote on amendments, second reading. The record says the motion passed.
 
 ## Answers
 

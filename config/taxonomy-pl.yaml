@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-pl.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang pl
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["aborcj*", "aborcyjn*", "przerywani* ciąży", "przerwani* ciąży", "przerywaniu ciąży", "dopuszczalnoś* przerywania ciąży", "ochron* płodu", "ochron* życia poczętego", "dzieci* poczęt*", "dziecka poczętego", "życi* poczęt*", "pigułk* poronn*", "planowaniu rodziny, ochronie płodu ludzkiego", "kompromis* aborcyjn*", "Trybunał* Konstytucyjn* z 22 października 2020"]
@@ -29,9 +29,9 @@ areas:
     # note: Poland: prawo oświatowe is the noisiest tier-2 term (15 bills, many amending the education act in passing); kept at tier 2 for triage.
   7_free_speech_online_safety:
     name: "Free speech, privacy and civil liberties"
-    tier1: ["mow* nienawiści", "przestępstw* z nienawiści", "przestępstw* motywowan* uprzedzeniami", "wolnoś* słowa", "wolnoś* wypowiedzi", "swobod* wypowiedzi", "cenzur*", "akt* o usługach cyfrowych", "usługach cyfrowych", "weryfikacj* wieku", {term: "art. 256", with: ["kodeks* karn*"]}, {term: "art. 257", with: ["kodeks* karn*"]}, "znieważeni* grupy", "nawoływani* do nienawiści", "pandemi* traktat*", "porozumieni* pandemiczn*", "Międzynarodow* Przepis* Zdrowotn*"]
-    tier2: ["dezinformacj*", "pornograf*", "treści szkodliw*", "treści nielegaln*", "platform* internetow*", "platform* cyfrow*", "media społecznościow*", "mediów społecznościowych", "szyfrowani*", "inwigilacj*", "Pegasus*", "kontrol* operacyjn*", "radiofonii i telewizji", "Krajow* Rad* Radiofonii", "zniesławieni*", "Światow* Organizacj* Zdrowia", "Europejsk* Konwencj* Praw Człowieka"]
-    # note: No terms proposed for this area.
+    tier1: ["mow* nienawiści", "przestępstw* z nienawiści", "przestępstw* motywowan* uprzedzeniami", "wolnoś* słowa", "wolnoś* wypowiedzi", "swobod* wypowiedzi", "cenzur*", "akt* o usługach cyfrowych", "usługach cyfrowych", {term: "weryfikacj* wieku", with: [internecie, internetu, online, "pornograf*", "platform* internetow*", "platform* cyfrow*", "stron* internetow*", "serwis* internetow*", "usług* cyfrow*"]}, {term: "art. 256", with: ["kodeks* karn*"]}, {term: "art. 257", with: ["kodeks* karn*"]}, "znieważeni* grupy", "nawoływani* do nienawiści", "pandemi* traktat*", "porozumieni* pandemiczn*", "Międzynarodow* Przepis* Zdrowotn*"]
+    tier2: ["dezinformacj*", "pornograf*", "treści szkodliw*", "treści nielegaln*", "platform* internetow*", "platform* cyfrow*", "media społecznościow*", "mediów społecznościowych", "szyfrowani*", "inwigilacj*", "Pegasus*", "kontrol* operacyjn*", {term: "radiofonii i telewizji", without: ["wychowaniu w trzeźwości"]}, "Krajow* Rad* Radiofonii", "zniesławieni*", "Światow* Organizacj* Zdrowia", "Europejsk* Konwencj* Praw Człowieka"]
+    # note: v0.2: "weryfikacj* wieku" needs an online, platform or pornography context and "radiofonii i telewizji" is vetoed by "wychowaniu w trzeźwości": on the 9 October scoping store the alcohol bills (druki 2007 and 2010: age checks at the till, a ban on alcohol advertising in broadcasting) matched area 7 through them, 24 votes; the online age-verification bill (10/1006) still matches.
   8_freedom_of_religion:
     tier1: ["obraz* uczuć religijnych", "obrażani* uczuć religijnych", {term: "art. 196", with: ["kodeks* karn*"]}, "wolnoś* religi*", "wolnoś* sumienia", "wolnoś* wyznania", "prześladowa* chrześcijan", "prześladowa* religijn*", "Fundusz* Kościeln*", "konkordat*", "symbol* religijn*", "krzyż* w urzęd*", "krzyż* w szkol*", "krzyż* w Sejmie", "bluźnierstw*", "złośliwe przeszkadzanie", "aktów religijnych", "wyznawan* religi*"]
     tier2: [Kościół, "Kościoł*", "Kościel*", "związk* wyznaniow*", "związków wyznaniowych", "stosunku Państwa do", "duchown*", "kapelan*", "miejsc* kultu", "chrześcijan*", "katolick*", "religijn*", "niedziel* wolne od handlu", "zakaz* handlu w niedziel*", "handlu w niedziele", "klauzul* sumienia"]

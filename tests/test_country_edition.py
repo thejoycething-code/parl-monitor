@@ -161,6 +161,98 @@ class FrameworkTests(Base):
         self.assertIn("DERIVED", ce.derived_line(5, "basis"))
 
 
+class PolishTests(Base):
+    """why_watched's first sentence, grouped vote lines, and the notice,
+    post_render and cadence hooks."""
+
+    def test_why_is_not_cut_inside_brackets_or_after_an_abbreviation(self):
+        wl = {"PEC 5/2023": {"why": "Extends tax immunity for religious organisations "
+                                    "(art. 150 of the Constitution). Eight nominal votes."}}
+        it = ce.item("br", "vote", "PEC 5/2023", "2026-05-28", "PEC", [8], 1, True)
+        self.assertEqual(ce.why_watched(it, wl), "Extends tax immunity for religious "
+                         "organisations (art. 150 of the Constitution).")
+        self.assertEqual(ce.first_sentence("Under art. 5 of the code. More."),
+                         "Under art. 5 of the code.")
+        self.assertEqual(ce.first_sentence("Filed by J. Smith today. More."),
+                         "Filed by J. Smith today.")
+        self.assertEqual(ce.first_sentence("Is it? Yes."), "Is it?")
+        self.assertEqual(ce.first_sentence("No full stop"), "No full stop")
+
+    def group(self, other_takeaway, other_title="Amendment 3"):
+        return [ce.vote("xx", "v1", "2026-10-08", "Vote on the whole", [1], 1, False,
+                        [ce.tally_line(80, 60)], group="g", group_title="Bill", final=True,
+                        takeaway="The bill's final vote"),
+                ce.vote("xx", "v2", "2026-10-07", other_title, [1], 1, False,
+                        [ce.tally_line(50, 90)], group="g", group_title="Bill",
+                        takeaway=other_takeaway)]
+
+    def test_group_sub_line_has_one_full_stop(self):
+        out = "\n".join(ce.vote_lines(self.group(None, "Sim: 467; Total: 472."), {}))
+        self.assertIn("  - 7 Oct: *Sim: 467; Total: 472.* 50 for, 90 against", out)
+        self.assertNotIn("*.", out)
+        out = "\n".join(ce.vote_lines(self.group(None), {}))
+        self.assertIn("  - 7 Oct: *Amendment 3*. 50 for, 90 against", out)
+
+    def test_group_shows_a_takeaway_that_differs_from_the_headline(self):
+        out = ce.vote_lines(self.group("Amendment on article 2"), {})
+        self.assertIn("    Amendment on article 2.", out)
+        same = ce.vote_lines(self.group("The bill's final vote"), {})
+        self.assertEqual(sum("The bill's final vote" in ln for ln in same), 1)
+
+    def test_notice_string_and_callable(self):
+        text = self.render(fake([], notice="> **Parliament is dissolved.**"))
+        lines = text.split("\n")
+        sub = next(i for i, ln in enumerate(lines) if ln.startswith("_Diet."))
+        self.assertEqual(lines[sub + 2], "> **Parliament is dissolved.**")
+        self.assertEqual(lines[sub + 3], "")
+        self.assertIn("**A quiet week.**", lines[sub + 4])
+        calls = []
+
+        def notice(conn, today, dm):
+            calls.append(dm)
+            return "_DM notice._" if dm else None
+        country = fake([], notice=notice)
+        self.assertNotIn("notice", self.render(country))
+        dm = ce.dm_summary(sqlite3.connect(":memory:"), country, TODAY, SINCE,
+                           config_dir=self.cfg, directory=self.eds)
+        self.assertEqual(dm.split("\n")[1], "_DM notice._")
+        self.assertEqual(calls, [False, True])
+        plain = ce.dm_summary(sqlite3.connect(":memory:"), fake([]), TODAY, SINCE,
+                              config_dir=self.cfg, directory=self.eds)
+        self.assertEqual(plain.split("\n")[1], "")
+
+    def test_post_render_and_cadence(self):
+        country = fake([], post_render=lambda conn, c, today, text, wl: text + "\nEXTRA",
+                       cadence_days=14, frequency="Fortnightly")
+        text = ce.render(sqlite3.connect(":memory:"), country, TODAY, config_dir=self.cfg,
+                         directory=self.eds)
+        self.assertTrue(text.endswith("\nEXTRA"))
+        self.assertIn("covering 26 September 2026 to 9 October 2026. Fortnightly, to Chris", text)
+        self.assertIn("**A quiet fortnight.**", text)
+        self.assertEqual(ce.window("xx", TODAY, directory=self.eds, days=14)[0], "2026-09-25")
+
+
+class PolishTaxonomyTests(unittest.TestCase):
+    def test_age_verification_needs_an_online_context(self):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy-pl.yaml"), "pl")
+        wl = filt.Watchlist([], [], [])
+        alcohol = ("Poselski projekt ustawy o zmianie ustawy o wychowaniu w trzeźwości i "
+                   "przeciwdziałaniu alkoholizmowi oraz ustawy o radiofonii i telewizji",
+                   "wprowadzenie obowiązku weryfikacji wieku przy zakupie; uregulowanie "
+                   "sprzedaży internetowej wyłącznie z odbiorem osobistym")
+        self.assertNotIn(7, filt.filter_item(tax, wl, *alcohol).issue_areas or [])
+        online = ("Obywatelski projekt ustawy o ochronie małoletnich przed treściami "
+                  "pornograficznymi w Internecie",
+                  "zobowiązanie administratorów stron do wprowadzenia skutecznej weryfikacji wieku")
+        res = filt.filter_item(tax, wl, *online)
+        self.assertIn(7, res.issue_areas)
+        self.assertIn("weryfikacj* wieku", res.matched_terms)
+        broadcast = ("Sprawozdanie Krajowej Rady Radiofonii i Telewizji",
+                     "o zmianie ustawy o radiofonii i telewizji")
+        self.assertIn(7, filt.filter_item(tax, wl, *broadcast).issue_areas)
+
+
 class LatamUnchangedTests(unittest.TestCase):
     def test_latam_noise_is_the_shared_class(self):
         from src import latam_noise

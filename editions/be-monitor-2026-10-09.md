@@ -26,6 +26,7 @@ Leading:
     135 member positions stored. Groups are as the member list stood when stored, not at the vote.
     [Source](https://www.lachambre.be/doc/PCRI/html/56/ip143x.html)
   - 8 Oct: *Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof (nieuw opschrift) (13…*. 55 for, 75 against, 5 abstaining (nominal vote); result as recorded: “En conséquence, l'amendement est rejeté et l'article 2 est adopté”
+    Plenary vote 56/143/4, on dossier 56/1338, outcome rejected.
 
 ## Watchlist
 

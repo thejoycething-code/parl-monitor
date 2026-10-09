@@ -141,12 +141,13 @@ class SpainEdition(unittest.TestCase):
                          "_Cortes dissolved on 6 Oct; next sitting 23 December 2026 (XVI legislature)._")
         self.assertIn("A quiet week", dm)
 
-    def test_wrapper_leaves_the_framework_unpatched(self):
+    def test_notice_is_the_framework_hook(self):
         before = (ce.render, ce.dm_summary)
         self.render()
         self.assertEqual((ce.render, ce.dm_summary), before)
         plain = ce.render(self.conn, es.COUNTRY, TODAY, directory=self.tmp)
-        self.assertNotIn("dissolved", plain)
+        self.assertIn("The Cortes Generales are dissolved", plain)
+        self.assertEqual(plain, self.render())
 
 
 if __name__ == "__main__":

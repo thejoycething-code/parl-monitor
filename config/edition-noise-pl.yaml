@@ -7,7 +7,9 @@
 # 24 of them were the votes on the alcohol bills (druki 2007 and 2010:
 # advertising bans and age checks at the till), on area 7 through
 # "weryfikacj* wieku" and "radiofonii i telewizji" in the Sejm's summary;
-# the alcohol act is left out by its name. Four were procedural votes
+# the alcohol act is left out by its name. Since taxonomy-pl v0.2 those two
+# terms are guarded and the alcohol bills no longer reach area 7; the rule
+# stays as a backstop. Four were procedural votes
 # (shortening a deadline, going to second reading without committee).
 # Kept: the broadcasting council's annual report, the patriotic-education
 # bill, the operational-control bill's Senate amendments.
