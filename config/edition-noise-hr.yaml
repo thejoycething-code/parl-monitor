@@ -1,0 +1,27 @@
+# Croatia edition noise filters: free and deterministic, no model (X16).
+# Read by src/noise.py for src/country_edition.py (adapter src/editions/hr.py).
+# Hand-edited; the format is documented in src/noise.py. A WATCHED ITEM IS
+# NEVER FILTERED. Patterns match text folded the way src/filter.py folds it:
+# lower case, accents stripped (c for č and ć, z for ž, s for š, dj for đ).
+#
+# Measured on the scoping store of 9 October 2026 (the whole 11th Sabor:
+# 2,139 agenda appearances, 790 recorded votes; 118 appearances and 22
+# votes on our ground under taxonomy-hr).
+
+procedural_votes:
+  # The agenda itself, should the service ever record a vote on it.
+  - '^\W*(prijedlog )?(izmjen\w* |dopun\w* )?dnevn\w* red\w*'
+
+exclude_titles:
+  # Appointments: electing or dismissing an ombudsperson's deputy or a
+  # committee member. They matched on the office's name ("pravobraniteljica
+  # za djecu"); HR4 brought the ombudspersons' REPORTS in, which stay. Two
+  # votes in the 11th Sabor (21 June 2024, 29 May 2026).
+  - '\bodluk\w* o (izboru|imenovanju|razrjesenju|potvrdi)\b'
+
+# The lead (and nothing else): a tier-1 item that is not watched leads the
+# edition only with a tier-1 term in its own title, or two distinct terms in
+# shown areas.
+alert:
+  title_tier1: true
+  distinct_terms: 2
