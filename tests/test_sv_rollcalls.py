@@ -9,6 +9,7 @@ and the text read from each file was checked to be identical before and
 after.
 """
 
+import datetime
 import gzip
 import importlib.util
 import json
@@ -73,6 +74,9 @@ class FakeClient:
         key = (url.rsplit("/", 1)[-1], tuple(sorted(fields.items())))
         self.asked.append(key)
         if key not in self.posts:
+            if key[0] == "historico-sesion-ajax":
+                # what the archive answers for a day with no sitting
+                return '{"sesiones":null,"validar":false,"archivos":[]}'
             raise FetchError(url, "sv", slug, 1, "no fixture")
         return self.posts[key].decode("utf-8")
 
@@ -298,6 +302,24 @@ class EndToEndTests(unittest.TestCase):
                      "VALUES ('sv-x', '2024-2027', '2026-10-07', 'other')")
         read, gaps = sv.pull_days(conn, client, "2026-11-20", "2024-2027", log=lambda *a: None)
         self.assertEqual((read, gaps), (0, 1))
+
+    def test_every_day_of_the_legislature_is_asked_once(self):
+        """Sessions 41-64 published no recorded vote, so vote days are not
+        enough: a sitting with no vote is still read, and an answered day
+        is not asked again outside the re-read window."""
+        conn = store()
+        day = ("historico-sesion-ajax", (("desde", "2025-03-05"), ("hasta", "2025-03-05")))
+        client = FakeClient(posts={day: fixture("historico-2026-09-29.json")})
+        read, gaps = sv.pull_days(conn, client, "2026-10-09", "2024-2027", log=lambda *a: None)
+        self.assertEqual((read, gaps), (1, 0))
+        asked = [k for k in client.asked if isinstance(k, tuple)]
+        self.assertEqual(len(asked), (datetime.date(2026, 10, 9) - datetime.date(2024, 5, 1)).days + 1)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM sv_dictamenes").fetchone()[0], 7)
+        # asked again: only the days still inside the filing grace, whose
+        # "nothing" may yet become a session (it covers the re-read window)
+        again = sv.days_to_read(conn, "2026-10-09", "2024-2027")
+        self.assertEqual(len(again), sv.ARCHIVE_GRACE_DAYS + 1)
+        self.assertEqual(again[-1], "2026-09-18")
 
     def test_the_watchlist_lends_areas_by_key(self):
         path = os.path.join(FIX, "..", "..", "..", "config", "watchlist-sv.yaml")

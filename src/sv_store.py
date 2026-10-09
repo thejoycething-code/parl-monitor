@@ -125,10 +125,10 @@ SCHEMA = (
         PRIMARY KEY (division_key, name)
     )""",
     """CREATE TABLE IF NOT EXISTS sv_vote_days (
-        day          TEXT PRIMARY KEY,    -- ISO date with recorded votes
+        day          TEXT PRIMARY KEY,    -- ISO date asked of the session archive
         legislature  TEXT,
-        sessions     INTEGER,             -- sessions the archive returned
-        archived     INTEGER,             -- 1 once the historical archive has the day
+        sessions     INTEGER,             -- sessions the archive returned (0: none)
+        archived     INTEGER,             -- 1 answered; 0 retry; -1 vote day never filed (gap)
         fetched_at   TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS sv_divisions_item ON sv_divisions (item_key)",

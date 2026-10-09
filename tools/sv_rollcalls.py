@@ -590,20 +590,52 @@ def pull_vote_list(conn, client, today, legislature=None, log=print, full=False)
     return legislature
 
 
-def pull_days(conn, client, today, legislature, tax=None, log=print, budget=None):
-    """Read the session archive for every vote day not yet archived, and the
-    last REREAD_DAYS. Returns (days read, gaps)."""
+def legislature_start(legislature):
+    """'2024-2027' -> '2024-05-01': a Salvadoran legislature takes office on
+    1 May (Constitution, art. 124)."""
+    m = re.match(r"(\d{4})-\d{4}$", legislature or "")
+    return "{0}-05-01".format(m.group(1)) if m else None
+
+
+def days_to_read(conn, today, legislature):
+    """Every calendar day of the legislature the archive has not answered
+    for, plus the last REREAD_DAYS, newest first. Not only the vote days:
+    MEASURED on 9 October 2026, sessions 41 to 64 (late January to mid-July
+    2025) and 98 published no recorded vote at all, yet the archive has
+    their dictámenes and piezas."""
     today_d = datetime.date.fromisoformat(today)
-    reread_from = (today_d - datetime.timedelta(days=REREAD_DAYS)).isoformat()
-    days = [r[0] for r in conn.execute(
-        "SELECT DISTINCT d.date FROM sv_divisions d LEFT JOIN sv_vote_days v ON v.day=d.date "
-        "WHERE d.legislature=? AND d.date IS NOT NULL AND (v.archived IS NULL OR v.archived=0 OR d.date>=?) "
-        "ORDER BY d.date DESC", (legislature, reread_from))]
-    read = gaps = 0
-    for day in days:
+    reread_from = today_d - datetime.timedelta(days=REREAD_DAYS)
+    start = legislature_start(legislature)
+    first = datetime.date.fromisoformat(start) if start else reread_from
+    done = {r[0]: r[1] for r in conn.execute("SELECT day, archived FROM sv_vote_days")}
+    out = []
+    d = today_d
+    while d >= first:
+        iso_d = d.isoformat()
+        state = done.get(iso_d)
+        if d >= reread_from or state is None or state == 0:
+            out.append(iso_d)
+        d -= datetime.timedelta(days=1)
+    return out
+
+
+def pull_days(conn, client, today, legislature, tax=None, log=print, budget=None):
+    """Ask the session archive about every day of the legislature not yet
+    answered, and the last REREAD_DAYS. Returns (days with sessions read, gaps).
+
+    sv_vote_days.archived: 1 answered (sessions may be 0: no sitting);
+    0 nothing yet but recent, asked again next run; -1 a day WITH recorded
+    votes still missing from the archive after ARCHIVE_GRACE_DAYS (a gap,
+    recorded once)."""
+    today_d = datetime.date.fromisoformat(today)
+    vote_days = {r[0] for r in conn.execute(
+        "SELECT DISTINCT date FROM sv_divisions WHERE legislature=?", (legislature,))}
+    read = gaps = asked = 0
+    for day in days_to_read(conn, today, legislature):
         if budget and budget.exhausted():
-            log(budget.disclose("archive days", read))
+            log(budget.disclose("archive days", asked))
             break
+        asked += 1
         try:
             text = client.post_form(DAY_ARCHIVE, {"desde": day, "hasta": day}, FEED,
                                     "historico-" + day, archive=True)
@@ -615,16 +647,23 @@ def pull_days(conn, client, today, legislature, tax=None, log=print, budget=None
             continue
         sessions = payload.get("sesiones") or []
         if not payload.get("validar") or not sessions:
+            # The archive answers the same way for "no sitting" and "not
+            # filed yet". Only a day with recorded votes is known to have sat.
             late = (today_d - datetime.date.fromisoformat(day)).days > ARCHIVE_GRACE_DAYS
-            conn.execute("INSERT INTO sv_vote_days (day, legislature, sessions, archived, fetched_at) "
-                         "VALUES (?,?,0,0,?) ON CONFLICT(day) DO UPDATE SET fetched_at=excluded.fetched_at",
-                         (day, legislature, today))
-            if late:
-                _gap(conn, today, "session archive {0}: not filed {1} days on".format(day, ARCHIVE_GRACE_DAYS))
-                log("  [gap] session archive {0}: still not filed".format(day))
+            state = 0
+            if late and day in vote_days:
+                state = -1
+                _gap(conn, today, "session archive {0}: votes recorded, no session filed {1} days on"
+                     .format(day, ARCHIVE_GRACE_DAYS))
+                log("  [gap] session archive {0}: votes recorded but no session filed".format(day))
                 gaps += 1
-            else:
-                log("  {0}: not in the archive yet; retried next run".format(day))
+            elif late:
+                state = 1
+            elif day in vote_days:
+                log("  {0}: not in the archive yet; asked again next run".format(day))
+            conn.execute("INSERT INTO sv_vote_days (day, legislature, sessions, archived, fetched_at) "
+                         "VALUES (?,?,0,?,?) ON CONFLICT(day) DO UPDATE SET archived=excluded.archived, "
+                         "fetched_at=excluded.fetched_at", (day, legislature, state, today))
             conn.commit()
             continue
         for n, s in enumerate(sessions):
@@ -775,7 +814,7 @@ def main(argv=None):
     day_budget = drain.Budget(args.budget_seconds / 2.0)
     read, g = pull_days(conn, client, today, leg, tax, budget=day_budget)
     gaps += g
-    print("  session archive: {0} days read".format(read))
+    print("  session archive: {0} sitting days read".format(read))
     if not args.index_only:
         read, g = pull_positions(conn, client, today, leg, budget=budget, limit=args.limit)
         gaps += g
