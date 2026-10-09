@@ -25,11 +25,6 @@ Markdown conventions parsed here:
     labour code's organ-donor leave is employment law, not transplant ethics
     (v1.16, 2 October 2026). Both brackets may follow one term, with first.
   * - **Notes:** lines become YAML comments (the loader ignores prose)
-  * an ADDENDUM adds terms to an existing area: a level-four heading with
-    the same key,                        #### 1. Abortion {#1_abortion}
-    whose Tier lines are APPENDED to that area's lists, never replacing
-    them. The American vocabulary (v1.17, 9 October 2026) lives there so
-    a reader can see which terms came from which country.
   * global exclusions:                   - **Terms:** termination; conversion
   * version from the header line:        **Version 0.2 | ...**
 """
@@ -45,7 +40,6 @@ MASTER = os.path.join(ROOT, "docs", "keyword-taxonomy.md")
 CONFIG = os.path.join(ROOT, "config", "taxonomy.yaml")
 
 HEADING = re.compile(r"^### \d+\. (?P<title>.+?) \{#(?P<key>[a-z0-9_]+)\}\s*$")
-ADDENDUM = re.compile(r"^#### \d+\. (?P<title>.+?) \{#(?P<key>[a-z0-9_]+)\}\s*$")
 TIER = re.compile(r"^- \*\*Tier (?P<tier>[12]):\*\* (?P<terms>.+)$")
 NOTES = re.compile(r"^- \*\*Notes:\*\* (?P<note>.+)$")
 # An OPTIONAL display-label override. Deliberately opt-in rather than taken
@@ -67,7 +61,6 @@ def parse_master(text):
     version, exclusions = None, []
     areas = {}  # key -> {"tier1": [...], "tier2": [...], "note": str|None}
     current = None
-    addendum = False
     in_exclusions = False
 
     for line in text.splitlines():
@@ -81,24 +74,12 @@ def parse_master(text):
             continue
         if line.startswith("## ") and not line.startswith("## Global"):
             in_exclusions = False
-            # A new top-level section closes the last area, so prose or a
-            # Notes line under an addendum's preamble cannot land on area 13.
-            current = None
         m = HEADING.match(line)
         if m:
             current = m.group("key")
             areas[current] = {"name": None, "tier1": [], "tier2": [],
                               "note": None}
-            addendum = False
             in_exclusions = False
-            continue
-        m = ADDENDUM.match(line)
-        if m:
-            current = m.group("key")
-            if current not in areas:
-                raise SystemExit("addendum heading %r names no area defined above"
-                                 % line.strip())
-            addendum = True
             continue
         if in_exclusions:
             m = EXCLUSIONS.match(line)
@@ -108,16 +89,7 @@ def parse_master(text):
         if current:
             m = TIER.match(line)
             if m:
-                tier = "tier" + m.group("tier")
-                terms = split_terms(m.group("terms"))
-                if addendum:
-                    dupes = [t for t in terms if t in areas[current][tier]]
-                    if dupes:
-                        raise SystemExit("addendum repeats %s terms already in %s: %s"
-                                         % (tier, current, dupes))
-                    areas[current][tier] = areas[current][tier] + terms
-                else:
-                    areas[current][tier] = terms
+                areas[current]["tier" + m.group("tier")] = split_terms(m.group("terms"))
                 continue
             m = NAME.match(line)
             if m:
@@ -125,10 +97,7 @@ def parse_master(text):
                 continue
             m = NOTES.match(line)
             if m:
-                note = m.group("note").strip()
-                if addendum and areas[current]["note"]:
-                    note = areas[current]["note"] + " ADDENDUM: " + note
-                areas[current]["note"] = note
+                areas[current]["note"] = m.group("note").strip()
     if not version or not areas or not exclusions:
         raise SystemExit("keyword-taxonomy.md did not parse: version=%r areas=%d exclusions=%d"
                          % (version, len(areas), len(exclusions)))

@@ -655,7 +655,7 @@ class CollectTests(unittest.TestCase):
         row = conn.execute("SELECT division_key, bill_key, stage, yeas, nays, positions_ok, areas, result "
                            "FROM prov_divisions WHERE kind='recorded'").fetchone()
         # Area 5 since taxonomy v1.17 (9 October 2026): "gender ideology" is a
-        # tier 1 term in the American addendum, filed under sex-based rights.
+        # tier 1 term (American vocabulary), filed under sex-based rights.
         self.assertEqual(tuple(row), ("bc-43-2-2026-02-19-119.1",
                                       "bc-43-2/x-gender-ideology-and-child-protection-act", "First Reading",
                                       38, 49, 1, "[3, 5, 6]", "Motion negatived on the following division"))

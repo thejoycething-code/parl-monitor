@@ -40,8 +40,8 @@ EVERY POSITION IS STORED. Unlike Canada, the positions arrive in the same
 file as the vote, so keeping them costs no request, and a vote that gains
 an area on --reclassify needs no refetch.
 
-CLASSIFICATION is the shared English taxonomy (v1.17 carries the American
-addendum) plus config/watchlist-us.yaml, applied by bill KEY.
+CLASSIFICATION is the shared English taxonomy (American vocabulary joined
+it at v1.17) plus config/watchlist-us.yaml, applied by bill KEY.
 
 Separation guarantee: writes us_* tables and the shared gaps table only.
 ONE WRITER AT A TIME on the store.

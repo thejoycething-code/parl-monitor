@@ -8,13 +8,18 @@ legislatures are a later decision, taken in blocks (see the end).
 ## Decisions (Christopher, 9 October 2026)
 
 - **Own edition.** The US gets its own edition, not a section.
-- **Shared keyword list.** American terms go into the shared taxonomy as an
-  addendum (docs/keyword-taxonomy.md, "Addendum: American vocabulary",
-  v1.17), not a US-only list. Named bills whose titles would collide go in
-  `config/watchlist-us.yaml`, applied by bill key.
+- **Shared keyword list, no addendum.** American terms sit in the main area
+  lists of docs/keyword-taxonomy.md (v1.17) beside the British ones:
+  mifepristone is not an American issue. (A first cut on 9 October kept them
+  in a separate addendum section; Christopher had them merged the same day.)
+  Named bills whose titles would collide go in `config/watchlist-us.yaml`,
+  applied by bill key.
 - **All 50 state legislatures**, after Congress.
-- Not yet decided: DEI, antisemitism, contraception (left out of the
-  addendum); the executive-actions section.
+- **Contraception is a life issue** (area 1). **Antisemitism is out.** **DEI**
+  is not a term of its own: it is caught where it meets the areas already
+  watched (gender, sex-based rights, schools).
+- **The US edition goes to Christopher alone** until it is good.
+- Not yet decided: the executive-actions section.
 
 ## Phase 1: built, 9 October 2026
 
@@ -30,7 +35,7 @@ legislatures are a later decision, taken in blocks (see the end).
 | Cosponsorships | 182,211 | |
 | Members (crosswalk + former members from bills and votes) | 556 | |
 
-Five and a half minutes, no gaps. The addendum took bills on our ground
+Five and a half minutes, no gaps. The American terms took bills on our ground
 from 650 to 715 and caught votes the unchanged taxonomy missed: the
 Stopping Indoctrination and Protecting Kids Act, the Do No Harm in Medicaid
 Act, the Protect Children's Innocence Act.
@@ -321,11 +326,11 @@ jurisdictions). Possible build orders:
 
 ## Open questions for Christopher
 
-1. ~~Who reads it?~~ Own edition (decided 9 October). Still open: who the
-   readers are, for Slack routing and the Asana owner.
+1. ~~Who reads it?~~ Own edition, to Christopher alone for now (decided
+   9 October): a Slack DM, and he owns the Asana task.
 2. **The Congress.gov / api.data.gov key.** Free and immediate, but it should
    be requested in his name or the team's. Phase 1b needs it.
-3. ~~Taxonomy~~: shared list, as an addendum (decided 9 October; v1.17).
+3. ~~Taxonomy~~: shared list, merged into the areas (decided 9 October; v1.17).
 4. **Scope:** DEI, antisemitism, contraception. In or out?
 5. **Executive actions** as a section: yes or no?
 6. **Senate:** re-test from CI. If it is blocked there too, the fallback is
