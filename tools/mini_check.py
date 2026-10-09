@@ -22,6 +22,20 @@ under the gap between a job's slots.
 
 When in doubt the backup runs: a hand dispatch, a missing or unreadable
 stamp, or a cron this cannot read (then a stamp within window hours counts).
+
+THE MINI IS RUNNING IT NOW (MINI_RUN_<JOB>, set by mini_run.sh when it
+starts and cleared when it ends). Then EVERY trigger skips, a hand dispatch
+included: two runs at once is the one thing the publish log cannot stop --
+both read "not yet published" and both post (Monday publish, 9 October 2026).
+A marker older than running-max minutes is a Mini that died mid-run and is
+ignored.
+
+COVER HOURS. A workflow with retry slots (Sunday pull, Monday publish) has
+later crons that exist only to rescue the primary. A Mini run within
+cover-hours covers them all, whichever slot fired.
+
+A PUSH is a clock too: the cloud routine starts Monday publish by pushing a
+trigger branch. It is judged like a schedule, by cover-hours.
 """
 
 from __future__ import annotations
@@ -69,17 +83,28 @@ def slot_for(cron, now):
     return max(candidates) if candidates else None
 
 
-def decide(event, cron, last_text, now, grace_minutes=75, window_hours=20):
-    """(run, why): run is False only when the Mini already covered this slot."""
+def decide(event, cron, last_text, now, grace_minutes=75, window_hours=20,
+           cover_hours=0, running_text="", running_max_minutes=180):
+    """(run, why): run is False only when the Mini already covered this slot,
+    or is running the job right now."""
+    running = parse_stamp(running_text) if running_text else None
+    if running is not None and dt.timedelta(0) <= now - running < dt.timedelta(minutes=running_max_minutes):
+        return False, "the Mini is running this job now (started {0}, {1} min ago): skipping".format(
+            running_text, int((now - running).total_seconds() // 60))
     last = parse_stamp(last_text) if last_text else None
     ago = "" if last is None else ", {0} min ago".format(int((now - last).total_seconds() // 60))
-    if event != "schedule":
+    if event not in ("schedule", "push"):
         return True, "{0}: always runs (Mini last ran {1}{2})".format(
             event, last_text or "never", ago)
     if not last_text:
         return True, "no Mini run recorded: running as backup"
     if last is None:
         return True, "Mini stamp {0!r} is unreadable: running as backup".format(last_text)
+    if cover_hours and now - last < dt.timedelta(hours=cover_hours):
+        return False, "the Mini ran at {0}{1}, within {2}h, which covers every slot: skipping".format(
+            last_text, ago, cover_hours)
+    if event == "push":
+        return True, "a push, and the Mini last ran at {0}{1}: running as backup".format(last_text, ago)
     slot = slot_for(cron, now)
     if slot is None:
         if now - last < dt.timedelta(hours=window_hours):
@@ -103,9 +128,13 @@ def main(argv=None):
     ap.add_argument("--last", default="")
     ap.add_argument("--grace-minutes", type=int, default=75)
     ap.add_argument("--window-hours", type=int, default=20)
+    ap.add_argument("--cover-hours", type=int, default=0)
+    ap.add_argument("--running", default="")
+    ap.add_argument("--running-max-minutes", type=int, default=180)
     args = ap.parse_args(argv)
     run, why = decide(args.event, args.schedule, args.last, dt.datetime.now(UTC),
-                      args.grace_minutes, args.window_hours)
+                      args.grace_minutes, args.window_hours, args.cover_hours,
+                      args.running, args.running_max_minutes)
     print(why)
     if os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:

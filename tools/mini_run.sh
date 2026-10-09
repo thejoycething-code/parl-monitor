@@ -66,7 +66,25 @@ until [ "$(cat "$LOCK/pid" 2>/dev/null)" = "$$" ] || mkdir "$LOCK" 2>/dev/null; 
   sleep 15; waited=$((waited + 15))
 done
 echo $$ > "$LOCK/pid"; echo "$JOB" > "$LOCK/job"
-trap 'rm -rf "$LOCK"' EXIT
+
+# 1b. Say so on GitHub: MINI_RUN_<JOB> makes every GitHub trigger of this job
+# skip while it is set (tools/mini_check.py), a hand dispatch included. The
+# publish log stops a run that starts after another has published, never
+# two at once: both read "not yet published", and both would post (Monday
+# publish, 9 October 2026). Not set for a branch test. If it cannot be set,
+# nothing runs here, and GitHub's backup does the slot.
+marked=
+cleanup() {
+  [ -n "$marked" ] && gh variable delete "MINI_RUN_$UPPER" -R thejoycething-code/parl-monitor >/dev/null 2>&1
+  [ "$(cat "$LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$LOCK"
+}
+trap cleanup EXIT
+if [ "$REF" = main ]; then
+  STAGE="mark running"
+  gh variable set "MINI_RUN_$UPPER" --body "$STARTED" -R thejoycething-code/parl-monitor >/dev/null \
+    || fail "gh variable set MINI_RUN_$UPPER"
+  marked=1
+fi
 
 # 2. Bring the clone up to date. The clone is ours alone: an unfinished
 # rebase or uncommitted edits are leftovers of a crashed run. Local COMMITS
@@ -126,10 +144,10 @@ for extra in $(sed -n 's/^# mini_run: commit //p' "jobs/$JOB.sh"); do
   case "$extra" in data|data/*|""|/*|*..*) continue ;; esac
   [ -e "$extra" ] && git add -A -- "$extra"
 done
+pushed=
 if ! git diff --cached --quiet; then
   git commit -q -m "$JOB (Mini): $(date -u +%Y-%m-%dT%H:%M)Z"
   STAGE=push
-  pushed=
   for attempt in 1 2 3 4 5 6; do
     if git pull -q --rebase --autostash origin "$REF"; then
       git push -q origin "HEAD:$REF" && { pushed=1; break; }
@@ -158,6 +176,15 @@ STAGE="record slot"
 if [ "$REF" = main ]; then
   gh variable set "MINI_LAST_$UPPER" --body "$STARTED" -R thejoycething-code/parl-monitor \
     || fail "gh variable set MINI_LAST_$UPPER"
+fi
+
+# 5b. A job may need a step after its commit has landed: jobs/<job>.after.sh,
+# run only when this run pushed a commit (Monday publish starts the Deploy
+# tracker on GitHub, which ships the committed partner_site/). Its failure is
+# reported, and the slot stays recorded: the work itself is done.
+if [ -n "$pushed" ] && [ -f "jobs/$JOB.after.sh" ]; then
+  STAGE="jobs/$JOB.after.sh"
+  bash "jobs/$JOB.after.sh" || fail "exit $?"
 fi
 
 # 6. Heartbeat.
