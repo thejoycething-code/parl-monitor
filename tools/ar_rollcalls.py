@@ -612,8 +612,10 @@ def proyecto_record(r):
     sen = r.get("EXP_SENADO") or ""
     hit = re.match(r"^\s*0*(\d+)-([A-Z]+)-(\d{2,4})\s*$", sen)
     return {"exp_key": key, "chamber": "diputados", "number": int(n), "origin": origin,
-            "year": int(year), "tipo": _squash(r.get("TIPO")), "title": _squash(r.get("TITULO")),
-            "author": _squash(r.get("AUTOR")), "published": (r.get("PUBLICACION_FECHA") or "")[:10] or None,
+            "year": int(year), "tipo": _squash(r.get("TIPO")),
+            # The register carries HTML entities in some titles ("20&deg; ANIVERSARIO").
+            "title": _squash(htmllib.unescape(r.get("TITULO") or "")),
+            "author": _squash(htmllib.unescape(r.get("AUTOR") or "")), "published": (r.get("PUBLICACION_FECHA") or "")[:10] or None,
             "publication": r.get("PUBLICACION_ID") or None, "proyecto_id": r.get("PROYECTO_ID") or None,
             "exp_other": sen_key(*hit.groups()) if hit else None}
 

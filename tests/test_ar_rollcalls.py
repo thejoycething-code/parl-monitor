@@ -165,6 +165,14 @@ class ExpedienteTests(unittest.TestCase):
         self.assertEqual(rec["publication"], "HCDN144TP124")
 
 
+class EntityTests(unittest.TestCase):
+    def test_register_titles_are_unescaped(self):
+        rec = arr.proyecto_record({"EXP_DIPUTADOS": "5270-D-2026", "TIPO": "RESOLUCION",
+                                   "TITULO": "EXPRESAR BENEPLACITO POR EL 20&deg; ANIVERSARIO DE LA LEY 26150",
+                                   "PUBLICACION_FECHA": "2026-10-05T00:00:00"})
+        self.assertEqual(rec["title"], "EXPRESAR BENEPLACITO POR EL 20° ANIVERSARIO DE LA LEY 26150")
+
+
 class ClassificationTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
