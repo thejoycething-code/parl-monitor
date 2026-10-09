@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- UPR monthly on the Mac Mini (jobs/upr-monthly.sh): the 3rd of each month, 07:00 London, the hour the
+     GitHub crons (06:00 on the 3rd UTC) were set for in BST. Time limit 60 minutes.
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.upr-monthly.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.upr-monthly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>upr-monthly</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>3600</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict><key>Day</key><integer>3</integer><key>Hour</key><integer>7</integer><key>Minute</key><integer>0</integer></dict>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/upr-monthly.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/upr-monthly.log</string>
+</dict>
+</plist>

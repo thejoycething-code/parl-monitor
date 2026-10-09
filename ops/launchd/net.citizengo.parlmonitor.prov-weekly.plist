@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Provinces weekly on the Mac Mini (jobs/prov-weekly.sh): Wednesdays 11:00 London, the hour the
+     GitHub crons (10:00 and 12:00 Wed UTC) were set for in BST. Time limit 290 minutes.
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.prov-weekly.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.prov-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>prov-weekly</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>17400</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>3</integer><key>Hour</key><integer>11</integer><key>Minute</key><integer>0</integer></dict>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/prov-weekly.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/prov-weekly.log</string>
+</dict>
+</plist>

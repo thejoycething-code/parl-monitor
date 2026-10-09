@@ -42,12 +42,33 @@ def _commands(text):
     return out
 
 
+def _scheduled_commands(workflow_text):
+    """The commands a SCHEDULED run of the workflow executes, in order. A step
+    whose condition depends on dispatch inputs runs on a schedule only when it
+    says so (`github.event_name == 'schedule' || ...`); the rest are hand-only
+    backfills and repairs, which stay on GitHub or are run by hand."""
+    import yaml
+    doc = yaml.safe_load(workflow_text)
+    out = []
+    for job in (doc.get("jobs") or {}).values():
+        for step in job.get("steps") or []:
+            cond = " ".join(str(step.get("if") or "").split())
+            if "inputs." in cond and "github.event_name == 'schedule' ||" not in cond:
+                continue
+            out += _commands(str(step.get("run") or ""))
+    return out
+
+
 class SameStepsAsTheWorkflowTests(unittest.TestCase):
     """Sunday pull and Monday publish run on the Mac Mini from jobs/*.sh while
     GitHub keeps its own steps as the backup (9 October 2026). Two copies are
     safe only while they agree: same commands, same order, same commit."""
 
-    PAIRS = (("sunday-pull.yml", "sunday-pull.sh"), ("monday-publish.yml", "monday-publish.sh"))
+    PAIRS = (("sunday-pull.yml", "sunday-pull.sh"), ("monday-publish.yml", "monday-publish.sh"),
+             ("sp-weekly.yml", "sp-weekly.sh"), ("sd-weekly.yml", "sd-weekly.sh"),
+             ("ni-weekly.yml", "ni-weekly.sh"), ("eu-weekly.yml", "eu-weekly.sh"),
+             ("de-weekly.yml", "de-weekly.sh"), ("ca-weekly.yml", "ca-weekly.sh"),
+             ("prov-weekly.yml", "prov-weekly.sh"), ("upr-monthly.yml", "upr-monthly.sh"))
 
     def _read(self, wf, job):
         return (open(os.path.join(ROOT, ".github", "workflows", wf), encoding="utf-8").read(),
@@ -56,14 +77,15 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
     def test_same_commands_in_the_same_order(self):
         for wf, job in self.PAIRS:
             flow, script = self._read(wf, job)
-            self.assertTrue(_commands(flow), wf)
-            self.assertEqual(_commands(flow), _commands(script), "{0} and {1} disagree".format(wf, job))
+            self.assertTrue(_scheduled_commands(flow), wf)
+            self.assertEqual(_scheduled_commands(flow), _commands(script), "{0} and {1} disagree".format(wf, job))
 
     def test_same_things_committed(self):
         for wf, job in self.PAIRS:
             flow, script = self._read(wf, job)
             add = next(ln for ln in flow.splitlines() if ln.strip().startswith("git add "))
-            want = {p.rstrip("/") for p in add.split()[2:]} - {"data"}
+            want = {p.rstrip("/") for p in add.split()[2:]
+                    if p.rstrip("/") != "data" and not p.startswith("data/")}
             m = re.search(r"^# mini_run: commit (.+)$", script, re.M)
             got = set(m.group(1).split()) if m else set()
             self.assertEqual(want, got, "{0} commits {1}, {2} commits {3}".format(wf, sorted(want), job, sorted(got)))
