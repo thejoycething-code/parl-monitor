@@ -72,17 +72,17 @@ PIPELINES = {
     # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
     # Scheduled 9 October 2026, Saturdays (at-weekly.yml; the Mac Mini first).
-    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes"),
+    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes, and the Austrian edition"),
     # Scheduled 9 October 2026, Thursdays (nl-weekly.yml; the Mac Mini first).
-    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions"),
+    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions, and the Dutch edition"),
     # Scheduled 9 October 2026, Sundays (pl-weekly.yml; the Mac Mini first).
-    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes"),
+    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes, and the Polish edition"),
     # Scheduled 9 October 2026, Saturdays (it-weekly.yml; the Mac Mini first).
     "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes"),
     # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
     "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes"),
     # Scheduled 9 October 2026, Saturdays (be-weekly.yml; the Mac Mini first).
-    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes"),
+    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes, and the Belgian edition"),
     # Scheduled 9 October 2026, Saturdays (fr-weekly.yml; the Mac Mini first).
     "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies"),
     # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
