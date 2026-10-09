@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:media="http://search.yahoo.com/mrss/"
+     xmlns:mag="https://magyarkozlony.hu/rss"
+>
+    <channel>
+        <atom:link href="https://magyarkozlony.hu/feed" rel="self" type="application/rss+xml" />
+        <title><![CDATA[Magyar Közlöny]]></title>
+        <link><![CDATA[https://magyarkozlony.hu/feed]]></link>
+                <description><![CDATA[Magyar Közlöny]]></description>
+        <language>hu</language>
+        <pubDate>Fri, 09 Oct 2026 18:30:13 +0200</pubDate>
+        <lastBuildDate>Fri, 09 Oct 2026 18:30:13 +0200</lastBuildDate>
+
+                    <item>
+                <title><![CDATA[Magyar Közlöny 2026. évi 151. szám]]></title>
+                <link>https://magyarkozlony.hu/dokumentumok/0db9b9b634c57818896991be71630650844d905a/megtekintes</link>
+                <description><![CDATA[]]></description>
+                                <guid isPermaLink="true">https://magyarkozlony.hu/dokumentumok/0db9b9b634c57818896991be71630650844d905a/megtekintes</guid>
+                <pubDate>Fri, 09 Oct 2026 18:30:13 +0200</pubDate>
+                                <enclosure url="https://magyarkozlony.hu/hivatalos-lapok/PRto2ZcMED3QRqLFeHmW6ac51cca612d3/dokumentumok/0db9b9b634c57818896991be71630650844d905a/letoltes" length="518432" type="application/pdf"></enclosure>
+                <mag:year>2026</mag:year>
+                <mag:serial>151</mag:serial>
+                <mag:type>Magyar Közlöny</mag:type>
+            </item>
+                    <item>
+                <title><![CDATA[Hivatalos Értesítő 2026. évi 50. szám]]></title>
+                <link>https://magyarkozlony.hu/dokumentumok/adedfad537d472967423c62baedf5d9181c0166e/megtekintes</link>
+                <description><![CDATA[]]></description>
+                                <guid isPermaLink="true">https://magyarkozlony.hu/dokumentumok/adedfad537d472967423c62baedf5d9181c0166e/megtekintes</guid>
+                <pubDate>Fri, 09 Oct 2026 16:17:24 +0200</pubDate>
+                                <enclosure url="https://magyarkozlony.hu/hivatalos-lapok/hR4sH06nhwqVBGvQo2Yq6ab157ab7334f/dokumentumok/adedfad537d472967423c62baedf5d9181c0166e/letoltes" length="1860797" type="application/pdf"></enclosure>
+                <mag:year>2026</mag:year>
+                <mag:serial>50</mag:serial>
+                <mag:type>Hivatalos Értesítő</mag:type>
+            </item>
+                    <item>
+                <title><![CDATA[Magyar Közlöny 2026. évi 150. szám]]></title>
+                <link>https://magyarkozlony.hu/dokumentumok/f732152954abf81b52192b0da07b63d4ad8440b6/megtekintes</link>
+                <description><![CDATA[]]></description>
+                                <guid isPermaLink="true">https://magyarkozlony.hu/dokumentumok/f732152954abf81b52192b0da07b63d4ad8440b6/megtekintes</guid>
+                <pubDate>Fri, 09 Oct 2026 13:42:32 +0200</pubDate>
+                                <enclosure url="https://magyarkozlony.hu/hivatalos-lapok/MykmZX3bmsLFOV8d6k4K6ac3c5733ac29/dokumentumok/f732152954abf81b52192b0da07b63d4ad8440b6/letoltes" length="142923" type="application/pdf"></enclosure>
+                <mag:year>2026</mag:year>
+                <mag:serial>150</mag:serial>
+                <mag:type>Magyar Közlöny</mag:type>
+            </item>
+                    <item>
+                <title><![CDATA[Magyar Közlöny 2026. évi 149. szám]]></title>
+                <link>https://magyarkozlony.hu/dokumentumok/0f3a5561ddc7308391cd679821f85e192d645a32/megtekintes</link>
+                <description><![CDATA[]]></description>
+                                <guid isPermaLink="true">https://magyarkozlony.hu/dokumentumok/0f3a5561ddc7308391cd679821f85e192d645a32/megtekintes</guid>
+                <pubDate>Fri, 09 Oct 2026 12:28:59 +0200</pubDate>
+                                <enclosure url="https://magyarkozlony.hu/hivatalos-lapok/isWZ6A983Hwyj9a8dtgT6ac000498d52b/dokumentumok/0f3a5561ddc7308391cd679821f85e192d645a32/letoltes" length="115427" type="application/pdf"></enclosure>
+                <mag:year>2026</mag:year>
+                <mag:serial>149</mag:serial>
+                <mag:type>Magyar Közlöny</mag:type>
+            </item>
+    </channel>
+</rss>
