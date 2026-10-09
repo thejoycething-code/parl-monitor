@@ -197,14 +197,32 @@ jobs:
         run: python3 tools/de_issues.py | tee /tmp/de-issues.log
       - name: Write the German edition and DM the summary
         run: python3 tools/de_monitor.py --edition --dm | tee /tmp/de-monitor.log
+      - name: Build the 5CA sheets
+        # Offline, from the store as it stands (seconds), as jobs/us-weekly.sh
+        # runs tools/us_5ca.py. Runs whatever the collectors did. Only SIGNED
+        # readings in config/de_stance.yaml place anyone. A failure is a
+        # [gap], never a red run: last week's sheets stand. data/5ca/ is
+        # committed with data/ below.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/de_5ca.py --all | tee /tmp/de-5ca.log \
+            || echo "  [gap] de-5ca: the 5CA sheets failed; last week's stand" | tee -a /tmp/de-5ca.log
+      - name: Build the vote page
+        # partner_site/de-votes.html, as tools/make_eu_tracker.py builds
+        # eu-votes.html: committed below, shipped by the Monday Deploy
+        # tracker behind the passphrase. Directions only from signed readings.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/make_de_votes.py | tee /tmp/de-votes.log \
+            || echo "  [gap] de-votes: the vote page failed; last week's stands" | tee -a /tmp/de-votes.log
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-profiles:|de-briefs:|de-issues:|de-triage:|edition:|dm:|\[gap\]" \
-              /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-profiles:|de-briefs:|de-issues:|de-triage:|edition:|dm:|sheet\(s\)\. Readings|de-votes:|\[gap\]" \
+              /tmp/de-*.log 2>/dev/null | head -20 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \
                       || true; } | awk '{s+=$1} END {print s+0}')
@@ -267,7 +285,7 @@ jobs:
           # when the judge evaluation was scheduled above: without them the
           # step writes a checklist and a report into a workspace that is
           # thrown away at the end of the run.
-          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html
+          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html
           git diff --cached --quiet || git commit -m "Germany weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
           # jittered waits, and never retry while stuck mid-rebase.

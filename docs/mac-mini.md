@@ -90,9 +90,9 @@ left alone, as designed).
 **Why.** www.aph.gov.au and parlinfo.aph.gov.au refuse the laptop and, since
 run 37887925082 the same day, GitHub's runners too (403 on robots.txt); the
 High Court times out. The Mini is the last network to try before asking APH
-for access. An email to the APH Web Manager (webmanager@aph.gov.au) is
-waiting in Christopher's Gmail drafts and is **held until this probe has
-run**: if the Mini is answered, it may not be needed.
+for access. The APH Web Manager (webmanager@aph.gov.au) was emailed on 9
+October 2026 asking for access; the probe still says whether the Mini is
+answered meanwhile.
 
 **Steps** (in the development clone, not the runner clone; the probe touches
 no store and commits nothing):
@@ -131,7 +131,7 @@ docs/mac-mini-runner.md (the migration list for the launchd runner) is not on th
 |---|---|---|---|
 | `au-weekly` | Fridays 02:00 (`ops/launchd/net.citizengo.parlmonitor.au-weekly.plist`) | Fridays 02:00, retry 04:00 (`.github/workflows/au-weekly.yml`) | `MINI_LAST_AU_WEEKLY`, grace 200 minutes |
 
-- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, the judge when the repo variable `AU_JUDGE` is `on` (it is not), then the edition (`tools/au_monitor.py --edition --dm`), and on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line; its `# mini_run: commit editions` line makes the runner commit `editions/` too.
+- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, the week ahead (`tools/au_schedule.py`, about 20 seconds), debates (`tools/au_debates.py`, 10-minute budget), the judge when the repo variable `AU_JUDGE` is `on` (it is, since 9 October 2026), then the edition (`tools/au_monitor.py --edition --dm`), and on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line; its `# mini_run: commit editions` line makes the runner commit `editions/` too.
 - **Speaks once a day**, as the US weekly: an edition already committed for today is rewritten without resending the DM.
 - **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when `AU_JUDGE` is `on`, `ANTHROPIC_API_KEY`.
 - **The aph.gov.au probe** can be run here by hand, read-only: `python3 tools/au_probe.py --out /tmp/au-probe` (Christopher decides; see docs/australia-scope.md).

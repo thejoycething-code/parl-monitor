@@ -122,12 +122,117 @@ SCHEMA = (
         read_at      TEXT,
         divisions    INTEGER
     )""",
+    # --- the week ahead (tools/au_schedule.py, 9 October 2026) ---------------
+    # The APH sitting calendar, Notice Papers and Daily Programs are on
+    # aph.gov.au, which refuses our collectors. What answers is the Federal
+    # Register of Legislation: every legislative instrument open for
+    # disallowance, with the LAST DAY each House can disallow it. That day is
+    # the fifteenth sitting day after tabling, counted on the Register's own
+    # copy of the sitting calendar, so every such date still ahead is a day
+    # that House is due to sit (au_sitting_days).
+    """CREATE TABLE IF NOT EXISTS au_instruments (
+        title_id     TEXT PRIMARY KEY,   -- Register title ID: 'F2026L00968'
+        name         TEXT,
+        collection   TEXT,               -- 'LegislativeInstrument'
+        making_date  TEXT,
+        registered_at TEXT,
+        last_day_house  TEXT,            -- last day the House can disallow; NULL when the
+        last_day_senate TEXT,            -- Register gives none (9999-12-31: not yet tabled
+                                         -- there, or a disallowance motion is pending)
+        enabling_acts TEXT,              -- JSON: Register IDs of the Acts it is made under
+        bill_id      TEXT,               -- the bill of this Parliament whose Act enables it
+                                         -- (au_bills.act_id), when one does
+        own_areas    TEXT,               -- JSON: matched on the instrument's own name
+        areas        TEXT,               -- JSON: own + the enabling Act's (watchlist-au acts:)
+                                         -- + the enabling bill's
+        areas_from   TEXT,               -- 'own' / 'act' / 'bill'
+        matched_terms TEXT,
+        tier         INTEGER,
+        scrutiny     TEXT,               -- JSON: tabling and disallowance motion events;
+                                         -- read only for instruments on our ground
+        open         INTEGER,            -- 1 while the Register lists it open for disallowance
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS au_sitting_days (
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        date         TEXT NOT NULL,
+        source       TEXT,               -- 'frl-disallowance': a last day for disallowance
+        instruments  INTEGER,            -- how many open instruments' clocks end that day
+        first_seen   TEXT,
+        last_seen    TEXT,
+        PRIMARY KEY (chamber, date)
+    )""",
+    # The Parliamentary Handbook's own record of each Parliament: a
+    # dissolution date appearing here is the one signal that every bill
+    # before Parliament has lapsed.
+    """CREATE TABLE IF NOT EXISTS au_parliaments (
+        parliament   INTEGER PRIMARY KEY,
+        name         TEXT,
+        election     TEXT,
+        opening      TEXT,
+        dissolution  TEXT,               -- NULL while the Parliament stands
+        ended        TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # --- debates (tools/au_debates.py, 9 October 2026) ------------------------
+    # Speeches on our ground from the same OpenAustralia day files the
+    # divisions come from. Only speeches on our ground are stored, with an
+    # excerpt of at most 400 characters, never the text.
+    """CREATE TABLE IF NOT EXISTS au_speeches (
+        speech_key   TEXT PRIMARY KEY,   -- 'senate/2026-09-16.10.1': chamber + OpenAustralia
+                                         -- speech ID of the speech's first segment
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        parliament   INTEGER,
+        date         TEXT NOT NULL,
+        time         TEXT,
+        person_id    TEXT,               -- OpenAustralia person ID (au_members)
+        office_id    TEXT,
+        phid         TEXT,               -- APH Handbook ID, when au_members has one
+        name         TEXT,               -- as the Hansard names the speaker
+        party        TEXT,               -- AT THE TIME: the office spell's party
+        kind         TEXT,               -- 'speech' / 'motion' (moved: 'I move') /
+                                         -- 'notice' (under the NOTICES heading)
+        major_heading TEXT,
+        minor_heading TEXT,
+        bill_ids     TEXT,               -- JSON: bills tagged on the debate (it is ON them)
+        words        INTEGER,
+        own_areas    TEXT,               -- JSON: the speaker's own words (and the heading,
+                                         -- for a speech of MIN_WORDS or more)
+        areas        TEXT,               -- JSON: own + a bill's, in the narrow cases only
+        areas_from   TEXT,               -- 'own' / 'watch' / 'bill'
+        matched_terms TEXT,
+        tier         INTEGER,
+        excerpt      TEXT,               -- at most 400 characters
+        url          TEXT,               -- the OpenAustralia page for the speech
+        source_url   TEXT,               -- the ParlInfo Hansard page the parse names
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # One row per day file read for debates, with the listing's stamp (a
+    # re-parsed day is read again) and what came of it.
+    """CREATE TABLE IF NOT EXISTS au_debate_days (
+        path         TEXT PRIMARY KEY,   -- 'senate_debates/2026-09-16.xml'
+        chamber      TEXT,
+        date         TEXT,
+        listed_modified TEXT,
+        read_at      TEXT,
+        speeches     INTEGER,            -- speeches read (interjections and unknown speakers aside)
+        ours         INTEGER,            -- of those, stored as on our ground
+        unresolved   INTEGER,            -- segments whose speaker resolved to no person
+        last_seen    TEXT                -- re-stamped every run while the listing names it
+    )""",
+    "CREATE INDEX IF NOT EXISTS au_speeches_date ON au_speeches (date)",
     "CREATE INDEX IF NOT EXISTS au_votes_member ON au_votes (person_id)",
     "CREATE INDEX IF NOT EXISTS au_offices_person ON au_offices (person_id)",
 )
 
 TABLES = ("au_members", "au_offices", "au_bills", "au_divisions", "au_votes",
-          "au_hansard_files")
+          "au_hansard_files", "au_instruments", "au_sitting_days", "au_parliaments",
+          "au_speeches", "au_debate_days")
 
 
 # The judge's score and why-line (tools/au_triage.py), added after the first
@@ -171,6 +276,23 @@ def watchlist(path=None):
         _WATCH[path] = {k: (list(v.get("areas") or []), v.get("why"))
                         for k, v in (raw.get("bills") or {}).items()}
     return _WATCH[path]
+
+
+_ACTS = {}
+
+
+def act_watchlist(path=None):
+    """{Register title ID: (areas, why)} from the acts: section of
+    config/watchlist-au.yaml: principal Acts whose instruments are ours."""
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                "config", "watchlist-au.yaml")
+    if path not in _ACTS:
+        with open(path, encoding="utf-8") as fh:
+            raw = yaml.safe_load(fh) or {}
+        _ACTS[path] = {k: (list(v.get("areas") or []), v.get("why"))
+                       for k, v in (raw.get("acts") or {}).items()}
+    return _ACTS[path]
 
 
 def add_watch_areas(res, bill_id, path=None):

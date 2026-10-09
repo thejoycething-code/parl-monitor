@@ -1,0 +1,292 @@
+{
+ "@odata.context": "https://api.prod.legislation.gov.au/v1/$metadata#Titles(id,name,makingDate,collection,asMadeRegisteredAt,searchContexts(openForDisallowance()),authorisedBy(affectingTitleId))",
+ "@odata.count": 14,
+ "value": [
+  {
+   "id": "F2026L00968",
+   "name": "Fuel Tax (Fuel Blends) Determination 2026",
+   "makingDate": "2026-07-15T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-07-16T10:46:40.3537682",
+   "searchContexts": {
+    "titleId": "F2026L00968",
+    "openForDisallowance": {
+     "titleId": "F2026L00968",
+     "lastDayForDisallowanceHor": "2026-10-12T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-10-12T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2006A00072"
+    }
+   ]
+  },
+  {
+   "id": "F2026L00876",
+   "name": "Migration Amendment (Working Holiday Maker Age Criteria) Regulations 2026",
+   "makingDate": "2026-06-25T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-06-30T22:00:14.6293241",
+   "searchContexts": {
+    "titleId": "F2026L00876",
+    "openForDisallowance": {
+     "titleId": "F2026L00876",
+     "lastDayForDisallowanceHor": "2026-09-17T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-10-12T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C1958A00062"
+    }
+   ]
+  },
+  {
+   "id": "F2026L00816",
+   "name": "National Vocational Education and Training Regulator (Charges) Determination 2026",
+   "makingDate": "2026-06-22T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-06-26T16:12:21.9185320",
+   "searchContexts": {
+    "titleId": "F2026L00816",
+    "openForDisallowance": {
+     "titleId": "F2026L00816",
+     "lastDayForDisallowanceHor": "2026-09-15T00:00:00",
+     "lastDayForDisallowanceSenate": "9999-12-31T23:59:59.9999999"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2012A00105"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01045",
+   "name": "A New Tax System (Wine Equalisation Tax) (New Zealand Producer Rebate Foreign Exchange Conversion) Determination 2026",
+   "makingDate": "2026-08-10T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-08-11T14:12:10.4483221",
+   "searchContexts": {
+    "titleId": "F2026L01045",
+    "openForDisallowance": {
+     "titleId": "F2026L01045",
+     "lastDayForDisallowanceHor": "2026-10-13T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-10-14T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2004A00452"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01046",
+   "name": "High Seas Biodiversity Rules 2026",
+   "makingDate": "2026-08-06T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-08-12T11:57:01.6834281",
+   "searchContexts": {
+    "titleId": "F2026L01046",
+    "openForDisallowance": {
+     "titleId": "F2026L01046",
+     "lastDayForDisallowanceHor": "2026-10-14T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-10-15T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2026A00042"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01034",
+   "name": "Banking, Insurance and Life Insurance (prudential standard) determination No. 2 of 2026",
+   "makingDate": "2026-07-21T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-08-07T17:01:08.9727612",
+   "searchContexts": {
+    "titleId": "F2026L01034",
+    "openForDisallowance": {
+     "titleId": "F2026L01034",
+     "lastDayForDisallowanceHor": "2026-10-12T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-10-13T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C1959A00006"
+    },
+    {
+     "affectingTitleId": "C1973A00076"
+    },
+    {
+     "affectingTitleId": "C2004A04860"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01064",
+   "name": "Accounting Standard AASB 2026-3 Amendments to Australian Accounting Standards – Fair Value Option for Investments in Associates and Joint Ventures",
+   "makingDate": "2026-08-10T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-08-17T10:08:47.2118825",
+   "searchContexts": {
+    "titleId": "F2026L01064",
+    "openForDisallowance": {
+     "titleId": "F2026L01064",
+     "lastDayForDisallowanceHor": "2026-10-26T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-11-17T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2004A00818"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01076",
+   "name": "Excise (Concessional Spirit Approvals) Guidelines 2026",
+   "makingDate": "2026-08-18T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-08-19T12:31:34.9668984",
+   "searchContexts": {
+    "titleId": "F2026L01076",
+    "openForDisallowance": {
+     "titleId": "F2026L01076",
+     "lastDayForDisallowanceHor": "2026-10-28T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-11-19T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C1901A00009"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01083",
+   "name": "Social Security (Deeming Threshold Rates) Determination (No. 2) 2026",
+   "makingDate": "2026-08-19T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-08-21T09:00:31.2881259",
+   "searchContexts": {
+    "titleId": "F2026L01083",
+    "openForDisallowance": {
+     "titleId": "F2026L01083",
+     "lastDayForDisallowanceHor": "2026-10-29T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-11-19T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2004A04121"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01071",
+   "name": "Farm Household Support Legislation Repeal Rules 2026",
+   "makingDate": "2026-08-07T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-08-18T11:25:18.9244506",
+   "searchContexts": {
+    "titleId": "F2026L01071",
+    "openForDisallowance": {
+     "titleId": "F2026L01071",
+     "lastDayForDisallowanceHor": "2026-10-27T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-11-18T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2014A00012"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01185",
+   "name": "Defence Regulations 2026",
+   "makingDate": "2026-09-03T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-09-09T16:26:44.4988487",
+   "searchContexts": {
+    "titleId": "F2026L01185",
+    "openForDisallowance": {
+     "titleId": "F2026L01185",
+     "lastDayForDisallowanceHor": "2026-11-26T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-11-26T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C1903A00020"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01157",
+   "name": "National Consumer Credit Protection Amendment (Small Business Exemption) Regulations 2026",
+   "makingDate": "2026-09-03T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-09-04T10:44:14.7448139",
+   "searchContexts": {
+    "titleId": "F2026L01157",
+    "openForDisallowance": {
+     "titleId": "F2026L01157",
+     "lastDayForDisallowanceHor": "2026-10-29T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-11-23T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2009A00134"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01171",
+   "name": "Statement of Principles concerning adrenal insufficiency (Reasonable Hypothesis) (No. 58 of 2026)",
+   "makingDate": "2026-09-04T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-09-08T16:11:34.2382568",
+   "searchContexts": {
+    "titleId": "F2026L01171",
+    "openForDisallowance": {
+     "titleId": "F2026L01171",
+     "lastDayForDisallowanceHor": "2026-11-25T00:00:00",
+     "lastDayForDisallowanceSenate": "2026-11-26T00:00:00"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2004A01285"
+    }
+   ]
+  },
+  {
+   "id": "F2026L01200",
+   "name": "Radiocommunications (Aircraft and Aeronautical Mobile Stations) Class Licence 2026",
+   "makingDate": "2026-09-10T00:00:00",
+   "collection": "LegislativeInstrument",
+   "asMadeRegisteredAt": "2026-09-11T16:22:52.4022961",
+   "searchContexts": {
+    "titleId": "F2026L01200",
+    "openForDisallowance": {
+     "titleId": "F2026L01200",
+     "lastDayForDisallowanceHor": "9999-12-31T23:59:59.9999999",
+     "lastDayForDisallowanceSenate": "9999-12-31T23:59:59.9999999"
+    }
+   },
+   "authorisedBy": [
+    {
+     "affectingTitleId": "C2004A04465"
+    }
+   ]
+  }
+ ]
+}

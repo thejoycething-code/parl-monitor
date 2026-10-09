@@ -10,7 +10,7 @@
 # steps do.
 # Triage and stance spend (the routine weekly) and the edition is DMed.
 #
-# mini_run: commit editions reviews docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html
+# mini_run: commit editions reviews docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html
 set -o pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -37,6 +37,17 @@ rc=0
   python3 tools/de_issues.py
   python3 tools/de_monitor.py --edition --dm
 ) || rc=1
+
+# The 5CA sheets (tools/de_5ca.py, data/5ca/de-5ca-bundestag-*.csv) and the
+# vote page (tools/make_de_votes.py, partner_site/de-votes.html): offline, from
+# the store as it stands, seconds to run, as the US, Irish and Australian
+# weeklies run theirs. They run whatever the collectors did. Only SIGNED
+# readings in config/de_stance.yaml place anyone or colour a vote. A failure is
+# a gap, never a lost week: last week's sheets and page stand.
+python3 tools/de_5ca.py --all \
+  || echo "  [gap] de-5ca: the 5CA sheets failed; last week's stand"
+python3 tools/make_de_votes.py \
+  || echo "  [gap] de-votes: the vote page failed; last week's stands"
 
 WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t - datetime.timedelta(days=t.weekday())).isoformat())")
 echo "German judge evaluation for week commencing $WEEK"
