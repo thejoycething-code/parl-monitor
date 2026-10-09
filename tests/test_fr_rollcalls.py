@@ -221,11 +221,13 @@ class JoinAndClassifyTests(unittest.TestCase):
         self.assertEqual(current, 0)
         self.assertGreater(self.conn.execute("SELECT COUNT(*) FROM fr_groups").fetchone()[0], 5)
 
-    def test_bulk_files_are_not_archived(self):
+    def test_bulk_files_are_archived(self):
+        """FR3 (Chris, 10 October 2026): the AN overwrites its zips nightly,
+        so the archive is the only copy of each week's file."""
         client = FakeClient()
         full_run(store(), client)
         self.assertTrue(client.asked)
-        self.assertTrue(all(archive is False for _url, archive in client.asked))
+        self.assertTrue(all(archive is True for _url, archive in client.asked))
 
 
 class ResumeAndReclassifyTests(unittest.TestCase):

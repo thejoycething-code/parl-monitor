@@ -21,12 +21,11 @@ keyless, refreshed nightly, one zip per dataset:
     including the political groups. AMO30 (14 MB, every deputy since 2002)
     is read only when a vote names someone who has left.
 
-THE BULK FILES ARE NOT ARCHIVED to data/raw (archive=False), as with the
-US BILLSTATUS zips: 43 MB a week would go into the raw-archive release
-for files whose URL serves the same data tomorrow. The difference from the
-US is that the AN overwrites them nightly, so last week's copy cannot be
-re-fetched; whether that is worth 43 MB a week is a decision listed in the
-scope doc. --zip-dir keeps a local copy for development.
+THE BULK FILES ARE ARCHIVED to data/raw (FR3, Chris, 10 October 2026).
+The AN overwrites them nightly, so last week's copy cannot be re-fetched;
+the archive is the only provenance, at about 43 MB a week in the
+raw-archive release. Until that decision they were not archived, as the
+US BILLSTATUS zips are not. --zip-dir keeps a local copy for development.
 
 TWO SCRUTINS IN THREE DO NOT NAME THEIR DOSSIER. Only 2,795 of the 8,621
 carry objet.dossierLegislatif.dossierRef. The rest are amendment and article
@@ -172,7 +171,9 @@ def get_zip(client, url, slug, zip_dir=None, log=print):
         if age_h < 20:
             log("  {0}: reusing {1} ({2:.0f} h old)".format(slug, path, age_h))
             return zipfile.ZipFile(path)
-    blob = client.get_bytes(url, FEED, slug, archive=False)
+    # Archived (FR3): the AN overwrites the zip nightly, so this copy is the
+    # only one that will ever exist of this week's file.
+    blob = client.get_bytes(url, FEED, slug, archive=True)
     if path:
         os.makedirs(zip_dir, exist_ok=True)
         with open(path, "wb") as fh:

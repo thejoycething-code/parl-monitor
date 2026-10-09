@@ -22,9 +22,9 @@ live, answering the honest CitizenGO User-Agent:
     (about 400 KB, a voting-system export saved from Word): totals, totals
     by party, and every deputy's position under SI / NO / ABST. / No Votado,
     in three layouts within the 2024-2027 legislature (parse_vote_pdf).
-    Read with src/sv_pdf.py, stdlib only. NOT archived to data/raw (350 KB
-    each, a dozen a week); the GUID URL is the provenance and the parsed
-    positions are stored.
+    Read with src/sv_pdf.py, stdlib only. ARCHIVED to data/raw (SV5, Chris,
+    10 October 2026: about 6 MB a week, 300 MB for the backfill), so the
+    record survives the Asamblea moving or replacing a file.
   * sesion-plenaria/historico-sesion-ajax -- POST {desde, hasta}: THE
     SESSION ARCHIVE, one day at a time (a fortnight's range timed out at
     74 s). JSON: the day's sessions (GUID, type, number) and the first
@@ -685,7 +685,7 @@ def pull_positions(conn, client, today, legislature, log=print, budget=None, lim
         if limit is not None and read >= limit:
             break
         try:
-            raw = client.get_bytes(url, FEED, key, archive=False)
+            raw = client.get_bytes(url, FEED, key, archive=True)   # SV5
         except FetchError as exc:
             _gap(conn, today, "vote PDF {0}: {1}".format(key, str(exc)[:200]))
             log("  [gap] vote PDF {0}: {1}".format(key, str(exc)[:120]))
