@@ -354,9 +354,9 @@ edited; its job table needs a row for `pe-weekly` (Saturdays 16:00, backup
 1. **Phase 1 (built):** members, proyectos, plenary votes from the
    provisional records, Spanish classification once approved.
 2. **Phase 1b:** proyecto detail (summary, committee, status history,
-   linked dictamenes), if Chris decides the encrypted expediente endpoint
-   may be used; otherwise the dictamen list (`.../dictamen/lista-con-filtro`,
-   not probed) as the fallback.
+   linked dictamenes) from the dictamen list (`.../dictamen/lista-con-filtro`,
+   not probed). The encrypted expediente endpoint is out (PE2 reversed,
+   10 October 2026).
 3. **Phase 2:** the week ahead from the agenda PDFs; committee agendas;
    the Senate's older provisional layout (5 August); OCR of scan-only
    sessions only if Chris wants them (it would need a new dependency).
@@ -377,9 +377,8 @@ edited; its job table needs a row for `pe-weekly` (Saturdays 16:00, backup
    `config/taxonomy-es.yaml` can be generated. Until then the edition is
    blind. Coordinate with the Spain, Argentina, Mexico, Colombia and Chile
    scopes: one shared `taxonomy-es` or a per-country file?
-2. **The expediente endpoint.** Its identifiers are AES-encrypted with a key
-   in the public front end. Using it gives summaries and status history;
-   it also means reproducing an obfuscation the Congress chose. Yes or no?
+2. **The expediente endpoint.** Answered: no (PE2 reversed, 10 October
+   2026). It stays unbuilt.
 3. **Review `config/watchlist-pe.yaml`** (three draft entries): ideally with
    someone who campaigns in Peru.
 4. **Install the Mini job**: copy the plist to `~/Library/LaunchAgents` and
@@ -399,6 +398,6 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase: the expediente endpoint (PE2, approved). Its identifiers are AES-encrypted with a key in the public front end; stdlib Python has no AES, and reproducing the obfuscation sits close to the rule against using keys found in a site's code, so it is flagged for Chris rather than built.
+- Not built: the expediente endpoint (PE2, reversed on 10 October 2026). Its identifiers are AES-encrypted with a key in the public front end; Chris decided to leave it out, so bill detail stays at what the list endpoint gives.
 - Phase: regional councils (PE4).
 - Phase (X7): OCR for scan-only sessions.

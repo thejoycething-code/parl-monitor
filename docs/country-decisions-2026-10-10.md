@@ -110,7 +110,8 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
   Ley 13.640 lapse rule confirmed (AR7).
 - Mexico: Senate stays out per its robots.txt (MX4).
 - Colombia: no votes for now (CO3); Court section yes (CO4).
-- Peru: use the encrypted expediente endpoint (PE2); regional councils later (PE4).
+- Peru: the encrypted expediente endpoint is left out (PE2, reversed on
+  10 October 2026: do not build it); regional councils later (PE4).
 - Ecuador: do not use the bill portal's embedded login (EC4).
 - Bolivia: bills-only (BO2); phase 2 written questions (BO4).
 - Uruguay: probe parlamento.gub.uy from the Mini first (UY1); build vote
@@ -123,6 +124,15 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
   Chris's name); backfill over six Sundays (SV7).
 - Dominican Republic: Chamber-only votes (DO2); backfill 2020-24 (DO4).
 - Costa Rica: ask the Asamblea for access (CR1, Chris's name).
+
+## Later decisions
+
+- PE2 reversed: Peru's encrypted expediente endpoint is left out and will not
+  be built (its identifiers are AES-encrypted with a key in the site's front
+  end).
+- Quebec: `config/taxonomy-qc.yaml` stays unchanged. The Belgian and Swiss
+  requests to edit existing Quebec terms (the IVG veto, the euthanasie guard
+  and the tier differences) are declined; country additions stay additions.
 
 ## Not acted on
 
