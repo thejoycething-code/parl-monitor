@@ -26,6 +26,15 @@
 # Diputados roll calls are NOT collected (votaciones.hcdn.gob.ar refuses every
 # client we have tried; docs/argentina-scope.md). The collector says so in one
 # line each run and does not count it as a gap.
+#
+# THE EDITION (10 October 2026): after the collector, the Argentine weekly
+# edition (tools/ar_monitor.py, src/editions/ar.py on
+# src/country_edition.py) is rendered to editions/ar-monitor-<date>.md and
+# DMed to Chris alone. Once a day: an edition already committed for today
+# is rewritten, not resent. Its failure is a [gap] line and never costs the
+# store.
+#
+# mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -43,6 +52,18 @@ if [ "${AR_SENATE_BACKFILL:-}" = "true" ]; then
   years=(--years 2024 2025 "$(date -u +%Y)")
 fi
 python3 tools/ar_rollcalls.py --budget-seconds 2700 "${years[@]}" || rc=$?
+# The edition, from the store just collected (not when the collector failed
+# outright: a half-read week is not worth a DM).
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  TODAY=$(date +%Y-%m-%d)
+  if git ls-files --error-unmatch "editions/ar-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/ar_monitor.py --edition || echo "  [gap] the edition failed to render"
+  else
+    python3 tools/ar_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
+  fi
+fi
 if [ "${AR_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi

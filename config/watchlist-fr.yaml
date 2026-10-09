@@ -15,7 +15,19 @@
 # does not survive a dissolution unless the Senat has adopted it.
 dossiers:
   "DLR5L17N51670": {areas: [2],
-                    why: "Droit a l'aide a mourir (dossier 'Fin de vie'). Adopted in lecture definitive 15 July 2026, Conseil constitutionnel conforme 14 August, promulgated 18 August 2026. 380 scrutins name the dossier; 931 scrutin titles say 'aide a mourir'. The Quebec list knows 'aide medicale a mourir' only."}
+                    why: "Droit a l'aide a mourir (dossier 'Fin de vie'). Adopted in lecture definitive 15 July 2026, Conseil constitutionnel conforme 14 August, promulgated 18 August 2026. 380 scrutins name the dossier; 931 scrutin titles say 'aide a mourir'. The Quebec list knows 'aide medicale a mourir' only.",
+                    # FR4 (Chris, 10 October 2026): follow the application
+                    # decrees first. No Journal officiel collector exists yet,
+                    # so the France edition's week ahead shows this list as a
+                    # standing note (src/editions/fr.py). Hand-edited: strike
+                    # an entry when its text is published, add the JORF date.
+                    decrees: [
+                      "The decree in Conseil d'État on the procedure: how a request is made and recorded, the collegial assessment and its time limits.",
+                      "The Haute Autorité de santé's list of the lethal substances that may be used, and its good-practice recommendations.",
+                      "The decree setting up the commission de contrôle et d'évaluation: its membership and how it works.",
+                      "The rules for preparing, dispensing and returning the lethal substance (pharmacies à usage intérieur).",
+                      "The decree on the information system that records each step of a procedure, after the CNIL's opinion."],
+                    decrees_note: "Drawn from the text as the Assemblée adopted it at first reading; check each against the law as promulgated on 18 August 2026 before relying on it. Also watch for any bill or resolution to repeal or amend the law."}
   "DLR5L17N51672": {areas: [2],
                     why: "Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only."}
   "DLR5L16N49654": {areas: [3],

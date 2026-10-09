@@ -25,6 +25,14 @@
 # legislature anyway. With PT_PUBLISH=false the collector's exit code is
 # passed straight through, so a gap turns the GitHub step red and the
 # failure alert hears of it.
+#
+# THE EDITION (10 October 2026): after the collector, the Portuguese weekly
+# edition (tools/pt_monitor.py, src/country_edition.py) is rendered to
+# editions/pt-monitor-<date>.md and DMed to Chris alone. Once a day: an
+# edition already committed for today is rewritten, not resent. Its failure
+# is a [gap] line and never costs the store.
+#
+# mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -44,6 +52,19 @@ case "${PT_LEGISLATURE:-}" in
   *) echo "pt-weekly: unknown legislature '${PT_LEGISLATURE}'"; exit 2 ;;
 esac
 python3 tools/pt_rollcalls.py --budget-seconds 2700 "${leg[@]}" || rc=$?
+# The edition, from the store just collected (not when the collector failed
+# outright: a half-read week is not worth a DM; nor on a backfill run,
+# PT_LEGISLATURE set).
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; } && [ -z "${PT_LEGISLATURE:-}" ]; then
+  TODAY=$(date +%Y-%m-%d)
+  if git ls-files --error-unmatch "editions/pt-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/pt_monitor.py --edition || echo "  [gap] the edition failed to render"
+  else
+    python3 tools/pt_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
+  fi
+fi
 if [ "${PT_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi

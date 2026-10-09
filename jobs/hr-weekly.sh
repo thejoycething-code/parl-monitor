@@ -24,6 +24,7 @@
 # budget stores the newest votes and discloses the rest, which drain on the
 # following runs. A normal week is the two latest sessions' agendas and the
 # handful of votes held since.
+# mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -35,6 +36,22 @@ if [ "${HR_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/hr_rollcalls.py --budget-seconds 2700 || rc=$?
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  # The weekly edition (src/country_edition.py, tools/hr_monitor.py), to Chris
+  # alone by DM, archived to editions/. Once a day: an edition already
+  # committed for today is rewritten, not resent. A failed render never stops
+  # the publish below.
+  export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+  TODAY=$(date +%Y-%m-%d)
+  if git ls-files --error-unmatch "editions/hr-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/hr_monitor.py --edition \
+      || echo "  [gap] hr-monitor: the edition failed to render; the store is still published"
+  else
+    python3 tools/hr_monitor.py --edition --dm \
+      || echo "  [gap] hr-monitor: the edition or its DM failed; the store is still published"
+  fi
+fi
 if [ "${HR_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi

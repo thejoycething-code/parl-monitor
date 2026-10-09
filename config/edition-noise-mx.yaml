@@ -1,0 +1,43 @@
+# Mexico edition noise filters (src/noise.py; the edition is
+# src/editions/mx.py, fortnightly). Hand-edited, not generated. Free and
+# deterministic: the AI judge stays off (X16). A WATCHED ITEM IS NEVER
+# FILTERED.
+#
+# Patterns are Python regular expressions matched against text folded the
+# way the taxonomy folds it: lower case, accents stripped. Tuned on the
+# scoping store of 9 October 2026 (8,247 iniciativas and 285 recorded votes
+# of the LXVI), 10 October 2026.
+
+# Titles that hit a term by accident, read by hand: the federal personal
+# data statute and consumer-protection law carry 'protección de datos
+# personales' (a tier-2 free-speech term) in their names; amendments to them
+# (artificial intelligence, digital credit, drones, electoral rolls) are
+# not our ground. A title that also names children, women, violence,
+# harassment, gender or inclusive language keeps them in: a register of
+# men sanctioned for violence against women amends the data law too.
+exclude_titles:
+  - '^(?!.*(ninas|ninos|adolescentes|menores de edad|mujer|violencia|acoso|genero|lenguaje incluyente)).*proteccion de datos personales en posesion'
+  - '^(?!.*(ninas|ninos|adolescentes|menores de edad|mujer|violencia|acoso|genero|lenguaje incluyente)).*ley federal de proteccion al consumidor'
+  - '\bley general de aguas\b'
+  # Suicide prevention and mental health: 'prevención del suicidio' is a
+  # tier-2 assisted-dying term in the shared Spanish list, where it serves
+  # the euthanasia debate. A title naming euthanasia or a dignified death
+  # stays in (as in config/edition-noise-ar.yaml).
+  - '^(?!.*(eutanasi|muerte (digna|asistida|voluntaria)|ayuda para morir)).*(prevencion del suicidio|conductas suicidas)'
+
+# A recorded vote stays in the edition only when its OWN title matched (or
+# it is watched). SITL vote titles name the law they amend, and a vote
+# lends its areas from every iniciativa the Gaceta table links to it: the
+# water law vote took area 5 from one of 21 attached iniciativas (gender
+# parity in water management), a tourism-law vote areas 6 and 9 from
+# 'patria potestad' in one of two. Every such vote in the store was read
+# and was off our ground.
+edition_evidence:
+  vote:
+    own_words: true
+
+# What may lead the edition, for an item that is not watched: a tier-1 term
+# in its own title, or two distinct terms in shown areas.
+alert:
+  title_tier1: true
+  distinct_terms: 2

@@ -300,7 +300,7 @@ def store_bill(conn, b, today, detail=False, log=print):
         row = conn.execute("SELECT bill_key FROM br_bills WHERE camara_id=? AND bill_key<>?",
                            (b["camara_id"], key)).fetchone()
         if row:
-            rename_bill(conn, row[0], key, log=log)
+            rename_bill(conn, row[0], key, log=log, today=today)
     conn.execute(
         "INSERT INTO br_bills (bill_key, sigla, numero, ano, camara_id, senado_codigo, ementa, "
         "ementa_detalhada, keywords, presented, status, url, detail_fetched, first_seen, last_seen) "
@@ -321,12 +321,18 @@ def store_bill(conn, b, today, detail=False, log=print):
     return key
 
 
-def rename_bill(conn, old, new, log=print):
+def rename_bill(conn, old, new, log=print, today=None):
     """Move a renumbered bill to its new key. If the new key already exists
-    (the Senate side stored it first), the two rows merge into it."""
+    (the Senate side stored it first), the two rows merge into it. The old
+    number is kept in `former_keys` (with the date in `renamed_on`), so the
+    edition can show both numbers."""
     log("  renumbered: {0} is now {1} (same Câmara ID)".format(old, new))
-    exists = conn.execute("SELECT 1 FROM br_bills WHERE bill_key=?", (new,)).fetchone()
+    today = today or today_iso()
+    row = conn.execute("SELECT former_keys FROM br_bills WHERE bill_key=?", (old,)).fetchone()
+    former = br_store.former_keys(row[0] if row else None)
+    exists = conn.execute("SELECT former_keys FROM br_bills WHERE bill_key=?", (new,)).fetchone()
     if exists:
+        former = br_store.former_keys(exists[0]) + former
         conn.execute(
             "UPDATE br_bills SET camara_id=(SELECT camara_id FROM br_bills WHERE bill_key=?), "
             "keywords=COALESCE(keywords, (SELECT keywords FROM br_bills WHERE bill_key=?)) "
@@ -334,6 +340,9 @@ def rename_bill(conn, old, new, log=print):
         conn.execute("DELETE FROM br_bills WHERE bill_key=?", (old,))
     else:
         conn.execute("UPDATE br_bills SET bill_key=? WHERE bill_key=?", (new, old))
+    former = [k for k in dict.fromkeys(former + [old]) if k != new]
+    conn.execute("UPDATE br_bills SET former_keys=?, renamed_on=? WHERE bill_key=?",
+                 (br_store.dumps(former), today, new))
     conn.execute("UPDATE br_divisions SET bill_key=? WHERE bill_key=?", (new, old))
     for dkey, linked in conn.execute(
             "SELECT division_key, linked_bills FROM br_divisions WHERE linked_bills LIKE ?",

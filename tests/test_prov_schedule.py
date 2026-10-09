@@ -469,10 +469,19 @@ class WorkflowTests(unittest.TestCase):
         bf = next(s for s in steps() if "--all-sessions" in s.get("run", ""))
         self.assertIn("ab|sk|bc|mb|on|nb|nl|qc|ns)", bf["run"])
 
-    def test_no_slack_credential_and_no_model_key(self):
-        t = text()
-        self.assertNotIn("SLACK", t)
-        self.assertNotIn("ANTHROPIC_API_KEY", t)
+    def test_credentials_only_where_the_edition_and_the_judge_need_them(self):
+        """Until 9 October 2026 the workflow held neither. The provinces
+        edition (tools/prov_monitor.py) DMs Christopher, so the Slack token is
+        written in one step; the judge (tools/prov_triage.py) spends, so the
+        model key is in its step alone, and that step runs only when the
+        repository variable PROV_JUDGE is 'on'."""
+        for st in steps():
+            dumped = yaml.safe_dump(st)
+            if "SLACK" in dumped:
+                self.assertEqual(st["name"], "Write secrets file")
+            if "ANTHROPIC_API_KEY" in dumped:
+                self.assertEqual(st["name"], "Judge (PROV_JUDGE)")
+                self.assertIn("vars.PROV_JUDGE == 'on'", st["if"])
 
 
 # -- coverage ----------------------------------------------------------------------

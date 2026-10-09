@@ -1,0 +1,36 @@
+# Brazil edition noise filters (src/noise.py; the edition is
+# src/editions/br.py). Hand-edited, not generated. Free and deterministic:
+# the AI judge stays off (X16). A WATCHED ITEM IS NEVER FILTERED.
+#
+# Patterns are Python regular expressions matched against text folded the
+# way the taxonomy folds it: lower case, accents stripped ("votacao", not
+# "votação"). Tuned on the 2026 scoping store (152 Câmara and 59 Senate
+# nominal votes, 156 proposições), 10 October 2026.
+
+# A vote whose OWN words are one of these is procedure, not the bill: it
+# leaves the edition (and is counted under Coverage). Urgency requests are
+# NOT here: urgency is how a bill jumps the committees, and the split on it
+# is often the real fight. Separate votes on a passage ("Mantido o texto")
+# are not here either: they are the bill's substance.
+procedural_votes:
+  - 'retirada de pauta'
+  - '\badiamento (da|de) (discussao|votacao)'
+  - '\b(aprovad|rejeitad)a a preferencia\b'
+  - '\bencerramento da discussao\b'
+  - '\bverificacao de (votacao|quorum)\b'
+
+# Proposições the taxonomy puts on our ground on one loose tier-2 word in
+# the Câmara's keywords, read by hand and found off our ground. A vote that
+# names only such bills goes with them ("names only excluded bills").
+#   - 'gestante*' in a labour statute or a profession's regulation;
+#   - 'misoginia' among a sports university's aims.
+exclude_titles:
+  - '\binstitui o estatuto do aprendiz\b'
+  - '\bexercicio da profissao de doula\b'
+  - '\bcria a universidade federal do esporte\b'
+
+# What may lead the edition, for an item that is not watched: a tier-1 term
+# in its own title, or two distinct terms in shown areas.
+alert:
+  title_tier1: true
+  distinct_terms: 2

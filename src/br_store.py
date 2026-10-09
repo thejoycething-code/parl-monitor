@@ -70,6 +70,8 @@ SCHEMA = (
         areas        TEXT,               -- JSON list; watchlist-br by key (+ taxonomy-pt once approved)
         matched_terms TEXT,              -- JSON list
         tier         INTEGER,
+        former_keys  TEXT,               -- JSON list: numbers this bill was stored under before a renumbering
+        renamed_on   TEXT,               -- ISO date of the latest renumbering seen
         first_seen   TEXT,
         last_seen    TEXT
     )""",
@@ -128,11 +130,32 @@ MEMBER_UPSERT = (
         newer="COALESCE(excluded.as_of, '') >= COALESCE(br_members.as_of, '')")
 
 
+# Columns added after a store was first built (10 October 2026, the edition
+# shows both numbers of a renumbered bill): added in place, idempotently.
+ADDED_COLUMNS = (
+    ("br_bills", "former_keys", "TEXT"),
+    ("br_bills", "renamed_on", "TEXT"),
+)
+
+
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, col, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if col not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, col, kind))
     conn.commit()
     return conn
+
+
+def former_keys(raw):
+    """The JSON former_keys column as a list ([] for NULL or junk)."""
+    try:
+        got = json.loads(raw) if isinstance(raw, str) else (raw or [])
+    except (TypeError, ValueError):
+        return []
+    return [str(k) for k in got if k]
 
 
 # --- the Brazil watchlist, applied by proposição KEY ------------------------
