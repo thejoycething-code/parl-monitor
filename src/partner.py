@@ -473,6 +473,31 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None, background=N
     return path
 
 
+# The other parliaments' vote pages (Christopher, 9 October 2026: "link the
+# new vote pages from the partner index"). Each is built by its weekly and
+# committed under partner_site/, so a page is linked only once it exists:
+# never a link to a page the site does not have yet.
+VOTE_PAGES = (
+    ("msp-votes.html", "Scotland (MSPs)"),
+    ("ms-votes.html", "Wales (MSs)"),
+    ("mla-votes.html", "Northern Ireland (MLAs)"),
+    ("eu-votes.html", "European Parliament"),
+    ("de-votes.html", "Germany"),
+    ("ie-votes.html", "Ireland"),
+    ("us-votes.html", "United States"),
+    ("au-votes.html", "Australia"),
+)
+
+
+def vote_pages_nav(site_dir):
+    """'Other parliaments' votes: ...<br>' for the vote pages present, or ''."""
+    links = ['<a href="/{0}">{1}</a>'.format(f, label) for f, label in VOTE_PAGES
+             if os.path.exists(os.path.join(site_dir, f))]
+    if not links:
+        return ""
+    return "Other parliaments' votes: " + " | ".join(links) + "<br>"
+
+
 def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq_background=None):
     """Write index.html (latest) + archive/<week>.html + auth middleware."""
     os.makedirs(os.path.join(site_dir, "archive"), exist_ok=True)
@@ -489,7 +514,8 @@ def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq
            '<a href="/questions.html">Questions and answers</a> | '
            '<a href="/petitions.html">E-petitions on our ground</a> | '
            '<a href="/issues.html">Issue pages</a> | '
-           '<a href="/de-issues.html">Germany issue pages</a><br>Archive: ' +
+           '<a href="/de-issues.html">Germany issue pages</a><br>' +
+           vote_pages_nav(site_dir) + 'Archive: ' +
            " | ".join('<a href="/archive/{0}.html">{0}</a>'.format(w)
                       for w in sorted(archive_weeks, reverse=True)) + "</nav>")
     index = page.replace("</h1>", "</h1>\n" + nav, 1)
