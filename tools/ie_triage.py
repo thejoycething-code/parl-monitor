@@ -14,14 +14,17 @@ SPEND NEEDS A YES. The repo rule (Christopher, 5 August 2026): any
 Anthropic spend beyond the budgeted weekly UK passes is announced with an
 estimate first; --dry-run prints it. The Ireland weekly runs this step only
 when the repository variable IE_JUDGE is 'on', which is how the yes is
-recorded. It is not on.
+recorded. It is on since 9 October 2026 (Christopher's yes).
 
 WHAT IS JUDGED. ie_bills on our ground, migration-only excluded (collated,
 never campaigned). Newest first by last stage, so a live bill is never
 queued behind a dead one. Divisions are judged ONLY where their own text or
 their amendment matched (own_areas): a division that merely inherits its
 bill's areas takes the bill's score in the edition, so judging it again
-would pay twice for one story.
+would pay twice for one story. Since phase 2 (9 October 2026), questions on
+our ground (ie_questions) and speeches whose member's own words matched
+(ie_speeches, areas_from 'own') are judged too, newest first with the rest:
+a backfill's old questions queue behind this week's.
 
 SCORED ONCE, EVER. --rescore <key> puts one back on a human's say-so.
 Spend lands in api_spend as 'ie-triage'.
@@ -69,11 +72,15 @@ SYSTEM_PROMPT_IE = triage.SYSTEM_PROMPT.replace(
     "Constitution') is judged on what it would change. Private Members' bills rarely pass "
     "but show where parties stand; a Government 'timed amendment' delays a bill by months "
     "and often ends it. A BILL is given by its short and long titles; a DIVISION by its "
-    "debate, its question and, for an amendment vote, the amendment as moved. CitizenGO "
+    "debate, its question and, for an amendment vote, the amendment as moved; a "
+    "PARLIAMENTARY QUESTION by what the member asked (one line of the Minister's answer is "
+    "context, not the member's position); a SPEECH by its debate and an excerpt of the "
+    "member's own words. CitizenGO "
     "campaigns", 1)
 assert SYSTEM_PROMPT_IE != triage.SYSTEM_PROMPT
 
-SOURCES = {"ie_bills": "bill_key", "ie_divisions": "division_key"}
+SOURCES = {"ie_bills": "bill_key", "ie_divisions": "division_key",
+           "ie_questions": "question_key", "ie_speeches": "speech_key"}
 
 
 def _ours(areas_json):
@@ -111,6 +118,40 @@ def pending(conn):
             r["ta"], r["nil"]).split())
         dated.append((r["date"] or "",
                       triage.TriageItem(id="ie_divisions:" + r["division_key"], title=title,
+                                        text=text[:1500], tier=r["tier"] or 2,
+                                        issue_areas=areas, watchlist_hit=False)))
+    # Phase 2 (9 October 2026). A question is judged on its own words (the
+    # answer's one line goes with it, as context, never as the asker's
+    # ground). A speech is judged only when the member's OWN words matched
+    # (areas_from 'own'): one that stands on its bill's title takes the
+    # bill's score in the edition, as an inheriting division does.
+    for r in conn.execute("SELECT * FROM ie_questions WHERE triage_score IS NULL "
+                          "AND areas NOT IN ('[]', '[11]')"):
+        areas = _ours(r["areas"])
+        if not areas:
+            continue
+        title = "{0} parliamentary question {1} ({2}) by {3}{4} to the {5}: {6}".format(
+            (r["qtype"] or "written").title(), r["ref"] or r["question_key"], r["date"] or "?",
+            r["asker"] or "?", " ({0})".format(r["party"]) if r["party"] else "",
+            r["minister"] or r["department"] or "Government", r["heading"] or "")
+        text = " ".join("Asked: {0} Answer, one line: {1}".format(
+            r["question"] or "", r["answer_takeaway"] or "none yet").split())
+        dated.append((r["date"] or "",
+                      triage.TriageItem(id="ie_questions:" + r["question_key"], title=title,
+                                        text=text[:1500], tier=r["tier"] or 2,
+                                        issue_areas=areas, watchlist_hit=False)))
+    for r in conn.execute("SELECT * FROM ie_speeches WHERE triage_score IS NULL "
+                          "AND areas_from = 'own' AND own_areas NOT IN ('[]', '[11]')"):
+        areas = _ours(r["own_areas"])
+        if not areas:
+            continue
+        title = "{0} speech ({1}) by {2}{3}{4} in: {5}".format(
+            r["committee"] or (r["chamber"] or "").title(), r["date"] or "?", r["speaker"] or "?",
+            " ({0})".format(r["party"]) if r["party"] else "",
+            ", {0}".format(r["role"]) if r["role"] else "", r["section_title"] or "")
+        text = " ".join("{0} words. Excerpt: {1}".format(r["words"] or 0, r["excerpt"] or "").split())
+        dated.append((r["date"] or "",
+                      triage.TriageItem(id="ie_speeches:" + r["speech_key"], title=title,
                                         text=text[:1500], tier=r["tier"] or 2,
                                         issue_areas=areas, watchlist_hit=False)))
     dated.sort(key=lambda d: (d[0], d[1].id), reverse=True)
