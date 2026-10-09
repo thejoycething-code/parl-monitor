@@ -35,6 +35,10 @@ A CONGRESS ENDS. The current Congress comes from the date
 enacted are FALLEN, never "pending": they leave the live and committee
 lists, and for the first weeks of the new Congress a section counts them.
 
+FLOOR DEBATE (phase 3a) prints speeches from the Congressional Record: the
+member, the day, the bill, one line and the link, NEVER the speech itself.
+The store keeps only an excerpt.
+
 SCORES ARE OPTIONAL. Everything renders with no judge run at all
 (CLAUDE.md: everything must run with TRIAGE=stub). Unscored items are
 ranked by stage and cosponsors and say they are unscored.
@@ -527,7 +531,9 @@ def coming_up_dm(conn, today):
 def bill_row(r, names, today=None):
     return "| {0} [{1}]({2}) {3} | {4} | {5} | {6} | {7} |".format(
         score_mark(r["triage_score"]), bill_label(r["bill_key"]), bill_url(r["bill_key"]),
-        clip(r["title"], 90), names_of(visible(r["areas"]), names), stage(r, today)[1],
+        clip(r["title"], 90), names_of(visible(r["areas"]), names),
+        stage(r, today)[1] + ("; floor {0}".format(_FLOOR_COUNTS[r["bill_key"]])
+                              if _FLOOR_COUNTS.get(r["bill_key"]) else ""),
         "{0}, {1} cosponsor(s)".format(sponsor(r), r["cosponsors"] or 0),
         clip(r["why_it_matters"] or ("{0} ({1})".format(r["latest_action"], r["latest_action_at"])
                                      if r["latest_action"] else ""), 160))
@@ -730,6 +736,122 @@ def executive_court_tops(conn, since, today):
     return out
 
 
+# --- floor debate: the Congressional Record (phase 3a, 9 October 2026) --------
+#
+# A view of us_record_speeches (tools/us_record.py), where only speeches on
+# our ground are stored, each with an excerpt and never its text. A line is
+# the member, party and state AT THE TIME, the day, the bill the debate was
+# about, one line of the member's own words (or the judge's why-line) and
+# the link to the granule. Renders on an empty or missing table.
+
+FLOOR_LINES = 15
+FLOOR_TAKEAWAY = 180
+FLOOR_MEMBERS = 10
+# bill_row reads the per-bill floor count from here; render_edition fills
+# it once per edition (empty: no count is printed).
+_FLOOR_COUNTS = {}
+
+
+def floor_counts(conn):
+    """{bill_key: granules of the Record ABOUT or opening on the bill}:
+    GovInfo's TITLE, HEADERLINE and FIRSTPARAGRAPH contexts. A passing
+    citation (OTHER) is not a debate on it."""
+    try:
+        return dict(conn.execute(
+            "SELECT bill_key, COUNT(DISTINCT granule_id) FROM us_record_bills WHERE context IN "
+            "('TITLE', 'HEADERLINE', 'FIRSTPARAGRAPH') GROUP BY bill_key").fetchall())
+    except sqlite3.OperationalError:
+        return {}
+
+
+def speech_bill(r):
+    """The bill a speech line names: the debate's subject, else the first cited."""
+    if r["subject_bill"]:
+        return r["subject_bill"]
+    keys = json.loads(r["bill_keys"] or "[]")
+    return keys[0] if keys else None
+
+
+def speech_line(r, names):
+    who = "{0} ({1}-{2})".format(r["name"] or r["speaker"] or "?", r["party"] or "?",
+                                 r["state"] or "?")
+    where = {"senate": "Senate", "extensions": "Extensions of Remarks"}.get(r["section"], "House")
+    bkey = speech_bill(r)
+    bill = " on [{0}]({1})".format(bill_label(bkey), bill_url(bkey)) if bkey else ""
+    said = (oneline(r["why_it_matters"]) if r["why_it_matters"]
+            else '"{0}"'.format(clip(r["excerpt"], FLOOR_TAKEAWAY)) if r["excerpt"] else "")
+    how = {"own": "own words", "watch": "a watched bill", "bill": "its bill only"}.get(
+        r["areas_from"], "own words")
+    return "- {0} **{1}**, {2}, {3}{4}: {5} [{6}]({7}). *Areas: {8} (matched on {9}).*".format(
+        score_mark(r["triage_score"]), who, where, r["date"], bill, said or clip(r["title"], 90),
+        r["citation"] or "Record", r["url"], names_of(visible(r["areas"]), names), how)
+
+
+def floor_rows(conn, since, until):
+    return _rows(conn, "SELECT * FROM us_record_speeches WHERE date > ? AND date <= ? "
+                       "ORDER BY COALESCE(triage_score, 1.5) DESC, date DESC, speech_key",
+                 (since, until))
+
+
+def floor_section(conn, since, today, names):
+    week = floor_rows(conn, since, today)
+    days = safe_count(conn, "SELECT COUNT(*) FROM us_record_days WHERE date > '{0}' AND "
+                            "date <= '{1}'".format(since, today))
+    out = ["## Floor debate", "",
+           "*Speeches in the Congressional Record (both chambers and the Extensions of "
+           "Remarks), matched on the member's own words and the debate's heading. A speech "
+           "takes its bill's areas only when its own words match nothing, it is at least "
+           "150 words, and the debate is about a bill whose title is on our ground; such "
+           "lines say \"its bill only\". A line is one member in one segment of the day; "
+           "the text is the Record's, a click away.*", ""]
+    if week:
+        out += ["### This week ({0}, from {1} day(s) of the Record)".format(len(week), days), ""]
+        out += [speech_line(r, names) for r in week[:FLOOR_LINES]]
+        if len(week) > FLOOR_LINES:
+            out.append("\n_...and {0} more; the store holds them all._".format(
+                len(week) - FLOOR_LINES))
+    else:
+        latest = _rows(conn, "SELECT * FROM us_record_speeches WHERE date = (SELECT MAX(date) "
+                             "FROM us_record_speeches WHERE areas NOT IN ('[]', '[11]')) "
+                             "ORDER BY COALESCE(triage_score, 1.5) DESC, speech_key")
+        out += ["### Nothing on our ground this week ({0} day(s) of the Record read); the "
+                "latest".format(days), ""]
+        out += [speech_line(r, names) for r in latest[:FLOOR_LINES]] or [
+            "*No speech on our ground in the store yet: the Record's backfill drains newest "
+            "first, a budget a week.*"]
+    members = []
+    try:
+        members = conn.execute(
+            "SELECT bioguide, MAX(name), MAX(party), MAX(state), COUNT(*) AS n FROM "
+            "us_record_speeches WHERE bioguide IS NOT NULL AND areas NOT IN ('[]', '[11]') "
+            "AND date >= ? GROUP BY bioguide ORDER BY n DESC, MAX(name) LIMIT ?",
+            (us_store.congress_start(us_store.congress_on(today)).isoformat(),
+             FLOOR_MEMBERS)).fetchall()
+    except sqlite3.OperationalError:
+        pass
+    if members:
+        out += ["", "### Most often on our ground on the floor, {0} Congress".format(
+            ordinal(us_store.congress_on(today))), "",
+            "*A count of speeches, not a stance: who speaks on these issues, for or "
+            "against. Groundwork for a US 5CA sheet.*", ""]
+        out += ["- {0} ({1}-{2}): {3}".format(m[1] or m[0], m[2] or "?", m[3] or "?", m[4])
+                for m in members]
+    out.append("")
+    return out
+
+
+def floor_tops(conn, since, today):
+    week = floor_rows(conn, since, today)
+    if not week:
+        return []
+    r = week[0]
+    bkey = speech_bill(r)
+    return ["- {0} floor speech(es) on our ground in the Congressional Record, among them "
+            "{1} ({2}-{3}){4}.".format(len(week), r["name"] or r["speaker"] or "?",
+                                       r["party"] or "?", r["state"] or "?",
+                                       " on " + bill_label(bkey) if bkey else
+                                       ": " + clip(r["title"], 60))]
+
 # --- the fifty states (tools/us_states.py, 9 October 2026) -------------------
 
 # What each state calls its chambers. Open States says only 'lower' and
@@ -846,6 +968,8 @@ def states_tops(conn, since, today):
 def render_edition(conn, today):
     conn.row_factory = sqlite3.Row
     names = area_names()
+    _FLOOR_COUNTS.clear()
+    _FLOOR_COUNTS.update(floor_counts(conn))
     since = (datetime.date.fromisoformat(today) - datetime.timedelta(days=WEEK_DAYS)).isoformat()
     month = (datetime.date.fromisoformat(today) - datetime.timedelta(days=30)).isoformat()
     scored = conn.execute("SELECT COUNT(*) FROM us_bills WHERE triage_score IS NOT NULL").fetchone()[0]
@@ -899,6 +1023,7 @@ def render_edition(conn, today):
         tops.append("- **The {0} Congress has ended.** {1} of its bill(s) on our ground were not "
                     "enacted and have fallen; any that return must be re-introduced under a new "
                     "number.".format(ordinal(cur - 1), len(fell)))
+    tops += floor_tops(conn, since, today)
     tops += executive_court_tops(conn, since, today)
     tops += states_tops(conn, since, today)
     out += tops or ["*Nothing moved on our ground this week.*"]
@@ -968,7 +1093,8 @@ def render_edition(conn, today):
         out += [BILL_HEAD] + [bill_row(r, names, today) for r in sorted(
             fell, key=lambda r: -(r["cosponsors"] or 0))[:15]]
 
-    out += [""] + executive_section(conn, since, today, names)
+    out += [""] + floor_section(conn, since, today, names)
+    out += executive_section(conn, since, today, names)
     out += court_section(conn, since, today, names)
     out += states_section(conn, since, today, names)
 
@@ -1005,6 +1131,15 @@ def render_edition(conn, today):
                 safe_count(conn, "SELECT COUNT(*) FROM us_court_cases WHERE kind='opinion'"),
                 safe_count(conn, "SELECT COUNT(*) FROM us_court_cases WHERE kind='grant'"),
                 len(_rows(conn, "SELECT areas FROM us_court_cases"))),
+            "- **Floor debate** (tools/us_record.py): {0} day(s) of the Congressional "
+            "Record read ({1} to {2}), {3} member speech(es) read, {4} on our ground kept "
+            "with an excerpt. \"Floor N\" on a bill line counts the Record's segments "
+            "about or opening on that bill.".format(
+                safe_count(conn, "SELECT COUNT(*) FROM us_record_days WHERE status='read'"),
+                safe_count(conn, "SELECT MIN(date) FROM us_record_days") or "?",
+                safe_count(conn, "SELECT MAX(date) FROM us_record_days") or "?",
+                safe_count(conn, "SELECT COALESCE(SUM(speeches), 0) FROM us_record_days"),
+                len(_rows(conn, "SELECT areas FROM us_record_speeches"))),
             "- **State legislatures** (Open States): {0} bills on our ground kept from {1} "
             "state(s), {2} recorded votes with every legislator's position; {3} of 50 "
             "legislatures read, the last on {4}.".format(
@@ -1015,7 +1150,7 @@ def render_edition(conn, today):
                                  "WHERE read_at IS NOT NULL"),
                 (conn.execute("SELECT MAX(read_at) FROM uss_sessions").fetchone()[0]
                  if safe_count(conn, "SELECT COUNT(*) FROM uss_sessions") else None) or "never"),
-            "- **Not yet collected:** the Congressional Record (floor debates), Federal "
+            "- **Not yet collected:** Federal "
             "Register notices (only presidential documents and rules are read), and Supreme "
             "Court dockets beyond the granted cases.",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
@@ -1048,6 +1183,7 @@ def dm_summary(conn, today, path=None):
     ahead = coming_up_dm(conn, today)
     if ahead:
         lines.append(ahead)
+    lines += [t.replace("**", "*") for t in floor_tops(conn, since, today)]
     lines += [t.replace("**", "*") for t in executive_court_tops(conn, since, today)]
     sweek = states_week(conn, since, today)
     if sweek:

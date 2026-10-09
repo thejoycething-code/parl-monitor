@@ -249,6 +249,15 @@ FEEDS = [
     # whole, like the SCC feed, so us_court_cases moves every week too.
     ("us_fr_documents", "last_seen", 7, 4, "Federal Register: orders and rules (US weekly)"),
     ("us_court_cases", "last_seen", 7, 4, "Supreme Court opinions and grants (US weekly)"),
+    # The Congressional Record (tools/us_record.py, 9 October 2026). Every
+    # run lists the Congress's days and re-stamps those it holds, and the
+    # Record publishes pro forma days through a recess, so us_record_days
+    # moves every run that has the key. Speeches are only written when a day
+    # with one on our ground is read, and both chambers go home for weeks
+    # (no floor debate between 18 September and the midterms): a month plus
+    # a month's grace, as for the roll calls.
+    ("us_record_days", "last_seen", 7, 4, "Congressional Record days listed and read (US weekly)"),
+    ("us_record_speeches", "last_seen", 31, 31, "floor speeches on our ground (US weekly)"),
     # The fifty state legislatures (tools/us_states.py, 9 October 2026).
     # Every run re-stamps every session Open States lists (two keyed
     # requests), and the people file of each state it reaches, so both move
@@ -582,7 +591,7 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members", "us_schedule_weeks", "us_schedule",
-                  "us_fr_documents", "us_court_cases"],
+                  "us_fr_documents", "us_court_cases", "us_record_days"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
     "Australia weekly": ["au_bills", "au_members"],
     # All three are re-read whole and re-stamped every run (see FEEDS).
@@ -736,6 +745,11 @@ AWAITING_FIRST_RUN = {
     "US Supreme Court": (("us_court_cases", "us_court_orders"),
                          "Supreme Court added to US weekly 9 October 2026; "
                          "its tables fill on the step's first run"),
+    # STEP heartbeat: tools/us_record.py stamps "US record" after a run
+    # with no gap, so its tables are excused only until then.
+    "US record": (("us_record_days", "us_record_speeches", "us_record_bills"),
+                  "Congressional Record step added to US weekly 9 October 2026; its "
+                  "tables fill on the step's first run"),
     "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),

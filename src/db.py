@@ -1575,6 +1575,11 @@ TABLES = (
     "us_fr_documents",
     "us_court_cases",
     "us_court_orders",
+    # The Congressional Record (tools/us_record.py, phase 3a, 9 October
+    # 2026), same module.
+    "us_record_days",
+    "us_record_speeches",
+    "us_record_bills",
     # The fifty state legislatures (tools/us_states.py, 9 October 2026),
     # created by src/us_states_store.ensure_schema.
     "uss_sessions",

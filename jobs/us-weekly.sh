@@ -3,7 +3,8 @@
 # Congress, the week ahead (floor lists and committee meetings, both
 # chambers), the Federal Register's executive actions and the Supreme Court
 # (9 October 2026), the fifty state legislatures (Open States, same day), the
-# judge when US_JUDGE is on, then the edition and its DM.
+# Congressional Record's floor speeches, the judge when US_JUDGE is on, then
+# the edition and its DM.
 #
 # Called by .github/workflows/us-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh us-weekly. One script, two callers (docs/mac-mini.md).
@@ -26,6 +27,7 @@
 #
 #     US_RECLASSIFY=true    re-derive stored areas first (taxonomy change)
 #     US_SENATE_ONLY=true   the Senate-only half GitHub runs for the Mini
+#     US_RECORD_BUDGET=N    seconds for the Congressional Record step
 #     US_JUDGE=on           score new items (Christopher's yes; read from the
 #                           repo variable when unset and gh is available)
 #
@@ -149,6 +151,34 @@ if [ -n "${GITHUB_ACTIONS:-}" ]; then STATES_BUDGET="${US_STATES_BUDGET:-600}"
 else STATES_BUDGET="${US_STATES_BUDGET:-1800}"; fi
 python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" | tee "$LOG/us-states.log" \
   || echo "  [gap] the state legislatures step ended with gaps; the edition says what it has"
+
+# The Congressional Record (phase 3a, 9 October 2026): floor speeches on our
+# ground, before the judge (which scores them) and the edition (its Floor
+# debate section). Keyed: without CONGRESS_API_KEY it is one [gap] line and
+# the edition says what it already holds. The 119th Congress's backfill is
+# about 20,000 granule pages at three or four a second, some 95 minutes; it
+# drains newest first, so recent weeks are read first and the rest arrive
+# over the following weeks.
+#
+# ITS BUDGET IS WHAT THE JOB HAS LEFT, not a fixed slice. It runs after every
+# other collector, so the clock ($SECONDS) knows what they really took; it
+# gets at most 10 minutes on GitHub and 15 on the Mini, and never more than
+# the job's limit (GitHub 120 minutes, the Mini three hours) less 30 minutes
+# for the judge and 10 for the edition and the store transfers.
+# Short of a minute, it skips this week and says so.
+if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=7200; RECORD_MAX=600
+else JOB_LIMIT="${JOB_TIMEOUT:-10800}"; RECORD_MAX=900; fi
+# The judge's half hour is always kept: on the Mini whether it runs is only
+# known below, from the repo variable.
+LEFT=$(( JOB_LIMIT - SECONDS - 1800 - 600 ))
+RECORD_BUDGET="${US_RECORD_BUDGET:-$(( LEFT < RECORD_MAX ? LEFT : RECORD_MAX ))}"
+if [ "$RECORD_BUDGET" -ge 60 ]; then
+  python3 tools/us_record.py --budget-seconds "$RECORD_BUDGET" | tee "$LOG/us-record.log" \
+    || echo "  [gap] Congressional Record step ended with gaps; the edition shows what the store holds"
+else
+  echo "  [gap] Congressional Record skipped: ${RECORD_BUDGET}s left in the job's budget" \
+    | tee "$LOG/us-record.log"
+fi
 
 JUDGE="${US_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then

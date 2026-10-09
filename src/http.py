@@ -530,6 +530,14 @@ class HttpClient:
                     url))
         return body
 
+    def archive(self, raw, feed, slug):
+        """Archive bytes fetched with archive=False, once the caller knows
+        they are worth keeping: the Congressional Record collector reads
+        every speech of a day but keeps the page only of the speeches it
+        stores (9 October 2026). Never call it with a keyed request's reply
+        unless the reply itself carries no key."""
+        return self._archive(raw, feed, slug)
+
     def _archive(self, raw, feed, slug):
         """Write raw bytes to data/raw/<date>/<feed>_<slug>.json.gz."""
         date = self.archive_date or time.strftime("%Y-%m-%d")
