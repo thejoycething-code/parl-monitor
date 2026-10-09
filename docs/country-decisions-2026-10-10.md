@@ -134,6 +134,29 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
   requests to edit existing Quebec terms (the IVG veto, the euthanasie guard
   and the tier differences) are declined; country additions stay additions.
 
+## The Latam monitor as built (branch `latam`)
+
+- Edition: `tools/latam_monitor.py`, monthly (the 1st, `jobs/latam-monthly.sh`,
+  Mini first, `latam-monthly.yml` as backup), to Chris alone by DM, archived
+  to `editions/latam-monitor-<date>.md`. A section per country with news on
+  our ground since the last edition; one "nothing new" line for the quiet
+  countries; one "access pending" line for Costa Rica and Paraguay (CR1, PY1).
+- Instant alerts: `tools/latam_alerts.py`, run by each Latam country's weekly
+  job after its collector, and by the monthly job for Venezuela and
+  Nicaragua. Watched items (any kind), tier-1 items, and status moves of
+  watched items; de-duplicated in `data/latam-alerts/<cc>.json`; the first
+  pass per country seeds silently; at most eight DMs a run.
+- Classification: the collectors' taxonomy-es and watchlist pass, then the
+  stub triage for order only (X16: no judge). No [ACT] items.
+- Venezuela (VE1-VE3): `tools/ve_news.py` reads the Legislativa news feed
+  monthly; the Ley contra el Odio reform is watched by hand in
+  `config/watchlist-ve.yaml`.
+- Nicaragua (NI2): `tools/nic_gaceta.py` reads La Gaceta (reachable openly,
+  keyless; robots.txt 404; the PDF is embedded in each issue page) and keeps
+  the notices taxonomy-es (`nic`) matches; the edition shows area 8.
+- Not done: one consolidated `latam-weekly` Mini job (each country keeps its
+  own job and gate; see docs/mac-mini.md).
+
 ## Not acted on
 
 - U1 (Uruguay Ley 20.431 referendum): ignore.

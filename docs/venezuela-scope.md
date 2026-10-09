@@ -164,4 +164,4 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase: a monthly keyword note from the Asamblea's news feed (VE1-VE3), and the Ley contra el Odio reform watched by hand.
+- Built on the `latam` branch: a monthly keyword note from the Asamblea's news feed (VE1-VE3, `tools/ve_news.py`, in the Latam monitor), and the Ley contra el Odio reform watched by hand (`config/watchlist-ve.yaml`).

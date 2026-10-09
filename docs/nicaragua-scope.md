@@ -227,4 +227,4 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - No parliamentary section (NI1).
-- Phase: La Gaceta in scope for religious-freedom tracking, church and NGO closures (NI2).
+- Built on the `latam` branch: La Gaceta read monthly for religious-freedom notices, church and NGO closures (NI2, `tools/nic_gaceta.py`, tables `nic_gazette_*`, in the Latam monitor). Measured 9 October 2026: robots.txt answers 404, no key, and each issue page embeds its PDF, which has a text layer.
