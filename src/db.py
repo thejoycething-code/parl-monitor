@@ -1558,6 +1558,14 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Panama's Asamblea Nacional (tools/pa_rollcalls.py), created by
+    # src/pa_store.ensure_schema -- declared from day one. No votes table:
+    # the Asamblea publishes no per-member votes (docs/panama-scope.md).
+    "pa_members",
+    "pa_bills",
+    "pa_bill_stages",
+    "pa_agenda",
+    "pa_agenda_items",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1840,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import pa_store
+    pa_store.ensure_schema(conn)
     return conn
