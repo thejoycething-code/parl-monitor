@@ -239,6 +239,11 @@ class WiringTests(unittest.TestCase):
                             text.index("python3 tools/ca_monitor.py"))
             self.assertLess(text.index("python3 tools/ca_monitor.py"),
                             text.index("python3 tools/db_state.py --push"))
+            # The 5CA sheets: after the judge, before the edition that counts them.
+            self.assertLess(text.index("python3 tools/ca_triage.py"),
+                            text.index("python3 tools/ca_5ca.py --all"))
+            self.assertLess(text.index("python3 tools/ca_5ca.py --all"),
+                            text.index("python3 tools/ca_monitor.py"))
         self.assertIn("# mini_run: commit editions", job)
         self.assertIn("git add data/ editions/", flow)
         self.assertIn("U05LJP0BT61", job)

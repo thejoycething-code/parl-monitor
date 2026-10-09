@@ -357,6 +357,14 @@ jobs:
           SECS="${{ inputs.judge_seconds }}"; SECS="${SECS:-1200}"
           if [ "$SECS" -gt 2700 ]; then SECS=2700; fi
           python3 tools/ca_triage.py --limit 2000 --budget-seconds "$SECS" | tee /tmp/ca-triage.log
+      - name: The 5CA sheets (offline, from the store just collected)
+        # tools/ca_5ca.py --all, as jobs/ca-weekly.sh runs it: only SIGNED
+        # readings in config/ca_stance.yaml place anyone. A failure is a gap;
+        # last week's sheets stand. The sheets are committed with data/.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/ca_5ca.py --all | tee /tmp/ca-5ca.log \
+            || echo "  [gap] the 5CA sheets failed; last week's stand" | tee -a /tmp/ca-5ca.log
       - name: Write secrets file
         # The DM goes to Christopher alone (9 October 2026), as for the US and
         # Irish editions. Nothing posts to a channel.

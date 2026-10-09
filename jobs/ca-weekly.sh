@@ -31,6 +31,12 @@ python3 tools/ca_petitions.py --limit 300 || rc=1
 python3 tools/ca_gazette.py || rc=1
 python3 tools/ca_triage.py --limit 2000 --budget-seconds 1200 || rc=1
 
+# The 5CA sheets (tools/ca_5ca.py, data/5ca/ca-5ca-*.csv): offline, from the
+# store just collected and judged, seconds to run, as us_5ca/ie_5ca/au_5ca
+# run in their weeklies. Only SIGNED readings in config/ca_stance.yaml place
+# anyone. A failure is a gap, never a lost week; last week's sheets stand.
+python3 tools/ca_5ca.py --all || echo "  [gap] the 5CA sheets failed; last week's stand"
+
 # The edition (tools/ca_monitor.py, 9 October 2026): editions/ca-monitor-<date>.md
 # from the store just collected and judged, and a DM to Christopher alone.
 # SPEAKS ONCE A DAY, as jobs/us-weekly.sh does: an edition already committed
