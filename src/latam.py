@@ -24,9 +24,12 @@ collector's filter pass (shared taxonomy-es for the country's code, guards
 and vetoes, src/filter.py) or the watchlist put it on our ground: raw
 keyword hits are never read here.
 
-SCORES (X16: the AI judge stays off). score() runs src/triage.py's stub:
-tier 1 or watched scores 2, tier 2 scores 1. It orders items; it is not a
-verdict, and no vote carries one.
+SCORES (X16: the paid AI judge stays off). score() runs src/triage.py's
+stub: tier 1 or watched scores 2, tier 2 scores 1. It orders items; it is
+not a verdict, and no vote carries one. Where the free session judge (Claude
+Code on the Mac Mini, plan allowance; src/edition_judge.py, 10 October 2026)
+has read an item, its score 0-3 replaces the stub's, and country_items()
+leaves out an unwatched item it scored 0.
 
 Read-only on the store.
 """
@@ -622,8 +625,10 @@ def country_items(conn, cc, since, until, ledger=None, config_dir=None, dropped=
             got += ledger_moves(ledger, cc, since, until)
         got = collapse(got)
     kept, out = latam_noise.split(got, config_dir)
+    from src import edition_judge
+    kept, judged_out = edition_judge.split(edition_judge.annotate(conn, kept))
     if dropped is not None:
-        dropped.extend(out)
+        dropped.extend(out + judged_out)
     return kept
 
 
@@ -669,6 +674,9 @@ def score(items):
     # The AI judge is deferred (X16): stub, whatever TRIAGE says.
     for res in triage.triage(tis, mode="stub"):
         items[int(res.id)]["score"] = res.score
+    for it in items:
+        if it.get("judge") is not None:      # the session judge's, where it read the item
+            it["score"] = it["judge"]
     return sorted(items, key=lambda it: (not it["watched"], -it.get("score", 0),
                                          it["kind"] != "vote", _neg(it["date"])))
 

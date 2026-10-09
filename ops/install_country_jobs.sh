@@ -23,7 +23,7 @@ echo "== install_country_jobs $(date -u +%Y-%m-%dT%H:%MZ) at $(git -C "$REPO" re
 JOBS="at-weekly nl-weekly pl-weekly it-weekly ch-weekly be-weekly fr-weekly
 pt-weekly sk-weekly hr-weekly es-weekly br-weekly ar-weekly mx-weekly
 co-weekly cl-weekly pe-weekly ec-weekly bo-weekly uy-weekly pa-weekly
-hn-weekly sv-weekly do-weekly hu-weekly latam-monthly"
+hn-weekly sv-weekly do-weekly hu-weekly latam-monthly editions-session-judge"
 
 install_job() {
   local label="net.citizengo.parlmonitor.$1"
@@ -37,6 +37,15 @@ install_job() {
 }
 
 for j in $JOBS; do install_job "$j"; done
+
+# The editions session judge (Sundays 16:45) needs Claude Code signed in to
+# Chris's claude.ai account, never an API key: without it the job logs a
+# [gap] and exits clean. Say which it is.
+if command -v claude >/dev/null 2>&1 || [ -x "$HOME/.local/bin/claude" ]; then
+  echo "session judge: $(PATH="$HOME/.local/bin:$PATH" claude auth status --text 2>&1 | head -3 | tr '\n' ' ')"
+else
+  echo "session judge: claude is not installed for this user; the editions judge will log a [gap]"
+fi
 
 # GT1: Guatemala runs from GitHub unless the Congreso answers the Mini.
 code=$(curl -m 20 -s -o /dev/null -w "%{http_code}" -A "$UA" https://www.congreso.gob.gt/)

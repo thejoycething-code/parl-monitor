@@ -45,7 +45,7 @@ each item.
 | X13 | Antisemitism out, consistent with the US |
 | X14 | Allow opt-in gzip in `src/http.py` |
 | X15 | Store every member position |
-| X16 | AI judge: deferred (stays off) |
+| X16 | AI judge: deferred (stays off). The paid API judge stays off; the free session judge (Claude Code on the Mac Mini, plan allowance) is adopted for the editions and Latam, 10 October 2026 (below) |
 | X17 | Merge one branch at a time, strongest data first |
 
 ## Term lists
@@ -287,6 +287,37 @@ the Mac Mini would be a judge at zero API cost. Nothing below is built.
   the model takes 10 to 30 seconds. Results drift when the model is
   updated, so the model tag is pinned. It is still a judge: X16 deferred
   the judge, so switching it on is Chris's call.
+
+## The free session judge for the editions and Latam (branch `editions-free-judge`)
+
+Chris, 10 October 2026, approved: the free "session judge" built for the
+Canadian provinces (Claude Code on the Mac Mini, signed in to his claude.ai
+account, on the plan allowance; no API key, no per-call cost) is adopted for
+the fifteen weekly country editions and the Latam monitor. **The paid API
+judge stays off (X16).** The local-model idea above stays unbuilt.
+
+- One generic queue for all sixteen, keyed by country code:
+  `tools/edition_judge.py --queue-out / --queue-in` (src/session_queue.py's
+  format, its own marker), scores in `edition_scores` (src/edition_judge.py),
+  one digit 0-3 and a why-line per item, once ever, model
+  `claude-code-session`. An item is offered only when its edition would show
+  it (on our ground, not muted, not noise-filtered); a vote group once.
+- In the editions: an unwatched item scored 0 leaves (counted under
+  Coverage); the scores order the items; the lead is watched items, items
+  scored 3, and items scored 2 with the minimum evidence; each judged item
+  shows its score and why-line. Unscored items render as before.
+- Latam alerts: watched items always alert. A tier-1 item that is not
+  watched, once judged, alerts only at 2 or 3 (the judge's reading replaces
+  the minimum-evidence rule); while the judge is running it is held for it
+  (at most eight days, then it goes out unscored).
+- Plan usage kept lean (the plan is shared with Chris's other scheduled
+  jobs): one Mini job a week, `jobs/editions-session-judge.sh`, Sundays
+  16:45 London, at most 100 items in sessions of 25, watched then tier 1
+  then tier 2, newest first. Mini only, no GitHub workflow. Signed out or
+  missing: a [gap] and a clean exit. `ANTHROPIC_API_KEY` is never passed.
+- Editions already sent: rewritten in place (as the provinces judge does),
+  with one short DM to Chris only when the scores changed what leads an
+  edition already sent. See docs/mac-mini.md, "Editions session judge".
 
 ## The weekly country editions as built (branch `editions-core`)
 

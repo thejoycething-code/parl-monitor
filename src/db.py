@@ -1038,6 +1038,21 @@ CREATE TABLE IF NOT EXISTS stance (
   model TEXT,
   scored_at TEXT
 );
+CREATE TABLE IF NOT EXISTS edition_scores (
+  -- The free session judge's scores for the weekly country editions and the
+  -- Latam monitor (tools/edition_judge.py, jobs/editions-session-judge.sh:
+  -- Claude Code on the Mac Mini, plan allowance, no API spend; 10 October
+  -- 2026). Kept apart from the rows they score, keyed '<cc>:<kind>:<key>'
+  -- as the editions build their items (src/edition_judge.item_id), written
+  -- once per item, ever. Read by src/country_edition.py, src/latam.py and
+  -- tools/latam_alerts.py; an edition without a row renders as before.
+  item TEXT PRIMARY KEY,
+  cc TEXT NOT NULL,
+  score INTEGER NOT NULL,   -- 0-3, src/triage.py's rubric
+  why TEXT,
+  model TEXT,
+  scored_at TEXT
+);
 CREATE TABLE IF NOT EXISTS pull_log (
   -- Which long backfills have been completed, so a one-off deep pull is not
   -- silently redone. tools/pull_interests.py writes it under the marker
@@ -1812,6 +1827,7 @@ TABLES = (
     "prov_speeches",
     "prov_speech_sittings",
     "prov_scores",
+    "edition_scores",
     "ca_judgments",
     "ca_leave",
     "de_members",
