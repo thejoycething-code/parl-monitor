@@ -110,7 +110,8 @@ PIPELINES = {
     "Guatemala weekly": (14, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies"),
     # Scheduled 9 October 2026, Saturdays (mx-weekly.yml; the Mac Mini is the
     # clock, GitHub does the work: diputados.gob.mx refuses UK addresses).
-    "Mexico weekly": (7, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions"),
+    # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
+    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -419,9 +420,9 @@ FEEDS = [
     # every Gaceta iniciativas list are re-read whole each run, and every
     # vote SITL lists is re-stamped when its period page is read, so all
     # three move weekly, recess included. mx_votes has no sighting column.
-    ("mx_members", "last_seen", 7, 4, "Chamber of Deputies members (Mexico weekly)"),
-    ("mx_iniciativas", "last_seen", 7, 4, "Gaceta iniciativas lists (Mexico weekly)"),
-    ("mx_divisions", "last_seen", 7, 4, "SITL recorded votes (Mexico weekly)"),
+    ("mx_members", "last_seen", 14, 4, "Chamber of Deputies members (Mexico weekly)"),
+    ("mx_iniciativas", "last_seen", 14, 4, "Gaceta iniciativas lists (Mexico weekly)"),
+    ("mx_divisions", "last_seen", 14, 4, "SITL recorded votes (Mexico weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and

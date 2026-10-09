@@ -305,15 +305,16 @@ of the test file).
 The Chamber refuses UK addresses, so "Mini first" cannot mean "the Mini
 collects". It means the Mini keeps time:
 
-- `ops/launchd/net.citizengo.parlmonitor.mx-weekly.plist`: Saturdays 04:00
-  London, `tools/mini_run.sh mx-weekly`.
+- `ops/launchd/net.citizengo.parlmonitor.mx-weekly.plist`: Saturdays 15:30
+  London, `tools/mini_run.sh mx-weekly` (moved from 04:00 at the countries
+  merge of 10 October 2026, when Austria kept Saturday 03:00 and 05:00 UTC).
 - `jobs/mx-weekly.sh` (`# mini_run: no-store`, so the Mini skips the
   895 MB store pull): asks the Gaceta once and logs whether this host can
   reach it (if the answer ever becomes yes, that is worth knowing), checks
   nothing already ran today, then `gh workflow run mx-weekly.yml`. mini_run
   then stamps `MINI_LAST_MX_WEEKLY`.
 - `.github/workflows/mx-weekly.yml` ("Mexico weekly"): crons Saturday
-  03:00 and 05:00 UTC as the backup, gated by `mini-check` with
+  14:30 and 16:30 UTC as the backup, gated by `mini-check` with
   `job: MX_WEEKLY` and 150 minutes' grace; a dispatch always runs. Fetches
   the store and raw archive, runs `jobs/mx-collect.sh`, publishes the raw
   archive then the store, commits the sidecars. Timeout 75 minutes.
@@ -321,6 +322,13 @@ collects". It means the Mini keeps time:
   branch, and `gh workflow run` needs the file on the ref). The Mini needs
   the plist installed by hand (copy to `~/Library/LaunchAgents`, then
   `launchctl bootstrap`).
+
+- **Fortnightly (X9, Chris, 10 October 2026)**: Guatemala and Mexico run on
+  GitHub Actions every second week to save Actions minutes. Mexico takes the
+  odd ISO weeks: the workflow's gate passes a scheduled run only in an odd
+  week, and `jobs/mx-weekly.sh` dispatches only in an odd week
+  (`MX_FORCE=true` overrides). The coverage watch expects a 14-day cadence.
+  Backfill budgets are unchanged.
 
 ## Files touched outside Mexico's own
 

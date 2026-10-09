@@ -1,13 +1,20 @@
 name: Mexico weekly
 on:
   schedule:
-    # Saturday 03:00 UTC, retry 05:00 UTC (9 October 2026). The Chamber of
-    # Deputies sits Tuesday to Thursday; Saturday 03:00 UTC is Friday 21:00
+    # Saturday 14:30 UTC, retry 16:30 UTC (9 October 2026). The Chamber of
+    # Deputies sits Tuesday to Thursday; Saturday 14:30 UTC is Saturday 08:30
     # in Mexico City, after the Gaceta has listed the week's iniciativas and
-    # SITL the week's votes. Clear of every other workflow's cron: Saturday
-    # holds 05:30, 06:00, 07:00, 10:00, 14:00, 18:00 and 23:00 only.
-    - cron: "0 3 * * 6"
-    - cron: "0 5 * * 6"
+    # SITL the week's votes. Moved from 03:00/05:00 at the countries merge
+    # (10 October 2026): Austria holds those Saturday slots.
+    #
+    # FORTNIGHTLY (X9, Chris, 10 October 2026): Guatemala and Mexico run on
+    # GitHub Actions every second week, to save Actions minutes. The crons
+    # stay weekly; the gate below lets a scheduled run through only in an
+    # ODD ISO week (Guatemala takes the even ones), and the Mini's clock
+    # (jobs/mx-weekly.sh) dispatches only in an odd week. A hand dispatch
+    # always runs.
+    - cron: "30 14 * * 6"
+    - cron: "30 16 * * 6"
   workflow_dispatch:
     inputs:
       reclassify:
@@ -32,11 +39,11 @@ concurrency:
 
 jobs:
   # The Mac Mini is this workflow's CLOCK (tools/mini_run.sh mx-weekly,
-  # Saturdays 04:00 London): diputados.gob.mx refuses UK addresses, so
+  # Saturdays 15:30 London): diputados.gob.mx refuses UK addresses, so
   # jobs/mx-weekly.sh DISPATCHES this workflow instead of collecting, and a
   # dispatch always passes this gate. These crons are the backup. The Mini
-  # runs ONCE for both slots: at 04:00 London in summer it stamps 03:00 UTC,
-  # two hours before the 05:00 retry, hence a grace of 150 minutes.
+  # runs ONCE for both slots: at 15:30 London in summer it stamps 14:30 UTC,
+  # two hours before the 16:30 retry, hence a grace of 150 minutes.
   mini-check:
     uses: ./.github/workflows/mini-check.yml
     with:
@@ -44,8 +51,8 @@ jobs:
       grace-minutes: 150
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
-  # when the 03:00 backup (or the run the Mini dispatched) already ran
-  # today, 05:00 has nothing to do.
+  # when the 14:30 backup (or the run the Mini dispatched) already ran
+  # today, 16:30 has nothing to do.
   gate:
     needs: mini-check
     if: needs.mini-check.outputs.run == 'true'
@@ -60,6 +67,11 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          WEEK=$(date -u +%V)
+          if [ $((10#$WEEK % 2)) -eq 0 ]; then
+            echo "fortnightly (X9): ISO week $WEEK is even, not a Mexico week"
+            echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
           TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
           BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/mx-weekly.yml/runs?per_page=50" \

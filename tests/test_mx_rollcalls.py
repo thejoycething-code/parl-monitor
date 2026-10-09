@@ -380,5 +380,21 @@ class Jobs(unittest.TestCase):
         self.assertTrue(src.startswith("name: Mexico weekly"))
 
 
+class FortnightlyTests(unittest.TestCase):
+    """X9 (Chris, 10 October 2026): Mexico runs every second week, in odd ISO
+    weeks; Guatemala takes the even ones."""
+
+    def test_gate_and_clock_skip_even_weeks(self):
+        with open(os.path.join(ROOT, ".github", "workflows", "mx-weekly.yml"), encoding="utf-8") as fh:
+            yml = fh.read()
+        with open(os.path.join(ROOT, "jobs", "mx-weekly.sh"), encoding="utf-8") as fh:
+            sh = fh.read()
+        self.assertIn("$((10#$WEEK % 2)) -eq 0", yml)
+        self.assertIn("$((10#$week % 2)) -eq 0", sh)
+        self.assertIn("MX_FORCE", sh)
+        with open(os.path.join(ROOT, ".github", "workflows", "gt-weekly.yml"), encoding="utf-8") as fh:
+            self.assertIn("$((10#$WEEK % 2)) -ne 0", fh.read())
+
+
 if __name__ == "__main__":
     unittest.main()

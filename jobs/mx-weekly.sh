@@ -3,7 +3,7 @@
 #
 # mini_run: no-store   (reads and writes no store, so the Mini skips the pull)
 #
-# Run by tools/mini_run.sh mx-weekly (launchd, Saturdays 04:00 London). The
+# Run by tools/mini_run.sh mx-weekly (launchd, Saturdays 15:30 London). The
 # Chamber of Deputies' hosts refuse UK addresses -- every diputados.gob.mx
 # address timed out from the laptop in London on 9 October 2026, while
 # GitHub's runners read them (docs/mexico-scope.md). So the Mini keeps the
@@ -19,6 +19,13 @@ set -eo pipefail
 cd "$(dirname "$0")/.."
 REPO="thejoycething-code/parl-monitor"
 REF="${RUNNER_REF:-main}"
+# Fortnightly (X9, 10 October 2026): the Mini dispatches only in an ODD ISO
+# week (Guatemala takes the even ones). MX_FORCE=true overrides by hand.
+week=$(date -u +%V)
+if [ $((10#$week % 2)) -eq 0 ] && [ "${MX_FORCE:-}" != "true" ]; then
+  echo "mx-weekly: ISO week $week is even; Mexico runs fortnightly (X9), nothing to dispatch"
+  exit 0
+fi
 UA="CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
 if curl -sS -m 20 -o /dev/null -A "$UA" https://gaceta.diputados.gob.mx/gp_indice.html 2>/dev/null; then
   echo "mx-weekly: gaceta.diputados.gob.mx ANSWERS this host; the collector could run here (see docs/mexico-scope.md). Dispatching to GitHub as designed."
