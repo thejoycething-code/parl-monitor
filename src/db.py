@@ -1617,6 +1617,13 @@ TABLES = (
     "ch_businesses",
     "ch_divisions",
     "ch_votes",
+    # Belgium's federal Chamber (tools/be_rollcalls.py), created by
+    # src/be_store.ensure_schema -- declared from day one.
+    "be_members",
+    "be_dossiers",
+    "be_sittings",
+    "be_divisions",
+    "be_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1905,4 +1912,6 @@ def init_db(conn):
     it_store.ensure_schema(conn)
     from src import ch_store
     ch_store.ensure_schema(conn)
+    from src import be_store
+    be_store.ensure_schema(conn)
     return conn

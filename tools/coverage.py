@@ -81,6 +81,8 @@ PIPELINES = {
     "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes"),
     # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
     "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes"),
+    # Scheduled 9 October 2026, Saturdays (be-weekly.yml; the Mac Mini first).
+    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -266,6 +268,15 @@ FEEDS = [
     ("ch_sessions", "last_seen", 7, 4, "Federal Assembly sessions (Switzerland weekly)"),
     ("ch_businesses", "last_seen", 7, 7, "Federal Assembly businesses, DE and FR (Switzerland weekly)"),
     ("ch_divisions", "last_seen", 31, 45, "Nationalrat and Staenderat votes (Switzerland weekly)"),
+    # Belgium (9 October 2026). MEASURED which re-stamp: both member lists and
+    # all 39 pages of the dossier index are re-read whole every run, so
+    # be_members and be_dossiers move every week, recess included. Divisions
+    # move only when a sitting is new or among the three re-read: the Chamber
+    # breaks from late July to mid-September, so a month plus a month's grace,
+    # as for the US. be_sittings and be_votes carry no sighting column.
+    ("be_members", "last_seen", 7, 4, "Chamber members (Belgium weekly)"),
+    ("be_dossiers", "last_seen", 7, 4, "Chamber dossier index (Belgium weekly)"),
+    ("be_divisions", "last_seen", 31, 31, "Chamber recorded votes (Belgium weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -352,6 +363,8 @@ PIPELINE_FEEDS = {
     "Italy weekly": ["it_bills", "it_members"],
     # The two Swiss tables re-read whole every run; divisions move only in session.
     "Switzerland weekly": ["ch_members", "ch_sessions"],
+    # Divisions left out for the same reason as the US: a recess week cannot move them.
+    "Belgium weekly": ["be_dossiers", "be_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -379,6 +392,8 @@ AWAITING_FIRST_RUN = {
                      "scheduled 9 October 2026; its tables fill on its first run"),
     "Switzerland weekly": (("ch_members", "ch_sessions", "ch_businesses", "ch_divisions"),
                            "scheduled 9 October 2026; its tables fill on its first run"),
+    "Belgium weekly": (("be_members", "be_dossiers", "be_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
