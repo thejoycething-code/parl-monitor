@@ -230,8 +230,8 @@ figure in the table above.
   still publishes), 1 otherwise.
 
 **The weekly** (`jobs/ec-weekly.sh`, shared by both runners): Saturdays
-15:00 London on the Mac Mini (`ops/launchd/net.citizengo.parlmonitor.ec-weekly.plist`);
-`.github/workflows/ec-weekly.yml` at 15:00 and 19:00 UTC is the backup,
+15:30 London on the Mac Mini (`ops/launchd/net.citizengo.parlmonitor.ec-weekly.plist`);
+`.github/workflows/ec-weekly.yml` at 15:30 and 19:30 UTC (half an hour later than first built; France and Portugal hold 15:00 and 19:00) is the backup,
 gated by `mini-check` with job `EC_WEEKLY` (grace 320 minutes: the Mini's
 summer run stamps 14:00 UTC, five hours before the retry slot). The job
 publishes the raw archive, then the store (`raw_state.py --push` before

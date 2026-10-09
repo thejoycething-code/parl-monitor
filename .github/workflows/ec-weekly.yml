@@ -1,14 +1,14 @@
 name: Ecuador weekly
 on:
   schedule:
-    # Saturday 15:00 UTC, retry 19:00 UTC (9 October 2026). The Asamblea's
+    # Saturday 15:30 UTC, retry 19:30 UTC (9 October 2026). The Asamblea's
     # plenary sits on weekdays, mostly Tuesday to Thursday, and its datos
     # service carries each vote the same day; Saturday reads the whole week
-    # (10:00 in Quito). Clear of the Saturday crons on main and on the
-    # other country branches of 9 October (03, 05, 06, 08, 09, 10, 11, 13,
-    # 14, 17, 18, 20 UTC).
-    - cron: "0 15 * * 6"
-    - cron: "0 19 * * 6"
+    # (10:30 in Quito). Moved half an hour from 15:00/19:00 at the
+    # countries merge (10 October 2026): France and Portugal hold those
+    # Saturday hours.
+    - cron: "30 15 * * 6"
+    - cron: "30 19 * * 6"
   workflow_dispatch:
     inputs:
       reclassify:
@@ -32,10 +32,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # The Mac Mini runs this on Saturdays at 15:00 London (tools/mini_run.sh
+  # The Mac Mini runs this on Saturdays at 15:30 London (tools/mini_run.sh
   # ec-weekly); these crons are the backup. The Mini runs ONCE for both
-  # slots, so its run must count for the 19:00 retry too: at 15:00 London in
-  # summer it stamps 14:00 UTC, five hours before that slot, hence a grace
+  # slots, so its run must count for the 19:30 retry too: at 15:30 London in
+  # summer it stamps 14:30 UTC, five hours before that slot, hence a grace
   # of 320 minutes rather than the default 75.
   mini-check:
     uses: ./.github/workflows/mini-check.yml
@@ -44,7 +44,7 @@ jobs:
       grace-minutes: 320
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
-  # when the 15:00 backup already ran today, 19:00 has nothing to do.
+  # when the 15:30 backup already ran today, 19:30 has nothing to do.
   gate:
     needs: mini-check
     if: needs.mini-check.outputs.run == 'true'
