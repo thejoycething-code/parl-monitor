@@ -3,7 +3,7 @@
 Mexico's collector runs on GitHub Actions every second week (X9, odd ISO
 weeks: the Chamber's hosts refuse UK addresses, so the Mini only keeps the
 clock), and its edition is rendered at the end of that GitHub job, so it
-covers a fortnight (src/editions/render_hooks.py, cadence_days=14).
+covers a fortnight (Country.cadence_days=14).
 
 THE CHAMBER OF DEPUTIES ONLY. The Senate stays out per its robots.txt
 (MX4); it appears only where its minutas reach the Chamber.
@@ -203,6 +203,7 @@ def items(conn, since, until, wl):
 COUNTRY = ce.Country(
     cc=CC, name="Mexico", chamber="Cámara de Diputados", language="Spanish",
     taxonomies=(("taxonomy-es.yaml", "mx"),), items=items, flag=":flag-mx:",
+    cadence_days=CADENCE_DAYS, frequency="Fortnightly (X9)",
     members_note=("Every recorded vote carries each deputy's position and group at the vote. "
                   "The Senate is not read (MX4, its robots.txt) and appears only where its "
                   "minutas reach the Chamber. This edition is fortnightly (X9)"),

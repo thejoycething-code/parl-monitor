@@ -23,7 +23,7 @@
 # src/country_edition.py) is rendered to editions/mx-monitor-<date>.md and
 # DMed to Chris alone. It runs here, at the end of the GitHub job, because
 # the work does (X9: odd ISO weeks), and its window is a fortnight
-# (src/editions/render_hooks.py). Once a day: an edition already committed
+# (Country.cadence_days in src/editions/mx.py). Once a day: an edition already committed
 # for today is rewritten, not resent. Its failure is a [gap] line and never
 # costs the store. The workflow commits editions/ with data/.
 set -eo pipefail

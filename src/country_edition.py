@@ -46,6 +46,12 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
                                      # config/watchlist-<cc>.yaml merged
            members_note="...",       # one line for the honesty note
            coverage=("...",),        # extra Coverage lines, English
+           notice=None,              # optional: a string, or fn(conn, today, dm)
+                                     # -> str or None; see 7
+           post_render=None,         # optional: fn(conn, country, today, text,
+                                     # wl) -> text, run on the edition only
+           cadence_days=7,           # 14 for a fortnightly edition; see 7
+           frequency="Weekly",       # the subtitle's word for the cadence
        )
 
 2. `items(conn, since, until, wl)` returns the store's items on our ground
@@ -100,12 +106,26 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
    resent), with "# mini_run: commit editions" in the job and editions/
    added in the workflow's commit step (see jobs/at-weekly.sh).
 
+7. NOTICES AND CADENCE. `notice` is printed verbatim under the edition's
+   subtitle (followed by a blank line) and as the DM's second line, in place
+   of its blank line; a callable gets dm=False for the edition and dm=True
+   for the DM and returns None or "" for no notice (Spain's dissolution
+   notice). `post_render` changes the finished edition's text (Argentina's
+   "Nearing lapse" section). `cadence_days` other than 7 makes the first
+   edition's default window that long and says "fortnight" (14) where the
+   framework says "week"; `frequency` replaces "Weekly" in the subtitle
+   (Mexico: "Fortnightly (X9)").
+
 Change log of the interface (additive only):
   10 October 2026  first version.
   10 October 2026  item(..., watch_key=) added; one_per_group() helper;
                    rebels(..., skip=) for independents; an item's
                    group_title is shown under its title ("On: ...");
                    items of one kind with one title collapse into one.
+  10 October 2026  Country.notice, post_render, cadence_days, frequency
+                   (replacing the wrappers in es.py and render_hooks.py);
+                   a grouped vote shows a takeaway that differs from the
+                   decisive vote's.
 
 Read-only on the store.
 """
@@ -191,6 +211,23 @@ class Country:
     members_note: str = ""
     coverage: tuple = ()
     flag: str = ""
+    notice: object = None
+    post_render: Optional[Callable] = None
+    cadence_days: int = DEFAULT_DAYS
+    frequency: str = "Weekly"
+
+    @property
+    def period(self):
+        """The edition's word for its window: 'week', or 'fortnight'."""
+        return "fortnight" if self.cadence_days == 14 else "week"
+
+
+def notice_text(country, conn, today, dm=False):
+    """The country's notice for the edition or the DM, or ''."""
+    n = country.notice
+    if callable(n):
+        n = n(conn, today, dm)
+    return (n or "").strip("\n")
 
 
 def adapter(cc):
@@ -369,16 +406,16 @@ def editions(cc, directory=None, exclude_samples=True):
     return out
 
 
-def window(cc, today, since=None, directory=None):
-    """(since, until): from the last real edition (exclusive) to today, or a
-    week when there is none."""
+def window(cc, today, since=None, directory=None, days=DEFAULT_DAYS):
+    """(since, until): from the last real edition (exclusive) to today, or
+    `days` (a week) when there is none."""
     if since:
         return since, today
     prior = [d for d in editions(cc, directory) if d < today]
     if prior:
         return prior[-1], today
     return (datetime.date.fromisoformat(today)
-            - datetime.timedelta(days=DEFAULT_DAYS)).isoformat(), today
+            - datetime.timedelta(days=days)).isoformat(), today
 
 
 def edition_number(cc, today, directory=None):
@@ -488,8 +525,33 @@ def why_watched(it, wl):
     why = entry.get("why") if isinstance(entry, dict) else None
     if not why:
         return None
-    first = re.split(r"(?<=[.!?])\s", clean(why), maxsplit=1)[0]
-    return clip(first, 220)
+    return clip(first_sentence(clean(why)), 220)
+
+
+# Words that end in a full stop without ending the sentence ("art. 150").
+ABBREVIATIONS = {"art", "arts", "no", "nos", "nr", "n", "cf", "ca", "para", "paras", "p",
+                 "pp", "vol", "st", "dr", "mr", "mrs", "ms", "prof", "hon", "sen", "rep",
+                 "inc", "co", "ltd", "jr", "sr", "vs", "ex", "lit", "al", "e.g", "i.e",
+                 "dz", "poz", "ust", "pkt", "nº"}
+
+
+def first_sentence(text):
+    """The text up to its first full stop, question or exclamation mark that
+    is outside brackets, not after an abbreviation or an initial, and
+    followed by a space."""
+    depth = 0
+    for i, ch in enumerate(text):
+        if ch in "([":
+            depth += 1
+        elif ch in ")]":
+            depth = max(depth - 1, 0)
+        elif ch in ".!?" and depth == 0 and i + 1 < len(text) and text[i + 1].isspace():
+            if ch == ".":
+                word = re.split(r"[\s(\[]", text[:i])[-1].lower()
+                if word in ABBREVIATIONS or (len(word) == 1 and word.isalpha()):
+                    continue
+            return text[:i + 1]
+    return text
 
 
 def head_line(it):
@@ -507,8 +569,7 @@ def item_lines(it, wl, indent=""):
         out.append(indent + "  On: *{0}*".format(clip(it["group_title"], 300)))
     bits = []
     if it.get("takeaway"):
-        t = it["takeaway"]
-        bits.append(t if t.endswith(("…", ".", "?", "!")) else t + ".")
+        bits.append(sentence(it["takeaway"]))
     if it["status"]:
         bits.append("Status: “{0}”.".format(clip(it["status"], 200).rstrip(".")))
     if it.get("own") is False:
@@ -523,6 +584,14 @@ def item_lines(it, wl, indent=""):
     if it["url"]:
         out.append(indent + "  [Source]({0})".format(it["url"]))
     return out
+
+
+ENDS = (".", "…", "?", "!")
+
+
+def sentence(text):
+    """`text` with a full stop, unless it already ends a sentence."""
+    return text if text.endswith(ENDS) else text + "."
 
 
 def vote_groups(votes):
@@ -568,8 +637,12 @@ def vote_lines(group, wl):
     for v in others[:MAX_GROUP_VOTES]:
         tally = next((ln for ln in v["lines"] if ln.startswith("Tally:")),
                      next(iter(v["lines"]), "")).replace("Tally: ", "").strip()
-        out.append("  - {0}: *{1}*. {2}".format(short_date(v["date"]), clip(v["title"], 200),
-                                                tally).rstrip())
+        title = clip(v["title"], 200)
+        stop = "" if title.endswith((".", "?", "!")) else "."     # not after "…"
+        out.append("  - {0}: *{1}*{2} {3}".format(short_date(v["date"]), title, stop,
+                                                 tally).rstrip())
+        if v.get("takeaway") and v["takeaway"] != headline.get("takeaway"):
+            out.append("    " + sentence(v["takeaway"]))
     if len(others) > MAX_GROUP_VOTES:
         out.append("  - _And {0} more votes on the same item, in the store._".format(
             len(others) - MAX_GROUP_VOTES))
@@ -638,15 +711,15 @@ def title_line(country, today, since=None):
         if (d - first).days != DEFAULT_DAYS - 1:
             return "# {0} Monitor - {1} to {2}".format(
                 country.name, long_date(first.isoformat()), long_date(today))
-    return "# {0} Monitor - week to {1} {2} {3}".format(
-        country.name, d.day, MONTHS[d.month - 1], d.year)
+    return "# {0} Monitor - {1} to {2} {3} {4}".format(
+        country.name, country.period, d.day, MONTHS[d.month - 1], d.year)
 
 
 def render(conn, country, today, since=None, sample=False, config_dir=None,
            directory=None):
     """The edition's Markdown."""
     conn.row_factory = sqlite3.Row
-    since, until = window(country.cc, today, since, directory)
+    since, until = window(country.cc, today, since, directory, country.cadence_days)
     dropped = []
     got = gather(conn, country, since, until, config_dir, dropped)
     ahead = []
@@ -663,20 +736,21 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
                 "the title. Not a real edition: the store is partial and never sent.".format(
                     SAMPLE_MARK), ""]
     first = (datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()
-    out += ["_{0}. Edition {1}, covering {2} to {3}. Weekly, to Chris by DM._".format(
+    out += ["_{0}. Edition {1}, covering {2} to {3}. {4}, to Chris by DM._".format(
         country.chamber, "sample" if sample else edition_number(country.cc, today, directory),
-        long_date(first), long_date(until)), ""]
+        long_date(first), long_date(until), country.frequency), ""]
+    notice = notice_text(country, conn, today)
+    if notice:
+        out += [notice, ""]
 
     if not got and not ahead:
-        out += ["**A quiet week.** Nothing on our ground in the {0} between {1} and {2}.".format(
-            country.chamber, long_date(first), long_date(until)), ""]
+        out += ["**A quiet {0}.** Nothing on our ground in the {1} between {2} and {3}.".format(
+            country.period, country.chamber, long_date(first), long_date(until)), ""]
         out += ["- Watchlist: {0} item(s), none moved.".format(len(wl)),
                 "- Store last read {0}.".format(long_date(seen) if seen else "never"),
                 "- Left out by the noise filters: {0}.".format(dropped_text(dropped) or "nothing"),
                 ""]
-        text = "\n".join(out)
-        refuse_ownerless_act(text)
-        return text
+        return finish(conn, country, today, out, wl)
 
     out.append(honesty(country))
     out += ["", "## In brief", ""]
@@ -741,7 +815,13 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
                 country.cc, dropped_text(dropped) or "nothing"),
             "- Decisions: [docs/country-decisions-2026-10-10.md]({0}docs/"
             "country-decisions-2026-10-10.md).".format(REPO), ""]
+    return finish(conn, country, today, out, wl)
+
+
+def finish(conn, country, today, out, wl):
     text = "\n".join(out)
+    if country.post_render:
+        text = country.post_render(conn, country, today, text, wl)
     refuse_ownerless_act(text)
     return text
 
@@ -755,14 +835,14 @@ def refuse_ownerless_act(text):
 
 def dm_summary(conn, country, today, since=None, path=None, config_dir=None, directory=None):
     """The week in one Slack message, to Chris alone."""
-    since, until = window(country.cc, today, since, directory)
+    since, until = window(country.cc, today, since, directory, country.cadence_days)
     got = gather(conn, country, since, until, config_dir)
     if country.dm_kinds:
         got = [it for it in got if it["kind"] in country.dm_kinds]
     d = datetime.date.fromisoformat(today)
-    lines = ["{0}*{1} Monitor - week to {2} {3} {4}*".format(
-        country.flag + " " if country.flag else "", country.name, d.day,
-        MONTHS[d.month - 1], d.year), ""]
+    lines = ["{0}*{1} Monitor - {2} to {3} {4} {5}*".format(
+        country.flag + " " if country.flag else "", country.name, country.period, d.day,
+        MONTHS[d.month - 1], d.year), notice_text(country, conn, today, dm=True)]
     if got:
         lines.append("*{0} item(s) on our ground*: {1}; {2} watched.".format(
             len(got), count_text(got), sum(it["watched"] for it in got) or "none"))
@@ -772,8 +852,8 @@ def dm_summary(conn, country, today, since=None, path=None, config_dir=None, dir
                 clip(it.get("group_title") or it["title"], 90),
                 area_text(it["areas"]) or "watched", ", watched" if it["watched"] else ""))
     else:
-        lines.append("*A quiet week*: nothing on our ground{0}.".format(
-            " in recorded votes" if country.dm_kinds == ("vote",) else ""))
+        lines.append("*A quiet {0}*: nothing on our ground{1}.".format(
+            country.period, " in recorded votes" if country.dm_kinds == ("vote",) else ""))
     lines.append("_Ordered by tier; the AI judge is off (X16)._")
     if path:
         lines.append("Full edition: {0}{1}".format(REPO, os.path.relpath(path, ROOT)))

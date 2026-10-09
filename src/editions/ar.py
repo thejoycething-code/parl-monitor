@@ -18,7 +18,8 @@ A parliamentary year runs from 1 March to the end of February. So a bill
 that entered between 1 March 2025 and 28 February 2026 lapses on
 28 February 2027 unless a chamber passes it first. `lapse_date()` computes
 this; the edition lists the bills on our ground that lapse within
-LAPSE_HORIZON_DAYS (src/editions/render_hooks.py inserts the section).
+LAPSE_HORIZON_DAYS (`post_render()`, the framework's Country.post_render
+hook, inserts the section).
 
 Approximations, said in the edition: the Diputados register gives the
 Trámite Parlamentario date (entry); a Senate expediente gives only the year
@@ -266,7 +267,7 @@ def post_render(conn, country, today, text, wl):
 COUNTRY = ce.Country(
     cc=CC, name="Argentina", chamber="Senado and Cámara de Diputados de la Nación",
     language="Spanish", taxonomies=(("taxonomy-es.yaml", "ar"),), items=items,
-    flag=":flag-ar:",
+    flag=":flag-ar:", post_render=post_render,
     members_note=("Senate roll calls carry every senator's position and bloc at the vote; "
                   "Diputados roll calls are not collected (votaciones.hcdn.gob.ar refuses our "
                   "clients), so Diputados appears through its register of expedientes only"),

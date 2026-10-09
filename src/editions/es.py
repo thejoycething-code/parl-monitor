@@ -15,11 +15,9 @@ notice goes by itself the day the store holds a row of the next
 legislature, which the collector reads off the Congreso's own selector, so
 the XVI's first items appear with no edit here.
 
-THE NOTICE is the one thing the shared interface has no hook for. It is
-added here, without touching src/country_edition.py: `main()` wraps the
-framework's render() and dm_summary() for the length of one call and puts
-the notice under the edition's subtitle and at the top of the DM. If the
-framework grows a `notice` field on Country, `notice()` below is that hook.
+THE NOTICE is the framework's `Country.notice` hook (`edition_notice()`
+below): the framework puts it under the edition's subtitle and on the DM's
+second line.
 
 Votes on one initiative in one week (points voted separately, amendments,
 the vote of the whole) render as one entry; the vote's sub-heading leads
@@ -31,7 +29,6 @@ from __future__ import annotations
 import datetime
 import re
 import sys
-from contextlib import contextmanager
 
 from src import country_edition as ce
 
@@ -166,6 +163,13 @@ def dm_notice(conn, today):
         nxt, ce.long_date(s["convenes"]))
 
 
+def edition_notice(conn, today, dm=False):
+    """Country.notice: notice() for the edition, dm_notice() for the DM."""
+    if dm:
+        return dm_notice(conn, today)
+    return "\n".join(notice(conn, today))
+
+
 # --- items ----------------------------------------------------------------------
 
 def _terms(*raws):
@@ -287,7 +291,7 @@ def items(conn, since, until, wl):
 COUNTRY = ce.Country(
     cc=CC, name="Spain", chamber="Congreso de los Diputados", language="Spanish",
     taxonomies=(("taxonomy-es.yaml", "es"),),
-    items=items,
+    items=items, notice=edition_notice,
     members_note=("Member positions are the Congreso's own, by name, with the parliamentary "
                   "group printed in each vote file, so a member against their group's majority "
                   "is named"),
@@ -301,55 +305,19 @@ COUNTRY = ce.Country(
 )
 
 
-# --- the entry point, with the dissolution notice ----------------------------------
-
-@contextmanager
-def _with_notice():
-    """Put notice() under the edition's subtitle and dm_notice() on the DM's
-    second line, for one call of the framework's main()."""
-    render, dm_summary = ce.render, ce.dm_summary
-
-    def render_n(conn, country, today, *a, **kw):
-        text = render(conn, country, today, *a, **kw)
-        extra = notice(conn, today) if country.cc == CC else []
-        if not extra:
-            return text
-        lines = text.split("\n")
-        at = next((i + 1 for i, ln in enumerate(lines)
-                   if ln.startswith("_") and "Edition" in ln), 1)
-        if at < len(lines) and lines[at] == "":
-            at += 1
-        return "\n".join(lines[:at] + extra + lines[at:])
-
-    def dm_n(conn, country, today, *a, **kw):
-        text = dm_summary(conn, country, today, *a, **kw)
-        extra = dm_notice(conn, today) if country.cc == CC else None
-        if not extra:
-            return text
-        first, _, rest = text.partition("\n")
-        return "\n".join([first, extra, rest.lstrip("\n")])
-
-    ce.render, ce.dm_summary = render_n, dm_n
-    try:
-        yield
-    finally:
-        ce.render, ce.dm_summary = render, dm_summary
-
+# --- the entry point --------------------------------------------------------------
 
 def render(conn, today, since=None, sample=False, config_dir=None, directory=None):
-    """The edition with its notice (for tests and callers outside main())."""
-    with _with_notice():
-        return ce.render(conn, COUNTRY, today, since, sample, config_dir, directory)
+    """The edition, notice included (for tests and callers)."""
+    return ce.render(conn, COUNTRY, today, since, sample, config_dir, directory)
 
 
 def dm_summary(conn, today, since=None, path=None, config_dir=None, directory=None):
-    with _with_notice():
-        return ce.dm_summary(conn, COUNTRY, today, since, path, config_dir, directory)
+    return ce.dm_summary(conn, COUNTRY, today, since, path, config_dir, directory)
 
 
 def main(argv=None):
-    with _with_notice():
-        return ce.main(CC, argv)
+    return ce.main(CC, argv)
 
 
 if __name__ == "__main__":
