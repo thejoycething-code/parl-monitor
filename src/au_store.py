@@ -122,12 +122,66 @@ SCHEMA = (
         read_at      TEXT,
         divisions    INTEGER
     )""",
+    # --- the week ahead (tools/au_schedule.py, 9 October 2026) ---------------
+    # The APH sitting calendar, Notice Papers and Daily Programs are on
+    # aph.gov.au, which refuses our collectors. What answers is the Federal
+    # Register of Legislation: every legislative instrument open for
+    # disallowance, with the LAST DAY each House can disallow it. That day is
+    # the fifteenth sitting day after tabling, counted on the Register's own
+    # copy of the sitting calendar, so every such date still ahead is a day
+    # that House is due to sit (au_sitting_days).
+    """CREATE TABLE IF NOT EXISTS au_instruments (
+        title_id     TEXT PRIMARY KEY,   -- Register title ID: 'F2026L00968'
+        name         TEXT,
+        collection   TEXT,               -- 'LegislativeInstrument'
+        making_date  TEXT,
+        registered_at TEXT,
+        last_day_house  TEXT,            -- last day the House can disallow; NULL when the
+        last_day_senate TEXT,            -- Register gives none (9999-12-31: not yet tabled
+                                         -- there, or a disallowance motion is pending)
+        enabling_acts TEXT,              -- JSON: Register IDs of the Acts it is made under
+        bill_id      TEXT,               -- the bill of this Parliament whose Act enables it
+                                         -- (au_bills.act_id), when one does
+        own_areas    TEXT,               -- JSON: matched on the instrument's own name
+        areas        TEXT,               -- JSON: own + the enabling Act's (watchlist-au acts:)
+                                         -- + the enabling bill's
+        areas_from   TEXT,               -- 'own' / 'act' / 'bill'
+        matched_terms TEXT,
+        tier         INTEGER,
+        scrutiny     TEXT,               -- JSON: tabling and disallowance motion events;
+                                         -- read only for instruments on our ground
+        open         INTEGER,            -- 1 while the Register lists it open for disallowance
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS au_sitting_days (
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        date         TEXT NOT NULL,
+        source       TEXT,               -- 'frl-disallowance': a last day for disallowance
+        instruments  INTEGER,            -- how many open instruments' clocks end that day
+        first_seen   TEXT,
+        last_seen    TEXT,
+        PRIMARY KEY (chamber, date)
+    )""",
+    # The Parliamentary Handbook's own record of each Parliament: a
+    # dissolution date appearing here is the one signal that every bill
+    # before Parliament has lapsed.
+    """CREATE TABLE IF NOT EXISTS au_parliaments (
+        parliament   INTEGER PRIMARY KEY,
+        name         TEXT,
+        election     TEXT,
+        opening      TEXT,
+        dissolution  TEXT,               -- NULL while the Parliament stands
+        ended        TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
     "CREATE INDEX IF NOT EXISTS au_votes_member ON au_votes (person_id)",
     "CREATE INDEX IF NOT EXISTS au_offices_person ON au_offices (person_id)",
 )
 
 TABLES = ("au_members", "au_offices", "au_bills", "au_divisions", "au_votes",
-          "au_hansard_files")
+          "au_hansard_files", "au_instruments", "au_sitting_days", "au_parliaments")
 
 
 # The judge's score and why-line (tools/au_triage.py), added after the first
@@ -171,6 +225,23 @@ def watchlist(path=None):
         _WATCH[path] = {k: (list(v.get("areas") or []), v.get("why"))
                         for k, v in (raw.get("bills") or {}).items()}
     return _WATCH[path]
+
+
+_ACTS = {}
+
+
+def act_watchlist(path=None):
+    """{Register title ID: (areas, why)} from the acts: section of
+    config/watchlist-au.yaml: principal Acts whose instruments are ours."""
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                "config", "watchlist-au.yaml")
+    if path not in _ACTS:
+        with open(path, encoding="utf-8") as fh:
+            raw = yaml.safe_load(fh) or {}
+        _ACTS[path] = {k: (list(v.get("areas") or []), v.get("why"))
+                       for k, v in (raw.get("acts") or {}).items()}
+    return _ACTS[path]
 
 
 def add_watch_areas(res, bill_id, path=None):

@@ -1566,6 +1566,10 @@ TABLES = (
     "au_divisions",
     "au_votes",
     "au_hansard_files",
+    # Australia's week ahead (tools/au_schedule.py, 9 October 2026), same module.
+    "au_instruments",
+    "au_sitting_days",
+    "au_parliaments",
     # The week ahead (tools/us_schedule.py, 9 October 2026).
     "us_schedule",
     "us_meetings",
