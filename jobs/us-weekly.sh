@@ -140,12 +140,14 @@ python3 tools/us_courts.py --budget-seconds 900 | tee "$LOG/us-courts.log" \
 
 # The fifty state legislatures (tools/us_states.py, 9 October 2026), through
 # Open States, before the judge so state bills that moved can be scored.
-# A state's first read is its bulk files (keyless, about 2 GB for all fifty);
-# after that the week is read from the API, which allows this key 10 requests
-# a minute and 250 a day: the step spends at most 200 and a state too busy
-# for that reads its bulk file instead. States not reached inside the budget
-# go first next week (the rotation). 10 minutes on GitHub keeps the job's
-# step budgets under its 120; 30 on the Mini, inside its three hours.
+# NO PAID TIER: the week is read from the per-session bulk files (keyless;
+# Open States writes a new one nightly for every session that changed), and
+# the free key spends two requests on the session list plus a top-up of the
+# last day for live bills on our ground (about 70 to 90 in a sitting week).
+# A ledger in the store keeps every run of a UTC day under 225 of the key's
+# 250, so this and a backup run the same day cannot overrun. States not
+# reached inside the budget go first next week (the rotation). 10 minutes on
+# GitHub keeps the job's step budgets under its 120; 30 on the Mini.
 # No OPENSTATES_API_KEY: one [gap] line and the step skips.
 if [ -n "${GITHUB_ACTIONS:-}" ]; then STATES_BUDGET="${US_STATES_BUDGET:-600}"
 else STATES_BUDGET="${US_STATES_BUDGET:-1800}"; fi

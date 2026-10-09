@@ -36,8 +36,9 @@ SCHEMA = (
     # One row per legislative session Open States lists for a state, with
     # what was last read of it. read_zip_updated is the bulk file's own
     # generation stamp at the time we read it: a later stamp means the file
-    # has changed. data_through is how far the store is good for: the bulk
-    # file's stamp after a bulk read, the run date after an API read.
+    # has changed. data_through is how far the store is good for: the day
+    # before the bulk file's stamp after a bulk read (the nightly file lags
+    # the scrapers by about a day), the run date after an API read.
     """CREATE TABLE IF NOT EXISTS uss_sessions (
         state        TEXT NOT NULL,      -- 'tx'
         session      TEXT NOT NULL,      -- Open States identifier: '89R', '2025-2026'
@@ -152,6 +153,15 @@ SCHEMA = (
         first_seen   TEXT,
         last_seen    TEXT
     )""",
+    # Keyed Open States requests per UTC day, across every run that shares
+    # the store (the Mini, GitHub's backup, a hand run): the default tier
+    # allows 250 a day and refuses the rest, so tools/us_states.py checks
+    # this before each request and writes it before sending (see Ledger).
+    """CREATE TABLE IF NOT EXISTS uss_api_ledger (
+        day          TEXT PRIMARY KEY,   -- UTC date, as Open States counts
+        requests     INTEGER NOT NULL,
+        last_at      TEXT                -- UTC time of the latest request
+    )""",
     "CREATE INDEX IF NOT EXISTS uss_bills_key ON uss_bills (bill_key)",
     "CREATE INDEX IF NOT EXISTS uss_bills_state ON uss_bills (state, session)",
     "CREATE INDEX IF NOT EXISTS uss_actions_date ON uss_actions (date)",
@@ -160,7 +170,7 @@ SCHEMA = (
 )
 
 TABLES = ("uss_sessions", "uss_bills", "uss_actions", "uss_sponsors", "uss_votes",
-          "uss_vote_people", "uss_people")
+          "uss_vote_people", "uss_people", "uss_api_ledger")
 
 # The fifty, by postal code. DC and Puerto Rico are in Open States but not
 # in the decision (Christopher, 9 October 2026: all 50 state legislatures).

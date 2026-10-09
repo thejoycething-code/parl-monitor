@@ -1589,6 +1589,7 @@ TABLES = (
     "uss_votes",
     "uss_vote_people",
     "uss_people",
+    "uss_api_ledger",
     # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
     # src/ie_store.ensure_schema -- declared from day one.
     "ie_members",

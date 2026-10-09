@@ -143,9 +143,21 @@ jobs:
           # still lose one, and the store was ALREADY published above --
           # so a lost push leaves the release ahead of the repo and the
           # next run refuses the store. 2026-08-28.
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin main || true
-            git push origin main && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin main; then
+              git push origin main && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
+          # A loop that falls out without a successful push must FAIL the step,
+          # or main keeps pointing at an old sidecar (the 6 September cascade).
+          git fetch -q origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi
