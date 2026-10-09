@@ -150,3 +150,31 @@ class SiteTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class VotePagesNavTests(unittest.TestCase):
+    """The index links the other parliaments' vote pages, but only those the
+    site holds (9 October 2026)."""
+
+    def test_links_only_the_pages_present(self):
+        import tempfile
+        from src import partner
+        with tempfile.TemporaryDirectory() as d:
+            self.assertEqual(partner.vote_pages_nav(d), "")
+            for f in ("us-votes.html", "eu-votes.html"):
+                open(os.path.join(d, f), "w").close()
+            nav = partner.vote_pages_nav(d)
+            self.assertIn('<a href="/us-votes.html">United States</a>', nav)
+            self.assertIn('<a href="/eu-votes.html">European Parliament</a>', nav)
+            self.assertNotIn("au-votes.html", nav)
+            self.assertLess(nav.index("eu-votes"), nav.index("us-votes"))
+
+    def test_the_index_carries_the_line(self):
+        import tempfile
+        from src import partner
+        with tempfile.TemporaryDirectory() as d:
+            open(os.path.join(d, "ie-votes.html"), "w").close()
+            path = partner.build_site(d, "2026-10-12", "# Edition\n\nBody", ["2026-10-12"])
+            html = open(path, encoding="utf-8").read()
+            self.assertIn('<a href="/ie-votes.html">Ireland</a>', html)
+            self.assertIn("Archive:", html)
