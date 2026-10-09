@@ -1,0 +1,11 @@
+# Chris's mute list for the it edition: items he has read and does not
+# want again. Hand-edited, read by src/noise.py. The edition honours it
+# while mute_in_edition is true. A watched item is muted only by its key.
+#
+# items:     "it|kind|key" (e.g. "it|vote|<key>"), or "it|key" for every kind
+# patterns:  {title: regex, kind: kind}; kind optional. The title is folded
+#            as the taxonomy folds it: lower case, no accents.
+
+mute_in_edition: true
+items: []
+patterns: []

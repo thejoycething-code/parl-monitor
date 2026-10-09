@@ -1,0 +1,26 @@
+# Italy edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text: lower case, accents stripped.
+# A watched item is never filtered.
+#
+# Measured on the scoping store (9 October 2026, replayed offline from the
+# raw archive, taxonomy-it v0.1), 9 September to 9 October: 15 items on
+# our ground, one of them noise (the hunting-law bill below). Across the
+# legislature's 358 votes on our ground the only procedure was the quorum
+# check. NB: an Italian "ordine del giorno" (ODG) is a resolution attached
+# to a bill, voted on its merits, NOT the order of business: never list it
+# here. Pregiudiziali and sospensive (motions to stop or defer a bill) are
+# kept: they are how a bill is killed.
+procedural_votes:
+  - '\bverifica del numero legale\b'
+  - '\bprocesso verbale\b'
+  - '\bcalendario dei lavori\b'
+  - '\binversione dell.ordine del giorno\b'
+exclude_titles:
+  # "obiezione di coscienza" for wildlife-control and hunting wardens
+  # (legge 157/1992, the hunting law), not conscience in medicine.
+  - '\bfauna selvatica\b.*\bvigilanza venatoria\b|\bvigilanza venatoria\b.*\bfauna selvatica\b'
+  # Agreements with the Holy See over a solar farm on its land.
+  - '\bimpianto agrivoltaico\b'
+alert:
+  title_tier1: true
+  distinct_terms: 2

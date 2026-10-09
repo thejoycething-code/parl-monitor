@@ -213,7 +213,7 @@ The Latam monitor (docs/country-decisions-2026-10-10.md, "Edition structure"): o
 
 ## Weekly country editions (10 October 2026, branch `editions-core`)
 
-The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition structure") each get a weekly edition, to Chris alone by DM, archived to `editions/<cc>-monitor-<date>.md`. One framework renders them all (`src/country_edition.py`; adapters in `src/editions/<cc>.py`; entry points `tools/<cc>_monitor.py`). First batch: Austria, the Netherlands (votes only, NL3), Belgium and Poland.
+The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition structure") each get a weekly edition, to Chris alone by DM, archived to `editions/<cc>-monitor-<date>.md`. One framework renders them all (`src/country_edition.py`; adapters in `src/editions/<cc>.py`; entry points `tools/<cc>_monitor.py`). First batch: Austria, the Netherlands (votes only, NL3), Belgium and Poland. Second batch (branch `editions-it-ch-fr-pt`): Italy, Switzerland, France and Portugal, in `jobs/{it,ch,fr,pt}-weekly.sh` the same way.
 
 - **No new plists or workflows.** The edition is the last step of each country's existing weekly (`jobs/{at,nl,be,pl}-weekly.sh`), after the collector and before the publish, so it runs wherever the weekly runs: the Mini first, GitHub as the backup. A collector that failed outright (not exit 3, gaps) skips the edition.
 - **Committed and spoken once a day**, as the US weekly: each script carries `# mini_run: commit editions`, each workflow commits `data/ editions/`, and an edition already committed for today is rewritten without resending the DM.
