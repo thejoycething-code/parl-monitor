@@ -1,38 +1,21 @@
 # Ireland Oireachtas Monitor
 ### Week ending 2026-10-09 | Edition 1 | 34th Dáil, 27th Seanad
 
-> **How to read this edition.** Areas come from the shared taxonomy (v1.17), with Irish bills it cannot read by title added by key (config/watchlist-ie.yaml); its Irish vocabulary has not yet been reviewed by anyone who campaigns in Ireland. Bills are matched on their short and long titles. A division takes its bill's areas, so every division says whether its **own** text, the **amendment** moved, or only its **bill** matched. Outcomes, tallies and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Scores [0-3] and why-lines come from the judge (src/triage.py, Irish frame).
+> **How to read this edition.** Areas come from the shared taxonomy (v1.20), with Irish bills it cannot read by title added by key (config/watchlist-ie.yaml); its Irish vocabulary has not yet been reviewed by anyone who campaigns in Ireland. Bills are matched on their short and long titles. A division takes its bill's areas, so every division says whether its **own** text, the **amendment** moved, or only its **bill** matched. Outcomes, tallies and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Scores [0-3] and why-lines come from the judge (src/triage.py, Irish frame).
 
 ## Top lines
 
-- **The Oireachtas recorded no division on our ground this week.** The Dáil last divided on 2026-10-06, the Seanad on 2026-07-16.
+- **The Oireachtas recorded no division on our ground this week.** The Dáil last divided on 2026-10-06, the Seanad on 2026-10-07.
 
 ## Dates that matter
 
 - **2026-10-06** (3 days ago): Budget 2027: the Dáil voted the Financial Resolutions; the Finance Bill and Social Welfare Bill follow through the autumn.
-- **2029-12-17** (1165 days): The latest the 34th Dáil can be dissolved (five years from its first sitting on 18 December 2024, by statute). Every bill lapses at the dissolution and can come back only by a restoration motion. **17 live bill(s) on our ground today.**
+- **2029-12-17** (1165 days): The latest the 34th Dáil can be dissolved (five years from its first sitting on 18 December 2024, by statute). Every bill lapses at the dissolution and can come back only by a restoration motion. **20 live bill(s) on our ground today.**
 - *Sittings:* The Dáil sits Tuesday to Thursday and takes most divisions in its Wednesday-evening division time (339 of 429 in this Dáil). Last winter it last divided on 17 December and returned on 13 January.
 
-## Divisions (none this week; last 30 days: 0)
+## Divisions (none this week; last 30 days: 1)
 
-*None in the last 30 days. The latest on our ground:*
-
-- **[1]** **Dáil**, [division](https://www.oireachtas.ie/en/debates/vote/dail/34/2026-07-08/177/) 2026-07-08: [Civil Liability (Child Sexual Abuse Proceedings Against Unincorporate…](https://www.oireachtas.ie/en/bills/bill/2025/79/), Amendment put. **Carried** 80-65 (Tá-Níl); FF 42-0, FG 32-0, SF 0-37, Lab 0-9, SD 0-10, II 0-2, PBP-S 0-2, Aontú 0-2, Ind 6-3. *Areas: Parental rights education (matched on own text).*
-  - *The amendment moved was not found before this division in the transcript (often moved on an earlier day).*
-  - *Concerns liability of church and other unincorporated bodies for child sexual abuse, touching religious freedom and institutional accountability, though not a core campaign issue.*
-- **[3]** **Dáil**, [division](https://www.oireachtas.ie/en/debates/vote/dail/34/2026-06-17/149/) 2026-06-17: [Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026](https://www.oireachtas.ie/en/bills/bill/2026/47/), Question put. **Carried** 86-70 (Tá-Níl); FF 12-30, FG 11-23, SF 35-0, Lab 10-0, SD 12-0, II 0-3, PBP-S 3-0, Aontú 0-2, GP 1-0, Ind 2-12. *Areas: Abortion (matched on bill only).*
-  - *Seeks to scrap the mandatory three-day wait before abortion, directly removing a safeguard CitizenGO campaigns to preserve.*
-- **[0]** **Dáil**, [division](https://www.oireachtas.ie/en/debates/vote/dail/34/2026-06-17/140/) 2026-06-17: [Criminal Justice (International Cooperation on Electronic Evidence an…](https://www.oireachtas.ie/en/bills/bill/2026/59/), Amendment put. **Lost** 65-79 (Tá-Níl); FF 0-40, FG 0-32, SF 35-0, Lab 9-0, SD 12-0, II 1-0, PBP-S 1-0, Aontú 2-0, GP 1-0, Ind 4-7. *Areas: Free speech, privacy and civil liberties (matched on amendment).*
-  - I move amendment No. 1: In page 10, between lines 33 and 34, to insert the following: "8. The Minister, having consulted with the Minister for Foreign Affairs and Trade, may by regulation direct that the Director suspen…
-  - *Concerns EU rule-of-law cooperation on electronic evidence, no bearing on CitizenGO's campaign areas.*
-- **[1]** **Dáil**, [division](https://www.oireachtas.ie/en/debates/vote/dail/34/2026-06-10/130/) 2026-06-10: [Criminal Law, Civil Law and Defence (Miscellaneous Provisions) Bill 2…](https://www.oireachtas.ie/en/bills/bill/2026/1/), Amendment put. **Lost** 68-78 (Tá-Níl); FF 0-42, FG 0-28, SF 34-0, Lab 11-0, SD 12-0, II 3-0, PBP-S 3-0, Aontú 1-0, GP 1-0, Ind 3-8. *Areas: Parental rights education (matched on amendment).*
-  - I move amendment No. 17: In page 18, to delete lines 31 to 35, to delete pages 19 to 22, and in page 23, to delete lines 1 to 18 and substitute the following: “Amendment of section 19A of Criminal Evidence Act 1992 16.…
-  - *Amendment on disclosure of counselling and medical records in sexual offence trials affects privacy protections in abuse prosecutions, a peripheral but relevant legal safeguard issue.*
-- **[1]** **Select Committee on Justice, Home Affairs and Migration**, [division](https://data.oireachtas.ie/akn/ie/debateRecord/select_committee_on_justice_home_affairs_and_migration/2026-05-19/debate/mul@/main.xml) 2026-05-19: [Criminal Law, Civil Law and Defence (Miscellaneous Provisions) Bill 2…](https://www.oireachtas.ie/en/bills/bill/2026/1/), Amendment put. **Carried** 6-3 (Tá-Níl); FF 4-0, FG 2-0, SF 0-2, Lab 0-1. *Areas: Parental rights education (matched on amendment).*
-  - I move amendment No. 10: In page 11, between lines 32 and 33, to insert the following: "Amendment of section 19A of Criminal Evidence Act 1992 13. (1) Section 19A of the Act of 1992 is amended - (a) in subsection (1) -…
-  - *Technical amendment on protecting sensitive counselling and medical records in sexual offence trials; limited relevance to core campaign areas.*
-- **[3]** **Dáil**, [division](https://www.oireachtas.ie/en/debates/vote/dail/34/2026-05-13/110/) 2026-05-13: [Reproductive Rights (Amendment) Bill 2026](https://www.oireachtas.ie/en/bills/bill/2026/40/), Question put: "That the Bill be now read a Second Time.". **Lost** 30-85-36 (Tá-Níl-Staon); FF 1-40-3, FG 2-30, SF 0-0-33, Lab 10-0, SD 11-0, II 0-4, PBP-S 3-0, Aontú 0-2, GP 1-0, Ind 2-9. *Areas: Abortion (matched on own text).*
-  - *Private Members' bill to expand reproductive rights was defeated at Second Stage, showing where parties stand on further liberalising abortion law.*
+- · 1 amendment division(s) on [Broadcasting (Amendment) Bill 2026](https://www.oireachtas.ie/en/bills/bill/2026/54/), 2026-09-22 to 2026-09-22, whose amendments were read and matched nothing of their own: listed for the bill's areas only.
 
 ## Bills that moved this week (0)
 
@@ -42,7 +25,7 @@
 
 *None introduced on our ground this week.*
 
-## Live bills (17)
+## Live bills (20)
 
 *Before the 34th Dáil or the 27th Seanad now: 'Current' in the Oireachtas data and either taken there or restored to the order paper. Ordered by score, then how far through, then recency. The stage is the last one completed.*
 
@@ -55,6 +38,7 @@
 | **[3]** [Bill 47 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/47/) Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026 | Abortion | Dáil Second Stage | David Cullinane (Private Member) | Seeks to scrap the mandatory three-day wait before abortion, directly removing a safeguard CitizenGO campaigns to preserve. |
 | **[2]** [Bill 38 of 2021](https://www.oireachtas.ie/en/bills/bill/2021/38/) Organisation of Working Time (Reproductive Health Related Leave) Bill 2021 | Abortion | Dáil Committee Stage | Ivana Bacik and 4 other(s) (Private Member) | Paid leave for miscarriage or reproductive healthcare touches family policy and could extend to abortion-related leave entitlements. |
 | **[2]** [Bill 19 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/19/) Media Regulation Bill 2026 | Free speech, privacy and civil liberties | Seanad Second Stage | Minister for Culture, Communications and Sport (Government) | Expands Coimisiún na Meán's powers over media mergers and state advertising, extending the online safety and media regulator's reach into speech and press matt… |
+| **[2]** [Bill 54 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/54/) Broadcasting (Amendment) Bill 2026 | Free speech, privacy and civil liberties | Dáil Committee Stage | Minister for Culture, Communications and Sport (Government) | Expands Coimisiún na Meán powers over broadcasters and disclosure rules, relevant to CitizenGO's online safety and free speech watching brief. |
 | **[2]** [Bill 77 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/77/) Protection of Children (Online Age Verification) Bill 2026 | Parental rights education, Free speech, privacy and civil liberties | Seanad Committee Stage | Rónán Mullen and 8 other(s) (Private Member) | Would mandate age verification for online pornography, a child protection and online safety measure Coimisiún na Meán could be tasked with enforcing. |
 | **[2]** [Bill 92 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/92/) Non-Binary and Intersex Recognition Bill 2026 | Abortion, Sex based rights | Dáil Second Stage | Ruth Coppinger and 2 other(s) (Private Member) | Non-binary legal recognition and civil registration changes would extend gender self-identification and affect sex-based legal categories. |
 | **[2]** [Bill 93 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/93/) Artificial Intelligence Companion Services (Protection of Children) Bill 2026 | Parental rights education, Free speech, privacy and civil liberties | Dáil Second Stage | Malcolm Byrne (Private Member) | AI companion services for children and Coimisiún na Meán age-assurance powers directly affect online safety regulation scope CitizenGO tracks. |
@@ -63,7 +47,9 @@
 | **[1]** [Bill 76 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/76/) Strategic Lawsuits against Public Participation Bill 2026 | Free speech, privacy and civil liberties | Dáil Committee Stage | Minister for Justice, Home Affairs and Migration (Government) | Anti-SLAPP reform to defamation law shapes how public participation and speech are protected from abusive litigation. |
 | **[1]** [Bill 8 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/8/) Harassment, Harmful Communications and Related Offences (Amendment) Bill 2026 | Free speech, privacy and civil liberties | Dáil Second Stage | Máire Devine and 1 other(s) (Private Member) | Expands harmful communications offences and extends prosecution timeframes, worth watching for scope creep affecting online expression. |
 | **[1]** [Bill 13 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/13/) Harassment, Harmful Communications and Related Offences (Amendment) (No. 2) Bill 2026 | Free speech, privacy and civil liberties | Dáil Second Stage | Alan Kelly (Private Member) | Extends intimate image offences to AI-generated deepfakes, a narrow criminal law change touching online content regulation. |
+| **[1]** [Bill 24 of 2026](https://www.oireachtas.ie/en/bills/bill/2026/24/) Official Languages (Right to Use the Irish Language) (Amendment) Bill 2026 | Free speech, privacy and civil liberties | Dáil Second Stage | Aengus Ó Snodaigh and 1 other(s) (Private Member) | Private Member's bill on Irish-language rights touches the Online Safety and Media Regulation Act but is primarily a language rights measure. |
 | **[0]** [Bill 12 of 2025](https://www.oireachtas.ie/en/bills/bill/2025/12/) Prohibition of Advertising or Importuning Sex for Rent Bill 2025 | Prostitution, trafficking and sexual exploitation | Seanad Committee Stage | Laura Harmon and 1 other(s) (Private Member) | Housing and sex-for-rent exploitation bill, no connection to CitizenGO's campaign areas. |
+| **[0]** [Bill 37 of 2025](https://www.oireachtas.ie/en/bills/bill/2025/37/) Broadcasting (All Ireland Service) (Amendment) Bill 2025 | Free speech, privacy and civil liberties | Dáil Second Stage | Aengus Ó Snodaigh and 1 other(s) (Private Member) | Broadcasting access bill concerns cross-border public service media, not within CitizenGO's campaign areas. |
 | **[0]** [Bill 79 of 2025](https://www.oireachtas.ie/en/bills/bill/2025/79/) Civil Liability (Child Sexual Abuse Proceedings Against Unincorporated Bodies of Persons)… | Parental rights education | Dáil Second Stage | Ivana Bacik (Private Member) | Civil liability reform for child sexual abuse proceedings; no bearing on CitizenGO's campaign areas. |
 
 ## Enacted since the Dáil first met (2)
@@ -78,7 +64,7 @@
 - [Reproductive Rights (Amendment) Bill 2026](https://www.oireachtas.ie/en/bills/bill/2026/40/): defeated after its First Stage (2026-04-28)
 - [Online Safety (Recommender Algorithms) Bill 2026](https://www.oireachtas.ie/en/bills/bill/2026/7/): defeated after its First Stage (2026-01-22)
 
-## Lapsed and not restored (10)
+## Lapsed and not restored (11)
 
 *On our ground, lapsed at the dissolution and never restored, though the Oireachtas data may still call them 'Current'. Only a restoration motion brings one back.*
 
@@ -91,11 +77,12 @@
 - [Coercion of a Minor (Misuse of Drugs Amendment) Bill 2022](https://www.oireachtas.ie/en/bills/bill/2022/9/), last stage Dáil Committee Stage (dail 33)
 - [Civil Registration (Amendment) (Certificate of Life) Bill 2022](https://www.oireachtas.ie/en/bills/bill/2022/96/), last stage Seanad Second Stage (seanad 26)
 - [Criminal Law (Human Trafficking) (Amendment) Bill 2022](https://www.oireachtas.ie/en/bills/bill/2022/11/), last stage Dáil Second Stage (dail 33)
+- [Ban on Sex for Rent Bill 2022](https://www.oireachtas.ie/en/bills/bill/2022/28/), last stage Dáil Committee Stage (dail 33)
 - [Controlled Drugs and Harm Reduction Bill 2017](https://www.oireachtas.ie/en/bills/bill/2017/68/), last stage Seanad Second Stage (seanad 25)
 
 ## Coverage
 
-- **Collected:** 419 bills with any event since the Dáil first met (164 alive, 31 on our ground), 429 Dáil, 221 Seanad and 61 committee divisions with every member's vote and party at the vote, 370 amendment divisions read against the transcript. Last pull: unknown.
+- **Collected:** 419 bills with any event since the Dáil first met (164 alive, 35 on our ground), 429 Dáil, 222 Seanad and 61 committee divisions with every member's vote and party at the vote, 371 amendment divisions read against the transcript. Last pull: 2026-10-09.
 - **Not yet collected:** parliamentary questions (written and oral, about 8,000 a sitting month), debate transcripts beyond the amendment votes, committee hearings, bill text (PDF only), gov.ie consultations (refused from the laptop), statutory instruments and Iris Oifigiúil (its robots.txt forbids collection).
 - **Migration** is matched and stored but not shown, as in every edition here.
 - Specification and decisions: [docs/ireland-scope.md](https://github.com/thejoycething-code/parl-monitor/blob/main/docs/ireland-scope.md).
