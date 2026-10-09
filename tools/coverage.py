@@ -65,6 +65,7 @@ PIPELINES = {
     "Day sweep": (1, 3, "the day's speeches on our issues, and the radar"),
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
+    "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -148,6 +149,15 @@ FEEDS = [
     # The SCC feed always lists 100 items and every one is re-stamped, so
     # this moves every week, recess included (tools/ca_courts.py).
     ("ca_judgments", "last_seen", 7, 4, "Supreme Court judgments feed (Canada weekly)"),
+    # US Congress (9 October 2026). The BILLSTATUS zips are re-read whole
+    # every run and the crosswalk too, so bills and members move every week,
+    # recess included. Divisions are new rows only (a vote is final), and
+    # Congress is out for long stretches: the House cast no vote between
+    # 16 September 2026 and the 3 November midterms, about eight weeks. So a
+    # month expected plus a month's grace, or every election recess cries wolf.
+    ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
+    ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
+    ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -218,6 +228,8 @@ PIPELINE_FEEDS = {
     # The three that move every run whatever Parliament did; petitions and
     # the Gazette can legitimately be quiet, which would cry clobber.
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
+    # Divisions are left out: new rows only, so a recess week cannot move them.
+    "US weekly": ["us_bills", "us_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -229,6 +241,8 @@ PIPELINE_FEEDS = {
 # excuse expires by itself: once source_runs holds the pipeline, an empty
 # table is OVERDUE again, so this entry can never hide a later wipe.
 AWAITING_FIRST_RUN = {
+    "US weekly": (("us_bills", "us_members", "us_divisions"),
+                  "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
@@ -247,19 +261,7 @@ AWAITING_FIRST_RUN = {
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {
-    # US Congress (9 October 2026). Built and tested, NOT YET SCHEDULED: no
-    # workflow writes these, so a staleness alarm would fire from day one.
-    # When the US weekly workflow lands, move all three into FEEDS (the
-    # bill and roll-call upserts re-stamp last_seen every run; the members
-    # crosswalk is re-read whole) and into PIPELINE_FEEDS.
-    "us_bills": "not scheduled yet: tools/us_rollcalls.py is run by hand "
-                "until the US weekly workflow exists (docs/us-scope.md)",
-    "us_divisions": "not scheduled yet: tools/us_rollcalls.py is run by hand "
-                    "until the US weekly workflow exists (docs/us-scope.md)",
-    "us_members": "not scheduled yet: tools/us_rollcalls.py is run by hand "
-                  "until the US weekly workflow exists (docs/us-scope.md)",
-}
+EXEMPT = {}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they

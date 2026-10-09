@@ -1,7 +1,7 @@
-# ONE-OFF PROBE (9 October 2026): senate.gov refuses the laptop on every
-# page (403, VPN off, curl and urllib alike) but answers GitHub's runners.
-# This run saves sample files as test fixtures. Read-only, no secrets, no
-# store. Delete once the Senate collector is built.
+# ONE-OFF CHECK (9 October 2026): run the whole US collector, Senate
+# included, on GitHub's runners into a THROWAWAY database before the US
+# weekly is merged. senate.gov refuses the laptop, so only CI can test the
+# Senate half end to end. Never touches the store. Delete after the merge.
 name: US Senate probe
 on:
   push:
@@ -9,37 +9,22 @@ on:
     paths: [.github/workflows/us-senate-probe.yml]
   workflow_dispatch:
 jobs:
-  probe:
+  dry-run:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONUNBUFFERED: "1"
     steps:
-      - name: Save sample Senate files
-        run: |
-          mkdir -p senate && cd senate
-          UA="CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
-          for s in 1 2; do curl -s -A "$UA" -o menu_119_$s.xml "https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_$s.xml"; done
-          python3 - <<'PY'
-          import re, subprocess, xml.etree.ElementTree as ET
-          UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
-          want = {}
-          for s in (1, 2):
-              for v in ET.parse(f"menu_119_{s}.xml").getroot().iter("vote"):
-                  issue = (v.findtext("issue") or "").strip()
-                  title = (v.findtext("title") or "")
-                  n = int(v.findtext("vote_number"))
-                  key = None
-                  if issue in ("S. 6", "S. 9", "S.6", "S.9"): key = "flagship"
-                  elif title.lower().startswith("on the cloture motion") and len([k for k in want.values() if k == "cloture"]) < 1: key = "cloture"
-                  elif "nomination" in title.lower() and len([k for k in want.values() if k == "nomination"]) < 1: key = "nomination"
-                  elif "amendment" in title.lower() and len([k for k in want.values() if k == "amendment"]) < 1: key = "amendment"
-                  if key: want[(s, n)] = key
-          for (s, n), why in want.items():
-              url = f"https://www.senate.gov/legislative/LIS/roll_call_votes/vote119{s}/vote_119_{s}_{n:05d}.xml"
-              subprocess.run(["curl", "-s", "-A", UA, "-o", f"vote_119_{s}_{n:05d}.xml", url], check=True)
-              print("SAVED", why, s, n)
-          PY
-          ls -la
-      - uses: actions/upload-artifact@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
-          name: senate-samples
-          path: senate/
-          retention-days: 7
+          python-version: "3.11"
+      - run: pip install pyyaml
+      - name: Full collector into /tmp/us.db (not the store)
+        run: python3 tools/us_rollcalls.py --db /tmp/us.db --budget-seconds 2400 || echo "EXIT $?"
+      - name: What landed
+        run: |
+          sqlite3 /tmp/us.db "SELECT chamber, COUNT(*), SUM(areas NOT IN ('[]','[11]')) FROM us_divisions GROUP BY chamber"
+          sqlite3 /tmp/us.db "SELECT d.chamber, d.roll, d.date, d.legis_num, d.areas, substr(d.description,1,90) FROM us_divisions d WHERE chamber='senate' AND own_areas NOT IN ('[]','[11]') ORDER BY date LIMIT 40"
+          sqlite3 /tmp/us.db "SELECT feed, detail FROM gaps LIMIT 20"
+          sqlite3 /tmp/us.db "SELECT COUNT(*) FROM us_votes v JOIN us_divisions d USING(division_key) WHERE d.chamber='senate'"

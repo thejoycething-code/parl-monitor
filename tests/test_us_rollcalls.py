@@ -285,3 +285,87 @@ class WatchlistTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+FIX = os.path.join(ROOT, "tests", "fixtures", "us_senate")
+
+
+def fixture(name):
+    with open(os.path.join(FIX, name), "rb") as fh:
+        return fh.read()
+
+
+def senate_menu(*numbers):
+    return ("<vote_summary><congress>119</congress><session>1</session><votes>" +
+            "".join("<vote><vote_number>{0:05d}</vote_number></vote>".format(n) for n in numbers) +
+            "</votes></vote_summary>").encode("utf-8")
+
+
+class SenateTests(unittest.TestCase):
+    """Real files saved from senate.gov by the probe workflow, 9 October 2026."""
+
+    def test_the_born_alive_cloture_vote_parses_and_finds_its_bill(self):
+        d = usr.parse_senate_vote(fixture("vote_119_1_00011.xml"))
+        self.assertEqual((d["chamber"], d["congress"], d["session"], d["roll"], d["date"]),
+                         ("senate", 119, 1, 11, "2025-01-22"))
+        self.assertEqual(usr.legis_bill_key(d["legis_num"], 119), "119/s/6")
+        self.assertEqual((d["yeas"], d["nays"], d["vote_type"]), (52, 47, "3/5"))
+        self.assertEqual(len(d["positions"]), 100)
+        self.assertEqual({p["position"] for p in d["positions"]} - {"Yea", "Nay", "Not Voting"}, set())
+
+    def test_senate_votes_classify_on_their_own_text(self):
+        """The bill's long title travels in the vote file, so the vote is ours
+        before the bill lends anything."""
+        born_alive = usr.parse_senate_vote(fixture("vote_119_1_00011.xml"))
+        sports = usr.parse_senate_vote(fixture("vote_119_1_00100.xml"))
+        self.assertIn(1, usr.classify_division(TAX, WL, born_alive, [])[0].issue_areas)
+        self.assertIn(5, usr.classify_division(TAX, WL, sports, [])[0].issue_areas)
+
+    def test_a_nomination_has_no_bill(self):
+        d = usr.parse_senate_vote(fixture("vote_119_1_00655.xml"))
+        self.assertTrue(d["legis_num"].startswith("PN"))
+        self.assertIsNone(usr.legis_bill_key(d["legis_num"], 119))
+        self.assertEqual(d["result"], "Nomination Confirmed")
+
+    def test_no_statement_of_purpose_is_not_text(self):
+        d = usr.parse_senate_vote(fixture("vote_119_1_00648.xml"))
+        self.assertNotIn(usr.NO_PURPOSE, d["description"])
+
+    def test_the_menu_lists_every_vote(self):
+        self.assertEqual(len(usr.parse_senate_menu(fixture("menu_119_1.xml"))), 659)
+        self.assertEqual(usr.parse_senate_menu(b"<html>403</html>"), [])
+
+    def test_pull_maps_senators_by_lis_id_and_never_guesses(self):
+        conn = store()
+        vote = usr.parse_senate_vote(fixture("vote_119_1_00011.xml"))
+        lis = [p["lis_id"] for p in vote["positions"]]
+        # The sitting crosswalk knows one senator; the historical one knows
+        # all but the last; the last is known to nobody.
+        conn.execute("INSERT INTO us_members (bioguide, lis_id) VALUES ('B000001', ?)", (lis[0],))
+        history = [{"id": {"lis": x, "bioguide": "H{0:06d}".format(i)}}
+                   for i, x in enumerate(lis[1:-1])]
+        client = FakeClient({usr.SENATE_MENU.format(119, 1): senate_menu(11),
+                             usr.SENATE_VOTE.format(119, 1, 11): fixture("vote_119_1_00011.xml")},
+                            json_pages={usr.MEMBERS_HISTORICAL: history})
+        stored, ours, gaps = usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL,
+                                             log=lambda *a: None)
+        self.assertEqual((stored, ours, gaps), (1, 1, 1))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM us_votes").fetchone()[0], 99)
+        self.assertIn(lis[-1], conn.execute("SELECT detail FROM gaps").fetchone()[0])
+        self.assertEqual(conn.execute("SELECT bioguide FROM us_votes WHERE bioguide='B000001'")
+                         .fetchone()[0], "B000001")
+        # A second run asks only for votes it does not hold.
+        client.asked = []
+        self.assertEqual(usr.pull_senate(conn, client, "2025-06-01", tax=TAX, wl=WL,
+                                         log=lambda *a: None)[0], 0)
+        self.assertEqual(client.asked, [usr.SENATE_MENU.format(119, 1)])
+
+    def test_a_refused_menu_is_a_gap_and_the_other_session_still_runs(self):
+        conn = store()
+        refused = FetchError(usr.SENATE_MENU.format(119, 1), usr.FEED, "x", 4, "HTTP 403")
+        client = FakeClient({usr.SENATE_MENU.format(119, 1): refused,
+                             usr.SENATE_MENU.format(119, 2): senate_menu()})
+        stored, _o, gaps = usr.pull_senate(conn, client, "2026-10-09", tax=TAX, wl=WL,
+                                           log=lambda *a: None)
+        self.assertEqual((stored, gaps), (0, 1))
+        self.assertIn(usr.SENATE_MENU.format(119, 2), client.asked)

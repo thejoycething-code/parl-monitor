@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""US Congress: members, bills with cosponsors, House roll calls and positions.
+"""US Congress: members, bills with cosponsors, House and Senate roll calls.
 
     python3 tools/us_rollcalls.py                     # the current Congress
     python3 tools/us_rollcalls.py --congress 118      # an earlier one
@@ -184,8 +184,9 @@ def parse_roll(raw):
     return out
 
 
-def division_key(d, chamber="house"):
-    return "{0}-{1}-{2}-{3}".format(chamber, d["congress"], d["session"], d["roll"])
+def division_key(d):
+    return "{0}-{1}-{2}-{3}".format(d.get("chamber") or "house", d["congress"],
+                                    d["session"], d["roll"])
 
 
 def on_our_ground(areas):
@@ -222,15 +223,16 @@ def store_division(conn, d, tax, wl, today):
         "not_voting=excluded.not_voting, bill_key=excluded.bill_key, "
         "own_areas=excluded.own_areas, areas=excluded.areas, "
         "matched_terms=excluded.matched_terms, tier=excluded.tier, last_seen=excluded.last_seen",
-        (key, "house", d["congress"], d["session"], d["roll"], d["date"], d["legis_num"],
+        (key, d.get("chamber") or "house", d["congress"], d["session"], d["roll"], d["date"],
+         d["legis_num"],
          bkey, d["question"], d["description"], d["vote_type"], d["result"],
          d["amendment_num"], d["amendment_author"], d["yeas"], d["nays"], d["present"],
          d["not_voting"], us_store.dumps(own.issue_areas), us_store.dumps(areas),
          us_store.dumps(own.matched_terms), own.tier, today, today))
     for p in d["positions"]:
         conn.execute(us_store.MEMBER_UPSERT,
-                     (p["bioguide"], None, p["party"], p["state"], None, "house", None,
-                      d["date"], today, today))
+                     (p["bioguide"], None, p["party"], p["state"], None,
+                      d.get("chamber") or "house", p.get("lis_id"), d["date"], today, today))
         fill_name(conn, p["bioguide"], p["name"])
         conn.execute("INSERT OR REPLACE INTO us_votes (division_key, bioguide, position, "
                      "party, state) VALUES (?,?,?,?,?)",
@@ -310,6 +312,192 @@ def pull_rolls(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=None
             stored += 1
             ours += on_our_ground(areas)
             roll += 1
+    return stored, ours, gaps
+
+
+# --- Senate roll calls -------------------------------------------------------
+#
+# senate.gov REFUSES THE LAPTOP (403 on every page, 9 October 2026, VPN on or
+# off, curl or urllib) and answers GitHub's runners. So this half runs in CI;
+# locally it records one gap per session and carries on, and the tests run on
+# real files the probe workflow saved (tests/fixtures/us_senate).
+#
+# The Senate publishes a MENU per session (every vote in one call) and one
+# file per vote with the positions. Unlike the House, a Senate amendment vote
+# carries the amendment's PURPOSE ("To prohibit the use of funds..."), so its
+# own text can be classified before the bill lends its areas.
+#
+# Positions are keyed on the Senate's own LIS ID ("S428"), not Bioguide. The
+# crosswalk maps every sitting senator; one who has left is looked up in the
+# historical crosswalk, fetched once and only when needed.
+
+SENATE_MENU = ("https://www.senate.gov/legislative/LIS/roll_call_lists/"
+               "vote_menu_{0}_{1}.xml")
+SENATE_VOTE = ("https://www.senate.gov/legislative/LIS/roll_call_votes/"
+               "vote{0}{1}/vote_{0}_{1}_{2:05d}.xml")
+MEMBERS_HISTORICAL = ("https://unitedstates.github.io/congress-legislators/"
+                      "legislators-historical.json")
+NO_PURPOSE = "No Statement of Purpose on File."
+
+
+def senate_date(text):
+    """'January 22, 2025,  02:38 PM' -> '2025-01-22'."""
+    head = ",".join((text or "").split(",")[:2]).strip()
+    try:
+        return datetime.datetime.strptime(head, "%B %d, %Y").date().isoformat()
+    except ValueError:
+        return text or None
+
+
+def parse_senate_menu(raw):
+    """Every vote number of one session, from its menu."""
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError:
+        return []
+    out = []
+    for v in root.iter("vote"):
+        n = _int(v, "vote_number")
+        if n:
+            out.append(n)
+    return sorted(out)
+
+
+def parse_senate_vote(raw):
+    """One Senate vote file -> the same dict shape parse_roll gives, or None."""
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError:
+        return None
+    if root.tag != "roll_call_vote" or _int(root, "vote_number") is None:
+        return None
+    doc, amd, count = root.find("document"), root.find("amendment"), root.find("count")
+    purpose = _text(amd, "amendment_purpose")
+    purpose = None if purpose == NO_PURPOSE else purpose
+    # The vote's OWN text: its title, the amendment's purpose, and what is
+    # being voted on. For a bill vote document_title is the bill's long
+    # title; for a nomination it is the nominee and the office.
+    desc = " | ".join(x for x in (_text(root, "vote_title"), purpose,
+                                  _text(root, "vote_document_text")) if x)
+    out = {
+        "chamber": "senate",
+        "congress": _int(root, "congress"),
+        "session": _int(root, "session"),
+        "roll": _int(root, "vote_number"),
+        "date": senate_date(_text(root, "vote_date")),
+        "legis_num": _text(doc, "document_name"),
+        "question": _text(root, "vote_question_text"),
+        "description": desc or None,
+        "vote_type": _text(root, "majority_requirement"),
+        "result": _text(root, "vote_result"),
+        "amendment_num": _text(amd, "amendment_number"),
+        "amendment_author": None,
+        "yeas": _int(count, "yeas"),
+        "nays": _int(count, "nays"),
+        "present": _int(count, "present"),
+        "not_voting": _int(count, "absent"),
+        "positions": [],
+    }
+    for m in root.findall("members/member"):
+        lis = _text(m, "lis_member_id")
+        if not lis:
+            continue
+        out["positions"].append({
+            "lis_id": lis, "bioguide": None,
+            "name": " ".join(x for x in (_text(m, "first_name"), _text(m, "last_name")) if x) or None,
+            "party": _text(m, "party"), "state": _text(m, "state"),
+            "position": POSITIONS.get(_text(m, "vote_cast"), _text(m, "vote_cast")),
+        })
+    return out
+
+
+class LisMap:
+    """LIS ID -> Bioguide, from the store, then the historical crosswalk once."""
+
+    def __init__(self, conn, client):
+        self.conn, self.client, self.loaded_history = conn, client, False
+        self.map = dict(conn.execute("SELECT lis_id, bioguide FROM us_members "
+                                     "WHERE lis_id IS NOT NULL"))
+
+    def get(self, lis):
+        if lis not in self.map and not self.loaded_history:
+            self.loaded_history = True
+            try:
+                records = self.client.get_json(MEMBERS_HISTORICAL, FEED,
+                                               "legislators-historical", archive=False)
+            except (FetchError, ValueError):
+                records = []
+            for r in records or []:
+                ids = r.get("id") or {}
+                if ids.get("lis") and ids.get("bioguide"):
+                    self.map.setdefault(ids["lis"], ids["bioguide"])
+        return self.map.get(lis)
+
+
+def resolve_senators(d, lis_map):
+    """Fill each position's Bioguide ID. Returns the LIS IDs nobody knows:
+    their positions are dropped, never stored under a guessed identity."""
+    unknown, kept = [], []
+    for p in d["positions"]:
+        p["bioguide"] = lis_map.get(p["lis_id"])
+        (kept if p["bioguide"] else unknown).append(p)
+    d["positions"] = kept
+    return [p["lis_id"] for p in unknown]
+
+
+def pull_senate(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=None,
+                log=print, limit=None, budget=None):
+    """Every Senate vote of the Congress not yet stored. Returns (stored, ours, gaps)."""
+    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
+    wl = wl if wl is not None else empty_watchlist()
+    stored = ours = gaps = 0
+    this_year = datetime.date.fromisoformat(today).year
+    lis_map = LisMap(conn, client)
+    for session, year in enumerate(congress_years(congress), start=1):
+        if year > this_year:
+            continue
+        try:
+            numbers = parse_senate_menu(client.get_bytes(
+                SENATE_MENU.format(congress, session), FEED,
+                "senate-menu-{0}-{1}".format(congress, session), archive=False))
+        except FetchError as exc:
+            _gap(conn, today, "senate menu {0}-{1}: {2}".format(congress, session, exc))
+            log("  [gap] Senate menu {0}-{1}: {2} (senate.gov refuses some networks; "
+                "it answers CI)".format(congress, session, str(exc)[:60]))
+            gaps += 1
+            continue
+        have = {r for (r,) in conn.execute(
+            "SELECT roll FROM us_divisions WHERE chamber='senate' AND congress=? AND session=?",
+            (congress, session))}
+        for n in [n for n in numbers if n not in have]:
+            if limit is not None and stored >= limit:
+                log("  fetch cap ({0}) reached; the rest lands on the next run "
+                    "-- disclosed, not silent".format(limit))
+                return stored, ours, gaps
+            if budget is not None and budget.exhausted():
+                log(budget.disclose("Senate votes", stored))
+                return stored, ours, gaps
+            try:
+                d = parse_senate_vote(client.get_bytes(
+                    SENATE_VOTE.format(congress, session, n), FEED,
+                    "senate-{0}-{1}-{2}".format(congress, session, n), archive=False))
+            except FetchError as exc:
+                d, why = None, str(exc)
+            else:
+                why = "not a vote file"
+            if d is None:
+                _gap(conn, today, "senate {0}-{1} vote {2}: {3}".format(congress, session, n, why))
+                gaps += 1
+                continue
+            unknown = resolve_senators(d, lis_map)
+            if unknown:
+                _gap(conn, today, "senate {0}-{1} vote {2}: no Bioguide for {3}".format(
+                    congress, session, n, ", ".join(unknown)))
+                gaps += 1
+            _key, areas = store_division(conn, d, tax, wl, today)
+            conn.commit()
+            stored += 1
+            ours += on_our_ground(areas)
     return stored, ours, gaps
 
 
@@ -536,8 +724,8 @@ def summary(conn, log=print):
     n = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
     ours = lambda t: sum(on_our_ground(json.loads(a or "[]"))  # noqa: E731
                          for (a,) in conn.execute("SELECT areas FROM {0}".format(t)))
-    log("  store: {0} bill(s), {1} on our ground; {2} House roll call(s), {3} on our "
-        "ground; {4} member(s), {5} position(s), {6} cosponsorship(s)".format(
+    log("  store: {0} bill(s), {1} on our ground; {2} roll call(s) (House and Senate), "
+        "{3} on our ground; {4} member(s), {5} position(s), {6} cosponsorship(s)".format(
             n("SELECT COUNT(*) FROM us_bills"), ours("us_bills"),
             n("SELECT COUNT(*) FROM us_divisions"), ours("us_divisions"),
             n("SELECT COUNT(*) FROM us_members"), n("SELECT COUNT(*) FROM us_votes"),
@@ -552,7 +740,8 @@ def main():
     ap.add_argument("--types", default=",".join(BILL_TYPES),
                     help="bill types to pull, comma-separated (default: all eight)")
     ap.add_argument("--no-bills", action="store_true")
-    ap.add_argument("--no-rolls", action="store_true")
+    ap.add_argument("--no-rolls", action="store_true", help="skip House roll calls")
+    ap.add_argument("--no-senate", action="store_true", help="skip Senate votes")
     ap.add_argument("--no-members", action="store_true")
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive areas for stored bills and divisions, offline")
@@ -594,6 +783,12 @@ def main():
                                      wl=wl, limit=args.limit, budget=budget)
         gaps += g
         print("us-rollcalls: {0} new House roll call(s), {1} on our ground, {2} gap(s)".format(
+            stored, ours, g))
+    if not args.no_senate:
+        stored, ours, g = pull_senate(conn, client, today, congress=args.congress, tax=tax,
+                                      wl=wl, limit=args.limit, budget=budget)
+        gaps += g
+        print("us-rollcalls: {0} new Senate vote(s), {1} on our ground, {2} gap(s)".format(
             stored, ours, g))
     summary(conn)
     conn.close()
