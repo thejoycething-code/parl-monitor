@@ -328,11 +328,11 @@ seconds. No gaps.
   `tools/db_state.py --push`; exit 3 from the collector (gaps) still
   publishes.
 - Mac Mini first: `ops/launchd/net.citizengo.parlmonitor.fr-weekly.plist`,
-  Saturdays 04:30 London, through `tools/mini_run.sh fr-weekly` (which
+  Saturdays 13:00 London, through `tools/mini_run.sh fr-weekly` (which
   records `MINI_LAST_FR_WEEKLY`).
-- GitHub backup: `.github/workflows/fr-weekly.yml`, Saturdays 04:30 and
-  06:30 UTC (moved from 03:00 and 05:00 at the countries merge, where
-  Austria kept those slots), behind `mini-check` with job `FR_WEEKLY` and a 200-minute
+- GitHub backup: `.github/workflows/fr-weekly.yml`, Saturdays 13:00 and
+  15:00 UTC (moved from 03:00 and 05:00 at the countries merge, where
+  Austria and Belgium hold the early slots), behind `mini-check` with job `FR_WEEKLY` and a 200-minute
   grace, then the same-day retry gate copied from the US and Australia.
   The slots are clear of every cron on main and on the country branches
   seen on 9 October (Saturday holds 06:00, 08:00, 10:00, 11:00, 14:00,
