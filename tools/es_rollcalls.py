@@ -207,7 +207,7 @@ def parse_day(page):
                 "legislature": int(m.group("leg")), "session": num[0], "vote_number": num[1],
                 "date": "{0}-{1}-{2}".format(ymd[:4], ymd[4:6], ymd[6:]),
                 "session_title": session, "section": section, "title": item or section,
-                "subgroup": " ".join(x for x in (group, point) if x) or None,
+                "subgroup": " ".join(dict.fromkeys(x for x in (group, point) if x)) or None,
                 "expediente": exp, "yes": counts[0], "no": counts[1], "abstain": counts[2],
                 "json_url": url})
             by_num[num] = votes[-1]
