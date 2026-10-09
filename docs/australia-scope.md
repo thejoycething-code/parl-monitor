@@ -473,6 +473,15 @@ member lists and the Register's Acts are re-read every run; divisions a
 month plus a month's grace, because Canberra sits in blocks). **It runs only
 once merged to main.**
 
+## The next-morning vote brief (built 9 October 2026, branch `vote-briefs`)
+
+Parity with the UK Division watch (Christopher: "start the same-day vote briefs"). `tools/au_division_brief.py` (rules and rendering in `src/vote_brief.py`), `jobs/au-division-watch.sh`, `.github/workflows/au-division-watch.yml` (`AU_DIVISION_WATCH`), `ops/launchd/net.citizengo.parlmonitor.au-division-watch.plist`. No store.
+
+- **Read directly from OpenAustralia**: both chambers' indexes, then every day file STAMPED within the window (two days; "since the last check" is the index's own stamp, so a re-parse of a recent day is read again and an old one is not), parsed and classified exactly as `au_rollcalls` does (`parse_day`, `classify_bill`, `classify_division`), with parties from the members files (chairs resolved by `resolve_roles`). Day files are archived.
+- **What it says.** Chamber and division number, date, headings, the Chair's question, Agreed to / Negatived (arithmetic, as in the edition), the tally with pairs, the party split, what matched (`own text` or `bill only`), the bills and the nearest motion, name lists, and the 5CA reading's STATUS in `config/au_stance.yaml`. Pairs are listed without a side, as Hansard publishes them.
+- **Schedule, from measurement.** The index stamped every sitting day of 14-17 September 2026 at 09:05 the next morning, Canberra time: 22:05 to 00:05 London depending on both clocks. Canberra sits Monday to Thursday, so 01:20 and 06:20 London, Tuesday to Friday: overnight for a London reader.
+- Dry run of 9 October 2026 (files posted 15-18 September): 69 divisions, 4 on our ground, among them `senate-2026-09-15-8` (Senator Cash's biological-sex bill), "reading awaiting sign-off".
+
 ## Proposed phasing
 
 1. **Phase 1 (built): divisions, bills, members** from the Hansard, the

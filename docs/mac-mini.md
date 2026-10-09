@@ -221,6 +221,30 @@ cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.
 
 It skips jobs already loaded, so it is safe to rerun. Mexico's plist is only the clock that dispatches its GitHub run; Guatemala is installed only if `congreso.gob.gt` answers the Mini (GT1), otherwise it stays on GitHub. It also runs the approved reachability checks for Uruguay (UY1, parlamento.gub.uy) and Argentina (AR2, votaciones.hcdn.gob.ar). Log: `~/parl-chains/install-countries.log`.
 
+## US, Ireland and Australia division watches (9 October 2026, branch `vote-briefs`)
+
+Christopher: "start the same-day vote briefs" for the US, Ireland and Australia, in parity with the UK Division watch. Three jobs, each `# mini_run: no-store` (no store pulled or published; the raw archive is published), each speaking once per division (a brief in `data/briefs/<cc>-division-<key>.md` is never rewritten or resent), one DM per run to Christopher alone (`src/vote_brief.py` fixes the recipient). Shared code: `src/vote_brief.py`; tools: `tools/{us,ie,au}_division_brief.py`.
+
+| Job | Mini (London, launchd) | GitHub backup (UTC, gated by `mini-check`) | Why (measured 9 October 2026) |
+|---|---|---|---|
+| `us-division-watch` (House) | 22:40 Mon-Fri; 01:40 and 04:40 Tue-Sat | `40 21 * * 1-5`, `40 0,3 * * 2-6` (`US_DIVISION_WATCH`) | the last House vote of a 2026 sitting day fell 21:00-01:00 London on 45 of 72 days, 15:00-16:00 on getaway days, 02:00-04:00 on 5; the Clerk's file is up within the hour |
+| US Senate half | none: senate.gov refuses the Mini | `50 0,3 * * 2-6`, ungated (`senate` job) | the only network that can read senate.gov; about ten minutes a week |
+| `ie-division-watch` | 22:50 Tue-Thu; 07:50 Wed-Fri | `50 21 * * 2-4`, `50 6 * * 3-5` (`IE_DIVISION_WATCH`) | Wednesday deferred divisions 19:00-19:40, late nights to 23:30; the API's lag is unmeasured (no per-division stamp), so an evening and a next-morning slot |
+| `au-division-watch` | 01:20 and 06:20 Tue-Fri | `20 0,5 * * 2-5` (`AU_DIVISION_WATCH`) | OpenAustralia posts a sitting day at 09:05 Canberra the next morning: 22:05-00:05 London by season |
+
+- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch). `CONGRESS_API_KEY`, already there for the US weekly, lets the US watch give a same-day House amendment vote its purpose before BILLSTATUS catches up.
+- **Install on the Mini** (after the branch is merged to main, because `mini_run.sh` records the slot only for main):
+
+```
+cd ~/runner/parl-monitor && git pull --ff-only
+for j in us-division-watch ie-division-watch au-division-watch; do
+  cp ops/launchd/net.citizengo.parlmonitor.$j.plist ~/Library/LaunchAgents/
+  launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.$j.plist
+done
+```
+
+- **A dry run by hand** (prints what would be briefed, sends nothing, writes into a scratch folder): `python3 tools/us_division_brief.py --since 2026-09-15 --no-dm --out /tmp/briefs --raw-dir /tmp/raw` (same flags for `ie_` and `au_`). Optional heartbeats: `HC_US_DIVISION_WATCH`, `HC_IE_DIVISION_WATCH`, `HC_AU_DIVISION_WATCH`.
+
 ## Backfills run on the Mini (9 October 2026)
 
 Dispatching a backfill to GitHub cost 2,604 Actions minutes in one week
