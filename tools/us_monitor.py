@@ -23,10 +23,17 @@ meaning comes from the motion, and a motion to table an amendment that would
 have defunded abortion is a vote FOR the status quo.
 
 INHERITED AREAS ARE MARKED. A vote takes its bill's areas (tools/us_rollcalls.py),
-so an amendment vote on a spending bill shows "abortion" because the bill's
-summary mentions the Hyde Amendment. Every vote line says whether its own
-text matched or only its bill did, so a reader can discount the second kind
-until amendment purposes (phase 1b, the Congress.gov key) arrive.
+so a passage vote on a spending bill shows "abortion" because the bill's
+summary mentions the Hyde Amendment. Every vote line says what matched: the
+amendment's purpose, the vote's own text, or only its bill. A House
+amendment vote whose purpose is known (phase 1b; the rule is in
+tools/us_rollcalls.py) stands on that purpose alone, and the purpose is
+printed under the line.
+
+A CONGRESS ENDS. The current Congress comes from the date
+(src/us_store.congress_on). Once a Congress is over, its bills that were not
+enacted are FALLEN, never "pending": they leave the live and committee
+lists, and for the first weeks of the new Congress a section counts them.
 
 SCORES ARE OPTIONAL. Everything renders with no judge run at all
 (CLAUDE.md: everything must run with TRIAGE=stub). Unscored items are
@@ -49,21 +56,35 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db  # noqa: E402
+from src import db, us_store  # noqa: E402
 
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 REPO = "https://github.com/thejoycething-code/parl-monitor/blob/main/"
 HIDDEN_AREAS = (11,)
 WEEK_DAYS = 7
-CONGRESS = 119
+# For this many days after a Congress ends, the edition lists what fell with it.
+FALLEN_SECTION_DAYS = 60
 
 # Fixed dates, each with what it means for the store. Kept here, not in prose,
 # so the edition can count down to them.
 DATES = (
     ("2026-11-03", "Midterm elections: every House seat and a third of the Senate"),
-    ("2027-01-03", "The 119th Congress ends; every bill not enacted falls, and must be "
-                   "re-introduced in the 120th under a new number"),
 )
+
+
+def ordinal(n):
+    n = int(n)
+    suffix = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return "{0}{1}".format(n, suffix)
+
+
+def dates_for(today):
+    """DATES plus the end of the Congress sitting on `today`, from the calendar."""
+    c = us_store.congress_on(today)
+    end = us_store.congress_end(c).isoformat()
+    return tuple(sorted(DATES + ((end, "The {0} Congress ends; every bill not enacted falls, "
+                                       "and must be re-introduced in the {1} under a new "
+                                       "number".format(ordinal(c), ordinal(c + 1))),)))
 
 HONESTY = (
     "> **How to read this edition.** Areas come from the shared taxonomy (v{0}), "
@@ -71,10 +92,10 @@ HONESTY = (
     "reviewed by anyone who campaigns in the US. Bills are matched on their "
     "titles, their Congressional Research Service subject terms and summary. A "
     "vote takes its bill's areas, so every vote line says whether its **own** "
-    "text matched or only its **bill** did. A House amendment vote is matched on "
-    "the amendment's own description and purpose (from Congress.gov) and borrows "
-    "nothing from the bill, so a vote to defund an unrelated programme no longer "
-    "shows up because the spending bill mentions the Hyde Amendment. "
+    "text matched or only its **bill** did. A House amendment vote whose purpose "
+    "is known is matched on that **amendment purpose** alone and borrows nothing "
+    "from the bill, so a vote to defund an unrelated programme no longer shows up "
+    "because the spending bill mentions the Hyde Amendment. "
     "Results, tallies and party splits are the record; whether a vote helped "
     "or hurt is a human call and is never made here. {1}"
 )
@@ -138,10 +159,37 @@ def names_of(areas, names):
     return ", ".join(names.get(a, str(a)) for a in areas)
 
 
-def stage(row):
-    """(rank, label) from the bill's law field and latest action."""
+def _col(row, name):
+    try:
+        return row[name]
+    except (IndexError, KeyError):
+        return None
+
+
+def fallen(row, today):
+    """A bill of a Congress that has ended, not enacted: dead, whatever its
+    last action says (docs/us-scope.md, 'Dates that matter')."""
+    congress = _col(row, "congress")
+    if not (today and congress and not row["law"] and us_store.congress_ended(congress, today)):
+        return False
+    # A simple resolution agreed to in its chamber is finished business, not
+    # a fall: it never needed the other chamber or the President.
+    return not finished_resolution(row)
+
+
+def finished_resolution(row):
+    """A simple resolution (H.Res./S.Res.) agreed to in its chamber: done,
+    and so neither live nor able to fall."""
+    return _col(row, "bill_type") in ("hres", "sres") and stage(row)[1] == "Agreed"
+
+
+def stage(row, today=None):
+    """(rank, label) from the bill's law field and latest action, and from
+    the calendar: given `today`, a bill of an ended Congress has fallen."""
     if row["law"]:
         return 0, "Law ({0})".format(row["law"])
+    if fallen(row, today):
+        return 7, "Fell with the {0} Congress".format(ordinal(row["congress"]))
     text = (row["latest_action"] or "").lower()
     # The second chamber's passage reads "Passed Senate" on a HOUSE bill: that
     # is both chambers, not one (H.R. 1744, 29 September 2026).
@@ -238,10 +286,10 @@ def bills_where(conn, where, params=()):
     return [r for r in rows if visible(r["areas"])]
 
 
-def rank_bills(rows):
+def rank_bills(rows, today=None):
     """Scored first by score; then by stage, cosponsors and recency."""
     return sorted(rows, key=lambda r: (-(r["triage_score"] if r["triage_score"] is not None else 1.5),
-                                       stage(r)[0], -(r["cosponsors"] or 0),
+                                       stage(r, today)[0], -(r["cosponsors"] or 0),
                                        r["latest_action_at"] or ""), reverse=False)
 
 
@@ -476,10 +524,10 @@ def coming_up_dm(conn, today):
 
 # --- rendering ---------------------------------------------------------------
 
-def bill_row(r, names):
+def bill_row(r, names, today=None):
     return "| {0} [{1}]({2}) {3} | {4} | {5} | {6} | {7} |".format(
         score_mark(r["triage_score"]), bill_label(r["bill_key"]), bill_url(r["bill_key"]),
-        clip(r["title"], 90), names_of(visible(r["areas"]), names), stage(r)[1],
+        clip(r["title"], 90), names_of(visible(r["areas"]), names), stage(r, today)[1],
         "{0}, {1} cosponsor(s)".format(sponsor(r), r["cosponsors"] or 0),
         clip(r["why_it_matters"] or ("{0} ({1})".format(r["latest_action"], r["latest_action_at"])
                                      if r["latest_action"] else ""), 160))
@@ -494,7 +542,9 @@ def vote_lines(conn, groups, names):
     for g in groups:
         r = g[0]
         own = visible(r["own_areas"])
-        matched = "own text" if own else "bill only"
+        matched = ("amendment purpose" if us_store.has_own_purpose(r["amendment_text"],
+                                                                  r["chamber"]) else
+                   "own text" if own else "bill only")
         measure = ("[{0}]({1}) {2}".format(r["legis_num"], bill_url(r["bill_key"]),
                                            clip(r["bill_title"], 70))
                    if r["bill_key"] else (r["legis_num"] or "no measure"))
@@ -533,19 +583,23 @@ def render_edition(conn, today):
     moved = bills_where(conn, "latest_action_at > ? AND latest_action_at <= ? "
                               "AND (introduced IS NULL OR introduced <= ?)", (since, today, since))
     new = bills_where(conn, "introduced > ? AND introduced <= ?", (since, today))
+    cur = us_store.congress_on(today)
+    # Only the sitting Congress's bills can be live, in committee or pending:
+    # an ended Congress's unenacted bills have fallen (us_store.congress_ended).
+    pending_all = bills_where(conn, "law IS NULL AND congress = ?", (cur,))
     # A simple resolution (H.Res./S.Res.) agreed to is finished business, and
     # is mostly commemorative: National Adoption Day is not a live bill.
-    agreed_simple = [r for r in bills_where(conn, "law IS NULL AND bill_type IN ('hres', 'sres')")
-                     if stage(r)[1] == "Agreed"]
-    live = [r for r in bills_where(conn, "law IS NULL") if 1 <= stage(r)[0] <= 4
-            and r not in agreed_simple]
-    laws = bills_where(conn, "law IS NOT NULL")
-    committee = [r for r in bills_where(conn, "law IS NULL") if stage(r)[0] >= 5]
-    pending_all = bills_where(conn, "law IS NULL")
+    agreed_simple = [r for r in pending_all if finished_resolution(r)]
+    live = [r for r in pending_all if 1 <= stage(r, today)[0] <= 4 and r not in agreed_simple]
+    laws = bills_where(conn, "law IS NOT NULL AND congress = ?", (cur,))
+    committee = [r for r in pending_all if 5 <= stage(r, today)[0] <= 6]
+    days_in = (datetime.date.fromisoformat(today) - us_store.congress_start(cur)).days
+    fell = ([r for r in bills_where(conn, "law IS NULL AND congress = ?", (cur - 1,))
+             if fallen(r, today)] if days_in < FALLEN_SECTION_DAYS else [])
 
     out = ["# US Congress Monitor",
-           "### Week ending {0} | Edition {1} | {2}th Congress".format(
-               today, edition_number(today), CONGRESS), "",
+           "### Week ending {0} | Edition {1} | {2} Congress".format(
+               today, edition_number(today), ordinal(cur)), "",
            HONESTY.format(taxonomy_version(), score_note), ""]
 
     # Top lines
@@ -556,29 +610,34 @@ def render_edition(conn, today):
         tops.append("- **{0} vote{1}** on {2}: {3}, {4} {5}-{6}.".format(
             r["chamber"].title(), "s" if len(g) > 1 else "", r["legis_num"] or "a nomination",
             clip(r["question"], 70), r["result"], r["yeas"], r["nays"]))
-    for r in rank_bills([b for b in moved if stage(b)[0] <= 4])[:6 - len(tops)]:
+    for r in rank_bills([b for b in moved if stage(b, today)[0] <= 4], today)[:6 - len(tops)]:
         tops.append("- {0} [{1}]({2}) {3}: {4}.".format(
             score_mark(r["triage_score"]), bill_label(r["bill_key"]), bill_url(r["bill_key"]),
-            clip(r["title"], 80), stage(r)[1].lower()))
+            clip(r["title"], 80), stage(r, today)[1].lower()))
     if not week_votes:
         tops.insert(0, "- **Congress recorded no vote on our ground this week.** The House last "
                        "voted on {0}, the Senate on {1}.".format(
                            last_vote(conn, "house") or "?", last_vote(conn, "senate") or "?"))
     if new:
         tops.append("- {0} new bill(s) on our ground were introduced.".format(len(new)))
+    if fell:
+        tops.append("- **The {0} Congress has ended.** {1} of its bill(s) on our ground were not "
+                    "enacted and have fallen; any that return must be re-introduced under a new "
+                    "number.".format(ordinal(cur - 1), len(fell)))
     out += tops or ["*Nothing moved on our ground this week.*"]
     out.append("")
 
     # Dates that matter
     out += ["## Dates that matter", ""]
-    for date, what in DATES:
+    end = us_store.congress_end(cur).isoformat()
+    for date, what in dates_for(today):
         days = (datetime.date.fromisoformat(date) - datetime.date.fromisoformat(today)).days
         if days < 0:
             continue
         extra = ""
-        if date == "2027-01-03":
+        if date == end:
             extra = " **{0} bill(s) on our ground are pending and fall then unless enacted.**".format(
-                len(pending_all))
+                len(pending_all) - len(agreed_simple))
         out.append("- **{0}** ({1} days): {2}.{3}".format(date, days, what, extra))
     out.append("")
 
@@ -597,13 +656,13 @@ def render_edition(conn, today):
     # Bills
     out += ["## Bills that moved this week ({0})".format(len(moved)), ""]
     if moved:
-        out += [BILL_HEAD] + [bill_row(r, names) for r in rank_bills(moved)[:25]]
+        out += [BILL_HEAD] + [bill_row(r, names, today) for r in rank_bills(moved, today)[:25]]
         if len(moved) > 25:
             out.append("\n_...and {0} more; the store holds them all._".format(len(moved) - 25))
     else:
         out.append("*No bill on our ground changed stage this week.*")
     out += ["", "## New bills this week ({0})".format(len(new)), ""]
-    out += ([BILL_HEAD] + [bill_row(r, names) for r in rank_bills(new)]) if new else \
+    out += ([BILL_HEAD] + [bill_row(r, names, today) for r in rank_bills(new, today)]) if new else \
         ["*None introduced on our ground this week.*"]
     out += ["", "## Live beyond committee ({0})".format(len(live)), "",
             "*Bills on our ground that have passed a chamber, been reported, reached a calendar "
@@ -611,18 +670,26 @@ def render_edition(conn, today):
             "law, then cosponsors. {0} simple resolution(s) agreed to in one chamber "
             "(commemorations and sense-of-the-chamber statements, never law) are left "
             "out.*".format(len(agreed_simple)), ""]
-    out += ([BILL_HEAD] + [bill_row(r, names) for r in rank_bills(live)[:30]]) if live else \
+    out += ([BILL_HEAD] + [bill_row(r, names, today) for r in rank_bills(live, today)[:30]]) if live else \
         ["*None.*"]
     if len(live) > 30:
         out.append("\n_...and {0} more._".format(len(live) - 30))
     out += ["", "## Most-backed in committee (top 15 of {0})".format(len(committee)), "",
             "*A cosponsor is a public, recorded position: these are where members have put "
             "their names, even where nothing has moved.*", ""]
-    out += [BILL_HEAD] + [bill_row(r, names) for r in sorted(
+    out += [BILL_HEAD] + [bill_row(r, names, today) for r in sorted(
         committee, key=lambda r: -(r["cosponsors"] or 0))[:15]]
     out += ["", "## Enacted this Congress ({0})".format(len(laws)), ""]
-    out += ([BILL_HEAD] + [bill_row(r, names) for r in sorted(
+    out += ([BILL_HEAD] + [bill_row(r, names, today) for r in sorted(
         laws, key=lambda r: r["latest_action_at"] or "", reverse=True)]) if laws else ["*None.*"]
+    if fell:
+        out += ["", "## Fell with the {0} Congress ({1}; most-backed 15)".format(
+                    ordinal(cur - 1), len(fell)), "",
+                "*Not enacted by {0}, so dead whatever their last action said. A bill that "
+                "returns in the {1} is a new bill with a new number.*".format(
+                    us_store.congress_end(cur - 1).isoformat(), ordinal(cur)), ""]
+        out += [BILL_HEAD] + [bill_row(r, names, today) for r in sorted(
+            fell, key=lambda r: -(r["cosponsors"] or 0))[:15]]
 
     # Coverage
     n = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
@@ -638,6 +705,16 @@ def render_edition(conn, today):
             "- **The week ahead** (tools/us_schedule.py): the House floor list, House and "
             "Senate committee hearings and markups, and the Senate's next sitting, keyed on "
             "bill numbers.",
+            "- **House amendment purposes** come first from the BILLSTATUS bulk files "
+            "(keyless, a few days behind the floor), then from Congress.gov for what they have "
+            "not explained (with a key): {0} of {1} House amendment votes carry one ({2} "
+            "from Congress.gov). An amendment vote without one still takes its bill's "
+            "areas.".format(
+                n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house' "
+                  "AND amendment_text IS NOT NULL"),
+                n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house' "
+                  "AND amendment_author IS NOT NULL"),
+                n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='congress-api'")),
             "- **Not yet collected:** the Congressional Record (floor debates), the Federal "
             "Register and executive orders, and the fifty state legislatures (needs the Open "
             "States key).",
@@ -655,7 +732,9 @@ def dm_summary(conn, today, path=None):
     moved = bills_where(conn, "latest_action_at > ? AND latest_action_at <= ? "
                               "AND (introduced IS NULL OR introduced <= ?)", (since, today, since))
     new = bills_where(conn, "introduced > ? AND introduced <= ?", (since, today))
-    pending_all = bills_where(conn, "law IS NULL")
+    cur = us_store.congress_on(today)
+    pending_all = [r for r in bills_where(conn, "law IS NULL AND congress = ?", (cur,))
+                   if not finished_resolution(r)]
     lines = [":us: *US Congress Monitor - week ending {0}*".format(today), ""]
     if votes:
         lines.append("*{0} recorded vote(s) on our ground* (House {1}, Senate {2}).".format(
@@ -669,17 +748,25 @@ def dm_summary(conn, today, path=None):
     ahead = coming_up_dm(conn, today)
     if ahead:
         lines.append(ahead)
-    top = rank_bills([b for b in moved + new if stage(b)[0] <= 4 or b in new])[:5]
+    top = rank_bills([b for b in moved + new if stage(b, today)[0] <= 4 or b in new], today)[:5]
     for r in top:
         why = r["why_it_matters"]
         lines.append("• {0}{1}: {2} ({3}){4}".format(
             "*[{0}]* ".format(r["triage_score"]) if r["triage_score"] is not None else "",
-            bill_label(r["bill_key"]), clip(r["title"], 80), stage(r)[1].lower(),
+            bill_label(r["bill_key"]), clip(r["title"], 80), stage(r, today)[1].lower(),
             "\n   _{0}_".format(oneline(why)) if why else ""))
-    days = (datetime.date(2027, 1, 3) - datetime.date.fromisoformat(today)).days
-    if days >= 0:
-        lines.append("_{0} pending bill(s) on our ground fall when the Congress ends in {1} "
-                     "days (3 January 2027)._".format(len(pending_all), days))
+    end = us_store.congress_end(cur)
+    days = (end - datetime.date.fromisoformat(today)).days
+    lines.append("_{0} pending bill(s) on our ground fall when the {1} Congress ends in {2} "
+                 "days ({3})._".format(len(pending_all), ordinal(cur), days,
+                                       "{0} January {1}".format(end.day, end.year)))
+    days_in = (datetime.date.fromisoformat(today) - us_store.congress_start(cur)).days
+    if days_in < FALLEN_SECTION_DAYS:
+        fell = [r for r in bills_where(conn, "law IS NULL AND congress = ?", (cur - 1,))
+                if fallen(r, today)]
+        if fell:
+            lines.append("_The {0} Congress has ended: {1} of its bill(s) on our ground fell "
+                         "unenacted._".format(ordinal(cur - 1), len(fell)))
     lines.append("_Areas from taxonomy v{0}; American terms not yet reviewed by a US "
                  "campaigner._".format(taxonomy_version()))
     if path:

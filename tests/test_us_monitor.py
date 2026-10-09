@@ -126,8 +126,12 @@ class EditionTests(unittest.TestCase):
         self.assertIn("Puts a duty of care on practitioners.", text)
 
     def test_the_end_of_congress_counts_what_falls(self):
-        self.assertIn("**3 bill(s) on our ground are pending and fall then unless enacted.**",
+        # Born-Alive and New Act; the agreed Adoption Day resolution is
+        # finished business and cannot fall (it counted as pending until the
+        # rollover work of 9 October 2026).
+        self.assertIn("**2 bill(s) on our ground are pending and fall then unless enacted.**",
                       usm.render_edition(self.conn, TODAY))
+
 
     def test_no_em_dashes(self):
         bill(self.conn, "119/hr/77", "An Act — with a dash", [1], "Received in the Senate.",
@@ -139,6 +143,90 @@ class EditionTests(unittest.TestCase):
         self.assertIn("US Congress Monitor - week ending 2026-10-09", dm)
         self.assertIn("editions/us-monitor-2026-10-09.md", dm)
         self.assertLess(len(dm.split("\n")), 15)
+
+
+class AmendmentPurposeLineTests(unittest.TestCase):
+    def test_a_purpose_is_printed_and_named_as_what_matched(self):
+        conn = store()
+        bill(conn, "119/hr/8800", "National Defense Authorization Act for Fiscal Year 2027", [8],
+             "Received in the Senate.", "2026-07-23")
+        vote(conn, "house-119-2-273", "house", 273, "2026-10-08", "119/hr/8800", "H R 8800",
+             [8], [8])
+        conn.execute("UPDATE us_divisions SET amendment_author='Self of Texas Part A Amendment "
+                     "No. 28', amendment_text='to codify protections for chaplains.'")
+        text = usm.render_edition(conn, TODAY)
+        self.assertIn("matched on amendment purpose", text)
+        self.assertIn("  - Self of Texas Part A Amendment No. 28: to codify protections for "
+                      "chaplains.", text)
+
+    def test_an_amendment_vote_with_a_purpose_off_our_ground_is_not_shown(self):
+        conn = store()
+        bill(conn, "119/hr/8800", "National Defense Authorization Act for Fiscal Year 2027", [8],
+             "Received in the Senate.", "2026-07-23")
+        vote(conn, "house-119-2-264", "house", 264, "2026-10-08", "119/hr/8800", "H R 8800",
+             [], [])
+        conn.execute("UPDATE us_divisions SET amendment_author='Crane of Arizona', "
+                     "amendment_text='to prohibit funds for Ukraine Security Assistance.'")
+        self.assertNotIn("Ukraine", usm.render_edition(conn, TODAY))
+
+
+class RolloverTests(unittest.TestCase):
+    """3 January 2027: the 119th ends, the 120th begins, the 119th's bills fall."""
+    AFTER = "2027-01-15"
+
+    def setUp(self):
+        self.conn = store()
+        bill(self.conn, "119/hr/21", "Born-Alive Abortion Survivors Protection Act", [1],
+             "Received in the Senate.", "2026-10-06", cosponsors=163)
+        bill(self.conn, "119/hr/22", "Committee Act", [1], "Referred to the Committee.",
+             "2026-03-06", cosponsors=40)
+        bill(self.conn, "119/s/146", "TAKE IT DOWN Act", [7], "Became Public Law No: 119-12.",
+             "2025-05-19", law="Public Law 119-12")
+        bill(self.conn, "119/sres/5", "A resolution designating National Adoption Day", [6],
+             "Submitted in the Senate, considered, and agreed to without amendment.", "2026-01-01")
+        self.conn.execute("UPDATE us_bills SET congress=120, bill_key='120/hr/1' "
+                          "WHERE bill_key='119/hr/22'")
+        bill(self.conn, "119/hr/30", "Old Committee Act", [1], "Referred to the Committee.",
+             "2026-03-06", cosponsors=90)
+
+    def test_stage_says_fell_once_the_congress_has_ended(self):
+        row = self.conn.execute("SELECT * FROM us_bills WHERE bill_key='119/hr/21'").fetchone()
+        self.assertEqual(usm.stage(row, "2027-01-02")[1], "Passed one chamber")
+        self.assertEqual(usm.stage(row, "2027-01-03")[1], "Fell with the 119th Congress")
+        law = self.conn.execute("SELECT * FROM us_bills WHERE bill_key='119/s/146'").fetchone()
+        self.assertTrue(usm.stage(law, self.AFTER)[1].startswith("Law"))
+        res = self.conn.execute("SELECT * FROM us_bills WHERE bill_key='119/sres/5'").fetchone()
+        self.assertFalse(usm.fallen(res, self.AFTER))
+
+    def test_the_edition_shows_the_fall_not_pending(self):
+        text = usm.render_edition(self.conn, self.AFTER)
+        self.assertIn("| 120th Congress", text)
+        live = text.split("## Live beyond committee")[1].split("## Most-backed")[0]
+        self.assertNotIn("Born-Alive", live)
+        committee = text.split("## Most-backed")[1].split("## Enacted")[0]
+        self.assertNotIn("Old Committee Act", committee)
+        self.assertIn("Committee Act", committee)
+        self.assertIn("The 119th Congress has ended.** 2 of its bill(s)", text)
+        fell = text.split("## Fell with the 119th Congress (2;")[1].split("## Coverage")[0]
+        self.assertIn("Born-Alive", fell)
+        self.assertNotIn("National Adoption Day", fell)
+        self.assertIn("**2029-01-03**", text)
+        self.assertIn("**1 bill(s) on our ground are pending and fall then", text)
+        self.assertNotIn("**2027-01-03**", text)
+
+    def test_the_fall_section_goes_after_sixty_days(self):
+        self.assertNotIn("## Fell with", usm.render_edition(self.conn, "2027-03-10"))
+
+    def test_before_the_end_nothing_has_fallen(self):
+        text = usm.render_edition(self.conn, TODAY)
+        self.assertNotIn("## Fell with", text)
+        self.assertIn("| 119th Congress", text)
+        self.assertIn("**2027-01-03**", text)
+
+    def test_the_dm_counts_the_fall(self):
+        dm = usm.dm_summary(self.conn, self.AFTER)
+        self.assertIn("The 119th Congress has ended: 2 of its bill(s)", dm)
+        self.assertIn("when the 120th Congress ends", dm)
 
 
 class JudgeQueueTests(unittest.TestCase):
