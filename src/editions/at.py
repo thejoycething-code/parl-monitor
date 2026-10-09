@@ -169,15 +169,10 @@ def items(conn, since, until, wl):
     return _items(conn, since, until, wl) + _votes(conn, since, until, wl)
 
 
-def watchlist(config_dir=None):
-    return {k: {"areas": a, "why": why} for k, (a, why) in at_store.watchlist().items()} \
-        if config_dir is None else ce.watchlist_file("at", config_dir)
-
-
 COUNTRY = ce.Country(
     cc="at", name="Austria", chamber="Nationalrat and Bundesrat", language="German",
     taxonomies=(("taxonomy-atch.yaml", "at"),),
-    items=items, watchlist=watchlist, flag=":flag-at:",
+    items=items, flag=":flag-at:",
     members_note=("Votes are recorded by Klub only; member positions shown are DERIVED from "
                   "the Klub vote (X5), with the Klub at the member's latest sighting"),
     coverage=("Votes are read from the history pages of items on our ground; a namentliche "
