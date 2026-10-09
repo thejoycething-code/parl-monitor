@@ -334,7 +334,8 @@ class SlotTests(unittest.TestCase):
     then; a longer run queues the next job on the runner lock, never the
     other way round)."""
 
-    JUDGES = ("prov-session-judge", "us-session-judge", "ie-session-judge", "au-session-judge")
+    JUDGES = ("prov-session-judge", "editions-session-judge", "us-session-judge", "ie-session-judge",
+              "au-session-judge")
 
     def test_the_slots(self):
         want = {"us-session-judge": {(5, 19, 30)}, "ie-session-judge": {(5, 18, 30)},
