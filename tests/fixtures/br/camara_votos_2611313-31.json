@@ -1,0 +1,70 @@
+{
+ "dados": [
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-09-03T17:28:19",
+   "deputado_": {
+    "id": 160561,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/160561",
+    "nome": "Missionário José Olimpio",
+    "siglaPartido": "PL",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+    "siglaUf": "SP",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/160561.jpg",
+    "email": "dep.missionariojoseolimpio@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-09-03T17:28:18",
+   "deputado_": {
+    "id": 160559,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/160559",
+    "nome": "Alceu Moreira",
+    "siglaPartido": "MDB",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36899",
+    "siglaUf": "RS",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/160559.jpg",
+    "email": "dep.alceumoreira@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-09-03T17:28:17",
+   "deputado_": {
+    "id": 74398,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/74398",
+    "nome": "Maria do Rosário",
+    "siglaPartido": "PT",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36844",
+    "siglaUf": "RS",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/74398.jpg",
+    "email": "dep.mariadorosario@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-09-03T17:28:15",
+   "deputado_": {
+    "id": 220640,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/220640",
+    "nome": "Juliana Cardoso",
+    "siglaPartido": "PT",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36844",
+    "siglaUf": "SP",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/220640.jpg",
+    "email": "dep.julianacardoso@camara.leg.br"
+   }
+  }
+ ],
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31/votos"
+  }
+ ]
+}

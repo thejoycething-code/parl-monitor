@@ -1,0 +1,108 @@
+{
+ "dados": [
+  {
+   "id": "2334926-27",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "data": "2026-02-24",
+   "dataHoraRegistro": "2026-02-24T16:21:40",
+   "idOrgao": 2003,
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/2003",
+   "siglaOrgao": "CCJC",
+   "idEvento": 81045,
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/81045",
+   "aprovacao": 0,
+   "votosSim": 18,
+   "votosNao": 19,
+   "votosOutros": 0,
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "ultimaAberturaVotacao": {
+    "dataHoraRegistro": "2026-02-24T16:09:20",
+    "descricao": "Votação nominal, de ofício, do Requerimento de Retirada de Pauta, de autoria da Deputada Bia Kicis, subscrito pelo Deputado José Medeiros."
+   },
+   "ultimaApresentacaoProposicao": {
+    "dataHoraRegistro": "2023-12-20T20:50:55",
+    "descricao": "Parecer do Relator, Dep. Patrus Ananias (PT-MG), pela constitucionalidade, juridicidade, técnica legislativa e, no mérito, pela aprovação, com emenda.",
+    "idProposicao": 0,
+    "uriProposicao": ""
+   }
+  },
+  {
+   "id": "2636281-8",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "data": "2026-07-01",
+   "dataHoraRegistro": "2026-07-01T18:06:36",
+   "idOrgao": 180,
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "siglaOrgao": "PLEN",
+   "idEvento": 82660,
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82660",
+   "aprovacao": 1,
+   "votosSim": 293,
+   "votosNao": 158,
+   "votosOutros": 4,
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "ultimaAberturaVotacao": {
+    "dataHoraRegistro": "",
+    "descricao": ""
+   },
+   "ultimaApresentacaoProposicao": {
+    "dataHoraRegistro": "",
+    "descricao": "",
+    "idProposicao": 0,
+    "uriProposicao": ""
+   }
+  },
+  {
+   "id": "2611313-31",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "data": "2026-09-03",
+   "dataHoraRegistro": "2026-09-03T17:28:34",
+   "idOrgao": 180,
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "siglaOrgao": "PLEN",
+   "idEvento": 82965,
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82965",
+   "aprovacao": 1,
+   "votosSim": 346,
+   "votosNao": 46,
+   "votosOutros": 4,
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "ultimaAberturaVotacao": {
+    "dataHoraRegistro": "2026-09-03T17:18:17",
+    "descricao": "Votação em turno único."
+   },
+   "ultimaApresentacaoProposicao": {
+    "dataHoraRegistro": "2026-09-03T17:15:13",
+    "descricao": "Parecer às Emendas de Plenário proferido pelo Relator Dep. Isnaldo Bulhões Jr. (MDB/AL) pela:\r\n• Comissão de Finanças e Tributação, que conclui pela adequação financeira e orçamentária das Emendas de Plenário; e, no mérito, pela aprovação da Emenda nº 1, na forma da Subemenda Substitutiva adotada, e pela rejeição da Emenda nº 2.\r\n• Comissão de Constituição e Justiça e de Cidadania, que conclui pela constitucionalidade, juridicidade e boa técnica legislativa das Emendas de Plenário nºs 1 e 2, e da Subemenda Substitutiva adotada pelo relator da Comissão de Finanças e Tributação.",
+    "idProposicao": 2645884,
+    "uriProposicao": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2645884"
+   }
+  },
+  {
+   "id": "2611313-34",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-34",
+   "data": "2026-09-03",
+   "dataHoraRegistro": "2026-09-03T17:29:39",
+   "idOrgao": 180,
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "siglaOrgao": "PLEN",
+   "idEvento": 82965,
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82965",
+   "aprovacao": 1,
+   "votosSim": 0,
+   "votosNao": 0,
+   "votosOutros": 0,
+   "descricao": "Aprovada a Redação Final assinada pelo relator, Dep. Isnaldo Bulhões Jr. (MDB/AL).",
+   "ultimaAberturaVotacao": {
+    "dataHoraRegistro": "2026-09-03T17:29:18",
+    "descricao": "Votação da Redação Final."
+   },
+   "ultimaApresentacaoProposicao": {
+    "dataHoraRegistro": "2026-09-03T17:15:13",
+    "descricao": "Parecer às Emendas de Plenário proferido pelo Relator Dep. Isnaldo Bulhões Jr. (MDB/AL) pela:\r\n• Comissão de Finanças e Tributação, que conclui pela adequação financeira e orçamentária das Emendas de Plenário; e, no mérito, pela aprovação da Emenda nº 1, na forma da Subemenda Substitutiva adotada, e pela rejeição da Emenda nº 2.\r\n• Comissão de Constituição e Justiça e de Cidadania, que conclui pela constitucionalidade, juridicidade e boa técnica legislativa das Emendas de Plenário nºs 1 e 2, e da Subemenda Substitutiva adotada pelo relator da Comissão de Finanças e Tributação.",
+    "idProposicao": 2645884,
+    "uriProposicao": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2645884"
+   }
+  }
+ ]
+}
