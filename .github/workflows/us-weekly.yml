@@ -24,6 +24,12 @@ on:
         description: "US items to re-judge, space-separated keys (costs API credit)"
         type: string
         default: ""
+      states_full:
+        # After a taxonomy change that widens the net: re-read every current
+        # state session's bulk file whole (--reclassify only narrows).
+        description: "Re-read all fifty states' bulk files whole (after a taxonomy change)"
+        type: boolean
+        default: false
       senate_only:
         # Dispatched by the Mac Mini when senate.gov refuses it (jobs/us-weekly.sh):
         # Senate votes only, published, no edition.
@@ -157,6 +163,7 @@ jobs:
           US_JUDGE: ${{ vars.US_JUDGE }}
           US_RECLASSIFY: ${{ inputs.reclassify }}
           US_SENATE_ONLY: ${{ inputs.senate_only }}
+          US_STATES_FULL: ${{ inputs.states_full }}
           US_RESCORE: ${{ inputs.rescore }}
         run: bash jobs/us-weekly.sh
       - name: Health summary

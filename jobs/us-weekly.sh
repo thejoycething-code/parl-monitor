@@ -149,9 +149,16 @@ python3 tools/us_courts.py --budget-seconds 900 | tee "$LOG/us-courts.log" \
 # reached inside the budget go first next week (the rotation). 10 minutes on
 # GitHub keeps the job's step budgets under its 120; 30 on the Mini.
 # No OPENSTATES_API_KEY: one [gap] line and the step skips.
-if [ -n "${GITHUB_ACTIONS:-}" ]; then STATES_BUDGET="${US_STATES_BUDGET:-600}"
+# US_STATES_FULL=true re-reads every current bulk file whole: after a
+# taxonomy change that WIDENS the net (v1.20, 9 October 2026: 91 state bills
+# newly on our ground were never stored), since --reclassify only narrows.
+# Measured at 945 s for all 66 sessions, so it gets 30 minutes on GitHub too;
+# the Record step after it takes only what the job has left.
+STATES_ARGS=()
+if [ "${US_STATES_FULL:-}" = "true" ]; then STATES_ARGS=(--full); STATES_BUDGET=1800
+elif [ -n "${GITHUB_ACTIONS:-}" ]; then STATES_BUDGET="${US_STATES_BUDGET:-600}"
 else STATES_BUDGET="${US_STATES_BUDGET:-1800}"; fi
-python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" | tee "$LOG/us-states.log" \
+python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" "${STATES_ARGS[@]}" | tee "$LOG/us-states.log" \
   || echo "  [gap] the state legislatures step ended with gaps; the edition says what it has"
 
 # The Congressional Record (phase 3a, 9 October 2026): floor speeches on our
