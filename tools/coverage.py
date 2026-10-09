@@ -94,7 +94,7 @@ PIPELINES = {
     # Scheduled 9 October 2026, Saturdays (es-weekly.yml; the Mac Mini first).
     "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies"),
     # Scheduled 9 October 2026, Saturdays (br-weekly.yml; the Mac Mini first).
-    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes"),
+    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes, and the Brazilian edition"),
     # Scheduled 9 October 2026, Thursdays (cl-weekly.yml; the Mac Mini first).
     "Chile weekly": (7, 4, "Chile's National Congress: bills, Cámara and Senate votes"),
     # Scheduled 9 October 2026, Sundays (do-weekly.yml; the Mac Mini first).
@@ -111,9 +111,9 @@ PIPELINES = {
     # Scheduled 9 October 2026, Saturdays (mx-weekly.yml; the Mac Mini is the
     # clock, GitHub does the work: diputados.gob.mx refuses UK addresses).
     # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
-    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions"),
+    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions, and the fortnightly Mexican edition"),
     # Scheduled 9 October 2026, Saturdays (ar-weekly.yml; the Mac Mini first).
-    "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls"),
+    "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls, and the Argentine edition"),
     # Scheduled 9 October 2026, Thursdays (co-weekly.yml; the Mac Mini first).
     "Colombia weekly": (7, 4, "Colombia's Congress: both chambers' bills, attendance, Senate roll calls"),
     # Scheduled 9 October 2026, Sundays (bo-weekly.yml; the Mac Mini first).
