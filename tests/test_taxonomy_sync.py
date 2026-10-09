@@ -85,7 +85,11 @@ class TaxonomySyncTests(unittest.TestCase):
         # ("abortions" plural, born alive infant, reproductive freedom,
         # gender transition for minors, sex-based rights, child abuse
         # material, online safety, blasphemy, sex for rent, and the rest).
-        self.assertEqual(version, "1.20")
+        # v1.21 (the same day): the three Senate amendment purposes that
+        # matched nothing (home educators, the federal tax-credit scholarships,
+        # overseas family planning), with home school, school choice and
+        # reproductive health services.
+        self.assertEqual(version, "1.21")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
