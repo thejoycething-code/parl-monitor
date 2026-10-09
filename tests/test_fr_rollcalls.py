@@ -280,7 +280,7 @@ class WatchlistTests(unittest.TestCase):
             self.assertRegex(key, r"^DLR5L1[0-9]N\d+$")
             self.assertTrue(areas and all(1 <= a <= 13 for a in areas), key)
             self.assertTrue(why and len(why) > 30, key)
-            self.assertFalse(re.search("—", why), "no em dashes: " + key)
+            self.assertFalse(re.search("\\u2014", why), "no em dashes: " + key)
 
     def test_the_tables_are_declared(self):
         for t in fr_store.TABLES:
