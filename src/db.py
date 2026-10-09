@@ -1666,6 +1666,13 @@ TABLES = (
     "br_divisions",
     "br_votes",
     "br_orientations",
+    # Chile's National Congress (tools/cl_rollcalls.py), created by
+    # src/cl_store.ensure_schema -- declared from day one.
+    "cl_members",
+    "cl_party_spells",
+    "cl_bills",
+    "cl_divisions",
+    "cl_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1968,4 +1975,6 @@ def init_db(conn):
     es_store.ensure_schema(conn)
     from src import br_store
     br_store.ensure_schema(conn)
+    from src import cl_store
+    cl_store.ensure_schema(conn)
     return conn

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProyectoLey xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opendata.camara.cl/camaradiputados/v1">
+  <Id>16343</Id>
+  <NumeroBoletin>15805-07</NumeroBoletin>
+  <Nombre>Establece normas generales sobre el uso de la fuerza para el personal de las fuerzas de orden y seguridad pública y de las fuerzas armadas en las circunstancias que se señala</Nombre>
+  <FechaIngreso>2023-04-10T00:00:00</FechaIngreso>
+  <TipoIniciativa Valor="1">Mensaje</TipoIniciativa>
+  <CamaraOrigen Valor="1">Cámara de Diputados</CamaraOrigen>
+  <MinisteriosPatrocinantes>
+    <Ministerio>
+      <Id>46</Id>
+      <Nombre>Ministerio de Defensa Nacional</Nombre>
+    </Ministerio>
+    <Ministerio>
+      <Id>58</Id>
+      <Nombre>Ministerio Secretaría General de la Presidencia</Nombre>
+    </Ministerio>
+    <Ministerio>
+      <Id>167</Id>
+      <Nombre>Ministerio de Justicia y de Derechos Humanos</Nombre>
+    </Ministerio>
+  </MinisteriosPatrocinantes>
+  <Votaciones>
+    <VotacionProyectoLey>
+      <Id>90328</Id>
+      <Descripcion>Boletín N°15805-07</Descripcion>
+      <Fecha>2026-10-07T13:18:43</Fecha>
+      <TotalSi>111</TotalSi>
+      <TotalNo>23</TotalNo>
+      <TotalAbstencion>5</TotalAbstencion>
+      <TotalDispensado>0</TotalDispensado>
+      <Quorum Valor="1">Quórum Simple</Quorum>
+      <Resultado Valor="1">Aprobado</Resultado>
+      <Tipo Valor="1">Proyecto de Ley</Tipo>
+      <TipoVotacionProyectoLey Valor="6">Única</TipoVotacionProyectoLey>
+      <Articulo>En votación la proposición de la Comisión Mixta recaída en el proyecto de ley, originado en mensaje, que “Establece normas generales sobre el uso de la fuerza para el personal de las fuerzas de orden y seguridad pública y de las fuerzas armadas en las circunstancias que se señala.”.
+</Articulo>
+      <TramiteConstitucional Id="4">Comisión Mixta</TramiteConstitucional>
+      <TramiteReglamentario Id="7">Sin Informe</TramiteReglamentario>
+    </VotacionProyectoLey>
+    <VotacionProyectoLey>
+      <Id>82261</Id>
+      <Descripcion>Boletín N°15805-07</Descripcion>
+      <Fecha>2025-05-12T19:35:55</Fecha>
+      <TotalSi>112</TotalSi>
+      <TotalNo>15</TotalNo>
+      <TotalAbstencion>3</TotalAbstencion>
+      <TotalDispensado>0</TotalDispensado>
+      <Quorum Valor="1">Quórum Simple</Quorum>
+      <Resultado Valor="1">Aprobado</Resultado>
+      <Tipo Valor="1">Proyecto de Ley</Tipo>
+      <TipoVotacionProyectoLey Valor="6">Única</TipoVotacionProyectoLey>
+      <Articulo>Enmienda del Senado para agregar un artículo 23 nuevo, cuya votación separada ha sido solicitada por las diputadas Ana María Gazmuri, Lorena Pizarro, Alejandra Placencia, Daniela Serrano, y que consta en las páginas 39 a 40 del comparado.
+</Articulo>
+      <TramiteConstitucional Id="3">Tercer Trámite</TramiteConstitucional>
+      <TramiteReglamentario Id="8">Informe Enmiendas Del Senado</TramiteReglamentario>
+    </VotacionProyectoLey>
+    <VotacionProyectoLey>
+      <Id>82260</Id>
+      <Descripcion>Boletín N°15805-07</Descripcion>
+      <Fecha>2025-05-12T19:34:54</Fecha>
+      <TotalSi>59</TotalSi>
+      <TotalNo>67</TotalNo>
+      <TotalAbstencion>4</TotalAbstencion>
+      <TotalDispensado>0</TotalDispensado>
+      <Quorum Valor="1">Quórum Simple</Quorum>
+      <Resultado Valor="2">Unánime</Resultado>
+      <Tipo Valor="1">Proyecto de Ley</Tipo>
+      <TipoVotacionProyectoLey Valor="6">Única</TipoVotacionProyectoLey>
+      <Articulo>Enmienda del Senado para agregar un articulo 21 nuevo, cuya votación separada ha sido solicitada por los diputados Andrés Jouannet, Andrés Longton y Diego Schalper, y que consta en la página 34 del comparado.
+</Articulo>
+      <TramiteConstitucional Id="3">Tercer Trámite</TramiteConstitucional>
+      <TramiteReglamentario Id="8">Informe Enmiendas Del Senado</TramiteReglamentario>
+    </VotacionProyectoLey>
+  </Votaciones>
+  <Materias />
+  <Admisible>true</Admisible>
+</ProyectoLey>

@@ -95,6 +95,8 @@ PIPELINES = {
     "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies"),
     # Scheduled 9 October 2026, Saturdays (br-weekly.yml; the Mac Mini first).
     "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes"),
+    # Scheduled 9 October 2026, Thursdays (cl-weekly.yml; the Mac Mini first).
+    "Chile weekly": (7, 4, "Chile's National Congress: bills, Cámara and Senate votes"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -344,6 +346,15 @@ FEEDS = [
     ("br_members", "last_seen", 7, 4, "Câmara and Senado members (Brazil weekly)"),
     ("br_bills", "last_seen", 7, 4, "Proposições the nominal votes are about (Brazil weekly)"),
     ("br_divisions", "last_seen", 31, 31, "Câmara and Senado nominal votes (Brazil weekly)"),
+    # Chile (9 October 2026). MEASURED which re-stamp: the deputy and senator
+    # lists are re-read whole every run, and so are the bills introduced this
+    # year and last, so members and bills move every week, district week
+    # included. Divisions move only when a chamber votes: a month plus a
+    # month's grace, as for the US. cl_party_spells and cl_votes carry no
+    # sighting column.
+    ("cl_members", "last_seen", 7, 4, "Deputies and senators (Chile weekly)"),
+    ("cl_bills", "last_seen", 7, 4, "Bills by boletín (Chile weekly)"),
+    ("cl_divisions", "last_seen", 31, 31, "Cámara and Senate votes (Chile weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -446,6 +457,8 @@ PIPELINE_FEEDS = {
     # year's votes, and in January the new year holds none, so a clean run
     # cannot move them until Congress returns in February.
     "Brazil weekly": ["br_members"],
+    # Divisions left out for the same reason as the US.
+    "Chile weekly": ["cl_bills", "cl_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -487,6 +500,8 @@ AWAITING_FIRST_RUN = {
                      "scheduled 9 October 2026; its tables fill on its first run"),
     "Brazil weekly": (("br_members", "br_bills", "br_divisions"),
                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Chile weekly": (("cl_members", "cl_bills", "cl_divisions"),
+                     "written 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
