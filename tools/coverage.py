@@ -99,6 +99,8 @@ PIPELINES = {
     "Chile weekly": (7, 4, "Chile's National Congress: bills, Cámara and Senate votes"),
     # Scheduled 9 October 2026, Sundays (do-weekly.yml; the Mac Mini first).
     "Dominican Republic weekly": (7, 4, "Dominican Republic: Camara de Diputados iniciativas, sessions, votes"),
+    # Scheduled 9 October 2026, Sundays (sv-weekly.yml; the Mac Mini first).
+    "El Salvador weekly": (7, 4, "El Salvador's Asamblea Legislativa: recorded votes, dictámenes, piezas, deputies"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -368,6 +370,14 @@ FEEDS = [
     ("do_members", "last_seen", 7, 4, "Legislators in the Chamber's SIL (Dominican Republic weekly)"),
     ("do_sessions", "last_seen", 31, 31, "Chamber plenary sessions (Dominican Republic weekly)"),
     ("do_divisions", "last_seen", 31, 31, "Chamber recorded votes (Dominican Republic weekly)"),
+    # El Salvador (9 October 2026). MEASURED which re-stamp: the deputies page
+    # is re-read whole every run, so sv_members moves every week. Votes,
+    # dictámenes and piezas move only when the Asamblea sits; it sits most
+    # weeks but recesses (Semana Santa, August holidays, Christmas), so a
+    # month plus a month's grace, as the US divisions.
+    ("sv_members", "last_seen", 7, 4, "Asamblea deputies (El Salvador weekly)"),
+    ("sv_divisions", "last_seen", 31, 31, "Asamblea recorded votes (El Salvador weekly)"),
+    ("sv_dictamenes", "last_seen", 31, 31, "Asamblea committee reports (El Salvador weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -474,6 +484,8 @@ PIPELINE_FEEDS = {
     "Chile weekly": ["cl_bills", "cl_members"],
     # Sessions and votes left out: a recess week cannot move them.
     "Dominican Republic weekly": ["do_bills", "do_members"],
+    # Only the roster is re-read whole; a recess week cannot move the rest.
+    "El Salvador weekly": ["sv_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -519,6 +531,8 @@ AWAITING_FIRST_RUN = {
                      "written 9 October 2026; its tables fill on its first run"),
     "Dominican Republic weekly": (("do_bills", "do_members", "do_sessions", "do_divisions"),
                                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "El Salvador weekly": (("sv_members", "sv_divisions", "sv_dictamenes"),
+                           "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
@@ -588,6 +602,11 @@ ONCE_EVER = {
     # quiet in recess.
     "ca_senators": "written only when a Senate vote on our ground is fetched",
     "ca_sittings": "one row per Hansard sitting read, stored once",
+    # El Salvador (9 October 2026): sessions and piezas are written only for
+    # the sitting days the session archive returns, so a recess week writes
+    # none; sv_dictamenes is watched for the same pipeline.
+    "sv_sessions": "one row per Asamblea plenary session read; quiet in recess",
+    "sv_piezas": "one row per piece of correspondence a session read; quiet in recess",
     # read_at is when the ISSUE was read, one row per issue: a write-once
     # table, not a sighting column the cadence check may use (RecessTests).
     "ca_gazette_issues": "one row per Gazette issue read, stored once",
