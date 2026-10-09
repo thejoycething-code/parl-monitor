@@ -43,12 +43,92 @@ Act, the Protect Children's Innocence Act.
 - **Every position is stored.** The positions come in the same file as the
   vote, so there is no per-division fetch to save, unlike Canada.
 - **Votes inherit their bill's areas**; `own_areas` keeps the vote's own
-  match apart. The cost is visible already: all 21 FY2027 NDAA amendment
-  votes carry area 8 because the bill's summary mentions chaplains. Phase 1b
-  (amendment purposes) is what separates them.
+  match apart. The cost was visible at once: every FY2027 NDAA amendment
+  vote carried area 8 because the bill's summary mentions chaplains. Phase 1b
+  (below) stops that for every House amendment vote whose purpose is known.
 - **Not scheduled.** The three sighting tables are exempt in
   `tools/coverage.py` until a US weekly workflow exists; that exemption must
   move to FEEDS when it does.
+
+## Phase 1b: amendment purposes, built 9 October 2026 (two sources)
+
+A House amendment vote's `amendment_key` ('119/hamdt/242'),
+`amendment_text` ("description | purpose"), `amendment_checked` and
+`purpose_source` on `us_divisions` are filled from two sources, in order:
+
+1. **BILLSTATUS, keyless, first.** The purpose was already in a file we
+   download: the BILLSTATUS bulk record of a bill lists every House
+   amendment to it, with its description ("An amendment numbered 1 printed
+   in Part A of House Report 119-755 to strike section 1213..."), its
+   purpose and the roll calls it was voted on. Read with the bills, at no
+   extra request (`link_amendments`, `purpose_source='billstatus'`).
+2. **Congress.gov API, keyed, for what BILLSTATUS has not explained.**
+   BILLSTATUS lags the floor by days. With `CONGRESS_API_KEY` (an
+   X-Api-Key header, never in a URL, log or gap row), `fill_amendments`
+   maps each remaining roll call to its amendment (`house-vote`, then
+   `amendment`) and marks it `purpose_source='congress-api'`. A later
+   BILLSTATUS run never overwrites what the API gave. No key: the step
+   says so and the vote waits for BILLSTATUS.
+
+Keyless sources probed live on 9 October 2026:
+
+| Source | Answers | Gives |
+|---|---|---|
+| BILLSTATUS bulk (GovInfo) | yes | every House amendment, its purpose, its roll calls. **The route.** |
+| rules.house.gov bill pages | yes (920 KB for H.R. 8800) | all 1,400 submitted NDAA amendments with one-line summaries and status; links to the Rules reports |
+| Rules Committee reports (GovInfo CRPT HTML) | yes | the made-in-order summaries numbered as the Clerk numbers them ("Part A Amendment No. 1"). A fallback, not needed |
+| Clerk roll-call XML | yes | the amendment's sponsor-or-designee and its floor sequence number only; no purpose |
+| congress.gov amendment pages | **403** | not worked around |
+
+Two traps the Clerk sets: the "Amendment No." in its author line is the
+**Rules report's** number, not the floor sequence (`amendment-num`); and
+the member named may be a designee (Boebert offered Roy's amendments Nos.
+1 to 4 to H.R. 8800). The BILLSTATUS route joins on the roll number, so
+neither matters; where two amendment records claim one roll, the one whose
+sponsor the Clerk names wins. An **en bloc** amendment's description is a
+list of numbers, not a purpose: it is stored with no purpose and keeps
+inheriting.
+
+**The rule** (documented once, in `tools/us_rollcalls.py`; the en bloc
+test is `us_store.has_own_purpose`, shared with the edition): `own_areas`
+is always what the vote's own text matched, now including the amendment
+text. A House vote whose amendment text is a real purpose takes `own_areas`
+**alone**; every other vote (passage, recommit, rules, en bloc, Senate
+votes, an amendment no source has explained yet) still adds its bill's
+areas. The edition prints the purpose
+under the vote and says "matched on amendment purpose".
+
+**Measured on the 119th Congress, BILLSTATUS alone, no key** (676 House
+roll calls, scratch store):
+
+- **90 House amendment votes; all 90 matched to a BILLSTATUS amendment,
+  89 with a purpose** (the 90th is an en bloc on H.R. 3944). Six more votes
+  concur in a Senate amendment; they are not House amendments and are left
+  alone.
+- **House roll calls on our ground: 132 before, 83 after.** Every one of
+  the 49 that left was an amendment vote that had only inherited.
+- **NDAA FY2027 (H.R. 8800): 19 amendment votes, all 19 inherited area 8
+  before; 2 kept an area on their own purpose, 17 lost it.** Kept: roll
+  266 (Boebert No. 18, codify the ban on transgender service members: sex
+  based rights) and roll 273 (Self No. 28, protections for chaplains:
+  freedom of religion).
+- **NDAA FY2026 (H.R. 3838): 17 amendment votes, all inherited; 2 kept,
+  15 lost.**
+- **Appropriations (H.R. 3944, 4016, 4553, 7006, 7148, 8469, 8595): 29
+  amendment votes, 18 inherited before; 1 kept (the H.R. 3944 en bloc,
+  still inheriting), 17 lost.** None of the 17 is on our ground on a
+  reading (Ukraine, Taiwan, Israel, the UN, Fulbright, two judges' pay).
+
+**What the strict rule now misses: American wording, again.** Five of the
+votes that lost their inherited area are on our ground, and the taxonomy
+does not match their purposes: H.R. 8800 rolls 267 ("gender related medical
+care under TRICARE") and 268 ("male participation in female sports at
+DoDEA schools"); H.R. 3838 rolls 246 ("gender-related medical treatment"),
+247 (male cadets in women's athletics) and 248 (a survey on "gender
+identity"). Before, they showed only as noise under "freedom of religion";
+now they do not show at all. The fix is terms in docs/keyword-taxonomy.md
+(Christopher's call, then regenerate `config/taxonomy.yaml`), not a return
+to inheritance.
 
 ## The finding that shapes everything
 
@@ -140,12 +220,10 @@ bills**, not as standalone bills. Of the 38 voted measures, the heaviest are:
 So the bill-level match says "this omnibus touches abortion", which is
 always true and never news. **What matters is which amendment was voted
 on.** The roll-call XML names the amendment and its author ("Roy of Texas
-Amendment No. 1") but not its purpose. The purpose text lives in two places:
-
-- the Congress.gov API `amendment` endpoint (needs a key, see below);
-- the House Rules Committee's amendment lists (rules.house.gov), which give
-  each made-in-order amendment's one-line summary before the floor vote.
-  Not probed yet.
+Amendment No. 1") but not its purpose. The purpose text lives in the
+BILLSTATUS amendment records (keyless), the Congress.gov API `amendment`
+endpoint (keyed) and the House Rules Committee's amendment lists and
+reports (rules.house.gov, keyless). Phase 1b above uses the first two.
 
 This is the US equivalent of the EU lesson: match the division on its own
 text, inherit from the parent bill only with care. Amendment-level matching
@@ -365,8 +443,8 @@ month plus a month's grace, because the House cast no vote between
    BILLSTATUS bulk, matched on titles + CRS subjects + summary. Divisions keyed
    to bill IDs (`119/hr/28`), never titles. A `config/watchlist-us.yaml` with the
    misses above.
-2. **Phase 1b: amendment purposes.** Needs the Congress.gov key. Without it
-   the NDAA and appropriations votes are unreadable.
+2. **Phase 1b: amendment purposes (built 9 October):** BILLSTATUS first,
+   keyless; the Congress.gov key, when present, fills the lag.
 3. **Phase 2: Senate votes and the week ahead (floor lists, committee
    meetings; both built 9 October)**, then the **Federal Register**.
 4. **Phase 3: Congressional Record** debate packs and the US 5CA (votes +
@@ -382,11 +460,37 @@ month plus a month's grace, because the House cast no vote between
   must-pass bills where riders on our ground will be fought.
 - **3 January 2027: the 119th Congress ends and every pending bill dies.**
   All 19,596 bills and resolutions fall at once. This is a prorogation fall
-  on a two-year cycle and `board.py`'s fall logic needs a US rule for it: a
-  bill is dead when its Congress ends, whatever its last action says.
+  on a two-year cycle: a bill is dead when its Congress ends, whatever its
+  last action says (built: see the rollover below).
   Bills are re-introduced in the 120th under new numbers, so the watchlist
   must be keyed per Congress, with the short title as the link between
   versions.
+
+### The rollover (built 9 October 2026)
+
+- **The current Congress is a date.** `us_store.congress_on(day)`: Congress
+  n sits from 3 January of 1789 + 2(n - 1), so the 120th from 3 January
+  2027; session 1 in the odd year, 2 in the even. 1 and 2 January 2027 are
+  still the 119th. Nothing hard-codes 119 any more: `us_rollcalls.py`
+  defaults to it, and `jobs/us-weekly.sh` reads
+  `us_rollcalls.py --print-congress` ("119 2 -") for the Congress, the
+  session and the Senate menu (`vote_menu_<congress>_<session>.xml`).
+  `tools/us_schedule.py` derives the Congress the same way for the bill
+  numbers it reads off the week-ahead pages.
+- **The old Congress is finished off.** For the first 45 days of a new
+  Congress `--print-congress` names the previous one ("120 1 119") and the
+  job collects it first, every week: its bills' final statuses in
+  BILLSTATUS (a bill presented before 3 January can be signed after it),
+  any late roll calls, and their amendment purposes. A gap there does not
+  stop the current Congress's run.
+- **The edition shows the fall.** Once a Congress has ended, its bills not
+  enacted are "Fell with the 119th Congress", never pending: they leave
+  the live and committee lists, the header and the countdown move to the
+  120th, and for 60 days a top line and a "Fell with the 119th Congress"
+  section (most-backed 15) count them; the DM says so too. A simple
+  resolution agreed to in its chamber is finished business, not a fall,
+  and no longer counts as pending either (740 pending on 9 October became
+  727 that can actually fall).
 
 ## State legislatures: all 50 (decided 9 October 2026, not built)
 
@@ -428,7 +532,9 @@ jurisdictions). Possible build orders:
 1. ~~Who reads it?~~ Own edition, to Christopher alone for now (decided
    9 October): a Slack DM, and he owns the Asana task.
 2. **The Congress.gov / api.data.gov key.** Free and immediate, but it should
-   be requested in his name or the team's. Phase 1b needs it.
+   be requested in his name or the team's. Phase 1b no longer needs it (it
+   only closes BILLSTATUS's lag); the Congressional Record and
+   Regulations.gov still do.
 3. ~~Taxonomy~~: shared list, merged into the areas (decided 9 October; v1.17).
 4. **Scope:** DEI, antisemitism, contraception. In or out?
 5. **Executive actions** as a section: yes or no?
