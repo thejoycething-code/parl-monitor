@@ -84,6 +84,7 @@ API_SPACING_S = 6.5             # default tier: 10 a minute
 API_BUDGET = 200                # of 250 a day: room for a hand probe the same day
 MAX_PAGES = 10                  # a state needing more than this reads its bulk file
 OVERLAP_DAYS = 3                # a late-posted action is re-seen
+MAX_LOOKBACK_DAYS = 30          # the weekly window never opens further back
 BUDGET_S = 1500.0
 CURRENT_DAYS = 365
 ZIP_FRESH_DAYS = 45
@@ -167,7 +168,14 @@ class OpenStates:
                     self.refused = "Open States refused for the rest of the day: {0}".format(
                         body.strip() or "429")
                     raise ApiSpent(self.refused)
+                if attempt == 1 and (code is None or code >= 500):
+                    # A timeout or a server error (measured: a 'read operation
+                    # timed out' on a Florida page, 9 October): once more.
+                    self.log("  open states: {0}; trying once more".format(
+                        code or str(exc.cause)[:60]))
+                    continue
                 raise
+
             if self.archive:
                 # The body never carries the key (it travels as a header).
                 self.client._archive(raw, FEED, slug)
@@ -560,13 +568,18 @@ def bulk_read(conn, client, tax, wl, s, today, tally, since=None, log=print):
 
 def api_read(conn, api, tax, wl, st, since, today, tally, max_pages=MAX_PAGES, log=print):
     """Every bill of the state with an action since `since`, all sessions.
-    Returns 'done', or 'too-big' / 'spent' for the caller to fall back."""
+    Returns 'done', or 'too-big' / 'spent' / 'failed' for the caller to fall back."""
     params = {"jurisdiction": st, "action_since": since, "include": list(INCLUDES),
               "per_page": PER_PAGE, "sort": "first_action_asc"}
     try:
         first = api.get("/bills", dict(params, page=1), "bills-{0}-{1}-p1".format(st, since))
     except ApiSpent:
         return "spent"
+    except FetchError as exc:
+        _gap(conn, today, "{0}: API refused ({1}); the bulk file stands in".format(
+            st.upper(), getattr(exc.cause, "code", None) or str(exc.cause)[:60]))
+        log("  [gap] {0}: API refused".format(st.upper()))
+        return "failed"
     pages = (first.get("pagination") or {}).get("max_page") or 1
     total = (first.get("pagination") or {}).get("total_items") or 0
     if pages > max_pages or pages - 1 > api.remaining():
@@ -579,6 +592,11 @@ def api_read(conn, api, tax, wl, st, since, today, tally, max_pages=MAX_PAGES, l
             d = api.get("/bills", dict(params, page=page), "bills-{0}-{1}-p{2}".format(st, since, page))
         except ApiSpent:
             return "spent"
+        except FetchError as exc:
+            _gap(conn, today, "{0}: API page {1} refused ({2}); the bulk file stands in".format(
+                st.upper(), page, getattr(exc.cause, "code", None) or str(exc.cause)[:60]))
+            log("  [gap] {0}: API page {1} refused".format(st.upper(), page))
+            return "failed"
         results += d.get("results") or []
     known = known_ids(conn, st)
     before = tally.ours
@@ -638,6 +656,12 @@ def collect_state(conn, client, api, tax, wl, st, sessions, today, args, tally, 
         start = min(through) if through else today
         since = (datetime.date.fromisoformat(start)
                  - datetime.timedelta(days=OVERLAP_DAYS)).isoformat()
+        # A session whose bulk file has not been regenerated for months
+        # (Arkansas 2025, last stamped August 2025) would otherwise hold the
+        # window open on every session of the state for ever.
+        floor = (datetime.date.fromisoformat(today)
+                 - datetime.timedelta(days=MAX_LOOKBACK_DAYS)).isoformat()
+        since = max(since, floor)
     outcome = api_read(conn, api, tax, wl, st, since, today, tally,
                        max_pages=args.max_pages, log=log) if api else "spent"
     if outcome == "done":
@@ -652,7 +676,8 @@ def collect_state(conn, client, api, tax, wl, st, sessions, today, args, tally, 
         bulk_read(conn, client, tax, wl, s, today, tally, since=since, log=log)
     if not stale:
         log("  {0}: API {1} and no bulk file newer than the last read; the store stands "
-            "at {2}".format(st.upper(), "spent" if outcome == "spent" else "too costly",
+            "at {2}".format(st.upper(), {"spent": "spent", "failed": "refused"}.get(
+                outcome, "too costly"),
                             min((read_state(conn, st, s["session"])[1] or "?") for s in read)))
 
 

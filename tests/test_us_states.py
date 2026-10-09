@@ -307,6 +307,12 @@ class RateLimitTests(unittest.TestCase):
         self.assertEqual(api.remaining(), 0)
         self.assertIn("250/day", api.refused)
 
+    def test_a_timeout_is_tried_once_more(self):
+        timeout = FetchError("u", ust.FEED, "s", 1, TimeoutError("The read operation timed out"))
+        api, calls, _ = self.make([timeout, b'{"ok": 1}'])
+        self.assertEqual(api.get("/bills", {}, "a"), {"ok": 1})
+        self.assertEqual(len(calls), 2)
+
     def test_budget_is_a_hard_cap(self):
         api, calls, _ = self.make([b"{}"] * 5, budget=2)
         api.get("/x", {}, "a")
