@@ -1558,6 +1558,12 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Ecuador's Asamblea Nacional (tools/ec_rollcalls.py), created by
+    # src/ec_store.ensure_schema -- declared from day one.
+    "ec_members",
+    "ec_roster",
+    "ec_divisions",
+    "ec_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1838,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import ec_store
+    ec_store.ensure_schema(conn)
     return conn
