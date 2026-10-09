@@ -37,11 +37,19 @@ lives):
     question, description and amendment line, plus `amendment_text` when
     known. It never contains a bill's areas.
   * `areas` (what the edition and the judge read) is `own_areas` ALONE for
-    a HOUSE vote whose `amendment_text` is a real purpose, and `own_areas`
-    plus the bill's areas for every other vote: passage, recommit, rules,
-    Senate votes (their purpose is already in `description`), and an EN
-    BLOC amendment, whose text is a list of amendment numbers, not a
-    purpose ("comprised of the following amendments ... Nos. 266, 267...").
+    a vote, HOUSE OR SENATE, whose `amendment_text` is a real purpose, and
+    `own_areas` plus the bill's areas for every other vote: passage,
+    recommit, rules, cloture on a bill, an EN BLOC amendment, whose text is
+    a list of amendment numbers, not a purpose ("comprised of the following
+    amendments ... Nos. 266, 267..."), and a purpose that names no subject
+    ("In the nature of a substitute.", the whole bill rewritten; the
+    Senate's placeholder "To improve the bill."). us_store.has_own_purpose.
+  * A Senate amendment vote's purpose is in the vote file itself ("To
+    prohibit the use of funds..."), so the Senate needs no second source:
+    the amendment vote, a motion to table it, to waive the Budget Act
+    against it, or cloture on it all carry the AMENDMENT's purpose and
+    stand on it (purpose_source 'senate-vote'). Senate parity added
+    9 October 2026; before, every Senate vote inherited.
 
 Why: every amendment vote on an omnibus inherits "abortion" from the Hyde
 language in an appropriations summary, or "freedom of religion" from the
@@ -229,8 +237,8 @@ EN_BLOC = us_store.EN_BLOC
 
 
 def has_own_purpose(d):
-    """A House vote whose amendment text is a real purpose (not an en bloc
-    list of numbers). See the module docstring."""
+    """A vote whose amendment text is a real purpose (not an en bloc list of
+    numbers, not a substitute). See the module docstring."""
     return us_store.has_own_purpose(d.get("amendment_text"), d.get("chamber"))
 
 
@@ -261,23 +269,34 @@ def store_division(conn, d, tax, wl, today):
         if prev and prev[0]:
             d = dict(d, amendment_text=prev[0])
     own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey))
+    # A Senate vote brings its amendment's purpose with it (parse_senate_vote);
+    # a House roll never does, and COALESCE keeps what BILLSTATUS or the API
+    # wrote earlier.
+    source = d.get("purpose_source") if d.get("amendment_text") else None
     conn.execute(
         "INSERT INTO us_divisions (division_key, chamber, congress, session, roll, date, "
         "legis_num, bill_key, question, description, vote_type, result, amendment_num, "
         "amendment_author, yeas, nays, present, not_voting, own_areas, areas, "
-        "matched_terms, tier, first_seen, last_seen) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+        "matched_terms, tier, first_seen, last_seen, amendment_key, amendment_text, "
+        "purpose_source, amendment_checked) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
         "ON CONFLICT(division_key) DO UPDATE SET result=excluded.result, "
         "yeas=excluded.yeas, nays=excluded.nays, present=excluded.present, "
         "not_voting=excluded.not_voting, bill_key=excluded.bill_key, "
         "own_areas=excluded.own_areas, areas=excluded.areas, "
-        "matched_terms=excluded.matched_terms, tier=excluded.tier, last_seen=excluded.last_seen",
+        "matched_terms=excluded.matched_terms, tier=excluded.tier, last_seen=excluded.last_seen, "
+        "amendment_key=COALESCE(excluded.amendment_key, us_divisions.amendment_key), "
+        "amendment_text=COALESCE(excluded.amendment_text, us_divisions.amendment_text), "
+        "purpose_source=COALESCE(excluded.purpose_source, us_divisions.purpose_source), "
+        "amendment_checked=COALESCE(us_divisions.amendment_checked, excluded.amendment_checked)",
         (key, d.get("chamber") or "house", d["congress"], d["session"], d["roll"], d["date"],
          d["legis_num"],
          bkey, d["question"], d["description"], d["vote_type"], d["result"],
          d["amendment_num"], d["amendment_author"], d["yeas"], d["nays"], d["present"],
          d["not_voting"], us_store.dumps(own.issue_areas), us_store.dumps(areas),
-         us_store.dumps(own.matched_terms), own.tier, today, today))
+         us_store.dumps(own.matched_terms), own.tier, today, today,
+         d.get("amendment_key") if source else None, d["amendment_text"] if source else None,
+         source, today if source else None))
     for p in d["positions"]:
         conn.execute(us_store.MEMBER_UPSERT,
                      (p["bioguide"], None, p["party"], p["state"], None,
@@ -375,8 +394,9 @@ def pull_rolls(conn, client, today, congress=None, tax=None, wl=None,
 #
 # The Senate publishes a MENU per session (every vote in one call) and one
 # file per vote with the positions. Unlike the House, a Senate amendment vote
-# carries the amendment's PURPOSE ("To prohibit the use of funds..."), so its
-# own text can be classified before the bill lends its areas.
+# carries the amendment's PURPOSE ("To prohibit the use of funds..."), stored
+# as amendment_text (purpose_source 'senate-vote'), so the vote stands on its
+# own purpose as a House amendment vote does (classify_division).
 #
 # Positions are keyed on the Senate's own LIS ID ("S428"), not Bioguide. The
 # crosswalk maps every sitting senator; one who has left is looked up in the
@@ -398,6 +418,28 @@ def senate_date(text):
         return datetime.datetime.strptime(head, "%B %d, %Y").date().isoformat()
     except ValueError:
         return text or None
+
+
+def senate_amendment_key(congress, number):
+    """('119', 'S.Amdt. 2307') -> '119/samdt/2307'; nothing to read -> None."""
+    hit = re.search(r"(\d+)\s*$", number or "")
+    return "{0}/samdt/{1}".format(int(congress), int(hit.group(1))) if hit and congress else None
+
+
+def senate_purpose(description, amendment_num):
+    """The amendment purpose inside a STORED Senate description, for rows
+    stored before amendment_text was filled (reclassify backfills them).
+
+    parse_senate_vote joins 'vote title | purpose | document text', and on
+    an amendment vote the document text IS the purpose, so a stored purpose
+    is the middle part repeated as the last. Anything else (two parts: no
+    purpose on file) gives None, never a guess."""
+    if not amendment_num or not description:
+        return None
+    parts = description.split(" | ")
+    if len(parts) == 3 and parts[1] == parts[2] and parts[1] != NO_PURPOSE:
+        return " ".join(parts[1].split())
+    return None
 
 
 def parse_senate_menu(raw):
@@ -429,6 +471,7 @@ def parse_senate_vote(raw):
     doc, amd, count = root.find("document"), root.find("amendment"), root.find("count")
     purpose = _text(amd, "amendment_purpose")
     purpose = None if purpose == NO_PURPOSE else purpose
+    anum = _text(amd, "amendment_number")
     # The vote's OWN text: its title, the amendment's purpose, and what is
     # being voted on. For a bill vote document_title is the bill's long
     # title; for a nomination it is the nominee and the office.
@@ -445,8 +488,14 @@ def parse_senate_vote(raw):
         "description": desc or None,
         "vote_type": _text(root, "majority_requirement"),
         "result": _text(root, "vote_result"),
-        "amendment_num": _text(amd, "amendment_number"),
+        "amendment_num": anum,
         "amendment_author": None,
+        # The amendment's own purpose, for the vote on it, a motion to table
+        # it, to waive against it, or cloture on it. Only with a number: a
+        # purpose with no amendment is not an amendment vote.
+        "amendment_text": " ".join(purpose.split()) if purpose and anum else None,
+        "amendment_key": senate_amendment_key(_int(root, "congress"), anum),
+        "purpose_source": "senate-vote" if purpose and anum else None,
         "yeas": _int(count, "yeas"),
         "nays": _int(count, "nays"),
         "present": _int(count, "present"),
@@ -968,9 +1017,19 @@ def reclassify(conn, tax=None, log=print):
         conn.execute("UPDATE us_bills SET areas=?, matched_terms=?, tier=? WHERE bill_key=?",
                      (new, us_store.dumps((res.matched_terms or []) + (res.watchlist_hits or [])),
                       res.tier, key))
-    for (key, bkey, desc, question, author, amend, chamber, areas) in conn.execute(
+    for (key, bkey, desc, question, author, amend, chamber, areas, anum,
+         congress) in conn.execute(
             "SELECT division_key, bill_key, description, question, amendment_author, "
-            "amendment_text, chamber, areas FROM us_divisions").fetchall():
+            "amendment_text, chamber, areas, amendment_num, congress "
+            "FROM us_divisions").fetchall():
+        if chamber == "senate" and not amend:
+            # Stored before Senate parity: the purpose is in the description.
+            amend = senate_purpose(desc, anum)
+            if amend:
+                conn.execute("UPDATE us_divisions SET amendment_key=?, amendment_text=?, "
+                             "purpose_source='senate-vote', amendment_checked=COALESCE("
+                             "amendment_checked, date) WHERE division_key=?",
+                             (senate_amendment_key(congress, anum), amend, key))
         d = {"description": desc, "question": question, "amendment_author": author,
              "amendment_text": amend, "chamber": chamber}
         own, combined = classify_division(tax, wl, d, _bill_areas(conn, bkey))
@@ -999,6 +1058,9 @@ def summary(conn, log=print):
             n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='billstatus' "
               "AND amendment_text IS NOT NULL"),
             n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='congress-api'")))
+    log("  store: {0} Senate amendment vote(s), {1} with a purpose from the vote file".format(
+        n("SELECT COUNT(*) FROM us_divisions WHERE chamber='senate' AND amendment_num IS NOT NULL"),
+        n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='senate-vote'")))
     log("  store: {0} bill(s), {1} on our ground; {2} roll call(s) (House and Senate), "
         "{3} on our ground; {4} member(s), {5} position(s), {6} cosponsorship(s)".format(
             n("SELECT COUNT(*) FROM us_bills"), ours("us_bills"),
