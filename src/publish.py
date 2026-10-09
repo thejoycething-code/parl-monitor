@@ -31,7 +31,12 @@ SECRETS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 # did not, and its first live DM was silently dropped. The fallback lives
 # here now so no caller can miss it. The file always wins over the env.
 ENV_SECRETS = (("slack_bot_token", "SLACK_BOT_TOKEN"),
-               ("slack_dm_user_id", "SLACK_DM_USER_ID"))
+               ("slack_dm_user_id", "SLACK_DM_USER_ID"),
+               # US monitor (9 October 2026): one api.data.gov key serves
+               # Congress.gov, GovInfo and Regulations.gov; Open States
+               # covers the fifty state legislatures.
+               ("congress_api_key", "CONGRESS_API_KEY"),
+               ("openstates_api_key", "OPENSTATES_API_KEY"))
 
 
 def load_secrets(path=None):
