@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 10 October 2026, Saturdays (pa-weekly.yml; the Mac Mini first).
+    "Panama weekly": (7, 4, "Panama's Asamblea Nacional: bills, stages, orden del dia, deputies"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,13 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Panama (9 October 2026). MEASURED which re-stamp: the deputies list and
+    # every segLegis bill row are re-read whole every run, so both move every
+    # week. The orden del dia list (its 25 newest documents) is re-read and
+    # re-stamped every run too, so it moves in recess as well.
+    ("pa_members", "last_seen", 7, 4, "Asamblea deputies (Panama weekly)"),
+    ("pa_bills", "last_seen", 7, 4, "Asamblea bills, segLegis (Panama weekly)"),
+    ("pa_agenda", "last_seen", 7, 4, "Asamblea orden del dia (Panama weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +239,9 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # All three are re-read whole each run; the orden del dia list is too,
+    # whether or not a sitting added a document.
+    "Panama weekly": ["pa_bills", "pa_members", "pa_agenda"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -243,6 +255,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Panama weekly": (("pa_members", "pa_bills", "pa_agenda"),
+                      "scheduled 10 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
