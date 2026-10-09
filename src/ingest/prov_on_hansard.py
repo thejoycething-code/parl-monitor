@@ -42,12 +42,14 @@ _BLOCK = re.compile(r"<(h2|h3|p)\b([^>]*)>(.*?)</\1\s*>", re.S | re.I)
 # when only self-closing spans were allowed (9 October 2026).
 # ... and some print an EMPTY pair first: <span id="para248"></span><strong>
 # (3 June 2025; 19 more days, 2010-2026, read on 9 October 2026).
-_STRONG = re.compile(r"^\s*(?:</?span[^>]*>\s*)*<strong>(.*?)</strong>(.*)$", re.S | re.I)
+# ... or an anchor first: <a id="para253" name="para253"></a><strong> (2 Nov 2016).
+_STRONG = re.compile(r"^\s*(?:</?(?:span|a)\b[^>]*>\s*)*<strong>(.*?)</strong>(.*)$", re.S | re.I)
 _START = re.compile(r'<p class="(?:procedure|speakerStart)"')
 # The OLDER layout (some 2010-2011 days): no paragraph classes; the day
 # opens on "The House met at", speaker turns are plain <p> with a <strong>
 # label, rubrics are <p class="th">, subjects <p class="td"> (9 Oct 2026).
-_START_OLD = re.compile(r"<p>\s*(?:<span[^>]*/>\s*)*<em>The House met at", re.I)
+# The opening may sit inside an OPEN span: <p><span id="PARA23"><em>The House met (22 Nov 2010).
+_START_OLD = re.compile(r"<p>\s*(?:<span[^>]*>\s*)*<em>The House met at", re.I)
 
 
 def english(heading):
