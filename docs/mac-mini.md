@@ -63,6 +63,17 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonito
 ```
 A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run.sh us-weekly` (it posts the DM if no edition is committed for today).
 
+## Next on the Mini: the v1.20 retag (9 October 2026)
+
+Taxonomy v1.20 is merged. The US, Irish and Australian rows were re-derived by
+their weeklies; the UK, devolved and EU retag ran on GitHub, did its work, and
+then refused to publish because a Mini job was publishing at the same moment.
+Run it here instead, then Canada's (the two commands under "Backfills" below:
+`retag-backfill` with `RETAG_BASELINE=9437b29d~1`, then `ca-backfill` with
+`CA_RETAG=true`). Expected, from the GitHub run's dry part: sp_items +118
+gained, eu_speeches refused by the trust check (its mapping is wrong, so it is
+left alone, as designed).
+
 ## Next on the Mini: the aph.gov.au probe (9 October 2026)
 
 **Why.** www.aph.gov.au and parlinfo.aph.gov.au refuse the laptop and, since
@@ -221,6 +232,15 @@ with the end of its output. Nothing caps the clock here, but give
 
     # also: CA_BACKFILL=true, CA_ROLLCALL_SESSIONS, CA_GAZETTE_SINCE (+CA_GAZETTE_FORGET),
     # CA_FEDERAL_BACKFILL="senate|committees|courts", CA_REFRESH_MEMBERS=true, CA_RETAG=true
+
+    # After a taxonomy change: UK, devolved and EU rows (the trust check needs
+    # the commit of the PREVIOUS taxonomy), then Canada's.
+    cd ~ && RETAG_BASELINE=9437b29d~1 JOB_TIMEOUT=7200 \
+      nohup ~/runner/parl-monitor/tools/mini_run.sh retag-backfill \
+      >> ~/runner/logs/retag-backfill.log 2>&1 &
+    cd ~ && CA_RETAG=true JOB_TIMEOUT=3600 \
+      nohup ~/runner/parl-monitor/tools/mini_run.sh ca-backfill \
+      >> ~/runner/logs/ca-backfill.log 2>&1 &
 
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs

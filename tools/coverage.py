@@ -777,6 +777,9 @@ ON_DEMAND = {
     "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
                        "earlier sessions, the Gazette, federal backfills and "
                        "repairs; the Tuesday weekly does the routine reads.",
+    "Retag backfill": "run by hand on the Mac Mini (jobs/retag-backfill.sh): "
+                      "UK, devolved and EU rows re-derived after a taxonomy "
+                      "change, with the trust check against the old taxonomy.",
     "Germany backfill": "workflow_dispatch only: the one-off read of Bundestag "
                         "protocols and votes back to 2020, then its judging in "
                         "bounded chunks; re-dispatched until the queue is empty.",
