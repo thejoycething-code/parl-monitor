@@ -47,7 +47,8 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
     GitHub keeps its own steps as the backup (9 October 2026). Two copies are
     safe only while they agree: same commands, same order, same commit."""
 
-    PAIRS = (("sunday-pull.yml", "sunday-pull.sh"), ("monday-publish.yml", "monday-publish.sh"))
+    PAIRS = (("sunday-pull.yml", "sunday-pull.sh"), ("monday-publish.yml", "monday-publish.sh"),
+             ("sp-weekly.yml", "sp-weekly.sh"))
 
     def _read(self, wf, job):
         return (open(os.path.join(ROOT, ".github", "workflows", wf), encoding="utf-8").read(),
@@ -63,7 +64,8 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
         for wf, job in self.PAIRS:
             flow, script = self._read(wf, job)
             add = next(ln for ln in flow.splitlines() if ln.strip().startswith("git add "))
-            want = {p.rstrip("/") for p in add.split()[2:]} - {"data"}
+            want = {p.rstrip("/") for p in add.split()[2:]
+                    if p.rstrip("/") != "data" and not p.startswith("data/")}
             m = re.search(r"^# mini_run: commit (.+)$", script, re.M)
             got = set(m.group(1).split()) if m else set()
             self.assertEqual(want, got, "{0} commits {1}, {2} commits {3}".format(wf, sorted(want), job, sorted(got)))
