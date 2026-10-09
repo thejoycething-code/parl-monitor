@@ -5,6 +5,7 @@ tests/fixtures/it/ (the Camera vote details trimmed to six members)."""
 import importlib.util
 import json
 import os
+import re
 import sqlite3
 import sys
 import unittest
@@ -215,7 +216,7 @@ class TestCameraDetail(unittest.TestCase):
         counts, pos, published = itr.parse_camera_detail(fixture("camera_voting_vs19_147_041"))
         self.assertTrue(published)
         self.assertEqual(len(pos), 6)
-        self.assertTrue(all(m.startswith("C:") for m, _, _, _ in pos))
+        self.assertTrue(all(re.match(r"^C:\d+$", m) for m, _, _, _ in pos))
         self.assertTrue({p for _, _, _, p in pos} <= set(itr.CAMERA_POSITIONS.values()))
         self.assertIsNotNone(counts["ayes"])
 

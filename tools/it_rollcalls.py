@@ -377,11 +377,14 @@ def parse_camera_detail(rec):
     positions = []
     for mv in rec.get("members_votes") or []:
         m = mv.get("membership") or {}
-        if not m.get("slug"):
+        # Keyed on the membership's numeric ID, not its slug: a slug carries
+        # the birth date and reads '...-none' until Openpolis has one
+        # ('fabio-roscioli-none', 9 October 2026), so it can change.
+        if m.get("id") is None:
             continue
         name = " ".join(x for x in (m.get("given_name"), m.get("family_name")) if x) or None
         grp = (mv.get("group") or {}).get("acronym")
-        positions.append(("C:" + m["slug"], name, grp,
+        positions.append(("C:{0}".format(m["id"]), name, grp,
                           CAMERA_POSITIONS.get(mv.get("vote"), (mv.get("vote") or "").lower() or None)))
     published = rec.get("is_secret") or any(p[3] != "secret" for p in positions)
     return counts, positions, bool(positions) and bool(published)

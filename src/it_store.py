@@ -22,8 +22,10 @@ KEYS.
     sitting, vote, as dati.senato.it numbers it) or 'camera-vs19_723_001'
     (the dati.camera.it identifier, which Openpolis carries unchanged).
   * A member is 'S:<dati.senato.it senator ID>' or 'C:<Openpolis membership
-    slug>'. The two chambers have separate identity schemes; a member who
-    moves chamber has two keys.
+    ID>' ('S:32600', 'C:207'). The two chambers have separate identity
+    schemes; a member who moves chamber has two keys. The Openpolis slug is
+    not used: it carries the birth date and reads '...-none' until Openpolis
+    has one, so it can change under a stored vote.
 
 GROUP IS STORED PER VOTE, as party is in Canada and the US: Italian members
 change parliamentary group often. `it_votes.grp` is the group at the vote;
@@ -48,7 +50,7 @@ import os
 
 SCHEMA = (
     """CREATE TABLE IF NOT EXISTS it_members (
-        member_key   TEXT PRIMARY KEY,   -- 'S:32600' / 'C:davide-aiello-1985-10-31-2'
+        member_key   TEXT PRIMARY KEY,   -- 'S:32600' / 'C:207'
         chamber      TEXT NOT NULL,      -- 'senato' / 'camera'
         name         TEXT,
         grp          TEXT,               -- latest group seen; see it_votes.grp
