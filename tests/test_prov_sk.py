@@ -383,5 +383,50 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(ctx.gaps, [])
 
 
+class LabelAliasTests(unittest.TestCase):
+    """Saskatchewan reads the reviewed label aliases (config/prov_record.yaml)
+    like every other province. Until 9 October 2026 it did not, so the
+    'Barrett Kropf' alias did nothing and 5 May 2025's division failed its tally."""
+
+    MINUTES = "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/30L1S/20250505Minutes-HTML.htm"
+
+    class Base:
+        def resolve(self, raw, date, legislature=None, document=None):
+            return (("barret-kropf", "surname") if raw == "Barret Kropf"
+                    else (None, "unknown label {0!r}".format(raw)))
+
+        def term_for(self, key, date, legislature=None):
+            return {"party": "SP"} if key == "barret-kropf" and date >= "2024-11-01" else None
+
+        def party_at(self, key, date, legislature=None):
+            return "SP"
+
+    def setUp(self):
+        self.r = sk.resolver_for(None, base=self.Base())
+
+    def test_the_committed_alias_is_loaded(self):
+        self.assertIn(("Barrett Kropf", "barret-kropf", "2025-05-05"),
+                      [(a["printed"], a["member"], a["date"]) for a in pn.load_aliases("sk")])
+
+    def test_the_misprint_resolves_on_its_day_in_its_minutes(self):
+        key, how = self.r.resolve("Barrett Kropf", "2025-05-05", 30, document=self.MINUTES)
+        self.assertEqual(key, "barret-kropf")
+        self.assertIn("alias (reviewed", how)
+
+    def test_and_nowhere_else(self):
+        self.assertIsNone(self.r.resolve("Barrett Kropf", "2025-05-06", 30, document=self.MINUTES)[0])
+        self.assertIsNone(self.r.resolve("Barrett Kropf", "2025-05-05", 30, document="https://x/other.htm")[0])
+
+    def test_the_division_tallies_with_it(self):
+        raw = {"yea_labels": ["Barrett Kropf"], "nay_labels": [], "yeas": 1, "nays": 0}
+        votes, ok, note = sk.resolve_division(raw, self.r, "2025-05-05", 30, document=self.MINUTES)
+        self.assertTrue(ok, note)
+        self.assertEqual([v["member_key"] for v in votes], ["barret-kropf"])
+        # another day, the same Minutes: still a gap
+        _v, ok, note = sk.resolve_division(raw, self.r, "2025-05-06", 30, document=self.MINUTES)
+        self.assertFalse(ok)
+        self.assertIn("unresolved 'Barrett Kropf'", note)
+
+
 if __name__ == "__main__":
     unittest.main()
