@@ -17,6 +17,15 @@
 # gaps (in the gaps table and as [gap] lines in the log): this script exits 0
 # for that, so the run is green and its gaps are read from the summary. Any
 # other failure exits non-zero and fails the step.
+#
+# THE EDITION (10 October 2026): after the collector, the Mexican FORTNIGHTLY
+# edition (tools/mx_monitor.py, src/editions/mx.py on
+# src/country_edition.py) is rendered to editions/mx-monitor-<date>.md and
+# DMed to Chris alone. It runs here, at the end of the GitHub job, because
+# the work does (X9: odd ISO weeks), and its window is a fortnight
+# (src/editions/render_hooks.py). Once a day: an edition already committed
+# for today is rewritten, not resent. Its failure is a [gap] line and never
+# costs the store. The workflow commits editions/ with data/.
 set -eo pipefail
 cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Mexico weekly}"
@@ -31,6 +40,18 @@ python3 tools/mx_rollcalls.py --budget-seconds 2400 || rc=$?
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "mx-rollcalls failed (exit $rc)"
   exit "$rc"
+fi
+# The edition, from the store just collected (not when the collector failed
+# outright: a half-read week is not worth a DM).
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  TODAY=$(date +%Y-%m-%d)
+  if git ls-files --error-unmatch "editions/mx-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/mx_monitor.py --edition || echo "  [gap] the edition failed to render"
+  else
+    python3 tools/mx_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
+  fi
 fi
 [ "$rc" -eq 3 ] && echo "mx-rollcalls recorded gaps; keeping what it stored"
 exit 0
