@@ -277,6 +277,71 @@ the Mac Mini would be a judge at zero API cost. Nothing below is built.
   updated, so the model tag is pinned. It is still a judge: X16 deferred
   the judge, so switching it on is Chris's call.
 
+## The weekly country editions as built (branch `editions-core`)
+
+- One framework, `src/country_edition.py`, renders a weekly edition per
+  own-edition country from a small adapter (`src/editions/<cc>.py`, the
+  interface in the module docstring); `tools/<cc>_monitor.py` is the entry
+  point; the edition is the last step of `jobs/<cc>-weekly.sh` (Mini first,
+  GitHub backup), DMed to Chris alone once a day and archived to
+  `editions/<cc>-monitor-<date>.md`. Stub triage only (X16); no [ACT] items.
+- The Latam noise filters are generalised into `src/noise.py`
+  (`src/latam_noise.py` is now its Latam instance, behaviour unchanged);
+  each edition reads `config/edition-noise-<cc>.yaml` and
+  `config/edition-mute-<cc>.yaml`.
+- Batch 1: Austria (Klub votes; member positions derived and labelled,
+  X5), the Netherlands (votes only, NL3; derived positions on a show of
+  hands, X5), Belgium (the full edition: BE6's votes-only step is
+  superseded now the terms are approved), Poland (every deputy's position).
+- Samples (SAMPLE, never sent), from the 9 October scoping stores
+  reclassified under the current taxonomies: `editions/at-monitor-2026-07-10.md`
+  (the Sterbeverfügung week: the week to 9 October held only questions),
+  `editions/nl-monitor-2026-10-09.md`, `editions/be-monitor-2026-10-09.md`,
+  `editions/pl-monitor-2026-10-09.md` (a month, since the week held only the
+  alcohol-bill votes the noise rules leave out).
+- Noise measured on those stores: Poland, 24 votes on the alcohol bills
+  (druki 2007 and 2010, area 7 through "weryfikacj* wieku" and "radiofonii
+  i telewizji" in the Sejm's summary) and 3 procedural votes left out; the
+  Netherlands, one Defence workplace-conduct motion ("seksuele
+  intimidatie"); Austria, the same question put to every ministry is
+  folded into one entry (fourteen Pride Month answers); Belgium, nothing.
+  A taxonomy-pl guard on "weryfikacj* wieku" (online company, not alcohol)
+  would fix the Polish case at the source; the taxonomy is generated, so it
+  is left for the next term-list round.
+
+### Batch 2: Italy, Switzerland, France, Portugal (branch `editions-it-ch-fr-pt`)
+
+- Adapters `src/editions/{it,ch,fr,pt}.py` on the framework unchanged;
+  entry points `tools/{it,ch,fr,pt}_monitor.py`; the edition is the last
+  step of `jobs/{it,ch,fr,pt}-weekly.sh` (Portugal's skips a backfill run,
+  `PT_LEGISLATURE` set).
+- Italy: bills of both chambers; Senate and Camera votes with every
+  member's position and the group at the vote. Switzerland: businesses
+  (German title, French when the German is "Titel folgt"), both councils'
+  votes; the Nationalrat's tallies are counted from positions and no
+  result is shown (it publishes none); the watchlist is re-keyed from the
+  Geschaeftsnummer to the printed number. France: dossiers by their latest
+  act (the store keeps no deposit date), scrutins with group split and
+  mises au point counted, scheduled committee acts in the week ahead.
+  Portugal: group sides as printed, named deputies as facts, member
+  positions DERIVED and labelled (X5).
+- FR4: no Journal officiel collector yet, so the France week ahead carries
+  a standing "Aide a mourir: decrees to watch" note, read from a `decrees`
+  list on the law's entry in `config/watchlist-fr.yaml` (hand-edited: the
+  list is drawn from the text as first adopted and must be checked against
+  the promulgated law).
+- Samples (SAMPLE, never sent), 9 September to 9 October 2026, from the
+  scoping raw archives replayed offline through the collectors (no
+  network): Italy 13 items (1 left out), Switzerland 80 (2 left out),
+  France 4 plus the FR4 note, Portugal 20. Noise measured there and over
+  each whole store: Italy, a hunting-wardens' conscience bill and Holy See
+  solar-farm agreements, plus quorum checks (an Italian "ordine del
+  giorno" is a resolution, never procedure); Switzerland, animal welfare
+  (ritual slaughter kept) and disability insurance by title, about 15
+  tier-2 or single-term questions left for the mute list; France, the
+  demande de suspension de seance; Portugal, requests to waive the final
+  drafting.
+
 ## Not acted on
 
 - U1 (Uruguay Ley 20.431 referendum): ignore.

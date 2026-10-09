@@ -1,0 +1,51 @@
+# Argentina edition noise filters (src/noise.py; the edition is
+# src/editions/ar.py). Hand-edited, not generated. Free and deterministic:
+# the AI judge stays off (X16). A WATCHED ITEM IS NEVER FILTERED.
+#
+# Patterns are Python regular expressions matched against text folded the
+# way the taxonomy folds it: lower case, accents stripped. Tuned on the
+# scoping stores of 9 October 2026 (327 Senate actas 2024-2026, 2,000
+# Diputados expedientes of 5 June to 6 October 2026), 10 October 2026.
+
+# Senate procedure: the order of business, minutes, quorum, recesses and the
+# acta "Votación cancelada" records, as in the Latam monitor.
+procedural_votes:
+  - '^\W*(el )?orden del dia\b'
+  - '\b(aprob|modific|alter)\w* (de |del )?(el |la )?(plan de labor|orden del dia)\b'
+  - '\b(aprob|lectura)\w* (de |del )?(el |la |las )?(actas?|version(es)? taquigrafica)'
+  - '\b(verificacion|comprobacion) (de |del )?quorum\b'
+  - '\b(apartamiento|apartarse) del reglamento\b'
+  - '\bcuarto intermedio\b'
+  - '\bmocion de preferencia\b'
+
+# Titles that hit a term by accident, read by hand:
+#   - 'culto*' in the foreign ministry's name ("Ministerio de Relaciones
+#     Exteriores, Comercio Internacional y Culto"): diplomats' promotions in
+#     the Senate, ministers summoned and citizens' letters forwarded in
+#     Diputados;
+#   - 'paliativ*' in the 2024 tax package ("Medidas Fiscales Paliativas y
+#     Relevantes", fifteen article votes);
+#   - suicide prevention: World Suicide Prevention Day declarations,
+#     requests for information on prevention policy and amendments to the
+#     prevention law (Ley 27.130). 'Prevención del suicidio' is a tier-2
+#     assisted-dying term in the shared Spanish list, where it serves the
+#     euthanasia debate; a title that also names euthanasia or assisted
+#     death stays in;
+#   - amendments to the personal data protection statute (Ley 25.326),
+#     whose title opens with its name ('protección de datos personales' is
+#     a tier-2 free-speech term);
+#   - pipe organs and harmoniums in churches declared national heritage
+#     ('templo*').
+exclude_titles:
+  - 'comercio internacional y culto'
+  - 'medidas fiscales paliativas'
+  - '^(?!.*(eutanasi|muerte (digna|asistida|voluntaria)|terminar con la propia vida)).*(prevencion del suicidio|conductas suicidas)'
+  - '^proteccion de datos personales\b'
+  - '\borganos y armonios\b'
+
+# What may lead the edition, for an item that is not watched: a tier-1 term
+# in its own title (a register title IS the extracto), or two distinct terms
+# in shown areas.
+alert:
+  title_tier1: true
+  distinct_terms: 2

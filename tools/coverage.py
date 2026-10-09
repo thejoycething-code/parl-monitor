@@ -72,29 +72,29 @@ PIPELINES = {
     # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
     # Scheduled 9 October 2026, Saturdays (at-weekly.yml; the Mac Mini first).
-    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes"),
+    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes, and the Austrian edition"),
     # Scheduled 9 October 2026, Thursdays (nl-weekly.yml; the Mac Mini first).
-    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions"),
+    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions, and the Dutch edition"),
     # Scheduled 9 October 2026, Sundays (pl-weekly.yml; the Mac Mini first).
-    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes"),
+    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes, and the Polish edition"),
     # Scheduled 9 October 2026, Saturdays (it-weekly.yml; the Mac Mini first).
-    "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes"),
+    "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes, and the Italian edition"),
     # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
-    "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes"),
+    "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes, and the Swiss edition"),
     # Scheduled 9 October 2026, Saturdays (be-weekly.yml; the Mac Mini first).
-    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes"),
+    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes, and the Belgian edition"),
     # Scheduled 9 October 2026, Saturdays (fr-weekly.yml; the Mac Mini first).
-    "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies"),
+    "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies, and the French edition"),
     # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
-    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies"),
+    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies, and the Portuguese edition"),
     # Scheduled 9 October 2026, Tuesdays (sk-weekly.yml; the Mac Mini first).
-    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations"),
+    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations, and the Slovak edition"),
     # Scheduled 9 October 2026, Saturdays (hr-weekly.yml; the Mac Mini first).
-    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes"),
+    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes, and the Croatian edition"),
     # Scheduled 9 October 2026, Saturdays (es-weekly.yml; the Mac Mini first).
-    "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies"),
+    "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies, and the Spanish edition"),
     # Scheduled 9 October 2026, Saturdays (br-weekly.yml; the Mac Mini first).
-    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes"),
+    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes, and the Brazilian edition"),
     # Scheduled 9 October 2026, Thursdays (cl-weekly.yml; the Mac Mini first).
     "Chile weekly": (7, 4, "Chile's National Congress: bills, Cámara and Senate votes"),
     # Scheduled 9 October 2026, Sundays (do-weekly.yml; the Mac Mini first).
@@ -111,9 +111,9 @@ PIPELINES = {
     # Scheduled 9 October 2026, Saturdays (mx-weekly.yml; the Mac Mini is the
     # clock, GitHub does the work: diputados.gob.mx refuses UK addresses).
     # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
-    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions"),
+    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions, and the fortnightly Mexican edition"),
     # Scheduled 9 October 2026, Saturdays (ar-weekly.yml; the Mac Mini first).
-    "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls"),
+    "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls, and the Argentine edition"),
     # Scheduled 9 October 2026, Thursdays (co-weekly.yml; the Mac Mini first).
     "Colombia weekly": (7, 4, "Colombia's Congress: both chambers' bills, attendance, Senate roll calls"),
     # Scheduled 9 October 2026, Sundays (bo-weekly.yml; the Mac Mini first).

@@ -1,0 +1,18 @@
+# Portugal edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text: lower case, accents stripped.
+# A watched item is never filtered.
+#
+# Measured on the scoping store (9 October 2026, replayed offline from the
+# raw archive, taxonomy-pt v0.1), 9 September to 9 October: 20 items on our
+# ground. Every one sits on an approved term (PT2 family policy, PT3 school
+# choice: the private and cooperative schools' bills), so none is dropped
+# by rule; the weakest (lawyers' parental leave) are for the mute list if
+# Chris finds them noise. Of the XVII's 90 votes on our ground, the
+# procedural ones are the requests to waive the final drafting. A request
+# to send a bill back to committee without a vote is kept: it is where a
+# bill goes to wait.
+procedural_votes:
+  - '\brequerimento (de )?dispensa (de )?redacao final\b'
+alert:
+  title_tier1: true
+  distinct_terms: 2

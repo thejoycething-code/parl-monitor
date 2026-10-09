@@ -22,6 +22,14 @@
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
 # published, and this script exits 0 so the caller commits the sidecars with
 # it. Any other failure publishes NOTHING and exits non-zero.
+#
+# THE EDITION (10 October 2026): after the collector, the Polish weekly
+# edition (tools/pl_monitor.py, src/country_edition.py) is rendered to
+# editions/pl-monitor-<date>.md and DMed to Chris alone. Once a day: an
+# edition already committed for today is rewritten, not resent. Its failure
+# is a [gap] line and never costs the store.
+#
+# mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -33,6 +41,18 @@ if [ "${PL_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/pl_rollcalls.py --budget-seconds 2700 || rc=$?
+# The edition, from the store just collected (not when the collector failed
+# outright: a half-read week is not worth a DM).
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  TODAY=$(date +%Y-%m-%d)
+  if git ls-files --error-unmatch "editions/pl-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/pl_monitor.py --edition || echo "  [gap] the edition failed to render"
+  else
+    python3 tools/pl_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
+  fi
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "pl-rollcalls failed (exit $rc); nothing published"
   exit "$rc"
