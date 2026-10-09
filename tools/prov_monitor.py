@@ -42,8 +42,10 @@ no shown area is muted, and Coverage says how many, province by province.
 Never a watched item, never anything a signed reading covers. The store is
 untouched.
 
-SCORES ARE OPTIONAL. The judge (tools/prov_triage.py) runs only when the
-repository variable PROV_JUDGE is 'on'. Without scores everything still
+SCORES ARE OPTIONAL. The judge (tools/prov_triage.py) is the free session
+judge (jobs/prov-session-judge.sh, Claude Code on the Mac Mini after the
+weekly, which rewrites this edition with its scores), or the paid API judge
+when the repository variable PROV_JUDGE is 'on'. Without scores everything still
 renders (CLAUDE.md: TRIAGE=stub), ordered by tier and date, and says so.
 
 Read-only on the store.
@@ -746,11 +748,13 @@ def render_edition(conn, today, since=None, stance_path=None, sheet_dir=None, no
     got = {p: gather(conn, p, since, until, scores, mutes) for p, _, _ in PROVINCES}
     act = [p for p, _, _ in PROVINCES if active(got[p])]
     quiet = [p for p, _, _ in PROVINCES if not active(got[p])]
-    score_note = ("Scores [0-3] and the italic why-lines come from the judge (src/triage.py, "
-                  "provincial frame; tools/prov_triage.py)." if scores else
-                  "**No item is scored**: the provincial judge is off (repository variable "
-                  "PROV_JUDGE), so items are ordered by tier and date and nothing has been read "
-                  "for relevance by a model; a tier-2 match can still be noise.")
+    score_note = ("Scores [0-3] and the italic why-lines come from the provincial judge "
+                  "(tools/prov_triage.py, provincial frame): the session judge, Claude Code on the "
+                  "Mac Mini on the plan allowance, or the paid API judge (PROV_JUDGE)." if scores else
+                  "**No item is scored**: the session judge (Claude Code on the Mac Mini, after "
+                  "the weekly) has not scored this week's items yet and the paid API judge "
+                  "(PROV_JUDGE) is off, so items are ordered by tier and date; a tier-2 match can "
+                  "still be noise.")
     out = ["# Canadian Provinces Monitor",
            "### Week ending {0} | Edition {1} | {2} to {3}".format(
                today, edition_number(today),
@@ -850,8 +854,10 @@ def render_edition(conn, today, since=None, stance_path=None, sheet_dir=None, no
             "the store; a dissolution with no new session yet (Quebec's, for the 5 October 2026 "
             "election) shows when the new legislature's first session is collected.",
             "- **Judge:** {0}.".format(
-                "{0} item(s) scored so far (tools/prov_triage.py)".format(n_scored) if n_scored
-                else "off (PROV_JUDGE); nothing scored"),
+                "{0} item(s) scored so far (tools/prov_triage.py; the session judge, "
+                "jobs/prov-session-judge.sh, is the free default)".format(n_scored) if n_scored
+                else "nothing scored yet (the session judge, jobs/prov-session-judge.sh, scores "
+                "after the weekly; the paid API judge, PROV_JUDGE, is off)"),
             mutes.coverage_line(),
             "- **5CA sheets** are rebuilt every week (data/5ca/prov-5ca-*.csv); only confirmed "
             "readings in config/prov_stance.yaml place anyone.",
@@ -900,7 +906,8 @@ def dm_summary(conn, today, since=None, path=None, stance_path=None, noise_dir=N
     if mutes.count():
         lines.append("Muted as noise (config/prov-noise.yaml): {0} item(s).".format(mutes.count()))
     lines.append("_{0}_".format("Scored by the provincial judge." if scores else
-                                "Ordered by tier; the provincial judge is off (PROV_JUDGE)."))
+                                "Ordered by tier; nothing scored yet (the session judge runs "
+                                "after the weekly)."))
     if path:
         lines.append("Full edition: {0}{1}".format(REPO, os.path.relpath(path, ROOT)))
     return "\n".join(lines)
