@@ -23,7 +23,9 @@ queued behind a dead one. Votes are judged ONLY where their own text matched
 score in the edition, so judging it again would pay twice for one story.
 Since 9 October 2026 also the Federal Register documents (us_fr_documents)
 and Supreme Court opinions and grants (us_court_cases) on our ground, each
-on the text its collector classified.
+on the text its collector classified. Since the states were added (same
+day), state bills on our ground (uss_bills) with an action in the last 30
+days: never the whole first read.
 
 SCORED ONCE, EVER. --rescore <key> puts one back on a human's say-so.
 Spend lands in api_spend as 'us-triage'.
@@ -72,11 +74,18 @@ SYSTEM_PROMPT_US = triage.SYSTEM_PROMPT.replace(
     "and its CRS summary; a VOTE by its question and its own text; an EXECUTIVE ACTION by "
     "its title and the agency's abstract (a proposed rule open for comment is something "
     "campaigners can act on); a COURT item by the case name and the Court's holding or the "
-    "question presented. CitizenGO campaigns", 1)
+    "question presented; a STATE BILL by its title, the state's subject terms and its "
+    "abstract, where the state gives them (many give only a title). CitizenGO campaigns", 1)
 assert SYSTEM_PROMPT_US != triage.SYSTEM_PROMPT
 
 SOURCES = {"us_bills": "bill_key", "us_divisions": "division_key",
-           "us_fr_documents": "document_number", "us_court_cases": "case_key"}
+           "us_fr_documents": "document_number", "us_court_cases": "case_key",
+           "uss_bills": "bill_id"}
+# State bills are judged only once they MOVE: one with an action in the last
+# STATE_RECENT_DAYS. The first read of the fifty stored 4,418 bills on our
+# ground (9 October 2026), most of them dead with their session; judging the
+# lot would cost about $11 for scores the edition never shows.
+STATE_RECENT_DAYS = 30
 
 
 def _ours(areas_json):
@@ -151,6 +160,27 @@ def pending(conn):
                       triage.TriageItem(id="us_court_cases:" + r["case_key"], title=title,
                                         text=text[:1500], tier=r["tier"] or 2,
                                         issue_areas=areas, watchlist_hit=False)))
+    # The fifty states (tools/us_states.py): only bills that moved recently.
+    recent = (datetime.date.today() - datetime.timedelta(days=STATE_RECENT_DAYS)).isoformat()
+    try:
+        state_rows = conn.execute("SELECT * FROM uss_bills WHERE triage_score IS NULL "
+                                  "AND areas NOT IN ('[]', '[11]') AND latest_action_at >= ?",
+                                  (recent,)).fetchall()
+    except Exception:                                       # noqa: BLE001
+        state_rows = []
+    for r in state_rows:
+        areas = _ours(r["areas"])
+        if not areas:
+            continue
+        title = "{0} {1}: {2}".format(r["state"].upper(), r["identifier"], r["title"] or "")
+        subjects = "; ".join(json.loads(r["subjects"] or "[]")[:25])
+        text = " ".join("State legislature bill. Status: {0}. Subjects: {1}. Abstract: {2}".format(
+            r["latest_action"] or "?", subjects or "none given",
+            r["abstract"] or "none given").split())
+        dated.append((r["latest_action_at"] or r["introduced_at"] or "",
+                      triage.TriageItem(id="uss_bills:" + r["bill_id"], title=title,
+                                        text=text[:1500], tier=r["tier"] or 2,
+                                        issue_areas=areas, watchlist_hit=False)))
     dated.sort(key=lambda d: (d[0], d[1].id), reverse=True)
     return [item for _, item in dated]
 
@@ -174,8 +204,9 @@ def apply(conn, results):
 
 
 def rescore(conn, key):
-    """Re-queue one row: '119/hr/28' for a bill, or 'us_divisions:<key>'."""
-    table, _, k = key.partition(":") if key.startswith("us_") else ("us_bills", "", key)
+    """Re-queue one row: '119/hr/28' for a bill, 'us_divisions:<key>', or
+    'uss_bills:ocd-bill/<uuid>' for a state bill."""
+    table, _, k = key.partition(":") if key.startswith(("us_", "uss_")) else ("us_bills", "", key)
     if table not in SOURCES:
         return 0
     n = conn.execute("UPDATE {0} SET triage_score = NULL, why_it_matters = NULL "

@@ -249,6 +249,20 @@ FEEDS = [
     # whole, like the SCC feed, so us_court_cases moves every week too.
     ("us_fr_documents", "last_seen", 7, 4, "Federal Register: orders and rules (US weekly)"),
     ("us_court_cases", "last_seen", 7, 4, "Supreme Court opinions and grants (US weekly)"),
+    # The fifty state legislatures (tools/us_states.py, 9 October 2026).
+    # Every run re-stamps every session Open States lists (two keyed
+    # requests), and the people file of each state it reaches, so both move
+    # weekly. A stored bill or vote is re-stamped only when it MOVES, and
+    # most legislatures are out for months (in October 2026 only seven had
+    # a session open by Open States' dates, and 33 of the 50 had no bill
+    # with an action in the week): but the full-time legislatures (New
+    # Jersey, Pennsylvania, Michigan, Massachusetts, New York, Ohio) move
+    # all year, so a month plus a month's grace, as for the roll calls,
+    # covers the Christmas lull without crying wolf.
+    ("uss_sessions", "last_seen", 7, 4, "state legislative sessions, as Open States lists them (US weekly)"),
+    ("uss_people", "last_seen", 7, 7, "sitting state legislators (US weekly, by rotation)"),
+    ("uss_bills", "last_seen", 31, 31, "state bills on our ground that moved (US weekly)"),
+    ("uss_votes", "last_seen", 31, 31, "state recorded votes on those bills (US weekly)"),
     # Ireland (9 October 2026). MEASURED which re-stamp: tools/ie_rollcalls.py
     # re-reads both rosters, every bill with an event since the Dail first
     # met, and every division of both Houses whole on each run, and all three
@@ -715,6 +729,10 @@ AWAITING_FIRST_RUN = {
     "US Federal Register": (("us_fr_documents",),
                             "executive actions added to US weekly 9 October 2026; "
                             "the table fills on the step's first run"),
+    # tools/us_states.py stamps "US states" at the end of every stored run.
+    "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
+                  "state legislatures added to US weekly 9 October 2026; "
+                  "their tables fill on the step's first run"),
     "US Supreme Court": (("us_court_cases", "us_court_orders"),
                          "Supreme Court added to US weekly 9 October 2026; "
                          "its tables fill on the step's first run"),

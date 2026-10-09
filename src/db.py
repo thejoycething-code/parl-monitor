@@ -1575,6 +1575,15 @@ TABLES = (
     "us_fr_documents",
     "us_court_cases",
     "us_court_orders",
+    # The fifty state legislatures (tools/us_states.py, 9 October 2026),
+    # created by src/us_states_store.ensure_schema.
+    "uss_sessions",
+    "uss_bills",
+    "uss_actions",
+    "uss_sponsors",
+    "uss_votes",
+    "uss_vote_people",
+    "uss_people",
     # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
     # src/ie_store.ensure_schema -- declared from day one.
     "ie_members",
@@ -2034,6 +2043,8 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import us_states_store
+    us_states_store.ensure_schema(conn)
     from src import au_store
     au_store.ensure_schema(conn)
     from src import ie_store
