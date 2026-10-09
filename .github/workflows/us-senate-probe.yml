@@ -1,0 +1,24 @@
+# ONE-OFF PROBE (9 October 2026): does senate.gov answer GitHub's runners?
+# It refuses the laptop on every page (403, VPN off, curl and urllib alike).
+# Read-only, no secrets, no store. Delete once the Senate collector is built.
+name: US Senate probe
+on:
+  push:
+    branches: [us-congress]
+    paths: [.github/workflows/us-senate-probe.yml]
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe senate.gov
+        run: |
+          UA="CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
+          for u in https://www.senate.gov/ \
+                   https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_1.xml \
+                   https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_2.xml \
+                   https://www.senate.gov/legislative/LIS/roll_call_votes/vote1191/vote_119_1_00001.xml; do
+            code=$(curl -s -A "$UA" -o /tmp/p -w "%{http_code} %{size_download}" "$u")
+            echo "PROBE $code $u :: $(head -c 160 /tmp/p | tr '\n' ' ')"
+          done
+          curl -s -A "$UA" https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_119_2.xml | grep -c "<vote>" | sed 's/^/PROBE votes listed in 119-2: /'
