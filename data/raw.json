@@ -421,11 +421,11 @@
       "sha256": "47af0b15e781f601123b49005de09e4293aec180a543863dc3d025eb8615bf72"
     },
     "2026-10-09": {
-      "bytes": 104313009,
-      "files": 970,
-      "published_by": "mini prov-backfill (sk) 2026-10-09T18:2xZ; pointer adopted by hand after its commit step failed",
-      "published_utc": "2026-10-09T18:57:13Z",
-      "sha256": "35e5bef5ebb9fcd3f392f361472db13376f87cca584ea4af2b2dd87cf3ba5963"
+      "bytes": 109913734,
+      "files": 1155,
+      "published_by": "run 37973767699",
+      "published_utc": "2026-10-09T19:01:12Z",
+      "sha256": "263dcbf2fd9326ffc509fe90bedd5b46da4c0c0332e59160f37f4eb2640a3137"
     },
     "eu-probe-2026-09-01": {
       "bytes": 15724967,
