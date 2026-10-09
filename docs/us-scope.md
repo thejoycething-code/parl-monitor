@@ -140,6 +140,16 @@ now they do not show at all. The fix is terms in docs/keyword-taxonomy.md
 (Christopher's call, then regenerate `config/taxonomy.yaml`), not a return
 to inheritance.
 
+**Done at taxonomy v1.19** (Christopher approved the terms, 9 October 2026):
+"gender-related medical*" (and unhyphenated) in area 3; "male participation
+in female sport*", "designated exclusively for females" guarded by sport
+company, and "gender identity" guarded by survey-and-form wording in area 5.
+All five votes regain an area (rolls 246 and 267 area 3; 247, 248 and 268
+area 5): House roll calls on our ground 79 to 84. Four US bills gain an
+area, all on our ground (H.R. 1015, H.R. 5592, H.R. 10127 area 3; H.R. 4138
+area 5); no UK, devolved, EU, Canadian, Federal Register or Supreme Court
+row gains.
+
 ## Executive actions and the Supreme Court: built, 9 October 2026
 
 Both run in the US weekly (`jobs/us-weekly.sh`) after the roll calls and
