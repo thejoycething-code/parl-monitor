@@ -81,7 +81,11 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.19 (the same day): the NDAA amendment wording phase 1b left
         # unmatched (gender-related medical care, male participation in
         # female sports, the gender-identity survey).
-        self.assertEqual(version, "1.19")
+        # v1.20 (the same day): the state, Irish and Australian candidates
+        # ("abortions" plural, born alive infant, reproductive freedom,
+        # gender transition for minors, sex-based rights, child abuse
+        # material, online safety, blasphemy, sex for rent, and the rest).
+        self.assertEqual(version, "1.20")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on

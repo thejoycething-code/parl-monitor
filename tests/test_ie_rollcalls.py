@@ -267,7 +267,10 @@ class DivisionTests(unittest.TestCase):
             "SELECT own_areas, areas, subject FROM ie_divisions "
             "WHERE division_key='dail/34/2026-03-04/vote_58'").fetchone()
         self.assertEqual(subject, "Amendment put:")
-        self.assertEqual((json.loads(own), json.loads(areas)), ([], [7]))
+        # Its debate title names the Online Safety (Recommender Algorithms)
+        # Bill 2026, and since taxonomy v1.20 "online safety" is a term, so
+        # the vote's own words now say area 7 too (before: own [], inherited [7]).
+        self.assertEqual((json.loads(own), json.loads(areas)), ([7], [7]))
 
     def test_party_is_the_party_at_the_vote(self):
         conn = loaded()

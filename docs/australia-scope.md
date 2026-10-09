@@ -183,6 +183,40 @@ Each would have caught a measured miss above. Tiers are suggestions:
 - Area 4 (for the states): "change or suppression" practices, Victoria's
   statutory name for conversion practices (background).
 
+**Adopted at taxonomy v1.20** (Christopher, 9 October 2026: "Add the state
+keyword and other candidates to the taxonomy"), each measured against v1.19
+on the Australian scratch store and on every other stored corpus
+(docs/keyword-taxonomy.md has the per-term counts). In Australia no bill
+changes area (the 13 named misses already carry watchlist keys, which stay)
+and 10 divisions gain one, 9 of them newly on our ground: three orders for
+documents on the eSafety Commissioner, four on online safety (the Prime
+Minister's department and the Grok chatbot), the cybersafety order of 15
+September 2026 (area 6), one division on the criminal-law bill of the hate
+package, and one "Consideration of Legislation" naming a Sex Discrimination
+Amendment bill. Five bills become tier 1.
+
+- **As proposed:** "Born Alive Protection" (area 1, tier 1), "sex-based
+  rights" (5, tier 1), "Sex Discrimination Amendment" (5, tier 2), "child
+  abuse material" (6, tier 1), "social media minimum age" (6, tier 1),
+  "eSafety Commissioner" (7, tier 2), "vilification" (7, tier 2), "change or
+  suppression" (4, tier 1).
+- **Narrowed:** "hate and extremism" (7, tier 2) is vetoed by firearm\*:
+  bare, it put the package's firearms bill (r7421) and its 14 divisions in
+  area 7, and this document already says that bill is not our ground.
+  "Online Safety Amendment" is covered by "online safety" (tier 2, adopted
+  from the Irish list). "Religious Discrimination" joined area 8 only as
+  "Religious Discrimination Bill" and "Religious Discrimination Act" (tier
+  1): bare, it is a Federal Register index term on 36 unrelated US rules.
+- **Rejected:** bare "gender identity" (232 US state bills, 25 Congress bills
+  and 124 Westminster ledger rows would gain area 5, nearly all
+  anti-discrimination boilerplate; the guarded form of v1.19 stays),
+  "sex characteristics" (the same boilerplate), bare "Sex Discrimination Act"
+  (two Holyrood anniversary motions), "under-16 ban" (no row anywhere), and
+  "Human Rights Bill" / "Human Rights Act" (Scotland's Human Rights Bill
+  pulled in environment and child-poverty debates; r7488 keeps its key).
+- Stored rows pick it up only when the Australian weekly runs with
+  `AU_RECLASSIFY=true` (`tools/au_rollcalls.py --reclassify`).
+
 ### What it caught that it should not have
 
 Of the 43 divisions that matched on their own words, about a dozen are
@@ -496,8 +530,8 @@ probed.
 ## Open questions for Christopher
 
 1. ~~Confirm the assumed decisions~~: confirmed 9 October 2026.
-2. **The proposed Australian vocabulary** (above): add to the shared
-   taxonomy, keep in the watchlist, or drop, term by term.
+2. ~~The proposed Australian vocabulary~~: adopted at taxonomy v1.20,
+   narrowed or rejected term by term (above); the watchlist stays.
 3. **Scope**: the Combatting Antisemitism, Hate and Extremism package is in
    on area 7 (hate speech law) while antisemitism itself is out in the US
    decision. Should area 8 apply too? Is the Human Rights Bill ours? Are the
