@@ -34,7 +34,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, at 02:00 London on Sundays (tools/mini_run.sh sunday-pull;
+  # 9 October 2026). Every trigger here is the backup: the gate skips while
+  # the Mini is running it (MINI_RUN_SUNDAY_PULL) and, for 36 hours after the
+  # Mini ran it, skips every slot, retries included.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: SUNDAY_PULL
+      cover-hours: 36
+
   pull:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     # 60min (Christopher, 2026-08-17). A cold pull measured 40m05s and the
     # weekly run is always cold; this covers the whole job, not just the

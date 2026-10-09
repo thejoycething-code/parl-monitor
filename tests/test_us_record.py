@@ -327,7 +327,8 @@ class HttpTests(unittest.TestCase):
             opener = Opener()
             client = HttpClient(raw_dir=raw, opener=opener, sleep=lambda s: None)
             client.get_bytes("https://api.govinfo.gov/x", "f", "s", headers={"X-Api-Key": "K"})
-            self.assertEqual(client.last_headers["x-ratelimit-remaining"], "35990")
+            self.assertEqual({k.lower(): v for k, v in client.last_headers.items()}
+                             ["x-ratelimit-remaining"], "35990")
             self.assertNotIn("K", opener.requests[0].full_url)
             self.assertEqual(os.listdir(raw), [])         # keyed: never archived
             client.archive(b"{}", "f", "listing")

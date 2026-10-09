@@ -1,0 +1,24 @@
+# Honduras watchlist (9 October 2026), applied by expediente NUMBER, never by
+# title (src/hn_store.watch_areas).
+#
+# The Spanish taxonomy, once Christopher approves the term list proposed in
+# docs/honduras-scope.md, does most of the work. This file carries what it
+# cannot see, plus the two flagship bills of the 2026 session, so that they
+# stay lit whatever happens to the term list.
+#
+# Keys are the Congreso's own public number, 'EXP-<year>-<nnnn>', as the
+# matizzo API prints it (`numero` on an expediente, `legislativeProject.number`
+# on an agenda item). Measured on 9 October 2026: 806 numbers on 807 files,
+# one number (EXP-2026-0254) on two files, so a number is near-unique, not
+# guaranteed; the store keeps the internal id beside it.
+expedientes:
+  "EXP-2026-0390": {areas: [6],
+                    why: "Ley de Derechos Parentales: the parents' preferential right to choose their children's education and to guide their moral and religious formation. On the Comisión de Educación's agenda from 17 March 2026, reported favourably on 9 June (press release), on the plenary agenda for second debate in September. Flagship."}
+  "EXP-2026-0441": {areas: [1],
+                    why: "Ley de protección integral a la mujer embarazada y al No nacido (diputado Rivera Callejas, March 2026). On the plenary agenda of 25 March 2026. Flagship."}
+  "EXP-2026-0381": {areas: [6],
+                    why: "Ley para la autorización judicial sustitutiva para la protección de la niñez frente al ejercicio abusivo de la patria potestad: a judge's authorisation in place of the parents'. Its title says 'patria potestad', a tier-2 term only, so the taxonomy alone would leave it to triage. On the Comisión de Legislación y Asuntos Constitucionales' agenda of 17 March 2026. Content not yet read: confirm the direction before campaigning."}
+  "EXP-2026-1219": {areas: [8, 6],
+                    why: "Plan Nacional de Lectura de la Biblia en centros educativos: the Congreso president's initiative instructing the Secretaría de Educación to design and run a Bible-reading plan in schools (press release of 22 September 2026). On the Comisión Especial's agenda of 21 September 2026. An earlier plenary item of 4 February 2026, 'Plan de Lectura de la Biblia en escuelas', carried no expediente."}
+  "EXP-2026-1045": {areas: [5],
+                    why: "Ley de reconocimiento, dignidad y protección integral de la población LGBTIQ: declares the LGBTIQ+ population a protected group (title as printed, cut off by the API). On the Comisión de Legislación y Asuntos Constitucionales' agenda of 11 August 2026. Watched because it runs against the session's direction and would be the first such bill to move."}

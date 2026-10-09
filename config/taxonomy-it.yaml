@@ -1,0 +1,61 @@
+# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
+# Source of truth: docs/keyword-taxonomy-it.md
+# Regenerate: python3 tools/generate_taxonomy.py --lang it
+version: 0.1
+areas:
+  1_abortion:
+    tier1: [aborto, aborti, "abortiv*", "interruzione volontaria di gravidanza", "interruzione volontaria della gravidanza", "interruzioni volontarie di gravidanza", IVG, {term: "legge 194", only: [it]}, {term: "legge n. 194", only: [it]}, {term: "legge 22 maggio 1978, n. 194", only: [it]}, {term: "194 del 1978", only: [it]}, {term: "194/1978", only: [it]}, RU486, "RU 486", mifepristone, "tutela della vita nascente", "vita nascente", "diritti del concepito", "capacità giuridica del concepito", "riconoscimento del concepito", nascituro, nascituri, {term: "Movimento per la vita", only: [it]}, {term: "centri di aiuto alla vita", only: [it]}, "battito cardiaco fetale", "vita umana", "sepoltura dei feti"]
+    tier2: [{term: "obiezione di coscienza", with: [gravidanza, aborto, "194", "ginecolog*", interruzione]}, "consultori familiari", "consultorio familiare", "salute riproduttiva", "diritti riproduttivi", "salute sessuale e riproduttiva", {term: sepoltura, with: [feti, "prodotti abortivi", "prodotti del concepimento"]}, "diagnosi prenatale", "aborto spontaneo", "parto in anonimato", "culle per la vita"]
+    # note: Italy: Measured on the Senate and Camera records; Law 194/1978 variants are Italy-only.
+  2_assisted_dying:
+    tier1: ["suicidio assistito", "suicidio medicalmente assistito", "morte volontaria medicalmente assistita", "morte medicalmente assistita", "morte volontaria", "aiuto al suicidio", {term: eutanasia, without: [animali, animale, "animali di affezione", equini, cani, gatti]}, "fine vita", "fine della vita", "trattamenti di fine vita", "disposizioni anticipate di trattamento", "testamento biologico", {term: "legge 219/2017", only: [it]}, {term: "legge 22 dicembre 2017, n. 219", only: [it]}, {term: "articolo 580 del codice penale", only: [it]}, {term: "art. 580 c.p.", only: [it]}, "sedazione palliativa profonda", {term: suicidio, with: [assistito, medicalmente, "580", aiuto, "eutanasi*"]}]
+    tier2: ["cure palliative", "terapia del dolore", hospice, "accanimento terapeutico", {term: "consenso informato", without: ["scolastic*", scuola, scuole, studenti, alunni]}, "dignità del morente", "prevenzione del suicidio"]
+    # note: Italy: Eutanasia vetoed for animal euthanasia, which TESEO files under the same word; suicidio needs an assisted-suicide companion word.
+  3_gender_medicine_children:
+    tier1: [triptorelina, "bloccanti della pubertà", "bloccanti puberali", "blocco puberale", "disforia di genere", "incongruenza di genere", {term: "transizione di genere", with: [minori, minorenni, adolescenti, bambini, "età evolutiva"]}, {term: "percorsi di affermazione di genere", with: [minori, minorenni, adolescenti]}, detransizione]
+    tier2: [{term: "identità di genere", with: [minori, minorenni, adolescenti, bambini, "età evolutiva", "farmac*"]}, {term: "terapia ormonale", with: [minori, adolescenti, genere]}, {term: "trattamenti ormonali", with: [minori, adolescenti, genere]}]
+    # note: Italy: Tier 1 triptorelina and puberty-blocker terms; transition and identity terms guarded to minors.
+  4_conversion_practices:
+    tier1: ["terapie di conversione", "terapia di conversione", "terapie riparative", "terapia riparativa", "pratiche di conversione", "pratiche volte a modificare l'orientamento sessuale", "terapie volte alla conversione", "conversione dell'orientamento sessuale"]
+    tier2: [{term: "orientamento sessuale", with: [conversione, "riparativ*", modificare, reprimere]}]
+    # note: Italy: Draft list, measured on TESEO titles.
+  5_sex_based_rights:
+    tier1: ["identità di genere", omotransfobia, omobitransfobia, omolesbobitransfobia, {term: "rettificazione di attribuzione di sesso", only: [it]}, {term: "rettificazione dell'attribuzione di sesso", only: [it]}, {term: "legge 164/1982", only: [it]}, {term: "legge 14 aprile 1982, n. 164", only: [it]}, {term: "carriera alias", only: [it]}, transgender, "transessual*", "non binari*", {term: "ddl Zan", only: [it]}, "atlete transgender", "sesso biologico", {term: "sesso delle persone e sessualità", only: [it]}]
+    tier2: ["Convenzione di Istanbul", femminicidio, femminicidi, "violenza di genere", "linguaggio di genere", "linguaggio inclusivo", schwa, "LGBT*", "LGBTQ*", "orientamento sessuale", "parità di genere", "quote rosa", "sport femminile", Pride, "relazioni di genere", "parità tra sessi"]
+    # note: Italy: Femicide and gender-violence terms sit at tier 2 (largest single group of hits, kept in by X11).
+  6_parental_rights_education:
+    tier1: ["educazione sessuale", "educazione sessuo-affettiva", "educazione all'affettività", "educazione affettiva", "educazione sentimentale", "educazione alle relazioni", "ideologia gender", "ideologia di genere", "teorie del gender", "teoria del gender", "teorie gender", "gender nelle scuole", "istruzione parentale", "scuola parentale", "scuole parentali", homeschooling, "libertà di scelta educativa", "libertà educativa", "consenso informato preventivo", "primato educativo"]
+    tier2: [{term: "consenso informato", with: [scuola, scuole, studenti, alunni, genitori, famiglie]}, {term: "scuole paritarie", only: [it]}, {term: "parità scolastica", only: [it]}, "buono scuola", {term: "patto educativo di corresponsabilità", only: [it]}, {term: smartphone, with: [scuola, scuole, minori, alunni, divieto]}, {term: cellulari, with: [scuola, scuole, classe, studenti, alunni], without: [colture]}, {term: "social network", with: [minori, minorenni, anni, età, scuola]}, {term: "verifica dell'età", with: [minori, "pornografi*", online, "piattaform*"]}, "age verification", "parental control", "potestà genitoriale", "responsabilità genitoriale", "diritto dei genitori", "scuole private"]
+    # note: Italy: Consenso informato is area 6 tier 2 only with school or family company; elsewhere it belongs to area 2.
+  7_free_speech_online_safety:
+    name: "Free speech, privacy and civil liberties"
+    tier1: ["libertà di espressione", "libertà di manifestazione del pensiero", "libertà di pensiero", "libertà di stampa", "reati di opinione", "reato di opinione", "Digital Services Act", "regolamento sui servizi digitali", "chat control", {term: "legge Mancino", only: [it]}, "crittografia end-to-end", "trattato pandemico", "accordo pandemico", "Regolamento sanitario internazionale"]
+    tier2: [{term: censura, with: [web, internet, online, "piattaform*", social, "opinion*", espressione]}, "hate speech", "discorso d'odio", "discorsi d'odio", "incitamento all'odio", disinformazione, "fake news", fact-checking, "riconoscimento facciale", "data retention", "conservazione dei dati di traffico", "identità digitale", "euro digitale", {term: OMS, with: ["pandemi*", "sanitario internazionale", sovranità]}, deepfake]
+    # note: Italy: Draft list; censura guarded to online and opinion company.
+  8_freedom_of_religion:
+    tier1: ["libertà religiosa", "libertà di religione", "libertà di culto", "cristiani perseguitati", "persecuzione dei cristiani", "persecuzione religiosa", "persecuzioni religiose", "minoranze religiose", "minoranze cristiane", crocifisso, {term: "insegnamento della religione cattolica", only: [it]}, {term: "ora di religione", only: [it]}, "vilipendio della religione", {term: "offese a una confessione religiosa", only: [it]}, {term: "intese con le confessioni", only: [it]}]
+    tier2: [{term: "otto per mille", only: [it]}, {term: "8 per mille", only: [it]}, "luoghi di culto", "confessioni religiose", "Santa Sede", {term: Concordato, with: ["Santa Sede", Chiesa, "Stato e Chiesa", Vaticano], only: [it]}, {term: "Patti lateranensi", only: [it]}, moschee, moschea, islamofobia, cristianofobia, "obiezione di coscienza", "enti ecclesiastici", "simboli religiosi", "velo integrale", burqa, "macellazione rituale", "rapporti tra Stato e Chiesa", "minoranze etniche e religiose", "insegnamento della religione nelle scuole", "ecclesiastici e ministri del culto"]
+    # note: Italy: Antisemitismo removed by X13.
+  9_marriage_family:
+    tier1: ["unioni civili", "unione civile", {term: "legge Cirinnà", only: [it]}, "matrimonio egualitario", "matrimonio tra persone dello stesso sesso", "matrimonio omosessuale", "stepchild adoption", "adozione del figlio del partner", "famiglia naturale", "famiglia fondata sul matrimonio", natalità, denatalità, "inverno demografico", "quoziente familiare", {term: "assegno unico universale", only: [it]}, "matrimonio forzato", "matrimoni forzati", "matrimoni precoci", poligamia]
+    tier2: ["adozioni internazionali", "adozione di minori", "adozione dei minori", {term: affido, with: [minori, familiare, figli, minorenni]}, "affidamento di minori", "affidamento condiviso", "alienazione parentale", "congedo parentale", "congedi parentali", {term: "bonus bebè", only: [it]}, genitorialità, "potestà dei genitori", "diritto di famiglia", "cessazione del matrimonio", "matrimonio religioso", "politiche familiari", "politiche per la famiglia", "genitore 1", divorzio, "separazione personale dei coniugi", "famiglie numerose", "conciliazione vita-lavoro"]
+    # note: Italy: Draft list; natalità and family-policy terms are tier 1/2 as drafted.
+  10_surrogacy_embryology:
+    tier1: ["maternità surrogata", "surrogazione di maternità", "gestazione per altri", GPA, "utero in affitto", {term: "reato universale", only: [it]}, "procreazione medicalmente assistita", PMA, {term: "legge n. 40", only: [it]}, {term: "legge 19 febbraio 2004, n. 40", only: [it]}, "fecondazione eterologa", "fecondazione assistita", "fecondazione artificiale", embrioni, embrione, crioconservazione, "editing genetico", clonazione]
+    tier2: [{term: "legge 40", only: [it]}, {term: trascrizione, with: [nascita, figli, "coppie omogenitoriali", "due madri", "due padri", estero]}, "coppie omogenitoriali", "riconoscimento dei figli", "diagnosi preimpianto", gameti, "donazione di ovociti", "cellule staminali embrionali"]
+    # note: Italy: Reato universale is the 2024 law making surrogacy abroad a universal crime.
+  11_migration:
+    tier1: [immigrazione, "immigrazione clandestina", "protezione internazionale", "richiedenti asilo", {term: "centri di permanenza per il rimpatrio", only: [it]}, {term: "Protocollo Italia-Albania", only: [it]}, "flussi migratori", cittadinanza]
+    tier2: [{term: CPR, only: [it]}, rimpatri, sbarchi, "ius scholae", "ius soli", "permesso di soggiorno", ONG]
+    # note: Italy: Collated, never campaigned.
+  12_prostitution:
+    name: "Prostitution, trafficking and sexual exploitation"
+    tier1: [prostituzione, {term: "legge Merlin", only: [it]}, "sfruttamento sessuale", "tratta di esseri umani", "tratta degli esseri umani", {term: pornografia, without: ["tutela degli animali", "reati contro gli animali"]}, "pornografic*", "pedopornografi*", "materiale pedopornografico", "abusi sessuali su minori", "adescamento di minori", "revenge porn", {term: "diffusione illecita di immagini o video sessualmente espliciti", only: [it]}, sextortion, "turismo sessuale", {term: "case chiuse", only: [it]}, "modello nordico"]
+    tier2: ["lavoro sessuale", "sex worker", "violenza sessuale", "riduzione in schiavitù", {term: deepfake, with: ["sessual*", "nud*", "pornografi*"]}]
+    # note: Italy: Caporalato deliberately not a term: farm-labour exploitation put two labour decrees on our ground.
+  13_organ_donation:
+    name: Organ donation and transplant ethics
+    tier1: ["donazione di organi", "donazione degli organi", "trapianto di organi", "trapianti di organi", "prelievo di organi", {term: silenzio-assenso, with: [organi, donazione, "trapiant*"]}, {term: "silenzio assenso", with: [organi, donazione, "trapiant*"]}, "donazione del corpo", "commercio di organi", "traffico di organi"]
+    tier2: [trapianti, trapianto, {term: "Centro nazionale trapianti", only: [it]}, "morte cerebrale", "accertamento della morte", {term: donatori, with: [organi, tessuti, "trapiant*"]}, "donatori di organi"]
+    # note: Italy: Silenzio-assenso and donatori guarded: alone they are administrative law and blood donors.
+exclusions_global: [genere, famiglia, scuola, vita, salute, minori, religione]

@@ -1580,6 +1580,15 @@ TABLES = (
     "us_record_days",
     "us_record_speeches",
     "us_record_bills",
+    # The fifty state legislatures (tools/us_states.py, 9 October 2026),
+    # created by src/us_states_store.ensure_schema.
+    "uss_sessions",
+    "uss_bills",
+    "uss_actions",
+    "uss_sponsors",
+    "uss_votes",
+    "uss_vote_people",
+    "uss_people",
     # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
     # src/ie_store.ensure_schema -- declared from day one.
     "ie_members",
@@ -1589,6 +1598,182 @@ TABLES = (
     "ie_bill_debates",
     "ie_divisions",
     "ie_votes",
+    # Austria's Parliament (tools/at_rollcalls.py), created by
+    # src/at_store.ensure_schema -- declared from day one.
+    "at_members",
+    "at_items",
+    "at_divisions",
+    "at_votes",
+    # The Netherlands' Tweede Kamer (tools/nl_rollcalls.py), created by
+    # src/nl_store.ensure_schema -- declared from day one.
+    "nl_fracties",
+    "nl_members",
+    "nl_zaken",
+    "nl_divisions",
+    "nl_votes",
+    # Poland's Sejm (tools/pl_rollcalls.py), created by
+    # src/pl_store.ensure_schema -- declared from day one.
+    "pl_members",
+    "pl_prints",
+    "pl_processes",
+    "pl_divisions",
+    "pl_votes",
+    # Italy's Parliament (tools/it_rollcalls.py), created by
+    # src/it_store.ensure_schema -- declared from day one.
+    "it_members",
+    "it_bills",
+    "it_divisions",
+    "it_votes",
+    # Swiss Federal Assembly (tools/ch_rollcalls.py), created by
+    # src/ch_store.ensure_schema -- declared from day one.
+    "ch_members",
+    "ch_sessions",
+    "ch_businesses",
+    "ch_divisions",
+    "ch_votes",
+    # Belgium's federal Chamber (tools/be_rollcalls.py), created by
+    # src/be_store.ensure_schema -- declared from day one.
+    "be_members",
+    "be_dossiers",
+    "be_sittings",
+    "be_divisions",
+    "be_votes",
+    # France's Assemblee nationale (tools/fr_rollcalls.py), created by
+    # src/fr_store.ensure_schema -- declared from day one.
+    "fr_members",
+    "fr_groups",
+    "fr_dossiers",
+    "fr_divisions",
+    "fr_votes",
+    # Portugal's Assembleia da Republica (tools/pt_rollcalls.py), created by
+    # src/pt_store.ensure_schema -- declared from day one.
+    "pt_members",
+    "pt_initiatives",
+    "pt_authors",
+    "pt_divisions",
+    "pt_group_votes",
+    "pt_votes",
+    # Slovakia's Národná rada (tools/sk_rollcalls.py), created by
+    # src/sk_store.ensure_schema -- declared from day one.
+    "sk_members",
+    "sk_bills",
+    "sk_divisions",
+    "sk_votes",
+    "sk_interpellations",
+    # Croatia's Sabor (tools/hr_rollcalls.py), created by
+    # src/hr_store.ensure_schema -- declared from day one.
+    "hr_members",
+    "hr_items",
+    "hr_divisions",
+    "hr_votes",
+    # Spain's Congreso de los Diputados (tools/es_rollcalls.py), created by
+    # src/es_store.ensure_schema -- declared from day one.
+    "es_members",
+    "es_initiatives",
+    "es_divisions",
+    "es_votes",
+    "es_vote_days",
+    # Brazil's National Congress (tools/br_rollcalls.py), created by
+    # src/br_store.ensure_schema -- declared from day one.
+    "br_members",
+    "br_bills",
+    "br_divisions",
+    "br_votes",
+    "br_orientations",
+    # Chile's National Congress (tools/cl_rollcalls.py), created by
+    # src/cl_store.ensure_schema -- declared from day one.
+    "cl_members",
+    "cl_party_spells",
+    "cl_bills",
+    "cl_divisions",
+    "cl_votes",
+    # Dominican Republic Congress (tools/do_rollcalls.py), created by
+    # src/do_store.ensure_schema -- declared from day one.
+    "do_members",
+    "do_bills",
+    "do_sessions",
+    "do_divisions",
+    "do_votes",
+    # El Salvador's Asamblea Legislativa (tools/sv_rollcalls.py), created by
+    # src/sv_store.ensure_schema -- declared from day one.
+    "sv_members",
+    "sv_sessions",
+    "sv_dictamenes",
+    "sv_piezas",
+    "sv_divisions",
+    "sv_votes",
+    "sv_vote_days",
+    # Peru's Congress (tools/pe_rollcalls.py), created by
+    # src/pe_store.ensure_schema -- declared from day one.
+    "pe_members",
+    "pe_bills",
+    "pe_divisions",
+    "pe_votes",
+    "pe_vote_files",
+    # Ecuador's Asamblea Nacional (tools/ec_rollcalls.py), created by
+    # src/ec_store.ensure_schema -- declared from day one.
+    "ec_members",
+    "ec_roster",
+    "ec_divisions",
+    "ec_votes",
+    # Guatemala's Congreso de la República (tools/gt_rollcalls.py), created
+    # by src/gt_store.ensure_schema -- declared from day one.
+    "gt_members",
+    "gt_initiatives",
+    "gt_sessions",
+    "gt_divisions",
+    "gt_votes",
+    # Mexico's Chamber of Deputies (tools/mx_rollcalls.py), created by
+    # src/mx_store.ensure_schema -- declared from day one.
+    "mx_members",
+    "mx_iniciativas",
+    "mx_divisions",
+    "mx_votes",
+    # Argentina's National Congress (tools/ar_rollcalls.py), created by
+    # src/ar_store.ensure_schema -- declared from day one.
+    "ar_members",
+    "ar_bills",
+    "ar_divisions",
+    "ar_votes",
+    # Colombia's Congress (tools/co_rollcalls.py), created by
+    # src/co_store.ensure_schema -- declared from day one.
+    "co_bills",
+    "co_members",
+    "co_attendance",
+    "co_divisions",
+    "co_votes",
+    # Bolivia's Asamblea Legislativa Plurinacional (tools/bo_rollcalls.py),
+    # created by src/bo_store.ensure_schema -- declared from day one.
+    "bo_members",
+    "bo_bills",
+    "bo_bill_changes",
+    # Panama's Asamblea Nacional (tools/pa_rollcalls.py), created by
+    # src/pa_store.ensure_schema -- declared from day one. No votes table:
+    # the Asamblea publishes no per-member votes (docs/panama-scope.md).
+    "pa_members",
+    "pa_bills",
+    "pa_bill_stages",
+    "pa_agenda",
+    "pa_agenda_items",
+    # Honduras's Congreso Nacional (tools/hn_rollcalls.py), created by
+    # src/hn_store.ensure_schema -- declared from day one.
+    "hn_members",
+    "hn_sessions",
+    "hn_agenda_items",
+    "hn_bills",
+    "hn_news",
+    "hn_gazette",
+    # Uruguay (tools/uy_rollcalls.py), created by
+    # src/uy_store.ensure_schema -- declared from day one.
+    "uy_members",
+    "uy_questions",
+    "uy_sittings",
+    "uy_laws",
+    # The Latam monitor's light checks (tools/ve_news.py, tools/nic_gaceta.py),
+    # created by src/latam_store.ensure_schema -- declared from day one.
+    "ve_news",
+    "nic_gazette_issues",
+    "nic_gazette_items",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1863,8 +2048,62 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import us_states_store
+    us_states_store.ensure_schema(conn)
     from src import au_store
     au_store.ensure_schema(conn)
     from src import ie_store
     ie_store.ensure_schema(conn)
+    from src import at_store
+    at_store.ensure_schema(conn)
+    from src import nl_store
+    nl_store.ensure_schema(conn)
+    from src import pl_store
+    pl_store.ensure_schema(conn)
+    from src import it_store
+    it_store.ensure_schema(conn)
+    from src import ch_store
+    ch_store.ensure_schema(conn)
+    from src import be_store
+    be_store.ensure_schema(conn)
+    from src import fr_store
+    fr_store.ensure_schema(conn)
+    from src import pt_store
+    pt_store.ensure_schema(conn)
+    from src import sk_store
+    sk_store.ensure_schema(conn)
+    from src import hr_store
+    hr_store.ensure_schema(conn)
+    from src import es_store
+    es_store.ensure_schema(conn)
+    from src import br_store
+    br_store.ensure_schema(conn)
+    from src import cl_store
+    cl_store.ensure_schema(conn)
+    from src import do_store
+    do_store.ensure_schema(conn)
+    from src import sv_store
+    sv_store.ensure_schema(conn)
+    from src import pe_store
+    pe_store.ensure_schema(conn)
+    from src import ec_store
+    ec_store.ensure_schema(conn)
+    from src import gt_store
+    gt_store.ensure_schema(conn)
+    from src import mx_store
+    mx_store.ensure_schema(conn)
+    from src import ar_store
+    ar_store.ensure_schema(conn)
+    from src import co_store
+    co_store.ensure_schema(conn)
+    from src import bo_store
+    bo_store.ensure_schema(conn)
+    from src import pa_store
+    pa_store.ensure_schema(conn)
+    from src import hn_store
+    hn_store.ensure_schema(conn)
+    from src import uy_store
+    uy_store.ensure_schema(conn)
+    from src import latam_store
+    latam_store.ensure_schema(conn)
     return conn

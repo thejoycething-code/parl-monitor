@@ -71,6 +71,62 @@ PIPELINES = {
     "Australia weekly": (7, 4, "Australia's Federal Parliament: bills, House and Senate divisions"),
     # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
+    # Scheduled 9 October 2026, Saturdays (at-weekly.yml; the Mac Mini first).
+    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes"),
+    # Scheduled 9 October 2026, Thursdays (nl-weekly.yml; the Mac Mini first).
+    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions"),
+    # Scheduled 9 October 2026, Sundays (pl-weekly.yml; the Mac Mini first).
+    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes"),
+    # Scheduled 9 October 2026, Saturdays (it-weekly.yml; the Mac Mini first).
+    "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes"),
+    # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
+    "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes"),
+    # Scheduled 9 October 2026, Saturdays (be-weekly.yml; the Mac Mini first).
+    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes"),
+    # Scheduled 9 October 2026, Saturdays (fr-weekly.yml; the Mac Mini first).
+    "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies"),
+    # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
+    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies"),
+    # Scheduled 9 October 2026, Tuesdays (sk-weekly.yml; the Mac Mini first).
+    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations"),
+    # Scheduled 9 October 2026, Saturdays (hr-weekly.yml; the Mac Mini first).
+    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes"),
+    # Scheduled 9 October 2026, Saturdays (es-weekly.yml; the Mac Mini first).
+    "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies"),
+    # Scheduled 9 October 2026, Saturdays (br-weekly.yml; the Mac Mini first).
+    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes"),
+    # Scheduled 9 October 2026, Thursdays (cl-weekly.yml; the Mac Mini first).
+    "Chile weekly": (7, 4, "Chile's National Congress: bills, Cámara and Senate votes"),
+    # Scheduled 9 October 2026, Sundays (do-weekly.yml; the Mac Mini first).
+    "Dominican Republic weekly": (7, 4, "Dominican Republic: Camara de Diputados iniciativas, sessions, votes"),
+    # Scheduled 9 October 2026, Sundays (sv-weekly.yml; the Mac Mini first).
+    "El Salvador weekly": (7, 4, "El Salvador's Asamblea Legislativa: recorded votes, dictámenes, piezas, deputies"),
+    # Scheduled 9 October 2026, Saturdays (pe-weekly.yml; the Mac Mini first).
+    "Peru weekly": (7, 4, "Peru's Congress: Senado and Diputados members, proyectos, plenary votes"),
+    # Scheduled 9 October 2026, Saturdays (ec-weekly.yml; the Mac Mini first).
+    "Ecuador weekly": (7, 4, "Ecuador's Asamblea Nacional: plenary votes, members"),
+    # Scheduled 9 October 2026, Saturdays (gt-weekly.yml; the Mac Mini first).
+    # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
+    "Guatemala weekly": (14, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies"),
+    # Scheduled 9 October 2026, Saturdays (mx-weekly.yml; the Mac Mini is the
+    # clock, GitHub does the work: diputados.gob.mx refuses UK addresses).
+    # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
+    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions"),
+    # Scheduled 9 October 2026, Saturdays (ar-weekly.yml; the Mac Mini first).
+    "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls"),
+    # Scheduled 9 October 2026, Thursdays (co-weekly.yml; the Mac Mini first).
+    "Colombia weekly": (7, 4, "Colombia's Congress: both chambers' bills, attendance, Senate roll calls"),
+    # Scheduled 9 October 2026, Sundays (bo-weekly.yml; the Mac Mini first).
+    "Bolivia weekly": (7, 4, "Bolivia's Asamblea: Diputados and Senado members and proyectos de ley"),
+    # Scheduled 10 October 2026, Saturdays (pa-weekly.yml; the Mac Mini first).
+    "Panama weekly": (7, 4, "Panama's Asamblea Nacional: bills, stages, orden del dia, deputies"),
+    # Scheduled 9 October 2026, Sundays (hn-weekly.yml; the Mac Mini first).
+    "Honduras weekly": (7, 4, "Honduras's Congreso Nacional: agendas, expedientes, press, Gaceta"),
+    # Scheduled 9 October 2026, Saturdays (uy-weekly.yml; the Mac Mini first).
+    "Uruguay weekly": (7, 4, "Uruguay: Cámara de Representantes roll, pedidos de informes, Diario index; IMPO laws"),
+    # Scheduled 10 October 2026, the 1st of each month (latam-monthly.yml; the
+    # Mac Mini first). Monthly, so a month plus a week's grace, as the UPR.
+    "Latam monthly": (31, 7, "Latam monitor: Venezuela's Assembly news, Nicaragua's La Gaceta, the edition"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -202,6 +258,20 @@ FEEDS = [
     # a month's grace, as for the roll calls.
     ("us_record_days", "last_seen", 7, 4, "Congressional Record days listed and read (US weekly)"),
     ("us_record_speeches", "last_seen", 31, 31, "floor speeches on our ground (US weekly)"),
+    # The fifty state legislatures (tools/us_states.py, 9 October 2026).
+    # Every run re-stamps every session Open States lists (two keyed
+    # requests), and the people file of each state it reaches, so both move
+    # weekly. A stored bill or vote is re-stamped only when it MOVES, and
+    # most legislatures are out for months (in October 2026 only seven had
+    # a session open by Open States' dates, and 33 of the 50 had no bill
+    # with an action in the week): but the full-time legislatures (New
+    # Jersey, Pennsylvania, Michigan, Massachusetts, New York, Ohio) move
+    # all year, so a month plus a month's grace, as for the roll calls,
+    # covers the Christmas lull without crying wolf.
+    ("uss_sessions", "last_seen", 7, 4, "state legislative sessions, as Open States lists them (US weekly)"),
+    ("uss_people", "last_seen", 7, 7, "sitting state legislators (US weekly, by rotation)"),
+    ("uss_bills", "last_seen", 31, 31, "state bills on our ground that moved (US weekly)"),
+    ("uss_votes", "last_seen", 31, 31, "state recorded votes on those bills (US weekly)"),
     # Ireland (9 October 2026). MEASURED which re-stamp: tools/ie_rollcalls.py
     # re-reads both rosters, every bill with an event since the Dail first
     # met, and every division of both Houses whole on each run, and all three
@@ -211,6 +281,244 @@ FEEDS = [
     ("ie_members", "last_seen", 7, 4, "Dail and Seanad rosters (Ireland weekly)"),
     ("ie_bills", "last_seen", 7, 4, "Oireachtas bills (Ireland weekly)"),
     ("ie_divisions", "last_seen", 7, 4, "Dail, Seanad and committee divisions (Ireland weekly)"),
+    # Austria (9 October 2026). MEASURED which re-stamp: both chambers' item
+    # lists and both member lists are re-read whole every run, so items and
+    # members move every week, recess included. A division is re-stamped only
+    # when its item's history page is read again, which happens only when the
+    # item moved; the Nationalrat's summer recess runs from early July to
+    # mid-September. A month plus a month's grace, as for the US. at_votes
+    # carries no sighting column.
+    ("at_items", "last_seen", 7, 4, "Nationalrat and Bundesrat items (Austria weekly)"),
+    ("at_members", "last_seen", 7, 4, "Nationalrat and Bundesrat members (Austria weekly)"),
+    ("at_divisions", "last_seen", 31, 31, "Klub votes on our ground (Austria weekly)"),
+    # Netherlands (9 October 2026). MEASURED which re-stamp: the fracties and
+    # the 150 current seats are re-read whole every run, so they move every
+    # week, recess included. Votes are re-stamped whenever they fall in the
+    # six-week window the collector re-reads, so they stop moving about six
+    # weeks into the summer recess (the Kamer did not vote between 2 July and
+    # 3 September 2026): a month plus a month's grace, as for the US. A zaak
+    # is re-stamped with its vote, so it gets the same.
+    ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
+    ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
+    ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
+    ("nl_zaken", "last_seen", 31, 31, "Zaken voted on in the Tweede Kamer (Netherlands weekly)"),
+    # Poland (9 October 2026). MEASURED which re-stamp: the deputy list, the
+    # print list and every process page are re-read whole on every run, so
+    # those move every week, recess included. Votes move only when a sitting
+    # is re-read (the newest two every run, so a recess week still re-stamps
+    # them, but the Sejm's summer break runs late July to early September):
+    # a month plus a month's grace, as for the US. pl_votes carries no
+    # sighting column.
+    ("pl_members", "last_seen", 7, 4, "Sejm deputies (Poland weekly)"),
+    ("pl_prints", "last_seen", 7, 4, "Sejm prints, the whole term's list (Poland weekly)"),
+    ("pl_processes", "last_seen", 7, 4, "Sejm legislative processes (Poland weekly)"),
+    ("pl_divisions", "last_seen", 31, 31, "Sejm recorded votes (Poland weekly)"),
+    # Italy (9 October 2026). MEASURED which re-stamp: every bill reading of
+    # the legislature is re-read whole from dati.senato.it every run, and so
+    # are the 212 senators, so bills and members move every week, recess
+    # included. Divisions move only when the chambers vote (the last two
+    # Senate sittings and 14 Camera days are re-read): a month plus a
+    # month's grace, as for the US, for the summer and election recesses.
+    # it_votes carries no sighting column.
+    ("it_bills", "last_seen", 7, 4, "Bill readings of both chambers, from dati.senato.it (Italy weekly)"),
+    ("it_members", "last_seen", 7, 4, "Senators and Camera deputies (Italy weekly)"),
+    ("it_divisions", "last_seen", 31, 31, "Senate and Camera votes (Italy weekly)"),
+    # Switzerland (9 October 2026). MEASURED which re-stamp: members and the
+    # legislature's sessions are re-read whole every run; businesses only when
+    # the service has modified them, which it did to 4,018 between 1 September
+    # and 9 October 2026, recess weeks included. Divisions move only while a
+    # session is open or within 21 days of its end, and the longest gap
+    # between sessions is the summer (Sommersession ends mid-June, the
+    # Herbstsession starts mid-September: 66 days after the 21): a month plus
+    # 45 days' grace. ch_votes carries no sighting column.
+    ("ch_members", "last_seen", 7, 4, "Federal Assembly members (Switzerland weekly)"),
+    ("ch_sessions", "last_seen", 7, 4, "Federal Assembly sessions (Switzerland weekly)"),
+    ("ch_businesses", "last_seen", 7, 7, "Federal Assembly businesses, DE and FR (Switzerland weekly)"),
+    ("ch_divisions", "last_seen", 31, 45, "Nationalrat and Staenderat votes (Switzerland weekly)"),
+    # Belgium (9 October 2026). MEASURED which re-stamp: both member lists and
+    # all 39 pages of the dossier index are re-read whole every run, so
+    # be_members and be_dossiers move every week, recess included. Divisions
+    # move only when a sitting is new or among the three re-read: the Chamber
+    # breaks from late July to mid-September, so a month plus a month's grace,
+    # as for the US. be_sittings and be_votes carry no sighting column.
+    ("be_members", "last_seen", 7, 4, "Chamber members (Belgium weekly)"),
+    ("be_dossiers", "last_seen", 7, 4, "Chamber dossier index (Belgium weekly)"),
+    ("be_divisions", "last_seen", 31, 31, "Chamber recorded votes (Belgium weekly)"),
+    # France (9 October 2026). MEASURED which re-stamp: every dossier and
+    # every sitting deputy is re-read whole from the AN's nightly zips on
+    # every run, recess included. Scrutins are written once, then re-read for
+    # 30 days (mises au point), so they move only when the Assemblee votes:
+    # none between 22 July and late September 2026. A month plus a month's
+    # grace, as for the US. fr_groups and fr_votes carry no sighting column.
+    ("fr_dossiers", "last_seen", 7, 4, "Assemblee nationale dossiers legislatifs (France weekly)"),
+    ("fr_members", "last_seen", 7, 4, "Assemblee nationale deputies (France weekly)"),
+    ("fr_divisions", "last_seen", 31, 31, "Assemblee nationale scrutins (France weekly)"),
+    # Portugal (9 October 2026). MEASURED which re-stamp: the Assembleia's
+    # dumps are per legislature and re-read whole every run, and every
+    # initiative, vote and deputy in them is upserted, so all three move every
+    # week, recess included. pt_authors, pt_group_votes and pt_votes carry no
+    # sighting column.
+    ("pt_members", "last_seen", 7, 4, "Assembleia deputies (Portugal weekly)"),
+    ("pt_initiatives", "last_seen", 7, 4, "Assembleia initiatives (Portugal weekly)"),
+    ("pt_divisions", "last_seen", 7, 4, "Assembleia plenary votes (Portugal weekly)"),
+    # Slovakia (9 October 2026). MEASURED which re-stamp: the open data's
+    # member, print, vote and interpellation lists are each one call that
+    # returns the whole term, and tools/sk_rollcalls.py upserts every row with
+    # last_seen on every run, recess included. So all four move weekly.
+    # sk_votes carries no sighting column.
+    ("sk_members", "last_seen", 7, 4, "Národná rada members (Slovakia weekly)"),
+    ("sk_bills", "last_seen", 7, 4, "Národná rada prints (Slovakia weekly)"),
+    ("sk_divisions", "last_seen", 7, 4, "Národná rada votes (Slovakia weekly)"),
+    ("sk_interpellations", "last_seen", 7, 4, "Národná rada interpellations (Slovakia weekly)"),
+    # Croatia (9 October 2026). MEASURED which re-stamp: the member list is
+    # re-read whole every run, and the two latest sessions' agendas are
+    # re-read every run, so hr_members and hr_items move every week, recess
+    # included (the latest session's agenda stays up through the summer).
+    # hr_divisions is in ONCE_EVER; hr_votes carries no sighting column.
+    ("hr_members", "last_seen", 7, 4, "Sabor members (Croatia weekly)"),
+    ("hr_items", "last_seen", 7, 4, "Sabor agenda items (Croatia weekly)"),
+    # Spain (9 October 2026). MEASURED which re-stamp: the deputies and
+    # legislative-initiative files are re-read whole every run, so both move
+    # every week. Divisions move only when a voting day is new or within the
+    # fortnight re-read, and the Cortes were DISSOLVED on 6 October 2026: no
+    # plenary vote after 30 September, the XVI legislature convenes on
+    # 23 December and its first votes are unlikely before mid-January. A
+    # month plus three months' grace covers that gap; tighten it to the US's
+    # 31 + 31 once the XVI is voting. es_votes and es_vote_days carry no
+    # sighting column.
+    ("es_members", "last_seen", 7, 4, "Congreso deputies (Spain weekly)"),
+    ("es_initiatives", "last_seen", 7, 4, "Congreso legislative initiatives (Spain weekly)"),
+    ("es_divisions", "last_seen", 31, 92, "Congreso plenary votes (Spain weekly)"),
+    # Brazil (9 October 2026). MEASURED which re-stamp: the member lists of
+    # both houses are re-read whole every run, and every nominal vote of the
+    # current year (and every bill it links) is re-upserted from the
+    # Câmara's yearly file and the Senate's yearly list every run. Divisions
+    # nonetheless get a month plus a month's grace, as for the US: in
+    # January the new year's file is empty until Congress returns in
+    # February. br_votes and br_orientations carry no sighting column.
+    ("br_members", "last_seen", 7, 4, "Câmara and Senado members (Brazil weekly)"),
+    ("br_bills", "last_seen", 7, 4, "Proposições the nominal votes are about (Brazil weekly)"),
+    ("br_divisions", "last_seen", 31, 31, "Câmara and Senado nominal votes (Brazil weekly)"),
+    # Chile (9 October 2026). MEASURED which re-stamp: the deputy and senator
+    # lists are re-read whole every run, and so are the bills introduced this
+    # year and last, so members and bills move every week, district week
+    # included. Divisions move only when a chamber votes: a month plus a
+    # month's grace, as for the US. cl_party_spells and cl_votes carry no
+    # sighting column.
+    ("cl_members", "last_seen", 7, 4, "Deputies and senators (Chile weekly)"),
+    ("cl_bills", "last_seen", 7, 4, "Bills by boletín (Chile weekly)"),
+    ("cl_divisions", "last_seen", 31, 31, "Cámara and Senate votes (Chile weekly)"),
+    # Dominican Republic (9 October 2026). MEASURED which re-stamp: the whole
+    # 2024-2028 iniciativa list and the legislator list are re-read every
+    # run, so bills and members move every week, recess included. Sessions
+    # and votes are written when the Chamber sits, and it breaks between
+    # legislatures (late July to mid-August, and the January recess): a
+    # month plus a month's grace, as for the US. do_votes carries no
+    # sighting column.
+    ("do_bills", "last_seen", 7, 4, "Camara de Diputados iniciativas, SIL (Dominican Republic weekly)"),
+    ("do_members", "last_seen", 7, 4, "Legislators in the Chamber's SIL (Dominican Republic weekly)"),
+    ("do_sessions", "last_seen", 31, 31, "Chamber plenary sessions (Dominican Republic weekly)"),
+    ("do_divisions", "last_seen", 31, 31, "Chamber recorded votes (Dominican Republic weekly)"),
+    # El Salvador (9 October 2026). MEASURED which re-stamp: the deputies page
+    # is re-read whole every run, so sv_members moves every week. Votes,
+    # dictámenes and piezas move only when the Asamblea sits; it sits most
+    # weeks but recesses (Semana Santa, August holidays, Christmas), so a
+    # month plus a month's grace, as the US divisions.
+    ("sv_members", "last_seen", 7, 4, "Asamblea deputies (El Salvador weekly)"),
+    ("sv_divisions", "last_seen", 31, 31, "Asamblea recorded votes (El Salvador weekly)"),
+    ("sv_dictamenes", "last_seen", 31, 31, "Asamblea committee reports (El Salvador weekly)"),
+    # Peru (9 October 2026). MEASURED which re-stamp: both chambers' member
+    # lists and every proyecto of the period are re-read whole every run, so
+    # members and bills move every week, recess included. A vote is written
+    # only when a vote record PDF is new, and the Congress breaks for weeks
+    # at a time (mid-December to March): a month plus a month's grace, as for
+    # the US. pe_votes and pe_vote_files carry no sighting column.
+    ("pe_members", "last_seen", 7, 4, "Senado and Diputados members (Peru weekly)"),
+    ("pe_bills", "last_seen", 7, 4, "Proyectos de ley, Sistema de Proyectos de Ley (Peru weekly)"),
+    ("pe_divisions", "last_seen", 31, 31, "Plenary votes from the chambers' vote records (Peru weekly)"),
+    # Ecuador (9 October 2026). MEASURED which re-stamp: the register and the
+    # roster are re-read whole every run, and the vote list is re-read from
+    # the last stored vote's date less a fortnight, so the latest votes are
+    # re-stamped every run even in a recess. ec_votes has no sighting column.
+    ("ec_members", "last_seen", 7, 4, "Asamblea member register (Ecuador weekly)"),
+    ("ec_roster", "last_seen", 7, 4, "Asamblea sitting roster (Ecuador weekly)"),
+    ("ec_divisions", "last_seen", 7, 4, "Asamblea plenary votes (Ecuador weekly)"),
+    # Guatemala (9 October 2026). MEASURED which re-stamp: the deputy cards,
+    # the 500-initiative listing and the session list are re-read whole every
+    # run, so those three move every week. Divisions move only when a session
+    # is new or within the fortnight re-read, and the Congreso's ordinary
+    # periods run 14 January to 15 May and 1 August to 30 November: the
+    # mid-year recess is 77 days, hence a month plus two months' grace.
+    # gt_votes carries no sighting column.
+    ("gt_members", "last_seen", 14, 4, "Congreso deputies (Guatemala weekly)"),
+    ("gt_initiatives", "last_seen", 14, 4, "Congreso initiatives (Guatemala weekly)"),
+    ("gt_sessions", "last_seen", 14, 4, "Congreso plenary sessions (Guatemala weekly)"),
+    ("gt_divisions", "last_seen", 31, 62, "Congreso plenary votes (Guatemala weekly)"),
+    # Mexico (9 October 2026). MEASURED which re-stamp: the deputies list and
+    # every Gaceta iniciativas list are re-read whole each run, and every
+    # vote SITL lists is re-stamped when its period page is read, so all
+    # three move weekly, recess included. mx_votes has no sighting column.
+    ("mx_members", "last_seen", 14, 4, "Chamber of Deputies members (Mexico weekly)"),
+    ("mx_iniciativas", "last_seen", 14, 4, "Gaceta iniciativas lists (Mexico weekly)"),
+    ("mx_divisions", "last_seen", 14, 4, "SITL recorded votes (Mexico weekly)"),
+    # Argentina (9 October 2026). Both rosters are re-read whole every run,
+    # and the Diputados register is re-read from 45 days back, so members and
+    # expedientes move every week, recess included (HCDN publishes a Tramite
+    # Parlamentario through the summer recess too). Senate actas are new rows
+    # only, and the Senate sits in bursts (no acta between 24 September and
+    # 9 October 2026; none in January): a month plus a month's grace.
+    ("ar_members", "last_seen", 7, 4, "Congress members, both chambers (Argentina weekly)"),
+    ("ar_bills", "last_seen", 7, 4, "Diputados register and Senate expedientes (Argentina weekly)"),
+    ("ar_divisions", "last_seen", 31, 31, "Senate roll calls (Argentina weekly)"),
+    # Colombia (9 October 2026). MEASURED which re-stamp: both chambers'
+    # registers, the Cámara attendance file and the Senate roll-call file are
+    # each re-read whole every run and upserted, so all three move every week,
+    # recess included. co_divisions moving means only that the Senate's file
+    # still answers: its newest roll call is 25 September 2024 (see
+    # docs/colombia-scope.md). co_attendance and co_votes carry no sighting
+    # column.
+    ("co_bills", "last_seen", 7, 4, "Cámara and Senate bill registers (Colombia weekly)"),
+    ("co_members", "last_seen", 7, 4, "Cámara attendance roster and Senate roll-call names (Colombia weekly)"),
+    ("co_divisions", "last_seen", 7, 4, "Senate published roll calls, frozen at 2024-09-25 (Colombia weekly)"),
+    # Bolivia (9 October 2026). MEASURED which re-stamp: both chambers' member
+    # lists, the current legislative year's Diputados bills and every Senado
+    # stage list are re-read whole every run, so members and bills move every
+    # week, recess included. bo_bill_changes is new rows only and carries no
+    # sighting column. There are no vote tables: none is published.
+    ("bo_members", "last_seen", 7, 4, "Diputados and Senado members (Bolivia weekly)"),
+    ("bo_bills", "last_seen", 7, 4, "Proyectos de ley, both chambers (Bolivia weekly)"),
+    # Panama (9 October 2026). MEASURED which re-stamp: the deputies list and
+    # every segLegis bill row are re-read whole every run, so both move every
+    # week. The orden del dia list (its 25 newest documents) is re-read and
+    # re-stamped every run too, so it moves in recess as well.
+    ("pa_members", "last_seen", 7, 4, "Asamblea deputies (Panama weekly)"),
+    ("pa_bills", "last_seen", 7, 4, "Asamblea bills, segLegis (Panama weekly)"),
+    ("pa_agenda", "last_seen", 7, 4, "Asamblea orden del dia (Panama weekly)"),
+    # Honduras (9 October 2026). MEASURED which re-stamp: the deputies, the
+    # sessions list and the four "recent expedientes" lists are re-read whole
+    # every run, so all three move every week; press releases arrive at about 150 a month. Agenda
+    # items move only when a session is new or within the three-week re-read,
+    # and the Congreso's ordinary sessions end on 31 October (extendable):
+    # a month plus two months' grace covers the recess. La Gaceta's current
+    # and previous month are re-read every run.
+    ("hn_members", "last_seen", 7, 4, "Congreso Nacional deputies (Honduras weekly)"),
+    ("hn_bills", "last_seen", 7, 4, "Congreso Nacional expedientes (Honduras weekly)"),
+    ("hn_news", "last_seen", 7, 4, "Congreso Nacional press releases (Honduras weekly)"),
+    ("hn_gazette", "last_seen", 7, 4, "La Gaceta issues (Honduras weekly)"),
+    ("hn_sessions", "last_seen", 7, 4, "Congreso Nacional sessions list (Honduras weekly)"),
+    ("hn_agenda_items", "last_seen", 31, 62, "Congreso Nacional session agendas (Honduras weekly)"),
+    # Uruguay (9 October 2026). MEASURED which re-stamp: the roll, the
+    # pedidos de informes and the Diario index are re-read whole every run,
+    # so all three move every week. Laws move only when IMPO has a new one
+    # (about two a week, fewer in the January recess): a month plus a month.
+    ("uy_members", "last_seen", 7, 4, "Cámara de Representantes roll (Uruguay weekly)"),
+    ("uy_questions", "last_seen", 7, 4, "Pedidos de informes (Uruguay weekly)"),
+    ("uy_sittings", "last_seen", 7, 4, "Diario de Sesiones index (Uruguay weekly)"),
+    ("uy_laws", "last_seen", 31, 31, "Laws promulgated, from IMPO (Uruguay weekly)"),
+    # Venezuela (10 October 2026). MEASURED: every run re-stamps each item the
+    # list pages show back to a week before the newest stored, so the table
+    # moves every month even when nothing is on our ground.
+    ("ve_news", "last_seen", 31, 7, "Asamblea Nacional Legislativa news (Latam monthly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -288,6 +596,56 @@ PIPELINE_FEEDS = {
     "Australia weekly": ["au_bills", "au_members"],
     # All three are re-read whole and re-stamped every run (see FEEDS).
     "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions"],
+    # Divisions left out for the same reason: a recess week cannot move them.
+    "Austria weekly": ["at_items", "at_members"],
+    # Re-read whole every run; votes are left out for the US's reason.
+    "Netherlands weekly": ["nl_members", "nl_fracties"],
+    "Poland weekly": ["pl_processes", "pl_members"],
+    # Divisions left out for the same reason as the US: a recess week cannot move them.
+    "Italy weekly": ["it_bills", "it_members"],
+    # The two Swiss tables re-read whole every run; divisions move only in session.
+    "Switzerland weekly": ["ch_members", "ch_sessions"],
+    # Divisions left out for the same reason as the US: a recess week cannot move them.
+    "Belgium weekly": ["be_dossiers", "be_members"],
+    # Divisions left out for the same reason as the US: a recess week cannot move them.
+    "France weekly": ["fr_dossiers", "fr_members"],
+    # All three are re-stamped on every run (the whole legislature is re-read).
+    "Portugal weekly": ["pt_initiatives", "pt_divisions", "pt_members"],
+    # Every Slovak list is re-read whole and re-stamped each run.
+    "Slovakia weekly": ["sk_bills", "sk_members", "sk_divisions"],
+    # Votes left out: new rows only, so a recess week cannot move them.
+    "Croatia weekly": ["hr_items", "hr_members"],
+    # Divisions left out as for the US: a recess (or a dissolution) cannot move them.
+    "Spain weekly": ["es_initiatives", "es_members"],
+    # Members only: bills and divisions are re-stamped from the current
+    # year's votes, and in January the new year holds none, so a clean run
+    # cannot move them until Congress returns in February.
+    "Brazil weekly": ["br_members"],
+    # Divisions left out for the same reason as the US.
+    "Chile weekly": ["cl_bills", "cl_members"],
+    # Sessions and votes left out: a recess week cannot move them.
+    "Dominican Republic weekly": ["do_bills", "do_members"],
+    # Only the roster is re-read whole; a recess week cannot move the rest.
+    "El Salvador weekly": ["sv_members"],
+    # Votes left out for the same reason as the US: a recess week cannot move them.
+    "Peru weekly": ["pe_bills", "pe_members"],
+    # All three re-stamp every run (see FEEDS).
+    "Ecuador weekly": ["ec_divisions", "ec_members", "ec_roster"],
+    # Divisions left out as for the US: a recess cannot move them.
+    "Guatemala weekly": ["gt_initiatives", "gt_members", "gt_sessions"],
+    "Mexico weekly": ["mx_members", "mx_iniciativas", "mx_divisions"],
+    # Divisions left out for the same reason as the US: a recess week cannot move them.
+    "Argentina weekly": ["ar_bills", "ar_members"],
+    "Colombia weekly": ["co_bills", "co_members"],
+    "Bolivia weekly": ["bo_bills", "bo_members"],
+    # All three are re-read whole each run; the orden del dia list is too,
+    # whether or not a sitting added a document.
+    "Panama weekly": ["pa_bills", "pa_members", "pa_agenda"],
+    # Agenda items left out as for US divisions: a recess cannot move them.
+    "Honduras weekly": ["hn_members", "hn_bills", "hn_gazette", "hn_sessions"],
+    # Laws left out: new rows only, so a quiet week cannot move them.
+    "Uruguay weekly": ["uy_members", "uy_questions", "uy_sittings"],
+    "Latam monthly": ["ve_news"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -305,6 +663,59 @@ AWAITING_FIRST_RUN = {
                   "scheduled 9 October 2026; its tables fill on its first run"),
     "Australia weekly": (("au_members", "au_bills", "au_divisions"),
                          "scheduled 9 October 2026; its tables fill on its first run"),
+    "Austria weekly": (("at_items", "at_members", "at_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Netherlands weekly": (("nl_members", "nl_fracties", "nl_divisions"),
+                           "scheduled 9 October 2026; its tables fill on its first run"),
+    "Poland weekly": (("pl_members", "pl_processes", "pl_divisions"),
+                      "scheduled 9 October 2026; its tables fill on its first run"),
+    "Italy weekly": (("it_members", "it_bills", "it_divisions"),
+                     "scheduled 9 October 2026; its tables fill on its first run"),
+    "Switzerland weekly": (("ch_members", "ch_sessions", "ch_businesses", "ch_divisions"),
+                           "scheduled 9 October 2026; its tables fill on its first run"),
+    "Belgium weekly": (("be_members", "be_dossiers", "be_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "France weekly": (("fr_dossiers", "fr_members", "fr_divisions"),
+                      "scheduled 9 October 2026; its tables fill on its first run"),
+    "Portugal weekly": (("pt_members", "pt_initiatives", "pt_divisions"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
+    "Slovakia weekly": (("sk_members", "sk_bills", "sk_divisions", "sk_interpellations"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
+    "Croatia weekly": (("hr_members", "hr_items", "hr_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Spain weekly": (("es_members", "es_initiatives", "es_divisions"),
+                     "scheduled 9 October 2026; its tables fill on its first run"),
+    "Brazil weekly": (("br_members", "br_bills", "br_divisions"),
+                      "scheduled 9 October 2026; its tables fill on its first run"),
+    "Chile weekly": (("cl_members", "cl_bills", "cl_divisions"),
+                     "written 9 October 2026; its tables fill on its first run"),
+    "Dominican Republic weekly": (("do_bills", "do_members", "do_sessions", "do_divisions"),
+                                  "scheduled 9 October 2026; its tables fill on its first run"),
+    "El Salvador weekly": (("sv_members", "sv_divisions", "sv_dictamenes"),
+                           "scheduled 9 October 2026; its tables fill on its first run"),
+    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions"),
+                    "scheduled 9 October 2026; its tables fill on its first run"),
+    "Ecuador weekly": (("ec_members", "ec_roster", "ec_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Guatemala weekly": (("gt_members", "gt_initiatives", "gt_sessions", "gt_divisions"),
+                         "scheduled 9 October 2026; its tables fill on its first run"),
+    "Mexico weekly": (("mx_members", "mx_iniciativas", "mx_divisions"),
+                      "written 9 October 2026; its tables fill on its first run"),
+    "Argentina weekly": (("ar_members", "ar_bills", "ar_divisions"),
+                         "scheduled 9 October 2026; its tables fill on its first run"),
+    "Colombia weekly": (("co_bills", "co_members", "co_divisions"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
+    "Bolivia weekly": (("bo_members", "bo_bills"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Panama weekly": (("pa_members", "pa_bills", "pa_agenda"),
+                      "scheduled 10 October 2026; its tables fill on its first run"),
+    "Honduras weekly": (("hn_members", "hn_bills", "hn_news", "hn_gazette", "hn_sessions",
+                         "hn_agenda_items"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
+    "Uruguay weekly": (("uy_members", "uy_questions", "uy_sittings", "uy_laws"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
+    "Latam monthly": (("ve_news",),
+                      "scheduled 10 October 2026; its table fills on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
@@ -327,6 +738,10 @@ AWAITING_FIRST_RUN = {
     "US Federal Register": (("us_fr_documents",),
                             "executive actions added to US weekly 9 October 2026; "
                             "the table fills on the step's first run"),
+    # tools/us_states.py stamps "US states" at the end of every stored run.
+    "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
+                  "state legislatures added to US weekly 9 October 2026; "
+                  "their tables fill on the step's first run"),
     "US Supreme Court": (("us_court_cases", "us_court_orders"),
                          "Supreme Court added to US weekly 9 October 2026; "
                          "its tables fill on the step's first run"),
@@ -369,6 +784,10 @@ ON_DEMAND = {
 # only gains rows goes quiet in recess through no fault of anyone, and
 # alarming on it would train people to ignore the alert.
 ONCE_EVER = {
+    # Nicaragua (10 October 2026): a gazette notice is stored only when the
+    # taxonomy matches it, so most months add none; nic_gazette_issues (no
+    # sighting column) records every issue read.
+    "nic_gazette_items": "written only for La Gaceta notices on our ground; most months add none",
     # 8 October 2026, MEASURED: the Sunday pull writes sections only for the
     # sitting days of the week just ended (run_weekly.sweep_hansard_sections),
     # so both Houses in conference recess means no rows, and it failed the
@@ -379,6 +798,11 @@ ONCE_EVER = {
     # quiet in recess.
     "ca_senators": "written only when a Senate vote on our ground is fetched",
     "ca_sittings": "one row per Hansard sitting read, stored once",
+    # El Salvador (9 October 2026): sessions and piezas are written only for
+    # the sitting days the session archive returns, so a recess week writes
+    # none; sv_dictamenes is watched for the same pipeline.
+    "sv_sessions": "one row per Asamblea plenary session read; quiet in recess",
+    "sv_piezas": "one row per piece of correspondence a session read; quiet in recess",
     # read_at is when the ISSUE was read, one row per issue: a write-once
     # table, not a sighting column the cadence check may use (RecessTests).
     "ca_gazette_issues": "one row per Gazette issue read, stored once",
@@ -415,6 +839,11 @@ ONCE_EVER = {
     "ni_sponsors": "fetched once per motion",
     "eu_speeches": "one row per speech, stored once",
     "eu_divisions": "one row per roll call, stored once",
+    # Croatia (9 October 2026): tools/hr_rollcalls.py fetches the vote only
+    # for items whose vote_state is unset, so a vote is written once, and the
+    # Sabor breaks from mid-July to mid-September.
+    "hr_divisions": "new rows only: one row per agenda vote, fetched once; "
+                    "quiet through the summer recess",
     # MEASURED 23 September 2026, after eleven days of "LOST WORK" that was
     # no such thing. tools/eu_courts.py builds `known` from the stored item
     # ids and SKIPS anything already held, so a judgment is written once and

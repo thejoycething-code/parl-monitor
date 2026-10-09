@@ -1,0 +1,44 @@
+# Brazil watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Brazil.
+#
+# Until Christopher approves a Portuguese term list (docs/brazil-scope.md),
+# this file is the ONLY thing that gives a Brazilian vote or bill an area.
+# Every entry was checked against the Câmara's own record on 9 October 2026
+# (dadosabertos.camara.leg.br/api/v2/proposicoes?siglaTipo=..&numero=..&ano=..).
+# Most were picked because their ementa never names the issue, so no term
+# list would ever find them: PEC 164/2012 is "a new wording for the head of
+# Article 5 of the Constitution", PL 7180/2014 "amends Article 3 of the
+# education law", PL 5167/2009 "amends Article 1,521 of the Civil Code".
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/br_store.add_watch_areas). Keys are
+# '<sigla> <numero>/<ano>' as Congress prints them. Since 2019 a bill keeps
+# one number in both chambers, BUT an older Câmara bill takes a NEW number
+# when it reaches the Senate (PL 3179/2012 on homeschooling is now
+# PL 1338/2022, and the Câmara's own record shows the new number). When a
+# bill moves, its entry here must be re-keyed: tools/br_rollcalls.py logs
+# every renumbering it sees.
+bills:
+  "PL 1904/2024": {areas: [1],
+                   why: "Equates abortion after 22 weeks of gestation with homicide, including after rape. The ementa only cites arts. 124-128 of the Penal Code; 'aborto' is in the Câmara's keywords."}
+  "PEC 164/2012": {areas: [1],
+                   why: "Constitutional amendment: inviolability of the right to life from conception, in the head of art. 5. The ementa says only 'new wording for the head of art. 5'. Voted in the CCJC in 2024."}
+  "PL 478/2007": {areas: [1],
+                  why: "Estatuto do Nascituro (Statute of the Unborn Child)."}
+  "PL 5167/2009": {areas: [9],
+                   why: "Bars recognising same-sex unions as marriage; approved by the family committee (CPASF) in October 2023. The ementa only cites art. 1,521 of the Civil Code."}
+  "PL 580/2007": {areas: [9],
+                  why: "Civil contract of 'união homoafetiva'; PL 5167/2009 was attached to it."}
+  "PL 6583/2013": {areas: [9],
+                   why: "Estatuto da Família: defines the family entity."}
+  "PL 7180/2014": {areas: [6],
+                   why: "Escola sem Partido (original bill). The ementa only cites art. 3 of the education law (LDB)."}
+  "PL 246/2019": {areas: [6],
+                  why: "Programa Escola sem Partido (2019 bill)."}
+  "PL 1338/2022": {areas: [6],
+                   why: "Home education (educação domiciliar). Passed the Câmara in 2022 as PL 3179/2012 and renumbered on reaching the Senate."}
+  "PL 2630/2020": {areas: [7],
+                   why: "The 'PL das Fake News': platform regulation. Its ementa ('Liberdade, Responsabilidade e Transparência na Internet') carries no term."}
+  "PL 2628/2022": {areas: [6, 7],
+                   why: "ECA Digital: children and adolescents in digital environments. Became Lei 15.211/2025; kept for its recorded votes."}
+  "PEC 5/2023": {areas: [8],
+                 why: "Extends tax immunity for religious organisations (art. 150 of the Constitution). Eight nominal votes in the Câmara, 2023-26."}

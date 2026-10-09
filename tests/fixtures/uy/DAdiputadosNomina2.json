@@ -1,0 +1,42 @@
+[
+ {
+  "Nombre": "ABBONDANZA MENDARO, FLORENCIA ",
+  "Genero": "Mujer",
+  "Edad": 37,
+  "PartidoPolitico": "Frente Amplio",
+  "Departamento": "Montevideo",
+  "HojaVotacion": 1001.0
+ },
+ {
+  "Nombre": "ABDALA SCHWARZ, PABLO DANIEL",
+  "Genero": "Varón",
+  "Edad": 60,
+  "PartidoPolitico": "Nacional",
+  "Departamento": "Montevideo",
+  "HojaVotacion": 5.0
+ },
+ {
+  "Nombre": "ACKERMANN BOCHARD, NAIR HORTENSIA",
+  "Genero": "Mujer",
+  "Edad": 70,
+  "PartidoPolitico": "Frente Amplio",
+  "Departamento": "Colonia",
+  "HojaVotacion": 95609.0
+ },
+ {
+  "Nombre": "ACOSTA GARAZA, GLORIA BEATRIZ",
+  "Genero": "Mujer",
+  "Edad": 69,
+  "PartidoPolitico": "Nacional",
+  "Departamento": "Rocha",
+  "HojaVotacion": 404.0
+ },
+ {
+  "Nombre": "ZÚÑIGA VELLOZAS, GUSTAVO FEDERICO",
+  "Genero": "Varón",
+  "Edad": 36,
+  "PartidoPolitico": "Cabildo Abierto",
+  "Departamento": "Montevideo",
+  "HojaVotacion": 510.0
+ }
+]

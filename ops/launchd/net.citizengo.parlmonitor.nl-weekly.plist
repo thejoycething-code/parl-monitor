@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Netherlands weekly on the Mac Mini: Thursdays at 03:00 London. The
+     Tweede Kamer votes on Tuesdays and the Open Data Portaal publishes the
+     positions up to a day later, so Thursday morning has them all. The
+     GitHub crons (03:00 and 05:00 UTC on Thursdays,
+     .github/workflows/nl-weekly.yml) are the backup and skip themselves
+     when this has run (the gate allows 200 minutes, because 03:00 London is
+     02:00 UTC in summer, three hours before the 05:00 retry).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.nl-weekly.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.nl-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>nl-weekly</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>4</integer><key>Hour</key><integer>3</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/nl-weekly.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/nl-weekly.log</string>
+</dict>
+</plist>

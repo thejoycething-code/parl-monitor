@@ -77,6 +77,27 @@ _LIMITED_RETRY_STATUS = frozenset({500})
 _LIMITED_RETRY_ATTEMPTS = 2
 
 
+def _maybe_gunzip(raw, headers):
+    """Decompress a gzip-encoded reply (X14).
+
+    Only when the server says it compressed (Content-Encoding: gzip):
+    urllib never decompresses for us. A body that claims gzip and is not is
+    returned as received rather than lost.
+    """
+    encoding = ""
+    if headers is not None:
+        try:
+            encoding = (headers.get("Content-Encoding") or "").lower()
+        except AttributeError:
+            encoding = ""
+    if "gzip" not in encoding:
+        return raw
+    try:
+        return gzip.decompress(raw)
+    except (OSError, EOFError):
+        return raw
+
+
 class FetchError(Exception):
     """Raised when a request still fails after all retries are exhausted.
 
@@ -142,6 +163,7 @@ class HttpClient:
         clock=None,
         rng=None,
         opener=None,
+        accept_gzip=False,
     ):
         self.raw_dir = str(raw_dir)
         self.contact = contact
@@ -183,8 +205,20 @@ class HttpClient:
 
         self._hosts = {}
         self._hosts_guard = threading.Lock()
-        # The last reply's headers, lower-cased (see _request_once).
+        # The headers of the last reply (or refusal), so a caller can read a
+        # rate limit off them (Open States, 9 October 2026). Sequential
+        # callers only: a parallel caller would see another request's.
         self.last_headers = {}
+
+        # Opt-in compression (X14, country decisions of 10 October 2026).
+        # Off by default, so every existing feed sends exactly the headers it
+        # always has. A collector whose source serves large text (the
+        # Austrian, Polish and Brazilian JSON APIs) turns it on for the whole
+        # client with accept_gzip=True, or for one host with enable_gzip().
+        # The reply is decompressed here, before archiving or parsing, so the
+        # raw archive holds the same bytes either way.
+        self.accept_gzip = bool(accept_gzip)
+        self.gzip_hosts = set()
 
     # -- public API ---------------------------------------------------------
 
@@ -360,6 +394,13 @@ class HttpClient:
         with gzip.open(path, "rb") as handle:
             return handle.read()
 
+    def enable_gzip(self, host):
+        """Send Accept-Encoding: gzip to ONE host (X14). See __init__."""
+        self.gzip_hosts.add(host)
+
+    def _wants_gzip(self, url):
+        return self.accept_gzip or urlsplit(url).netloc in self.gzip_hosts
+
     def set_host_throttle(self, host, seconds):
         """Space requests to ONE host at least `seconds` apart, above the
         client-wide throttle: a robots.txt Crawl-delay (legnb.ca asks for
@@ -396,6 +437,7 @@ class HttpClient:
                 return self._request_once(url, timeout, extra_headers)
             except urllib.error.HTTPError as exc:
                 last_error = exc
+                self.last_headers = dict(exc.headers.items()) if exc.headers else {}
                 if exc.code not in _RETRYABLE_STATUS:
                     raise FetchError(url, feed, slug, attempts, exc)
                 if (exc.code in _LIMITED_RETRY_STATUS
@@ -426,14 +468,14 @@ class HttpClient:
         return base + self._rng() * (base * 0.25)
 
     def _request_once(self, url, timeout, extra_headers=None):
-        request = urllib.request.Request(
-            url,
-            headers={
-                "User-Agent": self._ua_for(url),
-                "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",
-                **(extra_headers or {}),
-            },
-        )
+        headers = {
+            "User-Agent": self._ua_for(url),
+            "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",
+        }
+        if self._wants_gzip(url):
+            headers["Accept-Encoding"] = "gzip"
+        headers.update(extra_headers or {})
+        request = urllib.request.Request(url, headers=headers)
         try:
             response = self._opener.open(request, timeout=timeout)
         except (ssl.SSLError, urllib.error.URLError) as exc:
@@ -443,16 +485,10 @@ class HttpClient:
             if "TLSV1_ALERT_PROTOCOL_VERSION" not in str(exc):
                 raise
             return self._fetch_via_curl(url, timeout, exc)
-        # The reply's headers, for a caller that paces itself on them
-        # (api.data.gov's X-RateLimit-Remaining, 9 October 2026). Never the
-        # request's: a keyed request's own headers carry the key.
+        headers = getattr(response, "headers", None)
+        self.last_headers = dict(headers.items()) if headers is not None else {}
         try:
-            self.last_headers = {k.lower(): v for k, v in
-                                 (getattr(response, "headers", None) or {}).items()}
-        except AttributeError:
-            self.last_headers = {}
-        try:
-            return response.read()
+            return _maybe_gunzip(response.read(), getattr(response, "headers", None))
         finally:
             close = getattr(response, "close", None)
             if close:

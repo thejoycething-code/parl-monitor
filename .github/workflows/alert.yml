@@ -40,6 +40,34 @@ on:
       - "Australia weekly"
       # Ireland (9 October 2026), registered the day it was written.
       - "Ireland weekly"
+      - "Austria weekly"
+      - "Netherlands weekly"
+      - "Poland weekly"
+      - "Italy weekly"
+      - "Switzerland weekly"
+      - "Belgium weekly"
+      - "France weekly"
+      - "Portugal weekly"
+      - "Slovakia weekly"
+      - "Croatia weekly"
+      - "Spain weekly"
+      - "Brazil weekly"
+      - "Chile weekly"
+      - "Dominican Republic weekly"
+      - "El Salvador weekly"
+      - "Peru weekly"
+      - "Ecuador weekly"
+      - "Guatemala weekly"
+      - "Mexico weekly"
+      - "Argentina weekly"
+      - "Colombia weekly"
+      - "Bolivia weekly"
+      - "Panama weekly"
+      - "Honduras weekly"
+      - "Uruguay weekly"
+      # The Latam edition (10 October 2026): Venezuela's news check,
+      # Nicaragua's La Gaceta check, the alerts for both, the monthly DM.
+      - "Latam monthly"
       # Canada's provincial legislatures (the eight of 3 October 2026, then
       # Nova Scotia), registered the day the workflow was written. Every province's step exits 1 on a
       # gap, so a failure here is often one legislature, named in the summary.

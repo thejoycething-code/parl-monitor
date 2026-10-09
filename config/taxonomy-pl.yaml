@@ -1,0 +1,61 @@
+# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
+# Source of truth: docs/keyword-taxonomy-pl.md
+# Regenerate: python3 tools/generate_taxonomy.py --lang pl
+version: 0.1
+areas:
+  1_abortion:
+    tier1: ["aborcj*", "aborcyjn*", "przerywani* ciąży", "przerwani* ciąży", "przerywaniu ciąży", "dopuszczalnoś* przerywania ciąży", "ochron* płodu", "ochron* życia poczętego", "dzieci* poczęt*", "dziecka poczętego", "życi* poczęt*", "pigułk* poronn*", "planowaniu rodziny, ochronie płodu ludzkiego", "kompromis* aborcyjn*", "Trybunał* Konstytucyjn* z 22 października 2020"]
+    tier2: ["praw* reprodukcyjn*", "zdrowi* reprodukcyjn*", "zdrowi* prokreacyjn*", "klauzul* sumienia", "antykoncepcj*", "pigułk* dzień po", ellaOne, "badani* prenataln*", "diagnostyk* prenataln*", "wad* letaln*", "letalnie chor*", "poronieni*", "martw* urodzeni*", "hospicj* perinataln*", "okienk* życia"]
+    # note: Poland: Polish terms measured against Sejm prints; bare ciąż* dropped after it tagged a pregnant workers' benefit bill and two unrelated bills.
+  2_assisted_dying:
+    tier1: ["eutanazj*", "wspomagan* samobójstw*", "samobójstw* wspomagan*", "pomoc* w samobójstwie", "pomoc* w umieraniu", "zabójstw* eutanatyczn*"]
+    tier2: ["opiek* paliatywn*", "hospicj*", "uporczyw* terapi*", "oświadczeni* pro futuro", "testament* biologiczn*", "medycyn* paliatywn*"]
+    # note: No terms proposed for this area.
+  3_gender_medicine_children:
+    tier1: ["bloker* dojrzewania", "blokowani* dojrzewania", "hormon* płciow*", "tranzycj*", "dysfori* płciow*", "zmian* płci", "korekt* płci", "uzgodnieni* płci", "uzgadnianiu płci", "terapi* afirmując*", "chirurgi* zmiany płci"]
+    tier2: ["detranzycj*", "transpłciow*", "niebinarn*", "tożsamoś* płciow*"]
+    # note: No terms proposed for this area.
+  4_conversion_practices:
+    tier1: ["terapi* konwersyjn*", "praktyk* konwersyjn*", "terapi* reparatywn*"]
+    tier2: [{term: "orientacj* seksualn*", with: ["terapi*", "zakaz*", "zmian*"]}]
+    # note: No terms proposed for this area.
+  5_sex_based_rights:
+    tier1: ["ideologi* gender", "ideologi* LGBT", gender, "LGBT*", "konwencj* stambulsk*", "Konwencj* Rady Europy o zapobieganiu i zwalczaniu przemocy wobec kobiet", "tożsamoś* płciow*", "ekspresj* płciow*", "płe* kulturow*", "płc* kulturow*", "płe* biologiczn*", "płc* biologiczn*", "płe* metrykaln*", "płc* metrykaln*", "strefy wolne od LGBT", "kobiet* trans*", "sport* kobiet*", "neutralnoś* pod względem płci", "feminatyw*"]
+    tier2: ["orientacj* seksualn*", "osob* LGBT*", "mniejszoś* seksualn*", "równoś* płci", "równego traktowania", "przemoc* ze względu na płeć", "przemoc* wobec kobiet", "przemoc* domow*", "parytet*", "homofobi*", "transfobi*", "pełnomocni* rządu do spraw równego traktowania", "pełnomocni* rządu do spraw równości"]
+    # note: Poland: Bare 'gender' kept at tier 1: in Polish political usage the English word is the ideology debate.
+  6_parental_rights_education:
+    tier1: ["edukacj* seksualn*", "edukacj* zdrowotn*", "wychowani* do życia w rodzinie", "religi* w szkol*", "lekcj* religii", "nauczani* religii", "nauk* religii", "katechez*", "katechet*", "etyk* w szkol*", "praw* rodziców", "prawa rodziców do wychowania", "władz* rodzicielsk*", "edukacj* domow*", "lex Czarnek"]
+    tier2: ["podstaw* programow*", "organizacj* w szkole", "zgod* rodzica", "zgod* rodziców", "wykorzystani* seksualn* małoletnich", "wykorzystaniu seksualnemu małoletnich", "Rzecznik* Praw Dziecka", "praw* dziecka", "pieczy zastępcz*", "piecz* zastępcz*", "kurator* oświaty", "prawo oświatowe", "system* oświaty", "szkoł* niepubliczn*", "ochron* małoletnich", "ochronie małoletnich", "Standard* Ochrony Małoletnich", "smartfon* w szkoł*", "telefon* komórkow* w szkoł*", "wychowani* patriotyczn*"]
+    # note: Poland: prawo oświatowe is the noisiest tier-2 term (15 bills, many amending the education act in passing); kept at tier 2 for triage.
+  7_free_speech_online_safety:
+    name: "Free speech, privacy and civil liberties"
+    tier1: ["mow* nienawiści", "przestępstw* z nienawiści", "przestępstw* motywowan* uprzedzeniami", "wolnoś* słowa", "wolnoś* wypowiedzi", "swobod* wypowiedzi", "cenzur*", "akt* o usługach cyfrowych", "usługach cyfrowych", "weryfikacj* wieku", {term: "art. 256", with: ["kodeks* karn*"]}, {term: "art. 257", with: ["kodeks* karn*"]}, "znieważeni* grupy", "nawoływani* do nienawiści", "pandemi* traktat*", "porozumieni* pandemiczn*", "Międzynarodow* Przepis* Zdrowotn*"]
+    tier2: ["dezinformacj*", "pornograf*", "treści szkodliw*", "treści nielegaln*", "platform* internetow*", "platform* cyfrow*", "media społecznościow*", "mediów społecznościowych", "szyfrowani*", "inwigilacj*", "Pegasus*", "kontrol* operacyjn*", "radiofonii i telewizji", "Krajow* Rad* Radiofonii", "zniesławieni*", "Światow* Organizacj* Zdrowia", "Europejsk* Konwencj* Praw Człowieka"]
+    # note: No terms proposed for this area.
+  8_freedom_of_religion:
+    tier1: ["obraz* uczuć religijnych", "obrażani* uczuć religijnych", {term: "art. 196", with: ["kodeks* karn*"]}, "wolnoś* religi*", "wolnoś* sumienia", "wolnoś* wyznania", "prześladowa* chrześcijan", "prześladowa* religijn*", "Fundusz* Kościeln*", "konkordat*", "symbol* religijn*", "krzyż* w urzęd*", "krzyż* w szkol*", "krzyż* w Sejmie", "bluźnierstw*", "złośliwe przeszkadzanie", "aktów religijnych", "wyznawan* religi*"]
+    tier2: [Kościół, "Kościoł*", "Kościel*", "związk* wyznaniow*", "związków wyznaniowych", "stosunku Państwa do", "duchown*", "kapelan*", "miejsc* kultu", "chrześcijan*", "katolick*", "religijn*", "niedziel* wolne od handlu", "zakaz* handlu w niedziel*", "handlu w niedziele", "klauzul* sumienia"]
+    # note: Poland: Kości* is avoided because it also means bones; Kościół, Kościoł* and Kościel* are listed separately.
+  9_marriage_family:
+    tier1: ["małżeństw* jednopłciow*", "związ* jednopłciow*", "pary jednopłciow*", "par* jednopłciow*", "związ* partnersk*", "status* osoby najbliższej", "osob* najbliższ*", "umow* o wspólnym pożyciu", "równoś* małżeńsk*", "art. 18 Konstytucji", "definicj* małżeństwa", "rozwod* pozasądow*", "rozwiązani* małżeństwa"]
+    tier2: ["rozwod*", "Kodeks* rodzinn*", "utrudniani* kontaktu", "babciow*", "Aktywn* rodzic*", "małżeńst*", "małżeńsk*", "rodzin* wielodzietn*", "Karta Dużej Rodziny", "Karty Dużej Rodziny", "świadczeni* wychowawcz*", "800 plus", "800+", "Rodzin* 800", "rodzicielstw*", "macierzyńsk*", "ojcostw*", "dzietnoś*", "demograf*", "polityk* rodzinn*", "alimen*", "urlop* rodzicielsk*", "becikow*", "przemoc* ekonomiczn*"]
+    # note: No terms proposed for this area.
+  10_surrogacy_embryology:
+    tier1: ["macierzyństw* zastępcz*", "surogac*", "matk* zastępcz*", "in vitro", "zapłodnieni* pozaustrojow*", "leczeni* niepłodności", "leczeniu niepłodności", "embrion*", "zarodk*", zarodek, "adopcj* zarodków", "dawstw* komórek rozrodczych", "komórek rozrodczych"]
+    tier2: ["niepłodnoś*", "naprotechnologi*", "medycznie wspomagan* prokreacj*", "wspomagan* rozrod*", "edycj* genom*", "substancj* pochodzenia ludzkiego", "badani* genetyczn*"]
+    # note: No terms proposed for this area.
+  11_migration:
+    tier1: ["pakt* o migracji", "pakt* migracyjn*", "polityk* migracyjn*", "zabezpieczeni* granicy", "zakaz* wjazdu", "relokacj* migrant*", "nielegaln* migracj*", "nielegaln* imigrac*", "przekraczani* granicy", "granic* z Białorusią", "zawieszeni* prawa do azylu", "prawa do azylu", "strefy buforowej", "stref* buforow*", "zobowiązani* do powrotu", "pushback*"]
+    tier2: ["deportac*", "migrac*", "obywateli państw trzecich", "migrant*", "imigra*", "cudzoziem*", {term: "azyl*", without: [zwierząt]}, "uchodźc*", "ochron* międzynarodow*", {term: "Straż* Granicz*", with: ["migra*", "cudzoziem*", "azyl*", "Białoru*", "nielegaln*", "uchodźc*", "granic* państwow*"]}, Frontex, "obywatelstw*", "repatria*", "wizow*", "zezwoleni* na pobyt", "integracj* cudzoziemców"]
+    # note: Poland: Straż Graniczna is guarded because unguarded it tagged every uniformed-services pension bill; azyl* vetoed by zwierząt (Central Animal Shelter).
+  12_prostitution:
+    name: "Prostitution, trafficking and sexual exploitation"
+    tier1: ["prostytucj*", "nierząd*", "kupowani* usług seksualnych", "zakup* usług seksualnych", "sutener*", "stręczyc*", "kuplerstw*", "domów publicznych", "dom* publiczn*", "handl* ludźmi w celu wykorzystania seksualnego", "model* nordyck*"]
+    tier2: ["handl* ludźmi", "handlu ludźmi", "praca seksualn*", "pracy seksualnej", "prac* przymusow*", "niewolnictw*"]
+    # note: No terms proposed for this area.
+  13_organ_donation:
+    name: Organ donation and transplant ethics
+    tier1: ["przeszczep*", "transplantac*", "transplantolog*", "pobierani* narządów", "pobieraniu, przechowywaniu i przeszczepianiu", "pobranie narządów", "dawc* narządów", "dawstw* narządów", "sprzeciw* na pobranie", "Centraln* Rejestr* Sprzeciwów", "śmier* mózg*", "handl* narządami"]
+    tier2: ["komórek, tkanek i narządów", "tkanek i narządów", "krwiodawstw*", "dawc* szpiku"]
+    # note: No terms proposed for this area.
+exclusions_global: [rodzina, życie, prawo, dziecko, płeć, szkoła, ochrona, edukacja, przemoc, wolność, migracja, kościół]

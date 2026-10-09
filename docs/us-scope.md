@@ -627,7 +627,13 @@ month plus a month's grace, because the House cast no vote between
   and no longer counts as pending either (740 pending on 9 October became
   727 that can actually fall).
 
-## State legislatures: all 50 (decided 9 October 2026, not built)
+## State legislatures: all 50 (decided 9 October 2026, built the same day)
+
+**Built: see docs/us-states-scope.md** for the measured numbers (the key's
+tier is the default 10 a minute and 250 a day; the per-session bulk files
+turned out to be open and keyless, so a first read of all fifty is two keyed
+requests and about 16 minutes; a weekly read 65 requests in recess). What
+follows is the note written before the key existed.
 
 Christopher wants all 50. That rules out one scraper per state as a first
 step: fifty sites, most part-time, each with its own format. The route is an
@@ -676,4 +682,5 @@ jurisdictions). Possible build orders:
    9 October 2026).
 6. ~~Senate~~: built 9 October; collected from CI, where senate.gov answers.
 7. ~~Which state block first?~~ All 50 (decided 9 October), via Open
-   States: **an account and API key are needed**.
+   States; built 9 October (docs/us-states-scope.md, which has its own open
+   questions).

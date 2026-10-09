@@ -1,0 +1,34 @@
+# Croatia watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Croatia.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/hr_store.add_watch_areas). Two kinds:
+#   bills: '<saziv>/<number>', from "P.Z. br. N" / "P.Z.E. br. N" in the
+#          agenda title. PZ and PZE share one sequence; numbers restart with
+#          each saziv, so every entry is re-keyed after a general election.
+#   items: an agenda appearance's tid, for votes that are not bills
+#          (interpellations, decisions, declarations). A tid is ONE
+#          appearance: an item carried to the next session gets a new tid,
+#          so items entries need adding again when that happens.
+#
+# Until config/taxonomy-hr.yaml exists this file is the ONLY source of areas
+# for the Croatian edition. Each entry below was found by the proposed
+# Croatian terms (docs/croatia-scope.md) and read by hand: its subject is
+# plain in its own title.
+bills:
+  "11/41": {areas: [5],
+            why: "Withdrawal from the Istanbul Convention (repeal of the ratification act). Private member's bill, Marijan Pavlicek; on the agenda of every session since the 2nd, never debated."}
+  "11/169": {areas: [5],
+             why: "Amendment to the Gender Equality Act (Zakon o ravnopravnosti spolova), Mrak-Taritas and Oreskovic. Voted at the 7th session."}
+  "11/213": {areas: [6, 7],
+             why: "Digital Protection of Children Act (Zakon o digitalnoj zastiti djece), Mozemo! club. Voted at the 9th session."}
+  "11/214": {areas: [10],
+             why: "Amendment to the Medically Assisted Reproduction Act (Zakon o medicinski pomognutoj oplodnji), Mrak-Taritas and Oreskovic."}
+  "11/244": {areas: [9],
+             why: "Amendment to the Family Act (Obiteljski zakon), SDP club. Voted at the 10th session."}
+items:
+  214612: {areas: [1],
+           why: "Interpellation on the Government's record on women's reproductive rights (16 members), 12th session appearance."}
+  214529: {areas: [1],
+           why: "The same interpellation, 10th session appearance."}
+  214240: {areas: [5],
+           why: "Proposal to set up an inquiry into institutional failures in protecting women from violence, 'resulting in a large number of femicides'. Voted at the 9th session."}

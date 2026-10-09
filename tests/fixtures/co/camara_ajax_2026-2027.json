@@ -1,0 +1,79 @@
+{
+ "success": true,
+ "data": {
+  "items": [
+   {
+    "nro_camara": "426/2026C",
+    "nro_senado": null,
+    "titulo": "Por la cual se reglamenta el artículo 246 de la Constitución Política y se establece la coordinación y articulación entre la Jurisdicción Especial Indígena y el Sistema Judicial Nacional, para garantizar la autonomía jurisdiccional de las comunidades y pueblos indígenas y se dictan otras disposiciones.",
+    "proyecto": "JURISDICCIÓN ESPECIAL INDÍGENA",
+    "tipo": "Ley Estatutaria",
+    "estado": "Trámite en Comisión",
+    "origen": "Cámara",
+    "vigencia": "2026-2027",
+    "link_web": "jurisdiccion-especial-indigena",
+    "comisiones_pack": "",
+    "autores_pack": "",
+    "otros_autores": "Vicepresidenta Consejo Superior de la Judicatura Claudia Regina Expósito Vélez"
+   },
+   {
+    "nro_camara": "423/2026C",
+    "nro_senado": "068/2025S",
+    "titulo": "POR MEDIO DEL CUAL SE MODIFICAN LOS ARTÍCULOS 164, 250 Y 251 DE LA LEY 1437 DE 2011",
+    "proyecto": "LEY MARUJA VIERA",
+    "tipo": "Ley Ordinaria",
+    "estado": "Trámite en Comisión",
+    "origen": "Senado",
+    "vigencia": "2026-2027",
+    "link_web": "ley-maruja-viera",
+    "comisiones_pack": "1||Comisión Primera Constitucional Permanente||https://www.camara.gov.co/comision-primera-constitucional-permanente/",
+    "autores_pack": "7||Andrés Felipe Jiménez Vargas||representantes/andres-felipe-jimenez-vargas::101||Jairo Humberto Cristo Correa||representantes/jairo-humberto-cristo-correa::1538||Jairo Alberto Castellanos Serrano||::1019||Nicolás Albeiro Echeverri Alvarán||",
+    "otros_autores": null
+   },
+   {
+    "nro_camara": "114/2026C",
+    "nro_senado": null,
+    "titulo": "Por medio del cual se modifica el artículo 11 de la Constitución Política de Colombia para fortalecer la protección constitucional de la vida humana desde la fecundación y reconocer al ser humano en gestación como sujeto de especial protección constitucional",
+    "proyecto": "PROTECCIÓN CONSTITUCIONAL DE LA VIDA EN GESTACIÓN",
+    "tipo": "Acto Legislativo",
+    "estado": "Trámite en Comisión",
+    "origen": "Cámara",
+    "vigencia": "2026-2027",
+    "link_web": "proteccion-constitucional-de-la-vida-en-gestacion",
+    "comisiones_pack": "1||Comisión Primera Constitucional Permanente||https://www.camara.gov.co/comision-primera-constitucional-permanente/",
+    "autores_pack": "10345||Arledy Alvarado Patiño||representantes/arledy-alvarado-patino::10347||Carol Stefanny Borda Acevedo||representantes/carol-stefanny-borda-acevedo::10325||Daruin Castellanos Romero||representantes/daruin-castellanos-romero::10355||David Gerardo Cote Rodríguez||representantes/david-gerardo-cote-rodriguez::10384||Guillermo León Blanco Valencia||representantes/guillermo-leon-blanco-valencia::41||José Jaime Uscátegui Pastrana||representantes/jose-jaime-uscategui-pastrana::10414||José Ricardo Ardila Pinedo||representantes/jose-ricardo-ardila-pinedo::10370||Juan Manuel Londoño Jaramillo||representantes/juan-manuel-londono-jaramillo::206||Juliana Aray Franco||representantes/juliana-aray-franco::152||Luis Miguel López Aristizábal||representantes/luis-miguel-lopez-aristizabal::10356||Luz Marina Gordillo Salinas||representantes/luz-marina-gordillo-salinas::10413||Maria Camila Salas Salas||representantes/maria-camila-salas-salas::10390||Martha Isabel Ruiz Solera||representantes/martha-isabel-ruiz-solera::10354||Nelly Patricia Mosquera Murcia||representantes/nelly-patricia-mosquera-murcia::10474||Christian Munir Garcés Aljure||::1098||Jonathan Ferney Pulido Hernández||::9945||Juan Carlos Garcia Gomez||::10461||Sara Jimena Castellanos Rodríguez||",
+    "otros_autores": null
+   },
+   {
+    "nro_camara": "361/2026C",
+    "nro_senado": null,
+    "titulo": "Por la cual se modifica el artículo 51 de la Ley 2099 de 2021 y el artículo 89 de la Ley 142 de 1994, se establece un régimen tarifario especial en servicios públicos domiciliarios para las entidades religiosas reconocidas y se dictan otras disposiciones",
+    "proyecto": "TARIFA ESPECIAL PARA ENTIDADES RELIGIOSAS",
+    "tipo": "Ley Ordinaria",
+    "estado": "Trámite en Comisión",
+    "origen": "Cámara",
+    "vigencia": "2026-2027",
+    "link_web": "tarifa-especial-para-entidades-religiosas-2",
+    "comisiones_pack": "6||Comisión Sexta Constitucional Permanente||https://www.camara.gov.co/comision-sexta-o-de-transportes-y-comunicaciones/",
+    "autores_pack": "10355||David Gerardo Cote Rodríguez||representantes/david-gerardo-cote-rodriguez",
+    "otros_autores": null
+   },
+   {
+    "nro_camara": "058/2026C",
+    "nro_senado": null,
+    "titulo": "Por la cual se modifica el artículo 51 de la Ley 2099 de 2021 y el artículo 89 de la Ley 142 de 1994, se establece un régimen tarifario especial en servicios públicos domiciliarios para las entidades religiosas reconocidas y se dictan otras disposiciones",
+    "proyecto": "TARIFA ESPECIAL PARA ENTIDADES RELIGIOSAS",
+    "tipo": "Ley Ordinaria",
+    "estado": "Retirado",
+    "origen": "Cámara",
+    "vigencia": "2026-2027",
+    "link_web": "tarifa-especial-para-entidades-religiosas",
+    "comisiones_pack": "6||Comisión Sexta Constitucional Permanente||https://www.camara.gov.co/comision-sexta-o-de-transportes-y-comunicaciones/",
+    "autores_pack": "10355||David Gerardo Cote Rodríguez||representantes/david-gerardo-cote-rodriguez",
+    "otros_autores": null
+   }
+  ],
+  "total": 5,
+  "total_pages": 1
+ }
+}

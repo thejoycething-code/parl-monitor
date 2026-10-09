@@ -1,0 +1,45 @@
+# Netherlands watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet
+# reviewed by anyone who campaigns in the Netherlands.
+#
+# Until Chris approves the Dutch term list (docs/netherlands-scope.md) and
+# config/taxonomy-nl.yaml exists, THIS FILE IS THE ONLY CLASSIFIER the
+# Dutch collector has. Once the taxonomy lands it carries only what the
+# terms cannot see.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/nl_store.add_watch_areas):
+#   dossiers: a Kamerstuk dossier number, '36390', or '36800-XVI' when the
+#             dossier has a toevoeging. Every amendment and motion on a bill
+#             is filed in the bill's dossier, so one entry covers them all.
+#   zaken:    a single zaaknummer, '2026Z21728', for a motion or question
+#             that sits in a dossier we do not want whole.
+# "Wijziging van de Embryowet" is the title of four different dossiers; a
+# key is exact. Dossiers outlive elections in the Netherlands (a bill is not
+# lost when the Kamer is dissolved), so keys do not need re-keying each term.
+#
+# Areas are the shared taxonomy's numbers (config/taxonomy.yaml).
+dossiers:
+  "37027": {areas: [1],
+            why: "Wet Abortus is zorg (Vliegenthart, initiative bill, 28 September 2026): removes abortion from the Criminal Code, amending the Wet afbreking zwangerschap."}
+  "35737": {areas: [1],
+            why: "Initiative bill abolishing the compulsory minimum reflection period (beraadtermijn) for abortion. Afgedaan; kept for its record of votes."}
+  "36390": {areas: [9, 10],
+            why: "Wet kind, draagmoederschap en afstamming: a legal regime for surrogacy and the child's right to know its origins. Pending."}
+  "36677": {areas: [10],
+            why: "Embryowet amendment after the third evaluation: the vehicle for amendments on creating embryos and on IVG gametes (17 matched items this Kamer)."}
+  "36416": {areas: [10],
+            why: "Initiative bill (Paternotte, Bevers) lifting the temporary ban on creating embryos for research."}
+  "36417": {areas: [10],
+            why: "Initiative bill (Paternotte, Bevers) allowing pre-implantation genetic testing for carrier status."}
+  "35534": {areas: [2],
+            why: "Wet toetsing levenseindebegeleiding van ouderen op verzoek: the 'voltooid leven' initiative bill (Podt). Pending."}
+  "36178": {areas: [4, 5],
+            why: "Wet strafbaarstelling conversiehandelingen: criminalises conversion practices, explicitly including gender identity and expression. Passed; royal assent letter 2026Z19828."}
+  "35825": {areas: [5],
+            why: "Change of the conditions for changing the registered sex on a birth certificate (the 'Transgenderwet', self-ID without expert statement). Pending."}
+  "35715": {areas: [12],
+            why: "Wet regulering sekswerk: licensing of sex work. Pending since 2021."}
+  "36663": {areas: [6],
+            why: "Wet terugdringen schoolverzuim: enforcement of compulsory schooling, watched for its reach into exemptions and home education. 22 matched items this Kamer, many of them amendments by Ceder (ChristenUnie)."}
+zaken:
+  "2026Z21728": {areas: [5],
+                 why: "Motion (Piri c.s.) to fly the rainbow flag over the Kamer building; roll-call vote of 8 October 2026, adopted 90-36."}

@@ -1,0 +1,14 @@
+# Test-only Spanish term list (tests/test_do_rollcalls.py). NOT the proposed
+# taxonomy-es: that awaits Chris's approval (docs/dominican-republic-scope.md).
+# Accented on purpose, to prove the collector folds both sides.
+version: test
+areas:
+  1_abortion:
+    tier1: ["aborto*", "tres causales"]
+    tier2: ["Código Penal"]
+  6_parental_rights_education:
+    tier1: ["derecho preferente de los padres"]
+    tier2: []
+  11_migration:
+    tier1: ["migración", "haitian*"]
+    tier2: []

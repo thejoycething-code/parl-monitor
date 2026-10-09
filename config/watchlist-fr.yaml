@@ -1,0 +1,30 @@
+# France watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in France.
+#
+# Until Christopher approves a France term list (docs/france-scope.md,
+# "Proposed taxonomy"), the collector classifies French text with the
+# Quebec list (config/taxonomy-qc.yaml), read-only. This file carries what
+# that list cannot see: dossiers on our ground whose titles use French legal
+# terms Quebec does not ("aide a mourir", "assistance medicale a la
+# procreation", "questionnement de genre", "reconnaissance du genre a l'etat
+# civil"), measured as misses in the scope probe.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/fr_store.add_watch_areas). Keys are the
+# Assemblee nationale's dossier uid: 'DLR5L<legislature>N<number>'. A dossier
+# keeps its key across readings and across the navette with the Senat; it
+# does not survive a dissolution unless the Senat has adopted it.
+dossiers:
+  "DLR5L17N51670": {areas: [2],
+                    why: "Droit a l'aide a mourir (dossier 'Fin de vie'). Adopted in lecture definitive 15 July 2026, Conseil constitutionnel conforme 14 August, promulgated 18 August 2026. 380 scrutins name the dossier; 931 scrutin titles say 'aide a mourir'. The Quebec list knows 'aide medicale a mourir' only."}
+  "DLR5L17N51672": {areas: [2],
+                    why: "Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only."}
+  "DLR5L16N49654": {areas: [3],
+                    why: "Senate bill to regulate medical practices for minors 'en questionnement de genre' (ppl23-435), adopted by the Senat and pending at the Assemblee since the 16th legislature. No Quebec term matches 'questionnement de genre'."}
+  "DLR5L17N53037": {areas: [10],
+                    why: "Universaliser l'assistance medicale a la procreation. France's legal term is 'assistance medicale a la procreation' (AMP); Quebec's list has 'procreation medicalement assistee'."}
+  "DLR5L17N51004": {areas: [5],
+                    why: "Faciliter la reconnaissance du genre a l'etat civil: self-identification at the civil register. Matched nothing."}
+  "DLR5L17N53403": {areas: [5],
+                    why: "Droits des personnes LGBTQIA+, intersex children and 'reconnaissance du genre a l'etat civil'. Matched nothing."}
+  "DLR5L17N53187": {areas: [7],
+                    why: "Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing."}

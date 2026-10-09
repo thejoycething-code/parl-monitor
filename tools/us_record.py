@@ -669,6 +669,9 @@ def pull(conn, client, today, key, since=None, until=None, tax=None, budget=None
     until = until or today
     try:
         packages = list_days(client, key, since, until)
+        # Read now, while the listing is the last reply: the page fetches
+        # below run in parallel and carry no rate-limit headers anyway.
+        rate = {k.lower(): v for k, v in (getattr(client, "last_headers", None) or {}).items()}
     except (FetchError, ValueError) as exc:
         # str(exc) carries the URL, never the key (a header).
         db.record_gap(conn, FEED, "listing {0} to {1}: {2}".format(since, until, exc), today)
@@ -708,10 +711,9 @@ def pull(conn, client, today, key, since=None, until=None, tax=None, budget=None
     log("us-record: {0} day(s) read, {1} granule page(s) fetched, {2} speech(es) on our "
         "ground, {3} gap(s); {4} day(s) still to read".format(
             days, fetched, ours, gaps, max(0, len(todo) - days)))
-    if client.last_headers.get("x-ratelimit-remaining"):
+    if rate.get("x-ratelimit-remaining"):
         log("  api.data.gov: {0} of {1} requests left this hour".format(
-            client.last_headers.get("x-ratelimit-remaining"),
-            client.last_headers.get("x-ratelimit-limit")))
+            rate.get("x-ratelimit-remaining"), rate.get("x-ratelimit-limit")))
     return days, ours, gaps
 
 
