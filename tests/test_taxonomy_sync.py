@@ -75,7 +75,8 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.15 (the same day): "gender expression", and Quebec's laicity terms.
         # v1.16 (2 October 2026): "right to withdraw" guarded, and the
         # [without:] veto for organ-donor leave in labour codes.
-        self.assertEqual(version, "1.16")
+        # v1.17 (9 October 2026): the American vocabulary addendum.
+        self.assertEqual(version, "1.17")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -674,3 +675,30 @@ class GenderExpressionEverywhereTests(unittest.TestCase):
 
     def test_quebec_laicity_in_english(self):
         self.assertIn(8, self._areas("taxonomy.yaml", "An Act respecting the laicity of the State"))
+
+
+class AddendumTests(unittest.TestCase):
+    """The American addendum (v1.17) APPENDS to an area, never replaces it."""
+
+    BASE = ("**Version 9.9 | x**\n\n## Issue areas\n\n### 1. Abortion {#1_abortion}\n\n"
+            "- **Tier 1:** abortion\n- **Tier 2:** unborn\n- **Notes:** base note\n\n")
+    TAIL = "## Global exclusions\n\n- **Terms:** termination\n"
+
+    def test_addendum_terms_append_to_the_area(self):
+        md = self.BASE + ("## Addendum: American vocabulary\n\n- **Notes:** preamble, not area 1\n\n"
+                          "#### 1. Abortion {#1_abortion}\n\n- **Tier 1:** mifepristone\n"
+                          "- **Notes:** us note\n\n") + self.TAIL
+        version, areas, _ = generate_taxonomy.parse_master(md)
+        self.assertEqual(areas["1_abortion"]["tier1"], ["abortion", "mifepristone"])
+        self.assertEqual(areas["1_abortion"]["tier2"], ["unborn"])
+        self.assertEqual(areas["1_abortion"]["note"], "base note ADDENDUM: us note")
+
+    def test_addendum_for_an_unknown_area_fails(self):
+        md = self.BASE + "## Addendum\n\n#### 4. Nope {#4_nope}\n\n- **Tier 1:** x\n\n" + self.TAIL
+        with self.assertRaises(SystemExit):
+            generate_taxonomy.parse_master(md)
+
+    def test_addendum_repeating_a_term_fails(self):
+        md = self.BASE + "## Addendum\n\n#### 1. Abortion {#1_abortion}\n\n- **Tier 1:** abortion\n\n" + self.TAIL
+        with self.assertRaises(SystemExit):
+            generate_taxonomy.parse_master(md)

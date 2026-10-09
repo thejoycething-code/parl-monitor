@@ -1,5 +1,5 @@
 # Parliamentary Monitor: keyword taxonomy
-**Version 1.16 | 2 October 2026 | Owner: Christopher**
+**Version 1.17 | 9 October 2026 | Owner: Christopher**
 
 ## Purpose
 
@@ -110,6 +110,54 @@ Every item that survives the filter is written to the store with its issue tags 
 - **Tier 1:** "organ donation*" [without: "organ donation leave", "organ donor leave", "leave for organ donation", "leave related to", "employment standards", "labour standards", "Labour Code"]; "organ donor*" [without: "organ donation leave", "organ donor leave", "leave for organ donation", "leave related to", "employment standards", "labour standards", "Labour Code"]; "organ transplant*"; "Organ Donation (Deemed Consent)"; "deemed consent" [with: organ, organs, donation, donor*, transplant*]; "organ harvesting"; "transplant tourism"; "organ trafficking"; "trafficking in organs"
 - **Tier 2:** "Human Tissue Act"; "Human Tissue Authority"
 - **Notes:** v1.16 (Christopher, 2026-10-02: "guard both taxonomy terms"): "organ donation*" and "organ donor*" are VETOED by labour-law company. Canadian employment standards codes grant leave to living donors, and the bare terms filed those Bills as transplant ethics: Manitoba 42-3 Bill 44 ("unpaid leave for organ donation", section 59.6 of the Employment Standards Code) and Newfoundland and Labrador 50-2 Bill 82 (Labour Standards Act, Part VII.9 "Leave related to long-term illness, long-term injury and organ donation"). The vetoes are the leave phrasings and the statute names; a deemed-consent or transplant Bill carries none of them. Measured the same day: both Bills' texts lose the match (Manitoba 1 passage to 0, Newfoundland and Labrador 3 to 0), and no stored organ-donation match anywhere loses it (390 Canadian Commons speeches, 146 Holyrood and 29 Senedd events, 70 NI and 89 Holyrood items, and the Canadian bills, divisions, petitions, Gazette and testimony rows). New at v1.9 (Christopher, 26 September 2026: "cover organ donation in the UK edition too"), the same day Germany gained it. It is its OWN area, not part of area 2, because area 2 feeds member stance, issue pages and the 5CA: an organ-donation speech filed there would be scored as a position ON ASSISTED DYING, and the two are separate questions -- a member can oppose assisted dying and support opt-out donation. Measured against the written-questions API, counting only results that genuinely contain the phrase (its search is loose relevance matching -- "organ donation" reports 58,113 hits, headed "Artificial Intelligence: China"): `organ donation` 51 of 100 fetched, `organ harvesting` 53 of 94 -- almost all forced harvesting from Falun Gong and other prisoners in China -- `organ transplant` 38, `deemed consent` 24 of 64, `Human Tissue` 31, `organ trafficking` 2, `transplant tourism` 2. Our own ledger held almost none of it (2 hits in 169,155 texts), because our sweeps search by our own terms: the vocabulary was never fetched, not absent. `deemed consent` is GUARDED: among its genuine matches is "Flags: Palestine", because deemed consent is also advertisement and planning law. The guard is `organ` and `organs` as whole words, never `organ*`, which would match `organisation`. REJECTED: `brain stem death` (0), `living donor` (0), and `NHS Blood and Transplant` (7 of 100, mostly blood donation and a Stonewall question). Organ trafficking and forced harvesting sit HERE rather than in area 12 or 8: they are organ ethics first, though triage should weigh religious persecution where the victims are Falun Gong. REJECTED from tier 2 after the retag dry run: bare `transplant*`. Of the 20 stored Holyrood rows it would have tagged, 11 matched on it alone, and every one was clinical, not ethical -- World Kidney Day motions, stem-cell research funding, a charity run by a stem-cell transplant survivor, heart transplant rates at the Golden Jubilee. Tier 2 alone admits a row, so a bare clinical word is a standing noise source. The German `Transplantation*` has no such problem: the matcher anchors at word start, so Stammzelltransplantation never reaches it. POSITION (Christopher, 26 September 2026): "Organ donation is fine but forced organ donation and assumed consent is not." CitizenGO supports freely given donation and opposes presumed/deemed-consent opt-out systems, forced organ harvesting, organ trafficking and transplant tourism; the wording lives in the stance, triage and debate-report prompts. Members are scored against it, but the area has NO 5CA SHEET ("not a huge issue for us"; config/stance_overrides.yaml excluded_from_5ca). Because donation itself is supported, the terms that find donor-awareness items find ground we do not contest: those items score low and carry no stance direction by design.
+
+## Addendum: American vocabulary
+
+Added at v1.17 (Christopher, 9 October 2026: "shared keyword list ... add American terms as an addendum"). These are the names the US uses for ground the areas above already cover, measured against the 119th Congress in docs/us-scope.md. They are shared by every monitor, so each was also run against the UK, Scottish, Canadian and EU stores before it went in. The generator APPENDS each list below to the area with the same key; nothing here replaces a term above. Named US bills (the US Equality Act, whose bare name would match every mention of the UK Equality Act 2010) belong in config/watchlist-us.yaml, not here. Scope left open, and so NOT added: DEI, antisemitism, contraception.
+
+#### 1. Abortion {#1_abortion}
+
+- **Tier 1:** mifepristone; misoprostol; "Comstock Act"; "Hyde Amendment"; "Planned Parenthood"; "Roe v. Wade"; "Dobbs v. Jackson"; "life at conception"; "fetal personhood"; personhood [with: fetal, unborn, conception, embryo*, preborn, abortion]; preborn; "born-alive"; "fetal heartbeat"; "Mexico City Policy"; "global gag rule"
+- **Tier 2:** "pregnancy center*"; "pregnancy resource center*"; "Title X" [with: "family planning", abortion]
+- **Notes:** Measured 9 October 2026: the Stop Comstock Act (146 cosponsors) matched nothing, because neither Comstock nor mifepristone was a term; Life at Conception Act of 2026 (S. 3667) missed while its House twin, which has a CRS summary, hit. Hyde and Planned Parenthood matter because the US fight runs through riders in appropriations and reconciliation bills, where the operative words are the program name, not "abortion". "born-alive" is hyphenated on purpose: the open phrase is ordinary obstetrics.
+
+#### 2. Assisted dying and end of life {#2_assisted_dying}
+
+- **Tier 1:** "medical aid in dying"; "aid in dying"; "Death with Dignity"; "physician assisted suicide"
+- **Notes:** US states legislate as "medical aid in dying" and "Death with Dignity" (Oregon's Act and its copies); "assisted dying" is rare in American text.
+
+#### 3. Gender medicine and children {#3_gender_medicine_children}
+
+- **Tier 1:** "gender transition procedure*"; "gender-transition procedure*"; "gender experimentation"; "chemical and surgical mutilation"; "sex-trait modification"; "sex trait modification"
+- **Notes:** The End Taxpayer Funding of Gender Experimentation Act (H.R. 2202, S. 977) matched nothing. "Chemical and surgical mutilation" is the wording of the January 2025 executive order; "sex-trait modification" is HHS's.
+
+#### 5. Sex-based rights and single-sex spaces {#5_sex_based_rights}
+
+- **Tier 1:** "Title IX" [with: sex, women, girls, female, gender*, athlet*, sport*, transgender, biological]; "women and girls in sports"; "gender ideology"
+- **Tier 2:** "women's sports"; "girls' sports"; "female athlete*"
+- **Notes:** The Fair Play for Girls Act (S. 74) and the Protection of Women in Olympic and Amateur Sports Act (S. 405) missed. Title IX is guarded because it also governs campus sexual-misconduct procedure and NIL rules. The three sports phrases are tier 2, measured: in the UK and Scottish stores they also carry ordinary women's-sport business (facilities funding, an Afghan Paralympian, a primary-school girls' cup), so triage decides.
+
+#### 6. Parental rights and education {#6_parental_rights_education}
+
+- **Tier 2:** "Parents' Bill of Rights"; "Parents Bill of Rights"; indoctrination [with: school*, classroom*, curriculum, gender*, pupils]
+
+#### 7. Free speech, privacy and civil liberties {#7_free_speech_online_safety}
+
+- **Tier 1:** "Section 230" [with: "Communications Decency", platform*, online, internet, "social media", "interactive computer service*"]; "Communications Decency Act"; COPPA; "Children's Online Privacy Protection"
+- **Tier 2:** "First Amendment" [with: speech, censor*, expression, religio*, press]; jawboning
+- **Notes:** Section 230 is guarded because UK statutes have a section 230 too. "First Amendment" appears in almost every American civil-liberties text, so it sits at tier 2 and triage decides.
+
+#### 8. Freedom of religion or belief {#8_freedom_of_religion}
+
+- **Tier 1:** "Religious Freedom Restoration Act"; RFRA; "Free Exercise Clause"; "free exercise of religion"; "Establishment Clause"; "anti-Christian bias"; "Johnson Amendment"; "ministerial exception"
+
+#### 9. Marriage and family {#9_marriage_family}
+
+- **Tier 1:** "Respect for Marriage Act"; Obergefell; "Defense of Marriage Act"
+
+#### 10. Surrogacy and embryology {#10_surrogacy_embryology}
+
+- **Tier 1:** "in vitro fertilization"; "in vitro fertilisation"; "embryo adoption"
 
 ## Global exclusions
 
