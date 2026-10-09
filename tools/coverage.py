@@ -247,7 +247,19 @@ AWAITING_FIRST_RUN = {
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {}
+EXEMPT = {
+    # US Congress (9 October 2026). Built and tested, NOT YET SCHEDULED: no
+    # workflow writes these, so a staleness alarm would fire from day one.
+    # When the US weekly workflow lands, move all three into FEEDS (the
+    # bill and roll-call upserts re-stamp last_seen every run; the members
+    # crosswalk is re-read whole) and into PIPELINE_FEEDS.
+    "us_bills": "not scheduled yet: tools/us_rollcalls.py is run by hand "
+                "until the US weekly workflow exists (docs/us-scope.md)",
+    "us_divisions": "not scheduled yet: tools/us_rollcalls.py is run by hand "
+                    "until the US weekly workflow exists (docs/us-scope.md)",
+    "us_members": "not scheduled yet: tools/us_rollcalls.py is run by hand "
+                  "until the US weekly workflow exists (docs/us-scope.md)",
+}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
