@@ -1709,6 +1709,12 @@ TABLES = (
     "gt_sessions",
     "gt_divisions",
     "gt_votes",
+    # Mexico's Chamber of Deputies (tools/mx_rollcalls.py), created by
+    # src/mx_store.ensure_schema -- declared from day one.
+    "mx_members",
+    "mx_iniciativas",
+    "mx_divisions",
+    "mx_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2023,4 +2029,6 @@ def init_db(conn):
     ec_store.ensure_schema(conn)
     from src import gt_store
     gt_store.ensure_schema(conn)
+    from src import mx_store
+    mx_store.ensure_schema(conn)
     return conn

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Mexico weekly on the Mac Mini: Saturdays at 04:00 London. The Mini is the
+     CLOCK here, not the runtime: diputados.gob.mx refuses UK addresses, so
+     jobs/mx-weekly.sh dispatches .github/workflows/mx-weekly.yml, which does
+     the work on a GitHub runner. The GitHub crons (03:00 and 05:00 UTC on
+     Saturdays) are the backup and skip themselves when this has run (the
+     gate allows 150 minutes, because 04:00 London is 03:00 UTC in summer).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.mx-weekly.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.mx-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>mx-weekly</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>4</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/mx-weekly.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/mx-weekly.log</string>
+</dict>
+</plist>

@@ -108,6 +108,9 @@ PIPELINES = {
     # Scheduled 9 October 2026, Saturdays (gt-weekly.yml; the Mac Mini first).
     # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
     "Guatemala weekly": (14, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies"),
+    # Scheduled 9 October 2026, Saturdays (mx-weekly.yml; the Mac Mini is the
+    # clock, GitHub does the work: diputados.gob.mx refuses UK addresses).
+    "Mexico weekly": (7, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -412,6 +415,13 @@ FEEDS = [
     ("gt_initiatives", "last_seen", 14, 4, "Congreso initiatives (Guatemala weekly)"),
     ("gt_sessions", "last_seen", 14, 4, "Congreso plenary sessions (Guatemala weekly)"),
     ("gt_divisions", "last_seen", 31, 62, "Congreso plenary votes (Guatemala weekly)"),
+    # Mexico (9 October 2026). MEASURED which re-stamp: the deputies list and
+    # every Gaceta iniciativas list are re-read whole each run, and every
+    # vote SITL lists is re-stamped when its period page is read, so all
+    # three move weekly, recess included. mx_votes has no sighting column.
+    ("mx_members", "last_seen", 7, 4, "Chamber of Deputies members (Mexico weekly)"),
+    ("mx_iniciativas", "last_seen", 7, 4, "Gaceta iniciativas lists (Mexico weekly)"),
+    ("mx_divisions", "last_seen", 7, 4, "SITL recorded votes (Mexico weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -526,6 +536,7 @@ PIPELINE_FEEDS = {
     "Ecuador weekly": ["ec_divisions", "ec_members", "ec_roster"],
     # Divisions left out as for the US: a recess cannot move them.
     "Guatemala weekly": ["gt_initiatives", "gt_members", "gt_sessions"],
+    "Mexico weekly": ["mx_members", "mx_iniciativas", "mx_divisions"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -579,6 +590,8 @@ AWAITING_FIRST_RUN = {
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Guatemala weekly": (("gt_members", "gt_initiatives", "gt_sessions", "gt_divisions"),
                          "scheduled 9 October 2026; its tables fill on its first run"),
+    "Mexico weekly": (("mx_members", "mx_iniciativas", "mx_divisions"),
+                      "written 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py

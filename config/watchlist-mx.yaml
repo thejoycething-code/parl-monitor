@@ -1,0 +1,33 @@
+# Mexico watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Mexico. See docs/mexico-scope.md.
+#
+# Until Christopher approves a Spanish term list (config/taxonomy-es.yaml),
+# this file is the ONLY thing that gives a Mexican iniciativa or vote an
+# area. Every entry below was found by the draft Spanish terms measured in
+# the scope doc and read by hand.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/mx_store.add_watch_areas). Keys are
+# '<legislature>/<number>', the sequence number the Gaceta Parlamentaria
+# prints at the end of each entry ('(1130)'). Never use a provisional number
+# ('(783X)'): it is replaced within weeks. Mexican titles are formulaic
+# ("Que reforma los artículos 329 y 330 del Código Penal Federal..."), so a
+# title term would collide at once.
+#
+# A vote carries no iniciativa number. When the Chamber votes on a watched
+# iniciativa, list the SITL vote ids under `votaciones` and the vote takes
+# the iniciativa's areas. None of these has reached the floor yet.
+#
+# The LXVI ends on 31 August 2027; re-key surviving entries for the LXVII.
+iniciativas:
+  "66/62":   {areas: [1], why: "Código Penal Federal, the crime of abortion: reform and repeal (Morena, Benítez Tiburcio). Justice committee, extension granted."}
+  "66/226":  {areas: [1], why: "'Salud reproductiva y aborto seguro': Ley General de Salud and Código Penal Federal (Movimiento Ciudadano group)."}
+  "66/1130": {areas: [1], why: "Interrupción legal del embarazo: Código Penal Federal articles 329, 332 and a new 331 Bis (PT, Lilia Aguilar Gil)."}
+  "66/1244": {areas: [1], why: "Interrupción legal del embarazo: Código Penal Federal articles 329 and 330 (PT, Rojo Pimentel)."}
+  "66/1956": {areas: [1], why: "Decriminalisation of abortion in the Código Penal Federal and the Ley General de Salud (Morena, Ealy Díaz)."}
+  "66/1955": {areas: [1], why: "Constitutional 'right to decide' on reproduction, article 4 (Morena, Ealy Díaz); companion of 66/1956."}
+  "66/774":  {areas: [1, 8], why: "Conscientious objection for health professionals, Ley General de Salud (PAN, Ramírez Barba): the positive flank."}
+  "66/6709": {areas: [2], why: "Decriminalisation and regulation of euthanasia, Ley General de Salud and Código Penal Federal (Morena, García Hernández)."}
+  "66/3543": {areas: [2], why: "'Muerte asistida', Ley General de Salud and Código Penal Federal (Morena, Jiménez Vásquez)."}
+  "66/7722": {areas: [10], why: "Maternidad subrogada: new article 67 Bis of the Ley General de Salud (PVEM, Carrillo Soberanis)."}
+  "66/7629": {areas: [10, 12], why: "Prohibition of gestación subrogada, framed through the trafficking law (PT, Merino Escamilla): the abolitionist side."}
+  "66/3273": {areas: [9], why: "Constitutional ban on child marriage and forced cohabitation, article 4 (PAN, Zavala)."}
