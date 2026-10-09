@@ -68,7 +68,8 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
              ("sp-weekly.yml", "sp-weekly.sh"), ("sd-weekly.yml", "sd-weekly.sh"),
              ("ni-weekly.yml", "ni-weekly.sh"), ("eu-weekly.yml", "eu-weekly.sh"),
              ("de-weekly.yml", "de-weekly.sh"), ("ca-weekly.yml", "ca-weekly.sh"),
-             ("prov-weekly.yml", "prov-weekly.sh"), ("upr-monthly.yml", "upr-monthly.sh"))
+             ("prov-weekly.yml", "prov-weekly.sh"), ("upr-monthly.yml", "upr-monthly.sh"),
+             ("member-profiles.yml", "member-profiles.sh"))
 
     def _read(self, wf, job):
         return (open(os.path.join(ROOT, ".github", "workflows", wf), encoding="utf-8").read(),

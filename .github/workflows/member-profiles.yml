@@ -42,7 +42,18 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, the 10th of each month, 09:00 London (tools/mini_run.sh member-profiles;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: MEMBER_PROFILES
+      cover-hours: 20
+
   profiles:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     # MEASURED, not estimated: 100 members took 4.5 minutes, so the House is
     # about 29 -- three or four requests each against src/http's 0.2s per-host
