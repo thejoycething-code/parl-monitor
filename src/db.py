@@ -1610,6 +1610,13 @@ TABLES = (
     "it_bills",
     "it_divisions",
     "it_votes",
+    # Swiss Federal Assembly (tools/ch_rollcalls.py), created by
+    # src/ch_store.ensure_schema -- declared from day one.
+    "ch_members",
+    "ch_sessions",
+    "ch_businesses",
+    "ch_divisions",
+    "ch_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1896,4 +1903,6 @@ def init_db(conn):
     pl_store.ensure_schema(conn)
     from src import it_store
     it_store.ensure_schema(conn)
+    from src import ch_store
+    ch_store.ensure_schema(conn)
     return conn

@@ -1,0 +1,38 @@
+# Swiss watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Switzerland.
+#
+# config/taxonomy-de.yaml (German text) and config/taxonomy-qc.yaml (French
+# text) do most of the work; neither file is edited for Switzerland. This
+# file carries only businesses on our ground that BOTH lists missed, found
+# by measuring the 10,178 businesses of the 52nd legislature on 9 October
+# 2026 (docs/switzerland-scope.md, "What both lists missed").
+#
+# APPLIED BY GESCHAEFTSNUMMER, NEVER BY TITLE (src/ch_store.watch_areas).
+# Keys are the OData Business ID: 20253944 is 25.3944. Swiss numbers do not
+# restart with a legislature, so an entry stays valid until the business is
+# done; a closed business can stay listed, it costs nothing.
+#
+# Areas follow docs/keyword-taxonomy.md: 2 assisted dying, 3 gender medicine
+# for children, 5 sex-based rights, 6 parental rights and education,
+# 7 free speech and online safety, 8 freedom of religion, 9 marriage and family.
+businesses:
+  20253944: {areas: [2],
+             why: "Mo. 25.3944 Rahmenregulierung im Bereich des assistierten Suizids. Missed in German because the term is 'assistierter Suizid' and the title is genitive ('des assistierten Suizids'); missed in French as 'assistance au suicide'."}
+  20253945: {areas: [2],
+             why: "Mo. 25.3945 monitoring of assisted suicide; same two misses as 25.3944."}
+  20247672: {areas: [2],
+             why: "Fra. 24.7672 Sarco Sterbekapsel: the suicide pod first used in Schaffhausen in 2024. 'Sarco' and 'Suizidkapsel' are Swiss words no list carries."}
+  20234408: {areas: [3],
+             why: "Mo. 23.4408 Stopp der Gender-Ideologie: protect minors from hasty sex-change procedures. 'Geschlechtsumwandlung' is not a term in taxonomy-de."}
+  20254634: {areas: [3, 5],
+             why: "Ip. 25.4634 health care for LGBTQIA+ children and young people. taxonomy-de spells the acronym LSBTIQ; Switzerland writes LGBTIQ."}
+  20254892: {areas: [6, 7],
+             why: "Po. 25.4892 binding age verification against online pornography for minors. Neither 'Pornografie' nor 'Altersverifikation' is a German term; the French list has 'vérification de l'âge' but the French title did not use it."}
+  20263310: {areas: [8],
+             why: "Mo. 26.3310 Situation verfolgter Christen berücksichtigen. The German list has 'Verfolgung von Christen' and 'Christenverfolgung', not the participle."}
+  20253460: {areas: [8],
+             why: "Ip. 25.3460 Massaker an Christen in Nigeria."}
+  20254726: {areas: [8],
+             why: "Ip. 25.4726 Nigeria: more than 41,000 Christians killed."}
+  20240026: {areas: [9],
+             why: "BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation and its indirect counter-proposal: the Swiss marriage-tax fight. CHRIS TO CONFIRM that individual taxation is our ground; 12 titles carry 'Individualbesteuerung' and none matched."}
