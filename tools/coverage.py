@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Saturdays (pe-weekly.yml; the Mac Mini first).
+    "Peru weekly": (7, 4, "Peru's Congress: Senado and Diputados members, proyectos, plenary votes"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,15 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Peru (9 October 2026). MEASURED which re-stamp: both chambers' member
+    # lists and every proyecto of the period are re-read whole every run, so
+    # members and bills move every week, recess included. A vote is written
+    # only when a vote record PDF is new, and the Congress breaks for weeks
+    # at a time (mid-December to March): a month plus a month's grace, as for
+    # the US. pe_votes and pe_vote_files carry no sighting column.
+    ("pe_members", "last_seen", 7, 4, "Senado and Diputados members (Peru weekly)"),
+    ("pe_bills", "last_seen", 7, 4, "Proyectos de ley, Sistema de Proyectos de Ley (Peru weekly)"),
+    ("pe_divisions", "last_seen", 31, 31, "Plenary votes from the chambers' vote records (Peru weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +241,8 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # Votes left out for the same reason as the US: a recess week cannot move them.
+    "Peru weekly": ["pe_bills", "pe_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -243,6 +256,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions"),
+                    "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
