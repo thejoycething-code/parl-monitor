@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Spain weekly on the Mac Mini: Saturdays at 08:00 London, after the
-     Congreso's Tuesday-Thursday plenary week. The GitHub crons (08:00 and
-     11:00 UTC on Saturdays, .github/workflows/es-weekly.yml) are the backup
+<!-- Spain weekly on the Mac Mini: Saturdays at 08:30 London, after the
+     Congreso's Tuesday-Thursday plenary week. The GitHub crons (08:30 and
+     11:30 UTC on Saturdays, .github/workflows/es-weekly.yml) are the backup
      and skip themselves when this has run (the gate allows 260 minutes,
-     because 08:00 London is 07:00 UTC in summer, four hours before the
+     because 08:30 London is 07:30 UTC in summer, four hours before the
      retry slot).
      Install: cp to ~/Library/LaunchAgents, then
      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.es-weekly.plist -->
@@ -20,7 +20,7 @@
   </array>
   <key>StartCalendarInterval</key>
   <array>
-    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>30</integer></dict>
   </array>
   <key>StandardOutPath</key>
   <string>/Users/christopherjoyce/runner/logs/es-weekly.log</string>

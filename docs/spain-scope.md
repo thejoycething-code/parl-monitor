@@ -259,8 +259,8 @@ absolute majority there) and Senate-only business (motions, questions).
   job still publishes), 1 otherwise.
 
 **The weekly** (`jobs/es-weekly.sh`, shared by both runners): Saturdays
-08:00 London on the Mac Mini (`ops/launchd/net.citizengo.parlmonitor.es-weekly.plist`);
-`.github/workflows/es-weekly.yml` at 08:00 and 11:00 UTC is the backup,
+08:30 London on the Mac Mini (`ops/launchd/net.citizengo.parlmonitor.es-weekly.plist`);
+`.github/workflows/es-weekly.yml` at 08:30 and 11:30 UTC (half an hour later than first built, Switzerland holding 11:00) is the backup,
 gated by `mini-check` with job `ES_WEEKLY` (grace 260 minutes, because the
 Mini's summer run stamps 07:00 UTC, four hours before the retry slot). The
 plenary sits Tuesday to Thursday; Saturday reads the whole week. **It runs
