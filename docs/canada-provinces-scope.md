@@ -794,6 +794,31 @@ Scores live in their own table, `prov_scores` (item, prov, score, why, model, sc
 
 **Order in the weekly:** collectors, speeches, judge (gated), 5CA sheets, edition and DM, then the raw archive and the store. Once a day: an edition already committed for the date is rewritten, not resent. Both callers commit `editions/`. The workflow now carries the Slack token (one "Write secrets file" step) and the model key (the judge step alone); `tests/test_prov_schedule.py` keeps each to its step.
 
+### Noise filter (9 October 2026): `config/prov-noise.yaml`, `src/prov_noise.py`
+
+Christopher asked for free alternatives to API-paid scoring ("Do option 2, then set up option 3"). Option 2 is a deterministic mute list: each pattern is keyed to the AREA it wrongly tags, carries a one-line reason, and takes that area off the item **for the edition only** (the store keeps every area). An item left with no shown area leaves the edition, and the edition's Coverage section says how many were muted, province by province. **Never muted:** a watched item (config/watchlist-prov.yaml), and anything a signed reading in `config/prov_stance.yaml` covers (a confirmed or evidence-only reading of the division, the bill, or any division on the bill). The file has the shape of `config/edition-noise-<cc>.yaml` (src/noise.py reads its general keys; `exclude_titles` drops a whole item) plus one provincial key, `exclude_in_area`, so the two can merge.
+
+Measured on a read-only copy of the store (the provincial tables as published on 9 October 2026), every bill and every division with its own areas read by hand, speeches reviewed by debate heading for each suspect term. On our ground before -> after:
+
+| Province | Bills | Divisions | Speeches | Muted |
+|---|---|---|---|---|
+| Alberta | 41 -> 34 | 212 -> 199 | 2,178 -> 2,115 | 83 |
+| Saskatchewan | 4 -> 4 | 11 -> 11 | 758 -> 723 | 35 |
+| British Columbia | 23 -> 17 | 71 -> 63 | 929 -> 848 | 95 |
+| Manitoba | 45 -> 41 | 68 -> 59 | 1,237 -> 1,186 | 64 |
+| Ontario | 47 -> 36 | 117 -> 102 | 2,158 -> 1,975 | 209 |
+| Quebec | 102 -> 91 | 301 -> 278 | 5,235 -> 5,234 | 35 |
+| New Brunswick | 8 -> 8 | 25 -> 25 | 284 -> 278 | 6 |
+| Newfoundland and Labrador | 5 -> 4 | 15 -> 12 | 272 -> 254 | 22 |
+| Nova Scotia | 39 -> 28 | 37 -> 25 | 0 -> 0 | 23 |
+| **All** | **314 -> 263** | **857 -> 774** | **13,051 -> 12,613** | **572** |
+
+A further 29 items stay in with one noise area taken off (Ontario's Combating Human Trafficking Act keeps trafficking, loses sex-based rights). In the last twelve months alone: divisions 89 -> 82, speeches 919 -> 892. Area tags taken off, by rule: Down syndrome (day acts, members' statements, disability services) under abortion 262; animal euthanasia under assisted dying 117; "surrogate" as a substitute decision-maker under surrogacy 63; gender expression as boilerplate in unrelated statutes under sex-based rights 61; parliamentary privilege of speech under free speech 56; coercion in labour and leave bills under assisted dying 14; Quebec "droits parentaux" (parental leave) under parental rights 11; filiation in Quebec budget bills under marriage and family 8; religious education in private incorporation bills 6; home schooling in a public security omnibus 4; freedom of expression for artists and care residents 4; laicity in an Appropriation Act 3; "Article 7" as a section number 2; embryos in a securities bill 2.
+
+**The stance file wins, as intended:** every division with its own areas on our ground already carries a signed reading, so the debate-noise rules drafted for British Columbia's divisions (an electoral reform bill tagged abortion, a fuel price bill tagged free speech) would mute nothing and were dropped; seven of Quebec's ten Appropriation Acts stay for the same reason (their supply votes carry evidence-only readings). Retire noise there by editing the reading, not this file.
+
+To add a rule: measure it on a scratch copy of the store, give it a reason, and add a case to `tests/test_prov_noise.py`. The judge does not need it; it is what the edition shows while the judge is off.
+
 ---
 
 ## Per-legislature detail

@@ -34,6 +34,14 @@ direction is printed ONLY where config/prov_stance.yaml holds a confirmed
 reading for that division, and the 5CA headline counts members placed by
 confirmed readings alone (tools/prov_5ca.py's rule, applied in memory).
 
+NOISE IS MUTED, FREE (9 October 2026, Christopher's "option 2").
+config/prov-noise.yaml (src/prov_noise.py) takes measured false positives off
+an item's areas for the edition only: "Down syndrome" on a day act is not
+abortion, "surrogate" in an estates bill is not surrogacy. An item left with
+no shown area is muted, and Coverage says how many, province by province.
+Never a watched item, never anything a signed reading covers. The store is
+untouched.
+
 SCORES ARE OPTIONAL. The judge (tools/prov_triage.py) runs only when the
 repository variable PROV_JUDGE is 'on'. Without scores everything still
 renders (CLAUDE.md: TRIAGE=stub), ordered by tier and date, and says so.
@@ -56,7 +64,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
-from src import db, intel  # noqa: E402
+from src import db, intel, prov_noise  # noqa: E402
 import prov_5ca as p5  # noqa: E402
 
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
@@ -204,6 +212,102 @@ def in_window(date, first_seen, since, until):
     return ""
 
 
+# --- the noise filter -----------------------------------------------------------------
+
+class Mutes:
+    """The noise filter's verdicts for one edition, and what it muted.
+
+    areas(conn, kind, row) gives the areas the edition shows for an item;
+    callers ask only for items inside the window, so what is recorded here
+    is what this edition muted. enabled=False shows every stored area."""
+
+    KIND_WORDS = {"bill": ("bill", "bills"), "division": ("division", "divisions"),
+                  "speech": ("Hansard speech", "Hansard speeches")}
+
+    def __init__(self, conn, stance_path=None, config_dir=None, enabled=True):
+        self.nz = prov_noise.ProvNoise(config_dir, signed=prov_noise.signed_keys(
+            conn, stance_path)) if enabled else None
+        self.titles = {}
+        if enabled:
+            self.titles = {r[0]: " ".join(x for x in (r[1], r[2]) if x) for r in conn.execute(
+                "SELECT bill_key, title_en, title_fr FROM prov_bills")}
+        self.shown = {}
+        self.muted = {}                  # prov -> {kind: {key}}
+        self.trimmed = {}                # prov -> {(kind, key)}: shown, an area muted
+
+    def _heading(self, conn, kind, r):
+        if kind == "bill":
+            return self.titles.get(r["bill_key"], ""), [r["bill_key"]]
+        if kind == "division":
+            bills = _linked(conn, r)
+            return " ".join([self.titles.get(b, "") for b in bills]
+                            + [r["stage"] or "", r["vote_on"] or "", r["question"] or ""]), bills
+        return " ".join(x for x in (r["subject"], r["rubric"]) if x), (
+            [r["bill_key"]] if r["bill_key"] else [])
+
+    def areas(self, conn, kind, r):
+        key = r[{"bill": "bill_key", "division": "division_key", "speech": "speech_id"}[kind]]
+        if (kind, key) in self.shown:
+            return self.shown[(kind, key)]
+        stored = visible(r["areas"])
+        if self.nz is None or not stored:
+            self.shown[(kind, key)] = stored
+            return stored
+        heading, bills = self._heading(conn, kind, r)
+        try:
+            terms = json.loads(r["matched_terms"] or "[]")
+        except (TypeError, ValueError, IndexError):
+            terms = []
+        shown, muted = self.nz.judge(kind, key, heading, stored, terms, bills)
+        if muted and not shown:
+            self.muted.setdefault(r["prov"], {}).setdefault(kind, set()).add(key)
+        elif muted:
+            self.trimmed.setdefault(r["prov"], set()).add((kind, key))
+        self.shown[(kind, key)] = shown
+        return shown
+
+    def of(self, kind, key, areas_json):
+        """The areas shown for an item already judged (stored areas otherwise)."""
+        return self.shown.get((kind, key), visible(areas_json))
+
+    def count(self, prov=None):
+        provs = [prov] if prov else list(self.muted)
+        return sum(len(v) for p in provs for v in self.muted.get(p, {}).values())
+
+    def coverage_line(self):
+        if self.nz is None:
+            return "- **Noise filter:** off for this render; every stored area is shown."
+        total = self.count()
+        trimmed = sum(len(v) for v in self.trimmed.values())
+        if not total and not trimmed:
+            return ("- **Noise filter** (config/prov-noise.yaml): nothing muted this week. It takes "
+                    "measured false positives off an item's areas, never a watched item or one a "
+                    "signed reading covers.")
+        parts = []
+        for p, _n, _c in PROVINCES:
+            got = self.muted.get(p) or {}
+            if got:
+                parts.append("{0} {1}".format(NAMES[p], ", ".join(
+                    "{0} {1}".format(len(got[k]), self.KIND_WORDS[k][len(got[k]) != 1])
+                    for k in ("bill", "division", "speech") if got.get(k))))
+        return ("- **Noise filter** (config/prov-noise.yaml): {0} item(s) on our ground muted "
+                "from this edition{1}; {2} item(s) shown with a noise area taken off. Muted items "
+                "stay in the store; a watched item, or one a signed reading covers, is never "
+                "muted.".format(total, " ({0})".format("; ".join(parts)) if parts else "", trimmed))
+
+
+def _mutes(mutes):
+    return mutes if mutes is not None else _NoMutes()
+
+
+class _NoMutes:
+    def areas(self, conn, kind, r):
+        return visible(r["areas"])
+
+    def of(self, kind, key, areas_json):
+        return visible(areas_json)
+
+
 # --- scores ------------------------------------------------------------------------
 
 def load_scores(conn):
@@ -326,14 +430,15 @@ def bill_label(key):
     return "Bill {0} ({1})".format(num, sess)
 
 
-def divisions(conn, prov, since, until):
+def divisions(conn, prov, since, until, mutes=None):
+    mz = _mutes(mutes)
     rows = conn.execute(
         "SELECT * FROM prov_divisions WHERE prov=? AND date > ? AND date <= ? "
         "ORDER BY date DESC, division_key DESC", (prov, late_floor(since), until)).fetchall()
     out = []
     for r in rows:
         when = in_window(r["date"], r["first_seen"], since, until)
-        if when and visible(r["areas"]):
+        if when and visible(r["areas"]) and mz.areas(conn, "division", r):
             out.append((when, r))
     return out
 
@@ -350,7 +455,7 @@ ASSENT = re.compile(r"royal assent|^sanction|^RA$", re.I)
 FIRST = re.compile(r"first reading|^pr[ée]sentation|^1$|introduc", re.I)
 
 
-def bill_events(conn, prov, since, until, div_bills):
+def bill_events(conn, prov, since, until, div_bills, mutes=None):
     """{bill_key: (row, kind, [event lines], when)} for bills on our ground
     that were new, moved or assented in the window. `div_bills` are the bills
     a division in the window decided: they moved, whatever the stages say."""
@@ -379,6 +484,8 @@ def bill_events(conn, prov, since, until, div_bills):
             kinds.add("moved")
         if not events:
             continue
+        if not _mutes(mutes).areas(conn, "bill", r):
+            continue
         kind = "assent" if "assent" in kinds else "new" if kinds == {"new"} else "moved"
         out[r["bill_key"]] = (r, kind, events, when)
     return out
@@ -400,7 +507,7 @@ def sessions(conn, prov):
     return sorted((k[0], k[1], v) for k, v in got.items())
 
 
-def fallen(conn, prov, since, until):
+def fallen(conn, prov, since, until, mutes=None):
     """(old session label, new session label, [bill rows]) when a new session
     first appears in the store inside the window: the old session's bills on
     our ground without royal assent died with it (prorogation or dissolution)."""
@@ -414,19 +521,22 @@ def fallen(conn, prov, since, until):
                 (prov, old[0], old[1]))
                 if visible(r["areas"]) and not r["royal_assent"]
                 and not any(ASSENT.search(s.get("stage") or "") for s in _stages(r))
-                and not ASSENT.search(r["latest_stage"] or "")]
+                and not ASSENT.search(r["latest_stage"] or "")
+                and _mutes(mutes).areas(conn, "bill", r)]
             return ("{0}-{1}".format(old[0], old[1]), "{0}-{1}".format(leg, sess), rows)
     return None
 
 
-def speeches(conn, prov, since, until):
+def speeches(conn, prov, since, until, mutes=None):
+    mz = _mutes(mutes)
     rows = conn.execute(
         "SELECT s.*, m.name AS member_name, m.party AS member_party FROM prov_speeches s "
         "LEFT JOIN prov_members m ON m.prov = s.prov AND m.member_key = s.member_key "
         "WHERE s.prov=? AND s.date > ? AND s.date <= ? ORDER BY s.date DESC, s.seq",
         (prov, late_floor(since), until)).fetchall()
     return [(w, r) for w, r in ((in_window(r["date"], r["first_seen"], since, until), r)
-                                for r in rows) if w and visible(r["areas"])]
+                                for r in rows) if w and visible(r["areas"])
+            and mz.areas(conn, "speech", r)]
 
 
 def fold_speeches(rows):
@@ -442,14 +552,14 @@ def fold_speeches(rows):
     return [groups[k] for k in order]
 
 
-def gather(conn, prov, since, until, scores):
-    divs = divisions(conn, prov, since, until)
+def gather(conn, prov, since, until, scores, mutes=None):
+    divs = divisions(conn, prov, since, until, mutes)
     div_bills = set()
     for _, d in divs:
         div_bills.update(b for b in _linked(conn, d))
-    bills = bill_events(conn, prov, since, until, div_bills)
-    fell = fallen(conn, prov, since, until)
-    sp = fold_speeches(speeches(conn, prov, since, until))
+    bills = bill_events(conn, prov, since, until, div_bills, mutes)
+    fell = fallen(conn, prov, since, until, mutes)
+    sp = fold_speeches(speeches(conn, prov, since, until, mutes))
     return {"divisions": divs, "bills": bills, "fallen": fell, "speeches": sp}
 
 
@@ -482,7 +592,7 @@ def _rank(score, tier, date):
 
 # --- rendering -----------------------------------------------------------------------
 
-def division_lines(conn, prov, divs, scores, titles, entries, names):
+def division_lines(conn, prov, divs, scores, titles, entries, names, mutes=None):
     ranked = sorted(divs, key=lambda wd: _rank(div_score(wd[1], scores, titles)[0],
                                               wd[1]["tier"], wd[1]["date"]))
     out = []
@@ -516,7 +626,7 @@ def division_lines(conn, prov, divs, scores, titles, entries, names):
         if why:
             out.append("  _{0}_".format(oneline(why)))
         out.append("  Areas: {0}.{1}".format(
-            area_text(visible(d["areas"]), names),
+            area_text(_mutes(mutes).of("division", d["division_key"], d["areas"]), names),
             " [Record]({0})".format(d["source_url"]) if d["source_url"] else ""))
     rest = ranked[MAX_DIVISIONS:]
     if rest:
@@ -528,7 +638,7 @@ def division_lines(conn, prov, divs, scores, titles, entries, names):
 KIND_LABEL = {"assent": "Royal assent", "new": "New", "moved": "Moved"}
 
 
-def bill_lines(bills, scores, names):
+def bill_lines(bills, scores, names, mutes=None):
     order = {"assent": 0, "moved": 1, "new": 2}
     ranked = sorted(bills.values(), key=lambda b: (
         order[b[1]], _rank(scores.get("prov_bills:" + b[0]["bill_key"], (None,))[0],
@@ -546,14 +656,15 @@ def bill_lines(bills, scores, names):
             "; ".join(events), " _(collected late)_" if when == "late" else ""))
         if why:
             out.append("  _{0}_".format(oneline(why)))
-        out.append("  Areas: {0}.".format(area_text(visible(r["areas"]), names)))
+        out.append("  Areas: {0}.".format(area_text(_mutes(mutes).of("bill", r["bill_key"], r["areas"]),
+                                                    names)))
     rest = ranked[MAX_BILLS:]
     if rest:
         out.append("- _And {0} more bill(s); in the store._".format(len(rest)))
     return out
 
 
-def speech_lines(groups, scores, names):
+def speech_lines(groups, scores, names, mutes=None):
     def best(g):
         return max((scores.get("prov_speeches:" + r["speech_id"], (None,))[0] for _, r in g
                     if scores.get("prov_speeches:" + r["speech_id"])), default=None)
@@ -563,7 +674,7 @@ def speech_lines(groups, scores, names):
         w, r = g[0]
         first = next((x for _, x in g if x["excerpt"]), r)
         who = r["member_name"] or r["speaker_label"] or "Unresolved speaker"
-        areas = sorted({a for _, x in g for a in visible(x["areas"])})
+        areas = sorted({a for _, x in g for a in _mutes(mutes).of("speech", x["speech_id"], x["areas"])})
         why = next((scores["prov_speeches:" + x["speech_id"]][1] for _, x in g
                     if scores.get("prov_speeches:" + x["speech_id"])
                     and scores["prov_speeches:" + x["speech_id"]][1]), None)
@@ -623,14 +734,16 @@ def latest(conn, prov):
     return div, day
 
 
-def render_edition(conn, today, since=None, stance_path=None, sheet_dir=None):
+def render_edition(conn, today, since=None, stance_path=None, sheet_dir=None, noise_dir=None,
+                   mute=True):
     conn.row_factory = sqlite3.Row
     since, until = window(today, since)
     names = area_names()
     scores = load_scores(conn)
     titles = bill_titles(conn)
     entries, bill_entries = load_signed(stance_path)
-    got = {p: gather(conn, p, since, until, scores) for p, _, _ in PROVINCES}
+    mutes = Mutes(conn, stance_path, noise_dir, enabled=mute)
+    got = {p: gather(conn, p, since, until, scores, mutes) for p, _, _ in PROVINCES}
     act = [p for p, _, _ in PROVINCES if active(got[p])]
     quiet = [p for p, _, _ in PROVINCES if not active(got[p])]
     score_note = ("Scores [0-3] and the italic why-lines come from the judge (src/triage.py, "
@@ -695,10 +808,11 @@ def render_edition(conn, today, since=None, stance_path=None, sheet_dir=None):
                     short_date(day) if day else "none"), ""]
         if g["divisions"]:
             out += ["**Divisions on our ground ({0})**".format(len(g["divisions"])), ""]
-            out += division_lines(conn, p, g["divisions"], scores, titles, entries, names) + [""]
+            out += division_lines(conn, p, g["divisions"], scores, titles, entries, names,
+                                  mutes) + [""]
         if g["bills"]:
             out += ["**Bills ({0})**".format(len(g["bills"])), ""]
-            out += bill_lines(g["bills"], scores, names) + [""]
+            out += bill_lines(g["bills"], scores, names, mutes) + [""]
         f = g["fallen"]
         if f and f[2]:
             out += ["**Fell with session {0}** ({1} opened; {2} bill(s) on our ground without "
@@ -713,7 +827,7 @@ def render_edition(conn, today, since=None, stance_path=None, sheet_dir=None):
         if g["speeches"]:
             out += ["**Hansard on our ground ({0} speaker-debate(s); one line each, never the "
                     "speech)**".format(len(g["speeches"])), ""]
-            out += speech_lines(g["speeches"], scores, names) + [""]
+            out += speech_lines(g["speeches"], scores, names, mutes) + [""]
         out += fiveca_headline(p, entries, bill_entries, names, sheet_dir) + [""]
 
     # Coverage
@@ -738,6 +852,7 @@ def render_edition(conn, today, since=None, stance_path=None, sheet_dir=None):
             "- **Judge:** {0}.".format(
                 "{0} item(s) scored so far (tools/prov_triage.py)".format(n_scored) if n_scored
                 else "off (PROV_JUDGE); nothing scored"),
+            mutes.coverage_line(),
             "- **5CA sheets** are rebuilt every week (data/5ca/prov-5ca-*.csv); only confirmed "
             "readings in config/prov_stance.yaml place anyone.",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
@@ -756,13 +871,14 @@ def refuse_ownerless_act(text):
             raise ValueError("refusing to render an [ACT] item without an owner: " + line[:120])
 
 
-def dm_summary(conn, today, since=None, path=None):
+def dm_summary(conn, today, since=None, path=None, stance_path=None, noise_dir=None):
     """The week in one Slack message, to Christopher alone."""
     conn.row_factory = sqlite3.Row
     since, until = window(today, since)
     scores = load_scores(conn)
     titles = bill_titles(conn)
-    got = {p: gather(conn, p, since, until, scores) for p, _, _ in PROVINCES}
+    mutes = Mutes(conn, stance_path, noise_dir)
+    got = {p: gather(conn, p, since, until, scores, mutes) for p, _, _ in PROVINCES}
     act = [p for p, _, _ in PROVINCES if active(got[p])]
     quiet = [p for p, _, _ in PROVINCES if not active(got[p])]
     lines = [":flag-ca: *Canadian Provinces Monitor - week ending {0}*".format(today), ""]
@@ -781,6 +897,8 @@ def dm_summary(conn, today, since=None, path=None):
         lines.append("*Nothing on our ground in any province this week.*")
     if quiet:
         lines.append("Quiet: {0}.".format(", ".join(NAMES[p] for p in quiet)))
+    if mutes.count():
+        lines.append("Muted as noise (config/prov-noise.yaml): {0} item(s).".format(mutes.count()))
     lines.append("_{0}_".format("Scored by the provincial judge." if scores else
                                 "Ordered by tier; the provincial judge is off (PROV_JUDGE)."))
     if path:
