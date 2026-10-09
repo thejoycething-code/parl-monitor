@@ -17,6 +17,12 @@
 #     HC_<JOB>=https://hc-ping.com/...   heartbeat per job (Chris creates it)
 #     RUNNER_REF=<branch>                test a branch instead of main
 set -u
+# Everything runs inside main(): bash reads a script as it goes, and step 2
+# rewrites this very file when it updates the clone. The first run on the Mini
+# (9 October) ran half the old wrapper that way. A function is read whole
+# before it runs, so the file can change underneath it.
+main() {
+SELF_SUM=$(shasum "$0" | cut -c1-40)
 JOB="${1:?usage: mini_run.sh <job>}"
 RUNNER="${RUNNER_HOME:-$HOME/runner}"
 CLONE="$RUNNER/parl-monitor"
@@ -48,7 +54,8 @@ fail() {
 STAGE=lock
 mkdir -p "$RUNNER/locks" "$RUNNER/logs"
 waited=0
-until mkdir "$LOCK" 2>/dev/null; do
+# A re-run of a newer wrapper (step 2) keeps the PID, so the lock is still ours.
+until [ "$(cat "$LOCK/pid" 2>/dev/null)" = "$$" ] || mkdir "$LOCK" 2>/dev/null; do
   owner=$(cat "$LOCK/pid" 2>/dev/null)
   if [ -n "$owner" ] && ! kill -0 "$owner" 2>/dev/null; then
     echo "  stale lock from pid $owner ($(cat "$LOCK/job" 2>/dev/null)); taking it"
@@ -71,6 +78,12 @@ git fetch -q origin "$REF" || fail "git fetch"
 git checkout -q "$REF" 2>/dev/null || git checkout -q -b "$REF" "origin/$REF" || fail "checkout $REF"
 git rebase -q "origin/$REF" || { git rebase --abort; fail "rebase onto origin/$REF"; }
 [ -f "jobs/$JOB.sh" ] || fail "no jobs/$JOB.sh on $REF"
+# The update brought a different wrapper: run that one instead, holding the lock.
+if [ -z "${MINI_RUN_FRESH:-}" ] && [ "$(shasum tools/mini_run.sh | cut -c1-40)" != "$SELF_SUM" ]; then
+  echo "  the wrapper changed; re-running the new one"
+  trap - EXIT
+  MINI_RUN_FRESH=1 exec bash "$CLONE/tools/mini_run.sh" "$JOB"
+fi
 
 STAGE="fetch the store"
 GH_TOKEN=$(gh auth token) || fail "gh is not signed in"
@@ -132,3 +145,6 @@ fi
 # 6. Heartbeat.
 hc="HC_$UPPER"; [ -n "${!hc:-}" ] && curl -fsS -m 10 --retry 3 "${!hc}" >/dev/null
 echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) mini_run $JOB done"
+}
+main "$@"
+exit $?
