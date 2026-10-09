@@ -11,6 +11,8 @@
 #     HR_RECLASSIFY=true    re-derive every stored HR item's and vote's
 #                           areas, offline, before the pull (after
 #                           config/taxonomy-hr.yaml or watchlist-hr changes)
+#     HR_PUBLISH=false      collect only; the GitHub workflow publishes in
+#                           its own steps, under its commit step's condition
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
@@ -33,6 +35,9 @@ if [ "${HR_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/hr_rollcalls.py --budget-seconds 2700 || rc=$?
+if [ "${HR_PUBLISH:-true}" = "false" ]; then
+  exit "$rc"
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "hr-rollcalls failed (exit $rc); nothing published"
   exit "$rc"
