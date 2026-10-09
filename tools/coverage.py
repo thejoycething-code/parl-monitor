@@ -243,6 +243,13 @@ FEEDS = [
     ("au_instruments", "last_seen", 7, 4, "instruments open for disallowance (Australia week ahead)"),
     ("au_parliaments", "last_seen", 7, 4, "the Handbook's Parliaments, for a dissolution (Australia week ahead)"),
     ("au_sitting_days", "last_seen", 31, 62, "sitting days ahead, from the Register's disallowance clock (Australia week ahead)"),
+    # Australian debates (tools/au_debates.py, 9 October 2026). Every run
+    # re-stamps each day file the listing still names, so au_debate_days
+    # moves weekly, recess included. A speech is written only when its day is
+    # read (new or re-parsed), and Canberra's summer recess runs from early
+    # December to early February: a month plus two months' recess grace.
+    ("au_debate_days", "last_seen", 7, 4, "Hansard day files read for debates (Australia debates)"),
+    ("au_speeches", "last_seen", 31, 62, "House and Senate speeches and motions on our ground (Australia debates)"),
     # The week ahead (tools/us_schedule.py, 9 October 2026). MEASURED on the
     # live run of that day, in the election recess: us_schedule_weeks gains
     # or re-stamps a row for every week and source ASKED, 404 or not, so it
@@ -736,6 +743,11 @@ AWAITING_FIRST_RUN = {
     # these new tables crying wipe until the step first ran.
     # A STEP heartbeat: tools/au_schedule.py stamps "AU week ahead" after
     # every run that read the Register's list.
+    # A STEP heartbeat: tools/au_debates.py stamps "AU debates" after every
+    # run with no gap.
+    "AU debates": (("au_speeches", "au_debate_days"),
+                   "debates step added to Australia weekly 9 October 2026; its tables "
+                   "fill on the step's first run"),
     "AU week ahead": (("au_instruments", "au_sitting_days", "au_parliaments"),
                       "week-ahead step added to Australia weekly 9 October 2026; its "
                       "tables fill on the step's first run"),

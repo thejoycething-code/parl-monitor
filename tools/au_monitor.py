@@ -12,7 +12,8 @@ Nothing posts to a channel. Modelled on tools/us_monitor.py.
 
 WHAT LEADS. The Federal Parliament moves our ground through divisions (House
 and Senate, with the Senate's pairs), bills reaching a new stage in the
-Hansard, new bills, and Acts. The edition leads with the week and says
+Hansard, new bills, and Acts; speeches in debate (tools/au_debates.py) and
+what is coming up (tools/au_schedule.py). The edition leads with the week and says
 plainly when Parliament did not sit, rather than padding the top.
 
 NO VERDICTS. A division carries its question, its tally, its pairs and its
@@ -406,6 +407,66 @@ def coming_up_dm(conn, today):
     return "*Coming up:* " + "; ".join(parts) + " (from the Register; the APH calendar is blocked)."
 
 
+# --- debate (tools/au_debates.py) -----------------------------------------------
+#
+# Speeches on our ground: the speaker, the day, the debate, one line of the
+# speaker's own words and the link, NEVER the speech itself.
+
+DEBATE_LINES = 20
+FROM_LABEL = {"own": "own words", "watch": "the watchlist bill debated",
+              "bill": "the bill debated"}
+KIND_LABEL = {"motion": " (moving a motion)", "notice": " (notice of motion)", "speech": ""}
+
+
+def _speeches(conn, where, params=()):
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute("SELECT * FROM au_speeches WHERE " + where +
+                            " ORDER BY COALESCE(triage_score, 1.5) DESC, date DESC, speech_key",
+                            params).fetchall()
+    except sqlite3.Error:
+        return None
+    return [r for r in rows if visible(r["areas"])]
+
+
+def speech_line(r, names):
+    bills = json.loads(r["bill_ids"] or "[]")
+    on = clip(r["minor_heading"] or r["major_heading"] or "?", 80)
+    if bills:
+        on += " ({0})".format(", ".join("[{0}]({1})".format(b, bill_url(b)) for b in bills[:2]))
+    return ("- {0} **{1}**, {2}, {3} ({4}){5}, on {6}: \"{7}\" [Hansard]({8}). "
+            "*Areas: {9} (matched on {10}).*".format(
+                score_mark(r["triage_score"]), r["chamber"].title(), r["date"],
+                r["name"] or "?", PARTY.get(r["party"], r["party"] or "?"),
+                KIND_LABEL.get(r["kind"], ""), on, clip(r["excerpt"], 200), r["url"],
+                names_of(visible(r["areas"]), names), FROM_LABEL.get(r["areas_from"], "?")))
+
+
+def render_debate(conn, today, since, month, names):
+    week = _speeches(conn, "date > ? AND date <= ?", (since, today))
+    head = "## Debate"
+    if week is None:
+        return [head, "", "*Debates were not collected for this edition.*", ""]
+    note = ("*Speeches and motions on our ground in the House and the Senate, from the "
+            "OpenAustralia Foundation's parse of the Hansard: matched on the speaker's own "
+            "words, or on the bill being debated for a full speech (150 words or more) that "
+            "matched nothing itself. One line each and the link, never the speech.*")
+    if week:
+        out = ["{0} this week ({1})".format(head, len(week)), "", note, ""]
+        out += [speech_line(r, names) for r in week[:DEBATE_LINES]]
+        if len(week) > DEBATE_LINES:
+            out.append("\n_...and {0} more._".format(len(week) - DEBATE_LINES))
+        return out + [""]
+    recent = _speeches(conn, "date > ? AND date <= ?", (month, today)) or []
+    out = ["{0} (none this week; last 30 days: {1})".format(head, len(recent)), "", note, ""]
+    out += [speech_line(r, names) for r in recent[:DEBATE_LINES]] or [
+        "*No speech on our ground in the last 30 days, or the debates backfill has not reached "
+        "them yet (it reads newest days first).*"]
+    if len(recent) > DEBATE_LINES:
+        out.append("\n_...and {0} more._".format(len(recent) - DEBATE_LINES))
+    return out + [""]
+
+
 # --- rendering ---------------------------------------------------------------
 
 BILL_HEAD = ("| Bill | Areas | Stage | Why it matters, or where it stands |\n"
@@ -526,6 +587,7 @@ def render_edition(conn, today):
         out += ["## Divisions (none this week; last 30 days: {0})".format(len(recent)), ""]
         out += division_lines(conn, fold_divisions(recent), names) or ["*None in the last 30 days.*"]
     out.append("")
+    out += render_debate(conn, today, since, month, names)
 
     out += ["## Bills that moved this week ({0})".format(len(moved)), ""]
     out += ([BILL_HEAD] + [bill_row(r, names) for r in by_recency(moved)]) if moved else \
@@ -563,12 +625,22 @@ def render_edition(conn, today):
             "disallowance clock), no Notice Papers or Daily Programs, no Senate estimates, no "
             "committee inquiries or submissions, and no e-petitions. Divisions and bill stages come from the OpenAustralia Foundation's "
             "parse of the official Hansard; Acts from the Federal Register of Legislation.",
-            "- **Not yet collected:** debates (the same Hansard files), the High Court, and the "
-            "states and territories.",
+            "- **Debates:** {0} speech(es) and motion(s) on our ground from {1} Hansard day "
+            "file(s) read for debates (the speeches themselves are never stored).".format(
+                _count(conn, "SELECT COUNT(*) FROM au_speeches"),
+                _count(conn, "SELECT COUNT(*) FROM au_debate_days")),
+            "- **Not yet collected:** the High Court, and the states and territories.",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
             "- Specification and decisions: [docs/australia-scope.md]({0}docs/australia-scope.md)."
             .format(REPO), ""]
     return "\n".join(out)
+
+
+def _count(conn, sql):
+    try:
+        return conn.execute(sql).fetchone()[0]
+    except sqlite3.Error:
+        return 0
 
 
 def dm_summary(conn, today, path=None):
@@ -589,6 +661,9 @@ def dm_summary(conn, today, path=None):
         lines.append("*No division on our ground this week.* Last sitting day in the store: "
                      "{0}.".format(last_sitting(conn) or "?"))
     lines.append("{0} bill(s) moved, {1} new.".format(len(moved), len(new)))
+    speeches = _speeches(conn, "date > ? AND date <= ?", (since, today))
+    if speeches:
+        lines.append("{0} speech(es) or motion(s) on our ground in the debates.".format(len(speeches)))
     for r in by_recency(moved + new)[:5]:
         why = r["why_it_matters"]
         lines.append("• {0}{1}: {2} ({3}){4}".format(

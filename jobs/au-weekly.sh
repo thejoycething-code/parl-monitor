@@ -1,7 +1,7 @@
 #!/bin/bash
 # Australia weekly: members, bills and House and Senate divisions of the
 # Federal Parliament (tools/au_rollcalls.py), the week ahead
-# (tools/au_schedule.py), the judge when AU_JUDGE is on,
+# (tools/au_schedule.py), speeches on our ground (tools/au_debates.py), the judge when AU_JUDGE is on,
 # the edition and its DM to Christopher (tools/au_monitor.py), then (on the
 # Mini) publish the raw archive and the store.
 #
@@ -13,7 +13,8 @@
 #                           areas, offline, before the pull (after a taxonomy
 #                           or watchlist-au change)
 #     AU_JUDGE=on           score new items (SPEND NEEDS A YES; read from the
-#                           repo variable when unset and gh is available). Off.
+#                           repo variable when unset and gh is available). On
+#                           since 9 October 2026.
 #     AU_PUBLISH=false      collect and write the edition only. The GitHub workflow sets it and
 #                           publishes in its own steps, under the same
 #                           condition as its commit step, as every store
@@ -60,6 +61,14 @@ fi
 # au_bills. A failure is a gap, never a lost edition: the edition then says
 # when the week ahead was last read, or that it never was.
 python3 tools/au_schedule.py || echo "  [gap] au-schedule exited non-zero; Coming up shows the last read"
+
+# Debates (tools/au_debates.py): speeches on our ground from the same day
+# files, after the collector so au_offices knows every speaker. Newest days
+# first under a 10-minute budget (the workflow allows 60 minutes in all):
+# the 48th Parliament's backfill (158 day files, about 8 s each) drains over
+# three runs, then a sitting week is about a minute. A failure is a gap: the
+# days it missed are read next run.
+python3 tools/au_debates.py --budget-seconds 600 || echo "  [gap] au-debates exited non-zero; unread days wait for next week"
 
 JUDGE="${AU_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
