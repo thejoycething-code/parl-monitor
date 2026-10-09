@@ -118,6 +118,9 @@ SCHEMA = (
         no           INTEGER,
         other        INTEGER,            -- every other option, summed
         url          TEXT,
+        positions    INTEGER,            -- positions listed in uss_vote_people
+        positions_ok INTEGER,            -- 1 when they account for yes + no + other
+                                         -- exactly; 0 is stored, never "fixed"
         first_seen   TEXT,
         last_seen    TEXT
     )""",

@@ -1,0 +1,74 @@
+# US state legislatures watchlist -- GROUNDWORK DRAFT (9 October 2026), not
+# yet reviewed by anyone who campaigns in the US.
+#
+# The shared taxonomy does most of the work (docs/us-states-scope.md: 4,418
+# bills on our ground in the most recent session of the fifty). This file
+# carries only the named misses: state bills on our ground whose titles,
+# subject terms and abstracts carry no taxonomy term, found on 9 October
+# 2026 by reading every state's latest session for American names.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/us_states_store.add_watch_areas).
+# Keys are '<ST>/<session>/<identifier>', the identifier without spaces, the
+# session as Open States names it: 'TN/114/SB468'. A title would collide:
+# "SAFE Act" in a state title is as often a gun-safe or school-safety act as
+# the Save Adolescents from Experimentation Act. Bills die with their session
+# and come back under new numbers, so entries must be re-keyed then.
+#
+# The lasting fix for most of these is a taxonomy term (the scope doc lists
+# the candidates); that is Christopher's call, as the taxonomy is generated
+# from docs/keyword-taxonomy.md and never hand-edited.
+bills:
+  # Area 5: sex-based rights. Girls' sports, single-sex spaces, the
+  # "women's bill of rights" definitions acts.
+  "GA/2025_26/HB267": {areas: [5], why: "Riley Gaines Act: single-sex sports and facilities."}
+  "TN/114/SB468": {areas: [5], why: "Riley Gaines Women's Safety and Protection Act, as enacted."}
+  "TN/114/HB571": {areas: [5], why: "Riley Gaines Women's Safety and Protection Act, House companion."}
+  "MN/2025-2026/SF3979": {areas: [5], why: "Preserving Girls Sports Act."}
+  "MN/2025-2026/SF2294": {areas: [5], why: "Male participation in female athletics; male access to female changing facilities."}
+  "MN/2025-2026/SF1651": {areas: [5], why: "Minnesota Women's Bill of Rights: statutory definitions of sex."}
+  "MN/2025-2026/HF700": {areas: [5], why: "Minnesota Women's Bill of Rights, House companion."}
+  "KY/2026RS/HB334": {areas: [5], why: "Sex-based classifications (a women's bill of rights)."}
+  "KY/2026RS/SB179": {areas: [5], why: "Sex-based classifications, Senate companion."}
+  "AL/2026rs/HB478": {areas: [5], why: "Restroom Access Act: public restrooms by sex."}
+  "SC/2025-2026/H3506": {areas: [5], why: "Human Biological Sexes: statutory definitions."}
+  "WA/2025-2026/HB1629": {areas: [5], why: "Placement of inmates of different biological sexes in prisons."}
+  "NY/2025-2026/A5478": {areas: [5], why: "Gender Identity Respect, Dignity and Safety Act: prison placement by gender identity."}
+  "NY/2025-2026/S1049": {areas: [5], why: "Gender Identity Respect, Dignity and Safety Act, Senate companion."}
+  "CA/20252026/SB622": {areas: [5], why: "Sex-segregated school programmes and activities: sex at birth."}
+  # Area 3: gender medicine for children. "Gender transition" is not a term.
+  "AZ/57th-2nd-regular/SB1095": {areas: [3], why: "Gender transition for minors: prohibitions."}
+  "AZ/57th-2nd-regular/HB2085": {areas: [3], why: "Gender transition for minors: prohibitions, House version."}
+  "AZ/57th-2nd-regular/SB1177": {areas: [3], why: "No public money for gender transition."}
+  "KS/2025-2026/HB2071": {areas: [3], why: "Help Not Harm Act: state funds and gender transitioning of minors."}
+  "KS/2025-2026/SB63": {areas: [3], why: "Help Not Harm Act, Senate version."}
+  # Area 6: parental rights and schools. Given names, drag shows, library
+  # obscenity.
+  "OH/136/HB190": {areas: [5, 6], why: "Given Name Act: schools use the name and pronouns on the birth record unless parents consent."}
+  "WA/2025-2026/SB5136": {areas: [6], why: "Students' given names in public schools, as a parental right."}
+  "WA/2025-2026/SB5181": {areas: [6], why: "Amends the parents' rights initiative (watch which way)."}
+  "AZ/57th-2nd-regular/SB1328": {areas: [6], why: "Parents' rights in domestic relations."}
+  "AZ/57th-2nd-regular/HB2661": {areas: [6], why: "Parents' rights: guardianship, notice, attestation."}
+  "AZ/57th-2nd-regular/HB2589": {areas: [6], why: "Unlawful exposure of minors: drag shows."}
+  "IA/2025-2026/HSB158": {areas: [6], why: "Minors present at drag shows."}
+  "AR/2025/HB1028": {areas: [6], why: "Obscenity and the process for challenging school and public library materials."}
+  "FL/2026/SB1692": {areas: [6, 7], why: "Materials harmful to minors."}
+  # Area 2: assisted dying. Illinois and Massachusetts say "end-of-life options".
+  "IL/104th/HB1328": {areas: [2], why: "End-of-Life Options Act (medical aid in dying)."}
+  "IL/104th/SB9": {areas: [2], why: "End-of-Life Options Act, Senate."}
+  "IL/104th/SB3937": {areas: [2], why: "End-of-life options: death certificates."}
+  "IL/104th/HB5764": {areas: [2], why: "End-of-life options: changes."}
+  "IL/104th/SB3795": {areas: [2], why: "End-of-life options: changes, Senate."}
+  "MA/194th/SD1665": {areas: [2], why: "End of life options (medical aid in dying)."}
+  # Area 1: abortion. Born-alive bills worded "born alive infant", the
+  # "reproductive freedom" amendments and shield laws.
+  "IL/104th/HB2618": {areas: [1], why: "Born Alive Infant statutes."}
+  "IL/104th/HB1335": {areas: [1], why: "Born Alive Infant statutes."}
+  "IL/104th/HB2622": {areas: [1], why: "Infant Born Alive Protection."}
+  "MA/194th/HD3554": {areas: [1], why: "A born-alive fetus after the second trimester."}
+  "MA/194th/H2428": {areas: [1], why: "A born-alive fetus after the second trimester."}
+  "GA/2025_26/SB246": {areas: [1], why: "Reproductive Freedom Act."}
+  "GA/2025_26/HB598": {areas: [1], why: "Reproductive Freedom Act, House."}
+  "DE/153/SB5": {areas: [1], why: "Constitutional amendment: a right to reproductive freedom."}
+  "CT/2026/SB295": {areas: [1], why: "Shield law: legally protected health care activity (abortion and gender medicine)."}
+  "CA/20252026/AB1854": {areas: [1, 3], why: "Shield law: legally protected health care activities."}
+  "NH/2026/HB1702": {areas: [1], why: "Pharmacies dispensing chemical abortion drugs: notice and enforcement."}
