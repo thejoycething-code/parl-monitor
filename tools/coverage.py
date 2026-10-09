@@ -771,6 +771,12 @@ ON_DEMAND = {
                          "when the taxonomy or the cutoff changes.",
     "Score stance": "workflow_dispatch only: scores outstanding refs "
                     "when someone asks for it.",
+    "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
+                          "a province's earlier sessions or Hansard days, read "
+                          "until nothing is owed; never the weekly's heartbeat.",
+    "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
+                       "earlier sessions, the Gazette, federal backfills and "
+                       "repairs; the Tuesday weekly does the routine reads.",
     "Germany backfill": "workflow_dispatch only: the one-off read of Bundestag "
                         "protocols and votes back to 2020, then its judging in "
                         "bounded chunks; re-dispatched until the queue is empty.",

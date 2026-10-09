@@ -198,3 +198,36 @@ cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.
 ```
 
 It skips jobs already loaded, so it is safe to rerun. Mexico's plist is only the clock that dispatches its GitHub run; Guatemala is installed only if `congreso.gob.gt` answers the Mini (GT1), otherwise it stays on GitHub. It also runs the approved reachability checks for Uruguay (UY1, parlamento.gub.uy) and Argentina (AR2, votaciones.hcdn.gob.ar). Log: `~/parl-chains/install-countries.log`.
+
+## Backfills run on the Mini (9 October 2026)
+
+Dispatching a backfill to GitHub cost 2,604 Actions minutes in one week
+(Provinces 2,308, Canada 296), against the 60-a-day bar for making the repo
+private (the 07:30 health summary tracks it). They now run here, under the
+runner's lock, with the same options as the dispatch forms; each publishes
+the raw archive then the store and commits the pointers, and a failure DMs
+with the end of its output. Nothing caps the clock here, but give
+`mini_run.sh` a `JOB_TIMEOUT` above it.
+
+    cd ~ && PROVINCES="nb on" SINCE=2010-01-01 MINUTES=280 JOB_TIMEOUT=18000 \
+      nohup ~/runner/parl-monitor/tools/mini_run.sh prov-backfill \
+      >> ~/runner/logs/prov-backfill.log 2>&1 &
+
+    # Hansard speeches instead of votes: SPEECHES_SINCE=2010-01-01
+
+    cd ~ && CA_OLDER_SESSIONS="43-2 43-1" CA_OLDER_PETITIONS=true JOB_TIMEOUT=14400 \
+      nohup ~/runner/parl-monitor/tools/mini_run.sh ca-backfill \
+      >> ~/runner/logs/ca-backfill.log 2>&1 &
+
+    # also: CA_BACKFILL=true, CA_ROLLCALL_SESSIONS, CA_GAZETTE_SINCE (+CA_GAZETTE_FORGET),
+    # CA_FEDERAL_BACKFILL="senate|committees|courts", CA_REFRESH_MEMBERS=true, CA_RETAG=true
+
+They record their own heartbeats ("Provinces backfill", "Canada backfill"),
+never the weekly's. They hold the lock while they run, so the scheduled jobs
+queue behind them (up to two hours): start a long one when the calendar is
+quiet (`launchctl list | grep parlmonitor` and the plists list the times).
+The GitHub dispatch forms still work, as a fallback.
+
+The scoping probes (`*-probe.yml`, `probe-hosts.yml`) stay on GitHub: they
+exist to ask whether a site answers GitHub's runners, which only a runner
+can answer. They are one-off; delete each once its collector is built.
