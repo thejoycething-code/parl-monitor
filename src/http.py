@@ -222,7 +222,8 @@ class HttpClient:
                 return raw.decode(fallback_encoding, errors="replace")
         return raw.decode("utf-8", errors="replace")
 
-    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None, archive=True):
+    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None, archive=True,
+                  headers=None):
         """Fetch and archive a response, returning the raw bytes.
 
         first_bytes issues a Range request. docs.un.org honours it (206 with
@@ -234,6 +235,13 @@ class HttpClient:
         overwrite a real copy with a stub. archive=False for large documents
         whose URL is the provenance (a 2010 Canada Gazette issue is 1-2 MB).
         """
+        if headers:
+            # A KEYED request (9 October 2026: Congress.gov's X-Api-Key). The
+            # key travels as a header, never in the URL, so it cannot reach a
+            # FetchError, a gap row or a log; and the reply is not archived,
+            # because the archive is published and the URL is the provenance.
+            return self._request_with_retries(
+                url, feed, slug, timeout or self.default_timeout, extra_headers=headers)
         if first_bytes:
             return self._request_with_retries(
                 url, feed, slug, timeout or self.default_timeout,

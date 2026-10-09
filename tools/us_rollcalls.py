@@ -163,6 +163,7 @@ def parse_roll(raw):
         "result": _text(meta, "vote-result"),
         "amendment_num": _text(meta, "amendment-num"),
         "amendment_author": _text(meta, "amendment-author"),
+        "amendment_text": None,
         "yeas": _int(totals, "yea-total"),
         "nays": _int(totals, "nay-total"),
         "present": _int(totals, "present-total"),
@@ -195,9 +196,17 @@ def on_our_ground(areas):
 
 def classify_division(tax, wl, d, bill_areas):
     """(own FilterResult, combined areas). The bill lends its areas: see the
-    module docstring for why, and for what that costs on omnibus bills."""
+    module docstring for why, and for what that costs on omnibus bills.
+
+    EXCEPT WHEN THE AMENDMENT IS KNOWN (phase 1b). An amendment vote whose
+    description and purpose came from Congress.gov is about the AMENDMENT:
+    a vote to defund the National Endowment for Democracy is not an abortion
+    vote because the spending bill it amends mentions Hyde. So it is matched
+    on its own text alone and borrows nothing from the bill."""
     own = filt.filter_item(tax, wl, d.get("description") or "", d.get("question") or "",
-                           d.get("amendment_author") or "")
+                           d.get("amendment_author") or "", d.get("amendment_text") or "")
+    if d.get("amendment_text"):
+        return own, sorted(set(own.issue_areas or []))
     return own, sorted(set(own.issue_areas or []) | set(bill_areas or []))
 
 
@@ -507,6 +516,91 @@ def pull_senate(conn, client, today, congress=CURRENT_CONGRESS, tax=None, wl=Non
     return stored, ours, gaps
 
 
+# --- phase 1b: what a House amendment vote was about -------------------------
+#
+# The Clerk's file names an amendment by its author and its number in the
+# Rules Committee report ("Crane of Arizona Amendment No. 2") and says nothing
+# of what it does. Congress.gov maps the roll call to the amendment's own ID
+# (roll 27 of 2026 -> H.Amdt. 150) and the amendment record carries a
+# description and a purpose ("to prohibit funding for the National Endowment
+# for Democracy"). Two keyed calls per amendment vote; 90 in the whole 119th
+# Congress to 16 September 2026, so a backfill is minutes.
+#
+# The key is congress_api_key in config/secrets.yaml, or CONGRESS_API_KEY in
+# the environment (GitHub secret; ~/runner/env on the Mini). It is sent as an
+# X-Api-Key header, never in a URL. No key: the step says so and skips.
+
+CG_HOUSE_VOTE = "https://api.congress.gov/v3/house-vote/{0}/{1}/{2}?format=json"
+CG_AMENDMENT = "https://api.congress.gov/v3/amendment/{0}/{1}/{2}?format=json"
+
+
+def congress_key():
+    from src import publish
+    return publish.load_secrets().get("congress_api_key") or None
+
+
+def _cg(client, url, slug, key):
+    return json.loads(client.get_bytes(url, FEED, slug, archive=False,
+                                       headers={"X-Api-Key": key}).decode("utf-8"))
+
+
+def amendment_text(record):
+    """'description | purpose', each kept only once if they repeat."""
+    parts = []
+    for field in ("description", "purpose"):
+        v = " ".join((record.get(field) or "").split())
+        if v and v not in parts:
+            parts.append(v)
+    return " | ".join(parts) or None
+
+
+def fill_amendments(conn, client, today, key, tax=None, wl=None, log=print, budget=None,
+                    limit=None):
+    """Ask Congress.gov what each unasked House amendment vote was about, then
+    re-derive that vote's areas. Returns (filled, ours, gaps)."""
+    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
+    wl = wl if wl is not None else empty_watchlist()
+    rows = conn.execute(
+        "SELECT division_key, congress, session, roll, bill_key, description, question, "
+        "amendment_author FROM us_divisions WHERE chamber='house' AND amendment_num IS NOT NULL "
+        "AND amendment_checked IS NULL ORDER BY date DESC, roll DESC").fetchall()
+    filled = ours = gaps = 0
+    for (dkey, congress, session, roll, bkey, desc, question, author) in rows:
+        if limit is not None and filled >= limit:
+            log("  amendment cap ({0}) reached; the rest lands on the next run".format(limit))
+            break
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("amendment purposes", filled))
+            break
+        try:
+            vote = _cg(client, CG_HOUSE_VOTE.format(congress, session, roll),
+                       "cg-house-vote-{0}".format(dkey), key).get("houseRollCallVote") or {}
+            atype, anum = vote.get("amendmentType"), vote.get("amendmentNumber")
+            record = (_cg(client, CG_AMENDMENT.format(congress, atype.lower(), anum),
+                          "cg-amendment-{0}-{1}".format(atype, anum), key).get("amendment") or {}
+                      if atype and anum else {})
+        except (FetchError, ValueError, AttributeError) as exc:
+            # Not marked checked: asked again next run.
+            _gap(conn, today, "{0} amendment: {1}".format(dkey, str(exc)[:120]))
+            log("  [gap] {0} amendment: {1}".format(dkey, str(exc)[:70]))
+            gaps += 1
+            continue
+        akey = ("{0}/{1}/{2}".format(congress, atype.lower(), anum) if atype and anum else None)
+        text = amendment_text(record)
+        d = {"description": desc, "question": question, "amendment_author": author,
+             "amendment_text": text}
+        own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey))
+        conn.execute("UPDATE us_divisions SET amendment_key=?, amendment_text=?, "
+                     "amendment_checked=?, own_areas=?, areas=?, matched_terms=?, tier=? "
+                     "WHERE division_key=?",
+                     (akey, text, today, us_store.dumps(own.issue_areas), us_store.dumps(areas),
+                      us_store.dumps(own.matched_terms), own.tier, dkey))
+        conn.commit()
+        filled += 1
+        ours += on_our_ground(areas)
+    return filled, ours, gaps
+
+
 # --- bills -------------------------------------------------------------------
 
 def _latest_summary(bill):
@@ -709,10 +803,11 @@ def reclassify(conn, tax=None, log=print):
         conn.execute("UPDATE us_bills SET areas=?, matched_terms=?, tier=? WHERE bill_key=?",
                      (new, us_store.dumps((res.matched_terms or []) + (res.watchlist_hits or [])),
                       res.tier, key))
-    for (key, bkey, desc, question, author, areas) in conn.execute(
-            "SELECT division_key, bill_key, description, question, amendment_author, areas "
-            "FROM us_divisions").fetchall():
-        d = {"description": desc, "question": question, "amendment_author": author}
+    for (key, bkey, desc, question, author, amend, areas) in conn.execute(
+            "SELECT division_key, bill_key, description, question, amendment_author, "
+            "amendment_text, areas FROM us_divisions").fetchall():
+        d = {"description": desc, "question": question, "amendment_author": author,
+             "amendment_text": amend}
         own, combined = classify_division(tax, wl, d, _bill_areas(conn, bkey))
         new = us_store.dumps(combined)
         changed_d += new != (areas or "[]")
@@ -790,6 +885,17 @@ def main():
         gaps += g
         print("us-rollcalls: {0} new House roll call(s), {1} on our ground, {2} gap(s)".format(
             stored, ours, g))
+    if not args.no_rolls:
+        key = congress_key()
+        if key:
+            filled, ours, g = fill_amendments(conn, client, today, key, tax=tax, wl=wl,
+                                              budget=budget)
+            gaps += g
+            print("us-rollcalls: {0} House amendment vote(s) given their purpose, {1} on "
+                  "our ground, {2} gap(s)".format(filled, ours, g))
+        else:
+            print("us-rollcalls: no congress_api_key; House amendment purposes skipped "
+                  "(those votes keep their bill's areas)")
     if not args.no_senate:
         stored, ours, g = pull_senate(conn, client, today, congress=args.congress, tax=tax,
                                       wl=wl, limit=args.limit, budget=budget)

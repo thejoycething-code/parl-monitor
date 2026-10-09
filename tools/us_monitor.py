@@ -71,8 +71,10 @@ HONESTY = (
     "reviewed by anyone who campaigns in the US. Bills are matched on their "
     "titles, their Congressional Research Service subject terms and summary. A "
     "vote takes its bill's areas, so every vote line says whether its **own** "
-    "text matched or only its **bill** did: on spending and defence bills the "
-    "second kind is often noise until amendment purposes are collected. "
+    "text matched or only its **bill** did. A House amendment vote is matched on "
+    "the amendment's own description and purpose (from Congress.gov) and borrows "
+    "nothing from the bill, so a vote to defund an unrelated programme no longer "
+    "shows up because the spending bill mentions the Hyde Amendment. "
     "Results, tallies and party splits are the record; whether a vote helped "
     "or hurt is a human call and is never made here. {1}"
 )
@@ -289,7 +291,10 @@ def vote_lines(conn, groups, names):
                        vote_url(r), r["date"], times, clip(r["question"], 80), r["result"],
                        r["yeas"], r["nays"], party_split(conn, r["division_key"]) or "no split",
                        names_of(visible(r["areas"]), names), matched))
-        if r["amendment_author"] or (r["chamber"] == "senate" and "Amdt" in (r["description"] or "")):
+        if r["amendment_text"]:
+            out.append("  - {0}: {1}".format(clip(r["amendment_author"] or "Amendment", 60),
+                                             clip(r["amendment_text"], 240)))
+        elif r["amendment_author"] or (r["chamber"] == "senate" and "Amdt" in (r["description"] or "")):
             out.append("  - {0}".format(clip(r["amendment_author"] or r["description"], 200)))
         why = r["why_it_matters"] or r["bill_why"]
         if why:
@@ -412,8 +417,7 @@ def render_edition(conn, today):
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house'"),
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='senate'"),
                 last_pull(conn) or "unknown"),
-            "- **Not yet collected:** amendment purposes for House votes (needs the "
-            "Congress.gov key), the Congressional Record (floor debates), committee hearings, "
+            "- **Not yet collected:** the Congressional Record (floor debates), committee hearings, "
             "the weekly floor schedule, the Federal Register and executive orders, and the "
             "fifty state legislatures (needs the Open States key).",
             "- **Migration** is matched and stored but not shown, as in every edition here.",

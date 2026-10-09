@@ -136,6 +136,12 @@ ADDED_COLUMNS = (
     ("us_bills", "why_it_matters", "TEXT"),
     ("us_divisions", "triage_score", "INTEGER"),
     ("us_divisions", "why_it_matters", "TEXT"),
+    # Phase 1b (9 October 2026): a House amendment vote's amendment, from
+    # Congress.gov. amendment_checked is the date it was asked for, so a vote
+    # with no amendment record is asked once, not every week.
+    ("us_divisions", "amendment_key", "TEXT"),      # '119/hamdt/150'
+    ("us_divisions", "amendment_text", "TEXT"),     # description | purpose
+    ("us_divisions", "amendment_checked", "TEXT"),
 )
 
 

@@ -382,3 +382,78 @@ class SenateTests(unittest.TestCase):
                                            log=lambda *a: None)
         self.assertEqual((stored, gaps), (0, 1))
         self.assertIn(usr.SENATE_MENU.format(119, 2), client.asked)
+
+
+class AmendmentTests(unittest.TestCase):
+    """Phase 1b: what a House amendment vote was about, from Congress.gov."""
+
+    def setUp(self):
+        self.conn = store()
+        b = usr.parse_billstatus(bill_xml(btype="HR", number=8800, title="Appropriations Act",
+                                          summary="Continues the Hyde Amendment."))
+        usr.store_bill(self.conn, b, usr.classify_bill(TAX, WL, b), "2026-10-09")
+        usr.store_division(self.conn, usr.parse_roll(roll_xml(27)), TAX, WL, "2026-10-09")
+        self.vote_url = usr.CG_HOUSE_VOTE.format(119, 2, 27)
+        self.amd_url = usr.CG_AMENDMENT.format(119, "hamdt", 150)
+
+    def client(self, purpose):
+        vote = {"houseRollCallVote": {"amendmentType": "HAMDT", "amendmentNumber": "150"}}
+        amd = {"amendment": {"description": "An amendment numbered 2 printed in House Report "
+                                            "119-445 " + purpose, "purpose": "Amendment sought " + purpose}}
+        return FakeClient({self.vote_url: json.dumps(vote).encode(),
+                           self.amd_url: json.dumps(amd).encode()})
+
+    def row(self):
+        return self.conn.execute("SELECT amendment_key, amendment_text, own_areas, areas, "
+                                 "amendment_checked FROM us_divisions").fetchone()
+
+    def test_before_phase_1b_the_vote_borrows_the_bills_areas(self):
+        self.assertEqual(json.loads(self.row()[3]), [1])
+
+    def test_an_unrelated_amendment_stops_borrowing(self):
+        usr.fill_amendments(self.conn, self.client("to prohibit funding for the National "
+                                                   "Endowment for Democracy."),
+                            "2026-10-09", "KEY", tax=TAX, wl=WL, log=lambda *a: None)
+        key, text, own, areas, checked = self.row()
+        self.assertEqual(key, "119/hamdt/150")
+        self.assertIn("National Endowment for Democracy", text)
+        self.assertEqual((json.loads(own), json.loads(areas), checked), ([], [], "2026-10-09"))
+
+    def test_an_amendment_on_our_ground_is_ours_on_its_own_text(self):
+        filled, ours, gaps = usr.fill_amendments(
+            self.conn, self.client("to prohibit funds for Planned Parenthood."),
+            "2026-10-09", "KEY", tax=TAX, wl=WL, log=lambda *a: None)
+        self.assertEqual((filled, ours, gaps), (1, 1, 0))
+        self.assertEqual(json.loads(self.row()[2]), [1])
+
+    def test_the_key_goes_in_a_header_never_the_url(self):
+        seen = []
+        client = self.client("x.")
+        real = client.get_bytes
+
+        def spy(url, feed, slug, archive=True, headers=None, **kw):
+            seen.append((url, headers))
+            return real(url, feed, slug, archive=archive)
+        client.get_bytes = spy
+        usr.fill_amendments(self.conn, client, "2026-10-09", "SECRETKEY", tax=TAX, wl=WL,
+                            log=lambda *a: None)
+        self.assertTrue(seen)
+        for url, headers in seen:
+            self.assertNotIn("SECRETKEY", url)
+            self.assertEqual(headers, {"X-Api-Key": "SECRETKEY"})
+
+    def test_a_failure_is_a_gap_and_is_asked_again(self):
+        client = FakeClient({self.vote_url: FetchError(self.vote_url, usr.FEED, "x", 4, "HTTP 500")})
+        self.assertEqual(usr.fill_amendments(self.conn, client, "2026-10-09", "KEY", tax=TAX,
+                                             wl=WL, log=lambda *a: None), (0, 0, 1))
+        self.assertIsNone(self.row()[4])
+        # The next run asks again and succeeds.
+        usr.fill_amendments(self.conn, self.client("x."), "2026-10-09", "KEY", tax=TAX, wl=WL,
+                            log=lambda *a: None)
+        self.assertEqual(self.row()[4], "2026-10-09")
+
+    def test_reclassify_keeps_the_amendment_rule(self):
+        usr.fill_amendments(self.conn, self.client("to prohibit funding for a museum."),
+                            "2026-10-09", "KEY", tax=TAX, wl=WL, log=lambda *a: None)
+        usr.reclassify(self.conn, TAX, log=lambda *a: None)
+        self.assertEqual(json.loads(self.row()[3]), [])
