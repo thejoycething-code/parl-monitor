@@ -264,6 +264,103 @@ the CRS subject term "Border security and unlawful immigration".
   Canada's retag is additive, so stored rows keep their tags until
   re-derived.
 
+## Phase 3a: the Congressional Record, built 9 October 2026
+
+`tools/us_record.py` into `us_record_days`, `us_record_speeches` and
+`us_record_bills` (schema in `src/us_store.py`, declared in `db.TABLES`).
+The Hansard of Congress: both chambers and the Extensions of Remarks. The
+rule and the parsing are documented once, in the tool's docstring.
+
+**Sources, probed live with the key:**
+
+| Source | Key | Gives | Rate limit (response headers) |
+|---|---|---|---|
+| `api.govinfo.gov/published/<from>/<to>?collection=CREC` | yes | every day's package with GovInfo's lastModified; one request lists the whole Congress (376 packages since 3 January 2025). The end date is EXCLUSIVE | 36,000 an hour |
+| `www.govinfo.gov/metadata/pkg/<package>/mods.xml` | no | every granule of the day at once: heading, class, members speaking (Bioguide, party and state at the time, the printed label), bills cited with GovInfo's context (TITLE, HEADERLINE, FIRSTPARAGRAPH, OTHER). 1 to 4 MB | none sent |
+| `www.govinfo.gov/content/pkg/<package>/html/<granule>.htm` | no | one granule's text, 0.4 to 4 seconds each | none sent |
+| `api.congress.gov/v3/daily-congressional-record` | yes | the same issues by volume and number, pointing back to GovInfo | 20,000 an hour |
+
+The package zip (33 MB a day, mostly PDFs) and per-granule summary calls
+were not needed. **The key in `config/secrets.yaml` was wrapped in
+backticks** (pasted from Markdown), and every keyed request answered 401
+(GovInfo) or 403 (Congress.gov) until `us_store.clean_key` stripped them;
+phase 1b's Congress.gov fill had the same problem locally. The GitHub
+secret may be clean; check it.
+
+**What is stored.** A speech is one member's turns in one granule (key
+`<granule>/<bioguide>`), from granules with a member speaking that are not
+procedure (prayer, adjournment, orders, cloture signatories, amendment
+texts, vote explanations). Turns are cut at the chair and clerk lines; a
+label is resolved from the granule's metadata, then the day's other
+granules, then `us_members` by unique surname (Mr. VAN EPPS spoke in five
+granules on 16 September whose metadata did not name him). Only speeches
+on our ground are kept, with an excerpt (best passage, 400 characters)
+and a word count, never the text. Every speech granule's bills go to
+`us_record_bills`, ours or not.
+
+**The rule.** `own_areas` is the member's own words, passage by passage
+(a passage counts only on a tier-1 term), plus the granule's heading as a
+passage. `areas` adds a bill's areas only (a) for a watched bill KEY the
+granule is about, or (b) when the speech's own words match nothing, it is
+150 words or more, and the granule is about a bill whose OWN titles (the
+display and official titles, never the CRS summary, never the short title
+of an Act folded into it) are on our ground. The first backfill showed why
+the last clause matters: the FY2027 NDAA lists "Military Chaplains
+Modernization Act of 2026" among its short titles and lent "freedom of
+religion" to 97 speeches on the defence bill; with the clause, none.
+
+**Measured, the whole 119th Congress to 9 October 2026** (live, into a
+scratch store with the bills; 89 minutes, no gaps):
+
+| | Count |
+|---|---|
+| Days of the Record (3 January 2025 to 6 October 2026) | 375 (362 with a member speaking) |
+| Granules | 55,456 |
+| Speech granules (pages fetched) | 20,015 |
+| Member speeches read | 29,524 |
+| Labels resolved to nobody | 17 |
+| **Speeches on our ground, stored** | **1,192** (by 346 members; 4 with no Bioguide) |
+| on their own words / lent by their bill | 1,083 / 109 |
+| House / Senate / Extensions of Remarks | 682 / 407 / 103 |
+| Bills cited by speech granules | 2,797 (5,421 rows) |
+| Raw archive (every day's metadata, and pages of stored speeches) | 39 MB |
+
+By area: free speech 435, abortion 408, sex-based rights 169, parental
+rights 109, freedom of religion 74, gender medicine 62, marriage 52, organ
+donation 51, trafficking 23, assisted dying 20, surrogacy 15, conversion
+practices 2 (a speech can carry several). The 16 September 2026 special
+order on the Hyde Amendment's fiftieth anniversary (Chris Smith and eight
+others) lands whole, on its own words.
+
+**Lent by a bill, and worth a look:** the Digital Asset Market Clarity Act
+(H.R. 3633, 41 speeches) is on our ground by its title's "central bank
+digital currency" (area 7), the CBDC noise this document already notes;
+the Do No Harm in Medicaid Act (H.R. 498, 21) is the rule working as
+meant. The judge sees only speeches on their own words; a lent speech
+takes its bill's score.
+
+**Most often on our ground:** Schumer 37, Durbin 34, Thune 26, Grassley
+17, Grothman 14, Merkley 14, Roy 13, Wyden 13. Leaders lead because they
+speak most; it is a count, not a stance (5CA groundwork only).
+
+**In the weekly.** `jobs/us-weekly.sh` runs it after every other collector
+and before the judge and the edition, on whatever the job has left: at most
+10 minutes on GitHub and 15 on the Mini, always keeping 30 for the judge
+and 10 for the edition and transfers, so it cannot push either past its
+limit (120 minutes, three hours). The backfill drains newest first at
+three or four pages a second, so in production it takes some ten weeks at
+10 minutes a week; a hand run with `--budget-seconds 6000` drains it at
+once. Weekly upkeep is a sitting week's 300 to 400 pages, about two minutes.
+`tools/coverage.py` watches `us_record_days` weekly (every run re-stamps
+the days it lists; pro forma days keep coming in recess) and
+`us_record_speeches` a month plus a month's grace.
+
+**The edition** has a Floor debate section: this week's speeches on our
+ground (member, party-state, day, bill, one line of the member's words or
+the judge's why-line, the granule's link), the latest when the week was
+quiet, and the members most often on our ground. A bill line says
+"floor N": the Record's segments about or opening on that bill.
+
 ## The finding that shapes everything
 
 **The English taxonomy mostly works in the US, but only if a vote is joined
@@ -515,12 +612,12 @@ month plus a month's grace (the House posts no meeting in recess). The step
 stamps its own heartbeat, `US schedule`, which excuses the empty tables
 until its first run.
 
-### Congressional Record (debates): works, keyed
+### Congressional Record (debates): built, keyed (phase 3a, above)
 
 GovInfo `CREC` collection: one package per day (35 issues since
 1 September 2026), split into granules per speech segment, with speakers
-tagged. It is the Hansard equivalent for debate packs. It needs the same
-api.data.gov key.
+tagged. It is the Hansard equivalent for debate packs. Its listing needs the
+api.data.gov key; the day metadata and the pages do not.
 
 ### Federal Register: works today, open, no key
 
@@ -582,8 +679,9 @@ month plus a month's grace, because the House cast no vote between
    keyless; the Congress.gov key, when present, fills the lag.
 3. **Phase 2: Senate votes and the week ahead (floor lists, committee
    meetings; both built 9 October)**, then the **Federal Register**.
-4. **Phase 3: Congressional Record** debate packs and the US 5CA (votes +
-   cosponsorships).
+4. **Phase 3: Congressional Record** (3a, floor speeches on our ground:
+   built 9 October) and the US 5CA (votes, cosponsorships, and the
+   per-member speech count 3a already keeps).
 5. **Phase 4: state legislatures, in blocks.** See below.
 
 ## Dates that matter
@@ -674,8 +772,10 @@ jurisdictions). Possible build orders:
    9 October): a Slack DM, and he owns the Asana task.
 2. **The Congress.gov / api.data.gov key.** Free and immediate, but it should
    be requested in his name or the team's. Phase 1b no longer needs it (it
-   only closes BILLSTATUS's lag); the Congressional Record and
-   Regulations.gov still do.
+   only closes BILLSTATUS's lag); the Congressional Record (built) and
+   Regulations.gov still do. It is in config/secrets.yaml, wrapped in
+   backticks: the code now strips them, but the file and the GitHub and
+   Mini copies are worth checking.
 3. ~~Taxonomy~~: shared list, merged into the areas (decided 9 October; v1.17).
 4. **Scope:** DEI, antisemitism, contraception. In or out?
 5. ~~Executive actions~~: yes, with the Supreme Court (decided and built
