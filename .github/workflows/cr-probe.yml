@@ -12,6 +12,9 @@ on:
     paths: [.github/workflows/cr-probe.yml, ops/cr-probe-args.txt]
 permissions:
   contents: read
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
 jobs:
   probe:
     runs-on: ubuntu-latest
