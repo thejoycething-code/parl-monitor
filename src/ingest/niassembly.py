@@ -112,6 +112,12 @@ DIVISIONS = (BASE + "/plenary.asmx/GetVotesOnDivision_JSON"
 PLENARY_FORWARD = (BASE + "/plenary.asmx/GetPlenaryItemsPlenaryDate_JSON"
                    "?startDate={start}&endDate={end}")
 MEMBER_VOTING = BASE + "/plenary.asmx/GetDivisionMemberVoting_JSON?documentId={doc}"
+# One division's declared result: the UNTRUNCATED title, the outcome as the
+# Speaker announced it, and the tallies by designation -- which a
+# cross-community vote needs and the member rows alone cannot give
+# (measured 2026-10-09 on 501653: TotalAyes 70 = 29 N + 26 U + 15 O).
+DIVISION_RESULT = BASE + "/plenary.asmx/GetDivisionResult_JSON?documentId={doc}"
+DIVISION_PAGE = BASE + "/plenary.asmx/GetDivisionResult?documentId={doc}"
 
 # A question's public page. The API's own QuestionDetails link returns raw XML,
 # which is no use to a human reading the monitor.
@@ -960,6 +966,56 @@ def fetch_member_voting(client, doc_id, timeout=60):
     except Exception as exc:                      # noqa: BLE001
         return [], "{0}: {1}".format(type(exc).__name__, exc)
     return parse_member_voting(payload), None
+
+
+@dataclass
+class DivisionResult:
+    doc_id: str
+    title: str
+    when: str                   # ISO timestamp of the division, as given
+    outcome: str                # 'The Amendment Was Therefore Agreed'
+    decision_type: str          # 'Simple Majority' | 'Cross-Community' ...
+    ayes: int
+    noes: int
+    abstentions: int
+    by_designation: dict        # {'Nationalist': (ayes, noes, abstentions), ...}
+
+
+def _int(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
+def parse_division_result(payload):
+    row = ((payload or {}).get("DivisionDetails") or {}).get("Division") or {}
+    if isinstance(row, list):
+        row = row[0] if row else {}
+    if not row:
+        return None
+    return DivisionResult(
+        doc_id=str(row.get("DocumentID") or ""),
+        title=re.sub(r"\s+", " ", row.get("Title") or "").strip(),
+        when=row.get("EventDate") or "",
+        outcome=(row.get("Outcome") or "").strip(),
+        decision_type=(row.get("DecisionType") or "").strip(),
+        ayes=_int(row.get("TotalAyes")), noes=_int(row.get("TotalNoes")),
+        abstentions=_int(row.get("TotalAbstentions")),
+        by_designation={d: (_int(row.get(d + "Ayes")), _int(row.get(d + "Noes")),
+                            _int(row.get(d + "Abstentions")))
+                        for d in ("Nationalist", "Unionist", "Other")})
+
+
+def fetch_division_result(client, doc_id, timeout=45):
+    """Returns (DivisionResult_or_None, error_or_None); never raises."""
+    try:
+        payload = client.get_json(DIVISION_RESULT.format(doc=doc_id),
+                                  "niassembly", "dr-{0}".format(doc_id),
+                                  timeout=timeout)
+    except Exception as exc:                      # noqa: BLE001
+        return None, "{0}: {1}".format(type(exc).__name__, exc)
+    return parse_division_result(payload), None
 
 
 def _quote(term):
