@@ -4,7 +4,7 @@
 
 _Sejm. Edition sample, covering 9 September 2026 to 9 October 2026. Weekly, to Chris by DM._
 
-> **How to read this edition.** Items come from the Poland store, classified by taxonomy-pl v0.1 (approved without a native read, X4) and config/watchlist-pl.yaml. The AI judge is off (X16): nothing has been read for relevance by a model, items are ordered by tier (watched and tier 1 first), and a tier-2 match can still be noise. Titles are the source's own Polish, verbatim; the English around them is ours. Tallies, results and splits are the record; whether a vote helped or hurt is a human call and is never made here. Every deputy's position on every vote is stored, with the club at the vote. Migration is matched and stored but not shown. Procedural votes, the patterns in config/edition-noise-pl.yaml and Chris's mutes are left out (counted under Coverage); a watched item never is.
+> **How to read this edition.** Items come from the Poland store, classified by taxonomy-pl v0.2 (approved without a native read, X4) and config/watchlist-pl.yaml. The AI judge is off (X16): nothing has been read for relevance by a model, items are ordered by tier (watched and tier 1 first), and a tier-2 match can still be noise. Titles are the source's own Polish, verbatim; the English around them is ours. Tallies, results and splits are the record; whether a vote helped or hurt is a human call and is never made here. Every deputy's position on every vote is stored, with the club at the vote. Migration is matched and stored but not shown. Procedural votes, the patterns in config/edition-noise-pl.yaml and Chris's mutes are left out (counted under Coverage); a watched item never is.
 
 ## In brief
 
@@ -41,6 +41,7 @@ Leading:
     Deputies' positions not read yet; the collector reads them next run.
     [Source](https://www.sejm.gov.pl/Sejm10.nsf/agent.xsp?symbol=glosowania&NrKadencji=10&NrPosiedzenia=65&NrGlosowania=145)
   - 18 Sep: *poprawka 1*. 175 for, 237 against (electronic vote)
+    Sejm vote 144 at sitting 65, on process 10/2725, 10/2829.
 - **11 recorded votes on one item** · 18 Sep to 18 Sep · parental rights and education
   *Pkt. 14 Sprawozdanie Komisji o poselskim projekcie ustawy o wychowaniu patriotycznym zmieniającej niektóre ustawy (druki nr 671, 2881 i 2881-A)*
   - **Decisive vote** (18 Sep): *głosowanie nad całością projektu.*
@@ -49,11 +50,17 @@ Leading:
     Deputies' positions not read yet; the collector reads them next run.
     [Source](https://www.sejm.gov.pl/Sejm10.nsf/agent.xsp?symbol=glosowania&NrKadencji=10&NrPosiedzenia=65&NrGlosowania=99)
   - 18 Sep: *wniosek mniejszości 1*. 7 for, 249 against, 181 abstaining (electronic vote)
+    Sejm vote 89 at sitting 65, on process 10/671.
   - 18 Sep: *poprawka 1*. 49 for, 203 against, 162 abstaining (electronic vote)
+    Sejm vote 90 at sitting 65, on process 10/671.
   - 18 Sep: *wniosek mniejszości 2*. 181 for, 223 against, 10 abstaining (electronic vote)
+    Sejm vote 91 at sitting 65, on process 10/671.
   - 18 Sep: *poprawki nr 2 i 4*. 255 for, 4 against, 180 abstaining (electronic vote)
+    Sejm vote 92 at sitting 65, on process 10/671.
   - 18 Sep: *poprawki nr 3 i 10*. 258 for, 1 against, 178 abstaining (electronic vote)
+    Sejm vote 93 at sitting 65, on process 10/671.
   - 18 Sep: *wniosek mniejszości 6*. 180 for, 230 against, 28 abstaining (electronic vote)
+    Sejm vote 94 at sitting 65, on process 10/671.
   - _And 4 more votes on the same item, in the store._
 
 ## New on our ground
@@ -92,6 +99,6 @@ Leading:
 - The Senate is not collected (PL2: the gap is accepted).
 - The Sejm's planned sittings and agendas (the week ahead) are phase 2.
 - No agenda is collected yet, so there is no week-ahead section.
-- **Left out by the noise filters** (config/edition-noise-pl.yaml, config/edition-mute-pl.yaml; never a watched item): 24 votes on excluded bills only, 2 procedural votes.
+- **Left out by the noise filters** (config/edition-noise-pl.yaml, config/edition-mute-pl.yaml; never a watched item): 2 procedural votes.
 - Decisions: [docs/country-decisions-2026-10-10.md](https://github.com/thejoycething-code/parl-monitor/blob/main/docs/country-decisions-2026-10-10.md).
 
