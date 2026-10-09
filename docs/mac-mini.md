@@ -77,7 +77,7 @@ no store and commits nothing):
 
 ```
 cd ~/parl-monitor && git pull
-python3 tools/au_probe.py --out /tmp/au-probe | tee /tmp/au-probe/summary.txt
+mkdir -p /tmp/au-probe && python3 tools/au_probe.py --out /tmp/au-probe | tee /tmp/au-probe/summary.txt
 ```
 
 It asks once per target (Bills Search, a bill homepage, ParlInfo, Votes and
