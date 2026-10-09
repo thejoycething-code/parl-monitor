@@ -691,8 +691,11 @@ def resolve_division(raw, resolver, date, legislature, document=None, reviewed=N
                           "how": how,
                           "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
     if raw.get("totals_only"):
-        return votes, False, ("totals only: the V&P prints no names for this division (a dilatory "
-                              "motion); the names are in Hansard, which is not read")
+        # Hansard does not name them either: the Clerk reads the counts only
+        # ("The ayes are 29; the nays are 39.", 26 March 2012, checked 9 Oct 2026),
+        # so no record names who stood. Totals only, for ever.
+        return votes, False, ("totals only: neither the V&P nor Hansard names the members on this "
+                              "division (a dilatory motion; the Clerk reads the counts only)")
     notes = []
     if reviewed is not None and division_key:
         notes = reviewed.settle(division_key, votes, getattr(resolver, "base", resolver), date, legislature)
