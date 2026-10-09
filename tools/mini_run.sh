@@ -28,7 +28,12 @@ RUNNER="${RUNNER_HOME:-$HOME/runner}"
 CLONE="$RUNNER/parl-monitor"
 LOCK="$RUNNER/locks/state"
 JOB_TIMEOUT="${JOB_TIMEOUT:-3600}"   # seconds
-LOCK_WAIT="${LOCK_WAIT:-1800}"       # seconds to queue behind another job
+# Seconds to queue behind another job. TWO HOURS (9 Oct 2026, 44 jobs on the
+# Mini): Day sweep and Division watch both start at 22:00 Mon-Thu, and four
+# country weeklies fall within an hour on Saturday afternoons. A Mini run that
+# waits is still hours ahead of the GitHub backup; a dead holder is taken over
+# at once, and every holder is bounded by its own JOB_TIMEOUT.
+LOCK_WAIT="${LOCK_WAIT:-7200}"
 export PATH="$RUNNER/venv/bin:$HOME/.local/bin:/Library/Frameworks/Python.framework/Versions/3.14/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 [ -f "$RUNNER/env" ] && . "$RUNNER/env"
 REF="${RUNNER_REF:-main}"
