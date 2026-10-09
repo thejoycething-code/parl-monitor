@@ -35,26 +35,48 @@ Follow handoff §10 strictly, in order. There are two hard stops for human revie
 
 ## Weekly operations
 
-**Primary runtime: GitHub Actions** (repo `thejoycething-code/parl-monitor`,
-private; migrated 2026-08-03 after a green test run). The laptop is a dev
-machine and manual fallback only -- its launchd jobs are retired (plists
-archived in tools/launchd-retired/). State (store, raw archive, editions,
-reviews) is committed by each workflow run; **always `git pull` before local
-work**, the bot commits to main.
+**Primary runtime: the Mac Mini** (since 9 October 2026; docs/mac-mini.md).
+launchd runs every scheduled job first, at its London time, through
+`~/runner/parl-monitor/tools/mini_run.sh <job>` -> `jobs/<job>.sh`, in its own
+runner clone (never the dev clone) under one lock. **GitHub Actions is the
+backup**: each scheduled workflow's `mini-check` gate skips while the Mini is
+running the job and after it has run it (repo variables `MINI_RUN_<JOB>`,
+`MINI_LAST_<JOB>`), and runs it only when the Mini did not. State (store, raw
+archive, editions, reviews) is committed by each run; **always `git pull`
+before local work**, the bot commits to main. The 07:30 London health DM says
+what ran where, what failed, what is overdue, and GitHub's minutes.
 
-- **Sunday 21:04 London** (.github/workflows/sunday-pull.yml): pull all feeds,
-  archive raw, filter, triage (TRIAGE=auto: live scoring via ANTHROPIC_API_KEY
-  Actions secret), emit review file for the coming week, commit state.
-- **Optional human window until Monday 06:30**: edit reviews/review-<week>.md
-  (via laptop + push, or the GitHub web editor). Decisions merge-preserve.
-- **Monday 06:30 London** (.github/workflows/monday-publish.yml): render, post
-  to Slack (skipped until SLACK_BOT_TOKEN secret exists -- bot app awaiting
-  workspace admin approval; interim: post in-session as Christopher with his
-  explicit weekly go-ahead), create the Asana reading task (ASANA_PAT secret),
-  commit state.
-- Cron is UTC with a London-hour guard step (BST/GMT drift); duplicate slots
-  self-skip. Local manual runs still work: run_weekly.py / run_monday.py with
+- **Sunday 02:00 London**: the Sunday pull (jobs/sunday-pull.sh): pull all
+  feeds, archive raw, filter, triage (TRIAGE=auto, live scoring), commit state.
+- **Monday 04:00 London**: the Monday publish (jobs/monday-publish.sh): render,
+  post the edition to #campaigns-en-gb, judge evaluation, commit state; then
+  GitHub's Deploy tracker deploys the partner site (the Vercel token is a
+  GitHub secret). A cloud routine pushes a backstop trigger at 06:30.
+- The weeklies, the daily sweeps, the division watch and the monthlies run the
+  same way; `ops/launchd/*.plist` hold their times.
+- Local manual runs still work: run_weekly.py / run_monday.py with
   config/secrets.yaml (gitignored; template in secrets.yaml.example).
+
+**Rules for working with the runner** (they keep the repo under 60 GitHub
+Actions minutes a day, the bar for making it private again):
+
+- **Backfills, repairs and other long one-off collection run on the Mac Mini,
+  never as a GitHub dispatch.** Use `jobs/prov-backfill.sh`,
+  `jobs/ca-backfill.sh`, or a new `jobs/<x>-backfill.sh` built the same way,
+  through `tools/mini_run.sh` (commands in docs/mac-mini.md). Dispatched
+  backfills cost 2,604 Actions minutes in the week to 9 October. A backfill
+  names its own heartbeat (coverage.py ON_DEMAND), never the weekly's.
+- **Only work that must come from GitHub's network runs there**: scoping
+  probes (`*-probe.yml`, `probe-hosts.yml`) that ask whether a site answers
+  GitHub's runners, and the halves of a job a site refuses the Mini (US
+  weekly's Senate votes). Delete a probe workflow once its collector is built.
+- **A new scheduled job gets a Mini job and a gate**: `jobs/<job>.sh` (export
+  `GITHUB_WORKFLOW` with its pipeline name; publish the raw archive, then the
+  store), a plist in `ops/launchd/`, and `mini-check` in front of its
+  workflow. tests/test_mini_jobs.py holds the pairs together.
+- **Never run collection in the dev clone while a Mini job may be publishing**,
+  and never dispatch a job the Mini is running: the store guard refuses a
+  second writer, and the loser fails.
 
 ## When uncertain
 
